@@ -45,6 +45,7 @@
     @apply -absolute -h-full -px-3 -whitespace-nowrap -overflow-hidden -flex -items-center -gap-1;
     contain: content;
     content-visibility: auto;
+    border-color: var(--dtable-border-color);
 }
 .dtable-cell::after {
     content: ' ';
@@ -91,9 +92,12 @@
 .dtable-sort.dtable-sort-asc::before {
     @apply -opacity-90;
 }
-.dtable-bordered .dtable-cell {
+.dtable-bordered .dtable-cell,
+.dtable-cell.has-border-left {
     @apply -border-l;
-    border-color: var(--dtable-border-color);
+}
+.dtable-cell.has-border-right {
+    @apply -border-r;
 }
 .dtable-bordered > .dtable-header > .dtable-row:first-child {
     @apply -border-t;

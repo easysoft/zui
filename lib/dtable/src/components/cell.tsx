@@ -18,7 +18,7 @@ export interface CellProps {
 }
 
 export function Cell({col, className, height, rowID, rowData, onRenderCell, style: styleFromParent, children: childrenFromParent, ...others}: CellProps) {
-    const {cellStyle, align, className: settingClassName} = col.setting;
+    const {cellStyle, align, className: settingClassName, border} = col.setting;
     const style = {
         left: col.left,
         width: col.realWidth,
@@ -34,7 +34,10 @@ export function Cell({col, className, height, rowID, rowData, onRenderCell, styl
     if (onRenderCell) {
         result = onRenderCell(result, {rowID, col, rowData}, _h);
     }
-    const cellClassName: ClassNameLike[] = [];
+    const cellClassName: ClassNameLike[] = ['dtable-cell', className, settingClassName, {
+        'has-border-left': border === true || border === 'left',
+        'has-border-right': border === true || border === 'right',
+    }];
     const children: ComponentChildren[] = [];
     result?.forEach(item => {
         if (typeof item === 'object' && item && ('html' in item || 'className' in item || 'style' in item)) {
@@ -53,7 +56,7 @@ export function Cell({col, className, height, rowID, rowData, onRenderCell, styl
         }
     });
 
-    const finalClassName = classes('dtable-cell', className, settingClassName, cellClassName);
+    const finalClassName = classes(cellClassName);
     return (
         <div
             className={finalClassName}

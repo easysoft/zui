@@ -8,6 +8,7 @@ export interface ColSetting {
     flex?: number, // default value = 1
     minWidth?: number,
     maxWidth?: number,
+    border?: 'left' | 'right' | boolean,
     sortType?: 'asc' | 'desc' | boolean,
     align?: 'left' | 'center' | 'right',
     data?: Record<string, unknown>,
