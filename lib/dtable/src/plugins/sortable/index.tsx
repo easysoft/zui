@@ -169,7 +169,7 @@ export const sortable: DTablePlugin<DTableSortableOptions, DTableSortableState, 
         }
         return {
             className,
-            style: {...props.style, transform: `translateY(${transformTop}px)`},
+            style: {...props.style, transform: transformTop ? `translateY(${transformTop}px)` : undefined},
             draggable: this.options.canSort?.call(this, row) !== false,
         };
     },
