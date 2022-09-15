@@ -320,8 +320,10 @@ export class DTable extends Component<DTableOptions, DTableState> {
             height = heightSetting as number;
         }
 
-        const {scrollTop = 0, scrollLeft = 0} = this.state;
+        let {scrollTop = 0, scrollLeft = 0} = this.state;
         const rowsHeight = height - headerHeight - footerHeight;
+        scrollTop = Math.min(Math.max(0, rowsHeightTotal - rowsHeight), scrollTop);
+
         const scrollBottom = scrollTop + rowsHeight;
         const visibleRows: RowInfo[] = [];
         const scrollWidth = width - flexLeftWidth - flexRightWidth;
@@ -352,6 +354,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
                 col.visible = false;
             }
         });
+        scrollLeft = Math.min(Math.max(0, scrollWidthTotal - scrollWidth), scrollLeft);
 
         const startRowIndex = Math.floor(scrollTop / rowHeight);
         const endRowIndex = Math.min(rows.length, Math.ceil(scrollBottom / rowHeight));
