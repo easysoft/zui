@@ -3,20 +3,13 @@
 ## 基本使用
 
 ```html:example: flex gap-3 flex-wrap
-<div class="upload">
-    <input name="example1" id="example1" type="file" />
-    <label for="example1" class="btn primary">
-        上传文件
-    </label>
-    <ul class="file-list" id="example1-list"></ul>
-</div>
+<div class="upload" id="example1"></div>
 ```
 
 ```js
-const fileElm = document.querySelector('#example1');
-const listElm = document.querySelector('#example1-list');
-const upload = new Upload(fileElm, {
-    listElm
+const uploadElm1 = document.querySelector('#example1');
+const upload1 = new Upload(uploadElm1, {
+    name: 'upload1',
 });
 ```
 
@@ -26,19 +19,22 @@ const upload = new Upload(fileElm, {
 在 `input` 元素上添加 `multiple` 属性开启多文件上传
 
 ```html:example: flex gap-3 flex-wrap
-<div class="upload">
-    <input name="example2" id="example2" type="file" multiple />
-    <label for="example2" class="btn primary">
-        上传文件
-    </label>
-    <ul class="file-list" id="example2-list"></ul>
-</div>
+<div class="upload" id="example2"></div>
 ```
 
 ```js
-const fileElm = document.querySelector('#example2');
-const listElm = document.querySelector('#example2-list');
-const upload = new Upload(fileElm, {
-    listElm
+const uploadElm2 = document.querySelector('#example2');
+const file1 = new File(['file1'], 'file1.txt', {
+        type: 'text/plain',
+});
+const file2 = new File(['file2'], 'file2.txt', {
+    type: 'text/plain',
+});
+const upload2 = new Upload(uploadElm2, {
+    name: 'upload2',
+    multiple: true,
+    showDeleteBtn: true,
+    showRenameBtn: true,
+    defaultFileList: [file1, file2],
 });
 ```

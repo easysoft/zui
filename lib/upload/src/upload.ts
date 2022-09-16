@@ -1,7 +1,8 @@
 import {formatBytes} from '@zui/helpers/src/format-string';
 
 type UploadOptions = {
-    listElm: HTMLElement | null;
+    name: string;
+    uploadText: string;
     renameText: string;
     deleteText: string;
     showRenameBtn: boolean;
@@ -10,15 +11,21 @@ type UploadOptions = {
     icon: HTMLElement | null;
     renameConfirmText: string;
     renameCancelText: string;
+    multiple: boolean;
+    listPosition: 'bottom' | 'top';
 } & Partial<{
     onChange: (files: File[]) => void;
     onDelete: (file: File) => void;
+    onRename: (newName: string, oldName: string) => void;
     maxCount: number;
+    accept: string;
+    defaultFileList: File[];
 }>;
 
 const defaultOptions: UploadOptions = {
-    listElm: null,
+    name: 'file',
     icon: null,
+    uploadText: '上传文件',
     renameText: '重命名',
     deleteText: '删除',
     showRenameBtn: false,
@@ -26,10 +33,18 @@ const defaultOptions: UploadOptions = {
     showIcon: true,
     renameConfirmText: '确定',
     renameCancelText: '取消',
+    multiple: false,
+    listPosition: 'bottom',
 };
 
 export default class Upload {
-    readonly #fileElm: HTMLInputElement;
+    readonly #uploadElm: HTMLElement;
+
+    readonly #inputElm: HTMLInputElement;
+
+    readonly #labelElm: HTMLLabelElement;
+
+    readonly #listElm: HTMLDivElement;
 
     readonly #options: UploadOptions;
 
@@ -39,17 +54,51 @@ export default class Upload {
 
     #dataTransfer = new DataTransfer();
 
-    constructor(elm: HTMLInputElement, options: Partial<UploadOptions> = {}) {
-        this.#fileElm = elm;
+    constructor(elm: HTMLElement, options: Partial<UploadOptions> = {}) {
+        this.#uploadElm = elm;
         this.#options = {...defaultOptions, ...options};
-        this.#options.maxCount = this.#fileElm.multiple
-            ? this.#options.maxCount
-            : 1;
+
+        const {name, multiple, accept, defaultFileList, uploadText, listPosition} = this.#options;
+
+        if (!multiple) {
+            this.#options.maxCount = 1;
+        }
+
+        this.#inputElm = document.createElement('input');
+        this.#inputElm.type = 'file';
+        this.#inputElm.name = name;
+        this.#inputElm.id = name;
+        this.#inputElm.multiple = multiple;
+        if (accept) {
+            this.#inputElm.accept = accept;
+        }
+        this.#uploadElm.appendChild(this.#inputElm);
+
+        this.#labelElm = document.createElement('label');
+        this.#labelElm.classList.add('btn', 'primary');
+        this.#labelElm.htmlFor = name;
+        this.#labelElm.innerHTML = uploadText;
+
+        this.#listElm = document.createElement('div');
+        this.#listElm.classList.add('file-list');
+
+        if (listPosition === 'bottom') {
+            this.#uploadElm.appendChild(this.#labelElm);
+            this.#uploadElm.appendChild(this.#listElm);
+        } else {
+            this.#uploadElm.appendChild(this.#listElm);
+            this.#uploadElm.appendChild(this.#labelElm);
+        }
+
+        if (defaultFileList) {
+            this.#addFileItem(defaultFileList);
+        }
+
         this.#addChangeListener();
     }
 
     #addChangeListener() {
-        this.#fileElm.addEventListener('change', (event) => {
+        this.#inputElm.addEventListener('change', (event) => {
             const fileList = (event.target as HTMLInputElement).files;
             if (!fileList) {
                 return;
@@ -62,34 +111,46 @@ export default class Upload {
     }
 
     #addFile(file: File) {
+        if (!this.#options.multiple) {
+            this.#fileMap.clear();
+            this.#dataTransfer.items.clear();
+        }
         this.#fileMap.set(file.name, file);
         this.#dataTransfer.items.add(file);
-        this.#fileElm.files = this.#dataTransfer.files;
+        this.#inputElm.files = this.#dataTransfer.files;
     }
 
     #addFileItem(files: File[]) {
-        if (!this.#options.listElm) {
+        if (this.#options.multiple) {
+            for (const file of files) {
+                if (this.#options.maxCount && this.#fileMap.size >= this.#options.maxCount) {
+                    return;
+                }
+                this.#addFile(file);
+                const item = this.#createFileItem(file);
+                this.#itemMap.set(file.name, item);
+                this.#listElm.appendChild(item);
+            }
             return;
         }
 
-        for (const file of files) {
-            if (this.#options.maxCount && this.#fileMap.size >= this.#options.maxCount) {
-                return;
-            }
-            this.#addFile(file);
-            const item = this.#createFileItem(file);
-            this.#itemMap.set(file.name, item);
-            (this.#options.listElm as HTMLElement).appendChild(item);
-        }
+        const file = files[0];
+        this.#addFile(file);
+        const item = this.#createFileItem(file);
+        this.#itemMap.clear();
+        this.#itemMap.set(file.name, item);
+        this.#listElm.innerHTML = '';
+        this.#listElm.appendChild(item);
     }
 
     #deleteFile(file: File) {
+        this.#options.onDelete?.(file);
         this.#fileMap.delete(file.name);
         this.#dataTransfer = new DataTransfer();
         this.#fileMap.forEach((f) => {
             this.#dataTransfer.items.add(f);
         });
-        this.#fileElm.files = this.#dataTransfer.files;
+        this.#inputElm.files = this.#dataTransfer.files;
     }
 
     #deleteFileItem(name: string) {
@@ -97,17 +158,17 @@ export default class Upload {
         if (!file) {
             return;
         }
-        this.#options.onDelete?.(file);
         this.#deleteFile(file);
         const fileItemElm = this.#itemMap.get(file.name);
         this.#itemMap.delete(file.name);
         if (!fileItemElm) {
             return;
         }
-        this.#options.listElm?.removeChild(fileItemElm);
+        this.#listElm.removeChild(fileItemElm);
     }
 
     #renameFile(file: File, name: string) {
+        this.#options.onRename?.(name, file.name);
         this.#fileMap.delete(file.name);
         const newFile = new File([file], name);
         this.#fileMap.set(name, newFile);
@@ -115,7 +176,7 @@ export default class Upload {
         this.#fileMap.forEach((f) => {
             this.#dataTransfer.items.add(f);
         });
-        this.#fileElm.files = this.#dataTransfer.files;
+        this.#inputElm.files = this.#dataTransfer.files;
     }
 
     #renameFileItem(file: File, name: string) {
