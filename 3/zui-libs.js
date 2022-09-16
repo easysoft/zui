@@ -481,6 +481,46 @@ export default [
         }
     },
     {
+        "name": "@zui/upload",
+        "version": "0.0.1",
+        "main": "src/main.ts",
+        "browser": "src/main.ts",
+        "browserslist": "",
+        "keywords": [
+            "css",
+            "zui:control"
+        ],
+        "dependencies": {
+            "@zui/button": "workspace:^0.0.1",
+            "@zui/icons": "workspace:0.0.1",
+            "@zui/helpers": "workspace:^0.0.1",
+            "@zui/input-group": "workspace:^0.0.1"
+        },
+        "devDependencies": {
+            "zui-dev": "workspace:^0.0.1"
+        },
+        "zui": {
+            "type": "control",
+            "displayName": "上传文件",
+            "contributes": {
+                "css": [
+                    "class",
+                    "var"
+                ]
+            },
+            "docs": {
+                "sidebar": "lib",
+                "section": "components"
+            },
+            "path": "/home/runner/work/zui/zui/lib/upload",
+            "workspace": true,
+            "sourceType": "build-in",
+            "name": "upload",
+            "order": 200000029,
+            "packageJsonPath": "/home/runner/work/zui/zui/lib/upload/package.json"
+        }
+    },
+    {
         "name": "@zui/browser-helpers",
         "version": "0.0.1",
         "description": "ZUI helpers",

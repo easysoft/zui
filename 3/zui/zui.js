@@ -505,7 +505,38 @@ class _t extends te {
   }
 }
 J = new WeakMap(), Z = new WeakMap();
-function on(t) {
+function de(t, ...n) {
+  var e;
+  if (n.length === 0)
+    return t;
+  if (n.length === 1 && typeof n[0] == "object" && n[0]) {
+    const s = n[0];
+    return Object.keys(s).forEach((o) => {
+      var r;
+      const i = (r = s[o]) != null ? r : 0;
+      t = t.replace(new RegExp(`\\{${o}\\}`, "g"), `${i}`);
+    }), t;
+  }
+  for (let s = 0; s < n.length; s++) {
+    const o = (e = n[s]) != null ? e : "";
+    t = t.replace(new RegExp(`\\{${s}\\}`, "g"), `${o}`);
+  }
+  return t;
+}
+var Ge = /* @__PURE__ */ ((t) => (t[t.B = 1] = "B", t[t.KB = 1024] = "KB", t[t.MB = 1048576] = "MB", t[t.GB = 1073741824] = "GB", t[t.TB = 1099511627776] = "TB", t))(Ge || {});
+function on(t, n = 2, e = "") {
+  return Number.isNaN(t) ? "?KB" : (e || (t < 1024 ? e = "B" : t < 1048576 ? e = "KB" : t < 1073741824 ? e = "MB" : t < 1099511627776 ? e = "GB" : e = "TB"), (t / Ge[e]).toFixed(n) + e);
+}
+const rn = (t) => {
+  const n = /^[0-9]*(B|KB|MB|GB|TB)$/;
+  t = t.toUpperCase();
+  const e = t.match(n);
+  if (!e)
+    return 0;
+  const s = e[1];
+  return t = t.replace(s, ""), Number.parseInt(t, 10) * Ge[s];
+};
+function ln(t) {
   const n = typeof t == "string" ? document.querySelector(t) : t;
   if (!n)
     return !1;
@@ -520,10 +551,10 @@ function on(t) {
   }
   return !1;
 }
-function rn(t) {
+function an(t) {
   document.readyState !== "loading" ? t() : document.addEventListener("DOMContentLoaded", t);
 }
-function ln(t, n) {
+function cn(t, n) {
   const e = typeof t == "string" ? document.querySelector(t) : t;
   if (!e)
     return !1;
@@ -535,9 +566,9 @@ function ln(t, n) {
 }
 const qn = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  selectText: on,
-  domReady: rn,
-  isElementVisible: ln,
+  selectText: ln,
+  domReady: an,
+  isElementVisible: cn,
   classes: L
 }, Symbol.toStringTag, { value: "Module" }));
 function At() {
@@ -546,15 +577,15 @@ function At() {
     (e = n.parentElement) == null || e.classList.remove("open");
   });
 }
-function an(t) {
+function hn(t) {
   const n = t.parentElement, e = t.nextElementSibling;
   !n || !e || n.classList.contains("dropdown-hover") || (n.className.includes("open") ? n.classList.remove("open") : (At(), n.classList.add("open")));
 }
 document.addEventListener("click", function(t) {
   const e = t.target.closest("[data-toggle=dropdown]");
-  e ? an(e) : At();
+  e ? hn(e) : At();
 });
-function Ge({ col: t, className: n, height: e, rowID: s, rowData: o, onRenderCell: i, style: r, children: a, ...c }) {
+function Ue({ col: t, className: n, height: e, rowID: s, rowData: o, onRenderCell: i, style: r, children: a, ...c }) {
   const { cellStyle: d, align: l, className: _, border: u } = t.setting, p = {
     left: t.left,
     width: t.realWidth,
@@ -586,9 +617,9 @@ function Ge({ col: t, className: n, height: e, rowID: s, rowData: o, onRenderCel
     ...c
   }, b);
 }
-function cn({ col: t, children: n, style: e, ...s }) {
+function dn({ col: t, children: n, style: e, ...s }) {
   const { sortType: o } = t.setting;
-  return /* @__PURE__ */ m(Ge, {
+  return /* @__PURE__ */ m(Ue, {
     col: t,
     style: { ...e, ...t.setting.style },
     "data-sort": o || null,
@@ -598,7 +629,7 @@ function cn({ col: t, children: n, style: e, ...s }) {
     className: `dtable-sort dtable-sort-${o === !0 ? "none" : o}`
   }), n);
 }
-function Pe({ rowID: t, className: n, top: e = 0, left: s = 0, width: o, height: i, cols: r, data: a, CellComponent: c = Ge, onRenderCell: d }) {
+function Pe({ rowID: t, className: n, top: e = 0, left: s = 0, width: o, height: i, cols: r, data: a, CellComponent: c = Ue, onRenderCell: d }) {
   return /* @__PURE__ */ m("div", {
     className: L("dtable-cells", n),
     style: { top: e, left: s, width: o, height: i }
@@ -623,7 +654,7 @@ function Ht({
   scrollWidthTotal: d,
   flexRightWidth: l,
   scrollLeft: _,
-  CellComponent: u = Ge,
+  CellComponent: u = Ue,
   onRenderCell: p,
   data: g,
   style: k,
@@ -669,14 +700,14 @@ function Ht({
     ...b
   }, y, v, M);
 }
-function hn({ height: t, onRenderRow: n, ...e }) {
+function fn({ height: t, onRenderRow: n, ...e }) {
   const s = {
     height: t,
     ...e,
     rowID: "HEADER",
     className: "dtable-in-header",
     top: 0,
-    CellComponent: cn
+    CellComponent: dn
   };
   if (n) {
     const o = n({ props: s }, m);
@@ -689,7 +720,7 @@ function hn({ height: t, onRenderRow: n, ...e }) {
     ...s
   }));
 }
-function dn({
+function un({
   className: t,
   style: n,
   top: e,
@@ -745,7 +776,7 @@ function mt(t) {
 function Nt(t) {
   return xe.delete(t);
 }
-function fn(t) {
+function pn(t) {
   const n = /* @__PURE__ */ new Map();
   return [t == null ? void 0 : t.plugins].flat().reduce((e, s) => {
     var i;
@@ -764,7 +795,7 @@ function fn(t) {
     }), e.push(o), n.set(o.name, o)), e;
   }, []);
 }
-function un(t, n) {
+function gn(t, n) {
   return t.reduce((e, s) => {
     const { options: o, defaultOptions: i } = s;
     return i && (e = { ...i, ...e }), o && Object.assign(e, typeof o == "function" ? o(e) : o), e;
@@ -879,7 +910,7 @@ class Oe extends te {
     });
     this.state = { scrollTop: 0, scrollLeft: 0 };
     const s = { ...je(), ...e };
-    S(this, C, Object.freeze(s)), S(this, ee, Object.freeze(fn(s))), f(this, ee).forEach((o) => {
+    S(this, C, Object.freeze(s)), S(this, ee, Object.freeze(pn(s))), f(this, ee).forEach((o) => {
       var i;
       (i = o.onCreate) == null || i.call(this, o);
     });
@@ -925,7 +956,7 @@ class Oe extends te {
   }
   getLayout() {
     var Qe, et, tt, nt;
-    const e = je(), s = un(f(this, ee), { ...e, ...this.props }), o = f(this, ee).filter((h) => !h.when || h.when(s));
+    const e = je(), s = gn(f(this, ee), { ...e, ...this.props }), o = f(this, ee).filter((h) => !h.when || h.when(s));
     S(this, H, Object.freeze(o)), o.forEach((h) => {
       var A;
       const w = (A = h.beforeLayout) == null ? void 0 : A.call(this, s);
@@ -1105,7 +1136,7 @@ class Oe extends te {
     if (!s)
       return null;
     if (s === !0)
-      return /* @__PURE__ */ m(hn, {
+      return /* @__PURE__ */ m(fn, {
         scrollLeft: this.state.scrollLeft,
         height: i,
         onRenderCell: this._handleRenderCell,
@@ -1126,7 +1157,7 @@ class Oe extends te {
   }
   renderRows(e) {
     const { headerHeight: s, rowsHeight: o, visibleRows: i, rowHeight: r, colsInfo: a } = e;
-    return /* @__PURE__ */ m(dn, {
+    return /* @__PURE__ */ m(un, {
       top: s,
       height: o,
       rows: i,
@@ -1213,7 +1244,7 @@ class Oe extends te {
   }
 }
 Q = new WeakMap(), K = new WeakMap(), C = new WeakMap(), ee = new WeakMap(), H = new WeakMap(), oe = new WeakMap(), ue = new WeakMap(), R(Oe, "addPlugin", Lt), R(Oe, "removePlugin", Nt);
-function pn(t, n) {
+function _n(t, n) {
   var r, a;
   typeof t == "boolean" && (n = t, t = void 0);
   const e = this.state.checkedRows, s = {}, { canRowCheckable: o } = this.options, i = (c, d) => {
@@ -1234,7 +1265,7 @@ function pn(t, n) {
   }
   return s;
 }
-function gn(t) {
+function mn(t) {
   var n;
   return (n = this.state.checkedRows[t]) != null ? n : !1;
 }
@@ -1243,7 +1274,7 @@ function zt() {
   const t = this.getChecks().length, { canRowCheckable: n } = this.options;
   return n ? t === ((e = this.layout) == null ? void 0 : e.allRows.reduce((o, i) => o + (n.call(this, i.id) ? 1 : 0), 0)) : t === ((s = this.layout) == null ? void 0 : s.allRows.length);
 }
-function _n() {
+function bn() {
   return Object.keys(this.state.checkedRows);
 }
 const Tt = {
@@ -1251,7 +1282,7 @@ const Tt = {
   defaultOptions: { checkable: !0 },
   when: (t) => !!t.checkable,
   onCreate() {
-    this.state.checkedRows = {}, this.toggleCheckRows = pn.bind(this), this.isRowChecked = gn.bind(this), this.isAllRowChecked = zt.bind(this), this.getChecks = _n.bind(this);
+    this.state.checkedRows = {}, this.toggleCheckRows = _n.bind(this), this.isRowChecked = mn.bind(this), this.isAllRowChecked = zt.bind(this), this.getChecks = bn.bind(this);
   },
   onRenderCell(t, { rowID: n, col: e }) {
     var r, a;
@@ -1318,7 +1349,7 @@ function Ie(t) {
   }
   return n.state = o ? "hidden" : s ? "collapsed" : n.children ? "expanded" : "normal", n.level = n.parent ? Ie.call(this, n.parent).level + 1 : 0, n;
 }
-function mn(t, n) {
+function yn(t, n) {
   var s;
   let e = (s = this.state.collapsedRows) != null ? s : {};
   if (t === "HEADER")
@@ -1395,7 +1426,7 @@ const It = {
   },
   when: (t) => !!t.nested,
   onCreate() {
-    this.nestedMap = /* @__PURE__ */ new Map(), this.toggleRow = mn.bind(this), this.isAllCollapsed = Dt.bind(this), this.getNestedRowInfo = Ie.bind(this);
+    this.nestedMap = /* @__PURE__ */ new Map(), this.toggleRow = yn.bind(this), this.isAllCollapsed = Dt.bind(this), this.getNestedRowInfo = Ie.bind(this);
   },
   beforeLayout() {
     this.nestedMap.clear();
@@ -1469,37 +1500,7 @@ const It = {
   }
 };
 ae(It);
-function de(t, ...n) {
-  var e;
-  if (n.length === 0)
-    return t;
-  if (n.length === 1 && typeof n[0] == "object" && n[0]) {
-    const s = n[0];
-    return Object.keys(s).forEach((o) => {
-      var r;
-      const i = (r = s[o]) != null ? r : 0;
-      t = t.replace(new RegExp(`\\{${o}\\}`, "g"), `${i}`);
-    }), t;
-  }
-  for (let s = 0; s < n.length; s++) {
-    const o = (e = n[s]) != null ? e : "";
-    t = t.replace(new RegExp(`\\{${s}\\}`, "g"), `${o}`);
-  }
-  return t;
-}
-var Ue = /* @__PURE__ */ ((t) => (t[t.B = 1] = "B", t[t.KB = 1024] = "KB", t[t.MB = 1048576] = "MB", t[t.GB = 1073741824] = "GB", t[t.TB = 1099511627776] = "TB", t))(Ue || {});
-function bn(t, n = 2, e = "") {
-  return Number.isNaN(t) ? "?KB" : (e || (t < 1024 ? e = "B" : t < 1048576 ? e = "KB" : t < 1073741824 ? e = "MB" : t < 1099511627776 ? e = "GB" : e = "TB"), (t / Ue[e]).toFixed(n) + e);
-}
-const yn = (t) => {
-  const n = /^[0-9]*(B|KB|MB|GB|TB)$/;
-  t = t.toUpperCase();
-  const e = t.match(n);
-  if (!e)
-    return 0;
-  const s = e[1];
-  return t = t.replace(s, ""), Number.parseInt(t, 10) * Ue[s];
-}, O = 24 * 60 * 60 * 1e3, N = (t) => t ? (t instanceof Date || (typeof t == "string" && (t = t.trim(), /^\d+$/.test(t) && (t = Number.parseInt(t, 10))), typeof t == "number" && t < 1e10 && (t *= 1e3), t = new Date(t)), t) : new Date(), ce = (t, n = new Date()) => (t = N(t), n = N(n), t.getFullYear() === n.getFullYear() && t.getMonth() === n.getMonth() && t.getDate() === n.getDate()), Be = (t, n = new Date()) => N(t).getFullYear() === N(n).getFullYear(), Bt = (t, n = new Date()) => (t = N(t), n = N(n), t.getFullYear() === n.getFullYear() && t.getMonth() === n.getMonth()), vn = (t, n = new Date()) => {
+const O = 24 * 60 * 60 * 1e3, N = (t) => t ? (t instanceof Date || (typeof t == "string" && (t = t.trim(), /^\d+$/.test(t) && (t = Number.parseInt(t, 10))), typeof t == "number" && t < 1e10 && (t *= 1e3), t = new Date(t)), t) : new Date(), ce = (t, n = new Date()) => (t = N(t), n = N(n), t.getFullYear() === n.getFullYear() && t.getMonth() === n.getMonth() && t.getDate() === n.getDate()), Be = (t, n = new Date()) => N(t).getFullYear() === N(n).getFullYear(), Bt = (t, n = new Date()) => (t = N(t), n = N(n), t.getFullYear() === n.getFullYear() && t.getMonth() === n.getMonth()), vn = (t, n = new Date()) => {
   t = N(t), n = N(n);
   const e = 1e3 * 60 * 60 * 24, s = Math.floor(t.getTime() / e), o = Math.floor(n.getTime() / e);
   return Math.floor((s + 4) / 7) === Math.floor((o + 4) / 7);
@@ -1946,8 +1947,8 @@ const Gn = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   getTimeBeforeDesc: xn,
   calculateTimestamp: Fe,
   formatString: de,
-  formatBytes: bn,
-  convertBytes: yn
+  formatBytes: on,
+  convertBytes: rn
 }, Symbol.toStringTag, { value: "Module" }));
 var j, z;
 class In {
