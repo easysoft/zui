@@ -110,6 +110,7 @@ function toggleRow(this: NestedDTable, rowID: RowID | (RowID)[], collapsed?: boo
             }
         });
     }
+    this.update({dirtyType: 'layout'});
     this.setState({collapsedRows: {...collapsedRows}}, () => {
         this.options.onNestedChange?.call(this);
     });

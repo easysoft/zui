@@ -142,6 +142,17 @@ export class DTable extends Component<DTableOptions, DTableState> {
         return this.layout.rows[index];
     }
 
+    update(options: {dirtyType?: 'options' | 'layout'} = {}) {
+        const {dirtyType} = options;
+        if (dirtyType === 'layout') {
+            this.#layout = undefined;
+        } else if (dirtyType === 'options') {
+            this.#layout = undefined;
+            this.#options = undefined;
+        }
+        this.forceUpdate();
+    }
+
     #renderHeader(layout: DTableLayout) {
         const {header, colsInfo, headerHeight} = layout;
         if (!header) {
@@ -430,19 +441,19 @@ export class DTable extends Component<DTableOptions, DTableState> {
         const plugins = this.#allPlugins.filter(plugin => !plugin.when || plugin.when(options));
         this.#plugins = Object.freeze(plugins);
 
+        this.#options = options;
+        return true;
+    }
+
+    #initLayout() {
+        const {options, plugins} = this;
+
         plugins.forEach(plugin => {
             const newOptions = plugin.beforeLayout?.call(this, options);
             if (newOptions) {
                 Object.assign(options, newOptions);
             }
         });
-
-        this.#options = Object.freeze(options);
-        return true;
-    }
-
-    #initLayout() {
-        const {options, plugins} = this;
 
         const {
             header,
