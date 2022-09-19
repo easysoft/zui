@@ -34,8 +34,8 @@ const blue = {
 
 /** Fresh green - 葱绿 */
 const green = {
-    50: '#e3f9f3',
-    100:  '#a7f5de',
+    50:  '#e3f9f3',
+    100: '#dcfce7',
     200: '#c5f3e5',
     300: '#63e1bc',
     400: '#44cfa5',
