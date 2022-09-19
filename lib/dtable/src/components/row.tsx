@@ -1,8 +1,6 @@
 import {classes} from '@zui/browser-helpers/src/classes';
-import {RowProps} from '../types/row-props';
 import {Cell} from './cell';
 import {Cells} from './cells';
-
 
 export function Row({
     rowID,

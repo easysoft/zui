@@ -1,23 +1,23 @@
-import {h as _h, JSX} from 'preact';
-import {CellRenderCallback} from '../types/cell-render';
-import {ColInfo} from '../types/col-info';
-import {RowProps} from '../types/row-props';
+import {h as _h} from 'preact';
 import {HeaderCell} from './header-cell';
 import {Row} from './row';
 
-export interface HeaderProps {
-    height: number,
-    fixedLeftCols: ColInfo[],
-    fixedRightCols: ColInfo[],
-    scrollCols: ColInfo[],
-    flexLeftWidth: number,
-    scrollWidth: number,
-    flexRightWidth: number,
-    scrollLeft: number,
-    scrollWidthTotal: number,
-    onRenderCell?: CellRenderCallback,
-    onRenderRow?: (data: {props: RowProps}, h: typeof _h) => Partial<RowProps | (RowProps & JSX.HTMLAttributes<HTMLElement>)> | void;
-}
+import type {JSX} from 'preact';
+
+type HeaderProps = {
+    height: number;
+    fixedLeftCols: ColInfo[];
+    fixedRightCols: ColInfo[];
+    scrollCols: ColInfo[];
+    flexLeftWidth: number;
+    scrollWidth: number;
+    flexRightWidth: number;
+    scrollLeft: number;
+    scrollWidthTotal: number;
+} & Partial<{
+    onRenderCell: CellRenderCallback;
+    onRenderRow: (data: {props: RowProps}, h: typeof _h) => Partial<RowProps | (RowProps & JSX.HTMLAttributes<HTMLElement>)> | void;
+}>;
 
 export function Header({height, onRenderRow, ...otherProps}: HeaderProps) {
     const props: RowProps = {

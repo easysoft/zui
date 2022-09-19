@@ -1,9 +1,12 @@
-import {ComponentChildren} from 'preact';
-import {ColInfo} from './col-info';
-import {RowInfo} from './row-info';
-import {DTableState} from './state';
+type DTable = import('../dtable-react').DTable;
 
-export interface DTableLayout {
+type DTableState = {
+    scrollTop: number;
+    scrollLeft: number;
+    [prop: string]: unknown;
+};
+
+type DTableLayout = {
     width: number;
     height: number;
     rowHeight: number;
@@ -12,8 +15,8 @@ export interface DTableLayout {
     allRows: RowInfo[];
     rows: RowInfo[];
     visibleRows: RowInfo[];
-    header: boolean | ComponentChildren | ((layout: DTableLayout, state: DTableState) => (ComponentChildren | {__html: string}));
-    footer: boolean | ComponentChildren | ((layout: DTableLayout, state: DTableState) => (ComponentChildren | {__html: string}));
+    header: boolean | preact.ComponentChildren | ((layout: DTableLayout, state: DTableState) => (preact.ComponentChildren | {__html: string}));
+    footer: boolean | preact.ComponentChildren | ((layout: DTableLayout, state: DTableState) => (preact.ComponentChildren | {__html: string}));
     headerHeight: number,
     footerHeight: number,
     colsInfo: {
@@ -30,4 +33,6 @@ export interface DTableLayout {
     scrollLeft: number;
     startRowIndex: number; // todo
     endRowIndex: number; // todo
-}
+};
+
+type ClassNameLike = import('../../../browser-helpers/src/classes').ClassNameLike;

@@ -1,22 +1,20 @@
-import {ComponentChildren, h as _h} from 'preact';
-import {JSX} from 'preact/jsx-runtime';
-import {classes, ClassNameLike} from '@zui/browser-helpers/src/classes';
-import {ColInfo} from '../types/col-info';
-import {CellRenderCallback} from '../types/cell-render';
-import {RowData, RowID} from '../types/row-data';
-import {CustomRenderResult} from '../types/custom-render-result';
+import {h as _h} from 'preact';
+import {classes} from '@zui/browser-helpers/src/classes';
 
-export interface CellProps {
-    col: ColInfo,
-    rowID: RowID,
-    rowData?: RowData,
-    className?: ClassNameLike,
-    height?: number,
-    style?: JSX.CSSProperties,
-    cellStyle?: JSX.CSSProperties,
-    children?: ComponentChildren,
-    onRenderCell?: CellRenderCallback,
-}
+import type {ComponentChildren, JSX} from 'preact';
+
+export type CellProps = {
+    col: ColInfo;
+    rowID: RowID;
+} & Partial<{
+    rowData: RowData;
+    className: ClassNameLike;
+    height: number;
+    style: JSX.CSSProperties;
+    cellStyle: JSX.CSSProperties;
+    children: ComponentChildren;
+    onRenderCell: CellRenderCallback;
+}>;
 
 export function Cell({col, className, height, rowID, rowData, onRenderCell, style: styleFromParent, cellStyle: cellStyleFromParent, children: childrenFromParent, ...others}: CellProps) {
     const {cellStyle, align, className: settingClassName, border} = col.setting;

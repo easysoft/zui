@@ -1,22 +1,19 @@
-import {ComponentType} from 'preact';
-import {classes, ClassNameLike} from '@zui/browser-helpers/src/classes';
-import {Cell, CellProps} from './cell';
-import {ColInfo} from '../types/col-info';
-import {RowData, RowID} from '../types/row-data';
-import {CellRenderCallback} from '../types/cell-render';
+import {classes} from '@zui/browser-helpers/src/classes';
+import {Cell} from './cell';
 
-export interface CellsProps {
-    rowID: RowID,
-    className?: ClassNameLike,
-    cols: ColInfo[],
-    left?: number,
-    top?: number,
-    width?: number,
-    height?: number,
-    data?: RowData,
-    CellComponent?: ComponentType<CellProps>,
-    onRenderCell?: CellRenderCallback
-}
+type CellsProps = {
+    rowID: RowID;
+    cols: ColInfo[];
+} & Partial<{
+    className: ClassNameLike;
+    left: number;
+    top: number;
+    width: number;
+    height: number;
+    data: RowData;
+    CellComponent: preact.ComponentType<CellProps>;
+    onRenderCell: CellRenderCallback;
+}>;
 
 export function Cells({rowID, className, top = 0, left = 0, width, height, cols, data, CellComponent = Cell, onRenderCell}: CellsProps) {
     return (

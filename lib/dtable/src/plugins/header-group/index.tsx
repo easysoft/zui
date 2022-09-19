@@ -1,28 +1,26 @@
-import {CustomRenderResult} from '../../types/custom-render-result';
-import {DTablePlugin} from '../../types/plugin';
 import {definePlugin} from '../../helpers/shared-plugins';
 import './style.css';
 
-export interface DTableHeaderGroupOptions {
-    headerGroup?: boolean;
-}
+type DTableHeaderGroupOptions = Partial<{
+    headerGroup: boolean;
+}>;
 
-export interface DTableHeaderGroupState {
+type DTableHeaderGroupState = {
     test: boolean;
-}
+};
 
-export interface DTableHeaderGroupInfo {
+type DTableHeaderGroupInfo = {
     cols: string[];
     index: number;
-}
+};
 
-export interface DTableHeaderGroupColSetting {
-    group?: string;
-}
+type DTableHeaderGroupColSetting = Partial<{
+    group: string;
+}>;
 
-export interface DTableHeaderGroupProps {
+type DTableHeaderGroupProps = {
     headerGroups: Map<string, DTableHeaderGroupInfo>;
-}
+};
 
 export const headerGroup: DTablePlugin<DTableHeaderGroupOptions, DTableHeaderGroupState, DTableHeaderGroupColSetting, DTableHeaderGroupProps> = {
     name: 'header-group',

@@ -17,6 +17,7 @@
     "skipLibCheck": true
   },
   "include": [
-    "src"
-, "dev/src/dev.ts"  ]
+    "src",
+    "dev/src/dev.ts"
+  ]
 }

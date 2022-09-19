@@ -1,15 +1,9 @@
 import {classes} from '@zui/browser-helpers/src/classes';
-import {CustomRenderResult} from '../../types/custom-render-result';
-import {DTablePlugin, DTableWithPlugin} from '../../types/plugin';
-import {RowInfo} from '../../types/row-info';
-import {RowProps} from '../../types/row-props';
 import {definePlugin} from '../../helpers/shared-plugins';
-import {RowData, RowID} from '../../types/row-data';
-import {ColInfo} from '../../types/col-info';
 
 import './style.css';
 
-export enum NestedRowState {
+enum NestedRowState {
     unknown = '',
     collapsed = 'collapsed',  // As collapsed parent and show
     expanded = 'expanded',   // As expanded parent and show
@@ -17,24 +11,48 @@ export enum NestedRowState {
     normal = 'normal',     // As expanded child and show
 }
 
-export type NestedRowInfo = {
+type NestedRowInfo = {
     state: NestedRowState;
-    children?: RowID[];
-    parent?: RowID;
     level: number;
-    order?: number;
+} & Partial<{
+    children: RowID[];
+    parent: RowID;
+    order: number;
+}>;
+
+
+type DTableSortableOptions = Partial<{
+    checkable: boolean;
+    canSortTo: (this: NestedDTable, from: RowInfo, to: RowInfo, moveType: string) => boolean;
+    beforeCheckRows: (this: NestedDTable, ids: RowID[] | undefined, changes: Record<RowID, boolean>, checkedRows: Record<RowID, boolean>) => void;
+}>;
+
+type NestedDTable = DTableWithPlugin<DTableNestedOptions & DTableSortableOptions, DTableNestedState> & DTableNestedProps;
+
+type DTableNestedOptions = Partial<{
+    nested: boolean;
+    nestedParentKey: string;
+    asParentKey: string;
+    nestedIndent: number;
+    onNestedChange: () => void;
+    onRenderNestedToggle: (this: NestedDTable, info: NestedRowInfo | undefined, rowID: RowID, col: ColInfo, rowData: RowData | undefined) => CustomRenderResult;
+}>;
+
+type DTableNestedState = Partial<{
+    collapsedRows?: Record<string, boolean>;
+}>;
+
+type DTableNestedColSetting = Partial<{
+    nestedToggle: boolean;
+    nestedIndent: number | boolean;
+}>;
+
+type DTableNestedProps = {
+    nestedMap: Map<RowID, NestedRowInfo>,
+    toggleRow: typeof toggleRow;
+    isAllCollapsed: typeof isAllCollapsed;
+    getNestedRowInfo: typeof getNestedRowInfo;
 };
-
-export interface DTableCheckableOptions {
-    checkable?: boolean;
-    beforeCheckRows?: (this: NestedDTable, ids: RowID[] | undefined, changes: Record<RowID, boolean>, checkedRows: Record<RowID, boolean>) => void;
-}
-
-export interface DTableSortableOptions extends DTableCheckableOptions {
-    canSortTo?: (this: NestedDTable, from: RowInfo, to: RowInfo, moveType: string) => boolean;
-}
-
-export type NestedDTable = DTableWithPlugin<DTableNestedOptions & DTableSortableOptions, DTableNestedState> & DTableNestedProps;
 
 function getNestedRowInfo(this: NestedDTable, rowID: RowID): NestedRowInfo {
     const info = this.nestedMap.get(rowID);
@@ -124,31 +142,6 @@ function updateNestedMapOrders(map: Map<RowID, NestedRowInfo>, lastOrder = 0, id
         }
     }
     return lastOrder;
-}
-
-export interface DTableNestedOptions {
-    nested?: boolean;
-    nestedParentKey?: string;
-    asParentKey?: string;
-    nestedIndent?: number;
-    onNestedChange?: () => void;
-    onRenderNestedToggle?: (this: NestedDTable, info: NestedRowInfo | undefined, rowID: RowID, col: ColInfo, rowData: RowData | undefined) => CustomRenderResult;
-}
-
-export interface DTableNestedState {
-    collapsedRows?: Record<string, boolean>;
-}
-
-export interface DTableNestedColSetting {
-    nestedToggle?: boolean;
-    nestedIndent?: number | boolean;
-}
-
-export interface DTableNestedProps {
-    nestedMap: Map<RowID, NestedRowInfo>,
-    toggleRow: typeof toggleRow;
-    isAllCollapsed: typeof isAllCollapsed;
-    getNestedRowInfo: typeof getNestedRowInfo;
 }
 
 function checkNestedRow(dtable: NestedDTable, rowID: RowID, checked: boolean, map: Record<RowID, boolean>): NestedRowInfo | undefined {

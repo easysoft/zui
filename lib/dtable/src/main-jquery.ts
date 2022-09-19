@@ -1,4 +1,3 @@
-import {DTableOptions} from './types/options';
 import {DTable} from './dtable';
 
 /// <reference types="jquery" />

@@ -1,32 +1,34 @@
 import {formatString} from '@zui/helpers/src/format-string';
-import {formatDate, DateLike} from '@zui/helpers/src/date-helper';
-import {DTablePlugin} from '../../types/plugin';
+import {formatDate} from '@zui/helpers/src/date-helper';
 import {definePlugin} from '../../helpers/shared-plugins';
 import './style.css';
 
-export interface DTableActionButton {
-    action: string,
-    icon?: string,
-    disabled?: boolean,
-    title?: string,
-    className?: string,
-}
+import type {DateLike} from '@zui/helpers/src/date-helper';
 
-export interface DTableRichColSetting {
-    linkTemplate?: string;
-    linkProps?: Record<string, unknown>;
-    avatarWithName?: string;
-    avatarClass?: string;
-    avatarKey?: string;
-    circleSize?: number;
-    circleBgColor?: string;
-    circleColor?: string;
-    circleBorderSize?: number;
-    actionBtnTemplate?: string;
-    actionBtnData?: Record<string, Omit<DTableActionButton, 'action'>>,
-    actionBtnClass?: string;
-    format?: string | {type: 'text' | 'html' | 'datetime', format: string | ((value: unknown) => string)};
-}
+type DTableActionButton = {
+    action: string;
+} & Partial<{
+    icon: string,
+    disabled: boolean,
+    title: string,
+    className: string,
+}>;
+
+type DTableRichColSetting = Partial<{
+    linkTemplate: string;
+    linkProps: Record<string, unknown>;
+    avatarWithName: string;
+    avatarClass: string;
+    avatarKey: string;
+    circleSize: number;
+    circleBgColor: string;
+    circleColor: string;
+    circleBorderSize: number;
+    actionBtnTemplate: string;
+    actionBtnData: Record<string, Omit<DTableActionButton, 'action'>>,
+    actionBtnClass: string;
+    format: string | {type: 'text' | 'html' | 'datetime', format: string | ((value: unknown) => string)};
+}>;
 
 export const rich: DTablePlugin<{}, {}, DTableRichColSetting> = {
     name: 'rich',

@@ -1,30 +1,28 @@
-import {JSX} from 'preact/jsx-runtime';
-import {ComponentType, h as _h} from 'preact';
-import {classes, ClassNameLike} from '@zui/browser-helpers/src/classes';
+import {h as _h} from 'preact';
+import {classes} from '@zui/browser-helpers/src/classes';
 import {Row} from './row';
-import {RowInfo} from '../types/row-info';
-import {ColInfo} from '../types/col-info';
-import {CellRenderCallback} from '../types/cell-render';
-import {RowProps} from '../types/row-props';
 
-export interface RowsProps {
-    className?: ClassNameLike,
-    top: number,
-    height: number,
-    rowHeight: number,
-    rows: RowInfo[],
-    style?: JSX.CSSProperties,
-    fixedLeftCols: ColInfo[],
-    fixedRightCols: ColInfo[],
-    scrollCols: ColInfo[],
-    flexLeftWidth: number,
-    scrollWidth: number,
-    scrollWidthTotal: number,
-    flexRightWidth: number,
-    scrollLeft: number,
-    onRenderCell?: CellRenderCallback,
-    onRenderRow?: (data: {props: RowProps, row: RowInfo}, h: typeof _h) => Partial<RowProps | (RowProps & JSX.HTMLAttributes<HTMLElement>)> | void;
-}
+import type {JSX} from 'preact/jsx-runtime';
+
+type RowsProps = {
+    top: number;
+    height: number;
+    rowHeight: number;
+    rows: RowInfo[];
+    fixedLeftCols: ColInfo[];
+    fixedRightCols: ColInfo[];
+    scrollCols: ColInfo[];
+    flexLeftWidth: number;
+    scrollWidth: number;
+    scrollWidthTotal: number;
+    flexRightWidth: number;
+    scrollLeft: number;
+} & Partial<{
+    className: ClassNameLike;
+    style: JSX.CSSProperties;
+    onRenderCell: CellRenderCallback;
+    onRenderRow: (data: {props: RowProps, row: RowInfo}, h: typeof _h) => Partial<RowProps | (RowProps & JSX.HTMLAttributes<HTMLElement>)> | void;
+}>;
 
 export function Rows({
     className,

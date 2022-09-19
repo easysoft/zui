@@ -1,6 +1,3 @@
-import {DTableOptions} from '../types/options';
-import {DTablePlugin, DTablePluginComsumer} from '../types/plugin';
-
 const sharedPlugins = new Map<string, DTablePlugin>();
 
 export function addPlugin(plugin: DTablePlugin, override = false) {

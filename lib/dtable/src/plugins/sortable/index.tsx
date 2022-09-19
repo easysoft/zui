@@ -1,33 +1,38 @@
-import {DTablePlugin, DTableWithPlugin} from '../../types/plugin';
-import {RowInfo} from '../../types/row-info';
 import {definePlugin} from '../../helpers/shared-plugins';
 import './style.css';
-import {RowID} from '../../types/row-data';
 
 type SortMoveType = 'before' | 'after';
 
 type SortableDTable = DTableWithPlugin<DTableSortableOptions, DTableSortableState> & DTableSortableProps;
 
-export interface DTableSortableOptions {
-    sortable?: boolean;
-    sortHandler?: string;
-    canSort?: (this: SortableDTable, row: RowInfo) => boolean;
-    canSortTo?: (this: SortableDTable, from: RowInfo, to: RowInfo, moveType: SortMoveType) => boolean;
-    onBeginSort?: (this: SortableDTable, row: RowInfo, event: DragEvent) => false | void;
-    onEndSort?: (this: SortableDTable, from: RowInfo | undefined, to: RowInfo | undefined, moveType: SortMoveType | undefined) => void;
-    onSort?: (this: SortableDTable, from: RowInfo, to: RowInfo, moveType: SortMoveType, orders: RowID[]) => void;
-}
+type DTableSortableOptions = Partial<{
+    sortable: boolean;
+    sortHandler: string;
+    canSort: (this: SortableDTable, row: RowInfo) => boolean;
+    canSortTo: (this: SortableDTable, from: RowInfo, to: RowInfo, moveType: SortMoveType) => boolean;
+    onBeginSort: (this: SortableDTable, row: RowInfo, event: DragEvent) => false | void;
+    onEndSort: (this: SortableDTable, from: RowInfo | undefined, to: RowInfo | undefined, moveType: SortMoveType | undefined) => void;
+    onSort: (this: SortableDTable, from: RowInfo, to: RowInfo, moveType: SortMoveType, orders: RowID[]) => void;
+}>;
 
-export interface DTableSortableState {
-    rowOrders?: Record<RowID, number>;
-    draggingRow?: RowInfo;
-    droppingRow?: RowInfo;
-    moveType?: SortMoveType;
-}
+type DTableSortableState = Partial<{
+    rowOrders: Record<RowID, number>;
+    draggingRow: RowInfo;
+    droppingRow: RowInfo;
+    moveType: SortMoveType;
+}>;
 
-export interface DTableSortableColSetting {
-    sortHandler?: boolean;
-}
+type DTableSortableColSetting = Partial<{
+    sortHandler: boolean;
+}>;
+
+type DTableSortableProps = {
+    onSortDragStart: typeof onSortDragStart;
+    onSortDragEnd: typeof onSortDragEnd;
+    onSortDragEnter: typeof onSortDragEnter;
+    onSortDragOver: typeof onSortDragOver;
+    onSortDrop: typeof onSortDrop;
+};
 
 function getRowInfo(dtable: SortableDTable, event: DragEvent): RowInfo | undefined {
     const id = (event.target as HTMLElement)?.closest<HTMLElement>('.dtable-row')?.dataset.id;
@@ -102,14 +107,6 @@ function onSortDrop(this: SortableDTable, event: DragEvent) {
         this.setState({rowOrders});
         this.options.onSort?.call(this, draggingRow, droppingRow, moveType, orders);
     }
-}
-
-export interface DTableSortableProps {
-    onSortDragStart: typeof onSortDragStart;
-    onSortDragEnd: typeof onSortDragEnd;
-    onSortDragEnter: typeof onSortDragEnter;
-    onSortDragOver: typeof onSortDragOver;
-    onSortDrop: typeof onSortDrop;
 }
 
 export const sortable: DTablePlugin<DTableSortableOptions, DTableSortableState, DTableSortableColSetting, DTableSortableProps> = {

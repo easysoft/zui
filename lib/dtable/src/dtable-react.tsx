@@ -1,22 +1,14 @@
-import {Component, ComponentChildren, createRef, h as _h, JSX} from 'preact';
+import {Component, createRef, h as _h} from 'preact';
 import {classes} from '@zui/browser-helpers/src/classes';
 import {Scrollbar} from '@zui/scrollbar/src/components/scrollbar';
-import {DTableLayout} from './types/layout';
-import {DTableOptions} from './types/options';
-import {ColInfo} from './types/col-info';
-import {RowInfo} from './types/row-info';
 import {Header} from './components/header';
 import {Rows} from './components/rows';
-import {DTableState} from './types/state';
 import {mergePluginOptions, addPlugin, initPlugins, removePlugin} from './helpers/shared-plugins';
 import {getDefaultOptions} from './helpers/default-options';
-import {DTablePlugin} from './types/plugin';
-import {CustomRenderResult} from './types/custom-render-result';
-import {RowData, RowID} from './types/row-data';
-import {RowProps} from './types/row-props';
-import {CellRenderCallback} from './types/cell-render';
 import './vars.css';
 import './style.css';
+
+import type {ComponentChildren, JSX} from 'preact';
 
 export class DTable extends Component<DTableOptions, DTableState> {
     static addPlugin = addPlugin;

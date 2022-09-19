@@ -1,4 +1,4 @@
-import {Cell, CellProps} from './cell';
+import {Cell} from './cell';
 
 export function HeaderCell({col, children, style, ...props}: CellProps) {
     const {sortType} = col.setting;
