@@ -31,44 +31,52 @@ export function removePlugin(name: string): boolean {
     return sharedPlugins.delete(name);
 }
 
-export function initPlugins(options?: DTableOptions): DTablePlugin[] {
-    const map = new Map<string, DTablePlugin>();
-    return [options?.plugins].flat().reduce<DTablePlugin[]>((list, nameOrPlugin) => {
-        if (!nameOrPlugin) {
-            return list;
+function getDTablePlugin(nameOrPlugin: DTablePluginLike): DTablePlugin | undefined {
+    if (typeof nameOrPlugin === 'string') {
+        const plugin = getPlugin(nameOrPlugin);
+        if (!plugin) {
+            console.warn(`DTable: Cannot found plugin "${nameOrPlugin}"`);
         }
-        let plugin: DTablePlugin | undefined;
-        if (typeof nameOrPlugin === 'string') {
-            plugin = getPlugin(nameOrPlugin);
-            if (!plugin) {
-                console.warn(`DTable: Cannot found plugin "${nameOrPlugin}"`);
-            }
-        } else if (typeof nameOrPlugin === 'function') {
-            plugin = nameOrPlugin.plugin;
-        } else if (typeof nameOrPlugin === 'object') {
-            plugin = nameOrPlugin;
-        } else {
-            console.warn('DTable: Invalid plugin', nameOrPlugin);
+        return plugin;
+    }
+    if (typeof nameOrPlugin === 'function') {
+        return nameOrPlugin.plugin;
+    }
+    if (typeof nameOrPlugin === 'object') {
+        return nameOrPlugin;
+    }
+    console.warn('DTable: Invalid plugin', nameOrPlugin);
+}
+
+function initPluginsInner(plugins: DTablePlugin[], pluginsLike: DTablePluginLike[], pluginSet: Set<string>) {
+    pluginsLike.forEach(nameOrPlugin => {
+        if (!nameOrPlugin) {
+            return;
         }
 
-        if (plugin && !map.has(plugin.name)) {
-            plugin.plugins?.forEach(dependency => {
-                if (map.has(dependency)) {
-                    return;
-                }
-                const dependencyPlugin = getPlugin(dependency);
-                if (!dependencyPlugin) {
-                    console.warn(`DTable: Cannot found dependency plugin "${dependency}" for plugin "${plugin?.name}"`);
-                    return;
-                }
-                list.push(dependencyPlugin);
-                map.set(dependencyPlugin.name, dependencyPlugin);
-            });
-            list.push(plugin);
-            map.set(plugin.name, plugin);
+        const plugin = getDTablePlugin(nameOrPlugin);
+        if (!plugin || pluginSet.has((plugin.name))) {
+            return;
         }
-        return list;
-    }, []);
+        plugins.push(plugin);
+        pluginSet.add(plugin.name);
+
+        if (!plugin.plugins || !plugin.plugins.length) {
+            return;
+        }
+        initPluginsInner(plugins, plugin.plugins, pluginSet);
+    });
+}
+
+export function initPlugins(options?: DTableOptions): DTablePlugin[] {
+    if (!options || !options.plugins || !options.plugins.length) {
+        return [];
+    }
+
+    const pluginSet = new Set<string>();
+    const plugins: DTablePlugin[] = [];
+    initPluginsInner(plugins, options.plugins, pluginSet);
+    return plugins;
 }
 
 export function mergePluginOptions(plugins: readonly DTablePlugin[], options: DTableOptions): DTableOptions {
