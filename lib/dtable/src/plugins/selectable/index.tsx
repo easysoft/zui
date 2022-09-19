@@ -291,6 +291,7 @@ type DTableSelectableMethods = {
     selectMouseDown: (event: MouseEvent) => void;
     selectMouseMove: (event: MouseEvent) => void;
     selectMouseUp: (event: MouseEvent) => void;
+    selectOutsideClick: (event: MouseEvent) => void;
     selectingStart?: DTableCellPos;
 };
 
@@ -357,6 +358,16 @@ export const selectable: DTablePlugin<DTableSelectableOptions, DTableSelectableS
             current.addEventListener('mousemove', this.selectMouseMove);
             current.addEventListener('mouseup', this.selectMouseUp);
         }
+        this.selectOutsideClick = (event) => {
+            const target = event.target as HTMLElement;
+            if (!target) {
+                return;
+            }
+            if (!target.closest(`#${this.id}`)) {
+                this.deselectAllCells();
+            }
+        };
+        document.addEventListener('click', this.selectOutsideClick);
     },
     onUnmounted() {
         const {current} = this.ref;
@@ -365,6 +376,7 @@ export const selectable: DTablePlugin<DTableSelectableOptions, DTableSelectableS
             current.removeEventListener('mousemove', this.selectMouseMove);
             current.removeEventListener('mouseup', this.selectMouseUp);
         }
+        document.removeEventListener('click', this.selectOutsideClick);
     },
     onRenderRow({props, row}) {
         if (hasCellSelectInRow(this, row.index)) {
