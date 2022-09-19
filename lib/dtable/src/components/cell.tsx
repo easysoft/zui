@@ -45,7 +45,7 @@ export function Cell({col, className, height, rowID, rowData, onRenderCell, styl
     const contentClassName: ClassNameLike[] = ['dtable-cell-content'];
     const children: ComponentChildren[] = [];
     result?.forEach(item => {
-        if (typeof item === 'object' && item && ('html' in item || 'className' in item || 'style' in item)) {
+        if (typeof item === 'object' && item && ('html' in item || 'className' in item || 'style' in item || 'cellClass' in item || 'cellStyle' in item)) {
             if (item.html) {
                 children.push(<div className={classes('dtable-cell-html', item.className)} style={item.style} dangerouslySetInnerHTML={{__html: item.html}}></div>);
             } else {
