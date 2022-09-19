@@ -1,0 +1,20 @@
+:root {
+    --dtable-selected-color: var(--color-yellow-500);
+    --dtable-selected-bg: var(--color-yellow-50);
+    --dtable-selecting-bg: var(--color-yellow-100);
+}
+.dtable-cell.is-selected::after,
+.dtable-cell.is-selecting::after {
+    opacity: 1;
+    border: 1px solid var(--dtable-selected-color);
+    left: 0;
+    top: 0;
+    z-index: 10;
+}
+.dtable-cell.is-selected {
+    background: var(--dtable-selected-bg);
+}
+
+.dtable-cell.is-selecting {
+    background: var(--dtable-selecting-bg);
+}

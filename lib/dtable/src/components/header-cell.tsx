@@ -10,7 +10,7 @@ export function HeaderCell({col, children, style, ...props}: CellProps) {
             data-type={col.type}
             {...props}
         >
-            {col.setting.title}
+            {col.setting.title ?? col.setting.name}
             {sortType && <div className={`dtable-sort dtable-sort-${sortType === true ? 'none' : sortType}`}></div>}
             {children}
         </Cell>

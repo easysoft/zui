@@ -1,4 +1,4 @@
-import {Component, ComponentChildren, ComponentType, createRef, h as _h, JSX} from 'preact';
+import {Component, ComponentChildren, createRef, h as _h, JSX} from 'preact';
 import {classes} from '@zui/browser-helpers/src/classes';
 import {Scrollbar} from '@zui/scrollbar/src/components/scrollbar';
 import {DTableLayout} from './types/layout';
@@ -168,6 +168,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
         const scrollCols: ColInfo[] = [];
         let flexLeftWidth = 0;
         let flexRightWidth = 0;
+        let colIndex = 0;
         options.cols?.forEach((col) => {
             if (col.hidden) {
                 return;
@@ -186,6 +187,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
                 realWidth,
                 flexWidth,
                 visible: true,
+                index: colIndex++,
             };
             if (col.fixed === 'left') {
                 colInfo.left = flexLeftWidth;
