@@ -1,3 +1,4 @@
+import {classes} from '@zui/browser-helpers/src/classes';
 import {DTablePlugin, DTableWithPlugin} from '../../types/plugin';
 import {definePlugin} from '../../helpers/shared-plugins';
 import './style.css';
@@ -219,6 +220,20 @@ function getSelectedCells(this: DTableSelectable): DTableCellPos[] {
     return cells;
 }
 
+function hasCellSelectInRow(table: DTableSelectable, rowIndex: number): boolean {
+    for (const [, rows] of table.state.selectedMap.entries()) {
+        if (rows.has(rowIndex)) {
+            return true;
+        }
+    }
+    for (const [, rows] of table.state.selectingMap.entries()) {
+        if (rows.has(rowIndex)) {
+            return true;
+        }
+    }
+    return false;
+}
+
 function getSelectedCellsSize(this: DTableSelectable): number {
     let size = 0;
     for (const set of this.state.selectedMap.values()) {
@@ -352,15 +367,20 @@ export const selectable: DTablePlugin<DTableSelectableOptions, DTableSelectableS
             current.removeEventListener('mouseup', this.selectMouseUp);
         }
     },
+    onRenderRow({props, row}) {
+        if (hasCellSelectInRow(this, row.index)) {
+            return  {className: classes(props.className, 'has-cell-select')};
+        }
+    },
     onRenderCell(result, {rowID, col}) {
         const rowInfo = this.getRowInfo(rowID);
         if (!rowInfo) {
             return result;
         }
         if (this.isCellSelecting([col.index, rowInfo.index])) {
-            result.push({className: 'is-selecting'});
+            result.push({cellClass: 'is-select is-selecting'});
         } else if (this.isCellSelected([col.index, rowInfo.index])) {
-            result.push({className: 'is-selected'});
+            result.push({cellClass: 'is-select is-selected'});
         }
         return result;
     },

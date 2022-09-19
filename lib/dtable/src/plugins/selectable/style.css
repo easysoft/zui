@@ -1,20 +1,27 @@
 :root {
-    --dtable-selected-color: var(--color-yellow-500);
-    --dtable-selected-bg: var(--color-yellow-50);
-    --dtable-selecting-bg: var(--color-yellow-100);
+    --dtable-selected-color: var(--color-green-500);
+    --dtable-selected-bg: var(--color-green-50);
+    --dtable-selecting-bg: var(--color-green-100);
 }
-.dtable-cell.is-selected::after,
-.dtable-cell.is-selecting::after {
-    opacity: 1;
-    border: 1px solid var(--dtable-selected-color);
-    left: 0;
-    top: 0;
-    z-index: 10;
+.dtable-cell.is-select::after {
+    border-color: var(--dtable-selected-color);
+    @apply -opacity-100 -z-10;
 }
 .dtable-cell.is-selected {
     background: var(--dtable-selected-bg);
 }
 
+.dtable-hover-col .dtable-cell.dtable-col-hover.is-select,
+.dtable-hover-row .dtable-rows > .dtable-row:hover .dtable-cell.is-select,
 .dtable-cell.is-selecting {
     background: var(--dtable-selecting-bg);
+}
+.has-cell-select.dtable-row {
+    @apply -z-10;
+}
+.dtable-rows > .dtable-row:first-child .dtable-cell.is-select::after {
+    @apply -top-0;
+}
+.dtable-fixed-left + .dtable-cells > .dtable-cell.is-select:first-child::after {
+    @apply -left-px;
 }
