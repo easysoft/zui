@@ -1,5 +1,5 @@
 import {ClassNameLike} from '@zui/browser-helpers/src/classes';
-import {ComponentChildren, ComponentType, h as _h, JSX} from 'preact';
+import {ComponentChildren, h as _h, JSX} from 'preact';
 import {DTable} from '../dtable-react';
 import {CellRenderCallback} from './cell-render';
 import {ColSetting} from './col-setting';

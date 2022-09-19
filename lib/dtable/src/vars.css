@@ -1,4 +1,5 @@
 :root {
+    --dtable-bg:           var(--color-canvas);
     --dtable-striped-bg:   var(--color-gray-50);
     --dtable-hover-bg:     rgba(var(--color-gray-500-rgb), .1);
     --dtable-header-bg:    var(--color-surface);

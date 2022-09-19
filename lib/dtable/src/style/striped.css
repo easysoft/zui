@@ -1,0 +1,3 @@
+.dtable-striped .dtable-rows > .dtable-row-odd > .dtable-cells {
+    background: var(--dtable-striped-bg);
+}

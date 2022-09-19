@@ -13,19 +13,23 @@ export interface CellProps {
     className?: ClassNameLike,
     height?: number,
     style?: JSX.CSSProperties,
+    cellStyle?: JSX.CSSProperties,
     children?: ComponentChildren,
     onRenderCell?: CellRenderCallback,
 }
 
-export function Cell({col, className, height, rowID, rowData, onRenderCell, style: styleFromParent, children: childrenFromParent, ...others}: CellProps) {
+export function Cell({col, className, height, rowID, rowData, onRenderCell, style: styleFromParent, cellStyle: cellStyleFromParent, children: childrenFromParent, ...others}: CellProps) {
     const {cellStyle, align, className: settingClassName, border} = col.setting;
     const style = {
         left: col.left,
         width: col.realWidth,
         height,
+        ...cellStyleFromParent,
+        ...cellStyle,
+    };
+    const contentStyle = {
         justifyContent: align ? (align === 'left' ? 'start' : (align === 'right' ? 'end' : align)) : undefined,
         ...styleFromParent,
-        ...cellStyle,
     };
 
     let result: CustomRenderResult = [
@@ -38,6 +42,7 @@ export function Cell({col, className, height, rowID, rowData, onRenderCell, styl
         'has-border-left': border === true || border === 'left',
         'has-border-right': border === true || border === 'right',
     }];
+    const contentClassName: ClassNameLike[] = ['dtable-cell-content'];
     const children: ComponentChildren[] = [];
     result?.forEach(item => {
         if (typeof item === 'object' && item && ('html' in item || 'className' in item || 'style' in item)) {
@@ -45,26 +50,33 @@ export function Cell({col, className, height, rowID, rowData, onRenderCell, styl
                 children.push(<div className={classes('dtable-cell-html', item.className)} style={item.style} dangerouslySetInnerHTML={{__html: item.html}}></div>);
             } else {
                 if (item.style) {
-                    Object.assign(style, item.style);
+                    Object.assign(contentStyle, item.style);
                 }
                 if (item.className) {
-                    cellClassName.push(item.className);
+                    contentClassName.push(item.className);
                 }
+            }
+            if (item.cellStyle) {
+                Object.assign(style, item.cellStyle);
+            }
+            if (item.cellClass) {
+                cellClassName.push(item.cellClass);
             }
         } else {
             children.push(item);
         }
     });
 
-    const finalClassName = classes(cellClassName);
     return (
         <div
-            className={finalClassName}
+            className={classes(cellClassName)}
             style={style}
             data-col={col.name}
             {...others}
         >
-            {children}
+            <div className={classes(contentClassName)} style={contentStyle}>
+                {children}
+            </div>
         </div>
     );
 }

@@ -1,0 +1,8 @@
+.dtable-hover-row .dtable-rows > .dtable-row:hover .dtable-cell,
+.dtable-hover-col .dtable-cell.dtable-col-hover {
+    background: var(--dtable-hover-bg);
+}
+.dtable-hover-cell .dtable-rows .dtable-cell:hover::after {
+    background: var(--dtable-hover-bg);
+    @apply -opacity-100;
+}

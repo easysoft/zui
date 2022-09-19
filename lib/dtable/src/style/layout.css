@@ -1,0 +1,56 @@
+.dtable {
+    @apply -relative;
+}
+
+.dtable-header {
+    @apply -relative -z-20 -overflow-hidden;
+    background: var(--dtable-header-bg);
+}
+
+.dtable-rows {
+    @apply -absolute -z-10 -w-full -overflow-hidden;
+}
+
+.dtable-row {
+    @apply -absolute -w-full;
+    transition: top .1s ease-out;
+}
+
+.dtable-cells {
+    @apply -absolute -h-full -z-0;
+    background: var(--dtable-bg);
+}
+.dtable-header .dtable-cells {
+    background: var(--dtable-header-bg);
+}
+.dtable-cells.dtable-fixed-left,
+.dtable-cells.dtable-fixed-right {
+    @apply -z-10;
+}
+
+
+.dtable-cell {
+    @apply -absolute -h-full;
+}
+.dtable-cell::before,
+.dtable-cell::after {
+    content: ' ';
+    border: 0 solid var(--dtable-border-color);
+    @apply -absolute -opacity-0 -pointer-events-none -left-0 --top-px --right-px --bottom-px;
+}
+.dtable-row > .dtable-cells:last-child > .dtable-cell:last-child::before,
+.dtable-row > .dtable-cells:last-child > .dtable-cell:last-child::after {
+    @apply -right-0;
+}
+.dtable-header .dtable-cell::before,
+.dtable-header .dtable-cell::after {
+    @apply -top-0;
+}
+
+.dtable-header .dtable-cell {
+    @apply -font-bold -flex -items-center;
+}
+
+.dtable-cell-content {
+    @apply -h-full -px-3 -whitespace-nowrap -flex -items-center -gap-1 -overflow-hidden;
+}

@@ -1,0 +1,6 @@
+.dtable .scrollbar {
+    @apply -z-10;
+}
+.dtable-scrolled-down .dtable-header {
+    @apply -shadow-md;
+}
