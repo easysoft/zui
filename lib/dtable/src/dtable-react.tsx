@@ -7,6 +7,7 @@ import {mergePluginOptions, addPlugin, initPlugins, removePlugin} from './helper
 import {getDefaultOptions} from './helpers/default-options';
 import './vars.css';
 import './style.css';
+import {nanoid} from 'nanoid';
 
 import type {ComponentChildren, JSX} from 'preact';
 
@@ -18,6 +19,8 @@ export class DTable extends Component<DTableOptions, DTableState> {
     ref = createRef<HTMLDivElement>();
 
     #rafId = 0;
+
+    #id: string;
 
     #needUpdateSize = false;
 
@@ -38,6 +41,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
 
         const initOptions = {...getDefaultOptions(), ...props} as DTableOptions;
         this.#options = Object.freeze(initOptions);
+        this.#id = `dtable-${nanoid(10)}`;
 
         this.#allPlugins = Object.freeze(initPlugins(initOptions));
         this.#allPlugins.forEach(plugin => {
@@ -55,6 +59,10 @@ export class DTable extends Component<DTableOptions, DTableState> {
 
     get layout(): DTableLayout {
         return this.#layout as DTableLayout;
+    }
+
+    get id() {
+        return this.#id;
     }
 
     componentDidMount() {
@@ -713,6 +721,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
         const style = {width: layout?.width, height: layout?.height};
         return (
             <div
+                id={this.#id}
                 className={classes('dtable', className, {
                     'dtable-hover-row': rowHover,
                     'dtable-hover-col': colHover,
