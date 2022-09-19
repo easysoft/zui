@@ -48,7 +48,7 @@ function getDTablePlugin(nameOrPlugin: DTablePluginLike): DTablePlugin | undefin
     console.warn('DTable: Invalid plugin', nameOrPlugin);
 }
 
-function initPluginsInner(plugins: DTablePlugin[], pluginsLike: DTablePluginLike[], pluginSet: Set<string>) {
+function initPluginsInner(plugins: DTablePlugin[], pluginsLike: DTablePluginLike[], pluginSet: Set<string>): DTablePlugin[] {
     pluginsLike.forEach(nameOrPlugin => {
         if (!nameOrPlugin) {
             return;
@@ -66,17 +66,15 @@ function initPluginsInner(plugins: DTablePlugin[], pluginsLike: DTablePluginLike
         }
         initPluginsInner(plugins, plugin.plugins, pluginSet);
     });
+    return plugins;
 }
 
-export function initPlugins(options?: DTableOptions): DTablePlugin[] {
-    if (!options || !options.plugins || !options.plugins.length) {
+export function initPlugins(pluginsLike?: DTablePluginLike[]): DTablePlugin[] {
+    if (!pluginsLike?.length) {
         return [];
     }
 
-    const pluginSet = new Set<string>();
-    const plugins: DTablePlugin[] = [];
-    initPluginsInner(plugins, options.plugins, pluginSet);
-    return plugins;
+    return initPluginsInner([], pluginsLike, new Set<string>());
 }
 
 export function mergePluginOptions(plugins: readonly DTablePlugin[], options: DTableOptions): DTableOptions {

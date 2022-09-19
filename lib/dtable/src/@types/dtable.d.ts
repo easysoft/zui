@@ -14,7 +14,6 @@ type DTableLayout = {
     rowsHeightTotal: number;
     allRows: RowInfo[];
     rows: RowInfo[];
-    visibleRows: RowInfo[];
     header: boolean | preact.ComponentChildren | ((layout: DTableLayout, state: DTableState) => (preact.ComponentChildren | {__html: string}));
     footer: boolean | preact.ComponentChildren | ((layout: DTableLayout, state: DTableState) => (preact.ComponentChildren | {__html: string}));
     headerHeight: number,
@@ -28,11 +27,10 @@ type DTableLayout = {
         flexRightWidth: number;
         scrollWidthTotal: number;
     };
-    scrollBottom: number;
+
+    visibleRows: RowInfo[];
     scrollTop: number;
     scrollLeft: number;
-    startRowIndex: number; // todo
-    endRowIndex: number; // todo
 };
 
 type ClassNameLike = import('../../../browser-helpers/src/classes').ClassNameLike;

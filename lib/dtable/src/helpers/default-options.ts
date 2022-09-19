@@ -1,5 +1,8 @@
 export function getDefaultOptions() {
     return {
+        cols: [],
+        data: [],
+        rowKey: 'id',
         width: '100%',
         height: 'auto',
         rowHeight: 35,
