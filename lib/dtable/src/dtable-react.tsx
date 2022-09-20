@@ -33,9 +33,9 @@ export class DTable extends Component<DTableOptions, DTableState> {
 
     #layout?: DTableLayout;
 
-    #hoverCol: string | false = false;
+    #events: Map<DTableEventType, DTableEventListener[]> = new Map();
 
-    #events: Map<string, DTableEventListener[]> = new Map();
+    #cache: Map<string, unknown> = new Map();
 
     constructor(props: DTableOptions) {
         super(props);
@@ -82,17 +82,11 @@ export class DTable extends Component<DTableOptions, DTableState> {
                 return;
             }
             Object.entries(events).forEach(([eventType, callback]) => {
-                this.on(eventType, callback);
+                this.on(eventType as DTableEventType, callback);
             });
         });
 
         this.on('click', this.#handleClick as EventListener);
-
-        const {current} = this.ref;
-        if (current) {
-            current.addEventListener('mouseover', this.#handleMouseOver);
-            current.addEventListener('mouseleave', this.#handleMouseLeave);
-        }
 
         if (this.options.responsive) {
             window.addEventListener('resize', this.#handleResize);
@@ -122,9 +116,11 @@ export class DTable extends Component<DTableOptions, DTableState> {
         this.#plugins.forEach(plugin => {
             plugin.onUnmounted?.call(this);
         });
+
+        this.#cache.clear();
     }
 
-    on(event: string, callback: EventListener) {
+    on(event: DTableEventType, callback: EventListener) {
         const eventCallbacks = this.#events.get(event);
         if (eventCallbacks) {
             eventCallbacks.push(callback);
@@ -134,7 +130,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
         }
     }
 
-    off(event: string, callback: EventListener) {
+    off(event: DTableEventType, callback: EventListener) {
         const eventCallbacks = this.#events.get(event);
         if (!eventCallbacks) {
             return;
@@ -188,9 +184,20 @@ export class DTable extends Component<DTableOptions, DTableState> {
         this.forceUpdate();
     }
 
+    getCache<T = unknown>(key: string, defaultValue: T): T;
+    getCache<T = unknown>(key: string): T | undefined;
+
+    getCache<T = unknown>(key: string, defaultValue?: T): T | undefined {
+        return (this.#cache.get(key) ?? defaultValue) as T | undefined;
+    }
+
+    setCache(key: string, value: unknown) {
+        this.#cache.set(key, value);
+    }
+
     #handleEvent = (event: Event) => {
         const {type} = event;
-        const callbacks = this.#events.get(type);
+        const callbacks = this.#events.get(type as keyof HTMLElementEventMap);
         if (!callbacks?.length) {
             return;
         }
@@ -443,44 +450,6 @@ export class DTable extends Component<DTableOptions, DTableState> {
             }
         }
     };
-
-    #handleMouseOver = (event: MouseEvent) => {
-        const {colHover} = this.options;
-        if (!colHover) {
-            return;
-        }
-
-        const cellElement = (event.target as HTMLElement)?.closest<HTMLElement>('.dtable-cell');
-        if (!cellElement) {
-            return;
-        }
-        if (colHover === 'header' && !cellElement.closest('.dtable-header')) {
-            return;
-        }
-        const colName = cellElement?.getAttribute('data-col') ?? false;
-        this.#applyColHover(colName);
-    };
-
-    #handleMouseLeave = () => {
-        this.#applyColHover(false);
-    };
-
-    #applyColHover(hoverCol?: string | false) {
-        if (hoverCol !== undefined) {
-            this.#hoverCol = hoverCol;
-        } else {
-            hoverCol = this.#hoverCol;
-        }
-        const {current} = this.ref;
-        if (!current) {
-            return;
-        }
-        const hoverClass = 'dtable-col-hover';
-        current.querySelectorAll(`.${hoverClass}`).forEach(col => col.classList.remove(hoverClass));
-        if (typeof hoverCol === 'string' && hoverCol.length) {
-            current.querySelectorAll(`.dtable-cell[data-col="${hoverCol}"]`).forEach(x => x.classList.add(hoverClass));
-        }
-    }
 
     #initOptions(): boolean {
         if (this.#options) {
