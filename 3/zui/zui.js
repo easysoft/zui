@@ -1002,7 +1002,7 @@ class Zt extends et {
   render() {
     var m;
     const t = A(this, Bt, Qe).call(this), { className: s, rowHover: o, colHover: i, cellHover: r, bordered: a, striped: c, scrollbarHover: h } = this.options, l = { width: t == null ? void 0 : t.width, height: t == null ? void 0 : t.height };
-    return console.log("> render", t), /* @__PURE__ */ b("div", {
+    return /* @__PURE__ */ b("div", {
       id: f(this, nt),
       className: H("dtable", s, {
         "dtable-hover-row": o,
