@@ -1,14 +1,19 @@
 const sharedPlugins = new Map<string, DTablePlugin>();
+const buildInPlugins: string[] = [];
 
-export function addPlugin(plugin: DTablePlugin, override = false) {
-    if (!override && sharedPlugins.has(plugin.name)) {
-        throw new Error(`DTable: Plugin with name ${plugin.name} already exists`);
+export function addPlugin(plugin: DTablePlugin, defineOptions?: DTablePluginDefineOptions) {
+    const {name} = plugin;
+    if (!defineOptions?.override && sharedPlugins.has(name)) {
+        throw new Error(`DTable: Plugin with name ${name} already exists`);
     }
-    sharedPlugins.set(plugin.name, plugin);
+    sharedPlugins.set(name, plugin);
+    if (defineOptions?.buildIn && !buildInPlugins.includes(name)) {
+        buildInPlugins.push(name);
+    }
 }
 
-export function definePlugin<O = {}, S extends {} = {}, C extends {} = {}, T extends {} = {}>(plugin: DTablePlugin<O, S, C, T>, override = false): DTablePluginComsumer<O> {
-    addPlugin(plugin as unknown as DTablePlugin, override);
+export function definePlugin<O = {}, S extends {} = {}, C extends {} = {}, T extends {} = {}>(plugin: DTablePlugin<O, S, C, T>, defineOptions?: DTablePluginDefineOptions): DTablePluginComsumer<O> {
+    addPlugin(plugin as unknown as DTablePlugin, defineOptions);
     const comsumer: DTablePluginComsumer<O> = (options?: DTableOptions & O): DTablePlugin<O> => {
         if (!options) {
             return plugin as unknown as DTablePlugin<O>;
@@ -69,7 +74,10 @@ function initPluginsInner(plugins: DTablePlugin[], pluginsLike: DTablePluginLike
     return plugins;
 }
 
-export function initPlugins(pluginsLike?: DTablePluginLike[]): DTablePlugin[] {
+export function initPlugins(pluginsLike: DTablePluginLike[] = [], includeBuildIns = true): DTablePlugin[] {
+    if (includeBuildIns && buildInPlugins.length) {
+        pluginsLike.unshift(...buildInPlugins);
+    }
     if (!pluginsLike?.length) {
         return [];
     }

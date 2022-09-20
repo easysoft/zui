@@ -43,3 +43,8 @@ interface DTablePluginComsumer<O = {}> {
     plugin: DTablePlugin<O>,
     (options?: DTableOptions & O): DTablePlugin<O>;
 }
+
+interface DTablePluginDefineOptions {
+    override?: boolean;
+    buildIn?: boolean;
+}
