@@ -2,7 +2,6 @@ import {classes} from '@zui/browser-helpers/src/classes';
 import {definePlugin} from '../../helpers/shared-plugins';
 import './style.css';
 
-
 type DTableColIndex       = number;
 type DTableRowIndex       = number;
 type DTableColSelection   = `C${DTableColIndex}`;
@@ -35,9 +34,6 @@ type DTableSelectableTypes = {
         selectAllCells: typeof selectAllCells;
         deselectAllCells: typeof deselectAllCells;
         getSelectedCellsSize: typeof getSelectedCellsSize;
-        selectMouseDown: (event: MouseEvent) => void;
-        selectMouseMove: (event: MouseEvent) => void;
-        selectMouseUp: (event: MouseEvent) => void;
         selectOutsideClick: (event: MouseEvent) => void;
         selectingStart?: DTableCellPos;
     };
@@ -287,7 +283,7 @@ function getSelectedCellsSize(this: DTableSelectable): number {
     return size;
 }
 
-function getMousePos(table: DTableSelectable, event: MouseEvent): DTableCellPos | undefined {
+function getMousePos(table: DTableSelectable, event: Event): DTableCellPos | undefined {
     const target = event.target as HTMLElement;
     if (!target) {
         return;
@@ -310,8 +306,6 @@ function getMousePos(table: DTableSelectable, event: MouseEvent): DTableCellPos 
     return [colIndex, rowIndex];
 }
 
-
-
 export const selectable: DTablePlugin<DTableSelectableTypes> = {
     name: 'selectable',
     defaultOptions: {selectable: true},
@@ -329,52 +323,48 @@ export const selectable: DTablePlugin<DTableSelectableTypes> = {
         this.deselectAllCells = deselectAllCells.bind(this);
         this.getSelectedCellsSize = getSelectedCellsSize.bind(this);
     },
-    onMounted() {
-        const {current} = this.ref;
-        if (current) {
-            this.selectMouseDown = (event) => {
-                const pos = getMousePos(this, event);
-                this.selectingStart = pos;
-                if (pos) {
+    events: {
+        mousedown(event) {
+            const pos = getMousePos(this, event);
+            this.selectingStart = pos;
+            if (pos) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+        },
+        mousemove(event) {
+            const {selectingStart} = this;
+            if (!selectingStart) {
+                return;
+            }
+            const pos = getMousePos(this, event);
+            if (pos) {
+                const selection = stringifySelection(selectingStart, pos);
+                if (selection) {
+                    this.selectingCells(selection);
                     event.preventDefault();
                     event.stopPropagation();
                 }
-            };
-            this.selectMouseMove = (event) => {
-                const {selectingStart} = this;
-                if (!selectingStart) {
-                    return;
+            }
+        },
+        mouseup(event) {
+            const {selectingStart} = this;
+            if (!selectingStart) {
+                return;
+            }
+            this.selectingStart = undefined;
+            const pos = getMousePos(this, event);
+            if (pos) {
+                const selection = stringifySelection(selectingStart, pos);
+                if (selection) {
+                    this.selectCells(selection);
+                    event.preventDefault();
+                    event.stopPropagation();
                 }
-                const pos = getMousePos(this, event);
-                if (pos) {
-                    const selection = stringifySelection(selectingStart, pos);
-                    if (selection) {
-                        this.selectingCells(selection);
-                        event.preventDefault();
-                        event.stopPropagation();
-                    }
-                }
-            };
-            this.selectMouseUp = event => {
-                const {selectingStart} = this;
-                if (!selectingStart) {
-                    return;
-                }
-                this.selectingStart = undefined;
-                const pos = getMousePos(this, event);
-                if (pos) {
-                    const selection = stringifySelection(selectingStart, pos);
-                    if (selection) {
-                        this.selectCells(selection);
-                        event.preventDefault();
-                        event.stopPropagation();
-                    }
-                }
-            };
-            current.addEventListener('mousedown', this.selectMouseDown);
-            current.addEventListener('mousemove', this.selectMouseMove);
-            current.addEventListener('mouseup', this.selectMouseUp);
-        }
+            }
+        },
+    },
+    onMounted() {
         this.selectOutsideClick = (event) => {
             const target = event.target as HTMLElement;
             if (!target) {
@@ -387,12 +377,6 @@ export const selectable: DTablePlugin<DTableSelectableTypes> = {
         document.addEventListener('click', this.selectOutsideClick);
     },
     onUnmounted() {
-        const {current} = this.ref;
-        if (current) {
-            current.removeEventListener('mousedown', this.selectMouseDown);
-            current.removeEventListener('mousemove', this.selectMouseMove);
-            current.removeEventListener('mouseup', this.selectMouseUp);
-        }
         document.removeEventListener('click', this.selectOutsideClick);
     },
     onRenderRow({props, row}) {

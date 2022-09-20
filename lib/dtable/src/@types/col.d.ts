@@ -1,7 +1,7 @@
 type ColInfo<S extends ColSetting = ColSetting> = {
     name: string;
     type: string;
-    setting: S & {onRenderCell: CellRenderCallback<S>};
+    setting: S & {onRenderCell?: CellRenderCallback<S>};
     left: number;
     flex: number;
     realWidth: number;

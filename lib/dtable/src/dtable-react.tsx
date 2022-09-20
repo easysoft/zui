@@ -65,7 +65,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
         return this.#id;
     }
 
-    componentWillReceiveProps(nextProps: Readonly<DTableOptions<ColSetting>>, nextContext: any): void {
+    componentWillReceiveProps(): void {
         this.#options = undefined;
     }
 

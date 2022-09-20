@@ -22,13 +22,6 @@ type DTableSortableTypes = {
     col: Partial<{
         sortHandler: boolean;
     }>;
-    props: {
-        onSortDragStart: typeof onSortDragStart;
-        onSortDragEnd: typeof onSortDragEnd;
-        onSortDragEnter: typeof onSortDragEnter;
-        onSortDragOver: typeof onSortDragOver;
-        onSortDrop: typeof onSortDrop;
-    }
 };
 
 type DTableSortable = DTableWithPlugin<DTableSortableTypes>;
@@ -41,97 +34,73 @@ function getRowInfo(dtable: DTableSortable, event: DragEvent): RowInfo | undefin
     return dtable.getRowInfo(id);
 }
 
-function onSortDragStart(this: DTableSortable, event: DragEvent) {
-    const row = getRowInfo(this, event);
-    if (!event.dataTransfer || !row || this.options.onBeginSort?.call(this, row, event) === false) {
-        return;
-    }
-    this.setState({draggingRow: row});
-    event.dataTransfer.effectAllowed = 'move';
-    event.dataTransfer.dropEffect = 'move';
-    this.ref.current?.classList.add('dtable-sorting');
-    return true;
-}
-
-function onSortDragEnd(this: DTableSortable) {
-    const {draggingRow, droppingRow, moveType} = this.state;
-    this.setState({draggingRow: undefined, droppingRow: undefined, moveType: undefined});
-    this.ref.current?.classList.remove('dtable-sorting');
-    this.options.onEndSort?.call(this, draggingRow, droppingRow, moveType);
-}
-
-function onSortDragEnter(this: DTableSortable, event: DragEvent) {
-    const row = getRowInfo(this, event);
-    const {draggingRow} = this.state;
-    if (!row || !draggingRow || row.id === draggingRow.id) {
-        return;
-    }
-    const moveType = draggingRow.index > row.index ? 'before' : 'after';
-    if (this.options.canSortTo?.call(this, draggingRow, row, moveType) === false) {
-        return;
-    }
-    // const {droppingRow, draggingRow} = this.state;
-    // if (droppingRow && draggingRow && row.id === droppingRow.id) {
-    //     if (row.index < draggingRow.index) {
-    //         row = this.getRowInfoByIndex(row.index  + 1);
-    //     }
-    // }
-
-    this.setState({droppingRow: row, moveType});
-}
-
-function onSortDragOver(this: DTableSortable, event: DragEvent) {
-    event.preventDefault();
-    return true;
-}
-
-function onSortDrop(this: DTableSortable) {
-    const {draggingRow, droppingRow, moveType} = this.state;
-    if (draggingRow && droppingRow && moveType && draggingRow.id !== droppingRow.id) {
-        let rows = [...this.layout.rows];
-        const {canSort} = this.options;
-        if (canSort) {
-            rows = rows.filter(row => canSort.call(this, row));
-        }
-        const fromIndex = rows.findIndex(x => x.id === draggingRow.id);
-        const toIndex = rows.findIndex(x => x.id === droppingRow.id);
-        const row = rows.splice(fromIndex, 1);
-        rows.splice(toIndex, 0, row[0]);
-        const rowOrders: Record<RowID, number> = {};
-        const orders: RowID[] = [];
-        rows.forEach(({id}, index) => {
-            rowOrders[id] = index;
-            orders.push(id);
-        });
-        this.setState({rowOrders});
-        this.options.onSort?.call(this, draggingRow, droppingRow, moveType, orders);
-    }
-}
-
 export const sortable: DTablePlugin<DTableSortableTypes> = {
     name: 'sortable',
     defaultOptions: {
         sortable: true,
     },
     when: options => !!options.sortable,
-    onCreate() {
-        this.onSortDragStart = onSortDragStart.bind(this);
-        this.onSortDragEnd = onSortDragEnd.bind(this);
-        this.onSortDragEnter = onSortDragEnter.bind(this);
-        this.onSortDragOver = onSortDragOver.bind(this);
-        this.onSortDrop = onSortDrop.bind(this);
-    },
-    onMounted() {
-        const {current} = this.ref;
-        if (current) {
-            current.addEventListener('dragstart', this.onSortDragStart as EventListener);
-            current.addEventListener('dragend', this.onSortDragEnd as EventListener);
-            current.addEventListener('dragenter', this.onSortDragEnter as EventListener);
-            current.addEventListener('dragover', this.onSortDragOver as unknown as EventListener);
-            current.addEventListener('drop', this.onSortDrop as EventListener);
-        }
-    },
-    beforeLayout() {
+    events: {
+        dragstart(event) {
+            const row = getRowInfo(this, event);
+            if (!event.dataTransfer || !row || this.options.onBeginSort?.call(this, row, event) === false) {
+                return;
+            }
+            this.setState({draggingRow: row});
+            event.dataTransfer.effectAllowed = 'move';
+            event.dataTransfer.dropEffect = 'move';
+            this.ref.current?.classList.add('dtable-sorting');
+        },
+        dragend() {
+            const {draggingRow, droppingRow, moveType} = this.state;
+            this.setState({draggingRow: undefined, droppingRow: undefined, moveType: undefined});
+            this.ref.current?.classList.remove('dtable-sorting');
+            this.options.onEndSort?.call(this, draggingRow, droppingRow, moveType);
+        },
+        dragenter(event) {
+            const row = getRowInfo(this, event);
+            const {draggingRow} = this.state;
+            if (!row || !draggingRow || row.id === draggingRow.id) {
+                return;
+            }
+            const moveType = draggingRow.index > row.index ? 'before' : 'after';
+            if (this.options.canSortTo?.call(this, draggingRow, row, moveType) === false) {
+                return;
+            }
+            // const {droppingRow, draggingRow} = this.state;
+            // if (droppingRow && draggingRow && row.id === droppingRow.id) {
+            //     if (row.index < draggingRow.index) {
+            //         row = this.getRowInfoByIndex(row.index  + 1);
+            //     }
+            // }
+
+            this.setState({droppingRow: row, moveType});
+        },
+        dragover(event) {
+            event.preventDefault();
+        },
+        drop() {
+            const {draggingRow, droppingRow, moveType} = this.state;
+            if (draggingRow && droppingRow && moveType && draggingRow.id !== droppingRow.id) {
+                let rows = [...this.layout.rows];
+                const {canSort} = this.options;
+                if (canSort) {
+                    rows = rows.filter(row => canSort.call(this, row));
+                }
+                const fromIndex = rows.findIndex(x => x.id === draggingRow.id);
+                const toIndex = rows.findIndex(x => x.id === droppingRow.id);
+                const row = rows.splice(fromIndex, 1);
+                rows.splice(toIndex, 0, row[0]);
+                const rowOrders: Record<RowID, number> = {};
+                const orders: RowID[] = [];
+                rows.forEach(({id}, index) => {
+                    rowOrders[id] = index;
+                    orders.push(id);
+                });
+                this.setState({rowOrders});
+                this.options.onSort?.call(this, draggingRow, droppingRow, moveType, orders);
+            }
+        },
     },
     onAddRows(rows) {
         const {rowOrders} = this.state;

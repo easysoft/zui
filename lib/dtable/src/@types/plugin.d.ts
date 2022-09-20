@@ -23,6 +23,8 @@ type DTableWithPlugin<T extends DTablePluginTypes = {}> = DTable & {
     getColInfo: (name: string) => DTableWithPluginCol<T> | undefined;
 } & T['props'];
 
+type DTablePluginEvents<T extends DTablePluginTypes = {}> = {[event in DTableEventType]?: DTableEventListener<event, DTableWithPlugin<T>>};
+
 type DTablePlugin<T extends DTablePluginTypes = DTablePluginTypes, PluginTable = DTableWithPlugin<T>, Options = DTableWithPluginOptions<T>, PluginColSetting = DTableWithPluginColSetting<T>, PluginColInfo = DTableWithPluginColInfo<T>> = {
     name: string;
 } & Partial<{
@@ -33,7 +35,7 @@ type DTablePlugin<T extends DTablePluginTypes = DTablePluginTypes, PluginTable =
     defaultOptions: Partial<Options>;
     options: ((options: Options) => Partial<Options>);
     colTypes: Record<string, Partial<PluginColSetting> | PluginColSettingModifier<T>>;
-    events: Partial<Record<DTableEventType, DTableEventListener<Event, PluginTable>>>;
+    events: DTablePluginEvents<T>;
     onAddCol: (this: PluginTable, col: PluginColInfo) => void;
     beforeLayout: (this: PluginTable, options: Options) => (Partial<Options> | void);
     onLayout: (this: PluginTable, layout: DTableLayout) => (DTableLayout | void);

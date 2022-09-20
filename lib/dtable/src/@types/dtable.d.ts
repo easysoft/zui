@@ -6,10 +6,9 @@ type DTableState = {
     [prop: string]: unknown;
 };
 
+type DTableEventType = keyof HTMLElementEventMap;
 
-type DTableEventListener<E extends Event = Event, T extends DTable = DTable> = (this: T, evt: E) => void | false;
-
-type DTableEventType = Partial<keyof HTMLElementEventMap>;
+type DTableEventListener<K extends DTableEventType = DTableEventType, T extends DTable = DTable> = (this: T, evt: HTMLElementEventMap[K]) => void | false;
 
 type DTableLayout = {
     width: number;
