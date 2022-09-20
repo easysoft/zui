@@ -22,7 +22,7 @@ type DTablePlugin<O = {}, S = {}, C = {}, T = {}, PluginTable = DTableWithPlugin
     defaultOptions: Partial<Options>;
     options: ((options: Options) => Partial<Options>);
     colTypes: Record<string, Partial<PluginColSetting<C>> | ColSettingModifier<C>>;
-    events: Record<string, DtableEventListener<PluginTable>>;
+    events: Partial<Record<DTableEventType, DTableEventListener<Event, PluginTable>>>;
     onAddCol: (this: PluginTable, col: PluginColInfo<C>) => void;
     beforeLayout: (this: PluginTable, options: Options) => (Options | void);
     onLayout: (this: PluginTable, layout: DTableLayout) => (DTableLayout | void);
