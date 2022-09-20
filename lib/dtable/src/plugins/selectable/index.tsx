@@ -2,7 +2,7 @@ import {classes} from '@zui/browser-helpers/src/classes';
 import {definePlugin} from '../../helpers/shared-plugins';
 import './style.css';
 
-type DTableSelectable     = DTableWithPlugin<DTableSelectableOptions, DTableSelectableState> & DTableSelectableMethods;
+
 type DTableColIndex       = number;
 type DTableRowIndex       = number;
 type DTableColSelection   = `C${DTableColIndex}`;
@@ -12,6 +12,38 @@ type DTableSelection      = DTableColSelection | DTableRowSelection | DTableCell
 type DTableRangeSelection = `${DTableSelection}:${DTableSelection}`;
 type DTableSelections     = (DTableSelection | DTableRangeSelection)[];
 type DTableCellPos        = [col: DTableColIndex, row: DTableRowIndex];
+
+type DTableSelectableTypes = {
+    options: Partial<{
+        selectable: boolean | ((col: DTableColIndex, row: DTableRowIndex) => boolean);
+        onSelectCells: (this: DTableSelectable, cells: DTableCellPos[]) => void;
+    }>,
+    state: {
+        selectedMap: Map<DTableColIndex, Set<DTableRowIndex>>;
+        selectingMap: Map<DTableColIndex, Set<DTableRowIndex>>;
+    };
+    col: Partial<{
+        selectable: boolean | ((row: DTableRowIndex) => boolean);
+    }>;
+    props: {
+        selectCells: typeof selectCells;
+        selectingCells: typeof selectingCells;
+        deselectCells: typeof deselectCells;
+        isCellSelected: typeof isCellSelected;
+        isCellSelecting: typeof isCellSelecting;
+        getSelectedCells: typeof getSelectedCells;
+        selectAllCells: typeof selectAllCells;
+        deselectAllCells: typeof deselectAllCells;
+        getSelectedCellsSize: typeof getSelectedCellsSize;
+        selectMouseDown: (event: MouseEvent) => void;
+        selectMouseMove: (event: MouseEvent) => void;
+        selectMouseUp: (event: MouseEvent) => void;
+        selectOutsideClick: (event: MouseEvent) => void;
+        selectingStart?: DTableCellPos;
+    };
+};
+
+type DTableSelectable = DTableWithPlugin<DTableSelectableTypes>;
 
 const REG_CELL = /C(\d+)R(\d+)/i;
 const REG_SELECTION = /(?:C(\d+))?(?:R(\d+))?/i;
@@ -278,38 +310,9 @@ function getMousePos(table: DTableSelectable, event: MouseEvent): DTableCellPos 
     return [colIndex, rowIndex];
 }
 
-type DTableSelectableOptions = Partial<{
-    selectable: boolean | ((col: DTableColIndex, row: DTableRowIndex) => boolean);
-    onSelectCells: (this: DTableSelectable, cells: DTableCellPos[]) => void;
-}>;
 
-type DTableSelectableState = {
-    selectedMap: Map<DTableColIndex, Set<DTableRowIndex>>;
-    selectingMap: Map<DTableColIndex, Set<DTableRowIndex>>;
-};
 
-type DTableSelectableColSetting = Partial<{
-    selectable: boolean | ((row: DTableRowIndex) => boolean);
-}>;
-
-type DTableSelectableMethods = {
-    selectCells: typeof selectCells;
-    selectingCells: typeof selectingCells;
-    deselectCells: typeof deselectCells;
-    isCellSelected: typeof isCellSelected;
-    isCellSelecting: typeof isCellSelecting;
-    getSelectedCells: typeof getSelectedCells;
-    selectAllCells: typeof selectAllCells;
-    deselectAllCells: typeof deselectAllCells;
-    getSelectedCellsSize: typeof getSelectedCellsSize;
-    selectMouseDown: (event: MouseEvent) => void;
-    selectMouseMove: (event: MouseEvent) => void;
-    selectMouseUp: (event: MouseEvent) => void;
-    selectOutsideClick: (event: MouseEvent) => void;
-    selectingStart?: DTableCellPos;
-};
-
-export const selectable: DTablePlugin<DTableSelectableOptions, DTableSelectableState, DTableSelectableColSetting, DTableSelectableMethods> = {
+export const selectable: DTablePlugin<DTableSelectableTypes> = {
     name: 'selectable',
     defaultOptions: {selectable: true},
     when: options => !!options.selectable,
@@ -417,4 +420,4 @@ export const selectable: DTablePlugin<DTableSelectableOptions, DTableSelectableS
     },
 };
 
-export default definePlugin<DTableSelectableOptions, DTableSelectableState, DTableSelectableColSetting, DTableSelectableMethods>(selectable);
+export default definePlugin(selectable);

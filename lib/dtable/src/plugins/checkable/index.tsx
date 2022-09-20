@@ -2,31 +2,30 @@ import {classes} from '@zui/browser-helpers/src/classes';
 import {definePlugin} from '../../helpers/shared-plugins';
 import './style.css';
 
-type DTableCheckable = DTableWithPlugin<DTableCheckableOptions, DTableCheckableState> & DTableCheckableMethods;
-
-type DTableCheckableState = {
-    checkedRows: Record<string, true>;
+type DTableCheckableTypes = {
+    options: Partial<{
+        checkable: boolean;
+        checkOnClickRow: boolean;
+        canRowCheckable: ((this: DTableCheckable, rowID: RowID) => boolean);
+        beforeCheckRows: (this: DTableCheckable, ids: RowID[] | undefined, changes: Record<RowID, boolean>, checkedRows: Record<RowID, boolean>) => void;
+        onCheckChange: (this: DTableCheckable, changes: Record<RowID, boolean>) => void;
+        checkboxRender: (this: DTableCheckable, checked: boolean, rowID: RowID) => CustomRenderResult;
+    }>,
+    col: {
+        checkbox?: boolean | ((this: DTableCheckable, rowID: RowID) => boolean);
+    }
+    props: {
+        toggleCheckRows: typeof toggleCheckRows;
+        isRowChecked: typeof isRowChecked;
+        isAllRowChecked: typeof isAllRowChecked;
+        getChecks: typeof getChecks;
+    },
+    state: {
+        checkedRows: Record<string, true>;
+    }
 };
 
-type DTableCheckableColSetting = Partial<{
-    checkbox: boolean | ((this: DTableCheckable, rowID: RowID) => boolean);
-}>;
-
-type DTableCheckableMethods = {
-    toggleCheckRows: typeof toggleCheckRows;
-    isRowChecked: typeof isRowChecked;
-    isAllRowChecked: typeof isAllRowChecked;
-    getChecks: typeof getChecks;
-};
-
-type DTableCheckableOptions = Partial<{
-    checkable: boolean;
-    checkOnClickRow: boolean;
-    canRowCheckable: ((this: DTableCheckable, rowID: RowID) => boolean);
-    beforeCheckRows: (this: DTableCheckable, ids: RowID[] | undefined, changes: Record<RowID, boolean>, checkedRows: Record<RowID, boolean>) => void;
-    onCheckChange: (this: DTableCheckable, changes: Record<RowID, boolean>) => void;
-    checkboxRender: (this: DTableCheckable, checked: boolean, rowID: RowID) => CustomRenderResult;
-}>;
+type DTableCheckable = DTableWithPlugin<DTableCheckableTypes>;
 
 function toggleCheckRows(this: DTableCheckable, ids?: RowID | RowID[] | boolean, checked?: boolean): Record<RowID, boolean> {
     if (typeof ids === 'boolean') {
@@ -104,7 +103,7 @@ function getChecks(this: DTableCheckable): RowID[] {
     return Object.keys(this.state.checkedRows);
 }
 
-export const checkable: DTablePlugin<DTableCheckableOptions, DTableCheckableState, DTableCheckableColSetting, DTableCheckableMethods> = {
+export const checkable: DTablePlugin<DTableCheckableTypes> = {
     name: 'checkable',
     defaultOptions: {checkable: true},
     when: options => !!options.checkable,
@@ -173,4 +172,4 @@ export const checkable: DTablePlugin<DTableCheckableOptions, DTableCheckableStat
     },
 };
 
-export default definePlugin<DTableCheckableOptions, DTableCheckableState, DTableCheckableColSetting, DTableCheckableMethods>(checkable);
+export default definePlugin(checkable);

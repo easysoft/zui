@@ -14,23 +14,25 @@ type DTableActionButton = {
     className: string,
 }>;
 
-type DTableRichColSetting = Partial<{
-    linkTemplate: string;
-    linkProps: Record<string, unknown>;
-    avatarWithName: string;
-    avatarClass: string;
-    avatarKey: string;
-    circleSize: number;
-    circleBgColor: string;
-    circleColor: string;
-    circleBorderSize: number;
-    actionBtnTemplate: string;
-    actionBtnData: Record<string, Omit<DTableActionButton, 'action'>>,
-    actionBtnClass: string;
-    format: string | {type: 'text' | 'html' | 'datetime', format: string | ((value: unknown) => string)};
-}>;
+type DTableRichTypes = {
+    col: Partial<{
+        linkTemplate: string;
+        linkProps: Record<string, unknown>;
+        avatarWithName: string;
+        avatarClass: string;
+        avatarKey: string;
+        circleSize: number;
+        circleBgColor: string;
+        circleColor: string;
+        circleBorderSize: number;
+        actionBtnTemplate: string;
+        actionBtnData: Record<string, Omit<DTableActionButton, 'action'>>,
+        actionBtnClass: string;
+        format: string | {type: 'text' | 'html' | 'datetime', format: string | ((value: unknown) => string)};
+    }>,
+};
 
-export const rich: DTablePlugin<{}, {}, DTableRichColSetting> = {
+export const rich: DTablePlugin<DTableRichTypes> = {
     name: 'rich',
     colTypes: {
         html: {
@@ -43,7 +45,7 @@ export const rich: DTablePlugin<{}, {}, DTableRichColSetting> = {
         },
         link: {
             onRenderCell(result, {col, rowData}) {
-                const {linkTemplate = '', linkProps} = col.setting as DTableRichColSetting;
+                const {linkTemplate = '', linkProps} = col.setting;
                 const url = formatString(linkTemplate, rowData);
                 result[0] = <a href={url} {...linkProps}>{result[0]}</a>;
                 return result;
@@ -51,7 +53,7 @@ export const rich: DTablePlugin<{}, {}, DTableRichColSetting> = {
         },
         avatar: {
             onRenderCell(result, {col, rowData}) {
-                const {avatarWithName, avatarClass = 'size-sm circle', avatarKey = `${col.name}Avatar`} = col.setting as DTableRichColSetting;
+                const {avatarWithName, avatarClass = 'size-sm circle', avatarKey = `${col.name}Avatar`} = col.setting;
                 const avatar = (
                     <div className={`avatar ${avatarClass} flex-none`}>
                         <img src={rowData ? (rowData[avatarKey] as string) : ''} />
@@ -67,7 +69,7 @@ export const rich: DTablePlugin<{}, {}, DTableRichColSetting> = {
         },
         circleProgress: {
             onRenderCell(result, {col}) {
-                const {circleSize = 24, circleBorderSize = 1, circleBgColor = 'var(--color-border)', circleColor = 'var(--color-green-500)'} = col.setting as DTableRichColSetting;
+                const {circleSize = 24, circleBorderSize = 1, circleBgColor = 'var(--color-border)', circleColor = 'var(--color-green-500)'} = col.setting;
                 const radius = (circleSize - circleBorderSize) / 2;
                 const center = circleSize / 2;
                 const percent = result[0] as number;
@@ -87,7 +89,7 @@ export const rich: DTablePlugin<{}, {}, DTableRichColSetting> = {
                 if (!actions) {
                     return result;
                 }
-                const {actionBtnTemplate = '<button type="button" data-action="{action}" title="{title}" class="{className}"><i class="icon icon-{icon}"></i></button>', actionBtnData = {}, actionBtnClass = 'btn text-primary square size-sm ghost'} = col.setting as DTableRichColSetting;
+                const {actionBtnTemplate = '<button type="button" data-action="{action}" title="{title}" class="{className}"><i class="icon icon-{icon}"></i></button>', actionBtnData = {}, actionBtnClass = 'btn text-primary square size-sm ghost'} = col.setting;
 
                 return [{
                     html: actions.map(action => {
@@ -106,7 +108,7 @@ export const rich: DTablePlugin<{}, {}, DTableRichColSetting> = {
         },
         format: {
             onRenderCell(result, {col}) {
-                let {format: formatSetting} = col.setting as DTableRichColSetting;
+                let {format: formatSetting} = col.setting;
                 if (!formatSetting) {
                     return result;
                 }
@@ -130,4 +132,4 @@ export const rich: DTablePlugin<{}, {}, DTableRichColSetting> = {
     },
 };
 
-export default definePlugin<{}, {}, DTableRichColSetting>(rich);
+export default definePlugin(rich);

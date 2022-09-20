@@ -1,7 +1,7 @@
 type ColInfo<S extends ColSetting = ColSetting> = {
     name: string;
     type: string;
-    setting: S;
+    setting: S & {onRenderCell: CellRenderCallback<S>};
     left: number;
     flex: number;
     realWidth: number;
@@ -10,7 +10,7 @@ type ColInfo<S extends ColSetting = ColSetting> = {
     index: number;
 };
 
-type ColSetting = {
+type ColSetting<S = {}> = {
     name: string;
 } & Partial<{
     title: string;
@@ -29,6 +29,6 @@ type ColSetting = {
     hidden: boolean;
     fixed: 'left' | 'right' | false;
     colHover: boolean;
-    onRenderCell: CellRenderCallback;
+    onRenderCell: CellRenderCallback<ColSetting & S>;
     [prop: string]: unknown;
-}>;
+}> & S;

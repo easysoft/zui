@@ -20,41 +20,39 @@ type NestedRowInfo = {
     order: number;
 }>;
 
-
 type DTableSortableOptions = Partial<{
     checkable: boolean;
-    canSortTo: (this: NestedDTable, from: RowInfo, to: RowInfo, moveType: string) => boolean;
-    beforeCheckRows: (this: NestedDTable, ids: RowID[] | undefined, changes: Record<RowID, boolean>, checkedRows: Record<RowID, boolean>) => void;
+    canSortTo: (this: DTableNested, from: RowInfo, to: RowInfo, moveType: string) => boolean;
+    beforeCheckRows: (this: DTableNested, ids: RowID[] | undefined, changes: Record<RowID, boolean>, checkedRows: Record<RowID, boolean>) => void;
 }>;
 
-type NestedDTable = DTableWithPlugin<DTableNestedOptions & DTableSortableOptions, DTableNestedState> & DTableNestedProps;
-
-type DTableNestedOptions = Partial<{
-    nested: boolean;
-    nestedParentKey: string;
-    asParentKey: string;
-    nestedIndent: number;
-    onNestedChange: () => void;
-    onRenderNestedToggle: (this: NestedDTable, info: NestedRowInfo | undefined, rowID: RowID, col: ColInfo, rowData: RowData | undefined) => CustomRenderResult;
-}>;
-
-type DTableNestedState = Partial<{
-    collapsedRows?: Record<string, boolean>;
-}>;
-
-type DTableNestedColSetting = Partial<{
-    nestedToggle: boolean;
-    nestedIndent: number | boolean;
-}>;
-
-type DTableNestedProps = {
-    nestedMap: Map<RowID, NestedRowInfo>,
-    toggleRow: typeof toggleRow;
-    isAllCollapsed: typeof isAllCollapsed;
-    getNestedRowInfo: typeof getNestedRowInfo;
+type DTableSortableTypes = {
+    options: Partial<DTableSortableOptions & {
+        nested: boolean;
+        nestedParentKey: string;
+        asParentKey: string;
+        nestedIndent: number;
+        onNestedChange: () => void;
+        onRenderNestedToggle: (this: DTableNested, info: NestedRowInfo | undefined, rowID: RowID, col: ColInfo, rowData: RowData | undefined) => CustomRenderResult;
+    }>,
+    state: {
+        collapsedRows?: Record<string, boolean>;
+    },
+    col: Partial<{
+        nestedToggle: boolean;
+        nestedIndent: number | boolean;
+    }>,
+    props: {
+        nestedMap: Map<RowID, NestedRowInfo>,
+        toggleRow: typeof toggleRow;
+        isAllCollapsed: typeof isAllCollapsed;
+        getNestedRowInfo: typeof getNestedRowInfo;
+    }
 };
 
-function getNestedRowInfo(this: NestedDTable, rowID: RowID): NestedRowInfo {
+type DTableNested = DTableWithPlugin<DTableSortableTypes>;
+
+function getNestedRowInfo(this: DTableNested, rowID: RowID): NestedRowInfo {
     const info = this.nestedMap.get(rowID);
     if (!info || info.state !== NestedRowState.unknown) {
         return info ?? {state: NestedRowState.normal, level: -1};
@@ -80,7 +78,7 @@ function getNestedRowInfo(this: NestedDTable, rowID: RowID): NestedRowInfo {
     return info;
 }
 
-function toggleRow(this: NestedDTable, rowID: RowID | (RowID)[], collapsed?: boolean) {
+function toggleRow(this: DTableNested, rowID: RowID | (RowID)[], collapsed?: boolean) {
     let collapsedRows: Record<string, boolean> = this.state.collapsedRows as Record<string, true> ?? {};
     if (rowID === 'HEADER') {
         if (collapsed === undefined) {
@@ -116,7 +114,7 @@ function toggleRow(this: NestedDTable, rowID: RowID | (RowID)[], collapsed?: boo
     });
 }
 
-function isAllCollapsed(this: NestedDTable): boolean {
+function isAllCollapsed(this: DTableNested): boolean {
     const infos = this.nestedMap.values();
     for (const info of infos) {
         if (info.state === NestedRowState.expanded) {
@@ -145,7 +143,7 @@ function updateNestedMapOrders(map: Map<RowID, NestedRowInfo>, lastOrder = 0, id
     return lastOrder;
 }
 
-function checkNestedRow(dtable: NestedDTable, rowID: RowID, checked: boolean, map: Record<RowID, boolean>): NestedRowInfo | undefined {
+function checkNestedRow(dtable: DTableNested, rowID: RowID, checked: boolean, map: Record<RowID, boolean>): NestedRowInfo | undefined {
     const info = dtable.getNestedRowInfo(rowID);
     if (!info || info.state === NestedRowState.unknown || !info.children) {
         return info;
@@ -157,7 +155,7 @@ function checkNestedRow(dtable: NestedDTable, rowID: RowID, checked: boolean, ma
     return info;
 }
 
-function updateParentRow(dtable: NestedDTable, parentID: RowID, checked: boolean, map: Record<RowID, boolean>, checkedRows: Record<RowID, boolean>) {
+function updateParentRow(dtable: DTableNested, parentID: RowID, checked: boolean, map: Record<RowID, boolean>, checkedRows: Record<RowID, boolean>) {
     const info = dtable.getNestedRowInfo(parentID);
     if (!info || info.state === NestedRowState.unknown) {
         return;
@@ -174,7 +172,7 @@ function updateParentRow(dtable: NestedDTable, parentID: RowID, checked: boolean
     }
 }
 
-export const nested: DTablePlugin<DTableNestedOptions & DTableSortableOptions, DTableNestedState, DTableNestedColSetting, DTableNestedProps> = {
+export const nested: DTablePlugin<DTableSortableTypes> = {
     name: 'nested',
     defaultOptions: {
         nested: true,
@@ -312,4 +310,4 @@ export const nested: DTablePlugin<DTableNestedOptions & DTableSortableOptions, D
     },
 };
 
-export default definePlugin<DTableNestedOptions, DTableNestedState, DTableNestedColSetting, DTableNestedProps>(nested);
+export default definePlugin(nested);

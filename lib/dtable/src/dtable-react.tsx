@@ -668,7 +668,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
 
 
         // TODO: load data for lazy rows.
-        let layout = {
+        const layout = {
             allRows,
             width,
             height,
@@ -694,7 +694,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
         if (options.onLayout) {
             const newLayout = options.onLayout.call(this, layout);
             if (newLayout) {
-                layout = newLayout;
+                Object.assign(layout, newLayout);
             }
         }
 
@@ -702,7 +702,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
             if (plugin.onLayout) {
                 const newLayout = plugin.onLayout.call(this, layout);
                 if (newLayout) {
-                    layout = newLayout;
+                    Object.assign(layout, newLayout);
                 }
             }
         });

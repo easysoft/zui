@@ -3,38 +3,37 @@ import './style.css';
 
 type SortMoveType = 'before' | 'after';
 
-type SortableDTable = DTableWithPlugin<DTableSortableOptions, DTableSortableState> & DTableSortableProps;
-
-type DTableSortableOptions = Partial<{
-    sortable: boolean;
-    sortHandler: string;
-    canSort: (this: SortableDTable, row: RowInfo) => boolean;
-    canSortTo: (this: SortableDTable, from: RowInfo, to: RowInfo, moveType: SortMoveType) => boolean;
-    onBeginSort: (this: SortableDTable, row: RowInfo, event: DragEvent) => false | void;
-    onEndSort: (this: SortableDTable, from: RowInfo | undefined, to: RowInfo | undefined, moveType: SortMoveType | undefined) => void;
-    onSort: (this: SortableDTable, from: RowInfo, to: RowInfo, moveType: SortMoveType, orders: RowID[]) => void;
-}>;
-
-type DTableSortableState = Partial<{
-    rowOrders: Record<RowID, number>;
-    draggingRow: RowInfo;
-    droppingRow: RowInfo;
-    moveType: SortMoveType;
-}>;
-
-type DTableSortableColSetting = Partial<{
-    sortHandler: boolean;
-}>;
-
-type DTableSortableProps = {
-    onSortDragStart: typeof onSortDragStart;
-    onSortDragEnd: typeof onSortDragEnd;
-    onSortDragEnter: typeof onSortDragEnter;
-    onSortDragOver: typeof onSortDragOver;
-    onSortDrop: typeof onSortDrop;
+type DTableSortableTypes = {
+    options: Partial<{
+        sortable: boolean;
+        sortHandler: string;
+        canSort: (this: DTableSortable, row: RowInfo) => boolean;
+        canSortTo: (this: DTableSortable, from: RowInfo, to: RowInfo, moveType: SortMoveType) => boolean;
+        onBeginSort: (this: DTableSortable, row: RowInfo, event: DragEvent) => false | void;
+        onEndSort: (this: DTableSortable, from: RowInfo | undefined, to: RowInfo | undefined, moveType: SortMoveType | undefined) => void;
+        onSort: (this: DTableSortable, from: RowInfo, to: RowInfo, moveType: SortMoveType, orders: RowID[]) => void;
+    }>;
+    state: Partial<{
+        rowOrders: Record<RowID, number>;
+        draggingRow: RowInfo;
+        droppingRow: RowInfo;
+        moveType: SortMoveType;
+    }>;
+    col: Partial<{
+        sortHandler: boolean;
+    }>;
+    props: {
+        onSortDragStart: typeof onSortDragStart;
+        onSortDragEnd: typeof onSortDragEnd;
+        onSortDragEnter: typeof onSortDragEnter;
+        onSortDragOver: typeof onSortDragOver;
+        onSortDrop: typeof onSortDrop;
+    }
 };
 
-function getRowInfo(dtable: SortableDTable, event: DragEvent): RowInfo | undefined {
+type DTableSortable = DTableWithPlugin<DTableSortableTypes>;
+
+function getRowInfo(dtable: DTableSortable, event: DragEvent): RowInfo | undefined {
     const id = (event.target as HTMLElement)?.closest<HTMLElement>('.dtable-row')?.dataset.id;
     if (!id) {
         return;
@@ -42,7 +41,7 @@ function getRowInfo(dtable: SortableDTable, event: DragEvent): RowInfo | undefin
     return dtable.getRowInfo(id);
 }
 
-function onSortDragStart(this: SortableDTable, event: DragEvent) {
+function onSortDragStart(this: DTableSortable, event: DragEvent) {
     const row = getRowInfo(this, event);
     if (!event.dataTransfer || !row || this.options.onBeginSort?.call(this, row, event) === false) {
         return;
@@ -54,14 +53,14 @@ function onSortDragStart(this: SortableDTable, event: DragEvent) {
     return true;
 }
 
-function onSortDragEnd(this: SortableDTable, event: DragEvent) {
+function onSortDragEnd(this: DTableSortable) {
     const {draggingRow, droppingRow, moveType} = this.state;
     this.setState({draggingRow: undefined, droppingRow: undefined, moveType: undefined});
     this.ref.current?.classList.remove('dtable-sorting');
     this.options.onEndSort?.call(this, draggingRow, droppingRow, moveType);
 }
 
-function onSortDragEnter(this: SortableDTable, event: DragEvent) {
+function onSortDragEnter(this: DTableSortable, event: DragEvent) {
     const row = getRowInfo(this, event);
     const {draggingRow} = this.state;
     if (!row || !draggingRow || row.id === draggingRow.id) {
@@ -81,12 +80,12 @@ function onSortDragEnter(this: SortableDTable, event: DragEvent) {
     this.setState({droppingRow: row, moveType});
 }
 
-function onSortDragOver(this: SortableDTable, event: DragEvent) {
+function onSortDragOver(this: DTableSortable, event: DragEvent) {
     event.preventDefault();
     return true;
 }
 
-function onSortDrop(this: SortableDTable, event: DragEvent) {
+function onSortDrop(this: DTableSortable) {
     const {draggingRow, droppingRow, moveType} = this.state;
     if (draggingRow && droppingRow && moveType && draggingRow.id !== droppingRow.id) {
         let rows = [...this.layout.rows];
@@ -109,7 +108,7 @@ function onSortDrop(this: SortableDTable, event: DragEvent) {
     }
 }
 
-export const sortable: DTablePlugin<DTableSortableOptions, DTableSortableState, DTableSortableColSetting, DTableSortableProps> = {
+export const sortable: DTablePlugin<DTableSortableTypes> = {
     name: 'sortable',
     defaultOptions: {
         sortable: true,
@@ -172,4 +171,4 @@ export const sortable: DTablePlugin<DTableSortableOptions, DTableSortableState, 
     },
 };
 
-export default definePlugin<DTableSortableOptions, DTableSortableState, DTableSortableColSetting, DTableSortableProps>(sortable);
+export default definePlugin(sortable);

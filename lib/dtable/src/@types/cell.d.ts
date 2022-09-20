@@ -1,8 +1,8 @@
-type CellRenderCallback = (
+type CellRenderCallback<C extends ColSetting = ColSetting> = (
     result: CustomRenderResult,
     data: {
         rowID: RowID,
-        col: ColInfo,
+        col: ColInfo<C>,
         rowData?: RowData
     },
     h: typeof preact.h,

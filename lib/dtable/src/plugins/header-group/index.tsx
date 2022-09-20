@@ -1,28 +1,24 @@
 import {definePlugin} from '../../helpers/shared-plugins';
 import './style.css';
 
-type DTableHeaderGroupOptions = Partial<{
-    headerGroup: boolean;
-}>;
-
-type DTableHeaderGroupState = {
-    test: boolean;
-};
-
 type DTableHeaderGroupInfo = {
     cols: string[];
     index: number;
 };
 
-type DTableHeaderGroupColSetting = Partial<{
-    group: string;
-}>;
-
-type DTableHeaderGroupProps = {
-    headerGroups: Map<string, DTableHeaderGroupInfo>;
+type DTableHeaderGroupTypes = {
+    options: Partial<{
+        headerGroup: boolean;
+    }>,
+    col: Partial<{
+        group: string;
+    }>,
+    props: {
+        headerGroups: Map<string, DTableHeaderGroupInfo>;
+    }
 };
 
-export const headerGroup: DTablePlugin<DTableHeaderGroupOptions, DTableHeaderGroupState, DTableHeaderGroupColSetting, DTableHeaderGroupProps> = {
+export const headerGroup: DTablePlugin<DTableHeaderGroupTypes> = {
     name: 'header-group',
     defaultOptions: {
         headerGroup: true,
@@ -90,4 +86,4 @@ export const headerGroup: DTablePlugin<DTableHeaderGroupOptions, DTableHeaderGro
     },
 };
 
-export default definePlugin<DTableHeaderGroupOptions, DTableHeaderGroupState, DTableHeaderGroupColSetting, DTableHeaderGroupProps>(headerGroup);
+export default definePlugin(headerGroup);

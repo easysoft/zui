@@ -12,24 +12,20 @@ export function addPlugin(plugin: DTablePlugin, defineOptions?: DTablePluginDefi
     }
 }
 
-export function definePlugin<O = {}, S extends {} = {}, C extends {} = {}, T extends {} = {}>(plugin: DTablePlugin<O, S, C, T>, defineOptions?: DTablePluginDefineOptions): DTablePluginComsumer<O> {
+export function definePlugin<T extends DTablePluginTypes = DTablePluginTypes>(plugin: DTablePlugin<T>, defineOptions?: DTablePluginDefineOptions): DTablePluginComsumer<T> {
     addPlugin(plugin as unknown as DTablePlugin, defineOptions);
-    const comsumer: DTablePluginComsumer<O> = (options?: DTableOptions & O): DTablePlugin<O> => {
+    const comsumer: DTablePluginComsumer<T> = (options) => {
         if (!options) {
-            return plugin as unknown as DTablePlugin<O>;
+            return plugin;
         }
         const {defaultOptions, ...otherProps} = plugin;
         return {
             ...otherProps,
             defaultOptions: {...defaultOptions, ...options},
-        } as unknown as DTablePlugin<O>;
+        };
     };
-    comsumer.plugin = plugin as unknown as DTablePlugin<O>;
+    comsumer.plugin = plugin;
     return comsumer;
-}
-
-export function getPlugin(name: string): DTablePlugin | undefined {
-    return sharedPlugins.get(name);
 }
 
 export function removePlugin(name: string): boolean {
@@ -38,7 +34,7 @@ export function removePlugin(name: string): boolean {
 
 function getDTablePlugin(nameOrPlugin: DTablePluginLike): DTablePlugin | undefined {
     if (typeof nameOrPlugin === 'string') {
-        const plugin = getPlugin(nameOrPlugin);
+        const plugin = sharedPlugins.get(nameOrPlugin);
         if (!plugin) {
             console.warn(`DTable: Cannot found plugin "${nameOrPlugin}"`);
         }
