@@ -2,7 +2,6 @@ type DTablePluginLike = string | DTablePlugin | DTablePluginComsumer;
 
 type PluginColSetting<C> = ColSetting & C;
 
-
 type PluginColInfo<C> = ColInfo<PluginColSetting<C>>;
 
 type ColSettingModifier<C> = (col: PluginColSetting<C>) => Partial<PluginColSetting<C>> | void;
@@ -23,7 +22,7 @@ type DTablePlugin<O = {}, S = {}, C = {}, T = {}, PluginTable = DTableWithPlugin
     defaultOptions: Partial<Options>;
     options: ((options: Options) => Partial<Options>);
     colTypes: Record<string, Partial<PluginColSetting<C>> | ColSettingModifier<C>>;
-    events: Record<string, EventListener>;
+    events: Record<string, DtableEventListener<PluginTable>>;
     onAddCol: (this: PluginTable, col: PluginColInfo<C>) => void;
     beforeLayout: (this: PluginTable, options: Options) => (Options | void);
     onLayout: (this: PluginTable, layout: DTableLayout) => (DTableLayout | void);

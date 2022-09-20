@@ -35,6 +35,8 @@ export class DTable extends Component<DTableOptions, DTableState> {
 
     #hoverCol: string | false = false;
 
+    #events: Map<string, DTableEventListener[]> = new Map();
+
     constructor(props: DTableOptions) {
         super(props);
 
@@ -74,9 +76,20 @@ export class DTable extends Component<DTableOptions, DTableState> {
             this.#afterRender();
         }
 
+        this.#plugins.forEach(plugin => {
+            const {events} = plugin;
+            if (!events) {
+                return;
+            }
+            Object.entries(events).forEach(([eventType, callback]) => {
+                this.on(eventType, callback);
+            });
+        });
+
+        this.on('click', this.#handleClick as EventListener);
+
         const {current} = this.ref;
         if (current) {
-            current.addEventListener('click', this.#handleClick);
             current.addEventListener('mouseover', this.#handleMouseOver);
             current.addEventListener('mouseleave', this.#handleMouseLeave);
         }
@@ -99,11 +112,8 @@ export class DTable extends Component<DTableOptions, DTableState> {
     componentWillUnmount() {
         const {current} = this.ref;
         if (current) {
-            current.removeEventListener('click', this.#handleClick);
-
-            if (this.options.colHover) {
-                current.removeEventListener('mouseover', this.#handleMouseOver);
-                current.removeEventListener('mouseleave', this.#handleMouseLeave);
+            for (const event of this.#events.keys()) {
+                current.removeEventListener(event, this.#handleEvent);
             }
         }
 
@@ -112,6 +122,31 @@ export class DTable extends Component<DTableOptions, DTableState> {
         this.#plugins.forEach(plugin => {
             plugin.onUnmounted?.call(this);
         });
+    }
+
+    on(event: string, callback: EventListener) {
+        const eventCallbacks = this.#events.get(event);
+        if (eventCallbacks) {
+            eventCallbacks.push(callback);
+        } else {
+            this.#events.set(event, [callback]);
+            this.ref.current?.addEventListener(event, this.#handleEvent);
+        }
+    }
+
+    off(event: string, callback: EventListener) {
+        const eventCallbacks = this.#events.get(event);
+        if (!eventCallbacks) {
+            return;
+        }
+        const index = eventCallbacks.indexOf(callback);
+        if (index >= 0) {
+            eventCallbacks.splice(index, 1);
+        }
+        if (!eventCallbacks.length) {
+            this.#events.delete(event);
+            this.ref.current?.removeEventListener(event, this.#handleEvent);
+        }
     }
 
     scrollLeft(scrollLeft: number) {
@@ -152,6 +187,21 @@ export class DTable extends Component<DTableOptions, DTableState> {
         }
         this.forceUpdate();
     }
+
+    #handleEvent = (event: Event) => {
+        const {type} = event;
+        const callbacks = this.#events.get(type);
+        if (!callbacks?.length) {
+            return;
+        }
+        for (const callback of callbacks) {
+            const result = callback.call(this, event);
+            if (result === false) {
+                event.stopPropagation();
+                break;
+            }
+        }
+    };
 
     #renderHeader(layout: DTableLayout) {
         const {header, colsInfo, headerHeight} = layout;
