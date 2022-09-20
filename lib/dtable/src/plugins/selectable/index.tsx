@@ -84,8 +84,15 @@ function parseRange(this: DTableSelectable, range: DTableRangeSelection): DTable
     const rowEnd = Math.max(startPos[1], endPos[1]);
     const cells: DTableCellPos[] = [];
     for (let col = colStart; col <= colEnd; col++) {
-        for (let row = rowStart; row <= rowEnd; row++) {
-            cells.push([col, row]);
+        if (rowStart < 0 || rowEnd < 0) {
+            const rowsCount = this.layout.rows.length;
+            for (let i = 0; i < rowsCount; i++) {
+                cells.push([col, i]);
+            }
+        } else {
+            for (let row = rowStart; row <= rowEnd; row++) {
+                cells.push([col, row]);
+            }
         }
     }
     return cells;
