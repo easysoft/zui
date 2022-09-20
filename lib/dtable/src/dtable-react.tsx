@@ -733,7 +733,6 @@ export class DTable extends Component<DTableOptions, DTableState> {
         const layout = this.#getLayout();
         const {className, rowHover, colHover, cellHover, bordered, striped, scrollbarHover} = this.options;
         const style = {width: layout?.width, height: layout?.height};
-        console.log('> render', layout);
         return (
             <div
                 id={this.#id}
