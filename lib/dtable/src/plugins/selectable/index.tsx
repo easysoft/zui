@@ -135,6 +135,7 @@ function selectCells(this: DTableSelectable, selections: DTableSelection | DTabl
     const {clearBefore = true, deselect, selecting, callback} = options;
     const {selectingMap, selectedMap} = this.state;
     const map = selecting ? selectingMap : selectedMap;
+    const checkSelectable = typeof this.options.selectable === 'function' ? this.options.selectable : false;
 
     selectingMap.clear();
     if (clearBefore) {
@@ -143,6 +144,9 @@ function selectCells(this: DTableSelectable, selections: DTableSelection | DTabl
 
     if (deselect) {
         cells.forEach(([col, row]) => {
+            if (checkSelectable && !checkSelectable(col, row)) {
+                return;
+            }
             const set = map.get(col);
             if (set) {
                 set.delete(row);
@@ -153,6 +157,9 @@ function selectCells(this: DTableSelectable, selections: DTableSelection | DTabl
         });
     } else {
         cells.forEach(([col, row]) => {
+            if (checkSelectable && !checkSelectable(col, row)) {
+                return;
+            }
             const set = map.get(col);
             if (set) {
                 set.add(row);
