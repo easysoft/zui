@@ -1,5 +1,3 @@
-type DTablePluginLike = string | DTablePlugin | DTablePluginComsumer;
-
 interface DTableDataOptions<C extends ColSetting = ColSetting> {
     cols: C[];
     data: (RowData | RowID)[] | number;

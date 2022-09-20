@@ -1,4 +1,7 @@
+type DTablePluginLike = string | DTablePlugin | DTablePluginComsumer;
+
 type PluginColSetting<C> = ColSetting & C;
+
 
 type PluginColInfo<C> = ColInfo<PluginColSetting<C>>;
 
@@ -20,6 +23,7 @@ type DTablePlugin<O = {}, S = {}, C = {}, T = {}, PluginTable = DTableWithPlugin
     defaultOptions: Partial<Options>;
     options: ((options: Options) => Partial<Options>);
     colTypes: Record<string, Partial<PluginColSetting<C>> | ColSettingModifier<C>>;
+    events: Record<string, EventListener>;
     onAddCol: (this: PluginTable, col: PluginColInfo<C>) => void;
     beforeLayout: (this: PluginTable, options: Options) => (Options | void);
     onLayout: (this: PluginTable, layout: DTableLayout) => (DTableLayout | void);
@@ -33,7 +37,7 @@ type DTablePlugin<O = {}, S = {}, C = {}, T = {}, PluginTable = DTableWithPlugin
     onHeaderCellClick: (this: PluginTable, event: MouseEvent, data: {colName: string, element: HTMLElement}) => void;
     onAddRow: (this: PluginTable, row: RowInfo, index: number) => void | false;
     onAddRows: (this: PluginTable, rows: RowInfo[]) => RowInfo[] | void;
-    plugins: string[]
+    plugins: DTablePluginLike[]
 }>;
 
 interface DTablePluginComsumer<O = {}> {

@@ -39,7 +39,7 @@ function getDTablePlugin(nameOrPlugin: DTablePluginLike): DTablePlugin | undefin
         }
         return plugin;
     }
-    if (typeof nameOrPlugin === 'function') {
+    if (typeof nameOrPlugin === 'function' && 'plugin' in nameOrPlugin) {
         return nameOrPlugin.plugin;
     }
     if (typeof nameOrPlugin === 'object') {
@@ -61,7 +61,7 @@ function initPluginsInner(plugins: DTablePlugin[], pluginsLike: DTablePluginLike
         plugins.push(plugin);
         pluginSet.add(plugin.name);
 
-        if (!plugin.plugins || !plugin.plugins.length) {
+        if (!plugin.plugins?.length) {
             return;
         }
         initPluginsInner(plugins, plugin.plugins, pluginSet);
