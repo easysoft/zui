@@ -35,7 +35,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
 
     #events: Map<DTableEventType, DTableEventListener[]> = new Map();
 
-    #cache: Map<string, unknown> = new Map();
+    #data: Record<string, unknown> = {};
 
     constructor(props: DTableOptions) {
         super(props);
@@ -45,6 +45,21 @@ export class DTable extends Component<DTableOptions, DTableState> {
 
         this.#allPlugins = Object.freeze(initPlugins(props.plugins));
         this.#allPlugins.forEach(plugin => {
+            const {methods, data, state} = plugin;
+            if (methods) {
+                Object.entries(methods).forEach(([methodName, method]) => {
+                    if (typeof method === 'function') {
+                        Object.assign(this, {[methodName]: method.bind(this)});
+                    }
+                });
+            }
+            if (data) {
+                Object.assign(this.#data, data);
+            }
+            if (state) {
+                Object.assign(this.state, state);
+            }
+
             plugin.onCreate?.call(this, plugin);
         });
     }
@@ -65,6 +80,10 @@ export class DTable extends Component<DTableOptions, DTableState> {
         return this.#id;
     }
 
+    get data() {
+        return this.#data;
+    }
+
     componentWillReceiveProps(): void {
         this.#options = undefined;
     }
@@ -82,11 +101,11 @@ export class DTable extends Component<DTableOptions, DTableState> {
                 return;
             }
             Object.entries(events).forEach(([eventType, callback]) => {
-                this.on(eventType as DTableEventType, callback);
+                this.on(eventType as DTableEventType, callback as DTableEventListener);
             });
         });
 
-        this.on('click', this.#handleClick as EventListener);
+        this.on('click', this.#handleClick as DTableEventListener);
 
         if (this.options.responsive) {
             window.addEventListener('resize', this.#handleResize);
@@ -100,6 +119,10 @@ export class DTable extends Component<DTableOptions, DTableState> {
     componentDidUpdate() {
         if (this.#needUpdateSize) {
             this.#afterRender();
+        } else {
+            this.#plugins.forEach(plugin => {
+                plugin.onUpdated?.call(this);
+            });
         }
     }
 
@@ -117,10 +140,10 @@ export class DTable extends Component<DTableOptions, DTableState> {
             plugin.onUnmounted?.call(this);
         });
 
-        this.#cache.clear();
+        this.#data = {};
     }
 
-    on(event: DTableEventType, callback: EventListener) {
+    on(event: DTableEventType, callback: DTableEventListener) {
         const eventCallbacks = this.#events.get(event);
         if (eventCallbacks) {
             eventCallbacks.push(callback);
@@ -130,7 +153,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
         }
     }
 
-    off(event: DTableEventType, callback: EventListener) {
+    off(event: DTableEventType, callback: DTableEventListener) {
         const eventCallbacks = this.#events.get(event);
         if (!eventCallbacks) {
             return;
@@ -184,15 +207,31 @@ export class DTable extends Component<DTableOptions, DTableState> {
         this.forceUpdate();
     }
 
-    getCache<T = unknown>(key: string, defaultValue: T): T;
-    getCache<T = unknown>(key: string): T | undefined;
-
-    getCache<T = unknown>(key: string, defaultValue?: T): T | undefined {
-        return (this.#cache.get(key) ?? defaultValue) as T | undefined;
-    }
-
-    setCache(key: string, value: unknown) {
-        this.#cache.set(key, value);
+    getPointerInfo(event: Event) {
+        const target = event.target as HTMLElement;
+        if (!target) {
+            return;
+        }
+        const cellElement = target.closest<HTMLElement>('.dtable-cell');
+        if (!cellElement) {
+            return;
+        }
+        const rowElement = cellElement.closest<HTMLElement>('.dtable-row');
+        if (!rowElement) {
+            return;
+        }
+        const colName = cellElement?.getAttribute('data-col');
+        const rowID = rowElement?.getAttribute('data-id');
+        if (typeof colName !== 'string' || typeof rowID !== 'string') {
+            return;
+        }
+        return {
+            cellElement,
+            rowElement,
+            colName,
+            rowID,
+            target,
+        };
     }
 
     #handleEvent = (event: Event) => {

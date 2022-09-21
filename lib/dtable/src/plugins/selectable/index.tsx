@@ -2,15 +2,15 @@ import {classes} from '@zui/browser-helpers/src/classes';
 import {definePlugin} from '../../helpers/shared-plugins';
 import './style.css';
 
-type DTableColIndex       = number;
-type DTableRowIndex       = number;
-type DTableColSelection   = `C${DTableColIndex}`;
-type DTableRowSelection   = `R${DTableRowIndex}`;
-type DTableCellSelection  = `${DTableColSelection}${DTableRowSelection}`;
-type DTableSelection      = DTableColSelection | DTableRowSelection | DTableCellSelection;
-type DTableRangeSelection = `${DTableSelection}:${DTableSelection}`;
-type DTableSelections     = (DTableSelection | DTableRangeSelection)[];
-type DTableCellPos        = [col: DTableColIndex, row: DTableRowIndex];
+export type DTableColIndex       = number;
+export type DTableRowIndex       = number;
+export type DTableColSelection   = `C${DTableColIndex}`;
+export type DTableRowSelection   = `R${DTableRowIndex}`;
+export type DTableCellSelection  = `${DTableColSelection}${DTableRowSelection}`;
+export type DTableSelection      = DTableColSelection | DTableRowSelection | DTableCellSelection;
+export type DTableRangeSelection = `${DTableSelection}:${DTableSelection}`;
+export type DTableSelections     = (DTableSelection | DTableRangeSelection)[];
+export type DTableCellPos        = [col: DTableColIndex, row: DTableRowIndex];
 
 type DTableSelectableTypes = {
     options: Partial<{
@@ -24,7 +24,10 @@ type DTableSelectableTypes = {
     col: Partial<{
         selectable: boolean | ((row: DTableRowIndex) => boolean);
     }>;
-    props: {
+    data: {
+        selectingStart?: DTableCellPos;
+    },
+    methods: {
         selectCells: typeof selectCells;
         selectingCells: typeof selectingCells;
         deselectCells: typeof deselectCells;
@@ -34,8 +37,7 @@ type DTableSelectableTypes = {
         selectAllCells: typeof selectAllCells;
         deselectAllCells: typeof deselectAllCells;
         getSelectedCellsSize: typeof getSelectedCellsSize;
-        selectOutsideClick: (event: MouseEvent) => void;
-        selectingStart?: DTableCellPos;
+        selectOutsideClick?: (event: MouseEvent) => void;
     };
 };
 
@@ -283,26 +285,21 @@ function getSelectedCellsSize(this: DTableSelectable): number {
     return size;
 }
 
-function getMousePos(table: DTableSelectable, event: Event): DTableCellPos | undefined {
-    const target = event.target as HTMLElement;
-    if (!target) {
+export function getMousePos(table: DTable, event: Event, options?: {ignoreHeaderCell?: boolean}): DTableCellPos | undefined {
+    const pointerInfo = table.getPointerInfo(event);
+    if (!pointerInfo || pointerInfo.target.closest('input,textarea,[contenteditable]')) {
         return;
     }
-    const rowElement = target.closest<HTMLElement>('.dtable-row');
-    if (!rowElement) {
-        return;
-    }
-    const cellElement = target.closest<HTMLElement>('.dtable-cell');
-    const colName = cellElement?.getAttribute('data-col') ?? '';
-    if (!colName) {
-        return;
-    }
+    const {rowID, colName} = pointerInfo;
     const colIndex = table.getColInfo(colName)?.index ?? -1;
     if (colIndex < 0) {
         return;
     }
-    const rowID = rowElement.getAttribute('data-id') ?? '';
-    const rowIndex = rowID === 'HEADER' ? (-1) : table.getRowInfo(rowID)?.index ?? -1;
+    const isHeaderRow = rowID === 'HEADER';
+    if (isHeaderRow && options?.ignoreHeaderCell) {
+        return;
+    }
+    const rowIndex = isHeaderRow ? (-1) : table.getRowInfo(rowID)?.index ?? -1;
     return [colIndex, rowIndex];
 }
 
@@ -310,30 +307,31 @@ export const selectable: DTablePlugin<DTableSelectableTypes> = {
     name: 'selectable',
     defaultOptions: {selectable: true},
     when: options => !!options.selectable,
-    onCreate() {
-        this.state.selectedMap = new Map();
-        this.state.selectingMap = new Map();
-        this.selectCells = selectCells.bind(this);
-        this.selectingCells = selectingCells.bind(this);
-        this.deselectCells = deselectCells.bind(this);
-        this.isCellSelected = isCellSelected.bind(this);
-        this.isCellSelecting = isCellSelecting.bind(this);
-        this.getSelectedCells = getSelectedCells.bind(this);
-        this.selectAllCells = selectAllCells.bind(this);
-        this.deselectAllCells = deselectAllCells.bind(this);
-        this.getSelectedCellsSize = getSelectedCellsSize.bind(this);
+    state: {
+        selectedMap: new Map(),
+        selectingMap: new Map(),
+    },
+    methods: {
+        selectCells,
+        selectingCells,
+        deselectCells,
+        isCellSelected,
+        isCellSelecting,
+        getSelectedCells,
+        selectAllCells,
+        deselectAllCells,
+        getSelectedCellsSize,
     },
     events: {
         mousedown(event) {
             const pos = getMousePos(this, event);
-            this.selectingStart = pos;
+            this.data.selectingStart = pos;
             if (pos) {
-                event.preventDefault();
                 event.stopPropagation();
             }
         },
         mousemove(event) {
-            const {selectingStart} = this;
+            const {selectingStart} = this.data;
             if (!selectingStart) {
                 return;
             }
@@ -348,17 +346,16 @@ export const selectable: DTablePlugin<DTableSelectableTypes> = {
             }
         },
         mouseup(event) {
-            const {selectingStart} = this;
+            const {selectingStart} = this.data;
             if (!selectingStart) {
                 return;
             }
-            this.selectingStart = undefined;
+            this.data.selectingStart = undefined;
             const pos = getMousePos(this, event);
             if (pos) {
                 const selection = stringifySelection(selectingStart, pos);
                 if (selection) {
                     this.selectCells(selection);
-                    event.preventDefault();
                     event.stopPropagation();
                 }
             }
@@ -377,7 +374,9 @@ export const selectable: DTablePlugin<DTableSelectableTypes> = {
         document.addEventListener('click', this.selectOutsideClick);
     },
     onUnmounted() {
-        document.removeEventListener('click', this.selectOutsideClick);
+        if (this.selectOutsideClick) {
+            document.removeEventListener('click', this.selectOutsideClick);
+        }
     },
     onRenderRow({props, row}) {
         if (hasCellSelectInRow(this, row.index)) {
@@ -390,9 +389,9 @@ export const selectable: DTablePlugin<DTableSelectableTypes> = {
             return result;
         }
         if (this.isCellSelecting([col.index, rowInfo.index])) {
-            result.push({cellClass: 'is-select is-selecting'});
+            result.push({outer: true, className: 'is-select is-selecting'});
         } else if (this.isCellSelected([col.index, rowInfo.index])) {
-            result.push({cellClass: 'is-select is-selected'});
+            result.push({outer: true, className: 'is-select is-selected'});
         }
         return result;
     },

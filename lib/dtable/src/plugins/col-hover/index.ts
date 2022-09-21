@@ -4,15 +4,18 @@ type DTableColHoverTypes = {
     options: Partial<{
         colHover: boolean | 'header';
     }>,
+    data: {
+        hoverCol?: string | false,
+    }
 };
 
 type DTableColHover = DTableWithPlugin<DTableColHoverTypes>;
 
 function applyColHover(table: DTableColHover, hoverCol?: string | false) {
     if (hoverCol !== undefined) {
-        table.setCache('hoverCol', hoverCol);
+        table.data.hoverCol = hoverCol;
     } else {
-        hoverCol = table.getCache('hoverCol');
+        hoverCol = table.data.hoverCol;
     }
     const {current} = table.ref;
     if (!current) {

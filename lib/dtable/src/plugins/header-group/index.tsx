@@ -13,7 +13,7 @@ type DTableHeaderGroupTypes = {
     col: Partial<{
         group: string;
     }>,
-    props: {
+    data: {
         headerGroups: Map<string, DTableHeaderGroupInfo>;
     }
 };
@@ -23,12 +23,12 @@ export const headerGroup: DTablePlugin<DTableHeaderGroupTypes> = {
     defaultOptions: {
         headerGroup: true,
     },
-    onCreate() {
-        this.headerGroups = new Map();
+    data: {
+        headerGroups: new Map(),
     },
     when: options => !!options.headerGroup,
     beforeLayout(options) {
-        const {headerGroups} = this;
+        const {headerGroups} = this.data;
         headerGroups.clear();
 
         const {cols} = options;
@@ -43,12 +43,12 @@ export const headerGroup: DTablePlugin<DTableHeaderGroupTypes> = {
                 colsOrders[col.name] = index;
                 return;
             }
-            let groupInfo = this.headerGroups.get(group);
+            let groupInfo = headerGroups.get(group);
             if (groupInfo) {
                 groupInfo.cols.push(col.name);
             } else {
                 groupInfo = {cols: [col.name], index};
-                this.headerGroups.set(group, groupInfo);
+                headerGroups.set(group, groupInfo);
             }
             colsOrders[col.name] = groupInfo.index + (groupInfo.cols.length / cols.length);
         });
@@ -65,7 +65,7 @@ export const headerGroup: DTablePlugin<DTableHeaderGroupTypes> = {
     onRenderHeaderCell(result, {col}): CustomRenderResult {
         const {group} = col.setting;
         if (group) {
-            const groupInfo = this.headerGroups.get(group) as DTableHeaderGroupInfo;
+            const groupInfo = this.data.headerGroups.get(group) as DTableHeaderGroupInfo;
             const halfRow = this.layout.headerHeight / 2;
             if (col.name === groupInfo.cols[0]) {
                 const colWidth = groupInfo.cols.reduce((width, colName) => {

@@ -14,7 +14,7 @@ type DTableCheckableTypes = {
     col: {
         checkbox?: boolean | ((this: DTableCheckable, rowID: RowID) => boolean);
     }
-    props: {
+    methods: {
         toggleCheckRows: typeof toggleCheckRows;
         isRowChecked: typeof isRowChecked;
         isAllRowChecked: typeof isAllRowChecked;
@@ -107,12 +107,14 @@ export const checkable: DTablePlugin<DTableCheckableTypes> = {
     name: 'checkable',
     defaultOptions: {checkable: true},
     when: options => !!options.checkable,
-    onCreate() {
-        this.state.checkedRows = {};
-        this.toggleCheckRows = toggleCheckRows.bind(this);
-        this.isRowChecked    = isRowChecked.bind(this);
-        this.isAllRowChecked = isAllRowChecked.bind(this);
-        this.getChecks       = getChecks.bind(this);
+    state: {
+        checkedRows: {},
+    },
+    methods: {
+        toggleCheckRows,
+        isRowChecked,
+        isAllRowChecked,
+        getChecks,
     },
     onRenderCell(result, {rowID, col}) {
         const {canRowCheckable} = this.options;

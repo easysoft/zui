@@ -3,7 +3,9 @@ type DTablePluginLike = string | DTablePlugin | DTablePluginComsumer;
 type DTablePluginTypes = {
     state?: {},
     options?: {},
-    props?: {},
+    data?: {},
+    methods?: {},
+    methods?: Record<string, CallableFunction>,
     col?: {},
 };
 
@@ -20,8 +22,9 @@ type PluginColSettingModifier<T extends DTablePluginTypes = {}> = (col: DTableWi
 type DTableWithPlugin<T extends DTablePluginTypes = {}> = DTable & {
     state: DTableWithPluginState<T>;
     options: DTableWithPluginOptions<T>;
+    data: T['data'];
     getColInfo: (name: string) => DTableWithPluginCol<T> | undefined;
-} & T['props'];
+} & T['methods'];
 
 type DTablePluginEvents<T extends DTablePluginTypes = {}> = {[event in DTableEventType]?: DTableEventListener<event, DTableWithPlugin<T>>};
 
@@ -29,13 +32,17 @@ type DTablePlugin<T extends DTablePluginTypes = DTablePluginTypes, PluginTable =
     name: string;
 } & Partial<{
     when: (options: Options) => boolean,
-    onCreate: (this: PluginTable, plugin: this) => void;
-    onMounted: (this: PluginTable) => void;
-    onUnmounted: (this: PluginTable) => void;
     defaultOptions: Partial<Options>;
-    options: ((options: Options) => Partial<Options>);
     colTypes: Record<string, Partial<PluginColSetting> | PluginColSettingModifier<T>>;
     events: DTablePluginEvents<T>;
+    methods: Readonly<T['methods']>,
+    data: {} & T['data'],
+    state: {} & T['state'],
+    options: ((options: Options) => Partial<Options>);
+    onCreate: (this: PluginTable, plugin: this) => void;
+    onMounted: (this: PluginTable) => void;
+    onUpdated: (this: PluginTable) => void;
+    onUnmounted: (this: PluginTable) => void;
     onAddCol: (this: PluginTable, col: PluginColInfo) => void;
     beforeLayout: (this: PluginTable, options: Options) => (Partial<Options> | void);
     onLayout: (this: PluginTable, layout: DTableLayout) => (DTableLayout | void);

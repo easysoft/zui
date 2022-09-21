@@ -42,8 +42,10 @@ type DTableSortableTypes = {
         nestedToggle: boolean;
         nestedIndent: number | boolean;
     }>,
-    props: {
+    data: {
         nestedMap: Map<RowID, NestedRowInfo>,
+    },
+    methods: {
         toggleRow: typeof toggleRow;
         isAllCollapsed: typeof isAllCollapsed;
         getNestedRowInfo: typeof getNestedRowInfo;
@@ -53,7 +55,7 @@ type DTableSortableTypes = {
 type DTableNested = DTableWithPlugin<DTableSortableTypes>;
 
 function getNestedRowInfo(this: DTableNested, rowID: RowID): NestedRowInfo {
-    const info = this.nestedMap.get(rowID);
+    const info = this.data.nestedMap.get(rowID);
     if (!info || info.state !== NestedRowState.unknown) {
         return info ?? {state: NestedRowState.normal, level: -1};
     }
@@ -80,12 +82,13 @@ function getNestedRowInfo(this: DTableNested, rowID: RowID): NestedRowInfo {
 
 function toggleRow(this: DTableNested, rowID: RowID | (RowID)[], collapsed?: boolean) {
     let collapsedRows: Record<string, boolean> = this.state.collapsedRows as Record<string, true> ?? {};
+    const {nestedMap} = this.data;
     if (rowID === 'HEADER') {
         if (collapsed === undefined) {
             collapsed = !isAllCollapsed.call(this);
         }
         if (collapsed) {
-            const infos = this.nestedMap.entries();
+            const infos = nestedMap.entries();
             for (const [id, info] of infos) {
                 if (info.state === NestedRowState.expanded) {
                     collapsedRows[id] = true;
@@ -100,7 +103,7 @@ function toggleRow(this: DTableNested, rowID: RowID | (RowID)[], collapsed?: boo
             collapsed = !collapsedRows[ids[0]];
         }
         ids.forEach(id => {
-            const info = this.nestedMap.get(id);
+            const info = nestedMap.get(id);
             if (collapsed && info?.children) {
                 collapsedRows[id] = true;
             } else {
@@ -115,7 +118,7 @@ function toggleRow(this: DTableNested, rowID: RowID | (RowID)[], collapsed?: boo
 }
 
 function isAllCollapsed(this: DTableNested): boolean {
-    const infos = this.nestedMap.values();
+    const infos = this.data.nestedMap.values();
     for (const info of infos) {
         if (info.state === NestedRowState.expanded) {
             return false;
@@ -180,8 +183,9 @@ export const nested: DTablePlugin<DTableSortableTypes> = {
         asParentKey: 'asParent',
         nestedIndent: 20,
         canSortTo(from, to) {
-            const fromInfo = this.nestedMap.get(from.id);
-            const toInfo = this.nestedMap.get(to.id);
+            const {nestedMap} = this.data;
+            const fromInfo = nestedMap.get(from.id);
+            const toInfo = nestedMap.get(to.id);
             return fromInfo?.parent === toInfo?.parent;
         },
         beforeCheckRows(ids: RowID[] | undefined, changes: Record<RowID, boolean>, checkedRows: Record<RowID, boolean>) {
@@ -199,18 +203,21 @@ export const nested: DTablePlugin<DTableSortableTypes> = {
         },
     },
     when: options => !!options.nested,
-    onCreate() {
-        this.nestedMap = new Map();
-        this.toggleRow = toggleRow.bind(this);
-        this.isAllCollapsed = isAllCollapsed.bind(this);
-        this.getNestedRowInfo = getNestedRowInfo.bind(this);
+    data: {
+        nestedMap: new Map(),
+    },
+    methods: {
+        toggleRow,
+        isAllCollapsed,
+        getNestedRowInfo,
     },
     beforeLayout() {
-        this.nestedMap.clear();
+        this.data.nestedMap.clear();
     },
     onAddRow(row) {
+        const {nestedMap} = this.data;
         const parent = row.data[this.options.nestedParentKey ?? 'parent'] as RowID;
-        const info: NestedRowInfo = this.nestedMap.get(row.id) ?? {
+        const info: NestedRowInfo = nestedMap.get(row.id) ?? {
             state: NestedRowState.unknown,
             level: 0,
         };
@@ -218,16 +225,16 @@ export const nested: DTablePlugin<DTableSortableTypes> = {
         if (row.data[this.options.asParentKey ?? 'asParent']) {
             info.children = [];
         }
-        this.nestedMap.set(row.id, info);
+        nestedMap.set(row.id, info);
 
         if (parent) {
-            let parentInfo = this.nestedMap.get(parent);
+            let parentInfo = nestedMap.get(parent);
             if (!parentInfo) {
                 parentInfo = {
                     state: NestedRowState.unknown,
                     level: 0,
                 };
-                this.nestedMap.set(parent, parentInfo);
+                nestedMap.set(parent, parentInfo);
             }
             if (!parentInfo.children) {
                 parentInfo.children = [];
@@ -237,7 +244,7 @@ export const nested: DTablePlugin<DTableSortableTypes> = {
     },
     onAddRows(rows) {
         rows = rows.filter(row => this.getNestedRowInfo(row.id).state !== NestedRowState.hidden);
-        updateNestedMapOrders(this.nestedMap);
+        updateNestedMapOrders(this.data.nestedMap);
         rows.sort((rowA, rowB) => {
             const infoA = this.getNestedRowInfo(rowA.id);
             const infoB = this.getNestedRowInfo(rowB.id);
