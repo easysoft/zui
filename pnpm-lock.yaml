@@ -235,6 +235,7 @@ importers:
       '@zui/helpers': workspace:^0.0.1
       '@zui/label': workspace:^0.0.1
       '@zui/scrollbar': workspace:^0.0.1
+      hotkeys-js: ^3.10.0
       jquery: ^3.6.0
       nanoid: ^4.0.0
       preact: ^10.10.0
@@ -243,6 +244,7 @@ importers:
       '@zui/browser-helpers': link:../browser-helpers
       '@zui/helpers': link:../helpers
       '@zui/scrollbar': link:../scrollbar
+      hotkeys-js: registry.npmmirror.com/hotkeys-js/3.10.0
       nanoid: 4.0.0
       preact: 10.10.0
     devDependencies:
@@ -4540,3 +4542,9 @@ packages:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
     dev: true
+
+  registry.npmmirror.com/hotkeys-js/3.10.0:
+    resolution: {integrity: sha512-20xeVdOqcgTkMox0+BqFwADZP7+5dy/9CFPpAinSMh2d0s3b0Hs2V2D+lMh4Hphkf7VE9pwnOl58eP1te+REcg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/hotkeys-js/-/hotkeys-js-3.10.0.tgz}
+    name: hotkeys-js
+    version: 3.10.0
+    dev: false
