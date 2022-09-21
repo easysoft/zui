@@ -46,11 +46,9 @@ export function Rows({
                     height: rowHeight,
                     ...otherProps,
                 };
-                if (onRenderRow) {
-                    const result = onRenderRow({props, row}, _h);
-                    if (result) {
-                        Object.assign(props, result);
-                    }
+                const result = onRenderRow?.({props, row}, _h);
+                if (result) {
+                    Object.assign(props, result);
                 }
                 return  (
                     <Row {...props} />
