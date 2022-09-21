@@ -36,5 +36,3 @@ type DTableLayout = {
     scrollTop: number;
     scrollLeft: number;
 };
-
-type ClassNameLike = import('../../../browser-helpers/src/classes').ClassNameLike;
