@@ -52,5 +52,5 @@
 }
 
 .dtable-cell-content {
-    @apply -h-full -px-3 -whitespace-nowrap -flex -items-center -gap-1 -overflow-hidden;
+    @apply -h-full -w-full -px-3 -whitespace-nowrap -flex -items-center -gap-1 -overflow-hidden;
 }
