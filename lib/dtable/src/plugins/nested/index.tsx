@@ -216,13 +216,13 @@ export const nested: DTablePlugin<DTableSortableTypes> = {
     },
     onAddRow(row) {
         const {nestedMap} = this.data;
-        const parent = row.data[this.options.nestedParentKey ?? 'parent'] as RowID;
+        const parent = row.data?.[this.options.nestedParentKey ?? 'parent'] as RowID;
         const info: NestedRowInfo = nestedMap.get(row.id) ?? {
             state: NestedRowState.unknown,
             level: 0,
         };
         info.parent = parent;
-        if (row.data[this.options.asParentKey ?? 'asParent']) {
+        if (row.data?.[this.options.asParentKey ?? 'asParent']) {
             info.children = [];
         }
         nestedMap.set(row.id, info);
@@ -253,7 +253,8 @@ export const nested: DTablePlugin<DTableSortableTypes> = {
         });
         return rows;
     },
-    onRenderCell(result, {rowID, col, rowData}): CustomRenderResult {
+    onRenderCell(result, {col, row}): CustomRenderResult {
+        const {id: rowID, data: rowData} = row;
         const {nestedToggle} = col.setting;
         const info = this.getNestedRowInfo(rowID);
         if (nestedToggle && (info.children || info.parent)) {
@@ -270,7 +271,8 @@ export const nested: DTablePlugin<DTableSortableTypes> = {
         }
         return result;
     },
-    onRenderHeaderCell(result, {rowID, col}): CustomRenderResult {
+    onRenderHeaderCell(result, {row, col}): CustomRenderResult {
+        const {id: rowID} = row;
         if (col.setting.nestedToggle) {
             result.unshift(this.options.onRenderNestedToggle?.call(this, undefined, rowID, col, undefined) ?? (<a type="button" className="dtable-nested-toggle state"><span className="dtable-nested-toggle-icon"></span></a>));
         }

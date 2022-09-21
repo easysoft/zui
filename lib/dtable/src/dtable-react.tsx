@@ -422,9 +422,14 @@ export class DTable extends Component<DTableOptions, DTableState> {
         return data.props;
     };
 
-    #handleRenderCell = (result: CustomRenderResult, data: {rowID: RowID, col: ColInfo, rowData?: RowData}, h: typeof _h) : CustomRenderResult => {
-        const {rowID, col} = data;
-        const renderCallbackName = rowID === 'HEADER' ? 'onRenderHeaderCell' : 'onRenderCell';
+    #handleRenderCell = (result: CustomRenderResult, data: {row: RowInfo, col: ColInfo, value?: unknown}, h: typeof _h) : CustomRenderResult => {
+        const {row, col} = data;
+        const {dataCellGetter} = this.options;
+        if (row.lazy && dataCellGetter && data.value === undefined) {
+            data.value = dataCellGetter.call(this, row, col);
+            result[0] = data.value ?? '';
+        }
+        const renderCallbackName = row.id === 'HEADER' ? 'onRenderHeaderCell' : 'onRenderCell';
         if (col.setting[renderCallbackName]) {
             result = (col.setting[renderCallbackName] as CellRenderCallback).call(this, result, data, h);
         }
@@ -705,8 +710,6 @@ export class DTable extends Component<DTableOptions, DTableState> {
             });
         }
 
-
-        // TODO: load data for lazy rows.
         const layout = {
             allRows,
             width,
@@ -774,9 +777,18 @@ export class DTable extends Component<DTableOptions, DTableState> {
         const startRowIndex = Math.floor(scrollTop / rowHeight);
         const endRowIndex = Math.min(rows.length, Math.ceil(scrollBottom / rowHeight));
         const visibleRows: RowInfo[] = [];
+        const {dataGetter} = this.options;
         for (let i = startRowIndex; i < endRowIndex; i++) {
             const row = rows[i];
             row.top = row.index * rowHeight - scrollTop;
+
+            if (row.lazy) {
+                if (dataGetter) {
+                    row.data = dataGetter([row.id])[0];
+                    row.lazy = false;
+                }
+            }
+
             visibleRows.push(row);
         }
 

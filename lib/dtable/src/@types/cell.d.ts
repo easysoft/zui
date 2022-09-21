@@ -1,11 +1,13 @@
 type CellRenderCallback<C extends ColSetting = ColSetting> = (
     result: CustomRenderResult,
     data: {
-        rowID: RowID,
+        row: RowInfo,
         col: ColInfo<C>,
-        rowData?: RowData
+        value?: unknown,
     },
     h: typeof preact.h,
 ) => CustomRenderResult;
 
 type CellProps = import('../components/cell').CellProps;
+
+type CellValueGetter = (row: RowInfo, col: ColInfo) => unknown;

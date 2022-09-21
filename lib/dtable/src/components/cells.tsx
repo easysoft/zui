@@ -2,7 +2,7 @@ import {classes} from '@zui/browser-helpers/src/classes';
 import {Cell} from './cell';
 
 type CellsProps = {
-    rowID: RowID;
+    row: RowInfo;
     cols: ColInfo[];
 } & Partial<{
     className: ClassNameLike;
@@ -10,12 +10,11 @@ type CellsProps = {
     top: number;
     width: number;
     height: number;
-    data: RowData;
     CellComponent: preact.ComponentType<CellProps>;
     onRenderCell: CellRenderCallback;
 }>;
 
-export function Cells({rowID, className, top = 0, left = 0, width, height, cols, data, CellComponent = Cell, onRenderCell}: CellsProps) {
+export function Cells({row, className, top = 0, left = 0, width, height, cols, CellComponent = Cell, onRenderCell}: CellsProps) {
     return (
         <div className={classes('dtable-cells', className)} style={{top, left, width, height}}>
             {
@@ -27,8 +26,7 @@ export function Cells({rowID, className, top = 0, left = 0, width, height, cols,
                         <CellComponent
                             key={col.name}
                             col={col}
-                            rowData={data}
-                            rowID={rowID}
+                            row={row}
                             onRenderCell={onRenderCell}
                         />
                     );

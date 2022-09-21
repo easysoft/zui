@@ -3,7 +3,7 @@ import {Cell} from './cell';
 import {Cells} from './cells';
 
 export function Row({
-    rowID,
+    row,
     className,
     top,
     height,
@@ -17,7 +17,6 @@ export function Row({
     scrollLeft,
     CellComponent = Cell,
     onRenderCell,
-    data,
     style,
     ...others
 }: RowProps) {
@@ -28,10 +27,9 @@ export function Row({
                 className="dtable-fixed-left"
                 cols={fixedLeftCols}
                 width={flexLeftWidth}
-                rowID={rowID}
+                row={row}
                 CellComponent={CellComponent}
                 onRenderCell={onRenderCell}
-                data={data}
             />
         );
     }
@@ -44,10 +42,9 @@ export function Row({
                 cols={scrollCols}
                 left={flexLeftWidth - scrollLeft}
                 width={scrollWidthTotal}
-                rowID={rowID}
+                row={row}
                 CellComponent={CellComponent}
                 onRenderCell={onRenderCell}
-                data={data}
             />
         );
     }
@@ -60,10 +57,9 @@ export function Row({
                 cols={fixedRightCols}
                 left={flexLeftWidth + scrollWidth}
                 width={flexRightWidth}
-                rowID={rowID}
+                row={row}
                 CellComponent={CellComponent}
                 onRenderCell={onRenderCell}
-                data={data}
             />
         );
     }
@@ -74,7 +70,7 @@ export function Row({
         <div
             className={classes('dtable-row', className)}
             style={finalStyle}
-            data-id={rowID}
+            data-id={row.id}
             {...others}
         >
             {flexLeftView}

@@ -378,13 +378,18 @@ export const selectable: DTablePlugin<DTableSelectableTypes> = {
             document.removeEventListener('click', this.selectOutsideClick);
         }
     },
+    onRender() {
+        if (this.options.selectable) {
+            return {className: 'dtable-selectable'};
+        }
+    },
     onRenderRow({props, row}) {
         if (hasCellSelectInRow(this, row.index)) {
             return  {className: classes(props.className, 'has-cell-select')};
         }
     },
-    onRenderCell(result, {rowID, col}) {
-        const rowInfo = this.getRowInfo(rowID);
+    onRenderCell(result, {row, col}) {
+        const rowInfo = this.getRowInfo(row.id);
         if (!rowInfo) {
             return result;
         }

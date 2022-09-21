@@ -116,7 +116,8 @@ export const checkable: DTablePlugin<DTableCheckableTypes> = {
         isAllRowChecked,
         getChecks,
     },
-    onRenderCell(result, {rowID, col}) {
+    onRenderCell(result, {row, col}) {
+        const {id: rowID} = row;
         const {canRowCheckable} = this.options;
         if (canRowCheckable && !canRowCheckable.call(this, rowID)) {
             return result;
@@ -133,7 +134,8 @@ export const checkable: DTablePlugin<DTableCheckableTypes> = {
         }
         return result;
     },
-    onRenderHeaderCell(result, {rowID, col}) {
+    onRenderHeaderCell(result, {row, col}) {
+        const {id: rowID} = row;
         const {checkbox: checkboxSetting} = col.setting;
         const showCheckbox = typeof checkboxSetting === 'function' ? checkboxSetting.call(this, rowID) : checkboxSetting;
         if (showCheckbox) {

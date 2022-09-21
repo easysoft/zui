@@ -2,6 +2,7 @@ interface DTableDataOptions<C extends ColSetting = ColSetting> {
     cols: C[];
     data: (RowData | RowID)[] | number;
     dataGetter?: (ids: RowID[]) => RowData[],
+    dataCellGetter?: CellValueGetter,
     rowKey?: string;
 }
 

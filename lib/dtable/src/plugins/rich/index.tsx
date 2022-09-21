@@ -44,15 +44,16 @@ export const rich: DTablePlugin<DTableRichTypes> = {
             },
         },
         link: {
-            onRenderCell(result, {col, rowData}) {
+            onRenderCell(result, {col, row}) {
                 const {linkTemplate = '', linkProps} = col.setting;
-                const url = formatString(linkTemplate, rowData);
+                const url = formatString(linkTemplate, row.data);
                 result[0] = <a href={url} {...linkProps}>{result[0]}</a>;
                 return result;
             },
         },
         avatar: {
-            onRenderCell(result, {col, rowData}) {
+            onRenderCell(result, {col, row}) {
+                const {data: rowData} = row;
                 const {avatarWithName, avatarClass = 'size-sm circle', avatarKey = `${col.name}Avatar`} = col.setting;
                 const avatar = (
                     <div className={`avatar ${avatarClass} flex-none`}>
@@ -84,8 +85,8 @@ export const rich: DTablePlugin<DTableRichTypes> = {
             },
         },
         actionButtons: {
-            onRenderCell(result, {col, rowData}) {
-                const actions = rowData?.[col.name] as (string | DTableActionButton)[];
+            onRenderCell(result, {col, row}) {
+                const actions = row.data?.[col.name] as (string | DTableActionButton)[];
                 if (!actions) {
                     return result;
                 }

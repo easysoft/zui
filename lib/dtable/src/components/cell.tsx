@@ -5,9 +5,8 @@ import type {ComponentChildren, JSX} from 'preact';
 
 export type CellProps = {
     col: ColInfo;
-    rowID: RowID;
+    row: RowInfo;
 } & Partial<{
-    rowData: RowData;
     height: number;
     className: ClassNameLike;
     style: JSX.CSSProperties;
@@ -17,7 +16,7 @@ export type CellProps = {
     onRenderCell: CellRenderCallback;
 }>;
 
-export function Cell({col, className, height, rowID, rowData, onRenderCell, style: styleFromParent, outerStyle: outerStyleFromParent, children: childrenFromParent, ...others}: CellProps) {
+export function Cell({col, className, height, row, onRenderCell, style: styleFromParent, outerStyle: outerStyleFromParent, children: childrenFromParent, ...others}: CellProps) {
     const outerStyle = {
         left: col.left,
         width: col.realWidth,
@@ -36,12 +35,9 @@ export function Cell({col, className, height, rowID, rowData, onRenderCell, styl
     }];
     const contentClassName: ClassNameLike[] = ['dtable-cell-content'];
 
-    let result: CustomRenderResult = [
-        childrenFromParent ?? rowData?.[col.name] as ComponentChildren,
-    ];
-    if (onRenderCell) {
-        result = onRenderCell(result, {rowID, col, rowData}, _h);
-    }
+    const value = row.data?.[col.name];
+    const defaultResult: CustomRenderResult = [childrenFromParent ?? value ?? ''];
+    const result: CustomRenderResult = onRenderCell ? onRenderCell(defaultResult, {row, col, value}, _h) : defaultResult;
 
     const outerChildren: ComponentChildren[] = [];
     const contentChildren: ComponentChildren[] = [];

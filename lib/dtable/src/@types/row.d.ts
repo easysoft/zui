@@ -5,12 +5,12 @@ type RowInfo = {
     id: RowID;
     index: number;
     top: number;
-    data: RowData;
+    data?: RowData;
     lazy?: boolean | 'resolved';
 };
 
 type RowProps = {
-    rowID: RowID;
+    row: RowInfo;
     top: number;
     height: number;
     flexLeftWidth: number;
@@ -23,7 +23,6 @@ type RowProps = {
     fixedLeftCols: ColInfo[];
     fixedRightCols: ColInfo[];
     scrollCols: ColInfo[];
-    data: RowData;
     style: preact.JSX.CSSProperties;
     CellComponent: preact.ComponentType<CellProps>;
     onRenderCell: CellRenderCallback;

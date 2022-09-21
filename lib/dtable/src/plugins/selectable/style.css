@@ -3,6 +3,9 @@
     --dtable-selected-bg: var(--color-green-50);
     --dtable-selecting-bg: var(--color-green-100);
 }
+.dtable-selectable {
+    user-select: none;
+}
 .dtable-cell.is-select::after {
     border-color: var(--dtable-selected-color);
     @apply -opacity-100 -z-10;

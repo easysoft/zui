@@ -7,6 +7,7 @@ interface DTableEditableTypes extends DTablePluginTypes {
         editable: boolean | ((rowID: RowID, colName: string) => boolean);
         headerEditable: boolean;
         onEditCell?: (this: DTableEditable, changeInfo: {rowID: RowID, colName: string, value: unknown, oldValue: unknown}) => false | void;
+        selectAllOnFocus?: boolean;
     }>;
     state: {
         editingCell?: {rowID: RowID, colName: string};
@@ -32,6 +33,7 @@ export const editable: DTablePlugin<DTableEditableTypes> = {
     name: 'editable',
     defaultOptions: {
         editable: true,
+        selectAllOnFocus: true,
     },
     when: options => !!options.editable,
     events: {
@@ -99,7 +101,8 @@ export const editable: DTablePlugin<DTableEditableTypes> = {
         handleEditingInputBlur() {
             this.editCell();
         },
-        renderEditableCell(result, {col, rowID}) {
+        renderEditableCell(result, {col, row}) {
+            const {id: rowID} = row;
             if (this.isCellEditing(rowID, col.name)) {
                 const cellValue = `${this.getCellValue(rowID, col.name) ?? ''}`;
                 const editingBox = (
@@ -132,8 +135,18 @@ export const editable: DTablePlugin<DTableEditableTypes> = {
         if (input && this.data.needAutoFocus) {
             this.data.needAutoFocus = false;
             input.focus();
-            input.select();
+            if (this.options.selectAllOnFocus) {
+                input.select();
+            }
         }
+    },
+    onRender() {
+        return {
+            className: {
+                'dtable-editable': this.options.editable,
+                'dtable-editing': this.state.editingCell,
+            },
+        };
     },
     onRenderCell(...args) {
         return this.renderEditableCell(...args);
