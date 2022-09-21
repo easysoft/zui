@@ -791,18 +791,38 @@ export class DTable extends Component<DTableOptions, DTableState> {
         const layout = this.#getLayout();
         const {className, rowHover, colHover, cellHover, bordered, striped, scrollbarHover} = this.options;
         const style = {width: layout?.width, height: layout?.height};
+        const classNames: ClassNameLike = ['dtable', className, {
+            'dtable-hover-row': rowHover,
+            'dtable-hover-col': colHover,
+            'dtable-hover-cell': cellHover,
+            'dtable-bordered': bordered,
+            'dtable-striped': striped,
+            'dtable-scrolled-down': (layout?.scrollTop ?? 0) > 0,
+            'scrollbar-hover': scrollbarHover,
+        }];
+        const children: ComponentChildren[] = [];
+        if (layout) {
+            this.#plugins.forEach(plugin => {
+                const result = plugin.onRender?.call(this, layout);
+                if (!result) {
+                    return;
+                }
+                if (result.style) {
+                    Object.assign(style, result.style);
+                }
+                if (result.className) {
+                    classNames.push(result.className);
+                }
+                if (result.children) {
+                    children.push(result.children);
+                }
+            });
+        }
+
         return (
             <div
                 id={this.#id}
-                className={classes('dtable', className, {
-                    'dtable-hover-row': rowHover,
-                    'dtable-hover-col': colHover,
-                    'dtable-hover-cell': cellHover,
-                    'dtable-bordered': bordered,
-                    'dtable-striped': striped,
-                    'dtable-scrolled-down': (layout?.scrollTop ?? 0) > 0,
-                    'scrollbar-hover': scrollbarHover,
-                })}
+                className={classes(classNames)}
                 style={style}
                 ref={this.ref}
             >

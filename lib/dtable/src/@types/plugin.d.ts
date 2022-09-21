@@ -50,6 +50,7 @@ type DTablePlugin<T extends DTablePluginTypes = DTablePluginTypes, PluginTable =
     onRenderCell: (this: PluginTable, result: CustomRenderResult, data: {rowID: RowID, col: PluginColInfo, rowData?: RowData}, h: typeof preact.h) => CustomRenderResult;
     onRenderRow: (this: PluginTable, data: {props: RowProps, row: RowInfo}, h: typeof preact.h) => Partial<RowProps | (RowProps & preact.JSX.HTMLAttributes<HTMLElement>)> | void;
     onRenderHeaderRow: (this: PluginTable, data: {props: RowProps}, h: typeof preact.h) => RowProps;
+    onRender: (this: PluginTable, layout: DTableLayout) => CustomRenderResultItem | void;
     afterRender: (this: PluginTable) => void;
     onRowClick: (this: PluginTable, event: MouseEvent, data: {rowID: string, rowInfo?: RowInfo, element: HTMLElement, cellElement?: HTMLElement}) => void | true;
     onCellClick: (this: PluginTable, event: MouseEvent, data: {rowID: string, colName: string, rowInfo?: RowInfo, element: HTMLElement, rowElement: HTMLElement}) => void | true;
