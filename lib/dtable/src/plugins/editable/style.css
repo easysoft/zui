@@ -1,0 +1,10 @@
+:root {
+    --dtable-editing-color: var(--color-green-600);
+}
+.dtable-cell.is-editing::after {
+    border-color: var(--dtable-editing-color);
+    @apply -opacity-100 -z-20 -border-2;
+}
+.dtable-editing-input {
+    @apply -w-full -h-full -outline-none -px-3;
+}

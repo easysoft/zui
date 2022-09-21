@@ -10,6 +10,7 @@ import rich from './src/plugins/rich';
 import headerGroup from './src/plugins/header-group';
 import sortable from './src/plugins/sortable';
 import selectable from './src/plugins/selectable';
+import editable from './src/plugins/editable';
 
 faker.setLocale('zh_CN');
 
@@ -59,7 +60,7 @@ onPageLoad(() => {
             cellHover: true,
             bordered: true,
             striped: false,
-            plugins: [selectable],
+            plugins: [selectable, editable({headerEditable: true})],
         });
         console.log('dataTable', dataTable);
     }
