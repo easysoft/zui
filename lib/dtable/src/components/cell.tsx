@@ -57,6 +57,9 @@ export function Cell({col, className, height, rowID, rowData, onRenderCell, styl
                 if (item.className) {
                     (item.outer ? outerClassName : contentClassName).push(item.className);
                 }
+                if (item.children) {
+                    children.push(item.children);
+                }
             }
         } else {
             contentChildren.push(item);

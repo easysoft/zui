@@ -5,4 +5,5 @@ type CustomRenderResult = (Partial<{
     style: preact.JSX.CSSProperties;
     className: ClassNameLike;
     outer: boolean;
+    children: preact.ComponentChildren;
 }> | preact.ComponentChildren)[];
