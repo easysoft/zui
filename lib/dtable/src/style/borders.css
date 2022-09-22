@@ -30,7 +30,7 @@
 
 .dtable-bordered .dtable-header::after,
 .dtable-bordered .dtable-rows::after {
-    @apply -absolute -border -left-0 -right-0 --top-px -bottom-0 -pointer-events-none;
+    @apply -absolute -border -left-0 -right-0 --top-px -bottom-0 -pointer-events-none -z-20;
     content: ' ';
     border-color: var(--dtable-border-color);
 }
