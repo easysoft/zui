@@ -1,5 +1,7 @@
+type ColName = string;
+
 type ColInfo<S extends ColSetting = ColSetting> = {
-    name: string;
+    name: ColName;
     type: string;
     setting: S & {onRenderCell?: CellRenderCallback<S>};
     left: number;
@@ -11,7 +13,7 @@ type ColInfo<S extends ColSetting = ColSetting> = {
 };
 
 type ColSetting<S = {}> = {
-    name: string;
+    name: ColName;
 } & Partial<{
     title: string;
     width: number;

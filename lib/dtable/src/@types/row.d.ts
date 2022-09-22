@@ -1,4 +1,10 @@
-type RowData = Record<string, unknown>;
+type RowID = string;
+
+type RowPropName = string;
+
+type RowPropValue = unknown;
+
+type RowData = Record<RowPropName, RowPropValue>;
 
 type RowInfo = {
     id: string;

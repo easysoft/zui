@@ -7,12 +7,12 @@ export interface DTableEditableTypes extends DTablePluginTypes {
         editable: boolean | ((rowID: string, colName: string) => boolean);
         headerEditable: boolean;
         onEditCell?: (this: DTableEditable, changeInfo: {rowID: string, colName: string, value: unknown, oldValue: unknown}) => false | void;
-        onEditChange?: (this: DTableEditable, changes: Record<string, Record<string, unknown>>) => false | void;
+        onEditChange?: (this: DTableEditable, changes: DTableEditChanges) => false | void;
         selectAllOnFocus?: boolean;
     }>;
     state: {
         editingCell?: {rowID: string, colName: string};
-        editingChanges: Record<string, Record<string, unknown>>;
+        editingChanges: DTableEditChanges;
     };
     data: {
         editingInputRef: RefObject<HTMLInputElement>;
@@ -25,9 +25,11 @@ export interface DTableEditableTypes extends DTablePluginTypes {
         handleEditingInputBlur: (this: DTableEditable, event: Event) => void;
         renderEditableCell: NonNullable<typeof editable['onRenderCell']>;
         getEditedCellValue(this: DTableEditable, rowID: string, colName: string): unknown;
-        commitEditChanges(this: DTableEditable, changes: Record<string, Record<string, unknown>>): void;
+        commitEditChanges(this: DTableEditable, changes: DTableEditChanges): void;
     }
 }
+
+export type DTableEditChanges = Record<RowID, RowData>;
 
 type DTableEditable = DTableWithPlugin<DTableEditableTypes>;
 
@@ -91,7 +93,7 @@ export const editable: DTablePlugin<DTableEditableTypes> = {
             }
             this.commitEditChanges({[rowID]: {[colName]: newValue}});
         },
-        commitEditChanges(changes: Record<string, Record<string, unknown>>, options?: {skipTriggerUpdate?: boolean}) {
+        commitEditChanges(changes: DTableEditChanges, options?: {skipTriggerUpdate?: boolean}) {
             if (this.options.onEditChange?.call(this, changes) === false) {
                 return;
             }

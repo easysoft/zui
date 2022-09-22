@@ -10,16 +10,18 @@ export type DTableCellSelection  = `${DTableColSelection}${DTableRowSelection}`;
 export type DTableSelection      = DTableColSelection | DTableRowSelection | DTableCellSelection;
 export type DTableRangeSelection = `${DTableSelection}:${DTableSelection}`;
 export type DTableSelections     = (DTableSelection | DTableRangeSelection)[];
-export type DTableCellPos        = [col: DTableColIndex, row: DTableRowIndex];
+export type DTableCellPos        = {col: DTableColIndex, row: DTableRowIndex};
+
+export type DTableCellPosMap     =  Map<DTableColIndex, Set<DTableRowIndex>>;
 
 export type DTableSelectableTypes = {
     options: Partial<{
-        selectable: boolean | ((col: DTableColIndex, row: DTableRowIndex) => boolean);
+        selectable: boolean | ((cellPos: DTableCellPos) => boolean);
         onSelectCells: (this: DTableSelectable, cells: DTableCellPos[]) => void;
     }>,
     state: {
-        selectedMap: Map<DTableColIndex, Set<DTableRowIndex>>;
-        selectingMap: Map<DTableColIndex, Set<DTableRowIndex>>;
+        selectedMap: DTableCellPosMap;
+        selectingMap: DTableCellPosMap;
     };
     col: Partial<{
         selectable: boolean | ((row: DTableRowIndex) => boolean);
@@ -52,7 +54,7 @@ function parseCell(cellSelection: DTableCellSelection): DTableCellPos | undefine
         return;
     }
     const [, col, row] = result;
-    return [+col, +row];
+    return {col: +col, row: +row};
 }
 
 function parseSelectionCell(selection: DTableSelection): DTableCellPos | undefined {
@@ -63,7 +65,7 @@ function parseSelectionCell(selection: DTableSelection): DTableCellPos | undefin
     const [, colStr = -1, rowStr = -1] = result;
     const col = +colStr;
     const row = +rowStr;
-    return [col, row];
+    return {col, row};
 }
 
 function parseSelection(this: DTableSelectable, selections: DTableSelection): DTableCellPos[] {
@@ -72,21 +74,21 @@ function parseSelection(this: DTableSelectable, selections: DTableSelection): DT
     if (!selection) {
         return cells;
     }
-    const [col, row] = selection;
+    const {col, row} = selection;
     if (col >= 0) {
         if (row >= 0) {
-            cells.push([col, row]);
+            cells.push({col, row});
         } else {
             const rowsCount = this.layout.rows.length;
             for (let i = 0; i < rowsCount; i++) {
-                cells.push([col, i]);
+                cells.push({col, row: i});
             }
         }
     } else if (row >= 0) {
         const {colsInfo} = this.layout;
         const colsCount = colsInfo.fixedLeftCols.length + colsInfo.scrollCols.length + colsInfo.fixedRightCols.length;
         for (let i = 0; i < colsCount; i++) {
-            cells.push([i, row]);
+            cells.push({col: i, row});
         }
     }
     return cells;
@@ -108,20 +110,20 @@ function parseRange(this: DTableSelectable, range: DTableRangeSelection): DTable
     if (!startPos || !endPos) {
         return [];
     }
-    const colStart = Math.min(startPos[0], endPos[0]);
-    const colEnd = Math.max(startPos[0], endPos[0]);
-    const rowStart = Math.min(startPos[1], endPos[1]);
-    const rowEnd = Math.max(startPos[1], endPos[1]);
+    const colStart = Math.min(startPos.col, endPos.col);
+    const colEnd = Math.max(startPos.col, endPos.col);
+    const rowStart = Math.min(startPos.row, endPos.row);
+    const rowEnd = Math.max(startPos.row, endPos.row);
     const cells: DTableCellPos[] = [];
     for (let col = colStart; col <= colEnd; col++) {
         if (rowStart < 0 || rowEnd < 0) {
             const rowsCount = this.layout.rows.length;
             for (let i = 0; i < rowsCount; i++) {
-                cells.push([col, i]);
+                cells.push({col, row: i});
             }
         } else {
             for (let row = rowStart; row <= rowEnd; row++) {
-                cells.push([col, row]);
+                cells.push({col, row});
             }
         }
     }
@@ -140,7 +142,7 @@ function parseSelections(this: DTableSelectable, selections: DTableSelections): 
 }
 
 function stringifySelection(start: DTableCellPos, end?: DTableCellPos): DTableSelection | DTableRangeSelection | '' {
-    const [col, row] = start;
+    const {col, row} = start;
     const parts: string[] = [];
     if (col >= 0) {
         parts.push(`C${col}`);
@@ -173,10 +175,11 @@ function selectCells(this: DTableSelectable, selections: DTableSelection | DTabl
     }
 
     if (deselect) {
-        cells.forEach(([col, row]) => {
-            if (checkSelectable && !checkSelectable(col, row)) {
+        cells.forEach((pos) => {
+            if (checkSelectable && !checkSelectable(pos)) {
                 return;
             }
+            const {col, row} = pos;
             const set = map.get(col);
             if (set) {
                 set.delete(row);
@@ -186,10 +189,11 @@ function selectCells(this: DTableSelectable, selections: DTableSelection | DTabl
             }
         });
     } else {
-        cells.forEach(([col, row]) => {
-            if (checkSelectable && !checkSelectable(col, row)) {
+        cells.forEach((pos) => {
+            if (checkSelectable && !checkSelectable(pos)) {
                 return;
             }
+            const {col, row} = pos;
             const set = map.get(col);
             if (set) {
                 set.add(row);
@@ -242,7 +246,7 @@ function isCellSelected(this: DTableSelectable, cell: DTableCellSelection | DTab
     if (!pos) {
         return false;
     }
-    return this.state.selectedMap.get(pos[0])?.has(pos[1]) ?? false;
+    return this.state.selectedMap.get(pos.col)?.has(pos.row) ?? false;
 }
 
 function isCellSelecting(this: DTableSelectable, cell: DTableCellSelection | DTableCellPos): boolean {
@@ -250,14 +254,14 @@ function isCellSelecting(this: DTableSelectable, cell: DTableCellSelection | DTa
     if (!pos) {
         return false;
     }
-    return this.state.selectingMap.get(pos[0])?.has(pos[1]) ?? false;
+    return this.state.selectingMap.get(pos.col)?.has(pos.row) ?? false;
 }
 
 function getSelectedCells(this: DTableSelectable): DTableCellPos[] {
     const cells: DTableCellPos[] = [];
     for (const [col, rows] of this.state.selectedMap.entries()) {
         for (const row of rows) {
-            cells.push([col, row]);
+            cells.push({col, row});
         }
     }
     return cells;
@@ -300,7 +304,7 @@ export function getMousePos(table: DTable, event: Event, options?: {ignoreHeader
         return;
     }
     const rowIndex = isHeaderRow ? (-1) : table.getRowInfo(rowID)?.index ?? -1;
-    return [colIndex, rowIndex];
+    return {col: colIndex, row: rowIndex};
 }
 
 export const selectable: DTablePlugin<DTableSelectableTypes> = {
@@ -393,9 +397,10 @@ export const selectable: DTablePlugin<DTableSelectableTypes> = {
         if (!rowInfo) {
             return result;
         }
-        if (this.isCellSelecting([col.index, rowInfo.index])) {
+        const pos = {col: col.index, row: rowInfo.index};
+        if (this.isCellSelecting(pos)) {
             result.push({outer: true, className: 'is-select is-selecting'});
-        } else if (this.isCellSelected([col.index, rowInfo.index])) {
+        } else if (this.isCellSelected(pos)) {
             result.push({outer: true, className: 'is-select is-selected'});
         }
         return result;
