@@ -43,6 +43,7 @@ type DTablePlugin<T extends DTablePluginTypes = DTablePluginTypes, PluginTable =
     onMounted: (this: PluginTable) => void;
     onUpdated: (this: PluginTable) => void;
     onUnmounted: (this: PluginTable) => void;
+    onDestory: (this: PluginTable) => void;
     onAddCol: (this: PluginTable, col: PluginColInfo) => void;
     beforeLayout: (this: PluginTable, options: Options) => (Partial<Options> | void);
     onLayout: (this: PluginTable, layout: DTableLayout) => (DTableLayout | void);

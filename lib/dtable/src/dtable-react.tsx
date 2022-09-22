@@ -140,7 +140,12 @@ export class DTable extends Component<DTableOptions, DTableState> {
             plugin.onUnmounted?.call(this);
         });
 
+        this.#allPlugins.forEach(plugin => {
+            plugin.onDestory?.call(this);
+        });
+
         this.#data = {};
+        this.#events.clear();
     }
 
     on(event: DTableEventType, callback: DTableEventListener) {
