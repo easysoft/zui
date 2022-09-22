@@ -789,7 +789,7 @@ function Ve(e, n, t) {
     if (!s)
       return;
     const o = Dn(s);
-    !o || ((i = o.plugins) != null && i.length && Ve(e, o.plugins, t), !t.has(o.name) && (e.push(o), t.add(o.name)));
+    !o || t.has(o.name) || ((i = o.plugins) != null && i.length && Ve(e, o.plugins, t), e.push(o), t.add(o.name));
   }), e;
 }
 function zn(e = [], n = !0) {
