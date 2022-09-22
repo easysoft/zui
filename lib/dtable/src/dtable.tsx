@@ -25,10 +25,8 @@ export class DTable {
 
     constructor(element: HTMLElement, options?: Partial<DTableOptions>) {
         this.element = element;
-        this.options = {...getDefaultOptions(), ...options} as DTableOptions;
-        if (this.options.cols?.length) {
-            this.render();
-        }
+        this.options = {...options} as DTableOptions;
+        this.render();
     }
 
     render(options?: Partial<DTableOptions>) {
