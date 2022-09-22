@@ -59,9 +59,6 @@ function initPluginsInner(plugins: DTablePlugin[], pluginsLike: DTablePluginLike
         if (!plugin) {
             return;
         }
-        if (plugin.dependencies?.length) {
-            initPluginsInner(plugins, plugin.dependencies, pluginSet);
-        }
         if (plugin.plugins?.length) {
             initPluginsInner(plugins, plugin.plugins, pluginSet);
         }
