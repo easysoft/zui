@@ -23,6 +23,7 @@ type DTableLayout = {
     headerHeight: number,
     footerHeight: number,
     colsInfo: {
+        map: Record<string, ColInfo>;
         fixedLeftCols: ColInfo[];
         fixedRightCols: ColInfo[];
         scrollCols: ColInfo[];

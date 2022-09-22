@@ -180,16 +180,37 @@ export class DTable extends Component<DTableOptions, DTableState> {
         });
     }
 
-    getColInfo(colName: string): ColInfo | undefined {
-        const {layout} = this;
-        if (!layout) {
-            return;
+    getColInfo(colNameOrIndex: string | number): ColInfo | undefined {
+        const {map} = this.layout.colsInfo;
+        if (typeof colNameOrIndex === 'number') {
+            return Object.values(map).find(x => x.index === colNameOrIndex);
         }
-        return layout.colsInfo.fixedLeftCols.find(x => x.name === colName) ?? layout.colsInfo.fixedRightCols.find(x => x.name === colName) ?? layout.colsInfo.scrollCols.find(x => x.name === colName);
+        return map[colNameOrIndex];
     }
 
-    getRowInfo(id: RowID): RowInfo | undefined {
-        return this.layout.rows.find(x => x.id === id);
+    getRowInfo(idOrIndex: string | number): RowInfo | undefined {
+        const {rows} = this.layout;
+        if (typeof idOrIndex === 'number') {
+            return rows[idOrIndex];
+        }
+        return rows.find(x => x.id === idOrIndex);
+    }
+
+    getCellValue(row: RowInfo | string, col: ColInfo | string): unknown {
+        const rowInfo = typeof row === 'object' ? row : this.getRowInfo(row);
+        if (!rowInfo) {
+            return;
+        }
+        const colInfo = typeof col === 'string' ? this.getColInfo(col) : col;
+        if (!colInfo) {
+            return;
+        }
+        let originValue = rowInfo.id === 'HEADER' ? (colInfo.setting.title ?? colInfo.setting.name) : rowInfo.data?.[colInfo.name];
+        const {cellValueGetter} = this.options;
+        if (cellValueGetter) {
+            originValue = cellValueGetter.call(this, rowInfo, colInfo, originValue);
+        }
+        return originValue;
     }
 
     getRowInfoByIndex(index: number): RowInfo | undefined {
@@ -530,6 +551,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
         const fixedLeftCols: ColInfo[] = [];
         const fixedRightCols: ColInfo[] = [];
         const scrollCols: ColInfo[] = [];
+        const colsMap: Record<string, ColInfo> = {};
         let flexLeftWidth = 0;
         let flexRightWidth = 0;
         let colIndex = 0;
@@ -564,6 +586,8 @@ export class DTable extends Component<DTableOptions, DTableState> {
             } else {
                 scrollCols.push(colInfo);
             }
+
+            colsMap[colInfo.name] = colInfo;
 
             plugins.forEach(plugin => {
                 const colTypeInfo = plugin.colTypes?.[col.type ?? ''];
@@ -723,6 +747,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
             headerHeight,
             footerHeight,
             colsInfo: {
+                map: colsMap,
                 fixedLeftCols,
                 fixedRightCols,
                 scrollCols,
