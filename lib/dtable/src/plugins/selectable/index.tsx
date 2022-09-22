@@ -130,9 +130,11 @@ function parseRange(this: DTableSelectable, range: DTableRangeSelection): DTable
     return cells;
 }
 
-function parseSelections(this: DTableSelectable, selections: DTableSelections): DTableCellPos[] {
+function parseSelections(this: DTableSelectable, selections: (DTableSelections[number] | DTableCellPos)[]): DTableCellPos[] {
     return selections.reduce<DTableCellPos[]>((cells, selection) => {
-        if (selection.includes(':')) {
+        if (typeof selection === 'object') {
+            cells.push(selection);
+        } else if (selection.includes(':')) {
             cells.push(...parseRange.call(this, selection as DTableRangeSelection));
         } else {
             cells.push(...parseSelection.call(this, selection as DTableSelection));
@@ -159,7 +161,7 @@ function stringifySelection(start: DTableCellPos, end?: DTableCellPos): DTableSe
     return parts.join('') as DTableSelection | DTableRangeSelection;
 }
 
-function selectCells(this: DTableSelectable, selections: DTableSelection | DTableRangeSelection | DTableSelections, options: {clearBefore?: boolean, deselect?: boolean, selecting?: boolean, callback?: (this: DTableSelectable, cells: DTableCellPos[]) => void} = {}): DTableCellPos[] {
+function selectCells(this: DTableSelectable, selections: DTableSelection | DTableRangeSelection | DTableSelections | DTableCellPos[], options: {clearBefore?: boolean, deselect?: boolean, selecting?: boolean, callback?: (this: DTableSelectable, cells: DTableCellPos[]) => void} = {}): DTableCellPos[] {
     if (!Array.isArray(selections)) {
         selections = [selections];
     }
@@ -223,6 +225,7 @@ function selectAllCells(this: DTableSelectable): void {
     const colsCount = colsInfo.fixedLeftCols.length + colsInfo.scrollCols.length + colsInfo.fixedRightCols.length;
     const rowsCount = this.layout.rows.length;
     const {selectedMap} = this.state;
+    const checkSelectable = typeof this.options.selectable === 'function' ? this.options.selectable : false;
     for (let col = 0; col < colsCount; col++) {
         let set = selectedMap.get(col);
         if (!set) {
@@ -230,6 +233,9 @@ function selectAllCells(this: DTableSelectable): void {
             selectedMap.set(col, set);
         }
         for (let row = 0; row < rowsCount; row++) {
+            if (checkSelectable && !checkSelectable({row, col})) {
+                continue;
+            }
             set.add(row);
         }
     }

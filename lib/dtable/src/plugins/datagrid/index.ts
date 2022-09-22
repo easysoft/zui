@@ -1,6 +1,6 @@
 import {definePlugin} from '../../helpers/shared-plugins';
 import editable, {DTableEditableTypes, DTableEditChanges} from '../editable';
-import selectable, {DTableSelectableTypes} from '../selectable';
+import selectable, {DTableCellPos, DTableSelectableTypes} from '../selectable';
 import hotkey, {DTableHotkeyCallback, DTableHotkeyTypes} from '../hotkey';
 
 interface DTableDatasource {
@@ -22,17 +22,15 @@ interface DTableDatagridTypes extends DTablePluginTypes {
         hotkeyCopy?: boolean | string,
         hotkeyFocus?: boolean | string,
         hotkeyCancel?: boolean | string,
-        emptyCellValue?: unknown
+        emptyCellValue?: unknown,
+        cellValueSplitter?: string,
     };
-    state: {
-    };
-    data: {
-    },
     methods: {
         handleHotkeyDelete: (this: DTableDatagrid, event: KeyboardEvent) => void;
         handleHotkeySelectAll: (this: DTableDatagrid, event: KeyboardEvent) => void;
         handleHotkeyPaste: (this: DTableDatagrid, event: KeyboardEvent) => void;
         handleHotkeyCopy: (this: DTableDatagrid, event: KeyboardEvent) => void;
+        handleHotkeyCut: (this: DTableDatagrid, event: KeyboardEvent) => void;
         handleHotkeyFocus: (this: DTableDatagrid, event: KeyboardEvent) => void;
         handleHotkeyCancel: (this: DTableDatagrid, event: KeyboardEvent) => void;
     }
@@ -91,14 +89,15 @@ export const datagrid: DTablePlugin<DTableDatagridTypes, DTableDatagridDependenc
     plugins: [editable, selectable, hotkey],
     defaultOptions: {
         defaultColWidth: 80,
+        minColWidth: 80,
         headerEditable: true,
-        selectable: true,
         minRows: 20,
         minCols: 10,
         extraRows: 5,
         extraCols: 5,
         showRowIndex: true,
-        colHover: true,
+        rowHover: false,
+        colHover: false,
         cellHover: true,
         bordered: true,
         striped: false,
@@ -106,15 +105,18 @@ export const datagrid: DTablePlugin<DTableDatagridTypes, DTableDatagridDependenc
         hotkeySelectAll: true,
         hotkeyPaste: true,
         hotkeyCopy: true,
+        hotkeyCut: true,
         hotkeyFocus: true,
         hotkeyCancel: true,
         emptyCellValue: '',
+        cellValueSplitter: '\t',
         cellValueGetter,
         hotkeys: {},
         editable: (_: string, colName: string) => colName !== 'INDEX',
+        selectable: (pos) => pos.col !== 0,
     },
     options(options) {
-        const {hotkeyDelete, hotkeyCopy, hotkeyFocus, hotkeyCancel, hotkeyPaste, hotkeySelectAll, datasource, hotkeys} = options;
+        const {hotkeyDelete, hotkeyCopy, hotkeyFocus, hotkeyCancel, hotkeyPaste, hotkeyCut, hotkeySelectAll, datasource, hotkeys} = options;
         const hotkeysOverride = {
             ...hotkeys,
         };
@@ -122,6 +124,7 @@ export const datagrid: DTablePlugin<DTableDatagridTypes, DTableDatagridDependenc
             [hotkeyDelete, 'delete,backspace,s', this.handleHotkeyDelete],
             [hotkeyCopy, 'ctrl+c,command+c', this.handleHotkeyCopy],
             [hotkeyPaste, 'ctrl+v,command+v', this.handleHotkeyPaste],
+            [hotkeyCut, 'ctrl+x,command+x', this.handleHotkeyCut],
             [hotkeySelectAll, 'ctrl+a,command+a', this.handleHotkeySelectAll],
             [hotkeyFocus, 'enter', this.handleHotkeyFocus],
             [hotkeyCancel, 'esc', this.handleHotkeyCancel],
@@ -160,15 +163,65 @@ export const datagrid: DTablePlugin<DTableDatagridTypes, DTableDatagridDependenc
             }
             this.commitEditChanges(changes);
         },
+        handleHotkeyCut(event) {
+            this.handleHotkeyCopy(event);
+            this.handleHotkeyDelete(event);
+        },
         handleHotkeySelectAll(event) {
             this.selectAllCells();
             event.preventDefault();
         },
-        handleHotkeyPaste() {
-
+        async handleHotkeyPaste() {
+            const selectedCells = this.getSelectedCells();
+            if (!selectedCells.length) {
+                return;
+            }
+            const startCell = selectedCells[0];
+            const data = await navigator.clipboard.readText();
+            if (!data.length) {
+                return;
+            }
+            const changes: DTableEditChanges = {};
+            const cells: DTableCellPos[] = [];
+            data.split(/\r?\n/).forEach((line, lineIndex) => {
+                const rowIndex = lineIndex + startCell.row;
+                let rowData = changes[rowIndex];
+                if (!rowData) {
+                    rowData = {};
+                    changes[rowIndex] = rowData;
+                }
+                line.split('\t').forEach((part, partIndex) => {
+                    const colIndex = partIndex + startCell.col;
+                    rowData[colIndex - 1] = part;
+                    cells.push({col: colIndex, row: rowIndex});
+                });
+            });
+            this.commitEditChanges(changes);
+            this.selectCells(cells);
         },
         handleHotkeyCopy() {
-
+            const selectedCells = this.getSelectedCells();
+            if (!selectedCells.length) {
+                return;
+            }
+            let minColIndex = Number.MAX_SAFE_INTEGER;
+            let minRowIndex = Number.MAX_SAFE_INTEGER;
+            selectedCells.forEach(pos => {
+                minColIndex = Math.min(pos.col, minColIndex);
+                minRowIndex = Math.min(pos.row, minRowIndex);
+            });
+            const data: unknown[][] = [];
+            selectedCells.forEach(pos => {
+                const value = this.getCellValue(pos.row, pos.col);
+                let rowData = data[pos.row - minRowIndex];
+                if (!rowData) {
+                    rowData = [];
+                    data[pos.row - minRowIndex] = rowData;
+                }
+                rowData[pos.col - minColIndex] = value;
+            });
+            const plainText = data.map(x => x.join('\t')).join('\n');
+            navigator.clipboard.writeText(plainText);
         },
         handleHotkeyFocus() {
             const selectedCell = this.getSelectedCells()[0];

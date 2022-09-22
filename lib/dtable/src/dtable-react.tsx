@@ -201,12 +201,12 @@ export class DTable extends Component<DTableOptions, DTableState> {
         return rows.find(x => x.id === idOrIndex);
     }
 
-    getCellValue(row: RowInfo | string, col: ColInfo | string): unknown {
+    getCellValue(row: RowInfo | string | number, col: ColInfo | string | number): unknown {
         const rowInfo = typeof row === 'object' ? row : this.getRowInfo(row);
         if (!rowInfo) {
             return;
         }
-        const colInfo = typeof col === 'string' ? this.getColInfo(col) : col;
+        const colInfo = typeof col === 'object' ? col : this.getColInfo(col);
         if (!colInfo) {
             return;
         }
