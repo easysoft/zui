@@ -6,13 +6,13 @@ type DTableCheckableTypes = {
     options: Partial<{
         checkable: boolean;
         checkOnClickRow: boolean;
-        canRowCheckable: ((this: DTableCheckable, rowID: RowID) => boolean);
-        beforeCheckRows: (this: DTableCheckable, ids: RowID[] | undefined, changes: Record<RowID, boolean>, checkedRows: Record<RowID, boolean>) => void;
-        onCheckChange: (this: DTableCheckable, changes: Record<RowID, boolean>) => void;
-        checkboxRender: (this: DTableCheckable, checked: boolean, rowID: RowID) => CustomRenderResult;
+        canRowCheckable: ((this: DTableCheckable, rowID: string) => boolean);
+        beforeCheckRows: (this: DTableCheckable, ids: string[] | undefined, changes: Record<string, boolean>, checkedRows: Record<string, boolean>) => void;
+        onCheckChange: (this: DTableCheckable, changes: Record<string, boolean>) => void;
+        checkboxRender: (this: DTableCheckable, checked: boolean, rowID: string) => CustomRenderResult;
     }>,
     col: {
-        checkbox?: boolean | ((this: DTableCheckable, rowID: RowID) => boolean);
+        checkbox?: boolean | ((this: DTableCheckable, rowID: string) => boolean);
     }
     methods: {
         toggleCheckRows: typeof toggleCheckRows;
@@ -27,15 +27,15 @@ type DTableCheckableTypes = {
 
 type DTableCheckable = DTableWithPlugin<DTableCheckableTypes>;
 
-function toggleCheckRows(this: DTableCheckable, ids?: RowID | RowID[] | boolean, checked?: boolean): Record<RowID, boolean> {
+function toggleCheckRows(this: DTableCheckable, ids?: string | string[] | boolean, checked?: boolean): Record<string, boolean> {
     if (typeof ids === 'boolean') {
         checked = ids;
         ids = undefined;
     }
     const checkedRows = this.state.checkedRows;
-    const changes: Record<RowID, boolean> = {};
+    const changes: Record<string, boolean> = {};
     const {canRowCheckable} = this.options;
-    const toggleRow = (id: RowID, toggle: boolean) => {
+    const toggleRow = (id: string, toggle: boolean) => {
         if (canRowCheckable && !canRowCheckable.call(this, id)) {
             return;
         }
@@ -84,7 +84,7 @@ function toggleCheckRows(this: DTableCheckable, ids?: RowID | RowID[] | boolean,
     return changes;
 }
 
-function isRowChecked(this: DTableCheckable, rowID: RowID): boolean {
+function isRowChecked(this: DTableCheckable, rowID: string): boolean {
     return this.state.checkedRows[rowID] ?? false;
 }
 
@@ -99,7 +99,7 @@ function isAllRowChecked(this: DTableCheckable): boolean {
     return checkedLength === this.layout?.allRows.length;
 }
 
-function getChecks(this: DTableCheckable): RowID[] {
+function getChecks(this: DTableCheckable): string[] {
     return Object.keys(this.state.checkedRows);
 }
 

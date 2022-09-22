@@ -12,9 +12,9 @@ export function addPlugin(plugin: DTablePlugin, defineOptions?: DTablePluginDefi
     }
 }
 
-export function definePlugin<T extends DTablePluginTypes = DTablePluginTypes>(plugin: DTablePlugin<T>, defineOptions?: DTablePluginDefineOptions): DTablePluginComsumer<T> {
+export function definePlugin<T extends DTablePluginTypes = DTablePluginTypes, D extends DTablePluginTypes[] = []>(plugin: DTablePlugin<T, D>, defineOptions?: DTablePluginDefineOptions): DTablePluginComsumer<T, D> {
     addPlugin(plugin as unknown as DTablePlugin, defineOptions);
-    const comsumer: DTablePluginComsumer<T> = (options) => {
+    const comsumer: DTablePluginComsumer<T, D> = (options) => {
         if (!options) {
             return plugin;
         }
@@ -56,16 +56,21 @@ function initPluginsInner(plugins: DTablePlugin[], pluginsLike: DTablePluginLike
         }
 
         const plugin = getDTablePlugin(nameOrPlugin);
-        if (!plugin || pluginSet.has((plugin.name))) {
+        if (!plugin) {
+            return;
+        }
+        if (plugin.dependencies?.length) {
+            initPluginsInner(plugins, plugin.dependencies, pluginSet);
+        }
+        if (plugin.plugins?.length) {
+            initPluginsInner(plugins, plugin.plugins, pluginSet);
+        }
+        if (pluginSet.has(plugin.name)) {
             return;
         }
         plugins.push(plugin);
         pluginSet.add(plugin.name);
 
-        if (!plugin.plugins?.length) {
-            return;
-        }
-        initPluginsInner(plugins, plugin.plugins, pluginSet);
     });
     return plugins;
 }
@@ -79,17 +84,4 @@ export function initPlugins(pluginsLike: DTablePluginLike[] = [], includeBuildIn
     }
 
     return initPluginsInner([], pluginsLike, new Set<string>());
-}
-
-export function mergePluginOptions(plugins: readonly DTablePlugin[], options: DTableOptions): DTableOptions {
-    return plugins.reduce((mergedOptions, plugin) => {
-        const {options: optionsModifier, defaultOptions} = plugin;
-        if (defaultOptions) {
-            mergedOptions = {...defaultOptions, ...mergedOptions};
-        }
-        if (optionsModifier) {
-            Object.assign(mergedOptions, typeof optionsModifier === 'function' ? optionsModifier(mergedOptions) : optionsModifier);
-        }
-        return mergedOptions;
-    }, options);
 }

@@ -1,8 +1,7 @@
-type RowID = string | number;
 type RowData = Record<string, unknown>;
 
 type RowInfo = {
-    id: RowID;
+    id: string;
     index: number;
     top: number;
     data?: RowData;

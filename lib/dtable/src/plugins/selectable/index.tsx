@@ -12,7 +12,7 @@ export type DTableRangeSelection = `${DTableSelection}:${DTableSelection}`;
 export type DTableSelections     = (DTableSelection | DTableRangeSelection)[];
 export type DTableCellPos        = [col: DTableColIndex, row: DTableRowIndex];
 
-type DTableSelectableTypes = {
+export type DTableSelectableTypes = {
     options: Partial<{
         selectable: boolean | ((col: DTableColIndex, row: DTableRowIndex) => boolean);
         onSelectCells: (this: DTableSelectable, cells: DTableCellPos[]) => void;

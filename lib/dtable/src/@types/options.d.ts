@@ -1,8 +1,8 @@
 interface DTableDataOptions<C extends ColSetting = ColSetting> {
     cols: C[];
-    data: (RowData | RowID)[] | number;
-    dataGetter?: (ids: RowID[]) => RowData[],
-    dataCellGetter?: CellValueGetter,
+    data: (RowData | string)[] | number;
+    rowDataGetter?: (ids: string[]) => RowData[],
+    cellValueGetter?: CellValueGetter,
     rowKey?: string;
 }
 

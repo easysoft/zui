@@ -9,36 +9,38 @@ type DTablePluginTypes = {
     col?: {},
 };
 
-type DTableWithPluginColSetting<T extends DTablePluginTypes = {}> = ColSetting<T['col']>;
+type DTableWithPluginColSetting<T extends DTablePluginTypes = {}, D extends DTablePluginTypes[] = [DTablePluginTypes]> = ColSetting<PluginPropsDependency<T, D, 'col'>>;
 
-type DTableWithPluginState<T extends DTablePluginTypes = {}> = DTableState & T['state'];
+type DTableWithPluginState<S = {}> = DTableState & S;
 
-type DTableWithPluginOptions<T extends DTablePluginTypes = {}> = DTableOptions<DTableWithPluginColSetting<T>> & T['options'];
+type DTableWithPluginOptions<T extends DTablePluginTypes = {}, D extends DTablePluginTypes[] = [DTablePluginTypes]> = DTableOptions<DTableWithPluginColSetting<T, D>> & PluginPropsDependency<T, D, 'options'>;
 
-type DTableWithPluginColInfo<T extends DTablePluginTypes = {}> = ColInfo<DTableWithPluginColSetting<T>>;
+type DTableWithPluginColInfo<T extends DTablePluginTypes = {}, D extends DTablePluginTypes[] = [DTablePluginTypes]> = ColInfo<DTableWithPluginColSetting<T, D>>;
 
-type PluginColSettingModifier<T extends DTablePluginTypes = {}> = (col: DTableWithPluginColSetting<T>) => Partial<DTableWithPluginColSetting<T>> | undefined;
+type PluginColSettingModifier<T extends DTablePluginTypes = {}, D extends DTablePluginTypes[] = [DTablePluginTypes]> = (col: DTableWithPluginColSetting<T, D>) => Partial<DTableWithPluginColSetting<T, D>> | undefined;
 
-type DTableWithPlugin<T extends DTablePluginTypes = {}> = DTable & {
-    state: DTableWithPluginState<T>;
-    options: DTableWithPluginOptions<T>;
-    data: T['data'];
-    getColInfo: (name: string) => DTableWithPluginCol<T> | undefined;
-} & T['methods'];
+type PluginPropsDependency<T extends DTablePluginTypes, D extends DTablePluginTypes[], P extends keyof DTablePluginTypes> = D[0][P] & D[1][P] & D[2][P] & D[3][P] & D[4][P] & D[5][P] & T[P];
+
+type DTableWithPlugin<T extends DTablePluginTypes = {}, D extends DTablePluginTypes[] = [DTablePluginTypes]> = DTable & {
+    state: DTableWithPluginState<PluginPropsDependency<T, D, 'state'>>;
+    options: DTableWithPluginOptions<T, D>;
+    data: PluginPropsDependency<T, D, 'data'>;
+    getColInfo: (name: string) => DTableWithPluginColInfo<T, D> | undefined;
+} & PluginPropsDependency<T, D, 'methods'>;
 
 type DTablePluginEvents<T extends DTablePluginTypes = {}> = {[event in DTableEventType]?: DTableEventListener<event, DTableWithPlugin<T>>};
 
-type DTablePlugin<T extends DTablePluginTypes = DTablePluginTypes, PluginTable = DTableWithPlugin<T>, Options = DTableWithPluginOptions<T>, PluginColSetting = DTableWithPluginColSetting<T>, PluginColInfo = DTableWithPluginColInfo<T>> = {
+type DTablePlugin<T extends DTablePluginTypes = DTablePluginTypes, D extends DTablePluginTypes[] = [DTablePluginTypes], PluginTable = DTableWithPlugin<T, D>, Options = DTableWithPluginOptions<T, D>, PluginColSetting = DTableWithPluginColSetting<T, D>, PluginColInfo = DTableWithPluginColInfo<T, D>> = {
     name: string;
 } & Partial<{
     when: (options: Options) => boolean,
     defaultOptions: Partial<Options>;
-    colTypes: Record<string, Partial<PluginColSetting> | PluginColSettingModifier<T>>;
+    colTypes: Record<string, Partial<PluginColSetting> | PluginColSettingModifier<T, D>>;
     events: DTablePluginEvents<T>;
     methods: Readonly<T['methods']>,
     data: {} & T['data'],
     state: {} & T['state'],
-    options: ((options: Options) => Partial<Options>);
+    options: (this: PluginTable, options: Options) => Partial<Options>;
     onCreate: (this: PluginTable, plugin: this) => void;
     onMounted: (this: PluginTable) => void;
     onUpdated: (this: PluginTable) => void;
@@ -58,12 +60,12 @@ type DTablePlugin<T extends DTablePluginTypes = DTablePluginTypes, PluginTable =
     onHeaderCellClick: (this: PluginTable, event: MouseEvent, data: {colName: string, element: HTMLElement}) => void;
     onAddRow: (this: PluginTable, row: RowInfo, index: number) => void | false;
     onAddRows: (this: PluginTable, rows: RowInfo[]) => RowInfo[] | void;
-    plugins: DTablePluginLike[];
+    plugins: (DTablePluginLike | DTablePlugin<D[number]>)[];
 }>;
 
-interface DTablePluginComsumer<T extends DTablePluginTypes = {}> {
-    plugin: DTablePlugin<T>,
-    (options?: DTableWithPluginOptions<T>): DTablePlugin<T>;
+interface DTablePluginComsumer<T extends DTablePluginTypes = {}, D extends DTablePluginTypes[] = [DTablePluginTypes]> {
+    plugin: DTablePlugin<T, D>,
+    (options?: DTableWithPluginOptions<T, D>): DTablePlugin<T, D>;
 }
 
 interface DTablePluginDefineOptions {

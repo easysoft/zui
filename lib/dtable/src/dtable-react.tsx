@@ -5,7 +5,7 @@ import {Scrollbar} from '@zui/scrollbar/src/components/scrollbar';
 import {clamp} from './helpers/clamp';
 import {Header} from './components/header';
 import {Rows} from './components/rows';
-import {mergePluginOptions, addPlugin, initPlugins, removePlugin} from './helpers/shared-plugins';
+import {addPlugin, initPlugins, removePlugin} from './helpers/shared-plugins';
 import {getDefaultOptions} from './helpers/default-options';
 import './vars.css';
 import './style.css';
@@ -448,13 +448,9 @@ export class DTable extends Component<DTableOptions, DTableState> {
         return data.props;
     };
 
-    #handleRenderCell = (result: CustomRenderResult, data: {row: RowInfo, col: ColInfo, value?: unknown}, h: typeof _h) : CustomRenderResult => {
+    #handleRenderCell = (result: CustomRenderResult, data: {row: RowInfo, col: ColInfo}, h: typeof _h) : CustomRenderResult => {
         const {row, col} = data;
-        const {dataCellGetter} = this.options;
-        if (row.lazy && dataCellGetter && data.value === undefined) {
-            data.value = dataCellGetter.call(this, row, col);
-            result[0] = data.value ?? '';
-        }
+        result[0] = this.getCellValue(row, col) as ComponentChildren;
         const renderCallbackName = row.id === 'HEADER' ? 'onRenderHeaderCell' : 'onRenderCell';
         if (col.setting[renderCallbackName]) {
             result = (col.setting[renderCallbackName] as CellRenderCallback).call(this, result, data, h);
@@ -525,12 +521,28 @@ export class DTable extends Component<DTableOptions, DTableState> {
         if (this.#options) {
             return false;
         }
+
         const defaultOptions = getDefaultOptions();
-        const options = mergePluginOptions(this.#allPlugins, {...defaultOptions, ...this.props} as DTableOptions);
-        const plugins = this.#allPlugins.filter(plugin => !plugin.when || plugin.when(options));
-        this.#plugins = Object.freeze(plugins);
+        const options = {...defaultOptions, ...this.#allPlugins.reduce((currentOptions, plugin) => {
+            const {defaultOptions: pluginOptions} = plugin;
+            if (pluginOptions) {
+                currentOptions = {...currentOptions, ...pluginOptions};
+            }
+            return currentOptions;
+        }, {}), ...this.props} as DTableOptions;
 
         this.#options = options;
+        this.#plugins = this.#allPlugins.reduce<DTablePlugin[]>((list, plugin) => {
+            const {when, options: optionsModifier} = plugin;
+            if (!when || when(options)) {
+                list.push(plugin);
+                if (optionsModifier) {
+                    Object.assign(options, typeof optionsModifier === 'function' ? optionsModifier.call(this, options) : optionsModifier);
+                }
+            }
+            return list;
+        }, []);
+
         return true;
     }
 
@@ -635,7 +647,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
 
         const {data, rowKey = 'id'} = options;
         const allRows: RowInfo[] = [];
-        const addRowItem = (id: RowID, index: number, item?: RowData) => {
+        const addRowItem = (id: string, index: number, item?: RowData) => {
             const row: RowInfo = {data: item ?? {[rowKey]: id}, top: allRows.length * rowHeight, id: id, index: allRows.length};
             if (!item) {
                 row.lazy = true;
@@ -654,14 +666,14 @@ export class DTable extends Component<DTableOptions, DTableState> {
 
         if (typeof data === 'number') {
             for (let i = 0; i < data; i++) {
-                addRowItem(i, i);
+                addRowItem(`${i}`, i);
             }
         } else if (Array.isArray(data)) {
             data.forEach((item, index) => {
                 if (typeof item === 'object') {
-                    addRowItem(item[rowKey] as RowID, index, item);
+                    addRowItem(`${item[rowKey] ?? ''}`, index, item);
                 } else {
-                    addRowItem(item as RowID, index);
+                    addRowItem(`${item ?? ''}`, index);
                 }
             });
         }
@@ -807,14 +819,14 @@ export class DTable extends Component<DTableOptions, DTableState> {
         const startRowIndex = Math.floor(scrollTop / rowHeight);
         const endRowIndex = Math.min(rows.length, Math.ceil(scrollBottom / rowHeight));
         const visibleRows: RowInfo[] = [];
-        const {dataGetter} = this.options;
+        const {rowDataGetter} = this.options;
         for (let i = startRowIndex; i < endRowIndex; i++) {
             const row = rows[i];
             row.top = row.index * rowHeight - scrollTop;
 
             if (row.lazy) {
-                if (dataGetter) {
-                    row.data = dataGetter([row.id])[0];
+                if (rowDataGetter) {
+                    row.data = rowDataGetter([row.id])[0];
                     row.lazy = false;
                 }
             }

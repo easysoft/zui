@@ -11,10 +11,10 @@ type DTableSortableTypes = {
         canSortTo: (this: DTableSortable, from: RowInfo, to: RowInfo, moveType: SortMoveType) => boolean;
         onBeginSort: (this: DTableSortable, row: RowInfo, event: DragEvent) => false | void;
         onEndSort: (this: DTableSortable, from: RowInfo | undefined, to: RowInfo | undefined, moveType: SortMoveType | undefined) => void;
-        onSort: (this: DTableSortable, from: RowInfo, to: RowInfo, moveType: SortMoveType, orders: RowID[]) => void;
+        onSort: (this: DTableSortable, from: RowInfo, to: RowInfo, moveType: SortMoveType, orders: string[]) => void;
     }>;
     state: Partial<{
-        rowOrders: Record<RowID, number>;
+        rowOrders: Record<string, number>;
         draggingRow: RowInfo;
         droppingRow: RowInfo;
         moveType: SortMoveType;
@@ -91,8 +91,8 @@ export const sortable: DTablePlugin<DTableSortableTypes> = {
                 const toIndex = rows.findIndex(x => x.id === droppingRow.id);
                 const row = rows.splice(fromIndex, 1);
                 rows.splice(toIndex, 0, row[0]);
-                const rowOrders: Record<RowID, number> = {};
-                const orders: RowID[] = [];
+                const rowOrders: Record<string, number> = {};
+                const orders: string[] = [];
                 rows.forEach(({id}, index) => {
                     rowOrders[id] = index;
                     orders.push(id);
