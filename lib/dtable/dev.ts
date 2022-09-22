@@ -9,8 +9,7 @@ import nested from './src/plugins/nested';
 import rich from './src/plugins/rich';
 import headerGroup from './src/plugins/header-group';
 import sortable from './src/plugins/sortable';
-import selectable from './src/plugins/selectable';
-import editable from './src/plugins/editable';
+import datagrid from './src/plugins/datagrid';
 
 faker.setLocale('zh_CN');
 
@@ -18,49 +17,27 @@ onPageLoad(() => {
     const dataTableElement = document.getElementById('dataTable');
     if (dataTableElement) {
         const dataTable = new DTable(dataTableElement, {
-            cols: [
-                {name: 'id', width: 50, fixed: 'left', align: 'right', cellStyle: {fontWeight: 'bold'}},
-                {name: 'C1', width: 150},
-                {name: 'C2', width: 100},
-                {name: 'C3', width: 60, align: 'right'},
-                {name: 'C4', width: 60, align: 'right'},
-                {name: 'C5', width: 60, align: 'right'},
-                {name: 'C6', width: 60, align: 'right'},
-                {name: 'C7', width: 60, align: 'right'},
-                {name: 'C8', width: 60, align: 'right'},
-                {name: 'C9', width: 60, align: 'right'},
-                {name: 'C10', width: 60, align: 'right'},
-                {name: 'C11', width: 60, align: 'right'},
-                {name: 'C12', width: 60, align: 'right'},
-                {name: 'C13', width: 60, align: 'right'},
-                {name: 'C14', width: 60, align: 'right'},
-                {name: 'C15', width: 60, align: 'right'},
-            ],
-            data: Array(100).fill(0).map((_, index) => ({
-                id: `R${index + 1}`,
-                C1: faker.animal.cetacean(),
-                C2: faker.lorem.word(),
-                C3: faker.datatype.number({min: 0, max: 1000}),
-                C4: faker.datatype.number({min: 0, max: 1000}),
-                C5: faker.datatype.number({min: 0, max: 1000}),
-                C6: faker.datatype.number({min: 0, max: 1000}),
-                C7: faker.datatype.number({min: 0, max: 1000}),
-                C8: faker.datatype.number({min: 0, max: 1000}),
-                C9: faker.datatype.number({min: 0, max: 1000}),
-                C10: faker.datatype.number({min: 0, max: 1000}),
-                C11: faker.datatype.number({min: 0, max: 1000}),
-                C12: faker.datatype.number({min: 0, max: 1000}),
-                C13: faker.datatype.number({min: 0, max: 1000}),
-                C14: faker.datatype.number({min: 0, max: 1000}),
-                C15: faker.datatype.number({min: 0, max: 1000}),
-                C16: faker.datatype.number({min: 0, max: 1000}),
-            })),
+            datasource: {
+                cols: [
+                    {name: '名称', width: 150},
+                    {name: '类型', width: 100},
+                    {name: '重量', width: 60, align: 'right'},
+                ],
+                data: Array(100).fill(0).map((_, index) => ([
+                    faker.animal.cetacean(),
+                    faker.lorem.word(),
+                    faker.datatype.number({min: 0, max: 1000}),
+                    faker.datatype.number({min: 0, max: 1000}),
+                    faker.datatype.number({min: 0, max: 1000}),
+                    faker.datatype.number({min: 0, max: 1000}),
+                    faker.datatype.number({min: 0, max: 1000}),
+                    faker.datatype.number({min: 0, max: 1000}),
+                    faker.datatype.number({min: 0, max: 1000}),
+                    faker.datatype.number({min: 0, max: 1000}),
+                ])),
+            },
             height: 400,
-            colHover: true,
-            cellHover: true,
-            bordered: true,
-            striped: false,
-            plugins: [selectable, editable({headerEditable: true})],
+            plugins: [datagrid],
         });
         console.log('dataTable', dataTable);
     }
