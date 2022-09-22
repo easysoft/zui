@@ -59,11 +59,11 @@ function initPluginsInner(plugins: DTablePlugin[], pluginsLike: DTablePluginLike
         if (!plugin) {
             return;
         }
-        if (plugin.plugins?.length) {
-            initPluginsInner(plugins, plugin.plugins, pluginSet);
-        }
         if (pluginSet.has(plugin.name)) {
             return;
+        }
+        if (plugin.plugins?.length) {
+            initPluginsInner(plugins, plugin.plugins, pluginSet);
         }
         plugins.push(plugin);
         pluginSet.add(plugin.name);
