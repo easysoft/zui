@@ -16,7 +16,12 @@ interface DTableDatagridTypes extends DTablePluginTypes {
         extraRows?: number,
         extraCols?: number,
         showRowIndex?: boolean | string,
-        deleteHotkey?: boolean | string,
+        hotkeyDelete?: boolean | string,
+        hotkeySelectAll?: boolean | string,
+        hotkeyPaste?: boolean | string,
+        hotkeyCopy?: boolean | string,
+        hotkeyFocus?: boolean | string,
+        hotkeyCancel?: boolean | string,
         emptyCellValue?: unknown
     };
     state: {
@@ -24,7 +29,12 @@ interface DTableDatagridTypes extends DTablePluginTypes {
     data: {
     },
     methods: {
-        handleDeleteHotkey: typeof handleDeleteHotkey
+        handleHotkeyDelete: (this: DTableDatagrid, event: KeyboardEvent) => void;
+        handleHotkeySelectAll: (this: DTableDatagrid, event: KeyboardEvent) => void;
+        handleHotkeyPaste: (this: DTableDatagrid, event: KeyboardEvent) => void;
+        handleHotkeyCopy: (this: DTableDatagrid, event: KeyboardEvent) => void;
+        handleHotkeyFocus: (this: DTableDatagrid, event: KeyboardEvent) => void;
+        handleHotkeyCancel: (this: DTableDatagrid, event: KeyboardEvent) => void;
     }
 }
 
@@ -76,30 +86,6 @@ function cellValueGetter(this: DTableDatagrid, row: RowInfo, col: ColInfo, origi
     return originValue;
 }
 
-function handleDeleteHotkey(this: DTableDatagrid, event: KeyboardEvent): void {
-    const changes: DTableEditChanges = {};
-    const {emptyCellValue} = this.options;
-    for (const [col, rows] of this.state.selectedMap.entries()) {
-        const colInfo = this.getColInfo(col);
-        if (!colInfo) {
-            continue;
-        }
-        for (const row of rows) {
-            const rowInfo = this.getRowInfo(row);
-            if (!rowInfo) {
-                continue;
-            }
-            const rowData = changes[rowInfo.id];
-            if (rowData) {
-                rowData[colInfo.name] = emptyCellValue;
-            } else {
-                changes[rowInfo.id] = {[colInfo.name]: emptyCellValue};
-            }
-        }
-    }
-    this.commitEditChanges(changes);
-}
-
 export const datagrid: DTablePlugin<DTableDatagridTypes, DTableDatagridDependencies> = {
     name: 'datagrid',
     plugins: [editable, selectable, hotkey],
@@ -116,27 +102,89 @@ export const datagrid: DTablePlugin<DTableDatagridTypes, DTableDatagridDependenc
         cellHover: true,
         bordered: true,
         striped: false,
-        deleteHotkey: true,
+        hotkeyDelete: true,
+        hotkeySelectAll: true,
+        hotkeyPaste: true,
+        hotkeyCopy: true,
+        hotkeyFocus: true,
+        hotkeyCancel: true,
         emptyCellValue: '',
         cellValueGetter,
         hotkeys: {},
         editable: (_: string, colName: string) => colName !== 'INDEX',
     },
     options(options) {
-        const {deleteHotkey, datasource, hotkeys} = options;
+        const {hotkeyDelete, hotkeyCopy, hotkeyFocus, hotkeyCancel, hotkeyPaste, hotkeySelectAll, datasource, hotkeys} = options;
         const hotkeysOverride = {
             ...hotkeys,
         };
-        if (deleteHotkey) {
-            hotkeysOverride[typeof deleteHotkey === 'string' ? deleteHotkey : 'delete,backspace,s'] = this.handleDeleteHotkey as unknown as DTableHotkeyCallback;
-        }
+        ([
+            [hotkeyDelete, 'delete,backspace,s', this.handleHotkeyDelete],
+            [hotkeyCopy, 'ctrl+c,command+c', this.handleHotkeyCopy],
+            [hotkeyPaste, 'ctrl+v,command+v', this.handleHotkeyPaste],
+            [hotkeySelectAll, 'ctrl+a,command+a', this.handleHotkeySelectAll],
+            [hotkeyFocus, 'enter', this.handleHotkeyFocus],
+            [hotkeyCancel, 'esc', this.handleHotkeyCancel],
+        ] as [string | boolean, string, unknown][]).forEach(([option, defaultKey, callback]) => {
+            if (!option) {
+                return;
+            }
+            hotkeysOverride[typeof option === 'string' ? option : defaultKey] = callback as unknown as DTableHotkeyCallback;
+        });
         return {
             hotkeys: hotkeysOverride,
             ...convertDatasource(this, datasource),
         };
     },
     methods: {
-        handleDeleteHotkey,
+        handleHotkeyDelete() {
+            const changes: DTableEditChanges = {};
+            const {emptyCellValue} = this.options;
+            for (const [col, rows] of this.state.selectedMap.entries()) {
+                const colInfo = this.getColInfo(col);
+                if (!colInfo) {
+                    continue;
+                }
+                for (const row of rows) {
+                    const rowInfo = this.getRowInfo(row);
+                    if (!rowInfo) {
+                        continue;
+                    }
+                    const rowData = changes[rowInfo.id];
+                    if (rowData) {
+                        rowData[colInfo.name] = emptyCellValue;
+                    } else {
+                        changes[rowInfo.id] = {[colInfo.name]: emptyCellValue};
+                    }
+                }
+            }
+            this.commitEditChanges(changes);
+        },
+        handleHotkeySelectAll(event) {
+            this.selectAllCells();
+            event.preventDefault();
+        },
+        handleHotkeyPaste() {
+
+        },
+        handleHotkeyCopy() {
+
+        },
+        handleHotkeyFocus() {
+            const selectedCell = this.getSelectedCells()[0];
+            if (!selectedCell) {
+                return;
+            }
+            const colInfo = this.getColInfo(selectedCell.col);
+            const rowInfo = this.getRowInfo(selectedCell.row);
+            if (!colInfo || !rowInfo) {
+                return;
+            }
+            this.editCell({rowID: rowInfo.id, colName: colInfo.name});
+        },
+        handleHotkeyCancel() {
+            this.deselectAllCells();
+        },
     },
 };
 

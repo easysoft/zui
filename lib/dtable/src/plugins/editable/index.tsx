@@ -23,6 +23,7 @@ export interface DTableEditableTypes extends DTablePluginTypes {
         isCellEditing: (this: DTableEditable, rowID: string, colName: string) => boolean;
         handleEditingInputChange: (this: DTableEditable, event: Event) => void;
         handleEditingInputBlur: (this: DTableEditable, event: Event) => void;
+        handleEditingKeyDown: (this: DTableEditable, event: KeyboardEvent) => void;
         renderEditableCell: NonNullable<typeof editable['onRenderCell']>;
         getEditedCellValue(this: DTableEditable, rowID: string, colName: string): unknown;
         commitEditChanges(this: DTableEditable, changes: DTableEditChanges): void;
@@ -63,7 +64,7 @@ export const editable: DTablePlugin<DTableEditableTypes> = {
             }
             this.data.editingInputRef.current = null;
             this.data.needAutoFocus = true;
-            this.state.editingCell = cell;
+            this.setState({editingCell: cell});
         },
         getEditedCellValue(rowID, colName) {
             const rowChangedData = this.state.editingChanges[rowID];
@@ -117,6 +118,13 @@ export const editable: DTablePlugin<DTableEditableTypes> = {
         handleEditingInputBlur() {
             this.editCell();
         },
+        handleEditingKeyDown(event) {
+            if (event.key === 'Enter') {
+                this.data.editingInputRef.current?.blur();
+            } else if (event.key === 'Esc') {
+                this.editCell();
+            }
+        },
         renderEditableCell(result, {col, row}) {
             const {id: rowID} = row;
             if (this.isCellEditing(rowID, col.name)) {
@@ -130,6 +138,7 @@ export const editable: DTablePlugin<DTableEditableTypes> = {
                         style={{textAlign: col.setting.align}}
                         onChange={this.handleEditingInputChange}
                         onBlur={this.handleEditingInputBlur}
+                        onKeyDown={this.handleEditingKeyDown}
                     />
                 );
                 return [{

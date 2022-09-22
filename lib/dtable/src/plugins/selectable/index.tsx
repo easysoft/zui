@@ -236,9 +236,14 @@ function selectAllCells(this: DTableSelectable): void {
     this.forceUpdate();
 }
 
-function deselectAllCells(this: DTableSelectable): void {
-    this.state.selectedMap.clear();
-    this.forceUpdate();
+function deselectAllCells(this: DTableSelectable): boolean {
+    const {selectedMap} = this.state;
+    if (selectedMap.size) {
+        selectedMap.clear();
+        this.forceUpdate();
+        return true;
+    }
+    return false;
 }
 
 function isCellSelected(this: DTableSelectable, cell: DTableCellSelection | DTableCellPos): boolean {
