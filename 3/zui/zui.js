@@ -1008,7 +1008,7 @@ class Zt extends st {
     const o = typeof t == "object" ? t : this.getRowInfo(t);
     if (!o)
       return;
-    const i = typeof s == "string" ? this.getColInfo(s) : s;
+    const i = typeof s == "object" ? s : this.getColInfo(s);
     if (!i)
       return;
     let r = o.id === "HEADER" ? (c = i.setting.title) != null ? c : i.setting.name : (h = o.data) == null ? void 0 : h[i.name];
