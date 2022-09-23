@@ -63,5 +63,9 @@ if (!argv.s && !argv.skipBuild) {
     if (argv.rem2px) {
         buildArgs.push('--rem2px');
     }
+
+    if (argv.noPreflightStyle) {
+        buildArgs.push('--noPreflightStyle');
+    }
     await exec('pnpm', buildArgs);
 }

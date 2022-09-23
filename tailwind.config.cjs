@@ -1,7 +1,8 @@
+const minimist = require('minimist');
 const {tailwind: zuiTailwindConfig} = require('zui-config');
 
 /** @type {import('tailwindcss').Config} */
-module.exports = {
+const config = {
     content: process.env.NODE_ENV === 'development' ? [
         './index.html',
         './index.md',
@@ -18,3 +19,12 @@ module.exports = {
     ],
     prefix: '-',
 };
+
+const argv = minimist(process.argv.slice(4));
+if (argv.noPreflightStyle) {
+    config.corePlugins = {
+        preflight: false,
+    };
+}
+
+module.exports = config;
