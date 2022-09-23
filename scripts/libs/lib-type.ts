@@ -3,6 +3,7 @@ export enum LibType {
     control = 'control',
     jsHelpers = 'js-helpers',
     component = 'component',
+    jsUI = 'js-ui',
     cssUtilities = 'css-utilities',
     jsLib = 'js-lib',
     other = 'other',
@@ -14,6 +15,7 @@ export const libTypeOrders = {
     [LibType.control]: 2,
     [LibType.jsHelpers]: 3,
     [LibType.component]: 4,
-    [LibType.cssUtilities]: 5,
-    [LibType.jsLib]: 6,
+    [LibType.jsUI]: 5,
+    [LibType.cssUtilities]: 6,
+    [LibType.jsLib]: 7,
 };
