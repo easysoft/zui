@@ -8,11 +8,14 @@ export interface DTableEditableTypes extends DTablePluginTypes {
         headerEditable: boolean;
         onEditCell?: (this: DTableEditable, changeInfo: {rowID: string, colName: string, value: unknown, oldValue: unknown}) => false | void;
         onEditChange?: (this: DTableEditable, changes: DTableEditChanges) => false | void;
+        afterEditChange?: (this: DTableEditable, changes: DTableEditChanges) => void;
         selectAllOnFocus?: boolean;
+        history?: boolean | number;
     }>;
     state: {
         editingCell?: {rowID: string, colName: string};
         editingChanges: DTableEditChanges;
+        appliedChanges: DTableEditChanges;
     };
     data: {
         editingInputRef: RefObject<HTMLInputElement>;
@@ -20,13 +23,15 @@ export interface DTableEditableTypes extends DTablePluginTypes {
     },
     methods: {
         editCell(this: DTableEditable, cell?: {rowID: string, colName: string}): void;
+        deleteCells(this: DTableEditable, cells: {rowID: string, colName: string}[], emptyCellValue?: unknown): boolean;
         isCellEditing: (this: DTableEditable, rowID: string, colName: string) => boolean;
         handleEditingInputChange: (this: DTableEditable, event: Event) => void;
         handleEditingInputBlur: (this: DTableEditable, event: Event) => void;
         handleEditingKeyDown: (this: DTableEditable, event: KeyboardEvent) => void;
         renderEditableCell: NonNullable<typeof editable['onRenderCell']>;
         getEditedCellValue(this: DTableEditable, rowID: string, colName: string): unknown;
-        commitEditChanges(this: DTableEditable, changes: DTableEditChanges): void;
+        commitChanges(this: DTableEditable, changes: DTableEditChanges, options?: {skipTriggerUpdate?: boolean, callback?: (editingChanges: DTableEditChanges) => void}): void;
+        applyChanges(this: DTableEditable, changes: DTableEditChanges, options?: {skipTriggerUpdate?: boolean, callback?: (appliedChanges: DTableEditChanges) => void}): void;
     }
 }
 
@@ -39,6 +44,7 @@ export const editable: DTablePlugin<DTableEditableTypes> = {
     defaultOptions: {
         editable: true,
         selectAllOnFocus: true,
+        history: 20,
     },
     when: options => !!options.editable,
     events: {
@@ -50,7 +56,7 @@ export const editable: DTablePlugin<DTableEditableTypes> = {
         return {editingInputRef: createRef<HTMLInputElement>()};
     },
     state() {
-        return {editingChanges: {}};
+        return {editingChanges: {}, appliedChanges: {}};
     },
     methods: {
         isCellEditing(rowID, colName) {
@@ -66,12 +72,92 @@ export const editable: DTablePlugin<DTableEditableTypes> = {
             this.data.needAutoFocus = true;
             this.setState({editingCell: cell});
         },
+        deleteCells(cells, emptyCellValue = null) {
+            const changes: DTableEditChanges = {};
+            cells.forEach((cell) => {
+                const rowData = changes[cell.rowID];
+                if (rowData) {
+                    rowData[cell.colName] = emptyCellValue;
+                } else {
+                    changes[cell.rowID] = {[cell.colName]: emptyCellValue};
+                }
+            });
+            if (Object.keys(changes).length) {
+                this.commitChanges(changes);
+                return true;
+            }
+            return false;
+        },
         getEditedCellValue(rowID, colName) {
+            const rowAppliedData = this.state.appliedChanges[rowID];
+            if (rowAppliedData && colName in rowAppliedData) {
+                return rowAppliedData[colName];
+            }
             const rowChangedData = this.state.editingChanges[rowID];
             if (rowChangedData && colName in rowChangedData) {
                 return rowChangedData[colName];
             }
             return this.getCellValue(rowID, colName);
+        },
+        commitChanges(changes: DTableEditChanges, options?: {skipTriggerUpdate?: boolean, callback?: (editingChanges: DTableEditChanges) => void}) {
+            if (this.options.onEditChange?.call(this, changes) === false) {
+                return;
+            }
+            const {editingChanges} = this.state;
+            Object.entries(changes).forEach(([rowID, data]) => {
+                const oldData = editingChanges[rowID];
+                if (oldData) {
+                    if (data === null) {
+                        delete editingChanges[rowID];
+                    } else {
+                        Object.assign(oldData, data);
+                    }
+                } else {
+                    editingChanges[rowID] = data;
+                }
+            });
+            if (!options?.skipTriggerUpdate) {
+                this.forceUpdate(() => {
+                    options?.callback?.({...editingChanges});
+                    this.options.afterEditChange?.call(this, {...editingChanges});
+                });
+            }
+        },
+        applyChanges(changes: DTableEditChanges, options?: {skipTriggerUpdate?: boolean, callback?: (appliedChanges: DTableEditChanges) => void}) {
+            const {editingChanges, appliedChanges} = this.state;
+            Object.entries(changes).forEach(([rowID, data]) => {
+                const oldEditingData = editingChanges[rowID];
+                if (oldEditingData && typeof data === 'object') {
+                    if (data === null) {
+                        delete editingChanges[rowID];
+                    } else {
+                        Object.keys(data).forEach((colName) => {
+                            if (oldEditingData[colName] === data[colName]) {
+                                delete oldEditingData[colName];
+                            }
+                        });
+                    }
+                    if (!Object.keys(oldEditingData).length) {
+                        delete editingChanges[rowID];
+                    }
+                }
+
+                const oldAppliedData = appliedChanges[rowID];
+                if (oldAppliedData) {
+                    if (data === null) {
+                        delete editingChanges[rowID];
+                    } else {
+                        Object.assign(oldAppliedData, data);
+                    }
+                } else {
+                    appliedChanges[rowID] = data;
+                }
+            });
+            if (!options?.skipTriggerUpdate) {
+                this.forceUpdate(() => {
+                    options?.callback?.({...appliedChanges});
+                });
+            }
         },
         handleEditingInputChange() {
             const newValue = this.data.editingInputRef.current?.value;
@@ -92,28 +178,7 @@ export const editable: DTablePlugin<DTableEditableTypes> = {
             }) === false) {
                 return;
             }
-            this.commitEditChanges({[rowID]: {[colName]: newValue}});
-        },
-        commitEditChanges(changes: DTableEditChanges, options?: {skipTriggerUpdate?: boolean}) {
-            if (this.options.onEditChange?.call(this, changes) === false) {
-                return;
-            }
-            const {editingChanges} = this.state;
-            Object.entries(changes).forEach(([rowID, data]) => {
-                const oldData = editingChanges[rowID];
-                if (oldData) {
-                    if (data === null) {
-                        delete editingChanges[rowID];
-                    } else {
-                        Object.assign(oldData, data);
-                    }
-                } else {
-                    editingChanges[rowID] = data;
-                }
-            });
-            if (!options?.skipTriggerUpdate) {
-                this.forceUpdate();
-            }
+            this.commitChanges({[rowID]: {[colName]: newValue}});
         },
         handleEditingInputBlur() {
             this.editCell();
@@ -147,10 +212,8 @@ export const editable: DTablePlugin<DTableEditableTypes> = {
                     children: editingBox,
                 }];
             } else {
-                const editedData = this.state.editingChanges[rowID];
-                if (editedData && col.name in editedData) {
-                    result[0] = editedData[col.name] as preact.ComponentChild;
-                }
+                const cellValue = `${this.getEditedCellValue(rowID, col.name) ?? ''}`;
+                result[0] = {children: cellValue as preact.ComponentChild, attrs: {title: cellValue}};
             }
             return result;
         },
