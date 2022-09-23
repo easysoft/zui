@@ -1,48 +1,35 @@
 export default [
     {
-        "name": "@zui/ajax-form",
+        "name": "@zui/base",
         "version": "0.0.1",
+        "description": "ZUI basic settings",
+        "keywords": [
+            "css",
+            "zui:css-base"
+        ],
         "main": "src/main.ts",
-        "browser": "src/main.ts",
-        "browserslist": "",
         "files": [
             "./src/**/*"
         ],
-        "keywords": [
-            "js",
-            "zui:component"
-        ],
-        "dependencies": {
-            "@zui/browser-helpers": "workspace:^0.0.1"
-        },
-        "devDependencies": {
-            "@zui/base": "workspace:*",
-            "@zui/utilities": "workspace:*",
-            "@zui/form": "workspace:0.0.1",
-            "@zui/button": "workspace:0.0.1"
-        },
         "zui": {
-            "type": "js-ui",
-            "displayName": "ajaxForm",
+            "type": "css-base",
+            "displayName": "CSS 基础",
             "contributes": {
                 "css": [
                     "class",
                     "var"
-                ],
-                "js": [
-                    "component"
                 ]
             },
             "docs": {
                 "sidebar": "lib",
                 "section": "components"
             },
-            "path": "/home/runner/work/zui/zui/lib/ajax-form",
+            "path": "/home/runner/work/zui/zui/lib/base",
             "workspace": true,
             "sourceType": "build-in",
-            "name": "ajax-form",
-            "order": null,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/ajax-form/package.json"
+            "name": "base",
+            "order": 100000005,
+            "packageJsonPath": "/home/runner/work/zui/zui/lib/base/package.json"
         }
     },
     {
@@ -107,119 +94,6 @@ export default [
             "name": "avatar",
             "order": 200000002,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/avatar/package.json"
-        }
-    },
-    {
-        "name": "@zui/avatar-group",
-        "version": "0.0.1",
-        "main": "src/main.ts",
-        "browser": "src/main.ts",
-        "browserslist": "",
-        "keywords": [
-            "css",
-            "zui:control"
-        ],
-        "dependencies": {
-            "@zui/avatar": "workspace:0.0.1"
-        },
-        "devDependencies": {
-            "@zui/base": "workspace:*",
-            "@zui/utilities": "workspace:*"
-        },
-        "zui": {
-            "type": "component",
-            "displayName": "头像组",
-            "contributes": {
-                "css": [
-                    "class",
-                    "var"
-                ]
-            },
-            "docs": {
-                "sidebar": "lib",
-                "section": "components"
-            },
-            "path": "/home/runner/work/zui/zui/lib/avatar-group",
-            "workspace": true,
-            "sourceType": "build-in",
-            "name": "avatar-group",
-            "order": 400000003,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/avatar-group/package.json"
-        }
-    },
-    {
-        "name": "@zui/avatar-js",
-        "version": "0.0.1",
-        "main": "src/main.ts",
-        "browser": "src/main.ts",
-        "browserslist": "",
-        "files": [
-            "./src/**/*"
-        ],
-        "keywords": [
-            "js",
-            "zui:component"
-        ],
-        "dependencies": {
-            "preact": "^10.10.0",
-            "@zui/avatar": "workspace:*",
-            "@zui/browser-helpers": "workspace:^0.0.1"
-        },
-        "devDependencies": {
-            "@zui/base": "workspace:*",
-            "@zui/utilities": "workspace:*"
-        },
-        "zui": {
-            "type": "components",
-            "displayName": "头像生成器",
-            "contributes": {
-                "js": [
-                    "component"
-                ]
-            },
-            "docs": {
-                "sidebar": "lib",
-                "section": "components"
-            },
-            "path": "/home/runner/work/zui/zui/lib/avatar-js",
-            "workspace": true,
-            "sourceType": "build-in",
-            "name": "avatar-js",
-            "order": null,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/avatar-js/package.json"
-        }
-    },
-    {
-        "name": "@zui/base",
-        "version": "0.0.1",
-        "description": "ZUI basic settings",
-        "keywords": [
-            "css",
-            "zui:css-base"
-        ],
-        "main": "src/main.ts",
-        "files": [
-            "./src/**/*"
-        ],
-        "zui": {
-            "type": "css-base",
-            "displayName": "CSS 基础",
-            "contributes": {
-                "css": [
-                    "class",
-                    "var"
-                ]
-            },
-            "docs": {
-                "sidebar": "lib",
-                "section": "components"
-            },
-            "path": "/home/runner/work/zui/zui/lib/base",
-            "workspace": true,
-            "sourceType": "build-in",
-            "name": "base",
-            "order": 100000005,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/base/package.json"
         }
     },
     {
@@ -330,6 +204,81 @@ export default [
             "name": "checkbox",
             "order": 200000010,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/checkbox/package.json"
+        }
+    },
+    {
+        "name": "@zui/icons",
+        "version": "0.0.1",
+        "main": "src/main.ts",
+        "browser": "src/main.ts",
+        "browserslist": "",
+        "keywords": [
+            "css",
+            "zui:control"
+        ],
+        "devDependencies": {
+            "@zui/base": "workspace:*",
+            "@zui/browser-helpers": "workspace:^0.0.1",
+            "@zui/utilities": "workspace:*"
+        },
+        "zui": {
+            "type": "control",
+            "displayName": "图标",
+            "contributes": {
+                "css": [
+                    "class",
+                    "var",
+                    "fonts"
+                ]
+            },
+            "docs": {
+                "sidebar": "lib",
+                "section": "components"
+            },
+            "path": "/home/runner/work/zui/zui/lib/icons",
+            "workspace": true,
+            "sourceType": "build-in",
+            "name": "icons",
+            "order": 200000015,
+            "packageJsonPath": "/home/runner/work/zui/zui/lib/icons/package.json"
+        }
+    },
+    {
+        "name": "@zui/input",
+        "version": "0.0.1",
+        "main": "src/main.ts",
+        "browser": "src/main.ts",
+        "browserslist": "",
+        "keywords": [
+            "css",
+            "zui:control"
+        ],
+        "dependencies": {},
+        "devDependencies": {
+            "@zui/base": "workspace:*",
+            "@zui/utilities": "workspace:*",
+            "@zui/form": "workspace:0.0.1",
+            "@zui/icons": "workspace:0.0.1"
+        },
+        "zui": {
+            "type": "control",
+            "displayName": "输入框",
+            "contributes": {
+                "css": [
+                    "class",
+                    "var"
+                ]
+            },
+            "docs": {
+                "sidebar": "lib",
+                "section": "components"
+            },
+            "path": "/home/runner/work/zui/zui/lib/input",
+            "workspace": true,
+            "sourceType": "build-in",
+            "name": "input",
+            "order": 200000016,
+            "packageJsonPath": "/home/runner/work/zui/zui/lib/input/package.json"
         }
     },
     {
@@ -553,6 +502,79 @@ export default [
         }
     },
     {
+        "name": "@zui/store",
+        "version": "0.0.1",
+        "description": "ZUI localstorage helper",
+        "keywords": [
+            "js",
+            "zui:js-lib"
+        ],
+        "browser": "src/main.ts",
+        "dependencies": {
+            "nanoid": "^4.0.0"
+        },
+        "files": [
+            "./src/**/*"
+        ],
+        "zui": {
+            "type": "js-helpers",
+            "displayName": "本地存储",
+            "contributes": {
+                "js": [
+                    "module"
+                ]
+            },
+            "docs": {
+                "sidebar": "lib",
+                "section": "components"
+            },
+            "path": "/home/runner/work/zui/zui/lib/store",
+            "workspace": true,
+            "sourceType": "build-in",
+            "name": "store",
+            "order": 300000026,
+            "packageJsonPath": "/home/runner/work/zui/zui/lib/store/package.json"
+        }
+    },
+    {
+        "name": "@zui/avatar-group",
+        "version": "0.0.1",
+        "main": "src/main.ts",
+        "browser": "src/main.ts",
+        "browserslist": "",
+        "keywords": [
+            "css",
+            "zui:control"
+        ],
+        "dependencies": {
+            "@zui/avatar": "workspace:0.0.1"
+        },
+        "devDependencies": {
+            "@zui/base": "workspace:*",
+            "@zui/utilities": "workspace:*"
+        },
+        "zui": {
+            "type": "component",
+            "displayName": "头像组",
+            "contributes": {
+                "css": [
+                    "class",
+                    "var"
+                ]
+            },
+            "docs": {
+                "sidebar": "lib",
+                "section": "components"
+            },
+            "path": "/home/runner/work/zui/zui/lib/avatar-group",
+            "workspace": true,
+            "sourceType": "build-in",
+            "name": "avatar-group",
+            "order": 400000003,
+            "packageJsonPath": "/home/runner/work/zui/zui/lib/avatar-group/package.json"
+        }
+    },
+    {
         "name": "@zui/btn-group",
         "version": "0.0.1",
         "main": "src/main.ts",
@@ -592,213 +614,91 @@ export default [
         }
     },
     {
-        "name": "@zui/dropdown",
+        "name": "@zui/ajax-form",
         "version": "0.0.1",
         "main": "src/main.ts",
         "browser": "src/main.ts",
         "browserslist": "",
-        "keywords": [
-            "css",
-            "zui:control"
-        ],
-        "devDependencies": {
-            "@zui/base": "workspace:*",
-            "@zui/button": "workspace:0.0.1",
-            "@zui/utilities": "workspace:*"
-        },
-        "zui": {
-            "type": "js-ui",
-            "displayName": "下拉菜单",
-            "contributes": {
-                "css": [
-                    "class",
-                    "var"
-                ],
-                "js": [
-                    "component"
-                ]
-            },
-            "docs": {
-                "sidebar": "lib",
-                "section": "components"
-            },
-            "path": "/home/runner/work/zui/zui/lib/dropdown",
-            "workspace": true,
-            "sourceType": "build-in",
-            "name": "dropdown",
-            "order": null,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/dropdown/package.json"
-        }
-    },
-    {
-        "name": "@zui/dtable",
-        "version": "0.0.1",
-        "description": "ZUI datatable",
-        "keywords": [
-            "js",
-            "cs",
-            "zui:component"
-        ],
-        "main": "src/main.ts",
-        "module": "src/main.ts",
-        "browser": "src/main.ts",
-        "dependencies": {
-            "@zui/browser-helpers": "workspace:^0.0.1",
-            "@zui/helpers": "workspace:^0.0.1",
-            "@zui/scrollbar": "workspace:^0.0.1",
-            "hotkeys-js": "^3.10.0",
-            "nanoid": "^4.0.0",
-            "preact": "^10.10.0"
-        },
-        "exports": {
-            ".": "./src/main.ts",
-            "./react": "./src/main-react.ts",
-            "./plugins/": "./src/plugins/",
-            "./jquery": "./src/main-jquery.ts"
-        },
         "files": [
             "./src/**/*"
         ],
-        "devDependencies": {
-            "@faker-js/faker": "^7.4.0",
-            "@types/jquery": "^3.5.14",
-            "@zui/avatar": "workspace:^0.0.1",
-            "@zui/label": "workspace:^0.0.1",
-            "jquery": "^3.6.0",
-            "zui-dev": "workspace:^0.0.1"
-        },
-        "zui": {
-            "type": "js-ui",
-            "displayName": "数据表格",
-            "contributes": {
-                "css": [
-                    "class",
-                    "var"
-                ],
-                "js": [
-                    "component"
-                ]
-            },
-            "docs": {
-                "sidebar": "lib",
-                "section": "components"
-            },
-            "path": "/home/runner/work/zui/zui/lib/dtable",
-            "workspace": true,
-            "sourceType": "build-in",
-            "name": "dtable",
-            "order": null,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/dtable/package.json"
-        }
-    },
-    {
-        "name": "@zui/icons",
-        "version": "0.0.1",
-        "main": "src/main.ts",
-        "browser": "src/main.ts",
-        "browserslist": "",
         "keywords": [
-            "css",
-            "zui:control"
+            "js",
+            "zui:component"
         ],
-        "devDependencies": {
-            "@zui/base": "workspace:*",
-            "@zui/browser-helpers": "workspace:^0.0.1",
-            "@zui/utilities": "workspace:*"
+        "dependencies": {
+            "@zui/browser-helpers": "workspace:^0.0.1"
         },
-        "zui": {
-            "type": "control",
-            "displayName": "图标",
-            "contributes": {
-                "css": [
-                    "class",
-                    "var",
-                    "fonts"
-                ]
-            },
-            "docs": {
-                "sidebar": "lib",
-                "section": "components"
-            },
-            "path": "/home/runner/work/zui/zui/lib/icons",
-            "workspace": true,
-            "sourceType": "build-in",
-            "name": "icons",
-            "order": 200000015,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/icons/package.json"
-        }
-    },
-    {
-        "name": "@zui/input",
-        "version": "0.0.1",
-        "main": "src/main.ts",
-        "browser": "src/main.ts",
-        "browserslist": "",
-        "keywords": [
-            "css",
-            "zui:control"
-        ],
-        "dependencies": {},
         "devDependencies": {
             "@zui/base": "workspace:*",
             "@zui/utilities": "workspace:*",
             "@zui/form": "workspace:0.0.1",
-            "@zui/icons": "workspace:0.0.1"
+            "@zui/button": "workspace:0.0.1"
         },
         "zui": {
-            "type": "control",
-            "displayName": "输入框",
+            "type": "js-ui",
+            "displayName": "ajaxForm",
             "contributes": {
                 "css": [
                     "class",
                     "var"
+                ],
+                "js": [
+                    "component"
                 ]
             },
             "docs": {
                 "sidebar": "lib",
                 "section": "components"
             },
-            "path": "/home/runner/work/zui/zui/lib/input",
+            "path": "/home/runner/work/zui/zui/lib/ajax-form",
             "workspace": true,
             "sourceType": "build-in",
-            "name": "input",
-            "order": 200000016,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/input/package.json"
+            "name": "ajax-form",
+            "order": 500000000,
+            "packageJsonPath": "/home/runner/work/zui/zui/lib/ajax-form/package.json"
         }
     },
     {
-        "name": "@zui/store",
+        "name": "@zui/avatar-js",
         "version": "0.0.1",
-        "description": "ZUI localstorage helper",
-        "keywords": [
-            "js",
-            "zui:js-lib"
-        ],
+        "main": "src/main.ts",
         "browser": "src/main.ts",
-        "dependencies": {
-            "nanoid": "^4.0.0"
-        },
+        "browserslist": "",
         "files": [
             "./src/**/*"
         ],
+        "keywords": [
+            "js",
+            "zui:component"
+        ],
+        "dependencies": {
+            "preact": "^10.10.0",
+            "@zui/avatar": "workspace:*",
+            "@zui/browser-helpers": "workspace:^0.0.1"
+        },
+        "devDependencies": {
+            "@zui/base": "workspace:*",
+            "@zui/utilities": "workspace:*"
+        },
         "zui": {
-            "type": "js-helpers",
-            "displayName": "本地存储",
+            "type": "components",
+            "displayName": "头像生成器",
             "contributes": {
                 "js": [
-                    "module"
+                    "component"
                 ]
             },
             "docs": {
                 "sidebar": "lib",
                 "section": "components"
             },
-            "path": "/home/runner/work/zui/zui/lib/store",
+            "path": "/home/runner/work/zui/zui/lib/avatar-js",
             "workspace": true,
             "sourceType": "build-in",
-            "name": "store",
-            "order": 300000026,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/store/package.json"
+            "name": "avatar-js",
+            "order": null,
+            "packageJsonPath": "/home/runner/work/zui/zui/lib/avatar-js/package.json"
         }
     },
     {
@@ -1072,39 +972,103 @@ export default [
         }
     },
     {
-        "name": "@zui/helpers",
+        "name": "@zui/dropdown",
         "version": "0.0.1",
-        "description": "ZUI helpers",
-        "keywords": [
-            "js",
-            "zui:js-helpers"
-        ],
         "main": "src/main.ts",
-        "module": "src/main.ts",
-        "browser": "src/main-browser.ts",
-        "files": [
-            "./src/**/*"
+        "browser": "src/main.ts",
+        "browserslist": "",
+        "keywords": [
+            "css",
+            "zui:control"
         ],
+        "devDependencies": {
+            "@zui/base": "workspace:*",
+            "@zui/button": "workspace:0.0.1",
+            "@zui/utilities": "workspace:*"
+        },
         "zui": {
-            "type": "js-lib",
-            "displayName": "JS 辅助方法",
+            "type": "js-ui",
+            "displayName": "下拉菜单",
             "contributes": {
-                "js": [
+                "css": [
                     "class",
-                    "var",
-                    "method"
+                    "var"
+                ],
+                "js": [
+                    "component"
                 ]
             },
             "docs": {
                 "sidebar": "lib",
                 "section": "components"
             },
-            "path": "/home/runner/work/zui/zui/lib/helpers",
+            "path": "/home/runner/work/zui/zui/lib/dropdown",
             "workspace": true,
             "sourceType": "build-in",
-            "name": "helpers",
-            "order": 600000014,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/helpers/package.json"
+            "name": "dropdown",
+            "order": 500000011,
+            "packageJsonPath": "/home/runner/work/zui/zui/lib/dropdown/package.json"
+        }
+    },
+    {
+        "name": "@zui/dtable",
+        "version": "0.0.1",
+        "description": "ZUI datatable",
+        "keywords": [
+            "js",
+            "cs",
+            "zui:component"
+        ],
+        "main": "src/main.ts",
+        "module": "src/main.ts",
+        "browser": "src/main.ts",
+        "dependencies": {
+            "@zui/browser-helpers": "workspace:^0.0.1",
+            "@zui/helpers": "workspace:^0.0.1",
+            "@zui/scrollbar": "workspace:^0.0.1",
+            "hotkeys-js": "^3.10.0",
+            "nanoid": "^4.0.0",
+            "preact": "^10.10.0"
+        },
+        "exports": {
+            ".": "./src/main.ts",
+            "./react": "./src/main-react.ts",
+            "./plugins/": "./src/plugins/",
+            "./jquery": "./src/main-jquery.ts"
+        },
+        "files": [
+            "./src/**/*"
+        ],
+        "devDependencies": {
+            "@faker-js/faker": "^7.4.0",
+            "@types/jquery": "^3.5.14",
+            "@zui/avatar": "workspace:^0.0.1",
+            "@zui/label": "workspace:^0.0.1",
+            "jquery": "^3.6.0",
+            "zui-dev": "workspace:^0.0.1"
+        },
+        "zui": {
+            "type": "js-ui",
+            "displayName": "数据表格",
+            "contributes": {
+                "css": [
+                    "class",
+                    "var"
+                ],
+                "js": [
+                    "component"
+                ]
+            },
+            "docs": {
+                "sidebar": "lib",
+                "section": "components"
+            },
+            "path": "/home/runner/work/zui/zui/lib/dtable",
+            "workspace": true,
+            "sourceType": "build-in",
+            "name": "dtable",
+            "order": 500000012,
+            "packageJsonPath": "/home/runner/work/zui/zui/lib/dtable/package.json"
         }
     },
     {
@@ -1142,7 +1106,7 @@ export default [
             "workspace": true,
             "sourceType": "build-in",
             "name": "tabs",
-            "order": null,
+            "order": 500000028,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/tabs/package.json"
         }
     },
@@ -1178,8 +1142,44 @@ export default [
             "workspace": true,
             "sourceType": "build-in",
             "name": "utilities",
-            "order": 500000030,
+            "order": 600000030,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/utilities/package.json"
+        }
+    },
+    {
+        "name": "@zui/helpers",
+        "version": "0.0.1",
+        "description": "ZUI helpers",
+        "keywords": [
+            "js",
+            "zui:js-helpers"
+        ],
+        "main": "src/main.ts",
+        "module": "src/main.ts",
+        "browser": "src/main-browser.ts",
+        "files": [
+            "./src/**/*"
+        ],
+        "zui": {
+            "type": "js-lib",
+            "displayName": "JS 辅助方法",
+            "contributes": {
+                "js": [
+                    "class",
+                    "var",
+                    "method"
+                ]
+            },
+            "docs": {
+                "sidebar": "lib",
+                "section": "components"
+            },
+            "path": "/home/runner/work/zui/zui/lib/helpers",
+            "workspace": true,
+            "sourceType": "build-in",
+            "name": "helpers",
+            "order": 700000014,
+            "packageJsonPath": "/home/runner/work/zui/zui/lib/helpers/package.json"
         }
     }
 ];
