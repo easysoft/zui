@@ -18,6 +18,7 @@ export type DTableSelectableTypes = {
     options: Partial<{
         selectable: boolean | ((cellPos: DTableCellPos) => boolean);
         onSelectCells: (this: DTableSelectable, cells: DTableCellPos[]) => void;
+        ignoreDeselectOn: string;
     }>,
     state: {
         selectedMap: DTableCellPosMap;
@@ -342,6 +343,9 @@ export const selectable: DTablePlugin<DTableSelectableTypes> = {
     events: {
         mousedown(event) {
             const pos = getMousePos(this, event);
+            if (event.button !== 0 && (!pos || this.isCellSelected(pos))) {
+                return;
+            }
             this.data.selectingStart = pos;
             if (pos) {
                 event.stopPropagation();
@@ -384,7 +388,8 @@ export const selectable: DTablePlugin<DTableSelectableTypes> = {
             if (!target) {
                 return;
             }
-            if (!target.closest(`#${this.id}`)) {
+            const {ignoreDeselectOn} = this.options;
+            if (!target.closest(`#${this.id}${ignoreDeselectOn ? `,${ignoreDeselectOn}` : ''}`)) {
                 this.deselectAllCells();
             }
         };
