@@ -2,6 +2,7 @@ import {definePlugin} from '../../helpers/shared-plugins';
 import editable, {DTableEditableTypes, DTableEditChanges} from '../editable';
 import selectable, {DTableCellPos, DTableSelectableTypes} from '../selectable';
 import hotkey, {DTableHotkeyCallback, DTableHotkeyTypes} from '../hotkey';
+import './style.css';
 
 interface DTableDatasource {
     cols?: ColSetting[],
@@ -45,27 +46,27 @@ function convertDatasource(table: DTableDatagrid, datasource: DTableDatasource):
     data: number,
 }) {
     const {data = []} = datasource;
-    const {minRows = 1, minCols = 1, extraRows = 0, extraCols = 0, showRowIndex, cols: optionCols = []} = table.options;
+    const {minRows = 1, minCols = 1, extraRows = 0, extraCols = 0, showRowIndex, cols: optionCols = [], defaultColWidth} = table.options;
     const rowSize = Math.max(minCols, data.reduce((size, rowData) => Math.max(size, rowData.length), 0) + extraCols);
     const rowsCount = Math.max(data.length + extraRows, minRows);
     const cols: ColSetting[] = [];
-    if (showRowIndex) {
+    if (showRowIndex !== false) {
         cols.push({
             width: `${rowsCount + 1}`.length * 8 + 24,
             name: 'INDEX',
             fixed: 'left',
             align: 'right',
             title: typeof showRowIndex === 'string' ? showRowIndex : '#',
+            ...optionCols.find(x => x.name === 'INDEX'),
         });
     }
     for (let i = 0; i < rowSize; ++i) {
         const col = {
             name: `${i}`,
-            title: `C${i}`,
+            title: `C${i + 1}`,
+            width: defaultColWidth,
+            ...optionCols.find(x => x.name === `${i}`),
         };
-        if (optionCols[i]) {
-            Object.assign(col, optionCols[i]);
-        }
         cols.push(col);
     }
     return {
@@ -89,7 +90,6 @@ export const datagrid: DTablePlugin<DTableDatagridTypes, DTableDatagridDependenc
     plugins: [editable, selectable, hotkey],
     defaultOptions: {
         defaultColWidth: 80,
-        minColWidth: 80,
         headerEditable: true,
         minRows: 20,
         minCols: 10,
@@ -238,6 +238,9 @@ export const datagrid: DTablePlugin<DTableDatagridTypes, DTableDatagridDependenc
         handleHotkeyCancel() {
             this.deselectAllCells();
         },
+    },
+    onRender() {
+        return {className: 'dtable-datagrid'};
     },
 };
 

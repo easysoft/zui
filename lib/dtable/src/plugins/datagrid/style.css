@@ -1,0 +1,3 @@
+.dtable-datagrid .dtable-rows .dtable-cell[data-col="INDEX"]  {
+    background: var(--dtable-header-bg);
+}
