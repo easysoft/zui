@@ -289,6 +289,16 @@ export const datagrid: DTablePlugin<DTableDatagridTypes, DTableDatagridDependenc
     onRender() {
         return {className: 'dtable-datagrid'};
     },
+    onCellClick(_, {rowID, colName}) {
+        if (rowID === 'HEADER' || colName !== 'INDEX') {
+            return;
+        }
+        const rowInfo = this.getRowInfo(rowID);
+        if (!rowInfo) {
+            return;
+        }
+        this.selectCells(`R${rowInfo.index}`);
+    },
 };
 
 const plugin = definePlugin(datagrid);
