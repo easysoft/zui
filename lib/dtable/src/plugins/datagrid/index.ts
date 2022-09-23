@@ -45,8 +45,8 @@ function convertDatasource(table: DTableDatagrid, datasource: DTableDatasource):
     cols: ColSetting[],
     data: number,
 }) {
-    const {data = []} = datasource;
-    const {minRows = 1, minCols = 1, extraRows = 0, extraCols = 0, showRowIndex, cols: optionCols = [], defaultColWidth} = table.options;
+    const {data = [], cols: optionCols = []} = datasource;
+    const {minRows = 1, minCols = 1, extraRows = 0, extraCols = 0, showRowIndex, defaultColWidth} = table.options;
     const rowSize = Math.max(minCols, data.reduce((size, rowData) => Math.max(size, rowData.length), 0) + extraCols);
     const rowsCount = Math.max(data.length + extraRows, minRows);
     const cols: ColSetting[] = [];
@@ -61,11 +61,11 @@ function convertDatasource(table: DTableDatagrid, datasource: DTableDatasource):
         });
     }
     for (let i = 0; i < rowSize; ++i) {
+        const name = `C${i + 1}`;
         const col = {
-            name: `${i}`,
-            title: `C${i + 1}`,
+            name,
             width: defaultColWidth,
-            ...optionCols.find(x => x.name === `${i}`),
+            ...optionCols.find(x => x.name === name),
         };
         cols.push(col);
     }
@@ -80,7 +80,7 @@ function cellValueGetter(this: DTableDatagrid, row: RowInfo, col: ColInfo, origi
         return row.id === 'HEADER' ? originValue : (row.index + 1);
     }
     if (row.id !== 'HEADER') {
-        return this.options.datasource.data?.[row.index]?.[+col.name];
+        return this.options.datasource.data?.[row.index]?.[+col.name.replace('C', '') - 1];
     }
     return originValue;
 }
