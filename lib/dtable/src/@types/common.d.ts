@@ -6,6 +6,7 @@ type CustomRenderResultItem = Partial<{
     className: ClassNameLike;
     outer: boolean;
     children: preact.ComponentChildren;
+    attrs: preact.JSX.HTMLAttributes<HTMLDivElement>;
 }>;
 
 type CustomRenderResult = (CustomRenderResultItem | preact.ComponentChildren)[];

@@ -16,7 +16,7 @@ export type CellProps = {
     onRenderCell: CellRenderCallback;
 }>;
 
-export function Cell({col, className, height, row, onRenderCell, style: styleFromParent, outerStyle: outerStyleFromParent, children: childrenFromParent, ...others}: CellProps) {
+export function Cell({col, className, height, row, onRenderCell, style: styleFromParent, outerStyle: outerStyleFromParent, children: childrenFromParent, outerClass, ...others}: CellProps) {
     const outerStyle = {
         left: col.left,
         width: col.realWidth,
@@ -29,22 +29,24 @@ export function Cell({col, className, height, row, onRenderCell, style: styleFro
         ...col.setting.cellStyle,
         ...styleFromParent,
     };
-    const outerClassName: ClassNameLike[] = ['dtable-cell', className, col.setting.className, {
+    const outerClassName: ClassNameLike[] = ['dtable-cell', outerClass, col.setting.className, {
         'has-border-left': border === true || border === 'left',
         'has-border-right': border === true || border === 'right',
     }];
-    const contentClassName: ClassNameLike[] = ['dtable-cell-content'];
+    const contentClassName: ClassNameLike[] = ['dtable-cell-content', className];
 
     const defaultResult: CustomRenderResult = [childrenFromParent ?? row.data?.[col.name] ?? ''];
     const result: CustomRenderResult = onRenderCell ? onRenderCell(defaultResult, {row, col}, _h) : defaultResult;
 
     const outerChildren: ComponentChildren[] = [];
     const contentChildren: ComponentChildren[] = [];
+    const outerAttrs: JSX.HTMLAttributes<HTMLDivElement> = {};
+    const contentAttrs: JSX.HTMLAttributes<HTMLDivElement> = {};
     result?.forEach(item => {
-        if (typeof item === 'object' && item && ('html' in item || 'className' in item || 'style' in item)) {
+        if (typeof item === 'object' && item && ('html' in item || 'className' in item || 'style' in item || 'attrs' in item)) {
             const children = item.outer ? outerChildren : contentChildren;
             if (item.html) {
-                children.push(<div className={classes('dtable-cell-html', item.className)} style={item.style} dangerouslySetInnerHTML={{__html: item.html}}></div>);
+                children.push(<div className={classes('dtable-cell-html', item.className)} style={item.style} dangerouslySetInnerHTML={{__html: item.html}} {...(item.attrs ?? {})}></div>);
             } else {
                 if (item.style) {
                     Object.assign(item.outer ? outerStyle : contentStyle, item.style);
@@ -54,6 +56,9 @@ export function Cell({col, className, height, row, onRenderCell, style: styleFro
                 }
                 if (item.children) {
                     children.push(item.children);
+                }
+                if (item.attrs) {
+                    Object.assign(item.outer ? outerAttrs : contentAttrs, item.attrs);
                 }
             }
         } else {
@@ -67,9 +72,10 @@ export function Cell({col, className, height, row, onRenderCell, style: styleFro
             style={outerStyle}
             data-col={col.name}
             {...others}
+            {...outerAttrs}
         >
             {
-                contentChildren.length > 0 && (<div className={classes(contentClassName)} style={contentStyle}>
+                contentChildren.length > 0 && (<div className={classes(contentClassName)} style={contentStyle} {...contentAttrs}>
                     {contentChildren}
                 </div>)
             }
