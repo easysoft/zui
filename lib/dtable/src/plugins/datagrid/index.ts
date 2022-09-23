@@ -117,11 +117,10 @@ export const datagrid: DTablePlugin<DTableDatagridTypes, DTableDatagridDependenc
         cellValueSplitter: '\t',
         cellValueGetter,
         hotkeys: {},
-        editable: (_: string, colName: string) => colName !== 'INDEX',
         selectable: (pos) => pos.col !== 0,
     },
     options(options) {
-        const {hotkeyDelete, hotkeyCopy, hotkeyFocus, hotkeyCancel, hotkeyPaste, hotkeyCut, hotkeySelectAll, datasource, hotkeys} = options;
+        const {hotkeyDelete, hotkeyCopy, hotkeyFocus, hotkeyCancel, hotkeyPaste, hotkeyCut, hotkeySelectAll, datasource, hotkeys, editable: editableOption} = options;
         const hotkeysOverride = {
             ...hotkeys,
         };
@@ -141,6 +140,12 @@ export const datagrid: DTablePlugin<DTableDatagridTypes, DTableDatagridDependenc
         });
         return {
             hotkeys: hotkeysOverride,
+            editable: editableOption ? (rowID: string, colName: string) => {
+                if (typeof editableOption === 'function' && !editableOption(rowID, colName)) {
+                    return false;
+                }
+                return colName !== 'INDEX';
+            } : false,
             ...convertDatasource(this, datasource),
         };
     },
