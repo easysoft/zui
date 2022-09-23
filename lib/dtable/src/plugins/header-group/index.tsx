@@ -23,8 +23,8 @@ export const headerGroup: DTablePlugin<DTableHeaderGroupTypes> = {
     defaultOptions: {
         headerGroup: true,
     },
-    data: {
-        headerGroups: new Map(),
+    data() {
+        return {headerGroups: new Map()};
     },
     when: options => !!options.headerGroup,
     beforeLayout(options) {

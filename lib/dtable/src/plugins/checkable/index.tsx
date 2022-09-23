@@ -107,8 +107,8 @@ export const checkable: DTablePlugin<DTableCheckableTypes> = {
     name: 'checkable',
     defaultOptions: {checkable: true},
     when: options => !!options.checkable,
-    state: {
-        checkedRows: {},
+    state() {
+        return {checkedRows: {}};
     },
     methods: {
         toggleCheckRows,

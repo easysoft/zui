@@ -38,8 +38,8 @@ type DTablePlugin<T extends DTablePluginTypes = DTablePluginTypes, D extends DTa
     colTypes: Record<string, Partial<PluginColSetting> | PluginColSettingModifier<T, D>>;
     events: DTablePluginEvents<T>;
     methods: Readonly<T['methods']>,
-    data: {} & T['data'],
-    state: {} & T['state'],
+    data: (this: PluginTable) => {} & T['data'],
+    state: (this: PluginTable) => {} & T['state'],
     options: (this: PluginTable, options: Options) => Partial<Options>;
     onCreate: (this: PluginTable, plugin: this) => void;
     onMounted: (this: PluginTable) => void;

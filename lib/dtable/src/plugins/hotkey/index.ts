@@ -20,8 +20,8 @@ type DTableHotkey = DTableWithPlugin<DTableHotkeyTypes>;
 
 export const headerGroup: DTablePlugin<DTableHotkeyTypes> = {
     name: 'hotkey',
-    data: {
-        hotkeys: new Map(),
+    data() {
+        return {hotkeys: new Map()};
     },
     when: options => !!options.hotkeys,
     methods: {

@@ -322,9 +322,11 @@ export const selectable: DTablePlugin<DTableSelectableTypes> = {
     name: 'selectable',
     defaultOptions: {selectable: true},
     when: options => !!options.selectable,
-    state: {
-        selectedMap: new Map(),
-        selectingMap: new Map(),
+    state() {
+        return {
+            selectedMap: new Map(),
+            selectingMap: new Map(),
+        };
     },
     methods: {
         selectCells,

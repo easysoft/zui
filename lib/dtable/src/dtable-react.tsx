@@ -54,10 +54,10 @@ export class DTable extends Component<DTableOptions, DTableState> {
                 });
             }
             if (data) {
-                Object.assign(this.#data, data);
+                Object.assign(this.#data, data.call(this));
             }
             if (state) {
-                Object.assign(this.state, state);
+                Object.assign(this.state, state.call(this));
             }
 
             plugin.onCreate?.call(this, plugin);
@@ -186,11 +186,11 @@ export class DTable extends Component<DTableOptions, DTableState> {
     }
 
     getColInfo(colNameOrIndex: string | number): ColInfo | undefined {
-        const {map} = this.layout.colsInfo;
+        const {colsMap} = this.layout;
         if (typeof colNameOrIndex === 'number') {
-            return Object.values(map).find(x => x.index === colNameOrIndex);
+            return Object.values(colsMap).find(x => x.index === colNameOrIndex);
         }
-        return map[colNameOrIndex];
+        return colsMap[colNameOrIndex];
     }
 
     getRowInfo(idOrIndex: string | number): RowInfo | undefined {
@@ -363,7 +363,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
         const scrollbars = [];
         const {scrollLeft, colsInfo, scrollTop, rowsHeight, rowsHeightTotal} = layout;
         const {scrollWidthTotal, scrollWidth} = colsInfo;
-        const {scrollbarSize = 12, horzScrollbarPos} = this.props;
+        const {scrollbarSize = 12, horzScrollbarPos} = this.options;
         if (scrollWidthTotal > scrollWidth) {
             scrollbars.push(
                 <Scrollbar
@@ -526,7 +526,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
         const options = {...defaultOptions, ...this.#allPlugins.reduce((currentOptions, plugin) => {
             const {defaultOptions: pluginOptions} = plugin;
             if (pluginOptions) {
-                currentOptions = {...currentOptions, ...pluginOptions};
+                Object.assign(currentOptions, pluginOptions);
             }
             return currentOptions;
         }, {}), ...this.props} as DTableOptions;
@@ -763,8 +763,8 @@ export class DTable extends Component<DTableOptions, DTableState> {
             footer,
             headerHeight,
             footerHeight,
+            colsMap,
             colsInfo: {
-                map: colsMap,
                 fixedLeftCols,
                 fixedRightCols,
                 scrollCols,

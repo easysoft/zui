@@ -22,8 +22,8 @@ type DTableLayout = {
     footer: boolean | preact.ComponentChildren | ((layout: DTableLayout, state: DTableState) => (preact.ComponentChildren | {__html: string}));
     headerHeight: number,
     footerHeight: number,
+    colsMap: Record<string, ColInfo>;
     colsInfo: {
-        map: Record<string, ColInfo>;
         fixedLeftCols: ColInfo[];
         fixedRightCols: ColInfo[];
         scrollCols: ColInfo[];

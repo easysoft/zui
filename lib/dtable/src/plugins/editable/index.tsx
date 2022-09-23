@@ -46,11 +46,11 @@ export const editable: DTablePlugin<DTableEditableTypes> = {
             this.editCell(this.getPointerInfo(event));
         },
     },
-    data: {
-        editingInputRef: createRef<HTMLInputElement>(),
+    data() {
+        return {editingInputRef: createRef<HTMLInputElement>()};
     },
-    state: {
-        editingChanges: {},
+    state() {
+        return {editingChanges: {}};
     },
     methods: {
         isCellEditing(rowID, colName) {

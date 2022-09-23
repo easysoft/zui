@@ -203,8 +203,8 @@ export const nested: DTablePlugin<DTableSortableTypes> = {
         },
     },
     when: options => !!options.nested,
-    data: {
-        nestedMap: new Map(),
+    data() {
+        return {nestedMap: new Map()};
     },
     methods: {
         toggleRow,
