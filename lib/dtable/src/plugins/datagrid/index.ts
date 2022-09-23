@@ -27,6 +27,11 @@ interface DTableDatagridTypes extends DTablePluginTypes {
         cellValueSplitter?: string,
     };
     methods: {
+        deleteSelections: (this: DTableDatagrid) => boolean;
+        copySelections: (this: DTableDatagrid) => boolean;
+        cutSelections: (this: DTableDatagrid) => boolean;
+        pasteCells: (this: DTableDatagrid, targetCell: DTableCellPos | {colName: string, rowID: string}) => Promise<boolean>;
+        pasteToSelection: (this: DTableDatagrid) => Promise<boolean>;
         handleHotkeyDelete: (this: DTableDatagrid, event: KeyboardEvent) => void;
         handleHotkeySelectAll: (this: DTableDatagrid, event: KeyboardEvent) => void;
         handleHotkeyPaste: (this: DTableDatagrid, event: KeyboardEvent) => void;
@@ -140,9 +145,8 @@ export const datagrid: DTablePlugin<DTableDatagridTypes, DTableDatagridDependenc
         };
     },
     methods: {
-        handleHotkeyDelete() {
-            const changes: DTableEditChanges = {};
-            const {emptyCellValue} = this.options;
+        deleteSelections() {
+            const cells: {rowID: string, colName: string}[] = [];
             for (const [col, rows] of this.state.selectedMap.entries()) {
                 const colInfo = this.getColInfo(col);
                 if (!colInfo) {
@@ -153,56 +157,15 @@ export const datagrid: DTablePlugin<DTableDatagridTypes, DTableDatagridDependenc
                     if (!rowInfo) {
                         continue;
                     }
-                    const rowData = changes[rowInfo.id];
-                    if (rowData) {
-                        rowData[colInfo.name] = emptyCellValue;
-                    } else {
-                        changes[rowInfo.id] = {[colInfo.name]: emptyCellValue};
-                    }
+                    cells.push({colName: colInfo.name, rowID: rowInfo.id});
                 }
             }
-            this.commitEditChanges(changes);
+            return this.deleteCells(cells, this.options.emptyCellValue);
         },
-        handleHotkeyCut(event) {
-            this.handleHotkeyCopy(event);
-            this.handleHotkeyDelete(event);
-        },
-        handleHotkeySelectAll(event) {
-            this.selectAllCells();
-            event.preventDefault();
-        },
-        async handleHotkeyPaste() {
+        copySelections() {
             const selectedCells = this.getSelectedCells();
             if (!selectedCells.length) {
-                return;
-            }
-            const startCell = selectedCells[0];
-            const data = await navigator.clipboard.readText();
-            if (!data.length) {
-                return;
-            }
-            const changes: DTableEditChanges = {};
-            const cells: DTableCellPos[] = [];
-            data.split(/\r?\n/).forEach((line, lineIndex) => {
-                const rowIndex = lineIndex + startCell.row;
-                let rowData = changes[rowIndex];
-                if (!rowData) {
-                    rowData = {};
-                    changes[rowIndex] = rowData;
-                }
-                line.split('\t').forEach((part, partIndex) => {
-                    const colIndex = partIndex + startCell.col;
-                    rowData[colIndex - 1] = part;
-                    cells.push({col: colIndex, row: rowIndex});
-                });
-            });
-            this.commitEditChanges(changes);
-            this.selectCells(cells);
-        },
-        handleHotkeyCopy() {
-            const selectedCells = this.getSelectedCells();
-            if (!selectedCells.length) {
-                return;
+                return false;
             }
             let minColIndex = Number.MAX_SAFE_INTEGER;
             let minRowIndex = Number.MAX_SAFE_INTEGER;
@@ -222,6 +185,90 @@ export const datagrid: DTablePlugin<DTableDatagridTypes, DTableDatagridDependenc
             });
             const plainText = data.map(x => x.join('\t')).join('\n');
             navigator.clipboard.writeText(plainText);
+            return true;
+        },
+        cutSelections() {
+            this.copySelections();
+            return this.deleteSelections();
+        },
+        handleHotkeyDelete() {
+            this.deleteSelections();
+        },
+        handleHotkeyCut() {
+            this.cutSelections();
+        },
+        handleHotkeySelectAll(event) {
+            this.selectAllCells();
+            event.preventDefault();
+        },
+        async pasteCells(targetCell) {
+            let startColIndex = -1;
+            let startRowIndex = -1;
+            if ('colName' in targetCell) {
+                const colInfo = this.getColInfo(targetCell.colName);
+                const rowInfo = this.getColInfo(targetCell.rowID);
+                if (!colInfo || !rowInfo) {
+                    return false;
+                }
+                startColIndex = colInfo.index;
+                startRowIndex = rowInfo.index;
+            } else {
+                startColIndex = targetCell.col;
+                startRowIndex = targetCell.row;
+            }
+
+            const permissionName = 'clipboard-read' as PermissionName;
+            const permission = await navigator.permissions.query({name: permissionName});
+            if (permission.state === 'denied') {
+                return false;
+            }
+
+            const data = await navigator.clipboard.readText();
+            if (!data.length) {
+                return false;
+            }
+            const changes: DTableEditChanges = {};
+            const cells: DTableCellPos[] = [];
+            data.split(/\r?\n/).forEach((line, lineIndex) => {
+                const rowIndex = lineIndex + startRowIndex;
+                const rowInfo = this.getRowInfo(rowIndex);
+                if (!rowInfo) {
+                    return;
+                }
+                const {id: rowID} = rowInfo;
+                let rowData = changes[rowID];
+                if (!rowData) {
+                    rowData = {};
+                    changes[rowID] = rowData;
+                }
+                line.split('\t').forEach((part, partIndex) => {
+                    const colIndex = partIndex + startColIndex;
+                    const colInfo = this.getColInfo(colIndex);
+                    if (!colInfo) {
+                        return;
+                    }
+                    rowData[colInfo.name] = part;
+                    cells.push({col: colIndex, row: rowIndex});
+                });
+            });
+            this.commitChanges(changes);
+            this.selectCells(cells);
+            return true;
+        },
+        pasteToSelection() {
+            const selectedCells = this.getSelectedCells();
+            if (!selectedCells.length) {
+                return Promise.resolve(false);
+            }
+            const startCell = selectedCells[0];
+            return this.pasteCells(startCell);
+        },
+        handleHotkeyPaste() {
+            this.pasteToSelection();
+        },
+        handleHotkeyCopy(event) {
+            this.copySelections();
+            event.preventDefault();
         },
         handleHotkeyFocus() {
             const selectedCell = this.getSelectedCells()[0];
