@@ -194,6 +194,9 @@ export class DTable extends Component<DTableOptions, DTableState> {
     }
 
     getRowInfo(idOrIndex: string | number): RowInfo | undefined {
+        if (idOrIndex === -1 || idOrIndex === 'HEADER') {
+            return {id: 'HEADER', index: -1, top: 0};
+        }
         const {rows} = this.layout;
         if (typeof idOrIndex === 'number') {
             return rows[idOrIndex];
