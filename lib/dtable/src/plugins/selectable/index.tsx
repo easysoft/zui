@@ -277,12 +277,21 @@ function isCellSelected(this: DTableSelectable, cell: DTableCellSelection | DTab
 }
 
 function hasCellSelectInRow(table: DTableSelectable, rowIndex: number): boolean {
-    for (const rows of table.state.selectedMap.values()) {
+    for (const [, rows] of table.state.selectedMap.entries()) {
+        if (rows.has(rowIndex)) {
+            return true;
+        }
+    }
+    for (const [, rows] of table.state.selectingMap.entries()) {
         if (rows.has(rowIndex)) {
             return true;
         }
     }
     return false;
+}
+
+function hasCellSelectInCol(table: DTableSelectable, colIndex: number): boolean {
+    return !!(table.state.selectedMap.get(colIndex)?.size || table.state.selectingMap.get(colIndex)?.size);
 }
 
 function isCellSelecting(this: DTableSelectable, cell: DTableCellSelection | DTableCellPos): boolean {
@@ -437,7 +446,7 @@ export const selectable: DTablePlugin<DTableSelectableTypes> = {
         return result;
     },
     onRenderHeaderCell(result, {col}) {
-        if (this.options.markSelectRange && col.name !== 'INDEX' && this.state.selectedMap.get(col.index)?.size) {
+        if (this.options.markSelectRange && col.name !== 'INDEX' && hasCellSelectInCol(this, col.index)) {
             result.push({outer: true, className: 'has-cell-selected'});
         }
         return result;

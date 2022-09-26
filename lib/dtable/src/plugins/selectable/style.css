@@ -2,7 +2,7 @@
     --dtable-selected-color: var(--color-green-500);
     --dtable-selected-bg: var(--color-green-50);
     --dtable-selecting-bg: var(--color-green-100);
-    --dtable-highlight-color: var(--color-green-500);
+    --dtable-highlight-color: var(--color-green-700);
 }
 .dtable-selectable {
     user-select: none;
