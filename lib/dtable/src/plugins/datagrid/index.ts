@@ -16,7 +16,7 @@ interface DTableDatagridTypes extends DTablePluginTypes {
         minCols?: number,
         extraRows?: number,
         extraCols?: number,
-        showRowIndex?: boolean | string,
+        showRowIndex?: boolean,
         hotkeyDelete?: boolean | string,
         hotkeySelectAll?: boolean | string,
         hotkeyPaste?: boolean | string,
@@ -61,7 +61,7 @@ function convertDatasource(table: DTableDatagrid, datasource: DTableDatasource):
             name: 'INDEX',
             fixed: 'left',
             align: 'right',
-            title: typeof showRowIndex === 'string' ? showRowIndex : '#',
+            title: '#',
             ...optionCols.find(x => x.name === 'INDEX'),
         });
     }
@@ -124,7 +124,7 @@ export const datagrid: DTablePlugin<DTableDatagridTypes, DTableDatagridDependenc
             ...hotkeys,
         };
         ([
-            [hotkeyDelete, 'delete,backspace,s', this.handleHotkeyDelete],
+            [hotkeyDelete, 'delete,backspace', this.handleHotkeyDelete],
             [hotkeyCopy, 'ctrl+c,command+c', this.handleHotkeyCopy],
             [hotkeyPaste, 'ctrl+v,command+v', this.handleHotkeyPaste],
             [hotkeyCut, 'ctrl+x,command+x', this.handleHotkeyCut],
