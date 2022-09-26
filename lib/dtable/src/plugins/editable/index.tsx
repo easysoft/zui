@@ -29,7 +29,7 @@ export interface DTableEditableTypes extends DTablePluginTypes {
         handleEditingInputBlur: (this: DTableEditable, event: Event) => void;
         handleEditingKeyDown: (this: DTableEditable, event: KeyboardEvent) => void;
         renderEditableCell: NonNullable<typeof editable['onRenderCell']>;
-        getEditedCellValue(this: DTableEditable, rowID: string, colName: string): unknown;
+        getEditedCellValue(this: DTableEditable, row: RowInfo | string | number, col: ColInfo | string | number): unknown;
         commitChanges(this: DTableEditable, changes: DTableEditChanges, options?: {skipTriggerUpdate?: boolean, callback?: (editingChanges: DTableEditChanges) => void}): void;
         applyChanges(this: DTableEditable, changes: DTableEditChanges, options?: {skipTriggerUpdate?: boolean, callback?: (appliedChanges: DTableEditChanges) => void}): void;
     }
@@ -88,7 +88,17 @@ export const editable: DTablePlugin<DTableEditableTypes> = {
             }
             return false;
         },
-        getEditedCellValue(rowID, colName) {
+        getEditedCellValue(row, col) {
+            const rowInfo = typeof row === 'object' ? row : this.getRowInfo(row);
+            if (!rowInfo) {
+                return;
+            }
+            const colInfo = typeof col === 'object' ? col : this.getColInfo(col);
+            if (!colInfo) {
+                return;
+            }
+            const {id: rowID} = rowInfo;
+            const {name: colName} = colInfo;
             const rowAppliedData = this.state.appliedChanges[rowID];
             if (rowAppliedData && colName in rowAppliedData) {
                 return rowAppliedData[colName];

@@ -194,7 +194,7 @@ export const datagrid: DTablePlugin<DTableDatagridTypes, DTableDatagridDependenc
             });
             const data: unknown[][] = [];
             selectedCells.forEach(pos => {
-                const value = this.getCellValue(pos.row, pos.col);
+                const value = this.getEditedCellValue(pos.row, pos.col);
                 let rowData = data[pos.row - minRowIndex];
                 if (!rowData) {
                     rowData = [];
