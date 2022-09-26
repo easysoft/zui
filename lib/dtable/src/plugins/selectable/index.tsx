@@ -18,7 +18,9 @@ export type DTableSelectableTypes = {
     options: Partial<{
         selectable: boolean | ((cellPos: DTableCellPos) => boolean);
         onSelectCells: (this: DTableSelectable, cells: DTableCellPos[]) => void;
+        beforeSelectCells: (this: DTableSelectable, cells: DTableCellPos[]) => void |  DTableCellPos[];
         ignoreDeselectOn: string;
+        markSelectRange: boolean;
     }>,
     state: {
         selectedMap: DTableCellPosMap;
@@ -49,7 +51,7 @@ type DTableSelectable = DTableWithPlugin<DTableSelectableTypes>;
 const REG_CELL = /C(\d+)R(\d+)/i;
 const REG_SELECTION = /(?:C(\d+))?(?:R(\d+))?/i;
 
-function parseCell(cellSelection: DTableCellSelection): DTableCellPos | undefined {
+export function parseCell(cellSelection: DTableCellSelection): DTableCellPos | undefined {
     const result = REG_CELL.exec(cellSelection);
     if (!result || result.length < 3) {
         return;
@@ -58,7 +60,7 @@ function parseCell(cellSelection: DTableCellSelection): DTableCellPos | undefine
     return {col: +col, row: +row};
 }
 
-function parseSelectionCell(selection: DTableSelection): DTableCellPos | undefined {
+export function parseSelectionCell(selection: DTableSelection): DTableCellPos | undefined {
     const result = REG_SELECTION.exec(selection);
     if (!result) {
         return;
@@ -69,7 +71,7 @@ function parseSelectionCell(selection: DTableSelection): DTableCellPos | undefin
     return {col, row};
 }
 
-function parseSelection(this: DTableSelectable, selections: DTableSelection): DTableCellPos[] {
+export function parseSelection(this: DTableSelectable, selections: DTableSelection): DTableCellPos[] {
     const cells: DTableCellPos[] = [];
     const selection = parseSelectionCell(selections);
     if (!selection) {
@@ -95,7 +97,7 @@ function parseSelection(this: DTableSelectable, selections: DTableSelection): DT
     return cells;
 }
 
-function parseRange(this: DTableSelectable, range: DTableRangeSelection): DTableCellPos[] {
+export function parseRange(this: DTableSelectable, range: DTableRangeSelection): DTableCellPos[] {
     const [start, end] = range.split(':') as [DTableSelection, DTableSelection];
     if (!start) {
         if (!end) {
@@ -116,6 +118,7 @@ function parseRange(this: DTableSelectable, range: DTableRangeSelection): DTable
     const rowStart = Math.min(startPos.row, endPos.row);
     const rowEnd = Math.max(startPos.row, endPos.row);
     const cells: DTableCellPos[] = [];
+    const colsCount = Object.keys(this.layout.colsMap).length;
     for (let col = colStart; col <= colEnd; col++) {
         if (rowStart < 0 || rowEnd < 0) {
             const rowsCount = this.layout.rows.length;
@@ -124,14 +127,20 @@ function parseRange(this: DTableSelectable, range: DTableRangeSelection): DTable
             }
         } else {
             for (let row = rowStart; row <= rowEnd; row++) {
-                cells.push({col, row});
+                if (col < 0) {
+                    for (let i = 0; i < colsCount; i++) {
+                        cells.push({col: i, row});
+                    }
+                } else {
+                    cells.push({col, row});
+                }
             }
         }
     }
     return cells;
 }
 
-function parseSelections(this: DTableSelectable, selections: (DTableSelections[number] | DTableCellPos)[]): DTableCellPos[] {
+export function parseSelections(this: DTableSelectable, selections: (DTableSelections[number] | DTableCellPos)[]): DTableCellPos[] {
     return selections.reduce<DTableCellPos[]>((cells, selection) => {
         if (typeof selection === 'object') {
             cells.push(selection);
@@ -144,7 +153,7 @@ function parseSelections(this: DTableSelectable, selections: (DTableSelections[n
     }, []);
 }
 
-function stringifySelection(start: DTableCellPos, end?: DTableCellPos): DTableSelection | DTableRangeSelection | '' {
+export function stringifySelection(start: DTableCellPos, end?: DTableCellPos): DTableSelection | DTableRangeSelection | '' {
     const {col, row} = start;
     const parts: string[] = [];
     if (col >= 0) {
@@ -166,7 +175,13 @@ function selectCells(this: DTableSelectable, selections: DTableSelection | DTabl
     if (!Array.isArray(selections)) {
         selections = [selections];
     }
-    const cells = parseSelections.call(this, selections);
+
+    let cells = parseSelections.call(this, selections);
+    const beforeHookResult = this.options.beforeSelectCells?.call(this, cells);
+    if (beforeHookResult) {
+        cells = beforeHookResult;
+    }
+
     const {clearBefore = true, deselect, selecting, callback} = options;
     const {selectingMap, selectedMap} = this.state;
     const map = selecting ? selectingMap : selectedMap;
@@ -321,7 +336,7 @@ export function getMousePos(table: DTable, event: Event, options?: {ignoreHeader
 
 export const selectable: DTablePlugin<DTableSelectableTypes> = {
     name: 'selectable',
-    defaultOptions: {selectable: true},
+    defaultOptions: {selectable: true, markSelectRange: true},
     when: options => !!options.selectable,
     state() {
         return {

@@ -1,6 +1,6 @@
 import {definePlugin} from '../../helpers/shared-plugins';
 import editable, {DTableEditableTypes, DTableEditChanges} from '../editable';
-import selectable, {DTableCellPos, DTableSelectableTypes} from '../selectable';
+import selectable, {DTableCellPos, DTableSelectableTypes, parseRange} from '../selectable';
 import hotkey, {DTableHotkeyCallback, DTableHotkeyTypes} from '../hotkey';
 import './style.css';
 
@@ -117,10 +117,9 @@ export const datagrid: DTablePlugin<DTableDatagridTypes, DTableDatagridDependenc
         cellValueSplitter: '\t',
         cellValueGetter,
         hotkeys: {},
-        selectable: (pos) => pos.col !== 0,
     },
     options(options) {
-        const {hotkeyDelete, hotkeyCopy, hotkeyFocus, hotkeyCancel, hotkeyPaste, hotkeyCut, hotkeySelectAll, datasource, hotkeys, editable: editableOption} = options;
+        const {hotkeyDelete, hotkeyCopy, hotkeyFocus, hotkeyCancel, hotkeyPaste, hotkeyCut, hotkeySelectAll, datasource, hotkeys, editable: editableOption, selectable: selectableOption, beforeSelectCells, showRowIndex} = options;
         const hotkeysOverride = {
             ...hotkeys,
         };
@@ -146,6 +145,21 @@ export const datagrid: DTablePlugin<DTableDatagridTypes, DTableDatagridDependenc
                 }
                 return colName !== 'INDEX';
             } : false,
+            selectable: selectableOption ? ((pos) => {
+                if (typeof selectableOption === 'function' && !selectableOption(pos)) {
+                    return false;
+                }
+                return pos.col >= (showRowIndex ? 1 : 0);
+            }) : false,
+            beforeSelectCells: showRowIndex ? ((cells) => {
+                if (cells.every(x => x.col === 0)) {
+                    cells = parseRange.call(this, `R${Math.min(...cells.map(x => x.row))}:R${Math.max(...cells.map(x => x.row))}`);
+                }
+                if (beforeSelectCells) {
+                    return beforeSelectCells.call(this, cells);
+                }
+                return cells;
+            }) : beforeSelectCells,
             ...convertDatasource(this, datasource),
         };
     },
@@ -293,16 +307,6 @@ export const datagrid: DTablePlugin<DTableDatagridTypes, DTableDatagridDependenc
     },
     onRender() {
         return {className: 'dtable-datagrid'};
-    },
-    onCellClick(_, {rowID, colName}) {
-        if (rowID === 'HEADER' || colName !== 'INDEX') {
-            return;
-        }
-        const rowInfo = this.getRowInfo(rowID);
-        if (!rowInfo) {
-            return;
-        }
-        this.selectCells(`R${rowInfo.index}`);
     },
 };
 
