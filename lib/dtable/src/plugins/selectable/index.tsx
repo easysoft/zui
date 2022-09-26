@@ -276,6 +276,15 @@ function isCellSelected(this: DTableSelectable, cell: DTableCellSelection | DTab
     return this.state.selectedMap.get(pos.col)?.has(pos.row) ?? false;
 }
 
+function hasCellSelectInRow(table: DTableSelectable, rowIndex: number): boolean {
+    for (const rows of table.state.selectedMap.values()) {
+        if (rows.has(rowIndex)) {
+            return true;
+        }
+    }
+    return false;
+}
+
 function isCellSelecting(this: DTableSelectable, cell: DTableCellSelection | DTableCellPos): boolean {
     const pos = typeof cell === 'string' ? parseCell(cell) : cell;
     if (!pos) {
@@ -292,20 +301,6 @@ function getSelectedCells(this: DTableSelectable): DTableCellPos[] {
         }
     }
     return cells;
-}
-
-function hasCellSelectInRow(table: DTableSelectable, rowIndex: number): boolean {
-    for (const [, rows] of table.state.selectedMap.entries()) {
-        if (rows.has(rowIndex)) {
-            return true;
-        }
-    }
-    for (const [, rows] of table.state.selectingMap.entries()) {
-        if (rows.has(rowIndex)) {
-            return true;
-        }
-    }
-    return false;
 }
 
 function getSelectedCellsSize(this: DTableSelectable): number {
@@ -435,6 +430,15 @@ export const selectable: DTablePlugin<DTableSelectableTypes> = {
             result.push({outer: true, className: 'is-select is-selecting'});
         } else if (this.isCellSelected(pos)) {
             result.push({outer: true, className: 'is-select is-selected'});
+        }
+        if (this.options.markSelectRange && col.name === 'INDEX' && hasCellSelectInRow(this, rowInfo.index)) {
+            result.push({outer: true, className: 'has-cell-selected'});
+        }
+        return result;
+    },
+    onRenderHeaderCell(result, {col}) {
+        if (this.options.markSelectRange && col.name !== 'INDEX' && this.state.selectedMap.get(col.index)?.size) {
+            result.push({outer: true, className: 'has-cell-selected'});
         }
         return result;
     },
