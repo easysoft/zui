@@ -25,6 +25,10 @@
 .dtable-rows > .dtable-row:first-child .dtable-cell.is-select::after {
     @apply -top-0;
 }
+.dtable-row > .dtable-cells:first-child > .dtable-cell.is-select:first-child::after,
 .dtable-fixed-left + .dtable-cells > .dtable-cell.is-select:first-child::after {
     @apply -left-px;
+}
+.dtable-row > .dtable-cells:last-child > .dtable-cell.is-select:last-child::after {
+    @apply -right-px;
 }
