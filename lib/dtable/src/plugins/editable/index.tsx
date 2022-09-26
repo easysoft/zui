@@ -222,7 +222,7 @@ export const editable: DTablePlugin<DTableEditableTypes> = {
         const input = this.data.editingInputRef.current;
         if (input && this.data.needAutoFocus) {
             this.data.needAutoFocus = false;
-            input.focus();
+            input.focus({preventScroll: true});
             if (this.options.selectAllOnFocus) {
                 input.select();
             }
