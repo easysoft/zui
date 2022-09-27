@@ -4,7 +4,7 @@ import './style.css';
 
 export interface DTableColResizeTypes extends DTablePluginTypes {
     options: Partial<{
-        colResize: boolean;
+        colResize: boolean | ((colName: ColName) => boolean);
         onColResize: (this: DTableColResize, colName: ColName, width: number) => void;
     }>,
     state: {
@@ -24,17 +24,19 @@ function updateColSize(table: DTableColResize, event: MouseEvent, finish?: boole
         return;
     }
     const delta = Math.round(event.clientX - colResizing.startX);
-    if (!delta) {
+    if (!delta && !finish) {
         return;
+    }
+    const state: Partial<DTableColResize['state']> = {};
+    if (finish) {
+        state.colResizing = undefined;
     }
     const {colsSizes} = table.state;
     colsSizes[colResizing.colName] = colResizing.startSize + delta;
-    if (finish) {
-        table.state.colResizing = undefined;
-    }
-    table.update({dirtyType: 'layout'}, () => {
+    state.colsSizes = {...colsSizes};
+    table.update({dirtyType: 'layout', state}, finish ? () => {
         table.options.onColResize?.call(table, colResizing.colName, colsSizes[colResizing.colName]);
-    });
+    } : undefined);
     event.stopPropagation();
     event.preventDefault();
 }
@@ -69,25 +71,51 @@ export const colResize: DTablePlugin<DTableColResizeTypes> = {
             if (!splitter) {
                 return;
             }
-            const info = this.getPointerInfo(event);
-            if (!info?.colName) {
+            const colName = splitter.closest<HTMLElement>('.dtable-cell')?.dataset.col;
+            if (!colName) {
                 return;
             }
             this.setState({
                 colResizing: {
-                    colName: info.colName,
-                    startSize: this.state.colsSizes[info.colName] ?? 0,
+                    colName: colName,
+                    startSize: this.state.colsSizes[colName] ?? 0,
                     startX: event.clientX,
                 },
             });
             event.stopPropagation();
             return false;
         },
+        dblclick(event) {
+            const splitter = (event.target as HTMLElement).closest('.dtable-col-splitter');
+            if (!splitter) {
+                return;
+            }
+            const colName = splitter.closest<HTMLElement>('.dtable-cell')?.dataset.col;
+            if (!colName) {
+                return;
+            }
+            const {colsSizes} = this.state;
+            if (colsSizes[colName]) {
+                delete colsSizes[colName];
+                this.update({dirtyType: 'layout', state: {
+                    colResizing: undefined,
+                    colsSizes: {...colsSizes},
+                }}, () => {
+                    this.options.onColResize?.call(this, colName, 0);
+                });
+            }
+        },
         document_mousemove(event) {
+            if (!this.state.colResizing) {
+                return;
+            }
             tryUpdateColSize(this, event as MouseEvent);
             return false;
         },
         document_mouseup(event) {
+            if (!this.state.colResizing) {
+                return;
+            }
             tryUpdateColSize(this, event as MouseEvent, true);
             return false;
         },
@@ -96,7 +124,7 @@ export const colResize: DTablePlugin<DTableColResizeTypes> = {
         if (!col.flex) {
             result.push({
                 className: 'has-col-splitter',
-                children: <div className="dtable-col-splitter no-selectable-trigger"></div>,
+                children: <div className="dtable-col-splitter no-cell-event"></div>,
                 outer: true,
             });
             if (this.state.colResizing?.colName === col.name) {
