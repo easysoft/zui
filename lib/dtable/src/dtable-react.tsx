@@ -251,20 +251,24 @@ export class DTable extends Component<DTableOptions, DTableState> {
         return this.layout.rows[index];
     }
 
-    update(options: {dirtyType?: 'options' | 'layout'} = {}, callback?: () => void) {
-        const {dirtyType} = options;
+    update(options: {dirtyType?: 'options' | 'layout', state?: Partial<DTableState>} = {}, callback?: () => void) {
+        const {dirtyType, state} = options;
         if (dirtyType === 'layout') {
             this.#layout = undefined;
         } else if (dirtyType === 'options') {
             this.#layout = undefined;
             this.#options = undefined;
         }
-        this.forceUpdate(callback);
+        if (state) {
+            this.setState({...state}, callback);
+        } else {
+            this.forceUpdate(callback);
+        }
     }
 
     getPointerInfo(event: Event) {
         const target = event.target as HTMLElement;
-        if (!target) {
+        if (!target || target.closest('.no-cell-event')) {
             return;
         }
         const cellElement = target.closest<HTMLElement>('.dtable-cell');

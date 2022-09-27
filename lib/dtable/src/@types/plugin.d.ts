@@ -26,6 +26,7 @@ type DTableWithPlugin<T extends DTablePluginTypes = {}, D extends DTablePluginTy
     options: DTableWithPluginOptions<T, D>;
     data: PluginPropsDependency<T, D, 'data'>;
     getColInfo: (name: string) => DTableWithPluginColInfo<T, D> | undefined;
+    update(options: {dirtyType?: 'options' | 'layout', state?: Partial<DTableWithPluginState<PluginPropsDependency<T, D, 'state'>>>} = {}, callback?: () => void)
 } & PluginPropsDependency<T, D, 'methods'>;
 
 type DTablePluginEvents<T extends DTablePluginTypes = {}, D extends DTablePluginTypes[] = [DTablePluginTypes]> = {

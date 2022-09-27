@@ -323,7 +323,7 @@ function getSelectedCellsSize(this: DTableSelectable): number {
 
 export function getMousePos(table: DTable, event: Event, options?: {ignoreHeaderCell?: boolean}): DTableCellPos | undefined {
     const pointerInfo = table.getPointerInfo(event);
-    if (!pointerInfo || pointerInfo.target.closest('input,textarea,[contenteditable],.no-selectable-trigger')) {
+    if (!pointerInfo || pointerInfo.target.closest('input,textarea,[contenteditable]')) {
         return;
     }
     const {rowID, colName} = pointerInfo;

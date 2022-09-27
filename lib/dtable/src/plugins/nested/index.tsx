@@ -111,8 +111,10 @@ function toggleRow(this: DTableNested, rowID: string | (RowID)[], collapsed?: bo
             }
         });
     }
-    this.update({dirtyType: 'layout'});
-    this.setState({collapsedRows: {...collapsedRows}}, () => {
+    this.update({
+        dirtyType: 'layout',
+        state: {collapsedRows: {...collapsedRows}},
+    }, () => {
         this.options.onNestedChange?.call(this);
     });
 }
