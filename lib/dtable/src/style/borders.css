@@ -34,3 +34,6 @@
     content: ' ';
     border-color: var(--dtable-border-color);
 }
+.dtable-bordered .dtable-header::after {
+    @apply -top-0;
+}
