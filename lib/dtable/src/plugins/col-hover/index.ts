@@ -33,6 +33,7 @@ export const colHover: DTablePlugin<DTableColHoverTypes> = {
     defaultOptions: {
         colHover: false,
     },
+    when: options => !!options.colHover,
     events: {
         mouseover(event: Event) {
             const {colHover: hover} = this.options;

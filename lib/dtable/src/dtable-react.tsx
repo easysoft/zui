@@ -108,7 +108,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
         this.on('click', this.#handleClick as DTableEventListener);
 
         if (this.options.responsive) {
-            window.addEventListener('resize', this.#handleResize);
+            this.on('window_resize', this.#handleResize);
         }
 
         this.#plugins.forEach(plugin => {
@@ -130,11 +130,15 @@ export class DTable extends Component<DTableOptions, DTableState> {
         const {current} = this.ref;
         if (current) {
             for (const event of this.#events.keys()) {
-                current.removeEventListener(event, this.#handleEvent);
+                if (event.startsWith('window_')) {
+                    window.removeEventListener(event.replace('window_', ''), this.#handleWindowEvent);
+                } else if (event.startsWith('document_')) {
+                    document.removeEventListener(event.replace('document_', ''), this.#handleDocumentEvent);
+                }  else {
+                    current.removeEventListener(event, this.#handleEvent);
+                }
             }
         }
-
-        window.removeEventListener('resize', this.#handleResize);
 
         this.#plugins.forEach(plugin => {
             plugin.onUnmounted?.call(this);
@@ -154,7 +158,13 @@ export class DTable extends Component<DTableOptions, DTableState> {
             eventCallbacks.push(callback);
         } else {
             this.#events.set(event, [callback]);
-            this.ref.current?.addEventListener(event, this.#handleEvent);
+            if (event.startsWith('window_')) {
+                window.addEventListener(event.replace('window_', ''), this.#handleWindowEvent);
+            } else if (event.startsWith('document_')) {
+                document.addEventListener(event.replace('document_', ''), this.#handleDocumentEvent);
+            } else {
+                this.ref.current?.addEventListener(event, this.#handleEvent);
+            }
         }
     }
 
@@ -169,7 +179,13 @@ export class DTable extends Component<DTableOptions, DTableState> {
         }
         if (!eventCallbacks.length) {
             this.#events.delete(event);
-            this.ref.current?.removeEventListener(event, this.#handleEvent);
+            if (event.startsWith('window_')) {
+                window.removeEventListener(event.replace('window_', ''), this.#handleWindowEvent);
+            } else if (event.startsWith('document_')) {
+                document.removeEventListener(event.replace('document_', ''), this.#handleDocumentEvent);
+            } else {
+                this.ref.current?.removeEventListener(event, this.#handleEvent);
+            }
         }
     }
 
@@ -273,9 +289,9 @@ export class DTable extends Component<DTableOptions, DTableState> {
         };
     }
 
-    #handleEvent = (event: Event) => {
-        const {type} = event;
-        const callbacks = this.#events.get(type as keyof HTMLElementEventMap);
+    #handleEvent = (event: Event, type?: DTableEventType) => {
+        type = type || event.type as DTableEventType;
+        const callbacks = this.#events.get(type);
         if (!callbacks?.length) {
             return;
         }
@@ -286,6 +302,14 @@ export class DTable extends Component<DTableOptions, DTableState> {
                 break;
             }
         }
+    };
+
+    #handleWindowEvent = (event: Event) => {
+        this.#handleEvent(event, `window_${event.type}` as DTableEventType);
+    };
+
+    #handleDocumentEvent = (event: Event) => {
+        this.#handleEvent(event, `document_${event.type}` as DTableEventType);
     };
 
     #renderHeader(layout: DTableLayout) {

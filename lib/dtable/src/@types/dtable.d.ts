@@ -6,9 +6,11 @@ type DTableState = {
     [prop: string]: unknown;
 };
 
-type DTableEventType = keyof HTMLElementEventMap;
+type DTableHTMLEvent = keyof HTMLElementEventMap;
 
-type DTableEventListener<K extends DTableEventType = DTableEventType, T extends DTable = DTable> = (this: T, evt: HTMLElementEventMap[K]) => void | false;
+type DTableEventType<E = DTableHTMLEvent> = E | `${'document' | 'window'}_${E}`;
+
+type DTableEventListener<K extends DTableHTMLEvent = DTableHTMLEvent, T extends DTable = DTable> = (this: T, evt: HTMLElementEventMap[K]) => void | false;
 
 type DTableLayout = {
     options: DTableOptions;

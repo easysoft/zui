@@ -28,7 +28,9 @@ type DTableWithPlugin<T extends DTablePluginTypes = {}, D extends DTablePluginTy
     getColInfo: (name: string) => DTableWithPluginColInfo<T, D> | undefined;
 } & PluginPropsDependency<T, D, 'methods'>;
 
-type DTablePluginEvents<T extends DTablePluginTypes = {}, D extends DTablePluginTypes[] = [DTablePluginTypes]> = {[event in DTableEventType]?: DTableEventListener<event, DTableWithPlugin<T, D>>};
+type DTablePluginEvents<T extends DTablePluginTypes = {}, D extends DTablePluginTypes[] = [DTablePluginTypes]> = {
+    [event in DTableEventType]?: DTableEventListener<event, DTableWithPlugin<T, D>>
+};
 
 type DTablePlugin<T extends DTablePluginTypes = DTablePluginTypes, D extends DTablePluginTypes[] = [DTablePluginTypes], PluginTable = DTableWithPlugin<T, D>, Options = DTableWithPluginOptions<T, D>, PluginColSetting = DTableWithPluginColSetting<T, D>, PluginColInfo = DTableWithPluginColInfo<T, D>> = {
     name: string;

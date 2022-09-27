@@ -400,10 +400,8 @@ export const selectable: DTablePlugin<DTableSelectableTypes> = {
                 }
             }
         },
-    },
-    onMounted() {
-        this.selectOutsideClick = (event) => {
-            const target = event.target as HTMLElement;
+        document_click(event) {
+            const target = (event as PointerEvent).target as HTMLElement;
             if (!target) {
                 return;
             }
@@ -411,13 +409,7 @@ export const selectable: DTablePlugin<DTableSelectableTypes> = {
             if (!target.closest(`#${this.id}${ignoreDeselectOn ? `,${ignoreDeselectOn}` : ''}`)) {
                 this.deselectAllCells();
             }
-        };
-        document.addEventListener('click', this.selectOutsideClick);
-    },
-    onUnmounted() {
-        if (this.selectOutsideClick) {
-            document.removeEventListener('click', this.selectOutsideClick);
-        }
+        },
     },
     onRender() {
         if (this.options.selectable) {
