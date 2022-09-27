@@ -43,7 +43,7 @@ export function Cell({col, className, height, row, onRenderCell, style: styleFro
     const outerAttrs: JSX.HTMLAttributes<HTMLDivElement> = {};
     const contentAttrs: JSX.HTMLAttributes<HTMLDivElement> = {};
     result?.forEach(item => {
-        if (typeof item === 'object' && item && ('html' in item || 'className' in item || 'style' in item || 'attrs' in item)) {
+        if (typeof item === 'object' && item && ('html' in item || 'className' in item || 'style' in item || 'attrs' in item || 'children' in item)) {
             const children = item.outer ? outerChildren : contentChildren;
             if (item.html) {
                 children.push(<div className={classes('dtable-cell-html', item.className)} style={item.style} dangerouslySetInnerHTML={{__html: item.html}} {...(item.attrs ?? {})}></div>);

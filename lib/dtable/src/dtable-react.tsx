@@ -251,7 +251,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
         return this.layout.rows[index];
     }
 
-    update(options: {dirtyType?: 'options' | 'layout'} = {}) {
+    update(options: {dirtyType?: 'options' | 'layout'} = {}, callback?: () => void) {
         const {dirtyType} = options;
         if (dirtyType === 'layout') {
             this.#layout = undefined;
@@ -259,7 +259,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
             this.#layout = undefined;
             this.#options = undefined;
         }
-        this.forceUpdate();
+        this.forceUpdate(callback);
     }
 
     getPointerInfo(event: Event) {
@@ -620,7 +620,6 @@ export class DTable extends Component<DTableOptions, DTableState> {
                 ...otherColSetting
             } = colSetting;
             const colWidth = clamp(width, minWidth, maxWidth);
-            const flexGrow = fixed ? 0 : (flex === true ? 1 : (typeof flex === 'number' ? flex : 0));
             const colInfo: ColInfo = {
                 name,
                 type,
@@ -634,33 +633,13 @@ export class DTable extends Component<DTableOptions, DTableState> {
                     maxWidth,
                     ...otherColSetting,
                 },
-                flex: flexGrow,
+                flex: fixed ? 0 : (flex === true ? 1 : (typeof flex === 'number' ? flex : 0)),
                 left: 0,
                 width: colWidth,
-                realWidth: colWidth,
+                realWidth: 0,
                 visible: true,
                 index: colsList.length,
             };
-            if (fixed === 'left') {
-                colInfo.left = fixedLeftWidth;
-                fixedLeftWidth += colWidth;
-                fixedLeftCols.push(colInfo);
-            } else if (fixed === 'right') {
-                colInfo.left = fixedRightWidth;
-                fixedRightWidth += colWidth;
-                fixedRightCols.push(colInfo);
-            } else {
-                colInfo.left = scrollColsWidth;
-                scrollColsWidth += colWidth;
-                scrollCols.push(colInfo);
-            }
-
-            if (flexGrow) {
-                flexCols.push(colInfo);
-            }
-
-            colsList.push(colInfo);
-            colsMap[colInfo.name] = colInfo;
 
             plugins.forEach(plugin => {
                 const colTypeInfo = plugin.colTypes?.[type];
@@ -673,6 +652,28 @@ export class DTable extends Component<DTableOptions, DTableState> {
 
                 plugin.onAddCol?.call(this, colInfo);
             });
+
+            colInfo.realWidth = colInfo.realWidth || colInfo.width;
+            if (fixed === 'left') {
+                colInfo.left = fixedLeftWidth;
+                fixedLeftWidth += colInfo.width;
+                fixedLeftCols.push(colInfo);
+            } else if (fixed === 'right') {
+                colInfo.left = fixedRightWidth;
+                fixedRightWidth += colInfo.width;
+                fixedRightCols.push(colInfo);
+            } else {
+                colInfo.left = scrollColsWidth;
+                scrollColsWidth += colInfo.width;
+                scrollCols.push(colInfo);
+            }
+
+            if (colInfo.flex) {
+                flexCols.push(colInfo);
+            }
+
+            colsList.push(colInfo);
+            colsMap[colInfo.name] = colInfo;
         });
 
         let widthSetting = options.width;
