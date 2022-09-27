@@ -1142,12 +1142,12 @@ class ee extends ot {
     return this.layout.rows[t];
   }
   update(t = {}, s) {
-    const { dirtyType: o } = t;
-    o === "layout" ? C(this, B, void 0) : o === "options" && (C(this, B, void 0), C(this, G, void 0)), this.forceUpdate(s);
+    const { dirtyType: o, state: i } = t;
+    o === "layout" ? C(this, B, void 0) : o === "options" && (C(this, B, void 0), C(this, G, void 0)), i ? this.setState({ ...i }, s) : this.forceUpdate(s);
   }
   getPointerInfo(t) {
     const s = t.target;
-    if (!s)
+    if (!s || s.closest(".no-cell-event"))
       return;
     const o = s.closest(".dtable-cell");
     if (!o)
@@ -1623,7 +1623,10 @@ function Gn(e, n) {
       n && (c == null ? void 0 : c.children) ? t[r] = !0 : delete t[r];
     });
   }
-  this.update({ dirtyType: "layout" }), this.setState({ collapsedRows: { ...t } }, () => {
+  this.update({
+    dirtyType: "layout",
+    state: { collapsedRows: { ...t } }
+  }, () => {
     var i;
     (i = this.options.onNestedChange) == null || i.call(this);
   });
