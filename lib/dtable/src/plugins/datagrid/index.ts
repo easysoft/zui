@@ -1,5 +1,6 @@
 import {definePlugin} from '../../helpers/shared-plugins';
 import editable, {DTableEditableTypes} from '../editable';
+import colResize, {DTableColResizeTypes} from '../col-resize';
 import {DTableDraftTypes, DTableDraftRows} from '../draft';
 import selectable, {DTableCellPos, DTableSelectableTypes, parseRange} from '../selectable';
 import hotkey, {DTableHotkeyCallback, DTableHotkeyTypes} from '../hotkey';
@@ -43,7 +44,7 @@ interface DTableDatagridTypes extends DTablePluginTypes {
     }
 }
 
-type DTableDatagridDependencies = [DTableHotkeyTypes, DTableSelectableTypes, DTableDraftTypes, DTableEditableTypes];
+type DTableDatagridDependencies = [DTableHotkeyTypes, DTableSelectableTypes, DTableDraftTypes, DTableEditableTypes, DTableColResizeTypes];
 
 type DTableDatagrid = DTableWithPlugin<DTableDatagridTypes, DTableDatagridDependencies>;
 
@@ -93,7 +94,7 @@ function cellValueGetter(this: DTableDatagrid, row: RowInfo, col: ColInfo, origi
 
 export const datagrid: DTablePlugin<DTableDatagridTypes, DTableDatagridDependencies> = {
     name: 'datagrid',
-    plugins: [editable, selectable, hotkey],
+    plugins: [editable, selectable, hotkey, colResize],
     defaultOptions: {
         defaultColWidth: 80,
         headerEditable: true,

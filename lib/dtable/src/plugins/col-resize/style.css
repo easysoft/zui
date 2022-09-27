@@ -1,0 +1,40 @@
+:root {
+    --dtable-col-splitter-width: 7px;
+    --dtable-col-splitter-color: var(--color-primary-600);
+}
+.dtable-cell.has-col-resizing::after,
+.dtable-cell.has-col-splitter:hover::after {
+    background: var(--dtable-col-splitter-color);
+    @apply -opacity-10
+}
+.dtable-col-splitter {
+    @apply -absolute -top-0 -bottom-0 -cursor-ew-resize -z-20 -rounded-full -transition-opacity -opacity-0;
+    right: calc(var(--dtable-col-splitter-width) / -2);
+    width: var(--dtable-col-splitter-width);
+    background: var(--dtable-col-splitter-color);
+}
+.dtable-cell.has-col-splitter:hover .dtable-col-splitter {
+    @apply -opacity-20;
+}
+.dtable-cell.has-col-resizing .dtable-col-splitter,
+.dtable-cell.has-col-splitter .dtable-col-splitter:hover {
+    @apply -opacity-50;
+}
+.dtable.has-col-resizing .dtable-cell.has-col-splitter:not(.has-col-resizing)::after,
+.dtable.has-col-resizing .dtable-cell.has-col-splitter:not(.has-col-resizing) .dtable-col-splitter {
+    @apply -opacity-0;
+}
+.dtable-col-splitter::before,
+.dtable-col-splitter::after {
+    content: ' ';
+    @apply -block -absolute -h-2 --mt-1 -bg-white -top-1/2 -w-px -left-1/2;
+}
+.dtable-col-splitter::before {
+    @apply --ml-px;
+}
+.dtable-col-splitter::after {
+    @apply -ml-px;
+}
+.dtable.has-col-resizing {
+    @apply -cursor-ew-resize;
+}
