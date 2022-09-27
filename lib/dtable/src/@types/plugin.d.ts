@@ -28,7 +28,7 @@ type DTableWithPlugin<T extends DTablePluginTypes = {}, D extends DTablePluginTy
     getColInfo: (name: string) => DTableWithPluginColInfo<T, D> | undefined;
 } & PluginPropsDependency<T, D, 'methods'>;
 
-type DTablePluginEvents<T extends DTablePluginTypes = {}> = {[event in DTableEventType]?: DTableEventListener<event, DTableWithPlugin<T>>};
+type DTablePluginEvents<T extends DTablePluginTypes = {}, D extends DTablePluginTypes[] = [DTablePluginTypes]> = {[event in DTableEventType]?: DTableEventListener<event, DTableWithPlugin<T, D>>};
 
 type DTablePlugin<T extends DTablePluginTypes = DTablePluginTypes, D extends DTablePluginTypes[] = [DTablePluginTypes], PluginTable = DTableWithPlugin<T, D>, Options = DTableWithPluginOptions<T, D>, PluginColSetting = DTableWithPluginColSetting<T, D>, PluginColInfo = DTableWithPluginColInfo<T, D>> = {
     name: string;
@@ -36,7 +36,7 @@ type DTablePlugin<T extends DTablePluginTypes = DTablePluginTypes, D extends DTa
     when: (options: Options) => boolean,
     defaultOptions: Partial<Options>;
     colTypes: Record<string, Partial<PluginColSetting> | PluginColSettingModifier<T, D>>;
-    events: DTablePluginEvents<T>;
+    events: DTablePluginEvents<T, D>;
     methods: Readonly<T['methods']>,
     data: (this: PluginTable) => {} & T['data'],
     state: (this: PluginTable) => {} & T['state'],
