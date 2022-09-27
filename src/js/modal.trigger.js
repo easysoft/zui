@@ -307,7 +307,7 @@
 
                             $framebody.off('resize.' + NAME).on('resize.' + NAME, ajustFrameSize);
                             if (scrollInside) {
-                                $(window).off('resize.' + NAME).on('resize.' + NAME, ajustFrameSize);
+                                $(frameWindow).off('resize.' + NAME).on('resize.' + NAME, ajustFrameSize);
                             }
                         } else {
                             readyToShow();
