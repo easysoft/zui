@@ -1,5 +1,6 @@
 import {definePlugin} from '../../helpers/shared-plugins';
-import editable, {DTableEditableTypes, DTableEditChanges} from '../editable';
+import editable, {DTableEditableTypes} from '../editable';
+import {DTableDraftTypes, DTableDraftRows} from '../draft';
 import selectable, {DTableCellPos, DTableSelectableTypes, parseRange} from '../selectable';
 import hotkey, {DTableHotkeyCallback, DTableHotkeyTypes} from '../hotkey';
 import './style.css';
@@ -42,7 +43,7 @@ interface DTableDatagridTypes extends DTablePluginTypes {
     }
 }
 
-type DTableDatagridDependencies = [DTableHotkeyTypes, DTableSelectableTypes, DTableEditableTypes];
+type DTableDatagridDependencies = [DTableHotkeyTypes, DTableSelectableTypes, DTableDraftTypes, DTableEditableTypes];
 
 type DTableDatagrid = DTableWithPlugin<DTableDatagridTypes, DTableDatagridDependencies>;
 
@@ -194,7 +195,7 @@ export const datagrid: DTablePlugin<DTableDatagridTypes, DTableDatagridDependenc
             });
             const data: unknown[][] = [];
             selectedCells.forEach(pos => {
-                const value = this.getEditedCellValue(pos.row, pos.col);
+                const value = this.getCellDraftValue(pos.row, pos.col);
                 let rowData = data[pos.row - minRowIndex];
                 if (!rowData) {
                     rowData = [];
@@ -246,7 +247,7 @@ export const datagrid: DTablePlugin<DTableDatagridTypes, DTableDatagridDependenc
             if (!data.length) {
                 return false;
             }
-            const changes: DTableEditChanges = {};
+            const changes: DTableDraftRows = {};
             const cells: DTableCellPos[] = [];
             data.split(/\r?\n/).forEach((line, lineIndex) => {
                 const rowIndex = lineIndex + startRowIndex;
@@ -270,7 +271,7 @@ export const datagrid: DTablePlugin<DTableDatagridTypes, DTableDatagridDependenc
                     cells.push({col: colIndex, row: rowIndex});
                 });
             });
-            this.commitChanges(changes);
+            this.stageDraft(changes);
             this.selectCells(cells);
             return true;
         },
