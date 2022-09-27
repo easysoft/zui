@@ -19,9 +19,9 @@ onPageLoad(() => {
         const dataTable = new DTable(dataTableElement, {
             datasource: {
                 cols: [
-                    {name: '名称', width: 150},
-                    {name: '类型', width: 100},
-                    {name: '重量', width: 60, align: 'right'},
+                    {name: 'C1', title: '名称', width: 150},
+                    {name: 'C2', title: '类型', width: 100},
+                    {name: 'C3', title: '重量', width: 60, align: 'right'},
                 ],
                 data: Array(100).fill(0).map((_, index) => ([
                     faker.animal.cetacean(),

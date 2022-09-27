@@ -1,6 +1,5 @@
 import {createRef, render} from 'preact';
 import {DTable as DTableReact} from './dtable-react';
-import {getDefaultOptions} from './helpers/default-options';
 import {removePlugin, definePlugin} from './helpers/shared-plugins';
 import * as plugins from './plugins';
 
