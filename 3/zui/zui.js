@@ -1227,29 +1227,33 @@ nt = new WeakMap(), ct = new WeakMap(), Y = new WeakMap(), X = new WeakMap(), J 
   }, i);
 }, It = new WeakSet(), Qe = function(t) {
   const s = [], { scrollLeft: o, colsInfo: i, scrollTop: r, rowsHeight: a, rowsHeightTotal: c } = t, { scrollWidthTotal: h, scrollWidth: l } = i, { scrollbarSize: g = 12, horzScrollbarPos: u } = this.options;
-  return h > l && s.push(/* @__PURE__ */ b(Ce, {
-    key: "horz",
-    type: "horz",
-    scrollPos: o,
-    scrollSize: h,
-    clientSize: l,
-    onScroll: d(this, wt),
-    left: i.flexLeftWidth,
-    bottom: u === "inside" ? 0 : -g,
-    size: g,
-    wheelContainer: this.ref
-  })), c > a && s.push(/* @__PURE__ */ b(Ce, {
-    key: "vert",
-    type: "vert",
-    scrollPos: r,
-    scrollSize: c,
-    clientSize: a,
-    onScroll: d(this, wt),
-    right: 0,
-    size: g,
-    top: t.headerHeight,
-    wheelContainer: this.ref
-  })), s.length ? s : null;
+  return h > l && s.push(
+    /* @__PURE__ */ b(Ce, {
+      key: "horz",
+      type: "horz",
+      scrollPos: o,
+      scrollSize: h,
+      clientSize: l,
+      onScroll: d(this, wt),
+      left: i.flexLeftWidth,
+      bottom: u === "inside" ? 0 : -g,
+      size: g,
+      wheelContainer: this.ref
+    })
+  ), c > a && s.push(
+    /* @__PURE__ */ b(Ce, {
+      key: "vert",
+      type: "vert",
+      scrollPos: r,
+      scrollSize: c,
+      clientSize: a,
+      onScroll: d(this, wt),
+      right: 0,
+      size: g,
+      top: t.headerHeight,
+      wheelContainer: this.ref
+    })
+  ), s.length ? s : null;
 }, mt = new WeakMap(), yt = new WeakSet(), Qt = function() {
   var t;
   x(this, Y, !1), (t = this.options.afterRender) == null || t.call(this), d(this, A).forEach((s) => {
