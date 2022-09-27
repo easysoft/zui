@@ -65,7 +65,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
     }
 
     get options() {
-        return this.#options ?? getDefaultOptions() as DTableOptions;
+        return this.#layout?.options || this.#options || getDefaultOptions() as DTableOptions;
     }
 
     get plugins() {
@@ -554,12 +554,13 @@ export class DTable extends Component<DTableOptions, DTableState> {
     }
 
     #initLayout() {
-        const {options, plugins} = this;
+        const {plugins} = this;
 
+        let options = this.#options as DTableOptions;
         plugins.forEach(plugin => {
             const newOptions = plugin.beforeLayout?.call(this, options);
             if (newOptions) {
-                Object.assign(options, newOptions);
+                options = {...options, ...newOptions};
             }
         });
 
@@ -753,6 +754,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
         const scrollWidth = width - fixedLeftWidth - fixedRightWidth;
 
         const layout = {
+            options,
             allRows,
             width,
             height,

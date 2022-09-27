@@ -11,6 +11,7 @@ type DTableEventType = keyof HTMLElementEventMap;
 type DTableEventListener<K extends DTableEventType = DTableEventType, T extends DTable = DTable> = (this: T, evt: HTMLElementEventMap[K]) => void | false;
 
 type DTableLayout = {
+    options: DTableOptions;
     width: number;
     height: number;
     rowHeight: number;
