@@ -189,23 +189,29 @@ export class DTable extends Component<DTableOptions, DTableState> {
         });
     }
 
-    getColInfo(colNameOrIndex: string | number): ColInfo | undefined {
-        const {colsMap} = this.layout;
+    getColInfo(colNameOrIndex: string | number | ColInfo): ColInfo | undefined {
+        if (typeof colNameOrIndex === 'object') {
+            return colNameOrIndex;
+        }
+        const {colsMap, colsList} = this.layout;
         if (typeof colNameOrIndex === 'number') {
-            return Object.values(colsMap).find(x => x.index === colNameOrIndex);
+            return colsList[colNameOrIndex];
         }
         return colsMap[colNameOrIndex];
     }
 
-    getRowInfo(idOrIndex: string | number): RowInfo | undefined {
+    getRowInfo(idOrIndex: string | number | RowInfo): RowInfo | undefined {
+        if (typeof idOrIndex === 'object') {
+            return idOrIndex;
+        }
         if (idOrIndex === -1 || idOrIndex === 'HEADER') {
             return {id: 'HEADER', index: -1, top: 0};
         }
-        const {rows} = this.layout;
+        const {rows, rowsMap} = this.layout;
         if (typeof idOrIndex === 'number') {
             return rows[idOrIndex];
         }
-        return rows.find(x => x.id === idOrIndex);
+        return rowsMap[idOrIndex];
     }
 
     getCellValue(row: RowInfo | string | number, col: ColInfo | string | number): unknown {
@@ -699,28 +705,24 @@ export class DTable extends Component<DTableOptions, DTableState> {
         }
 
         /* Add rows */
-        let rowsChanged = false;
         let rows = allRows;
+        const rowsMap: Record<RowID, RowInfo> = {};
         if (options.onAddRows) {
             const newRows = options.onAddRows.call(this, rows);
             if (newRows) {
                 rows = newRows;
-                rowsChanged = true;
             }
         }
         for (const plugin of plugins) {
             const newRows = plugin.onAddRows?.call(this, rows);
             if (newRows) {
                 rows = newRows;
-                rowsChanged = true;
             }
-
         }
-        if (rowsChanged) {
-            rows.forEach((row, index) => {
-                row.index = index;
-            });
-        }
+        rows.forEach((row, index) => {
+            rowsMap[row.id] = row;
+            row.index = index;
+        });
 
         const {header, footer} = options;
         const headerHeight = header ? (options.headerHeight || rowHeight) : 0;
@@ -759,6 +761,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
             width,
             height,
             rows,
+            rowsMap,
             rowHeight,
             rowsHeight,
             rowsHeightTotal,

@@ -19,6 +19,7 @@ type DTableLayout = {
     rowsHeightTotal: number;
     allRows: RowInfo[];
     rows: RowInfo[];
+    rowsMap: Record<RowID, RowInfo>;
     header: boolean | preact.ComponentChildren | ((layout: DTableLayout, state: DTableState) => (preact.ComponentChildren | {__html: string}));
     footer: boolean | preact.ComponentChildren | ((layout: DTableLayout, state: DTableState) => (preact.ComponentChildren | {__html: string}));
     headerHeight: number,
