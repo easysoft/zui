@@ -1,13 +1,21 @@
 type ColName = string;
 
+type ColFlexGrow = number;
+
+type ColFlex = ColFlexGrow | boolean;
+
+type ColFixedSide = 'left' | 'right' | false;
+
+type ColSortType = 'asc' | 'desc' | boolean;
+
 type ColInfo<S extends ColSetting = ColSetting> = {
     name: ColName;
     type: string;
-    setting: S & {onRenderCell?: CellRenderCallback<S>};
-    left: number;
-    flex: number;
+    flex: ColFlexGrow; // 0 will disable flex
+    width: number;
     realWidth: number;
-    flexWidth: number;
+    left: number;
+    setting: S & {onRenderCell?: CellRenderCallback<S>};
     visible: boolean;
     index: number;
 };
@@ -17,11 +25,12 @@ type ColSetting<S = {}> = {
 } & Partial<{
     title: string;
     width: number;
-    flex: number; // default value = 1;
     minWidth: number;
     maxWidth: number;
+    flex: ColFlex;
+    fixed: ColFixedSide;
     border: 'left' | 'right' | boolean;
-    sortType: 'asc' | 'desc' | boolean;
+    sortType: ColSortType;
     align: 'left' | 'center' | 'right';
     data: Record<string, unknown>;
     style: preact.JSX.CSSProperties;
@@ -29,7 +38,6 @@ type ColSetting<S = {}> = {
     className: ClassNameLike;
     type: string;
     hidden: boolean;
-    fixed: 'left' | 'right' | false;
     colHover: boolean;
     onRenderCell: CellRenderCallback<ColSetting & S>;
     [prop: string]: unknown;

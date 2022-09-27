@@ -9,11 +9,11 @@ type HeaderProps = {
     fixedLeftCols: ColInfo[];
     fixedRightCols: ColInfo[];
     scrollCols: ColInfo[];
-    flexLeftWidth: number;
+    fixedLeftWidth: number;
     scrollWidth: number;
-    flexRightWidth: number;
+    fixedRightWidth: number;
     scrollLeft: number;
-    scrollWidthTotal: number;
+    scrollColsWidth: number;
 } & Partial<{
     onRenderCell: CellRenderCallback;
     onRenderRow: (data: {props: RowProps}, h: typeof _h) => Partial<RowProps | (RowProps & JSX.HTMLAttributes<HTMLElement>)> | void;

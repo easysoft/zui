@@ -12,10 +12,10 @@ type RowsProps = {
     fixedLeftCols: ColInfo[];
     fixedRightCols: ColInfo[];
     scrollCols: ColInfo[];
-    flexLeftWidth: number;
+    fixedLeftWidth: number;
     scrollWidth: number;
-    scrollWidthTotal: number;
-    flexRightWidth: number;
+    scrollColsWidth: number;
+    fixedRightWidth: number;
     scrollLeft: number;
 } & Partial<{
     className: ClassNameLike;

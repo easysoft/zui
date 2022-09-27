@@ -23,7 +23,7 @@ onPageLoad(() => {
                     {name: 'C2', title: '类型', width: 100},
                     {name: 'C3', title: '重量', width: 60, align: 'right'},
                 ],
-                data: Array(100).fill(0).map((_, index) => ([
+                data: Array(100).fill(0).map(() => ([
                     faker.animal.cetacean(),
                     faker.lorem.word(),
                     faker.datatype.number({min: 0, max: 1000}),
@@ -109,7 +109,7 @@ onPageLoad(() => {
             cols: [
                 {name: 'id', title: 'ID', width: 80, fixed: 'left', sortType: 'desc', checkbox: true},
                 {name: 'name', title: '项目名称', minWidth: 200, flex: 1, sortType: true, nestedToggle: true},
-                {name: 'NESTED_STATE', title: '层级状态', minWidth: 500, onRenderCell: function (result, {rowID}) {
+                {name: 'NESTED_STATE', title: '层级状态', minWidth: 300, onRenderCell: function (result, {rowID}) {
                     result.length = 0;
                     result.push(JSON.stringify(this.getNestedRowInfo(rowID)));
                     return result;

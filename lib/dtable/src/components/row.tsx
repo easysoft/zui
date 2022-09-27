@@ -10,10 +10,10 @@ export function Row({
     fixedLeftCols,
     fixedRightCols,
     scrollCols,
-    flexLeftWidth,
+    fixedLeftWidth,
     scrollWidth,
-    scrollWidthTotal,
-    flexRightWidth,
+    scrollColsWidth,
+    fixedRightWidth,
     scrollLeft,
     CellComponent = Cell,
     onRenderCell,
@@ -26,7 +26,7 @@ export function Row({
             <Cells
                 className="dtable-fixed-left"
                 cols={fixedLeftCols}
-                width={flexLeftWidth}
+                width={fixedLeftWidth}
                 row={row}
                 CellComponent={CellComponent}
                 onRenderCell={onRenderCell}
@@ -40,8 +40,8 @@ export function Row({
             <Cells
                 className="dtable-flexable"
                 cols={scrollCols}
-                left={flexLeftWidth - scrollLeft}
-                width={scrollWidthTotal}
+                left={fixedLeftWidth - scrollLeft}
+                width={scrollColsWidth}
                 row={row}
                 CellComponent={CellComponent}
                 onRenderCell={onRenderCell}
@@ -55,8 +55,8 @@ export function Row({
             <Cells
                 className="dtable-fixed-right"
                 cols={fixedRightCols}
-                left={flexLeftWidth + scrollWidth}
-                width={flexRightWidth}
+                left={fixedLeftWidth + scrollWidth}
+                width={fixedRightWidth}
                 row={row}
                 CellComponent={CellComponent}
                 onRenderCell={onRenderCell}

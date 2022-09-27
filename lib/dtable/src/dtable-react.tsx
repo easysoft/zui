@@ -174,12 +174,16 @@ export class DTable extends Component<DTableOptions, DTableState> {
     }
 
     scrollLeft(scrollLeft: number) {
+        const {scrollWidth, scrollColsWidth} = this.layout.colsInfo;
+        scrollLeft = Math.max(0, Math.min(scrollLeft, scrollColsWidth - scrollWidth));
         this.setState({scrollLeft}, () => {
             this.options.onScroll?.call(this, scrollLeft, 'horz');
         });
     }
 
     scrollTop(scrollTop: number) {
+        const {rowsHeight, rowsHeightTotal} = this.layout;
+        scrollTop = Math.max(0, Math.min(scrollTop, rowsHeightTotal - rowsHeight));
         this.setState({scrollTop}, () => {
             this.options.onScroll?.call(this, scrollTop, 'vert');
         });
@@ -365,18 +369,18 @@ export class DTable extends Component<DTableOptions, DTableState> {
     #renderScrollBars(layout: DTableLayout) {
         const scrollbars = [];
         const {scrollLeft, colsInfo, scrollTop, rowsHeight, rowsHeightTotal} = layout;
-        const {scrollWidthTotal, scrollWidth} = colsInfo;
+        const {scrollColsWidth, scrollWidth} = colsInfo;
         const {scrollbarSize = 12, horzScrollbarPos} = this.options;
-        if (scrollWidthTotal > scrollWidth) {
+        if (scrollColsWidth > scrollWidth) {
             scrollbars.push(
                 <Scrollbar
                     key='horz'
                     type='horz'
                     scrollPos={scrollLeft}
-                    scrollSize={scrollWidthTotal}
+                    scrollSize={scrollColsWidth}
                     clientSize={scrollWidth}
                     onScroll={this.#handleScroll}
-                    left={colsInfo.flexLeftWidth}
+                    left={colsInfo.fixedLeftWidth}
                     bottom={horzScrollbarPos === 'inside' ? 0 : (-scrollbarSize)}
                     size={scrollbarSize}
                     wheelContainer={this.ref}
@@ -559,62 +563,80 @@ export class DTable extends Component<DTableOptions, DTableState> {
             }
         });
 
-        const {
-            header,
-            footer,
-            rowHeight,
-            defaultColWidth,
-            minColWidth,
-            maxColWidth,
-        } = options;
-
+        /* Init cols */
+        const {defaultColWidth, minColWidth, maxColWidth} = options;
         const fixedLeftCols: ColInfo[] = [];
         const fixedRightCols: ColInfo[] = [];
         const scrollCols: ColInfo[] = [];
         const colsMap: Record<string, ColInfo> = {};
-        let flexLeftWidth = 0;
-        let flexRightWidth = 0;
-        let colIndex = 0;
-        options.cols.forEach((col) => {
-            if (col.hidden) {
+        const colsList: ColInfo[] = [];
+        const flexCols: ColInfo[] = [];
+        let fixedLeftWidth = 0;
+        let fixedRightWidth = 0;
+        let scrollColsWidth = 0;
+        options.cols.forEach((colSetting) => {
+            if (colSetting.hidden) {
                 return;
             }
-            col = {...col};
-            const {minWidth = minColWidth, maxWidth = maxColWidth} = col;
-            const realWidth = clamp(col.width ?? 0, minWidth, maxWidth);
-            const flex = col.flex ?? 1;
-            const flexWidth = flex * clamp(defaultColWidth, minWidth, maxWidth);
+            const {
+                name,
+                type = '',
+                fixed = false,
+                flex = false,
+                width = defaultColWidth,
+                minWidth = minColWidth,
+                maxWidth = maxColWidth,
+                ...otherColSetting
+            } = colSetting;
+            const colWidth = clamp(width, minWidth, maxWidth);
+            const flexGrow = fixed ? 0 : (flex === true ? 1 : (typeof flex === 'number' ? flex : 0));
             const colInfo: ColInfo = {
-                name: col.name,
-                type: col.type ?? '',
-                setting: col,
+                name,
+                type,
+                setting: {
+                    name,
+                    type,
+                    fixed,
+                    flex,
+                    width,
+                    minWidth,
+                    maxWidth,
+                    ...otherColSetting,
+                },
+                flex: flexGrow,
                 left: 0,
-                flex,
-                realWidth,
-                flexWidth,
+                width: colWidth,
+                realWidth: colWidth,
                 visible: true,
-                index: colIndex++,
+                index: colsList.length,
             };
-            if (col.fixed === 'left') {
-                colInfo.left = flexLeftWidth;
-                flexLeftWidth += realWidth;
+            if (fixed === 'left') {
+                colInfo.left = fixedLeftWidth;
+                fixedLeftWidth += colWidth;
                 fixedLeftCols.push(colInfo);
-            } else if (col.fixed === 'right') {
-                colInfo.left = flexRightWidth;
-                flexRightWidth += realWidth;
+            } else if (fixed === 'right') {
+                colInfo.left = fixedRightWidth;
+                fixedRightWidth += colWidth;
                 fixedRightCols.push(colInfo);
             } else {
+                colInfo.left = scrollColsWidth;
+                scrollColsWidth += colWidth;
                 scrollCols.push(colInfo);
             }
 
+            if (flexGrow) {
+                flexCols.push(colInfo);
+            }
+
+            colsList.push(colInfo);
             colsMap[colInfo.name] = colInfo;
 
             plugins.forEach(plugin => {
-                const colTypeInfo = plugin.colTypes?.[col.type ?? ''];
+                const colTypeInfo = plugin.colTypes?.[type];
                 if (colTypeInfo) {
-                    const newColSetting = typeof colTypeInfo === 'function' ? colTypeInfo(col) : colTypeInfo;
+                    const newColSetting = typeof colTypeInfo === 'function' ? colTypeInfo(colInfo) : colTypeInfo;
                     if (newColSetting) {
-                        Object.assign(col, newColSetting);
+                        Object.assign(colInfo.setting, newColSetting);
                     }
                 }
 
@@ -628,13 +650,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
             widthSetting = widthSetting();
         }
         if (widthSetting === 'auto') {
-            width = flexLeftWidth + flexRightWidth;
-            scrollCols.forEach(col => {
-                if (!col.realWidth) {
-                    col.realWidth = col.flexWidth;
-                }
-                width += col.realWidth;
-            });
+            width = fixedLeftWidth + scrollColsWidth + fixedRightWidth;
         } else if (widthSetting === '100%') {
             const parentElement = this.ref.current?.parentElement;
             if (parentElement) {
@@ -648,10 +664,10 @@ export class DTable extends Component<DTableOptions, DTableState> {
             width = widthSetting ?? 0;
         }
 
-        const {data, rowKey = 'id'} = options;
+        const {data, rowKey = 'id', rowHeight} = options;
         const allRows: RowInfo[] = [];
         const addRowItem = (id: string, index: number, item?: RowData) => {
-            const row: RowInfo = {data: item ?? {[rowKey]: id}, top: allRows.length * rowHeight, id: id, index: allRows.length};
+            const row: RowInfo = {data: item ?? {[rowKey]: id}, id, index: allRows.length, top: 0};
             if (!item) {
                 row.lazy = true;
             }
@@ -681,7 +697,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
             });
         }
 
-        // Add rows
+        /* Add rows */
         let rowsChanged = false;
         let rows = allRows;
         if (options.onAddRows) {
@@ -705,6 +721,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
             });
         }
 
+        const {header, footer} = options;
         const headerHeight = header ? (options.headerHeight || rowHeight) : 0;
         const footerHeight = footer ? (options.footerHeight || rowHeight) : 0;
         let heightSetting = options.height;
@@ -733,26 +750,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
         }
 
         const rowsHeight = height - headerHeight - footerHeight;
-        const scrollWidth = width - flexLeftWidth - flexRightWidth;
-        let scrollWidthTotal = 0;
-        const flexCols: ColInfo[] = [];
-        let flexSum = 0;
-        scrollCols.forEach((col) => {
-            if (col.realWidth) {
-                scrollWidthTotal += col.realWidth;
-            } else {
-                flexCols.push(col);
-                flexSum += col.flex;
-            }
-        });
-        if (flexCols.length) {
-            const minFlexWidth = Math.max(0, scrollWidth - scrollWidthTotal);
-            flexCols.forEach(col => {
-                const {minWidth = minColWidth, maxWidth = maxColWidth} = col.setting;
-                col.realWidth = Math.min(maxWidth, Math.max(minWidth, Math.ceil(minFlexWidth * (col.flex ?? 1) / flexSum)));
-                scrollWidthTotal += col.realWidth;
-            });
-        }
+        const scrollWidth = width - fixedLeftWidth - fixedRightWidth;
 
         const layout = {
             allRows,
@@ -767,29 +765,29 @@ export class DTable extends Component<DTableOptions, DTableState> {
             headerHeight,
             footerHeight,
             colsMap,
+            colsList,
+            flexCols,
             colsInfo: {
                 fixedLeftCols,
                 fixedRightCols,
                 scrollCols,
-                flexLeftWidth,
+                fixedLeftWidth,
                 scrollWidth,
-                scrollWidthTotal,
-                flexRightWidth,
+                scrollColsWidth,
+                fixedRightWidth,
             },
         } as DTableLayout;
 
-        if (options.onLayout) {
-            const newLayout = options.onLayout.call(this, layout);
-            if (newLayout) {
-                Object.assign(layout, newLayout);
-            }
+        const newLayout = options.onLayout?.call(this, layout);
+        if (newLayout) {
+            Object.assign(layout, newLayout);
         }
 
         plugins.forEach(plugin => {
             if (plugin.onLayout) {
-                const newLayout = plugin.onLayout.call(this, layout);
-                if (newLayout) {
-                    Object.assign(layout, newLayout);
+                const newPluginLayout = plugin.onLayout.call(this, layout);
+                if (newPluginLayout) {
+                    Object.assign(layout, newPluginLayout);
                 }
             }
         });
@@ -806,20 +804,37 @@ export class DTable extends Component<DTableOptions, DTableState> {
         if (!layout) {
             return;
         }
-        let {scrollTop, scrollLeft} = this.state;
-        const {rowsHeightTotal, rowsHeight, rows, rowHeight, colsInfo: {scrollCols, scrollWidth}} = layout;
+        let {scrollLeft} = this.state;
+        const {flexCols, colsInfo: {scrollCols, scrollWidth, scrollColsWidth}} = layout;
 
-        scrollTop = Math.min(Math.max(0, rowsHeightTotal - rowsHeight), scrollTop);
-        const scrollBottom = scrollTop + rowsHeight;
-        let scrollWidthTotal = 0;
+        if (flexCols.length) {
+            const extraWidth = scrollWidth - scrollColsWidth;
+            if (extraWidth > 0) {
+                const totalFlex = flexCols.reduce((total, col) => total + col.flex, 0);
+                let totalFlexWidth = 0;
+                flexCols.forEach(col => {
+                    const flexWidth = Math.min(extraWidth - totalFlexWidth, Math.ceil(extraWidth * (col.flex / totalFlex)));
+                    col.realWidth = flexWidth + col.width;
+                    totalFlexWidth += col.realWidth;
+                });
+            } else {
+                flexCols.forEach(col => {
+                    col.realWidth = col.width;
+                });
+            }
+        }
+        scrollLeft = Math.min(Math.max(0, scrollColsWidth - scrollWidth), scrollLeft);
+        let colRealLeft = 0;
         scrollCols.forEach(col => {
-            col.left = scrollWidthTotal;
-            scrollWidthTotal += col.realWidth;
+            col.left = colRealLeft;
+            colRealLeft += col.realWidth;
             col.visible = (col.left + col.realWidth) >= scrollLeft && col.left <= (scrollLeft + scrollWidth);
         });
-        scrollLeft = Math.min(Math.max(0, scrollWidthTotal - scrollWidth), scrollLeft);
 
+        const {rowsHeightTotal, rowsHeight, rows, rowHeight} = layout;
+        const scrollTop = Math.min(Math.max(0, rowsHeightTotal - rowsHeight), this.state.scrollTop);
         const startRowIndex = Math.floor(scrollTop / rowHeight);
+        const scrollBottom = scrollTop + rowsHeight;
         const endRowIndex = Math.min(rows.length, Math.ceil(scrollBottom / rowHeight));
         const visibleRows: RowInfo[] = [];
         const {rowDataGetter} = this.options;

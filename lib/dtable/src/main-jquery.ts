@@ -12,7 +12,7 @@ function dtable(this: JQuery, options?: DTableOptions | string, ...args: unknown
             }
         } else {
             if (typeof options === 'string') {
-                options = {};
+                options = {} as DTableOptions;
             }
             $e.data(DTable.NAME, new DTable(this, {
                 ...$e.data(),

@@ -23,14 +23,20 @@ type DTableLayout = {
     headerHeight: number,
     footerHeight: number,
     colsMap: Record<string, ColInfo>;
+    flexCols: ColInfo[];
+    colsList: ColInfo[];
     colsInfo: {
         fixedLeftCols: ColInfo[];
         fixedRightCols: ColInfo[];
         scrollCols: ColInfo[];
-        flexLeftWidth: number;
+        fixedLeftWidth: number;
+
+        /** Scrollable section width */
         scrollWidth: number;
-        flexRightWidth: number;
-        scrollWidthTotal: number;
+        fixedRightWidth: number;
+
+        /** Scrollable cols total width */
+        scrollColsWidth: number;
     };
 
     visibleRows: RowInfo[];

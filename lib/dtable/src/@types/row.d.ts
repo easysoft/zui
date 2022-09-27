@@ -18,10 +18,10 @@ type RowProps = {
     row: RowInfo;
     top: number;
     height: number;
-    flexLeftWidth: number;
+    fixedLeftWidth: number;
     scrollWidth: number;
-    scrollWidthTotal: number;
-    flexRightWidth: number;
+    scrollColsWidth: number;
+    fixedRightWidth: number;
     scrollLeft: number;
 } & Partial<{
     className: ClassNameLike;
