@@ -31,6 +31,7 @@ export type DTableSelectableTypes = {
     }>;
     data: {
         selectingStart?: DTableCellPos;
+        disableSelectable?: boolean;
     },
     methods: {
         selectCells: typeof selectCells;
@@ -322,7 +323,7 @@ function getSelectedCellsSize(this: DTableSelectable): number {
 
 export function getMousePos(table: DTable, event: Event, options?: {ignoreHeaderCell?: boolean}): DTableCellPos | undefined {
     const pointerInfo = table.getPointerInfo(event);
-    if (!pointerInfo || pointerInfo.target.closest('input,textarea,[contenteditable]')) {
+    if (!pointerInfo || pointerInfo.target.closest('input,textarea,[contenteditable],.no-selectable-trigger')) {
         return;
     }
     const {rowID, colName} = pointerInfo;
@@ -361,6 +362,9 @@ export const selectable: DTablePlugin<DTableSelectableTypes> = {
     },
     events: {
         mousedown(event) {
+            if (this.data.disableSelectable) {
+                return;
+            }
             const pos = getMousePos(this, event);
             if (event.button !== 0 && (!pos || this.isCellSelected(pos))) {
                 return;
@@ -442,12 +446,6 @@ export const selectable: DTablePlugin<DTableSelectableTypes> = {
             result.push({outer: true, className: 'has-cell-selected'});
         }
         return result;
-    },
-    onHeaderCellClick(_, {colName}) {
-        const colInfo = this.getColInfo(colName);
-        if (colInfo) {
-            this.selectCells(`C${colInfo.index}`);
-        }
     },
 };
 
