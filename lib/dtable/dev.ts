@@ -37,6 +37,7 @@ onPageLoad(() => {
                 ])),
             },
             height: 400,
+            responsive: true,
             plugins: [datagrid],
         });
         console.log('dataTable', dataTable);

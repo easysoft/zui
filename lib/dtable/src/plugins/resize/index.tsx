@@ -2,10 +2,10 @@ import {clamp} from '../../helpers/clamp';
 import {definePlugin} from '../../helpers/shared-plugins';
 import './style.css';
 
-export interface DTableColResizeTypes extends DTablePluginTypes {
+export interface DTableResizeTypes extends DTablePluginTypes {
     options: Partial<{
         colResize: boolean | ((colName: ColName) => boolean);
-        onColResize: (this: DTableColResize, colName: ColName, width: number) => void;
+        onColResize: (this: DTableResize, colName: ColName, width: number) => void;
     }>,
     state: {
         colResizing?: {colName: ColName, startX: number, startSize: number}
@@ -16,9 +16,9 @@ export interface DTableColResizeTypes extends DTablePluginTypes {
     }
 }
 
-export type DTableColResize = DTableWithPlugin<DTableColResizeTypes>;
+export type DTableResize = DTableWithPlugin<DTableResizeTypes>;
 
-function updateColSize(table: DTableColResize, event: MouseEvent, finish?: boolean): void {
+function updateColSize(table: DTableResize, event: MouseEvent, finish?: boolean): void {
     const {colResizing} = table.state;
     if (!colResizing) {
         return;
@@ -27,7 +27,7 @@ function updateColSize(table: DTableColResize, event: MouseEvent, finish?: boole
     if (!delta && !finish) {
         return;
     }
-    const state: Partial<DTableColResize['state']> = {};
+    const state: Partial<DTableResize['state']> = {};
     if (finish) {
         state.colResizing = undefined;
     }
@@ -45,7 +45,7 @@ function updateColSize(table: DTableColResize, event: MouseEvent, finish?: boole
     event.preventDefault();
 }
 
-function tryUpdateColSize(table: DTableColResize, event: MouseEvent, finish?: boolean): void {
+function tryUpdateColSize(table: DTableResize, event: MouseEvent, finish?: boolean): void {
     if (table.data.colResizingRaf) {
         cancelAnimationFrame(table.data.colResizingRaf);
         table.data.colResizingRaf = undefined;
@@ -60,8 +60,8 @@ function tryUpdateColSize(table: DTableColResize, event: MouseEvent, finish?: bo
     }
 }
 
-export const colResize: DTablePlugin<DTableColResizeTypes> = {
-    name: 'col-resize',
+export const resize: DTablePlugin<DTableResizeTypes> = {
+    name: 'resize',
     defaultOptions: {
         colResize: true,
     },
@@ -153,4 +153,4 @@ export const colResize: DTablePlugin<DTableColResizeTypes> = {
     },
 };
 
-export default definePlugin(colResize);
+export default definePlugin(resize);
