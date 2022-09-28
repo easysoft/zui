@@ -26,14 +26,21 @@ type DTableDraft = DTableWithPlugin<DTableDraftTypes>;
 
 export function mergeDraft(sourceDraft: DTableDraftRows, newDraft: DTableDraftRows): DTableDraftRows {
     return Object.entries(newDraft).reduce((draft, [rowID, data]) => {
-        const oldData = draft[rowID];
-        if (oldData) {
-            if (data === null) {
+        const sourceData = draft[rowID];
+        if (sourceData) {
+            if (data === undefined) {
                 delete draft[rowID];
             } else {
-                Object.assign(oldData, data);
+                Object.keys(data).forEach(key => {
+                    const value = data[key];
+                    if (value === undefined) {
+                        delete sourceData[key];
+                    } else {
+                        sourceData[key] = value;
+                    }
+                });
             }
-        } else if (data !== null) {
+        } else if (data !== undefined) {
             draft[rowID] = data;
         }
         return draft;

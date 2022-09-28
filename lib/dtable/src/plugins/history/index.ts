@@ -1,6 +1,6 @@
 import {definePlugin} from '../../helpers/shared-plugins';
 import store, {DTableStoreTypes} from '../store';
-import draft, {cloneDraft, DTableDraftRows, DTableDraftTypes} from '../draft';
+import draft, {cloneDraft, DTableDraftRows, DTableDraftTypes, mergeDraft} from '../draft';
 
 export interface DTableHistoryItem {
     before: DTableDraftRows;
@@ -12,6 +12,7 @@ export interface DTableHistoryTypes extends DTablePluginTypes {
         history?: boolean;
         historyTarget?: 'staging' | 'applied';
         historyThreshold: 10;
+        onHistoryApplied: (this: DTableHistory, changes: DTableDraftRows, newDraft: DTableDraftRows, oldDraft: DTableDraftRows) => void;
     }>;
     state: {
         historyItems: (DTableHistoryItem | number)[];
@@ -21,8 +22,9 @@ export interface DTableHistoryTypes extends DTablePluginTypes {
         historyIdx: number;
     };
     methods: {
-        undoHistory(this: DTableHistory): boolean;
-        redoHistory(this: DTableHistory): boolean;
+        undoHistory(this: DTableHistory, callback?: () => void): boolean;
+        redoHistory(this: DTableHistory, callback?: () => void): boolean;
+        applyHistory(this: DTableHistory, cursor: number, changes: DTableDraftRows, callback?: () => void): void;
         canUndoHistory(this: DTableHistory): boolean;
         canRedoHistory(this: DTableHistory): boolean;
         addHistory(this: DTableHistory, item: DTableHistoryItem): void;
@@ -33,6 +35,33 @@ export interface DTableHistoryTypes extends DTablePluginTypes {
 export type DTableHistoryDependencies = [DTableStoreTypes, DTableDraftTypes];
 
 export type DTableHistory = DTableWithPlugin<DTableHistoryTypes, DTableHistoryDependencies>;
+
+export function diffDraft(newDraft: DTableDraftRows, oldDraft: DTableDraftRows): DTableDraftRows {
+    const keys = new Set([...Object.keys(newDraft), ...Object.keys(oldDraft)]);
+    return Array.from(keys).reduce<DTableDraftRows>((diffInfo, key) => {
+        const newRowData = newDraft[key] || {};
+        const oldRowData = oldDraft[key] || {};
+        if (newRowData === oldRowData) {
+            return diffInfo;
+        }
+        const rowKeys = new Set([...Object.keys(newRowData), ...Object.keys(oldRowData)]);
+        const rowDiffInfo: Record<string, unknown> = {};
+        let rowDiffSetted = false;
+        rowKeys.forEach(rowKey => {
+            const newValue = newRowData[rowKey];
+            const oldValue = oldRowData[rowKey];
+            if (newValue !== oldValue) {
+                rowDiffInfo[rowKey] = newValue;
+                rowDiffSetted = true;
+            }
+        });
+        if (rowDiffSetted) {
+            diffInfo[key] = rowDiffInfo;
+        }
+
+        return diffInfo;
+    }, {});
+}
 
 export const history: DTablePlugin<DTableHistoryTypes, DTableHistoryDependencies> = {
     name: 'history',
@@ -50,13 +79,13 @@ export const history: DTablePlugin<DTableHistoryTypes, DTableHistoryDependencies
                 if (afterApplyDraft) {
                     afterApplyDraft.call(this, changes, newDraft, oldDraft);
                 }
-                this.addHistory({after: cloneDraft(newDraft), before: oldDraft});
+                this.addHistory({after: diffDraft(newDraft, oldDraft), before: diffDraft(oldDraft, newDraft)});
             } : afterApplyDraft,
             afterStageDraft: historyEnabled && historyTarget !== 'applied' ? (changes, newDraft, oldDraft) => {
                 if (afterStageDraft) {
                     afterStageDraft.call(this, changes, newDraft, oldDraft);
                 }
-                this.addHistory({after: cloneDraft(newDraft), before: oldDraft});
+                this.addHistory({after: diffDraft(newDraft, oldDraft), before: diffDraft(oldDraft, newDraft)});
             } : afterStageDraft,
         };
     },
@@ -93,7 +122,6 @@ export const history: DTablePlugin<DTableHistoryTypes, DTableHistoryDependencies
                 }
             }
 
-
             this.setState({historyCursor, historyItems});
         },
         getHistory(cursor) {
@@ -110,7 +138,32 @@ export const history: DTablePlugin<DTableHistoryTypes, DTableHistoryDependencies
             }
             return item;
         },
-        undoHistory() {
+        applyHistory(historyCursor, changes, callback) {
+            const state: Partial<DTableHistory['state']> = {historyCursor};
+            const isAppliedTarget = this.options.historyTarget === 'applied';
+            const {appliedDraft, stagingDraft} = this.state;
+            const oldDraft = cloneDraft((isAppliedTarget ? appliedDraft : stagingDraft) ?? {});
+            if (isAppliedTarget) {
+                state.appliedDraft = mergeDraft(appliedDraft, changes);
+            } else {
+                state.stagingDraft = mergeDraft(stagingDraft, changes);
+            }
+            this.setState(state, () => {
+                callback?.();
+                const actualChanges = Object.entries(changes).reduce<DTableDraftRows>((record, [rowID, rowData]) => {
+                    if (rowData) {
+                        const data: RowData = {};
+                        Object.entries(rowData).forEach(([prop, value]) => {
+                            data[prop] = value === undefined ? this.getCellDraftValue(rowID, prop) : value;
+                        });
+                        record[rowID] = data;
+                    }
+                    return record;
+                }, {});
+                this.options.onHistoryApplied?.call(this, actualChanges, isAppliedTarget ? appliedDraft : stagingDraft ?? {}, oldDraft);
+            });
+        },
+        undoHistory(callback) {
             if (!this.canUndoHistory()) {
                 return false;
             }
@@ -121,17 +174,10 @@ export const history: DTablePlugin<DTableHistoryTypes, DTableHistoryDependencies
                 return false;
             }
 
-            const state: Partial<DTableHistory['state']> = {historyCursor: historyCursor + 1};
-            const newDraft = cloneDraft(historyItem.before);
-            if (this.options.historyTarget === 'applied') {
-                state.appliedDraft = newDraft;
-            } else {
-                state.stagingDraft = newDraft;
-            }
-            this.setState(state);
+            this.applyHistory(historyCursor + 1, cloneDraft(historyItem.before), callback);
             return true;
         },
-        redoHistory() {
+        redoHistory(callback) {
             if (!this.canRedoHistory()) {
                 return false;
             }
@@ -142,14 +188,7 @@ export const history: DTablePlugin<DTableHistoryTypes, DTableHistoryDependencies
                 return false;
             }
 
-            const state: Partial<DTableHistory['state']> = {historyCursor: historyCursor - 1};
-            const newDraft = cloneDraft(historyItem.after);
-            if (this.options.historyTarget === 'applied') {
-                state.appliedDraft = newDraft;
-            } else {
-                state.stagingDraft = newDraft;
-            }
-            this.setState(state);
+            this.applyHistory(historyCursor - 1, cloneDraft(historyItem.after), callback);
             return true;
         },
         canUndoHistory() {
