@@ -32,10 +32,14 @@ function updateColSize(table: DTableColResize, event: MouseEvent, finish?: boole
         state.colResizing = undefined;
     }
     const {colsSizes} = table.state;
+    const {colName} = colResizing;
     colsSizes[colResizing.colName] = colResizing.startSize + delta;
     state.colsSizes = {...colsSizes};
     table.update({dirtyType: 'layout', state}, finish ? () => {
-        table.options.onColResize?.call(table, colResizing.colName, colsSizes[colResizing.colName]);
+        const col = table.getColInfo(colName);
+        if (col) {
+            table.options.onColResize?.call(table, colName, clamp(col.width + colsSizes[colName], col.setting.minWidth, col.setting.maxWidth));
+        }
     } : undefined);
     event.stopPropagation();
     event.preventDefault();
@@ -137,8 +141,7 @@ export const colResize: DTablePlugin<DTableColResizeTypes> = {
         return result;
     },
     onAddCol(col) {
-        const {colsSizes} = this.state;
-        const sizeChange = colsSizes[col.name];
+        const sizeChange = this.state.colsSizes[col.name];
         if (typeof sizeChange === 'number') {
             col.width = clamp(col.width + sizeChange, col.setting.minWidth, col.setting.maxWidth);
         }
