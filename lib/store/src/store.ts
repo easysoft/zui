@@ -13,7 +13,7 @@ export class Store {
 
     #storage: Storage;
 
-    #alterStorage: Store;
+    #alterStorage?: Store;
 
     /**
      * Create new store instance

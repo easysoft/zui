@@ -4,6 +4,7 @@
     "version": "0.0.1",
     "keywords": ["js", "zui:js-lib"],
     "browser": "src/main.ts",
+    "main": "src/main.ts",
     "dependencies": {
         "nanoid": "^4.0.0"
     },
