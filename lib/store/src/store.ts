@@ -56,7 +56,7 @@ export class Store {
      * @param defaultValue default value to return if key is not found
      * @returns Value of key or defaultValue if key is not found
      */
-    get(key: string, defaultValue?: unknown): unknown {
+    get<T>(key: string, defaultValue?: T): T | undefined {
         const value = this.#storage.getItem(this.#getActualKey(key));
         if (typeof value === 'string') {
             return JSON.parse(value);
