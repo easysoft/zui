@@ -121,7 +121,7 @@ export const datagrid: DTablePlugin<DTableDatagridTypes, DTableDatagridDependenc
         hotkeys: {},
     },
     options(options) {
-        const {hotkeyDelete, hotkeyCopy, hotkeyFocus, hotkeyCancel, hotkeyPaste, hotkeyCut, hotkeySelectAll, datasource, hotkeys, editable: editableOption, selectable: selectableOption, beforeSelectCells, showRowIndex} = options;
+        const {hotkeyDelete, hotkeyCopy, hotkeyFocus, hotkeyCancel, hotkeyPaste, hotkeyCut, hotkeySelectAll, datasource, hotkeys, editable: editableOption, selectable: selectableOption, beforeSelectCells, showRowIndex, colResize} = options;
         const hotkeysOverride = {
             ...hotkeys,
         };
@@ -141,6 +141,7 @@ export const datagrid: DTablePlugin<DTableDatagridTypes, DTableDatagridDependenc
         });
         return {
             hotkeys: hotkeysOverride,
+            colResize: colResize ? (colName => ((typeof colResize !== 'function' || colResize.call(this, colName)) && colName !== 'INDEX')) : false,
             editable: editableOption ? (rowID: string, colName: string) => {
                 if (typeof editableOption === 'function' && !editableOption(rowID, colName)) {
                     return false;

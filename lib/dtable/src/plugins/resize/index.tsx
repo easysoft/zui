@@ -4,7 +4,7 @@ import './style.css';
 
 export interface DTableResizeTypes extends DTablePluginTypes {
     options: Partial<{
-        colResize: boolean | ((colName: ColName) => boolean);
+        colResize: boolean | ((this: DTableResize, colName: ColName) => boolean);
         onColResize: (this: DTableResize, colName: ColName, width: number) => void;
     }>,
     state: {
@@ -125,7 +125,8 @@ export const resize: DTablePlugin<DTableResizeTypes> = {
         },
     },
     onRenderHeaderCell(result, {col}) {
-        if (!col.flex) {
+        const {colResize: colResizeCallback} = this.options;
+        if (!col.flex && (typeof colResizeCallback !== 'function' || colResizeCallback.call(this, col.name) !== false)) {
             result.push({
                 className: 'has-col-splitter',
                 children: <div className="dtable-col-splitter no-cell-event"></div>,
