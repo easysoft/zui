@@ -7,9 +7,9 @@ export interface DTableDraftTypes extends DTablePluginTypes {
         draft: boolean;
         history?: boolean | number;
         skipRenderDraftCell?: boolean;
-        onStageDraft?: (this: DTableDraft, draftRows: DTableDraftRows) => false | void;
-        afterStageDraft?: (this: DTableDraft, draftRows: DTableDraftRows) => void;
-        afterApplyDraft?: (this: DTableDraft, draftRows: DTableDraftRows) => void;
+        onStageDraft?: (this: DTableDraft, draftRows: DTableDraftRows, stagingDraft: DTableDraftRows) => false | void;
+        afterStageDraft?: (this: DTableDraft, draftRows: DTableDraftRows, stagingDraft: DTableDraftRows) => void;
+        afterApplyDraft?: (this: DTableDraft, draftRows: DTableDraftRows, appliedDraft: DTableDraftRows) => void;
     }>;
     state: {
         stagingDraft: DTableDraftRows;
@@ -63,10 +63,10 @@ export const draft: DTablePlugin<DTableDraftTypes> = {
             return this.getCellValue(rowInfo, colInfo);
         },
         stageDraft(draftRows, options) {
-            if (this.options.onStageDraft?.call(this, draftRows) === false) {
+            const {stagingDraft} = this.state;
+            if (this.options.onStageDraft?.call(this, draftRows, stagingDraft) === false) {
                 return;
             }
-            const {stagingDraft} = this.state;
             Object.entries(draftRows).forEach(([rowID, data]) => {
                 const oldData = stagingDraft[rowID];
                 if (oldData) {
@@ -81,7 +81,7 @@ export const draft: DTablePlugin<DTableDraftTypes> = {
             });
             const afterUpdate = () => {
                 options?.callback?.(draftRows);
-                this.options.afterStageDraft?.call(this, draftRows);
+                this.options.afterStageDraft?.call(this, draftRows, this.state.stagingDraft);
             };
             if (options?.skipUpdate) {
                 afterUpdate();
@@ -121,7 +121,7 @@ export const draft: DTablePlugin<DTableDraftTypes> = {
             });
             const afterUpdate = () => {
                 options?.callback?.(draftRows);
-                this.options.afterApplyDraft?.call(this, draftRows);
+                this.options.afterApplyDraft?.call(this, draftRows, this.state.appliedDraft);
             };
             if (options?.skipUpdate) {
                 afterUpdate();
