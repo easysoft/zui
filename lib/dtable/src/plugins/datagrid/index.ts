@@ -4,6 +4,8 @@ import resize, {DTableResizeTypes} from '../resize';
 import {DTableDraftTypes, DTableDraftRows} from '../draft';
 import selectable, {DTableCellPos, DTableSelectableTypes, parseRange} from '../selectable';
 import hotkey, {DTableHotkeyCallback, DTableHotkeyTypes} from '../hotkey';
+import history, {DTableHistoryTypes} from '../history';
+import {DTableStoreTypes} from '../store';
 import './style.css';
 
 interface DTableDatasource {
@@ -41,10 +43,12 @@ interface DTableDatagridTypes extends DTablePluginTypes {
         handleHotkeyCut: (this: DTableDatagrid, event: KeyboardEvent) => void;
         handleHotkeyFocus: (this: DTableDatagrid, event: KeyboardEvent) => void;
         handleHotkeyCancel: (this: DTableDatagrid, event: KeyboardEvent) => void;
+        handleHotkeyUndo: (this: DTableDatagrid, event: KeyboardEvent) => void;
+        handleHotkeyRedo: (this: DTableDatagrid, event: KeyboardEvent) => void;
     }
 }
 
-type DTableDatagridDependencies = [DTableHotkeyTypes, DTableSelectableTypes, DTableDraftTypes, DTableEditableTypes, DTableResizeTypes];
+type DTableDatagridDependencies = [DTableHotkeyTypes, DTableSelectableTypes, DTableDraftTypes, DTableEditableTypes, DTableResizeTypes, DTableHistoryTypes, DTableStoreTypes];
 
 type DTableDatagrid = DTableWithPlugin<DTableDatagridTypes, DTableDatagridDependencies>;
 
@@ -94,7 +98,7 @@ function cellValueGetter(this: DTableDatagrid, row: RowInfo, col: ColInfo, origi
 
 export const datagrid: DTablePlugin<DTableDatagridTypes, DTableDatagridDependencies> = {
     name: 'datagrid',
-    plugins: [editable, selectable, hotkey, resize],
+    plugins: [editable, selectable, hotkey, resize, history],
     defaultOptions: {
         defaultColWidth: 80,
         headerEditable: true,
@@ -115,13 +119,15 @@ export const datagrid: DTablePlugin<DTableDatagridTypes, DTableDatagridDependenc
         hotkeyCut: true,
         hotkeyFocus: true,
         hotkeyCancel: true,
+        hotkeyRedo: true,
+        hotkeyUndo: true,
         emptyCellValue: '',
         cellValueSplitter: '\t',
         cellValueGetter,
         hotkeys: {},
     },
     options(options) {
-        const {hotkeyDelete, hotkeyCopy, hotkeyFocus, hotkeyCancel, hotkeyPaste, hotkeyCut, hotkeySelectAll, datasource, hotkeys, editable: editableOption, selectable: selectableOption, beforeSelectCells, showRowIndex, colResize} = options;
+        const {hotkeyDelete, hotkeyCopy, hotkeyFocus, hotkeyCancel, hotkeyPaste, hotkeyCut, hotkeySelectAll, hotkeyRedo, hotkeyUndo, datasource, hotkeys, editable: editableOption, selectable: selectableOption, beforeSelectCells, showRowIndex, colResize} = options;
         const hotkeysOverride = {
             ...hotkeys,
         };
@@ -133,6 +139,8 @@ export const datagrid: DTablePlugin<DTableDatagridTypes, DTableDatagridDependenc
             [hotkeySelectAll, 'ctrl+a,command+a', this.handleHotkeySelectAll],
             [hotkeyFocus, 'enter', this.handleHotkeyFocus],
             [hotkeyCancel, 'esc', this.handleHotkeyCancel],
+            [hotkeyUndo, 'ctrl+z,command+z', this.handleHotkeyUndo],
+            [hotkeyRedo, 'ctrl+shift+z,command+shift+z', this.handleHotkeyRedo],
         ] as [string | boolean, string, unknown][]).forEach(([option, defaultKey, callback]) => {
             if (!option) {
                 return;
@@ -306,6 +314,12 @@ export const datagrid: DTablePlugin<DTableDatagridTypes, DTableDatagridDependenc
         },
         handleHotkeyCancel() {
             this.deselectAllCells();
+        },
+        handleHotkeyUndo() {
+            this.undoHistory();
+        },
+        handleHotkeyRedo() {
+            this.redoHistory();
         },
     },
     onRender() {

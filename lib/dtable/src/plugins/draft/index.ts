@@ -5,29 +5,49 @@ export type DTableDraftRows = Record<RowID, Partial<RowData>>;
 export interface DTableDraftTypes extends DTablePluginTypes {
     options: Partial<{
         draft: boolean;
-        history?: boolean | number;
         skipRenderDraftCell?: boolean;
         onStageDraft?: (this: DTableDraft, draftRows: DTableDraftRows, stagingDraft: DTableDraftRows) => false | void;
-        afterStageDraft?: (this: DTableDraft, draftRows: DTableDraftRows, stagingDraft: DTableDraftRows) => void;
-        afterApplyDraft?: (this: DTableDraft, draftRows: DTableDraftRows, appliedDraft: DTableDraftRows) => void;
+        afterStageDraft?: (this: DTableDraft, draftRows: DTableDraftRows, stagingDraft: DTableDraftRows, oldStageDraft: DTableDraftRows) => void;
+        afterApplyDraft?: (this: DTableDraft, draftRows: DTableDraftRows, appliedDraft: DTableDraftRows, oldAppliedDraft: DTableDraftRows) => void;
     }>;
     state: {
         stagingDraft: DTableDraftRows;
         appliedDraft: DTableDraftRows;
     };
-    data: {
-    },
     methods: {
         getCellDraftValue(this: DTableDraft, row: RowInfo | string | number, col: ColInfo | string | number): unknown;
         stageDraft(this: DTableDraft, draftRows: DTableDraftRows, options?: {skipUpdate?: boolean, callback?: (stagingDraft: DTableDraftRows) => void}): void;
         applyDraft(this: DTableDraft, draftRows: DTableDraftRows, options?: {skipUpdate?: boolean, callback?: (appliedDraft: DTableDraftRows) => void}): void;
-        undoDraft(this: DTableDraft): boolean;
-        redoDraft(this: DTableDraft): boolean;
         renderDraftCell: NonNullable<typeof draft['onRenderCell']>;
     }
 }
 
 type DTableDraft = DTableWithPlugin<DTableDraftTypes>;
+
+export function mergeDraft(sourceDraft: DTableDraftRows, newDraft: DTableDraftRows): DTableDraftRows {
+    return Object.entries(newDraft).reduce((draft, [rowID, data]) => {
+        const oldData = draft[rowID];
+        if (oldData) {
+            if (data === null) {
+                delete draft[rowID];
+            } else {
+                Object.assign(oldData, data);
+            }
+        } else if (data !== null) {
+            draft[rowID] = data;
+        }
+        return draft;
+    }, sourceDraft);
+}
+
+export function cloneDraft(sourceDraft: DTableDraftRows): DTableDraftRows {
+    return Object.entries(sourceDraft).reduce<DTableDraftRows>((draft, [rowID, data]) => {
+        if (draft && typeof data === 'object') {
+            draft[rowID] = {...data};
+        }
+        return draft;
+    }, {});
+}
 
 export const draft: DTablePlugin<DTableDraftTypes> = {
     name: 'draft',
@@ -67,21 +87,11 @@ export const draft: DTablePlugin<DTableDraftTypes> = {
             if (this.options.onStageDraft?.call(this, draftRows, stagingDraft) === false) {
                 return;
             }
-            Object.entries(draftRows).forEach(([rowID, data]) => {
-                const oldData = stagingDraft[rowID];
-                if (oldData) {
-                    if (data === null) {
-                        delete stagingDraft[rowID];
-                    } else {
-                        Object.assign(oldData, data);
-                    }
-                } else {
-                    stagingDraft[rowID] = data;
-                }
-            });
+            const oldStageDraft = cloneDraft(stagingDraft);
+            mergeDraft(stagingDraft, draftRows);
             const afterUpdate = () => {
                 options?.callback?.(draftRows);
-                this.options.afterStageDraft?.call(this, draftRows, this.state.stagingDraft);
+                this.options.afterStageDraft?.call(this, draftRows, this.state.stagingDraft, oldStageDraft);
             };
             if (options?.skipUpdate) {
                 afterUpdate();
@@ -91,6 +101,7 @@ export const draft: DTablePlugin<DTableDraftTypes> = {
         },
         applyDraft(draftRows: DTableDraftRows, options) {
             const {stagingDraft, appliedDraft} = this.state;
+            const oldAppliedDraft = cloneDraft(appliedDraft);
             Object.entries(draftRows).forEach(([rowID, draftRowData]) => {
                 const stagingRowData = stagingDraft[rowID];
                 if (stagingRowData && typeof draftRowData === 'object') {
@@ -115,25 +126,19 @@ export const draft: DTablePlugin<DTableDraftTypes> = {
                     } else {
                         Object.assign(appliedRowData, draftRowData);
                     }
-                } else {
+                } else if (draftRowData !== null) {
                     appliedDraft[rowID] = draftRowData;
                 }
             });
             const afterUpdate = () => {
                 options?.callback?.(draftRows);
-                this.options.afterApplyDraft?.call(this, draftRows, this.state.appliedDraft);
+                this.options.afterApplyDraft?.call(this, draftRows, this.state.appliedDraft, oldAppliedDraft);
             };
             if (options?.skipUpdate) {
                 afterUpdate();
             } else {
                 this.forceUpdate(afterUpdate);
             }
-        },
-        undoDraft() {
-            return true;
-        },
-        redoDraft() {
-            return true;
         },
         renderDraftCell(result, {col, row}) {
             const cellValue = `${this.getCellDraftValue(row, col) ?? ''}`;
