@@ -19,7 +19,7 @@ type DTableWithPluginColInfo<T extends DTablePluginTypes = {}, D extends DTableP
 
 type PluginColSettingModifier<T extends DTablePluginTypes = {}, D extends DTablePluginTypes[] = [DTablePluginTypes]> = (col: DTableWithPluginColSetting<T, D>) => Partial<DTableWithPluginColSetting<T, D>> | undefined;
 
-type PluginPropsDependency<T extends DTablePluginTypes, D extends DTablePluginTypes[], P extends keyof DTablePluginTypes> = D[0][P] & D[1][P] & D[2][P] & D[3][P] & D[4][P] & D[5][P] & T[P];
+type PluginPropsDependency<T extends DTablePluginTypes, D extends DTablePluginTypes[], P extends keyof DTablePluginTypes> = D[0][P] & D[1][P] & D[2][P] & D[3][P] & D[4][P] & D[5][P] & D[6][P] & D[7][P] & D[8][P] & D[9][P] & T[P];
 
 type DTableWithPlugin<T extends DTablePluginTypes = {}, D extends DTablePluginTypes[] = [DTablePluginTypes]> = DTable & {
     state: DTableWithPluginState<PluginPropsDependency<T, D, 'state'>>;
