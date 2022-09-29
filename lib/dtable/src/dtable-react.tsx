@@ -37,6 +37,8 @@ export class DTable extends Component<DTableOptions, DTableState> {
 
     #data: Record<string, unknown> = {};
 
+    #resizeObserver?: ResizeObserver;
+
     constructor(props: DTableOptions) {
         super(props);
 
@@ -112,7 +114,13 @@ export class DTable extends Component<DTableOptions, DTableState> {
         this.on('click', this.#handleClick as DTableEventListener);
 
         if (this.options.responsive) {
-            this.on('window_resize', this.updateLayout);
+            if (typeof ResizeObserver !== 'undefined') {
+                const resizeObserver = new ResizeObserver(this.updateLayout);
+                resizeObserver.observe(this.parent!);
+                this.#resizeObserver = resizeObserver;
+            } else {
+                this.on('window_resize', this.updateLayout);
+            }
         }
 
         this.#plugins.forEach(plugin => {
@@ -131,6 +139,8 @@ export class DTable extends Component<DTableOptions, DTableState> {
     }
 
     componentWillUnmount() {
+        this.#resizeObserver?.disconnect();
+
         const {current} = this.ref;
         if (current) {
             for (const event of this.#events.keys()) {
