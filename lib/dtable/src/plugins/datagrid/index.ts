@@ -3,7 +3,7 @@ import editable, {DTableEditableTypes} from '../editable';
 import resize, {DTableResizeTypes} from '../resize';
 import {DTableDraftTypes, DTableDraftRows} from '../draft';
 import selectable, {DTableCellPos, DTableSelectableTypes, parseRange} from '../selectable';
-import hotkey, {DTableHotkeyCallback, DTableHotkeyTypes} from '../hotkey';
+import hotkey, {DTableHotkeyTypes} from '../hotkey';
 import history, {DTableHistoryTypes} from '../history';
 import {DTableStoreTypes} from '../store';
 import './style.css';
@@ -22,12 +22,21 @@ interface DTableDatagridTypes extends DTablePluginTypes {
         extraRows?: number,
         extraCols?: number,
         showRowIndex?: boolean,
-        hotkeyDelete?: boolean | string,
-        hotkeySelectAll?: boolean | string,
-        hotkeyPaste?: boolean | string,
-        hotkeyCopy?: boolean | string,
-        hotkeyFocus?: boolean | string,
-        hotkeyCancel?: boolean | string,
+        datagridHotkeys?: {
+            delete?: boolean | string,
+            selectAll?: boolean | string,
+            paste?: boolean | string,
+            copy?: boolean | string,
+            focus?: boolean | string,
+            cancel?: boolean | string,
+            cut?: boolean | string,
+            redo?: boolean | string,
+            undo?: boolean | string,
+            selectRight?: boolean | string,
+            selectLeft?: boolean | string,
+            selectDown?: boolean | string,
+            selectUp?: boolean | string,
+        },
         emptyCellValue?: unknown,
         cellValueSplitter?: string,
     };
@@ -37,15 +46,6 @@ interface DTableDatagridTypes extends DTablePluginTypes {
         cutSelections: (this: DTableDatagrid) => boolean;
         pasteCells: (this: DTableDatagrid, targetCell: DTableCellPos | {colName: string, rowID: string}) => Promise<boolean>;
         pasteToSelection: (this: DTableDatagrid) => Promise<boolean>;
-        handleHotkeyDelete: (this: DTableDatagrid, event: KeyboardEvent) => void;
-        handleHotkeySelectAll: (this: DTableDatagrid, event: KeyboardEvent) => void;
-        handleHotkeyPaste: (this: DTableDatagrid, event: KeyboardEvent) => void;
-        handleHotkeyCopy: (this: DTableDatagrid, event: KeyboardEvent) => void;
-        handleHotkeyCut: (this: DTableDatagrid, event: KeyboardEvent) => void;
-        handleHotkeyFocus: (this: DTableDatagrid, event: KeyboardEvent) => void;
-        handleHotkeyCancel: (this: DTableDatagrid, event: KeyboardEvent) => void;
-        handleHotkeyUndo: (this: DTableDatagrid, event: KeyboardEvent) => void;
-        handleHotkeyRedo: (this: DTableDatagrid, event: KeyboardEvent) => void;
     }
 }
 
@@ -97,6 +97,67 @@ function cellValueGetter(this: DTableDatagrid, row: RowInfo, col: ColInfo, origi
     return originValue;
 }
 
+const hotkeyHandlers: Record<string, (this: DTableDatagrid, event: KeyboardEvent) => void> = {
+    delete() {
+        this.deleteSelections();
+    },
+    cut() {
+        this.cutSelections();
+    },
+    selectAll(event) {
+        this.selectAllCells();
+        event.preventDefault();
+    },
+    paste() {
+        this.pasteToSelection();
+    },
+    copy(event) {
+        this.copySelections();
+        event.preventDefault();
+    },
+    focus() {
+        const selectedCell = this.getSelectedCells()[0];
+        if (!selectedCell) {
+            return;
+        }
+        const colInfo = this.getColInfo(selectedCell.col);
+        const rowInfo = this.getRowInfo(selectedCell.row);
+        if (!colInfo || !rowInfo) {
+            return;
+        }
+        this.editCell({rowID: rowInfo.id, colName: colInfo.name});
+    },
+    cancel() {
+        this.deselectAllCells();
+    },
+    undo() {
+        this.undoHistory();
+    },
+    redo() {
+        this.redoHistory();
+    },
+    selectRight(event) {
+        if (this.selectNextCell('right')) {
+            event.preventDefault();
+        }
+    },
+    selectLeft(event) {
+        if (this.selectNextCell('left')) {
+            event.preventDefault();
+        }
+    },
+    selectDown(event) {
+        if (this.selectNextCell('down')) {
+            event.preventDefault();
+        }
+    },
+    selectUp(event) {
+        if (this.selectNextCell('up')) {
+            event.preventDefault();
+        }
+    },
+};
+
 export const datagrid: DTablePlugin<DTableDatagridTypes, DTableDatagridDependencies> = {
     name: 'datagrid',
     plugins: [editable, selectable, hotkey, resize, history],
@@ -113,41 +174,41 @@ export const datagrid: DTablePlugin<DTableDatagridTypes, DTableDatagridDependenc
         cellHover: true,
         bordered: true,
         striped: false,
-        hotkeyDelete: true,
-        hotkeySelectAll: true,
-        hotkeyPaste: true,
-        hotkeyCopy: true,
-        hotkeyCut: true,
-        hotkeyFocus: true,
-        hotkeyCancel: true,
-        hotkeyRedo: true,
-        hotkeyUndo: true,
+        datagridHotkeys: {},
         emptyCellValue: '',
         cellValueSplitter: '\t',
         cellValueGetter,
         hotkeys: {},
     },
     options(options) {
-        const {hotkeyDelete, hotkeyCopy, hotkeyFocus, hotkeyCancel, hotkeyPaste, hotkeyCut, hotkeySelectAll, hotkeyRedo, hotkeyUndo, datasource, hotkeys, editable: editableOption, selectable: selectableOption, beforeSelectCells, showRowIndex, colResize} = options;
+        const {datagridHotkeys, datasource, hotkeys, editable: editableOption, selectable: selectableOption, beforeSelectCells, showRowIndex, colResize} = options;
+        const defaultHotkeys: Record<string, string> = {
+            delete: 'delete,backspace',
+            selectAll: 'ctrl+a,command+a',
+            paste: 'ctrl+v,command+v',
+            copy: 'ctrl+c,command+c',
+            focus: 'enter',
+            cancel: 'esc',
+            cut: 'ctrl+x,command+x',
+            redo: 'ctrl+shift+z,command+shift+z',
+            undo: 'ctrl+z,command+z',
+            selectRight: 'tab,right',
+            selectLeft: 'left',
+            selectDown: 'down',
+            selectUp: 'up',
+        };
         const hotkeysOverride = {
             ...hotkeys,
+            ...Object.entries({
+                ...defaultHotkeys,
+                ...datagridHotkeys,
+            }).reduce<NonNullable<typeof hotkeys>>((hotkeysMap, [name, key]) => {
+                if (key) {
+                    hotkeysMap[key === true ? defaultHotkeys[name] : key] = hotkeyHandlers[name]?.bind(this);
+                }
+                return hotkeysMap;
+            }, {}),
         };
-        ([
-            [hotkeyDelete, 'delete,backspace', this.handleHotkeyDelete],
-            [hotkeyCopy, 'ctrl+c,command+c', this.handleHotkeyCopy],
-            [hotkeyPaste, 'ctrl+v,command+v', this.handleHotkeyPaste],
-            [hotkeyCut, 'ctrl+x,command+x', this.handleHotkeyCut],
-            [hotkeySelectAll, 'ctrl+a,command+a', this.handleHotkeySelectAll],
-            [hotkeyFocus, 'enter', this.handleHotkeyFocus],
-            [hotkeyCancel, 'esc', this.handleHotkeyCancel],
-            [hotkeyUndo, 'ctrl+z,command+z', this.handleHotkeyUndo],
-            [hotkeyRedo, 'ctrl+shift+z,command+shift+z', this.handleHotkeyRedo],
-        ] as [string | boolean, string, unknown][]).forEach(([option, defaultKey, callback]) => {
-            if (!option) {
-                return;
-            }
-            hotkeysOverride[typeof option === 'string' ? option : defaultKey] = callback as unknown as DTableHotkeyCallback;
-        });
         return {
             hotkeys: hotkeysOverride,
             colResize: colResize ? (colName => ((typeof colResize !== 'function' || colResize.call(this, colName)) && colName !== 'INDEX')) : false,
@@ -222,16 +283,6 @@ export const datagrid: DTablePlugin<DTableDatagridTypes, DTableDatagridDependenc
             this.copySelections();
             return this.deleteSelections();
         },
-        handleHotkeyDelete() {
-            this.deleteSelections();
-        },
-        handleHotkeyCut() {
-            this.cutSelections();
-        },
-        handleHotkeySelectAll(event) {
-            this.selectAllCells();
-            event.preventDefault();
-        },
         async pasteCells(targetCell) {
             let startColIndex = -1;
             let startRowIndex = -1;
@@ -293,34 +344,6 @@ export const datagrid: DTablePlugin<DTableDatagridTypes, DTableDatagridDependenc
             }
             const startCell = selectedCells[0];
             return this.pasteCells(startCell);
-        },
-        handleHotkeyPaste() {
-            this.pasteToSelection();
-        },
-        handleHotkeyCopy(event) {
-            this.copySelections();
-            event.preventDefault();
-        },
-        handleHotkeyFocus() {
-            const selectedCell = this.getSelectedCells()[0];
-            if (!selectedCell) {
-                return;
-            }
-            const colInfo = this.getColInfo(selectedCell.col);
-            const rowInfo = this.getRowInfo(selectedCell.row);
-            if (!colInfo || !rowInfo) {
-                return;
-            }
-            this.editCell({rowID: rowInfo.id, colName: colInfo.name});
-        },
-        handleHotkeyCancel() {
-            this.deselectAllCells();
-        },
-        handleHotkeyUndo() {
-            this.undoHistory();
-        },
-        handleHotkeyRedo() {
-            this.redoHistory();
         },
     },
     onRender() {

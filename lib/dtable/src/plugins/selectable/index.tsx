@@ -36,6 +36,7 @@ export type DTableSelectableTypes = {
     },
     methods: {
         selectCells: typeof selectCells;
+        selectNextCell: typeof selectNextCell;
         selectingCells: typeof selectingCells;
         deselectCells: typeof deselectCells;
         isCellSelected: typeof isCellSelected;
@@ -230,6 +231,35 @@ function selectCells(this: DTableSelectable, selections: DTableSelection | DTabl
     return cells;
 }
 
+function selectNextCell(this: DTableSelectable, direction?: 'right' | 'down' | 'left' | 'up'): DTableCellPos | undefined {
+    const {selectedMap} = this.state;
+    let rowIndex = -1;
+    let colIndex = -1;
+    for (const [col, rows] of selectedMap.entries()) {
+        colIndex = colIndex < 0 ? col : Math.min(col, colIndex);
+        const minRow = Math.min(...rows);
+        rowIndex = rowIndex < 0 ? minRow : Math.min(minRow, rowIndex);
+    }
+    if (rowIndex < 0 || colIndex < 0) {
+        return;
+    }
+    if (direction === 'down') {
+        rowIndex++;
+    } else if (direction === 'up') {
+        rowIndex--;
+    } else if (direction === 'left') {
+        colIndex--;
+    } else {
+        colIndex++;
+    }
+    if (rowIndex >= 0 && colIndex >= 0) {
+        const pos = {col: colIndex, row: rowIndex};
+        this.selectCells([pos]);
+        return pos;
+    }
+    return;
+}
+
 function selectingCells(this: DTableSelectable, selections: DTableSelection | DTableRangeSelection | DTableSelections, options?: {clearBefore?: boolean, deselect?: boolean, selecting?: boolean, callback?: (this: DTableSelectable, cells: DTableCellPos[]) => void}): DTableCellPos[] {
     return selectCells.call(this, selections, {...options, selecting: true});
 }
@@ -353,6 +383,7 @@ export const selectable: DTablePlugin<DTableSelectableTypes, [DTableMousemoveTyp
     },
     methods: {
         selectCells,
+        selectNextCell,
         selectingCells,
         deselectCells,
         isCellSelected,

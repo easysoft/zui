@@ -209,23 +209,26 @@ export class DTable extends Component<DTableOptions, DTableState> {
         }
     }
 
-    scrollLeft(scrollLeft: number) {
-        const {scrollWidth, scrollColsWidth} = this.layout.colsInfo;
-        scrollLeft = Math.max(0, Math.min(scrollLeft, scrollColsWidth - scrollWidth));
-        this.setState({scrollLeft}, () => {
-            this.options.onScroll?.call(this, scrollLeft, 'horz');
+    scroll(info: {scrollLeft?: number, scrollTop?: number}) {
+        const state: Partial<DTableState> = {};
+        const {scrollLeft, scrollTop} = info;
+        if (typeof scrollLeft === 'number') {
+            const {scrollWidth, scrollColsWidth} = this.layout.colsInfo;
+            state.scrollLeft = Math.max(0, Math.min(scrollLeft, scrollColsWidth - scrollWidth));
+        }
+        if (typeof scrollTop === 'number') {
+            const {rowsHeight, rowsHeightTotal} = this.layout;
+            state.scrollTop = Math.max(0, Math.min(scrollTop, rowsHeightTotal - rowsHeight));
+        }
+        this.setState(state, () => {
+            this.options.onScroll?.call(this, state);
         });
     }
 
-    scrollTop(scrollTop: number) {
-        const {rowsHeight, rowsHeightTotal} = this.layout;
-        scrollTop = Math.max(0, Math.min(scrollTop, rowsHeightTotal - rowsHeight));
-        this.setState({scrollTop}, () => {
-            this.options.onScroll?.call(this, scrollTop, 'vert');
-        });
-    }
-
-    getColInfo(colNameOrIndex: string | number | ColInfo): ColInfo | undefined {
+    getColInfo(colNameOrIndex?: ColInfoLike): ColInfo | undefined {
+        if (colNameOrIndex === undefined) {
+            return;
+        }
         if (typeof colNameOrIndex === 'object') {
             return colNameOrIndex;
         }
@@ -236,7 +239,10 @@ export class DTable extends Component<DTableOptions, DTableState> {
         return colsMap[colNameOrIndex];
     }
 
-    getRowInfo(idOrIndex: string | number | RowInfo): RowInfo | undefined {
+    getRowInfo(idOrIndex?: RowInfoLike): RowInfo | undefined {
+        if (idOrIndex === undefined) {
+            return;
+        }
         if (typeof idOrIndex === 'object') {
             return idOrIndex;
         }
@@ -529,9 +535,9 @@ export class DTable extends Component<DTableOptions, DTableState> {
 
     #handleScroll = (scrollOffset: number, type: 'horz' | 'vert') => {
         if (type === 'horz') {
-            this.scrollLeft(scrollOffset);
+            this.scroll({scrollLeft: scrollOffset});
         } else {
-            this.scrollTop(scrollOffset);
+            this.scroll({scrollTop: scrollOffset});
         }
     };
 
