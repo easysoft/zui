@@ -84,6 +84,10 @@ export class DTable extends Component<DTableOptions, DTableState> {
         return this.#data;
     }
 
+    get parent() {
+        return this.props.parent ?? this.ref.current?.parentElement;
+    }
+
     componentWillReceiveProps(): void {
         this.#options = undefined;
     }
@@ -108,7 +112,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
         this.on('click', this.#handleClick as DTableEventListener);
 
         if (this.options.responsive) {
-            this.on('window_resize', this.#handleResize);
+            this.on('window_resize', this.updateLayout);
         }
 
         this.#plugins.forEach(plugin => {
@@ -293,6 +297,17 @@ export class DTable extends Component<DTableOptions, DTableState> {
         };
     }
 
+    updateLayout = () => {
+        if (this.#rafId) {
+            cancelAnimationFrame(this.#rafId);
+        }
+        this.#rafId = requestAnimationFrame(() => {
+            this.#layout = undefined;
+            this.forceUpdate();
+            this.#rafId = 0;
+        });
+    };
+
     #handleEvent = (event: Event, type?: DTableEventType) => {
         type = type || event.type as DTableEventType;
         const callbacks = this.#events.get(type);
@@ -440,17 +455,6 @@ export class DTable extends Component<DTableOptions, DTableState> {
         return scrollbars.length ? scrollbars : null;
     }
 
-    #handleResize = () => {
-        if (this.#rafId) {
-            cancelAnimationFrame(this.#rafId);
-        }
-        this.#rafId = requestAnimationFrame(() => {
-            this.#layout = undefined;
-            this.forceUpdate();
-            this.#rafId = 0;
-        });
-    };
-
     #afterRender() {
         this.#needUpdateSize = false;
         this.options.afterRender?.call(this);
@@ -516,17 +520,11 @@ export class DTable extends Component<DTableOptions, DTableState> {
     };
 
     #handleClick = (event: MouseEvent) => {
-        const target = event.target as HTMLElement;
-        if (!target) {
+        const pointerInfo = this.getPointerInfo(event);
+        if (!pointerInfo) {
             return;
         }
-        const rowElement = target.closest<HTMLElement>('.dtable-row');
-        if (!rowElement) {
-            return;
-        }
-        const cellElement = target.closest<HTMLElement>('.dtable-cell');
-        const colName = cellElement?.getAttribute('data-col') ?? '';
-        const rowID = rowElement.getAttribute('data-id') ?? '';
+        const {rowID, colName, cellElement} = pointerInfo;
         if (rowID === 'HEADER') {
             if (cellElement) {
                 this.options.onHeaderCellClick?.call(this, event, {colName, element: cellElement});
@@ -535,6 +533,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
                 });
             }
         } else {
+            const {rowElement} = pointerInfo;
             const rowInfo = this.layout.visibleRows.find(row => row.id === rowID);
             if (cellElement) {
                 if (this.options.onCellClick?.call(this, event, {colName, rowID, rowInfo, element: cellElement, rowElement}) === true) {
@@ -689,7 +688,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
         if (widthSetting === 'auto') {
             width = actualWidth;
         } else if (widthSetting === '100%') {
-            const parentElement = options.parent ?? this.ref.current?.parentElement;
+            const {parent: parentElement} = this;
             if (parentElement) {
                 width = parentElement.clientWidth;
             } else {
@@ -770,7 +769,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
         } else if (typeof heightSetting === 'object') {
             height = Math.min(heightSetting.max, Math.max(heightSetting.min, actualHeight));
         } else if (heightSetting === '100%') {
-            const parentElement = options.parent ?? this.ref.current?.parentElement;
+            const {parent: parentElement} = this;
             if (parentElement) {
                 height = parentElement.clientHeight;
             } else {
