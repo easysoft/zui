@@ -8,6 +8,8 @@ type ColFixedSide = 'left' | 'right' | false;
 
 type ColSortType = 'asc' | 'desc' | boolean;
 
+type ColInfoLike = string | number | ColInfo;
+
 type ColInfo<S extends ColSetting = ColSetting> = {
     name: ColName;
     type: string;

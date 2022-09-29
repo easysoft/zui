@@ -131,7 +131,7 @@ export const editable: DTablePlugin<DTableEditableTypes, [DTableDraftTypes]> = {
                     children: editingBox,
                 }];
             }
-            return this.renderDraftCell(result, {row, col}, h);
+            return this.renderDraftCell(result, {row, col: col as unknown as DTableWithPluginColInfo<DTableDraftTypes>}, h);
         },
     },
     onUpdated() {

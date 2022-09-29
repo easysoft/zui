@@ -33,7 +33,7 @@ interface DTableStyleOptions {
 
 interface DTableCallbackOptions {
     onLayout?: (this: DTable, layout: DTableLayout) => (DTableLayout | undefined);
-    onScroll?: (this: DTable, scrollPos: number, type: 'vert' | 'horz') => void;
+    onScroll?: (this: DTable, scrollInfo: {scrollTop?: number, scrollLeft?: number}) => void;
     onRenderCell?: CellRenderCallback;
     onRenderHeaderCell?: CellRenderCallback;
     onRenderRow?: (this: DTable, data: {props: RowProps, row: RowInfo}, h: typeof _h) => Partial<RowProps | (RowProps & JSX.HTMLAttributes<HTMLElement>)> | void;

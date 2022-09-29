@@ -14,7 +14,7 @@ export function addPlugin(plugin: DTablePlugin, defineOptions?: DTablePluginDefi
 
 export function definePlugin<T extends DTablePluginTypes = DTablePluginTypes, D extends DTablePluginTypes[] = []>(plugin: DTablePlugin<T, D>, defineOptions?: DTablePluginDefineOptions): DTablePluginComsumer<T, D> {
     addPlugin(plugin as unknown as DTablePlugin, defineOptions);
-    const comsumer: DTablePluginComsumer<T, D> = (options) => {
+    const comsumer = (options: DTableWithPluginOptions<T, D>) => {
         if (!options) {
             return plugin;
         }
@@ -25,7 +25,7 @@ export function definePlugin<T extends DTablePluginTypes = DTablePluginTypes, D 
         };
     };
     comsumer.plugin = plugin;
-    return comsumer;
+    return comsumer as DTablePluginComsumer<T, D>;
 }
 
 export function removePlugin(name: string): boolean {

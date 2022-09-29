@@ -7,6 +7,7 @@ import hotkey, {DTableHotkeyCallback, DTableHotkeyTypes} from '../hotkey';
 import history, {DTableHistoryTypes} from '../history';
 import {DTableStoreTypes} from '../store';
 import './style.css';
+import {DTableMousemoveTypes} from '../mousemove';
 
 interface DTableDatasource {
     cols?: ColSetting[],
@@ -48,7 +49,7 @@ interface DTableDatagridTypes extends DTablePluginTypes {
     }
 }
 
-type DTableDatagridDependencies = [DTableHotkeyTypes, DTableSelectableTypes, DTableDraftTypes, DTableEditableTypes, DTableResizeTypes, DTableHistoryTypes, DTableStoreTypes];
+type DTableDatagridDependencies = [DTableHotkeyTypes, DTableSelectableTypes, DTableDraftTypes, DTableEditableTypes, DTableResizeTypes, DTableHistoryTypes, DTableStoreTypes, DTableMousemoveTypes];
 
 type DTableDatagrid = DTableWithPlugin<DTableDatagridTypes, DTableDatagridDependencies>;
 

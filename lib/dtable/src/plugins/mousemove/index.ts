@@ -1,9 +1,9 @@
 import {definePlugin} from '../../helpers/shared-plugins';
 
-export interface DTableMousemoveTypes<D extends DTable = DTable> extends DTablePluginTypes {
+export interface DTableMousemoveTypes {
     pluginOptions: {
-        onMouseMove: DTableEventListener<'mousemove', D>;
-        onDocMousemove: DTableEventListener<'mousemove', D>;
+        onMouseMove: DTableEventListener<'mousemove'>;
+        onDocMousemove: DTableEventListener<'mousemove'>;
     },
     data: {
         mmRafID?: number;
@@ -17,7 +17,8 @@ export const mousemove: DTablePlugin<DTableMousemoveTypes> = {
     name: 'mousemove',
     events() {
         const events: DTablePluginEvents<DTableMousemoveTypes> = {};
-        if (this.plugins.some(x => x.onMouseMove)) {
+        const plugins = this.plugins as DTablePlugin<DTableMousemoveTypes>[];
+        if (plugins.some(x => x.onMouseMove)) {
             events.mousemove = function (event) {
                 if (this.data.mmRafID) {
                     cancelAnimationFrame(this.data.mmRafID);
@@ -25,13 +26,11 @@ export const mousemove: DTablePlugin<DTableMousemoveTypes> = {
                 }
 
                 this.data.mmRafID = requestAnimationFrame(() => {
-                    for (const plugin of this.plugins) {
-                        plugin.onMouseMove?.call(this, event);
-                    }
+                    plugins.forEach(plugin => plugin.onMouseMove?.call(this, event));
                 });
             };
         }
-        if (this.plugins.some(x => x.onDocMousemove)) {
+        if (plugins.some(x => x.onDocMousemove)) {
             events.document_mousemove = function (event) {
                 if (this.data.dmmRafID) {
                     cancelAnimationFrame(this.data.dmmRafID);
@@ -39,9 +38,7 @@ export const mousemove: DTablePlugin<DTableMousemoveTypes> = {
                 }
 
                 this.data.dmmRafID = requestAnimationFrame(() => {
-                    for (const plugin of this.plugins) {
-                        plugin.onDocMousemove?.call(this, event as MouseEvent);
-                    }
+                    plugins.forEach(plugin => plugin.onDocMousemove?.call(this, event as MouseEvent));
                 });
             };
         }

@@ -4,9 +4,9 @@ type DTablePluginTypes = {
     state?: {},
     options?: {},
     data?: {},
-    methods?: Record<string, CallableFunction>,
+    methods?: {},
     col?: {},
-    pluginOptions?: Record<string, unknown>,
+    pluginOptions?: {},
 };
 
 type DTableWithPluginColSetting<T extends DTablePluginTypes = {}, D extends DTablePluginTypes[] = []> = ColSetting<PluginPropsDependency<T, D, 'col'>>;
@@ -19,13 +19,12 @@ type DTableWithPluginColInfo<T extends DTablePluginTypes = {}, D extends DTableP
 
 type PluginColSettingModifier<T extends DTablePluginTypes = {}, D extends DTablePluginTypes[] = []> = (col: DTableWithPluginColSetting<T, D>) => Partial<DTableWithPluginColSetting<T, D>> | undefined;
 
-type PluginPropsDependency<T extends DTablePluginTypes, D extends DTablePluginTypes[], P extends keyof DTablePluginTypes> = D[0][P] & D[1][P] & D[2][P] & D[3][P] & D[4][P] & D[5][P] & D[6][P] & D[7][P] & D[8][P] & D[9][P] & T[P];
+type PluginPropsDependency<T extends DTablePluginTypes, D extends DTablePluginTypes[], P extends keyof DTablePluginTypes> = {} & D[0][P] & D[1][P] & D[2][P] & D[3][P] & D[4][P] & D[5][P] & D[6][P] & D[7][P] & D[8][P] & D[9][P] & T[P];
 
 type DTableWithPlugin<T extends DTablePluginTypes = {}, D extends DTablePluginTypes[] = []> = DTable & {
     state: DTableWithPluginState<PluginPropsDependency<T, D, 'state'>>;
     options: DTableWithPluginOptions<T, D>;
     data: PluginPropsDependency<T, D, 'data'>;
-    plugins: DTablePlugin<T, D>[];
     getColInfo: (name: string) => DTableWithPluginColInfo<T, D> | undefined;
     update(options: {dirtyType?: 'options' | 'layout', state?: Partial<DTableWithPluginState<PluginPropsDependency<T, D, 'state'>>>}, callback?: () => void): void;
 } & PluginPropsDependency<T, D, 'methods'>;
@@ -38,7 +37,7 @@ type DTablePluginEvents<T extends DTablePluginTypes = {}, D extends DTablePlugin
     [event in `window_${DTableHTMLEvent}`]?: DTableEventListener<DTableHTMLEvent, DTableWithPlugin<T, D>>;
 };
 
-type DTablePlugin<T extends DTablePluginTypes = DTablePluginTypes, D extends DTablePluginTypes[] = [], PluginTable = DTableWithPlugin<T, D>, Options = DTableWithPluginOptions<T, D>, PluginColSetting = DTableWithPluginColSetting<T, D>, PluginColInfo = DTableWithPluginColInfo<T, D>> = {
+type DTablePlugin<T extends DTablePluginTypes = DTablePluginTypes, D extends DTablePluginTypes[] = [], PluginTable = DTableWithPlugin<T, D>, Options = DTableWithPluginOptions<T, D>, PluginColSetting = DTableWithPluginColSetting<T, D>, PluginColInfo = DTableWithPluginColInfo<T, D>, PluginOptions = PluginPropsDependency<T, D, 'pluginOptions'>> = {
     name: string;
 } & Partial<{
     when: (options: Options) => boolean,
@@ -69,7 +68,7 @@ type DTablePlugin<T extends DTablePluginTypes = DTablePluginTypes, D extends DTa
     onAddRow: (this: PluginTable, row: RowInfo, index: number) => void | false;
     onAddRows: (this: PluginTable, rows: RowInfo[]) => RowInfo[] | void;
     plugins: (DTablePluginLike | DTablePlugin<T, D>)[];
-} & PluginPropsDependency<T, D, 'pluginOptions'>>;
+} & PluginOptions>;
 
 interface DTablePluginComsumer<T extends DTablePluginTypes = {}, D extends DTablePluginTypes[] = []> {
     plugin: DTablePlugin<T, D>,

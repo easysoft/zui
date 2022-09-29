@@ -6,6 +6,8 @@ type RowPropValue = unknown;
 
 type RowData = Record<RowPropName, RowPropValue>;
 
+type RowInfoLike = string | number | RowInfo;
+
 type RowInfo = {
     id: string;
     index: number;
