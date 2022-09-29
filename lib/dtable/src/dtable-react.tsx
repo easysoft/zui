@@ -23,7 +23,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
 
     #id: string;
 
-    #needUpdateSize = false;
+    #needRender = false;
 
     #options?: DTableOptions;
 
@@ -37,7 +37,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
 
     #data: Record<string, unknown> = {};
 
-    #resizeObserver?: ResizeObserver;
+    #rob?: ResizeObserver;
 
     constructor(props: DTableOptions) {
         super(props);
@@ -95,7 +95,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
     }
 
     componentDidMount() {
-        if (this.#needUpdateSize) {
+        if (this.#needRender) {
             this.forceUpdate();
         } else {
             this.#afterRender();
@@ -115,9 +115,12 @@ export class DTable extends Component<DTableOptions, DTableState> {
 
         if (this.options.responsive) {
             if (typeof ResizeObserver !== 'undefined') {
-                const resizeObserver = new ResizeObserver(this.updateLayout);
-                resizeObserver.observe(this.parent!);
-                this.#resizeObserver = resizeObserver;
+                const {parent} = this;
+                if (parent) {
+                    const rob = new ResizeObserver(this.updateLayout);
+                    rob.observe(parent);
+                    this.#rob = rob;
+                }
             } else {
                 this.on('window_resize', this.updateLayout);
             }
@@ -129,7 +132,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
     }
 
     componentDidUpdate() {
-        if (this.#needUpdateSize) {
+        if (this.#needRender) {
             this.#afterRender();
         } else {
             this.#plugins.forEach(plugin => {
@@ -139,7 +142,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
     }
 
     componentWillUnmount() {
-        this.#resizeObserver?.disconnect();
+        this.#rob?.disconnect();
 
         const {current} = this.ref;
         if (current) {
@@ -466,7 +469,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
     }
 
     #afterRender() {
-        this.#needUpdateSize = false;
+        this.#needRender = false;
         this.options.afterRender?.call(this);
         this.#plugins.forEach(plugin => plugin.afterRender?.call(this));
     }
@@ -703,7 +706,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
                 width = parentElement.clientWidth;
             } else {
                 width = 0;
-                this.#needUpdateSize = true;
+                this.#needRender = true;
                 return;
             }
         } else {
@@ -784,7 +787,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
                 height = parentElement.clientHeight;
             } else {
                 height = 0;
-                this.#needUpdateSize = true;
+                this.#needRender = true;
                 return;
             }
         } else {
