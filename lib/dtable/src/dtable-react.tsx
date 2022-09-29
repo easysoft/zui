@@ -102,9 +102,12 @@ export class DTable extends Component<DTableOptions, DTableState> {
         }
 
         this.#plugins.forEach(plugin => {
-            const {events} = plugin;
+            let {events} = plugin;
             if (!events) {
                 return;
+            }
+            if (typeof events === 'function') {
+                events = events.call(this);
             }
             Object.entries(events).forEach(([eventType, callback]) => {
                 this.on(eventType as DTableEventType, callback as DTableEventListener);

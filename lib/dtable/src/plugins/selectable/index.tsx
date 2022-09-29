@@ -1,5 +1,6 @@
 import {classes} from '@zui/browser-helpers/src/classes';
 import {definePlugin} from '../../helpers/shared-plugins';
+import mousemove, {DTableMousemoveTypes} from '../mousemove';
 import './style.css';
 
 export type DTableColIndex       = number;
@@ -47,7 +48,7 @@ export type DTableSelectableTypes = {
     };
 };
 
-type DTableSelectable = DTableWithPlugin<DTableSelectableTypes>;
+type DTableSelectable = DTableWithPlugin<DTableSelectableTypes, [DTableMousemoveTypes]>;
 
 const REG_CELL = /C(\d+)R(\d+)/i;
 const REG_SELECTION = /(?:C(\d+))?(?:R(\d+))?/i;
@@ -339,10 +340,11 @@ export function getMousePos(table: DTable, event: Event, options?: {ignoreHeader
     return {col: colIndex, row: rowIndex};
 }
 
-export const selectable: DTablePlugin<DTableSelectableTypes> = {
+export const selectable: DTablePlugin<DTableSelectableTypes, [DTableMousemoveTypes]> = {
     name: 'selectable',
     defaultOptions: {selectable: true, markSelectRange: true},
     when: options => !!options.selectable,
+    plugins: [mousemove],
     state() {
         return {
             selectedMap: new Map(),
@@ -374,21 +376,6 @@ export const selectable: DTablePlugin<DTableSelectableTypes> = {
                 event.stopPropagation();
             }
         },
-        mousemove(event) {
-            const {selectingStart} = this.data;
-            if (!selectingStart) {
-                return;
-            }
-            const pos = getMousePos(this, event);
-            if (pos) {
-                const selection = stringifySelection(selectingStart, pos);
-                if (selection) {
-                    this.selectingCells(selection);
-                    event.preventDefault();
-                    event.stopPropagation();
-                }
-            }
-        },
         mouseup(event) {
             const {selectingStart} = this.data;
             if (!selectingStart) {
@@ -414,6 +401,22 @@ export const selectable: DTablePlugin<DTableSelectableTypes> = {
                 this.deselectAllCells();
             }
         },
+    },
+    onMouseMove(event) {
+        const dtable = this as DTableSelectable;
+        const {selectingStart} = dtable.data;
+        if (!selectingStart) {
+            return;
+        }
+        const pos = getMousePos(dtable, event);
+        if (pos) {
+            const selection = stringifySelection(selectingStart, pos);
+            if (selection) {
+                dtable.selectingCells(selection);
+                event.preventDefault();
+                event.stopPropagation();
+            }
+        }
     },
     onRender() {
         if (this.options.selectable) {

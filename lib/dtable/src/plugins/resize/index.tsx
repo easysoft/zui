@@ -1,5 +1,6 @@
 import {clamp} from '../../helpers/clamp';
 import {definePlugin} from '../../helpers/shared-plugins';
+import mousemove, {DTableMousemoveTypes} from '../mousemove';
 import './style.css';
 
 export interface DTableResizeTypes extends DTablePluginTypes {
@@ -11,12 +12,9 @@ export interface DTableResizeTypes extends DTablePluginTypes {
         colResizing?: {colName: ColName, startX: number, startSize: number}
         colsSizes: Record<ColName, number>;
     },
-    data: {
-        colResizingRaf?: number;
-    }
 }
 
-export type DTableResize = DTableWithPlugin<DTableResizeTypes>;
+export type DTableResize = DTableWithPlugin<DTableResizeTypes, [DTableMousemoveTypes]>;
 
 function updateColSize(table: DTableResize, event: MouseEvent, finish?: boolean): void {
     const {colResizing} = table.state;
@@ -45,27 +43,13 @@ function updateColSize(table: DTableResize, event: MouseEvent, finish?: boolean)
     event.preventDefault();
 }
 
-function tryUpdateColSize(table: DTableResize, event: MouseEvent, finish?: boolean): void {
-    if (table.data.colResizingRaf) {
-        cancelAnimationFrame(table.data.colResizingRaf);
-        table.data.colResizingRaf = undefined;
-    }
-    if (finish) {
-        updateColSize(table, event, finish);
-    } else {
-        table.data.colResizingRaf = requestAnimationFrame(() => {
-            updateColSize(table, event);
-            table.data.colResizingRaf = undefined;
-        });
-    }
-}
-
-export const resize: DTablePlugin<DTableResizeTypes> = {
+export const resize: DTablePlugin<DTableResizeTypes, [DTableMousemoveTypes]> = {
     name: 'resize',
     defaultOptions: {
         colResize: true,
     },
     when: options => !!options.colResize,
+    plugins: [mousemove],
     state() {
         return {colsSizes: {}};
     },
@@ -109,20 +93,20 @@ export const resize: DTablePlugin<DTableResizeTypes> = {
                 });
             }
         },
-        document_mousemove(event) {
-            if (!this.state.colResizing) {
-                return;
-            }
-            tryUpdateColSize(this, event as MouseEvent);
-            return false;
-        },
         document_mouseup(event) {
             if (!this.state.colResizing) {
                 return;
             }
-            tryUpdateColSize(this, event as MouseEvent, true);
+            updateColSize(this, event as MouseEvent, true);
             return false;
         },
+    },
+    onDocMousemove(event) {
+        if (!this.state.colResizing) {
+            return;
+        }
+        updateColSize(this as DTableResize, event);
+        return false;
     },
     onRenderHeaderCell(result, {col}) {
         const {colResize: colResizeCallback} = this.options;
