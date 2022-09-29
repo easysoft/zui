@@ -29,7 +29,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
 
     #allPlugins: readonly DTablePlugin[];
 
-    #plugins: readonly DTablePlugin[] = [];
+    #plugins: DTablePlugin[] = [];
 
     #layout?: DTableLayout;
 

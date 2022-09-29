@@ -7,6 +7,7 @@ type DTablePluginTypes = {
     methods?: {},
     methods?: Record<string, CallableFunction>,
     col?: {},
+    pluginOptions?:Record<string, unknown>,
 };
 
 type DTableWithPluginColSetting<T extends DTablePluginTypes = {}, D extends DTablePluginTypes[] = [DTablePluginTypes]> = ColSetting<PluginPropsDependency<T, D, 'col'>>;
@@ -25,12 +26,17 @@ type DTableWithPlugin<T extends DTablePluginTypes = {}, D extends DTablePluginTy
     state: DTableWithPluginState<PluginPropsDependency<T, D, 'state'>>;
     options: DTableWithPluginOptions<T, D>;
     data: PluginPropsDependency<T, D, 'data'>;
+    plugins: ((DTablePlugin<T, D>) & Partial<PluginPropsDependency<T, D, 'pluginOptions'>>)[];
     getColInfo: (name: string) => DTableWithPluginColInfo<T, D> | undefined;
     update(options: {dirtyType?: 'options' | 'layout', state?: Partial<DTableWithPluginState<PluginPropsDependency<T, D, 'state'>>>} = {}, callback?: () => void)
 } & PluginPropsDependency<T, D, 'methods'>;
 
 type DTablePluginEvents<T extends DTablePluginTypes = {}, D extends DTablePluginTypes[] = [DTablePluginTypes]> = {
-    [event in DTableEventType]?: DTableEventListener<event, DTableWithPlugin<T, D>>
+    [event in DTableHTMLEvent]?: DTableEventListener<event, DTableWithPlugin<T, D>>;
+} & {
+    [event in `document_${DTableHTMLEvent}`]?: DTableEventListener<DTableHTMLEvent, DTableWithPlugin<T, D>>;
+} & {
+    [event in `window_${DTableHTMLEvent}`]?: DTableEventListener<DTableHTMLEvent, DTableWithPlugin<T, D>>;
 };
 
 type DTablePlugin<T extends DTablePluginTypes = DTablePluginTypes, D extends DTablePluginTypes[] = [DTablePluginTypes], PluginTable = DTableWithPlugin<T, D>, Options = DTableWithPluginOptions<T, D>, PluginColSetting = DTableWithPluginColSetting<T, D>, PluginColInfo = DTableWithPluginColInfo<T, D>> = {
