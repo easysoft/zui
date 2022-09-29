@@ -682,11 +682,12 @@ export class DTable extends Component<DTableOptions, DTableState> {
 
         let widthSetting = options.width;
         let width = 0;
+        const actualWidth = fixedLeftWidth + scrollColsWidth + fixedRightWidth;
         if (typeof widthSetting === 'function') {
-            widthSetting = widthSetting();
+            widthSetting = widthSetting.call(this, actualWidth);
         }
         if (widthSetting === 'auto') {
-            width = fixedLeftWidth + scrollColsWidth + fixedRightWidth;
+            width = actualWidth;
         } else if (widthSetting === '100%') {
             const parentElement = this.ref.current?.parentElement;
             if (parentElement) {
@@ -762,7 +763,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
         const rowsHeightTotal = rows.length * rowHeight;
         const actualHeight = headerHeight + footerHeight + rowsHeightTotal;
         if (typeof heightSetting === 'function') {
-            heightSetting = heightSetting(actualHeight);
+            heightSetting = heightSetting.call(this, actualHeight);
         }
         if (heightSetting === 'auto') {
             height = actualHeight;

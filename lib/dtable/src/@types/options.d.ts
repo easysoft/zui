@@ -7,8 +7,8 @@ interface DTableDataOptions<C extends ColSetting = ColSetting> {
 }
 
 interface DTableLayoutOptions {
-    width: number | '100%' | 'auto' | (() => number | 'auto');
-    height: number | '100%' | 'auto' | {min: number, max: number} | ((actualHeight: number) => number | 'auto' | {min: number, max: number});
+    width: number | '100%' | 'auto' | ((this: DTable, actualWidth: number) => number | 'auto');
+    height: number | '100%' | 'auto' | {min: number, max: number} | ((this: DTable, actualHeight: number) => number | 'auto' | {min: number, max: number});
     rowHeight: number;
     defaultColWidth: number;
     minColWidth: number;

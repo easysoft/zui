@@ -38,7 +38,7 @@ function updateColSize(table: DTableResize, event: MouseEvent, finish?: boolean)
     table.update({dirtyType: 'layout', state}, finish ? () => {
         const col = table.getColInfo(colName);
         if (col) {
-            table.options.onColResize?.call(table, colName, clamp(col.width + colsSizes[colName], col.setting.minWidth, col.setting.maxWidth));
+            table.options.onColResize?.call(table, colName, col.realWidth);
         }
     } : undefined);
     event.stopPropagation();
