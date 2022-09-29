@@ -24,7 +24,7 @@ export class DTable {
 
     constructor(element: HTMLElement, options?: Partial<DTableOptions>) {
         this.element = element;
-        this.options = {...options} as DTableOptions;
+        this.options = {parent: element, ...options} as DTableOptions;
         this.render();
     }
 

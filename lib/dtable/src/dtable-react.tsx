@@ -689,7 +689,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
         if (widthSetting === 'auto') {
             width = actualWidth;
         } else if (widthSetting === '100%') {
-            const parentElement = this.ref.current?.parentElement;
+            const parentElement = options.parent ?? this.ref.current?.parentElement;
             if (parentElement) {
                 width = parentElement.clientWidth;
             } else {
@@ -770,7 +770,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
         } else if (typeof heightSetting === 'object') {
             height = Math.min(heightSetting.max, Math.max(heightSetting.min, actualHeight));
         } else if (heightSetting === '100%') {
-            const parentElement = this.ref.current?.parentElement;
+            const parentElement = options.parent ?? this.ref.current?.parentElement;
             if (parentElement) {
                 height = parentElement.clientHeight;
             } else {
