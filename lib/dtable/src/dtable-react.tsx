@@ -40,7 +40,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
     constructor(props: DTableOptions) {
         super(props);
 
-        this.#id = `dtable-${nanoid(10)}`;
+        this.#id = props.id ?? `dtable-${nanoid(10)}`;
         this.state = {scrollTop: 0, scrollLeft: 0};
 
         this.#allPlugins = Object.freeze(initPlugins(props.plugins));

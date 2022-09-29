@@ -47,6 +47,7 @@ interface DTableCallbackOptions {
 }
 
 interface DTableOptions<C extends ColSetting = ColSetting> extends DTableDataOptions<C>, DTableLayoutOptions, DTableStyleOptions, DTableCallbackOptions {
+    id?: string;
     className?: ClassNameLike,
     plugins?: DTablePluginLike[];
     [prop: string]: unknown
