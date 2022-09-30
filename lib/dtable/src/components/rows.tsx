@@ -17,6 +17,7 @@ type RowsProps = {
     scrollColsWidth: number;
     fixedRightWidth: number;
     scrollLeft: number;
+    scrollTop: number;
 } & Partial<{
     className: ClassNameLike;
     style: JSX.CSSProperties;
@@ -31,6 +32,7 @@ export function Rows({
     rows,
     height,
     rowHeight,
+    scrollTop,
     onRenderRow,
     ...otherProps
 }: RowsProps) {
@@ -41,7 +43,7 @@ export function Rows({
                 const props: RowProps = {
                     className: `dtable-row-${row.index % 2 ? 'odd' : 'even'}`,
                     row,
-                    top: row.top,
+                    top: row.top - scrollTop,
                     height: rowHeight,
                     ...otherProps,
                 };

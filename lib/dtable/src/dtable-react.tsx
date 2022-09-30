@@ -354,14 +354,14 @@ export class DTable extends Component<DTableOptions, DTableState> {
     };
 
     #renderHeader(layout: DTableLayout) {
-        const {header, colsInfo, headerHeight} = layout;
+        const {header, colsInfo, headerHeight, scrollLeft} = layout;
         if (!header) {
             return null;
         }
         if (header === true) {
             return (
                 <Header
-                    scrollLeft={this.state.scrollLeft}
+                    scrollLeft={scrollLeft}
                     height={headerHeight}
                     onRenderCell={this.#handleRenderCell}
                     onRenderRow={this.#handleRenderHeaderRow}
@@ -394,14 +394,15 @@ export class DTable extends Component<DTableOptions, DTableState> {
     }
 
     #renderRows(layout: DTableLayout) {
-        const {headerHeight, rowsHeight, visibleRows, rowHeight, colsInfo} = layout;
+        const {headerHeight, rowsHeight, visibleRows, rowHeight, colsInfo, scrollLeft, scrollTop} = layout;
         return (
             <Rows
                 top={headerHeight}
                 height={rowsHeight}
                 rows={visibleRows}
                 rowHeight={rowHeight}
-                scrollLeft={this.state.scrollLeft}
+                scrollLeft={scrollLeft}
+                scrollTop={scrollTop}
                 onRenderCell={this.#handleRenderCell}
                 onRenderRow={this.#handleRenderRow}
                 {...colsInfo}
@@ -773,6 +774,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
         rows.forEach((row, index) => {
             rowsMap[row.id] = row;
             row.index = index;
+            row.top = row.index * rowHeight;
         });
 
         const {header, footer} = options;
@@ -896,7 +898,6 @@ export class DTable extends Component<DTableOptions, DTableState> {
         const {rowDataGetter} = this.options;
         for (let i = startRowIndex; i < endRowIndex; i++) {
             const row = rows[i];
-            row.top = row.index * rowHeight - scrollTop;
 
             if (row.lazy) {
                 if (rowDataGetter) {
