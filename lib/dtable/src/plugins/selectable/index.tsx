@@ -267,7 +267,7 @@ function selectNextCell(this: DTableSelectable, direction?: 'right' | 'down' | '
     } else {
         colIndex++;
     }
-    if (rowIndex >= 0 && colIndex >= 0) {
+    if (rowIndex >= 0 && colIndex >= 0 && rowIndex < this.layout.rows.length && colIndex < this.layout.colsList.length) {
         const pos = {col: colIndex, row: rowIndex};
         if (isCellSelectable(this, pos)) {
             this.scrollTo(pos);
