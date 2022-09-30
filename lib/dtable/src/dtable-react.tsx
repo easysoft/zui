@@ -115,6 +115,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
         });
 
         this.on('click', this.#handleClick as DTableEventListener);
+        this.on('keydown', this.#handleKeydown as DTableEventListener);
 
         if (this.options.responsive) {
             if (typeof ResizeObserver !== 'undefined') {
@@ -209,18 +210,48 @@ export class DTable extends Component<DTableOptions, DTableState> {
         }
     }
 
-    scroll(info: {scrollLeft?: number, scrollTop?: number}, callback?: (this: DTable, result: boolean) => void): boolean {
-        const state: Partial<DTableState> = {};
-        const {scrollLeft, scrollTop} = info;
-        if (typeof scrollLeft === 'number') {
-            const {scrollWidth, scrollColsWidth} = this.layout.colsInfo;
-            state.scrollLeft = Math.max(0, Math.min(scrollLeft, scrollColsWidth - scrollWidth));
+    scroll(info: {scrollLeft?: number, scrollTop?: number, offsetLeft?: number, offsetTop?: number, to?: 'up' | 'down' | 'end' | 'home' | 'left' | 'right' | 'left-begin' | 'right-end'}, callback?: (this: DTable, result: boolean) => void): boolean {
+        const {scrollLeft: scrollLeftOld, scrollTop: scrollTopOld, rowsHeightTotal, rowsHeight, rowHeight, colsInfo: {scrollWidth, scrollColsWidth}} = this.layout;
+        const {to} = info;
+        let {scrollLeft, scrollTop} = info;
+
+        if (to === 'up' || to === 'down') {
+            scrollTop = scrollTopOld + (to === 'down' ? 1 : -1) * Math.floor(rowsHeight / rowHeight) * rowHeight;
+        } else if (to === 'left' || to === 'right') {
+            scrollLeft = scrollLeftOld + (to === 'right' ? 1 : -1) * scrollWidth;
+        } else if (to === 'home') {
+            scrollTop = 0;
+        } else if (to === 'end') {
+            scrollTop = rowsHeightTotal - rowsHeight;
+        } else if (to === 'left-begin') {
+            scrollLeft = 0;
+        } else if (to === 'right-end') {
+            scrollLeft = scrollColsWidth - scrollWidth;
+        } else {
+            const {offsetLeft, offsetTop} = info;
+            if (typeof offsetLeft === 'number') {
+                scrollLeft = scrollLeftOld + offsetLeft;
+            }
+            if (typeof offsetTop ===  'number') {
+                scrollLeft = scrollTopOld + offsetTop;
+            }
         }
-        if (typeof scrollTop === 'number') {
-            const {rowsHeight, rowsHeightTotal} = this.layout;
-            state.scrollTop = Math.max(0, Math.min(scrollTop, rowsHeightTotal - rowsHeight));
+
+        const state: {scrollLeft?: number, scrollTop?: number} = {};
+        if (typeof scrollLeft == 'number') {
+            scrollLeft = Math.max(0, Math.min(scrollLeft, scrollColsWidth - scrollWidth));
+            if (scrollLeft !== scrollLeftOld) {
+                state.scrollLeft = scrollLeft;
+            }
         }
-        if (Object.keys(state).length && (state.scrollTop !== this.layout.scrollTop || state.scrollLeft !== this.layout.scrollLeft)) {
+        if (typeof scrollTop == 'number') {
+            scrollTop = Math.max(0, Math.min(scrollTop, rowsHeightTotal - rowsHeight));
+            if (scrollTop !== scrollTopOld) {
+                state.scrollTop = scrollTop;
+            }
+        }
+
+        if (Object.keys(state).length) {
             this.setState(state, () => {
                 this.options.onScroll?.call(this, state);
                 callback?.call(this, true);
@@ -346,6 +377,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
             const result = callback.call(this, event);
             if (result === false) {
                 event.stopPropagation();
+                event.preventDefault();
                 break;
             }
         }
@@ -583,6 +615,13 @@ export class DTable extends Component<DTableOptions, DTableState> {
                     return;
                 }
             }
+        }
+    };
+
+    #handleKeydown = (event: KeyboardEvent) => {
+        const key = event.key.toLowerCase();
+        if (['pageup', 'pagedown', 'home', 'end'].includes(key)) {
+            return !this.scroll({to: key.replace('page', '') as Parameters<DTable['scroll']>[0]['to']});
         }
     };
 
@@ -960,6 +999,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
                 className={classes(classNames)}
                 style={style}
                 ref={this.ref}
+                tabIndex={-1}
             >
                 {layout && this.#renderHeader(layout)}
                 {layout && this.#renderRows(layout)}

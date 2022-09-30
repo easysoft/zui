@@ -29,11 +29,6 @@ export const headerGroup: DTablePlugin<DTableHotkeyTypes> = {
             this.data.hotkeys.get(handler.key)?.call(this, event, handler);
         },
     },
-    events: {
-        click() {
-            hotkeys.setScope(this.id);
-        },
-    },
     onMounted() {
         const {hotkeys: hotkeysOptions} = this.options;
         if (!hotkeysOptions) {
@@ -56,12 +51,12 @@ export const headerGroup: DTablePlugin<DTableHotkeyTypes> = {
             return;
         }
         this.data.keys = keys.join(',');
-        hotkeys(this.data.keys, {scope: this.id}, this.hotkeyHandler);
+        hotkeys(this.data.keys, {element: this.ref.current}, this.hotkeyHandler);
         this.data.hotkeys = hotkeysMap;
     },
     onUnmounted() {
         if (this.data.keys) {
-            hotkeys.unbind(this.data.keys, this.id, this.hotkeyHandler);
+            hotkeys.unbind(this.data.keys, this.hotkeyHandler);
         }
     },
 };
