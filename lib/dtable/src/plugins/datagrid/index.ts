@@ -8,6 +8,7 @@ import history, {DTableHistoryTypes} from '../history';
 import {DTableStoreTypes} from '../store';
 import './style.css';
 import {DTableMousemoveTypes} from '../mousemove';
+import autoscroll, {DTableAutoscrollTypes} from '../autoscroll';
 
 interface DTableDatasource {
     cols?: ColSetting[],
@@ -49,7 +50,7 @@ interface DTableDatagridTypes extends DTablePluginTypes {
     }
 }
 
-type DTableDatagridDependencies = [DTableHotkeyTypes, DTableSelectableTypes, DTableDraftTypes, DTableEditableTypes, DTableResizeTypes, DTableHistoryTypes, DTableStoreTypes, DTableMousemoveTypes];
+type DTableDatagridDependencies = [DTableHotkeyTypes, DTableSelectableTypes, DTableDraftTypes, DTableEditableTypes, DTableResizeTypes, DTableHistoryTypes, DTableStoreTypes, DTableMousemoveTypes, DTableAutoscrollTypes];
 
 type DTableDatagrid = DTableWithPlugin<DTableDatagridTypes, DTableDatagridDependencies>;
 
@@ -97,6 +98,13 @@ function cellValueGetter(this: DTableDatagrid, row: RowInfo, col: ColInfo, origi
     return originValue;
 }
 
+function selectNextCell(table: DTableDatagrid, event: KeyboardEvent, direction?: 'right' | 'down' | 'left' | 'up') {
+    if (table.selectNextCell(direction)) {
+        event.preventDefault();
+        event.stopPropagation();
+    }
+}
+
 const hotkeyHandlers: Record<string, (this: DTableDatagrid, event: KeyboardEvent) => void> = {
     delete() {
         this.deleteSelections();
@@ -137,30 +145,22 @@ const hotkeyHandlers: Record<string, (this: DTableDatagrid, event: KeyboardEvent
         this.redoHistory();
     },
     selectRight(event) {
-        if (this.selectNextCell('right')) {
-            event.preventDefault();
-        }
+        selectNextCell(this, event, 'right');
     },
     selectLeft(event) {
-        if (this.selectNextCell('left')) {
-            event.preventDefault();
-        }
+        selectNextCell(this, event, 'left');
     },
     selectDown(event) {
-        if (this.selectNextCell('down')) {
-            event.preventDefault();
-        }
+        selectNextCell(this, event, 'down');
     },
     selectUp(event) {
-        if (this.selectNextCell('up')) {
-            event.preventDefault();
-        }
+        selectNextCell(this, event, 'up');
     },
 };
 
 export const datagrid: DTablePlugin<DTableDatagridTypes, DTableDatagridDependencies> = {
     name: 'datagrid',
-    plugins: [editable, selectable, hotkey, resize, history],
+    plugins: [editable, selectable, hotkey, resize, history, autoscroll],
     defaultOptions: {
         defaultColWidth: 80,
         headerEditable: true,

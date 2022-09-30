@@ -1,5 +1,6 @@
 import {classes} from '@zui/browser-helpers/src/classes';
 import {definePlugin} from '../../helpers/shared-plugins';
+import {DTableAutoscrollTypes} from '../autoscroll';
 import mousemove, {DTableMousemoveTypes} from '../mousemove';
 import './style.css';
 
@@ -49,7 +50,7 @@ export type DTableSelectableTypes = {
     };
 };
 
-type DTableSelectable = DTableWithPlugin<DTableSelectableTypes, [DTableMousemoveTypes]>;
+type DTableSelectable = DTableWithPlugin<DTableSelectableTypes, [DTableMousemoveTypes, DTableAutoscrollTypes]>;
 
 const REG_CELL = /C(\d+)R(\d+)/i;
 const REG_SELECTION = /(?:C(\d+))?(?:R(\d+))?/i;
@@ -174,6 +175,14 @@ export function stringifySelection(start: DTableCellPos, end?: DTableCellPos): D
     return parts.join('') as DTableSelection | DTableRangeSelection;
 }
 
+function isCellSelectable(table: DTableSelectable, pos: DTableCellPos): boolean {
+    const {selectable} = table.options;
+    if (typeof selectable === 'function') {
+        return selectable.call(table, pos);
+    }
+    return !!selectable;
+}
+
 function selectCells(this: DTableSelectable, selections: DTableSelection | DTableRangeSelection | DTableSelections | DTableCellPos[], options: {clearBefore?: boolean, deselect?: boolean, selecting?: boolean, callback?: (this: DTableSelectable, cells: DTableCellPos[]) => void} = {}): DTableCellPos[] {
     if (!Array.isArray(selections)) {
         selections = [selections];
@@ -188,16 +197,16 @@ function selectCells(this: DTableSelectable, selections: DTableSelection | DTabl
     const {clearBefore = true, deselect, selecting, callback} = options;
     const {selectingMap, selectedMap} = this.state;
     const map = selecting ? selectingMap : selectedMap;
-    const checkSelectable = typeof this.options.selectable === 'function' ? this.options.selectable : false;
 
     selectingMap.clear();
     if (clearBefore) {
         selectedMap.clear();
     }
 
+    let cellSelected = false;
     if (deselect) {
         cells.forEach((pos) => {
-            if (checkSelectable && !checkSelectable(pos)) {
+            if (!isCellSelectable(this, pos)) {
                 return;
             }
             const {col, row} = pos;
@@ -208,10 +217,11 @@ function selectCells(this: DTableSelectable, selections: DTableSelection | DTabl
                     map.delete(col);
                 }
             }
+            cellSelected = true;
         });
     } else {
         cells.forEach((pos) => {
-            if (checkSelectable && !checkSelectable(pos)) {
+            if (!isCellSelectable(this, pos)) {
                 return;
             }
             const {col, row} = pos;
@@ -221,7 +231,12 @@ function selectCells(this: DTableSelectable, selections: DTableSelection | DTabl
             } else {
                 map.set(col, new Set([row]));
             }
+            cellSelected = true;
         });
+    }
+
+    if (!cellSelected) {
+        return [];
     }
 
     this.forceUpdate(() => {
@@ -254,13 +269,16 @@ function selectNextCell(this: DTableSelectable, direction?: 'right' | 'down' | '
     }
     if (rowIndex >= 0 && colIndex >= 0) {
         const pos = {col: colIndex, row: rowIndex};
-        this.selectCells([pos]);
-        return pos;
+        if (isCellSelectable(this, pos)) {
+            this.scrollTo(pos);
+            this.selectCells([pos]);
+            return pos;
+        }
     }
     return;
 }
 
-function selectingCells(this: DTableSelectable, selections: DTableSelection | DTableRangeSelection | DTableSelections, options?: {clearBefore?: boolean, deselect?: boolean, selecting?: boolean, callback?: (this: DTableSelectable, cells: DTableCellPos[]) => void}): DTableCellPos[] {
+function selectingCells(this: DTableSelectable, selections: DTableSelection | DTableRangeSelection | DTableSelections, options?: {clearBefore?: boolean, deselect?: boolean, callback?: (this: DTableSelectable, cells: DTableCellPos[]) => void}): DTableCellPos[] {
     return selectCells.call(this, selections, {...options, selecting: true});
 }
 
@@ -370,7 +388,7 @@ export function getMousePos(table: DTable, event: Event, options?: {ignoreHeader
     return {col: colIndex, row: rowIndex};
 }
 
-export const selectable: DTablePlugin<DTableSelectableTypes, [DTableMousemoveTypes]> = {
+export const selectable: DTablePlugin<DTableSelectableTypes, [DTableMousemoveTypes, DTableAutoscrollTypes]> = {
     name: 'selectable',
     defaultOptions: {selectable: true, markSelectRange: true},
     when: options => !!options.selectable,
@@ -407,7 +425,7 @@ export const selectable: DTablePlugin<DTableSelectableTypes, [DTableMousemoveTyp
                 event.stopPropagation();
             }
         },
-        mouseup(event) {
+        document_mouseup(event) {
             const {selectingStart} = this.data;
             if (!selectingStart) {
                 return;
@@ -441,6 +459,7 @@ export const selectable: DTablePlugin<DTableSelectableTypes, [DTableMousemoveTyp
         }
         const pos = getMousePos(dtable, event);
         if (pos) {
+            dtable.scrollTo({...pos, delay: 60, extra: 20});
             const selection = stringifySelection(selectingStart, pos);
             if (selection) {
                 dtable.selectingCells(selection);
