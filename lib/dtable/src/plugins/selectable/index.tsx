@@ -421,12 +421,14 @@ export const selectable: DTablePlugin<DTableSelectableTypes, [DTableMousemoveTyp
                 return;
             }
             this.data.selectingStart = pos;
+            this.startScrollToMouse();
             if (pos) {
                 event.stopPropagation();
             }
         },
         document_mouseup(event) {
             const {selectingStart} = this.data;
+            this.stopScrollToMouse();
             if (!selectingStart) {
                 return;
             }
@@ -459,7 +461,6 @@ export const selectable: DTablePlugin<DTableSelectableTypes, [DTableMousemoveTyp
         }
         const pos = getMousePos(dtable, event);
         if (pos) {
-            dtable.scrollTo({...pos, extra: 20});
             const selection = stringifySelection(selectingStart, pos);
             if (selection) {
                 dtable.selectingCells(selection);

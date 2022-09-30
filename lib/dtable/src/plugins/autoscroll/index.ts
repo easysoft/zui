@@ -1,29 +1,82 @@
 import {definePlugin} from '../../helpers/shared-plugins';
 
+export interface ScrollToMouseOption {
+    interval: number,
+    onlyInside: boolean,
+    speed: number,
+    maxStep: number,
+    delay: number,
+    detectPadding: number,
+}
+
 export interface DTableAutoscrollTypes {
     methods: {
-        scrollTo: (this: DTableAutoscroll, info: {col?: ColInfoLike, row?: RowInfoLike, extra?: number, delay?: number}) => boolean;
-        startScrollToMouse: (this: DTableAutoscroll, options?: {interval?: number, onlyInside?: boolean}) => void;
+        scrollTo: (this: DTableAutoscroll, info: {col?: ColInfoLike, row?: RowInfoLike, extra?: number}) => boolean;
+        startScrollToMouse: (this: DTableAutoscroll, options?: Partial<ScrollToMouseOption>) => void;
         stopScrollToMouse: (this: DTableAutoscroll) => void;
     },
     data: {
         scrollToTimer?: number;
+        scrollToMouse?: ScrollToMouseOption & {startTime: number, position?: {x: number; y: number}};
     }
 }
 
 export type DTableAutoscroll = DTableWithPlugin<DTableAutoscrollTypes>;
 
+function tryScrollToMouse(this: DTableAutoscroll) {
+    const {scrollToMouse} = this.data;
+    if (!scrollToMouse) {
+        return this.stopScrollToMouse();
+    }
+    const {position, startTime, delay} = scrollToMouse;
+    if (!position || (Date.now() - startTime) < delay) {
+        return;
+    }
+
+    const rowsBounding = this.ref.current?.querySelector('.dtable-rows')?.getBoundingClientRect();
+    if (!rowsBounding) {
+        return;
+    }
+    const {maxStep, detectPadding, speed} = scrollToMouse;
+    const {x, y} = position;
+    const {left, top, right, bottom} = rowsBounding;
+    let deltaLeft = 0;
+    if (x < (left - detectPadding)) {
+        deltaLeft = -Math.max(maxStep, (left - detectPadding) - x);
+    } else if (x > (right - detectPadding)) {
+        deltaLeft = Math.max(maxStep, x - (right - detectPadding));
+    }
+    let deltaTop = 0;
+    if (y < (top - detectPadding)) {
+        deltaTop = -Math.max(maxStep, (top - detectPadding) - y);
+    } else if (y > (bottom - detectPadding)) {
+        deltaTop = Math.max(maxStep, y - (bottom - detectPadding));
+    }
+    const state: {scrollLeft?: number, scrollTop?: number} = {};
+    if (deltaLeft !== 0) {
+        state.scrollLeft = this.layout.scrollLeft + speed * deltaLeft;
+    }
+    if (deltaTop !== 0) {
+        state.scrollTop = this.layout.scrollTop + speed * deltaTop;
+    }
+    if (Object.keys(state).length) {
+        this.scroll(state);
+    }
+}
+
 export const autoscroll: DTablePlugin<DTableAutoscrollTypes> = {
     name: 'autoscroll',
+    events: {
+        document_mousemove(event) {
+            if (!this.data.scrollToMouse) {
+                return;
+            }
+            const {clientX: x, clientY: y} = event as MouseEvent;
+            this.data.scrollToMouse.position = {x, y};
+        },
+    },
     methods: {
-        scrollTo({col, row, extra = 2, delay = 0}) {
-            if (this.data.scrollToTimer) {
-                clearTimeout(this.data.scrollToTimer);
-            }
-            if (delay) {
-                this.data.scrollToTimer = window.setTimeout(() => this.scrollTo({col, row, extra}), delay);
-                return true;
-            }
+        scrollTo({col, row, extra = 2}) {
             const colInfo = this.getColInfo(col);
             const rowInfo = this.getRowInfo(row);
             if (!colInfo && !rowInfo) {
@@ -53,6 +106,28 @@ export const autoscroll: DTablePlugin<DTableAutoscrollTypes> = {
             this.scroll(scrollInfo);
             return true;
         },
+        startScrollToMouse(options) {
+            const setting = {
+                interval: 50,
+                speed: 0.5,
+                delay: 200,
+                maxStep: this.options.rowHeight,
+                onlyInside: false,
+                detectPadding: 20,
+                startTime: Date.now(),
+                ...options,
+            };
+            this.data.scrollToMouse = setting;
+            clearInterval(this.data.scrollToTimer);
+            this.data.scrollToTimer = window.setInterval(tryScrollToMouse.bind(this), setting.interval);
+        },
+        stopScrollToMouse() {
+            clearInterval(this.data.scrollToTimer);
+            this.data.scrollToMouse = undefined;
+        },
+    },
+    onUnmounted() {
+        clearInterval(this.data.scrollToTimer);
     },
 };
 
