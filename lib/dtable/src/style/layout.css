@@ -13,7 +13,6 @@
 
 .dtable-row {
     @apply -absolute -w-full;
-    transition: top .1s ease-out;
 }
 
 .dtable-cells {

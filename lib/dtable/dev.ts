@@ -10,6 +10,7 @@ import rich from './src/plugins/rich';
 import headerGroup from './src/plugins/header-group';
 import sortable from './src/plugins/sortable';
 import datagrid from './src/plugins/datagrid';
+import moveable from './src/plugins/moveable';
 
 faker.setLocale('zh_CN');
 
@@ -139,7 +140,7 @@ onPageLoad(() => {
             height: 400,
             cellHover: true,
             colHover: 'header',
-            plugins: [checkable({checkOnClickRow: true}), nested()],
+            plugins: [checkable({checkOnClickRow: true}), nested(), moveable],
             striped: true,
             responsive: true,
         });

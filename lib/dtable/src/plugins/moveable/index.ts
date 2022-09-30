@@ -1,134 +1,65 @@
 import {definePlugin} from '../../helpers/shared-plugins';
+import mousemove, {DTableMousemoveTypes} from '../mousemove';
+import './style.css';
 
-export interface ScrollToMouseOption {
-    interval: number,
-    onlyInside: boolean,
-    speed: number,
-    maxStep: number,
-    delay: number,
-    detectPadding: number,
-}
-
-export interface DTableAutoscrollTypes {
+export interface DTableMoveableTypes {
+    options: {
+        moveable?: boolean | 'header';
+    },
     methods: {
-        scrollTo: (this: DTableAutoscroll, info: {col?: ColInfoLike, row?: RowInfoLike, extra?: number}) => boolean;
-        startScrollToMouse: (this: DTableAutoscroll, options?: Partial<ScrollToMouseOption>) => void;
-        stopScrollToMouse: (this: DTableAutoscroll) => void;
     },
     data: {
-        scrollToTimer?: number;
-        scrollToMouse?: ScrollToMouseOption & {startTime: number, position?: {x: number; y: number}};
+        disableMoveable?: boolean,
+        moveableStartInfo?: {x: number, y: number, scrollLeft: number, scrollTop: number}
     }
 }
 
-export type DTableAutoscroll = DTableWithPlugin<DTableAutoscrollTypes>;
+export type DTableMoveable = DTableWithPlugin<DTableMoveableTypes, [DTableMousemoveTypes]>;
 
-function tryScrollToMouse(this: DTableAutoscroll) {
-    const {scrollToMouse} = this.data;
-    if (!scrollToMouse) {
-        return this.stopScrollToMouse();
-    }
-    const {position, startTime, delay} = scrollToMouse;
-    if (!position || (Date.now() - startTime) < delay) {
-        return;
-    }
-
-    const rowsBounding = this.ref.current?.querySelector('.dtable-rows')?.getBoundingClientRect();
-    if (!rowsBounding) {
-        return;
-    }
-    const {maxStep, detectPadding, speed} = scrollToMouse;
-    const {x, y} = position;
-    const {left, top, right, bottom} = rowsBounding;
-    let deltaLeft = 0;
-    if (x < (left - detectPadding)) {
-        deltaLeft = -Math.max(maxStep, (left - detectPadding) - x);
-    } else if (x > (right - detectPadding)) {
-        deltaLeft = Math.max(maxStep, x - (right - detectPadding));
-    }
-    let deltaTop = 0;
-    if (y < (top - detectPadding)) {
-        deltaTop = -Math.max(maxStep, (top - detectPadding) - y);
-    } else if (y > (bottom - detectPadding)) {
-        deltaTop = Math.max(maxStep, y - (bottom - detectPadding));
-    }
-    const state: {scrollLeft?: number, scrollTop?: number} = {};
-    if (deltaLeft !== 0) {
-        state.scrollLeft = this.layout.scrollLeft + speed * deltaLeft;
-    }
-    if (deltaTop !== 0) {
-        state.scrollTop = this.layout.scrollTop + speed * deltaTop;
-    }
-    if (Object.keys(state).length) {
-        this.scroll(state);
-    }
-}
-
-export const autoscroll: DTablePlugin<DTableAutoscrollTypes> = {
-    name: 'autoscroll',
+export const moveable: DTablePlugin<DTableMoveableTypes, [DTableMousemoveTypes]> = {
+    name: 'moveable',
+    defaultOptions: {moveable: true},
+    plugins: [mousemove],
+    when: options => !!options.moveable,
     events: {
-        document_mousemove(event) {
-            if (!this.data.scrollToMouse) {
+        mousedown(event) {
+            if (this.data.disableMoveable) {
                 return;
             }
-            const {clientX: x, clientY: y} = event as MouseEvent;
-            this.data.scrollToMouse.position = {x, y};
-        },
-    },
-    methods: {
-        scrollTo({col, row, extra = 2}) {
-            const colInfo = this.getColInfo(col);
-            const rowInfo = this.getRowInfo(row);
-            if (!colInfo && !rowInfo) {
-                return false;
+            const target = event.target as HTMLElement;
+            const flexableDiv = target.closest('.dtable-flexable');
+            if (!flexableDiv) {
+                return;
             }
-            const scrollInfo: {scrollLeft?: number, scrollTop?: number} = {};
-            const {layout} = this;
-            if (colInfo) {
-                const {scrollLeft, colsInfo} = layout;
-                const colRight = colInfo.left + colInfo.realWidth;
-                if (colInfo.left < scrollLeft) {
-                    scrollInfo.scrollLeft = colInfo.left - extra;
-                } else if (colRight > (colsInfo.scrollWidth + scrollLeft)) {
-                    scrollInfo.scrollLeft = colRight - colsInfo.scrollWidth + extra;
-                }
+            if (this.options.moveable === 'header' && !flexableDiv.closest('.dtable-header')) {
+                return;
             }
-            if (rowInfo) {
-                const {scrollTop, rowHeight, rowsHeight} = layout;
-                const rowBottom = rowInfo.top + rowHeight;
-                if (rowInfo.top < scrollTop) {
-                    scrollInfo.scrollTop = rowInfo.top - extra;
-                } else if (rowBottom > (rowsHeight + scrollTop)) {
-                    scrollInfo.scrollTop = rowBottom - rowsHeight + extra;
-                }
-            }
-
-            this.scroll(scrollInfo);
-            return true;
-        },
-        startScrollToMouse(options) {
-            const setting = {
-                interval: 50,
-                speed: 0.5,
-                delay: 200,
-                maxStep: this.options.rowHeight,
-                onlyInside: false,
-                detectPadding: 20,
-                startTime: Date.now(),
-                ...options,
+            const {scrollLeft, scrollTop} = this.layout;
+            this.data.moveableStartInfo = {
+                x: event.clientX,
+                y: event.clientY,
+                scrollLeft,
+                scrollTop,
             };
-            this.data.scrollToMouse = setting;
-            clearInterval(this.data.scrollToTimer);
-            this.data.scrollToTimer = window.setInterval(tryScrollToMouse.bind(this), setting.interval);
+            this.ref.current?.classList.add('dtable-moving');
         },
-        stopScrollToMouse() {
-            clearInterval(this.data.scrollToTimer);
-            this.data.scrollToMouse = undefined;
+        document_mouseup() {
+            this.data.moveableStartInfo = undefined;
+            this.ref.current?.classList.remove('dtable-moving');
         },
     },
-    onUnmounted() {
-        clearInterval(this.data.scrollToTimer);
+    onDocMousemove(event) {
+        const {moveableStartInfo} = (this as DTableMoveable).data;
+        if (!moveableStartInfo) {
+            return;
+        }
+        const {clientX, clientY} = event as MouseEvent;
+        const {x, y, scrollLeft, scrollTop} = moveableStartInfo;
+        this.scroll({
+            scrollLeft: scrollLeft - clientX + x,
+            scrollTop: this.options.moveable === 'header' ? undefined : (scrollTop - clientY + y),
+        });
     },
 };
 
-export default definePlugin(autoscroll);
+export default definePlugin(moveable);

@@ -28,6 +28,8 @@ export const mousemove: DTablePlugin<DTableMousemoveTypes> = {
                 this.data.mmRafID = requestAnimationFrame(() => {
                     plugins.forEach(plugin => plugin.onMouseMove?.call(this, event));
                 });
+
+                return false;
             };
         }
         if (plugins.some(x => x.onDocMousemove)) {
@@ -40,6 +42,8 @@ export const mousemove: DTablePlugin<DTableMousemoveTypes> = {
                 this.data.dmmRafID = requestAnimationFrame(() => {
                     plugins.forEach(plugin => plugin.onDocMousemove?.call(this, event as MouseEvent));
                 });
+
+                return false;
             };
         }
         return events;
