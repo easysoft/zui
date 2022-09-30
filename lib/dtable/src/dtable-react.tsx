@@ -209,7 +209,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
         }
     }
 
-    scroll(info: {scrollLeft?: number, scrollTop?: number}) {
+    scroll(info: {scrollLeft?: number, scrollTop?: number}, callback?: (this: DTable, result: boolean) => void): boolean {
         const state: Partial<DTableState> = {};
         const {scrollLeft, scrollTop} = info;
         if (typeof scrollLeft === 'number') {
@@ -220,9 +220,15 @@ export class DTable extends Component<DTableOptions, DTableState> {
             const {rowsHeight, rowsHeightTotal} = this.layout;
             state.scrollTop = Math.max(0, Math.min(scrollTop, rowsHeightTotal - rowsHeight));
         }
-        this.setState(state, () => {
-            this.options.onScroll?.call(this, state);
-        });
+        if (Object.keys(state).length && (state.scrollTop !== this.layout.scrollTop || state.scrollLeft !== this.layout.scrollLeft)) {
+            this.setState(state, () => {
+                this.options.onScroll?.call(this, state);
+                callback?.call(this, true);
+            });
+            return true;
+        }
+        callback?.call(this, false);
+        return false;
     }
 
     getColInfo(colNameOrIndex?: ColInfoLike): ColInfo | undefined {
