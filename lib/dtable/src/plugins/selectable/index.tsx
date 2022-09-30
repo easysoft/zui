@@ -459,7 +459,7 @@ export const selectable: DTablePlugin<DTableSelectableTypes, [DTableMousemoveTyp
         }
         const pos = getMousePos(dtable, event);
         if (pos) {
-            dtable.scrollTo({...pos, delay: 60, extra: 20});
+            dtable.scrollTo({...pos, extra: 20});
             const selection = stringifySelection(selectingStart, pos);
             if (selection) {
                 dtable.selectingCells(selection);

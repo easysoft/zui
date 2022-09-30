@@ -49,11 +49,12 @@ interface DTableDatagridTypes extends DTablePluginTypes {
         deleteSelections: (this: DTableDatagrid) => boolean;
         copySelections: (this: DTableDatagrid) => boolean;
         cutSelections: (this: DTableDatagrid) => boolean;
-        pasteCells: (this: DTableDatagrid, targetCell: DTableCellPos | {colName: string, rowID: string}) => Promise<boolean>;
+        pasteCells: (this: DTableDatagrid, targetCell: DTableCellPos | {colName: string, rowID: string}, options?: {expandCells?: boolean, select?: boolean}) => Promise<boolean>;
         pasteToSelection: (this: DTableDatagrid) => Promise<boolean>;
         getGridSize: typeof getGridSize;
         appendRows: typeof appendRows;
         appendCols: typeof appendCols;
+        expandGridSize: typeof expandGridSize;
     }
 }
 
@@ -176,8 +177,8 @@ function getGridSize(this: DTableDatagrid): {rowsCount: number, colsCount: numbe
             maxDraftCol = Math.max(maxDraftCol, ...Object.keys(rowData).map(x => +x.replace('C', '')));
         });
     return {
-        rowsCount: Math.max(data.length + extraRows, minRows, this.data.rowsCount ?? 0),
-        colsCount: Math.max(minCols, optionCols.length, data.reduce((size, rowData) => Math.max(size, rowData.length), 0) + extraCols, this.data.colsCount ?? 0),
+        rowsCount: Math.max(maxDraftRow, data.length + extraRows, minRows, this.data.rowsCount ?? 0),
+        colsCount: Math.max(maxDraftCol, minCols, optionCols.length, data.reduce((size, rowData) => Math.max(size, rowData.length), 0) + extraCols, this.data.colsCount ?? 0),
     };
 }
 
@@ -248,6 +249,25 @@ function appendCols(this: DTableDatagrid, countOrList: number | unknown[][] = 1,
                     this.scrollTo({col: finalColsCount - (showRowIndex ? 0 : 1), row: 0});
                 }
             });
+        }
+        return true;
+    }
+    return false;
+}
+
+export function expandGridSize(this: DTableDatagrid, size: {rowsCount?: number, colsCount?: number}, options?: {skipUpdate?: boolean}): boolean {
+    const oldSize = this.getGridSize();
+    const deltaRowsCount = (size.rowsCount ?? 0) - oldSize.rowsCount;
+    const deltaColsCount = (size.colsCount ?? 0) - oldSize.colsCount;
+    if (deltaRowsCount) {
+        this.appendRows(deltaRowsCount, {skipUpdate: true});
+    }
+    if (deltaColsCount) {
+        this.appendCols(deltaColsCount, {skipUpdate: true});
+    }
+    if (deltaRowsCount || deltaColsCount) {
+        if (!options?.skipUpdate) {
+            this.update({dirtyType: 'options'});
         }
         return true;
     }
@@ -379,7 +399,7 @@ export const datagrid: DTablePlugin<DTableDatagridTypes, DTableDatagridDependenc
             this.copySelections();
             return this.deleteSelections();
         },
-        async pasteCells(targetCell) {
+        async pasteCells(targetCell, options?: {expandCells?: boolean, select?: boolean, autoscroll?: boolean}) {
             let startColIndex = -1;
             let startRowIndex = -1;
             if ('colName' in targetCell) {
@@ -407,13 +427,20 @@ export const datagrid: DTablePlugin<DTableDatagridTypes, DTableDatagridDependenc
             }
             const changes: DTableDraftRows = {};
             const cells: DTableCellPos[] = [];
+            const expandCells = options?.expandCells !== false;
+            let expandedCells = false;
+            let maxRowIndex = 0;
+            let maxColIndex = 0;
             data.split(/\r?\n/).forEach((line, lineIndex) => {
                 const rowIndex = lineIndex + startRowIndex;
-                const rowInfo = this.getRowInfo(rowIndex);
-                if (!rowInfo) {
-                    return;
+                let rowID = this.getRowInfo(rowIndex)?.id;
+                if (rowID === undefined) {
+                    if (!expandCells) {
+                        return;
+                    }
+                    expandedCells = true;
+                    rowID = `${rowIndex}`;
                 }
-                const {id: rowID} = rowInfo;
                 let rowData = changes[rowID];
                 if (!rowData) {
                     rowData = {};
@@ -421,16 +448,29 @@ export const datagrid: DTablePlugin<DTableDatagridTypes, DTableDatagridDependenc
                 }
                 line.split('\t').forEach((part, partIndex) => {
                     const colIndex = partIndex + startColIndex;
-                    const colInfo = this.getColInfo(colIndex);
-                    if (!colInfo) {
-                        return;
+                    let colName = this.getColInfo(colIndex)?.name;
+                    if (colName === undefined) {
+                        if (!expandCells) {
+                            return;
+                        }
+                        expandedCells = true;
+                        colName = `C${colIndex}`;
                     }
-                    rowData[colInfo.name] = part;
+                    rowData[colName] = part;
                     cells.push({col: colIndex, row: rowIndex});
+                    maxRowIndex = Math.max(maxRowIndex, rowIndex);
+                    maxColIndex = Math.max(maxColIndex, colIndex);
                 });
             });
-            this.stageDraft(changes);
-            this.selectCells(cells);
+            this.stageDraft(changes, {skipUpdate: true});
+            if (options?.select !== false) {
+                this.selectCells(cells);
+            }
+            this.update({dirtyType: expandedCells ? 'options' : undefined}, () => {
+                if (options?.autoscroll !== false) {
+                    this.scrollTo({col: maxColIndex, row: maxRowIndex});
+                }
+            });
             return true;
         },
         pasteToSelection() {
@@ -444,6 +484,7 @@ export const datagrid: DTablePlugin<DTableDatagridTypes, DTableDatagridDependenc
         getGridSize,
         appendRows,
         appendCols,
+        expandGridSize,
     },
     onRender() {
         return {className: 'dtable-datagrid'};
