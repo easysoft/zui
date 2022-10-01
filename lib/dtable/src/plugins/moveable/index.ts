@@ -2,7 +2,7 @@ import {definePlugin} from '../../helpers/shared-plugins';
 import mousemove, {DTableMousemoveTypes} from '../mousemove';
 import './style.css';
 
-export interface DTableMoveableTypes {
+export interface DTableMoveableTypes extends DTablePluginTypes {
     options: {
         moveable?: boolean | 'header';
     },
@@ -11,7 +11,7 @@ export interface DTableMoveableTypes {
     data: {
         disableMoveable?: boolean,
         moveableStartInfo?: {x: number, y: number, scrollLeft: number, scrollTop: number}
-    }
+    },
 }
 
 export type DTableMoveable = DTableWithPlugin<DTableMoveableTypes, [DTableMousemoveTypes]>;
@@ -47,18 +47,18 @@ export const moveable: DTablePlugin<DTableMoveableTypes, [DTableMousemoveTypes]>
             this.data.moveableStartInfo = undefined;
             this.ref.current?.classList.remove('dtable-moving');
         },
-    },
-    onDocMousemove(event) {
-        const {moveableStartInfo} = (this as DTableMoveable).data;
-        if (!moveableStartInfo) {
-            return;
-        }
-        const {clientX, clientY} = event as MouseEvent;
-        const {x, y, scrollLeft, scrollTop} = moveableStartInfo;
-        this.scroll({
-            scrollLeft: scrollLeft - clientX + x,
-            scrollTop: this.options.moveable === 'header' ? undefined : (scrollTop - clientY + y),
-        });
+        document_mousemovesmooth(event) {
+            const {moveableStartInfo} = (this as DTableMoveable).data;
+            if (!moveableStartInfo) {
+                return;
+            }
+            const {clientX, clientY} = event as MouseEvent;
+            const {x, y, scrollLeft, scrollTop} = moveableStartInfo;
+            this.scroll({
+                scrollLeft: scrollLeft - clientX + x,
+                scrollTop: this.options.moveable === 'header' ? undefined : (scrollTop - clientY + y),
+            });
+        },
     },
 };
 

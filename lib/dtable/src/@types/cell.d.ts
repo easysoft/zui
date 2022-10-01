@@ -1,4 +1,4 @@
-type CellRenderCallback<C extends ColSetting = ColSetting> = (
+type CellRenderCallback<C = ColSetting> = (
     result: CustomRenderResult,
     data: {
         row: RowInfo,

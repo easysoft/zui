@@ -16,7 +16,7 @@ export type DTableCellPos        = {col: DTableColIndex, row: DTableRowIndex};
 
 export type DTableCellPosMap     =  Map<DTableColIndex, Set<DTableRowIndex>>;
 
-export type DTableSelectableTypes = {
+export interface DTableSelectableTypes extends DTablePluginTypes {
     options: Partial<{
         selectable: boolean | ((cellPos: DTableCellPos) => boolean);
         onSelectCells: (this: DTableSelectable, cells: DTableCellPos[]) => void;
@@ -48,7 +48,7 @@ export type DTableSelectableTypes = {
         getSelectedCellsSize: typeof getSelectedCellsSize;
         selectOutsideClick?: (event: MouseEvent) => void;
     };
-};
+}
 
 type DTableSelectable = DTableWithPlugin<DTableSelectableTypes, [DTableMousemoveTypes, DTableAutoscrollTypes]>;
 
@@ -443,7 +443,7 @@ export const selectable: DTablePlugin<DTableSelectableTypes, [DTableMousemoveTyp
             }
         },
         document_click(event) {
-            const target = (event as PointerEvent).target as HTMLElement;
+            const target = event.target as HTMLElement;
             if (!target) {
                 return;
             }
@@ -452,22 +452,22 @@ export const selectable: DTablePlugin<DTableSelectableTypes, [DTableMousemoveTyp
                 this.deselectAllCells();
             }
         },
-    },
-    onMouseMove(event) {
-        const dtable = this as DTableSelectable;
-        const {selectingStart} = dtable.data;
-        if (!selectingStart) {
-            return;
-        }
-        const pos = getMousePos(dtable, event);
-        if (pos) {
-            const selection = stringifySelection(selectingStart, pos);
-            if (selection) {
-                dtable.selectingCells(selection);
-                event.preventDefault();
-                event.stopPropagation();
+        mousemovesmooth(event) {
+            const dtable = this as DTableSelectable;
+            const {selectingStart} = dtable.data;
+            if (!selectingStart) {
+                return;
             }
-        }
+            const pos = getMousePos(dtable, event);
+            if (pos) {
+                const selection = stringifySelection(selectingStart, pos);
+                if (selection) {
+                    dtable.selectingCells(selection);
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+            }
+        },
     },
     onRender() {
         if (this.options.selectable) {

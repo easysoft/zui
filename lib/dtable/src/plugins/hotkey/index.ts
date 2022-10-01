@@ -3,7 +3,7 @@ import {definePlugin} from '../../helpers/shared-plugins';
 
 export type DTableHotkeyCallback = (this: DTable, event: KeyboardEvent, handler: HotkeysEvent) => void;
 
-export type DTableHotkeyTypes = {
+export interface DTableHotkeyTypes extends DTablePluginTypes {
     options: Partial<{
         hotkeys: Record<string, DTableHotkeyCallback>;
     }>,
@@ -14,7 +14,7 @@ export type DTableHotkeyTypes = {
     methods: {
         hotkeyHandler: (this: DTableHotkey, event: KeyboardEvent, handler: HotkeysEvent) => void;
     }
-};
+}
 
 type DTableHotkey = DTableWithPlugin<DTableHotkeyTypes>;
 

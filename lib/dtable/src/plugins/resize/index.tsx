@@ -100,13 +100,13 @@ export const resize: DTablePlugin<DTableResizeTypes, [DTableMousemoveTypes]> = {
             updateColSize(this, event as MouseEvent, true);
             return false;
         },
-    },
-    onDocMousemove(event) {
-        if (!this.state.colResizing) {
-            return;
-        }
-        updateColSize(this as DTableResize, event);
-        return false;
+        document_mousemovesmooth(event) {
+            if (!this.state.colResizing) {
+                return;
+            }
+            updateColSize(this as DTableResize, event);
+            return false;
+        },
     },
     onRenderHeaderCell(result, {col}) {
         const {colResize: colResizeCallback} = this.options;

@@ -33,7 +33,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
 
     #layout?: DTableLayout;
 
-    #events: Map<DTableEventType, DTableEventListener[]> = new Map();
+    #events: Map<string, DTableEventListener[]> = new Map();
 
     #data: Record<string, unknown> = {};
 
@@ -110,7 +110,9 @@ export class DTable extends Component<DTableOptions, DTableState> {
                 events = events.call(this);
             }
             Object.entries(events).forEach(([eventType, callback]) => {
-                this.on(eventType as DTableEventType, callback as DTableEventListener);
+                if (callback) {
+                    this.on(eventType, callback as DTableEventListener);
+                }
             });
         });
 
@@ -173,7 +175,10 @@ export class DTable extends Component<DTableOptions, DTableState> {
         this.#events.clear();
     }
 
-    on(event: DTableEventType, callback: DTableEventListener) {
+    on(event: string, callback: DTableEventListener, target?: DTableEventTarget) {
+        if (target) {
+            event = `${target}_${event}`;
+        }
         const eventCallbacks = this.#events.get(event);
         if (eventCallbacks) {
             eventCallbacks.push(callback);
@@ -189,7 +194,10 @@ export class DTable extends Component<DTableOptions, DTableState> {
         }
     }
 
-    off(event: DTableEventType, callback: DTableEventListener) {
+    off(event: string, callback: DTableEventListener, target?: DTableEventTarget) {
+        if (target) {
+            event = `${target}_${event}`;
+        }
         const eventCallbacks = this.#events.get(event);
         if (!eventCallbacks) {
             return;
@@ -208,6 +216,10 @@ export class DTable extends Component<DTableOptions, DTableState> {
                 this.ref.current?.removeEventListener(event, this.#handleEvent);
             }
         }
+    }
+
+    emitCustomEvent<C extends string, T>(event: C, detail?: T, target?: DTableEventTarget) {
+        this.#handleEvent(new CustomEvent<T>(event, {detail}), target ? `${target}_${event}` : undefined);
     }
 
     scroll(info: {scrollLeft?: number, scrollTop?: number, offsetLeft?: number, offsetTop?: number, to?: 'up' | 'down' | 'end' | 'home' | 'left' | 'right' | 'left-begin' | 'right-end'}, callback?: (this: DTable, result: boolean) => void): boolean {
@@ -367,8 +379,8 @@ export class DTable extends Component<DTableOptions, DTableState> {
         });
     };
 
-    #handleEvent = (event: Event, type?: DTableEventType) => {
-        type = type || event.type as DTableEventType;
+    #handleEvent = (event: Event, type?: string) => {
+        type = type || event.type;
         const callbacks = this.#events.get(type);
         if (!callbacks?.length) {
             return;
@@ -384,11 +396,11 @@ export class DTable extends Component<DTableOptions, DTableState> {
     };
 
     #handleWindowEvent = (event: Event) => {
-        this.#handleEvent(event, `window_${event.type}` as DTableEventType);
+        this.#handleEvent(event, `window_${event.type}`);
     };
 
     #handleDocumentEvent = (event: Event) => {
-        this.#handleEvent(event, `document_${event.type}` as DTableEventType);
+        this.#handleEvent(event, `document_${event.type}`);
     };
 
     #renderHeader(layout: DTableLayout) {

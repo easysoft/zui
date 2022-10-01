@@ -9,7 +9,7 @@ export interface ScrollToMouseOption {
     detectPadding: number,
 }
 
-export interface DTableAutoscrollTypes {
+export interface DTableAutoscrollTypes extends DTablePluginTypes {
     methods: {
         scrollTo: (this: DTableAutoscroll, info: {col?: ColInfoLike, row?: RowInfoLike, extra?: number}) => boolean;
         startScrollToMouse: (this: DTableAutoscroll, options?: Partial<ScrollToMouseOption>) => void;

@@ -10,7 +10,7 @@ type ColSortType = 'asc' | 'desc' | boolean;
 
 type ColInfoLike = string | number | ColInfo;
 
-type ColInfo<S extends ColSetting = ColSetting> = {
+type ColInfo<S = ColSetting> = {
     name: ColName;
     type: string;
     flex: ColFlexGrow; // 0 will disable flex
@@ -22,7 +22,7 @@ type ColInfo<S extends ColSetting = ColSetting> = {
     index: number;
 };
 
-type ColSetting<S = {}> = {
+type ColSetting<S = {}> = S & {
     name: ColName;
 } & Partial<{
     title: string;
@@ -43,4 +43,4 @@ type ColSetting<S = {}> = {
     colHover: boolean;
     onRenderCell: CellRenderCallback<ColSetting & S>;
     [prop: string]: unknown;
-}> & S;
+}>;

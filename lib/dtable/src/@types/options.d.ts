@@ -1,4 +1,4 @@
-interface DTableDataOptions<C extends ColSetting = ColSetting> {
+interface DTableDataOptions<C = ColSetting> {
     cols: C[];
     data: (RowData | string)[] | number;
     rowDataGetter?: (ids: string[]) => RowData[],
@@ -13,8 +13,8 @@ interface DTableLayoutOptions {
     defaultColWidth: number;
     minColWidth: number;
     maxColWidth: number;
-    header?: boolean | ComponentChildren | ((this: DTable, layout: DTableLayout, state: DTableState) => (ComponentChildren | {__html: string}));
-    footer?: boolean | ComponentChildren | ((this: DTable, layout: DTableLayout, state: DTableState) => (ComponentChildren | {__html: string}));
+    header?: boolean | preact.ComponentChildren | ((this: DTable, layout: DTableLayout, state: DTableState) => (preact.ComponentChildren | {__html: string}));
+    footer?: boolean | preact.ComponentChildren | ((this: DTable, layout: DTableLayout, state: DTableState) => (preact.ComponentChildren | {__html: string}));
     headerHeight: number;
     footerHeight: number;
     responsive: boolean;
@@ -36,8 +36,8 @@ interface DTableCallbackOptions {
     onScroll?: (this: DTable, scrollInfo: {scrollTop?: number, scrollLeft?: number}) => void;
     onRenderCell?: CellRenderCallback;
     onRenderHeaderCell?: CellRenderCallback;
-    onRenderRow?: (this: DTable, data: {props: RowProps, row: RowInfo}, h: typeof _h) => Partial<RowProps | (RowProps & JSX.HTMLAttributes<HTMLElement>)> | void;
-    onRenderHeaderRow?: (this: DTable, data: {props: RowProps}, h: typeof _h) => RowProps;
+    onRenderRow?: (this: DTable, data: {props: RowProps, row: RowInfo}, h: typeof preact.h) => Partial<RowProps | (RowProps & preact.JSX.HTMLAttributes<HTMLElement>)> | void;
+    onRenderHeaderRow?: (this: DTable, data: {props: RowProps}, h: typeof preact.h) => RowProps;
     afterRender?: (this: DTable) => void;
     onRowClick?: (this: DTable, event: MouseEvent, data: {rowID: string, rowInfo?: RowInfo, element: HTMLElement, cellElement?: HTMLElement}) => void | true;
     onCellClick?: (this: DTable, event: MouseEvent, data: {rowID: string, colName: string, rowInfo?: RowInfo, element: HTMLElement, rowElement: HTMLElement}) => void | true;
@@ -46,7 +46,7 @@ interface DTableCallbackOptions {
     onAddRows?: (this: DTable, rows: RowInfo[]) => RowInfo[] | void;
 }
 
-interface DTableOptions<C extends ColSetting = ColSetting> extends DTableDataOptions<C>, DTableLayoutOptions, DTableStyleOptions, DTableCallbackOptions {
+interface DTableOptions<C = ColSetting> extends DTableDataOptions<C>, DTableLayoutOptions, DTableStyleOptions, DTableCallbackOptions {
     id?: string;
     className?: ClassNameLike,
     parent?: HTMLElement,
