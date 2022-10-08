@@ -1,4 +1,5 @@
 import {definePlugin} from '../../helpers/shared-plugins';
+import mousemove, {DTableMousemoveTypes} from '../mousemove';
 
 export interface ScrollToMouseOption {
     interval: number,
@@ -21,7 +22,7 @@ export interface DTableAutoscrollTypes extends DTablePluginTypes {
     }
 }
 
-export type DTableAutoscroll = DTableWithPlugin<DTableAutoscrollTypes>;
+export type DTableAutoscroll = DTableWithPlugin<DTableAutoscrollTypes, [DTableMousemoveTypes]>;
 
 function tryScrollToMouse(this: DTableAutoscroll) {
     const {scrollToMouse} = this.data;
@@ -64,10 +65,11 @@ function tryScrollToMouse(this: DTableAutoscroll) {
     }
 }
 
-export const autoscroll: DTablePlugin<DTableAutoscrollTypes> = {
+export const autoscroll: DTablePlugin<DTableAutoscrollTypes, [DTableMousemoveTypes]> = {
     name: 'autoscroll',
+    plugins: [mousemove],
     events: {
-        document_mousemove(event) {
+        document_mousemovesmooth(event) {
             if (!this.data.scrollToMouse) {
                 return;
             }
@@ -108,12 +110,12 @@ export const autoscroll: DTablePlugin<DTableAutoscrollTypes> = {
         },
         startScrollToMouse(options) {
             const setting = {
-                interval: 50,
-                speed: 0.5,
+                interval: 60,
+                speed: 0.2,
                 delay: 200,
                 maxStep: this.options.rowHeight,
                 onlyInside: false,
-                detectPadding: 20,
+                detectPadding: 30,
                 startTime: Date.now(),
                 ...options,
             };
