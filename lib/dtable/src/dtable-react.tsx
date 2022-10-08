@@ -218,8 +218,8 @@ export class DTable extends Component<DTableOptions, DTableState> {
         }
     }
 
-    emitCustomEvent<C extends string, T>(event: C, detail?: T, target?: DTableEventTarget) {
-        this.#handleEvent(new CustomEvent<T>(event, {detail}), target ? `${target}_${event}` : undefined);
+    emitCustomEvent<C extends string, T>(event: C, detail?: T) {
+        this.#handleEvent(detail instanceof Event ? detail : new CustomEvent<T>(event, {detail}), event);
     }
 
     scroll(info: {scrollLeft?: number, scrollTop?: number, offsetLeft?: number, offsetTop?: number, to?: 'up' | 'down' | 'end' | 'home' | 'left' | 'right' | 'left-begin' | 'right-end'}, callback?: (this: DTable, result: boolean) => void): boolean {

@@ -25,8 +25,7 @@ export const mousemove: DTablePlugin<DTableMousemoveTypes> = {
             this.data.mmRafID = requestAnimationFrame(() => {
                 this.emitCustomEvent('mousemovesmooth', event);
             });
-
-            return false;
+            event.preventDefault();
         },
         document_mousemove(event) {
             if (this.data.dmmRafID) {
@@ -37,8 +36,7 @@ export const mousemove: DTablePlugin<DTableMousemoveTypes> = {
             this.data.dmmRafID = requestAnimationFrame(() => {
                 this.emitCustomEvent('document_mousemovesmooth', event);
             });
-
-            return false;
+            event.preventDefault();
         },
     },
 };
