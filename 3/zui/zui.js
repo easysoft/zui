@@ -1122,8 +1122,8 @@ class se extends ot {
     const r = i.indexOf(s);
     r >= 0 && i.splice(r, 1), i.length || (f(this, O).delete(t), t.startsWith("window_") ? window.removeEventListener(t.replace("window_", ""), f(this, at)) : t.startsWith("document_") ? document.removeEventListener(t.replace("document_", ""), f(this, ht)) : (c = this.ref.current) == null || c.removeEventListener(t, f(this, V)));
   }
-  emitCustomEvent(t, s, o) {
-    f(this, V).call(this, new CustomEvent(t, { detail: s }), o ? `${o}_${t}` : void 0);
+  emitCustomEvent(t, s) {
+    f(this, V).call(this, s instanceof Event ? s : new CustomEvent(t, { detail: s }), t);
   }
   scroll(t, s) {
     const { scrollLeft: o, scrollTop: i, rowsHeightTotal: r, rowsHeight: c, rowHeight: a, colsInfo: { scrollWidth: h, scrollColsWidth: l } } = this.layout, { to: p } = t;
