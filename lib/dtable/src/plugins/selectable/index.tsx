@@ -459,13 +459,14 @@ export const selectable: DTablePlugin<DTableSelectableTypes, [DTableMousemoveTyp
                 return;
             }
             const pos = getMousePos(dtable, event);
-            if (pos) {
-                const selection = stringifySelection(selectingStart, pos);
-                if (selection) {
-                    dtable.selectingCells(selection);
-                    event.preventDefault();
-                    event.stopPropagation();
-                }
+            if (!pos) {
+                return;
+            }
+            const selection = stringifySelection(selectingStart, pos);
+            if (selection) {
+                dtable.selectingCells(selection);
+                event.preventDefault();
+                event.stopPropagation();
             }
         },
     },
