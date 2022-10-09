@@ -15,6 +15,7 @@ export interface ZuiLibInfo {
     order: number;              // 0
     workspace?: boolean;
     packageJsonPath?: string;
+    tailwindConfigPath?: string;
 }
 
 export interface LibInfo {

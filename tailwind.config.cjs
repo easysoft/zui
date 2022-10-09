@@ -13,7 +13,7 @@ const config = {
         './lib/*/src/**/*.{vue,js,ts,jsx,tsx}',
     ] : [{raw: ''}],
     presets: process.env.NODE_ENV === 'development' ? [
-        require('./lib/config/src/tailwind'),
+        require('./lib/base/tailwind.cjs'),
     ] : [],
     plugins: [
         require('@tailwindcss/line-clamp'),

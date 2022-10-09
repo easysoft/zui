@@ -2,7 +2,7 @@ import Path from 'path';
 import fs from 'fs-extra';
 import minimist from 'minimist';
 import {mergeConfig} from 'vite';
-import {bold, blue, gray, yellow} from 'colorette';
+import {bold, blue, gray, yellow, cyan, green} from 'colorette';
 import {createBuildConfig, prepareBuildFiles, createViteConfig} from './config';
 import {exec} from '../utilities/exec';
 
@@ -27,9 +27,9 @@ const buildConfig = await createBuildConfig({
     exports: argv.exports ?? argv.E,
 });
 
-console.log(`Building ${bold(blue(buildConfig.name))} with ${buildConfig.libs.length} libs...\n`);
+console.log(cyan(`building ${bold(blue(buildConfig.name))} with ${buildConfig.libs.length} libs...`));
 for (const lib of buildConfig.libs) {
-    console.log('  ', lib.name.padEnd(25), gray(lib.version), lib.zui.sourceType !== 'build-in' ? yellow(lib.zui.sourceType) : '');
+    console.log(blue('*'), lib.name.padEnd(23), gray(lib.version.padEnd(8)), gray(lib.zui.type.padEnd(12)), lib.zui.sourceType !== 'build-in' ? yellow(lib.zui.sourceType) : '');
 }
 console.log();
 
@@ -53,6 +53,33 @@ viteConfig = mergeConfig(viteConfig, createViteConfig(buildConfig, {buildDir, ou
 const viteConfigFile = Path.resolve(buildDir, 'vite.config.json');
 await fs.outputJSON(viteConfigFile, viteConfig, {spaces: 4});
 
+/** Include tailwind config */
+const tailwindConfigs = buildConfig.libs.reduce<string[]>((list, lib) => {
+    if (lib.zui.tailwindConfigPath) {
+        list.push(lib.zui.tailwindConfigPath);
+    }
+    return list;
+}, []);
+if (!tailwindConfigs.length && !argv.noBaseTailwind) {
+    tailwindConfigs.push(Path.resolve(process.cwd(), 'lib/base/tailwind.cjs'));
+}
+let tailwindConfigsPath = '';
+if (tailwindConfigs.length) {
+    tailwindConfigsPath = Path.resolve(buildDir, 'tailwind.cjs');
+    const tailwindConfigsFileContent = [
+        'module.exports = [',
+        tailwindConfigs.map(x => `    require(${JSON.stringify(x)}),`).join('\n'),
+        '];'
+    ].join('\n');
+    await fs.writeFile(tailwindConfigsPath, tailwindConfigsFileContent);
+
+    console.log(cyan('tailwind configs...'));
+    tailwindConfigs.forEach(tailwindFile => {
+        console.log(green('+'), Path.relative(process.cwd(), tailwindFile));
+    });
+    console.log();
+}
+
 if (!argv.s && !argv.skipBuild) {
     await exec('pnpm', ['i'], {cwd: buildDir});
 
@@ -66,6 +93,9 @@ if (!argv.s && !argv.skipBuild) {
 
     if (argv.noPreflightStyle) {
         buildArgs.push('--noPreflightStyle');
+    }
+    if (tailwindConfigsPath) {
+        buildArgs.push(`--tailwind=${tailwindConfigsPath}`);
     }
     await exec('pnpm', buildArgs);
 }

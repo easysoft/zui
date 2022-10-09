@@ -2,6 +2,6 @@
     "extends": "../../tsconfig.json",
     "include": [
       "src",
-      "tailwind.config.cjs"
+      "tailwind.cjs"
     ]
   }

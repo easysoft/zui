@@ -10,4 +10,10 @@ export interface JsContributes {
     js: JsContributeType[];
 }
 
-export type Contributes = CssContributes & JsContributes;
+export type ConfigContributeType = 'tailwind';
+
+export interface ConfigContributes {
+    config: ConfigContributeType[];
+}
+
+export type Contributes = CssContributes & JsContributes & ConfigContributes;

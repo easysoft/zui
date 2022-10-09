@@ -77,16 +77,24 @@ export async function getLibs(libPath: string | string[] = '', options: {root?: 
             continue;
         }
         const packageJson = await fs.readJson(packageFile, {throws: false}) as Record<string, unknown>;
-        if (!packageJson || !packageJson.name) {
+        if (!packageJson || !packageJson.name || packageJson.wip) {
             continue;
         }
 
+        let tailwindConfigPath: string | undefined = Path.resolve(libPath, dir, 'tailwind.cjs');
+        if (!fs.existsSync(tailwindConfigPath)) {
+            tailwindConfigPath = Path.resolve(libPath, dir, 'tailwind.js');
+        }
+        if (!fs.existsSync(tailwindConfigPath)) {
+            tailwindConfigPath = undefined;
+        }
         const libInfo = createLibFromPackageJson(packageJson, {
             sourceType,
             path: Path.resolve(libPath, dir),
             idx: ((options.idx ?? 0) * 10000) + i,
             workspace,
             packageJsonPath: packageFile,
+            tailwindConfigPath,
         });
         libs[libInfo.zui.name] = libInfo;
     }
@@ -119,10 +127,10 @@ export function sortLibList(libList: LibInfo[]) {
     }).sort((a, b) => a.zui.order - b.zui.order);
 }
 
-export function createLibFromPackageJson(packageJson: Record<string, unknown>, options: {sourceType?: LibSourceType, path: string, idx?: number, workspace?: boolean, packageJsonPath: string}): LibInfo {
+export function createLibFromPackageJson(packageJson: Record<string, unknown>, options: {sourceType?: LibSourceType, path: string, idx?: number, workspace?: boolean, packageJsonPath: string, tailwindConfigPath?: string}): LibInfo {
     const name = packageJson.name as string;
     const defaultName = name.split('/').pop();
-    const {sourceType = 'build-in', path, idx = 0, workspace, packageJsonPath} = options;
+    const {sourceType = 'build-in', path, idx = 0, workspace, packageJsonPath, tailwindConfigPath} = options;
     const libInfo = {
         name,
         version: packageJson.version as string,
@@ -143,6 +151,7 @@ export function createLibFromPackageJson(packageJson: Record<string, unknown>, o
             ...(packageJson.zui as Record<string, unknown>),
             order: 0,
             packageJsonPath,
+            tailwindConfigPath,
         },
     } as LibInfo;
     libInfo.zui.order = (libTypeOrders[libInfo.zui.type] * 100000000) + idx;
