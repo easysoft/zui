@@ -23,4 +23,5 @@ function useColorVars() {
 
 module.exports = {
     useColorVars,
+    convertColorToVariabels,
 };
