@@ -19,7 +19,7 @@ export class ProgressCircle {
 
     render(options?: Partial<ProgressCircleOptions>) {
         this.options = Object.assign(this.options, options);
-        const {circleSize = 24, circleBorderSize = 1, circleBgColor = 'var(--color-border)', circleColor = 'var(--color-green-500)', percent = 40%} = this.options;
+        const {circleSize = 24, circleBorderSize = 1, circleBgColor = 'var(--color-border)', circleColor = 'var(--color-success-500)', percent = 40%} = this.options;
         const radius = (circleSize - circleBorderSize) / 2;
         const center = circleSize / 2;
         render((

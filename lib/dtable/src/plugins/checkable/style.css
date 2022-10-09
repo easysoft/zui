@@ -1,5 +1,5 @@
 :root {
-    --dtable-checked-bg: var(--color-yellow-200);
+    --dtable-checked-bg: var(--color-warning-100);
 }
 
 .dtable-rows > .dtable-row.is-checked > .dtable-cells {

@@ -1,5 +1,5 @@
 :root {
-    --dtable-editing-color: var(--color-green-600);
+    --dtable-editing-color: var(--color-success-600);
 }
 
 .dtable-cell.is-editing::after {

@@ -70,7 +70,7 @@ export const rich: DTablePlugin<DTableRichTypes> = {
         },
         circleProgress: {
             onRenderCell(result, {col}) {
-                const {circleSize = 24, circleBorderSize = 1, circleBgColor = 'var(--color-border)', circleColor = 'var(--color-green-500)'} = col.setting;
+                const {circleSize = 24, circleBorderSize = 1, circleBgColor = 'var(--color-border)', circleColor = 'var(--color-success-500)'} = col.setting;
                 const radius = (circleSize - circleBorderSize) / 2;
                 const center = circleSize / 2;
                 const percent = result[0] as number;

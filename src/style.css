@@ -55,7 +55,7 @@ pre[data-lang]::after {
     @apply -list-disc -pl-5;
 }
 .table-of-contents {
-    @apply -fixed -right-4 -top-10 -w-36 -border-l-4 -border-l-young-200 -px-5 -leading-6;
+    @apply -fixed -right-4 -top-10 -w-36 -border-l-4 -border-l-primary-200 -px-5 -leading-6;
 }
 .table-of-contents > ol,
 .table-of-contents > ol > li > ol {
@@ -66,5 +66,5 @@ pre[data-lang]::after {
 }
 .table-of-contents > ol > li > ol > li,
 .table-of-contents > ol > li > ol > li > a {
-    @apply hover:-text-young-500 -text-ellipsis -overflow-hidden -whitespace-nowrap;
+    @apply hover:-text-primary-500 -text-ellipsis -overflow-hidden -whitespace-nowrap;
 }
