@@ -559,6 +559,20 @@ const ls = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   isElementVisible: Ln,
   classes: D
 }, Symbol.toStringTag, { value: "Module" }));
+class cs extends ot {
+  render() {
+    const { size: n, rounded: t, className: s, style: o, src: i, text: r, children: c, ...a } = this.props, h = [s], l = { ...o };
+    let p = null;
+    return i ? p = /* @__PURE__ */ _("img", {
+      src: i,
+      alt: r
+    }) : p = r, typeof n == "number" ? (l.width = n, l.height = n) : typeof n == "string" && h.push(`avatar-${n}`), typeof t == "string" && h.push(`rounded-${t}`), /* @__PURE__ */ _("div", {
+      className: D(h),
+      style: l,
+      ...a
+    }, p, c);
+  }
+}
 let Ue = (e = 21) => crypto.getRandomValues(new Uint8Array(e)).reduce((n, t) => (t &= 63, t < 36 ? n += t.toString(36) : t < 62 ? n += (t - 26).toString(36).toUpperCase() : t > 62 ? n += "-" : n += "_", n), "");
 var yt, Y, I, it, rt, At;
 const de = class {
@@ -613,20 +627,6 @@ function Tn(e, n = "local") {
   return new Dt(e, n);
 }
 Object.assign(Nn, { create: Tn });
-class cs extends ot {
-  render() {
-    const { size: n, rounded: t, className: s, style: o, src: i, text: r, children: c, ...a } = this.props, h = [s], l = { ...o };
-    let p = null;
-    return i ? p = /* @__PURE__ */ _("img", {
-      src: i,
-      alt: r
-    }) : p = r, typeof n == "number" ? (l.width = n, l.height = n) : typeof n == "string" && h.push(`avatar-${n}`), typeof t == "string" && h.push(`rounded-${t}`), /* @__PURE__ */ _("div", {
-      className: D(h),
-      style: l,
-      ...a
-    }, p, c);
-  }
-}
 function Dn() {
   const e = typeof window.innerWidth == "number" ? window.innerWidth - document.body.clientWidth : 17;
   document.body.style.paddingRight = `${e}px`, document.body.classList.add("modal-open");
