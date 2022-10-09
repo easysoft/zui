@@ -1,5 +1,4 @@
 packages:
-  - "config"
   - "dev"
   - "lib/**"
   - "docs"

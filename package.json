@@ -25,15 +25,13 @@
     "./lib"
   ],
   "dependencies": {
-    "@zui/alert": "workspace:^0.0.1",
     "@zui/base": "workspace:0.0.1",
     "@zui/scrollbar": "workspace:0.0.1",
-    "@zui/tabs": "workspace:^0.0.1",
     "@zui/utilities": "workspace:0.0.1",
-    "highlight.js": "^11.6.0",
-    "zui-config": "workspace:^0.0.1"
+    "highlight.js": "^11.6.0"
   },
   "devDependencies": {
+    "@mertasan/tailwindcss-variables": "^2.3.0",
     "@tailwindcss/line-clamp": "0.4.2",
     "@types/fs-extra": "^9.0.13",
     "@types/glob": "8.0.0",

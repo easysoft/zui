@@ -9,7 +9,6 @@
     },
     "devDependencies": {
         "vitepress": "1.0.0-alpha.4",
-        "vue": "^3.2.36",
-        "zui-config": "workspace:^0.0.1"
+        "vue": "^3.2.36"
     }
 }
