@@ -323,6 +323,16 @@ importers:
       '@zui/button': link:../button
       '@zui/utilities': link:../utilities
 
+  lib/menu:
+    specifiers:
+      '@zui/avatar': workspace:^0.0.1
+      '@zui/base': workspace:*
+      '@zui/icons': workspace:^0.0.1
+    devDependencies:
+      '@zui/avatar': link:../avatar
+      '@zui/base': link:../base
+      '@zui/icons': link:../icons
+
   lib/modal:
     specifiers:
       '@zui/base': workspace:*

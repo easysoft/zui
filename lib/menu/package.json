@@ -1,0 +1,29 @@
+{
+    "name": "@zui/menu",
+    "version": "0.0.1",
+    "main": "src/main.ts",
+    "browser": "src/main.ts",
+    "browserslist": "",
+    "keywords": [
+        "css",
+        "zui:control"
+    ],
+    "files": [
+        "./src/**/*"
+    ],
+    "devDependencies": {
+        "@zui/avatar": "workspace:^0.0.1",
+        "@zui/base": "workspace:*",
+        "@zui/icons": "workspace:^0.0.1"
+    },
+    "zui": {
+        "type": "control",
+        "displayName": "菜单",
+        "contributes": {
+            "css": [
+                "class",
+                "var"
+            ]
+        }
+    }
+}
