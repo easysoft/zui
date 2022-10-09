@@ -1915,7 +1915,7 @@ const pn = {
     },
     circleProgress: {
       onRenderCell(e, { col: n }) {
-        const { circleSize: t = 24, circleBorderSize: s = 1, circleBgColor: o = "var(--color-border)", circleColor: i = "var(--color-green-500)" } = n.setting, r = (t - s) / 2, c = t / 2, a = e[0];
+        const { circleSize: t = 24, circleBorderSize: s = 1, circleBgColor: o = "var(--color-border)", circleColor: i = "var(--color-success-500)" } = n.setting, r = (t - s) / 2, c = t / 2, a = e[0];
         return e[0] = /* @__PURE__ */ _("svg", {
           width: t,
           height: t

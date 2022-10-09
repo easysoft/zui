@@ -11,6 +11,10 @@ export default [
         "files": [
             "./src/**/*"
         ],
+        "devDependencies": {
+            "@mertasan/tailwindcss-variables": "^2.3.0",
+            "tailwindcss": "^3.1.8"
+        },
         "zui": {
             "type": "css-base",
             "displayName": "CSS 基础",
@@ -18,6 +22,9 @@ export default [
                 "css": [
                     "class",
                     "var"
+                ],
+                "config": [
+                    "tailwind"
                 ]
             },
             "docs": {
@@ -29,7 +36,8 @@ export default [
             "sourceType": "build-in",
             "name": "base",
             "order": 100000005,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/base/package.json"
+            "packageJsonPath": "/home/runner/work/zui/zui/lib/base/package.json",
+            "tailwindConfigPath": "/home/runner/work/zui/zui/lib/base/tailwind.cjs"
         }
     },
     {
