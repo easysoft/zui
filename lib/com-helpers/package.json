@@ -1,0 +1,27 @@
+{
+    "name": "@zui/com-helpers",
+    "version": "0.0.1",
+    "main": "src/main.ts",
+    "browser": "src/main.ts",
+    "browserslist": "",
+    "files": [
+        "./src/**/*"
+    ],
+    "dependencies": {
+        "preact": "^10.10.0",
+        "@zui/browser-helpers": "workspace:^0.0.1"
+    },
+    "devDependencies": {
+        "@types/jquery": "^3.5.14",
+        "jquery": "^3.6.0"
+    },
+    "zui": {
+        "type": "js-helpers",
+        "displayName": "组件辅助方法",
+        "contributes": {
+            "js": [
+                "method"
+            ]
+        }
+    }
+}
