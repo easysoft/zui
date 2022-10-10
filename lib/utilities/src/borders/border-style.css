@@ -1,6 +1,6 @@
-.bd-solid  {@apply -border-solid;}
-.bd-dashed {@apply -border-dashed;}
-.bd-dotted {@apply -border-dotted;}
-.bd-double {@apply -border-double;}
-.bd-hidden {@apply -border-hidden;}
-.bd-none   {@apply -border-none;}
+.border-solid  {@apply -border-solid;}
+.border-dashed {@apply -border-dashed;}
+.border-dotted {@apply -border-dotted;}
+.border-double {@apply -border-double;}
+.border-hidden {@apply -border-hidden;}
+.border-none   {@apply -border-none;}

@@ -1,16 +1,16 @@
 # 边框颜色
 
-使用'bd-*' 设置元素边框颜色
+使用'border-*' 设置元素边框颜色
 
   <Example>
    <div
    v-for = "index in 2"
-   :class="index===2 ? 'bd' : '' , 'bd-l-0', 'bd-r-0', 'bd-b-0' "
+   :class="index===2 ? 'border' : '' , 'border-l-0', 'border-r-0', 'border-b-0' "
    class="flex flex-wrap gap-3 mt-1 ">
      <div :key="item"
      v-for = "item in index===1 ? arrayTheme : arrayNormal"
      class="w-16 h-20 mt-4" >
-       <div :class="'bd-' + item.name"  class="bd w-16 h-8" ></div>
+       <div :class="'border-' + item.name"  class="border w-16 h-8" ></div>
        <div class="text-center h-12">
          <div>{{item.name}}</div>
          <div>{{item.colorCode}}</div>
@@ -20,7 +20,7 @@
  </Example>
 
 ```html
-<div class="bd bd-primary ... ">
+<div class="border border-primary ... ">
 </div>
 ```
 

@@ -1,8 +1,8 @@
-.bd     {@apply -border;}
-.bd-2   {@apply -border-2;}
-.bd-4   {@apply -border-4;}
-.bd-0   {@apply -border-0;}
-.bd-t-0 {@apply -border-t-0;}
-.bd-r-0 {@apply -border-r-0;}
-.bd-b-0 {@apply -border-b-0;}
-.bd-l-0 {@apply -border-l-0;}
+.border     {@apply -border;}
+.border-2   {@apply -border-2;}
+.border-4   {@apply -border-4;}
+.border-0   {@apply -border-0;}
+.border-t-0 {@apply -border-t-0;}
+.border-r-0 {@apply -border-r-0;}
+.border-b-0 {@apply -border-b-0;}
+.border-l-0 {@apply -border-l-0;}
