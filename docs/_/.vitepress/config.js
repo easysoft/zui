@@ -92,7 +92,7 @@ function initSidebars() {
         '/themes/': [
             {text: '官方主题', section: 'official'},
             {text: '社区主题', section: 'community'},
-            {text: '主体制作', section: 'create'},
+            {text: '主题制作', section: 'create'},
         ]
     }
 }

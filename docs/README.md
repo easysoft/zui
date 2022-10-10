@@ -34,7 +34,7 @@
 * 主题 `themes`：
   * 官方主题  `official`
   * 社区主题  `community`
-  * 主体制作  `create`
+  * 主题制作  `create`
 
 ## 组件库文档
 
