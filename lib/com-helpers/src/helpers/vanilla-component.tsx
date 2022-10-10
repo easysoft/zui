@@ -36,13 +36,14 @@ export abstract class VanillaComponentBase<O extends object = {}, E extends HTML
         this.#element = (typeof element === 'string' ? document.querySelector(element) : element) as E;
         this.#options = options;
 
-        this.render();
+        requestAnimationFrame(() => this.render());
     }
 
     render(options?: Partial<O>) {
-        this.#options = Object.assign(this.#options, options);
+        Object.assign(this.#options, options);
+        const {Component} = this;
         render((
-            <this.Component {...this.options} />
+            <Component {...this.options} />
         ), this.element);
     }
 }
