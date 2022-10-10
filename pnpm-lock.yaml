@@ -221,6 +221,19 @@ importers:
       '@zui/form': link:../form
       '@zui/utilities': link:../utilities
 
+  lib/com-helpers:
+    specifiers:
+      '@types/jquery': ^3.5.14
+      '@zui/browser-helpers': workspace:^0.0.1
+      jquery: ^3.6.0
+      preact: ^10.10.0
+    dependencies:
+      '@zui/browser-helpers': link:../browser-helpers
+      preact: registry.npmmirror.com/preact/10.10.0
+    devDependencies:
+      '@types/jquery': registry.npmmirror.com/@types/jquery/3.5.14
+      jquery: registry.npmmirror.com/jquery/3.6.0
+
   lib/dropdown:
     specifiers:
       '@zui/base': workspace:*
@@ -327,11 +340,20 @@ importers:
     specifiers:
       '@zui/avatar': workspace:^0.0.1
       '@zui/base': workspace:*
+      '@zui/browser-helpers': workspace:^0.0.1
+      '@zui/com-helpers': workspace:^0.0.1
       '@zui/icons': workspace:^0.0.1
+      preact: ^10.10.0
+      zui-dev: workspace:^0.0.1
+    dependencies:
+      '@zui/browser-helpers': link:../browser-helpers
+      '@zui/com-helpers': link:../com-helpers
+      preact: registry.npmmirror.com/preact/10.10.0
     devDependencies:
       '@zui/avatar': link:../avatar
       '@zui/base': link:../base
       '@zui/icons': link:../icons
+      zui-dev: link:../../dev
 
   lib/modal:
     specifiers:
@@ -2870,6 +2892,14 @@ packages:
       '@types/node': registry.npmmirror.com/@types/node/18.7.23
     dev: true
 
+  registry.npmmirror.com/@types/jquery/3.5.14:
+    resolution: {integrity: sha512-X1gtMRMbziVQkErhTQmSe2jFwwENA/Zr+PprCkF63vFq+Yt5PZ4AlKqgmeNlwgn7dhsXEK888eIW2520EpC+xg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/jquery/-/jquery-3.5.14.tgz}
+    name: '@types/jquery'
+    version: 3.5.14
+    dependencies:
+      '@types/sizzle': registry.npmmirror.com/@types/sizzle/2.3.3
+    dev: true
+
   registry.npmmirror.com/@types/json-schema/7.0.11:
     resolution: {integrity: sha512-wOuvG1SN4Us4rez+tylwwwCV1psiNVOkJeM3AUWUNWg/jDQY2+HE/444y5gc+jBmRqASOm2Oeh5c1axHobwRKQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/json-schema/-/json-schema-7.0.11.tgz}
     name: '@types/json-schema'
@@ -2904,6 +2934,12 @@ packages:
     resolution: {integrity: sha512-//oorEZjL6sbPcKUaCdIGlIUeH26mgzimjBB77G6XRgnDl/L5wOnpyBGRe/Mmf5CVW3PwEBE1NjiMZ/ssFh4wA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/parse-json/-/parse-json-4.0.0.tgz}
     name: '@types/parse-json'
     version: 4.0.0
+    dev: true
+
+  registry.npmmirror.com/@types/sizzle/2.3.3:
+    resolution: {integrity: sha512-JYM8x9EGF163bEyhdJBpR2QX1R5naCJHC8ucJylJ3w9/CVBaskdQ8WqBf8MmQrd1kRvp/a4TS8HJ+bxzR7ZJYQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/sizzle/-/sizzle-2.3.3.tgz}
+    name: '@types/sizzle'
+    version: 2.3.3
     dev: true
 
   registry.npmmirror.com/@typescript-eslint/eslint-plugin/5.38.1_qatzzi2vqzjqg2tq57nszrvcfi:
@@ -4653,6 +4689,12 @@ packages:
     version: 2.0.0
     dev: true
 
+  registry.npmmirror.com/jquery/3.6.0:
+    resolution: {integrity: sha512-JVzAR/AjBvVt2BmYhxRCSYysDsPcssdmTFnzyLEts9qNwmjmu4JTAMYubEfwVOSwpQ1I1sKKFcxhZCI2buerfw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/jquery/-/jquery-3.6.0.tgz}
+    name: jquery
+    version: 3.6.0
+    dev: true
+
   registry.npmmirror.com/js-sdsl/4.1.4:
     resolution: {integrity: sha512-Y2/yD55y5jteOAmY50JbUZYwk3CP3wnLPEZnlR1w9oKhITrBEtAxwuWKebFf8hMrPMgbYwFoWK/lH2sBkErELw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/js-sdsl/-/js-sdsl-4.1.4.tgz}
     name: js-sdsl
@@ -5269,6 +5311,12 @@ packages:
       picocolors: registry.npmmirror.com/picocolors/1.0.0
       source-map-js: registry.npmmirror.com/source-map-js/1.0.2
     dev: true
+
+  registry.npmmirror.com/preact/10.10.0:
+    resolution: {integrity: sha512-fszkg1iJJjq68I4lI8ZsmBiaoQiQHbxf1lNq+72EmC/mZOsFF5zn3k1yv9QGoFgIXzgsdSKtYymLJsrJPoamjQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/preact/-/preact-10.10.0.tgz}
+    name: preact
+    version: 10.10.0
+    dev: false
 
   registry.npmmirror.com/prelude-ls/1.2.1:
     resolution: {integrity: sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/prelude-ls/-/prelude-ls-1.2.1.tgz}
