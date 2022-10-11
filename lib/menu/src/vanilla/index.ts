@@ -1,6 +1,6 @@
-import {VanillaComponentBase} from '@zui/com-helpers/src/helpers/vanilla-component';
+import {ComponentFromReact} from '@zui/com-helpers/src/helpers/component-react';
 import {Menu as MenuReact, MenuProps} from '../component/menu';
 
-export class Menu extends VanillaComponentBase<MenuProps> {
+export class Menu extends ComponentFromReact<MenuProps> {
     Component = MenuReact;
 }

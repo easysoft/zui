@@ -1,3 +1,4 @@
 .menu-heading {
-    @apply -h-6 -px-2 -text-gray-400 -font-bold -text-xs -flex -items-center;
+    @apply -h-6 -px-2 -font-bold -text-xs -flex -items-center;
+    color: var(--menu-heading-color);
 }

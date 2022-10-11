@@ -42,10 +42,10 @@ console.log('> menu', menu);
 
 ## 样式
 
-添加边框、阴影和圆角。
+去掉边框、阴影和圆角。
 
 ```html:example
-<menu class="menu bd shadow-lg rounded -w-40">
+<menu class="menu shadow-none border-none rounded-none -w-40">
   <li><a class="menu-item" href="#">复制</a></li>
   <li><a class="menu-item" href="#">粘贴</a></li>
   <li><a class="menu-item" href="#">剪切</a></li>
@@ -60,7 +60,7 @@ console.log('> menu', menu);
 ## 包含图标
 
 ```html:example
-<menu class="menu has-icons bd shadow-lg rounded -w-32">
+<menu class="menu has-icons -w-32">
   <li><a class="menu-item" href="#"><i class="icon icon-copy"></i> 复制</a></li>
   <li><a class="menu-item" href="#"><i class="icon icon-paste"></i> 粘贴</a></li>
   <li><a class="menu-item" href="#">剪切</a></li>
@@ -76,7 +76,7 @@ console.log('> menu', menu);
 
 
 ```html:example
-<menu class="menu has-icons bd shadow-lg rounded -w-32">
+<menu class="menu has-icons -w-32">
   <li><a class="menu-item disabled" href="#"><i class="icon icon-upload-alt"></i> 导入（被禁用）</a></li>
   <li><a class="menu-item" href="#"><i class="icon icon-download-alt"></i> 导出</a></li>
   <li><a class="menu-item" href="#"><i class="icon icon-save"></i> 保存</a></li>
@@ -86,7 +86,7 @@ console.log('> menu', menu);
 ## 选中
 
 ```html:example
-<menu class="menu bd shadow-lg rounded -w-32">
+<menu class="menu -w-32">
   <li><a class="menu-item" href="#">周一</a></li>
   <li><a class="menu-item active" href="#">周二</a></li>
   <li><a class="menu-item active" href="#">周三</a></li>
@@ -100,7 +100,7 @@ console.log('> menu', menu);
 ## 菜单项尾部图标
 
 ```html:example
-<menu class="menu bd shadow-lg rounded -w-32">
+<menu class="menu -w-32">
   <li><a class="menu-item" href="#">周一</a></li>
   <li><a class="menu-item active" href="#">周二 <i class="icon icon-check"></i></a></li>
   <li><a class="menu-item" href="#">周三</a></li>
@@ -114,7 +114,7 @@ console.log('> menu', menu);
 ## 自定义菜单项
 
 ```html:example
-<menu class="menu bd shadow-lg rounded -w-36">
+<menu class="menu -w-36">
   <li class="row items-center gap-2 py-1 px-2">
     <div class="avatar circle flex-none"><img src="/lib/avatar/assets/avatar.png"></div>
     <div class="flex-auto">

@@ -3,6 +3,7 @@ import {ClassNameLike, classes} from '@zui/browser-helpers/src/classes';
 import {MenuItem, MenuItemProps} from './menu-item';
 import {MenuDivider, MenuDividerProps} from './menu-divider';
 import {MenuHeading, MenuHeadingProps} from './menu-heading';
+import '../style/vars.css';
 import '../style/menu.css';
 
 export type MenuItemOptions = MenuItemProps & {type?: 'item', key?: string};
@@ -17,9 +18,6 @@ export type MenuProps = {
     className?: ClassNameLike;
     items?: MenuListItem[];
     hasIcons?: boolean;
-    shadow?: boolean | string;
-    rounded?: boolean;
-    border?: boolean | string;
     children?: ComponentChildren;
     onClickItem?: (item: MenuItemOptions, index: number, event: MouseEvent) => void;
 };
@@ -28,9 +26,6 @@ export function Menu({
     className,
     items,
     hasIcons,
-    shadow = true,
-    rounded = true,
-    border = true,
     children,
     onClickItem,
     ...others
@@ -40,7 +35,7 @@ export function Menu({
     }
     const handleItemClick = (item: MenuItemOptions, index: number, onClick: JSX.MouseEventHandler<HTMLAnchorElement> | undefined,  event: MouseEvent) => {
         if (onClick) {
-            onClick.call(null, event);
+            onClick.call(event.target, event);
         }
         if (onClickItem) {
             onClickItem(item, index, event);
@@ -51,9 +46,6 @@ export function Menu({
             'menu',
             className,
             hasIcons ? 'has-icons' : '',
-            shadow ? (typeof shadow === 'string' ? shadow : 'shadow-lg') : '',
-            rounded ? (typeof rounded === 'string' ? rounded : 'rounded') : '',
-            border ? 'border' : '',
         )} {...others}>
             {items?.map((item, index) => {
                 const {key, type, ...props} = item;

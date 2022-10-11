@@ -1,6 +1,11 @@
 .menu-item.active {
-    @apply -bg-primary-50 -text-primary-500;
+    background: var(--menu-active-bg);
+    color: var(--menu-active-color);
 }
 .menu-item {
-    @apply -m-1 -flex -text-inherit -px-2 -py-0.5 -rounded -items-center hover:-bg-primary-500 hover:-text-canvas -transition-colors -relative -justify-between -truncate -cursor-pointer;
+    @apply -m-1 -flex -text-inherit -px-2 -py-0.5 -rounded -items-center -transition-colors -relative -justify-between -truncate -cursor-pointer;
+}
+.menu-item:hover {
+    background: var(--menu-hover-bg);
+    color: var(--menu-hover-color);
 }

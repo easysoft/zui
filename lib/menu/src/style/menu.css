@@ -1,3 +1,6 @@
 .menu {
     @apply -p-1;
+    border-radius: var(--menu-radius);
+    box-shadow: var(--menu-shadow);
+    border: var(--menu-border);
 }
