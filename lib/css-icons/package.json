@@ -1,0 +1,20 @@
+{
+    "name": "@zui/css-icons",
+    "description": "ZUI css icons",
+    "version": "0.0.1",
+    "keywords": ["css", "zui:css-utilities"],
+    "main": "src/main.ts",
+    "devDependencies": {
+        "@zui/base": "workspace:*"
+    },
+    "files": [
+        "./src/**/*"
+    ],
+    "zui": {
+        "type": "css-utilities",
+        "displayName": "CSS 工具类",
+        "contributes": {
+            "css": ["class", "var"]
+        }
+    }
+}

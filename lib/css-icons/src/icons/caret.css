@@ -1,0 +1,16 @@
+:root {
+    --caret-opacity: .5;
+    --caret-size: 4px;
+}
+
+.caret {
+    @apply -w-0 -h-0 -inline-block;
+    border-top: var(--caret-size) solid;
+    border-right: var(--caret-size) solid transparent;
+    border-left: var(--caret-size) solid transparent;
+    opacity: var(--caret-opacity);
+}
+:hover > .caret,
+:focus > .caret {
+    opacity: inherit;
+}
