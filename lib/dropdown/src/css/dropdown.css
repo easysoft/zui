@@ -1,0 +1,6 @@
+.dropdown-menu {
+    @apply -hidden -z-10;
+}
+.dropdown-menu.open {
+    @apply -block;
+}

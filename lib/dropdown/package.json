@@ -11,14 +11,25 @@
     "devDependencies": {
         "@zui/base": "workspace:*",
         "@zui/button": "workspace:0.0.1",
+        "@zui/menu": "workspace:*",
         "@zui/utilities": "workspace:*"
+    },
+    "dependencies": {
+        "@popperjs/core": "^2.11.6",
+        "@zui/com-helpers": "workspace:*",
+        "@zui/css-icons": "workspace:^0.0.1"
     },
     "zui": {
         "type": "js-ui",
         "displayName": "下拉菜单",
         "contributes": {
-            "css": ["class", "var"],
-            "js": ["component"]
+            "css": [
+                "class",
+                "var"
+            ],
+            "js": [
+                "component"
+            ]
         }
     }
 }

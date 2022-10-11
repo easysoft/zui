@@ -236,12 +236,21 @@ importers:
 
   lib/dropdown:
     specifiers:
+      '@popperjs/core': ^2.11.6
       '@zui/base': workspace:*
       '@zui/button': workspace:0.0.1
+      '@zui/com-helpers': workspace:*
+      '@zui/css-icons': workspace:^0.0.1
+      '@zui/menu': workspace:*
       '@zui/utilities': workspace:*
+    dependencies:
+      '@popperjs/core': registry.npmmirror.com/@popperjs/core/2.11.6
+      '@zui/com-helpers': link:../com-helpers
+      '@zui/css-icons': link:../css-icons
     devDependencies:
       '@zui/base': link:../base
       '@zui/button': link:../button
+      '@zui/menu': link:../menu
       '@zui/utilities': link:../utilities
 
   lib/dtable:
@@ -2871,6 +2880,12 @@ packages:
       '@nodelib/fs.scandir': registry.npmmirror.com/@nodelib/fs.scandir/2.1.5
       fastq: registry.npmmirror.com/fastq/1.13.0
     dev: true
+
+  registry.npmmirror.com/@popperjs/core/2.11.6:
+    resolution: {integrity: sha512-50/17A98tWUfQ176raKiOGXuYpLyyVMkxxG6oylzL3BPOlA6ADGdK7EYunSa4I064xerltq9TGXs8HmOk5E+vw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@popperjs/core/-/core-2.11.6.tgz}
+    name: '@popperjs/core'
+    version: 2.11.6
+    dev: false
 
   registry.npmmirror.com/@tailwindcss/line-clamp/0.4.2_tailwindcss@3.1.8:
     resolution: {integrity: sha512-HFzAQuqYCjyy/SX9sLGB1lroPzmcnWv1FHkIpmypte10hptf4oPUfucryMKovZh2u0uiS9U5Ty3GghWfEJGwVw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@tailwindcss/line-clamp/-/line-clamp-0.4.2.tgz}
