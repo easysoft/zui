@@ -1,11 +1,11 @@
 import type JQuery from 'jquery';
-import {VanillaComponentClass} from './vanilla-component';
+import {ComponentClass} from './vanilla-component';
 
-export function createJQueryFn<O extends object = {}>(name: string, ComponentClass: typeof VanillaComponentClass<O>) {
+export function createJQueryFn<O extends object = {}>(name: string, ComponentClassType: typeof ComponentClass<O>) {
     function fn(this: JQuery, options?: O | string, ...args: unknown[]) {
         return $(this).each(function () {
             const $e = $(this);
-            const component = $e.data(ComponentClass.NAME);
+            const component = $e.data(ComponentClassType.NAME);
             if (component) {
                 if (typeof options === 'string') {
                     component[options]?.(...args);
@@ -14,7 +14,7 @@ export function createJQueryFn<O extends object = {}>(name: string, ComponentCla
                 if (typeof options === 'string') {
                     options = {} as O;
                 }
-                $e.data(ComponentClass.NAME, new ComponentClass(this, {
+                $e.data(ComponentClassType.NAME, new ComponentClassType(this, {
                     ...$e.data(),
                     ...options,
                 } as O));
@@ -22,5 +22,5 @@ export function createJQueryFn<O extends object = {}>(name: string, ComponentCla
         });
     }
 
-    $.extend(true, $, {zui3: {[ComponentClass.name]: ComponentClass}, fn: {[name]: fn}});
+    $.extend(true, $, {zui3: {[ComponentClassType.name]: ComponentClassType}, fn: {[name]: fn}});
 }

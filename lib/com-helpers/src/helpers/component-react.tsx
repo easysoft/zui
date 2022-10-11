@@ -21,9 +21,7 @@ export abstract class ComponentFromReact<O extends object = {}, E extends HTMLEl
 
     abstract Component: ComponentType;
 
-    constructor(element: E | string, options: O) {
-        super(element, options);
-
+    init() {
         requestAnimationFrame(() => this.render());
     }
 
