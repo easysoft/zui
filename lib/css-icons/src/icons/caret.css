@@ -3,14 +3,34 @@
     --caret-size: 4px;
 }
 
-.caret {
+.caret,
+.caret-down,
+.caret-left,
+.caret-right,
+.caret-up {
     @apply -w-0 -h-0 -inline-block;
-    border-top: var(--caret-size) solid;
-    border-right: var(--caret-size) solid transparent;
-    border-left: var(--caret-size) solid transparent;
+    border: var(--caret-size) solid transparent;
     opacity: var(--caret-opacity);
 }
 :hover > .caret,
 :focus > .caret {
     opacity: inherit;
+}
+
+.caret,
+.caret-down {
+    border-bottom-width: 0;
+    border-top-color: currentColor;
+}
+.caret-up {
+    border-top-width: 0;
+    border-bottom-color: currentColor;
+}
+.caret-right {
+    border-right-width: 0;
+    border-left-color: currentColor;
+}
+.caret-left {
+    border-left-width: 0;
+    border-right-color: currentColor;
 }
