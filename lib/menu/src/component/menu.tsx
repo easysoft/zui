@@ -16,7 +16,7 @@ export type MenuListItem = MenuItemOptions | MenuHeadingOptions | MenuDividerOpt
 
 export type MenuProps = {
     className?: ClassNameLike;
-    items?: MenuListItem[];
+    items?: MenuListItem[] | (() => MenuListItem[]);
     hasIcons?: boolean;
     children?: ComponentChildren;
     onClickItem?: (item: MenuItemOptions, index: number, event: MouseEvent) => void;
@@ -30,8 +30,9 @@ export function Menu({
     onClickItem,
     ...others
 }: MenuProps) {
+    const itemList = typeof items === 'function' ? items() : items;
     if (hasIcons === undefined) {
-        hasIcons = items?.some(item => 'icon' in item);
+        hasIcons = itemList?.some(item => 'icon' in item);
     }
     const handleItemClick = (item: MenuItemOptions, index: number, onClick: JSX.MouseEventHandler<HTMLAnchorElement> | undefined,  event: MouseEvent) => {
         if (onClick) {
@@ -47,7 +48,7 @@ export function Menu({
             className,
             hasIcons ? 'has-icons' : '',
         )} {...others}>
-            {items?.map((item, index) => {
+            {itemList?.map((item, index) => {
                 const {key, type, ...props} = item;
                 if (type === 'heading') {
                     return <MenuHeading {...props} key={key ?? index} />;
