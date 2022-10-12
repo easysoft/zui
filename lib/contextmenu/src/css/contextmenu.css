@@ -1,0 +1,6 @@
+.contextmenu {
+    @apply -hidden -z-50;
+}
+.contextmenu.show {
+    @apply -block;
+}
