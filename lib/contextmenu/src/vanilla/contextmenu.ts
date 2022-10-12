@@ -1,11 +1,13 @@
+import type {h as _h} from 'preact';
 import {createPopper, Instance as PopperInstance, VirtualElement} from '@popperjs/core/lib/popper-lite';
 import preventOverflow from '@popperjs/core/lib/modifiers/preventOverflow';
 import flip from '@popperjs/core/lib/modifiers/flip';
 import {ComponentBase} from '@zui/com-helpers/src/helpers/vanilla-component';
 import {isRightBtn} from '@zui/com-helpers/src/helpers/mouse-event';
-import type {MenuProps, MenuListItem} from '@zui/menu/src/component/menu';
+import type {MenuProps, MenuListItem, Menu as MenuReact} from '@zui/menu/src/component/menu';
 import {Menu} from '@zui/menu';
-import '../css/contextmenu.css';
+import '../style/vars.css';
+import '../style/contextmenu.css';
 
 export type ContextMenuOptions = {
     placement?: ContextMenuPlacement;
@@ -14,6 +16,7 @@ export type ContextMenuOptions = {
     offset?: [number, number] | (() => [number, number]);
     flip?: boolean;
     menu?: MenuProps | MenuListItem[] | (() => MenuListItem[]);
+    subMenuTrigger?: 'click' | 'hover',
 };
 
 export type ContextMenuPositionStrategy = 'absolute' | 'fixed';
@@ -43,11 +46,14 @@ export class ContextMenu extends ComponentBase<ContextMenuOptions> {
     static DEFAULT = {
         placement: 'bottom-start',
         strategy: 'fixed',
+        subMenuTrigger: 'hover',
     };
 
     #menu?: HTMLElement;
 
     #popper?: PopperInstance;
+
+    #subPoppers = new Map<MenuReact, PopperInstance>();
 
     #virtualElement: VirtualElement;
 
@@ -122,6 +128,7 @@ export class ContextMenu extends ComponentBase<ContextMenuOptions> {
         this.#popper?.destroy();
         this.#popper = undefined;
         this.#menu?.classList.remove(CONTEXTMENU_CLASS_SHOW);
+        this.#customMenu?.$?.clearAllSubMenu();
     }
 
     toggle(event: MouseEvent | {x: number, y: number}) {
@@ -147,6 +154,38 @@ export class ContextMenu extends ComponentBase<ContextMenuOptions> {
         return this.#popper;
     }
 
+    #afterRenderMenu = (menu: MenuReact) => {
+        const menuElement = menu.$;
+        if (!menuElement?.parentElement) {
+            return;
+        }
+        let popper = this.#subPoppers.get(menu);
+        if (!popper) {
+            popper = createPopper(menuElement.parentElement, menuElement, {
+                modifiers: [preventOverflow, flip],
+                placement: 'right-start',
+            });
+            this.#subPoppers.set(menu, popper);
+        }
+        popper.update();
+    };
+
+    #afterDestroyMenu = (menu: MenuReact) => {
+        const popper = this.#subPoppers.get(menu);
+        if (popper) {
+            popper.destroy();
+            this.#subPoppers.delete(menu);
+        }
+    };
+
+    #renderMenuItem = (menu: MenuReact, item: MenuListItem, index: number, h: typeof _h): (MenuListItem | undefined) => {
+        if (item.type === 'item' && item.items) {
+            return {
+                trailingIcon: h('span', {className: 'caret-right ml-2'}),
+            };
+        }
+    };
+
     #updateCustomMenu() {
         let {menu} = this.options;
         if (!menu) {
@@ -158,7 +197,13 @@ export class ContextMenu extends ComponentBase<ContextMenuOptions> {
         if (this.#customMenu) {
             this.#customMenu.render(menu);
         } else {
-            this.#customMenu = new Menu(this.menu, menu);
+            this.#customMenu = new Menu(this.menu, {
+                subMenuTrigger: this.options.subMenuTrigger,
+                ...menu,
+                afterRender: this.#afterRenderMenu,
+                beforeDestroy: this.#afterDestroyMenu,
+                onRenderItem: this.#renderMenuItem,
+            });
         }
     }
 

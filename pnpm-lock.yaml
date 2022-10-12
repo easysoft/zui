@@ -234,6 +234,35 @@ importers:
       '@types/jquery': registry.npmmirror.com/@types/jquery/3.5.14
       jquery: registry.npmmirror.com/jquery/3.6.0
 
+  lib/contextmenu:
+    specifiers:
+      '@popperjs/core': ^2.11.6
+      '@zui/base': workspace:*
+      '@zui/button': workspace:0.0.1
+      '@zui/com-helpers': workspace:*
+      '@zui/icons': workspace:^0.0.1
+      '@zui/menu': workspace:*
+      '@zui/utilities': workspace:*
+      preact: ^10.10.0
+      zui-dev: workspace:^0.0.1
+    dependencies:
+      '@popperjs/core': registry.npmmirror.com/@popperjs/core/2.11.6
+      '@zui/com-helpers': link:../com-helpers
+    devDependencies:
+      '@zui/base': link:../base
+      '@zui/button': link:../button
+      '@zui/icons': link:../icons
+      '@zui/menu': link:../menu
+      '@zui/utilities': link:../utilities
+      preact: registry.npmmirror.com/preact/10.10.0
+      zui-dev: link:../../dev
+
+  lib/css-icons:
+    specifiers:
+      '@zui/base': workspace:*
+    devDependencies:
+      '@zui/base': link:../base
+
   lib/dropdown:
     specifiers:
       '@popperjs/core': ^2.11.6
@@ -351,17 +380,19 @@ importers:
       '@zui/base': workspace:*
       '@zui/browser-helpers': workspace:^0.0.1
       '@zui/com-helpers': workspace:^0.0.1
+      '@zui/css-icons': workspace:^0.0.1
       '@zui/icons': workspace:^0.0.1
       preact: ^10.10.0
       zui-dev: workspace:^0.0.1
     dependencies:
       '@zui/browser-helpers': link:../browser-helpers
       '@zui/com-helpers': link:../com-helpers
-      preact: registry.npmmirror.com/preact/10.10.0
+      '@zui/css-icons': link:../css-icons
     devDependencies:
       '@zui/avatar': link:../avatar
       '@zui/base': link:../base
       '@zui/icons': link:../icons
+      preact: registry.npmmirror.com/preact/10.10.0
       zui-dev: link:../../dev
 
   lib/modal:
@@ -5331,7 +5362,6 @@ packages:
     resolution: {integrity: sha512-fszkg1iJJjq68I4lI8ZsmBiaoQiQHbxf1lNq+72EmC/mZOsFF5zn3k1yv9QGoFgIXzgsdSKtYymLJsrJPoamjQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/preact/-/preact-10.10.0.tgz}
     name: preact
     version: 10.10.0
-    dev: false
 
   registry.npmmirror.com/prelude-ls/1.2.1:
     resolution: {integrity: sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/prelude-ls/-/prelude-ls-1.2.1.tgz}

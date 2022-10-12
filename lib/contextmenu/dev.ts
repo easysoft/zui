@@ -15,7 +15,19 @@ onPageLoad(() => {
                 {type: 'heading', title: '更多操作'},
                 {title: '导入', icon: 'icon-upload-alt'},
                 {title: '导出', icon: 'icon-download-alt'},
-                {title: '保存', icon: 'icon-save', onClick: (event) => console.log('> menuItem.clicked', event)},
+                {
+                    title: '保存', icon: 'icon-save', onClick: (event) => console.log('> menuItem.clicked', event),
+                    items: [
+                        {title: '保存到云端'},
+                        {
+                            title: '下载到本地',
+                            items: [
+                                {title: '下载为 PDF'},
+                                {title: '下载为 Excel'},
+                            ],
+                        },
+                    ],
+                },
             ],
             onClickItem: (item, index, event) => {
                 console.log('> menu.onClickItem', {item, index, event});
