@@ -189,8 +189,7 @@ export default [
         "main": "src/main.ts",
         "devDependencies": {
             "@zui/base": "workspace:*",
-            "@zui/utilities": "workspace:*",
-            "@zui/form": "workspace:*"
+            "@zui/utilities": "workspace:*"
         },
         "files": [],
         "zui": {
