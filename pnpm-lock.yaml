@@ -214,11 +214,9 @@ importers:
   lib/checkbox:
     specifiers:
       '@zui/base': workspace:*
-      '@zui/form': workspace:*
       '@zui/utilities': workspace:*
     devDependencies:
       '@zui/base': link:../base
-      '@zui/form': link:../form
       '@zui/utilities': link:../utilities
 
   lib/com-helpers:
