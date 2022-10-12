@@ -14,25 +14,28 @@ export type MenuItemProps = {
     icon?: string | VNode;
     title?: ComponentChildren;
     trailingIcon?: string | VNode;
-    children?: ComponentChildren;
     onClick?: JSX.MouseEventHandler<HTMLAnchorElement>;
+    children?: ComponentChildren | (() => ComponentChildren);
+    rootProps?: JSX.HTMLAttributes<HTMLLIElement>;
 };
 
-export function MenuItem({
-    rootClass,
-    className,
-    url,
-    target,
-    disabled,
-    active,
-    icon,
-    title,
-    trailingIcon,
-    children,
-    ...others
-}: MenuItemProps) {
+export function MenuItem(props: MenuItemProps) {
+    const {
+        rootClass,
+        rootProps,
+        className,
+        url,
+        target,
+        disabled,
+        active,
+        icon,
+        title,
+        trailingIcon,
+        children,
+        ...others
+    } = props;
     return (
-        <li className={classes(rootClass)}>
+        <li className={classes(rootClass)} {...rootProps}>
             <a
                 className={classes('menu-item', className, {disabled, active, 'has-icon': icon})}
                 href={url}
@@ -41,9 +44,9 @@ export function MenuItem({
             >
                 {isValidElement(icon) ? icon : typeof icon === 'string' ? <i class={`icon ${icon}`} /> : null}
                 {title}
-                {children}
                 {isValidElement(trailingIcon) ? trailingIcon : typeof trailingIcon === 'string' ? <i class={`icon ${trailingIcon}`} /> : null}
             </a>
+            {children}
         </li>
     );
 }

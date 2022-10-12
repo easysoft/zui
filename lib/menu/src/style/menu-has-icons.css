@@ -1,9 +1,9 @@
 .menu-item.has-icon,
-.has-icons .menu-item {
+.has-icons > li > .menu-item {
     @apply -pl-6;
 }
 .menu-item.has-icon > .icon:first-child,
-.has-icons .menu-item > .icon:first-child {
+.has-icons > li > .menu-item > .icon:first-child {
     @apply -absolute -flex -w-6 -h-6 -items-center -left-0 -top-0 -justify-center;
     opacity: var(--menu-icon-opacity);
 }
