@@ -107,7 +107,7 @@ export class Dropdown extends ComponentBase<DropdownOptions> {
         }
         this.#popper?.destroy();
         this.#popper = undefined;
-        this.menu.classList.remove(DROPDOWN_CLASS_SHOW);
+        this.#menu?.classList.remove(DROPDOWN_CLASS_SHOW);
         this.element.classList.remove(DROPDOWN_CLASS_SHOW);
     }
 
