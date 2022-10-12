@@ -34,10 +34,11 @@ export class ComponentBase<O extends object = {}, E extends HTMLElement = HTMLEl
     }
 
     constructor(element: E | string, options?: Partial<O>) {
-        this.#element = (typeof element === 'string' ? document.querySelector(element) : element) as E;
-        this.#options = {...(this.constructor as typeof ComponentBase).DEFAULT, ...parseDataset(this.#element.dataset), ...options} as O;
+        element = (typeof element === 'string' ? document.querySelector(element) : element) as E;
+        this.#options = {...(this.constructor as typeof ComponentBase).DEFAULT, ...(element instanceof HTMLElement ? parseDataset(element.dataset) : null), ...options} as O;
 
-        (this.constructor as typeof ComponentBase).all.set(this.#element, this);
+        (this.constructor as typeof ComponentBase).all.set(element, this);
+        this.#element = element;
         this.init();
     }
 
@@ -61,20 +62,32 @@ export class ComponentBase<O extends object = {}, E extends HTMLElement = HTMLEl
     /**
      * Component internal name, like "Menu"
      */
-    static NAME: string = this.name.toLowerCase();
+    static get NAME() {
+        return this.name.toLowerCase();
+    }
 
     /**
      * Component data key, like "zui.menu"
      */
     static get KEY() {
-        return `zui.${this.NAME ?? this.name.toLowerCase()}`;
+        return `zui.${this.NAME}`;
     }
 
     static get DEFAULT(): object {
         return  {};
     }
 
-    static all = new Map<HTMLElement, unknown>();
+    static allComponents = new Map<string, Map<HTMLElement, unknown>>();
+
+    static get all(): Map<HTMLElement, unknown> {
+        const name = this.NAME;
+        if (this.allComponents.has(name)) {
+            return this.allComponents.get(name) as Map<HTMLElement, unknown>;
+        }
+        const map = new Map<HTMLElement, unknown>();
+        this.allComponents.set(name, map);
+        return map;
+    }
 
     static getAll<O extends object, E extends HTMLElement, T extends typeof ComponentBase<O, E>>(this: T): Map<E, InstanceType<T>> {
         return this.all as Map<E, InstanceType<T>>;
