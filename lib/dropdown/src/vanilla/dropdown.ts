@@ -44,6 +44,7 @@ export class Dropdown extends ComponentBase<DropdownOptions> {
 
     static DEFAULT = {
         placement: 'bottom-start',
+        strategy: 'absolute',
     };
 
     #menu: HTMLElement;
