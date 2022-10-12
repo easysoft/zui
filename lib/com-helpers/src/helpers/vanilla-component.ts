@@ -1,3 +1,5 @@
+import {parseDataset} from './parse-dataset';
+
 export declare class ComponentClass<O extends object = {}, E extends HTMLElement = HTMLElement> {
     static NAME: string;
 
@@ -33,7 +35,7 @@ export class ComponentBase<O extends object = {}, E extends HTMLElement = HTMLEl
 
     constructor(element: E | string, options?: Partial<O>) {
         this.#element = (typeof element === 'string' ? document.querySelector(element) : element) as E;
-        this.#options = {...(this.constructor as typeof ComponentBase).DEFAULT, ...this.#element.dataset, ...options} as O;
+        this.#options = {...(this.constructor as typeof ComponentBase).DEFAULT, ...parseDataset(this.#element.dataset), ...options} as O;
 
         (this.constructor as typeof ComponentBase).all.set(this.#element, this);
         this.init();
