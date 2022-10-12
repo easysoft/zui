@@ -36,7 +36,7 @@ export type DropdownPlacement =
   | 'left-end';
 
 const DROPDOWN_SELECTOR = '[data-toggle="dropdown"]:not(.disabled):not(:disabled)';
-const DROPDOWN_CLASS_OPEN = 'open';
+const DROPDOWN_CLASS_SHOW = 'show';
 const DROPDOWN_CLASS_MENU = 'dropdown-menu';
 
 export class Dropdown extends ComponentBase<DropdownOptions> {
@@ -50,8 +50,8 @@ export class Dropdown extends ComponentBase<DropdownOptions> {
 
     #popper?: PopperInstance;
 
-    get isOpen() {
-        return this.menu.classList.contains(DROPDOWN_CLASS_OPEN);
+    get isShown() {
+        return this.menu.classList.contains(DROPDOWN_CLASS_SHOW);
     }
 
     get menu() {
@@ -90,27 +90,29 @@ export class Dropdown extends ComponentBase<DropdownOptions> {
         return this.#popper;
     }
 
-    show() {
-        Dropdown.getAll().forEach(x => x !== this ? x.hide() : null);
+    show(options?: {hideOthers?: boolean}) {
+        if (options?.hideOthers !== false) {
+            Dropdown.getAll().forEach(x => x !== this ? x.hide() : null);
+        }
 
+        this.menu.classList.add(DROPDOWN_CLASS_SHOW);
+        this.element.classList.add(DROPDOWN_CLASS_SHOW);
         this.popper.update();
-        this.#menu.classList.add(DROPDOWN_CLASS_OPEN);
-        this.element.classList.add(DROPDOWN_CLASS_OPEN);
         this.element.focus();
     }
 
     hide() {
-        if (isDisabled(this.element) || !this.isOpen) {
+        if (isDisabled(this.element) || !this.isShown) {
             return;
         }
         this.#popper?.destroy();
         this.#popper = undefined;
-        this.#menu.classList.remove(DROPDOWN_CLASS_OPEN);
-        this.element.classList.remove(DROPDOWN_CLASS_OPEN);
+        this.menu.classList.remove(DROPDOWN_CLASS_SHOW);
+        this.element.classList.remove(DROPDOWN_CLASS_SHOW);
     }
 
     toggle() {
-        return this.isOpen ? this.hide() : this.show();
+        return this.isShown ? this.hide() : this.show();
     }
 
     destroy(): void {
