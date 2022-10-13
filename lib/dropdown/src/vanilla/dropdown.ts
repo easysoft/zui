@@ -16,6 +16,13 @@ export type DropdownOptions = {
     flip: boolean;
 };
 
+export type DropdownEvents = {
+    show: CustomEvent<Dropdown>,
+    shown: CustomEvent<Dropdown>,
+    hide: CustomEvent<Dropdown>,
+    hidden: CustomEvent<Dropdown>,
+};
+
 export type DropdownPositionStrategy = 'absolute' | 'fixed';
 
 export type DropdownPlacement =
@@ -39,7 +46,7 @@ const DROPDOWN_SELECTOR = '[data-toggle="dropdown"]:not(.disabled):not(:disabled
 const DROPDOWN_CLASS_SHOW = 'show';
 const DROPDOWN_CLASS_MENU = 'dropdown-menu';
 
-export class Dropdown extends ComponentBase<DropdownOptions> {
+export class Dropdown extends ComponentBase<DropdownOptions, DropdownEvents> {
     static NAME = 'dropdown';
 
     static DEFAULT = {
@@ -92,6 +99,11 @@ export class Dropdown extends ComponentBase<DropdownOptions> {
     }
 
     show(options?: {hideOthers?: boolean}) {
+        const showEvent = this.events.emit('show', this);
+        if (showEvent.defaultPrevented) {
+            return;
+        }
+
         if (options?.hideOthers !== false) {
             Dropdown.getAll().forEach(x => x !== this ? x.hide() : null);
         }
@@ -100,16 +112,25 @@ export class Dropdown extends ComponentBase<DropdownOptions> {
         this.element.classList.add(DROPDOWN_CLASS_SHOW);
         this.popper.update();
         this.element.focus();
+        this.events.emit('shown', this);
     }
 
     hide() {
         if (isDisabled(this.element) || !this.isShown) {
             return;
         }
+
+        const hideEvent = this.events.emit('hide', this);
+        if (hideEvent.defaultPrevented) {
+            return;
+        }
+
         this.#popper?.destroy();
         this.#popper = undefined;
         this.#menu?.classList.remove(DROPDOWN_CLASS_SHOW);
         this.element.classList.remove(DROPDOWN_CLASS_SHOW);
+
+        this.events.emit('hidden', this);
     }
 
     toggle() {
