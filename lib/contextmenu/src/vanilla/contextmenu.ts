@@ -9,14 +9,24 @@ import {Menu} from '@zui/menu';
 import '../style/vars.css';
 import '../style/contextmenu.css';
 
+export type ContextMenuCreator = MenuProps | MenuListItem[] | (() => MenuListItem[]);
+
 export type ContextMenuOptions = {
     placement?: ContextMenuPlacement;
     strategy?: ContextMenuPositionStrategy;
     preventOverflow?: boolean | {boundary: string};
     offset?: [number, number] | (() => [number, number]);
     flip?: boolean;
-    menu?: MenuProps | MenuListItem[] | (() => MenuListItem[]);
+    menu?: ContextMenuCreator;
     subMenuTrigger?: 'click' | 'hover',
+};
+
+export type ContextMenuEvents = {
+    show: CustomEvent<ContextMenu>,
+    shown: CustomEvent<ContextMenu>,
+    hide: CustomEvent<ContextMenu>,
+    hidden: CustomEvent<ContextMenu>,
+    updateMenu: CustomEvent<ContextMenuCreator>,
 };
 
 export type ContextMenuShowOptions = Partial<ContextMenuOptions & {position: {x: number, y: number}, event: MouseEvent}>;
@@ -44,7 +54,7 @@ const CONTEXTMENU_SELECTOR = '[data-toggle="contextmenu"]:not(.disabled):not(:di
 const CONTEXTMENU_CLASS_SHOW = 'show';
 const CONTEXTMENU_CLASS_MENU = 'contextmenu';
 
-export class ContextMenu extends ComponentBase<ContextMenuOptions> {
+export class ContextMenu extends ComponentBase<ContextMenuOptions, ContextMenuEvents> {
     static DEFAULT = {
         placement: 'bottom-start',
         strategy: 'fixed',
@@ -116,6 +126,15 @@ export class ContextMenu extends ComponentBase<ContextMenuOptions> {
     }
 
     show(options: ContextMenuShowOptions | MouseEvent = {}) {
+        const showEvent = this.emit('show', this);
+        if (showEvent.defaultPrevented) {
+            return false;
+        }
+
+        if (this.#updateCustomMenu() === false) {
+            return;
+        }
+
         if (options instanceof MouseEvent) {
             options = {event: options};
         }
@@ -129,15 +148,23 @@ export class ContextMenu extends ComponentBase<ContextMenuOptions> {
         }
         this.#mousePos = mousePos || ContextMenu.mousePos;
         this.menu.classList.add(CONTEXTMENU_CLASS_SHOW);
-        this.#updateCustomMenu();
         this.#createPopper().update();
+
+        this.emit('shown', this);
     }
 
     hide() {
+        const hideEvent = this.emit('hide', this);
+        if (hideEvent.defaultPrevented) {
+            return false;
+        }
+
         this.#popper?.destroy();
         this.#popper = undefined;
         this.#menu?.classList.remove(CONTEXTMENU_CLASS_SHOW);
         this.#customMenu?.$?.clearAllSubMenu();
+
+        this.emit('hidden', this);
     }
 
     toggle(options?: ContextMenuShowOptions | MouseEvent) {
@@ -200,9 +227,20 @@ export class ContextMenu extends ComponentBase<ContextMenuOptions> {
         if (!menu) {
             return;
         }
-        if (Array.isArray(menu) || typeof menu === 'function') {
+        if (Array.isArray(menu)) {
             menu = {items: menu};
+        } else if (typeof menu === 'function') {
+            menu = {items: menu.call(this)};
         }
+        if (!menu.items?.length) {
+            return false;
+        }
+
+        const updateMenuEvent = this.emit('updateMenu', menu);
+        if (updateMenuEvent.defaultPrevented) {
+            return false;
+        }
+
         if (this.#customMenu) {
             this.#customMenu.render(menu);
         } else {
@@ -214,6 +252,7 @@ export class ContextMenu extends ComponentBase<ContextMenuOptions> {
                 onRenderItem: this.#renderMenuItem,
             });
         }
+        return true;
     }
 
     #getVirtualElement(): VirtualElement {
