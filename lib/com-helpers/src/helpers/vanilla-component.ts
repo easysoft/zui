@@ -9,34 +9,42 @@ export type ComponentInternalEventMap = {
     destroyed: CustomEvent,
 };
 
+type ComponentOptionEventMap<T extends CustomEventMap> = {[p in `on${Capitalize<string & keyof T>}`]: p extends `on${infer name}` ? Uncapitalize<name> extends keyof T ? T[Uncapitalize<name>] : never : never};
+
 export type ComponentEventMap<V extends CustomEventMap = {}> = V & ComponentHTMLEventMap & ComponentInternalEventMap;
 
 export type ComponentEventNames<V extends CustomEventMap = {}> = keyof HTMLElementEventMap | Extract<keyof V, string> | keyof ComponentInternalEventMap;
 
+// export type ComponentEventOptions<V extends CustomEventMap = {}> = {
+//     [p in keyof ComponentOptionEventMap<ComponentInternalEventMap>]: (event: ComponentOptionEventMap<ComponentInternalEventMap>[p]) => void | false;
+// } & {
+//     [p in keyof ComponentOptionEventMap<V>]: (event: ComponentOptionEventMap<V>[p]) => void | false;
+// };
+
 export type ComponentEventOptions<V extends CustomEventMap = {}> = {
-    [name in `on${Capitalize<Extract<keyof V, string> | keyof ComponentInternalEventMap>}`]: name extends `on${Capitalize<infer eventName>}` ? ((event: ComponentEventMap<V>[eventName]) => false | void) : never
+    [p in keyof ComponentOptionEventMap<ComponentInternalEventMap & V>]: (event: Event) => void | false;
 };
 
 export type ComponentOptions<O extends object = {}, V extends CustomEventMap = {}> = O & Partial<ComponentEventOptions<V>>;
 
-export declare class ComponentClass<O extends object = {}, V extends CustomEventMap = {}, E extends HTMLElement = HTMLElement, OPTIONS = ComponentOptions<O, V>> {
+export declare class ComponentClass<O extends object = {}, V extends CustomEventMap = {}, E extends HTMLElement = HTMLElement> {
     static NAME: string;
 
     static KEY: string;
 
-    options: OPTIONS;
+    options: ComponentOptions<O, V>;
 
     element: E;
 
-    constructor(element: E | string, options: Partial<OPTIONS>);
+    constructor(element: E | string, options: Partial<ComponentOptions<O, V>>);
 
-    render(options: Partial<OPTIONS>): void;
+    render(options: Partial<ComponentOptions<O, V>>): void;
 
     init(): void;
 
     destroy(): void;
 
-    setOptions(options?: Partial<OPTIONS>): OPTIONS;
+    setOptions(options?: Partial<ComponentOptions<O, V>>): ComponentOptions<O, V>;
 }
 
 export class ComponentBase<O extends object = {}, V extends CustomEventMap = {}, E extends HTMLElement = HTMLElement> implements ComponentClass<O, V, E> {

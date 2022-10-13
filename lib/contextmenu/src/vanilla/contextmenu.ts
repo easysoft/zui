@@ -22,14 +22,14 @@ export type ContextMenuOptions = {
 };
 
 export type ContextMenuEvents = {
-    show: CustomEvent<ContextMenu>,
+    show: CustomEvent<{menu: ContextMenu, options: ContextMenuShowOptions}>,
     shown: CustomEvent<ContextMenu>,
     hide: CustomEvent<ContextMenu>,
     hidden: CustomEvent<ContextMenu>,
     updateMenu: CustomEvent<ContextMenuCreator>,
 };
 
-export type ContextMenuShowOptions = Partial<ContextMenuOptions & {position: {x: number, y: number}, event: MouseEvent}>;
+export type ContextMenuShowOptions = Partial<ContextMenuOptions & {event: MouseEvent}>;
 
 export type ContextMenuPositionStrategy = 'absolute' | 'fixed';
 
@@ -67,9 +67,9 @@ export class ContextMenu extends ComponentBase<ContextMenuOptions, ContextMenuEv
 
     #subPoppers = new Map<MenuReact, PopperInstance>();
 
-    #virtualElement: VirtualElement;
+    #virtualElement?: VirtualElement;
 
-    #mousePos: {x: number, y: number};
+    #mousePos?: {clientX: number, clientY: number};
 
     #customMenu?: Menu;
 
@@ -126,7 +126,11 @@ export class ContextMenu extends ComponentBase<ContextMenuOptions, ContextMenuEv
     }
 
     show(options: ContextMenuShowOptions | MouseEvent = {}) {
-        const showEvent = this.emit('show', this);
+        if (options instanceof MouseEvent) {
+            options = {event: options};
+        }
+
+        const showEvent = this.emit('show', {menu: this, options});
         if (showEvent.defaultPrevented) {
             return false;
         }
@@ -135,18 +139,10 @@ export class ContextMenu extends ComponentBase<ContextMenuOptions, ContextMenuEv
             return;
         }
 
-        if (options instanceof MouseEvent) {
-            options = {event: options};
-        }
-        const {position, event, ...otherOptions} = options;
-        this.setOptions(otherOptions);
+        const {event, ...otherOptions} = options;
 
-        let mousePos = position;
-        if (event instanceof MouseEvent) {
-            event.preventDefault();
-            mousePos = mousePos || {x: event.clientX, y: event.clientY};
-        }
-        this.#mousePos = mousePos || ContextMenu.mousePos;
+        this.setOptions(otherOptions);
+        this.#mousePos = event;
         this.menu.classList.add(CONTEXTMENU_CLASS_SHOW);
         this.#createPopper().update();
 
@@ -259,14 +255,14 @@ export class ContextMenu extends ComponentBase<ContextMenuOptions, ContextMenuEv
         if (!this.#virtualElement) {
             this.#virtualElement = {
                 getBoundingClientRect: () => {
-                    const {x, y} = this.#mousePos;
+                    const {clientX, clientY} = this.#mousePos || ContextMenu.mousePos;
                     return {
                         width: 0,
                         height: 0,
-                        top: y,
-                        right: x,
-                        bottom: y,
-                        left: x,
+                        top: clientY,
+                        right: clientX,
+                        bottom: clientY,
+                        left: clientX,
                     } as DOMRect;
                 },
                 contextElement: this.element as Element,
@@ -279,6 +275,7 @@ export class ContextMenu extends ComponentBase<ContextMenuOptions, ContextMenuEv
         if (event && isRightBtn(event as MouseEvent)) {
             return;
         }
+        ContextMenu.getAll();
         ContextMenu.getAll().forEach(x => x.hide());
     }
 
@@ -295,7 +292,7 @@ export class ContextMenu extends ComponentBase<ContextMenuOptions, ContextMenuEv
         return contextmenu;
     }
 
-    static get mousePos(): {x: number, y: number} {
+    static get mousePos(): MouseEvent {
         const {watchedMouse} = this;
         if (!watchedMouse) {
             this.watchMouse();
@@ -303,17 +300,17 @@ export class ContextMenu extends ComponentBase<ContextMenuOptions, ContextMenuEv
         if (typeof watchedMouse === 'object') {
             return watchedMouse;
         }
-        return {x: 0, y: 0};
+        return {clientX: 0, clientY: 0} as MouseEvent;
     }
 
-    static watchedMouse: boolean | {x: number, y: number} = false;
+    static watchedMouse: boolean | MouseEvent = false;
 
     static watchMouse() {
         if (this.watchedMouse) {
             return;
         }
         document.addEventListener('mousemove', event => {
-            this.watchedMouse = {x: event.clientX, y: event.clientY};
+            this.watchedMouse = event;
         });
         this.watchedMouse = true;
     }

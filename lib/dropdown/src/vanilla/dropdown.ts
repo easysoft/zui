@@ -156,7 +156,6 @@ document.addEventListener('click', function (e) {
     if (toggleBtn) {
         const dropdown = Dropdown.ensure(toggleBtn);
         dropdown.toggle();
-        console.log('dropdown', {dropdown, Dropdown});
     } else {
         Dropdown.clear(e);
     }
