@@ -223,10 +223,12 @@ importers:
     specifiers:
       '@types/jquery': ^3.5.14
       '@zui/browser-helpers': workspace:^0.0.1
+      '@zui/event-bus': workspace:^0.0.1
       jquery: ^3.6.0
       preact: ^10.10.0
     dependencies:
       '@zui/browser-helpers': link:../browser-helpers
+      '@zui/event-bus': link:../event-bus
       preact: registry.npmmirror.com/preact/10.10.0
     devDependencies:
       '@types/jquery': registry.npmmirror.com/@types/jquery/3.5.14
@@ -246,11 +248,11 @@ importers:
     dependencies:
       '@popperjs/core': registry.npmmirror.com/@popperjs/core/2.11.6
       '@zui/com-helpers': link:../com-helpers
+      '@zui/menu': link:../menu
     devDependencies:
       '@zui/base': link:../base
       '@zui/button': link:../button
       '@zui/icons': link:../icons
-      '@zui/menu': link:../menu
       '@zui/utilities': link:../utilities
       preact: registry.npmmirror.com/preact/10.10.0
       zui-dev: link:../../dev
@@ -286,6 +288,7 @@ importers:
       '@types/jquery': ^3.5.14
       '@zui/avatar': workspace:^0.0.1
       '@zui/browser-helpers': workspace:^0.0.1
+      '@zui/contextmenu': workspace:^0.0.1
       '@zui/helpers': workspace:^0.0.1
       '@zui/label': workspace:^0.0.1
       '@zui/scrollbar': workspace:^0.0.1
@@ -297,6 +300,7 @@ importers:
       zui-dev: workspace:^0.0.1
     dependencies:
       '@zui/browser-helpers': link:../browser-helpers
+      '@zui/contextmenu': link:../contextmenu
       '@zui/helpers': link:../helpers
       '@zui/scrollbar': link:../scrollbar
       '@zui/store': link:../store
@@ -310,6 +314,9 @@ importers:
       '@zui/label': link:../label
       jquery: 3.6.0
       zui-dev: link:../../dev
+
+  lib/event-bus:
+    specifiers: {}
 
   lib/form:
     specifiers:
