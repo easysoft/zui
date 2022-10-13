@@ -11,13 +11,13 @@
     "devDependencies": {
         "@zui/base": "workspace:*",
         "@zui/button": "workspace:0.0.1",
-        "@zui/menu": "workspace:*",
         "@zui/utilities": "workspace:*",
         "zui-dev": "workspace:^0.0.1",
         "preact": "^10.10.0",
         "@zui/icons": "workspace:^0.0.1"
     },
     "dependencies": {
+        "@zui/menu": "workspace:*",
         "@popperjs/core": "^2.11.6",
         "@zui/com-helpers": "workspace:*"
     },

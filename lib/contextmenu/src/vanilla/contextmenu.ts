@@ -19,6 +19,8 @@ export type ContextMenuOptions = {
     subMenuTrigger?: 'click' | 'hover',
 };
 
+export type ContextMenuShowOptions = Partial<ContextMenuOptions & {position: {x: number, y: number}, event: MouseEvent}>;
+
 export type ContextMenuPositionStrategy = 'absolute' | 'fixed';
 
 export type ContextMenuPlacement =
@@ -113,12 +115,19 @@ export class ContextMenu extends ComponentBase<ContextMenuOptions> {
         }
     }
 
-    show(event?: MouseEvent | {x: number, y: number}) {
+    show(options: ContextMenuShowOptions | MouseEvent = {}) {
+        if (options instanceof MouseEvent) {
+            options = {event: options};
+        }
+        const {position, event, ...otherOptions} = options;
+        this.setOptions(otherOptions);
+
+        let mousePos = position;
         if (event instanceof MouseEvent) {
             event.preventDefault();
-            event = {x: event.clientX, y: event.clientY};
+            mousePos = mousePos || {x: event.clientX, y: event.clientY};
         }
-        this.#mousePos = event || ContextMenu.mousePos;
+        this.#mousePos = mousePos || ContextMenu.mousePos;
         this.menu.classList.add(CONTEXTMENU_CLASS_SHOW);
         this.#updateCustomMenu();
         this.#createPopper().update();
@@ -131,8 +140,8 @@ export class ContextMenu extends ComponentBase<ContextMenuOptions> {
         this.#customMenu?.$?.clearAllSubMenu();
     }
 
-    toggle(event: MouseEvent | {x: number, y: number}) {
-        return this.isShown ? this.hide() : this.show(event);
+    toggle(options?: ContextMenuShowOptions | MouseEvent) {
+        return this.isShown ? this.hide() : this.show(options);
     }
 
     destroy(): void {
@@ -227,8 +236,6 @@ export class ContextMenu extends ComponentBase<ContextMenuOptions> {
         return this.#virtualElement;
     }
 
-    static mousePos: {x: number, y: number};
-
     static clear(event: Event) {
         if (event && isRightBtn(event as MouseEvent)) {
             return;
@@ -238,12 +245,8 @@ export class ContextMenu extends ComponentBase<ContextMenuOptions> {
 
     static show(options: ContextMenuOptions & {position?: {x: number, y: number}, event?: MouseEvent}) {
         const contextmenu = ContextMenu.ensure(document.body);
-        const {position, event, ...otherOptions} = options;
-        contextmenu.setOptions(otherOptions);
-        contextmenu.show(event || position);
-        if (event) {
-            event.stopPropagation();
-        }
+        contextmenu.show(options);
+        options.event?.stopPropagation();
         return contextmenu;
     }
 
@@ -252,23 +255,41 @@ export class ContextMenu extends ComponentBase<ContextMenuOptions> {
         contextmenu?.hide();
         return contextmenu;
     }
+
+    static get mousePos(): {x: number, y: number} {
+        const {watchedMouse} = this;
+        if (!watchedMouse) {
+            this.watchMouse();
+        }
+        if (typeof watchedMouse === 'object') {
+            return watchedMouse;
+        }
+        return {x: 0, y: 0};
+    }
+
+    static watchedMouse: boolean | {x: number, y: number} = false;
+
+    static watchMouse() {
+        if (this.watchedMouse) {
+            return;
+        }
+        document.addEventListener('mousemove', event => {
+            this.watchedMouse = {x: event.clientX, y: event.clientY};
+        });
+        this.watchedMouse = true;
+    }
 }
 
-document.addEventListener('contextmenu', (e) => {
-    const element = e.target as HTMLElement;
+document.addEventListener('contextmenu', (event) => {
+    const element = event.target as HTMLElement;
     if (element.closest(`.${CONTEXTMENU_CLASS_MENU}`)) {
         return;
     }
     const toggleElement = element.closest<HTMLElement>(CONTEXTMENU_SELECTOR);
     if (toggleElement) {
         const contextmenu = ContextMenu.ensure(toggleElement);
-        contextmenu.show(e);
-        console.log('contextmenu', {contextmenu, ContextMenu});
+        contextmenu.show(event);
     }
 });
 
 document.addEventListener('click', ContextMenu.clear);
-
-document.addEventListener('mousemove', event => {
-    ContextMenu.mousePos = {x: event.clientX, y: event.clientY};
-});
