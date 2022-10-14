@@ -11,21 +11,22 @@ export type CustomRenderResultItem = Partial<{
     [prop: string]: unknown;
 }>;
 
-export type CustomRenderResultGenerator<T extends Array<unknown> = unknown[]> = (result: ComponentChildren[], ...args: T) => ComponentChildren[];
+export type CustomRenderResultGenerator<T extends Array<unknown> = unknown[], THIS = unknown> = (this: THIS, result: ComponentChildren[], ...args: T) => (ComponentChildren | CustomRenderResultItem)[] | undefined | void;
 
-export type CustomRenderResult<T extends Array<unknown> = unknown[]> = CustomRenderResultGenerator<T> | CustomRenderResultItem | ComponentChildren;
+export type CustomRenderResult<T extends Array<unknown> = unknown[], THIS = unknown> = CustomRenderResultGenerator<T, THIS> | CustomRenderResultItem | ComponentChildren;
 
-export type CustomRenderResultList<T extends Array<unknown> = unknown[]> = CustomRenderResult<T>[];
+export type CustomRenderResultList<T extends Array<unknown> = unknown[], THIS = unknown> = CustomRenderResult<T, THIS>[];
 
-export type CustomRenderProps<T extends Array<unknown> = unknown[]> = {
+export type CustomRenderProps<T extends Array<unknown> = unknown[], THIS = unknown> = {
     tag?: string;
     className?: ClassNameLike;
     style?: JSX.CSSProperties;
     renders: CustomRenderResultList;
     generateArgs?: T;
-    generators?: Record<string, CustomRenderResult<T>>;
-    onGenerate?: (generator: CustomRenderResultGenerator<T>, result: ComponentChildren[], ...args: T) => ComponentChildren[];
-    onRenderItem?: (item: CustomRenderResultItem) => CustomRenderResultItem;
+    generators?: Record<string, CustomRenderResult<T, THIS>>;
+    generatorThis?: THIS;
+    onGenerate?: (this: THIS, generator: CustomRenderResultGenerator<T>, result: ComponentChildren[], ...args: T) => (ComponentChildren | CustomRenderResultItem)[];
+    onRenderItem?: (item: CustomRenderResultItem) => ComponentChildren;
 };
 
 export function renderCustomResult<T extends HTMLElement = HTMLElement>(props: CustomRenderProps): [JSX.HTMLAttributes<T>, ComponentChildren[]] {
@@ -35,6 +36,7 @@ export function renderCustomResult<T extends HTMLElement = HTMLElement>(props: C
         style,
         renders,
         generateArgs = [],
+        generatorThis,
         generators,
         onGenerate,
         onRenderItem,
@@ -42,42 +44,51 @@ export function renderCustomResult<T extends HTMLElement = HTMLElement>(props: C
     } = props;
     const classList: ClassNameLike = [className];
     const rootStyle: JSX.CSSProperties = {...style};
-    let result: ComponentChildren[] = [];
+    const result: ComponentChildren[] = [];
     const rawHtml: string[] = [];
     renders.forEach(render => {
+        const items: (CustomRenderResultItem | ComponentChildren)[] = [];
         if (typeof render === 'string' && generators && generators[render]) {
             render = generators[render];
         }
         if (typeof render === 'function') {
             if (onGenerate) {
-                result = onGenerate(render as CustomRenderResultGenerator, result, ...generateArgs);
+                items.push(...onGenerate.call(generatorThis, render as CustomRenderResultGenerator, result, ...generateArgs));
             } else {
-                result = render(result, ...generateArgs);
-            }
-        } else if (typeof render === 'object' && render && !isValidElement(render) && ('html' in render || '__html' in render || 'className' in render || 'style' in render || 'attrs' in render || 'children' in render)) {
-            if (render.html) {
-                result.push(
-                    <div className={classes(render.className)} style={render.style} dangerouslySetInnerHTML={{__html: render.html}} {...((render.attrs ?? {}) as unknown as JSX.HTMLAttributes<HTMLDivElement>)}></div>,
-                );
-            } else if (render.__html) {
-                rawHtml.push(render.__html);
-            } else {
-                if (render.style) {
-                    Object.assign(rootStyle, render.style);
-                }
-                if (render.className) {
-                    classList.push(render.className);
-                }
-                if (render.children) {
-                    result.push(render.children);
-                }
-                if (render.attrs) {
-                    Object.assign(others, render.attrs);
-                }
+                items.push(...((render as CustomRenderResultGenerator).call(generatorThis, result, ...generateArgs) ?? []));
             }
         } else {
-            result.push(render);
+            items.push(render);
         }
+        items.forEach(item => {
+            if (item === undefined || item === null) {
+                return;
+            }
+            if (typeof item === 'object' && !isValidElement(item) && ('html' in item || '__html' in item || 'className' in item || 'style' in item || 'attrs' in item || 'children' in item)) {
+                if (item.html) {
+                    result.push(
+                        <div className={classes(item.className)} style={item.style} dangerouslySetInnerHTML={{__html: item.html}} {...((item.attrs ?? {}) as unknown as JSX.HTMLAttributes<HTMLDivElement>)}></div>,
+                    );
+                } else if (item.__html) {
+                    rawHtml.push(item.__html);
+                } else {
+                    if (item.style) {
+                        Object.assign(rootStyle, item.style);
+                    }
+                    if (item.className) {
+                        classList.push(item.className);
+                    }
+                    if (item.children) {
+                        result.push(item.children);
+                    }
+                    if (item.attrs) {
+                        Object.assign(others, item.attrs);
+                    }
+                }
+            } else {
+                result.push(item);
+            }
+        });
     });
 
     if (rawHtml.length) {
