@@ -224,11 +224,13 @@ importers:
       '@types/jquery': ^3.5.14
       '@zui/browser-helpers': workspace:^0.0.1
       '@zui/event-bus': workspace:^0.0.1
+      '@zui/i18n': workspace:^0.0.1
       jquery: ^3.6.0
       preact: ^10.10.0
     dependencies:
       '@zui/browser-helpers': link:../browser-helpers
       '@zui/event-bus': link:../event-bus
+      '@zui/i18n': link:../i18n
       preact: registry.npmmirror.com/preact/10.10.0
     devDependencies:
       '@types/jquery': registry.npmmirror.com/@types/jquery/3.5.14

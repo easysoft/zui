@@ -1,5 +1,6 @@
 import {CustomEventListener, CustomEventMap} from '@zui/event-bus';
 import {EventHub} from '@zui/event-bus/src/event-hub';
+import {i18n} from '@zui/i18n/src/module/i18n';
 import {parseDataset} from './parse-dataset';
 
 export type ComponentHTMLEventMap = {[event in keyof HTMLElementEventMap]: HTMLElementEventMap[event]};
@@ -21,11 +22,16 @@ export type ComponentEventNames<V extends CustomEventMap = {}> = keyof HTMLEleme
 //     [p in keyof ComponentOptionEventMap<V>]: (event: ComponentOptionEventMap<V>[p]) => void | false;
 // };
 
+export type ComponentI18nOptions = {
+    lang?: string;
+    i18n?: Record<string, Record<string, string | object>>;
+};
+
 export type ComponentEventOptions<V extends CustomEventMap = {}> = {
     [p in keyof ComponentOptionEventMap<ComponentInternalEventMap & V>]: (event: Event) => void | false;
 };
 
-export type ComponentOptions<O extends object = {}, V extends CustomEventMap = {}> = O & Partial<ComponentEventOptions<V>>;
+export type ComponentOptions<O extends object = {}, V extends CustomEventMap = {}> = O & ComponentI18nOptions & Partial<ComponentEventOptions<V>>;
 
 export declare class ComponentClass<O extends object = {}, V extends CustomEventMap = {}, E extends HTMLElement = HTMLElement> {
     static NAME: string;
@@ -45,6 +51,18 @@ export declare class ComponentClass<O extends object = {}, V extends CustomEvent
     destroy(): void;
 
     setOptions(options?: Partial<ComponentOptions<O, V>>): ComponentOptions<O, V>;
+
+    on<T extends ComponentEventNames<V>>(type: T, listener: CustomEventListener<ComponentEventMap<V>[T]>, options?: AddEventListenerOptions): void;
+
+    once<T extends ComponentEventNames<V>>(type: T, listener: CustomEventListener<ComponentEventMap<V>[T]>, options?: AddEventListenerOptions): void;
+
+    off<T extends ComponentEventNames<V>>(type: T, listener: CustomEventListener<ComponentEventMap<V>[T]>, options?: AddEventListenerOptions): void;
+
+    emit<T extends ComponentEventNames<V>>(event: T | ComponentEventMap<V>[T], detail?: (ComponentEventMap<V>[T] extends CustomEvent ? ComponentEventMap<V>[T]['detail'] : never)): ComponentEventMap<V>[T];
+
+    i18n(key: string, defaultValue?: string): string;
+    i18n(key: string, args?: (string | number)[] | Record<string, string | number>, defaultValue?: string): string;
+    i18n(key: string, args?: string | (string | number)[] | Record<string, string | number>, defaultValue?: string): string;
 }
 
 export class ComponentBase<O extends object = {}, V extends CustomEventMap = {}, E extends HTMLElement = HTMLElement> implements ComponentClass<O, V, E> {
@@ -119,6 +137,12 @@ export class ComponentBase<O extends object = {}, V extends CustomEventMap = {},
         }
         eventObject = this.#events.emit(eventObject);
         return eventObject;
+    }
+
+    i18n(key: string, defaultValue?: string): string;
+    i18n(key: string, args?: (string | number)[] | Record<string, string | number>, defaultValue?: string): string;
+    i18n(key: string, args?: string | (string | number)[] | Record<string, string | number>, defaultValue?: string): string {
+        return i18n(this.#options.i18n, key, args, defaultValue, this.options.lang, (this.constructor as typeof ComponentBase).NAME) ?? `{i18n:${key}}`;
     }
 
     /**
