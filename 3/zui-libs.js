@@ -1210,6 +1210,7 @@ export default [
             "@zui/store": "workspace:^0.0.1",
             "@zui/contextmenu": "workspace:^0.0.1",
             "@zui/menu": "workspace:^0.0.1",
+            "@zui/com-helpers": "workspace:^0.0.1",
             "hotkeys-js": "^3.10.0",
             "nanoid": "^4.0.0",
             "preact": "^10.10.0"
