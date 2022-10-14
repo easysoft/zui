@@ -19,11 +19,12 @@ export type CustomRenderResultList<T extends Array<unknown> = unknown[]> = Custo
 
 export type CustomRenderProps<T extends Array<unknown> = unknown[]> = {
     tag?: string;
-    className: ClassNameLike;
-    style: JSX.CSSProperties;
+    className?: ClassNameLike;
+    style?: JSX.CSSProperties;
     renders: CustomRenderResultList;
     generateArgs?: T;
-    onGenerate?: (generator: CustomRenderResultGenerator, result: ComponentChildren[], ...args: T) => ComponentChildren[];
+    generators?: Record<string, CustomRenderResult<T>>;
+    onGenerate?: (generator: CustomRenderResultGenerator<T>, result: ComponentChildren[], ...args: T) => ComponentChildren[];
     onRenderItem?: (item: CustomRenderResultItem) => CustomRenderResultItem;
 };
 
@@ -34,6 +35,7 @@ export function renderCustomResult<T extends HTMLElement = HTMLElement>(props: C
         style,
         renders,
         generateArgs = [],
+        generators,
         onGenerate,
         onRenderItem,
         ...others
@@ -43,6 +45,9 @@ export function renderCustomResult<T extends HTMLElement = HTMLElement>(props: C
     let result: ComponentChildren[] = [];
     const rawHtml: string[] = [];
     renders.forEach(render => {
+        if (typeof render === 'string' && generators && generators[render]) {
+            render = generators[render];
+        }
         if (typeof render === 'function') {
             if (onGenerate) {
                 result = onGenerate(render as CustomRenderResultGenerator, result, ...generateArgs);
