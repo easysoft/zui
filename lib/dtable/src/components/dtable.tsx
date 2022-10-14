@@ -461,6 +461,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
                 style={{height: layout.footerHeight}}
                 renders={customResults}
                 generateArgs={[this, layout]}
+                generators={layout.footerGenerators}
             />
         );
     }
@@ -647,11 +648,13 @@ export class DTable extends Component<DTableOptions, DTableState> {
         const {plugins} = this;
 
         let options = this.#options as DTableOptions;
+        const footerGenerators: Record<string, CustomRenderResult<[table: DTable, layout: DTableLayout]>> = {};
         plugins.forEach(plugin => {
             const newOptions = plugin.beforeLayout?.call(this, options);
             if (newOptions) {
                 options = {...options, ...newOptions};
             }
+            Object.assign(footerGenerators, plugin.footer);
         });
 
         /* Init cols */
@@ -854,6 +857,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
             rowsHeightTotal,
             header,
             footer,
+            footerGenerators,
             headerHeight,
             footerHeight,
             colsMap,

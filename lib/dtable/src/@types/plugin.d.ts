@@ -55,6 +55,7 @@ type DTablePlugin<T extends DTablePluginTypes = DTablePluginTypes, D extends DTa
     data: (this: PluginTable) => {} & T['data'],
     state: (this: PluginTable) => {} & T['state'],
     options: (this: PluginTable, options: Options) => Partial<Options>;
+    footer: Record<string, CustomRenderResult<[table: DTable, layout: DTableLayout]>>;
     onCreate: (this: PluginTable, plugin: DTablePlugin<T, D>) => void;
     onMounted: (this: PluginTable) => void;
     onUpdated: (this: PluginTable) => void;

@@ -24,6 +24,7 @@ type DTableLayout = {
     rowsMap: Record<RowID, RowInfo>;
     header?: boolean | CustomRenderResultList<[table: DTable, layout: DTableLayout]>;
     footer?: boolean | CustomRenderResultList<[table: DTable, layout: DTableLayout]> | CustomRenderResultList<[table: DTable, layout: DTableLayout]>[number];
+    footerGenerators: Record<string, CustomRenderResult<[table: DTable, layout: DTableLayout]>>;
     headerHeight: number,
     footerHeight: number,
     colsMap: Record<string, ColInfo>;
