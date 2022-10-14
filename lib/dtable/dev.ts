@@ -143,6 +143,7 @@ onPageLoad(() => {
             plugins: [checkable({checkOnClickRow: true}), nested(), moveable],
             striped: true,
             responsive: true,
+            footer: ['checkbox', 'divider', 'checkedInfo', 'divider', 'flex'],
         });
         console.log('DataTable', datatable);
     } else {

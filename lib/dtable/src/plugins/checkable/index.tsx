@@ -2,7 +2,7 @@ import {classes} from '@zui/browser-helpers/src/classes';
 import {definePlugin} from '../../helpers/shared-plugins';
 import './style.css';
 
-type DTableCheckableTypes = {
+interface DTableCheckableTypes extends DTablePluginTypes {
     options: Partial<{
         checkable: boolean;
         checkOnClickRow: boolean;
@@ -22,8 +22,8 @@ type DTableCheckableTypes = {
     },
     state: {
         checkedRows: Record<string, true>;
-    }
-};
+    },
+}
 
 type DTableCheckable = DTableWithPlugin<DTableCheckableTypes>;
 
@@ -115,6 +115,35 @@ export const checkable: DTablePlugin<DTableCheckableTypes> = {
         isRowChecked,
         isAllRowChecked,
         getChecks,
+    },
+    i18n: {
+        zh_cn: {
+            checkedCountInfo: '已选择 {selected} 项',
+            totalCountInfo: '共 {total} 项',
+        },
+        en: {
+            checkedCountInfo: 'Selected {selected} items',
+            totalCountInfo: 'Total {total} items',
+        },
+    },
+    footer: {
+        checkbox() {
+            const checked = this.isAllRowChecked();
+            return [
+                <div style={{padding: '0 calc(3 * var(--space))', display: 'flex', alignItems: 'center'}} onClick={() => this.toggleCheckRows()}><input type="checkbox" checked={checked} /></div>,
+            ];
+        },
+        checkedInfo(_, layout) {
+            const checkedCount = this.getChecks().length;
+            const texts: string[] = [];
+            if (checkedCount) {
+                texts.push(this.i18n('checkedCountInfo', {selected: checkedCount}));
+            }
+            texts.push(this.i18n('totalCountInfo', {total: layout.allRows.length}));
+            return [
+                <div>{texts.join(', ')}</div>,
+            ];
+        },
     },
     onRenderCell(result, {row, col}) {
         const {id: rowID} = row;
