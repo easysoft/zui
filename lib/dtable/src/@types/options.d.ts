@@ -13,8 +13,8 @@ interface DTableLayoutOptions {
     defaultColWidth: number;
     minColWidth: number;
     maxColWidth: number;
-    header?: boolean | preact.ComponentChildren | ((this: DTable, layout: DTableLayout, state: DTableState) => (preact.ComponentChildren | {__html: string}));
-    footer?: boolean | preact.ComponentChildren | ((this: DTable, layout: DTableLayout, state: DTableState) => (preact.ComponentChildren | {__html: string}));
+    header?: boolean | CustomRenderResultList<[table: DTable, layout: DTableLayout]> | CustomRenderResultGenerator<[table: DTable, layout: DTableLayout]> | CustomRenderResultItem;
+    footer?: boolean | CustomRenderResultList<[table: DTable, layout: DTableLayout]> | CustomRenderResultGenerator<[table: DTable, layout: DTableLayout]> | CustomRenderResultItem;
     headerHeight: number;
     footerHeight: number;
     responsive: boolean;

@@ -22,8 +22,8 @@ type DTableLayout = {
     allRows: RowInfo[];
     rows: RowInfo[];
     rowsMap: Record<RowID, RowInfo>;
-    header: boolean | preact.ComponentChildren | ((layout: DTableLayout, state: DTableState) => (preact.ComponentChildren | {__html: string}));
-    footer: boolean | preact.ComponentChildren | ((layout: DTableLayout, state: DTableState) => (preact.ComponentChildren | {__html: string}));
+    header?: boolean | CustomRenderResultList<[table: DTable, layout: DTableLayout]>;
+    footer?: boolean | CustomRenderResultList<[table: DTable, layout: DTableLayout]> | CustomRenderResultList<[table: DTable, layout: DTableLayout]>[number];
     headerHeight: number,
     footerHeight: number,
     colsMap: Record<string, ColInfo>;

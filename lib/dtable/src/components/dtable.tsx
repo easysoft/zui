@@ -10,6 +10,7 @@ import {getDefaultOptions} from '../helpers/default-options';
 import '../style/index.css';
 
 import type {ComponentChildren, JSX} from 'preact';
+import {CustomRender} from '@zui/com-helpers/src/helpers/custom-render';
 
 export class DTable extends Component<DTableOptions, DTableState> {
     static addPlugin = addPlugin;
@@ -418,27 +419,15 @@ export class DTable extends Component<DTableOptions, DTableState> {
                 />
             );
         }
-        let content: ComponentChildren;
-        let html: {__html: string} | undefined;
-        if (typeof header === 'function') {
-            const headerContent: ComponentChildren | {__html: string} = header(layout, this.state);
-            if (typeof headerContent === 'object' && headerContent && '__html' in headerContent) {
-                html = headerContent;
-            } else {
-                content = headerContent;
-            }
-        } else {
-            content = header;
-        }
 
+        const customResults = Array.isArray(header) ? header : [header];
         return (
-            <div
+            <CustomRender
                 className='dtable-header'
                 style={{height: headerHeight}}
-                dangerouslySetInnerHTML={html}
-            >
-                {content}
-            </div>
+                renders={customResults}
+                generateArgs={[this, layout]}
+            />
         );
     }
 
@@ -460,30 +449,19 @@ export class DTable extends Component<DTableOptions, DTableState> {
     }
 
     #renderFooter(layout: DTableLayout) {
-        const {footer, footerHeight} = layout;
+        const {footer} = layout;
         if (!footer) {
             return null;
         }
-        let content: ComponentChildren;
-        let html: {__html: string} | undefined;
-        if (typeof footer === 'function') {
-            const footerContent: ComponentChildren | {__html: string} = footer(layout, this.state);
-            if (typeof footerContent === 'object' && footerContent && '__html' in footerContent) {
-                html = footerContent;
-            } else {
-                content = footerContent;
-            }
-        } else {
-            content = footer;
-        }
+
+        const customResults = Array.isArray(footer) ? footer : [footer];
         return (
-            <div
-                className='dtable-footer'
-                style={{height: footerHeight}}
-                dangerouslySetInnerHTML={html}
-            >
-                {content}
-            </div>
+            <CustomRender
+                className='dtable-header'
+                style={{height: layout.footerHeight}}
+                renders={customResults}
+                generateArgs={[this, layout]}
+            />
         );
     }
 
