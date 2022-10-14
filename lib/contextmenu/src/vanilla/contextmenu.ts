@@ -9,7 +9,7 @@ import {Menu} from '@zui/menu';
 import '../style/vars.css';
 import '../style/contextmenu.css';
 
-export type ContextMenuCreator = MenuProps | MenuListItem[] | (() => MenuListItem[]);
+export type ContextMenuItemsDefinition = MenuListItem[] | ((contextmenu: ContextMenu, event: MouseEvent) => MenuListItem[] | undefined);
 
 export type ContextMenuOptions = {
     placement?: ContextMenuPlacement;
@@ -17,19 +17,18 @@ export type ContextMenuOptions = {
     preventOverflow?: boolean | {boundary: string};
     offset?: [number, number] | (() => [number, number]);
     flip?: boolean;
-    menu?: ContextMenuCreator;
+    items?: ContextMenuItemsDefinition;
+    menu?: Omit<MenuProps, 'items'>;
     subMenuTrigger?: 'click' | 'hover',
 };
 
 export type ContextMenuEvents = {
-    show: CustomEvent<{menu: ContextMenu, options: ContextMenuShowOptions}>,
+    show: CustomEvent<{menu: ContextMenu, event: MouseEvent}>,
     shown: CustomEvent<ContextMenu>,
     hide: CustomEvent<ContextMenu>,
     hidden: CustomEvent<ContextMenu>,
-    updateMenu: CustomEvent<ContextMenuCreator>,
+    updateMenu: CustomEvent<{items: MenuListItem[], event: MouseEvent, contextmenu: ContextMenu}>,
 };
-
-export type ContextMenuShowOptions = Partial<ContextMenuOptions & {event: MouseEvent}>;
 
 export type ContextMenuPositionStrategy = 'absolute' | 'fixed';
 
@@ -69,7 +68,7 @@ export class ContextMenu extends ComponentBase<ContextMenuOptions, ContextMenuEv
 
     #virtualElement?: VirtualElement;
 
-    #mousePos?: {clientX: number, clientY: number};
+    #mouseEvent?: MouseEvent;
 
     #customMenu?: Menu;
 
@@ -125,24 +124,18 @@ export class ContextMenu extends ComponentBase<ContextMenuOptions, ContextMenuEv
         }
     }
 
-    show(options: ContextMenuShowOptions | MouseEvent = {}) {
-        if (options instanceof MouseEvent) {
-            options = {event: options};
-        }
-
-        const showEvent = this.emit('show', {menu: this, options});
+    show(event?: MouseEvent) {
+        event = event || ContextMenu.mousePos;
+        const showEvent = this.emit('show', {menu: this, event});
         if (showEvent.defaultPrevented) {
             return false;
         }
 
-        if (this.#updateCustomMenu() === false) {
+        this.#mouseEvent = event;
+        if (this.#updateCustomMenu(event) === false) {
             return;
         }
 
-        const {event, ...otherOptions} = options;
-
-        this.setOptions(otherOptions);
-        this.#mousePos = event;
         this.menu.classList.add(CONTEXTMENU_CLASS_SHOW);
         this.#createPopper().update();
 
@@ -163,8 +156,8 @@ export class ContextMenu extends ComponentBase<ContextMenuOptions, ContextMenuEv
         this.emit('hidden', this);
     }
 
-    toggle(options?: ContextMenuShowOptions | MouseEvent) {
-        return this.isShown ? this.hide() : this.show(options);
+    toggle(event?: MouseEvent) {
+        return this.isShown ? this.hide() : this.show(event);
     }
 
     destroy(): void {
@@ -218,30 +211,30 @@ export class ContextMenu extends ComponentBase<ContextMenuOptions, ContextMenuEv
         }
     };
 
-    #updateCustomMenu() {
-        let {menu} = this.options;
-        if (!menu) {
+    #updateCustomMenu(event: MouseEvent) {
+        let {items} = this.options;
+        if (!items) {
             return;
         }
-        if (Array.isArray(menu)) {
-            menu = {items: menu};
-        } else if (typeof menu === 'function') {
-            menu = {items: menu.call(this)};
+        if (typeof items === 'function') {
+            items = items(this, event);
         }
-        if (!menu.items?.length) {
+        if (!items?.length) {
             return false;
         }
 
-        const updateMenuEvent = this.emit('updateMenu', menu);
+        const updateMenuEvent = this.emit('updateMenu', {items, event, contextmenu: this});
         if (updateMenuEvent.defaultPrevented) {
             return false;
         }
 
+        const {menu} = this.options;
         if (this.#customMenu) {
-            this.#customMenu.render(menu);
+            this.#customMenu.render({items, ...menu});
         } else {
             this.#customMenu = new Menu(this.menu, {
                 subMenuTrigger: this.options.subMenuTrigger,
+                items,
                 ...menu,
                 afterRender: this.#afterRenderMenu,
                 beforeDestroy: this.#afterDestroyMenu,
@@ -255,7 +248,7 @@ export class ContextMenu extends ComponentBase<ContextMenuOptions, ContextMenuEv
         if (!this.#virtualElement) {
             this.#virtualElement = {
                 getBoundingClientRect: () => {
-                    const {clientX, clientY} = this.#mousePos || ContextMenu.mousePos;
+                    const {clientX, clientY} = this.#mouseEvent || ContextMenu.mousePos;
                     return {
                         width: 0,
                         height: 0,
@@ -279,10 +272,14 @@ export class ContextMenu extends ComponentBase<ContextMenuOptions, ContextMenuEv
         ContextMenu.getAll().forEach(x => x.hide());
     }
 
-    static show(options: ContextMenuOptions & {position?: {x: number, y: number}, event?: MouseEvent}) {
+    static show(options: ContextMenuOptions & {event?: MouseEvent}) {
+        const {event, ...otherOptions} = options;
         const contextmenu = ContextMenu.ensure(document.body);
-        contextmenu.show(options);
-        options.event?.stopPropagation();
+        if (Object.keys(otherOptions).length) {
+            contextmenu.setOptions(otherOptions);
+        }
+        contextmenu.show(event);
+        event?.stopPropagation();
         return contextmenu;
     }
 
