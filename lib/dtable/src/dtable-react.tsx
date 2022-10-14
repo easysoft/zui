@@ -341,7 +341,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
         }
     }
 
-    getPointerInfo(event: Event) {
+    getPointerInfo(event: Event): DTablePointerInfo | undefined {
         const target = event.target as HTMLElement;
         if (!target || target.closest('.no-cell-event')) {
             return;

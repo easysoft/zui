@@ -47,3 +47,11 @@ type DTableLayout = {
     scrollTop: number;
     scrollLeft: number;
 };
+
+type DTablePointerInfo = {
+    cellElement: HTMLElement,
+    rowElement: HTMLElement,
+    colName: string,
+    rowID: string,
+    target: HTMLElement,
+};
