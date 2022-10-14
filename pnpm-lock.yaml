@@ -291,6 +291,7 @@ importers:
       '@zui/com-helpers': workspace:^0.0.1
       '@zui/contextmenu': workspace:^0.0.1
       '@zui/helpers': workspace:^0.0.1
+      '@zui/i18n': workspace:^0.0.1
       '@zui/label': workspace:^0.0.1
       '@zui/menu': workspace:^0.0.1
       '@zui/scrollbar': workspace:^0.0.1
@@ -305,6 +306,7 @@ importers:
       '@zui/com-helpers': link:../com-helpers
       '@zui/contextmenu': link:../contextmenu
       '@zui/helpers': link:../helpers
+      '@zui/i18n': link:../i18n
       '@zui/menu': link:../menu
       '@zui/scrollbar': link:../scrollbar
       '@zui/store': link:../store

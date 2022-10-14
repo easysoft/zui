@@ -48,6 +48,8 @@ interface DTableCallbackOptions {
 
 interface DTableOptions<C = ColSetting> extends DTableDataOptions<C>, DTableLayoutOptions, DTableStyleOptions, DTableCallbackOptions {
     id?: string;
+    lang?: string;
+    i18n?: Record<string, Record<string, string | object>>;
     className?: ClassNameLike,
     parent?: HTMLElement,
     plugins?: DTablePluginLike[];

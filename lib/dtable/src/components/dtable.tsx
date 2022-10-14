@@ -2,6 +2,7 @@ import {Component, createRef, h as _h} from 'preact';
 import {nanoid} from 'nanoid';
 import {classes} from '@zui/browser-helpers/src/classes';
 import {Scrollbar} from '@zui/scrollbar/src/components/scrollbar';
+import {i18n} from '@zui/i18n/src/module/i18n';
 import {clamp} from '../helpers/clamp';
 import {Header} from './header';
 import {Rows} from './rows';
@@ -38,6 +39,8 @@ export class DTable extends Component<DTableOptions, DTableState> {
     #data: Record<string, unknown> = {};
 
     #rob?: ResizeObserver;
+
+    #i18nMaps: Record<string, Record<string, string | object>>[] = [];
 
     constructor(props: DTableOptions) {
         super(props);
@@ -379,6 +382,12 @@ export class DTable extends Component<DTableOptions, DTableState> {
         });
     };
 
+    i18n(key: string, defaultValue?: string): string;
+    i18n(key: string, args?: (string | number)[] | Record<string, string | number>, defaultValue?: string): string;
+    i18n(key: string, args?: string | (string | number)[] | Record<string, string | number>, defaultValue?: string): string {
+        return i18n(this.#i18nMaps, key, args, defaultValue, this.options.lang) ?? `{i18n:${key}}`;
+    }
+
     #handleEvent = (event: Event, type?: string) => {
         type = type || event.type;
         const callbacks = this.#events.get(type);
@@ -642,6 +651,8 @@ export class DTable extends Component<DTableOptions, DTableState> {
             }
             return list;
         }, []);
+
+        this.#i18nMaps = [this.options.i18n, ...this.plugins.map(x => x.i18n)].filter(Boolean) as Record<string, Record<string, string | object>>[];
 
         return true;
     }

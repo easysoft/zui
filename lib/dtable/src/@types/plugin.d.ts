@@ -52,6 +52,7 @@ type DTablePlugin<T extends DTablePluginTypes = DTablePluginTypes, D extends DTa
     colTypes: Record<string, Partial<PluginColSetting> | PluginColSettingModifier<T, D>>;
     events: DTablePluginEvents<T, D> | ((this: PluginTable) => DTablePluginEvents<T, D>);
     methods: Readonly<T['methods']>,
+    i18n?: Record<string, Record<string, string | object>>;
     data: (this: PluginTable) => {} & T['data'],
     state: (this: PluginTable) => {} & T['state'],
     options: (this: PluginTable, options: Options) => Partial<Options>;
