@@ -32,15 +32,16 @@ export function addI18nMap(codeOrMap: I18nLangCode | I18nLangMap, values?: I18nV
     mergeDeep(globalLangMap, codeOrMap);
 }
 
-export function i18n(maps: I18nLangMap | (I18nLangMap | undefined)[], key: string, defaultValue?: string, langCode?: I18nLangCode): string | undefined;
-export function i18n(maps: I18nLangMap | (I18nLangMap | undefined)[], key: string, args?: string | (string | number)[] | Record<string, string | number>, defaultValue?: string, langCode?: I18nLangCode): string | undefined;
-export function i18n(maps: I18nLangMap | (I18nLangMap | undefined)[], key: string, args?: string | (string | number)[] | Record<string, string | number>, defaultValue?: string, langCode?: I18nLangCode): string | undefined {
+export function i18n(maps: I18nLangMap | (I18nLangMap | undefined)[] | undefined, key: string, defaultValue?: string, langCode?: I18nLangCode, globalPrefix?: string): string | undefined;
+export function i18n(maps: I18nLangMap | (I18nLangMap | undefined)[] | undefined, key: string, args?: string | (string | number)[] | Record<string, string | number>, defaultValue?: string, langCode?: I18nLangCode, globalPrefix?: string): string | undefined;
+export function i18n(maps: I18nLangMap | (I18nLangMap | undefined)[] | undefined, key: string, args?: string | (string | number)[] | Record<string, string | number>, defaultValue?: string, langCode?: I18nLangCode, globalPrefix?: string): string | undefined {
     if (!Array.isArray(maps)) {
         maps = globalLangMap ? [globalLangMap, maps] : [maps];
     } else if (globalLangMap) {
         maps.unshift(globalLangMap);
     }
     if (typeof args === 'string') {
+        globalPrefix = langCode;
         langCode = defaultValue;
         defaultValue = args;
         args = undefined;
@@ -55,7 +56,8 @@ export function i18n(maps: I18nLangMap | (I18nLangMap | undefined)[], key: strin
         if (!mapValues) {
             continue;
         }
-        value = deepGet(mapValues, key);
+        const mapKey = (globalPrefix && map === globalLangMap) ? `${globalPrefix}.${key}` : key;
+        value = deepGet(mapValues, mapKey);
         if (value !== undefined) {
             break;
         }
