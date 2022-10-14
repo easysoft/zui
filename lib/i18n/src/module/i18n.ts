@@ -20,9 +20,9 @@ export function setLangCode(langCode: I18nLangCode) {
     globalLangCode = langCode.toLowerCase();
 }
 
-export function addI18nValues(map: I18nLangMap): void;
-export function addI18nValues(code: I18nLangCode, values: I18nValuesMap): void;
-export function addI18nValues(codeOrMap: I18nLangCode | I18nLangMap, values?: I18nValuesMap): void {
+export function addI18nMap(map: I18nLangMap): void;
+export function addI18nMap(code: I18nLangCode, values: I18nValuesMap): void;
+export function addI18nMap(codeOrMap: I18nLangCode | I18nLangMap, values?: I18nValuesMap): void {
     if (!globalLangMap) {
         globalLangMap = {};
     }
@@ -32,9 +32,9 @@ export function addI18nValues(codeOrMap: I18nLangCode | I18nLangMap, values?: I1
     mergeDeep(globalLangMap, codeOrMap);
 }
 
-export function i18n(maps: I18nLangMap | I18nLangMap[], key: string, defaultValue?: string, langCode?: I18nLangCode): string | undefined;
-export function i18n(maps: I18nLangMap | I18nLangMap[], key: string, args?: (string | number)[] | Record<string, string | number>, defaultValue?: string, langCode?: I18nLangCode): string | undefined;
-export function i18n(maps: I18nLangMap | I18nLangMap[], key: string, args?: string | (string | number)[] | Record<string, string | number>, defaultValue?: string, langCode?: I18nLangCode): string | undefined {
+export function i18n(maps: I18nLangMap | (I18nLangMap | undefined)[], key: string, defaultValue?: string, langCode?: I18nLangCode): string | undefined;
+export function i18n(maps: I18nLangMap | (I18nLangMap | undefined)[], key: string, args?: string | (string | number)[] | Record<string, string | number>, defaultValue?: string, langCode?: I18nLangCode): string | undefined;
+export function i18n(maps: I18nLangMap | (I18nLangMap | undefined)[], key: string, args?: string | (string | number)[] | Record<string, string | number>, defaultValue?: string, langCode?: I18nLangCode): string | undefined {
     if (!Array.isArray(maps)) {
         maps = globalLangMap ? [globalLangMap, maps] : [maps];
     } else if (globalLangMap) {
@@ -48,9 +48,12 @@ export function i18n(maps: I18nLangMap | I18nLangMap[], key: string, args?: stri
     const lang = langCode || globalLangCode;
     let value: string | undefined;
     for (const map of maps) {
+        if (!map) {
+            continue;
+        }
         const mapValues = map[lang];
         if (!mapValues) {
-            return;
+            continue;
         }
         value = deepGet(mapValues, key);
         if (value !== undefined) {
@@ -61,11 +64,11 @@ export function i18n(maps: I18nLangMap | I18nLangMap[], key: string, args?: stri
         return defaultValue;
     }
     if (args) {
-        return formatString(value, Array.isArray(args) ? args : [args]);
+        return formatString(value, ...(Array.isArray(args) ? args : [args]));
     }
     return value;
 }
 
-i18n.addLang = addI18nValues;
+i18n.addLang = addI18nMap;
 i18n.getCode = getLangCode;
 i18n.setCode = setLangCode;
