@@ -565,7 +565,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
         return data.props;
     };
 
-    #handleRenderCell = (result: CustomRenderResult, data: {row: RowInfo, col: ColInfo}, h: typeof _h) : CustomRenderResult => {
+    #handleRenderCell = (result: CustomRenderResultList, data: {row: RowInfo, col: ColInfo}, h: typeof _h) : CustomRenderResultList => {
         const {row, col} = data;
         result[0] = this.getCellValue(row, col) as ComponentChildren;
         const renderCallbackName = row.id === 'HEADER' ? 'onRenderHeaderCell' : 'onRenderCell';

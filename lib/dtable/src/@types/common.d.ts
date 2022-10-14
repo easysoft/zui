@@ -1,12 +1,6 @@
 type ClassNameLike = import('../../../browser-helpers/src/classes').ClassNameLike;
 
-type CustomRenderResultItem = Partial<{
-    html: string;
-    style: preact.JSX.CSSProperties;
-    className: ClassNameLike;
-    outer: boolean;
-    children: preact.ComponentChildren;
-    attrs: preact.JSX.HTMLAttributes<HTMLDivElement>;
-}>;
-
-type CustomRenderResult = (CustomRenderResultItem | preact.ComponentChildren)[];
+type CustomRenderResultItem = import('@zui/com-helpers/src/helpers/custom-render').CustomRenderResultItem;
+type CustomRenderResult = import('@zui/com-helpers/src/helpers/custom-render').CustomRenderResult;
+type CustomRenderResultGenerator = import('@zui/com-helpers/src/helpers/custom-render').CustomRenderResultGenerator;
+type CustomRenderResultList = import('@zui/com-helpers/src/helpers/custom-render').CustomRenderResultList;
