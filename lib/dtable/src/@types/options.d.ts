@@ -13,8 +13,8 @@ interface DTableLayoutOptions {
     defaultColWidth: number;
     minColWidth: number;
     maxColWidth: number;
-    header?: boolean | CustomRenderResultList<[table: DTable, layout: DTableLayout]> | CustomRenderResultGenerator<[table: DTable, layout: DTableLayout]> | CustomRenderResultItem;
-    footer?: boolean | CustomRenderResultList<[table: DTable, layout: DTableLayout]> | CustomRenderResultGenerator<[table: DTable, layout: DTableLayout]> | CustomRenderResultItem;
+    header?: boolean | CustomRenderResultList<[layout: DTableLayout], DTable> | CustomRenderResultGenerator<[layout: DTableLayout], DTable> | CustomRenderResultItem;
+    footer?: boolean | CustomRenderResultList<[layout: DTableLayout], DTable> | CustomRenderResultGenerator<[layout: DTableLayout], DTable> | CustomRenderResultItem;
     headerHeight: number;
     footerHeight: number;
     responsive: boolean;

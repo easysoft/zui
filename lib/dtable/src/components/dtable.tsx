@@ -426,7 +426,8 @@ export class DTable extends Component<DTableOptions, DTableState> {
                 className='dtable-header'
                 style={{height: headerHeight}}
                 renders={customResults}
-                generateArgs={[this, layout]}
+                generateArgs={[layout]}
+                generatorThis={this}
             />
         );
     }
@@ -457,10 +458,11 @@ export class DTable extends Component<DTableOptions, DTableState> {
         const customResults = Array.isArray(footer) ? footer : [footer];
         return (
             <CustomRender
-                className='dtable-header'
-                style={{height: layout.footerHeight}}
+                className='dtable-footer'
+                style={{height: layout.footerHeight, top: layout.rowsHeight + layout.headerHeight}}
                 renders={customResults}
-                generateArgs={[this, layout]}
+                generateArgs={[layout]}
+                generatorThis={this}
                 generators={layout.footerGenerators}
             />
         );
@@ -468,7 +470,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
 
     #renderScrollBars(layout: DTableLayout) {
         const scrollbars = [];
-        const {scrollLeft, colsInfo, scrollTop, rowsHeight, rowsHeightTotal} = layout;
+        const {scrollLeft, colsInfo, scrollTop, rowsHeight, rowsHeightTotal, footerHeight} = layout;
         const {scrollColsWidth, scrollWidth} = colsInfo;
         const {scrollbarSize = 12, horzScrollbarPos} = this.options;
         if (scrollColsWidth > scrollWidth) {
@@ -481,7 +483,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
                     clientSize={scrollWidth}
                     onScroll={this.#handleScroll}
                     left={colsInfo.fixedLeftWidth}
-                    bottom={horzScrollbarPos === 'inside' ? 0 : (-scrollbarSize)}
+                    bottom={(horzScrollbarPos === 'inside' ? 0 : (-scrollbarSize)) + footerHeight}
                     size={scrollbarSize}
                     wheelContainer={this.ref}
                 />,
@@ -648,7 +650,10 @@ export class DTable extends Component<DTableOptions, DTableState> {
         const {plugins} = this;
 
         let options = this.#options as DTableOptions;
-        const footerGenerators: Record<string, CustomRenderResult<[table: DTable, layout: DTableLayout]>> = {};
+        const footerGenerators: Record<string, CustomRenderResult<[table: DTable, layout: DTableLayout]>> = {
+            flex: <div style="flex:auto"></div>,
+            divider: <div style="width:1px;margin:var(--space);background:var(--color-border);height:50%"></div>,
+        };
         plugins.forEach(plugin => {
             const newOptions = plugin.beforeLayout?.call(this, options);
             if (newOptions) {
