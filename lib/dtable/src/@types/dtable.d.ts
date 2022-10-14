@@ -1,4 +1,4 @@
-type DTable = import('../dtable-react').DTable;
+type DTable = import('../components/dtable').DTable;
 
 type DTableState = {
     scrollTop: number;

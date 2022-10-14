@@ -2,13 +2,12 @@ import {Component, createRef, h as _h} from 'preact';
 import {nanoid} from 'nanoid';
 import {classes} from '@zui/browser-helpers/src/classes';
 import {Scrollbar} from '@zui/scrollbar/src/components/scrollbar';
-import {clamp} from './helpers/clamp';
-import {Header} from './components/header';
-import {Rows} from './components/rows';
-import {addPlugin, initPlugins, removePlugin} from './helpers/shared-plugins';
-import {getDefaultOptions} from './helpers/default-options';
-import './vars.css';
-import './style.css';
+import {clamp} from '../helpers/clamp';
+import {Header} from './header';
+import {Rows} from './rows';
+import {addPlugin, initPlugins, removePlugin} from '../helpers/shared-plugins';
+import {getDefaultOptions} from '../helpers/default-options';
+import '../style/index.css';
 
 import type {ComponentChildren, JSX} from 'preact';
 
