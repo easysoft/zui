@@ -1,5 +1,6 @@
 const minimist = require('minimist');
 const colorVariable = require('@mertasan/tailwindcss-variables/colorVariable');
+const defaultTheme = require('./config/tailwind-theme/index.cjs');
 
 /** @type {import('tailwindcss').Config} */
 const config = {
@@ -12,9 +13,7 @@ const config = {
         './lib/*/README.md',
         './lib/*/src/**/*.{vue,js,ts,jsx,tsx}',
     ] : [{raw: ''}],
-    presets: process.env.NODE_ENV === 'development' ? [
-        require('./lib/base/tailwind.cjs'),
-    ] : [],
+    theme: defaultTheme,
     plugins: [
         require('@tailwindcss/line-clamp'),
         require('@mertasan/tailwindcss-variables')({

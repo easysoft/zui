@@ -17,6 +17,7 @@
   },
   "include": [
     "src",
+    "config",
     "dev/src/dev.ts"
   ]
 }

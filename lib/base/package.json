@@ -7,16 +7,11 @@
     "files": [
         "./src/**/*"
     ],
-    "devDependencies": {
-        "@mertasan/tailwindcss-variables": "^2.3.0",
-        "tailwindcss": "^3.1.8"
-    },
     "zui": {
         "type": "css-base",
         "displayName": "CSS 基础",
         "contributes": {
-            "css": ["class", "var"],
-            "config": ["tailwind"]
+            "css": ["class", "var"]
         }
     }
 }
