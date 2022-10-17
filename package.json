@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host",
-    "dev:exts": "vite --host -- --lib=all",
+    "dev:exts": "tsx ./scripts/dev/index.ts",
     "build:vite": "tsc && vite build",
     "build": "tsx ./scripts/build",
     "preview": "vite preview",

@@ -42,8 +42,8 @@ function colorToVars(colorObject, parentName = 'color', vars = {}) {
 
 const argv = minimist(process.argv.slice(4));
 
-if (argv.tailwind) {
-    const extraPresets = require(argv.tailwind);
+let {tailwind} = argv;
+if (tailwind) {
     const mergePresets = (preset) => {
         if (typeof preset === 'function') {
             mergePresets(preset({config, colorToVars}));
@@ -56,7 +56,14 @@ if (argv.tailwind) {
             config.presets.push(preset);
         }
     };
-    mergePresets(extraPresets);
+    if (typeof tailwind === 'string') {
+        tailwind = tailwind.split(',');
+    }
+    if (Array.isArray(tailwind)) {
+        tailwind.forEach(tailwindPath => {
+            mergePresets(require(tailwindPath));
+        });
+    }
 }
 
 if (argv.noPreflightStyle) {
