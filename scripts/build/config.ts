@@ -249,7 +249,7 @@ function parseBuildLib(libLike: string | '@zui' | 'zui', libsMap: Record<string,
  * @param libsMap Libs map - 所有可用的库
  * @returns 构建库（或组件）列表和名称
  */
-function parseBuildLibs(libsLike: LibsLike, libsMap: Record<string, LibInfo>): BuildLibInfo[] {
+export function parseBuildLibs(libsLike: LibsLike, libsMap: Record<string, LibInfo>): BuildLibInfo[] {
     const libs: LibInfo[] = [];
     libsLike.split(' ').forEach(libLike => {
         if (!libLike.length) {
