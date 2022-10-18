@@ -29,7 +29,7 @@ const buildConfig = await createBuildConfig({
 
 console.log(cyan(`building ${bold(blue(buildConfig.name))} with ${buildConfig.libs.length} libs...`));
 for (const lib of buildConfig.libs) {
-    console.log(blue('*'), lib.name.padEnd(23), gray(lib.version.padEnd(8)), gray(lib.zui.type.padEnd(12)), lib.zui.sourceType !== 'build-in' ? yellow(lib.zui.sourceType) : '');
+    console.log(blue('*'), lib.name.padEnd(23), gray(lib.version.padEnd(8)), gray(lib.zui.type.padEnd(12)), lib.zui.sourceType !== 'build-in' ? yellow(lib.zui.extsName ?? lib.zui.sourceType) : '');
 }
 console.log();
 
@@ -60,9 +60,6 @@ const tailwindConfigs = buildConfig.libs.reduce<string[]>((list, lib) => {
     }
     return list;
 }, []);
-if (!tailwindConfigs.length && !argv.noBaseTailwind) {
-    tailwindConfigs.push(Path.resolve(process.cwd(), 'lib/base/tailwind.cjs'));
-}
 let tailwindConfigsPath = '';
 if (tailwindConfigs.length) {
     tailwindConfigsPath = Path.resolve(buildDir, 'tailwind.cjs');

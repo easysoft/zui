@@ -42,14 +42,15 @@ export async function getLibs(libPath: string | string[] = '', options: {root?: 
 
     const {root = process.cwd(), cache = true} = options;
     if (libPath.toLowerCase() === 'buildin') {
-        libPath = Path.resolve(process.cwd(), './lib');
+        libPath = Path.resolve(root, './lib');
     } else if (!Path.isAbsolute(libPath)) {
-        libPath = Path.resolve(root, libPath);
+        const extsLibPath = Path.resolve(root, 'exts', libPath);
+        libPath = fs.existsSync(extsLibPath) ? extsLibPath : Path.resolve(root, libPath);
     }
 
     let {sourceType} = options;
     if (!sourceType) {
-        sourceType = Path.resolve(process.cwd(), './lib') === libPath ? 'build-in' : 'exts';
+        sourceType = Path.resolve(root, './lib') === libPath ? 'build-in' : 'exts';
     }
 
     let workspace = sourceType === 'build-in';

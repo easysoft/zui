@@ -187,10 +187,16 @@ function createLibExportStatement(exportInfo: BuildLibExport, libName: string): 
  * @returns Build lib - 构建库（或组件）
  */
 function parseBuildLib(libLike: string | '@zui' | 'zui', libsMap: Record<string, LibInfo>): BuildLibInfo[] {
-    if (libLike === 'zui' || libLike === '@zui') {
+    if (libLike === 'zui' || libLike === '@zui' || libLike === '*zui') {
         return Object.values(libsMap).filter(x => x.zui.sourceType === 'build-in').sort((a, b) => a.zui.order - b.zui.order);
     } else if (libLike === 'zui+exts') {
         return Object.values(libsMap).filter(x => x.zui.sourceType === 'build-in' || x.zui.sourceType === 'exts').sort((a, b) => a.zui.order - b.zui.order);
+    } else if (libLike.startsWith('zui*')) {
+        const extsLibs = new Set(libLike.replace('zui*', '').split('*'));
+        return Object.values(libsMap).filter(x => x.zui.sourceType === 'build-in' || (x.zui.sourceType === 'exts' && x.zui.extsName && extsLibs.has(x.zui.extsName))).sort((a, b) => a.zui.order - b.zui.order);
+    } else if (libLike.startsWith('*')) {
+        const extsLibs = new Set(libLike.replace('*', '').split('*'));
+        return Object.values(libsMap).filter(x => x.zui.sourceType === 'build-in' || (x.zui.extsName && extsLibs.has(x.zui.extsName))).sort((a, b) => a.zui.order - b.zui.order);
     }
 
     let exports: string[] | undefined;
