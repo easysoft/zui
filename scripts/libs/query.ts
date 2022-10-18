@@ -97,6 +97,9 @@ export async function getLibs(libPath: string | string[] = '', options: {root?: 
             packageJsonPath: packageFile,
             tailwindConfigPath,
         });
+        if (libTypeOrders[libInfo.zui.type] === undefined) {
+            console.log(`Error: the lib type "${libInfo.zui.type}" of "${libInfo.name}" is invalid.\n`);
+        }
         libs[libInfo.zui.name] = libInfo;
     }
 
@@ -123,14 +126,14 @@ export async function getLibList(libPath: string | string[] = '', options: {root
 
 export function sortLibList(libList: LibInfo[]) {
     return libList.map((lib, idx) => {
-        lib.zui.order = (libTypeOrders[lib.zui.type] * 100000000) + idx;
+        lib.zui.order = (libTypeOrders[lib.zui.type] * 1000000000) + (lib.zui.sourceType === 'build-in' ? 10000000 : 11000000) + idx;
         return lib;
     }).sort((a, b) => a.zui.order - b.zui.order);
 }
 
 export function createLibFromPackageJson(packageJson: Record<string, unknown>, options: {sourceType?: LibSourceType, path: string, idx?: number, workspace?: boolean, packageJsonPath: string, tailwindConfigPath?: string}): LibInfo {
     const name = packageJson.name as string;
-    const defaultName = name.split('/').pop();
+    const defaultName = name.startsWith('@zui/') ? name.substring(5) : name;
     const {sourceType = 'build-in', path, idx = 0, workspace, packageJsonPath, tailwindConfigPath} = options;
     const libInfo = {
         name,
