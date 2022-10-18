@@ -24,7 +24,7 @@
 
 ## 不同主题
 
-除默认主体外，另外提供6种主体样式。
+除默认主题外，另外提供6种主题样式。
 
 <Example class="space-y-4" >
   <div class="panel primary">
@@ -320,5 +320,3 @@
 | `--panel-heading-color` | 标题文字颜色 |
 | `--panel-footer-bg`     | 脚注背景色   |
 | `--panel-border-color`  | 面板边框颜色 |
-
-
