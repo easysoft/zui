@@ -2,7 +2,7 @@ import path from 'path';
 import fs from 'fs-extra';
 import minimist from 'minimist';
 import {exec} from '../utilities/exec';
-import {getLibList, getLibs} from '../libs/query';
+import {getLibs} from '../libs/query';
 import {syncLibDocs, emptySidebarLibDocs} from './sync';
 import {parseBuildLibs} from '../build/config';
 
@@ -27,7 +27,7 @@ if (argv.build !== 'no') {
 
 await fs.copyFile(path.resolve(process.cwd(), './favicon.svg'), path.resolve(docsPublicDir, './favicon.svg'));
 
-const libsMap = await getLibs(exts);
+const libsMap = await getLibs(exts.split(','));
 const libs = parseBuildLibs(libSetting ?? 'zui', libsMap);
 
 await fs.outputJSON(path.resolve(docsPublicDir, './zui-libs.json'), libs, {spaces: 4});
