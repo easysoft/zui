@@ -16,7 +16,10 @@ if (argv.build !== 'no') {
     if (argv.exts === true) {
         params.push('--exts', '--lib=zui+exts');
     } else if (typeof argv.exts === 'string') {
-        params.push(`--exts=${argv.exts}`, '--lib=zui+exts');
+        params.push(`--exts=${argv.exts}`);
+    }
+    if (typeof argv.lib === 'string') {
+        params.push(`--lib=${argv.lib}`);
     }
     await exec('pnpm', params);
 }

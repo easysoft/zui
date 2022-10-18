@@ -189,7 +189,7 @@ function createLibExportStatement(exportInfo: BuildLibExport, libName: string): 
 function parseBuildLib(libLike: string | '@zui' | 'zui', libsMap: Record<string, LibInfo>): BuildLibInfo[] {
     if (libLike === 'zui' || libLike === '@zui' || libLike === '*zui') {
         return Object.values(libsMap).filter(x => x.zui.sourceType === 'build-in').sort((a, b) => a.zui.order - b.zui.order);
-    } else if (libLike === 'zui+exts') {
+    } else if (libLike === 'zui+exts' || libLike === 'zui*exts') {
         return Object.values(libsMap).filter(x => x.zui.sourceType === 'build-in' || x.zui.sourceType === 'exts').sort((a, b) => a.zui.order - b.zui.order);
     } else if (libLike.startsWith('zui*')) {
         const extsLibs = new Set(libLike.replace('zui*', '').split('*'));
