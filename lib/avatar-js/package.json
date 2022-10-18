@@ -21,7 +21,7 @@
         "@zui/utilities": "workspace:*"
     },
     "zui": {
-        "type": "components",
+        "type": "component",
         "displayName": "头像生成器",
         "contributes": {
             "js": ["component"]
