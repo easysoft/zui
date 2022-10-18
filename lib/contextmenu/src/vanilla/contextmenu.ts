@@ -322,6 +322,7 @@ document.addEventListener('contextmenu', (event) => {
     if (toggleElement) {
         const contextmenu = ContextMenu.ensure(toggleElement);
         contextmenu.show(event);
+        event.preventDefault();
     }
 });
 
