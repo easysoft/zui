@@ -98,7 +98,7 @@ export async function getLibs(libPath: string | string[] = '', options: {root?: 
             tailwindConfigPath,
         });
         if (libTypeOrders[libInfo.zui.type] === undefined) {
-            console.log(`Error: the lib type "${libInfo.zui.type}" of "${libInfo.name}" is invalid.\n`);
+            throw new Error(`Error: the lib type "${libInfo.zui.type}" of "${libInfo.name}" is invalid.\n`);
         }
         libs[libInfo.zui.name] = libInfo;
     }
