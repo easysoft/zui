@@ -1,6 +1,14 @@
 # 菜单
 
-菜单用于展示一个操作列表，也可以用于构建更复杂的组件，例如右键菜单、下拉菜单等。
+菜单用于展示一个操作列表，也可以用于构建更复杂的组件，例如右键菜单、下拉菜单等。如果需要通过 JS 动态创建菜单，可以使用[菜单生成器](/lib/components/menu/js.html)
+
+## 导入
+
+如果你使用的是非合并打包版本，可以通过如下方式单独引入菜单的 CSS 样式：
+
+```js
+import 'zui/menu/css';
+```
 
 ## 基本用法
 
@@ -68,7 +76,7 @@
 
 ## 包含图标
 
-可以在菜单项内添加图标，但如果是部分菜单项拥有图标，可以通过为 `.menu` 添加修饰类 `.has-icons` 来让图标以及文本进行对其：
+可以在菜单项内添加图标，但如果是部分菜单项拥有图标，可以通过为 `.menu` 添加修饰类 `.has-icons` 来让图标以及文本进行对齐：
 
 <Example>
   <menu class="menu has-icons w-32">
@@ -135,6 +143,7 @@
     <li><a class="menu-item active">已复制 <i class="icon icon-check text-success"></i></a></li>
     <li><a class="menu-item">粘贴</a></li>
     <li><a class="menu-item">剪切</a></li>
+    <li><a class="menu-item">更多 <i class="caret-right"></i></a></li>
   </menu>
 </Example>
 
@@ -143,6 +152,7 @@
   <li><a class="menu-item active">已复制 <i class="icon icon-check text-success"></i></a></li>
   <li><a class="menu-item">粘贴</a></li>
   <li><a class="menu-item">剪切</a></li>
+  <li><a class="menu-item">更多 <i class="caret-right"></i></a></li>
 </menu>
 ```
 
