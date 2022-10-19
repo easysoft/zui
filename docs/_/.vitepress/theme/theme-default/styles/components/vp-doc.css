@@ -230,11 +230,11 @@
   * -------------------------------------------------------------------------- */
 
  /* inline code */
- .vp-doc > div > :not(pre, h1, h2, h3, h4, h5, h6) > code {
+ .vp-doc div :not(pre, h1, h2, h3, h4, h5, h6) > code {
    font-size: var(--vp-code-font-size);
  }
 
- .vp-doc > div > :not(pre) > code {
+ .vp-doc div :not(pre) > code {
    border-radius: 4px;
    padding: 3px 6px;
    color: var(--vp-c-text-code);
@@ -242,18 +242,18 @@
    transition: color 0.5s, background-color 0.5s;
  }
 
- .vp-doc > div > h1 > code,
- .vp-doc > div > h2 > code,
- .vp-doc > div > h3 > code {
+ .vp-doc div h1 > code,
+ .vp-doc div h2 > code,
+ .vp-doc div h3 > code {
    font-size: 0.9em;
  }
 
- .vp-doc > div > a > code {
+ .vp-doc div a > code {
    color: var(--vp-c-brand);
    transition: color 0.25s;
  }
 
- .vp-doc > div > a:hover > code {
+ .vp-doc div a:hover > code {
    color: var(--vp-c-brand-dark);
  }
 
@@ -273,7 +273,7 @@
  }
 
  @media (max-width: 639px) {
-   .vp-doc > div > li div[class*='language-'] {
+   .vp-doc div li div[class*='language-'] {
      border-radius: 8px 0 0 8px;
    }
  }
