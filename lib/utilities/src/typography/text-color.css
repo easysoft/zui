@@ -10,7 +10,7 @@
 .text-lighter     {@apply -text-gray-300;}
 .text-light       {@apply -text-gray-400;}
 .text-gray        {@apply -text-gray-500;}
-.text-dark        {@apply -text-gray-700;}
+.text-darken      {@apply -text-gray-700;}
 .text-darker      {@apply -text-gray-900;}
 .text-black       {@apply -text-black;}
 

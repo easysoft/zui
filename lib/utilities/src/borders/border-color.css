@@ -10,7 +10,7 @@
 .border-lighter {@apply -border-gray-100;}
 .border-light   {@apply -border-gray-300;}
 .border-gray    {@apply -border-gray-500;}
-.border-dark    {@apply -border-gray-700;}
+.border-darken  {@apply -border-gray-700;}
 .border-darker  {@apply -border-gray-900;}
 .border-black   {@apply -border-black;}
 

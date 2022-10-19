@@ -9,6 +9,6 @@
 .lighter-outline {@apply -border -border-gray-100 -text-gray-100;}
 .light-outline   {@apply -border -border-gray-300 -text-gray-300;}
 .gray-outline    {@apply -border -border-gray-500 -text-gray-500;}
-.dark-outline    {@apply -border -border-gray-700 -text-gray-700;}
+.darken-outline  {@apply -border -border-gray-700 -text-gray-700;}
 .darker-outline  {@apply -border -border-gray-900 -text-gray-900;}
 .black-outline   {@apply -border -border-black -text-black;}

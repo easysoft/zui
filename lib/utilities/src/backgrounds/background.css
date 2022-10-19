@@ -10,7 +10,7 @@
 .bg-lighter {@apply -bg-gray-100}
 .bg-light   {@apply -bg-gray-300}
 .bg-gray    {@apply -bg-gray-500;}
-.bg-dark    {@apply -bg-gray-700;}
+.bg-darken  {@apply -bg-gray-700;}
 .bg-darker  {@apply -bg-gray-900;}
 .bg-black   {@apply -bg-black;}
 
