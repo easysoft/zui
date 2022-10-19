@@ -1,10 +1,5 @@
 public
 assets
 node_modules
-_/basic
-_/guide
-_/js
-_/lib
-_/themes
-_/utilities
-_/public
+_/
+!_/.vitepress

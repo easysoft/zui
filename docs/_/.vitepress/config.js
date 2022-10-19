@@ -57,7 +57,7 @@ function createNav() {
 function initSidebars() {
     return {
         '/guide/': [
-            {text: '开始', section: 'guide'},
+            {text: '开始', section: 'start'},
             {text: '定制', section: 'customize'},
             {text: '贡献', section: 'contributes'},
             {text: '关于', section: 'about'}

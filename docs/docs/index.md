@@ -8,7 +8,7 @@ hero:
   actions:
     - theme: brand
       text: 快速开始
-      link: /guide/quick-start
+      link: /guide/start/
     - theme: alt
       text: GitHub
       link: https://github.com/easysoft/zui
