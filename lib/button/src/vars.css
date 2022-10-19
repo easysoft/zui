@@ -1,5 +1,5 @@
 :root {
   --btn-radius: var(--radius);
-  --btn-bg: var(--color-gray-50);
+  --btn-bg: var(--color-surface);
   --btn-border-color: var(--color-gray-300);
 }
