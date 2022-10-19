@@ -10,3 +10,6 @@
 .VPSidebar > .nav {
     @apply -block;
 }
+.VPNavBarMenu.menu {
+    @apply -shadow-none -border-none -bg-transparent;
+}
