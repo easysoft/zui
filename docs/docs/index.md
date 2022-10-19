@@ -28,6 +28,9 @@ features:
 .VPContent.is-home {
   background: linear-gradient(125deg, var(--color-primary-50) 0%, var(--color-primary-50) 40%, var(--color-primary-100) calc(40% + 1px), var(--color-primary-100) 60%, var(--color-primary-200) calc(60% + 1px), var(--color-primary-200) 72%, var(--color-primary-500) calc(72% + 1px), var(--color-primary-500) 100%);
 }
+.dark .VPContent.is-home {
+  background: linear-gradient(125deg, var(--color-primary-900) 0%, var(--color-primary-900) 40%, var(--color-primary-800) calc(40% + 1px), var(--color-primary-800) 60%, var(--color-primary-700) calc(60% + 1px), var(--color-primary-700) 72%, var(--color-primary-400) calc(72% + 1px), var(--color-primary-400) 100%);
+}
 .VPFeature {
   @apply -backdrop-blur-lg -bg-inverse/5 -border-canvas/10 !important;
 }
