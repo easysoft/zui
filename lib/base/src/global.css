@@ -2,5 +2,5 @@ html {
     font-size: var(--root-font-size);
 }
 body {
-    @apply -text-base -text-fore;
+    @apply -bg-canvas -text-base -text-fore;
 }
