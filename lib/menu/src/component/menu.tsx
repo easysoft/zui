@@ -1,4 +1,4 @@
-import {ComponentChildren, Component, h as _h, createRef} from 'preact';
+import {ComponentChildren, Component, h as _h, createRef, isValidElement} from 'preact';
 import {ClassNameLike, classes} from '@zui/browser-helpers/src/classes';
 import {MenuItem, MenuItemProps} from './menu-item';
 import {MenuDivider, MenuDividerProps} from './menu-divider';
@@ -22,10 +22,10 @@ export type MenuProps = {
     items?: MenuListItem[] | (() => MenuListItem[]);
     hasIcons?: boolean;
     children?: ComponentChildren;
-    subMenuTrigger?: 'click' | 'hover';
+    subMenuTrigger?: 'click' | 'hover' | 'always';
     onClickItem?: (item: MenuItemOptions, index: number, event: MouseEvent) => void;
     onRenderSubMenu?: (item: MenuItemOptions, h: typeof _h) => ComponentChildren;
-    onRenderItem?: (menu: Menu, item: MenuListItem, index: number, h: typeof _h) => Partial<MenuListItem> | undefined;
+    onRenderItem?: (menu: Menu, item: MenuListItem, index: number, h: typeof _h) => Partial<MenuListItem> | ComponentChildren | undefined;
     afterRender?: (menu: Menu) => void;
     beforeDestroy?: (menu: Menu) => void;
 };
@@ -149,9 +149,12 @@ export class Menu extends Component<MenuProps, MenuState> {
                 {itemList?.map((item, index) => {
                     const listItem = {type: 'item', key: index, ...item} as MenuListItem;
                     if (onRenderItem) {
-                        const newProps = onRenderItem(this, listItem, index, _h);
-                        if (newProps) {
-                            Object.assign(listItem, newProps);
+                        const customResult = onRenderItem(this, listItem, index, _h);
+                        if (customResult) {
+                            if (isValidElement(customResult) || typeof customResult !== 'object') {
+                                return customResult;
+                            }
+                            Object.assign(listItem, customResult);
                         }
                     }
                     const {key = index, type = 'item', ...props} = listItem;
@@ -167,7 +170,7 @@ export class Menu extends Component<MenuProps, MenuState> {
                         key,
                         onClick: this.#handleItemClick.bind(this, listItem as MenuItemOptions, index, onClick as ((event: MouseEvent) => void)),
                     };
-                    const isSubMenuShown = subItems && this.state.shownSubs[key];
+                    const isSubMenuShown = subItems && (subMenuTrigger === 'always' || this.state.shownSubs[key]);
                     if (subItems) {
                         itemProps.rootClass = classes(itemProps.rootClass, 'has-sub', isSubMenuShown ? 'has-sub-shown' : '');
                         if (subMenuTrigger === 'hover') {
