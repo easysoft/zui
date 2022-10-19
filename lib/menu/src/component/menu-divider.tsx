@@ -1,5 +1,5 @@
 import {ClassNameLike, classes} from '@zui/browser-helpers/src/classes';
-import '../style/menu-item.css';
+import '../style/menu-divider.css';
 
 export type MenuDividerProps = {
     className?: ClassNameLike;
