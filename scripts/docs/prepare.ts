@@ -27,7 +27,7 @@ if (argv.build !== 'no') {
 
 await fs.copyFile(path.resolve(process.cwd(), './favicon.svg'), path.resolve(docsPublicDir, './favicon.svg'));
 
-const libsMap = await getLibs(exts.split(','));
+const libsMap = await getLibs(exts?.split(',') ?? 'buildIn');
 const libs = parseBuildLibs(libSetting ?? 'zui', libsMap);
 
 await fs.outputJSON(path.resolve(docsPublicDir, './zui-libs.json'), libs, {spaces: 4});
