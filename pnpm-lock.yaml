@@ -4,7 +4,7 @@ importers:
 
   .:
     specifiers:
-      '@mertasan/tailwindcss-variables': ^2.3.0
+      '@mertasan/tailwindcss-variables': ^2.5.1
       '@tailwindcss/line-clamp': 0.4.2
       '@types/fs-extra': ^9.0.13
       '@types/glob': 8.0.0
@@ -51,7 +51,7 @@ importers:
       '@zui/utilities': link:lib/utilities
       highlight.js: 11.6.0
     devDependencies:
-      '@mertasan/tailwindcss-variables': registry.npmmirror.com/@mertasan/tailwindcss-variables/2.3.0_jhfe3rbur6kzimvcehnoniy6fy
+      '@mertasan/tailwindcss-variables': registry.npmmirror.com/@mertasan/tailwindcss-variables/2.5.1_jhfe3rbur6kzimvcehnoniy6fy
       '@tailwindcss/line-clamp': registry.npmmirror.com/@tailwindcss/line-clamp/0.4.2_tailwindcss@3.1.8
       '@types/fs-extra': 9.0.13
       '@types/glob': registry.npmmirror.com/@types/glob/8.0.0
@@ -2878,11 +2878,11 @@ packages:
     version: 1.2.1
     dev: true
 
-  registry.npmmirror.com/@mertasan/tailwindcss-variables/2.3.0_jhfe3rbur6kzimvcehnoniy6fy:
-    resolution: {integrity: sha512-/IqcvNwxnWZo+dli+A0gMOTRcp0LaCKgbX+ciWkV4tZjQtf6VJ+SYpnH+9XckUn+EjFep29OMRWANSjIvVThRA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@mertasan/tailwindcss-variables/-/tailwindcss-variables-2.3.0.tgz}
-    id: registry.npmmirror.com/@mertasan/tailwindcss-variables/2.3.0
+  registry.npmmirror.com/@mertasan/tailwindcss-variables/2.5.1_jhfe3rbur6kzimvcehnoniy6fy:
+    resolution: {integrity: sha512-I1Jvpu5fcinGT/yEDL53dRXznFWV4LoTCUVcTvQqA1YH1iAfs72OO/VZdBKPqcxe/lS2nBr/Ikloe+pLsxemmA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@mertasan/tailwindcss-variables/-/tailwindcss-variables-2.5.1.tgz}
+    id: registry.npmmirror.com/@mertasan/tailwindcss-variables/2.5.1
     name: '@mertasan/tailwindcss-variables'
-    version: 2.3.0
+    version: 2.5.1
     engines: {node: '>=12.13.0'}
     peerDependencies:
       autoprefixer: ^10.0.2

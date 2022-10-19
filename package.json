@@ -31,7 +31,7 @@
     "highlight.js": "^11.6.0"
   },
   "devDependencies": {
-    "@mertasan/tailwindcss-variables": "^2.3.0",
+    "@mertasan/tailwindcss-variables": "^2.5.1",
     "@tailwindcss/line-clamp": "0.4.2",
     "@types/fs-extra": "^9.0.13",
     "@types/glob": "8.0.0",

@@ -1,4 +1,5 @@
 const colors = require('./colors.cjs');
+const darkColors = require('./dark-colors.cjs');
 const borderRadius = require('./border-radius.cjs');
 const boxShadow = require('./box-shadow.cjs');
 const fontSize = require('./font-size.cjs');
@@ -11,5 +12,8 @@ module.exports = {
         shadow: boxShadow,
         space: '0.25rem',
         'root-font-size': fontSize.root,
+    },
+    '.dark': {
+        color: darkColors,
     },
 };

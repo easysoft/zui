@@ -4,7 +4,7 @@ const defaultTheme = require('./config/tailwind-theme/index.cjs');
 
 /** @type {import('tailwindcss').Config} */
 const config = {
-    darkMode: 'class',
+    darkMode: ['class', '[class="dark"]'],
     content: process.env.NODE_ENV === 'development' ? [
         './index.html',
         './index.md',
