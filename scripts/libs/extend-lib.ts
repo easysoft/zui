@@ -17,7 +17,7 @@ await fs.copy(extPath, Path.join(extsPath, extName));
 const libsFile = Path.join(extsPath, 'libs.json');
 let libs: Record<string, string> | undefined;
 if (fs.existsSync(libsFile)) {
-    await fs.readJSON(libsFile, {throws: false});
+    libs = await fs.readJSON(libsFile, {throws: false});
 }
 if (!libs) {
     libs = {};

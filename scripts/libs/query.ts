@@ -67,7 +67,12 @@ export async function getLibs(libPath: string | string[] = '', options: {root?: 
         }
     }
 
-    const dirs = await fs.readdir(libPath);
+    let dirs: string[] = [];
+    if (fs.pathExistsSync(Path.resolve(libPath, 'package.json'))) {
+        dirs = [libPath];
+    } else {
+        dirs = await fs.readdir(libPath);
+    }
 
     const libs: Record<string, LibInfo> = {};
     for (let i = 0; i < dirs.length; ++i) {
