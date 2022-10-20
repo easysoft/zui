@@ -9,7 +9,6 @@ export default {
     ...DefaultTheme,
     enhanceApp({ app }) {
         app.component('Example', Example);
+        Object.assign(globalThis, {onZUIReady});
     }
 }
-
-Object.assign(window, {onZUIReady});

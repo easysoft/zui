@@ -1,5 +1,5 @@
 public
 assets
 node_modules
-_/
-!_/.vitepress
+/_/*
+!/_/.vitepress/
