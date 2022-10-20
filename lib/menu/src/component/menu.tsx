@@ -23,11 +23,11 @@ export type MenuProps = {
     hasIcons?: boolean;
     children?: ComponentChildren;
     subMenuTrigger?: 'click' | 'hover' | 'always';
-    onClickItem?: (item: MenuItemOptions, index: number, event: MouseEvent) => void;
-    onRenderSubMenu?: (item: MenuItemOptions, h: typeof _h) => ComponentChildren;
-    onRenderItem?: (menu: Menu, item: MenuListItem, index: number, h: typeof _h) => Partial<MenuListItem> | ComponentChildren | undefined;
-    afterRender?: (menu: Menu) => void;
-    beforeDestroy?: (menu: Menu) => void;
+    onClickItem?: (info: {menu: Menu, item: MenuItemOptions, index: number, event: MouseEvent}) => void;
+    onRenderSubMenu?: (info: {menu: Menu, item: MenuItemOptions, h: typeof _h}) => ComponentChildren;
+    onRenderItem?: (info: {menu: Menu, item: MenuListItem, index: number, h: typeof _h}) => Partial<MenuListItem> | ComponentChildren | undefined;
+    afterRender?: (info: {menu: Menu, firstRender: boolean}) => void;
+    beforeDestroy?: (info: {menu: Menu}) => void;
 };
 
 export type MenuState = {
@@ -44,15 +44,15 @@ export class Menu extends Component<MenuProps, MenuState> {
     }
 
     componentDidMount() {
-        this.props.afterRender?.(this);
+        this.props.afterRender?.({menu: this, firstRender: true});
     }
 
     componentDidUpdate(): void {
-        this.props.afterRender?.(this);
+        this.props.afterRender?.({menu: this, firstRender: false});
     }
 
     componentWillUnmount(): void {
-        this.props.beforeDestroy?.(this);
+        this.props.beforeDestroy?.({menu: this});
     }
 
     toggleSubMenu(key: string | number, toggle?: boolean): void {
@@ -82,7 +82,7 @@ export class Menu extends Component<MenuProps, MenuState> {
         }
         const {onClickItem} = this.props;
         if (onClickItem) {
-            onClickItem(item, index, event);
+            onClickItem({menu: this, item, index, event});
         }
         if (this.props.subMenuTrigger === 'click' && item.items) {
             this.toggleSubMenu(item.key ?? index, true);
@@ -91,10 +91,10 @@ export class Menu extends Component<MenuProps, MenuState> {
         }
     }
 
-    #renderSubMenu = (item: MenuItemOptions) => {
+    #renderSubMenu = ({item, h}: {item: MenuItemOptions, h: typeof _h}) => {
         const {onRenderSubMenu} = this.props;
         if (onRenderSubMenu) {
-            return onRenderSubMenu(item, _h);
+            return onRenderSubMenu({menu: this, item, h});
         }
         const {afterRender, onClickItem, subMenuTrigger, onRenderItem} = this.props;
         return (
@@ -149,7 +149,7 @@ export class Menu extends Component<MenuProps, MenuState> {
                 {itemList?.map((item, index) => {
                     const listItem = {type: 'item', key: index, ...item} as MenuListItem;
                     if (onRenderItem) {
-                        const customResult = onRenderItem(this, listItem, index, _h);
+                        const customResult = onRenderItem({menu: this, item: listItem, index, h: _h});
                         if (customResult) {
                             if (isValidElement(customResult) || typeof customResult !== 'object') {
                                 return customResult;
@@ -183,7 +183,7 @@ export class Menu extends Component<MenuProps, MenuState> {
                     }
                     return (
                         <MenuItem {...itemProps}>
-                            {isSubMenuShown && this.#renderSubMenu(listItem as MenuItemOptions)}
+                            {isSubMenuShown && this.#renderSubMenu({item: listItem as MenuItemOptions, h: _h})}
                         </MenuItem>
                     );
                 })}

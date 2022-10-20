@@ -179,7 +179,7 @@ export class ContextMenu extends ComponentBase<ContextMenuOptions, ContextMenuEv
         return this.#popper;
     }
 
-    #afterRenderMenu = (menu: MenuReact) => {
+    #afterRenderMenu = ({menu}: {menu: MenuReact}) => {
         const menuElement = menu.$;
         if (!menuElement?.parentElement) {
             return;
@@ -195,7 +195,7 @@ export class ContextMenu extends ComponentBase<ContextMenuOptions, ContextMenuEv
         popper.update();
     };
 
-    #afterDestroyMenu = (menu: MenuReact) => {
+    #afterDestroyMenu = ({menu}: {menu: MenuReact}) => {
         const popper = this.#subPoppers.get(menu);
         if (popper) {
             popper.destroy();
@@ -203,7 +203,7 @@ export class ContextMenu extends ComponentBase<ContextMenuOptions, ContextMenuEv
         }
     };
 
-    #renderMenuItem = (menu: MenuReact, item: MenuListItem, index: number, h: typeof _h): (MenuListItem | undefined) => {
+    #renderMenuItem = ({item, h}: {menu: MenuReact, item: MenuListItem, index: number, h: typeof _h}): (MenuListItem | undefined) => {
         if (item.type === 'item' && item.items) {
             return {
                 trailingIcon: h('span', {className: 'caret-right ml-2'}),

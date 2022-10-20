@@ -33,8 +33,8 @@ const contextMenu = new ContextMenu('#menuToggle1', {
         {title: '保存', icon: 'icon-save', onClick: (event) => console.log('> menuItem.clicked', event)},
     ],
     menu: {
-        onClickItem: (item, index, event) => {
-            console.log('> menu.onClickItem', {item, index, event});
+        onClickItem: (info) => {
+            console.log('> menu.onClickItem', info);
         },
     },
 });
@@ -62,8 +62,8 @@ document.getElementById('menuToggle2')?.addEventListener('click', (event) => {
             {title: '保存', icon: 'icon-save', onClick: (e) => console.log('> menuItem.clicked', e)},
         ],
         menu: {
-            onClickItem: (item, index, e) => {
-                console.log('> menu.onClickItem', {item, index, e});
+            onClickItem: (info) => {
+                console.log('> menu.onClickItem', info);
             },
         },
     });

@@ -29,8 +29,8 @@ onPageLoad(() => {
             },
         ],
         menu: {
-            onClickItem: (item, index, event) => {
-                console.log('> menu.onClickItem', {item, index, event});
+            onClickItem: (info) => {
+                console.log('> menu.onClickItem', info);
             },
         },
     });
@@ -49,8 +49,8 @@ onPageLoad(() => {
                 {title: '保存', icon: 'icon-save', onClick: (e) => console.log('> menuItem.clicked', e)},
             ],
             menu: {
-                onClickItem: (item, index, e) => {
-                    console.log('> menu.onClickItem', {item, index, e});
+                onClickItem: (info) => {
+                    console.log('> menu.onClickItem', info);
                 },
             },
         });

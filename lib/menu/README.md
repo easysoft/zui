@@ -17,8 +17,8 @@ const menu = new Menu('#menu', {
         {title: '导出', icon: 'icon-download-alt'},
         {title: '保存', icon: 'icon-save', onClick: (event) => console.log('> menuItem.clicked', event)},
     ],
-    onClickItem: (item, index, event) => {
-        console.log('> menu.onClickItem', {item, index, event});
+    onClickItem: (info) => {
+        console.log('> menu.onClickItem', info);
     },
 });
 console.log('> menu', menu);
