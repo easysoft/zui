@@ -236,13 +236,13 @@ import 'zui/menu/css';
 
 | CSS 变量名        | 作用           | 默认值 |
 | ------------- |:------------- | --- |
-| `--menu-radius` | 菜单圆角 | `var(--radius) |
-| `--menu-bg` | 菜单背景颜色 | `var(--color-canvas) |
-| `--menu-border` | 菜单边框颜色 | `1px solid var(--color-border) |
-| `--menu-shadow` | 菜单阴影 | `var(--shadow-lg) |
-| `--menu-hover-bg` | 菜单项鼠标悬停背景色 | `var(--color-primary-500) |
-| `--menu-hover-color` | 菜单项鼠标悬停文字颜色 | `var(--color-canvas) |
-| `--menu-active-bg` | 菜单项激活状态背景色 | `var(--color-primary-50) |
-| `--menu-active-color` | 菜单项激活状态文字颜色 | `var(--color-primary-500) |
+| `--menu-radius` | 菜单圆角 | `var(--radius)` |
+| `--menu-bg` | 菜单背景颜色 | `var(--color-canvas)` |
+| `--menu-border` | 菜单边框 | `1px solid var(--color-border)` |
+| `--menu-shadow` | 菜单阴影 | `var(--shadow-lg)` |
+| `--menu-hover-bg` | 菜单项鼠标悬停背景色 | `var(--color-primary-500)` |
+| `--menu-hover-color` | 菜单项鼠标悬停文字颜色 | `var(--color-canvas)` |
+| `--menu-active-bg` | 菜单项激活状态背景色 | `var(--color-primary-50)` |
+| `--menu-active-color` | 菜单项激活状态文字颜色 | `var(--color-primary-500)` |
 | `--menu-icon-opacity` | 菜单项图标透明度 | `.5` |
-| `--menu-heading-color` | 菜单标题文字颜色 | `var(--color-gray-500) |
+| `--menu-heading-color` | 菜单标题文字颜色 | `var(--color-gray-500)` |
