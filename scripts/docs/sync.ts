@@ -86,4 +86,5 @@ export async function emptySidebarLibDocs() {
             await fs.copy(baseDocs, docsPath);
         }
     }
+    await fs.copy(Path.join(baseDocsPath, 'index.md'), Path.join(docsDestPath, 'index.md'));
 }
