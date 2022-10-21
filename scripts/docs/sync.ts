@@ -36,7 +36,10 @@ export async function syncLibDocFile(file: string, isRemove?: boolean): Promise<
         let relativePath = '';
         if (file.startsWith(extsPath)) {
             relativePath = Path.relative(extsPath, file);
-            relativePath = relativePath.split(Path.sep).slice(1).join(Path.sep);
+            const relativePathParts = relativePath.split(Path.sep);
+            if (relativePathParts[2] === 'docs') {
+                relativePath = relativePath.split(Path.sep).slice(1).join(Path.sep);
+            }
         } else {
             relativePath = Path.relative(libPath, file);
         }
@@ -44,7 +47,7 @@ export async function syncLibDocFile(file: string, isRemove?: boolean): Promise<
         if (type === 'assets') {
             targetFile = Path.join(docsDestPath, 'public', 'assets', libName, ...restPath);
         } else if (restPath.length < 3) {
-            console.log(` ${red('ERROR')} file ${underline(yellow(relativePath))} is place in wrong place.`);
+            console.log(` ${red('ERROR')} file ${underline(yellow(relativePath))} is in wrong place.`);
             return '';
         } else {
             const [sidebar, section, ...fileParts] = restPath;
@@ -77,14 +80,12 @@ export async function syncLibDocFile(file: string, isRemove?: boolean): Promise<
 export async function emptySidebarLibDocs() {
     const docsDestPath = Path.resolve(process.cwd(), 'docs/_');
     const baseDocsPath = Path.resolve(process.cwd(), 'docs/docs');
-    for (const dir of ['basic', 'guide', 'js', 'lib', 'themes', 'utilities']) {
-        const docsPath = Path.join(docsDestPath, dir);
-        await fs.emptyDir(docsPath);
-        const baseDocs = Path.join(baseDocsPath, dir);
-        const baseDocsExits = await fs.pathExists(baseDocs);
-        if (baseDocsExits) {
-            await fs.copy(baseDocs, docsPath);
+    const filePaths = await fs.readdir(docsDestPath);
+    for (const filePath of filePaths) {
+        if (filePath === '.vitepress') {
+            continue;
         }
+        await fs.remove(Path.join(docsDestPath, filePath));
     }
-    await fs.copy(Path.join(baseDocsPath, 'index.md'), Path.join(docsDestPath, 'index.md'));
+    await fs.copy(baseDocsPath, docsDestPath);
 }
