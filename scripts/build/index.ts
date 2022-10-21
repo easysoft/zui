@@ -79,20 +79,14 @@ if (tailwindConfigs.length) {
 
 if (!argv.s && !argv.skipBuild) {
     await exec('pnpm', ['i'], {cwd: buildDir});
-
-    const buildArgs = ['run', 'build:vite', '--', `--config=${viteConfigFile}`];
-    if (argv.cssnano) {
-        buildArgs.push('--cssnano');
-    }
-    if (argv.rem2px) {
-        buildArgs.push('--rem2px');
-    }
-
-    if (argv.noPreflightStyle) {
-        buildArgs.push('--noPreflightStyle');
-    }
-    if (tailwindConfigsPath) {
-        buildArgs.push(`--tailwind=${tailwindConfigsPath}`);
-    }
-    await exec('pnpm', buildArgs);
+    await exec('pnpm', ['run', 'build:vite'], {
+        env: {
+            ...process.env,
+            VITE_EXTRA_CONFIG: viteConfigFile,
+            POSTCSS_CSSNANO: argv.cssnano,
+            POSTCSS_REM2PX: argv.rem2px,
+            TAILWIND_NO_PREFLIGHT: argv.noPreflightStyle,
+            TAILWIND_CONFIG: tailwindConfigsPath
+        }
+    });
 }

@@ -41,7 +41,7 @@ function colorToVars(colorObject, parentName = 'color', vars = {}) {
 
 const argv = minimist(process.argv.slice(4));
 
-let {tailwind} = argv;
+let tailwind = argv.tailwind || process.env.TAILWIND_CONFIG;
 if (tailwind) {
     const mergePresets = (preset) => {
         if (typeof preset === 'function') {
@@ -65,7 +65,7 @@ if (tailwind) {
     }
 }
 
-if (argv.noPreflightStyle) {
+if (argv.noPreflightStyle || process.env.TAILWIND_NO_PREFLIGHT) {
     config.corePlugins = {
         preflight: false,
     };

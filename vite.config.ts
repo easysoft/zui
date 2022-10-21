@@ -1,7 +1,7 @@
 import Path from 'path';
 import fs from 'fs-extra';
 import {defineConfig, mergeConfig, UserConfig} from 'vite';
-import minimist from 'minimist';
+import {blue} from 'colorette';
 import eslint from 'vite-plugin-eslint';
 import configDevServer from './scripts/dev/config-server';
 import {LibraryOptions} from 'vite';
@@ -31,11 +31,12 @@ export default defineConfig(async ({command, mode, ssrBuild}) => {
         },
     };
 
-    const {config: configFile} = minimist(process.argv.slice(4));
+    const configFile = process.env.VITE_EXTRA_CONFIG;
     if (configFile) {
         const configFromFile = Path.isAbsolute(configFile) ? configFile : Path.resolve(__dirname, configFile);
         const extraBuildConfig = await fs.readJSON(configFromFile);
         viteConfig = mergeConfig(viteConfig, extraBuildConfig);
+        console.log(blue('merged extra vite config file:'), '\n', Path.relative(__dirname, configFromFile) + '\n');
     }
 
     viteConfig = mergeConfig(viteConfig, {
