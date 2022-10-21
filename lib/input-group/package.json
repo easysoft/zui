@@ -8,9 +8,6 @@
         "css",
         "zui:control"
     ],
-    "dependencies": {
-        "@zui/form": "workspace:^0.0.1"
-    },
     "devDependencies": {
         "@zui/base": "workspace:*",
         "@zui/button": "workspace:^0.0.1",
