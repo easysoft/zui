@@ -7,14 +7,14 @@ import {getLibs} from '../libs/query';
 import {LibInfo} from '../libs/lib-info';
 
 function getLibNameFromUrl(url: string): string | null {
-    if (/^\/(lib\/)?[\w-\d]+\/?$/.test(url)) {
-        return url.replace('/lib/', '/').slice(1).split('/')[0];
+    if (/^\/(lib\/)?[\w-\d%]+\/?$/.test(url)) {
+        return decodeURIComponent(url.replace('/lib/', '/').slice(1).split('/')[0]);
     }
     return null;
 }
 
-let libsCache: Record<string, LibInfo> | undefined;
 const argv = minimist(process.argv.slice(4));
+let libsCache: Record<string, LibInfo> | undefined = await getLibs(argv.lib ?? 'buildIn');
 
 export default (options: {rootPath: string}): Plugin => ({
     name: 'config-dev-server',
@@ -35,8 +35,8 @@ export default (options: {rootPath: string}): Plugin => ({
                 return;
             }
 
-            if (/^\/lib\/[\w-\d]+\/README.md$/.test(req.url)) {
-                const libName = req.url.replace('/lib/', '').split('/')[0];
+            if (/^\/lib\/[\w-\d%]+\/README.md$/.test(req.url)) {
+                const libName = decodeURIComponent(req.url.replace('/lib/', '').split('/')[0]);
                 if (!libsCache) {
                     libsCache = await getLibs();
                 }

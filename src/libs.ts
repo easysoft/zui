@@ -1,6 +1,6 @@
 import {LibInfo} from '../scripts/libs/lib-info';
 
-export const currentLibName = window.location.pathname.split('/')[1] ?? '';
+export const currentLibName = decodeURIComponent(window.location.pathname.split('/')[1] ?? '');
 
 export async function loadLibs() {
     const response = await fetch('/libs/');
@@ -29,7 +29,7 @@ export async function loadLibs() {
 }
 
 export async function loadLibPage(libName: string) {
-    const response = await fetch(`/lib/${libName}/README.md`);
+    const response = await fetch(`/lib/${encodeURIComponent(libName)}/README.md`);
     const content = await response.text();
     const libPage = document.getElementById('libPage');
     if (libPage) {
