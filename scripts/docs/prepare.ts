@@ -12,7 +12,7 @@ const docsPublicDir = path.join(docsDir, 'public');
 
 await fs.emptyDir(docsPublicDir);
 
-const exts = argv.exts === true ? 'zui+exts' : argv.exts;
+const exts = argv.exts === true ? 'buildIn,exts' : argv.exts;
 const libSetting = argv.lib;
 if (argv.build !== 'no') {
     const params = ['build', '--', '--outDir=docs/_/public/zui', '--name=zui'];

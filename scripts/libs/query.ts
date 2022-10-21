@@ -77,7 +77,8 @@ export async function getLibs(libPath: string | string[] = '', options: {root?: 
     const libs: Record<string, LibInfo> = {};
     for (let i = 0; i < dirs.length; ++i) {
         const dir = dirs[i];
-        const packageFile = Path.resolve(libPath, dir, 'package.json');
+        const currentLibPath = Path.resolve(libPath, dir);
+        const packageFile = Path.resolve(currentLibPath, 'package.json');
         const packageFileExists = await fs.pathExists(packageFile);
         if (!packageFileExists) {
             continue;
@@ -87,20 +88,21 @@ export async function getLibs(libPath: string | string[] = '', options: {root?: 
             continue;
         }
 
-        let tailwindConfigPath: string | undefined = Path.resolve(libPath, dir, 'tailwind.cjs');
+        let tailwindConfigPath: string | undefined = Path.resolve(currentLibPath, 'tailwind.cjs');
         if (!fs.existsSync(tailwindConfigPath)) {
-            tailwindConfigPath = Path.resolve(libPath, dir, 'tailwind.js');
+            tailwindConfigPath = Path.resolve(currentLibPath, 'tailwind.js');
         }
         if (!fs.existsSync(tailwindConfigPath)) {
             tailwindConfigPath = undefined;
         }
         const libInfo = createLibFromPackageJson(packageJson, {
             sourceType,
-            path: Path.resolve(libPath, dir),
+            path: currentLibPath,
             idx: ((options.idx ?? 0) * 10000) + i,
             workspace,
             packageJsonPath: packageFile,
             tailwindConfigPath,
+            extsName: sourceType === 'exts' ? currentLibPath.split('/').reverse()[dirs.length > 1 ? 1 : 0] : undefined,
         });
         if (libTypeOrders[libInfo.zui.type] === undefined) {
             throw new Error(`Error: the lib type "${libInfo.zui.type}" of "${libInfo.name}" is invalid.\n`);
@@ -136,10 +138,10 @@ export function sortLibList(libList: LibInfo[]) {
     }).sort((a, b) => a.zui.order - b.zui.order);
 }
 
-export function createLibFromPackageJson(packageJson: Record<string, unknown>, options: {sourceType?: LibSourceType, path: string, idx?: number, workspace?: boolean, packageJsonPath: string, tailwindConfigPath?: string}): LibInfo {
+export function createLibFromPackageJson(packageJson: Record<string, unknown>, options: {sourceType?: LibSourceType, path: string, idx?: number, workspace?: boolean, packageJsonPath: string, tailwindConfigPath?: string, extsName?: string}): LibInfo {
     const name = packageJson.name as string;
     const defaultName = name.startsWith('@zui/') ? name.substring(5) : name;
-    const {sourceType = 'build-in', path, idx = 0, workspace, packageJsonPath, tailwindConfigPath} = options;
+    const {sourceType = 'build-in', path, idx = 0, workspace, packageJsonPath, tailwindConfigPath, extsName} = options;
     const libInfo = {
         name,
         version: packageJson.version as string,
@@ -156,7 +158,7 @@ export function createLibFromPackageJson(packageJson: Record<string, unknown>, o
             workspace,
             sourceType,
             name: defaultName,
-            extsName: sourceType === 'exts' ? path.split('/').reverse()[1] : undefined,
+            extsName,
             ...(packageJson.zui as Record<string, unknown>),
             order: 0,
             packageJsonPath,

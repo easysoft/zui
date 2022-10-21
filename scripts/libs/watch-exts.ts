@@ -18,13 +18,14 @@ if (fs.existsSync(libsFile)) {
                 return;
             }
             libPathMap[path] = name;
+            fs.copySync(path, Path.resolve(extsPath, name));
         });
     }
 }
 
 if (Object.keys(libPathMap).length) {
     const watchPaths = Object.keys(libPathMap).map(x => Path.join(x, '*/**'));
-    const watcher = chokidar.watch(watchPaths, {persistent: true, ignoreInitial: false});
+    const watcher = chokidar.watch(watchPaths, {persistent: true, ignoreInitial: true, ignored: /\.git/g});
 
     const syncFile = async (type: 'add' | 'change' | 'unlink', file: string, stat) => {
         const libPath = Object.keys(libPathMap).find(x => file.startsWith(x));

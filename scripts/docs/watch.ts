@@ -29,7 +29,7 @@ if (argv.exts === true) {
     });
 }
 
-const watcher = chokidar.watch(watchPath, {persistent: true, ignoreInitial: false, ignored: /(^|[/\\])\../});
+const watcher = chokidar.watch(watchPath, {persistent: true, ignoreInitial: false, ignored: [/(^|[/\\])\../, /\.git/]});
 
 console.log(`${bold(green('Watch docs...'))} ${watchPath.map(x => gray(path.relative(process.cwd(), x))).join(', ')}`);
 
