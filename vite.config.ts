@@ -26,6 +26,9 @@ export default defineConfig(async ({command, mode, ssrBuild}) => {
             jsxFragment: 'Fragment',
             jsxInject: 'import {h} from \'preact\'',
         },
+        resolve: {
+            preserveSymlinks: true,
+        },
     };
 
     const {config: configFile} = minimist(process.argv.slice(4));
