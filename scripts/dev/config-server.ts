@@ -1,7 +1,6 @@
 import path from 'path';
 import fs from 'fs-extra';
 import {HtmlTagDescriptor, Plugin} from 'vite';
-import minimist from 'minimist';
 import {generateLibDoc} from '../docs/lib-doc-generator';
 import {getLibs} from '../libs/query';
 import {LibInfo} from '../libs/lib-info';
@@ -13,8 +12,8 @@ function getLibNameFromUrl(url: string): string | null {
     return null;
 }
 
-const argv = minimist(process.argv.slice(4));
-let libsCache: Record<string, LibInfo> | undefined = await getLibs(argv.lib ?? 'buildIn');
+const buildLibs = process.env.BUILD_LIBS ?? 'buildIn';
+let libsCache: Record<string, LibInfo> | undefined = await getLibs(buildLibs);
 
 export default (options: {rootPath: string}): Plugin => ({
     name: 'config-dev-server',
@@ -27,7 +26,7 @@ export default (options: {rootPath: string}): Plugin => ({
             if (req.url.startsWith('/libs/')) {
                 let libsPath = req.url.substring('/libs/'.length);
                 if (!libsPath.length) {
-                    libsPath = `${libsPath}${argv.lib ?? 'buildIn'}`;
+                    libsPath = `${libsPath}${buildLibs}`;
                 }
                 libsCache = await getLibs(libsPath);
                 res.setHeader('Content-Type', 'application/json');
