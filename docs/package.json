@@ -3,12 +3,12 @@
     "description": "ZUI Document Website",
     "version": "0.0.1",
     "scripts": {
-        "dev": "vitepress dev ./_ --host",
+        "dev": "vitepress dev ./_ --host --port 5174",
         "build": "vitepress build ./_",
         "serve": "vitepress serve ./_"
     },
     "devDependencies": {
-        "vitepress": "1.0.0-alpha.21",
+        "vitepress": "^1.0.0-alpha.21",
         "vue": "^3.2.36"
     }
 }
