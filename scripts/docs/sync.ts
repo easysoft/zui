@@ -83,7 +83,7 @@ export async function emptySidebarLibDocs() {
     const baseDocsPath = Path.resolve(process.cwd(), 'docs/docs');
     const filePaths = await fs.readdir(docsDestPath);
     for (const filePath of filePaths) {
-        if (filePath === '.vitepress') {
+        if (filePath === '.vitepress' || filePath === 'public') {
             continue;
         }
         await fs.remove(Path.join(docsDestPath, filePath));
