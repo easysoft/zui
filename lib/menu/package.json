@@ -2,7 +2,6 @@
     "name": "@zui/menu",
     "version": "0.0.1",
     "main": "src/main.ts",
-    "browser": "src/main.ts",
     "browserslist": "",
     "keywords": [
         "css",
