@@ -19,8 +19,7 @@
     "docs:build:exts": "pnpm docs:prepare -- --copy --exts --lib=zui*exts && cd docs && pnpm build",
     "docs:serve": "cd docs && pnpm serve",
     "docs:prepare": "tsx ./scripts/docs/prepare.ts",
-    "extend-lib": "tsx ./scripts/libs/extend-lib.ts",
-    "watch-exts": "tsx ./scripts/libs/watch-exts.ts"
+    "extend-lib": "tsx ./scripts/libs/extend-lib.ts"
   },
   "workspaces": [
     "./lib"

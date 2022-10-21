@@ -1,6 +1,7 @@
 import Path from 'path';
 import minimist from 'minimist';
 import fs from 'fs-extra';
+import {saveExtLibPaths} from './ext-libs';
 
 const extsPath = Path.resolve(process.cwd(), 'exts');
 const argv = minimist(process.argv.slice(2));
@@ -12,17 +13,5 @@ if (!Path.isAbsolute(extPath)) {
 }
 
 await fs.ensureDir(extsPath);
-await fs.copy(extPath, Path.join(extsPath, extName));
-
-const libsFile = Path.join(extsPath, 'libs.json');
-let libs: Record<string, string> | undefined;
-if (fs.existsSync(libsFile)) {
-    libs = await fs.readJSON(libsFile, {throws: false});
-}
-if (!libs) {
-    libs = {};
-}
-if (!libs[extName]) {
-    libs[extName] = extPath;
-    await fs.writeJSON(libsFile, libs, {spaces: 4});
-}
+await fs.symlink(extPath, Path.join(extsPath, extName));
+await saveExtLibPaths({[extName]: extPath});
