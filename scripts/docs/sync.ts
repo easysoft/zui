@@ -26,7 +26,7 @@ export async function syncLibDocs(lib: LibInfo) {
     }
 }
 
-export async function syncLibDocFile(file: string, isRemove?: boolean): Promise<string> {
+export async function syncLibDocFile(file: string, isRemove?: boolean, lib?: LibInfo | null): Promise<string> {
     const libPath = Path.resolve(process.cwd(), 'lib');
     const docsPath = Path.resolve(process.cwd(), 'docs/docs');
     const docsDestPath = Path.resolve(process.cwd(), 'docs/_');
@@ -44,14 +44,15 @@ export async function syncLibDocFile(file: string, isRemove?: boolean): Promise<
             relativePath = Path.relative(libPath, file);
         }
         const [libName, type, ...restPath] = relativePath.split(Path.sep);
+        const fullLibName = lib?.zui.name ?? libName;
         if (type === 'assets') {
-            targetFile = Path.join(docsDestPath, 'public', 'assets', libName, ...restPath);
+            targetFile = Path.join(docsDestPath, 'public', 'assets', fullLibName, ...restPath);
         } else if (restPath.length < 3) {
             console.log(` ${red('ERROR')} file ${underline(yellow(relativePath))} is in wrong place.`);
             return '';
         } else {
             const [sidebar, section, ...fileParts] = restPath;
-            targetFile = Path.join(docsDestPath, sidebar, section, libName, ...fileParts);
+            targetFile = Path.join(docsDestPath, sidebar, section, fullLibName, ...fileParts);
         }
     } else if (file.startsWith(docsPath)) {
         const relativePath = Path.relative(docsPath, file);

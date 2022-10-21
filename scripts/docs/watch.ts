@@ -4,6 +4,8 @@ import minimist from 'minimist';
 import {blue, yellow, bold, gray, green} from 'colorette';
 import {syncLibDocFile} from './sync';
 import {getExtLibPaths} from '../libs/ext-libs';
+import {getLibs} from '../libs/query';
+import {LibInfo} from '../libs/lib-info';
 
 
 const libPath = path.resolve(process.cwd(), './lib/');
@@ -15,14 +17,18 @@ const watchPath = [
 ];
 
 const argv = minimist(process.argv.slice(2));
-if (argv.exts) {
+const exts = argv.exts;
+const libsMap = await getLibs(exts === true ? 'all' : (exts?.split(',') ?? 'buildIn'));
+const libsList = Object.values(libsMap);
+
+if (exts) {
     const extLibPaths = await getExtLibPaths();
-    if (argv.exts === true) {
+    if (exts === true) {
         watchPath.push(
             ...Object.keys(extLibPaths).map(libName => path.join(extsPath, libName, `${extLibPaths[libName].endsWith('*') ? '*/' : ''}@(docs|assets)/**/*`)),
         );
-    } else if (typeof argv.exts === 'string') {
-        argv.exts.split(',').forEach(ext => {
+    } else if (typeof exts === 'string') {
+        exts.split(',').forEach(ext => {
             ext = ext.trim();
             if (ext.length && extLibPaths[ext]) {
                 watchPath.push(
@@ -37,8 +43,22 @@ const watcher = chokidar.watch(watchPath, {persistent: true, ignoreInitial: fals
 
 console.log(`${bold(green('Watch docs...'))} ${watchPath.map(x => gray(path.relative(process.cwd(), x))).join(', ')}`);
 
+const libsMapCache = new Map<string, LibInfo | null>();
+function getLibFromFile(file: string): LibInfo | null {
+    if (libsMapCache.has(file)) {
+        return libsMapCache.get(file) ?? null;
+    }
+    for (const lib of libsList) {
+        if (file.startsWith(`${lib.zui.path}${path.sep}`)) {
+            libsMapCache.set(file, lib);
+            return lib;
+        }
+    }
+    return null;
+}
+
 async function syncFile(type: 'add' | 'change' | 'unlink', file: string) {
-    const destFile = await syncLibDocFile(file, type === 'unlink');
+    const destFile = await syncLibDocFile(file, type === 'unlink', getLibFromFile(file));
     if (destFile) {
         const typeName = type.toUpperCase();
 
