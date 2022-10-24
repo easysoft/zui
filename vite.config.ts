@@ -29,7 +29,10 @@ export default defineConfig(async ({command, mode, ssrBuild}) => {
         resolve: {
             preserveSymlinks: true,
             alias: [
-                {find: /^@zui\/(.*)/, replacement: `${__dirname}/lib/$1`}
+                {find: /^@zui\/(.*)/, replacement: `${__dirname}/lib/$1`},
+                {find: 'zui-dev', replacement: `${__dirname}/dev`},
+                {find: 'zui-config', replacement: `${__dirname}/config`},
+                {find: '~@', replacement: __dirname},
             ]
         },
     };
