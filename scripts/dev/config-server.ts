@@ -14,6 +14,7 @@ function getLibNameFromUrl(url: string): string | null {
 
 const buildLibs = process.env.BUILD_LIBS ?? 'buildIn';
 let libsCache: Record<string, LibInfo> | undefined = await getLibs(buildLibs);
+const libsPaths = new Map<string, LibInfo>();
 
 export default (options: {rootPath: string}): Plugin => ({
     name: 'config-dev-server',
@@ -42,11 +43,18 @@ export default (options: {rootPath: string}): Plugin => ({
 
                 let markdownFile = path.join(options.rootPath, req.url);
                 const libInfo = libsCache[libName];
+                let markdownFileExits = false;
                 if (libInfo) {
-                    markdownFile = path.join(libInfo.zui.path, 'README.md');
+                    markdownFile = path.join(libInfo.zui.path, 'dev.md');
+                    markdownFileExits = await fs.pathExists(markdownFile);
+                    if (!markdownFileExits) {
+                        markdownFile = path.join(libInfo.zui.path, 'README.md');
+                    }
+                    libsPaths.set(libInfo.zui.path, libInfo);
                 }
-
-                const markdownFileExits = await fs.pathExists(markdownFile);
+                if (!markdownFileExits) {
+                    markdownFileExits = await fs.pathExists(markdownFile);
+                }
                 if (markdownFileExits) {
                     const content = await fs.readFile(markdownFile, 'utf-8');
                     const html = generateLibDoc(content, libName);
@@ -67,21 +75,20 @@ export default (options: {rootPath: string}): Plugin => ({
         });
     },
     handleHotUpdate({file, server}) {
-        const libPath = path.resolve(options.rootPath, 'lib');
-        const extsPath = path.resolve(options.rootPath, 'exts');
-        if ((file.startsWith(libPath) || file.startsWith(extsPath)) && file.endsWith('/README.md')) {
-            const fileParts = file.split('/');
-            const libName = fileParts[fileParts.length - 2];
-            if (libName) {
-                const content = fs.readFileSync(file, 'utf-8');
-                const html = generateLibDoc(content, libName);
-                server.ws.send('zui:lib-page-updated', {
-                    libName: libName,
-                    path: path.relative(options.rootPath, file),
-                    content: html,
-                });
-                return [];
+        if (/\/(README|dev).md$/g.test(file)) {
+            const libPath = path.dirname(file);
+            const libName = libsPaths.get(libPath)?.name;
+            if (!libName) {
+                return;
             }
+            const content = fs.readFileSync(file, 'utf-8');
+            const html = generateLibDoc(content, libName);
+            server.ws.send('zui:lib-page-updated', {
+                libName: libName,
+                path: path.relative(options.rootPath, file),
+                content: html,
+            });
+            return [];
         }
     },
     transformIndexHtml(html, ctx) {
