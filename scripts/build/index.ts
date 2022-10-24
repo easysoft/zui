@@ -4,7 +4,7 @@ import minimist from 'minimist';
 import {mergeConfig} from 'vite';
 import {bold, blue, gray, yellow, cyan, green} from 'colorette';
 import {createBuildConfig, prepareBuildFiles, createViteConfig} from './config';
-import {exec} from '../utilities/exec';
+import {exec, execCmd} from '../utilities/exec';
 
 const argv = minimist(process.argv.slice(2));
 
@@ -75,6 +75,16 @@ if (tailwindConfigs.length) {
         console.log(green('+'), Path.relative(process.cwd(), tailwindFile));
     });
     console.log();
+}
+
+/** Pre build libs */
+for (const lib of buildConfig.libs) {
+    const prebuild = lib.zui.build?.prebuild;
+    if (prebuild) {
+        console.log(cyan(`building lib "${lib.name}"...`));
+        const command = typeof prebuild === 'string' ? prebuild : 'pnpm install && pnpm build';
+        await execCmd(command, {cwd: lib.zui.path});
+    }
 }
 
 if (!argv.s && !argv.skipBuild) {

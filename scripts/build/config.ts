@@ -119,10 +119,10 @@ function parseLibExport(statement: string, lib?: LibInfo): BuildLibExport {
             const [name, alias] = item.trim().split(':');
             info.targets.push({name, alias})
         });
-        info.path = path;
+        info.path = path.startsWith('./') ? path.substring(2) : path;
 
     } else {
-        info.path = statement;
+        info.path = statement.startsWith('./') ? statement.substring(2) : statement;
         info.targets.push({
             name: '*',
         });
@@ -235,6 +235,9 @@ function parseBuildLib(libLike: string | '@zui' | 'zui', libsMap: Record<string,
     const libInfo = libsMap[shortName];
     if (!libInfo) {
         throw new Error(`Build Error: cannot find a lib named "${name}".`);
+    }
+    if (!exports && libInfo.zui.build?.defaultExport) {
+        exports = [libInfo.zui.build.defaultExport];
     }
 
     return [{
