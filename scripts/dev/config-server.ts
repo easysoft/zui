@@ -64,9 +64,9 @@ export default (options: {rootPath: string}): Plugin => ({
                 } else {
                     res.setHeader('Content-Type', 'text/html');
                     res.end([
-                        '<h1>404</h1>',
-                        '<p>Cannot found the README.md file for development, your can create one:</p>',
-                        `<pre class="underline"><code>${markdownFile}</code></pre>`,
+                        `<h1>404 - ${libInfo?.zui.displayName ?? libName}</h1>`,
+                        '<p>Cannot found the README.md or dev.md file in library folder, your can create one:</p>',
+                        `<pre class="lighter border-light"><code><span class="text-primary">echo</span> <span class="text-success">"# ${libInfo?.zui.displayName ?? libName}"</span> &gt; ${markdownFile}</code></pre>`,
                     ].join('\n'));
                     return;
                 }
