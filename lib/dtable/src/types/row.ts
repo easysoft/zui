@@ -1,14 +1,19 @@
-type RowID = string;
+import type {ClassNameLike} from '@zui/browser-helpers';
+import type {CellProps} from '../main-react';
+import type {CellRenderCallback} from './cell';
+import type {ColInfo} from './col';
 
-type RowPropName = string;
+export type RowID = string;
 
-type RowPropValue = unknown;
+export type RowPropName = string;
 
-type RowData = Record<RowPropName, RowPropValue>;
+export type RowPropValue = unknown;
 
-type RowInfoLike = string | number | RowInfo;
+export type RowData = Record<RowPropName, RowPropValue>;
 
-type RowInfo = {
+export type RowInfoLike = string | number | RowInfo;
+
+export type RowInfo = {
     id: string;
     index: number;
     top: number;
@@ -16,7 +21,7 @@ type RowInfo = {
     lazy?: boolean | 'resolved';
 };
 
-type RowProps = {
+export type RowProps = {
     row: RowInfo;
     top: number;
     height: number;

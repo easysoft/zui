@@ -1,6 +1,9 @@
 import hotkeys, {HotkeysEvent} from 'hotkeys-js';
 import {definePlugin} from '../../helpers/shared-plugins';
 
+import type {DTable} from '../../main-react';
+import type {DTablePluginTypes, DTableWithPlugin, DTablePlugin} from '../../types/plugin';
+
 export type DTableHotkeyCallback = (this: DTable, event: KeyboardEvent, handler: HotkeysEvent) => void;
 
 export interface DTableHotkeyTypes extends DTablePluginTypes {

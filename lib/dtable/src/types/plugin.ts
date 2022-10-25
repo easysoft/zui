@@ -1,8 +1,17 @@
-type DTablePluginName = string;
+import type preact from 'preact';
+import type {DTable} from '../main-react';
+import type {ColInfo, ColSetting} from './col';
+import type {CustomRenderResultGenerator, CustomRenderResultItem, CustomRenderResultList} from './common';
+import type {DTableState, DTableEventTarget, DTableHTMLEvent, DTableEventListener, DTableLayout} from './dtable';
+import type {MergeUnionTypes, MergeIntersectionTypes} from './helper';
+import type {DTableOptions} from './options';
+import type {RowInfo, RowProps} from './row';
 
-type DTablePluginLike = DTablePluginName | DTablePlugin | DTablePluginComsumer;
+export type DTablePluginName = string;
 
-interface DTablePluginTypes {
+export type DTablePluginLike = DTablePluginName | DTablePlugin | DTablePluginComsumer;
+
+export interface DTablePluginTypes {
     state?: {},
     options?: {},
     data?: {},
@@ -11,21 +20,21 @@ interface DTablePluginTypes {
     events?: {},
 }
 
-type DTableWithPluginColSetting<T extends DTablePluginTypes = {}, D extends DTablePluginTypes[] = []> = ColSetting<PluginPropsDependency<T, D, 'col'>>;
+export type DTableWithPluginColSetting<T extends DTablePluginTypes = {}, D extends DTablePluginTypes[] = []> = ColSetting<PluginPropsDependency<T, D, 'col'>>;
 
-type DTableWithPluginState<S = {}> = DTableState & S;
+export type DTableWithPluginState<S = {}> = DTableState & S;
 
-type DTableWithPluginOptions<T extends DTablePluginTypes = {}, D extends DTablePluginTypes[] = []> = DTableOptions<DTableWithPluginColSetting<T, D>> & PluginPropsDependency<T, D, 'options'>;
+export type DTableWithPluginOptions<T extends DTablePluginTypes = {}, D extends DTablePluginTypes[] = []> = DTableOptions<DTableWithPluginColSetting<T, D>> & PluginPropsDependency<T, D, 'options'>;
 
-type DTableWithPluginColInfo<T extends DTablePluginTypes = {}, D extends DTablePluginTypes[] = []> = ColInfo<DTableWithPluginColSetting<T, D>>;
+export type DTableWithPluginColInfo<T extends DTablePluginTypes = {}, D extends DTablePluginTypes[] = []> = ColInfo<DTableWithPluginColSetting<T, D>>;
 
-type PluginColSettingModifier<T extends DTablePluginTypes = {}, D extends DTablePluginTypes[] = []> = (col: DTableWithPluginColSetting<T, D>) => Partial<DTableWithPluginColSetting<T, D>> | undefined;
+export type PluginColSettingModifier<T extends DTablePluginTypes = {}, D extends DTablePluginTypes[] = []> = (col: DTableWithPluginColSetting<T, D>) => Partial<DTableWithPluginColSetting<T, D>> | undefined;
 
-type PluginPropsDependency<T extends DTablePluginTypes, D extends DTablePluginTypes[], P extends keyof DTablePluginTypes> = MergeUnionTypes<NonNullable<(D[number])[P] | T[P]>>;
+export type PluginPropsDependency<T extends DTablePluginTypes, D extends DTablePluginTypes[], P extends keyof DTablePluginTypes> = MergeUnionTypes<NonNullable<(D[number])[P] | T[P]>>;
 
-type PluginCustomEvents<T extends DTablePluginTypes, D extends DTablePluginTypes[]> = PluginPropsDependency<T, D, 'events'>;
+export type PluginCustomEvents<T extends DTablePluginTypes, D extends DTablePluginTypes[]> = PluginPropsDependency<T, D, 'events'>;
 
-type DTableWithPlugin<T extends DTablePluginTypes = {}, D extends DTablePluginTypes[] = []> = DTable & {
+export type DTableWithPlugin<T extends DTablePluginTypes = {}, D extends DTablePluginTypes[] = []> = DTable & {
     state: DTableWithPluginState<PluginPropsDependency<T, D, 'state'>>;
     options: DTableWithPluginOptions<T, D>;
     data: PluginPropsDependency<T, D, 'data'>;
@@ -34,7 +43,7 @@ type DTableWithPlugin<T extends DTablePluginTypes = {}, D extends DTablePluginTy
     update(options: {dirtyType?: 'options' | 'layout', state?: Partial<DTableWithPluginState<PluginPropsDependency<T, D, 'state'>>>}, callback?: () => void): void;
 } & PluginPropsDependency<T, D, 'methods'>;
 
-type DTablePluginEvents<T extends DTablePluginTypes = {}, D extends DTablePluginTypes[] = [], PluginTable = DTableWithPlugin<T, D>> = Partial<MergeIntersectionTypes<{
+export type DTablePluginEvents<T extends DTablePluginTypes = {}, D extends DTablePluginTypes[] = [], PluginTable = DTableWithPlugin<T, D>> = Partial<MergeIntersectionTypes<{
     [event in DTableHTMLEvent]: DTableEventListener<PluginTable, HTMLElementEventMap[event]>;
 } & {
     [event in `window_${DTableHTMLEvent}`]: DTableEventListener<PluginTable, event extends `window_${infer htmlEvent}` ? htmlEvent extends DTableHTMLEvent ? HTMLElementEventMap[htmlEvent] : Event : Event>;
@@ -44,7 +53,7 @@ type DTablePluginEvents<T extends DTablePluginTypes = {}, D extends DTablePlugin
     [event in keyof PluginCustomEvents<T, D>]: DTableEventListener<PluginTable, PluginCustomEvents<T, D>[event] extends Event ? PluginCustomEvents<T, D>[event] : Event>;
 }>>;
 
-type DTablePlugin<T extends DTablePluginTypes = DTablePluginTypes, D extends DTablePluginTypes[] = [], PluginTable = DTableWithPlugin<T, D>, Options = DTableWithPluginOptions<T, D>, PluginColSetting = DTableWithPluginColSetting<T, D>, PluginColInfo = DTableWithPluginColInfo<T, D>> = {
+export type DTablePlugin<T extends DTablePluginTypes = DTablePluginTypes, D extends DTablePluginTypes[] = [], PluginTable = DTableWithPlugin<T, D>, Options = DTableWithPluginOptions<T, D>, PluginColSetting = DTableWithPluginColSetting<T, D>, PluginColInfo = DTableWithPluginColInfo<T, D>> = {
     name: DTablePluginName;
 } & Partial<{
     when: (options: Options) => boolean,
@@ -79,12 +88,12 @@ type DTablePlugin<T extends DTablePluginTypes = DTablePluginTypes, D extends DTa
     plugins: (DTablePluginLike | DTablePlugin<T, D>)[];
 }>;
 
-interface DTablePluginComsumer<T extends DTablePluginTypes = {}, D extends DTablePluginTypes[] = []> {
+export interface DTablePluginComsumer<T extends DTablePluginTypes = {}, D extends DTablePluginTypes[] = []> {
     plugin: DTablePlugin<T, D>,
     (options?: DTableWithPluginOptions<T, D>): DTablePlugin<T, D>;
 }
 
-interface DTablePluginDefineOptions {
+export interface DTablePluginDefineOptions {
     override?: boolean;
     buildIn?: boolean;
 }

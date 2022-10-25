@@ -1,4 +1,14 @@
-interface DTableDataOptions<C = ColSetting> {
+import type {ClassNameLike} from '@zui/browser-helpers';
+import type preact from 'preact';
+import type {DTable} from '../main-react';
+import type {CellValueGetter, CellRenderCallback} from './cell';
+import type {ColSetting} from './col';
+import type {CustomRenderResultList, CustomRenderResultGenerator, CustomRenderResultItem} from './common';
+import type {DTableLayout} from './dtable';
+import type {DTablePluginLike} from './plugin';
+import type {RowData, RowProps, RowInfo} from './row';
+
+export interface DTableDataOptions<C = ColSetting> {
     cols: C[];
     data: (RowData | string)[] | number;
     rowDataGetter?: (ids: string[]) => RowData[],
@@ -6,7 +16,7 @@ interface DTableDataOptions<C = ColSetting> {
     rowKey?: string;
 }
 
-interface DTableLayoutOptions {
+export interface DTableLayoutOptions {
     width: number | '100%' | 'auto' | ((this: DTable, actualWidth: number) => number | 'auto');
     height: number | '100%' | 'auto' | {min: number, max: number} | ((this: DTable, actualHeight: number) => number | 'auto' | {min: number, max: number});
     rowHeight: number;
@@ -23,7 +33,7 @@ interface DTableLayoutOptions {
     horzScrollbarPos?: 'inside' | 'outside';
 }
 
-interface DTableStyleOptions {
+export interface DTableStyleOptions {
     rowHover?: boolean;
     colHover?: boolean | 'header';
     cellHover?: boolean;
@@ -31,7 +41,7 @@ interface DTableStyleOptions {
     striped?: boolean;
 }
 
-interface DTableCallbackOptions {
+export interface DTableCallbackOptions {
     onLayout?: (this: DTable, layout: DTableLayout) => (DTableLayout | undefined);
     onScroll?: (this: DTable, scrollInfo: {scrollTop?: number, scrollLeft?: number}) => void;
     onRenderCell?: CellRenderCallback;
@@ -46,7 +56,7 @@ interface DTableCallbackOptions {
     onAddRows?: (this: DTable, rows: RowInfo[]) => RowInfo[] | void;
 }
 
-interface DTableOptions<C = ColSetting> extends DTableDataOptions<C>, DTableLayoutOptions, DTableStyleOptions, DTableCallbackOptions {
+export interface DTableOptions<C = ColSetting> extends DTableDataOptions<C>, DTableLayoutOptions, DTableStyleOptions, DTableCallbackOptions {
     id?: string;
     lang?: string;
     i18n?: Record<string, Record<string, string | object>>;

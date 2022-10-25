@@ -4,6 +4,7 @@ import {definePlugin} from '../../helpers/shared-plugins';
 import './style.css';
 
 import type {DateLike} from '@zui/helpers/src/date-helper';
+import type {DTablePlugin} from '../../types/plugin';
 
 type DTableActionButton = {
     action: string;

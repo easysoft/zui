@@ -1,18 +1,22 @@
-type DTable = import('../components/dtable').DTable;
+import type {DTable} from '../main-react';
+import type {ColInfo} from './col';
+import type {CustomRenderResultList, CustomRenderResult} from './common';
+import type {DTableOptions} from './options';
+import type {RowInfo, RowID} from './row';
 
-type DTableState = {
+export type DTableState = {
     scrollTop: number;
     scrollLeft: number;
     [prop: string]: unknown;
 };
 
-type DTableHTMLEvent = keyof HTMLElementEventMap;
+export type DTableHTMLEvent = keyof HTMLElementEventMap;
 
-type DTableEventListener<T = DTable, E extends Event = Event> = (this: T, event: E) => void | false;
+export type DTableEventListener<T = DTable, E extends Event = Event> = (this: T, event: E) => void | false;
 
-type DTableEventTarget = '' | 'window' | 'document';
+export type DTableEventTarget = '' | 'window' | 'document';
 
-type DTableLayout = {
+export type DTableLayout = {
     options: DTableOptions;
     width: number;
     height: number;
@@ -49,7 +53,7 @@ type DTableLayout = {
     scrollLeft: number;
 };
 
-type DTablePointerInfo = {
+export type DTablePointerInfo = {
     cellElement: HTMLElement,
     rowElement: HTMLElement,
     colName: string,

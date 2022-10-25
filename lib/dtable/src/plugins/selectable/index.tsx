@@ -1,8 +1,11 @@
 import {classes} from '@zui/browser-helpers/src/classes';
 import {definePlugin} from '../../helpers/shared-plugins';
-import {DTableAutoscrollTypes} from '../autoscroll';
 import mousemove, {DTableMousemoveTypes} from '../mousemove';
 import './style.css';
+
+import type {DTable} from '../../main-react';
+import type {DTablePluginTypes, DTableWithPlugin, DTablePlugin} from '../../types/plugin';
+import type {DTableAutoscrollTypes} from '../autoscroll';
 
 export type DTableColIndex       = number;
 export type DTableRowIndex       = number;

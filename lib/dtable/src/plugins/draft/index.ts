@@ -1,5 +1,9 @@
 import {definePlugin} from '../../helpers/shared-plugins';
 
+import type {ColInfo} from '../../types/col';
+import type {DTablePluginTypes, DTableWithPlugin, DTablePlugin} from '../../types/plugin';
+import type {RowID, RowData, RowInfo} from '../../types/row';
+
 export type DTableDraftRows = Record<RowID, Partial<RowData>>;
 
 export interface DTableDraftTypes extends DTablePluginTypes {

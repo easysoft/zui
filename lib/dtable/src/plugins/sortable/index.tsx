@@ -1,9 +1,12 @@
 import {definePlugin} from '../../helpers/shared-plugins';
 import './style.css';
 
-type SortMoveType = 'before' | 'after';
+import type {DTableWithPlugin, DTablePlugin} from '../../types/plugin';
+import type {RowInfo} from '../../types/row';
 
-type DTableSortableTypes = {
+export type SortMoveType = 'before' | 'after';
+
+export type DTableSortableTypes = {
     options: Partial<{
         sortable: boolean;
         sortHandler: string;
@@ -24,7 +27,7 @@ type DTableSortableTypes = {
     }>;
 };
 
-type DTableSortable = DTableWithPlugin<DTableSortableTypes>;
+export type DTableSortable = DTableWithPlugin<DTableSortableTypes>;
 
 function getRowInfo(dtable: DTableSortable, event: DragEvent): RowInfo | undefined {
     const id = (event.target as HTMLElement)?.closest<HTMLElement>('.dtable-row')?.dataset.id;

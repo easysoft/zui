@@ -1,6 +1,6 @@
 import {Component, createRef, h as _h} from 'preact';
 import {nanoid} from 'nanoid';
-import {classes} from '@zui/browser-helpers/src/classes';
+import {classes, ClassNameLike} from '@zui/browser-helpers/src/classes';
 import {Scrollbar} from '@zui/scrollbar/src/components/scrollbar';
 import {i18n} from '@zui/i18n/src/module/i18n';
 import {clamp} from '../helpers/clamp';
@@ -11,7 +11,13 @@ import {getDefaultOptions} from '../helpers/default-options';
 import '../style/index.css';
 
 import type {ComponentChildren, JSX} from 'preact';
-import {CustomRender} from '@zui/com-helpers/src/helpers/custom-render';
+import {CustomRender, CustomRenderResult, CustomRenderResultList} from '@zui/com-helpers/src/helpers/custom-render';
+import type {CellRenderCallback} from '../types/cell';
+import type {ColInfoLike, ColInfo} from '../types/col';
+import type {DTableState, DTableLayout, DTableEventListener, DTableEventTarget, DTablePointerInfo} from '../types/dtable';
+import type {DTableOptions} from '../types/options';
+import type {DTablePlugin} from '../types/plugin';
+import type {RowInfoLike, RowInfo, RowProps, RowData, RowID} from '../types/row';
 
 export class DTable extends Component<DTableOptions, DTableState> {
     static addPlugin = addPlugin;

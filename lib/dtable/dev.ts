@@ -61,14 +61,14 @@ onPageLoad(() => {
                 {name: 'caseCoverage', title: '用例覆盖率', type: 'circleProgress', width: 90, sortType: true, align: 'center'},
                 {name: 'bugActive', title: 'Bug激活', group: 'Bug情况', width: 80, sortType: true, align: 'center'},
                 {name: 'fixRate', title: '修复率', group: 'Bug情况', type: 'circleProgress', width: 80, sortType: true, align: 'center'},
-                {name: 'release', title: '发布', width: 90, sortType: true, fixed: 'right', onRenderCell(result, {rowData}) {
-                    const releaseIncrease = Number(rowData?.releaseIncrease);
+                {name: 'release', title: '发布', width: 90, sortType: true, fixed: 'right', onRenderCell(result, {row}) {
+                    const releaseIncrease = Number(row.data?.releaseIncrease);
                     result[0] = {
                         html: `<strong>${result[0]}</strong>`,
                     };
                     if (releaseIncrease > 6) {
                         result.push({
-                            html: `<span class="label size-sm ${rowData?.milestone ? 'important' : 'secondary'}-pale circle">+${releaseIncrease - 6}</span>`,
+                            html: `<span class="label size-sm ${row.data?.milestone ? 'important' : 'secondary'}-pale circle">+${releaseIncrease - 6}</span>`,
                         });
                     }
                     return result;
@@ -111,9 +111,9 @@ onPageLoad(() => {
             cols: [
                 {name: 'id', title: 'ID', width: 80, fixed: 'left', sortType: 'desc', checkbox: true},
                 {name: 'name', title: '项目名称', minWidth: 200, flex: 1, sortType: true, nestedToggle: true},
-                {name: 'NESTED_STATE', title: '层级状态', minWidth: 300, onRenderCell: function (result, {rowID}) {
+                {name: 'NESTED_STATE', title: '层级状态', minWidth: 300, onRenderCell: function (result, {row}) {
                     result.length = 0;
-                    result.push(JSON.stringify(this.getNestedRowInfo(rowID)));
+                    result.push(JSON.stringify(this.getNestedRowInfo(row.id)));
                     return result;
                 }},
                 {name: 'manager', title: '负责人', sortType: true, border: true},
@@ -140,7 +140,7 @@ onPageLoad(() => {
             height: 400,
             cellHover: true,
             colHover: 'header',
-            plugins: [checkable({checkOnClickRow: true}), nested(), moveable],
+            plugins: [checkable({checkOnClickRow: true}), nested, moveable],
             striped: true,
             responsive: true,
             footer: ['checkbox', 'divider', 'checkedInfo', 'divider', 'flex'],

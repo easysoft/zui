@@ -1,5 +1,9 @@
-import {classes} from '@zui/browser-helpers/src/classes';
-import {Cell} from './cell';
+import {classes, ClassNameLike} from '@zui/browser-helpers/src/classes';
+import {Cell, CellProps} from './cell';
+
+import type {CellRenderCallback} from '../types/cell';
+import type {ColInfo} from '../types/col';
+import type {RowInfo} from '../types/row';
 
 type CellsProps = {
     row: RowInfo;

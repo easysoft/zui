@@ -1,6 +1,8 @@
 import {definePlugin} from '../../helpers/shared-plugins';
 import './style.css';
 
+import type {DTablePlugin} from '../../types/plugin';
+
 type DTableHeaderGroupInfo = {
     cols: string[];
     index: number;
@@ -62,7 +64,7 @@ export const headerGroup: DTablePlugin<DTableHeaderGroupTypes> = {
             cols,
         };
     },
-    onRenderHeaderCell(result, {col}): CustomRenderResult {
+    onRenderHeaderCell(result, {col}) {
         const {group} = col.setting;
         if (group) {
             const groupInfo = this.data.headerGroups.get(group) as DTableHeaderGroupInfo;

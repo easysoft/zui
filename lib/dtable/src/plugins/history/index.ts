@@ -2,6 +2,9 @@ import {definePlugin} from '../../helpers/shared-plugins';
 import store, {DTableStoreTypes} from '../store';
 import draft, {cloneDraft, DTableDraftRows, DTableDraftTypes, mergeDraft} from '../draft';
 
+import type {DTablePluginTypes, DTableWithPlugin, DTablePlugin} from '../../types/plugin';
+import type {RowData} from '../../types/row';
+
 export interface DTableHistoryItem {
     before: DTableDraftRows;
     after: DTableDraftRows;

@@ -3,6 +3,9 @@ import {definePlugin} from '../../helpers/shared-plugins';
 import mousemove, {DTableMousemoveTypes} from '../mousemove';
 import './style.css';
 
+import type {ColName} from '../../types/col';
+import type {DTablePluginTypes, DTableWithPlugin, DTablePlugin} from '../../types/plugin';
+
 export interface DTableResizeTypes extends DTablePluginTypes {
     options: Partial<{
         colResize: boolean | ((this: DTableResize, colName: ColName) => boolean);

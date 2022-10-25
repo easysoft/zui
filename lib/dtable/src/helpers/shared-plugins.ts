@@ -1,3 +1,5 @@
+import type {DTablePlugin, DTablePluginDefineOptions, DTablePluginComsumer, DTableWithPluginOptions, DTablePluginLike, DTablePluginTypes} from '../types/plugin';
+
 const sharedPlugins = new Map<string, DTablePlugin>();
 const buildInPlugins: string[] = [];
 

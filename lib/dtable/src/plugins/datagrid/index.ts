@@ -10,6 +10,10 @@ import './style.css';
 import {DTableMousemoveTypes} from '../mousemove';
 import autoscroll, {DTableAutoscrollTypes} from '../autoscroll';
 
+import type {ColSetting, ColInfo} from '../../types/col';
+import type {DTablePluginTypes, DTableWithPlugin, DTablePlugin} from '../../types/plugin';
+import type {RowInfo, RowData} from '../../types/row';
+
 interface DTableDatasource {
     cols?: ColSetting[],
     data?: unknown[][]

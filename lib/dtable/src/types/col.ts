@@ -1,16 +1,19 @@
-type ColName = string;
+import type {ClassNameLike} from '@zui/browser-helpers';
+import type {CellRenderCallback} from './cell';
 
-type ColFlexGrow = number;
+export type ColName = string;
 
-type ColFlex = ColFlexGrow | boolean;
+export type ColFlexGrow = number;
 
-type ColFixedSide = 'left' | 'right' | false;
+export type ColFlex = ColFlexGrow | boolean;
 
-type ColSortType = 'asc' | 'desc' | boolean;
+export type ColFixedSide = 'left' | 'right' | false;
 
-type ColInfoLike = string | number | ColInfo;
+export type ColSortType = 'asc' | 'desc' | boolean;
 
-type ColInfo<S = ColSetting> = {
+export type ColInfoLike = string | number | ColInfo;
+
+export type ColInfo<S = ColSetting> = {
     name: ColName;
     type: string;
     flex: ColFlexGrow; // 0 will disable flex
@@ -22,7 +25,7 @@ type ColInfo<S = ColSetting> = {
     index: number;
 };
 
-type ColSetting<S = {}> = S & {
+export type ColSetting<S = {}> = S & {
     name: ColName;
 } & Partial<{
     title: string;

@@ -3,6 +3,8 @@ import {definePlugin} from '../../helpers/shared-plugins';
 import draft, {DTableDraftTypes, DTableDraftRows} from '../draft';
 import './style.css';
 
+import type {DTablePluginTypes, DTableWithPlugin, DTablePlugin, DTableWithPluginColInfo} from '../../types/plugin';
+
 export interface DTableEditableTypes extends DTablePluginTypes {
     options: Partial<{
         editable: boolean | ((rowID: string, colName: string) => boolean);

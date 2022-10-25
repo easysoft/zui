@@ -1,7 +1,11 @@
 import {classes} from '@zui/browser-helpers/src/classes';
 import {definePlugin} from '../../helpers/shared-plugins';
-
 import './style.css';
+
+import type {ColInfo} from '../../types/col';
+import type {CustomRenderResult} from '../../types/common';
+import type {DTableWithPlugin, DTablePlugin} from '../../types/plugin';
+import type {RowInfo, RowData, RowID, RowProps} from '../../types/row';
 
 enum NestedRowState {
     unknown = '',
@@ -255,7 +259,7 @@ export const nested: DTablePlugin<DTableSortableTypes> = {
         });
         return rows;
     },
-    onRenderCell(result, {col, row}): CustomRenderResult {
+    onRenderCell(result, {col, row}) {
         const {id: rowID, data: rowData} = row;
         const {nestedToggle} = col.setting;
         const info = this.getNestedRowInfo(rowID);
@@ -273,7 +277,7 @@ export const nested: DTablePlugin<DTableSortableTypes> = {
         }
         return result;
     },
-    onRenderHeaderCell(result, {row, col}): CustomRenderResult {
+    onRenderHeaderCell(result, {row, col}) {
         const {id: rowID} = row;
         if (col.setting.nestedToggle) {
             result.unshift(this.options.onRenderNestedToggle?.call(this, undefined, rowID, col, undefined) ?? (<a type="button" className="dtable-nested-toggle state"><span className="dtable-nested-toggle-icon"></span></a>));

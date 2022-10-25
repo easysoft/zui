@@ -3,6 +3,9 @@ import {HeaderCell} from './header-cell';
 import {Row} from './row';
 
 import type {JSX} from 'preact';
+import type {CellRenderCallback} from '../types/cell';
+import type {ColInfo} from '../types/col';
+import type {RowProps} from '../types/row';
 
 type HeaderProps = {
     height: number;

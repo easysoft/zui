@@ -2,6 +2,9 @@ import {classes} from '@zui/browser-helpers/src/classes';
 import {definePlugin} from '../../helpers/shared-plugins';
 import './style.css';
 
+import type {CustomRenderResult} from '../../types/common';
+import type {DTablePluginTypes, DTableWithPlugin, DTablePlugin} from '../../types/plugin';
+
 interface DTableCheckableTypes extends DTablePluginTypes {
     options: Partial<{
         checkable: boolean;
