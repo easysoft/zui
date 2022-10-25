@@ -2,7 +2,6 @@ import {clamp} from '../../helpers/clamp';
 import {definePlugin} from '../../helpers/shared-plugins';
 import mousemove, {DTableMousemoveTypes} from '../mousemove';
 import './style.css';
-
 import type {ColName} from '../../types/col';
 import type {DTablePluginTypes, DTableWithPlugin, DTablePlugin} from '../../types/plugin';
 

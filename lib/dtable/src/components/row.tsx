@@ -1,7 +1,6 @@
 import {classes} from '@zui/browser-helpers/src/classes';
 import {Cell} from './cell';
 import {Cells} from './cells';
-
 import type {RowProps} from '../types/row';
 
 export function Row({

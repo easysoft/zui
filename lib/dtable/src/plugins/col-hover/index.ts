@@ -1,5 +1,4 @@
 import {definePlugin} from '../../helpers/shared-plugins';
-
 import type {DTableWithPlugin, DTablePlugin} from '../../types/plugin';
 
 type DTableColHoverTypes = {

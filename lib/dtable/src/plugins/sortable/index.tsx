@@ -1,6 +1,5 @@
 import {definePlugin} from '../../helpers/shared-plugins';
 import './style.css';
-
 import type {DTableWithPlugin, DTablePlugin} from '../../types/plugin';
 import type {RowInfo} from '../../types/row';
 

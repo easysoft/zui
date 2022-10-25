@@ -1,7 +1,6 @@
 import {h as _h} from 'preact';
 import {classes, ClassNameLike} from '@zui/browser-helpers/src/classes';
 import {Row} from './row';
-
 import type {JSX} from 'preact/jsx-runtime';
 import type {CellRenderCallback} from '../types/cell';
 import type {ColInfo} from '../types/col';

@@ -1,6 +1,5 @@
 import {ContextMenu} from '@zui/contextmenu';
 import {definePlugin} from '../../helpers/shared-plugins';
-
 import type {MenuListItem} from '@zui/menu/src/component/menu';
 import type {DTablePointerInfo} from '../../types/dtable';
 import type {DTablePluginTypes, DTableWithPlugin, DTablePlugin} from '../../types/plugin';

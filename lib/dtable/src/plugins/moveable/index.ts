@@ -1,7 +1,6 @@
 import {definePlugin} from '../../helpers/shared-plugins';
 import mousemove, {DTableMousemoveTypes} from '../mousemove';
 import './style.css';
-
 import type {DTablePluginTypes, DTableWithPlugin, DTablePlugin} from '../../types/plugin';
 
 export interface DTableMoveableTypes extends DTablePluginTypes {

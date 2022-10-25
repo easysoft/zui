@@ -2,7 +2,6 @@ import {formatString} from '@zui/helpers/src/format-string';
 import {formatDate} from '@zui/helpers/src/date-helper';
 import {definePlugin} from '../../helpers/shared-plugins';
 import './style.css';
-
 import type {DateLike} from '@zui/helpers/src/date-helper';
 import type {DTablePlugin} from '../../types/plugin';
 

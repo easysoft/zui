@@ -1,6 +1,5 @@
 import {definePlugin} from '../../helpers/shared-plugins';
 import './style.css';
-
 import type {DTablePlugin} from '../../types/plugin';
 
 type DTableHeaderGroupInfo = {

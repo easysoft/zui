@@ -1,6 +1,5 @@
 import {h as _h, isValidElement} from 'preact';
 import {classes, ClassNameLike} from '@zui/browser-helpers/src/classes';
-
 import type {ComponentChildren, JSX} from 'preact';
 import type {CellRenderCallback} from '../types/cell';
 import type {ColInfo} from '../types/col';
