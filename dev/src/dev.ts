@@ -11,6 +11,7 @@ export function onPageLoad(listener: PageLoadListener) {
 }
 
 export function onPageUpdate(listener: PageUpdateListener) {
+    onPageLoad(listener);
     document.addEventListener('dev-page-update', listener);
 }
 
