@@ -16,17 +16,17 @@ const internalComponents = {
     space: ActionSpaceComponent,
 };
 
-export class ActionMenu<T extends ActionMenuItem = CommonActionItem> extends Component<ActionMenuOptions<T>> {
+export class ActionMenu<T extends ActionMenuItem = CommonActionItem, P extends ActionMenuOptions<T> = ActionMenuOptions<T>, S = {}> extends Component<P, S> {
     static NAME = 'action-menu';
 
-    #ref = createRef<HTMLMenuElement>();
+    ref = createRef<HTMLMenuElement>();
 
     get $(): HTMLMenuElement | null {
-        return this.#ref.current;
+        return this.ref.current;
     }
 
     get name() {
-        return (this.props.name ?? (this.constructor as typeof ActionMenu).NAME);
+        return (this.props.name ?? (this.constructor as typeof ActionMenu).NAME ?? this.constructor.name.toLowerCase());
     }
 
     componentDidMount() {
@@ -121,7 +121,7 @@ export class ActionMenu<T extends ActionMenuItem = CommonActionItem> extends Com
 
         const itemList = typeof items === 'function' ? items() : items;
         return (
-            <menu class={classes(this.name, className)} {...others} ref={this.#ref}>
+            <menu class={classes(this.name, className)} {...others} ref={this.ref}>
                 {itemList && itemList.map(this.renderItem.bind(this, options))}
                 {children}
             </menu>
