@@ -100,6 +100,27 @@ importers:
       vitepress: registry.npmmirror.com/vitepress/1.0.0-alpha.21_less@4.1.3
       vue: 3.2.37
 
+  lib/actions:
+    specifiers:
+      '@zui/avatar': workspace:^0.0.1
+      '@zui/base': workspace:*
+      '@zui/browser-helpers': workspace:^0.0.1
+      '@zui/com-helpers': workspace:^0.0.1
+      '@zui/css-icons': workspace:^0.0.1
+      '@zui/icons': workspace:^0.0.1
+      preact: ^10.10.0
+      zui-dev: workspace:^0.0.1
+    dependencies:
+      '@zui/browser-helpers': link:../browser-helpers
+      '@zui/com-helpers': link:../com-helpers
+      '@zui/css-icons': link:../css-icons
+    devDependencies:
+      '@zui/avatar': link:../avatar
+      '@zui/base': link:../base
+      '@zui/icons': link:../icons
+      preact: registry.npmmirror.com/preact/10.10.0
+      zui-dev: link:../../dev
+
   lib/ajax-form:
     specifiers:
       '@zui/base': workspace:*
