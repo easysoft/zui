@@ -9,10 +9,10 @@ export declare class ComponentReactClass<O extends object = {}, C extends Compon
 }
 
 export abstract class ComponentFromReact<O extends object, C extends Component<O>, V extends Record<string, Event> = {}, E extends HTMLElement = HTMLElement> extends ComponentBase<O, V, E> implements ComponentReactClass<O, C, V, E> {
-    #ref = createRef<C>();
+    ref = createRef<C>();
 
     get $() {
-        return this.#ref.current;
+        return this.ref.current;
     }
 
     init() {
@@ -22,7 +22,7 @@ export abstract class ComponentFromReact<O extends object, C extends Component<O
     render(options?: Partial<O>) {
         const Component = (this.constructor as typeof ComponentReactClass<O, C, V, E>).Component;
         render((
-            <Component ref={this.#ref} {...this.setOptions(options)} />
+            <Component ref={this.ref} {...this.setOptions(options)} />
         ), this.element);
     }
 }
