@@ -7,11 +7,10 @@ export type ActionMenuItemRender<T extends ActionMenuItem = CommonActionItem> = 
 
 export interface ActionMenuOptions<T extends ActionMenuItem = CommonActionItem> {
     name?: string;
-    attrs?: JSX.HTMLAttributes<HTMLLIElement>;
     className?: ClassNameLike;
     style?: JSX.CSSProperties;
     items: T[] | (() => T[]),
-    itemDefaultProps?: Record<string, Partial<T>>,
+    defaultItemProps?: Record<string, Partial<T>>,
     children?: ComponentChildren | (() => ComponentChildren);
     itemRender?: Record<string, ComponentType> | ActionMenuItemRender<T>,
     onClickItem?: (info: {item: T, index: number, event: MouseEvent}) => void;

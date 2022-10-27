@@ -72,11 +72,11 @@ export class ActionMenu<T extends ActionMenuItem = CommonActionItem, P extends A
     }
 
     renderItem(options: Omit<P, 'items'> & {items: T[]}, item: T, index: number) {
-        const {itemRender, itemDefaultProps, onClickItem} = options;
+        const {itemRender, defaultItemProps, onClickItem} = options;
         const listItem: T = {key: index, ...item};
         const type = listItem.type ?? 'item';
-        if (itemDefaultProps) {
-            Object.assign(listItem, itemDefaultProps[type]);
+        if (defaultItemProps) {
+            Object.assign(listItem, defaultItemProps[type]);
         }
         if (onClickItem) {
             listItem.onClick = this.handleItemClick.bind(this, listItem, index, item.onClick as ((event: MouseEvent) => void)) as JSX.MouseEventHandler<HTMLAnchorElement>;
@@ -106,9 +106,8 @@ export class ActionMenu<T extends ActionMenuItem = CommonActionItem, P extends A
         const options = this.beforeRender();
         const {
             name,
-            attrs,
             style,
-            itemDefaultProps,
+            defaultItemProps,
             className,
             items,
             children,

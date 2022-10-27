@@ -18,7 +18,7 @@ onPageLoad(() => {
             {text: '导出', icon: 'icon-download-alt'},
             {text: '保存', icon: 'icon-save', onClick: (event) => console.log('> menuItem.clicked', event)},
         ],
-        itemDefaultProps: {
+        defaultItemProps: {
             item: {
                 className: 'flex-inline row items-center gap-1 state',
             },

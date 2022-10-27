@@ -25,7 +25,7 @@ export default {
                   {title: '导出', icon: 'icon-download-alt'},
                   {title: '保存', icon: 'icon-save', onClick: (event) => console.log('> menuItem.clicked', event)},
               ],
-              itemDefaultProps: {
+              defaultItemProps: {
                   item: {
                       className: 'flex-inline row items-center gap-2 state',
                   },
@@ -55,7 +55,7 @@ const actionMenu = new ActionMenu('#actionMenu', {
         {title: '导出', icon: 'icon-download-alt'},
         {title: '保存', icon: 'icon-save', onClick: (event) => console.log('> menuItem.clicked', event)},
     ],
-    itemDefaultProps: {
+    defaultItemProps: {
         item: {
             className: 'flex-inline row items-center gap-2 state',
         },

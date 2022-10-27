@@ -3,7 +3,7 @@ import {Attributes, ComponentType, h as _h, isValidElement} from 'preact';
 import {ActionItem as ActionItemProps} from '../types/action-item';
 
 export function ActionItem({
-    type,
+    // type,
     component = 'a',
     className,
     children,
@@ -16,7 +16,6 @@ export function ActionItem({
     target,
     trailingIcon,
     hint,
-    ...otherAttrs
 }: ActionItemProps) {
     const finalChildren = [
         isValidElement(icon) ? icon : typeof icon === 'string' ? <i class={`icon ${icon}`} /> : null,
@@ -28,8 +27,7 @@ export function ActionItem({
         className: classes(className, {disabled, active}),
         title: hint,
         [component === 'a' ? 'href' : 'data-url']: url,
-        [component === 'a' ? 'target' : 'data-target']: url,
-        ...otherAttrs,
+        [component === 'a' ? 'target' : 'data-target']: target,
         ...attrs,
     } as Attributes, ...finalChildren);
 }
