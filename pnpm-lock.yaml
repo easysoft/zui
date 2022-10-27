@@ -108,6 +108,7 @@ importers:
       '@zui/com-helpers': workspace:^0.0.1
       '@zui/css-icons': workspace:^0.0.1
       '@zui/icons': workspace:^0.0.1
+      '@zui/nav': workspace:^0.0.1
       preact: ^10.10.0
       zui-dev: workspace:^0.0.1
     dependencies:
@@ -118,6 +119,7 @@ importers:
       '@zui/avatar': link:../avatar
       '@zui/base': link:../base
       '@zui/icons': link:../icons
+      '@zui/nav': link:../nav
       preact: registry.npmmirror.com/preact/10.10.0
       zui-dev: link:../../dev
 
@@ -209,11 +211,26 @@ importers:
 
   lib/button:
     specifiers:
+      '@zui/avatar': workspace:^0.0.1
       '@zui/base': workspace:*
+      '@zui/browser-helpers': workspace:^0.0.1
+      '@zui/com-helpers': workspace:^0.0.1
+      '@zui/css-icons': workspace:^0.0.1
+      '@zui/icons': workspace:^0.0.1
       '@zui/utilities': workspace:*
+      preact: ^10.10.0
+      zui-dev: workspace:^0.0.1
+    dependencies:
+      '@zui/browser-helpers': link:../browser-helpers
+      '@zui/com-helpers': link:../com-helpers
+      '@zui/css-icons': link:../css-icons
     devDependencies:
+      '@zui/avatar': link:../avatar
       '@zui/base': link:../base
+      '@zui/icons': link:../icons
       '@zui/utilities': link:../utilities
+      preact: registry.npmmirror.com/preact/10.10.0
+      zui-dev: link:../../dev
 
   lib/checkbox:
     specifiers:
