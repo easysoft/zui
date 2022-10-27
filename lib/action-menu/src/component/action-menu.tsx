@@ -26,7 +26,7 @@ export class ActionMenu<T extends ActionMenuItem = CommonActionItem, P extends A
     }
 
     get name() {
-        return (this.props.name ?? (this.constructor as typeof ActionMenu).NAME ?? this.constructor.name.toLowerCase());
+        return this.props.name ?? this.constructor.name.replace(/([A-Z])/g, '-$1').toLowerCase().replace(/^-/, '');
     }
 
     componentDidMount() {
@@ -67,7 +67,7 @@ export class ActionMenu<T extends ActionMenuItem = CommonActionItem, P extends A
             component: typeof component === 'string' ? component : undefined,
             type,
         });
-        return <li className={classes(rootClass)} style={rootStyle} {...rootAttrs} key={key}><ItemComponent {...(itemProps as Attributes)} /></li>;
+        return <li className={classes(rootClass) || undefined} style={rootStyle} {...rootAttrs} key={key}><ItemComponent {...(itemProps as Attributes)} /></li>;
     }
 
     renderItem(options: ActionMenuOptions<T>, item: T, index: number) {

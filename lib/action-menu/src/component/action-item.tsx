@@ -20,7 +20,7 @@ export function ActionItem({
 }: ActionItemProps) {
     const finalChildren = [
         isValidElement(icon) ? icon : typeof icon === 'string' ? <i class={`icon ${icon}`} /> : null,
-        <span>{title}</span>,
+        <span className="text">{title}</span>,
         isValidElement(trailingIcon) ? trailingIcon : typeof trailingIcon === 'string' ? <i class={`icon ${trailingIcon}`} /> : null,
         children,
     ];
