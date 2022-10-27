@@ -9,3 +9,6 @@
     background: var(--menu-hover-bg);
     color: var(--menu-hover-color);
 }
+.menu-item > .text {
+    @apply -flex-auto;
+}
