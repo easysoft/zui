@@ -1,5 +1,5 @@
 import {classes} from '@zui/browser-helpers/src/classes';
-import {Attributes, ComponentType, h as _h, isValidElement} from 'preact';
+import {Attributes, ComponentType, h as _h} from 'preact';
 import {ActionItem as ActionItemProps} from '../types/action-item';
 
 export function ActionItem({
@@ -18,10 +18,10 @@ export function ActionItem({
     hint,
 }: ActionItemProps) {
     const finalChildren = [
-        isValidElement(icon) ? icon : typeof icon === 'string' ? <i class={`icon ${icon}`} /> : null,
+        typeof icon === 'string' ? <i class={`icon ${icon}`} /> : icon,
         <span className="text">{text}</span>,
         children,
-        isValidElement(trailingIcon) ? trailingIcon : typeof trailingIcon === 'string' ? <i class={`icon ${trailingIcon}`} /> : null,
+        typeof trailingIcon === 'string' ? <i class={`icon ${trailingIcon}`} /> : trailingIcon,
     ];
     return _h(component as ComponentType, {
         className: classes(className, {disabled, active}),
