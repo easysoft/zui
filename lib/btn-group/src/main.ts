@@ -1,2 +1,2 @@
 import '@zui/button';
-import './btn-group.css';
+import './style/index.css';
