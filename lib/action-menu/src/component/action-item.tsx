@@ -21,8 +21,8 @@ export function ActionItem({
     const finalChildren = [
         isValidElement(icon) ? icon : typeof icon === 'string' ? <i class={`icon ${icon}`} /> : null,
         <span className="text">{text}</span>,
-        isValidElement(trailingIcon) ? trailingIcon : typeof trailingIcon === 'string' ? <i class={`icon ${trailingIcon}`} /> : null,
         children,
+        isValidElement(trailingIcon) ? trailingIcon : typeof trailingIcon === 'string' ? <i class={`icon ${trailingIcon}`} /> : null,
     ];
     return _h(component as ComponentType, {
         className: classes(className, {disabled, active}),
