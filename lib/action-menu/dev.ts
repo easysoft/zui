@@ -30,7 +30,7 @@ onPageLoad(() => {
     console.log('> menu', menu);
 
 
-    const nav = new ActionMenu<CommonActionItem>('#nav', {
+    const nav = new ActionMenu<CommonActionItem>('#navExample', {
         name: 'nav',
         items: [
             {title: '首页', icon: 'icon-home'},
