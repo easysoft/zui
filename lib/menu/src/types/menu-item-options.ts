@@ -1,3 +1,5 @@
-import {ActionItem} from '@zui/action-menu/src/types/action-item';
+import {MenuDividerProps} from './menu-divider-props';
+import {MenuHeadingProps} from './menu-heading-props';
+import {MenuItemProps} from './menu-item-props';
 
-export type MenuItemOptions = ActionItem;
+export type MenuItemOptions = MenuDividerProps | MenuHeadingProps | MenuItemProps;
