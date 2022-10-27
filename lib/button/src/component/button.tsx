@@ -1,4 +1,4 @@
-import {Component, h as _h, ComponentType, isValidElement, Attributes} from 'preact';
+import {Component, h as _h, ComponentType, Attributes} from 'preact';
 import {classes} from '@zui/browser-helpers/src/classes';
 import '../style/index.css';
 import {ButtonProps} from '../types/button-props';
