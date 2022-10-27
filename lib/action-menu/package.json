@@ -15,6 +15,7 @@
         "@zui/avatar": "workspace:^0.0.1",
         "@zui/base": "workspace:*",
         "@zui/icons": "workspace:^0.0.1",
+        "@zui/nav": "workspace:^0.0.1",
         "zui-dev": "workspace:^0.0.1",
         "preact": "^10.10.0"
     },

@@ -1,6 +1,7 @@
 import 'preact/debug';
 import '@zui/icons';
 import '@zui/avatar';
+import '@zui/nav';
 import 'zui-dev';
 import {ActionMenu} from './src/main';
 import {CommonActionItem} from './src/types/common-action-item';
@@ -19,7 +20,7 @@ onPageLoad(() => {
         ],
         itemDefaultProps: {
             item: {
-                className: 'flex-inline row items-center gap-2 state',
+                className: 'flex-inline row items-center gap-1 state',
             },
         },
         onClickItem: (info) => {
@@ -27,4 +28,21 @@ onPageLoad(() => {
         },
     });
     console.log('> menu', menu);
+
+
+    const nav = new ActionMenu<CommonActionItem>('#nav', {
+        name: 'nav',
+        items: [
+            {title: '首页', icon: 'icon-home'},
+            {title: '动态'},
+            {title: '论坛'},
+            {type: 'divier'},
+            {title: '博客', icon: 'icon-rss'},
+            {title: '关注我们', icon: 'icon-user-group'},
+        ],
+        onClickItem: (info) => {
+            console.log('> nav.onClickItem', info);
+        },
+    });
+    console.log('> nav', nav);
 });
