@@ -1,5 +1,6 @@
 import {Component, h as _h, ComponentType, isValidElement, Attributes} from 'preact';
 import {classes} from '@zui/browser-helpers/src/classes';
+import '../style/index.css';
 import {ButtonProps} from '../types/button-props';
 
 export class Button extends Component<ButtonProps> {
@@ -8,7 +9,6 @@ export class Button extends Component<ButtonProps> {
             component,
             type,
             size,
-            attrs,
             className,
             children,
             url,
@@ -32,13 +32,13 @@ export class Button extends Component<ButtonProps> {
                 title: hint,
                 [ButtonComponent === 'a' ? 'href' : 'data-url']: url,
                 [ButtonComponent === 'a' ? 'target' : 'data-target']: url,
-                ...attrs,
+                type: ButtonComponent === 'button' ? 'button' : undefined,
                 ...others,
             } as Attributes,
-            isValidElement(icon) ? icon : typeof icon === 'string' ? <i class={`icon ${icon}`} /> : null,
+            typeof icon === 'string' ? <i class={`icon ${icon}`} /> : icon,
             <span className="text">{text}</span>,
             children,
-            isValidElement(trailingIcon) ? trailingIcon : typeof trailingIcon === 'string' ? <i class={`icon ${trailingIcon}`} /> : null,
+            typeof trailingIcon === 'string' ? <i class={`icon ${trailingIcon}`} /> : trailingIcon,
             caret ? <span className={typeof caret === 'string' ? `caret-${caret}` : 'caret'} /> : null,
         );
     }

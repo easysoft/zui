@@ -5,7 +5,6 @@ export type ButtonProps = {
     component?: string | ComponentType;
     type?: string; // primary, secondary ...
     size?: 'xs' | 'sm' | 'lg' | 'xl',
-    attrs?: JSX.HTMLAttributes<HTMLLIElement>;
     className?: ClassNameLike;
     style?: JSX.CSSProperties;
     children?: ComponentChildren | (() => ComponentChildren);
