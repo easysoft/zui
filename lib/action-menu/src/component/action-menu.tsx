@@ -51,13 +51,16 @@ export class ActionMenu<T extends ActionMenuItem = CommonActionItem, P extends A
         }
     }
 
-    beforeRender() {
+    beforeRender(): Omit<P, 'items'> & {items: T[]} {
         const options = {...this.props};
         const customOptions = options.beforeRender?.call(this, options);
         if (customOptions) {
             Object.assign(options, customOptions);
         }
-        return options;
+        if (typeof options.items === 'function') {
+            options.items = options.items.call(this);
+        }
+        return options as Omit<P, 'items'> & {items: T[]};
     }
 
     onRenderItem(item: T, index: number) {
@@ -70,7 +73,7 @@ export class ActionMenu<T extends ActionMenuItem = CommonActionItem, P extends A
         return <li className={classes(rootClass) || undefined} style={rootStyle} {...rootAttrs} key={key}><ItemComponent {...(itemProps as Attributes)} /></li>;
     }
 
-    renderItem(options: ActionMenuOptions<T>, item: T, index: number) {
+    renderItem(options: Omit<P, 'items'> & {items: T[]}, item: T, index: number) {
         const {itemRender, itemDefaultProps, onClickItem} = options;
         const listItem: T = {key: index, ...item};
         const type = listItem.type ?? 'item';
@@ -119,10 +122,9 @@ export class ActionMenu<T extends ActionMenuItem = CommonActionItem, P extends A
             ...others
         } = options;
 
-        const itemList = typeof items === 'function' ? items() : items;
         return (
             <menu class={classes(this.name, className)} {...others} ref={this.ref}>
-                {itemList && itemList.map(this.renderItem.bind(this, options))}
+                {items && items.map(this.renderItem.bind(this, options))}
                 {children}
             </menu>
         );
