@@ -17,8 +17,6 @@ const internalComponents = {
 };
 
 export class ActionMenu<T extends ActionMenuItem = CommonActionItem, P extends ActionMenuOptions<T> = ActionMenuOptions<T>, S = {}> extends Component<P, S> {
-    static NAME = 'action-menu';
-
     ref = createRef<HTMLMenuElement>();
 
     get $(): HTMLMenuElement | null {
