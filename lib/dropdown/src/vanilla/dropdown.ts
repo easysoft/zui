@@ -47,7 +47,7 @@ const DROPDOWN_CLASS_SHOW = 'show';
 const DROPDOWN_CLASS_MENU = 'dropdown-menu';
 
 export class Dropdown extends ComponentBase<DropdownOptions, DropdownEvents> {
-    static NAME = 'dropdown';
+    static EVENTS = true;
 
     static DEFAULT = {
         placement: 'bottom-start',
@@ -99,7 +99,7 @@ export class Dropdown extends ComponentBase<DropdownOptions, DropdownEvents> {
     }
 
     show(options?: {hideOthers?: boolean}) {
-        const showEvent = this.events.emit('show', this);
+        const showEvent = this.events!.emit('show', this);
         if (showEvent.defaultPrevented) {
             return;
         }
@@ -112,7 +112,7 @@ export class Dropdown extends ComponentBase<DropdownOptions, DropdownEvents> {
         this.element.classList.add(DROPDOWN_CLASS_SHOW);
         this.popper.update();
         this.element.focus();
-        this.events.emit('shown', this);
+        this.events!.emit('shown', this);
     }
 
     hide() {
@@ -120,7 +120,7 @@ export class Dropdown extends ComponentBase<DropdownOptions, DropdownEvents> {
             return;
         }
 
-        const hideEvent = this.events.emit('hide', this);
+        const hideEvent = this.events!.emit('hide', this);
         if (hideEvent.defaultPrevented) {
             return;
         }
@@ -130,7 +130,7 @@ export class Dropdown extends ComponentBase<DropdownOptions, DropdownEvents> {
         this.#menu?.classList.remove(DROPDOWN_CLASS_SHOW);
         this.element.classList.remove(DROPDOWN_CLASS_SHOW);
 
-        this.events.emit('hidden', this);
+        this.events!.emit('hidden', this);
     }
 
     toggle() {
