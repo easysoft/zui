@@ -1,22 +1,22 @@
 import {Component, h as _h, createRef, isValidElement, JSX, Attributes} from 'preact';
 import {classes} from '@zui/browser-helpers/src/classes';
 import '@zui/css-icons/src/icons/caret.css';
-import {ActionDivider as ActionDividerComponent} from './action-divider';
-import {ActionItem as ActionItemComponent} from './action-item';
-import {ActionHeading as ActionHeadingComponent} from './action-heading';
-import {ActionSpace as ActionSpaceComponent} from './action-space';
+import {ActionDivider} from './action-divider';
+import {ActionItem} from './action-item';
+import {ActionHeading} from './action-heading';
+import {ActionSpace} from './action-space';
 import type {ActionMenuOptions} from '../types/action-menu-options';
-import type {ActionMenuItem} from '../types/action-menu-item';
-import type {CommonActionItem} from '../types/common-action-item';
+import type {ActionBasicProps} from '../types/action-basic-props';
+import type {ActionMenuItemOptions} from '../types/action-menu-item-options';
 
 const internalComponents = {
-    divider: ActionDividerComponent,
-    item: ActionItemComponent,
-    heading: ActionHeadingComponent,
-    space: ActionSpaceComponent,
+    divider: ActionDivider,
+    item: ActionItem,
+    heading: ActionHeading,
+    space: ActionSpace,
 };
 
-export class ActionMenu<T extends ActionMenuItem = CommonActionItem, P extends ActionMenuOptions<T> = ActionMenuOptions<T>, S = {}> extends Component<P, S> {
+export class ActionMenu<T extends ActionBasicProps = ActionMenuItemOptions, P extends ActionMenuOptions<T> = ActionMenuOptions<T>, S = {}> extends Component<P, S> {
     ref = createRef<HTMLMenuElement>();
 
     get $(): HTMLMenuElement | null {
@@ -63,7 +63,7 @@ export class ActionMenu<T extends ActionMenuItem = CommonActionItem, P extends A
 
     onRenderItem(item: T, index: number) {
         const {type = 'item', component, key = index, rootAttrs, rootClass, rootStyle, ...itemProps} = item;
-        const ItemComponent = ((typeof component === 'string' ? false : component) || internalComponents[type as keyof typeof internalComponents] || ActionItemComponent) as typeof ActionItemComponent;
+        const ItemComponent = ((typeof component === 'string' ? false : component) || internalComponents[type as keyof typeof internalComponents] || ActionItem) as typeof ActionItem;
         Object.assign(itemProps, {
             component: typeof component === 'string' ? component : undefined,
             type,

@@ -1,7 +1,7 @@
 import type {ComponentChildren, ComponentType, JSX} from 'preact';
 import type {ClassNameLike} from '@zui/browser-helpers/src/classes';
 
-export interface ActionMenuItem {
+export interface ActionBasicProps {
     rootClass?: ClassNameLike;
     rootAttrs?: JSX.HTMLAttributes<HTMLLIElement>;
     rootStyle?: JSX.CSSProperties;

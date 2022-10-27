@@ -1,7 +1,7 @@
 import type {ComponentChildren, VNode} from 'preact';
-import type {ActionMenuItem} from './action-menu-item';
+import type {ActionBasicProps} from './action-basic-props';
 
-export interface ActionItem extends ActionMenuItem {
+export interface ActionItemProps extends ActionBasicProps {
     url?: string;
     target?: string;
     disabled?: boolean;

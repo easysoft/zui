@@ -1,6 +1,6 @@
 import {classes} from '@zui/browser-helpers/src/classes';
 import {Attributes, ComponentType, h as _h} from 'preact';
-import {ActionSpace as ActionSpaceProps} from '../types/action-space';
+import {ActionSpaceProps} from '../types/action-space-props';
 
 export function ActionSpace({
     // type,

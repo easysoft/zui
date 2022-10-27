@@ -1,11 +1,11 @@
 import type {ComponentType, ComponentChildren, JSX, h as _h, VNode} from 'preact';
-import type {ActionMenuItem} from './action-menu-item';
+import type {ActionBasicProps} from './action-basic-props';
 import type {ClassNameLike} from '@zui/browser-helpers/src/classes';
-import type {CommonActionItem} from './common-action-item';
+import type {ActionMenuItemOptions} from './action-menu-item-options';
 
-export type ActionMenuItemRender<T extends ActionMenuItem = CommonActionItem> = ((item: T, h: typeof _h) => VNode | Partial<T>);
+export type ActionMenuItemRender<T extends ActionBasicProps = ActionMenuItemOptions> = ((item: T, h: typeof _h) => VNode | Partial<T>);
 
-export interface ActionMenuOptions<T extends ActionMenuItem = CommonActionItem> {
+export interface ActionMenuOptions<T extends ActionBasicProps = ActionMenuItemOptions> {
     name?: string;
     className?: ClassNameLike;
     style?: JSX.CSSProperties;

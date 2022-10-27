@@ -1,6 +1,6 @@
 import {classes} from '@zui/browser-helpers/src/classes';
 import {Attributes, ComponentType, h as _h} from 'preact';
-import {ActionHeading as ActionHeadingProps} from '../types/action-heading';
+import {ActionHeadingProps} from '../types/action-heading-props';
 
 export function ActionHeading({
     // type,

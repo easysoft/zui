@@ -1,6 +1,6 @@
 import {classes} from '@zui/browser-helpers/src/classes';
 import {Attributes, ComponentType, h as _h} from 'preact';
-import {ActionItem as ActionItemProps} from '../types/action-item';
+import {ActionItemProps} from '../types/action-item-props';
 
 export function ActionItem({
     // type,
