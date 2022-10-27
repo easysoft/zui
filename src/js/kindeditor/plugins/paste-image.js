@@ -132,14 +132,17 @@ KindEditor.plugin('pasteimage', function(K) {
                 var original = ev.originalEvent;
                 var clipboardItems = original.clipboardData && original.clipboardData.items;
                 var clipboardItem = null;
-                if(clipboardItems) {
+                if(clipboardItems)
+                {
                     var IMAGE_MIME_REGEX = /^image\/(p?jpeg|gif|png)$/i;
                     for (var i = 0; i < clipboardItems.length; i++)
                     {
-                        if (IMAGE_MIME_REGEX.test(clipboardItems[i].type))
+                        var dataType = clipboardItems[i].type;
+                        if(options.pasteTextFirst && dataType.indexOf('text/') === 0) return;
+                        if (IMAGE_MIME_REGEX.test(dataType))
                         {
                             clipboardItem = clipboardItems[i];
-                            break;
+                            if(!options.pasteTextFirst) break;
                         }
                     }
                 }
