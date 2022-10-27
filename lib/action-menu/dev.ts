@@ -10,13 +10,13 @@ onPageLoad(() => {
     const menu = new ActionMenu<CommonActionItem>('#actionMenu', {
         className: 'row gap-3 items-center',
         items: [
-            {title: '复制', icon: 'icon-copy'},
-            {title: '粘贴', icon: 'icon-paste'},
-            {title: '剪切'},
-            {type: 'heading', title: '更多操作'},
-            {title: '导入', icon: 'icon-upload-alt'},
-            {title: '导出', icon: 'icon-download-alt'},
-            {title: '保存', icon: 'icon-save', onClick: (event) => console.log('> menuItem.clicked', event)},
+            {text: '复制', icon: 'icon-copy'},
+            {text: '粘贴', icon: 'icon-paste'},
+            {text: '剪切'},
+            {type: 'heading', text: '更多操作'},
+            {text: '导入', icon: 'icon-upload-alt'},
+            {text: '导出', icon: 'icon-download-alt'},
+            {text: '保存', icon: 'icon-save', onClick: (event) => console.log('> menuItem.clicked', event)},
         ],
         itemDefaultProps: {
             item: {
@@ -33,12 +33,12 @@ onPageLoad(() => {
     const nav = new ActionMenu<CommonActionItem>('#navExample', {
         name: 'nav',
         items: [
-            {title: '首页', icon: 'icon-home'},
-            {title: '动态'},
-            {title: '论坛'},
+            {text: '首页', icon: 'icon-home'},
+            {text: '动态'},
+            {text: '论坛'},
             {type: 'divier'},
-            {title: '博客', icon: 'icon-rss'},
-            {title: '关注我们', icon: 'icon-user-group'},
+            {text: '博客', icon: 'icon-rss'},
+            {text: '关注我们', icon: 'icon-user-group'},
         ],
         onClickItem: (info) => {
             console.log('> nav.onClickItem', info);

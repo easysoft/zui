@@ -7,7 +7,7 @@ export interface ActionItem extends ActionMenuItem {
     disabled?: boolean;
     active?: boolean;
     icon?: string | VNode;
-    title?: ComponentChildren;
+    text?: ComponentChildren;
     trailingIcon?: string | VNode;
     hint?: string;
 }

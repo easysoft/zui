@@ -11,13 +11,13 @@
 ```js
 const menu = new Menu('#actionMenu', {
     items: [
-        {title: '复制', icon: 'icon-copy'},
-        {title: '粘贴', icon: 'icon-paste'},
-        {title: '剪切'},
-        {type: 'heading', title: '更多操作'},
-        {title: '导入', icon: 'icon-upload-alt'},
-        {title: '导出', icon: 'icon-download-alt'},
-        {title: '保存', icon: 'icon-save', onClick: (event) => console.log('> menuItem.clicked', event)},
+        {text: '复制', icon: 'icon-copy'},
+        {text: '粘贴', icon: 'icon-paste'},
+        {text: '剪切'},
+        {type: 'heading', text: '更多操作'},
+        {text: '导入', icon: 'icon-upload-alt'},
+        {text: '导出', icon: 'icon-download-alt'},
+        {text: '保存', icon: 'icon-save', onClick: (event) => console.log('> menuItem.clicked', event)},
     ],
     onClickItem: (info) => {
         console.log('> menu.onClickItem', info);
@@ -76,12 +76,12 @@ console.log('> menu', menu);
 const nav = new ActionMenu('#nav', {
     name: 'nav',
     items: [
-        {title: '首页', icon: 'icon-home'},
-        {title: '动态'},
-        {title: '论坛'},
+        {text: '首页', icon: 'icon-home'},
+        {text: '动态'},
+        {text: '论坛'},
         {type: 'divier'},
-        {title: '博客', icon: 'icon-rss'},
-        {title: '关注我们', icon: 'icon-user-group'},
+        {text: '博客', icon: 'icon-rss'},
+        {text: '关注我们', icon: 'icon-user-group'},
     ],
     onClickItem: (info) => {
         console.log('> nav.onClickItem', info);
@@ -124,12 +124,12 @@ class Nav extends ActionMenu {
 const nav = new Nav('#nav', {
     // name: 'nav', // 不再需要，会自动根据 Nav 类名使用 `nav` 作为组件类名
     items: [
-        {title: '首页', icon: 'icon-home'},
-        {title: '动态'},
-        {title: '论坛'},
+        {text: '首页', icon: 'icon-home'},
+        {text: '动态'},
+        {text: '论坛'},
         {type: 'divier'},
-        {title: '博客', icon: 'icon-rss'},
-        {title: '关注我们', icon: 'icon-user-group'},
+        {text: '博客', icon: 'icon-rss'},
+        {text: '关注我们', icon: 'icon-user-group'},
     ],
     onClickItem: (info) => {
         console.log('> nav.onClickItem', info);
