@@ -70,7 +70,7 @@ export class ComponentBase<O extends object = {}, V extends CustomEventMap = {},
 
     #element: E;
 
-    #events: EventHub<ComponentEventMap<V>>;
+    #events?: EventHub<ComponentEventMap<V>>;
 
     get options() {
         return this.#options;
@@ -87,13 +87,17 @@ export class ComponentBase<O extends object = {}, V extends CustomEventMap = {},
     constructor(element: E | string, options?: Partial<ComponentOptions<O, V>>) {
         element = (typeof element === 'string' ? document.querySelector(element) : element) as E;
 
-        this.#events = new EventHub(element, {customEventSuffix: `.${(this.constructor as typeof ComponentBase).KEY}`});
+        if ((this.constructor as typeof ComponentBase).EVENTS) {
+            this.#events = new EventHub(element, {customEventSuffix: `.${(this.constructor as typeof ComponentBase).KEY}`});
+        }
+
         this.#options = {...(this.constructor as typeof ComponentBase).DEFAULT, ...(element instanceof HTMLElement ? parseDataset(element.dataset) : null), ...options} as ComponentOptions<O, V>;
 
         (this.constructor as typeof ComponentBase).all.set(element, this);
         this.#element = element;
         this.init();
-        this.#events.emit('inited', this);
+
+        this.#events?.emit('inited', this);
     }
 
     init() {}
@@ -111,20 +115,23 @@ export class ComponentBase<O extends object = {}, V extends CustomEventMap = {},
 
     destroy() {
         (this.constructor as typeof ComponentBase).all.delete(this.#element);
-        this.events.offAll();
-        this.events.emit('destroyed', this);
+
+        if (this.#events) {
+            this.#events.emit('destroyed', this);
+            this.#events.offAll();
+        }
     }
 
     on<T extends ComponentEventNames<V>>(type: T, listener: CustomEventListener<ComponentEventMap<V>[T]>, options?: AddEventListenerOptions) {
-        this.#events.on(type, listener, options);
+        this.#events?.on(type, listener, options);
     }
 
     once<T extends ComponentEventNames<V>>(type: T, listener: CustomEventListener<ComponentEventMap<V>[T]>, options?: AddEventListenerOptions) {
-        this.#events.once(type, listener, options);
+        this.#events?.once(type, listener, options);
     }
 
     off<T extends ComponentEventNames<V>>(type: T, listener: CustomEventListener<ComponentEventMap<V>[T]>, options?: AddEventListenerOptions) {
-        this.#events.off(type, listener, options);
+        this.#events?.off(type, listener, options);
     }
 
     emit<T extends ComponentEventNames<V>>(event: T | ComponentEventMap<V>[T], detail?: (ComponentEventMap<V>[T] extends CustomEvent ? ComponentEventMap<V>[T]['detail'] : never)): ComponentEventMap<V>[T] {
@@ -135,7 +142,7 @@ export class ComponentBase<O extends object = {}, V extends CustomEventMap = {},
             eventObject.preventDefault();
             eventObject.stopPropagation();
         }
-        eventObject = this.#events.emit(eventObject);
+        eventObject = this.#events?.emit(eventObject) as ComponentEventMap<V>[T];
         return eventObject;
     }
 
@@ -144,6 +151,8 @@ export class ComponentBase<O extends object = {}, V extends CustomEventMap = {},
     i18n(key: string, args?: string | (string | number)[] | Record<string, string | number>, defaultValue?: string): string {
         return i18n(this.#options.i18n, key, args, defaultValue, this.options.lang, (this.constructor as typeof ComponentBase).NAME) ?? `{i18n:${key}}`;
     }
+
+    static EVENTS = false;
 
     /**
      * Component internal name, like "Menu"
