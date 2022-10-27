@@ -1,5 +1,29 @@
 # 按钮组
 
+## 组件模式
+
+```html:example
+<div id="btnGroup"></div>
+```
+
+```js
+const btnGroup = new BtnGroup('#btnGroup', {
+    items: [
+        {text: '复制', icon: 'icon-copy'},
+        {text: '粘贴', icon: 'icon-paste'},
+        {text: '剪切'},
+        {type: 'heading', text: '更多操作', caret: true},
+        {text: '导入', icon: 'icon-upload-alt'},
+        {text: '导出', icon: 'icon-download-alt'},
+        {text: '保存', icon: 'icon-save', onClick: (event) => console.log('> btnGroupItem.clicked', event)},
+    ],
+    onClickItem: (info) => {
+        console.log('> btnGroup.onClickItem', info);
+    },
+});
+console.log('> btnGroup', btnGroup);
+```
+
 ## btn-group
 
 ```html:example: -flex -gap-3

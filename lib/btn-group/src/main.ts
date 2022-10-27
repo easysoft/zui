@@ -1,2 +1,1 @@
-import '@zui/button';
-import './style/index.css';
+export * from './main-css';

@@ -1,4 +1,4 @@
-@import '@zui/button/src/btn-size.css';
+@import '@zui/button/src/style/btn-size.css';
 
 .btn-group.size-xs .btn {
     @apply -btn-xs;

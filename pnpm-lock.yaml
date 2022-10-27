@@ -199,15 +199,23 @@ importers:
   lib/btn-group:
     specifiers:
       '@zui/base': workspace:*
+      '@zui/browser-helpers': workspace:^0.0.1
       '@zui/button': workspace:^0.0.1
+      '@zui/com-helpers': workspace:^0.0.1
       '@zui/dropdown': workspace:^0.0.1
+      '@zui/icons': workspace:*
       '@zui/utilities': workspace:*
+      preact: ^10.10.0
     dependencies:
       '@zui/button': link:../button
     devDependencies:
       '@zui/base': link:../base
+      '@zui/browser-helpers': link:../browser-helpers
+      '@zui/com-helpers': link:../com-helpers
       '@zui/dropdown': link:../dropdown
+      '@zui/icons': link:../icons
       '@zui/utilities': link:../utilities
+      preact: registry.npmmirror.com/preact/10.10.0
 
   lib/button:
     specifiers:
@@ -521,6 +529,29 @@ importers:
       '@zui/base': link:../base
       '@zui/nav': link:../nav
       '@zui/utilities': link:../utilities
+
+  lib/toolbar:
+    specifiers:
+      '@zui/action-menu': workspace:^0.0.1
+      '@zui/avatar': workspace:^0.0.1
+      '@zui/base': workspace:*
+      '@zui/browser-helpers': workspace:^0.0.1
+      '@zui/com-helpers': workspace:^0.0.1
+      '@zui/css-icons': workspace:^0.0.1
+      '@zui/icons': workspace:^0.0.1
+      preact: ^10.10.0
+      zui-dev: workspace:^0.0.1
+    dependencies:
+      '@zui/action-menu': link:../action-menu
+      '@zui/browser-helpers': link:../browser-helpers
+      '@zui/com-helpers': link:../com-helpers
+      '@zui/css-icons': link:../css-icons
+    devDependencies:
+      '@zui/avatar': link:../avatar
+      '@zui/base': link:../base
+      '@zui/icons': link:../icons
+      preact: registry.npmmirror.com/preact/10.10.0
+      zui-dev: link:../../dev
 
   lib/upload:
     specifiers:
