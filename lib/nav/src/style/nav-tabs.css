@@ -9,6 +9,7 @@
 .nav-tabs > li > .nav-item.active::after {
     @apply -border-border -border-b-transparent
 }
+.nav-tabs > .nav-divider,
 .nav-tabs > li > .nav-divider {
     @apply -m-0 --ml-px;
 }

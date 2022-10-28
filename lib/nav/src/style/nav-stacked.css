@@ -6,8 +6,10 @@
 }
 .nav-stacked > li > .nav-item,
 .nav-stacked > li > .nav-heading {
-    @apply -justify-start;
+    @apply -w-full -justify-start;
 }
+
+.nav-stacked > .nav-divider,
 .nav-stacked > li > .nav-divider {
-    @apply -w-auto -h-px -mx-0 -my-2;
+    @apply -h-px -mx-0 -my-2;
 }

@@ -1,6 +1,9 @@
 .nav {
   @apply -flex -items-center -relative;
 }
+.nav > li {
+  @apply -flex -items-center -relative -gap-3;
+}
 
 .nav-item {
   @apply -flex -items-center -justify-center -h-8 -px-4 -gap-1;
@@ -27,4 +30,8 @@
 .nav-heading {
   @apply -flex -items-center -justify-center -h-8 -px-4 -gap-1;
   color: var(--nav-heading-color);
+}
+
+.nav-space {
+  @apply -w-4 -flex-auto;
 }

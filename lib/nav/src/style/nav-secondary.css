@@ -7,6 +7,7 @@
 .nav-secondary > li > .nav-item.active::after {
     @apply -bg-current;
 }
+.nav-secondary > .nav-divider,
 .nav-secondary > li > .nav-divider {
     @apply -m-0 --ml-px;
 }
