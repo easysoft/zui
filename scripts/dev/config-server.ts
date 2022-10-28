@@ -35,7 +35,7 @@ export default (options: {rootPath: string}): Plugin => ({
                 return;
             }
 
-            if (/^\/lib\/[\w-\d%]+\/README.md$/.test(req.url)) {
+            if (/^\/lib\/[\w-\d%]+\/(README|dev).md$/.test(req.url)) {
                 const libName = decodeURIComponent(req.url.replace('/lib/', '').split('/')[0]);
                 if (!libsCache) {
                     libsCache = await getLibs();
@@ -77,7 +77,7 @@ export default (options: {rootPath: string}): Plugin => ({
     handleHotUpdate({file, server}) {
         if (/\/(README|dev).md$/g.test(file)) {
             const libPath = path.dirname(file);
-            const libName = libsPaths.get(libPath)?.name;
+            const libName = libsPaths.get(libPath)?.zui.name;
             if (!libName) {
                 return;
             }
