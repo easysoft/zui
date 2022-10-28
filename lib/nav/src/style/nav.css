@@ -1,0 +1,30 @@
+.nav {
+  @apply -flex -items-center -relative;
+}
+
+.nav-item {
+  @apply -flex -items-center -justify-center -h-8 -px-4 -gap-1;
+  border-radius: var(--nav-radius);
+}
+.nav-item.active {
+  @apply -font-bold;
+  color: var(--nav-active-color);
+}
+.nav-item:not(.active) {
+  @apply -text-inherit;
+}
+.nav-item.disabled {
+  @apply -opacity-100;
+}
+.nav-item.disabled > * {
+  opacity: var(--disabled-opacity);
+}
+
+.nav-divider {
+  @apply -w-px -h-4 -mx-2 -bg-border;
+}
+
+.nav-heading {
+  @apply -flex -items-center -justify-center -h-8 -px-4 -gap-1;
+  color: var(--nav-heading-color);
+}

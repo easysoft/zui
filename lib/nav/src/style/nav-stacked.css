@@ -1,0 +1,13 @@
+.nav-stacked {
+    @apply -flex-col;
+}
+.nav-stacked > li {
+    @apply -w-full;
+}
+.nav-stacked > li > .nav-item,
+.nav-stacked > li > .nav-heading {
+    @apply -justify-start;
+}
+.nav-stacked > li > .nav-divider {
+    @apply -w-auto -h-px -mx-0 -my-2;
+}

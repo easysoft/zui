@@ -1,0 +1,3 @@
+.nav-justified > li:not(.flex-none) {
+    @apply -flex-auto;
+}

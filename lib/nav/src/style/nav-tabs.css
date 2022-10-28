@@ -1,0 +1,14 @@
+.nav-tabs > li > .nav-item {
+    @apply -relative -rounded-b-none;
+}
+.nav-tabs > li > .nav-item::after {
+    @apply -content-[''] -block -absolute --inset-px -border -border-transparent -border-b-border;
+    border-top-left-radius: inherit;
+    border-top-right-radius: inherit;
+}
+.nav-tabs > li > .nav-item.active::after {
+    @apply -border-border -border-b-transparent
+}
+.nav-tabs > li > .nav-divider {
+    @apply -m-0 --ml-px;
+}

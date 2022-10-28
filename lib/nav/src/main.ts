@@ -1,2 +1,1 @@
-import './vars.css';
-import './nav.css';
+import './style/index.css';

@@ -1,0 +1,6 @@
+.nav-secondary.nav-stacked  > li > .nav-item::after {
+    @apply -inset-y-0 -left-auto -right-0 -bg-border -w-[2px] -h-full;
+}
+.nav-secondary.nav-stacked  > li > .nav-item.active::after {
+    @apply -bg-current;
+}

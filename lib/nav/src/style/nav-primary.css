@@ -1,0 +1,29 @@
+.nav-primary > li {
+    @apply -relative;
+}
+.nav-primary > li:hover {
+    @apply -z-10;
+}
+.nav-primary > li + li {
+    @apply --ml-px;
+}
+.nav-primary > li > .nav-item {
+    @apply -rounded-none -border;
+}
+.nav-primary > li:first-child > .nav-item,
+.nav-primary > li:has(.nav-heading) + li > .nav-item {
+    border-top-left-radius: var(--nav-radius);
+    border-bottom-left-radius: var(--nav-radius);
+}
+.nav-primary > li:last-child > .nav-item {
+    border-top-right-radius: var(--nav-radius);
+    border-bottom-right-radius: var(--nav-radius);
+}
+.nav-primary > li > .nav-item.active {
+    @apply -text-canvas;
+    background: var(--nav-active-color);
+    border-color: var(--nav-active-color);
+}
+.nav-primary > li > .nav-divider {
+    @apply -hidden;
+}
