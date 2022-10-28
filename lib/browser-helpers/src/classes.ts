@@ -1,7 +1,7 @@
 export type ClassNameLike = null | undefined | string | {[key: string]: unknown} | (() => ClassNameLike) | ClassNameLike[];
 
-export const classes = (...args: ClassNameLike[]): string => (
-    args.map(arg => {
+export const classes = (...args: ClassNameLike[]): (string | undefined) => {
+    const classNames = args.map(arg => {
         if (Array.isArray(arg)) {
             return classes(...arg);
         }
@@ -18,5 +18,6 @@ export const classes = (...args: ClassNameLike[]): string => (
             }).join(' ');
         }
         return arg;
-    }).filter(x => (typeof x === 'string') && x.length).join(' ')
-);
+    }).filter(x => (typeof x === 'string') && x.length);
+    return classNames.length ? classNames.join(' ') : undefined;
+};
