@@ -1,10 +1,10 @@
 import {createPopper, Instance as PopperInstance} from '@popperjs/core/lib/popper-lite';
 import preventOverflow from '@popperjs/core/lib/modifiers/preventOverflow';
 import flip from '@popperjs/core/lib/modifiers/flip';
-
 import {ComponentBase} from '@zui/com-helpers/src/helpers/vanilla-component';
 import {isDisabled} from '@zui/com-helpers/src/helpers/is-disabled';
 import {isRightBtn} from '@zui/com-helpers/src/helpers/mouse-event';
+import '@zui/menu';
 import '@zui/css-icons/src/icons/caret.css';
 import '../css/dropdown.css';
 
