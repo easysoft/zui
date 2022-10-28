@@ -4,7 +4,7 @@ import '@zui/avatar';
 import 'zui-dev';
 import {Menu} from './src/main';
 
-onPageLoad(() => {
+onPageUpdate(() => {
     const menu = new Menu('#menu', {
         items: [
             {text: '复制', icon: 'icon-copy'},

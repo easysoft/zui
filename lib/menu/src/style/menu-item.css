@@ -1,14 +1,14 @@
-.menu-item.active {
+.menu-item > a {
+    @apply -m-1 -flex -text-inherit -px-2 -py-0.5 -rounded -items-center -transition-colors -relative -justify-between -truncate -cursor-pointer -gap-1;
+}
+.menu-item > .active {
     background: var(--menu-active-bg);
     color: var(--menu-active-color);
 }
-.menu-item {
-    @apply -m-1 -flex -text-inherit -px-2 -py-0.5 -rounded -items-center -transition-colors -relative -justify-between -truncate -cursor-pointer -gap-1;
-}
-.menu-item:hover {
+.menu-item > a:hover {
     background: var(--menu-hover-bg);
     color: var(--menu-hover-color);
 }
-.menu-item > .text {
+.menu-item > a > .text {
     @apply -flex-auto;
 }
