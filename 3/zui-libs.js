@@ -50,7 +50,6 @@ export default [
             "@zui/avatar": "workspace:^0.0.1",
             "@zui/base": "workspace:*",
             "@zui/icons": "workspace:^0.0.1",
-            "@zui/nav": "workspace:^0.0.1",
             "zui-dev": "workspace:^0.0.1",
             "preact": "^10.10.0"
         },
@@ -1023,8 +1022,18 @@ export default [
         ],
         "main": "src/main.ts",
         "devDependencies": {
+            "@zui/avatar": "workspace:^0.0.1",
             "@zui/base": "workspace:*",
-            "@zui/utilities": "workspace:*"
+            "@zui/icons": "workspace:^0.0.1",
+            "@zui/dropdown": "workspace:^0.0.1",
+            "zui-dev": "workspace:^0.0.1",
+            "preact": "^10.10.0"
+        },
+        "dependencies": {
+            "@zui/browser-helpers": "workspace:^0.0.1",
+            "@zui/com-helpers": "workspace:^0.0.1",
+            "@zui/css-icons": "workspace:^0.0.1",
+            "@zui/action-menu": "workspace:^0.0.1"
         },
         "files": [
             "./src/**/*"
