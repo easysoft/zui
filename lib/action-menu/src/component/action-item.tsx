@@ -3,7 +3,6 @@ import {Attributes, ComponentType, h as _h} from 'preact';
 import {ActionItemProps} from '../types/action-item-props';
 
 export function ActionItem({
-    // type,
     component = 'a',
     className,
     children,
@@ -16,6 +15,8 @@ export function ActionItem({
     target,
     trailingIcon,
     hint,
+    style,
+    onClick,
 }: ActionItemProps) {
     const finalChildren = [
         typeof icon === 'string' ? <i class={`icon ${icon}`} /> : icon,
@@ -28,6 +29,8 @@ export function ActionItem({
         title: hint,
         [component === 'a' ? 'href' : 'data-url']: url,
         [component === 'a' ? 'target' : 'data-target']: target,
+        style,
+        onClick,
         ...attrs,
     } as Attributes, ...finalChildren);
 }

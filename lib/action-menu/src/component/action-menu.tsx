@@ -1,4 +1,5 @@
-import {Component, h as _h, createRef, isValidElement, JSX, Attributes} from 'preact';
+import {Component, h as _h, isValidElement} from 'preact';
+import type {JSX, Attributes, ComponentType} from 'preact';
 import {classes} from '@zui/browser-helpers/src/classes';
 import '@zui/css-icons/src/icons/caret.css';
 import {ActionDivider} from './action-divider';
@@ -9,19 +10,13 @@ import type {ActionMenuOptions} from '../types/action-menu-options';
 import type {ActionBasicProps} from '../types/action-basic-props';
 import type {ActionMenuItemOptions} from '../types/action-menu-item-options';
 
-const internalComponents = {
-    divider: ActionDivider,
-    item: ActionItem,
-    heading: ActionHeading,
-    space: ActionSpace,
-};
-
 export class ActionMenu<T extends ActionBasicProps = ActionMenuItemOptions, P extends ActionMenuOptions<T> = ActionMenuOptions<T>, S = {}> extends Component<P, S> {
-    ref = createRef<HTMLMenuElement>();
-
-    get $(): HTMLMenuElement | null {
-        return this.ref.current;
-    }
+    static ItemComponents: Record<string, ComponentType<any>> = {
+        divider: ActionDivider,
+        item: ActionItem,
+        heading: ActionHeading,
+        space: ActionSpace,
+    };
 
     get name() {
         return this.props.name ?? this.constructor.name.replace(/([A-Z])/g, '-$1').toLowerCase().replace(/^-/, '');
@@ -63,12 +58,23 @@ export class ActionMenu<T extends ActionBasicProps = ActionMenuItemOptions, P ex
 
     onRenderItem(item: T, index: number) {
         const {type = 'item', component, key = index, rootAttrs, rootClass, rootStyle, ...itemProps} = item;
-        const ItemComponent = ((typeof component === 'string' ? false : component) || internalComponents[type as keyof typeof internalComponents] || ActionItem) as typeof ActionItem;
+        const ItemComponent = (!component || typeof component === 'string') ? (
+            (this.constructor as typeof ActionMenu<T>).ItemComponents ? (this.constructor as typeof ActionMenu<T>).ItemComponents[type] : ActionMenu.ItemComponents[type]
+        ) : component;
         Object.assign(itemProps, {
-            component: typeof component === 'string' ? component : undefined,
             type,
+            component: typeof component === 'string' ? component : undefined,
         });
-        return <li className={classes(rootClass) || undefined} style={rootStyle} {...rootAttrs} key={key}><ItemComponent {...(itemProps as Attributes)} /></li>;
+        return (
+            <li
+                className={classes(`${this.name}-${type}`, rootClass)}
+                style={rootStyle}
+                key={key}
+                {...rootAttrs}
+            >
+                <ItemComponent {...(itemProps as Attributes)} />
+            </li>
+        );
     }
 
     renderItem(options: Omit<P, 'items'> & {items: T[]}, item: T, index: number) {
@@ -78,10 +84,10 @@ export class ActionMenu<T extends ActionBasicProps = ActionMenuItemOptions, P ex
         if (defaultItemProps) {
             Object.assign(listItem, defaultItemProps[type]);
         }
-        if (onClickItem) {
+        if (onClickItem || item.onClick) {
             listItem.onClick = this.handleItemClick.bind(this, listItem, index, item.onClick as ((event: MouseEvent) => void)) as JSX.MouseEventHandler<HTMLAnchorElement>;
         }
-        listItem.className = classes([`${this.name}-${type}`, listItem.className]);
+        listItem.className = classes(listItem.className);
         if (itemRender) {
             if (typeof itemRender === 'object') {
                 const CustomRenderComponent = itemRender[type];
@@ -120,7 +126,7 @@ export class ActionMenu<T extends ActionBasicProps = ActionMenuItemOptions, P ex
         } = options;
 
         return (
-            <menu class={classes(this.name, className)} {...others} ref={this.ref}>
+            <menu class={classes(this.name, className)} {...others}>
                 {items && items.map(this.renderItem.bind(this, options))}
                 {children}
             </menu>

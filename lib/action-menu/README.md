@@ -4,16 +4,19 @@
 
 ## 组件模式
 
+默认情况下，生成的结构是没有样式的。
+
 ```html:example
 <div id="actionMenu"></div>
 ```
 
 ```js
-const menu = new Menu('#actionMenu', {
+const menu = new ActionMenu<ActionMenuItemOptions>('#actionMenu', {
     items: [
         {text: '复制', icon: 'icon-copy'},
         {text: '粘贴', icon: 'icon-paste'},
         {text: '剪切'},
+        {type: 'divider'},
         {type: 'heading', text: '更多操作'},
         {text: '导入', icon: 'icon-upload-alt'},
         {text: '导出', icon: 'icon-download-alt'},
@@ -31,28 +34,14 @@ console.log('> menu', menu);
 ```html
 <div id="actionMenu">
   <menu class="action-menu">
-    <li>
-      <a class="action-menu-item"><i class="icon icon-copy"></i><span>复制</span></a>
-    </li>
-    <li>
-      <a class="action-menu-item"><i class="icon icon-paste"></i><span>粘贴</span></a>
-    </li>
-    <li>
-      <a class="action-menu-item"><span>剪切</span></a>
-    </li>
-    <li>
-      <div class="action-menu-heading">更多操作</div>
-    </li>
-    <li>
-      <a class="action-menu-item"><i class="icon icon-upload-alt"></i><span>导入</span></a>
-    </li>
-    <li>
-      <a class="action-menu-item"><i class="icon icon-download-alt"></i><span>导出</span></a>
-    </li>
-    <li>
-      <a class="action-menu-item"><i class="icon icon-save"></i><span>保存</span></a>
-    </li>
-  </menu>
+    <li class="action-menu-item"><a><i class="icon icon-copy"></i><span class="text">复制</span></a></li>
+    <li class="action-menu-item"><a><i class="icon icon-paste"></i><span class="text">粘贴</span></a></li>
+    <li class="action-menu-item"><a><span class="text">剪切</span></a></li>
+    <li class="divider"></li>
+    <li class="action-menu-heading"><div>更多操作</div></li>
+    <li class="action-menu-item"><a><i class="icon icon-upload-alt"></i><span class="text">导入</span></a></li>
+    <li class="action-menu-item"><a><i class="icon icon-download-alt"></i><span class="text">导出</span></a></li>
+    <li class="action-menu-item"><a><i class="icon icon-save"></i><span class="text">保存</span></a></li></menu>
 </div>
 ```
 
@@ -95,12 +84,12 @@ console.log('> nav', nav);
 ```html
 <div id="nav">
   <menu class="nav">
-    <li><a class="nav-item"><i class="icon icon-home"></i><span class="text">首页</span></a></li>
-    <li><a class="nav-item"><span class="text">动态</span></a></li>
-    <li><a class="nav-item"><span class="text">论坛</span></a></li>
-    <li><a class="nav-divier"><span class="text"></span></a></li>
-    <li><a class="nav-item"><i class="icon icon-rss"></i><span class="text">博客</span></a></li>
-    <li><a class="nav-item"><i class="icon icon-user-group"></i><span class="text">关注我们</span></a></li>
+    <li class="nav-item"><a><i class="icon icon-home"></i><span class="text">首页</span></a></li>
+    <li class="nav-item"><a><span class="text">动态</span></a></li>
+    <li class="nav-item"><a><span class="text">论坛</span></a></li>
+    <li class="nav-divier"></li>
+    <li class="nav-item"><a><i class="icon icon-rss"></i><span class="text">博客</span></a></li>
+    <li class="nav-item"><a><i class="icon icon-user-group"></i><span class="text">关注我们</span></a></li>
   </menu>
 </div>
 
