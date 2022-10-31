@@ -12,7 +12,7 @@
     ],
     "zui": {
         "type": "css-utilities",
-        "displayName": "CSS 工具类",
+        "displayName": "CSS 图标",
         "contributes": {
             "css": ["class", "var"]
         }
