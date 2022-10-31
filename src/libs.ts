@@ -15,12 +15,16 @@ export async function loadLibs() {
     }, {});
 
     const libTypeOrders: Record<string, number> = {
-        'css-base': 1,
-        'control': 2,
-        'js-helpers': 3,
-        'component': 4,
-        'css-utilities': 5,
-        'js-lib': 6,
+        'examples': 0,
+        'config': 1,
+        'css-base': 2,
+        'control': 3,
+        'js-helpers': 4,
+        'component': 5,
+        'js-ui': 6,
+        'css-utilities': 7,
+        'js-lib': 8,
+        'other': 9,
     };
 
     return Object.entries(groupedLibs).sort(([type1], [type2]) => {

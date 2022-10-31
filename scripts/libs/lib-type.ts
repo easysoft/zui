@@ -8,6 +8,7 @@ export enum LibType {
     cssUtilities = 'css-utilities',
     jsLib = 'js-lib',
     other = 'other',
+    examples = 'examples',
 }
 
 export const libTypeOrders = {
@@ -20,4 +21,5 @@ export const libTypeOrders = {
     [LibType.cssUtilities]: 6,
     [LibType.jsLib]: 7,
     [LibType.other]: 8,
+    [LibType.examples]: 9,
 };
