@@ -1,7 +1,7 @@
-.nav-pills > li > .nav-item {
+.nav-pills > .nav-item > a {
     @apply -rounded-full;
 }
-.nav-pills > li > .nav-item.active {
+.nav-pills > .nav-item > .active {
     @apply -text-canvas;
     background: var(--nav-active-color);
     border-color: var(--nav-active-color);

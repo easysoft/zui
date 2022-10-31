@@ -5,21 +5,21 @@
   @apply -flex -items-center -relative -gap-3;
 }
 
-.nav-item {
+.nav-item > a {
   @apply -flex -items-center -justify-center -h-8 -px-4 -gap-1;
   border-radius: var(--nav-radius);
 }
-.nav-item.active {
+.nav-item > .active {
   @apply -font-bold;
   color: var(--nav-active-color);
 }
-.nav-item:not(.active) {
+.nav-item > a:not(.active) {
   @apply -text-inherit;
 }
-.nav-item.disabled {
+.nav-item > .disabled {
   @apply -opacity-100;
 }
-.nav-item.disabled > * {
+.nav-item > .disabled > * {
   opacity: var(--disabled-opacity);
 }
 
@@ -28,7 +28,7 @@
 }
 
 .nav-heading {
-  @apply -flex -items-center -justify-center -h-8 -px-4 -gap-1;
+  @apply -flex -items-center -justify-center -h-8 -px-4 -gap-1 -font-bold;
   color: var(--nav-heading-color);
 }
 

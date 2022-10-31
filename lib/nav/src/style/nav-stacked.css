@@ -1,15 +1,14 @@
 .nav-stacked {
     @apply -flex-col;
 }
-.nav-stacked > li {
+.nav-stacked > .nav-item {
     @apply -w-full;
 }
-.nav-stacked > li > .nav-item,
-.nav-stacked > li > .nav-heading {
+.nav-stacked > .nav-item > a,
+.nav-stacked > .nav-heading {
     @apply -w-full -justify-start;
 }
 
-.nav-stacked > .nav-divider,
-.nav-stacked > li > .nav-divider {
-    @apply -h-px -mx-0 -my-2;
+.nav-stacked > .nav-divider {
+    @apply -h-px -w-full -mx-0 -my-2;
 }

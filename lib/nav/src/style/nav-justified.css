@@ -1,6 +1,6 @@
-.nav-justified > li:not(.flex-none,.nav-divider) {
+.nav-justified > .nav-item:not(.flex-none,.nav-divider) {
     @apply -flex-auto;
 }
-.nav-justified > li > .nav-item {
+.nav-justified > .nav-item > a {
     @apply -w-full;
 }

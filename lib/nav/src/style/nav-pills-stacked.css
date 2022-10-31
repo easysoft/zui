@@ -1,0 +1,3 @@
+.nav-pills.nav-stacked > .nav-item + .nav-item {
+    @apply -mt-1;
+}

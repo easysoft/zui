@@ -1,15 +1,15 @@
-.nav-primary.nav-stacked > li > .nav-item {
+.nav-primary.nav-stacked > .nav-item > a {
     @apply -h-10;
 }
-.nav-primary.nav-stacked > li + li {
+.nav-primary.nav-stacked > .nav-item + .nav-item {
     @apply -ml-0 --mt-px;
 }
-.nav-primary.nav-stacked > li:first-child > .nav-item {
+.nav-primary.nav-stacked > .nav-item:first-child > a {
     border-top-left-radius: var(--nav-radius);
     border-top-right-radius: var(--nav-radius);
     border-bottom-left-radius: 0;
 }
-.nav-primary.nav-stacked > li:last-child > .nav-item {
+.nav-primary.nav-stacked > .nav-item:last-child > a {
     border-top-right-radius: 0;
     border-bottom-left-radius: var(--nav-radius);
     border-bottom-right-radius: var(--nav-radius);

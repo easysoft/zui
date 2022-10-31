@@ -1,15 +1,15 @@
-.nav-tabs.nav-stacked > li > .nav-item {
+.nav-tabs.nav-stacked > .nav-item > a {
     @apply -relative -rounded-r-none;
     border-bottom-left-radius: var(--nav-radius);
 }
-.nav-tabs.nav-stacked > li > .nav-item::after {
+.nav-tabs.nav-stacked > .nav-item > a::after {
     @apply -border-r-border -border-b-transparent;
     border-top-left-radius: inherit;
     border-bottom-left-radius: inherit;
 }
-.nav-tabs.nav-stacked > li > .nav-item.active::after {
+.nav-tabs.nav-stacked > .nav-item > a.active::after {
     @apply -border-border -border-r-transparent
 }
-.nav-tabs.nav-stacked > li > .nav-divider {
+.nav-tabs.nav-stacked > .nav-divider {
     @apply -m-0;
 }

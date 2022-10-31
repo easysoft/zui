@@ -1,13 +1,12 @@
-.nav-secondary > li > .nav-item {
+.nav-secondary > .nav-item > a {
     @apply -rounded-none -relative;
 }
-.nav-secondary > li > .nav-item::after {
+.nav-secondary > .nav-item > a::after {
     @apply -content-[''] -block -absolute -inset-x-0 --bottom-[2px] -bg-border -h-[2px];
 }
-.nav-secondary > li > .nav-item.active::after {
+.nav-secondary > .nav-item > .active::after {
     @apply -bg-current;
 }
-.nav-secondary > .nav-divider,
-.nav-secondary > li > .nav-divider {
+.nav-secondary > .nav-divider {
     @apply -m-0 --ml-px;
 }
