@@ -64,7 +64,7 @@ console.log('> menu', menu);
   <li class="menu-item"><a><i class="icon icon-copy"></i> 复制</a></li>
   <li class="menu-item"><a><i class="icon icon-paste"></i> 粘贴</a></li>
   <li class="menu-item"><a>剪切</a></li>
-  <li><hr class="menu-divider" /></li>
+  <li class="menu-divider"></li>
   <li class="menu-heading">更多操作</li>
   <li class="menu-item"><a><i class="icon icon-upload-alt"></i> 导入</a></li>
   <li class="menu-item"><a><i class="icon icon-download-alt"></i> 导出</a></li>
@@ -77,7 +77,7 @@ console.log('> menu', menu);
 
 ```html:example
 <menu class="menu has-icons -w-32">
-  <li><a class="menu-item disabled"><i class="icon icon-upload-alt"></i> 导入（被禁用）</a></li>
+  <li class="menu-item"><a class="disabled"><i class="icon icon-upload-alt"></i> 导入（被禁用）</a></li>
   <li class="menu-item"><a><i class="icon icon-download-alt"></i> 导出</a></li>
   <li class="menu-item"><a><i class="icon icon-save"></i> 保存</a></li>
 </menu>
