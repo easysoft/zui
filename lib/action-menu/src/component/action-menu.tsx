@@ -1,4 +1,4 @@
-import {Component, h as _h, isValidElement} from 'preact';
+import {Component, createRef, h as _h, isValidElement} from 'preact';
 import type {JSX, Attributes, ComponentType} from 'preact';
 import {classes} from '@zui/browser-helpers/src/classes';
 import '@zui/css-icons/src/icons/caret.css';
@@ -6,6 +6,7 @@ import {ActionDivider} from './action-divider';
 import {ActionItem} from './action-item';
 import {ActionHeading} from './action-heading';
 import {ActionSpace} from './action-space';
+import {ActionCustom} from './action-custom';
 import type {ActionMenuOptions} from '../types/action-menu-options';
 import type {ActionBasicProps} from '../types/action-basic-props';
 import type {ActionMenuItemOptions} from '../types/action-menu-item-options';
@@ -16,22 +17,25 @@ export class ActionMenu<T extends ActionBasicProps = ActionMenuItemOptions, P ex
         item: ActionItem,
         heading: ActionHeading,
         space: ActionSpace,
+        custom: ActionCustom,
     };
+
+    ref = createRef<HTMLMenuElement>();
 
     get name() {
         return this.props.name ?? this.constructor.name.replace(/([A-Z])/g, '-$1').toLowerCase().replace(/^-/, '');
     }
 
     componentDidMount() {
-        this.props.afterRender?.call(this, {firstRender: true});
+        this.props.afterRender?.({menu: this, firstRender: true});
     }
 
     componentDidUpdate(): void {
-        this.props.afterRender?.call(this, {firstRender: false});
+        this.props.afterRender?.({menu: this, firstRender: false});
     }
 
     componentWillUnmount(): void {
-        this.props.beforeDestroy?.call(this);
+        this.props.beforeDestroy?.({menu: this});
     }
 
     handleItemClick(item: T, index: number, onClick: ((event: MouseEvent) => void) | undefined, event: MouseEvent) {
@@ -40,18 +44,18 @@ export class ActionMenu<T extends ActionBasicProps = ActionMenuItemOptions, P ex
         }
         const {onClickItem} = this.props;
         if (onClickItem) {
-            onClickItem.call(this, {item, index, event});
+            onClickItem({menu: this, item, index, event});
         }
     }
 
     beforeRender(): Omit<P, 'items'> & {items: T[]} {
         const options = {...this.props};
-        const customOptions = options.beforeRender?.call(this, options);
-        if (customOptions) {
-            Object.assign(options, customOptions);
-        }
         if (typeof options.items === 'function') {
             options.items = options.items.call(this);
+        }
+        const customOptions = options.beforeRender?.({menu: this, options});
+        if (customOptions) {
+            Object.assign(options, customOptions);
         }
         return options as Omit<P, 'items'> & {items: T[]};
     }
@@ -126,7 +130,7 @@ export class ActionMenu<T extends ActionBasicProps = ActionMenuItemOptions, P ex
         } = options;
 
         return (
-            <menu class={classes(this.name, className)} {...others}>
+            <menu class={classes(this.name, className)} {...others} ref={this.ref}>
                 {items && items.map(this.renderItem.bind(this, options))}
                 {children}
             </menu>
