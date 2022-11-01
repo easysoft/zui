@@ -3,9 +3,9 @@
 ```html:example: -flex -gap-3 of-visible
 <button class="btn" type="button" data-toggle="dropdown">菜单按钮 <span class="caret"></span></button>
 <menu class="dropdown-menu menu">
-  <li><a class="menu-item" href="###">操作</a></li>
-  <li><a class="menu-item" href="###">另一个操作</a></li>
-  <li><a class="menu-item" href="###">更多操作</a></li>
+  <li class="menu-item"><a>操作</a></li>
+  <li class="menu-item"><a>另一个操作</a></li>
+  <li class="menu-item"><a>更多操作</a></li>
 </menu>
 ```
 
@@ -16,9 +16,9 @@
 ```html:example: -flex -gap-3
 <button class="btn" type="button" data-toggle="dropdown" data-hover>鼠标悬停展开菜单按钮 <span class="caret"></span></button>
 <menu class="dropdown-menu menu">
-    <li><a class="menu-item" href="###">操作</a></li>
-    <li><a class="menu-item" href="###">另一个操作</a></li>
-    <li><a class="menu-item" href="###">更多操作</a></li>
+  <li class="menu-item"><a>操作</a></li>
+  <li class="menu-item"><a>另一个操作</a></li>
+  <li class="menu-item"><a>更多操作</a></li>
 </menu>
 ```
 
@@ -29,30 +29,30 @@
 ```html:example: -flex -gap-3
 <button class="btn" type="button" data-toggle="dropdown" data-placement="top-start">上方左侧对齐 <span class="caret"></span></button>
 <ul class="dropdown-menu menu">
-    <li><a class="menu-item" href="###">操作</a></li>
-    <li><a class="menu-item" href="###">另一个操作</a></li>
-    <li><a class="menu-item" href="###">更多操作</a></li>
+  <li class="menu-item"><a>操作</a></li>
+  <li class="menu-item"><a>另一个操作</a></li>
+  <li class="menu-item"><a>更多操作</a></li>
 </ul>
 
 <button class="btn" type="button" data-toggle="dropdown" data-placement="bottom-start">下方左侧对齐 <span class="caret"></span></button>
 <ul class="dropdown-menu menu">
-    <li><a class="menu-item" href="###">操作</a></li>
-    <li><a class="menu-item" href="###">另一个操作</a></li>
-    <li><a class="menu-item" href="###">更多操作</a></li>
+  <li class="menu-item"><a>操作</a></li>
+  <li class="menu-item"><a>另一个操作</a></li>
+  <li class="menu-item"><a>更多操作</a></li>
 </ul>
 
 <button class="btn" type="button" data-toggle="dropdown">上方右侧对齐 <span class="caret" data-placement="top-end"></span></button>
 <ul class="dropdown-menu menu">
-    <li><a class="menu-item" href="###">操作</a></li>
-    <li><a class="menu-item" href="###">另一个操作</a></li>
-    <li><a class="menu-item" href="###">更多操作</a></li>
+  <li class="menu-item"><a>操作</a></li>
+  <li class="menu-item"><a>另一个操作</a></li>
+  <li class="menu-item"><a>更多操作</a></li>
 </ul>
 
 <button class="btn" type="button" data-toggle="dropdown">下方右侧对齐 <span class="caret" data-placement="bottom-end"></span></button>
 <ul class="dropdown-menu menu">
-    <li><a class="menu-item" href="###">操作</a></li>
-    <li><a class="menu-item" href="###">另一个操作</a></li>
-    <li><a class="menu-item" href="###">更多操作</a></li>
+  <li class="menu-item"><a>操作</a></li>
+  <li class="menu-item"><a>另一个操作</a></li>
+  <li class="menu-item"><a>更多操作</a></li>
 </ul>
 ```
 ## 多级子菜单
@@ -60,55 +60,53 @@
 一般情况下子菜单会在菜单项的右侧显示，但也可以为作为子菜单的 `.dropdown-menu` 添加 `.expand-left` 类来使得子菜单在左侧显示
 ```html:example: -flex -gap-3
 <div class="dropdown">
-    <button class="btn" type="button"
-        data-toggle="dropdown">菜单按钮 <span class="caret"></span></button>
-    <ul class="dropdown-menu menu">
-        <li class="dropdown-submenu">
-            <a class="menu-item" href="###">打开</a>
-            <ul class="dropdown-menu menu">
-                <li><a class="menu-item" href="###">运行</a></li>
-                <li><a class="menu-item" href="###">在终端中打开</a></li>
-                <li><a class="menu-item" href="###">在编辑器中打开</a></li>
-            </ul>
-        </li>
-        <li class="dropdown-submenu">
-            <a class="menu-item" href="###">一组操作</a>
-            <ul class="dropdown-menu menu">
-                <li class="dropdown-submenu">
-                    <a class="menu-item" href="###">修改</a>
-                    <ul class="dropdown-menu menu">
-                        <li><a class="menu-item" href="###">修改标题</a></li>
-                        <li><a class="menu-item" href="###">更新内容</a></li>
-                        <li><a class="menu-item" href="###">转移</a></li>
-                    </ul>
-                </li>
-                <li class="dropdown-submenu">
-                    <a class="menu-item" href="###">删除</a>
-                    <ul class="dropdown-menu menu">
-                        <li><a class="menu-item" href="###">移动到回收站</a></li>
-                        <li><a class="menu-item" href="###">直接删除</a></li>
-                    </ul>
-                </li>
-                <li><a class="menu-item" href="###">撤销</a></li>
-            </ul>
-        </li>
-        <li class="dropdown-submenu">
-            <a class="menu-item" href="###">另一组操作</a>
-            <ul class="dropdown-menu menu">
-                <li><a class="menu-item" href="###">评审</a></li>
-                <li><a class="menu-item" href="###">计划</a></li>
-                <li><a class="menu-item" href="###">关闭</a></li>
-            </ul>
-        </li>
-        <li class="dropdown-submenu">
-            <a class="menu-item" href="###">在左侧显示</a>
-            <ul class="dropdown-menu expand-left">
-                <li><a class="menu-item" href="###">复制</a></li>
-                <li><a class="menu-item" href="###">粘贴</a></li>
-                <li><a class="menu-item" href="###">剪切</a></li>
-            </ul>
-        </li>
-    </ul>
+  <button class="btn" type="button" data-toggle="dropdown">菜单按钮 <span class="caret"></span></button>
+  <ul class="dropdown-menu menu">
+    <li class="menu-item dropdown-submenu">
+      <a>打开</a>
+      <ul class="dropdown-menu menu">
+        <li class="menu-item"><a>运行</a></li>
+        <li class="menu-item"><a>在终端中打开</a></li>
+        <li class="menu-item"><a>在编辑器中打开</a></li>
+      </ul>
+    </li>
+    <li class="menu-item dropdown-submenu">
+        <a>一组操作</a>
+        <ul class="dropdown-menu menu">
+            <li class="menu-item dropdown-submenu">
+                <a>修改</a>
+                <ul class="dropdown-menu menu">
+                    <li class="menu-item"><a>修改标题</a></li>
+                    <li class="menu-item"><a>更新内容</a></li>
+                    <li class="menu-item"><a>转移</a></li>
+                </ul>
+            </li>
+            <li class="menu-item dropdown-submenu">
+                <a>删除</a>
+                <ul class="dropdown-menu menu">
+                    <li class="menu-item"><a>移动到回收站</a></li>
+                    <li class="menu-item"><a>直接删除</a></li>
+                </ul>
+            </li>
+            <li class="menu-item"><a>撤销</a></li>
+        </ul>
+    </li>
+    <li class="menu-item dropdown-submenu">
+        <a>另一组操作</a>
+        <ul class="dropdown-menu menu">
+            <li class="menu-item"><a>评审</a></li>
+            <li class="menu-item"><a>计划</a></li>
+            <li class="menu-item"><a>关闭</a></li>
+        </ul>
+    </li>
+    <li class="menu-item dropdown-submenu">
+      <ul class="dropdown-menu expand-left">
+        <li class="menu-item"><a>复制</a></li>
+        <li class="menu-item"><a>粘贴</a></li>
+        <li class="menu-item"><a>剪切</a></li>
+      </ul>
+    </li>
+  </ul>
 </div>
 ```
 ## 自定义菜单
@@ -134,8 +132,8 @@
     <button class="btn" type="button"
         data-toggle="dropdown">菜单按钮 <span class="caret"></span></button>
     <ul class="dropdown-menu menu">
-        <li><a class="menu-item" href="###">操作</a></li>
-        <li class="disabled"><a class="menu-item" href="###">被禁用的操作</a></li>
+      <li class="menu-item"><a>操作</a></li>
+      <li class="disabled"><a>被禁用的操作</a></li>
     </ul>
 </div>
 ```
@@ -149,12 +147,12 @@
     <button class="btn" type="button"
         data-toggle="dropdown">菜单按钮 <span class="caret"></span></button>
     <ul class="dropdown-menu menu">
-        <li class="dropdown-header">下拉菜单标题</li>
-        <li><a class="menu-item" href="###">操作</a></li>
-        <li><a class="menu-item" href="###">另一个操作</a></li>
-        <li class="divider"></li>
-        <li class="dropdown-header">更多操作</li>
-        <li><a class="menu-item" href="###">修改</a></li>
+      <li class="dropdown-header">下拉菜单标题</li>
+      <li class="menu-item"><a>操作</a></li>
+      <li class="menu-item"><a>另一个操作</a></li>
+      <li class="divider"></li>
+      <li class="dropdown-header">更多操作</li>
+      <li class="menu-item"><a>修改</a></li>
     </ul>
 </div>
 ```
