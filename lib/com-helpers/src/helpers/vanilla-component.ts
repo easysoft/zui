@@ -24,16 +24,16 @@ export type ComponentEventNames<V extends CustomEventMap = {}> = keyof HTMLEleme
 
 export type ComponentI18nOptions = {
     lang?: string;
-    i18n?: Record<string, Record<string, string | object>>;
+    i18n?: Record<string, Record<string, string | {}>>;
 };
 
 export type ComponentEventOptions<V extends CustomEventMap = {}> = {
     [p in keyof ComponentOptionEventMap<ComponentInternalEventMap & V>]: (event: Event) => void | false;
 };
 
-export type ComponentOptions<O extends object = {}, V extends CustomEventMap = {}> = O & ComponentI18nOptions & Partial<ComponentEventOptions<V>>;
+export type ComponentOptions<O extends {} = {}, V extends CustomEventMap = {}> = O & ComponentI18nOptions & Partial<ComponentEventOptions<V>>;
 
-export declare class ComponentClass<O extends object = {}, V extends CustomEventMap = {}, E extends HTMLElement = HTMLElement> {
+export declare class ComponentClass<O extends {} = {}, V extends CustomEventMap = {}, E extends HTMLElement = HTMLElement> {
     static NAME: string;
 
     static KEY: string;
@@ -65,7 +65,7 @@ export declare class ComponentClass<O extends object = {}, V extends CustomEvent
     i18n(key: string, args?: string | (string | number)[] | Record<string, string | number>, defaultValue?: string): string;
 }
 
-export class ComponentBase<O extends object = {}, V extends CustomEventMap = {}, E extends HTMLElement = HTMLElement> implements ComponentClass<O, V, E> {
+export class ComponentBase<O extends {} = {}, V extends CustomEventMap = {}, E extends HTMLElement = HTMLElement> implements ComponentClass<O, V, E> {
     #options: ComponentOptions<O, V>;
 
     #element: E;
@@ -168,7 +168,7 @@ export class ComponentBase<O extends object = {}, V extends CustomEventMap = {},
         return `zui.${this.NAME}`;
     }
 
-    static get DEFAULT(): object {
+    static get DEFAULT(): {} {
         return  {};
     }
 
@@ -184,15 +184,15 @@ export class ComponentBase<O extends object = {}, V extends CustomEventMap = {},
         return map;
     }
 
-    static getAll<O extends object, V extends CustomEventMap, E extends HTMLElement, T extends typeof ComponentBase<O, V, E>>(this: T): Map<E, InstanceType<T>> {
+    static getAll<O extends {}, V extends CustomEventMap, E extends HTMLElement, T extends typeof ComponentBase<O, V, E>>(this: T): Map<E, InstanceType<T>> {
         return this.all as Map<E, InstanceType<T>>;
     }
 
-    static get<O extends object, V extends CustomEventMap, E extends HTMLElement, T extends typeof ComponentBase<O, V, E>>(this: T, element: E): InstanceType<T> | undefined {
+    static get<O extends {}, V extends CustomEventMap, E extends HTMLElement, T extends typeof ComponentBase<O, V, E>>(this: T, element: E): InstanceType<T> | undefined {
         return this.all.get(element) as InstanceType<T> | undefined;
     }
 
-    static ensure<O extends object, V extends CustomEventMap, E extends HTMLElement, T extends typeof ComponentBase<O, V, E>>(this: T, element: E, options?: O): InstanceType<T> {
+    static ensure<O extends {}, V extends CustomEventMap, E extends HTMLElement, T extends typeof ComponentBase<O, V, E>>(this: T, element: E, options?: O): InstanceType<T> {
         return (this.get<O, V, E, T>(element) || new this(element, options)) as InstanceType<T>;
     }
 }
