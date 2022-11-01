@@ -1,3 +1,3 @@
-import {ActionItem} from '@zui/action-menu/src/types/action-item';
+import {ActionItemProps} from '@zui/action-menu/src/types/action-item-props';
 
-export type ToolbarItemProps = ActionItem;
+export type NavItemProps = ActionItemProps;
