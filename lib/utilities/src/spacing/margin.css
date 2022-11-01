@@ -6,6 +6,14 @@
 .mb-0 {@apply -mb-0;}
 .ml-0 {@apply -ml-0;}
 
+.m-auto  {@apply -m-auto;}
+.mx-auto {@apply -mx-auto;}
+.my-auto {@apply -my-auto;}
+.mt-auto {@apply -mt-auto;}
+.mr-auto {@apply -mr-auto;}
+.mb-auto {@apply -mb-auto;}
+.ml-auto {@apply -ml-auto;}
+
 .m-px  {@apply -m-px;}
 .mx-px {@apply -mx-px;}
 .my-px {@apply -my-px;}
