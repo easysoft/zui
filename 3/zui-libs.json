@@ -1025,6 +1025,8 @@
             "@zui/avatar": "workspace:^0.0.1",
             "@zui/base": "workspace:*",
             "@zui/icons": "workspace:^0.0.1",
+            "@zui/button": "workspace:^0.0.1",
+            "@zui/btn-group": "workspace:^0.0.1",
             "@zui/dropdown": "workspace:^0.0.1",
             "zui-dev": "workspace:^0.0.1",
             "preact": "^10.10.0"
@@ -1445,7 +1447,7 @@
         ],
         "zui": {
             "type": "css-utilities",
-            "displayName": "CSS 工具类",
+            "displayName": "CSS 图标",
             "contributes": {
                 "css": [
                     "class",
