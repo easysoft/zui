@@ -1296,6 +1296,7 @@ export default [
         "dependencies": {
             "@popperjs/core": "^2.11.6",
             "@zui/com-helpers": "workspace:*",
+            "@zui/contextmenu": "workspace:*",
             "@zui/css-icons": "workspace:^0.0.1"
         },
         "zui": {
