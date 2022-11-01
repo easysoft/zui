@@ -4,76 +4,41 @@ import preventOverflow from '@popperjs/core/lib/modifiers/preventOverflow';
 import flip from '@popperjs/core/lib/modifiers/flip';
 import {ComponentBase} from '@zui/com-helpers/src/helpers/vanilla-component';
 import {isRightBtn} from '@zui/com-helpers/src/helpers/mouse-event';
-import type {MenuProps, MenuListItem, Menu as MenuReact} from '@zui/menu/src/component/menu';
-import {Menu} from '@zui/menu';
+import {Menu, MenuOptions} from '@zui/menu';
 import '../style/vars.css';
 import '../style/contextmenu.css';
-
-export type ContextMenuItemsDefinition = MenuListItem[] | ((contextmenu: ContextMenu, event: MouseEvent) => MenuListItem[] | undefined);
-
-export type ContextMenuOptions = {
-    placement?: ContextMenuPlacement;
-    strategy?: ContextMenuPositionStrategy;
-    preventOverflow?: boolean | {boundary: string};
-    offset?: [number, number] | (() => [number, number]);
-    flip?: boolean;
-    items?: ContextMenuItemsDefinition;
-    menu?: Omit<MenuProps, 'items'>;
-    subMenuTrigger?: 'click' | 'hover',
-};
-
-export type ContextMenuEvents = {
-    show: CustomEvent<{menu: ContextMenu, event: MouseEvent}>,
-    shown: CustomEvent<ContextMenu>,
-    hide: CustomEvent<ContextMenu>,
-    hidden: CustomEvent<ContextMenu>,
-    updateMenu: CustomEvent<{items: MenuListItem[], event: MouseEvent, contextmenu: ContextMenu}>,
-};
-
-export type ContextMenuPositionStrategy = 'absolute' | 'fixed';
-
-export type ContextMenuPlacement =
-  | 'auto'
-  | 'auto-start'
-  | 'auto-end'
-  | 'top'
-  | 'top-start'
-  | 'top-end'
-  | 'bottom'
-  | 'bottom-start'
-  | 'bottom-end'
-  | 'right'
-  | 'right-start'
-  | 'right-end'
-  | 'left'
-  | 'left-start'
-  | 'left-end';
-
-const CONTEXTMENU_SELECTOR = '[data-toggle="contextmenu"]:not(.disabled):not(:disabled)';
-const CONTEXTMENU_CLASS_SHOW = 'show';
-const CONTEXTMENU_CLASS_MENU = 'contextmenu';
+import type {MenuItemOptions} from '@zui/menu/src/types/menu-item-options';
+import type {ContextMenuOptions} from '../types/contextmenu-options';
+import type {ContextMenuEvents} from '../types/contextmenu-events';
+import type {ContextMenuTrigger} from '../types/contextmenu-trigger';
 
 export class ContextMenu extends ComponentBase<ContextMenuOptions, ContextMenuEvents> {
+    static EVENTS = true;
+
     static DEFAULT = {
         placement: 'bottom-start',
         strategy: 'fixed',
         subMenuTrigger: 'hover',
     };
 
+    static MENU_CLASS = 'contextmenu';
+
+    static CLASS_SHOW = 'show';
+
+    static MENU_SELECTOR = '[data-toggle="contextmenu"]:not(.disabled):not(:disabled)';
+
     #menu?: HTMLElement;
 
     #popper?: PopperInstance;
 
-    #subPoppers = new Map<MenuReact, PopperInstance>();
-
     #virtualElement?: VirtualElement;
 
-    #mouseEvent?: MouseEvent;
+    #trigger?: ContextMenuTrigger;
 
     #customMenu?: Menu;
 
     get isShown() {
-        return this.menu.classList.contains(CONTEXTMENU_CLASS_SHOW);
+        return this.menu.classList.contains((this.constructor as typeof ContextMenu).CLASS_SHOW);
     }
 
     get menu() {
@@ -82,10 +47,11 @@ export class ContextMenu extends ComponentBase<ContextMenuOptions, ContextMenuEv
         }
 
         const {element} = this;
+        const menuClass = (this.constructor as typeof ContextMenu).MENU_CLASS;
         let menuElement: HTMLElement | null | undefined;
         if (this.options.menu) {
             menuElement = document.createElement('div');
-            menuElement.classList.add(CONTEXTMENU_CLASS_MENU);
+            menuElement.classList.add(menuClass);
             document.body.appendChild(menuElement);
         } else if (element) {
             const target = element.getAttribute('href') ?? element.dataset.target;
@@ -94,10 +60,10 @@ export class ContextMenu extends ComponentBase<ContextMenuOptions, ContextMenuEv
             }
             if (!menuElement) {
                 const nextElement = element.nextElementSibling;
-                if (nextElement?.classList.contains(CONTEXTMENU_CLASS_MENU)) {
+                if (nextElement?.classList.contains(menuClass)) {
                     menuElement = nextElement as HTMLElement;
                 } else {
-                    menuElement = element.parentNode?.querySelector(`.${CONTEXTMENU_CLASS_MENU}`);
+                    menuElement = element.parentNode?.querySelector(`.${menuClass}`);
                 }
             }
         }
@@ -117,6 +83,10 @@ export class ContextMenu extends ComponentBase<ContextMenuOptions, ContextMenuEv
         return this.#popper;
     }
 
+    get trigger() {
+        return this.#trigger || this.element;
+    }
+
     init(): void {
         const {element} = this;
         if (element !== document.body && !element.hasAttribute('data-toggle')) {
@@ -124,19 +94,18 @@ export class ContextMenu extends ComponentBase<ContextMenuOptions, ContextMenuEv
         }
     }
 
-    show(event?: MouseEvent) {
-        event = event || ContextMenu.mousePos;
-        const showEvent = this.emit('show', {menu: this, event});
+    show(trigger?: ContextMenuTrigger) {
+        this.#trigger = trigger;
+        const showEvent = this.emit('show', {menu: this, trigger: this.trigger});
         if (showEvent.defaultPrevented) {
             return false;
         }
 
-        this.#mouseEvent = event;
-        if (this.#updateCustomMenu(event) === false) {
+        if (this.#updateCustomMenu() === false) {
             return;
         }
 
-        this.menu.classList.add(CONTEXTMENU_CLASS_SHOW);
+        this.menu.classList.add((this.constructor as typeof ContextMenu).CLASS_SHOW);
         this.#createPopper().update();
 
         this.emit('shown', this);
@@ -150,8 +119,7 @@ export class ContextMenu extends ComponentBase<ContextMenuOptions, ContextMenuEv
 
         this.#popper?.destroy();
         this.#popper = undefined;
-        this.#menu?.classList.remove(CONTEXTMENU_CLASS_SHOW);
-        this.#customMenu?.$?.clearAllSubMenu();
+        this.#menu?.classList.remove((this.constructor as typeof ContextMenu).CLASS_SHOW);
 
         this.emit('hidden', this);
     }
@@ -163,6 +131,9 @@ export class ContextMenu extends ComponentBase<ContextMenuOptions, ContextMenuEv
     destroy(): void {
         this.#popper?.destroy();
         super.destroy();
+        if (this.options.menu) {
+            this.#menu?.remove();
+        }
     }
 
     #createPopper() {
@@ -179,67 +150,32 @@ export class ContextMenu extends ComponentBase<ContextMenuOptions, ContextMenuEv
         return this.#popper;
     }
 
-    #afterRenderMenu = ({menu}: {menu: MenuReact}) => {
-        const menuElement = menu.$;
-        if (!menuElement?.parentElement) {
+    #updateCustomMenu() {
+        let {menu} = this.options;
+        if (!menu) {
             return;
         }
-        let popper = this.#subPoppers.get(menu);
-        if (!popper) {
-            popper = createPopper(menuElement.parentElement, menuElement, {
-                modifiers: [preventOverflow, flip],
-                placement: 'right-start',
-            });
-            this.#subPoppers.set(menu, popper);
+        if (typeof menu === 'function') {
+            menu = {items: menu.call(this, event)};
+        } else if (Array.isArray(menu)) {
+            menu = {items: menu};
         }
-        popper.update();
-    };
-
-    #afterDestroyMenu = ({menu}: {menu: MenuReact}) => {
-        const popper = this.#subPoppers.get(menu);
-        if (popper) {
-            popper.destroy();
-            this.#subPoppers.delete(menu);
-        }
-    };
-
-    #renderMenuItem = ({item, h}: {menu: MenuReact, item: MenuListItem, index: number, h: typeof _h}): (MenuListItem | undefined) => {
-        if (item.type === 'item' && item.items) {
-            return {
-                trailingIcon: h('span', {className: 'caret-right ml-2'}),
-            };
-        }
-    };
-
-    #updateCustomMenu(event: MouseEvent) {
-        let {items} = this.options;
-        if (!items) {
-            return;
-        }
-        if (typeof items === 'function') {
-            items = items(this, event);
-        }
-        if (!items?.length) {
-            return false;
+        if (typeof menu.items === 'function') {
+            menu.items = menu.items.call(this, event);
         }
 
-        const updateMenuEvent = this.emit('updateMenu', {items, event, contextmenu: this});
+        const updateMenuEvent = this.emit('updateMenu', {items: menu.items as MenuItemOptions[], trigger: this.trigger, contextmenu: this});
         if (updateMenuEvent.defaultPrevented) {
             return false;
         }
 
-        const {menu} = this.options;
+        const menuOptions = {
+            ...menu,
+        } as MenuOptions;
         if (this.#customMenu) {
-            this.#customMenu.render({items, ...menu});
+            this.#customMenu.render(menuOptions);
         } else {
-            this.#customMenu = new Menu(this.menu, {
-                subMenuTrigger: this.options.subMenuTrigger,
-                items,
-                ...menu,
-                afterRender: this.#afterRenderMenu,
-                beforeDestroy: this.#afterDestroyMenu,
-                onRenderItem: this.#renderMenuItem,
-            });
+            this.#customMenu = new Menu(this.menu, menuOptions);
         }
         return true;
     }
@@ -248,15 +184,22 @@ export class ContextMenu extends ComponentBase<ContextMenuOptions, ContextMenuEv
         if (!this.#virtualElement) {
             this.#virtualElement = {
                 getBoundingClientRect: () => {
-                    const {clientX, clientY} = this.#mouseEvent || ContextMenu.mousePos;
-                    return {
-                        width: 0,
-                        height: 0,
-                        top: clientY,
-                        right: clientX,
-                        bottom: clientY,
-                        left: clientX,
-                    } as DOMRect;
+                    const {trigger} = this;
+                    if (trigger instanceof MouseEvent) {
+                        const {clientX, clientY} = trigger;
+                        return {
+                            width: 0,
+                            height: 0,
+                            top: clientY,
+                            right: clientX,
+                            bottom: clientY,
+                            left: clientX,
+                        } as DOMRect;
+                    }
+                    if (trigger instanceof HTMLElement) {
+                        return trigger.getBoundingClientRect();
+                    }
+                    return trigger;
                 },
                 contextElement: this.element as Element,
             };
@@ -288,37 +231,14 @@ export class ContextMenu extends ComponentBase<ContextMenuOptions, ContextMenuEv
         contextmenu?.hide();
         return contextmenu;
     }
-
-    static get mousePos(): MouseEvent {
-        const {watchedMouse} = this;
-        if (!watchedMouse) {
-            this.watchMouse();
-        }
-        if (typeof watchedMouse === 'object') {
-            return watchedMouse;
-        }
-        return {clientX: 0, clientY: 0} as MouseEvent;
-    }
-
-    static watchedMouse: boolean | MouseEvent = false;
-
-    static watchMouse() {
-        if (this.watchedMouse) {
-            return;
-        }
-        document.addEventListener('mousemove', event => {
-            this.watchedMouse = event;
-        });
-        this.watchedMouse = true;
-    }
 }
 
 document.addEventListener('contextmenu', (event) => {
     const element = event.target as HTMLElement;
-    if (element.closest(`.${CONTEXTMENU_CLASS_MENU}`)) {
+    if (element.closest(`.${ContextMenu.MENU_CLASS}`)) {
         return;
     }
-    const toggleElement = element.closest<HTMLElement>(CONTEXTMENU_SELECTOR);
+    const toggleElement = element.closest<HTMLElement>(ContextMenu.MENU_SELECTOR);
     if (toggleElement) {
         const contextmenu = ContextMenu.ensure(toggleElement);
         contextmenu.show(event);

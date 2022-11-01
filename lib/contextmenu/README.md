@@ -7,9 +7,9 @@
     在此区域使用右键菜单
 </div>
 <menu class="contextmenu menu">
-  <li><a class="menu-item" href="###">操作</a></li>
-  <li><a class="menu-item" href="###">另一个操作</a></li>
-  <li><a class="menu-item" href="###">更多操作</a></li>
+  <li class="menu-item"><a>操作</a></li>
+  <li class="menu-item"><a>另一个操作</a></li>
+  <li class="menu-item"><a>更多操作</a></li>
 </menu>
 ```
 
@@ -24,13 +24,13 @@
 ```js
 const contextMenu = new ContextMenu('#menuToggle1', {
     items: [
-        {title: '复制', icon: 'icon-copy'},
-        {title: '粘贴', icon: 'icon-paste'},
-        {title: '剪切'},
-        {type: 'heading', title: '更多操作'},
-        {title: '导入', icon: 'icon-upload-alt'},
-        {title: '导出', icon: 'icon-download-alt'},
-        {title: '保存', icon: 'icon-save', onClick: (event) => console.log('> menuItem.clicked', event)},
+        {text: '复制', icon: 'icon-copy'},
+        {text: '粘贴', icon: 'icon-paste'},
+        {text: '剪切'},
+        {type: 'heading', text: '更多操作'},
+        {text: '导入', icon: 'icon-upload-alt'},
+        {text: '导出', icon: 'icon-download-alt'},
+        {text: '保存', icon: 'icon-save', onClick: (event) => console.log('> menuItem.clicked', event)},
     ],
     menu: {
         onClickItem: (info) => {
@@ -53,13 +53,13 @@ document.getElementById('menuToggle2')?.addEventListener('click', (event) => {
     const contextmenu = ContextMenu.show({
         event,
         items: [
-            {title: '复制', icon: 'icon-copy'},
-            {title: '粘贴', icon: 'icon-paste'},
-            {title: '剪切'},
-            {type: 'heading', title: '更多操作'},
-            {title: '导入', icon: 'icon-upload-alt'},
-            {title: '导出', icon: 'icon-download-alt'},
-            {title: '保存', icon: 'icon-save', onClick: (e) => console.log('> menuItem.clicked', e)},
+            {text: '复制', icon: 'icon-copy'},
+            {text: '粘贴', icon: 'icon-paste'},
+            {text: '剪切'},
+            {type: 'heading', text: '更多操作'},
+            {text: '导入', icon: 'icon-upload-alt'},
+            {text: '导出', icon: 'icon-download-alt'},
+            {text: '保存', icon: 'icon-save', onClick: (e) => console.log('> menuItem.clicked', e)},
         ],
         menu: {
             onClickItem: (info) => {

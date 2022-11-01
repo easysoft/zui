@@ -6,6 +6,24 @@
 <div id="nav"></div>
 ```
 
+```js
+const nav = new Nav('#nav', {
+    name: 'nav',
+    items: [
+        {text: '首页', icon: 'icon-home', active: true},
+        {text: '动态'},
+        {text: '论坛'},
+        {type: 'divier'},
+        {text: '博客', icon: 'icon-rss'},
+        {text: '关注我们', icon: 'icon-user-group'},
+    ],
+    onClickItem: (info) => {
+        console.log('> nav.onClickItem', info);
+    },
+});
+console.log('> nav', nav);
+```
+
 ## 基础导航
 
 使用组件类 `.nav` 来获得导航外观，通常搭配 `<menu>`、`<li>` 标签来使用。
