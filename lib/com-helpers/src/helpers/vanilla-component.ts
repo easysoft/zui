@@ -16,12 +16,6 @@ export type ComponentEventMap<V extends CustomEventMap = {}> = V & ComponentHTML
 
 export type ComponentEventNames<V extends CustomEventMap = {}> = keyof HTMLElementEventMap | Extract<keyof V, string> | keyof ComponentInternalEventMap;
 
-// export type ComponentEventOptions<V extends CustomEventMap = {}> = {
-//     [p in keyof ComponentOptionEventMap<ComponentInternalEventMap>]: (event: ComponentOptionEventMap<ComponentInternalEventMap>[p]) => void | false;
-// } & {
-//     [p in keyof ComponentOptionEventMap<V>]: (event: ComponentOptionEventMap<V>[p]) => void | false;
-// };
-
 export type ComponentI18nOptions = {
     lang?: string;
     i18n?: Record<string, Record<string, string | {}>>;
