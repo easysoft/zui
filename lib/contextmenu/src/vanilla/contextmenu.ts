@@ -11,10 +11,10 @@ import type {ContextMenuOptions} from '../types/contextmenu-options';
 import type {ContextMenuEvents} from '../types/contextmenu-events';
 import type {ContextMenuTrigger} from '../types/contextmenu-trigger';
 
-export class ContextMenu extends ComponentBase<ContextMenuOptions, ContextMenuEvents> {
+export class ContextMenu<T extends ContextMenuOptions = ContextMenuOptions, E extends ContextMenuEvents = ContextMenuEvents> extends ComponentBase<T, E & ContextMenuEvents> {
     static EVENTS = true;
 
-    static DEFAULT = {
+    static DEFAULT: Partial<ContextMenuOptions> = {
         placement: 'bottom-start',
         strategy: 'fixed',
         subMenuTrigger: 'hover',
@@ -156,7 +156,7 @@ export class ContextMenu extends ComponentBase<ContextMenuOptions, ContextMenuEv
             return;
         }
         if (typeof menuItems === 'function') {
-            menuItems = (menuItems as ((menu: ContextMenu) => MenuItemOptions[]))(this);
+            menuItems = (menuItems as ((menu: ContextMenu) => MenuItemOptions[]))(this as ContextMenu);
         }
         const menuOptions = {
             ...menu,
