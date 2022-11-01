@@ -1,4 +1,3 @@
-import type {h as _h} from 'preact';
 import {createPopper, Instance as PopperInstance, VirtualElement} from '@popperjs/core/lib/popper-lite';
 import preventOverflow from '@popperjs/core/lib/modifiers/preventOverflow';
 import flip from '@popperjs/core/lib/modifiers/flip';
@@ -151,27 +150,25 @@ export class ContextMenu extends ComponentBase<ContextMenuOptions, ContextMenuEv
     }
 
     #updateCustomMenu() {
-        let {menu} = this.options;
-        if (!menu) {
+        const {menu, items} = this.options;
+        let menuItems = items || menu?.items;
+        if (!menuItems) {
             return;
         }
-        if (typeof menu === 'function') {
-            menu = {items: menu.call(this, event)};
-        } else if (Array.isArray(menu)) {
-            menu = {items: menu};
+        if (typeof menuItems === 'function') {
+            menuItems = (menuItems as ((menu: ContextMenu) => MenuItemOptions[]))(this);
         }
-        if (typeof menu.items === 'function') {
-            menu.items = menu.items.call(this, event);
-        }
+        const menuOptions = {
+            ...menu,
+            menuItems,
+        } as MenuOptions;
 
-        const updateMenuEvent = this.emit('updateMenu', {items: menu.items as MenuItemOptions[], trigger: this.trigger, contextmenu: this});
+        const updateMenuEvent = this.emit('updateMenu', {menu: menuOptions, trigger: this.trigger, contextmenu: this});
         if (updateMenuEvent.defaultPrevented) {
             return false;
         }
 
-        const menuOptions = {
-            ...menu,
-        } as MenuOptions;
+
         if (this.#customMenu) {
             this.#customMenu.render(menuOptions);
         } else {

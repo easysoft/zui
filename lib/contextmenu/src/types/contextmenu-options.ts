@@ -1,7 +1,8 @@
 import type {MenuOptions} from '@zui/menu/src/types/menu-options';
-import {ContextMenuPlacement} from './contextmenu-placement';
-import {ContextMenuPositionStrategy} from './contextmenu-position-strategy';
+import type {ContextMenuPlacement} from './contextmenu-placement';
+import type {ContextMenuPositionStrategy} from './contextmenu-position-strategy';
 import type {MenuItemOptions} from '@zui/menu/src/types/menu-item-options';
+import type {ContextMenu} from '../vanilla/contextmenu';
 
 export type ContextMenuOptions = {
     placement?: ContextMenuPlacement;
@@ -10,5 +11,6 @@ export type ContextMenuOptions = {
     offset?: [number, number] | (() => [number, number]);
     flip?: boolean;
     subMenuTrigger?: 'click' | 'hover',
-    menu?: MenuOptions | MenuItemOptions[] | (() => MenuItemOptions[])
+    menu?: MenuOptions,
+    items?: MenuItemOptions[] | ((menu: ContextMenu) => MenuItemOptions[]),
 };
