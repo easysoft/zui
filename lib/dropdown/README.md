@@ -8,6 +8,7 @@
 
 ```js
 const dropdown = new Dropdown('#dropdownToggle', {
+    arrow: true,
     menu: {
         items: [
             {text: '复制', icon: 'icon-copy'},
