@@ -1,4 +1,4 @@
-import {createPopper, Instance as PopperInstance, VirtualElement} from '@popperjs/core/lib/popper-lite';
+import {createPopper, Instance as PopperInstance, VirtualElement, Options as PopperOptions} from '@popperjs/core/lib/popper-lite';
 import preventOverflow from '@popperjs/core/lib/modifiers/preventOverflow';
 import flip from '@popperjs/core/lib/modifiers/flip';
 import {ComponentBase} from '@zui/com-helpers/src/helpers/vanilla-component';
@@ -77,7 +77,7 @@ export class ContextMenu<T extends ContextMenuOptions = ContextMenuOptions, E ex
 
     get popper() {
         if (!this.#popper) {
-            return this.#createPopper();
+            return this._createPopper();
         }
         return this.#popper;
     }
@@ -100,12 +100,12 @@ export class ContextMenu<T extends ContextMenuOptions = ContextMenuOptions, E ex
             return false;
         }
 
-        if (this.#updateCustomMenu() === false) {
+        if (this._renderMenu() === false) {
             return false;
         }
 
         this.menu.classList.add((this.constructor as typeof ContextMenu).CLASS_SHOW);
-        this.#createPopper().update();
+        this._createPopper().update();
 
         this.emit('shown', this);
         return true;
@@ -136,21 +136,25 @@ export class ContextMenu<T extends ContextMenuOptions = ContextMenuOptions, E ex
         }
     }
 
-    #createPopper() {
-        const options = {
+    _getPopperOptions(): PopperOptions {
+        return {
             modifiers: [preventOverflow, flip],
             placement: this.options.placement,
             strategy: this.options.strategy,
-        };
+        } as PopperOptions;
+    }
+
+    _createPopper() {
+        const options = this._getPopperOptions();
         if (this.#popper) {
             this.#popper.setOptions(options);
         } else {
-            this.#popper = createPopper(this.#getVirtualElement(), this.menu, options);
+            this.#popper = createPopper(this._getPopperElement(), this.menu, options);
         }
         return this.#popper;
     }
 
-    #updateCustomMenu() {
+    _renderMenu() {
         const {menu, items} = this.options;
         let menuItems = items || menu?.items;
         if (!menuItems) {
@@ -161,7 +165,7 @@ export class ContextMenu<T extends ContextMenuOptions = ContextMenuOptions, E ex
         }
         const menuOptions = {
             ...menu,
-            menuItems,
+            items: menuItems,
         } as MenuOptions;
 
         const updateMenuEvent = this.emit('updateMenu', {menu: menuOptions, trigger: this.trigger, contextmenu: this});
@@ -178,7 +182,7 @@ export class ContextMenu<T extends ContextMenuOptions = ContextMenuOptions, E ex
         return true;
     }
 
-    #getVirtualElement(): VirtualElement {
+    _getPopperElement(): VirtualElement {
         if (!this.#virtualElement) {
             this.#virtualElement = {
                 getBoundingClientRect: () => {
