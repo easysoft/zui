@@ -69,14 +69,14 @@ console.log('> dropdown', dropdown);
   <li class="menu-item"><a>更多操作</a></li>
 </ul>
 
-<button class="btn" type="button" data-toggle="dropdown">上方右侧对齐 <span class="caret" data-placement="top-end"></span></button>
+<button class="btn" type="button" data-toggle="dropdown" data-placement="top-end">上方右侧对齐 <span class="caret"></span></button>
 <ul class="dropdown-menu menu">
   <li class="menu-item"><a>操作</a></li>
   <li class="menu-item"><a>另一个操作</a></li>
   <li class="menu-item"><a>更多操作</a></li>
 </ul>
 
-<button class="btn" type="button" data-toggle="dropdown">下方右侧对齐 <span class="caret" data-placement="bottom-end"></span></button>
+<button class="btn" type="button" data-toggle="dropdown" data-placement="bottom-end">下方右侧对齐 <span class="caret"></span></button>
 <ul class="dropdown-menu menu">
   <li class="menu-item"><a>操作</a></li>
   <li class="menu-item"><a>另一个操作</a></li>
