@@ -16,5 +16,5 @@ export function ActionHeading({
         style,
         onClick,
         ...attrs,
-    } as Attributes, text, children);
+    } as Attributes, text, typeof children === 'function' ? children() : children);
 }

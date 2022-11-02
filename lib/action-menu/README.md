@@ -4,14 +4,14 @@
 
 ## 组件模式
 
-默认情况下，生成的结构是没有样式的。
+使用组件类 `ActionMenu` 来动态创建一个操作菜单。默认情况下，生成的结构是没有样式的。
 
 ```html:example
 <div id="actionMenu"></div>
 ```
 
 ```js
-const menu = new ActionMenu<ActionMenuItemOptions>('#actionMenu', {
+const menu = new ActionMenu('#actionMenu', {
     items: [
         {text: '复制', icon: 'icon-copy'},
         {text: '粘贴', icon: 'icon-paste'},
@@ -43,6 +43,14 @@ console.log('> menu', menu);
     <li class="action-menu-item"><a><i class="icon icon-download-alt"></i><span class="text">导出</span></a></li>
     <li class="action-menu-item"><a><i class="icon icon-save"></i><span class="text">保存</span></a></li></menu>
 </div>
+```
+
+## 多层级操作菜单
+
+使用组件类 `ActionMenuNested` 来动态创建一个多层级操作菜单。
+
+```html:example
+<div id="nestedActionMenu"></div>
 ```
 
 ## 自定义类名

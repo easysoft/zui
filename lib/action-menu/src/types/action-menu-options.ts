@@ -11,7 +11,7 @@ export interface ActionMenuOptions<T extends ActionBasicProps = ActionMenuItemOp
     className?: ClassNameLike;
     style?: JSX.CSSProperties;
     items: T[] | ((menu: ActionMenu<T>) => T[]),
-    defaultItemProps?: Record<string, Partial<T>>,
+    itemProps?: Record<string, Partial<T>>,
     children?: ComponentChildren | (() => ComponentChildren);
     itemRender?: Record<string, ComponentType> | ActionMenuItemRender<T>,
     onClickItem?: (info: {menu: ActionMenu<T>, item: T, index: number, event: MouseEvent}) => void;

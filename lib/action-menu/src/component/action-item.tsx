@@ -21,7 +21,7 @@ export function ActionItem({
     const finalChildren = [
         typeof icon === 'string' ? <i class={`icon ${icon}`} /> : icon,
         <span className="text">{text}</span>,
-        children,
+        typeof children === 'function' ? children() : children,
         typeof trailingIcon === 'string' ? <i class={`icon ${trailingIcon}`} /> : trailingIcon,
     ];
     return _h(component as ComponentType, {

@@ -25,7 +25,7 @@ export default {
                   {title: '导出', icon: 'icon-download-alt'},
                   {title: '保存', icon: 'icon-save', onClick: (event) => console.log('> menuItem.clicked', event)},
               ],
-              defaultItemProps: {
+              itemProps: {
                   item: {
                       className: 'flex-inline row items-center gap-2 state',
                   },
@@ -55,7 +55,7 @@ const actionMenu = new ActionMenu('#actionMenu', {
         {title: '导出', icon: 'icon-download-alt'},
         {title: '保存', icon: 'icon-save', onClick: (event) => console.log('> menuItem.clicked', event)},
     ],
-    defaultItemProps: {
+    itemProps: {
         item: {
             className: 'flex-inline row items-center gap-2 state',
         },
@@ -239,7 +239,6 @@ interface ActionMenuOptions {
     subMenuTrigger?: 'click' | 'hover' | 'always';
     onClickItem?: (info: {menu: Menu, item: MenuItemOptions, index: number, event: MouseEvent}) => void;
     onRenderSubMenu?: (info: {menu: Menu, item: MenuItemOptions, h: typeof _h}) => ComponentChildren;
-    onRenderItem?: (info: {menu: Menu, item: MenuListItem, index: number, h: typeof _h}) => Partial<MenuListItem> | ComponentChildren | undefined;
     afterRender?: (info: {menu: Menu, firstRender: boolean}) => void;
     beforeDestroy?: (info: {menu: Menu}) => void;
 }
