@@ -46,7 +46,8 @@ export class ActionMenuNested<T extends ActionBasicProps = ActionMenuNestedItemO
         const key = props.key ?? index;
         if (type === 'item' && (props as ActionNestedItemProps)?.items) {
             this.#keys.add(key);
-            if (this.isNestedMenuShow(key)) {
+            const show = this.isNestedMenuShow(key);
+            if (show) {
                 props.rootChildren = [
                     props.rootChildren,
                     this.renderNestedMenu(item),
@@ -66,6 +67,7 @@ export class ActionMenuNested<T extends ActionBasicProps = ActionMenuNestedItemO
                     (onClick as (event: MouseEvent) => void)?.(event);
                 };
             }
+            props.rootClass = [props.rootClass, 'has-nested-items', show ? 'show' : ''];
         }
         return props;
     }
