@@ -12,3 +12,6 @@
   stroke: var(--progress-circle-bar-color);
   stroke-linecap : round;
 }
+.progress-circle {
+  font-size: 10px;
+}
