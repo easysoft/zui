@@ -300,8 +300,10 @@ importers:
       '@zui/com-helpers': workspace:*
       '@zui/contextmenu': workspace:*
       '@zui/css-icons': workspace:^0.0.1
+      '@zui/icons': workspace:*
       '@zui/menu': workspace:*
       '@zui/utilities': workspace:*
+      zui-dev: workspace:*
     dependencies:
       '@popperjs/core': registry.npmmirror.com/@popperjs/core/2.11.6
       '@zui/com-helpers': link:../com-helpers
@@ -310,8 +312,10 @@ importers:
     devDependencies:
       '@zui/base': link:../base
       '@zui/button': link:../button
+      '@zui/icons': link:../icons
       '@zui/menu': link:../menu
       '@zui/utilities': link:../utilities
+      zui-dev: link:../../dev
 
   lib/dtable:
     specifiers:

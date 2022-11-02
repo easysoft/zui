@@ -1,3 +1,31 @@
+## 动态下拉菜单
+
+通过 JS 动态弹出下拉菜单
+
+```html:example: -flex -gap-3 of-visible
+<button class="btn" type="button" data-toggle="dropdown" id="dropdownToggle">动态下拉菜单 <span class="caret"></span></button>
+```
+
+```js
+const dropdown = new Dropdown('#dropdownToggle', {
+    menu: {
+        items: [
+            {text: '复制', icon: 'icon-copy'},
+            {text: '粘贴', icon: 'icon-paste'},
+            {text: '剪切'},
+            {type: 'heading', text: '更多操作'},
+            {text: '导入', icon: 'icon-upload-alt'},
+            {text: '导出', icon: 'icon-download-alt'},
+            {text: '保存', icon: 'icon-save', onClick: (event) => console.log('> menuItem.clicked', event)},
+        ],
+        onClickItem: (info) => {
+            console.log('> dropdown.onClickItem', info);
+        },
+    },
+});
+console.log('> dropdown', dropdown);
+```
+
 ## 下拉菜单
 
 ```html:example: -flex -gap-3 of-visible
@@ -14,7 +42,7 @@
 添加属性 `[data-hover]` 实现鼠标悬停展开菜单
 
 ```html:example: -flex -gap-3
-<button class="btn" type="button" data-toggle="dropdown" data-hover>鼠标悬停展开菜单按钮 <span class="caret"></span></button>
+<button class="btn" type="button" data-toggle="dropdown" data-trigger="hover">鼠标悬停展开菜单按钮 <span class="caret"></span></button>
 <menu class="dropdown-menu menu">
   <li class="menu-item"><a>操作</a></li>
   <li class="menu-item"><a>另一个操作</a></li>
@@ -117,7 +145,7 @@
 <div class="dropdown">
     <button class="btn" type="button"
         data-toggle="dropdown">自定义下拉菜单 <span class="caret"></span></button>
-    <div class="dropdown-menu dropdown-menu-table">
+    <div class="dropdown-menu menu">
         <p class="px-3">自定义内容</p>
     </div>
 </div>
@@ -133,7 +161,7 @@
         data-toggle="dropdown">菜单按钮 <span class="caret"></span></button>
     <ul class="dropdown-menu menu">
       <li class="menu-item"><a>操作</a></li>
-      <li class="disabled"><a>被禁用的操作</a></li>
+      <li class="menu-item"><a class="disabled">被禁用的操作</a></li>
     </ul>
 </div>
 ```
@@ -147,11 +175,11 @@
     <button class="btn" type="button"
         data-toggle="dropdown">菜单按钮 <span class="caret"></span></button>
     <ul class="dropdown-menu menu">
-      <li class="dropdown-header">下拉菜单标题</li>
+      <li class="menu-heading">下拉菜单标题</li>
       <li class="menu-item"><a>操作</a></li>
       <li class="menu-item"><a>另一个操作</a></li>
-      <li class="divider"></li>
-      <li class="dropdown-header">更多操作</li>
+      <li class="menu-divider"></li>
+      <li class="menu-heading">更多操作</li>
       <li class="menu-item"><a>修改</a></li>
     </ul>
 </div>
