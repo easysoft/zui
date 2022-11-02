@@ -1291,6 +1291,8 @@ export default [
             "@zui/base": "workspace:*",
             "@zui/button": "workspace:0.0.1",
             "@zui/menu": "workspace:*",
+            "@zui/icons": "workspace:*",
+            "zui-dev": "workspace:*",
             "@zui/utilities": "workspace:*"
         },
         "dependencies": {
