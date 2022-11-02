@@ -37,6 +37,26 @@ console.log('> dropdown', dropdown);
 </menu>
 ```
 
+## 显示箭头
+
+```html:example: -flex -gap-3 of-visible
+<button class="btn" type="button" data-toggle="dropdown" data-arrow="true">显示箭头 <span class="caret"></span></button>
+<menu class="dropdown-menu menu">
+  <li class="menu-item"><a>操作</a></li>
+  <li class="menu-item"><a>另一个操作</a></li>
+  <li class="menu-item"><a>更多操作</a></li>
+</menu>
+```
+
+```html:example: -flex -gap-3 of-visible
+<button class="btn" type="button" data-toggle="dropdown" data-arrow="12">自定义箭头大小 <span class="caret"></span></button>
+<menu class="dropdown-menu menu">
+  <li class="menu-item"><a>操作</a></li>
+  <li class="menu-item"><a>另一个操作</a></li>
+  <li class="menu-item"><a>更多操作</a></li>
+</menu>
+```
+
 ## 鼠标悬停展开菜单
 
 添加属性 `[data-hover]` 实现鼠标悬停展开菜单
@@ -54,29 +74,92 @@ console.log('> dropdown', dropdown);
 
 通过 `data-placement` 控制弹出方向。
 
-```html:example: -flex -gap-3
-<button class="btn" type="button" data-toggle="dropdown" data-placement="top-start">上方左侧对齐 <span class="caret"></span></button>
+```html:example: -flex -gap-3 -flex-wrap
+<button class="btn" type="button" data-toggle="dropdown" data-placement="top-start" data-arrow="true">上方左侧对齐 <span class="caret"></span></button>
 <ul class="dropdown-menu menu">
   <li class="menu-item"><a>操作</a></li>
   <li class="menu-item"><a>另一个操作</a></li>
   <li class="menu-item"><a>更多操作</a></li>
 </ul>
 
-<button class="btn" type="button" data-toggle="dropdown" data-placement="bottom-start">下方左侧对齐 <span class="caret"></span></button>
+<button class="btn" type="button" data-toggle="dropdown" data-placement="top" data-arrow="true">上方居中对齐 <span class="caret"></span></button>
 <ul class="dropdown-menu menu">
   <li class="menu-item"><a>操作</a></li>
   <li class="menu-item"><a>另一个操作</a></li>
   <li class="menu-item"><a>更多操作</a></li>
 </ul>
 
-<button class="btn" type="button" data-toggle="dropdown" data-placement="top-end">上方右侧对齐 <span class="caret"></span></button>
+<button class="btn" type="button" data-toggle="dropdown" data-placement="top-end" data-arrow="true">上方右侧对齐 <span class="caret"></span></button>
 <ul class="dropdown-menu menu">
   <li class="menu-item"><a>操作</a></li>
   <li class="menu-item"><a>另一个操作</a></li>
   <li class="menu-item"><a>更多操作</a></li>
 </ul>
 
-<button class="btn" type="button" data-toggle="dropdown" data-placement="bottom-end">下方右侧对齐 <span class="caret"></span></button>
+<button class="btn" type="button" data-toggle="dropdown" data-placement="bottom-start" data-arrow="true">下方左侧对齐 <span class="caret"></span></button>
+<ul class="dropdown-menu menu">
+  <li class="menu-item"><a>操作</a></li>
+  <li class="menu-item"><a>另一个操作</a></li>
+  <li class="menu-item"><a>更多操作</a></li>
+</ul>
+
+<button class="btn" type="button" data-toggle="dropdown" data-placement="bottom" data-arrow="true">下方居中对齐 <span class="caret"></span></button>
+<ul class="dropdown-menu menu">
+  <li class="menu-item"><a>操作</a></li>
+  <li class="menu-item"><a>另一个操作</a></li>
+  <li class="menu-item"><a>更多操作</a></li>
+</ul>
+
+<button class="btn" type="button" data-toggle="dropdown" data-placement="bottom-end" data-arrow="true">下方右侧对齐 <span class="caret"></span></button>
+<ul class="dropdown-menu menu">
+  <li class="menu-item"><a>操作</a></li>
+  <li class="menu-item"><a>另一个操作</a></li>
+  <li class="menu-item"><a>更多操作</a></li>
+</ul>
+
+<button class="btn" type="button" data-toggle="dropdown" data-placement="left-start" data-arrow="true">左侧上方 <span class="caret"></span></button>
+<ul class="dropdown-menu menu">
+  <li class="menu-item"><a>操作</a></li>
+  <li class="menu-item"><a>另一个操作</a></li>
+  <li class="menu-item"><a>更多操作</a></li>
+</ul>
+
+<button class="btn" type="button" data-toggle="dropdown" data-placement="left" data-arrow="true">左侧居中对齐 <span class="caret"></span></button>
+<ul class="dropdown-menu menu">
+  <li class="menu-item"><a>操作</a></li>
+  <li class="menu-item"><a>另一个操作</a></li>
+  <li class="menu-item"><a>更多操作</a></li>
+</ul>
+
+<button class="btn" type="button" data-toggle="dropdown" data-placement="left-end" data-arrow="true">左侧下方对齐 <span class="caret"></span></button>
+<ul class="dropdown-menu menu">
+  <li class="menu-item"><a>操作</a></li>
+  <li class="menu-item"><a>另一个操作</a></li>
+  <li class="menu-item"><a>更多操作</a></li>
+</ul>
+
+<button class="btn" type="button" data-toggle="dropdown" data-placement="right-start" data-arrow="true">右侧上方 <span class="caret"></span></button>
+<ul class="dropdown-menu menu">
+  <li class="menu-item"><a>操作</a></li>
+  <li class="menu-item"><a>另一个操作</a></li>
+  <li class="menu-item"><a>更多操作</a></li>
+</ul>
+
+<button class="btn" type="button" data-toggle="dropdown" data-placement="right" data-arrow="true">右侧居中对齐 <span class="caret"></span></button>
+<ul class="dropdown-menu menu">
+  <li class="menu-item"><a>操作</a></li>
+  <li class="menu-item"><a>另一个操作</a></li>
+  <li class="menu-item"><a>更多操作</a></li>
+</ul>
+
+<button class="btn" type="button" data-toggle="dropdown" data-placement="right-end" data-arrow="true">右侧下方对齐 <span class="caret"></span></button>
+<ul class="dropdown-menu menu">
+  <li class="menu-item"><a>操作</a></li>
+  <li class="menu-item"><a>另一个操作</a></li>
+  <li class="menu-item"><a>更多操作</a></li>
+</ul>
+
+<button class="btn" type="button" data-toggle="dropdown" data-placement="auto" data-arrow="true">自动方向 <span class="caret"></span></button>
 <ul class="dropdown-menu menu">
   <li class="menu-item"><a>操作</a></li>
   <li class="menu-item"><a>另一个操作</a></li>

@@ -1,9 +1,12 @@
 import '@zui/css-icons/src/icons/caret.css';
-import '../css/dropdown.css';
+import type {Options as PopperOptions} from '@popperjs/core/lib/popper-lite';
+import arrow from '@popperjs/core/lib/modifiers/arrow';
+import offset from '@popperjs/core/lib/modifiers/offset';
 import {ContextMenu} from '@zui/contextmenu/src/vanilla/contextmenu';
+import {ContextMenuTrigger} from '@zui/contextmenu/src/types/contextmenu-trigger';
 import type {DropdownEvents} from '../types/dropdown-events';
 import type {DropdownOptions} from '../types/dropdown-options';
-import {ContextMenuTrigger} from '@zui/contextmenu/src/types/contextmenu-trigger';
+import '../css/dropdown.css';
 
 export class Dropdown extends ContextMenu<DropdownOptions, DropdownEvents> {
     static MENU_CLASS = 'dropdown-menu';
@@ -44,6 +47,57 @@ export class Dropdown extends ContextMenu<DropdownOptions, DropdownEvents> {
             this.menu.removeEventListener('mouseleave', this.hideLater);
         }
         super.destroy();
+    }
+
+    _getArrowSize() {
+        const {arrow: arrowOption} = this.options;
+        if (!arrowOption) {
+            return 0;
+        }
+        return typeof arrowOption === 'number' ? arrowOption : 5;
+    }
+
+    _getPopperOptions(): PopperOptions {
+        const options = super._getPopperOptions();
+        const arrowSize = this._getArrowSize();
+        if (arrowSize) {
+            options.modifiers.push({...arrow, options: {
+                padding: arrowSize,
+                element: '.dropdown-arrow',
+            }}, {
+                ...offset, options: {
+                    offset: [0, arrowSize + (this.options.offset ?? 0)],
+                },
+            });
+        }
+        return options;
+    }
+
+    _ensureMenu(): HTMLElement {
+        const menu = super._ensureMenu();
+        if (this.options.arrow) {
+            const div = document.createElement('div');
+            div.classList.add('dropdown-arrow');
+            div.style.setProperty('--dropdown-arrow-size', `${this._getArrowSize()}px`);
+            menu.prepend(div);
+        }
+        return menu;
+    }
+
+    _getMenuOptions() {
+        const options = super._getMenuOptions();
+        if (options && this.options.arrow) {
+            const {afterRender} = options;
+            options.afterRender = (...args) => {
+                const arrowElement = this.menu.querySelector('.dropdown-arrow');
+                if (arrowElement) {
+                    this.menu.querySelector('.menu')?.appendChild(arrowElement);
+                    this.popper.update();
+                }
+                afterRender?.(...args);
+            };
+        }
+        return options;
     }
 
     #cancelHide = () => {
