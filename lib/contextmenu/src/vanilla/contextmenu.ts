@@ -40,39 +40,8 @@ export class ContextMenu<T extends ContextMenuOptions = ContextMenuOptions, E ex
         return this.menu.classList.contains((this.constructor as typeof ContextMenu).CLASS_SHOW);
     }
 
-    get menu() {
-        if (this.#menu) {
-            return this.#menu;
-        }
-
-        const {element} = this;
-        const menuClass = (this.constructor as typeof ContextMenu).MENU_CLASS;
-        let menuElement: HTMLElement | null | undefined;
-        if (this.options.menu) {
-            menuElement = document.createElement('div');
-            menuElement.classList.add(menuClass);
-            document.body.appendChild(menuElement);
-        } else if (element) {
-            const target = element.getAttribute('href') ?? element.dataset.target;
-            if (target?.[0] === '#') {
-                menuElement = document.querySelector<HTMLElement>(target);
-            }
-            if (!menuElement) {
-                const nextElement = element.nextElementSibling;
-                if (nextElement?.classList.contains(menuClass)) {
-                    menuElement = nextElement as HTMLElement;
-                } else {
-                    menuElement = element.parentNode?.querySelector(`.${menuClass}`);
-                }
-            }
-        }
-
-        if (menuElement) {
-            this.#menu = menuElement;
-            return menuElement;
-        } else {
-            throw new Error('ContextMenu: Cannot find menu element');
-        }
+    get menu(): HTMLElement {
+        return this.#menu || this._ensureMenu();
     }
 
     get popper() {
@@ -100,7 +69,7 @@ export class ContextMenu<T extends ContextMenuOptions = ContextMenuOptions, E ex
             return false;
         }
 
-        if (this._renderMenu() === false) {
+        if ((this.options.items || this.options.menu) && !this._renderMenu()) {
             return false;
         }
 
@@ -136,6 +105,36 @@ export class ContextMenu<T extends ContextMenuOptions = ContextMenuOptions, E ex
         }
     }
 
+    _ensureMenu() {
+        const {element} = this;
+        const menuClass = (this.constructor as typeof ContextMenu).MENU_CLASS;
+        let menuElement: HTMLElement | null | undefined;
+        if (this.options.menu) {
+            menuElement = document.createElement('div');
+            menuElement.classList.add(menuClass);
+            document.body.appendChild(menuElement);
+        } else if (element) {
+            const target = element.getAttribute('href') ?? element.dataset.target;
+            if (target?.[0] === '#') {
+                menuElement = document.querySelector<HTMLElement>(target);
+            }
+            if (!menuElement) {
+                const nextElement = element.nextElementSibling;
+                if (nextElement?.classList.contains(menuClass)) {
+                    menuElement = nextElement as HTMLElement;
+                } else {
+                    menuElement = element.parentNode?.querySelector(`.${menuClass}`);
+                }
+            }
+        }
+
+        if (!menuElement) {
+            throw new Error('ContextMenu: Cannot find menu element');
+        }
+        this.#menu = menuElement;
+        return menuElement;
+    }
+
     _getPopperOptions(): PopperOptions {
         return {
             modifiers: [preventOverflow, flip],
@@ -154,7 +153,7 @@ export class ContextMenu<T extends ContextMenuOptions = ContextMenuOptions, E ex
         return this.#popper;
     }
 
-    _renderMenu() {
+    _getMenuOptions(): MenuOptions | undefined {
         const {menu, items} = this.options;
         let menuItems = items || menu?.items;
         if (!menuItems) {
@@ -163,16 +162,22 @@ export class ContextMenu<T extends ContextMenuOptions = ContextMenuOptions, E ex
         if (typeof menuItems === 'function') {
             menuItems = (menuItems as ((menu: ContextMenu) => MenuItemOptions[]))(this as ContextMenu);
         }
-        const menuOptions = {
+        return {
             ...menu,
             items: menuItems,
         } as MenuOptions;
+    }
+
+    _renderMenu() {
+        const menuOptions = this._getMenuOptions();
+        if (!menuOptions) {
+            return false;
+        }
 
         const updateMenuEvent = this.emit('updateMenu', {menu: menuOptions, trigger: this.trigger, contextmenu: this});
         if (updateMenuEvent.defaultPrevented) {
             return false;
         }
-
 
         if (this.#customMenu) {
             this.#customMenu.render(menuOptions);
