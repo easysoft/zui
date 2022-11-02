@@ -101,13 +101,14 @@ export class ContextMenu<T extends ContextMenuOptions = ContextMenuOptions, E ex
         }
 
         if (this.#updateCustomMenu() === false) {
-            return;
+            return false;
         }
 
         this.menu.classList.add((this.constructor as typeof ContextMenu).CLASS_SHOW);
         this.#createPopper().update();
 
         this.emit('shown', this);
+        return true;
     }
 
     hide() {
@@ -208,13 +209,12 @@ export class ContextMenu<T extends ContextMenuOptions = ContextMenuOptions, E ex
         if (event && isRightBtn(event as MouseEvent)) {
             return;
         }
-        ContextMenu.getAll();
-        ContextMenu.getAll().forEach(x => x.hide());
+        this.getAll().forEach(x => x.hide());
     }
 
     static show(options: ContextMenuOptions & {event?: MouseEvent}) {
         const {event, ...otherOptions} = options;
-        const contextmenu = ContextMenu.ensure(document.body);
+        const contextmenu = this.ensure(document.body);
         if (Object.keys(otherOptions).length) {
             contextmenu.setOptions(otherOptions);
         }
@@ -224,7 +224,7 @@ export class ContextMenu<T extends ContextMenuOptions = ContextMenuOptions, E ex
     }
 
     static hide() {
-        const contextmenu = ContextMenu.get(document.body);
+        const contextmenu = this.get(document.body);
         contextmenu?.hide();
         return contextmenu;
     }
@@ -237,10 +237,9 @@ document.addEventListener('contextmenu', (event) => {
     }
     const toggleElement = element.closest<HTMLElement>(ContextMenu.MENU_SELECTOR);
     if (toggleElement) {
-        const contextmenu = ContextMenu.ensure(toggleElement);
-        contextmenu.show(event);
+        ContextMenu.ensure(toggleElement).show(event);
         event.preventDefault();
     }
 });
 
-document.addEventListener('click', ContextMenu.clear);
+document.addEventListener('click', ContextMenu.clear.bind(ContextMenu));
