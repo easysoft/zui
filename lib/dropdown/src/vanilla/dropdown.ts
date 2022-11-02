@@ -1,4 +1,4 @@
-import '@zui/css-icons/src/icons/caret.css';
+import '@zui/css-icons/src/icons/arrow.css';
 import type {Options as PopperOptions} from '@popperjs/core/lib/popper-lite';
 import arrow from '@popperjs/core/lib/modifiers/arrow';
 import offset from '@popperjs/core/lib/modifiers/offset';
@@ -63,12 +63,17 @@ export class Dropdown extends ContextMenu<DropdownOptions, DropdownEvents> {
         if (arrowSize) {
             options.modifiers.push({...arrow, options: {
                 padding: arrowSize,
-                element: '.dropdown-arrow',
+                element: '.arrow',
             }}, {
                 ...offset, options: {
                     offset: [0, arrowSize + (this.options.offset ?? 0)],
                 },
             });
+            const {onFirstUpdate} = options;
+            options.onFirstUpdate = (state) => {
+                onFirstUpdate?.(state);
+                this.menu.querySelector('.arrow')?.classList.add(`arrow-${state.placement?.split('-').shift() || ''}`);
+            };
         }
         return options;
     }
@@ -77,8 +82,8 @@ export class Dropdown extends ContextMenu<DropdownOptions, DropdownEvents> {
         const menu = super._ensureMenu();
         if (this.options.arrow) {
             const div = document.createElement('div');
-            div.classList.add('dropdown-arrow');
-            div.style.setProperty('--dropdown-arrow-size', `${this._getArrowSize()}px`);
+            div.classList.add('arrow');
+            div.style.setProperty('--arrow-size', `${this._getArrowSize()}px`);
             menu.prepend(div);
         }
         return menu;
@@ -89,7 +94,7 @@ export class Dropdown extends ContextMenu<DropdownOptions, DropdownEvents> {
         if (options && this.options.arrow) {
             const {afterRender} = options;
             options.afterRender = (...args) => {
-                const arrowElement = this.menu.querySelector('.dropdown-arrow');
+                const arrowElement = this.menu.querySelector('.arrow');
                 if (arrowElement) {
                     this.menu.querySelector('.menu')?.appendChild(arrowElement);
                     this.popper.update();
