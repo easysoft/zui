@@ -1,3 +1,4 @@
+import {render, h} from 'preact';
 import {createPopper, Instance as PopperInstance, VirtualElement, Options as PopperOptions} from '@popperjs/core/lib/popper-lite';
 import preventOverflow from '@popperjs/core/lib/modifiers/preventOverflow';
 import flip from '@popperjs/core/lib/modifiers/flip';
@@ -11,7 +12,6 @@ import type {ContextMenuOptions} from '../types/contextmenu-options';
 import type {ContextMenuEvents} from '../types/contextmenu-events';
 import type {ContextMenuTrigger} from '../types/contextmenu-trigger';
 import {ContextMenu as ContextMenuReact} from '../component/contextmenu';
-import {render} from 'preact';
 
 export class ContextMenu<T extends ContextMenuOptions = ContextMenuOptions, E extends ContextMenuEvents = ContextMenuEvents> extends ComponentBase<T, E & ContextMenuEvents> {
     static EVENTS = true;
@@ -180,9 +180,7 @@ export class ContextMenu<T extends ContextMenuOptions = ContextMenuOptions, E ex
             return false;
         }
 
-        render((
-            <ContextMenuReact {...menuOptions} />
-        ), this.menu);
+        render(h(ContextMenuReact, menuOptions), this.menu);
         return true;
     }
 

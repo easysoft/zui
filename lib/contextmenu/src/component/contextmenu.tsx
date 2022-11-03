@@ -1,8 +1,8 @@
 import type {ComponentChildren} from 'preact';
-import {createPopper, Instance as PopperInstance, VirtualElement, Options as PopperOptions} from '@popperjs/core/lib/popper-lite';
+import {createPopper, Instance as PopperInstance, Options as PopperOptions} from '@popperjs/core/lib/popper-lite';
 import preventOverflow from '@popperjs/core/lib/modifiers/preventOverflow';
 import flip from '@popperjs/core/lib/modifiers/flip';
-import type {MenuItemOptions, MenuItemProps} from '@zui/menu/src/types';
+import type {MenuItemOptions} from '@zui/menu/src/types';
 import {Menu} from '@zui/menu/src/component/menu';
 import '@zui/css-icons/src/icons/caret.css';
 import '../style/index.css';
