@@ -71,6 +71,9 @@ const link = primary[500];
 /** 链接（hover） */
 const linkHover = primary[600];
 
+/** 链接（visited） */
+const linkVisited = primary[700];
+
 /** Border */
 const border = gray[200];
 
@@ -97,5 +100,6 @@ module.exports = {
     focus,
     link,
     'link-hover': linkHover,
+    'link-visited': linkVisited,
     border,
 };
