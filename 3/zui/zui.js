@@ -3354,9 +3354,7 @@ class le extends Nn {
   }
   _renderMenu() {
     const n = this._getMenuOptions();
-    return !n || this.emit("updateMenu", { menu: n, trigger: this.trigger, contextmenu: this }).defaultPrevented ? !1 : (ha(/* @__PURE__ */ qo(vc, {
-      ...n
-    }), this.menu), !0);
+    return !n || this.emit("updateMenu", { menu: n, trigger: this.trigger, contextmenu: this }).defaultPrevented ? !1 : (ha(qo(vc, n), this.menu), !0);
   }
   _getPopperElement() {
     return g(this, ft) || R(this, ft, {
