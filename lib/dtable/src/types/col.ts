@@ -9,7 +9,7 @@ export type ColFlex = ColFlexGrow | boolean;
 
 export type ColFixedSide = 'left' | 'right' | false;
 
-export type ColSortType = 'asc' | 'desc' | boolean;
+
 
 export type ColInfoLike = string | number | ColInfo;
 
@@ -35,7 +35,6 @@ export type ColSetting<S = {}> = S & {
     flex: ColFlex;
     fixed: ColFixedSide;
     border: 'left' | 'right' | boolean;
-    sortType: ColSortType;
     align: 'left' | 'center' | 'right';
     data: Record<string, unknown>;
     style: preact.JSX.CSSProperties;

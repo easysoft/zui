@@ -1,5 +1,5 @@
 import {h as _h} from 'preact';
-import {HeaderCell} from './header-cell';
+// import {HeaderCell} from './header-cell';
 import {Row} from './row';
 import type {JSX} from 'preact';
 import type {CellRenderCallback} from '../types/cell';
@@ -28,7 +28,6 @@ export function Header({height, onRenderRow, ...otherProps}: HeaderProps) {
         row: {id: 'HEADER', index: -1, top: 0},
         className: 'dtable-in-header',
         top: 0,
-        CellComponent: HeaderCell,
     };
     if (onRenderRow) {
         const result = onRenderRow({props}, _h);
