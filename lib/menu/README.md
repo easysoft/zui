@@ -24,6 +24,11 @@ const menu = new Menu('#menu', {
 console.log('> menu', menu);
 ```
 
+## 多层级组件模式
+
+```html:example
+<div id="nestedMenu"></div>
+```
 
 ## 通用
 

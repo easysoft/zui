@@ -1,0 +1,15 @@
+.has-nested-menu > .menu.menu-nested {
+    @apply -shadow-none -border-none -ml-4 -bg-primary-500/5;
+}
+.menu-nested .menu-toggle-icon {
+    @apply -absolute -left-1;
+}
+.menu-nested.has-nested-items > .menu-item > a {
+    @apply -pl-4;
+}
+.menu-nested.has-nested-items.has-icons > .menu-item > a {
+    @apply -pl-9;
+}
+.menu-nested.has-nested-items.has-icons > .menu-item > a > .icon:first-child {
+    @apply -left-3;
+}

@@ -20,4 +20,28 @@ onPageUpdate(() => {
         },
     });
     console.log('> menu', menu);
+
+    const nestedMenu = new Menu('#nestedMenu', {
+        items: [
+            {type: 'heading', text: '更多操作'},
+            {text: '导出', icon: 'icon-download-alt'},
+            {
+                text: '保存', icon: 'icon-save', onClick: (event) => console.log('> menuItem.clicked', event),
+                items: [
+                    {text: '保存到云端'},
+                    {
+                        text: '下载到本地',
+                        items: [
+                            {text: '下载为 PDF'},
+                            {text: '下载为 Excel'},
+                        ],
+                    },
+                ],
+            },
+        ],
+        onClickItem: (info) => {
+            console.log('> nestedMenu.onClickItem', info);
+        },
+    });
+    console.log('> nestedMenu', nestedMenu);
 });
