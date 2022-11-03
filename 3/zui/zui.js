@@ -5196,7 +5196,7 @@ const il = {
     },
     avatar: {
       onRenderCell(e, { col: t, row: n }) {
-        const { data: o } = n, { avatarWithName: s, avatarClass: r = "size-sm circle", avatarKey: l = `${t.name}Avatar` } = t.setting, a = /* @__PURE__ */ M("div", {
+        const { data: o } = n, { avatarWithName: s, avatarClass: r = "size-xs circle", avatarKey: l = `${t.name}Avatar` } = t.setting, a = /* @__PURE__ */ M("div", {
           className: `avatar ${r} flex-none`
         }, /* @__PURE__ */ M("img", {
           src: o ? o[l] : ""
@@ -5205,6 +5205,7 @@ const il = {
       }
     },
     circleProgress: {
+      align: "center",
       onRenderCell(e, { col: t }) {
         const { circleSize: n = 24, circleBorderSize: o = 1, circleBgColor: s = "var(--color-border)", circleColor: r = "var(--color-success-500)" } = t.setting, l = (n - o) / 2, a = n / 2, f = e[0];
         return e[0] = /* @__PURE__ */ M("svg", {
