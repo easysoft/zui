@@ -1,5 +1,6 @@
 import fs from 'fs-extra';
 import Path from 'path';
+import {getExtLibPaths} from './ext-libs';
 import {LibInfo, LibSourceType} from './lib-info';
 import {LibType, libTypeOrders} from './lib-type';
 import {getLibsCache, setLibsCache} from './libs-cache';
@@ -8,26 +9,22 @@ import {getLibsCache, setLibsCache} from './libs-cache';
  * Get lib list
  * @param libPath - Lib path - 组件路径
  */
-export async function getLibs(libPath: string | string[] = '', options: {root?: string, sourceType?: LibSourceType, cache?: boolean, idx?: number} = {}): Promise<Record<string, LibInfo>> {
+export async function getLibs(libPath: string | string[] = '', options: {root?: string, sourceType?: LibSourceType, cache?: boolean, idx?: number, hasSubs?: boolean, extsName?: string} = {}): Promise<Record<string, LibInfo>> {
     if (!libPath || libPath === 'all') {
         const libs = await getLibs(['buildIn', 'exts'], options);
         return libs;
     }
     if (libPath === 'exts') {
-        const extsPath = Path.resolve(process.cwd(), 'exts');
-        const extsPathExits = await fs.pathExists(extsPath);
-        if (!extsPathExits) {
-            return {};
+        const extLibsMap = await getExtLibPaths();
+        const libs: Record<string, LibInfo> = {};
+        for (const [extsName, extLibPath] of Object.entries(extLibsMap)) {
+            const extLibs = await getLibs([extLibPath.replace('/*', '')], {
+                ...options,
+                extsName,
+                hasSubs: extLibPath.endsWith('/*'),
+            });
+            Object.assign(libs, extLibs);
         }
-        const dirs = await fs.readdir(extsPath, {}) as string[];
-        const dirPaths: string[] = [];
-        for (const dir of dirs) {
-            const dirPath = Path.resolve(extsPath, dir);
-            if (fs.statSync(dirPath).isDirectory()) {
-                dirPaths.push(dirPath);
-            }
-        }
-        const libs = await getLibs(dirPaths, options);
         return libs;
     }
 
@@ -68,7 +65,7 @@ export async function getLibs(libPath: string | string[] = '', options: {root?: 
     }
 
     let dirs: string[] = [];
-    if (fs.pathExistsSync(Path.resolve(libPath, 'package.json'))) {
+    if (!options.hasSubs && fs.pathExistsSync(Path.resolve(libPath, 'package.json'))) {
         dirs = [libPath];
     } else {
         dirs = await fs.readdir(libPath);
@@ -102,7 +99,7 @@ export async function getLibs(libPath: string | string[] = '', options: {root?: 
             workspace,
             packageJsonPath: packageFile,
             tailwindConfigPath,
-            extsName: sourceType === 'exts' ? currentLibPath.split('/').reverse()[dirs.length > 1 ? 1 : 0] : undefined,
+            extsName: options.extsName ?? (sourceType === 'exts' ? currentLibPath.split('/').reverse()[dirs.length > 1 ? 1 : 0] : undefined),
         });
         if (libTypeOrders[libInfo.zui.type] === undefined) {
             throw new Error(`Error: the lib type "${libInfo.zui.type}" of "${libInfo.name}" is invalid.\n`);
