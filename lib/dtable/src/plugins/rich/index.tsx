@@ -54,7 +54,7 @@ export const rich: DTablePlugin<DTableRichTypes> = {
         avatar: {
             onRenderCell(result, {col, row}) {
                 const {data: rowData} = row;
-                const {avatarWithName, avatarClass = 'size-sm circle', avatarKey = `${col.name}Avatar`} = col.setting;
+                const {avatarWithName, avatarClass = 'size-xs circle', avatarKey = `${col.name}Avatar`} = col.setting;
                 const avatar = (
                     <div className={`avatar ${avatarClass} flex-none`}>
                         <img src={rowData ? (rowData[avatarKey] as string) : ''} />
@@ -69,6 +69,7 @@ export const rich: DTablePlugin<DTableRichTypes> = {
             },
         },
         circleProgress: {
+            align: 'center',
             onRenderCell(result, {col}) {
                 const {circleSize = 24, circleBorderSize = 1, circleBgColor = 'var(--color-border)', circleColor = 'var(--color-success-500)'} = col.setting;
                 const radius = (circleSize - circleBorderSize) / 2;
