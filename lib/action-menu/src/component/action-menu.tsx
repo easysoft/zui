@@ -27,15 +27,19 @@ export class ActionMenu<T extends ActionBasicProps = ActionMenuItemOptions, P ex
     }
 
     componentDidMount() {
-        this.props.afterRender?.({menu: this, firstRender: true});
+        this.afterRender(true);
     }
 
     componentDidUpdate(): void {
-        this.props.afterRender?.({menu: this, firstRender: false});
+        this.afterRender(false);
     }
 
     componentWillUnmount(): void {
         this.props.beforeDestroy?.({menu: this});
+    }
+
+    afterRender(firstRender: boolean) {
+        this.props.afterRender?.({menu: this, firstRender});
     }
 
     handleItemClick(item: T, index: number, onClick: ((event: MouseEvent) => void) | undefined, event: MouseEvent) {
