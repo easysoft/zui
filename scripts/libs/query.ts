@@ -16,9 +16,10 @@ export async function getLibs(libPath: string | string[] = '', options: {root?: 
     }
     if (libPath === 'exts') {
         const extLibsMap = await getExtLibPaths();
+        const extsPath = Path.resolve(process.cwd(), 'exts');
         const libs: Record<string, LibInfo> = {};
         for (const [extsName, extLibPath] of Object.entries(extLibsMap)) {
-            const extLibs = await getLibs([extLibPath.replace('/*', '')], {
+            const extLibs = await getLibs([Path.join(extsPath, extsName)], {
                 ...options,
                 extsName,
                 hasSubs: extLibPath.endsWith('/*'),
