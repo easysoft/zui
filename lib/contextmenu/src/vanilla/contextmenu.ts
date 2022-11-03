@@ -16,7 +16,7 @@ import {ContextMenu as ContextMenuReact} from '../component/contextmenu';
 export class ContextMenu<T extends ContextMenuOptions = ContextMenuOptions, E extends ContextMenuEvents = ContextMenuEvents> extends ComponentBase<T, E & ContextMenuEvents> {
     static EVENTS = true;
 
-    static DEFAULT: Partial<ContextMenuOptions> = {
+    static DEFAULT = {
         placement: 'bottom-start',
         strategy: 'fixed',
         subMenuTrigger: 'hover',
