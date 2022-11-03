@@ -3,13 +3,15 @@ import preventOverflow from '@popperjs/core/lib/modifiers/preventOverflow';
 import flip from '@popperjs/core/lib/modifiers/flip';
 import {ComponentBase} from '@zui/com-helpers/src/helpers/vanilla-component';
 import {isRightBtn} from '@zui/com-helpers/src/helpers/mouse-event';
-import {Menu, MenuOptions} from '@zui/menu';
+import {MenuOptions} from '@zui/menu';
 import '../style/vars.css';
 import '../style/contextmenu.css';
 import type {MenuItemOptions} from '@zui/menu/src/types/menu-item-options';
 import type {ContextMenuOptions} from '../types/contextmenu-options';
 import type {ContextMenuEvents} from '../types/contextmenu-events';
 import type {ContextMenuTrigger} from '../types/contextmenu-trigger';
+import {ContextMenu as ContextMenuReact} from '../component/contextmenu';
+import {render} from 'preact';
 
 export class ContextMenu<T extends ContextMenuOptions = ContextMenuOptions, E extends ContextMenuEvents = ContextMenuEvents> extends ComponentBase<T, E & ContextMenuEvents> {
     static EVENTS = true;
@@ -33,8 +35,6 @@ export class ContextMenu<T extends ContextMenuOptions = ContextMenuOptions, E ex
     #virtualElement?: VirtualElement;
 
     #trigger?: ContextMenuTrigger;
-
-    #customMenu?: Menu;
 
     get isShown() {
         return this.menu.classList.contains((this.constructor as typeof ContextMenu).CLASS_SHOW);
@@ -163,6 +163,7 @@ export class ContextMenu<T extends ContextMenuOptions = ContextMenuOptions, E ex
             menuItems = (menuItems as ((menu: ContextMenu) => MenuItemOptions[]))(this as ContextMenu);
         }
         return {
+            nestedTrigger: 'hover',
             ...menu,
             items: menuItems,
         } as MenuOptions;
@@ -179,11 +180,9 @@ export class ContextMenu<T extends ContextMenuOptions = ContextMenuOptions, E ex
             return false;
         }
 
-        if (this.#customMenu) {
-            this.#customMenu.render(menuOptions);
-        } else {
-            this.#customMenu = new Menu(this.menu, menuOptions);
-        }
+        render((
+            <ContextMenuReact {...menuOptions} />
+        ), this.menu);
         return true;
     }
 

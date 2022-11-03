@@ -4,7 +4,15 @@
 .contextmenu.show {
     @apply -block;
 }
-
-.contextmenu .has-sub-shown > .menu-item:not(:hover) {
-    background: var(--contextmenu-sub-hover-bg);
+.contextmenu .has-nested-menu > .menu {
+    @apply -absolute;
+    box-shadow: var(--menu-shadow);
+    border: var(--menu-border);
+    background: var(--menu-bg);
+}
+.contextmenu-toggle-icon {
+    @apply -ml-2;
+}
+.contextmenu .has-nested-menu.show > a:not(:hover) {
+    background: var(--contextmenu-nested-hover-bg);
 }
