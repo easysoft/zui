@@ -27,11 +27,11 @@
 
 .checkbox-primary > label,
 .radio-primary > label {
-  @apply -cursor-pointer;
+  @apply -cursor-pointer -flex -items-center -relative;
 }
 .checkbox-primary > label:before,
 .radio-primary > label:before {
-  @apply -inline-block -border-solid -border-black -border -w-3 -aspect-square -align-middle -mr-1;
+  @apply -inline-block -border-solid -border-black -border -w-3 -aspect-square -mr-1;
   content:"";
 }
 .radio-primary > label:before {
