@@ -133,4 +133,4 @@ export const rich: DTablePlugin<DTableRichTypes> = {
     },
 };
 
-export default definePlugin(rich);
+export default definePlugin(rich, {buildIn: true});
