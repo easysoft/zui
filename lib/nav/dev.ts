@@ -7,7 +7,6 @@ import {Nav} from './src/main-vanilla';
 
 onPageUpdate(() => {
     const nav = new Nav('#nav', {
-        name: 'nav',
         items: [
             {text: '首页', icon: 'icon-home', active: true},
             {text: '动态'},
