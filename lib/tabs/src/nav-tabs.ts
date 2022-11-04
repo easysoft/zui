@@ -36,14 +36,14 @@ export class NavTabs {
         });
         target.classList.add('active');
         if (target.classList.contains('fade')) {
-            this.transition(target).then(function (data) {
+            this.transition(target).then(function () {
                 target.dispatchEvent(new CustomEvent('shown.zui3.tab'));
             });
         }
     }
 
     transition(target:HTMLElement) {
-        return new Promise<void>(function (resolve, reject) {
+        return new Promise<void>(function (resolve) {
             setTimeout(() => {
                 target.classList.add('in');
                 resolve();
