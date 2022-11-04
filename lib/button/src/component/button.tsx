@@ -26,14 +26,13 @@ export class Button extends Component<ButtonProps> {
         } = this.props;
 
         const ButtonComponent = component || (url ? 'a' : 'button');
-
         return _h(
             ButtonComponent as ComponentType<ButtonProps>, {
                 className: classes('btn', type, className, {
                     disabled,
                     active,
                     loading,
-                    square: square === undefined ? (!children && (text === undefined || text === null || (typeof text === 'string' && text.length))) : square,
+                    square: square === undefined ? (!children && (text === undefined || text === null || (typeof text === 'string' && !text.length))) : square,
                 }, size ? `size-${size}` : ''),
                 title: hint,
                 [ButtonComponent === 'a' ? 'href' : 'data-url']: url,
