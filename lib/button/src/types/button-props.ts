@@ -15,6 +15,7 @@ export type ButtonProps = {
     active?: boolean;
     icon?: string | VNode;
     text?: ComponentChildren;
+    square?: boolean;
     trailingIcon?: string | VNode;
     caret?: 'up' | 'down' | 'left' | 'right' | boolean;
     hint?: string;
