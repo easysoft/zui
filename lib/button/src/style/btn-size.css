@@ -29,5 +29,5 @@
 }
 
 .btn.square {
-    @apply -px-0 -aspect-square;
+    @apply -px-0 -aspect-square -gap-0.5;
 }
