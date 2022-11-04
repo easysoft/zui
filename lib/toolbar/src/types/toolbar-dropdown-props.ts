@@ -1,6 +1,7 @@
-import {ActionItemProps} from '@zui/action-menu/src/types/action-item-props';
-import {DropdownOptions} from '@zui/dropdown/src/types';
+import {DropdownTriggerOptions} from '@zui/dropdown/src/types';
+import {ToolbarItemProps} from './toolbar-item-props';
 
-export interface ToolbarDropdownProps extends ActionItemProps, DropdownOptions {
+export interface ToolbarDropdownProps extends ToolbarItemProps {
     type: 'dropdown',
+    dropdown: DropdownTriggerOptions,
 }

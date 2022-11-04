@@ -6,10 +6,12 @@ import type {ToolbarOptions, ToolbarItemOptions} from '../types';
 import '../style/index.css';
 import {ComponentType, JSX} from 'preact';
 import {ToolbarItem} from './toolbar-item';
+import {ToolbarDropdown} from './toolbar-dropdown';
 
 export class Toolbar<T extends ActionBasicProps = ToolbarItemOptions> extends ActionMenu<T, ToolbarOptions<T>> {
     static ItemComponents = {
         item: ToolbarItem,
+        dropdown: ToolbarDropdown,
     };
 
     static ROOT_TAG = 'nav';
@@ -30,6 +32,7 @@ export class Toolbar<T extends ActionBasicProps = ToolbarItemOptions> extends Ac
                 options.style = {gap: options.gap};
             }
         }
+        delete options.btnProps;
         return options;
     }
 
@@ -40,7 +43,7 @@ export class Toolbar<T extends ActionBasicProps = ToolbarItemOptions> extends Ac
             className: classes(`toolbar-${itemProps.type}`, rootProps.className, itemProps.className),
             style: Object.assign({}, rootProps.style, itemProps.style),
         };
-        if (itemProps.type === 'item' && this.props.btnProps) {
+        if ((itemProps.type === 'item' || itemProps.type === 'dropdown') && this.props.btnProps) {
             Object.assign(props, this.props.btnProps);
         }
         return <ItemComponent {...props} />;

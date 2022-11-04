@@ -296,6 +296,7 @@ importers:
     specifiers:
       '@popperjs/core': ^2.11.6
       '@zui/base': workspace:*
+      '@zui/browser-helpers': workspace:*
       '@zui/button': workspace:0.0.1
       '@zui/com-helpers': workspace:*
       '@zui/contextmenu': workspace:*
@@ -303,9 +304,11 @@ importers:
       '@zui/icons': workspace:*
       '@zui/menu': workspace:*
       '@zui/utilities': workspace:*
+      preact: ^10.10.0
       zui-dev: workspace:*
     dependencies:
       '@popperjs/core': registry.npmmirror.com/@popperjs/core/2.11.6
+      '@zui/browser-helpers': link:../browser-helpers
       '@zui/com-helpers': link:../com-helpers
       '@zui/contextmenu': link:../contextmenu
       '@zui/css-icons': link:../css-icons
@@ -315,6 +318,7 @@ importers:
       '@zui/icons': link:../icons
       '@zui/menu': link:../menu
       '@zui/utilities': link:../utilities
+      preact: registry.npmmirror.com/preact/10.10.0
       zui-dev: link:../../dev
 
   lib/dtable:
@@ -554,6 +558,37 @@ importers:
       '@zui/base': link:../base
       '@zui/nav': link:../nav
       '@zui/utilities': link:../utilities
+
+  lib/toolbar:
+    specifiers:
+      '@zui/action-menu': workspace:^0.0.1
+      '@zui/avatar': workspace:^0.0.1
+      '@zui/base': workspace:*
+      '@zui/browser-helpers': workspace:^0.0.1
+      '@zui/btn-group': workspace:^0.0.1
+      '@zui/button': workspace:^0.0.1
+      '@zui/com-helpers': workspace:^0.0.1
+      '@zui/css-icons': workspace:^0.0.1
+      '@zui/dropdown': workspace:^0.0.1
+      '@zui/icons': workspace:^0.0.1
+      '@zui/menu': workspace:^0.0.1
+      preact: ^10.10.0
+      zui-dev: workspace:^0.0.1
+    dependencies:
+      '@zui/action-menu': link:../action-menu
+      '@zui/browser-helpers': link:../browser-helpers
+      '@zui/btn-group': link:../btn-group
+      '@zui/button': link:../button
+      '@zui/com-helpers': link:../com-helpers
+      '@zui/css-icons': link:../css-icons
+      '@zui/dropdown': link:../dropdown
+      '@zui/menu': link:../menu
+    devDependencies:
+      '@zui/avatar': link:../avatar
+      '@zui/base': link:../base
+      '@zui/icons': link:../icons
+      preact: registry.npmmirror.com/preact/10.10.0
+      zui-dev: link:../../dev
 
   lib/upload:
     specifiers:
