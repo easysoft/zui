@@ -76,7 +76,7 @@ const nav = new ActionMenu('#nav', {
         {text: '首页', icon: 'icon-home'},
         {text: '动态'},
         {text: '论坛'},
-        {type: 'divier'},
+        {type: 'divider'},
         {text: '博客', icon: 'icon-rss'},
         {text: '关注我们', icon: 'icon-user-group'},
     ],
@@ -95,7 +95,7 @@ console.log('> nav', nav);
     <li class="nav-item"><a><i class="icon icon-home"></i><span class="text">首页</span></a></li>
     <li class="nav-item"><a><span class="text">动态</span></a></li>
     <li class="nav-item"><a><span class="text">论坛</span></a></li>
-    <li class="nav-divier"></li>
+    <li class="nav-divider"></li>
     <li class="nav-item"><a><i class="icon icon-rss"></i><span class="text">博客</span></a></li>
     <li class="nav-item"><a><i class="icon icon-user-group"></i><span class="text">关注我们</span></a></li>
   </menu>
@@ -124,7 +124,7 @@ const nav = new Nav('#nav', {
         {text: '首页', icon: 'icon-home'},
         {text: '动态'},
         {text: '论坛'},
-        {type: 'divier'},
+        {type: 'divider'},
         {text: '博客', icon: 'icon-rss'},
         {text: '关注我们', icon: 'icon-user-group'},
     ],
