@@ -19,7 +19,7 @@ if (libNav) {
         html.push(`<li class="lib-type -text-white/50 -text-sm -font-bold -pt-2">${type.toUpperCase()}<span class="-text-sm -ml-1 -bg-white/30 -text-primary-900 -px-1 -rounded-full" id="libsCount">${libs.length}</span></li>`);
         for (const lib of libs) {
             const {name} = lib.zui;
-            html.push(`<a href="/${encodeURIComponent(name)}/" class="-flex -items-center -justify-between -px-1 -py-2 -text-base -font-normal -rounded ${name === currentLibName ? '-text-white -font-bold -bg-primary-600' : '-text-gray-200'} hover:-bg-primary-700 hover:-text-white">`);
+            html.push(`<a href="/${encodeURIComponent(name)}/" class="-flex -items-center -justify-between -px-1 -py-2 -text-base -font-normal -rounded ${name === currentLibName ? '-text-white -font-bold -bg-primary-600' : '-text-gray-200'} hover:-bg-black/20 hover:-backdrop-blur hover:-text-white">`);
             html.push(`<span class="-ml-1">${lib.zui.displayName ?? name}</span>`);
 
             if (lib.zui.sourceType === 'exts') {
