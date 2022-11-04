@@ -9,6 +9,7 @@
         "zui:control"
     ],
     "devDependencies": {
+        "preact": "^10.10.0",
         "@zui/base": "workspace:*",
         "@zui/button": "workspace:0.0.1",
         "@zui/menu": "workspace:*",
@@ -18,6 +19,7 @@
     },
     "dependencies": {
         "@popperjs/core": "^2.11.6",
+        "@zui/browser-helpers": "workspace:*",
         "@zui/com-helpers": "workspace:*",
         "@zui/contextmenu": "workspace:*",
         "@zui/css-icons": "workspace:^0.0.1"

@@ -13,11 +13,11 @@ export class Dropdown extends ContextMenu<DropdownOptions, DropdownEvents> {
 
     static MENU_SELECTOR = '[data-toggle="dropdown"]:not(.disabled):not(:disabled)';
 
-    static DEFAULT: Partial<DropdownOptions> = {
+    static DEFAULT = {
         placement: 'bottom-start',
         strategy: 'absolute',
         trigger: 'click',
-    };
+    } as Partial<DropdownOptions>;
 
     #hoverEventsBind = false;
 
@@ -123,7 +123,10 @@ document.addEventListener('click', function (e) {
     const element = e.target as HTMLElement;
     const toggleBtn = element.closest<HTMLElement>(Dropdown.MENU_SELECTOR);
     if (toggleBtn) {
-        Dropdown.ensure(toggleBtn).toggle();
+        const dropdown = Dropdown.ensure(toggleBtn);
+        if (dropdown.options.trigger === 'click') {
+            dropdown.toggle();
+        }
     } else {
         Dropdown.clear(e);
     }
