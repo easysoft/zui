@@ -15,10 +15,8 @@ export class Toolbar<T extends ActionBasicProps = ToolbarItemOptions> extends Ac
     static ROOT_TAG = 'nav';
 
     static defaultProps = {
-        itemProps: {
-            item: {
-                btnType: 'ghost',
-            },
+        btnProps: {
+            btnType: 'ghost',
         },
     };
 
@@ -36,13 +34,15 @@ export class Toolbar<T extends ActionBasicProps = ToolbarItemOptions> extends Ac
     }
 
     renderTypedItem(ItemComponent: ComponentType, rootProps: JSX.HTMLAttributes, itemProps: T) {
-        console.log('> renderTypedItem', {ItemComponent, rootProps, itemProps});
         const props = {
             ...rootProps,
             ...itemProps,
             className: classes(`toolbar-${itemProps.type}`, rootProps.className, itemProps.className),
             style: Object.assign({}, rootProps.style, itemProps.style),
         };
+        if (itemProps.type === 'item' && this.props.btnProps) {
+            Object.assign(props, this.props.btnProps);
+        }
         return <ItemComponent {...props} />;
     }
 }
