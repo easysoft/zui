@@ -12,7 +12,7 @@ const nav = new Nav('#nav', {
         {text: '首页', icon: 'icon-home', active: true},
         {text: '动态'},
         {text: '论坛'},
-        {type: 'divier'},
+        {type: 'divider'},
         {text: '博客', icon: 'icon-rss'},
         {text: '关注我们', icon: 'icon-user-group'},
     ],
