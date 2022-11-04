@@ -20,7 +20,7 @@ export class ContextMenu<T extends ContextMenuOptions = ContextMenuOptions, E ex
         placement: 'bottom-start',
         strategy: 'fixed',
         subMenuTrigger: 'hover',
-    };
+    } as Partial<ContextMenuOptions>;
 
     static MENU_CLASS = 'contextmenu';
 
@@ -37,7 +37,7 @@ export class ContextMenu<T extends ContextMenuOptions = ContextMenuOptions, E ex
     #trigger?: ContextMenuTrigger;
 
     get isShown() {
-        return this.menu.classList.contains((this.constructor as typeof ContextMenu).CLASS_SHOW);
+        return this.#menu?.classList.contains((this.constructor as typeof ContextMenu).CLASS_SHOW);
     }
 
     get menu(): HTMLElement {
@@ -55,6 +55,10 @@ export class ContextMenu<T extends ContextMenuOptions = ContextMenuOptions, E ex
         return this.#trigger || this.element;
     }
 
+    get isDynamic() {
+        return this.options.items || this.options.menu;
+    }
+
     init(): void {
         const {element} = this;
         if (element !== document.body && !element.hasAttribute('data-toggle')) {
@@ -69,7 +73,7 @@ export class ContextMenu<T extends ContextMenuOptions = ContextMenuOptions, E ex
             return false;
         }
 
-        if ((this.options.items || this.options.menu) && !this._renderMenu()) {
+        if (this.isDynamic && !this._renderMenu()) {
             return false;
         }
 
@@ -100,16 +104,14 @@ export class ContextMenu<T extends ContextMenuOptions = ContextMenuOptions, E ex
     destroy(): void {
         this.#popper?.destroy();
         super.destroy();
-        if (this.options.menu) {
-            this.#menu?.remove();
-        }
+        this.#menu?.remove();
     }
 
     _ensureMenu() {
         const {element} = this;
         const menuClass = (this.constructor as typeof ContextMenu).MENU_CLASS;
         let menuElement: HTMLElement | null | undefined;
-        if (this.options.menu) {
+        if (this.isDynamic) {
             menuElement = document.createElement('div');
             menuElement.classList.add(menuClass);
             document.body.appendChild(menuElement);
