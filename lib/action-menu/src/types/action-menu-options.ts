@@ -1,6 +1,6 @@
 import type {ComponentType, ComponentChildren, JSX, h as _h, VNode} from 'preact';
-import type {ActionBasicProps} from './action-basic-props';
 import type {ClassNameLike} from '@zui/browser-helpers/src/classes';
+import type {ActionBasicProps} from './action-basic-props';
 import type {ActionMenuItemOptions} from './action-menu-item-options';
 import type {ActionMenu} from '../component/action-menu';
 
@@ -10,9 +10,9 @@ export interface ActionMenuOptions<T extends ActionBasicProps = ActionMenuItemOp
     name?: string;
     className?: ClassNameLike;
     style?: JSX.CSSProperties;
+    children?: ComponentChildren | (() => ComponentChildren);
     items: T[] | ((menu: ActionMenu<T>) => T[]),
     itemProps?: Record<string, Partial<T>>,
-    children?: ComponentChildren | (() => ComponentChildren);
     itemRender?: Record<string, ComponentType> | ActionMenuItemRender<T>,
     onClickItem?: (info: {menu: ActionMenu<T>, item: T, index: number, event: MouseEvent}) => void;
     beforeRender?: (info: {menu: ActionMenu<T>, options: ActionMenuOptions<T>}) => (Partial<Omit<ActionMenuOptions<T>, 'onClickItem' | 'beforeRender' | 'beforeDestroy' | 'afterRender'>> | undefined);
