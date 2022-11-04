@@ -1,5 +1,5 @@
 import {Component, createRef, h as _h, isValidElement} from 'preact';
-import type {JSX, Attributes, ComponentType} from 'preact';
+import type {JSX, ComponentType} from 'preact';
 import {classes} from '@zui/browser-helpers/src/classes';
 import '@zui/css-icons/src/icons/caret.css';
 import {ActionDivider} from './action-divider';
@@ -19,6 +19,8 @@ export class ActionMenu<T extends ActionBasicProps = ActionMenuItemOptions, P ex
         space: ActionSpace,
         custom: ActionCustom,
     };
+
+    static ROOT_TAG = 'menu';
 
     ref = createRef<HTMLMenuElement>();
 
@@ -108,15 +110,30 @@ export class ActionMenu<T extends ActionBasicProps = ActionMenuItemOptions, P ex
             type,
             component: typeof component === 'string' ? component : undefined,
         });
+
+        return this.renderTypedItem(ItemComponent, {
+            className: classes(rootClass),
+            children: rootChildren,
+            style: rootStyle,
+            key,
+            ...rootAttrs,
+        } as JSX.HTMLAttributes, {
+            ...itemProps,
+            type,
+            component: typeof component === 'string' ? component : undefined,
+        } as T);
+    }
+
+    renderTypedItem(ItemComponent: ComponentType, rootProps: JSX.HTMLAttributes, itemProps: T) {
+        const {children, className, key, ...rootAttrs} = rootProps;
         return (
             <li
-                className={classes(`${this.name}-${type}`, rootClass)}
-                style={rootStyle}
+                className={classes(`${this.name}-${itemProps.type}`, className)}
                 key={key}
-                {...rootAttrs}
+                {...(rootAttrs as JSX.HTMLAttributes<HTMLLIElement>)}
             >
-                <ItemComponent {...(itemProps as Attributes)} />
-                {typeof rootChildren === 'function' ? rootChildren() : rootChildren}
+                <ItemComponent {...itemProps} />
+                {typeof children === 'function' ? children() : children}
             </li>
         );
     }
@@ -138,11 +155,13 @@ export class ActionMenu<T extends ActionBasicProps = ActionMenuItemOptions, P ex
             ...others
         } = options;
 
+        const RootTag = (this.constructor as typeof ActionMenu<T>).ROOT_TAG as unknown as ComponentType;
+
         return (
-            <menu class={classes(this.name, className)} {...others} ref={this.ref}>
+            <RootTag class={classes(this.name, className)} {...others} ref={this.ref}>
                 {items && items.map(this.renderItem.bind(this, options))}
                 {children}
-            </menu>
+            </RootTag>
         );
     }
 }
