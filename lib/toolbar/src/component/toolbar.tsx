@@ -44,7 +44,12 @@ export class Toolbar<T extends ActionBasicProps = ToolbarItemOptions> extends Ac
             style: Object.assign({}, rootProps.style, itemProps.style),
         };
         if ((itemProps.type === 'item' || itemProps.type === 'dropdown') && this.props.btnProps) {
-            Object.assign(props, this.props.btnProps);
+            const btnProps = {btnType: 'ghost', ...this.props.btnProps};
+            if (btnProps.type) {
+                btnProps.btnType = btnProps.type;
+                delete btnProps.type;
+            }
+            Object.assign(props, btnProps);
         }
         return <ItemComponent {...props} />;
     }
