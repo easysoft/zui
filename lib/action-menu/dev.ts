@@ -58,7 +58,7 @@ onPageUpdate(() => {
             {text: '论坛'},
             {type: 'divider'},
             {text: '博客', icon: 'icon-rss'},
-            {text: '关注我们', icon: 'icon-user-group'},
+            {text: '关注我们', icon: 'icon-group'},
         ],
         onClickItem: (info) => {
             console.log('> nav.onClickItem', info);
@@ -74,7 +74,7 @@ onPageUpdate(() => {
             {text: '论坛'},
             {type: 'divider'},
             {text: '博客', icon: 'icon-rss'},
-            {text: '关注我们', icon: 'icon-user-group'},
+            {text: '关注我们', icon: 'icon-group'},
         ],
         onClickItem: (info) => {
             console.log('> nav.onClickItem', info);

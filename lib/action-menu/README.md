@@ -78,7 +78,7 @@ const nav = new ActionMenu('#nav', {
         {text: '论坛'},
         {type: 'divider'},
         {text: '博客', icon: 'icon-rss'},
-        {text: '关注我们', icon: 'icon-user-group'},
+        {text: '关注我们', icon: 'icon-group'},
     ],
     onClickItem: (info) => {
         console.log('> nav.onClickItem', info);
@@ -97,7 +97,7 @@ console.log('> nav', nav);
     <li class="nav-item"><a><span class="text">论坛</span></a></li>
     <li class="nav-divider"></li>
     <li class="nav-item"><a><i class="icon icon-rss"></i><span class="text">博客</span></a></li>
-    <li class="nav-item"><a><i class="icon icon-user-group"></i><span class="text">关注我们</span></a></li>
+    <li class="nav-item"><a><i class="icon icon-group"></i><span class="text">关注我们</span></a></li>
   </menu>
 </div>
 
@@ -126,7 +126,7 @@ const nav = new Nav('#nav', {
         {text: '论坛'},
         {type: 'divider'},
         {text: '博客', icon: 'icon-rss'},
-        {text: '关注我们', icon: 'icon-user-group'},
+        {text: '关注我们', icon: 'icon-group'},
     ],
     onClickItem: (info) => {
         console.log('> nav.onClickItem', info);
