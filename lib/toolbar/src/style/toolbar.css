@@ -1,0 +1,11 @@
+.toolbar {
+  @apply -flex -items-center -relative;
+}
+
+.toolbar-divider {
+  @apply -w-px -h-4 -mx-2 -bg-border;
+}
+
+.toolbar-space {
+  @apply -w-4 -flex-auto;
+}
