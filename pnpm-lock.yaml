@@ -331,10 +331,12 @@ importers:
       '@zui/contextmenu': workspace:^0.0.1
       '@zui/helpers': workspace:^0.0.1
       '@zui/i18n': workspace:^0.0.1
+      '@zui/icons': workspace:^0.0.1
       '@zui/label': workspace:^0.0.1
       '@zui/menu': workspace:^0.0.1
       '@zui/scrollbar': workspace:^0.0.1
       '@zui/store': workspace:^0.0.1
+      '@zui/toolbar': workspace:^0.0.1
       hotkeys-js: ^3.10.0
       jquery: ^3.6.0
       nanoid: ^4.0.0
@@ -349,6 +351,7 @@ importers:
       '@zui/menu': link:../menu
       '@zui/scrollbar': link:../scrollbar
       '@zui/store': link:../store
+      '@zui/toolbar': link:../toolbar
       hotkeys-js: registry.npmmirror.com/hotkeys-js/3.10.0
       nanoid: 4.0.0
       preact: 10.10.0
@@ -356,6 +359,7 @@ importers:
       '@faker-js/faker': 7.4.0
       '@types/jquery': 3.5.14
       '@zui/avatar': link:../avatar
+      '@zui/icons': link:../icons
       '@zui/label': link:../label
       jquery: 3.6.0
       zui-dev: link:../../dev
@@ -571,7 +575,6 @@ importers:
       '@zui/css-icons': workspace:^0.0.1
       '@zui/dropdown': workspace:^0.0.1
       '@zui/icons': workspace:^0.0.1
-      '@zui/menu': workspace:^0.0.1
       preact: ^10.10.0
       zui-dev: workspace:^0.0.1
     dependencies:
@@ -582,7 +585,6 @@ importers:
       '@zui/com-helpers': link:../com-helpers
       '@zui/css-icons': link:../css-icons
       '@zui/dropdown': link:../dropdown
-      '@zui/menu': link:../menu
     devDependencies:
       '@zui/avatar': link:../avatar
       '@zui/base': link:../base

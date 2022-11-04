@@ -2,6 +2,7 @@ import 'preact/debug';
 import 'zui-dev';
 import '@zui/label';
 import '@zui/avatar';
+import '@zui/icons';
 import {faker} from '@faker-js/faker';
 import {DTable} from './src/main';
 import checkable from './src/plugins/checkable';
@@ -11,6 +12,7 @@ import headerGroup from './src/plugins/header-group';
 import sortable from './src/plugins/sortable';
 import datagrid from './src/plugins/datagrid';
 import moveable from './src/plugins/moveable';
+import actions from './src/plugins/actions';
 
 faker.setLocale('zh_CN');
 
@@ -123,7 +125,11 @@ onPageLoad(() => {
                 {name: 'startDate', title: '开始日期', width: 90, align: 'center', sortType: true},
                 {name: 'endDate', title: '开始日期', width: 90, align: 'center', sortType: true, border: 'right'},
                 {name: 'progress', title: '进度', sortType: true},
-                {name: 'actions', title: '操作', width: 200, fixed: 'right', sortType: false},
+                {name: 'actions', title: '操作', width: 200, fixed: 'right', sortType: false, type: 'actions', actionsMap: {
+                    add: {icon: 'icon-plus', hint: '添加'},
+                    delete: {icon: 'icon-pencil', hint: '删除'},
+                    edit: {icon: 'icon-edit', hint: '编辑'},
+                }},
             ],
             data: Array(20).fill(0).map((_, index) => ({
                 id: `${index}`,
@@ -136,11 +142,12 @@ onPageLoad(() => {
                 endDate: '2020-01-01',
                 progress: '50%',
                 parent: `${['', '', '', index - 1, index - 2, index - 3, index - 3, index - 4, index - 1, index - 1][index % 10]}`,
+                actions: ['add', 'delete', {name: 'edit', disabled: faker.datatype.boolean()}],
             })).reverse(),
             height: 400,
             cellHover: true,
             colHover: 'header',
-            plugins: [checkable({checkOnClickRow: true}), nested, moveable],
+            plugins: [checkable({checkOnClickRow: true}), nested, moveable, actions],
             striped: true,
             responsive: true,
             footer: ['checkbox', 'divider', 'checkedInfo', 'divider', 'flex'],
