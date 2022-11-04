@@ -26,13 +26,14 @@ export class Button extends Component<ButtonProps> {
         } = this.props;
 
         const ButtonComponent = component || (url ? 'a' : 'button');
+        const isEmptyText = text === undefined || text === null || (typeof text === 'string' && !text.length);
         return _h(
             ButtonComponent as ComponentType<ButtonProps>, {
                 className: classes('btn', type, className, {
                     disabled,
                     active,
                     loading,
-                    square: square === undefined ? (!children && (text === undefined || text === null || (typeof text === 'string' && !text.length))) : square,
+                    square: square === undefined ? (!children && isEmptyText) : square,
                 }, size ? `size-${size}` : ''),
                 title: hint,
                 [ButtonComponent === 'a' ? 'href' : 'data-url']: url,
@@ -41,7 +42,7 @@ export class Button extends Component<ButtonProps> {
                 ...others,
             } as Attributes,
             typeof icon === 'string' ? <i class={`icon ${icon}`} /> : icon,
-            <span className="text">{text}</span>,
+            isEmptyText ? null : <span className="text">{text}</span>,
             children,
             typeof trailingIcon === 'string' ? <i class={`icon ${trailingIcon}`} /> : trailingIcon,
             caret ? <span className={typeof caret === 'string' ? `caret-${caret}` : 'caret'} /> : null,
