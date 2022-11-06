@@ -14,6 +14,14 @@ onPageUpdate(() => {
             {type: 'divider'},
             {text: '博客', icon: 'icon-rss'},
             {text: '关注我们', icon: 'icon-group'},
+            {type: 'space', flex: 1},
+            {
+                type: 'btn-group',
+                items: [
+                    {text: '登录', icon: 'icon-user'},
+                    {text: '注册', icon: 'icon-lock'},
+                ],
+            },
         ],
         onClickItem: (info) => {
             console.log('> toolbar.onClickItem', info);
