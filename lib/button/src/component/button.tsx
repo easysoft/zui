@@ -27,13 +27,15 @@ export class Button extends Component<ButtonProps> {
 
         const ButtonComponent = component || (url ? 'a' : 'button');
         const isEmptyText = text === undefined || text === null || (typeof text === 'string' && !text.length);
+        const onlyCaret = isEmptyText && !icon && !trailingIcon && !children;
         return _h(
             ButtonComponent as ComponentType<ButtonProps>, {
                 className: classes('btn', type, className, {
+                    'btn-caret': onlyCaret,
                     disabled,
                     active,
                     loading,
-                    square: square === undefined ? (!children && isEmptyText) : square,
+                    square: square === undefined ? (!onlyCaret && !children && isEmptyText) : square,
                 }, size ? `size-${size}` : ''),
                 title: hint,
                 [ButtonComponent === 'a' ? 'href' : 'data-url']: url,

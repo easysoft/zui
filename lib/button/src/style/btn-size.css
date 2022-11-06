@@ -31,3 +31,6 @@
 .btn.square {
     @apply -px-0 -aspect-square -gap-0.5;
 }
+.btn.btn-caret {
+    @apply -px-0.5;
+}
