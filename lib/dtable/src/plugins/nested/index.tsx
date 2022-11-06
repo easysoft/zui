@@ -1,5 +1,6 @@
 import {classes} from '@zui/browser-helpers/src/classes';
 import {definePlugin} from '../../helpers/shared-plugins';
+import '@zui/css-icons/src/icons/toggle.css';
 import './style.css';
 import type {ColInfo} from '../../types/col';
 import type {CustomRenderResult} from '../../types/common';
@@ -263,7 +264,7 @@ export const nested: DTablePlugin<DTableSortableTypes> = {
         const {nestedToggle} = col.setting;
         const info = this.getNestedRowInfo(rowID);
         if (nestedToggle && (info.children || info.parent)) {
-            result.unshift(this.options.onRenderNestedToggle?.call(this, info, rowID, col, rowData) ?? (<a role="button" className={`dtable-nested-toggle state${info.children ? '' : ' is-no-child'}`}><span className="dtable-nested-toggle-icon"></span></a>));
+            result.unshift(this.options.onRenderNestedToggle?.call(this, info, rowID, col, rowData) ?? (<a role="button" className={`dtable-nested-toggle state${info.children ? '' : ' is-no-child'}`}><span className="toggle-icon"></span></a>));
         }
         if (info.level) {
             let {nestedIndent = nestedToggle} = col.setting;
@@ -279,19 +280,19 @@ export const nested: DTablePlugin<DTableSortableTypes> = {
     onRenderHeaderCell(result, {row, col}) {
         const {id: rowID} = row;
         if (col.setting.nestedToggle) {
-            result.unshift(this.options.onRenderNestedToggle?.call(this, undefined, rowID, col, undefined) ?? (<a type="button" className="dtable-nested-toggle state"><span className="dtable-nested-toggle-icon"></span></a>));
+            result.unshift(this.options.onRenderNestedToggle?.call(this, undefined, rowID, col, undefined) ?? (<a type="button" className="dtable-nested-toggle state"><span className="toggle-icon"></span></a>));
         }
         return result;
     },
     onRenderRow({props, row}) {
         const info = this.getNestedRowInfo(row.id);
         return {
-            className: classes(props.className, `is-nested-${info.state}`),
+            className: classes(props.className, `is-${info.state}`),
             'data-parent': info.parent,
         };
     },
     onRenderHeaderRow({props}): RowProps {
-        props.className = classes(props.className, `is-nested-${this.isAllCollapsed() ? NestedRowState.collapsed : NestedRowState.expanded}`);
+        props.className = classes(props.className, `is-${this.isAllCollapsed() ? NestedRowState.collapsed : NestedRowState.expanded}`);
         return props;
     },
     onHeaderCellClick(event) {

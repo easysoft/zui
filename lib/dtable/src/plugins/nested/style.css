@@ -10,19 +10,3 @@
 .dtable-nested-toggle.is-no-child {
     @apply -hidden;
 }
-.dtable-nested-toggle-icon {
-    @apply -block -border -border-current -relative -opacity-50 hover:-opacity-90;
-    width: var(--dtable-nt-size);
-    height: var(--dtable-nt-size);
-    border-radius: inherit;
-}
-.is-nested-collapsed .dtable-nested-toggle-icon::before,
-.is-nested-collapsed .dtable-nested-toggle-icon::after,
-.is-nested-expanded .dtable-nested-toggle-icon::before {
-    @apply -block -absolute -h-px -bg-current -left-[2px] -right-[2px];
-    content: ' ';
-    top: calc((var(--dtable-nt-size) - 3px)/ 2);
-}
-.is-nested-collapsed .dtable-nested-toggle-icon::after {
-    @apply -rotate-90;
-}
