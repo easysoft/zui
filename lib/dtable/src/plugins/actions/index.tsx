@@ -1,9 +1,9 @@
-import {ToolbarOptions, ToolbarItemOptions} from '@zui/toolbar/src/types';
 import {Toolbar} from '@zui/toolbar/src/component/toolbar';
+import type {ToolbarOptions, ToolbarItemOptions} from '@zui/toolbar/src/types';
 import {definePlugin} from '../../helpers/shared-plugins';
 import type {DTablePlugin} from '../../types/plugin';
-import {RowInfo} from '../../types/row';
-import {ColInfo} from '../../types/col';
+import type {RowInfo} from '../../types/row';
+import type {ColInfo} from '../../types/col';
 
 
 type DTableActionsTypes = {
@@ -11,9 +11,13 @@ type DTableActionsTypes = {
         actionsCreator?: (info: {row: RowInfo, col: ColInfo}) => ToolbarItemOptions[],
         actionsSetting?: Partial<ToolbarOptions>,
         actionsMap?: Record<string, Partial<ToolbarItemOptions>>,
+
     }>,
 };
 
+/**
+ * @todo auto calculate column width by actions setting
+ */
 export const actions: DTablePlugin<DTableActionsTypes> = {
     name: 'actions',
     colTypes: {
