@@ -703,7 +703,6 @@ export class DTable extends Component<DTableOptions, DTableState> {
                 maxWidth = maxColWidth,
                 ...otherColSetting
             } = colSetting;
-            const colWidth = clamp(width, minWidth, maxWidth);
             const colInfo: ColInfo = {
                 name,
                 type,
@@ -719,7 +718,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
                 },
                 flex: fixed ? 0 : (flex === true ? 1 : (typeof flex === 'number' ? flex : 0)),
                 left: 0,
-                width: colWidth,
+                width: clamp(width, minWidth, maxWidth),
                 realWidth: 0,
                 visible: true,
                 index: colsList.length,
@@ -736,7 +735,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
 
                 plugin.onAddCol?.call(this, colInfo);
             });
-
+            colInfo.width = clamp(colInfo.setting.width ?? colInfo.width, colInfo.setting.minWidth ?? minWidth, colInfo.setting.maxWidth ?? maxWidth);
             colInfo.realWidth = colInfo.realWidth || colInfo.width;
             if (fixed === 'left') {
                 colInfo.left = fixedLeftWidth;
