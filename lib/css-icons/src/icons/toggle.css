@@ -1,0 +1,26 @@
+:root {
+    --toggle-icon-size: calc((var(--root-font-size) * 3 / 4) + 1px);
+}
+
+.toggle-icon,
+.toggle-icon-collapse,
+.toggle-icon-expand {
+    @apply -block -border -border-current -relative -opacity-50 hover:-opacity-90;
+    width: var(--toggle-icon-size);
+    height: var(--toggle-icon-size);
+    border-radius: inherit;
+}
+.is-collapsed .toggle-icon::before,
+.is-collapsed .toggle-icon::after,
+.is-expanded .toggle-icon::before,
+.toggle-icon-collapse::before,
+.toggle-icon-collapse::after,
+.toggle-icon-expand::before {
+    @apply -block -absolute -h-px -bg-current -left-[2px] -right-[2px];
+    content: ' ';
+    top: calc((var(--toggle-icon-size) - 3px)/ 2);
+}
+.is-collapsed .toggle-icon::after,
+.toggle-icon-collapse::after {
+    @apply -rotate-90;
+}
