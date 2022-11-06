@@ -7,6 +7,7 @@ import '../style/index.css';
 import {ComponentType, JSX} from 'preact';
 import {ToolbarItem} from './toolbar-item';
 import {ToolbarDropdown} from './toolbar-dropdown';
+import {ButtonProps} from '@zui/button/src/types';
 
 export class Toolbar<T extends ActionBasicProps = ToolbarItemOptions> extends ActionMenu<T, ToolbarOptions<T>> {
     static ItemComponents = {
@@ -37,20 +38,14 @@ export class Toolbar<T extends ActionBasicProps = ToolbarItemOptions> extends Ac
     }
 
     renderTypedItem(ItemComponent: ComponentType, rootProps: JSX.HTMLAttributes, itemProps: T) {
+        const btnProps = (itemProps.type === 'item' || itemProps.type === 'dropdown' ? {btnType: 'ghost', ...this.props.btnProps} : {}) as ButtonProps;
         const props = {
             ...rootProps,
+            ...btnProps,
             ...itemProps,
-            className: classes(`toolbar-${itemProps.type}`, rootProps.className, itemProps.className),
-            style: Object.assign({}, rootProps.style, itemProps.style),
-        };
-        if ((itemProps.type === 'item' || itemProps.type === 'dropdown') && this.props.btnProps) {
-            const btnProps = {btnType: 'ghost', ...this.props.btnProps};
-            if (btnProps.type) {
-                btnProps.btnType = btnProps.type;
-                delete btnProps.type;
-            }
-            Object.assign(props, btnProps);
-        }
+            className: classes(`toolbar-${itemProps.type}`, rootProps.className, btnProps.className, itemProps.className),
+            style: Object.assign({}, rootProps.style, btnProps.style, itemProps.style),
+        } as T;
         return <ItemComponent {...props} />;
     }
 }

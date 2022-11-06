@@ -9,3 +9,7 @@
 .toolbar-space {
   @apply -w-4 -flex-auto;
 }
+
+.toolbar > .dropdown {
+  @apply -flex -items-center -relative;
+}
