@@ -521,6 +521,11 @@ export default [
         "files": [
             "./src/**/*"
         ],
+        "exports": {
+            ".": "./src/main.ts",
+            "./css": "./src/main-css.ts",
+            "./react": "./src/main-react.ts"
+        },
         "devDependencies": {
             "@zui/base": "workspace:*",
             "@zui/utilities": "workspace:*"
