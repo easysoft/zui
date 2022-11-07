@@ -4546,7 +4546,7 @@ tt = new WeakMap(), vt = new WeakMap(), He = new WeakMap(), Se = new WeakMap(), 
   const { footer: o } = n;
   if (!o)
     return null;
-  const s = Array.isArray(o) ? o : [o];
+  const s = typeof o == "function" ? o.call(this, n) : Array.isArray(o) ? o : [o];
   return /* @__PURE__ */ M(Eo, {
     className: "dtable-footer",
     style: { height: n.footerHeight, top: n.rowsHeight + n.headerHeight },
