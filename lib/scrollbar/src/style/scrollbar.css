@@ -1,5 +1,3 @@
-@import './vars.css';
-
 ::-webkit-scrollbar {
     height: var(--scrollbar-size);
     width: var(--scrollbar-size);

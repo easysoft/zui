@@ -1,3 +1,5 @@
+@import '../style/vars.css';
+
 .scrollbar {
     @apply -absolute -transition-opacity;
     opacity: var(--scrollbar-opacity);

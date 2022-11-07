@@ -1,1 +1,1 @@
-export * from './components/scrollbar';
+export * from './main-css';
