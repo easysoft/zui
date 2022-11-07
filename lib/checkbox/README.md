@@ -90,6 +90,10 @@
   <label for="primaryCheckbox2">选中</label>
 </div>
 <div class="checkbox-primary">
+  <input type="checkbox" disabled="disabled" id="primaryCheckbox3">
+  <label for="primaryCheckbox3">禁用</label>
+</div>
+<div class="checkbox-primary">
   <input type="checkbox" checked="checked" disabled="disabled" id="primaryCheckbox3">
   <label for="primaryCheckbox3">禁用</label>
 </div>

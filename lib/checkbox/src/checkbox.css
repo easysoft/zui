@@ -27,7 +27,7 @@
 
 .checkbox-primary > label,
 .radio-primary > label {
-  @apply -cursor-pointer -flex -items-center -relative;
+  @apply -cursor-pointer -inline-flex -items-center -relative;
 }
 .checkbox-primary > label:before,
 .radio-primary > label:before {
@@ -49,10 +49,27 @@
   @apply -bg-primary-500;
   border-color: var(--color-primary-500);
 }
-.radio-primary.disabled > label:before,
+
+.radio-primary.disabled.checked > label:before,
+.radio-primary > input:checked[disabled] + label:before,
+.checkbox-primary.disabled.checked > label:before,
+.checkbox-primary > input:checked[disabled] + label:before {
+  @apply -bg-gray-500 -cursor-not-allowed;
+  border-color: var(--color-gray-500);
+}
+
+.radio-primary.disabled> label:before,
 .radio-primary > input[disabled] + label:before,
 .checkbox-primary.disabled > label:before,
 .checkbox-primary > input[disabled] + label:before {
-  @apply -bg-gray-500 -cursor-not-allowed;
   border-color: var(--color-gray-500);
+}
+
+
+.radio-primary.disabled> label,
+.radio-primary > input[disabled] + label,
+.checkbox-primary.disabled > label,
+.checkbox-primary > input[disabled] + label {
+  @apply -cursor-not-allowed;
+  color: var(--color-gray-500);
 }
