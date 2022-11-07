@@ -25,8 +25,11 @@ export async function saveExtLibPaths(newLibs: Record<string, string>, options?:
     const libs = options?.reset ? {} : (await getExtLibPaths());
 
     Object.entries(newLibs).forEach(([name, path]) => {
-        if (!path.endsWith('*') && !fs.existsSync(Path.join(path, 'package.json'))) {
-            newLibs[name] = Path.join(path, '*');
+        if (!path.endsWith('*')) {
+            const packageJson = fs.readJSONSync(Path.join(path, 'package.json'), {throws: false});
+            if (!packageJson?.zui) {
+                newLibs[name] = Path.join(path, '*');
+            }
         }
     });
 
