@@ -1,5 +1,5 @@
 import '@zui/base';
-import '@zui/scrollbar/src/scrollbar-css.css';
+import '@zui/scrollbar/src/style/index.css';
 import 'highlight.js/styles/github.css';
 import {loadLibPage, loadLibs, currentLibName} from './libs';
 import './style.css';
