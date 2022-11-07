@@ -10,7 +10,7 @@ import {ToolbarDropdown} from './toolbar-dropdown';
 import {ButtonProps} from '@zui/button/src/types';
 import {ToolbarBtnGroup} from './toolbar-btn-group';
 
-export class Toolbar<T extends ActionBasicProps = ToolbarItemOptions> extends ActionMenu<T, ToolbarOptions<T>> {
+export class Toolbar<T extends ActionBasicProps = ToolbarItemOptions, P extends ToolbarOptions<T> = ToolbarOptions<T>> extends ActionMenu<T, P> {
     static ItemComponents = {
         item: ToolbarItem,
         dropdown: ToolbarDropdown,
