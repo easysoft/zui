@@ -162,9 +162,7 @@ export class ComponentBase<O extends {} = {}, V extends CustomEventMap = {}, E e
         return `zui.${this.NAME}`;
     }
 
-    static get DEFAULT(): {} {
-        return  {};
-    }
+    static DEFAULT = {};
 
     static allComponents = new Map<string, Map<HTMLElement, unknown>>();
 
