@@ -3,6 +3,7 @@
     --dtable-striped-bg:   var(--color-gray-50);
     --dtable-hover-bg:     rgba(var(--color-gray-500-rgb), .1);
     --dtable-header-bg:    var(--color-surface);
+    --dtable-footer-bg:    var(--color-surface);
     --dtable-border-color: var(--color-border);
     --dtable-sorter-size:  0.3125rem;
 }

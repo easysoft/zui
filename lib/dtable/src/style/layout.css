@@ -56,4 +56,5 @@
 
 .dtable-footer {
     @apply -absolute -z-10 -w-full -flex -items-center;
+    background: var(--dtable-footer-bg);
 }

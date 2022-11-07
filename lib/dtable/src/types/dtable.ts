@@ -27,7 +27,7 @@ export type DTableLayout = {
     rows: RowInfo[];
     rowsMap: Record<RowID, RowInfo>;
     header?: boolean | CustomRenderResultList<[table: DTable, layout: DTableLayout]>;
-    footer?: boolean | CustomRenderResultList<[table: DTable, layout: DTableLayout]> | CustomRenderResultList<[table: DTable, layout: DTableLayout]>[number];
+    footer?: boolean | CustomRenderResultList<[layout: DTableLayout], DTable> | ((this: DTable, layout: DTableLayout) => CustomRenderResultList<[layout: DTableLayout], DTable>);
     footerGenerators: Record<string, CustomRenderResult<[table: DTable, layout: DTableLayout]>>;
     headerHeight: number,
     footerHeight: number,
