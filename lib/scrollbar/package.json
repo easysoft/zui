@@ -22,7 +22,7 @@
         "@zui/utilities": "workspace:*"
     },
     "dependencies": {
-        "preact": "^10.10.0",
+        "preact": "10.11.2",
         "@zui/browser-helpers": "workspace:^0.0.1"
     },
     "zui": {

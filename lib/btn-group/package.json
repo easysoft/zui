@@ -9,10 +9,10 @@
         "zui:control"
     ],
     "dependencies": {
+        "preact": "10.11.2",
         "@zui/button": "workspace:^0.0.1"
     },
     "devDependencies": {
-        "preact": "^10.10.0",
         "@zui/base": "workspace:*",
         "@zui/icons": "workspace:*",
         "@zui/dropdown": "workspace:^0.0.1",

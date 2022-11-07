@@ -8,12 +8,12 @@
         "./src/**/*"
     ],
     "dependencies": {
-        "preact": "^10.10.0",
         "@zui/browser-helpers": "workspace:^0.0.1",
         "@zui/event-bus": "workspace:^0.0.1",
         "@zui/i18n": "workspace:^0.0.1"
     },
     "devDependencies": {
+        "preact": "10.11.2",
         "@types/jquery": "^3.5.14",
         "jquery": "^3.6.0"
     },

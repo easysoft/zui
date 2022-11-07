@@ -12,7 +12,7 @@
         "@zui/btn-group": "workspace:^0.0.1",
         "@zui/dropdown": "workspace:^0.0.1",
         "zui-dev": "workspace:^0.0.1",
-        "preact": "^10.10.0"
+        "preact": "10.11.2"
     },
     "dependencies": {
         "@zui/browser-helpers": "workspace:^0.0.1",

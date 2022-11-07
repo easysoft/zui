@@ -108,17 +108,17 @@ importers:
       '@zui/com-helpers': workspace:^0.0.1
       '@zui/css-icons': workspace:^0.0.1
       '@zui/icons': workspace:^0.0.1
-      preact: ^10.10.0
+      preact: 10.11.2
       zui-dev: workspace:^0.0.1
     dependencies:
       '@zui/browser-helpers': link:../browser-helpers
       '@zui/com-helpers': link:../com-helpers
       '@zui/css-icons': link:../css-icons
+      preact: registry.npmmirror.com/preact/10.11.2
     devDependencies:
       '@zui/avatar': link:../avatar
       '@zui/base': link:../base
       '@zui/icons': link:../icons
-      preact: registry.npmmirror.com/preact/10.10.0
       zui-dev: link:../../dev
 
   lib/ajax-form:
@@ -171,14 +171,14 @@ importers:
       '@zui/base': workspace:*
       '@zui/browser-helpers': workspace:^0.0.1
       '@zui/utilities': workspace:*
-      preact: ^10.10.0
+      preact: 10.11.2
     dependencies:
       '@zui/avatar': link:../avatar
-      '@zui/browser-helpers': link:../browser-helpers
-      preact: 10.10.0
-    devDependencies:
       '@zui/base': link:../base
+      '@zui/browser-helpers': link:../browser-helpers
+    devDependencies:
       '@zui/utilities': link:../utilities
+      preact: registry.npmmirror.com/preact/10.11.2
 
   lib/base:
     specifiers: {}
@@ -203,9 +203,10 @@ importers:
       '@zui/dropdown': workspace:^0.0.1
       '@zui/icons': workspace:*
       '@zui/utilities': workspace:*
-      preact: ^10.10.0
+      preact: 10.11.2
     dependencies:
       '@zui/button': link:../button
+      preact: registry.npmmirror.com/preact/10.11.2
     devDependencies:
       '@zui/base': link:../base
       '@zui/browser-helpers': link:../browser-helpers
@@ -213,7 +214,6 @@ importers:
       '@zui/dropdown': link:../dropdown
       '@zui/icons': link:../icons
       '@zui/utilities': link:../utilities
-      preact: registry.npmmirror.com/preact/10.10.0
 
   lib/button:
     specifiers:
@@ -224,18 +224,18 @@ importers:
       '@zui/css-icons': workspace:^0.0.1
       '@zui/icons': workspace:^0.0.1
       '@zui/utilities': workspace:*
-      preact: ^10.10.0
+      preact: 10.11.2
       zui-dev: workspace:^0.0.1
     dependencies:
       '@zui/browser-helpers': link:../browser-helpers
       '@zui/com-helpers': link:../com-helpers
       '@zui/css-icons': link:../css-icons
+      preact: registry.npmmirror.com/preact/10.11.2
     devDependencies:
       '@zui/avatar': link:../avatar
       '@zui/base': link:../base
       '@zui/icons': link:../icons
       '@zui/utilities': link:../utilities
-      preact: registry.npmmirror.com/preact/10.10.0
       zui-dev: link:../../dev
 
   lib/checkbox:
@@ -253,15 +253,15 @@ importers:
       '@zui/event-bus': workspace:^0.0.1
       '@zui/i18n': workspace:^0.0.1
       jquery: ^3.6.0
-      preact: ^10.10.0
+      preact: 10.11.2
     dependencies:
       '@zui/browser-helpers': link:../browser-helpers
       '@zui/event-bus': link:../event-bus
       '@zui/i18n': link:../i18n
-      preact: registry.npmmirror.com/preact/10.10.0
     devDependencies:
       '@types/jquery': registry.npmmirror.com/@types/jquery/3.5.14
       jquery: registry.npmmirror.com/jquery/3.6.0
+      preact: registry.npmmirror.com/preact/10.11.2
 
   lib/contextmenu:
     specifiers:
@@ -272,18 +272,18 @@ importers:
       '@zui/icons': workspace:^0.0.1
       '@zui/menu': workspace:*
       '@zui/utilities': workspace:*
-      preact: ^10.10.0
+      preact: 10.11.2
       zui-dev: workspace:^0.0.1
     dependencies:
       '@popperjs/core': registry.npmmirror.com/@popperjs/core/2.11.6
       '@zui/com-helpers': link:../com-helpers
       '@zui/menu': link:../menu
+      preact: registry.npmmirror.com/preact/10.11.2
     devDependencies:
       '@zui/base': link:../base
       '@zui/button': link:../button
       '@zui/icons': link:../icons
       '@zui/utilities': link:../utilities
-      preact: registry.npmmirror.com/preact/10.10.0
       zui-dev: link:../../dev
 
   lib/css-icons:
@@ -304,7 +304,7 @@ importers:
       '@zui/icons': workspace:*
       '@zui/menu': workspace:*
       '@zui/utilities': workspace:*
-      preact: ^10.10.0
+      preact: 10.11.2
       zui-dev: workspace:*
     dependencies:
       '@popperjs/core': registry.npmmirror.com/@popperjs/core/2.11.6
@@ -312,13 +312,13 @@ importers:
       '@zui/com-helpers': link:../com-helpers
       '@zui/contextmenu': link:../contextmenu
       '@zui/css-icons': link:../css-icons
+      preact: registry.npmmirror.com/preact/10.11.2
     devDependencies:
       '@zui/base': link:../base
       '@zui/button': link:../button
       '@zui/icons': link:../icons
       '@zui/menu': link:../menu
       '@zui/utilities': link:../utilities
-      preact: registry.npmmirror.com/preact/10.10.0
       zui-dev: link:../../dev
 
   lib/dtable:
@@ -341,7 +341,7 @@ importers:
       hotkeys-js: ^3.10.0
       jquery: ^3.6.0
       nanoid: ^4.0.0
-      preact: ^10.10.0
+      preact: 10.11.2
       zui-dev: workspace:^0.0.1
     dependencies:
       '@zui/browser-helpers': link:../browser-helpers
@@ -356,7 +356,7 @@ importers:
       '@zui/toolbar': link:../toolbar
       hotkeys-js: registry.npmmirror.com/hotkeys-js/3.10.0
       nanoid: 4.0.0
-      preact: 10.10.0
+      preact: registry.npmmirror.com/preact/10.11.2
     devDependencies:
       '@faker-js/faker': 7.4.0
       '@types/jquery': 3.5.14
@@ -442,18 +442,18 @@ importers:
       '@zui/com-helpers': workspace:^0.0.1
       '@zui/css-icons': workspace:^0.0.1
       '@zui/icons': workspace:^0.0.1
-      preact: ^10.10.0
+      preact: 10.11.2
       zui-dev: workspace:^0.0.1
     dependencies:
       '@zui/action-menu': link:../action-menu
       '@zui/browser-helpers': link:../browser-helpers
       '@zui/com-helpers': link:../com-helpers
       '@zui/css-icons': link:../css-icons
+      preact: registry.npmmirror.com/preact/10.11.2
     devDependencies:
       '@zui/avatar': link:../avatar
       '@zui/base': link:../base
       '@zui/icons': link:../icons
-      preact: registry.npmmirror.com/preact/10.10.0
       zui-dev: link:../../dev
 
   lib/modal:
@@ -478,7 +478,7 @@ importers:
       '@zui/css-icons': workspace:^0.0.1
       '@zui/dropdown': workspace:^0.0.1
       '@zui/icons': workspace:^0.0.1
-      preact: ^10.10.0
+      preact: 10.11.2
       zui-dev: workspace:^0.0.1
     dependencies:
       '@zui/action-menu': link:../action-menu
@@ -492,25 +492,41 @@ importers:
       '@zui/button': link:../button
       '@zui/dropdown': link:../dropdown
       '@zui/icons': link:../icons
-      preact: registry.npmmirror.com/preact/10.10.0
+      preact: registry.npmmirror.com/preact/10.11.2
       zui-dev: link:../../dev
 
   lib/pager:
     specifiers:
+      '@zui/action-menu': workspace:^0.0.1
       '@zui/base': workspace:*
+      '@zui/browser-helpers': workspace:^0.0.1
       '@zui/btn-group': workspace:^0.0.1
+      '@zui/button': workspace:^0.0.1
+      '@zui/com-helpers': workspace:^0.0.1
       '@zui/dropdown': workspace:0.0.1
       '@zui/form': workspace:0.0.1
+      '@zui/helpers': workspace:^0.0.1
       '@zui/icons': workspace:0.0.1
+      '@zui/toolbar': workspace:^0.0.1
       '@zui/utilities': workspace:*
+      preact: 10.11.2
+      zui-dev: workspace:^0.0.1
     dependencies:
+      '@zui/action-menu': link:../action-menu
+      '@zui/browser-helpers': link:../browser-helpers
       '@zui/btn-group': link:../btn-group
+      '@zui/button': link:../button
+      '@zui/com-helpers': link:../com-helpers
+      '@zui/helpers': link:../helpers
+      '@zui/toolbar': link:../toolbar
+      preact: registry.npmmirror.com/preact/10.11.2
     devDependencies:
       '@zui/base': link:../base
       '@zui/dropdown': link:../dropdown
       '@zui/form': link:../form
       '@zui/icons': link:../icons
       '@zui/utilities': link:../utilities
+      zui-dev: link:../../dev
 
   lib/panel:
     specifiers:
@@ -533,10 +549,10 @@ importers:
       '@zui/base': workspace:*
       '@zui/browser-helpers': workspace:^0.0.1
       '@zui/utilities': workspace:*
-      preact: ^10.10.0
+      preact: 10.11.2
     dependencies:
       '@zui/browser-helpers': link:../browser-helpers
-      preact: 10.10.0
+      preact: registry.npmmirror.com/preact/10.11.2
     devDependencies:
       '@zui/base': link:../base
       '@zui/utilities': link:../utilities
@@ -577,7 +593,7 @@ importers:
       '@zui/css-icons': workspace:^0.0.1
       '@zui/dropdown': workspace:^0.0.1
       '@zui/icons': workspace:^0.0.1
-      preact: ^10.10.0
+      preact: 10.11.2
       zui-dev: workspace:^0.0.1
     dependencies:
       '@zui/action-menu': link:../action-menu
@@ -587,11 +603,11 @@ importers:
       '@zui/com-helpers': link:../com-helpers
       '@zui/css-icons': link:../css-icons
       '@zui/dropdown': link:../dropdown
+      preact: registry.npmmirror.com/preact/10.11.2
     devDependencies:
       '@zui/avatar': link:../avatar
       '@zui/base': link:../base
       '@zui/icons': link:../icons
-      preact: registry.npmmirror.com/preact/10.10.0
       zui-dev: link:../../dev
 
   lib/upload:
@@ -2166,10 +2182,6 @@ packages:
       source-map-js: 1.0.2
     dev: true
 
-  /preact/10.10.0:
-    resolution: {integrity: sha512-fszkg1iJJjq68I4lI8ZsmBiaoQiQHbxf1lNq+72EmC/mZOsFF5zn3k1yv9QGoFgIXzgsdSKtYymLJsrJPoamjQ==}
-    dev: false
-
   /prr/1.0.1:
     resolution: {integrity: sha512-yPw4Sng1gWghHQWj0B3ZggWUm4qVbPwPFcRG8KyxiU7J2OHFSoEHKS+EZ3fv5l1t9CyCiop6l/ZYeWbrgoQejw==}
     dev: true
@@ -2702,7 +2714,7 @@ packages:
     version: 3.2.1
     dependencies:
       '@docsearch/react': registry.npmmirror.com/@docsearch/react/3.2.1
-      preact: registry.npmmirror.com/preact/10.10.0
+      preact: registry.npmmirror.com/preact/10.11.2
     transitivePeerDependencies:
       - '@algolia/client-search'
       - '@types/react'
@@ -5361,10 +5373,10 @@ packages:
       source-map-js: registry.npmmirror.com/source-map-js/1.0.2
     dev: true
 
-  registry.npmmirror.com/preact/10.10.0:
-    resolution: {integrity: sha512-fszkg1iJJjq68I4lI8ZsmBiaoQiQHbxf1lNq+72EmC/mZOsFF5zn3k1yv9QGoFgIXzgsdSKtYymLJsrJPoamjQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/preact/-/preact-10.10.0.tgz}
+  registry.npmmirror.com/preact/10.11.2:
+    resolution: {integrity: sha512-skAwGDFmgxhq1DCBHke/9e12ewkhc7WYwjuhHB8HHS8zkdtITXLRmUMTeol2ldxvLwYtwbFeifZ9uDDWuyL4Iw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/preact/-/preact-10.11.2.tgz}
     name: preact
-    version: 10.10.0
+    version: 10.11.2
 
   registry.npmmirror.com/prelude-ls/1.2.1:
     resolution: {integrity: sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/prelude-ls/-/prelude-ls-1.2.1.tgz}

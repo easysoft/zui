@@ -23,7 +23,7 @@
         "@zui/toolbar": "workspace:^0.0.1",
         "hotkeys-js": "^3.10.0",
         "nanoid": "^4.0.0",
-        "preact": "^10.10.0"
+        "preact": "10.11.2"
     },
     "exports": {
         ".": "./src/main.ts",
