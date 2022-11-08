@@ -30,7 +30,7 @@ $ pnpm extend-lib -- /Users/TaiJi/Projects/zui3_exts/lib/ zentao
 
 ```json
 {
-    "zentao": "/Users/TaiJi/Projects/zui3_exts/lib/"
+    "zentao": "/Users/TaiJi/Projects/zui3_exts/lib/*"
 }
 ```
 
@@ -67,7 +67,7 @@ $ pnpm watch-exts
 打包时如果需要将扩展库中的组件也进行打包，则需要添加 `--exts` 参数，然后就可以在需要打包的组件清单中指定扩展库中的组件名称：
 
 ```shell
-$ pnpm build -- --exts label status-label
+$ pnpm build -- label @zentao/status-label --exts
 ```
 
 如果不指定名称，则默认打包仍然只打包内置组件库的组件，例如下面的命令仍然相当于 `pnpm build`：
@@ -79,5 +79,5 @@ $ pnpm build -- --exts
 如果需要将所有内置组件库和扩展库中的所有组件一并打包，可以使用如下命令：
 
 ```shell
-$ pnpm build -- --exts zui+exts
+$ pnpm build -- zui+exts --exts --name=zentao
 ```
