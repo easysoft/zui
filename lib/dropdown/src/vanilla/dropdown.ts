@@ -37,7 +37,7 @@ export class Dropdown extends ContextMenu<DropdownOptions, DropdownEvents> {
 
     hideLater = () => {
         this.#cancelHide();
-        this.#hideTimer = window.setTimeout(this.hide.bind(this), 300);
+        this.#hideTimer = window.setTimeout(this.hide.bind(this), 100);
     };
 
     destroy(): void {
