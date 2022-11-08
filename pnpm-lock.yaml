@@ -43,7 +43,7 @@ importers:
       tailwindcss: ^3.1.8
       tsx: 3.9.0
       typescript: 4.8.3
-      vite: ^3.1.8
+      vite: ^3.2.3
       vite-plugin-eslint: 1.8.1
     dependencies:
       '@zui/base': link:lib/base
@@ -86,8 +86,8 @@ importers:
       tailwindcss: 3.1.8_postcss@8.4.16
       tsx: registry.npmmirror.com/tsx/3.9.0
       typescript: registry.npmmirror.com/typescript/4.8.3
-      vite: registry.npmmirror.com/vite/3.1.8_less@4.1.3
-      vite-plugin-eslint: 1.8.1_eslint@8.24.0+vite@3.1.8
+      vite: registry.npmmirror.com/vite/3.2.3_a7j4wk6qccyhwsphksjwblwacm
+      vite-plugin-eslint: 1.8.1_eslint@8.24.0+vite@3.2.3
 
   dev:
     specifiers: {}
@@ -495,39 +495,6 @@ importers:
       preact: registry.npmmirror.com/preact/10.11.2
       zui-dev: link:../../dev
 
-  lib/pager:
-    specifiers:
-      '@zui/action-menu': workspace:^0.0.1
-      '@zui/base': workspace:*
-      '@zui/browser-helpers': workspace:^0.0.1
-      '@zui/btn-group': workspace:^0.0.1
-      '@zui/button': workspace:^0.0.1
-      '@zui/com-helpers': workspace:^0.0.1
-      '@zui/dropdown': workspace:0.0.1
-      '@zui/form': workspace:0.0.1
-      '@zui/helpers': workspace:^0.0.1
-      '@zui/icons': workspace:0.0.1
-      '@zui/toolbar': workspace:^0.0.1
-      '@zui/utilities': workspace:*
-      preact: 10.11.2
-      zui-dev: workspace:^0.0.1
-    dependencies:
-      '@zui/action-menu': link:../action-menu
-      '@zui/browser-helpers': link:../browser-helpers
-      '@zui/btn-group': link:../btn-group
-      '@zui/button': link:../button
-      '@zui/com-helpers': link:../com-helpers
-      '@zui/helpers': link:../helpers
-      '@zui/toolbar': link:../toolbar
-      preact: registry.npmmirror.com/preact/10.11.2
-    devDependencies:
-      '@zui/base': link:../base
-      '@zui/dropdown': link:../dropdown
-      '@zui/form': link:../form
-      '@zui/icons': link:../icons
-      '@zui/utilities': link:../utilities
-      zui-dev: link:../../dev
-
   lib/panel:
     specifiers:
       '@zui/base': workspace:*
@@ -753,7 +720,7 @@ packages:
       '@vue/shared': 3.2.37
       estree-walker: 2.0.2
       magic-string: 0.25.9
-      postcss: 8.4.14
+      postcss: registry.npmmirror.com/postcss/8.4.18
       source-map: 0.6.1
     dev: true
 
@@ -896,7 +863,7 @@ packages:
   /call-bind/1.0.2:
     resolution: {integrity: sha512-7O+FbCihrB5WGbFYesctwmTKae6rOiIzmz1icreWJ+0aA7LJfuqhEso2T9ncpcFtzMQtzXf2QGGueWJGTYsqrA==}
     dependencies:
-      function-bind: 1.1.1
+      function-bind: registry.npmmirror.com/function-bind/1.1.1
       get-intrinsic: 1.1.2
     dev: true
 
@@ -1180,11 +1147,11 @@ packages:
     dependencies:
       call-bind: 1.0.2
       es-to-primitive: 1.2.1
-      function-bind: 1.1.1
+      function-bind: registry.npmmirror.com/function-bind/1.1.1
       function.prototype.name: 1.1.5
       get-intrinsic: 1.1.2
       get-symbol-description: 1.0.0
-      has: 1.0.3
+      has: registry.npmmirror.com/has/1.0.3
       has-property-descriptors: 1.0.0
       has-symbols: 1.0.3
       internal-slot: 1.0.3
@@ -1206,7 +1173,7 @@ packages:
   /es-shim-unscopables/1.0.0:
     resolution: {integrity: sha512-Jm6GPcCdC30eMLbZ2x8z2WuRwAws3zTBBKuusffYVUrNj/GVSUAZ+xKMaUpfNDR5IbyNA5LJbaecoUVbmUcB1w==}
     dependencies:
-      has: 1.0.3
+      has: registry.npmmirror.com/has/1.0.3
     dev: true
 
   /es-to-primitive/1.2.1:
@@ -1252,7 +1219,7 @@ packages:
     resolution: {integrity: sha512-0En0w03NRVMn9Uiyn8YRPDKvWjxCWkslUEhGNTdGx15RvPJYQ+lbOlqrlNI2vEAs4pDYK4f/HN2TbDmk5TP0iw==}
     dependencies:
       debug: 3.2.7
-      resolve: 1.22.1
+      resolve: registry.npmmirror.com/resolve/1.22.1
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -1367,8 +1334,8 @@ packages:
   /get-intrinsic/1.1.2:
     resolution: {integrity: sha512-Jfm3OyCxHh9DJyc28qGk+JmfkpO41A4XkneDSujN9MDXrm4oDKdHvndhZ2dN94+ERNfkYJWDclW6k2L/ZGHjXA==}
     dependencies:
-      function-bind: 1.1.1
-      has: 1.0.3
+      function-bind: registry.npmmirror.com/function-bind/1.1.1
+      has: registry.npmmirror.com/has/1.0.3
       has-symbols: 1.0.3
     dev: true
 
@@ -1458,7 +1425,7 @@ packages:
     engines: {node: '>= 0.4'}
     dependencies:
       get-intrinsic: 1.1.2
-      has: 1.0.3
+      has: registry.npmmirror.com/has/1.0.3
       side-channel: 1.0.4
     dev: true
 
@@ -1491,7 +1458,7 @@ packages:
   /is-core-module/2.9.0:
     resolution: {integrity: sha512-+5FPy5PnwmO3lvfMb0AsoPaBG+5KHUI0wYFXOtYPnVVVspTFUuMZNfNaNVRt3FZadstu2c8x23vykRW/NBoU6A==}
     dependencies:
-      has: 1.0.3
+      has: registry.npmmirror.com/has/1.0.3
     dev: true
 
   /is-date-object/1.0.5:
@@ -1787,10 +1754,6 @@ packages:
   /path-exists/3.0.0:
     resolution: {integrity: sha512-bpC7GYwiDYQ4wYLe+FA8lhRjhQCMcQGuSgGGqDkg/QerRWw9CmGRT0iSOVRSZJ29NMLZgIzqaljJ63oaL4NIJQ==}
     engines: {node: '>=4'}
-    dev: true
-
-  /path-parse/1.0.7:
-    resolution: {integrity: sha512-LDJzPVEEEPR+y48z93A0Ed0yXb8pAByGWo/k5YYdYgpY2/2EsOsksJrq7lOHxryrVOn1ejG6oAp8ahvOIQD8sw==}
     dev: true
 
   /picocolors/1.0.0:
@@ -2164,15 +2127,6 @@ packages:
       supports-color: 3.2.3
     dev: true
 
-  /postcss/8.4.14:
-    resolution: {integrity: sha512-E398TUmfAYFPBSdzgeieK2Y1+1cpdxJx8yXbK/m57nRhKSmk1GB2tO4lbLBtlkfPQTDKfe4Xqv1ASWPpayPEig==}
-    engines: {node: ^10 || ^12 || >=14}
-    dependencies:
-      nanoid: 3.3.4
-      picocolors: 1.0.0
-      source-map-js: 1.0.2
-    dev: true
-
   /postcss/8.4.16:
     resolution: {integrity: sha512-ipHE1XBvKzm5xI7hiHCZJCSugxvsdq2mPnsq5+UF+VHCjiBvtDrlxJfMBToWaP9D5XlgNmcFGqoHmUn0EYEaRQ==}
     engines: {node: ^10 || ^12 || >=14}
@@ -2212,9 +2166,9 @@ packages:
     resolution: {integrity: sha512-nBpuuYuY5jFsli/JIs1oldw6fOQCBioohqWZg/2hiaOybXOft4lonv85uDOKXdf8rhyK159cxU5cDcK/NKk8zw==}
     hasBin: true
     dependencies:
-      is-core-module: 2.9.0
-      path-parse: 1.0.7
-      supports-preserve-symlinks-flag: 1.0.0
+      is-core-module: registry.npmmirror.com/is-core-module/2.9.0
+      path-parse: registry.npmmirror.com/path-parse/1.0.7
+      supports-preserve-symlinks-flag: registry.npmmirror.com/supports-preserve-symlinks-flag/1.0.0
     dev: true
 
   /rollup/2.78.1:
@@ -2354,11 +2308,6 @@ packages:
       has-flag: 1.0.0
     dev: true
 
-  /supports-preserve-symlinks-flag/1.0.0:
-    resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
-    engines: {node: '>= 0.4'}
-    dev: true
-
   /svgo/2.8.0:
     resolution: {integrity: sha512-+N/Q9kV1+F+UeWYoSiULYo4xYSDQlTgb+ayMobAXPwMnLvop7oxKMo9OzIrX5x3eS4L4f2UHhc9axXwY8DpChg==}
     engines: {node: '>=10.13.0'}
@@ -2453,7 +2402,7 @@ packages:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
     dev: true
 
-  /vite-plugin-eslint/1.8.1_eslint@8.24.0+vite@3.1.8:
+  /vite-plugin-eslint/1.8.1_eslint@8.24.0+vite@3.2.3:
     resolution: {integrity: sha512-PqdMf3Y2fLO9FsNPmMX+//2BF5SF8nEWspZdgl4kSt7UvHDRHVVfHvxsD7ULYzZrJDGRxR81Nq7TOFgwMnUang==}
     peerDependencies:
       eslint: '>=7'
@@ -2463,7 +2412,7 @@ packages:
       '@types/eslint': 8.4.6
       eslint: registry.npmmirror.com/eslint/8.24.0
       rollup: 2.78.1
-      vite: registry.npmmirror.com/vite/3.1.8_less@4.1.3
+      vite: registry.npmmirror.com/vite/3.2.3_a7j4wk6qccyhwsphksjwblwacm
     dev: true
 
   /vue/3.2.37:
@@ -3117,7 +3066,7 @@ packages:
       eslint-visitor-keys: registry.npmmirror.com/eslint-visitor-keys/3.3.0
     dev: true
 
-  registry.npmmirror.com/@vitejs/plugin-vue/3.1.2_vite@3.1.8+vue@3.2.41:
+  registry.npmmirror.com/@vitejs/plugin-vue/3.1.2_vite@3.2.3+vue@3.2.41:
     resolution: {integrity: sha512-3zxKNlvA3oNaKDYX0NBclgxTQ1xaFdL7PzwF6zj9tGFziKwmBa3Q/6XcJQxudlT81WxDjEhHmevvIC4Orc1LhQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@vitejs/plugin-vue/-/plugin-vue-3.1.2.tgz}
     id: registry.npmmirror.com/@vitejs/plugin-vue/3.1.2
     name: '@vitejs/plugin-vue'
@@ -3127,7 +3076,7 @@ packages:
       vite: ^3.0.0
       vue: ^3.2.25
     dependencies:
-      vite: registry.npmmirror.com/vite/3.1.8
+      vite: registry.npmmirror.com/vite/3.2.3
       vue: registry.npmmirror.com/vue/3.2.41
     dev: true
 
@@ -3164,7 +3113,7 @@ packages:
       '@vue/shared': registry.npmmirror.com/@vue/shared/3.2.41
       estree-walker: registry.npmmirror.com/estree-walker/2.0.2
       magic-string: registry.npmmirror.com/magic-string/0.25.9
-      postcss: registry.npmmirror.com/postcss/8.4.16
+      postcss: registry.npmmirror.com/postcss/8.4.18
       source-map: registry.npmmirror.com/source-map/0.6.1
     dev: true
 
@@ -5373,6 +5322,17 @@ packages:
       source-map-js: registry.npmmirror.com/source-map-js/1.0.2
     dev: true
 
+  registry.npmmirror.com/postcss/8.4.18:
+    resolution: {integrity: sha512-Wi8mWhncLJm11GATDaQKobXSNEYGUHeQLiQqDFG1qQ5UTDPTEvKw0Xt5NsTpktGTwLps3ByrWsBrG0rB8YQ9oA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/postcss/-/postcss-8.4.18.tgz}
+    name: postcss
+    version: 8.4.18
+    engines: {node: ^10 || ^12 || >=14}
+    dependencies:
+      nanoid: registry.npmmirror.com/nanoid/3.3.4
+      picocolors: registry.npmmirror.com/picocolors/1.0.0
+      source-map-js: registry.npmmirror.com/source-map-js/1.0.2
+    dev: true
+
   registry.npmmirror.com/preact/10.11.2:
     resolution: {integrity: sha512-skAwGDFmgxhq1DCBHke/9e12ewkhc7WYwjuhHB8HHS8zkdtITXLRmUMTeol2ldxvLwYtwbFeifZ9uDDWuyL4Iw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/preact/-/preact-10.11.2.tgz}
     name: preact
@@ -5501,10 +5461,10 @@ packages:
       glob: registry.npmmirror.com/glob/7.2.3
     dev: true
 
-  registry.npmmirror.com/rollup/2.78.1:
-    resolution: {integrity: sha512-VeeCgtGi4P+o9hIg+xz4qQpRl6R401LWEXBmxYKOV4zlF82lyhgh2hTZnheFUbANE8l2A41F458iwj2vEYaXJg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/rollup/-/rollup-2.78.1.tgz}
+  registry.npmmirror.com/rollup/2.79.1:
+    resolution: {integrity: sha512-uKxbd0IhMZOhjAiD5oAFp7BqvkA4Dv47qpOCtaNvng4HBwdbWtdOh8f5nZNuk2rp51PMGk3bzfWu5oayNEuYnw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/rollup/-/rollup-2.79.1.tgz}
     name: rollup
-    version: 2.78.1
+    version: 2.79.1
     engines: {node: '>=10.0.0'}
     hasBin: true
     optionalDependencies:
@@ -5956,62 +5916,75 @@ packages:
       spdx-expression-parse: registry.npmmirror.com/spdx-expression-parse/3.0.1
     dev: true
 
-  registry.npmmirror.com/vite/3.1.8:
-    resolution: {integrity: sha512-m7jJe3nufUbuOfotkntGFupinL/fmuTNuQmiVE7cH2IZMuf4UbfbGYMUT3jVWgGYuRVLY9j8NnrRqgw5rr5QTg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/vite/-/vite-3.1.8.tgz}
+  registry.npmmirror.com/vite/3.2.3:
+    resolution: {integrity: sha512-h8jl1TZ76eGs3o2dIBSsvXDLb1m/Ec1iej8ZMdz+PsaFUsftZeWe2CZOI3qogEsMNaywc17gu0q6cQDzh/weCQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/vite/-/vite-3.2.3.tgz}
     name: vite
-    version: 3.1.8
+    version: 3.2.3
     engines: {node: ^14.18.0 || >=16.0.0}
     hasBin: true
     peerDependencies:
+      '@types/node': '>= 14'
       less: '*'
       sass: '*'
       stylus: '*'
+      sugarss: '*'
       terser: ^5.4.0
     peerDependenciesMeta:
+      '@types/node':
+        optional: true
       less:
         optional: true
       sass:
         optional: true
       stylus:
         optional: true
+      sugarss:
+        optional: true
       terser:
         optional: true
     dependencies:
       esbuild: registry.npmmirror.com/esbuild/0.15.9
-      postcss: registry.npmmirror.com/postcss/8.4.16
+      postcss: registry.npmmirror.com/postcss/8.4.18
       resolve: registry.npmmirror.com/resolve/1.22.1
-      rollup: registry.npmmirror.com/rollup/2.78.1
+      rollup: registry.npmmirror.com/rollup/2.79.1
     optionalDependencies:
       fsevents: registry.npmmirror.com/fsevents/2.3.2
     dev: true
 
-  registry.npmmirror.com/vite/3.1.8_less@4.1.3:
-    resolution: {integrity: sha512-m7jJe3nufUbuOfotkntGFupinL/fmuTNuQmiVE7cH2IZMuf4UbfbGYMUT3jVWgGYuRVLY9j8NnrRqgw5rr5QTg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/vite/-/vite-3.1.8.tgz}
-    id: registry.npmmirror.com/vite/3.1.8
+  registry.npmmirror.com/vite/3.2.3_a7j4wk6qccyhwsphksjwblwacm:
+    resolution: {integrity: sha512-h8jl1TZ76eGs3o2dIBSsvXDLb1m/Ec1iej8ZMdz+PsaFUsftZeWe2CZOI3qogEsMNaywc17gu0q6cQDzh/weCQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/vite/-/vite-3.2.3.tgz}
+    id: registry.npmmirror.com/vite/3.2.3
     name: vite
-    version: 3.1.8
+    version: 3.2.3
     engines: {node: ^14.18.0 || >=16.0.0}
     hasBin: true
     peerDependencies:
+      '@types/node': '>= 14'
       less: '*'
       sass: '*'
       stylus: '*'
+      sugarss: '*'
       terser: ^5.4.0
     peerDependenciesMeta:
+      '@types/node':
+        optional: true
       less:
         optional: true
       sass:
         optional: true
       stylus:
         optional: true
+      sugarss:
+        optional: true
       terser:
         optional: true
     dependencies:
+      '@types/node': registry.npmmirror.com/@types/node/18.7.23
       esbuild: registry.npmmirror.com/esbuild/0.15.9
       less: 4.1.3
-      postcss: registry.npmmirror.com/postcss/8.4.16
+      postcss: registry.npmmirror.com/postcss/8.4.18
       resolve: registry.npmmirror.com/resolve/1.22.1
-      rollup: registry.npmmirror.com/rollup/2.78.1
+      rollup: registry.npmmirror.com/rollup/2.79.1
     optionalDependencies:
       fsevents: registry.npmmirror.com/fsevents/2.3.2
     dev: true
@@ -6024,15 +5997,16 @@ packages:
     dependencies:
       '@docsearch/css': registry.npmmirror.com/@docsearch/css/3.2.1
       '@docsearch/js': registry.npmmirror.com/@docsearch/js/3.2.1
-      '@vitejs/plugin-vue': registry.npmmirror.com/@vitejs/plugin-vue/3.1.2_vite@3.1.8+vue@3.2.41
+      '@vitejs/plugin-vue': registry.npmmirror.com/@vitejs/plugin-vue/3.1.2_vite@3.2.3+vue@3.2.41
       '@vue/devtools-api': registry.npmmirror.com/@vue/devtools-api/6.4.5
       '@vueuse/core': registry.npmmirror.com/@vueuse/core/9.3.1_vue@3.2.41
       body-scroll-lock: registry.npmmirror.com/body-scroll-lock/4.0.0-beta.0
       shiki: registry.npmmirror.com/shiki/0.11.1
-      vite: registry.npmmirror.com/vite/3.1.8
+      vite: registry.npmmirror.com/vite/3.2.3
       vue: registry.npmmirror.com/vue/3.2.41
     transitivePeerDependencies:
       - '@algolia/client-search'
+      - '@types/node'
       - '@types/react'
       - '@vue/composition-api'
       - less
@@ -6040,6 +6014,7 @@ packages:
       - react-dom
       - sass
       - stylus
+      - sugarss
       - terser
     dev: true
 
