@@ -1,7 +1,7 @@
 import {Component, createRef, h as _h} from 'preact';
 import {nanoid} from 'nanoid';
 import {classes, ClassNameLike} from '@zui/browser-helpers/src/classes';
-import {Scrollbar} from '@zui/scrollbar/src/components/scrollbar';
+import {Scrollbar} from '@zui/scrollbar/src/component/scrollbar';
 import {i18n} from '@zui/i18n/src/module/i18n';
 import {clamp} from '../helpers/clamp';
 import {Header} from './header';
