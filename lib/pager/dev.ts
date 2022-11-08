@@ -8,7 +8,7 @@ onPageUpdate(() => {
     const pager = new Pager('#pagerExample', {
         items: [
             {type: 'info', text: '共 {recTotal} 项'},
-            {type: 'size-menu', text: '每页 {recPerPage} 项'},
+            {type: 'size-menu', text: '每页 {recPerPage} 项', dropdown: {placement: 'top'}},
             {type: 'link', page: 'first', icon: 'icon-double-angle-left', hint: '第一页'},
             {type: 'link', page: 'prev', icon: 'icon-angle-left', hint: '上一页'},
             {type: 'info', text: '{page}/{pageTotal}'},
