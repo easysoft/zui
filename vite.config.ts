@@ -5,8 +5,14 @@ import {blue} from 'colorette';
 import eslint from 'vite-plugin-eslint';
 import configDevServer from './scripts/dev/config-server';
 import {LibraryOptions} from 'vite';
+import {getLibs} from './scripts/libs/query';
+import {LibInfo} from './scripts/libs/lib-info';
+
 
 export default defineConfig(async ({command, mode, ssrBuild}) => {
+    const buildLibs = process.env.BUILD_LIBS ?? 'buildIn';
+    const libsCache: Record<string, LibInfo> | undefined = await getLibs(buildLibs);
+
     let viteConfig: UserConfig = {
         build: {
             outDir: 'dist/dev',
@@ -33,7 +39,13 @@ export default defineConfig(async ({command, mode, ssrBuild}) => {
                 {find: 'zui-dev', replacement: `${__dirname}/dev`},
                 {find: 'zui-config', replacement: `${__dirname}/config`},
                 {find: '~@', replacement: __dirname},
-            ]
+                ...Object.values(libsCache).reduce<{find: string, replacement: string}[]>((aliasList, info) => {
+                    if (info.zui.sourceType === 'exts') {
+                        aliasList.push({find: info.name, replacement: info.zui.path});
+                    }
+                    return aliasList;
+                }, []),
+            ],
         },
     };
 
