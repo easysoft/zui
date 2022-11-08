@@ -495,6 +495,39 @@ importers:
       preact: registry.npmmirror.com/preact/10.11.2
       zui-dev: link:../../dev
 
+  lib/pager:
+    specifiers:
+      '@zui/action-menu': workspace:^0.0.1
+      '@zui/base': workspace:*
+      '@zui/browser-helpers': workspace:^0.0.1
+      '@zui/btn-group': workspace:^0.0.1
+      '@zui/button': workspace:^0.0.1
+      '@zui/com-helpers': workspace:^0.0.1
+      '@zui/dropdown': workspace:0.0.1
+      '@zui/form': workspace:0.0.1
+      '@zui/helpers': workspace:^0.0.1
+      '@zui/icons': workspace:0.0.1
+      '@zui/toolbar': workspace:^0.0.1
+      '@zui/utilities': workspace:*
+      preact: 10.11.2
+      zui-dev: workspace:^0.0.1
+    dependencies:
+      '@zui/action-menu': link:../action-menu
+      '@zui/browser-helpers': link:../browser-helpers
+      '@zui/btn-group': link:../btn-group
+      '@zui/button': link:../button
+      '@zui/com-helpers': link:../com-helpers
+      '@zui/helpers': link:../helpers
+      '@zui/toolbar': link:../toolbar
+      preact: registry.npmmirror.com/preact/10.11.2
+    devDependencies:
+      '@zui/base': link:../base
+      '@zui/dropdown': link:../dropdown
+      '@zui/form': link:../form
+      '@zui/icons': link:../icons
+      '@zui/utilities': link:../utilities
+      zui-dev: link:../../dev
+
   lib/panel:
     specifiers:
       '@zui/base': workspace:*

@@ -1,0 +1,3 @@
+.pager {
+  @apply -flex -items-center;
+}

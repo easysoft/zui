@@ -1,5 +1,11 @@
 # 分页
 
+## 动态组件
+
+```html:example
+<div id="pagerExample"></div>
+```
+
 ## 基础展示
 
 ```html:example: flex gap-3 flex-wrap
@@ -274,4 +280,3 @@
   </div>
 </div>
 ```
-
