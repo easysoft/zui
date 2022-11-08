@@ -26,26 +26,29 @@ export class Toolbar<T extends ActionBasicProps = ToolbarItemOptions, P extends 
     };
 
     beforeRender() {
-        const options = super.beforeRender();
-        options.className = classes(options.className, options.wrap ? 'flex-wrap' : '', typeof options.gap === 'number' ? `gap-${options.gap}` : '');
-        if (typeof options.gap === 'string') {
+        const {gap, btnProps, wrap, ...options} = super.beforeRender();
+        options.className = classes(options.className, wrap ? 'flex-wrap' : '', typeof gap === 'number' ? `gap-${gap}` : '');
+        if (typeof gap === 'string') {
             if (options.style) {
-                options.style.gap = options.gap;
+                options.style.gap = gap;
             } else {
-                options.style = {gap: options.gap};
+                options.style = {gap: gap};
             }
         }
-        delete options.btnProps;
-        return options;
+        return options as Omit<P, 'items'> & {items: T[]};
+    }
+
+    isBtnItem(type?: string) {
+        return type === 'item' || type === 'dropdown';
     }
 
     renderTypedItem(ItemComponent: ComponentType, rootProps: JSX.HTMLAttributes, itemProps: T) {
-        const btnProps = (itemProps.type === 'item' || itemProps.type === 'dropdown' ? {btnType: 'ghost', ...this.props.btnProps} : {}) as ButtonProps;
+        const btnProps = (this.isBtnItem(itemProps.type) ? {btnType: 'ghost', ...this.props.btnProps} : {}) as ButtonProps;
         const props = {
             ...rootProps,
             ...btnProps,
             ...itemProps,
-            className: classes(`toolbar-${itemProps.type}`, rootProps.className as ClassNameLike, btnProps.className, itemProps.className),
+            className: classes(`${this.name}-${itemProps.type}`, rootProps.className as ClassNameLike, btnProps.className, itemProps.className),
             style: Object.assign({}, rootProps.style, btnProps.style, itemProps.style),
         } as T;
         return <ItemComponent {...props} />;
