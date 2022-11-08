@@ -1,1 +1,1 @@
-export * from './component/toolbar';
+export * from './component';
