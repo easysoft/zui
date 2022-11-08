@@ -1,14 +1,14 @@
 import {classes} from '@zui/browser-helpers/src/classes';
 import {Attributes, ComponentType, h as _h} from 'preact';
-import {ActionDividerProps} from '../types/action-divider-props';
+import {ActionBasicProps} from '../types';
 
-export function ActionDivider({
+export function ActionBasic({
     component = 'div',
     className,
     children,
     style,
     attrs,
-}: ActionDividerProps) {
+}: ActionBasicProps) {
     return _h(component as ComponentType, {
         className: classes(className),
         style,

@@ -1,12 +1,13 @@
 import {Component, createRef, h as _h, isValidElement} from 'preact';
 import type {JSX, ComponentType} from 'preact';
-import {classes} from '@zui/browser-helpers/src/classes';
+import {classes, ClassNameLike} from '@zui/browser-helpers/src/classes';
 import '@zui/css-icons/src/icons/caret.css';
 import {ActionDivider} from './action-divider';
 import {ActionItem} from './action-item';
 import {ActionHeading} from './action-heading';
 import {ActionSpace} from './action-space';
 import {ActionCustom} from './action-custom';
+import {ActionBasic} from './action-basic';
 import type {ActionMenuOptions} from '../types/action-menu-options';
 import type {ActionBasicProps} from '../types/action-basic-props';
 import type {ActionMenuItemOptions} from '../types/action-menu-item-options';
@@ -18,6 +19,7 @@ export class ActionMenu<T extends ActionBasicProps = ActionMenuItemOptions, P ex
         heading: ActionHeading,
         space: ActionSpace,
         custom: ActionCustom,
+        basic: ActionBasic,
     };
 
     static ROOT_TAG = 'menu';
@@ -128,7 +130,7 @@ export class ActionMenu<T extends ActionBasicProps = ActionMenuItemOptions, P ex
         const {children, className, key, ...rootAttrs} = rootProps;
         return (
             <li
-                className={classes(`${this.name}-${itemProps.type}`, className)}
+                className={classes(`${this.name}-${itemProps.type}`, className as ClassNameLike)}
                 key={key}
                 {...(rootAttrs as JSX.HTMLAttributes<HTMLLIElement>)}
             >
