@@ -5,7 +5,6 @@
     "keywords": ["js", "zui:js-helpers"],
     "main": "src/main.ts",
     "module": "src/main.ts",
-    "browser": "src/main-browser.ts",
     "files": [
         "./src/**/*"
     ],
