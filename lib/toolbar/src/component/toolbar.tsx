@@ -1,4 +1,4 @@
-import {classes} from '@zui/browser-helpers/src/classes';
+import {classes, ClassNameLike} from '@zui/browser-helpers/src/classes';
 import {ActionMenu} from '@zui/action-menu/src/component/action-menu';
 import {ActionBasicProps} from '@zui/action-menu/src/types';
 import '@zui/css-icons/src/icons/caret.css';
@@ -45,7 +45,7 @@ export class Toolbar<T extends ActionBasicProps = ToolbarItemOptions, P extends 
             ...rootProps,
             ...btnProps,
             ...itemProps,
-            className: classes(`toolbar-${itemProps.type}`, rootProps.className, btnProps.className, itemProps.className),
+            className: classes(`toolbar-${itemProps.type}`, rootProps.className as ClassNameLike, btnProps.className, itemProps.className),
             style: Object.assign({}, rootProps.style, btnProps.style, itemProps.style),
         } as T;
         return <ItemComponent {...props} />;
