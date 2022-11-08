@@ -20,5 +20,8 @@ export function PagerLink({
     if (btnProps.url === undefined && linkCreator) {
         btnProps.url = typeof linkCreator === 'function' ? linkCreator(info)  : formatString(linkCreator, pagerInfo);
     }
+    if (btnProps.disabled === undefined) {
+        btnProps.disabled = page !== undefined && info.page === pagerInfo.page;
+    }
     return <Button type={type} {...btnProps} />;
 }

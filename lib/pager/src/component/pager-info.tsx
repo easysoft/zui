@@ -13,7 +13,7 @@ export function PagerInfoItem({
     ...props
 }: PagerInfoProps & {pagerInfo: PagerInfo}) {
     const info = updatePagerInfo(pagerInfo, page);
-    text = typeof text === 'function' ? text(info) : formatString(text, pagerInfo);
+    text = typeof text === 'function' ? text(info) : formatString(text, info);
     return (<ActionBasic {...props}>
         {children}
         {text}

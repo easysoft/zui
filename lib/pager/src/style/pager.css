@@ -1,3 +1,10 @@
 .pager {
   @apply -flex -items-center;
 }
+
+.menu.pager-size-menu {
+  @apply -grid -grid-cols-3 -text-center;
+}
+.menu.pager-size-menu > .menu-item > a {
+  @apply -m-0.5;
+}
