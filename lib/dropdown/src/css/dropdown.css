@@ -4,3 +4,15 @@
 .dropdown-menu.show {
     @apply -block;
 }
+.btn.with-dropdown-show {
+    @apply -shadow-inner;
+}
+.with-dropdown-show[data-dropdown-placement="top"] > .caret {
+    @apply -rotate-180;
+}
+.with-dropdown-show[data-dropdown-placement="left"] > .caret {
+    @apply -rotate-90;
+}
+.with-dropdown-show[data-dropdown-placement="right"] > .caret {
+    @apply --rotate-90;
+}

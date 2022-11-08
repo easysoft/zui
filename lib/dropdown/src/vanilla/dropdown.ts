@@ -14,7 +14,7 @@ export class Dropdown extends ContextMenu<DropdownOptions, DropdownEvents> {
     static MENU_SELECTOR = '[data-toggle="dropdown"]:not(.disabled):not(:disabled)';
 
     static DEFAULT = {
-        placement: 'bottom-start',
+        ...ContextMenu.DEFAULT,
         strategy: 'absolute',
         trigger: 'click',
     } as Partial<DropdownOptions>;
@@ -27,10 +27,25 @@ export class Dropdown extends ContextMenu<DropdownOptions, DropdownEvents> {
         return this.options.trigger === 'hover';
     }
 
+    get elementShowClass() {
+        return `with-${(this.constructor as typeof Dropdown).NAME}-show`;
+    }
+
     show(trigger?: ContextMenuTrigger | undefined): boolean {
         const result = super.show(trigger);
-        if (result && !this.#hoverEventsBind && this.isHover) {
-            this.#bindHoverEvents();
+        if (result) {
+            if (!this.#hoverEventsBind && this.isHover) {
+                this.#bindHoverEvents();
+            }
+            this.element.classList.add(this.elementShowClass);
+        }
+        return result;
+    }
+
+    hide(): boolean {
+        const result = super.hide();
+        if (result) {
+            this.element.classList.remove(this.elementShowClass);
         }
         return result;
     }
@@ -68,12 +83,16 @@ export class Dropdown extends ContextMenu<DropdownOptions, DropdownEvents> {
                 ...offset, options: {
                     offset: [0, arrowSize + (this.options.offset ?? 0)],
                 },
+            }, {
+                name: 'dropdown',
+                enabled: true,
+                phase: 'beforeWrite',
+                fn: ({state}) => {
+                    const placement = state.placement?.split('-').shift() || '';
+                    this.menu.querySelector('.arrow')?.setAttribute('class', `arrow arrow-${placement}`);
+                    this.element.setAttribute('data-dropdown-placement', placement);
+                },
             });
-            const {onFirstUpdate} = options;
-            options.onFirstUpdate = (state) => {
-                onFirstUpdate?.(state);
-                this.menu.querySelector('.arrow')?.classList.add(`arrow-${state.placement?.split('-').shift() || ''}`);
-            };
         }
         return options;
     }

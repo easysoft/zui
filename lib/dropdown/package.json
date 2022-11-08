@@ -9,16 +9,16 @@
         "zui:control"
     ],
     "devDependencies": {
-        "@zui/base": "workspace:*",
-        "@zui/button": "workspace:0.0.1",
-        "@zui/menu": "workspace:*",
-        "@zui/icons": "workspace:*",
         "zui-dev": "workspace:*",
+        "@zui/base": "workspace:*",
+        "@zui/icons": "workspace:*",
         "@zui/utilities": "workspace:*"
     },
     "dependencies": {
         "preact": "10.11.2",
         "@popperjs/core": "^2.11.6",
+        "@zui/button": "workspace:0.0.1",
+        "@zui/menu": "workspace:*",
         "@zui/browser-helpers": "workspace:*",
         "@zui/com-helpers": "workspace:*",
         "@zui/contextmenu": "workspace:*",
