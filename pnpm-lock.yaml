@@ -335,6 +335,7 @@ importers:
       '@zui/icons': workspace:^0.0.1
       '@zui/label': workspace:^0.0.1
       '@zui/menu': workspace:^0.0.1
+      '@zui/pager': workspace:^0.0.1
       '@zui/scrollbar': workspace:^0.0.1
       '@zui/store': workspace:^0.0.1
       '@zui/toolbar': workspace:^0.0.1
@@ -351,6 +352,7 @@ importers:
       '@zui/helpers': link:../helpers
       '@zui/i18n': link:../i18n
       '@zui/menu': link:../menu
+      '@zui/pager': link:../pager
       '@zui/scrollbar': link:../scrollbar
       '@zui/store': link:../store
       '@zui/toolbar': link:../toolbar

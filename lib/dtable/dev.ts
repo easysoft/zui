@@ -13,6 +13,7 @@ import {sortable} from './src/plugins/sortable';
 import {datagrid} from './src/plugins/datagrid';
 import {moveable} from './src/plugins/moveable';
 import {actions} from './src/plugins/actions';
+import {pager} from './src/plugins/pager';
 
 faker.setLocale('zh_CN');
 
@@ -147,10 +148,25 @@ onPageLoad(() => {
             height: 400,
             cellHover: true,
             colHover: 'header',
-            plugins: [checkable({checkOnClickRow: true}), nested, moveable, actions],
+            plugins: [checkable({checkOnClickRow: true}), nested, moveable, actions, pager],
             striped: true,
             responsive: true,
-            footer: ['checkbox', 'divider', 'checkedInfo', 'divider', 'flex'],
+            footPager: {
+                items: [
+                    {type: 'info', text: '共 {recTotal} 项'},
+                    {type: 'size-menu', text: '每页 {recPerPage} 项'},
+                    {type: 'link', page: 'first', icon: 'icon-double-angle-left', hint: '第一页'},
+                    {type: 'link', page: 'prev', icon: 'icon-angle-left', hint: '上一页'},
+                    {type: 'info', text: '{page}/{pageTotal}'},
+                    {type: 'link', page: 'next', icon: 'icon-angle-right', hint: '下一页'},
+                    {type: 'link', page: 'last', icon: 'icon-double-angle-right', hint: '最后一页'},
+                ],
+                page: 1,
+                recTotal: 101,
+                recPerPage: 10,
+                linkCreator: '#?page={page}&recPerPage={recPerPage}',
+            },
+            footer: ['checkbox', 'divider', 'checkedInfo', 'divider', 'flex', 'pager'],
         });
         console.log('DataTable', datatable);
     } else {
