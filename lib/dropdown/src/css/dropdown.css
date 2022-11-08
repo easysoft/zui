@@ -1,5 +1,5 @@
 .dropdown-menu {
-    @apply -hidden -z-10;
+    @apply -hidden -z-30;
 }
 .dropdown-menu.show {
     @apply -block;
