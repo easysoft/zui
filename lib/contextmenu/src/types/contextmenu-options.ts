@@ -3,6 +3,7 @@ import type {ContextMenuPlacement} from './contextmenu-placement';
 import type {ContextMenuPositionStrategy} from './contextmenu-position-strategy';
 import type {MenuItemOptions} from '@zui/menu/src/types/menu-item-options';
 import type {ContextMenu} from '../vanilla/contextmenu';
+import type {Modifier} from '@popperjs/core/lib/types';
 
 export type ContextMenuOptions = {
     placement?: ContextMenuPlacement;
@@ -13,4 +14,5 @@ export type ContextMenuOptions = {
     subMenuTrigger?: 'click' | 'hover',
     menu?: MenuOptions,
     items?: MenuItemOptions[] | ((menu: ContextMenu) => MenuItemOptions[]),
+    modifiers?: Partial<Modifier<any, any>>[]
 };

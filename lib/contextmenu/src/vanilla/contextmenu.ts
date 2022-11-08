@@ -19,7 +19,8 @@ export class ContextMenu<T extends ContextMenuOptions = ContextMenuOptions, E ex
     static DEFAULT = {
         placement: 'bottom-start',
         strategy: 'fixed',
-        subMenuTrigger: 'hover',
+        flip: true,
+        preventOverflow :true,
     } as Partial<ContextMenuOptions>;
 
     static MENU_CLASS = 'contextmenu';
@@ -66,7 +67,7 @@ export class ContextMenu<T extends ContextMenuOptions = ContextMenuOptions, E ex
         }
     }
 
-    show(trigger?: ContextMenuTrigger) {
+    show(trigger?: ContextMenuTrigger): boolean {
         this.#trigger = trigger;
         const showEvent = this.emit('show', {menu: this, trigger: this.trigger});
         if (showEvent.defaultPrevented) {
@@ -84,7 +85,7 @@ export class ContextMenu<T extends ContextMenuOptions = ContextMenuOptions, E ex
         return true;
     }
 
-    hide() {
+    hide(): boolean {
         const hideEvent = this.emit('hide', this);
         if (hideEvent.defaultPrevented) {
             return false;
@@ -95,6 +96,7 @@ export class ContextMenu<T extends ContextMenuOptions = ContextMenuOptions, E ex
         this.#menu?.classList.remove((this.constructor as typeof ContextMenu).CLASS_SHOW);
 
         this.emit('hidden', this);
+        return true;
     }
 
     toggle(event?: MouseEvent) {
@@ -138,8 +140,13 @@ export class ContextMenu<T extends ContextMenuOptions = ContextMenuOptions, E ex
     }
 
     _getPopperOptions(): PopperOptions {
+        const {flip: flipOption, preventOverflow: preventOverflowOption, modifiers = []} = this.options;
         return {
-            modifiers: [preventOverflow, flip],
+            modifiers: [
+                preventOverflowOption ? (typeof preventOverflowOption === 'object' ? {...preventOverflow, options: preventOverflowOption} : preventOverflow) : null,
+                flipOption ? flip : null,
+                ...modifiers,
+            ].filter(Boolean),
             placement: this.options.placement,
             strategy: this.options.strategy,
         } as PopperOptions;
