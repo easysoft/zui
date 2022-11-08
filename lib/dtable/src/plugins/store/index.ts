@@ -13,7 +13,7 @@ export interface DTableStoreTypes extends DTablePluginTypes {
 
 export type DTableStore = DTableWithPlugin<DTableStoreTypes>;
 
-export const store: DTablePlugin<DTableStoreTypes> = {
+const storePlugin: DTablePlugin<DTableStoreTypes> = {
     name: 'store',
     defaultOptions: {
         store: true,
@@ -24,6 +24,4 @@ export const store: DTablePlugin<DTableStoreTypes> = {
     },
 };
 
-const plugin = definePlugin(store);
-
-export default plugin;
+export const store = definePlugin(storePlugin);

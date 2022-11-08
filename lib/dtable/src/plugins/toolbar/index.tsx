@@ -3,8 +3,7 @@ import type {ToolbarOptions} from '@zui/toolbar/src/types';
 import {definePlugin} from '../../helpers/shared-plugins';
 import type {DTablePlugin} from '../../types/plugin';
 
-
-type DTableToolbarTypes = {
+export type DTableToolbarTypes = {
     options: Partial<{
         footToolbar: ToolbarOptions
     }>
@@ -13,7 +12,7 @@ type DTableToolbarTypes = {
 /**
  * @todo auto calculate column width by toolbar setting
  */
-export const toolbarPlugin: DTablePlugin<DTableToolbarTypes> = {
+const toolbarPlugin: DTablePlugin<DTableToolbarTypes> = {
     name: 'toolbar',
     footer: {
         toolbar() {
@@ -24,5 +23,3 @@ export const toolbarPlugin: DTablePlugin<DTableToolbarTypes> = {
 };
 
 export const toolbar = definePlugin(toolbarPlugin);
-
-export default toolbar;

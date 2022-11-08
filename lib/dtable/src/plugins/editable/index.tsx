@@ -1,6 +1,6 @@
 import {createRef, RefObject} from 'preact';
 import {definePlugin} from '../../helpers/shared-plugins';
-import draft, {DTableDraftTypes, DTableDraftRows} from '../draft';
+import {draft, DTableDraftTypes, DTableDraftRows} from '../draft';
 import './style.css';
 import type {DTablePluginTypes, DTableWithPlugin, DTablePlugin, DTableWithPluginColInfo} from '../../types/plugin';
 
@@ -25,13 +25,13 @@ export interface DTableEditableTypes extends DTablePluginTypes {
         handleEditingInputChange: (this: DTableEditable, event: Event) => void;
         handleEditingInputBlur: (this: DTableEditable, event: Event) => void;
         handleEditingKeyDown: (this: DTableEditable, event: KeyboardEvent) => void;
-        renderEditableCell: NonNullable<typeof editable['onRenderCell']>;
+        renderEditableCell: NonNullable<typeof editablePlugin['onRenderCell']>;
     }
 }
 
-type DTableEditable = DTableWithPlugin<DTableEditableTypes, [DTableDraftTypes]>;
+export type DTableEditable = DTableWithPlugin<DTableEditableTypes, [DTableDraftTypes]>;
 
-export const editable: DTablePlugin<DTableEditableTypes, [DTableDraftTypes]> = {
+const editablePlugin: DTablePlugin<DTableEditableTypes, [DTableDraftTypes]> = {
     name: 'editable',
     plugins: [draft],
     defaultOptions: {
@@ -161,6 +161,4 @@ export const editable: DTablePlugin<DTableEditableTypes, [DTableDraftTypes]> = {
     },
 };
 
-const plugin = definePlugin(editable);
-
-export default plugin;
+export const editable = definePlugin(editablePlugin);

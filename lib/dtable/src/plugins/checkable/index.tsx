@@ -4,7 +4,7 @@ import './style.css';
 import type {CustomRenderResult} from '../../types/common';
 import type {DTablePluginTypes, DTableWithPlugin, DTablePlugin} from '../../types/plugin';
 
-interface DTableCheckableTypes extends DTablePluginTypes {
+export interface DTableCheckableTypes extends DTablePluginTypes {
     options: Partial<{
         checkable: boolean;
         checkOnClickRow: boolean;
@@ -27,7 +27,7 @@ interface DTableCheckableTypes extends DTablePluginTypes {
     },
 }
 
-type DTableCheckable = DTableWithPlugin<DTableCheckableTypes>;
+export type DTableCheckable = DTableWithPlugin<DTableCheckableTypes>;
 
 function toggleCheckRows(this: DTableCheckable, ids?: string | string[] | boolean, checked?: boolean): Record<string, boolean> {
     if (typeof ids === 'boolean') {
@@ -105,7 +105,7 @@ function getChecks(this: DTableCheckable): string[] {
     return Object.keys(this.state.checkedRows);
 }
 
-export const checkable: DTablePlugin<DTableCheckableTypes> = {
+const checkablePlugin: DTablePlugin<DTableCheckableTypes> = {
     name: 'checkable',
     defaultOptions: {checkable: true},
     when: options => !!options.checkable,
@@ -207,4 +207,4 @@ export const checkable: DTablePlugin<DTableCheckableTypes> = {
     },
 };
 
-export default definePlugin(checkable);
+export const checkable = definePlugin(checkablePlugin);

@@ -21,7 +21,7 @@ export interface DTableDraftTypes extends DTablePluginTypes {
         getCellDraftValue(this: DTableDraft, row: RowInfo | string | number, col: ColInfo | string | number): unknown;
         stageDraft(this: DTableDraft, draftRows: DTableDraftRows, options?: {skipUpdate?: boolean, callback?: (stagingDraft: DTableDraftRows) => void}): void;
         applyDraft(this: DTableDraft, draftRows: DTableDraftRows, options?: {skipUpdate?: boolean, callback?: (appliedDraft: DTableDraftRows) => void}): void;
-        renderDraftCell: NonNullable<typeof draft['onRenderCell']>;
+        renderDraftCell: NonNullable<typeof draftPlugin['onRenderCell']>;
     }
 }
 
@@ -59,7 +59,7 @@ export function cloneDraft(sourceDraft: DTableDraftRows): DTableDraftRows {
     }, {});
 }
 
-export const draft: DTablePlugin<DTableDraftTypes> = {
+const draftPlugin: DTablePlugin<DTableDraftTypes> = {
     name: 'draft',
     defaultOptions: {
         draft: true,
@@ -170,6 +170,4 @@ export const draft: DTablePlugin<DTableDraftTypes> = {
     },
 };
 
-const plugin = definePlugin(draft);
-
-export default plugin;
+export const draft = definePlugin(draftPlugin);

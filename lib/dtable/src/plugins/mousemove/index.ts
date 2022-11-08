@@ -14,7 +14,7 @@ export interface DTableMousemoveTypes extends DTablePluginTypes {
 
 export type DTableMousemove = DTableWithPlugin<DTableMousemoveTypes>;
 
-export const mousemove: DTablePlugin<DTableMousemoveTypes> = {
+const mousemovePlugin: DTablePlugin<DTableMousemoveTypes> = {
     name: 'mousemove',
     events: {
         mousemove(event) {
@@ -42,4 +42,4 @@ export const mousemove: DTablePlugin<DTableMousemoveTypes> = {
     },
 };
 
-export default definePlugin(mousemove);
+export const mousemove = definePlugin(mousemovePlugin);

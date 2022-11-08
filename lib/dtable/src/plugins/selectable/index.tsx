@@ -1,6 +1,6 @@
 import {classes} from '@zui/browser-helpers/src/classes';
 import {definePlugin} from '../../helpers/shared-plugins';
-import mousemove, {DTableMousemoveTypes} from '../mousemove';
+import {mousemove, DTableMousemoveTypes} from '../mousemove';
 import './style.css';
 import type {DTable} from '../../main-react';
 import type {DTablePluginTypes, DTableWithPlugin, DTablePlugin} from '../../types/plugin';
@@ -390,7 +390,7 @@ export function getMousePos(table: DTable, event: Event, options?: {ignoreHeader
     return {col: colIndex, row: rowIndex};
 }
 
-export const selectable: DTablePlugin<DTableSelectableTypes, [DTableMousemoveTypes, DTableAutoscrollTypes]> = {
+const selectablePlugin: DTablePlugin<DTableSelectableTypes, [DTableMousemoveTypes, DTableAutoscrollTypes]> = {
     name: 'selectable',
     defaultOptions: {selectable: true, markSelectRange: true},
     when: options => !!options.selectable,
@@ -506,4 +506,4 @@ export const selectable: DTablePlugin<DTableSelectableTypes, [DTableMousemoveTyp
     },
 };
 
-export default definePlugin(selectable);
+export const selectable = definePlugin(selectablePlugin);

@@ -7,7 +7,7 @@ import type {CustomRenderResult} from '../../types/common';
 import type {DTableWithPlugin, DTablePlugin} from '../../types/plugin';
 import type {RowInfo, RowData, RowID, RowProps} from '../../types/row';
 
-enum NestedRowState {
+export enum NestedRowState {
     unknown = '',
     collapsed = 'collapsed',  // As collapsed parent and show
     expanded = 'expanded',   // As expanded parent and show
@@ -15,7 +15,7 @@ enum NestedRowState {
     normal = 'normal',     // As expanded child and show
 }
 
-type NestedRowInfo = {
+export type NestedRowInfo = {
     state: NestedRowState;
     level: number;
 } & Partial<{
@@ -24,13 +24,13 @@ type NestedRowInfo = {
     order: number;
 }>;
 
-type DTableSortableOptions = Partial<{
+export type DTableSortableOptions = Partial<{
     checkable: boolean;
     canSortTo: (this: DTableNested, from: RowInfo, to: RowInfo, moveType: string) => boolean;
     beforeCheckRows: (this: DTableNested, ids: string[] | undefined, changes: Record<string, boolean>, checkedRows: Record<string, boolean>) => void;
 }>;
 
-type DTableSortableTypes = {
+export type DTableSortableTypes = {
     options: Partial<DTableSortableOptions & {
         nested: boolean;
         nestedParentKey: string;
@@ -56,7 +56,7 @@ type DTableSortableTypes = {
     }
 };
 
-type DTableNested = DTableWithPlugin<DTableSortableTypes>;
+export type DTableNested = DTableWithPlugin<DTableSortableTypes>;
 
 function getNestedRowInfo(this: DTableNested, rowID: string): NestedRowInfo {
     const info = this.data.nestedMap.get(rowID);
@@ -181,7 +181,7 @@ function updateParentRow(dtable: DTableNested, parentID: string, checked: boolea
     }
 }
 
-export const nested: DTablePlugin<DTableSortableTypes> = {
+const nestedPlugin: DTablePlugin<DTableSortableTypes> = {
     name: 'nested',
     defaultOptions: {
         nested: true,
@@ -325,4 +325,4 @@ export const nested: DTablePlugin<DTableSortableTypes> = {
     },
 };
 
-export default definePlugin(nested);
+export const nested = definePlugin(nestedPlugin);

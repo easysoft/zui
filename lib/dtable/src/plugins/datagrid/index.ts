@@ -1,24 +1,24 @@
 import {definePlugin} from '../../helpers/shared-plugins';
-import editable, {DTableEditableTypes} from '../editable';
-import resize, {DTableResizeTypes} from '../resize';
+import {editable, DTableEditableTypes} from '../editable';
+import {resize, DTableResizeTypes} from '../resize';
 import {DTableDraftTypes, DTableDraftRows} from '../draft';
-import selectable, {DTableCellPos, DTableSelectableTypes, parseRange} from '../selectable';
-import hotkey, {DTableHotkeyTypes} from '../hotkey';
-import history, {DTableHistoryTypes} from '../history';
+import {selectable, DTableCellPos, DTableSelectableTypes, parseRange} from '../selectable';
+import {hotkey, DTableHotkeyTypes} from '../hotkey';
+import {history, DTableHistoryTypes} from '../history';
 import {DTableStoreTypes} from '../store';
 import './style.css';
 import {DTableMousemoveTypes} from '../mousemove';
-import autoscroll, {DTableAutoscrollTypes} from '../autoscroll';
+import {autoscroll, DTableAutoscrollTypes} from '../autoscroll';
 import type {ColSetting, ColInfo} from '../../types/col';
 import type {DTablePluginTypes, DTableWithPlugin, DTablePlugin} from '../../types/plugin';
 import type {RowInfo, RowData} from '../../types/row';
 
-interface DTableDatasource {
+export interface DTableDatasource {
     cols?: ColSetting[],
     data?: unknown[][]
 }
 
-interface DTableDatagridTypes extends DTablePluginTypes {
+export interface DTableDatagridTypes extends DTablePluginTypes {
     options: {
         datasource: DTableDatasource,
         minRows?: number,
@@ -61,9 +61,9 @@ interface DTableDatagridTypes extends DTablePluginTypes {
     }
 }
 
-type DTableDatagridDependencies = [DTableHotkeyTypes, DTableSelectableTypes, DTableDraftTypes, DTableEditableTypes, DTableResizeTypes, DTableHistoryTypes, DTableStoreTypes, DTableMousemoveTypes, DTableAutoscrollTypes];
+export type DTableDatagridDependencies = [DTableHotkeyTypes, DTableSelectableTypes, DTableDraftTypes, DTableEditableTypes, DTableResizeTypes, DTableHistoryTypes, DTableStoreTypes, DTableMousemoveTypes, DTableAutoscrollTypes];
 
-type DTableDatagrid = DTableWithPlugin<DTableDatagridTypes, DTableDatagridDependencies>;
+export type DTableDatagrid = DTableWithPlugin<DTableDatagridTypes, DTableDatagridDependencies>;
 
 function convertDatasource(table: DTableDatagrid, datasource: DTableDatasource): ({
     cols: ColSetting[],
@@ -277,7 +277,7 @@ export function expandGridSize(this: DTableDatagrid, size: {rowsCount?: number, 
     return false;
 }
 
-export const datagrid: DTablePlugin<DTableDatagridTypes, DTableDatagridDependencies> = {
+export const datagridPlugin: DTablePlugin<DTableDatagridTypes, DTableDatagridDependencies> = {
     name: 'datagrid',
     plugins: [editable, selectable, hotkey, resize, history, autoscroll],
     defaultOptions: {
@@ -494,6 +494,4 @@ export const datagrid: DTablePlugin<DTableDatagridTypes, DTableDatagridDependenc
     },
 };
 
-const plugin = definePlugin(datagrid);
-
-export default plugin;
+export const datagrid = definePlugin(datagridPlugin);

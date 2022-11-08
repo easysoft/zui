@@ -11,12 +11,12 @@ export type DTableSortTypeTypes = {
 
 export type DTableSortType = DTableWithPlugin<DTableSortTypeTypes>;
 
-export const colHover: DTablePlugin<DTableSortTypeTypes> = {
+const sortTypePlugin: DTablePlugin<DTableSortTypeTypes> = {
     name: 'sort-type',
     onRenderHeaderCell(result, {col}) {
-        const {sortType} = col.setting;
-        const sortTypeName = sortType === true ? 'none' : sortType;
-        if (sortType) {
+        const {sortType: sortTypeSetting} = col.setting;
+        const sortTypeName = sortTypeSetting === true ? 'none' : sortTypeSetting;
+        if (sortTypeSetting) {
             result.push(
                 <div className={`dtable-sort dtable-sort-${sortTypeName}`} />,
             );
@@ -26,4 +26,4 @@ export const colHover: DTablePlugin<DTableSortTypeTypes> = {
     },
 };
 
-export default definePlugin(colHover, {buildIn: true});
+export const sortType = definePlugin(sortTypePlugin, {buildIn: true});

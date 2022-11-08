@@ -5,7 +5,7 @@ import './style.css';
 import type {DateLike} from '@zui/helpers/src/date-helper';
 import type {DTablePlugin} from '../../types/plugin';
 
-type DTableActionButton = {
+export type DTableActionButton = {
     action: string;
 } & Partial<{
     icon: string,
@@ -14,7 +14,7 @@ type DTableActionButton = {
     className: string,
 }>;
 
-type DTableRichTypes = {
+export type DTableRichTypes = {
     col: Partial<{
         linkTemplate: string;
         linkProps: Record<string, unknown>;
@@ -32,7 +32,7 @@ type DTableRichTypes = {
     }>,
 };
 
-export const rich: DTablePlugin<DTableRichTypes> = {
+const richPlugin: DTablePlugin<DTableRichTypes> = {
     name: 'rich',
     colTypes: {
         html: {
@@ -134,4 +134,4 @@ export const rich: DTablePlugin<DTableRichTypes> = {
     },
 };
 
-export default definePlugin(rich, {buildIn: true});
+export const rich = definePlugin(richPlugin, {buildIn: true});

@@ -1,5 +1,5 @@
 import {definePlugin} from '../../helpers/shared-plugins';
-import mousemove, {DTableMousemoveTypes} from '../mousemove';
+import {mousemove, DTableMousemoveTypes} from '../mousemove';
 import type {ColInfoLike} from '../../types/col';
 import type {DTablePluginTypes, DTableWithPlugin, DTablePlugin} from '../../types/plugin';
 import type {RowInfoLike} from '../../types/row';
@@ -68,7 +68,7 @@ function tryScrollToMouse(this: DTableAutoscroll) {
     }
 }
 
-export const autoscroll: DTablePlugin<DTableAutoscrollTypes, [DTableMousemoveTypes]> = {
+const autoscrollPlugin: DTablePlugin<DTableAutoscrollTypes, [DTableMousemoveTypes]> = {
     name: 'autoscroll',
     plugins: [mousemove],
     events: {
@@ -136,4 +136,4 @@ export const autoscroll: DTablePlugin<DTableAutoscrollTypes, [DTableMousemoveTyp
     },
 };
 
-export default definePlugin(autoscroll);
+export const autoscroll = definePlugin(autoscrollPlugin);

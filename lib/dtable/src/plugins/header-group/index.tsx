@@ -2,12 +2,12 @@ import {definePlugin} from '../../helpers/shared-plugins';
 import './style.css';
 import type {DTablePlugin} from '../../types/plugin';
 
-type DTableHeaderGroupInfo = {
+export type DTableHeaderGroupInfo = {
     cols: string[];
     index: number;
 };
 
-type DTableHeaderGroupTypes = {
+export type DTableHeaderGroupTypes = {
     options: Partial<{
         headerGroup: boolean;
     }>,
@@ -19,7 +19,7 @@ type DTableHeaderGroupTypes = {
     }
 };
 
-export const headerGroup: DTablePlugin<DTableHeaderGroupTypes> = {
+const headerGroupPlugin: DTablePlugin<DTableHeaderGroupTypes> = {
     name: 'header-group',
     defaultOptions: {
         headerGroup: true,
@@ -87,4 +87,4 @@ export const headerGroup: DTablePlugin<DTableHeaderGroupTypes> = {
     },
 };
 
-export default definePlugin(headerGroup);
+export const headerGroup = definePlugin(headerGroupPlugin);

@@ -1,7 +1,7 @@
 import {definePlugin} from '../../helpers/shared-plugins';
 import type {DTableWithPlugin, DTablePlugin} from '../../types/plugin';
 
-type DTableColHoverTypes = {
+export type DTableColHoverTypes = {
     options: Partial<{
         colHover: boolean | 'header';
     }>,
@@ -10,7 +10,7 @@ type DTableColHoverTypes = {
     }
 };
 
-type DTableColHover = DTableWithPlugin<DTableColHoverTypes>;
+export type DTableColHover = DTableWithPlugin<DTableColHoverTypes>;
 
 function applyColHover(table: DTableColHover, hoverCol?: string | false) {
     if (hoverCol !== undefined) {
@@ -29,7 +29,7 @@ function applyColHover(table: DTableColHover, hoverCol?: string | false) {
     }
 }
 
-export const colHover: DTablePlugin<DTableColHoverTypes> = {
+const colHoverPlugin: DTablePlugin<DTableColHoverTypes> = {
     name: 'col-hover',
     defaultOptions: {
         colHover: false,
@@ -58,4 +58,4 @@ export const colHover: DTablePlugin<DTableColHoverTypes> = {
     },
 };
 
-export default definePlugin(colHover, {buildIn: true});
+export const colHover = definePlugin(colHoverPlugin, {buildIn: true});

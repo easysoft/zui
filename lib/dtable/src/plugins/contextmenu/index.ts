@@ -1,14 +1,14 @@
 import {ContextMenu} from '@zui/contextmenu';
 import {definePlugin} from '../../helpers/shared-plugins';
-import type {MenuListItem} from '@zui/menu/src/component/menu';
+import type {MenuItemOptions} from '@zui/menu/src/types';
 import type {DTablePointerInfo} from '../../types/dtable';
 import type {DTablePluginTypes, DTableWithPlugin, DTablePlugin} from '../../types/plugin';
 
 export interface DTableContextMenuTypes extends DTablePluginTypes {
     options: Partial<{
         contextmenu: Partial<{
-            cell: MenuListItem[] | ((event: MouseEvent, info: DTablePointerInfo, menu: ContextMenu) => MenuListItem[] | undefined),
-            header: MenuListItem[] | ((event: MouseEvent, info: DTablePointerInfo, menu: ContextMenu) => MenuListItem[] | undefined),
+            cell: MenuItemOptions[] | ((event: MouseEvent, info: DTablePointerInfo, menu: ContextMenu) => MenuItemOptions[] | undefined),
+            header: MenuItemOptions[] | ((event: MouseEvent, info: DTablePointerInfo, menu: ContextMenu) => MenuItemOptions[] | undefined),
         }>;
     }>;
     data: {
@@ -18,7 +18,7 @@ export interface DTableContextMenuTypes extends DTablePluginTypes {
 
 export type DTableContextMenu = DTableWithPlugin<DTableContextMenuTypes>;
 
-export const contextmenu: DTablePlugin<DTableContextMenuTypes> = {
+const contextmenuPlugin: DTablePlugin<DTableContextMenuTypes> = {
     name: 'contextmenu',
     defaultOptions: {
         contextmenu: {},
@@ -53,6 +53,4 @@ export const contextmenu: DTablePlugin<DTableContextMenuTypes> = {
     },
 };
 
-const plugin = definePlugin(contextmenu);
-
-export default plugin;
+export const contextmenu = definePlugin(contextmenuPlugin);

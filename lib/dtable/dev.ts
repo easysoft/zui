@@ -5,14 +5,14 @@ import '@zui/avatar';
 import '@zui/icons';
 import {faker} from '@faker-js/faker';
 import {DTable} from './src/main';
-import checkable from './src/plugins/checkable';
-import nested from './src/plugins/nested';
-import rich from './src/plugins/rich';
-import headerGroup from './src/plugins/header-group';
-import sortable from './src/plugins/sortable';
-import datagrid from './src/plugins/datagrid';
-import moveable from './src/plugins/moveable';
-import actions from './src/plugins/actions';
+import {checkable} from './src/plugins/checkable';
+import {nested} from './src/plugins/nested';
+import {rich} from './src/plugins/rich';
+import {headerGroup} from './src/plugins/header-group';
+import {sortable} from './src/plugins/sortable';
+import {datagrid} from './src/plugins/datagrid';
+import {moveable} from './src/plugins/moveable';
+import {actions} from './src/plugins/actions';
 
 faker.setLocale('zh_CN');
 

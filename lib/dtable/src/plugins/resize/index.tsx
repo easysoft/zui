@@ -1,6 +1,6 @@
 import {clamp} from '../../helpers/clamp';
 import {definePlugin} from '../../helpers/shared-plugins';
-import mousemove, {DTableMousemoveTypes} from '../mousemove';
+import {mousemove, DTableMousemoveTypes} from '../mousemove';
 import './style.css';
 import type {ColName} from '../../types/col';
 import type {DTablePluginTypes, DTableWithPlugin, DTablePlugin} from '../../types/plugin';
@@ -45,7 +45,7 @@ function updateColSize(table: DTableResize, event: MouseEvent, finish?: boolean)
     event.preventDefault();
 }
 
-export const resize: DTablePlugin<DTableResizeTypes, [DTableMousemoveTypes]> = {
+const resizePlugin: DTablePlugin<DTableResizeTypes, [DTableMousemoveTypes]> = {
     name: 'resize',
     defaultOptions: {
         colResize: true,
@@ -140,4 +140,4 @@ export const resize: DTablePlugin<DTableResizeTypes, [DTableMousemoveTypes]> = {
     },
 };
 
-export default definePlugin(resize);
+export const resize = definePlugin(resizePlugin);

@@ -1,5 +1,5 @@
 import {definePlugin} from '../../helpers/shared-plugins';
-import mousemove, {DTableMousemoveTypes} from '../mousemove';
+import {mousemove, DTableMousemoveTypes} from '../mousemove';
 import './style.css';
 import type {DTablePluginTypes, DTableWithPlugin, DTablePlugin} from '../../types/plugin';
 
@@ -17,7 +17,7 @@ export interface DTableMoveableTypes extends DTablePluginTypes {
 
 export type DTableMoveable = DTableWithPlugin<DTableMoveableTypes, [DTableMousemoveTypes]>;
 
-export const moveable: DTablePlugin<DTableMoveableTypes, [DTableMousemoveTypes]> = {
+const moveablePlugin: DTablePlugin<DTableMoveableTypes, [DTableMousemoveTypes]> = {
     name: 'moveable',
     defaultOptions: {moveable: true},
     plugins: [mousemove],
@@ -63,4 +63,4 @@ export const moveable: DTablePlugin<DTableMoveableTypes, [DTableMousemoveTypes]>
     },
 };
 
-export default definePlugin(moveable);
+export const moveable = definePlugin(moveablePlugin);

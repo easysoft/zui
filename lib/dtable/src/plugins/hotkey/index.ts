@@ -18,9 +18,9 @@ export interface DTableHotkeyTypes extends DTablePluginTypes {
     }
 }
 
-type DTableHotkey = DTableWithPlugin<DTableHotkeyTypes>;
+export type DTableHotkey = DTableWithPlugin<DTableHotkeyTypes>;
 
-export const headerGroup: DTablePlugin<DTableHotkeyTypes> = {
+export const hotkeyPlugin: DTablePlugin<DTableHotkeyTypes> = {
     name: 'hotkey',
     data() {
         return {hotkeys: new Map()};
@@ -63,4 +63,4 @@ export const headerGroup: DTablePlugin<DTableHotkeyTypes> = {
     },
 };
 
-export default definePlugin(headerGroup);
+export const hotkey = definePlugin(hotkeyPlugin);

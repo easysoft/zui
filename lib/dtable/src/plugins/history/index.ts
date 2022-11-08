@@ -1,6 +1,6 @@
 import {definePlugin} from '../../helpers/shared-plugins';
-import store, {DTableStoreTypes} from '../store';
-import draft, {cloneDraft, DTableDraftRows, DTableDraftTypes, mergeDraft} from '../draft';
+import {store, DTableStoreTypes} from '../store';
+import {draft, cloneDraft, DTableDraftRows, DTableDraftTypes, mergeDraft} from '../draft';
 import type {DTablePluginTypes, DTableWithPlugin, DTablePlugin} from '../../types/plugin';
 import type {RowData} from '../../types/row';
 
@@ -65,7 +65,7 @@ export function diffDraft(newDraft: DTableDraftRows, oldDraft: DTableDraftRows):
     }, {});
 }
 
-export const history: DTablePlugin<DTableHistoryTypes, DTableHistoryDependencies> = {
+const historyPlugin: DTablePlugin<DTableHistoryTypes, DTableHistoryDependencies> = {
     name: 'history',
     plugins: [store, draft],
     defaultOptions: {
@@ -203,6 +203,4 @@ export const history: DTablePlugin<DTableHistoryTypes, DTableHistoryDependencies
     },
 };
 
-const plugin = definePlugin(history);
-
-export default plugin;
+export const history = definePlugin(historyPlugin);

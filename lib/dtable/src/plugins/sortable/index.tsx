@@ -36,7 +36,7 @@ function getRowInfo(dtable: DTableSortable, event: DragEvent): RowInfo | undefin
     return dtable.getRowInfo(id);
 }
 
-export const sortable: DTablePlugin<DTableSortableTypes> = {
+const sortablePlugin: DTablePlugin<DTableSortableTypes> = {
     name: 'sortable',
     defaultOptions: {
         sortable: true,
@@ -142,4 +142,4 @@ export const sortable: DTablePlugin<DTableSortableTypes> = {
     },
 };
 
-export default definePlugin(sortable);
+export const sortable = definePlugin(sortablePlugin);

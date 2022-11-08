@@ -5,8 +5,7 @@ import type {DTablePlugin} from '../../types/plugin';
 import type {RowInfo} from '../../types/row';
 import type {ColInfo} from '../../types/col';
 
-
-type DTableActionsTypes = {
+export type DTableActionsTypes = {
     col: Partial<{
         actionsCreator?: (info: {row: RowInfo, col: ColInfo}) => ToolbarItemOptions[],
         actionsSetting?: Partial<ToolbarOptions>,
@@ -18,14 +17,14 @@ type DTableActionsTypes = {
 /**
  * @todo auto calculate column width by actions setting
  */
-export const actions: DTablePlugin<DTableActionsTypes> = {
+const actionsPlugin: DTablePlugin<DTableActionsTypes> = {
     name: 'actions',
     colTypes: {
         actions: {
             onRenderCell(result, info) {
                 const {row, col} = info;
                 const actionItems = row.data?.[col.name] as (string | Partial<ToolbarItemOptions & {name: string}>)[];
-                if (!actions) {
+                if (!actionItems) {
                     return result;
                 }
                 const {actionsSetting, actionsMap, actionsCreator} = col.setting;
@@ -55,4 +54,4 @@ export const actions: DTablePlugin<DTableActionsTypes> = {
     },
 };
 
-export default definePlugin(actions);
+export const actions = definePlugin(actionsPlugin);
