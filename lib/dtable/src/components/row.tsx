@@ -42,7 +42,7 @@ export function Row({
                 className="dtable-flexable"
                 cols={scrollCols}
                 left={fixedLeftWidth - scrollLeft}
-                width={scrollColsWidth}
+                width={Math.max(scrollWidth, scrollColsWidth)}
                 row={row}
                 CellComponent={CellComponent}
                 onRenderCell={onRenderCell}
