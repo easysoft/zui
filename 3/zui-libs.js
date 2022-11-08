@@ -1420,6 +1420,7 @@ export default [
             "@zui/css-icons": "workspace:^0.0.1",
             "@zui/i18n": "workspace:^0.0.1",
             "@zui/toolbar": "workspace:^0.0.1",
+            "@zui/pager": "workspace:^0.0.1",
             "hotkeys-js": "^3.10.0",
             "nanoid": "^4.0.0",
             "preact": "10.11.2"
