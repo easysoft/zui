@@ -43,6 +43,7 @@ export interface DTableDatagridTypes extends DTablePluginTypes {
         },
         emptyCellValue?: unknown,
         cellValueSplitter?: string,
+        onReadClipboardFail?: () => void,
     };
     data: {
         rowsCount?: number,
@@ -52,7 +53,7 @@ export interface DTableDatagridTypes extends DTablePluginTypes {
         deleteSelections: (this: DTableDatagrid) => boolean;
         copySelections: (this: DTableDatagrid) => boolean;
         cutSelections: (this: DTableDatagrid) => boolean;
-        pasteCells: (this: DTableDatagrid, targetCell: DTableCellPos | {colName: string, rowID: string}, options?: {expandCells?: boolean, select?: boolean}) => Promise<boolean>;
+        pasteCells: (this: DTableDatagrid, targetCell: DTableCellPos | {colName: string, rowID: string}, options?: {expandCells?: boolean, select?: boolean, data: string}) => Promise<boolean>;
         pasteToSelection: (this: DTableDatagrid) => Promise<boolean>;
         getGridSize: typeof getGridSize;
         appendRows: typeof appendRows;
@@ -300,7 +301,7 @@ export const datagridPlugin: DTablePlugin<DTableDatagridTypes, DTableDatagridDep
         hotkeys: {},
     },
     options(options) {
-        const {datagridHotkeys, datasource, hotkeys, editable: editableOption, selectable: selectableOption, beforeSelectCells, showRowIndex, colResize} = options;
+        const {datagridHotkeys, datasource, hotkeys, editable: editableOption, selectable: selectableOption, beforeSelectCells, showRowIndex, colResize, onPasteToCell} = options;
         const defaultHotkeys: Record<string, string> = {
             delete: 'delete,backspace',
             selectAll: 'ctrl+a,command+a',
@@ -353,6 +354,15 @@ export const datagridPlugin: DTablePlugin<DTableDatagridTypes, DTableDatagridDep
                 return cells;
             }) : beforeSelectCells,
             ...convertDatasource(this, datasource),
+            onPasteToCell: (event: ClipboardEvent) => {
+                const data = event.clipboardData?.getData('text');
+                if (typeof data === 'string' && data.length && this.state.editingCell) {
+                    this.pasteCells(this.state.editingCell, {data});
+                    console.log('> pasteCells');
+                    event.preventDefault();
+                }
+                onPasteToCell?.call(this, event);
+            },
         };
     },
     methods: {
@@ -402,12 +412,12 @@ export const datagridPlugin: DTablePlugin<DTableDatagridTypes, DTableDatagridDep
             this.copySelections();
             return this.deleteSelections();
         },
-        async pasteCells(targetCell, options?: {expandCells?: boolean, select?: boolean, autoscroll?: boolean}) {
+        async pasteCells(targetCell, options?: {expandCells?: boolean, select?: boolean, autoscroll?: boolean, data: string}) {
             let startColIndex = -1;
             let startRowIndex = -1;
             if ('colName' in targetCell) {
                 const colInfo = this.getColInfo(targetCell.colName);
-                const rowInfo = this.getColInfo(targetCell.rowID);
+                const rowInfo = this.getRowInfo(targetCell.rowID);
                 if (!colInfo || !rowInfo) {
                     return false;
                 }
@@ -418,16 +428,26 @@ export const datagridPlugin: DTablePlugin<DTableDatagridTypes, DTableDatagridDep
                 startRowIndex = targetCell.row;
             }
 
-            const permissionName = 'clipboard-read' as PermissionName;
-            const permission = await navigator.permissions.query({name: permissionName});
-            if (permission.state === 'denied') {
-                return false;
-            }
+            let data = options?.data;
+            if (data === undefined) {
+                try {
+                    const permissionName = 'clipboard-read' as PermissionName;
+                    const permission = await navigator.permissions.query({name: permissionName});
+                    if (permission.state === 'denied') {
+                        this.options.onReadClipboardFail?.call(this);
+                        return false;
+                    }
+                } catch (e) {
+                    this.options.onReadClipboardFail?.call(this);
+                    return false;
+                }
 
-            const data = await navigator.clipboard.readText();
+                data = await navigator.clipboard.readText();
+            }
             if (!data.length) {
                 return false;
             }
+
             const changes: DTableDraftRows = {};
             const cells: DTableCellPos[] = [];
             const expandCells = options?.expandCells !== false;
