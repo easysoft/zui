@@ -25,11 +25,16 @@ export default defineConfig(async ({command, mode, ssrBuild}) => {
                     },
                 },
             },
+            minify: 'terser',
+            terserOptions: {
+                keep_classnames: true,
+            },
         },
         esbuild: {
             jsxFactory: 'h',
             jsxFragment: 'Fragment',
             jsxInject: 'import {h} from \'preact\'',
+            keepNames: true,
         },
         resolve: {
             preserveSymlinks: true,
@@ -48,6 +53,11 @@ export default defineConfig(async ({command, mode, ssrBuild}) => {
         },
         define: {
             'process.env.NODE_ENV': JSON.stringify(mode),
+        },
+        optimizeDeps: {
+            esbuildOptions: {
+                keepNames: true,
+            },
         },
     };
 
