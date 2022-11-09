@@ -130,7 +130,7 @@ const resizePlugin: DTablePlugin<DTableResizeTypes, [DTableMousemoveTypes]> = {
     onAddCol(col) {
         const sizeChange = this.state.colsSizes[col.name];
         if (typeof sizeChange === 'number') {
-            col.width = clamp(col.width + sizeChange, col.setting.minWidth, col.setting.maxWidth);
+            col.realWidth = clamp(col.width + sizeChange, col.setting.minWidth, col.setting.maxWidth);
         }
     },
     onRender() {
