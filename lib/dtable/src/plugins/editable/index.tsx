@@ -10,6 +10,7 @@ export interface DTableEditableTypes extends DTablePluginTypes {
         headerEditable: boolean;
         onEditCell?: (this: DTableEditable, changeInfo: {rowID: string, colName: string, value: unknown, oldValue: unknown}) => false | void;
         selectAllOnFocus?: boolean;
+        onPasteToCell?: (this: DTableEditable, event: ClipboardEvent) => void;
     }>;
     state: {
         editingCell?: {rowID: string, colName: string};
@@ -61,7 +62,7 @@ const editablePlugin: DTablePlugin<DTableEditableTypes, [DTableDraftTypes]> = {
             }
             this.data.editingInputRef.current = null;
             this.data.needAutoFocus = true;
-            this.setState({editingCell: cell});
+            this.setState({editingCell: cell ? {colName: cell.colName, rowID: cell.rowID} : undefined});
         },
         deleteCells(cells, emptyCellValue = null) {
             const changes: DTableDraftRows = {};
@@ -124,6 +125,7 @@ const editablePlugin: DTablePlugin<DTableEditableTypes, [DTableDraftTypes]> = {
                         onChange={this.handleEditingInputChange}
                         onBlur={this.handleEditingInputBlur}
                         onKeyDown={this.handleEditingKeyDown}
+                        onPaste={this.options.onPasteToCell}
                     />
                 );
                 return [{
