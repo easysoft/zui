@@ -344,7 +344,7 @@ export const datagridPlugin: DTablePlugin<DTableDatagridTypes, DTableDatagridDep
                 }
                 return pos.col >= (showRowIndex ? 1 : 0);
             }) : false,
-            beforeSelectCells: showRowIndex ? ((cells) => {
+            beforeSelectCells: showRowIndex ? ((cells) => { 
                 if (cells.every(x => x.col === 0)) {
                     cells = parseRange.call(this, `R${Math.min(...cells.map(x => x.row))}:R${Math.max(...cells.map(x => x.row))}`);
                 }
@@ -356,7 +356,7 @@ export const datagridPlugin: DTablePlugin<DTableDatagridTypes, DTableDatagridDep
             ...convertDatasource(this, datasource),
             onPasteToCell: (event: ClipboardEvent) => {
                 const data = event.clipboardData?.getData('text');
-                if (typeof data === 'string' && data.length && this.state.editingCell) {
+                if (typeof data === 'string' && data.includes('\t') && this.state.editingCell) {
                     this.pasteCells(this.state.editingCell, {data});
                     event.preventDefault();
                 }
@@ -436,12 +436,11 @@ export const datagridPlugin: DTablePlugin<DTableDatagridTypes, DTableDatagridDep
                         this.options.onReadClipboardFail?.call(this);
                         return false;
                     }
+                    data = await navigator.clipboard.readText();
                 } catch (e) {
                     this.options.onReadClipboardFail?.call(this);
                     return false;
                 }
-
-                data = await navigator.clipboard.readText();
             }
             if (!data.length) {
                 return false;
