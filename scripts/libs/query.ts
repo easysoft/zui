@@ -14,8 +14,10 @@ export async function getLibs(libPath: string | string[] = '', options: {root?: 
         const libs = await getLibs(['buildIn', 'exts'], options);
         return libs;
     }
+
+    const {root = process.cwd(), cache = true} = options;
     if (libPath === 'exts') {
-        const extLibsMap = await getExtLibPaths();
+        const extLibsMap = await getExtLibPaths(cache);
         const extsPath = Path.resolve(process.cwd(), 'exts');
         const libs: Record<string, LibInfo> = {};
         for (const [extsName, extLibPath] of Object.entries(extLibsMap)) {
@@ -38,12 +40,19 @@ export async function getLibs(libPath: string | string[] = '', options: {root?: 
         return libs;
     }
 
-    const {root = process.cwd(), cache = true} = options;
     if (libPath.toLowerCase() === 'buildin') {
         libPath = Path.resolve(root, './lib');
     } else if (!Path.isAbsolute(libPath)) {
         const extsLibPath = Path.resolve(root, 'exts', libPath);
         libPath = fs.existsSync(extsLibPath) ? extsLibPath : Path.resolve(root, libPath);
+    }
+
+    const beginTime = Date.now();
+    if (cache) {
+        const libsCache = await getLibsCache(libPath);
+        if (libsCache) {
+            return libsCache.libs;
+        }
     }
 
     let {sourceType} = options;
@@ -55,14 +64,6 @@ export async function getLibs(libPath: string | string[] = '', options: {root?: 
     if (sourceType === 'exts' && libPath.startsWith(root)) {
         const libPathStat = await fs.stat(libPath);
         workspace = !libPathStat.isSymbolicLink();
-    }
-
-    const beginTime = Date.now();
-    if (cache) {
-        const libsCache = await getLibsCache(libPath);
-        if (libsCache) {
-            return libsCache.libs;
-        }
     }
 
     let dirs: string[] = [];
@@ -148,10 +149,6 @@ export function createLibFromPackageJson(packageJson: Record<string, unknown>, o
             type: LibType.component,
             displayName: defaultName,
             contributes: {},
-            docs: {
-                sidebar: 'lib',
-                section: 'components',
-            },
             build: {},
             path,
             workspace,

@@ -37,7 +37,7 @@ export async function getLibsCache(libPath: string, lastChangeTime?: number): Pr
     const cache = libsCache[libPath];
     if (cache) {
         if (!lastChangeTime) {
-            lastChangeTime = await recursiveLastModified('*/**', {cwd: libPath, ignore: ['*/node_modules/**/*', '*/dist/**/*'], onlyFiles: true});
+            lastChangeTime = await recursiveLastModified(['*/package.json', 'package.json'], {cwd: libPath, onlyFiles: true});
         }
         if (cache.lastChangeTime < lastChangeTime) {
             return undefined;

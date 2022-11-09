@@ -4,7 +4,12 @@ import fs from 'fs-extra';
 export const extsPath = Path.resolve(process.cwd(), 'exts');
 export const libsFile = Path.join(extsPath, 'libs.json');
 
-export async function getExtLibPaths(): Promise<Record<string, string>> {
+let cacheLibs: Record<string, string> | undefined;
+
+export async function getExtLibPaths(cache?: boolean): Promise<Record<string, string>> {
+    if (cache && cacheLibs) {
+        return cacheLibs;
+    }
     if (!fs.existsSync(libsFile)) {
         return {};
     }
@@ -18,6 +23,7 @@ export async function getExtLibPaths(): Promise<Record<string, string>> {
             libs[name] = Path.join(path, '*');
         }
     });
+    cacheLibs = libs;
     return libs;
 }
 
