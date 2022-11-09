@@ -20,10 +20,6 @@ export default [
                     "var"
                 ]
             },
-            "docs": {
-                "sidebar": "lib",
-                "section": "components"
-            },
             "build": {},
             "path": "/home/runner/work/zui/zui/lib/base",
             "workspace": true,
@@ -67,10 +63,6 @@ export default [
                     "var"
                 ]
             },
-            "docs": {
-                "sidebar": "lib",
-                "section": "components"
-            },
             "build": {},
             "path": "/home/runner/work/zui/zui/lib/action-menu",
             "workspace": true,
@@ -100,10 +92,6 @@ export default [
                     "var"
                 ]
             },
-            "docs": {
-                "sidebar": "lib",
-                "section": "components"
-            },
             "build": {},
             "path": "/home/runner/work/zui/zui/lib/alert",
             "workspace": true,
@@ -132,10 +120,6 @@ export default [
                     "class",
                     "var"
                 ]
-            },
-            "docs": {
-                "sidebar": "lib",
-                "section": "components"
             },
             "build": {},
             "path": "/home/runner/work/zui/zui/lib/avatar",
@@ -168,10 +152,6 @@ export default [
                     "class",
                     "var"
                 ]
-            },
-            "docs": {
-                "sidebar": "lib",
-                "section": "components"
             },
             "build": {},
             "path": "/home/runner/work/zui/zui/lib/breadcrumb",
@@ -223,10 +203,6 @@ export default [
                     "var"
                 ]
             },
-            "docs": {
-                "sidebar": "lib",
-                "section": "components"
-            },
             "build": {},
             "path": "/home/runner/work/zui/zui/lib/button",
             "workspace": true,
@@ -258,10 +234,6 @@ export default [
                     "class",
                     "var"
                 ]
-            },
-            "docs": {
-                "sidebar": "lib",
-                "section": "components"
             },
             "build": {},
             "path": "/home/runner/work/zui/zui/lib/checkbox",
@@ -296,10 +268,6 @@ export default [
                     "var",
                     "fonts"
                 ]
-            },
-            "docs": {
-                "sidebar": "lib",
-                "section": "components"
             },
             "build": {},
             "path": "/home/runner/work/zui/zui/lib/icons",
@@ -336,10 +304,6 @@ export default [
                     "var"
                 ]
             },
-            "docs": {
-                "sidebar": "lib",
-                "section": "components"
-            },
             "build": {},
             "path": "/home/runner/work/zui/zui/lib/input",
             "workspace": true,
@@ -372,10 +336,6 @@ export default [
                     "class",
                     "var"
                 ]
-            },
-            "docs": {
-                "sidebar": "lib",
-                "section": "components"
             },
             "build": {},
             "path": "/home/runner/work/zui/zui/lib/label",
@@ -426,10 +386,6 @@ export default [
                     "var"
                 ]
             },
-            "docs": {
-                "sidebar": "lib",
-                "section": "components"
-            },
             "build": {},
             "path": "/home/runner/work/zui/zui/lib/menu",
             "workspace": true,
@@ -460,10 +416,6 @@ export default [
                     "var"
                 ]
             },
-            "docs": {
-                "sidebar": "lib",
-                "section": "components"
-            },
             "build": {},
             "path": "/home/runner/work/zui/zui/lib/progress",
             "workspace": true,
@@ -493,10 +445,6 @@ export default [
                     "class",
                     "var"
                 ]
-            },
-            "docs": {
-                "sidebar": "lib",
-                "section": "components"
             },
             "build": {},
             "path": "/home/runner/work/zui/zui/lib/progress-circle",
@@ -546,10 +494,6 @@ export default [
                     "component"
                 ]
             },
-            "docs": {
-                "sidebar": "lib",
-                "section": "components"
-            },
             "build": {},
             "path": "/home/runner/work/zui/zui/lib/scrollbar",
             "workspace": true,
@@ -587,10 +531,6 @@ export default [
                     "var"
                 ]
             },
-            "docs": {
-                "sidebar": "lib",
-                "section": "components"
-            },
             "build": {},
             "path": "/home/runner/work/zui/zui/lib/upload",
             "workspace": true,
@@ -618,10 +558,6 @@ export default [
                 "js": [
                     "method"
                 ]
-            },
-            "docs": {
-                "sidebar": "lib",
-                "section": "components"
             },
             "build": {},
             "path": "/home/runner/work/zui/zui/lib/browser-helpers",
@@ -660,10 +596,6 @@ export default [
                     "method"
                 ]
             },
-            "docs": {
-                "sidebar": "lib",
-                "section": "components"
-            },
             "build": {},
             "path": "/home/runner/work/zui/zui/lib/com-helpers",
             "workspace": true,
@@ -690,10 +622,6 @@ export default [
                 "js": [
                     "class"
                 ]
-            },
-            "docs": {
-                "sidebar": "lib",
-                "section": "components"
             },
             "build": {},
             "path": "/home/runner/work/zui/zui/lib/event-bus",
@@ -724,10 +652,6 @@ export default [
                 "js": [
                     "module"
                 ]
-            },
-            "docs": {
-                "sidebar": "lib",
-                "section": "components"
             },
             "build": {},
             "path": "/home/runner/work/zui/zui/lib/i18n",
@@ -761,10 +685,6 @@ export default [
                 "js": [
                     "module"
                 ]
-            },
-            "docs": {
-                "sidebar": "lib",
-                "section": "components"
             },
             "build": {},
             "path": "/home/runner/work/zui/zui/lib/store",
@@ -800,10 +720,6 @@ export default [
                     "class",
                     "var"
                 ]
-            },
-            "docs": {
-                "sidebar": "lib",
-                "section": "components"
             },
             "build": {},
             "path": "/home/runner/work/zui/zui/lib/avatar-group",
@@ -843,10 +759,6 @@ export default [
                 "js": [
                     "component"
                 ]
-            },
-            "docs": {
-                "sidebar": "lib",
-                "section": "components"
             },
             "build": {},
             "path": "/home/runner/work/zui/zui/lib/avatar-js",
@@ -888,10 +800,6 @@ export default [
                     "var"
                 ]
             },
-            "docs": {
-                "sidebar": "lib",
-                "section": "components"
-            },
             "build": {},
             "path": "/home/runner/work/zui/zui/lib/btn-group",
             "workspace": true,
@@ -926,10 +834,6 @@ export default [
                     "var"
                 ]
             },
-            "docs": {
-                "sidebar": "lib",
-                "section": "components"
-            },
             "build": {},
             "path": "/home/runner/work/zui/zui/lib/form",
             "workspace": true,
@@ -963,10 +867,6 @@ export default [
                     "class",
                     "var"
                 ]
-            },
-            "docs": {
-                "sidebar": "lib",
-                "section": "components"
             },
             "build": {},
             "path": "/home/runner/work/zui/zui/lib/input-group",
@@ -1003,10 +903,6 @@ export default [
                 "js": [
                     "component"
                 ]
-            },
-            "docs": {
-                "sidebar": "lib",
-                "section": "components"
             },
             "build": {},
             "path": "/home/runner/work/zui/zui/lib/modal",
@@ -1053,10 +949,6 @@ export default [
                     "class",
                     "var"
                 ]
-            },
-            "docs": {
-                "sidebar": "lib",
-                "section": "components"
             },
             "build": {},
             "path": "/home/runner/work/zui/zui/lib/nav",
@@ -1112,10 +1004,6 @@ export default [
                     "var"
                 ]
             },
-            "docs": {
-                "sidebar": "lib",
-                "section": "components"
-            },
             "build": {},
             "path": "/home/runner/work/zui/zui/lib/pager",
             "workspace": true,
@@ -1148,10 +1036,6 @@ export default [
                     "class",
                     "var"
                 ]
-            },
-            "docs": {
-                "sidebar": "lib",
-                "section": "components"
             },
             "build": {},
             "path": "/home/runner/work/zui/zui/lib/panel",
@@ -1187,10 +1071,6 @@ export default [
                     "class",
                     "var"
                 ]
-            },
-            "docs": {
-                "sidebar": "lib",
-                "section": "components"
             },
             "build": {},
             "path": "/home/runner/work/zui/zui/lib/table",
@@ -1238,10 +1118,6 @@ export default [
                     "var"
                 ]
             },
-            "docs": {
-                "sidebar": "lib",
-                "section": "components"
-            },
             "build": {},
             "path": "/home/runner/work/zui/zui/lib/toolbar",
             "workspace": true,
@@ -1284,10 +1160,6 @@ export default [
                 "js": [
                     "component"
                 ]
-            },
-            "docs": {
-                "sidebar": "lib",
-                "section": "components"
             },
             "build": {},
             "path": "/home/runner/work/zui/zui/lib/ajax-form",
@@ -1333,10 +1205,6 @@ export default [
                     "component"
                 ]
             },
-            "docs": {
-                "sidebar": "lib",
-                "section": "components"
-            },
             "build": {},
             "path": "/home/runner/work/zui/zui/lib/contextmenu",
             "workspace": true,
@@ -1357,16 +1225,16 @@ export default [
             "zui:control"
         ],
         "devDependencies": {
-            "@zui/base": "workspace:*",
-            "@zui/button": "workspace:0.0.1",
-            "@zui/menu": "workspace:*",
-            "@zui/icons": "workspace:*",
             "zui-dev": "workspace:*",
+            "@zui/base": "workspace:*",
+            "@zui/icons": "workspace:*",
             "@zui/utilities": "workspace:*"
         },
         "dependencies": {
             "preact": "10.11.2",
             "@popperjs/core": "^2.11.6",
+            "@zui/button": "workspace:0.0.1",
+            "@zui/menu": "workspace:*",
             "@zui/browser-helpers": "workspace:*",
             "@zui/com-helpers": "workspace:*",
             "@zui/contextmenu": "workspace:*",
@@ -1383,10 +1251,6 @@ export default [
                 "js": [
                     "component"
                 ]
-            },
-            "docs": {
-                "sidebar": "lib",
-                "section": "components"
             },
             "build": {},
             "path": "/home/runner/work/zui/zui/lib/dropdown",
@@ -1455,10 +1319,6 @@ export default [
                     "component"
                 ]
             },
-            "docs": {
-                "sidebar": "lib",
-                "section": "components"
-            },
             "build": {},
             "path": "/home/runner/work/zui/zui/lib/dtable",
             "workspace": true,
@@ -1495,10 +1355,6 @@ export default [
                     "component"
                 ]
             },
-            "docs": {
-                "sidebar": "lib",
-                "section": "components"
-            },
             "build": {},
             "path": "/home/runner/work/zui/zui/lib/tabs",
             "workspace": true,
@@ -1531,10 +1387,6 @@ export default [
                     "class",
                     "var"
                 ]
-            },
-            "docs": {
-                "sidebar": "lib",
-                "section": "components"
             },
             "build": {},
             "path": "/home/runner/work/zui/zui/lib/css-icons",
@@ -1569,10 +1421,6 @@ export default [
                     "var"
                 ]
             },
-            "docs": {
-                "sidebar": "lib",
-                "section": "components"
-            },
             "build": {},
             "path": "/home/runner/work/zui/zui/lib/utilities",
             "workspace": true,
@@ -1604,10 +1452,6 @@ export default [
                     "var",
                     "method"
                 ]
-            },
-            "docs": {
-                "sidebar": "lib",
-                "section": "components"
             },
             "build": {},
             "path": "/home/runner/work/zui/zui/lib/helpers",
