@@ -27,14 +27,19 @@ const buildConfig = await createBuildConfig({
     exports: argv.exports ?? argv.E,
 });
 
+const buildDir = Path.resolve(process.cwd(), 'build');
+await fs.emptyDir(buildDir);
+
+if (argv.save) {
+    await fs.outputJSON(typeof argv.save === 'string' ? argv.save : Path.join(buildDir, './build-config.json'), buildConfig);
+}
+
 console.log(cyan(`building ${bold(blue(buildConfig.name))} with ${buildConfig.libs.length} libs...`));
 for (const lib of buildConfig.libs) {
     console.log(blue('*'), lib.name.padEnd(23), gray(lib.version.padEnd(8)), gray(lib.zui.type.padEnd(12)), lib.zui.sourceType !== 'build-in' ? yellow(lib.zui.extsName ?? lib.zui.sourceType) : '');
 }
 console.log();
 
-const buildDir = Path.resolve(process.cwd(), 'build');
-await fs.emptyDir(buildDir);
 await prepareBuildFiles(buildConfig, buildDir);
 
 let configFileSavePath = argv.S || argv.saveConfig;
