@@ -8,7 +8,6 @@ import {LibraryOptions} from 'vite';
 import {getLibs} from './scripts/libs/query';
 import {LibInfo} from './scripts/libs/lib-info';
 
-
 export default defineConfig(async ({command, mode, ssrBuild}) => {
     const buildLibs = process.env.BUILD_LIBS ?? 'buildIn';
     const libsCache: Record<string, LibInfo> | undefined = await getLibs(buildLibs);
@@ -46,6 +45,9 @@ export default defineConfig(async ({command, mode, ssrBuild}) => {
                     return aliasList;
                 }, []),
             ],
+        },
+        define: {
+            'process.env.NODE_ENV': JSON.stringify(mode),
         },
     };
 
