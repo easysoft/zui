@@ -358,7 +358,6 @@ export const datagridPlugin: DTablePlugin<DTableDatagridTypes, DTableDatagridDep
                 const data = event.clipboardData?.getData('text');
                 if (typeof data === 'string' && data.length && this.state.editingCell) {
                     this.pasteCells(this.state.editingCell, {data});
-                    console.log('> pasteCells');
                     event.preventDefault();
                 }
                 onPasteToCell?.call(this, event);
