@@ -324,7 +324,7 @@ export const datagridPlugin: DTablePlugin<DTableDatagridTypes, DTableDatagridDep
         autoExpandGrid: true,
     },
     options(options) {
-        const {datagridHotkeys, datasource, hotkeys, editable: editableOption, selectable: selectableOption, beforeSelectCells, showRowIndex, colResize, onPasteToCell} = options;
+        const {datagridHotkeys, datasource, hotkeys, editable: editableOption, selectable: selectableOption, beforeSelectCells, showRowIndex, colResize, onPasteToCell, afterStageDraft} = options;
         const defaultHotkeys: Record<string, string> = {
             delete: 'delete,backspace',
             selectAll: 'ctrl+a,command+a',
@@ -385,12 +385,13 @@ export const datagridPlugin: DTablePlugin<DTableDatagridTypes, DTableDatagridDep
                 }
                 onPasteToCell?.call(this, event);
             },
-            afterStageDraft: (stagingDraft) => {
+            afterStageDraft: (changes, newDraft, oldDraft) => {
+                afterStageDraft?.call(this, changes, newDraft, oldDraft);
                 const {autoExpandGrid} = this.options;
                 if (!autoExpandGrid) {
                     return;
                 }
-                const {maxCol, maxRow} = getDraftRowsSize(stagingDraft, {ignoreEmptyCell: true});
+                const {maxCol, maxRow} = getDraftRowsSize(newDraft, {ignoreEmptyCell: true});
                 const {extraCols = 1, extraRows = 1} = this.options;
                 this.expandGridSize({
                     rowsCount: maxRow + (typeof autoExpandGrid === 'number' ? autoExpandGrid : extraRows),
