@@ -38,15 +38,15 @@ const actionsPlugin: DTablePlugin<DTableActionsTypes> = {
                         }
                         const {name, items, ...others} = action;
                         if (actionsMap && name) {
-                            Object.assign(others, actionsMap[name]);
+                            Object.assign(others, actionsMap[name], {...others});
                         }
                         if (items && others.type === 'dropdown') {
                             const {dropdown = {}} = (others as ToolbarDropdownProps);
                             dropdown.items = items.reduce((list, item) => {
-                                const itemAction = typeof item === 'string' ? {name: item} : item;
+                                const itemAction = typeof item === 'string' ? {name: item} : {...item};
                                 if (itemAction) {
                                     if (actionsMap && 'name' in itemAction) {
-                                        Object.assign(itemAction, actionsMap[itemAction.name]);
+                                        Object.assign(itemAction, actionsMap[itemAction.name], {...itemAction});
                                     }
                                     list.push(itemAction as MenuItemOptions);
                                 }
