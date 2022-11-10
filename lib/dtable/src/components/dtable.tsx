@@ -135,9 +135,8 @@ export class DTable extends Component<DTableOptions, DTableState> {
                     rob.observe(parent);
                     this.#rob = rob;
                 }
-            } else {
-                this.on('window_resize', this.updateLayout);
             }
+            this.on('window_resize', this.updateLayout);
         }
 
         this.#plugins.forEach(plugin => {
