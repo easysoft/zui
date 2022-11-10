@@ -1,0 +1,12 @@
+.dtable-filter {
+  @apply -bg-inherit -border-none -p-1 -ml-2;
+}
+.dtable-filter-content .menu-item {
+  @apply -p-1;
+}
+.dtable-filter-content .menu-btns {
+  @apply -flex -justify-end;
+}
+.dtable-filter-content .menu-btns .btn + .btn {
+  @apply -ml-1;
+}

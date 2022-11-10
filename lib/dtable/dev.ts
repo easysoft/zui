@@ -3,6 +3,9 @@ import 'zui-dev';
 import '@zui/label';
 import '@zui/avatar';
 import '@zui/icons';
+import '@zui/dropdown';
+import '@zui/form';
+import '@zui/input';
 import {faker} from '@faker-js/faker';
 import {DTable} from './src/main';
 import {checkable} from './src/plugins/checkable';
@@ -14,6 +17,7 @@ import {datagrid} from './src/plugins/datagrid';
 import {moveable} from './src/plugins/moveable';
 import {actions} from './src/plugins/actions';
 import {pager} from './src/plugins/pager';
+// import {filterable} from './src/plugins/filter';
 
 faker.setLocale('zh_CN');
 

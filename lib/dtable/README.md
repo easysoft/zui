@@ -6,6 +6,31 @@
 
 ## 产品表格
 
+<menu class="dropdown-menu menu dtable-filter-content" id="filterExp">
+  <li class="menu-item">
+    <div class="input-control prefix-sm suffix-sm">
+      <span class="input-control-prefix"><i class="icon icon-search"></i></span>
+      <input type="text" class="form-control" placeholder="请填写"/>
+    </div>
+  </li>
+  <li class="menu-item">
+    <div class="checkbox-primary">
+      <input type="checkbox" id="editProject3">
+      <label for="editProject3">aaa</label>
+    </div>
+  </li>
+  <li class="menu-item">
+    <div class="checkbox-primary">
+      <input type="checkbox" id="editProject4">
+      <label for="editProject4">bb</label>
+    </div>
+  </li>
+  <li class="menu-item menu-btns">
+    <button type="button" class="btn size-sm filter-reset">重置</button>
+    <button type="button" class="btn size-sm primary filter-submit">确定</button>
+  </li>
+</menu>
+
 <div id="productTable"></div>
 
 ## 示例
