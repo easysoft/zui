@@ -10,7 +10,6 @@ export type DTableActionsTypes = {
         actionsCreator?: (info: {row: RowInfo, col: ColInfo}) => ToolbarItemOptions[],
         actionsSetting?: Partial<ToolbarOptions>,
         actionsMap?: Record<string, Partial<ToolbarItemOptions>>,
-
     }>,
 };
 
