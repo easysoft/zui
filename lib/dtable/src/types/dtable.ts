@@ -7,6 +7,7 @@ import type {RowInfo, RowID} from './row';
 export type DTableState = {
     scrollTop: number;
     scrollLeft: number;
+    renderCount: number,
     [prop: string]: unknown;
 };
 

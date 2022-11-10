@@ -51,7 +51,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
         super(props);
 
         this.#id = props.id ?? `dtable-${nanoid(10)}`;
-        this.state = {scrollTop: 0, scrollLeft: 0};
+        this.state = {scrollTop: 0, scrollLeft: 0, renderCount: 0};
 
         this.#allPlugins = Object.freeze(initPlugins(props.plugins));
         this.#allPlugins.forEach(plugin => {
@@ -333,19 +333,25 @@ export class DTable extends Component<DTableOptions, DTableState> {
         return this.layout.rows[index];
     }
 
-    update(options: {dirtyType?: 'options' | 'layout', state?: Partial<DTableState>} = {}, callback?: () => void) {
+    update(options: {dirtyType?: 'options' | 'layout', state?: Partial<DTableState>} | (() => void) = {}, callback?: () => void) {
+        if (!this.#options) {
+            return;
+        }
+        if (typeof options === 'function') {
+            callback = options;
+            options = {};
+        }
         const {dirtyType, state} = options;
         if (dirtyType === 'layout') {
             this.#layout = undefined;
         } else if (dirtyType === 'options') {
-            this.#layout = undefined;
             this.#options = undefined;
+            if (!this.#layout) {
+                return;
+            }
+            this.#layout = undefined;
         }
-        if (state) {
-            this.setState({...state}, callback);
-        } else {
-            this.forceUpdate(callback);
-        }
+        this.setState(state ?? ((preState) => ({renderCount: preState.renderCount + 1})), callback);
     }
 
     getPointerInfo(event: Event): DTablePointerInfo | undefined {

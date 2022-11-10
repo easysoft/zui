@@ -241,7 +241,7 @@ function selectCells(this: DTableSelectable, selections: DTableSelection | DTabl
         return [];
     }
 
-    this.forceUpdate(() => {
+    this.update({}, () => {
         callback?.call(this, cells);
         this.options.onSelectCells?.call(this, cells);
     });

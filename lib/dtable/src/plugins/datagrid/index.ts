@@ -279,13 +279,13 @@ function appendCols(this: DTableDatagrid, countOrList: number | unknown[][] = 1,
 
 export function expandGridSize(this: DTableDatagrid, size: {rowsCount?: number, colsCount?: number}, options?: {skipUpdate?: boolean}): boolean {
     const oldSize = this.getGridSize();
-    const deltaRowsCount = (size.rowsCount ?? 0) - oldSize.rowsCount;
-    const deltaColsCount = (size.colsCount ?? 0) - oldSize.colsCount;
+    const deltaRowsCount = Math.max(0, (size.rowsCount ?? 0) - oldSize.rowsCount);
+    const deltaColsCount = Math.max(0, (size.colsCount ?? 0) - oldSize.colsCount);
     if (deltaRowsCount) {
-        this.appendRows(deltaRowsCount, {skipUpdate: true});
+        this.appendRows(deltaRowsCount, {skipUpdate: true, select: false});
     }
     if (deltaColsCount) {
-        this.appendCols(deltaColsCount, {skipUpdate: true});
+        this.appendCols(deltaColsCount, {skipUpdate: true, select: false});
     }
     if (deltaRowsCount || deltaColsCount) {
         if (!options?.skipUpdate) {
