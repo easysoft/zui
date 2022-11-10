@@ -7341,7 +7341,7 @@ class DTable$1 extends d$1 {
       }
     }, "#handleKeydown"));
     __privateSet(this, _id, (_a2 = props.id) != null ? _a2 : `dtable-${nanoid(10)}`);
-    this.state = { scrollTop: 0, scrollLeft: 0 };
+    this.state = { scrollTop: 0, scrollLeft: 0, renderCount: 0 };
     __privateSet(this, _allPlugins, Object.freeze(initPlugins(props.plugins)));
     __privateGet(this, _allPlugins).forEach((plugin) => {
       var _a3;
@@ -7604,18 +7604,24 @@ class DTable$1 extends d$1 {
     return this.layout.rows[index2];
   }
   update(options = {}, callback) {
+    if (!__privateGet(this, _options2)) {
+      return;
+    }
+    if (typeof options === "function") {
+      callback = options;
+      options = {};
+    }
     const { dirtyType, state } = options;
     if (dirtyType === "layout") {
       __privateSet(this, _layout, void 0);
     } else if (dirtyType === "options") {
-      __privateSet(this, _layout, void 0);
       __privateSet(this, _options2, void 0);
+      if (!__privateGet(this, _layout)) {
+        return;
+      }
+      __privateSet(this, _layout, void 0);
     }
-    if (state) {
-      this.setState({ ...state }, callback);
-    } else {
-      this.forceUpdate(callback);
-    }
+    this.setState(state != null ? state : (preState) => ({ renderCount: preState.renderCount + 1 }), callback);
   }
   getPointerInfo(event) {
     const target = event.target;
