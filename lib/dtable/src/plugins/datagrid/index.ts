@@ -379,7 +379,7 @@ export const datagridPlugin: DTablePlugin<DTableDatagridTypes, DTableDatagridDep
             ...convertDatasource(this, datasource),
             onPasteToCell: (event: ClipboardEvent) => {
                 const data = event.clipboardData?.getData('text');
-                if (typeof data === 'string' && data.includes('\t') && this.state.editingCell) {
+                if (typeof data === 'string' && (data.includes('\t') || data.includes('\n')) && this.state.editingCell) {
                     this.pasteCells(this.state.editingCell, {data});
                     event.preventDefault();
                 }
@@ -487,7 +487,11 @@ export const datagridPlugin: DTablePlugin<DTableDatagridTypes, DTableDatagridDep
             let expandedCells = false;
             let maxRowIndex = 0;
             let maxColIndex = 0;
-            data.split(/\r?\n/).forEach((line, lineIndex) => {
+            const lines = data.split(/\r?\n/);
+            lines.forEach((line, lineIndex) => {
+                if (!line.trim().length && lineIndex === (lines.length - 1)) {
+                    return;
+                }
                 const rowIndex = lineIndex + startRowIndex;
                 let rowID = this.getRowInfo(rowIndex)?.id;
                 if (rowID === undefined) {
