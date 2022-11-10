@@ -26,6 +26,7 @@ export interface DTableDatagridTypes extends DTablePluginTypes {
         extraRows?: number,
         extraCols?: number,
         showRowIndex?: boolean,
+        autoExpandGrid?: boolean | number,
         datagridHotkeys?: {
             delete?: boolean | string,
             selectAll?: boolean | string,
@@ -169,17 +170,34 @@ const hotkeyHandlers: Record<string, (this: DTableDatagrid, event: KeyboardEvent
     },
 };
 
+function getDraftRowsSize(rows: DTableDraftRows | DTableDraftRows[], options?: {ignoreEmptyCell?: boolean}): {maxRow: number, maxCol: number} {
+    if (!Array.isArray(rows)) {
+        rows = [rows];
+    }
+    let maxRow = 0;
+    let maxCol = 0;
+    const ignoreEmptyCell = options?.ignoreEmptyCell;
+    rows.forEach((rowsMap) => {
+        Object.entries(rowsMap)
+            .forEach(([rowID, rowData]) => {
+                maxRow = Math.max(maxRow, +rowID + 1);
+                maxCol = Math.max(maxCol, ...Object.keys(rowData).map(x => {
+                    if (ignoreEmptyCell && isEmptyCellData(rowData[x])) {
+                        return 0;
+                    }
+                    return +x.replace('C', '');
+                }));
+            });
+    });
+    return {maxRow, maxCol};
+}
+
 function getGridSize(this: DTableDatagrid): {rowsCount: number, colsCount: number} {
     const {minRows = 1, minCols = 1, extraRows = 0, extraCols = 0, datasource} = this.options;
     const {data = [], cols: optionCols = []} = datasource;
     const {stagingDraft, appliedDraft} = this.state;
-    let maxDraftRow = 0;
-    let maxDraftCol = 0;
-    Object.entries(stagingDraft).concat(Object.entries(appliedDraft))
-        .forEach(([rowID, rowData]) => {
-            maxDraftRow = Math.max(maxDraftRow, +rowID + 1);
-            maxDraftCol = Math.max(maxDraftCol, ...Object.keys(rowData).map(x => +x.replace('C', '')));
-        });
+
+    const {maxRow: maxDraftRow, maxCol: maxDraftCol} = getDraftRowsSize([stagingDraft, appliedDraft]);
     return {
         rowsCount: Math.max(maxDraftRow, data.length + extraRows, minRows, this.data.rowsCount ?? 0),
         colsCount: Math.max(maxDraftCol, minCols, optionCols.length, data.reduce((size, rowData) => Math.max(size, rowData.length), 0) + extraCols, this.data.colsCount ?? 0),
@@ -278,6 +296,10 @@ export function expandGridSize(this: DTableDatagrid, size: {rowsCount?: number, 
     return false;
 }
 
+function isEmptyCellData(data: unknown): boolean {
+    return data === undefined || data === null || (typeof data === 'string' && !data.length);
+}
+
 export const datagridPlugin: DTablePlugin<DTableDatagridTypes, DTableDatagridDependencies> = {
     name: 'datagrid',
     plugins: [editable, selectable, hotkey, resize, history, autoscroll],
@@ -299,6 +321,7 @@ export const datagridPlugin: DTablePlugin<DTableDatagridTypes, DTableDatagridDep
         cellValueSplitter: '\t',
         cellValueGetter,
         hotkeys: {},
+        autoExpandGrid: true,
     },
     options(options) {
         const {datagridHotkeys, datasource, hotkeys, editable: editableOption, selectable: selectableOption, beforeSelectCells, showRowIndex, colResize, onPasteToCell} = options;
@@ -344,7 +367,7 @@ export const datagridPlugin: DTablePlugin<DTableDatagridTypes, DTableDatagridDep
                 }
                 return pos.col >= (showRowIndex ? 1 : 0);
             }) : false,
-            beforeSelectCells: showRowIndex ? ((cells) => { 
+            beforeSelectCells: showRowIndex ? ((cells) => {
                 if (cells.every(x => x.col === 0)) {
                     cells = parseRange.call(this, `R${Math.min(...cells.map(x => x.row))}:R${Math.max(...cells.map(x => x.row))}`);
                 }
@@ -361,6 +384,18 @@ export const datagridPlugin: DTablePlugin<DTableDatagridTypes, DTableDatagridDep
                     event.preventDefault();
                 }
                 onPasteToCell?.call(this, event);
+            },
+            afterStageDraft: (stagingDraft) => {
+                const {autoExpandGrid} = this.options;
+                if (!autoExpandGrid) {
+                    return;
+                }
+                const {maxCol, maxRow} = getDraftRowsSize(stagingDraft, {ignoreEmptyCell: true});
+                const {extraCols = 1, extraRows = 1} = this.options;
+                this.expandGridSize({
+                    rowsCount: maxRow + (typeof autoExpandGrid === 'number' ? autoExpandGrid : extraRows),
+                    colsCount: maxCol + (typeof autoExpandGrid === 'number' ? autoExpandGrid : extraCols),
+                });
             },
         };
     },
