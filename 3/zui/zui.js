@@ -7415,9 +7415,8 @@ class DTable$1 extends d$1 {
           rob.observe(parent);
           __privateSet(this, _rob, rob);
         }
-      } else {
-        this.on("window_resize", this.updateLayout);
       }
+      this.on("window_resize", this.updateLayout);
     }
     __privateGet(this, _plugins).forEach((plugin) => {
       var _a2;
