@@ -766,7 +766,7 @@ class ComponentBase {
     return (_a2 = i18n(__privateGet(this, _options).i18n, key, args, defaultValue, this.options.lang, this.constructor.NAME)) != null ? _a2 : `{i18n:${key}}`;
   }
   static get NAME() {
-    return this.name.toLowerCase();
+    throw new Error(`static NAME should be override in class ${this.name}`);
   }
   static get KEY() {
     return `zui.${this.NAME}`;
@@ -1341,7 +1341,7 @@ const _ActionMenu$1 = class extends d$6 {
   }
   get name() {
     var _a2;
-    return (_a2 = this.props.name) != null ? _a2 : this.constructor.name.replace(/([A-Z])/g, "-$1").toLowerCase().replace(/^-/, "");
+    return (_a2 = this.props.name) != null ? _a2 : this.constructor.NAME;
   }
   componentDidMount() {
     this.afterRender(true);
@@ -1474,9 +1474,11 @@ __publicField(ActionMenu$1, "ItemComponents", {
   basic: ActionBasic
 });
 __publicField(ActionMenu$1, "ROOT_TAG", "menu");
+__publicField(ActionMenu$1, "NAME", "action-menu");
 class ActionMenu extends ComponentFromReact {
 }
 __name(ActionMenu, "ActionMenu");
+__publicField(ActionMenu, "NAME", "actionmenu");
 __publicField(ActionMenu, "Component", ActionMenu$1);
 function ActionNestedItem({
   ...others
@@ -1644,6 +1646,7 @@ __publicField(ActionMenuNested$1, "ItemComponents", {
 class ActionMenuNested extends ComponentFromReact {
 }
 __name(ActionMenuNested, "ActionMenuNested");
+__publicField(ActionMenuNested, "NAME", "actionmenunested");
 __publicField(ActionMenuNested, "Component", ActionMenuNested$1);
 const vars$d = "";
 const alert = "";
@@ -1715,9 +1718,11 @@ class Menu$1 extends ActionMenuNested$1 {
   }
 }
 __name(Menu$1, "Menu$1");
+__publicField(Menu$1, "NAME", "menu");
 class Menu extends ComponentFromReact {
 }
 __name(Menu, "Menu");
+__publicField(Menu, "NAME", "menu");
 __publicField(Menu, "Component", Menu$1);
 const vars$8 = "";
 const progress = "";
@@ -4789,6 +4794,7 @@ _menu = new WeakMap();
 _popper2 = new WeakMap();
 _virtualElement = new WeakMap();
 _trigger = new WeakMap();
+__publicField(ContextMenu, "NAME", "contextmenu");
 __publicField(ContextMenu, "EVENTS", true);
 __publicField(ContextMenu, "DEFAULT", {
   placement: "bottom-start",
@@ -4931,6 +4937,7 @@ bindHoverEvents_fn = /* @__PURE__ */ __name(function() {
   this.element.addEventListener("mouseleave", this.hideLater);
   __privateSet(this, _hoverEventsBind, true);
 }, "#bindHoverEvents");
+__publicField(Dropdown, "NAME", "dropdown");
 __publicField(Dropdown, "MENU_CLASS", "dropdown-menu");
 __publicField(Dropdown, "MENU_SELECTOR", '[data-toggle="dropdown"]:not(.disabled):not(:disabled)');
 __publicField(Dropdown, "DEFAULT", {
@@ -5482,6 +5489,7 @@ __publicField(Toolbar, "ItemComponents", {
   "btn-group": ToolbarBtnGroup
 });
 __publicField(Toolbar, "ROOT_TAG", "nav");
+__publicField(Toolbar, "NAME", "toolbar");
 __publicField(Toolbar, "defaultProps", {
   btnProps: {
     btnType: "ghost"
@@ -5739,6 +5747,7 @@ class Pager$1 extends Toolbar {
   }
 }
 __name(Pager$1, "Pager$1");
+__publicField(Pager$1, "NAME", "pager");
 __publicField(Pager$1, "defaultProps", {
   gap: 1,
   btnProps: {
@@ -5756,6 +5765,7 @@ __publicField(Pager$1, "ItemComponents", {
 class Pager extends ComponentFromReact {
 }
 __name(Pager, "Pager");
+__publicField(Pager, "NAME", "pager");
 __publicField(Pager, "Component", Pager$1);
 const vars$2 = "";
 const panel = "";
@@ -8510,6 +8520,7 @@ const plugins = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.definePrope
 class DTable extends ComponentFromReact {
 }
 __name(DTable, "DTable");
+__publicField(DTable, "NAME", "dtable");
 __publicField(DTable, "Component", DTable$1);
 __publicField(DTable, "definePlugin", definePlugin);
 __publicField(DTable, "removePlugin", removePlugin);
