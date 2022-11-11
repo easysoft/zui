@@ -18,6 +18,7 @@ const dropdown = new Dropdown('#dropdownToggle', {
             {text: '导入', icon: 'icon-upload-alt'},
             {text: '导出', icon: 'icon-download-alt'},
             {text: '保存', icon: 'icon-save', onClick: (event) => console.log('> menuItem.clicked', event)},
+            {text: '点击此项不关闭菜单', className: 'not-hide-menu'},
         ],
         onClickItem: (info) => {
             console.log('> dropdown.onClickItem', info);
@@ -35,6 +36,7 @@ console.log('> dropdown', dropdown);
   <li class="menu-item"><a>操作</a></li>
   <li class="menu-item"><a>另一个操作</a></li>
   <li class="menu-item"><a>更多操作</a></li>
+  <li class="menu-item not-hide-menu"><a>点击此项不关闭菜单</a></li>
 </menu>
 ```
 
