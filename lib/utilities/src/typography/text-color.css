@@ -21,3 +21,23 @@
 .text-transparent {color: transparent;}
 .text-current     {color: currentColor;}
 .text-inherit     {color: inherit;}
+
+.text-primary-50     {@apply -text-primary-50;}
+.text-primary-200    {@apply -text-primary-200;}
+.text-primary-300    {@apply -text-primary-300;}
+.text-primary-400    {@apply -text-primary-400;}
+.text-primary-500    {@apply -text-primary-500;}
+.text-primary-600    {@apply -text-primary-600;}
+.text-primary-700    {@apply -text-primary-700;}
+.text-primary-800    {@apply -text-primary-800;}
+.text-primary-900    {@apply -text-primary-900;}
+
+.text-secondary-50     {@apply -text-secondary-50;}
+.text-secondary-200    {@apply -text-secondary-200;}
+.text-secondary-300    {@apply -text-secondary-300;}
+.text-secondary-400    {@apply -text-secondary-400;}
+.text-secondary-500    {@apply -text-secondary-500;}
+.text-secondary-600    {@apply -text-secondary-600;}
+.text-secondary-700    {@apply -text-secondary-700;}
+.text-secondary-800    {@apply -text-secondary-800;}
+.text-secondary-900    {@apply -text-secondary-900;}
