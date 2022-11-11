@@ -5499,6 +5499,8 @@ function updatePagerInfo(info, page) {
       page = info.page - 1;
     } else if (page === "next") {
       page = info.page + 1;
+    } else if (page === "current") {
+      page = info.page;
     } else {
       page = Number.parseInt(page, 10);
     }
@@ -5523,10 +5525,10 @@ function PagerLink({
 }) {
   const info = updatePagerInfo(pagerInfo, page);
   if (btnProps.text === void 0 && !btnProps.icon && format) {
-    btnProps.text = typeof format === "function" ? format(info) : formatString(format, pagerInfo);
+    btnProps.text = typeof format === "function" ? format(info) : formatString(format, info);
   }
   if (btnProps.url === void 0 && linkCreator) {
-    btnProps.url = typeof linkCreator === "function" ? linkCreator(info) : formatString(linkCreator, pagerInfo);
+    btnProps.url = typeof linkCreator === "function" ? linkCreator(info) : formatString(linkCreator, info);
   }
   if (btnProps.disabled === void 0) {
     btnProps.disabled = page !== void 0 && info.page === pagerInfo.page;
