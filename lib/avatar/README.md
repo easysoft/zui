@@ -1,5 +1,21 @@
 # Avatar 头像
 
+## 头像组件
+
+```html:example: -flex -gap-3
+<div id="avatar1" data-text="User" data-code="12" data-circle="true"></div>
+<div id="avatar2" data-src="@/assets/avatar.png"></div>
+<div id="avatar3" data-src="@/assets/avatar.png" data-rounded="lg"></div>
+<div id="avatar4" data-src="@/assets/avatar.png" data-rounded="lg" data-size="lg"></div>
+```
+
+```js
+new Avatar('#avatar1', {});
+new Avatar('#avatar2', {});
+new Avatar('#avatar3', {});
+new Avatar('#avatar4', {});
+```
+
 ## Avatar
 
 ```html:example: -flex -gap-3

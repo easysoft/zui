@@ -5,8 +5,13 @@
     "browser": "src/main.ts",
     "browserslist": "",
     "dependencies": {
+        "preact": "10.11.2",
+        "@zui/com-helpers": "workspace:*",
+        "@zui/browser-helpers": "workspace:*",
+        "@zui/helpers": "workspace:*"
     },
     "devDependencies": {
+        "zui-dev": "workspace:*",
         "@zui/base": "workspace:*",
         "@zui/utilities": "workspace:*"
     },

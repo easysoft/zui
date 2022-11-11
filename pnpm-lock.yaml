@@ -151,10 +151,21 @@ importers:
   lib/avatar:
     specifiers:
       '@zui/base': workspace:*
+      '@zui/browser-helpers': workspace:*
+      '@zui/com-helpers': workspace:*
+      '@zui/helpers': workspace:*
       '@zui/utilities': workspace:*
+      preact: 10.11.2
+      zui-dev: workspace:*
+    dependencies:
+      '@zui/browser-helpers': link:../browser-helpers
+      '@zui/com-helpers': link:../com-helpers
+      '@zui/helpers': link:../helpers
+      preact: registry.npmmirror.com/preact/10.11.2
     devDependencies:
       '@zui/base': link:../base
       '@zui/utilities': link:../utilities
+      zui-dev: link:../../dev
 
   lib/avatar-group:
     specifiers:

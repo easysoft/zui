@@ -1,2 +1,1 @@
-import './vars.css';
-import './avatar.css';
+import './main-css';

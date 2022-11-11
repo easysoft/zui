@@ -7,15 +7,3 @@
 .avatar > img {
   @apply -m-0 -w-full -h-full -object-cover;
 }
-.avatar.size-xs {
-  @apply -w-5 -text-xs;
-}
-.avatar.size-sm {
-  @apply -w-6 -text-sm;
-}
-.avatar.size-lg {
-  @apply -w-12 -text-2xl;
-}
-.avatar.size-xl {
-  @apply -w-20 -text-4xl;
-}
