@@ -41,7 +41,6 @@ importers:
       stylelint-config-standard: 28.0.0
       stylelint-order: ^5.0.0
       tailwindcss: ^3.1.8
-      terser: ^5.15.1
       tsx: 3.9.0
       typescript: 4.8.3
       vite: ^3.2.3
@@ -85,10 +84,9 @@ importers:
       stylelint-config-standard: 28.0.0_stylelint@14.12.1
       stylelint-order: 5.0.0_stylelint@14.12.1
       tailwindcss: 3.1.8_postcss@8.4.16
-      terser: registry.npmmirror.com/terser/5.15.1
       tsx: registry.npmmirror.com/tsx/3.9.0
       typescript: registry.npmmirror.com/typescript/4.8.3
-      vite: registry.npmmirror.com/vite/3.2.3_7hmh2bfxcrpg5tumboxjqjd2q4
+      vite: registry.npmmirror.com/vite/3.2.3_a7j4wk6qccyhwsphksjwblwacm
       vite-plugin-eslint: 1.8.1_eslint@8.24.0+vite@3.2.3
 
   dev:
@@ -177,21 +175,6 @@ importers:
     devDependencies:
       '@zui/base': link:../base
       '@zui/utilities': link:../utilities
-
-  lib/avatar-js:
-    specifiers:
-      '@zui/avatar': workspace:*
-      '@zui/base': workspace:*
-      '@zui/browser-helpers': workspace:^0.0.1
-      '@zui/utilities': workspace:*
-      preact: 10.11.2
-    dependencies:
-      '@zui/avatar': link:../avatar
-      '@zui/base': link:../base
-      '@zui/browser-helpers': link:../browser-helpers
-    devDependencies:
-      '@zui/utilities': link:../utilities
-      preact: registry.npmmirror.com/preact/10.11.2
 
   lib/base:
     specifiers: {}
@@ -2449,7 +2432,7 @@ packages:
       '@types/eslint': 8.4.6
       eslint: registry.npmmirror.com/eslint/8.24.0
       rollup: 2.78.1
-      vite: registry.npmmirror.com/vite/3.2.3_7hmh2bfxcrpg5tumboxjqjd2q4
+      vite: registry.npmmirror.com/vite/3.2.3_a7j4wk6qccyhwsphksjwblwacm
     dev: true
 
   /vue/3.2.37:
@@ -2830,55 +2813,6 @@ packages:
     resolution: {integrity: sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@humanwhocodes/object-schema/-/object-schema-1.2.1.tgz}
     name: '@humanwhocodes/object-schema'
     version: 1.2.1
-    dev: true
-
-  registry.npmmirror.com/@jridgewell/gen-mapping/0.3.2:
-    resolution: {integrity: sha512-mh65xKQAzI6iBcFzwv28KVWSmCkdRBWoOh+bYQGW3+6OZvbbN3TqMGo5hqYxQniRcH9F2VZIoJCm4pa3BPDK/A==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@jridgewell/gen-mapping/-/gen-mapping-0.3.2.tgz}
-    name: '@jridgewell/gen-mapping'
-    version: 0.3.2
-    engines: {node: '>=6.0.0'}
-    dependencies:
-      '@jridgewell/set-array': registry.npmmirror.com/@jridgewell/set-array/1.1.2
-      '@jridgewell/sourcemap-codec': registry.npmmirror.com/@jridgewell/sourcemap-codec/1.4.14
-      '@jridgewell/trace-mapping': registry.npmmirror.com/@jridgewell/trace-mapping/0.3.17
-    dev: true
-
-  registry.npmmirror.com/@jridgewell/resolve-uri/3.1.0:
-    resolution: {integrity: sha512-F2msla3tad+Mfht5cJq7LSXcdudKTWCVYUgw6pLFOOHSTtZlj6SWNYAp+AhuqLmWdBO2X5hPrLcu8cVP8fy28w==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@jridgewell/resolve-uri/-/resolve-uri-3.1.0.tgz}
-    name: '@jridgewell/resolve-uri'
-    version: 3.1.0
-    engines: {node: '>=6.0.0'}
-    dev: true
-
-  registry.npmmirror.com/@jridgewell/set-array/1.1.2:
-    resolution: {integrity: sha512-xnkseuNADM0gt2bs+BvhO0p78Mk762YnZdsuzFV018NoG1Sj1SCQvpSqa7XUaTam5vAGasABV9qXASMKnFMwMw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@jridgewell/set-array/-/set-array-1.1.2.tgz}
-    name: '@jridgewell/set-array'
-    version: 1.1.2
-    engines: {node: '>=6.0.0'}
-    dev: true
-
-  registry.npmmirror.com/@jridgewell/source-map/0.3.2:
-    resolution: {integrity: sha512-m7O9o2uR8k2ObDysZYzdfhb08VuEml5oWGiosa1VdaPZ/A6QyPkAJuwN0Q1lhULOf6B7MtQmHENS743hWtCrgw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@jridgewell/source-map/-/source-map-0.3.2.tgz}
-    name: '@jridgewell/source-map'
-    version: 0.3.2
-    dependencies:
-      '@jridgewell/gen-mapping': registry.npmmirror.com/@jridgewell/gen-mapping/0.3.2
-      '@jridgewell/trace-mapping': registry.npmmirror.com/@jridgewell/trace-mapping/0.3.17
-    dev: true
-
-  registry.npmmirror.com/@jridgewell/sourcemap-codec/1.4.14:
-    resolution: {integrity: sha512-XPSJHWmi394fuUuzDnGz1wiKqWfo1yXecHQMRf2l6hztTO+nPru658AyDngaBe7isIxEkRsPR3FZh+s7iVa4Uw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@jridgewell/sourcemap-codec/-/sourcemap-codec-1.4.14.tgz}
-    name: '@jridgewell/sourcemap-codec'
-    version: 1.4.14
-    dev: true
-
-  registry.npmmirror.com/@jridgewell/trace-mapping/0.3.17:
-    resolution: {integrity: sha512-MCNzAp77qzKca9+W/+I0+sEpaUnZoeasnghNeVc41VZCEKaCH73Vq3BZZ/SzWIgrqE4H4ceI+p+b6C0mHf9T4g==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@jridgewell/trace-mapping/-/trace-mapping-0.3.17.tgz}
-    name: '@jridgewell/trace-mapping'
-    version: 0.3.17
-    dependencies:
-      '@jridgewell/resolve-uri': registry.npmmirror.com/@jridgewell/resolve-uri/3.1.0
-      '@jridgewell/sourcemap-codec': registry.npmmirror.com/@jridgewell/sourcemap-codec/1.4.14
     dev: true
 
   registry.npmmirror.com/@mertasan/tailwindcss-variables/2.5.1_jhfe3rbur6kzimvcehnoniy6fy:
@@ -3597,12 +3531,6 @@ packages:
     resolution: {integrity: sha512-jeC1axXpnb0/2nn/Y1LPuLdgXBLH7aDcHu4KEKfqw3CUhX7ZpfBSlPKyqXE6btIgEzfWtrX3/tyBCaCvXvMkOw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/colord/-/colord-2.9.3.tgz}
     name: colord
     version: 2.9.3
-    dev: true
-
-  registry.npmmirror.com/commander/2.20.3:
-    resolution: {integrity: sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/commander/-/commander-2.20.3.tgz}
-    name: commander
-    version: 2.20.3
     dev: true
 
   registry.npmmirror.com/commander/7.2.0:
@@ -5874,19 +5802,6 @@ packages:
       strip-ansi: registry.npmmirror.com/strip-ansi/6.0.1
     dev: true
 
-  registry.npmmirror.com/terser/5.15.1:
-    resolution: {integrity: sha512-K1faMUvpm/FBxjBXud0LWVAGxmvoPbZbfTCYbSgaaYQaIXI3/TdI7a7ZGA73Zrou6Q8Zmz3oeUTsp/dj+ag2Xw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/terser/-/terser-5.15.1.tgz}
-    name: terser
-    version: 5.15.1
-    engines: {node: '>=10'}
-    hasBin: true
-    dependencies:
-      '@jridgewell/source-map': registry.npmmirror.com/@jridgewell/source-map/0.3.2
-      acorn: registry.npmmirror.com/acorn/8.8.0
-      commander: registry.npmmirror.com/commander/2.20.3
-      source-map-support: registry.npmmirror.com/source-map-support/0.5.21
-    dev: true
-
   registry.npmmirror.com/text-table/0.2.0:
     resolution: {integrity: sha512-N+8UisAXDGk8PFXP4HAzVR9nbfmVJ3zYLAWiTIoqC5v5isinhr+r5uaO8+7r3BMfuNIufIsA7RdpVgacC2cSpw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/text-table/-/text-table-0.2.0.tgz}
     name: text-table
@@ -6071,7 +5986,7 @@ packages:
       fsevents: registry.npmmirror.com/fsevents/2.3.2
     dev: true
 
-  registry.npmmirror.com/vite/3.2.3_7hmh2bfxcrpg5tumboxjqjd2q4:
+  registry.npmmirror.com/vite/3.2.3_a7j4wk6qccyhwsphksjwblwacm:
     resolution: {integrity: sha512-h8jl1TZ76eGs3o2dIBSsvXDLb1m/Ec1iej8ZMdz+PsaFUsftZeWe2CZOI3qogEsMNaywc17gu0q6cQDzh/weCQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/vite/-/vite-3.2.3.tgz}
     id: registry.npmmirror.com/vite/3.2.3
     name: vite
@@ -6105,7 +6020,6 @@ packages:
       postcss: registry.npmmirror.com/postcss/8.4.18
       resolve: registry.npmmirror.com/resolve/1.22.1
       rollup: registry.npmmirror.com/rollup/2.79.1
-      terser: registry.npmmirror.com/terser/5.15.1
     optionalDependencies:
       fsevents: registry.npmmirror.com/fsevents/2.3.2
     dev: true
