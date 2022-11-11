@@ -1,5 +1,4 @@
 import {h as _h} from 'preact';
-// import {HeaderCell} from './header-cell';
 import {Row} from './row';
 import type {JSX} from 'preact';
 import type {CellRenderCallback} from '../types/cell';
