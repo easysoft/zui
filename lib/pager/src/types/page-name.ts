@@ -1,1 +1,1 @@
-export type PageName = 'first' | 'last' | 'prev' | 'next' | number;
+export type PageName = 'first' | 'last' | 'prev' | 'next' | 'current' | number;

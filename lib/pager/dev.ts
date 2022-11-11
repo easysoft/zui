@@ -15,7 +15,7 @@ onPageUpdate(() => {
             {type: 'link', page: 'next', icon: 'icon-angle-right', hint: '下一页'},
             {type: 'link', page: 'last', icon: 'icon-double-angle-right', hint: '最后一页'},
         ],
-        page: 1,
+        page: 2,
         recTotal: 101,
         recPerPage: 10,
         linkCreator: '#?page={page}&recPerPage={recPerPage}',

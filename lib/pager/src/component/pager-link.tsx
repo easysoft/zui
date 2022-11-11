@@ -15,10 +15,10 @@ export function PagerLink({
 }: PagerLinkProps & {pagerInfo: PagerInfo, linkCreator: PageLinkCreator}) {
     const info = updatePagerInfo(pagerInfo, page);
     if (btnProps.text === undefined && !btnProps.icon && format) {
-        btnProps.text = typeof format === 'function' ? format(info) : formatString(format, pagerInfo);
+        btnProps.text = typeof format === 'function' ? format(info) : formatString(format, info);
     }
     if (btnProps.url === undefined && linkCreator) {
-        btnProps.url = typeof linkCreator === 'function' ? linkCreator(info)  : formatString(linkCreator, pagerInfo);
+        btnProps.url = typeof linkCreator === 'function' ? linkCreator(info)  : formatString(linkCreator, info);
     }
     if (btnProps.disabled === undefined) {
         btnProps.disabled = page !== undefined && info.page === pagerInfo.page;

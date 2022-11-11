@@ -12,7 +12,9 @@ export function updatePagerInfo(info: PagerInfo, page?: PageName): PagerInfo {
             page = info.page - 1;
         } else if (page === 'next') {
             page =  info.page + 1;
-        } else {
+        } else if (page === 'current') {
+            page =  info.page;
+        }  else {
             page = Number.parseInt(page, 10);
         }
     }
