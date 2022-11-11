@@ -107,8 +107,14 @@ export default [
         "main": "src/main.ts",
         "browser": "src/main.ts",
         "browserslist": "",
-        "dependencies": {},
+        "dependencies": {
+            "preact": "10.11.2",
+            "@zui/com-helpers": "workspace:*",
+            "@zui/browser-helpers": "workspace:*",
+            "@zui/helpers": "workspace:*"
+        },
         "devDependencies": {
+            "zui-dev": "workspace:*",
             "@zui/base": "workspace:*",
             "@zui/utilities": "workspace:*"
         },
@@ -731,45 +737,6 @@ export default [
         }
     },
     {
-        "name": "@zui/avatar-js",
-        "version": "0.0.1",
-        "main": "src/main.ts",
-        "browser": "src/main.ts",
-        "browserslist": "",
-        "files": [
-            "./src/**/*"
-        ],
-        "keywords": [
-            "js",
-            "zui:component"
-        ],
-        "dependencies": {
-            "@zui/base": "workspace:*",
-            "@zui/avatar": "workspace:*",
-            "@zui/browser-helpers": "workspace:^0.0.1"
-        },
-        "devDependencies": {
-            "preact": "10.11.2",
-            "@zui/utilities": "workspace:*"
-        },
-        "zui": {
-            "type": "component",
-            "displayName": "头像生成器",
-            "contributes": {
-                "js": [
-                    "component"
-                ]
-            },
-            "build": {},
-            "path": "/home/runner/work/zui/zui/lib/avatar-js",
-            "workspace": true,
-            "sourceType": "build-in",
-            "name": "avatar-js",
-            "order": 4010000021,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/avatar-js/package.json"
-        }
-    },
-    {
         "name": "@zui/btn-group",
         "version": "0.0.1",
         "main": "src/main.ts",
@@ -805,7 +772,7 @@ export default [
             "workspace": true,
             "sourceType": "build-in",
             "name": "btn-group",
-            "order": 4010000022,
+            "order": 4010000021,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/btn-group/package.json"
         }
     },
@@ -839,7 +806,7 @@ export default [
             "workspace": true,
             "sourceType": "build-in",
             "name": "form",
-            "order": 4010000023,
+            "order": 4010000022,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/form/package.json"
         }
     },
@@ -873,7 +840,7 @@ export default [
             "workspace": true,
             "sourceType": "build-in",
             "name": "input-group",
-            "order": 4010000024,
+            "order": 4010000023,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/input-group/package.json"
         }
     },
@@ -909,7 +876,7 @@ export default [
             "workspace": true,
             "sourceType": "build-in",
             "name": "modal",
-            "order": 4010000025,
+            "order": 4010000024,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/modal/package.json"
         }
     },
@@ -955,7 +922,7 @@ export default [
             "workspace": true,
             "sourceType": "build-in",
             "name": "nav",
-            "order": 4010000026,
+            "order": 4010000025,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/nav/package.json"
         }
     },
@@ -1009,7 +976,7 @@ export default [
             "workspace": true,
             "sourceType": "build-in",
             "name": "pager",
-            "order": 4010000027,
+            "order": 4010000026,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/pager/package.json"
         }
     },
@@ -1042,7 +1009,7 @@ export default [
             "workspace": true,
             "sourceType": "build-in",
             "name": "panel",
-            "order": 4010000028,
+            "order": 4010000027,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/panel/package.json"
         }
     },
@@ -1077,7 +1044,7 @@ export default [
             "workspace": true,
             "sourceType": "build-in",
             "name": "table",
-            "order": 4010000029,
+            "order": 4010000028,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/table/package.json"
         }
     },
@@ -1123,7 +1090,7 @@ export default [
             "workspace": true,
             "sourceType": "build-in",
             "name": "toolbar",
-            "order": 4010000030,
+            "order": 4010000029,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/toolbar/package.json"
         }
     },
@@ -1166,7 +1133,7 @@ export default [
             "workspace": true,
             "sourceType": "build-in",
             "name": "ajax-form",
-            "order": 5010000031,
+            "order": 5010000030,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/ajax-form/package.json"
         }
     },
@@ -1210,7 +1177,7 @@ export default [
             "workspace": true,
             "sourceType": "build-in",
             "name": "contextmenu",
-            "order": 5010000032,
+            "order": 5010000031,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/contextmenu/package.json"
         }
     },
@@ -1257,7 +1224,7 @@ export default [
             "workspace": true,
             "sourceType": "build-in",
             "name": "dropdown",
-            "order": 5010000033,
+            "order": 5010000032,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/dropdown/package.json"
         }
     },
@@ -1324,7 +1291,7 @@ export default [
             "workspace": true,
             "sourceType": "build-in",
             "name": "dtable",
-            "order": 5010000034,
+            "order": 5010000033,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/dtable/package.json"
         }
     },
@@ -1360,7 +1327,7 @@ export default [
             "workspace": true,
             "sourceType": "build-in",
             "name": "tabs",
-            "order": 5010000035,
+            "order": 5010000034,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/tabs/package.json"
         }
     },
@@ -1393,7 +1360,7 @@ export default [
             "workspace": true,
             "sourceType": "build-in",
             "name": "css-icons",
-            "order": 6010000036,
+            "order": 6010000035,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/css-icons/package.json"
         }
     },
@@ -1426,7 +1393,7 @@ export default [
             "workspace": true,
             "sourceType": "build-in",
             "name": "utilities",
-            "order": 6010000037,
+            "order": 6010000036,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/utilities/package.json"
         }
     },
@@ -1458,7 +1425,7 @@ export default [
             "workspace": true,
             "sourceType": "build-in",
             "name": "helpers",
-            "order": 7010000038,
+            "order": 7010000037,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/helpers/package.json"
         }
     }
