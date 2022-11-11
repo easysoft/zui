@@ -1,4 +1,4 @@
-import {h as _h, isValidElement} from 'preact';
+import {ComponentType, h as _h, isValidElement} from 'preact';
 import {classes, ClassNameLike} from '@zui/browser-helpers/src/classes';
 import type {ComponentChildren, JSX} from 'preact';
 import type {CellRenderCallback} from '../types/cell';
@@ -46,8 +46,10 @@ export function Cell({col, className, height, row, onRenderCell, style: styleFro
     const outerAttrs: JSX.HTMLAttributes<HTMLDivElement> = {};
     const contentAttrs: JSX.HTMLAttributes<HTMLDivElement> = {};
 
+    let contentTagName = 'div';
+
     result?.forEach(item => {
-        if (typeof item === 'object' && item && !isValidElement(item) && ('html' in item || 'className' in item || 'style' in item || 'attrs' in item || 'children' in item)) {
+        if (typeof item === 'object' && item && !isValidElement(item) && ('html' in item || 'className' in item || 'style' in item || 'attrs' in item || 'children' in item || 'tagName' in item)) {
             const children = item.outer ? outerChildren : contentChildren;
             if (item.html) {
                 children.push(<div className={classes('dtable-cell-html', item.className)} style={item.style} dangerouslySetInnerHTML={{__html: item.html}} {...((item.attrs ?? {}) as unknown as JSX.HTMLAttributes<HTMLDivElement>)}></div>);
@@ -65,10 +67,15 @@ export function Cell({col, className, height, row, onRenderCell, style: styleFro
                     Object.assign(item.outer ? outerAttrs : contentAttrs, item.attrs);
                 }
             }
+            if (item.tagName && !item.outer) {
+                contentTagName = item.tagName as string;
+            }
         } else {
             contentChildren.push(item);
         }
     });
+
+    const ContentTag = contentTagName as unknown as ComponentType;
 
     return (
         <div
@@ -79,9 +86,9 @@ export function Cell({col, className, height, row, onRenderCell, style: styleFro
             {...outerAttrs}
         >
             {
-                contentChildren.length > 0 && (<div className={classes(contentClassName)} style={contentStyle} {...contentAttrs}>
+                contentChildren.length > 0 && (<ContentTag className={classes(contentClassName)} style={contentStyle} {...contentAttrs}>
                     {contentChildren}
-                </div>)
+                </ContentTag>)
             }
             {outerChildren}
         </div>
