@@ -39,7 +39,7 @@ export class Button extends Component<ButtonProps> {
                 }, size ? `size-${size}` : ''),
                 title: hint,
                 [ButtonComponent === 'a' ? 'href' : 'data-url']: url,
-                [ButtonComponent === 'a' ? 'target' : 'data-target']: url,
+                [ButtonComponent === 'a' ? 'target' : 'data-target']: target,
                 type: ButtonComponent === 'button' ? 'button' : undefined,
                 ...others,
             } as Attributes,
