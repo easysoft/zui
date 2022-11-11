@@ -1,4 +1,4 @@
-import {Component, ComponentChildren} from 'preact';
+import {Component, ComponentChildren, JSX} from 'preact';
 import {classes} from '@zui/browser-helpers/src/classes';
 import {contrastColor, hslToRgb} from '@zui/helpers/src/color-helper';
 import {getUniqueCode} from '@zui/helpers/src/string-code';
@@ -21,7 +21,7 @@ export class Avatar extends Component<AvatarOptions> {
         const {
             className,
             style,
-            size,
+            size = '',
             circle,
             rounded,
             background,
@@ -39,13 +39,16 @@ export class Avatar extends Component<AvatarOptions> {
         const finalClass = ['avatar', className];
         const finalStyle = {...style, background, color: foreColor};
 
+        let actualSize = 32;
         if (size) {
             if (typeof size === 'number') {
                 finalStyle.width = `${size}px`;
                 finalStyle.height = `${size}px`;
                 finalStyle.fontSize = `${Math.max(12, Math.round(size / 2))}px`;
+                actualSize = size;
             } else {
                 finalClass.push(`size-${size}`);
+                actualSize = ({xs: 20, sm: 24, lg: 48, xl: 80})[size];
             }
         }
         if (circle) {
@@ -61,10 +64,14 @@ export class Avatar extends Component<AvatarOptions> {
         let content: ComponentChildren | undefined;
         if (src) {
             finalClass.push('has-img');
-            content = <img src={src} alt={text} />;
+            content = <img className="avatar-img" src={src} alt={text} />;
         } else if (text?.length) {
-            if (!background && code) {
-                const hue = typeof code === 'number' ? code : getUniqueCode(code);
+            const displayText = getAvatarText(text, maxTextLength);
+            finalClass.push('has-text', `has-text-${displayText.length}`);
+
+            if (!background) {
+                const avatarCode = code ?? text;
+                const hue = typeof avatarCode === 'number' ? avatarCode : getUniqueCode(avatarCode);
                 finalStyle.background = `hsl(${hue},${saturation * 100}%,${lightness * 100}%)`;
                 if (!foreColor) {
                     const rgb = hslToRgb(hue, saturation, lightness);
@@ -73,9 +80,12 @@ export class Avatar extends Component<AvatarOptions> {
             } else if (!foreColor && background) {
                 finalStyle.color = contrastColor(background);
             }
-            const displayText = getAvatarText(text, maxTextLength);
-            finalClass.push('has-text', `has-text-${displayText.length}`);
-            content = <div>{displayText}</div>;
+            let textStyle: JSX.CSSProperties | undefined;
+            if (actualSize && actualSize < (14 * displayText.length)) {
+                textStyle = {transform: `scale(${actualSize / (14 * displayText.length)})`, whiteSpace: 'nowrap'};
+            }
+
+            content = <div data-actualSize={actualSize} className="avatar-text" style={textStyle}>{displayText}</div>;
         }
 
         return (
