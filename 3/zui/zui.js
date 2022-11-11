@@ -1807,7 +1807,7 @@ class En extends Ft {
         }, o ? `size-${o}` : ""),
         title: d,
         [g === "a" ? "href" : "data-url"]: l,
-        [g === "a" ? "target" : "data-target"]: l,
+        [g === "a" ? "target" : "data-target"]: c,
         type: g === "button" ? "button" : void 0,
         ...v
       },
