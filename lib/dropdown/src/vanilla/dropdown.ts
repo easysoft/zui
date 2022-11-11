@@ -33,7 +33,11 @@ export class Dropdown extends ContextMenu<DropdownOptions, DropdownEvents> {
         return `with-${(this.constructor as typeof Dropdown).NAME}-show`;
     }
 
-    show(trigger?: ContextMenuTrigger | undefined): boolean {
+    show(trigger?: ContextMenuTrigger, options?: {event?: MouseEvent, clearOthers?: boolean}): boolean {
+        if (options?.clearOthers !== false) {
+            Dropdown.clear(options?.event, {exclude: [this.element]});
+        }
+
         const result = super.show(trigger);
         if (result) {
             if (!this.#hoverEventsBind && this.isHover) {
@@ -50,6 +54,10 @@ export class Dropdown extends ContextMenu<DropdownOptions, DropdownEvents> {
             this.element.classList.remove(this.elementShowClass);
         }
         return result;
+    }
+
+    toggle(event?: MouseEvent, options?: {clearOthers?: boolean}) {
+        return this.isShown ? this.hide() : this.show(event, {event, ...options});
     }
 
     hideLater = () => {
