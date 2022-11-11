@@ -3,5 +3,7 @@ import {ActionMenuNested as ActionMenuNestedReact} from '../component/action-men
 import type {ActionBasicProps, ActionMenuNestedItemOptions, ActionMenuNestedOptions} from '../types';
 
 export class ActionMenuNested<T extends ActionBasicProps = ActionMenuNestedItemOptions> extends ComponentFromReact<ActionMenuNestedOptions<T>, ActionMenuNestedReact<T>> {
+    static NAME = 'actionmenunested';
+
     static Component = ActionMenuNestedReact;
 }

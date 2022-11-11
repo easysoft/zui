@@ -151,8 +151,8 @@ export class ComponentBase<O extends {} = {}, V extends CustomEventMap = {}, E e
     /**
      * Component internal name, like "Menu"
      */
-    static get NAME() {
-        return this.name.toLowerCase();
+    static get NAME(): string {
+        throw new Error(`static NAME should be override in class ${this.name}`);
     }
 
     /**

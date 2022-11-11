@@ -19,6 +19,8 @@ export class Toolbar<T extends ActionBasicProps = ToolbarItemOptions, P extends 
 
     static ROOT_TAG = 'nav';
 
+    static NAME = 'toolbar';
+
     static defaultProps = {
         btnProps: {
             btnType: 'ghost',

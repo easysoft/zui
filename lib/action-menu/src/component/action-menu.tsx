@@ -24,10 +24,12 @@ export class ActionMenu<T extends ActionBasicProps = ActionMenuItemOptions, P ex
 
     static ROOT_TAG = 'menu';
 
+    static NAME = 'action-menu';
+
     ref = createRef<HTMLMenuElement>();
 
     get name() {
-        return this.props.name ?? this.constructor.name.replace(/([A-Z])/g, '-$1').toLowerCase().replace(/^-/, '');
+        return this.props.name ?? (this.constructor as typeof ActionMenu).NAME;
     }
 
     componentDidMount() {

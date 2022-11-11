@@ -7,6 +7,8 @@ import type {NavItemOptions} from '../types/nav-item-options';
 import '../style/index.css';
 
 export class Nav<T extends ActionBasicProps = NavItemOptions> extends ActionMenu<T, NavOptions<T>> {
+    static NAME = 'nav';
+
     beforeRender() {
         const options = super.beforeRender();
         options.className = classes(options.className, options.type ? `nav-${options.type}` : '', {

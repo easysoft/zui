@@ -9,6 +9,8 @@ import type {DropdownOptions} from '../types/dropdown-options';
 import '../css/dropdown.css';
 
 export class Dropdown extends ContextMenu<DropdownOptions, DropdownEvents> {
+    static NAME = 'dropdown';
+
     static MENU_CLASS = 'dropdown-menu';
 
     static MENU_SELECTOR = '[data-toggle="dropdown"]:not(.disabled):not(:disabled)';

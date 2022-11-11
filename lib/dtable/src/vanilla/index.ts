@@ -5,6 +5,8 @@ import * as plugins from '../plugins';
 import type {DTableOptions} from '../types/options';
 
 export class DTable extends ComponentFromReact<DTableOptions, DTableReact> {
+    static NAME = 'dtable';
+
     static Component = DTableReact;
 
     static definePlugin = definePlugin;

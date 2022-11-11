@@ -14,6 +14,8 @@ import type {ContextMenuTrigger} from '../types/contextmenu-trigger';
 import {ContextMenu as ContextMenuReact} from '../component/contextmenu';
 
 export class ContextMenu<T extends ContextMenuOptions = ContextMenuOptions, E extends ContextMenuEvents = ContextMenuEvents> extends ComponentBase<T, E & ContextMenuEvents> {
+    static NAME = 'contextmenu';
+
     static EVENTS = true;
 
     static DEFAULT = {

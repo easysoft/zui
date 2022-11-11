@@ -7,6 +7,8 @@ import type {MenuOptions, MenuItemOptions} from '../types';
 import '../style/index.css';
 
 export class Menu<T extends ActionMenuItemOptions = MenuItemOptions> extends ActionMenuNested<T, MenuOptions<T>> {
+    static NAME = 'menu';
+
     get nestedTrigger() {
         return this.props.nestedTrigger || 'click';
     }

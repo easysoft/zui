@@ -5,5 +5,7 @@ import {NavItemOptions} from '../types/nav-item-options';
 import {NavOptions} from '../types/nav-options';
 
 export class Nav<T extends ActionBasicProps = NavItemOptions> extends ComponentFromReact<NavOptions<T>, NavReact<T>> {
+    static NAME = 'nav';
+
     static Component = NavReact;
 }

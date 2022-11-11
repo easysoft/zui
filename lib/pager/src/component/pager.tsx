@@ -8,6 +8,8 @@ import {PagerNav} from './pager-nav';
 import {PagerSizeMenu} from './pager-size-menu';
 
 export class Pager<T extends ActionBasicProps = PagerItemOptions, P extends PagerOptions<T> = PagerOptions<T>> extends Toolbar<T, P> {
+    static NAME = 'pager';
+
     static defaultProps = {
         gap: 1,
         btnProps: {

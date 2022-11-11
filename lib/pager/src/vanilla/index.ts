@@ -4,5 +4,7 @@ import {Pager as PagerReact} from '../component/pager';
 import {PagerOptions, PagerItemOptions} from '../types';
 
 export class Pager<T extends ActionBasicProps = PagerItemOptions> extends ComponentFromReact<PagerOptions<T>, PagerReact<T>> {
+    static NAME = 'pager';
+
     static Component = PagerReact;
 }
