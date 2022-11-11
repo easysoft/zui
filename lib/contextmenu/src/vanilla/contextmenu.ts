@@ -222,11 +222,18 @@ export class ContextMenu<T extends ContextMenuOptions = ContextMenuOptions, E ex
         return this.#virtualElement;
     }
 
-    static clear(event: Event) {
+    static clear(event?: Event, options?: {exclude: HTMLElement[]}) {
         if (event && isRightBtn(event as MouseEvent)) {
             return;
         }
-        this.getAll().forEach(x => x.hide());
+        const all = this.getAll().entries();
+        const exclude = new Set(options?.exclude || []);
+        for (const [ele, menu] of all) {
+            if (exclude.has(ele)) {
+                continue;
+            }
+            menu.hide();
+        }
     }
 
     static show(options: ContextMenuOptions & {event?: MouseEvent}) {
