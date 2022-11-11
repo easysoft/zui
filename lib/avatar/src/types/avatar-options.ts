@@ -14,6 +14,7 @@ export interface AvatarOptions {
     maxTextLength?: number;
     saturation?: number;
     lightness?: number;
+    hueDistance?: number;
     src?: string;
     children?: ComponentChildren | (() => ComponentChildren);
 }

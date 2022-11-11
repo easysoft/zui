@@ -4,7 +4,7 @@
 
 ```html:example: -flex -gap-3
 <div id="avatar1" data-text="User" data-code="12" data-circle="true"></div>
-<div id="avatar2" data-text="李" data-code="12" data-size="20" data-circle="true"></div>
+<div id="avatar2" data-text="李" data-size="20" data-circle="true"></div>
 <div id="avatar3" data-text="韩梅梅" data-size="20" data-circle="true"></div>
 <div id="avatar4" data-src="@/assets/avatar.png"></div>
 <div id="avatar5" data-src="@/assets/avatar.png" data-rounded="lg"></div>

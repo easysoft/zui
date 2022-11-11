@@ -30,6 +30,7 @@ export class Avatar extends Component<AvatarOptions> {
             code,
             maxTextLength = 2,
             src,
+            hueDistance = 43,
             saturation = 0.4,
             lightness = 0.6,
             children,
@@ -71,7 +72,7 @@ export class Avatar extends Component<AvatarOptions> {
 
             if (!background) {
                 const avatarCode = code ?? text;
-                const hue = typeof avatarCode === 'number' ? avatarCode : getUniqueCode(avatarCode);
+                const hue = (typeof avatarCode === 'number' ? avatarCode : getUniqueCode(avatarCode)) * hueDistance % 360;
                 finalStyle.background = `hsl(${hue},${saturation * 100}%,${lightness * 100}%)`;
                 if (!foreColor) {
                     const rgb = hslToRgb(hue, saturation, lightness);
