@@ -35,7 +35,7 @@ export class Dropdown extends ContextMenu<DropdownOptions, DropdownEvents> {
 
     show(trigger?: ContextMenuTrigger, options?: {event?: MouseEvent, clearOthers?: boolean}): boolean {
         if (options?.clearOthers !== false) {
-            Dropdown.clear(options?.event, {exclude: [this.element]});
+            Dropdown.clear({event: options?.event, exclude: [this.element]});
         }
 
         const result = super.show(trigger);
@@ -148,8 +148,8 @@ export class Dropdown extends ContextMenu<DropdownOptions, DropdownEvents> {
     }
 }
 
-document.addEventListener('click', function (e) {
-    const element = e.target as HTMLElement;
+document.addEventListener('click', function (event) {
+    const element = event.target as HTMLElement;
     const toggleBtn = element.closest<HTMLElement>(Dropdown.MENU_SELECTOR);
     if (toggleBtn) {
         const dropdown = Dropdown.ensure(toggleBtn);
@@ -157,7 +157,7 @@ document.addEventListener('click', function (e) {
             dropdown.toggle();
         }
     } else {
-        Dropdown.clear(e);
+        Dropdown.clear({event});
     }
 });
 

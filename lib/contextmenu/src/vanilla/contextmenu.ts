@@ -222,14 +222,22 @@ export class ContextMenu<T extends ContextMenuOptions = ContextMenuOptions, E ex
         return this.#virtualElement;
     }
 
-    static clear(event?: Event, options?: {exclude: HTMLElement[]}) {
+    static clear(options?: {event?: Event, exclude?: HTMLElement[], ignoreSelector?: string} | Event) {
+        if (options instanceof Event) {
+            options = {event: options};
+        }
+        const {event, exclude, ignoreSelector = '.not-hide-menu'} = options || {};
+        if (event && ignoreSelector && (event.target as HTMLElement).closest?.(ignoreSelector)) {
+            return;
+        }
+
         if (event && isRightBtn(event as MouseEvent)) {
             return;
         }
         const all = this.getAll().entries();
-        const exclude = new Set(options?.exclude || []);
+        const excludeSet = new Set(exclude || []);
         for (const [ele, menu] of all) {
-            if (exclude.has(ele)) {
+            if (excludeSet.has(ele)) {
                 continue;
             }
             menu.hide();
