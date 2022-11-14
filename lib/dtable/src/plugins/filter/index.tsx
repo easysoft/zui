@@ -1,5 +1,6 @@
 import {definePlugin} from '../../helpers/shared-plugins';
 import './style.css';
+import '@zui/icons';
 import type {DTableWithPlugin, DTablePlugin, DTablePluginTypes} from '../../types/plugin';
 import type {RowInfo} from '../../types/row';
 
@@ -20,12 +21,14 @@ const filterPlugin: DTablePlugin<DTableFilterTypes> = {
     name: 'filterable',
     defaultOptions: {
         filterable: true,
+        filterHref: '',
     },
     onRenderHeaderCell(result, {col}) {
-        const {filterable: filterTypeSetting} = col.setting;
+        const {filterable: filterTypeSetting, filterHref} = col.setting;
         if (filterTypeSetting) {
+            const href = `#${filterHref}` || '';
             result.push(
-                <button class="btn dtable-filter" type="button" data-toggle="dropdown" href="#filterExp"><i className={'icon icon-filter'}></i></button>,
+                <button class="btn dtable-filter" type="button" data-toggle="dropdown" href={href}><i className={'icon icon-filter'}></i></button>,
             );
         }
         return result;

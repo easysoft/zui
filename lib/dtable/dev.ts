@@ -17,7 +17,6 @@ import {datagrid} from './src/plugins/datagrid';
 import {moveable} from './src/plugins/moveable';
 import {actions} from './src/plugins/actions';
 import {pager} from './src/plugins/pager';
-// import {filterable} from './src/plugins/filter';
 
 faker.setLocale('zh_CN');
 
