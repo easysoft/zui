@@ -14,6 +14,22 @@ export type DTableActionsTypes = {
     }>,
 };
 
+function createActionFromString(action: string): Partial<ToolbarItemOptions & {name: string, items?: MenuItemOptions[]}> {
+    const [name, items] = action.split(':');
+    const actionInfo: {type?: string, name: string, items?: MenuItemOptions[], disabled?: boolean} = name[0] === '-' ? {name: name.substring(1), disabled: true} : {name};
+    if (items?.length) {
+        actionInfo.type = 'dropdown';
+        actionInfo.items = items.split(',').reduce<{name: string, disabled?: boolean}[]>((list, itemName) => {
+            itemName = itemName.trim();
+            if (itemName.length) {
+                list.push(itemName[0] === '-' ? {name: itemName.substring(1), disabled: true} : {name: itemName});
+            }
+            return list;
+        }, []);
+    }
+    return actionInfo;
+}
+
 /**
  * @todo auto calculate column width by actions setting
  */
@@ -23,16 +39,17 @@ const actionsPlugin: DTablePlugin<DTableActionsTypes> = {
         actions: {
             onRenderCell(result, info) {
                 const {row, col} = info;
-                const actionItems = row.data?.[col.name] as (string | Partial<ToolbarItemOptions & {name: string, items?: (string | MenuItemOptions)[]}>)[];
-                if (!actionItems) {
+                let actionItems = row.data?.[col.name] as string | (string | Partial<ToolbarItemOptions & {name: string, items?: (string | MenuItemOptions)[]}>)[];
+                if (typeof actionItems === 'string') {
+                    actionItems = actionItems.split('|');
+                }
+                if (!actionItems?.length) {
                     return result;
                 }
                 const {actionsSetting, actionsMap, actionsCreator} = col.setting;
                 const toolbarOptions: ToolbarOptions = {
                     items: actionsCreator?.(info) ?? actionItems.map(action => {
-                        if (typeof action === 'string') {
-                            action = {name: action};
-                        }
+                        action = typeof action === 'string' ? createActionFromString(action) : action;
                         if (!action) {
                             return;
                         }
@@ -44,7 +61,7 @@ const actionsPlugin: DTablePlugin<DTableActionsTypes> = {
                             const {dropdown = {}} = (others as ToolbarDropdownProps);
                             dropdown.items = items.reduce((list, item) => {
                                 const itemAction = typeof item === 'string' ? {name: item} : {...item};
-                                if (itemAction) {
+                                if (itemAction?.name) {
                                     if (actionsMap && 'name' in itemAction) {
                                         Object.assign(itemAction, actionsMap[itemAction.name], {...itemAction});
                                     }
