@@ -1,5 +1,11 @@
 .dtable-filter {
-  @apply -bg-inherit -border-none -p-1 -ml-2;
+  @apply -bg-inherit -p-1 -ml-2 -text-gray-500;
+}
+.dtable-filter-content {
+  @apply -overflow-hidden;
+}
+.dtable-filter-content .filter-list {
+  @apply -overflow-y-auto -max-h-80;
 }
 .dtable-filter-content .menu-item {
   @apply -p-1;
@@ -7,6 +13,14 @@
 .dtable-filter-content .menu-btns {
   @apply -flex -justify-end;
 }
+.dtable-filter-content .menu-item .checkbox-primary label,
 .dtable-filter-content .menu-btns .btn + .btn {
   @apply -ml-1;
+}
+
+.picker-selections .picker-selection {
+  @apply -inline-block -rounded;
+  min-height:  16px;
+  background-color: #f1f1f1;
+  border: 1px solid #eee;
 }
