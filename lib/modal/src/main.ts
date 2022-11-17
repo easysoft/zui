@@ -1,3 +1,2 @@
-import './vars.css';
-import './modal.css';
-import './modal';
+import './style/index.css';
+import './component/modal';

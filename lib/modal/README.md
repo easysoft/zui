@@ -227,42 +227,7 @@
 </div>
 ```
 
-## 引入对话框生成器组件
-
-```html:example
-
-<script>
-const modal = new Modal('#modalTrigger', {
-  name:'',
-  backdrop:'',
-  keyboard:'',
-  show:'',
-  position:'',
-  moveable:'',
-  rememberPos:'',
-  scrollInside:'',
-  title:'', /* 弹窗标题 */
-  body:'',/* 内嵌于modal-body的内容 (html) 默认为空 */
-  footer:'',/* 对话框底部的html默认为关闭和保存按钮 */
-  isUpdatedHidden:'' /* Boolean 关闭弹窗时是否销毁body和footer内部zui组件的初始化状态 默认false */
-  isDestoryedHidden:'' /* Boolean 关闭弹窗时是否销毁body和footer内部所有dom 默认false */
-})
-</script>
-```
-
 ## 方法
-
-### const modal = new Modal('$selector', options);
-使用参数对象来初始化对话框
-
-### modal.render(options);
-使用参数对象来更新对话框
-
-### modal.update();
-将所有modal内部的zui组件回归到未初始化的状态
-
-### modal.destory();
-销毁modal组件
 
 ### modal.show(position);
 手动显示对话框。`position` 参数为可选的，用来指定显示的位置。
@@ -271,18 +236,14 @@ const modal = new Modal('#modalTrigger', {
 手动隐藏对话框。
 
 ### modal.adjustPosition(position);
-手动更新弹窗伪装。
+手动更新弹窗位置。
 
 ## 事件
 
  | 事件 | 描述  |
  | ------------- | ----- |
- | `show.zui.modal` | 当 `show` 方法被调用时，此事件将被立即触发。|
- | `shown.zui.modal` | 当模态对话框呈现到用户面前时（会等待过渡效果执行结束）此事件被触发。 |
- | `hide.zui.modal` | 当 `hide` 方法被调用时，此事件将被立即触发。| 
+ | `show.zui.modal`   | 当 `show` 方法被调用时，此事件将被立即触发。|
+ | `shown.zui.modal`  | 当模态对话框呈现到用户面前时（会等待过渡效果执行结束）此事件被触发。 |
+ | `hide.zui.modal`   | 当 `hide` 方法被调用时，此事件将被立即触发。| 
  | `hidden.zui.modal` | 当模态对话框被隐藏（而且过渡效果执行完毕）之后，此事件将被触发。|
  | `escaping.zui.modal`  |当用户按下 `esc` 键来关闭对话框之前会调用此方法，如果在事件回调函数中返回false，则会终止对话框关闭过程。 |
- | `mounted.zui.modal`   | 当 `new` 方法被调用后(弹窗组件第一次初始化成功时)，此事件将被立即触发。|
- | `updated.zui.modal`   | 当 `update` 方法被调后，此事件将被立即触发。|
- | `destoryed.zui.modal` | 当 'destory' 方法被调用后, 此事件将被触发。|
-
