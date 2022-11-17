@@ -5,7 +5,27 @@
 ## 基本用法
 
 ```html:example
-<div id="pickerExp1"></div>
+<div class="picker" id="pickerExp1" data-toggle="picker">
+  <div class="input-control suffix-sm">
+    <input type="text" class="form-control" name="pickerExp1" placeholder="请选择"/>
+    <span class="input-control-suffix"><span class="caret"></span></span>
+  </div>
+  <!-- <menu class="picker-menu menu">
+    <li class="menu-item"><a>操作</a></li>
+    <li class="menu-item"><a>另一个操作</a></li>
+    <li class="menu-item"><a>更多操作</a></li>
+    <li class="menu-item not-hide-menu"><a>点击此项不关闭菜单</a></li>
+  </menu> -->
+</div>
+```
+
+```html:example
+<div class="picker" id="pickerExp2" data-toggle="picker">
+  <div class="input-control suffix-sm">
+    <input type="text" class="form-control" name="pickerExp2" placeholder="请选择"/>
+    <span class="input-control-suffix"><span class="caret"></span></span>
+  </div>
+</div>
 ```
 
 ## 引入
@@ -62,29 +82,28 @@ Picker.render(options);
 | 属性名称           | 含义             | 类型 | 默认值  |
 | ----------------- |:----------------:| ----- |----- |
 | `multiple`        | 是否可多选         | `boolean` |  `false` | 
-| `filterable`      | 是否可搜索         | `boolean` |  `false` |  
+| `showSearch`      | 是否可搜索         | `boolean` |  `false` |  
 | `defaultValue`    | 组件默认展示项     | `string` |  空 | 
 | `placeholder`     | 占位符             | `string` |  空 | 
 | `disabled`        | 禁用状态           | `boolean` |  `false` | 
 | `clearable`       | 允许清除单选值		  | `boolean` |  `false` | 
 | `items`           | 下拉列表		        | `array` |  `[]` | 
-| `maxListCount`    | 最多选项数目       | `number` |  0 | 
 | `autoSelectFirst` | 是否自动选中第一项	| `boolean` |  `false` | 
-| `dropWidth`       | 下拉面板宽度	      | `srting` |  `100%` | 
-| `maxDropWidth`    | 下拉面板最大宽度	   | `srting` |   |
+| `dropWidth`       | 下拉面板宽度	      | `string` |  `100%` | 
+| `minDropWidth`    | 下拉面板最小宽度	   | `string` |  `100`  |
+| `maxDropWidth`    | 下拉面板最大宽度	   | `string` |  `450` |
 | `maxDropHeight`   | 下拉面板最大高度		 | `number` |  `260` | 
-| `loading`         | 加载中	            | `boolean` |  `false` |
 
 ### `items` 单项属性
 
 | 属性名称           | 含义                | 类型     | 默认值  |
 | ----------------- |:-------------------:| -------- |----- |
-| `title`           | 名称                 | `srting` |   | 
-| `icon`            | 图标                 | `srting` |   | 
+| `title`           | 名称                 | `string` |   | 
+| `icon`            | 图标                 | `string` |   | 
 | `disabled`        | 禁用状态             | `boolean` | `false` | 
-| `trailingIcon`    | 后缀图标             | `srting`   |   | 
-| `className`       | 类名                 | `srting`   |   | 
-| `key`             | 键值                 | `srting`   |   | 
+| `trailingIcon`    | 后缀图标             | `string`   |   | 
+| `className`       | 类名                 | `string`   |   | 
+| `key`             | 键值                 | `string`   |   | 
 | `style`           | 样式                 | `object`   |   | 
 
 
