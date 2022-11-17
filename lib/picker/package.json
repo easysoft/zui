@@ -1,0 +1,23 @@
+{
+    "name": "@zui/picker",
+    "version": "0.0.1",
+    "main": "src/main.ts",
+    "browserslist": "",
+    "keywords": [
+        "css",
+        "zui:control"
+    ],
+    "files": [
+        "./src/**/*"
+    ],
+    "zui": {
+        "type": "control",
+        "displayName": "下拉选择器",
+        "contributes": {
+            "css": [
+                "class",
+                "var"
+            ]
+        }
+    }
+}
