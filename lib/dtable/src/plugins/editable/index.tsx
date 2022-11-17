@@ -3,26 +3,27 @@ import {definePlugin} from '../../helpers/shared-plugins';
 import {draft, DTableDraftTypes, DTableDraftRows} from '../draft';
 import './style.css';
 import type {DTablePluginTypes, DTableWithPlugin, DTablePlugin, DTableWithPluginColInfo} from '../../types/plugin';
+import type {RowID} from '../../types/row';
 
 export interface DTableEditableTypes extends DTablePluginTypes {
     options: Partial<{
-        editable: boolean | ((rowID: string, colName: string) => boolean);
+        editable: boolean | ((rowID: RowID, colName: string) => boolean);
         headerEditable: boolean;
-        onEditCell?: (this: DTableEditable, changeInfo: {rowID: string, colName: string, value: unknown, oldValue: unknown}) => false | void;
+        onEditCell?: (this: DTableEditable, changeInfo: {rowID: RowID, colName: string, value: unknown, oldValue: unknown}) => false | void;
         selectAllOnFocus?: boolean;
         onPasteToCell?: (this: DTableEditable, event: ClipboardEvent) => void;
     }>;
     state: {
-        editingCell?: {rowID: string, colName: string};
+        editingCell?: {rowID: RowID, colName: string};
     };
     data: {
         editingInputRef: RefObject<HTMLInputElement>;
         needAutoFocus?: boolean;
     },
     methods: {
-        editCell(this: DTableEditable, cell?: {rowID: string, colName: string}): void;
-        deleteCells(this: DTableEditable, cells: {rowID: string, colName: string}[], emptyCellValue?: unknown): boolean;
-        isCellEditing: (this: DTableEditable, rowID: string, colName: string) => boolean;
+        editCell(this: DTableEditable, cell?: {rowID: RowID, colName: string}): void;
+        deleteCells(this: DTableEditable, cells: {rowID: RowID, colName: string}[], emptyCellValue?: unknown): boolean;
+        isCellEditing: (this: DTableEditable, rowID: RowID, colName: string) => boolean;
         handleEditingInputChange: (this: DTableEditable, event: Event) => void;
         handleEditingInputBlur: (this: DTableEditable, event: Event) => void;
         handleEditingKeyDown: (this: DTableEditable, event: KeyboardEvent) => void;

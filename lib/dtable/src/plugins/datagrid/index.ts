@@ -9,9 +9,9 @@ import {DTableStoreTypes} from '../store';
 import './style.css';
 import {DTableMousemoveTypes} from '../mousemove';
 import {autoscroll, DTableAutoscrollTypes} from '../autoscroll';
-import type {ColSetting, ColInfo} from '../../types/col';
+import type {ColSetting, ColInfo, ColName} from '../../types/col';
 import type {DTablePluginTypes, DTableWithPlugin, DTablePlugin} from '../../types/plugin';
-import type {RowInfo, RowData} from '../../types/row';
+import type {RowInfo, RowData, RowID} from '../../types/row';
 
 export interface DTableDatasource {
     cols?: ColSetting[],
@@ -45,6 +45,7 @@ export interface DTableDatagridTypes extends DTablePluginTypes {
         emptyCellValue?: unknown,
         cellValueSplitter?: string,
         onReadClipboardFail?: () => void,
+        deletedKey?: string,
     };
     data: {
         rowsCount?: number,
@@ -52,6 +53,8 @@ export interface DTableDatagridTypes extends DTablePluginTypes {
     },
     methods: {
         deleteSelections: (this: DTableDatagrid) => boolean;
+        deleteRows(this: DTableDatagrid, rows: RowID[]): void;
+        deleteCols(this: DTableDatagrid, cols: ColName[]): void;
         copySelections: (this: DTableDatagrid) => boolean;
         cutSelections: (this: DTableDatagrid) => boolean;
         pasteCells: (this: DTableDatagrid, targetCell: DTableCellPos | {colName: string, rowID: string}, options?: {expandCells?: boolean, select?: boolean, data: string}) => Promise<boolean>;
@@ -85,8 +88,12 @@ function convertDatasource(table: DTableDatagrid, datasource: DTableDatasource):
             ...optionCols.find(x => x.name === 'INDEX'),
         });
     }
+    const colVisibleMap = {...table.state.appliedDraft.HEADER, ...table.state.stagingDraft.HEADER};
     for (let i = 0; i < colsCount; ++i) {
         const name = `C${i + 1}`;
+        if (colVisibleMap[name] === false) {
+            continue;
+        }
         const col = {
             name,
             width: defaultColWidth,
@@ -105,7 +112,7 @@ function cellValueGetter(this: DTableDatagrid, row: RowInfo, col: ColInfo, origi
         return row.id === 'HEADER' ? originValue : (row.index + 1);
     }
     if (row.id !== 'HEADER') {
-        return this.options.datasource.data?.[row.index]?.[+col.name.replace('C', '') - 1];
+        return this.options.datasource.data?.[+row.id]?.[+col.name.replace('C', '') - 1];
     }
     return originValue;
 }
@@ -180,9 +187,12 @@ function getDraftRowsSize(rows: DTableDraftRows | DTableDraftRows[], options?: {
     rows.forEach((rowsMap) => {
         Object.entries(rowsMap)
             .forEach(([rowID, rowData]) => {
+                if (rowID === 'HEADER') {
+                    return;
+                }
                 maxRow = Math.max(maxRow, +rowID + 1);
                 maxCol = Math.max(maxCol, ...Object.keys(rowData).map(x => {
-                    if (ignoreEmptyCell && isEmptyCellData(rowData[x])) {
+                    if ((ignoreEmptyCell && isEmptyCellData(rowData[x])) || x[0] !== 'C') {
                         return 0;
                     }
                     return +x.replace('C', '');
@@ -322,6 +332,7 @@ export const datagridPlugin: DTablePlugin<DTableDatagridTypes, DTableDatagridDep
         cellValueGetter,
         hotkeys: {},
         autoExpandGrid: true,
+        deletedKey: 'deleted',
     },
     options(options) {
         const {datagridHotkeys, datasource, hotkeys, editable: editableOption, selectable: selectableOption, beforeSelectCells, showRowIndex, colResize, onPasteToCell, afterStageDraft} = options;
@@ -417,6 +428,39 @@ export const datagridPlugin: DTablePlugin<DTableDatagridTypes, DTableDatagridDep
                 }
             }
             return this.deleteCells(cells, this.options.emptyCellValue);
+        },
+        deleteRows(rows) {
+            const changes: DTableDraftRows = {};
+            const {deletedKey = 'deleted'} = this.options;
+            for (const row of rows) {
+                const rowInfo = this.getRowInfo(row);
+                if (!rowInfo) {
+                    continue;
+                }
+                changes[row] = {[deletedKey]: true};
+            }
+            if (Object.keys(changes).length) {
+                this.stageDraft(changes, {skipUpdate: true});
+                this.update({dirtyType: 'options'});
+                return true;
+            }
+            return false;
+        },
+        deleteCols(cols) {
+            const colChanges: Record<ColName, boolean> = {};
+            for (const col of cols) {
+                const colInfo = this.getColInfo(col);
+                if (!colInfo) {
+                    continue;
+                }
+                colChanges[col] = false;
+            }
+            if (Object.keys(colChanges).length) {
+                this.stageDraft({HEADER: colChanges}, {skipUpdate: true});
+                this.update({dirtyType: 'options'});
+                return true;
+            }
+            return false;
         },
         copySelections() {
             const selectedCells = this.getSelectedCells();
@@ -549,6 +593,24 @@ export const datagridPlugin: DTablePlugin<DTableDatagridTypes, DTableDatagridDep
     },
     onRender() {
         return {className: 'dtable-datagrid'};
+    },
+    onAddRows(rows) {
+        const deletedRows = new Set<RowID>();
+        Object.entries(this.state.appliedDraft).forEach(([rowID, {deleted}]) => {
+            if (deleted) {
+                deletedRows.add(rowID);
+            }
+        });
+        Object.entries(this.state.stagingDraft).forEach(([rowID, {deleted}]) => {
+            if (deleted) {
+                deletedRows.add(rowID);
+            } else if (deleted === false) {
+                deletedRows.delete(rowID);
+            }
+        });
+        if (deletedRows.size) {
+            return rows.filter(row => !deletedRows.has(row.id));
+        }
     },
 };
 

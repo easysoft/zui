@@ -106,7 +106,7 @@ const draftPlugin: DTablePlugin<DTableDraftTypes> = {
             if (options?.skipUpdate) {
                 afterUpdate();
             } else {
-                this.forceUpdate(afterUpdate);
+                this.update(afterUpdate);
             }
         },
         applyDraft(draftRows: DTableDraftRows, options) {
