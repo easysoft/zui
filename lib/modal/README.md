@@ -229,21 +229,37 @@
 
 ## 方法
 
-### modal.show(position);
+### showModal(modal: $modal, position: string);
 手动显示对话框。`position` 参数为可选的，用来指定显示的位置。
 
-### modal.hide();
+### hideModal(modal: $modal);
 手动隐藏对话框。
 
-### modal.adjustPosition(position);
+### adjustPosition(target: $modal, position: string);
 手动更新弹窗位置。
 
-## 事件
 
- | 事件 | 描述  |
- | ------------- | ----- |
- | `show.zui.modal`   | 当 `show` 方法被调用时，此事件将被立即触发。|
- | `shown.zui.modal`  | 当模态对话框呈现到用户面前时（会等待过渡效果执行结束）此事件被触发。 |
- | `hide.zui.modal`   | 当 `hide` 方法被调用时，此事件将被立即触发。| 
- | `hidden.zui.modal` | 当模态对话框被隐藏（而且过渡效果执行完毕）之后，此事件将被触发。|
- | `escaping.zui.modal`  |当用户按下 `esc` 键来关闭对话框之前会调用此方法，如果在事件回调函数中返回false，则会终止对话框关闭过程。 |
+```html:example: flex gap-3
+<button type="button" class="btn primary" data-toggle="modal" data-target="#modalForFunc">点击打开对话框</button>
+<button type="button" class="btn primary" data-toggle="modal" data-target="#modalForFunc">点击打开对话框</button>
+<button type="button" class="btn primary" data-toggle="modal" data-target="#modalForFunc">点击打开对话框</button>
+<button type="button" class="btn primary" data-toggle="modal" data-target="#modalForFunc">点击打开对话框</button>
+
+<div class="modal" id="modalForFunc" data-modal-closable="false">
+  <div class="modal-dialog shadow">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title">标题</div>
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
+      </div>
+      <div class="modal-body">
+        <p>这是内容</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn primary">保存</button>
+      </div>
+    </div>
+  </div>
+</div>
+```
