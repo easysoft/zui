@@ -81,10 +81,9 @@ export default {
                     {title: '粘贴', icon: 'icon-paste'},
                     {text: '剪切'},
                 ],
-                afterDestroy: () => {
-                    debugger;
-                    console.log(111);
-                }
+                itemRender: (e) => {
+                    e.text = 'itemRender';
+                },
             });
         })
     },
@@ -240,6 +239,42 @@ new zui.ActionMenuNested('#nestedActionMenu', {
 </script>
 ```
 
+## 基于此创建新组件
+ 
+通过继承 [ActionMenu 组件](https://github.com/easysoft/zui/blob/zui3_dev/lib/action-menu/src/component/action-menu.tsx) 类来创建一个新的 JS 组件，例如创建一个导航：
+
+```js
+class Nav extends ActionMenu {
+    // ...此处可选的对 ActionMenu 成员进行重写
+}
+```
+
+<Example>
+  <div id="navExample"></div>
+</Example>
+
+```html
+<div id="navExample"></div>
+
+<script>
+const nav = new Nav('#navExample', {
+    // name: 'nav', // 不再需要，会自动根据 Nav 类名使用 `nav` 作为组件类名
+    items: [
+        {text: '首页', icon: 'icon-home'},
+        {text: '动态'},
+        {text: '论坛'},
+        {type: 'divider'},
+        {text: '博客', icon: 'icon-rss'},
+        {text: '关注我们', icon: 'icon-group'},
+    ],
+    onClickItem: (info) => {
+        console.log('> nav.onClickItem', info);
+    },
+});
+console.log('> nav', nav);
+</script>
+```
+
 ## 构造方法
 
 **定义：**
@@ -287,24 +322,6 @@ new ActionMenu('#menu', {
 
 * 类型：<code>[MenuListItem](#menulistitem)[] | () => [MenuListItem](#menulistitem)[] | () => Promise<[MenuListItem](#menulistitem)[]></code>
 * 必选：是
-
-具体如下：
-
-| 属性名称      | 属性含义                   | 类型       | 必选  | 默认值 | 可选项 |
-| ------------ | ------------------------- | ---------- | ----- | ----- | ------- |
-| `text`       | 名称                       | `string`   |  否 |  `null` | 无 |
-| `icon`       | 左侧图标                   | `string`   |  否 | `null`  | 无 | 
-| `trailingIcon` | 右侧图标                 | `string`   |  否 | `null`  | 无 | 
-| `url`        | 跳转链接地址               | `string`   |  否 |  `null` | 无 |
-| `className`  | 设置 `a` 标签类名          | `string`   |  否 |  `null` | 无 |
-| `style`      | 设置 `a` 标签样式          | `object`   |  否 |  `null` | 无 |
-| `rootClass`  | 与 `menu-item` 同级类名    | `string`   |  否 |  `null` | 无 |
-| `target`     | 在何处打开链接地址          | `string`   |  否 |  `_self` | ` _self / _black / _top / _parent` |
-| `type`       | 操作项类型                 | `string`   |  否 | `item`  | `item / divider （分割线）/ heading / custom` |
-| `disabled`   | 操作项禁用状态              | `boolean` |  否 | `false` | `false / true`  |
-| `active`     | 操作项激活状态              | `boolean` |  否 | `false` | `false / true`  |
-| `items`      | 子级操作数据                | `array`   |  否 | `null`  |  无 |
-| `onClick`    | 点击操作菜单项的回调事件     | `function` |  否 | `null`  | 无  |
 
 ### `itemRender`
 
@@ -465,40 +482,21 @@ type MenuItemOptions = {
 };
 ```
 
-## 基于此创建新组件
- 
+具体如下：
 
-通过继承 [ActionMenu 组件](https://github.com/easysoft/zui/blob/zui3_dev/lib/action-menu/src/component/action-menu.tsx) 类来创建一个新的 JS 组件，例如创建一个导航：
-
-```js
-class Nav extends ActionMenu {
-    // ...此处可选的对 ActionMenu 成员进行重写
-}
-```
-
-<Example>
-  <div id="navExample"></div>
-</Example>
-
-```html
-<div id="navExample"></div>
-
-<script>
-const nav = new Nav('#navExample', {
-    // name: 'nav', // 不再需要，会自动根据 Nav 类名使用 `nav` 作为组件类名
-    items: [
-        {text: '首页', icon: 'icon-home'},
-        {text: '动态'},
-        {text: '论坛'},
-        {type: 'divider'},
-        {text: '博客', icon: 'icon-rss'},
-        {text: '关注我们', icon: 'icon-group'},
-    ],
-    onClickItem: (info) => {
-        console.log('> nav.onClickItem', info);
-    },
-});
-console.log('> nav', nav);
-</script>
-```
+| 属性名称      | 属性含义                   | 类型       | 必选  | 默认值 | 可选项 |
+| ------------ | ------------------------- | ---------- | ----- | ----- | ------- |
+| `text`       | 名称                       | `string`   |  否 |  `null` | 无 |
+| `icon`       | 左侧图标                   | `string`   |  否 | `null`  | 无 | 
+| `trailingIcon` | 右侧图标                 | `string`   |  否 | `null`  | 无 | 
+| `url`        | 跳转链接地址               | `string`   |  否 |  `null` | 无 |
+| `className`  | 设置 `a` 标签类名          | `string`   |  否 |  `null` | 无 |
+| `style`      | 设置 `a` 标签样式          | `object`   |  否 |  `null` | 无 |
+| `rootClass`  | 与 `menu-item` 同级类名    | `string`   |  否 |  `null` | 无 |
+| `target`     | 在何处打开链接地址          | `string`   |  否 |  `_self` | ` _self / _black / _top / _parent` |
+| `type`       | 操作项类型                 | `string`   |  否 | `item`  | `item / divider （分割线）/ heading / custom` |
+| `disabled`   | 操作项禁用状态              | `boolean` |  否 | `false` | `false / true`  |
+| `active`     | 操作项激活状态              | `boolean` |  否 | `false` | `false / true`  |
+| `items`      | 子级操作数据                | `array`   |  否 | `null`  |  无 |
+| `onClick`    | 点击操作菜单项的回调事件     | `function` |  否 | `null`  | 无  |
 

@@ -100,7 +100,7 @@ const btnTypeIconToolbar = new zui.Toolbar('#btnTypeIconToolbar', {
     items: [
         {icon: 'icon-home'},
         {icon: 'icon-rss'},
-        {icon: 'icon-group', type: 'primary'},
+        {icon: 'icon-group', btnType: 'primary'},
     ],
 });
 ```
@@ -159,9 +159,9 @@ const toolbar = $(element).data('zui.toolbar');
 
 ### `btnProps`
 
-工具栏所有子项属性。
+继承按钮组件的属性， 自定义工具栏单项属性。
 
-* 类型：`object`
+* 类型：<code>[ButtonProps](#buttonprops) </code>
 * 必选：否
 
 
@@ -201,18 +201,7 @@ const toolbar = $(element).data('zui.toolbar');
 
 ## API
 
-### Toolbar
-
-属性如下：
-
-| 属性名称      | 属性含义                  | 类型       | 必选  |  默认 |
-| ------------ | ------------------------ | ---------- | ----- | ------|
-| `wrap`       | 超出标签是否换行           | `boolean`   |  否 | `false` |
-| `gap`        | 自定义工具栏按钮的间距     | `number \ string` | 否 | — |
-| `btnProps`   | 工具栏所有子项属性。       | `object` | 否 | — |
-| `items`      | 工具栏子项属性。           | `array` | 是 | — | 
-
-### Toolbar.btnProps
+### `ButtonProps`
 
 继承按钮的属性。
 
@@ -238,11 +227,6 @@ type ButtonProps = {
     loading?: boolean;
 };
 ```
-
-### Toolbar.items
-
-继承 [操作菜单](/lib/components/action-menu/index.html#选项) 的属性。
-
 
 <script>
 export default {
@@ -317,7 +301,7 @@ export default {
                 items: [
                     {icon: 'icon-home'}, 
                     {icon: 'icon-rss'},
-                    {icon: 'icon-group', type: 'primary',},
+                    {icon: 'icon-group', btnType: 'primary'},
                 ],
             });
         });

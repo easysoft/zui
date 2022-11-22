@@ -8,5 +8,6 @@ export interface PickerOptions {
     minDropWidth?: string,
     maxDropWidth?: string,
     maxDropHeight?: number,
+    onInput: (event: MouseEvent) => void,
 }
  
