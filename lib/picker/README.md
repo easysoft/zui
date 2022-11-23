@@ -4,33 +4,6 @@
 
 ## 基本用法
 
-```html:example
-<select name="picker3" id="picker3" data-placeholder="选择一个宠物..." class="form-control">
-  <option value=""></option>
-  <option value="cat" data-keys="xiaomao">小猫</option>
-  <option value="fish" data-keys="jinyu">金鱼</option>
-  <option value="dragon" data-keys="long">龙</option>
-  <option disabled="disabled" value="mammoth" data-keys="mengma">猛犸</option>
-  <option value="gollum" data-keys="gulu">咕噜</option>
-</select>
-<!-- <div class="picker" id="pickerExp2">
-  <div class="picker-selections">
-    <div class="input-control suffix-sm">
-      <input type="text" class="form-control" name="pickerExp2" placeholder="请选择"/>
-      <span class="input-control-suffix"><span class="caret"></span></span>
-    </div>
-  </div>
-</div> -->
-```
-
-<!-- ```html:example
-<div class="picker" id="pickerExp2" data-toggle="picker">
-  <div class="input-control suffix-sm">
-    <input type="text" class="form-control" name="pickerExp2" placeholder="请选择"/>
-    <span class="input-control-suffix"><span class="caret"></span></span>
-  </div>
-</div>
-``` -->
 
 ## 引入
 
