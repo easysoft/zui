@@ -7,391 +7,248 @@
 ### 基础样式
 
 <Example>
-<ul class="nav">
-  <li class="active"><a href="###">首页</a></li>
-  <li><a href="###">动态 </a></li>
-  <li><a href="###">项目 </a></li>
-  <li>
-    <a href="">更多 <span class="caret"></span></a>
-  </li>
-</ul>
+  <div>
+    <menu class="nav">
+      <li class="nav-item"><a class="active"><i class="icon icon-home"></i><span class="text">首页</span></a></li>
+      <li class="nav-item"><a><span class="text">产品</span></a></li>
+      <li class="nav-item"><a><span class="text">价格</span></a></li>
+      <li class="nav-item"><a class="disabled"><span class="text">动态</span></a></li>
+      <li class="nav-divider"></li>
+      <li class="nav-item">
+      <a data-toggle="dropdown" href="#navDropdown1">
+        <span class="text">更多</span><span class="caret"></span>
+      </a>
+      </li>
+      <li class="nav-space"></li>
+      <li class="nav-btn-group">
+      <div class="btn-group">
+        <button type="button" class="btn">预定</button>
+        <button type="button" class="btn">在线咨询</button>
+      </div>
+      </li>
+      <li class="nav-space w-4 flex-none"></li>
+      <li>
+        <button type="button" class="btn primary-outline bg-none">登录</button>
+        <button type="button" class="btn primary">注册</button>
+      </li>
+    </menu>
+    <menu id="navDropdown1" class="dropdown-menu menu">
+      <li class="menu-item"><a><span class="text">博客</span></a></li>
+      <li class="menu-item"><a><span class="text">项目</span></a></li>
+      <li class="menu-item"><a><span class="text">关于我们</span></a></li>
+    </menu>
+  </div>
 </Example>
 
 ```html
-<ul class="nav">
-  <li class="active"><a href="###">首页</a></li>
-  <li><a href="###">动态 <span class="label label-badge label-success">4</span></a></li>
-  <li><a href="###">项目 </a></li>
-  <li>
-    <a class="dropdown-toggle" data-toggle="dropdown" href="###">更多 <span class="caret"></span></a>
+<menu class="nav">
+  <li class="nav-item"><a class="active"><i class="icon icon-home"></i><span class="text">首页</span></a></li>
+  <li class="nav-item"><a><span class="text">产品</span></a></li>
+  <li class="nav-item"><a><span class="text">价格</span></a></li>
+  <li class="nav-item"><a class="disabled"><span class="text">动态</span></a></li>
+  <li class="nav-divider"></li>
+  <li class="nav-item">
+  <a data-toggle="dropdown" href="#navDropdown1">
+    <span class="text">更多</span><span class="caret"></span>
+  </a>
   </li>
-</ul>
+  <li class="nav-space"></li>
+  <li class="nav-btn-group">
+  <div class="btn-group">
+    <button type="button" class="btn">预定</button>
+    <button type="button" class="btn">在线咨询</button>
+  </div>
+  </li>
+  <li class="nav-space w-4 flex-none"></li>
+  <li>
+    <button type="button" class="btn primary-outline bg-none">登录</button>
+    <button type="button" class="btn primary">注册</button>
+  </li>
+</menu>
+<menu id="navDropdown1" class="dropdown-menu menu">
+  <li class="menu-item"><a><span class="text">博客</span></a></li>
+  <li class="menu-item"><a><span class="text">项目</span></a></li>
+  <li class="menu-item"><a><span class="text">关于我们</span></a></li>
+</menu>
 ```
 
-### 简单导航
-<Example>
-<ul class="nav nav-simple">
-  <li class="active"><a href="###">首页</a></li>
-  <li><a href="###">动态 </a></li>
-  <li><a href="###">项目 </a></li>
-  <li>
-    <a class="dropdown-toggle" data-toggle="dropdown" href="###">更多 <span class="caret"></span></a>
-  </li>
-</ul>
+<script setup>
+  const arrayNav = [
+    {class: 'simple', name: '简单'},
+    {class: 'primary', name: '主要'},
+    {class: 'secondary', name: '次要'},
+    {class: 'tabs', name: '标签风格'},
+    {class: 'pills', name: '圆点'},
+  ]
+</script>
+
+## 丰富的导航样式
+<Example v-for="item in arrayNav" >
+ <div class="text-lg pb-4 font-black">
+   {{ item.name + '导航' }}
+ </div>
+ <div class="text-md pb-4 font-bold">
+   {{ '使用 nav- ' + item.class + '修饰类获得' + item.name + '导航样式' }}
+ </div>
+ <menu class="nav" :class="'nav-' + item.class ">
+   <li class="nav-item"><a class="active"><i class="icon icon-home"></i><span class="text">首页</span></a></li>
+   <li class="nav-item"><a><span class="text">产品</span></a></li>
+   <li class="nav-item"><a><span class="text">价格</span></a></li>
+   <li class="nav-item"><a class="disabled"><span class="text">动态</span></a></li>
+   <li class="nav-item">
+     <a data-toggle="dropdown" href="#navDropdown2">
+       <span class="text">更多</span><span class="caret"></span>
+     </a>
+   </li>
+ </menu>
+ <menu id="navDropdown2" class="dropdown-menu menu">
+   <li class="menu-item"><a><span class="text">博客</span></a></li>
+   <li class="menu-item"><a><span class="text">项目</span></a></li>
+   <li class="menu-item"><a><span class="text">关于我们</span></a></li>
+ </menu>
 </Example>
 
 ```html
-<ul class="nav nav-simple">
-  <li class="active"><a href="###">首页</a></li>
-  <li><a href="###">动态 <span class="label label-badge label-success">4</span></a></li>
-  <li><a href="###">项目 </a></li>
-  <li>
-    <a class="dropdown-toggle" data-toggle="dropdown" href="###">更多 <span class="caret"></span></a>
-  </li>
-</ul>
-```
+ <menu class="nav nav-simple">
+   ...
+ </menu>
 
-## 主要导航
+ <menu class="nav nav-primary">
+   ...
+ </menu>
 
-使用.nav-primary修饰类获得一级导航样式
+ <menu class="nav nav-secondary">
+   ...
+ </menu>
 
-<Example>
-<ul class="nav nav-primary">
-  <li class="active"><a href="###">首页</a></li>
-  <li><a href="###">动态 </a></li>
-  <li><a href="###">项目 </a></li>
-  <li>
-    <a class="dropdown-toggle" data-toggle="dropdown" href="###">更多 <span class="caret"></span></a>
-  </li>
-</ul>
-</Example>
+ <menu class="nav nav-tabs">
+   ...
+ </menu>
 
-
-```html
-<ul class="nav nav-primary">
-  <li class="active"><a href="###">首页</a></li>
-  <li><a href="###">动态 <span class="label label-badge label-success">4</span></a></li>
-  <li><a href="###">项目 </a></li>
-  <li>
-    <a class="dropdown-toggle" data-toggle="dropdown" href="###">更多 <span class="caret"></span></a>
-  </li>
-</ul>
-```
-
-## 次要导航
-
-使用.nav-secondary修饰类获取二级导航样式，通常搭配一级导航使用。
-
-<Example>
-<ul class="nav nav-secondary">
-  <li class="active"><a href="###">首页</a></li>
-  <li><a href="###">动态 </a></li>
-  <li><a href="###">项目 </a></li>
-  <li>
-    <a class="dropdown-toggle" data-toggle="dropdown" href="###">更多 <span class="caret"></span></a>
-  </li>
-</ul>
-</Example>
-
-```html
-<ul class="nav nav-secondary">
-  <li class="active"><a href="###">首页</a></li>
-  <li><a href="###">动态 <span class="label label-badge label-success">4</span></a></li>
-  <li><a href="###">项目 </a></li>
-  <li>
-    <a class="dropdown-toggle" data-toggle="dropdown" href="###">更多 <span class="caret"></span></a>
-  </li>
-</ul>
-```
-
-## 标签风格的导航
-
-使用.nav-tabs 修饰类获取标签页风格导航样式
-
-<Example>
-<ul class="nav nav-tabs">
-  <li class="active"><a href="###">首页</a></li>
-  <li><a href="###">动态 </a></li>
-  <li><a href="###">项目 </a></li>
-  <li>
-    <a class="dropdown-toggle" data-toggle="dropdown" href="###">更多 <span class="caret"></span></a>
-  </li>
-</ul>
-</Example>
-
-
-```html
-<ul class="nav nav-tabs">
-  <li class="active"><a href="###">首页</a></li>
-  <li><a href="###">动态 <span class="label label-badge label-success">4</span></a></li>
-  <li><a href="###">项目 </a></li>
-  <li>
-    <a class="dropdown-toggle" data-toggle="dropdown" href="###">更多 <span class="caret"></span></a>
-  </li>
-</ul>
-```
-
-## 圆点导航
-
-<Example>
-  <ul class="nav nav-pills">
-    <li class="active"><a href="###">首页</a></li>
-    <li><a href="###">动态 </a></li>
-    <li><a href="###">项目 </a></li>
-    <li>
-      <a class="dropdown-toggle" data-toggle="dropdown" href="###">更多 <span class="caret"></span></a>
-    </li>
-  </ul>
-</Example>
-
-
-```html
-<ul class="nav nav-pills">
-  <li class="active"><a href="###">首页</a></li>
-  <li><a href="###">动态 <span class="label label-badge label-success">4</span></a></li>
-  <li><a href="###">项目 </a></li>
-  <li>
-    <a class="dropdown-toggle" data-toggle="dropdown" href="###">更多 <span class="caret"></span></a>
-  </li>
-</ul>
+ <menu class="nav nav-pills">
+   ...
+ </menu>
 ```
 
 ## 垂直排列的导航
 
-<Example>
-  <ul class="nav nav-stacked">
-    <li class="active"><a href="###">首页</a></li>
-    <li><a href="###">动态 </a></li>
-    <li><a href="###">项目 </a></li>
-    <li>
-      <a class="dropdown-toggle" data-toggle="dropdown" href="###">更多 <span class="caret"></span></a>
-    </li>
-  </ul>
-</Example>
+使用修饰类 `nav-stacked` 使导航获得垂直排列样式 可搭配其他各种样式的导航使用
 
+<Example class="flex gap-5">
+ <div v-for="item in arrayNav" class="flex-1">
+   <div class="text-md pb-4 font-bold">
+     {{ 'nav- ' + item.class}}
+   </div>
+   <menu class="nav nav-stacked" :class="'nav-' + item.class ">
+     <li class="nav-item"><a class="active"><i class="icon icon-home"></i><span class="text">首页</span></a></li>
+     <li class="nav-item"><a><span class="text">产品</span></a></li>
+     <li class="nav-item"><a><span class="text">价格</span></a></li>
+     <li class="nav-item"><a class="disabled"><span class="text">动态</span></a></li>
+     <li class="nav-item">
+       <a data-toggle="dropdown" href="#navDropdown2">
+         <span class="text">更多</span><span class="caret"></span>
+       </a>
+     </li>
+   </menu>
+   <menu id="navDropdown2" class="dropdown-menu menu">
+     <li class="menu-item"><a><span class="text">博客</span></a></li>
+     <li class="menu-item"><a><span class="text">项目</span></a></li>
+     <li class="menu-item"><a><span class="text">关于我们</span></a></li>
+   </menu>
+ </div>
+</Example>
 
 ```html
-<ul class="nav nav-stacked">
-  <li class="active"><a href="###">首页</a></li>
-  <li><a href="###">动态 <span class="label label-badge label-success">4</span></a></li>
-  <li><a href="###">项目 </a></li>
-  <li>
-    <a class="dropdown-toggle" data-toggle="dropdown" href="###">更多 <span class="caret"></span></a>
-  </li>
-</ul>
+<menu class="nav nav-stacked ...">
+  ...
+</menu>
 ```
 
-## 带分隔线的导航
-
-<Example>
- <ul class="nav nav-divider">
-   <li class="active"><a href="###">首页</a></li>
-   <li><a href="###">动态 </a></li>
-   <li><a href="###">项目 </a></li>
- </ul>
-</Example>
-
- ```html
- <ul class="nav nav-divider">
-   <li class="active"><a href="###">首页</a></li>
-   <li><a href="###">动态 </a></li>
-   <li><a href="###">项目 </a></li>
- </ul>
- ```
 ## 自适应宽度的导航
+
+使用修饰类 `nav-justified` 使导航获得自适应宽度样式 可搭配其他各种样式的导航使用
 
 自适应宽度修饰类不能和垂直排列修饰类混用
 
 <Example>
-<ul class="nav nav-justified">
-  <li class="active"><a href="###">首页</a></li>
-  <li><a href="###">动态 </a></li>
-  <li><a href="###">项目 </a></li>
-</ul>
- <ul class="nav nav-secondary nav-justified">
-   <li class="active"><a href="###" >首页</a></li>
-   <li><a href="###">动态 </a></li>
-   <li><a href="###">项目 </a></li>
- </ul>
- <ul class="nav nav-tabs nav-justified">
-   <li class="active"><a href="###" >首页</a></li>
-   <li><a href="###">动态 </a></li>
-   <li><a href="###">项目 </a></li>
- </ul>
- <ul class="nav nav-pills nav-justified">
-   <li class="active"><a href="###" >首页</a></li>
-   <li><a href="###">动态 </a></li>
-   <li><a href="###">项目 </a></li>
- </ul>
+ <div v-for="item in arrayNav" class="flex-1">
+   <menu class="nav nav-justified py-4" :class="'nav-' + item.class ">
+     <li class="nav-item"><a class="active"><i class="icon icon-home"></i><span class="text">首页</span></a></li>
+     <li class="nav-item"><a><span class="text">产品</span></a></li>
+     <li class="nav-item"><a><span class="text">价格</span></a></li>
+     <li class="nav-item"><a class="disabled"><span class="text">动态</span></a></li>
+     <li class="nav-item">
+       <a data-toggle="dropdown" href="#navDropdown2">
+         <span class="text">更多</span><span class="caret"></span>
+       </a>
+     </li>
+   </menu>
+   <menu id="navDropdown2" class="dropdown-menu menu">
+     <li class="menu-item"><a><span class="text">博客</span></a></li>
+     <li class="menu-item"><a><span class="text">项目</span></a></li>
+     <li class="menu-item"><a><span class="text">关于我们</span></a></li>
+   </menu>
+ </div>
 </Example>
 
-
 ```html
-<ul class="nav nav-justified">
-  <li class="active"><a href="###">首页</a></li>
-  <li><a href="###">动态 <span class="label label-badge label-success">4</span></a></li>
-  <li><a href="###">项目 </a></li>
-  <li>
-    <a class="dropdown-toggle" data-toggle="dropdown" href="###">更多 <span class="caret"></span></a>
-  </li>
-</ul>
- <ul class="nav nav-secondary nav-justified">
-   <li class="active"><a href="###" >首页</a></li>
-   <li><a href="###">动态 </a></li>
-   <li><a href="###">项目 </a></li>
- </ul>
- <ul class="nav nav-tabs nav-justified">
-   <li class="active"><a href="###" >首页</a></li>
-   <li><a href="###">动态 </a></li>
-   <li><a href="###">项目 </a></li>
- </ul>
- <ul class="nav nav-pills nav-justified">
-   <li class="active"><a href="###" >首页</a></li>
-   <li><a href="###">动态 </a></li>
-   <li><a href="###">项目 </a></li>
- </ul>
+<menu class="nav nav-justified ...">
+  ...
+</menu>
 ```
-## 禁用导航
+
+## 带标题的导航与禁用样式 
+
+可以通过修饰类 'nav-heading' 给导航项设置标题样式, 通过修饰类 `disabled` 给导航项设置禁用样式。
 
 <Example>
-<ul class="nav">
-  <li class="active"><a href="###">首页</a></li>
-  <li class="disabled"><a href="###">动态 </a></li>
-  <li><a href="###">项目 </a></li>
-  <li>
-    <a class="dropdown-toggle" data-toggle="dropdown" href="###">更多 <span class="caret"></span></a>
-  </li>
-</ul>
+  <menu v-for="item in arrayNav" :class="'nav-' + item.class" class="nav nav-justified py-2">
+    <li class="nav-heading">导航标题</li>
+    <li class="nav-item"><a class="active"><i class="icon icon-home"></i><span class="text">首页</span></a></li>
+    <li class="nav-item"><a><span class="text">产品</span></a></li>
+    <li class="nav-item"><a><span class="text">价格</span></a></li>
+    <li class="nav-item"><a class="disabled"><span class="text">动态</span></a></li>
+    <li class="nav-divider"></li>
+    <li class="nav-item">
+      <a data-toggle="dropdown" href="#navDropdown8">
+        <span class="text">更多</span><span class="caret"></span>
+      </a>
+    </li>
+  </menu>
+  <div class="flex gap-3 pt-4">
+    <menu v-for="item in arrayNav" :class="'nav-' + item.class" class="nav nav-stacked flex-1">
+      <li class="nav-heading">导航标题</li>
+      <li class="nav-item"><a class="active"><i class="icon icon-home"></i><span class="text">首页</span></a></li>
+      <li class="nav-item"><a><span class="text">产品</span></a></li>
+      <li class="nav-item"><a><span class="text">价格</span></a></li>
+      <li class="nav-item"><a class="disabled"><span class="text">动态</span></a></li>
+      <li class="nav-divider"></li>
+      <li class="nav-item">
+        <a data-toggle="dropdown" href="#navDropdown8">
+          <span class="text">更多</span><span class="caret"></span>
+        </a>
+      </li>
+    </menu>
+  </div>
 </Example>
 
-
 ```html
-<ul class="nav">
-  <li class="active"><a href="###">首页</a></li>
-  <li class="disabled"><a href="###">动态 </a></li>
-  <li><a href="###">项目 </a></li>
-  <li>
-    <a class="dropdown-toggle" data-toggle="dropdown" href="###">更多 <span class="caret"></span></a>
+<menu class="nav nav-stacked">
+  <li class="nav-heading">导航标题</li>
+  <li class="nav-item"><a class="active"><i class="icon icon-home"></i><span class="text">首页</span></a></li>
+  <li class="nav-item"><a><span class="text">产品</span></a></li>
+  <li class="nav-item"><a><span class="text">价格</span></a></li>
+  <li class="nav-item"><a class="disabled"><span class="text">动态</span></a></li>
+  <li class="nav-divider"></li>
+  <li class="nav-item">
+    <a data-toggle="dropdown" href="#navDropdown8">
+      <span class="text">更多</span><span class="caret"></span>
+    </a>
   </li>
-</ul>
+</menu>
 
+...
 ```
-
-## 带标题的导航
-
-<Example>
-  <ul class="nav">
-    <li class="nav-heading">这是一个标题</li>
-    <li class="active"><a href="###">首页</a></li>
-    <li><a href="###">动态 </a></li>
-    <li><a href="###">项目 </a></li>
-  </ul>
-   <ul class="nav nav-simple">
-     <li class="nav-heading">这是标题</li>
-     <li><a href="###">首页</a></li>
-     <li class="active"><a href="###">动态 </a></li>
-     <li><a href="###">项目 </a></li>
-   </ul>
-   <ul class="nav nav-primary">
-     <li class="nav-heading">这是标题</li>
-     <li><a href="###" >首页</a></li>
-     <li class="active"><a href="###">动态 </a></li>
-     <li><a href="###">项目 </a></li>
-   </ul>
-   <ul class="nav nav-secondary">
-     <li class="nav-heading">这是标题</li>
-     <li><a href="###" >首页</a></li>
-     <li class="active"><a href="###">动态 </a></li>
-     <li><a href="###">项目 </a></li>
-   </ul>
-   <ul class="nav nav-tabs">
-     <li class="nav-heading">这是标题</li>
-     <li><a href="###" >首页</a></li>
-     <li class="active"><a href="###">动态 </a></li>
-     <li><a href="###">项目 </a></li>
-   </ul>
-   <ul class="nav nav-primary nav-stacked">
-     <li class="nav-heading">这是标题</li>
-     <li><a href="###" >首页</a></li>
-     <li class="active"><a href="###">动态 </a></li>
-     <li><a href="###">项目 </a></li>
-   </ul>
-   <ul class="nav nav-stacked nav-pills">
-     <li class="nav-heading">这是标题</li>
-     <li><a href="###" >首页</a></li>
-     <li class="active"><a href="###">动态 </a></li>
-     <li><a href="###">项目 </a></li>
-   </ul>
-</Example>
-
-
-```html
-<ul class="nav">
-  <li class="nav-heading">这是一个标题</li>
-  <li class="active"><a href="###">首页</a></li>
-  <li><a href="###">动态 </a></li>
-  <li><a href="###">项目 </a></li>
-</ul>
- <ul class="nav nav-simple">
-   <li class="nav-heading">这是标题</li>
-   <li><a href="###">首页</a></li>
-   <li class="active"><a href="###">动态 </a></li>
-   <li><a href="###">项目 </a></li>
- </ul>
- <ul class="nav nav-primary">
-   <li class="nav-heading">这是标题</li>
-   <li><a href="###" >首页</a></li>
-   <li class="active"><a href="###">动态 </a></li>
-   <li><a href="###">项目 </a></li>
- </ul>
- <ul class="nav nav-secondary">
-   <li class="nav-heading">这是标题</li>
-   <li><a href="###" >首页</a></li>
-   <li class="active"><a href="###">动态 </a></li>
-   <li><a href="###">项目 </a></li>
- </ul>
- <ul class="nav nav-tabs">
-   <li class="nav-heading">这是标题</li>
-   <li><a href="###" >首页</a></li>
-   <li class="active"><a href="###">动态 </a></li>
-   <li><a href="###">项目 </a></li>
- </ul>
- <ul class="nav nav-primary nav-stacked">
-   <li class="nav-heading">这是标题</li>
-   <li><a href="###" >首页</a></li>
-   <li class="active"><a href="###">动态 </a></li>
-   <li><a href="###">项目 </a></li>
- </ul>
- <ul class="nav nav-stacked nav-pills">
-   <li class="nav-heading">这是标题</li>
-   <li><a href="###" >首页</a></li>
-   <li class="active"><a href="###">动态 </a></li>
-   <li><a href="###">项目 </a></li>
- </ul>
-```
-
-
-<script>
-if (typeof window !== 'undefined') {
-    window.onload = function () {
-        document.onclick = function (e) {
-            console.log(e.target);
-            if (e !== null && e.target instanceof HTMLElement && e.target.tagName == 'A') {
-                console.log(e.target.classList);
-                console.log(e.target.parentNode.classList, 'pNode');
-                if (e.target.parentNode.classList.contains('-disabled')) {
-                    return;
-                }
-                const element = e.target.parentNode.parentNode.querySelector('.active');
-                if (element) {
-                    element.classList.remove('active');
-                }
-                e.target.parentNode.classList.add('active');
-            }
-        }
-    };
-}
-</script>
 
 ## CSS 类
 
@@ -423,3 +280,4 @@ if (typeof window !== 'undefined') {
 | --nav-heading-color            | 导航标题字体颜色 |
 | --nav-heading-color            | 导航标题字体颜色 |
 | --nav-divider-color            | 导航分隔线颜色 |
+
