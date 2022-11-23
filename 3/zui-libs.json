@@ -776,6 +776,14 @@
             "css",
             "zui:control"
         ],
+        "files": [
+            "./src/**/*"
+        ],
+        "exports": {
+            ".": "./src/main.ts",
+            "./react": "./src/main-react.ts",
+            "./jquery": "./src/main-jquery.ts"
+        },
         "dependencies": {
             "preact": "10.11.2",
             "@zui/button": "workspace:^0.0.1"
@@ -1106,6 +1114,11 @@
         "files": [
             "./src/**/*"
         ],
+        "exports": {
+            ".": "./src/main.ts",
+            "./react": "./src/main-react.ts",
+            "./jquery": "./src/main-jquery.ts"
+        },
         "zui": {
             "type": "component",
             "displayName": "工具栏",
