@@ -1,12 +1,17 @@
-# 按钮组生成器
+script# 按钮组生成器
 
 ## 基本用法
 
-<Example>
+<Example class="col gap-2">
   <div id="btnGroup"></div>
+  <div id="iconBtnGroup"></div>
 </Example>
 
-```js
+```html
+<div id="btnGroup"></div>
+<div id="iconBtnGroup"></div>
+
+<script>
 const btnGroup = new BtnGroup('#btnGroup', {
     items: [
         {text: '复制', icon: 'icon-copy'},
@@ -22,6 +27,19 @@ const btnGroup = new BtnGroup('#btnGroup', {
     },
 });
 console.log('> btnGroup', btnGroup);
+
+const btnGroup = new BtnGroup('#iconBtnGroup', {
+    size: 'lg',
+    items: [
+        {icon: 'icon-copy'},
+        {icon: 'icon-paste'},
+        {type: 'heading', caret: true},
+        {icon: 'icon-upload-alt'},
+        {icon: 'icon-download-alt'},
+        {icon: 'icon-save', onClick: (event) => console.log('> btnGroupItem.clicked', event)},
+    ],
+});
+</script>
 ```
 
 ## 引入
@@ -182,6 +200,16 @@ export default {
                 },
             });
             console.log('> btnGroup', btnGroup);
+            const iconBtnGroup = new zui.BtnGroup('#iconBtnGroup', {
+                size: 'lg',
+                items: [
+                    {icon: 'icon-copy'},
+                    {icon: 'icon-paste'},
+                    {icon: 'icon-upload-alt'},
+                    {icon: 'icon-download-alt'},
+                    {icon: 'icon-save', onClick: (event) => console.log('> btnGroupItem.clicked', event)},
+                ],
+            });
         });
     },
 };

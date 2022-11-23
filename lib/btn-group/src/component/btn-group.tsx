@@ -86,7 +86,7 @@ export class BtnGroup extends Component<BtnGroupOptions> {
 
         return (
             <div
-                className={classes('btn-group', className)}
+                className={classes('btn-group', size ? `size-${size}` : '', className)}
                 {...others}
             >
                 {items && items.map(this.renderItem.bind(this, options))}
