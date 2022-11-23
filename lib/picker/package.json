@@ -10,21 +10,6 @@
     "files": [
         "./src/**/*"
     ],
-    "devDependencies": {
-        "@zui/base": "workspace:*",
-        "@zui/icons": "workspace:^0.0.1",
-        "zui-dev": "workspace:^0.0.1"
-    },
-    "dependencies": {
-        "@zui/browser-helpers": "workspace:^0.0.1",
-        "@zui/com-helpers": "workspace:^0.0.1",
-        "@zui/css-icons": "workspace:^0.0.1",
-        "@zui/action-menu": "workspace:^0.0.1",
-        "@zui/input": "workspace:^0.0.1",
-        "@zui/form": "workspace:^0.0.1",
-        "@zui/menu": "workspace:^0.0.1",
-        "preact": "10.11.2"
-    },
     "zui": {
         "type": "control",
         "displayName": "下拉选择器",
