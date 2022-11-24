@@ -250,6 +250,29 @@
 ...
 ```
 
+## 带分隔线的导航
+<Example>
+ <div v-for="item in arrayNav" class="flex-1">
+   <menu class="nav py-4" :class="'nav-' + item.class ">
+     <li class="nav-item"><a class="active"><i class="icon icon-home"></i><span class="text">首页</span></a></li>
+     <li class="nav-item"><a><span class="text">产品</span></a></li>
+     <li class="nav-item"><a><span class="text">价格</span></a></li>
+     <li class="nav-divider"></li>
+     <li class="nav-item"><a class="disabled"><span class="text">动态</span></a></li>
+     <li class="nav-item">
+       <a data-toggle="dropdown" href="#navDropdown2">
+         <span class="text">更多</span><span class="caret"></span>
+       </a>
+     </li>
+   </menu>
+   <menu id="navDropdown2" class="dropdown-menu menu">
+     <li class="menu-item"><a><span class="text">博客</span></a></li>
+     <li class="menu-item"><a><span class="text">项目</span></a></li>
+     <li class="menu-item"><a><span class="text">关于我们</span></a></li>
+   </menu>
+ </div>
+</Example>
+
 ## CSS 类
 
 导航提供了如下CSS类
