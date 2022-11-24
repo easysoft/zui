@@ -2,14 +2,12 @@ script# 按钮组生成器
 
 ## 基本用法
 
-<Example class="col gap-2">
+<Example>
   <div id="btnGroup"></div>
-  <div id="iconBtnGroup"></div>
 </Example>
 
 ```html
 <div id="btnGroup"></div>
-<div id="iconBtnGroup"></div>
 
 <script>
 const btnGroup = new BtnGroup('#btnGroup', {
@@ -27,7 +25,19 @@ const btnGroup = new BtnGroup('#btnGroup', {
     },
 });
 console.log('> btnGroup', btnGroup);
+</script>
+```
 
+## 按钮类型
+
+<Example>
+  <div id="iconBtnGroup"></div>
+</Example>
+
+```html
+<div id="iconBtnGroup"></div>
+
+<script>
 const btnGroup = new BtnGroup('#iconBtnGroup', {
     size: 'lg',
     items: [
@@ -38,6 +48,48 @@ const btnGroup = new BtnGroup('#iconBtnGroup', {
         {icon: 'icon-download-alt'},
         {icon: 'icon-save', onClick: (event) => console.log('> btnGroupItem.clicked', event)},
     ],
+});
+</script>
+```
+
+## 尺寸
+
+<Example class="col gap-3">
+  <div id="xsBtnGroup"></div>
+  <div id="smBtnGroup"></div>
+  <div id="lgBtnGroup"></div>
+  <div id="xlBtnGroup"></div>
+</Example>
+
+```html
+<div id="xsBtnGroup"></div>
+<div id="smBtnGroup"></div>
+<div id="lgBtnGroup"></div>
+<div id="xlBtnGroup"></div>
+
+<script>
+const btnGroup = new BtnGroup('#xsBtnGroup', {
+    size: 'xs',
+    items: [
+        {icon: 'icon-copy'},
+        {icon: 'icon-paste'},
+        {type: 'heading', caret: true},
+        {icon: 'icon-upload-alt'},
+        {icon: 'icon-download-alt'},
+        {icon: 'icon-save', onClick: (event) => console.log('> btnGroupItem.clicked', event)},
+    ],
+});
+const btnGroup = new BtnGroup('#smBtnGroup', {
+    size: 'sm',
+    // ...
+});
+const btnGroup = new BtnGroup('#lgBtnGroup', {
+    size: 'lg',
+    // ...
+});
+const btnGroup = new BtnGroup('#xlBtnGroup', {
+    size: 'xl',
+    // ...
 });
 </script>
 ```
@@ -169,7 +221,7 @@ new BtnGroup('#btnGroup', {
 | `style`      | 设置 `a` 标签样式          | `object`  |  - | - |
 | `component`  | DOM 元素名称               | `string`  |  - | - |
 | `target`     | 在何处打开链接地址          | `string`  | `_self` | ` _self / _black / _top / _parent` |
-| `type`       | 按钮类型                 | `string`  | `item`  | `item / divider （分割线）/ heading / custom` |
+| `type`       | 按钮类型                    | `string`  | -  | `primary / secondary / important / success / warning ...` |
 | `disabled`   | 按钮禁用状态              | `boolean` | `false` | - |
 | `active`     | 按钮激活状态              | `boolean` | `false` | - |
 | `children`   | 子组件                     | `array`  | -  |  - |
@@ -200,15 +252,28 @@ export default {
                 },
             });
             console.log('> btnGroup', btnGroup);
+            
             const iconBtnGroup = new zui.BtnGroup('#iconBtnGroup', {
                 size: 'lg',
                 items: [
-                    {icon: 'icon-copy'},
-                    {icon: 'icon-paste'},
-                    {icon: 'icon-upload-alt'},
-                    {icon: 'icon-download-alt'},
-                    {icon: 'icon-save', onClick: (event) => console.log('> btnGroupItem.clicked', event)},
+                    {icon: 'icon-search', type: 'primary'},
+                    {icon: 'icon-refresh', type: 'secondary'},
+                    {icon: 'icon-check', type: 'success'},
+                    {icon: 'icon-exclamation-sign', type: 'warning'},
+                    {icon: 'icon-times', type: 'danger', onClick: (event) => console.log('> btnGroupItem.clicked', event)},
                 ],
+            });
+            const sizeList = ['xs', 'sm', 'lg', 'xl'];
+            sizeList.forEach(item => {
+                new zui.BtnGroup(`#${item}BtnGroup`, {
+                    size: item,
+                    items: [
+                        {icon: 'icon-search'},
+                        {icon: 'icon-refresh'},
+                        {icon: 'icon-check'},
+                        {icon: 'icon-exclamation-sign'},
+                    ],
+                });
             });
         });
     },

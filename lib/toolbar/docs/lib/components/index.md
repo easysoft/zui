@@ -105,6 +105,39 @@ const btnTypeIconToolbar = new zui.Toolbar('#btnTypeIconToolbar', {
 });
 ```
 
+## 尺寸
+
+<Example class="col gap-2">
+  <div id="xsToolbar"></div>
+  <div id="smToolbar"></div>
+  <div id="lgToolbar"></div>
+  <div id="xlToolbar"></div>
+</Example>
+
+```js
+const xsToolbar = new zui.Toolbar('#xsToolbar', {
+    btnProps: {btnType: 'primary', size: 'xs'},
+    gap: 2,
+    items: [
+        {icon: 'icon-home'},
+        {icon: 'icon-rss'},
+        {icon: 'icon-group'},
+    ],
+});
+const smToolbar = new zui.Toolbar('#smToolbar', {
+    btnProps: {btnType: 'primary', size: 'sm'},
+    // ...
+});
+const lgIconToolbar = new zui.Toolbar('#lgToolbar', {
+    btnProps: {btnType: 'primary', size: 'lg'},
+    // ...
+});
+const lgIconToolbar = new zui.Toolbar('#xlToolbar', {
+    btnProps: {btnType: 'primary', size: 'xl'},
+    // ...
+});
+```
+
 ## 引入
 
 ### 通过 npm
@@ -303,6 +336,18 @@ export default {
                     {icon: 'icon-rss'},
                     {icon: 'icon-group', btnType: 'primary'},
                 ],
+            });
+            const toolbarSizeList = ['xs', 'sm', 'lg', 'xl'];
+            toolbarSizeList.forEach(item => {
+                new zui.Toolbar(`#${item}Toolbar`, {
+                    btnProps: {btnType: 'primary', size: item},
+                    gap: 2,
+                    items: [
+                        {icon: 'icon-home'},
+                        {icon: 'icon-rss'},
+                        {icon: 'icon-group'},
+                    ],
+                });
             });
         });
     },
