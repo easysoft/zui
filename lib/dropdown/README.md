@@ -62,7 +62,7 @@ console.log('> dropdown', dropdown);
 
 ## 鼠标悬停展开菜单
 
-添加属性 `[data-hover]` 实现鼠标悬停展开菜单
+添加属性 `[data-trigger="hover"]` 实现鼠标悬停展开菜单
 
 ```html:example: -flex -gap-3
 <button class="btn" type="button" data-toggle="dropdown" data-trigger="hover">鼠标悬停展开菜单按钮 <span class="caret"></span></button>
@@ -79,153 +79,152 @@ console.log('> dropdown', dropdown);
 
 ```html:example: -flex -gap-3 -flex-wrap
 <button class="btn" type="button" data-toggle="dropdown" data-placement="top-start" data-arrow="true">上方左侧对齐 <span class="caret"></span></button>
-<ul class="dropdown-menu menu">
+<menu class="dropdown-menu menu">
   <li class="menu-item"><a>操作</a></li>
-  <li class="menu-item"><a>另一个操作</a></li>
+  <li class="menu-item"><a>另一个上方右侧对齐操作</a></li>
   <li class="menu-item"><a>更多操作</a></li>
-</ul>
+</menu>
 
 <button class="btn" type="button" data-toggle="dropdown" data-placement="top" data-arrow="true">上方居中对齐 <span class="caret"></span></button>
-<ul class="dropdown-menu menu">
+<menu class="dropdown-menu menu">
   <li class="menu-item"><a>操作</a></li>
   <li class="menu-item"><a>另一个操作</a></li>
   <li class="menu-item"><a>更多操作</a></li>
-</ul>
+</menu>
 
 <button class="btn" type="button" data-toggle="dropdown" data-placement="top-end" data-arrow="true">上方右侧对齐 <span class="caret"></span></button>
-<ul class="dropdown-menu menu">
+<menu class="dropdown-menu menu">
   <li class="menu-item"><a>操作</a></li>
   <li class="menu-item"><a>另一个操作</a></li>
   <li class="menu-item"><a>更多操作</a></li>
-</ul>
+</menu>
 
 <button class="btn" type="button" data-toggle="dropdown" data-placement="bottom-start" data-arrow="true">下方左侧对齐 <span class="caret"></span></button>
-<ul class="dropdown-menu menu">
+<menu class="dropdown-menu menu">
   <li class="menu-item"><a>操作</a></li>
   <li class="menu-item"><a>另一个操作</a></li>
   <li class="menu-item"><a>更多操作</a></li>
-</ul>
+</menu>
 
 <button class="btn" type="button" data-toggle="dropdown" data-placement="bottom" data-arrow="true">下方居中对齐 <span class="caret"></span></button>
-<ul class="dropdown-menu menu">
+<menu class="dropdown-menu menu">
   <li class="menu-item"><a>操作</a></li>
   <li class="menu-item"><a>另一个操作</a></li>
   <li class="menu-item"><a>更多操作</a></li>
-</ul>
+</menu>
 
 <button class="btn" type="button" data-toggle="dropdown" data-placement="bottom-end" data-arrow="true">下方右侧对齐 <span class="caret"></span></button>
-<ul class="dropdown-menu menu">
+<menu class="dropdown-menu menu">
   <li class="menu-item"><a>操作</a></li>
   <li class="menu-item"><a>另一个操作</a></li>
   <li class="menu-item"><a>更多操作</a></li>
-</ul>
+</menu>
 
 <button class="btn" type="button" data-toggle="dropdown" data-placement="left-start" data-arrow="true">左侧上方 <span class="caret"></span></button>
-<ul class="dropdown-menu menu">
+<menu class="dropdown-menu menu">
   <li class="menu-item"><a>操作</a></li>
   <li class="menu-item"><a>另一个操作</a></li>
   <li class="menu-item"><a>更多操作</a></li>
-</ul>
+</menu>
 
 <button class="btn" type="button" data-toggle="dropdown" data-placement="left" data-arrow="true">左侧居中对齐 <span class="caret"></span></button>
-<ul class="dropdown-menu menu">
+<menu class="dropdown-menu menu">
   <li class="menu-item"><a>操作</a></li>
   <li class="menu-item"><a>另一个操作</a></li>
   <li class="menu-item"><a>更多操作</a></li>
-</ul>
+</menu>
 
 <button class="btn" type="button" data-toggle="dropdown" data-placement="left-end" data-arrow="true">左侧下方对齐 <span class="caret"></span></button>
-<ul class="dropdown-menu menu">
+<menu class="dropdown-menu menu">
   <li class="menu-item"><a>操作</a></li>
   <li class="menu-item"><a>另一个操作</a></li>
   <li class="menu-item"><a>更多操作</a></li>
-</ul>
+</menu>
 
 <button class="btn" type="button" data-toggle="dropdown" data-placement="right-start" data-arrow="true">右侧上方 <span class="caret"></span></button>
-<ul class="dropdown-menu menu">
+<menu class="dropdown-menu menu">
   <li class="menu-item"><a>操作</a></li>
   <li class="menu-item"><a>另一个操作</a></li>
   <li class="menu-item"><a>更多操作</a></li>
-</ul>
+</menu>
 
 <button class="btn" type="button" data-toggle="dropdown" data-placement="right" data-arrow="true">右侧居中对齐 <span class="caret"></span></button>
-<ul class="dropdown-menu menu">
+<menu class="dropdown-menu menu">
   <li class="menu-item"><a>操作</a></li>
   <li class="menu-item"><a>另一个操作</a></li>
   <li class="menu-item"><a>更多操作</a></li>
-</ul>
+</menu>
 
 <button class="btn" type="button" data-toggle="dropdown" data-placement="right-end" data-arrow="true">右侧下方对齐 <span class="caret"></span></button>
-<ul class="dropdown-menu menu">
+<menu class="dropdown-menu menu">
   <li class="menu-item"><a>操作</a></li>
   <li class="menu-item"><a>另一个操作</a></li>
   <li class="menu-item"><a>更多操作</a></li>
-</ul>
+</menu>
 
 <button class="btn" type="button" data-toggle="dropdown" data-placement="auto" data-arrow="true">自动方向 <span class="caret"></span></button>
-<ul class="dropdown-menu menu">
+<menu class="dropdown-menu menu">
   <li class="menu-item"><a>操作</a></li>
   <li class="menu-item"><a>另一个操作</a></li>
   <li class="menu-item"><a>更多操作</a></li>
-</ul>
+</menu>
 ```
 ## 多级子菜单
 在 `.dropdown-menu` 内的 `<li> `内包含另一个 `.dropdown-menu` 从而实现多级子菜单。包含子菜单 `<li>` 需要添加额外的类 `.dropdown-submenu`。
 一般情况下子菜单会在菜单项的右侧显示，但也可以为作为子菜单的 `.dropdown-menu` 添加 `.expand-left` 类来使得子菜单在左侧显示
+
 ```html:example: -flex -gap-3
-<div class="dropdown">
-  <button class="btn" type="button" data-toggle="dropdown">菜单按钮 <span class="caret"></span></button>
-  <ul class="dropdown-menu menu">
-    <li class="menu-item dropdown-submenu">
-      <a>打开</a>
-      <ul class="dropdown-menu menu">
+  <button class="btn" type="button" href="#main" data-toggle="dropdown" data-trigger="hover">菜单按钮 <span class="caret"></span></button>
+  <menu class="dropdown-menu menu" id="main">
+    <li class="menu-item has-nested-menu">
+      <a class="not-hide-menu" href="#sub1" data-toggle="dropdown" subMenuTrigger="hover">打开</a>
+      <menu id="sub1" class="dropdown-menu menu subMenu has-nested-items">
         <li class="menu-item"><a>运行</a></li>
         <li class="menu-item"><a>在终端中打开</a></li>
         <li class="menu-item"><a>在编辑器中打开</a></li>
-      </ul>
+      </menu>
     </li>
     <li class="menu-item dropdown-submenu">
         <a>一组操作</a>
-        <ul class="dropdown-menu menu">
+        <menu class="dropdown-menu menu">
             <li class="menu-item dropdown-submenu">
                 <a>修改</a>
-                <ul class="dropdown-menu menu">
+                <menu class="dropdown-menu menu">
                     <li class="menu-item"><a>修改标题</a></li>
                     <li class="menu-item"><a>更新内容</a></li>
                     <li class="menu-item"><a>转移</a></li>
-                </ul>
+                </menu>
             </li>
             <li class="menu-item dropdown-submenu">
                 <a>删除</a>
-                <ul class="dropdown-menu menu">
+                <menu class="dropdown-menu menu">
                     <li class="menu-item"><a>移动到回收站</a></li>
                     <li class="menu-item"><a>直接删除</a></li>
-                </ul>
+                </menu>
             </li>
             <li class="menu-item"><a>撤销</a></li>
-        </ul>
+        </menu>
     </li>
     <li class="menu-item dropdown-submenu">
         <a>另一组操作</a>
-        <ul class="dropdown-menu menu">
+        <menu class="dropdown-menu menu">
             <li class="menu-item"><a>评审</a></li>
             <li class="menu-item"><a>计划</a></li>
             <li class="menu-item"><a>关闭</a></li>
-        </ul>
+        </menu>
     </li>
     <li class="menu-item dropdown-submenu">
-      <ul class="dropdown-menu expand-left">
+      <menu class="dropdown-menu expand-left">
         <li class="menu-item"><a>复制</a></li>
         <li class="menu-item"><a>粘贴</a></li>
         <li class="menu-item"><a>剪切</a></li>
-      </ul>
+      </menu>
     </li>
-  </ul>
-</div>
+  </menu>
 ```
 ## 自定义菜单
 
-通常情况下下拉菜单列表使用 `<ul>` 元素，你也可以替换为其他元素或内容
+通常情况下下拉菜单列表使用 `<menu>` 元素，你也可以替换为其他元素或内容
 
 ```html:example: -flex -gap-3
 <div class="dropdown">
@@ -245,10 +244,10 @@ console.log('> dropdown', dropdown);
 <div class="dropdown">
     <button class="btn" type="button"
         data-toggle="dropdown">菜单按钮 <span class="caret"></span></button>
-    <ul class="dropdown-menu menu">
+    <menu class="dropdown-menu menu">
       <li class="menu-item"><a>操作</a></li>
       <li class="menu-item"><a class="disabled">被禁用的操作</a></li>
-    </ul>
+    </menu>
 </div>
 ```
 
@@ -260,13 +259,13 @@ console.log('> dropdown', dropdown);
 <div class="dropdown">
     <button class="btn" type="button"
         data-toggle="dropdown">菜单按钮 <span class="caret"></span></button>
-    <ul class="dropdown-menu menu">
+    <menu class="dropdown-menu menu">
       <li class="menu-heading">下拉菜单标题</li>
       <li class="menu-item"><a>操作</a></li>
       <li class="menu-item"><a>另一个操作</a></li>
       <li class="menu-divider"></li>
       <li class="menu-heading">更多操作</li>
       <li class="menu-item"><a>修改</a></li>
-    </ul>
+    </menu>
 </div>
 ```
