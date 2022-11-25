@@ -14,27 +14,19 @@ export class ProgressCircle extends Component<ProgressCircleProps> {
     static defaultProps = {
         circleSize: 24,
         circleBorderSize: 2,
+        circleBgColor: 'var(--progress-circle-bg)',
+        circleColor: 'var(--progress-circle-bar-color)',
     };
 
-    constructor(props: ProgressCircleProps) {
-        super(props);
-
-        this.state = {
-            percent: props.percent,
-        };
-    }
-
     render() {
-        const {circleSize, circleBorderSize, circleBgColor, circleColor} = this.props;
-        const {percent} = this.state;
-        console.log(this.props);
+        const {percent, circleSize, circleBorderSize, textSize, circleBgColor, circleColor} = this.props;
         const radius = (circleSize - circleBorderSize) / 2;
         const center = circleSize / 2;
         return (
             <svg width={circleSize} height={circleSize} class="progress-circle">
                 <circle cx={center} cy={center} r={radius} stroke={circleBgColor}/>
                 <circle cx={center} cy={center} r={radius} stroke={circleColor} stroke-dasharray={Math.PI * radius * 2} stroke-dashoffset={Math.PI * radius * 2 * (100 - percent) / 100}/>
-                <text x={center} y={center + circleBorderSize} dominant-baseline="middle">{Math.round(percent)}</text>
+                <text x={center} y={center + circleBorderSize / 4 } dominant-baseline="middle"  style={{fontSize: `${radius}px`}}>{Math.round(percent)}</text>
             </svg>
         );
     }

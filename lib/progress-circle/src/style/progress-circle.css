@@ -5,13 +5,9 @@
 .progress-circle > text {
   text-anchor: middle;
 }
-.progress-circle > circle:first-child {
-  stroke: var(--progress-circle-bg);
-}
 .progress-circle > circle:nth-child(2) {
-  stroke: var(--progress-circle-bar-color);
   stroke-linecap : round;
 }
 .progress-circle {
-  font-size: 10px;
+  font-size: 0.7rem;
 }
