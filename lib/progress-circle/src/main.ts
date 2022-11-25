@@ -1,3 +1,3 @@
-import './vars.css';
-import './progress-circle.css';
-import './progress-circle';
+import './style/vars.css';
+import './style/progress-circle.css';
+export * from './component/progress-circle';

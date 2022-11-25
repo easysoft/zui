@@ -7,4 +7,11 @@
     <text x=12 y=13 dominant-baseline="middle" >40</text>
  </svg>
 ```
-    
+
+## 引入环形进度条组件生成器
+
+
+```html:example
+<div id="progressCircle">
+</div>
+```
