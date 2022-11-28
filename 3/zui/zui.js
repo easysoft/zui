@@ -4301,11 +4301,12 @@ document.addEventListener("mouseover", function(e) {
 });
 var $n, kt;
 class Ff extends Zt {
-  constructor() {
-    super(...arguments);
+  constructor(n) {
+    var o;
+    super(n);
     S(this, $n, void 0);
     S(this, kt, i_());
-    M(this, "state", { placement: "", show: !1 });
+    this.state = { placement: ((o = n.dropdown) == null ? void 0 : o.placement) || "", show: !1 };
   }
   get ref() {
     return m(this, kt);
@@ -4363,9 +4364,14 @@ class Vf extends Ff {
     return this.ref.current.base;
   }
   render() {
+    var r;
     const { placement: t, show: n } = this.state, o = this.beforeRender();
     let { caret: i = !0 } = o;
-    return i !== !1 && (n || i === !0) && (i = (n ? t === "top" ? "up" : t === "bottom" ? "down" : t : i) || "down"), o.caret = i, /* @__PURE__ */ Nl(Rn, {
+    if (i !== !1 && (n || i === !0)) {
+      const l = n ? t : (r = this.props.dropdown) == null ? void 0 : r.placement;
+      i = (l === "top" ? "up" : l === "bottom" ? "down" : l) || (typeof i == "string" ? i : "") || "down";
+    }
+    return o.caret = i, /* @__PURE__ */ Nl(Rn, {
       ...o
     });
   }
