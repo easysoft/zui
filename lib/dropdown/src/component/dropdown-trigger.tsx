@@ -11,7 +11,10 @@ export class DropdownTrigger<T extends DropdownTriggerOptions = DropdownTriggerO
 
     #ref = createRef();
 
-    state = {placement: '', show: false};
+    constructor(props: T) {
+        super(props);
+        this.state = {placement: props.dropdown?.placement || '', show: false};
+    }
 
     get ref() {
         return this.#ref;
