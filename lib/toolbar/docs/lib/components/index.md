@@ -1,355 +1,195 @@
 # 工具栏
 
-基于操作菜单 [操作菜单](/lib/components/action-menu/index) 实现的组件。
-
 ## 基本用法
 
-<Example>
-  <div id="toolbar"></div>
+<Example class="col gap-2">
+  <nav class="toolbar">
+    <button class="btn ghost toolbar-item"><i class="icon icon-home"></i><span class="text">首页</span></button>
+    <button class="btn ghost toolbar-item"><span class="text">动态</span></button>
+    <button class="btn ghost toolbar-item"><span class="text">论坛</span></button>
+    <div class="toolbar-divider"></div>
+    <button class="btn ghost toolbar-item"><i class="icon icon-rss"></i><span class="text">博客</span></button>
+    <div class="toolbar-space" style="flex: 1 1 0%;"></div>
+    <div class="btn-group toolbar-btn-group">
+      <button class="btn" type="button"><i class="icon icon-user"></i><span class="text">登录</span></button>
+      <button class="btn" type="button"><i class="icon icon-lock"></i><span class="text">注册</span></button>
+    </div>
+  </nav>
+  <nav class="toolbar">
+    <button class="btn ghost toolbar-item square" type="button"><i class="icon icon-home"></i></button><div class="toolbar-divider"></div>
+    <button class="btn ghost toolbar-item square" type="button"><i class="icon icon-rss"></i></button>
+    <button class="btn ghost toolbar-item square" type="button"><i class="icon icon-group"></i></button>
+  </nav>
 </Example>
 
-```js
-const toolbar = new zui.Toolbar('#toolbar', {
-    items: [
-        {text: '首页', icon: 'icon-home', active: true},
-        {text: '动态'},
-        {text: '论坛'},
-        {type: 'divider'},
-        {text: '博客', icon: 'icon-rss'},
-        {text: '关注我们', icon: 'icon-group'},
-        {type: 'space', flex: 1},
-        {
-            type: 'btn-group',
-            items: [
-                {text: '登录', icon: 'icon-user'},
-                {text: '注册', icon: 'icon-lock'},
-            ],
-        },
-    ],
-    onClickItem: (info) => {
-        console.log('> toolbar.onClickItem', info);
-    },
-});
-console.log('> toolbar', toolbar);
+```html
+<nav class="toolbar">
+  <button class="btn ghost toolbar-item"><i class="icon icon-home"></i><span class="text">首页</span></button>
+  <button class="btn ghost toolbar-item"><span class="text">动态</span></button>
+  <button class="btn ghost toolbar-item"><span class="text">论坛</span></button>
+  <div class="toolbar-divider"></div>
+  <button class="btn ghost toolbar-item"><i class="icon icon-rss"></i><span class="text">博客</span></button>
+  <div class="toolbar-space" style="flex: 1 1 0%;"></div>
+  <div class="btn-group toolbar-btn-group">
+    <button class="btn" type="button"><i class="icon icon-user"></i><span class="text">登录</span></button>
+    <button class="btn" type="button"><i class="icon icon-lock"></i><span class="text">注册</span></button>
+  </div>
+</nav>
+<nav class="toolbar">
+  <button class="btn ghost toolbar-item square" type="button"><i class="icon icon-home"></i></button><div class="toolbar-divider"></div>
+  <button class="btn ghost toolbar-item square" type="button"><i class="icon icon-rss"></i></button>
+  <button class="btn ghost toolbar-item square" type="button"><i class="icon icon-group"></i></button>
+</nav>
+```
+
+## 禁用
+
+为 `.toolbar-item` 同级提供 `disabled` 修饰类来禁用工具栏项。被禁用的工具栏项将无法响应点击事件。
+
+<Example>
+  <nav class="toolbar">
+    <button class="btn ghost toolbar-item"><i class="icon icon-home"></i><span class="text">首页</span></button>
+    <button class="btn ghost toolbar-item"><span class="text">动态</span></button>
+    <button class="btn ghost toolbar-item"><span class="text">论坛</span></button>
+    <div class="toolbar-divider"></div>
+    <button class="btn ghost toolbar-item disabled"><i class="icon icon-rss"></i><span class="text">博客</span></button>
+  </nav>
+</Example>
+
+```html
+<nav class="toolbar">
+  <button class="btn ghost toolbar-item"><i class="icon icon-home"></i><span class="text">首页</span></button>
+  ...
+  <div class="toolbar-divider"></div>
+  <button class="btn ghost toolbar-item disabled"><i class="icon icon-rss"></i><span class="text">博客</span></button>
+</nav>
 ```
 
 ## 存在下拉菜单
 
+结合[下拉菜单](/lib/components/dropdown/)实现多功能工具栏。
+
 <Example>
-  <div id="dropdownToolbar"></div>
+  <nav class="toolbar">
+    <button class="btn ghost toolbar-item" type="button">
+      <i class="icon icon-home"></i>
+      <span class="text">首页</span>
+    </button>
+    <button class="btn ghost dropdown toolbar-dropdown square with-dropdown-show" type="button" data-toggle="dropdown" data-dropdown-placement="bottom" href="#dropdownForToolbar1">
+      <i class="icon icon-rss"></i>
+      <span class="caret-down"></span>
+    </button>
+    <div class="toolbar-divider"></div>
+    <button class="btn ghost dropdown toolbar-dropdown" type="button" data-toggle="dropdown" href="#dropdownForToolbar2">
+      <i class="icon icon-group"></i>
+      <span class="text">关于我们</span>
+      <span class="caret-down"></span>
+    </button>
+  </nav>
+  <div class="dropdown-menu" id="dropdownForToolbar1" data-popper-placement="bottom-start" >
+    <menu class="menu menu-context">
+      <li class="menu-item"><a><span class="text">查看</span></a></li>
+      <li class="menu-item"><a><span class="text">订阅</span></a></li>
+      <li class="menu-item"><a><span class="text">取消订阅</span></a></li>
+    </menu>
+  </div>
+  <div class="dropdown-menu" data-popper-placement="bottom-start" id="dropdownForToolbar2">
+    <menu class="menu menu-context">
+      <li class="menu-item"><a><span class="text">关于</span></a></li>
+      <li class="menu-item"><a><span class="text">我们是谁</span></a></li>
+    </menu>
+  </div>
 </Example>
 
-```js
-const dropdownToolbar = new zui.Toolbar('#dropdownToolbar', {
-    items: [
-        {text: '首页', icon: 'icon-home', active: true},
-        {
-            type: 'dropdown',
-            icon: 'icon-rss',
-            dropdown: {
-                items: [
-                    {text: '查看'},
-                    {text: '订阅'},
-                    {text: '取消订阅'},
-                ],
-            },
-        },
-        {type: 'divider'},
-        {
-            type: 'dropdown',
-            text: '关于我们',
-            icon: 'icon-group',
-            dropdown: {
-                items: [
-                    {text: '关于'},
-                    {text: '我们是谁'},
-                ],
-            },
-        },
-    ],
-    onClickItem: (info) => {
-        console.log('> dropdownToolbar.onClickItem', info);
-    },
-});
-console.log('> dropdownToolbar', dropdownToolbar);
-```
-
-## 仅图标
-
-<Example class="col gap-2">
-  <div id="iconToolbar"></div>
-  <div id="btnTypeIconToolbar"></div>
-</Example>
-
-```js
-const iconToolbar = new zui.Toolbar('#iconToolbar', {
-    items: [
-        {icon: 'icon-home', active: true},
-        {type: 'divider'},
-        {icon: 'icon-rss'},
-        {icon: 'icon-group'},
-    ],
-    onClickItem: (info) => {
-        console.log('> iconToolbar.onClickItem', info);
-    },
-});
-
-const btnTypeIconToolbar = new zui.Toolbar('#btnTypeIconToolbar', {
-    btnProps: {btnType: 'secondary', size: 'xs'},
-    gap: 2,
-    items: [
-        {icon: 'icon-home'},
-        {icon: 'icon-rss'},
-        {icon: 'icon-group', btnType: 'primary'},
-    ],
-});
+```html
+<nav class="toolbar">
+  <button class="btn ghost toolbar-item" type="button">
+    <i class="icon icon-home"></i>
+    <span class="text">首页</span>
+  </button>
+  <button class="btn ghost dropdown toolbar-dropdown square with-dropdown-show" type="button" data-toggle="dropdown" data-dropdown-placement="bottom" href="#dropdownForToolbar1">
+    <i class="icon icon-rss"></i>
+    <span class="caret-down"></span>
+  </button>
+  <div class="toolbar-divider"></div>
+  <button class="btn ghost dropdown toolbar-dropdown" type="button" data-toggle="dropdown"  href="#dropdownForToolbar2">
+    <i class="icon icon-group"></i>
+    <span class="text">关于我们</span>
+    <span class="caret-down"></span>
+  </button>
+</nav>
+<div class="dropdown-menu" id="dropdownForToolbar1" data-popper-placement="bottom-start" >
+  <menu class="menu menu-context">
+    <li class="menu-item"><a><span class="text">查看</span></a></li>
+    <li class="menu-item"><a><span class="text">订阅</span></a></li>
+    <li class="menu-item"><a><span class="text">取消订阅</span></a></li>
+  </menu>
+</div>
+<div class="dropdown-menu" data-popper-placement="bottom-start" id="dropdownForToolbar2">
+  <menu class="menu menu-context">
+    <li class="menu-item"><a><span class="text">关于</span></a></li>
+    <li class="menu-item"><a><span class="text">我们是谁</span></a></li>
+  </menu>
+</div>
 ```
 
 ## 尺寸
 
+当使用不同大小的工具栏组件时，可以通过为 `.toolbar-item` 添加同样等级的 `size-*` 辅助类获取其他尺寸外观。
+
+同时也可以结合 [`gap-*`](/utilities/flex/utilities/gap.html) 和 [样式](/utilities/style/utilities/solid.html) 等工具类展示出视觉效果良好的工具栏组件。
+
 <Example class="col gap-2">
-  <div id="xsToolbar"></div>
-  <div id="smToolbar"></div>
-  <div id="lgToolbar"></div>
-  <div id="xlToolbar"></div>
+  <nav class="toolbar gap-2">
+    <button class="btn size-xs toolbar-item square secondary" type="button"><i class="icon icon-home"></i></button>
+    <button class="btn size-xs toolbar-item square secondary" type="button"><i class="icon icon-rss"></i></button>
+    <button class="btn size-xs toolbar-item square secondary" type="button"><i class="icon icon-group"></i></button>
+  </nav>
+  <nav class="toolbar gap-2">
+    <button class="btn size-sm toolbar-item square secondary" type="button"><i class="icon icon-home"></i></button>
+    <button class="btn size-sm toolbar-item square secondary" type="button"><i class="icon icon-rss"></i></button>
+    <button class="btn size-sm toolbar-item square secondary" type="button"><i class="icon icon-group"></i></button>
+  </nav>
+  <nav class="toolbar gap-2">
+    <button class="btn secondary size-lg toolbar-item square" type="button"><i class="icon icon-home"></i></button>
+    <button class="btn secondary size-lg toolbar-item square" type="button"><i class="icon icon-rss"></i></button>
+    <button class="btn secondary size-lg toolbar-item square" type="button"><i class="icon icon-group"></i></button>
+  </nav>
+  <nav class="toolbar gap-2">
+    <button class="btn size-xl toolbar-item square secondary" type="button"><i class="icon icon-home"></i></button>
+    <button class="btn size-xl toolbar-item square secondary" type="button"><i class="icon icon-rss"></i></button>
+    <button class="btn size-xl toolbar-item square secondary" type="button"><i class="icon icon-group"></i></button>
+  </nav>
 </Example>
 
-```js
-const xsToolbar = new zui.Toolbar('#xsToolbar', {
-    btnProps: {btnType: 'primary', size: 'xs'},
-    gap: 2,
-    items: [
-        {icon: 'icon-home'},
-        {icon: 'icon-rss'},
-        {icon: 'icon-group'},
-    ],
-});
-const smToolbar = new zui.Toolbar('#smToolbar', {
-    btnProps: {btnType: 'primary', size: 'sm'},
-    // ...
-});
-const lgIconToolbar = new zui.Toolbar('#lgToolbar', {
-    btnProps: {btnType: 'primary', size: 'lg'},
-    // ...
-});
-const lgIconToolbar = new zui.Toolbar('#xlToolbar', {
-    btnProps: {btnType: 'primary', size: 'xl'},
-    // ...
-});
+```html
+<nav class="toolbar gap-2">
+  <button class="btn size-xs toolbar-item square secondary" type="button"><i class="icon icon-home"></i></button>
+  ...
+</nav>
+<nav class="toolbar gap-2">
+  <button class="btn size-sm toolbar-item square secondary" type="button"><i class="icon icon-home"></i></button>
+  ...
+</nav>
+<nav class="toolbar gap-2">
+  <button class="btn secondary size-lg toolbar-item square" type="button"><i class="icon icon-home"></i></button>
+  ...
+</nav>
+<nav class="toolbar gap-2">
+  <button class="btn size-xl toolbar-item square secondary" type="button"><i class="icon icon-home"></i></button>
+  ...
+</nav>
 ```
 
-## 引入
 
-### 通过 npm
+## CSS 类
 
-```js
-import {Toolbar} from 'zui/toolbar';
+头像提供了如下 CSS 类：
 
-const toolbar = new Toolbar(element, options);
-```
-
-### 通过全局对象 `zui`
-
-```js
-const toolbar = new zui.Toolbar(element, options);
-```
-
-### 使用 React 组件
-
-```jsx
-import {render} from 'react';
-import {Toolbar} from 'zui/toolbar/main-react';
-
-render(element, <Toolbar {...options} />);
-```
-
-### 使用 jQuery 扩展
-
-```js
-$(element).toolbar(options);
-
-const toolbar = $(element).data('zui.toolbar');
-```
-
-## 选项
-
-在 [操作菜单](/lib/components/action-menu/index.html#选项) 选项基础上添加新的参数选项。
-
-### `wrap`
-
-限制工具栏按钮过多超出时是否换行。
-
-* 类型：`boolean`；
-* 必选：否；
-* 默认值：`false`。
-
-### `gap`
-
-自定义工具栏按钮的间距，与 `.toolbar` 同级生成 [`.gap-*`](/utilities/flex/utilities/gap.html) 的工具类控制按钮间距。
- 
-* 类型：`number | string`
-* 必选：否
-
-### `btnProps`
-
-继承按钮组件的属性， 自定义工具栏单项属性。
-
-* 类型：<code>[ButtonProps](#buttonprops) </code>
-* 必选：否
-
-
-### `items`
-
-基于 [操作菜单](/lib/components/action-menu/index.html#选项) 选项和按钮选项。
-
-#### `btnType`
-
-设置单个工具栏子项的展示类型。
-
-* 类型：`string`；
-* 必选：否；
-* 默认：`ghost`。
-
-
-### `itemRender`
-
-指定一个回调函数用于对组件渲染进行自定义。
-
-### `beforeRender`
-
-指定一个回调函数在渲染之前调用。
-
-### `afterRender`
-
-指定一个回调函数在渲染之后调用。
-
-**参数：**
-
-* `firstRender`：判断是否第一次渲染；
-* `menu`：组件信息。
-
-### `afterDestroy`
-
-指定一个回调函数在组件销毁之后调用。
-
-## API
-
-### `ButtonProps`
-
-继承按钮的属性。
-
-```ts
-type ButtonProps = {
-    component?: string | ComponentType;
-    btnType?: string; // primary, secondary ...
-    size?: 'xs' | 'sm' | 'lg' | 'xl',
-    className?: ClassNameLike;
-    style?: JSX.CSSProperties;
-    children?: ComponentChildren | (() => ComponentChildren);
-    onClick?: JSX.MouseEventHandler<HTMLAnchorElement>;
-    url?: string;
-    target?: string;
-    disabled?: boolean;
-    active?: boolean;
-    icon?: string | VNode;
-    text?: ComponentChildren;
-    square?: boolean;
-    trailingIcon?: string | VNode;
-    caret?: 'up' | 'down' | 'left' | 'right' | boolean;
-    hint?: string;
-    loading?: boolean;
-};
-```
-
-<script>
-export default {
-    mounted() {
-        onZUIReady(() => {
-            const toolbar = new zui.Toolbar('#toolbar', {
-                items: [
-                    {text: '首页', icon: 'icon-home', active: true},
-                    {text: '动态'},
-                    {text: '论坛'},
-                    {type: 'divider'},
-                    {text: '博客', icon: 'icon-rss'},
-                    {text: '关注我们', icon: 'icon-group'},
-                    {type: 'space', flex: 1},
-                    {
-                        type: 'btn-group',
-                        items: [
-                            {text: '登录', icon: 'icon-user'},
-                            {text: '注册', icon: 'icon-lock'},
-                        ],
-                    },
-                ],
-                onClickItem: (info) => {
-                    console.log('> toolbar.onClickItem', info);
-                },
-            });
-            const dropdownToolbar = new zui.Toolbar('#dropdownToolbar', {
-                items: [
-                    {text: '首页', icon: 'icon-home', active: true},
-                    {
-                        type: 'dropdown',
-                        icon: 'icon-rss',
-                        dropdown: {
-                            items: [
-                                {text: '查看'},
-                                {text: '订阅'},
-                                {text: '取消订阅'},
-                            ],
-                        },
-                    },
-                    {type: 'divider'},
-                    {
-                        type: 'dropdown',
-                        text: '关于我们',
-                        icon: 'icon-group',
-                        dropdown: {
-                            items: [
-                                {text: '关于'},
-                                {text: '我们是谁'},
-                            ],
-                        },
-                    },
-                ],
-                onClickItem: (info) => {
-                    console.log('> dropdownToolbar.onClickItem', info);
-                },
-            });
-            const iconToolbar = new zui.Toolbar('#iconToolbar', {
-                items: [
-                    {icon: 'icon-home', active: true},
-                    {type: 'divider'},
-                    {icon: 'icon-rss'},
-                    {icon: 'icon-group'},
-                ],
-                onClickItem: (info) => {
-                    console.log('> iconToolbar.onClickItem', info);
-                },
-            });
-            const btnTypeIconToolbar = new zui.Toolbar('#btnTypeIconToolbar', {
-                btnProps: {btnType: 'secondary', size: 'xs'},
-                gap: 1,
-                items: [
-                    {icon: 'icon-home'}, 
-                    {icon: 'icon-rss'},
-                    {icon: 'icon-group', btnType: 'primary'},
-                ],
-            });
-            const toolbarSizeList = ['xs', 'sm', 'lg', 'xl'];
-            toolbarSizeList.forEach(item => {
-                new zui.Toolbar(`#${item}Toolbar`, {
-                    btnProps: {btnType: 'primary', size: item},
-                    gap: 2,
-                    items: [
-                        {icon: 'icon-home'},
-                        {icon: 'icon-rss'},
-                        {icon: 'icon-group'},
-                    ],
-                });
-            });
-        });
-    },
-};
-</script>
+| 类        | 类型           | 作用  |
+| ------------- |:-------------:| ----- |
+| `toolbar`      | 实体类 | 元素作为工具栏 |
+| `toolbar-item`      | 实体类 | 元素作为工具栏项 |
+| `toolbar-divider`      | 实体类      |   元素作为分割线 |
+| `toolbar-space`      | 实体类      |  元素作为工具栏项之前的间距 |
+| `disabled`      | 修饰类      |   与 `toolbar-item` 一起使用，标记工具栏项为禁用状态 |
