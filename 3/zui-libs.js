@@ -473,6 +473,9 @@ export default [
         "files": [
             "./src/**/*"
         ],
+        "dependencies": {
+            "preact": "10.11.2"
+        },
         "zui": {
             "type": "control",
             "displayName": "环形进度条",
