@@ -1,5 +1,4 @@
 .progress-circle > circle {
-  stroke-width: 2px;
   fill: transparent;
 }
 .progress-circle > text {

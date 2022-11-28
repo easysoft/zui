@@ -5,10 +5,10 @@
 添加`.progress-circle`类到svg元素上，可获得环形进度条的基本样式。
 
 <Example>
- <svg class="progress-circle" percent=40 circleSize=24 BorderSize=2 height=24>
-     <circle cx=12 cy=12 r=10 />
-     <circle cx=12 cy=12 r=10 stroke-dasharray=69.09 stroke-dashoffset=41.45 />
-     <text x=12 y=14 dominant-baseline="middle" >40</text>
+  <svg class="progress-circle" percent=40 circleSize=24 BorderSize=2 height=24>
+    <circle cx=12 cy=12 r=10 stroke='var(--progress-circle-bg)' />
+    <circle cx=12 cy=12 r=10 stroke='var(--progress-circle-bar-color)' stroke-dasharray=69.09 stroke-dashoffset=41.45 />
+    <text x=12 y=13 dominant-baseline="middle">40</text>
   </svg>
 </Example>
 
@@ -25,6 +25,16 @@
   </svg>
 ```
 
+## 引入组件生成器
+
+<Example>
+  <div id="progressCircle">
+  </div>
+</Example>
+
+
+
+
  ## CSS 类
 
  进度条提供了如下 CSS 类
@@ -37,3 +47,16 @@
  | -------- | -------- |
  | --progress-circle-bg           | 环形进度条组件背景颜色 |
  | --progress-circle-bar-color    | 环形进度条组件颜色     |
+<script>
+export default {
+    mounted(){
+        onZUIReady(() => {
+            const progressCircle1 = new zui.ProgressCircle('#progressCircle', {
+                percent: 50,
+            });
+            const dom = document.getElementById(progressCircle);
+            console.log(progressCircle1, dom, '123');
+        });
+    },
+}
+</script>
