@@ -151,7 +151,7 @@ export const formatDate = (date: DateLike, format = 'yyyy-MM-dd hh:mm'): string 
     }
     Object.keys(dateInfo).forEach((k) => {
         if (new RegExp(`(${k})`).test(format)) {
-            const str = `${dateInfo[k]}`;
+            const str = `${dateInfo[k as keyof typeof dateInfo]}`;
             format = format.replace(RegExp.$1, RegExp.$1.length === 1 ? str : (`00${str}`).substring(str.length));
         }
     });
