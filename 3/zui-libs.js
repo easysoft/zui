@@ -470,12 +470,12 @@ export default [
             "zui:js-progress-circle"
         ],
         "module": "src/main.ts",
-        "files": [
-            "./src/**/*"
-        ],
         "dependencies": {
             "preact": "10.11.2"
         },
+        "files": [
+            "./src/**/*"
+        ],
         "zui": {
             "type": "control",
             "displayName": "环形进度条",

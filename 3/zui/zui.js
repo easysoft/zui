@@ -1586,28 +1586,30 @@ wr = Fi.slice, U = { __e: function(e, t, n, o) {
 }, qt.prototype.render = kr, Vt = [], oo.__r = 0;
 class vs extends qt {
   render() {
-    const { percent: t, circleSize: n, circleBorderSize: o, textSize: i, circleBgColor: r, circleColor: l } = this.props, c = (n - o) / 2, _ = n / 2;
+    const { percent: t, circleSize: n, circleBorderSize: o, circleBgColor: i, circleColor: r } = this.props, l = (n - o) / 2, c = n / 2;
     return /* @__PURE__ */ Ln("svg", {
       width: n,
       height: n,
       class: "progress-circle"
     }, /* @__PURE__ */ Ln("circle", {
-      cx: _,
-      cy: _,
-      r: c,
-      stroke: r
+      cx: c,
+      cy: c,
+      r: l,
+      stroke: i,
+      "stroke-width": o
     }), /* @__PURE__ */ Ln("circle", {
-      cx: _,
-      cy: _,
-      r: c,
-      stroke: l,
-      "stroke-dasharray": Math.PI * c * 2,
-      "stroke-dashoffset": Math.PI * c * 2 * (100 - t) / 100
+      cx: c,
+      cy: c,
+      r: l,
+      stroke: r,
+      "stroke-dasharray": Math.PI * l * 2,
+      "stroke-dashoffset": Math.PI * l * 2 * (100 - t) / 100,
+      "stroke-width": o
     }), /* @__PURE__ */ Ln("text", {
-      x: _,
-      y: _ + o / 4,
+      x: c,
+      y: c + o / 4,
       "dominant-baseline": "middle",
-      style: { fontSize: `${c}px` }
+      style: { fontSize: `${l}px` }
     }, Math.round(t)));
   }
 }
