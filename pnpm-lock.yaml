@@ -536,11 +536,17 @@ importers:
       '@zui/table': link:../table
       '@zui/utilities': link:../utilities
 
+  lib/picker:
+    specifiers: {}
+
   lib/progress:
     specifiers: {}
 
   lib/progress-circle:
-    specifiers: {}
+    specifiers:
+      preact: 10.11.2
+    dependencies:
+      preact: registry.npmmirror.com/preact/10.11.2
 
   lib/scrollbar:
     specifiers:
