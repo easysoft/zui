@@ -476,6 +476,9 @@
         "files": [
             "./src/**/*"
         ],
+        "exports": {
+            ".": "./src/main.ts"
+        },
         "zui": {
             "type": "control",
             "displayName": "环形进度条",
