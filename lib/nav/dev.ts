@@ -1,8 +1,8 @@
+import 'zui-dev';
 import '@zui/icons';
 import '@zui/button';
 import '@zui/btn-group';
 import '@zui/dropdown';
-import 'zui-dev';
 import {Nav} from './src/main-vanilla';
 
 onPageUpdate(() => {
