@@ -28,7 +28,7 @@ console.log('> btnGroup', btnGroup);
 </script>
 ```
 
-## 按钮类型
+## 按钮外观
 
 <Example>
   <div id="iconBtnGroup"></div>
@@ -38,15 +38,33 @@ console.log('> btnGroup', btnGroup);
 <div id="iconBtnGroup"></div>
 
 <script>
-const btnGroup = new BtnGroup('#iconBtnGroup', {
-    size: 'lg',
+const iconBtnGroup = new zui.BtnGroup('#iconBtnGroup', {
     items: [
-        {icon: 'icon-copy'},
-        {icon: 'icon-paste'},
-        {type: 'heading', caret: true},
-        {icon: 'icon-upload-alt'},
-        {icon: 'icon-download-alt'},
-        {icon: 'icon-save', onClick: (event) => console.log('> btnGroupItem.clicked', event)},
+        {icon: 'icon-search', type: 'primary'},
+        {icon: 'icon-refresh', type: 'secondary'},
+        {icon: 'icon-check', type: 'success'},
+        {icon: 'icon-exclamation-sign', type: 'warning'},
+        {icon: 'icon-times', type: 'danger', onClick: (event) => console.log('> btnGroupItem.clicked', event)},
+    ],
+});
+</script>
+```
+
+## 禁用
+
+<Example>
+  <div id="disabledBtnGroup"></div>
+</Example>
+
+```html
+<div id="disabledBtnGroup"></div>
+
+<script>
+ new zui.BtnGroup('#disabledBtnGroup', {
+    items: [
+        {icon: 'icon-search'},
+        {icon: 'icon-refresh', disabled: true},
+        {icon: 'icon-check'},
     ],
 });
 </script>
@@ -208,28 +226,140 @@ new BtnGroup('#btnGroup', {
 
 继承按钮的属性。
 
-具体如下：
+#### `text`
 
-| 属性名称      | 属性含义                   | 类型       | 默认值 | 可选项 |
-| ------------ | ------------------------- | ---------- | ----- | ----- |
-| `text`       | 名称                       | `string`  |  - | - |
-| `size`       | 尺寸                       | `string`  |  - | `xs / sm / lg / xl` |
-| `icon`       | 按钮左侧图标                | `string`  | -  | - | 
-| `trailingIcon` | 右侧图标                 | `string`  | -  | - | 
-| `url`        | 跳转链接地址               | `string`  |  - | - |
-| `className`  | 设置 `a` 标签类名          | `string`  |  - | - |
-| `style`      | 设置 `a` 标签样式          | `object`  |  - | - |
-| `component`  | DOM 元素名称               | `string`  |  - | - |
-| `target`     | 在何处打开链接地址          | `string`  | `_self` | ` _self / _black / _top / _parent` |
-| `type`       | 按钮类型                    | `string`  | -  | `primary / secondary / important / success / warning ...` |
-| `disabled`   | 按钮禁用状态              | `boolean` | `false` | - |
-| `active`     | 按钮激活状态              | `boolean` | `false` | - |
-| `children`   | 子组件                     | `array`  | -  |  - |
-| `onClick`    | 按钮的点击事件              | `function` | -  | -  |
-| `square`     | 按钮是否展示为方形          | `boolean` | `true` | - |
-| `hint`       | 按钮鼠标悬浮提示文案        | `string` | - | - |
-| `caret`      | 箭头展示                   | `string / boolean`  |  - | `up / down / left / right / boolean` |
-| `loading`    | 按钮加载状态                | `boolean` | `false` | - |
+标题。
+
+* 类型：`string`；
+* 必选：否。
+
+#### `icon`
+
+左侧图标。
+
+* 类型：`string | VNode`；
+* 必选：否。
+
+#### `trailingIcon`
+
+右侧图标。
+
+* 类型：`string | VNode`；
+* 必选：否。
+
+#### `hint`
+
+按钮鼠标悬浮提示文案。
+
+* 类型：`string`；
+* 必选：否；
+
+#### `component`
+
+标签类型
+
+* 类型：`string | ComponentType`；
+* 必选：否。
+
+#### `btnType`
+
+按钮的外观类型。
+
+* 类型：`string`；
+* 必选：否；
+* 可选项：`primary, secondary ...`。
+
+#### `size`
+
+工具栏项的尺寸
+
+* 类型：`string`；
+* 必选：否；
+* 可选项：`'xs' | 'sm' | 'lg' | 'xl'`。
+
+#### `className`
+
+类名。
+
+* 类型：`string`；
+* 必选：否。
+
+#### `style`
+
+样式。
+
+* 类型：`ClassNameLike`；
+* 必选：否。
+
+#### `url`
+
+跳转链接地址。
+
+* 类型：`string`；
+* 必选：否。
+
+#### `target`
+
+在何处打开链接地址。
+
+* 类型：`string`；
+* 必选：否；
+* 可选项： `_self | _self | _black | _top | _parent` 。
+
+#### `disabled`
+
+是否禁用。
+
+* 类型：`boolean`；
+* 必选：否；
+* 默认： `false`。
+
+#### `active`
+
+是否是激活状态。
+
+* 类型：`boolean`；
+* 必选：否；
+* 默认： `false`。
+
+#### `loading`
+
+加载中状态。
+
+* 类型：`boolean`；
+* 必选：否；
+* 默认： `false`。
+
+#### `square`
+
+是否展示为正方形。
+
+* 类型：`boolean`；
+* 必选：否；
+* 默认： `true`。
+
+#### `caret`
+
+工具栏项展示箭头。
+
+* 类型：`string | boolean`；
+* 必选：否；
+* 可选项：`up | down | left | right | boolean`；
+* 默认： `false`。
+
+#### `onClick`
+
+鼠标点击的回调方法。
+
+* 类型：`function`；
+* 必选：否。
+
+#### `children`
+
+子元素。
+
+* 类型：`ComponentChildren | (() => ComponentChildren)`；
+* 必选：否。
 
 <script>
 export default {
@@ -254,7 +384,6 @@ export default {
             console.log('> btnGroup', btnGroup);
             
             const iconBtnGroup = new zui.BtnGroup('#iconBtnGroup', {
-                size: 'lg',
                 items: [
                     {icon: 'icon-search', type: 'primary'},
                     {icon: 'icon-refresh', type: 'secondary'},
@@ -274,6 +403,13 @@ export default {
                         {icon: 'icon-exclamation-sign'},
                     ],
                 });
+            });
+            new zui.BtnGroup('#disabledBtnGroup', {
+                items: [
+                    {icon: 'icon-search'},
+                    {icon: 'icon-refresh', disabled: true},
+                    {icon: 'icon-check'},
+                ],
             });
         });
     },

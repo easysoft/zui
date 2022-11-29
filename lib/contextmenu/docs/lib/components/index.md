@@ -206,7 +206,7 @@ export default {
                             },
                         ],
                     },
-                ]
+                ],
             });
             document.getElementById('menuToggle2')?.addEventListener('click', (event) => {
                 const contextmenuByBtn = zui.ContextMenu.show({
@@ -270,29 +270,10 @@ new ContextMenu('#contextMenu', {
 ### `items`
 
 定义菜单项列表，可以通过一个函数动态返回菜单项列表。
+基于 [菜单](/lib/components/menu/js.html) 选项和。
 
 * 类型：`array`
 * 必选：是
-
-`items` 的单个对象属性如下：
-
-| 属性名称      | 属性含义                   | 类型       | 必选  | 默认值 | 可选项 |
-| ------------ | ------------------------- | ---------- | ----- | ----- | ------- |
-| `text`       | 名称                       | `string`   |  否 |  `null` | 无 |
-| `icon`       | 左侧图标                   | `string`   |  否 | `null`  | 无 | 
-| `trailingIcon` | 右侧图标                 | `string`   |  否 | `null`  | 无 | 
-| `url`        | 跳转链接地址               | `string`   |  否 |  `null` | 无 |
-| `className`  | 设置 `a` 标签类名          | `string`   |  否 |  `null` | 无 |
-| `style`      | 设置 `a` 标签样式          | `object`   |  否 |  `null` | 无 |
-| `rootClass`  | 与 `menu-item` 同级类名    | `string`   |  否 |  `null` | 无 |
-| `target`     | 在何处打开链接地址          | `string`   |  否 |  `_self` | ` _self / _black / _top / _parent` |
-| `type`       | 操作项类型                 | `string`   |  否 | `item`  | `item / divider / heading / custom` |
-| `disabled`   | 操作项禁用状态              | `boolean` |  否 | `false` | `false / true`  |
-| `active`     | 操作项激活状态              | `boolean` |  否 | `false` | `false / true`  |
-| `items`      | 子级操作数据                | `array`   |  否 | `null`  |  无 |
-| `onClick`    | 点击操作菜单项的回调事件     | `function` |  否 | `null`  | 无  |
-
-
 
 ### `placement` 
 
@@ -312,15 +293,6 @@ new ContextMenu('#contextMenu', {
   | `left`
   | `left-start`
   | `left-end`;
-
-
-### `subMenuTrigger`
-
-子级触发方式。
-
-* 类型：`string`
-* 可选项： `click`| `hover`
-* 必选：否
 
 ### `strategy`
 
@@ -356,3 +328,103 @@ document.getElementById('menuShowByBtn')?.addEventListener('click', (event) => {
 });
 </script>
 ```
+
+## API
+
+### `items` 的单个对象属性
+
+#### `text`
+
+名称。
+
+* 类型：`string`；
+* 必选：否。
+
+#### `icon`
+
+左侧图标。
+
+* 类型：`string`；
+* 必选：否。
+
+#### `trailingIcon`
+
+右侧图标。
+
+* 类型：`string | VNode`；
+* 必选：否。
+
+#### `className`
+
+类名。
+
+* 类型：`string`；
+* 必选：否。
+
+#### `style`
+
+样式。
+
+* 类型：`ClassNameLike`；
+* 必选：否。
+
+#### `url`
+
+跳转链接地址。
+
+* 类型：`string`；
+* 必选：否。
+
+#### `target`
+
+在何处打开链接地址。
+
+* 类型：`string`；
+* 必选：否；
+* 可选项： `_self | _self | _black | _top | _parent` 。
+
+#### `disabled`
+
+是否禁用。
+
+* 类型：`boolean`；
+* 必选：否；
+* 默认： `false`。
+
+#### `active`
+
+是否是激活状态。
+
+* 类型：`boolean`；
+* 必选：否；
+* 默认： `false`。
+
+#### `type`
+
+单项类型。
+
+* 类型：`string`；
+* 必选：否；
+* 可选项：`item | divider | heading | custom`；
+* 默认： `item`。
+
+#### `rootClass`
+
+与 `menu-item` 同级类名。
+
+* 类型：`string`；
+* 必选：否。
+
+#### `items`
+
+子级操作数据。
+
+* 类型：`array`；
+* 必选：否。
+
+#### `onClick`
+
+点击操作菜单项的回调事件。
+
+* 类型：`function`；
+* 必选：否。

@@ -4,7 +4,7 @@
 
 ## 示例
 
-通过构造一个 `Menu` 实例，在一个空的 `<div>` 元素上创建一个菜单。
+通过构造一个 `ActionMenu` 实例，在一个空的 `<div>` 元素上创建一个菜单。
 
 <Example>
   <div id="actionMenu"></div>
@@ -36,7 +36,7 @@ export default {
             });
             console.log('> actionMenu', actionMenu);
 
-            const navExample = new zui.ActionMenu('#navExample', {
+            new zui.ActionMenu('#navExample', {
                 name: 'nav',
                 items: [
                     {text: '首页', icon: 'icon-home'},
@@ -50,7 +50,7 @@ export default {
                     console.log('> nav.onClickItem', info);
                 },
             });
-            new zui.ActionMenuNested('#nestedActionMenu', {
+            const nestedActionMenu = new zui.ActionMenuNested('#nestedActionMenu', {
                 nestedTrigger: 'click',
                 items: [
                     {type: 'heading', text: '更多操作'},
@@ -69,12 +69,12 @@ export default {
                             },
                         ],
                     },
-                ],
+                ],                
                 onClickItem: (info) => {
                     console.log('> menu.onClickItem', info);
                 },
             });
-            const actionMenuItemRender = new zui.ActionMenu('#actionMenuItemRender', {
+            new zui.ActionMenu('#actionMenuItemRender', {
                 className: 'row gap-3 items-center',
                 items: [
                     {title: '复制', icon: 'icon-copy'},
@@ -305,30 +305,42 @@ new ActionMenu('#menu', {
 
 类名。
 
-* 类型：`string | object | array`
-* 必选：否
+* 类型：`string | object | array`；
+* 必选：否。
 
+### `hasIcons`
+
+指定操作菜单项中是否包含左侧图标（方便对图标和文本进行对齐），当此选项为空时会自动根据实际项进行判断。
+
+* 类型：`boolean`。
 
 ### `name`
 
-自定义生成的类名。
+自定义生成的操作菜单类名。
 
-* 类型：`string`
-* 必选：否
+* 类型：`string`；
+* 必选：否。
 
 ### `items`
 
 定义菜单项列表，可以通过一个函数动态返回菜单项列表。
 
-* 类型：<code>[MenuListItem](#menulistitem)[] | () => [MenuListItem](#menulistitem)[] | () => Promise<[MenuListItem](#menulistitem)[]></code>
-* 必选：是
+* 类型：<code>[ActionMenuItemOptions](#actionmenuitemoptions)[]|((menu: ([ActionMenuItemOptions](#actionmenuitemoptions))<[ActionMenuItemOptions](#actionmenuitemoptions)>) => [ActionMenuItemOptions](#actionmenuitemoptions)[])</code>；
+* 必选：是。
+
+### `children`
+
+子项内容。
+
+* 类型：`ComponentChildren`；
+* 必选：否。
 
 ### `itemRender`
 
 指定一个回调函数用于对组件渲染进行自定义。
 
-* 类型：<code>(item: [MenuListItem](#menulistitem)) => Partial<[MenuListItem](#menulistitem)> | react.ComponentChildren | undefined</code>
-* 必选：否
+* 类型：`Record<string, ComponentType> | ActionMenuItemRender<T>`；
+* 必选：否。
 
 该回调函数不同内容拥有不同的行为：
 
@@ -340,6 +352,7 @@ new ActionMenu('#menu', {
 
 * `key`：键值；
 * 其他数据：每个子项的信息。
+
 
 <Example>
   <div id="actionMenuItemRender"></div>
@@ -362,6 +375,10 @@ new ActionMenu('#menu', {
 });
 </script>
 ```
+
+### `onClickItem`
+
+操作菜单的点击回调事件。
 
 ### `beforeRender`
 
@@ -399,104 +416,109 @@ render(options: Partial<ActionMenuOptions>): void;
 
 ## API
 
-### `ActionMenuOptions`
+### `ActionMenuItemOptions`
 
-选项定义对象。
+操作菜单项定义对象。
 
-```ts
-interface ActionMenuOptions {
-    items: MenuListItem[] | (() => MenuListItem[]);
-    className?: string | object | array;
-    hasIcons?: boolean;
-    children?: ComponentChildren;
-    subMenuTrigger?: 'click' | 'hover' | 'always';
-    onClickItem?: (info: {menu: Menu, item: MenuItemOptions, index: number, event: MouseEvent}) => void;
-    onRenderSubMenu?: (info: {menu: Menu, item: MenuItemOptions, h: typeof _h}) => ComponentChildren;
-    afterRender?: (info: {menu: Menu, firstRender: boolean}) => void;
-    beforeDestroy?: (info: {menu: Menu}) => void;
-}
-```
+#### `icon`
 
-### `Menu`
+左侧图标。
 
-菜单组件类。
+* 类型：`string | VNode`；
+* 必选：否。
 
-**定义**
+#### `trailingIcon`
 
-```ts
-class Menu {
-    constructor(element: string | HTMLElement, options: Partial<ActionMenuOptions>);
+右侧图标。
 
-    options: ActionMenuOptions;
+* 类型：`string | VNode`；
+* 必选：否。
 
-    element: HTMLElement;
 
-    render(options: Partial<ActionMenuOptions>): void;
+#### `type`
 
-    setOptions(options?: Partial<ActionMenuOptions>): ActionMenuOptions;
+操作项类型。
 
-    destroy(): void;
+* 类型：`string`；
+* 必选：否；
+* 可选项：`item | divider | heading | custom`。
 
-    toggleSubMenu(key: string | number, toggle?: boolean): void;
+#### `className`
 
-    clearAllSubMenu();
+类名。
 
-    isSubMenuShow(key: string | number);
-}
-```
+* 类型：`string`；
+* 必选：否。
 
-### `MenuListItem`
+#### `style`
 
-菜单项定义对象。
+样式。
 
-**定义：**
+* 类型：`ClassNameLike`；
+* 必选：否。
 
-```ts
-type MenuListItem = MenuItemOptions | MenuHeadingOptions | MenuDividerOptions;
-```
+#### `url`
 
-### `MenuItemOptions`
+跳转链接地址。
 
-菜单操作项定义对象。
+* 类型：`string`；
+* 必选：否。
 
-**定义：**
+#### `target`
 
-```ts
-type MenuItemOptions = {
-    rootClass?: ClassNameLike;
-    className?: ClassNameLike;
-    style?: JSX.CSSProperties;
-    url?: string;
-    target?: string;
-    disabled?: boolean;
-    active?: boolean;
-    icon?: string | VNode;
-    title?: ComponentChildren;
-    trailingIcon?: string | VNode;
-    onClick?: JSX.MouseEventHandler<HTMLAnchorElement>;
-    children?: ComponentChildren | (() => ComponentChildren);
-    rootProps?: JSX.HTMLAttributes<HTMLElement>;
-    type?: 'item',
-    key?: string | number,
-    items?: MenuListItem[],
-};
-```
+在何处打开链接地址。
 
-具体如下：
+* 类型：`string`；
+* 必选：否；
+* 可选项： `_self | _self | _black | _top | _parent` 。
 
-| 属性名称      | 属性含义                   | 类型       | 必选  | 默认值 | 可选项 |
-| ------------ | ------------------------- | ---------- | ----- | ----- | ------- |
-| `text`       | 名称                       | `string`   |  否 |  `null` | 无 |
-| `icon`       | 左侧图标                   | `string`   |  否 | `null`  | 无 | 
-| `trailingIcon` | 右侧图标                 | `string`   |  否 | `null`  | 无 | 
-| `url`        | 跳转链接地址               | `string`   |  否 |  `null` | 无 |
-| `className`  | 设置 `a` 标签类名          | `string`   |  否 |  `null` | 无 |
-| `style`      | 设置 `a` 标签样式          | `object`   |  否 |  `null` | 无 |
-| `rootClass`  | 与 `menu-item` 同级类名    | `string`   |  否 |  `null` | 无 |
-| `target`     | 在何处打开链接地址          | `string`   |  否 |  `_self` | ` _self / _black / _top / _parent` |
-| `type`       | 操作项类型                 | `string`   |  否 | `item`  | `item / divider （分割线）/ heading / custom` |
-| `disabled`   | 操作项禁用状态              | `boolean` |  否 | `false` | `false / true`  |
-| `active`     | 操作项激活状态              | `boolean` |  否 | `false` | `false / true`  |
-| `items`      | 子级操作数据                | `array`   |  否 | `null`  |  无 |
-| `onClick`    | 点击操作菜单项的回调事件     | `function` |  否 | `null`  | 无  |
+#### `disabled`
 
+是否禁用。
+
+* 类型：`boolean`；
+* 必选：否；
+* 默认： `false`。
+
+#### `active`
+
+是否是激活状态。
+
+* 类型：`boolean`；
+* 必选：否；
+* 默认： `false`。
+
+#### `key`
+
+键值。
+
+* 类型：`string | number`；
+* 必选：否。
+
+#### `onClick`
+
+鼠标点击的回调方法。
+
+* 类型：`function`；
+* 必选：否。
+
+#### `rootProps`
+
+根节点自定义属性对象。
+
+* 类型：`object`；
+* 必选：否。
+
+#### `items`
+
+子级操作数据。
+
+* 类型：`array`；
+* 必选：否。
+
+#### `rootClass`
+
+与 `action-menu-item` 同级类名。
+
+* 类型：`string`；
+* 必选：否。

@@ -264,7 +264,7 @@ const toolbar = $(element).data('zui.toolbar');
 
 #### `text`
 
-标题
+标题。
 
 * 类型：`ComponentChildren`；
 * 必选：否。
@@ -387,7 +387,7 @@ const toolbar = $(element).data('zui.toolbar');
 
 鼠标点击的回调方法。
 
-* 类型：`JSX.MouseEventHandler<HTMLAnchorElement>`；
+* 类型：`function`；
 * 必选：否。
 
 #### `children`
