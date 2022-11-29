@@ -16,20 +16,47 @@ export default {
         onZUIReady(() => {
             const menu = new zui.Menu('#menu1', {
                 items: [
-                    {title: '复制', icon: 'icon-copy'},
-                    {title: '粘贴', icon: 'icon-paste'},
-                    {title: '剪切'},
+                    {text: '复制', icon: 'icon-copy'},
+                    {text: '粘贴', icon: 'icon-paste'},
+                    {text: '剪切'},
                     {type: 'divider'},
-                    {type: 'heading', title: '更多操作'},
-                    {title: '导入', icon: 'icon-upload-alt'},
-                    {title: '导出', icon: 'icon-download-alt'},
-                    {title: '保存', icon: 'icon-save', onClick: (event) => console.log('> menuItem.clicked', event)},
+                    {type: 'heading', text: '更多操作'},
+                    {text: '导入', icon: 'icon-upload-alt'},
+                    {text: '导出', icon: 'icon-download-alt'},
+                    {text: '保存', icon: 'icon-save', onClick: (event) => console.log('> menuItem.clicked', event)},
+                ]
+            });
+            const menu2 = new zui.Menu('#menu2', {
+                items: [
+                    {text: '复制', icon: 'icon-copy'},
+                    {text: '粘贴', icon: 'icon-paste'},
+                    {text: '剪切'},
+                    {type: 'divider'},
+                    {type: 'heading', text: '更多操作'},
+                    {text: '导入', icon: 'icon-upload-alt'},
+                    {text: '导出', icon: 'icon-download-alt'},
+                    {text: '保存', icon: 'icon-save', onClick: (event) => console.log('> menuItem.clicked', event)},
                 ],
                 onClickItem: (info) => {
                     console.log('> menu.onClickItem', info);
                 },
             });
-            console.log('> menu', menu);
+            const menu3 = new zui.Menu('#menu3', {
+                items: [
+                    {text: '复制', icon: 'icon-copy'},
+                    {text: '粘贴', icon: 'icon-paste'},
+                    {text: '剪切'},
+                    {type: 'divider'},
+                    {text: '更多操作', items:[
+                        {text: '导入', icon: 'icon-upload-alt', items:[
+                            {text: '单次导入'},
+                            {text: '批量导入'}
+                        ]},
+                        {text: '导出', icon: 'icon-download-alt'},
+                        {text: '保存', icon: 'icon-save', onClick: (event) => console.log('> menuItem.clicked', event)},
+                    ]},
+                ],
+            });
         })
     },
 };
@@ -41,18 +68,15 @@ export default {
 <script>
 const menu = new Menu('#menu1', {
     items: [
-        {title: '复制', icon: 'icon-copy'},
-        {title: '粘贴', icon: 'icon-paste'},
-        {title: '剪切'},
+        {text: '复制', icon: 'icon-copy'},
+        {text: '粘贴', icon: 'icon-paste'},
+        {text: '剪切'},
         {type: 'divider'},
-        {type: 'heading', title: '更多操作'},
-        {title: '导入', icon: 'icon-upload-alt'},
-        {title: '导出', icon: 'icon-download-alt'},
-        {title: '保存', icon: 'icon-save', onClick: (event) => console.log('> menuItem.clicked', event)},
-    ],
-    onClickItem: (info) => {
-        console.log('> menu.onClickItem', info);
-    },
+        {type: 'heading', text: '更多操作'},
+        {text: '导入', icon: 'icon-upload-alt'},
+        {text: '导出', icon: 'icon-download-alt'},
+        {text: '保存', icon: 'icon-save', onClick: (event) => console.log('> menuItem.clicked', event)},
+    ]
 });
 console.log('> menu', menu);
 </script>
@@ -112,12 +136,12 @@ menu.render({
 new Menu('#menu', {
     items: () => {
         const itemList = [
-            {title: '剪切'},
-            {title: '复制', icon: 'icon-copy'},
+            {text: '剪切'},
+            {text: '复制', icon: 'icon-copy'},
         ];
 
         if (clipboardHasContent) {
-            itemList.push({title: '粘贴', icon: 'icon-paste'});
+            itemList.push({text: '粘贴', icon: 'icon-paste'});
         }
 
         return itemList;
@@ -129,9 +153,66 @@ new Menu('#menu', {
 
 ## 监听点击事件
 
-**监听**
+<Example>
+  <div id="menu2" class="w-32"></div>
+</Example>
+
+**示例：**
+通过items 项中 'onClick' 或通过 'options' 中 'onClickItem' 传参，即可监听点击事件
+
+```html
+<div id="menu2" class="w-32"></div>
+
+<script>
+  const menu2 = new zui.Menu('#menu2', {
+      items: [
+          {text: '复制', icon: 'icon-copy'},
+          {text: '粘贴', icon: 'icon-paste'},
+          {text: '剪切'},
+          {type: 'divider'},
+          {type: 'heading', text: '更多操作'},
+          {text: '导入', icon: 'icon-upload-alt'},
+          {text: '导出', icon: 'icon-download-alt'},
+          {text: '保存', icon: 'icon-save', onClick: (event) => console.log('> menuItem.clicked', event)},
+      ],
+      onClickItem: (info) => {
+          console.log('> menu.onClickItem', info);
+      },
+  });
+</script>
+```
 
 ## 多层级菜单
+
+<Example>
+  <div id="menu3" class="w-32"></div>
+</Example>
+
+**示例：**
+
+```html
+<div id="menu3" class="w-32"></div>
+
+<script>
+  new zui.Menu('#menu3', {
+      items: [
+          {text: '复制', icon: 'icon-copy'},
+          {text: '粘贴', icon: 'icon-paste'},
+          {text: '剪切'},
+          {type: 'divider'},
+          {text: '更多操作', items:[
+              {text: '导入', icon: 'icon-upload-alt', items:[
+                  {text: '单次导入'},
+                  {text: '批量导入'}
+              ]},
+              {text: '导出', icon: 'icon-download-alt'},
+              {text: '保存', icon: 'icon-save', onClick: (event) => console.log('> menuItem.clicked', event)},
+          ]},
+      ],
+  });
+</script>
+```
+
 
 ## 构造方法
 
@@ -149,10 +230,10 @@ constructor(element: HTMLElement | string, options: MenuOptions);
 **示例：**
 
 ```ts
-new Menu('#menu', {
+new zui.Menu('#menu', {
     items: [
-        {title: '复制', icon: 'icon-copy'},
-        {title: '粘贴', icon: 'icon-paste'},
+        {text: '复制', icon: 'icon-copy'},
+        {text: '粘贴', icon: 'icon-paste'},
     ]
 });
 ```
@@ -301,7 +382,7 @@ type MenuItemOptions = {
     disabled?: boolean;
     active?: boolean;
     icon?: string | VNode;
-    title?: ComponentChildren;
+    text?: ComponentChildren;
     trailingIcon?: string | VNode;
     onClick?: JSX.MouseEventHandler<HTMLAnchorElement>;
     children?: ComponentChildren | (() => ComponentChildren);

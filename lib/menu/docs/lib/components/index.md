@@ -16,17 +16,17 @@ import 'zui/menu/css';
 
 <Example>
   <menu class="menu w-32">
-    <li><a class="menu-item">剪切</a></li>
-    <li><a class="menu-item">复制</a></li>
-    <li><a class="menu-item">粘贴</a></li>
+    <li class="menu-item"><a>剪切</a></li>
+    <li class="menu-item"><a>复制</a></li>
+    <li class="menu-item"><a>粘贴</a></li>
   </menu>
 </Example>
 
 ```html
 <menu class="menu w-32">
-  <li><a class="menu-item">剪切</a></li>
-  <li><a class="menu-item">复制</a></li>
-  <li><a class="menu-item">粘贴</a></li>
+  <li class="menu-item"><a>剪切</a></li>
+  <li class="menu-item"><a>复制</a></li>
+  <li class="menu-item"><a>粘贴</a></li>
 </menu>
 ```
 
@@ -36,19 +36,19 @@ import 'zui/menu/css';
 
 <Example>
   <menu class="menu w-32">
-    <li><div class="menu-heading">更多操作</div></li>
-    <li><a class="menu-item">剪切</a></li>
-    <li><a class="menu-item">复制</a></li>
-    <li><a class="menu-item">粘贴</a></li>
+    <li class="menu-heading">更多操作</li>
+    <li class="menu-item"><a>剪切</a></li>
+    <li class="menu-item"><a>复制</a></li>
+    <li class="menu-item"><a>粘贴</a></li>
   </menu>
 </Example>
 
 ```html
 <menu class="menu w-32">
-  <li><div class="menu-heading">更多操作</div></li>
-  <li><a class="menu-item">剪切</a></li>
-  <li><a class="menu-item">复制</a></li>
-  <li><a class="menu-item">粘贴</a></li>
+  <li class="menu-heading">更多操作</li>
+  <li class="menu-item"><a>剪切</a></li>
+  <li class="menu-item"><a>复制</a></li>
+  <li class="menu-item"><a>粘贴</a></li>
 </menu>
 ```
 
@@ -58,19 +58,19 @@ import 'zui/menu/css';
 
 <Example>
   <menu class="menu w-32">
-    <li><a class="menu-item">剪切</a></li>
-    <li><hr class="menu-divider" /></li>
-    <li><a class="menu-item">复制</a></li>
-    <li><a class="menu-item">粘贴</a></li>
+    <li class="menu-item"><a>剪切</a></li>
+    <li class="menu-divider"></li>
+    <li class="menu-item"><a>复制</a></li>
+    <li class="menu-item"><a>粘贴</a></li>
   </menu>
 </Example>
 
 ```html
 <menu class="menu w-32">
-  <li><a class="menu-item">剪切</a></li>
-  <li><hr class="menu-divider" /></li>
-  <li><a class="menu-item">复制</a></li>
-  <li><a class="menu-item">粘贴</a></li>
+  <li class="menu-item"><a>剪切</a></li>
+  <li class="menu-divider"></li>
+  <li class="menu-item"><a>复制</a></li>
+  <li class="menu-item"><a>粘贴</a></li>
 </menu>
 ```
 
@@ -80,17 +80,17 @@ import 'zui/menu/css';
 
 <Example>
   <menu class="menu has-icons w-32">
-    <li><a class="menu-item"><i class="icon icon-copy"></i> 复制</a></li>
-    <li><a class="menu-item"><i class="icon icon-paste"></i> 粘贴</a></li>
-    <li><a class="menu-item">剪切</a></li>
+    <li class="menu-item"><a><i class="icon icon-copy"></i> 复制</a></li>
+    <li class="menu-item"><a><i class="icon icon-paste"></i> 粘贴</a></li>
+    <li class="menu-item"><a>剪切</a></li>
   </menu>
 </Example>
 
 ```html
 <menu class="menu has-icons w-32">
-  <li><a class="menu-item"><i class="icon icon-copy"></i> 复制</a></li>
-  <li><a class="menu-item"><i class="icon icon-paste"></i> 粘贴</a></li>
-  <li><a class="menu-item">剪切</a></li>
+  <li class="menu-item"><a><i class="icon icon-copy"></i> 复制</a></li>
+  <li class="menu-item"><a><i class="icon icon-paste"></i> 粘贴</a></li>
+  <li class="menu-item"><a>剪切</a></li>
 </menu>
 ```
 
@@ -100,17 +100,17 @@ import 'zui/menu/css';
 
 <Example>
   <menu class="menu w-32">
-    <li><a class="menu-item">复制</a></li>
-    <li><a class="menu-item disabled">粘贴</a></li>
-    <li><a class="menu-item">剪切</a></li>
+    <li class="menu-item"><a>复制</a></li>
+    <li class="menu-item disabled"><a>粘贴</a></li>
+    <li class="menu-item"><a>剪切</a></li>
   </menu>
 </Example>
 
 ```html
 <menu class="menu w-32">
-  <li><a class="menu-item">复制</a></li>
-  <li><a class="menu-item disabled">粘贴</a></li>
-  <li><a class="menu-item">剪切</a></li>
+  <li class="menu-item"><a>复制</a></li>
+  <li class="menu-item disabled"><a>粘贴</a></li>
+  <li class="menu-item"><a>剪切</a></li>
 </menu>
 ```
 
@@ -120,17 +120,17 @@ import 'zui/menu/css';
 
 <Example>
   <menu class="menu w-32">
-    <li><a class="menu-item">复制</a></li>
-    <li><a class="menu-item active">粘贴</a></li>
-    <li><a class="menu-item">剪切</a></li>
+    <li class="menu-item"><a>复制</a></li>
+    <li class="menu-item"><a class="active">粘贴</a></li>
+    <li class="menu-item"><a>剪切</a></li>
   </menu>
 </Example>
 
 ```html
 <menu class="menu w-32">
-  <li><a class="menu-item">复制</a></li>
-  <li><a class="menu-item active">粘贴</a></li>
-  <li><a class="menu-item">剪切</a></li>
+  <li class="menu-item"><a>复制</a></li>
+  <li class="menu-item"><a class="active">粘贴</a></li>
+  <li class="menu-item"><a>剪切</a></li>
 </menu>
 ```
 
@@ -140,19 +140,19 @@ import 'zui/menu/css';
 
 <Example>
   <menu class="menu w-32">
-    <li><a class="menu-item active">已复制 <i class="icon icon-check text-success"></i></a></li>
-    <li><a class="menu-item">粘贴</a></li>
-    <li><a class="menu-item">剪切</a></li>
-    <li><a class="menu-item">更多 <i class="caret-right"></i></a></li>
+    <li class="menu-item"><a class="active">已复制 <i class="icon icon-check text-success"></i></a></li>
+    <li class="menu-item"><a>粘贴</a></li>
+    <li class="menu-item"><a>剪切</a></li>
+    <li class="menu-item"><a>更多 <i class="caret-right"></i></a></li>
   </menu>
 </Example>
 
 ```html
 <menu class="menu w-32">
-  <li><a class="menu-item active">已复制 <i class="icon icon-check text-success"></i></a></li>
-  <li><a class="menu-item">粘贴</a></li>
-  <li><a class="menu-item">剪切</a></li>
-  <li><a class="menu-item">更多 <i class="caret-right"></i></a></li>
+  <li class="menu-item"><a class="active">已复制 <i class="icon icon-check text-success"></i></a></li>
+  <li class="menu-item"><a>粘贴</a></li>
+  <li class="menu-item"><a>剪切</a></li>
+  <li class="menu-item"><a>更多 <i class="caret-right"></i></a></li>
 </menu>
 ```
 
@@ -162,17 +162,17 @@ import 'zui/menu/css';
 
 <Example>
   <menu class="menu shadow-none border-none rounded-none w-32">
-    <li><a class="menu-item">剪切</a></li>
-    <li><a class="menu-item">复制</a></li>
-    <li><a class="menu-item">粘贴</a></li>
+    <li class="menu-item"><a>剪切</a></li>
+    <li class="menu-item"><a>复制</a></li>
+    <li class="menu-item"><a>粘贴</a></li>
   </menu>
 </Example>
 
 ```html
 <menu class="menu shadow-none border-none rounded-none w-32">
-  <li><a class="menu-item">剪切</a></li>
-  <li><a class="menu-item">复制</a></li>
-  <li><a class="menu-item">粘贴</a></li>
+  <li class="menu-item"><a>剪切</a></li>
+  <li class="menu-item"><a>复制</a></li>
+  <li class="menu-item"><a>粘贴</a></li>
 </menu>
 ```
 
@@ -190,11 +190,11 @@ import 'zui/menu/css';
       </div>
     </li>
     <li class="menu-divider"></li>
-    <li><a class="menu-item" href="#">个人资料</a></li>
-    <li><a class="menu-item" href="#">修改密码</a></li>
-    <li><a class="menu-item" href="#">主题</a></li>
+    <li class="menu-item"><a href="#">个人资料</a></li>
+    <li class="menu-item"><a href="#">修改密码</a></li>
+    <li class="menu-item"><a href="#">主题</a></li>
     <li class="menu-divider"></li>
-    <li class="text-danger"><a class="menu-item" href="#">退出</a></li>
+    <li class="text-danger menu-item"><a href="#">退出</a></li>
   </menu>
 </Example>
 
@@ -208,11 +208,11 @@ import 'zui/menu/css';
     </div>
   </li>
   <li class="menu-divider"></li>
-  <li><a class="menu-item" href="#">个人资料</a></li>
-  <li><a class="menu-item" href="#">修改密码</a></li>
-  <li><a class="menu-item" href="#">主题</a></li>
+  <li class="menu-item"><a href="#">个人资料</a></li>
+  <li class="menu-item"><a href="#">修改密码</a></li>
+  <li class="menu-item"><a href="#">主题</a></li>
   <li class="menu-divider"></li>
-  <li class="text-danger"><a class="menu-item" href="#">退出</a></li>
+  <li class="text-danger menu-item"><a href="#">退出</a></li>
 </menu>
 ```
 
