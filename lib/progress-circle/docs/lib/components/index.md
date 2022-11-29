@@ -25,15 +25,6 @@
   </svg>
 ```
 
-## 引入组件生成器
-
-<Example>
-  <div id="progressCircle">
-  </div>
-</Example>
-
-
-
 
  ## CSS 类
 
@@ -47,16 +38,3 @@
  | -------- | -------- |
  | --progress-circle-bg           | 环形进度条组件背景颜色 |
  | --progress-circle-bar-color    | 环形进度条组件颜色     |
-<script>
-export default {
-    mounted(){
-        onZUIReady(() => {
-            const progressCircle1 = new zui.ProgressCircle('#progressCircle', {
-                percent: 50,
-            });
-            const dom = document.getElementById(progressCircle);
-            console.log(progressCircle1, dom, '123');
-        });
-    },
-}
-</script>
