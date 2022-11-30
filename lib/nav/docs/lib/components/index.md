@@ -248,8 +248,8 @@
 </menu>
 
 ...
-```
 
+```
 ## 带分隔线的导航
 <Example>
  <div v-for="item in arrayNav" class="flex-1">
