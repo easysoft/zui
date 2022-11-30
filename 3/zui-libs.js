@@ -1240,6 +1240,12 @@ export default [
             "css",
             "zui:control"
         ],
+        "files": [
+            "./src/**/*"
+        ],
+        "exports": {
+            ".": "./src/main.ts"
+        },
         "devDependencies": {
             "zui-dev": "workspace:*",
             "@zui/base": "workspace:*",
