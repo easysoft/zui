@@ -136,12 +136,60 @@
 在 `.dropdown-menu` 内的 `<li>` 内包含另一个 `.dropdown-menu` 从而实现多级子菜单。包含子菜单的 `<li>` 需要添加额外的类 `.dropdown-submenu` 。
 一般情况下子菜单会在菜单项的右侧显示，但也可以为作为子菜单的 `.dropdown-menu` 类添加 `.expand-left` 类来使得子菜单在左侧显示
 
-<Example class="flex gap-4">
+<Example>
+  <button class="btn" type="button" data-toggle="dropdown" id="dropdownToggle" > 多级菜单按钮 </button>
 </Example>
 
+<script>
+export default {
+    mounted() {
+        onZUIReady(() => {
+            const dropdown = new zui.Dropdown('#dropdownToggle', {
+                arrow: true,
+                menu: {
+                    items: [
+                        {text: '复制', icon: 'icon-copy'},
+                        {text: '粘贴', icon: 'icon-paste'},
+                        {text: '剪切'},
+                        {text: '更多操作', items:[
+                            {text: '导入', icon: 'icon-upload-alt'},
+                            {text: '导出', icon: 'icon-download-alt'},
+                            {text: '保存', icon: 'icon-save', onClick: (event) => console.log('> menuItem.clicked', event)},
+                            {text: '点击此项不关闭菜单', className: 'not-hide-menu'},
+                        ]},
+                    ],
+                },
+            });
+            console.log(dropdown, 'dropdown');
+        })
+    }
+}
+</script>
 ```html
-<div class="dropdown">
-</div>
+<Example>
+  <button class="btn" type="button" data-toggle="dropdown" id="dropdownToggle" > 多级菜单按钮 </button>
+</Example>
+
+<script>
+    const dropdown = new zui.Dropdown('#dropdownToggle', {
+        arrow: true,
+        menu: {
+            items: [
+                {text: '复制', icon: 'icon-copy'},
+                {text: '粘贴', icon: 'icon-paste'},
+                {text: '剪切'},
+                {text: '更多操作', items:[
+                    {text: '导入', icon: 'icon-upload-alt'},
+                    {text: '导出', icon: 'icon-download-alt'},
+                    {text: '保存', icon: 'icon-save', onClick: (event) => console.log('> menuItem.clicked', event)},
+                    {text: '点击此项不关闭菜单', className: 'not-hide-menu'},
+                ]},
+            ],
+        },
+    });
+    console.log(dropdown, 'dropdown');
+</script>
+
 ```
 
 ## 自定义菜单
