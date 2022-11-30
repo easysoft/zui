@@ -8,3 +8,10 @@
 .menu.pager-size-menu > .menu-item > a {
   @apply -m-0.5;
 }
+
+.pager .pager-goto > .form-control {
+  @apply -w-10;
+}
+.pager .pager-goto > .input-group-addon {
+  @apply -bg-surface -border -border-gray-300;
+}

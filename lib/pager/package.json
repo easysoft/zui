@@ -20,6 +20,7 @@
         "@zui/form": "workspace:0.0.1",
         "@zui/dropdown": "workspace:0.0.1",
         "@zui/icons": "workspace:0.0.1",
+        "@zui/input-group": "workspace:0.0.1",
         "zui-dev": "workspace:^0.0.1"
     },
     "files": [

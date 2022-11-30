@@ -7,3 +7,4 @@ export * from './pager-info-props';
 export * from './pager-nav-props';
 export * from './pager-size-menu-props';
 export * from './page-link-creator';
+export * from './pager-goto';
