@@ -6,6 +6,19 @@
 <div id="pagerExample"></div>
 ```
 
+## 导航分页
+
+```html:example: col gap-3
+<div id="pagerAllCount"></div>
+<div id="pagerMaxCount"></div>
+```
+
+## 跳转
+
+```html:example
+<div id="pagerGoto"></div>
+```
+
 ## 基础展示
 
 ```html:example: flex gap-3 flex-wrap

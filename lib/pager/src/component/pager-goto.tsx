@@ -30,14 +30,14 @@ export function PagerGoto({
         updatedPage = updatedPage <= pagerInfo.pageTotal ? updatedPage :  pagerInfo.pageTotal;
         const info = updatePagerInfo(pagerInfo, updatedPage);
         btnProps.url = typeof linkCreator === 'function' ? linkCreator(info)  : formatString(linkCreator, info);
-        onClick?.call(event.target, event);
+        onClick?.call(event.target);
     };
 
     const {className} = btnProps;
     btnProps.className = 'input-group-addon';
     return (
         <div className={classes('input-group', size ? `size-${size}` : '', className)}>
-            <input type="text" class="form-control" onInput={getValue} />
+            <input type="number" class="form-control" max={pagerInfo.pageTotal} min="1" onInput={getValue}  />
             <Button type={type} {...btnProps} onClick={onUpdatePage}/>
         </div>
     );

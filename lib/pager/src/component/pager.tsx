@@ -6,6 +6,7 @@ import {PagerLink} from './pager-link';
 import {PagerInfoItem} from './pager-info';
 import {PagerNav} from './pager-nav';
 import {PagerSizeMenu} from './pager-size-menu';
+import {PagerGoto} from './pager-goto';
 
 export class Pager<T extends ActionBasicProps = PagerItemOptions, P extends PagerOptions<T> = PagerOptions<T>> extends Toolbar<T, P> {
     static NAME = 'pager';
@@ -24,6 +25,7 @@ export class Pager<T extends ActionBasicProps = PagerItemOptions, P extends Page
         info: PagerInfoItem,
         nav: PagerNav,
         'size-menu': PagerSizeMenu,
+        goto: PagerGoto,
     };
 
 
@@ -33,7 +35,7 @@ export class Pager<T extends ActionBasicProps = PagerItemOptions, P extends Page
     }
 
     isBtnItem(type?: string) {
-        return type === 'link' || type === 'nav' || type === 'size-menu' || super.isBtnItem(type);
+        return type === 'link' || type === 'nav' || type === 'size-menu' || type === 'goto' || super.isBtnItem(type);
     }
 
     getItemRenderProps(options: Omit<P, 'items'> & {items: T[]}, item: T, index: number): T {
@@ -41,7 +43,7 @@ export class Pager<T extends ActionBasicProps = PagerItemOptions, P extends Page
         const type = item.type || 'item';
         if (type === 'info') {
             Object.assign(props, {pagerInfo: this.pagerInfo});
-        } else if (type === 'link' || type === 'size-menu' || type === 'nav') {
+        } else if (type === 'link' || type === 'size-menu' || type === 'nav' || type === 'goto') {
             Object.assign(props, {pagerInfo: this.pagerInfo, linkCreator: options.linkCreator});
         }
         return props;

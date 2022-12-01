@@ -10,8 +10,8 @@
 }
 
 .pager .pager-goto > .form-control {
-  @apply -w-10;
+  @apply -w-12;
 }
 .pager .pager-goto > .input-group-addon {
-  @apply -bg-surface -border -border-gray-300;
+  @apply -bg-white -border -border-gray-300;
 }

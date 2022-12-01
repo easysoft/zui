@@ -8,7 +8,7 @@ export function PagerNav({
     key,
     type: pagerItemType,
     btnType: type,
-    count = 6,
+    count = 12,
     pagerInfo,
     linkCreator,
     ...btnProps
@@ -24,10 +24,10 @@ export function PagerNav({
                 const elements: ComponentChildren[] = [];
                 for (let i = current; i <= total; i++ ) {
                     btnProps.text = i;
-                    btnProps.icon = '';
+                    delete btnProps.icon;
                     btnProps.disabled = false;
-                    if (linkCreator) {        
-                        const info = updatePagerInfo(pagerInfo, i);
+                    const info = updatePagerInfo(pagerInfo, i);
+                    if (linkCreator) {     
                         btnProps.url = typeof linkCreator === 'function' ? linkCreator(info)  : formatString(linkCreator, info);
                     }
                     elements.push(<Button type={type} {...btnProps} />);
@@ -37,27 +37,26 @@ export function PagerNav({
         };
 
         const updateNav = () => {
+            const resultElements: ComponentChildren[] = [];
+            resultElements.push(appendItem(1,  1));
             if (pagerInfo.pageTotal > 1) {
-                const resultElements: ComponentChildren[] = [];
                 if (pagerInfo.pageTotal <= count) {
                     resultElements.push(appendItem(2,  pagerInfo.pageTotal));
                 } else if (pagerInfo.page < (count - 2)) {
-                    resultElements.push(appendItem(1,  count - 2));
+                    resultElements.push(appendItem(2,  count - 2));
                     resultElements.push(appendItem(0,  0));
                     resultElements.push(appendItem(pagerInfo.pageTotal,  pagerInfo.pageTotal));
-                } else if (pagerInfo.page > (pagerInfo.pageTotal - count + 2)) {
-                    console.log(22);
+                } else if (pagerInfo.page > (pagerInfo.pageTotal - count + 3)) {
                     resultElements.push(appendItem(0,  0));
-                    resultElements.push(appendItem((pagerInfo.pageTotal - count + 2), pagerInfo.pageTotal));
-                    
+                    resultElements.push(appendItem((pagerInfo.pageTotal - count + 3), pagerInfo.pageTotal));
                 } else {
                     resultElements.push(appendItem(0,  0));
                     resultElements.push(appendItem(pagerInfo.page - Math.ceil((count - 4) / 2), pagerInfo.page + Math.floor((count - 4) / 2)));
                     resultElements.push(appendItem(0,  0));
                     resultElements.push(appendItem(pagerInfo.pageTotal,  pagerInfo.pageTotal));
                 }
-                return resultElements;
             }
+            return resultElements;
         };
         return updateNav();
     }
