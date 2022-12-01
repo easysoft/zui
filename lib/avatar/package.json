@@ -1,8 +1,8 @@
 {
     "name": "@zui/avatar",
+    "description": "ZUI avatar",
     "version": "0.0.1",
     "main": "src/main.ts",
-    "browser": "src/main.ts",
     "browserslist": "",
     "dependencies": {
         "preact": "10.11.2",
@@ -15,8 +15,11 @@
         "@zui/base": "workspace:*",
         "@zui/utilities": "workspace:*"
     },
+    "exports": {
+        ".": "./src/main.ts"
+    },
     "zui": {
-        "type": "control",
+        "type": "component",
         "displayName": "头像",
         "contributes": {
             "css": ["class", "var"]

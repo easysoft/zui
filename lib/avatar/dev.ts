@@ -1,5 +1,5 @@
 import 'zui-dev';
-import {Avatar} from './src/vanilla';
+import {Avatar} from './src/main';
 
 onPageUpdate(() => {
     new Avatar('#avatar1', {});
