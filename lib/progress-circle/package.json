@@ -11,7 +11,7 @@
         "./src/**/*"
     ],
     "exports": {
-        ".": "./src/main.ts"
+      ".": "./src/main.ts"
     },
     "dependencies": {
         "preact": "10.11.2"

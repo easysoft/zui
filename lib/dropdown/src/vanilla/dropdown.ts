@@ -7,7 +7,6 @@ import {ContextMenuTrigger} from '@zui/contextmenu/src/types/contextmenu-trigger
 import type {DropdownEvents} from '../types/dropdown-events';
 import type {DropdownOptions} from '../types/dropdown-options';
 import '../css/dropdown.css';
-import {classes} from '@zui/browser-helpers/src/classes';
 
 export class Dropdown extends ContextMenu<DropdownOptions, DropdownEvents> {
     static NAME = 'dropdown';
@@ -45,7 +44,6 @@ export class Dropdown extends ContextMenu<DropdownOptions, DropdownEvents> {
                 this.#bindHoverEvents();
             }
             this.element.classList.add(this.elementShowClass);
-            this.#addClass();
         }
         return result;
     }
@@ -147,13 +145,6 @@ export class Dropdown extends ContextMenu<DropdownOptions, DropdownEvents> {
         menu.addEventListener('mouseleave', this.hideLater);
         this.element.addEventListener('mouseleave', this.hideLater);
         this.#hoverEventsBind = true;
-    }
-
-    #addClass() {
-        const {menu} = this;
-        if (menu.querySelector('.menu') && this.options.className) {
-            menu.querySelector('.menu').classList.add(classes([this.options.className]));
-        }
     }
 }
 
