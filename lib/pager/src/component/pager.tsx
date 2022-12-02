@@ -6,7 +6,7 @@ import {PagerLink} from './pager-link';
 import {PagerInfoItem} from './pager-info';
 import {PagerNav} from './pager-nav';
 import {PagerSizeMenu} from './pager-size-menu';
-import {PagerGoto} from './pager-goto';
+import PagerGoto from './pager-goto';
 
 export class Pager<T extends ActionBasicProps = PagerItemOptions, P extends PagerOptions<T> = PagerOptions<T>> extends Toolbar<T, P> {
     static NAME = 'pager';
