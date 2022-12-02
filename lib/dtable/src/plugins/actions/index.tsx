@@ -53,7 +53,7 @@ const actionsPlugin: DTablePlugin<DTableActionsTypes> = {
                         if (!action) {
                             return;
                         }
-                        const {name, items, ...others} = action;
+                        const {name, items, className, ...others} = action;
                         if (actionsMap && name) {
                             Object.assign(others, actionsMap[name], {...others});
                         }
@@ -69,6 +69,7 @@ const actionsPlugin: DTablePlugin<DTableActionsTypes> = {
                                 }
                                 return list;
                             }, [] as MenuItemOptions[]);
+                            dropdown.className = action.className;
                             (others as ToolbarDropdownProps).dropdown = dropdown;
                         }
                         return others;

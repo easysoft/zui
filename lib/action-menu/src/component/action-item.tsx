@@ -27,10 +27,10 @@ export function ActionItem({
     return _h(component as ComponentType, {
         className: classes(className, {disabled, active}),
         title: hint,
-        [component === 'a' ? 'href' : 'data-url']: url,
+        [component === 'a' ? 'href' : 'data-url']: !disabled ? url : null,
         [component === 'a' ? 'target' : 'data-target']: target,
         style,
-        onClick,
+        onClick: disabled ? function () {return false;} : onClick,
         ...attrs,
     } as Attributes, ...finalChildren);
 }

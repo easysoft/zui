@@ -5,10 +5,13 @@
     background: var(--menu-active-bg);
     color: var(--menu-active-color);
 }
+.menu-item > .disabled {
+    @apply -cursor-not-allowed;
+}
 .menu-item > a:hover {
     background: var(--menu-hover-bg);
     color: var(--menu-hover-color);
 }
 .menu-item > a > .text {
-    @apply -flex-auto;
+    @apply -flex-auto -h-5;
 }
