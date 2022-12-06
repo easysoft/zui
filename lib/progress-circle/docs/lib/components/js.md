@@ -121,11 +121,15 @@ new zui.ProgressCircle('#progress', {
 
 ### `circleBgColor`
 
+进度条环背景色。
+
 * 类型：`number`
 * 必选：否
 * 默认值: `var(--progress-circle-bg)`
 
 ### `circleColor`
+
+进度条环颜色。
 
 * 类型：`number`
 * 必选：否
@@ -146,34 +150,3 @@ render(options: Partial<MenuOptions>): void;
 **参数：**
 
 * `options`：需要重新设置的选项
-
-## API 
-
-### `ProgressCircleOptions`
-
- 选项定义对象。
-
-```ts
-interface ProgressCircleOptions {
-    circleSize: number,
-    circleBorderSize: number,
-    percent: number,
-    circleBgColor: string,
-    circleColor: string,
-}
-```
-
-### `ProgressCircle`
-
-环形进度条组件类
-
-```ts
-class ProgressCircle {
-
-   constructor(element: string | HTMLElement, options: Partial<MenuOptions>);
-
-   options: ProgressCircleOptions;
-
-   render(options?: Partial<ProgressCircleOptions>): void;
-}
-```
