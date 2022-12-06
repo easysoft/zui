@@ -16,6 +16,8 @@ export class Button extends Component<ButtonProps> {
             disabled,
             active,
             loading,
+            loadingIcon,
+            loadingText,
             icon,
             text,
             trailingIcon,
@@ -26,13 +28,13 @@ export class Button extends Component<ButtonProps> {
         } = this.props;
 
         const ButtonComponent = component || (url ? 'a' : 'button');
-        const isEmptyText = text === undefined || text === null || (typeof text === 'string' && !text.length);
-        const onlyCaret = isEmptyText && !icon && !trailingIcon && !children;
+        const isEmptyText = text === undefined || text === null || (typeof text === 'string' && !text.length) || loading && !loadingText;
+        const onlyCaret = isEmptyText && !icon && !trailingIcon && !children && !loading;
         return _h(
             ButtonComponent as ComponentType<ButtonProps>, {
                 className: classes('btn', type, className, {
                     'btn-caret': onlyCaret,
-                    disabled,
+                    disabled: disabled || loading,
                     active,
                     loading,
                     square: square === undefined ? (!onlyCaret && !children && isEmptyText) : square,
@@ -43,11 +45,11 @@ export class Button extends Component<ButtonProps> {
                 type: ButtonComponent === 'button' ? 'button' : undefined,
                 ...others,
             } as Attributes,
-            typeof icon === 'string' ? <i class={`icon ${icon}`} /> : icon,
-            isEmptyText ? null : <span className="text">{text}</span>,
-            children,
-            typeof trailingIcon === 'string' ? <i class={`icon ${trailingIcon}`} /> : trailingIcon,
-            caret ? <span className={typeof caret === 'string' ? `caret-${caret}` : 'caret'} /> : null,
+            loading ? <i class={`spin icon ${loadingIcon || 'icon-spinner-snake'}`} /> : typeof icon === 'string' ? <i class={`icon ${icon}`} /> : icon,
+            isEmptyText ? null : <span className="text">{loading ? loadingText : text}</span>,
+            loading ? null : children,
+            loading ? null : typeof trailingIcon === 'string' ? <i class={`icon ${trailingIcon}`} /> : trailingIcon,
+            loading ? null : caret ? <span className={typeof caret === 'string' ? `caret-${caret}` : 'caret'} /> : null,
         );
     }
 }

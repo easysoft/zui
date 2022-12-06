@@ -20,4 +20,6 @@ export type ButtonProps = {
     caret?: 'up' | 'down' | 'left' | 'right' | boolean;
     hint?: string;
     loading?: boolean;
+    loadingIcon?: string;
+    loadingText?: string;
 };
