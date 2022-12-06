@@ -1,51 +1,70 @@
-script# 按钮组生成器
+# 按钮组生成器
+
+常用于多项按钮操作的组件，通过 JS 动态生成，使用时方便快捷。
 
 ## 基本用法
 
-<Example>
+<Example class="flex gap-2">
   <div id="btnGroup"></div>
+  <div id="btnGroup2"></div>
 </Example>
 
 ```html
 <div id="btnGroup"></div>
+<div id="btnGroup2"></div>
 
 <script>
-const btnGroup = new BtnGroup('#btnGroup', {
+new zui.BtnGroup('#btnGroup', {
     items: [
-        {text: '复制', icon: 'icon-copy'},
-        {text: '粘贴', icon: 'icon-paste'},
-        {text: '剪切'},
-        {type: 'heading', text: '更多操作', caret: true},
-        {text: '导入', icon: 'icon-upload-alt'},
-        {text: '导出', icon: 'icon-download-alt'},
-        {text: '保存', icon: 'icon-save', onClick: (event) => console.log('> btnGroupItem.clicked', event)},
+        {text: '查看详情', active: true},
+        {text: '编辑'},
+        {text: '删除'},
     ],
     onClickItem: (info) => {
         console.log('> btnGroup.onClickItem', info);
     },
 });
-console.log('> btnGroup', btnGroup);
+new zui.BtnGroup('#btnGroup2', {
+    items: [
+        {icon: 'icon-search', hint: '查看详情'},
+        {icon: 'icon-edit', hint: '编辑'},
+        {icon: 'icon-trash', hint: '删除'},
+    ],
+    onClickItem: (info) => {
+        console.log('> btnGroup.onClickItem', info);
+    },
+});
 </script>
 ```
 
-## 按钮外观
+## 按钮组外观
 
-<Example>
+配合使用 [CSS 工具类](/utilities/) 来实现不同按钮组的外观。
+
+<Example class="flex gap-1">
   <div id="iconBtnGroup"></div>
+  <div id="iconBtnGroup2"></div>
+  <div id="iconBtnGroup3"></div>
+  <div id="btnGroup2"></div>
 </Example>
 
 ```html
 <div id="iconBtnGroup"></div>
+<div id="iconBtnGroup2"></div>
+<div id="iconBtnGroup3"></div>
 
 <script>
-const iconBtnGroup = new zui.BtnGroup('#iconBtnGroup', {
-    items: [
-        {icon: 'icon-search', type: 'primary'},
-        {icon: 'icon-refresh', type: 'secondary'},
-        {icon: 'icon-check', type: 'success'},
-        {icon: 'icon-exclamation-sign', type: 'warning'},
-        {icon: 'icon-times', type: 'danger', onClick: (event) => console.log('> btnGroupItem.clicked', event)},
-    ],
+new zui.BtnGroup('#iconBtnGroup', {
+    defaultBtnProps: {className: 'ghost'},
+    // items: ...,
+});
+new zui.BtnGroup('#iconBtnGroup2', {
+    defaultBtnProps: {className: 'text-primary'},
+    // items: ...,
+});
+new zui.BtnGroup('#iconBtnGroup3', {
+    defaultBtnProps: {className: 'primary-outline bg-canvas'},
+    // items: ...,
 });
 </script>
 ```
@@ -60,11 +79,12 @@ const iconBtnGroup = new zui.BtnGroup('#iconBtnGroup', {
 <div id="disabledBtnGroup"></div>
 
 <script>
- new zui.BtnGroup('#disabledBtnGroup', {
+new zui.BtnGroup('#disabledBtnGroup', {
     items: [
         {icon: 'icon-search'},
-        {icon: 'icon-refresh', disabled: true},
-        {icon: 'icon-check'},
+        {icon: 'icon-edit'},
+        {icon: 'icon-trash', disabled: true},
+        {icon: 'icon-exclamation-sign'},
     ],
 });
 </script>
@@ -72,9 +92,12 @@ const iconBtnGroup = new zui.BtnGroup('#iconBtnGroup', {
 
 ## 尺寸
 
+按钮组组件提供除了默认值以外的四种尺寸，可以通过设置 `size` 属性在不同场景下选择合适的按钮尺寸。
+
 <Example class="col gap-3">
   <div id="xsBtnGroup"></div>
   <div id="smBtnGroup"></div>
+  <div id="defaultBtnGroup"></div>
   <div id="lgBtnGroup"></div>
   <div id="xlBtnGroup"></div>
 </Example>
@@ -82,6 +105,7 @@ const iconBtnGroup = new zui.BtnGroup('#iconBtnGroup', {
 ```html
 <div id="xsBtnGroup"></div>
 <div id="smBtnGroup"></div>
+<div id="defaultBtnGroup"></div>
 <div id="lgBtnGroup"></div>
 <div id="xlBtnGroup"></div>
 
@@ -89,16 +113,16 @@ const iconBtnGroup = new zui.BtnGroup('#iconBtnGroup', {
 const btnGroup = new BtnGroup('#xsBtnGroup', {
     size: 'xs',
     items: [
-        {icon: 'icon-copy'},
-        {icon: 'icon-paste'},
-        {type: 'heading', caret: true},
-        {icon: 'icon-upload-alt'},
-        {icon: 'icon-download-alt'},
-        {icon: 'icon-save', onClick: (event) => console.log('> btnGroupItem.clicked', event)},
+        {icon: 'icon-search', hint: '查看详情'},
+        {icon: 'icon-edit', hint: '编辑'},
+        {icon: 'icon-trash', hint: '删除'},
     ],
 });
 const btnGroup = new BtnGroup('#smBtnGroup', {
     size: 'sm',
+    // ...
+});
+const btnGroup = new BtnGroup('#defaultBtnGroup', {
     // ...
 });
 const btnGroup = new BtnGroup('#lgBtnGroup', {
@@ -179,9 +203,16 @@ new BtnGroup('#btnGroup', {
 * 类型：`string`
 * 必选：否
 
+### `defaultBtnProps`
+
+继承 [按钮属性](/lib/components/button/js.html#选项)。
+
+* 类型：<code>[ButtonProps](/lib/components/button/js.html#选项) </code>
+* 必选：否
+
 ### `items`
 
-* 类型：<code>[ButtonProps](#buttonprops) </code>
+* 类型：<code>[BtnProps](#btnprops) </code>
 * 必选：是
 
 ### `size`
@@ -203,9 +234,18 @@ new BtnGroup('#btnGroup', {
 
 指定一个回调函数用于对组件渲染进行自定义。
 
+**参数**：`items` 选项的单个配置；
+
+**返回值**：`items` 选项的单个配置。
+
 ### `beforeRender`
 
-指定一个回调函数在渲染之前调用。
+指定一个回调函数在渲染之前调用，可重新配置组件选项。
+
+**参数**：用户为按钮组组件件设置的 `options`；
+
+**返回值**：组件选项数据。
+
 
 ### `afterRender`
 
@@ -216,199 +256,84 @@ new BtnGroup('#btnGroup', {
 * `firstRender`：判断是否第一次渲染；
 * `menu`：组件信息。
 
-### `afterDestroy`
+### `beforeDestroy`
 
-指定一个回调函数在组件销毁之后调用。
+指定一个回调函数在组件销毁之前调用，无参数。
 
 ## API
 
-### `ButtonProps`
+### `btnProps`
 
-继承按钮的属性。
+按钮组子项属性：
 
-#### `text`
+```ts
+type BtnProps = ButtonProps & {key?: string | number | symbol};
+```
 
-标题。
+继承[按钮组件 ButtonProps](/lib/components/button/js.html#选项)属性，同时添加了 `key` 属性。
 
-* 类型：`string`；
-* 必选：否。
+#### `key`
 
-#### `icon`
+指定单个按钮键值，用户可根据该属性进行特殊处理。
 
-左侧图标。
-
-* 类型：`string | VNode`；
-* 必选：否。
-
-#### `trailingIcon`
-
-右侧图标。
-
-* 类型：`string | VNode`；
-* 必选：否。
-
-#### `hint`
-
-按钮鼠标悬浮提示文案。
-
-* 类型：`string`；
-* 必选：否；
-
-#### `component`
-
-标签类型
-
-* 类型：`string | ComponentType`；
-* 必选：否。
-
-#### `btnType`
-
-按钮的外观类型。
-
-* 类型：`string`；
-* 必选：否；
-* 可选项：`primary, secondary ...`。
-
-#### `size`
-
-工具栏项的尺寸
-
-* 类型：`string`；
-* 必选：否；
-* 可选项：`'xs' | 'sm' | 'lg' | 'xl'`。
-
-#### `className`
-
-类名。
-
-* 类型：`string`；
-* 必选：否。
-
-#### `style`
-
-样式。
-
-* 类型：`ClassNameLike`；
-* 必选：否。
-
-#### `url`
-
-跳转链接地址。
-
-* 类型：`string`；
-* 必选：否。
-
-#### `target`
-
-在何处打开链接地址。
-
-* 类型：`string`；
-* 必选：否；
-* 可选项： `_self | _self | _black | _top | _parent` 。
-
-#### `disabled`
-
-是否禁用。
-
-* 类型：`boolean`；
-* 必选：否；
-* 默认： `false`。
-
-#### `active`
-
-是否是激活状态。
-
-* 类型：`boolean`；
-* 必选：否；
-* 默认： `false`。
-
-#### `loading`
-
-加载中状态。
-
-* 类型：`boolean`；
-* 必选：否；
-* 默认： `false`。
-
-#### `square`
-
-是否展示为正方形。
-
-* 类型：`boolean`；
-* 必选：否；
-* 默认： `true`。
-
-#### `caret`
-
-工具栏项展示箭头。
-
-* 类型：`string | boolean`；
-* 必选：否；
-* 可选项：`up | down | left | right | boolean`；
-* 默认： `false`。
-
-#### `onClick`
-
-鼠标点击的回调方法。
-
-* 类型：`function`；
-* 必选：否。
-
-#### `children`
-
-子元素。
-
-* 类型：`ComponentChildren | (() => ComponentChildren)`；
+* 类型：`string | number | symbol`；
 * 必选：否。
 
 <script>
 export default {
     mounted() {
         onZUIReady(() => {
-            const btnGroup = new zui.BtnGroup('#btnGroup', {
+            const btnGroupItems = [
+                {icon: 'icon-search', hint: '查看详情'},
+                {icon: 'icon-edit', hint: '编辑'},
+                {icon: 'icon-trash', hint: '删除'},
+            ];
+            new zui.BtnGroup('#btnGroup', {
                 items: [
-                    {text: '复制', icon: 'icon-copy'},
-                    {text: '粘贴', icon: 'icon-paste'},
-                    {text: '剪切'},
-                    {type: 'heading', text: '更多操作', caret: true, children: [
-                        {text: '复制', icon: 'icon-copy'},
-                    ]},
-                    {text: '导入', icon: 'icon-upload-alt'},
-                    {text: '导出', icon: 'icon-download-alt'},
-                    {text: '保存', icon: 'icon-save', onClick: (event) => console.log('> btnGroupItem.clicked', event)},
+                    {text: '查看详情', active: true},
+                    {text: '编辑'},
+                    {text: '删除'},
                 ],
                 onClickItem: (info) => {
                     console.log('> btnGroup.onClickItem', info);
                 },
             });
-            console.log('> btnGroup', btnGroup);
-            
-            const iconBtnGroup = new zui.BtnGroup('#iconBtnGroup', {
-                items: [
-                    {icon: 'icon-search', type: 'primary'},
-                    {icon: 'icon-refresh', type: 'secondary'},
-                    {icon: 'icon-check', type: 'success'},
-                    {icon: 'icon-exclamation-sign', type: 'warning'},
-                    {icon: 'icon-times', type: 'danger', onClick: (event) => console.log('> btnGroupItem.clicked', event)},
-                ],
+            new zui.BtnGroup('#btnGroup2', {
+                items: btnGroupItems,
+                onClickItem: (info) => {
+                    console.log('> btnGroup.onClickItem', info);
+                },
             });
+
+            const btnGroupProps = [
+                {id: '#iconBtnGroup', className: 'ghost'},
+                {id: '#iconBtnGroup2', className: 'text-primary'},
+                {id: '#iconBtnGroup3', className: 'primary-outline bg-canvas'},
+            ];
+            btnGroupProps.forEach(item => {
+                new zui.BtnGroup(item.id, {
+                    defaultBtnProps: {className: item.className},
+                    items: btnGroupItems,
+                });
+            });
+           
             const sizeList = ['xs', 'sm', 'lg', 'xl'];
             sizeList.forEach(item => {
                 new zui.BtnGroup(`#${item}BtnGroup`, {
                     size: item,
-                    items: [
-                        {icon: 'icon-search'},
-                        {icon: 'icon-refresh'},
-                        {icon: 'icon-check'},
-                        {icon: 'icon-exclamation-sign'},
-                    ],
+                    items: btnGroupItems,
                 });
             });
+            new zui.BtnGroup('#defaultBtnGroup', {
+                items: btnGroupItems,
+            });
+            
             new zui.BtnGroup('#disabledBtnGroup', {
                 items: [
                     {icon: 'icon-search'},
-                    {icon: 'icon-refresh', disabled: true},
-                    {icon: 'icon-check'},
+                    {icon: 'icon-edit'},
+                    {icon: 'icon-trash', disabled: true},
+                    {icon: 'icon-exclamation-sign'},
                 ],
             });
         });
