@@ -8,27 +8,31 @@
 
 ### 文字头像
 <Example>
-  <div id="avatar1" data-text="User"></div>
+  <div id="avatar1"></div>
 </Example>
 
 ```html
-<div id="avatar1" data-text="User"></div>
+<div id="avatar1"></div>
 
 <script>
-  new zui.Avatar('#avatar1', {});
+    new zui.Avatar('#avatar1', {
+        text:"user",
+    });
 </script>
 ```
 ### 图片头像
 
 <Example>
-  <div id="avatar2" data-src="/assets/avatar/avatar.png"></div>
+  <div id="avatar2"></div>
 </Example>
 
 ```html
-<div id="avatar2" data-text="User"></div>
+<div id="avatar2"></div>
 
 <script>
-  new zui.Avatar('#avatar2', {});
+    new zui.Avatar('#avatar2', {
+        src: "/assets/avatar/avatar.png",
+    });
 </script>
 ```
 
@@ -36,14 +40,12 @@
 export default {
     mounted() {
         onZUIReady(() => {
-            new zui.Avatar('#avatar1', {});
-            new zui.Avatar('#avatar2', {});
-            /*
-            new zui.Avatar('#avatar3', {});
-            new zui.Avatar('#avatar4', {});
-            new zui.Avatar('#avatar5', {});
-            new zui.Avatar('#avatar6', {});
-            */
+            new zui.Avatar('#avatar1', {
+                text: "user",
+            });
+            new zui.Avatar('#avatar2', {
+                src: "/assets/avatar/avatar.png",
+            });
         })
     }
 }
@@ -152,6 +154,8 @@ new zui.Avatar('#menu', options: AvatarOptions);
 
 ### `foreColor`
 
+字体颜色
+
 * 类型：`string`
 * 必选： 否
 
@@ -164,12 +168,14 @@ new zui.Avatar('#menu', options: AvatarOptions);
 
 ### `src`
 
+文件头像路径
+
 * 类型：`string`
 * 必选：否
 
 ### `code`
 
-唯一标识, 通常传入头像的用户id等标识码,组件会计算生成一个与该code对应的唯一背景色以作区分。
+唯一标识，通常指定为用 ID 或 账号 组件会根据传入值生成唯一的颜色。
 
 * 类型：`string`
 * 必选：否
@@ -183,56 +189,5 @@ new zui.Avatar('#menu', options: AvatarOptions);
 **定义：**
 
 ```ts
-render(options: Partial<AvatarOptions>): void;
-```
-
-**参数：**
-
-* `options`：需要重新设置的选项
-
-## API
-
-### `AvatarOptions`
-
-选项定义对象。
-
-```ts
-interface AvatarOptions {
-    className?: string | object | array;
-    size?: 'xs' | 'sm' | 'lg' | 'xl' | number;
-    circle?: boolean;
-    rounded?: boolean | 'sm' | 'md' | 'lg' | number;
-    background?: string;
-    foreColor?: string;
-    text?: string;
-    code?: string | number;
-    src?: string;
-    children?: ComponentChildren | (() => ComponentChildren);
-}
-```
-
-### `Avatar`
-
-菜单组件类。
-
-**定义**
-
-```ts
-
-class Avatar {
-
-    constructor(element: string | HTMLElement, options: Partial<AvatarOptions>);
-
-    options: AvatarOptions;
-
-    element: HTMLElement;
-
-    render(options: Partial<AvatarOptions>): void;
-
-    setOptions(options?: Partial<AvatarOptions>): AvatarOptions;
-
-    destroy(): void;
-
-}
-
+render(options: AvatarOptions): void;
 ```
