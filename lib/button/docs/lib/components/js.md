@@ -1,6 +1,6 @@
 # 按钮生成器
 
-按钮生成器是通过 JS 动态生成的按钮组件，用来触发一些动作。通常用在表单、对话框、菜单上面。好的按钮设计能够引导用户高效的达到目的。
+按钮生成器是通过 JS 动态生成的按钮组件，用来触发一些动作。通常用在表单、对话框、菜单上面。
 
 ## 基本用法
 
@@ -258,7 +258,7 @@
 
 * 类型：`string`；
 * 必选：否；
-* 可选项： `_self | _self | _black | _top | _parent` 。
+* 可选项： 参考 [MDN 中 `<a>` 属性](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/a#attr-target) 。
 
 ### `disabled`
 
