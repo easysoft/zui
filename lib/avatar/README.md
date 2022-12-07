@@ -14,7 +14,7 @@
 ```js
 new Avatar('#avatar1', {
     text: "User",
-    code: "12",
+    code: 12,
     circle: true,
 });
 new Avatar('#avatar2', {
