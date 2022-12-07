@@ -4,14 +4,25 @@
 
 ## 综合用法
 
+<style>
+  #pagerExample2 .pager .pager-nav.active {
+    @apply -text-primary-500 -border -border-primary-500;
+  }
+  #pagerExample3 .pager .pager-nav.active {
+    @apply -text-canvas -bg-primary-500;
+  }
+</style>
+
 <Example class="col gap-2">
   <div id="pagerExample1"></div>
   <div id="pagerExample2"></div>
+  <div id="pagerExample3"></div>
 </Example>
 
 ```html
 <div id="pagerExample1"></div>
 <div id="pagerExample2"></div>
+<div id="pagerExample3"></div>
 
 <script>
     new zui.Pager('#pagerExample1', {
@@ -32,7 +43,7 @@
             console.log('> pagerExample1.onClickItem', info);
         },
     });
-     new zui.Pager('#pagerExample2', {
+    new zui.Pager('#pagerExample2', {
         items: [
             {type: 'info', text: '共 {recTotal} 项'},
             {type: 'size-menu', text: '每页 {recPerPage} 项', dropdown: {placement: 'top'}},
@@ -48,6 +59,19 @@
         recPerPage: 10,
         linkCreator: '#?page={page}&recPerPage={recPerPage}',
     });
+    new zui.Pager('#pagerExample3', {
+        items: [
+            {type: 'info', text: '共 {recTotal} 项'},
+            {type: 'link', page: 'prev', icon: 'icon-angle-left', hint: '上一页'},
+            {type: 'nav'},
+            {type: 'link', page: 'next', icon: 'icon-angle-right', hint: '下一页'},
+        ],
+        page: 2,
+        recTotal: 51,
+        recPerPage: 10,
+        linkCreator: '#?page={page}&recPerPage={recPerPage}',
+    });
+    
 </script>
 ```
 
@@ -314,6 +338,18 @@ export default {
                     {type: 'link', page: 'next', icon: 'icon-angle-right', hint: '下一页'},
                     {type: 'link', page: 'last', icon: 'icon-double-angle-right', hint: '最后一页'},
                     {type: 'goto', text: '跳转'},
+                ],
+                page: 2,
+                recTotal: 51,
+                recPerPage: 10,
+                linkCreator: '#?page={page}&recPerPage={recPerPage}',
+            });
+            new zui.Pager('#pagerExample3', {
+                items: [
+                    {type: 'info', text: '共 {recTotal} 项'},
+                    {type: 'link', page: 'prev', icon: 'icon-angle-left', hint: '上一页'},
+                    {type: 'nav'},
+                    {type: 'link', page: 'next', icon: 'icon-angle-right', hint: '下一页'},
                 ],
                 page: 2,
                 recTotal: 51,

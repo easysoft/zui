@@ -5,6 +5,6 @@ import {PageName} from './page-name';
 export interface PagerGotoProps extends ToolbarItemProps {
     type: 'goto',
     page?: PageName;
-    value?: number;
     text?: string | ((info: PagerInfo) => string);
+    onChange?: (data: {info: PagerInfo, event: Event}) => boolean;
 }

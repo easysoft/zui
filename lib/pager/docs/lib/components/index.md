@@ -8,43 +8,43 @@
 
 <Example class="col gap-2">
   <nav class="pager">
-    <a class="btn ghost pager-link square size-sm" title="第一页"><i class="icon icon-double-angle-left"></i></a>
-    <a class="btn ghost pager-link square size-sm" title="上一页"><i class="icon icon-angle-left"></i></a>
-    <a class="btn ghost pager-nav size-sm"><span class="text">1</span></a>
-    <a class="btn ghost pager-nav size-sm"><span class="text">2</span></a>
-    <a class="btn ghost pager-nav size-sm"><span class="text">3</span></a>
-    <a class="btn ghost pager-nav size-sm"><span class="text">4</span></a>
-    <a class="btn ghost pager-link square size-sm" title="下一页"><i class="icon icon-angle-right"></i></a>
-    <a class="btn ghost pager-link square size-sm" title="最后一页"><i class="icon icon-double-angle-right"></i></a>
+    <a class="btn ghost square size-sm" title="第一页"><i class="icon icon-double-angle-left"></i></a>
+    <a class="btn ghost square size-sm" title="上一页"><i class="icon icon-angle-left"></i></a>
+    <a class="btn ghost size-sm text-primary"><span class="text">1</span></a>
+    <a class="btn ghost size-sm"><span class="text">2</span></a>
+    <a class="btn ghost size-sm"><span class="text">3</span></a>
+    <a class="btn ghost size-sm"><span class="text">4</span></a>
+    <a class="btn ghost square size-sm" title="下一页"><i class="icon icon-angle-right"></i></a>
+    <a class="btn ghost square size-sm" title="最后一页"><i class="icon icon-double-angle-right"></i></a>
   </nav>
   <nav class="pager">
-    <a class="btn ghost pager-link size-sm"><span class="text">上一页</span></a>
-    <a class="btn ghost pager-nav size-sm"><span class="text">1</span></a>
-    <a class="btn ghost pager-nav size-sm"><span class="text">2</span></a>
-    <a class="btn ghost pager-nav size-sm"><span class="text">3</span></a>
-    <a class="btn ghost pager-nav size-sm"><span class="text">4</span></a>
-    <a class="btn ghost pager-link size-sm"><span class="text">下一页</span></a>
+    <a class="btn ghost size-sm"><span class="text">上一页</span></a>
+    <a class="btn ghost size-sm"><span class="text">1</span></a>
+    <a class="btn primary size-sm"><span class="text">2</span></a>
+    <a class="btn ghost size-sm"><span class="text">3</span></a>
+    <a class="btn ghost size-sm"><span class="text">4</span></a>
+    <a class="btn ghost size-sm"><span class="text">下一页</span></a>
   </nav>
 </Example>
 
 ```html
 <nav class="pager gap-1">
-  <a class="btn ghost pager-link square size-sm" title="第一页"><i class="icon icon-double-angle-left"></i></a>
-  <a class="btn ghost pager-link square size-sm" title="上一页"><i class="icon icon-angle-left"></i></a>
-  <a class="btn ghost pager-nav size-sm"><span class="text">1</span></a>
-  <a class="btn ghost pager-nav size-sm"><span class="text">2</span></a>
-  <a class="btn ghost pager-nav size-sm"><span class="text">3</span></a>
-  <a class="btn ghost pager-nav size-sm"><span class="text">4</span></a>
-  <a class="btn ghost pager-link square size-sm" title="下一页"><i class="icon icon-angle-right"></i></a>
-  <a class="btn ghost pager-link square size-sm" title="最后一页"><i class="icon icon-double-angle-right"></i></a>
+  <a class="btn ghost square size-sm" title="第一页"><i class="icon icon-double-angle-left"></i></a>
+  <a class="btn ghost square size-sm" title="上一页"><i class="icon icon-angle-left"></i></a>
+  <a class="btn ghost size-sm"><span class="text">1</span></a>
+  <a class="btn ghost size-sm"><span class="text">2</span></a>
+  <a class="btn ghost size-sm"><span class="text">3</span></a>
+  <a class="btn ghost size-sm"><span class="text">4</span></a>
+  <a class="btn ghost square size-sm" title="下一页"><i class="icon icon-angle-right"></i></a>
+  <a class="btn ghost square size-sm" title="最后一页"><i class="icon icon-double-angle-right"></i></a>
 </nav>
 <nav class="pager gap-1">
-  <a class="btn ghost pager-link size-sm"><span class="text">上一页</span></a>
-  <a class="btn ghost pager-nav size-sm"><span class="text">1</span></a>
-  <a class="btn ghost pager-nav size-sm"><span class="text">2</span></a>
-  <a class="btn ghost pager-nav size-sm"><span class="text">3</span></a>
-  <a class="btn ghost pager-nav size-sm"><span class="text">4</span></a>
-  <a class="btn ghost pager-link size-sm"><span class="text">下一页</span></a>
+  <a class="btn ghost size-sm"><span class="text">上一页</span></a>
+  <a class="btn ghost size-sm"><span class="text">1</span></a>
+  <a class="btn ghost size-sm"><span class="text">2</span></a>
+  <a class="btn ghost size-sm"><span class="text">3</span></a>
+  <a class="btn ghost size-sm"><span class="text">4</span></a>
+  <a class="btn ghost size-sm"><span class="text">下一页</span></a>
 </nav>
 ```
 
@@ -54,21 +54,21 @@
 
 <Example class="row gap-2 flex-wrap">
   <nav class="pager gap-1">
-    <a class="btn ghost pager-link square size-sm" title="第一页"><i class="icon icon-double-angle-left"></i></a>
-    <a class="btn ghost pager-link square size-sm" title="上一页"><i class="icon icon-angle-left"></i></a>
-    <div class="pager-info">2/11</div>
-    <a class="btn ghost pager-link square size-sm" title="下一页"><i class="icon icon-angle-right"></i></a>
-    <a class="btn ghost pager-link square size-sm" title="最后一页"><i class="icon icon-double-angle-right"></i></a>
+    <a class="btn ghost square size-sm" title="第一页"><i class="icon icon-double-angle-left"></i></a>
+    <a class="btn ghost square size-sm" title="上一页"><i class="icon icon-angle-left"></i></a>
+    <div>2/11</div>
+    <a class="btn ghost square size-sm" title="下一页"><i class="icon icon-angle-right"></i></a>
+    <a class="btn ghost square size-sm" title="最后一页"><i class="icon icon-double-angle-right"></i></a>
   </nav>
 </Example>
 
 ```html
 <nav class="pager gap-1">
-  <a class="btn ghost pager-link square size-sm" title="第一页"><i class="icon icon-double-angle-left"></i></a>
-  <a class="btn ghost pager-link square size-sm" title="上一页"><i class="icon icon-angle-left"></i></a>
-  <div class="pager-info">2/11</div>
-  <a class="btn ghost pager-link square size-sm" title="下一页"><i class="icon icon-angle-right"></i></a>
-  <a class="btn ghost pager-link square size-sm" title="最后一页"><i class="icon icon-double-angle-right"></i></a>
+  <a class="btn ghost square size-sm" title="第一页"><i class="icon icon-double-angle-left"></i></a>
+  <a class="btn ghost square size-sm" title="上一页"><i class="icon icon-angle-left"></i></a>
+  <div>2/11</div>
+  <a class="btn ghost square size-sm" title="下一页"><i class="icon icon-angle-right"></i></a>
+  <a class="btn ghost square size-sm" title="最后一页"><i class="icon icon-double-angle-right"></i></a>
 </nav>
 ```
 
@@ -78,22 +78,22 @@
 
 <Example>
   <nav class="pager">
-    <a class="btn ghost pager-link square size-sm" title="第一页"><i class="icon icon-double-angle-left"></i></a>
-    <a class="btn ghost pager-link square size-sm" title="上一页"><i class="icon icon-angle-left"></i></a>
-    <a class="btn ghost pager-nav size-sm"><span class="text">1</span></a>
-    <a class="btn ghost pager-nav size-sm disabled"><span class="text">2</span></a>
-    <a class="btn ghost pager-nav size-sm"><span class="text">3</span></a>
-    <a class="btn ghost pager-nav size-sm"><span class="text">4</span></a>
-    <a class="btn ghost pager-link square size-sm" title="下一页"><i class="icon icon-angle-right"></i></a>
-    <a class="btn ghost pager-link square size-sm" title="最后一页"><i class="icon icon-double-angle-right"></i></a>
+    <a class="btn ghost square size-sm" title="第一页"><i class="icon icon-double-angle-left"></i></a>
+    <a class="btn ghost square size-sm" title="上一页"><i class="icon icon-angle-left"></i></a>
+    <a class="btn ghost size-sm"><span class="text">1</span></a>
+    <a class="btn ghost size-sm disabled"><span class="text">2</span></a>
+    <a class="btn ghost size-sm"><span class="text">3</span></a>
+    <a class="btn ghost size-sm"><span class="text">4</span></a>
+    <a class="btn ghost square size-sm" title="下一页"><i class="icon icon-angle-right"></i></a>
+    <a class="btn ghost square size-sm" title="最后一页"><i class="icon icon-double-angle-right"></i></a>
   </nav>
 </Example>
 
 ```html
 <nav class="pager">
   ...
-  <a class="btn ghost pager-nav size-sm"><span class="text">1</span></a>
-  <a class="btn ghost pager-nav size-sm disabled"><span class="text">2</span></a>
+  <a class="btn ghost size-sm"><span class="text">1</span></a>
+  <a class="btn ghost size-sm disabled"><span class="text">2</span></a>
   ...
 </nav>
 ```
@@ -106,25 +106,25 @@
 
 <Example>
   <nav class="pager gap-3">
-    <a class="btn size-sm border pager-link square" title="上一页"><i class="icon icon-angle-left"></i></a>
-    <a class="btn size-sm border pager-nav"><span class="text">1</span></a>
+    <a class="btn size-sm border square" title="上一页"><i class="icon icon-angle-left"></i></a>
+    <a class="btn size-sm primary-outline border pager-nav"><span class="text">1</span></a>
     <a class="btn size-sm border pager-nav"><span class="text">2</span></a>
     <a class="btn size-sm border pager-nav"><span class="text">3</span></a>
     <a class="btn size-sm border pager-nav"><span class="text">4</span></a>
     <a class="btn size-sm border pager-nav"><span class="text">5</span></a>
-    <a class="btn size-sm border pager-link square" title="下一页"><i class="icon icon-angle-right"></i></a>
+    <a class="btn size-sm border square" title="下一页"><i class="icon icon-angle-right"></i></a>
   </nav>
 </Example>
 
 ```html
 <nav class="pager gap-3">
-  <a class="btn size-sm border pager-link square" title="上一页"><i class="icon icon-angle-left"></i></a>
-  <a class="btn size-sm border pager-nav"><span class="text">1</span></a>
+  <a class="btn size-sm border square" title="上一页"><i class="icon icon-angle-left"></i></a>
+  <a class="btn size-sm primary-outline border pager-nav"><span class="text">1</span></a>
   <a class="btn size-sm border pager-nav"><span class="text">2</span></a>
   <a class="btn size-sm border pager-nav"><span class="text">3</span></a>
   <a class="btn size-sm border pager-nav"><span class="text">4</span></a>
   <a class="btn size-sm border pager-nav"><span class="text">5</span></a>
-  <a class="btn size-sm border pager-link square" title="下一页"><i class="icon icon-angle-right"></i></a>
+  <a class="btn size-sm border square" title="下一页"><i class="icon icon-angle-right"></i></a>
 </nav>
 ```
 
@@ -134,44 +134,27 @@
 
 <Example class="col gap-2">
  <nav class="pager gap-1">
-  <a class="btn size-sm secondary-pale pager-link square" title="上一页"><i class="icon icon-angle-left"></i></a>
-  <a class="btn size-sm secondary-pale pager-nav"><span class="text">1</span></a>
-  <a class="btn size-sm secondary-pale pager-nav"><span class="text">2</span></a>
-  <a class="btn size-sm secondary-pale pager-nav"><span class="text">3</span></a>
-  <a class="btn size-sm secondary-pale pager-nav"><span class="text">4</span></a>
-  <a class="btn size-sm secondary-pale pager-nav"><span class="text">5</span></a>
-  <a class="btn size-sm secondary-pale pager-link square" title="下一页"><i class="icon icon-angle-right"></i></a>
- </nav>
- <nav class="pager gap-1">
-  <a class="btn size-sm primary-outline bg-white pager-link square" title="上一页"><i class="icon icon-angle-left"></i></a>
-  <a class="btn size-sm primary-outline bg-white pager-nav"><span class="text">1</span></a>
-  <a class="btn size-sm primary-outline bg-white pager-nav"><span class="text">2</span></a>
-  <a class="btn size-sm primary-outline bg-white pager-nav"><span class="text">3</span></a>
-  <a class="btn size-sm primary-outline bg-white pager-nav"><span class="text">4</span></a>
-  <a class="btn size-sm primary-outline bg-white pager-nav"><span class="text">5</span></a>
-  <a class="btn size-sm primary-outline bg-white pager-link square" title="下一页"><i class="icon icon-angle-right"></i></a>
+  <a class="btn size-sm bg-canvas square" title="上一页"><i class="icon icon-angle-left"></i></a>
+  <a class="btn size-sm bg-canvas pager-nav"><span class="text">1</span></a>
+  <a class="btn size-sm bg-canvas pager-nav"><span class="text">2</span></a>
+  <a class="btn size-sm bg-canvas pager-nav"><span class="text">3</span></a>
+  <a class="btn size-sm primary-outline bg-canvas pager-nav"><span class="text">4</span></a>
+  <a class="btn size-sm bg-canvas pager-nav"><span class="text">5</span></a>
+  <a class="btn size-sm bg-canvas square" title="下一页"><i class="icon icon-angle-right"></i></a>
  </nav>
 </Example>
 
 ```html
 <nav class="pager gap-1">
-  <a class="btn size-sm secondary-pale pager-link square" title="上一页"><i class="icon icon-angle-left"></i></a>
-  <a class="btn size-sm secondary-pale pager-nav"><span class="text">1</span></a>
-  <a class="btn size-sm secondary-pale pager-nav"><span class="text">2</span></a>
-  <a class="btn size-sm secondary-pale pager-nav"><span class="text">3</span></a>
-  <a class="btn size-sm secondary-pale pager-nav"><span class="text">4</span></a>
-  <a class="btn size-sm secondary-pale pager-nav"><span class="text">5</span></a>
-  <a class="btn size-sm secondary-pale pager-link square" title="下一页"><i class="icon icon-angle-right"></i></a>
-</nav>
-<nav class="pager gap-1">
-  <a class="btn size-sm primary-outline bg-white pager-link square" title="上一页"><i class="icon icon-angle-left"></i></a>
-  <a class="btn size-sm primary-outline bg-white pager-nav"><span class="text">1</span></a>
-  <a class="btn size-sm primary-outline bg-white pager-nav"><span class="text">2</span></a>
-  <a class="btn size-sm primary-outline bg-white pager-nav"><span class="text">3</span></a>
-  <a class="btn size-sm primary-outline bg-white pager-nav"><span class="text">4</span></a>
-  <a class="btn size-sm primary-outline bg-white pager-nav"><span class="text">5</span></a>
-  <a class="btn size-sm primary-outline bg-white pager-link square" title="下一页"><i class="icon icon-angle-right"></i></a>
-</nav>
+  <nav class="pager gap-1">
+  <a class="btn size-sm bg-canvas square" title="上一页"><i class="icon icon-angle-left"></i></a>
+  <a class="btn size-sm bg-canvas pager-nav"><span class="text">1</span></a>
+  <a class="btn size-sm bg-canvas pager-nav"><span class="text">2</span></a>
+  <a class="btn size-sm bg-canvas pager-nav"><span class="text">3</span></a>
+  <a class="btn size-sm primary-outline bg-canvas pager-nav"><span class="text">4</span></a>
+  <a class="btn size-sm bg-canvas pager-nav"><span class="text">5</span></a>
+  <a class="btn size-sm bg-canvas square" title="下一页"><i class="icon icon-angle-right"></i></a>
+ </nav>
 ```
 
 ### 两边对齐
@@ -180,15 +163,15 @@
 
 <Example>
   <nav class="pager justify-between">
-    <a class="btn size-sm pager-link square" title="上一页"><i class="icon icon-angle-left"></i></a>
-    <a class="btn size-sm pager-link square" title="下一页"><i class="icon icon-angle-right"></i></a>
+    <a class="btn size-sm square" title="上一页"><i class="icon icon-angle-left"></i></a>
+    <a class="btn size-sm square" title="下一页"><i class="icon icon-angle-right"></i></a>
   </nav>
 </Example>
 
 ```html
 <nav class="pager justify-between">
-  <a class="btn size-sm pager-link square" title="上一页"><i class="icon icon-angle-left"></i></a>
-  <a class="btn size-sm pager-link square" title="下一页"><i class="icon icon-angle-right"></i></a>
+  <a class="btn size-sm square" title="上一页"><i class="icon icon-angle-left"></i></a>
+  <a class="btn size-sm square" title="下一页"><i class="icon icon-angle-right"></i></a>
 </nav>
 ```
 
@@ -198,48 +181,48 @@
 
 <Example class="col gap-2">
   <nav class="pager">
-    <a class="btn ghost pager-link square size-sm" title="第一页"><i class="icon icon-double-angle-left"></i></a>
-    <a class="btn ghost pager-link square size-sm" title="上一页"><i class="icon icon-angle-left"></i></a>
-    <a class="btn ghost pager-nav size-sm"><span class="text">1</span></a>
-    <a class="btn ghost pager-nav size-sm"><span class="text">2</span></a>
-    <a class="btn ghost pager-nav size-sm"><span class="text">3</span></a>
-    <a class="btn ghost pager-nav size-sm"><span class="text">4</span></a>
-    <a class="btn ghost pager-link square size-sm" title="下一页"><i class="icon icon-angle-right"></i></a>
-    <a class="btn ghost pager-link square size-sm" title="最后一页"><i class="icon icon-double-angle-right"></i></a>
+    <a class="btn ghost square size-sm" title="第一页"><i class="icon icon-double-angle-left"></i></a>
+    <a class="btn ghost square size-sm" title="上一页"><i class="icon icon-angle-left"></i></a>
+    <a class="btn ghost size-sm"><span class="text">1</span></a>
+    <a class="btn ghost size-sm"><span class="text">2</span></a>
+    <a class="btn ghost size-sm"><span class="text">3</span></a>
+    <a class="btn ghost size-sm"><span class="text">4</span></a>
+    <a class="btn ghost square size-sm" title="下一页"><i class="icon icon-angle-right"></i></a>
+    <a class="btn ghost square size-sm" title="最后一页"><i class="icon icon-double-angle-right"></i></a>
   </nav>
   <nav class="pager">
-    <a class="btn ghost pager-link square" title="第一页"><i class="icon icon-double-angle-left"></i></a>
-    <a class="btn ghost pager-link square" title="上一页"><i class="icon icon-angle-left"></i></a>
+    <a class="btn ghost square" title="第一页"><i class="icon icon-double-angle-left"></i></a>
+    <a class="btn ghost square" title="上一页"><i class="icon icon-angle-left"></i></a>
     <a class="btn ghost pager-nav"><span class="text">1</span></a>
     <a class="btn ghost pager-nav"><span class="text">2</span></a>
     <a class="btn ghost pager-nav"><span class="text">3</span></a>
     <a class="btn ghost pager-nav"><span class="text">4</span></a>
-    <a class="btn ghost pager-link square" title="下一页"><i class="icon icon-angle-right"></i></a>
-    <a class="btn ghost pager-link square" title="最后一页"><i class="icon icon-double-angle-right"></i></a>
+    <a class="btn ghost square" title="下一页"><i class="icon icon-angle-right"></i></a>
+    <a class="btn ghost square" title="最后一页"><i class="icon icon-double-angle-right"></i></a>
   </nav>
   <nav class="pager">
-    <a class="btn ghost pager-link square size-lg" title="第一页"><i class="icon icon-double-angle-left"></i></a>
-    <a class="btn ghost pager-link square size-lg" title="上一页"><i class="icon icon-angle-left"></i></a>
-    <a class="btn ghost pager-nav size-lg"><span class="text">1</span></a>
-    <a class="btn ghost pager-nav size-lg"><span class="text">2</span></a>
-    <a class="btn ghost pager-nav size-lg"><span class="text">3</span></a>
-    <a class="btn ghost pager-nav size-lg"><span class="text">4</span></a>
-    <a class="btn ghost pager-link square size-lg" title="下一页"><i class="icon icon-angle-right"></i></a>
-    <a class="btn ghost pager-link square size-lg" title="最后一页"><i class="icon icon-double-angle-right"></i></a>
+    <a class="btn ghost square size-lg" title="第一页"><i class="icon icon-double-angle-left"></i></a>
+    <a class="btn ghost square size-lg" title="上一页"><i class="icon icon-angle-left"></i></a>
+    <a class="btn ghost size-lg"><span class="text">1</span></a>
+    <a class="btn ghost size-lg"><span class="text">2</span></a>
+    <a class="btn ghost size-lg"><span class="text">3</span></a>
+    <a class="btn ghost size-lg"><span class="text">4</span></a>
+    <a class="btn ghost square size-lg" title="下一页"><i class="icon icon-angle-right"></i></a>
+    <a class="btn ghost square size-lg" title="最后一页"><i class="icon icon-double-angle-right"></i></a>
   </nav>
 </Example>
 
 ```html
 <nav class="pager">
-  <a class="btn ghost pager-link square size-sm" title="第一页"><i class="icon icon-double-angle-left"></i></a>
+  <a class="btn ghost square size-sm" title="第一页"><i class="icon icon-double-angle-left"></i></a>
   ...
 </nav>
 <nav class="pager">
-  <a class="btn ghost pager-link square" title="第一页"><i class="icon icon-double-angle-left"></i></a>
+  <a class="btn ghost square" title="第一页"><i class="icon icon-double-angle-left"></i></a>
   ...
 </nav>
 <nav class="pager">
-  <a class="btn ghost pager-link square size-lg" title="第一页"><i class="icon icon-double-angle-left"></i></a>
+  <a class="btn ghost square size-lg" title="第一页"><i class="icon icon-double-angle-left"></i></a>
   ...
 </nav>
 ```
@@ -250,33 +233,33 @@
 
 <Example class="col gap-2">
   <nav class="pager gap-1">
-    <div class="pager-info">共 51 项</div>
-    <a class="btn ghost pager-link square size-sm" title="第一页"><i class="icon icon-double-angle-left"></i></a>
-    <a class="btn ghost pager-link square size-sm" title="上一页"><i class="icon icon-angle-left"></i></a>
-    <a class="btn ghost pager-nav size-sm"><span class="text">1</span></a>
-    <a class="btn ghost pager-nav size-sm"><span class="text">2</span></a>
-    <a class="btn ghost pager-nav size-sm"><span class="text">3</span></a>
-    <a class="btn ghost pager-nav size-sm"><span class="text">4</span></a>
-    <a class="btn ghost pager-nav size-sm"><span class="text">5</span></a>
-    <a class="btn ghost pager-nav size-sm"><span class="text">6</span></a>
-    <a class="btn ghost pager-link square size-sm" title="下一页"><i class="icon icon-angle-right"></i></a>
-    <a class="btn ghost pager-link square size-sm" title="最后一页"><i class="icon icon-double-angle-right"></i></a>
+    <div>共 51 项</div>
+    <a class="btn ghost square size-sm" title="第一页"><i class="icon icon-double-angle-left"></i></a>
+    <a class="btn ghost square size-sm" title="上一页"><i class="icon icon-angle-left"></i></a>
+    <a class="btn ghost size-sm"><span class="text">1</span></a>
+    <a class="btn ghost size-sm"><span class="text">2</span></a>
+    <a class="btn ghost size-sm"><span class="text">3</span></a>
+    <a class="btn ghost size-sm"><span class="text">4</span></a>
+    <a class="btn ghost size-sm"><span class="text">5</span></a>
+    <a class="btn ghost size-sm"><span class="text">6</span></a>
+    <a class="btn ghost square size-sm" title="下一页"><i class="icon icon-angle-right"></i></a>
+    <a class="btn ghost square size-sm" title="最后一页"><i class="icon icon-double-angle-right"></i></a>
   </nav>
 </Example>
 
 ```html
 <nav class="pager gap-1">
-  <div class="pager-info">共 51 项</div>
-  <a class="btn ghost pager-link square size-sm" title="第一页"><i class="icon icon-double-angle-left"></i></a>
-  <a class="btn ghost pager-link square size-sm" title="上一页"><i class="icon icon-angle-left"></i></a>
-  <a class="btn ghost pager-nav size-sm"><span class="text">1</span></a>
-  <a class="btn ghost pager-nav size-sm"><span class="text">2</span></a>
-  <a class="btn ghost pager-nav size-sm"><span class="text">3</span></a>
-  <a class="btn ghost pager-nav size-sm"><span class="text">4</span></a>
-  <a class="btn ghost pager-nav size-sm"><span class="text">5</span></a>
-  <a class="btn ghost pager-nav size-sm"><span class="text">6</span></a>
-  <a class="btn ghost pager-link square size-sm" title="下一页"><i class="icon icon-angle-right"></i></a>
-  <a class="btn ghost pager-link square size-sm" title="最后一页"><i class="icon icon-double-angle-right"></i></a>
+  <div>共 51 项</div>
+  <a class="btn ghost square size-sm" title="第一页"><i class="icon icon-double-angle-left"></i></a>
+  <a class="btn ghost square size-sm" title="上一页"><i class="icon icon-angle-left"></i></a>
+  <a class="btn ghost size-sm"><span class="text">1</span></a>
+  <a class="btn ghost size-sm"><span class="text">2</span></a>
+  <a class="btn ghost size-sm"><span class="text">3</span></a>
+  <a class="btn ghost size-sm"><span class="text">4</span></a>
+  <a class="btn ghost size-sm"><span class="text">5</span></a>
+  <a class="btn ghost size-sm"><span class="text">6</span></a>
+  <a class="btn ghost square size-sm" title="下一页"><i class="icon icon-angle-right"></i></a>
+  <a class="btn ghost square size-sm" title="最后一页"><i class="icon icon-double-angle-right"></i></a>
 </nav>
 ```
 
@@ -286,20 +269,20 @@
 
 <Example>
   <nav class="pager gap-1">
-    <div class="pager-info">共 51 项</div>
+    <div>共 51 项</div>
     <button class="btn ghost dropdown pager-size-menu size-sm" type="button" data-toggle="dropdown" data-dropdown-placement="top" href="#dropdownMenu3">
       <span class="text">每页 10 项</span><span class="caret-up"></span>
     </button>
-    <a class="btn ghost pager-link square size-sm" title="第一页"><i class="icon icon-double-angle-left"></i></a>
-    <a class="btn ghost pager-link square size-sm" title="上一页"><i class="icon icon-angle-left"></i></a>
-    <a class="btn ghost pager-nav size-sm"><span class="text">1</span></a>
-    <a class="btn ghost pager-nav size-sm"><span class="text">2</span></a>
-    <a class="btn ghost pager-nav size-sm"><span class="text">3</span></a>
-    <a class="btn ghost pager-nav size-sm"><span class="text">4</span></a>
-    <a class="btn ghost pager-nav size-sm"><span class="text">5</span></a>
-    <a class="btn ghost pager-nav size-sm"><span class="text">6</span></a>
-    <a class="btn ghost pager-link square size-sm" title="下一页"><i class="icon icon-angle-right"></i></a>
-    <a class="btn ghost pager-link square size-sm" title="最后一页"><i class="icon icon-double-angle-right"></i></a>
+    <a class="btn ghost square size-sm" title="第一页"><i class="icon icon-double-angle-left"></i></a>
+    <a class="btn ghost square size-sm" title="上一页"><i class="icon icon-angle-left"></i></a>
+    <a class="btn ghost size-sm"><span class="text">1</span></a>
+    <a class="btn ghost size-sm"><span class="text">2</span></a>
+    <a class="btn ghost size-sm"><span class="text">3</span></a>
+    <a class="btn ghost size-sm"><span class="text">4</span></a>
+    <a class="btn ghost size-sm"><span class="text">5</span></a>
+    <a class="btn ghost size-sm"><span class="text">6</span></a>
+    <a class="btn ghost square size-sm" title="下一页"><i class="icon icon-angle-right"></i></a>
+    <a class="btn ghost square size-sm" title="最后一页"><i class="icon icon-double-angle-right"></i></a>
   </nav>
   <div class="dropdown-menu" id="dropdownMenu3" data-popper-placement="top">
     <menu class="menu pager-size-menu menu-context">
@@ -320,20 +303,20 @@
 
 ```html
 <nav class="pager gap-1">
-  <div class="pager-info">共 51 项</div>
+  <div>共 51 项</div>
   <button class="btn ghost dropdown pager-size-menu size-sm" type="button" data-toggle="dropdown" data-dropdown-placement="top" href="#dropdownMenu3">
     <span class="text">每页 10 项</span><span class="caret-up"></span>
   </button>
-  <a class="btn ghost pager-link square size-sm" title="第一页"><i class="icon icon-double-angle-left"></i></a>
-  <a class="btn ghost pager-link square size-sm" title="上一页"><i class="icon icon-angle-left"></i></a>
-  <a class="btn ghost pager-nav size-sm"><span class="text">1</span></a>
-  <a class="btn ghost pager-nav size-sm"><span class="text">2</span></a>
-  <a class="btn ghost pager-nav size-sm"><span class="text">3</span></a>
-  <a class="btn ghost pager-nav size-sm"><span class="text">4</span></a>
-  <a class="btn ghost pager-nav size-sm"><span class="text">5</span></a>
-  <a class="btn ghost pager-nav size-sm"><span class="text">6</span></a>
-  <a class="btn ghost pager-link square size-sm" title="下一页"><i class="icon icon-angle-right"></i></a>
-  <a class="btn ghost pager-link square size-sm" title="最后一页"><i class="icon icon-double-angle-right"></i></a>
+  <a class="btn ghost square size-sm" title="第一页"><i class="icon icon-double-angle-left"></i></a>
+  <a class="btn ghost square size-sm" title="上一页"><i class="icon icon-angle-left"></i></a>
+  <a class="btn ghost size-sm"><span class="text">1</span></a>
+  <a class="btn ghost size-sm"><span class="text">2</span></a>
+  <a class="btn ghost size-sm"><span class="text">3</span></a>
+  <a class="btn ghost size-sm"><span class="text">4</span></a>
+  <a class="btn ghost size-sm"><span class="text">5</span></a>
+  <a class="btn ghost size-sm"><span class="text">6</span></a>
+  <a class="btn ghost square size-sm" title="下一页"><i class="icon icon-angle-right"></i></a>
+  <a class="btn ghost square size-sm" title="最后一页"><i class="icon icon-double-angle-right"></i></a>
 </nav>
 <div class="dropdown-menu" id="dropdownMenu3" data-popper-placement="top">
   <menu class="menu pager-size-menu menu-context">
@@ -358,16 +341,16 @@
 
 <Example>
   <nav class="pager gap-1">
-    <a class="btn ghost pager-link square size-sm" title="第一页"><i class="icon icon-double-angle-left"></i></a>
-    <a class="btn ghost pager-link square size-sm" title="上一页"><i class="icon icon-angle-left"></i></a>
-    <a class="btn ghost pager-nav size-sm"><span class="text">1</span></a>
-    <a class="btn ghost pager-nav size-sm"><span class="text">2</span></a>
-    <a class="btn ghost pager-nav size-sm"><span class="text">3</span></a>
-    <a class="btn ghost pager-nav size-sm"><span class="text">4</span></a>
-    <a class="btn ghost pager-nav size-sm"><span class="text">5</span></a>
-    <a class="btn ghost pager-nav size-sm"><span class="text">6</span></a>
-    <a class="btn ghost pager-link square size-sm" title="下一页"><i class="icon icon-angle-right"></i></a>
-    <a class="btn ghost pager-link square size-sm" title="最后一页"><i class="icon icon-double-angle-right"></i></a>
+    <a class="btn ghost square size-sm" title="第一页"><i class="icon icon-double-angle-left"></i></a>
+    <a class="btn ghost square size-sm" title="上一页"><i class="icon icon-angle-left"></i></a>
+    <a class="btn ghost size-sm"><span class="text">1</span></a>
+    <a class="btn ghost size-sm"><span class="text">2</span></a>
+    <a class="btn ghost size-sm"><span class="text">3</span></a>
+    <a class="btn ghost size-sm"><span class="text">4</span></a>
+    <a class="btn ghost size-sm"><span class="text">5</span></a>
+    <a class="btn ghost size-sm"><span class="text">6</span></a>
+    <a class="btn ghost square size-sm" title="下一页"><i class="icon icon-angle-right"></i></a>
+    <a class="btn ghost square size-sm" title="最后一页"><i class="icon icon-double-angle-right"></i></a>
     <div class="input-group size-sm pager-goto">
       <input type="number" class="form-control" max="6" min="1">
       <button class="btn ghost input-group-addon" type="button"><span class="text">跳转</span></button>
@@ -377,16 +360,16 @@
 
 ```html
 <nav class="pager gap-1">
-  <a class="btn ghost pager-link square size-sm" title="第一页"><i class="icon icon-double-angle-left"></i></a>
-  <a class="btn ghost pager-link square size-sm" title="上一页"><i class="icon icon-angle-left"></i></a>
-  <a class="btn ghost pager-nav size-sm"><span class="text">1</span></a>
-  <a class="btn ghost pager-nav size-sm"><span class="text">2</span></a>
-  <a class="btn ghost pager-nav size-sm"><span class="text">3</span></a>
-  <a class="btn ghost pager-nav size-sm"><span class="text">4</span></a>
-  <a class="btn ghost pager-nav size-sm"><span class="text">5</span></a>
-  <a class="btn ghost pager-nav size-sm"><span class="text">6</span></a>
-  <a class="btn ghost pager-link square size-sm" title="下一页"><i class="icon icon-angle-right"></i></a>
-  <a class="btn ghost pager-link square size-sm" title="最后一页"><i class="icon icon-double-angle-right"></i></a>
+  <a class="btn ghost square size-sm" title="第一页"><i class="icon icon-double-angle-left"></i></a>
+  <a class="btn ghost square size-sm" title="上一页"><i class="icon icon-angle-left"></i></a>
+  <a class="btn ghost size-sm"><span class="text">1</span></a>
+  <a class="btn ghost size-sm"><span class="text">2</span></a>
+  <a class="btn ghost size-sm"><span class="text">3</span></a>
+  <a class="btn ghost size-sm"><span class="text">4</span></a>
+  <a class="btn ghost size-sm"><span class="text">5</span></a>
+  <a class="btn ghost size-sm"><span class="text">6</span></a>
+  <a class="btn ghost square size-sm" title="下一页"><i class="icon icon-angle-right"></i></a>
+  <a class="btn ghost square size-sm" title="最后一页"><i class="icon icon-double-angle-right"></i></a>
   <div class="input-group size-sm pager-goto">
     <input type="number" class="form-control" max="6" min="1">
     <button class="btn ghost input-group-addon" type="button"><span class="text">跳转</span></button>
@@ -400,20 +383,20 @@
 
 <Example>
   <nav class="pager gap-1">
-    <div class="pager-info">共 51 项</div>
+    <div>共 51 项</div>
     <button class="btn ghost dropdown pager-size-menu size-sm" type="button" data-toggle="dropdown" data-dropdown-placement="top" href="#dropdownMenu1">
       <span class="text">每页 10 项</span><span class="caret-up"></span>
     </button>
-    <a class="btn ghost pager-link square size-sm" title="第一页"><i class="icon icon-double-angle-left"></i></a>
-    <a class="btn ghost pager-link square size-sm" title="上一页"><i class="icon icon-angle-left"></i></a>
-    <a class="btn ghost pager-nav size-sm"><span class="text">1</span></a>
-    <a class="btn ghost pager-nav size-sm"><span class="text">2</span></a>
-    <a class="btn ghost pager-nav size-sm"><span class="text">3</span></a>
-    <a class="btn ghost pager-nav size-sm"><span class="text">4</span></a>
-    <a class="btn ghost pager-nav size-sm"><span class="text">5</span></a>
-    <a class="btn ghost pager-nav size-sm"><span class="text">6</span></a>
-    <a class="btn ghost pager-link square size-sm" title="下一页"><i class="icon icon-angle-right"></i></a>
-    <a class="btn ghost pager-link square size-sm" title="最后一页"><i class="icon icon-double-angle-right"></i></a>
+    <a class="btn ghost square size-sm" title="第一页"><i class="icon icon-double-angle-left"></i></a>
+    <a class="btn ghost square size-sm" title="上一页"><i class="icon icon-angle-left"></i></a>
+    <a class="btn ghost size-sm"><span class="text">1</span></a>
+    <a class="btn ghost size-sm"><span class="text">2</span></a>
+    <a class="btn ghost size-sm"><span class="text">3</span></a>
+    <a class="btn ghost size-sm"><span class="text">4</span></a>
+    <a class="btn ghost size-sm"><span class="text">5</span></a>
+    <a class="btn ghost size-sm"><span class="text">6</span></a>
+    <a class="btn ghost square size-sm" title="下一页"><i class="icon icon-angle-right"></i></a>
+    <a class="btn ghost square size-sm" title="最后一页"><i class="icon icon-double-angle-right"></i></a>
     <div class="input-group size-sm pager-goto">
       <input type="number" class="form-control" max="6" min="1">
       <button class="btn ghost input-group-addon" type="button"><span class="text">跳转</span></button>
@@ -435,15 +418,15 @@
     </menu>
   </div>
   <nav class="pager gap-1">
-    <div class="pager-info">共 51 项</div>
+    <div>共 51 项</div>
     <button class="btn ghost dropdown pager-size-menu size-sm" type="button" data-toggle="dropdown" data-dropdown-placement="top" href="#dropdownMenu2">
       <span class="text">每页 10 项</span><span class="caret-up"></span>
     </button>
-    <a class="btn ghost pager-link square size-sm" title="第一页"><i class="icon icon-double-angle-left"></i></a>
-    <a class="btn ghost pager-link square size-sm" title="上一页"><i class="icon icon-angle-left"></i></a>
-    <div class="pager-info">2/11</div>
-    <a class="btn ghost pager-link square size-sm" title="下一页"><i class="icon icon-angle-right"></i></a>
-    <a class="btn ghost pager-link square size-sm" title="最后一页"><i class="icon icon-double-angle-right"></i></a>
+    <a class="btn ghost square size-sm" title="第一页"><i class="icon icon-double-angle-left"></i></a>
+    <a class="btn ghost square size-sm" title="上一页"><i class="icon icon-angle-left"></i></a>
+    <div>2/11</div>
+    <a class="btn ghost square size-sm" title="下一页"><i class="icon icon-angle-right"></i></a>
+    <a class="btn ghost square size-sm" title="最后一页"><i class="icon icon-double-angle-right"></i></a>
     <div class="input-group size-sm pager-goto">
       <input type="number" class="form-control" max="6" min="1">
       <button class="btn ghost input-group-addon" type="button"><span class="text">跳转</span></button>
@@ -468,20 +451,20 @@
 
 ```html
 <nav class="pager gap-1">
-  <div class="pager-info">共 51 项</div>
+  <div>共 51 项</div>
   <button class="btn ghost dropdown pager-size-menu size-sm" type="button" data-toggle="dropdown" data-dropdown-placement="top" href="#dropdownMenu1">
     <span class="text">每页 10 项</span><span class="caret-up"></span>
   </button>
-  <a class="btn ghost pager-link square size-sm" title="第一页"><i class="icon icon-double-angle-left"></i></a>
-  <a class="btn ghost pager-link square size-sm" title="上一页"><i class="icon icon-angle-left"></i></a>
-  <a class="btn ghost pager-nav size-sm"><span class="text">1</span></a>
-  <a class="btn ghost pager-nav size-sm"><span class="text">2</span></a>
-  <a class="btn ghost pager-nav size-sm"><span class="text">3</span></a>
-  <a class="btn ghost pager-nav size-sm"><span class="text">4</span></a>
-  <a class="btn ghost pager-nav size-sm"><span class="text">5</span></a>
-  <a class="btn ghost pager-nav size-sm"><span class="text">6</span></a>
-  <a class="btn ghost pager-link square size-sm" title="下一页"><i class="icon icon-angle-right"></i></a>
-  <a class="btn ghost pager-link square size-sm" title="最后一页"><i class="icon icon-double-angle-right"></i></a>
+  <a class="btn ghost square size-sm" title="第一页"><i class="icon icon-double-angle-left"></i></a>
+  <a class="btn ghost square size-sm" title="上一页"><i class="icon icon-angle-left"></i></a>
+  <a class="btn ghost size-sm"><span class="text">1</span></a>
+  <a class="btn ghost size-sm"><span class="text">2</span></a>
+  <a class="btn ghost size-sm"><span class="text">3</span></a>
+  <a class="btn ghost size-sm"><span class="text">4</span></a>
+  <a class="btn ghost size-sm"><span class="text">5</span></a>
+  <a class="btn ghost size-sm"><span class="text">6</span></a>
+  <a class="btn ghost square size-sm" title="下一页"><i class="icon icon-angle-right"></i></a>
+  <a class="btn ghost square size-sm" title="最后一页"><i class="icon icon-double-angle-right"></i></a>
   <div class="input-group size-sm pager-goto">
     <input type="number" class="form-control" max="6" min="1">
     <button class="btn ghost input-group-addon" type="button"><span class="text">跳转</span></button>
@@ -502,8 +485,5 @@
 | 类        | 类型           | 作用  |
 | ------------- |:-------------:| ----- |
 | `pager`      | 实体类 | 元素作为分页组件 |
-| `pager-info`    | 实体类      |  元素作为分页的信息组件 |
-| `pager-link`    | 实体类      |  元素作为分页的基础链接组件 |
-| `pager-nav`    | 实体类      |  元素作为分页的按钮组合组件 |
 | `pager-goto`    | 实体类      |  元素作为分页的跳转组件 |
 | `pager-size-menu`    | 实体类    |  元素作为分页的每页条数的下拉组件 |

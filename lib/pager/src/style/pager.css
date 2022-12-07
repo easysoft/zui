@@ -9,9 +9,9 @@
   @apply -m-0.5;
 }
 
-.pager .pager-goto > .form-control {
+.pager .pager-goto-group > .form-control {
   @apply -w-12;
 }
-.pager .pager-goto > .input-group-addon {
-  @apply -bg-white -border -border-gray-300;
+.pager .pager-goto-group > .input-group-addon {
+  @apply -bg-canvas -border -border-gray-300;
 }

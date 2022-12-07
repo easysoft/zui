@@ -6,4 +6,5 @@ import {PagerItemOptions} from './pager-item-options';
 
 export interface PagerOptions<T extends ActionBasicProps = PagerItemOptions> extends ToolbarOptions<T>, PagerInfo {
     linkCreator?: PageLinkCreator;
+    onChange?: (data: {info: PagerInfo, event: Event}) => void;
 }
