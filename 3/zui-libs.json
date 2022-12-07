@@ -367,6 +367,39 @@
         }
     },
     {
+        "name": "@zui/messager",
+        "version": "0.0.1",
+        "main": "src/main.ts",
+        "browserslist": "",
+        "keywords": [
+            "css",
+            "zui:control"
+        ],
+        "files": [
+            "./src/**/*"
+        ],
+        "exports": {
+            ".": "./src/main.ts"
+        },
+        "zui": {
+            "type": "control",
+            "displayName": "漂浮消息",
+            "contributes": {
+                "css": [
+                    "class",
+                    "var"
+                ]
+            },
+            "build": {},
+            "path": "/home/runner/work/zui/zui/lib/messager",
+            "workspace": true,
+            "sourceType": "build-in",
+            "name": "messager",
+            "order": 2010000010,
+            "packageJsonPath": "/home/runner/work/zui/zui/lib/messager/package.json"
+        }
+    },
+    {
         "name": "@zui/picker",
         "version": "0.0.1",
         "main": "src/main.ts",
@@ -392,7 +425,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "picker",
-            "order": 2010000010,
+            "order": 2010000011,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/picker/package.json"
         }
     },
@@ -422,7 +455,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "progress",
-            "order": 2010000011,
+            "order": 2010000012,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/progress/package.json"
         }
     },
@@ -458,7 +491,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "progress-circle",
-            "order": 2010000012,
+            "order": 2010000013,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/progress-circle/package.json"
         }
     },
@@ -506,7 +539,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "scrollbar",
-            "order": 2010000013,
+            "order": 2010000014,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/scrollbar/package.json"
         }
     },
@@ -543,7 +576,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "upload",
-            "order": 2010000014,
+            "order": 2010000015,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/upload/package.json"
         }
     },
@@ -572,7 +605,7 @@
             "sourceType": "build-in",
             "name": "browser-helpers",
             "moduleName": "browser",
-            "order": 3010000015,
+            "order": 3010000016,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/browser-helpers/package.json"
         }
     },
@@ -608,7 +641,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "com-helpers",
-            "order": 3010000016,
+            "order": 3010000017,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/com-helpers/package.json"
         }
     },
@@ -635,7 +668,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "event-bus",
-            "order": 3010000017,
+            "order": 3010000018,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/event-bus/package.json"
         }
     },
@@ -665,7 +698,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "i18n",
-            "order": 3010000018,
+            "order": 3010000019,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/i18n/package.json"
         }
     },
@@ -698,7 +731,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "store",
-            "order": 3010000019,
+            "order": 3010000020,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/store/package.json"
         }
     },
@@ -736,7 +769,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "avatar",
-            "order": 4010000020,
+            "order": 4010000021,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/avatar/package.json"
         }
     },
@@ -771,7 +804,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "avatar-group",
-            "order": 4010000021,
+            "order": 4010000022,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/avatar-group/package.json"
         }
     },
@@ -819,7 +852,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "btn-group",
-            "order": 4010000022,
+            "order": 4010000023,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/btn-group/package.json"
         }
     },
@@ -853,7 +886,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "form",
-            "order": 4010000023,
+            "order": 4010000024,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/form/package.json"
         }
     },
@@ -887,7 +920,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "input-group",
-            "order": 4010000024,
+            "order": 4010000025,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/input-group/package.json"
         }
     },
@@ -923,7 +956,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "modal",
-            "order": 4010000025,
+            "order": 4010000026,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/modal/package.json"
         }
     },
@@ -969,7 +1002,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "nav",
-            "order": 4010000026,
+            "order": 4010000027,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/nav/package.json"
         }
     },
@@ -1023,7 +1056,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "pager",
-            "order": 4010000027,
+            "order": 4010000028,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/pager/package.json"
         }
     },
@@ -1056,7 +1089,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "panel",
-            "order": 4010000028,
+            "order": 4010000029,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/panel/package.json"
         }
     },
@@ -1091,7 +1124,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "table",
-            "order": 4010000029,
+            "order": 4010000030,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/table/package.json"
         }
     },
@@ -1142,7 +1175,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "toolbar",
-            "order": 4010000030,
+            "order": 4010000031,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/toolbar/package.json"
         }
     },
@@ -1185,7 +1218,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "ajax-form",
-            "order": 5010000031,
+            "order": 5010000032,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/ajax-form/package.json"
         }
     },
@@ -1229,7 +1262,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "contextmenu",
-            "order": 5010000032,
+            "order": 5010000033,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/contextmenu/package.json"
         }
     },
@@ -1282,7 +1315,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "dropdown",
-            "order": 5010000033,
+            "order": 5010000034,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/dropdown/package.json"
         }
     },
@@ -1349,7 +1382,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "dtable",
-            "order": 5010000034,
+            "order": 5010000035,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/dtable/package.json"
         }
     },
@@ -1385,7 +1418,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "tabs",
-            "order": 5010000035,
+            "order": 5010000036,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/tabs/package.json"
         }
     },
@@ -1418,7 +1451,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "css-icons",
-            "order": 6010000036,
+            "order": 6010000037,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/css-icons/package.json"
         }
     },
@@ -1451,7 +1484,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "utilities",
-            "order": 6010000037,
+            "order": 6010000038,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/utilities/package.json"
         }
     },
@@ -1483,7 +1516,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "helpers",
-            "order": 7010000038,
+            "order": 7010000039,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/helpers/package.json"
         }
     }
