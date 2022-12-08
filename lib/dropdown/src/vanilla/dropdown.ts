@@ -178,9 +178,8 @@ const handleScroll = (event: Event) => {
     if (!element) {
         return;
     }
-    const target = event.target as HTMLElement;
     const toggleBtn = typeof element.closest === 'function' ? element.closest<HTMLElement>(Dropdown.MENU_SELECTOR) : null;
-    if (!toggleBtn || !target.contains(toggleBtn)) {
+    if (!toggleBtn || !(event.target as HTMLElement).contains(toggleBtn)) {
         return;
     }
     Dropdown.clear({event});
