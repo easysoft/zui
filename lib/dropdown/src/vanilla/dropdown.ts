@@ -172,3 +172,18 @@ document.addEventListener('mouseover', function (e) {
         dropdown.show();
     }
 });
+
+const handleScroll = (event: Event) => {
+    const element = document.getElementsByClassName('with-dropdown-show')[0];
+    if (!element) {
+        return;
+    }
+    const target = event.target as HTMLElement;
+    const toggleBtn = typeof element.closest === 'function' ? element.closest<HTMLElement>(Dropdown.MENU_SELECTOR) : null;
+    if (!toggleBtn || !target.contains(toggleBtn)) {
+        return;
+    }
+    Dropdown.clear({event});
+};
+
+window.addEventListener('scroll', handleScroll, true);
