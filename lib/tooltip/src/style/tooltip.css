@@ -9,17 +9,17 @@
 }
 
 .tooltip > .arrow-top {
-  @apply -mb-0.5;
+  @apply -mb-px;
 }
 
 .tooltip > .arrow-bottom {
-  @apply -mt-0.5;
+  @apply -mt-px;
 }
 
 .tooltip > .arrow-left {
-  @apply -mr-0.5;
+  @apply -mr-px;
 }
 
 .tooltip > .arrow-right {
-  @apply -ml-0.5;
+  @apply -ml-px;
 }

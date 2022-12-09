@@ -20,7 +20,7 @@ export class Tooltip extends ComponentBase<TooltipOptions> {
     static MENU_SELECTOR = '[data-toggle="tooltip"]:not(.disabled):not(:disabled)';
 
     static DEFAULT = {
-        placement: 'bottom',
+        placement: 'top',
         strategy: 'absolute',
         trigger: 'hover',
         type: 'darker',
