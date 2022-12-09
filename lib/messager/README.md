@@ -18,7 +18,7 @@ messagerButton.addEventLinstener('click', function() {
 
 ## 显示位置
 
-提供12个预设的显示位置。
+提供9个预设的显示位置。
 
 ```html:example
     <button class="btn top-start">上方左侧</button>
@@ -27,12 +27,10 @@ messagerButton.addEventLinstener('click', function() {
     <button class="btn bottom-start">下方左侧</button>
     <button class="btn bottom">下方居中</button>
     <button class="btn bottom-end">下方右侧</button>
-    <button class="btn left-start">左侧上方</button>
     <button class="btn left">左侧居中</button>
-    <button class="btn left-end">左侧下方</button>
-    <button class="btn right-start">右侧上方</button>
     <button class="btn right">右侧居中</button>
-    <button class="btn right-end">右侧下方</button>
+    <button class="btn center">居中</button>
+
 ```
 
 ```js
@@ -47,13 +45,21 @@ new Messager({
 提供 多种预设颜色主题 详见 颜色
 
 ```html:example
-    <button type="button" class="btn">普通提示消息</button>
-    <button type="button" class="btn primary">提示消息：主要</button>
-    <button type="button" class="btn danger">提示消息：危险</button>
-    <button type="button" class="btn success">提示消息：成功</button>
-    <button type="button" class="btn warning">提示消息：警告</button>
-    <button type="button" class="btn important">提示消息：重要</button>
-    <button type="button" class="btn special">提示消息：特别</button>
+    <div class="messager messager-default">
+        <div class="messager-content">
+            普通提示消息
+        </div>
+        <div class="messager-actions">
+            <button type="button" class="close action"></button>
+        </div>
+    </div>
+    <!-- <p><button type="button" class="btn messager">普通提示消息</button></p> -->
+    <p><button type="button" class="btn messager primary">提示消息：主要</button></p>
+    <p><button type="button" class="btn messager danger">提示消息：危险</button></p>
+    <p><button type="button" class="btn messager success">提示消息：成功</button></p>
+    <p><button type="button" class="btn messager warning">提示消息：警告</button></p>
+    <p><button type="button" class="btn messager important">提示消息：重要</button></p>
+    <p><button type="button" class="btn messager special">提示消息：特别</button></p>
 ```
 
 ```js
