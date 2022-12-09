@@ -458,13 +458,13 @@ importers:
     specifiers:
       '@zui/base': workspace:*
       '@zui/browser-helpers': workspace:^0.0.1
-      '@zui/button': workspace:^0.0.1
+      '@zui/btn-group': workspace:^0.0.1
       '@zui/com-helpers': workspace:^0.0.1
       '@zui/icons': workspace:*
       '@zui/utilities': workspace:*
       preact: 10.11.2
     dependencies:
-      '@zui/button': link:../button
+      '@zui/btn-group': link:../btn-group
       preact: 10.11.2
     devDependencies:
       '@zui/base': link:../base
