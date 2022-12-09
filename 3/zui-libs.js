@@ -381,6 +381,17 @@ export default [
         "exports": {
             ".": "./src/main.ts"
         },
+        "dependencies": {
+            "preact": "10.11.2",
+            "@zui/button": "workspace:^0.0.1"
+        },
+        "devDependencies": {
+            "@zui/base": "workspace:*",
+            "@zui/icons": "workspace:*",
+            "@zui/utilities": "workspace:*",
+            "@zui/browser-helpers": "workspace:^0.0.1",
+            "@zui/com-helpers": "workspace:^0.0.1"
+        },
         "zui": {
             "type": "control",
             "displayName": "漂浮消息",
