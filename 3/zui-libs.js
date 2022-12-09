@@ -1180,6 +1180,54 @@ export default [
         }
     },
     {
+        "name": "@zui/tooltip",
+        "version": "0.0.1",
+        "main": "src/main.ts",
+        "browser": "src/main.ts",
+        "browserslist": "",
+        "keywords": [
+            "css",
+            "zui:component"
+        ],
+        "files": [
+            "./src/**/*"
+        ],
+        "exports": {
+            ".": "./src/main.ts"
+        },
+        "devDependencies": {
+            "zui-dev": "workspace:*",
+            "@zui/base": "workspace:*",
+            "@zui/utilities": "workspace:*"
+        },
+        "dependencies": {
+            "preact": "10.11.2",
+            "@popperjs/core": "^2.11.6",
+            "@zui/browser-helpers": "workspace:*",
+            "@zui/com-helpers": "workspace:*",
+            "@zui/contextmenu": "workspace:*",
+            "@zui/button": "workspace:0.0.1",
+            "@zui/css-icons": "workspace:^0.0.1"
+        },
+        "zui": {
+            "type": "component",
+            "displayName": "提示消息",
+            "contributes": {
+                "css": [
+                    "class",
+                    "var"
+                ]
+            },
+            "build": {},
+            "path": "/home/runner/work/zui/zui/lib/tooltip",
+            "workspace": true,
+            "sourceType": "build-in",
+            "name": "tooltip",
+            "order": 4010000032,
+            "packageJsonPath": "/home/runner/work/zui/zui/lib/tooltip/package.json"
+        }
+    },
+    {
         "name": "@zui/ajax-form",
         "version": "0.0.1",
         "main": "src/main.ts",
@@ -1218,7 +1266,7 @@ export default [
             "workspace": true,
             "sourceType": "build-in",
             "name": "ajax-form",
-            "order": 5010000032,
+            "order": 5010000033,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/ajax-form/package.json"
         }
     },
@@ -1262,7 +1310,7 @@ export default [
             "workspace": true,
             "sourceType": "build-in",
             "name": "contextmenu",
-            "order": 5010000033,
+            "order": 5010000034,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/contextmenu/package.json"
         }
     },
@@ -1315,7 +1363,7 @@ export default [
             "workspace": true,
             "sourceType": "build-in",
             "name": "dropdown",
-            "order": 5010000034,
+            "order": 5010000035,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/dropdown/package.json"
         }
     },
@@ -1382,7 +1430,7 @@ export default [
             "workspace": true,
             "sourceType": "build-in",
             "name": "dtable",
-            "order": 5010000035,
+            "order": 5010000036,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/dtable/package.json"
         }
     },
@@ -1418,7 +1466,7 @@ export default [
             "workspace": true,
             "sourceType": "build-in",
             "name": "tabs",
-            "order": 5010000036,
+            "order": 5010000037,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/tabs/package.json"
         }
     },
@@ -1451,7 +1499,7 @@ export default [
             "workspace": true,
             "sourceType": "build-in",
             "name": "css-icons",
-            "order": 6010000037,
+            "order": 6010000038,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/css-icons/package.json"
         }
     },
@@ -1484,7 +1532,7 @@ export default [
             "workspace": true,
             "sourceType": "build-in",
             "name": "utilities",
-            "order": 6010000038,
+            "order": 6010000039,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/utilities/package.json"
         }
     },
@@ -1516,7 +1564,7 @@ export default [
             "workspace": true,
             "sourceType": "build-in",
             "name": "helpers",
-            "order": 7010000039,
+            "order": 7010000040,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/helpers/package.json"
         }
     }
