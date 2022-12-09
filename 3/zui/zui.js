@@ -6050,7 +6050,7 @@ Zt = new WeakMap(), Qt = new WeakMap(), en = new WeakMap(), Tt = new WeakMap(), 
   const { tooltip: n } = this;
   n.addEventListener("mouseenter", y(this, tn)), n.addEventListener("mouseleave", this.hideLater), this.element.addEventListener("mouseleave", this.hideLater), T(this, Zt, !0);
 }, A(je, "NAME", "tooltip"), A(je, "TOOLTIP_CLASS", "tooltip"), A(je, "CLASS_SHOW", "show"), A(je, "MENU_SELECTOR", '[data-toggle="tooltip"]:not(.disabled):not(:disabled)'), A(je, "DEFAULT", {
-  placement: "bottom",
+  placement: "top",
   strategy: "absolute",
   trigger: "hover",
   type: "darker"
