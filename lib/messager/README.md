@@ -1,5 +1,31 @@
 # 漂浮消息
 
+## 静态展示
+
+```html:example
+<div class="messagers-holder top col">
+    <!-- <div class="messager-default messager">
+        <div class="messager-content">
+            普通提示消息1
+        </div>
+        <div class="messager-actions btn-group">
+            <button type="btn" class="btn messager-default border-0">
+                <i class="icon icon-times"></i>
+            </button>
+        </div>
+    </div>
+    <div class="messager-default messager">
+        <div class="messager-content">
+            普通提示消息2
+        </div>
+        <div class="messager-actions btn-group">
+            <button type="btn" class="btn messager-default border-0">
+                <i class="icon icon-times"></i>
+            </button>
+        </div>
+    </div> -->
+</div>
+```
 ## 组件模式
 
 ```html:example
@@ -30,7 +56,6 @@ messagerButton.addEventLinstener('click', function() {
     <button class="btn left">左侧居中</button>
     <button class="btn right">右侧居中</button>
     <button class="btn center">居中</button>
-
 ```
 
 ```js
@@ -45,12 +70,16 @@ new Messager({
 提供 多种预设颜色主题 详见 颜色
 
 ```html:example
-    <div class="messager messager-default">
-        <div class="messager-content">
-            普通提示消息
-        </div>
-        <div class="messager-actions">
-            <button type="button" class="close action"></button>
+    <div class="w-40 py-2">
+        <div class="messager-default messager">
+            <div class="messager-content">
+                普通提示消息
+            </div>
+            <div class="messager-actions btn-group">
+                <button type="btn" class="btn messager-default border-0">
+                    <i class="icon icon-times"></i>
+                </button>
+            </div>
         </div>
     </div>
     <!-- <p><button type="button" class="btn messager">普通提示消息</button></p> -->

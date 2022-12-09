@@ -1,3 +1,8 @@
+import {JSX} from 'preact';
+
 export interface MessagerActionsProps {
-    type?: string;
+    name?: string;
+    icon?: string;
+    text?: string;
+    action?: JSX.MouseEventHandler<HTMLAnchorElement>;
 }

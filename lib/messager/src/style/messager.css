@@ -1,3 +1,8 @@
-/* .messager-default {
-    @apply -bg-dark;
-} */
+.messager {
+    @apply -flex -items-center -text-center -py-2 -px-5;
+    border-radius: var(--messager-radius);
+}
+.messager-default {
+    background: var(--messager-default-bg-color);
+    color: var(--color-canvas);
+}

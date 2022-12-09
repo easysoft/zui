@@ -1,0 +1,40 @@
+.messagers-holder {
+    z-index: 99999;
+    @apply -inset-0 -pointer-events-none -fixed -p-2 -flex -gap-2;
+}
+
+.messagers-holder.top {
+    @apply -justify-start -items-center;
+}
+
+.messagers-holder.center {
+    @apply -justify-center -items-center;
+}
+
+.messagers-holder.bottom {
+    @apply -justify-end -items-center;
+}
+
+.messagers-holder.left-top {
+    @apply -justify-start -items-start;
+}
+
+.messagers-holder.left {
+    @apply -justify-center -items-start;
+}
+
+.messagers-holder.left-bottom {
+    @apply -justify-end -items-start;
+}
+
+.messagers-holder.right-top {
+    @apply -justify-start -items-end;
+}
+
+.messagers-holder.right {
+    @apply -justify-center -items-end;
+}
+
+.messagers-holder.right-bottom {
+    @apply -justify-end -items-end;
+}
