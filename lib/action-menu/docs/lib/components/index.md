@@ -185,8 +185,6 @@ new ActionMenu('#actionMenu', {
 })
 ```
 
-
-
 ## 监听点击事件
 
 ### `onClickItem`
@@ -325,7 +323,7 @@ new ActionMenu('#menu', {
 
 定义菜单项列表，可以通过一个函数动态返回菜单项列表。
 
-* 类型：<code>[ActionMenuItemOptions](#actionmenuitemoptions)[]|((menu: ([ActionMenuItemOptions](#actionmenuitemoptions))<[ActionMenuItemOptions](#actionmenuitemoptions)>) => [ActionMenuItemOptions](#actionmenuitemoptions)[])</code>；
+* 类型：<code>[ActionMenuItemOptions](#actionmenuitemoptions)</code>；
 * 必选：是。
 
 ### `children`
@@ -380,9 +378,22 @@ new ActionMenu('#menu', {
 
 操作菜单的点击回调事件。
 
+### `itemRender`
+
+指定一个回调函数用于对组件渲染进行自定义。
+
+**参数**：`items` 选项的单个配置；
+
+**返回值**：`items` 选项的单个配置。
+
 ### `beforeRender`
 
-指定一个回调函数在渲染之前调用。
+指定一个回调函数在渲染之前调用，可重新配置组件选项。
+
+**参数**：用户为按钮组组件件设置的 `options`；
+
+**返回值**：组件选项数据。
+
 
 ### `afterRender`
 
@@ -393,9 +404,9 @@ new ActionMenu('#menu', {
 * `firstRender`：判断是否第一次渲染；
 * `menu`：组件信息。
 
-### `afterDestroy`
+### `beforeDestroy`
 
-指定一个回调函数在组件销毁之后调用。
+指定一个回调函数在组件销毁之前调用，无参数。
 
 ## 方法
 
@@ -418,61 +429,162 @@ render(options: Partial<ActionMenuOptions>): void;
 
 ### `ActionMenuItemOptions`
 
-操作菜单项定义对象。
+`ActionMenuItemOptions` 由 <code>[ActionDividerProps](#actiondividerprops)</code>、<code>[ActionItemProps](#actionitemprops)</code>、<code>[ActionSpaceProps](#actionspaceprops)</code>、<code>[ActionHeadingProps](#actionheadingprops)</code>、<code>[ActionCustomProps](#actioncustomprops)</code>五部分构成。
 
-#### `icon`
+#### `ActionBasicProps`
 
-左侧图标。
+基础属性。
 
-* 类型：`string | VNode`；
-* 必选：否。
+##### `type`
 
-#### `trailingIcon`
-
-右侧图标。
-
-* 类型：`string | VNode`；
-* 必选：否。
-
-
-#### `type`
-
-操作项类型。
+指定 item 的类型。
 
 * 类型：`string`；
-* 必选：否；
-* 可选项：`item | divider | heading | custom`。
+* 必选：否。
 
-#### `className`
+##### `className`
 
 类名。
 
-* 类型：`string`；
+* 类型：`string | object | array`；
 * 必选：否。
 
-#### `style`
+##### `style`
 
 样式。
 
 * 类型：`ClassNameLike`；
 * 必选：否。
 
-#### `url`
+##### `onClick`
+
+鼠标点击的回调方法。
+
+* 类型：`function`；
+* 必选：否。
+
+##### `rootClass`
+
+与 `action-menu-item` 同级类名。
+
+* 类型：`string`；
+* 必选：否。
+
+##### `rootAttrs`
+
+指定 `action-menu-item` 属性。
+
+* 类型：`JSX.HTMLAttributes<HTMLLIElement>`；
+* 必选：否。
+
+##### `rootStyle`
+
+指定 `action-menu-item` 样式。
+
+* 类型：`JSX.CSSProperties`；
+* 必选：否。
+
+##### `rootChildren`
+
+为 `action-menu-item` 添加子元素。
+
+* 类型：`ComponentChildren | (() => ComponentChildren)`；
+* 必选：否。
+
+##### `rootProps`
+
+根节点自定义属性对象。
+
+* 类型：`object`；
+* 必选：否。
+
+##### `key`
+
+指定单个按钮键值，用户可根据该属性进行特殊处理。
+
+* 类型：`string | number | symbol`；
+* 必选：否。
+
+##### `attrs`
+
+指定当前子项的属性。
+
+* 类型：`JSX.HTMLAttributes<HTMLLIElement>`；
+* 必选：否。
+
+##### `children`
+
+指定当前子项的子元素。
+
+* 类型：`ComponentChildren | (() => ComponentChildren)`；
+* 必选：否。
+
+##### `component`
+
+指定当前元素的标签名。
+
+* 类型：`string | ComponentType`；
+* 必选：否。
+
+#### `ActionDividerProps`
+
+类型为分割线的 API 在[ActionBasicProps](#actionbasicprops) 的基础上定义了 `type` 属性。
+
+##### `type`
+
+item 为分割线时的类型。
+
+* 类型：`string`；
+* 属性值：`divider`。
+
+#### `ActionItemProps`
+
+操作菜单项默认类型，它继承了 [ActionBasicProps](#actionbasicprops) 选项并添加了以下选项。
+
+##### `text`
+
+按钮显示文字。
+
+* 类型：`string`；
+* 必选：否。
+
+##### `icon`
+
+左侧图标。
+
+* 类型：`string | VNode`；
+* 必选：否。
+
+##### `trailingIcon`
+
+右侧图标。
+
+* 类型：`string | VNode`；
+* 必选：否。
+
+##### `hint`
+
+鼠标悬浮提示文案。
+
+* 类型：`string`；
+* 必选：否。
+
+##### `url`
 
 跳转链接地址。
 
 * 类型：`string`；
 * 必选：否。
 
-#### `target`
+##### `target`
 
 在何处打开链接地址。
 
 * 类型：`string`；
 * 必选：否；
-* 可选项： `_self | _self | _black | _top | _parent` 。
+* 可选项： 参考 [MDN 中 `<a>` 属性](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/a#attr-target) 。
 
-#### `disabled`
+##### `disabled`
 
 是否禁用。
 
@@ -480,7 +592,7 @@ render(options: Partial<ActionMenuOptions>): void;
 * 必选：否；
 * 默认： `false`。
 
-#### `active`
+##### `active`
 
 是否是激活状态。
 
@@ -488,37 +600,56 @@ render(options: Partial<ActionMenuOptions>): void;
 * 必选：否；
 * 默认： `false`。
 
-#### `key`
+#### `ActionSpaceProps`
 
-键值。
+在[ActionBasicProps](#actionbasicprops) 的基础上定义了 `type` 属性。
 
-* 类型：`string | number`；
-* 必选：否。
+##### `type`
 
-#### `onClick`
-
-鼠标点击的回调方法。
-
-* 类型：`function`；
-* 必选：否。
-
-#### `rootProps`
-
-根节点自定义属性对象。
-
-* 类型：`object`；
-* 必选：否。
-
-#### `items`
-
-子级操作数据。
-
-* 类型：`array`；
-* 必选：否。
-
-#### `rootClass`
-
-与 `action-menu-item` 同级类名。
+item 为间距时的类型。
 
 * 类型：`string`；
+* 属性值：`space`。
+
+##### `space`
+
+调整 space 间距大小。
+
+* 类型：`number | [leading: number, trailing: number]`；
 * 必选：否。
+
+##### `flex`
+
+用于控制 flex 项目放大和缩小。
+
+* 类型：`number | 'auto' | 'none'`；
+* 必选：否。
+
+#### `ActionHeadingProps`
+
+在[ActionBasicProps](#actionbasicprops) 的基础上定义了其他选项。
+
+##### `type`
+
+item 为自定义时的类型。
+
+* 类型：`string`；
+* 属性值：`heading`。
+
+##### `text`
+
+标题。
+
+* 类型：`string`；
+* 属性值：`heading`。
+
+#### `ActionCustomProps`
+
+在[ActionBasicProps](#actionbasicprops) 的基础上定义了 `type` 属性。
+
+##### `type`
+
+item 为自定义时的类型。
+
+* 类型：`string`；
+* 属性值：`custom`。
