@@ -383,7 +383,7 @@ export default [
         },
         "dependencies": {
             "preact": "10.11.2",
-            "@zui/button": "workspace:^0.0.1"
+            "@zui/btn-group": "workspace:^0.0.1"
         },
         "devDependencies": {
             "@zui/base": "workspace:*",
