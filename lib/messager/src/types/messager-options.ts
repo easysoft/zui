@@ -2,7 +2,7 @@ import {ClassNameLike} from '@zui/browser-helpers/src/classes';
 import {MessagerActionsProps} from './messager-actions-props';
 import {JSX} from 'preact';
 
-export interface MessagerOptions {
+export interface MessagerProps {
     className?: ClassNameLike;
     contentClass?: ClassNameLike;
     type?: 'default' | 'primary' | 'danger' | 'success' | 'warning' | 'important' | 'special';

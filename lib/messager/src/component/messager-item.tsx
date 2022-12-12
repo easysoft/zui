@@ -1,8 +1,8 @@
 import {Component} from 'preact';
 import MessagerActions from './messager-actions';
-import { MessagerActionsProps } from '../types';
+import { MessagerProps } from '../types';
 
-export class MessagerItem extends Component<MessagerActionsProps> { 
+export class MessagerItem extends Component<MessagerProps> { 
     static Name = 'zui.messager-item';
 
     render() {

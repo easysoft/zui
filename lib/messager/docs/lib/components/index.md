@@ -1,36 +1,14 @@
-# 漂浮消息
+# 漂浮消息生成器
 
-## 静态展示
+通过 JS 动态创建一个漂浮消息
 
-```html:example
-<div class="messagers-holder top col">
-    <!-- <div class="messager-default messager">
-        <div class="messager-content">
-            普通提示消息1
-        </div>
-        <div class="messager-actions btn-group">
-            <button type="btn" class="btn messager-default border-0">
-                <i class="icon icon-times"></i>
-            </button>
-        </div>
-    </div>
-    <div class="messager-default messager">
-        <div class="messager-content">
-            普通提示消息2
-        </div>
-        <div class="messager-actions btn-group">
-            <button type="btn" class="btn messager-default border-0">
-                <i class="icon icon-times"></i>
-            </button>
-        </div>
-    </div> -->
-</div>
-```
-## 组件模式
+## 示例
 
-```html:example
+通过构造一个 `messager` 实例，页面上创建一个漂浮消息
+
+<example>
 <button id="messagerTrigger">显示漂浮消息</button>
-```
+</example>
 
 ```js
 
@@ -46,7 +24,7 @@ messagerButton.addEventLinstener('click', function() {
 
 提供9个预设的显示位置。
 
-```html:example
+<example>
     <button class="btn top-start">上方左侧</button>
     <button class="btn top">上方居中</button>
     <button class="btn top-end">上方右侧</button>
@@ -56,12 +34,12 @@ messagerButton.addEventLinstener('click', function() {
     <button class="btn left">左侧居中</button>
     <button class="btn right">右侧居中</button>
     <button class="btn center">居中</button>
-```
+</example>
 
 ```js
 new Messager({
     message: '这是一个漂浮消息。',
-    placement: 'center' // 定义位置
+    placement: '*' // 定义位置
 }).show();
 ```
 
@@ -69,7 +47,7 @@ new Messager({
 
 提供 多种预设颜色主题 详见 颜色
 
-```html:example
+<example>
     <div class="w-40 py-2">
         <div class="messager-default messager">
             <div class="messager-content">
@@ -89,7 +67,7 @@ new Messager({
     <p><button type="button" class="btn messager warning">提示消息：警告</button></p>
     <p><button type="button" class="btn messager important">提示消息：重要</button></p>
     <p><button type="button" class="btn messager special">提示消息：特别</button></p>
-```
+</example>
 
 ```js
 
@@ -99,9 +77,9 @@ new Messager({
 
 默认会在右侧显示关闭按钮，如果需要禁用关闭按钮，将 close 选项设置为 false。
 
-```html:example
+<example>
     <button class="btn primary"> 禁用关闭按钮 </button>
-```
+</example>
 
 ```js
 new Messager({
@@ -110,7 +88,8 @@ new Messager({
 }).show();
 ```
 
-通过 `actions` 数组来自定义一组操作。
+通过 `actions` 数组来自定义一组操作。详细配置可参考 [按钮组](/lib/components/btn-group/index.html)。
+
 
 ```js
 new Messager({
@@ -128,6 +107,96 @@ new Messager({
 });
 ```
 
-icon、text、html 属性至少需要设置一项，否则操作按钮不可见。
+## API
 
-在操作定义对象的操作回调函数 action 中返回 false 来取消点击操作后的隐藏操作。
+### `MessagerOptions`
+
+漂浮消息定义对象。
+
+#### `type`
+
+消息类型
+
+* 类型：`string`;
+* 可选值：'default' | 'primary' | 'danger' | 'success' | 'warning' | 'important' | 'special'；
+* 必选：否。
+* 默认值：default
+
+#### `placement`
+
+漂浮消息定位方式
+
+* 类型：`string`;
+* 可选值：'top' | 'center' | 'bottom' | 'left-top' | 'left' | 'left-bottom' | 'right' | 'right-top' | 'right-bottom';
+* 必选：否。
+* 默认值：top
+
+#### `time`
+
+漂浮消息持续时间
+
+* 类型：`number`;
+* 必选：否。
+* 默认值：4000 (ms);
+
+#### `message`
+
+漂浮消息内容
+
+* 类型：`string`;
+* 必选：否。
+
+#### `parent`
+
+漂浮消息父节点
+
+* 类型：`HTMLElement`;
+* 必选：否。
+* 默认值：body.
+
+#### `icon`
+
+图标内容
+
+* 类型：`string`;
+* 必选：否。
+
+#### `close`
+
+是否展示关闭按钮
+
+* 类型：`boolean`;
+* 必选：否。
+* 默认值：false。
+
+#### `show`
+
+是否在初次渲染时展示消息
+
+* 类型：`boolean`;
+* 必选：否。
+* 默认值：true。
+
+#### `fade`
+
+是否显示和隐藏消息时使用渐隐渐显的动画效果。
+
+* 类型：`boolean`;
+* 必选：否。
+* 默认值：false。
+
+#### `scale`
+
+是否显示和隐藏消息时使用缩放的动画效果
+
+* 类型：`boolean`;
+* 必选：否。
+* 默认值：false。
+
+actions
+漂浮消息按钮组配置项，详细配置可参考 [按钮组](/lib/components/btn-group/index.html)
+
+onAction
+
+* 类型：`function(actionName, action, messager)`;
+* 必选：否。
