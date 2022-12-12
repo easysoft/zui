@@ -335,5 +335,7 @@ export default {
 
 #### `menu`
 
-菜单对象 
-详细配置可参考 [菜单](/lib/components/menu/index.html)。
+菜单对象 详细配置可参考 [菜单](/lib/components/menu/index.html)。
+
+* 类型：`object`；
+* 必选：否。
