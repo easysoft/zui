@@ -304,3 +304,36 @@ export default {
 | --dropmenu-bg           | 下拉菜单背景颜色 |
 | --dropmenu-active-color | 下拉菜单条目激活状态文字颜色 |
 | --dropmenu-active-bg    | 下拉菜单条目激活状态背景颜色 |
+
+
+## API
+
+### `DropdownOptions`
+
+操作菜单定义对象。
+
+#### `trigger`
+
+触发方式
+
+* 类型：`click | hover | manual`；
+* 必选：否。
+
+#### `arrow`
+
+箭头大小 为 true 则为默认12
+
+* 类型：`boolean | number`；
+* 必选：否。
+
+#### `offset`
+
+偏移量
+
+* 类型：`number`；
+* 必选：否。
+
+#### `menu`
+
+菜单对象 
+详细配置可参考 [菜单](/lib/components/menu/index.html)。
