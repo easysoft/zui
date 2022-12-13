@@ -1,3 +1,16 @@
-import {ContextMenuPlacement} from '@zui/contextmenu/src/types/contextmenu-placement';
-
-export type TooltipPlacement = ContextMenuPlacement;
+export type TooltipPlacement =
+  | 'auto'
+  | 'auto-start'
+  | 'auto-end'
+  | 'top'
+  | 'top-start'
+  | 'top-end'
+  | 'bottom'
+  | 'bottom-start'
+  | 'bottom-end'
+  | 'right'
+  | 'right-start'
+  | 'right-end'
+  | 'left'
+  | 'left-start'
+  | 'left-end';

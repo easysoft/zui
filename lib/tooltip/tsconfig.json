@@ -5,6 +5,6 @@
         "jsxImportSource": "preact",
     },
     "include": [
-      "src",
+        "src",
     ]
-  }
+}

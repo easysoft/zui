@@ -4,8 +4,7 @@ import arrow from '@popperjs/core/lib/modifiers/arrow';
 import offset from '@popperjs/core/lib/modifiers/offset';
 import preventOverflow from '@popperjs/core/lib/modifiers/preventOverflow';
 import flip from '@popperjs/core/lib/modifiers/flip';
-import {TooltipOptions} from '../types';
-import {ContextMenuTrigger} from '@zui/contextmenu/src/types/contextmenu-trigger';
+import {TooltipOptions, TooltipTrigger} from '../types';
 import {ComponentBase} from '@zui/com-helpers/src/helpers/vanilla-component';
 import '../style/index.css';
 
@@ -20,10 +19,12 @@ export class Tooltip extends ComponentBase<TooltipOptions> {
     static MENU_SELECTOR = '[data-toggle="tooltip"]:not(.disabled):not(:disabled)';
 
     static DEFAULT = {
+        animation: true,
         placement: 'top',
         strategy: 'absolute',
         trigger: 'hover',
         type: 'darker',
+        arrow: true,
     } as Partial<TooltipOptions>;
 
     #hoverEventsBind = false;
@@ -36,7 +37,7 @@ export class Tooltip extends ComponentBase<TooltipOptions> {
 
     #popper?: PopperInstance;
 
-    #trigger?: ContextMenuTrigger;
+    #trigger?: TooltipTrigger;
 
     get isShown() {
         return this.#tooltip?.classList.contains((this.constructor as typeof Tooltip).CLASS_SHOW);
@@ -72,13 +73,17 @@ export class Tooltip extends ComponentBase<TooltipOptions> {
         }
     }
 
-    show(trigger?: ContextMenuTrigger): boolean {
+    show(trigger?: TooltipTrigger): boolean {
         this.#trigger = trigger;
         if (!this.#hoverEventsBind && this.isHover) {
             this.#bindHoverEvents();
         }
+        if (this.options.animation) {
+            this.tooltip.classList.add('fade');
+        }
         this.element.classList.add(this.elementShowClass);
         this.tooltip.classList.add((this.constructor as typeof Tooltip).CLASS_SHOW);
+        
         this._createPopper().update();
         return true;
     }
@@ -122,37 +127,19 @@ export class Tooltip extends ComponentBase<TooltipOptions> {
     }
 
     _ensureTooltip() {
-        const {element} = this;
         const tooltipClass = (this.constructor as typeof Tooltip).TOOLTIP_CLASS;
-        let tooltipElement: HTMLElement | null | undefined;
-        if (this.options.title) {
-            tooltipElement = document.createElement('div');
-            const classOptions = this.options.className ? this.options.className.split(' ') : [];
-            let classNames = [tooltipClass, `bg-${this.options.type}`];
-            classNames = classNames.concat(classOptions);
-            tooltipElement.classList.add(...classNames);
-            tooltipElement.innerHTML = this.options.title;
+        const tooltipElement = document.createElement('div');
+        const classOptions = this.options.className ? this.options.className.split(' ') : [];
+        let classNames = [tooltipClass, this.options.type || ''];
+        classNames = classNames.concat(classOptions);
+        tooltipElement.classList.add(...classNames);
+        tooltipElement[this.options.html ? 'innerHTML' : 'innerText'] = this.options.title || '';
+        
+        if (this.options.arrow) {
             tooltipElement.prepend(this._createArrow());
-            document.body.appendChild(tooltipElement);
-        } else if (element) {
-            const target = element.getAttribute('href') ?? element.dataset.target;
-            if (target?.[0] === '#') {
-                tooltipElement = document.querySelector<HTMLElement>(target);
-                tooltipElement?.prepend(this._createArrow());
-            }
-            if (!tooltipElement) {
-                const nextElement = element.nextElementSibling;
-                if (nextElement?.classList.contains(tooltipClass)) {
-                    tooltipElement = nextElement as HTMLElement;
-                } else {
-                    tooltipElement = element.parentNode?.querySelector(`.${tooltipClass}`);
-                }
-            }
         }
+        document.body.appendChild(tooltipElement);
 
-        if (!tooltipElement) {
-            throw new Error('Cannot find tooltip element');
-        }
         this.#tooltip = tooltipElement;
         return tooltipElement;
     }

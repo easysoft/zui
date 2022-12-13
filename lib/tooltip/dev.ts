@@ -18,8 +18,8 @@ onPageUpdate(() => {
     new Tooltip('#tooltipExp12', {title: 'bottom 提示内容', placement: 'bottom'});
     new Tooltip('#tooltipExp13', {title: 'bottom-end 提示内容', placement: 'bottom-end'});
 
-    new Tooltip('#tooltipShow7', {title: 'white 外观', type: 'white',  className: 'text-darker border'});
-    new Tooltip('#tooltipShow1', {title: 'primary 外观', type: 'primary'});
+    new Tooltip('#tooltipShow7', {title: 'white 外观', type: 'white', className: 'text-darker border border-light'});
+    new Tooltip('#tooltipShow1', {title: 'primary 外观', type: 'primary', animation: false});
     new Tooltip('#tooltipShow2', {title: 'secondary 外观', type: 'secondary'});
     new Tooltip('#tooltipShow3', {title: 'warning 外观', type: 'warning'});
     new Tooltip('#tooltipShow4', {title: 'success 外观', type: 'success'});

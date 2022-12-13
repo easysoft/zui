@@ -1,12 +1,14 @@
 import type {TooltipPlacement} from './tooltip-placement';
-import type {ContextMenuPositionStrategy} from '@zui/contextmenu/src/types';
+import type {TooltipPositionStrategy} from './tooltip-position-strategy';
 
 export type TooltipOptions = {
     placement?: TooltipPlacement;
     title?: string;
     className?: string;
     trigger?: 'click' | 'hover';
-    arrow?: number;
+    arrow?: boolean | number;
     type?: string;
-    strategy?: ContextMenuPositionStrategy;
+    strategy?: TooltipPositionStrategy;
+    animation?: boolean;
+    html?: boolean;
 };

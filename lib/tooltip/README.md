@@ -73,7 +73,7 @@ new Tooltip('#tooltipClick', {title: '点击展示提示内容', trigger: 'click
 ```
 
 ```js
-new Tooltip('#tooltipShow7', {title: 'white 外观', type: 'white',  className: 'text-darker border'});
+new Tooltip('#tooltipShow7', {title: 'white 外观', type: 'white',  className: 'text-darker border border-light'});
 new Tooltip('#tooltipShow1', {title: 'primary 外观', type: 'primary'});
 new Tooltip('#tooltipShow2', {title: 'secondary 外观', type: 'secondary'});
 new Tooltip('#tooltipShow3', {title: 'warning 外观', type: 'warning'});

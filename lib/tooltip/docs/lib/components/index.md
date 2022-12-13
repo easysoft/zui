@@ -137,7 +137,7 @@
     new zui.Tooltip('#tooltipShow4', {title: 'success 外观', type: 'success'});
     new zui.Tooltip('#tooltipShow5', {title: 'danger 外观', type: 'danger'});
     new zui.Tooltip('#tooltipShow6', {title: 'important 外观', type: 'important'});
-    new zui.Tooltip('#tooltipShow7', {title: 'white 外观', type: 'white', className: 'text-darker border'});
+    new zui.Tooltip('#tooltipShow7', {title: 'white 外观', type: 'white', className: 'text-darker border border-light'});
 </script>
 ```
 
@@ -166,8 +166,15 @@
 
 设定提示消息触发方式。
 
-* 类型：`'string'`;
+* 类型：`'click' | 'hover'`;
 * 必选：否。
+
+### `html`
+
+是否允许消息内容包含 HTML 格式源码。
+
+* 类型：`boolean`;
+* 必选：`false`。
 
 ### `className`
 
@@ -182,6 +189,14 @@
 
 * 类型：`'string'`;
 * 必选：否。
+
+### `animation`
+
+决定是否应用淡入淡出动画。
+
+* 类型：`boolean`;
+* 必选：否；
+* 默认：`true`。
 
 ### `arrow`
 
@@ -248,7 +263,7 @@ export default {
             new zui.Tooltip('#tooltipShow4', {title: 'success 外观', type: 'success'});
             new zui.Tooltip('#tooltipShow5', {title: 'danger 外观', type: 'danger'});
             new zui.Tooltip('#tooltipShow6', {title: 'important 外观', type: 'important'});
-            new zui.Tooltip('#tooltipShow7', {title: 'white 外观', type: 'white', className: 'text-darker border'});
+            new zui.Tooltip('#tooltipShow7', {title: 'white 外观', type: 'white', className: 'text-darker border border-light'});
         })
     },
 }
