@@ -1216,7 +1216,6 @@
             "@popperjs/core": "^2.11.6",
             "@zui/browser-helpers": "workspace:*",
             "@zui/com-helpers": "workspace:*",
-            "@zui/contextmenu": "workspace:*",
             "@zui/button": "workspace:0.0.1",
             "@zui/css-icons": "workspace:^0.0.1"
         },
