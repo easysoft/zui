@@ -45,21 +45,21 @@
 
 
 <script>
-    new zui.Button('#btnExp', {text: '默认按钮'});
-    new zui.Button('#roundedBtnExp', {text: '圆角按钮', className: 'circle'});
-            
-    new zui.Button('#primaryBtnExp', {text: '主要按钮', type: 'primary'});
-    new zui.Button('#secondaryBtnExp', {text: '次要按钮', type: 'secondary'});
-    new zui.Button('#successBtnExp', {text: '成功按钮', type: 'success'});
-    new zui.Button('#warningBtnExp', {text: '提示按钮', type: 'warning'});
-    new zui.Button('#dangerBtnExp', {text: '警告按钮', type: 'danger'});
-    new zui.Button('#importantBtnExp', {text: '重要按钮', type: 'important'});
-    new zui.Button('#specialBtnExp', {text: '特殊按钮', type: 'special'});
-    
-    new zui.Button('#iconBtnExp', {icon: 'icon-search', text: '查询'});
-    new zui.Button('#closeBtnExp', {icon: 'icon-off', hint: '关闭'});
-    new zui.Button('#closeGhostBtnExp', {icon: 'icon-off', hint: '关闭', className: 'ghost'});
-    new zui.Button('#moreBtnExp', {trailingIcon: 'icon-ellipsis-v', text: '更多'});
+new zui.Button('#btnExp', {text: '默认按钮'});
+new zui.Button('#roundedBtnExp', {text: '圆角按钮', className: 'circle'});
+        
+new zui.Button('#primaryBtnExp', {text: '主要按钮', type: 'primary'});
+new zui.Button('#secondaryBtnExp', {text: '次要按钮', type: 'secondary'});
+new zui.Button('#successBtnExp', {text: '成功按钮', type: 'success'});
+new zui.Button('#warningBtnExp', {text: '提示按钮', type: 'warning'});
+new zui.Button('#dangerBtnExp', {text: '警告按钮', type: 'danger'});
+new zui.Button('#importantBtnExp', {text: '重要按钮', type: 'important'});
+new zui.Button('#specialBtnExp', {text: '特殊按钮', type: 'special'});
+
+new zui.Button('#iconBtnExp', {icon: 'icon-search', text: '查询'});
+new zui.Button('#closeBtnExp', {icon: 'icon-off', hint: '关闭'});
+new zui.Button('#closeGhostBtnExp', {icon: 'icon-off', hint: '关闭', className: 'ghost'});
+new zui.Button('#moreBtnExp', {trailingIcon: 'icon-ellipsis-v', text: '更多'});
 </script>
 ```
 
@@ -75,7 +75,7 @@
 <div id="linkBtn1"></div>
 
 <script>
-    new zui.Button('#linkBtn1', {text: '链接按钮', url: 'https://www.openzui.com/'});
+new zui.Button('#linkBtn1', {text: '链接按钮', url: 'https://www.openzui.com/'});
 </script>
 ```
 
@@ -93,8 +93,8 @@
 <div id="disabledBtn2"></div>
 
 <script>
-    new zui.Button('#disabledBtn1', {text: '默认按钮', disabled: true});
-    new zui.Button('#disabledBtn2', {text: '主要按钮', type: 'primary', disabled: true});
+new zui.Button('#disabledBtn1', {text: '默认按钮', disabled: true});
+new zui.Button('#disabledBtn2', {text: '主要按钮', type: 'primary', disabled: true});
 </script>
 ```
 
@@ -114,9 +114,9 @@
 <div id="loadingBtn3"></div>
 
 <script>
-    new zui.Button('#loadingBtn1', {text: '按钮', loading: true});
-    new zui.Button('#loadingBtn2', {text: '按钮', loading: true, loadingText: '加载中'});
-    new zui.Button('#loadingBtn3', {text: '按钮', loading: true, loadingText: '加载中', loadingIcon: 'icon-spinner-indicator'});
+new zui.Button('#loadingBtn1', {text: '按钮', loading: true});
+new zui.Button('#loadingBtn2', {text: '按钮', loading: true, loadingText: '加载中'});
+new zui.Button('#loadingBtn3', {text: '按钮', loading: true, loadingText: '加载中', loadingIcon: 'icon-spinner-indicator'});
 </script>
 ```
 
@@ -140,17 +140,17 @@
 <div id="sizeBtn5"></div>
 
 <script>
-    new zui.Button('#sizeBtn1', {text: '超小按钮', size: 'xs'});
-    new zui.Button('#sizeBtn2', {text: '小按钮', size: 'sm'});
-    new zui.Button('#sizeBtn3', {text: '默认按钮'});
-    new zui.Button('#sizeBtn4', {text: '大按钮', size: 'lg'});
-    new zui.Button('#sizeBtn5', {text: '超大按钮', size: 'xl'});
+new zui.Button('#sizeBtn1', {text: '超小按钮', size: 'xs'});
+new zui.Button('#sizeBtn2', {text: '小按钮', size: 'sm'});
+new zui.Button('#sizeBtn3', {text: '默认按钮'});
+new zui.Button('#sizeBtn4', {text: '大按钮', size: 'lg'});
+new zui.Button('#sizeBtn5', {text: '超大按钮', size: 'xl'});
 </script>
 ```
 
 ## 外观
 
-配合使用[CSS 工具类](/utilities/)来实现不同按钮的外观。下面展示各种工具类的外观效果。
+配合使用 [CSS 工具类](/utilities/) 来实现不同按钮的外观。下面展示各种工具类的外观效果。
 
 <Example class="flex gap-1">
   <div id="showBtn1"></div>
@@ -168,11 +168,11 @@
 <div id="showBtn5"></div>
 
 <script>
-    new zui.Button('#showBtn1', {text: '文字按钮', className: 'ghost'});
-    new zui.Button('#showBtn2', {text: '编辑', className: 'primary-outline'});
-    new zui.Button('#showBtn3', {text: '删除', className: 'danger-outline'});
-    new zui.Button('#showBtn4', {text: '编辑', className: 'primary-pale'});
-    new zui.Button('#showBtn5', {text: '删除', className: 'danger-pale'});
+new zui.Button('#showBtn1', {text: '文字按钮', type: 'ghost'});
+new zui.Button('#showBtn2', {text: '编辑', type: 'primary-outline'});
+new zui.Button('#showBtn3', {text: '删除', type: 'danger-outline'});
+new zui.Button('#showBtn4', {text: '编辑', type: 'primary-pale'});
+new zui.Button('#showBtn5', {text: '删除', type: 'danger-pale'});
 </script>
 ```
 
@@ -184,7 +184,7 @@
 
 标题。
 
-* 类型：`ComponentChildren`；
+* 类型：`string`；
 * 必选：否。
 
 ### `icon`
@@ -210,22 +210,22 @@
 
 ### `component`
 
-标签类型
+标签类型，通常会使用 `<a>` 标签或者 `<button>` 标签，也可以用 `<div>`。
 
 * 类型：`string | ComponentType`；
 * 必选：否。
 
-### `btnType`
+### `type`
 
-工具栏项的类型。
+按钮的外观类型。
 
 * 类型：`string`；
 * 必选：否；
-* 可选项：`primary, secondary ...`。
+* 可选项：`'primary', 'secondary' ...`，具体可参考 [CSS 工具类](/utilities/) 中的样式。
 
 ### `size`
 
-工具栏项的尺寸
+按钮的尺寸
 
 * 类型：`string`；
 * 必选：否；
@@ -247,14 +247,14 @@
 
 ### `url`
 
-跳转链接地址。
+跳转链接地址；前提按钮标签类型只能为 `<a>` 标签。
 
 * 类型：`string`；
 * 必选：否。
 
 ### `target`
 
-在何处打开链接地址。
+在何处打开链接地址；前提按钮标签类型只能为 `<a>` 标签。
 
 * 类型：`string`；
 * 必选：否；
@@ -308,11 +308,11 @@
 
 ### `caret`
 
-工具栏项展示箭头。
+按钮展示箭头。
 
 * 类型：`string | boolean`；
 * 必选：否；
-* 可选项：`up | down | left | right | boolean`；
+* 可选项：`'up' | 'down' | 'left' | 'right' | boolean`；
 * 默认： `false`。
 
 ### `onClick`
@@ -356,11 +356,11 @@ export default {
             new zui.Button('#loadingBtn2', {text: '按钮', loading: true, loadingText: '加载中'});
             new zui.Button('#loadingBtn3', {text: '按钮', loading: true, loadingText: '加载中', loadingIcon: 'icon-spinner-indicator'});
 
-            new zui.Button('#showBtn1', {text: '文字按钮', className: 'ghost'});
-            new zui.Button('#showBtn2', {text: '编辑', className: 'primary-outline'});
-            new zui.Button('#showBtn3', {text: '删除', className: 'danger-outline'});
-            new zui.Button('#showBtn4', {text: '编辑', className: 'primary-pale'});
-            new zui.Button('#showBtn5', {text: '删除', className: 'danger-pale'}); 
+            new zui.Button('#showBtn1', {text: '文字按钮', type: 'ghost'});
+            new zui.Button('#showBtn2', {text: '编辑', type: 'primary-outline'});
+            new zui.Button('#showBtn3', {text: '删除', type: 'danger-outline'});
+            new zui.Button('#showBtn4', {text: '编辑', type: 'primary-pale'});
+            new zui.Button('#showBtn5', {text: '删除', type: 'danger-pale'}); 
 
             new zui.Button('#linkBtn1', {text: '链接按钮', url: 'https://www.openzui.com/'});
 
