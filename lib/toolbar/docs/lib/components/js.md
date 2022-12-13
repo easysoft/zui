@@ -142,29 +142,18 @@ new zui.Toolbar('#dividerToolbar', {
 
 工具栏添加间距展示想要的布局。
 
-<Example class="col gap-2">
+<Example>
   <div id="spaceToolbar1"></div>
-  <div id="spaceToolbar2"></div>
 </Example>
 
 ```html
 <div id="spaceToolbar1"></div>
-<div id="spaceToolbar2"></div>
 
 <script>
  new zui.Toolbar('#spaceToolbar1', {
     items: [
         {icon: 'icon-ellipsis-v', hint: '菜单'},
-        {type: 'space', flex: 1},
-        {icon: 'icon-check-plus', hint: '添加'},
-    ],
-});
-new zui.Toolbar('#spaceToolbar2', {
-    items: [
-        {icon: 'icon-ellipsis-v', hint: '菜单'},
-        {type: 'space', flex: 1},
-        {icon: 'icon-picture', hint: '图片'}, 
-        {type: 'space', flex: 1},
+        {type: 'space', space: 10},
         {icon: 'icon-check-plus', hint: '添加'},
     ],
 });
@@ -179,6 +168,7 @@ new zui.Toolbar('#spaceToolbar2', {
 
 ```js
 new zui.Toolbar('#disabledToolbar', {
+    btnProps: {btnType: 'primary'},
     items: [
         {icon: 'icon-smile', hint: '表情'},
         {icon: 'icon-picture', hint: '图片'}, 
@@ -243,29 +233,19 @@ const toolbar = $(element).data('zui.toolbar');
 * 类型：`number | string`
 * 必选：否
 
-### `btnProps`
-
-继承按钮组件的属性， 自定义工具栏单项属性。
-
-* 类型：<code>[ButtonProps](/lib/components/button/js.html#选项) </code>；
-* 必选：否。
-
-
 ### `items`
 
 继承了 [操作菜单](/lib/components/action-menu/index.html#选项) 选项和按钮选项，同时添加了其他选项。
 
-* 类型：<code>[ToolbarItemOptions](#toolbaritemoptions) </code>；
+* 类型：<code>[ToolbarItemOptions](#toolbaritemoptions)[] </code>；
 * 必选：是。
 
-#### `btnType`
+### `btnProps`
 
-设置单个工具栏子项的展示类型。
+继承按钮组件的属性， 统一处理工具栏按钮属性外观等。
 
-* 类型：`string`；
-* 必选：否；
-* 默认：`ghost`。
-
+* 类型：<code>[ButtonProps](/lib/components/button/js.html#选项) </code>；
+* 必选：否。
 
 ### `itemRender`
 
@@ -307,17 +287,22 @@ type ToolbarItemOptions = ToolbarItemProps | ToolbarDropdownProps | ToolbarBtnGr
 
 #### `ToolbarItemProps`
 
-继承了 [操作菜单的 ActionItemProps](/lib/components/action-menu/index.html#选项) 选项和 [按钮的 ButtonProps](/lib/components/button/js.html#选项) ，同时添加了其他选项 `btnType`，用来设置按钮 `type` 属性。
+**选项：**
 
+继承了操作菜单的 [ActionItemProps](/lib/components/action-menu/index.html#选项) 选项和按钮的  [ButtonProps](/lib/components/button/js.html#选项) ，同时添加了其他选项 `btnType`，用来设置按钮外观类型。
 
 ##### `btnType`
+
+设置工具栏单个按钮的外观类型。
 
 * 类型：`string`；
 * 必选：否。
 
 #### `ToolbarDropdownProps`
 
-在原有属性基础上固定 `type` 属性，并继承了 [下拉菜单的 DropdownButtonOptions](/lib/components/dropdown/index) 选项，同时添加了其他选项。
+**选项：**
+
+在原有属性基础上固定 `type` 属性，并继承了下拉菜单的 [DropdownButtonOptions](/lib/components/dropdown/index) 选项，同时添加了其他选项。
 
 ##### `type`
 
@@ -332,8 +317,9 @@ type ToolbarItemOptions = ToolbarItemProps | ToolbarDropdownProps | ToolbarBtnGr
 
 #### `ToolbarBtnGroupProps`
 
-在原有属性基础上固定 `type` 属性，并继承了 [操作菜单的 ActionBasicProps](/lib/components/action-menu/index.html#选项) 和[按钮组的 BtnGroupOptions](/lib/components/btn-group/js.html#选项)选项，同时添加了其他选项。
+**选项：**
 
+在原有属性基础上固定 `type` 属性，并继承了操作菜单的 [ActionBasicProps](/lib/components/action-menu/index.html#选项)  选项和按钮组的 [BtnGroupOptions](/lib/components/btn-group/js.html#选项)选项，同时添加了其他选项。
 
 ##### `type`
 
@@ -341,23 +327,33 @@ type ToolbarItemOptions = ToolbarItemProps | ToolbarDropdownProps | ToolbarBtnGr
 * 属性值：`btn-group`；
 * 必选：是。
 
-##### `btnType`
-
-按钮组的展示类型。
-
-* 类型：`string`；
-* 必选：否。
-
-
 #### `ToolbarDividerProps`
 
-继承了 [工具栏的 ActionDividerProps](/lib/components/action-menu/index.html#选项) 选项。
+**选项：**
 
+继承了工具栏的 [ActionDividerProps](/lib/components/action-menu/index.html#选项) 选项。
 
 #### `ToolbarSpaceProps`
 
-继承了 [工具栏的 ActionSpaceProps](/lib/components/action-menu/index.html#选项) 选项。
+**选项：**
 
+继承了工具栏的 [ActionSpaceProps](/lib/components/action-menu/index.html#选项) 选项。
+
+##### `type`
+
+* 类型：`string`；
+* 属性值：`space`；
+* 必选：是。
+
+##### `space`
+
+* 类型：`number | [leading: number, trailing: number]`；
+* 必选：否。
+
+##### `flex`
+
+* 类型：`number | 'auto' | 'none'`；
+* 必选：否。
 
 <script>
 export default {
@@ -459,21 +455,13 @@ export default {
             new zui.Toolbar('#spaceToolbar1', {
                 items: [
                     {icon: 'icon-ellipsis-v', hint: '菜单'},
-                    {type: 'space', flex: 1},
-                    {icon: 'icon-check-plus', hint: '添加'},
-                ],
-            });
-            new zui.Toolbar('#spaceToolbar2', {
-                items: [
-                    {icon: 'icon-ellipsis-v', hint: '菜单'},
-                    {type: 'space', flex: 1},
-                    {icon: 'icon-picture', hint: '图片'}, 
-                    {type: 'space', flex: 1},
+                    {type: 'space', space: 10},
                     {icon: 'icon-check-plus', hint: '添加'},
                 ],
             });
             
             new zui.Toolbar('#disabledToolbar', {
+                btnProps: {className: 'text-primary'},
                 items: [
                     {icon: 'icon-smile', hint: '表情'},
                     {icon: 'icon-picture', hint: '图片'}, 
