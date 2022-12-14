@@ -4,9 +4,6 @@
     "version": "0.0.1",
     "keywords": ["js", "zui:js-progress-circle"],
     "module": "src/main.ts",
-    "dependencies": {
-        "preact": "10.11.2"
-    },
     "files": [
         "./src/**/*"
     ],
@@ -14,7 +11,8 @@
       ".": "./src/main.ts"
     },
     "dependencies": {
-        "preact": "10.11.2"
+        "preact": "10.11.2",
+        "@zui/com-helpers": "workspace:*"
     },
     "zui": {
         "type": "control",
