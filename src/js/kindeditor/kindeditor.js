@@ -297,7 +297,7 @@
         ],
         fontSizeTable: ['9px', '10px', '12px', '14px', '16px', '18px', '24px', '32px'],
         htmlTags: {
-            font: ['id', 'class', 'color', 'size', 'face', '.background-color'],
+            font: ['id', 'class', 'color', 'size', 'face', '.background-color', '.color', '.font-size', '.font-family'],
             span: [
                 'id', 'class', '.color', '.background-color', '.font-size', '.font-family', '.background',
                 '.font-weight', '.font-style', '.text-decoration', '.vertical-align', '.line-height'
