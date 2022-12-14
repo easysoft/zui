@@ -3,8 +3,8 @@
 ## 静态展示
 
 ```html:example
-<div class="messagers-holder top col">
-    <!-- <div class="messager-default messager">
+<div data-placement="top" class="messagers-holder col">
+    <div class="messager-default messager">
         <div class="messager-content">
             普通提示消息1
         </div>
@@ -23,7 +23,7 @@
                 <i class="icon icon-times"></i>
             </button>
         </div>
-    </div> -->
+    </div>
 </div>
 ```
 ## 组件模式
@@ -36,7 +36,7 @@
 
 const messagerButton = document.getElementById("messagerTrigger");
 
-messagerButton.addEventLinstener('click', function() {
+messagerButton.addEventListener('click', function() {
     new Messager({'这是一个漂浮消息。'}).show();
 })
 

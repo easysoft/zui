@@ -3,38 +3,38 @@
     @apply -inset-0 -pointer-events-none -fixed -p-2 -flex -gap-2;
 }
 
-.messagers-holder.top {
+.messagers-holder[data-placement="top"] {
     @apply -justify-start -items-center;
 }
 
-.messagers-holder.center {
+.messagers-holder[data-placement="center"]  {
     @apply -justify-center -items-center;
 }
 
-.messagers-holder.bottom {
+.messagers-holder[data-placement="bottom"]  {
     @apply -justify-end -items-center;
 }
 
-.messagers-holder.left-top {
+.messagers-holder[data-placement="left-top"]  {
     @apply -justify-start -items-start;
 }
 
-.messagers-holder.left {
+.messagers-holder[data-placement="left"]  {
     @apply -justify-center -items-start;
 }
 
-.messagers-holder.left-bottom {
+.messagers-holder[data-placement="left-bottom"]  {
     @apply -justify-end -items-start;
 }
 
-.messagers-holder.right-top {
+.messagers-holder[data-placement="right-top"]  {
     @apply -justify-start -items-end;
 }
 
-.messagers-holder.right {
+.messagers-holder[data-placement="right"]  {
     @apply -justify-center -items-end;
 }
 
-.messagers-holder.right-bottom {
+.messagers-holder[data-placement="right-bottom"]  {
     @apply -justify-end -items-end;
 }
