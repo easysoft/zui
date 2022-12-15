@@ -1,10 +1,10 @@
 # 漂浮消息生成器
 
-通过 JS 动态创建一个漂浮消息
+通过 JS 动态创建一个漂浮消息。
 
 ## 示例
 
-通过构造一个 `messager` 实例，页面上创建一个漂浮消息
+通过构造一个 `messager` 实例，页面上创建一个漂浮消息。
 
 <example>
 <button id="messagerTrigger">显示漂浮消息</button>
@@ -45,7 +45,7 @@ new Messager({
 
 ## 颜色主题
 
-提供 多种预设颜色主题 详见 颜色
+提供 多种预设颜色主题 详见 颜色。
 
 <example>
     <div class="w-40 py-2">
@@ -133,7 +133,7 @@ new Messager({
 
 #### `time`
 
-漂浮消息持续时间
+漂浮消息持续时间。
 
 * 类型：`number`;
 * 必选：否。
@@ -141,14 +141,14 @@ new Messager({
 
 #### `message`
 
-漂浮消息内容
+漂浮消息内容。
 
 * 类型：`string`;
 * 必选：否。
 
 #### `parent`
 
-漂浮消息父节点
+漂浮消息父节点。
 
 * 类型：`HTMLElement`;
 * 必选：否。
@@ -156,14 +156,14 @@ new Messager({
 
 #### `icon`
 
-图标内容
+图标内容。
 
 * 类型：`string`;
 * 必选：否。
 
 #### `close`
 
-是否展示关闭按钮
+是否展示关闭按钮。
 
 * 类型：`boolean`;
 * 必选：否。
@@ -171,7 +171,7 @@ new Messager({
 
 #### `show`
 
-是否在初次渲染时展示消息
+是否在初次渲染时展示消息。
 
 * 类型：`boolean`;
 * 必选：否。
@@ -187,14 +187,14 @@ new Messager({
 
 #### `scale`
 
-是否显示和隐藏消息时使用缩放的动画效果
+是否显示和隐藏消息时使用缩放的动画效果。
 
 * 类型：`boolean`;
 * 必选：否。
 * 默认值：false。
 
 actions
-漂浮消息按钮组配置项，详细配置可参考 [按钮组](/lib/components/btn-group/index.html)
+漂浮消息按钮组配置项，详细配置可参考 [按钮组](/lib/components/btn-group/index.html)。
 
 onAction
 
