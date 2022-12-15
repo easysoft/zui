@@ -2,15 +2,15 @@
 
 ## 静态展示
 
-```html:example: flex gap-3
-<div class="modal-dialog shadow" style="margin-top:50px;">
+```html:example:flex gap-3 items-center justify-center p-8
+<div class="modal-dialog">
   <div class="modal-content">
     <div class="modal-header">
       <div class="modal-title">标题</div>
-      <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
+      <button type="button" class="btn square ghost" data-dismiss="modal"><span class="close"></span></button>
     </div>
     <div class="modal-body">
-      <p>这是内容</p>
+      HTML5是HTML最新的修订版本，2014年10月由万维网联盟（W3C）完成标准制定。目标是替换1999年所制定的HTML 4.01和XHTML 1.0标准，以期能在互联网应用迅速发展的时候，使网络标准达到匹配当代的网络需求。广义论及HTML5时，实际指的是包括HTML、CSS和JavaScript在内的一套技术组合。它希望能够减少网页浏览器对于需要插件的丰富性网络应用服务（Plug-in-Based Rich Internet Application，RIA），例如：AdobeFlash、Microsoft Silverlight与Oracle JavaFX的需求，并且提供更多能有效加强网络应用的标准集。
     </div>
     <div class="modal-footer">
       <button type="button" class="btn" data-dismiss="modal">关闭</button>

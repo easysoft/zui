@@ -1,2 +1,6 @@
 @import './vars.css';
 @import './modal.css';
+@import './modal-dialog.css';
+@import './modal-header.css';
+@import './modal-body.css';
+@import './modal-footer.css';

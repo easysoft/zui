@@ -1,0 +1,8 @@
+@import '@zui/css-icons/src/icons/close.css';
+
+.modal-header {
+    @apply -relative -px-4 -py-3 -flex -items-center -flex-nowrap -flex-none -gap-4;
+}
+.modal-title {
+    @apply -font-bold -text-lg -flex-auto;
+}

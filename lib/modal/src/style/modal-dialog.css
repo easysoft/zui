@@ -1,0 +1,5 @@
+.modal-dialog {
+  @apply -relative -bg-canvas -shadow-2xl -border -max-h-screen -flex -flex-col;
+  width: var(--modal-base);
+  border-radius: var(--modal-radius);
+}

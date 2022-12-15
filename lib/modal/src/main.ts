@@ -1,2 +1,2 @@
 import './style/index.css';
-import './component/modal';
+import './vanilla';

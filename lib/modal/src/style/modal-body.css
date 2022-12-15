@@ -1,0 +1,3 @@
+.modal-body {
+  @apply -flex-auto -px-4 -py-3 -scroll-auto;
+}

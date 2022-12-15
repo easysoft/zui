@@ -1,0 +1,3 @@
+.modal-footer {
+    @apply -flex-none -p-4 -flex -items-center -gap-3;
+  }

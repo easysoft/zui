@@ -3,11 +3,11 @@
   background-color: var(--modal-bg-color);
   z-index: var(--modal-z-index);
 }
+/*
 .modal-dialog {
   @apply -relative -mx-auto -bg-clip-padding -bg-white --translate-x-0 --translate-y-1/4;
   width: var(--modal-base);
   border-radius: var(--modal-radius);
-  pointer-events: initial;
 }
 
 .modal > .modal-dialog {
@@ -88,4 +88,4 @@
     transform: translate3d(0, -1.25rem, 0);
     @apply -opacity-0;
   }
-}
+} */
