@@ -1,5 +1,8 @@
 .modal-dialog {
-  @apply -relative -bg-canvas -shadow-2xl -border -max-h-screen -flex -flex-col;
+  @apply -relative -bg-canvas -shadow-2xl -border -max-h-screen;
   width: var(--modal-base);
   border-radius: var(--modal-radius);
+}
+.modal-content {
+  @apply -flex -flex-col -h-full -max-h-screen;
 }
