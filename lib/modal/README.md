@@ -7,6 +7,8 @@
   <div class="modal-content">
     <div class="modal-header">
       <div class="modal-title">标题</div>
+    </div>
+    <div class="modal-actions">
       <button type="button" class="btn square ghost" data-dismiss="modal"><span class="close"></span></button>
     </div>
     <div class="modal-body">
