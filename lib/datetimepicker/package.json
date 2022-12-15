@@ -1,0 +1,37 @@
+{
+    "name": "@zui/datetimepicker",
+    "version": "0.0.1",
+    "main": "src/main.ts",
+    "browser": "src/main.ts",
+    "browserslist": "",
+    "keywords": ["css", "zui:component"],
+    "files": [
+        "./src/**/*"
+    ],
+    "exports": {
+        ".": "./src/main.ts"
+    },
+    "devDependencies": {
+        "zui-dev": "workspace:*",
+        "@zui/base": "workspace:*",
+        "@zui/utilities": "workspace:*",
+        "@zui/form": "workspace:0.0.1",
+        "@zui/input": "workspace:0.0.1"
+    },
+    "dependencies": {
+        "preact": "10.11.2",
+        "dayjs": "^1.11.6",
+        "@popperjs/core": "^2.11.6",
+        "@zui/icons": "workspace:^0.0.1",
+        "@zui/browser-helpers": "workspace:*",
+        "@zui/com-helpers": "workspace:*",
+        "@zui/css-icons": "workspace:^0.0.1"
+    },
+    "zui": {
+        "type": "component",
+        "displayName": "日期选择",
+        "contributes": {
+            "css": ["class", "var"]
+        }
+    }
+}
