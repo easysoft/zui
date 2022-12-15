@@ -223,9 +223,9 @@ export class Datetimepicker extends ComponentBase<DatetimepickerOptions> {
 
 document.addEventListener('click', function (event) {
     const element = event.target as HTMLElement;
-    console.log(element);
     const toggleBtn = element.closest<HTMLElement>(Datetimepicker.MENU_SELECTOR);
-    const tdElement = element.closest<HTMLElement>('.calendar-bar, .calendar-table-head, calendar-month-table');
+    const tdElement = element.closest<HTMLElement>('.calendar-bar, .calendar-table-head, .calendar-month-table');
+
     if (toggleBtn) {
         const datetimepicker = Datetimepicker.ensure(toggleBtn);
         datetimepicker.toggle();

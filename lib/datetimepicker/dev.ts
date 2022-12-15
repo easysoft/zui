@@ -30,4 +30,21 @@ onPageUpdate(() => {
             datePicker4.querySelector('.form-control').value = newDate;
         },
     });
+    const datePicker5 = document.getElementById('datePicker5');
+    new Datetimepicker('#datePicker5', {
+        date: '2022-12-12',
+        minYear: 2020,
+        maxYear: 2023,
+        onChange: (newDate) => {
+            datePicker5.querySelector('.form-control').value = newDate;
+        },
+    });
+    const datePicker6 = document.getElementById('datePicker6');
+    new Datetimepicker('#datePicker6', {
+        date: '2022-12-12',
+        tagDate: ['2022-12-24', '2022-12-25'],
+        onChange: (newDate) => {
+            datePicker6.querySelector('.form-control').value = newDate;
+        },
+    });
 });

@@ -1,5 +1,5 @@
 .datetimepicker {
-  @apply -opacity-0 -bg-canvas -p-2 -rounded -border -shadow;
+  @apply -opacity-0 -bg-canvas -p-2 -rounded -border -shadow -z-30;
 }
 .datetimepicker.fade {
   @apply -opacity-0 -transition-opacity	-ease-linear -delay-150;
@@ -31,4 +31,7 @@
 }
 .calendar-other-month > .btn {
   @apply -text-gray-400;
+}
+.calendar-tag > .btn {
+  @apply -text-important-500;
 }
