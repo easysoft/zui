@@ -479,14 +479,15 @@ export default [
             "zui:js-progress-circle"
         ],
         "module": "src/main.ts",
-        "dependencies": {
-            "preact": "10.11.2"
-        },
         "files": [
             "./src/**/*"
         ],
         "exports": {
             ".": "./src/main.ts"
+        },
+        "dependencies": {
+            "preact": "10.11.2",
+            "@zui/com-helpers": "workspace:*"
         },
         "zui": {
             "type": "control",
@@ -945,8 +946,14 @@ export default [
             "css",
             "zui:control"
         ],
-        "devDependencies": {
+        "dependencies": {
+            "@zui/button": "workspace:^0.0.1",
+            "@zui/com-helpers": "workspace:^0.0.1",
+            "@zui/css-icons": "workspace:^0.0.1",
             "@zui/base": "workspace:*",
+            "preact": "10.11.2"
+        },
+        "devDependencies": {
             "@zui/button": "workspace:0.0.1",
             "@zui/utilities": "workspace:*"
         },
