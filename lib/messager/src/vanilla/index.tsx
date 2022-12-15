@@ -1,4 +1,4 @@
-import {render, h} from 'preact';
+import {render} from 'preact';
 import {MessagerOptions} from '../types/messager-options';
 import {MessagersHolderProps} from '../types/messagers-holder-props';
 import {MessagerProps} from '../types';
