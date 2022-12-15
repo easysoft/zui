@@ -1,7 +1,7 @@
 import '@zui/btn-group';
 import '@zui/icons';
 import './src/main';
-import Messager from './src/vanilla';
+import {Messager} from './src/vanilla';
 import 'zui-dev';
 
 onPageLoad(() => {
