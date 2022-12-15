@@ -119,14 +119,14 @@ new zui.Avatar('#menu', options: AvatarOptions);
 
 类名。
 
-* 类型：`string | object | array`
+* 类型：`'string' | 'object' | 'array'`
 * 必选：否
 
 ### `size`
 
 大小。
 
-* 类型：`'xs' | 'sm' | 'lg' | 'xl' | number`
+* 类型：`'xs' | 'sm' | 'lg' | 'xl' | 'number'`
 * 必选：否
 
 ### `circle`
@@ -140,7 +140,7 @@ new zui.Avatar('#menu', options: AvatarOptions);
 
 头像圆角。
 
-* 类型：`boolean | 'sm' | 'md' | 'lg' | number`
+* 类型：`'boolean' | 'sm' | 'md' | 'lg' | 'number'`
 * 必选：否
 
 ### `background`
