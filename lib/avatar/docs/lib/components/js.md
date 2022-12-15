@@ -90,9 +90,7 @@ export default {
 
  ```js
  avatar.render({
-     options: {
          // ... 新的头像参数
-     },
  });
  ```
 
@@ -133,42 +131,42 @@ new zui.Avatar('#menu', options: AvatarOptions);
 
 ### `circle`
 
-是否为圆形
+是否为圆形。
 
 * 类型：`boolean`
 * 必选： 否
 
 ### `rounded`
 
-头像圆角
+头像圆角。
 
 * 类型：`boolean | 'sm' | 'md' | 'lg' | number`
 * 必选：否
 
 ### `background`
 
-背景颜色
+背景颜色。
 
 * 类型：`string`
 * 必选：否
 
 ### `foreColor`
 
-字体颜色
+字体颜色。
 
 * 类型：`string`
 * 必选： 否
 
 ### `text`
 
-字体头像内容
+字体头像内容。
 
 * 类型：`string`
 * 必选：否
 
 ### `src`
 
-文件头像路径
+文件头像路径。
 
 * 类型：`string`
 * 必选：否
