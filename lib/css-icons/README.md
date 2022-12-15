@@ -21,6 +21,14 @@
 
 ## 箭头
 
-```html:example
+```html:example:relative
 <span class="arrow bg-primary"></span>
+```
+
+## 关闭
+
+```html:example:flex items-center gap-2
+<span class="close"></span>
+<span class="close text-lg"></span>
+<span class="close text-lg text-primary"></span>
 ```

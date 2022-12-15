@@ -1,0 +1,13 @@
+.close {
+  @apply -relative -block -aspect-square;
+  width: var(--close-size, 1em);
+}
+.close::after,
+.close::before {
+  content: "";
+  @apply -block -absolute -w-full -h-px -bg-current -rotate-45 -rounded-full -left-0;
+  top: calc((100% - 1px) / 2);
+}
+.close::after {
+  @apply --rotate-45;
+}
