@@ -2,8 +2,8 @@ import {classes} from '@zui/browser-helpers/src/classes';
 import {Component} from 'preact';
 import {MessagersHolderProps} from '../types/messagers-holder-props';
 
-export default class MessagersHolder extends Component<MessagersHolderProps> {
-
+export class MessagersHolder extends Component<MessagersHolderProps> {
+    
     // static Name = 'zui.messagers-holder';
 
     render() {

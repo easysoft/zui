@@ -3,7 +3,7 @@ import MessagerActions from './messager-actions';
 import {MessagerProps} from '../types';
 import {classes} from '@zui/browser-helpers/src/classes';
 
-export default class MessagerItem extends Component<MessagerProps> { 
+export class MessagerItem extends Component<MessagerProps> { 
     // static Name = 'zui.messager-item';
 
     render() {
