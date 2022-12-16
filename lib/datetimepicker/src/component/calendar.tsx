@@ -3,6 +3,7 @@ import {classes} from '@zui/browser-helpers/src/classes';
 import {DatetimepickerProps, CalendardataProps} from '../types';
 import '@zui/icons';
 import dayjs, {Dayjs} from 'dayjs';
+import '@zui/css-icons/src/icons/caret.css';
 
 interface CalendarListProps {
     [index: number]: Array<CalendardataProps>
@@ -144,48 +145,55 @@ export class Calendar extends Component<DatetimepickerProps> {
     }
 
     renderDayPanel() {
-        const {className} = this.props;
+        const {showToday} = this.props;
         const weeks = ['一', '二', '三', '四', '五', '六', '日'];
         const calendarTable: CalendarListProps = this.renderCurrentMonthDays();
         return (
-            <div className={classes('calendar-day', className)}>
+            <div className={classes('calendar-day')}>
                 <div className="calendar-bar">
                     <div class="flex">
-                        <button type="button" className="btn ghost" onClick={() => {
+                        <button type="button" className="btn ghost" onClick={() => this.handleChangePanel('year')}>
+                            <span>{dayjs(this.state.selectedDate).format('YYYY 年')}</span>
+                            <span class="caret"></span>
+                        </button>
+                        <button type="button" className="btn ghost" onClick={() => this.handleChangePanel('month')}>
+                            <span>{dayjs(this.state.selectedDate).format('MM 月')}</span>
+                            <span class="caret"></span>
+                        </button>
+                    </div>
+                    
+                    <div class="flex">
+                        {
+                            showToday && <button type="button" className="btn ghost" onClick={() => {
+                                this.handleChange(dayjs().format(this.props.format));
+                            }}>
+                                今天
+                            </button>
+                        }
+                        {/* <button type="button" className="btn ghost" onClick={() => {
                             const prevYear = dayjs(this.state.selectedDate).subtract(1, 'year').startOf('year').format(this.props.format);
                             this.handleChange(prevYear);
                         }}>
                             <i className="icon icon-double-angle-left" />
-                        </button>
+                        </button> */}
                         <button type="button" className="btn ghost" onClick={() => {
                             const prevMonth = this.subtractMonth(this.state.selectedDate || dayjs().format(this.props.format));
                             this.handleChange(prevMonth);
                         }}>
                             <i className="icon icon-angle-left" />
                         </button>
-                    </div>
-                    <div class="flex">
-                        <button type="button" className="btn ghost" onClick={() => this.handleChangePanel('year')}>
-                            {dayjs(this.state.selectedDate).format('YYYY 年')}
-                        </button>
-                        <button type="button" className="btn ghost" onClick={() => this.handleChangePanel('month')}>
-                            {dayjs(this.state.selectedDate).format('MM 月')}
-                        </button>
-                    </div>
-                    
-                    <div class="flex">
                         <button type="button" className="btn ghost" onClick={() => {
                             const nextMonth = this.addMonth(this.state.selectedDate || dayjs().format(this.props.format));
                             this.handleChange(nextMonth);
                         }}>
                             <i className="icon icon-angle-right" />
                         </button>
-                        <button type="button" className="btn ghost" onClick={() => {
+                        {/* <button type="button" className="btn ghost" onClick={() => {
                             const nextYear = dayjs(this.state.selectedDate).add(1, 'year').startOf('year').format(this.props.format);
                             this.handleChange(nextYear);
                         }}>
                             <i className="icon icon-double-angle-right" />
-                        </button>
+                        </button> */}
                     </div>
                 </div>
                 <table className="calendar-table">
@@ -271,7 +279,7 @@ export class Calendar extends Component<DatetimepickerProps> {
 
     renderYearPanel() {
         const currentYear = dayjs(this.state.selectedDate).year();
-        const years = this.createGroups(this.generateArrayNumber(currentYear, currentYear + 11), 3);
+        const years = this.createGroups(this.generateArrayNumber(currentYear, currentYear + 11), 4);
         return (
             <div className={classes('calendar-year', 'hidden')}>
                 <div className="calendar-bar">
@@ -314,8 +322,9 @@ export class Calendar extends Component<DatetimepickerProps> {
     }
 
     render() {
+        const {className} = this.props;
         return (
-            <div className={classes('datetimepicker-calendar')} ref={this.ref}>
+            <div className={classes('datetimepicker-calendar', className)} ref={this.ref}>
                 {this.renderDayPanel()}
                 {this.renderMonthPanel()}
                 {this.renderYearPanel()}

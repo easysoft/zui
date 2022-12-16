@@ -1,11 +1,14 @@
 .datetimepicker {
-  @apply -opacity-0 -bg-canvas -p-2 -rounded -border -shadow -z-30;
+  @apply -opacity-0 -bg-canvas -p-2 -rounded -border -shadow -z-30 -w-56;
 }
 .datetimepicker.fade {
   @apply -opacity-0 -transition-opacity	-ease-linear -delay-150;
 }
 .datetimepicker.show {
   @apply -opacity-100;
+}
+.datetimepicker-calendar table {
+  @apply -w-full;
 }
 .calendar-bar {
   @apply -w-full -flex -justify-between -items-center -pb-1 -mb-1 -border-b -border-solid	-border-gray-200;

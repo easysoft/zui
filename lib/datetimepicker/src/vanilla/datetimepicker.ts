@@ -31,6 +31,7 @@ export class Datetimepicker extends ComponentBase<DatetimepickerOptions> {
         placement: 'bottom-start',
         strategy: 'absolute',
         trigger: 'click',
+        showToday: true,
         arrow: true,
     } as Partial<DatetimepickerOptions>;
 
@@ -157,7 +158,7 @@ export class Datetimepicker extends ComponentBase<DatetimepickerOptions> {
                     },
                 },
             ].filter(Boolean),
-            placement: 'bottom-start',
+            placement: this.options.placement,
             strategy: 'absolute',
         } as PopperOptions;
     }
