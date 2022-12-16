@@ -1004,6 +1004,7 @@ export default [
             "preact": "10.11.2"
         },
         "devDependencies": {
+            "zui-dev": "workspace:*",
             "@zui/button": "workspace:0.0.1",
             "@zui/utilities": "workspace:*"
         },
