@@ -5,3 +5,6 @@
 .modal.show {
   @apply -flex -items-center -justify-center;
 }
+.modal-no-backdrop {
+  @apply -bg-transparent -pointer-events-none;
+}

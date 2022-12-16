@@ -44,6 +44,7 @@ export class Modal extends ComponentBase<ModalOptions, ModalEvents, HTMLElement>
         }
 
         this.element.classList.toggle('modal-trans', !!this.options.animation);
+        this.element.classList.toggle('modal-no-backdrop', !this.options.backdrop);
         this.element.classList.add(Modal.CLASS_SHOW);
         this.element.style.zIndex = `${Modal.zIndex++}`;
         this.emit('show', this);
