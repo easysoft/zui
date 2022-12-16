@@ -1,9 +1,9 @@
 .modal {
-  @apply -hidden -overflow-hidden -fixed -inset-0;
+  @apply -hidden -overflow-hidden -fixed -inset-0 -items-center -justify-center;
   background: var(--modal-bg);
 }
 .modal.show {
-  @apply -flex -items-center -justify-center;
+  @apply -flex;
 }
 .modal-no-backdrop {
   @apply -bg-transparent -pointer-events-none;

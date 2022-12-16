@@ -11,4 +11,5 @@ export interface ModalOptions {
     moveable?: boolean;
     animation?: boolean;
     transTime?: number;
+    responsive?: boolean;
 }

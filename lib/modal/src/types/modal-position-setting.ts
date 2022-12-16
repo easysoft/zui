@@ -1,4 +1,4 @@
-export type ModalPosition = number | {left: number, top: number};
+export type ModalPosition = number | {left: number, top: number, width: number, height: number};
 
 export type ModalPositionPreset = 'fit' | 'center' | 'bottom' | 'top';
 

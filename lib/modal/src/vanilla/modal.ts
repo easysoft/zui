@@ -1,5 +1,7 @@
+import type {JSX} from 'preact';
 import {ComponentBase} from '@zui/com-helpers/src/helpers/vanilla-component';
-import type {ModalOptions, ModalEvents} from '../types';
+import {setClass, setStyle} from '@zui/com-helpers/src/helpers/element-helper';
+import type {ModalOptions, ModalEvents, ModalPositionSetting} from '../types';
 
 export class Modal extends ComponentBase<ModalOptions, ModalEvents, HTMLElement> {
     static NAME = 'modal';
@@ -12,6 +14,7 @@ export class Modal extends ComponentBase<ModalOptions, ModalEvents, HTMLElement>
         keyboard: true,
         animation: true,
         backdrop: true,
+        responsive: true,
         transTime: 300,
     } as Partial<ModalOptions>;
 
@@ -19,23 +22,45 @@ export class Modal extends ComponentBase<ModalOptions, ModalEvents, HTMLElement>
 
     static CLASS_SHOWN = 'in';
 
-    static TOGGLE_SELECTOR = '[data-toggle="modal"]';
-
     static DISMISS_SELECTOR = '[data-dismiss="modal"]';
 
     static zIndex = 2000;
 
     #transitionTimer = 0;
 
+    _rob?: ResizeObserver;
+
     get isShown() {
         return this.element.classList.contains(Modal.CLASS_SHOW);
     }
 
+    get dialog(): HTMLElement | null {
+        return this.element.querySelector('.modal-dialog');
+    }
+
     init() {
-        this.on('click', this._handleClick.bind(this));
+        this.on('click', this._handleClick);
+
+        if (this.options.responsive) {
+            if (typeof ResizeObserver !== 'undefined') {
+                const {dialog} = this;
+                if (dialog) {
+                    const rob = new ResizeObserver(this.adjustPosition.bind(this, undefined));
+                    rob.observe(dialog);
+                    console.log('>>', this);
+                    this._rob = rob;
+                }
+            }
+        }
+
         if (this.options.show) {
             requestAnimationFrame(() => this.show());
         }
+    }
+
+    destroy(): void {
+        super.destroy();
+        this._rob?.disconnect();
     }
 
     show() {
@@ -43,10 +68,14 @@ export class Modal extends ComponentBase<ModalOptions, ModalEvents, HTMLElement>
             return;
         }
 
-        this.element.classList.toggle('modal-trans', !!this.options.animation);
-        this.element.classList.toggle('modal-no-backdrop', !this.options.backdrop);
-        this.element.classList.add(Modal.CLASS_SHOW);
+        const {animation, backdrop} = this.options;
+        setClass(this.element, [{
+            'modal-trans': animation,
+            'modal-no-backdrop': !backdrop,
+        }, Modal.CLASS_SHOW]);
         this.element.style.zIndex = `${Modal.zIndex++}`;
+
+        this.adjustPosition();
         this.emit('show', this);
 
         this.#resetTransitionTimer(() => {
@@ -71,6 +100,47 @@ export class Modal extends ComponentBase<ModalOptions, ModalEvents, HTMLElement>
         });
     }
 
+    adjustPosition(position?: ModalPositionSetting) {
+        position = position || this.options.position || 'fit';
+
+        const {dialog} = this;
+        if (!dialog) {
+            return;
+        }
+        const {width, height} = dialog.getBoundingClientRect();
+        if (typeof position === 'function') {
+            position = position({width, height});
+        }
+
+        const style: JSX.CSSProperties = {
+            top: null,
+            left: null,
+            bottom: null,
+            right: null,
+            width: null,
+            height: null,
+            alignSelf: 'center',
+        };
+
+        if (typeof position === 'number') {
+            style.alignSelf = 'flex-start';
+            style.top = position;
+        } else if (typeof position === 'object' && position) {
+            style.alignSelf = 'flex-start';
+            Object.assign(style, position);
+        } else if (position === 'fit') {
+            style.alignSelf = 'flex-start';
+            style.top = `${Math.max(0, Math.floor((window.innerHeight - height) / 3))}px`;
+        } else if (position === 'bottom') {
+            style.alignSelf = 'flex-end';
+        } else if (position === 'top') {
+            style.alignSelf = 'flex-start';
+        }
+
+        setStyle(dialog, style);
+        setStyle(this.element, 'justifyContent', style.left ? 'flex-start' : 'center');
+    }
+
     _handleClick(event: MouseEvent) {
         const target = event.target as HTMLElement;
         if (target.closest(Modal.DISMISS_SELECTOR) || (this.options.backdrop === true && !target.closest('.modal-dialog') && target.closest('.modal'))) {
@@ -93,3 +163,13 @@ export class Modal extends ComponentBase<ModalOptions, ModalEvents, HTMLElement>
         }
     }
 }
+
+
+window.addEventListener('resize', () => {
+    Modal.all.forEach((modal) => {
+        const m = (modal as Modal);
+        if (m.isShown && m.options.responsive) {
+            m.adjustPosition();
+        }
+    });
+});
