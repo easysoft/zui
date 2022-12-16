@@ -39,7 +39,7 @@ export class Modal extends ComponentBase<ModalOptions, ModalEvents, HTMLElement>
     }
 
     init() {
-        this.on('click', this._handleClick);
+        this.on('click', this._handleClick.bind(this));
 
         if (this.options.responsive) {
             if (typeof ResizeObserver !== 'undefined') {
