@@ -1,0 +1,14 @@
+.modal-trans {
+    @apply -opacity-0 -duration-200 -transition-opacity;
+}
+.modal-trans.in {
+    @apply -opacity-100;
+}
+
+.modal-trans > .modal-dialog {
+  transition-property: transform, opacity;
+  @apply -opacity-0 -scale-95 -duration-300;
+}
+.modal-trans.in > .modal-dialog {
+  @apply -opacity-100 -scale-100;
+}
