@@ -1,7 +1,7 @@
 :root {
   --modal-radius: var(--radius);
   --modal-inner-padding: 1.25rem;
-  --modal-bg-color: rgba(0, 0, 0,.5);
+  --modal-bg: rgba(0, 0, 0,.5);
   --modal-border-color: var(--color-gray-300);
   --modal-sm: 18.75rem;
   --modal-base: 37.5rem;

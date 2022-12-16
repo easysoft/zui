@@ -510,6 +510,7 @@ importers:
       '@zui/css-icons': workspace:^0.0.1
       '@zui/utilities': workspace:*
       preact: 10.11.2
+      zui-dev: workspace:*
     dependencies:
       '@zui/base': link:../base
       '@zui/button': link:../button
@@ -518,6 +519,7 @@ importers:
       preact: registry.npmmirror.com/preact/10.11.2
     devDependencies:
       '@zui/utilities': link:../utilities
+      zui-dev: link:../../dev
 
   lib/nav:
     specifiers:
