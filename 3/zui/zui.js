@@ -3454,20 +3454,20 @@ var md = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
       }, D.valueOf = function() {
         return this.$d.getTime();
       }, D.startOf = function(O, T) {
-        var M = this, j = !!C.u(T) || T, R = C.p(O), U = function(q, Z) {
-          var ae = C.w(M.$u ? Date.UTC(M.$y, Z, q) : new Date(M.$y, Z, q), M);
+        var M = this, j = !!C.u(T) || T, R = C.p(O), U = function(q, J) {
+          var ae = C.w(M.$u ? Date.UTC(M.$y, J, q) : new Date(M.$y, J, q), M);
           return j ? ae : ae.endOf(p);
-        }, G = function(q, Z) {
-          return C.w(M.toDate()[q].apply(M.toDate("s"), (j ? [0, 0, 0, 0] : [23, 59, 59, 999]).slice(Z)), M);
-        }, z = this.$W, J = this.$M, Q = this.$D, P = "set" + (this.$u ? "UTC" : "");
+        }, G = function(q, J) {
+          return C.w(M.toDate()[q].apply(M.toDate("s"), (j ? [0, 0, 0, 0] : [23, 59, 59, 999]).slice(J)), M);
+        }, z = this.$W, K = this.$M, Q = this.$D, P = "set" + (this.$u ? "UTC" : "");
         switch (R) {
           case l:
             return j ? U(1, 0) : U(31, 11);
           case d:
-            return j ? U(1, J) : U(0, J + 1);
+            return j ? U(1, K) : U(0, K + 1);
           case i:
             var Y = this.$locale().weekStart || 0, X = (z < Y ? z + 7 : z) - Y;
-            return U(j ? Q - X : Q + (6 - X), J);
+            return U(j ? Q - X : Q + (6 - X), K);
           case p:
           case _:
             return G(P + "Hours", 0);
@@ -3497,9 +3497,9 @@ var md = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
       }, D.add = function(O, T) {
         var M, j = this;
         O = Number(O);
-        var R = C.p(T), U = function(J) {
+        var R = C.p(T), U = function(K) {
           var Q = x(j);
-          return C.w(Q.date(Q.date() + Math.round(J * O)), j);
+          return C.w(Q.date(Q.date() + Math.round(K * O)), j);
         };
         if (R === d)
           return this.set(d, this.$M + O);
@@ -3517,22 +3517,22 @@ var md = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
         var T = this, M = this.$locale();
         if (!this.isValid())
           return M.invalidDate || g;
-        var j = O || "YYYY-MM-DDTHH:mm:ssZ", R = C.z(this), U = this.$H, G = this.$m, z = this.$M, J = M.weekdays, Q = M.months, P = function(Z, ae, se, be) {
-          return Z && (Z[ae] || Z(T, j)) || se[ae].slice(0, be);
-        }, Y = function(Z) {
-          return C.s(U % 12 || 12, Z, "0");
-        }, X = M.meridiem || function(Z, ae, se) {
-          var be = Z < 12 ? "AM" : "PM";
+        var j = O || "YYYY-MM-DDTHH:mm:ssZ", R = C.z(this), U = this.$H, G = this.$m, z = this.$M, K = M.weekdays, Q = M.months, P = function(J, ae, se, be) {
+          return J && (J[ae] || J(T, j)) || se[ae].slice(0, be);
+        }, Y = function(J) {
+          return C.s(U % 12 || 12, J, "0");
+        }, X = M.meridiem || function(J, ae, se) {
+          var be = J < 12 ? "AM" : "PM";
           return se ? be.toLowerCase() : be;
-        }, q = { YY: String(this.$y).slice(-2), YYYY: this.$y, M: z + 1, MM: C.s(z + 1, 2, "0"), MMM: P(M.monthsShort, z, Q, 3), MMMM: P(Q, z), D: this.$D, DD: C.s(this.$D, 2, "0"), d: String(this.$W), dd: P(M.weekdaysMin, this.$W, J, 2), ddd: P(M.weekdaysShort, this.$W, J, 3), dddd: J[this.$W], H: String(U), HH: C.s(U, 2, "0"), h: Y(1), hh: Y(2), a: X(U, G, !0), A: X(U, G, !1), m: String(G), mm: C.s(G, 2, "0"), s: String(this.$s), ss: C.s(this.$s, 2, "0"), SSS: C.s(this.$ms, 3, "0"), Z: R };
-        return j.replace(v, function(Z, ae) {
-          return ae || q[Z] || R.replace(":", "");
+        }, q = { YY: String(this.$y).slice(-2), YYYY: this.$y, M: z + 1, MM: C.s(z + 1, 2, "0"), MMM: P(M.monthsShort, z, Q, 3), MMMM: P(Q, z), D: this.$D, DD: C.s(this.$D, 2, "0"), d: String(this.$W), dd: P(M.weekdaysMin, this.$W, K, 2), ddd: P(M.weekdaysShort, this.$W, K, 3), dddd: K[this.$W], H: String(U), HH: C.s(U, 2, "0"), h: Y(1), hh: Y(2), a: X(U, G, !0), A: X(U, G, !1), m: String(G), mm: C.s(G, 2, "0"), s: String(this.$s), ss: C.s(this.$s, 2, "0"), SSS: C.s(this.$ms, 3, "0"), Z: R };
+        return j.replace(v, function(J, ae) {
+          return ae || q[J] || R.replace(":", "");
         });
       }, D.utcOffset = function() {
         return 15 * -Math.round(this.$d.getTimezoneOffset() / 15);
       }, D.diff = function(O, T, M) {
-        var j, R = C.p(T), U = x(O), G = (U.utcOffset() - this.utcOffset()) * r, z = this - U, J = C.m(this, U);
-        return J = (j = {}, j[l] = J / 12, j[d] = J, j[u] = J / 3, j[i] = (z - G) / 6048e5, j[p] = (z - G) / 864e5, j[f] = z / s, j[c] = z / r, j[a] = z / n, j)[R] || z, M ? J : C.a(J);
+        var j, R = C.p(T), U = x(O), G = (U.utcOffset() - this.utcOffset()) * r, z = this - U, K = C.m(this, U);
+        return K = (j = {}, j[l] = K / 12, j[d] = K, j[u] = K / 3, j[i] = (z - G) / 6048e5, j[p] = (z - G) / 864e5, j[f] = z / s, j[c] = z / r, j[a] = z / n, j)[R] || z, M ? K : C.a(K);
       }, D.daysInMonth = function() {
         return this.endOf(d).$D;
       }, D.$locale = function() {
@@ -3565,7 +3565,7 @@ var md = typeof globalThis < "u" ? globalThis : typeof window < "u" ? window : t
     }, x.en = $[S], x.Ls = $, x.p = {}, x;
   });
 })(tu);
-const K = tu.exports;
+const Z = tu.exports;
 class gd extends hr {
   constructor() {
     super(...arguments);
@@ -3576,10 +3576,10 @@ class gd extends hr {
     });
   }
   addMonth(n) {
-    return K(n).isValid() ? K(n).add(1, "months").format(this.props.format) : "";
+    return Z(n).isValid() ? Z(n).add(1, "months").format(this.props.format) : "";
   }
   subtractMonth(n) {
-    return K(n).isValid() ? K(n).subtract(1, "months").format(this.props.format) : "";
+    return Z(n).isValid() ? Z(n).subtract(1, "months").format(this.props.format) : "";
   }
   handleChange(n) {
     this.setState({ selectedDate: n }), this.props.onChange(n);
@@ -3600,9 +3600,9 @@ class gd extends hr {
   }
   renderMonthDay(n, r, s, o) {
     var p;
-    const a = K(), c = K(this.state.selectedDate), f = new Array(n);
+    const a = Z(), c = Z(this.state.selectedDate), f = new Array(n);
     for (let i = 0; i < n; i++) {
-      const d = r + i + 1, u = s.set("date", d), l = o && !this.props.showOtherMonth ? !0 : this.props.minDate && u.isBefore(this.props.minDate, "date") || this.props.maxDate && u.isAfter(this.props.maxDate, "date") || this.props.minYear && u.isBefore(K(`${this.props.minYear}-01-01`), "year") || this.props.maxYear && u.isAfter(K(`${this.props.maxYear}-12-31`), "year");
+      const d = r + i + 1, u = s.set("date", d), l = o && !this.props.showOtherMonth ? !0 : this.props.minDate && u.isBefore(this.props.minDate, "date") || this.props.maxDate && u.isAfter(this.props.maxDate, "date") || this.props.minYear && u.isBefore(Z(`${this.props.minYear}-01-01`), "year") || this.props.maxYear && u.isAfter(Z(`${this.props.maxYear}-12-31`), "year");
       f[i] = {
         isSelectedDate: c.isSame(s.set("date", d), "date"),
         isToday: a.isSame(u, "date"),
@@ -3616,15 +3616,15 @@ class gd extends hr {
     return f;
   }
   renderPreMonthDay() {
-    const n = K(this.state.selectedDate), r = K(), s = this.state.selectedDate ? n : r, o = s.set("date", 1).day(), a = o === 0 ? 6 : o - 1, c = s.subtract(1, "month"), p = Number(c.endOf("month").get("date")) - a;
+    const n = Z(this.state.selectedDate), r = Z(), s = this.state.selectedDate ? n : r, o = s.set("date", 1).day(), a = o === 0 ? 6 : o - 1, c = s.subtract(1, "month"), p = Number(c.endOf("month").get("date")) - a;
     return this.renderMonthDay(a, p, c, !0);
   }
   renderNextMonthDay() {
-    const n = K(this.state.selectedDate), r = K(), s = this.state.selectedDate ? n : r, o = s.set("date", 1).day(), a = o === 0 ? 6 : o - 1, c = s.endOf("month").get("date"), f = s.add(1, "month"), p = 7 * 6 % (a + c);
+    const n = Z(this.state.selectedDate), r = Z(), s = this.state.selectedDate ? n : r, o = s.set("date", 1).day(), a = o === 0 ? 6 : o - 1, c = s.endOf("month").get("date"), f = s.add(1, "month"), p = 7 * 6 % (a + c);
     return this.renderMonthDay(p, 0, f, !0);
   }
   renderCurrentMonthDays() {
-    const n = this.state.selectedDate, r = K(), s = this.state.selectedDate ? K(n) : r, o = s.endOf("month").get("date"), a = this.renderMonthDay(o, 0, s, !1), c = this.renderPreMonthDay(), f = this.renderNextMonthDay(), p = [...c, ...a, ...f];
+    const n = this.state.selectedDate, r = Z(), s = this.state.selectedDate ? Z(n) : r, o = s.endOf("month").get("date"), a = this.renderMonthDay(o, 0, s, !1), c = this.renderPreMonthDay(), f = this.renderNextMonthDay(), p = [...c, ...a, ...f];
     return this.createGroups(p, this.DATEROWCOUNT);
   }
   handleChangeMonth(n) {
@@ -3636,9 +3636,9 @@ class gd extends hr {
     this.setState({ selectedDate: n }), (s = (r = this.ref.current) == null ? void 0 : r.querySelector(".calendar-year")) == null || s.classList.toggle("hidden"), (a = (o = this.ref.current) == null ? void 0 : o.querySelector(".calendar-month")) == null || a.classList.toggle("hidden");
   }
   renderDayPanel() {
-    const { className: n } = this.props, r = ["\u4E00", "\u4E8C", "\u4E09", "\u56DB", "\u4E94", "\u516D", "\u65E5"], s = this.renderCurrentMonthDays();
+    const { showToday: n } = this.props, r = ["\u4E00", "\u4E8C", "\u4E09", "\u56DB", "\u4E94", "\u516D", "\u65E5"], s = this.renderCurrentMonthDays();
     return /* @__PURE__ */ B("div", {
-      className: I("calendar-day", n)
+      className: I("calendar-day")
     }, /* @__PURE__ */ B("div", {
       className: "calendar-bar"
     }, /* @__PURE__ */ B("div", {
@@ -3646,51 +3646,41 @@ class gd extends hr {
     }, /* @__PURE__ */ B("button", {
       type: "button",
       className: "btn ghost",
-      onClick: () => {
-        const o = K(this.state.selectedDate).subtract(1, "year").startOf("year").format(this.props.format);
-        this.handleChange(o);
-      }
-    }, /* @__PURE__ */ B("i", {
-      className: "icon icon-double-angle-left"
+      onClick: () => this.handleChangePanel("year")
+    }, /* @__PURE__ */ B("span", null, Z(this.state.selectedDate).format("YYYY \u5E74")), /* @__PURE__ */ B("span", {
+      class: "caret"
     })), /* @__PURE__ */ B("button", {
       type: "button",
       className: "btn ghost",
+      onClick: () => this.handleChangePanel("month")
+    }, /* @__PURE__ */ B("span", null, Z(this.state.selectedDate).format("MM \u6708")), /* @__PURE__ */ B("span", {
+      class: "caret"
+    }))), /* @__PURE__ */ B("div", {
+      class: "flex"
+    }, n && /* @__PURE__ */ B("button", {
+      type: "button",
+      className: "btn ghost",
       onClick: () => {
-        const o = this.subtractMonth(this.state.selectedDate || K().format(this.props.format));
+        this.handleChange(Z().format(this.props.format));
+      }
+    }, "\u4ECA\u5929"), /* @__PURE__ */ B("button", {
+      type: "button",
+      className: "btn ghost",
+      onClick: () => {
+        const o = this.subtractMonth(this.state.selectedDate || Z().format(this.props.format));
         this.handleChange(o);
       }
     }, /* @__PURE__ */ B("i", {
       className: "icon icon-angle-left"
-    }))), /* @__PURE__ */ B("div", {
-      class: "flex"
-    }, /* @__PURE__ */ B("button", {
-      type: "button",
-      className: "btn ghost",
-      onClick: () => this.handleChangePanel("year")
-    }, K(this.state.selectedDate).format("YYYY \u5E74")), /* @__PURE__ */ B("button", {
-      type: "button",
-      className: "btn ghost",
-      onClick: () => this.handleChangePanel("month")
-    }, K(this.state.selectedDate).format("MM \u6708"))), /* @__PURE__ */ B("div", {
-      class: "flex"
-    }, /* @__PURE__ */ B("button", {
-      type: "button",
-      className: "btn ghost",
-      onClick: () => {
-        const o = this.addMonth(this.state.selectedDate || K().format(this.props.format));
-        this.handleChange(o);
-      }
-    }, /* @__PURE__ */ B("i", {
-      className: "icon icon-angle-right"
     })), /* @__PURE__ */ B("button", {
       type: "button",
       className: "btn ghost",
       onClick: () => {
-        const o = K(this.state.selectedDate).add(1, "year").startOf("year").format(this.props.format);
+        const o = this.addMonth(this.state.selectedDate || Z().format(this.props.format));
         this.handleChange(o);
       }
     }, /* @__PURE__ */ B("i", {
-      className: "icon icon-double-angle-right"
+      className: "icon icon-angle-right"
     })))), /* @__PURE__ */ B("table", {
       className: "calendar-table"
     }, /* @__PURE__ */ B("thead", {
@@ -3711,7 +3701,7 @@ class gd extends hr {
         onClick: () => {
           if (c.isDisable)
             return;
-          const i = K(c.date).format(this.props.format);
+          const i = Z(c.date).format(this.props.format);
           this.handleChange(i);
         }
       }, c && c.dayNumber || ""));
@@ -3727,7 +3717,7 @@ class gd extends hr {
       type: "button",
       className: "btn ghost",
       onClick: () => {
-        const r = K(this.state.selectedDate).subtract(1, "year").startOf("year").format(this.props.format);
+        const r = Z(this.state.selectedDate).subtract(1, "year").startOf("year").format(this.props.format);
         this.handleChange(r);
       }
     }, /* @__PURE__ */ B("i", {
@@ -3736,11 +3726,11 @@ class gd extends hr {
       type: "button",
       className: "btn ghost",
       onClick: () => this.handleChangePanel("year")
-    }, K(this.state.selectedDate).format("YYYY \u5E74")), /* @__PURE__ */ B("button", {
+    }, Z(this.state.selectedDate).format("YYYY \u5E74")), /* @__PURE__ */ B("button", {
       type: "button",
       className: "btn ghost",
       onClick: () => {
-        const r = K(this.state.selectedDate).add(1, "year").startOf("year").format(this.props.format);
+        const r = Z(this.state.selectedDate).add(1, "year").startOf("year").format(this.props.format);
         this.handleChange(r);
       }
     }, /* @__PURE__ */ B("i", {
@@ -3752,7 +3742,7 @@ class gd extends hr {
     }, n.map((r, s) => /* @__PURE__ */ B("tr", {
       key: s
     }, r.map((o, a) => {
-      const c = ["text-center"], f = K(this.state.selectedDate).year(), p = K(`${f}-${o}-01`).format(this.props.format);
+      const c = ["text-center"], f = Z(this.state.selectedDate).year(), p = Z(`${f}-${o}-01`).format(this.props.format);
       return /* @__PURE__ */ B("td", {
         key: a,
         className: I(c)
@@ -3761,11 +3751,11 @@ class gd extends hr {
         onClick: () => {
           this.handleChangeMonth(p);
         }
-      }, K(p).format("MM"), " \u6708"));
+      }, Z(p).format("MM"), " \u6708"));
     }))))));
   }
   renderYearPanel() {
-    const n = K(this.state.selectedDate).year(), r = this.createGroups(this.generateArrayNumber(n, n + 11), 3);
+    const n = Z(this.state.selectedDate).year(), r = this.createGroups(this.generateArrayNumber(n, n + 11), 4);
     return /* @__PURE__ */ B("div", {
       className: I("calendar-year", "hidden")
     }, /* @__PURE__ */ B("div", {
@@ -3774,16 +3764,16 @@ class gd extends hr {
       type: "button",
       className: "btn ghost",
       onClick: () => {
-        const s = K(this.state.selectedDate).subtract(12, "year").startOf("year").format(this.props.format);
+        const s = Z(this.state.selectedDate).subtract(12, "year").startOf("year").format(this.props.format);
         this.handleChange(s);
       }
     }, /* @__PURE__ */ B("i", {
       className: "icon icon-angle-left"
-    })), /* @__PURE__ */ B("div", null, K(this.state.selectedDate).year(), " - ", n + 11), /* @__PURE__ */ B("button", {
+    })), /* @__PURE__ */ B("div", null, Z(this.state.selectedDate).year(), " - ", n + 11), /* @__PURE__ */ B("button", {
       type: "button",
       className: "btn ghost",
       onClick: () => {
-        const s = K(this.state.selectedDate).add(12, "year").startOf("year").format(this.props.format);
+        const s = Z(this.state.selectedDate).add(12, "year").startOf("year").format(this.props.format);
         this.handleChange(s);
       }
     }, /* @__PURE__ */ B("i", {
@@ -3795,7 +3785,7 @@ class gd extends hr {
     }, r.map((s, o) => /* @__PURE__ */ B("tr", {
       key: o
     }, s.map((a, c) => {
-      const f = ["text-center"], p = K(this.state.selectedDate).month(), i = K(`${a}-${p}-01`).format(this.props.format), d = this.props.minYear && a <= this.props.minYear || this.props.maxYear && a > this.props.maxYear;
+      const f = ["text-center"], p = Z(this.state.selectedDate).month(), i = Z(`${a}-${p}-01`).format(this.props.format), d = this.props.minYear && a <= this.props.minYear || this.props.maxYear && a > this.props.maxYear;
       return /* @__PURE__ */ B("td", {
         key: c,
         className: I(f)
@@ -3804,12 +3794,13 @@ class gd extends hr {
         onClick: () => {
           d || this.handleChangeYear(i);
         }
-      }, K(i).format("YYYY")));
+      }, Z(i).format("YYYY")));
     }))))));
   }
   render() {
+    const { className: n } = this.props;
     return /* @__PURE__ */ B("div", {
-      className: I("datetimepicker-calendar"),
+      className: I("datetimepicker-calendar", n),
       ref: this.ref
     }, this.renderDayPanel(), this.renderMonthPanel(), this.renderYearPanel());
   }
@@ -4524,10 +4515,10 @@ function hh(e) {
   };
   if (!!$) {
     if (o) {
-      var A, D = b === "y" ? Se : Ce, O = b === "y" ? Ve : qe, T = b === "y" ? "height" : "width", M = $[b], j = M + h[D], R = M - h[O], U = l ? -y[T] / 2 : 0, G = m === jn ? E[T] : y[T], z = m === jn ? -y[T] : -E[T], J = t.elements.arrow, Q = l && J ? Is(J) : {
+      var A, D = b === "y" ? Se : Ce, O = b === "y" ? Ve : qe, T = b === "y" ? "height" : "width", M = $[b], j = M + h[D], R = M - h[O], U = l ? -y[T] / 2 : 0, G = m === jn ? E[T] : y[T], z = m === jn ? -y[T] : -E[T], K = t.elements.arrow, Q = l && K ? Is(K) : {
         width: 0,
         height: 0
-      }, P = t.modifiersData["arrow#persistent"] ? t.modifiersData["arrow#persistent"].padding : lu(), Y = P[D], X = P[O], q = mr(0, E[T], Q[T]), Z = k ? E[T] / 2 - U - q - Y - C.mainAxis : G - q - Y - C.mainAxis, ae = k ? -E[T] / 2 + U + q + X + C.mainAxis : z + q + X + C.mainAxis, se = t.elements.arrow && so(t.elements.arrow), be = se ? b === "y" ? se.clientTop || 0 : se.clientLeft || 0 : 0, Je = (A = W == null ? void 0 : W[b]) != null ? A : 0, ee = M + Z - Je - be, $t = M + ae - Je, We = mr(l ? ni(j, ee) : j, M, l ? fn(R, $t) : R);
+      }, P = t.modifiersData["arrow#persistent"] ? t.modifiersData["arrow#persistent"].padding : lu(), Y = P[D], X = P[O], q = mr(0, E[T], Q[T]), J = k ? E[T] / 2 - U - q - Y - C.mainAxis : G - q - Y - C.mainAxis, ae = k ? -E[T] / 2 + U + q + X + C.mainAxis : z + q + X + C.mainAxis, se = t.elements.arrow && so(t.elements.arrow), be = se ? b === "y" ? se.clientTop || 0 : se.clientLeft || 0 : 0, Je = (A = W == null ? void 0 : W[b]) != null ? A : 0, ee = M + J - Je - be, $t = M + ae - Je, We = mr(l ? ni(j, ee) : j, M, l ? fn(R, $t) : R);
       $[b] = We, F[b] = We - M;
     }
     if (c) {
@@ -4625,15 +4616,15 @@ function wh(e) {
         var Y = b.find(function(X) {
           var q = E.get(X);
           if (q)
-            return q.slice(0, P).every(function(Z) {
-              return Z;
+            return q.slice(0, P).every(function(J) {
+              return J;
             });
         });
         if (Y)
           return x = Y, "break";
       }, z = U; z > 0; z--) {
-        var J = G(z);
-        if (J === "break")
+        var K = G(z);
+        if (K === "break")
           break;
       }
     t.placement !== x && (t.modifiersData[r]._skip = !0, t.placement = x, t.reset = !0);
@@ -4734,7 +4725,7 @@ class ot extends cn {
           }
         }
       ].filter(Boolean),
-      placement: "bottom-start",
+      placement: this.options.placement,
       strategy: "absolute"
     };
   }
@@ -4770,13 +4761,14 @@ class ot extends cn {
   }
 }
 $n = new WeakMap(), kn = new WeakMap(), rn = new WeakMap(), Ue = new WeakMap(), Kr = new WeakMap(), yi = new WeakMap(), N(ot, "NAME", "datetimepicker"), N(ot, "CLASSNAME", "datetimepicker"), N(ot, "CLASS_SHOW", "show"), N(ot, "MENU_SELECTOR", ".form-datetime:not(.disabled):not(:disabled)"), N(ot, "DEFAULT", {
-  date: K().format("YYYY-MM-DD"),
+  date: Z().format("YYYY-MM-DD"),
   format: "YYYY-MM-DD",
   showOtherMonth: !0,
   minYear: 1911,
   placement: "bottom-start",
   strategy: "absolute",
   trigger: "click",
+  showToday: !0,
   arrow: !0
 });
 document.addEventListener("click", function(e) {
@@ -6262,10 +6254,10 @@ function im(e) {
   };
   if (!!$) {
     if (o) {
-      var A, D = b === "y" ? Ye : gt, O = b === "y" ? ft : Jt, T = b === "y" ? "height" : "width", M = $[b], j = M + h[D], R = M - h[O], U = l ? -y[T] / 2 : 0, G = m === Fn ? E[T] : y[T], z = m === Fn ? -y[T] : -E[T], J = t.elements.arrow, Q = l && J ? Fu(J) : {
+      var A, D = b === "y" ? Ye : gt, O = b === "y" ? ft : Jt, T = b === "y" ? "height" : "width", M = $[b], j = M + h[D], R = M - h[O], U = l ? -y[T] / 2 : 0, G = m === Fn ? E[T] : y[T], z = m === Fn ? -y[T] : -E[T], K = t.elements.arrow, Q = l && K ? Fu(K) : {
         width: 0,
         height: 0
-      }, P = t.modifiersData["arrow#persistent"] ? t.modifiersData["arrow#persistent"].padding : Gu(), Y = P[D], X = P[O], q = Ao(0, E[T], Q[T]), Z = k ? E[T] / 2 - U - q - Y - C.mainAxis : G - q - Y - C.mainAxis, ae = k ? -E[T] / 2 + U + q + X + C.mainAxis : z + q + X + C.mainAxis, se = t.elements.arrow && Yi(t.elements.arrow), be = se ? b === "y" ? se.clientTop || 0 : se.clientLeft || 0 : 0, Je = (A = W == null ? void 0 : W[b]) != null ? A : 0, ee = M + Z - Je - be, $t = M + ae - Je, We = Ao(l ? fi(j, ee) : j, M, l ? un(R, $t) : R);
+      }, P = t.modifiersData["arrow#persistent"] ? t.modifiersData["arrow#persistent"].padding : Gu(), Y = P[D], X = P[O], q = Ao(0, E[T], Q[T]), J = k ? E[T] / 2 - U - q - Y - C.mainAxis : G - q - Y - C.mainAxis, ae = k ? -E[T] / 2 + U + q + X + C.mainAxis : z + q + X + C.mainAxis, se = t.elements.arrow && Yi(t.elements.arrow), be = se ? b === "y" ? se.clientTop || 0 : se.clientLeft || 0 : 0, Je = (A = W == null ? void 0 : W[b]) != null ? A : 0, ee = M + J - Je - be, $t = M + ae - Je, We = Ao(l ? fi(j, ee) : j, M, l ? un(R, $t) : R);
       $[b] = We, F[b] = We - M;
     }
     if (c) {
@@ -6363,15 +6355,15 @@ function fm(e) {
         var Y = b.find(function(X) {
           var q = E.get(X);
           if (q)
-            return q.slice(0, P).every(function(Z) {
-              return Z;
+            return q.slice(0, P).every(function(J) {
+              return J;
             });
         });
         if (Y)
           return x = Y, "break";
       }, z = U; z > 0; z--) {
-        var J = G(z);
-        if (J === "break")
+        var K = G(z);
+        if (K === "break")
           break;
       }
     t.placement !== x && (t.modifiersData[r]._skip = !0, t.placement = x, t.reset = !0);
@@ -7771,10 +7763,10 @@ function yg(e) {
   };
   if (!!$) {
     if (o) {
-      var A, D = b === "y" ? Oe : Me, O = b === "y" ? Ge : Xe, T = b === "y" ? "height" : "width", M = $[b], j = M + h[D], R = M - h[O], U = l ? -y[T] / 2 : 0, G = m === qn ? E[T] : y[T], z = m === qn ? -y[T] : -E[T], J = t.elements.arrow, Q = l && J ? aa(J) : {
+      var A, D = b === "y" ? Oe : Me, O = b === "y" ? Ge : Xe, T = b === "y" ? "height" : "width", M = $[b], j = M + h[D], R = M - h[O], U = l ? -y[T] / 2 : 0, G = m === qn ? E[T] : y[T], z = m === qn ? -y[T] : -E[T], K = t.elements.arrow, Q = l && K ? aa(K) : {
         width: 0,
         height: 0
-      }, P = t.modifiersData["arrow#persistent"] ? t.modifiersData["arrow#persistent"].padding : i_(), Y = P[D], X = P[O], q = kr(0, E[T], Q[T]), Z = k ? E[T] / 2 - U - q - Y - C.mainAxis : G - q - Y - C.mainAxis, ae = k ? -E[T] / 2 + U + q + X + C.mainAxis : z + q + X + C.mainAxis, se = t.elements.arrow && co(t.elements.arrow), be = se ? b === "y" ? se.clientTop || 0 : se.clientLeft || 0 : 0, Je = (A = W == null ? void 0 : W[b]) != null ? A : 0, ee = M + Z - Je - be, $t = M + ae - Je, We = kr(l ? ui(j, ee) : j, M, l ? _n(R, $t) : R);
+      }, P = t.modifiersData["arrow#persistent"] ? t.modifiersData["arrow#persistent"].padding : i_(), Y = P[D], X = P[O], q = kr(0, E[T], Q[T]), J = k ? E[T] / 2 - U - q - Y - C.mainAxis : G - q - Y - C.mainAxis, ae = k ? -E[T] / 2 + U + q + X + C.mainAxis : z + q + X + C.mainAxis, se = t.elements.arrow && co(t.elements.arrow), be = se ? b === "y" ? se.clientTop || 0 : se.clientLeft || 0 : 0, Je = (A = W == null ? void 0 : W[b]) != null ? A : 0, ee = M + J - Je - be, $t = M + ae - Je, We = kr(l ? ui(j, ee) : j, M, l ? _n(R, $t) : R);
       $[b] = We, F[b] = We - M;
     }
     if (c) {
@@ -7872,15 +7864,15 @@ function Eg(e) {
         var Y = b.find(function(X) {
           var q = E.get(X);
           if (q)
-            return q.slice(0, P).every(function(Z) {
-              return Z;
+            return q.slice(0, P).every(function(J) {
+              return J;
             });
         });
         if (Y)
           return x = Y, "break";
       }, z = U; z > 0; z--) {
-        var J = G(z);
-        if (J === "break")
+        var K = G(z);
+        if (K === "break")
           break;
       }
     t.placement !== x && (t.modifiersData[r]._skip = !0, t.placement = x, t.reset = !0);
@@ -9348,7 +9340,7 @@ ln = new WeakMap(), Nn = new WeakMap(), Nt = new WeakMap(), tt = new WeakMap(), 
     return (!a || a(r)) && (s.push(o), c && Object.assign(r, typeof c == "function" ? c.call(this, r) : c)), s;
   }, [])), H(this, to, [this.options.i18n, ...this.plugins.map((s) => s.i18n)].filter(Boolean)), !0;
 }, Di = new WeakSet(), U_ = function() {
-  var J, Q;
+  var K, Q;
   const { plugins: n } = this;
   let r = w(this, tt);
   const s = {
@@ -9374,7 +9366,7 @@ ln = new WeakMap(), Nn = new WeakMap(), Nt = new WeakMap(), tt = new WeakMap(), 
       name: Y,
       type: X = "",
       fixed: q = !1,
-      flex: Z = !1,
+      flex: J = !1,
       width: ae = o,
       minWidth: se = a,
       maxWidth: be = c,
@@ -9386,13 +9378,13 @@ ln = new WeakMap(), Nn = new WeakMap(), Nt = new WeakMap(), tt = new WeakMap(), 
         name: Y,
         type: X,
         fixed: q,
-        flex: Z,
+        flex: J,
         width: ae,
         minWidth: se,
         maxWidth: be,
         ...Je
       },
-      flex: q ? 0 : Z === !0 ? 1 : typeof Z == "number" ? Z : 0,
+      flex: q ? 0 : J === !0 ? 1 : typeof J == "number" ? J : 0,
       left: 0,
       width: uc(ae, se, be),
       realWidth: 0,
@@ -9424,9 +9416,9 @@ ln = new WeakMap(), Nn = new WeakMap(), Nt = new WeakMap(), tt = new WeakMap(), 
   } else
     m = v != null ? v : 0;
   const { data: b, rowKey: S = "id", rowHeight: $ } = r, E = [], y = (P, Y, X) => {
-    var Z, ae;
+    var J, ae;
     const q = { data: X != null ? X : { [S]: P }, id: P, index: E.length, top: 0 };
-    if (X || (q.lazy = !0), E.push(q), ((Z = r.onAddRow) == null ? void 0 : Z.call(this, q, Y)) !== !1) {
+    if (X || (q.lazy = !0), E.push(q), ((J = r.onAddRow) == null ? void 0 : J.call(this, q, Y)) !== !1) {
       for (const se of n)
         if (((ae = se.onAddRow) == null ? void 0 : ae.call(this, q, Y)) === !1)
           return;
@@ -9447,7 +9439,7 @@ ln = new WeakMap(), Nn = new WeakMap(), Nt = new WeakMap(), tt = new WeakMap(), 
     P && (x = P);
   }
   for (const P of n) {
-    const Y = (J = P.onAddRows) == null ? void 0 : J.call(this, x);
+    const Y = (K = P.onAddRows) == null ? void 0 : K.call(this, x);
     Y && (x = Y);
   }
   x.forEach((P, Y) => {
