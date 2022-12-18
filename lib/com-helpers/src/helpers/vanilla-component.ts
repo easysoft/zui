@@ -89,9 +89,11 @@ export class ComponentBase<O extends {} = {}, V extends CustomEventMap = {}, E e
 
         (this.constructor as typeof ComponentBase).all.set(element, this);
         this.#element = element;
-        this.init();
 
-        this.#events?.emit('inited', this);
+        requestAnimationFrame(() => {
+            this.init();
+            this.#events?.emit('inited', this);
+        });
     }
 
     init() {}
