@@ -4,15 +4,6 @@
 
 ## 综合用法
 
-<style>
-  #pagerExample2 .pager .pager-nav.active {
-    @apply -text-primary-500 -border -border-primary-500;
-  }
-  #pagerExample3 .pager .pager-nav.active {
-    @apply -text-canvas -bg-primary-500;
-  }
-</style>
-
 <Example class="col gap-2">
   <div id="pagerExample1"></div>
   <div id="pagerExample2"></div>
@@ -58,6 +49,17 @@
         recTotal: 51,
         recPerPage: 10,
         linkCreator: '#?page={page}&recPerPage={recPerPage}',
+        onClickItem: (info) => {
+            if (info.item.type !== 'nav') {
+                return;
+            }
+            const fElement = info.event.target.closest('.pager');
+            const btns = fElement.querySelectorAll('.pager-nav');
+            btns.forEach(element => {
+                element.classList.remove('active');
+            });
+            info.event.target.classList.add('active');
+        },
     });
     new zui.Pager('#pagerExample3', {
         items: [
@@ -70,6 +72,18 @@
         recTotal: 51,
         recPerPage: 10,
         linkCreator: '#?page={page}&recPerPage={recPerPage}',
+        onClickItem: (info) => {
+            if (info.item.type !== 'nav') {
+                return;
+            }
+            const fElement = info.event.target.closest('.pager');
+            const classList = ['text-canvas', 'bg-primary'];
+            const btns = fElement.querySelectorAll('.pager-nav');
+            btns.forEach(element => {
+                element.classList.remove(...classList);
+            });
+            info.event.target.classList.add(...classList);
+        },
     });
     
 </script>
@@ -93,6 +107,17 @@
             {type: 'link', page: 'prev', icon: 'icon-angle-left', hint: '上一页'},
             {type: 'nav'},
             // ...
+            onClickItem: (info) => {
+                if (info.item.type !== 'nav') {
+                    return;
+                }
+                const fElement = info.event.target.closest('.pager');
+                const btns = fElement.querySelectorAll('.pager-nav');
+                btns.forEach(element => {
+                    element.classList.remove('active');
+                });
+                info.event.target.classList.add('active');
+            },
         ],
         // ...
     });
@@ -141,8 +166,6 @@
 
 <Example class="col gap-2">
   <div id="pagerNav1"></div>
-  <div id="pagerNav2"></div>
-  <div id="pagerNav3"></div>
 </Example>
 
 ```html
@@ -150,14 +173,17 @@
     new zui.Pager('#pagerNav1', {
         btnProps: {btnType: 'border'},
         // ...
-    });
-    new zui.Pager('#pagerNav2', {
-        btnProps: {btnType: 'primary-outline bg-white'},
-        // ...
-    });
-    new zui.Pager('#pagerNav3', {
-        btnProps: {btnType: 'secondary-pale'},
-        // ...
+        onClickItem: (info) => {
+            if (info.item.type !== 'nav') {
+                return;
+            }
+            const fElement = info.event.target.closest('.pager');
+            const btns = fElement.querySelectorAll('.pager-nav');
+            btns.forEach(element => {
+                element.classList.remove('active');
+            });
+            info.event.target.classList.add('active');
+        },
     });
 </script>
 ```
@@ -343,6 +369,17 @@ export default {
                 recTotal: 51,
                 recPerPage: 10,
                 linkCreator: '#?page={page}&recPerPage={recPerPage}',
+                onClickItem: (info) => {
+                    if (info.item.type !== 'nav') {
+                        return;
+                    }
+                    const fElement = info.event.target.closest('.pager');
+                    const btns = fElement.querySelectorAll('.pager-nav');
+                    btns.forEach(element => {
+                        element.classList.remove('active');
+                    });
+                    info.event.target.classList.add('active');
+                },
             });
             new zui.Pager('#pagerExample3', {
                 items: [
@@ -355,6 +392,18 @@ export default {
                 recTotal: 51,
                 recPerPage: 10,
                 linkCreator: '#?page={page}&recPerPage={recPerPage}',
+                onClickItem: (info) => {
+                    if (info.item.type !== 'nav') {
+                        return;
+                    }
+                    const fElement = info.event.target.closest('.pager');
+                    const classList = ['text-canvas', 'bg-primary'];
+                    const btns = fElement.querySelectorAll('.pager-nav');
+                    btns.forEach(element => {
+                        element.classList.remove(...classList);
+                    });
+                    info.event.target.classList.add(...classList);
+                },
             });
             const basicPagerOptions = {
                 items: [
@@ -366,6 +415,18 @@ export default {
                 recTotal: 47,
                 recPerPage: 10,
                 linkCreator: '#?page={page}&recPerPage={recPerPage}',
+                onClickItem: (info) => {
+                    if (info.item.type !== 'nav') {
+                        return;
+                    }
+                    const fElement = info.event.target.closest('.pager');
+                    const btns = fElement.querySelectorAll('.pager-nav');
+                    btns.forEach(element => {
+                        element.classList.remove('active');
+                    });
+                    info.event.target.classList.add('active');
+                },
+                
             };
             new zui.Pager('#pagerAllCount', {
                 ...basicPagerOptions,
@@ -385,6 +446,15 @@ export default {
                     if (Number(numStr)) {
                         pagerMaxCount.render({page: Number(numStr)});
                     }
+                    if (info.item.type !== 'nav') {
+                        return;
+                    }
+                    const fElement = info.event.target.closest('.pager');
+                    const btns = fElement.querySelectorAll('.pager-nav');
+                    btns.forEach(element => {
+                        element.classList.remove('active');
+                    });
+                    info.event.target.classList.add('active');
                 },
             });
             new zui.Pager('#pagerGoto', {
@@ -398,22 +468,23 @@ export default {
                 recTotal: 101,
                 recPerPage: 10,
                 linkCreator: '#?page={page}&recPerPage={recPerPage}',
-                onClickItem: (info) => {
-                    console.log(info);
-                },
             });
             
             new zui.Pager('#pagerNav1', {
                 btnProps: {btnType: 'border'},
                 ...basicPagerOptions,
-            });
-            new zui.Pager('#pagerNav2', {
-                btnProps: {btnType: 'primary-outline bg-white'},
-                ...basicPagerOptions,
-            });
-            new zui.Pager('#pagerNav3', {
-                btnProps: {btnType: 'secondary-pale'},
-                ...basicPagerOptions,
+                onClickItem: (info) => {
+                    if (info.item.type !== 'nav') {
+                        return;
+                    }
+                    const fElement = info.event.target.closest('.pager');
+                    const btns = fElement.querySelectorAll('.pager-nav');
+                    const classList = ['text-canvas', 'bg-primary'];
+                    btns.forEach(element => {
+                        element.classList.remove(...classList);
+                    });
+                    info.event.target.classList.add(...classList);
+                },
             });
         })
     },

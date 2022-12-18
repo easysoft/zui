@@ -17,19 +17,7 @@ export function PagerNav({
     if (!pagerInfo.pageTotal) {
         return;
     }
-    const newBtnProps = {...btnProps};
-
-    const onClickItem = (event: Event) => {
-        if (!event?.target) {
-            return;
-        }
-        const pagerElements = event.target.closest('.pager').querySelectorAll('.pager-nav');
-        pagerElements.forEach(element => {
-            element.classList.remove('active');
-        });
-        event.target.classList.add('active');
-        onClick?.call(event.target, event);
-    };
+    const newBtnProps = {...btnProps, square: true};
 
     const createEllipsis = () => {
         newBtnProps.text = '';
@@ -48,7 +36,7 @@ export function PagerNav({
             if (linkCreator) {     
                 newBtnProps.url = typeof linkCreator === 'function' ? linkCreator(info)  : formatString(linkCreator, info);
             }
-            elements.push(<Button type={type} {...newBtnProps} onClick={onClickItem} />);
+            elements.push(<Button type={type} {...newBtnProps} onClick={onClick} />);
         }
         return elements;
     };

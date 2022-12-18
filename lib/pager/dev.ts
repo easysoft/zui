@@ -42,6 +42,15 @@ onPageUpdate(() => {
                 pagerCount = Number(numStr);
                 pagerMaxCount.render({page: pagerCount});
             }
+            if (info.item.type !== 'nav') {
+                return;
+            }
+            const fElement = info.event.target.closest('.pager');
+            const btns = fElement.querySelectorAll('.pager-nav');
+            btns.forEach(element => {
+                element.classList.remove('active');
+            });
+            info.event.target.classList.toggle('active');
         },
     });
     new Pager('#pagerAllCount', {
@@ -54,6 +63,17 @@ onPageUpdate(() => {
         recTotal: 91,
         recPerPage: 10,
         linkCreator: '#?page={page}&recPerPage={recPerPage}',
+        onClickItem: (info) => {
+            if (info.item.type !== 'nav') {
+                return;
+            }
+            const fElement = info.event.target.closest('.pager');
+            const btns = fElement.querySelectorAll('.pager-nav');
+            btns.forEach(element => {
+                element.classList.remove('active');
+            });
+            info.event.target.classList.toggle('active');
+        },
     });
     const pagerGoto = new Pager('#pagerGoto', {
         items: [

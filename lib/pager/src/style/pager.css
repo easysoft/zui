@@ -15,3 +15,7 @@
 .pager .pager-goto-group > .input-group-addon {
   @apply -bg-canvas -border -border-gray-300;
 }
+.pager > .pager-nav.active {
+  @apply -text-primary-500;
+  box-shadow:0px 0px 0px 1px var(--color-primary-500);
+}
