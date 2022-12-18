@@ -6,7 +6,9 @@
     color: var(--color-canvas);
     background: var(--messager-default-bg-color);
 }
-
+.messager-content {
+    white-space: nowrap;
+}
 /* .messager > * {
     background: var(--messager-default-bg-color);
 } */

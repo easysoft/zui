@@ -47,21 +47,21 @@ messagerButton.addEventListener('click', function() {
 提供9个预设的显示位置。
 
 ```html:example
-    <button class="btn top-start">上方左侧</button>
-    <button class="btn top">上方居中</button>
-    <button class="btn top-end">上方右侧</button>
-    <button class="btn bottom-start">下方左侧</button>
-    <button class="btn bottom">下方居中</button>
-    <button class="btn bottom-end">下方右侧</button>
-    <button class="btn left">左侧居中</button>
-    <button class="btn right">右侧居中</button>
-    <button class="btn center">居中</button>
+    <button class="btn top-start messagerTrigger" data-placement="top-start">上方左侧</button>
+    <button class="btn top messagerTrigger" data-placement="top">上方居中</button>
+    <button class="btn top-end messagerTrigger" data-placement="top-end">上方右侧</button>
+    <button class="btn bottom-start messagerTrigger" data-placement="bottom-start">下方左侧</button>
+    <button class="btn bottom messagerTrigger" data-placement="bottom">下方居中</button>
+    <button class="btn bottom-end messagerTrigger" data-placement="bottom-end">下方右侧</button>
+    <button class="btn left messagerTrigger" data-placement="left">左侧居中</button>
+    <button class="btn right messagerTrigger" data-placement="right">右侧居中</button>
+    <button class="btn center messagerTrigger" data-placement="center">居中</button>
 ```
 
 ```js
 new Messager({
     message: '这是一个漂浮消息。',
-    placement: 'center' // 定义位置
+    placement: '*' // 定义位置
 }).show();
 ```
 
@@ -82,13 +82,78 @@ new Messager({
             </div>
         </div>
     </div>
-    <!-- <p><button type="button" class="btn messager">普通提示消息</button></p> -->
-    <p><button type="button" class="btn messager primary">提示消息：主要</button></p>
-    <p><button type="button" class="btn messager danger">提示消息：危险</button></p>
-    <p><button type="button" class="btn messager success">提示消息：成功</button></p>
-    <p><button type="button" class="btn messager warning">提示消息：警告</button></p>
-    <p><button type="button" class="btn messager important">提示消息：重要</button></p>
-    <p><button type="button" class="btn messager special">提示消息：特别</button></p>
+    <div class="w-40 py-2">
+        <div class="primary messager">
+            <div class="messager-content">
+                普通提示消息
+            </div>
+            <div class="messager-actions btn-group">
+                <button type="btn" class="btn primary border-0">
+                    <i class="icon icon-times"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="w-40 py-2">
+        <div class="danger messager">
+            <div class="messager-content">
+                提示消息：危险
+            </div>
+            <div class="messager-actions btn-group">
+                <button type="btn" class="btn danger border-0">
+                    <i class="icon icon-times"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="w-40 py-2">
+        <div class="success messager">
+            <div class="messager-content">
+                提示消息：危险
+            </div>
+            <div class="messager-actions btn-group">
+                <button type="btn" class="btn success border-0">
+                    <i class="icon icon-times"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="w-40 py-2">
+        <div class="warning messager">
+            <div class="messager-content">
+                提示消息：危险
+            </div>
+            <div class="messager-actions btn-group">
+                <button type="btn" class="btn warning border-0">
+                    <i class="icon icon-times"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="w-40 py-2">
+        <div class="important messager">
+            <div class="messager-content">
+                提示消息：危险
+            </div>
+            <div class="messager-actions btn-group">
+                <button type="btn" class="btn important border-0">
+                    <i class="icon icon-times"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="w-40 py-2">
+        <div class="special messager">
+            <div class="messager-content">
+                提示消息：危险
+            </div>
+            <div class="messager-actions btn-group">
+                <button type="btn" class="btn special border-0">
+                    <i class="icon icon-times"></i>
+                </button>
+            </div>
+        </div>
+    </div>
 ```
 
 ```js
