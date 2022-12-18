@@ -1,6 +1,6 @@
 import {EventEmitter} from './event-emitter';
 
-export interface CustomEventListener<E extends Event = Event> extends EventListener {
+export interface CustomEventListener<E extends Event = Event> {
     (evt: E): void;
 }
 
@@ -57,15 +57,15 @@ export const nativeEvents = new Set([
 
 export class EventBus<E extends CustomEventMap = {}, TYPES extends string = Extract<keyof E, string>> extends EventEmitter {
     on<T extends TYPES>(type: T, listener: CustomEventListener<E[T]>, options?: AddEventListenerOptions) {
-        super.on(type, listener, options);
+        super.on(type, listener as EventListener, options);
     }
 
     off<T extends TYPES>(type: T, listener: CustomEventListener<E[T]>, options?: AddEventListenerOptions) {
-        super.off(type, listener, options);
+        super.off(type, listener as EventListener, options);
     }
 
     once<T extends TYPES>(type: T, listener: CustomEventListener<E[T]>, options?: AddEventListenerOptions) {
-        super.once(type, listener, options);
+        super.once(type, listener as EventListener, options);
     }
 
     emit<T extends TYPES>(event: T, detail?: E[T] extends CustomEvent ? E[T]['detail'] : never): E[T];
