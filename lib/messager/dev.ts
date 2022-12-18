@@ -12,13 +12,24 @@ onPageLoad(() => {
             new Messager('这是一个漂浮消息。');
         });
     }
-    const placementButtons = Array.from(document.getElementsByClassName('messagerTrigger'));
+    const placementButtons = Array.from(document.getElementsByClassName('placementTrigger'));
     placementButtons.forEach(item=>{
         item.addEventListener('click', function (e) {
             const btn = e.target as HTMLElement;
             const placement = btn.getAttribute('data-placement') as MessagerOptions['placement'];
-            new Messager('这是一个漂浮消息。', {
+            new Messager(item.innerHTML + '的漂浮消息。', {
                 placement,
+            });
+        });
+    });
+
+    const typeButtons = Array.from(document.querySelectorAll('[data-type]'));
+    typeButtons.forEach(item => {
+        item.addEventListener('click', function () {
+            const type = item.getAttribute('data-type') as MessagerOptions['type'];
+            const message = item.getAttribute('data-message') as MessagerOptions['message'];
+            new Messager(message + '的漂浮消息。', {
+                type,
             });
         });
     });

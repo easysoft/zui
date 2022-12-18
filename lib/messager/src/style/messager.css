@@ -2,13 +2,20 @@
     @apply -flex -items-center -text-center -py-2 -px-5 -grow-0;
     border-radius: var(--messager-radius);
 }
-.messager-default {
+.messager.default ,
+.messager.default > * > .default ,
+.messager.default > button {
     color: var(--color-canvas);
     background: var(--messager-default-bg-color);
 }
 .messager-content {
     white-space: nowrap;
 }
-/* .messager > * {
+
+/* .messager-default {
+    color: var(--color-canvas);
+    background: var(--messager-default-bg-color);
+} 
+.messager > * {
     background: var(--messager-default-bg-color);
 } */

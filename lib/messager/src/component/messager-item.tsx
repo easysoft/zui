@@ -12,12 +12,12 @@ export default class MessagerItem extends Component<MessagerProps> {
     render() {
         const {message, actions, className, type} = this.props;
         return (
-            <div class={classes([className, 'messager'])}>
+            <div class={classes([className, type ? type : 'default', 'messager'])}>
                 <div class="messager-content">
                     {message}
                 </div>
                 <MessagerActions {...actions}/>
-                <button type="btn" class="btn messager-default border-0">
+                <button type="btn" class={classes([type, type ? type : 'default', 'btn border-0'])}>
                     <i class="icon icon-times"></i>
                 </button>
             </div>

@@ -17,6 +17,11 @@ export class Messager {
 
     options: MessagerOptions;
 
+    // static DEFAULT = {
+    //     placement: 'top',
+    //     type:'messager-default',
+    // } as Partial<MessagerOptions>;
+
     constructor(message: string, options?: Partial<MessagerOptions>) {
         this.message = message;
 
@@ -29,7 +34,9 @@ export class Messager {
         const {message, options} = this;
 
         const placement = options?.placement ? options.placement : 'top';
-        const className = options?.className ? options.className : 'messager-default';
+        const className = options?.className ? options.className : '';
+        // const type = options?.type === 'default' ? 'messager-default' : '';
+        // console.log(type, 'type');
 
         let messagersholder = document.querySelector('.messagers-holder[data-placement=' + placement + ']');
 
