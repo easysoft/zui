@@ -3,7 +3,7 @@
     border-radius: var(--messager-radius);
 }
 .messager.default ,
-.messager.default > * > .default ,
+.messager.default > .btn-group > button ,
 .messager.default > button {
     color: var(--color-canvas);
     background: var(--messager-default-bg-color);

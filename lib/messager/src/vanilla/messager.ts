@@ -7,7 +7,7 @@ import MessagersHolder  from '../component/messagers-holder';
 // import {ComponentBase} from '@zui/com-helpers/src/helpers/vanilla-component';
 
 // export class Messager<T extends MessagerOptions = MessagerOptions> extends ComponentBase<T> {
-/* too many errors to fix */
+/* ComponentBase's constructor : (element, options)  Messager's constructor: (message, options) not fit*/
 
 export class Messager {
 
@@ -17,35 +17,30 @@ export class Messager {
 
     options: MessagerOptions;
 
-    // static DEFAULT = {
-    //     placement: 'top',
-    //     type:'messager-default',
-    // } as Partial<MessagerOptions>;
+    static DEFAULT = {
+        placement: 'top',
+        type:'default',
+    } as Partial<MessagerOptions>;
 
-    constructor(message: string, options?: Partial<MessagerOptions>) {
+    
+    constructor(message: string, options: MessagerOptions) {
         this.message = message;
-
         this.options = options;
-
-        this.show();
     }
+
+
 
     show() {
         const {message, options} = this;
-
         const placement = options?.placement ? options.placement : 'top';
-        const className = options?.className ? options.className : '';
-        // const type = options?.type === 'default' ? 'messager-default' : '';
-        // console.log(type, 'type');
 
         let messagersholder = document.querySelector('.messagers-holder[data-placement=' + placement + ']');
-
         if (!messagersholder) {
             const parentNode = document.createElement('div');
             document.body.appendChild(parentNode);
             const props = {
                 ...options as MessagersHolderProps,
-                'placement': placement,
+                placement,
             };
             render(h(MessagersHolder, props), parentNode);
         }
@@ -53,12 +48,10 @@ export class Messager {
         messagersholder = document.querySelector('.messagers-holder[data-placement=' + placement + ']') as HTMLElement;
         const  messagerNode = document.createElement('div');
         messagersholder.appendChild(messagerNode);
-
         const props = {
             ...options as MessagerProps,
             message,
             placement,
-            className,
         };
         render(h(MessagerItem, props), messagersholder, messagerNode);
     }

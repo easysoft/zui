@@ -136,7 +136,7 @@ new Messager({
 默认会在右侧显示关闭按钮，如果需要禁用关闭按钮，将 close 选项设置为 false。
 
 ```html:example
-    <button class="btn primary"> 禁用关闭按钮 </button>
+    <button class="btn primary" id="btnWidthOutClose"> 禁用关闭按钮 </button>
 ```
 
 ```js
@@ -147,6 +147,10 @@ new Messager({
 ```
 
 通过 `actions` 数组来自定义一组操作。
+
+```html:example
+    <button class="btn primary" id="btnHasActions"> 点我触发有自定义按钮组的漂浮消息 </button>
+```
 
 ```js
 new Messager({

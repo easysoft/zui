@@ -4,6 +4,10 @@ import {MessagersHolderProps} from '../types/messagers-holder-props';
 
 export default class MessagersHolder extends Component<MessagersHolderProps> {
 
+    static defaultProps: {
+        placement: 'top',
+    };
+
     render() {
         const {className, placement} = this.props;
         return (
