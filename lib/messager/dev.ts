@@ -13,7 +13,6 @@ onPageLoad(() => {
         });
     }
     const placementButtons = Array.from(document.getElementsByClassName('messagerTrigger'));
-    console.log(placementButtons);
     placementButtons.forEach(item=>{
         item.addEventListener('click', function (e) {
             const btn = e.target as HTMLElement;

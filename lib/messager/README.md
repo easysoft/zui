@@ -47,15 +47,15 @@ messagerButton.addEventListener('click', function() {
 提供9个预设的显示位置。
 
 ```html:example
-    <button class="btn top-start messagerTrigger" data-placement="top-start">上方左侧</button>
-    <button class="btn top messagerTrigger" data-placement="top">上方居中</button>
-    <button class="btn top-end messagerTrigger" data-placement="top-end">上方右侧</button>
-    <button class="btn bottom-start messagerTrigger" data-placement="bottom-start">下方左侧</button>
-    <button class="btn bottom messagerTrigger" data-placement="bottom">下方居中</button>
-    <button class="btn bottom-end messagerTrigger" data-placement="bottom-end">下方右侧</button>
-    <button class="btn left messagerTrigger" data-placement="left">左侧居中</button>
+    <button class="btn left-top messagerTrigger" data-placement="left-top">左侧上方</button>
+    <button class="btn top messagerTrigger" data-placement="left">左侧居中</button>
+    <button class="btn left-bottom messagerTrigger" data-placement="left-bottom">左侧下方</button>
+    <button class="btn bottom-start messagerTrigger" data-placement="top">顶部对齐</button>
+    <button class="btn bottom messagerTrigger" data-placement="center">居中对齐</button>
+    <button class="btn bottom-end messagerTrigger" data-placement="bottom">下方对齐</button>
+    <button class="btn left messagerTrigger" data-placement="right-top">右侧上方</button>
     <button class="btn right messagerTrigger" data-placement="right">右侧居中</button>
-    <button class="btn center messagerTrigger" data-placement="center">居中</button>
+    <button class="btn center messagerTrigger" data-placement="right-bottom">右侧下方</button>
 ```
 
 ```js
@@ -85,7 +85,7 @@ new Messager({
     <div class="w-40 py-2">
         <div class="primary messager">
             <div class="messager-content">
-                普通提示消息
+                提示消息：基础
             </div>
             <div class="messager-actions btn-group">
                 <button type="btn" class="btn primary border-0">
@@ -109,7 +109,7 @@ new Messager({
     <div class="w-40 py-2">
         <div class="success messager">
             <div class="messager-content">
-                提示消息：危险
+                提示消息：成功
             </div>
             <div class="messager-actions btn-group">
                 <button type="btn" class="btn success border-0">
@@ -121,7 +121,7 @@ new Messager({
     <div class="w-40 py-2">
         <div class="warning messager">
             <div class="messager-content">
-                提示消息：危险
+                提示消息：警告
             </div>
             <div class="messager-actions btn-group">
                 <button type="btn" class="btn warning border-0">
@@ -133,7 +133,7 @@ new Messager({
     <div class="w-40 py-2">
         <div class="important messager">
             <div class="messager-content">
-                提示消息：危险
+                提示消息：主要
             </div>
             <div class="messager-actions btn-group">
                 <button type="btn" class="btn important border-0">
@@ -145,7 +145,7 @@ new Messager({
     <div class="w-40 py-2">
         <div class="special messager">
             <div class="messager-content">
-                提示消息：危险
+                提示消息：特别
             </div>
             <div class="messager-actions btn-group">
                 <button type="btn" class="btn special border-0">
