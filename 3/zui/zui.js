@@ -2264,14 +2264,14 @@ class Of extends bn {
   render() {
     const { message: t, actions: n, className: r, type: s } = this.props;
     return /* @__PURE__ */ it("div", {
-      class: B([r, "messager"])
+      class: B([r, s || "default", "messager"])
     }, /* @__PURE__ */ it("div", {
       class: "messager-content"
     }, t), /* @__PURE__ */ it(Yp, {
       ...n
     }), /* @__PURE__ */ it("button", {
       type: "btn",
-      class: "btn messager-default border-0"
+      class: B([s, s || "default", "btn border-0"])
     }, /* @__PURE__ */ it("i", {
       class: "icon icon-times"
     })));
@@ -2294,7 +2294,7 @@ class qp {
     this.message = t, this.options = n, this.show();
   }
   show() {
-    const { message: t, options: n } = this, r = n != null && n.placement ? n.placement : "top", s = n != null && n.className ? n.className : "messager-default";
+    const { message: t, options: n } = this, r = n != null && n.placement ? n.placement : "top", s = n != null && n.className ? n.className : "";
     let o = document.querySelector(".messagers-holder[data-placement=" + r + "]");
     if (!o) {
       const f = document.createElement("div");
