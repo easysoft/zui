@@ -28,7 +28,7 @@ export class Modal extends ComponentBase<ModalOptions, ModalEvents, HTMLElement>
 
     #transitionTimer = 0;
 
-    _rob?: ResizeObserver;
+    #rob?: ResizeObserver;
 
     get isShown() {
         return this.element.classList.contains(Modal.CLASS_SHOW);
@@ -39,7 +39,7 @@ export class Modal extends ComponentBase<ModalOptions, ModalEvents, HTMLElement>
     }
 
     init() {
-        this.on('click', this._handleClick.bind(this));
+        this.on('click', this._handleClick);
 
         if (this.options.responsive) {
             if (typeof ResizeObserver !== 'undefined') {
@@ -47,7 +47,7 @@ export class Modal extends ComponentBase<ModalOptions, ModalEvents, HTMLElement>
                 if (dialog) {
                     const rob = new ResizeObserver(this.adjustPosition.bind(this, undefined));
                     rob.observe(dialog);
-                    this._rob = rob;
+                    this.#rob = rob;
                 }
             }
         }
@@ -59,10 +59,11 @@ export class Modal extends ComponentBase<ModalOptions, ModalEvents, HTMLElement>
 
     destroy(): void {
         super.destroy();
-        this._rob?.disconnect();
+        this.#rob?.disconnect();
     }
 
     show() {
+        console.log('show', this._handleClick);
         if (this.isShown) {
             return;
         }
@@ -140,13 +141,13 @@ export class Modal extends ComponentBase<ModalOptions, ModalEvents, HTMLElement>
         setStyle(this.element, 'justifyContent', style.left ? 'flex-start' : 'center');
     }
 
-    _handleClick(event: MouseEvent) {
+    _handleClick = (event: MouseEvent) => {
         const target = event.target as HTMLElement;
         if (target.closest(Modal.DISMISS_SELECTOR) || (this.options.backdrop === true && !target.closest('.modal-dialog') && target.closest('.modal'))) {
             this.hide();
             return;
         }
-    }
+    };
 
     #resetTransitionTimer(callback?: () => void, time?: number) {
         if (this.#transitionTimer) {
