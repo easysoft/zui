@@ -6985,30 +6985,24 @@ function Sm({
 }) {
   if (!s.pageTotal)
     return;
-  const f = { ...c }, p = (l) => {
-    if (!(l != null && l.target))
-      return;
-    l.target.closest(".pager").querySelectorAll(".pager-nav").forEach((g) => {
-      g.classList.remove("active");
-    }), l.target.classList.add("active"), o == null || o.call(l.target, l);
-  }, i = () => (f.text = "", f.icon = "icon-ellipsis-h", f.disabled = !0, /* @__PURE__ */ Jt(Qt, {
+  const f = { ...c, square: !0 }, p = () => (f.text = "", f.icon = "icon-ellipsis-h", f.disabled = !0, /* @__PURE__ */ Jt(Qt, {
     type: n,
     ...f
-  })), d = (l, _) => {
-    const g = [];
-    for (let h = l; h <= _; h++) {
-      f.text = h, delete f.icon, f.disabled = !1;
-      const v = qr(s, h);
-      a && (f.url = typeof a == "function" ? a(v) : Se(a, v)), g.push(/* @__PURE__ */ Jt(Qt, {
+  })), i = (u, l) => {
+    const _ = [];
+    for (let g = u; g <= l; g++) {
+      f.text = g, delete f.icon, f.disabled = !1;
+      const h = qr(s, g);
+      a && (f.url = typeof a == "function" ? a(h) : Se(a, h)), _.push(/* @__PURE__ */ Jt(Qt, {
         type: n,
         ...f,
-        onClick: p
+        onClick: o
       }));
     }
-    return g;
+    return _;
   };
-  let u = [];
-  return u = [...d(1, 1)], s.pageTotal <= 1 || (s.pageTotal <= r ? u = [...u, ...d(2, s.pageTotal)] : s.page < r - 2 ? u = [...u, ...d(2, r - 2), i(), ...d(s.pageTotal, s.pageTotal)] : s.page > s.pageTotal - r + 3 ? u = [...u, i(), ...d(s.pageTotal - r + 3, s.pageTotal)] : u = [...u, i(), ...d(s.page - Math.ceil((r - 4) / 2), s.page + Math.floor((r - 4) / 2)), i(), ...d(s.pageTotal, s.pageTotal)]), u;
+  let d = [];
+  return d = [...i(1, 1)], s.pageTotal <= 1 || (s.pageTotal <= r ? d = [...d, ...i(2, s.pageTotal)] : s.page < r - 2 ? d = [...d, ...i(2, r - 2), p(), ...i(s.pageTotal, s.pageTotal)] : s.page > s.pageTotal - r + 3 ? d = [...d, p(), ...i(s.pageTotal - r + 3, s.pageTotal)] : d = [...d, p(), ...i(s.page - Math.ceil((r - 4) / 2), s.page + Math.floor((r - 4) / 2)), p(), ...i(s.pageTotal, s.pageTotal)]), d;
 }
 function Em({
   type: e,
