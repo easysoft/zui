@@ -47,7 +47,6 @@ export class Modal extends ComponentBase<ModalOptions, ModalEvents, HTMLElement>
                 if (dialog) {
                     const rob = new ResizeObserver(this.adjustPosition.bind(this, undefined));
                     rob.observe(dialog);
-                    console.log('>>', this);
                     this._rob = rob;
                 }
             }
@@ -163,7 +162,6 @@ export class Modal extends ComponentBase<ModalOptions, ModalEvents, HTMLElement>
         }
     }
 }
-
 
 window.addEventListener('resize', () => {
     Modal.all.forEach((modal) => {
