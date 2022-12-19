@@ -33,6 +33,7 @@ export class Messager {
     show() {
         const {message, options} = this;
         const placement = options?.placement ? options.placement : 'top';
+        const close = (options?.close === false) ? false : true;
 
         let messagersholder = document.querySelector('.messagers-holder[data-placement=' + placement + ']');
         if (!messagersholder) {
@@ -52,6 +53,7 @@ export class Messager {
             ...options as MessagerProps,
             message,
             placement,
+            close,
         };
         render(h(MessagerItem, props), messagersholder, messagerNode);
     }
