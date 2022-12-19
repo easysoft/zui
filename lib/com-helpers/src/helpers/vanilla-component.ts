@@ -90,13 +90,16 @@ export class ComponentBase<O extends {} = {}, V extends CustomEventMap = {}, E e
         (this.constructor as typeof ComponentBase).all.set(element, this);
         this.#element = element;
 
+        this.init();
         requestAnimationFrame(() => {
-            this.init();
+            this.afterInit();
             this.#events?.emit('inited', this);
         });
     }
 
     init() {}
+
+    afterInit() {}
 
     setOptions(options?: Partial<ComponentOptions<O, V>>) {
         if (options) {
