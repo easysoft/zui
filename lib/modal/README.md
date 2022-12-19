@@ -51,10 +51,10 @@
 ## 动态展示
 
 ```html:example: flex gap-3
-<button type="button" class="btn primary" data-toggle="modal" data-target="#myModal">点击打开对话框</button>
-<a class="btn" data-toggle="modal" href="#myModal">点击打开</a>
+<button type="button" class="btn primary" data-toggle="modal" data-target="#myModal2">点击打开对话框</button>
+<a class="btn" data-toggle="modal" href="#myModal2">点击打开</a>
 
-<div class="modal" id="myModal">
+<div class="modal" id="myModal2">
   <div class="modal-dialog shadow">
     <div class="modal-content">
       <div class="modal-header">

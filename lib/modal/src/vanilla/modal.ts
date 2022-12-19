@@ -38,7 +38,7 @@ export class Modal extends ComponentBase<ModalOptions, ModalEvents, HTMLElement>
         return this.element.querySelector('.modal-dialog');
     }
 
-    init() {
+    afterInit() {
         this.on('click', this._handleClick);
 
         if (this.options.responsive) {
@@ -53,7 +53,7 @@ export class Modal extends ComponentBase<ModalOptions, ModalEvents, HTMLElement>
         }
 
         if (this.options.show) {
-            requestAnimationFrame(() => this.show());
+            this.show();
         }
     }
 
@@ -62,11 +62,12 @@ export class Modal extends ComponentBase<ModalOptions, ModalEvents, HTMLElement>
         this.#rob?.disconnect();
     }
 
-    show() {
-        console.log('show', this._handleClick);
+    show(options?: Partial<ModalOptions>) {
         if (this.isShown) {
             return;
         }
+
+        this.setOptions(options);
 
         const {animation, backdrop} = this.options;
         setClass(this.element, [{
