@@ -999,8 +999,10 @@
         "dependencies": {
             "@zui/button": "workspace:^0.0.1",
             "@zui/com-helpers": "workspace:^0.0.1",
+            "@zui/browser-helpers": "workspace:^0.0.1",
             "@zui/css-icons": "workspace:^0.0.1",
             "@zui/base": "workspace:*",
+            "@zui/toolbar": "workspace:*",
             "preact": "10.11.2"
         },
         "devDependencies": {
