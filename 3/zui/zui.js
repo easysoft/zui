@@ -2301,26 +2301,27 @@ class el {
     this.message = t, this.options = n;
   }
   show() {
-    const { message: t, options: n } = this, r = n != null && n.placement ? n.placement : "top";
-    let s = document.querySelector(".messagers-holder[data-placement=" + r + "]");
-    if (!s) {
-      const c = document.createElement("div");
-      document.body.appendChild(c);
-      const f = {
+    const { message: t, options: n } = this, r = n != null && n.placement ? n.placement : "top", s = (n == null ? void 0 : n.close) !== !1;
+    let o = document.querySelector(".messagers-holder[data-placement=" + r + "]");
+    if (!o) {
+      const f = document.createElement("div");
+      document.body.appendChild(f);
+      const p = {
         ...n,
         placement: r
       };
-      Ga(Kt(Af, f), c);
+      Ga(Kt(Af, p), f);
     }
-    s = document.querySelector(".messagers-holder[data-placement=" + r + "]");
-    const o = document.createElement("div");
-    s.appendChild(o);
-    const a = {
+    o = document.querySelector(".messagers-holder[data-placement=" + r + "]");
+    const a = document.createElement("div");
+    o.appendChild(a);
+    const c = {
       ...n,
       message: t,
-      placement: r
+      placement: r,
+      close: s
     };
-    Ga(Kt(Mf, a), s, o);
+    Ga(Kt(Mf, c), o, a);
   }
 }
 A(el, "NAME", "messager"), A(el, "DEFAULT", {
