@@ -4,34 +4,20 @@ import {MessagersHolderProps} from '../types/messagers-holder-props';
 import {MessagerProps} from '../types';
 import MessagerItem from '../component/messager-item';
 import MessagersHolder  from '../component/messagers-holder';
-// import {ComponentBase} from '@zui/com-helpers/src/helpers/vanilla-component';
+import {ComponentBase} from '@zui/com-helpers/src/helpers/vanilla-component';
 
-// export class Messager<T extends MessagerOptions = MessagerOptions> extends ComponentBase<T> {
-/* ComponentBase's constructor : (element, options)  Messager's constructor: (message, options) not fit*/
-
-export class Messager {
+export class Messager extends ComponentBase<MessagerOptions> {
 
     static NAME = 'messager';
-
-    message: string;
-
-    options: MessagerOptions;
 
     static DEFAULT = {
         placement: 'top',
         type:'default',
+        close: true,
     } as Partial<MessagerOptions>;
 
-    
-    constructor(message: string, options: MessagerOptions) {
-        this.message = message;
-        this.options = options;
-    }
-
-
-
-    show() {
-        const {message, options} = this;
+    show(message?: string, options?: MessagerOptions) {
+        console.log(message, options, 'showFunc');
         const placement = options?.placement ? options.placement : 'top';
         const close = (options?.close === false) ? false : true;
 

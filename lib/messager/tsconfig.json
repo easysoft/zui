@@ -1,11 +1,11 @@
-// {
-//   "extends": "../../tsconfig.json",
-//   "compilerOptions": {
-//       "jsx": "react-jsx",
-//       "jsxImportSource": "preact"
-//   },
-//   "include": [
-//     "src",
-//     "docs",
-//   ]
-// }
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+      "jsx": "react-jsx",
+      "jsxImportSource": "preact"
+  },
+  "include": [
+    "src",
+    "docs",
+  ]
+}
