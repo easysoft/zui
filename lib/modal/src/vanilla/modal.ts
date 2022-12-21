@@ -30,6 +30,8 @@ export class Modal extends ComponentBase<ModalOptions, ModalEvents, HTMLElement>
 
     #rob?: ResizeObserver;
 
+    #lastDialogSize?: [width: number, height: number];
+
     get isShown() {
         return this.element.classList.contains(Modal.CLASS_SHOW);
     }
@@ -45,7 +47,17 @@ export class Modal extends ComponentBase<ModalOptions, ModalEvents, HTMLElement>
             if (typeof ResizeObserver !== 'undefined') {
                 const {dialog} = this;
                 if (dialog) {
-                    const rob = new ResizeObserver(this.adjustPosition.bind(this, undefined));
+                    const rob = new ResizeObserver(() => {
+                        if (!this.isShown) {
+                            return;
+                        }
+                        const width = dialog.clientWidth;
+                        const height = dialog.clientHeight;
+                        if (!this.#lastDialogSize || this.#lastDialogSize[0] !== width || this.#lastDialogSize[1] !== height) {
+                            this.#lastDialogSize = [width, height];
+                            this.adjustPosition();
+                        }
+                    });
                     rob.observe(dialog);
                     this.#rob = rob;
                 }
@@ -102,13 +114,18 @@ export class Modal extends ComponentBase<ModalOptions, ModalEvents, HTMLElement>
     }
 
     adjustPosition(position?: ModalPositionSetting) {
-        position = position || this.options.position || 'fit';
+        if (!this.isShown) {
+            return;
+        }
+        position = position ?? this.options.position ?? 'fit';
 
         const {dialog} = this;
         if (!dialog) {
             return;
         }
-        const {width, height} = dialog.getBoundingClientRect();
+        const width = dialog.clientWidth;
+        const height = dialog.clientHeight;
+        this.#lastDialogSize = [width, height];
         if (typeof position === 'function') {
             position = position({width, height});
         }
@@ -136,6 +153,9 @@ export class Modal extends ComponentBase<ModalOptions, ModalEvents, HTMLElement>
             style.alignSelf = 'flex-end';
         } else if (position === 'top') {
             style.alignSelf = 'flex-start';
+        } else if (position !== 'center' && typeof position === 'string') {
+            style.alignSelf = 'flex-start';
+            style.top = position;
         }
 
         setStyle(dialog, style);
