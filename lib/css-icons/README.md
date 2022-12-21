@@ -19,6 +19,14 @@
 <button type="button" class="btn is-expanded"><span class="toggle-icon"></span></button>
 ```
 
+## 加载中指示图标
+
+```html:example:flex items-center gap-2
+<span class="spinner"></span>
+<span class="spinner text-lg"></span>
+<span class="spinner text-xl text-primary"></span>
+```
+
 ## 箭头
 
 ```html:example:relative

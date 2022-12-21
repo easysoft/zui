@@ -1,16 +1,11 @@
-:root {
-    --caret-opacity: .5;
-    --caret-size: 4px;
-}
-
 .caret,
 .caret-down,
 .caret-left,
 .caret-right,
 .caret-up {
     @apply -w-0 -h-0 -inline-block;
-    border: var(--caret-size) solid transparent;
-    opacity: var(--caret-opacity);
+    border: var(--caret-size, 4px) solid transparent;
+    opacity: var(--caret-opacity, .5);
 }
 :hover > .caret,
 :focus > .caret {

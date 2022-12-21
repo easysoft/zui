@@ -1,0 +1,29 @@
+/**
+ * See https://css.gg/spinner
+ */
+
+.spinner,
+.spinner::after,
+.spinner::before {
+  @apply -block -relative;
+  width: var(--spinner-size, 1em);
+  height: var(--spinner-size, 1em);
+}
+.spinner::after,
+.spinner::before {
+  content: ' ';
+  @apply -absolute -rounded-full;
+}
+.spinner::before {
+  animation: spinner 1s cubic-bezier(.6,0,.4,1) infinite;
+  border: calc(var(--spinner-size, 1em) / 6) solid transparent;
+  border-top-color: currentColor;
+}
+.spinner::after {
+  border: calc(var(--spinner-size, 1em) / 6) solid;
+  @apply -opacity-20;
+}
+@keyframes spinner {
+  0% { transform: rotate(0deg) }
+  to { transform: rotate(359deg) }
+}
