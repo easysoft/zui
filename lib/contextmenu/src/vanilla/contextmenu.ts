@@ -251,7 +251,7 @@ export class ContextMenu<T extends ContextMenuOptions = ContextMenuOptions, E ex
             contextmenu.setOptions(otherOptions);
         }
         contextmenu.show(event);
-        event?.stopPropagation();
+        event?.stopPropagation?.();
         return contextmenu;
     }
 
