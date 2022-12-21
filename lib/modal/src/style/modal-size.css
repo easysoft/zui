@@ -1,0 +1,9 @@
+.modal-dialog[data-size="full"] {
+  @apply -w-screen -h-screen;
+}
+.modal-dialog[data-size="sm"] {
+  width: var(--modal-sm);
+}
+.modal-dialog[data-size="lg"] {
+  width: var(--modal-lg);
+}

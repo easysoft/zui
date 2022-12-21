@@ -1,9 +1,9 @@
 import {ModalBackdropType} from './modal-backdrop-type';
 import {ModalPositionSetting} from './modal-position-setting';
-import {ModalWidthPreset} from './modal-width-preset';
+import {ModalSizeSetting} from './modal-size-setting';
 
 export interface ModalOptions {
-    width?: number | ModalWidthPreset | '100%';
+    size?: ModalSizeSetting;
     position?: ModalPositionSetting;
     backdrop?: ModalBackdropType;
     show?: boolean;

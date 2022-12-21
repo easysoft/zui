@@ -42,7 +42,7 @@ export class ModalTrigger extends ComponentBase<ModalTriggerOptions, ModalEvents
 
     _getModalOptions() {
         const {
-            width,
+            size,
             position,
             backdrop,
             show,
@@ -53,7 +53,7 @@ export class ModalTrigger extends ComponentBase<ModalTriggerOptions, ModalEvents
             responsive,
         } = this.options;
         return {
-            width,
+            size,
             position,
             backdrop,
             show,

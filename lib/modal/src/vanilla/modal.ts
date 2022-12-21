@@ -1,7 +1,7 @@
 import type {JSX} from 'preact';
 import {ComponentBase} from '@zui/com-helpers/src/helpers/vanilla-component';
-import {setClass, setStyle} from '@zui/com-helpers/src/helpers/element-helper';
-import type {ModalOptions, ModalEvents, ModalPositionSetting} from '../types';
+import {setAttr, setClass, setStyle} from '@zui/com-helpers/src/helpers/element-helper';
+import type {ModalOptions, ModalEvents, ModalPositionSetting, ModalSizeSetting} from '../types';
 
 export class Modal extends ComponentBase<ModalOptions, ModalEvents, HTMLElement> {
     static NAME = 'modal';
@@ -41,7 +41,7 @@ export class Modal extends ComponentBase<ModalOptions, ModalEvents, HTMLElement>
     }
 
     afterInit() {
-        this.on('click', this._handleClick);
+        this.on('click', this.#handleClick);
 
         if (this.options.responsive) {
             if (typeof ResizeObserver !== 'undefined') {
@@ -55,7 +55,7 @@ export class Modal extends ComponentBase<ModalOptions, ModalEvents, HTMLElement>
                         const height = dialog.clientHeight;
                         if (!this.#lastDialogSize || this.#lastDialogSize[0] !== width || this.#lastDialogSize[1] !== height) {
                             this.#lastDialogSize = [width, height];
-                            this.adjustPosition();
+                            this.layout();
                         }
                     });
                     rob.observe(dialog);
@@ -88,7 +88,7 @@ export class Modal extends ComponentBase<ModalOptions, ModalEvents, HTMLElement>
         }, Modal.CLASS_SHOW]);
         this.element.style.zIndex = `${Modal.zIndex++}`;
 
-        this.adjustPosition();
+        this.layout();
         this.emit('show', this);
 
         this.#resetTransitionTimer(() => {
@@ -113,16 +113,30 @@ export class Modal extends ComponentBase<ModalOptions, ModalEvents, HTMLElement>
         });
     }
 
-    adjustPosition(position?: ModalPositionSetting) {
+    layout(position?: ModalPositionSetting, size?: ModalSizeSetting) {
         if (!this.isShown) {
             return;
         }
-        position = position ?? this.options.position ?? 'fit';
 
         const {dialog} = this;
         if (!dialog) {
             return;
         }
+
+        size = size ?? this.options.size;
+        setAttr(dialog, 'data-size', null);
+        const sizeStyle: JSX.CSSProperties = {width: null, height: null};
+        if (typeof size === 'object') {
+            sizeStyle.width = size.width;
+            sizeStyle.height = size.height;
+        } else if (typeof size === 'string' && ['md', 'sm', 'lg', 'full'].includes(size)) {
+            setAttr(dialog, 'data-size', size);
+        } else if (size) {
+            sizeStyle.width = size;
+        }
+        setStyle(dialog, sizeStyle);
+
+        position = position ?? this.options.position ?? 'fit';
         const width = dialog.clientWidth;
         const height = dialog.clientHeight;
         this.#lastDialogSize = [width, height];
@@ -135,8 +149,6 @@ export class Modal extends ComponentBase<ModalOptions, ModalEvents, HTMLElement>
             left: null,
             bottom: null,
             right: null,
-            width: null,
-            height: null,
             alignSelf: 'center',
         };
 
@@ -162,7 +174,7 @@ export class Modal extends ComponentBase<ModalOptions, ModalEvents, HTMLElement>
         setStyle(this.element, 'justifyContent', style.left ? 'flex-start' : 'center');
     }
 
-    _handleClick = (event: MouseEvent) => {
+    #handleClick = (event: MouseEvent) => {
         const target = event.target as HTMLElement;
         if (target.closest(Modal.DISMISS_SELECTOR) || (this.options.backdrop === true && !target.closest('.modal-dialog') && target.closest('.modal'))) {
             this.hide();
@@ -188,7 +200,7 @@ window.addEventListener('resize', () => {
     Modal.all.forEach((modal) => {
         const m = (modal as Modal);
         if (m.isShown && m.options.responsive) {
-            m.adjustPosition();
+            m.layout();
         }
     });
 });
