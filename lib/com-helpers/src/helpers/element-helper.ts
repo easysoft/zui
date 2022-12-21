@@ -11,11 +11,11 @@ export function setClass(element: HTMLElement, classNames: ClassNameLike, reset?
     });
 }
 
-export function setStyle(element: HTMLElement, name: keyof JSX.CSSProperties, value: undefined | null | string | number): void;
+export function setStyle(element: HTMLElement, name: string, value: undefined | null | string | number): void;
 
 export function setStyle(element: HTMLElement, style: JSX.CSSProperties): void;
 
-export function setStyle(element: HTMLElement, name: JSX.CSSProperties | keyof JSX.CSSProperties, value?: undefined | null | string | number): void {
+export function setStyle(element: HTMLElement, name: JSX.CSSProperties | string, value?: undefined | null | string | number): void {
     if (typeof name === 'object') {
         return Object.entries(name).forEach(([styleName, styleValue]) => {
             setStyle(element, styleName, styleValue);
@@ -24,5 +24,25 @@ export function setStyle(element: HTMLElement, name: JSX.CSSProperties | keyof J
     if (value === undefined) {
         return;
     }
-    element.style[name] = typeof value === 'number' ? `${value}` : value;
+    element.style[name] = typeof value === 'number' ? `${value}px` : value;
+}
+
+export function setAttr(element: HTMLElement, name: string, value: undefined | null | string): void;
+
+export function setAttr(element: HTMLElement, style: JSX.HTMLAttributes): void;
+
+export function setAttr(element: HTMLElement, attr: JSX.HTMLAttributes | string, value?: undefined | null | string): void {
+    if (typeof attr === 'object') {
+        return Object.entries(attr).forEach(([attrName, attrValue]) => {
+            setAttr(element, attrName, attrValue);
+        });
+    }
+    if (value === undefined) {
+        return;
+    }
+    if (value === null) {
+        element.removeAttribute(attr);
+    } else {
+        element.setAttribute(attr, value);
+    }
 }
