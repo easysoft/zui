@@ -1,7 +1,7 @@
 import type {JSX} from 'preact';
 import type {ClassNameLike} from '@zui/browser-helpers/src/classes';
 
-export interface DatetimepickerBasicProps {
+export interface DatepickerBasicProps {
     className?: ClassNameLike;
     style?: JSX.CSSProperties;
     minYear?: number;

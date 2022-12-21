@@ -1,0 +1,40 @@
+.datepicker {
+  @apply -opacity-0 -bg-canvas -p-2 -rounded -border -shadow -z-30 -w-56;
+}
+.datepicker.fade {
+  @apply -opacity-0 -transition-opacity	-ease-linear -delay-150;
+}
+.datepicker.show {
+  @apply -opacity-100;
+}
+.datepicker-calendar table {
+  @apply -w-full;
+}
+.datepicker-calendar-bar {
+  @apply -w-full -flex -justify-between -items-center -pb-1 -mb-1 -border-b -border-solid	-border-gray-200;
+}
+.datepicker-calendar-bar .btn {
+  @apply -p-0 -h-5 -leading-5 -p-1;
+}
+.datepicker-calendar-table {
+  @apply -w-full;
+}
+.datepicker-calendar-table thead > tr > th {
+  @apply -font-normal;
+}
+.datepicker-calendar-table tbody > tr > td > .btn {
+  @apply -w-7 -h-7 -text-center;
+}
+.datepicker-calendar-tag > .btn {
+  @apply -border -border-primary-500 -text-primary-500;
+}
+.datepicker-calendar-today > .btn {
+  @apply -bg-primary-50 -text-primary-500;
+}
+.datepicker-calendar-selected-date > .btn {
+  @apply -bg-primary-500 -text-white;
+}
+.datepicker-calendar-other-month > .btn {
+  @apply -text-gray-400;
+}
+

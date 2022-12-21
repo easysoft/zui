@@ -1,4 +1,4 @@
-export type DatetimepickerPlacement =
+export type DatepickerPlacement =
   | 'auto'
   | 'auto-start'
   | 'auto-end'

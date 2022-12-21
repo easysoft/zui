@@ -20,7 +20,7 @@
 </div>
 
 <script>
-new zui.Datetimepicker('#datePicker1', {
+new zui.Datepicker('#datePicker1', {
     onChange: (newDate) => {
         datePicker1.querySelector('.form-control').value = newDate;
     },
@@ -65,7 +65,7 @@ new zui.Datetimepicker('#datePicker1', {
 
 <script>
 const datePicker2 = document.getElementById('datePicker2');
-new zui.Datetimepicker('#datePicker2', {
+new zui.Datepicker('#datePicker2', {
     minDate: '2022-12-02',
     maxDate: '2022-12-30',
     onChange: (newDate) => {
@@ -73,7 +73,7 @@ new zui.Datetimepicker('#datePicker2', {
     },
 });
 const datePicker3 = document.getElementById('datePicker3');
-new zui.Datetimepicker('#datePicker3', {
+new zui.Datepicker('#datePicker3', {
     minYear: 2020,
     maxYear: 2023,
     onChange: (newDate) => {
@@ -102,7 +102,7 @@ new zui.Datetimepicker('#datePicker3', {
 
 <script>
 datePicker5.querySelector('.form-control').value = '2022-12-12';
-new zui.Datetimepicker('#datePicker5', {
+new zui.Datepicker('#datePicker5', {
     date: '2022-12-12',
     format: 'YYYY-MM-DD',
     onChange: (newDate) => {
@@ -129,7 +129,7 @@ new zui.Datetimepicker('#datePicker5', {
 
 <script>
 const datePicker4 = document.getElementById('datePicker4');
-new zui.Datetimepicker('#datePicker4', {
+new zui.Datepicker('#datePicker4', {
     showOtherMonth: false,
     onChange: (newDate) => {
         datePicker4.querySelector('.form-control').value = newDate;
@@ -157,7 +157,7 @@ new zui.Datetimepicker('#datePicker4', {
 
 <script>
 const datePicker7 = document.getElementById('datePicker7');
-new zui.Datetimepicker('#datePicker7', {
+new zui.Datepicker('#datePicker7', {
     date: '2022-12-12',
     showOtherMonth: false,
     onChange: (newDate) => {
@@ -184,7 +184,7 @@ new zui.Datetimepicker('#datePicker7', {
 
 <script>
 const datePicker6 = document.getElementById('datePicker6');
-new zui.Datetimepicker('#datePicker6', {
+new zui.Datepicker('#datePicker6', {
     tagDate: ['2022-12-24', '2022-12-25'],
     onChange: (newDate) => {
         datePicker6.querySelector('.form-control').value = newDate;
@@ -208,7 +208,7 @@ new zui.Datetimepicker('#datePicker6', {
 ```html
 <script>
 const datePicker8 = document.getElementById('datePicker8');
-const datePickerComponent = new zui.Datetimepicker('#datePicker8', {
+const datePickerComponent = new zui.Datepicker('#datePicker8', {
     placement: 'auto',
     onChange: (newDate) => {
         datePicker8.querySelector('.form-control').value = newDate;
@@ -234,15 +234,6 @@ const datePickerComponent = new zui.Datetimepicker('#datePicker8', {
 * 类型：`'YYYY-MM-DD' | 'YYYY-MM-DD HH:mm:ss | 'YYYY-MM-DD HH:mm:ss`;
 * 必选：否；
 * 默认：`'YYYY-MM-DD'`。
-
-
-### `autoClose`
-
-限制可否自动关闭。
-
-* 类型：`boolean`;
-* 必选：否；
-* 默认：`true`。
 
 ### `minYear`
 
@@ -339,13 +330,13 @@ export default {
     mounted() {
         onZUIReady(() => {
             const datePicker1 = document.getElementById('datePicker1');
-            new zui.Datetimepicker('#datePicker1', {
+            new zui.Datepicker('#datePicker1', {
                 onChange: (newDate) => {
                     datePicker1.querySelector('.form-control').value = newDate;
                 },
             });
             const datePicker2 = document.getElementById('datePicker2');
-            new zui.Datetimepicker('#datePicker2', {
+            new zui.Datepicker('#datePicker2', {
                 minDate: '2022-12-02',
                 maxDate: '2022-12-30',
                 onChange: (newDate) => {
@@ -353,7 +344,7 @@ export default {
                 },
             });
             const datePicker3 = document.getElementById('datePicker3');
-            new zui.Datetimepicker('#datePicker3', {
+            new zui.Datepicker('#datePicker3', {
                 minYear: 2020,
                 maxYear: 2023,
                 onChange: (newDate) => {
@@ -361,14 +352,14 @@ export default {
                 },
             });
             const datePicker6 = document.getElementById('datePicker6');
-            new zui.Datetimepicker('#datePicker6', {
+            new zui.Datepicker('#datePicker6', {
                 tagDate: ['2022-12-24', '2022-12-25'],
                 onChange: (newDate) => {
                     datePicker6.querySelector('.form-control').value = newDate;
                 },
             });
             const datePicker4 = document.getElementById('datePicker4');
-            new zui.Datetimepicker('#datePicker4', {
+            new zui.Datepicker('#datePicker4', {
                 showOtherMonth: false,
                 onChange: (newDate) => {
                     datePicker4.querySelector('.form-control').value = newDate;
@@ -376,7 +367,7 @@ export default {
             });
             const datePicker5 = document.getElementById('datePicker5');
             datePicker5.querySelector('.form-control').value = '2022-12-12';
-            new zui.Datetimepicker('#datePicker5', {
+            new zui.Datepicker('#datePicker5', {
                 date: '2022-12-12',
                 format: 'YYYY-MM-DD',
                 onChange: (newDate) => {
@@ -385,7 +376,7 @@ export default {
             });
             const datePicker7 = document.getElementById('datePicker7');
             datePicker7.querySelector('.form-control').value = '2022/12/12';
-            new zui.Datetimepicker('#datePicker7', {
+            new zui.Datepicker('#datePicker7', {
                 date: '2022/12/12',
                 format: 'YYYY/MM/DD',
                 onChange: (newDate) => {
@@ -393,7 +384,7 @@ export default {
                 },
             });
             const datePicker8 = document.getElementById('datePicker8');
-            const datePickerComponent = new zui.Datetimepicker('#datePicker8', {
+            const datePickerComponent = new zui.Datepicker('#datePicker8', {
                 onChange: (newDate) => {
                     datePicker8.querySelector('.form-control').value = newDate;
                 },

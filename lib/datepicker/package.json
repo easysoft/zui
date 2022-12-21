@@ -1,5 +1,5 @@
 {
-    "name": "@zui/datetimepicker",
+    "name": "@zui/datepicker",
     "version": "0.0.1",
     "main": "src/main.ts",
     "browser": "src/main.ts",

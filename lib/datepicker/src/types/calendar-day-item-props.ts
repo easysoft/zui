@@ -1,11 +1,12 @@
 import {Dayjs} from 'dayjs';
 
-export interface CalendardataProps {
-    isSelectedDate: boolean;
+export interface CalendarDayItemProps {
+    isSelected: boolean;
     isToday: boolean;
     isDisable: boolean;
     isTag: boolean;
     isOtherMonth: boolean;
     date: Dayjs;
-    dayNumber: number;
+    // dayNumber: number;
+    onClick: () => void;
 }

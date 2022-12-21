@@ -3,16 +3,19 @@
 ## 用法
 
 ```html:example:
-<div class="input-control suffix-sm form-datetime w-40" id="datePicker1">
+<p>ZUI3 组件展示：</p>
+<div class="input-control suffix-sm form-datetime w-40 mb-2" id="datePicker1">
   <input type="text" class="form-control" placeholder="请选择日期"/>
   <span class="input-control-suffix"><i class="icon icon-time"></i></span>
 </div>
+<p>原生组件展示：</p>
+<input type="datetime-local" class="form-control mt-2 w-40" placeholder="请选择日期"/>
 ```
 
 ```js
 const datePicker1 = document.getElementById('datePicker1');
 datePicker1.querySelector('.form-control').value = '2022-12-12';
-new Datetimepicker('#datePicker1', {
+new Datepicker('#datePicker1', {
     date: '2022-12-12',
     onChange: (newDate) => {
         datePicker1.querySelector('.form-control').value = newDate;
@@ -40,7 +43,7 @@ new Datetimepicker('#datePicker1', {
 
 ```js
 const datePicker3 = document.getElementById('datePicker3');
-new Datetimepicker('#datePicker3', {
+new Datepicker('#datePicker3', {
     showOtherMonth: false,
     onChange: (newDate) => {
         datePicker3.querySelector('.form-control').value = newDate;
@@ -69,7 +72,7 @@ new Datetimepicker('#datePicker3', {
 
 ```js
 const datePicker4 = document.getElementById('datePicker4');
-new Datetimepicker('#datePicker4', {
+new Datepicker('#datePicker4', {
     minDate: '2022-12-02',
     maxDate: '2022-12-30',
     onChange: (newDate) => {
@@ -77,7 +80,7 @@ new Datetimepicker('#datePicker4', {
     },
 });
 const datePicker5 = document.getElementById('datePicker5');
-new Datetimepicker('#datePicker5', {
+new Datepicker('#datePicker5', {
     minYear: 2020,
     maxYear: 2023,
     onChange: (newDate) => {
@@ -97,7 +100,7 @@ new Datetimepicker('#datePicker5', {
 
 ```js
 const datePicker6 = document.getElementById('datePicker6');
-new Datetimepicker('#datePicker6', {
+new Datepicker('#datePicker6', {
     tagDate: ['2022-12-24', '2022-12-25'],
     onChange: (newDate) => {
         datePicker6.querySelector('.form-control').value = newDate;
@@ -117,7 +120,7 @@ new Datetimepicker('#datePicker6', {
 
 ```js
 const datePicker8 = document.getElementById('datePicker8');
-new Datetimepicker('#datePicker8', {
+new Datepicker('#datePicker8', {
     tagDate: ['2022-12-24', '2022-12-25'],
     onChange: (newDate) => {
         datePicker8.querySelector('.form-control').value = newDate;

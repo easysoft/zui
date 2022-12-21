@@ -1,6 +1,6 @@
 import '@zui/css-icons/src/icons/arrow.css';
 import {render, h} from 'preact';
-import {DatetimepickerOptions} from '../types';
+import {DatepickerOptions} from '../types';
 import {ComponentBase} from '@zui/com-helpers/src/helpers/vanilla-component';
 import '../style/index.css';
 import {Calendar} from '../component/calendar';
@@ -13,11 +13,11 @@ import flip from '@popperjs/core/lib/modifiers/flip';
 import '../style/index.css';
 import dayjs from 'dayjs';
 
-export class Datetimepicker extends ComponentBase<DatetimepickerOptions> {
+export class Datepicker extends ComponentBase<DatepickerOptions> {
 
-    static NAME = 'datetimepicker';
+    static NAME = 'datepicker';
 
-    static CLASSNAME = 'datetimepicker';
+    static CLASSNAME = 'datepicker';
 
     static CLASS_SHOW = 'show';
 
@@ -33,24 +33,24 @@ export class Datetimepicker extends ComponentBase<DatetimepickerOptions> {
         trigger: 'click',
         showToday: true,
         arrow: true,
-    } as Partial<DatetimepickerOptions>;
+    } as Partial<DatepickerOptions>;
 
     #virtualElement?: VirtualElement;
 
     #hideTimer = 0;
 
-    #datetimepicker?: HTMLElement;
+    #datepicker?: HTMLElement;
 
     #popper?: PopperInstance;
 
     #trigger?: MouseEvent | HTMLElement | DOMRect;
 
     get isShown() {
-        return this.#datetimepicker?.classList.contains((this.constructor as typeof Datetimepicker).CLASS_SHOW);
+        return this.#datepicker?.classList.contains((this.constructor as typeof Datepicker).CLASS_SHOW);
     }
 
-    get datetimepicker(): HTMLElement {
-        return this.#datetimepicker || this._ensureDatetimepicker();
+    get datepicker(): HTMLElement {
+        return this.#datepicker || this._ensureDatepicker();
     }
 
     get popper() {
@@ -65,24 +65,30 @@ export class Datetimepicker extends ComponentBase<DatetimepickerOptions> {
     }
 
     get elementShowClass() {
-        return `with-${(this.constructor as typeof Datetimepicker).NAME}-show`;
+        return `with-${(this.constructor as typeof Datepicker).NAME}-show`;
     }
 
-    // constructor(element: HTMLElement, props: DatetimepickerOptions) {
+    // constructor(element: HTMLElement, props: DatepickerOptions) {
     //     super(props);
     //     console.log(props);
     //     this.props = props;
     //     this.#element = element;
-    //     this._ensureDatetimepicker();
+    //     this._ensureDatepicker();
     // }
 
     // init(): void {}
 
     show(trigger?: MouseEvent | HTMLElement | DOMRect): boolean {
         this.#trigger = trigger;
+        if (!this.datepicker || !this.element) {
+            return false;
+        }
         this.element.classList.add(this.elementShowClass);
-        this.datetimepicker?.classList.add((this.constructor as typeof Datetimepicker).CLASS_SHOW);
-        this.datetimepicker.classList.add('fade');
+        this.datepicker.classList.add((this.constructor as typeof Datepicker).CLASS_SHOW);
+        this.datepicker.classList.add('fade');
+        this.datepicker.querySelector('.datepicker-calendar-day')?.classList.remove('hidden');
+        this.datepicker.querySelector('.datepicker-calendar-month')?.classList.add('hidden');
+        this.datepicker.querySelector('.datepicker-calendar-year')?.classList.add('hidden');
         this._createPopper().update();
         return true;
     }
@@ -91,8 +97,8 @@ export class Datetimepicker extends ComponentBase<DatetimepickerOptions> {
         this.#popper?.destroy();
         this.#popper = undefined;
         this.element.classList.remove(this.elementShowClass);
-        this.#datetimepicker?.classList.remove((this.constructor as typeof Datetimepicker).CLASS_SHOW);
-        this.datetimepicker.classList.remove('fade');
+        this.#datepicker?.classList.remove((this.constructor as typeof Datepicker).CLASS_SHOW);
+        this.datepicker.classList.remove('fade');
         return true;
     }
 
@@ -116,21 +122,21 @@ export class Datetimepicker extends ComponentBase<DatetimepickerOptions> {
 
     _createArrow(): HTMLElement {
         const div = document.createElement('div');
-        div.classList.add('arrow', 'datetimepicker-arrow');
+        div.classList.add('arrow', 'datepicker-arrow');
         div.style.setProperty('--arrow-size', `${this._getArrowSize()}px`);
         return div;
     }
 
-    _ensureDatetimepicker() {
-        const datetimepickerClass = (this.constructor as typeof Datetimepicker).CLASSNAME;
+    _ensureDatepicker() {
+        const datepickerClass = (this.constructor as typeof Datepicker).CLASSNAME;
         const pickerElement = document.createElement('div');
-        pickerElement.classList.add(datetimepickerClass);
+        pickerElement.classList.add(datepickerClass);
         render(h(Calendar, {...this.options}), pickerElement);
         if (this.options.arrow) {
             pickerElement.prepend(this._createArrow());
         }
         document.body.appendChild(pickerElement);
-        this.#datetimepicker = pickerElement;
+        this.#datepicker = pickerElement;
         return pickerElement;
     }
 
@@ -148,13 +154,13 @@ export class Datetimepicker extends ComponentBase<DatetimepickerOptions> {
                         offset: [0, arrowSize + 3],
                     },
                 }, {
-                    name: 'datetimepicker',
+                    name: 'datepicker',
                     enabled: true,
                     phase: 'beforeWrite',
                     fn: ({state}) => {
                         const placement = state.placement?.split('-').shift() || '';
-                        this.datetimepicker.querySelector('.arrow')?.setAttribute('class', `arrow arrow-${placement}`);
-                        this.element.setAttribute('data-datetimepicker-placement', placement);
+                        this.datepicker.querySelector('.arrow')?.setAttribute('class', `arrow arrow-${placement}`);
+                        this.element.setAttribute('data-datepicker-placement', placement);
                     },
                 },
             ].filter(Boolean),
@@ -168,7 +174,7 @@ export class Datetimepicker extends ComponentBase<DatetimepickerOptions> {
         if (this.#popper) {
             this.#popper.setOptions(options);
         } else {
-            this.#popper = createPopper(this._getPopperElement(), this.datetimepicker, options);
+            this.#popper = createPopper(this._getPopperElement(), this.datepicker, options);
         }
         return this.#popper;
     }
@@ -212,11 +218,11 @@ export class Datetimepicker extends ComponentBase<DatetimepickerOptions> {
         const {exclude} = options || {};
         const all = this.getAll().entries();
         const excludeSet = new Set(exclude || []);
-        for (const [ele, datetimepicker] of all) {
+        for (const [ele, datepicker] of all) {
             if (excludeSet.has(ele)) {
                 continue;
             }
-            datetimepicker.hide();
+            datepicker.hide();
         }
     }
     
@@ -224,27 +230,27 @@ export class Datetimepicker extends ComponentBase<DatetimepickerOptions> {
 
 document.addEventListener('click', function (event) {
     const element = event.target as HTMLElement;
-    const toggleBtn = element.closest<HTMLElement>(Datetimepicker.MENU_SELECTOR);
-    const tdElement = element.closest<HTMLElement>('.calendar-bar, .calendar-table-head, .calendar-month-table');
+    const toggleBtn = element.closest<HTMLElement>(Datepicker.MENU_SELECTOR);
+    const tdElement = element.closest<HTMLElement>('.datepicker-calendar-bar, .datepicker-calendar-thead, .datepicker-calendar-month-table');
 
     if (toggleBtn) {
-        const datetimepicker = Datetimepicker.ensure(toggleBtn);
-        datetimepicker.toggle();
+        const datepicker = Datepicker.ensure(toggleBtn);
+        datepicker.toggle();
     } else if (!tdElement) {
-        Datetimepicker.clear({event});
+        Datepicker.clear({event});
     }
 });
 
 const handleScroll = (event: Event) => {
-    const element = document.getElementsByClassName('with-datetimepicker-show')[0];
+    const element = document.getElementsByClassName('with-datepicker-show')[0];
     if (!element) {
         return;
     }
-    const toggleBtn = typeof element.closest === 'function' ? element.closest<HTMLElement>(Datetimepicker.MENU_SELECTOR) : null;
+    const toggleBtn = typeof element.closest === 'function' ? element.closest<HTMLElement>(Datepicker.MENU_SELECTOR) : null;
     if (!toggleBtn || !(event.target as HTMLElement).contains(toggleBtn)) {
         return;
     }
-    Datetimepicker.clear({event});
+    Datepicker.clear({event});
 };
 
 window.addEventListener('scroll', handleScroll, true);
