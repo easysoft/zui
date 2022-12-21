@@ -869,7 +869,7 @@ export default [
         }
     },
     {
-        "name": "@zui/datetimepicker",
+        "name": "@zui/datepicker",
         "version": "0.0.1",
         "main": "src/main.ts",
         "browser": "src/main.ts",
@@ -910,12 +910,12 @@ export default [
                 ]
             },
             "build": {},
-            "path": "/home/runner/work/zui/zui/lib/datetimepicker",
+            "path": "/home/runner/work/zui/zui/lib/datepicker",
             "workspace": true,
             "sourceType": "build-in",
-            "name": "datetimepicker",
+            "name": "datepicker",
             "order": 4010000024,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/datetimepicker/package.json"
+            "packageJsonPath": "/home/runner/work/zui/zui/lib/datepicker/package.json"
         }
     },
     {
