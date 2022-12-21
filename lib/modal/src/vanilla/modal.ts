@@ -146,7 +146,6 @@ export class Modal extends ComponentBase<ModalOptions, ModalEvents, HTMLElement>
         const target = event.target as HTMLElement;
         if (target.closest(Modal.DISMISS_SELECTOR) || (this.options.backdrop === true && !target.closest('.modal-dialog') && target.closest('.modal'))) {
             this.hide();
-            return;
         }
     };
 
