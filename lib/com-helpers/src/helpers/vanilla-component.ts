@@ -85,7 +85,8 @@ export class ComponentBase<O extends {} = {}, V extends CustomEventMap = {}, E e
             this.#events = new EventHub(element, {customEventSuffix: `.${(this.constructor as typeof ComponentBase).KEY}`});
         }
 
-        this.#options = {...(this.constructor as typeof ComponentBase).DEFAULT, ...(element instanceof HTMLElement ? parseDataset(element.dataset) : null), ...options} as ComponentOptions<O, V>;
+        this.#options = {...(this.constructor as typeof ComponentBase).DEFAULT} as ComponentOptions<O, V>;
+        this.setOptions({...(element instanceof HTMLElement ? parseDataset(element.dataset) : null), ...options} as ComponentOptions<O, V>);
 
         (this.constructor as typeof ComponentBase).all.set(element, this);
         this.#element = element;
