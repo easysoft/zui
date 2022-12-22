@@ -1,8 +1,8 @@
+import {ModalBuilderOptions} from './modal-builder-options';
 import {ModalOptions} from './modal-options';
 
-export interface ModalTriggerOptions extends ModalOptions {
+export type ModalTriggerStaticOptions = ModalOptions & {target?: string};
+
+export type ModalTriggerOptions = (ModalBuilderOptions | ModalTriggerStaticOptions) & {
     container?: string | HTMLElement;
-    type: 'static' | 'custom' | 'iframe' | 'ajax';
-    target?: string;
-    url?: string;
-}
+};

@@ -1,16 +1,12 @@
 import {ComponentBase} from '@zui/com-helpers/src/helpers/vanilla-component';
-import type {ModalTriggerOptions, ModalEvents} from '../types';
+import type {ModalBuilderOptions, ModalTriggerOptions} from '../types';
+import {ModalBuilder} from './modal-builder';
 import {Modal} from './modal';
 
-export class ModalTrigger extends ComponentBase<ModalTriggerOptions, ModalEvents, HTMLElement> {
-    static NAME = 'modalTrigger';
+export class ModalTrigger extends ComponentBase<ModalTriggerOptions> {
+    static NAME = 'ModalTrigger';
 
     static EVENTS = true;
-
-    static DEFAULT = {
-        ...Modal.DEFAULT,
-        type: 'static',
-    } as Partial<ModalTriggerOptions>;
 
     static TOGGLE_SELECTOR = '[data-toggle="modal"]';
 
@@ -32,7 +28,7 @@ export class ModalTrigger extends ComponentBase<ModalTriggerOptions, ModalEvents
     }
 
     show() {
-        const modal = this._initModal();
+        const modal = this.#initModal();
         return modal.show();
     }
 
@@ -40,61 +36,46 @@ export class ModalTrigger extends ComponentBase<ModalTriggerOptions, ModalEvents
         this.#modal?.hide();
     }
 
-    _getModalOptions() {
+    #getBuilderOptions(): ModalBuilderOptions {
         const {
-            size,
-            position,
-            backdrop,
-            show,
-            keyboard,
-            moveable,
-            animation,
-            transTime,
-            responsive,
+            container,
+            ...others
         } = this.options;
-        return {
-            size,
-            position,
-            backdrop,
-            show,
-            keyboard,
-            moveable,
-            animation,
-            transTime,
-            responsive,
-        };
+        const builderOptions = others as ModalBuilderOptions;
+        if (!builderOptions.type && (builderOptions.target || this.element.getAttribute('href')?.startsWith('#'))) {
+            builderOptions.type = 'static';
+        }
+
+        return builderOptions;
     }
 
-    _initModal() {
-        const options = this._getModalOptions();
+    #initModal() {
+        const options = this.#getBuilderOptions();
         let modal = this.#modal;
         if (modal) {
             modal.setOptions(options);
+        } else if (options.type === 'static') {
+            modal = new Modal(this.#getStaticModalElement(), options);
+            this.#modal = modal;
         } else {
-            modal = new Modal(this._getModalElement(), options);
+            modal = new ModalBuilder(this.container, options);
             this.#modal = modal;
         }
         return modal;
     }
 
-    _getModalElement(): HTMLElement {
-        if (this.#modal) {
-            return this.#modal.element;
-        }
-        const {type, target} = this.options;
-        if (type === 'static') {
-            let targetSelector = target;
-            if (!targetSelector) {
-                const {element} = this;
-                if (element.tagName === 'A') {
-                    const href = element.getAttribute('href');
-                    if (href?.startsWith('#')) {
-                        targetSelector = href;
-                    }
+    #getStaticModalElement() {
+        let selector = this.options.target as (string | undefined);
+        if (!selector) {
+            const {element} = this;
+            if (element.tagName === 'A') {
+                const href = element.getAttribute('href');
+                if (href?.startsWith('#')) {
+                    selector = href;
                 }
             }
-            return this.container.querySelector<HTMLElement>(targetSelector || '.modal') as HTMLElement;
         }
+        return this.container.querySelector<HTMLElement>(selector || '.modal') as HTMLElement;
     }
 }
 
@@ -106,5 +87,6 @@ window.addEventListener('click', (event: MouseEvent) => {
         if (modalTrigger) {
             modalTrigger.show();
         }
+        console.log('> modalTrigger', modalTrigger);
     }
 });

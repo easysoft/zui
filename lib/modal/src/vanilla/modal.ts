@@ -3,8 +3,8 @@ import {ComponentBase} from '@zui/com-helpers/src/helpers/vanilla-component';
 import {setAttr, setClass, setStyle} from '@zui/com-helpers/src/helpers/element-helper';
 import type {ModalOptions, ModalEvents, ModalPositionSetting, ModalSizeSetting} from '../types';
 
-export class Modal extends ComponentBase<ModalOptions, ModalEvents, HTMLElement> {
-    static NAME = 'modal';
+export class Modal<T extends ModalOptions = ModalOptions> extends ComponentBase<T, ModalEvents, HTMLElement> {
+    static NAME = 'Modal';
 
     static EVENTS = true;
 
@@ -32,12 +32,16 @@ export class Modal extends ComponentBase<ModalOptions, ModalEvents, HTMLElement>
 
     #lastDialogSize?: [width: number, height: number];
 
+    get modalElement() {
+        return this.element;
+    }
+
     get isShown() {
-        return this.element.classList.contains(Modal.CLASS_SHOW);
+        return this.modalElement.classList.contains(Modal.CLASS_SHOW);
     }
 
     get dialog(): HTMLElement | null {
-        return this.element.querySelector('.modal-dialog');
+        return this.modalElement.querySelector('.modal-dialog');
     }
 
     afterInit() {
@@ -76,41 +80,47 @@ export class Modal extends ComponentBase<ModalOptions, ModalEvents, HTMLElement>
 
     show(options?: Partial<ModalOptions>) {
         if (this.isShown) {
-            return;
+            return false;
         }
 
         this.setOptions(options);
 
-        const {animation, backdrop} = this.options;
-        setClass(this.element, [{
+        const {modalElement} = this;
+        const {animation, backdrop, className, style} = this.options;
+        setClass(modalElement, [{
             'modal-trans': animation,
             'modal-no-backdrop': !backdrop,
-        }, Modal.CLASS_SHOW]);
-        this.element.style.zIndex = `${Modal.zIndex++}`;
+        }, Modal.CLASS_SHOW, className]);
+        setStyle(modalElement, {
+            zIndex: `${Modal.zIndex++}`,
+            ...style,
+        });
 
         this.layout();
         this.emit('show', this);
 
-        this.#resetTransitionTimer(() => {
-            this.element.classList.add(Modal.CLASS_SHOWN);
-            this.#resetTransitionTimer(() => {
+        this.#resetTransTimer(() => {
+            modalElement.classList.add(Modal.CLASS_SHOWN);
+            this.#resetTransTimer(() => {
                 this.emit('shown', this);
             });
         }, 50);
+        return true;
     }
 
     hide() {
         if (!this.isShown) {
-            return;
+            return false;
         }
 
-        this.element.classList.remove(Modal.CLASS_SHOWN);
+        this.modalElement.classList.remove(Modal.CLASS_SHOWN);
         this.emit('hide', this);
 
-        this.#resetTransitionTimer(() => {
-            this.element.classList.remove(Modal.CLASS_SHOW);
+        this.#resetTransTimer(() => {
+            this.modalElement.classList.remove(Modal.CLASS_SHOW);
             this.emit('hidden', this);
         });
+        return true;
     }
 
     layout(position?: ModalPositionSetting, size?: ModalSizeSetting) {
@@ -171,7 +181,7 @@ export class Modal extends ComponentBase<ModalOptions, ModalEvents, HTMLElement>
         }
 
         setStyle(dialog, style);
-        setStyle(this.element, 'justifyContent', style.left ? 'flex-start' : 'center');
+        setStyle(this.modalElement, 'justifyContent', style.left ? 'flex-start' : 'center');
     }
 
     #handleClick = (event: MouseEvent) => {
@@ -181,7 +191,7 @@ export class Modal extends ComponentBase<ModalOptions, ModalEvents, HTMLElement>
         }
     };
 
-    #resetTransitionTimer(callback?: () => void, time?: number) {
+    #resetTransTimer(callback?: () => void, time?: number) {
         if (this.#transitionTimer) {
             clearTimeout(this.#transitionTimer);
             this.#transitionTimer = 0;

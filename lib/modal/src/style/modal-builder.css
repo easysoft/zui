@@ -1,0 +1,6 @@
+.modal-iframe {
+    @apply -w-full;
+}
+.modal-loading-indicator {
+    @apply -w-full -h-full -flex -justify-center -items-center;
+}
