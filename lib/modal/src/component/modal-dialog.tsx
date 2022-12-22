@@ -4,6 +4,8 @@ import {Component, isValidElement} from 'preact';
 import {ModalDialogOptions} from '../types';
 
 export class ModalDialog extends Component<ModalDialogOptions> {
+    static defaultProps = {closeBtn: true};
+
     componentDidMount() {
         this.props.afterRender?.call(this, {firstRender: true});
     }
@@ -21,11 +23,11 @@ export class ModalDialog extends Component<ModalDialogOptions> {
             header,
             title,
         } = this.props;
-        if (header === false) {
-            return null;
-        }
         if (isValidElement(header)) {
             return header;
+        }
+        if (header === false || !title) {
+            return null;
         }
         return (
             <div className="modal-header">
@@ -61,6 +63,9 @@ export class ModalDialog extends Component<ModalDialogOptions> {
         } = this.props;
         if (!body) {
             return null;
+        }
+        if (isValidElement(body)) {
+            return body;
         }
         return (
             <div className="modal-body">

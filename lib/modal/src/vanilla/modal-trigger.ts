@@ -42,12 +42,16 @@ export class ModalTrigger extends ComponentBase<ModalTriggerOptions> {
             ...others
         } = this.options;
         const builderOptions = others as ModalBuilderOptions;
+        const href = this.element.getAttribute('href') || '';
         if (!builderOptions.type) {
-            if ((builderOptions.target || this.element.getAttribute('href')?.startsWith('#'))) {
+            if ((builderOptions.target || href[0] === '#')) {
                 builderOptions.type = 'static';
             } else {
                 builderOptions.type = builderOptions.type || (builderOptions.url ? 'iframe' : 'custom');
             }
+        }
+        if (!builderOptions.url && (builderOptions.type === 'iframe' || builderOptions.type === 'ajax') && href[0] !== '#') {
+            builderOptions.url = href;
         }
 
         return builderOptions;

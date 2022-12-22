@@ -18,7 +18,7 @@ function buildCustomModal(_element: HTMLElement, options: ModalCustomBuilder): M
 }
 
 async function buildAjaxModal(element: HTMLElement, options: ModalAjaxBuilder): Promise<ModalDialogOptions | boolean | undefined> {
-    const {dataType = 'html', url, request, custom, title} = options;
+    const {dataType, url, request, custom, title} = options;
     const response = await fetch(url, request);
     const text = await response.text();
     if (dataType !== 'html') {
@@ -36,7 +36,7 @@ async function buildAjaxModal(element: HTMLElement, options: ModalAjaxBuilder): 
         title,
         ...custom,
         body: dataType === 'html' ? (
-            <div dangerouslySetInnerHTML={{__html: text}}></div>
+            <div className="modal-body" dangerouslySetInnerHTML={{__html: text}}></div>
         ) : text,
     };
 }

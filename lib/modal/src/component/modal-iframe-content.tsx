@@ -24,17 +24,21 @@ export class ModalIframeContent extends Component<ModalIframeContentProps> {
     }
 
     #watchIframeHeight = () => {
-        const iframeBody = this.#ref.current?.contentWindow?.document.body;
-        if (!iframeBody) {
+        const iframeDoc = this.#ref.current?.contentWindow?.document;
+        if (!iframeDoc) {
             return;
         }
 
         let rob = this.#rob;
         rob?.disconnect();
         rob = new ResizeObserver(() => {
-            this.setState({height: iframeBody.clientHeight});
+            const body = iframeDoc.body;
+            const html = iframeDoc.documentElement;
+            const height = Math.ceil(Math.max(body.scrollHeight, body.offsetHeight, html.offsetHeight));
+            this.setState({height});
         });
-        rob.observe(iframeBody);
+        rob.observe(iframeDoc.body);
+        rob.observe(iframeDoc.documentElement);
         this.#rob = rob;
     };
 
