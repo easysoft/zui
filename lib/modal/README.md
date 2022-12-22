@@ -120,28 +120,17 @@
 <button type="button" class="btn primary" data-toggle="modal" data-title="自定义对话框" data-content="这里是对话框内容">点击打开自定义对话框</button>
 ```
 
-## 模态对话框
+## iframe 对话框
 
 ```html:example: flex gap-3
-<button type="button" class="btn primary" data-toggle="modal" data-target="#autoCloseModal">点击打开对话框</button>
+<button type="button" class="btn primary" data-toggle="modal" data-url="/lib/modal/dev/iframe-modal.html" data-title="iframe 对话框">点击打开 iframe 对话框</button>
+```
 
-<div class="modal" id="autoCloseModal" data-modal-closable="false">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <div class="modal-title">标题</div>
-        <button type="button" class="btn square ghost" data-dismiss="modal"><span class="close"></span></button>
-      </div>
-      <div class="modal-body">
-        <p>这是内容</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn" data-dismiss="modal">关闭</button>
-        <button type="button" class="btn primary">保存</button>
-      </div>
-    </div>
-  </div>
-</div>
+## Ajax 对话框
+
+```html:example: flex gap-3
+<button type="button" class="btn primary" data-toggle="modal" data-type="ajax" data-url="/lib/modal/dev/ajax-modal.txt" data-title="Ajax 纯文本对话框"data-data-type="text">点击打开 Ajax 纯文本对话框</button>
+<button type="button" class="btn primary" data-toggle="modal" data-type="ajax" data-url="/lib/modal/dev/ajax-modal.html" data-title="Ajax HTML 对话框" data-data-type="html">点击打开 Ajax HTML 对话框</button>
 ```
 
 ## 方法
