@@ -1,12 +1,7 @@
 {
-    "name": "@zui/picker",
+    "name": "@zui/virtual-grid",
     "version": "0.0.1",
     "main": "src/main.ts",
-    "browserslist": "",
-    "keywords": [
-        "css",
-        "zui:control"
-    ],
     "files": [
         "./src/**/*"
     ],
