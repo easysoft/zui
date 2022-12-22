@@ -1,15 +1,30 @@
 import {classes} from '@zui/browser-helpers/src/classes';
 import {Toolbar} from '@zui/toolbar/src/component/toolbar';
-import {Component} from 'preact';
-import {ModalDialogProps} from '../types';
+import {Component, isValidElement} from 'preact';
+import {ModalDialogOptions} from '../types';
 
-export class ModalDialog extends Component<ModalDialogProps> {
+export class ModalDialog extends Component<ModalDialogOptions> {
+    componentDidMount() {
+        this.props.afterRender?.call(this, {firstRender: true});
+    }
+
+    componentDidUpdate(): void {
+        this.props.afterRender?.call(this, {firstRender: false});
+    }
+
+    componentWillUnmount(): void {
+        this.props.beforeDestroy?.call(this);
+    }
+
     renderHeader() {
         const {
             header,
             title,
         } = this.props;
-        if (header !== undefined) {
+        if (header === false) {
+            return null;
+        }
+        if (isValidElement(header)) {
             return header;
         }
         return (
@@ -24,6 +39,12 @@ export class ModalDialog extends Component<ModalDialogProps> {
             actions,
             closeBtn,
         } = this.props;
+        if (!closeBtn && !actions) {
+            return null;
+        }
+        if (isValidElement(actions)) {
+            return actions;
+        }
         return (
             <div className="modal-actions">
                 {actions ? <Toolbar {...actions} /> : null}
@@ -36,11 +57,14 @@ export class ModalDialog extends Component<ModalDialogProps> {
 
     renderBody() {
         const {
-            children,
+            body,
         } = this.props;
+        if (!body) {
+            return null;
+        }
         return (
             <div className="modal-body">
-                {children}
+                {body}
             </div>
         );
     }
@@ -50,7 +74,10 @@ export class ModalDialog extends Component<ModalDialogProps> {
             footer,
             footerActions,
         } = this.props;
-        if (footer !== undefined) {
+        if (footer === false) {
+            return null;
+        }
+        if (isValidElement(footer)) {
             return footer;
         }
         return (
@@ -64,6 +91,7 @@ export class ModalDialog extends Component<ModalDialogProps> {
         const {
             className,
             style,
+            children,
         } = this.props;
 
         return (
@@ -72,6 +100,7 @@ export class ModalDialog extends Component<ModalDialogProps> {
                     {this.renderHeader()}
                     {this.renderActions()}
                     {this.renderBody()}
+                    {children}
                     {this.renderFooter()}
                 </div>
             </div>
