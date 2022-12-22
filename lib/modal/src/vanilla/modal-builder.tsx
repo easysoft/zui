@@ -9,34 +9,42 @@ import {ModalIframeContent} from '../component/modal-iframe-content';
 type ModalBuilderFunction = (element: HTMLElement, options: ModalBuilderOptions) => Promise<ModalDialogOptions | boolean | undefined>;
 
 function buildCustomModal(_element: HTMLElement, options: ModalCustomBuilder): ModalDialogOptions | boolean | undefined {
-    const {custom} = options;
-    if (typeof custom === 'function') {
-        return custom();
-    }
-    return custom;
+    const {custom, title, content} = options;
+    return {
+        body: content,
+        title,
+        ...(typeof custom === 'function' ? custom() : custom),
+    };
 }
 
 async function buildAjaxModal(element: HTMLElement, options: ModalAjaxBuilder): Promise<ModalDialogOptions | boolean | undefined> {
-    const {dataType = 'html', url, request, custom} = options;
+    const {dataType = 'html', url, request, custom, title} = options;
     const response = await fetch(url, request);
     const text = await response.text();
     if (dataType !== 'html') {
         try {
             const data = JSON.parse(text);
             return {
+                title,
                 ...custom,
                 ...data,
             };
         // eslint-disable-next-line no-empty
         } catch (_) {}
     }
-    element.innerHTML = text;
-    return true;
+    return {
+        title,
+        ...custom,
+        body: dataType === 'html' ? (
+            <div dangerouslySetInnerHTML={{__html: text}}></div>
+        ) : text,
+    };
 }
 
 async function buildIframeModal(_element: HTMLElement, options: ModalAjaxBuilder): Promise<ModalDialogOptions | boolean | undefined> {
-    const {url, custom} = options;
+    const {url, custom, title} = options;
     return {
+        title,
         ...custom,
         body: <ModalIframeContent url={url} />,
     };
@@ -51,16 +59,16 @@ const builders: Record<string, ModalBuilderFunction> = {
 export class ModalBuilder<T extends ModalBuilderOptions = ModalBuilderOptions> extends Modal<T> {
     static LOADING_CLASS = 'loading';
 
+    static DEFAULT = {
+        ...Modal.DEFAULT,
+        loadTimeout: 10000,
+    } as Partial<ModalBuilderOptions>;
+
     #modal?: HTMLElement;
 
     #id?: string;
 
     #loadingTimer?: number;
-
-    static DEFAULT = {
-        ...Modal.DEFAULT,
-        loadTimeout: 10000,
-    } as Partial<ModalBuilderOptions>;
 
     get id() {
         return this.#id as string;
@@ -82,25 +90,24 @@ export class ModalBuilder<T extends ModalBuilderOptions = ModalBuilderOptions> e
                     style: this.options.style,
                 });
                 setClass(modal, ['modal modal-async', this.options.className]);
+                this.element.appendChild(modal);
             }
             this.#modal = modal;
         }
         return modal;
     }
 
-    setOptions(newOptions?: Partial<T>) {
-        const options = super.setOptions(newOptions);
-        if (!options.type) {
-            if (options.target) {
-                options.type = 'static';
-            }
-        }
-        return options;
+    afterInit() {
+        super.afterInit();
+        this.#id = this.options.id || `modal-${nanoid()}`;
     }
 
-    init() {
-        this.#id = this.options.id || `modal-${nanoid()}`;
-        this.on('show', this.buildDialog.bind(this));
+    show(options?: Partial<T>) {
+        if (super.show(options)) {
+            this.buildDialog();
+            return true;
+        }
+        return false;
     }
 
     render(options?: Partial<T>) {
@@ -156,7 +163,6 @@ export class ModalBuilder<T extends ModalBuilderOptions = ModalBuilderOptions> e
             return false;
         }
 
-        console.log('> ModalBuilder.buildDialog', this);
 
         if (this.#loadingTimer) {
             clearTimeout(this.#loadingTimer);

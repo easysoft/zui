@@ -8,11 +8,13 @@ export type ModalBuilderOptions = ModalOptions & {
     loadTimeout?: number;
     failedTip?: string;
     timeoutTip?: string;
+    title?: string;
     [prop: string]: unknown;
 };
 
 export interface ModalCustomBuilder extends ModalBuilderOptions {
     type: 'custom',
+    content?: string;
     custom: ModalDialogOptions | (() => ModalDialogOptions);
 }
 
@@ -20,7 +22,7 @@ export interface ModalAjaxBuilder extends ModalBuilderOptions {
     type: 'ajax',
     url: string;
     request?: RequestInit;
-    dataType?: 'json' | 'html',
+    dataType?: 'json' | 'html' | 'text',
     custom?: Partial<ModalDialogOptions>;
 }
 

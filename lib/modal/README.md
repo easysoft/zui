@@ -117,20 +117,7 @@
 ## 自定义信息提示弹窗
 
 ```html:example: flex gap-3
-<button type="button" class="btn primary" data-toggle="modal" data-target="#customModal">点击打开</button>
-
-<div class="modal" id="customModal">
-  <div class="modal-dialog size-sm bd-none">
-    <div class="modal-content">
-      <div class="modal-body">
-        <p>这是提示内容</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn primary size-sm" data-dismiss="modal">知道了</button>
-      </div>
-    </div>
-  </div>
-</div>
+<button type="button" class="btn primary" data-toggle="modal" data-title="自定义对话框" data-content="这里是对话框内容">点击打开自定义对话框</button>
 ```
 
 ## 模态对话框

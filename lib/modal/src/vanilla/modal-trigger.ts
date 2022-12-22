@@ -42,8 +42,12 @@ export class ModalTrigger extends ComponentBase<ModalTriggerOptions> {
             ...others
         } = this.options;
         const builderOptions = others as ModalBuilderOptions;
-        if (!builderOptions.type && (builderOptions.target || this.element.getAttribute('href')?.startsWith('#'))) {
-            builderOptions.type = 'static';
+        if (!builderOptions.type) {
+            if ((builderOptions.target || this.element.getAttribute('href')?.startsWith('#'))) {
+                builderOptions.type = 'static';
+            } else {
+                builderOptions.type = builderOptions.type || (builderOptions.url ? 'iframe' : 'custom');
+            }
         }
 
         return builderOptions;

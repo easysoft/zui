@@ -74,11 +74,11 @@ export class ModalDialog extends Component<ModalDialogOptions> {
             footer,
             footerActions,
         } = this.props;
-        if (footer === false) {
-            return null;
-        }
         if (isValidElement(footer)) {
             return footer;
+        }
+        if (footer === false || !footerActions) {
+            return null;
         }
         return (
             <div className="modal-footer">
