@@ -1003,6 +1003,7 @@
             "@zui/css-icons": "workspace:^0.0.1",
             "@zui/base": "workspace:*",
             "@zui/toolbar": "workspace:*",
+            "nanoid": "^4.0.0",
             "preact": "10.11.2"
         },
         "devDependencies": {
