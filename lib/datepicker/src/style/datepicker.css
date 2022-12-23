@@ -1,6 +1,13 @@
+.datepicker,
+.datepicker *,
+.datepicker *::before,
+.datepicker *::after{
+  @apply -select-none;
+}
 .datepicker {
   @apply -opacity-0 -bg-canvas -p-2 -rounded -border -shadow -z-30 -w-56;
 }
+
 .datepicker.fade {
   @apply -opacity-0 -transition-opacity	-ease-linear -delay-150;
 }
@@ -13,6 +20,7 @@
 .datepicker-calendar-bar {
   @apply -w-full -flex -justify-between -items-center -pb-1 -mb-1 -border-b -border-solid	-border-gray-200;
 }
+.datepicker-calendar-footer .btn,
 .datepicker-calendar-bar .btn {
   @apply -p-0 -h-5 -leading-5 -p-1;
 }
@@ -38,3 +46,21 @@
   @apply -text-gray-400;
 }
 
+.datepicker-accordion {
+  height: 200px;
+  overflow-y: scroll;
+  overflow: auto;
+}
+  
+.datepicker-accordion > ul > li > .datepicker-accordion-title {
+  @apply -bg-gray-100 -cursor-pointer -p-1;
+  border-bottom: 1px solid var(--color-gray-300);
+  transition: all 1s;     
+}  
+.datepicker-accordion > ul > li > .datepicker-accordion-title:hover {
+  @apply -bg-gray-200;
+}
+
+.datepicker-accordion-content {
+  transition: all 1s;      
+}  

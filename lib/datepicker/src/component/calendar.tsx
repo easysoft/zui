@@ -5,12 +5,7 @@ import '@zui/icons';
 import dayjs from 'dayjs';
 import '@zui/css-icons/src/icons/caret.css';
 import DayPanel from './dayPanel';
-import MonthPanel from './monthPanel';
-import YearPanel from './yearPanel';
-
-// interface CalendarListProps {
-//     [index: number]: Array<CalendarDayItemProps>
-// }
+import MonthAndYearPanel from './monthAndYear';
 
 export class Calendar extends Component<DatepickerProps> {
 
@@ -23,9 +18,11 @@ export class Calendar extends Component<DatepickerProps> {
         type: 'day',
     };
 
-    handleChange(selectedDate: string) {
+    handleChange(selectedDate: string, isSure = false) {
         this.setState({selectedDate: selectedDate});
-        this.props?.onChange(selectedDate);
+        if (isSure) {
+            this.props?.onChange(selectedDate);
+        }
     }
 
     handleChangePanel(type: string) {
@@ -66,19 +63,11 @@ export class Calendar extends Component<DatepickerProps> {
                 DATEROWCOUNT: this.DATEROWCOUNT,
 
             });
-        } else if (this.state.type === 'month') {
-            return _h(MonthPanel, {
-                ...this.props, 
-                handleChangeMonth: this.handleChangeMonth.bind(this),
-                changeYear: this.changeYear.bind(this),
-            });
         } else {
-            return _h(YearPanel, {
+            return _h(MonthAndYearPanel, {
                 ...this.props,
-                handleChangeYear: this.handleChangeYear.bind(this), 
-                handleChange: this.handleChange.bind(this),
                 selectedDate: this.state.selectedDate,
-
+                handleChangeMonth: this.handleChangeMonth.bind(this),
             });
         }
     }

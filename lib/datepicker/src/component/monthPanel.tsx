@@ -5,31 +5,30 @@ import '@zui/css-icons/src/icons/caret.css';
 import {createGroups, generateArrayNumber} from '../helpers/index';
 
 const MonthPanel = (props) => {
-    const {format, selectedDate, changeYear, handleChangeMonth} = props;
+    const {format, selectedDate, minDate, maxDate, year, handleChangeMonth} = props;
+    const minMonth = dayjs(minDate).format('M');
+    const maxMonth = dayjs(maxDate).format('M');
+    const monthPanel = createGroups(generateArrayNumber(1, 12), 3); 
 
-    const monthPanel = createGroups(generateArrayNumber(1, 12), 4); 
+    const onClickMonth = (showMonth: string, isDisable: boolean) => {
+        if (isDisable) {
+            return;
+        }
+        handleChangeMonth(showMonth);
+    };
+
     return (
-        <div className={classes('datepicker-calendar-month')}>
-            <div className="datepicker-calendar-bar">
-                <button type="button" className="btn ghost" onClick={() => {changeYear('subtract');}}>
-                    <i className="icon icon-angle-left" />
-                </button>
-                <button type="button" className="btn ghost">
-                    {dayjs(selectedDate).format('YYYY 年')}
-                </button>
-                <button type="button" className="btn ghost" onClick={() => {changeYear('add');}}>
-                    <i className="icon icon-angle-right" />
-                </button>
-            </div>
+        <div className={classes('datepicker-calendar-month', 'not-hide-datepicker')}>
             <table className="datepicker-calendar-month-table">
                 <tbody className="datepicker-calendar-month-table-body">
                     {monthPanel.map((group, groupKey) => <tr key={groupKey}>{group.map((month, monthKey) => {
                         const classList = ['text-center'];
-                        const year = dayjs(selectedDate).year();
                         const showMonth = dayjs(`${year}-${month}-01`).format(format);
+                        const isDisable = !!(minMonth && dayjs(selectedDate).isBefore(minMonth) ||
+                        maxMonth && dayjs(selectedDate).isBefore(maxMonth));
                         
                         return (<td key={monthKey} className={classes(classList)}>
-                            <div className={classes('btn', 'ghost', 'datepicker-calendar-month')} onClick={() => {handleChangeMonth(showMonth);}}>
+                            <div className={classes('btn', 'size-sm', 'ghost', 'datepicker-calendar-month', isDisable ? 'disabled' : '')} onClick={() => {onClickMonth(showMonth, isDisable);}}>
                                 {dayjs(showMonth).format('MM')} 月
                             </div>
                         </td>);

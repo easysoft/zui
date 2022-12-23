@@ -36,6 +36,14 @@ const DayPanel = (props) => {
         handleChange(nextMonth);
     };
 
+    const onClear = () => {
+        handleChange('', true);
+    };
+
+    const onSubmit = () => {
+        handleChange(selectedDate, true);
+    };
+
     
     const renderMonthDay = (totalDays: number, addDayNumber: number, preMonth: Dayjs, isOtherMonth: boolean) => {
         const today = dayjs();
@@ -107,16 +115,13 @@ const DayPanel = (props) => {
 
     const weeks = ['一', '二', '三', '四', '五', '六', '日'];
     const calendarTable: CalendarListProps = renderCurrentMonthDays();
+    const newSelectedDate = selectedDate || dayjs().format(format);
     return (
         <div className={classes('datepicker-calendar-day')}>
-            <div className="datepicker-calendar-bar">
+            <div className="datepicker-calendar-bar not-hide-datepicker">
                 <div class="flex">
                     <button type="button" className="btn ghost" onClick={() => handleChangePanel('year')}>
-                        <span>{dayjs(selectedDate).format('YYYY 年')}</span>
-                        <span class="caret"></span>
-                    </button>
-                    <button type="button" className="btn ghost" onClick={() => handleChangePanel('month')}>
-                        <span>{dayjs(selectedDate).format('MM 月')}</span>
+                        <span>{dayjs(newSelectedDate).format('YYYY 年 MM 月')}</span>
                         <span class="caret"></span>
                     </button>
                 </div>
@@ -136,7 +141,7 @@ const DayPanel = (props) => {
                     </button>
                 </div>
             </div>
-            <table className="datepicker-calendar-table">
+            <table className="datepicker-calendar-table not-hide-datepicker">
                 <thead className="datepicker-calendar-thead">
                     <tr>
                         {weeks.map((item, key) => <th key={key}>{item}</th>)}
@@ -165,6 +170,14 @@ const DayPanel = (props) => {
                     })}</tr>)}
                 </tbody>
             </table>
+            <div class="datepicker-calendar-footer text-right mt-1">
+                <button type="button" className="btn ghost text-primary" onClick={onClear}>
+                    <span>清除</span>
+                </button>
+                <button type="button" className="btn ghost text-primary" onClick={onSubmit}>
+                    <span>确认</span>
+                </button>
+            </div>
         </div>
     );
 };

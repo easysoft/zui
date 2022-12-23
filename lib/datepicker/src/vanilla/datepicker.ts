@@ -27,7 +27,6 @@ export class Datepicker extends ComponentBase<DatepickerOptions> {
         date: dayjs().format('YYYY-MM-DD'),
         format: 'YYYY-MM-DD',
         showOtherMonth: true,
-        minYear: 1911,
         placement: 'bottom-start',
         strategy: 'absolute',
         trigger: 'click',
@@ -68,16 +67,6 @@ export class Datepicker extends ComponentBase<DatepickerOptions> {
         return `with-${(this.constructor as typeof Datepicker).NAME}-show`;
     }
 
-    // constructor(element: HTMLElement, props: DatepickerOptions) {
-    //     super(props);
-    //     console.log(props);
-    //     this.props = props;
-    //     this.#element = element;
-    //     this._ensureDatepicker();
-    // }
-
-    // init(): void {}
-
     show(trigger?: MouseEvent | HTMLElement | DOMRect): boolean {
         this.#trigger = trigger;
         if (!this.datepicker || !this.element) {
@@ -86,9 +75,6 @@ export class Datepicker extends ComponentBase<DatepickerOptions> {
         this.element.classList.add(this.elementShowClass);
         this.datepicker.classList.add((this.constructor as typeof Datepicker).CLASS_SHOW);
         this.datepicker.classList.add('fade');
-        this.datepicker.querySelector('.datepicker-calendar-day')?.classList.remove('hidden');
-        this.datepicker.querySelector('.datepicker-calendar-month')?.classList.add('hidden');
-        this.datepicker.querySelector('.datepicker-calendar-year')?.classList.add('hidden');
         this._createPopper().update();
         return true;
     }
@@ -211,11 +197,15 @@ export class Datepicker extends ComponentBase<DatepickerOptions> {
         this.#hideTimer = 0;
     };
 
-    static clear(options?: {event?: Event, exclude?: HTMLElement[]} | Event) {
+    static clear(options?: {event?: Event, exclude?: HTMLElement[], ignoreSelector?: string} | Event) {
         if (options instanceof Event) {
             options = {event: options};
         }
-        const {exclude} = options || {};
+        const {event, exclude, ignoreSelector = '.not-hide-datepicker'} = options || {};
+        if (event && ignoreSelector && (event.target as HTMLElement).closest?.(ignoreSelector)) {
+            return;
+        }
+        
         const all = this.getAll().entries();
         const excludeSet = new Set(exclude || []);
         for (const [ele, datepicker] of all) {

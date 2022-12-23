@@ -61,13 +61,6 @@ new Datepicker('#datePicker3', {
     <span class="input-control-suffix"><i class="icon icon-time"></i></span>
   </div>
 </div>
-<div>
-  <div>限制年份</div>
-  <div class="input-control suffix-sm form-datetime w-40" id="datePicker5">
-    <input type="text" class="form-control" placeholder="请选择日期"/>
-    <span class="input-control-suffix"><i class="icon icon-time"></i></span>
-  </div>
-</div>
 ```
 
 ```js
@@ -79,14 +72,7 @@ new Datepicker('#datePicker4', {
         datePicker4.querySelector('.form-control').value = newDate;
     },
 });
-const datePicker5 = document.getElementById('datePicker5');
-new Datepicker('#datePicker5', {
-    minYear: 2020,
-    maxYear: 2023,
-    onChange: (newDate) => {
-        datePicker5.querySelector('.form-control').value = newDate;
-    },
-});
+
 ``` 
 
 ## 标记日期
