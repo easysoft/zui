@@ -77,6 +77,12 @@ const linkVisited = primary[700];
 /** Border */
 const border = gray[200];
 
+/** Strong border */
+const borderStrong = gray[300];
+
+/** Strong border */
+const borderLight = gray[100];
+
 module.exports = {
     gray,
     primary,
@@ -102,4 +108,6 @@ module.exports = {
     'link-hover': linkHover,
     'link-visited': linkVisited,
     border,
+    'border-strong': borderStrong,
+    'border-light': borderLight,
 };
