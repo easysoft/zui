@@ -1,0 +1,18 @@
+.form-control {
+  @apply -bg-canvas -border -block -h-8 -py-1 -px-2 -w-full -transition-[outline] -duration-100;
+  border-radius: var(--form-control-radius);
+  border-color: var(--form-control-border);
+}
+
+.form-control.focus,
+.form-control:focus {
+  @apply -shadow;
+  border-color: var(--form-control-focus);
+  outline: 2px solid var(--form-control-focus);
+  outline-offset: 0px;
+}
+
+.form-control[disabled],
+.form-control.disabled {
+  background: var(--form-control-disabled);
+}

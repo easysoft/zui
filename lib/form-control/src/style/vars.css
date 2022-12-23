@@ -1,0 +1,6 @@
+:root {
+  --form-control-radius: var(--radius);
+  --form-control-border: var(--color-border-strong);
+  --form-control-focus: var(--color-focus);
+  --form-control-disabled: var(--color-surface);
+}

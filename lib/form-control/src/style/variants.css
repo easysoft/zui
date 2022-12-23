@@ -1,0 +1,19 @@
+select {
+  @apply -bg-no-repeat -pr-4;
+  -webkit-appearance: none;
+  background-image: url('data:image/gif;base64,R0lGODlhBwAEAIAAAMvQ2////yH5BAEAAAEALAAAAAAHAAQAAAIIhA+BGWoNWSgAOw==');
+  background-size: 8px auto;
+  background-position: right 8px top 50%;
+}
+
+select.form-control[multiple] {
+  @apply -h-auto -bg-none;
+}
+
+textarea.form-control {
+  @apply -h-auto;
+}
+
+input[type="file"].form-control {
+  @apply -p-0.5;
+}
