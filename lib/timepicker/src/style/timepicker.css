@@ -1,0 +1,43 @@
+.timepicker {
+  @apply -hidden -bg-canvas -rounded -border -shadow -z-30;
+}
+
+.timepicker.show {
+  @apply -block;
+}
+
+.timepicker-timepanel,
+.timepicker-timepanel *,
+.timepicker-timepanel *::before,
+.timepicker-timepanel *::after{
+  @apply -select-none;
+}
+
+.timepicker-timepanel {
+  @apply -flex -flex-col;
+}
+
+.timepicker-timepanel-select-col {
+  @apply -overflow-x-hidden -overflow-y-scroll -relative;
+  height: calc(2rem * 6);
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+}
+
+.timepicker-timepanel-select-col > .active {
+  @apply -bg-primary-100;
+}
+
+.timepicker-timepanel-actions {
+  border-top: 1px solid var(--color-gray-300);
+}
+
+.timepicker-timepanel-select-col::-webkit-scrollbar {
+  @apply -w-0;
+}
+.timepicker-timepanel-select-col::-webkit-scrollbar-track {
+  @apply -bg-transparent;
+}
+.timepicker-timepanel-select-col::-webkit-scrollbar-thumb {
+  @apply -bg-transparent;
+}
