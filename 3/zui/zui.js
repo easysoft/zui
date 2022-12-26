@@ -3695,7 +3695,8 @@ const oe = Dp.exports, Ya = (e = 0, t = 0) => {
     className: "btn ghost text-primary",
     onClick: m
   }, /* @__PURE__ */ J("span", null, "\u786E\u8BA4"))));
-}, Um = (e) => {
+};
+const Um = (e) => {
   const { format: t, selectedDate: n, minDate: r, maxDate: s, year: o, handleChangeMonth: a } = e, c = oe(r).format("M"), f = oe(s).format("M"), p = Lp(Ya(1, 12), 3), i = (d, u) => {
     u || a(d);
   };
@@ -8293,16 +8294,16 @@ class p0 extends ho {
     });
   }
   onSubmit() {
-    this.props.onChange && this.props.onChange(this.state.selectTime);
+    console.log(this.state.selectTime), this.props.onChange && this.props.onChange(this.state.selectTime);
   }
   onClear() {
     this.setState({ selectTime: "" }), this.props.onChange && this.props.onChange("");
   }
   render() {
-    const { className: n, showSeconds: r, style: s } = this.props, { hourList: o, minuteList: a, secondList: c } = _0();
+    const { showSeconds: n, style: r } = this.props, { hourList: s, minuteList: o, secondList: a } = _0();
     return /* @__PURE__ */ Ae("div", {
-      className: G("timepicker-timepanel", "pt-px", n, { "is-enable-sec": r }),
-      style: s,
+      className: G("timepicker-timepanel", "pt-px"),
+      style: r,
       ref: this.ref
     }, /* @__PURE__ */ Ae("div", {
       className: G("flex", " justify-around", "p-px", "not-hide-timepicker")
@@ -8311,17 +8312,17 @@ class p0 extends ho {
     }, /* @__PURE__ */ Ae("div", {
       className: "timepicker-timepanel-select-col",
       ref: this.hourRef
-    }, this.renderColumn("hour", o))), /* @__PURE__ */ Ae("div", {
+    }, this.renderColumn("hour", s))), /* @__PURE__ */ Ae("div", {
       className: "overflow-hidden"
     }, /* @__PURE__ */ Ae("div", {
       className: "timepicker-timepanel-select-col",
       ref: this.minuteRef
-    }, this.renderColumn("minute", a))), r && /* @__PURE__ */ Ae("div", {
+    }, this.renderColumn("minute", o))), n && /* @__PURE__ */ Ae("div", {
       className: "overflow-hidden"
     }, /* @__PURE__ */ Ae("div", {
       className: "timepicker-timepanel-select-col",
       ref: this.secondRef
-    }, this.renderColumn("second", c)))), /* @__PURE__ */ Ae("div", {
+    }, this.renderColumn("second", a)))), /* @__PURE__ */ Ae("div", {
       className: G("timepicker-timepanel-actions", "flex", "p-px", "justify-between", "align-center")
     }, /* @__PURE__ */ Ae("button", {
       className: G("btn", "size-sm", "ghost", "text-primary"),

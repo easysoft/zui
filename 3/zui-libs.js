@@ -1256,6 +1256,7 @@ export default [
             "dayjs": "^1.11.6",
             "@popperjs/core": "^2.11.6",
             "@zui/browser-helpers": "workspace:*",
+            "@zui/css-icons": "workspace:^0.0.1",
             "@zui/com-helpers": "workspace:*"
         },
         "zui": {
