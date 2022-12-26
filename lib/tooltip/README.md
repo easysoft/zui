@@ -48,6 +48,13 @@ new zui.Tooltip('#tooltipExp12', {title: 'bottom 提示内容', placement: 'bott
 new zui.Tooltip('#tooltipExp13', {title: 'bottom-end 提示内容', placement: 'bottom-end'});
 ```   
 
+## 静态用法
+
+```html:example:
+<button type="button" class="btn" data-toggle="tooltip" href="#tooltipStatic1">static 展示</button>
+<div id="tooltipStatic1" class="tooltip darker">你好你好你好你好</div>
+```
+
 ## 触发方式
 
 ```html:example:

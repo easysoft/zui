@@ -58,20 +58,35 @@
 </div>
 
 <script>
-    new zui.Tooltip('#tooltipExp2', {title: 'top-start 提示内容', placement: 'top-start'});
-    new zui.Tooltip('#tooltipExp3', {title: 'top 提示内容', placement: 'top'});
-    new zui.Tooltip('#tooltipExp4', {title: 'top-end 提示内容', placement: 'top-end'});
-    new zui.Tooltip('#tooltipExp5', {title: 'left-start 提示内容', placement: 'left-start'});
-    new zui.Tooltip('#tooltipExp6', {title: 'left 提示内容', placement: 'left'});
-    new zui.Tooltip('#tooltipExp7', {title: 'left-end 提示内容', placement: 'left-end'});
-    new zui.Tooltip('#tooltipExp8', {title: 'right-start 提示内容', placement: 'right-start'});
-    new zui.Tooltip('#tooltipExp9', {title: 'right 提示内容', placement: 'right'});
-    new zui.Tooltip('#tooltipExp10', {title: 'right-end 提示内容', placement: 'right-end'});
-    new zui.Tooltip('#tooltipExp11', {title: 'bottom-start 提示内容', placement: 'bottom-start'});
-    new zui.Tooltip('#tooltipExp12', {title: 'bottom 提示内容', placement: 'bottom'});
-    new zui.Tooltip('#tooltipExp13', {title: 'bottom-end 提示内容', placement: 'bottom-end'});
+new zui.Tooltip('#tooltipExp2', {title: 'top-start 提示内容', placement: 'top-start'});
+new zui.Tooltip('#tooltipExp3', {title: 'top 提示内容', placement: 'top'});
+new zui.Tooltip('#tooltipExp4', {title: 'top-end 提示内容', placement: 'top-end'});
+new zui.Tooltip('#tooltipExp5', {title: 'left-start 提示内容', placement: 'left-start'});
+new zui.Tooltip('#tooltipExp6', {title: 'left 提示内容', placement: 'left'});
+new zui.Tooltip('#tooltipExp7', {title: 'left-end 提示内容', placement: 'left-end'});
+new zui.Tooltip('#tooltipExp8', {title: 'right-start 提示内容', placement: 'right-start'});
+new zui.Tooltip('#tooltipExp9', {title: 'right 提示内容', placement: 'right'});
+new zui.Tooltip('#tooltipExp10', {title: 'right-end 提示内容', placement: 'right-end'});
+new zui.Tooltip('#tooltipExp11', {title: 'bottom-start 提示内容', placement: 'bottom-start'});
+new zui.Tooltip('#tooltipExp12', {title: 'bottom 提示内容', placement: 'bottom'});
+new zui.Tooltip('#tooltipExp13', {title: 'bottom-end 提示内容', placement: 'bottom-end'});
 </script>
 ```
+
+## 静态使用
+
+除了默认的鼠标悬浮展示信息外，组件也提供了点击触发的方式
+
+<Example class="flex gap-2">
+  <button type="button" class="btn" data-toggle="tooltip" href="tooltipStatic1">静态使用</button>
+  <div id="tooltipStatic1" class="tooltip darker">静态展示内容</div>
+</Example>
+
+```html
+<button type="button" class="btn" data-toggle="tooltip" href="tooltipStatic1">静态使用</button>
+<div id="tooltipStatic1" class="tooltip darker">静态展示内容</div>
+```
+
 
 ## 触发方式
 
@@ -87,8 +102,8 @@
 <button type="button" class="btn" data-toggle="tooltip" id="tooltipHover">hover 触发</button>
 
 <script>
-    new zui.Tooltip('#tooltipHover', {title: '点击展示提示内容', trigger: 'hover'});
-    new zui.Tooltip('#tooltipClick', {title: '点击展示提示内容', trigger: 'click'});
+new zui.Tooltip('#tooltipHover', {title: '点击展示提示内容', trigger: 'hover'});
+new zui.Tooltip('#tooltipClick', {title: '点击展示提示内容', trigger: 'click'});
 </script>
 ```
 
@@ -102,7 +117,7 @@
 <div class="mt-4"><a class="text-primary" data-toggle="tooltip" id="tooltipLink">层叠样式表</a>，又称串样式列表、级联样式表、串接样式表、层叠样式表、階層式樣式表，一种用来为结构化文档添加样式（字体、间距和颜色等）的计算机语言，由 W3C 定义和维护。</div>
 
 <script>
-    new zui.Tooltip('#tooltipLink', {title: '英语：Cascading Style Sheets，简写CSS'});
+new zui.Tooltip('#tooltipLink', {title: '英语：Cascading Style Sheets，简写CSS'});
 </script>
 ```
 
@@ -131,13 +146,13 @@
 <button type="button" class="btn important" data-toggle="tooltip" id="tooltipShow6">important</button>
 
 <script>
-    new zui.Tooltip('#tooltipShow1', {title: 'primary 外观', type: 'primary'});
-    new zui.Tooltip('#tooltipShow2', {title: 'secondary 外观', type: 'secondary'});
-    new zui.Tooltip('#tooltipShow3', {title: 'warning 外观', type: 'warning'});
-    new zui.Tooltip('#tooltipShow4', {title: 'success 外观', type: 'success'});
-    new zui.Tooltip('#tooltipShow5', {title: 'danger 外观', type: 'danger'});
-    new zui.Tooltip('#tooltipShow6', {title: 'important 外观', type: 'important'});
-    new zui.Tooltip('#tooltipShow7', {title: 'white 外观', type: 'white', className: 'text-darker border border-light'});
+new zui.Tooltip('#tooltipShow1', {title: 'primary 外观', type: 'primary'});
+new zui.Tooltip('#tooltipShow2', {title: 'secondary 外观', type: 'secondary'});
+new zui.Tooltip('#tooltipShow3', {title: 'warning 外观', type: 'warning'});
+new zui.Tooltip('#tooltipShow4', {title: 'success 外观', type: 'success'});
+new zui.Tooltip('#tooltipShow5', {title: 'danger 外观', type: 'danger'});
+new zui.Tooltip('#tooltipShow6', {title: 'important 外观', type: 'important'});
+new zui.Tooltip('#tooltipShow7', {title: 'white 外观', type: 'white', className: 'text-darker border border-light'});
 </script>
 ```
 
@@ -157,7 +172,7 @@
 
 ### `title `
 
-设定提示消息内容，可包含 HTML 格式源码。
+设定提示消息内容。
 
 * 类型：`'string'`;
 * 必选：否。

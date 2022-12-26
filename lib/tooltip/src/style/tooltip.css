@@ -1,5 +1,5 @@
 .tooltip {
-  @apply -z-30 -rounded -text-white -py-1 -px-2 -text-xs;
+  @apply -z-30 -rounded -text-white -py-1 -px-2 -text-xs -opacity-0;
 }
 .btn.with-tooltip-show {
   @apply -shadow-inner;
@@ -23,6 +23,10 @@
 .tooltip.fade {
   @apply -opacity-0 -transition-opacity	-ease-linear -delay-150;
 }
+.tooltip .arrow {
+  @apply -opacity-0;
+}
+.tooltip.show .arrow,
 .tooltip.show {
   @apply -opacity-100;
 }

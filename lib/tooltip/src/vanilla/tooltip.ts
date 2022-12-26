@@ -66,6 +66,10 @@ export class Tooltip extends ComponentBase<TooltipOptions> {
         return `with-${(this.constructor as typeof Tooltip).NAME}-show`;
     }
 
+    get isDynamic() {
+        return this.options.title;
+    }
+    
     init(): void {
         const {element} = this;
         if (element !== document.body && !element.hasAttribute('data-toggle')) {
@@ -73,8 +77,9 @@ export class Tooltip extends ComponentBase<TooltipOptions> {
         }
     }
 
-    show(trigger?: TooltipTrigger): boolean {
-        this.#trigger = trigger;
+    show(options?: TooltipOptions): boolean {
+        this.setOptions(options);
+        // this.#trigger = trigger;
         if (!this.#hoverEventsBind && this.isHover) {
             this.#bindHoverEvents();
         }
@@ -128,15 +133,34 @@ export class Tooltip extends ComponentBase<TooltipOptions> {
 
     _ensureTooltip() {
         const tooltipClass = (this.constructor as typeof Tooltip).TOOLTIP_CLASS;
-        const tooltipElement = document.createElement('div');
-        const classOptions = this.options.className ? this.options.className.split(' ') : [];
-        let classNames = [tooltipClass, this.options.type || ''];
-        classNames = classNames.concat(classOptions);
-        tooltipElement.classList.add(...classNames);
-        tooltipElement[this.options.html ? 'innerHTML' : 'innerText'] = this.options.title || '';
+        let tooltipElement: HTMLElement | null | undefined;
+        if (this.isDynamic) {
+            tooltipElement = document.createElement('div');
+            const classOptions = this.options.className ? this.options.className.split(' ') : [];
+            let classNames = [tooltipClass, this.options.type || ''];
+            classNames = classNames.concat(classOptions);
+            tooltipElement.classList.add(...classNames);
+            tooltipElement[this.options.html ? 'innerHTML' : 'innerText'] = this.options.title || '';
+        } else if (this.element) {
+            const target = this.element.getAttribute('href') ?? this.element.dataset.target;
+            if (target?.startsWith('#')) {
+                tooltipElement = document.querySelector<HTMLElement>(target);
+            }
+            if (!tooltipElement) {
+                const nextElement = this.element.nextElementSibling;
+                if (nextElement?.classList.contains(tooltipClass)) {
+                    tooltipElement = nextElement as HTMLElement;
+                } else {
+                    tooltipElement = this.element.parentNode?.querySelector(`.${tooltipClass}`);
+                }
+            }
+        }
         
         if (this.options.arrow) {
-            tooltipElement.prepend(this._createArrow());
+            tooltipElement?.prepend(this._createArrow());
+        }
+        if (!tooltipElement) {
+            throw new Error('Tooltip: Cannot find tooltip element');
         }
         document.body.appendChild(tooltipElement);
 
