@@ -1,8 +1,6 @@
-import '@zui/css-icons/src/icons/arrow.css';
 import {render, h} from 'preact';
 import {DatepickerOptions} from '../types';
 import {ComponentBase} from '@zui/com-helpers/src/helpers/vanilla-component';
-import '../style/index.css';
 import {Calendar} from '../component/calendar';
 import '@zui/css-icons/src/icons/arrow.css';
 import {createPopper, Options as PopperOptions, Instance as PopperInstance, VirtualElement} from '@popperjs/core/lib/popper-lite';

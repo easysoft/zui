@@ -40,13 +40,6 @@ new zui.Datepicker('#datePicker1', {
       <span class="input-control-suffix"><i class="icon icon-time"></i></span>
     </div>
   </div>
-  <div>
-    <div>限制年份</div>
-    <div class="input-control suffix-sm form-datetime w-40" id="datePicker3">
-      <input type="text" class="form-control" placeholder="请选择日期"/>
-      <span class="input-control-suffix"><i class="icon icon-time"></i></span>
-    </div>
-  </div>
 </Example>
 
 ```html
@@ -54,13 +47,6 @@ new zui.Datepicker('#datePicker1', {
 <div class="input-control suffix-sm form-datetime w-40" id="datePicker2">
   <input type="text" class="form-control" placeholder="请选择日期"/>
   <span class="input-control-suffix"><i class="icon icon-time"></i></span>
-</div>
-<div>
-  <div>限制年份</div>
-  <div class="input-control suffix-sm form-datetime w-40" id="datePicker3">
-    <input type="text" class="form-control" placeholder="请选择日期"/>
-    <span class="input-control-suffix"><i class="icon icon-time"></i></span>
-  </div>
 </div>
 
 <script>
@@ -70,14 +56,6 @@ new zui.Datepicker('#datePicker2', {
     maxDate: '2022-12-30',
     onChange: (newDate) => {
         datePicker2.querySelector('.form-control').value = newDate;
-    },
-});
-const datePicker3 = document.getElementById('datePicker3');
-new zui.Datepicker('#datePicker3', {
-    minYear: 2020,
-    maxYear: 2023,
-    onChange: (newDate) => {
-        datePicker3.querySelector('.form-control').value = newDate;
     },
 });
 </script>
@@ -235,20 +213,6 @@ const datePickerComponent = new zui.Datepicker('#datePicker8', {
 * 必选：否；
 * 默认：`'YYYY-MM-DD'`。
 
-### `minYear`
-
-限制可选择的最小年份，默认全部可选。
-
-* 类型：`number`;
-* 必选：否。
-
-### `maxYear`
-
-限制可选择的最大年份，默认全部可选。
-
-* 类型：`number`;
-* 必选：否。
-
 ### `minDate`
 
 限制可选择的最小日期，默认全部可选。
@@ -341,14 +305,6 @@ export default {
                 maxDate: '2022-12-30',
                 onChange: (newDate) => {
                     datePicker2.querySelector('.form-control').value = newDate;
-                },
-            });
-            const datePicker3 = document.getElementById('datePicker3');
-            new zui.Datepicker('#datePicker3', {
-                minYear: 2020,
-                maxYear: 2023,
-                onChange: (newDate) => {
-                    datePicker3.querySelector('.form-control').value = newDate;
                 },
             });
             const datePicker6 = document.getElementById('datePicker6');
