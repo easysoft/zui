@@ -25,6 +25,32 @@ new zui.Timepicker('#timepickerExp', {
 </script>
 ```
 
+## 可选择秒
+
+<Example>
+  <div class="input-control suffix-sm form-time w-40" id="timepickerExp2">
+    <input type="text" class="form-control" placeholder="请选择日期"/>
+    <span class="input-control-suffix"><i class="icon icon-time"></i></span>
+  </div>
+</Example>
+
+```html
+<div class="input-control suffix-sm form-time w-40" id="timepickerExp2">
+  <input type="text" class="form-control" placeholder="请选择日期"/>
+  <span class="input-control-suffix"><i class="icon icon-time"></i></span>
+</div>
+
+<script>
+const timepickerExp2 = document.getElementById('timepickerExp2');
+new zui.Timepicker('#timepickerExp2', {
+    showSeconds: true,
+    onChange: (value) => {
+        timepickerExp2.querySelector('.form-control').value = value;
+    },
+});
+</script>
+```
+
 ## 选项
 
 ### `value`
@@ -82,6 +108,13 @@ export default {
             new zui.Timepicker('#timepickerExp', {
                 onChange: (value) => {
                     timepickerExp.querySelector('.form-control').value = value;
+                },
+            });
+            const timepickerExp2 = document.getElementById('timepickerExp2');
+            new zui.Timepicker('#timepickerExp2', {
+                showSeconds: true,
+                onChange: (value) => {
+                    timepickerExp2.querySelector('.form-control').value = value;
                 },
             });
         })

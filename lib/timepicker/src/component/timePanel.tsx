@@ -69,6 +69,7 @@ export class TimePanel extends Component<TimepickerProps> {
     }
 
     onSubmit() {
+        console.log(this.state.selectTime);
         if (this.props.onChange) {
             this.props.onChange(this.state.selectTime);
         }
@@ -82,10 +83,10 @@ export class TimePanel extends Component<TimepickerProps> {
     }
 
     render() {
-        const {className, showSeconds, style} = this.props;
+        const {showSeconds, style} = this.props;
         const {hourList, minuteList, secondList} = getTimeList();
         return (
-            <div className={classes('timepicker-timepanel', 'pt-px', className, {'is-enable-sec': showSeconds})} style={style} ref={this.ref}>
+            <div className={classes('timepicker-timepanel', 'pt-px')} style={style} ref={this.ref}>
                 <div className={classes('flex', ' justify-around', 'p-px', 'not-hide-timepicker')}>
                     <div className={'overflow-hidden'}>
                         <div className={'timepicker-timepanel-select-col'} ref={this.hourRef}>

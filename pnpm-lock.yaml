@@ -664,6 +664,7 @@ importers:
       '@zui/base': workspace:*
       '@zui/browser-helpers': workspace:*
       '@zui/com-helpers': workspace:*
+      '@zui/css-icons': workspace:^0.0.1
       '@zui/form': workspace:0.0.1
       '@zui/icons': workspace:^0.0.1
       '@zui/input': workspace:0.0.1
@@ -675,6 +676,7 @@ importers:
       '@popperjs/core': registry.npmmirror.com/@popperjs/core/2.11.6
       '@zui/browser-helpers': link:../browser-helpers
       '@zui/com-helpers': link:../com-helpers
+      '@zui/css-icons': link:../css-icons
       dayjs: registry.npmmirror.com/dayjs/1.11.7
       preact: registry.npmmirror.com/preact/10.11.2
     devDependencies:
