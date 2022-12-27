@@ -15,10 +15,10 @@
     <div class="modal-dialog shadow">
       <div class="modal-content">
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">
-            <span aria-hidden="true">×</span>
-          </button>
           <div class="modal-title">标题</div>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn square ghost" data-dismiss="modal"><span class="close"></span></button>
         </div>
         <div class="modal-body">
           <p>这是内容</p>
@@ -42,10 +42,10 @@
   <div class="modal-dialog shadow">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">
-          <span aria-hidden="true">×</span>
-        </button>
         <div class="modal-title">标题</div>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn square ghost" data-dismiss="modal"><span class="close"></span></button>
       </div>
       <div class="modal-body">
         <p>这是内容</p>
@@ -77,10 +77,10 @@
     <div class="modal-dialog shadow">
       <div class="modal-content">
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">
-            <span aria-hidden="true">×</span>
-          </button>
           <div class="modal-title">标题</div>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn square ghost" data-dismiss="modal"><span class="close"></span></button>
         </div>
         <div class="modal-body">
           这是内容
@@ -108,10 +108,10 @@ data-target="#positionModal">距离上方100px</button>
   <div class="modal-dialog shadow">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">
-          <span aria-hidden="true">×</span>
-        </button>
         <div class="modal-title">标题</div>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn square ghost" data-dismiss="modal"><span class="close"></span></button>
       </div>
       <div class="modal-body">
         这是内容
@@ -130,86 +130,26 @@ data-target="#positionModal">距离上方100px</button>
 除了默认大小，还提供了额外的 3 种预设尺寸。
 
 <Example class="flex gap-4 flex-wrap items-end">
-  <button type="button" class="btn primary" data-toggle="modal"
-  data-target="#smModal">小对话框</button>
+  <button type="button" class="btn primary" data-toggle="modal" data-size="sm"
+  data-target="#sizeModal">小对话框</button>
 
-  <button type="button" class="btn primary" data-toggle="modal"
-  data-target="#baseModal">默认大小</button>
+  <button type="button" class="btn primary" data-toggle="modal" data-size="default"
+  data-target="#sizeModal">默认大小</button>
 
-  <button type="button" class="btn primary" data-toggle="modal"
-  data-target="#lgModal">大对话框</button>
+  <button type="button" class="btn primary" data-toggle="modal" data-size="lg"
+  data-target="#sizeModal">大对话框</button>
 
-  <button type="button" class="btn primary" data-toggle="modal"
-  data-target="#fullModal">全屏对话框</button>
+  <button type="button" class="btn primary" data-toggle="modal" data-size="full"
+  data-target="#sizeModal">全屏对话框</button>
 
-  <div class="modal" id="smModal">
-    <div class="modal-dialog shadow size-sm">
+  <div class="modal" id="sizeModal">
+    <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">
-            <span aria-hidden="true">×</span>
-          </button>
           <div class="modal-title">标题</div>
         </div>
-        <div class="modal-body">
-          这是一个小弹窗
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn" data-dismiss="modal">关闭</button>
-          <button type="button" class="btn primary">保存</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="modal" id="baseModal">
-    <div class="modal-dialog shadow">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">
-            <span aria-hidden="true">×</span>
-          </button>
-          <div class="modal-title">标题</div>
-        </div>
-        <div class="modal-body">
-          这是一个默认弹窗
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn" data-dismiss="modal">关闭</button>
-          <button type="button" class="btn primary">保存</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="modal" id="lgModal">
-    <div class="modal-dialog shadow size-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">
-            <span aria-hidden="true">×</span>
-          </button>
-          <div class="modal-title">标题</div>
-        </div>
-        <div class="modal-body">
-          这是一个大弹窗
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn" data-dismiss="modal">关闭</button>
-          <button type="button" class="btn primary">保存</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="modal scroll-inside" id="fullModal">
-    <div class="modal-dialog shadow size-fullscreen">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">
-            <span aria-hidden="true">×</span>
-          </button>
-          <div class="modal-title">标题</div>
+        <div class="modal-actions">
+          <button type="button" class="btn square ghost" data-dismiss="modal"><span class="close"></span></button>
         </div>
         <div class="modal-body">
           <h4>虞美人·春花秋月何时了</h4><p><small>五代·李煜</small></p>
@@ -225,57 +165,44 @@ data-target="#positionModal">距离上方100px</button>
         </div>
       </div>
     </div>
-</div>
+  </div>
 </Example>
 
 ```html
-<button type="button" class="btn primary" data-toggle="modal"
-data-target="#smModal">小对话框</button>
+<button type="button" class="btn primary" data-toggle="modal" data-size="sm"
+data-target="#sizeModal">小对话框</button>
 
-<button type="button" class="btn primary" data-toggle="modal"
-data-target="#baseModal">默认大小</button>
+<button type="button" class="btn primary" data-toggle="modal" data-size="default"
+data-target="#sizeModal">默认大小</button>
 
-<button type="button" class="btn primary" data-toggle="modal"
-data-target="#lgModal">大对话框</button>
+<button type="button" class="btn primary" data-toggle="modal" data-size="lg"
+data-target="#sizeModal">大对话框</button>
 
-<button type="button" class="btn primary" data-toggle="modal"
-data-target="#fullModal">全屏对话框</button>
+<button type="button" class="btn primary" data-toggle="modal" data-size="full"
+data-target="#sizeModal">全屏对话框</button>
 
-<div class="modal" id="smModal">
-  <div class="modal-dialog shadow size-sm">
+<div class="modal" id="sizeModal">
+  <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">
-          <span aria-hidden="true">×</span>
-        </button>
         <div class="modal-title">标题</div>
       </div>
+      <div class="modal-actions">
+        <button type="button" class="btn square ghost" data-dismiss="modal"><span class="close"></span></button>
+      </div>
       <div class="modal-body">
-        这是一个小弹窗
+        <h4>虞美人·春花秋月何时了</h4><p><small>五代·李煜</small></p>
+        <p><br>春花秋月何时了？<br>往事知多少。<br>小楼昨夜又东风，<br>故国不堪回首月明中。<br><br>雕栏玉砌应犹在，<br>只是朱颜改。<br>问君能有几多愁？<br>恰似一江春水向东流</p><br>
+        <h4>虞美人·春花秋月何时了</h4><p><small>五代·李煜</small></p>
+        <p><br>春花秋月何时了？<br>往事知多少。<br>小楼昨夜又东风，<br>故国不堪回首月明中。<br><br>雕栏玉砌应犹在，<br>只是朱颜改。<br>问君能有几多愁？<br>恰似一江春水向东流</p><br>
+        <h4>虞美人·春花秋月何时了</h4><p><small>五代·李煜</small></p>
+        <p><br>春花秋月何时了？<br>往事知多少。<br>小楼昨夜又东风，<br>故国不堪回首月明中。<br><br>雕栏玉砌应犹在，<br>只是朱颜改。<br>问君能有几多愁？<br>恰似一江春水向东流</p><br>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn" data-dismiss="modal">关闭</button>
         <button type="button" class="btn primary">保存</button>
       </div>
     </div>
-  </div>
-</div>
-
-<div class="modal" id="baseModal">
-  <div class="modal-dialog shadow">
-    ...
-  </div>
-</div>
-
-<div class="modal" id="lgModal">
-  <div class="modal-dialog shadow size-lg">
-    ...
-  </div>
-</div>
-
-<div class="modal scroll-inside" id="fullModal">
-  <div class="modal-dialog shadow size-fullscreen">
-    ...
   </div>
 </div>
 ```
@@ -320,29 +247,27 @@ data-target="#customModal">点击打开</button>
 </div>
 ```
 
-## 模态对话框
+## 模态框
 
-通过 `data-modal-closable` 动态控制，默认 `true` 可以通过点击 modal 关闭对话框，能禁用在模态框之外的交互。
+通过 `data-backdrop="false"` 动态控制，设置后可以操作模态框之外的交互。
 
-<Example class="flex gap-4 flex-wrap">
-  <button type="button" class="btn primary" data-toggle="modal"
-  data-target="#autoCloseModal">点击打开对话框</button>
-
-  <div class="modal" id="autoCloseModal" data-modal-closable="false">
-    <div class="modal-dialog shadow">
+<Example>
+  <button type="button" class="btn primary" data-toggle="modal" data-backdrop="false" data-target="#myModal2">点击打开对话框</button>
+  <div class="modal" id="myModal2">
+    <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">
-            <span aria-hidden="true">×</span>
-          </button>
           <div class="modal-title">标题</div>
         </div>
+        <div class="modal-actions">
+          <button type="button" class="btn square ghost" data-dismiss="modal"><span class="close"></span></button>
+        </div>
         <div class="modal-body">
-          <p>这是内容</p>
+            <p>这是内容</p>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn" data-dismiss="modal">关闭</button>
-          <button type="button" class="btn primary">保存</button>
+            <button type="button" class="btn" data-dismiss="modal">关闭</button>
+            <button type="button" class="btn primary">保存</button>
         </div>
       </div>
     </div>
@@ -350,24 +275,22 @@ data-target="#customModal">点击打开</button>
 </Example>
 
 ```html
-<button type="button" class="btn primary" data-toggle="modal"
-data-target="#autoCloseModal">点击打开对话框</button>
-
-<div class="modal" id="autoCloseModal" data-modal-closable="false">
-  <div class="modal-dialog shadow">
+<button type="button" class="btn primary" data-toggle="modal" data-backdrop="false" data-target="#myModal2">点击打开对话框</button>
+<div class="modal" id="myModal2">
+  <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">
-          <span aria-hidden="true">×</span>
-        </button>
-        <div class="modal-title">标题</div>
+          <div class="modal-title">标题</div>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn square ghost" data-dismiss="modal"><span class="close"></span></button>
       </div>
       <div class="modal-body">
-        <p>这是内容</p>
+          <p>这是内容</p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn" data-dismiss="modal">关闭</button>
-        <button type="button" class="btn primary">保存</button>
+          <button type="button" class="btn" data-dismiss="modal">关闭</button>
+          <button type="button" class="btn primary">保存</button>
       </div>
     </div>
   </div>
@@ -384,7 +307,6 @@ data-target="#autoCloseModal">点击打开对话框</button>
 | `modal-dialog`      | 实体类 | 元素作为对话框组件 |
 | `size-sm`      | 修饰类      |   对话框使用小号尺寸 |
 | `size-lg`      | 修饰类      |   对话框使用大号尺寸 |
-| `size-fullscreen`      | 修饰类      |   对话框使用全屏尺寸 |
 
 ## CSS 变量
 
@@ -393,10 +315,7 @@ data-target="#autoCloseModal">点击打开对话框</button>
 | CSS 变量名        | 作用           |
 | ------------- |:------------- |
 | `--modal-radius`      | 对话框默认圆角大小 |
-| `--modal-inner-padding`      | 对话框内边距 |
-| `--modal-bg-color`      | 对话框遮挡层颜色 |
-| `--modal-border-color`      | 对话框边框颜色 |
+| `--modal-bg`      | 对话框遮挡层颜色 |
 | `--modal-sm`      | 对话框小号尺寸宽度 |
 | `--modal-base`      | 对话框默认宽度 |
 | `--modal-lg`      | 对话框大号尺寸宽度 |
-| `--modal-z-index`      | 对话框层级大小 |
