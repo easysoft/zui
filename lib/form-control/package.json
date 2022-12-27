@@ -9,7 +9,7 @@
         "@zui/utilities": "workspace:*"
     },
     "zui": {
-        "type": "component",
+        "type": "control",
         "displayName": "表单控件",
         "contributes": {
             "css": ["class", "var"]

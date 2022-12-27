@@ -3,19 +3,19 @@
 }
 .form-control.has-error.focus,
 .form-control.has-error:focus {
-  @apply -outline-danger-300;
+  @apply -outline-danger-200;
 }
 .form-control.has-warning {
   @apply -border-warning-500;
 }
 .form-control.has-warning.focus,
 .form-control.has-warning:focus {
-  @apply -outline-warning-300;
+  @apply -outline-warning-200;
 }
 .form-control.has-success {
   @apply -border-success-500;
 }
 .form-control.has-success.focus,
 .form-control.has-success:focus {
-  @apply -outline-success-300;
+  @apply -outline-success-200;
 }

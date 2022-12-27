@@ -6,10 +6,8 @@
 
 .form-control.focus,
 .form-control:focus {
-  @apply -shadow;
-  border-color: var(--form-control-focus);
+  border-color: var(--color-primary-400);
   outline: 2px solid var(--form-control-focus);
-  outline-offset: 0px;
 }
 
 .form-control[disabled],
