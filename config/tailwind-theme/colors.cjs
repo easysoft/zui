@@ -63,7 +63,7 @@ const surface = gray[100];
 const fore = gray[700];
 
 /** 焦点 */
-const focus = primary[300];
+const focus = primary[200];
 
 /** 链接 */
 const link = primary[500];
