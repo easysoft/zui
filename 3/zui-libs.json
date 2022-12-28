@@ -216,6 +216,33 @@
         }
     },
     {
+        "name": "@zui/form-control",
+        "version": "0.0.1",
+        "main": "src/main.ts",
+        "dependencies": {},
+        "devDependencies": {
+            "@zui/base": "workspace:*",
+            "@zui/utilities": "workspace:*"
+        },
+        "zui": {
+            "type": "control",
+            "displayName": "表单控件",
+            "contributes": {
+                "css": [
+                    "class",
+                    "var"
+                ]
+            },
+            "build": {},
+            "path": "/home/runner/work/zui/zui/lib/form-control",
+            "workspace": true,
+            "sourceType": "build-in",
+            "name": "form-control",
+            "order": 2010000006,
+            "packageJsonPath": "/home/runner/work/zui/zui/lib/form-control/package.json"
+        }
+    },
+    {
         "name": "@zui/icons",
         "version": "0.0.1",
         "main": "src/main.ts",
@@ -245,7 +272,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "icons",
-            "order": 2010000006,
+            "order": 2010000007,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/icons/package.json"
         }
     },
@@ -280,7 +307,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "input",
-            "order": 2010000007,
+            "order": 2010000008,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/input/package.json"
         }
     },
@@ -313,7 +340,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "label",
-            "order": 2010000008,
+            "order": 2010000009,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/label/package.json"
         }
     },
@@ -362,7 +389,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "menu",
-            "order": 2010000009,
+            "order": 2010000010,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/menu/package.json"
         }
     },
@@ -406,38 +433,8 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "messager",
-            "order": 2010000010,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/messager/package.json"
-        }
-    },
-    {
-        "name": "@zui/picker",
-        "version": "0.0.1",
-        "main": "src/main.ts",
-        "browserslist": "",
-        "keywords": [
-            "css",
-            "zui:control"
-        ],
-        "files": [
-            "./src/**/*"
-        ],
-        "zui": {
-            "type": "control",
-            "displayName": "下拉选择器",
-            "contributes": {
-                "css": [
-                    "class",
-                    "var"
-                ]
-            },
-            "build": {},
-            "path": "/home/runner/work/zui/zui/lib/picker",
-            "workspace": true,
-            "sourceType": "build-in",
-            "name": "picker",
             "order": 2010000011,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/picker/package.json"
+            "packageJsonPath": "/home/runner/work/zui/zui/lib/messager/package.json"
         }
     },
     {
@@ -953,33 +950,6 @@
         }
     },
     {
-        "name": "@zui/form-control",
-        "version": "0.0.1",
-        "main": "src/main.ts",
-        "dependencies": {},
-        "devDependencies": {
-            "@zui/base": "workspace:*",
-            "@zui/utilities": "workspace:*"
-        },
-        "zui": {
-            "type": "component",
-            "displayName": "表单控件",
-            "contributes": {
-                "css": [
-                    "class",
-                    "var"
-                ]
-            },
-            "build": {},
-            "path": "/home/runner/work/zui/zui/lib/form-control",
-            "workspace": true,
-            "sourceType": "build-in",
-            "name": "form-control",
-            "order": 4010000026,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/form-control/package.json"
-        }
-    },
-    {
         "name": "@zui/input-group",
         "version": "0.0.1",
         "main": "src/main.ts",
@@ -1009,7 +979,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "input-group",
-            "order": 4010000027,
+            "order": 4010000026,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/input-group/package.json"
         }
     },
@@ -1061,7 +1031,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "modal",
-            "order": 4010000028,
+            "order": 4010000027,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/modal/package.json"
         }
     },
@@ -1107,7 +1077,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "nav",
-            "order": 4010000029,
+            "order": 4010000028,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/nav/package.json"
         }
     },
@@ -1161,7 +1131,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "pager",
-            "order": 4010000030,
+            "order": 4010000029,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/pager/package.json"
         }
     },
@@ -1194,8 +1164,55 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "panel",
-            "order": 4010000031,
+            "order": 4010000030,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/panel/package.json"
+        }
+    },
+    {
+        "name": "@zui/picker",
+        "version": "0.0.1",
+        "main": "src/main.ts",
+        "browserslist": "",
+        "keywords": [
+            "css",
+            "zui:control"
+        ],
+        "files": [
+            "./src/**/*"
+        ],
+        "dependencies": {
+            "@zui/com-helpers": "workspace:^0.0.1",
+            "@zui/browser-helpers": "workspace:^0.0.1",
+            "@zui/css-icons": "workspace:^0.0.1",
+            "@zui/base": "workspace:*",
+            "@zui/action-menu": "workspace:*",
+            "@zui/menu": "workspace:*",
+            "@zui/button": "workspace:*",
+            "@zui/form-control": "workspace:*",
+            "nanoid": "^4.0.0",
+            "preact": "10.11.2"
+        },
+        "devDependencies": {
+            "zui-dev": "workspace:*",
+            "@zui/button": "workspace:0.0.1",
+            "@zui/utilities": "workspace:*"
+        },
+        "zui": {
+            "type": "component",
+            "displayName": "下拉选择器",
+            "contributes": {
+                "css": [
+                    "class",
+                    "var"
+                ]
+            },
+            "build": {},
+            "path": "/home/runner/work/zui/zui/lib/picker",
+            "workspace": true,
+            "sourceType": "build-in",
+            "name": "picker",
+            "order": 4010000031,
+            "packageJsonPath": "/home/runner/work/zui/zui/lib/picker/package.json"
         }
     },
     {
