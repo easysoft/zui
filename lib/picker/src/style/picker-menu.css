@@ -1,0 +1,28 @@
+.picker-menu {
+  @apply -flex -flex-col -absolute -z-50 -opacity-0 -transition-opacity;
+  border-radius: var(--menu-radius);
+  box-shadow: var(--menu-shadow);
+  border: var(--menu-border);
+  background: var(--menu-bg);
+}
+.picker-menu.shown {
+  @apply -opacity-100;
+}
+
+.picker-menu-search {
+  @apply -flex-none -relative -px-2 -mt-2;
+}
+
+.picker-menu-search > .search-icon {
+  @apply -absolute -right-4 -top-2.5 -opacity-50 -scale-75;
+}
+.picker-menu-search-clear.btn {
+  @apply -absolute -right-2 -top-1.5 -w-5 -h-5 -cursor-pointer;
+}
+.picker-menu-list.menu {
+  @apply -shadow-none -border-none -flex-auto;
+}
+
+.picker-menu-item-match {
+  @apply -underline -font-bold;
+}

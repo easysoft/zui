@@ -1,0 +1,30 @@
+.picker-select {
+  @apply -flex -items-center -gap-1 -justify-between;
+}
+
+/* Override the .form-control style: display:block */
+.picker-select.form-control {
+  @apply -flex;
+}
+
+.picker-select-placeholder {
+  @apply -flex-auto;
+}
+
+.picker-single-selection {
+  @apply -flex-auto -min-w-0 -overflow-hidden -whitespace-nowrap;
+}
+
+.picker-deselect-btn {
+  @apply -rounded -p-1;
+}
+
+.picker-select-multi.form-control {
+  @apply -h-auto -pl-1 -min-h-[32px];
+}
+.picker-multi-selections {
+  @apply -flex -flex-wrap -gap-1;
+}
+.picker-multi-selection {
+  @apply -flex -items-center -border -rounded -bg-surface -pl-1;
+}
