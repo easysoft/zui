@@ -152,7 +152,7 @@ KindEditor.plugin('pasteimage', function(K) {
                         }
                     }
                 }
-                if(!dataMap.image || options.pasteTextFirst)
+                if(!dataMap.image || (options.pasteTextFirst && (dataMap.text !== null || dataMap.html !== null)))
                 {
                     if(dataMap.html && typeof getComputedStyle === 'function' && options.keepOfficeFormats)
                     {
