@@ -1,1 +1,2 @@
-import './css/index.css';
+import './style/index.css';
+export * from './vanilla';
