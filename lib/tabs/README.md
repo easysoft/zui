@@ -6,9 +6,9 @@
 
 ```html:example: gap-3
 <ul class="nav nav-tabs">
-  <li class="active"><a data-toggle="tab" href="#tabContent1">标签1</a></li>
-  <li><a data-toggle="tab" href="#tabContent2">标签2</a></li>
-  <li><a data-toggle="tab" href="#tabContent3">标签3</a></li>
+  <li class="nav-item active"><a data-toggle="tab" href="#tabContent1">标签1</a></li>
+  <li class="nav-item"><a data-toggle="tab" href="#tabContent2">标签2</a></li>
+  <li class="nav-item"><a data-toggle="tab" href="#tabContent3">标签3</a></li>
 </ul>
 <div class="tab-content">
   <div class="tab-pane active" id="tabContent1">
@@ -27,9 +27,9 @@
 
 ```html:example: gap-3
 <ul class="nav nav-tabs">
-  <li class="active"><a data-tab="#tab2Content1">标签1</a></li>
-  <li><a data-tab="#tab2Content2">标签2</a></li>
-  <li><a data-tab="#tab2Content3">标签3</a></li>
+  <li class="nav-item active"><a data-tab="#tab2Content1">标签1</a></li>
+  <li class="nav-item"><a data-tab="#tab2Content2">标签2</a></li>
+  <li class="nav-item"><a data-tab="#tab2Content3">标签3</a></li>
 </ul>
 <div class="tab-content">
   <div class="tab-pane active" id="tab2Content1">
@@ -48,9 +48,9 @@
 
 ```html:example: gap-3
 <ul class="nav nav-tabs">
-  <li class="active"><a data-tab="#tab3Content1">标签1</a></li>
-  <li><a data-tab="#tab3Content2">标签2</a></li>
-  <li><a data-tab="#tab3Content3">标签3</a></li>
+  <li class="nav-item active"><a data-tab="#tab3Content1">标签1</a></li>
+  <li class="nav-item"><a data-tab="#tab3Content2">标签2</a></li>
+  <li class="nav-item"><a data-tab="#tab3Content3">标签3</a></li>
 </ul>
 <div class="tab-content">
   <div class="tab-pane fade active in" id="tab3Content1">
@@ -70,9 +70,9 @@
 ```html:example: gap-3
 <div class="flex">
   <ul class="nav nav-tabs nav-stacked">
-    <li class="active"><a data-tab="#tab4Content1">标签1</a></li>
-    <li><a data-tab="#tab4Content2">标签2</a></li>
-    <li><a data-tab="#tab4Content3">标签3</a></li>
+    <li class="nav-item active"><a data-tab="#tab4Content1">标签1</a></li>
+    <li class="nav-item"><a data-tab="#tab4Content2">标签2</a></li>
+    <li class="nav-item"><a data-tab="#tab4Content3">标签3</a></li>
   </ul>
   <div class="tab-content">
     <div class="tab-pane fade active in" id="tab4Content1">
