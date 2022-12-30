@@ -3606,10 +3606,10 @@ const oe = gd.exports, $l = (e = 0, t = 0) => {
 }, jg = (e) => {
   const { format: t, minDate: n, maxDate: r, tagDate: s, DATEROWCOUNT: o, showOtherMonth: a, clickDay: c, selectedDate: f, handleChangePanel: p, showToday: i, handleChange: d, clickToday: u } = e, l = (A) => oe(A).isValid() ? oe(A).add(1, "months").format(t) : "", _ = (A) => oe(A).isValid() ? oe(A).subtract(1, "months").format(t) : "", g = () => {
     const A = _(f || oe().format(t));
-    d(A);
+    d(A, !1);
   }, h = () => {
     const A = l(f || oe().format(t));
-    d(A);
+    d(A, !1);
   }, v = () => {
     d("", !0);
   }, m = () => {
