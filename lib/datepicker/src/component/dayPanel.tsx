@@ -3,13 +3,22 @@ import '@zui/icons';
 import dayjs, {Dayjs} from 'dayjs';
 import '@zui/css-icons/src/icons/caret.css';
 import {createGroups} from '../helpers/index';
-import {CalendarDayItemProps} from '../types';
+import {CalendarDayItemProps, DatepickerProps} from '../types';
 
 interface CalendarListProps {
     [index: number]: Array<CalendarDayItemProps>
 }
 
-const DayPanel = (props) => {
+interface DayPanelProps extends DatepickerProps {
+    DATEROWCOUNT: number;
+    selectedDate: string;
+    clickDay: (date: Dayjs)=> void;
+    handleChangePanel: (type: string)=> void;
+    handleChange: (selectedDate: string, isSure: boolean)=> void;
+    clickToday: ()=> void;
+}
+
+const DayPanel = (props: DayPanelProps) => {
     const {format, minDate, maxDate, tagDate, DATEROWCOUNT, showOtherMonth, clickDay, selectedDate, handleChangePanel, showToday, handleChange, clickToday} = props;
 
     const addMonth = (date: string | Date) => {
@@ -28,12 +37,12 @@ const DayPanel = (props) => {
 
     const showPrevMonth = () => {
         const month = subtractMonth(selectedDate || dayjs().format(format));
-        handleChange(month);
+        handleChange(month, false);
     };
 
     const showNextMonth = () => {
         const nextMonth = addMonth(selectedDate || dayjs().format(format));
-        handleChange(nextMonth);
+        handleChange(nextMonth, false);
     };
 
     const onClear = () => {

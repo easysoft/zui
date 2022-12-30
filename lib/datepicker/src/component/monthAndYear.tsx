@@ -6,8 +6,14 @@ import '@zui/css-icons/src/icons/caret.css';
 import {generateArrayNumber} from '../helpers/index';
 import '../style/index.css';
 import MonthPanel from './monthPanel';
+import {DatepickerProps} from '../types';
 
-const MonthAndYearPanel = (props) => {
+interface MonthAndYearPanelProps extends DatepickerProps {
+    selectedDate: string;
+    handleChangeMonth: (month: string)=> void;
+}
+
+const MonthAndYearPanel = (props: MonthAndYearPanelProps) => {
     const {selectedDate, handleChangeMonth} = props;
     setTimeout(() => {
         const accordionElement = document.getElementsByClassName('datepicker-accordion');

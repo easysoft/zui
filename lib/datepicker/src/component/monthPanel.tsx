@@ -3,8 +3,15 @@ import '@zui/icons';
 import dayjs from 'dayjs';
 import '@zui/css-icons/src/icons/caret.css';
 import {createGroups, generateArrayNumber} from '../helpers/index';
+import {DatepickerProps} from '../types';
 
-const MonthPanel = (props) => {
+interface MonthPanelProps extends DatepickerProps {
+    selectedDate: string;
+    year: string;
+    handleChangeMonth: (month: string)=> void;
+}
+
+const MonthPanel = (props: MonthPanelProps) => {
     const {format, selectedDate, minDate, maxDate, year, handleChangeMonth} = props;
     const minMonth = dayjs(minDate).format('M');
     const maxMonth = dayjs(maxDate).format('M');
