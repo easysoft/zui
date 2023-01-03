@@ -8,7 +8,7 @@ import {LibraryOptions} from 'vite';
 import {getLibs} from './scripts/libs/query';
 import {LibInfo} from './scripts/libs/lib-info';
 
-export default defineConfig(async ({command, mode, ssrBuild}) => {
+export default defineConfig(async ({mode}) => {
     const buildLibs = process.env.BUILD_LIBS ?? 'buildIn';
     const libsCache: Record<string, LibInfo> | undefined = await getLibs(buildLibs);
 

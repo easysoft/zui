@@ -1,5 +1,5 @@
 import {domReady} from '@zui/browser-helpers/src/dom-ready';
-import icons from './assets/fonts/icons.json';
+import icons from './src/icons.json';
 import './src/main';
 
 domReady(() => {
