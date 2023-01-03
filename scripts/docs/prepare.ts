@@ -32,6 +32,7 @@ const libs = parseBuildLibs(libSetting ?? 'zui', libsMap);
 
 await fs.outputJSON(path.resolve(docsPublicDir, './zui-libs.json'), libs, {spaces: 4});
 await fs.outputFile(path.resolve(docsPublicDir, './zui-libs.js'), `export default ${JSON.stringify(libs, null, 4)};`);
+await fs.move(path.resolve(docsPublicDir, './zui/fonts'), path.resolve(docsPublicDir, './fonts'));
 
 if (argv.copy) {
     await emptySidebarLibDocs();
