@@ -1,5 +1,4 @@
 [disabled],
 .disabled {
     @apply -cursor-not-allowed -grayscale;
-    opacity: var(--disabled-opacity);
 }
