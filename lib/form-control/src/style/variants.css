@@ -15,5 +15,5 @@ textarea.form-control {
 }
 
 input[type="file"].form-control {
-  @apply -p-0.5;
+  @apply -p-0.5 -border-none;
 }
