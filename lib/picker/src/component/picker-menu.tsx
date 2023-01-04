@@ -3,7 +3,7 @@ import {classes} from '@zui/browser-helpers/src/classes';
 import {Menu} from '@zui/menu/src/component/menu';
 import {MenuItemOptions} from '@zui/menu/src/types';
 import {PickerMenuProps} from '../types';
-import '@zui/css-icons/src/icons/search.css';
+import '@zui/css-icons/src/icons/magnifier.css';
 import '@zui/css-icons/src/icons/close.css';
 
 export type PickerMenuState = {
@@ -110,7 +110,7 @@ export class PickerMenu extends Component<PickerMenuProps, PickerMenuState> {
                 {search ? (
                     <div className="picker-menu-search">
                         <input className="form-control picker-menu-search-input" type="text" placeholder={searchHint} value={keys} onChange={this.#handleSearchChange} onInput={this.#handleSearchChange} />
-                        {hasSearch ? <button type="button" className="btn picker-menu-search-clear" onClick={this.#handleClearBtnClick}><span className="close"></span></button> : <span className="search-icon"></span>}
+                        {hasSearch ? <button type="button" className="btn picker-menu-search-clear" onClick={this.#handleClearBtnClick}><span className="close"></span></button> : <span className="magnifier"></span>}
                     </div>
                 ) : null}
                 <Menu className="picker-menu-list" items={this.#getMenuItems()} onClickItem={this.#handleItemClick} {...menu} />

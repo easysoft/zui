@@ -13,8 +13,8 @@
   @apply -flex-none -relative -px-2 -mt-2;
 }
 
-.picker-menu-search > .search-icon {
-  @apply -absolute -right-4 -top-2.5 -opacity-50 -scale-75;
+.picker-menu-search > .magnifier {
+  @apply -absolute -right-4 -top-2.5 -opacity-50;
 }
 .picker-menu-search-clear.btn {
   @apply -absolute -right-2 -top-1.5 -w-5 -h-5 -cursor-pointer;
