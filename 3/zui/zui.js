@@ -8197,7 +8197,7 @@ class mw extends Sn {
     }, /* @__PURE__ */ ie("span", {
       className: "close"
     })) : /* @__PURE__ */ ie("span", {
-      className: "search-icon"
+      className: "magnifier"
     })) : null, /* @__PURE__ */ ie(Ga, {
       className: "picker-menu-list",
       items: Q(this, ba, zh).call(this),
