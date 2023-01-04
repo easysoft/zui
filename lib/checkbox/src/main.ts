@@ -1,2 +1,1 @@
-import './vars.css';
-import './checkbox.css';
+import './style/index.css';

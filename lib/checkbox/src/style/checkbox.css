@@ -1,0 +1,9 @@
+.checkbox,
+.radio {
+  @apply -flex -items-center -gap-2 -cursor-pointer;
+}
+
+.checkbox > input[type="checkbox"],
+.radio > input[type="radio"] {
+  @apply -accent-primary-500;
+}
