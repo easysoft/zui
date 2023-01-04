@@ -1,5 +1,4 @@
 :root {
   --alert-radius: var(--radius);
   --alert-bg: var(--color-surface);
-  --alert-text-color: inherit;
 }

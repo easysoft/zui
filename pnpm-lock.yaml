@@ -139,10 +139,14 @@ importers:
   lib/alert:
     specifiers:
       '@zui/base': workspace:*
+      '@zui/button': workspace:*
+      '@zui/css-icons': workspace:*
       '@zui/icons': workspace:^0.0.1
       '@zui/utilities': workspace:*
     devDependencies:
       '@zui/base': link:../base
+      '@zui/button': link:../button
+      '@zui/css-icons': link:../css-icons
       '@zui/icons': link:../icons
       '@zui/utilities': link:../utilities
 

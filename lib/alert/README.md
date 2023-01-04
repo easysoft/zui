@@ -3,7 +3,18 @@
 ## Alert
 
 ```html:example: gap-3
-<div class="alert">Hi! 这条消息可能需要你注意。</div>
+<div class="alert">Hi! 这条消息可能需要你注意。<a href="#more" class="alert-link">了解更多</a></div>
+```
+
+## 包含关闭按钮
+
+```html:example: gap-3
+<div class="alert">
+  <div class="alert-content">
+    Hi! 这条消息可能需要你注意。
+  </div>
+  <button type="button" class="alert-close btn ghost square"><span class="close"></span></button>
+</div>
 ```
 
 ## Styles
@@ -76,16 +87,16 @@
 
 ```html:example: gap-3 space-y-4
 <div class="alert success">
-  <i class="icon icon-check-circle alert-icon"></i> 一切已<a href="###" class="font-bold">准备就绪</a>。
+  <i class="icon icon-check-circle alert-icon"></i> 一切已<a href="###" class="alert-link">准备就绪</a>。
 </div>
 <div class="alert danger">
-  <i class="icon icon-remove-sign alert-icon"></i> 出现了一些<a href="###" class="font-bold">错误</a>。
+  <i class="icon icon-remove-sign alert-icon"></i> 出现了一些<a href="###" class="alert-link">错误</a>。
 </div>
 <div class="alert warning-pale">
-  <i class="icon icon-warning-sign alert-icon"></i> 注意！可能存在<a href="###" class="font-bold">潜在风险</a>。
+  <i class="icon icon-warning-sign alert-icon"></i> 注意！可能存在<a href="###" class="alert-link">潜在风险</a>。
 </div>
 <div class="alert light-pale">
-  <i class="icon icon-info-sign alert-icon"></i> 你可能需要知道<a href="###" class="font-bold">一些内容</a>。
+  <i class="icon icon-info-sign alert-icon"></i> 你可能需要知道<a href="###" class="alert-link">一些内容</a>。
 </div>
 ```
 
