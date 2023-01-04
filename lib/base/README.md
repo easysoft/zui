@@ -10,9 +10,10 @@ Tailwind CSS is imported globally.
 @tailwind components;
 ```
 
-## Global font and text setting
+## Global font style
 
-<p>root-font-size</p>
+<p style="font-size:var(--root-font-size)">root-font-size: 16px</p>
+<p style="font-size:1em">base-text-size: 13px</p>
 
 ```css
 html {
