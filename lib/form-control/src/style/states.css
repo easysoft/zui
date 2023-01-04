@@ -1,21 +1,23 @@
-.form-control.has-error {
+.has-error .form-control{
   @apply -border-danger-500;
 }
-.form-control.has-error.focus,
-.form-control.has-error:focus {
+.has-error .form-control.focus,
+.has-error .form-control:focus {
   @apply -outline-danger-200;
 }
-.form-control.has-warning {
+
+.has-warning .form-control {
   @apply -border-warning-500;
 }
-.form-control.has-warning.focus,
-.form-control.has-warning:focus {
+.has-warning .form-control.focus,
+.has-warning .form-control:focus {
   @apply -outline-warning-200;
 }
-.form-control.has-success {
+
+.has-success .form-control {
   @apply -border-success-500;
 }
-.form-control.has-success.focus,
-.form-control.has-success:focus {
+.has-success .form-control.focus,
+.has-success .form-control:focus {
   @apply -outline-success-200;
 }

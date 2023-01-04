@@ -64,67 +64,85 @@ Hello, world!
 ## 特殊状态
 
 ```html:example:flex gap-4
-<input type="text" class="form-control has-error" placeholder="输入一些文本" />
-<input type="text" class="form-control has-warning" placeholder="输入一些文本" />
-<input type="text" class="form-control has-success" placeholder="输入一些文本" />
+<div class="has-error"><input type="text" class="form-control" placeholder="输入一些文本" /></div>
+<div class="has-warning"><input type="text" class="form-control" placeholder="输入一些文本" /></div>
+<div class="has-success"><input type="text" class="form-control" placeholder="输入一些文本" /></div>
 ```
 
 ```html:example:flex gap-4
-<select data-placeholder="选择一个宠物..." class="form-control has-error">
-  <option value="cat">小猫</option>
-  <option value="fish">金鱼</option>
-  <option value="dragon">龙</option>
-  <option value="mammoth">猛犸</option>
-  <option value="gollum">咕噜</option>
-</select>
-<select data-placeholder="选择一个宠物..." class="form-control has-warning">
-  <option value="cat">小猫</option>
-  <option value="fish">金鱼</option>
-  <option value="dragon">龙</option>
-  <option value="mammoth">猛犸</option>
-  <option value="gollum">咕噜</option>
-</select>
-<select data-placeholder="选择一个宠物..." class="form-control has-success">
-  <option value="cat">小猫</option>
-  <option value="fish">金鱼</option>
-  <option value="dragon">龙</option>
-  <option value="mammoth">猛犸</option>
-  <option value="gollum">咕噜</option>
-</select>
+<div class="has-error flex-auto">
+  <select data-placeholder="选择一个宠物..." class="form-control">
+    <option value="cat">小猫</option>
+    <option value="fish">金鱼</option>
+    <option value="dragon">龙</option>
+    <option value="mammoth">猛犸</option>
+    <option value="gollum">咕噜</option>
+  </select>
+</div>
+<div class="has-warning flex-auto">
+  <select data-placeholder="选择一个宠物..." class="form-control">
+    <option value="cat">小猫</option>
+    <option value="fish">金鱼</option>
+    <option value="dragon">龙</option>
+    <option value="mammoth">猛犸</option>
+    <option value="gollum">咕噜</option>
+  </select>
+</div>
+<div class="has-success flex-auto">
+  <select data-placeholder="选择一个宠物..." class="form-control">
+    <option value="cat">小猫</option>
+    <option value="fish">金鱼</option>
+    <option value="dragon">龙</option>
+    <option value="mammoth">猛犸</option>
+    <option value="gollum">咕噜</option>
+  </select>
+</div>
 ```
 
 ```html:example:flex gap-4
-<select data-placeholder="选择一个宠物..." class="form-control has-error" multiple>
-  <option value="cat">小猫</option>
-  <option value="fish">金鱼</option>
-  <option value="dragon">龙</option>
-  <option value="mammoth">猛犸</option>
-  <option value="gollum">咕噜</option>
-</select>
-<select data-placeholder="选择一个宠物..." class="form-control has-warning" multiple>
-  <option value="cat">小猫</option>
-  <option value="fish">金鱼</option>
-  <option value="dragon">龙</option>
-  <option value="mammoth">猛犸</option>
-  <option value="gollum">咕噜</option>
-</select>
-<select data-placeholder="选择一个宠物..." class="form-control has-success" multiple>
-  <option value="cat">小猫</option>
-  <option value="fish">金鱼</option>
-  <option value="dragon">龙</option>
-  <option value="mammoth">猛犸</option>
-  <option value="gollum">咕噜</option>
-</select>
+<div class="has-error flex-auto">
+  <select data-placeholder="选择一个宠物..." class="form-control" multiple>
+    <option value="cat">小猫</option>
+    <option value="fish">金鱼</option>
+    <option value="dragon">龙</option>
+    <option value="mammoth">猛犸</option>
+    <option value="gollum">咕噜</option>
+  </select>
+</div>
+<div class="has-warning flex-auto">
+  <select data-placeholder="选择一个宠物..." class="form-control" multiple>
+    <option value="cat">小猫</option>
+    <option value="fish">金鱼</option>
+    <option value="dragon">龙</option>
+    <option value="mammoth">猛犸</option>
+    <option value="gollum">咕噜</option>
+  </select>
+</div>
+<div class="has-success flex-auto">
+  <select data-placeholder="选择一个宠物..." class="form-control" multiple>
+    <option value="cat">小猫</option>
+    <option value="fish">金鱼</option>
+    <option value="dragon">龙</option>
+    <option value="mammoth">猛犸</option>
+    <option value="gollum">咕噜</option>
+  </select>
+</div>
 ```
 
 ```html:example:flex gap-4
-<textarea rows="5" class="form-control has-error" placeholder="输入一些文本" >
-Hello, world!
-</textarea>
-<textarea rows="5" class="form-control has-warning" placeholder="输入一些文本" >
-Hello, world!
-</textarea>
-<textarea rows="5" class="form-control has-success" placeholder="输入一些文本" >
-Hello, world!
-</textarea>
+<div class="has-error flex-auto">
+  <textarea rows="5" class="form-control" placeholder="输入一些文本" >
+    Hello, world!
+  </textarea>
+</div>
+<div class="has-warning flex-auto">
+  <textarea rows="5" class="form-control" placeholder="输入一些文本" >
+    Hello, world!
+  </textarea>
+</div>
+<div class="has-success flex-auto">
+  <textarea rows="5" class="form-control" placeholder="输入一些文本" >
+    Hello, world!
+  </textarea>
+</div>
 ```
