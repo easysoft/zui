@@ -81,7 +81,9 @@ export default [
         "devDependencies": {
             "@zui/base": "workspace:*",
             "@zui/icons": "workspace:^0.0.1",
-            "@zui/utilities": "workspace:*"
+            "@zui/utilities": "workspace:*",
+            "@zui/button": "workspace:*",
+            "@zui/css-icons": "workspace:*"
         },
         "zui": {
             "type": "control",
