@@ -1,0 +1,22 @@
+.magnifier {
+  @apply -relative -inline-block;
+  width: 1em;
+  height: 1em;
+}
+.magnifier::before,
+.magnifier::after {
+  content: '';
+  @apply -block -absolute -rounded-full;
+}
+.magnifier::before {
+  width: .75em;
+  height: .75em;
+  border: currentColor solid 1px;
+}
+.magnifier::after {
+  left: .55em;
+  top: .7em;
+  width: .5em;
+  height: 1px;
+  @apply -rotate-45 -bg-current;
+}

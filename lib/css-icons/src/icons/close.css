@@ -1,6 +1,6 @@
 .close {
   @apply -relative -block -aspect-square;
-  width: var(--close-size, 1em);
+  width: 1em;
 }
 .close::after,
 .close::before {
