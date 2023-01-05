@@ -1,5 +1,5 @@
 import '@zui/button';
-import '@zui/input';
+import '@zui/input-control';
 import '@zui/icons';
 import '@zui/form';
 import 'zui-dev';
@@ -14,5 +14,5 @@ onPageUpdate(() => {
             timepickerExp1.querySelector('.form-control').value = value;
         },
     });
-   
+
 });

@@ -1,5 +1,5 @@
 import '@zui/button';
-import '@zui/input';
+import '@zui/input-control';
 import '@zui/form';
 import {BtnGroup} from '@zui/btn-group/src/main';
 import 'zui-dev';

@@ -16,7 +16,7 @@
         "@zui/base": "workspace:*",
         "@zui/utilities": "workspace:*",
         "@zui/form": "workspace:0.0.1",
-        "@zui/input": "workspace:0.0.1"
+        "@zui/input-control": "workspace:0.0.1"
     },
     "dependencies": {
         "preact": "10.11.2",

@@ -5,7 +5,7 @@ import '@zui/avatar';
 import '@zui/icons';
 import '@zui/dropdown';
 import '@zui/form';
-import '@zui/input';
+import '@zui/input-control';
 import {faker} from '@faker-js/faker';
 import {DTable} from './src/main';
 import {checkable} from './src/plugins/checkable';
