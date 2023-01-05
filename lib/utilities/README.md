@@ -3,7 +3,7 @@
 
 ## Solid
 
-```html:example: grid grid-cols-7 gap-4
+```html:example: -grid -grid-cols-7 gap-4
 <div class="h-10 w-full flex items-center justify-center primary">primary</div>
 <div class="h-10 w-full flex items-center justify-center secondary">secondary</div>
 <div class="h-10 w-full flex items-center justify-center success">success</div>
@@ -27,7 +27,7 @@
 ```
 ## Outline
 
-```html:example: grid grid-cols-7 gap-4
+```html:example: -grid -grid-cols-7 gap-4
 <div class="h-10 w-full flex items-center justify-center primary-outline">primary-outline</div>
 <div class="h-10 w-full flex items-center justify-center secondary-outline">secondary-outline</div>
 <div class="h-10 w-full flex items-center justify-center success-outline">success-outline</div>
@@ -46,7 +46,7 @@
 
 ## Pale
 
-```html:example: grid grid-cols-7 gap-4
+```html:example: -grid -grid-cols-7 gap-4
 <div class="h-10 w-full flex items-center justify-center border primary-pale">primary-pale</div>
 <div class="h-10 w-full flex items-center justify-center border secondary-pale">secondary-pale</div>
 <div class="h-10 w-full flex items-center justify-center border success-pale">success-pale</div>
@@ -63,7 +63,7 @@
 
 ## Text
 
-```html:example: grid grid-cols-7 gap-4
+```html:example: -grid -grid-cols-7 gap-4
 <div class="h-10 w-full flex items-center justify-center text-primary">text-primary</div>
 <div class="h-10 w-full flex items-center justify-center text-secondary">text-secondary</div>
 <div class="h-10 w-full flex items-center justify-center text-success">text-success</div>
@@ -90,7 +90,7 @@
 
 ## Background
 
-```html:example: grid grid-cols-7 gap-4
+```html:example: -grid -grid-cols-7 gap-4
 <div class="h-10 w-full flex items-center justify-center bg-primary">bg-primary</div>
 <div class="h-10 w-full flex items-center justify-center bg-secondary">bg-secondary</div>
 <div class="h-10 w-full flex items-center justify-center bg-success">bg-success</div>
@@ -115,9 +115,26 @@
 <div class="h-10 w-full flex items-center justify-center bg-transparent">bg-transparent</div>
 ```
 
+## Background opacity
+
+```html:example: -grid -grid-cols-7 gap-4
+<div class="h-10 w-full flex items-center justify-center black bg-opacity-0">bg-opacity-0</div>
+<div class="h-10 w-full flex items-center justify-center black bg-opacity-10">bg-opacity-10</div>
+<div class="h-10 w-full flex items-center justify-center black bg-opacity-20">bg-opacity-20</div>
+<div class="h-10 w-full flex items-center justify-center black bg-opacity-30">bg-opacity-30</div>
+<div class="h-10 w-full flex items-center justify-center black bg-opacity-40">bg-opacity-40</div>
+<div class="h-10 w-full flex items-center justify-center black bg-opacity-50">bg-opacity-50</div>
+<div class="h-10 w-full flex items-center justify-center black bg-opacity-60">bg-opacity-60</div>
+<div class="h-10 w-full flex items-center justify-center black bg-opacity-70">bg-opacity-70</div>
+<div class="h-10 w-full flex items-center justify-center black bg-opacity-80">bg-opacity-80</div>
+<div class="h-10 w-full flex items-center justify-center black bg-opacity-90">bg-opacity-90</div>
+<div class="h-10 w-full flex items-center justify-center black bg-opacity-95">bg-opacity-95</div>
+<div class="h-10 w-full flex items-center justify-center black bg-opacity-100">bg-opacity-100</div>
+```
+
 ## Border Color
 
-```html:example: grid grid-cols-7 gap-4
+```html:example: -grid -grid-cols-7 gap-4
 <div class="h-10 w-full flex items-center justify-center border border-primary">border-primary</div>
 <div class="h-10 w-full flex items-center justify-center border border-secondary">border-secondary</div>
 <div class="h-10 w-full flex items-center justify-center border border-success">border-success</div>
@@ -145,7 +162,7 @@
 
 ## Border Size
 
-```html:example: grid grid-cols-7 gap-4
+```html:example: -grid -grid-cols-7 gap-4
 <div class="h-10 w-full flex items-center justify-center border-0 border-current">border-0</div>
 <div class="h-10 w-full flex items-center justify-center border border-current">border</div>
 <div class="h-10 w-full flex items-center justify-center border-2 border-current">border-2</div>
@@ -154,7 +171,7 @@
 
 ## Border Radius
 
-```html:example: grid grid-cols-7 gap-4
+```html:example: -grid -grid-cols-7 gap-4
 <div class="h-10 w-full flex items-center justify-center border border-current rounded-none">rounded-none</div>
 <div class="h-10 w-full flex items-center justify-center border border-current rounded-sm">rounded-sm</div>
 <div class="h-10 w-full flex items-center justify-center border border-current rounded">rounded</div>
@@ -166,43 +183,43 @@
 
 ## Box Shadow
 
-```html:example: grid grid-cols-7 gap-4
-<div class="h-10 w-full flex items-center justify-center canvas sd-inner">shadow-inner</div>
-<div class="h-10 w-full flex items-center justify-center canvas sd-none">shadow-none</div>
-<div class="h-10 w-full flex items-center justify-center canvas sd-sm">shadow-sm</div>
-<div class="h-10 w-full flex items-center justify-center canvas sd">shadow</div>
-<div class="h-10 w-full flex items-center justify-center canvas sd-md">shadow-md</div>
-<div class="h-10 w-full flex items-center justify-center canvas sd-lg">shadow-lg</div>
-<div class="h-10 w-full flex items-center justify-center canvas sd-xl">shadow-xl</div>
+```html:example: -grid -grid-cols-7 gap-4
+<div class="h-10 w-full flex items-center justify-center canvas shadow-inner">shadow-inner</div>
+<div class="h-10 w-full flex items-center justify-center canvas shadow-none">shadow-none</div>
+<div class="h-10 w-full flex items-center justify-center canvas shadow-sm">shadow-sm</div>
+<div class="h-10 w-full flex items-center justify-center canvas shadow">shadow</div>
+<div class="h-10 w-full flex items-center justify-center canvas shadow-md">shadow-md</div>
+<div class="h-10 w-full flex items-center justify-center canvas shadow-lg">shadow-lg</div>
+<div class="h-10 w-full flex items-center justify-center canvas shadow-xl">shadow-xl</div>
 ```
 
 ## Box Shadow Color
 
-```html:example: grid grid-cols-7 gap-4
-<div class="h-10 w-full flex items-center justify-center bg-surface sd-md sd-primary">shadow-primary</div>
-<div class="h-10 w-full flex items-center justify-center bg-surface sd-md sd-secondary">shadow-secondary</div>
-<div class="h-10 w-full flex items-center justify-center bg-surface sd-md sd-success">shadow-success</div>
-<div class="h-10 w-full flex items-center justify-center bg-surface sd-md sd-warning">shadow-warning</div>
-<div class="h-10 w-full flex items-center justify-center bg-surface sd-md sd-danger">shadow-danger</div>
-<div class="h-10 w-full flex items-center justify-center bg-surface sd-md sd-important">shadow-important</div>
-<div class="h-10 w-full flex items-center justify-center bg-surface sd-md sd-special">shadow-special</div>
+```html:example: -grid -grid-cols-7 gap-4
+<div class="h-10 w-full flex items-center justify-center bg-surface shadow-md shadow-primary">shadow-primary</div>
+<div class="h-10 w-full flex items-center justify-center bg-surface shadow-md shadow-secondary">shadow-secondary</div>
+<div class="h-10 w-full flex items-center justify-center bg-surface shadow-md shadow-success">shadow-success</div>
+<div class="h-10 w-full flex items-center justify-center bg-surface shadow-md shadow-warning">shadow-warning</div>
+<div class="h-10 w-full flex items-center justify-center bg-surface shadow-md shadow-danger">shadow-danger</div>
+<div class="h-10 w-full flex items-center justify-center bg-surface shadow-md shadow-important">shadow-important</div>
+<div class="h-10 w-full flex items-center justify-center bg-surface shadow-md shadow-special">shadow-special</div>
 
-<div class="h-10 w-full flex items-center justify-center bg-surface sd-md sd-white">shadow-white</div>
-<div class="h-10 w-full flex items-center justify-center bg-surface sd-md sd-lighter">shadow-lighter</div>
-<div class="h-10 w-full flex items-center justify-center bg-surface sd-md sd-light">shadow-light</div>
-<div class="h-10 w-full flex items-center justify-center bg-surface sd-md sd-gray">shadow-gray</div>
-<div class="h-10 w-full flex items-center justify-center bg-surface sd-md sd-dark">shadow-dark</div>
-<div class="h-10 w-full flex items-center justify-center bg-surface sd-md sd-darker">shadow-darker</div>
-<div class="h-10 w-full flex items-center justify-center bg-surface sd-md sd-black">shadow-black</div>
+<div class="h-10 w-full flex items-center justify-center bg-surface shadow-md shadow-white">shadow-white</div>
+<div class="h-10 w-full flex items-center justify-center bg-surface shadow-md shadow-lighter">shadow-lighter</div>
+<div class="h-10 w-full flex items-center justify-center bg-surface shadow-md shadow-light">shadow-light</div>
+<div class="h-10 w-full flex items-center justify-center bg-surface shadow-md shadow-gray">shadow-gray</div>
+<div class="h-10 w-full flex items-center justify-center bg-surface shadow-md shadow-dark">shadow-dark</div>
+<div class="h-10 w-full flex items-center justify-center bg-surface shadow-md shadow-darker">shadow-darker</div>
+<div class="h-10 w-full flex items-center justify-center bg-surface shadow-md shadow-black">shadow-black</div>
 
-<div class="h-10 w-full flex items-center justify-center bg-surface sd-md sd-transparent">shadow-transparent</div>
-<div class="h-10 w-full flex items-center justify-center bg-surface sd-md sd-inherit">shadow-inherit</div>
-<div class="h-10 w-full flex items-center justify-center bg-surface sd-md sd-current">shadow-current</div>
+<div class="h-10 w-full flex items-center justify-center bg-surface shadow-md shadow-transparent">shadow-transparent</div>
+<div class="h-10 w-full flex items-center justify-center bg-surface shadow-md shadow-inherit">shadow-inherit</div>
+<div class="h-10 w-full flex items-center justify-center bg-surface shadow-md shadow-current">shadow-current</div>
 ```
 
 ## Opacity
 
-```html:example: grid grid-cols-7 gap-4
+```html:example: -grid -grid-cols-7 gap-4
 <div class="h-10 w-full flex items-center justify-center black opacity-0">opacity-0</div>
 <div class="h-10 w-full flex items-center justify-center black opacity-5">opacity-5</div>
 <div class="h-10 w-full flex items-center justify-center black opacity-10">opacity-10</div>
@@ -218,9 +235,26 @@
 <div class="h-10 w-full flex items-center justify-center black opacity-100">opacity-100</div>
 ```
 
+## Text opacity
+
+```html:example: -grid -grid-cols-7 gap-4
+<div class="h-10 w-full flex items-center justify-center text-primary text-opacity-0">text-opacity-0</div>
+<div class="h-10 w-full flex items-center justify-center text-primary text-opacity-10">text-opacity-10</div>
+<div class="h-10 w-full flex items-center justify-center text-primary text-opacity-20">text-opacity-20</div>
+<div class="h-10 w-full flex items-center justify-center text-primary text-opacity-30">text-opacity-30</div>
+<div class="h-10 w-full flex items-center justify-center text-primary text-opacity-40">text-opacity-40</div>
+<div class="h-10 w-full flex items-center justify-center text-primary text-opacity-50">text-opacity-50</div>
+<div class="h-10 w-full flex items-center justify-center text-primary text-opacity-60">text-opacity-60</div>
+<div class="h-10 w-full flex items-center justify-center text-primary text-opacity-70">text-opacity-70</div>
+<div class="h-10 w-full flex items-center justify-center text-primary text-opacity-80">text-opacity-80</div>
+<div class="h-10 w-full flex items-center justify-center text-primary text-opacity-90">text-opacity-90</div>
+<div class="h-10 w-full flex items-center justify-center text-primary text-opacity-95">text-opacity-95</div>
+<div class="h-10 w-full flex items-center justify-center text-primary text-opacity-100">text-opacity-100</div>
+```
+
 ## State
 
-```html:example: grid grid-cols-7 gap-4
+```html:example: -grid -grid-cols-7 gap-4
 <button type="button" class="h-10 w-full flex items-center justify-center surface state">state</button>
 <button type="button" class="h-10 w-full flex items-center justify-center primary disabled">disabled</button>
 ```
