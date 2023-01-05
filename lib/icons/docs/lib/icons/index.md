@@ -88,7 +88,7 @@ import {onMounted} from 'vue';
 const text = 'hello';
 
 onMounted(() => {
-    fetch('/fonts/icons.json').then(res => {
+    fetch('/zui/icons/icons.json').then(res => {
         if (res.ok) {
             return res.json();
         } else {

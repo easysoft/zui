@@ -1,2 +1,1 @@
-import './icons.core.less';
-import './icons.set.less';
+import './style/index.css';

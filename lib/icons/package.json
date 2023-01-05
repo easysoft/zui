@@ -9,8 +9,8 @@
         "zui:control"
     ],
     "devDependencies": {
+        "zui-dev": "workspace:*",
         "@zui/base": "workspace:*",
-        "@zui/browser-helpers": "workspace:^0.0.1",
         "@zui/utilities": "workspace:*"
     },
     "zui": {

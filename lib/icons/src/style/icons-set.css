@@ -1,0 +1,48 @@
+/* Define font faces */
+@font-face {
+  font-family: ZenIcon;
+  src: url('@/public/zenicon.eot?v=2.2.0');
+  src: url('@/public/zenicon.eot?#iefix&v=2.2.0') format('embedded-opentype'),
+       url('@/public/zenicon.woff?v=2.2.0') format('woff'),
+       url('@/public/zenicon.ttf?v=2.2.0') format('truetype'),
+       url('@/public/zenicon.svg#regular?v=2.2.0') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* Core style */
+
+.icon,
+[class^="icon-"],
+[class*=" icon-"] {
+  font-family: ZenIcon;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  font-variant: normal;
+  line-height: 1;
+  text-transform: none;
+  display: inline-block;
+}
+
+
+/* Fixed width */
+
+.icon:before {
+  display: inline-block;
+  min-width: 14px;
+  text-align: center;
+}
+
+
+/* Icon Sizes */
+
+/* makes the font 33% larger relative to the icon container */
+.icon-lg:before {
+  vertical-align: -10%;
+  font-size: 1.3333333em;
+}
+.icon-2x { font-size: 28px; }
+.icon-3x { font-size: 42px; }
+.icon-4x { font-size: 56px; }
+.icon-5x { font-size: 70px; }
