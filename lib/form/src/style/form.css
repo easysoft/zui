@@ -1,0 +1,16 @@
+.form-group {
+  @apply -mb-3;
+}
+
+.form-label {
+  @apply -block -mb-1 -font-bold -relative;
+}
+.form-label.required::after {
+  content: '*';
+  @apply -text-danger-500 -ml-1 -scale-125 -inline-block -translate-y-0.5;
+}
+
+.form-tip {
+  @apply -mt-1;
+  color: var(--form-tip-color);
+}

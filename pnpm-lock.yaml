@@ -301,7 +301,7 @@ importers:
       '@zui/css-icons': workspace:^0.0.1
       '@zui/form': workspace:0.0.1
       '@zui/icons': workspace:^0.0.1
-      '@zui/input': workspace:0.0.1
+      '@zui/input-control': workspace:0.0.1
       '@zui/utilities': workspace:*
       dayjs: ^1.11.6
       preact: 10.11.2
@@ -317,7 +317,7 @@ importers:
     devDependencies:
       '@zui/base': link:../base
       '@zui/form': link:../form
-      '@zui/input': link:../input
+      '@zui/input-control': link:../input-control
       '@zui/utilities': link:../utilities
       zui-dev: link:../../dev
 
@@ -438,15 +438,16 @@ importers:
       '@zui/browser-helpers': link:../browser-helpers
       '@zui/utilities': link:../utilities
 
-  lib/input:
+  lib/input-control:
     specifiers:
       '@zui/base': workspace:*
-      '@zui/form': workspace:0.0.1
+      '@zui/form-control': workspace:0.0.1
       '@zui/icons': workspace:0.0.1
       '@zui/utilities': workspace:*
+    dependencies:
+      '@zui/form-control': link:../form-control
     devDependencies:
       '@zui/base': link:../base
-      '@zui/form': link:../form
       '@zui/icons': link:../icons
       '@zui/utilities': link:../utilities
 
@@ -455,7 +456,10 @@ importers:
       '@zui/base': workspace:*
       '@zui/button': workspace:^0.0.1
       '@zui/dropdown': workspace:^0.0.1
+      '@zui/form-control': workspace:*
       '@zui/utilities': workspace:*
+    dependencies:
+      '@zui/form-control': link:../form-control
     devDependencies:
       '@zui/base': link:../base
       '@zui/button': link:../button
@@ -697,7 +701,7 @@ importers:
       '@zui/css-icons': workspace:^0.0.1
       '@zui/form': workspace:0.0.1
       '@zui/icons': workspace:^0.0.1
-      '@zui/input': workspace:0.0.1
+      '@zui/input-control': workspace:0.0.1
       '@zui/utilities': workspace:*
       dayjs: ^1.11.6
       preact: 10.11.2
@@ -713,7 +717,7 @@ importers:
       '@zui/base': link:../base
       '@zui/form': link:../form
       '@zui/icons': link:../icons
-      '@zui/input': link:../input
+      '@zui/input-control': link:../input-control
       '@zui/utilities': link:../utilities
       zui-dev: link:../../dev
 

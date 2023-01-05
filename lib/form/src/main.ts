@@ -1,3 +1,4 @@
-import './vars.css';
-import './form.css';
-import './form-control.css';
+import '@zui/checkbox';
+import '@zui/form-control';
+import '@zui/input-group';
+import './style/index.css';

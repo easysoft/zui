@@ -1,0 +1,22 @@
+.form-grid .form-group {
+  @apply -flex -items-start;
+}
+.form-grid .form-group > .form-cell:first-child {
+  margin-left: var(--form-grid-label-width);
+}
+.form-grid .form-label {
+  @apply -flex-none -mb-0 -h-8 -flex -items-center -justify-end -pr-3;
+  width: var(--form-grid-label-width);
+}
+.form-grid .form-label + .form-cell {
+  @apply -ml-0;
+}
+.form-grid .form-label.required::after {
+  @apply -order-first -ml-0 -mr-1;
+}
+.form-grid .form-tip {
+  @apply -w-full;
+}
+.form-row {
+  @apply -flex-auto -flex -gap-3;
+}
