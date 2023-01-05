@@ -3,5 +3,5 @@
   --state-scale: .9;
   --state-active-color: rgba(0,0,0,.1);
   --state-focus-color: rgba(0,0,0,.125);
-  --disabled-opacity: .5;
+  --state-disabled-opacity: .65;
 }
