@@ -1,14 +1,14 @@
 .checkbox-primary,
 .radio-primary {
-  @apply -flex -gap-2;
+  @apply -flex -gap-1.5 -relative;
 }
 .checkbox-primary > input[type="checkbox"],
 .radio-primary > input[type="radio"] {
-  @apply -hidden;
+  @apply -opacity-0 -absolute -inset-0;
 }
 .checkbox-primary > label,
 .radio-primary > label {
-  @apply -relative -pl-6 -cursor-pointer;
+  @apply -relative -pl-5 -cursor-pointer;
 }
 .checkbox-primary > label::before,
 .checkbox-primary > label::after,
@@ -34,6 +34,12 @@
 .checkbox-primary > label:hover::before,
 .radio-primary > label:hover::before {
   @apply -border-gray-400;
+}
+.checkbox-primary > input[type="checkbox"]:focus + label::before,
+.checkbox-primary.focus > label::before,
+.radio-primary > input[type="radio"]:focus + label::before,
+.radio-primary.focus > label::before {
+  @apply -outline -outline-focus -outline-2;
 }
 .checkbox-primary > input[type="checkbox"]:checked + label::before,
 .checkbox-primary.checked > label::before {

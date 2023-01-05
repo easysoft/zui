@@ -1,9 +1,12 @@
 .checkbox,
 .radio {
-  @apply -flex -items-center -gap-2 -cursor-pointer;
+  @apply -flex -items-center -gap-1.5 -cursor-pointer;
 }
 
 .checkbox > input[type="checkbox"],
 .radio > input[type="radio"] {
-  @apply -accent-primary-500;
+  @apply -accent-primary-500 -rounded-lg;
+}
+.checkbox > input[type="checkbox"]:focus {
+  outline: 2px solid var(--form-control-focus);
 }
