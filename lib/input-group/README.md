@@ -3,63 +3,61 @@
 ## 基本类型
 
 ```html:example: -flex -gap-3 -overflow-x-auto
-<div class="input-group">
-  <span class="input-group-addon">前</span>
-  <input type="text" class="form-control" placeholder="用户名">
-</div>
-
-<div class="input-group">
-  <input type="text" class="form-control" placeholder="用户名">
-  <span class="input-group-addon">中</span>
-  <input type="text" class="form-control" placeholder="密码">
-</div>
-
-<div class="input-group">
-  <input type="text" class="form-control" placeholder="用户名">
-  <span class="input-group-addon">后</span>
-</div>
-
-<div class="input-group">
-  <span class="input-group-addon">前</span>
-  <input type="text" class="form-control" placeholder="用户名">
-    <span class="input-group-addon">中</span>
-  <input type="text" class="form-control" placeholder="密码">
-</div>
-
-<div class="input-group">
-  <span class="input-group-addon">前</span>
-  <input type="text" class="form-control" placeholder="用户名">
-  <span class="input-group-addon">后</span>
-</div>
-
-<div class="input-group">
-  <span class="input-group-addon">前</span>
-  <input type="text" class="form-control" placeholder="用户名">
-    <span class="input-group-addon">中</span>
-  <input type="text" class="form-control" placeholder="密码">
-  <span class="input-group-addon">后</span>
-</div>
+<div class="row gap-6">
+    <div class="w-1/2 col gap-2">
+      <div class="input-group">
+        <input type="text" class="form-control" placeholder="用户名">
+        <span class="input-group-addon">@gmail.com</span>
+      </div>
+      <div class="input-group">
+        <span class="input-group-addon">@</span>
+        <input type="text" class="form-control" placeholder="用户名">
+      </div>
+      <div class="input-group">
+        <span class="input-group-addon">@</span>
+        <input type="text" class="form-control" placeholder="用户名">
+        <input type="text" class="form-control" placeholder="密码">
+        <span class="input-group-addon"><i class="icon icon-heart"></i></span>
+      </div>
+    </div>
+    <div class="w-1/2 col gap-2">
+      <div class="input-group">
+        <input type="text" class="form-control" placeholder="用户名">
+        <span class="input-group-addon"><i class="icon icon-star"></i></span>
+        <input type="text" class="form-control" placeholder="密码">
+      </div>
+      <div class="input-group">
+        <span class="input-group-addon"><i class="icon-user"></i></span>
+        <input type="text" class="form-control" placeholder="用户名">
+        <span class="input-group-addon"><i class="icon-key"></i></span>
+        <input type="text" class="form-control" placeholder="密码">
+      </div>
+      <div class="input-group">
+        <span class="input-group-btn">
+          <button type="button" class="btn" data-toggle="dropdown">类别<span class="caret"></span></button>
+          <menu class="dropdown-menu menu">
+            <li class="menu-item"><a>水果</a></li>
+            <li class="menu-item"><a>宠物</a></li>
+            <li class="menu-item"><a>其他类型</a></li>
+          </menu>
+        </span>
+        <select data-placeholder="选择一些爱吃的水果..." class="form-control">
+          <option value="strawberries" selected>草莓</option>
+          <option value="apple">苹果</option>
+          <option value="orange">橙子</option>
+          <option value="cherry">樱桃</option>
+          <option value="banana">香蕉</option>
+          <option value="figs">无花果</option>
+        </select>
+        <span class="input-group-addon"><i class="icon-comment"></i></span>
+        <input type="text" class="form-control" placeholder="备注">
+        <span class="input-group-btn">
+          <button type="button" class="btn">提交</button>
+        </span>
+      </div>
+    </div>
+  </div>
 ```
-
-## 尺寸
-
-```html:example: -flex -gap-3
-<div class="input-group size-lg">
-  <span class="input-group-addon">前</span>
-  <input type="text" class="form-control" placeholder="用户名">
-</div>
-
-<div class="input-group">
-  <span class="input-group-addon">前</span>
-  <input type="text" class="form-control" placeholder="用户名">
-</div>
-
-<div class="input-group size-sm">
-  <span class="input-group-addon">前</span>
-  <input type="text" class="form-control" placeholder="用户名">
-</div>
-```
-
 
 ## 连续分段的文本框
 
@@ -104,13 +102,13 @@
 <div class="input-group">
   <input type="text" class="form-control">
   <div class="dropdown menu-align-right">
-    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">选项 <span class="caret"></span></button>
-    <ul class="dropdown-menu" role="menu">
-      <li><a href="#">选项</a></li>
-      <li><a href="#">另一个选项</a></li>
-      <li><a href="#">更多选项</a></li>
-      <li class="divider"></li>
-      <li><a href="#">特别内容</a></li>
+    <button type="button" class="btn" data-toggle="dropdown">选项 <span class="caret"></span></button>
+    <ul class="menu dropdown-menu">
+      <li class="menu-item"><a>选项</a></li>
+      <li class="menu-item"><a>另一个选项</a></li>
+      <li class="menu-item"><a>更多选项</a></li>
+      <li class="menu-divider"></li>
+      <li class="menu-item"><a>特别内容</a></li>
     </ul>
   </div>
 </div>
@@ -122,19 +120,19 @@
 <div class="input-group">
   <input type="text" class="form-control">
   <div class="input-group-btn">
-    <button type="button" class="btn btn-default" tabindex="-1">主要选项</button>
-    <div class="dropdown menu-align-right">
-      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" tabindex="-1">
-        选项 <span class="caret"></span>
-      </button>
-        <ul class="dropdown-menu" role="menu">
-        <li><a href="#">选项</a></li>
-        <li><a href="#">另一个选项</a></li>
-        <li><a href="#">更多选项</a></li>
-        <li class="divider"></li>
-        <li><a href="#">特别内容</a></li>
-      </ul>
-    </div>
+    <button type="button" class="btn">主要选项</button>
+  </div>
+  <div class="input-group-btn">
+    <button type="button" class="btn" data-toggle="dropdown">
+      选项 <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu menu">
+      <li class="menu-item"><a>选项</a></li>
+      <li class="menu-item"><a>另一个选项</a></li>
+      <li class="menu-item"><a>更多选项</a></li>
+      <li class="menu-divider"></li>
+      <li class="menu-item"><a>特别内容</a></li>
+    </ul>
   </div>
 </div>
 ```

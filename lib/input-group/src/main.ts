@@ -1,2 +1,2 @@
-import './vars.css';
-import './input-group.css';
+import '@zui/form-control';
+import './style/index.css';

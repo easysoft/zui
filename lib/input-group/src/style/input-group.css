@@ -1,0 +1,32 @@
+.input-group {
+  @apply -flex -items-stretch;
+}
+
+.input-group > .form-control {
+  @apply -flex-auto;
+}
+.input-group > .form-control:focus {
+  @apply -z-[1];
+}
+
+.input-group-addon {
+  @apply -h-8 -border -px-2 -flex -items-center -flex-none;
+  background: var(--input-group-addon-bg);
+  border-radius: var(--form-control-radius);
+  border-color: var(--form-control-border);
+}
+
+.input-group-btn {
+  @apply -flex-none;
+}
+
+.input-group > * + * {
+  @apply --ml-px -rounded-l-none;
+}
+.input-group > * + * > .btn {
+  @apply -rounded-l-none;
+}
+.input-group > *:not(:last-child),
+.input-group > *:not(:last-child) > .btn {
+  @apply -rounded-r-none;
+}
