@@ -403,10 +403,10 @@ importers:
   lib/form:
     specifiers:
       '@zui/base': workspace:*
-      '@zui/checkbox': workspace:^0.0.1
+      '@zui/form-control': workspace:*
       '@zui/utilities': workspace:*
     dependencies:
-      '@zui/checkbox': link:../checkbox
+      '@zui/form-control': link:../form-control
     devDependencies:
       '@zui/base': link:../base
       '@zui/utilities': link:../utilities

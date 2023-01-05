@@ -1,16 +1,16 @@
 {
-    "name": "@zui/input",
+    "name": "@zui/input-control",
     "version": "0.0.1",
     "main": "src/main.ts",
     "browser": "src/main.ts",
     "browserslist": "",
     "keywords": ["css", "zui:control"],
     "dependencies": {
+        "@zui/form-control": "workspace:0.0.1"
     },
     "devDependencies": {
         "@zui/base": "workspace:*",
         "@zui/utilities": "workspace:*",
-        "@zui/form": "workspace:0.0.1",
         "@zui/icons": "workspace:0.0.1"
     },
     "zui": {
