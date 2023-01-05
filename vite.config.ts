@@ -25,6 +25,7 @@ export default defineConfig(async ({mode}) => {
                     },
                 },
             },
+            assetsInlineLimit: 256,
         },
         esbuild: {
             jsxFactory: 'h',
@@ -37,7 +38,20 @@ export default defineConfig(async ({mode}) => {
                 {find: /^@zui\/(.*)/, replacement: `${__dirname}/lib/$1`},
                 {find: 'zui-dev', replacement: `${__dirname}/dev`},
                 {find: 'zui-config', replacement: `${__dirname}/config`},
-                {find: '~@', replacement: __dirname},
+                {find: '~/', replacement: `${__dirname}/`},
+                {find: '@/', replacement: '/', customResolver: (source, importer) => {
+                    if (!importer) {
+                        return;
+                    }
+                    const lib = Object.values(libsCache).find((x) => importer.startsWith(`${x.zui.path}${Path.sep}`));
+                    if (!lib) {
+                        return Path.join(__dirname, source);
+                    }
+                    if (source.startsWith('/public/') && mode !== 'development') {
+                        return Path.join(viteConfig.publicDir || Path.join(__dirname, 'public'), lib.zui.name, source.replace('/public/', ''));
+                    }
+                    return Path.join(lib.zui.path, source);
+                }},
                 ...Object.values(libsCache).reduce<{find: string, replacement: string}[]>((aliasList, info) => {
                     if (info.zui.sourceType === 'exts') {
                         aliasList.push({find: info.name, replacement: info.zui.path});

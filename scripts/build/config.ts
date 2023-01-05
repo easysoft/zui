@@ -331,6 +331,7 @@ export async function createBuildConfig(options: BuildConfigOptions): Promise<Bu
 export async function prepareBuildFiles(config: BuildConfig, buildDir: string) {
     const dependencies: Record<string, string> = {};
     const entryFileLines: string[] = [];
+    const publicPath = Path.join(buildDir, 'public');
 
     for (const lib of config.libs) {
         dependencies[lib.name] = lib.zui.workspace ? `link:${Path.relative(buildDir, lib.zui.path)}` : lib.version;
@@ -348,6 +349,12 @@ export async function prepareBuildFiles(config: BuildConfig, buildDir: string) {
             });
         } else {
             entryFileLines.push(`export * from ${JSON.stringify(lib.name)};`);
+        }
+        if (lib.zui.sourceType !== 'npm') {
+            const libPublicPath = Path.join(lib.zui.path, 'public');
+            if (fs.existsSync(libPublicPath)) {
+                await fs.copy(libPublicPath, Path.join(publicPath, lib.zui.name));
+            }
         }
     }
 
@@ -379,5 +386,6 @@ export function createViteConfig(config: BuildConfig, options: {buildDir: string
             },
             outDir: options.outDir ?? `dist/${config.name}`,
         },
+        publicDir: Path.join(options.buildDir, 'public'),
     };
 }
