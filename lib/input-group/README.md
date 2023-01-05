@@ -83,14 +83,18 @@
 <!-- 复选框 -->
 <div class="input-group">
   <span class="input-group-addon">
-    <input type="checkbox">
+    <div class="checkbox">
+      <input type="checkbox">
+    </div>
   </span>
   <input type="text" class="form-control">
 </div>
 <!-- 单选框 -->
 <div class="input-group">
   <span class="input-group-addon">
-    <input type="radio">
+    <div class="radio">
+      <input type="radio">
+    </div>
   </span>
   <input type="text" class="form-control">
 </div>
