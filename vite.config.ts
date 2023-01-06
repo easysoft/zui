@@ -48,7 +48,7 @@ export default defineConfig(async ({mode}) => {
                         return Path.join(__dirname, source);
                     }
                     if (source.startsWith('/public/') && mode !== 'development') {
-                        return Path.join(viteConfig.publicDir || Path.join(__dirname, 'public'), lib.zui.name, source.replace('/public/', ''));
+                        return `/${lib.zui.name}/${source.replace('/public/', '')}`;
                     }
                     return Path.join(lib.zui.path, source);
                 }},
