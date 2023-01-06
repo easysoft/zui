@@ -4,7 +4,7 @@
   border-radius: var(--alert-radius);
 }
 .alert-content {
-  @apply -flex-auto -flex -flex-col -gap-2;
+  @apply -flex-auto -flex -flex-col -gap-3;
 }
 .alert-close {
   @apply -flex-none --mr-2 --mt-2 --mb-2;
@@ -14,4 +14,7 @@
 }
 .alert-heading {
   @apply -font-bold -m-0;
+}
+.alert-actions {
+  @apply -flex -items-center -gap-2;
 }

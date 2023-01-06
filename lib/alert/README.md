@@ -17,14 +17,18 @@
 </div>
 ```
 
-## With icon and headings
+## With icon, headings and actions
 
 ```html:example: gap-3
-<div class="alert primary">
+<div class="alert">
   <i class="icon icon-warning-sign icon-2x"></i>
   <div class="alert-content">
     <h3 class="alert-heading">注意</h3>
     <div class="alert-text">Hi! 这条消息可能需要你注意。</div>
+    <div class="alert-actions">
+      <button type="button" class="btn primary-outline">确认</button>
+      <button type="button" class="btn">取消</button>
+    </div>
   </div>
   <button type="button" class="alert-close btn ghost square"><span class="close"></span></button>
 </div>
