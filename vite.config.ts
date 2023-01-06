@@ -13,6 +13,7 @@ export default defineConfig(async ({mode}) => {
     const libsCache: Record<string, LibInfo> | undefined = await getLibs(buildLibs);
 
     let viteConfig: UserConfig = {
+        base: './',
         build: {
             outDir: 'dist/dev',
             rollupOptions: {
@@ -62,6 +63,14 @@ export default defineConfig(async ({mode}) => {
         },
         define: {
             'process.env.NODE_ENV': JSON.stringify(mode),
+        },
+        experimental: {
+            renderBuiltUrl(filename: string, {hostId, hostType, type}: {hostId: string, hostType: 'js' | 'css' | 'html', type: 'public' | 'asset'}) {
+                if (type === 'public') {
+                    return `./${filename}`;
+                }
+                return {relative: true};
+            },
         },
     };
 
