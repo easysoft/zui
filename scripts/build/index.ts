@@ -6,7 +6,7 @@ import {bold, blue, gray, yellow, cyan, green} from 'colorette';
 import {createBuildConfig, prepareBuildFiles, createViteConfig} from './config';
 import {exec, execCmd} from '../utilities/exec';
 
-const argv = minimist(process.argv.slice(2));
+const argv = minimist(process.argv.slice(2).filter((x, i) => i || x !== '--'));
 
 let viteConfig = {};
 const viteFile = argv.viteFile ?? argv.V;
