@@ -15,7 +15,7 @@ await fs.emptyDir(docsPublicDir);
 const exts = argv.exts === true ? 'buildIn,exts' : argv.exts;
 const libSetting = argv.lib;
 if (argv.build !== 'no') {
-    const params = ['build', '--', '--outDir=docs/_/public/zui', '--name=zui'];
+    const params = ['build', '--', '--outDir=docs/_/public', '--name=zui'];
     if (exts) {
         params.push(`--exts=${exts}`);
     }
