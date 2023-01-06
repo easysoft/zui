@@ -7,6 +7,38 @@
 
 .trans-75   {@apply -duration-75;}
 .trans-100  {@apply -duration-100;}
+.trans-200  {@apply -duration-200;}
 .trans-300  {@apply -duration-300;}
 .trans-500  {@apply -duration-500;}
 .trans-1000 {@apply -duration-1000;}
+
+.fade,
+.fade-from-center,
+.fade-from-bottom,
+.fade-from-top,
+.fade-from-left,
+.fade-from-right {
+  @apply -opacity-0 -transition-[opacity,transform];
+}
+
+.fade-from-center,
+.fade-from-bottom,
+.fade-from-top,
+.fade-from-left,
+.fade-from-right{
+  @apply -scale-75;
+}
+
+.fade-from-bottom   {@apply -translate-y-1/2;}
+.fade-from-top      {@apply --translate-y-1/2;}
+.fade-from-left     {@apply --translate-x-1/2;}
+.fade-from-right    {@apply -translate-x-1/2;}
+
+.fade.in,
+.fade-from-center.in,
+.fade-from-bottom.in,
+.fade-from-top.in,
+.fade-from-left.in,
+.fade-from-right.in {
+  @apply -opacity-100 -scale-100 -translate-x-0 -translate-y-0;
+}
