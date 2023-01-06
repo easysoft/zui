@@ -13,6 +13,10 @@
   <div class="alert-content">
     Hi! 这条消息可能需要你注意。
   </div>
+  <div class="alert-actions">
+    <button type="button" class="btn primary-outline">确认</button>
+    <button type="button" class="btn">取消</button>
+  </div>
   <button type="button" class="alert-close btn ghost square"><span class="close"></span></button>
 </div>
 ```

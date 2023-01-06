@@ -7,12 +7,17 @@
     "files": [
         "./src/**/*"
     ],
+    "dependencies": {
+        "@zui/browser-helpers": "workspace:*",
+        "@zui/toolbar": "workspace:*",
+        "@zui/button": "workspace:*",
+        "@zui/css-icons": "workspace:*",
+        "preact": "10.11.2"
+    },
     "devDependencies": {
         "@zui/base": "workspace:*",
         "@zui/icons": "workspace:^0.0.1",
-        "@zui/utilities": "workspace:*",
-        "@zui/button": "workspace:*",
-        "@zui/css-icons": "workspace:*"
+        "@zui/utilities": "workspace:*"
     },
     "zui": {
         "type": "control",
