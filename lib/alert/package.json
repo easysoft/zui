@@ -4,6 +4,9 @@
     "main": "src/main.ts",
     "browser": "src/main.ts",
     "browserslist": "",
+    "files": [
+        "./src/**/*"
+    ],
     "devDependencies": {
         "@zui/base": "workspace:*",
         "@zui/icons": "workspace:^0.0.1",
