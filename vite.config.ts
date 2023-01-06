@@ -65,7 +65,7 @@ export default defineConfig(async ({mode}) => {
             'process.env.NODE_ENV': JSON.stringify(mode),
         },
         experimental: {
-            renderBuiltUrl(filename: string, {hostId, hostType, type}: {hostId: string, hostType: 'js' | 'css' | 'html', type: 'public' | 'asset'}) {
+            renderBuiltUrl(filename: string, {type}: {hostId: string, hostType: 'js' | 'css' | 'html', type: 'public' | 'asset'}) {
                 if (type === 'public') {
                     return `./${filename}`;
                 }
