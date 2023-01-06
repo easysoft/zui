@@ -16,7 +16,7 @@
 <div class="h-10 w-full flex items-center justify-center lighter">lighter</div>
 <div class="h-10 w-full flex items-center justify-center light">light</div>
 <div class="h-10 w-full flex items-center justify-center gray">gray</div>
-<div class="h-10 w-full flex items-center justify-center dark">dark</div>
+<div class="h-10 w-full flex items-center justify-center darken">darken</div>
 <div class="h-10 w-full flex items-center justify-center darker">darker</div>
 <div class="h-10 w-full flex items-center justify-center black">black</div>
 
