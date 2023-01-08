@@ -1,4 +1,4 @@
-export type ClassNameLike = null | undefined | string | {[key: string]: unknown} | (() => ClassNameLike) | ClassNameLike[];
+export type ClassNameLike = null | undefined | boolean | string | {[key: string]: unknown} | (() => ClassNameLike) | ClassNameLike[];
 
 export type ClassNameSetting = [name: string, toggle: boolean];
 
