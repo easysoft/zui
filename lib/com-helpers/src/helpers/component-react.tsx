@@ -19,6 +19,11 @@ export abstract class ComponentFromReact<O extends object, C extends Component<O
         requestAnimationFrame(() => this.render());
     }
 
+    destroy() {
+        super.destroy();
+        this.element.innerHTML = '';
+    }
+
     render(options?: Partial<O>) {
         const Component = (this.constructor as typeof ComponentReactClass<O, C, V, E>).Component;
         render((
