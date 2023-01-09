@@ -78,12 +78,20 @@
         "main": "src/main.ts",
         "browser": "src/main.ts",
         "browserslist": "",
+        "files": [
+            "./src/**/*"
+        ],
+        "dependencies": {
+            "@zui/browser-helpers": "workspace:*",
+            "@zui/toolbar": "workspace:*",
+            "@zui/button": "workspace:*",
+            "@zui/css-icons": "workspace:*",
+            "preact": "10.11.2"
+        },
         "devDependencies": {
             "@zui/base": "workspace:*",
             "@zui/icons": "workspace:^0.0.1",
-            "@zui/utilities": "workspace:*",
-            "@zui/button": "workspace:*",
-            "@zui/css-icons": "workspace:*"
+            "@zui/utilities": "workspace:*"
         },
         "zui": {
             "type": "control",
@@ -218,6 +226,38 @@
         }
     },
     {
+        "name": "@zui/form",
+        "version": "0.0.1",
+        "main": "src/main.ts",
+        "dependencies": {
+            "@zui/input-group": "workspace:*",
+            "@zui/checkbox": "workspace:*",
+            "@zui/form-control": "workspace:*"
+        },
+        "devDependencies": {
+            "@zui/base": "workspace:*",
+            "@zui/button": "workspace:*",
+            "@zui/utilities": "workspace:*"
+        },
+        "zui": {
+            "type": "control",
+            "displayName": "表单",
+            "contributes": {
+                "css": [
+                    "class",
+                    "var"
+                ]
+            },
+            "build": {},
+            "path": "/home/runner/work/zui/zui/lib/form",
+            "workspace": true,
+            "sourceType": "build-in",
+            "name": "form",
+            "order": 2010000006,
+            "packageJsonPath": "/home/runner/work/zui/zui/lib/form/package.json"
+        }
+    },
+    {
         "name": "@zui/form-control",
         "version": "0.0.1",
         "main": "src/main.ts",
@@ -240,7 +280,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "form-control",
-            "order": 2010000006,
+            "order": 2010000007,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/form-control/package.json"
         }
     },
@@ -255,8 +295,8 @@
             "zui:control"
         ],
         "devDependencies": {
+            "zui-dev": "workspace:*",
             "@zui/base": "workspace:*",
-            "@zui/browser-helpers": "workspace:^0.0.1",
             "@zui/utilities": "workspace:*"
         },
         "zui": {
@@ -274,12 +314,12 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "icons",
-            "order": 2010000007,
+            "order": 2010000008,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/icons/package.json"
         }
     },
     {
-        "name": "@zui/input",
+        "name": "@zui/input-control",
         "version": "0.0.1",
         "main": "src/main.ts",
         "browser": "src/main.ts",
@@ -288,11 +328,12 @@
             "css",
             "zui:control"
         ],
-        "dependencies": {},
+        "dependencies": {
+            "@zui/form-control": "workspace:0.0.1"
+        },
         "devDependencies": {
             "@zui/base": "workspace:*",
             "@zui/utilities": "workspace:*",
-            "@zui/form": "workspace:0.0.1",
             "@zui/icons": "workspace:0.0.1"
         },
         "zui": {
@@ -305,12 +346,12 @@
                 ]
             },
             "build": {},
-            "path": "/home/runner/work/zui/zui/lib/input",
+            "path": "/home/runner/work/zui/zui/lib/input-control",
             "workspace": true,
             "sourceType": "build-in",
-            "name": "input",
-            "order": 2010000008,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/input/package.json"
+            "name": "input-control",
+            "order": 2010000009,
+            "packageJsonPath": "/home/runner/work/zui/zui/lib/input-control/package.json"
         }
     },
     {
@@ -342,7 +383,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "label",
-            "order": 2010000009,
+            "order": 2010000010,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/label/package.json"
         }
     },
@@ -391,7 +432,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "menu",
-            "order": 2010000010,
+            "order": 2010000011,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/menu/package.json"
         }
     },
@@ -435,7 +476,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "messager",
-            "order": 2010000011,
+            "order": 2010000012,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/messager/package.json"
         }
     },
@@ -465,7 +506,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "progress",
-            "order": 2010000012,
+            "order": 2010000013,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/progress/package.json"
         }
     },
@@ -502,7 +543,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "progress-circle",
-            "order": 2010000013,
+            "order": 2010000014,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/progress-circle/package.json"
         }
     },
@@ -550,7 +591,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "scrollbar",
-            "order": 2010000014,
+            "order": 2010000015,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/scrollbar/package.json"
         }
     },
@@ -587,7 +628,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "upload",
-            "order": 2010000015,
+            "order": 2010000016,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/upload/package.json"
         }
     },
@@ -616,7 +657,7 @@
             "sourceType": "build-in",
             "name": "browser-helpers",
             "moduleName": "browser",
-            "order": 3010000016,
+            "order": 3010000017,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/browser-helpers/package.json"
         }
     },
@@ -652,7 +693,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "com-helpers",
-            "order": 3010000017,
+            "order": 3010000018,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/com-helpers/package.json"
         }
     },
@@ -679,7 +720,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "event-bus",
-            "order": 3010000018,
+            "order": 3010000019,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/event-bus/package.json"
         }
     },
@@ -709,7 +750,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "i18n",
-            "order": 3010000019,
+            "order": 3010000020,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/i18n/package.json"
         }
     },
@@ -742,7 +783,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "store",
-            "order": 3010000020,
+            "order": 3010000021,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/store/package.json"
         }
     },
@@ -780,7 +821,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "avatar",
-            "order": 4010000021,
+            "order": 4010000022,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/avatar/package.json"
         }
     },
@@ -815,7 +856,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "avatar-group",
-            "order": 4010000022,
+            "order": 4010000023,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/avatar-group/package.json"
         }
     },
@@ -863,7 +904,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "btn-group",
-            "order": 4010000023,
+            "order": 4010000024,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/btn-group/package.json"
         }
     },
@@ -884,20 +925,21 @@
             ".": "./src/main.ts"
         },
         "devDependencies": {
-            "zui-dev": "workspace:*",
             "@zui/base": "workspace:*",
-            "@zui/utilities": "workspace:*",
             "@zui/form": "workspace:0.0.1",
-            "@zui/input": "workspace:0.0.1"
+            "@zui/input-control": "workspace:0.0.1",
+            "@zui/utilities": "workspace:*",
+            "zui-dev": "workspace:*"
         },
         "dependencies": {
-            "preact": "10.11.2",
-            "dayjs": "^1.11.6",
-            "@popperjs/core": "^2.11.6",
-            "@zui/icons": "workspace:^0.0.1",
+            "@floating-ui/core": "^1.1.0",
+            "@floating-ui/dom": "^1.1.0",
             "@zui/browser-helpers": "workspace:*",
             "@zui/com-helpers": "workspace:*",
-            "@zui/css-icons": "workspace:^0.0.1"
+            "@zui/css-icons": "workspace:^0.0.1",
+            "@zui/icons": "workspace:^0.0.1",
+            "dayjs": "^1.11.6",
+            "preact": "10.11.2"
         },
         "zui": {
             "type": "component",
@@ -913,42 +955,8 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "datepicker",
-            "order": 4010000024,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/datepicker/package.json"
-        }
-    },
-    {
-        "name": "@zui/form",
-        "version": "0.0.1",
-        "main": "src/main.ts",
-        "browser": "src/main.ts",
-        "browserslist": "",
-        "keywords": [
-            "css"
-        ],
-        "dependencies": {
-            "@zui/checkbox": "workspace:^0.0.1"
-        },
-        "devDependencies": {
-            "@zui/base": "workspace:*",
-            "@zui/utilities": "workspace:*"
-        },
-        "zui": {
-            "type": "component",
-            "displayName": "表单",
-            "contributes": {
-                "css": [
-                    "class",
-                    "var"
-                ]
-            },
-            "build": {},
-            "path": "/home/runner/work/zui/zui/lib/form",
-            "workspace": true,
-            "sourceType": "build-in",
-            "name": "form",
             "order": 4010000025,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/form/package.json"
+            "packageJsonPath": "/home/runner/work/zui/zui/lib/datepicker/package.json"
         }
     },
     {
@@ -961,10 +969,15 @@
             "css",
             "zui:control"
         ],
+        "dependencies": {
+            "@zui/form-control": "workspace:*"
+        },
         "devDependencies": {
             "@zui/base": "workspace:*",
             "@zui/button": "workspace:^0.0.1",
+            "@zui/icons": "workspace:^0.0.1",
             "@zui/dropdown": "workspace:^0.0.1",
+            "@zui/checkbox": "workspace:^0.0.1",
             "@zui/utilities": "workspace:*"
         },
         "zui": {
@@ -1274,7 +1287,7 @@
             "@zui/utilities": "workspace:*",
             "@zui/icons": "workspace:^0.0.1",
             "@zui/form": "workspace:0.0.1",
-            "@zui/input": "workspace:0.0.1"
+            "@zui/input-control": "workspace:0.0.1"
         },
         "dependencies": {
             "preact": "10.11.2",
@@ -1370,17 +1383,18 @@
             ".": "./src/main.ts"
         },
         "devDependencies": {
-            "zui-dev": "workspace:*",
             "@zui/base": "workspace:*",
-            "@zui/utilities": "workspace:*"
+            "@zui/utilities": "workspace:*",
+            "zui-dev": "workspace:*"
         },
         "dependencies": {
-            "preact": "10.11.2",
-            "@popperjs/core": "^2.11.6",
+            "@floating-ui/core": "^1.1.0",
+            "@floating-ui/dom": "^1.1.0",
             "@zui/browser-helpers": "workspace:*",
-            "@zui/com-helpers": "workspace:*",
             "@zui/button": "workspace:0.0.1",
-            "@zui/css-icons": "workspace:^0.0.1"
+            "@zui/com-helpers": "workspace:*",
+            "@zui/css-icons": "workspace:^0.0.1",
+            "preact": "10.11.2"
         },
         "zui": {
             "type": "component",
