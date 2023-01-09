@@ -22,7 +22,7 @@ export function Alert({
 }: AlertOptions) {
     let closeButton: ComponentChildren;
     if (close === true) {
-        closeButton = <Button className="alert-close btn ghost square" onClick={onClose}><span class="close"></span></Button>;
+        closeButton = <Button className="alert-close btn ghost" square onClick={onClose}><span class="close"></span></Button>;
     } else if (isValidElement(close)) {
         closeButton = close;
     } else if (typeof close === 'object') {
