@@ -3,13 +3,9 @@ import {TimepickerOptions} from '../types';
 import {ComponentBase} from '@zui/com-helpers/src/helpers/vanilla-component';
 import {TimePanel} from '../component/timePanel';
 import '@zui/css-icons/src/icons/arrow.css';
-import {createPopper, Options as PopperOptions, Instance as PopperInstance, VirtualElement} from '@popperjs/core/lib/popper-lite';
-import arrow from '@popperjs/core/lib/modifiers/arrow';
-import offset from '@popperjs/core/lib/modifiers/offset';
-import preventOverflow from '@popperjs/core/lib/modifiers/preventOverflow';
-import flip from '@popperjs/core/lib/modifiers/flip';
 import '../style/index.css';
 import dayjs from 'dayjs';
+import {computePosition, ComputePositionConfig, arrow, offset, flip, VirtualElement} from '@floating-ui/dom';
 
 export class Timepicker extends ComponentBase<TimepickerOptions> {
 
@@ -36,23 +32,16 @@ export class Timepicker extends ComponentBase<TimepickerOptions> {
 
     #timepicker?: HTMLElement;
 
-    #popper?: PopperInstance;
-
     #trigger?: MouseEvent | HTMLElement | DOMRect;
+
+    #arrowEl?: HTMLElement;
 
     get isShown() {
         return this.#timepicker?.classList.contains((this.constructor as typeof Timepicker).CLASS_SHOW);
     }
 
     get timepicker(): HTMLElement {
-        return this.#timepicker || this._ensureTimepicker();
-    }
-
-    get popper() {
-        if (!this.#popper) {
-            return this._createPopper();
-        }
-        return this.#popper;
+        return this.#timepicker || this.#ensureTimepicker();
     }
 
     get trigger() {
@@ -70,13 +59,11 @@ export class Timepicker extends ComponentBase<TimepickerOptions> {
         }
         this.element.classList.add(this.elementShowClass);
         this.timepicker.classList.add((this.constructor as typeof Timepicker).CLASS_SHOW);
-        this._createPopper().update();
+        this.#updatePosition();
         return true;
     }
 
     hide(): boolean {
-        this.#popper?.destroy();
-        this.#popper = undefined;
         this.element.classList.remove(this.elementShowClass);
         this.#timepicker?.classList.remove((this.constructor as typeof Timepicker).CLASS_SHOW);
         return true;
@@ -91,75 +78,91 @@ export class Timepicker extends ComponentBase<TimepickerOptions> {
         this.#hideTimer = window.setTimeout(this.hide.bind(this), 100);
     };
 
-    destroy(): void {
-        super.destroy();
-    }
-
-    _getArrowSize() {
+    #getArrowSize() {
         const {arrow: arrowOption} = this.options;
         return typeof arrowOption === 'number' ? arrowOption : 4;
     }
 
-    _createArrow(): HTMLElement {
+    #createArrow(): HTMLElement {
         const div = document.createElement('div');
-        div.classList.add('arrow', 'timepicker-arrow');
-        div.style.setProperty('--arrow-size', `${this._getArrowSize()}px`);
+        this.#arrowEl = div;
+        this.#arrowEl.style.position = 'absolute';
+        this.#arrowEl.style.width = '8px';
+        this.#arrowEl.style.height = '8px';
+        this.#arrowEl.style.transform = 'rotate(45deg)';
+        this.#arrowEl.style.background = 'inherit';
+        this.#arrowEl.style.border = 'inherit';
+        this.#arrowEl.style.borderBottomStyle = 'none';
+        this.#arrowEl.style.borderRightStyle = 'none';
         return div;
     }
 
-    _ensureTimepicker() {
+    #ensureTimepicker() {
         const timepickerClass = (this.constructor as typeof Timepicker).CLASSNAME;
         const pickerElement = document.createElement('div');
         pickerElement.classList.add(timepickerClass);
         render(h(TimePanel, {...this.options}), pickerElement);
         if (this.options.arrow) {
-            pickerElement.prepend(this._createArrow());
+            pickerElement.append(this.#createArrow());
         }
+
+        pickerElement.style.width = 'max-content';
+        pickerElement.style.position = 'absolute';
+        pickerElement.style.top = '0';
+        pickerElement.style.left = '0';
+
         document.body.appendChild(pickerElement);
         this.#timepicker = pickerElement;
         return pickerElement;
     }
 
-    _getPopperOptions(): PopperOptions {
-        const arrowSize = this._getArrowSize();
-        return {
-            modifiers: [
-                preventOverflow,
-                flip,
-                {...arrow, options: {
-                    padding: arrowSize,
-                    element: '.arrow',
-                }}, {
-                    ...offset, options: {
-                        offset: [0, arrowSize + 3],
-                    },
-                }, {
-                    name: 'timepicker',
-                    enabled: true,
-                    phase: 'beforeWrite',
-                    fn: ({state}) => {
-                        const placement = state.placement?.split('-').shift() || '';
-                        this.timepicker.querySelector('.arrow')?.setAttribute('class', `arrow arrow-${placement}`);
-                        this.element.setAttribute('data-timepicker-placement', placement);
-                    },
-                },
-            ].filter(Boolean),
-            placement: this.options.placement,
-            strategy: 'absolute',
-        } as PopperOptions;
-    }
-
-    _createPopper() {
-        const options = this._getPopperOptions();
-        if (this.#popper) {
-            this.#popper.setOptions(options);
-        } else {
-            this.#popper = createPopper(this._getPopperElement(), this.timepicker, options);
+    #getComputePositionConfig() {
+        const arrowSize = this.#getArrowSize();
+        const config: Partial<ComputePositionConfig> = {
+            middleware: [offset(arrowSize + 3), flip()],
+        };
+        if (this.options.arrow && this.#arrowEl) {
+            config.middleware?.push(arrow({element: this.#arrowEl}));
         }
-        return this.#popper;
+        if (this.options.placement) {
+            config.placement = this.options.placement;
+        }
+        return config;
     }
 
-    _getPopperElement(): VirtualElement {
+    #updatePosition() {
+        const config = this.#getComputePositionConfig();
+        computePosition(this.#getReferenceElement(), this.timepicker, config).then(({x, y, middlewareData}) => {
+            Object.assign(this.timepicker.style, {
+                left: `${x}px`,
+                top: `${y}px`,
+            });
+
+            if (this.options.placement) {
+                const side = this.options.placement.split('-')[0];
+
+                const staticSide = {
+                    top: 'bottom',
+                    right: 'left',
+                    bottom: 'top',
+                    left: 'right',
+                }[side] as string;
+
+                if (middlewareData.arrow && this.#arrowEl) {
+                    const {x: arrowX, y: arrowY} = middlewareData.arrow;
+
+                    Object.assign(this.#arrowEl.style, {
+                        left: arrowX != null ? `${arrowX}px` : '',
+                        top: arrowY != null ? `${arrowY}px` : '',
+                        [staticSide]: `${-this.#arrowEl.offsetWidth / 2}px`,
+                    });
+                }
+            }
+
+        });
+    }
+
+    #getReferenceElement(): VirtualElement {
         if (!this.#virtualElement) {
             this.#virtualElement = {
                 getBoundingClientRect: () => {
@@ -216,7 +219,7 @@ export class Timepicker extends ComponentBase<TimepickerOptions> {
         if (event && ignoreSelector && (event.target as HTMLElement).closest?.(ignoreSelector)) {
             return;
         }
-        
+
         const all = this.getAll().entries();
         const excludeSet = new Set(exclude || []);
         for (const [ele, timepicker] of all) {
@@ -226,7 +229,7 @@ export class Timepicker extends ComponentBase<TimepickerOptions> {
             timepicker.hide();
         }
     }
-    
+
 }
 
 document.addEventListener('click', function (event) {

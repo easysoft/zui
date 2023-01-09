@@ -1,7 +1,4 @@
 export type TimepickerPlacement =
-  | 'auto'
-  | 'auto-start'
-  | 'auto-end'
   | 'top'
   | 'top-start'
   | 'top-end'

@@ -711,7 +711,8 @@ importers:
 
   lib/timepicker:
     specifiers:
-      '@popperjs/core': ^2.11.6
+      '@floating-ui/core': ^1.1.0
+      '@floating-ui/dom': ^1.1.0
       '@zui/base': workspace:*
       '@zui/browser-helpers': workspace:*
       '@zui/com-helpers': workspace:*
@@ -724,7 +725,8 @@ importers:
       preact: 10.11.2
       zui-dev: workspace:*
     dependencies:
-      '@popperjs/core': registry.npmmirror.com/@popperjs/core/2.11.6
+      '@floating-ui/core': 1.1.0
+      '@floating-ui/dom': 1.1.0
       '@zui/browser-helpers': link:../browser-helpers
       '@zui/com-helpers': link:../com-helpers
       '@zui/css-icons': link:../css-icons
