@@ -270,7 +270,8 @@ importers:
 
   lib/contextmenu:
     specifiers:
-      '@popperjs/core': ^2.11.6
+      '@floating-ui/core': ^1.1.0
+      '@floating-ui/dom': ^1.1.0
       '@zui/base': workspace:*
       '@zui/button': workspace:0.0.1
       '@zui/com-helpers': workspace:*
@@ -280,7 +281,8 @@ importers:
       preact: 10.11.2
       zui-dev: workspace:^0.0.1
     dependencies:
-      '@popperjs/core': registry.npmmirror.com/@popperjs/core/2.11.6
+      '@floating-ui/core': 1.1.0
+      '@floating-ui/dom': 1.1.0
       '@zui/com-helpers': link:../com-helpers
       '@zui/menu': link:../menu
       preact: registry.npmmirror.com/preact/10.11.2
@@ -330,6 +332,8 @@ importers:
 
   lib/dropdown:
     specifiers:
+      '@floating-ui/core': ^1.1.0
+      '@floating-ui/dom': ^1.1.0
       '@popperjs/core': ^2.11.6
       '@zui/base': workspace:*
       '@zui/browser-helpers': workspace:*
@@ -343,6 +347,8 @@ importers:
       preact: 10.11.2
       zui-dev: workspace:*
     dependencies:
+      '@floating-ui/core': 1.1.0
+      '@floating-ui/dom': 1.1.0
       '@popperjs/core': registry.npmmirror.com/@popperjs/core/2.11.6
       '@zui/browser-helpers': link:../browser-helpers
       '@zui/button': link:../button

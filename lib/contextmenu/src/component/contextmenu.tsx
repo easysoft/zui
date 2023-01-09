@@ -1,11 +1,8 @@
-import type {ComponentChildren} from 'preact';
-import {createPopper, Instance as PopperInstance, Options as PopperOptions} from '@popperjs/core/lib/popper-lite';
-import preventOverflow from '@popperjs/core/lib/modifiers/preventOverflow';
-import flip from '@popperjs/core/lib/modifiers/flip';
 import type {MenuItemOptions} from '@zui/menu/src/types';
 import {Menu} from '@zui/menu/src/component/menu';
 import '@zui/css-icons/src/icons/caret.css';
 import '../style/index.css';
+import {flip, computePosition, ComputePositionConfig} from '@floating-ui/dom';
 
 export class ContextMenu<T extends MenuItemOptions = MenuItemOptions> extends Menu<T> {
     get nestedTrigger() {
@@ -20,42 +17,42 @@ export class ContextMenu<T extends MenuItemOptions = MenuItemOptions> extends Me
         return 'menu-context';
     }
 
-    #popper?: PopperInstance;
-
-    componentWillUnmount(): void {
+    componentWillUnmount() {
         super.componentWillUnmount();
-        this.#popper?.destroy();
     }
 
-    _getPopperOptions(): PopperOptions {
-        return {
-            modifiers: [preventOverflow, flip],
+    _getPopperOptions() {
+        const config: Partial<ComputePositionConfig> = {
+            middleware: [flip()],
             placement: 'right-start',
-        } as PopperOptions;
+        };
+        return config;
     }
 
-    _getPopperElement(): HTMLElement {
+    _getPopperElement() {
         return this.ref.current?.parentElement as HTMLElement;
     }
 
     _createPopper() {
-        const options = this._getPopperOptions();
-        if (this.#popper) {
-            this.#popper.setOptions(options);
-        } else if (this.ref.current) {
-            this.#popper = createPopper(this._getPopperElement(), this.ref.current, options);
+        const config = this._getPopperOptions();
+        if (this.ref.current) {
+            computePosition(this._getPopperElement(), this.ref.current, config).then(({x, y}) => {
+                Object.assign((this.ref.current as HTMLElement).style, {
+                    left: `${x}px`,
+                    top: `${y}px`,
+                });
+            });
         }
-        return this.#popper;
     }
 
-    afterRender(firstRender: boolean): void {
+    afterRender(firstRender: boolean) {
         super.afterRender(firstRender);
         if (this.props.controlledMenu) {
             this._createPopper();
         }
     }
 
-    renderToggleIcon(): ComponentChildren | void {
+    renderToggleIcon() {
         return <span class="contextmenu-toggle-icon caret-right" />;
     }
 }

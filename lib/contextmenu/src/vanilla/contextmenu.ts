@@ -1,7 +1,4 @@
 import {render, h} from 'preact';
-import {createPopper, Instance as PopperInstance, VirtualElement, Options as PopperOptions} from '@popperjs/core/lib/popper-lite';
-import preventOverflow from '@popperjs/core/lib/modifiers/preventOverflow';
-import flip from '@popperjs/core/lib/modifiers/flip';
 import {ComponentBase} from '@zui/com-helpers/src/helpers/vanilla-component';
 import {isRightBtn} from '@zui/com-helpers/src/helpers/mouse-event';
 import {MenuOptions} from '@zui/menu';
@@ -12,6 +9,7 @@ import type {ContextMenuOptions} from '../types/contextmenu-options';
 import type {ContextMenuEvents} from '../types/contextmenu-events';
 import type {ContextMenuTrigger} from '../types/contextmenu-trigger';
 import {ContextMenu as ContextMenuReact} from '../component/contextmenu';
+import {computePosition, VirtualElement, ComputePositionConfig, flip} from '@floating-ui/dom';
 
 export class ContextMenu<T extends ContextMenuOptions = ContextMenuOptions, E extends ContextMenuEvents = ContextMenuEvents> extends ComponentBase<T, E & ContextMenuEvents> {
     static NAME = 'contextmenu';
@@ -33,25 +31,18 @@ export class ContextMenu<T extends ContextMenuOptions = ContextMenuOptions, E ex
 
     #menu?: HTMLElement;
 
-    #popper?: PopperInstance;
-
     #virtualElement?: VirtualElement;
 
     #trigger?: ContextMenuTrigger;
+
+    arrowEl?: HTMLElement;
 
     get isShown() {
         return this.#menu?.classList.contains((this.constructor as typeof ContextMenu).CLASS_SHOW);
     }
 
-    get menu(): HTMLElement {
+    get menu() {
         return this.#menu || this._ensureMenu();
-    }
-
-    get popper() {
-        if (!this.#popper) {
-            return this._createPopper();
-        }
-        return this.#popper;
     }
 
     get trigger() {
@@ -62,14 +53,14 @@ export class ContextMenu<T extends ContextMenuOptions = ContextMenuOptions, E ex
         return this.options.items || this.options.menu;
     }
 
-    init(): void {
+    init() {
         const {element} = this;
         if (element !== document.body && !element.hasAttribute('data-toggle')) {
             element.setAttribute('data-toggle', 'contextmenu');
         }
     }
 
-    show(trigger?: ContextMenuTrigger): boolean {
+    show(trigger?: ContextMenuTrigger) {
         this.#trigger = trigger;
         const showEvent = this.emit('show', {menu: this, trigger: this.trigger});
         if (showEvent.defaultPrevented) {
@@ -81,20 +72,18 @@ export class ContextMenu<T extends ContextMenuOptions = ContextMenuOptions, E ex
         }
 
         this.menu.classList.add((this.constructor as typeof ContextMenu).CLASS_SHOW);
-        this._createPopper().update();
+        this._createPopper();
 
         this.emit('shown', this);
         return true;
     }
 
-    hide(): boolean {
+    hide() {
         const hideEvent = this.emit('hide', this);
         if (hideEvent.defaultPrevented) {
             return false;
         }
 
-        this.#popper?.destroy();
-        this.#popper = undefined;
         this.#menu?.classList.remove((this.constructor as typeof ContextMenu).CLASS_SHOW);
 
         this.emit('hidden', this);
@@ -105,8 +94,7 @@ export class ContextMenu<T extends ContextMenuOptions = ContextMenuOptions, E ex
         return this.isShown ? this.hide() : this.show(event);
     }
 
-    destroy(): void {
-        this.#popper?.destroy();
+    destroy() {
         super.destroy();
         this.#menu?.remove();
     }
@@ -137,34 +125,61 @@ export class ContextMenu<T extends ContextMenuOptions = ContextMenuOptions, E ex
         if (!menuElement) {
             throw new Error('ContextMenu: Cannot find menu element');
         }
+
+        menuElement.style.width = 'max-content';
+        menuElement.style.position = 'absolute';
+        menuElement.style.top = '0';
+        menuElement.style.left = '0';
+
         this.#menu = menuElement;
         return menuElement;
     }
 
-    _getPopperOptions(): PopperOptions {
-        const {flip: flipOption, preventOverflow: preventOverflowOption, modifiers = []} = this.options;
-        return {
-            modifiers: [
-                preventOverflowOption ? (typeof preventOverflowOption === 'object' ? {...preventOverflow, options: preventOverflowOption} : preventOverflow) : null,
-                flipOption ? flip : null,
-                ...modifiers,
-            ].filter(Boolean),
-            placement: this.options.placement,
-            strategy: this.options.strategy,
-        } as PopperOptions;
+    _getPopperOptions() {
+        const config: Partial<ComputePositionConfig> = {
+            middleware: [],
+        };
+        if (this.options.flip) {
+            config.middleware?.push(flip());
+        }
+        if (this.options.placement) {
+            config.placement = this.options.placement;
+        }
+        return config;
     }
 
     _createPopper() {
-        const options = this._getPopperOptions();
-        if (this.#popper) {
-            this.#popper.setOptions(options);
-        } else {
-            this.#popper = createPopper(this._getPopperElement(), this.menu, options);
-        }
-        return this.#popper;
+        const config = this._getPopperOptions();
+        computePosition(this._getPopperElement(), this.menu, config).then(({x, y, middlewareData}) => {
+            Object.assign(this.menu.style, {
+                left: `${x}px`,
+                top: `${y}px`,
+            });
+
+            if (this.options.placement) {
+                const side = this.options.placement.split('-')[0];
+
+                const staticSide = {
+                    top: 'bottom',
+                    right: 'left',
+                    bottom: 'top',
+                    left: 'right',
+                }[side] as string;
+
+                if (middlewareData.arrow && this.arrowEl) {
+                    const {x: arrowX, y: arrowY} = middlewareData.arrow;
+
+                    Object.assign(this.arrowEl.style, {
+                        left: arrowX != null ? `${arrowX}px` : '',
+                        top: arrowY != null ? `${arrowY}px` : '',
+                        [staticSide]: `${-this.arrowEl.offsetWidth / 2}px`,
+                    });
+                }
+            }
+        });
     }
 
-    _getMenuOptions(): MenuOptions | undefined {
+    _getMenuOptions() {
         const {menu, items} = this.options;
         let menuItems = items || menu?.items;
         if (!menuItems) {

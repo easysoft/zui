@@ -1,12 +1,10 @@
 import '@zui/css-icons/src/icons/arrow.css';
-import type {Options as PopperOptions} from '@popperjs/core/lib/popper-lite';
-import arrow from '@popperjs/core/lib/modifiers/arrow';
-import offset from '@popperjs/core/lib/modifiers/offset';
 import {ContextMenu} from '@zui/contextmenu/src/vanilla/contextmenu';
 import {ContextMenuTrigger} from '@zui/contextmenu/src/types/contextmenu-trigger';
 import type {DropdownEvents} from '../types/dropdown-events';
 import type {DropdownOptions} from '../types/dropdown-options';
 import '../css/dropdown.css';
+import {offset, arrow} from '@floating-ui/dom';
 
 export class Dropdown extends ContextMenu<DropdownOptions, DropdownEvents> {
     static NAME = 'dropdown';
@@ -25,7 +23,7 @@ export class Dropdown extends ContextMenu<DropdownOptions, DropdownEvents> {
 
     #hideTimer = 0;
 
-    get isHover(): boolean {
+    get isHover() {
         return this.options.trigger === 'hover';
     }
 
@@ -33,7 +31,7 @@ export class Dropdown extends ContextMenu<DropdownOptions, DropdownEvents> {
         return `with-${(this.constructor as typeof Dropdown).NAME}-show`;
     }
 
-    show(trigger?: ContextMenuTrigger, options?: {event?: MouseEvent, clearOthers?: boolean}): boolean {
+    show(trigger?: ContextMenuTrigger, options?: {event?: MouseEvent, clearOthers?: boolean}) {
         if (options?.clearOthers !== false) {
             Dropdown.clear({event: options?.event, exclude: [this.element]});
         }
@@ -48,7 +46,7 @@ export class Dropdown extends ContextMenu<DropdownOptions, DropdownEvents> {
         return result;
     }
 
-    hide(): boolean {
+    hide() {
         const result = super.hide();
         if (result) {
             this.element.classList.remove(this.elementShowClass);
@@ -82,38 +80,28 @@ export class Dropdown extends ContextMenu<DropdownOptions, DropdownEvents> {
         return typeof arrowOption === 'number' ? arrowOption : 5;
     }
 
-    _getPopperOptions(): PopperOptions {
+    _getPopperOptions() {
         const options = super._getPopperOptions();
         const arrowSize = this._getArrowSize();
         if (arrowSize) {
-            options.modifiers.push({...arrow, options: {
-                padding: arrowSize,
-                element: '.arrow',
-            }}, {
-                ...offset, options: {
-                    offset: [0, arrowSize + (this.options.offset ?? 0)],
-                },
-            }, {
-                name: 'dropdown',
-                enabled: true,
-                phase: 'beforeWrite',
-                fn: ({state}) => {
-                    const placement = state.placement?.split('-').shift() || '';
-                    this.menu.querySelector('.arrow')?.setAttribute('class', `arrow arrow-${placement}`);
-                    this.element.setAttribute('data-dropdown-placement', placement);
-                },
-            });
+            options.middleware?.push(offset(arrowSize + (this.options.offset ?? 0)));
+            options.middleware?.push(arrow({element: this.arrowEl as HTMLElement}));
         }
         return options;
     }
 
-    _ensureMenu(): HTMLElement {
+    _ensureMenu() {
         const menu = super._ensureMenu();
         if (this.options.arrow) {
             const div = document.createElement('div');
-            div.classList.add('arrow');
-            div.style.setProperty('--arrow-size', `${this._getArrowSize()}px`);
-            menu.prepend(div);
+            this.arrowEl = div;
+            this.arrowEl.style.position = 'absolute';
+            this.arrowEl.style.width = '8px';
+            this.arrowEl.style.height = '8px';
+            this.arrowEl.style.transform = 'rotate(45deg)';
+            this.arrowEl.style.background = 'inherit';
+            this.arrowEl.style.border = 'inherit';
+            menu.append(div);
         }
         return menu;
     }
@@ -123,11 +111,6 @@ export class Dropdown extends ContextMenu<DropdownOptions, DropdownEvents> {
         if (options && this.options.arrow) {
             const {afterRender} = options;
             options.afterRender = (...args) => {
-                const arrowElement = this.menu.querySelector('.arrow');
-                if (arrowElement) {
-                    this.menu.querySelector('.menu')?.appendChild(arrowElement);
-                    this.popper.update();
-                }
                 afterRender?.(...args);
             };
         }
