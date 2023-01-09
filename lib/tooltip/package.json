@@ -4,7 +4,10 @@
     "main": "src/main.ts",
     "browser": "src/main.ts",
     "browserslist": "",
-    "keywords": ["css", "zui:component"],
+    "keywords": [
+        "css",
+        "zui:component"
+    ],
     "files": [
         "./src/**/*"
     ],
@@ -12,23 +15,28 @@
         ".": "./src/main.ts"
     },
     "devDependencies": {
-        "zui-dev": "workspace:*",
         "@zui/base": "workspace:*",
-        "@zui/utilities": "workspace:*"
+        "@zui/utilities": "workspace:*",
+        "zui-dev": "workspace:*"
     },
     "dependencies": {
-        "preact": "10.11.2",
+        "@floating-ui/core": "^1.1.0",
+        "@floating-ui/dom": "^1.1.0",
         "@popperjs/core": "^2.11.6",
         "@zui/browser-helpers": "workspace:*",
-        "@zui/com-helpers": "workspace:*",
         "@zui/button": "workspace:0.0.1",
-        "@zui/css-icons": "workspace:^0.0.1"
+        "@zui/com-helpers": "workspace:*",
+        "@zui/css-icons": "workspace:^0.0.1",
+        "preact": "10.11.2"
     },
     "zui": {
         "type": "component",
         "displayName": "提示消息",
         "contributes": {
-            "css": ["class", "var"]
+            "css": [
+                "class",
+                "var"
+            ]
         }
     }
 }

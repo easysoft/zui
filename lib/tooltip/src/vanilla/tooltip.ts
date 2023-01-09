@@ -1,12 +1,8 @@
 import '@zui/css-icons/src/icons/arrow.css';
-import {createPopper, Options as PopperOptions, Instance as PopperInstance, VirtualElement} from '@popperjs/core/lib/popper-lite';
-import arrow from '@popperjs/core/lib/modifiers/arrow';
-import offset from '@popperjs/core/lib/modifiers/offset';
-import preventOverflow from '@popperjs/core/lib/modifiers/preventOverflow';
-import flip from '@popperjs/core/lib/modifiers/flip';
 import {TooltipOptions, TooltipTrigger} from '../types';
 import {ComponentBase} from '@zui/com-helpers/src/helpers/vanilla-component';
 import '../style/index.css';
+import {computePosition, VirtualElement, offset, flip, arrow, ComputePositionConfig} from '@floating-ui/dom';
 
 export class Tooltip extends ComponentBase<TooltipOptions> {
 
@@ -35,7 +31,7 @@ export class Tooltip extends ComponentBase<TooltipOptions> {
 
     #tooltip?: HTMLElement;
 
-    #popper?: PopperInstance;
+    #arrowEl?: HTMLElement;
 
     #trigger?: TooltipTrigger;
 
@@ -44,14 +40,7 @@ export class Tooltip extends ComponentBase<TooltipOptions> {
     }
 
     get tooltip(): HTMLElement {
-        return this.#tooltip || this._ensureTooltip();
-    }
-
-    get popper() {
-        if (!this.#popper) {
-            return this._createPopper();
-        }
-        return this.#popper;
+        return this.#tooltip || this.#ensureTooltip();
     }
 
     get trigger() {
@@ -69,17 +58,16 @@ export class Tooltip extends ComponentBase<TooltipOptions> {
     get isDynamic() {
         return this.options.title;
     }
-    
-    init(): void {
+
+    init() {
         const {element} = this;
         if (element !== document.body && !element.hasAttribute('data-toggle')) {
             element.setAttribute('data-toggle', 'tooltip');
         }
     }
 
-    show(options?: TooltipOptions): boolean {
+    show(options?: TooltipOptions) {
         this.setOptions(options);
-        // this.#trigger = trigger;
         if (!this.#hoverEventsBind && this.isHover) {
             this.#bindHoverEvents();
         }
@@ -88,14 +76,12 @@ export class Tooltip extends ComponentBase<TooltipOptions> {
         }
         this.element.classList.add(this.elementShowClass);
         this.tooltip.classList.add((this.constructor as typeof Tooltip).CLASS_SHOW);
-        
-        this._createPopper().update();
+
+        this.#updatePosition();
         return true;
     }
 
-    hide(): boolean {
-        this.#popper?.destroy();
-        this.#popper = undefined;
+    hide() {
         this.element.classList.remove(this.elementShowClass);
         this.#tooltip?.classList.remove((this.constructor as typeof Tooltip).CLASS_SHOW);
         return true;
@@ -110,7 +96,7 @@ export class Tooltip extends ComponentBase<TooltipOptions> {
         this.#hideTimer = window.setTimeout(this.hide.bind(this), 100);
     };
 
-    destroy(): void {
+    destroy() {
         if (this.#hoverEventsBind) {
             this.element.removeEventListener('mouseleave', this.hideLater);
             this.tooltip.removeEventListener('mouseenter', this.#cancelHide);
@@ -119,19 +105,30 @@ export class Tooltip extends ComponentBase<TooltipOptions> {
         super.destroy();
     }
 
-    _getArrowSize() {
+    #getArrowSize() {
         const {arrow: arrowOption} = this.options;
         return typeof arrowOption === 'number' ? arrowOption : 4;
     }
 
-    _createArrow(): HTMLElement {
+    #createArrow(): HTMLElement {
         const div = document.createElement('div');
-        div.classList.add('arrow', 'tooltip-arrow');
-        div.style.setProperty('--arrow-size', `${this._getArrowSize()}px`);
+        this.#arrowEl = div;
+        this.#arrowEl.style.position = 'absolute';
+        this.#arrowEl.style.width = '8px';
+        this.#arrowEl.style.height = '8px';
+        if (this.options.className) {
+            this.#arrowEl.className = this.options.className;
+        }
+        if (this.options.type) {
+            this.#arrowEl.classList.add(this.options.type);
+        }
+        this.#arrowEl.style.transform = 'rotate(45deg)';
+        this.#arrowEl.style.borderTopStyle = 'none';
+        this.#arrowEl.style.borderLeftStyle = 'none';
         return div;
     }
 
-    _ensureTooltip() {
+    #ensureTooltip() {
         const tooltipClass = (this.constructor as typeof Tooltip).TOOLTIP_CLASS;
         let tooltipElement: HTMLElement | null | undefined;
         if (this.isDynamic) {
@@ -155,59 +152,72 @@ export class Tooltip extends ComponentBase<TooltipOptions> {
                 }
             }
         }
-        
+
         if (this.options.arrow) {
-            tooltipElement?.prepend(this._createArrow());
+            tooltipElement?.append(this.#createArrow());
         }
         if (!tooltipElement) {
             throw new Error('Tooltip: Cannot find tooltip element');
         }
+
+        tooltipElement.style.width = 'max-content';
+        tooltipElement.style.position = 'absolute';
+        tooltipElement.style.top = '0';
+        tooltipElement.style.left = '0';
+
         document.body.appendChild(tooltipElement);
 
         this.#tooltip = tooltipElement;
         return tooltipElement;
     }
 
-    _getPopperOptions(): PopperOptions {
-        const arrowSize = this._getArrowSize();
-        return {
-            modifiers: [
-                preventOverflow,
-                flip,
-                {...arrow, options: {
-                    padding: arrowSize,
-                    element: '.arrow',
-                }}, {
-                    ...offset, options: {
-                        offset: [0, arrowSize + 3],
-                    },
-                }, {
-                    name: 'tooltip',
-                    enabled: true,
-                    phase: 'beforeWrite',
-                    fn: ({state}) => {
-                        const placement = state.placement?.split('-').shift() || '';
-                        this.tooltip.querySelector('.arrow')?.setAttribute('class', `arrow arrow-${placement}`);
-                        this.element.setAttribute('data-tooltip-placement', placement);
-                    },
-                },
-            ].filter(Boolean),
-            placement: this.options.placement,
-            strategy: this.options.strategy,
-        } as PopperOptions;
-    }
-
-    _createPopper() {
-        const options = this._getPopperOptions();
-        if (this.#popper) {
-            this.#popper.setOptions(options);
-        } else {
-            this.#popper = createPopper(this._getPopperElement(), this.tooltip, options);
+    #getComputePositionConfig() {
+        const arrowSize = this.#getArrowSize();
+        const config: Partial<ComputePositionConfig> = {
+            middleware: [offset(arrowSize + 3), flip()],
+        };
+        if (this.options.arrow && this.#arrowEl) {
+            config.middleware?.push(arrow({element: this.#arrowEl}));
         }
-        return this.#popper;
+        if (this.options.placement) {
+            config.placement = this.options.placement;
+        }
+        return config;
     }
 
-    _getPopperElement(): VirtualElement {
+    #updatePosition() {
+        const config = this.#getComputePositionConfig();
+        computePosition(this.#getReferenceElement(), this.tooltip, config).then(({x, y, middlewareData}) => {
+            Object.assign(this.tooltip.style, {
+                left: `${x}px`,
+                top: `${y}px`,
+            });
+
+            if (this.options.placement) {
+                const side = this.options.placement.split('-')[0];
+
+                const staticSide = {
+                    top: 'bottom',
+                    right: 'left',
+                    bottom: 'top',
+                    left: 'right',
+                }[side] as string;
+
+                if (middlewareData.arrow && this.#arrowEl) {
+                    const {x: arrowX, y: arrowY} = middlewareData.arrow;
+
+                    Object.assign(this.#arrowEl.style, {
+                        left: arrowX != null ? `${arrowX}px` : '',
+                        top: arrowY != null ? `${arrowY}px` : '',
+                        [staticSide]: `${-this.#arrowEl.offsetWidth / 2}px`,
+                    });
+                }
+            }
+
+        });
+    }
+
+    #getReferenceElement(): VirtualElement {
         if (!this.#virtualElement) {
             this.#virtualElement = {
                 getBoundingClientRect: () => {
@@ -261,7 +271,6 @@ export class Tooltip extends ComponentBase<TooltipOptions> {
             tooltip.hide();
         }
     }
-    
 }
 
 document.addEventListener('click', function (event) {
