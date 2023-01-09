@@ -453,9 +453,12 @@ export default [
         },
         "dependencies": {
             "preact": "10.11.2",
-            "@zui/btn-group": "workspace:^0.0.1"
+            "nanoid": "^4.0.0",
+            "@zui/css-icons": "workspace:^0.0.1",
+            "@zui/alert": "workspace:^0.0.1"
         },
         "devDependencies": {
+            "zui-dev": "workspace:*",
             "@zui/base": "workspace:*",
             "@zui/icons": "workspace:*",
             "@zui/utilities": "workspace:*",
