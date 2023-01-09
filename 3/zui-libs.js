@@ -1282,20 +1282,21 @@ export default [
             ".": "./src/main.ts"
         },
         "devDependencies": {
-            "zui-dev": "workspace:*",
             "@zui/base": "workspace:*",
-            "@zui/utilities": "workspace:*",
-            "@zui/icons": "workspace:^0.0.1",
             "@zui/form": "workspace:0.0.1",
-            "@zui/input-control": "workspace:0.0.1"
+            "@zui/icons": "workspace:^0.0.1",
+            "@zui/input-control": "workspace:0.0.1",
+            "@zui/utilities": "workspace:*",
+            "zui-dev": "workspace:*"
         },
         "dependencies": {
-            "preact": "10.11.2",
-            "dayjs": "^1.11.6",
-            "@popperjs/core": "^2.11.6",
+            "@floating-ui/core": "^1.1.0",
+            "@floating-ui/dom": "^1.1.0",
             "@zui/browser-helpers": "workspace:*",
+            "@zui/com-helpers": "workspace:*",
             "@zui/css-icons": "workspace:^0.0.1",
-            "@zui/com-helpers": "workspace:*"
+            "dayjs": "^1.11.6",
+            "preact": "10.11.2"
         },
         "zui": {
             "type": "component",
