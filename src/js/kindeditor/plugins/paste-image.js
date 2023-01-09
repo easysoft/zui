@@ -157,7 +157,7 @@ KindEditor.plugin('pasteimage', function(K) {
                     if(dataMap.html && typeof getComputedStyle === 'function' && options.keepOfficeFormats)
                     {
                         var html = original.clipboardData.getData('text/html');
-                        if(html && html.includes('urn:schemas-microsoft-com:office:office'))
+                        if(html)
                         {
                             /* Create iframe to render html content from clipboard */
                             var frame = document.getElementById('kePasteFrame');
@@ -178,15 +178,32 @@ KindEditor.plugin('pasteimage', function(K) {
 
                             /* Get html back from iframe */
                             var body = frame.contentWindow.document.body;
-                            var filterStyles = ['color', 'background', 'borderColor', 'borderStyle', 'borderWidth', 'fontSize', 'lineHeight', 'verticalAlign', 'textAlign', 'textDecoration', 'fontStyle', 'fontFamily'];
+                            var filterStyles = {
+                                color: [],
+                                background: [],
+                                borderColor: [],
+                                borderStyle: ['none'],
+                                borderWidth: [],
+                                fontSize: [],
+                                lineHeight: ['normal'],
+                                verticalAlign: ['baseline'],
+                                textAlign: ['left'],
+                                textDecoration: ['none'],
+                                fontStyle: ['normal'],
+                                fontFamily: [],
+                                fontWeight: ['normal', '400'],
+                            };
                             $(body).find('*').each(function()
                             {
                                 var fullStyle = getComputedStyle(this);
                                 var $ele = $(this);
                                 var style = {};
-                                filterStyles.forEach(function(name)
+                                var parentStyle = getComputedStyle($ele.parent()[0]);
+                                $.each(filterStyles, function(name, ignores)
                                 {
-                                    style[name] = fullStyle[name];
+                                    var value = fullStyle[name];
+                                    if(value === 'inherit' || value === 'initial' || parentStyle[name] === value || ignores.includes(value)) return;
+                                    style[name] = value;
                                 });
                                 $ele.css(style);
                             });

@@ -945,7 +945,7 @@
                         _each(styleMap, function(k, v) {
                             style += k + ':' + v + ';';
                         });
-                        attrMap.style = style;
+                        attrMap.style += style;
                     }
                 });
                 attr = '';
