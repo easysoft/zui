@@ -166,7 +166,7 @@ new zui.Tooltip('#tooltipShow7', {title: 'white 外观', type: 'white', classNam
 
 * 类型：`'string'`;
 * 必选：否；
-* 可选项：`'top-start' | 'top' | 'top-end' | 'bottom-start' | 'bottom' | 'bottom-end' | 'left-start' | 'left' | 'left-end' | 'right-start' | 'right' | 'right-end' | 'auto-start' | 'auto' | 'auto-end' `；
+* 可选项：`'top-start' | 'top' | 'top-end' | 'bottom-start' | 'bottom' | 'bottom-end' | 'left-start' | 'left' | 'left-end' | 'right-start' | 'right' | 'right-end'`；
 * 默认：`'top'`。
 
 
@@ -259,7 +259,7 @@ export default {
             new zui.Tooltip('#tooltipLink', {title: '英语：Cascading Style Sheets，简写CSS'});
             new zui.Tooltip('#tooltipHover', {title: '鼠标悬浮展示提示内容', trigger: 'hover'});
             new zui.Tooltip('#tooltipClick', {title: '点击展示提示内容', trigger: 'click'});
-            
+
             new zui.Tooltip('#tooltipExp2', {title: 'top-start 提示内容', placement: 'top-start'});
             new zui.Tooltip('#tooltipExp3', {title: 'top 提示内容', placement: 'top'});
             new zui.Tooltip('#tooltipExp4', {title: 'top-end 提示内容', placement: 'top-end'});

@@ -1,14 +1,13 @@
-import type {TooltipPlacement} from './tooltip-placement';
-import type {TooltipPositionStrategy} from './tooltip-position-strategy';
+import type {Strategy, Placement} from '@floating-ui/dom';
 
-export type TooltipOptions = {
-    placement?: TooltipPlacement;
-    title?: string;
-    className?: string;
-    trigger?: 'click' | 'hover';
-    arrow?: boolean | number;
-    type?: string;
-    strategy?: TooltipPositionStrategy;
-    animation?: boolean;
-    html?: boolean;
-};
+export type TooltipOptions = Partial<{
+    title: string;
+    className: string;
+    trigger: 'click' | 'hover';
+    arrow: boolean | number;
+    type: string;
+    placement: Placement;
+    strategy: Strategy;
+    animation: boolean;
+    html: boolean;
+}>;

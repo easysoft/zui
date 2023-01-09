@@ -1,27 +1,28 @@
 import '@zui/css-icons/src/icons/arrow.css';
-import {TooltipOptions, TooltipTrigger} from '../types';
-import {ComponentBase} from '@zui/com-helpers/src/helpers/vanilla-component';
 import '../style/index.css';
-import {computePosition, VirtualElement, offset, flip, arrow, ComputePositionConfig} from '@floating-ui/dom';
+import {ComponentBase} from '@zui/com-helpers/src/helpers/vanilla-component';
+import {autoUpdate, computePosition, offset, flip, arrow} from '@floating-ui/dom';
+import type {TooltipOptions, TooltipTrigger} from '../types';
+import type {VirtualElement, ComputePositionConfig, Strategy, Side} from '@floating-ui/dom';
 
 export class Tooltip extends ComponentBase<TooltipOptions> {
 
-    static NAME = 'tooltip';
+    static readonly NAME = 'tooltip';
 
-    static TOOLTIP_CLASS = 'tooltip';
+    static readonly TOOLTIP_CLASS = 'tooltip';
 
-    static CLASS_SHOW = 'show';
+    static readonly CLASS_SHOW = 'show';
 
-    static MENU_SELECTOR = '[data-toggle="tooltip"]:not(.disabled):not(:disabled)';
+    static readonly MENU_SELECTOR = '[data-toggle="tooltip"]:not(.disabled):not(:disabled)';
 
-    static DEFAULT = {
+    static DEFAULT: Partial<TooltipOptions> = {
         animation: true,
         placement: 'top',
         strategy: 'absolute',
         trigger: 'hover',
         type: 'darker',
         arrow: true,
-    } as Partial<TooltipOptions>;
+    };
 
     #hoverEventsBind = false;
 
@@ -35,11 +36,13 @@ export class Tooltip extends ComponentBase<TooltipOptions> {
 
     #trigger?: TooltipTrigger;
 
+    #cleanup?: () => void;
+
     get isShown() {
-        return this.#tooltip?.classList.contains((this.constructor as typeof Tooltip).CLASS_SHOW);
+        return this.#tooltip?.classList.contains(Tooltip.CLASS_SHOW);
     }
 
-    get tooltip(): HTMLElement {
+    get tooltip() {
         return this.#tooltip || this.#ensureTooltip();
     }
 
@@ -47,12 +50,12 @@ export class Tooltip extends ComponentBase<TooltipOptions> {
         return this.#trigger || this.element;
     }
 
-    get isHover(): boolean {
+    get isHover() {
         return this.options.trigger === 'hover';
     }
 
     get elementShowClass() {
-        return `with-${(this.constructor as typeof Tooltip).NAME}-show`;
+        return `with-${Tooltip.NAME}-show`;
     }
 
     get isDynamic() {
@@ -75,15 +78,16 @@ export class Tooltip extends ComponentBase<TooltipOptions> {
             this.tooltip.classList.add('fade');
         }
         this.element.classList.add(this.elementShowClass);
-        this.tooltip.classList.add((this.constructor as typeof Tooltip).CLASS_SHOW);
+        this.tooltip.classList.add(Tooltip.CLASS_SHOW);
 
         this.#updatePosition();
         return true;
     }
 
     hide() {
+        this.#cleanup?.();
         this.element.classList.remove(this.elementShowClass);
-        this.#tooltip?.classList.remove((this.constructor as typeof Tooltip).CLASS_SHOW);
+        this.#tooltip?.classList.remove(Tooltip.CLASS_SHOW);
         return true;
     }
 
@@ -107,29 +111,21 @@ export class Tooltip extends ComponentBase<TooltipOptions> {
 
     #getArrowSize() {
         const {arrow: arrowOption} = this.options;
-        return typeof arrowOption === 'number' ? arrowOption : 4;
+        return typeof arrowOption === 'number' ? arrowOption : 8;
     }
 
-    #createArrow(): HTMLElement {
-        const div = document.createElement('div');
-        this.#arrowEl = div;
-        this.#arrowEl.style.position = 'absolute';
-        this.#arrowEl.style.width = '8px';
-        this.#arrowEl.style.height = '8px';
-        if (this.options.className) {
-            this.#arrowEl.className = this.options.className;
-        }
-        if (this.options.type) {
-            this.#arrowEl.classList.add(this.options.type);
-        }
+    #createArrow() {
+        const arrowSize = this.#getArrowSize();
+        this.#arrowEl = document.createElement('div');
+        this.#arrowEl.style.position = this.options.strategy as Strategy;
+        this.#arrowEl.style.width = `${arrowSize}px`;
+        this.#arrowEl.style.height = `${arrowSize}px`;
         this.#arrowEl.style.transform = 'rotate(45deg)';
-        this.#arrowEl.style.borderTopStyle = 'none';
-        this.#arrowEl.style.borderLeftStyle = 'none';
-        return div;
+        return this.#arrowEl;
     }
 
     #ensureTooltip() {
-        const tooltipClass = (this.constructor as typeof Tooltip).TOOLTIP_CLASS;
+        const tooltipClass = Tooltip.TOOLTIP_CLASS;
         let tooltipElement: HTMLElement | null | undefined;
         if (this.isDynamic) {
             tooltipElement = document.createElement('div');
@@ -173,8 +169,9 @@ export class Tooltip extends ComponentBase<TooltipOptions> {
 
     #getComputePositionConfig() {
         const arrowSize = this.#getArrowSize();
-        const config: Partial<ComputePositionConfig> = {
-            middleware: [offset(arrowSize + 3), flip()],
+        const config: ComputePositionConfig = {
+            middleware: [offset(arrowSize), flip()],
+            strategy: this.options.strategy as Strategy,
         };
         if (this.options.arrow && this.#arrowEl) {
             config.middleware?.push(arrow({element: this.#arrowEl}));
@@ -185,35 +182,70 @@ export class Tooltip extends ComponentBase<TooltipOptions> {
         return config;
     }
 
+    #getStaticSide(side: Side) {
+        return ({
+            top: 'bottom',
+            right: 'left',
+            bottom: 'top',
+            left: 'right',
+        } as const)[side];
+    }
+
+    #getNoneSideBorder(side: Side) {
+        if (side === 'bottom') {
+            return {
+                borderBottomStyle: 'none',
+                borderRightStyle: 'none',
+            };
+        }
+        if (side === 'top') {
+            return {
+                borderTopStyle: 'none',
+                borderLeftStyle: 'none',
+            };
+        }
+        if (side === 'left') {
+            return {
+                borderBottomStyle: 'none',
+                borderLeftStyle: 'none',
+            };
+        }
+        if (side === 'right') {
+            return {
+                borderTopStyle: 'none',
+                borderRightStyle: 'none',
+            };
+        }
+    }
+
     #updatePosition() {
         const config = this.#getComputePositionConfig();
-        computePosition(this.#getReferenceElement(), this.tooltip, config).then(({x, y, middlewareData}) => {
-            Object.assign(this.tooltip.style, {
-                left: `${x}px`,
-                top: `${y}px`,
-            });
+        const reference = this.#getReferenceElement();
+        this.#cleanup = autoUpdate(reference, this.tooltip, () => {
+            computePosition(reference, this.tooltip, config).then(({x, y, middlewareData, placement}) => {
+                Object.assign(this.tooltip.style, {
+                    left: `${x}px`,
+                    top: `${y}px`,
+                });
 
-            if (this.options.placement) {
-                const side = this.options.placement.split('-')[0];
+                if (placement) {
+                    const side = placement.split('-')[0] as Side;
+                    const staticSide = this.#getStaticSide(side);
 
-                const staticSide = {
-                    top: 'bottom',
-                    right: 'left',
-                    bottom: 'top',
-                    left: 'right',
-                }[side] as string;
+                    if (middlewareData.arrow && this.#arrowEl) {
+                        const {x: arrowX, y: arrowY} = middlewareData.arrow;
 
-                if (middlewareData.arrow && this.#arrowEl) {
-                    const {x: arrowX, y: arrowY} = middlewareData.arrow;
-
-                    Object.assign(this.#arrowEl.style, {
-                        left: arrowX != null ? `${arrowX}px` : '',
-                        top: arrowY != null ? `${arrowY}px` : '',
-                        [staticSide]: `${-this.#arrowEl.offsetWidth / 2}px`,
-                    });
+                        Object.assign(this.#arrowEl.style, {
+                            left: arrowX != null ? `${arrowX}px` : '',
+                            top: arrowY != null ? `${arrowY}px` : '',
+                            [staticSide]: `${-this.#arrowEl.offsetWidth / 2}px`,
+                            background: 'inherit',
+                            border: 'inherit',
+                            ...this.#getNoneSideBorder(side),
+                        });
+                    }
                 }
-            }
-
+            });
         });
     }
 
