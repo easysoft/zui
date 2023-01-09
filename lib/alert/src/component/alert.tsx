@@ -34,7 +34,7 @@ export function Alert({
             {isValidElement(icon) ? icon : (typeof icon === 'string' ? <i className={`icon ${icon}`}></i> : null)}
             {isValidElement(content) ? content : (
                 <div className={classes('alert-content', contentClass)}>
-                    {isValidElement(heading) ? heading : <div className="alert-heading">{heading}</div>}
+                    {isValidElement(heading) ? heading : (heading && <div className="alert-heading">{heading}</div>)}
                     <div className="alert-text">{content}</div>
                     {heading ? actionsToolbar : null}
                 </div>
