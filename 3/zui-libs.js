@@ -1509,15 +1509,16 @@ export default [
         "devDependencies": {
             "@zui/base": "workspace:*",
             "@zui/button": "workspace:0.0.1",
+            "@zui/icons": "workspace:^0.0.1",
             "@zui/utilities": "workspace:*",
-            "zui-dev": "workspace:^0.0.1",
-            "@zui/icons": "workspace:^0.0.1"
+            "zui-dev": "workspace:^0.0.1"
         },
         "dependencies": {
-            "preact": "10.11.2",
+            "@floating-ui/core": "^1.1.0",
+            "@floating-ui/dom": "^1.1.0",
+            "@zui/com-helpers": "workspace:*",
             "@zui/menu": "workspace:*",
-            "@popperjs/core": "^2.11.6",
-            "@zui/com-helpers": "workspace:*"
+            "preact": "10.11.2"
         },
         "zui": {
             "type": "js-ui",
@@ -1557,20 +1558,22 @@ export default [
             ".": "./src/main.ts"
         },
         "devDependencies": {
-            "zui-dev": "workspace:*",
             "@zui/base": "workspace:*",
             "@zui/icons": "workspace:*",
-            "@zui/utilities": "workspace:*"
+            "@zui/utilities": "workspace:*",
+            "zui-dev": "workspace:*"
         },
         "dependencies": {
-            "preact": "10.11.2",
+            "@floating-ui/core": "^1.1.0",
+            "@floating-ui/dom": "^1.1.0",
             "@popperjs/core": "^2.11.6",
-            "@zui/button": "workspace:0.0.1",
-            "@zui/menu": "workspace:*",
             "@zui/browser-helpers": "workspace:*",
+            "@zui/button": "workspace:0.0.1",
             "@zui/com-helpers": "workspace:*",
             "@zui/contextmenu": "workspace:*",
-            "@zui/css-icons": "workspace:^0.0.1"
+            "@zui/css-icons": "workspace:^0.0.1",
+            "@zui/menu": "workspace:*",
+            "preact": "10.11.2"
         },
         "zui": {
             "type": "js-ui",
