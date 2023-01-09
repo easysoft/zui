@@ -65,7 +65,7 @@ export class ComponentBase<O extends {} = {}, V extends CustomEventMap = {}, E e
         this.init();
         requestAnimationFrame(() => {
             this.afterInit();
-            this.#events?.emit('inited', this);
+            this.emit('inited', this);
         });
     }
 
@@ -88,7 +88,7 @@ export class ComponentBase<O extends {} = {}, V extends CustomEventMap = {}, E e
         (this.constructor as typeof ComponentBase).all.delete(this.#element);
 
         if (this.#events) {
-            this.#events.emit('destroyed', this);
+            this.emit('destroyed', this);
             this.#events.offAll();
         }
     }
@@ -105,15 +105,15 @@ export class ComponentBase<O extends {} = {}, V extends CustomEventMap = {}, E e
         this.#events?.off(type, listener, options);
     }
 
-    emit<T extends ComponentEventNames<V>>(event: T | ComponentEventMap<V>[T], detail?: (ComponentEventMap<V>[T] extends CustomEvent ? ComponentEventMap<V>[T]['detail'] : never)): ComponentEventMap<V>[T] {
+    emit<T extends ComponentEventNames<V>>(event: T, detail?: (ComponentEventMap<V>[T] extends CustomEvent ? ComponentEventMap<V>[T]['detail'] : never)): ComponentEventMap<V>[T] {
         let eventObject = EventHub.createEvent<ComponentEventMap<V>[T]>(event, detail);
-        const eventOptionName = `on${eventObject.type.replace(`.${(this.constructor as typeof ComponentBase).KEY}`, '')}` as keyof ComponentEventOptions<V>;
+        const eventOptionName = `on${event[0].toUpperCase()}${event.substring(1)}` as keyof ComponentEventOptions<V>;
         const eventCallback = this.#options[eventOptionName] as ((event: ComponentEventMap<V>[T]) => false | void);
         if (eventCallback && eventCallback(eventObject) === false) {
             eventObject.preventDefault();
             eventObject.stopPropagation();
         }
-        eventObject = this.#events?.emit(eventObject) as ComponentEventMap<V>[T];
+        eventObject = this.#events?.emit(event, detail) as ComponentEventMap<V>[T];
         return eventObject;
     }
 
