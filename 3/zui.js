@@ -4167,7 +4167,7 @@ class os extends St {
     M(this, wn);
     L(this, "_show", !1);
     L(this, "_showTimer", 0);
-    L(this, "_handleAfterRender", ({ firstRender: n }) => {
+    L(this, "_afterRender", ({ firstRender: n }) => {
       n && this.show();
       const { margin: o } = this.options;
       o && (this.element.style.margin = `${o}px`);
@@ -4185,11 +4185,11 @@ class os extends St {
     return n = super.setOptions(n), {
       ...n,
       show: this._show,
-      afterRender: this._handleAfterRender
+      afterRender: this._afterRender
     };
   }
   show() {
-    this._show || (this._show = !0, this.emit("show"), this.render(), W(this, wn, rs).call(this, () => {
+    this._show || (this.emit("show"), this.render(), this._show = !0, W(this, wn, rs).call(this, () => {
       this.emit("shown");
       const { time: n } = this.options;
       n && W(this, wn, rs).call(this, () => this.hide(), n);
