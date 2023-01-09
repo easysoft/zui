@@ -1,3 +1,4 @@
+@import '@zui/alert/src/style/index.css';
+@import '@zui/css-icons/src/icons/close.css';
 @import './vars.css';
 @import './messager.css';
-@import './messagers-holder.css';

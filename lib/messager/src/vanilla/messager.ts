@@ -1,46 +1,87 @@
-import {render, h} from 'preact';
-import {MessagerOptions} from '../types/messager-options';
-import {MessagersHolderProps} from '../types/messagers-holder-props';
-import {MessagerProps} from '../types';
-import MessagerItem from '../component/messager-item';
-import MessagersHolder  from '../component/messagers-holder';
+import {nanoid} from 'nanoid';
+import {MessagerOptions} from '../types';
 import {ComponentBase} from '@zui/com-helpers/src/helpers/vanilla-component';
+import {MessagerItem} from './messager-item';
 
 export class Messager extends ComponentBase<MessagerOptions> {
-
     static NAME = 'messager';
 
     static DEFAULT = {
         placement: 'top',
-        type:'default',
+        animation: true,
         close: true,
+        margin: 6,
+        time: 5000,
     } as Partial<MessagerOptions>;
 
-    show(message?: string, options?: MessagerOptions) {
-        console.log(message, options, 'showFunc');
-        const placement = options?.placement ? options.placement : 'top';
-        const close = (options?.close === false) ? false : true;
+    #holder?: HTMLElement;
 
-        let messagersholder = document.querySelector('.messagers-holder[data-placement=' + placement + ']');
-        if (!messagersholder) {
-            const parentNode = document.createElement('div');
-            document.body.appendChild(parentNode);
-            const props = {
-                ...options as MessagersHolderProps,
-                placement,
-            };
-            render(h(MessagersHolder, props), parentNode);
+    #id = nanoid(6);
+
+    #item?: MessagerItem;
+
+    get id() {
+        return this.#id;
+    }
+
+    get isShown() {
+        return !!this.#item?.isShown;
+    }
+
+    show(options?: MessagerOptions) {
+        this.setOptions(options);
+        this.#getItem().show();
+    }
+
+    hide() {
+        this.#item?.hide();
+    }
+
+    #getItem() {
+        if (this.#item) {
+            this.#item.setOptions(this.options);
+        } else {
+            const holder = this.#getHolder();
+            const item = new MessagerItem(holder, this.options);
+            item.on('hidden', () => {
+                item.destroy();
+                holder.remove();
+                this.#holder = undefined;
+            });
+            this.#item = item;
         }
+        return this.#item;
+    }
 
-        messagersholder = document.querySelector('.messagers-holder[data-placement=' + placement + ']') as HTMLElement;
-        const  messagerNode = document.createElement('div');
-        messagersholder.appendChild(messagerNode);
-        const props = {
-            ...options as MessagerProps,
-            message,
-            placement,
-            close,
-        };
-        render(h(MessagerItem, props), messagersholder, messagerNode);
+    #getHolder() {
+        if (this.#holder) {
+            return this.#holder;
+        }
+        const {placement = 'top'} = this.options;
+        let container = this.element.querySelector(`.messagers-${placement}`);
+        if (!container) {
+            container = document.createElement('div');
+            container.className = `messagers messagers-${placement}`;
+            this.element.appendChild(container);
+        }
+        let holder = container.querySelector<HTMLElement>(`#messager-${this.#id}`);
+        if (!holder) {
+            holder = document.createElement('div');
+            holder.className = 'messager-holder';
+            holder.id = `messager-${this.#id}`;
+            container.appendChild(holder);
+            this.#holder = holder;
+        }
+        return holder;
+    }
+
+    static show(options: (MessagerOptions & {container?: string | HTMLElement}) | string) {
+        if (typeof options === 'string') {
+            options = {content: options};
+        }
+        const {container, ...others} = options;
+        const messager = new Messager(container || 'body', others);
+        messager.show();
+        return messager;
     }
 }

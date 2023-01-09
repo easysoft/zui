@@ -1,44 +1,54 @@
 import {Component} from 'preact';
-import MessagerActions from './messager-actions';
-import {MessagerProps} from '../types';
 import {classes} from '@zui/browser-helpers/src/classes';
-// import {MessagerActionsProps} from '../types'; /* use MessagerActionsProps to control items */
+import {Alert} from '@zui/alert/src/component';
+import {MessagerItemOptions, MessagerPlacement} from '../types';
 
-export default class MessagerItem extends Component<MessagerProps> {
+function getAnimationFromPlacement(placement?: MessagerPlacement): string {
+    if (placement === 'center') {
+        return 'fade-from-center';
+    }
+    if (placement) {
+        if (placement.includes('top')) {
+            return 'fade-from-top';
+        }
+        if (placement.includes('bottom')) {
+            return 'fade-from-bottom';
+        }
+    }
+    return 'fade';
+}
 
-    static defaultProps: {
-        type: 'default',
-        close: true,
-    };
+export class MessagerItem extends Component<MessagerItemOptions> {
+    componentDidMount() {
+        this.props.afterRender?.call(this, {firstRender: true});
+    }
+
+    componentDidUpdate(): void {
+        this.props.afterRender?.call(this, {firstRender: false});
+    }
+
+    componentWillUnmount(): void {
+        this.props.beforeDestroy?.call(this);
+    }
 
     render() {
-        const {message, className, type, actions, close} = this.props;
-        const actionClass = classes([type, 'border-none']);
-        const items = actions?.length ? actions.map(item => {
-            return {...item, className: actionClass};
-        }) : [];
-
-        if (close) {
-            const actionsTimes = {
-                name: 'times',
-                icon: 'icon-times',
-                className: actionClass,
-                action: function () {  // 点击该操作按钮的回调函数
-                    console.log('你点击了关闭按钮。');
-                },
-            };
-            items.push(actionsTimes);
-        }
-
+        const {
+            afterRender,
+            beforeDestroy,
+            margin,
+            type,
+            placement,
+            animation,
+            show,
+            className,
+            time,
+            ...alertOptions
+        } = this.props;
         return (
-            <div class={classes([className, type ? type : 'default', 'messager'])}>
-                <div class="messager-content">
-                    {message}
-                </div>
-                <MessagerActions 
-                    items={items}
-                />
-            </div>
+            <Alert
+                className={classes('messager', className, type, animation === true ? getAnimationFromPlacement(placement) : animation, show ? 'in' : '')}
+                {...alertOptions}
+            />
         );
     }
 }

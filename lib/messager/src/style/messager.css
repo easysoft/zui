@@ -1,14 +1,29 @@
+.messagers {
+  @apply -absolute -z-50 -inset-0 -pointer-events-none -flex -p-4 -flex-col -justify-end -items-end;
+}
+.messagers-top-left,
+.messagers-top-right {
+  @apply -justify-start;
+}
+
+.messagers-top-left,
+.messagers-bottom-left {
+  @apply -items-start;
+}
+.messagers-center,
+.messagers-bottom,
+.messagers-top {
+  @apply -items-center;
+}
+.messagers-top,
+.messagers-top-left,
+.messagers-top-right {
+  @apply -justify-start;
+}
+.messagers-center {
+  @apply -justify-center;
+}
+
 .messager {
-    @apply -flex -items-center -text-center -py-2 -px-5 -grow-0;
-    border-radius: var(--messager-radius);
-}
-
-.messager.default ,
-.messager.default > .btn-group > button {
-    color: var(--color-canvas);
-    background: var(--messager-default-bg-color);
-}
-
-.messager-content {
-    white-space: nowrap;
+  @apply -bg-inverse/80 -text-canvas -backdrop-blur -shadow-lg -pointer-events-auto;
 }

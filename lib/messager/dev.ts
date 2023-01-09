@@ -1,68 +1,42 @@
 import '@zui/btn-group';
 import '@zui/icons';
 import './src/main';
-import {Messager} from './src/vanilla';
-import {MessagerOptions} from './src/types/messager-options';
 import 'zui-dev';
+import {parseDataset} from '@zui/com-helpers/src/helpers/parse-dataset';
+import {Messager} from './src/vanilla';
 
-onPageLoad(() => {
-    const messagerButton = document.getElementById('messagerTrigger');
-
-    if (messagerButton) {
-        messagerButton.addEventListener('click', function () {
-            console.log(Messager, 'Messager');
-            new Messager().show('这是一个漂浮消息。', {});
-        });
-    }
-
-    const placementButtons = Array.from(document.getElementsByClassName('placementTrigger'));
-    placementButtons.forEach(item=>{
-        item.addEventListener('click', function (e) {
-            const btn = e.target as HTMLElement;
-            const placement = btn.getAttribute('data-placement') as MessagerOptions['placement'];
-            new Messager().show(item.innerHTML + '的漂浮消息。', {
-                placement,
-            });
-        });
+onPageUpdate(() => {
+    document.addEventListener('click', (event) => {
+        const toggleElement = (event.target as HTMLElement).closest<HTMLElement>('.messager-toggle');
+        if (!toggleElement) {
+            return;
+        }
+        const messager = Messager.show({content: '这是一个漂浮消息', ...parseDataset(toggleElement.dataset)});
+        console.log('> messager', messager);
     });
 
-    const typeButtons = Array.from(document.querySelectorAll('[data-type]'));
-    typeButtons.forEach(item => {
-        item.addEventListener('click', function () {
-            const type = item.getAttribute('data-type') as MessagerOptions['type'];
-            const message = item.getAttribute('data-message') as MessagerOptions['message'];
-            new Messager().show(
-                message + '的漂浮消息。', 
-                {
-                    type,
-                });
-        });
-    });
-    
-    const btnWidthOutCloseDom = document.getElementById('btnWidthOutClose');
-    if (btnWidthOutCloseDom) {
-        btnWidthOutCloseDom.addEventListener('click', function () {
-            new Messager().show('此消息无法关闭，5秒后自动关闭', {
-                close: false,
-            });
-        });
-    }
-    const btnHasActionsDom = document.getElementById('btnHasActions');
-    if (btnHasActionsDom) {
-        btnHasActionsDom.addEventListener('click', function () {
-            new Messager().show('你的邮件已成功发送。', {
-                type: 'success',
-                close: true,
-                actions: [{
-                    name: 'undo',
-                    icon: 'icon-undo',
-                    text: '撤销',
-                    action: function () {  // 点击该操作按钮的回调函数
-                        console.log('你点击了撤销按钮。');
+    document.querySelector('#messageToggle1')?.addEventListener('click', () => {
+        const messager = Messager.show({
+            icon: 'icon-check-sign icon-2x',
+            content: '包含标题和图标以及操作按钮',
+            heading: '这是标题',
+            style: {minWidth: 400, padding: 20},
+            actions: {
+                gap: 4,
+                items: [
+                    {
+                        btnType: 'lighter-outline bg-none',
+                        text: '了解更多',
                     },
-                }],
-            });
+                    {
+                        btnType: 'lighter-outline bg-none',
+                        text: '关闭',
+                        'data-dismiss': 'messager',
+                    },
+                ],
+            },
+            time: 0,
         });
-    }
+        console.log('> messager', messager);
+    });
 });
-
