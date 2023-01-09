@@ -27,39 +27,10 @@ export type ComponentEventOptions<V extends CustomEventMap = {}> = {
 
 export type ComponentOptions<O extends {} = {}, V extends CustomEventMap = {}> = O & ComponentI18nOptions & Partial<ComponentEventOptions<V>>;
 
-export declare class ComponentClass<O extends {} = {}, V extends CustomEventMap = {}, E extends HTMLElement = HTMLElement> {
-    static NAME: string;
+const allComponents = new Map<string, Map<HTMLElement, unknown>>();
 
-    static KEY: string;
 
-    options: ComponentOptions<O, V>;
-
-    element: E;
-
-    constructor(element: E | string, options: Partial<ComponentOptions<O, V>>);
-
-    render(options: Partial<ComponentOptions<O, V>>): void;
-
-    init(): void;
-
-    destroy(): void;
-
-    setOptions(options?: Partial<ComponentOptions<O, V>>): ComponentOptions<O, V>;
-
-    on<T extends ComponentEventNames<V>>(type: T, listener: CustomEventListener<ComponentEventMap<V>[T]>, options?: AddEventListenerOptions): void;
-
-    once<T extends ComponentEventNames<V>>(type: T, listener: CustomEventListener<ComponentEventMap<V>[T]>, options?: AddEventListenerOptions): void;
-
-    off<T extends ComponentEventNames<V>>(type: T, listener: CustomEventListener<ComponentEventMap<V>[T]>, options?: AddEventListenerOptions): void;
-
-    emit<T extends ComponentEventNames<V>>(event: T | ComponentEventMap<V>[T], detail?: (ComponentEventMap<V>[T] extends CustomEvent ? ComponentEventMap<V>[T]['detail'] : never)): ComponentEventMap<V>[T];
-
-    i18n(key: string, defaultValue?: string): string;
-    i18n(key: string, args?: (string | number)[] | Record<string, string | number>, defaultValue?: string): string;
-    i18n(key: string, args?: string | (string | number)[] | Record<string, string | number>, defaultValue?: string): string;
-}
-
-export class ComponentBase<O extends {} = {}, V extends CustomEventMap = {}, E extends HTMLElement = HTMLElement> implements ComponentClass<O, V, E> {
+export class ComponentBase<O extends {} = {}, V extends CustomEventMap = {}, E extends HTMLElement = HTMLElement> {
     #options: ComponentOptions<O, V>;
 
     #element: E;
@@ -170,15 +141,13 @@ export class ComponentBase<O extends {} = {}, V extends CustomEventMap = {}, E e
 
     static DEFAULT = {};
 
-    static allComponents = new Map<string, Map<HTMLElement, unknown>>();
-
     static get all(): Map<HTMLElement, unknown> {
         const name = this.NAME;
-        if (this.allComponents.has(name)) {
-            return this.allComponents.get(name) as Map<HTMLElement, unknown>;
+        if (allComponents.has(name)) {
+            return allComponents.get(name) as Map<HTMLElement, unknown>;
         }
         const map = new Map<HTMLElement, unknown>();
-        this.allComponents.set(name, map);
+        allComponents.set(name, map);
         return map;
     }
 
