@@ -137,14 +137,21 @@ importers:
   lib/alert:
     specifiers:
       '@zui/base': workspace:*
+      '@zui/browser-helpers': workspace:*
       '@zui/button': workspace:*
       '@zui/css-icons': workspace:*
       '@zui/icons': workspace:^0.0.1
+      '@zui/toolbar': workspace:*
       '@zui/utilities': workspace:*
-    devDependencies:
-      '@zui/base': link:../base
+      preact: 10.11.2
+    dependencies:
+      '@zui/browser-helpers': link:../browser-helpers
       '@zui/button': link:../button
       '@zui/css-icons': link:../css-icons
+      '@zui/toolbar': link:../toolbar
+      preact: 10.11.2
+    devDependencies:
+      '@zui/base': link:../base
       '@zui/icons': link:../icons
       '@zui/utilities': link:../utilities
 
@@ -292,7 +299,8 @@ importers:
 
   lib/datepicker:
     specifiers:
-      '@popperjs/core': ^2.11.6
+      '@floating-ui/core': ^1.1.0
+      '@floating-ui/dom': ^1.1.0
       '@zui/base': workspace:*
       '@zui/browser-helpers': workspace:*
       '@zui/com-helpers': workspace:*
@@ -305,7 +313,8 @@ importers:
       preact: 10.11.2
       zui-dev: workspace:*
     dependencies:
-      '@popperjs/core': registry.npmmirror.com/@popperjs/core/2.11.6
+      '@floating-ui/core': 1.1.0
+      '@floating-ui/dom': 1.1.0
       '@zui/browser-helpers': link:../browser-helpers
       '@zui/com-helpers': link:../com-helpers
       '@zui/css-icons': link:../css-icons
@@ -762,7 +771,6 @@ importers:
     specifiers:
       '@floating-ui/core': ^1.1.0
       '@floating-ui/dom': ^1.1.0
-      '@popperjs/core': ^2.11.6
       '@zui/base': workspace:*
       '@zui/browser-helpers': workspace:*
       '@zui/button': workspace:0.0.1
@@ -774,7 +782,6 @@ importers:
     dependencies:
       '@floating-ui/core': 1.1.0
       '@floating-ui/dom': 1.1.0
-      '@popperjs/core': 2.11.6
       '@zui/browser-helpers': link:../browser-helpers
       '@zui/button': link:../button
       '@zui/com-helpers': link:../com-helpers
@@ -1099,10 +1106,6 @@ packages:
     resolution: {integrity: sha512-TSogMPVxbRe77QCj1dt8NmRiJasPvuc+eT5jnJ6YpLqgOD2zXc5UA3S1qwybN+GVCDNdKfpKy1oj8RpzLJvh6A==}
     dependencies:
       '@floating-ui/core': 1.1.0
-    dev: false
-
-  /@popperjs/core/2.11.6:
-    resolution: {integrity: sha512-50/17A98tWUfQ176raKiOGXuYpLyyVMkxxG6oylzL3BPOlA6ADGdK7EYunSa4I064xerltq9TGXs8HmOk5E+vw==}
     dev: false
 
   /@rollup/pluginutils/4.2.1:
@@ -2247,7 +2250,6 @@ packages:
 
   /preact/10.11.2:
     resolution: {integrity: sha512-skAwGDFmgxhq1DCBHke/9e12ewkhc7WYwjuhHB8HHS8zkdtITXLRmUMTeol2ldxvLwYtwbFeifZ9uDDWuyL4Iw==}
-    dev: false
 
   /readdirp/3.6.0:
     resolution: {integrity: sha512-hOS089on8RduqdbhvQ5Z37A0ESjsqz6qnRcffsMU3495FuTdqSm+7bhJ29JvIOsBDEEnan5DPu9t3To9VRlMzA==}
@@ -2632,7 +2634,7 @@ packages:
     version: 3.2.1
     dependencies:
       '@docsearch/react': registry.npmmirror.com/@docsearch/react/3.2.1
-      preact: registry.npmmirror.com/preact/10.11.2
+      preact: 10.11.2
     transitivePeerDependencies:
       - '@algolia/client-search'
       - '@types/react'

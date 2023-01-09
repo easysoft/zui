@@ -5,14 +5,14 @@
   @apply -select-none;
 }
 .datepicker {
-  @apply -opacity-0 -bg-canvas -p-2 -rounded -border -shadow -z-30 -w-56;
+  @apply -opacity-0 -bg-canvas -p-2 -rounded -border -shadow -z-30 -w-56 -hidden;
 }
 
 .datepicker.fade {
   @apply -opacity-0 -transition-opacity	-ease-linear -delay-150;
 }
 .datepicker.show {
-  @apply -opacity-100;
+  @apply -block -opacity-100;
 }
 .datepicker-calendar table {
   @apply -w-full;
@@ -51,16 +51,16 @@
   overflow-y: scroll;
   overflow: auto;
 }
-  
+
 .datepicker-accordion > ul > li > .datepicker-accordion-title {
   @apply -bg-gray-100 -cursor-pointer -p-1;
   border-bottom: 1px solid var(--color-gray-300);
-  transition: all 1s;     
-}  
+  transition: all 1s;
+}
 .datepicker-accordion > ul > li > .datepicker-accordion-title:hover {
   @apply -bg-gray-200;
 }
 
 .datepicker-accordion-content {
-  transition: all 1s;      
-}  
+  transition: all 1s;
+}

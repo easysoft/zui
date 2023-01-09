@@ -1,7 +1,4 @@
 export type DatepickerPlacement =
-  | 'auto'
-  | 'auto-start'
-  | 'auto-end'
   | 'top'
   | 'top-start'
   | 'top-end'

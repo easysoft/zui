@@ -3,13 +3,9 @@ import {DatepickerOptions} from '../types';
 import {ComponentBase} from '@zui/com-helpers/src/helpers/vanilla-component';
 import {Calendar} from '../component/calendar';
 import '@zui/css-icons/src/icons/arrow.css';
-import {createPopper, Options as PopperOptions, Instance as PopperInstance, VirtualElement} from '@popperjs/core/lib/popper-lite';
-import arrow from '@popperjs/core/lib/modifiers/arrow';
-import offset from '@popperjs/core/lib/modifiers/offset';
-import preventOverflow from '@popperjs/core/lib/modifiers/preventOverflow';
-import flip from '@popperjs/core/lib/modifiers/flip';
 import '../style/index.css';
 import dayjs from 'dayjs';
+import {computePosition, VirtualElement, arrow, flip, offset, ComputePositionConfig} from '@floating-ui/dom';
 
 export class Datepicker extends ComponentBase<DatepickerOptions> {
 
@@ -30,15 +26,15 @@ export class Datepicker extends ComponentBase<DatepickerOptions> {
         trigger: 'click',
         showToday: true,
         arrow: true,
-    } as Partial<DatepickerOptions>;
+    };
 
     #virtualElement?: VirtualElement;
 
     #hideTimer = 0;
 
-    #datepicker?: HTMLElement;
+    #arrowEl?: HTMLElement;
 
-    #popper?: PopperInstance;
+    #datepicker?: HTMLElement;
 
     #trigger?: MouseEvent | HTMLElement | DOMRect;
 
@@ -47,14 +43,7 @@ export class Datepicker extends ComponentBase<DatepickerOptions> {
     }
 
     get datepicker(): HTMLElement {
-        return this.#datepicker || this._ensureDatepicker();
-    }
-
-    get popper() {
-        if (!this.#popper) {
-            return this._createPopper();
-        }
-        return this.#popper;
+        return this.#datepicker || this.#ensureDatepicker();
     }
 
     get trigger() {
@@ -73,13 +62,11 @@ export class Datepicker extends ComponentBase<DatepickerOptions> {
         this.element.classList.add(this.elementShowClass);
         this.datepicker.classList.add((this.constructor as typeof Datepicker).CLASS_SHOW);
         this.datepicker.classList.add('fade');
-        this._createPopper().update();
+        this.#updatePosition();
         return true;
     }
 
     hide(): boolean {
-        this.#popper?.destroy();
-        this.#popper = undefined;
         this.element.classList.remove(this.elementShowClass);
         this.#datepicker?.classList.remove((this.constructor as typeof Datepicker).CLASS_SHOW);
         this.datepicker.classList.remove('fade');
@@ -95,75 +82,93 @@ export class Datepicker extends ComponentBase<DatepickerOptions> {
         this.#hideTimer = window.setTimeout(this.hide.bind(this), 100);
     };
 
-    destroy(): void {
+    destroy() {
         super.destroy();
     }
 
-    _getArrowSize() {
+    #getArrowSize() {
         const {arrow: arrowOption} = this.options;
         return typeof arrowOption === 'number' ? arrowOption : 4;
     }
 
-    _createArrow(): HTMLElement {
+    #createArrow(): HTMLElement {
         const div = document.createElement('div');
-        div.classList.add('arrow', 'datepicker-arrow');
-        div.style.setProperty('--arrow-size', `${this._getArrowSize()}px`);
+        this.#arrowEl = div;
+        this.#arrowEl.style.position = 'absolute';
+        this.#arrowEl.style.width = '8px';
+        this.#arrowEl.style.height = '8px';
+        this.#arrowEl.style.transform = 'rotate(45deg)';
+        this.#arrowEl.style.border = 'inherit';
+        this.#arrowEl.style.background = 'inherit';
+        // this.#arrowEl.style.borderTopStyle = 'none';
+        // this.#arrowEl.style.borderLeftStyle = 'none';
         return div;
     }
 
-    _ensureDatepicker() {
+    #ensureDatepicker() {
         const datepickerClass = (this.constructor as typeof Datepicker).CLASSNAME;
         const pickerElement = document.createElement('div');
         pickerElement.classList.add(datepickerClass);
         render(h(Calendar, {...this.options}), pickerElement);
         if (this.options.arrow) {
-            pickerElement.prepend(this._createArrow());
+            pickerElement.append(this.#createArrow());
         }
+        pickerElement.style.width = 'max-content';
+        pickerElement.style.position = 'absolute';
+        pickerElement.style.top = '0';
+        pickerElement.style.left = '0';
         document.body.appendChild(pickerElement);
         this.#datepicker = pickerElement;
         return pickerElement;
     }
 
-    _getPopperOptions(): PopperOptions {
-        const arrowSize = this._getArrowSize();
-        return {
-            modifiers: [
-                preventOverflow,
-                flip,
-                {...arrow, options: {
-                    padding: arrowSize,
-                    element: '.arrow',
-                }}, {
-                    ...offset, options: {
-                        offset: [0, arrowSize + 3],
-                    },
-                }, {
-                    name: 'datepicker',
-                    enabled: true,
-                    phase: 'beforeWrite',
-                    fn: ({state}) => {
-                        const placement = state.placement?.split('-').shift() || '';
-                        this.datepicker.querySelector('.arrow')?.setAttribute('class', `arrow arrow-${placement}`);
-                        this.element.setAttribute('data-datepicker-placement', placement);
-                    },
-                },
-            ].filter(Boolean),
-            placement: this.options.placement,
-            strategy: 'absolute',
-        } as PopperOptions;
-    }
-
-    _createPopper() {
-        const options = this._getPopperOptions();
-        if (this.#popper) {
-            this.#popper.setOptions(options);
-        } else {
-            this.#popper = createPopper(this._getPopperElement(), this.datepicker, options);
+    #getComputePositionConfig() {
+        const arrowSize = this.#getArrowSize();
+        const config: Partial<ComputePositionConfig> = {
+            middleware: [offset(arrowSize + 3), flip()],
+        };
+        if (this.options.arrow && this.#arrowEl) {
+            config.middleware?.push(arrow({element: this.#arrowEl}));
         }
-        return this.#popper;
+        if (this.options.placement) {
+            config.placement = this.options.placement;
+        }
+        return config;
     }
 
-    _getPopperElement(): VirtualElement {
+    #updatePosition() {
+        const config = this.#getComputePositionConfig();
+        computePosition(this.#getReferenceElement(), this.datepicker, config).then(({x, y, middlewareData}) => {
+            Object.assign(this.datepicker.style, {
+                left: `${x}px`,
+                top: `${y}px`,
+            });
+
+            if (this.options.placement) {
+                const side = this.options.placement.split('-')[0];
+
+                const staticSide = {
+                    top: 'bottom',
+                    right: 'left',
+                    bottom: 'top',
+                    left: 'right',
+                }[side] as string;
+
+                if (middlewareData.arrow && this.#arrowEl) {
+                    const {x: arrowX, y: arrowY} = middlewareData.arrow;
+
+                    Object.assign(this.#arrowEl.style, {
+                        left: arrowX != null ? `${arrowX}px` : '',
+                        top: arrowY != null ? `${arrowY}px` : '',
+                        [staticSide]: `${-this.#arrowEl.offsetWidth / 2}px`,
+                    });
+                }
+            }
+
+        });
+    }
+
+    #getReferenceElement(): VirtualElement {
         if (!this.#virtualElement) {
             this.#virtualElement = {
                 getBoundingClientRect: () => {
@@ -203,7 +208,7 @@ export class Datepicker extends ComponentBase<DatepickerOptions> {
         if (event && ignoreSelector && (event.target as HTMLElement).closest?.(ignoreSelector)) {
             return;
         }
-        
+
         const all = this.getAll().entries();
         const excludeSet = new Set(exclude || []);
         for (const [ele, datepicker] of all) {
@@ -213,7 +218,7 @@ export class Datepicker extends ComponentBase<DatepickerOptions> {
             datepicker.hide();
         }
     }
-    
+
 }
 
 document.addEventListener('click', function (event) {
