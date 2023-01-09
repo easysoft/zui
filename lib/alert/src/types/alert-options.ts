@@ -6,7 +6,7 @@ import type {ButtonProps} from '@zui/button';
 export interface AlertOptions {
     className?: ClassNameLike;
     style?: JSX.CSSProperties;
-    actions: ToolbarOptions | ComponentChildren;
+    actions?: ToolbarOptions | ComponentChildren;
     icon?: ComponentChildren;
     heading?: ComponentChildren;
     content?: ComponentChildren;
