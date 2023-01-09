@@ -33,7 +33,7 @@ export class MessagerItem extends ComponentFromReact<MessagerOptions, MessagerIt
         return {
             ...options,
             show: this._show,
-            afterRender: this._handleAfterRender,
+            afterRender: this._afterRender,
         };
     }
 
@@ -41,9 +41,9 @@ export class MessagerItem extends ComponentFromReact<MessagerOptions, MessagerIt
         if (this._show) {
             return;
         }
-        this._show = true;
         this.emit('show');
         this.render();
+        this._show = true;
 
         this.#resetTimer(() => {
             this.emit('shown');
@@ -78,7 +78,7 @@ export class MessagerItem extends ComponentFromReact<MessagerOptions, MessagerIt
         }, time);
     }
 
-    _handleAfterRender = ({firstRender}: {firstRender: boolean}) => {
+    _afterRender = ({firstRender}: {firstRender: boolean}) => {
         if (firstRender) {
             this.show();
         }

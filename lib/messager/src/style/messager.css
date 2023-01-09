@@ -25,5 +25,5 @@
 }
 
 .messager {
-  @apply -bg-inverse/80 -text-canvas -backdrop-blur -shadow-lg -pointer-events-auto;
+  @apply -bg-inverse/80 -text-canvas -backdrop-blur -shadow-lg -pointer-events-auto -duration-300;
 }
