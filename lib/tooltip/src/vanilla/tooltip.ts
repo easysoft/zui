@@ -210,12 +210,10 @@ export class Tooltip extends ComponentBase<TooltipOptions> {
                 borderLeftStyle: 'none',
             };
         }
-        if (side === 'right') {
-            return {
-                borderTopStyle: 'none',
-                borderRightStyle: 'none',
-            };
-        }
+        return {
+            borderTopStyle: 'none',
+            borderRightStyle: 'none',
+        };
     }
 
     #updatePosition() {
@@ -228,22 +226,20 @@ export class Tooltip extends ComponentBase<TooltipOptions> {
                     top: `${y}px`,
                 });
 
-                if (placement) {
-                    const side = placement.split('-')[0] as Side;
-                    const staticSide = this.#getStaticSide(side);
+                const side = placement.split('-')[0] as Side;
+                const staticSide = this.#getStaticSide(side);
 
-                    if (middlewareData.arrow && this.#arrowEl) {
-                        const {x: arrowX, y: arrowY} = middlewareData.arrow;
+                if (middlewareData.arrow && this.#arrowEl) {
+                    const {x: arrowX, y: arrowY} = middlewareData.arrow;
 
-                        Object.assign(this.#arrowEl.style, {
-                            left: arrowX != null ? `${arrowX}px` : '',
-                            top: arrowY != null ? `${arrowY}px` : '',
-                            [staticSide]: `${-this.#arrowEl.offsetWidth / 2}px`,
-                            background: 'inherit',
-                            border: 'inherit',
-                            ...this.#getNoneSideBorder(side),
-                        });
-                    }
+                    Object.assign(this.#arrowEl.style, {
+                        left: arrowX != null ? `${arrowX}px` : '',
+                        top: arrowY != null ? `${arrowY}px` : '',
+                        [staticSide]: `${-this.#arrowEl.offsetWidth / 2}px`,
+                        background: 'inherit',
+                        border: 'inherit',
+                        ...this.#getNoneSideBorder(side),
+                    });
                 }
             });
         });
