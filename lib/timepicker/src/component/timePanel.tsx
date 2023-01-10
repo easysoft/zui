@@ -1,25 +1,25 @@
 import {Component, createRef} from 'preact';
 import {classes} from '@zui/browser-helpers/src/classes';
-import {TimepickerProps, TimeDataProps} from '../types';
 import {getTimeFormat, getTimeList} from '../helpers';
+import type {TimepickerProps, TimeDataProps} from '../types';
 
 export class TimePanel extends Component<TimepickerProps> {
 
     cellHeight = 24;
 
-    ref = createRef<HTMLMenuElement>();
+    ref = createRef<HTMLDivElement>();
 
-    hourRef = createRef<HTMLMenuElement>();
+    hourRef = createRef<HTMLDivElement>();
 
-    minuteRef = createRef<HTMLMenuElement>();
+    minuteRef = createRef<HTMLDivElement>();
 
-    secondRef = createRef<HTMLMenuElement>();
+    secondRef = createRef<HTMLDivElement>();
 
     state = {
         selectTime: this.props.value || '00:00:00',
     };
 
-    handleMoveTime(data: {hour: number, minute: number, second?: number}) {
+    handleMoveTime(data: TimeDataProps) {
         const behavior = 'smooth';
         if (data.hour && this.hourRef.current) {
             this.hourRef.current?.scrollTo({behavior, top: data.hour * this.cellHeight});
@@ -39,7 +39,7 @@ export class TimePanel extends Component<TimepickerProps> {
         this.setState({selectTime: this.getTimeString(data)});
     }
 
-    getTimeString(timeObj: TimeDataProps): string {
+    getTimeString(timeObj: TimeDataProps) {
         if (this.props.showSeconds) {
             return `${timeObj?.hour && this.addZero(timeObj.hour) || '00'}:${timeObj?.minute && this.addZero(timeObj.minute) || '00'}:${timeObj?.second && this.addZero(timeObj.second) || '00'}`;
         }
@@ -50,15 +50,15 @@ export class TimePanel extends Component<TimepickerProps> {
         return number < 10 ? `0${number}` : number;
     }
 
-    renderColumn(unitType: 'hour' | 'minute' | 'second', unitList: Array<number>) {
+    renderColumn(unitType: 'hour' | 'minute' | 'second', unitList: number[]) {
         const timeData = getTimeFormat(this.state.selectTime);
         return unitList.map(unit => {
             const isActive = timeData[unitType] === unit;
             const newTime = {...timeData, [unitType]: unit};
             return (
-                <button 
-                    className={classes('btn', 'size-sm', 'ghost', 'flex', {'active': isActive})} 
-                    type="button" 
+                <button
+                    className={classes('btn', 'size-sm', 'ghost', 'flex', {'active': isActive})}
+                    type="button"
                     key={`unit-${unitType}-${unit}`}
                     onClick={() => this.handleChange(newTime)}
                 >
@@ -98,7 +98,7 @@ export class TimePanel extends Component<TimepickerProps> {
                             {this.renderColumn('minute', minuteList)}
                         </div>
                     </div>
-                    { 
+                    {
                         showSeconds && <div className={'overflow-hidden'}>
                             <div className={'timepicker-timepanel-select-col'} ref={this.secondRef}>
                                 {this.renderColumn('second', secondList)}

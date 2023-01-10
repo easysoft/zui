@@ -5,26 +5,26 @@ import {TimePanel} from '../component/timePanel';
 import '@zui/css-icons/src/icons/arrow.css';
 import '../style/index.css';
 import dayjs from 'dayjs';
-import {computePosition, ComputePositionConfig, arrow, offset, flip, VirtualElement} from '@floating-ui/dom';
+import {computePosition, arrow, offset, flip, autoUpdate} from '@floating-ui/dom';
+import type {ComputePositionConfig, VirtualElement, Strategy, Side} from '@floating-ui/dom';
 
 export class Timepicker extends ComponentBase<TimepickerOptions> {
 
-    static NAME = 'timepicker';
+    static readonly NAME = 'timepicker';
 
-    static CLASSNAME = 'timepicker';
+    static readonly CLASSNAME = 'timepicker';
 
-    static CLASS_SHOW = 'show';
+    static readonly CLASS_SHOW = 'show';
 
-    static MENU_SELECTOR = '.form-time input:not(.disabled):not(:disabled)';
+    static readonly MENU_SELECTOR = '.form-time input:not(.disabled):not(:disabled)';
 
-    static DEFAULT = {
+    static DEFAULT: Partial<TimepickerOptions> = {
         value: dayjs().format('HH:mm:ss'),
         showSeconds: false,
         placement: 'bottom-start',
         strategy: 'absolute',
-        // trigger: 'click',
         arrow: true,
-    } as Partial<TimepickerOptions>;
+    };
 
     #virtualElement?: VirtualElement;
 
@@ -34,13 +34,15 @@ export class Timepicker extends ComponentBase<TimepickerOptions> {
 
     #trigger?: MouseEvent | HTMLElement | DOMRect;
 
-    #arrowEl?: HTMLElement;
+    #arrowEl?: HTMLDivElement;
+
+    #cleanup?: () => void;
 
     get isShown() {
-        return this.#timepicker?.classList.contains((this.constructor as typeof Timepicker).CLASS_SHOW);
+        return this.#timepicker?.classList.contains(Timepicker.CLASS_SHOW);
     }
 
-    get timepicker(): HTMLElement {
+    get timepicker() {
         return this.#timepicker || this.#ensureTimepicker();
     }
 
@@ -49,23 +51,24 @@ export class Timepicker extends ComponentBase<TimepickerOptions> {
     }
 
     get elementShowClass() {
-        return `with-${(this.constructor as typeof Timepicker).NAME}-show`;
+        return `with-${Timepicker.NAME}-show`;
     }
 
-    show(trigger?: MouseEvent | HTMLElement | DOMRect): boolean {
+    show(trigger?: MouseEvent | HTMLElement | DOMRect) {
         this.#trigger = trigger;
         if (!this.timepicker || !this.element) {
             return false;
         }
         this.element.classList.add(this.elementShowClass);
-        this.timepicker.classList.add((this.constructor as typeof Timepicker).CLASS_SHOW);
+        this.timepicker.classList.add(Timepicker.CLASS_SHOW);
         this.#updatePosition();
         return true;
     }
 
-    hide(): boolean {
+    hide() {
+        this.#cleanup?.();
         this.element.classList.remove(this.elementShowClass);
-        this.#timepicker?.classList.remove((this.constructor as typeof Timepicker).CLASS_SHOW);
+        this.#timepicker?.classList.remove(Timepicker.CLASS_SHOW);
         return true;
     }
 
@@ -80,25 +83,21 @@ export class Timepicker extends ComponentBase<TimepickerOptions> {
 
     #getArrowSize() {
         const {arrow: arrowOption} = this.options;
-        return typeof arrowOption === 'number' ? arrowOption : 4;
+        return typeof arrowOption === 'number' ? arrowOption : 8;
     }
 
-    #createArrow(): HTMLElement {
-        const div = document.createElement('div');
-        this.#arrowEl = div;
+    #createArrow() {
+        const arrowSize = this.#getArrowSize();
+        this.#arrowEl = document.createElement('div');
         this.#arrowEl.style.position = 'absolute';
-        this.#arrowEl.style.width = '8px';
-        this.#arrowEl.style.height = '8px';
+        this.#arrowEl.style.width = `${arrowSize}px`;
+        this.#arrowEl.style.height = `${arrowSize}px`;
         this.#arrowEl.style.transform = 'rotate(45deg)';
-        this.#arrowEl.style.background = 'inherit';
-        this.#arrowEl.style.border = 'inherit';
-        this.#arrowEl.style.borderBottomStyle = 'none';
-        this.#arrowEl.style.borderRightStyle = 'none';
-        return div;
+        return this.#arrowEl;
     }
 
     #ensureTimepicker() {
-        const timepickerClass = (this.constructor as typeof Timepicker).CLASSNAME;
+        const timepickerClass = Timepicker.CLASSNAME;
         const pickerElement = document.createElement('div');
         pickerElement.classList.add(timepickerClass);
         render(h(TimePanel, {...this.options}), pickerElement);
@@ -107,7 +106,7 @@ export class Timepicker extends ComponentBase<TimepickerOptions> {
         }
 
         pickerElement.style.width = 'max-content';
-        pickerElement.style.position = 'absolute';
+        pickerElement.style.position = this.options.strategy as Strategy;
         pickerElement.style.top = '0';
         pickerElement.style.left = '0';
 
@@ -118,35 +117,65 @@ export class Timepicker extends ComponentBase<TimepickerOptions> {
 
     #getComputePositionConfig() {
         const arrowSize = this.#getArrowSize();
+        const {strategy, placement} = this.options;
         const config: Partial<ComputePositionConfig> = {
-            middleware: [offset(arrowSize + 3), flip()],
+            middleware: [offset(arrowSize), flip()],
+            strategy,
+            placement,
         };
         if (this.options.arrow && this.#arrowEl) {
             config.middleware?.push(arrow({element: this.#arrowEl}));
         }
-        if (this.options.placement) {
-            config.placement = this.options.placement;
-        }
         return config;
+    }
+
+    #getStaticSide(side: Side) {
+        return ({
+            top: 'bottom',
+            right: 'left',
+            bottom: 'top',
+            left: 'right',
+        } as const)[side];
+    }
+
+    #getNoneSideBorder(side: Side) {
+        if (side === 'bottom') {
+            return {
+                borderBottomStyle: 'none',
+                borderRightStyle: 'none',
+            };
+        }
+        if (side === 'top') {
+            return {
+                borderTopStyle: 'none',
+                borderLeftStyle: 'none',
+            };
+        }
+        if (side === 'left') {
+            return {
+                borderBottomStyle: 'none',
+                borderLeftStyle: 'none',
+            };
+        }
+        return {
+            borderTopStyle: 'none',
+            borderRightStyle: 'none',
+        };
     }
 
     #updatePosition() {
         const config = this.#getComputePositionConfig();
-        computePosition(this.#getReferenceElement(), this.timepicker, config).then(({x, y, middlewareData}) => {
-            Object.assign(this.timepicker.style, {
-                left: `${x}px`,
-                top: `${y}px`,
-            });
+        const reference = this.#getReferenceElement();
+        this.#cleanup = autoUpdate(reference, this.timepicker, () => {
+            computePosition(reference, this.timepicker, config).then(({x, y, middlewareData, placement}) => {
+                Object.assign(this.timepicker.style, {
+                    left: `${x}px`,
+                    top: `${y}px`,
+                });
 
-            if (this.options.placement) {
-                const side = this.options.placement.split('-')[0];
+                const side = placement.split('-')[0] as Side;
 
-                const staticSide = {
-                    top: 'bottom',
-                    right: 'left',
-                    bottom: 'top',
-                    left: 'right',
-                }[side] as string;
+                const staticSide = this.#getStaticSide(side);
 
                 if (middlewareData.arrow && this.#arrowEl) {
                     const {x: arrowX, y: arrowY} = middlewareData.arrow;
@@ -155,10 +184,12 @@ export class Timepicker extends ComponentBase<TimepickerOptions> {
                         left: arrowX != null ? `${arrowX}px` : '',
                         top: arrowY != null ? `${arrowY}px` : '',
                         [staticSide]: `${-this.#arrowEl.offsetWidth / 2}px`,
+                        background: 'inherit',
+                        border: 'inherit',
+                        ...this.#getNoneSideBorder(side),
                     });
                 }
-            }
-
+            });
         });
     }
 
