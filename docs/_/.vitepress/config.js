@@ -7,6 +7,7 @@ import zuiLib from '../public/zui-libs';
 
 const base = process.env.BASE_PATH ?? '/';
 
+/** Define vitepress config */
 export default defineConfig({
     lang: 'zh-CN',
     title: 'ZUI 3',
@@ -45,11 +46,9 @@ export default defineConfig({
 
 function createNav() {
     return [
-        {text: '指引',       link: '/guide/',     activeMatch: '/guide/'},
-        {text: '基础',       link: '/basic/',     activeMatch: '/basic/'},
+        {text: '指引',        link: '/guide/',     activeMatch: '/guide/'},
         {text: 'CSS 工具类',  link: '/utilities/', activeMatch: '/utilities/'},
         {text: '组件',        link: '/lib/',       activeMatch: '/lib/'},
-        {text: 'JavaScript', link: '/js/',        activeMatch: '/js/'},
         {text: '主题',        link: '/themes/',    activeMatch: '/themes/'},
     ];
 }
@@ -58,25 +57,23 @@ function initSidebars() {
     return {
         '/guide/': [
             {text: '开始', section: 'start'},
+            {text: '设计理念', section: 'concepts'},
+            {text: '配置', section: 'config'},
             {text: '定制', section: 'customize'},
             {text: '贡献', section: 'contributes'},
             {text: '关于', section: 'about'}
         ],
-        '/basic/': [
-            {text: '配置',    section: 'config'},
-            {text: '设计理念', section: 'concepts'}
-        ],
         '/utilities/': [
-            {text: '样式', section: 'style'},
-            {text: '背景', section: 'backgrounds'},
-            {text: '边框', section: 'borders'},
-            {text: '布局', section: 'layout'},
-            {text: 'Flex', section: 'flex'},
-            {text: '间距', section: 'spacing'},
-            {text: '尺寸', section: 'sizing'},
-            {text: '排版', section: 'typography'},
-            {text: '效果', section: 'effects'},
-            {text: '交互', section: 'interactivity'},
+            {text: '外观', section: 'style', collapsible: true, collapsed: false},
+            {text: '背景', section: 'backgrounds', collapsible: true, collapsed: true},
+            {text: '边框', section: 'borders', collapsible: true, collapsed: true},
+            {text: '布局', section: 'layout', collapsible: true, collapsed: true},
+            {text: 'Flex', section: 'flex', collapsible: true, collapsed: true},
+            {text: '间距', section: 'spacing', collapsible: true, collapsed: true},
+            {text: '尺寸', section: 'sizing', collapsible: true, collapsed: true},
+            {text: '排版', section: 'typography', collapsible: true, collapsed: true},
+            {text: '效果', section: 'effects', collapsible: true, collapsed: true},
+            {text: '交互', section: 'interactivity', collapsible: true, collapsed: true},
         ],
         '/lib/': [
             {text: '布局', section: 'layout', collapsible: true},
@@ -84,15 +81,12 @@ function initSidebars() {
             {text: '图标', section: 'icons', collapsible: true},
             {text: '表单', section: 'forms', collapsible: true},
             {text: '组件', section: 'components', collapsible: true},
-        ],
-        '/js/': [
-            {text: 'UI 插件', section: 'ui', collapsible: true},
-            {text: '工具方法', section: 'helpers', collapsible: true},
+            {text: 'JS 工具', section: 'helpers', collapsible: true},
         ],
         '/themes/': [
-            {text: '官方主题', section: 'official'},
-            {text: '社区主题', section: 'community'},
-            {text: '主题制作', section: 'create'},
+            {text: '官方主题', section: 'official-themes'},
+            {text: '社区主题', section: 'community-themes'},
+            {text: '主题制作', section: 'create-theme'},
         ]
     }
 }
