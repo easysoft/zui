@@ -32,7 +32,7 @@ export class Tooltip extends ComponentBase<TooltipOptions> {
 
     #tooltip?: HTMLElement;
 
-    #arrowEl?: HTMLElement;
+    #arrowEl?: HTMLDivElement;
 
     #trigger?: TooltipTrigger;
 
@@ -169,15 +169,14 @@ export class Tooltip extends ComponentBase<TooltipOptions> {
 
     #getComputePositionConfig() {
         const arrowSize = this.#getArrowSize();
+        const {strategy, placement} = this.options;
         const config: ComputePositionConfig = {
             middleware: [offset(arrowSize), flip()],
-            strategy: this.options.strategy as Strategy,
+            strategy: strategy,
+            placement: placement,
         };
         if (this.options.arrow && this.#arrowEl) {
             config.middleware?.push(arrow({element: this.#arrowEl}));
-        }
-        if (this.options.placement) {
-            config.placement = this.options.placement;
         }
         return config;
     }
