@@ -10473,46 +10473,38 @@ Pn = new WeakMap(), On = new WeakMap(), Hn = new WeakMap(), on = new WeakMap(), 
     left: "right"
   }[n];
 }, ol = new WeakSet(), Zp = function(n) {
-  if (n === "bottom")
-    return {
-      borderBottomStyle: "none",
-      borderRightStyle: "none"
-    };
-  if (n === "top")
-    return {
-      borderTopStyle: "none",
-      borderLeftStyle: "none"
-    };
-  if (n === "left")
-    return {
-      borderBottomStyle: "none",
-      borderLeftStyle: "none"
-    };
-  if (n === "right")
-    return {
-      borderTopStyle: "none",
-      borderRightStyle: "none"
-    };
+  return n === "bottom" ? {
+    borderBottomStyle: "none",
+    borderRightStyle: "none"
+  } : n === "top" ? {
+    borderTopStyle: "none",
+    borderLeftStyle: "none"
+  } : n === "left" ? {
+    borderBottomStyle: "none",
+    borderLeftStyle: "none"
+  } : {
+    borderTopStyle: "none",
+    borderRightStyle: "none"
+  };
 }, rl = new WeakSet(), Jp = function() {
   const n = W(this, el, Xp).call(this), o = W(this, sl, Qp).call(this);
   H(this, Dr, lw(o, this.tooltip, () => {
     cw(o, this.tooltip, n).then(({ x: i, y: r, middlewareData: l, placement: c }) => {
-      if (Object.assign(this.tooltip.style, {
+      Object.assign(this.tooltip.style, {
         left: `${i}px`,
         top: `${r}px`
-      }), c) {
-        const _ = c.split("-")[0], h = W(this, nl, Kp).call(this, _);
-        if (l.arrow && v(this, St)) {
-          const { x: s, y: d } = l.arrow;
-          Object.assign(v(this, St).style, {
-            left: s != null ? `${s}px` : "",
-            top: d != null ? `${d}px` : "",
-            [h]: `${-v(this, St).offsetWidth / 2}px`,
-            background: "inherit",
-            border: "inherit",
-            ...W(this, ol, Zp).call(this, _)
-          });
-        }
+      });
+      const _ = c.split("-")[0], h = W(this, nl, Kp).call(this, _);
+      if (l.arrow && v(this, St)) {
+        const { x: s, y: d } = l.arrow;
+        Object.assign(v(this, St).style, {
+          left: s != null ? `${s}px` : "",
+          top: d != null ? `${d}px` : "",
+          [h]: `${-v(this, St).offsetWidth / 2}px`,
+          background: "inherit",
+          border: "inherit",
+          ...W(this, ol, Zp).call(this, _)
+        });
       }
     });
   }));
