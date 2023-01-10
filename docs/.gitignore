@@ -3,3 +3,4 @@ assets
 node_modules
 /_/*
 !/_/.vitepress/
+/_/.vitepress/cache
