@@ -1,10 +1,12 @@
-import {DatepickerBasicProps} from './datepicker-basic-props';
-import {DatepickerPlacement} from './datepicker-placement';
+import type {DatepickerBasicProps} from './datepicker-basic-props';
+import type {Placement, Strategy} from '@floating-ui/dom';
 
-export interface DatepickerProps extends DatepickerBasicProps {
-    date?: string | Date;
-    placement?: DatepickerPlacement;
-    arrow?: boolean | number;
-    showToday?: boolean;
-    onChange?: (newDate: string | Date) => void;
-}
+export type DatepickerProps = DatepickerBasicProps & Partial<{
+    date: string;
+    placement: Placement;
+    arrow: boolean | number;
+    showToday: boolean;
+    onChange: (newDate: string) => void;
+    strategy: Strategy;
+    trigger: 'hover' | 'click';
+}>;

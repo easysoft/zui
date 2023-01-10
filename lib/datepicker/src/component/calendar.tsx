@@ -6,22 +6,23 @@ import dayjs from 'dayjs';
 import '@zui/css-icons/src/icons/caret.css';
 import DayPanel from './dayPanel';
 import MonthAndYearPanel from './monthAndYear';
+import type {Dayjs} from 'dayjs';
 
 export class Calendar extends Component<DatepickerProps> {
 
     DATEROWCOUNT = 6;
 
-    ref = createRef<HTMLMenuElement>();
+    ref = createRef<HTMLDivElement>();
 
     state = {
-        selectedDate: this.props.date || null,
+        selectedDate: this.props.date || dayjs().format('YYYY-MM-DD'),
         type: 'day',
     };
 
     handleChange(selectedDate: string, isSure = false) {
         this.setState({selectedDate: selectedDate});
         if (isSure) {
-            this.props?.onChange(selectedDate);
+            this.props.onChange?.(selectedDate);
         }
     }
 
@@ -42,7 +43,7 @@ export class Calendar extends Component<DatepickerProps> {
         this.handleChange(year);
     }
 
-    clickDay(date: string) {
+    clickDay(date: Dayjs) {
         const newDate = dayjs(date).format(this.props.format);
         this.handleChange(newDate);
     }
@@ -56,7 +57,7 @@ export class Calendar extends Component<DatepickerProps> {
             return _h(DayPanel, {
                 ...this.props,
                 handleChange: this.handleChange.bind(this),
-                handleChangePanel: this.handleChangePanel.bind(this), 
+                handleChangePanel: this.handleChangePanel.bind(this),
                 clickToday: this.clickToday.bind(this),
                 clickDay: this.clickDay.bind(this),
                 selectedDate: this.state.selectedDate,

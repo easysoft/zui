@@ -8,10 +8,10 @@ import '../style/index.css';
 import MonthPanel from './monthPanel';
 import {DatepickerProps} from '../types';
 
-interface MonthAndYearPanelProps extends DatepickerProps {
+type MonthAndYearPanelProps = DatepickerProps & {
     selectedDate: string;
     handleChangeMonth: (month: string)=> void;
-}
+};
 
 const MonthAndYearPanel = (props: MonthAndYearPanelProps) => {
     const {selectedDate, handleChangeMonth} = props;
@@ -36,7 +36,7 @@ const MonthAndYearPanel = (props: MonthAndYearPanelProps) => {
                 title[j].nextElementSibling?.classList.add('hidden');
             }
         }
-        event.target.nextElementSibling?.classList.toggle('hidden');
+        (event.target as HTMLElement).nextElementSibling?.classList.toggle('hidden');
         const accordionDom = document.querySelector('.datepicker-accordion');
         if (!accordionDom) {
             return;
@@ -59,7 +59,7 @@ const MonthAndYearPanel = (props: MonthAndYearPanelProps) => {
                     <div key={yearKey} className={classes('datepicker-accordion-content', currentYear === year ? '' : 'hidden')}>{
                         _h(MonthPanel, {
                             ...props,
-                            year: year,
+                            year: year.toString(),
                             handleChangeMonth: handleChangeMonth,
                         })
                     }</div>

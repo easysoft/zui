@@ -5,18 +5,14 @@ import '@zui/css-icons/src/icons/caret.css';
 import {createGroups} from '../helpers/index';
 import {CalendarDayItemProps, DatepickerProps} from '../types';
 
-interface CalendarListProps {
-    [index: number]: Array<CalendarDayItemProps>
-}
-
-interface DayPanelProps extends DatepickerProps {
+type DayPanelProps = DatepickerProps & {
     DATEROWCOUNT: number;
     selectedDate: string;
     clickDay: (date: Dayjs)=> void;
     handleChangePanel: (type: string)=> void;
     handleChange: (selectedDate: string, isSure: boolean)=> void;
     clickToday: ()=> void;
-}
+};
 
 const DayPanel = (props: DayPanelProps) => {
     const {format, minDate, maxDate, tagDate, DATEROWCOUNT, showOtherMonth, clickDay, selectedDate, handleChangePanel, showToday, handleChange, clickToday} = props;
@@ -27,7 +23,7 @@ const DayPanel = (props: DayPanelProps) => {
         }
         return dayjs(date).add(1, 'months').format(format);
     };
-    
+
     const subtractMonth = (date: string | Date) => {
         if (!dayjs(date).isValid()) {
             return '';
@@ -36,12 +32,12 @@ const DayPanel = (props: DayPanelProps) => {
     };
 
     const showPrevMonth = () => {
-        const month = subtractMonth(selectedDate || dayjs().format(format));
+        const month = subtractMonth(selectedDate);
         handleChange(month, false);
     };
 
     const showNextMonth = () => {
-        const nextMonth = addMonth(selectedDate || dayjs().format(format));
+        const nextMonth = addMonth(selectedDate);
         handleChange(nextMonth, false);
     };
 
@@ -53,7 +49,7 @@ const DayPanel = (props: DayPanelProps) => {
         handleChange(selectedDate, true);
     };
 
-    
+
     const renderMonthDay = (totalDays: number, addDayNumber: number, preMonth: Dayjs, isOtherMonth: boolean) => {
         const today = dayjs();
         const currentDate = dayjs(selectedDate);
@@ -62,8 +58,8 @@ const DayPanel = (props: DayPanelProps) => {
         for (let d = 0; d < totalDays; d++) {
             const dayNumber = addDayNumber + d + 1;
             const eachDate = preMonth.set('date', dayNumber);
-            
-            const isDisable = isOtherMonth && !showOtherMonth ? true : 
+
+            const isDisable = isOtherMonth && !showOtherMonth ? true :
                 (minDate && eachDate.isBefore(minDate, 'date') ||
                 maxDate && eachDate.isAfter(maxDate, 'date'));
 
@@ -114,7 +110,7 @@ const DayPanel = (props: DayPanelProps) => {
         const panelYearMonth = selectedDate ? dayjs(dateValue) : today;
         const currentMonthLastDay = panelYearMonth.endOf('month').get('date');
         const currentDayList = renderMonthDay(currentMonthLastDay, 0, panelYearMonth, false);
-        
+
         const preMonthDay = renderPreMonthDay();
         const nextMonthDay = renderNextMonthDay();
         const monthDateList = [...preMonthDay, ...currentDayList, ...nextMonthDay];
@@ -123,7 +119,7 @@ const DayPanel = (props: DayPanelProps) => {
     };
 
     const weeks = ['一', '二', '三', '四', '五', '六', '日'];
-    const calendarTable: CalendarListProps = renderCurrentMonthDays();
+    const calendarTable = renderCurrentMonthDays();
     const newSelectedDate = selectedDate || dayjs().format(format);
     return (
         <div className={classes('datepicker-calendar-day')}>
@@ -134,14 +130,14 @@ const DayPanel = (props: DayPanelProps) => {
                         <span class="caret"></span>
                     </button>
                 </div>
-                
+
                 <div class="flex">
                     {
                         showToday && <button type="button" className="btn ghost" onClick={() => {clickToday();}}>
                             今天
                         </button>
                     }
-                    
+
                     <button type="button" className="btn ghost" onClick={() => showPrevMonth()}>
                         <i className="icon icon-angle-left" />
                     </button>

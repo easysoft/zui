@@ -1,3 +1,3 @@
-import {DatepickerProps} from './datepicker-props';
+import type {DatepickerProps} from './datepicker-props';
 
 export type DatepickerOptions = DatepickerProps;

@@ -114,7 +114,7 @@ new zui.Datepicker('#datePicker4', {
     },
 });
 </script>
-``` 
+```
 
 ## 日期格式
 
@@ -143,7 +143,7 @@ new zui.Datepicker('#datePicker7', {
     },
 });
 </script>
-``` 
+```
 
 ## 标记日期
 
@@ -187,7 +187,6 @@ new zui.Datepicker('#datePicker6', {
 <script>
 const datePicker8 = document.getElementById('datePicker8');
 const datePickerComponent = new zui.Datepicker('#datePicker8', {
-    placement: 'auto',
     onChange: (newDate) => {
         datePicker8.querySelector('.form-control').value = newDate;
     },
@@ -278,7 +277,7 @@ const datePickerComponent = new zui.Datepicker('#datePicker8', {
 
 * 类型：`'string'`;
 * 必选：否；
-* 可选项：`'top-start' | 'top' | 'top-end' | 'bottom-start' | 'bottom' | 'bottom-end' | 'left-start' | 'left' | 'left-end' | 'right-start' | 'right' | 'right-end' | 'auto-start' | 'auto' | 'auto-end' `；
+* 可选项：`'top-start' | 'top' | 'top-end' | 'bottom-start' | 'bottom' | 'bottom-end' | 'left-start' | 'left' | 'left-end' | 'right-start' | 'right' | 'right-end'`；
 * 默认：`'top'`。
 
 ### `onChange`
@@ -347,7 +346,6 @@ export default {
             });
             new zui.BtnGroup('#btnGroupPlacement', {
                 items: [
-                    {text: 'auto'},
                     {text: 'top-start'},
                     {text: 'top-end'},
                     {text: 'bottom-start'},

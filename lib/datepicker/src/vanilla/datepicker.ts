@@ -1,23 +1,24 @@
 import {render, h} from 'preact';
-import {DatepickerOptions} from '../types';
 import {ComponentBase} from '@zui/com-helpers/src/helpers/vanilla-component';
 import {Calendar} from '../component/calendar';
 import '@zui/css-icons/src/icons/arrow.css';
 import '../style/index.css';
 import dayjs from 'dayjs';
-import {computePosition, VirtualElement, arrow, flip, offset, ComputePositionConfig} from '@floating-ui/dom';
+import {computePosition, arrow, flip, offset, autoUpdate} from '@floating-ui/dom';
+import type {DatepickerOptions} from '../types';
+import type {VirtualElement, ComputePositionConfig, Strategy, Side} from '@floating-ui/dom';
 
 export class Datepicker extends ComponentBase<DatepickerOptions> {
 
-    static NAME = 'datepicker';
+    static readonly NAME = 'datepicker';
 
-    static CLASSNAME = 'datepicker';
+    static readonly CLASSNAME = 'datepicker';
 
-    static CLASS_SHOW = 'show';
+    static readonly CLASS_SHOW = 'show';
 
     static MENU_SELECTOR = '.form-datetime:not(.disabled):not(:disabled)';
 
-    static DEFAULT = {
+    static DEFAULT: Partial<DatepickerOptions> = {
         date: dayjs().format('YYYY-MM-DD'),
         format: 'YYYY-MM-DD',
         showOtherMonth: true,
@@ -32,17 +33,19 @@ export class Datepicker extends ComponentBase<DatepickerOptions> {
 
     #hideTimer = 0;
 
-    #arrowEl?: HTMLElement;
+    #arrowEl?: HTMLDivElement;
 
-    #datepicker?: HTMLElement;
+    #datepicker?: HTMLDivElement;
 
     #trigger?: MouseEvent | HTMLElement | DOMRect;
 
+    #cleanup?: () => void;
+
     get isShown() {
-        return this.#datepicker?.classList.contains((this.constructor as typeof Datepicker).CLASS_SHOW);
+        return this.#datepicker?.classList.contains(Datepicker.CLASS_SHOW);
     }
 
-    get datepicker(): HTMLElement {
+    get datepicker() {
         return this.#datepicker || this.#ensureDatepicker();
     }
 
@@ -51,24 +54,25 @@ export class Datepicker extends ComponentBase<DatepickerOptions> {
     }
 
     get elementShowClass() {
-        return `with-${(this.constructor as typeof Datepicker).NAME}-show`;
+        return `with-${Datepicker.NAME}-show`;
     }
 
-    show(trigger?: MouseEvent | HTMLElement | DOMRect): boolean {
+    show(trigger?: MouseEvent | HTMLElement | DOMRect) {
         this.#trigger = trigger;
         if (!this.datepicker || !this.element) {
             return false;
         }
         this.element.classList.add(this.elementShowClass);
-        this.datepicker.classList.add((this.constructor as typeof Datepicker).CLASS_SHOW);
+        this.datepicker.classList.add(Datepicker.CLASS_SHOW);
         this.datepicker.classList.add('fade');
         this.#updatePosition();
         return true;
     }
 
-    hide(): boolean {
+    hide() {
+        this.#cleanup?.();
         this.element.classList.remove(this.elementShowClass);
-        this.#datepicker?.classList.remove((this.constructor as typeof Datepicker).CLASS_SHOW);
+        this.#datepicker?.classList.remove(Datepicker.CLASS_SHOW);
         this.datepicker.classList.remove('fade');
         return true;
     }
@@ -82,31 +86,23 @@ export class Datepicker extends ComponentBase<DatepickerOptions> {
         this.#hideTimer = window.setTimeout(this.hide.bind(this), 100);
     };
 
-    destroy() {
-        super.destroy();
-    }
-
     #getArrowSize() {
         const {arrow: arrowOption} = this.options;
-        return typeof arrowOption === 'number' ? arrowOption : 4;
+        return typeof arrowOption === 'number' ? arrowOption : 8;
     }
 
-    #createArrow(): HTMLElement {
-        const div = document.createElement('div');
-        this.#arrowEl = div;
+    #createArrow() {
+        const arrowSize = this.#getArrowSize();
+        this.#arrowEl = document.createElement('div');
         this.#arrowEl.style.position = 'absolute';
-        this.#arrowEl.style.width = '8px';
-        this.#arrowEl.style.height = '8px';
+        this.#arrowEl.style.width = `${arrowSize}px`;
+        this.#arrowEl.style.height = `${arrowSize}px`;
         this.#arrowEl.style.transform = 'rotate(45deg)';
-        this.#arrowEl.style.border = 'inherit';
-        this.#arrowEl.style.background = 'inherit';
-        // this.#arrowEl.style.borderTopStyle = 'none';
-        // this.#arrowEl.style.borderLeftStyle = 'none';
-        return div;
+        return this.#arrowEl;
     }
 
     #ensureDatepicker() {
-        const datepickerClass = (this.constructor as typeof Datepicker).CLASSNAME;
+        const datepickerClass = Datepicker.CLASSNAME;
         const pickerElement = document.createElement('div');
         pickerElement.classList.add(datepickerClass);
         render(h(Calendar, {...this.options}), pickerElement);
@@ -114,7 +110,7 @@ export class Datepicker extends ComponentBase<DatepickerOptions> {
             pickerElement.append(this.#createArrow());
         }
         pickerElement.style.width = 'max-content';
-        pickerElement.style.position = 'absolute';
+        pickerElement.style.position = this.options.strategy as Strategy;
         pickerElement.style.top = '0';
         pickerElement.style.left = '0';
         document.body.appendChild(pickerElement);
@@ -124,35 +120,65 @@ export class Datepicker extends ComponentBase<DatepickerOptions> {
 
     #getComputePositionConfig() {
         const arrowSize = this.#getArrowSize();
+        const {strategy, placement} = this.options;
         const config: Partial<ComputePositionConfig> = {
-            middleware: [offset(arrowSize + 3), flip()],
+            middleware: [offset(arrowSize), flip()],
+            strategy,
+            placement,
         };
         if (this.options.arrow && this.#arrowEl) {
             config.middleware?.push(arrow({element: this.#arrowEl}));
         }
-        if (this.options.placement) {
-            config.placement = this.options.placement;
-        }
         return config;
+    }
+
+    #getStaticSide(side: Side) {
+        return ({
+            top: 'bottom',
+            right: 'left',
+            bottom: 'top',
+            left: 'right',
+        } as const)[side];
+    }
+
+    #getNoneSideBorder(side: Side) {
+        if (side === 'bottom') {
+            return {
+                borderBottomStyle: 'none',
+                borderRightStyle: 'none',
+            };
+        }
+        if (side === 'top') {
+            return {
+                borderTopStyle: 'none',
+                borderLeftStyle: 'none',
+            };
+        }
+        if (side === 'left') {
+            return {
+                borderBottomStyle: 'none',
+                borderLeftStyle: 'none',
+            };
+        }
+        return {
+            borderTopStyle: 'none',
+            borderRightStyle: 'none',
+        };
     }
 
     #updatePosition() {
         const config = this.#getComputePositionConfig();
-        computePosition(this.#getReferenceElement(), this.datepicker, config).then(({x, y, middlewareData}) => {
-            Object.assign(this.datepicker.style, {
-                left: `${x}px`,
-                top: `${y}px`,
-            });
+        const reference = this.#getReferenceElement();
+        this.#cleanup = autoUpdate(reference, this.datepicker, () => {
+            computePosition(reference, this.datepicker, config).then(({x, y, middlewareData, placement}) => {
+                Object.assign(this.datepicker.style, {
+                    left: `${x}px`,
+                    top: `${y}px`,
+                });
 
-            if (this.options.placement) {
-                const side = this.options.placement.split('-')[0];
+                const side = placement.split('-')[0] as Side;
 
-                const staticSide = {
-                    top: 'bottom',
-                    right: 'left',
-                    bottom: 'top',
-                    left: 'right',
-                }[side] as string;
+                const staticSide = this.#getStaticSide(side);
 
                 if (middlewareData.arrow && this.#arrowEl) {
                     const {x: arrowX, y: arrowY} = middlewareData.arrow;
@@ -161,10 +187,12 @@ export class Datepicker extends ComponentBase<DatepickerOptions> {
                         left: arrowX != null ? `${arrowX}px` : '',
                         top: arrowY != null ? `${arrowY}px` : '',
                         [staticSide]: `${-this.#arrowEl.offsetWidth / 2}px`,
+                        background: 'inherit',
+                        border: 'inherit',
+                        ...this.#getNoneSideBorder(side),
                     });
                 }
-            }
-
+            });
         });
     }
 
@@ -189,7 +217,7 @@ export class Datepicker extends ComponentBase<DatepickerOptions> {
                     }
                     return element;
                 },
-                contextElement: this.element as Element,
+                contextElement: this.element,
             };
         }
         return this.#virtualElement;

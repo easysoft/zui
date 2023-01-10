@@ -6,7 +6,7 @@ export const generateArrayNumber = (start = 0, end = 0) => {
     return array;
 };
 
-export const createGroups = (array: number[] | object[], numGroups: number) => {
+export const createGroups = <T>(array: T[], numGroups: number) => {
     const perGroup = Math.ceil(array.length / numGroups);
     return new Array(numGroups).fill({}).map((_, i) => array.slice(i * perGroup, (i + 1) * perGroup));
 };

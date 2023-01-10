@@ -5,11 +5,11 @@ import '@zui/css-icons/src/icons/caret.css';
 import {createGroups, generateArrayNumber} from '../helpers/index';
 import {DatepickerProps} from '../types';
 
-interface YearPanelProps extends DatepickerProps {
-  selectedDate: string;
-  handleChangeYear: (year: string)=> void;
-  handleChange: (selectedDate: string, isSure: boolean)=> void;
-}
+type YearPanelProps = DatepickerProps & {
+    selectedDate: string;
+    handleChangeYear: (year: string)=> void;
+    handleChange: (selectedDate: string, isSure: boolean)=> void;
+};
 
 const YearPanel = (props: YearPanelProps) => {
     const {format, selectedDate, handleChangeYear, handleChange} = props;
