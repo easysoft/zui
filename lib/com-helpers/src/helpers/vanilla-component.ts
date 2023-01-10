@@ -10,7 +10,7 @@ export type ComponentInternalEventMap = {
     destroyed: CustomEvent,
 };
 
-type ComponentOptionEventMap<T extends CustomEventMap> = {[p in `on${Capitalize<string & keyof T>}`]: p extends `on${infer name}` ? Uncapitalize<name> extends keyof T ? T[Uncapitalize<name>] : never : never};
+type ComponentOptionEventMap<T extends CustomEventMap> = {[p in `on${Capitalize<`${string}ed` & keyof T>}`]: p extends `on${infer name}` ? Uncapitalize<name> extends keyof T ? T[Uncapitalize<name>] : never : never};
 
 export type ComponentEventMap<V extends CustomEventMap = {}> = V & ComponentHTMLEventMap & ComponentInternalEventMap;
 
