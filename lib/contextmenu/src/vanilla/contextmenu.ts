@@ -4,24 +4,25 @@ import {isRightBtn} from '@zui/com-helpers/src/helpers/mouse-event';
 import {MenuOptions} from '@zui/menu';
 import '../style/vars.css';
 import '../style/contextmenu.css';
+import {ContextMenu as ContextMenuReact} from '../component/contextmenu';
+import {autoUpdate, computePosition, flip} from '@floating-ui/dom';
 import type {MenuItemOptions} from '@zui/menu/src/types/menu-item-options';
 import type {ContextMenuOptions} from '../types/contextmenu-options';
 import type {ContextMenuEvents} from '../types/contextmenu-events';
 import type {ContextMenuTrigger} from '../types/contextmenu-trigger';
-import {ContextMenu as ContextMenuReact} from '../component/contextmenu';
-import {computePosition, VirtualElement, ComputePositionConfig, flip} from '@floating-ui/dom';
+import type {VirtualElement, ComputePositionConfig, Strategy, Side} from '@floating-ui/dom';
 
 export class ContextMenu<T extends ContextMenuOptions = ContextMenuOptions, E extends ContextMenuEvents = ContextMenuEvents> extends ComponentBase<T, E & ContextMenuEvents> {
     static NAME = 'contextmenu';
 
     static EVENTS = true;
 
-    static DEFAULT = {
+    static DEFAULT: Partial<ContextMenuOptions> = {
         placement: 'bottom-start',
         strategy: 'fixed',
         flip: true,
         preventOverflow :true,
-    } as Partial<ContextMenuOptions>;
+    };
 
     static MENU_CLASS = 'contextmenu';
 
@@ -35,7 +36,9 @@ export class ContextMenu<T extends ContextMenuOptions = ContextMenuOptions, E ex
 
     #trigger?: ContextMenuTrigger;
 
-    arrowEl?: HTMLElement;
+    arrowEl?: HTMLDivElement;
+
+    #cleanup?: () => void;
 
     get isShown() {
         return this.#menu?.classList.contains((this.constructor as typeof ContextMenu).CLASS_SHOW);
@@ -79,6 +82,7 @@ export class ContextMenu<T extends ContextMenuOptions = ContextMenuOptions, E ex
     }
 
     hide() {
+        this.#cleanup?.();
         const hideEvent = this.emit('hide', this);
         if (hideEvent.defaultPrevented) {
             return false;
@@ -127,7 +131,7 @@ export class ContextMenu<T extends ContextMenuOptions = ContextMenuOptions, E ex
         }
 
         menuElement.style.width = 'max-content';
-        menuElement.style.position = 'absolute';
+        menuElement.style.position = this.options.strategy as Strategy;
         menuElement.style.top = '0';
         menuElement.style.left = '0';
 
@@ -136,35 +140,65 @@ export class ContextMenu<T extends ContextMenuOptions = ContextMenuOptions, E ex
     }
 
     _getPopperOptions() {
-        const config: Partial<ComputePositionConfig> = {
+        const {placement, strategy} = this.options;
+        const config: ComputePositionConfig = {
             middleware: [],
+            placement,
+            strategy,
         };
         if (this.options.flip) {
             config.middleware?.push(flip());
         }
-        if (this.options.placement) {
-            config.placement = this.options.placement;
-        }
         return config;
+    }
+
+    #getStaticSide(side: Side) {
+        return ({
+            top: 'bottom',
+            right: 'left',
+            bottom: 'top',
+            left: 'right',
+        } as const)[side];
+    }
+
+    #getNoneSideBorder(side: Side) {
+        if (side === 'bottom') {
+            return {
+                borderBottomStyle: 'none',
+                borderRightStyle: 'none',
+            };
+        }
+        if (side === 'top') {
+            return {
+                borderTopStyle: 'none',
+                borderLeftStyle: 'none',
+            };
+        }
+        if (side === 'left') {
+            return {
+                borderBottomStyle: 'none',
+                borderLeftStyle: 'none',
+            };
+        }
+        return {
+            borderTopStyle: 'none',
+            borderRightStyle: 'none',
+        };
     }
 
     _createPopper() {
         const config = this._getPopperOptions();
-        computePosition(this._getPopperElement(), this.menu, config).then(({x, y, middlewareData}) => {
-            Object.assign(this.menu.style, {
-                left: `${x}px`,
-                top: `${y}px`,
-            });
+        const reference = this._getPopperElement();
+        this.#cleanup = autoUpdate(reference, this.menu, () => {
+            computePosition(reference, this.menu, config).then(({x, y, middlewareData, placement}) => {
+                Object.assign(this.menu.style, {
+                    left: `${x}px`,
+                    top: `${y}px`,
+                });
 
-            if (this.options.placement) {
-                const side = this.options.placement.split('-')[0];
+                const side = placement.split('-')[0] as Side;
 
-                const staticSide = {
-                    top: 'bottom',
-                    right: 'left',
-                    bottom: 'top',
-                    left: 'right',
-                }[side] as string;
+                const staticSide = this.#getStaticSide(side);
 
                 if (middlewareData.arrow && this.arrowEl) {
                     const {x: arrowX, y: arrowY} = middlewareData.arrow;
@@ -173,9 +207,12 @@ export class ContextMenu<T extends ContextMenuOptions = ContextMenuOptions, E ex
                         left: arrowX != null ? `${arrowX}px` : '',
                         top: arrowY != null ? `${arrowY}px` : '',
                         [staticSide]: `${-this.arrowEl.offsetWidth / 2}px`,
+                        background: 'inherit',
+                        border: 'inherit',
+                        ...this.#getNoneSideBorder(side),
                     });
                 }
-            }
+            });
         });
     }
 
@@ -231,7 +268,7 @@ export class ContextMenu<T extends ContextMenuOptions = ContextMenuOptions, E ex
                     }
                     return trigger;
                 },
-                contextElement: this.element as Element,
+                contextElement: this.element,
             };
         }
         return this.#virtualElement;

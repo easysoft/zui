@@ -1,4 +1,3 @@
-import {ComponentChildren} from 'preact';
 import {classes} from '@zui/browser-helpers/src/classes';
 import {ActionMenuNested} from '@zui/action-menu/src/component/action-menu-nested';
 import '@zui/css-icons/src/icons/caret.css';
@@ -31,7 +30,7 @@ export class Menu<T extends ActionMenuItemOptions = MenuItemOptions> extends Act
         return options;
     }
 
-    renderToggleIcon(show: boolean): ComponentChildren | void {
+    renderToggleIcon(show: boolean) {
         return <span class={`${this.name}-toggle-icon caret-${show ? 'down' : 'right'}`} />;
     }
 }

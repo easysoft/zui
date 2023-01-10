@@ -63,7 +63,7 @@ export class Dropdown extends ContextMenu<DropdownOptions, DropdownEvents> {
         this.#hideTimer = window.setTimeout(this.hide.bind(this), 100);
     };
 
-    destroy(): void {
+    destroy() {
         if (this.#hoverEventsBind) {
             this.element.removeEventListener('mouseleave', this.hideLater);
             this.menu.removeEventListener('mouseenter', this.#cancelHide);
@@ -77,15 +77,15 @@ export class Dropdown extends ContextMenu<DropdownOptions, DropdownEvents> {
         if (!arrowOption) {
             return 0;
         }
-        return typeof arrowOption === 'number' ? arrowOption : 5;
+        return typeof arrowOption === 'number' ? arrowOption : 8;
     }
 
     _getPopperOptions() {
         const options = super._getPopperOptions();
         const arrowSize = this._getArrowSize();
-        if (arrowSize) {
-            options.middleware?.push(offset(arrowSize + (this.options.offset ?? 0)));
-            options.middleware?.push(arrow({element: this.arrowEl as HTMLElement}));
+        if (arrowSize && this.arrowEl) {
+            options.middleware?.push(offset(arrowSize));
+            options.middleware?.push(arrow({element: this.arrowEl}));
         }
         return options;
     }
@@ -93,15 +93,13 @@ export class Dropdown extends ContextMenu<DropdownOptions, DropdownEvents> {
     _ensureMenu() {
         const menu = super._ensureMenu();
         if (this.options.arrow) {
-            const div = document.createElement('div');
-            this.arrowEl = div;
+            const arrowSize = this._getArrowSize();
+            this.arrowEl = document.createElement('div');
             this.arrowEl.style.position = 'absolute';
-            this.arrowEl.style.width = '8px';
-            this.arrowEl.style.height = '8px';
+            this.arrowEl.style.width = `${arrowSize}px`;
+            this.arrowEl.style.height = `${arrowSize}px`;
             this.arrowEl.style.transform = 'rotate(45deg)';
-            this.arrowEl.style.background = 'inherit';
-            this.arrowEl.style.border = 'inherit';
-            menu.append(div);
+            menu.append(this.arrowEl);
         }
         return menu;
     }
@@ -111,6 +109,9 @@ export class Dropdown extends ContextMenu<DropdownOptions, DropdownEvents> {
         if (options && this.options.arrow) {
             const {afterRender} = options;
             options.afterRender = (...args) => {
+                if (this.arrowEl) {
+                    this.menu.querySelector('.menu')?.appendChild(this.arrowEl);
+                }
                 afterRender?.(...args);
             };
         }

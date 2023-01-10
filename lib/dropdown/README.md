@@ -161,13 +161,6 @@ console.log('> dropdown', dropdown);
   <li class="menu-item"><a>另一个操作</a></li>
   <li class="menu-item"><a>更多操作</a></li>
 </menu>
-
-<button class="btn" type="button" data-toggle="dropdown" data-placement="auto" data-arrow="true">自动方向 <span class="caret"></span></button>
-<menu class="dropdown-menu menu">
-  <li class="menu-item"><a>操作</a></li>
-  <li class="menu-item"><a>另一个操作</a></li>
-  <li class="menu-item"><a>更多操作</a></li>
-</menu>
 ```
 ## 多级子菜单
 在 `.dropdown-menu` 内的 `<li> `内包含另一个 `.dropdown-menu` 从而实现多级子菜单。包含子菜单 `<li>` 需要添加额外的类 `.dropdown-submenu`。

@@ -20,7 +20,6 @@
     {placement: 'right-start', name: '右侧上方对齐'},
     {placement: 'right', name: '右侧居中对齐'},
     {placement: 'right-end', name: '右侧下方对齐'},
-    {placement: 'auto', name: '自动方向'},
   ]
 </script>
 
@@ -56,8 +55,8 @@
 </Example>
 
 ```html
-  <button data-arrow="true" ... > 
-    ... 
+  <button data-arrow="true" ... >
+    ...
   </button>
   ...
 ```
