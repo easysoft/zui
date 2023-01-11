@@ -13,7 +13,7 @@ function getLibNameFromUrl(url: string): string | null {
 }
 
 const buildLibs = process.env.BUILD_LIBS ?? 'buildIn';
-let libsCache: Record<string, LibInfo> | undefined = await getLibs(buildLibs);
+let libsCache: Record<string, LibInfo> | undefined = await getLibs(buildLibs.split(','));
 const libsPaths = new Map<string, LibInfo>();
 
 export default (options: {rootPath: string}): Plugin => ({
@@ -25,11 +25,6 @@ export default (options: {rootPath: string}): Plugin => ({
             }
 
             if (req.url.startsWith('/libs/')) {
-                let libsPath = req.url.substring('/libs/'.length);
-                if (!libsPath.length) {
-                    libsPath = `${libsPath}${buildLibs}`;
-                }
-                libsCache = await getLibs(libsPath);
                 res.setHeader('Content-Type', 'application/json');
                 res.end(JSON.stringify(libsCache));
                 return;

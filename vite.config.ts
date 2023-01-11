@@ -1,16 +1,26 @@
 import Path from 'path';
 import fs from 'fs-extra';
 import {defineConfig, mergeConfig, UserConfig} from 'vite';
+import {LibraryOptions} from 'vite';
 import {blue} from 'colorette';
 import eslint from 'vite-plugin-eslint';
 import configDevServer from './scripts/dev/config-server';
-import {LibraryOptions} from 'vite';
 import {getLibs} from './scripts/libs/query';
 import {LibInfo} from './scripts/libs/lib-info';
 
+function getLibByPath(path: string, libsCache: Record<string, LibInfo>): LibInfo | undefined {
+    const nodeModulesFlag = `${Path.sep}node_modules${Path.sep}`;
+    const nodeModulesIndex = path.indexOf(nodeModulesFlag);
+    if (nodeModulesIndex > -1) {
+        const nodeModulePath = path.substring(nodeModulesIndex + nodeModulesFlag.length);
+        return Object.values(libsCache).find((x) => nodeModulePath.startsWith(`${x.name}${Path.sep}`));
+    }
+    return Object.values(libsCache).find((x) => path.startsWith(`${x.zui.path}${Path.sep}`));
+}
+
 export default defineConfig(async ({mode}) => {
     const buildLibs = process.env.BUILD_LIBS ?? 'buildIn';
-    const libsCache: Record<string, LibInfo> | undefined = await getLibs(buildLibs);
+    const libsCache: Record<string, LibInfo> | undefined = await getLibs(buildLibs.split(','));
 
     let viteConfig: UserConfig = {
         base: './',
@@ -44,7 +54,7 @@ export default defineConfig(async ({mode}) => {
                     if (!importer) {
                         return;
                     }
-                    const lib = Object.values(libsCache).find((x) => importer.startsWith(`${x.zui.path}${Path.sep}`));
+                    const lib = getLibByPath(importer, libsCache);
                     if (!lib) {
                         return Path.join(__dirname, source);
                     }

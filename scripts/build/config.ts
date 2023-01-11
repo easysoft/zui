@@ -9,6 +9,7 @@ import {LibType} from '../libs/lib-type';
  * @example
  * - `button dropdown` 使用空格拼接多个依赖来定义一个构建库（或组件）
  * - `zui +clipboard +jquery@^3.0` 使用 + 来引用 npm 上的第三方包
+ * - `!icons` 使用 !来取消内置和扩展组件库中的包
  */
 export type LibsLike = string;
 
@@ -32,6 +33,9 @@ export interface BuildConfigOptions {
     exts?: string | string[];
 
     exports?: string | string[];
+
+    /** Ignored libs */
+    ignoreLibs?: string | string[];
 }
 
 export interface BuildLibExportTarget {
@@ -263,6 +267,19 @@ export function parseBuildLibs(libsLike: LibsLike, libsMap: Record<string, LibIn
     return sortLibList(libs);
 }
 
+export function getBuildLibPaths(exts?: string | string[] | boolean): string[] {
+    if (typeof exts === 'string') {
+        if (exts !== 'no') {
+            exts = exts.split(',').map(ext => ext.trim());
+        }
+    } else if (exts) {
+        exts = Array.isArray(exts) ? exts : ['buildIn', 'exts'];
+    } else {
+        exts = 'buildIn';
+    }
+    return Array.isArray(exts) ? exts : [exts];
+}
+
 /**
  * Create build config for vite - 创建 Vite 构建配置
  * @param options Build config options - 构建配置选项
@@ -273,18 +290,10 @@ export async function createBuildConfig(options: BuildConfigOptions): Promise<Bu
         libs: configFileOrLibs,
         name = '',
         version,
+        ignoreLibs,
     } = options;
 
-    let {exts} = options;
-    if (typeof exts === 'string') {
-        if (exts !== 'no') {
-            exts = exts.split(',').map(ext => ext.trim());
-        }
-    } else if (exts) {
-        exts = ['buildIn', 'exts'];
-    } else {
-        exts = 'buildIn';
-    }
+    const exts = getBuildLibPaths(options.exts);
     const libsMap = await getLibs(exts, {cache: false});
     const buildConfig: BuildConfig = {
         name,
@@ -310,6 +319,11 @@ export async function createBuildConfig(options: BuildConfigOptions): Promise<Bu
 
     if (!buildConfig.libs.length) {
         throw new Error('Build Error: Cannot build without any specific lib.');
+    }
+
+    if (ignoreLibs?.length) {
+        const ignoreLibsSet = new Set(typeof ignoreLibs === 'string' ? ignoreLibs.split(',') : ignoreLibs);
+        buildConfig.libs = buildConfig.libs.filter((lib) => !(ignoreLibsSet.has(lib.name) || ignoreLibsSet.has(lib.zui.name)))
     }
 
     if (!buildConfig.version) {

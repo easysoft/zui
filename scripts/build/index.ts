@@ -3,7 +3,7 @@ import fs from 'fs-extra';
 import minimist from 'minimist';
 import {mergeConfig} from 'vite';
 import {bold, blue, gray, yellow, cyan, green} from 'colorette';
-import {createBuildConfig, prepareBuildFiles, createViteConfig} from './config';
+import {createBuildConfig, prepareBuildFiles, createViteConfig, getBuildLibPaths} from './config';
 import {exec, execCmd} from '../utilities/exec';
 
 const argv = minimist(process.argv.slice(2).filter((x, i) => i || x !== '--'));
@@ -19,11 +19,13 @@ if (viteFile) {
     }
 }
 
+const buildLibPaths = getBuildLibPaths(argv.exts ?? argv.e);
 const buildConfig = await createBuildConfig({
     libs: argv.lib ?? argv.l ?? argv.config ?? argv.c ?? argv._.join(' '),
+    ignoreLibs: argv.ignore ?? argv.i,
     name: argv.name ?? argv.n,
     version: argv.version ?? argv.v,
-    exts: argv.exts ?? argv.e,
+    exts: buildLibPaths,
     exports: argv.exports ?? argv.E,
 });
 
@@ -97,11 +99,12 @@ if (!argv.s && !argv.skipBuild) {
     await exec('pnpm', ['run', 'build:vite'], {
         env: {
             ...process.env,
+            BUILD_LIBS: buildLibPaths.join(','),
             VITE_EXTRA_CONFIG: viteConfigFile,
             POSTCSS_CSSNANO: argv.cssnano,
             POSTCSS_REM2PX: argv.rem2px,
             TAILWIND_NO_PREFLIGHT: argv.noPreflightStyle,
-            TAILWIND_CONFIG: tailwindConfigsPath
+            TAILWIND_CONFIG: tailwindConfigsPath,
         }
     });
 }
