@@ -337,7 +337,7 @@
 
 ## 直接前往
 
-结合使用 `input-group` [输入组组件](/lib/forms/input/index) 可展示快速跳转到某一页的分页组件。
+结合使用 `input-group` [输入组组件](/lib/forms/input-group/index) 可展示快速跳转到某一页的分页组件。
 
 <Example>
   <nav class="pager gap-1">
