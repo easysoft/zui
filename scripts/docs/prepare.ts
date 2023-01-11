@@ -6,7 +6,7 @@ import {getLibs} from '../libs/query';
 import {syncLibDocs, emptySidebarLibDocs} from './sync';
 import {parseBuildLibs} from '../build/config';
 
-const argv = minimist(process.argv.slice(2));
+const argv = minimist(process.argv.slice(2).filter((x, i) => i || x !== '--'));
 const docsDir = path.resolve(process.cwd(), 'docs/_');
 const docsPublicDir = path.join(docsDir, 'public');
 

@@ -16,7 +16,7 @@ const watchPath = [
     `${docsPath}/**/*.md`,
 ];
 
-const argv = minimist(process.argv.slice(2));
+const argv = minimist(process.argv.slice(2).filter((x, i) => i || x !== '--'));
 const exts = argv.exts;
 const libsMap = await getLibs(exts === true ? 'all' : (exts?.split(',') ?? 'buildIn'));
 const libsList = Object.values(libsMap);

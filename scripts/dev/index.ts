@@ -2,7 +2,7 @@ import minimist from 'minimist';
 import {getLibList} from '../libs/query';
 import {exec} from '../utilities/exec';
 
-const argv = minimist(process.argv.slice(2));
+const argv = minimist(process.argv.slice(2).filter((x, i) => i || x !== '--'));
 const libSetting = argv.lib ?? 'all';
 const libs = await getLibList(libSetting);
 const tailwindConfigs = libs.reduce<string[]>((list, libConfig) => {
