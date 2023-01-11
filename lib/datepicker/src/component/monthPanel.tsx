@@ -1,5 +1,4 @@
 import {classes} from '@zui/browser-helpers/src/classes';
-import '@zui/icons';
 import dayjs from 'dayjs';
 import '@zui/css-icons/src/icons/caret.css';
 import {createGroups, generateArrayNumber} from '../helpers/index';

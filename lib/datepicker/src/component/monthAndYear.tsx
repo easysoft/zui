@@ -1,6 +1,5 @@
 import {classes} from '@zui/browser-helpers/src/classes';
 import {h as _h} from 'preact';
-import '@zui/icons';
 import dayjs from 'dayjs';
 import '@zui/css-icons/src/icons/caret.css';
 import {generateArrayNumber} from '../helpers/index';

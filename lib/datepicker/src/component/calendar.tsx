@@ -1,7 +1,6 @@
 import {Component, createRef, h as _h} from 'preact';
 import {classes} from '@zui/browser-helpers/src/classes';
 import {DatepickerProps} from '../types';
-import '@zui/icons';
 import dayjs from 'dayjs';
 import '@zui/css-icons/src/icons/caret.css';
 import DayPanel from './dayPanel';
