@@ -321,8 +321,21 @@ export async function createBuildConfig(options: BuildConfigOptions): Promise<Bu
         throw new Error('Build Error: Cannot build without any specific lib.');
     }
 
+    const ignoreLibsSet = buildConfig.libs.reduce((set, lib) => {
+        if (lib.zui.sourceType === 'exts' && lib.zui.replace) {
+            set.add(lib.zui.replace);
+        }
+        return set;
+    }, new Set<string>());
     if (ignoreLibs?.length) {
-        const ignoreLibsSet = new Set(typeof ignoreLibs === 'string' ? ignoreLibs.split(',') : ignoreLibs);
+        (typeof ignoreLibs === 'string' ? ignoreLibs.split(',') : ignoreLibs).reduce((set, libName) => {
+            if (libName.length) {
+                set.add(libName);
+            }
+            return set;
+        }, ignoreLibsSet);
+    }
+    if (ignoreLibsSet.size) {
         buildConfig.libs = buildConfig.libs.filter((lib) => !(ignoreLibsSet.has(lib.name) || ignoreLibsSet.has(lib.zui.name)))
     }
 

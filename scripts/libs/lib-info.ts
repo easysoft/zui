@@ -22,6 +22,7 @@ export interface ZuiLibInfo {
     packageJsonPath?: string;
     tailwindConfigPath?: string;
     build?: LibBuildInfo;
+    replace?: string;
 }
 
 export interface LibInfo {

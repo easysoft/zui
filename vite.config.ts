@@ -66,6 +66,9 @@ export default defineConfig(async ({mode}) => {
                 ...Object.values(libsCache).reduce<{find: string, replacement: string}[]>((aliasList, info) => {
                     if (info.zui.sourceType === 'exts') {
                         aliasList.push({find: info.name, replacement: info.zui.path});
+                        if (info.zui.replace) {
+                            aliasList.push({find: info.zui.replace, replacement: info.zui.path});
+                        }
                     }
                     return aliasList;
                 }, []),
