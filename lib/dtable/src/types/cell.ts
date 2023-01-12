@@ -12,6 +12,4 @@ export type CellRenderCallback<C = ColSetting> = (
     h: typeof _h,
 ) => CustomRenderResultList;
 
-export type CellProps = import('../components/cell').CellProps;
-
 export type CellValueGetter = (row: RowInfo, col: ColInfo, originValue: unknown) => unknown;

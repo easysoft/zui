@@ -9,8 +9,6 @@ export type ColFlex = ColFlexGrow | boolean;
 
 export type ColFixedSide = 'left' | 'right' | false;
 
-
-
 export type ColInfoLike = string | number | ColInfo;
 
 export type ColInfo<S = ColSetting> = {
