@@ -22,5 +22,5 @@ export function createJQueryFn<O extends object = {}>(ComponentClassType: typeof
         });
     }
 
-    $.extend(true, $, {zui3: {[ComponentClassType.name]: ComponentClassType}, fn: {[name ?? ComponentClassType.NAME]: fn}});
+    $.extend(true, $, {zui3: {[name ?? ComponentClassType.NAME]: ComponentClassType}, fn: {[(name ?? ComponentClassType.NAME).toLowerCase()]: fn}});
 }
