@@ -1,4 +1,4 @@
-export default class AjaxForm {
+export class AjaxForm {
 
     static NAME = 'zui.ajaxForm';
 
@@ -37,15 +37,15 @@ export default class AjaxForm {
         this.formData = {};
         this.timer = null;
         this.invalid = false;
-       
+
         this.#form = document.querySelector(`#${element}`);
         if (this.#form) {
             this.getAjaxFormData(this.#form, options);
-            
+
             this.ajaxUrl = (this.#form.action ? this.#form.action : options.url) || '';
             this.submitBtn = document.querySelector(`#${element} [data-type=submit]`);
             this.resetBtn = document.querySelector(`#${element} [data-type=reset]`);
-            
+
             if (this.submitBtn) {
                 this.submitBtn.addEventListener('click', () => {
                     this.submitForm();
@@ -79,7 +79,7 @@ export default class AjaxForm {
                     } else {
                         el.addEventListener('change', () => {
                             this.invalid = !this.validity;
-                        }); 
+                        });
                     }
                 });
             }
@@ -120,11 +120,11 @@ export default class AjaxForm {
         if (ele.previousSibling.previousElementSibling.classList.contains('required')) {
             if (!(/\S/.test(value))) {
                 this.addErrorTip(ele.parentElement, `${ele.tagName === 'INPUT' ? '请输入' : '请选择'}${ele.previousElementSibling.innerText}`);
-                return false; 
+                return false;
             } else {
                 this.removeError(ele);
             }
-            
+
         }
     }
 
@@ -133,31 +133,31 @@ export default class AjaxForm {
         if (ruleItem.required && !(/\S/.test(value))) {
             this.addErrorTip(ele.parentElement, ruleItem.msg);
             validity = false;
-            return false; 
+            return false;
         } else {
             this.removeError(ele);
         }
         if (ruleItem.patterns?.length) {
             const patterns = ruleItem.patterns;
             patterns.forEach(patternsItem => {
-                if (!patternsItem.reg.test(value)) { 
+                if (!patternsItem.reg.test(value)) {
                     this.addErrorTip(ele.parentElement, patternsItem.msg);
                     validity = false;
-                    return false; 
+                    return false;
                 } else {
                     this.removeError(ele);
                 }
             });
         }
         this.invalid = !validity;
-        return true; 
+        return true;
     }
 
     checkValidity() {
         if (this.novalidate || !this.rules || !Object.keys(this.rules).length) {
             return true;
         }
-       
+
         const formControls = this.#form.querySelectorAll('.form-control:not(.disabled)');
         const elements = [...formControls].reverse();
         elements.forEach(el => {
@@ -253,10 +253,10 @@ export default class AjaxForm {
         const xmlHttp = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
         xmlHttp.onreadystatechange = () => {
             let response = xmlHttp.response || {};
-          
+
             if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
                 if (typeof response == 'string') response = JSON.parse(response);
-        
+
                 if (response === null || typeof response !== 'object') {
                     if (response) return alert(response);
                     return this.showFormMessage('No response.', 'danger', null);
@@ -273,7 +273,7 @@ export default class AjaxForm {
             }
 
             if (this.finish) this.finish(response);
-            
+
         };
         xmlHttp.open(method, url, true);
         for (const headerKey in headers) {
@@ -285,15 +285,15 @@ export default class AjaxForm {
                 xmlHttp.abort();
             });
         }
-       
+
         xmlHttp.send(newData);
     }
 
     ajaxSubmit(form, options) {
         const submitData = {
             url: this.ajaxUrl,
-            method: form.method, 
-            params: this.formData, 
+            method: form.method,
+            params: this.formData,
             data: null,
             headers: options.headers || {'Content-Type': 'application/x-www-form-urlencoded'},
             timeout: options.timeout,
@@ -335,5 +335,5 @@ export default class AjaxForm {
             }
         }
 
-    }    
+    }
 }

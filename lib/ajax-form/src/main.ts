@@ -1,2 +1,2 @@
 import './ajax.css';
-import './ajax';
+export * from './ajax';
