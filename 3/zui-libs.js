@@ -1474,9 +1474,11 @@ export default [
         },
         "devDependencies": {
             "@zui/base": "workspace:*",
-            "@zui/utilities": "workspace:*",
+            "@zui/button": "workspace:0.0.1",
             "@zui/form": "workspace:0.0.1",
-            "@zui/button": "workspace:0.0.1"
+            "@zui/form-control": "workspace:^0.0.1",
+            "@zui/utilities": "workspace:*",
+            "zui-dev": "workspace:^0.0.1"
         },
         "zui": {
             "type": "js-ui",
