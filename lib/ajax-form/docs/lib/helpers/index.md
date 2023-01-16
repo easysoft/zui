@@ -19,7 +19,6 @@ new AjaxForm(elementId, options);
     <div class="form-group has-error">
       <label for="name" class="required">登录名</label>
       <input type="text" id="name" class="form-control" />
-      <div class="form-tip">错误提示</div>
     </div>
     <div class="form-group">
       <label for="pw" class="required">密码</label>

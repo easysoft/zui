@@ -1,339 +1,337 @@
+type Rule = {
+    required: boolean;
+    errMsg: string;
+} | {
+    regexp: RegExp;
+    errMsg: string;
+} | {
+    validate: (value: string) => boolean;
+    errMsg: string;
+};
+
+type Options = Partial<{
+    url: string;
+    onLoad: (event: ProgressEvent<XMLHttpRequestEventTarget>) => void;
+    onLoadend: (event: ProgressEvent<XMLHttpRequestEventTarget>) => void;
+    onLoadstart: (event: ProgressEvent<XMLHttpRequestEventTarget>) => void;
+    onError: (event: ProgressEvent<XMLHttpRequestEventTarget>) => void;
+    onProgress: (event: ProgressEvent<XMLHttpRequestEventTarget>) => void;
+    onAbort: (event: ProgressEvent<XMLHttpRequestEventTarget>) => void;
+    headers: Record<string, string>;
+    rules: Record<string, Rule | Array<Rule>>;
+    timeout: number;
+    method: 'GET' | 'POST';
+    formType: 'AJAX' | 'FormData';
+    responseType: XMLHttpRequestResponseType;
+}>;
+
 export class AjaxForm {
 
     static NAME = 'zui.ajaxForm';
 
-    #form: HTMLElement;
+    #formEl: HTMLFormElement;
 
-    submitBtn: HTMLElement;
+    #url: string;
 
-    resetBtn: HTMLElement;
+    #method: 'GET' | 'POST';
 
-    beforeSubmit: (data, currentForm, option) => {};
+    #formData: Record<string, string> | FormData;
 
-    success: (data) => {};
+    #options: Options;
 
-    error: (data) => {};
+    #xhr = new XMLHttpRequest();
 
-    finish: (data) => {};
-
-    ajaxUrl: string;
-
-    formData: object;
-
-    invalid: boolean;  // 校验状态
-
-    timer:  NodeJS.Timer;
-
-    novalidate: boolean; // 不校验
-
-    validity: boolean;
-
-    // disabled: boolean; //禁用
-
-    rules: object;
-
-    constructor(element, options) {
-        this.ajaxUrl = '';
-        this.formData = {};
-        this.timer = null;
-        this.invalid = false;
-
-        this.#form = document.querySelector(`#${element}`);
-        if (this.#form) {
-            this.getAjaxFormData(this.#form, options);
-
-            this.ajaxUrl = (this.#form.action ? this.#form.action : options.url) || '';
-            this.submitBtn = document.querySelector(`#${element} [data-type=submit]`);
-            this.resetBtn = document.querySelector(`#${element} [data-type=reset]`);
-
-            if (this.submitBtn) {
-                this.submitBtn.addEventListener('click', () => {
-                    this.submitForm();
-                });
-            }
-            if (this.resetBtn) {
-                this.resetBtn.addEventListener('click', () => this.reset());
-            }
-            this.#form.addEventListener('keydown', (ev) => {
-                if (ev.target === this.resetBtn) {
-                    return;
-                }
-                switch (ev.keyCode) {
-                    case 13:
-                        this.submitForm();
-                        break;
-                    default:
-                        break;
-                }
-            });
-            // this.disabled = this.#form.querySelectorAll('.disabled')?.length > 0;
-            this.novalidate = this.#form.dataset?.novalidate === 'true';
-            const formControls = [...this.#form.querySelectorAll('.form-control:not(.disabled)')];
-            this.validity = formControls.every(el => el?.validity);
-            if (!this.novalidate) {
-                formControls.forEach(el => {
-                    if (el.tagName === 'input') {
-                        el.addEventListener('blur', () => {
-                            this.invalid = !this.validity;
-                        });
-                    } else {
-                        el.addEventListener('change', () => {
-                            this.invalid = !this.validity;
-                        });
-                    }
-                });
-            }
-        }
+    get responseType() {
+        return this.#options.responseType ?? 'json';
     }
 
-    reset() {
-        this.invalid = false;
-        const formControls = this.#form.querySelectorAll('.form-control');
+    get formType() {
+        return this.#options.formType ?? 'AJAX';
+    }
+
+    get url() {
+        return this.#url;
+    }
+
+    get method() {
+        return this.#method;
+    }
+
+    get formEl() {
+        return this.#formEl;
+    }
+
+    get onLoad() {
+        return this.#options.onLoad;
+    }
+
+    get onError() {
+        return this.#options.onError;
+    }
+
+    get onLoadend() {
+        return this.#options.onLoadend;
+    }
+
+    get onLoadstart() {
+        return this.#options.onLoadstart;
+    }
+
+    get onProgress() {
+        return this.#options.onProgress;
+    }
+
+    get onAbort() {
+        return this.#options.onAbort;
+    }
+
+    get formData() {
+        return this.#formData;
+    }
+
+    get headers() {
+        return this.#options.headers;
+    }
+
+    get rules() {
+        return this.#options.rules;
+    }
+
+    get timeout() {
+        return this.#options.timeout;
+    }
+
+    get status() {
+        return this.#xhr.status;
+    }
+
+    get statusText() {
+        return this.#xhr.statusText;
+    }
+
+    get readyState() {
+        return this.#xhr.readyState;
+    }
+
+    get response() {
+        return this.#xhr.response;
+    }
+
+    get responseXML() {
+        return this.#xhr.responseXML;
+    }
+
+    get responseText() {
+        return this.#xhr.responseText;
+    }
+
+    get responseURL() {
+        return this.#xhr.responseURL;
+    }
+
+    get withCredentials() {
+        return this.#xhr.withCredentials;
+    }
+
+    get upload() {
+        return this.#xhr.upload;
+    }
+
+    constructor(form: string | HTMLFormElement, options: Options = {}) {
+        this.#options = options;
+
+        this.#formEl = form instanceof HTMLFormElement
+            ? form
+            : document.querySelector(form) as HTMLFormElement;
+        if (!(this.#formEl instanceof HTMLFormElement)) {
+            throw new Error('Param form must be a HTMLFormElement.');
+        }
+
+        this.#method = (this.formEl.method ?? options.method ?? 'POST').toUpperCase() as typeof this.method;
+        if (!['GET', 'POST'].includes(this.method)) {
+            throw new Error('Method must be "GET" or "POST"!');
+        }
+        if (this.method === 'GET') {
+            this.#options.formType = 'AJAX';
+        }
+
+        this.#url = this.#formEl.action ?? options.url ?? '';
+        if (!this.url) {
+            throw new Error('Form action is required!');
+        }
+
+        this.#buildFormData();
+
+        this.formEl.querySelector('[data-type=submit]')?.addEventListener('click', () => {
+            this.submit();
+        });
+        this.formEl.querySelector('[data-type=reset]')?.addEventListener('click', () => {
+            this.reset();
+        });
+
+    }
+
+    #addErrorTip(el: HTMLElement, msg: string) {
+        const formGroupEl = el.closest<HTMLElement>('.form-group');
+        if (!formGroupEl) {
+            throw new Error('.form-control must be in .form-group!');
+        }
+        formGroupEl.querySelectorAll<HTMLElement>('.form-tip').forEach(x => x.remove());
+
+        const tipEl = document.createElement('div');
+        tipEl.innerText = msg;
+        tipEl.classList.add('form-tip');
+        formGroupEl.classList.add('has-error');
+        formGroupEl.append(tipEl);
+    }
+
+    #removeError(el: HTMLElement) {
+        const formGroupEl = el.closest<HTMLElement>('.form-group');
+        if (!formGroupEl) {
+            throw new Error('.form-control must be in .form-group!');
+        }
+        formGroupEl.classList.remove('has-error');
+        formGroupEl.querySelectorAll('.form-tip').forEach(x => x.remove());
+    }
+
+    #clearError() {
+        const formControls = this.#formEl.querySelectorAll<HTMLInputElement>('.form-control');
         formControls.forEach(item => {
-            this.removeError(item);
-            item.value = null;
+            this.#removeError(item);
         });
     }
 
-    addErrorTip(ele, msg) {
-        const hasTipList = ele.querySelectorAll('.form-tip');
-        if (hasTipList?.length) {
-            hasTipList.forEach(item => {
-                item.remove();
-            });
-        }
-        const tipElement = document.createElement('div');
-        tipElement.innerText = msg;
-        tipElement.classList.add('form-tip');
-        ele.classList.add('has-error');
-        ele.append(tipElement);
-    }
-
-    removeError(ele) {
-        ele.parentElement.classList.remove('has-error');
-        if (ele.nextElementSibling?.classList.contains('form-tip')) {
-            ele.nextElementSibling.remove();
-        }
-    }
-
-    checkRequired(ele, value) {
-        if (ele.previousSibling.previousElementSibling.classList.contains('required')) {
-            if (!(/\S/.test(value))) {
-                this.addErrorTip(ele.parentElement, `${ele.tagName === 'INPUT' ? '请输入' : '请选择'}${ele.previousElementSibling.innerText}`);
-                return false;
-            } else {
-                this.removeError(ele);
-            }
-
-        }
-    }
-
-    beforeCheck(ele, value, ruleItem) {
-        let validity = true;
-        if (ruleItem.required && !(/\S/.test(value))) {
-            this.addErrorTip(ele.parentElement, ruleItem.msg);
-            validity = false;
-            return false;
-        } else {
-            this.removeError(ele);
-        }
-        if (ruleItem.patterns?.length) {
-            const patterns = ruleItem.patterns;
-            patterns.forEach(patternsItem => {
-                if (!patternsItem.reg.test(value)) {
-                    this.addErrorTip(ele.parentElement, patternsItem.msg);
-                    validity = false;
-                    return false;
-                } else {
-                    this.removeError(ele);
-                }
-            });
-        }
-        this.invalid = !validity;
-        return true;
-    }
-
-    checkValidity() {
-        if (this.novalidate || !this.rules || !Object.keys(this.rules).length) {
+    #checkValidity() {
+        if (!this.rules || !Object.keys(this.rules).length) {
             return true;
         }
 
-        const formControls = this.#form.querySelectorAll('.form-control:not(.disabled)');
-        const elements = [...formControls].reverse();
-        elements.forEach(el => {
-            for (const key in this.rules) {
-                if (key === el.id) {
-                    this.beforeCheck(el, this.formData[key],  this.rules[key]);
-                } else {
-                    this.checkRequired(el, el.value);
+        this.#clearError();
+
+        let isValid = true;
+        this.#formEl.querySelectorAll<HTMLInputElement>('.form-control:not(.disabled)').forEach((formControl => {
+            const {id, value} = formControl;
+            const currentRule = this.rules![id];
+            if (!currentRule) {
+                return;
+            }
+
+            const validate = (rule: Rule) => {
+                if (
+                    'required' in rule && rule.required && !value
+                    || 'regexp' in rule && rule.regexp && !rule.regexp.test(value)
+                    || 'validate' in rule && rule.validate && !rule.validate(value)
+                ) {
+                    this.#addErrorTip(formControl, rule.errMsg);
+                    return isValid = false;
                 }
-            }
-        });
-    }
+                return true;
+            };
 
-    getAjaxFormData(ele, options) {
-        if (typeof options === 'function') {
-            options = {complete: options};
-        }
-        const formData = {};
-        const formControls = ele.querySelectorAll('.form-control:not(.disabled)');
-        formControls.forEach(item => {
-            formData[item.id] = item.value || '';
-        });
-        if (options.beforeSubmit) {
-            this.beforeSubmit = options.beforeSubmit;
-            delete options.beforeSubmit;
-        }
-        if (options.success) {
-            this.success = options.success;
-            delete options.success;
-        }
-        if (options.error) {
-            this.error = options.error;
-            delete options.error;
-        }
-        if (options.finish) {
-            this.finish = options.finish;
-            delete options.finish;
-        }
-        if (options.rules) {
-            this.rules = {...options.rules};
-            delete options.rules;
-        }
-        this.formData = {
-            timeout: window?.config ? window?.config.timeout : 0,
-            dataType: 'json',
-            ...formData,
-            ...options,
-        };
-    }
-
-    changeFormDataToString(queryData) {
-        const stringJson = [];
-        const isArray = queryData.constructor == Array;
-        let requestValue;
-        if (isArray) {
-            for (let i = 0; i < queryData.length; i++) {
-                requestValue = queryData[i];
-                const k = requestValue.name;
-                requestValue = requestValue.value;
-                stringJson[stringJson.length] = encodeURIComponent(k) + '=' + encodeURIComponent(requestValue);
-            }
-        } else {
-            for (const k in queryData) {
-                requestValue = queryData[k];
-                if (requestValue && requestValue.constructor == Array) {
-                    for (const i in requestValue) {
-                        stringJson[stringJson.length] = encodeURIComponent(k) +
-                            '=' + encodeURIComponent(requestValue[i]);
+            if (Array.isArray(currentRule)) {
+                for (const rule of currentRule) {
+                    if (!validate(rule)) {
+                        break;
                     }
-                } else {
-                    stringJson[stringJson.length] = encodeURIComponent(k) +
-                        '=' + encodeURIComponent(requestValue);
                 }
+                return;
             }
-        }
 
-        return stringJson.join('&').replace(' ', '+');
+            validate(currentRule);
+        }));
+        return isValid;
     }
 
-    ajaxRequest(requestData) {
-        const {params, data, headers, timeout} = requestData;
-        let url = requestData.url;
-        const method = requestData.method ? requestData.method.toUpperCase() : 'POST';
-        const queryParams = params ? this.changeFormDataToString(params) : null;
-        let newData = data || null;
-        if (queryParams) {
-            if (method == 'GET' || newData) {
-                url += url.indexOf('?') >= 0 ? '&' : '?' + queryParams;
-            } else {
-                newData = queryParams;
-            }
+    #buildFormData() {
+        const formControls = this.#formEl.querySelectorAll<HTMLInputElement>('.form-control:not(.disabled)');
+        if (this.formType === 'AJAX') {
+            this.#formData = {};
+            formControls.forEach(({id, value}) => {
+                (this.#formData as Record<string, string>)[id] = value;
+            });
+            return;
         }
-        const xmlHttp = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
-        xmlHttp.onreadystatechange = () => {
-            let response = xmlHttp.response || {};
 
-            if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
-                if (typeof response == 'string') response = JSON.parse(response);
+        this.#formData = new FormData();
+        formControls.forEach(({id, value}) => {
+            (this.#formData as FormData).append(id, value);
+        });
+    }
 
-                if (response === null || typeof response !== 'object') {
-                    if (response) return alert(response);
-                    return this.showFormMessage('No response.', 'danger', null);
-                }
-                if (response.result === 'success') {
-                    if (this.success) this.success(response);
-                } else {
-                    this._error(response);
-                    if (this.error) this.error(response);
-                }
-            } else {
-                this._error(response);
-                if (this.error) this.error(response);
-            }
-
-            if (this.finish) this.finish(response);
-
-        };
-        xmlHttp.open(method, url, true);
-        for (const headerKey in headers) {
-            const requestValue = headers[headerKey];
-            if (typeof requestValue == 'string') xmlHttp.setRequestHeader(headerKey, requestValue);
+    #initXhr() {
+        if (this.onLoadstart) {
+            this.#xhr.addEventListener('loadstart', this.onLoadstart);
         }
-        if (timeout) {
-            this.timer = setInterval(() => {
-                xmlHttp.abort();
+        if (this.onLoad) {
+            this.#xhr.addEventListener('load', this.onLoad);
+        }
+        if (this.onLoadend) {
+            this.#xhr.addEventListener('loadend', this.onLoadend);
+        }
+        if (this.onProgress) {
+            this.#xhr.addEventListener('progress', this.onProgress);
+        }
+        if (this.onError) {
+            this.#xhr.addEventListener('error', this.onError);
+        }
+        if (this.onAbort) {
+            this.#xhr.addEventListener('abort', this.onAbort);
+        }
+        if (this.headers) {
+            Object.entries(this.headers).forEach(([key, value]) => {
+                // 此方法必须在 xhr.open() 方法和 xhr.send() 之间调用。如果多次对同一个请求头赋值，只会生成一个合并了多个值的请求头。
+                this.#xhr.setRequestHeader(key, value);
             });
         }
-
-        xmlHttp.send(newData);
     }
 
-    ajaxSubmit(form, options) {
-        const submitData = {
-            url: this.ajaxUrl,
-            method: form.method,
-            params: this.formData,
-            data: null,
-            headers: options.headers || {'Content-Type': 'application/x-www-form-urlencoded'},
-            timeout: options.timeout,
-        };
-        this.ajaxRequest(submitData);
+    #buildQueryString(params: Record<string, string>) {
+        return Object.entries(params)
+            .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
+            .join('&');
     }
 
-    submitForm() {
-        if (this.checkValidity()) {
-            this.ajaxSubmit(this.#form, this.formData);
-        }
+    #getRequest() {
+        this.#xhr.open('GET', `${this.url}?${this.#buildQueryString(this.#formData as Record<string, string>)}`);
+        this.#initXhr();
+        this.#xhr.send();
     }
 
-    showFormMessage(message, method: string, options: object) {
-        console.log(method, options);
-        alert(message);
+    #postRequest() {
+        this.#initXhr();
+        this.#xhr.open('POST', this.url);
+        const body =  this.formType === 'AJAX' ? JSON.stringify(this.formData as Record<string, string>) : this.formData as FormData;
+        this.#xhr.send(body);
     }
 
-
-    _error(response) {
-        const message = response.message || response.reason || response.error;
-        if (typeof message === 'string') {
-            this.showFormMessage(message, 'danger', null);
-        } else if (typeof message === 'object') {
-            const unShowedMessages = [];
-            for (const key in message) {
-                const controlMessage = Array.isArray(message[key]) ? message[key].join('') : message[key];
-                const $control = this.#form.querySelectorAll(`#${key}`);
-                if (!$control?.length) {
-                    unShowedMessages.push(controlMessage);
-                    return;
-                }
-                $control.forEach(controlItem => {
-                    this.addErrorTip(controlItem.parentElement, message[key]);
-                });
-            }
-            if (unShowedMessages.length) {
-                this.showFormMessage(unShowedMessages.join(''), 'danger', null);
+    submit() {
+        if (this.#checkValidity()) {
+            if (this.method === 'POST') {
+                this.#postRequest();
+            } else {
+                this.#getRequest();
             }
         }
+    }
 
+    abort() {
+        this.#xhr.abort();
+    }
+
+    getAllResponseHeaders() {
+        return this.#xhr.getAllResponseHeaders();
+    }
+
+    getResponseHeader(name: string) {
+        return this.#xhr.getResponseHeader(name);
+    }
+
+    overrideMimeType(mime: string) {
+        return this.#xhr.overrideMimeType(mime);
+    }
+
+    reset() {
+        this.#formEl.reset();
+        this.#clearError();
     }
 }
