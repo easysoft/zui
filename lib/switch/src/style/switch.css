@@ -1,0 +1,53 @@
+.switch {
+  @apply -relative;
+}
+.switch > input[type='checkbox'] {
+  @apply -absolute -block -top-0 -left-0 -w-full -h-full -opacity-0 -m-0;
+}
+.switch label {
+  @apply -block -m-0 -font-normal -py-1.5 -pr-0 -pl-9 -leading-5;
+}
+.switch label::before, .switch label::after {
+  content: ' ';
+  @apply -block -absolute -left-0 -top-2 -h-4 -rounded-xl -divide-solid -outline-1 -outline-white -w-8 -pointer-events-none -bg-gray-200;
+}
+.switch label::after {
+  @apply -w-3 -h-3 -rounded-lg -top-2.5 -border-white -left-0.5 -bg-white -shadow -transition-all;
+}
+.switch>input:checked + label::before {
+  @apply -border-primary-500 -bg-primary-500;
+}
+.switch>input:checked + label::after {
+  left: 1.125rem;
+  @apply -border-white;
+}
+.switch.text-left > label {
+  @apply -py-1.5 -pr-9 -pl-0;
+}
+.switch.text-left > label::before, .switch.text-left > label::after {
+  @apply -right-0 -left-auto;
+}
+.switch.text-left > label::after {
+  right: 1.125rem;
+}
+.switch.text-left input:checked + label::after {
+  @apply -left-auto -right-0.5;
+}
+.switch.disabled {
+  @apply -pointer-events-none;
+}
+.switch.disabled > label, .switch > input[disabled] + label {
+  @apply -text-gray-500 -pointer-events-none;
+}
+.switch > input[disabled] + label::before {
+  @apply -bg-gray-300;
+}
+.switch > input[disabled] + label::after {
+  @apply -opacity-100;
+}
+.switch.disabled > input:checked + label::before, .switch input[disabled]:checked + label::before {
+  @apply -border-gray-300 -bg-gray-300;
+}
+.switch input[type="checkbox"]:focus + label::before {
+  @apply -border-primary-500 -shadow;
+}
