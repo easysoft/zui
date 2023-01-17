@@ -25,6 +25,7 @@ type Options = Partial<{
     method: 'GET' | 'POST';
     formType: 'AJAX' | 'FormData';
     responseType: XMLHttpRequestResponseType;
+    generateGetURL: (url: string, formData: Record<string, unknown>) => string;
 }>;
 
 export class AjaxForm {
@@ -37,7 +38,7 @@ export class AjaxForm {
 
     #method: 'GET' | 'POST';
 
-    #formData: Record<string, undefined> | FormData;
+    #formData: Record<string, unknown> | FormData;
 
     #options: Options;
 
@@ -93,6 +94,10 @@ export class AjaxForm {
 
     private get beforeSubmit() {
         return this.#options.beforeSubmit;
+    }
+
+    private get generateGetURL() {
+        return this.#options.generateGetURL;
     }
 
     get formData() {
@@ -218,8 +223,8 @@ export class AjaxForm {
 
         let isValid = true;
         this.#formEl.querySelectorAll<HTMLInputElement>('.form-control:not(.disabled)').forEach((formControl => {
-            const {id, value} = formControl;
-            const currentRule = this.rules![id];
+            const {name, value} = formControl;
+            const currentRule = this.rules![name];
             if (!currentRule) {
                 return;
             }
@@ -251,19 +256,31 @@ export class AjaxForm {
     }
 
     #buildFormData() {
-        const formControls = this.#formEl.querySelectorAll<HTMLInputElement>('.form-control:not(.disabled)');
+        const formControls = [...this.#formEl.querySelectorAll<HTMLInputElement>('.form-control:not(.disabled)')]
+            .filter(x => {
+                if (x.tagName.toLowerCase() === 'input' && (x.type.toLowerCase() === 'radio' || x.type.toLowerCase() === 'checkbox') && !x.checked) {
+                    return false;
+                }
+                return true;
+            });
         if (this.formType === 'AJAX') {
             this.#formData = {};
-            formControls.forEach(({id, value}) => {
-                (this.#formData as Record<string, unknown>)[id] = value;
+            formControls.forEach(({name, value, tagName, type}) => {
+                const formData = this.#formData as Record<string, unknown>;
+                if (tagName.toLowerCase() === 'input' && type.toLowerCase() === 'checkbox') {
+                    if (formData[name]) {
+                        (formData[name] as string[]).push(value);
+                    } else {
+                        formData[name] = [value];
+                    }
+                    return;
+                }
+                formData[name] = value;
             });
             return;
         }
 
-        this.#formData = new FormData();
-        formControls.forEach(({id, value}) => {
-            (this.#formData as FormData).append(id, value);
-        });
+        this.#formData = new FormData(this.formEl);
     }
 
     #initXhr() {
@@ -306,7 +323,10 @@ export class AjaxForm {
     }
 
     #getRequest() {
-        this.#xhr.open('GET', `${this.url}?${this.#buildQueryString(this.#formData as Record<string, unknown>)}`);
+        const url = this.generateGetURL
+            ? this.generateGetURL(this.url, this.formData as Record<string, unknown>)
+            : `${this.url}?${this.#buildQueryString(this.#formData as Record<string, unknown>)}`;
+        this.#xhr.open('GET', url);
         this.#initXhr();
         this.#xhr.send();
     }
