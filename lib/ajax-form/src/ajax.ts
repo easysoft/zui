@@ -17,6 +17,8 @@ type Options = Partial<{
     onError: (event: ProgressEvent<XMLHttpRequestEventTarget>) => void;
     onProgress: (event: ProgressEvent<XMLHttpRequestEventTarget>) => void;
     onAbort: (event: ProgressEvent<XMLHttpRequestEventTarget>) => void;
+    onTimeout: (event: ProgressEvent<XMLHttpRequestEventTarget>) => void;
+    beforeSubmit: (formData: Record<string, unknown> | FormData) => boolean;
     headers: Record<string, string>;
     rules: Record<string, Rule | Array<Rule>>;
     timeout: number;
@@ -35,7 +37,7 @@ export class AjaxForm {
 
     #method: 'GET' | 'POST';
 
-    #formData: Record<string, string> | FormData;
+    #formData: Record<string, undefined> | FormData;
 
     #options: Options;
 
@@ -61,28 +63,36 @@ export class AjaxForm {
         return this.#formEl;
     }
 
-    get onLoad() {
+    private get onLoad() {
         return this.#options.onLoad;
     }
 
-    get onError() {
+    private get onError() {
         return this.#options.onError;
     }
 
-    get onLoadend() {
+    private get onLoadend() {
         return this.#options.onLoadend;
     }
 
-    get onLoadstart() {
+    private get onLoadstart() {
         return this.#options.onLoadstart;
     }
 
-    get onProgress() {
+    private get onProgress() {
         return this.#options.onProgress;
     }
 
-    get onAbort() {
+    private get onAbort() {
         return this.#options.onAbort;
+    }
+
+    private get onTimeout() {
+        return this.#options.onTimeout;
+    }
+
+    private get beforeSubmit() {
+        return this.#options.beforeSubmit;
     }
 
     get formData() {
@@ -159,8 +169,6 @@ export class AjaxForm {
         if (!this.url) {
             throw new Error('Form action is required!');
         }
-
-        this.#buildFormData();
 
         this.formEl.querySelector('[data-type=submit]')?.addEventListener('click', () => {
             this.submit();
@@ -247,7 +255,7 @@ export class AjaxForm {
         if (this.formType === 'AJAX') {
             this.#formData = {};
             formControls.forEach(({id, value}) => {
-                (this.#formData as Record<string, string>)[id] = value;
+                (this.#formData as Record<string, unknown>)[id] = value;
             });
             return;
         }
@@ -259,6 +267,15 @@ export class AjaxForm {
     }
 
     #initXhr() {
+        if (this.headers) {
+            Object.entries(this.headers).forEach(([key, value]) => {
+                // 此方法必须在 xhr.open() 方法和 xhr.send() 之间调用。如果多次对同一个请求头赋值，只会生成一个合并了多个值的请求头。
+                this.#xhr.setRequestHeader(key, value);
+            });
+        }
+
+        this.#xhr.responseType = this.responseType;
+
         if (this.onLoadstart) {
             this.#xhr.addEventListener('loadstart', this.onLoadstart);
         }
@@ -277,40 +294,43 @@ export class AjaxForm {
         if (this.onAbort) {
             this.#xhr.addEventListener('abort', this.onAbort);
         }
-        if (this.headers) {
-            Object.entries(this.headers).forEach(([key, value]) => {
-                // 此方法必须在 xhr.open() 方法和 xhr.send() 之间调用。如果多次对同一个请求头赋值，只会生成一个合并了多个值的请求头。
-                this.#xhr.setRequestHeader(key, value);
-            });
+        if (this.onTimeout) {
+            this.#xhr.addEventListener('timeout', this.onTimeout);
         }
     }
 
-    #buildQueryString(params: Record<string, string>) {
+    #buildQueryString(params: Record<string, unknown>) {
         return Object.entries(params)
-            .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
+            .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value as string | number | boolean)}`)
             .join('&');
     }
 
     #getRequest() {
-        this.#xhr.open('GET', `${this.url}?${this.#buildQueryString(this.#formData as Record<string, string>)}`);
+        this.#xhr.open('GET', `${this.url}?${this.#buildQueryString(this.#formData as Record<string, unknown>)}`);
         this.#initXhr();
         this.#xhr.send();
     }
 
     #postRequest() {
-        this.#initXhr();
         this.#xhr.open('POST', this.url);
-        const body =  this.formType === 'AJAX' ? JSON.stringify(this.formData as Record<string, string>) : this.formData as FormData;
+        this.#initXhr();
+        const body =  this.formType === 'AJAX' ? JSON.stringify(this.formData as Record<string, unknown>) : this.formData as FormData;
         this.#xhr.send(body);
     }
 
     submit() {
-        if (this.#checkValidity()) {
-            if (this.method === 'POST') {
-                this.#postRequest();
-            } else {
-                this.#getRequest();
-            }
+        this.#buildFormData();
+
+        if (!this.#checkValidity()) {
+            return;
+        }
+        if (this.beforeSubmit && !this.beforeSubmit(this.formData)) {
+            return;
+        }
+        if (this.method === 'POST') {
+            this.#postRequest();
+        } else {
+            this.#getRequest();
         }
     }
 
