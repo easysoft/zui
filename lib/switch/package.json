@@ -1,0 +1,34 @@
+{
+    "name": "@zui/switch",
+    "description": "ZUI switch",
+    "version": "0.0.1",
+    "main": "src/main.ts",
+    "browser": "src/main.ts",
+    "browserslist": "",
+    "keywords": ["css", "zui:control"],
+    "files": [
+        "./src/**/*"
+    ],
+    "exports": {
+        ".": "./src/main.ts",
+        "./css": "./src/main-css.ts"
+    },
+    "devDependencies": {
+        "@zui/base": "workspace:*",
+        "@zui/utilities": "workspace:*",
+        "zui-dev": "workspace:^0.0.1"
+    },
+    "dependencies": {
+        "@zui/browser-helpers": "workspace:^0.0.1",
+        "@zui/com-helpers": "workspace:^0.0.1",
+        "@zui/css-icons": "workspace:^0.0.1",
+        "preact": "10.11.2"
+    },
+    "zui": {
+        "type": "control",
+        "displayName": "开关",
+        "contributes": {
+            "css": ["class", "var"]
+        }
+    }
+}
