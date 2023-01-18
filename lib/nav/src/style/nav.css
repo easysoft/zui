@@ -1,7 +1,7 @@
 .nav {
   @apply -flex -items-center -relative;
 }
-.nav > li {
+.nav-item {
   @apply -flex -items-center -relative -gap-3;
 }
 
