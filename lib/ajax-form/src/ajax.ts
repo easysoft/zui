@@ -187,7 +187,8 @@ export class AjaxForm {
     #addErrorTip(el: HTMLElement, msg: string) {
         const formGroupEl = el.closest<HTMLElement>('.form-group');
         if (!formGroupEl) {
-            throw new Error('.form-control must be in .form-group!');
+            console.warn('Form element should be in .form-group!');
+            return;
         }
         formGroupEl.querySelectorAll<HTMLElement>('.form-tip').forEach(x => x.remove());
 
@@ -201,14 +202,15 @@ export class AjaxForm {
     #removeError(el: HTMLElement) {
         const formGroupEl = el.closest<HTMLElement>('.form-group');
         if (!formGroupEl) {
-            throw new Error('.form-control must be in .form-group!');
+            console.warn('Form element should be in .form-group!');
+            return;
         }
         formGroupEl.classList.remove('has-error');
         formGroupEl.querySelectorAll('.form-tip').forEach(x => x.remove());
     }
 
     #clearError() {
-        const formControls = this.#formEl.querySelectorAll<HTMLInputElement>('.form-control');
+        const formControls = this.#formEl.querySelectorAll<HTMLInputElement>('[name]');
         formControls.forEach(item => {
             this.#removeError(item);
         });
@@ -222,7 +224,7 @@ export class AjaxForm {
         this.#clearError();
 
         let isValid = true;
-        this.#formEl.querySelectorAll<HTMLInputElement>('.form-control:not(.disabled)').forEach((formControl => {
+        this.#formEl.querySelectorAll<HTMLInputElement>('[name]:not(.disabled)').forEach((formControl => {
             const {name, value} = formControl;
             const currentRule = this.rules![name];
             if (!currentRule) {
@@ -256,7 +258,7 @@ export class AjaxForm {
     }
 
     #buildFormData() {
-        const formControls = [...this.#formEl.querySelectorAll<HTMLInputElement>('.form-control:not(.disabled)')]
+        const formControls = [...this.#formEl.querySelectorAll<HTMLInputElement>('[name]:not(.disabled)')]
             .filter(x => {
                 if (x.tagName.toLowerCase() === 'input' && (x.type.toLowerCase() === 'radio' || x.type.toLowerCase() === 'checkbox') && !x.checked) {
                     return false;
