@@ -513,7 +513,9 @@
         that.pager = pager;
 
         if (oldPager.page !== pager.page || oldPager.recTotal !== pager.recTotal || oldPager.recPerPage !== pager.recPerPage) {
-            that.scroll(0, 0);
+            setTimeout(function(){
+                that.scroll(0, 0);
+            }, 200);
             that.layout.cols = null;
         }
         return that;
