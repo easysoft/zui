@@ -193,6 +193,7 @@ const checkablePlugin: DTablePlugin<DTableCheckableTypes> = {
         const checkbox = target.closest<HTMLInputElement>('input[type="checkbox"],.dtable-checkbox');
         if (checkbox) {
             this.toggleCheckRows(checkbox.checked);
+            event.stopPropagation();
         }
     },
     onRowClick(event, {rowID}) {
