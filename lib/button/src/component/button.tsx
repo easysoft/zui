@@ -29,7 +29,7 @@ export class Button extends Component<ButtonProps> {
 
         const ButtonComponent = component || (url ? 'a' : 'button');
         const isEmptyText = text === undefined || text === null || (typeof text === 'string' && !text.length) || loading && !loadingText;
-        const onlyCaret = isEmptyText && !icon && !trailingIcon && !children && !loading;
+        const onlyCaret = caret && isEmptyText && !icon && !trailingIcon && !children && !loading;
         return _h(
             ButtonComponent as ComponentType<ButtonProps>, {
                 className: classes('btn', type, className, {
