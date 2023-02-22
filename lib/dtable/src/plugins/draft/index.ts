@@ -10,7 +10,7 @@ export interface DTableDraftTypes extends DTablePluginTypes {
         draft: boolean;
         skipRenderDraftCell?: boolean;
         onStageDraft?: (this: DTableDraft, draftRows: DTableDraftRows, stagingDraft: DTableDraftRows) => false | void;
-        afterStageDraft?: (this: DTableDraft, draftRows: DTableDraftRows, stagingDraft: DTableDraftRows, oldStageDraft: DTableDraftRows) => void;
+        afterStageDraft?: (this: DTableDraft, draftRows: DTableDraftRows, stagingDraft: DTableDraftRows, oldStageDraft: DTableDraftRows, options: {skipUpdate: boolean}) => void;
         afterApplyDraft?: (this: DTableDraft, draftRows: DTableDraftRows, appliedDraft: DTableDraftRows, oldAppliedDraft: DTableDraftRows) => void;
     }>;
     state: {
@@ -22,6 +22,8 @@ export interface DTableDraftTypes extends DTablePluginTypes {
         stageDraft(this: DTableDraft, draftRows: DTableDraftRows, options?: {skipUpdate?: boolean, callback?: (stagingDraft: DTableDraftRows) => void}): void;
         applyDraft(this: DTableDraft, draftRows: DTableDraftRows, options?: {skipUpdate?: boolean, callback?: (appliedDraft: DTableDraftRows) => void}): void;
         renderDraftCell: NonNullable<typeof draftPlugin['onRenderCell']>;
+        getRowDraftData(this: DTableDraft, row: RowInfo | string | number, options?: {includeIndexCol?: boolean, emptyCellValue?: unknown}): Partial<RowData>;
+        getColDraftData(this: DTableDraft, col: ColInfo | string | number, options?: {includeHeaderRow?: boolean, emptyCellValue?: unknown}): Record<string, unknown>;
     }
 }
 
@@ -92,6 +94,31 @@ const draftPlugin: DTablePlugin<DTableDraftTypes> = {
             }
             return this.getCellValue(rowInfo, colInfo);
         },
+        getRowDraftData(row, options) {
+            const rowInfo = this.getRowInfo(row);
+            if (!rowInfo) {
+                return {};
+            }
+            return this.layout.colsList.reduce<Partial<RowData>>((data, col) => {
+                if (!options?.includeIndexCol && col.name === 'INDEX') {
+                    return data;
+                }
+                const value = this.getCellDraftValue(rowInfo, col);
+                data[col.name] = value === undefined ? options?.emptyCellValue : value;
+                return data;
+            }, {});
+        },
+        getColDraftData(col, options) {
+            const colInfo = this.getColInfo(col);
+            if (!colInfo) {
+                return {};
+            }
+            return this.layout.rows.reduce<Partial<RowData>>((data, row) => {
+                const value = this.getCellDraftValue(row, colInfo);
+                data[row.id] = value === undefined ? options?.emptyCellValue : value;
+                return data;
+            }, options?.includeHeaderRow ? {HEADER: this.getCellDraftValue('HEADER', colInfo)} : {});
+        },
         stageDraft(draftRows, options) {
             const {stagingDraft} = this.state;
             if (this.options.onStageDraft?.call(this, draftRows, stagingDraft) === false) {
@@ -101,7 +128,7 @@ const draftPlugin: DTablePlugin<DTableDraftTypes> = {
             mergeDraft(stagingDraft, draftRows);
             const afterUpdate = () => {
                 options?.callback?.(draftRows);
-                this.options.afterStageDraft?.call(this, draftRows, this.state.stagingDraft, oldStageDraft);
+                this.options.afterStageDraft?.call(this, draftRows, this.state.stagingDraft, oldStageDraft, {skipUpdate: !!options?.skipUpdate});
             };
             if (options?.skipUpdate) {
                 afterUpdate();
@@ -151,7 +178,10 @@ const draftPlugin: DTablePlugin<DTableDraftTypes> = {
             }
         },
         renderDraftCell(result, {col, row}) {
-            const cellValue = `${this.getCellDraftValue(row, col) ?? ''}`;
+            let cellValue = this.getCellDraftValue(row, col) ?? '';
+            if (typeof cellValue === 'string' && !cellValue.length && row.id === 'HEADER') {
+                cellValue = col.name;
+            }
             result[0] = {children: cellValue as preact.ComponentChild, attrs: {title: cellValue}};
             return result;
         },

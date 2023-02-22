@@ -321,7 +321,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
         if (!colInfo) {
             return;
         }
-        let originValue = rowInfo.id === 'HEADER' ? (colInfo.setting.title ?? colInfo.setting.name) : rowInfo.data?.[colInfo.name];
+        let originValue = rowInfo.id === 'HEADER' ? colInfo.setting.title : rowInfo.data?.[colInfo.name];
         const {cellValueGetter} = this.options;
         if (cellValueGetter) {
             originValue = cellValueGetter.call(this, rowInfo, colInfo, originValue);

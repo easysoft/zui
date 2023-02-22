@@ -9,9 +9,7 @@ import {DTableStoreTypes} from '../store';
 import './style.css';
 import {DTableMousemoveTypes} from '../mousemove';
 import {autoscroll, DTableAutoscrollTypes} from '../autoscroll';
-import type {ColSetting, ColInfo, ColName} from '../../types/col';
-import type {DTablePluginTypes, DTableWithPlugin, DTablePlugin} from '../../types/plugin';
-import type {RowInfo, RowData, RowID} from '../../types/row';
+import type {DTablePluginTypes, DTableWithPlugin, DTablePlugin, ColSetting, ColInfo, RowInfo, RowData} from '../../types';
 
 export interface DTableDatasource {
     cols?: ColSetting[],
@@ -42,7 +40,6 @@ export interface DTableDatagridTypes extends DTablePluginTypes {
             selectDown?: boolean | string,
             selectUp?: boolean | string,
         },
-        emptyCellValue?: unknown,
         cellValueSplitter?: string,
         onReadClipboardFail?: () => void,
         deletedKey?: string,
@@ -53,8 +50,6 @@ export interface DTableDatagridTypes extends DTablePluginTypes {
     },
     methods: {
         deleteSelections: (this: DTableDatagrid) => boolean;
-        deleteRows(this: DTableDatagrid, rows: RowID[]): void;
-        deleteCols(this: DTableDatagrid, cols: ColName[]): void;
         copySelections: (this: DTableDatagrid) => boolean;
         cutSelections: (this: DTableDatagrid) => boolean;
         pasteCells: (this: DTableDatagrid, targetCell: DTableCellPos | {colName: string, rowID: string}, options?: {expandCells?: boolean, select?: boolean, data: string}) => Promise<boolean>;
@@ -88,12 +83,8 @@ function convertDatasource(table: DTableDatagrid, datasource: DTableDatasource):
             ...optionCols.find(x => x.name === 'INDEX'),
         });
     }
-    const colVisibleMap = {...table.state.appliedDraft.HEADER, ...table.state.stagingDraft.HEADER};
     for (let i = 0; i < colsCount; ++i) {
         const name = `C${i + 1}`;
-        if (colVisibleMap[name] === false) {
-            continue;
-        }
         const col = {
             name,
             width: defaultColWidth,
@@ -327,12 +318,10 @@ export const datagridPlugin: DTablePlugin<DTableDatagridTypes, DTableDatagridDep
         bordered: true,
         striped: false,
         datagridHotkeys: {},
-        emptyCellValue: '',
         cellValueSplitter: '\t',
         cellValueGetter,
         hotkeys: {},
         autoExpandGrid: true,
-        deletedKey: 'deleted',
     },
     options(options) {
         const {datagridHotkeys, datasource, hotkeys, editable: editableOption, selectable: selectableOption, beforeSelectCells, showRowIndex, colResize, onPasteToCell, afterStageDraft} = options;
@@ -396,8 +385,8 @@ export const datagridPlugin: DTablePlugin<DTableDatagridTypes, DTableDatagridDep
                 }
                 onPasteToCell?.call(this, event);
             },
-            afterStageDraft: (changes, newDraft, oldDraft) => {
-                afterStageDraft?.call(this, changes, newDraft, oldDraft);
+            afterStageDraft: (changes, newDraft, oldDraft, opts) => {
+                afterStageDraft?.call(this, changes, newDraft, oldDraft, opts);
                 const {autoExpandGrid} = this.options;
                 if (!autoExpandGrid) {
                     return;
@@ -407,7 +396,7 @@ export const datagridPlugin: DTablePlugin<DTableDatagridTypes, DTableDatagridDep
                 this.expandGridSize({
                     rowsCount: maxRow + (typeof autoExpandGrid === 'number' ? autoExpandGrid : extraRows),
                     colsCount: maxCol + (typeof autoExpandGrid === 'number' ? autoExpandGrid : extraCols),
-                });
+                }, opts);
             },
         };
     },
@@ -427,40 +416,7 @@ export const datagridPlugin: DTablePlugin<DTableDatagridTypes, DTableDatagridDep
                     cells.push({colName: colInfo.name, rowID: rowInfo.id});
                 }
             }
-            return this.deleteCells(cells, this.options.emptyCellValue);
-        },
-        deleteRows(rows) {
-            const changes: DTableDraftRows = {};
-            const {deletedKey = 'deleted'} = this.options;
-            for (const row of rows) {
-                const rowInfo = this.getRowInfo(row);
-                if (!rowInfo) {
-                    continue;
-                }
-                changes[row] = {[deletedKey]: true};
-            }
-            if (Object.keys(changes).length) {
-                this.stageDraft(changes, {skipUpdate: true});
-                this.update({dirtyType: 'options'});
-                return true;
-            }
-            return false;
-        },
-        deleteCols(cols) {
-            const colChanges: Record<ColName, boolean> = {};
-            for (const col of cols) {
-                const colInfo = this.getColInfo(col);
-                if (!colInfo) {
-                    continue;
-                }
-                colChanges[col] = false;
-            }
-            if (Object.keys(colChanges).length) {
-                this.stageDraft({HEADER: colChanges}, {skipUpdate: true});
-                this.update({dirtyType: 'options'});
-                return true;
-            }
-            return false;
+            return this.deleteCells(cells);
         },
         copySelections() {
             const selectedCells = this.getSelectedCells();
@@ -593,24 +549,6 @@ export const datagridPlugin: DTablePlugin<DTableDatagridTypes, DTableDatagridDep
     },
     onRender() {
         return {className: 'dtable-datagrid'};
-    },
-    onAddRows(rows) {
-        const deletedRows = new Set<RowID>();
-        Object.entries(this.state.appliedDraft).forEach(([rowID, {deleted}]) => {
-            if (deleted) {
-                deletedRows.add(rowID);
-            }
-        });
-        Object.entries(this.state.stagingDraft).forEach(([rowID, {deleted}]) => {
-            if (deleted) {
-                deletedRows.add(rowID);
-            } else if (deleted === false) {
-                deletedRows.delete(rowID);
-            }
-        });
-        if (deletedRows.size) {
-            return rows.filter(row => !deletedRows.has(row.id));
-        }
     },
 };
 
