@@ -52,6 +52,12 @@ export interface DTableDatagridTypes extends DTablePluginTypes {
         deleteSelections: (this: DTableDatagrid) => boolean;
         copySelections: (this: DTableDatagrid) => boolean;
         cutSelections: (this: DTableDatagrid) => boolean;
+        copySelectedCols: (this: DTableDatagrid) => boolean;
+        pasteToSelectedCol: (this: DTableDatagrid) => Promise<boolean>;
+        deleteSelectedCols: (this: DTableDatagrid) => boolean;
+        deleteSelectedRows: (this: DTableDatagrid) => boolean;
+        clearSelectedCols: (this: DTableDatagrid) => boolean;
+        cutSelectedCols: (this: DTableDatagrid) => boolean;
         pasteCells: (this: DTableDatagrid, targetCell: DTableCellPos | {colName: string, rowID: string}, options?: {expandCells?: boolean, select?: boolean, data: string}) => Promise<boolean>;
         pasteToSelection: (this: DTableDatagrid) => Promise<boolean>;
         getGridSize: typeof getGridSize;
@@ -301,6 +307,21 @@ function isEmptyCellData(data: unknown): boolean {
     return data === undefined || data === null || (typeof data === 'string' && !data.length);
 }
 
+function trimDataGrid(data: unknown[][]): unknown[][] {
+    let maxColIndex = 0;
+    let maxRowIndex = 0;
+    data.forEach((row, rowIndex) => {
+        row.forEach((cell, colIndex) => {
+            if (!isEmptyCellData(cell)) {
+                maxColIndex = Math.max(maxColIndex, colIndex);
+                maxRowIndex = Math.max(maxRowIndex, rowIndex);
+            }
+        });
+    });
+    return data.slice(0, maxRowIndex + 1).map(row => row.slice(0, maxColIndex + 1));
+    return data;
+}
+
 export const datagridPlugin: DTablePlugin<DTableDatagridTypes, DTableDatagridDependencies> = {
     name: 'datagrid',
     plugins: [editable, selectable, hotkey, resize, history, autoscroll],
@@ -418,6 +439,81 @@ export const datagridPlugin: DTablePlugin<DTableDatagridTypes, DTableDatagridDep
             }
             return this.deleteCells(cells);
         },
+        deleteSelectedRows() {
+            const selectedRows = this.getSelectedRows();
+            if (selectedRows.length) {
+                this.deleteRows(selectedRows);
+                this.deselectAllCells();
+                return true;
+            }
+            return false;
+        },
+        deleteSelectedCols() {
+            const selectedCols = this.getSelectedCols();
+            if (selectedCols.length) {
+                this.deleteCols(selectedCols);
+                this.deselectAllCells();
+                return true;
+            }
+            return false;
+        },
+        copySelectedCols() {
+            const selectedCols = this.getSelectedCols();
+            if (!selectedCols.length) {
+                return false;
+            }
+            const rowsCount = this.layout.rows.length;
+            const data: unknown[][] = [];
+            for (let i = -1; i < rowsCount; ++i) {
+                data.push(selectedCols.map(col => {
+                    const value = this.getCellDraftValue(i, col);
+                    if (i === -1 && value === col.name) {
+                        return '';
+                    }
+                    return value;
+                }));
+            }
+            const plainText = trimDataGrid(data).map(x => x.join('\t')).join('\n');
+            navigator.clipboard.writeText(plainText);
+            return true;
+        },
+        clearSelectedCols() {
+            const selectedCols = this.getSelectedCols();
+            if (!selectedCols.length) {
+                return false;
+            }
+            const changes: DTableDraftRows = {};
+            const {emptyCellValue} = this.options;
+            [this.getRowInfo('HEADER')!, ...this.layout.rows].forEach(row => {
+                const change: Partial<RowData> = {};
+                selectedCols.forEach(col => {
+                    const value = this.getCellDraftValue(row, col);
+                    if (value !== undefined && value !== null && value !== emptyCellValue) {
+                        change[col.name] = emptyCellValue;
+                    }
+                });
+                if (Object.keys(change).length) {
+                    changes[row.id] = change;
+                }
+            });
+            if (Object.keys(changes).length) {
+                this.stageDraft(changes);
+                return true;
+            }
+            return false;
+        },
+        async pasteToSelectedCol() {
+            const selectedCols = this.getSelectedCols();
+            if (!selectedCols.length) {
+                return false;
+            }
+            const result = await this.pasteCells({colName: selectedCols[0].name, rowID: 'HEADER'});
+            return result;
+        },
+        cutSelectedCols() {
+            this.copySelectedCols();
+            return this.clearSelectedCols();
+        },
         copySelections() {
             const selectedCells = this.getSelectedCells();
             if (!selectedCells.length) {
@@ -439,7 +535,7 @@ export const datagridPlugin: DTablePlugin<DTableDatagridTypes, DTableDatagridDep
                 }
                 rowData[pos.col - minColIndex] = value;
             });
-            const plainText = data.map(x => x.join('\t')).join('\n');
+            const plainText = trimDataGrid(data).map(x => x.join('\t')).join('\n');
             navigator.clipboard.writeText(plainText);
             return true;
         },
@@ -528,7 +624,7 @@ export const datagridPlugin: DTablePlugin<DTableDatagridTypes, DTableDatagridDep
                 this.selectCells(cells);
             }
             this.update({dirtyType: expandedCells ? 'options' : undefined}, () => {
-                if (options?.autoscroll !== false) {
+                if (options?.autoscroll) {
                     this.scrollTo({col: maxColIndex, row: maxRowIndex});
                 }
             });

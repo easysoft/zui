@@ -83,9 +83,9 @@ const historyPlugin: DTablePlugin<DTableHistoryTypes, DTableHistoryDependencies>
                 }
                 this.addHistory({after: diffDraft(newDraft, oldDraft), before: diffDraft(oldDraft, newDraft)});
             } : afterApplyDraft,
-            afterStageDraft: historyEnabled && historyTarget !== 'applied' ? (changes, newDraft, oldDraft) => {
+            afterStageDraft: historyEnabled && historyTarget !== 'applied' ? (changes, newDraft, oldDraft, opts) => {
                 if (afterStageDraft) {
-                    afterStageDraft.call(this, changes, newDraft, oldDraft);
+                    afterStageDraft.call(this, changes, newDraft, oldDraft, opts);
                 }
                 this.addHistory({after: diffDraft(newDraft, oldDraft), before: diffDraft(oldDraft, newDraft)});
             } : afterStageDraft,

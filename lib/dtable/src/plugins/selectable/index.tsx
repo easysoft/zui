@@ -2,7 +2,7 @@ import {classes} from '@zui/browser-helpers/src/classes';
 import {definePlugin} from '../../helpers/shared-plugins';
 import {mousemove, DTableMousemoveTypes} from '../mousemove';
 import './style.css';
-import type {DTable} from '../../main-react';
+import type {DTable, RowInfo, ColInfo} from '../../main-react';
 import type {DTablePluginTypes, DTableWithPlugin, DTablePlugin} from '../../types/plugin';
 import type {DTableAutoscrollTypes} from '../autoscroll';
 
@@ -48,6 +48,12 @@ export interface DTableSelectableTypes extends DTablePluginTypes {
         selectAllCells: typeof selectAllCells;
         deselectAllCells: typeof deselectAllCells;
         getSelectedCellsSize: typeof getSelectedCellsSize;
+        isRowSelected: typeof isRowSelected;
+        isColSelected: typeof isColSelected;
+        hasCellSelectInRow: typeof hasCellSelectInRow;
+        hasCellSelectInCol: typeof hasCellSelectInCol;
+        getSelectedCols: typeof getSelectedCols;
+        getSelectedRows: typeof getSelectedRows;
         selectOutsideClick?: (event: MouseEvent) => void;
     };
 }
@@ -342,6 +348,28 @@ function hasCellSelectInRow(table: DTableSelectable, rowIndex: number): boolean 
     return false;
 }
 
+function isRowSelected(this: DTableSelectable, row: number | string | RowInfo): boolean {
+    const rowIndex = this.getRowInfo(row)?.index;
+    if (typeof rowIndex !== 'number') {
+        return false;
+    }
+    const {colsList} = this.layout;
+    return colsList.every(col => {
+        return col.name === 'INDEX' || this.isCellSelected({col: col.index, row: rowIndex});
+    });
+}
+
+function isColSelected(this: DTableSelectable, col: number | string | ColInfo): boolean {
+    const colIndex = this.getColInfo(col)?.index;
+    if (typeof colIndex !== 'number') {
+        return false;
+    }
+    const {rows} = this.layout;
+    return rows.every(row => {
+        return this.isCellSelected({col: colIndex, row: row.index});
+    });
+}
+
 function hasCellSelectInCol(table: DTableSelectable, colIndex: number): boolean {
     return !!(table.state.selectedMap.get(colIndex)?.size || table.state.selectingMap.get(colIndex)?.size);
 }
@@ -362,6 +390,26 @@ function getSelectedCells(this: DTableSelectable): DTableCellPos[] {
         }
     }
     return cells;
+}
+
+function getSelectedCols(this: DTableSelectable): ColInfo[] {
+    const colsList: number[] = [];
+    for (const [col, rows] of this.state.selectedMap.entries()) {
+        if (rows.size) {
+            colsList.push(col);
+        }
+    }
+    const cols = ([...new Set(colsList)].map(x => this.getColInfo(x)).filter(x => x && this.isColSelected(x)) as ColInfo[]).sort((x, y) => x.index - y.index);
+    return cols;
+}
+
+function getSelectedRows(this: DTableSelectable): RowInfo[] {
+    const rowsList: number[] = [];
+    for (const [, rows] of this.state.selectedMap.entries()) {
+        rowsList.push(...rows);
+    }
+    const rows = ([...new Set(rowsList)].map(x => this.getRowInfo(x)).filter(x => x && this.isRowSelected(x)) as RowInfo[]).sort((x, y) => x.index - y.index);
+    return rows;
 }
 
 function getSelectedCellsSize(this: DTableSelectable): number {
@@ -408,6 +456,12 @@ const selectablePlugin: DTablePlugin<DTableSelectableTypes, [DTableMousemoveType
         deselectCells,
         isCellSelected,
         isCellSelecting,
+        isRowSelected,
+        isColSelected,
+        hasCellSelectInRow,
+        hasCellSelectInCol,
+        getSelectedCols,
+        getSelectedRows,
         getSelectedCells,
         selectAllCells,
         deselectAllCells,
@@ -419,9 +473,10 @@ const selectablePlugin: DTablePlugin<DTableSelectableTypes, [DTableMousemoveType
                 return;
             }
             const pos = getMousePos(this, event);
-            if (event.button !== 0 && (!pos || this.isCellSelected(pos))) {
+            if (event.button !== 0 && (!pos || this.isCellSelected(pos) || ((pos.row < 0 && this.isColSelected(pos.col)) || (pos.col < 1 && this.isRowSelected(pos.row))))) {
                 return;
             }
+
             this.data.selectingStart = pos;
             this.startScrollToMouse();
             if (pos) {
@@ -479,7 +534,7 @@ const selectablePlugin: DTablePlugin<DTableSelectableTypes, [DTableMousemoveType
     },
     onRenderRow({props, row}) {
         if (hasCellSelectInRow(this, row.index)) {
-            return  {className: classes(props.className, 'has-cell-select')};
+            return  {className: classes(props.className, 'has-cell-select', this.isRowSelected(row) ? 'is-row-selected' : '')};
         }
     },
     onRenderCell(result, {row, col}) {
@@ -501,6 +556,9 @@ const selectablePlugin: DTablePlugin<DTableSelectableTypes, [DTableMousemoveType
     onRenderHeaderCell(result, {col}) {
         if (this.options.markSelectRange && col.name !== 'INDEX' && hasCellSelectInCol(this, col.index)) {
             result.push({outer: true, className: 'has-cell-selected'});
+            if (this.isColSelected(col)) {
+                result.push({outer: true, className: 'is-col-selected'});
+            }
         }
         return result;
     },

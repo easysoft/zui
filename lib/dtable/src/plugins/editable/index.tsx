@@ -1,8 +1,8 @@
 import {createRef, RefObject} from 'preact';
 import {definePlugin} from '../../helpers/shared-plugins';
 import {draft, DTableDraftTypes, DTableDraftRows} from '../draft';
+import type {DTablePluginTypes, DTableWithPlugin, DTablePlugin, DTableWithPluginColInfo, ColName, RowID, RowData, RowInfo, ColInfo} from '../../types';
 import './style.css';
-import type {DTablePluginTypes, DTableWithPlugin, DTablePlugin, DTableWithPluginColInfo, ColName, RowID, RowData} from '../../types';
 
 export interface DTableEditableTypes extends DTablePluginTypes {
     options: Partial<{
@@ -28,8 +28,8 @@ export interface DTableEditableTypes extends DTablePluginTypes {
         handleEditingInputBlur: (this: DTableEditable, event: Event) => void;
         handleEditingKeyDown: (this: DTableEditable, event: KeyboardEvent) => void;
         renderEditableCell: NonNullable<typeof editablePlugin['onRenderCell']>;
-        deleteRows(this: DTableEditable, rows: RowID | RowID[], options?: {skipUpdate?: boolean | undefined}): void;
-        deleteCols(this: DTableEditable, cols: ColName | ColName[], options?: {skipUpdate?: boolean | undefined}): void;
+        deleteRows(this: DTableEditable, rows: number | RowID | RowInfo | (RowInfo | RowID | number)[], options?: {skipUpdate?: boolean | undefined}): void;
+        deleteCols(this: DTableEditable, cols: number | ColName | ColInfo | (ColInfo | ColName | number)[], options?: {skipUpdate?: boolean | undefined}): void;
     }
 }
 
@@ -55,6 +55,12 @@ const editablePlugin: DTablePlugin<DTableEditableTypes, [DTableDraftTypes]> = {
     events: {
         dblclick(event) {
             this.editCell(this.getPointerInfo(event));
+        },
+        click(event) {
+            const info = this.getPointerInfo(event);
+            if (info && info.cellElement.classList.contains('is-selected')) {
+                this.editCell(info);
+            }
         },
     },
     data() {
@@ -95,53 +101,72 @@ const editablePlugin: DTablePlugin<DTableEditableTypes, [DTableDraftTypes]> = {
             if (!Array.isArray(rows)) {
                 rows = [rows];
             }
-            const rowsList = this.layout.rows;
-            const rowsCount = rowsList.length;
-            const {emptyCellValue} = this.options;
+
             const colsNames = this.layout.colsList.reduce<string[]>((names, col) => {
                 if (col.name !== 'HEADER') {
                     names.push(col.name);
                 }
                 return names;
             }, []);
-            rows.forEach((rowID) => {
-                const newState: DTableDraftRows = {};
-                if (rowID === 'HEADER') {
-                    return;
+
+            const deleteRows = rows.reduce<RowInfo[]>((list, row) => {
+                const rowInfo = this.getRowInfo(row);
+                if (rowInfo && rowInfo.id !== 'HEADER') {
+                    list.push(rowInfo);
                 }
-                let currentRow = this.getRowInfo(rowID);
-                if (!currentRow) {
-                    return;
+                return list;
+            }, []).sort((a, b) => a.index - b.index);
+            if (!deleteRows.length) {
+                return;
+            }
+
+            const deleteRowsSet = new Set(deleteRows.map(row => row.index));
+            const restRows = new Map<number, RowData>();
+            const rowsList = this.layout.rows;
+            const rowsCount = rowsList.length;
+            const {emptyCellValue} = this.options;
+            let currentIndex = deleteRows[0].index;
+            for (let i = currentIndex + 1; i < rowsCount; i++) {
+                if (deleteRowsSet.has(i)) {
+                    continue;
                 }
-                let currentRowData = this.getRowDraftData(currentRow, {emptyCellValue});
-                for (let i = currentRow.index + 1; i < rowsCount; i++) {
-                    const nextRow = rowsList[i];
-                    const nextRowData = this.getRowDraftData(nextRow, {emptyCellValue});
-                    if (!isSameData(colsNames, currentRowData, nextRowData)) {
-                        newState[currentRow.id] = nextRowData;
-                    }
-                    if (i === (rowsCount - 1) && !isSameData(colsNames, {}, nextRowData)) {
-                        newState[nextRow.id] = colsNames.reduce<Partial<RowData>>((data, colName) => {
-                            data[colName] = emptyCellValue;
-                            return data;
-                        }, {});
-                        break;
-                    }
-                    currentRowData = nextRowData;
-                    currentRow = nextRow;
+                const row = rowsList[i];
+                restRows.set(currentIndex, this.getRowDraftData(row, {emptyCellValue}));
+                currentIndex++;
+            }
+            const newState: DTableDraftRows = {};
+            currentIndex = deleteRows[0].index;
+            for (let i = currentIndex; i < rowsCount; i++) {
+                const row = rowsList[i];
+                const oldRowData = this.getRowDraftData(row, {emptyCellValue});
+                const newRowData = restRows.get(i) || {};
+                if (isSameData(colsNames, oldRowData, newRowData)) {
+                    continue;
                 }
-                if (Object.keys(newState).length) {
-                    this.stageDraft(newState, {skipUpdate: true});
-                }
-            });
-            if (!options?.skipUpdate) {
-                this.update();
+                newState[row.id] = newRowData;
+            }
+            if (Object.keys(newState).length) {
+                this.stageDraft(newState, {skipUpdate: options?.skipUpdate});
             }
         },
         deleteCols(cols, options?: {skipUpdate?: boolean | undefined}) {
             if (!Array.isArray(cols)) {
                 cols = [cols];
             }
+
+            const deleteCols = cols.reduce<ColInfo[]>((list, col) => {
+                const colInfo = this.getColInfo(col);
+                if (colInfo && colInfo.name !== 'INDEX') {
+                    list.push(colInfo);
+                }
+                return list;
+            }, []).sort((a, b) => a.index - b.index);
+            if (!deleteCols.length) {
+                return;
+            }
+
+            const deleteColsSet = new Set(deleteCols.map(col => col.index));
+            const restCols = new Map<number, Record<string, unknown>>();
             const {colsList} = this.layout;
             const colsCount = colsList.length;
             const rowIdList = this.layout.rows.reduce<string[]>((ids, row) => {
@@ -149,49 +174,38 @@ const editablePlugin: DTablePlugin<DTableEditableTypes, [DTableDraftTypes]> = {
                 return ids;
             }, ['HEADER']);
             const {emptyCellValue} = this.options;
-            cols.forEach((colName) => {
-                const newState: DTableDraftRows = {};
-                if (colName === 'INDEX') {
-                    return;
+            let currentIndex = deleteCols[0].index;
+            for (let i = currentIndex + 1; i < colsCount; i++) {
+                if (deleteColsSet.has(i)) {
+                    continue;
                 }
-                let currentCol = this.getColInfo(colName);
-                if (!currentCol) {
-                    return;
+                const col = colsList[i];
+                restCols.set(currentIndex, this.getColDraftData(col, {emptyCellValue, includeHeaderRow: true}));
+                currentIndex++;
+            }
+
+            const newState: DTableDraftRows = {};
+            currentIndex = deleteCols[0].index;
+            for (let i = currentIndex; i < colsCount; i++) {
+                const col = colsList[i];
+                const oldColData = this.getColDraftData(col, {emptyCellValue, includeHeaderRow: true});
+                const newColData = restCols.get(i) || {};
+                if (isSameData(rowIdList, oldColData, newColData)) {
+                    continue;
                 }
-                let currentColData = this.getColDraftData(currentCol, {emptyCellValue, includeHeaderRow: true});
-                for (let i = currentCol.index + 1; i < colsCount; i++) {
-                    const nextCol = colsList[i];
-                    const nextColData = this.getColDraftData(nextCol, {emptyCellValue, includeHeaderRow: true});
-                    if (!isSameData(rowIdList, currentColData, nextColData)) {
-                        for (const rowID of rowIdList) {
-                            if (!newState[rowID]) {
-                                newState[rowID] = {};
-                            }
-                            newState[rowID][currentCol.name] = nextColData[rowID];
-                        }
+                for (const rowID of rowIdList) {
+                    if (!newState[rowID]) {
+                        newState[rowID] = {};
                     }
-                    if (i === (colsCount - 1) && !isSameData(rowIdList, {}, nextColData)) {
-                        for (const rowID of rowIdList) {
-                            if (!newState[rowID]) {
-                                newState[rowID] = {};
-                            }
-                            newState[rowID][nextCol.name] = emptyCellValue;
-                        }
-                        break;
-                    }
-                    currentColData = nextColData;
-                    currentCol = nextCol;
+                    newState[rowID][col.name] = newColData[rowID] ?? emptyCellValue;
                 }
-                if (Object.keys(newState).length) {
-                    this.stageDraft(newState, {skipUpdate: true});
-                }
-            });
-            if (!options?.skipUpdate) {
-                this.update();
+            }
+            if (Object.keys(newState).length) {
+                this.stageDraft(newState, {skipUpdate: options?.skipUpdate});
             }
         },
-        handleEditingInputChange() {
-            const newValue = this.data.editingInputRef.current?.value;
+        handleEditingInputChange(event) {
+            const newValue = (event.target as HTMLInputElement)?.value;
             const {editingCell} = this.state;
             if (typeof newValue !== 'string' || !editingCell) {
                 return;

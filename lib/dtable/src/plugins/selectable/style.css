@@ -14,6 +14,10 @@
 .dtable-cell.is-selected {
     background: var(--dtable-selected-bg);
 }
+.dtable-row.is-row-selected .dtable-cell[data-col="INDEX"]::after,
+.dtable-cell.is-col-selected::after {
+    @apply -bg-inverse/5;
+}
 
 .dtable-hover-col .dtable-cell.dtable-col-hover.is-select,
 .dtable-hover-row .dtable-rows > .dtable-row:hover .dtable-cell.is-select,
