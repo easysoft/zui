@@ -1,4 +1,5 @@
 .dropdown-menu {
+    --menu-min-width: 7rem;
     @apply -hidden -z-30;
 }
 .dropdown-menu.show {
