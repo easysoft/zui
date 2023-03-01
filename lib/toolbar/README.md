@@ -1,6 +1,20 @@
 # 工具栏
 
-## 一般用法
+## 静态实现
+
+```html:example
+<nav class="toolbar">
+  <button class="btn ghost toolbar-item active" type="button"><i class="icon icon-home"></i><span class="text">首页</span></button>
+  <button class="btn ghost toolbar-item" type="button"><span class="text">动态</span></button>
+  <button class="btn ghost toolbar-item" type="button"><span class="text">论坛</span></button><div class="toolbar-divider"></div>
+  <button class="btn ghost toolbar-item" type="button"><i class="icon icon-rss"></i><span class="text">博客</span></button>
+  <button class="btn ghost toolbar-item" type="button"><i class="icon icon-group"></i><span class="text">关注我们</span></button><div class="toolbar-space" style="flex: 1 1 0%;"></div><div class="btn-group toolbar-btn-group">
+  <button class="btn" type="button"><i class="icon icon-user"></i><span class="text">登录</span></button>
+  <button class="btn" type="button"><i class="icon icon-lock"></i><span class="text">注册</span></button></div>
+</nav>
+```
+
+## 动态创建
 
 ```html:example
 <div id="toolbar"></div>
