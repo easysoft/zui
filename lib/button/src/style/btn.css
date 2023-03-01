@@ -1,5 +1,5 @@
 .btn {
-    @apply -px-3 -h-8 -inline-flex -items-center -justify-center -gap-2 -whitespace-nowrap;
+    @apply -px-3 -h-8 -inline-flex -items-center -justify-center -gap-1.5 -whitespace-nowrap;
     border: 1px solid var(--btn-border-color);
     background: var(--btn-bg);
     border-radius: var(--btn-radius);
