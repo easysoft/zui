@@ -7,6 +7,9 @@
 .btn.with-dropdown-show {
     @apply -shadow-inner;
 }
+a.with-dropdown-show::before {
+    @apply -opacity-100;
+}
 .with-dropdown-show[data-dropdown-placement="top"] > .caret {
     @apply -rotate-180;
 }
