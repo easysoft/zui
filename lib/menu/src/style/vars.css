@@ -8,5 +8,7 @@
     --menu-active-bg: var(--color-primary-50);
     --menu-active-color: var(--color-primary-500);
     --menu-icon-opacity: .5;
+    --menu-icon-margin: 1.75rem;
+    --menu-min-width: 3rem;
     --menu-heading-color: var(--color-gray-500);
 }
