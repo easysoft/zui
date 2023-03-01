@@ -7,6 +7,7 @@
 ```html:example: -flex -gap-3 -flex-wrap
 <button type="button" class="btn">Button</button>
 <a class="btn">A Link</a>
+<a class="btn primary">A Primary Link</a>
 <button type="button" class="btn">中文按钮</button>
 <button type="button" class="btn" disabled="disabled">禁用的按钮</button>
 <button type="button" class="btn text-primary canvas">Link</button>
@@ -115,23 +116,23 @@
 <button type="button" class="btn text-danger">danger</button>
 <button type="button" class="btn text-important">important</button>
 <button type="button" class="btn text-special">special</button>
-<button type="button" class="btn text-white">white</button>
+<button type="button" class="text-white btn">white</button>
 <button type="button" class="btn text-lighter">lighter</button>
 <button type="button" class="btn text-light">light</button>
 <button type="button" class="btn text-gray">gray</button>
 <button type="button" class="btn text-dark">dark</button>
 <button type="button" class="btn text-darker">darker</button>
-<button type="button" class="btn text-black">black</button>
+<button type="button" class="text-black btn">black</button>
 ```
 
 ## Radius
 
 ```html:example: -flex -gap-3 -flex-wrap
-<button type="button" class="btn primary rounded-none">Button</button>
-<button type="button" class="btn primary rounded-sm">Button</button>
-<button type="button" class="btn primary rounded">Button</button>
-<button type="button" class="btn primary rounded-md">Button</button>
-<button type="button" class="btn primary rounded-lg">Button</button>
+<button type="button" class="rounded-none btn primary">Button</button>
+<button type="button" class="rounded-sm btn primary">Button</button>
+<button type="button" class="rounded btn primary">Button</button>
+<button type="button" class="rounded-md btn primary">Button</button>
+<button type="button" class="rounded-lg btn primary">Button</button>
 <button type="button" class="btn primary rounded-xl">Button</button>
 <button type="button" class="btn primary circle">Button</button>
 ```
@@ -139,10 +140,10 @@
 ## Shadow
 
 ```html:example: -flex -gap-3 -flex-wrap
-<button type="button" class="btn shadow-none">Button</button>
-<button type="button" class="btn shadow-sm">Button</button>
-<button type="button" class="btn shadow">Button</button>
-<button type="button" class="btn shadow-md">Button</button>
-<button type="button" class="btn shadow-lg">Button</button>
-<button type="button" class="btn shadow-xl">Button</button>
+<button type="button" class="shadow-none btn">Button</button>
+<button type="button" class="shadow-sm btn">Button</button>
+<button type="button" class="shadow btn">Button</button>
+<button type="button" class="shadow-md btn">Button</button>
+<button type="button" class="shadow-lg btn">Button</button>
+<button type="button" class="shadow-xl btn">Button</button>
 ```
