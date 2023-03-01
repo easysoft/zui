@@ -34,14 +34,8 @@
     }
 }
 
+a,
 .btn,
 .state {
     @apply -state;
-}
-
-.nav > li > a {
-    @apply -state;
-}
-.pager > li > a {
-  @apply -state;
 }
