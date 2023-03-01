@@ -12,9 +12,6 @@
   @apply -font-bold;
   color: var(--nav-active-color);
 }
-.nav-item > a:not(.active) {
-  @apply -text-inherit;
-}
 .nav-item > .disabled {
   @apply -opacity-100;
 }
