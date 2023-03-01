@@ -1,5 +1,5 @@
 :root {
   --nav-radius: var(--radius);
-  --nav-active-color: var(--color-primary-500);
+  --nav-active-color: var(--color-current);
   --nav-heading-color: var(--color-gray-500);
 }

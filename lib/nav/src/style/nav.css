@@ -6,8 +6,7 @@
 }
 
 .nav-item > a {
-  @apply -flex -items-center -justify-center -h-8 -px-4 -gap-1;
-  border-radius: var(--nav-radius);
+  @apply -flex -items-center -justify-center -h-8 -px-4 -gap-1 -text-inherit;
 }
 .nav-item > .active {
   @apply -font-bold;
@@ -24,7 +23,7 @@
 }
 
 .nav-divider {
-  @apply -w-px -h-4 -mx-2 -bg-border;
+  @apply -w-px -h-4 -mx-2 -bg-current -opacity-30;
 }
 
 .nav-heading {
