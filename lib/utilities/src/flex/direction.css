@@ -1,9 +1,10 @@
 .row {@apply -flex -flex-row;}
 .col {@apply -flex -flex-col;}
 
-.center   {@apply -flex -items-center -justify-center;}
-.center-x {@apply -flex -items-center;}
-.center-y {@apply -flex -flex-col -items-center;}
+.center     {@apply -flex -flex-col -items-center -justify-center;}
+.center-row {@apply -flex -flex-row -items-center -justify-center;}
+.center-x   {@apply -flex -items-center;}
+.center-y   {@apply -flex -flex-col -items-center;}
 
 .row-reverse {@apply -flex -flex-row-reverse;}
 .col-reverse {@apply -flex -flex-col-reverse;}
