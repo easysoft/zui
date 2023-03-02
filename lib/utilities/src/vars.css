@@ -1,5 +1,5 @@
 :root {
-  --state-color: rgba(0,0,0,.075);
+  --state-color: rgba(0,0,0,.05);
   --state-scale: .9;
   --state-active-color: rgba(0,0,0,.1);
   --state-focus-color: rgba(0,0,0,.125);
