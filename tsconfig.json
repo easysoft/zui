@@ -13,7 +13,10 @@
     "noEmit": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noImplicitReturns": false
+    "noImplicitReturns": false,
+    "paths": {
+      "@zui/*": ["./lib/*"]
+    }
   },
   "include": [
     "src",
