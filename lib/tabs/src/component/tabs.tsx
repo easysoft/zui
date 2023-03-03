@@ -8,6 +8,7 @@ type TabsProp = {
     items: Array<{
         key: number | string;
         label: string;
+        labelCount: number;
         content: string | JSXInternal.Element;
         isElm?: boolean;
     }>;
@@ -40,9 +41,12 @@ export default class Tabs extends Component<TabsProp, TabsState> {
             <div className={classes('zui-tabs', className)}>
                 <ul className="-flex -items-center">
                     {
-                        items.map(({key, label}) => (
+                        items.map(({key, label, labelCount}) => (
                             <li key={key} className={classes('-flex -items-center -gap-3', {active: activeKey === key})}>
-                                <a className="-flex -h-8 -items-center -justify-center -gap-1 -px-4 -text-inherit" onClick={() => this.handleChange(key)}>{label}</a>
+                                <a className="-flex -h-8 -items-center -justify-center -gap-1 -px-4 -text-inherit" onClick={() => this.handleChange(key)}>
+                                    <span>{label}</span>
+                                    {activeKey === key ? <span className="label circle gray">{labelCount}</span> : null}
+                                </a>
                             </li>
                         ))
                     }
