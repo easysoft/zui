@@ -44,7 +44,7 @@ export default class Tabs extends Component<TabsProp, TabsState> {
                         items.map(({key, label, labelCount}) => (
                             <li key={key} className={classes('-flex -items-center -gap-3', {active: activeKey === key})}>
                                 <a className="-flex -h-8 -items-center -justify-center -gap-1 -px-4 -text-inherit" onClick={() => this.handleChange(key)}>
-                                    <span>{label}</span>
+                                    <span className={classes({'text-primary': activeKey === key})}>{label}</span>
                                     {activeKey === key ? <span className="label circle gray">{labelCount}</span> : null}
                                 </a>
                             </li>
