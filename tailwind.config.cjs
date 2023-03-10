@@ -13,6 +13,7 @@ const config = {
         './lib/*/README.md',
         './lib/*/src/**/*.{vue,js,ts,jsx,tsx}',
         './exts/zentao/quick-menu/src/component/quick-menu.tsx',
+        './exts/zentao/side-menu/src/component/side-menu.tsx',
     ] : [{raw: ''}],
     theme: defaultTheme,
     plugins: [

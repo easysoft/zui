@@ -59,57 +59,57 @@ export class ActionMenu<T extends ActionBasicProps = ActionMenuItemOptions, P ex
     }
 
     beforeRender(): Omit<P, 'items'> & {items: T[]} {
-        const options = {...this.props};
-        if (typeof options.items === 'function') {
-            options.items = options.items(this);
+        const props = {...this.props};
+        if (typeof props.items === 'function') {
+            props.items = props.items(this);
         }
-        const customOptions = options.beforeRender?.({menu: this, options});
+        const customOptions = props.beforeRender?.({menu: this, options: props});
         if (customOptions) {
-            Object.assign(options, customOptions);
+            Object.assign(props, customOptions);
         }
-        return options as Omit<P, 'items'> & {items: T[]};
+        return props as Omit<P, 'items'> & {items: T[]};
     }
 
-    getItemRenderProps(options: Omit<P, 'items'> & {items: T[]}, item: T, index: number): T {
-        const {itemProps, onClickItem} = options;
-        const listItem: T = {key: index, ...item};
+    getItemRenderProps(props: Omit<P, 'items'> & {items: T[]}, item: T, index: number): T {
+        const {commonItemProps, onClickItem} = props;
+        const itemProps: T = {key: index, ...item};
 
-        if (itemProps) {
-            Object.assign(listItem, itemProps[item.type || 'item']);
+        if (commonItemProps) {
+            Object.assign(itemProps, commonItemProps[item.type || 'item']);
         }
         if (onClickItem || item.onClick) {
-            listItem.onClick = this.handleItemClick.bind(this, listItem, index, item.onClick as ((event: MouseEvent) => void)) as JSX.MouseEventHandler<HTMLAnchorElement>;
+            itemProps.onClick = this.handleItemClick.bind(this, itemProps, index, item.onClick as ((event: MouseEvent) => void)) as JSX.MouseEventHandler<HTMLAnchorElement>;
         }
-        listItem.className = classes(listItem.className);
-        return listItem;
+        itemProps.className = classes(itemProps.className);
+        return itemProps;
     }
 
-    renderItem(options: Omit<P, 'items'> & {items: T[]}, item: T, index: number) {
-        const listItem = this.getItemRenderProps(options, item, index);
+    renderItem(props: Omit<P, 'items'> & {items: T[]}, item: T, index: number) {
+        const itemAllProps = this.getItemRenderProps(props, item, index);
 
-        const {itemRender} = options;
+        const {itemRender} = props;
         if (itemRender) {
             if (typeof itemRender === 'object') {
                 const CustomRenderComponent = itemRender[item.type || 'item'];
                 if (CustomRenderComponent) {
-                    return <CustomRenderComponent {...listItem} />;
+                    return <CustomRenderComponent {...itemAllProps} />;
                 }
             } else if (typeof itemRender === 'function') {
-                const result = itemRender.call(this, listItem, _h);
+                const result = itemRender.call(this, itemAllProps, _h);
                 if (isValidElement(result)) {
                     return result;
                 }
                 if (typeof result === 'object') {
-                    Object.assign(listItem, result);
+                    Object.assign(itemAllProps, result);
                 }
             }
         }
 
-        const {type = 'item', component, key = index, rootAttrs, rootClass, rootStyle, rootChildren, ...itemProps} = listItem;
+        const {type = 'item', component, key = index, rootAttrs, rootClass, rootStyle, rootChildren, ...itemProps} = itemAllProps;
 
-        const ItemComponent = (!component || typeof component === 'string') ? (
-            (this.constructor as typeof ActionMenu<T>).ItemComponents ? ((this.constructor as typeof ActionMenu<T>).ItemComponents[type] || ActionMenu.ItemComponents[type]) : ActionMenu.ItemComponents[type]
-        ) : component;
+        const ItemComponent = (!component || typeof component === 'string')
+            ? (this.constructor as typeof ActionMenu<T>).ItemComponents ? ((this.constructor as typeof ActionMenu<T>).ItemComponents[type] || ActionMenu.ItemComponents[type]) : ActionMenu.ItemComponents[type]
+            : component;
         Object.assign(itemProps, {
             type,
             component: typeof component === 'string' ? component : undefined,
@@ -130,24 +130,32 @@ export class ActionMenu<T extends ActionBasicProps = ActionMenuItemOptions, P ex
 
     renderTypedItem(ItemComponent: ComponentType, rootProps: JSX.HTMLAttributes, itemProps: T) {
         const {children, className, key, ...rootAttrs} = rootProps;
+        const {activeClass = '', activeKey, activeIcon} = this.props;
+        const iconView = !!activeIcon && (activeKey === key)
+            ? <i className={`icon icon-${activeIcon} -absolute -right-3 -top-1`} />
+            : null;
+
+        const isActive = activeKey === key;
+
         return (
             <li
-                className={classes(`${this.name}-${itemProps.type}`, className as ClassNameLike)}
+                className={classes(`${this.name}-${itemProps.type}`, className as ClassNameLike, {[activeClass]: isActive, '-relative': isActive})}
                 key={key}
                 {...(rootAttrs as JSX.HTMLAttributes<HTMLLIElement>)}
             >
                 <ItemComponent {...itemProps} />
+                {iconView}
                 {typeof children === 'function' ? children() : children}
             </li>
         );
     }
 
     render() {
-        const options = this.beforeRender();
+        const props = this.beforeRender();
         const {
             name,
             style,
-            itemProps,
+            commonItemProps: itemProps,
             className,
             items,
             children,
@@ -156,14 +164,16 @@ export class ActionMenu<T extends ActionBasicProps = ActionMenuItemOptions, P ex
             beforeRender,
             afterRender,
             beforeDestroy,
+            activeClass,
+            activeKey,
             ...others
-        } = options;
+        } = props;
 
         const RootTag = (this.constructor as typeof ActionMenu<T>).ROOT_TAG as unknown as ComponentType;
 
         return (
-            <RootTag class={classes(this.name, className)} {...others} ref={this.ref}>
-                {items && items.map(this.renderItem.bind(this, options))}
+            <RootTag class={classes(this.name, className)} style={style} {...others} ref={this.ref}>
+                {items && items.map(this.renderItem.bind(this, props))}
                 {children}
             </RootTag>
         );

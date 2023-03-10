@@ -25,8 +25,8 @@ export class ActionMenuNested<T extends ActionBasicProps = ActionMenuNestedItemO
     }
 
     beforeRender(): Omit<P, 'items'> & {items: T[]} {
-        const options = super.beforeRender();
-        const {nestedShow, nestedTrigger, defaultNestedShow, controlledMenu, ...props} = options;
+        const allProps = super.beforeRender();
+        const {nestedShow, nestedTrigger, defaultNestedShow, controlledMenu, ...props} = allProps;
         return props as Omit<P, 'items'> & {items: T[]};
     }
 
@@ -42,19 +42,24 @@ export class ActionMenuNested<T extends ActionBasicProps = ActionMenuNestedItemO
             return;
         }
         const NestedMenuComponent = (this.constructor as typeof ActionMenuNested);
+        const {name, controlledMenu, nestedShow, beforeDestroy, beforeRender, itemRender, activeClass, activeKey, onClickItem, afterRender, commonItemProps, activeIcon} = this.props;
+
         return (
             <NestedMenuComponent
                 items={items}
-                name={this.props.name}
-                nestedShow={this.#controlled ? this.state.nestedShow : this.props.nestedShow}
+                name={name}
+                nestedShow={this.#controlled ? this.state.nestedShow : nestedShow}
                 nestedTrigger={this.nestedTrigger}
-                controlledMenu={(this.props.controlledMenu || this) as ActionMenuNested}
-                itemProps={this.props.itemProps}
-                onClickItem={this.props.onClickItem as ActionMenuOptions['onClickItem']}
-                afterRender={this.props.afterRender as ActionMenuOptions['afterRender']}
-                beforeRender={this.props.beforeRender as ActionMenuOptions['beforeRender']}
-                beforeDestroy={this.props.beforeDestroy as ActionMenuOptions['beforeDestroy']}
-                itemRender={this.props.itemRender as ActionMenuOptions['itemRender']}
+                controlledMenu={(controlledMenu || this) as ActionMenuNested}
+                commonItemProps={commonItemProps}
+                onClickItem={onClickItem as ActionMenuOptions['onClickItem']}
+                afterRender={afterRender as ActionMenuOptions['afterRender']}
+                beforeRender={beforeRender as ActionMenuOptions['beforeRender']}
+                beforeDestroy={beforeDestroy as ActionMenuOptions['beforeDestroy']}
+                itemRender={itemRender as ActionMenuOptions['itemRender']}
+                activeClass={activeClass}
+                activeKey={activeKey}
+                activeIcon={activeIcon}
             />
         );
     }
@@ -66,40 +71,41 @@ export class ActionMenuNested<T extends ActionBasicProps = ActionMenuNestedItemO
     renderToggleIcon(show: boolean, item: ActionNestedItemProps): ComponentChildren | void {
     }
 
-    getItemRenderProps(options: Omit<P, 'items'> & {items: T[]}, item: T, index: number): T {
-        const props = super.getItemRenderProps(options, item, index);
-        if (!this.isNestedItem(props)) {
-            return props;
+    getItemRenderProps(props: Omit<P, 'items'> & {items: T[]}, item: T, index: number): T {
+        const itemProps = super.getItemRenderProps(props, item, index);
+        if (!this.isNestedItem(itemProps)) {
+            return itemProps;
         }
-        const key = props.key ?? index;
+        const key = itemProps.key ?? index;
         this.#keys.add(key);
         const show = this.isNestedMenuShow(key);
         if (show) {
-            props.rootChildren = [
-                props.rootChildren,
+            itemProps.rootChildren = [
+                itemProps.rootChildren,
                 this.renderNestedMenu(item),
             ];
-            props.component = ActionNestedItem;
+            itemProps.component = ActionNestedItem;
         }
         if (this.nestedTrigger === 'hover') {
-            props.rootAttrs = {
-                ...props.rootAttrs,
+            itemProps.rootAttrs = {
+                ...itemProps.rootAttrs,
                 onMouseEnter: this.#toggleMenuByEvent.bind(this, key, true),
                 onMouseLeave: this.#toggleMenuByEvent.bind(this, key, false),
             };
         } else if (this.nestedTrigger === 'click') {
-            const {onClick} = props;
-            props.onClick = (event) => {
+            const {onClick} = itemProps;
+            itemProps.onClick = (event) => {
                 this.#toggleMenuByEvent(key, undefined, event);
                 (onClick as (event: MouseEvent) => void)?.(event);
             };
         }
-        const toggleIcon = this.renderToggleIcon(show, props);
+        const toggleIcon = this.renderToggleIcon(show, itemProps);
         if (toggleIcon) {
-            props.children = [props.children, toggleIcon];
+            itemProps.children = [itemProps.children, toggleIcon];
         }
-        props.rootClass = [props.rootClass, 'has-nested-menu', show ? 'show' : ''];
-        return props;
+
+        itemProps.rootClass = [itemProps.rootClass, 'has-nested-menu', show ? 'show' : ''];
+        return itemProps;
     }
 
     isNestedMenuShow(key: ActionMenuItemKey) {
