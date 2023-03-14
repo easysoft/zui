@@ -124,6 +124,9 @@ export class ContextMenu<T extends ContextMenuOptions = ContextMenuOptions, E ex
                     menuElement = element.parentNode?.querySelector(`.${menuClass}`);
                 }
             }
+            if (menuElement) {
+                menuElement.classList.add('menu-popup');
+            }
         }
 
         if (!menuElement) {
