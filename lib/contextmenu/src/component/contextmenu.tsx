@@ -14,7 +14,7 @@ export class ContextMenu<T extends MenuItemOptions = MenuItemOptions> extends Me
     }
 
     get menuName() {
-        return 'menu-context';
+        return 'menu-context menu-popup';
     }
 
     componentWillUnmount() {

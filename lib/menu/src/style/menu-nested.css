@@ -1,5 +1,5 @@
 .has-nested-menu > .menu.menu-nested {
-    @apply -shadow-none -border-none -ml-4 -bg-primary-500/5;
+    @apply -shadow-none -border-none -ml-4;
 }
 .menu-nested .menu-toggle-icon {
     @apply -absolute -left-1;
