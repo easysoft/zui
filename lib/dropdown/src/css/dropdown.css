@@ -20,3 +20,9 @@ a.with-dropdown-show::before {
 .with-dropdown-show[data-dropdown-placement="right"] > .caret {
     @apply --rotate-90;
 }
+.dropdown-submenu:hover > .dropdown-menu {
+    display: block;
+    position: absolute;
+    left: calc(100% - 6px);
+    margin-top: -30px;
+}
