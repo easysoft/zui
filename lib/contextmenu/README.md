@@ -3,7 +3,7 @@
 ## 静态
 
 ```html:example
-<div class="h-32 primary-pale row items-center justify-center" data-toggle="contextmenu">
+<div class="items-center justify-center h-32 primary-pale row" data-toggle="contextmenu">
     在此区域使用右键菜单
 </div>
 <menu class="contextmenu menu">
@@ -16,7 +16,7 @@
 ## 动态
 
 ```html:example
-<div class="h-32 primary-pale row items-center justify-center" id="menuToggle1">
+<div class="items-center justify-center h-32 primary-pale row" id="menuToggle1">
     在此区域使用右键菜单
 </div>
 ```
@@ -30,7 +30,19 @@ const contextMenu = new ContextMenu('#menuToggle1', {
         {type: 'heading', text: '更多操作'},
         {text: '导入', icon: 'icon-upload-alt'},
         {text: '导出', icon: 'icon-download-alt'},
-        {text: '保存', icon: 'icon-save', onClick: (event) => console.log('> menuItem.clicked', event)},
+        {
+            text: '保存', icon: 'icon-save', onClick: (event) => console.log('> menuItem.clicked', event),
+            items: [
+                {text: '保存到云端'},
+                {
+                    text: '下载到本地',
+                    items: [
+                        {text: '下载为 PDF'},
+                        {text: '下载为 Excel'},
+                    ],
+                },
+            ],
+        },
     ],
     menu: {
         onClickItem: (info) => {
@@ -43,8 +55,8 @@ const contextMenu = new ContextMenu('#menuToggle1', {
 ## 主动式
 
 ```html:example
-<div class="p-6 row items-center justify-center">
-  <button type="button" class="btn primary rounded" id="menuToggle2">点击打开菜单</button>
+<div class="items-center justify-center p-6 row">
+  <button type="button" class="rounded btn primary" id="menuToggle2">点击打开菜单</button>
 </div>
 ```
 
