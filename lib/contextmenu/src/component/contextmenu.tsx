@@ -40,6 +40,7 @@ export class ContextMenu<T extends MenuItemOptions = MenuItemOptions> extends Me
                 Object.assign((this.ref.current as HTMLElement).style, {
                     left: `${x}px`,
                     top: `${y}px`,
+                    position: 'absolute',
                 });
             });
         }
