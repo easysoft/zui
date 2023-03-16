@@ -132,16 +132,17 @@ export class ActionMenu<T extends ActionBasicProps = ActionMenuItemOptions, P ex
         const {children, className, key, ...rootAttrs} = rootProps;
         const {activeClass = '', activeKey, activeIcon} = this.props;
         const iconView = !!activeIcon && (activeKey === key)
-            ? <i className={`icon icon-${activeIcon} -absolute -right-3 -top-1`} />
+            ? <i className={`icon icon-${activeIcon}`} style={{position: 'absolute', top: 5, right: 10}} />
             : null;
 
         const isActive = activeKey === key;
 
         return (
             <li
-                className={classes(`${this.name}-${itemProps.type}`, className as ClassNameLike, {[activeClass]: isActive, '-relative': isActive})}
+                className={classes(`${this.name}-${itemProps.type}`, className as ClassNameLike, {[activeClass]: isActive})}
                 key={key}
                 {...(rootAttrs as JSX.HTMLAttributes<HTMLLIElement>)}
+                style={{position: 'relative'}}
             >
                 <ItemComponent {...itemProps} />
                 {iconView}
