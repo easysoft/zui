@@ -1,0 +1,9 @@
+.action-menu-item {
+    position: relative;
+}
+
+.action-menu-item .checked {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+}
