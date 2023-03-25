@@ -6,7 +6,9 @@ import {setAttr, setClass} from '@zui/com-helpers/src/helpers/element-helper';
 import {ModalDialog} from '../component';
 import {ModalIframeContent} from '../component/modal-iframe-content';
 
-type ModalBuilderFunction = (element: HTMLElement, options: ModalBuilderOptions) => Promise<ModalDialogOptions | boolean | undefined>;
+type ModalDialogHTML = [html: string];
+
+type ModalBuilderFunction = (element: HTMLElement, options: ModalBuilderOptions) => Promise<ModalDialogOptions | ModalDialogHTML | boolean | undefined>;
 
 function buildCustomModal(_element: HTMLElement, options: ModalCustomBuilder): ModalDialogOptions | boolean | undefined {
     const {custom, title, content} = options;
@@ -17,7 +19,7 @@ function buildCustomModal(_element: HTMLElement, options: ModalCustomBuilder): M
     };
 }
 
-async function buildAjaxModal(element: HTMLElement, options: ModalAjaxBuilder): Promise<ModalDialogOptions | boolean | undefined> {
+async function buildAjaxModal(_element: HTMLElement, options: ModalAjaxBuilder): Promise<ModalDialogOptions | ModalDialogHTML | boolean | undefined> {
     const {dataType, url, request, custom, title} = options;
     const response = await fetch(url, request);
     const text = await response.text();
@@ -31,6 +33,9 @@ async function buildAjaxModal(element: HTMLElement, options: ModalAjaxBuilder): 
             };
         // eslint-disable-next-line no-empty
         } catch (_) {}
+    }
+    if (options.replace !== false && dataType === 'html') {
+        return [text];
     }
     return {
         title,
@@ -115,8 +120,12 @@ export class ModalBuilder<T extends ModalBuilderOptions = ModalBuilderOptions> e
         this.buildDialog();
     }
 
-    #renderDialog(dialogOptions: ModalDialogOptions): Promise<void> {
+    #renderDialog(dialogOptions: ModalDialogOptions | ModalDialogHTML): Promise<void> {
         return new Promise((resolve) => {
+            if (Array.isArray(dialogOptions)) {
+                this.modalElement.innerHTML = dialogOptions[0];
+                return resolve();
+            }
             const {afterRender, ...others} = dialogOptions;
             dialogOptions = {
                 afterRender: (info) => {

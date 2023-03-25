@@ -23,6 +23,7 @@ export interface ModalAjaxBuilder extends ModalBuilderOptions {
     url: string;
     request?: RequestInit;
     dataType?: 'json' | 'html' | 'text',
+    replace?: boolean;
     custom?: Partial<ModalDialogOptions>;
 }
 
