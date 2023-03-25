@@ -111,10 +111,10 @@ export class ActionMenu<T extends ActionBasicProps = ActionMenuItemOptions, P ex
         if (type === 'html') {
             return (
                 <li
-                    className={classes('action-menu-item', `${this.name}-html`, rootClass as ClassNameLike)}
+                    className={classes('action-menu-item', `${this.name}-html`, rootClass as ClassNameLike, itemProps.className)}
                     key={key}
                     {...(rootAttrs as JSX.HTMLAttributes<HTMLLIElement>)}
-                    style={rootStyle}
+                    style={rootStyle || itemProps.style}
                     dangerouslySetInnerHTML={{__html: (itemProps as unknown as {html: string}).html}}
                 />
             );
