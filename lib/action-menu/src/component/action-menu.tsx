@@ -108,6 +108,18 @@ export class ActionMenu<T extends ActionBasicProps = ActionMenuItemOptions, P ex
 
         const {type = 'item', component, key = index, rootAttrs, rootClass, rootStyle, rootChildren, ...itemProps} = itemAllProps;
 
+        if (type === 'html') {
+            return (
+                <li
+                    className={classes('action-menu-item', `${this.name}-html`, rootClass as ClassNameLike)}
+                    key={key}
+                    {...(rootAttrs as JSX.HTMLAttributes<HTMLLIElement>)}
+                    style={rootStyle}
+                    dangerouslySetInnerHTML={{__html: (itemProps as unknown as {html: string}).html}}
+                />
+            );
+        }
+
         const ItemComponent = (!component || typeof component === 'string')
             ? (this.constructor as typeof ActionMenu<T>).ItemComponents ? ((this.constructor as typeof ActionMenu<T>).ItemComponents[type] || ActionMenu.ItemComponents[type]) : ActionMenu.ItemComponents[type]
             : component;
