@@ -1,0 +1,20 @@
+{
+    "name": "@zui/cash",
+    "version": "0.0.1",
+    "main": "src/main.ts",
+    "browser": "src/main.ts",
+    "dependencies": {
+        "cash-dom": "^8.1.4"
+    },
+    "devDependencies": {
+    },
+    "zui": {
+        "type": "js-helpers",
+        "displayName": "Cash",
+        "contributes": {
+            "js": [
+                "module"
+            ]
+        }
+    }
+}
