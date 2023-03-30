@@ -1,2 +1,2 @@
-.visible   {@apply -visible;}
-.invisible {@apply -invisible;}
+.visible   {@apply !-visible;}
+.invisible {@apply !-invisible;}
