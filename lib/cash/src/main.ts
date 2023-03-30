@@ -1,5 +1,11 @@
 import $ from 'cash-dom';
 
-Object.assign(window, {$});
+declare global {
+    interface Window {
+        $: typeof $
+    }
+}
+
+window.$ = $;
 
 export default $;
