@@ -299,14 +299,17 @@ export class ContextMenu<T extends ContextMenuOptions = ContextMenuOptions, E ex
         }
     }
 
-    static show(options: ContextMenuOptions & {event?: MouseEvent}) {
+    static show(options: ContextMenuOptions & {event?:
+    ContextMenuTrigger}) {
         const {event, ...otherOptions} = options;
         const contextmenu = this.ensure(document.body);
         if (Object.keys(otherOptions).length) {
             contextmenu.setOptions(otherOptions);
         }
         contextmenu.show(event);
-        event?.stopPropagation?.();
+        if (event instanceof Event) {
+            event.stopPropagation();
+        }
         return contextmenu;
     }
 
