@@ -59,16 +59,19 @@ const actionsPlugin: DTablePlugin<DTableActionsTypes> = {
                         }
                         if (items && others.type === 'dropdown') {
                             const {dropdown = {}} = (others as ToolbarDropdownProps);
-                            dropdown.items = items.reduce((list, item) => {
-                                const itemAction = typeof item === 'string' ? {name: item} : {...item};
-                                if (itemAction?.name) {
-                                    if (actionsMap && 'name' in itemAction) {
-                                        Object.assign(itemAction, actionsMap[itemAction.name], {...itemAction});
+                            dropdown.menu = {
+                                className: 'menu-dtable-actions',
+                                items: items.reduce((list, item) => {
+                                    const itemAction = typeof item === 'string' ? {name: item} : {...item};
+                                    if (itemAction?.name) {
+                                        if (actionsMap && 'name' in itemAction) {
+                                            Object.assign(itemAction, actionsMap[itemAction.name], {...itemAction});
+                                        }
+                                        list.push(itemAction as MenuItemOptions);
                                     }
-                                    list.push(itemAction as MenuItemOptions);
-                                }
-                                return list;
-                            }, [] as MenuItemOptions[]);
+                                    return list;
+                                }, [] as MenuItemOptions[]),
+                            };
                             (others as ToolbarDropdownProps).dropdown = dropdown;
                         }
                         return others;
