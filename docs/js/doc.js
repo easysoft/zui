@@ -1,8 +1,8 @@
 /*!
- * ZUI: Document - v1.10.0 - 2021-11-04
+ * ZUI: Document - v1.10.0 - 2023-04-04
  * http://openzui.com
  * GitHub: https://github.com/easysoft/zui.git 
- * Copyright (c) 2021 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2023 cnezsoft.com; Licensed MIT
  */
 
 /* ========================================================================
@@ -14924,9 +14924,7 @@ require('./polyfill-done.js');
             lastScrollTop = $window.scrollTop();
             if(lastScrollTop > scrollHeight && !$body.hasClass('compact-mode')) {
                 toggleCompactMode(true);
-            }/* else if(!$body.hasClass('page-show')) {
-                $header.toggleClass('with-shadow', lastScrollTop > 20);
-            }*/
+            }
         }).on('keydown', function(e) {
             var code = e.which;
             var isPageNotShow = !$body.hasClass('page-show');
@@ -14974,10 +14972,6 @@ require('./polyfill-done.js');
                 }
             }
         });
-
-        // $pageBod y.on('scroll', function(e) {
-        //     $page.toggleClass('with-shadow', $pageBody.scrollTop() > 20);
-        // });
 
         $search = $('#search');
 
@@ -15057,6 +15051,14 @@ require('./polyfill-done.js');
             $('[data-toggle="tooltip"]').tooltip({
                 container: 'body'
             });
+        }
+
+        /* Update beian info */
+        var $beian = $('#beian');
+        if($beian.length) {
+            var host = location.host;
+            var beian = host.indexOf('openzui.cn') >= 0 ? '鲁ICP备19039895号-2' : host.indexOf('openzui.net') >= 0 ? '鲁ICP备19039895号-4' : host.indexOf('dafang.cn') >= 0 ? '鲁ICP备19039895号-7' : '鲁ICP备19039895号-3';
+            $beian.text(beian);
         }
     };
 
