@@ -119,6 +119,16 @@ importers:
       '@zui/icons': link:../icons
       zui-dev: link:../../dev
 
+  lib/ajax:
+    specifiers:
+      '@zui/cash': workspace:^0.0.1
+      cash-dom: ^8.1.4
+      zepto: ^1.2.0
+    dependencies:
+      '@zui/cash': link:../cash
+      cash-dom: registry.npmmirror.com/cash-dom/8.1.4
+      zepto: registry.npmmirror.com/zepto/1.2.0
+
   lib/ajax-form:
     specifiers:
       '@zui/base': workspace:*
@@ -5904,3 +5914,9 @@ packages:
       '@vue/server-renderer': registry.npmmirror.com/@vue/server-renderer/3.2.45_vue@3.2.45
       '@vue/shared': registry.npmmirror.com/@vue/shared/3.2.45
     dev: true
+
+  registry.npmmirror.com/zepto/1.2.0:
+    resolution: {integrity: sha512-C1x6lfvBICFTQIMgbt3JqMOno3VOtkWat/xEakLTOurskYIHPmzJrzd1e8BnmtdDVJlGuk5D+FxyCA8MPmkIyA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/zepto/-/zepto-1.2.0.tgz}
+    name: zepto
+    version: 1.2.0
+    dev: false

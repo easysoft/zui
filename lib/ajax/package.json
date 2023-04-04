@@ -1,0 +1,22 @@
+{
+    "name": "@zui/ajax",
+    "version": "0.0.1",
+    "main": "src/main.ts",
+    "browser": "src/main.ts",
+    "dependencies": {
+        "zepto": "^1.2.0",
+        "cash-dom": "^8.1.4",
+        "@zui/cash": "workspace:^0.0.1"
+    },
+    "devDependencies": {
+    },
+    "zui": {
+        "type": "js-helpers",
+        "displayName": "Ajax",
+        "contributes": {
+            "js": [
+                "module"
+            ]
+        }
+    }
+}
