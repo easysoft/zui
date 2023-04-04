@@ -1,4 +1,4 @@
-import cash from '@zui/cash/src/cash';
+import {cash} from '@zui/cash/src/cash';
 import {CashAjaxOptions, CashStaticAjax} from './types';
 
 const $ = cash as (typeof cash & CashStaticAjax);
