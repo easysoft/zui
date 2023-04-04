@@ -305,12 +305,9 @@ importers:
 
   lib/cookie:
     specifiers:
-      cash-dom: ^8.1.4
       js-cookie: ^3.0.1
     dependencies:
       js-cookie: registry.npmmirror.com/js-cookie/3.0.1
-    devDependencies:
-      cash-dom: registry.npmmirror.com/cash-dom/8.1.4
 
   lib/css-icons:
     specifiers:
@@ -5183,6 +5180,7 @@ packages:
     resolution: {integrity: sha512-bFLMk+r3lv+sDwxlAFfRlMxpRls7zMnSQePVpNouwnpm9G4MbLYZZtIUG2urUgfmIaKlc/hqG8o7yZg3+nFKRA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/cash-dom/-/cash-dom-8.1.4.tgz}
     name: cash-dom
     version: 8.1.4
+    dev: false
 
   registry.npmmirror.com/csstype/2.6.20:
     resolution: {integrity: sha512-/WwNkdXfckNgw6S5R125rrW8ez139lBHWouiBvX8dfMFtcn6V81REDqnH7+CRpRipfYlyU1CmOnOxrmGcFOjeA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/csstype/-/csstype-2.6.20.tgz}
