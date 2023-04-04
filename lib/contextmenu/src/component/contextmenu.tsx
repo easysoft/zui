@@ -3,6 +3,7 @@ import {Menu} from '@zui/menu/src/component/menu';
 import '@zui/css-icons/src/icons/caret.css';
 import '../style/index.css';
 import {flip, computePosition, ComputePositionConfig} from '@floating-ui/dom';
+import {classes} from '@zui/browser-helpers/src/classes';
 
 export class ContextMenu<T extends MenuItemOptions = MenuItemOptions> extends Menu<T> {
     get nestedTrigger() {
@@ -14,7 +15,7 @@ export class ContextMenu<T extends MenuItemOptions = MenuItemOptions> extends Me
     }
 
     get menuName() {
-        return 'menu-context menu-popup';
+        return 'menu-context';
     }
 
     componentWillUnmount() {
@@ -51,6 +52,12 @@ export class ContextMenu<T extends MenuItemOptions = MenuItemOptions> extends Me
         if (this.props.controlledMenu) {
             this._createPopper();
         }
+    }
+
+    beforeRender() {
+        const options = super.beforeRender();
+        options.className = classes(options.className, 'menu-popup');
+        return options;
     }
 
     renderToggleIcon() {
