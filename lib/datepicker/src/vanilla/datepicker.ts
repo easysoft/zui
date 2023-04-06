@@ -251,8 +251,8 @@ export class Datepicker extends ComponentBase<DatepickerOptions> {
 
 document.addEventListener('click', function (event) {
     const element = event.target as HTMLElement;
-    const toggleBtn = element.closest<HTMLElement>(Datepicker.MENU_SELECTOR);
-    const tdElement = element.closest<HTMLElement>('.datepicker-calendar-bar, .datepicker-calendar-thead, .datepicker-calendar-month-table');
+    const toggleBtn = element.closest?.<HTMLElement>(Datepicker.MENU_SELECTOR);
+    const tdElement = element.closest?.<HTMLElement>('.datepicker-calendar-bar, .datepicker-calendar-thead, .datepicker-calendar-month-table');
 
     if (toggleBtn) {
         const datepicker = Datepicker.ensure(toggleBtn);
@@ -267,7 +267,7 @@ const handleScroll = (event: Event) => {
     if (!element) {
         return;
     }
-    const toggleBtn = typeof element.closest === 'function' ? element.closest<HTMLElement>(Datepicker.MENU_SELECTOR) : null;
+    const toggleBtn = element.closest?.<HTMLElement>(Datepicker.MENU_SELECTOR);
     if (!toggleBtn || !(event.target as HTMLElement).contains(toggleBtn)) {
         return;
     }
@@ -275,4 +275,3 @@ const handleScroll = (event: Event) => {
 };
 
 window.addEventListener('scroll', handleScroll, true);
-

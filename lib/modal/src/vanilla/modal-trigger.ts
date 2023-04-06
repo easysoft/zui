@@ -89,7 +89,7 @@ export class ModalTrigger extends ComponentBase<ModalTriggerOptions> {
 
 window.addEventListener('click', (event: MouseEvent) => {
     const element = event.target as HTMLElement;
-    const toggleBtn = element.closest<HTMLElement>(ModalTrigger.TOGGLE_SELECTOR);
+    const toggleBtn = element.closest?.<HTMLElement>(ModalTrigger.TOGGLE_SELECTOR);
     if (toggleBtn) {
         const modalTrigger = ModalTrigger.ensure(toggleBtn) as ModalTrigger;
         if (modalTrigger) {

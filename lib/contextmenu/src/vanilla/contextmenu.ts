@@ -322,7 +322,7 @@ export class ContextMenu<T extends ContextMenuOptions = ContextMenuOptions, E ex
 
 document.addEventListener('contextmenu', (event) => {
     const element = event.target as HTMLElement;
-    if (element.closest(`.${ContextMenu.MENU_CLASS}`)) {
+    if (element.closest?.(`.${ContextMenu.MENU_CLASS}`)) {
         return;
     }
     const toggleElement = element.closest<HTMLElement>(ContextMenu.MENU_SELECTOR);

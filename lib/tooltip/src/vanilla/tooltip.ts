@@ -302,7 +302,7 @@ export class Tooltip extends ComponentBase<TooltipOptions> {
 
 document.addEventListener('click', function (event) {
     const element = event.target as HTMLElement;
-    const toggleBtn = element.closest<HTMLElement>(Tooltip.MENU_SELECTOR);
+    const toggleBtn = element.closest?.<HTMLElement>(Tooltip.MENU_SELECTOR);
     if (toggleBtn) {
         const tooltip = Tooltip.ensure(toggleBtn);
         if (tooltip.options.trigger === 'click') {
@@ -315,7 +315,7 @@ document.addEventListener('click', function (event) {
 
 document.addEventListener('mouseover', function (e) {
     const element = e.target as HTMLElement;
-    const toggleBtn = typeof element.closest === 'function' ? element.closest<HTMLElement>(Tooltip.MENU_SELECTOR) : null;
+    const toggleBtn = element.closest?.<HTMLElement>(Tooltip.MENU_SELECTOR);
     if (!toggleBtn) {
         return;
     }

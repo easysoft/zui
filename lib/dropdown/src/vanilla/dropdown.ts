@@ -134,7 +134,7 @@ export class Dropdown extends ContextMenu<DropdownOptions, DropdownEvents> {
 
 document.addEventListener('click', function (event) {
     const element = event.target as HTMLElement;
-    const toggleBtn = element.closest<HTMLElement>(Dropdown.MENU_SELECTOR);
+    const toggleBtn = element.closest?.<HTMLElement>(Dropdown.MENU_SELECTOR);
     if (toggleBtn) {
         const dropdown = Dropdown.ensure(toggleBtn);
         if (dropdown.options.trigger === 'click') {
@@ -147,7 +147,7 @@ document.addEventListener('click', function (event) {
 
 document.addEventListener('mouseover', function (e) {
     const element = e.target as HTMLElement;
-    const toggleBtn = typeof element.closest === 'function' ? element.closest<HTMLElement>(Dropdown.MENU_SELECTOR) : null;
+    const toggleBtn = element.closest?.<HTMLElement>(Dropdown.MENU_SELECTOR);
     if (!toggleBtn) {
         return;
     }
