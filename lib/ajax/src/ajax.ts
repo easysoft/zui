@@ -214,8 +214,7 @@ $.ajax = function (options: CashAjaxOptions) {
                         // http://perfectionkills.com/global-eval-what-are-the-options/
                         // sanitize response accordingly if data filter callback provided
                         result = ajaxDataFilter(result, dataType, settings);
-                        if (dataType == 'script')    eval(result);
-                        else if (dataType == 'xml')  result = xhr.responseXML;
+                        if (dataType == 'xml')  result = xhr.responseXML;
                         else if (dataType == 'json') result = blankRE.test(result) ? null : JSON.parse(result);
                     } catch (e) { error = e; }
 
