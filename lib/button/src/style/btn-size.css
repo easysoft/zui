@@ -32,5 +32,5 @@
     @apply -px-0 -aspect-square -gap-0.5;
 }
 .btn.btn-caret {
-    @apply -px-0.5;
+    @apply -px-1;
 }
