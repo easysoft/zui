@@ -1,8 +1,6 @@
 :root {
     --menu-radius: var(--radius);
     --menu-bg: var(--color-canvas);
-    --menu-border: 1px solid var(--color-border);
-    --menu-shadow: var(--shadow-lg);
     --menu-hover-bg: var(--color-primary-500);
     --menu-hover-color: var(--color-canvas);
     --menu-active-bg: var(--color-primary-50);

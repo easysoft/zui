@@ -1,5 +1,4 @@
 .menu-popup {
+  @apply -shadow-xl -ring-1 -ring-inverse -ring-opacity-5;
   border-radius: var(--menu-radius);
-  box-shadow: var(--menu-shadow);
-  border: var(--menu-border);
 }
