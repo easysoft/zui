@@ -47,7 +47,7 @@ const black = shades.black;
 const white = shades.white;
 
 
-// UI 调色板 - UI palettes
+// UI 特殊颜色定义 - UI Special Colors
 // ======================
 
 /** 画布（页面背景） */
