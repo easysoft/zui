@@ -1673,7 +1673,8 @@ let za = (_a = class extends td {
     let { hasIcons: n } = e;
     return n === void 0 && (n = e.items.some((o) => o.icon)), e.className = F(e.className, this.menuName, {
       "has-icons": n,
-      "has-nested-items": e.items.some((o) => this.isNestedItem(o))
+      "has-nested-items": e.items.some((o) => this.isNestedItem(o)),
+      "menu-popup": e.popup
     }), e;
   }
   renderToggleIcon(e) {
