@@ -3,7 +3,7 @@
 }
 
 .dtable-header {
-    @apply -relative -z-20 -overflow-hidden;
+    @apply -relative -z-20 -overflow-hidden -rounded-t-[inherit];
     background: var(--dtable-header-bg);
 }
 
@@ -55,6 +55,6 @@
 }
 
 .dtable-footer {
-    @apply -absolute -z-10 -w-full -flex -items-center;
+    @apply -absolute -z-10 -w-full -flex -items-center -rounded-t-[inherit];
     background: var(--dtable-footer-bg);
 }
