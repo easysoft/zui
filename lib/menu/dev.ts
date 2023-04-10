@@ -6,6 +6,7 @@ import {Menu} from './src/main';
 
 onPageUpdate(() => {
     const menu = new Menu('#menu', {
+        popup: true,
         items: [
             {text: '复制', icon: 'icon-copy'},
             {text: '粘贴', icon: 'icon-paste'},

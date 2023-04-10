@@ -1,0 +1,5 @@
+.menu-popup {
+  border-radius: var(--menu-radius);
+  box-shadow: var(--menu-shadow);
+  border: var(--menu-border);
+}

@@ -1,11 +1,5 @@
 .menu {
-    @apply -p-1;
-    min-width: var(--menu-min-width);
-    background: var(--menu-bg);
-}
-
-.menu-popup {
-    border-radius: var(--menu-radius);
-    box-shadow: var(--menu-shadow);
-    border: var(--menu-border);
+  @apply -p-1;
+  min-width: var(--menu-min-width);
+  background: var(--menu-bg);
 }
