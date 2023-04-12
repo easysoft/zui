@@ -14,7 +14,7 @@
 .darker  {@apply -border-gray-900 -bg-gray-900 -text-white hover:-text-white;}
 .black   {@apply -border-black -bg-black -text-white hover:-text-white;}
 
-.surface {@apply -border-surface -bg-surface;}
-.canvas  {@apply -border-canvas -bg-canvas;}
+.surface {@apply -border-surface -bg-surface -text-fore;}
+.canvas  {@apply -border-canvas -bg-canvas -text-fore;}
 .inverse {@apply -border-fore -bg-fore -text-canvas;}
-.ghost   {@apply -border-transparent -bg-transparent;}
+.ghost   {@apply -border-transparent -bg-transparent -text-fore;}
