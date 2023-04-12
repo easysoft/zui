@@ -1,11 +1,14 @@
-.ring {
+.ring-light {
     @apply -ring-1 -ring-inverse -ring-opacity-5;
 }
-.ring-dark {
+.ring {
     @apply -ring-1 -ring-inverse -ring-opacity-10;
 }
-.ring-darker {
+.ring-dark {
     @apply -ring-1 -ring-inverse -ring-opacity-20;
+}
+.ring-darker {
+    @apply -ring-1 -ring-inverse -ring-opacity-30;
 }
 
 .ring-0     {@apply -ring-0;}
