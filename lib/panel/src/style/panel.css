@@ -1,0 +1,21 @@
+.panel {
+  @apply -rounded -overflow-hidden -ring-1 -ring-inverse -ring-opacity-5;
+}
+
+.panel-heading {
+  @apply -px-4 -py-2 -flex -justify-between -items-center -flex-nowrap -gap-4;
+}
+.panel-title {
+  @apply -font-bold -m-0 -flex -items-center -gap-2;
+}
+.panel-actions {
+  @apply --mr-2
+}
+
+.panel-body {
+  @apply -px-4 -py-3;
+}
+
+.panel-footer {
+  @apply -px-4 -py-2 -flex -items-center -gap-2;
+}

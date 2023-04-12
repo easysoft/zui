@@ -1,0 +1,11 @@
+.size-sm .panel-heading,
+.size-sm .panel-body,
+.size-sm .panel-footer {
+  @apply -px-3 -py-1.5;
+}
+
+.size-lg .panel-heading,
+.size-lg .panel-body,
+.size-lg .panel-footer {
+  @apply -px-5 -py-4;
+}

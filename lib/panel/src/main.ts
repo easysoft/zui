@@ -1,3 +1,1 @@
-import './vars.css';
-import './panel.css';
-import './theme.css';
+import './style/index.css';
