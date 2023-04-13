@@ -132,18 +132,12 @@ Hello, world!
 
 ```html:example:flex gap-4
 <div class="flex-auto has-error">
-  <textarea rows="5" class="form-control" placeholder="输入一些文本" >
-    Hello, world!
-  </textarea>
+  <textarea rows="5" class="form-control" placeholder="输入一些文本" >Hello, world!</textarea>
 </div>
 <div class="flex-auto has-warning">
-  <textarea rows="5" class="form-control" placeholder="输入一些文本" >
-    Hello, world!
-  </textarea>
+  <textarea rows="5" class="form-control" placeholder="输入一些文本" >Hello, world!</textarea>
 </div>
 <div class="flex-auto has-success">
-  <textarea rows="5" class="form-control" placeholder="输入一些文本" >
-    Hello, world!
-  </textarea>
+  <textarea rows="5" class="form-control" placeholder="输入一些文本" >Hello, world!</textarea>
 </div>
 ```

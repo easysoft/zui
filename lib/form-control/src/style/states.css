@@ -1,5 +1,5 @@
 .has-error .form-control{
-  @apply -border-danger-500;
+  @apply -ring-danger-500;
 }
 .has-error .form-control.focus,
 .has-error .form-control:focus {
@@ -7,7 +7,7 @@
 }
 
 .has-warning .form-control {
-  @apply -border-warning-500;
+  @apply -ring-warning-500;
 }
 .has-warning .form-control.focus,
 .has-warning .form-control:focus {
@@ -15,7 +15,7 @@
 }
 
 .has-success .form-control {
-  @apply -border-success-500;
+  @apply -ring-success-500;
 }
 .has-success .form-control.focus,
 .has-success .form-control:focus {
