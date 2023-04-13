@@ -19,13 +19,13 @@
 }
 
 .checkbox-primary > label::before {
-  @apply -border -rounded-sm -border-gray-300 -bg-canvas;
+  @apply -border -rounded-sm -border-gray-400 -bg-canvas;
 }
 .checkbox-primary > label::after {
   @apply -border-b-canvas -border-2 -w-2 -h-1.5 -border-l-canvas --rotate-45 -border-t-0 -border-r-0 -top-1.5 -left-0.5 -opacity-0;
 }
 .radio-primary > label::before {
-  @apply -border -rounded-full;
+  @apply -border -rounded-full -border-gray-400;
 }
 .radio-primary > label::after {
   @apply -w-2 -h-2 -top-1.5 -left-0.5 -bg-primary-500 -rounded-full -opacity-0;
