@@ -5,5 +5,9 @@
 .rounded-xl {@apply -rounded-xl;}
 
 .circle,
-.rounded-full {@apply -rounded-full;}
-.rounded-none {@apply -rounded-none;}
+.rounded-full   {@apply -rounded-full;}
+.rounded-none   {@apply -rounded-none;}
+.rounded-l-none {@apply -rounded-l-none;}
+.rounded-t-none {@apply -rounded-t-none;}
+.rounded-r-none {@apply -rounded-r-none;}
+.rounded-b-none {@apply -rounded-b-none;}
