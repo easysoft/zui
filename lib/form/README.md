@@ -30,11 +30,12 @@
 ```html:example
 <form class="form-grid" style="max-width: 1000px">
   <div class="form-row">
-    <div class="form-group">
+    <div class="w-1/2 form-group">
       <label class="form-label" for="smallInput">小型框</label>
       <input class="w-1/2 form-control" type="text" id="smallInput" placeholder="输入框或选择框（10个字符以内）">
+      <div class="form-tip">可以放在同一行的字段满足：可连着填写，字段意义上有相似性</div>
     </div>
-    <div class="form-group">
+    <div class="w-1/2 form-group">
       <label class="form-label" for="middleInput">中型框</label>
       <input class="form-control" type="text" id="middleInput">
     </div>
@@ -56,9 +57,10 @@
     </div>
   </div>
   <div class="w-1/2 form-row">
-    <div class="form-group">
+    <div class="form-group has-error">
       <label class="form-label" for="shortTitle">短标题类</label>
       <input id="shortTitle" type="text" class="form-control" placeholder="">
+      <div class="form-tip">此表单项为必填</div>
     </div>
   </div>
   <div class="form-row">
@@ -137,6 +139,7 @@
           <option value="mammoth">猛犸</option>
         </select>
       </div>
+      <div class="form-tip text-success">强关联字段，有灰色底色进行连接，3个以上框的自适应宽度</div>
     </div>
   </div>
   <div class="w-1/2 form-row">
@@ -170,14 +173,6 @@
       <label class="font-bold form-label required" for="taskTitle">任务标题</label>
       <div class="input-group">
         <input id="taskTitle" type="text" class="form-control" placeholder="请输入任务标题">
-        <!-- <label class="input-group-addon" for="sevList">严重程度</label>
-        <select class="w-40 form-control" id="sevList">
-          <option value=""></option>
-          <option value="cat">小猫</option>
-          <option value="fish">金鱼</option>
-          <option value="dragon">龙</option>
-          <option value="mammoth">猛犸</option>
-        </select> -->
         <label class="input-group-addon ring-0" for="priList">优先级</label>
         <select class="w-40 form-control" id="priList">
           <option value=""></option>
@@ -212,7 +207,7 @@
   <div class="form-row">
     <div class="form-group">
       <label class="form-label" for="inlineRadioList">是否公开</label>
-      <div class="gap-4 py-1.5 col">
+      <div class="gap-3 py-1.5 col">
         <div class="radio-primary">
           <input type="radio" name="primaryRadioGroup2" id="primaryradio3">
           <label for="primaryradio3">默认公开 <span class="muted">（有项目视图权限即可访问）</span></label>
@@ -238,6 +233,101 @@
           <option value="dragon">龙</option>
           <option value="mammoth">猛犸</option>
         </select>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="gap-4 form-group">
+      <button type="submit" class="btn primary">提交</button>
+      <button type="submit" class="btn">取消</button>
+    </div>
+  </div>
+</form>
+```
+
+## `.form-selection`
+
+```html:example
+<form class="form w-80">
+  <div class="form-selection">
+    <div class="form-heading">
+      <div class="form-title">账号信息</div>
+    </div>
+    <div class="form-group">
+      <label class="form-label required" for="exampleInputAccount3">账号</label>
+      <input type="text" class="form-control" id="exampleInputAccount3" placeholder="电子邮件/手机号/用户名">
+    </div>
+    <div class="form-group">
+      <label class="form-label required" for="exampleInputPassword3">密码</label>
+      <input type="password" class="form-control" id="exampleInputPassword3" placeholder="">
+    </div>
+  </div>
+  <div class="form-selection">
+    <div class="form-heading">
+      <div class="form-title">地址信息</div>
+    </div>
+    <div class="form-group">
+      <label class="form-label required" for="addressExample1">地址</label>
+      <input type="text" class="form-control" id="addressExample1" placeholder="">
+    </div>
+  </div>
+  <div class="form-selection">
+    <div class="form-heading">
+      <div class="form-title">捐赠信息</div>
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="exampleInputMoney1">捐赠金额</label>
+      <div class="input-group">
+        <span class="input-group-addon">￥</span>
+        <input type="number" class="form-control" id="exampleInputMoney1" placeholder="人民币">
+        <span class="input-group-addon">.00</span>
+      </div>
+      <div class="form-tip">最低捐赠金额为 ￥10.00</div>
+    </div>
+  </div>
+  <button type="submit" class="btn primary">提交</button>
+</form>
+```
+
+```html:example
+<form class="form form-grid">
+  <div class="form-selection">
+    <div class="form-heading">
+      <div class="form-title">账号信息</div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label required" for="exampleInputAccount3">账号</label>
+        <input type="text" class="form-control" id="exampleInputAccount3" placeholder="电子邮件/手机号/用户名">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label required" for="exampleInputPassword3">密码</label>
+        <input type="password" class="form-control" id="exampleInputPassword3" placeholder="">
+      </div>
+    </div>
+  </div>
+  <div class="form-selection">
+    <div class="form-heading">
+      <div class="form-title">地址信息</div>
+    </div>
+    <div class="form-group">
+      <label class="form-label required" for="addressExample1">地址</label>
+      <input type="text" class="form-control" id="addressExample1" placeholder="">
+    </div>
+  </div>
+  <div class="form-selection">
+    <div class="form-heading">
+      <div class="form-title">捐赠信息</div>
+    </div>
+    <div class="form-group">
+      <label class="form-label" for="exampleInputMoney1">捐赠金额</label>
+      <div class="input-group">
+        <span class="input-group-addon">￥</span>
+        <input type="number" class="form-control" id="exampleInputMoney1" placeholder="人民币">
+        <span class="input-group-addon">.00</span>
+      </div>
+      <div class="form-tip">最低捐赠金额为 ￥10.00</div>
     </div>
   </div>
   <div class="form-row">
