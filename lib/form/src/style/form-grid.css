@@ -7,7 +7,7 @@
 }
 
 .form-grid .form-group {
-  @apply -flex -flex-row -items-start -relative -flex-auto -min-h-[32px];
+  @apply -flex -flex-row -items-start -relative -flex-auto -min-h-[32px] -flex-wrap;
   padding-left: var(--form-grid-label-width);
 }
 .form-grid .form-group.no-label {
@@ -19,6 +19,10 @@
 }
 .form-grid .form-label.required::after {
   @apply -order-first -ml-0 -mr-1;
+}
+
+.form-grid .form-tip {
+  @apply -w-full;
 }
 
 .form-grid .input-group,

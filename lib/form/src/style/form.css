@@ -15,3 +15,6 @@
   @apply -mt-1;
   color: var(--form-tip-color);
 }
+.has-error .form-tip {@apply -text-danger-500;}
+.has-warning .form-tip {@apply -text-warning-500;}
+.has-success .form-tip {@apply -text-success-500;}
