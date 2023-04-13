@@ -1,9 +1,10 @@
-.form-group {
-  @apply -mb-5;
+.form {
+  @apply -space-y-2;
 }
 
 .form-label {
-  @apply -block -mb-1 -font-bold -relative;
+  @apply -relative -h-8  -flex -flex-row -items-center -truncate;
+  color: var(--form-label-color);
 }
 .form-label.required::after {
   content: '*';

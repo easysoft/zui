@@ -1,22 +1,27 @@
-.form-grid .form-group {
-  @apply -flex -items-start;
+.form-grid {
+  @apply -space-y-4;
 }
-.form-grid .form-group > .form-cell:first-child {
-  margin-left: var(--form-grid-label-width);
+
+.form-row {
+  @apply -flex -flex-row -items-start;
+}
+
+.form-grid .form-group {
+  @apply -flex -flex-row -items-start -relative -flex-auto -min-h-[32px];
+  padding-left: var(--form-grid-label-width);
+}
+.form-grid .form-group.no-label {
+  padding-left: 0;
 }
 .form-grid .form-label {
-  @apply -flex-none -mb-0 -h-8 -flex -items-center -justify-end -pr-3;
+  @apply -absolute -left-0 -top-0 -px-2 -justify-end;
   width: var(--form-grid-label-width);
-}
-.form-grid .form-label + .form-cell {
-  @apply -ml-0;
 }
 .form-grid .form-label.required::after {
   @apply -order-first -ml-0 -mr-1;
 }
+
+.form-grid .input-group,
 .form-grid .form-tip {
-  @apply -w-full;
-}
-.form-row {
-  @apply -flex-auto -flex -gap-3;
+  @apply -flex-auto;
 }
