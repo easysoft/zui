@@ -219,15 +219,19 @@ export const calculateTimestamp = (duration: number, unit: 'year' | 'quarter' | 
             return calculateTimestamp(duration, 'day', add, initialDate);
         case 'quarter':
             duration *= 3; // eslint-disable-line no-fallthrough
+            break;
         case 'month':
             duration *= 30;
             return calculateTimestamp(duration, 'day', add, initialDate);
         case 'week':
             duration *= 7; // eslint-disable-line no-fallthrough
+            break;
         case 'day':
             duration *= 24; // eslint-disable-line no-fallthrough
+            break;
         case 'hour':
             duration *= 60; // eslint-disable-line no-fallthrough
+            break;
         case 'minute':
             duration *= 60000;
             break;
