@@ -6,7 +6,7 @@
 
 ```html:example: -flex -gap-3 -flex-wrap
 <button type="button" class="btn">Button</button>
-<a class="btn">A Link</a>
+<a class="btn btn-link">A Link</a>
 <a class="btn primary">A Primary Link</a>
 <button type="button" class="btn">中文按钮</button>
 <button type="button" class="btn" disabled="disabled">禁用的按钮</button>

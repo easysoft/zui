@@ -1,0 +1,3 @@
+.btn-link {
+  @apply -ring-transparent -bg-transparent -underline -underline-offset-2;
+}
