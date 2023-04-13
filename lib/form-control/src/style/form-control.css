@@ -4,7 +4,7 @@
 
 .form-control.focus,
 .form-control:focus {
-  @apply -outline-[--form-control-focus] -ring-2 -ring-focus;
+  @apply -outline-[--form-control-focus] -ring -ring-focus -ring-opacity-60;
 }
 
 .form-control[disabled],
