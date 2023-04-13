@@ -58,7 +58,7 @@ function initSidebars() {
         '/guide/': [
             {text: '开始', section: 'start'},
             {text: '设计理念', section: 'concepts'},
-            {text: '配置', section: 'config'},
+            {text: '配置', section: 'config', collapsible: true, collapsed: true},
             {text: '定制', section: 'customize'},
             {text: '贡献', section: 'contributes'},
             {text: '关于', section: 'about'}
