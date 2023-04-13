@@ -2,7 +2,7 @@
 
 将动作或菜单折叠到下拉菜单中。
 
-## 基本用法
+## 使用方法
 
 点击按钮，展开更多操作。如需默认展开，可在 `.dropdown` 类上添加 `.open` 类
 
@@ -290,9 +290,9 @@ export default {
 | `dropdown-header`  | 实体类 | 元素作为下拉菜单中的标题 |
 | `dropdown-submenu` | 实体类 | 元素作为下拉菜单子菜单列表 |
 | `caret`            | 实体类 | 元素作为下拉菜单icon图标 |
-| `dropup`           | 修饰类 | 下拉框浮动方向为上方 |
-| `menu-align-right` | 修饰类 | 下拉框展开后右侧对齐 |
-| `expand-left`      | 修饰类 | 子菜单左侧显示 |
+| `dropup`           | 工具类 | 下拉框浮动方向为上方 |
+| `menu-align-right` | 工具类 | 下拉框展开后右侧对齐 |
+| `expand-left`      | 工具类 | 子菜单左侧显示 |
 
 ## CSS 变量
 

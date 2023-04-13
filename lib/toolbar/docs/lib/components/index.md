@@ -1,6 +1,6 @@
 # 工具栏
 
-## 基本用法
+## 使用方法
 
 <Example class="col gap-2">
   <nav class="toolbar">
@@ -62,7 +62,7 @@
 
 ## 禁用
 
-为 `.toolbar-item` 同级提供 `disabled` 修饰类来禁用工具栏项。被禁用的工具栏项将无法响应点击事件。
+为 `.toolbar-item` 同级提供 `disabled` 工具类来禁用工具栏项。被禁用的工具栏项将无法响应点击事件。
 
 <Example>
   <nav class="toolbar">

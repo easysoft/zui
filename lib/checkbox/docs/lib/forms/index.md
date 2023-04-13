@@ -5,7 +5,7 @@
 如果为 `.checkbox` 添加 `disabled` 类，则整个复选框包括文字部分都会应用禁用样式。
 将多个复选框堆叠形成一个复选框组。
 
-## 基本用法
+## 使用方法
 
 ### 基本样式复选框
 
@@ -118,7 +118,7 @@
 </div>
 <div class="checkbox">
   <label>>
-    <input type="checkbox" disabled > 
+    <input type="checkbox" disabled >
   </label>
 </div>
 ```
@@ -156,7 +156,7 @@
 </div>
 <div class="checkbox">
   <label>>
-    <input type="checkbox" disabled > 
+    <input type="checkbox" disabled >
   </label>
 </div>
 ```

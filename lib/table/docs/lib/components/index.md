@@ -2,7 +2,7 @@
 
 表格用于展示二维数据。
 
-## 基本用法
+## 使用方法
 
 为 `<table>` 元素添加 CSS 类 `.table` 来使用表格。
 
@@ -78,7 +78,7 @@
 
 ## 斑马纹表格
 
-在 `<table class="table">` 上使用修饰类 `.table-striped` 斑马纹表格外观（隔行变色）效果。
+在 `<table class="table">` 上使用工具类 `.table-striped` 斑马纹表格外观（隔行变色）效果。
 
 <Example>
   <table class="table table-striped">
@@ -127,7 +127,7 @@
 
 ## 鼠标悬停变色
 
-在 `<table class="table">` 上使用修饰类 `.table-hover`，当鼠标悬停在行上时显示不一样的背景。
+在 `<table class="table">` 上使用工具类 `.table-hover`，当鼠标悬停在行上时显示不一样的背景。
 
 <Example>
   <table class="table table-hover">
@@ -176,7 +176,7 @@
 
 ## 完整边框
 
-在 `<table class="table">` 上使用修饰类 `.bordered`，为表格添加所有边框。
+在 `<table class="table">` 上使用工具类 `.bordered`，为表格添加所有边框。
 
 <Example>
   <table class="table bordered">
@@ -225,7 +225,7 @@
 
 ## 无边框
 
-在 `<table class="table">` 上使用修饰类 `.borderless`，为表格移除所有边框。
+在 `<table class="table">` 上使用工具类 `.borderless`，为表格移除所有边框。
 
 <Example>
   <table class="table borderless">
@@ -274,7 +274,7 @@
 
 ## 紧凑的表格
 
-在 `<table class="table">` 上使用修饰类 `.condensed` 来获得更紧凑的表格。表格中的单元格拥有更小的间距，整体行高减少。
+在 `<table class="table">` 上使用工具类 `.condensed` 来获得更紧凑的表格。表格中的单元格拥有更小的间距，整体行高减少。
 
 <Example>
   <table class="table condensed">
@@ -323,7 +323,7 @@
 
 ## 固定布局的表格
 
-在 `<table class="table">` 上使用修饰类 `.table-fixed` 来将表格布局方式设置为 `fixed`。
+在 `<table class="table">` 上使用工具类 `.table-fixed` 来将表格布局方式设置为 `fixed`。
 
 <Example>
   <table class="table table-fixed">
@@ -517,12 +517,12 @@
 | 类        | 类型           | 作用  |
 | ------------- |:-------------:| ----- |
 | `table`      | 实体类 | 元素作为表格组件 |
-| `table-striped`      | 修饰类 | 为表格启用斑马纹效果 |
-| `table-hover`      | 修饰类 | 为表格启用行悬停变色效果 |
-| `table-fixed`      | 修饰类 | 为表格启用固定布局 |
-| `borderless`      | 修饰类 | 移除表格所有边框 |
-| `bordered`      | 修饰类 | 为表格添加完整边框 |
-| `condensed`      | 修饰类 | 为表格启用紧凑布局 |
+| `table-striped`      | 工具类 | 为表格启用斑马纹效果 |
+| `table-hover`      | 工具类 | 为表格启用行悬停变色效果 |
+| `table-fixed`      | 工具类 | 为表格启用固定布局 |
+| `borderless`      | 工具类 | 移除表格所有边框 |
+| `bordered`      | 工具类 | 为表格添加完整边框 |
+| `condensed`      | 工具类 | 为表格启用紧凑布局 |
 
 ## CSS 变量
 

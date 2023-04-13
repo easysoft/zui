@@ -2,7 +2,7 @@
 
 按钮生成器是通过 JS 动态生成的按钮组件，用来触发一些动作。通常用在表单、对话框、菜单上面。
 
-## 基本用法
+## 使用方法
 
 基础的按钮用法。
 
@@ -47,7 +47,7 @@
 <script>
 new zui.Button('#btnExp', {text: '默认按钮'});
 new zui.Button('#roundedBtnExp', {text: '圆角按钮', className: 'circle'});
-        
+
 new zui.Button('#primaryBtnExp', {text: '主要按钮', type: 'primary'});
 new zui.Button('#secondaryBtnExp', {text: '次要按钮', type: 'secondary'});
 new zui.Button('#successBtnExp', {text: '成功按钮', type: 'success'});
@@ -335,7 +335,7 @@ export default {
         onZUIReady(() => {
             new zui.Button('#btnExp', {text: '默认按钮'});
             new zui.Button('#roundedBtnExp', {text: '圆角按钮', className: 'circle'});
-            
+
             new zui.Button('#primaryBtnExp', {text: '主要按钮', type: 'primary'});
             new zui.Button('#secondaryBtnExp', {text: '次要按钮', type: 'secondary'});
             new zui.Button('#successBtnExp', {text: '成功按钮', type: 'success'});
@@ -343,7 +343,7 @@ export default {
             new zui.Button('#dangerBtnExp', {text: '警告按钮', type: 'danger'});
             new zui.Button('#importantBtnExp', {text: '重要按钮', type: 'important'});
             new zui.Button('#specialBtnExp', {text: '特殊按钮', type: 'special'});
-            
+
             new zui.Button('#iconBtnExp', {icon: 'icon-search', text: '查询'});
             new zui.Button('#closeBtnExp', {icon: 'icon-off', hint: '关闭'});
             new zui.Button('#closeGhostBtnExp', {icon: 'icon-off', hint: '关闭', className: 'ghost'});
@@ -360,7 +360,7 @@ export default {
             new zui.Button('#showBtn2', {text: '编辑', type: 'primary-outline'});
             new zui.Button('#showBtn3', {text: '删除', type: 'danger-outline'});
             new zui.Button('#showBtn4', {text: '编辑', type: 'primary-pale'});
-            new zui.Button('#showBtn5', {text: '删除', type: 'danger-pale'}); 
+            new zui.Button('#showBtn5', {text: '删除', type: 'danger-pale'});
 
             new zui.Button('#linkBtn1', {text: '链接按钮', url: 'https://www.openzui.com/'});
 

@@ -1,12 +1,14 @@
-.blur-sm {@apply -blur-sm;}
-.blur    {@apply -blur;}
-.blur-md {@apply -blur-md;}
-.blur-lg {@apply -blur-lg;}
-.blur-xl {@apply -blur-xl;}
+.blur-none {@apply -blur-none}
+.blur-sm   {@apply -blur-sm;}
+.blur      {@apply -blur;}
+.blur-md   {@apply -blur-md;}
+.blur-lg   {@apply -blur-lg;}
+.blur-xl   {@apply -blur-xl;}
 
 .grayscale {@apply -grayscale;}
 .invert    {@apply -invert;}
 
+.dsd-none  {@apply -drop-shadow-none}
 .dsd-sm    {@apply -drop-shadow-sm;}
 .dsd       {@apply -drop-shadow;}
 .dsd-md    {@apply -drop-shadow-md;}

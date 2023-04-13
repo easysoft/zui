@@ -1,4 +1,4 @@
-# order 
+# order
 
 使用`order-*`应用CSS属性`order`设置当前元素在Flex容器中的排列顺序
 
@@ -7,12 +7,12 @@
     'last',
     'first',
     'none',
-  ]
+  ];
 </script>
 
 <Example class="flex flex-wrap gap-3">
   <div v-for="index in 12 " :class="'order-' + (13-index) ">
-    <div class="w-16 h-16 pt-5 bg-primary"> 
+    <div class="w-16 h-16 pt-5 bg-primary">
           <div class="text-canvas text-center">{{index}}</div>
     </div>
     <div class="text-center">{{'order-' + (13-index)}}</div>
@@ -33,8 +33,8 @@
 
 <Example class="flex flex-wrap gap-3">
   <div v-for="(item, index) in arrayOrder" :class="'oreder-' + item">
-    <div class="w-16 h-16 pt-5 bg-primary"> 
-          <div class="text-canvas text-center">{{index}}</div>
+    <div class="w-16 h-16 pt-5 bg-primary">
+      <div class="text-canvas text-center">{{index}}</div>
     </div>
     <div class="text-center">{{'order-' + item }}</div>
   </div>

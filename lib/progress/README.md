@@ -2,7 +2,7 @@
 
 进度条提供了工作或动作的实时反馈。
 
-## 基本用法
+## 使用方法
 
 ```htnl:example
   <div class="progress">
@@ -94,7 +94,7 @@
 
 ### 条纹效果
 
-给`.progress`元素添加`.progress-striped`修饰类，给滑动条添加条纹效果
+给`.progress`元素添加`.progress-striped`工具类，给滑动条添加条纹效果
 
 ```html:example
   <div class="progress progress-striped">
@@ -105,7 +105,7 @@
 
 ###  动画效果
 
-给使用了`progress-striped`修饰类的元素添加`.active`修饰类,给条纹滑动条添加向左滑动的动画
+给使用了`progress-striped`工具类的元素添加`.active`工具类,给条纹滑动条添加向左滑动的动画
 
 ```html:example
   <div class="progress progress-striped active">

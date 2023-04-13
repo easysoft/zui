@@ -1,245 +1,245 @@
 # 高
 
-详细配置可参考 [Tailwind 官网](https://www.tailwindcss.cn/docs/container)。
+详细配置可参考 [Tailwind 官网](https://tailwindcss.com/docs/height)。
 
-<Example class="h-96 -overflow-y-auto">
+<Example class="h-96 -overflow-y-auto p-0">
   <table class="table" >
     <thead>
         <tr>
-          <th>修饰类</th>
-          <th>定义</th>
+          <th>工具类</th>
+          <th>属性</th>
         </tr>
     </thead>
     <tbody>
         <tr>
           <td>.h-0</td>
-          <td>height: 0px;</td>
+          <td><code>height: 0px;</code></td>
         </tr>
         <tr>
           <td>.h-px</td>
-          <td>height: 1px;</td>
+          <td><code>height: 1px;</code></td>
         </tr>
         <tr>
           <td>.h-0.5</td>
-          <td>height: 0.125rem; /* 2px */</td>
+          <td><code>height: 0.125rem; /* 2px */</code></td>
         </tr>
         <tr>
           <td>.h-1</td>
-          <td>height: 0.25rem; /* 4px */</td>
+          <td><code>height: 0.25rem; /* 4px */</code></td>
         </tr>
         <tr>
           <td>.h-1.5</td>
-          <td>height: 0.375rem; /* 6px */</td>
+          <td><code>height: 0.375rem; /* 6px */</code></td>
         </tr>
         <tr>
           <td>.h-2</td>
-          <td>height: 0.5rem; /* 8px */</td>
+          <td><code>height: 0.5rem; /* 8px */</code></td>
         </tr>
         <tr>
           <td>.h-2.5</td>
-          <td>height: 0.625rem; /* 10px */</td>
+          <td><code>height: 0.625rem; /* 10px */</code></td>
         </tr>
         <tr>
           <td>.h-3</td>
-          <td>height: 0.75rem; /* 12px */</td>
+          <td><code>height: 0.75rem; /* 12px */</code></td>
         </tr>
         <tr>
           <td>.h-3.5</td>
-          <td>height: 0.875rem; /* 14px */</td>
+          <td><code>height: 0.875rem; /* 14px */</code></td>
         </tr>
         <tr>
           <td>.h-4</td>
-          <td>height: 1rem; /* 16px */</td>
+          <td><code>height: 1rem; /* 16px */</code></td>
         </tr>
         <tr>
           <td>.h-5</td>
-          <td>height: 1.25rem; /* 20px */</td>
+          <td><code>height: 1.25rem; /* 20px */</code></td>
         </tr>
         <tr>
           <td>.h-6</td>
-          <td>height: 1.5rem; /* 24px */</td>
+          <td><code>height: 1.5rem; /* 24px */</code></td>
         </tr>
         <tr>
           <td>.h-7</td>
-          <td>height: 1.75rem; /* 28px */</td>
+          <td><code>height: 1.75rem; /* 28px */</code></td>
         </tr>
         <tr>
           <td>.h-8</td>
-          <td>height: 2rem; /* 32px */</td>
+          <td><code>height: 2rem; /* 32px */</code></td>
         </tr>
         <tr>
           <td>.h-9</td>
-          <td>height: 2.25rem; /* 36px */</td>
+          <td><code>height: 2.25rem; /* 36px */</code></td>
         </tr>
         <tr>
           <td>.h-10</td>
-          <td>height: 2.5rem; /* 40px */</td>
+          <td><code>height: 2.5rem; /* 40px */</code></td>
         </tr>
         <tr>
           <td>.h-11</td>
-          <td>height: 2.75rem; /* 44px */</td>
+          <td><code>height: 2.75rem; /* 44px */</code></td>
         </tr>
         <tr>
           <td>.h-12</td>
-          <td>height: 3rem; /* 48px */</td>
+          <td><code>height: 3rem; /* 48px */</code></td>
         </tr>
         <tr>
           <td>.h-14</td>
-          <td>height: 3.5rem; /* 56px */</td>
+          <td><code>height: 3.5rem; /* 56px */</code></td>
         </tr>
         <tr>
           <td>.h-16</td>
-          <td>height: 4rem; /* 64px */</td>
+          <td><code>height: 4rem; /* 64px */</code></td>
         </tr>
         <tr>
           <td>.h-20</td>
-          <td>height: 5rem; /* 80px */</td>
+          <td><code>height: 5rem; /* 80px */</code></td>
         </tr>
         <tr>
           <td>.h-24</td>
-          <td>height: 6rem; /* 96px */</td>
+          <td><code>height: 6rem; /* 96px */</code></td>
         </tr>
         <tr>
           <td>.h-28</td>
-          <td>height: 7rem; /* 112px */</td>
+          <td><code>height: 7rem; /* 112px */</code></td>
         </tr>
         <tr>
           <td>.h-32</td>
-          <td>height: 8rem; /* 128px */</td>
+          <td><code>height: 8rem; /* 128px */</code></td>
         </tr>
         <tr>
           <td>.h-36</td>
-          <td>height: 9rem; /* 144px */</td>
+          <td><code>height: 9rem; /* 144px */</code></td>
         </tr>
         <tr>
           <td>.h-40</td>
-          <td>height: 10rem; /* 160px */</td>
+          <td><code>height: 10rem; /* 160px */</code></td>
         </tr>
         <tr>
           <td>.h-44</td>
-          <td>height: 11rem; /* 176px */</td>
+          <td><code>height: 11rem; /* 176px */</code></td>
         </tr>
         <tr>
           <td>.h-48</td>
-          <td>height: 12rem; /* 192px */</td>
+          <td><code>height: 12rem; /* 192px */</code></td>
         </tr>
         <tr>
           <td>.h-52</td>
-          <td>height: 13rem; /* 208px */</td>
+          <td><code>height: 13rem; /* 208px */</code></td>
         </tr>
         <tr>
           <td>.h-56</td>
-          <td>height: 14rem; /* 224px */</td>
+          <td><code>height: 14rem; /* 224px */</code></td>
         </tr>
         <tr>
           <td>.h-60</td>
-          <td>height: 15rem; /* 240px */</td>
+          <td><code>height: 15rem; /* 240px */</code></td>
         </tr>
         <tr>
           <td>.h-64</td>
-          <td>height: 7rem; /* 256px */</td>
+          <td><code>height: 7rem; /* 256px */</code></td>
         </tr>
         <tr>
           <td>.h-72</td>
-          <td>height: 7rem; /* 288px */</td>
+          <td><code>height: 7rem; /* 288px */</code></td>
         </tr>
         <tr>
           <td>.h-80</td>
-          <td>height: 7rem; /* 320px */</td>
+          <td><code>height: 7rem; /* 320px */</code></td>
         </tr>
         <tr>
           <td>.h-96</td>
-          <td>height: 7rem; /* 384px */</td>
+          <td><code>height: 7rem; /* 384px */</code></td>
         </tr>
         <tr>
           <td>.h-auto</td>
-          <td>height: auto;</td>
+          <td><code>height: auto;</code></td>
         </tr>
         <tr>
           <td>.h-1/2</td>
-          <td>height: 50%;</td>
+          <td><code>height: 50%;</code></td>
         </tr>
         <tr>
           <td>.h-1/3</td>
-          <td>height: 33.333333%;</td>
+          <td><code>height: 33.333333%;</code></td>
         </tr>
         <tr>
           <td>.h-2/3</td>
-          <td>height: 66.666667%;</td>
+          <td><code>height: 66.666667%;</code></td>
         </tr>
         <tr>
           <td>.h-1/4</td>
-          <td>height: 25%;</td>
+          <td><code>height: 25%;</code></td>
         </tr>
         <tr>
           <td>.h-2/4</td>
-          <td>height: 50%;</td>
+          <td><code>height: 50%;</code></td>
         </tr>
         <tr>
           <td>.h-3/4</td>
-          <td>height: 75%;</td>
+          <td><code>height: 75%;</code></td>
         </tr>
         <tr>
           <td>.h-1/5</td>
-          <td>height: 20%;</td>
+          <td><code>height: 20%;</code></td>
         </tr>
         <tr>
           <td>.h-2/5</td>
-          <td>height: 40%;</td>
+          <td><code>height: 40%;</code></td>
         </tr>
         <tr>
           <td>.h-3/5</td>
-          <td>height: 60%;</td>
+          <td><code>height: 60%;</code></td>
         </tr>
         <tr>
           <td>.h-4/5</td>
-          <td>height: 80%;</td>
+          <td><code>height: 80%;</code></td>
         </tr>
         <tr>
           <td>.h-1/6</td>
-          <td>height: 16.666667%;</td>
+          <td><code>height: 16.666667%;</code></td>
         </tr>
         <tr>
           <td>.h-2/6</td>
-          <td>height: 33.333333%;</td>
+          <td><code>height: 33.333333%;</code></td>
         </tr>
         <tr>
           <td>.h-3/6</td>
-          <td>height: 50%;</td>
+          <td><code>height: 50%;</code></td>
         </tr>
         <tr>
           <td>.h-4/6</td>
-          <td>height: 66.666667%;</td>
+          <td><code>height: 66.666667%;</code></td>
         </tr>
         <tr>
           <td>.h-5/6</td>
-          <td>height: 83.333333%;</td>
+          <td><code>height: 83.333333%;</code></td>
         </tr>
         <tr>
           <td>.h-full</td>
-          <td>height: 100%;</td>
+          <td><code>height: 100%;</code></td>
         </tr>
         <tr>
           <td>.h-screen</td>
-          <td>height: 100vh;</td>
+          <td><code>height: 100vh;</code></td>
         </tr>
         <tr>
           <td>.h-min</td>
-          <td>height: min-content;</td>
+          <td><code>height: min-content;</code></td>
         </tr>
         <tr>
           <td>.h-max</td>
-          <td>height: max-content;</td>
+          <td><code>height: max-content;</code></td>
         </tr>
         <tr>
           <td>.h-fit</td>
-          <td>height: fit-content;</td>
+          <td><code>height: fit-content;</code></td>
         </tr>
     </tbody>
   </table>
 </Example>
 
-### 基本用法
+### 使用方法
 
 使用 `h-{数字}` 或 `h-*px` 来给元素设置固定高度。
 

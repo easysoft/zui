@@ -2,7 +2,7 @@
 
 基于操作菜单 [操作菜单](/lib/components/action-menu/index) 实现的组件，与特定的功能关联起来使用，跟导航类似，但比导航更轻量更灵活。
 
-## 基本用法
+## 使用方法
 
 <Example class="col gap-2">
   <div id="toolbarExp"></div>
@@ -100,13 +100,13 @@ new zui.Toolbar('#editToolbar', {
         {icon: 'icon-align-left', hint: '左对齐'},
         {icon: 'icon-list', hint: '项目符号'},
         {icon: 'icon-smile', hint: '插入表情'},
-        {icon: 'icon-picture', hint: '图片'}, 
+        {icon: 'icon-picture', hint: '图片'},
         {icon: 'icon-link', hint: '超级链接'},
         {icon: 'icon-reply', hint: '后退'},
         {icon: 'icon-share-alt', hint: '前进'},
         {icon: 'icon-resize', hint: '全屏'},
-        
-            
+
+
     ],
 });
 </script>
@@ -127,7 +127,7 @@ new zui.Toolbar('#editToolbar', {
 new zui.Toolbar('#dividerToolbar', {
     items: [
         {icon: 'icon-smile', hint: '表情'},
-        {icon: 'icon-picture', hint: '图片'}, 
+        {icon: 'icon-picture', hint: '图片'},
         {icon: 'icon-cut', hint: '截取屏幕'},
         {type: 'divider'},
         {icon: 'icon-folder-close-alt', hint: '文件'},
@@ -171,7 +171,7 @@ new zui.Toolbar('#disabledToolbar', {
     btnProps: {btnType: 'primary'},
     items: [
         {icon: 'icon-smile', hint: '表情'},
-        {icon: 'icon-picture', hint: '图片'}, 
+        {icon: 'icon-picture', hint: '图片'},
         {icon: 'icon-code', hint: '代码', disabled: true},
         {icon: 'icon-question-sign', hint: '技巧'},
     ],
@@ -229,7 +229,7 @@ const toolbar = $(element).data('zui.toolbar');
 ### `gap`
 
 自定义工具栏按钮的间距，与 `.toolbar` 同级生成 [`.gap-*`](/utilities/flex/utilities/gap.html) 的工具类控制按钮间距。
- 
+
 * 类型：`number | string`
 * 必选：否
 
@@ -432,19 +432,19 @@ export default {
                     {icon: 'icon-align-left', hint: '左对齐'},
                     {icon: 'icon-list', hint: '项目符号'},
                     {icon: 'icon-smile', hint: '插入表情'},
-                    {icon: 'icon-picture', hint: '图片'}, 
+                    {icon: 'icon-picture', hint: '图片'},
                     {icon: 'icon-link', hint: '超级链接'},
                     {icon: 'icon-reply', hint: '后退'},
                     {icon: 'icon-share-alt', hint: '前进'},
                     {icon: 'icon-resize', hint: '全屏'},
-                    
-                     
+
+
                 ],
             });
             new zui.Toolbar('#dividerToolbar', {
                 items: [
                     {icon: 'icon-smile', hint: '表情'},
-                    {icon: 'icon-picture', hint: '图片'}, 
+                    {icon: 'icon-picture', hint: '图片'},
                     {icon: 'icon-cut', hint: '截取屏幕'},
                     {type: 'divider'},
                     {icon: 'icon-folder-close-alt', hint: '文件'},
@@ -459,12 +459,12 @@ export default {
                     {icon: 'icon-check-plus', hint: '添加'},
                 ],
             });
-            
+
             new zui.Toolbar('#disabledToolbar', {
                 btnProps: {className: 'text-primary'},
                 items: [
                     {icon: 'icon-smile', hint: '表情'},
-                    {icon: 'icon-picture', hint: '图片'}, 
+                    {icon: 'icon-picture', hint: '图片'},
                     {icon: 'icon-code', hint: '代码', disabled: true},
                     {icon: 'icon-question-sign', hint: '技巧'},
                 ],

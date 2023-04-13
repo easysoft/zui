@@ -1,6 +1,6 @@
 # 导航
 
-## 基本用法
+## 使用方法
 
 使用组件类`.nav`来获得导航外观 通常搭配`<ul>`,`<li>` 标签来使用
 
@@ -88,7 +88,7 @@
    {{ item.name + '导航' }}
  </div>
  <div class="text-md pb-4 font-bold">
-   {{ '使用 nav- ' + item.class + '修饰类获得' + item.name + '导航样式' }}
+   {{ '使用 nav- ' + item.class + '工具类获得' + item.name + '导航样式' }}
  </div>
  <menu class="nav" :class="'nav-' + item.class ">
    <li class="nav-item"><a class="active"><i class="icon icon-home"></i><span class="text">首页</span></a></li>
@@ -132,7 +132,7 @@
 
 ## 垂直排列的导航
 
-使用修饰类 `nav-stacked` 使导航获得垂直排列样式 可搭配其他各种样式的导航使用
+使用工具类 `nav-stacked` 使导航获得垂直排列样式 可搭配其他各种样式的导航使用
 
 <Example class="flex gap-5">
  <div v-for="item in arrayNav" class="flex-1">
@@ -166,9 +166,9 @@
 
 ## 自适应宽度的导航
 
-使用修饰类 `nav-justified` 使导航获得自适应宽度样式 可搭配其他各种样式的导航使用
+使用工具类 `nav-justified` 使导航获得自适应宽度样式 可搭配其他各种样式的导航使用
 
-自适应宽度修饰类不能和垂直排列修饰类混用
+自适应宽度工具类不能和垂直排列工具类混用
 
 <Example>
  <div v-for="item in arrayNav" class="flex-1">
@@ -197,9 +197,9 @@
 </menu>
 ```
 
-## 带标题的导航与禁用样式 
+## 带标题的导航与禁用样式
 
-可以通过修饰类 'nav-heading' 给导航项设置标题样式, 通过修饰类 `disabled` 给导航项设置禁用样式。
+可以通过工具类 'nav-heading' 给导航项设置标题样式, 通过工具类 `disabled` 给导航项设置禁用样式。
 
 <Example>
   <menu v-for="item in arrayNav" :class="'nav-' + item.class" class="nav nav-justified py-2">
@@ -282,14 +282,14 @@
 | `nav`              | 实体类 | 元素导航组件 |
 | `nav-heading`      | 实体类 | 导航标题组件 |
 | `nav-divider`      | 实体类 | 导航分割线组件 |
-| `active`           | 修饰类 | 为导航元素启用选中态样式 |
-| `nav-simple`       | 修饰类 | 为导航元素启用简单样式 |
-| `nav-primary`      | 修饰类 | 为导航元素启用主要导航样式 |
-| `nav-secondary`    | 修饰类 | 为导航元素启用次要导航样式 |
-| `nav-tabs`         | 修饰类 | 为导航元素启用标签风格导航样式 |
-| `nav-pills`        | 修饰类 | 为导航元素启用标签风格导航样式 |
-| `nav-stacked`      | 修饰类 | 为导航元素启用垂直排列导航样式 |
-| `nav-justified`    | 修饰类 | 为导航元素启用自适应宽度导航样式 |
+| `active`           | 工具类 | 为导航元素启用选中态样式 |
+| `nav-simple`       | 工具类 | 为导航元素启用简单样式 |
+| `nav-primary`      | 工具类 | 为导航元素启用主要导航样式 |
+| `nav-secondary`    | 工具类 | 为导航元素启用次要导航样式 |
+| `nav-tabs`         | 工具类 | 为导航元素启用标签风格导航样式 |
+| `nav-pills`        | 工具类 | 为导航元素启用标签风格导航样式 |
+| `nav-stacked`      | 工具类 | 为导航元素启用垂直排列导航样式 |
+| `nav-justified`    | 工具类 | 为导航元素启用自适应宽度导航样式 |
 
 
 ## CSS 变量

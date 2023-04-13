@@ -1,39 +1,33 @@
 # 不透明度
 
-使用`fade-*`设置元素的不透明度
+使用`opacity-*`设置元素的不透明度
 
-<Example>
-  <div class="flex flex-wrap gap-3 mt-1">
-    <div :key="item" v-for ="item in arrayOpacity" class="w-16 h-16 mt-4" >
-      <div :class="'fade-' + item"  class="bg-primary w-16 h-12" ></div>
-      <div class="text-center">
-        <div>{{'fade-' + item}}</div>
-      </div>
+<Example background="light-grid">
+  <div class="-grid -grid-cols-4 -gap-3">
+    <div :key="item" v-for ="item in opacityJson">
+      <div :class="item"  class="bg-primary h-10" ></div>
+      <div class="text-center">{{item}}</div>
     </div>
   </div>
 </Example>
 
-```html
-<div class="fade-0 ...">
-</div>
-```
 
 <script setup>
-  const arrayOpacity = [
-    0,
-    5,
-    10,
-    20,
-    25,
-    30,
-    40,
-    50,
-    60,
-    70,
-    75,
-    80,
-    90,
-    95,
-    100
+  const opacityJson = [
+    'opacity-0',
+    'opacity-5',
+    'opacity-10',
+    'opacity-20',
+    'opacity-25',
+    'opacity-30',
+    'opacity-40',
+    'opacity-50',
+    'opacity-60',
+    'opacity-70',
+    'opacity-75',
+    'opacity-80',
+    'opacity-90',
+    'opacity-95',
+    'opacity-100'
   ]
 </script>

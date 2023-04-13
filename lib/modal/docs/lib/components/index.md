@@ -1,7 +1,7 @@
 # 对话框
 
 在保留当前页面状态的情况下，直接使用触发按钮即可展现对话框，告知用户展示相关操作。
-## 基本用法
+## 使用方法
 
 使用 `.modal` 与 `.modal-dialog` 类获得对话框的外观展示，通常用在元素 `<div>` 上。
 
@@ -221,7 +221,7 @@ data-target="#sizeModal">全屏对话框</button>
         <div class="modal-body">
           <p>这是提示内容</p>
         </div>
-        <div class="modal-footer"> 
+        <div class="modal-footer">
           <button type="button" class="btn primary size-sm" data-dismiss="modal">知道了</button>
         </div>
       </div>
@@ -239,7 +239,7 @@ data-target="#customModal">点击打开</button>
       <div class="modal-body">
         <p>这是提示内容</p>
       </div>
-      <div class="modal-footer"> 
+      <div class="modal-footer">
         <button type="button" class="btn primary size-sm" data-dismiss="modal">知道了</button>
       </div>
     </div>
@@ -305,8 +305,8 @@ data-target="#customModal">点击打开</button>
 | ------------- |:-------------:| ----- |
 | `modal`      | 实体类 | 元素作为对话框遮罩组件 |
 | `modal-dialog`      | 实体类 | 元素作为对话框组件 |
-| `size-sm`      | 修饰类      |   对话框使用小号尺寸 |
-| `size-lg`      | 修饰类      |   对话框使用大号尺寸 |
+| `size-sm`      | 工具类      |   对话框使用小号尺寸 |
+| `size-lg`      | 工具类      |   对话框使用大号尺寸 |
 
 ## CSS 变量
 

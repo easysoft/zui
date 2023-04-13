@@ -17,6 +17,10 @@
 .text-canvas      {@apply -text-canvas;}
 .text-surface     {@apply -text-surface;}
 .text-inverse     {@apply -text-fore;}
+.text-fore        {@apply -text-fore;}
+.text-focus       {@apply -text-focus;}
+.text-link        {@apply -text-link;}
+.text-link-hover  {@apply -text-link-hover;}
 
 .text-transparent {color: transparent;}
 .text-current     {color: currentColor;}

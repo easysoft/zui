@@ -1,294 +1,294 @@
 
 # 宽
 
-详细配置可参考 [Tailwind 官网](https://www.tailwindcss.cn/docs/container)。
+详细配置可参考 [Tailwind 官网](https://tailwindcss.com/docs/width)。
 
-<Example class="h-96 -overflow-y-auto">
-<table class="table h-96 -overflow-y-auto">
+<Example class="h-96 -overflow-y-auto p-0">
+<table class="table">
     <thead>
         <tr>
-           <th>修饰类</th>
-           <th>定义</th>
+           <th>工具类</th>
+           <th>属性</th>
         </tr>
     </thead>
     <tbody>
         <tr>
             <td>.w-0</td>
-            <td>width: 0px;</td>
+            <td><code>width: 0px;</code></td>
         </tr>
         <tr>
             <td>.w-px</td>
-            <td>width: 1px;</td>
+            <td><code>width: 1px;</code></td>
         </tr>
         <tr>
             <td>.w-0.5</td>
-            <td>width: 0.125rem; /* 2px */</td>
+            <td><code>width: 0.125rem; /* 2px */</code></td>
         </tr>
         <tr>
             <td>.w-1</td>
-            <td>width: 0.25rem; /* 4px */</td>
+            <td><code>width: 0.25rem; /* 4px */</code></td>
         </tr>
         <tr>
             <td>.w-1.5</td>
-            <td>width: 0.375rem; /* 6px */</td>
+            <td><code>width: 0.375rem; /* 6px */</code></td>
         </tr>
         <tr>
             <td>.w-2</td>
-            <td>width: 0.5rem; /* 8px */</td>
+            <td><code>width: 0.5rem; /* 8px */</code></td>
         </tr>
         <tr>
             <td>.w-2.5</td>
-            <td>width: 0.625rem; /* 10px */</td>
+            <td><code>width: 0.625rem; /* 10px */</code></td>
         </tr>
         <tr>
             <td>.w-3</td>
-            <td>width: 0.75rem; /* 12px */</td>
+            <td><code>width: 0.75rem; /* 12px */</code></td>
         </tr>
         <tr>
             <td>.w-3.5</td>
-            <td>width: 0.875rem; /* 14px */</td>
+            <td><code>width: 0.875rem; /* 14px */</code></td>
         </tr>
         <tr>
             <td>.w-4</td>
-            <td>width: 1rem; /* 16px */</td>
+            <td><code>width: 1rem; /* 16px */</code></td>
         </tr>
         <tr>
             <td>.w-5</td>
-            <td>width: 1.25rem; /* 20px */</td>
+            <td><code>width: 1.25rem; /* 20px */</code></td>
         </tr>
         <tr>
             <td>.w-6</td>
-            <td>width: 1.5rem; /* 24px */</td>
+            <td><code>width: 1.5rem; /* 24px */</code></td>
         </tr>
         <tr>
             <td>.w-7</td>
-            <td>width: 1.75rem; /* 28px; */</td>
+            <td><code>width: 1.75rem; /* 28px; */</code></td>
         </tr>
         <tr>
             <td>.w-8</td>
-            <td>width: 2rem; /* 32rem */</td>
+            <td><code>width: 2rem; /* 32rem */</code></td>
         </tr>
         <tr>
             <td>.w-9</td>
-            <td>width: 2.25rem; /* 36px */</td>
+            <td><code>width: 2.25rem; /* 36px */</code></td>
         </tr>
         <tr>
             <td>.w-10</td>
-            <td>width: 2.5rem; /* 40px */</td>
+            <td><code>width: 2.5rem; /* 40px */</code></td>
         </tr>
         <tr>
             <td>.w-11</td>
-            <td>width: 2.75rem; /* 44px */</td>
+            <td><code>width: 2.75rem; /* 44px */</code></td>
         </tr>
         <tr>
             <td>.w-12</td>
-            <td>width: 3rem; /* 48px */</td>
+            <td><code>width: 3rem; /* 48px */</code></td>
         </tr>
         <tr>
             <td>.w-14</td>
-            <td>width: 3.5rem; /* 56px */</td>
+            <td><code>width: 3.5rem; /* 56px */</code></td>
         </tr>
         <tr>
             <td>.w-16</td>
-            <td>width: 4rem; /* 64px */</td>
+            <td><code>width: 4rem; /* 64px */</code></td>
         </tr>
         <tr>
             <td>.w-20</td>
-            <td>width: 5rem; /* 80px */</td>
+            <td><code>width: 5rem; /* 80px */</code></td>
         </tr>
         <tr>
             <td>.w-24</td>
-            <td>width: 6rem; /* 96px */</td>
+            <td><code>width: 6rem; /* 96px */</code></td>
         </tr>
         <tr>
             <td>.w-28</td>
-            <td>width: 7rem; /* 112px */</td>
+            <td><code>width: 7rem; /* 112px */</code></td>
         </tr>
         <tr>
             <td>.w-32</td>
-            <td>width: 8rem; /* 128px */</td>
+            <td><code>width: 8rem; /* 128px */</code></td>
         </tr>
         <tr>
             <td>.w-36</td>
-            <td>width: 9rem; /* 144px */</td>
+            <td><code>width: 9rem; /* 144px */</code></td>
         </tr>
         <tr>
             <td>.w-40</td>
-            <td>width: 10rem; /* 160px */</td>
+            <td><code>width: 10rem; /* 160px */</code></td>
         </tr>
         <tr>
             <td>.w-44</td>
-            <td>width: 11rem; /* 176px; */</td>
+            <td><code>width: 11rem; /* 176px; */</code></td>
         </tr>
         <tr>
             <td>.w-48</td>
-            <td>width: 12rem; /* 192rem */</td>
+            <td><code>width: 12rem; /* 192rem */</code></td>
         </tr>
         <tr>
             <td>.w-52</td>
-            <td>width: 13rem; /* 208px */</td>
+            <td><code>width: 13rem; /* 208px */</code></td>
         </tr>
         <tr>
             <td>.w-56</td>
-            <td>width: 14rem; /* 224px */</td>
+            <td><code>width: 14rem; /* 224px */</code></td>
         </tr>
         <tr>
             <td>.w-60</td>
-            <td>width: 15rem; /* 240px */</td>
+            <td><code>width: 15rem; /* 240px */</code></td>
         </tr>
         <tr>
             <td>.w-64</td>
-            <td>width: 16rem; /* 256px */</td>
+            <td><code>width: 16rem; /* 256px */</code></td>
         </tr>
         <tr>
             <td>.w-72</td>
-            <td>width: 18rem; /* 288px */</td>
+            <td><code>width: 18rem; /* 288px */</code></td>
         </tr>
         <tr>
             <td>.w-80</td>
-            <td>width: 20rem; /* 320px */</td>
+            <td><code>width: 20rem; /* 320px */</code></td>
         </tr>
         <tr>
             <td>.w-96</td>
-            <td>width: 24rem; /* 384px */</td>
+            <td><code>width: 24rem; /* 384px */</code></td>
         </tr>
         <tr>
             <td>.w-auto</td>
-            <td>width: auto;</td>
+            <td><code>width: auto;</code></td>
         </tr>
         <tr>
             <td>.w-1/2</td>
-            <td>width: 50%;</td>
+            <td><code>width: 50%;</code></td>
         </tr>
         <tr>
             <td>.w-1/3</td>
-            <td>width: 33.333333%;</td>
+            <td><code>width: 33.333333%;</code></td>
         </tr>
         <tr>
             <td>.w-2/3</td>
-            <td>width: 66.666667%;</td>
+            <td><code>width: 66.666667%;</code></td>
         </tr>
         <tr>
             <td>.w-1/4</td>
-            <td>width: 25%;</td>
+            <td><code>width: 25%;</code></td>
         </tr>
         <tr>
             <td>.w-2/4</td>
-            <td>width: 50%;</td>
+            <td><code>width: 50%;</code></td>
         </tr>
         <tr>
             <td>.w-3/4</td>
-            <td>width: 75%;</td>
+            <td><code>width: 75%;</code></td>
         </tr>
         <tr>
             <td>.w-1/5</td>
-            <td>width: 20%;</td>
+            <td><code>width: 20%;</code></td>
         </tr>
         <tr>
             <td>.w-2/5</td>
-            <td>width: 40%;</td>
+            <td><code>width: 40%;</code></td>
         </tr>
         <tr>
             <td>.w-3/5</td>
-            <td>width: 60%;</td>
+            <td><code>width: 60%;</code></td>
         </tr>
         <tr>
             <td>.w-4/5</td>
-            <td>width: 80%;</td>
+            <td><code>width: 80%;</code></td>
         </tr>
         <tr>
             <td>.w-1/6</td>
-            <td>width: 16.666667%;</td>
+            <td><code>width: 16.666667%;</code></td>
         </tr>
         <tr>
             <td>.w-2/6</td>
-            <td>width: 33.333333%;</td>
+            <td><code>width: 33.333333%;</code></td>
         </tr>
         <tr>
             <td>.w-3/6</td>
-            <td>width: 50%;</td>
+            <td><code>width: 50%;</code></td>
         </tr>
         <tr>
             <td>.w-4/6</td>
-            <td>width: 66.666667%;</td>
+            <td><code>width: 66.666667%;</code></td>
         </tr>
         <tr>
             <td>.w-5/6</td>
-            <td>width: 83.333333%;</td>
+            <td><code>width: 83.333333%;</code></td>
         </tr>
         <tr>
             <td>.w-1/12</td>
-            <td>width: 8.333333%;</td>
+            <td><code>width: 8.333333%;</code></td>
         </tr>
         <tr>
             <td>.w-2/12</td>
-            <td>width: 16.666667%;</td>
+            <td><code>width: 16.666667%;</code></td>
         </tr>
         <tr>
             <td>.w-3/12</td>
-            <td>width: 25%;</td>
+            <td><code>width: 25%;</code></td>
         </tr>
         <tr>
             <td>.w-4/12</td>
-            <td>width: 33.333333%;</td>
+            <td><code>width: 33.333333%;</code></td>
         </tr>
         <tr>
             <td>.w-5/12</td>
-            <td>width: 41.666667%;</td>
+            <td><code>width: 41.666667%;</code></td>
         </tr>
         <tr>
             <td>.w-6/12</td>
-            <td>width: 50%;</td>
+            <td><code>width: 50%;</code></td>
         </tr>
         <tr>
             <td>.w-7/12</td>
-            <td>width: 58.333333%;</td>
+            <td><code>width: 58.333333%;</code></td>
         </tr>
         <tr>
             <td>.w-8/12</td>
-            <td>width: 66.666667%;</td>
+            <td><code>width: 66.666667%;</code></td>
         </tr>
         <tr>
             <td>.w-9/12</td>
-            <td>width: 75%;</td>
+            <td><code>width: 75%;</code></td>
         </tr>
         <tr>
             <td>.w-10/12</td>
-            <td>width: 83.333333%;</td>
+            <td><code>width: 83.333333%;</code></td>
         </tr>
         <tr>
             <td>.w-11/12</td>
-            <td>width: 91.666667%;</td>
+            <td><code>width: 91.666667%;</code></td>
         </tr>
         <tr>
             <td>.w-full</td>
-            <td>width: 100%;</td>
+            <td><code>width: 100%;</code></td>
         </tr>
         <tr>
             <td>.w-screen</td>
-            <td>width: 100vw;</td>
+            <td><code>width: 100vw;</code></td>
         </tr>
         <tr>
             <td>.w-min</td>
-            <td>width: min-content;</td>
+            <td><code>width: min-content;</code></td>
         </tr>
         <tr>
             <td>.w-max</td>
-            <td>width: max-content;</td>
+            <td><code>width: max-content;</code></td>
         </tr>
         <tr>
             <td>.w-fit</td>
-            <td>width: fit-content;</td>
+            <td><code>width: fit-content;</code></td>
         </tr>
         <tr>
             <td>.max-w-full</td>
-            <td>max-width: 100%;</td>
+            <td><code>max-width: 100%;</code></td>
         </tr>
     </tbody>
 </table>
 </Example>
 
-### 基本用法
+### 使用方法
 
 使用 `w-{数字}` 或 `w-*px` 来给元素设置固定宽度。
 

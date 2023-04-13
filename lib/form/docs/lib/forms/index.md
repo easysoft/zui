@@ -1,6 +1,6 @@
 # 表单
 
-## 基本样式表单 
+## 基本样式表单
 
 使用组件类`.form-group`来获得表单外观，通常搭配`<form>`,`<label>`以及`<input>`等表单控件使用
 
@@ -143,7 +143,7 @@
       </div>
     </fieldset>
     <fieldset>
-      <legend>额外内容</legend> 
+      <legend>额外内容</legend>
       <div class="radio">
         <label>
           <input type="radio" name="exampleRadioOption2"> 使用默认选项
@@ -172,7 +172,7 @@
        <input type="password" class="form-control" />
     </div>
   </fieldset>
-  <legend>额外内容</legend> 
+  <legend>额外内容</legend>
   <fieldset>
       <div class="radio">
     <label>
@@ -353,9 +353,9 @@
  `<input type="url" class="form-control">`
 
  `<input type="search" class="form-control">`
- 
+
  `<input type="tel" class="form-control">`
- 
+
  `<input type="color" class="form-control">`
 
 <Example>
@@ -419,13 +419,13 @@
   | `form-group`      | 实体类 | 元素作为表单组件 |
   | `form-control`    | 实体类 | 元素作为表单控件组件 |
   | `form-tip`        | 实体类 | 元素作为表单控件的提示性文本 |
-  | `form-horizontal` | 修饰类 | 为表单启用水平排列样式 |
-  | `required`        | 修饰类 | 为表单控件启用必填标记样式 |
-  | `has-error`       | 修饰类 | 为表单控件启用报错样式 |
-  | `has-warning`     | 修饰类 | 为表单控件启用警告样式 |
-  | `has-success`     | 修饰类 | 为表单控件启用成功样式 |
+  | `form-horizontal` | 工具类 | 为表单启用水平排列样式 |
+  | `required`        | 工具类 | 为表单控件启用必填标记样式 |
+  | `has-error`       | 工具类 | 为表单控件启用报错样式 |
+  | `has-warning`     | 工具类 | 为表单控件启用警告样式 |
+  | `has-success`     | 工具类 | 为表单控件启用成功样式 |
 
-## CSS 变量 
+## CSS 变量
 
  | 变量名称 | 变量含义 |
  | -------- | -------- |

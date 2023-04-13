@@ -2,7 +2,7 @@
 
 环形进度条生成器允许通过 JS 动态创建一个[环形进度条](/lib/components/progress-circle/index.html)。
 
-## 基本用法
+## 使用方法
 
 通过构建一个 `ProgressCircle` 实例, 在一个空的 `<div>` 元素上创建一个菜单。
 

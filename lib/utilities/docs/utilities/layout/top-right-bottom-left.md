@@ -2,7 +2,24 @@
 
 用于控制定位元素的位置的工具类。
 
-## 使用方法
+<Example class="p-0">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>工具类</th>
+        <th>属性</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr v-for="item in locationJson">
+        <td>{{item.name}}</td>
+        <td>{{item.desc}}</td>
+      </tr>
+    </tbody>
+   </table>
+</Example>
+
+## 效果展示
 
 <Example class="flex gap-4 flex-wrap">
   <div class="relative h-24 w-24 bg-surface">
@@ -17,71 +34,52 @@
   <div class="relative h-24 w-24 bg-surface">
     <div class="absolute inset-y-0 right-0 w-12 bg-secondary flex justify-center items-center rounded text-white">4</div>
   </div>
+</Example>
+
+```html
+<div class="relative ...">
+  <div class="absolute inset-0 ...">1</div>
+</div>
+<div class="relative ...">
+  <div class="absolute inset-x-0 top-0 ...">2</div>
+</div>
+<div class="relative ...">
+  <div class="absolute inset-x-0 bottom-0 ...">3</div>
+</div>
+<div class="relative ...">
+  <div class="absolute inset-y-0 right-0 ...">4</div>
+</div>
+```
+
+<Example class="-inline-grid gap-4 -grid-cols-2">
   <div class="relative h-24 w-24 bg-surface">
-    <div class="absolute inset-y-0 left-0 w-12 bg-secondary flex justify-center items-center rounded text-white">5</div>
+    <div class="absolute left-0 top-0 w-12 h-12 bg-secondary flex justify-center items-center rounded text-white">5</div>
   </div>
   <div class="relative h-24 w-24 bg-surface">
-    <div class="absolute left-0 top-0 w-12 h-12 bg-secondary flex justify-center items-center rounded text-white">6</div>
+    <div class="absolute right-0 top-0 w-12 h-12 bg-secondary flex justify-center items-center rounded text-white">6</div>
   </div>
   <div class="relative h-24 w-24 bg-surface">
-    <div class="absolute right-0 top-0 w-12 h-12 bg-secondary flex justify-center items-center rounded text-white">7</div>
+    <div class="absolute left-0 bottom-0 w-12 h-12 bg-secondary flex justify-center items-center rounded text-white">7</div>
   </div>
   <div class="relative h-24 w-24 bg-surface">
-    <div class="absolute left-0 bottom-0 w-12 h-12 bg-secondary flex justify-center items-center rounded text-white">8</div>
-  </div>
-  <div class="relative h-24 w-24 bg-surface">
-    <div class="absolute right-0 bottom-0 w-12 h-12 bg-secondary flex justify-center items-center rounded text-white">9</div>
+    <div class="absolute right-0 bottom-0 w-12 h-12 bg-secondary flex justify-center items-center rounded text-white">8</div>
   </div>
 </Example>
 
 ```html
-<div class="relative h-24 w-24">
-  <div class="absolute inset-0 w-12">1</div>
+<div class="relative ...">
+  <div class="absolute left-0 top-0 ...">5</div>
 </div>
-<div class="relative h-24 w-24">
-  <div class="absolute inset-x-0 top-0 h-12">2</div>
+<div class="relative ...">
+  <div class="absolute right-0 top-0 ...">6</div>
 </div>
-<div class="relative h-24 w-24">
-  <div class="absolute inset-x-0 bottom-0 h-12">3</div>
+<div class="relative ...">
+  <div class="absolute left-0 bottom-0 ...">7</div>
 </div>
-<div class="relative h-24 w-24">
-  <div class="absolute inset-y-0 right-0 w-12">4</div>
-</div>
-<div class="relative h-24 w-24">
-  <div class="absolute inset-y-0 left-0 w-12">5</div>
-</div>
-<div class="relative h-24 w-24">
-  <div class="absolute left-0 top-0 w-12 h-12">6</div>
-</div>
-<div class="relative h-24 w-24">
-  <div class="absolute right-0 top-0 w-12 h-12">7</div>
-</div>
-<div class="relative h-24 w-24">
-  <div class="absolute left-0 bottom-0 w-12 h-12">8</div>
-</div>
-<div class="relative h-24 w-24">
-  <div class="absolute right-0 bottom-0 w-12 h-12">9</div>
+<div class="relative ...">
+  <div class="absolute right-0 bottom-0 ...">8</div>
 </div>
 ```
-
-## 默认类参考
-
-<Example>
-  <table class="table">
-    <thead>
-      <tr>
-        <th>修饰类</th>
-        <th>定义</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="item in locationJson">
-        <td>{{item.name}}</td>
-        <td>{{item.desc}}</td>
-      </tr>
-    </tbody>
-   </table>
-</Example>
 
 <script setup>
   const locationJson = [

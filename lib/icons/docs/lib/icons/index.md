@@ -4,7 +4,7 @@
 
 <ul id="iconsExample" class="flex flex-wrap gap-y-3 justify-start h-96 -overflow-y-auto "></ul>
 
-## 基本用法
+## 使用方法
 <Example>
   <i class="icon icon-resize"></i>
 </Example>

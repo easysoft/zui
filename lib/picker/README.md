@@ -16,7 +16,7 @@
 <div id="multiPicker"></div>
 ```
 
-## 基本用法
+## 使用方法
 
 
 ## 引入

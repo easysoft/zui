@@ -2,7 +2,7 @@
 
 按钮是用来触发一些动作。通常用在表单、对话框、菜单上面。好的按钮设计能够引导用户高效的达到目的。
 
-## 基本用法
+## 使用方法
 
 使用 `.btn` 类来获得按钮的外观和交互体验，通常用在元素 `<button>` 或 `<a>` 上。
 
@@ -368,7 +368,7 @@
 
 ## 正方形按钮
 
-通过修饰类 `square` 可以让按钮获得正方形外观，通常作为图标按钮使用。
+通过工具类 `square` 可以让按钮获得正方形外观，通常作为图标按钮使用。
 
 <Example class="flex gap-4 items-end">
   <button type="button" class="btn square size-xs">XS</button>
@@ -388,7 +388,7 @@
 
 ## 圆形按钮
 
-当与修饰类 `circle` 与 `square` 一起使用时则获得圆形按钮。
+当与工具类 `circle` 与 `square` 一起使用时则获得圆形按钮。
 
 <Example class="flex gap-4 items-end">
   <button type="button" class="btn square circle size-xs">XS</button>
@@ -408,7 +408,7 @@
 
 ## 禁用状态
 
-为按钮提供 `disabled="disabled"` 属性或 `disabled` 修饰类来禁用按钮。被禁用的按钮将无法响应点击事件。
+为按钮提供 `disabled="disabled"` 属性或 `disabled` 工具类来禁用按钮。被禁用的按钮将无法响应点击事件。
 
 <Example class="flex gap-4 items-end">
   <button type="button" class="btn" disabled="disabled">被禁用的按钮</button>
@@ -422,7 +422,7 @@
 
 ## 加载中状态
 
-为按钮提供 `loading` 修饰类来启用加载中状态。
+为按钮提供 `loading` 工具类来启用加载中状态。
 
 <Example class="flex gap-4 items-end">
   <button type="button" class="btn loading">加载中...</button>
@@ -439,11 +439,11 @@
 | 类        | 类型           | 作用  |
 | ------------- |:-------------:| ----- |
 | `btn`      | 实体类 | 元素作为按钮组件 |
-| `square`      | 修饰类 | 按钮使用正方形外观 |
-| `size-xs`      | 修饰类      |   按钮使用超小号尺寸 |
-| `size-sm`      | 修饰类      |   按钮使用小号尺寸 |
-| `size-lg`      | 修饰类      |   按钮使用大号尺寸 |
-| `size-xl`      | 修饰类      |   按钮使用超大号尺寸 |
+| `square`      | 工具类 | 按钮使用正方形外观 |
+| `size-xs`      | 工具类      |   按钮使用超小号尺寸 |
+| `size-sm`      | 工具类      |   按钮使用小号尺寸 |
+| `size-lg`      | 工具类      |   按钮使用大号尺寸 |
+| `size-xl`      | 工具类      |   按钮使用超大号尺寸 |
 
 
 ## CSS 变量

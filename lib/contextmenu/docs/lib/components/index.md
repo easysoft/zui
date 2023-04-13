@@ -2,7 +2,7 @@
 
 自定义鼠标右击动态生成菜单。
 
-## 基本用法
+## 使用方法
 
 鼠标右击时，展开更多操作， 在响应的区域添加 `data-toggle="contextmenu"`。
 
@@ -275,7 +275,7 @@ new ContextMenu('#contextMenu', {
 * 类型：`array`
 * 必选：是
 
-### `placement` 
+### `placement`
 
 操作菜单展开位置。
 

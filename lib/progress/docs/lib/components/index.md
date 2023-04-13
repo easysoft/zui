@@ -1,6 +1,6 @@
 # 进度条
 
-## 基本用法
+## 使用方法
 
 使用实体类 `progress` 和 `progress-bar` 应用进度条CSS组件。
 
@@ -36,7 +36,7 @@
     <div class="progress-bar primary" style="width: 40%">
     </div>
   </div>
-  ... 
+  ...
 ```
 ## 圆角大小
 
@@ -60,7 +60,7 @@
 
 ### 条纹效果
 
-给 `.progress` 元素添加 `.progress-striped` 修饰类，给进度条添加条纹效果。
+给 `.progress` 元素添加 `.progress-striped` 工具类，给进度条添加条纹效果。
 
 <Example>
    <div class="progress progress-striped">
@@ -79,7 +79,7 @@
 
 ###  动画效果
 
-给使用了 `progress-striped` 修饰类的元素添加 `.active` 修饰类,给条纹进度条添加向左滑动的动画
+给使用了 `progress-striped` 工具类的元素添加 `.active` 工具类,给条纹进度条添加向左滑动的动画
 
 <Example>
    <div class="progress progress-striped active">
@@ -99,7 +99,7 @@
 
 给 `.progress` 元素添加多个 `progress-bar` 元素，使多个进度条堆叠展示。
 
-<Example> 
+<Example>
  <div class="progress">
    <div class="progress-bar success" style="width: 40%">
    </div>
@@ -125,7 +125,7 @@
 
 通常使用标签时用 [CSS 工具类](/utilities/backgrounds/utilities/index) `bg-transparent` 去掉背景色。
 
-<Example> 
+<Example>
  <div class="progress bg-canvas">
    <div class="progress-bar success" style="width: 40%">
    </div>
@@ -148,8 +148,8 @@
  | ------------- |:-------------:| ----- |
  | `progress`          | 实体类 | 元素作为进度条容器组件 |
  | `progress-bar`      | 实体类 | 元素作为进度条组件 |
- | `progress-striped`  | 修饰类 | 为进度条组件启用条纹样式 |
- | `active`            | 修饰类 | 为条纹样式进度条组件启用动画效果 |
+ | `progress-striped`  | 工具类 | 为进度条组件启用条纹样式 |
+ | `active`            | 工具类 | 为条纹样式进度条组件启用动画效果 |
 
 ## CSS变量
 | 变量名称 | 变量含义 |

@@ -1,6 +1,6 @@
 # 导航生成器
 
-## 基本用法
+## 使用方法
 
 <Example>
   <div id="nav1" class="w-full"></div>

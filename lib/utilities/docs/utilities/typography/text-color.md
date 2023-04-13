@@ -1,53 +1,46 @@
 # 文本颜色
 
-## 使用方法
-
 使用 `text-*` 工具类控制元素的文字颜色。
 
-<Example class="flex flex-wrap gap-2 -bg-danger-100 p-3">
-  <span class="w-36 text-primary">text-primary 文本色</span>
-  <span class="w-36 text-secondary">text-secondary 文本色</span>
-  <span class="w-36 text-success">text-success 文本色</span>
-  <span class="w-36 text-warning">text-warning 文本色</span>
-  <span class="w-36 text-danger">text-danger 文本色</span>
-  <span class="w-36 text-important">text-important 文本色</span>
-  <span class="w-36 text-special">text-special 文本色</span>
-  <span class="w-36 text-white">text-white 文本色</span>
-  <span class="w-36 text-lighter">text-lighter 文本色</span>
-  <span class="w-36 text-light">text-light 文本色</span>
-  <span class="w-36 text-gray">text-gray 文本色</span>
-  <span class="w-36 text-dark">text-dark 文本色</span>
-  <span class="w-36 text-darker">text-darker 文本色</span>
-  <span class="w-36 text-black">text-black 文本色</span>
-  <span class="w-36 text-canvas">text-canvas 文本色</span>
-  <span class="w-36 text-surface">text-surface 文本色</span>
-  <span class="w-36 text-inverse">text-inverse 文本色</span>
-</Example>
-
-```html
-<span class="text-primary">text-primary 文本色</span>
-<span class="text-secondary">text-secondary 文本色</span>
-<span class="text-success">text-success 文本色</span>
-...
-```
-
-## 默认类参考
-
-<Example>
+<Example class="p-0">
   <table class="table">
     <thead>
       <tr>
-        <th>修饰类</th>
-        <th>定义</th>
+        <th>工具类</th>
+        <th>属性</th>
       </tr>
     </thead>
     <tbody>
       <tr v-for="item in textColorJson">
         <td>{{item.name}}</td>
-        <td>{{item.desc}}</td>
+        <td><code>{{item.desc}}</code></td>
       </tr>
     </tbody>
    </table>
+</Example>
+
+## 效果展示
+
+<Example background="light-circle">
+	<div class="-grid -grid-cols-5 -gap-4">
+		<div v-for="item in textColorJson.slice(0, 7)" class="-h-10 flex -justify-center -items-center" :class="item.name">{{item.name}}</div>
+	</div>
+</Example>
+
+### 黑白配色
+
+<Example background="blue-circle">
+	<div class="-grid -grid-cols-5 -gap-4">
+		<div v-for="item in textColorJson.slice(7, 14)" class="-h-10 flex -justify-center -items-center" :class="item.name">{{item.name}}</div>
+	</div>
+</Example>
+
+### 特殊配色
+
+<Example background="blue-circle">
+	<div class="-grid -grid-cols-5 -gap-4">
+		<div v-for="item in textColorJson.slice(14)" class="-h-10 flex -justify-center -items-center" :class="item.name">{{item.name}}</div>
+	</div>
 </Example>
 
 <script setup>

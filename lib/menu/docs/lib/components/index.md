@@ -10,7 +10,7 @@
 import 'zui/menu/css';
 ```
 
-## 基本用法
+## 使用方法
 
 使用类 `.menu` 和 `.menu-item` 按照如下结构来构建一个静态菜单：
 
@@ -76,7 +76,7 @@ import 'zui/menu/css';
 
 ## 包含图标
 
-可以在菜单项内添加图标，但如果是部分菜单项拥有图标，可以通过为 `.menu` 添加修饰类 `.has-icons` 来让图标以及文本进行对齐：
+可以在菜单项内添加图标，但如果是部分菜单项拥有图标，可以通过为 `.menu` 添加工具类 `.has-icons` 来让图标以及文本进行对齐：
 
 <Example>
   <menu class="menu has-icons w-32">
@@ -116,7 +116,7 @@ import 'zui/menu/css';
 
 ## 标记激活项
 
-为 `.menu-item` 添加修饰类 `.active` 来将菜单项标记为激活状态：
+为 `.menu-item` 添加工具类 `.active` 来将菜单项标记为激活状态：
 
 <Example>
   <menu class="menu w-32">
@@ -226,9 +226,9 @@ import 'zui/menu/css';
 | `menu-item`      | 实体类 | 元素作为菜单项 |
 | `menu-heading`      | 实体类      |   元素作为菜单标题 |
 | `menu-divider`      | 实体类      |   元素作为分割线 |
-| `has-icons`      | 修饰类      |   与 `menu` 一起使用，标记菜单内包含图标 |
-| `active`      | 修饰类      |   与 `menu-item` 一起使用，标记菜单项为激活状态 |
-| `disabled`      | 修饰类      |   与 `menu-item` 一起使用，标记菜单项为禁用状态 |
+| `has-icons`      | 工具类      |   与 `menu` 一起使用，标记菜单内包含图标 |
+| `active`      | 工具类      |   与 `menu-item` 一起使用，标记菜单项为激活状态 |
+| `disabled`      | 工具类      |   与 `menu-item` 一起使用，标记菜单项为禁用状态 |
 
 ## CSS 变量
 

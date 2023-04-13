@@ -2,7 +2,7 @@
 
 常用于多项按钮操作的组件，通过 JS 动态生成，使用时方便快捷。
 
-## 基本用法
+## 使用方法
 
 <Example class="flex gap-2">
   <div id="btnGroup"></div>
@@ -316,7 +316,7 @@ export default {
                     items: btnGroupItems,
                 });
             });
-           
+
             const sizeList = ['xs', 'sm', 'lg', 'xl'];
             sizeList.forEach(item => {
                 new zui.BtnGroup(`#${item}BtnGroup`, {
@@ -327,7 +327,7 @@ export default {
             new zui.BtnGroup('#defaultBtnGroup', {
                 items: btnGroupItems,
             });
-            
+
             new zui.BtnGroup('#disabledBtnGroup', {
                 items: [
                     {icon: 'icon-search'},

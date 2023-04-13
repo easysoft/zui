@@ -13,3 +13,9 @@
 .VPNavBarMenu.menu {
     @apply -shadow-none -border-none -bg-transparent;
 }
+
+.-bg-stripes-blue {
+    background-color: #60a5fa1a;
+    background-image: linear-gradient(135deg,#3b82f680 10%,#0000 0,#0000 50%,#3b82f680 0,#3b82f680 60%,#0000 0,#0000);
+    background-size: 7.07px 7.07px;
+}

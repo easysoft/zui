@@ -3,25 +3,23 @@
 
 添加`scale-*`设置元素的缩放
 
-<Example class="flex flex-wrap gap-3 h-full">
- <div v-for = "item in arrayScale" class="h-28 w-24 mt-4">
-   <img src="/favicon.svg" :class="'scale-' + item" class="w-16 h-16">
-   <div class="text-center mt-4">{{ 'scale-' + item}}</div>
- </div>
+<Example class="pt-8">
+  <div class="-grid -grid-cols-4 -gap-5">
+    <div v-for = "item in scaleJson" class="flex -flex-col -items-center">
+      <img src="/favicon.svg" :class="item" class="w-16 h-16">
+      <div class="text-center mt-4">{{item}}</div>
+    </div>
+  </div>
 </Example>
 
-```html
-<img class="scale-150" src="...">
-```
-
 <script setup>
-  const arrayScale = [
-    150,
-    125,
-    110,
-    105,
-    100,
-    50,
-    0
+  const scaleJson = [
+    'scale-150',
+    'scale-125',
+    'scale-110',
+    'scale-105',
+    'scale-100',
+    'scale-50',
+    'scale-0',
   ]
 </script>
