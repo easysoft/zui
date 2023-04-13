@@ -3,8 +3,8 @@
 ## 基本类型
 
 ```html:example: -flex -gap-3 -overflow-x-auto
-<div class="row gap-6">
-    <div class="w-1/2 col gap-2">
+<div class="gap-6 row">
+    <div class="w-1/2 gap-2 col">
       <div class="input-group">
         <input type="text" class="form-control" placeholder="用户名">
         <span class="input-group-addon">@gmail.com</span>
@@ -20,7 +20,7 @@
         <span class="input-group-addon"><i class="icon icon-heart"></i></span>
       </div>
     </div>
-    <div class="w-1/2 col gap-2">
+    <div class="w-1/2 gap-2 col">
       <div class="input-group">
         <input type="text" class="form-control" placeholder="用户名">
         <span class="input-group-addon"><i class="icon icon-star"></i></span>
@@ -33,14 +33,12 @@
         <input type="text" class="form-control" placeholder="密码">
       </div>
       <div class="input-group">
-        <span class="input-group-btn">
-          <button type="button" class="btn" data-toggle="dropdown">类别<span class="caret"></span></button>
-          <menu class="dropdown-menu menu">
-            <li class="menu-item"><a>水果</a></li>
-            <li class="menu-item"><a>宠物</a></li>
-            <li class="menu-item"><a>其他类型</a></li>
-          </menu>
-        </span>
+        <button type="button" class="btn" data-toggle="dropdown">类别<span class="caret"></span></button>
+        <menu class="dropdown-menu menu">
+          <li class="menu-item"><a>水果</a></li>
+          <li class="menu-item"><a>宠物</a></li>
+          <li class="menu-item"><a>其他类型</a></li>
+        </menu>
         <select data-placeholder="选择一些爱吃的水果..." class="form-control">
           <option value="strawberries" selected>草莓</option>
           <option value="apple">苹果</option>
@@ -51,9 +49,7 @@
         </select>
         <span class="input-group-addon"><i class="icon-comment"></i></span>
         <input type="text" class="form-control" placeholder="备注">
-        <span class="input-group-btn">
-          <button type="button" class="btn">提交</button>
-        </span>
+        <button type="button" class="btn">提交</button>
       </div>
     </div>
   </div>
@@ -105,38 +101,23 @@
 ```html:example: -flex -gap-3
 <div class="input-group">
   <input type="text" class="form-control">
-  <div class="dropdown menu-align-right">
-    <button type="button" class="btn" data-toggle="dropdown">选项 <span class="caret"></span></button>
-    <ul class="menu dropdown-menu">
-      <li class="menu-item"><a>选项</a></li>
-      <li class="menu-item"><a>另一个选项</a></li>
-      <li class="menu-item"><a>更多选项</a></li>
-      <li class="menu-divider"></li>
-      <li class="menu-item"><a>特别内容</a></li>
-    </ul>
-  </div>
+  <a class="btn" data-toggle="dropdown" data-placement="bottom-end" href="#dropdownMenuExample">选项 <span class="caret"></span></a>
 </div>
+<ul class="menu dropdown-menu" id="dropdownMenuExample">
+  <li class="menu-item"><a>选项</a></li>
+  <li class="menu-item"><a>另一个选项</a></li>
+  <li class="menu-item"><a>更多选项</a></li>
+  <li class="menu-divider"></li>
+  <li class="menu-item"><a>特别内容</a></li>
+</ul>
 ```
 
 ## 分段按钮
 
 ```html:example: -flex -gap-3
 <div class="input-group">
-  <input type="text" class="form-control">
-  <div class="input-group-btn">
-    <button type="button" class="btn">主要选项</button>
-  </div>
-  <div class="input-group-btn">
-    <button type="button" class="btn" data-toggle="dropdown">
-      选项 <span class="caret"></span>
-    </button>
-    <ul class="dropdown-menu menu">
-      <li class="menu-item"><a>选项</a></li>
-      <li class="menu-item"><a>另一个选项</a></li>
-      <li class="menu-item"><a>更多选项</a></li>
-      <li class="menu-divider"></li>
-      <li class="menu-item"><a>特别内容</a></li>
-    </ul>
-  </div>
+  <input type="text" class="form-control" placeholder="分段按钮">
+  <button type="button" class="btn">主要选项</button>
+  <a class="btn" data-toggle="dropdown" data-placement="bottom-end" href="#dropdownMenuExample">选项 <span class="caret"></span></a>
 </div>
 ```

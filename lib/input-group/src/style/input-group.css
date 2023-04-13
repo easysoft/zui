@@ -2,31 +2,24 @@
   @apply -flex -items-stretch;
 }
 
-.input-group > .form-control {
-  @apply -flex-auto;
-}
-.input-group > .form-control:focus {
-  @apply -z-[1];
+.input-group > .form-control,
+.input-group > .input-control {
+  @apply -flex-auto -z-[1];
 }
 
 .input-group-addon {
-  @apply -h-8 -border -px-2 -flex -items-center -flex-none;
-  background: var(--input-group-addon-bg);
-  border-radius: var(--form-control-radius);
-  border-color: var(--form-control-border);
+  @apply -h-8 -ring-[--form-control-border] -ring-1 -px-2 -flex -items-center -flex-none -z-0 -rounded-[--form-control-radius] -bg-[--input-group-addon-bg];
 }
 
-.input-group-btn {
-  @apply -flex-none;
-}
 
 .input-group > * + * {
-  @apply --ml-px -rounded-l-none;
-}
-.input-group > * + * > .btn {
   @apply -rounded-l-none;
 }
-.input-group > *:not(:last-child),
-.input-group > *:not(:last-child) > .btn {
+.input-group > *:not(:last-child) {
   @apply -rounded-r-none;
+}
+
+.input-group .form-control:focus,
+.input-group .btn:focus-visible {
+  @apply -z-[2];
 }
