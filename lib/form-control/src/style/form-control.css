@@ -1,5 +1,5 @@
 .form-control {
-  @apply -bg-canvas -block -h-8 -py-1 -px-2 -w-full -ring-border-strong -ring-1 -rounded-[--form-control-radius] -outline -outline-1 -outline-transparent -transition-[outline,box-shadow];
+  @apply -bg-canvas -block -h-8 -py-1 -px-2 -w-full -ring-[--form-control-border] -ring-1 -rounded-[--form-control-radius] -outline -outline-1 -outline-transparent -transition-[outline,box-shadow];
 }
 
 .form-control.focus,
