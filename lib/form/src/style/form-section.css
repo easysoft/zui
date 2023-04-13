@@ -1,0 +1,12 @@
+.form-selection {
+  @apply -space-y-2 -pb-4 -pl-4;
+}
+.form-grid .form-selection {
+    @apply -space-y-4;
+}
+.form-heading {
+  @apply -border-b -border-b-primary-100 -flex -justify-start --ml-4;
+}
+.form-title {
+  @apply -font-bold -px-3 -h-7 -flex -items-center -bg-primary-50/50;
+}
