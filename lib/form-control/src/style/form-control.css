@@ -1,16 +1,13 @@
 .form-control {
-  @apply -bg-canvas -border -block -h-8 -py-1 -px-2 -w-full -transition-[outline] -duration-100;
-  border-radius: var(--form-control-radius);
-  border-color: var(--form-control-border);
+  @apply -bg-canvas -block -h-8 -py-1 -px-2 -w-full -ring-border-strong -ring-1 -rounded-[--form-control-radius] -outline -outline-1 -outline-transparent -transition-[outline,box-shadow];
 }
 
 .form-control.focus,
 .form-control:focus {
-  border-color: var(--color-primary-400);
-  outline: 2px solid var(--form-control-focus);
+  @apply -outline-[--form-control-focus] -ring-2 -ring-focus;
 }
 
 .form-control[disabled],
 .form-control.disabled {
-  background: var(--form-control-disabled);
+  @apply -bg-[--form-control-disabled];
 }

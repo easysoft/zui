@@ -2,8 +2,9 @@
 
 ## 单行输入框 `<input>`
 
-```html:example
+```html:example: row gap-4
 <input type="text" class="form-control" placeholder="输入一些文本" />
+<input type="text" class="form-control focus" placeholder="激活态" />
 ```
 
 ## 选择框 `<select>`
@@ -70,7 +71,7 @@ Hello, world!
 ```
 
 ```html:example:flex gap-4
-<div class="has-error flex-auto">
+<div class="flex-auto has-error">
   <select data-placeholder="选择一个宠物..." class="form-control">
     <option value="cat">小猫</option>
     <option value="fish">金鱼</option>
@@ -79,7 +80,7 @@ Hello, world!
     <option value="gollum">咕噜</option>
   </select>
 </div>
-<div class="has-warning flex-auto">
+<div class="flex-auto has-warning">
   <select data-placeholder="选择一个宠物..." class="form-control">
     <option value="cat">小猫</option>
     <option value="fish">金鱼</option>
@@ -88,7 +89,7 @@ Hello, world!
     <option value="gollum">咕噜</option>
   </select>
 </div>
-<div class="has-success flex-auto">
+<div class="flex-auto has-success">
   <select data-placeholder="选择一个宠物..." class="form-control">
     <option value="cat">小猫</option>
     <option value="fish">金鱼</option>
@@ -100,7 +101,7 @@ Hello, world!
 ```
 
 ```html:example:flex gap-4
-<div class="has-error flex-auto">
+<div class="flex-auto has-error">
   <select data-placeholder="选择一个宠物..." class="form-control" multiple>
     <option value="cat">小猫</option>
     <option value="fish">金鱼</option>
@@ -109,7 +110,7 @@ Hello, world!
     <option value="gollum">咕噜</option>
   </select>
 </div>
-<div class="has-warning flex-auto">
+<div class="flex-auto has-warning">
   <select data-placeholder="选择一个宠物..." class="form-control" multiple>
     <option value="cat">小猫</option>
     <option value="fish">金鱼</option>
@@ -118,7 +119,7 @@ Hello, world!
     <option value="gollum">咕噜</option>
   </select>
 </div>
-<div class="has-success flex-auto">
+<div class="flex-auto has-success">
   <select data-placeholder="选择一个宠物..." class="form-control" multiple>
     <option value="cat">小猫</option>
     <option value="fish">金鱼</option>
@@ -130,17 +131,17 @@ Hello, world!
 ```
 
 ```html:example:flex gap-4
-<div class="has-error flex-auto">
+<div class="flex-auto has-error">
   <textarea rows="5" class="form-control" placeholder="输入一些文本" >
     Hello, world!
   </textarea>
 </div>
-<div class="has-warning flex-auto">
+<div class="flex-auto has-warning">
   <textarea rows="5" class="form-control" placeholder="输入一些文本" >
     Hello, world!
   </textarea>
 </div>
-<div class="has-success flex-auto">
+<div class="flex-auto has-success">
   <textarea rows="5" class="form-control" placeholder="输入一些文本" >
     Hello, world!
   </textarea>

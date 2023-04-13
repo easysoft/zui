@@ -15,5 +15,8 @@ textarea.form-control {
 }
 
 input[type="file"].form-control {
-  @apply -p-0.5 -border-none;
+  @apply -p-0.5;
+}
+input[type="file"].form-control::-webkit-file-upload-button {
+  @apply -h-7 -px-2 -border-none -appearance-none -rounded-[inherit] hover:-bg-black/10 -cursor-pointer;
 }
