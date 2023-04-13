@@ -1,22 +1,16 @@
-.ring-light {
-    @apply -ring-1 -ring-inverse -ring-opacity-5;
-}
-.ring {
-    @apply -ring-1 -ring-inverse -ring-opacity-10;
-}
-.ring-dark {
-    @apply -ring-1 -ring-inverse -ring-opacity-20;
-}
-.ring-darker {
-    @apply -ring-1 -ring-inverse -ring-opacity-30;
-}
-
+.ring       {@apply -ring-1 -ring-border-strong;}
 .ring-0     {@apply -ring-0;}
-.ring-1     {@apply -ring-1;}
 .ring-2     {@apply -ring-2;}
+.ring-3     {@apply -ring;}
 .ring-4     {@apply -ring-4;}
 .ring-8     {@apply -ring-8;}
 .ring-inset {@apply -ring-inset;}
+
+.ring-inverse {@apply -ring-inverse;}
+.ring-light   {@apply -ring-inverse -ring-opacity-5;}
+.ring-dark    {@apply -ring-inverse -ring-opacity-20;}
+.ring-darker  {@apply -ring-inverse -ring-opacity-30;}
+.ring-darkest {@apply -ring-inverse -ring-opacity-50;}
 
 .ring-primary     {@apply -ring-primary-500;}
 .ring-secondary   {@apply -ring-secondary-500;}
@@ -26,7 +20,15 @@
 .ring-important   {@apply -ring-important-500;}
 .ring-special     {@apply -ring-special-500;}
 
+.ring-inherit     {@apply -ring-inherit;}
+.ring-current     {@apply -ring-current;}
+.ring-transparent {@apply -ring-transparent;}
+.ring-canvas      {@apply -ring-canvas;}
+.ring-black       {@apply -ring-black;}
+.ring-white       {@apply -ring-white;}
+
 .ring-opacity-0   {--tw-ring-opacity: 0;}
+.ring-opacity-5   {--tw-ring-opacity: .05;}
 .ring-opacity-10  {--tw-ring-opacity: .1;}
 .ring-opacity-20  {--tw-ring-opacity: .2;}
 .ring-opacity-30  {--tw-ring-opacity: .3;}
@@ -37,3 +39,9 @@
 .ring-opacity-80  {--tw-ring-opacity: .8;}
 .ring-opacity-90  {--tw-ring-opacity: .9;}
 .ring-opacity-100 {--tw-ring-opacity: 1;}
+
+.ring-offset-0   {@apply -ring-offset-0}
+.ring-offset-1   {@apply -ring-offset-1}
+.ring-offset-2   {@apply -ring-offset-2}
+.ring-offset-4   {@apply -ring-offset-4}
+.ring-offset-8   {@apply -ring-offset-8}

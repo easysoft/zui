@@ -1,20 +1,20 @@
-.primary   {@apply -border-primary-500 -bg-primary-500 -text-white hover:-text-white;}
-.secondary {@apply -border-secondary-500 -bg-secondary-500 -text-white hover:-text-white;}
-.success   {@apply -border-success-500 -bg-success-500 -text-white hover:-text-white;}
-.warning   {@apply -border-warning-500 -bg-warning-500 -text-white hover:-text-white;}
-.danger    {@apply -border-danger-500 -bg-danger-500 -text-white hover:-text-white;}
-.important {@apply -border-important-500 -bg-important-500 -text-white hover:-text-white;}
-.special   {@apply -border-special-500 -bg-special-500 -text-white hover:-text-white;}
+.primary   {@apply -ring-primary-500 -bg-primary-500 -text-white hover:-text-white;}
+.secondary {@apply -ring-secondary-500 -bg-secondary-500 -text-white hover:-text-white;}
+.success   {@apply -ring-success-500 -bg-success-500 -text-white hover:-text-white;}
+.warning   {@apply -ring-warning-500 -bg-warning-500 -text-white hover:-text-white;}
+.danger    {@apply -ring-danger-500 -bg-danger-500 -text-white hover:-text-white;}
+.important {@apply -ring-important-500 -bg-important-500 -text-white hover:-text-white;}
+.special   {@apply -ring-special-500 -bg-special-500 -text-white hover:-text-white;}
 
-.white   {@apply -border-white -bg-white;}
-.lighter {@apply -border-gray-100 -bg-gray-100;}
-.light   {@apply -border-gray-300 -bg-gray-300;}
-.gray    {@apply -border-gray-500 -bg-gray-500 -text-white hover:-text-white;}
-.darken  {@apply -border-gray-700 -bg-gray-700 -text-white hover:-text-white;}
-.darker  {@apply -border-gray-900 -bg-gray-900 -text-white hover:-text-white;}
-.black   {@apply -border-black -bg-black -text-white hover:-text-white;}
+.white   {@apply -ring-white -bg-white;}
+.lighter {@apply -ring-gray-100 -bg-gray-100;}
+.light   {@apply -ring-gray-300 -bg-gray-300;}
+.gray    {@apply -ring-gray-500 -bg-gray-500 -text-white hover:-text-white;}
+.darken  {@apply -ring-gray-700 -bg-gray-700 -text-white hover:-text-white;}
+.darker  {@apply -ring-gray-900 -bg-gray-900 -text-white hover:-text-white;}
+.black   {@apply -ring-black -bg-black -text-white hover:-text-white;}
 
-.surface {@apply -border-surface -bg-surface -text-fore;}
-.canvas  {@apply -border-canvas -bg-canvas -text-fore;}
-.inverse {@apply -border-fore -bg-fore -text-canvas;}
-.ghost   {@apply -border-transparent -bg-transparent -text-fore;}
+.surface {@apply -ring-surface -bg-surface -text-fore;}
+.canvas  {@apply -ring-canvas -bg-canvas -text-fore;}
+.inverse {@apply -ring-fore -bg-fore -text-canvas;}
+.ghost   {@apply -ring-transparent -bg-transparent -text-fore;}
