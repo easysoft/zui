@@ -28,7 +28,7 @@
 ## `.form-grid`
 
 ```html:example
-<form class="form-grid" style="max-width: 1000px">
+<form class="form form-grid" style="max-width: 1000px">
   <div class="form-row">
     <div class="w-1/2 form-group">
       <label class="form-label" for="smallInput">小型框</label>
@@ -45,12 +45,12 @@
       <label class="form-label" for="startDate">输入组</label>
       <div class="input-group">
         <div class="input-control has-suffix-icon">
-          <input id="startDate" type="text" class="form-control" placeholder="开始时间">
+          <input id="startDate" type="text" class="rounded-r-none form-control" placeholder="开始时间">
           <label for="startDate" class="input-control-suffix"><i class="icon icon-calendar"></i></label>
         </div>
-        <span class="input-group-addon ring-0">至</span>
+        <span class="input-group-addon">至</span>
         <div class="input-control has-suffix-icon">
-          <input id="endDate" type="text" class="form-control" placeholder="结束时间">
+          <input id="endDate" type="text" class="rounded-l-none form-control" placeholder="结束时间">
           <label for="endDate" class="input-control-suffix"><i class="icon icon-calendar"></i></label>
         </div>
       </div>
@@ -78,7 +78,7 @@
   <div class="form-row">
     <div class="w-1/2 form-group">
       <label class="form-label" for="linkProduct">关联产品</label>
-      <select class="form-control" data-placeholder="选择一个产品..." id="linkProduct">
+      <select class="rounded-r-none form-control" data-placeholder="选择一个产品..." id="linkProduct">
         <option value=""></option>
         <option value="cat">小猫</option>
         <option value="fish">金鱼</option>
@@ -88,7 +88,7 @@
     </div>
     <div class="w-1/2 form-group no-label">
       <div class="input-group">
-        <label class="ml-px ring-0 input-group-addon" for="linkPlan">关联计划</label>
+        <label class="rounded-l-none input-group-addon" for="linkPlan">关联计划</label>
         <select class="rounded form-control" data-placeholder="选择一个计划..." id="linkPlan">
           <option value=""></option>
           <option value="cat">小猫</option>
@@ -110,7 +110,7 @@
           <option value="dragon">龙</option>
           <option value="mammoth">猛犸</option>
         </select>
-        <label class="input-group-addon ring-0" for="productManager">产品负责人</label>
+        <label class="input-group-addon" for="productManager">产品负责人</label>
         <select class="rounded-r-none form-control" id="productManager">
           <option value=""></option>
           <option value="cat">小猫</option>
@@ -122,7 +122,7 @@
     </div>
     <div class="w-1/2 form-group no-label">
       <div class="input-group">
-        <label class="rounded-l-none input-group-addon ring-0" for="testManager">测试负责人</label>
+        <label class="rounded-l-none input-group-addon" for="testManager">测试负责人</label>
         <select class="form-control" id="testManager">
           <option value=""></option>
           <option value="cat">小猫</option>
@@ -130,7 +130,7 @@
           <option value="dragon">龙</option>
           <option value="mammoth">猛犸</option>
         </select>
-        <label class="input-group-addon ring-0" for="releaseManager">发布负责人</label>
+        <label class="input-group-addon" for="releaseManager">发布负责人</label>
         <select class="form-control" id="releaseManager">
           <option value=""></option>
           <option value="cat">小猫</option>
@@ -157,7 +157,7 @@
           <option value="dragon">龙</option>
           <option value="mammoth">猛犸</option>
         </select>
-        <label class="input-group-addon ring-0" for="releaseManager1">XXXXXXXX</label>
+        <label class="input-group-addon" for="releaseManager1">XXXXXXXX</label>
         <select class="form-control" id="releaseManager1">
           <option value=""></option>
           <option value="cat">小猫</option>
@@ -173,7 +173,7 @@
       <label class="font-bold form-label required" for="taskTitle">任务标题</label>
       <div class="input-group">
         <input id="taskTitle" type="text" class="form-control" placeholder="请输入任务标题">
-        <label class="input-group-addon ring-0" for="priList">优先级</label>
+        <label class="input-group-addon" for="priList">优先级</label>
         <select class="w-40 form-control" id="priList">
           <option value=""></option>
           <option value="cat">小猫</option>
@@ -181,7 +181,7 @@
           <option value="dragon">龙</option>
           <option value="mammoth">猛犸</option>
         </select>
-        <label class="input-group-addon ring-0" for="taskEst">预计</label>
+        <label class="input-group-addon" for="taskEst">预计</label>
         <div class="input-control has-suffix-icon">
           <input id="taskEst" type="text" class="form-control" placeholder="工时">
           <label for="taskEst" class="text-right input-control-suffix text-red">H</label>
