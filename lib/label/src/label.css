@@ -1,10 +1,6 @@
 
 .label{
-  @apply -h-5 -px-1 -inline-flex -items-center -whitespace-pre-line -text-sm;
-  background-color: var(--label-bg);
-  border-radius: var(--label-radius);
-  border: 1px solid var(--label-border-color);
-  color: var(--label-color);
+  @apply -h-5 -px-1 -inline-flex -items-center -whitespace-pre-line -text-sm -bg-[--label-bg] -rounded-[--label-radius] -ring-[--label-border-color] -ring-1 -text-[--label-color];
 }
 .label.size-lg {
   @apply -text-base -px-2 -h-6;
