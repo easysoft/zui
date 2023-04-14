@@ -21,6 +21,7 @@
     "zui": {
         "type": "component",
         "displayName": "虚拟渲染网格",
+        "wip": true,
         "contributes": {
             "css": [
                 "class",
