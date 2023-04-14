@@ -2,15 +2,15 @@
   @apply -flex;
 }
 
-.btn-group > :not(:first-child) {
-  @apply --ml-px;
-}
-
 .btn-group > .btn:focus-within,
 .btn-group > .dropdown > .btn:focus-within,
 .btn-group > .btn:hover,
 .btn-group > .dropdown > .btn:hover {
   @apply -z-[1];
+}
+.btn-group > .btn.disabled,
+.btn-group > .btn:disabled {
+  @apply -z-[-1];
 }
 
 .btn-group > .btn:not(:first-child),
