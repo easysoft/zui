@@ -149,7 +149,6 @@ export function createLibFromPackageJson(packageJson: Record<string, unknown>, o
             type: LibType.component,
             displayName: defaultName,
             contributes: {},
-            build: {},
             path,
             workspace,
             sourceType,

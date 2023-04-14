@@ -240,8 +240,8 @@ function parseBuildLib(libLike: string | '@zui' | 'zui', libsMap: Record<string,
     if (!libInfo) {
         throw new Error(`Build Error: cannot find a lib named "${name}".`);
     }
-    if (!exports && libInfo.zui.build?.defaultExport) {
-        exports = [libInfo.zui.build.defaultExport];
+    if (!exports && libInfo.zui.defaultExport) {
+        exports = [libInfo.zui.defaultExport];
     }
 
     return [{
@@ -295,6 +295,15 @@ export async function createBuildConfig(options: BuildConfigOptions): Promise<Bu
 
     const exts = getBuildLibPaths(options.exts);
     const libsMap = await getLibs(exts, {cache: false});
+
+    // Skip wip and separately libs
+    Object.keys(libsMap).forEach(libName => {
+        const lib = libsMap[libName];
+        if ((lib.zui.wip || lib.zui.separately) && !exts.includes(libName) && !exts.includes(lib.zui.name)) {
+            delete libsMap[libName];
+        }
+    });
+
     const buildConfig: BuildConfig = {
         name,
         version,

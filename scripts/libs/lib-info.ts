@@ -21,8 +21,11 @@ export interface ZuiLibInfo {
     workspace?: boolean;
     packageJsonPath?: string;
     tailwindConfigPath?: string;
-    build?: LibBuildInfo;
+    prebuild?: boolean | string,
+    defaultExport?: string,
     replace?: string;
+    wip?: boolean;              // current lib is work in progress
+    separately?: boolean;       // current lib is usually used separately
 }
 
 export interface LibInfo {

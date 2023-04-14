@@ -86,7 +86,7 @@ if (tailwindConfigs.length) {
 
 /** Pre build libs */
 for (const lib of buildConfig.libs) {
-    const prebuild = lib.zui.build?.prebuild;
+    const prebuild = lib.zui.prebuild;
     if (prebuild) {
         console.log(cyan(`building lib "${lib.name}"...`));
         const command = typeof prebuild === 'string' ? prebuild : 'pnpm install && pnpm build';
