@@ -1,5 +1,5 @@
 .pager {
-  @apply -flex -items-center;
+  @apply -flex -items-center -gap-1;
 }
 
 .menu.pager-size-menu {

@@ -37,7 +37,6 @@ export function PagerGoto({
     const renderInfo = updatePagerInfo(pagerInfo, page || 0);
     newBtnProps.url = typeof linkCreator === 'function' ? linkCreator(renderInfo)  : formatString(linkCreator, renderInfo);
 
-    newBtnProps.className = classes('input-group-addon', newBtnProps.className);
     return (
         <div className={classes('input-group', 'pager-goto-group', size ? `size-${size}` : '')}>
             <input type="number" class="form-control" max={pagerInfo.pageTotal} min="1" onInput={getValue}  />

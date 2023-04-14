@@ -6,7 +6,7 @@
 
 将多个按钮放置在 `<div class="pager">` 内即可创建一个分页组件。
 
-<Example class="col gap-2">
+<Example class="gap-2 col">
   <nav class="pager">
     <a class="btn ghost square size-sm" title="第一页"><i class="icon icon-double-angle-left"></i></a>
     <a class="btn ghost square size-sm" title="上一页"><i class="icon icon-angle-left"></i></a>
@@ -28,7 +28,7 @@
 </Example>
 
 ```html
-<nav class="pager gap-1">
+<nav class="gap-1 pager">
   <a class="btn ghost square size-sm" title="第一页"><i class="icon icon-double-angle-left"></i></a>
   <a class="btn ghost square size-sm" title="上一页"><i class="icon icon-angle-left"></i></a>
   <a class="btn ghost size-sm"><span class="text">1</span></a>
@@ -38,7 +38,7 @@
   <a class="btn ghost square size-sm" title="下一页"><i class="icon icon-angle-right"></i></a>
   <a class="btn ghost square size-sm" title="最后一页"><i class="icon icon-double-angle-right"></i></a>
 </nav>
-<nav class="pager gap-1">
+<nav class="gap-1 pager">
   <a class="btn ghost size-sm"><span class="text">上一页</span></a>
   <a class="btn ghost size-sm"><span class="text">1</span></a>
   <a class="btn ghost size-sm"><span class="text">2</span></a>
@@ -52,8 +52,8 @@
 
 简单的翻页。
 
-<Example class="row gap-2 flex-wrap">
-  <nav class="pager gap-1">
+<Example class="flex-wrap gap-2 row">
+  <nav class="gap-1 pager">
     <a class="btn ghost square size-sm" title="第一页"><i class="icon icon-double-angle-left"></i></a>
     <a class="btn ghost square size-sm" title="上一页"><i class="icon icon-angle-left"></i></a>
     <div>2/11</div>
@@ -63,7 +63,7 @@
 </Example>
 
 ```html
-<nav class="pager gap-1">
+<nav class="gap-1 pager">
   <a class="btn ghost square size-sm" title="第一页"><i class="icon icon-double-angle-left"></i></a>
   <a class="btn ghost square size-sm" title="上一页"><i class="icon icon-angle-left"></i></a>
   <div>2/11</div>
@@ -105,26 +105,26 @@
 使用 `gap-*` [CSS 工具类](/utilities/flex/utilities/gap) 可获得宽松的分页组件。
 
 <Example>
-  <nav class="pager gap-3">
-    <a class="btn size-sm border square" title="上一页"><i class="icon icon-angle-left"></i></a>
-    <a class="btn size-sm primary-outline border pager-nav"><span class="text">1</span></a>
-    <a class="btn size-sm border pager-nav"><span class="text">2</span></a>
-    <a class="btn size-sm border pager-nav"><span class="text">3</span></a>
-    <a class="btn size-sm border pager-nav"><span class="text">4</span></a>
-    <a class="btn size-sm border pager-nav"><span class="text">5</span></a>
-    <a class="btn size-sm border square" title="下一页"><i class="icon icon-angle-right"></i></a>
+  <nav class="gap-3 pager">
+    <a class="border btn size-sm square" title="上一页"><i class="icon icon-angle-left"></i></a>
+    <a class="border btn size-sm primary-outline pager-nav"><span class="text">1</span></a>
+    <a class="border btn size-sm pager-nav"><span class="text">2</span></a>
+    <a class="border btn size-sm pager-nav"><span class="text">3</span></a>
+    <a class="border btn size-sm pager-nav"><span class="text">4</span></a>
+    <a class="border btn size-sm pager-nav"><span class="text">5</span></a>
+    <a class="border btn size-sm square" title="下一页"><i class="icon icon-angle-right"></i></a>
   </nav>
 </Example>
 
 ```html
-<nav class="pager gap-3">
-  <a class="btn size-sm border square" title="上一页"><i class="icon icon-angle-left"></i></a>
-  <a class="btn size-sm primary-outline border pager-nav"><span class="text">1</span></a>
-  <a class="btn size-sm border pager-nav"><span class="text">2</span></a>
-  <a class="btn size-sm border pager-nav"><span class="text">3</span></a>
-  <a class="btn size-sm border pager-nav"><span class="text">4</span></a>
-  <a class="btn size-sm border pager-nav"><span class="text">5</span></a>
-  <a class="btn size-sm border square" title="下一页"><i class="icon icon-angle-right"></i></a>
+<nav class="gap-3 pager">
+  <a class="border btn size-sm square" title="上一页"><i class="icon icon-angle-left"></i></a>
+  <a class="border btn size-sm primary-outline pager-nav"><span class="text">1</span></a>
+  <a class="border btn size-sm pager-nav"><span class="text">2</span></a>
+  <a class="border btn size-sm pager-nav"><span class="text">3</span></a>
+  <a class="border btn size-sm pager-nav"><span class="text">4</span></a>
+  <a class="border btn size-sm pager-nav"><span class="text">5</span></a>
+  <a class="border btn size-sm square" title="下一页"><i class="icon icon-angle-right"></i></a>
 </nav>
 ```
 
@@ -132,8 +132,8 @@
 
 使用 `*-pale` `*-outline` 等[CSS 工具类](/utilities/style/utilities/pale) 可得到不用外观的分页组件。
 
-<Example class="col gap-2">
- <nav class="pager gap-1">
+<Example class="gap-2 col">
+ <nav class="gap-1 pager">
   <a class="btn size-sm bg-canvas square" title="上一页"><i class="icon icon-angle-left"></i></a>
   <a class="btn size-sm bg-canvas pager-nav"><span class="text">1</span></a>
   <a class="btn size-sm bg-canvas pager-nav"><span class="text">2</span></a>
@@ -145,8 +145,8 @@
 </Example>
 
 ```html
-<nav class="pager gap-1">
-  <nav class="pager gap-1">
+<nav class="gap-1 pager">
+  <nav class="gap-1 pager">
   <a class="btn size-sm bg-canvas square" title="上一页"><i class="icon icon-angle-left"></i></a>
   <a class="btn size-sm bg-canvas pager-nav"><span class="text">1</span></a>
   <a class="btn size-sm bg-canvas pager-nav"><span class="text">2</span></a>
@@ -162,14 +162,14 @@
 结合使用 `justify-between` [CSS 工具类](/utilities/flex/utilities/justify-content) 可获得页面两端对齐的分页组件。
 
 <Example>
-  <nav class="pager justify-between">
+  <nav class="justify-between pager">
     <a class="btn size-sm square" title="上一页"><i class="icon icon-angle-left"></i></a>
     <a class="btn size-sm square" title="下一页"><i class="icon icon-angle-right"></i></a>
   </nav>
 </Example>
 
 ```html
-<nav class="pager justify-between">
+<nav class="justify-between pager">
   <a class="btn size-sm square" title="上一页"><i class="icon icon-angle-left"></i></a>
   <a class="btn size-sm square" title="下一页"><i class="icon icon-angle-right"></i></a>
 </nav>
@@ -179,7 +179,7 @@
 
 除了默认大小，还提供了额外的 2 种预设尺寸。可以通过为 `pager` 添加同样等级的 `size-*` 类来获取其他尺寸外观。
 
-<Example class="col gap-2">
+<Example class="gap-2 col">
   <nav class="pager">
     <a class="btn ghost square size-sm" title="第一页"><i class="icon icon-double-angle-left"></i></a>
     <a class="btn ghost square size-sm" title="上一页"><i class="icon icon-angle-left"></i></a>
@@ -231,8 +231,8 @@
 
 展示总共有多少数据。
 
-<Example class="col gap-2">
-  <nav class="pager gap-1">
+<Example class="gap-2 col">
+  <nav class="gap-1 pager">
     <div>共 51 项</div>
     <a class="btn ghost square size-sm" title="第一页"><i class="icon icon-double-angle-left"></i></a>
     <a class="btn ghost square size-sm" title="上一页"><i class="icon icon-angle-left"></i></a>
@@ -248,7 +248,7 @@
 </Example>
 
 ```html
-<nav class="pager gap-1">
+<nav class="gap-1 pager">
   <div>共 51 项</div>
   <a class="btn ghost square size-sm" title="第一页"><i class="icon icon-double-angle-left"></i></a>
   <a class="btn ghost square size-sm" title="上一页"><i class="icon icon-angle-left"></i></a>
@@ -268,7 +268,7 @@
 结合使用 `dropdown` [下拉菜单组件](/lib/components/dropdown/index) 可展示调整每页显示数的分页组件。
 
 <Example>
-  <nav class="pager gap-1">
+  <nav class="gap-1 pager">
     <div>共 51 项</div>
     <button class="btn ghost dropdown pager-size-menu size-sm" type="button" data-toggle="dropdown" data-dropdown-placement="top" href="#dropdownMenu3">
       <span class="text">每页 10 项</span><span class="caret-up"></span>
@@ -302,7 +302,7 @@
 </Example>
 
 ```html
-<nav class="pager gap-1">
+<nav class="gap-1 pager">
   <div>共 51 项</div>
   <button class="btn ghost dropdown pager-size-menu size-sm" type="button" data-toggle="dropdown" data-dropdown-placement="top" href="#dropdownMenu3">
     <span class="text">每页 10 项</span><span class="caret-up"></span>
@@ -340,7 +340,7 @@
 结合使用 `input-group` [输入组组件](/lib/forms/input-group/index) 可展示快速跳转到某一页的分页组件。
 
 <Example>
-  <nav class="pager gap-1">
+  <nav class="gap-1 pager">
     <a class="btn ghost square size-sm" title="第一页"><i class="icon icon-double-angle-left"></i></a>
     <a class="btn ghost square size-sm" title="上一页"><i class="icon icon-angle-left"></i></a>
     <a class="btn ghost size-sm"><span class="text">1</span></a>
@@ -359,7 +359,7 @@
 </Example>
 
 ```html
-<nav class="pager gap-1">
+<nav class="gap-1 pager">
   <a class="btn ghost square size-sm" title="第一页"><i class="icon icon-double-angle-left"></i></a>
   <a class="btn ghost square size-sm" title="上一页"><i class="icon icon-angle-left"></i></a>
   <a class="btn ghost size-sm"><span class="text">1</span></a>
@@ -382,7 +382,7 @@
 展示所有的附加项配置。
 
 <Example>
-  <nav class="pager gap-1">
+  <nav class="gap-1 pager">
     <div>共 51 项</div>
     <button class="btn ghost dropdown pager-size-menu size-sm" type="button" data-toggle="dropdown" data-dropdown-placement="top" href="#dropdownMenu1">
       <span class="text">每页 10 项</span><span class="caret-up"></span>
@@ -417,7 +417,7 @@
       <li class="menu-item"><a href="#?page=2&amp;recPerPage=100"><span class="text">100</span></a></li>
     </menu>
   </div>
-  <nav class="pager gap-1">
+  <nav class="gap-1 pager">
     <div>共 51 项</div>
     <button class="btn ghost dropdown pager-size-menu size-sm" type="button" data-toggle="dropdown" data-dropdown-placement="top" href="#dropdownMenu2">
       <span class="text">每页 10 项</span><span class="caret-up"></span>
@@ -450,7 +450,7 @@
 </Example>
 
 ```html
-<nav class="pager gap-1">
+<nav class="gap-1 pager">
   <div>共 51 项</div>
   <button class="btn ghost dropdown pager-size-menu size-sm" type="button" data-toggle="dropdown" data-dropdown-placement="top" href="#dropdownMenu1">
     <span class="text">每页 10 项</span><span class="caret-up"></span>
@@ -467,7 +467,7 @@
   <a class="btn ghost square size-sm" title="最后一页"><i class="icon icon-double-angle-right"></i></a>
   <div class="input-group size-sm pager-goto">
     <input type="number" class="form-control" max="6" min="1">
-    <button class="btn ghost input-group-addon" type="button"><span class="text">跳转</span></button>
+    <button class="btn" type="button"><span class="text">跳转</span></button>
   </div>
 </nav>
 <div class="dropdown-menu" id="dropdownMenu1" data-popper-placement="top">
