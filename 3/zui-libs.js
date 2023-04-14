@@ -20,7 +20,6 @@ export default [
                     "var"
                 ]
             },
-            "build": {},
             "path": "/home/runner/work/zui/zui/lib/base",
             "workspace": true,
             "sourceType": "build-in",
@@ -63,7 +62,6 @@ export default [
                     "var"
                 ]
             },
-            "build": {},
             "path": "/home/runner/work/zui/zui/lib/action-menu",
             "workspace": true,
             "sourceType": "build-in",
@@ -102,7 +100,6 @@ export default [
                     "var"
                 ]
             },
-            "build": {},
             "path": "/home/runner/work/zui/zui/lib/alert",
             "workspace": true,
             "sourceType": "build-in",
@@ -134,7 +131,6 @@ export default [
                     "var"
                 ]
             },
-            "build": {},
             "path": "/home/runner/work/zui/zui/lib/breadcrumb",
             "workspace": true,
             "sourceType": "build-in",
@@ -184,7 +180,6 @@ export default [
                     "var"
                 ]
             },
-            "build": {},
             "path": "/home/runner/work/zui/zui/lib/button",
             "workspace": true,
             "sourceType": "build-in",
@@ -216,7 +211,6 @@ export default [
                     "var"
                 ]
             },
-            "build": {},
             "path": "/home/runner/work/zui/zui/lib/checkbox",
             "workspace": true,
             "sourceType": "build-in",
@@ -248,7 +242,6 @@ export default [
                     "var"
                 ]
             },
-            "build": {},
             "path": "/home/runner/work/zui/zui/lib/form",
             "workspace": true,
             "sourceType": "build-in",
@@ -275,7 +268,6 @@ export default [
                     "var"
                 ]
             },
-            "build": {},
             "path": "/home/runner/work/zui/zui/lib/form-control",
             "workspace": true,
             "sourceType": "build-in",
@@ -309,7 +301,6 @@ export default [
                     "fonts"
                 ]
             },
-            "build": {},
             "path": "/home/runner/work/zui/zui/lib/icons",
             "workspace": true,
             "sourceType": "build-in",
@@ -346,7 +337,6 @@ export default [
                     "var"
                 ]
             },
-            "build": {},
             "path": "/home/runner/work/zui/zui/lib/input-control",
             "workspace": true,
             "sourceType": "build-in",
@@ -379,7 +369,6 @@ export default [
                     "var"
                 ]
             },
-            "build": {},
             "path": "/home/runner/work/zui/zui/lib/label",
             "workspace": true,
             "sourceType": "build-in",
@@ -428,7 +417,6 @@ export default [
                     "var"
                 ]
             },
-            "build": {},
             "path": "/home/runner/work/zui/zui/lib/menu",
             "workspace": true,
             "sourceType": "build-in",
@@ -475,7 +463,6 @@ export default [
                     "var"
                 ]
             },
-            "build": {},
             "path": "/home/runner/work/zui/zui/lib/messager",
             "workspace": true,
             "sourceType": "build-in",
@@ -505,7 +492,6 @@ export default [
                     "var"
                 ]
             },
-            "build": {},
             "path": "/home/runner/work/zui/zui/lib/progress",
             "workspace": true,
             "sourceType": "build-in",
@@ -542,7 +528,6 @@ export default [
                     "var"
                 ]
             },
-            "build": {},
             "path": "/home/runner/work/zui/zui/lib/progress-circle",
             "workspace": true,
             "sourceType": "build-in",
@@ -590,7 +575,6 @@ export default [
                     "component"
                 ]
             },
-            "build": {},
             "path": "/home/runner/work/zui/zui/lib/scrollbar",
             "workspace": true,
             "sourceType": "build-in",
@@ -637,7 +621,6 @@ export default [
                     "var"
                 ]
             },
-            "build": {},
             "path": "/home/runner/work/zui/zui/lib/switch",
             "workspace": true,
             "sourceType": "build-in",
@@ -674,7 +657,6 @@ export default [
                     "var"
                 ]
             },
-            "build": {},
             "path": "/home/runner/work/zui/zui/lib/upload",
             "workspace": true,
             "sourceType": "build-in",
@@ -702,7 +684,6 @@ export default [
                     "method"
                 ]
             },
-            "build": {},
             "path": "/home/runner/work/zui/zui/lib/browser-helpers",
             "workspace": true,
             "sourceType": "build-in",
@@ -729,7 +710,6 @@ export default [
                     "module"
                 ]
             },
-            "build": {},
             "path": "/home/runner/work/zui/zui/lib/cash",
             "workspace": true,
             "sourceType": "build-in",
@@ -765,7 +745,6 @@ export default [
                     "method"
                 ]
             },
-            "build": {},
             "path": "/home/runner/work/zui/zui/lib/com-helpers",
             "workspace": true,
             "sourceType": "build-in",
@@ -791,7 +770,6 @@ export default [
                     "module"
                 ]
             },
-            "build": {},
             "path": "/home/runner/work/zui/zui/lib/cookie",
             "workspace": true,
             "sourceType": "build-in",
@@ -818,7 +796,6 @@ export default [
                     "class"
                 ]
             },
-            "build": {},
             "path": "/home/runner/work/zui/zui/lib/event-bus",
             "workspace": true,
             "sourceType": "build-in",
@@ -844,7 +821,6 @@ export default [
                     "module"
                 ]
             },
-            "build": {},
             "path": "/home/runner/work/zui/zui/lib/htm",
             "workspace": true,
             "sourceType": "build-in",
@@ -874,7 +850,6 @@ export default [
                     "module"
                 ]
             },
-            "build": {},
             "path": "/home/runner/work/zui/zui/lib/i18n",
             "workspace": true,
             "sourceType": "build-in",
@@ -907,7 +882,6 @@ export default [
                     "module"
                 ]
             },
-            "build": {},
             "path": "/home/runner/work/zui/zui/lib/store",
             "workspace": true,
             "sourceType": "build-in",
@@ -945,7 +919,6 @@ export default [
                     "var"
                 ]
             },
-            "build": {},
             "path": "/home/runner/work/zui/zui/lib/avatar",
             "workspace": true,
             "sourceType": "build-in",
@@ -980,7 +953,6 @@ export default [
                     "var"
                 ]
             },
-            "build": {},
             "path": "/home/runner/work/zui/zui/lib/avatar-group",
             "workspace": true,
             "sourceType": "build-in",
@@ -1028,7 +1000,6 @@ export default [
                     "var"
                 ]
             },
-            "build": {},
             "path": "/home/runner/work/zui/zui/lib/btn-group",
             "workspace": true,
             "sourceType": "build-in",
@@ -1079,11 +1050,11 @@ export default [
                     "var"
                 ]
             },
-            "build": {},
             "path": "/home/runner/work/zui/zui/lib/datepicker",
             "workspace": true,
             "sourceType": "build-in",
             "name": "datepicker",
+            "wip": true,
             "order": 4010000029,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/datepicker/package.json"
         }
@@ -1118,7 +1089,6 @@ export default [
                     "var"
                 ]
             },
-            "build": {},
             "path": "/home/runner/work/zui/zui/lib/input-group",
             "workspace": true,
             "sourceType": "build-in",
@@ -1170,7 +1140,6 @@ export default [
                     "component"
                 ]
             },
-            "build": {},
             "path": "/home/runner/work/zui/zui/lib/modal",
             "workspace": true,
             "sourceType": "build-in",
@@ -1216,7 +1185,6 @@ export default [
                     "var"
                 ]
             },
-            "build": {},
             "path": "/home/runner/work/zui/zui/lib/nav",
             "workspace": true,
             "sourceType": "build-in",
@@ -1270,7 +1238,6 @@ export default [
                     "var"
                 ]
             },
-            "build": {},
             "path": "/home/runner/work/zui/zui/lib/pager",
             "workspace": true,
             "sourceType": "build-in",
@@ -1303,7 +1270,6 @@ export default [
                     "var"
                 ]
             },
-            "build": {},
             "path": "/home/runner/work/zui/zui/lib/panel",
             "workspace": true,
             "sourceType": "build-in",
@@ -1350,7 +1316,6 @@ export default [
                     "var"
                 ]
             },
-            "build": {},
             "path": "/home/runner/work/zui/zui/lib/picker",
             "workspace": true,
             "sourceType": "build-in",
@@ -1385,7 +1350,6 @@ export default [
                     "var"
                 ]
             },
-            "build": {},
             "path": "/home/runner/work/zui/zui/lib/table",
             "workspace": true,
             "sourceType": "build-in",
@@ -1436,11 +1400,11 @@ export default [
                     "var"
                 ]
             },
-            "build": {},
             "path": "/home/runner/work/zui/zui/lib/timepicker",
             "workspace": true,
             "sourceType": "build-in",
             "name": "timepicker",
+            "wip": true,
             "order": 4010000037,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/timepicker/package.json"
         }
@@ -1487,7 +1451,6 @@ export default [
                     "var"
                 ]
             },
-            "build": {},
             "path": "/home/runner/work/zui/zui/lib/toolbar",
             "workspace": true,
             "sourceType": "build-in",
@@ -1535,7 +1498,6 @@ export default [
                     "var"
                 ]
             },
-            "build": {},
             "path": "/home/runner/work/zui/zui/lib/tooltip",
             "workspace": true,
             "sourceType": "build-in",
@@ -1573,11 +1535,11 @@ export default [
                     "var"
                 ]
             },
-            "build": {},
             "path": "/home/runner/work/zui/zui/lib/virtual-grid",
             "workspace": true,
             "sourceType": "build-in",
             "name": "virtual-grid",
+            "wip": true,
             "order": 4010000040,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/virtual-grid/package.json"
         }
@@ -1618,7 +1580,6 @@ export default [
                     "component"
                 ]
             },
-            "build": {},
             "path": "/home/runner/work/zui/zui/lib/contextmenu",
             "workspace": true,
             "sourceType": "build-in",
@@ -1673,7 +1634,6 @@ export default [
                     "component"
                 ]
             },
-            "build": {},
             "path": "/home/runner/work/zui/zui/lib/dropdown",
             "workspace": true,
             "sourceType": "build-in",
@@ -1740,7 +1700,6 @@ export default [
                     "component"
                 ]
             },
-            "build": {},
             "path": "/home/runner/work/zui/zui/lib/dtable",
             "workspace": true,
             "sourceType": "build-in",
@@ -1776,7 +1735,6 @@ export default [
                     "component"
                 ]
             },
-            "build": {},
             "path": "/home/runner/work/zui/zui/lib/tabs",
             "workspace": true,
             "sourceType": "build-in",
@@ -1813,7 +1771,6 @@ export default [
                     "var"
                 ]
             },
-            "build": {},
             "path": "/home/runner/work/zui/zui/lib/css-icons",
             "workspace": true,
             "sourceType": "build-in",
@@ -1846,7 +1803,6 @@ export default [
                     "var"
                 ]
             },
-            "build": {},
             "path": "/home/runner/work/zui/zui/lib/utilities",
             "workspace": true,
             "sourceType": "build-in",
@@ -1878,7 +1834,6 @@ export default [
                     "method"
                 ]
             },
-            "build": {},
             "path": "/home/runner/work/zui/zui/lib/helpers",
             "workspace": true,
             "sourceType": "build-in",
