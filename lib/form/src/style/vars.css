@@ -1,5 +1,5 @@
 :root {
   --form-tip-color:        var(--color-slate-600);
   --form-label-color:      var(--color-slate-700);
-  --form-grid-label-width: 5rem;
+  --form-grid-label-width: 6rem;
 }

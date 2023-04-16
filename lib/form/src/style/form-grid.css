@@ -16,7 +16,7 @@
   @apply -px-4;
 }
 .form-grid .form-label {
-  @apply -absolute -left-0 -top-0 -px-2 -justify-end -w-[--form-grid-label-width];
+  @apply -absolute -left-0 -top-0 -pr-2 -pl-4 -justify-end -w-[--form-grid-label-width];
 }
 .form-grid .form-label.required::after {
   @apply -order-first -ml-0 -mr-1;
