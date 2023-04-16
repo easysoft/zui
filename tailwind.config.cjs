@@ -16,7 +16,6 @@ const config = {
     ] : [{raw: ''}],
     theme: defaultTheme,
     plugins: [
-        require('@tailwindcss/line-clamp'),
         require('@mertasan/tailwindcss-variables')({
             colorVariables: true,
         }),

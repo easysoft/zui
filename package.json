@@ -31,7 +31,6 @@
   },
   "devDependencies": {
     "@mertasan/tailwindcss-variables": "^2.5.1",
-    "@tailwindcss/line-clamp": "0.4.2",
     "@types/fs-extra": "^9.0.13",
     "@types/glob": "8.0.0",
     "@types/markdown-it": "^12.2.3",
