@@ -40,8 +40,8 @@
       <input class="form-control" type="text" id="middleInput">
     </div>
   </div>
-  <div class="w-1/2 form-row">
-    <div class="form-group">
+  <div class="form-row">
+    <div class="w-1/2 form-group">
       <label class="form-label" for="startDate">输入组</label>
       <div class="input-group">
         <div class="input-control has-suffix-icon">
@@ -55,9 +55,17 @@
         </div>
       </div>
     </div>
+    <div class="w-1/2 form-group no-label">
+      <div class="check-list-inline">
+        <div class="checkbox-primary">
+          <input type="checkbox" name="primaryRadioGroup2" checked="checked" id="unset">
+          <label for="unset">待定</label>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="w-1/2 form-row">
-    <div class="form-group has-error">
+  <div class="form-row">
+    <div class="w-1/2 form-group has-error">
       <label class="form-label" for="shortTitle">短标题类</label>
       <input id="shortTitle" type="text" class="form-control" placeholder="">
       <div class="form-tip">此表单项为必填</div>
@@ -192,7 +200,7 @@
   <div class="form-row">
     <div class="form-group">
       <label class="form-label" for="inlineRadio">是否继续</label>
-      <div class="items-center h-8 gap-4 row">
+      <div class="check-list-inline">
         <div class="radio-primary">
           <input type="radio" name="primaryRadioGroup1" id="primaryradio1">
           <label for="primaryradio1">是</label>
@@ -207,7 +215,7 @@
   <div class="form-row">
     <div class="form-group">
       <label class="form-label" for="inlineRadioList">是否公开</label>
-      <div class="gap-3 py-1.5 col">
+      <div class="check-list">
         <div class="radio-primary">
           <input type="radio" name="primaryRadioGroup2" id="primaryradio3">
           <label for="primaryradio3">默认公开 <span class="muted">（有项目视图权限即可访问）</span></label>

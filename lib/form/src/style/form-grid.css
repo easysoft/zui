@@ -13,6 +13,9 @@
 .form-grid .form-group.no-label {
   padding-left: 0;
 }
+.form-grid .form-group.no-label > .check-list-inline {
+  @apply -px-4;
+}
 .form-grid .form-label {
   @apply -absolute -left-0 -top-0 -px-2 -justify-end;
   width: var(--form-grid-label-width);
