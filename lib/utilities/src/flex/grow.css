@@ -1,2 +1,2 @@
-.grow   {@apply -grow;}
-.grow-0 {@apply -grow-0;}
+.grow   {@apply !-grow;}
+.grow-0 {@apply !-grow-0;}
