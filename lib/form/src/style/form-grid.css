@@ -7,18 +7,16 @@
 }
 
 .form-grid .form-group {
-  @apply -flex -flex-row -items-start -relative -flex-auto -min-h-[32px] -flex-wrap;
-  padding-left: var(--form-grid-label-width);
+  @apply -flex -flex-row -items-start -relative -flex-auto -min-h-[32px] -flex-wrap -pl-[--form-grid-label-width];
 }
 .form-grid .form-group.no-label {
-  padding-left: 0;
+  @apply -pl-0;
 }
 .form-grid .form-group.no-label > .check-list-inline {
   @apply -px-4;
 }
 .form-grid .form-label {
-  @apply -absolute -left-0 -top-0 -px-2 -justify-end;
-  width: var(--form-grid-label-width);
+  @apply -absolute -left-0 -top-0 -px-2 -justify-end -w-[--form-grid-label-width];
 }
 .form-grid .form-label.required::after {
   @apply -order-first -ml-0 -mr-1;
