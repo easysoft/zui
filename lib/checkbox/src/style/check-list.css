@@ -1,0 +1,6 @@
+.check-list {
+  @apply -flex -flex-col -gap-3 -py-1.5;
+}
+.check-list-inline {
+  @apply -flex -flex-row -items-center -h-8 -gap-4;
+}
