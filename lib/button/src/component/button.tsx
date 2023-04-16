@@ -8,6 +8,7 @@ export class Button extends Component<ButtonProps> {
         const {
             component,
             type,
+            btnType,
             size,
             className,
             children,
@@ -42,7 +43,7 @@ export class Button extends Component<ButtonProps> {
                 title: hint,
                 [ButtonComponent === 'a' ? 'href' : 'data-url']: url,
                 [ButtonComponent === 'a' ? 'target' : 'data-target']: target,
-                type: ButtonComponent === 'button' ? 'button' : undefined,
+                type: ButtonComponent === 'button' ? btnType : undefined,
                 ...others,
             } as Attributes,
             loading ? <i class={`spin icon ${loadingIcon || 'icon-spinner-snake'}`} /> : typeof icon === 'string' ? <i class={`icon ${icon}`} /> : icon,

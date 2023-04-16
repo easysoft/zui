@@ -4,6 +4,7 @@ import {ClassNameLike} from '../../../browser-helpers/src/classes';
 export type ButtonProps = {
     component?: string | ComponentType;
     type?: string; // primary, secondary ...
+    btnType?: 'button' | 'submit' | 'reset';
     size?: 'xs' | 'sm' | 'lg' | 'xl',
     className?: ClassNameLike;
     style?: JSX.CSSProperties;
