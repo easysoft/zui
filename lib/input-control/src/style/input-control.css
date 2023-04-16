@@ -1,16 +1,17 @@
 /* Base style */
 .input-control {
   @apply -relative;
+  --input-control-prefix: 8px;
+  --input-control-suffix: 8px;
 }
 
 /* With icons */
 .input-control-suffix,
 .input-control-prefix {
-  @apply -absolute -left-0 -top-0 -h-8 -flex -items-center -opacity-50 -px-2 -whitespace-nowrap;
-  width: var(--input-control-fix-width);
+  @apply -absolute -left-0 -top-0 -h-8 -flex -items-center -opacity-50 -px-2 -whitespace-nowrap -w-[--input-control-prefix];
 }
 .input-control-suffix {
-  @apply -justify-end;
+  @apply -justify-end -w-[--input-control-suffix];
 }
 
 .input-control-suffix {
@@ -21,41 +22,22 @@
   @apply -opacity-100;
 }
 
-.input-control.has-prefix > .form-control {
-  padding-left: var(--input-control-fix-width);
-}
-.input-control.has-suffix > .form-control {
-  padding-right: var(--input-control-fix-width);
+.input-control > .form-control {
+  @apply -pl-[--input-control-prefix] -pr-[--input-control-suffix];
 }
 
-.input-control.has-prefix-sm > .form-control {
-  padding-left: var(--input-control-fix-width-sm);
-}
-.input-control.has-suffix-sm > .form-control {
-  padding-right: var(--input-control-fix-width-sm);
-}
-.input-control.has-prefix-sm > .input-control-prefix,
-.input-control.has-suffix-sm > .input-control-suffix {
-  width: var(--input-control-fix-width-sm);
-}
+.has-prefix {--input-control-prefix: var(--input-control-fix-width);}
+.has-suffix {--input-control-suffix: var(--input-control-fix-width);}
 
-.input-control.has-prefix-lg > .form-control {
-  padding-left: var(--input-control-fix-width-lg);
-}
-.input-control.has-suffix-lg > .form-control {
-  padding-right: var(--input-control-fix-width-lg);
-}
-.input-control.has-prefix-lg > .input-control-prefix,
-.input-control.has-suffix-lg > .input-control-suffix {
-  width: var(--input-control-fix-width-lg);
-}
+.has-prefix-sm {--input-control-prefix: var(--input-control-fix-width-sm);}
+.has-suffix-sm {--input-control-suffix: var(--input-control-fix-width-sm);}
 
-.input-control.has-prefix-icon > .form-control {
-  @apply -pl-8;
-}
-.input-control.has-suffix-icon > .form-control {
-  @apply -pr-8;
-}
+.has-prefix-lg {--input-control-prefix: var(--input-control-fix-width-lg);}
+.has-suffix-lg {--input-control-suffix: var(--input-control-fix-width-lg);}
+
+.has-prefix-icon {--input-control-prefix: 32px;}
+.has-suffix-icon {--input-control-suffix: 32px;}
+
 .input-control.has-prefix-icon > .input-control-prefix,
 .input-control.has-suffix-icon > .input-control-suffix {
   @apply -w-8 -justify-center;
