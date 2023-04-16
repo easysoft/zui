@@ -1,3 +1,7 @@
 .btn {
   @apply -px-3 -h-8 -inline-flex -items-center -justify-center -gap-1.5 -whitespace-nowrap -ring-[--btn-border-color] -ring-1 -rounded-[--btn-radius] -bg-[--btn-bg];
 }
+
+.btn-default {
+  @apply -text-inherit hover:-text-inherit;
+}

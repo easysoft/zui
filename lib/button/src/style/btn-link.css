@@ -1,4 +1,4 @@
 .btn-link {
-  @apply -ring-transparent -underline -underline-offset-2;
+  @apply -ring-transparent -underline -underline-offset-2 -text-link hover:-text-link-hover visited:-text-link-visited;
   --btn-bg: transparent;
 }
