@@ -1592,45 +1592,46 @@ let Ie = class extends qn {
     const {
       component: t,
       type: n,
-      size: o,
-      className: i,
-      children: r,
-      url: l,
-      target: _,
-      disabled: a,
-      active: h,
-      loading: s,
-      loadingIcon: d,
-      loadingText: u,
-      icon: c,
-      text: f,
-      trailingIcon: y,
-      caret: p,
-      square: m,
-      hint: g,
-      ...w
-    } = this.props, k = t || (l ? "a" : "button"), T = f == null || typeof f == "string" && !f.length || s && !u, C = p && T && !c && !y && !r && !s;
+      btnType: o,
+      size: i,
+      className: r,
+      children: l,
+      url: _,
+      target: a,
+      disabled: h,
+      active: s,
+      loading: d,
+      loadingIcon: u,
+      loadingText: c,
+      icon: f,
+      text: y,
+      trailingIcon: p,
+      caret: m,
+      square: g,
+      hint: w,
+      ...k
+    } = this.props, T = t || (_ ? "a" : "button"), C = y == null || typeof y == "string" && !y.length || d && !c, S = m && C && !f && !p && !l && !d;
     return fm(
-      k,
+      T,
       {
-        className: M("btn", n, i, {
-          "btn-caret": C,
-          disabled: a || s,
-          active: h,
-          loading: s,
-          square: m === void 0 ? !C && !r && T : m
-        }, o ? `size-${o}` : ""),
-        title: g,
-        [k === "a" ? "href" : "data-url"]: l,
-        [k === "a" ? "target" : "data-target"]: _,
-        type: k === "button" ? "button" : void 0,
-        ...w
+        className: M("btn", n, r, {
+          "btn-caret": S,
+          disabled: h || d,
+          active: s,
+          loading: d,
+          square: g === void 0 ? !S && !l && C : g
+        }, i ? `size-${i}` : ""),
+        title: w,
+        [T === "a" ? "href" : "data-url"]: _,
+        [T === "a" ? "target" : "data-target"]: a,
+        type: T === "button" ? o : void 0,
+        ...k
       },
-      s ? /* @__PURE__ */ Pn("i", { class: `spin icon ${d || "icon-spinner-snake"}` }) : typeof c == "string" ? /* @__PURE__ */ Pn("i", { class: `icon ${c}` }) : c,
-      T ? null : /* @__PURE__ */ Pn("span", { className: "text", children: s ? u : f }),
-      s ? null : r,
-      s ? null : typeof y == "string" ? /* @__PURE__ */ Pn("i", { class: `icon ${y}` }) : y,
-      s ? null : p ? /* @__PURE__ */ Pn("span", { className: typeof p == "string" ? `caret-${p}` : "caret" }) : null
+      d ? /* @__PURE__ */ Pn("i", { class: `spin icon ${u || "icon-spinner-snake"}` }) : typeof f == "string" ? /* @__PURE__ */ Pn("i", { class: `icon ${f}` }) : f,
+      C ? null : /* @__PURE__ */ Pn("span", { className: "text", children: d ? c : y }),
+      d ? null : l,
+      d ? null : typeof p == "string" ? /* @__PURE__ */ Pn("i", { class: `icon ${p}` }) : p,
+      d ? null : m ? /* @__PURE__ */ Pn("span", { className: typeof m == "string" ? `caret-${m}` : "caret" }) : null
     );
   }
 };
