@@ -2,75 +2,67 @@
 
 通过 JS 动态创建一个漂浮消息。
 
-## 示例
+## 基本用法
 
 通过构造一个 `messager` 实例，页面上创建一个漂浮消息。
 
-<example>
-<button id="messagerTrigger">显示漂浮消息</button>
-</example>
+<Example>
+    <button
+        id="messagerTrigger"
+        class="btn primary messager-toggle"
+    >显示漂浮消息</button>
+</Example>
 
 ```js
-
-const messagerButton = document.getElementById("messagerTrigger");
-
-messagerButton.addEventLinstener('click', function() {
-    new Messager({'这是一个漂浮消息。'}).show();
-})
-
+button.addEventLinstener('click', function() {
+    Messager.show({content: '这是一个悬浮消息'});
+});
 ```
 
 ## 显示位置
 
 提供9个预设的显示位置。
 
-<example>
-    <button class="btn top-start">上方左侧</button>
-    <button class="btn top">上方居中</button>
-    <button class="btn top-end">上方右侧</button>
-    <button class="btn bottom-start">下方左侧</button>
-    <button class="btn bottom">下方居中</button>
-    <button class="btn bottom-end">下方右侧</button>
-    <button class="btn left">左侧居中</button>
-    <button class="btn right">右侧居中</button>
-    <button class="btn center">居中</button>
-</example>
+<Example class="flex gap-2">
+    <button class="messager-toggle btn messager-toggle" data-placement="top-left">top-left</button>
+    <button class="messager-toggle btn messager-toggle" data-placement="top">top</button>
+    <button class="messager-toggle btn messager-toggle" data-placement="top-right">top-right</button>
+    <button class="messager-toggle btn messager-toggle" data-placement="bottom-left">bottom-left</button>
+    <button class="messager-toggle btn messager-toggle" data-placement="bottom">bottom</button>
+    <button class="messager-toggle btn messager-toggle" data-placement="bottom-right">bottom-right</button>
+    <button class="messager-toggle btn messager-toggle" data-placement="center">center</button>
+</Example>
+
 
 ```js
-new Messager({
-    message: '这是一个漂浮消息。',
-    placement: '*' // 定义位置
-}).show();
+Messager.show({
+    message: '这是一条悬浮消息。',
+    placement: 'top-left' // 定义位置
+});
 ```
 
 ## 颜色主题
 
 提供 多种预设颜色主题 详见 颜色。
 
-<example>
-    <div class="w-40 py-2">
-        <div class="messager-default messager">
-            <div class="messager-content">
-                普通提示消息
-            </div>
-            <div class="messager-actions btn-group">
-                <button type="btn" class="btn messager-default border-0">
-                    <i class="icon icon-times"></i>
-                </button>
-            </div>
-        </div>
-    </div>
-    <!-- <p><button type="button" class="btn messager">普通提示消息</button></p> -->
-    <p><button type="button" class="btn messager primary">提示消息：主要</button></p>
-    <p><button type="button" class="btn messager danger">提示消息：危险</button></p>
-    <p><button type="button" class="btn messager success">提示消息：成功</button></p>
-    <p><button type="button" class="btn messager warning">提示消息：警告</button></p>
-    <p><button type="button" class="btn messager important">提示消息：重要</button></p>
-    <p><button type="button" class="btn messager special">提示消息：特别</button></p>
+<example class="flex gap-2">
+    <button type="button" class="btn primary messager-toggle" data-type="primary">primary</button>
+    <button type="button" class="btn secondary messager-toggle" data-type="secondary">secondary</button>
+    <button type="button" class="btn success messager-toggle" data-type="success">success</button>
+    <button type="button" class="btn danger messager-toggle" data-type="danger">danger</button>
+    <button type="button" class="btn special messager-toggle" data-type="special">special</button>
+    <button type="button" class="btn important messager-toggle" data-type="important">important</button>
+    <button type="button" class="btn primary circle messager-toggle" data-type="primary circle">primary circle</button>
 </example>
+```
 
 ```js
-
+document.querySelector('.messager-toggle').addEventListener('click', (event) => {
+    Messager.show({
+        message: '这是一个漂浮消息。',
+        type: event.target.dataset.type,
+    });
+});
 ```
 
 ## 自定义操作按钮
@@ -78,14 +70,14 @@ new Messager({
 默认会在右侧显示关闭按钮，如果需要禁用关闭按钮，将 close 选项设置为 false。
 
 <example>
-    <button class="btn primary"> 禁用关闭按钮 </button>
+    <button class="btn primary messager-toggle" data-close="false"> 禁用关闭按钮 </button>
 </example>
 
 ```js
-new Messager({
-    massage: '此消息无法关闭，5秒后自动关闭',
-    close: false // 禁用关闭按钮
-}).show();
+Messager.show({
+    message: '这是一个漂浮消息。',
+    close: false
+});
 ```
 
 通过 `actions` 数组来自定义一组操作。详细配置可参考 [按钮组](/lib/components/btn-group/index.html)。
@@ -106,6 +98,32 @@ new Messager({
     }]
 });
 ```
+
+## 禁用自动隐藏
+
+默认超过 5000ms 自动隐藏，通过设置 `time` 为 `0` 取消自动隐藏。
+
+<Example>
+    <button
+        type="button"
+        class="btn primary messager-toggle"
+        data-time="0"
+        data-content="禁用自动隐藏的悬浮消息"
+    >禁用自动隐藏</button>
+</Example>
+
+## 禁用动画效果
+
+设置 `animation` 为 `false` 禁用动画效果。
+
+<Example>
+    <button
+        type="button"
+        class="btn messager-toggle"
+        data-animation="false"
+        data-content="禁用动画效果的悬浮消息"
+    >禁用动画效果</button>
+</Example>
 
 ## API
 
@@ -200,3 +218,26 @@ onAction
 
 * 类型：`function(actionName, action, messager)`;
 * 必选：否。
+
+<script setup>
+function parseDataset(dataset) {
+    return Object.fromEntries(Object.entries(dataset).map(([key, value]) => {
+        if (typeof value === 'string') {
+            try {
+                value = JSON.parse(value);
+            // eslint-disable-next-line no-empty
+            } catch (_) {}
+        }
+        return [key, value];
+    }));
+}
+
+document.addEventListener('click', (event) => {
+    const toggleElement = (event.target).closest('.messager-toggle');
+    if (!toggleElement) {
+        return;
+    }
+    const messager = zui.Messager.show({content: '这是一个漂浮消息', ...parseDataset(toggleElement.dataset)});
+    console.log('> messager', messager);
+});
+</script>

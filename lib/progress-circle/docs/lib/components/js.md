@@ -12,13 +12,13 @@
 
 <script>
 export default {
-      mounted() {
-          onZUIReady(() => {
-             const progressCircle = new zui.ProgressCircle('#progress1', {
-                 percent: 40,
-             });
-          })
-      }
+    mounted() {
+        onZUIReady(() => {
+            const progressCircle = new zui.ProgressCircle('#progress1', {
+                percent: 40,
+            });
+        })
+    }
  }
  </script>
 

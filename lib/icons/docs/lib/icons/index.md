@@ -5,6 +5,7 @@
 <ul id="iconsExample" class="flex flex-wrap gap-y-3 justify-start h-96 -overflow-y-auto "></ul>
 
 ## 使用方法
+
 <Example>
   <i class="icon icon-resize"></i>
 </Example>
@@ -15,12 +16,14 @@
 
 ## 尺寸
 
+使用 `icon-*x` 类实现不同大小的图标，支持五种图标大小
+
 <Example class="space-x-4">
   <i class="icon icon-5x icon-resize"></i>
   <i class="icon icon-4x icon-resize"></i>
   <i class="icon icon-3x icon-resize"></i>
   <i class="icon icon-2x icon-resize"></i>
-  <i class="icon icon icon-resize"></i>
+  <i class="icon icon-resize"></i>
 </Example>
 
 ```html
@@ -66,7 +69,7 @@
 
 ## 动画
 
-搭配 CSS 动画工具类  实现动画效果
+搭配 CSS 动画工具类 `spin`、`ping`、`pulse`、`bounce` 实现动画效果
 
 <Example class="space-x-4">
   <i class="icon icon-star spin"></i>

@@ -218,12 +218,12 @@
     <input type="text" class="form-control">
     <div class="dropdown">
       <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">选项 <span class="caret"></span></button>
-      <ul class="dropdown-menu menu-align-right" role="menu">
-        <li><a href="#">选项</a></li>
-        <li><a href="#">另一个选项</a></li>
-        <li><a href="#">更多选项</a></li>
-        <li class="divider"></li>
-        <li><a href="#">特别内容</a></li>
+      <ul class="menu menu-popup dropdown-menu menu-align-right" role="menu">
+        <li class="menu-item"><a href="#">选项</a></li>
+        <li class="menu-item"><a href="#">另一个选项</a></li>
+        <li class="menu-item"><a href="#">更多选项</a></li>
+        <li class="menu-divider"></li>
+        <li class="menu-item"><a href="#">特别内容</a></li>
       </ul>
     </div>
   </div>
@@ -234,12 +234,12 @@
   <input type="text" class="form-control">
   <div class="dropdown">
     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">选项 <span class="caret"></span></button>
-    <ul class="dropdown-menu menu-align-right" role="menu">
-      <li><a href="#">选项</a></li>
-      <li><a href="#">另一个选项</a></li>
-      <li><a href="#">更多选项</a></li>
-      <li class="divider"></li>
-      <li><a href="#">特别内容</a></li>
+    <ul class="menu menu-popup dropdown-menu menu-align-right" role="menu">
+      <li class="menu-item"><a href="#">选项</a></li>
+      <li class="menu-item"><a href="#">另一个选项</a></li>
+      <li class="menu-item"><a href="#">更多选项</a></li>
+      <li class="menu-divider"></li>
+      <li class="menu-item"><a href="#">特别内容</a></li>
     </ul>
   </div>
 </div>
@@ -252,18 +252,16 @@
 <Example>
   <div class="input-group">
     <input type="text" class="form-control">
-    <div class="input-group-btn">
+    <div class="input-group-btn flex">
       <button type="button" class="btn btn-default" tabindex="-1">主要选项</button>
-      <div class="dropdown menu-align-right">
-        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" tabindex="-1">
-          选项 <span class="caret"></span>
-        </button>
-          <ul class="dropdown-menu" role="menu">
-          <li><a href="#">选项</a></li>
-          <li><a href="#">另一个选项</a></li>
-          <li><a href="#">更多选项</a></li>
-          <li class="divider"></li>
-          <li><a href="#">特别内容</a></li>
+      <div class="dropdown menu-align-right inline-block">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">选项 <span class="caret"></span></button>
+        <ul class="menu menu-popup dropdown-menu" role="menu">
+          <li class="menu-item"><a href="#">选项</a></li>
+          <li class="menu-item"><a href="#">另一个选项</a></li>
+          <li class="menu-item"><a href="#">更多选项</a></li>
+          <li class="menu-divider"></li>
+          <li class="menu-item"><a href="#">特别内容</a></li>
         </ul>
       </div>
     </div>
@@ -273,7 +271,7 @@
 ```html
 <div class="input-group">
   <input type="text" class="form-control">
-  <div class="input-group-btn">
+  <div class="input-group-btn flex">
     <button type="button" class="btn btn-default" tabindex="-1">主要选项</button>
     <div class="dropdown menu-align-right">
       <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" tabindex="-1">

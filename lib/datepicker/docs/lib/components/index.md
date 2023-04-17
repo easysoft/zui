@@ -306,13 +306,6 @@ export default {
                     datePicker2.querySelector('.form-control').value = newDate;
                 },
             });
-            const datePicker6 = document.getElementById('datePicker6');
-            new zui.Datepicker('#datePicker6', {
-                tagDate: ['2022-12-24', '2022-12-25'],
-                onChange: (newDate) => {
-                    datePicker6.querySelector('.form-control').value = newDate;
-                },
-            });
             const datePicker4 = document.getElementById('datePicker4');
             new zui.Datepicker('#datePicker4', {
                 showOtherMonth: false,
@@ -327,6 +320,13 @@ export default {
                 format: 'YYYY-MM-DD',
                 onChange: (newDate) => {
                     datePicker5.querySelector('.form-control').value = newDate;
+                },
+            });
+            const datePicker6 = document.getElementById('datePicker6');
+            new zui.Datepicker('#datePicker6', {
+                tagDate: ['2022-12-24', '2022-12-25'],
+                onChange: (newDate) => {
+                    datePicker6.querySelector('.form-control').value = newDate;
                 },
             });
             const datePicker7 = document.getElementById('datePicker7');

@@ -7,11 +7,11 @@
 <Example>
   <form>
     <div class="form-group">
-      <label> 账号 </label>
+      <label class="form-label"> 账号 </label>
       <input type="text" class="form-control" />
     </div>
     <div class="form-group">
-      <label> 密码 </label>
+      <label class="form-label"> 密码 </label>
       <input type="password" class="form-control" />
     </div>
   </form>
@@ -20,11 +20,11 @@
 ```html
 <form>
   <div class="form-group">
-    <label> 账号 </label>
+    <label class="form-label"> 账号 </label>
     <input type="text" class="form-control" />
   </div>
   <div class="form-group">
-    <label> 密码 </label>
+    <label class="form-label"> 密码 </label>
     <input type="password" class="form-control" />
   </div>
 </form>
@@ -32,32 +32,30 @@
 
 ## 水平排列的表单
 
-使用组件类`.form-horizontal`来获得水平排列的表单外观
+使用组件类`.form-grid`来获得水平排列的表单外观
 
 <Example>
-  <form class="form-horizontal">
+  <form class="form-grid">
     <div class="form-group">
-      <label> 账号 </label>
+      <label class="form-label"> 账号 </label>
       <input type="text" class="form-control" />
     </div>
     <div class="form-group">
-      <label> 密码 </label>
+      <label class="form-label"> 密码 </label>
       <input type="password" class="form-control" />
     </div>
   </form>
 </Example>
 
 ```html
-<form class="form-horizontal">
+<form class="form-grid">
   <div class="form-group">
-    <label>账号</label>
-    <input type="text" class="form-control">
-    </input>
+    <label class="form-label"> 账号 </label>
+    <input type="text" class="form-control" />
   </div>
   <div class="form-group">
-    <label> 密码 </label>
-    <input type="password" class="form-control" >
-    </input>
+    <label class="form-label"> 密码 </label>
+    <input type="password" class="form-control" />
   </div>
 </form>
 ```
@@ -65,23 +63,18 @@
 
 使用 `<div class="form-tip">` 来显示帮助性的文本并添加到表单控件组中。
 <Example>
-  <div>
-    <div class="form-group">
-      <label for="exampleInputAccount2">账号</label>
-      <input type="text" class="form-control" id="exampleInputAccount2" placeholder="输入用来注册的用户名">
-      <div class="form-tip">用户名可以包含特殊字符及汉字。</div>
-    </div>
+  <div class="form-group">
+    <label class="form-label" for="exampleInputAccount2">账号</label>
+    <input type="text" class="form-control" id="exampleInputAccount2" placeholder="输入用来注册的用户名">
+    <div class="form-tip">用户名可以包含特殊字符及汉字。</div>
   </div>
 </Example>
 
 ```html
-
-<div>
-  <div class="form-group">
-    <label for="exampleInputAccount2">账号</label>
-    <input type="text" class="form-control" id="exampleInputAccount2" placeholder="输入用来注册的用户名">
-    <div class="form-tip">用户名可以包含特殊字符及汉字。</div>
-  </div>
+<div class="form-group">
+  <label class="form-label" for="exampleInputAccount2">账号</label>
+  <input type="text" class="form-control" id="exampleInputAccount2" placeholder="输入用来注册的用户名">
+  <div class="form-tip">用户名可以包含特殊字符及汉字。</div>
 </div>
 ```
 
@@ -92,16 +85,16 @@
 <Example>
 <form>
   <div class="form-group has-success">
-    <label for="inputSuccess1">输入框（success）</label>
+    <label class="form-label" for="inputSuccess1">输入框（success）</label>
     <input type="text" class="form-control" id="inputSuccess1">
     <div class="form-tip">这是帮助性提示文本。</div>
   </div>
   <div class="form-group has-warning">
-    <label for="inputWarning1">输入框（warning）</label>
+    <label class="form-label" for="inputWarning1">输入框（warning）</label>
     <input type="text" class="form-control" id="inputWarning1">
   </div>
   <div class="form-group has-error">
-    <label for="inputError1">输入框（error）</label>
+    <label class="form-label" for="inputError1">输入框（error）</label>
     <input type="text" class="form-control" id="inputError1">
   </div>
 </form>
@@ -110,16 +103,16 @@
 ```html
 <form>
   <div class="form-group has-success">
-    <label for="inputSuccess1">输入框（success）</label>
+    <label class="form-label" for="inputSuccess1">输入框（success）</label>
     <input type="text" class="form-control" id="inputSuccess1">
     <div class="form-tip">这是帮助性提示文本。</div>
   </div>
   <div class="form-group has-warning">
-    <label for="inputWarning1">输入框（warning）</label>
+    <label class="form-label" for="inputWarning1">输入框（warning）</label>
     <input type="text" class="form-control" id="inputWarning1">
   </div>
   <div class="form-group has-error">
-    <label for="inputError1">输入框（error）</label>
+    <label class="form-label" for="inputError1">输入框（error）</label>
     <input type="text" class="form-control" id="inputError1">
   </div>
 </form>
@@ -134,23 +127,23 @@
     <fieldset>
       <legend>账号信息</legend>
       <div class="form-group">
-        <label for="exampleInputAccount3">账号</label>
+        <label class="form-label" for="exampleInputAccount3">账号</label>
         <input type="text" class="form-control" id="exampleInputAccount3" placeholder="电子邮件/手机号/用户名">
       </div>
       <div class="form-group">
-        <label> 密码 </label>
+        <label class="form-label"> 密码 </label>
         <input type="password" class="form-control" />
       </div>
     </fieldset>
     <fieldset>
       <legend>额外内容</legend>
       <div class="radio">
-        <label>
+        <label class="form-label">
           <input type="radio" name="exampleRadioOption2"> 使用默认选项
         </label>
       </div>
       <div class="radio">
-        <label>
+        <label class="form-label">
           <input type="radio" name="exampleRadioOption2"> 让我自定义选项
         </label>
       </div>
@@ -164,23 +157,23 @@
   <fieldset>
     <legend>账号信息</legend>
     <div class="form-group">
-      <label for="exampleInputAccount3">账号</label>
+      <label class="form-label" for="exampleInputAccount3">账号</label>
       <input type="text" class="form-control" id="exampleInputAccount3" placeholder="电子邮件/手机号/用户名">
     </div>
     <div class="form-group">
-       <label> 密码 </label>
+       <label class="form-label"> 密码 </label>
        <input type="password" class="form-control" />
     </div>
   </fieldset>
   <legend>额外内容</legend>
   <fieldset>
       <div class="radio">
-    <label>
+    <label class="form-label">
       <input type="radio" name="exampleRadioOption2"> 使用默认选项
     </label>
   </div>
   <div class="radio">
-    <label>
+    <label class="form-label">
       <input type="radio" name="exampleRadioOption2"> 让我自定义选项
     </label>
     </div>
@@ -193,7 +186,7 @@
 只需要表单控件（包括 `<input>、<select>、<textarea>`）添加 disabled 属性即可禁用状态。处于禁用状态的控件有不同的外观并且不可与用户进行任何交互（包括获得焦点及进行输入等），此时鼠标光标被设置为 not-allowed 类型。表单控件的禁用状态可以参考 控件 → 表单控件 章节。
 <Example>
   <div class="form-group">
-    <label for="exampleDisabledInput">被禁用的输入框</label>
+    <label class="form-label" for="exampleDisabledInput">被禁用的输入框</label>
     <input type="text" class="form-control" id="exampleDisabledInput" placeholder="被禁用的输入框" disabled>
   </div>
 </Example>
@@ -201,7 +194,7 @@
 
 ```html
 <div class="form-group">
-  <label for="exampleDisabledInput">被禁用的输入框</label>
+  <label class="form-label" for="exampleDisabledInput">被禁用的输入框</label>
   <input type="text" class="form-control" id="exampleDisabledInput" placeholder="被禁用的输入框" disabled>
 </div>
 ```
@@ -266,15 +259,15 @@
 
 ## 标记必填项
 
-标记必填项的一种通用方法是在标签上添加星标* , 在表单控件组中只需要为`<label>`添加.required 类
+标记必填项的一种通用方法是在标签上添加星标* , 在表单控件组中只需要为`<label>`添加`required` 和 `form-label` 类
 <Example>
 <form>
   <div class="form-group">
-    <label for="exampleInputAccount8" class="required">账号</label>
+    <label for="exampleInputAccount8" class="form-label required">账号</label>
     <input type="text" class="form-control" id="exampleInputAccount8" placeholder="电子邮件/手机号/用户名">
   </div>
   <div class="form-group">
-    <label for="exampleInputPassword8" class="required">密码</label>
+    <label for="exampleInputPassword8" class="form-label required">密码</label>
     <input type="password" class="form-control" id="exampleInputPassword8" placeholder="">
   </div>
 </form>
@@ -284,11 +277,11 @@
 ```html
 <form>
   <div class="form-group">
-    <label for="exampleInputAccount8" class="required">账号</label>
+    <label for="exampleInputAccount8" class="form-label required">账号</label>
     <input type="text" class="form-control" id="exampleInputAccount8" placeholder="电子邮件/手机号/用户名">
   </div>
   <div class="form-group">
-    <label for="exampleInputPassword8" class="required">密码</label>
+    <label for="exampleInputPassword8" class="form-label required">密码</label>
     <input type="password" class="form-control" id="exampleInputPassword8" placeholder="">
   </div>
 </form>
@@ -296,13 +289,13 @@
 
 水平表单中也可以使用
 <Example>
-  <form class="form-horizontal">
+  <form class="form-grid">
     <div class="form-group">
-      <label for="exampleInputAccount8" class="required">账号</label>
+      <label for="exampleInputAccount8" class="form-label required">账号</label>
       <input type="text" class="form-control" id="exampleInputAccount8" placeholder="电子邮件/手机号/用户名">
     </div>
     <div class="form-group">
-      <label for="exampleInputPassword8" class="required">密码</label>
+      <label for="exampleInputPassword8" class="form-label required">密码</label>
       <input type="password" class="form-control" id="exampleInputPassword8" placeholder="">
     </div>
   </form>
@@ -310,53 +303,53 @@
 
 
 ```html
- <form class="form-horizontal">
-   <div class="form-group">
-     <label for="exampleInputAccount8" class="required">账号</label>
-     <input type="text" class="form-control" id="exampleInputAccount8" placeholder="电子邮件/手机号/用户名">
-   </div>
-   <div class="form-group">
-     <label for="exampleInputPassword8" class="required">密码</label>
-     <input type="password" class="form-control" id="exampleInputPassword8" placeholder="">
-   </div>
- </form>
+<form class="form-grid">
+  <div class="form-group">
+    <label for="exampleInputAccount8" class="form-label required">账号</label>
+    <input type="text" class="form-control" id="exampleInputAccount8" placeholder="电子邮件/手机号/用户名">
+  </div>
+  <div class="form-group">
+    <label for="exampleInputPassword8" class="form-label required">密码</label>
+    <input type="password" class="form-control" id="exampleInputPassword8" placeholder="">
+  </div>
+</form>
 ```
 
 ## 表单控件
 
 为`<input>`,`<textarea>`,`<select>` 添加.form-control 类即可得到统一的表单外观。所受支持的表单控件包括:
 
- `<select class="form-control">`
+`<select class="form-control">`
 
- `<textarea class="form-control" rows="3">`
+`<textarea class="form-control" rows="3">`
 
- `<input type="text" class="form-control">`
+`<input type="text" class="form-control">`
 
- `<input type="password" class="form-control">`
+`<input type="password" class="form-control">`
 
- `<input type="datetime" class="form-control">`
+`<input type="datetime" class="form-control">`
 
- `<input type="datetime-local" class="form-control">`
+`<input type="datetime-local" class="form-control">`
 
- `<input type="date" class="form-control">`
+`<input type="date" class="form-control">`
 
- `<input type="month" class="form-control">`
+`<input type="month" class="form-control">`
 
- `<input type="time" class="form-control">`
+`<input type="time" class="form-control">`
 
- `<input type="week" class="form-control">`
+`<input type="week" class="form-control">`
 
- `<input type="number" class="form-control">`
+`<input type="number" class="form-control">`
 
- `<input type="email" class="form-control">`
+`<input type="email" class="form-control">`
 
- `<input type="url" class="form-control">`
+`<input type="url" class="form-control">`
 
- `<input type="search" class="form-control">`
+`<input type="search" class="form-control">`
 
- `<input type="tel" class="form-control">`
+`<input type="tel" class="form-control">`
 
- `<input type="color" class="form-control">`
+`<input type="color" class="form-control">`
 
 <Example>
  <input type="text" class="form-control" placeholder="请输入文本">
@@ -370,44 +363,44 @@
   <textarea class="form-control" rows="3" placeholder="可输入多行文本"></textarea>
 </Example>
 
-```
+```html
   <textarea class="form-control" rows="3" placeholder="可输入多行文本"></textarea>
 ```
 
 <Example>
- <select class="form-control">
-   <option value="">请选择一种水果</option>
-   <option value="apple">苹果</option>
-   <option value="banana">香蕉</option>
-   <option value="orange">桔子</option>
- </select>
+  <select class="form-control">
+    <option value="">请选择一种水果</option>
+    <option value="apple">苹果</option>
+    <option value="banana">香蕉</option>
+    <option value="orange">桔子</option>
+  </select>
 </Example>
 
 ```html
- <select class="form-control">
-   <option value="">请选择一种水果</option>
-   <option value="apple">苹果</option>
-   <option value="banana">香蕉</option>
-   <option value="orange">桔子</option>
- </select>
+  <select class="form-control">
+    <option value="">请选择一种水果</option>
+    <option value="apple">苹果</option>
+    <option value="banana">香蕉</option>
+    <option value="orange">桔子</option>
+  </select>
 ```
 
 <Example>
- <select multiple class="form-control">
-   <option value="">请选择一种水果</option>
-   <option value="apple">苹果</option>
-   <option value="banana">香蕉</option>
-   <option value="orange">橘子</option>
- </select>
+  <select multiple class="form-control">
+    <option value="">请选择一种水果</option>
+    <option value="apple">苹果</option>
+    <option value="banana">香蕉</option>
+    <option value="orange">橘子</option>
+  </select>
 </Example>
 
 ```html
- <select class="form-control" multiple>
-   <option value="">请选择所有爱吃的水果</option>
-   <option value="apple">苹果</option>
-   <option value="banana">香蕉</option>
-   <option value="orange">橘子</option>
- </select>
+<select class="form-control" multiple>
+  <option value="">请选择所有爱吃的水果</option>
+  <option value="apple">苹果</option>
+  <option value="banana">香蕉</option>
+  <option value="orange">橘子</option>
+</select>
 ```
 
 ## CSS 类

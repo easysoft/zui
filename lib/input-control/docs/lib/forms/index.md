@@ -10,7 +10,7 @@
   <div class="input-control">
     <input type="text" class="form-control" placeholder="请填写" />
   </div>
-  <div class="input-control prefix">
+  <div class="input-control has-prefix">
     <span class="input-control-prefix">用户名</span>
     <input type="text" class="form-control" placeholder="请填写"/>
   </div>
@@ -20,7 +20,7 @@
 <div class="input-control">
   <input type="text" class="form-control" placeholder="请填写" />
 </div>
-<div class="input-control prefix">
+<div class="input-control has-prefix">
   <span class="input-control-prefix">用户名</span>
   <input type="text" class="form-control" placeholder="请填写"/>
 </div>
@@ -50,19 +50,19 @@
   <div class="flex gap-2">
     <p class="w-36">小号尺寸</p>
     <div class="col gap-2">
-      <div class="input-control w-96">
-        <input type="text" class="form-control size-sm" placeholder="请填写" />
+      <div class="input-control size-sm">
+        <input type="text" class="form-control" placeholder="请填写" />
       </div>
-      <div class="input-control size-sm prefix suffix w-96">
+      <div class="input-control size-sm has-prefix has-suffix w-96">
         <span class="input-control-prefix">用户名</span>
         <input type="text" class="form-control size-sm" placeholder="请填写"/>
         <span class="input-control-suffix"><i class="icon icon-search"></i></span>
       </div>
-      <div class="input-control size-sm prefix-sm w-96">
+      <div class="input-control size-sm has-prefix-sm w-96">
         <span class="input-control-prefix"><i class="icon icon-lock"></i></span>
         <input type="text" class="form-control size-sm" placeholder="请填写"/>
       </div>
-      <div class="input-control size-sm prefix-lg w-96">
+      <div class="input-control size-sm has-prefix-lg w-96">
         <span class="input-control-prefix">有效身份证号码</span>
         <input type="text" class="form-control size-sm" placeholder="请填写"/>
       </div>
@@ -74,16 +74,16 @@
       <div class="input-control w-96">
         <input type="text" class="form-control" placeholder="请填写" />
       </div>
-      <div class="input-control prefix suffix w-96">
+      <div class="input-control has-prefix has-suffix w-96">
         <span class="input-control-prefix">用户名</span>
         <input type="text" class="form-control" placeholder="请填写"/>
         <span class="input-control-suffix"><i class="icon icon-search"></i></span>
       </div>
-      <div class="input-control prefix-sm w-96">
+      <div class="input-control has-prefix-sm w-96">
         <span class="input-control-prefix"><i class="icon icon-lock"></i></span>
         <input type="text" class="form-control" placeholder="请填写"/>
       </div>
-      <div class="input-control prefix-lg w-96">
+      <div class="input-control has-prefix-lg w-96">
         <span class="input-control-prefix">有效身份证号码</span>
         <input type="text" class="form-control" placeholder="请填写"/>
       </div>
@@ -92,19 +92,19 @@
   <div class="flex gap-2">
     <p class="w-36">大号尺寸</p>
     <div class="col gap-2">
-      <div class="input-control w-96">
-        <input type="text" class="form-control size-lg" placeholder="请填写" />
+      <div class="input-control size-lg w-96">
+        <input type="text" class="form-control" placeholder="请填写" />
       </div>
-      <div class="input-control size-lg prefix suffix w-96">
+      <div class="input-control size-lg has-prefix has-suffix w-96">
         <span class="input-control-prefix">用户名</span>
         <input type="text" class="form-control size-lg" placeholder="请填写"/>
         <span class="input-control-suffix"><i class="icon icon-search"></i></span>
       </div>
-      <div class="input-control size-lg prefix-sm w-96">
+      <div class="input-control size-lg has-prefix-sm w-96">
         <span class="input-control-prefix"><i class="icon icon-lock"></i></span>
         <input type="text" class="form-control size-lg" placeholder="请填写"/>
       </div>
-      <div class="input-control size-lg prefix-lg w-96">
+      <div class="input-control size-lg has-prefix-lg w-96">
         <span class="input-control-prefix">有效身份证号码</span>
         <input type="text" class="form-control size-lg" placeholder="请填写"/>
       </div>
@@ -116,19 +116,19 @@
 <div class="flex gap-2">
   <p class="w-36">小号尺寸</p>
   <div class="col gap-2">
-    <div class="input-control w-96">
-      <input type="text" class="form-control size-sm" placeholder="请填写" />
+    <div class="input-control size-sm w-96">
+      <input type="text" class="form-control" placeholder="请填写" />
     </div>
-    <div class="input-control size-sm prefix suffix w-96">
+    <div class="input-control size-sm has-prefix has-suffix w-96">
       <span class="input-control-prefix">用户名</span>
       <input type="text" class="form-control size-sm" placeholder="请填写"/>
       <span class="input-control-suffix"><i class="icon icon-search"></i></span>
     </div>
-    <div class="input-control size-sm prefix-sm w-96">
+    <div class="input-control size-sm has-prefix-sm w-96">
       <span class="input-control-prefix"><i class="icon icon-lock"></i></span>
       <input type="text" class="form-control size-sm" placeholder="请填写"/>
     </div>
-    <div class="input-control size-sm prefix-lg w-96">
+    <div class="input-control size-sm has-prefix-lg w-96">
       <span class="input-control-prefix">有效身份证号码</span>
       <input type="text" class="form-control size-sm" placeholder="请填写"/>
     </div>
@@ -140,13 +140,13 @@
     <div class="input-control w-96">
       ...
     </div>
-    <div class="input-control prefix suffix w-96">
+    <div class="input-control has-prefix has-suffix w-96">
       ...
     </div>
-    <div class="input-control prefix-sm w-96">
+    <div class="input-control has-prefix-sm w-96">
       ...
     </div>
-    <div class="input-control prefix-lg w-96">
+    <div class="input-control has-prefix-lg w-96">
       ...
     </div>
   </div>
@@ -154,16 +154,16 @@
 <div class="flex gap-2">
   <p class="w-36">大号尺寸</p>
   <div>
-    <div class="input-control w-96">
+    <div class="input-control size-lg w-96">
       ...
     </div>
-    <div class="input-control size-lg prefix suffix w-96">
+    <div class="input-control size-lg has-prefix has-suffix w-96">
       ...
     </div>
-    <div class="input-control size-lg prefix-sm w-96">
+    <div class="input-control size-lg has-prefix-sm w-96">
       ...
     </div>
-    <div class="input-control size-lg prefix-lg w-96">
+    <div class="input-control size-lg has-prefix-lg w-96">
       ...
     </div>
   </div>
@@ -172,47 +172,47 @@
 
 ## 前缀和后缀
 
-通过结合类 `prefix` `suffix` 在输入框上添加前缀或后缀图标或字符。
+通过结合类 `has-prefix` `has-suffix` 在输入框上添加前缀或后缀图标或字符。
 
-除了预设的前 / 后缀宽度，还预设了其他两种尺寸，结合 `prefix-*` 和 `suffix-*` 类进行不同宽度展示。
+除了预设的前 / 后缀宽度，还预设了其他两种尺寸，结合 `has-prefix-*` 和 `has-suffix-*` 类进行不同宽度展示。
 
 <Example class="flex gap-3 flex-wrap items-end">
-  <div class="input-control prefix-sm">
+  <div class="input-control has-prefix-sm">
     <span class="input-control-prefix"><i class="icon icon-user"></i></span>
     <input type="text" class="form-control" placeholder="请填写"/>
   </div>
-  <div class="input-control prefix-sm suffix-sm">
+  <div class="input-control has-prefix-sm has-suffix-sm">
     <span class="input-control-prefix"><i class="icon icon-lock"></i></span>
     <input type="text" class="form-control" placeholder="请填写"/>
     <span class="input-control-suffix"><i class="icon icon-eye-open"></i></span>
   </div>
-  <div class="input-control prefix suffix suffix-sm">
+  <div class="input-control has-prefix has-suffix-sm">
     <span class="input-control-prefix">用户名</span>
     <input type="text" class="form-control" placeholder="请填写"/>
     <span class="input-control-suffix"><i class="icon icon-search"></i></span>
   </div>
-  <div class="input-control prefix-lg">
+  <div class="input-control has-prefix-lg">
     <span class="input-control-prefix">有效身份证号码</span>
     <input type="text" class="form-control" placeholder="请填写"/>
   </div>
 </Example>
 
 ```html
-<div class="input-control prefix-sm">
+<div class="input-control has-prefix-sm">
   <span class="input-control-prefix"><i class="icon icon-user"></i></span>
   <input type="text" class="form-control" placeholder="请填写"/>
 </div>
-<div class="input-control prefix-sm suffix-sm">
+<div class="input-control has-prefix-sm has-suffix-sm">
   <span class="input-control-prefix"><i class="icon icon-lock"></i></span>
   <input type="text" class="form-control" placeholder="请填写"/>
   <span class="input-control-suffix"><i class="icon icon-eye-open"></i></span>
 </div>
-<div class="input-control prefix suffix">
+<div class="input-control has-prefix has-suffix">
   <span class="input-control-prefix">用户名</span>
   <input type="text" class="form-control" placeholder="请填写"/>
   <span class="input-control-suffix">点击搜索</span>
 </div>
-<div class="input-control prefix-lg">
+<div class="input-control has-prefix-lg">
   <span class="input-control-prefix">有效身份证号码</span>
   <input type="text" class="form-control" placeholder="请填写"/>
 </div>

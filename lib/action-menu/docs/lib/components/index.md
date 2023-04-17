@@ -69,7 +69,7 @@ export default {
                             },
                         ],
                     },
-                ],                
+                ],
                 onClickItem: (info) => {
                     console.log('> menu.onClickItem', info);
                 },
@@ -196,9 +196,6 @@ new ActionMenu('#actionMenu', {
 * `index`
 * `menu`：组件信息
 
-
-**监听**
-
 ## 多层级菜单
 
 <Example class="flex gap-4">
@@ -238,7 +235,7 @@ new zui.ActionMenuNested('#nestedActionMenu', {
 ```
 
 ## 基于此创建新组件
- 
+
 通过继承 [ActionMenu 组件](https://github.com/easysoft/zui/blob/zui3_dev/lib/action-menu/src/component/action-menu.tsx) 类来创建一个新的 JS 组件，例如创建一个导航：
 
 ```js

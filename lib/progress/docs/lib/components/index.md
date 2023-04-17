@@ -5,16 +5,14 @@
 使用实体类 `progress` 和 `progress-bar` 应用进度条CSS组件。
 
 <Example>
-   <div class="progress">
-     <div class="progress-bar" role="progressbar" style="width: 40%">
-     </div>
-   </div>
+  <div class="progress">
+    <div class="progress-bar" role="progressbar" style="width: 40%"></div>
+  </div>
 </Example>
 
 ```html
   <div class="progress">
-    <div class="progress-bar" role="progressbar"  style="width: 40%">
-    </div>
+    <div class="progress-bar" role="progressbar"  style="width: 40%"></div>
   </div>
 ```
 
@@ -22,19 +20,17 @@
 
 给 `.progress-bar` 元素添加 `.*` 等颜色[CSS工具类](/utilities/style/utilities/solid)，得到各种颜色的进度条。
 
- <Example>
-     <template v-for="item in array" >
-       <div class="progress mb-5">
-         <div :class="item" class="progress-bar" style="width: 40%">
-         </div>
-       </div>
-     </template>
- </Example>
+<Example>
+  <template v-for="item in array" >
+    <div class="progress mb-5">
+      <div :class="item" class="progress-bar" style="width: 40%"></div>
+    </div>
+  </template>
+</Example>
 
 ```html
   <div class="progress">
-    <div class="progress-bar primary" style="width: 40%">
-    </div>
+    <div class="progress-bar primary" style="width: 40%"></div>
   </div>
   ...
 ```
@@ -43,16 +39,14 @@
 给 `.progress` 元素添加 `.rounded-*` [CSS工具类](/utilities/borders/utilities/border-radius)，给进度条添加不同大小的圆角。
 
 <Example>
-   <div v-for="item in arrayRounded" :class="item" class="progress mb-5">
-     <div class="progress-bar" style="width: 40%">
-     </div>
-   </div>
+  <div v-for="item in arrayRounded" :class="item" class="progress mb-5">
+    <div class="progress-bar" style="width: 40%"></div>
+  </div>
 </Example>
 
 ```html
   <div class="progress rounded-sm">
-    <div class="progress-bar" style="width: 40%">
-    </div>
+    <div class="progress-bar" style="width: 40%"></div>
   </div>
   ...
 ```
@@ -63,18 +57,16 @@
 给 `.progress` 元素添加 `.progress-striped` 工具类，给进度条添加条纹效果。
 
 <Example>
-   <div class="progress progress-striped">
-     <div class="progress-bar" style="width: 40%">
-     </div>
-   </div>
+  <div class="progress progress-striped">
+    <div class="progress-bar" style="width: 40%"></div>
+  </div>
 </Example>
 
 
  ```html
-   <div class="progress progress-striped">
-     <div class="progress-bar"  style="width: 40%">
-     </div>
-   </div>
+  <div class="progress progress-striped">
+    <div class="progress-bar"  style="width: 40%"></div>
+  </div>
  ```
 
 ###  动画效果
@@ -82,17 +74,15 @@
 给使用了 `progress-striped` 工具类的元素添加 `.active` 工具类,给条纹进度条添加向左滑动的动画
 
 <Example>
-   <div class="progress progress-striped active">
-     <div class="progress-bar" style="width: 40%">
-     </div>
-   </div>
+  <div class="progress progress-striped active">
+    <div class="progress-bar" style="width: 40%"></div>
+  </div>
 </Example>
 
  ```html
-   <div class="progress progress-striped active">
-     <div class="progress-bar" style="width: 40%">
-     </div>
-   </div>
+  <div class="progress progress-striped active">
+    <div class="progress-bar" style="width: 40%"></div>
+  </div>
  ```
 
 ### 堆叠效果
@@ -100,24 +90,18 @@
 给 `.progress` 元素添加多个 `progress-bar` 元素，使多个进度条堆叠展示。
 
 <Example>
- <div class="progress">
-   <div class="progress-bar success" style="width: 40%">
-   </div>
-   <div class="progress-bar warning" style="width: 20%">
-   </div>
-   <div class="progress-bar danger" style="width: 10%">
-   </div>
- </div>
+  <div class="progress">
+    <div class="progress-bar success" style="width: 40%"></div>
+    <div class="progress-bar warning" style="width: 20%"></div>
+    <div class="progress-bar danger" style="width: 10%"></div>
+  </div>
 </Example>
 
 ```html
  <div class="progress">
-   <div class="progress-bar success" style="width: 40%">
-   </div>
-   <div class="progress-bar warning" style="width: 20%">
-   </div>
-   <div class="progress-bar danger" style="width: 10%">
-   </div>
+   <div class="progress-bar success" style="width: 40%"></div>
+   <div class="progress-bar warning" style="width: 20%"></div>
+   <div class="progress-bar danger" style="width: 10%"></div>
  </div>
 ```
 
@@ -127,16 +111,14 @@
 
 <Example>
  <div class="progress bg-canvas">
-   <div class="progress-bar success" style="width: 40%">
-   </div>
+   <div class="progress-bar success" style="width: 40%"></div>
    <label class="ml-4">40%</label>
  </div>
 </Example>
 
 ```html
  <div class="progress bg-canvas">
-   <div class="progress-bar success" style="width: 40%">
-   </div>
+   <div class="progress-bar success" style="width: 40%"></div>
    <label class="ml-4">40%</label>
  </div>
 ```

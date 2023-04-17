@@ -23,6 +23,7 @@ module.exports = {
         'react/jsx-filename-extension': 'off',
         'import/no-extraneous-dependencies': 'off',
         '@typescript-eslint/no-non-null-assertion': 'off',
+        'no-fallthrough': 'off',
     },
     overrides: [
         {

@@ -422,14 +422,20 @@
 
 ## 加载中状态
 
-为按钮提供 `loading` 工具类来启用加载中状态。
+为按钮提供动画图标实现加载中状态。
 
 <Example class="flex gap-4 items-end">
-  <button type="button" class="btn loading">加载中...</button>
+  <button type="button" class="btn loading">
+    <i class="spin icon icon-spinner-snake"></i>
+    加载中
+  </button>
 </Example>
 
 ```html
-<button type="button" class="btn loading">加载中...</button>
+<button type="button" class="btn loading">
+  <i class="spin icon icon-spinner-snake"></i>
+  加载中
+</button>
 ```
 
 ## CSS 类
