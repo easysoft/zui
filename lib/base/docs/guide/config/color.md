@@ -219,7 +219,7 @@
 
   const globalSpecialColor = [
     {name: 'canvas', color: 'white',desc: '画布（页面背景）', className: 'bg-canvas'},
-    {name: 'inverse', color: 'block', desc: '画布反色', className: 'bg-inverse'},
+    {name: 'inverse', color: 'black', desc: '画布反色', className: 'bg-inverse'},
     {name: 'surface', color: 'gray-100', desc: '控件背景', className: 'bg-surface'},
     {name: 'fore', color: 'gray-700', desc: '文本', className: 'text-fore'},
     {name: 'focus', color: 'primary-200', desc: '焦点', className: 'text-focus'},
