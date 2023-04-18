@@ -27,6 +27,7 @@
 }
 
 .form-grid .input-group,
+.form-grid .input-control,
 .form-grid .form-tip {
   @apply -flex-auto;
 }
