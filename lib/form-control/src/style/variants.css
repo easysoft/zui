@@ -11,7 +11,7 @@ select.form-control[multiple] {
 }
 
 textarea.form-control {
-  @apply -h-auto;
+  @apply -h-auto -min-h-[32px];
 }
 
 input[type="file"].form-control {
