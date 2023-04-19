@@ -95,6 +95,5 @@ window.addEventListener('click', (event: MouseEvent) => {
         if (modalTrigger) {
             modalTrigger.show();
         }
-        console.log('> modalTrigger', modalTrigger);
     }
 });

@@ -204,6 +204,26 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ComponentBase<
             }
         }
     }
+
+    static query(element?: HTMLDivElement | string): Modal | undefined {
+        if (element === undefined) {
+            element = document.querySelector(`.modal.${Modal.CLASS_SHOW}`) as HTMLDivElement;
+        } else if (typeof element === 'string') {
+            element = document.querySelector(element) as HTMLDivElement;
+        }
+        if (!element) {
+            return;
+        }
+        return Modal.get(element);
+    }
+
+    static hide(element?: HTMLDivElement | string) {
+        Modal.query(element)?.hide();
+    }
+
+    static show(element?: HTMLDivElement | string) {
+        Modal.query(element)?.show();
+    }
 }
 
 window.addEventListener('resize', () => {
