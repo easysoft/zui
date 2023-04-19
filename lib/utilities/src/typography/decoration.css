@@ -1,0 +1,4 @@
+.underline    {@apply -underline;}
+.overline     {@apply -overline;}
+.line-through {@apply -line-through;}
+.no-underline {@apply -no-underline;}
