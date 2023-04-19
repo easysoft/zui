@@ -105,13 +105,15 @@ export class ComponentBase<O extends {} = {}, V extends CustomEventMap = {}, E e
         this.#events?.off(type, listener, options);
     }
 
-    emit<T extends ComponentEventNames<V>>(event: T, detail?: (ComponentEventMap<V>[T] extends CustomEvent ? ComponentEventMap<V>[T]['detail'] : never)): ComponentEventMap<V>[T] {
+    emit<T extends ComponentEventNames<V>>(event: T, detail?: (ComponentEventMap<V>[T] extends CustomEvent ? ComponentEventMap<V>[T]['detail'] : never), optionCallbackName?: keyof O | false): ComponentEventMap<V>[T] {
         let eventObject = EventHub.createEvent<ComponentEventMap<V>[T]>(event, detail);
-        const eventOptionName = `on${event[0].toUpperCase()}${event.substring(1)}` as keyof ComponentEventOptions<V>;
-        const eventCallback = this.#options[eventOptionName] as ((event: ComponentEventMap<V>[T]) => false | void);
-        if (eventCallback && eventCallback(eventObject) === false) {
-            eventObject.preventDefault();
-            eventObject.stopPropagation();
+        if (optionCallbackName !== false) {
+            const eventOptionName = optionCallbackName || `on${event[0].toUpperCase()}${event.substring(1)}` as keyof ComponentEventOptions<V>;
+            const eventCallback = this.#options[eventOptionName] as ((event: ComponentEventMap<V>[T]) => false | void);
+            if (eventCallback && eventCallback(eventObject) === false) {
+                eventObject.preventDefault();
+                eventObject.stopPropagation();
+            }
         }
         eventObject = this.#events?.emit(event, detail) as ComponentEventMap<V>[T];
         return eventObject;
