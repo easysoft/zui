@@ -16,6 +16,7 @@
     "dependencies": {
         "preact": "10.11.2",
         "nanoid": "^4.0.0",
+        "cash-dom": "^8.1.4",
         "@zui/css-icons": "workspace:^0.0.1",
         "@zui/alert": "workspace:^0.0.1"
     },

@@ -1,4 +1,5 @@
 import {nanoid} from 'nanoid';
+import $ from 'cash-dom';
 import {MessagerOptions} from '../types';
 import {ComponentBase} from '@zui/com-helpers/src/helpers/vanilla-component';
 import {MessagerItem} from './messager-item';
@@ -85,3 +86,9 @@ export class Messager extends ComponentBase<MessagerOptions> {
         return messager;
     }
 }
+
+$(document).on('zui.messager.show', (_: Event, options: MessagerOptions & {container?: string | HTMLElement}) => {
+    if (options) {
+        Messager.show(options);
+    }
+});
