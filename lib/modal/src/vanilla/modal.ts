@@ -1,4 +1,5 @@
 import type {JSX} from 'preact';
+import $ from 'cash-dom';
 import {ComponentBase} from '@zui/com-helpers/src/helpers/vanilla-component';
 import {setAttr, setClass, setStyle} from '@zui/com-helpers/src/helpers/element-helper';
 import type {ModalOptions, ModalEvents, ModalPositionSetting, ModalSizeSetting} from '../types';
@@ -205,32 +206,36 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ComponentBase<
         }
     }
 
-    static query(element?: HTMLDivElement | string): Modal | undefined {
-        if (element === undefined) {
-            element = document.querySelector(`.modal.${Modal.CLASS_SHOW}`) as HTMLDivElement;
-        } else if (typeof element === 'string') {
-            element = document.querySelector(element) as HTMLDivElement;
+    static query(target?: HTMLDivElement | string): Modal | undefined {
+        if (target === undefined) {
+            target = document.querySelector(`.modal.${Modal.CLASS_SHOW}`) as HTMLDivElement;
+        } else if (typeof target === 'string') {
+            target = document.querySelector(target) as HTMLDivElement;
         }
-        if (!element) {
+        if (!target) {
             return;
         }
-        return Modal.get(element);
+        return Modal.get(target);
     }
 
-    static hide(element?: HTMLDivElement | string) {
-        Modal.query(element)?.hide();
+    static hide(target?: HTMLDivElement | string) {
+        Modal.query(target)?.hide();
     }
 
-    static show(element?: HTMLDivElement | string) {
-        Modal.query(element)?.show();
+    static show(target?: HTMLDivElement | string) {
+        Modal.query(target)?.show();
     }
 }
 
-window.addEventListener('resize', () => {
+$(window).on('resize', () => {
     Modal.all.forEach((modal) => {
         const m = (modal as Modal);
         if (m.isShown && m.options.responsive) {
             m.layout();
         }
     });
+});
+
+$(document).on('zui.modal.hide', (_: Event, data?: {target?: HTMLDivElement | string}) => {
+    Modal.hide(data?.target);
 });

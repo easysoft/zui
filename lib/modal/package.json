@@ -19,6 +19,7 @@
         "@zui/base": "workspace:*",
         "@zui/toolbar": "workspace:*",
         "nanoid": "^4.0.0",
+        "cash-dom": "^8.1.4",
         "preact": "10.11.2"
       },
     "devDependencies": {
