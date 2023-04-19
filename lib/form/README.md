@@ -252,14 +252,14 @@
 </form>
 ```
 
-## `.form-selection`
+## `<fieldset>`
 
 ```html:example
 <form class="form w-80">
-  <div class="form-selection">
-    <div class="form-heading">
+  <fieldset>
+    <legend>
       <div class="form-title">账号信息</div>
-    </div>
+    </legend>
     <div class="form-group">
       <label class="form-label required" for="exampleInputAccount3">账号</label>
       <input type="text" class="form-control" id="exampleInputAccount3" placeholder="电子邮件/手机号/用户名">
@@ -268,20 +268,20 @@
       <label class="form-label required" for="exampleInputPassword3">密码</label>
       <input type="password" class="form-control" id="exampleInputPassword3" placeholder="">
     </div>
-  </div>
-  <div class="form-selection">
-    <div class="form-heading">
+  </fieldset>
+  <fieldset>
+    <legend>
       <div class="form-title">地址信息</div>
-    </div>
+    </legend>
     <div class="form-group">
       <label class="form-label required" for="addressExample1">地址</label>
       <input type="text" class="form-control" id="addressExample1" placeholder="">
     </div>
-  </div>
-  <div class="form-selection">
-    <div class="form-heading">
+  </fieldset>
+  <fieldset>
+    <legend>
       <div class="form-title">捐赠信息</div>
-    </div>
+    </legend>
     <div class="form-group">
       <label class="form-label" for="exampleInputMoney1">捐赠金额</label>
       <div class="input-group">
@@ -291,17 +291,17 @@
       </div>
       <div class="form-tip">最低捐赠金额为 ￥10.00</div>
     </div>
-  </div>
+  </fieldset>
   <button type="submit" class="btn primary">提交</button>
 </form>
 ```
 
 ```html:example
 <form class="form form-grid">
-  <div class="form-selection">
-    <div class="form-heading">
+  <fieldset>
+    <legend>
       <div class="form-title">账号信息</div>
-    </div>
+    </legend>
     <div class="form-row">
       <div class="form-group">
         <label class="form-label required" for="exampleInputAccount3">账号</label>
@@ -314,20 +314,20 @@
         <input type="password" class="form-control" id="exampleInputPassword3" placeholder="">
       </div>
     </div>
-  </div>
-  <div class="form-selection">
-    <div class="form-heading">
+  </fieldset>
+  <fieldset>
+    <legend>
       <div class="form-title">地址信息</div>
-    </div>
+    </legend>
     <div class="form-group">
       <label class="form-label required" for="addressExample1">地址</label>
       <input type="text" class="form-control" id="addressExample1" placeholder="">
     </div>
-  </div>
-  <div class="form-selection">
-    <div class="form-heading">
+  </fieldset>
+  <fieldset>
+    <legend>
       <div class="form-title">捐赠信息</div>
-    </div>
+    </legend>
     <div class="form-group">
       <label class="form-label" for="exampleInputMoney1">捐赠金额</label>
       <div class="input-group">
@@ -337,7 +337,7 @@
       </div>
       <div class="form-tip">最低捐赠金额为 ￥10.00</div>
     </div>
-  </div>
+  </fieldset>
   <div class="form-row">
     <div class="gap-4 form-group">
       <button type="submit" class="btn primary">提交</button>
