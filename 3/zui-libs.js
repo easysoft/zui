@@ -444,7 +444,8 @@ export default [
             "preact": "10.11.2",
             "nanoid": "^4.0.0",
             "@zui/css-icons": "workspace:^0.0.1",
-            "@zui/alert": "workspace:^0.0.1"
+            "@zui/alert": "workspace:^0.0.1",
+            "@zui/cash": "workspace:^0.0.1"
         },
         "devDependencies": {
             "zui-dev": "workspace:*",
@@ -1120,6 +1121,7 @@ export default [
             "@zui/css-icons": "workspace:^0.0.1",
             "@zui/base": "workspace:*",
             "@zui/toolbar": "workspace:*",
+            "@zui/cash": "workspace:^0.0.1",
             "nanoid": "^4.0.0",
             "preact": "10.11.2"
         },
