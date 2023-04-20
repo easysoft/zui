@@ -1,23 +1,32 @@
-.has-error .form-control{
+.has-error .form-control,
+.has-error.form-control {
   @apply -ring-danger-500/60;
 }
 .has-error .form-control.focus,
-.has-error .form-control:focus {
+.has-error .form-control:focus,
+.has-error.form-control.focus,
+.has-error.form-control:focus {
   @apply -outline-danger-500;
 }
 
-.has-warning .form-control {
+.has-warning .form-control,
+.has-warning.form-control {
   @apply -ring-warning-500/60;
 }
 .has-warning .form-control.focus,
-.has-warning .form-control:focus {
+.has-warning .form-control:focus,
+.has-warning.form-control.focus,
+.has-warning.form-control:focus {
   @apply -outline-warning-500;
 }
 
-.has-success .form-control {
+.has-success .form-control,
+.has-success.form-control {
   @apply -ring-success-500/60;
 }
 .has-success .form-control.focus,
-.has-success .form-control:focus {
+.has-success .form-control:focus,
+.has-success.form-control.focus,
+.has-success.form-control:focus {
   @apply -outline-success-500;
 }
