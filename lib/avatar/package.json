@@ -5,7 +5,6 @@
     "main": "src/main.ts",
     "browserslist": "",
     "dependencies": {
-        "preact": "10.11.2",
         "@zui/com-helpers": "workspace:*",
         "@zui/browser-helpers": "workspace:*",
         "@zui/helpers": "workspace:*"

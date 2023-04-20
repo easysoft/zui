@@ -19,8 +19,7 @@
         "@floating-ui/core": "^1.1.0",
         "@floating-ui/dom": "^1.1.0",
         "@zui/com-helpers": "workspace:*",
-        "@zui/menu": "workspace:*",
-        "preact": "10.11.2"
+        "@zui/menu": "workspace:*"
     },
     "zui": {
         "type": "js-ui",

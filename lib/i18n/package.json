@@ -10,8 +10,6 @@
     "dependencies": {
         "@zui/helpers": "workspace:^0.0.1"
     },
-    "devDependencies": {
-    },
     "zui": {
         "type": "js-helpers",
         "displayName": "国际化辅助工具",

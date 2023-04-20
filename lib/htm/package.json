@@ -4,8 +4,7 @@
     "main": "src/main.ts",
     "browser": "src/main.ts",
     "dependencies": {
-        "htm": "^3.1.1",
-        "preact": "10.11.2"
+
     },
     "zui": {
         "type": "js-helpers",

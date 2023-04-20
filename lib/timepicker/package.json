@@ -27,9 +27,7 @@
         "@floating-ui/dom": "^1.1.0",
         "@zui/browser-helpers": "workspace:*",
         "@zui/com-helpers": "workspace:*",
-        "@zui/css-icons": "workspace:^0.0.1",
-        "dayjs": "^1.11.6",
-        "preact": "10.11.2"
+        "@zui/css-icons": "workspace:^0.0.1"
     },
     "zui": {
         "type": "component",

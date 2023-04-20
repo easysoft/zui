@@ -21,10 +21,7 @@
         "@zui/css-icons": "workspace:^0.0.1",
         "@zui/i18n": "workspace:^0.0.1",
         "@zui/toolbar": "workspace:^0.0.1",
-        "@zui/pager": "workspace:^0.0.1",
-        "hotkeys-js": "^3.10.0",
-        "nanoid": "^4.0.0",
-        "preact": "10.11.2"
+        "@zui/pager": "workspace:^0.0.1"
     },
     "exports": {
         ".": "./src/main.ts",
@@ -36,12 +33,10 @@
         "./src/**/*"
     ],
     "devDependencies": {
-        "@faker-js/faker": "^7.4.0",
         "@types/jquery": "^3.5.14",
         "@zui/avatar": "workspace:^0.0.1",
         "@zui/label": "workspace:^0.0.1",
         "@zui/icons": "workspace:^0.0.1",
-        "jquery": "^3.6.0",
         "zui-dev": "workspace:^0.0.1"
     },
     "zui": {

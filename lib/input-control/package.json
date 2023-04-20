@@ -9,8 +9,7 @@
         "zui:control"
     ],
     "dependencies": {
-        "@zui/form-control": "workspace:0.0.1",
-        "preact": "10.11.2"
+        "@zui/form-control": "workspace:0.0.1"
     },
     "devDependencies": {
         "@zui/base": "workspace:*",

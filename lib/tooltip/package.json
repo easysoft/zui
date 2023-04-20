@@ -25,8 +25,7 @@
         "@zui/browser-helpers": "workspace:*",
         "@zui/button": "workspace:0.0.1",
         "@zui/com-helpers": "workspace:*",
-        "@zui/css-icons": "workspace:^0.0.1",
-        "preact": "10.11.2"
+        "@zui/css-icons": "workspace:^0.0.1"
     },
     "zui": {
         "type": "component",

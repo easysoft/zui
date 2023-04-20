@@ -25,9 +25,16 @@
     "./lib"
   ],
   "dependencies": {
+    "hotkeys-js": "^3.10.2",
+    "nanoid": "^4.0.2",
+    "preact": "^10.13.2",
+    "dayjs": "^1.11.7",
+    "@floating-ui/core": "^1.1.0",
+    "@floating-ui/dom": "^1.1.0",
     "@zui/base": "workspace:0.0.1",
     "@zui/scrollbar": "workspace:0.0.1",
-    "@zui/utilities": "workspace:0.0.1"
+    "@zui/utilities": "workspace:0.0.1",
+    "htm": "^3.1.1"
   },
   "devDependencies": {
     "@mertasan/tailwindcss-variables": "^2.5.1",
@@ -48,7 +55,9 @@
     "eslint-plugin-import": ">=2.25.3 <3.0.0",
     "fast-glob": "3.2.12",
     "fs-extra": "11.1.0",
+    "@faker-js/faker": "^7.4.0",
     "highlight.js": "11.7.0",
+    "jquery": "^3.6.0",
     "markdown-it": "^13.0.1",
     "markdown-it-anchor": "8.6.6",
     "markdown-it-toc-done-right": "^4.2.0",

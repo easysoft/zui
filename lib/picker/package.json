@@ -18,9 +18,7 @@
         "@zui/action-menu": "workspace:*",
         "@zui/menu": "workspace:*",
         "@zui/button": "workspace:*",
-        "@zui/form-control": "workspace:*",
-        "nanoid": "^4.0.0",
-        "preact": "10.11.2"
+        "@zui/form-control": "workspace:*"
       },
     "devDependencies": {
         "zui-dev": "workspace:*",

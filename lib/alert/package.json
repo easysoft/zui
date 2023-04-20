@@ -11,8 +11,7 @@
         "@zui/browser-helpers": "workspace:*",
         "@zui/toolbar": "workspace:*",
         "@zui/button": "workspace:*",
-        "@zui/css-icons": "workspace:*",
-        "preact": "10.11.2"
+        "@zui/css-icons": "workspace:*"
     },
     "devDependencies": {
         "@zui/base": "workspace:*",
