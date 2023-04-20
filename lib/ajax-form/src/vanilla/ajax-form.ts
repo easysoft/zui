@@ -10,7 +10,7 @@ export class AjaxForm extends ComponentBase<AjaxFormOptions, AjaxFormEvents, HTM
     }
 
     enable(toggle = true) {
-        $(this.element).toggleClass('loading', toggle);
+        $(this.element).toggleClass('loading', !toggle);
     }
 
     disable() {
