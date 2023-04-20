@@ -1,6 +1,6 @@
 @import 'state.css';
 @import 'disabled.css';
-/* @import 'loading.css'; */
+@import 'loading.css';
 @import 'pointer-events.css';
 @import 'scroll.css';
 @import 'user-select.css';

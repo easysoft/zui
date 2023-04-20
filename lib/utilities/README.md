@@ -345,3 +345,10 @@
 <button type="button" class="flex items-center justify-center w-full h-10 surface state">state</button>
 <button type="button" class="flex items-center justify-center w-full h-10 primary disabled">disabled</button>
 ```
+
+## Loading
+
+```html:example: -flex -flex-row -gap-4
+<div class="relative rounded-lg -w-56 -h-40 load-indicator loading bg-gray"></div>
+<div class="relative rounded-lg -w-56 -h-40 load-indicator loading primary" data-loading="正在加载…"></div>
+```
