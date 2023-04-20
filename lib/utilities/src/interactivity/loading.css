@@ -1,17 +1,20 @@
 .load-indicator::before,
 .load-indicator::after {
-    @apply -opacity-0 -invisible -absolute -block;
+    @apply -opacity-0 -invisible -absolute -block -transition-all -duration-300 -delay-0;
 }
 .load-indicator::before {
-    @apply -content-[attr(data-loading)] -flex -items-center -justify-center -text-sm -inset-0 -bg-canvas/70 -z-10 -rounded-[inherit];
+    @apply -content-[attr(data-loading)] -flex -items-center -justify-center -text-sm -inset-0 -bg-canvas/70 -z-[99] -rounded-[inherit];
 }
 .load-indicator[data-loading]::before {
     @apply -pt-14;
 }
 .load-indicator::after {
-    @apply -content-[''] -w-8 -h-8 -animate-spin -border-4 -border-current -border-t-transparent -rounded-full -left-1/2 -top-1/2 --ml-4 --mt-4 -z-20;
+    @apply -content-[''] -w-8 -h-8 -animate-spin -border-4 -border-current -border-t-transparent -rounded-full -left-1/2 -top-1/2 --ml-4 --mt-4 -z-[100];
 }
 .load-indicator.loading::before,
 .load-indicator.loading::after {
-    @apply -opacity-100 -visible;
+    @apply -opacity-100 -visible -delay-500;
+}
+.load-indicator.loading::after {
+    @apply -opacity-70;
 }
