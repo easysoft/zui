@@ -1,0 +1,191 @@
+import {$, Cash} from '@zui/cash/src/cash';
+import {ComponentBase} from '@zui/com-helpers/src/helpers/vanilla-component';
+import type {AjaxFormOptions, AjaxFormResult, AjaxFormEvents} from '../types';
+
+export class AjaxForm extends ComponentBase<AjaxFormOptions, AjaxFormEvents, HTMLFormElement> {
+    static readonly NAME = 'ajaxform';
+
+    init() {
+        $(this.element).on('submit', this.onSubmit.bind(this)).on('input mousedown change', this.onInput.bind(this));
+    }
+
+    enable(toggle = true) {
+        $(this.element).toggleClass('loading', toggle);
+    }
+
+    disable() {
+        this.enable(false);
+    }
+
+    onInput(event: MouseEvent) {
+        const $control = $(event.target as HTMLElement).closest('.has-error');
+        if (!$control.length) {
+            return;
+        }
+        $control.removeClass('has-error');
+        $control.closest('.form-group').find(`#${$control.attr('id')}Tip`).remove();
+    }
+
+    onSubmit(event: SubmitEvent) {
+        event.preventDefault();
+
+        const {element} = this;
+        const options = $.extend({}, this.options);
+        this.emit('before', {event, element, options}, false);
+        if (options.beforeSubmit?.(event, element, options) === false) {
+            return;
+        }
+
+        this.disable();
+        this.#send(new FormData(element)).finally(() => {
+            this.enable();
+        });
+    }
+
+    submit() {
+        this.element.submit();
+    }
+
+    reset() {
+        this.element.reset();
+    }
+
+    async #send(formData: FormData) {
+        const {element, options} = this;
+        const {beforeSend} = options;
+        if (beforeSend) {
+            const result = beforeSend(formData);
+            if (result instanceof FormData) {
+                formData = result;
+            }
+        }
+        this.emit('send', {formData}, false);
+
+        let error: Error | undefined;
+        let responseText: string | undefined;
+        let result: AjaxFormResult | undefined;
+        try {
+            const response = await fetch(options.url || element.action, {
+                method: element.method || 'POST',
+                body: formData,
+                credentials: 'same-origin',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                },
+            });
+
+            responseText = await response.text();
+            if (response.ok) {
+                result = JSON.parse(responseText) as AjaxFormResult;
+                if (!result || typeof result !== 'object') {
+                    error = new Error('Invalid json format');
+                }
+            } else {
+                error = new Error(response.statusText);
+            }
+        } catch (err) {
+            error = err;
+        }
+        if (error) {
+            this.emit('error', {error, responseText}, false);
+            options.onError?.(error, responseText);
+        } else {
+            this.#handleResult(result!);
+        }
+        this.emit('complete', {result, error}, false);
+        options.onComplete?.(result, error);
+    }
+
+    #showValidateMessage(message: Record<string, string | string[]>) {
+        let $firstControl: Cash | undefined;
+        Object.entries(message).forEach(([name, msg]) => {
+            if (Array.isArray(msg)) {
+                msg = msg.join('');
+            }
+            const $control = $(this.element).find(`#${name}`);
+            if (!$control.length) {
+                return;
+            }
+            $control.addClass('has-error');
+            const $group = $control.closest('.form-group');
+            if ($group.length) {
+                let $tip = $(`#${name}Tip`);
+                if (!$tip.length) {
+                    $tip = $(`<div class="form-tip ajax-form-tip text-danger" id="${name}Tip"></div>`).appendTo($group);
+                }
+                $tip.empty().text(msg);
+            }
+            if (!$firstControl) {
+                $firstControl = $control;
+            }
+        });
+        if ($firstControl) {
+            $firstControl[0]?.focus();
+        }
+    }
+
+    #handleResult(result: AjaxFormResult) {
+        const {options} = this;
+        const {message} = result;
+        if (result.result === 'success') {
+            this.emit('success', {result}, false);
+            if (options.onSuccess?.(result) === false) {
+                return;
+            }
+
+            if (typeof message === 'string' && message.length) {
+                $(document).trigger('zui.messager.show', {content: message, type: 'success'});
+            }
+
+            const {closeModal} = options;
+            if (closeModal) {
+                $(document).trigger('zui.modal.hide', {target: closeModal});
+            }
+
+            // Handle callback
+            const callback = result.callback || options.callback;
+            if (typeof callback === 'string') {
+                const spIndex = callback.indexOf('(');
+                const cNames = (spIndex > 0 ? callback.substr(0, spIndex) : callback).split('.');
+                let win: Window | null = window;
+                let cName = cNames[0];
+                if (cNames.length > 1) {
+                    cName = cNames[1];
+                    if (cNames[0] === 'top') win = window.top;
+                    else if (cNames[0] === 'parent') win = window.parent;
+                }
+                const func = win?.[cName];
+                if (typeof func === 'function') {
+                    let params: unknown[] = [];
+                    if (spIndex > 0 && callback[callback.length - 1] == ')') {
+                        params = JSON.parse('[' + callback.substring(spIndex + 1, callback.length - 1) + ']');
+                    }
+                    params.push(result);
+                    return func.apply(this, params);
+                }
+            } else if (callback && typeof callback === 'object') {
+                const target = callback.target ? window[callback.target] : window;
+                const func = target[callback.name];
+                func.apply(this, Array.isArray(callback.params) ? callback.params : [callback.params]);
+            }
+
+            // Handle locate
+            const locate = result.locate || options.locate;
+            if (locate) {
+                $(document).trigger('zui.locate', locate);
+            }
+        } else {
+            this.emit('fail', {result}, false);
+            if (options.onFail?.(result) === false) {
+                return;
+            }
+
+            // Handle message
+            if (typeof message === 'string' && message.length) {
+                $(document).trigger('zui.messager.show', {content: message});
+            } else if (typeof message === 'object' && message) {
+                this.#showValidateMessage(message);
+            }
+        }
+    }
+}

@@ -1,0 +1,31 @@
+{
+    "name": "@zui/ajax-form",
+    "version": "0.0.1",
+    "main": "src/main.ts",
+    "browser": "src/main.ts",
+    "browserslist": "",
+    "files": [
+        "./src/**/*"
+    ],
+    "keywords": [
+        "js",
+        "zui:component"
+    ],
+    "dependencies": {
+        "@zui/com-helpers": "workspace:*",
+        "@zui/cash": "workspace:^0.0.1"
+    },
+    "zui": {
+        "type": "js-ui",
+        "displayName": "ajaxForm",
+        "contributes": {
+            "css": [
+                "class",
+                "var"
+            ],
+            "js": [
+                "component"
+            ]
+        }
+    }
+}
