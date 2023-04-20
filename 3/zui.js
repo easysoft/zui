@@ -5272,7 +5272,7 @@ class Vu extends kt {
     R(this.element).on("submit", this.onSubmit.bind(this)).on("input mousedown change", this.onInput.bind(this));
   }
   enable(t = !0) {
-    R(this.element).toggleClass("loading", t);
+    R(this.element).toggleClass("loading", !t);
   }
   disable() {
     this.enable(!1);
