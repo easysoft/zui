@@ -83,8 +83,7 @@ export default [
             "@zui/browser-helpers": "workspace:*",
             "@zui/toolbar": "workspace:*",
             "@zui/button": "workspace:*",
-            "@zui/css-icons": "workspace:*",
-            "preact": "10.11.2"
+            "@zui/css-icons": "workspace:*"
         },
         "devDependencies": {
             "@zui/base": "workspace:*",
@@ -168,8 +167,7 @@ export default [
         "dependencies": {
             "@zui/browser-helpers": "workspace:^0.0.1",
             "@zui/com-helpers": "workspace:^0.0.1",
-            "@zui/css-icons": "workspace:^0.0.1",
-            "preact": "10.11.2"
+            "@zui/css-icons": "workspace:^0.0.1"
         },
         "zui": {
             "type": "control",
@@ -320,8 +318,7 @@ export default [
             "zui:control"
         ],
         "dependencies": {
-            "@zui/form-control": "workspace:0.0.1",
-            "preact": "10.11.2"
+            "@zui/form-control": "workspace:0.0.1"
         },
         "devDependencies": {
             "@zui/base": "workspace:*",
@@ -405,8 +402,7 @@ export default [
             "@zui/browser-helpers": "workspace:^0.0.1",
             "@zui/com-helpers": "workspace:^0.0.1",
             "@zui/css-icons": "workspace:^0.0.1",
-            "@zui/action-menu": "workspace:^0.0.1",
-            "preact": "10.11.2"
+            "@zui/action-menu": "workspace:^0.0.1"
         },
         "zui": {
             "type": "control",
@@ -441,8 +437,6 @@ export default [
             ".": "./src/main.ts"
         },
         "dependencies": {
-            "preact": "10.11.2",
-            "nanoid": "^4.0.0",
             "@zui/css-icons": "workspace:^0.0.1",
             "@zui/alert": "workspace:^0.0.1",
             "@zui/cash": "workspace:^0.0.1"
@@ -517,7 +511,6 @@ export default [
             ".": "./src/main.ts"
         },
         "dependencies": {
-            "preact": "10.11.2",
             "@zui/com-helpers": "workspace:*"
         },
         "zui": {
@@ -561,7 +554,6 @@ export default [
             "@zui/utilities": "workspace:*"
         },
         "dependencies": {
-            "preact": "10.11.2",
             "@zui/browser-helpers": "workspace:^0.0.1"
         },
         "zui": {
@@ -610,8 +602,7 @@ export default [
         "dependencies": {
             "@zui/browser-helpers": "workspace:^0.0.1",
             "@zui/com-helpers": "workspace:^0.0.1",
-            "@zui/css-icons": "workspace:^0.0.1",
-            "preact": "10.11.2"
+            "@zui/css-icons": "workspace:^0.0.1"
         },
         "zui": {
             "type": "control",
@@ -734,7 +725,6 @@ export default [
             "@zui/i18n": "workspace:^0.0.1"
         },
         "devDependencies": {
-            "preact": "10.11.2",
             "@types/jquery": "^3.5.14",
             "jquery": "^3.6.0"
         },
@@ -762,7 +752,6 @@ export default [
         "dependencies": {
             "js-cookie": "^3.0.1"
         },
-        "devDependencies": {},
         "zui": {
             "type": "js-helpers",
             "displayName": "Cookie",
@@ -810,10 +799,7 @@ export default [
         "version": "0.0.1",
         "main": "src/main.ts",
         "browser": "src/main.ts",
-        "dependencies": {
-            "htm": "^3.1.1",
-            "preact": "10.11.2"
-        },
+        "dependencies": {},
         "zui": {
             "type": "js-helpers",
             "displayName": "Htm",
@@ -842,7 +828,6 @@ export default [
         "dependencies": {
             "@zui/helpers": "workspace:^0.0.1"
         },
-        "devDependencies": {},
         "zui": {
             "type": "js-helpers",
             "displayName": "国际化辅助工具",
@@ -869,9 +854,6 @@ export default [
         ],
         "browser": "src/main.ts",
         "main": "src/main.ts",
-        "dependencies": {
-            "nanoid": "^4.0.0"
-        },
         "files": [
             "./src/**/*"
         ],
@@ -898,7 +880,6 @@ export default [
         "main": "src/main.ts",
         "browserslist": "",
         "dependencies": {
-            "preact": "10.11.2",
             "@zui/com-helpers": "workspace:*",
             "@zui/browser-helpers": "workspace:*",
             "@zui/helpers": "workspace:*"
@@ -981,7 +962,6 @@ export default [
             "./jquery": "./src/main-jquery.ts"
         },
         "dependencies": {
-            "preact": "10.11.2",
             "@zui/button": "workspace:^0.0.1"
         },
         "devDependencies": {
@@ -1038,9 +1018,7 @@ export default [
             "@zui/browser-helpers": "workspace:*",
             "@zui/com-helpers": "workspace:*",
             "@zui/css-icons": "workspace:^0.0.1",
-            "@zui/icons": "workspace:^0.0.1",
-            "dayjs": "^1.11.6",
-            "preact": "10.11.2"
+            "@zui/icons": "workspace:^0.0.1"
         },
         "zui": {
             "type": "component",
@@ -1121,9 +1099,7 @@ export default [
             "@zui/css-icons": "workspace:^0.0.1",
             "@zui/base": "workspace:*",
             "@zui/toolbar": "workspace:*",
-            "@zui/cash": "workspace:^0.0.1",
-            "nanoid": "^4.0.0",
-            "preact": "10.11.2"
+            "@zui/cash": "workspace:^0.0.1"
         },
         "devDependencies": {
             "zui-dev": "workspace:*",
@@ -1166,8 +1142,7 @@ export default [
             "@zui/button": "workspace:^0.0.1",
             "@zui/btn-group": "workspace:^0.0.1",
             "@zui/dropdown": "workspace:^0.0.1",
-            "zui-dev": "workspace:^0.0.1",
-            "preact": "10.11.2"
+            "zui-dev": "workspace:^0.0.1"
         },
         "dependencies": {
             "@zui/browser-helpers": "workspace:^0.0.1",
@@ -1211,8 +1186,7 @@ export default [
             "@zui/toolbar": "workspace:^0.0.1",
             "@zui/com-helpers": "workspace:^0.0.1",
             "@zui/helpers": "workspace:^0.0.1",
-            "@zui/browser-helpers": "workspace:^0.0.1",
-            "preact": "10.11.2"
+            "@zui/browser-helpers": "workspace:^0.0.1"
         },
         "devDependencies": {
             "@zui/base": "workspace:*",
@@ -1300,9 +1274,7 @@ export default [
             "@zui/action-menu": "workspace:*",
             "@zui/menu": "workspace:*",
             "@zui/button": "workspace:*",
-            "@zui/form-control": "workspace:*",
-            "nanoid": "^4.0.0",
-            "preact": "10.11.2"
+            "@zui/form-control": "workspace:*"
         },
         "devDependencies": {
             "zui-dev": "workspace:*",
@@ -1389,9 +1361,7 @@ export default [
             "@floating-ui/dom": "^1.1.0",
             "@zui/browser-helpers": "workspace:*",
             "@zui/com-helpers": "workspace:*",
-            "@zui/css-icons": "workspace:^0.0.1",
-            "dayjs": "^1.11.6",
-            "preact": "10.11.2"
+            "@zui/css-icons": "workspace:^0.0.1"
         },
         "zui": {
             "type": "component",
@@ -1433,8 +1403,7 @@ export default [
             "@zui/browser-helpers": "workspace:^0.0.1",
             "@zui/com-helpers": "workspace:^0.0.1",
             "@zui/css-icons": "workspace:^0.0.1",
-            "@zui/action-menu": "workspace:^0.0.1",
-            "preact": "10.11.2"
+            "@zui/action-menu": "workspace:^0.0.1"
         },
         "files": [
             "./src/**/*"
@@ -1488,8 +1457,7 @@ export default [
             "@zui/browser-helpers": "workspace:*",
             "@zui/button": "workspace:0.0.1",
             "@zui/com-helpers": "workspace:*",
-            "@zui/css-icons": "workspace:^0.0.1",
-            "preact": "10.11.2"
+            "@zui/css-icons": "workspace:^0.0.1"
         },
         "zui": {
             "type": "component",
@@ -1519,9 +1487,7 @@ export default [
             "@zui/com-helpers": "workspace:^0.0.1",
             "@zui/browser-helpers": "workspace:^0.0.1",
             "@zui/css-icons": "workspace:^0.0.1",
-            "@zui/base": "workspace:*",
-            "nanoid": "^4.0.0",
-            "preact": "10.11.2"
+            "@zui/base": "workspace:*"
         },
         "devDependencies": {
             "zui-dev": "workspace:*",
@@ -1547,6 +1513,43 @@ export default [
         }
     },
     {
+        "name": "@zui/ajax-form",
+        "version": "0.0.1",
+        "main": "src/main.ts",
+        "browser": "src/main.ts",
+        "browserslist": "",
+        "files": [
+            "./src/**/*"
+        ],
+        "keywords": [
+            "js",
+            "zui:component"
+        ],
+        "dependencies": {
+            "@zui/com-helpers": "workspace:*",
+            "@zui/cash": "workspace:^0.0.1"
+        },
+        "zui": {
+            "type": "js-ui",
+            "displayName": "ajaxForm",
+            "contributes": {
+                "css": [
+                    "class",
+                    "var"
+                ],
+                "js": [
+                    "component"
+                ]
+            },
+            "path": "/home/runner/work/zui/zui/lib/ajax-form",
+            "workspace": true,
+            "sourceType": "build-in",
+            "name": "ajax-form",
+            "order": 5010000041,
+            "packageJsonPath": "/home/runner/work/zui/zui/lib/ajax-form/package.json"
+        }
+    },
+    {
         "name": "@zui/contextmenu",
         "version": "0.0.1",
         "main": "src/main.ts",
@@ -1567,8 +1570,7 @@ export default [
             "@floating-ui/core": "^1.1.0",
             "@floating-ui/dom": "^1.1.0",
             "@zui/com-helpers": "workspace:*",
-            "@zui/menu": "workspace:*",
-            "preact": "10.11.2"
+            "@zui/menu": "workspace:*"
         },
         "zui": {
             "type": "js-ui",
@@ -1586,7 +1588,7 @@ export default [
             "workspace": true,
             "sourceType": "build-in",
             "name": "contextmenu",
-            "order": 5010000041,
+            "order": 5010000042,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/contextmenu/package.json"
         }
     },
@@ -1613,16 +1615,12 @@ export default [
             "zui-dev": "workspace:*"
         },
         "dependencies": {
-            "@floating-ui/core": "^1.1.0",
-            "@floating-ui/dom": "^1.1.0",
-            "@popperjs/core": "^2.11.6",
             "@zui/browser-helpers": "workspace:*",
             "@zui/button": "workspace:0.0.1",
             "@zui/com-helpers": "workspace:*",
             "@zui/contextmenu": "workspace:*",
             "@zui/css-icons": "workspace:^0.0.1",
-            "@zui/menu": "workspace:*",
-            "preact": "10.11.2"
+            "@zui/menu": "workspace:*"
         },
         "zui": {
             "type": "js-ui",
@@ -1640,7 +1638,7 @@ export default [
             "workspace": true,
             "sourceType": "build-in",
             "name": "dropdown",
-            "order": 5010000042,
+            "order": 5010000043,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/dropdown/package.json"
         }
     },
@@ -1667,10 +1665,7 @@ export default [
             "@zui/css-icons": "workspace:^0.0.1",
             "@zui/i18n": "workspace:^0.0.1",
             "@zui/toolbar": "workspace:^0.0.1",
-            "@zui/pager": "workspace:^0.0.1",
-            "hotkeys-js": "^3.10.0",
-            "nanoid": "^4.0.0",
-            "preact": "10.11.2"
+            "@zui/pager": "workspace:^0.0.1"
         },
         "exports": {
             ".": "./src/main.ts",
@@ -1682,12 +1677,10 @@ export default [
             "./src/**/*"
         ],
         "devDependencies": {
-            "@faker-js/faker": "^7.4.0",
             "@types/jquery": "^3.5.14",
             "@zui/avatar": "workspace:^0.0.1",
             "@zui/label": "workspace:^0.0.1",
             "@zui/icons": "workspace:^0.0.1",
-            "jquery": "^3.6.0",
             "zui-dev": "workspace:^0.0.1"
         },
         "zui": {
@@ -1706,7 +1699,7 @@ export default [
             "workspace": true,
             "sourceType": "build-in",
             "name": "dtable",
-            "order": 5010000043,
+            "order": 5010000044,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/dtable/package.json"
         }
     },
@@ -1741,12 +1734,8 @@ export default [
             "workspace": true,
             "sourceType": "build-in",
             "name": "tabs",
-            "order": 5010000044,
+            "order": 5010000045,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/tabs/package.json"
-        },
-        "dependencies": {
-            "htm": "^3.1.1",
-            "preact": "10.11.2"
         }
     },
     {
@@ -1777,7 +1766,7 @@ export default [
             "workspace": true,
             "sourceType": "build-in",
             "name": "css-icons",
-            "order": 6010000045,
+            "order": 6010000046,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/css-icons/package.json"
         }
     },
@@ -1809,7 +1798,7 @@ export default [
             "workspace": true,
             "sourceType": "build-in",
             "name": "utilities",
-            "order": 6010000046,
+            "order": 6010000047,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/utilities/package.json"
         }
     },
@@ -1840,7 +1829,7 @@ export default [
             "workspace": true,
             "sourceType": "build-in",
             "name": "helpers",
-            "order": 7010000047,
+            "order": 7010000048,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/helpers/package.json"
         }
     }
