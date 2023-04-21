@@ -15,8 +15,8 @@ export function ActionItem({
     target,
     trailingIcon,
     hint,
-    style,
     onClick,
+    ...others
 }: ActionItemProps) {
     const finalChildren = [
         typeof icon === 'string' ? <i class={`icon ${icon}`} /> : icon,
@@ -29,8 +29,8 @@ export function ActionItem({
         title: hint,
         [component === 'a' ? 'href' : 'data-url']: url,
         [component === 'a' ? 'target' : 'data-target']: target,
-        style,
         onClick,
+        ...others,
         ...attrs,
     } as Attributes, ...finalChildren);
 }
