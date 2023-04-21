@@ -3973,21 +3973,21 @@ function fu(e, n) {
   };
 }
 async function du(e, n) {
-  const { dataType: t, url: s, request: i, custom: o, title: r } = n, a = await (await fetch(s, i)).text();
+  const { dataType: t = "html", url: s, request: i, custom: o, title: r, replace: l = !0 } = n, u = await (await fetch(s, i)).text();
   if (t !== "html")
     try {
-      const u = JSON.parse(a);
+      const c = JSON.parse(u);
       return {
         title: r,
         ...o,
-        ...u
+        ...c
       };
     } catch {
     }
-  return n.replace !== !1 && t === "html" ? [a] : {
+  return n.replace !== !1 && t === "html" ? [u] : {
     title: r,
     ...o,
-    body: t === "html" ? /* @__PURE__ */ w("div", { className: "modal-body", dangerouslySetInnerHTML: { __html: a } }) : a
+    body: t === "html" ? /* @__PURE__ */ w("div", { className: "modal-body", dangerouslySetInnerHTML: { __html: u } }) : u
   };
 }
 async function pu(e, n) {
@@ -4116,7 +4116,7 @@ Xt = new WeakMap(), Vs = new WeakSet(), dc = function() {
     container: t,
     ...s
   } = this.options, i = s, o = this.element.getAttribute("href") || "";
-  return i.type || (i.target || o[0] === "#" ? i.type = "static" : i.type = i.type || (i.url ? "iframe" : "custom")), !i.url && (i.type === "iframe" || i.type === "ajax") && o[0] !== "#" && (i.url = o), i;
+  return i.type || (i.target || o[0] === "#" ? i.type = "static" : i.type = i.type || (i.url || o ? "ajax" : "custom")), !i.url && (i.type === "iframe" || i.type === "ajax") && o[0] !== "#" && (i.url = o), i;
 }, qs = new WeakSet(), pc = function() {
   const t = T(this, Vs, dc).call(this);
   let s = m(this, Xt);
