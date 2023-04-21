@@ -1028,8 +1028,8 @@ function wl({
   target: u,
   trailingIcon: c,
   hint: h,
-  style: d,
-  onClick: f
+  onClick: d,
+  ...f
 }) {
   const p = [
     typeof l == "string" ? /* @__PURE__ */ ht("i", { class: `icon ${l}` }) : l,
@@ -1042,8 +1042,8 @@ function wl({
     title: h,
     [e === "a" ? "href" : "data-url"]: i,
     [e === "a" ? "target" : "data-target"]: u,
-    style: d,
-    onClick: f,
+    onClick: d,
+    ...f,
     ...s
   }, ...p);
 }
