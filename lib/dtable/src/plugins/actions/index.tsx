@@ -1,16 +1,22 @@
+import {formatString} from '@zui/helpers/src/format-string';
 import {Toolbar} from '@zui/toolbar/src/component/toolbar';
 import type {ToolbarOptions, ToolbarItemOptions, ToolbarDropdownProps} from '@zui/toolbar/src/types';
 import {definePlugin} from '../../helpers/shared-plugins';
-import type {DTablePlugin} from '../../types/plugin';
+import type {DTablePlugin, DTableWithPlugin} from '../../types/plugin';
 import type {RowInfo} from '../../types/row';
 import type {ColInfo} from '../../types/col';
 import type {MenuItemOptions} from '@zui/menu/src/types';
 
 export type DTableActionsTypes = {
     col: Partial<{
-        actionsCreator?: (info: {row: RowInfo, col: ColInfo}) => ToolbarItemOptions[],
-        actionsSetting?: Partial<ToolbarOptions>,
-        actionsMap?: Record<string, Partial<ToolbarItemOptions>>,
+        actionsCreator: (info: {row: RowInfo, col: ColInfo}) => ToolbarItemOptions[],
+        actionsSetting: Partial<ToolbarOptions>,
+        actionItemCreator: (item: Partial<ToolbarDropdownProps>, info: {row: RowInfo, col: ColInfo}) => ToolbarItemOptions,
+        actionsMap: Record<string, Partial<ToolbarItemOptions>>,
+    }>,
+    options: Partial<{
+        actionsCreator: (info: {row: RowInfo, col: ColInfo}) => ToolbarItemOptions[],
+        actionItemCreator: (item: Partial<ToolbarDropdownProps>, info: {row: RowInfo, col: ColInfo}) => ToolbarItemOptions,
     }>,
 };
 
@@ -30,6 +36,21 @@ function createActionFromString(action: string): Partial<ToolbarItemOptions & {n
     return actionInfo;
 }
 
+const defaultActionItemCreator = (item: Partial<ToolbarDropdownProps>, info: {row: RowInfo, col: ColInfo}) => {
+    if (item.url) {
+        item.url = formatString(item.url, info.row.data);
+    }
+    if (item.dropdown?.items) {
+        item.dropdown.items = (item.dropdown.items as (MenuItemOptions & {url?: string})[]).map(x => {
+            if (x.url) {
+                x.url = formatString(x.url, info.row.data);
+            }
+            return x;
+        });
+    }
+    return item;
+};
+
 /**
  * @todo auto calculate column width by actions setting
  */
@@ -46,7 +67,7 @@ const actionsPlugin: DTablePlugin<DTableActionsTypes> = {
                 if (!actionItems?.length) {
                     return result;
                 }
-                const {actionsSetting, actionsMap, actionsCreator} = col.setting;
+                const {actionsSetting, actionsMap, actionsCreator = (this as DTableWithPlugin<DTableActionsTypes>).options.actionsCreator, actionItemCreator = (this as DTableWithPlugin<DTableActionsTypes>).options.actionItemCreator || defaultActionItemCreator} = col.setting;
                 const toolbarOptions: ToolbarOptions = {
                     items: actionsCreator?.(info) ?? actionItems.map(action => {
                         action = typeof action === 'string' ? createActionFromString(action) : action;
@@ -67,7 +88,7 @@ const actionsPlugin: DTablePlugin<DTableActionsTypes> = {
                             dropdown.menu = {
                                 className: 'menu-dtable-actions',
                                 items: items.reduce((list, item) => {
-                                    const itemAction = typeof item === 'string' ? {name: item} : {...item};
+                                    const itemAction = (typeof item === 'string' ? {name: item} : {...item}) as MenuItemOptions & {name?: string, url?: string};
                                     if (itemAction?.name) {
                                         if (actionsMap && 'name' in itemAction) {
                                             Object.assign(itemAction, actionsMap[itemAction.name], {...itemAction});
@@ -79,7 +100,7 @@ const actionsPlugin: DTablePlugin<DTableActionsTypes> = {
                             };
                             (others as ToolbarDropdownProps).dropdown = dropdown;
                         }
-                        return others;
+                        return actionItemCreator ? actionItemCreator(others, info) : others;
                     }).filter(Boolean) as ToolbarItemOptions[],
                     btnProps: {size: 'sm', className: 'text-primary'},
                     ...actionsSetting,
