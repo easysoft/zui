@@ -20,7 +20,7 @@ function buildCustomModal(_element: HTMLElement, options: ModalCustomBuilder): M
 }
 
 async function buildAjaxModal(_element: HTMLElement, options: ModalAjaxBuilder): Promise<ModalDialogOptions | ModalDialogHTML | boolean | undefined> {
-    const {dataType, url, request, custom, title} = options;
+    const {dataType = 'html', url, request, custom, title, replace = true} = options;
     const response = await fetch(url, request);
     const text = await response.text();
     if (dataType !== 'html') {

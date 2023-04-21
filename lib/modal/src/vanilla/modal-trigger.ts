@@ -47,7 +47,7 @@ export class ModalTrigger extends ComponentBase<ModalTriggerOptions> {
             if ((builderOptions.target || href[0] === '#')) {
                 builderOptions.type = 'static';
             } else {
-                builderOptions.type = builderOptions.type || (builderOptions.url ? 'iframe' : 'custom');
+                builderOptions.type = builderOptions.type || ((builderOptions.url || href) ? 'ajax' : 'custom');
             }
         }
         if (!builderOptions.url && (builderOptions.type === 'iframe' || builderOptions.type === 'ajax') && href[0] !== '#') {
