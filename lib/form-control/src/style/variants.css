@@ -7,7 +7,7 @@ select {
 }
 
 select.form-control[multiple] {
-  @apply -h-auto -bg-none;
+  @apply -bg-none;
 }
 
 textarea.form-control {
