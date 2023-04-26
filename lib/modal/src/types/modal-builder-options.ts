@@ -25,6 +25,7 @@ export interface ModalAjaxBuilder extends ModalBuilderOptions {
     dataType?: 'json' | 'html' | 'text',
     replace?: boolean;
     custom?: Partial<ModalDialogOptions>;
+    execScript?: boolean;
 }
 
 export interface ModalIframeBuilder extends ModalBuilderOptions {
