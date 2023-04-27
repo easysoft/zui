@@ -1,5 +1,5 @@
 .modal {
-  @apply -hidden -overflow-hidden -fixed -inset-0 -items-center -justify-center;
+  @apply -hidden -overflow-hidden -fixed -inset-0 -items-center -justify-center -z-[2000];
   background: var(--modal-bg);
 }
 .modal.show {
