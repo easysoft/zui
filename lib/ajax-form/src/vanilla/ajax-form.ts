@@ -183,10 +183,12 @@ export class AjaxForm extends ComponentBase<AjaxFormOptions, AjaxFormEvents, HTM
             }
 
             // Handle message
-            if (typeof message === 'string' && message.length) {
-                $(document).trigger('zui.messager.show', {content: message});
-            } else if (typeof message === 'object' && message) {
-                this.#showValidateMessage(message);
+            if (message) {
+                if (typeof message === 'string' && message.length) {
+                    $(document).trigger('zui.messager.show', {content: message, type: 'danger'});
+                } else if (typeof message === 'object') {
+                    this.#showValidateMessage(message);
+                }
             }
         }
     }
