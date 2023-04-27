@@ -209,13 +209,15 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ComponentBase<
     static query(target?: HTMLDivElement | string): Modal | undefined {
         if (target === undefined) {
             target = document.querySelector(`.modal.${Modal.CLASS_SHOW}`) as HTMLDivElement;
-        } else if (typeof target === 'string') {
+            return Array.from(Modal.getAll().values()).find(x => x.isShown);
+        }
+        if (typeof target === 'string') {
             target = document.querySelector(target) as HTMLDivElement;
         }
         if (!target) {
             return;
         }
-        return Modal.get(target);
+        return Array.from(Modal.getAll().values()).find(x => x.modalElement === target);
     }
 
     static hide(target?: HTMLDivElement | string) {
