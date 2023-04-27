@@ -146,21 +146,23 @@ export class AjaxForm extends ComponentBase<AjaxFormOptions, AjaxFormEvents, HTM
             const callback = result.callback || options.callback;
             if (typeof callback === 'string') {
                 const spIndex = callback.indexOf('(');
-                const cNames = (spIndex > 0 ? callback.substr(0, spIndex) : callback).split('.');
+                const cNames = (spIndex > 0 ? callback.substring(0, spIndex) : callback).split('.');
                 let win: Window | null = window;
                 let cName = cNames[0];
                 if (cNames.length > 1) {
                     cName = cNames[1];
                     if (cNames[0] === 'top') win = window.top;
                     else if (cNames[0] === 'parent') win = window.parent;
+                    else win = window[cNames[0]];
                 }
                 const func = win?.[cName];
                 if (typeof func === 'function') {
                     let params: unknown[] = [];
                     if (spIndex > 0 && callback[callback.length - 1] == ')') {
                         params = JSON.parse('[' + callback.substring(spIndex + 1, callback.length - 1) + ']');
+                    } else {
+                        params.push(result);
                     }
-                    params.push(result);
                     return func.apply(this, params);
                 }
             } else if (callback && typeof callback === 'object') {
@@ -170,9 +172,9 @@ export class AjaxForm extends ComponentBase<AjaxFormOptions, AjaxFormEvents, HTM
             }
 
             // Handle locate
-            const locate = result.locate || options.locate;
-            if (locate) {
-                $(document).trigger('zui.locate', locate);
+            const load = result.load || options.load || result.locate;
+            if (load) {
+                $(document).trigger('zui.locate', load);
             }
         } else {
             this.emit('fail', {result}, false);

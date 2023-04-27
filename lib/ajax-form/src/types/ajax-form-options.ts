@@ -10,4 +10,4 @@ export type AjaxFormOptions = {
     onError?: (error: Error, responseText?: string) => void;
     onComplete?: (result?: AjaxFormResult, error?: Error) => void;
     url?: string;
-} & Pick<AjaxFormResult, 'callback' | 'closeModal' | 'locate' | 'popoverTime' | 'popoverTip'>;
+} & Pick<AjaxFormResult, 'callback' | 'closeModal' | 'load' | 'popoverTime' | 'popoverTip'>;
