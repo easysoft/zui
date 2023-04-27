@@ -5371,17 +5371,17 @@ gi = new WeakSet(), Wc = async function(t) {
     l && R(document).trigger("zui.modal.hide", { target: l });
     const a = t.callback || s.callback;
     if (typeof a == "string") {
-      const c = a.indexOf("("), h = (c > 0 ? a.substr(0, c) : a).split(".");
+      const c = a.indexOf("("), h = (c > 0 ? a.substring(0, c) : a).split(".");
       let d = window, f = h[0];
-      h.length > 1 && (f = h[1], h[0] === "top" ? d = window.top : h[0] === "parent" && (d = window.parent));
+      h.length > 1 && (f = h[1], h[0] === "top" ? d = window.top : h[0] === "parent" ? d = window.parent : d = window[h[0]]);
       const p = d == null ? void 0 : d[f];
       if (typeof p == "function") {
         let g = [];
-        return c > 0 && a[a.length - 1] == ")" && (g = JSON.parse("[" + a.substring(c + 1, a.length - 1) + "]")), g.push(t), p.apply(this, g);
+        return c > 0 && a[a.length - 1] == ")" ? g = JSON.parse("[" + a.substring(c + 1, a.length - 1) + "]") : g.push(t), p.apply(this, g);
       }
     } else
       a && typeof a == "object" && (a.target ? window[a.target] : window)[a.name].apply(this, Array.isArray(a.params) ? a.params : [a.params]);
-    const u = t.locate || s.locate;
+    const u = t.load || s.load || t.locate;
     u && R(document).trigger("zui.locate", u);
   } else {
     if (this.emit("fail", { result: t }, !1), ((r = s.onFail) == null ? void 0 : r.call(s, t)) === !1)
