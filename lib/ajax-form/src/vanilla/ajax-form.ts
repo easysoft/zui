@@ -136,46 +136,6 @@ export class AjaxForm extends ComponentBase<AjaxFormOptions, AjaxFormEvents, HTM
             if (typeof message === 'string' && message.length) {
                 $(document).trigger('zui.messager.show', {content: message, type: 'success'});
             }
-
-            const {closeModal} = options;
-            if (closeModal) {
-                $(document).trigger('zui.modal.hide', {target: closeModal});
-            }
-
-            // Handle callback
-            const callback = result.callback || options.callback;
-            if (typeof callback === 'string') {
-                const spIndex = callback.indexOf('(');
-                const cNames = (spIndex > 0 ? callback.substring(0, spIndex) : callback).split('.');
-                let win: Window | null = window;
-                let cName = cNames[0];
-                if (cNames.length > 1) {
-                    cName = cNames[1];
-                    if (cNames[0] === 'top') win = window.top;
-                    else if (cNames[0] === 'parent') win = window.parent;
-                    else win = window[cNames[0]];
-                }
-                const func = win?.[cName];
-                if (typeof func === 'function') {
-                    let params: unknown[] = [];
-                    if (spIndex > 0 && callback[callback.length - 1] == ')') {
-                        params = JSON.parse('[' + callback.substring(spIndex + 1, callback.length - 1) + ']');
-                    } else {
-                        params.push(result);
-                    }
-                    return func.apply(this, params);
-                }
-            } else if (callback && typeof callback === 'object') {
-                const target = callback.target ? window[callback.target] : window;
-                const func = target[callback.name];
-                func.apply(this, Array.isArray(callback.params) ? callback.params : [callback.params]);
-            }
-
-            // Handle locate
-            const load = result.load || options.load || result.locate;
-            if (load) {
-                $(document).trigger('zui.locate', load);
-            }
         } else {
             this.emit('fail', {result}, false);
             if (options.onFail?.(result) === false) {
@@ -190,6 +150,46 @@ export class AjaxForm extends ComponentBase<AjaxFormOptions, AjaxFormEvents, HTM
                     this.#showValidateMessage(message);
                 }
             }
+        }
+
+        const closeModal = result.closeModal || options.closeModal;
+        if (closeModal) {
+            $(document).trigger('zui.modal.hide', {target: typeof closeModal === 'string' ? closeModal : undefined});
+        }
+
+        // Handle callback
+        const callback = result.callback || options.callback;
+        if (typeof callback === 'string') {
+            const spIndex = callback.indexOf('(');
+            const cNames = (spIndex > 0 ? callback.substring(0, spIndex) : callback).split('.');
+            let win: Window | null = window;
+            let cName = cNames[0];
+            if (cNames.length > 1) {
+                cName = cNames[1];
+                if (cNames[0] === 'top') win = window.top;
+                else if (cNames[0] === 'parent') win = window.parent;
+                else win = window[cNames[0]];
+            }
+            const func = win?.[cName];
+            if (typeof func === 'function') {
+                let params: unknown[] = [];
+                if (spIndex > 0 && callback[callback.length - 1] == ')') {
+                    params = JSON.parse('[' + callback.substring(spIndex + 1, callback.length - 1) + ']');
+                } else {
+                    params.push(result);
+                }
+                return func.apply(this, params);
+            }
+        } else if (callback && typeof callback === 'object') {
+            const target = callback.target ? window[callback.target] : window;
+            const func = target[callback.name];
+            func.apply(this, Array.isArray(callback.params) ? callback.params : [callback.params]);
+        }
+
+        // Handle locate
+        const load = result.load || options.load || result.locate;
+        if (load) {
+            $(document).trigger('zui.locate', load);
         }
     }
 }
