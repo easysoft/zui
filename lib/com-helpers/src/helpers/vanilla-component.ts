@@ -1,7 +1,7 @@
 import {CustomEventListener, CustomEventMap} from '@zui/event-bus';
 import {EventHub} from '@zui/event-bus/src/event-hub';
 import {i18n} from '@zui/i18n/src/module/i18n';
-import {parseDataset} from './parse-dataset';
+import {$} from '@zui/cash';
 
 export type ComponentHTMLEventMap = {[event in keyof HTMLElementEventMap]: HTMLElementEventMap[event]};
 
@@ -57,7 +57,7 @@ export class ComponentBase<O extends {} = {}, V extends CustomEventMap = {}, E e
         }
 
         this.#options = {...(this.constructor as typeof ComponentBase).DEFAULT} as ComponentOptions<O, V>;
-        this.setOptions({...(element instanceof HTMLElement ? parseDataset(element.dataset) : null), ...options} as ComponentOptions<O, V>);
+        this.setOptions({...(element instanceof HTMLElement ? $(element).data() : null), ...options} as ComponentOptions<O, V>);
 
         (this.constructor as typeof ComponentBase).all.set(element, this);
         this.#element = element;

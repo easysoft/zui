@@ -10,7 +10,8 @@
     "dependencies": {
         "@zui/browser-helpers": "workspace:^0.0.1",
         "@zui/event-bus": "workspace:^0.0.1",
-        "@zui/i18n": "workspace:^0.0.1"
+        "@zui/i18n": "workspace:^0.0.1",
+        "@zui/cash": "workspace:^0.0.1"
     },
     "devDependencies": {
         "@types/jquery": "^3.5.14",
