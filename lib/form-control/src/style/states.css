@@ -1,6 +1,6 @@
 .has-error .form-control,
 .has-error.form-control {
-  @apply -ring-danger-500/60;
+  @apply -ring-danger-500/20;
 }
 .has-error .form-control.focus,
 .has-error .form-control:focus,
