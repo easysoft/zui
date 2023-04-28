@@ -2,7 +2,6 @@ import '@zui/btn-group';
 import '@zui/icons';
 import './src/main';
 import 'zui-dev';
-import {parseDataset} from '@zui/com-helpers/src/helpers/parse-dataset';
 import {Messager} from './src/vanilla';
 
 onPageUpdate(() => {
@@ -11,7 +10,7 @@ onPageUpdate(() => {
         if (!toggleElement) {
             return;
         }
-        const messager = Messager.show({content: '这是一个漂浮消息', ...parseDataset(toggleElement.dataset)});
+        const messager = Messager.show({content: '这是一个漂浮消息', ...$(toggleElement).data()});
         console.log('> messager', messager);
     });
 
