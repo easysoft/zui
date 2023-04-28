@@ -34,8 +34,8 @@
     }
 }
 
-a,
 .btn,
+.nav-item > a,
 .state {
     @apply -state;
 }
