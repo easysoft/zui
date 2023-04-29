@@ -2,13 +2,21 @@
     "name": "zui-docs",
     "description": "ZUI Document Website",
     "version": "0.0.1",
+    "private": true,
+    "type": "module",
     "scripts": {
         "dev": "vitepress dev ./_ --host --port 5174",
         "build": "vitepress build ./_",
         "serve": "vitepress serve ./_"
     },
+    "dependencies": {
+        "vue": "^3.2.47"
+    },
     "devDependencies": {
-        "vitepress": "1.0.0-alpha.74",
-        "vue": "^3.2.45"
+        "@whyframe/core": "^0.1.10",
+        "@whyframe/vue": "^0.1.6",
+        "vite": "^4.2.1",
+        "vite-plugin-inspect": "^0.7.24",
+        "vitepress": "1.0.0-alpha.74"
     }
 }

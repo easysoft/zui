@@ -7,6 +7,5 @@ module.exports = {
         '!node_modules',
         '!public',
     ],
-    theme: require('../config/tailwind-theme/index.cjs'),
     prefix: '-',
 };

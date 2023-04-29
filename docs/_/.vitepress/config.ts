@@ -1,4 +1,7 @@
 import {defineConfig} from 'vitepress';
+import inspect from 'vite-plugin-inspect';
+import {whyframe} from '@whyframe/core';
+import {whyframeVue} from '@whyframe/vue';
 import themeConfig from './theme-config';
 
 const base = process.env.BASE_PATH ?? '/';
@@ -18,6 +21,22 @@ export default defineConfig({
     markdown: {
         theme: 'github-dark',
         defaultHighlightLang: 'html',
+    },
+    vite: {
+        plugins: [
+            inspect(),
+
+            // Initialize core plugin
+            whyframe({
+                defaultSrc: '/frames/zui', // provide our own html,
+                defaultShowSource: true,
+            }),
+
+            // Initialize Vue integration plugin
+            whyframeVue({
+                include: /\.(?:vue|md)$/, // also scan in markdown files
+            }),
+        ],
     },
     themeConfig,
 });

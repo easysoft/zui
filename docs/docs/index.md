@@ -31,10 +31,4 @@ features:
 .dark .VPContent.is-home {
   background: linear-gradient(125deg, var(--color-primary-900) 0%, var(--color-primary-900) 40%, var(--color-primary-800) calc(40% + 1px), var(--color-primary-800) 60%, var(--color-primary-700) calc(60% + 1px), var(--color-primary-700) 72%, var(--color-primary-400) calc(72% + 1px), var(--color-primary-400) 100%);
 }
-.VPFeature {
-  @apply -backdrop-blur-lg -bg-inverse/5 -border-canvas/10 !important;
-}
-.VPFeature > .icon {
-  @apply -bg-inverse/5 !important;
-}
 </style>
