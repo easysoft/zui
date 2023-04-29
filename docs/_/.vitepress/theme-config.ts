@@ -32,6 +32,10 @@ const themeConfig: DefaultTheme.Config = {
     socialLinks: [
         {icon: 'github', link: 'https://github.com/easysoft/zui'}
     ],
+    editLink: {
+        pattern: 'https://github.com/easysoft/zui/edit/main/docs/:path',
+        text: '在 Gitlab 上编辑',
+    },
     footer: {
         message: 'MIT License (MIT)',
         copyright: 'Copyright (C) 2022 cnezsoft.com',
