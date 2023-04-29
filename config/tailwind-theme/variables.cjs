@@ -12,6 +12,7 @@ module.exports = {
         shadow: boxShadow,
         space: '0.25rem',
         'root-font-size': fontSize.root,
+        'page-font-size': fontSize.page,
     },
     '.dark': {
         color: darkColors,
