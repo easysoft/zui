@@ -55,7 +55,7 @@ function createNav() {
         {text: '指引',        link: '/guide/',     activeMatch: '/guide/'},
         {text: 'CSS 工具类',  link: '/utilities/', activeMatch: '/utilities/'},
         {text: '组件',        link: '/lib/',       activeMatch: '/lib/'},
-        {text: '主题',        link: '/themes/',    activeMatch: '/themes/'},
+        // {text: '主题',        link: '/themes/',    activeMatch: '/themes/'},
     ];
 }
 
@@ -63,11 +63,11 @@ function initSidebars(): Record<string, {text: string, section?: string, items?:
     return {
         '/guide/': [
             {text: '开始', section: 'start'},
-            {text: '设计理念', section: 'concepts'},
-            {text: '配置', section: 'config', collapsed: true},
+            // {text: '设计理念', section: 'concepts'},
+            {text: '配置', section: 'config', collapsed: false},
             {text: '定制', section: 'customize'},
-            {text: '贡献', section: 'contributes'},
-            {text: '关于', section: 'about'}
+            // {text: '贡献', section: 'contributes'},
+            // {text: '关于', section: 'about'}
         ],
         '/utilities/': [
             {text: '外观', section: 'style', collapsed: false},
