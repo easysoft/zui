@@ -1,48 +1,29 @@
-import {defineConfig} from 'vitepress';
 import glob from 'fast-glob';
 import fs from 'fs-extra';
 import Path from 'path';
 import {red, yellow, underline} from 'colorette';
+import {DefaultTheme} from 'vitepress';
 import zuiLib from '../public/zui-libs';
 
-const base = process.env.BASE_PATH ?? '/';
-
-/** Define vitepress config */
-export default defineConfig({
-    lang: 'zh-CN',
-    title: 'ZUI 3',
-    base,
-    description: 'Composable UI framework',
-    ignoreDeadLinks: true,
-    head: [
-        ['link', {rel: 'icon', type: 'image/svg+xml', href: `${base}favicon.svg`}],
-        ['link', {rel: 'stylesheet', href: `${base}zui.css`}],
-        ['script', {src: `${base}zui.umd.cjs`}],
+const themeConfig: DefaultTheme.Config = {
+    logo: '/favicon.svg',
+    nav: createNav(),
+    socialLinks: [
+        {icon: 'github', link: 'https://github.com/easysoft/zui'}
     ],
-    lastUpdated: true,
-    markdown: {
-        theme: 'github-dark',
-        lineNumbers: true,
+    footer: {
+        message: 'MIT License (MIT)',
+        copyright: 'Copyright (C) 2022 cnezsoft.com',
     },
-    themeConfig: {
-        logo: '/favicon.svg',
-        nav: createNav(),
-        socialLinks: [
-            {icon: 'github', link: 'https://github.com/easysoft/zui'}
-        ],
-        footer: {
-            message: 'MIT License (MIT)',
-            copyright: 'Copyright (C) 2022 cnezsoft.com',
-        },
-        lastUpdatedText: '上次更新',
-        outlineTitle: '本页目录',
-        docFooter: {
-            prev: '上一篇',
-            next: '下一篇'
-        },
-        sidebar: createSidebar()
+    lastUpdatedText: '上次更新',
+    outlineTitle: '本页目录',
+    docFooter: {
+        prev: '上一篇',
+        next: '下一篇'
     },
-});
+    sidebar: createSidebar()
+};
+
 
 function createNav() {
     return [
@@ -53,35 +34,35 @@ function createNav() {
     ];
 }
 
-function initSidebars() {
+function initSidebars(): Record<string, {text: string, section?: string, items?: {text?: string, link: string}[], collapsed?: boolean}[]> {
     return {
         '/guide/': [
             {text: '开始', section: 'start'},
             {text: '设计理念', section: 'concepts'},
-            {text: '配置', section: 'config', collapsible: true, collapsed: true},
+            {text: '配置', section: 'config', collapsed: true},
             {text: '定制', section: 'customize'},
             {text: '贡献', section: 'contributes'},
             {text: '关于', section: 'about'}
         ],
         '/utilities/': [
-            {text: '外观', section: 'style', collapsible: true, collapsed: false},
-            {text: '背景', section: 'backgrounds', collapsible: true, collapsed: true},
-            {text: '边框', section: 'borders', collapsible: true, collapsed: true},
-            {text: '布局', section: 'layout', collapsible: true, collapsed: true},
-            {text: 'Flex', section: 'flex', collapsible: true, collapsed: true},
-            {text: '间距', section: 'spacing', collapsible: true, collapsed: true},
-            {text: '尺寸', section: 'sizing', collapsible: true, collapsed: true},
-            {text: '排版', section: 'typography', collapsible: true, collapsed: true},
-            {text: '效果', section: 'effects', collapsible: true, collapsed: true},
-            {text: '交互', section: 'interactivity', collapsible: true, collapsed: true},
+            {text: '外观', section: 'style', collapsed: false},
+            {text: '背景', section: 'backgrounds', collapsed: true},
+            {text: '边框', section: 'borders', collapsed: true},
+            {text: '布局', section: 'layout', collapsed: true},
+            {text: 'Flex', section: 'flex', collapsed: true},
+            {text: '间距', section: 'spacing', collapsed: true},
+            {text: '尺寸', section: 'sizing', collapsed: true},
+            {text: '排版', section: 'typography', collapsed: true},
+            {text: '效果', section: 'effects', collapsed: true},
+            {text: '交互', section: 'interactivity', collapsed: true},
         ],
         '/lib/': [
-            {text: '布局', section: 'layout', collapsible: true},
-            {text: '内容', section: 'content', collapsible: true},
-            {text: '图标', section: 'icons', collapsible: true},
-            {text: '表单', section: 'forms', collapsible: true},
-            {text: '组件', section: 'components', collapsible: true},
-            {text: 'JS 工具', section: 'helpers', collapsible: true},
+            {text: '布局', section: 'layout', collapsed: false},
+            {text: '内容', section: 'content', collapsed: false},
+            {text: '图标', section: 'icons', collapsed: false},
+            {text: '表单', section: 'forms', collapsed: false},
+            {text: '组件', section: 'components', collapsed: false},
+            {text: 'JS 工具', section: 'helpers', collapsed: false},
         ],
         '/themes/': [
             {text: '官方主题', section: 'official-themes'},
@@ -91,7 +72,7 @@ function initSidebars() {
     }
 }
 
-function updateSections(files, sidebars, docsPath, libName) {
+function updateSections(files: string[], sidebars: ReturnType<typeof initSidebars>, docsPath: string, libName?: string) {
     if (!files.length) {
         return;
     }
@@ -105,13 +86,14 @@ function updateSections(files, sidebars, docsPath, libName) {
         const section = sidebar.find(item => item.section === sectionName);
         if (!section) {
             console.log(` ${red('ERROR')} cannot find section named ${yellow(sectionName)} in sidebar ${yellow(sidebarName)} by file ${underline(Path.join(docsPath, file))}.`);
+            return;
         }
         if (!section.items) {
             section.items = [];
         }
         const link = `/${sidebarName}/${sectionName}/${libName ? `${libName}/` : ''}${restPath.join('/')}`;
         const markdown = fs.readFileSync(Path.join(docsPath, file), 'utf8');
-        const title = markdown.match(/# (.*)/)[1];
+        const title = markdown.match(/# (.*)/)?.[1];
         section.items.push({
             text: title, link
         });
@@ -139,3 +121,5 @@ function createSidebar() {
     });
     return sidebars;
 }
+
+export default themeConfig;
