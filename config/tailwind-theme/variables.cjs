@@ -11,8 +11,8 @@ module.exports = {
         radius: borderRadius,
         shadow: boxShadow,
         space: '0.25rem',
-        'root-font-size': fontSize.root,
-        'page-font-size': fontSize.page,
+        'font-size-root': fontSize.root,
+        'font-size-page': fontSize.page,
     },
     '.dark': {
         color: darkColors,

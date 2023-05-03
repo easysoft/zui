@@ -1,5 +1,5 @@
 :root {
-    --dtable-nt-size: calc((var(--root-font-size) * 3 / 4) + 1px);
+    --dtable-nt-size: calc((var(--font-size-root) * 3 / 4) + 1px);
 }
 .dtable-nested-indent {
     @apply -flex-none --mr-1 --order-10;

@@ -1,5 +1,5 @@
 :root {
-    --toggle-icon-size: calc((var(--root-font-size) * 3 / 4) + 1px);
+    --toggle-icon-size: calc((var(--font-size-root) * 3 / 4) + 1px);
 }
 
 .toggle-icon,

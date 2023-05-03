@@ -1,7 +1,7 @@
 html {
-    font-size: var(--root-font-size);
+    font-size: var(--font-size-root);
 }
 body {
     @apply -bg-canvas -text-fore;
-    font-size: var(--page-font-size);
+    font-size: var(--font-size-page);
 }

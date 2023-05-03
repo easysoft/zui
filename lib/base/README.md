@@ -12,12 +12,12 @@ Tailwind CSS is imported globally.
 
 ## Global font style
 
-<p style="font-size:var(--root-font-size)">root-font-size: 16px</p>
+<p style="font-size:var(--font-size-root)">font-size-root: 16px</p>
 <p style="font-size:1em">base-text-size: 13px</p>
 
 ```css
 html {
-    font-size: var(--root-font-size);
+    font-size: var(--font-size-root);
 }
 body {
     @apply -text-base -text-fore;
