@@ -1,16 +1,16 @@
-.trans           {@apply -transition;}
-.trans-all       {@apply -transition-all;}
-.trans-colors    {@apply -transition-colors;}
-.trans-opacity   {@apply -transition-opacity;}
-.trans-shadow    {@apply -transition-shadow;}
-.trans-transform {@apply -transition-transform;}
+.transition           {@apply -transition;}
+.transition-all       {@apply -transition-all;}
+.transition-colors    {@apply -transition-colors;}
+.transition-opacity   {@apply -transition-opacity;}
+.transition-shadow    {@apply -transition-shadow;}
+.transition-transform {@apply -transition-transform;}
 
-.trans-75   {@apply -duration-75;}
-.trans-100  {@apply -duration-100;}
-.trans-200  {@apply -duration-200;}
-.trans-300  {@apply -duration-300;}
-.trans-500  {@apply -duration-500;}
-.trans-1000 {@apply -duration-1000;}
+.duration-75   {@apply -duration-75;}
+.duration-100  {@apply -duration-100;}
+.duration-200  {@apply -duration-200;}
+.duration-300  {@apply -duration-300;}
+.duration-500  {@apply -duration-500;}
+.duration-1000 {@apply -duration-1000;}
 
 .fade,
 .fade-from-center,

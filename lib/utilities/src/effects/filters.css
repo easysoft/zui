@@ -8,19 +8,19 @@
 .grayscale {@apply -grayscale;}
 .invert    {@apply -invert;}
 
-.dsd-none  {@apply -drop-shadow-none}
-.dsd-sm    {@apply -drop-shadow-sm;}
-.dsd       {@apply -drop-shadow;}
-.dsd-md    {@apply -drop-shadow-md;}
-.dsd-lg    {@apply -drop-shadow-lg;}
-.dsd-xl    {@apply -drop-shadow-xl;}
-.dsd-2xl   {@apply -drop-shadow-2xl;}
+.drop-shadow-none  {@apply -drop-shadow-none}
+.drop-shadow-sm    {@apply -drop-shadow-sm;}
+.drop-shadow       {@apply -drop-shadow;}
+.drop-shadow-md    {@apply -drop-shadow-md;}
+.drop-shadow-lg    {@apply -drop-shadow-lg;}
+.drop-shadow-xl    {@apply -drop-shadow-xl;}
+.drop-shadow-2xl   {@apply -drop-shadow-2xl;}
 
-.bg-blur-none {@apply -backdrop-blur-none;}
-.bg-blur-sm   {@apply -backdrop-blur-sm;}
-.bg-blur      {@apply -backdrop-blur;}
-.bg-blur-md   {@apply -backdrop-blur-md;}
-.bg-blur-lg   {@apply -backdrop-blur-lg;}
-.bg-blur-xl   {@apply -backdrop-blur-xl;}
-.bg-blur-2xl  {@apply -backdrop-blur-2xl;}
-.bg-blur-3xl  {@apply -backdrop-blur-3xl;}
+.backdrop-blur-none {@apply -backdrop-blur-none;}
+.backdrop-blur-sm   {@apply -backdrop-blur-sm;}
+.backdrop-blur      {@apply -backdrop-blur;}
+.backdrop-blur-md   {@apply -backdrop-blur-md;}
+.backdrop-blur-lg   {@apply -backdrop-blur-lg;}
+.backdrop-blur-xl   {@apply -backdrop-blur-xl;}
+.backdrop-blur-2xl  {@apply -backdrop-blur-2xl;}
+.backdrop-blur-3xl  {@apply -backdrop-blur-3xl;}
