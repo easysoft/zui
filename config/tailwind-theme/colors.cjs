@@ -24,7 +24,7 @@ const important = shades.pink;
 /** 特殊：触动、激情 */
 const special = shades.purple;
 
-/** 灰色 */
+/** 灰色：中立、背景、边框 */
 const gray = shades.slate;
 
 
