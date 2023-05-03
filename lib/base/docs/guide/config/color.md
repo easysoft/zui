@@ -152,8 +152,6 @@ ZUI 内置了 {{semanticColors.length}} 种语义化调色板，每种类型都�
 更多关于主题的内容参考 [主题](/theme/) 文档。
 
 <script setup>
-import ColorTile from './components/color-tile.vue';
-
 const semanticColors = [
     {id: 'primary', tailwind: 'blue', name: '主要', meaning: '品牌、主题、可交互、正常'},
     {id: 'secondary', tailwind: 'sky', name: '次要', meaning: '品牌、主题、次级、常态的'},
