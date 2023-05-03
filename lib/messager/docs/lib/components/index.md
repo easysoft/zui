@@ -220,24 +220,16 @@ onAction
 * 必选：否。
 
 <script setup>
-function parseDataset(dataset) {
-    return Object.fromEntries(Object.entries(dataset).map(([key, value]) => {
-        if (typeof value === 'string') {
-            try {
-                value = JSON.parse(value);
-            // eslint-disable-next-line no-empty
-            } catch (_) {}
-        }
-        return [key, value];
-    }));
-}
+import {onMounted} from 'vue';
 
-document.addEventListener('click', (event) => {
-    const toggleElement = (event.target).closest('.messager-toggle');
-    if (!toggleElement) {
-        return;
-    }
-    const messager = zui.Messager.show({content: '这是一个漂浮消息', ...parseDataset(toggleElement.dataset)});
-    console.log('> messager', messager);
+onMounted(() => {
+    document.addEventListener('click', (event) => {
+        const toggleElement = (event.target).closest('.messager-toggle');
+        if (!toggleElement) {
+            return;
+        }
+        const messager = zui.Messager.show({content: '这是一个漂浮消息', ...zui.$(toggleElement).data()});
+        console.log('> messager', messager);
+    });
 });
 </script>
