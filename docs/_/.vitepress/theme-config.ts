@@ -119,6 +119,15 @@ function updateSections(files: string[], sidebars: ReturnType<typeof initSidebar
         const link = `/${sidebarName}/${sectionName}/${libName ? `${libName}/` : ''}${restPath.join('/')}`;
         const markdown = fs.readFileSync(Path.join(docsPath, file), 'utf8');
         const title = markdown.match(/# (.*)/)?.[1];
+        if (libName && libName.startsWith('@') && libName.includes('/')) {
+            const replaceLink = `/${sidebarName}/${sectionName}/${libName ? `${libName.split('/').pop()}/` : ''}${restPath.join('/')}`;
+            const item = section.items.find(item => item.link === replaceLink);
+            if (item) {
+                item.link = link;
+                item.text = title;
+                return;
+            }
+        }
         section.items.push({
             text: title, link
         });
