@@ -271,7 +271,11 @@ importers:
         specifier: workspace:*
         version: link:../utilities
 
-  lib/base: {}
+  lib/base:
+    devDependencies:
+      vue:
+        specifier: ^3.2.47
+        version: registry.npmmirror.com/vue@3.2.47
 
   lib/breadcrumb:
     devDependencies:
