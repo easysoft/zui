@@ -137,7 +137,9 @@ ZUI 内置了 {{semanticColors.length}} 种语义化调色板，每种类型都�
 }
 ```
 
-<button type="button" class="btn rounded primary" @click="toggleCssVars">切换使用上面的调色板定义</button>
+<ClientOnly>
+  <button type="button" class="btn rounded primary" @click="toggleCssVars">切换使用上面的调色板定义</button>
+</ClientOnly>
 
 ::: tip 提示
 在定义 CSS 变量覆盖调色板时，除了定义 50~950 的十六进制颜色外，还需要定义对应的 RGB 颜色，这是为了在一些特殊场景下通过改变透明度来实现颜色的变化。
@@ -184,7 +186,7 @@ const specialColors = [
   {code: 'current', name: '当前色', meaning: '继承父元素文本颜色属性的值，由 CSS color 属性值 <code>currentColor</code> 提供。'},
 ];
 
-const toggleCssVars = () => {
+const toggleCssVars = import.meta.env.SSR ? null : () => {
   let style = document.getElementById('doc-css-vars');
   if (style) {
     style.remove();
