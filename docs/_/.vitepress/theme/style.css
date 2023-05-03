@@ -27,3 +27,7 @@
 button.DocSearch-Button {
   @apply -bg-[--vp-c-bg-alt];
 }
+
+.custom-block.warning:hover {
+  @apply -text-[--vp-custom-block-warning-text];
+}
