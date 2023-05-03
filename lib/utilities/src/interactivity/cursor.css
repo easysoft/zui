@@ -1,0 +1,8 @@
+.cursor-auto        {@apply -cursor-auto;}
+.cursor-default     {@apply -cursor-default;}
+.cursor-pointer     {@apply -cursor-pointer;}
+.cursor-wait        {@apply -cursor-wait;}
+.cursor-text        {@apply -cursor-text;}
+.cursor-move        {@apply -cursor-move;}
+.cursor-help        {@apply -cursor-help;}
+.cursor-not-allowed {@apply -cursor-not-allowed;}
