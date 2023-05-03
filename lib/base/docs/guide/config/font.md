@@ -1,88 +1,165 @@
 # 字体
 
-## 字号
-
-当前 ZUI 默认字号配置。
-
-<Example class="p-0">
-  <table class="table">
-    <thead>
-      <tr>
-        <th class="w-12">名称</th>
-        <th class="w-12">大小</th>
-        <th class="w-12">像素</th>
-        <th class="w-30">行高</th>
-        <th>效果展示</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="(item, index) in globalFontSize">
-        <td>{{item.name}}</td>
-        <td>{{item.size}}</td>
-        <td>{{item.pixel}}</td>
-        <td>line-height: {{item.lineHeight}}</td>
-        <td>
-          <div :class="item.className">ZUI</div>
-        </td>
-      </tr>
-    </tbody>
-   </table>
-</Example>
-
-### 单位概念
-
-root：根元素的大小。
-
-px（pixel，像素）：相对长度单位。像素 px 数计相对于显示器屏幕分辨率而言的。
-
-rem：CSS3 新增的一个相对单位。使用 rem 为元素设定字体大小时，相对的只是 HTML 根元素。
+字体配置包含字体、字号、字重和行高多个部分，下面分别进行介绍。
 
 ## 字体
 
-当前 ZUI 默认字体配置。
+字体用于设置文本呈现的风格，在 ZUI 中预设了三种字体家族，包括无衬线字体、衬线字体和等宽字体。下面为三种字体的直观展示：
 
-<Example class="p-0">
-  <table class="table">
-    <thead>
-      <tr>
-        <th>名称</th>
-        <th>类型</th>
-        <th class="w-96">定义</th>
-        <th>效果展示</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="item in fontFamilyJson">
-        <td>{{item.name}}</td>
-        <td>{{item.type}}</td>
-        <td>{{item.desc}}</td>
-        <td><span :class="item.name">{{`${item.name} 字体`}}</span></td>
-      </tr>
-    </tbody>
-   </table>
+<Example background="light-circle" class="space-y-8">
+  <div v-for="font in fontFamilies" :key="font.code">
+    <div class="row items-center gap-2">
+      <CopyCode :code="font.code" :tip="`.${font.code}`" copyTip="已复制类名"><strong class="text-primary font-mono uppercase">
+      {{font.code}}</strong></CopyCode>
+      <span class="muted">—</span>
+      <strong>{{font.name}}</strong> <span class="muted ml-4">{{font.desc}}</span>
+    </div>
+    <pre :class="`${font.code} text-xl mt-2`" :id="`example-${font.code}`">The quick brown fox jumps over the lazy dog.
+白日依山尽，黄河入海流。欲穷千里目，更上一层楼。</pre>
+  </div>
 </Example>
 
-<script setup>
-  const globalFontSize = [
-    {name: 'root', size: '16px',  pixel: '16px', className: 'root'},
-    {name: 'xs', size: '0.75rem', pixel: '12px', lineHeight: '1rem', className: 'text-xs'},
-    {name: 'sm', size: '0.75rem', pixel: '12px', lineHeight: '1rem', className: 'text-sm'},
-    {name: 'base', size: '0.8125rem', pixel: '13px', lineHeight: '1.25rem', className: 'text-base'},
-    {name: 'lg', size: '1rem', pixel: '16px', lineHeight: '1.5rem', className: 'text-lg'},
-    {name: 'xl', size: '1.125rem', pixel: '18px', lineHeight: '1.75rem', className: 'text-xl'},
-    {name: '2xl', size: '1.5rem', pixel: '24px', lineHeight: '2rem', className: 'text-2xl'},
-    {name: '3xl', size: '1.875rem', pixel: '30px', lineHeight: '2.25rem', className: '-text-3xl'},
-    {name: '4xl', size: '2.25rem', pixel: '36px', lineHeight: '2.5rem', className: '-text-4xl'},
-    {name: '5xl', size: '3rem', pixel: '48px', lineHeight: '1', className: '-text-5xl'},
-    {name: '6xl', size: '3.75rem', pixel: '60px', lineHeight: '1', className: '-text-6xl'},
-    {name: '7xl', size: '4.5rem', pixel: '72px', lineHeight: '1', className: '-text-7xl'},
-    {name: '8xl', size: '6rem', pixel: '96px', lineHeight: '1', className: '-text-8xl'},
-    {name: '9xl', size: '8rem', pixel: '128px', lineHeight: '1', className: '-text-9xl'}
-  ];
+在 ZUI 中，以上三种字体家族所使用的 CSS font-family 属性值如下：
 
-  const fontFamilyJson = [
-    {name: 'sans', type: '无衬线字体', desc: 'font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";'},
-    {name: 'serif',type: '衬线字体', desc: 'font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;'},
-    {name: 'mono', type: '等款字体', desc: 'font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;'},
-  ];
+**无衬线字体 `font-sans`**
+
+<div class="lighter px-2 py-1 rounded">
+  <CssPropValue class="font-mono text-sm pre-line" prop="font-family" target="#example-font-sans" />
+</div>
+
+**衬线字体 `font-serif`**
+
+<div class="lighter px-2 py-1 rounded">
+  <CssPropValue class="font-mono text-sm pre-line" prop="font-family" target="#example-font-serif" />
+</div>
+
+**等宽字体 `font-mono`**
+
+<div class="lighter px-2 py-1 rounded">
+  <CssPropValue class="font-mono text-sm pre-line" prop="font-family" target="#example-font-mono" />
+</div>
+
+::: tip 修改字体
+
+通常不建议修改字体，如需修改可以通过定制主题实现，具体参见 [主题](/guide/theme/) 文档。
+
+:::
+
+在 ZUI 中可以通过 CSS 工具类来设置字体，详细用法参加 [CSS 工具类 / 排版 / 字体](/utilities/typography/utilities/font-family) 文档。
+
+## 字号
+
+字号用于设置文本呈现的大小，在 ZUI 中预设了多种字号。详情参见下表：
+
+<Example class="space-y-6">
+  <div v-for="font in fontSizes" :key="font.code">
+    <div class="row items-center gap-2">
+      <CopyCode :code="font.code" :tip="`.${font.code}`" copyTip="已复制类名"><strong class="text-primary font-mono uppercase">{{font.code}}</strong></CopyCode>
+      <span class="muted">—</span>
+      <strong>{{font.name}}</strong>
+      <span v-if="font.desc" class="muted ml-2" v-html="font.desc" />
+      <div class="flex-auto text-right text-sm font-mono text-gray">font-size: <CssPropValue prop="font-size" :target="`#example-${font.code}`" /></div>
+    </div>
+    <pre :class="`mt-2 font-sans pre clip ${font.code}`" :id="`example-${font.code}`">The quick brown fox jumps over the lazy dog.
+白日依山尽，黄河入海流。欲穷千里目，更上一层楼。</pre>
+  </div>
+</Example>
+
+::: tip 修改字号
+
+通常不建议修改字号，如需修改可以通过定制主题实现，具体参见 [主题](/guide/theme/) 文档。
+
+:::
+
+在 ZUI 中可以通过 CSS 工具类来设置字号，详细用法参加 [CSS 工具类 / 排版 / 字号](/utilities/typography/utilities/font-size) 文档。
+
+## 字重
+
+在 ZUI 中预设了 6 种常见字重，详情参见下表：
+
+<Example class="space-y-6">
+  <div v-for="font in fontWeights" :key="font.code">
+    <div class="row items-center gap-2">
+      <CopyCode :code="font.code" :tip="`.${font.code}`" copyTip="已复制类名"><strong class="text-primary font-mono uppercase">{{font.code}}</strong></CopyCode>
+      <span class="muted">—</span>
+      <strong>{{font.name}}</strong>
+      <span v-if="font.desc" class="muted ml-2" v-html="font.desc" />
+      <div class="flex-auto text-right text-sm font-mono text-gray">font-weight: <CssPropValue prop="font-weight" :target="`#example-${font.code}`" /></div>
+    </div>
+    <pre :class="`mt-2 font-sans pre clip text-lg ${font.code}`" :id="`example-${font.code}`">The quick brown fox jumps over the lazy dog.
+白日依山尽，黄河入海流。欲穷千里目，更上一层楼。</pre>
+  </div>
+</Example>
+
+::: tip 修改字重
+
+通常不建议修改字重，如需修改可以通过定制主题实现，具体参见 [主题](/guide/theme/) 文档。
+
+:::
+
+在 ZUI 中可以通过 CSS 工具类来设置字重，详细用法参加 [CSS 工具类 / 排版 / 字重](/utilities/typography/utilities/font-weight) 文档。
+
+## 行高
+
+ZUI 中预设了多种常见行高，下面为几种常见行高的示例：
+
+<Example class="space-y-6">
+  <div v-for="font in leadings" :key="font.code">
+    <div class="row items-center gap-2">
+      <CopyCode :code="font.code" :tip="`.${font.code}`" copyTip="已复制类名"><strong class="text-primary font-mono uppercase">{{font.code}}</strong></CopyCode>
+      <span class="muted">—</span>
+      <strong>{{font.name}}</strong>
+      <span v-if="font.desc" class="muted ml-2" v-html="font.desc" />
+      <div class="flex-auto text-right text-sm font-mono text-gray">line-height: <CssPropValue prop="line-height" :target="`#example-${font.code}`" /></div>
+    </div>
+    <pre :class="`mt-2 font-sans pre-line text-lg ${font.code}`" :id="`example-${font.code}`">So I started to walk into the water. I won't lie to you boys, I was terrified. But I pressed on, and as I made my way past the breakers a strange calm came over me. I don't know if it was divine intervention or the kinship of all living things but I tell you Jerry at that moment, I was a marine biologist.
+月光如流水一般，静静地泻在这一片叶子和花上。薄薄的青雾浮起在荷塘里。叶子和花仿佛在牛乳中洗过一样；又像笼着轻纱的梦。</pre>
+  </div>
+</Example>
+
+在 ZUI 中可以通过 CSS 工具类来设置行高，详细用法参加 [CSS 工具类 / 排版 / 行高](/utilities/typography/utilities/leading) 文档。
+
+<script setup>
+const fontFamilies = [
+  {code: 'font-sans', name: '无衬线字体', desc: '默认字体，易于阅读，通常用于正文'},
+  {code: 'font-serif', name: '衬线字体', desc: '更美观，通常用于标题或装饰性文本'},
+  {code: 'font-mono', name: '等宽字体', desc: '每个字符宽度一致，便于对齐，辨识度高，通常用于代码和编号等'},
+];
+const fontSizes = [
+  {code: 'text-root', name: '根节点字号', desc: '设置在 <code>&lt;html&gt;</code> 元素上的字号'},
+  {code: 'text-sm', name: '小号文本'},
+  {code: 'text-base', name: '基准字号文本', desc: '通常与页面默认字号一致'},
+  {code: 'text-lg', name: '大号文本'},
+  {code: 'text-xl', name: '超大号文本'},
+  {code: 'text-2xl', name: '2x 超大号文本'},
+  {code: 'text-3xl', name: '3x 超大号文本'},
+  {code: 'text-4xl', name: '4x 超大号文本'},
+];
+const fontWeights = [
+  {code: 'font-thin', name: '超细文本'},
+  {code: 'font-light', name: '细文本'},
+  {code: 'font-normal', name: '正常粗细文本'},
+  {code: 'font-medium', name: '中等粗细文本'},
+  {code: 'font-bold', name: '加粗文本'},
+  {code: 'font-black', name: '超粗文本'},
+];
+const leadings = [
+  {code: 'leading-tight', name: '紧密'},
+  {code: 'leading-snug', name: '紧凑'},
+  {code: 'leading-normal', name: '正常'},
+  {code: 'leading-relaxed', name: '宽松'},
+  {code: 'leading-loose', name: '松散'},
+];
+const allLeadings = [
+  {code: 'leading-3'},
+  {code: 'leading-4'},
+  {code: 'leading-5'},
+  {code: 'leading-6'},
+  {code: 'leading-7'},
+  {code: 'leading-8'},
+  {code: 'leading-9'},
+  {code: 'leading-10'},
+  {code: 'leading-none'},
+  ...leadings,
+];
 </script>
