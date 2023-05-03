@@ -64,8 +64,8 @@ function initSidebars(): Record<string, {text: string, section?: string, items?:
         '/guide/': [
             {text: '开始', section: 'start'},
             // {text: '设计理念', section: 'concepts'},
-            {text: '配置', section: 'config', collapsed: false},
-            {text: '定制', section: 'customize'},
+            {text: '全局配置', section: 'config', collapsed: false},
+            {text: '开发定制', section: 'customize'},
             // {text: '贡献', section: 'contributes'},
             // {text: '关于', section: 'about'}
         ],
