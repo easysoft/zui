@@ -24,15 +24,15 @@
 `sans` 是网络安全的无衬线字体；`serif` 是网络安全的衬线字体；`mono` 是网络安全的等宽字体。
 
 <Example background="light-circle">
-  <div class="text-lg sans">sans 字体</div>
-  <div class="text-lg serif">serif 字体</div>
-  <div class="text-lg mono">mono 字体</div>
+  <div class="text-lg font-sans">sans 字体</div>
+  <div class="text-lg font-serif">serif 字体</div>
+  <div class="text-lg font-mono">mono 字体</div>
 </Example>
 
 ```html
-<div class="sans">sans 字体</div>
-<div class="serif">serif 字体</div>
-<div class="mono">mono 字体</div>
+<div class="font-sans">sans 字体</div>
+<div class="font-serif">serif 字体</div>
+<div class="font-mono">mono 字体</div>
 ```
 
 
