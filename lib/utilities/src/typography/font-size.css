@@ -1,6 +1,7 @@
-.text-xs          {@apply -text-xs;}
 .text-sm          {@apply -text-sm;}
 .text-base        {@apply -text-base;}
 .text-lg          {@apply -text-lg;}
 .text-xl          {@apply -text-xl;}
 .text-2xl         {@apply -text-2xl;}
+.text-3xl         {@apply -text-3xl;}
+.text-4xl         {@apply -text-4xl;}
