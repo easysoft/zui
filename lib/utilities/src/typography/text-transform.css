@@ -1,0 +1,4 @@
+.uppercase   {@apply -uppercase;}
+.lowercase   {@apply -lowercase;}
+.capitalize  {@apply -capitalize;}
+.normal-case {@apply -normal-case;}
