@@ -1,12 +1,13 @@
-.rounded-sm {@apply -rounded-sm;}
-.rounded    {@apply -rounded;}
-.rounded-md {@apply -rounded-md;}
-.rounded-lg {@apply -rounded-lg;}
-.rounded-xl {@apply -rounded-xl;}
+.rounded-none  {@apply -rounded-none;}
+.rounded-sm    {@apply -rounded-sm;}
+.rounded       {@apply -rounded;}
+.rounded-md    {@apply -rounded-md;}
+.rounded-lg    {@apply -rounded-lg;}
+.rounded-xl    {@apply -rounded-xl;}
+.rounded-2xl   {@apply -rounded-2xl;}
+.rounded-3xl   {@apply -rounded-3xl;}
+.rounded-full  {@apply -rounded-full;}
 
-.circle,
-.rounded-full   {@apply -rounded-full;}
-.rounded-none   {@apply -rounded-none;}
 .rounded-l-none {@apply -rounded-l-none;}
 .rounded-t-none {@apply -rounded-t-none;}
 .rounded-r-none {@apply -rounded-r-none;}
