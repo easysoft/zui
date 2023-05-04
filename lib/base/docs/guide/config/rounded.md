@@ -7,7 +7,7 @@
 <Example class="flex-wrap gap-4 row">
   <div v-for="rounded in roundedList" :key="rounded.code" class="text-center w-28">
     <CopyCode
-      :class="`bg-secondary hover-scale mx-auto w-14 h-14 ${rounded.code === 'DEFAULT' ? 'rounded' : `rounded-${rounded.code}`}`"
+      :class="`bg-secondary hover-scale-shadow mx-auto w-14 h-14 ${rounded.code === 'DEFAULT' ? 'rounded' : `rounded-${rounded.code}`}`"
       :code="rounded.code === 'DEFAULT' ? 'rounded' : `rounded-${rounded.code}`"
       :tip="`.${rounded.code === 'DEFAULT' ? 'rounded' : `rounded-${rounded.code}`}`"
       :id="`example-rounded-${rounded.code}`"
@@ -32,13 +32,13 @@
 在 ZUI 中可以通过 CSS 工具类来设置圆角，详细用法参加 [CSS 工具类 / 边框 / 边框圆角](/utilities/borders/utilities/border-radius) 文档。下面为一个简单的例子：
 
 <Example class="gap-4 row">
-  <div class="p-4 rounded-sm secondary">小号圆角</div>
-  <div class="p-4 rounded-lg secondary">大号圆角</div>
+  <div class="p-4 rounded-sm secondary">小圆角</div>
+  <div class="p-4 rounded-lg secondary">大圆角</div>
 </Example>
 
 ```html
-<div class="p-4 rounded-sm secondary">小号圆角</div>
-<div class="p-4 rounded-lg secondary">大号圆角</div>
+<div class="p-4 rounded-sm secondary">小圆角</div>
+<div class="p-4 rounded-lg secondary">大圆角</div>
 ```
 
 ### 通过 CSS 变量
@@ -46,13 +46,13 @@
 你可以直接在 CSS 中引用圆角相关的 CSS 变量来使用圆角，例如：
 
 <Example class="gap-4 row">
-  <div class="p-4 secondary" style="border-radius: var(--radius-sm)">小号圆角</div>
-  <div class="p-4 secondary" style="border-radius: var(--radius-lg)">大号圆角</div>
+  <div class="p-4 secondary" style="border-radius: var(--radius-sm)">小圆角</div>
+  <div class="p-4 secondary" style="border-radius: var(--radius-lg)">大圆角</div>
 </Example>
 
 ```html
-<div class="p-4 secondary" style="border-radius: var(--radius-sm)">小号圆角</div>
-<div class="p-4 secondary" style="border-radius: var(--radius-lg)">大号圆角</div>
+<div class="p-4 secondary" style="border-radius: var(--radius-sm)">小圆角</div>
+<div class="p-4 secondary" style="border-radius: var(--radius-lg)">大圆角</div>
 ```
 
 ## 自定义圆角
@@ -65,7 +65,15 @@
 
 ```css
 :root {
-  --rounded: 0;
+  --radius-none:    0px;
+  --radius-sm:      0.125rem;
+  --radius-DEFAULT: 0.25rem;
+  --radius-md:      0.375rem;
+  --radius-lg:      0.5rem;
+  --radius-xl:      0.75rem;
+  --radius-2xl:     1rem;
+  --radius-3xl:     1.5rem;
+  --radius-full:    9999px;
 }
 ```
 

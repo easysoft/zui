@@ -33,5 +33,8 @@ button.DocSearch-Button {
 }
 
 .hover-scale {
+  @apply -transition-[transform] hover:-scale-105 hover:-z-10;
+}
+.hover-scale-shadow {
   @apply -transition-[transform,box-shadow] hover:-scale-105 hover:-shadow-md hover:-z-10;
 }
