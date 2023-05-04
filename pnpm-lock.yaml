@@ -171,8 +171,8 @@ importers:
         specifier: ^0.7.24
         version: registry.npmmirror.com/vite-plugin-inspect@0.7.24(vite@4.3.3)
       vitepress:
-        specifier: 1.0.0-alpha.74
-        version: registry.npmmirror.com/vitepress@1.0.0-alpha.74(@algolia/client-search@4.14.0)(@types/node@18.11.18)
+        specifier: 1.0.0-alpha.75
+        version: registry.npmmirror.com/vitepress@1.0.0-alpha.75(@algolia/client-search@4.14.0)(@types/node@18.11.18)
 
   lib/action-menu:
     dependencies:
@@ -6827,11 +6827,11 @@ packages:
       fsevents: registry.npmmirror.com/fsevents@2.3.2
     dev: true
 
-  registry.npmmirror.com/vitepress@1.0.0-alpha.74(@algolia/client-search@4.14.0)(@types/node@18.11.18):
-    resolution: {integrity: sha512-n5UHqsLJKaJ3V6BSiofS5ZVhtxzarNIn3/kyOzUp/vePmVbQyX/pZ6/MhZgNr0g5t4E55j7XM3AHf/Fo0hnrpw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/vitepress/-/vitepress-1.0.0-alpha.74.tgz}
-    id: registry.npmmirror.com/vitepress/1.0.0-alpha.74
+  registry.npmmirror.com/vitepress@1.0.0-alpha.75(@algolia/client-search@4.14.0)(@types/node@18.11.18):
+    resolution: {integrity: sha512-twpPZ/6UnDR8X0Nmj767KwKhXlTQQM9V/J1i2BP9ryO29/w4hpxBfEum6nvfpNhJ4H3h+cIhwzAK/e9crZ6HEQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/vitepress/-/vitepress-1.0.0-alpha.75.tgz}
+    id: registry.npmmirror.com/vitepress/1.0.0-alpha.75
     name: vitepress
-    version: 1.0.0-alpha.74
+    version: 1.0.0-alpha.75
     hasBin: true
     dependencies:
       '@docsearch/css': registry.npmmirror.com/@docsearch/css@3.3.4
