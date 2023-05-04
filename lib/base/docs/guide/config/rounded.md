@@ -1,34 +1,39 @@
 # 圆角
 
-当前 ZUI 的默认圆角大小。
+## 预设圆角
 
-<Example>
-  <table class="table">
-    <thead>
-      <tr>
-        <th>名称</th>
-        <th>大小</th>
-        <th>效果展示</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="item in globalRound">
-        <td class="font-medium">{{item.name}}</td>
-        <td>{{item.size}}</td>
-        <td><div class="w-8 h-8 bg-secondary" :class="item.className"></div></td>
-      </tr>
-    </tbody>
-   </table>
+圆角能让界面元素更加具有亲和力，在 ZUI 中预设了一系列的圆角，具体如下：
+
+<Example class="justify-around gap-4 row">
+  <div v-for="rounded in roundedList" :key="rounded.code" class="text-center">
+    <CopyCode
+      :class="`bg-secondary hover-scale mx-auto w-14 h-14 ${rounded.class || `rounded-${rounded.code}`}`"
+      :code="rounded.class || `rounded-${rounded.code}`"
+      :tip="`.${rounded.class || `rounded-${rounded.code}`}`"
+      :id="`example-rounded-${rounded.code}`"
+      copyTip="已复制类名"
+    />
+    <div class="mt-2">{{rounded.name}}</div>
+    <CssPropValue class="font-mono text-sm muted" :target="`#example-rounded-${rounded.code}`" prop="border-radius" />
+  </div>
 </Example>
 
+在 ZUI 中可以通过 CSS 工具类来设置圆角，详细用法参加 [CSS 工具类 / 边框 / 边框圆角](/utilities/borders/utilities/border-radius) 文档。
+
+::: tip 修改圆角配置
+
+可以通过定制主题实现，具体参见 [主题](/guide/theme/) 文档。
+
+:::
+
 <script setup>
-const globalRound = [
-    {name: 'none', size: '0', className: 'rounded-none'},
-    {name: 'sm', size: '0.125rem', className: 'rounded-sm'},
-    {name: 'default', size: '0.25rem', className: 'rounded'},
-    {name: 'md', size: '0.375rem', className: 'rounded-md'},
-    {name: 'lg', size: '0.5rem', className: 'rounded-lg'},
-    {name: 'xl', size: '0.75rem', className: 'rounded-xl'},
-    {name: 'full(circle)', size: '9999px', className: 'rounded-full'}
+const roundedList = [
+    {code: 'sm', name: '小圆角'},
+    {code: 'default', name: '默认圆角', class: 'rounded'},
+    {code: 'md', name: '中等圆角'},
+    {code: 'lg', name: '大圆角'},
+    {code: 'xl', name: '超大圆角'},
+    {code: '2xl', name: '2x 超大圆角'},
+    {code: '3xl', name: '3x 超大圆角'},
 ];
 </script>
