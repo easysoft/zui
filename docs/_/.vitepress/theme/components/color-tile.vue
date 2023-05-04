@@ -1,6 +1,6 @@
 <template>
   <div class="relative cursor-pointer semantic-color-item" @click="onColorClick(`--${color}`)">
-    <div :class="`${tileClass || 'w-full h-8 rounded'}${copied ? ' ring-2 ring-success' : ''} semantic-color-tile`" :style="`background-color: var(--${color})`" />
+    <div :class="`${tileClass || 'w-full h-8 rounded'}${copied ? ' ring-2 ring-success' : ''} semantic-color-tile`" :style="`background-color: ${colorVal ?? `var(--${color})`}`" />
     <slot />
     <div v-if="copied" class="right-0 text-center semantic-color-name is-copied success">已复制</div>
     <div v-else class="pr-1 semantic-color-name bg-canvas">--{{color}}</div>
@@ -12,6 +12,7 @@ import {ref, onUnmounted} from 'vue';
 
 defineProps<{
   color: string;
+  colorVal?: string;
   tileClass?: string;
 }>();
 
