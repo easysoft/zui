@@ -2,40 +2,40 @@
 
 字体配置包含字体、字号、字重和行高多个部分，下面分别进行介绍。
 
-## 字体
+## 字体风格
 
-字体用于设置文本呈现的风格，在 ZUI 中预设了三种字体家族，包括无衬线字体、衬线字体和等宽字体。下面为三种字体的直观展示：
+字体用于设置文本呈现的风格，在 ZUI 中预设了三种字体风格，包括无衬线字体、衬线字体和等宽字体。下面为三种字体的直观展示：
 
 <Example background="light-circle" class="space-y-8">
   <div v-for="font in fontFamilies" :key="font.code">
-    <div class="row items-center gap-2">
-      <CopyCode :code="font.code" :tip="`.${font.code}`" copyTip="已复制类名"><strong class="text-primary font-mono uppercase">
+    <div class="items-center gap-2 row">
+      <CopyCode :code="font.code" :tip="`.${font.code}`" copyTip="已复制类名"><strong class="font-mono uppercase text-primary">
       {{font.code}}</strong></CopyCode>
       <span class="muted">—</span>
-      <strong>{{font.name}}</strong> <span class="muted ml-4">{{font.desc}}</span>
+      <strong>{{font.name}}</strong> <span class="ml-4 muted">{{font.desc}}</span>
     </div>
     <pre :class="`${font.code} text-xl mt-2`" :id="`example-${font.code}`">The quick brown fox jumps over the lazy dog.
 白日依山尽，黄河入海流。欲穷千里目，更上一层楼。</pre>
   </div>
 </Example>
 
-在 ZUI 中，以上三种字体家族所使用的 CSS font-family 属性值如下：
+在 ZUI 中，以上三种字体风格所使用的 CSS font-family 属性值如下：
 
 **无衬线字体 `font-sans`**
 
-<div class="lighter px-2 py-1 rounded">
+<div class="px-2 py-1 rounded lighter">
   <CssPropValue class="font-mono text-sm pre-line" prop="font-family" target="#example-font-sans" />
 </div>
 
 **衬线字体 `font-serif`**
 
-<div class="lighter px-2 py-1 rounded">
+<div class="px-2 py-1 rounded lighter">
   <CssPropValue class="font-mono text-sm pre-line" prop="font-family" target="#example-font-serif" />
 </div>
 
 **等宽字体 `font-mono`**
 
-<div class="lighter px-2 py-1 rounded">
+<div class="px-2 py-1 rounded lighter">
   <CssPropValue class="font-mono text-sm pre-line" prop="font-family" target="#example-font-mono" />
 </div>
 
@@ -53,12 +53,12 @@
 
 <Example class="space-y-6">
   <div v-for="font in fontSizes" :key="font.code">
-    <div class="row items-center gap-2">
-      <CopyCode :code="font.code" :tip="`.${font.code}`" copyTip="已复制类名"><strong class="text-primary font-mono uppercase">{{font.code}}</strong></CopyCode>
+    <div class="items-center gap-2 row">
+      <CopyCode :code="font.code" :tip="`.${font.code}`" copyTip="已复制类名"><strong class="font-mono uppercase text-primary">{{font.code}}</strong></CopyCode>
       <span class="muted">—</span>
       <strong>{{font.name}}</strong>
-      <span v-if="font.desc" class="muted ml-2" v-html="font.desc" />
-      <div class="flex-auto text-right text-sm font-mono text-gray">font-size: <CssPropValue prop="font-size" :target="`#example-${font.code}`" /></div>
+      <span v-if="font.desc" class="ml-2 muted" v-html="font.desc" />
+      <div class="flex-auto font-mono text-sm text-right text-gray">font-size: <CssPropValue prop="font-size" :target="`#example-${font.code}`" /></div>
     </div>
     <pre :class="`mt-2 font-sans pre clip ${font.code}`" :id="`example-${font.code}`">The quick brown fox jumps over the lazy dog.
 白日依山尽，黄河入海流。欲穷千里目，更上一层楼。</pre>
@@ -79,12 +79,12 @@
 
 <Example class="space-y-6">
   <div v-for="font in fontWeights" :key="font.code">
-    <div class="row items-center gap-2">
-      <CopyCode :code="font.code" :tip="`.${font.code}`" copyTip="已复制类名"><strong class="text-primary font-mono uppercase">{{font.code}}</strong></CopyCode>
+    <div class="items-center gap-2 row">
+      <CopyCode :code="font.code" :tip="`.${font.code}`" copyTip="已复制类名"><strong class="font-mono uppercase text-primary">{{font.code}}</strong></CopyCode>
       <span class="muted">—</span>
       <strong>{{font.name}}</strong>
-      <span v-if="font.desc" class="muted ml-2" v-html="font.desc" />
-      <div class="flex-auto text-right text-sm font-mono text-gray">font-weight: <CssPropValue prop="font-weight" :target="`#example-${font.code}`" /></div>
+      <span v-if="font.desc" class="ml-2 muted" v-html="font.desc" />
+      <div class="flex-auto font-mono text-sm text-right text-gray">font-weight: <CssPropValue prop="font-weight" :target="`#example-${font.code}`" /></div>
     </div>
     <pre :class="`mt-2 font-sans pre clip text-lg ${font.code}`" :id="`example-${font.code}`">The quick brown fox jumps over the lazy dog.
 白日依山尽，黄河入海流。欲穷千里目，更上一层楼。</pre>
@@ -105,12 +105,12 @@ ZUI 中预设了多种常见行高，下面为几种常见行高的示例：
 
 <Example class="space-y-6">
   <div v-for="font in leadings" :key="font.code">
-    <div class="row items-center gap-2">
-      <CopyCode :code="font.code" :tip="`.${font.code}`" copyTip="已复制类名"><strong class="text-primary font-mono uppercase">{{font.code}}</strong></CopyCode>
+    <div class="items-center gap-2 row">
+      <CopyCode :code="font.code" :tip="`.${font.code}`" copyTip="已复制类名"><strong class="font-mono uppercase text-primary">{{font.code}}</strong></CopyCode>
       <span class="muted">—</span>
       <strong>{{font.name}}</strong>
-      <span v-if="font.desc" class="muted ml-2" v-html="font.desc" />
-      <div class="flex-auto text-right text-sm font-mono text-gray">line-height: <CssPropValue prop="line-height" :target="`#example-${font.code}`" /></div>
+      <span v-if="font.desc" class="ml-2 muted" v-html="font.desc" />
+      <div class="flex-auto font-mono text-sm text-right text-gray">line-height: <CssPropValue prop="line-height" :target="`#example-${font.code}`" /></div>
     </div>
     <pre :class="`mt-2 font-sans pre-line text-lg ${font.code}`" :id="`example-${font.code}`">So I started to walk into the water. I won't lie to you boys, I was terrified. But I pressed on, and as I made my way past the breakers a strange calm came over me. I don't know if it was divine intervention or the kinship of all living things but I tell you Jerry at that moment, I was a marine biologist.
 月光如流水一般，静静地泻在这一片叶子和花上。薄薄的青雾浮起在荷塘里。叶子和花仿佛在牛乳中洗过一样；又像笼着轻纱的梦。</pre>

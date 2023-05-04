@@ -105,7 +105,7 @@ ZUI 内置了 {{semanticColors.length}} 种语义化调色板，每种类型都�
 * 因为界面公共颜色来自调色版，不建议手动进行修改，除非主题需要实现对比度更明显的风格；
 * 任何时候都不建议修改特殊颜色的定义。
 
-### 自定义配色
+## 自定义配色
 
 通过自定义配色可以实现不通的主题风格。你可以在页面中通过定义新的颜色变量来覆盖默认的颜色定义，从而实现自定义配色。下面为一个例子：
 
@@ -138,7 +138,7 @@ ZUI 内置了 {{semanticColors.length}} 种语义化调色板，每种类型都�
 ```
 
 <ClientOnly>
-  <button type="button" class="btn rounded primary" @click="toggleCssVars">切换使用上面的调色板定义</button>
+  <button type="button" class="rounded btn primary" @click="toggleCssVars">切换使用上面的调色板定义</button>
 </ClientOnly>
 
 ::: tip 提示
