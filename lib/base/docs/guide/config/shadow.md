@@ -5,6 +5,12 @@
 阴影能让界面元素更加具有层次感，在 ZUI 中预设了一系列的阴影，具体如下：
 
 <Example background="light-grid" class="space-y-6">
+  <div class="gap-4 row">
+    <div class="font-bold w-14 muted">预览</div>
+    <div class="w-20 font-bold muted">阴影名称</div>
+    <div class="font-bold w-28 muted">CSS 变量名</div>
+    <div class="font-bold muted">box-shadow 实际值</div>
+  </div>
   <div v-for="shadow in shadowList" :key="shadow.code" class="items-center gap-4 row">
     <CopyCode
       :class="`flex-none bg-canvas hover-scale mx-auto w-14 h-14 ${shadow.code === 'DEFAULT' ? 'shadow' : `shadow-${shadow.code}`}`"
