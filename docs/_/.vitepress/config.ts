@@ -17,8 +17,8 @@ export default defineConfig({
     ignoreDeadLinks: true,
     head: [
         ['link', {rel: 'icon', type: 'image/svg+xml', href: `${base}favicon.svg`}],
-        ['link', {rel: 'stylesheet', href: `${base}zui.css`}],
-        ['script', {src: `${base}zui.umd.cjs`}],
+        ['link', {rel: 'stylesheet', href: `${base}zui.css?v=${Date.now() % 10000}`}],
+        ['script', {src: `${base}zui.umd.cjs?v=${Date.now() % 10000}`}],
     ],
     lastUpdated: true,
     markdown: {
