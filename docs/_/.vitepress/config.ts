@@ -12,7 +12,7 @@ export default defineConfig({
     title: 'ZUI 3',
     base,
     description: 'Composable UI framework',
-    cleanUrls: true,
+    cleanUrls: false,
     appearance: false,
     ignoreDeadLinks: true,
     head: [
