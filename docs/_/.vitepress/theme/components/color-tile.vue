@@ -37,7 +37,7 @@ onUnmounted(() => {
 
 <style>
 .semantic-color-tile {
-  @apply -transition-[transform,shadow];
+  @apply -transition-[transform,box-shadow];
 }
 .semantic-color-item:hover > .semantic-color-tile {
   @apply -scale-105 -shadow-md;
