@@ -31,3 +31,7 @@ button.DocSearch-Button {
 .custom-block.warning:hover {
   @apply -text-[--vp-custom-block-warning-text];
 }
+
+.hover-scale {
+  @apply -transition-[transform,box-shadow] hover:-scale-105 hover:-shadow-md;
+}
