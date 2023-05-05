@@ -100,6 +100,7 @@
   --vp-c-brand-lighter: var(--vp-c-blue-lighter);
   --vp-c-brand-dark: var(--vp-c-blue-dark);
   --vp-c-brand-darker: var(--vp-c-blue-darker);
+  --vp-c-brand-dim: var(--vp-c-blue-dimm-2);
 
   --vp-c-mute: #f6f6f7;
   --vp-c-mute-light: #f9f9fc;

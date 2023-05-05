@@ -2,14 +2,14 @@ import {defineConfig} from 'vitepress';
 import inspect from 'vite-plugin-inspect';
 import {whyframe} from '@whyframe/core';
 import {whyframeVue} from '@whyframe/vue';
-import themeConfig from './theme-config';
+import {themeConfig, extLibs} from './theme-config';
 
 const base = process.env.BASE_PATH ?? '/';
 
 /** Define vitepress config */
 export default defineConfig({
     lang: 'zh-CN',
-    title: 'ZUI 3',
+    title: 'ZUI 3' + (extLibs.length ? ` + ${extLibs.join(', ')}` : ''),
     base,
     description: 'Composable UI framework',
     cleanUrls: false,

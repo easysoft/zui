@@ -5,7 +5,7 @@ import {red, yellow, underline} from 'colorette';
 import {DefaultTheme} from 'vitepress';
 import zuiLib from '../public/zui-libs';
 
-const themeConfig: DefaultTheme.Config = {
+export const themeConfig: DefaultTheme.Config = {
     logo: '/favicon.svg',
     outline: [2, 3],
     search: {
@@ -49,6 +49,12 @@ const themeConfig: DefaultTheme.Config = {
     sidebar: createSidebar()
 };
 
+export const extLibs = [...zuiLib.reduce((set, lib) => {
+    if (lib.zui.extsName) {
+        set.add(lib.zui.extsName);
+    }
+    return set;
+}, new Set<string>())];
 
 function createNav() {
     return [
@@ -97,7 +103,7 @@ function initSidebars(): Record<string, {text: string, section?: string, items?:
     }
 }
 
-function updateSections(files: string[], sidebars: ReturnType<typeof initSidebars>, docsPath: string, libName?: string) {
+function updateSections(files: string[], sidebars: ReturnType<typeof initSidebars>, docsPath: string, libName?: string, extsName?: string) {
     if (!files.length) {
         return;
     }
@@ -118,7 +124,10 @@ function updateSections(files: string[], sidebars: ReturnType<typeof initSidebar
         }
         const link = `/${sidebarName}/${sectionName}/${libName ? `${libName}/` : ''}${restPath.join('/')}`;
         const markdown = fs.readFileSync(Path.join(docsPath, file), 'utf8');
-        const title = markdown.match(/# (.*)/)?.[1];
+        let title = markdown.match(/# (.*)/)?.[1];
+        if (extsName) {
+            title = `${title} <code>${extsName}</code>`;
+        }
         if (libName && libName.startsWith('@') && libName.includes('/')) {
             const replaceLink = `/${sidebarName}/${sectionName}/${libName ? `${libName.split('/').pop()}/` : ''}${restPath.join('/')}`;
             const item = section.items.find(item => item.link === replaceLink);
@@ -143,7 +152,7 @@ function createSidebar() {
     zuiLib.forEach(lib => {
         const libDocsPath = Path.join(lib.zui.path, 'docs');
         const files = glob.sync(`*/*/**/*.md`, {onlyFiles: true, cwd: libDocsPath});
-        updateSections(files, sidebars, libDocsPath, lib.zui.name);
+        updateSections(files, sidebars, libDocsPath, lib.zui.name, lib.zui.extsName);
     });
     Object.values(sidebars).forEach(sidebar => {
         sidebar.forEach(section => {
@@ -155,5 +164,3 @@ function createSidebar() {
     });
     return sidebars;
 }
-
-export default themeConfig;
