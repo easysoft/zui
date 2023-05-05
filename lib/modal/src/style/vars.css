@@ -1,7 +1,7 @@
 :root {
   --modal-radius: var(--radius);
   --modal-bg: rgba(0, 0, 0, .4);
-  --modal-sm: 18.75rem;
-  --modal-base: 37.5rem;
-  --modal-lg: 56.25rem;
+  --modal-sm: 37.5rem; /* 600px */
+  --modal-base: 50rem; /* 800px */
+  --modal-lg: 75rem;   /* 1200px */
 }
