@@ -15,6 +15,7 @@ module.exports = {
     },
     plugins: ['import', '@typescript-eslint'],
     rules: {
+        'semi-spacing': 'error',
         'indent': ['error', 4, {'SwitchCase': 1}],
         'object-curly-spacing': ['error', 'never'],
         '@typescript-eslint/indent': 'off',
