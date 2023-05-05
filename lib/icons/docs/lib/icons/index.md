@@ -2,7 +2,7 @@
 
 ## 所有图标
 
-<ul id="iconsExample" class="flex flex-wrap gap-y-3 justify-start h-96 -overflow-y-auto "></ul>
+<ul id="iconsExample" class="flex flex-wrap justify-start gap-y-3 h-96 -overflow-y-auto "></ul>
 
 ## 使用方法
 
@@ -39,16 +39,16 @@
 
 <Example class="space-x-4">
   <i class="icon icon-caret-down"></i>
-  <i class="icon icon-caret-down rotate-45"></i>
-  <i class="icon icon-caret-down rotate-90"></i>
-  <i class="icon icon-caret-down rotate-180"></i>
+  <i class="rotate-45 icon icon-caret-down"></i>
+  <i class="rotate-90 icon icon-caret-down"></i>
+  <i class="rotate-180 icon icon-caret-down"></i>
 </Example>
 
 ```html
   <i class="icon icon-caret-down"></i>
-  <i class="icon icon-caret-down rotate-45"></i>
-  <i class="icon icon-caret-down rotate-90"></i>
-  <i class="icon icon-caret-down rotate-180"></i>
+  <i class="rotate-45 icon icon-caret-down"></i>
+  <i class="rotate-90 icon icon-caret-down"></i>
+  <i class="rotate-180 icon icon-caret-down"></i>
 ```
 
 ## 缩放
@@ -56,15 +56,15 @@
 搭配CSS 工具类 `.scale-*` 实现缩放效果
 
 <Example class="space-x-4">
-  <i class="icon icon-caret-down scale-50"></i>
+  <i class="scale-50 icon icon-caret-down"></i>
   <i class="icon icon-caret-down"></i>
-  <i class="icon icon-caret-down scale-150"></i>
+  <i class="scale-150 icon icon-caret-down"></i>
 </Example>
 
 ```html
-  <i class="icon icon-caret-down scale-50"></i>
+  <i class="scale-50 icon icon-caret-down"></i>
   <i class="icon icon-caret-down"></i>
-  <i class="icon icon-caret-down scale-150"></i>
+  <i class="scale-150 icon icon-caret-down"></i>
 ```
 
 ## 动画
@@ -87,11 +87,12 @@
 
 <script setup>
 import {onMounted} from 'vue';
+import {withBase} from 'vitepress';
 
 const text = 'hello';
 
 onMounted(() => {
-    fetch('/icons/icons.json').then(res => {
+    fetch(withBase('/icons/icons.json')).then(res => {
         if (res.ok) {
             return res.json();
         } else {
@@ -102,7 +103,7 @@ onMounted(() => {
         if ($ul) {
             let ulChildrenStr = '';
             for (const icon in json) {
-                ulChildrenStr += `<li class="w-1/5 p-2 flex items-center"><i class="icon icon-${icon} mr-1"></i> ${icon}</li>`;
+                ulChildrenStr += `<li class="flex items-center w-1/5 p-2"><i class="icon icon-${icon} mr-1"></i> ${icon}</li>`;
             }
             $ul.innerHTML = ulChildrenStr;
         } else {
