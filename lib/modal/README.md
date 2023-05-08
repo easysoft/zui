@@ -123,7 +123,7 @@
 ## iframe 对话框
 
 ```html:example: flex gap-3
-<button type="button" class="btn primary" data-toggle="modal" data-url="/lib/modal/dev/iframe-modal.html" data-title="iframe 对话框">点击打开 iframe 对话框</button>
+<button type="button" class="btn primary" data-toggle="modal" data-url="/lib/modal/dev/iframe-modal.html" data-title="iframe 对话框" data-type="iframe">点击打开 iframe 对话框</button>
 ```
 
 ## Ajax 对话框
