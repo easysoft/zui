@@ -34,3 +34,6 @@
 .btn.btn-caret {
     @apply -px-1;
 }
+.btn.btn-wide {
+    @apply -min-w-[80px];
+}
