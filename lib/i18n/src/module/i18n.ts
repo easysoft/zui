@@ -71,6 +71,11 @@ export function i18n(maps: I18nLangMap | (I18nLangMap | undefined)[] | undefined
     return value;
 }
 
+export function getLang(key: string, args?: string | (string | number)[] | Record<string, string | number>, defaultValue?: string, langCode?: I18nLangCode) {
+    return i18n(undefined, key, args, defaultValue, langCode);
+}
+
 i18n.addLang = addI18nMap;
+i18n.getLang = getLang;
 i18n.getCode = getLangCode;
 i18n.setCode = setLangCode;
