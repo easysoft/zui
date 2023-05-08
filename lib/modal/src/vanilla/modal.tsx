@@ -1,7 +1,7 @@
 import {render} from 'preact';
 import {nanoid} from 'nanoid';
-import {Modal} from './modal';
-import {ModalBuilderOptions, ModalDialogOptions, ModalCustomBuilder, ModalAjaxBuilder} from '../types';
+import {ModalBase} from './modal-base';
+import {ModalOptions, ModalDialogOptions, ModalCustomBuilder, ModalAjaxBuilder} from '../types';
 import {setAttr, setClass} from '@zui/com-helpers/src/helpers/element-helper';
 import {ModalDialog} from '../component';
 import {ModalIframeContent} from '../component/modal-iframe-content';
@@ -9,7 +9,7 @@ import {ModalHtmlContent, execScripts} from '../component/modal-html-content';
 
 type ModalDialogHTML = [html: string];
 
-type ModalBuilderFunction = (element: HTMLElement, options: ModalBuilderOptions) => Promise<ModalDialogOptions | ModalDialogHTML | boolean | undefined>;
+type ModalBuildFunction = (element: HTMLElement, options: ModalOptions) => Promise<ModalDialogOptions | ModalDialogHTML | boolean | undefined>;
 
 function buildCustomModal(_element: HTMLElement, options: ModalCustomBuilder): ModalDialogOptions | boolean | undefined {
     const {custom, title, content} = options;
@@ -56,19 +56,19 @@ async function buildIframeModal(_element: HTMLElement, options: ModalAjaxBuilder
     };
 }
 
-const builders: Record<string, ModalBuilderFunction> = {
-    custom: buildCustomModal as ModalBuilderFunction,
-    ajax: buildAjaxModal as ModalBuilderFunction,
-    iframe: buildIframeModal as ModalBuilderFunction,
+const builders: Record<string, ModalBuildFunction> = {
+    custom: buildCustomModal as ModalBuildFunction,
+    ajax: buildAjaxModal as ModalBuildFunction,
+    iframe: buildIframeModal as ModalBuildFunction,
 };
 
-export class ModalBuilder<T extends ModalBuilderOptions = ModalBuilderOptions> extends Modal<T> {
+export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
     static LOADING_CLASS = 'loading';
 
     static DEFAULT = {
-        ...Modal.DEFAULT,
+        ...ModalBase.DEFAULT,
         loadTimeout: 10000,
-    } as Partial<ModalBuilderOptions>;
+    } as Partial<ModalOptions>;
 
     #modal?: HTMLElement;
 
@@ -81,7 +81,7 @@ export class ModalBuilder<T extends ModalBuilderOptions = ModalBuilderOptions> e
     }
 
     get loading() {
-        return this.modalElement.classList.contains(ModalBuilder.LOADING_CLASS);
+        return this.modalElement.classList.contains(Modal.LOADING_CLASS);
     }
 
     get modalElement() {
@@ -187,7 +187,7 @@ export class ModalBuilder<T extends ModalBuilderOptions = ModalBuilderOptions> e
             console.warn(`Modal: Cannot build modal with type "${type}"`);
             return false;
         }
-        modalElement.classList.add(ModalBuilder.LOADING_CLASS);
+        modalElement.classList.add(Modal.LOADING_CLASS);
 
         await this.#renderLoading();
 
@@ -211,7 +211,7 @@ export class ModalBuilder<T extends ModalBuilderOptions = ModalBuilderOptions> e
             this.#loadingTimer = 0;
         }
 
-        modalElement.classList.remove(ModalBuilder.LOADING_CLASS);
+        modalElement.classList.remove(Modal.LOADING_CLASS);
 
         return true;
     }

@@ -2,9 +2,9 @@ import type {JSX} from 'preact';
 import {$} from '@zui/cash/src/cash';
 import {ComponentBase} from '@zui/com-helpers/src/helpers/vanilla-component';
 import {setAttr, setClass, setStyle} from '@zui/com-helpers/src/helpers/element-helper';
-import type {ModalOptions, ModalEvents, ModalPositionSetting, ModalSizeSetting} from '../types';
+import type {ModalBaseOptions, ModalEvents, ModalPositionSetting, ModalSizeSetting} from '../types';
 
-export class Modal<T extends ModalOptions = ModalOptions> extends ComponentBase<T, ModalEvents, HTMLElement> {
+export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends ComponentBase<T, ModalEvents, HTMLElement> {
     static NAME = 'Modal';
 
     static EVENTS = true;
@@ -17,7 +17,7 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ComponentBase<
         backdrop: true,
         responsive: true,
         transTime: 300,
-    } as Partial<ModalOptions>;
+    } as Partial<ModalBaseOptions>;
 
     static CLASS_SHOW = 'show';
 
@@ -38,7 +38,7 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ComponentBase<
     }
 
     get isShown() {
-        return this.modalElement.classList.contains(Modal.CLASS_SHOW);
+        return this.modalElement.classList.contains(ModalBase.CLASS_SHOW);
     }
 
     get dialog(): HTMLElement | null {
@@ -79,7 +79,7 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ComponentBase<
         this.#rob?.disconnect();
     }
 
-    show(options?: Partial<ModalOptions>) {
+    show(options?: Partial<ModalBaseOptions>) {
         if (this.isShown) {
             return false;
         }
@@ -91,9 +91,9 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ComponentBase<
         setClass(modalElement, [{
             'modal-trans': animation,
             'modal-no-backdrop': !backdrop,
-        }, Modal.CLASS_SHOW, className]);
+        }, ModalBase.CLASS_SHOW, className]);
         setStyle(modalElement, {
-            zIndex: `${Modal.zIndex++}`,
+            zIndex: `${ModalBase.zIndex++}`,
             ...style,
         });
 
@@ -101,7 +101,7 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ComponentBase<
         this.emit('show', this);
 
         this.#resetTransTimer(() => {
-            modalElement.classList.add(Modal.CLASS_SHOWN);
+            modalElement.classList.add(ModalBase.CLASS_SHOWN);
             this.#resetTransTimer(() => {
                 this.emit('shown', this);
             });
@@ -114,11 +114,11 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ComponentBase<
             return false;
         }
 
-        this.modalElement.classList.remove(Modal.CLASS_SHOWN);
+        this.modalElement.classList.remove(ModalBase.CLASS_SHOWN);
         this.emit('hide', this);
 
         this.#resetTransTimer(() => {
-            this.modalElement.classList.remove(Modal.CLASS_SHOW);
+            this.modalElement.classList.remove(ModalBase.CLASS_SHOW);
             this.emit('hidden', this);
         });
         return true;
@@ -187,7 +187,7 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ComponentBase<
 
     #handleClick = (event: MouseEvent) => {
         const target = event.target as HTMLElement;
-        if (target.closest(Modal.DISMISS_SELECTOR) || (this.options.backdrop === true && !target.closest('.modal-dialog') && target.closest('.modal'))) {
+        if (target.closest(ModalBase.DISMISS_SELECTOR) || (this.options.backdrop === true && !target.closest('.modal-dialog') && target.closest('.modal'))) {
             this.hide();
         }
     };
@@ -206,10 +206,10 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ComponentBase<
         }
     }
 
-    static query(target?: HTMLDivElement | string): Modal | undefined {
+    static query(target?: HTMLDivElement | string): ModalBase | undefined {
         if (target === undefined) {
-            target = document.querySelector(`.modal.${Modal.CLASS_SHOW}`) as HTMLDivElement;
-            return Array.from(Modal.getAll().values()).find(x => x.isShown);
+            target = document.querySelector(`.modal.${ModalBase.CLASS_SHOW}`) as HTMLDivElement;
+            return Array.from(ModalBase.getAll().values()).find(x => x.isShown);
         }
         if (typeof target === 'string') {
             target = document.querySelector(target) as HTMLDivElement;
@@ -217,21 +217,21 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ComponentBase<
         if (!target) {
             return;
         }
-        return Array.from(Modal.getAll().values()).find(x => x.modalElement === target);
+        return Array.from(ModalBase.getAll().values()).find(x => x.modalElement === target);
     }
 
     static hide(target?: HTMLDivElement | string) {
-        Modal.query(target)?.hide();
+        ModalBase.query(target)?.hide();
     }
 
     static show(target?: HTMLDivElement | string) {
-        Modal.query(target)?.show();
+        ModalBase.query(target)?.show();
     }
 }
 
 $(window).on('resize', () => {
-    Modal.all.forEach((modal) => {
-        const m = (modal as Modal);
+    ModalBase.all.forEach((modal) => {
+        const m = (modal as ModalBase);
         if (m.isShown && m.options.responsive) {
             m.layout();
         }
@@ -239,5 +239,5 @@ $(window).on('resize', () => {
 });
 
 $(document).on('zui.modal.hide', (_: Event, data?: {target?: HTMLDivElement | string}) => {
-    Modal.hide(data?.target);
+    ModalBase.hide(data?.target);
 });

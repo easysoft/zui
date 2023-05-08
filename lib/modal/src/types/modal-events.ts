@@ -1,8 +1,8 @@
-import type {Modal} from '../vanilla/modal';
+import type {ModalBase} from '../vanilla/modal-base';
 
 export type ModalEvents = {
-    show: CustomEvent<Modal>,
-    shown: CustomEvent<Modal>,
-    hide: CustomEvent<Modal>,
-    hidden: CustomEvent<Modal>,
+    show: CustomEvent<ModalBase>,
+    shown: CustomEvent<ModalBase>,
+    hide: CustomEvent<ModalBase>,
+    hidden: CustomEvent<ModalBase>,
 };

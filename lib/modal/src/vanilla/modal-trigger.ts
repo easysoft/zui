@@ -1,7 +1,7 @@
 import {ComponentBase} from '@zui/com-helpers/src/helpers/vanilla-component';
-import type {ModalBuilderOptions, ModalTriggerOptions} from '../types';
-import {ModalBuilder} from './modal-builder';
+import type {ModalOptions, ModalTriggerOptions} from '../types';
 import {Modal} from './modal';
+import {ModalBase} from './modal-base';
 
 export class ModalTrigger extends ComponentBase<ModalTriggerOptions> {
     static NAME = 'ModalTrigger';
@@ -10,7 +10,7 @@ export class ModalTrigger extends ComponentBase<ModalTriggerOptions> {
 
     static TOGGLE_SELECTOR = '[data-toggle="modal"]';
 
-    #modal?: Modal;
+    #modal?: ModalBase;
 
     get modal() {
         return this.#modal;
@@ -36,12 +36,12 @@ export class ModalTrigger extends ComponentBase<ModalTriggerOptions> {
         this.#modal?.hide();
     }
 
-    #getBuilderOptions(): ModalBuilderOptions {
+    #getBuilderOptions(): ModalOptions {
         const {
             container,
             ...others
         } = this.options;
-        const builderOptions = others as ModalBuilderOptions;
+        const builderOptions = others as ModalOptions;
         const href = this.element.getAttribute('href') || '';
         if (!builderOptions.type) {
             if ((builderOptions.target || href[0] === '#')) {
@@ -63,10 +63,10 @@ export class ModalTrigger extends ComponentBase<ModalTriggerOptions> {
         if (modal) {
             modal.setOptions(options);
         } else if (options.type === 'static') {
-            modal = new Modal(this.#getStaticModalElement(), options);
+            modal = new ModalBase(this.#getStaticModalElement(), options);
             this.#modal = modal;
         } else {
-            modal = new ModalBuilder(this.container, options);
+            modal = new Modal(this.container, options);
             this.#modal = modal;
         }
         return modal;
