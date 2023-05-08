@@ -217,6 +217,9 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
         if (!target) {
             return;
         }
+        if (!target.classList.contains('modal')) {
+            target = target.closest('.modal') as HTMLDivElement;
+        }
         return Array.from(ModalBase.getAll().values()).find(x => x.modalElement === target);
     }
 

@@ -1,17 +1,19 @@
 import {render} from 'preact';
 import {nanoid} from 'nanoid';
+import {getLang} from '@zui/i18n';
 import {ModalBase} from './modal-base';
-import {ModalOptions, ModalDialogOptions, ModalCustomBuilder, ModalAjaxBuilder} from '../types';
+import {ModalOptions, ModalDialogOptions, ModalCustomOptions, ModalAjaxOptions, ModalAlertOptions, ModalTypedOptions, ModalConfirmOptions} from '../types';
 import {setAttr, setClass} from '@zui/com-helpers/src/helpers/element-helper';
+import type {ToolbarOptions, ToolbarItemProps} from '@zui/toolbar/src/types';
 import {ModalDialog} from '../component';
 import {ModalIframeContent} from '../component/modal-iframe-content';
 import {ModalHtmlContent, execScripts} from '../component/modal-html-content';
 
 type ModalDialogHTML = [html: string];
 
-type ModalBuildFunction = (element: HTMLElement, options: ModalOptions) => Promise<ModalDialogOptions | ModalDialogHTML | boolean | undefined>;
+type ModalBuildFunction = (this: Modal, element: HTMLElement, options: ModalOptions) => Promise<ModalDialogOptions | ModalDialogHTML | boolean | undefined>;
 
-function buildCustomModal(_element: HTMLElement, options: ModalCustomBuilder): ModalDialogOptions | boolean | undefined {
+function buildCustomModal(this: Modal, _element: HTMLElement, options: ModalCustomOptions): ModalDialogOptions | boolean | undefined {
     const {custom, title, content} = options;
     return {
         body: content,
@@ -20,7 +22,7 @@ function buildCustomModal(_element: HTMLElement, options: ModalCustomBuilder): M
     };
 }
 
-async function buildAjaxModal(_element: HTMLElement, options: ModalAjaxBuilder): Promise<ModalDialogOptions | ModalDialogHTML | boolean | undefined> {
+async function buildAjaxModal(this: Modal, _element: HTMLElement, options: ModalAjaxOptions): Promise<ModalDialogOptions | ModalDialogHTML | boolean | undefined> {
     const {dataType = 'html', url, request, custom, title, replace = true, execScript = true} = options;
     const response = await fetch(url, request);
     const text = await response.text();
@@ -47,7 +49,7 @@ async function buildAjaxModal(_element: HTMLElement, options: ModalAjaxBuilder):
     };
 }
 
-async function buildIframeModal(_element: HTMLElement, options: ModalAjaxBuilder): Promise<ModalDialogOptions | boolean | undefined> {
+async function buildIframeModal(this: Modal, _element: HTMLElement, options: ModalAjaxOptions): Promise<ModalDialogOptions | boolean | undefined> {
     const {url, custom, title} = options;
     return {
         title,
@@ -198,7 +200,7 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
             }, loadTimeout);
         }
 
-        const result = await build(modalElement, options);
+        const result = await build.call(this, modalElement, options);
 
         if (result === false) {
             await this.#renderLoadFail(this.options.failedTip);
@@ -214,5 +216,88 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
         modalElement.classList.remove(Modal.LOADING_CLASS);
 
         return true;
+    }
+
+    static open(options: ModalTypedOptions & {container?: string | HTMLElement}): Promise<Modal> {
+        return new Promise((resolve) => {
+            const {container = document.body, ...others} = options;
+            const modal = new Modal(container, {show: true, ...others} as ModalOptions);
+            modal.once('hidden', () => resolve(modal));
+            modal.show();
+        });
+    }
+
+    static alert(options: string | ModalAlertOptions): Promise<string | undefined> {
+        if (typeof options === 'string') {
+            options = {message: options} as ModalAlertOptions;
+        }
+        const {type, message, icon, iconClass = 'icon-lg muted', actions = 'confirm', onClickAction, custom, ...otherOptions} = options;
+        let content = <div>{message}</div>;
+        if (icon) {
+            content = (
+                <div className="modal-body row gap-4 items-center">
+                    <div className={`icon ${icon} ${iconClass}`} />
+                    {content}
+                </div>
+            );
+        } else {
+            content = <div className="modal-body">{content}</div>;
+        }
+        const actionItems: ToolbarItemProps[] = [];
+        (Array.isArray(actions) ? actions : [actions]).forEach((item) => {
+            item = {
+                ...(typeof item === 'string' ? {key: item} : item),
+            } as ToolbarItemProps;
+            if (typeof item.key === 'string') {
+                if (!item.text) {
+                    item.text = getLang(item.key, item.key);
+                }
+                if (!item.btnType) {
+                    item.btnType = `btn-wide ${item.key === 'confirm' ? 'primary' : 'btn-default'}`;
+                }
+            }
+
+            if (item) {
+                actionItems.push(item);
+            }
+        }, []);
+        let result: string | undefined;
+        const footerActions: ToolbarOptions | undefined = actionItems.length ? {
+            gap: 4,
+            items: actionItems,
+            onClickItem: ({item, event}) => {
+                const modal = Modal.query(event.target as HTMLDivElement) as Modal;
+                result = item.key as string;
+                const actionResult = onClickAction?.(item, modal);
+                if (actionResult !== false && modal) {
+                    modal.hide();
+                }
+            },
+        } : undefined;
+
+        return Modal.open({
+            type: 'custom',
+            size: 400,
+            className: 'modal-alert',
+            content,
+            backdrop: 'static',
+            custom: {footerActions, ...(typeof custom === 'function' ? custom() : custom)},
+            ...otherOptions,
+        }).then(() => result);
+    }
+
+    static confirm(options: string | ModalConfirmOptions) {
+        if (typeof options === 'string') {
+            options = {message: options} as ModalConfirmOptions;
+        }
+        const {onClickAction, onResult, ...otherOptions} = options;
+        return Modal.alert({
+            actions: ['confirm', 'cancel'],
+            onClickAction: (item, modal) => {
+                onResult?.(item.key === 'confirm', modal);
+                onClickAction?.(item, modal);
+            },
+            ...otherOptions,
+        }).then((result) => result === 'confirm');
     }
 }

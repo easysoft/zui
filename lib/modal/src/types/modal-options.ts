@@ -1,5 +1,8 @@
-import {ModalDialogOptions} from './modal-dialog-options';
-import {ModalBaseOptions} from './modal-base-options';
+import type {ComponentChild} from 'preact';
+import type {ToolbarItemOptions} from '@zui/toolbar/src/types';
+import type {ModalDialogOptions} from './modal-dialog-options';
+import type {ModalBaseOptions} from './modal-base-options';
+import type {Modal} from '../vanilla/modal';
 
 export type ModalOptions = ModalBaseOptions & {
     type: string;
@@ -12,13 +15,13 @@ export type ModalOptions = ModalBaseOptions & {
     [prop: string]: unknown;
 };
 
-export interface ModalCustomBuilder extends ModalOptions {
+export interface ModalCustomOptions extends ModalOptions {
     type: 'custom',
-    content?: string;
+    content?: ComponentChild;
     custom: ModalDialogOptions | (() => ModalDialogOptions);
 }
 
-export interface ModalAjaxBuilder extends ModalOptions {
+export interface ModalAjaxOptions extends ModalOptions {
     type: 'ajax',
     url: string;
     request?: RequestInit;
@@ -28,10 +31,22 @@ export interface ModalAjaxBuilder extends ModalOptions {
     execScript?: boolean;
 }
 
-export interface ModalIframeBuilder extends ModalOptions {
+export interface ModalIframeOptions extends ModalOptions {
     type: 'iframe',
     url: string;
     custom?: Partial<ModalDialogOptions>;
 }
 
-export type ModalBuilders = ModalCustomBuilder | ModalAjaxBuilder | ModalIframeBuilder;
+export interface ModalAlertOptions extends ModalCustomOptions {
+    message: string;
+    icon?: string;
+    iconClass?: string;
+    actions?: ToolbarItemOptions[] | string | string[];
+    onClickAction?: (item: ToolbarItemOptions, modal: Modal) => false | void;
+}
+
+export interface ModalConfirmOptions extends ModalAlertOptions {
+    onResult?: (confirmed: boolean, modal: Modal) => void;
+}
+
+export type ModalTypedOptions = ModalCustomOptions | ModalAjaxOptions | ModalIframeOptions;

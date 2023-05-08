@@ -135,37 +135,53 @@
 
 ## 方法
 
-### showModal(modal: $modal, position: string);
-手动显示对话框。`position` 参数为可选的，用来指定显示的位置。
+### 打开对话框
 
-### hideModal(modal: $modal);
-手动隐藏对话框。
+```ts
+Modal.open(options: ModalOptions): Promise<void>;
+```
 
-### adjustPosition(target: $modal, position: string);
-手动更新弹窗位置。
+### 查找对话框实例
 
+```ts
+Modal.query(target: HTMLElement): void;
+Modal.query(selector: string): void;
+```
+
+### 显示对话
+
+```ts
+Modal.show(target: HTMLElement): void;
+Modal.show(selector: string): void;
+```
+
+### 隐藏对话框
+
+```ts
+Modal.hide(target: HTMLElement): void;
+Modal.hide(selector: string): void;
+```
+
+### alert()
+
+```ts
+Modal.alert(message: string): Promise<string | undefined>;
+Modal.alert(options: ModalAlertOptions): Promise<string | undefined>;
+```
 
 ```html:example: flex gap-3
-<button type="button" class="btn primary" data-toggle="modal" data-target="#modalForFunc">点击打开对话框</button>
-<button type="button" class="btn primary" data-toggle="modal" data-target="#modalForFunc">点击打开对话框</button>
-<button type="button" class="btn primary" data-toggle="modal" data-target="#modalForFunc">点击打开对话框</button>
-<button type="button" class="btn primary" data-toggle="modal" data-target="#modalForFunc">点击打开对话框</button>
+<button type="button" class="btn primary" onclick="Modal.alert('提示消息')">Modal.alert(message)</button>
+<button type="button" class="btn primary" onclick="Modal.alert({title: '这是标题', message: '提示消息', icon: 'icon-flag'})">Modal.alert(options)</button>
+```
 
-<div class="modal" id="modalForFunc" data-modal-closable="false">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <div class="modal-title">标题</div>
-        <button type="button" class="btn square ghost" data-dismiss="modal"><span class="close"></span></button>
-      </div>
-      <div class="modal-body">
-        <p>这是内容</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn" data-dismiss="modal">关闭</button>
-        <button type="button" class="btn primary">保存</button>
-      </div>
-    </div>
-  </div>
-</div>
+### confirm()
+
+```ts
+Modal.confirm(message: string): Promise<string | undefined>;
+Modal.confirm(options: ModalAlertOptions): Promise<string | undefined>;
+```
+
+```html:example: flex gap-3
+<button type="button" class="btn primary" onclick="Modal.confirm('提示消息').then(console.log)">Modal.confirm(message)</button>
+<button type="button" class="btn primary" onclick="Modal.confirm({title: '这是标题', message: '提示消息', icon: 'icon-flag'}).then(console.log)">Modal.confirm(options)</button>
 ```

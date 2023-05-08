@@ -731,6 +731,9 @@ importers:
       '@zui/css-icons':
         specifier: workspace:^0.0.1
         version: link:../css-icons
+      '@zui/i18n':
+        specifier: workspace:*
+        version: link:../i18n
       '@zui/toolbar':
         specifier: workspace:*
         version: link:../toolbar
