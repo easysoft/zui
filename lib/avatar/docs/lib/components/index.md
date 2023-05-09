@@ -26,30 +26,30 @@
 
 搭配 CSS 工具类 `rounded-*` 为头像应用不同的圆角样式。
 
-<Example class="flex gap-4 flex-wrap">
-  <div class="avatar rounded-none"><img src="/assets/avatar/avatar-1.png"></div>
-  <div class="avatar rounded-xs"><img src="/assets/avatar/avatar-2.png"></div>
-  <div class="avatar rounded-sm"><img src="/assets/avatar/avatar-3.png"></div>
-  <div class="avatar rounded"><img src="/assets/avatar/avatar-4.png"></div>
-  <div class="avatar rounded-lg"><img src="/assets/avatar/avatar-5.png"></div>
-  <div class="avatar rounded-xl"><img src="/assets/avatar/avatar-6.png"></div>
-  <div class="avatar circle"><img src="/assets/avatar/avatar-7.png"></div>
+<Example class="flex flex-wrap gap-4">
+  <div class="rounded-none avatar"><img src="/assets/avatar/avatar-1.png"></div>
+  <div class="rounded-xs avatar"><img src="/assets/avatar/avatar-2.png"></div>
+  <div class="rounded-sm avatar"><img src="/assets/avatar/avatar-3.png"></div>
+  <div class="rounded avatar"><img src="/assets/avatar/avatar-4.png"></div>
+  <div class="rounded-lg avatar"><img src="/assets/avatar/avatar-5.png"></div>
+  <div class="rounded-xl avatar"><img src="/assets/avatar/avatar-6.png"></div>
+  <div class="rounded-full avatar"><img src="/assets/avatar/avatar-7.png"></div>
 </Example>
 
 ```html
-<div class="avatar rounded-none"><img src="/assets/avatar/avatar-1.png"></div>
-<div class="avatar rounded-xs"><img src="/assets/avatar/avatar-2.png"></div>
-<div class="avatar rounded-sm"><img src="/assets/avatar/avatar-3.png"></div>
-<div class="avatar rounded"><img src="/assets/avatar/avatar-4.png"></div>
-<div class="avatar rounded-lg"><img src="/assets/avatar/avatar-5.png"></div>
-<div class="avatar rounded-xl"><img src="/assets/avatar/avatar-6.png"></div>
-<div class="avatar circle"><img src="/assets/avatar/avatar-7.png"></div>
+<div class="rounded-none avatar"><img src="/assets/avatar/avatar-1.png"></div>
+<div class="rounded-xs avatar"><img src="/assets/avatar/avatar-2.png"></div>
+<div class="rounded-sm avatar"><img src="/assets/avatar/avatar-3.png"></div>
+<div class="rounded avatar"><img src="/assets/avatar/avatar-4.png"></div>
+<div class="rounded-lg avatar"><img src="/assets/avatar/avatar-5.png"></div>
+<div class="rounded-xl avatar"><img src="/assets/avatar/avatar-6.png"></div>
+<div class="rounded-full avatar"><img src="/assets/avatar/avatar-7.png"></div>
 ```
 ## 外观类型
 
 当使用文字或图标作为头像时，配合使用[CSS 工具类](/utilities/)来实现不同头像的外观。下面展示各种工具类的外观效果。
 
-<Example class="flex gap-4 flex-wrap">
+<Example class="flex flex-wrap gap-4">
   <div class="avatar primary">Z</div>
   <div class="avatar primary-pale">Z</div>
   <div class="avatar primary-outline">Z</div>
@@ -68,14 +68,14 @@
 除了默认大小，还提供了额外的 4 种预设尺寸。
 
 <Example class="space-y-4">
-  <div class="flex gap-4 flex-wrap items-end">
+  <div class="flex flex-wrap items-end gap-4">
     <div class="avatar size-xs"><img src="/assets/avatar/avatar-1.png"></div>
     <div class="avatar size-sm"><img src="/assets/avatar/avatar-2.png"></div>
     <div class="avatar"><img src="/assets/avatar/avatar-3.png"></div>
     <div class="avatar size-lg"><img src="/assets/avatar/avatar-4.png"></div>
     <div class="avatar size-xl"><img src="/assets/avatar/avatar-5.png"></div>
   </div>
-  <div class="flex gap-4 flex-wrap items-end">
+  <div class="flex flex-wrap items-end gap-4">
     <div class="avatar size-xs">X</div>
     <div class="avatar size-sm">S</div>
     <div class="avatar">Z</div>
