@@ -6728,17 +6728,19 @@ const uf = {
     },
     link: {
       onRenderCell(e, { col: n, row: t }) {
-        const { linkTemplate: s = "", linkProps: i } = n.setting, o = ot(s, t.data);
-        return e[0] = /* @__PURE__ */ w("a", { href: o, ...i, children: e[0] }), e;
+        let { link: s, linkTemplate: i = "", linkProps: o } = n.setting;
+        s && (typeof s == "string" ? s = { template: s } : typeof s == "function" && (s = s({ row: t, col: n })), { template: i, ...o } = s);
+        const r = ot(i, t.data);
+        return e[0] = /* @__PURE__ */ w("a", { href: r, ...o, children: e[0] }), e;
       }
     },
     avatar: {
       onRenderCell(e, { col: n, row: t }) {
-        const { data: s } = t, { avatarWithName: i, avatarClass: o = "size-xs circle", avatarKey: r = `${n.name}Avatar` } = n.setting, l = /* @__PURE__ */ w("div", { className: `avatar ${o} flex-none`, children: /* @__PURE__ */ w("img", { src: s ? s[r] : "" }) });
+        const { data: s } = t, { avatarWithName: i, avatarClass: o = "size-xs rounded-full", avatarKey: r = `${n.name}Avatar` } = n.setting, l = /* @__PURE__ */ w("div", { className: `avatar ${o} flex-none`, children: /* @__PURE__ */ w("img", { src: s ? s[r] : "" }) });
         return i ? e.unshift(l) : e[0] = l, e;
       }
     },
-    circleProgress: {
+    progress: {
       align: "center",
       onRenderCell(e, { col: n }) {
         const { circleSize: t = 24, circleBorderSize: s = 1, circleBgColor: i = "var(--color-border)", circleColor: o = "var(--color-success-500)" } = n.setting, r = (t - s) / 2, l = t / 2, a = e[0];
