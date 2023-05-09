@@ -5432,7 +5432,7 @@ gi = new WeakSet(), Bc = async function(t) {
     i && (typeof i == "string" && i.length ? k(document).trigger("zui.messager.show", { content: i, type: "danger" }) : typeof i == "object" && T(this, yi, zc).call(this, i));
   }
   const o = t.closeModal || s.closeModal;
-  o && k(document).trigger("zui.modal.hide", { target: typeof o == "string" ? o : void 0 });
+  o && k(this.element).trigger("zui.modal.hide", { target: typeof o == "string" ? o : void 0 });
   const r = t.callback || s.callback;
   if (typeof r == "string") {
     const c = r.indexOf("("), h = (c > 0 ? r.substring(0, c) : r).split(".");
@@ -5446,7 +5446,7 @@ gi = new WeakSet(), Bc = async function(t) {
   } else
     r && typeof r == "object" && (r.target ? window[r.target] : window)[r.name].apply(this, Array.isArray(r.params) ? r.params : [r.params]);
   const l = t.load || s.load || t.locate;
-  l && k(document).trigger("zui.locate", l);
+  l && k(this.element).trigger("zui.locate", l);
 }, x(Yu, "NAME", "ajaxform");
 var ye, _e;
 class zr extends z {
