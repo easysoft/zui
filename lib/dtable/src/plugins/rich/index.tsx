@@ -1,9 +1,10 @@
+import {JSX} from 'preact';
 import {formatString} from '@zui/helpers/src/format-string';
 import {formatDate} from '@zui/helpers/src/date-helper';
 import {definePlugin} from '../../helpers/shared-plugins';
 import './style.css';
 import type {DateLike} from '@zui/helpers/src/date-helper';
-import type {DTablePlugin} from '../../types/plugin';
+import type {DTablePlugin, RowInfo, ColInfo} from '../../types';
 
 export type DTableActionButton = {
     action: string;
@@ -17,6 +18,7 @@ export type DTableActionButton = {
 export type DTableRichTypes = {
     col: Partial<{
         linkTemplate: string;
+        link: string | ({template: string} & JSX.HTMLAttributes<HTMLElement>) | ((info: {row: RowInfo, col: ColInfo}) => string | ({template: string} & JSX.HTMLAttributes<HTMLElement>));
         linkProps: Record<string, unknown>;
         avatarWithName: string;
         avatarClass: string;
@@ -45,7 +47,15 @@ const richPlugin: DTablePlugin<DTableRichTypes> = {
         },
         link: {
             onRenderCell(result, {col, row}) {
-                const {linkTemplate = '', linkProps} = col.setting;
+                let {link, linkTemplate = '', linkProps} = col.setting;
+                if (link) {
+                    if (typeof link === 'string') {
+                        link = {template: link};
+                    } else if (typeof link === 'function') {
+                        link = link({row, col});
+                    }
+                    ({template: linkTemplate, ...linkProps} = link as {template: string});
+                }
                 const url = formatString(linkTemplate, row.data);
                 result[0] = <a href={url} {...linkProps}>{result[0]}</a>;
                 return result;
@@ -54,7 +64,7 @@ const richPlugin: DTablePlugin<DTableRichTypes> = {
         avatar: {
             onRenderCell(result, {col, row}) {
                 const {data: rowData} = row;
-                const {avatarWithName, avatarClass = 'size-xs circle', avatarKey = `${col.name}Avatar`} = col.setting;
+                const {avatarWithName, avatarClass = 'size-xs rounded-full', avatarKey = `${col.name}Avatar`} = col.setting;
                 const avatar = (
                     <div className={`avatar ${avatarClass} flex-none`}>
                         <img src={rowData ? (rowData[avatarKey] as string) : ''} />
@@ -68,7 +78,7 @@ const richPlugin: DTablePlugin<DTableRichTypes> = {
                 return result;
             },
         },
-        circleProgress: {
+        progress: {
             align: 'center',
             onRenderCell(result, {col}) {
                 const {circleSize = 24, circleBorderSize = 1, circleBgColor = 'var(--color-border)', circleColor = 'var(--color-success-500)'} = col.setting;
