@@ -738,7 +738,7 @@ new zui.DTable(element, {
 | `format`      | 将单元格内容通过预设格式化方式输出 |
 | `link` | 将单元格内容渲染为可点击的链接 |
 | `avatar` | 在单元格内显示用户头像 |
-| `circleProgress` | 在单元格内显示为环形进度条 |
+| `progress` | 在单元格内显示为环形进度条 |
 | `actionButtons` | 在单元格内显示操作按钮 |
 | `label` | 将单元格内容显示为标签 |
 
@@ -795,13 +795,174 @@ new zui.DTable({
 
 ### 初始化选项
 
+```ts
+interface DTableOptions {
+    id?: string;
+    lang?: string;
+    i18n?: Record<string, Record<string, string | object>>;
+    className?: ClassNameLike,
+    parent?: HTMLElement,
+    plugins?: DTablePluginLike[];
+
+    cols: ColSetting[];
+    data: (RowData | string)[] | number;
+    rowDataGetter?: (ids: string[]) => RowData[],
+    cellValueGetter?: CellValueGetter,
+    rowKey?: string;
+
+    rowHover?: boolean;
+    colHover?: boolean | 'header';
+    cellHover?: boolean;
+    bordered?: boolean;
+    striped?: boolean;
+
+    width: number | '100%' | 'auto' | ((this: DTable, actualWidth: number) => number | 'auto');
+    height: number | '100%' | 'auto' | {min: number, max: number} | ((this: DTable, actualHeight: number) => number | 'auto' | {min: number, max: number});
+    rowHeight: number;
+    defaultColWidth: number;
+    minColWidth: number;
+    maxColWidth: number;
+    header?: boolean | CustomRenderResultList<[layout: DTableLayout], DTable> | CustomRenderResultGenerator<[layout: DTableLayout], DTable> | CustomRenderResultItem;
+    footer?: boolean | CustomRenderResultList<[layout: DTableLayout], DTable> | ((this: DTable, layout: DTableLayout) => CustomRenderResultList<[layout: DTableLayout], DTable>);
+    headerHeight: number;
+    footerHeight: number;
+    responsive: boolean;
+    scrollbarHover: boolean;
+    scrollbarSize?: number;
+    horzScrollbarPos?: 'inside' | 'outside';
+
+    onLayout?: (this: DTable, layout: DTableLayout) => (DTableLayout | undefined);
+    onScroll?: (this: DTable, scrollInfo: {scrollTop?: number, scrollLeft?: number}) => void;
+    onRenderCell?: CellRenderCallback;
+    onRenderHeaderCell?: CellRenderCallback;
+    onRenderRow?: (this: DTable, data: {props: RowProps, row: RowInfo}, h: typeof preact.h) => Partial<RowProps | (RowProps & preact.JSX.HTMLAttributes<HTMLElement>)> | void;
+    onRenderHeaderRow?: (this: DTable, data: {props: RowProps}, h: typeof preact.h) => RowProps;
+    afterRender?: (this: DTable) => void;
+    onRowClick?: (this: DTable, event: MouseEvent, data: {rowID: string, rowInfo?: RowInfo, element: HTMLElement, cellElement?: HTMLElement}) => void | true;
+    onCellClick?: (this: DTable, event: MouseEvent, data: {rowID: string, colName: string, rowInfo?: RowInfo, element: HTMLElement, rowElement: HTMLElement}) => void | true;
+    onHeaderCellClick?: (this: DTable, event: MouseEvent, data: {colName: string, element: HTMLElement}) => void;
+    onAddRow?: (this: DTable, row: RowInfo, index: number) => void | false;
+    onAddRows?: (this: DTable, rows: RowInfo[]) => RowInfo[] | void;
+}
+```
+
 ### 列定义
+
+```ts
+interface ColSetting {
+    name: ColName;
+    title?: string;
+    width?: number;
+    minWidth?: number;
+    maxWidth?: number;
+    flex?: ColFlex;
+    fixed?: ColFixedSide;
+    border?: 'left' | 'right' | boolean;
+    align?: 'left' | 'center' | 'right';
+    data?: Record<string, unknown>;
+    style?: preact.JSX.CSSProperties;
+    cellStyle?: preact.JSX.CSSProperties;
+    className?: ClassNameLike;
+    type?: string;
+    hidden?: boolean;
+    colHover?: boolean;
+    onRenderCell?: CellRenderCallback<ColSetting>;
+}
+
+type ColName = string;
+
+type ColFlexGrow = number;
+
+type ColFlex = ColFlexGrow | boolean;
+
+type ColFixedSide = 'left' | 'right' | false;
+```
 
 ### 行数据定义
 
+```ts
+type RowID = string;
+
+type RowPropName = string;
+
+type RowPropValue = unknown;
+
+type RowData = Record<RowPropName, RowPropValue>;
+```
+
 ### 插件定义
 
+```ts
+type DTablePlugin<T extends DTablePluginTypes = DTablePluginTypes, D extends DTablePluginTypes[] = [], PluginTable = DTableWithPlugin<T, D>, Options = DTableWithPluginOptions<T, D>, PluginColSetting = DTableWithPluginColSetting<T, D>, PluginColInfo = DTableWithPluginColInfo<T, D>> = {
+    name: DTablePluginName;
+} & Partial<{
+    when: (options: Options) => boolean,
+    defaultOptions: Partial<Options>;
+    colTypes: Record<string, Partial<PluginColSetting> | PluginColSettingModifier<T, D>>;
+    events: DTablePluginEvents<T, D> | ((this: PluginTable) => DTablePluginEvents<T, D>);
+    methods: Readonly<T['methods']>,
+    i18n?: Record<string, Record<string, string | object>>;
+    data: (this: PluginTable) => {} & T['data'],
+    state: (this: PluginTable) => {} & T['state'],
+    options: (this: PluginTable, options: Options) => Partial<Options>;
+    footer: Record<string, CustomRenderResultGenerator<[layout: DTableLayout], PluginTable> | CustomRenderResultItem>;
+    onCreate: (this: PluginTable, plugin: DTablePlugin<T, D>) => void;
+    onMounted: (this: PluginTable) => void;
+    onUpdated: (this: PluginTable) => void;
+    onUnmounted: (this: PluginTable) => void;
+    onDestory: (this: PluginTable) => void;
+    onAddCol: (this: PluginTable, col: PluginColInfo) => void;
+    beforeLayout: (this: PluginTable, options: Options) => (Partial<Options> | void);
+    onLayout: (this: PluginTable, layout: DTableLayout) => (DTableLayout | void);
+    onRenderHeaderCell: (this: PluginTable, result: CustomRenderResultList, data: {row: RowInfo, col: PluginColInfo, value?: unknown}, h: typeof preact.h) => CustomRenderResultList;
+    onRenderCell: (this: PluginTable, result: CustomRenderResultList, data: {row: RowInfo, col: PluginColInfo, value?: unknown}, h: typeof preact.h) => CustomRenderResultList;
+    onRenderRow: (this: PluginTable, data: {props: RowProps, row: RowInfo}, h: typeof preact.h) => Partial<RowProps | (RowProps & preact.JSX.HTMLAttributes<HTMLElement>)> | void;
+    onRenderHeaderRow: (this: PluginTable, data: {props: RowProps}, h: typeof preact.h) => RowProps;
+    onRender: (this: PluginTable, layout: DTableLayout) => CustomRenderResultItem | void;
+    afterRender: (this: PluginTable) => void;
+    onRowClick: (this: PluginTable, event: MouseEvent, data: {rowID: string, rowInfo?: RowInfo, element: HTMLElement, cellElement?: HTMLElement}) => void | true;
+    onCellClick: (this: PluginTable, event: MouseEvent, data: {rowID: string, colName: string, rowInfo?: RowInfo, element: HTMLElement, rowElement: HTMLElement}) => void | true;
+    onHeaderCellClick: (this: PluginTable, event: MouseEvent, data: {colName: string, element: HTMLElement}) => void;
+    onAddRow: (this: PluginTable, row: RowInfo, index: number) => void | false;
+    onAddRows: (this: PluginTable, rows: RowInfo[]) => RowInfo[] | void;
+    plugins: (DTablePluginLike | DTablePlugin<T, D>)[];
+}>;
+```
 ### 方法
+
+```ts
+interface DTable {
+  options: DTableOptions<ColSetting>;
+
+  plugins: DTablePlugin[];
+
+  layout: DTableLayout;
+
+  id: string;
+
+  data: Record<string, unknown>;
+
+  parent: HTMLElement;
+
+  scroll(info: {scrollLeft?: number, scrollTop?: number, offsetLeft?: number, offsetTop?: number, to?: 'up' | 'down' | 'end' | 'home' | 'left' | 'right' | 'left-begin' | 'right-end'}, callback?: (this: DTable, result: boolean) => void): boolean;
+
+  getColInfo(colNameOrIndex?: ColInfoLike): ColInfo | undefined;
+
+  getRowInfo(idOrIndex?: RowInfoLike): RowInfo | undefined;
+
+  getCellValue(row: RowInfo | string | number, col: ColInfo | string | number): unknown;
+
+  getRowInfoByIndex(index: number): RowInfo | undefined;
+
+  getPointerInfo(event: Event): DTablePointerInfo | undefined;
+
+  update(options: {dirtyType?: 'options' | 'layout', state?: Partial<DTableState>} | (() => void) = {}, callback?: () => void);
+
+  updateLayout(): void;
+
+  render(): void;
+}
+```
 
 <script>
 import index from './index.js';
