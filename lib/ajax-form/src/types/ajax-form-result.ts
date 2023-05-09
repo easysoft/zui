@@ -1,8 +1,8 @@
 export interface AjaxFormResult {
     result: 'success' | 'fail';
-    load?: string | {url?: string, selector?: string | string[], target?: string};
+    load?: string | {url?: string, selector?: string | string[]};
     /** @deprecated */
-    locate?: string | {url?: string, selector?: string | string[], target?: string};
+    locate?: string | {url?: string, selector?: string | string[]};
     popoverTime?: number;
     popoverTip?: string;
     message?: string | Record<string, string | string[]>;

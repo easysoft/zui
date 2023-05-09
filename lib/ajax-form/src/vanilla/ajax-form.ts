@@ -154,7 +154,7 @@ export class AjaxForm extends ComponentBase<AjaxFormOptions, AjaxFormEvents, HTM
 
         const closeModal = result.closeModal || options.closeModal;
         if (closeModal) {
-            $(document).trigger('zui.modal.hide', {target: typeof closeModal === 'string' ? closeModal : undefined});
+            $(this.element).trigger('zui.modal.hide', {target: typeof closeModal === 'string' ? closeModal : undefined});
         }
 
         // Handle callback
@@ -189,7 +189,7 @@ export class AjaxForm extends ComponentBase<AjaxFormOptions, AjaxFormEvents, HTM
         // Handle locate
         const load = result.load || options.load || result.locate;
         if (load) {
-            $(document).trigger('zui.locate', load);
+            $(this.element).trigger('zui.locate', load);
         }
     }
 }
