@@ -4,7 +4,7 @@
 
 ## 使用方法
 
-<Example class="col gap-2">
+<Example class="gap-2 col">
   <div id="toolbarExp"></div>
   <div id="toolbarExp2"></div>
 </Example>
@@ -162,7 +162,7 @@ new zui.Toolbar('#dividerToolbar', {
 
 ## 禁用
 
-<Example class="col gap-2">
+<Example class="gap-2 col">
   <div id="disabledToolbar"></div>
 </Example>
 
@@ -356,6 +356,8 @@ type ToolbarItemOptions = ToolbarItemProps | ToolbarDropdownProps | ToolbarBtnGr
 * 必选：否。
 
 <script>
+import {onZUIReady} from './zui-ready.js';
+
 export default {
     mounted() {
         onZUIReady(() => {
