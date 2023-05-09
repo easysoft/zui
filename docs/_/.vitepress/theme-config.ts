@@ -88,10 +88,11 @@ function initSidebars(): Record<string, {text: string, section?: string, items?:
             {text: '交互', section: 'interactivity', collapsed: true},
         ],
         '/lib/': [
-            {text: '布局', section: 'layout', collapsed: false},
-            {text: '内容', section: 'content', collapsed: false},
+            // {text: '布局', section: 'layout', collapsed: false},
+            // {text: '内容', section: 'content', collapsed: false},
             {text: '图标', section: 'icons', collapsed: false},
             {text: '表单', section: 'forms', collapsed: false},
+            {text: '数据表格', section: 'dtable', collapsed: false},
             {text: '组件', section: 'components', collapsed: false},
             {text: 'JS 工具', section: 'helpers', collapsed: false},
         ],
