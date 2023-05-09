@@ -10,8 +10,8 @@ import type {MenuItemOptions} from '@zui/menu/src/types';
 export type DTableActionsTypes = {
     col: Partial<{
         actionsCreator: (info: {row: RowInfo, col: ColInfo}) => ToolbarItemOptions[],
-        actionsSetting: Partial<ToolbarOptions>,
         actionItemCreator: (item: Partial<ToolbarDropdownProps>, info: {row: RowInfo, col: ColInfo}) => ToolbarItemOptions,
+        actionsSetting: Partial<ToolbarOptions>,
         actionsMap: Record<string, Partial<ToolbarItemOptions>>,
     }>,
     options: Partial<{
