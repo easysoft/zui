@@ -14,7 +14,7 @@ module.exports = {
         fontFamily,
         borderRadius: toVars(borderRadius, 'radius'),
         boxShadow: toVars(boxShadow, 'shadow'),
-        screens: toVars(screens, 'screen'),
+        screens,
         variables,
     },
 };
