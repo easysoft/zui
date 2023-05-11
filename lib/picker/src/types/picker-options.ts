@@ -13,7 +13,8 @@ export type PickerOptions = {
 
     name?: string;
     disabled?: boolean;
-    multi?: boolean | number;
+    multiple?: boolean | number;
+    optional?: boolean;
     defaultValue?: string | string[];
     placeholder?: string;
     valueSplitter?: string;

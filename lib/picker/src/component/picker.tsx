@@ -195,7 +195,7 @@ export class Picker extends Component<PickerOptions, PickerState> {
     };
 
     #handleSelectItem = (item: PickerItemProps) => {
-        if (this.props.multi) {
+        if (this.props.multiple) {
             this.toggleValue(item.value);
         } else {
             this.setState({value: item.value}, () => {
@@ -227,7 +227,7 @@ export class Picker extends Component<PickerOptions, PickerState> {
             className,
             style,
             children,
-            multi,
+            multiple: multi,
         } = this.props;
 
         const SelectComponent = multi ? PickerMultiSelect : PickerSingleSelect;
