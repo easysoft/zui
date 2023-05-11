@@ -34,6 +34,7 @@
     "@zui/base": "workspace:0.0.1",
     "@zui/scrollbar": "workspace:0.0.1",
     "@zui/utilities": "workspace:0.0.1",
+    "cash-dom": "^8.1.4",
     "htm": "^3.1.1"
   },
   "devDependencies": {
