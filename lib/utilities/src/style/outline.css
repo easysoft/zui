@@ -9,6 +9,7 @@
 .lighter-outline {@apply -ring-1 -ring-gray-100 -text-gray-100;}
 .light-outline   {@apply -ring-1 -ring-gray-300 -text-gray-300;}
 .gray-outline    {@apply -ring-1 -ring-gray-500 -text-gray-500;}
+.teal-outline    {@apply -ring-1 -ring-teal-200 -text-teal-200;}
 .darken-outline  {@apply -ring-1 -ring-gray-700 -text-gray-700;}
 .darker-outline  {@apply -ring-1 -ring-gray-900 -text-gray-900;}
 .black-outline   {@apply -ring-1 -ring-black -text-black;}
