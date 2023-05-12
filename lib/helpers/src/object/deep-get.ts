@@ -70,7 +70,11 @@ export function deepGetPath(object: object, pathName: string | string[]): (objec
  * deepGetPath('a');        // Output [{b: {c: 1}, d: 2}]
  */
 export function deepGet<T>(object: object, pathName: string | string[], defaultValue?: T): T | undefined {
-    const way = deepGetPath(object, pathName);
-    const lastValue = way[way.length - 1] as T | undefined;
-    return lastValue === undefined ? defaultValue : lastValue;
+    try {
+        const way = deepGetPath(object, pathName);
+        const lastValue = way[way.length - 1] as T | undefined;
+        return lastValue === undefined ? defaultValue : lastValue;
+    } catch (_) {
+        return defaultValue;
+    }
 }
