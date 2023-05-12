@@ -1,6 +1,6 @@
 import {CustomEventListener, CustomEventMap} from '@zui/event-bus';
 import {EventHub} from '@zui/event-bus/src/event-hub';
-import {i18n} from '@zui/i18n/src/module/i18n';
+import {i18n} from '@zui/i18n';
 import {$} from '@zui/cash';
 
 export type ComponentHTMLEventMap = {[event in keyof HTMLElementEventMap]: HTMLElementEventMap[event]};
@@ -122,7 +122,7 @@ export class ComponentBase<O extends {} = {}, V extends CustomEventMap = {}, E e
     i18n(key: string, defaultValue?: string): string;
     i18n(key: string, args?: (string | number)[] | Record<string, string | number>, defaultValue?: string): string;
     i18n(key: string, args?: string | (string | number)[] | Record<string, string | number>, defaultValue?: string): string {
-        return i18n(this.#options.i18n, key, args, defaultValue, this.options.lang, (this.constructor as typeof ComponentBase).NAME) ?? `{i18n:${key}}`;
+        return i18n(this.#options.i18n, key, args, defaultValue, this.options.lang, (this.constructor as typeof ComponentBase).NAME) ?? i18n(this.#options.i18n, key, args, defaultValue, this.options.lang) ?? `{i18n:${key}}`;
     }
 
     static EVENTS = false;
