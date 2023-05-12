@@ -102,15 +102,17 @@ export class AjaxForm extends ComponentBase<AjaxFormOptions, AjaxFormEvents, HTM
             if (Array.isArray(msg)) {
                 msg = msg.join('');
             }
-            const $control = $(this.element).find(`#${name}`);
+            const controlElement = document.getElementById(name);
+            const $control = controlElement ? $(controlElement) : $(this.element).find(`[name="${name}"]`);
             if (!$control.length) {
                 return;
             }
             $control.addClass('has-error');
             const $group = $control.closest('.form-group');
             if ($group.length) {
-                let $tip = $(`#${name}Tip`);
-                if (!$tip.length) {
+                const tipElement = document.getElementById(`${name}Tip`);
+                let $tip = tipElement ? $(tipElement) : null;
+                if (!$tip) {
                     $tip = $(`<div class="form-tip ajax-form-tip text-danger" id="${name}Tip"></div>`).appendTo($group);
                 }
                 $tip.empty().text(msg);
