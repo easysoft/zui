@@ -25,6 +25,12 @@
 .input-control > .form-control {
   @apply -pl-[--input-control-prefix] -pr-[--input-control-suffix];
 }
+.input-control > select.form-control {
+  padding-right: calc(var(--input-control-suffix) + 20px);
+}
+.input-control > select.form-control {
+  background-position-x: calc(100% - var(--input-control-suffix) - 8px);
+}
 
 .has-prefix {--input-control-prefix: var(--input-control-fix-width);}
 .has-suffix {--input-control-suffix: var(--input-control-fix-width);}
