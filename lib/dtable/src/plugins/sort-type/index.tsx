@@ -9,11 +9,10 @@ export type ColSortType = 'asc' | 'desc' | boolean;
 export type DTableSortTypeTypes = {
     col: {
         sortType: ColSortType;
-        sortLink?: string | ((this: DTableSortType, col: ColInfo, sortType: string, currentSortType: string) => string),
-        sortAttrs?: JSX.HTMLAttributes | ((this: DTableSortType, col: ColInfo, sortType: string) => JSX.HTMLAttributes),
+        sortLink?: string | ({url: string} & JSX.HTMLAttributes<HTMLAnchorElement>) | ((this: DTableSortType, col: ColInfo, sortType: string, currentSortType: string) => (string | ({url: string} & JSX.HTMLAttributes<HTMLAnchorElement>))),
     },
     options: {
-        sortLink?: string | ((this: DTableSortType, col: ColInfo, sortType: string, currentSortType: string) => string),
+        sortLink?: string | ({url: string} & JSX.HTMLAttributes<HTMLAnchorElement>) | ((this: DTableSortType, col: ColInfo, sortType: string, currentSortType: string) => (string | ({url: string} & JSX.HTMLAttributes<HTMLAnchorElement>))),
     }
 };
 
@@ -21,22 +20,26 @@ export type DTableSortType = DTableWithPlugin<DTableSortTypeTypes>;
 
 const sortTypePlugin: DTablePlugin<DTableSortTypeTypes> = {
     name: 'sort-type',
-    onRenderHeaderCell(result, {col}) {
+    onRenderHeaderCell(result, info) {
+        const {row, col} = info;
         const {sortType: sortTypeSetting} = col.setting;
         if (sortTypeSetting) {
-            const {sortLink = this.options.sortLink, sortAttrs} = col.setting;
             const sortTypeName = sortTypeSetting === true ? 'none' : sortTypeSetting;
             result.push(
                 <div className={`dtable-sort dtable-sort-${sortTypeName}`} />,
                 {outer: true, attrs: {'data-sort': sortTypeName}},
             );
+            let {sortLink = this.options.sortLink} = col.setting;
             if (sortLink) {
                 const nextSortType = sortTypeName === 'asc' ? 'desc' : 'asc';
-                const href = typeof sortLink === 'function' ? sortLink.call(this, col as ColInfo, nextSortType, sortTypeName) : formatString(sortLink, {...col.setting, sortType: nextSortType});
-                result.push(
-                    {tagName: 'a', attrs: {href, ...(typeof sortAttrs === 'function' ? sortAttrs.call(this, col as ColInfo, sortTypeName) : sortAttrs)}},
-                );
-                console.log('> ', col.name, {sortLink, nextSortType, sortTypeName, col});
+                if (typeof sortLink === 'function') {
+                    sortLink = sortLink.call(this, col as ColInfo, nextSortType, sortTypeName);
+                }
+                if (typeof sortLink === 'string') {
+                    sortLink = {url: sortLink};
+                }
+                const {url, ...linkProps} = sortLink;
+                result.push(<a href={formatString(url, info.row.data)} {...linkProps}></a>);
             }
         }
         return result;
