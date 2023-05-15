@@ -33,9 +33,6 @@ export type DTableRichTypes = {
         format: string | ((value: unknown, info: {row: RowInfo, col: ColInfo}) => string);
         html: string | ((value: unknown, info: {row: RowInfo, col: ColInfo}) => string);
     }>,
-    methods: {
-        renderCellWithPlugin(this: DTableRich, result: CustomRenderResultList, info: {row: RowInfo, col: ColInfo}, renderAsCellType: string, plugins?: string | string[]): CustomRenderResultList;
-    }
 };
 
 export type DTableRich = DTableWithPlugin<DTableRichTypes>;
@@ -73,6 +70,29 @@ export function renderDatetime(format: string | ((value: unknown, info: {row: Ro
     return formatDate(value as DateLike, format);
 }
 
+export function renderLinkCell(result: CustomRenderResultList, info: {row: RowInfo, col: ColInfo}) {
+    const {link} = info.col.setting;
+    const linkElement = renderLink(link as ColLinkSetting, info, result[0]);
+    if (linkElement) {
+        result[0] = linkElement;
+    }
+    return result;
+}
+
+export function renderFormatCell(result: CustomRenderResultList, info: {row: RowInfo, col: ColInfo}) {
+    const {format} = info.col.setting;
+    if (format) {
+        result[0] = renderFormat(format as string | ((value: unknown, info: {row: RowInfo, col: ColInfo}) => string) | undefined, info, result[0]);
+    }
+    return result;
+}
+
+export function renderDatetimeCell(result: CustomRenderResultList, info: {row: RowInfo, col: ColInfo}, defaultFormat = '[yyyy-]MM-dd hh:mm') {
+    const {format = defaultFormat} = info.col.setting;
+    result[0] = renderDatetime(format as string | ((value: unknown, info: {row: RowInfo, col: ColInfo}) => string), info, result[0]);
+    return result;
+}
+
 const richPlugin: DTablePlugin<DTableRichTypes> = {
     name: 'rich',
     colTypes: {
@@ -88,14 +108,7 @@ const richPlugin: DTablePlugin<DTableRichTypes> = {
             },
         },
         link: {
-            onRenderCell(result, info) {
-                const {link} = info.col.setting;
-                const linkElement = renderLink(link, info, result[0]);
-                if (linkElement) {
-                    result[0] = linkElement;
-                }
-                return result;
-            },
+            onRenderCell: renderLinkCell,
         },
         avatar: {
             onRenderCell(result, {col, row}) {
@@ -131,76 +144,23 @@ const richPlugin: DTablePlugin<DTableRichTypes> = {
                 return result;
             },
         },
-        actionButtons: {
-            onRenderCell(result, {col, row}) {
-                const actions = row.data?.[col.name] as (string | DTableActionButton)[];
-                if (!actions) {
-                    return result;
-                }
-                const {actionBtnTemplate = '<button type="button" data-action="{action}" title="{title}" class="{className}"><i class="icon icon-{icon}"></i></button>', actionBtnData = {}, actionBtnClass = 'btn text-primary square size-sm ghost'} = col.setting;
-
-                return [{
-                    html: actions.map(action => {
-                        if (typeof action === 'string') {
-                            action = {action};
-                        }
-                        const actionData = actionBtnData[action.action];
-                        if (actionData) {
-                            action = {className: actionBtnClass, ...actionData, ...action};
-                        }
-
-                        return formatString(actionBtnTemplate, action);
-                    }).join(' '),
-                }];
-            },
-        },
         datetime: {
             onRenderCell(result, info) {
-                const {format = '[yyyy-]MM-dd hh:mm'} = info.col.setting;
-                result[0] = renderDatetime(format, info, result[0]);
-                return result;
+                return renderDatetimeCell(result, info);
             },
         },
         date: {
             onRenderCell(result, info) {
-                const {format = 'yyyy-MM-dd'} = info.col.setting;
-                result[0] = renderDatetime(format, info, result[0]);
-                return result;
+                return renderDatetimeCell(result, info, 'yyyy-MM-dd');
             },
         },
         time: {
             onRenderCell(result, info) {
-                const {format = 'hh:mm'} = info.col.setting;
-                result[0] = renderDatetime(format, info, result[0]);
-                return result;
+                return renderDatetimeCell(result, info, 'hh:mm');
             },
         },
         format: {
-            onRenderCell(result, info) {
-                const {format} = info.col.setting;
-                if (format) {
-                    result[0] = renderFormat(format, info, result[0]);
-                }
-                return result;
-            },
-        },
-    },
-    methods: {
-        renderCellWithPlugin(result, info, renderAsCellType, plugins) {
-            const pluginsSet = plugins ? new Set(typeof plugins === 'string' ? [plugins] : plugins) : null;
-            for (const plugin of this.plugins) {
-                if (!plugin.colTypes || (pluginsSet && !pluginsSet.has(plugin.name))) {
-                    continue;
-                }
-                const colType = plugin.colTypes[renderAsCellType];
-                if (typeof colType === 'object') {
-                    const {onRenderCell} = colType;
-                    if (onRenderCell) {
-                        return onRenderCell.call(this, result, info, _h);
-                    }
-                }
-            }
-            return result;
+            onRenderCell: renderFormatCell,
         },
     },
 };
