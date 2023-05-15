@@ -398,6 +398,10 @@ export class DTable extends Component<DTableOptions, DTableState> {
         return i18n(this.#i18nMaps, key, args, defaultValue, this.options.lang) ?? `{i18n:${key}}`;
     }
 
+    getPlugin(pluginName: string): DTablePlugin | undefined {
+        return this.plugins.find(x => x.name === pluginName);
+    }
+
     #handleEvent = (event: Event, type?: string) => {
         type = type || event.type;
         const callbacks = this.#events.get(type);
@@ -683,6 +687,25 @@ export class DTable extends Component<DTableOptions, DTableState> {
             Object.assign(footerGenerators, plugin.footer);
         });
 
+        /* Estimat width */
+        let widthSetting = options.width;
+        let width = 0;
+        if (typeof widthSetting === 'function') {
+            widthSetting = widthSetting.call(this);
+        }
+        if (widthSetting === '100%') {
+            const {parent: parentElement} = this;
+            if (parentElement) {
+                width = parentElement.clientWidth;
+            } else {
+                width = 0;
+                this.#needRender = true;
+                return;
+            }
+        } else if (widthSetting !== 'auto') {
+            width = widthSetting ?? 0;
+        }
+
         /* Init cols */
         const {defaultColWidth, minColWidth, maxColWidth} = options;
         const fixedLeftCols: ColInfo[] = [];
@@ -694,36 +717,27 @@ export class DTable extends Component<DTableOptions, DTableState> {
         let fixedLeftWidth = 0;
         let fixedRightWidth = 0;
         let scrollColsWidth = 0;
-        options.cols.forEach((colSetting) => {
-            if (colSetting.hidden) {
+        options.cols.forEach((userColSetting) => {
+            if (userColSetting.hidden) {
                 return;
             }
-            const {
-                name,
-                type = '',
-                fixed = false,
-                flex = false,
-                width = defaultColWidth,
-                minWidth = minColWidth,
-                maxWidth = maxColWidth,
-                ...otherColSetting
-            } = colSetting;
-            const colInfo: ColInfo = {
-                name,
+            const type = userColSetting.type || '';
+            const colSetting: typeof userColSetting = {
+                fixed: false,
+                flex: false,
+                width: defaultColWidth,
+                minWidth: minColWidth,
+                maxWidth: maxColWidth,
+                ...userColSetting,
                 type,
-                setting: {
-                    name,
-                    type,
-                    fixed,
-                    flex,
-                    width,
-                    minWidth,
-                    maxWidth,
-                    ...otherColSetting,
-                },
-                flex: fixed ? 0 : (flex === true ? 1 : (typeof flex === 'number' ? flex : 0)),
+            };
+            const colInfo: ColInfo = {
+                name: colSetting.name,
+                type,
+                setting: colSetting,
+                flex: 0,
                 left: 0,
-                width: clamp(width, minWidth, maxWidth),
+                width: colSetting.width || 0,
                 realWidth: 0,
                 visible: true,
                 index: colsList.length,
@@ -734,13 +748,16 @@ export class DTable extends Component<DTableOptions, DTableState> {
                 if (colTypeInfo) {
                     const newColSetting = typeof colTypeInfo === 'function' ? colTypeInfo(colInfo) : colTypeInfo;
                     if (newColSetting) {
-                        colInfo.setting = Object.assign({}, newColSetting, colInfo.setting);
+                        Object.assign(colSetting, newColSetting, userColSetting);
                     }
                 }
 
                 plugin.onAddCol?.call(this, colInfo);
             });
-            colInfo.width = clamp(colInfo.setting.width ?? colInfo.width, colInfo.setting.minWidth ?? minWidth, colInfo.setting.maxWidth ?? maxWidth);
+
+            const {fixed, flex, width: colWidth = defaultColWidth} = colSetting;
+            colInfo.flex =  fixed ? 0 : (flex === true ? 1 : (typeof flex === 'number' ? flex : 0));
+            colInfo.width = clamp(colWidth < 1 ? Math.round(colWidth * width) : colWidth, colSetting.minWidth, colSetting.maxWidth);
             colInfo.realWidth = colInfo.realWidth || colInfo.width;
             if (fixed === 'left') {
                 colInfo.left = fixedLeftWidth;
@@ -764,25 +781,9 @@ export class DTable extends Component<DTableOptions, DTableState> {
             colsMap[colInfo.name] = colInfo;
         });
 
-        let widthSetting = options.width;
-        let width = 0;
         const actualWidth = fixedLeftWidth + scrollColsWidth + fixedRightWidth;
-        if (typeof widthSetting === 'function') {
-            widthSetting = widthSetting.call(this, actualWidth);
-        }
         if (widthSetting === 'auto') {
             width = actualWidth;
-        } else if (widthSetting === '100%') {
-            const {parent: parentElement} = this;
-            if (parentElement) {
-                width = parentElement.clientWidth;
-            } else {
-                width = 0;
-                this.#needRender = true;
-                return;
-            }
-        } else {
-            width = widthSetting ?? 0;
         }
 
         const {data, rowKey = 'id', rowHeight} = options;
