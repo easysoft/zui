@@ -734,7 +734,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
                 if (colTypeInfo) {
                     const newColSetting = typeof colTypeInfo === 'function' ? colTypeInfo(colInfo) : colTypeInfo;
                     if (newColSetting) {
-                        Object.assign(colInfo.setting, newColSetting);
+                        colInfo.setting = Object.assign({}, newColSetting, colInfo.setting);
                     }
                 }
 
