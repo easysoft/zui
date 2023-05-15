@@ -39,7 +39,7 @@ const sortTypePlugin: DTablePlugin<DTableSortTypeTypes> = {
                     sortLink = {url: sortLink};
                 }
                 const {url, ...linkProps} = sortLink;
-                result.push(<a href={formatString(url, info.row.data)} {...linkProps}></a>);
+                result.push(<a href={formatString(url, row.data)} {...linkProps}></a>);
             }
         }
         return result;

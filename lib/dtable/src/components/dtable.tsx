@@ -687,7 +687,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
             Object.assign(footerGenerators, plugin.footer);
         });
 
-        /* Estimat width */
+        /* Estimate width */
         let widthSetting = options.width;
         let width = 0;
         if (typeof widthSetting === 'function') {
