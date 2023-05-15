@@ -1,10 +1,10 @@
-import {JSX} from 'preact';
+import {JSX, ComponentChildren, h as _h} from 'preact';
 import {formatString} from '@zui/helpers/src/format-string';
 import {formatDate} from '@zui/helpers/src/date-helper';
 import {definePlugin} from '../../helpers/shared-plugins';
 import './style.css';
 import type {DateLike} from '@zui/helpers/src/date-helper';
-import type {DTablePlugin, RowInfo, ColInfo} from '../../types';
+import type {DTablePlugin, RowInfo, ColInfo, DTableWithPlugin, CustomRenderResultList} from '../../types';
 
 export type DTableActionButton = {
     action: string;
@@ -15,11 +15,11 @@ export type DTableActionButton = {
     className: string,
 }>;
 
+export type ColLinkSetting = string | ({url: string} & JSX.HTMLAttributes<HTMLAnchorElement>) | ((info: {row: RowInfo, col: ColInfo}) => string | ({url: string} & JSX.HTMLAttributes<HTMLAnchorElement>));
+
 export type DTableRichTypes = {
     col: Partial<{
-        linkTemplate: string;
-        link: string | ({template: string} & JSX.HTMLAttributes<HTMLElement>) | ((info: {row: RowInfo, col: ColInfo}) => string | ({template: string} & JSX.HTMLAttributes<HTMLElement>));
-        linkProps: Record<string, unknown>;
+        link: ColLinkSetting;
         avatarWithName: string;
         avatarClass: string;
         avatarKey: string;
@@ -30,34 +30,70 @@ export type DTableRichTypes = {
         actionBtnTemplate: string;
         actionBtnData: Record<string, Omit<DTableActionButton, 'action'>>,
         actionBtnClass: string;
-        format: string | {type: 'text' | 'html' | 'datetime', format: string | ((value: unknown) => string)};
+        format: string | ((value: unknown, info: {row: RowInfo, col: ColInfo}) => string);
+        html: string | ((value: unknown, info: {row: RowInfo, col: ColInfo}) => string);
     }>,
+    methods: {
+        renderCellWithPlugin(this: DTableRich, result: CustomRenderResultList, info: {row: RowInfo, col: ColInfo}, renderAsCellType: string, plugins?: string | string[]): CustomRenderResultList;
+    }
 };
+
+export type DTableRich = DTableWithPlugin<DTableRichTypes>;
+
+export function renderLink(link: ColLinkSetting | undefined, info: {row: RowInfo, col: ColInfo}, content?: ComponentChildren) {
+    if (!link) {
+        return;
+    }
+    if (typeof link === 'function') {
+        link = link(info as unknown as {row: RowInfo, col: ColInfo});
+    }
+    if (typeof link === 'string') {
+        link = {url: link};
+    }
+    const {url, ...linkProps} = link;
+    return <a href={formatString(url, info.row.data)} {...linkProps}>{content}</a>;
+}
+
+export function renderFormat(format: string | ((value: unknown, info: {row: RowInfo, col: ColInfo}) => string) | undefined, info: {row: RowInfo, col: ColInfo}, value?: unknown) {
+    if (format === undefined || format === null) {
+        return;
+    }
+    value = value ?? info.row.data?.[info.col.name];
+    if (typeof format === 'function') {
+        return format(value, info);
+    }
+    return formatString(format, value);
+}
+
+export function renderDatetime(format: string | ((value: unknown, info: {row: RowInfo, col: ColInfo}) => string), info: {row: RowInfo, col: ColInfo}, value?: unknown) {
+    value = value ?? info.row.data?.[info.col.name];
+    if (typeof format === 'function') {
+        format = format(value, info);
+    }
+    return formatDate(value as DateLike, format);
+}
 
 const richPlugin: DTablePlugin<DTableRichTypes> = {
     name: 'rich',
     colTypes: {
         html: {
-            onRenderCell(result) {
+            onRenderCell(result, info) {
+                const {html} = info.col.setting;
+                const content = result[0];
+                const htmlCode = html === undefined ? content : renderFormat(html, info, content);
                 result[0] = {
-                    html: result[0],
+                    html: htmlCode,
                 };
                 return result;
             },
         },
         link: {
-            onRenderCell(result, {col, row}) {
-                let {link, linkTemplate = '', linkProps} = col.setting;
-                if (link) {
-                    if (typeof link === 'string') {
-                        link = {template: link};
-                    } else if (typeof link === 'function') {
-                        link = link({row, col});
-                    }
-                    ({template: linkTemplate, ...linkProps} = link as {template: string});
+            onRenderCell(result, info) {
+                const {link} = info.col.setting;
+                const linkElement = renderLink(link, info, result[0]);
+                if (linkElement) {
+                    result[0] = linkElement;
                 }
-                const url = formatString(linkTemplate, row.data);
-                result[0] = <a href={url} {...linkProps}>{result[0]}</a>;
                 return result;
             },
         },
@@ -118,28 +154,53 @@ const richPlugin: DTablePlugin<DTableRichTypes> = {
                 }];
             },
         },
+        datetime: {
+            onRenderCell(result, info) {
+                const {format = '[yyyy-]MM-dd hh:mm'} = info.col.setting;
+                result[0] = renderDatetime(format, info, result[0]);
+                return result;
+            },
+        },
+        date: {
+            onRenderCell(result, info) {
+                const {format = 'yyyy-MM-dd'} = info.col.setting;
+                result[0] = renderDatetime(format, info, result[0]);
+                return result;
+            },
+        },
+        time: {
+            onRenderCell(result, info) {
+                const {format = 'hh:mm'} = info.col.setting;
+                result[0] = renderDatetime(format, info, result[0]);
+                return result;
+            },
+        },
         format: {
-            onRenderCell(result, {col}) {
-                let {format: formatSetting} = col.setting;
-                if (!formatSetting) {
-                    return result;
-                }
-                if (typeof formatSetting === 'string') {
-                    formatSetting = {type: 'text', format: formatSetting};
-                }
-                const {format, type} = formatSetting;
-                const value = result[0];
-                if (typeof format === 'function') {
-                    result[0] = type === 'html' ? {html: format(value)} : format(value);
-                } else if (type === 'datetime') {
-                    result[0] = formatDate(value as DateLike, format);
-                } else if (type === 'html') {
-                    result[0] = {html: formatString(format, value)};
-                } else {
-                    result[0] = formatString(format, value);
+            onRenderCell(result, info) {
+                const {format} = info.col.setting;
+                if (format) {
+                    result[0] = renderFormat(format, info, result[0]);
                 }
                 return result;
             },
+        },
+    },
+    methods: {
+        renderCellWithPlugin(result, info, renderAsCellType, plugins) {
+            const pluginsSet = plugins ? new Set(typeof plugins === 'string' ? [plugins] : plugins) : null;
+            for (const plugin of this.plugins) {
+                if (!plugin.colTypes || (pluginsSet && !pluginsSet.has(plugin.name))) {
+                    continue;
+                }
+                const colType = plugin.colTypes[renderAsCellType];
+                if (typeof colType === 'object') {
+                    const {onRenderCell} = colType;
+                    if (onRenderCell) {
+                        return onRenderCell.call(this, result, info, _h);
+                    }
+                }
+            }
+            return result;
         },
     },
 };
