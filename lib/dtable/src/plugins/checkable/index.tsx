@@ -6,7 +6,7 @@ import type {DTablePluginTypes, DTableWithPlugin, DTablePlugin} from '../../type
 
 export interface DTableCheckableTypes extends DTablePluginTypes {
     options: Partial<{
-        checkable: boolean;
+        checkable: boolean | 'auto';
         checkOnClickRow: boolean;
         canRowCheckable: ((this: DTableCheckable, rowID: string) => boolean);
         beforeCheckRows: (this: DTableCheckable, ids: string[] | undefined, changes: Record<string, boolean>, checkedRows: Record<string, boolean>) => void;
@@ -107,8 +107,16 @@ function getChecks(this: DTableCheckable): string[] {
 
 const checkablePlugin: DTablePlugin<DTableCheckableTypes> = {
     name: 'checkable',
-    defaultOptions: {checkable: true},
+    defaultOptions: {
+        checkable: 'auto',
+    },
     when: options => !!options.checkable,
+    options(options) {
+        if (options.checkable === 'auto') {
+            options.checkable = !!options.cols.some(col => col.checkbox);
+        }
+        return options;
+    },
     state() {
         return {checkedRows: {}};
     },
