@@ -55,8 +55,8 @@ onPageLoad(() => {
         const productTable = new DTable(productElement, {
             cols: [
                 {name: 'id', title: 'ID', width: 80, fixed: 'left'},
-                {name: 'name', title: '产品名称2', type: 'link', width: 280, fixed: 'left', sortType: 'asc', linkTemplate: '#/product/{id}'},
-                {name: 'productLine', title: '所属产品线', minWidth: 110, sortType: true, flex: 1},
+                {name: 'name', title: '产品名称2', type: 'link', width: 280, fixed: 'left', sortType: 'asc', linkTemplate: '#/product/{id}', sortLink: '#?sortby={name}&order={sortType}'},
+                {name: 'productLine', title: '所属产品线', minWidth: 110, sortType: true, flex: 1, sortLink: (col, sortType) => `#?sortby=${col.name}&order=${sortType}`},
                 {name: 'manager', title: '负责人', type: 'avatar', width: 110, sortType: true, avatarKey: 'managerAvatar', avatarWithName: true},
                 {name: 'feedback', title: '反馈', width: 65, sortType: true, align: 'center'},
                 {name: 'storyDraft', title: '需求草稿', width: 90, sortType: true, align: 'center', group: '需求情况'},

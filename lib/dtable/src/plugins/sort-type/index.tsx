@@ -2,6 +2,7 @@ import type {JSX} from 'preact';
 import {definePlugin} from '../../helpers/shared-plugins';
 import type {ColInfo} from '../../types/col';
 import type {DTableWithPlugin, DTablePlugin} from '../../types/plugin';
+import {formatString} from '@zui/helpers/src/format-string';
 
 export type ColSortType = 'asc' | 'desc' | boolean;
 
@@ -9,7 +10,7 @@ export type DTableSortTypeTypes = {
     col: {
         sortType: ColSortType;
         sortLink?: string | ((this: DTableSortType, col: ColInfo, sortType: string) => string),
-        sortAttrs?: JSX.HTMLAttributes,
+        sortAttrs?: JSX.HTMLAttributes | ((this: DTableSortType, col: ColInfo, sortType: string) => JSX.HTMLAttributes),
     },
     options: {
         sortLink?: string | ((this: DTableSortType, col: ColInfo, sortType: string) => string),
@@ -30,9 +31,9 @@ const sortTypePlugin: DTablePlugin<DTableSortTypeTypes> = {
                 {outer: true, attrs: {'data-sort': sortTypeName}},
             );
             if (sortLink) {
-                const href = typeof sortLink === 'function' ? sortLink.call(this, col as ColInfo, sortTypeName) : sortLink;
+                const href = typeof sortLink === 'function' ? sortLink.call(this, col as ColInfo, sortTypeName) : formatString(sortLink, {...col.setting, sortType: sortTypeName});
                 result.push(
-                    {tagName: 'a', attrs: {href: href, ...sortAttrs}},
+                    {tagName: 'a', attrs: {href: href, ...(typeof sortAttrs === 'function' ? sortAttrs.call(this, col as ColInfo, sortTypeName) : sortAttrs)}},
                 );
             }
         }
