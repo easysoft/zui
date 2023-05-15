@@ -84,7 +84,7 @@ interface PluginColSetting {
     sortType?: ColSortType;
 
     /* 列排序链接模版或生成函数 */
-    sortLink?: string | ((this: DTableSortType, col: ColInfo, sortType: ColSortType) => string);
+    sortLink?: string | ((this: DTableSortType, col: ColInfo, nextSortType: ColSortType, currentSortType: ColSortType) => string);
 
     /* 列排序链接元素上的其他属性，可以指定为函数动态生成 */
     sortAttrs?: JSX.HTMLAttributes | ((this: DTableSortType, col: ColInfo, sortType: ColSortType) => JSX.HTMLAttributes);
@@ -96,6 +96,6 @@ interface PluginColSetting {
 ```ts
 interface PluginDTableOptions {
     /* 列排序链接模版或生成函数 */
-    sortLink?: string | ((this: DTableSortType, col: ColInfo, sortType: ColSortType) => string);
+    sortLink?: string | ((this: DTableSortType, col: ColInfo, nextSortType: ColSortType, currentSortType: ColSortType) => string);
 }
 ```
