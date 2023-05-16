@@ -8,6 +8,7 @@ export type CellRenderCallback<C = ColSetting> = (
     data: {
         row: RowInfo,
         col: ColInfo<C>,
+        value: unknown,
     },
     h: typeof _h,
 ) => CustomRenderResultList;

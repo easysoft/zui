@@ -38,8 +38,9 @@ export function Cell({col, className, height, row, onRenderCell, style: styleFro
     }];
     const contentClassName: ClassNameLike[] = ['dtable-cell-content', className];
 
-    const defaultResult: CustomRenderResultList = [childrenFromParent ?? row.data?.[col.name] ?? ''];
-    const result: CustomRenderResultList = onRenderCell ? onRenderCell(defaultResult, {row, col}, _h) : defaultResult;
+    const value = row.data?.[col.name];
+    const defaultResult: CustomRenderResultList = [childrenFromParent ?? value ?? ''];
+    const result: CustomRenderResultList = onRenderCell ? onRenderCell(defaultResult, {row, col, value}, _h) : defaultResult;
 
     const outerChildren: ComponentChildren[] = [];
     const contentChildren: ComponentChildren[] = [];

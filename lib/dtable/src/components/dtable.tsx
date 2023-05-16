@@ -569,9 +569,10 @@ export class DTable extends Component<DTableOptions, DTableState> {
         return data.props;
     };
 
-    #handleRenderCell = (result: CustomRenderResultList, data: {row: RowInfo, col: ColInfo}, h: typeof _h) : CustomRenderResultList => {
+    #handleRenderCell = (result: CustomRenderResultList, data: {row: RowInfo, col: ColInfo, value: unknown}, h: typeof _h) : CustomRenderResultList => {
         const {row, col} = data;
-        result[0] = this.getCellValue(row, col) as ComponentChildren;
+        data.value = this.getCellValue(row, col);
+        result[0] = data.value as ComponentChildren;
         const renderCallbackName = row.id === 'HEADER' ? 'onRenderHeaderCell' : 'onRenderCell';
         if (col.setting[renderCallbackName]) {
             result = (col.setting[renderCallbackName] as CellRenderCallback).call(this, result, data, h);
