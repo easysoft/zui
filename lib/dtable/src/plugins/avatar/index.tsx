@@ -18,7 +18,7 @@ export type DTableAvatarTypes = {
 
 export type DTableAvatar = DTableWithPlugin<DTableAvatarTypes>;
 
-export function renderAvatarCell(result: CustomRenderResultList, {row, col}: {row: RowInfo, col: ColInfo}) {
+function renderAvatarCell(result: CustomRenderResultList, {row, col}: {row: RowInfo, col: ColInfo}) {
     const {data: rowData} = row;
     const text = rowData ? (rowData[col.name] as string) : undefined;
     if (!text?.length) {
@@ -41,9 +41,16 @@ export function renderAvatarCell(result: CustomRenderResultList, {row, col}: {ro
         const btnProps = typeof avatarBtnProps === 'function' ? avatarBtnProps(col, row) : avatarBtnProps;
         result[0] = (
             <button type="button" className="btn btn-avatar" {...btnProps}>
-                <Avatar {...props} />
+                {result[0]}
                 <div>{name}</div>
             </button>
+        );
+    } else if (col.type === 'avatarName') {
+        result[0] = (
+            <div className="flex items-center gap-1">
+                {result[0]}
+                <span>{name}</span>
+            </div>
         );
     }
     return result;
@@ -56,6 +63,9 @@ const avatarPlugin: DTablePlugin<DTableAvatarTypes> = {
             onRenderCell: renderAvatarCell,
         },
         avatarBtn: {
+            onRenderCell: renderAvatarCell,
+        },
+        avatarName: {
             onRenderCell: renderAvatarCell,
         },
     },
