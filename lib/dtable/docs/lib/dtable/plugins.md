@@ -82,6 +82,40 @@ const cols = [
 ];
 ```
 
+### 从对象映射
+
+在列定义上通过 `map` 属性设置一个对象或函数来从单元格实际值映射要显示的文本，支持如下值：
+
+* `Record<string, string>`：使用对象来进行映射，对象的键为单元格实际值，值为要显示的文本；
+* `(value: any, info: {row: any, col: ColInfo}) => string`：使用函数来动态生成要显示的文本。
+
+下面为一个实际的例子：
+
+```js
+const cols = [
+    {
+        name: 'status',
+        title: '状态',
+
+        /* 使用对象进行映射。 */
+        map: {
+            wait: '未开始',
+            doing: '进行中',
+            done: '已完成',
+        },
+    }, {
+        name: 'category',
+        title: '分类',
+
+        /* 使用函数动态生成文本。 */
+        map: (value, info) => (value === '' ? '无分类' : value),
+    }, {
+        name: 'product',
+        title: '产品'
+    }
+];
+```
+
 ### 以 HTML 进行渲染
 
 在列定义上通过 `html` 属性设置单元格内容作为 HTML 显示，支持以下值：
