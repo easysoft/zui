@@ -326,9 +326,31 @@ const cols = [
 ];
 ```
 
+### 显示为头像和名称
+
+在列定义上设置 `type: 'avatarName'` 来将单元格渲染为一个头像和名称形式。支持列类型 `type: 'avatar'` 上支持的所有属性。下面为一个实际的例子：
+
+```js
+const cols = [
+    {
+        name: 'manager',
+        title: '产品经理',
+
+        /* 将单元格渲染为头像和名称。 */
+        type: 'avatarName'
+
+        /* 从 managerAvatar 属性上获取当前头像的图片路径。 */
+        avatarKey: 'managerAvatar',
+
+        /* 从 managerAvatar 属性上获取当前头像的图片路径。 */
+        avatarNameKey: 'managerName',
+    }
+];
+```
+
 ### 显示为头像按钮
 
-在列定义上设置 `type: 'avatarBtn'` 来将单元格渲染为一个头像。处理支持列类型 `type: 'avatar'` 上支持的所有属性外，还支持通过 `btnProps` 属性来设置按钮元素上的其他属性，下面为一个实际的例子：
+在列定义上设置 `type: 'avatarBtn'` 来将单元格渲染为一个头像。除了支持列类型 `type: 'avatar'` 上支持的所有属性外，还支持通过 `btnProps` 属性来设置按钮元素上的其他属性，下面为一个实际的例子：
 
 ```js
 const cols = [
