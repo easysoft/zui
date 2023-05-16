@@ -8,7 +8,7 @@ import type {DTablePlugin, RowInfo, ColInfo, DTableWithPlugin, CustomRenderResul
 
 export type ColLinkSetting = string | ({url: string} & JSX.HTMLAttributes<HTMLAnchorElement>) | ((info: {row: RowInfo, col: ColInfo}) => string | ({url: string} & JSX.HTMLAttributes<HTMLAnchorElement>));
 
-export type ColDateFormatSetting = string | ((value: unknown, info: {row: RowInfo, col: ColInfo}) => string);
+export type ColDateFormatSetting = boolean | string | ((value: unknown, info: {row: RowInfo, col: ColInfo}) => string);
 
 export type ColFormatSetting = string | ((value: unknown, info: {row: RowInfo, col: ColInfo}) => string);
 
@@ -56,6 +56,12 @@ export function renderFormat(format: ColFormatSetting | undefined, info: {row: R
 
 export function renderDatetime(format: ColDateFormatSetting, info: {row: RowInfo, col: ColInfo}, value?: unknown) {
     value = value ?? info.row.data?.[info.col.name];
+    if (format === false) {
+        return value as string;
+    }
+    if (format === true) {
+        format = '[yyyy-]MM-dd hh:mm';
+    }
     if (typeof format === 'function') {
         format = format(value, info);
     }
