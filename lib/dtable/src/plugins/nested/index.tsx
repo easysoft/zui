@@ -32,7 +32,7 @@ export type DTableSortableOptions = Partial<{
 
 export type DTableSortableTypes = {
     options: Partial<DTableSortableOptions & {
-        nested: boolean;
+        nested: boolean | 'auto';
         nestedParentKey: string;
         asParentKey: string;
         nestedIndent: number;
@@ -184,7 +184,7 @@ function updateParentRow(dtable: DTableNested, parentID: string, checked: boolea
 const nestedPlugin: DTablePlugin<DTableSortableTypes> = {
     name: 'nested',
     defaultOptions: {
-        nested: true,
+        nested: 'auto',
         nestedParentKey: 'parent',
         asParentKey: 'asParent',
         nestedIndent: 20,
@@ -207,6 +207,12 @@ const nestedPlugin: DTablePlugin<DTableSortableTypes> = {
             });
             return result;
         },
+    },
+    options(options) {
+        if (options.nested === 'auto') {
+            options.nested = !!options.cols.some(col => col.nestedToggle);
+        }
+        return options;
     },
     when: options => !!options.nested,
     data() {
