@@ -14,6 +14,8 @@ export type ColFormatSetting = string | ((value: unknown, info: {row: RowInfo, c
 
 export type ColHTMLSetting = boolean | string | ((value: unknown, info: {row: RowInfo, col: ColInfo}) => string);
 
+export type ColMapSetting = Record<string, string> | ((value: unknown, info: {row: RowInfo, col: ColInfo}) => string);
+
 export type DTableRichTypes = {
     col: Partial<{
         circleSize: number;
@@ -24,6 +26,7 @@ export type DTableRichTypes = {
         format: ColFormatSetting;
         formatDate: ColDateFormatSetting;
         html: ColHTMLSetting;
+        map: ColMapSetting;
     }>,
 };
 
@@ -81,6 +84,16 @@ export function renderFormatCell(result: CustomRenderResultList, info: {row: Row
     const {format} = info.col.setting;
     if (format) {
         result[0] = renderFormat(format as ColFormatSetting, info, result[0]);
+    }
+    return result;
+}
+
+export function renderMapCell(result: CustomRenderResultList, info: {row: RowInfo, col: ColInfo}) {
+    const {map} = info.col.setting as DTableRichTypes['col'];
+    if (typeof map === 'function') {
+        result[0] = map(result[0], info);
+    } else if (typeof map === 'object' && map) {
+        result[0] = map[result[0] as string] ?? result[0];
     }
     return result;
 }
@@ -150,6 +163,8 @@ const richPlugin: DTablePlugin<DTableRichTypes> = {
         if (dateFormat) {
             result = renderDatetimeCell(result, info, dateFormat);
         }
+
+        result = renderMapCell(result, info);
         result = renderFormatCell(result, info);
         if (html) {
             result = renderHtmlCell(result, info);
