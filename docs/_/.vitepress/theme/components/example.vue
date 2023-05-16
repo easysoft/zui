@@ -1,5 +1,5 @@
 <template>
-  <div class="text-base example -rounded -border -p-4" :style="style">
+  <div :class="classList" :style="style">
     <slot />
   </div>
 </template>
@@ -7,7 +7,22 @@
 <script setup lang="ts">
 import {computed} from 'vue';
 
-const props = defineProps<{background?: 'light-grid' | 'blue-circle'}>();
+const props = defineProps<{
+  background?: 'light-grid' | 'blue-circle',
+  padding: string | number,
+  border: string | number
+}>();
+
+const classList = computed(() => {
+  const {padding = 'p-4'} = props;
+  const list = ['text-base example'];
+  if (typeof padding === 'number') {
+    list.push(`p-${padding}`);
+  } else if (padding) {
+    list.push(padding);
+  }
+  return list;
+});
 
 const style = computed(() => {
     if (props.background === 'light-grid') {
