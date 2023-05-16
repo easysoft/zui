@@ -2,7 +2,7 @@
 
 ## 富格式插件 `rich`
 
-<Badge text="内置插件"/>
+<Badge text="内置插件" />
 
 让单元格支持展示丰富格式内容，包括链接、格式化字符串、HTML、迷你进度条以及时间日期等。
 
@@ -192,7 +192,7 @@ const cols = [
 
 ## 按列排序 `sort-type`
 
-<Badge text="内置插件"/>
+<Badge text="内置插件" />
 
 设置表格支持按列进行排序，在特定列上通过 `sortType` 属性启用列排序，列头将根据排序类型显示为链接，用户点击后可以更新表格。该插件为内置插件，无需手动引入即可使用。
 
@@ -292,7 +292,7 @@ interface PluginDTableOptions {
 
 ## 头像 `avatar`
 
-<Badge text="内置插件"/>
+<Badge text="内置插件" />
 
 设置表格支持在单元格内显示头像，通过在列定义上设置 `avatar` 属性或 `avatarBtn` 属性来启用该功能。该插件为内置插件，无需手动引入即可使用。
 
@@ -375,7 +375,7 @@ const cols = [
 
 ## 列鼠标悬停效果 `col-hover`
 
-<Badge text="内置插件"/>
+<Badge text="内置插件" />
 
 设置表格支持在鼠标悬停在列上时，高亮该列。该插件为内置插件，无需手动引入即可使用。
 
@@ -393,3 +393,81 @@ const options = {
     colHover: true
 };
 ```
+
+## 多层级 `nested`
+
+<Badge text="WIP" type="danger" />
+
+## 行选中 `checkable`
+
+<Badge text="WIP" type="danger" />
+
+## 操作栏 `actions`
+
+<Badge text="WIP" type="danger" />
+
+## 底部工具栏 `toolbar`
+
+<Badge text="WIP" type="danger" />
+
+## 底部分页栏 `pager`
+
+<Badge text="WIP" type="danger" />
+
+## 拖放排序 `sortable`
+
+<Badge text="WIP" type="danger" />
+
+## 表头分组 `header-group`
+
+<Badge text="WIP" type="danger" />
+
+## 拖放改变列宽 `resize`
+
+<Badge text="WIP" type="danger" />
+
+
+## 上下文菜单 `contextmenu`
+
+<Badge text="WIP" type="danger" />
+
+## 快捷键 `hotkey`
+
+<Badge text="WIP" type="danger" />
+
+
+## 鼠标移动事件支持 `mousemove`
+
+<Badge text="WIP" type="danger" />
+
+## 拖放选择 `selectable`
+
+<Badge text="WIP" type="danger" />
+
+## 过滤 `filter`
+
+<Badge text="WIP" type="danger" />
+
+## 拖放移动 `moveable`
+
+<Badge text="WIP" type="danger" />
+
+## 数据网格 `datagrid`
+
+<Badge text="WIP" type="danger" />
+
+## 编辑状态 `draft`
+
+<Badge text="WIP" type="danger" />
+
+## 可编辑 `editable`
+
+<Badge text="WIP" type="danger" />
+
+## 历史记录 `history`
+
+<Badge text="WIP" type="danger" />
+
+## 自动滚动 `autoscroll`
+
+<Badge text="WIP" type="danger" />
