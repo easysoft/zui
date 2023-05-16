@@ -148,7 +148,7 @@ export const formatDate = (date: DateLike, format = 'yyyy-MM-dd hh:mm'): string 
     };
     if (/(y+)/i.test(format)) {
         if (format.includes('[yyyy-]')) {
-            format.replace('[yyyy-]', isSameYear(date, new Date()) ? '' : 'yyyy-');
+            format = format.replace('[yyyy-]', isSameYear(date) ? '' : 'yyyy-');
         }
         format = format.replace(RegExp.$1, (`${date.getFullYear()}`).substring(4 - RegExp.$1.length));
     }
