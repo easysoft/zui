@@ -1,13 +1,10 @@
-import {JSX, ComponentChildren, h as _h} from 'preact';
+import {JSX, ComponentChildren} from 'preact';
 import {formatString} from '@zui/helpers/src/format-string';
 import {formatDate} from '@zui/helpers/src/date-helper';
 import {definePlugin} from '../../helpers/shared-plugins';
-import {Avatar} from '@zui/avatar/src/component';
 import './style.css';
-import type {AvatarOptions} from '@zui/avatar/src/types';
 import type {DateLike} from '@zui/helpers/src/date-helper';
 import type {DTablePlugin, RowInfo, ColInfo, DTableWithPlugin, CustomRenderResultList} from '../../types';
-import {classes} from '@zui/browser-helpers/src/classes';
 
 export type ColLinkSetting = string | ({url: string} & JSX.HTMLAttributes<HTMLAnchorElement>) | ((info: {row: RowInfo, col: ColInfo}) => string | ({url: string} & JSX.HTMLAttributes<HTMLAnchorElement>));
 
@@ -19,11 +16,6 @@ export type ColHTMLSetting = boolean | string | ((value: unknown, info: {row: Ro
 
 export type DTableRichTypes = {
     col: Partial<{
-        avatarClass?: string,
-        avatarKey?: string,
-        avatarCodeKey?: string,
-        avatarProps?: AvatarOptions,
-        avatarNameKey?: string;
         circleSize: number;
         circleBgColor: string;
         circleColor: string;
@@ -112,28 +104,6 @@ const richPlugin: DTablePlugin<DTableRichTypes> = {
         html: {
             onRenderCell(result, info) {
                 return renderHtmlCell(result, info, true);
-            },
-        },
-        avatar: {
-            onRenderCell(result, {col, row}) {
-                const {data: rowData} = row;
-                const text = rowData ? (rowData[col.name] as string) : undefined;
-                if (!text?.length) {
-                    return result;
-                }
-                const {avatarClass = 'rounded-full', avatarKey = `${col.name}Avatar`, avatarProps, avatarCodeKey, avatarNameKey = `${col.name}Name`} = col.setting;
-                const name = (rowData ? (rowData[avatarNameKey] as string) : text) || result[0];
-                const props = {
-                    size: 'xs',
-                    className: classes(avatarClass, avatarProps?.className, 'flex-none'),
-                    src: rowData ? (rowData[avatarKey] as string) : undefined,
-                    text: name,
-                    code: avatarCodeKey ? (rowData ? (rowData[avatarCodeKey] as string) : undefined) : text,
-                    ...avatarProps,
-                } as AvatarOptions;
-
-                result[0] = <Avatar {...props} />;
-                return result;
             },
         },
         progress: {
