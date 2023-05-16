@@ -9,8 +9,8 @@ import {computed} from 'vue';
 
 const props = defineProps<{
   background?: 'light-grid' | 'blue-circle',
-  padding: string | number,
-  border: string | number
+  padding?: string | number,
+  border?: string | number
 }>();
 
 const classList = computed(() => {
