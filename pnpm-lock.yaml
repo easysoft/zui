@@ -19,6 +19,9 @@ importers:
       '@zui/utilities':
         specifier: workspace:0.0.1
         version: link:lib/utilities
+      cash-dom:
+        specifier: ^8.1.4
+        version: registry.npmmirror.com/cash-dom@8.1.4
       dayjs:
         specifier: ^1.11.7
         version: registry.npmmirror.com/dayjs@1.11.7
@@ -341,11 +344,7 @@ importers:
         specifier: workspace:^0.0.1
         version: link:../../dev
 
-  lib/cash:
-    dependencies:
-      cash-dom:
-        specifier: ^8.1.4
-        version: registry.npmmirror.com/cash-dom@8.1.4
+  lib/cash: {}
 
   lib/checkbox:
     devDependencies:
