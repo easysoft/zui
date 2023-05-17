@@ -693,9 +693,7 @@ export default [
         "version": "0.0.1",
         "main": "src/main.ts",
         "browser": "src/main.ts",
-        "dependencies": {
-            "cash-dom": "^8.1.4"
-        },
+        "dependencies": {},
         "devDependencies": {},
         "zui": {
             "type": "js-helpers",
