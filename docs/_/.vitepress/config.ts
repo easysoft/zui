@@ -1,5 +1,4 @@
 import {defineConfig} from 'vitepress';
-import inspect from 'vite-plugin-inspect';
 import {whyframe} from '@whyframe/core';
 import {whyframeVue} from '@whyframe/vue';
 import {themeConfig, extLibs} from './theme-config';
@@ -27,8 +26,6 @@ export default defineConfig({
     },
     vite: {
         plugins: [
-            inspect(),
-
             // Initialize core plugin
             whyframe({
                 defaultSrc: '/frames/zui', // provide our own html,

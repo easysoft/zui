@@ -10,13 +10,11 @@
         "serve": "vitepress serve ./_"
     },
     "dependencies": {
-        "vue": "^3.2.47"
+        "vue": "^3.3.2"
     },
     "devDependencies": {
         "@whyframe/core": "^0.1.10",
         "@whyframe/vue": "^0.1.6",
-        "vite": "^4.2.1",
-        "vite-plugin-inspect": "^0.7.24",
         "vitepress": "1.0.0-alpha.75"
     }
 }
