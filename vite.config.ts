@@ -4,6 +4,7 @@ import {defineConfig, mergeConfig, UserConfig} from 'vite';
 import {LibraryOptions} from 'vite';
 import {blue} from 'colorette';
 import eslint from 'vite-plugin-eslint';
+import preact from '@preact/preset-vite';
 import configDevServer from './scripts/dev/config-server';
 import {getLibs} from './scripts/libs/query';
 import {LibInfo} from './scripts/libs/lib-info';
@@ -99,6 +100,7 @@ export default defineConfig(async ({mode}) => {
         plugins: [
             eslint(),
             ...(mode === 'development' ? [
+                preact(),
                 configDevServer({
                     rootPath: __dirname,
                 }),
