@@ -6,7 +6,7 @@ import '@zui/icons';
 import '@zui/dropdown';
 import '@zui/form';
 import '@zui/input-control';
-import {faker} from '@faker-js/faker';
+import {Faker, zh_CN, en} from '@faker-js/faker';
 import {DTable} from './src/main';
 import {checkable} from './src/plugins/checkable';
 import {nested} from './src/plugins/nested';
@@ -18,7 +18,7 @@ import {moveable} from './src/plugins/moveable';
 import {actions} from './src/plugins/actions';
 import {pager} from './src/plugins/pager';
 
-faker.setLocale('zh_CN');
+const faker = new Faker({locale: [zh_CN, en]});
 
 onPageLoad(() => {
     const dataTableElement = document.getElementById('dataTable');
@@ -33,14 +33,14 @@ onPageLoad(() => {
                 data: Array(100).fill(0).map(() => ([
                     faker.animal.cetacean(),
                     faker.lorem.word(),
-                    faker.datatype.number({min: 0, max: 1000}),
-                    faker.datatype.number({min: 0, max: 1000}),
-                    faker.datatype.number({min: 0, max: 1000}),
-                    faker.datatype.number({min: 0, max: 1000}),
-                    faker.datatype.number({min: 0, max: 1000}),
-                    faker.datatype.number({min: 0, max: 1000}),
-                    faker.datatype.number({min: 0, max: 1000}),
-                    faker.datatype.number({min: 0, max: 1000}),
+                    faker.number.int(1000),
+                    faker.number.int(1000),
+                    faker.number.int(1000),
+                    faker.number.int(1000),
+                    faker.number.int(1000),
+                    faker.number.int(1000),
+                    faker.number.int(1000),
+                    faker.number.int(1000),
                 ])),
             },
             height: 400,
@@ -57,7 +57,7 @@ onPageLoad(() => {
                 {name: 'id', title: 'ID', width: 80, fixed: 'left'},
                 {name: 'name', title: '产品名称2', type: 'link', width: 280, fixed: 'left', sortType: 'asc', linkTemplate: '#/product/{id}', sortLink: '#?sortby={name}&order={sortType}'},
                 {name: 'productLine', title: '所属产品线', minWidth: 110, sortType: true, flex: 1, sortLink: (col, sortType) => `#?sortby=${col.name}&order=${sortType}`},
-                {name: 'manager', title: '负责人', type: 'avatar', width: 110, sortType: true, avatarKey: 'managerAvatar', avatarWithName: true},
+                {name: 'manager', title: '负责人', type: 'avatarName', width: 110, sortType: true, avatarKey: 'managerAvatar', avatarWithName: true},
                 {name: 'feedback', title: '反馈', width: 65, sortType: true, align: 'center'},
                 {name: 'storyDraft', title: '需求草稿', width: 90, sortType: true, align: 'center', group: '需求情况'},
                 {name: 'storyActive', title: '激活', width: 80, sortType: true, align: 'center', group: '需求情况'},
@@ -84,21 +84,21 @@ onPageLoad(() => {
                 id: `${index}`,
                 name: faker.animal.cetacean(),
                 productLine: faker.lorem.word(),
-                manager: `${faker.name.lastName()}${faker.name.firstName()}`,
-                feedback: faker.datatype.number({min: 0, max: 150}),
-                storyDraft: faker.datatype.number({min: 0, max: 150}),
-                storyActive: faker.datatype.number({min: 0, max: 150}),
-                storyChanged: faker.datatype.number({min: 0, max: 150}),
-                completion: faker.datatype.number({min: 0, max: 100}),
-                plan: faker.datatype.number({min: 0, max: 10}),
-                execution: faker.datatype.number({min: 0, max: 20}),
-                caseCoverage: faker.datatype.number({min: 0, max: 100}),
-                bugActive: faker.datatype.number({min: 0, max: 100}),
-                fixRate: faker.datatype.number({min: 0, max: 100}),
-                release: faker.datatype.number({min: 0, max: 200}),
-                releaseIncrease: faker.datatype.number({min: 0, max: 10}),
+                manager: `${faker.person.lastName()}${faker.person.firstName()}`,
+                feedback: faker.number.int(150),
+                storyDraft: faker.number.int(150),
+                storyActive: faker.number.int(150),
+                storyChanged: faker.number.int(150),
+                completion: faker.number.int(100),
+                plan: faker.number.int(10),
+                execution: faker.number.int(20),
+                caseCoverage: faker.number.int(100),
+                bugActive: faker.number.int(100),
+                fixRate: faker.number.int(100),
+                release: faker.number.int(200),
+                releaseIncrease: faker.number.int(10),
                 milestone: faker.datatype.boolean(),
-                managerAvatar: `/lib/avatar/assets/avatar-${faker.datatype.number({min: 1, max: 10})}.png`,
+                managerAvatar: `/lib/avatar/assets/avatar-${faker.number.int({min: 1, max: 10})}.png`,
             })),
             height: 400,
             striped: false,
@@ -151,7 +151,8 @@ onPageLoad(() => {
             height: 400,
             cellHover: true,
             colHover: 'header',
-            plugins: [checkable({checkOnClickRow: true}), nested, moveable, actions, pager],
+            checkOnClickRow: true,
+            plugins: [checkable, nested, moveable, actions, pager],
             striped: true,
             responsive: true,
             footPager: {
