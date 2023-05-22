@@ -16,8 +16,8 @@ onPageLoad(() => {
             {id: 5},
             {id: 6, left: 8, top: 0},
             {id: 7, size: 'smWide'},
-            {id: 8, size: 'xs'},
-            {id: 9, size: 'xsLong'},
+            {id: 8, size: 'xsLong'},
+            {id: 9, size: 'xs'},
         ],
         blockFetch: '/lib/dashboard/public/block-{id}.html',
     });
