@@ -39,7 +39,7 @@
     "hotkeys-js": "^3.10.2",
     "htm": "^3.1.1",
     "nanoid": "^4.0.2",
-    "preact": "^10.14.1"
+    "preact": "^10.15.0"
   },
   "devDependencies": {
     "@faker-js/faker": "^8.0.1",
@@ -49,14 +49,14 @@
     "@types/glob": "^8.1.0",
     "@types/markdown-it": "^12.2.3",
     "@types/minimist": "^1.2.2",
-    "@types/node": "^20.2.0",
+    "@types/node": "^20.2.3",
     "@typescript-eslint/eslint-plugin": "^5.59.6",
     "@typescript-eslint/parser": "^5.59.6",
     "autoprefixer": "^10.4.14",
     "chokidar": "^3.5.3",
     "colorette": "^2.0.20",
     "cssnano": "^6.0.1",
-    "eslint": "^8.40.0",
+    "eslint": "^8.41.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-airbnb-typescript": "^17.0.0",
     "eslint-plugin-import": "^2.27.5",
@@ -75,7 +75,7 @@
     "tailwindcss": "^3.3.2",
     "tsx": "^3.12.7",
     "typescript": "^5.0.4",
-    "vite": "^4.3.7",
+    "vite": "^4.3.8",
     "vite-plugin-eslint": "^1.8.1"
   }
 }
