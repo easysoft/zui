@@ -2,6 +2,7 @@ import {Component, ComponentChildren, createRef} from 'preact';
 import {ContextMenu} from '@zui/contextmenu';
 import {formatString} from '@zui/helpers';
 import {$} from '@zui/cash';
+import {HtmlContent} from '@zui/com-helpers/src/helpers/html-content';
 import '@zui/css-icons/src/icons/more.css';
 import type {BlockFetcher, BlockProps} from '../types';
 
@@ -51,7 +52,7 @@ export class Block extends Component<BlockProps, BlockState> {
             }).then((response) => {
                 if (response.ok) {
                     response.text().then((html) => {
-                        this.setState({loading: false, content: <div class="dashboard-block-body" dangerouslySetInnerHTML={{__html: html}}></div>});
+                        this.setState({loading: false, content: <HtmlContent class="dashboard-block-body" html={html} executeScript />});
                     });
                 } else {
                     this.setState({loading: false, content: <div class="text-danger p-5 text-center">Error: {response.statusText}</div>});
