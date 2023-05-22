@@ -5818,10 +5818,10 @@ function ya({ col: e, className: n, height: t, row: s, onRenderCell: i, style: o
     justifyContent: h ? h === "left" ? "start" : h === "right" ? "end" : h : void 0,
     ...e.setting.cellStyle,
     ...o
-  }, m = ["dtable-cell", a, e.setting.className, {
+  }, m = ["dtable-cell", a, n, e.setting.className, {
     "has-border-left": d === !0 || d === "left",
     "has-border-right": d === !0 || d === "right"
-  }], g = ["dtable-cell-content", n], y = (I = s.data) == null ? void 0 : I[e.name], b = [l ?? y ?? ""], x = i ? i(b, { row: s, col: e, value: y }, dt) : b, S = [], R = [], L = {}, A = {};
+  }], g = ["dtable-cell-content", e.setting.cellClass], y = (I = s.data) == null ? void 0 : I[e.name], b = [l ?? y ?? ""], x = i ? i(b, { row: s, col: e, value: y }, dt) : b, S = [], R = [], L = {}, A = {};
   let M = "div";
   x == null || x.forEach(($) => {
     if (typeof $ == "object" && $ && !st($) && ("html" in $ || "className" in $ || "style" in $ || "attrs" in $ || "children" in $ || "tagName" in $)) {
