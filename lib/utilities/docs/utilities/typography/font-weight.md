@@ -25,6 +25,7 @@
   <div class="font-thin">font-thin 字体粗细</div>
   <div class="font-light">font-light 字体粗细</div>
   <div class="font-medium">font-medium 字体粗细</div>
+  <div class="font-semibold">font-semibold 字体粗细</div>
   <div class="font-bold">font-bold 字体粗细</div>
   <div class="font-black">font-black 字体粗细</div>
 </Example>
@@ -33,6 +34,7 @@
 <div class="font-thin">font-thin 字体粗细</div>
 <div class="font-light">font-light 字体粗细</div>
 <div class="font-medium">font-medium 字体粗细</div>
+<div class="font-semibold">font-semibold 字体粗细</div>
 <div class="font-bold">font-bold 字体粗细</div>
 <div class="font-black">font-black 字体粗细</div>
 ```
@@ -42,6 +44,7 @@
     {name: 'font-thin', desc: 'font-weight: 100;'},
     {name: 'font-light', desc: 'font-weight: 300;'},
     {name: 'font-medium', desc: 'font-weight: 500;'},
+    {name: 'font-semibold', desc: 'font-weight: 600;'},
     {name: 'font-bold', desc: 'font-weight: 700;'},
     {name: 'font-black', desc: 'font-weight: 900;'},
   ]
