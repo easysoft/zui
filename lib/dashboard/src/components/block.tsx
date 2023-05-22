@@ -19,13 +19,17 @@ export class Block extends Component<BlockProps, BlockState> {
         this.state = {content: <div class="dashboard-block-body">{props.block.content}</div>};
     }
 
+    get element() {
+        return this.#ref.current!;
+    }
+
     componentDidMount(): void {
         this.load();
-        $(this.#ref.current!).on('load.zui.dashboard', this.load.bind(this));
+        $(this.element).on('load.zui.dashboard', this.load.bind(this));
     }
 
     componentWillUnmount(): void {
-        $(this.#ref.current!).off('load.zui.dashboard');
+        $(this.element).off('load.zui.dashboard');
     }
 
     load() {
@@ -60,7 +64,7 @@ export class Block extends Component<BlockProps, BlockState> {
             placement: 'bottom-end',
             menu: {
                 onClickItem: ({item}) => {
-                    if (item.attrs?.['data-type'] === 'refresh') {
+                    if ((item.attrs?.['data-type']) === 'refresh') {
                         this.load();
                     }
                 },
@@ -70,7 +74,7 @@ export class Block extends Component<BlockProps, BlockState> {
     };
 
     #handleDragStart = (event: DragEvent) => {
-        const element = this.#ref.current;
+        const {element} = this;
         const bounding = element!.getBoundingClientRect();
         if ((event.clientY - bounding.top) > 48) {
             event.preventDefault();
