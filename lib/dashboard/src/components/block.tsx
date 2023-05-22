@@ -45,7 +45,10 @@ export class Block extends Component<BlockProps, BlockState> {
         }
         const {url, ...fetchInitOptions} = fetcher;
         this.setState({loading: true}, () => {
-            fetch(formatString(url, block), fetchInitOptions).then((response) => {
+            fetch(formatString(url, block), {
+                headers: {'X-Requested-With': 'XMLHttpRequest'},
+                ...fetchInitOptions,
+            }).then((response) => {
                 if (response.ok) {
                     response.text().then((html) => {
                         this.setState({loading: false, content: <div class="dashboard-block-body" dangerouslySetInnerHTML={{__html: html}}></div>});
