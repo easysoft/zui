@@ -6,3 +6,4 @@ build/
 .cache
 exts/
 !scripts/build/
+.vscode/
