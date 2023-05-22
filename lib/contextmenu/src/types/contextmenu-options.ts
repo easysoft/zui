@@ -10,6 +10,6 @@ export type ContextMenuOptions = {
     offset?: [number, number] | (() => [number, number]);
     flip?: boolean;
     subMenuTrigger?: 'click' | 'hover',
-    menu?: MenuOptions,
+    menu?: Partial<MenuOptions>,
     items?: MenuItemOptions[] | ((menu: ContextMenu) => MenuItemOptions[]),
 };
