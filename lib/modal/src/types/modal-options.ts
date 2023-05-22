@@ -28,7 +28,7 @@ export interface ModalAjaxOptions extends ModalOptions {
     dataType?: 'json' | 'html' | 'text',
     replace?: boolean;
     custom?: Partial<ModalDialogOptions>;
-    execScript?: boolean;
+    executeScript?: boolean;
 }
 
 export interface ModalIframeOptions extends ModalOptions {

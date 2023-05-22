@@ -7,7 +7,8 @@ import {setAttr, setClass} from '@zui/com-helpers/src/helpers/element-helper';
 import type {ToolbarOptions, ToolbarItemProps} from '@zui/toolbar/src/types';
 import {ModalDialog} from '../component';
 import {ModalIframeContent} from '../component/modal-iframe-content';
-import {ModalHtmlContent, execScripts} from '../component/modal-html-content';
+import {executeScripts} from '@zui/com-helpers/src/helpers/execute-script';
+import {HtmlContent} from '@zui/com-helpers/src/helpers/html-content';
 
 type ModalDialogHTML = [html: string];
 
@@ -23,7 +24,7 @@ function buildCustomModal(this: Modal, _element: HTMLElement, options: ModalCust
 }
 
 async function buildAjaxModal(this: Modal, _element: HTMLElement, options: ModalAjaxOptions): Promise<ModalDialogOptions | ModalDialogHTML | boolean | undefined> {
-    const {dataType = 'html', url, request, custom, title, replace = true, execScript = true} = options;
+    const {dataType = 'html', url, request, custom, title, replace = true, executeScript = true} = options;
     const response = await fetch(url, request);
     const text = await response.text();
     if (dataType !== 'html') {
@@ -44,7 +45,7 @@ async function buildAjaxModal(this: Modal, _element: HTMLElement, options: Modal
         title,
         ...custom,
         body: dataType === 'html' ? (
-            <ModalHtmlContent className="modal-body" html={text} execScript={execScript} />
+            <HtmlContent className="modal-body" html={text} executeScript={executeScript} />
         ) : text,
     };
 }
@@ -127,7 +128,7 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
         return new Promise((resolve) => {
             if (Array.isArray(dialogOptions)) {
                 this.modalElement.innerHTML = dialogOptions[0];
-                execScripts(this.modalElement);
+                executeScripts(this.modalElement);
                 return resolve();
             }
             const {afterRender, ...others} = dialogOptions;
