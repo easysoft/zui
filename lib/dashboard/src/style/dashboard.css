@@ -8,7 +8,7 @@
   @apply -absolute -transition-[left,top];
 }
 .dashboard-block {
-  @apply -absolute -inset-2 -transition-opacity;
+  @apply -absolute -inset-2 -transition-opacity -bg-canvas -rounded;
 }
 .dashboard-block.is-dragging {
   @apply -opacity-0 -z-10;
@@ -23,8 +23,14 @@
   @apply -absolute -inset-0;
 }
 .dashboard-block-body > .panel {
-  @apply -w-full -h-full -bg-canvas;
+  @apply -w-full -h-full -flex -flex-col;
   box-shadow: 0px 6px 16px rgba(202, 215, 235, 0.25);
+}
+.dashboard-block-body .panel-heading {
+  @apply -flex-none;
+}
+.dashboard-block-body .panel-body {
+  @apply -flex-auto -overflow-y-auto;
 }
 .has-more-menu > .dashboard-block-body .panel-heading {
   @apply -pr-12;

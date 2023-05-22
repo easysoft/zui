@@ -1,5 +1,6 @@
-import {Component, ComponentChildren, h} from 'preact';
+import {Component, ComponentChildren} from 'preact';
 import {ContextMenu} from '@zui/contextmenu';
+import {formatString} from '@zui/helpers';
 import '@zui/css-icons/src/icons/more.css';
 import type {BlockFetcher, BlockProps} from '../types';
 
@@ -32,7 +33,7 @@ export class Block extends Component<BlockProps, BlockState> {
         }
         const {url, ...fetchInitOptions} = fetcher;
         this.setState({loading: true}, () => {
-            fetch(url, fetchInitOptions).then((response) => {
+            fetch(formatString(url, block), fetchInitOptions).then((response) => {
                 if (response.ok) {
                     response.text().then((html) => {
                         this.setState({loading: false, content: <div class="dashboard-block-body" dangerouslySetInnerHTML={{__html: html}}></div>});
@@ -51,7 +52,7 @@ export class Block extends Component<BlockProps, BlockState> {
             placement: 'bottom-end',
             menu: {
                 onClickItem: ({item}) => {
-                    if (!item.onClick && item.attrs?.['data-type'] === 'refresh') {
+                    if (item.attrs?.['data-type'] === 'refresh') {
                         this.load();
                     }
                 },
@@ -87,7 +88,7 @@ export class Block extends Component<BlockProps, BlockState> {
     };
 
     render() {
-        const {left, top, width, height, style, index, block} = this.props;
+        const {left, top, width, height, style, block} = this.props;
         const {title, menu, id} = block;
         const {loading, content, dragging} = this.state;
         return (
@@ -98,7 +99,6 @@ export class Block extends Component<BlockProps, BlockState> {
                     onDragStart={this.#handleDragStart}
                     onDragEnd={this.#handleDragEnd}
                     data-id={id}
-                    style={{backgroundColor: `hsla(${index * 37 % 360}, 100%, 92%, 0.5)`}}
                 >
                     <div class="dashboard-block-header">
                         <div class="dashboard-block-title">{title}</div>
