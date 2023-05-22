@@ -1,6 +1,7 @@
-import {Component, ComponentChildren} from 'preact';
+import {Component, ComponentChildren, createRef} from 'preact';
 import {ContextMenu} from '@zui/contextmenu';
 import {formatString} from '@zui/helpers';
+import {$} from '@zui/cash';
 import '@zui/css-icons/src/icons/more.css';
 import type {BlockFetcher, BlockProps} from '../types';
 
@@ -11,6 +12,8 @@ export type BlockState = {
 };
 
 export class Block extends Component<BlockProps, BlockState> {
+    #ref = createRef<HTMLDivElement>();
+
     constructor(props: BlockProps) {
         super(props);
         this.state = {content: <div class="dashboard-block-body">{props.block.content}</div>};
@@ -18,6 +21,11 @@ export class Block extends Component<BlockProps, BlockState> {
 
     componentDidMount(): void {
         this.load();
+        $(this.#ref.current!).on('load.zui.dashboard', this.load.bind(this));
+    }
+
+    componentWillUnmount(): void {
+        $(this.#ref.current!).off('load.zui.dashboard');
     }
 
     load() {
@@ -62,17 +70,8 @@ export class Block extends Component<BlockProps, BlockState> {
     };
 
     #handleDragStart = (event: DragEvent) => {
-        if (!event.dataTransfer) {
-            event.preventDefault();
-            return;
-        }
-        const target = event.target as HTMLElement;
-        if (target.closest('.btn,a')) {
-            event.preventDefault();
-            return;
-        }
-        const element = (event.currentTarget as HTMLElement).closest('.dashboard-block') as HTMLElement;
-        const bounding = element.getBoundingClientRect();
+        const element = this.#ref.current;
+        const bounding = element!.getBoundingClientRect();
         if ((event.clientY - bounding.top) > 48) {
             event.preventDefault();
             return;
@@ -99,6 +98,7 @@ export class Block extends Component<BlockProps, BlockState> {
                     onDragStart={this.#handleDragStart}
                     onDragEnd={this.#handleDragEnd}
                     data-id={id}
+                    ref={this.#ref}
                 >
                     <div class="dashboard-block-header">
                         <div class="dashboard-block-title">{title}</div>

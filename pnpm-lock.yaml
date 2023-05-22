@@ -410,6 +410,9 @@ importers:
       '@zui/browser-helpers':
         specifier: workspace:^0.0.1
         version: link:../browser-helpers
+      '@zui/cash':
+        specifier: workspace:^0.0.1
+        version: link:../cash
       '@zui/com-helpers':
         specifier: workspace:^0.0.1
         version: link:../com-helpers
