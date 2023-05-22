@@ -1,0 +1,565 @@
+<div class="panel">
+  <div class="panel-heading">
+    <div class="panel-title">数据表格</div>
+  </div>
+  <div class="panel-body p-0">
+    <div id="blockDtable"></div>
+  </div>
+</div>
+<script>
+new zui.DTable('#blockDtable', {
+    "cols": [
+        {
+            "name": "id",
+            "title": "ID",
+            "width": 80,
+            "fixed": "left",
+            "sortType": "desc",
+            "checkbox": true
+        },
+        {
+            "name": "name",
+            "title": "项目名称",
+            "minWidth": 200,
+            "flex": 1,
+            "sortType": true,
+            "nestedToggle": true
+        },
+        {
+            "name": "manager",
+            "title": "负责人",
+            "sortType": true,
+            "border": true
+        },
+        {
+            "name": "storyScale",
+            "title": "需求规模",
+            "sortType": true
+        },
+        {
+            "name": "executionCount",
+            "title": "执行数",
+            "sortType": true
+        },
+        {
+            "name": "invested",
+            "title": "已投入",
+            "sortType": true,
+            "border": "left"
+        },
+        {
+            "name": "startDate",
+            "title": "开始日期",
+            "width": 90,
+            "align": "center",
+            "sortType": true
+        },
+        {
+            "name": "endDate",
+            "title": "开始日期",
+            "width": 90,
+            "align": "center",
+            "sortType": true,
+            "border": "right"
+        },
+        {
+            "name": "progress",
+            "title": "进度",
+            "sortType": true
+        },
+        {
+            "name": "actions",
+            "title": "操作",
+            "width": 200,
+            "fixed": "right",
+            "sortType": false,
+            "type": "actions",
+            "actionsMap": {
+                "add": {
+                    "icon": "icon-plus",
+                    "hint": "添加"
+                },
+                "delete": {
+                    "icon": "icon-pencil",
+                    "hint": "删除"
+                },
+                "edit": {
+                    "icon": "icon-edit",
+                    "hint": "编辑"
+                }
+            }
+        }
+    ],
+    "data": [
+        {
+            "id": "19",
+            "name": "Tucuxi",
+            "manager": "张三",
+            "storyScale": 451,
+            "executionCount": 451,
+            "invested": 451,
+            "startDate": "2020-01-01",
+            "endDate": "2020-01-01",
+            "progress": "50%",
+            "parent": "18",
+            "actions": [
+                "add",
+                "delete",
+                {
+                    "name": "edit",
+                    "disabled": false
+                }
+            ]
+        },
+        {
+            "id": "18",
+            "name": "Australian humpback Dolphin",
+            "manager": "张三",
+            "storyScale": 451,
+            "executionCount": 451,
+            "invested": 451,
+            "startDate": "2020-01-01",
+            "endDate": "2020-01-01",
+            "progress": "50%",
+            "parent": "17",
+            "actions": [
+                "add",
+                "delete",
+                {
+                    "name": "edit",
+                    "disabled": false
+                }
+            ]
+        },
+        {
+            "id": "17",
+            "name": "Rough-Toothed Dolphin",
+            "manager": "张三",
+            "storyScale": 451,
+            "executionCount": 451,
+            "invested": 451,
+            "startDate": "2020-01-01",
+            "endDate": "2020-01-01",
+            "progress": "50%",
+            "parent": "13",
+            "actions": [
+                "add",
+                "delete",
+                {
+                    "name": "edit",
+                    "disabled": true
+                }
+            ]
+        },
+        {
+            "id": "16",
+            "name": "Atlantic White-Sided Dolphin",
+            "manager": "张三",
+            "storyScale": 451,
+            "executionCount": 451,
+            "invested": 451,
+            "startDate": "2020-01-01",
+            "endDate": "2020-01-01",
+            "progress": "50%",
+            "parent": "13",
+            "actions": [
+                "add",
+                "delete",
+                {
+                    "name": "edit",
+                    "disabled": true
+                }
+            ]
+        },
+        {
+            "id": "15",
+            "name": "Pantropical Spotted Dolphin",
+            "manager": "张三",
+            "storyScale": 451,
+            "executionCount": 451,
+            "invested": 451,
+            "startDate": "2020-01-01",
+            "endDate": "2020-01-01",
+            "progress": "50%",
+            "parent": "12",
+            "actions": [
+                "add",
+                "delete",
+                {
+                    "name": "edit",
+                    "disabled": false
+                }
+            ]
+        },
+        {
+            "id": "14",
+            "name": "Chinese River Dolphin",
+            "manager": "张三",
+            "storyScale": 451,
+            "executionCount": 451,
+            "invested": 451,
+            "startDate": "2020-01-01",
+            "endDate": "2020-01-01",
+            "progress": "50%",
+            "parent": "12",
+            "actions": [
+                "add",
+                "delete",
+                {
+                    "name": "edit",
+                    "disabled": true
+                }
+            ]
+        },
+        {
+            "id": "13",
+            "name": "Chinese White Dolphin",
+            "manager": "张三",
+            "storyScale": 451,
+            "executionCount": 451,
+            "invested": 451,
+            "startDate": "2020-01-01",
+            "endDate": "2020-01-01",
+            "progress": "50%",
+            "parent": "12",
+            "actions": [
+                "add",
+                "delete",
+                {
+                    "name": "edit",
+                    "disabled": true
+                }
+            ]
+        },
+        {
+            "id": "12",
+            "name": "Chinese River Dolphin",
+            "manager": "张三",
+            "storyScale": 451,
+            "executionCount": 451,
+            "invested": 451,
+            "startDate": "2020-01-01",
+            "endDate": "2020-01-01",
+            "progress": "50%",
+            "parent": "",
+            "actions": [
+                "add",
+                "delete",
+                {
+                    "name": "edit",
+                    "disabled": false
+                }
+            ]
+        },
+        {
+            "id": "11",
+            "name": "False Killer Whale",
+            "manager": "张三",
+            "storyScale": 451,
+            "executionCount": 451,
+            "invested": 451,
+            "startDate": "2020-01-01",
+            "endDate": "2020-01-01",
+            "progress": "50%",
+            "parent": "",
+            "actions": [
+                "add",
+                "delete",
+                {
+                    "name": "edit",
+                    "disabled": false
+                }
+            ]
+        },
+        {
+            "id": "10",
+            "name": "Striped Dolphin",
+            "manager": "张三",
+            "storyScale": 451,
+            "executionCount": 451,
+            "invested": 451,
+            "startDate": "2020-01-01",
+            "endDate": "2020-01-01",
+            "progress": "50%",
+            "parent": "",
+            "actions": [
+                "add",
+                "delete",
+                {
+                    "name": "edit",
+                    "disabled": false
+                }
+            ]
+        },
+        {
+            "id": "9",
+            "name": "Atlantic Spotted Dolphin",
+            "manager": "张三",
+            "storyScale": 451,
+            "executionCount": 451,
+            "invested": 451,
+            "startDate": "2020-01-01",
+            "endDate": "2020-01-01",
+            "progress": "50%",
+            "parent": "8",
+            "actions": [
+                "add",
+                "delete",
+                {
+                    "name": "edit",
+                    "disabled": false
+                }
+            ]
+        },
+        {
+            "id": "8",
+            "name": "Short-Beaked Common Dolphin",
+            "manager": "张三",
+            "storyScale": 451,
+            "executionCount": 451,
+            "invested": 451,
+            "startDate": "2020-01-01",
+            "endDate": "2020-01-01",
+            "progress": "50%",
+            "parent": "7",
+            "actions": [
+                "add",
+                "delete",
+                {
+                    "name": "edit",
+                    "disabled": false
+                }
+            ]
+        },
+        {
+            "id": "7",
+            "name": "Striped Dolphin",
+            "manager": "张三",
+            "storyScale": 451,
+            "executionCount": 451,
+            "invested": 451,
+            "startDate": "2020-01-01",
+            "endDate": "2020-01-01",
+            "progress": "50%",
+            "parent": "3",
+            "actions": [
+                "add",
+                "delete",
+                {
+                    "name": "edit",
+                    "disabled": true
+                }
+            ]
+        },
+        {
+            "id": "6",
+            "name": "Heaviside’s Dolphin",
+            "manager": "张三",
+            "storyScale": 451,
+            "executionCount": 451,
+            "invested": 451,
+            "startDate": "2020-01-01",
+            "endDate": "2020-01-01",
+            "progress": "50%",
+            "parent": "3",
+            "actions": [
+                "add",
+                "delete",
+                {
+                    "name": "edit",
+                    "disabled": false
+                }
+            ]
+        },
+        {
+            "id": "5",
+            "name": "Australian humpback Dolphin",
+            "manager": "张三",
+            "storyScale": 451,
+            "executionCount": 451,
+            "invested": 451,
+            "startDate": "2020-01-01",
+            "endDate": "2020-01-01",
+            "progress": "50%",
+            "parent": "2",
+            "actions": [
+                "add",
+                "delete",
+                {
+                    "name": "edit",
+                    "disabled": true
+                }
+            ]
+        },
+        {
+            "id": "4",
+            "name": "Striped Dolphin",
+            "manager": "张三",
+            "storyScale": 451,
+            "executionCount": 451,
+            "invested": 451,
+            "startDate": "2020-01-01",
+            "endDate": "2020-01-01",
+            "progress": "50%",
+            "parent": "2",
+            "actions": [
+                "add",
+                "delete",
+                {
+                    "name": "edit",
+                    "disabled": true
+                }
+            ]
+        },
+        {
+            "id": "3",
+            "name": "Pacific White-Sided Dolphin",
+            "manager": "张三",
+            "storyScale": 451,
+            "executionCount": 451,
+            "invested": 451,
+            "startDate": "2020-01-01",
+            "endDate": "2020-01-01",
+            "progress": "50%",
+            "parent": "2",
+            "actions": [
+                "add",
+                "delete",
+                {
+                    "name": "edit",
+                    "disabled": false
+                }
+            ]
+        },
+        {
+            "id": "2",
+            "name": "Peale’s Dolphin",
+            "manager": "张三",
+            "storyScale": 451,
+            "executionCount": 451,
+            "invested": 451,
+            "startDate": "2020-01-01",
+            "endDate": "2020-01-01",
+            "progress": "50%",
+            "parent": "",
+            "actions": [
+                "add",
+                "delete",
+                {
+                    "name": "edit",
+                    "disabled": false
+                }
+            ]
+        },
+        {
+            "id": "1",
+            "name": "Pacific White-Sided Dolphin",
+            "manager": "张三",
+            "storyScale": 451,
+            "executionCount": 451,
+            "invested": 451,
+            "startDate": "2020-01-01",
+            "endDate": "2020-01-01",
+            "progress": "50%",
+            "parent": "",
+            "actions": [
+                "add",
+                "delete",
+                {
+                    "name": "edit",
+                    "disabled": false
+                }
+            ]
+        },
+        {
+            "id": "0",
+            "name": "Short-Beaked Common Dolphin",
+            "manager": "张三",
+            "storyScale": 451,
+            "executionCount": 451,
+            "invested": 451,
+            "startDate": "2020-01-01",
+            "endDate": "2020-01-01",
+            "progress": "50%",
+            "parent": "",
+            "actions": [
+                "add",
+                "delete",
+                {
+                    "name": "edit",
+                    "disabled": false
+                }
+            ]
+        }
+    ],
+    "height": 400,
+    "cellHover": true,
+    "colHover": "header",
+    "checkOnClickRow": true,
+    "plugins": [
+        "col-hover",
+        "rich",
+        "avatar",
+        "sort-type",
+        null,
+        null,
+        null,
+        null,
+        null
+    ],
+    "striped": true,
+    "responsive": true,
+    "footPager": {
+        "items": [
+            {
+                "type": "info",
+                "text": "共 {recTotal} 项"
+            },
+            {
+                "type": "size-menu",
+                "text": "每页 {recPerPage} 项"
+            },
+            {
+                "type": "link",
+                "page": "first",
+                "icon": "icon-double-angle-left",
+                "hint": "第一页"
+            },
+            {
+                "type": "link",
+                "page": "prev",
+                "icon": "icon-angle-left",
+                "hint": "上一页"
+            },
+            {
+                "type": "info",
+                "text": "{page}/{pageTotal}"
+            },
+            {
+                "type": "link",
+                "page": "next",
+                "icon": "icon-angle-right",
+                "hint": "下一页"
+            },
+            {
+                "type": "link",
+                "page": "last",
+                "icon": "icon-double-angle-right",
+                "hint": "最后一页"
+            }
+        ],
+        "page": 1,
+        "recTotal": 101,
+        "recPerPage": 10,
+        "linkCreator": "#?page={page}&recPerPage={recPerPage}"
+    },
+    "footer": [
+        "checkbox",
+        "divider",
+        "checkedInfo",
+        "divider",
+        "flex",
+        "pager"
+    ]
+});
+</script>
