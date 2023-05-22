@@ -37,6 +37,7 @@ export type ColSetting<S = {}> = S & {
     data: Record<string, unknown>;
     style: preact.JSX.CSSProperties;
     cellStyle: preact.JSX.CSSProperties;
+    cellClass: ClassNameLike;
     className: ClassNameLike;
     type: string;
     hidden: boolean;

@@ -32,11 +32,11 @@ export function Cell({col, className, height, row, onRenderCell, style: styleFro
         ...col.setting.cellStyle,
         ...styleFromParent,
     };
-    const outerClassName: ClassNameLike[] = ['dtable-cell', outerClass, col.setting.className, {
+    const outerClassName: ClassNameLike[] = ['dtable-cell', outerClass, className, col.setting.className, {
         'has-border-left': border === true || border === 'left',
         'has-border-right': border === true || border === 'right',
     }];
-    const contentClassName: ClassNameLike[] = ['dtable-cell-content', className];
+    const contentClassName: ClassNameLike[] = ['dtable-cell-content', col.setting.cellClass];
 
     const value = row.data?.[col.name];
     const defaultResult: CustomRenderResultList = [childrenFromParent ?? value ?? ''];
