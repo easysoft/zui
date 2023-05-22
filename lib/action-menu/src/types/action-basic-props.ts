@@ -10,7 +10,7 @@ export interface ActionBasicProps {
     component?: string | ComponentType;
     key?: ActionMenuItemKey;
     type?: string;
-    attrs?: JSX.HTMLAttributes<HTMLLIElement>;
+    attrs?: JSX.HTMLAttributes<HTMLElement> & {[key: `data-${string}`]: unknown};
     className?: ClassNameLike;
     style?: JSX.CSSProperties;
     children?: ComponentChildren | (() => ComponentChildren);
