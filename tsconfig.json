@@ -21,6 +21,7 @@
   "include": [
     "src",
     "config",
-    "dev/src/dev.ts"
+    "dev/src/dev.ts",
+    "exts/*/dev.ts"
   ]
 }
