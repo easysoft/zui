@@ -1,0 +1,17 @@
+.more,
+.more-vert {
+  @apply -w-0.5 -h-0.5 -rounded-full -bg-current -relative -m-2;
+}
+.more::before,
+.more::after,
+.more-vert::before,
+.more-vert::after {
+  @apply -content-[''] -block -absolute -w-0.5 -h-0.5 -bg-current -rounded-full --left-[5px] -top-0;
+}
+.more::after,
+.more-vert::after {
+  @apply -left-[5px];
+}
+.more-vert {
+  @apply -rotate-90;
+}
