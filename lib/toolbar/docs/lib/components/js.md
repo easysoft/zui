@@ -356,8 +356,6 @@ type ToolbarItemOptions = ToolbarItemProps | ToolbarDropdownProps | ToolbarBtnGr
 * 必选：否。
 
 <script>
-import {onZUIReady} from './zui-ready.js';
-
 export default {
     mounted() {
         onZUIReady(() => {
