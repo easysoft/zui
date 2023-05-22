@@ -129,6 +129,7 @@ const fontSizes = [
   {code: 'text-root', name: '根节点字号', desc: '设置在 <code>&lt;html&gt;</code> 元素上的字号'},
   {code: 'text-sm', name: '小号文本'},
   {code: 'text-base', name: '基准字号文本', desc: '通常与页面默认字号一致'},
+  {code: 'text-md', name: '中号文本'},
   {code: 'text-lg', name: '大号文本'},
   {code: 'text-xl', name: '超大号文本'},
   {code: 'text-2xl', name: '2x 超大号文本'},
