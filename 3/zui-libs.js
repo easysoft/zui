@@ -1596,6 +1596,56 @@ export default [
         }
     },
     {
+        "name": "@zui/dashboard",
+        "version": "0.0.1",
+        "description": "ZUI dashboard",
+        "keywords": [
+            "js",
+            "cs",
+            "zui:component"
+        ],
+        "main": "src/main.ts",
+        "module": "src/main.ts",
+        "dependencies": {
+            "@zui/browser-helpers": "workspace:^0.0.1",
+            "@zui/helpers": "workspace:^0.0.1",
+            "@zui/store": "workspace:^0.0.1",
+            "@zui/contextmenu": "workspace:^0.0.1",
+            "@zui/com-helpers": "workspace:^0.0.1",
+            "@zui/css-icons": "workspace:^0.0.1",
+            "@zui/i18n": "workspace:^0.0.1",
+            "@zui/toolbar": "workspace:^0.0.1"
+        },
+        "exports": {
+            ".": "./src/main.ts"
+        },
+        "files": [
+            "./src/**/*"
+        ],
+        "devDependencies": {
+            "zui-dev": "workspace:^0.0.1"
+        },
+        "zui": {
+            "type": "js-ui",
+            "displayName": "仪表盘",
+            "contributes": {
+                "css": [
+                    "class",
+                    "var"
+                ],
+                "js": [
+                    "component"
+                ]
+            },
+            "path": "/home/runner/work/zui/zui/lib/dashboard",
+            "workspace": true,
+            "sourceType": "build-in",
+            "name": "dashboard",
+            "order": 5010000043,
+            "packageJsonPath": "/home/runner/work/zui/zui/lib/dashboard/package.json"
+        }
+    },
+    {
         "name": "@zui/dropdown",
         "version": "0.0.1",
         "main": "src/main.ts",
@@ -1641,7 +1691,7 @@ export default [
             "workspace": true,
             "sourceType": "build-in",
             "name": "dropdown",
-            "order": 5010000043,
+            "order": 5010000044,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/dropdown/package.json"
         }
     },
@@ -1702,7 +1752,7 @@ export default [
             "workspace": true,
             "sourceType": "build-in",
             "name": "dtable",
-            "order": 5010000044,
+            "order": 5010000045,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/dtable/package.json"
         }
     },
@@ -1737,7 +1787,7 @@ export default [
             "workspace": true,
             "sourceType": "build-in",
             "name": "tabs",
-            "order": 5010000045,
+            "order": 5010000046,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/tabs/package.json"
         }
     },
@@ -1769,7 +1819,7 @@ export default [
             "workspace": true,
             "sourceType": "build-in",
             "name": "css-icons",
-            "order": 6010000046,
+            "order": 6010000047,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/css-icons/package.json"
         }
     },
@@ -1801,7 +1851,7 @@ export default [
             "workspace": true,
             "sourceType": "build-in",
             "name": "utilities",
-            "order": 6010000047,
+            "order": 6010000048,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/utilities/package.json"
         }
     },
@@ -1832,7 +1882,7 @@ export default [
             "workspace": true,
             "sourceType": "build-in",
             "name": "helpers",
-            "order": 7010000048,
+            "order": 7010000049,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/helpers/package.json"
         }
     }
