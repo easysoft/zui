@@ -1,0 +1,44 @@
+{
+    "name": "@zui/dashboard",
+    "description": "ZUI dashboard",
+    "version": "0.0.1",
+    "keywords": [
+        "js",
+        "cs",
+        "zui:component"
+    ],
+    "main": "src/main.ts",
+    "module": "src/main.ts",
+    "dependencies": {
+        "@zui/browser-helpers": "workspace:^0.0.1",
+        "@zui/helpers": "workspace:^0.0.1",
+        "@zui/store": "workspace:^0.0.1",
+        "@zui/contextmenu": "workspace:^0.0.1",
+        "@zui/com-helpers": "workspace:^0.0.1",
+        "@zui/css-icons": "workspace:^0.0.1",
+        "@zui/i18n": "workspace:^0.0.1",
+        "@zui/toolbar": "workspace:^0.0.1"
+    },
+    "exports": {
+        ".": "./src/main.ts"
+    },
+    "files": [
+        "./src/**/*"
+    ],
+    "devDependencies": {
+        "zui-dev": "workspace:^0.0.1"
+    },
+    "zui": {
+        "type": "js-ui",
+        "displayName": "仪表盘",
+        "contributes": {
+            "css": [
+                "class",
+                "var"
+            ],
+            "js": [
+                "component"
+            ]
+        }
+    }
+}
