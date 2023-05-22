@@ -3,6 +3,10 @@
   "private": true,
   "version": "3.0.0",
   "type": "module",
+  "engines": {
+    "node": ">=14",
+    "pnpm": ">=8"
+  },
   "scripts": {
     "dev": "vite --host",
     "dev:exts": "tsx ./scripts/dev/index.ts",
