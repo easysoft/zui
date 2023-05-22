@@ -25,6 +25,7 @@
   <div class="text-xs">text-xs 字体大小</div>
   <div class="text-sm">text-sm 字体大小</div>
   <div class="text-base">text-base 字体大小</div>
+  <div class="text-md">text-md 字体大小</div>
   <div class="text-lg">text-lg 字体大小</div>
   <div class="text-xl">text-xl 字体大小</div>
   <div class="text-2xl">text-2xl 字体大小</div>
@@ -34,6 +35,7 @@
 <div class="text-xs">text-xs 字体大小</div>
 <div class="text-sm">text-sm 字体大小</div>
 <div class="text-base">text-base 字体大小</div>
+<div class="text-md">text-md 字体大小</div>
 <div class="text-lg">text-lg 字体大小</div>
 <div class="text-xl">text-xl 字体大小</div>
 <div class="text-2xl">text-2xl 字体大小</div>
