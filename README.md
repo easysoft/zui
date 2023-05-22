@@ -213,6 +213,12 @@ import './dropdown.ts';  // 引入该组件的 JS 文件
 $ pnpm install
 ```
 
+如果需要使用 npm 镜像（例如 `https://registry.npmmirror.com/`），可以在 `~/.npmrc` 文件中添加以下内容：
+
+```ini
+registry=https://registry.npmmirror.com/
+```
+
 ### 调试
 
 执行下面的命令打开一个 Web 服务来进入调试模式：
