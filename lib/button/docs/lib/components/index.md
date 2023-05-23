@@ -353,7 +353,8 @@
 <Example class="flex gap-4 flex-wrap items-end">
   <button type="button" class="btn size-xs">超小按钮</button>
   <button type="button" class="btn size-sm">小按钮</button>
-  <button type="button" class="btn">普通大小</button>
+  <button type="button" class="btn size-md">中号按钮</button>
+  <button type="button" class="btn">普通大小按钮</button>
   <button type="button" class="btn size-lg">大按钮</button>
   <button type="button" class="btn size-xl">超大按钮</button>
 </Example>
@@ -361,7 +362,8 @@
 ```html
 <button type="button" class="btn size-xs">超小按钮</button>
 <button type="button" class="btn size-sm">小按钮</button>
-<button type="button" class="btn">普通大小</button>
+<button type="button" class="btn size-md">中号按钮</button>
+<button type="button" class="btn">普通大小按钮</button>
 <button type="button" class="btn size-lg">大按钮</button>
 <button type="button" class="btn size-xl">超大按钮</button>
 ```

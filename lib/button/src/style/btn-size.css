@@ -7,6 +7,9 @@
     .-btn-sm {
         @apply -text-sm -px-2 -h-6;
     }
+    .-btn-md {
+        @apply -px-2 -h-7;
+    }
     .-btn-lg {
         @apply -text-lg -px-4 -h-10;
     }
@@ -20,6 +23,9 @@
 }
 .btn.size-sm {
     @apply -btn-sm;
+}
+.btn.size-md {
+    @apply -btn-md;
 }
 .btn.size-lg {
     @apply -btn-lg;

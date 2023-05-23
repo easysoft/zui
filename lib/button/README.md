@@ -31,6 +31,7 @@
 <button type="button" class="btn size-xl">Extra Large Button</button>
 <button type="button" class="btn size-lg">Large Button</button>
 <button type="button" class="btn">Normal Button</button>
+<button type="button" class="btn size-md">Middle Button</button>
 <button type="button" class="btn size-sm">Small Button</button>
 <button type="button" class="btn size-xs">Extra Small Button</button>
 ```
