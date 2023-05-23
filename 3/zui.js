@@ -5505,7 +5505,7 @@ class kf extends B {
   load() {
     const { block: t } = this.props;
     let s = t.fetch;
-    if (!s)
+    if (!s || this.state.loading)
       return;
     typeof s == "string" ? s = { url: s } : typeof s == "function" && (s = s(t.id, t));
     const { url: i, ...o } = s;
@@ -5570,7 +5570,7 @@ let Rf = (ee = class extends B {
   }
   render() {
     const { blocks: t, height: s } = C(this, Li, ga).call(this), { cellHeight: i, grid: o } = this.props, r = p(this, Et);
-    return /* @__PURE__ */ _("div", { class: "dashboard", children: /* @__PURE__ */ _("div", { class: "dashboard-blocks", style: { height: s * i }, children: t.map((l, a) => {
+    return console.log("Dashboard.render", { blocks: t, map: r }, this), /* @__PURE__ */ _("div", { class: "dashboard", children: /* @__PURE__ */ _("div", { class: "dashboard-blocks", style: { height: s * i }, children: t.map((l, a) => {
       const { id: u } = l, [c, h, d, f] = r.get(u) || [0, 0, l.width, l.height];
       return /* @__PURE__ */ _(
         kf,
@@ -5617,21 +5617,21 @@ let Rf = (ee = class extends B {
     };
   });
 }, Li = new WeakSet(), ga = function() {
-  const t = C(this, Ti, ma).call(this), { grid: s, leftStop: i } = this.props;
   p(this, Et).clear();
-  let o = 0;
-  return t.forEach((r) => {
-    C(this, Ai, ya).call(this, r, s, i);
-    const [, l, , a] = p(this, Et).get(r.id);
-    o = Math.max(o, l + a);
-  }), { blocks: t, height: o };
-}, Ai = new WeakSet(), ya = function(t, s, i) {
-  const o = p(this, Et), { id: r, left: l, top: a, width: u, height: c } = t;
-  if (l < 0 || a < 0) {
-    const [h, d] = C(this, Ni, _a).call(this, u, c, l, a, s, i);
-    o.set(r, [h, d, u, c]);
+  let t = 0;
+  const s = C(this, Ti, ma).call(this);
+  return s.forEach((i) => {
+    C(this, Ai, ya).call(this, i);
+    const [, o, , r] = p(this, Et).get(i.id);
+    t = Math.max(t, o + r);
+  }), { blocks: s, height: t };
+}, Ai = new WeakSet(), ya = function(t) {
+  const s = p(this, Et), { id: i, left: o, top: r, width: l, height: a } = t;
+  if (o < 0 || r < 0) {
+    const [u, c] = C(this, Ni, _a).call(this, l, a, o, r);
+    s.set(i, [u, c, l, a]);
   } else
-    C(this, es, Do).call(this, r, [l, a, u, c]);
+    C(this, es, Do).call(this, i, [o, r, l, a]);
 }, ts = new WeakSet(), Mo = function(t) {
   var i;
   const { dragging: s } = this.state;
@@ -5644,48 +5644,48 @@ let Rf = (ee = class extends B {
   p(this, Et).set(t, s);
   for (const [o, r] of p(this, Et).entries())
     o !== t && C(i = ee, ns, Oo).call(i, r, s) && (r[1] = s[1] + s[3], C(this, es, Do).call(this, o, r));
-}, Ni = new WeakSet(), _a = function(t, s, i, o, r, l) {
+}, Ni = new WeakSet(), _a = function(t, s, i, o) {
   if (i >= 0 && o >= 0) {
     if (C(this, ts, Mo).call(this, [i, o, t, s]))
       return [i, o];
     o = -1;
   }
-  let a = i < 0 ? 0 : i, u = o < 0 ? 0 : o, c = !1;
-  for (; !c; ) {
-    if (C(this, ts, Mo).call(this, [a, u, t, s])) {
-      c = !0;
+  let r = i < 0 ? 0 : i, l = o < 0 ? 0 : o, a = !1;
+  const u = this.props.grid;
+  for (; !a; ) {
+    if (C(this, ts, Mo).call(this, [r, l, t, s])) {
+      a = !0;
       break;
     }
-    i < 0 && (a += l), a + t > r && (a = 0, u += 1);
+    i < 0 ? (r += 1, r + t > u && (r = 0, l += 1)) : l += 1;
   }
-  return [a, u];
+  return [r, l];
 }, Mi = new WeakMap(), Di = new WeakMap(), ns = new WeakSet(), Oo = function([t, s, i, o], [r, l, a, u]) {
   return !(t + i <= r || r + a <= t || s + o <= l || l + u <= s);
 }, w(ee, ns), v(ee, "defaultProps", {
   responsive: !1,
   blocks: [],
-  grid: 12,
+  grid: 3,
   gap: 16,
-  leftStop: 4,
   cellHeight: 64,
-  blockDefaultSize: [4, 3],
+  blockDefaultSize: [1, 3],
   blockMenu: { items: [{ text: "Refresh", attrs: { "data-type": "refresh" } }] },
   blockSizeMap: {
-    xs: [4, 3],
-    sm: [4, 4],
-    md: [4, 5],
-    lg: [4, 6],
-    xl: [4, 8],
-    xsWide: [8, 3],
-    smWide: [8, 4],
-    mdWide: [8, 5],
-    lgWide: [8, 6],
-    xlWide: [8, 8],
-    xsLong: [12, 3],
-    smLong: [12, 4],
-    mdLong: [12, 5],
-    lgLong: [12, 6],
-    xlLong: [12, 8]
+    xs: [1, 3],
+    sm: [1, 4],
+    md: [1, 5],
+    lg: [1, 6],
+    xl: [1, 8],
+    xsWide: [2, 3],
+    smWide: [2, 4],
+    mdWide: [2, 5],
+    lgWide: [2, 6],
+    xlWide: [2, 8],
+    xsLong: [3, 3],
+    smLong: [3, 4],
+    mdLong: [3, 5],
+    lgLong: [3, 6],
+    xlLong: [3, 8]
   }
 }), ee);
 class hl extends X {
