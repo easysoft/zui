@@ -37,7 +37,7 @@ export class AjaxForm extends ComponentBase<AjaxFormOptions, AjaxFormEvents, HTM
         }
 
         this.disable();
-        this.#send(new FormData(element)).finally(() => {
+        this.#send(this.#processData()).finally(() => {
             this.enable();
         });
     }
@@ -50,8 +50,23 @@ export class AjaxForm extends ComponentBase<AjaxFormOptions, AjaxFormEvents, HTM
         this.element.reset();
     }
 
-    async #send(formData: FormData) {
+    #processData(): FormData {
         const {element, options} = this;
+        let formData = new FormData(element);
+        let {submitEmptySelectValue = ''} = options;
+        if (submitEmptySelectValue !== false) {
+            if (typeof submitEmptySelectValue !== 'boolean') {
+                submitEmptySelectValue = '';
+            }
+            $(element).find('select').each((_, select) => {
+                const $select = $(select);
+                const name = $select.attr('name')!;
+                if (!formData.has(name)) {
+                    formData.append(name, (typeof submitEmptySelectValue === 'object' ? submitEmptySelectValue[name] : submitEmptySelectValue) as string);
+                }
+            });
+        }
+
         const {beforeSend} = options;
         if (beforeSend) {
             const result = beforeSend(formData);
@@ -59,8 +74,13 @@ export class AjaxForm extends ComponentBase<AjaxFormOptions, AjaxFormEvents, HTM
                 formData = result;
             }
         }
-        this.emit('send', {formData}, false);
 
+        this.emit('send', {formData}, false);
+        return formData;
+    }
+
+    async #send(formData: FormData) {
+        const {element, options} = this;
         let error: Error | undefined;
         let responseText: string | undefined;
         let result: AjaxFormResult | undefined;

@@ -2,6 +2,7 @@ import type {AjaxFormResult} from './ajax-form-result';
 
 export type AjaxFormOptions = {
     popoverTime?: number;
+    submitEmptySelectValue?: boolean | string | Record<string, string>;
     beforeSubmit?: (event: SubmitEvent, form: HTMLFormElement, options: AjaxFormOptions) => false | void;
     beforeSend?: (formData: FormData) => void | FormData;
     contentType?: 'multipart/form-data',
