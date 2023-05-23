@@ -7,7 +7,6 @@ export type DashboardOptions =  {
     blocks?: BlockSetting[];
     grid?: number;
     gap?: number;
-    leftStop?: number;
     cellHeight?: number;
     blockFetch?: BlockFetcher;
     blockDefaultSize?: [width: number, height: number] | {width: number, height: number};

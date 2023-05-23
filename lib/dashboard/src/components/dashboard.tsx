@@ -15,28 +15,27 @@ export class Dashboard extends Component<Required<DashboardOptions>, DashboardSt
     static defaultProps: DashboardOptions = {
         responsive: false,
         blocks: [],
-        grid: 12,
+        grid: 3,
         gap: 16,
-        leftStop: 4,
         cellHeight: 64,
-        blockDefaultSize: [4, 3],
+        blockDefaultSize: [1, 3],
         blockMenu: {items: [{text: 'Refresh', attrs: {'data-type': 'refresh'}}]},
         blockSizeMap: {
-            xs: [4, 3],
-            sm: [4, 4],
-            md: [4, 5],
-            lg: [4, 6],
-            xl: [4, 8],
-            xsWide: [8, 3],
-            smWide: [8, 4],
-            mdWide: [8, 5],
-            lgWide: [8, 6],
-            xlWide: [8, 8],
-            xsLong: [12, 3],
-            smLong: [12, 4],
-            mdLong: [12, 5],
-            lgLong: [12, 6],
-            xlLong: [12, 8],
+            xs: [1, 3],
+            sm: [1, 4],
+            md: [1, 5],
+            lg: [1, 6],
+            xl: [1, 8],
+            xsWide: [2, 3],
+            smWide: [2, 4],
+            mdWide: [2, 5],
+            lgWide: [2, 6],
+            xlWide: [2, 8],
+            xsLong: [3, 3],
+            smLong: [3, 4],
+            mdLong: [3, 5],
+            lgLong: [3, 6],
+            xlLong: [3, 8],
         },
     };
 
@@ -87,13 +86,11 @@ export class Dashboard extends Component<Required<DashboardOptions>, DashboardSt
     }
 
     #layout(): DashboardLayout {
-        const blocks = this.#getBlocks();
-        const {grid, leftStop} = this.props;
-
         this.#map.clear();
         let height = 0;
+        const blocks = this.#getBlocks();
         blocks.forEach(block => {
-            this.#layoutBlock(block, grid, leftStop);
+            this.#layoutBlock(block);
             const [, blockTop, , blockHeight] = this.#map.get(block.id)!;
             height = Math.max(height, blockTop + blockHeight);
         });
@@ -101,11 +98,11 @@ export class Dashboard extends Component<Required<DashboardOptions>, DashboardSt
         return {blocks, height};
     }
 
-    #layoutBlock(block: BlockInfo, grid: number, leftStop: number) {
+    #layoutBlock(block: BlockInfo) {
         const map = this.#map;
         const {id, left: expectLeft, top: expectTop, width, height} = block;
         if (expectLeft < 0 || expectTop < 0) {
-            const [left, top] = this.#appendBlock(width, height, expectLeft, expectTop, grid, leftStop);
+            const [left, top] = this.#appendBlock(width, height, expectLeft, expectTop);
             map.set(id, [left, top, width, height]);
         } else {
             this.#insertBlock(id, [expectLeft, expectTop, width, height]);
@@ -138,7 +135,7 @@ export class Dashboard extends Component<Required<DashboardOptions>, DashboardSt
         }
     }
 
-    #appendBlock(width: number, height: number, expectLeft: number, expectTop: number, grid: number, leftStop: number) {
+    #appendBlock(width: number, height: number, expectLeft: number, expectTop: number) {
         if (expectLeft >= 0 && expectTop >= 0) {
             if (this.#canPlaceInMap([expectLeft, expectTop, width, height])) {
                 return [expectLeft, expectTop];
@@ -148,16 +145,19 @@ export class Dashboard extends Component<Required<DashboardOptions>, DashboardSt
         let left = expectLeft < 0 ? 0 : expectLeft;
         let top = expectTop < 0 ? 0 : expectTop;
         let found = false;
+        const grid = this.props.grid;
         while (!found) {
             if (this.#canPlaceInMap([left, top, width, height])) {
                 found = true;
                 break;
             }
             if (expectLeft < 0) {
-                left += leftStop;
-            }
-            if (left + width > grid) {
-                left = 0;
+                left += 1;
+                if (left + width > grid) {
+                    left = 0;
+                    top += 1;
+                }
+            } else {
                 top += 1;
             }
         }
@@ -182,6 +182,7 @@ export class Dashboard extends Component<Required<DashboardOptions>, DashboardSt
         const {blocks, height: dashboardHeight} = this.#layout();
         const {cellHeight, grid} = this.props;
         const map = this.#map;
+        console.log('Dashboard.render', {blocks, map}, this);
         return (
             <div class="dashboard">
                 <div class="dashboard-blocks" style={{height: dashboardHeight * cellHeight}}>

@@ -39,15 +39,36 @@ const dashboard = new zui.Dashboard('#dashboardExample', {
 | --- | --- | --- |
 | `responsive` | `boolean` | 是否响应式，可选，默认为 `true` |
 | `blocks` | `BlockSetting[]` | 区块定义列表，可选，默认为 `[]` |
-| `grid` | `number` | 网格水平个数，可选，默认为 `12` |
+| `grid` | `number` | 网格水平个数，可选，默认为 `3` |
 | `gap` | `number` | 区块之间的间隔，可选，默认为 `16` |
-| `leftStop` | `number` | 停靠间隔，可选，默认为 `4` |
 | `cellHeight` | `number` | 单个网格的高度，可选，默认为 `64` |
 | `blockFetch` | `BlockFetcher` | 区块内容的获取方式，可选，默认为 `undefined` |
-| `blockDefaultSize` | `[width: number, height: number]` \| `{width: number, height: number}` | 区块的默认大小，可选，默认为 `[4, 4]` |
+| `blockDefaultSize` | `[width: number, height: number]` \| `{width: number, height: number}` | 区块的默认大小，可选，默认为 `[1, 4]` |
 | `blockSizeMap` | `Record<string, [width: number, height: number] \| {width: number, height: number}>` | 区块的大小映射表，可选，默认为 `{}` |
 | `blockMenu` | `ContextMenuOptions` | 定义区块操作菜单 |
 | `onLayoutChange` | `(blocks: BlockSetting[]) => void` | 区块布局变更回调函数 |
+
+## 预设区块尺寸
+
+```ts
+blockSizeMap: {
+    xs: [1, 3],
+    sm: [1, 4],
+    md: [1, 5],
+    lg: [1, 6],
+    xl: [1, 8],
+    xsWide: [2, 3],
+    smWide: [2, 4],
+    mdWide: [2, 5],
+    lgWide: [2, 6],
+    xlWide: [2, 8],
+    xsLong: [3, 3],
+    smLong: [3, 4],
+    mdLong: [3, 5],
+    lgLong: [3, 6],
+    xlLong: [3, 8],
+}
+```
 
 ## 区块定义
 
@@ -139,7 +160,6 @@ type DashboardOptions =  {
     blocks?: BlockSetting[];
     grid?: number;
     gap?: number;
-    leftStop?: number;
     cellHeight?: number;
     blockFetch?: BlockFetcher;
     blockDefaultSize?: [width: number, height: number] | {width: number, height: number};
@@ -159,10 +179,10 @@ onMounted(() => {
             blocks: [
                 {id: 1},
                 {id: 2, size: 'md'},
-                {id: 3, size: {width: 4, height: 4}},
+                {id: 3, size: {width: 3, height: 4}},
                 {id: 4, placeholder: 'placeholder'},
                 {id: 5},
-                {id: 6, left: 8, top: 0},
+                {id: 6, left: 2, top: 0},
                 {id: 7, size: 'smWide'},
                 {id: 8, size: 'xsLong'},
                 {id: 9, size: 'xs'},

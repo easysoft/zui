@@ -36,7 +36,7 @@ export class Block extends Component<BlockProps, BlockState> {
     load() {
         const {block} = this.props;
         let fetcher: BlockFetcher | undefined = block.fetch;
-        if (!fetcher) {
+        if (!fetcher || this.state.loading) {
             return;
         }
         if (typeof fetcher === 'string') {
