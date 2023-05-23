@@ -112,7 +112,7 @@
 
 ### 浅色标签
 
-<Example class="flex gap-4 flex-wrap" background="light-circle">
+<Example class="flex gap-4 flex-wrap">
   <span class="label primary-pale">主要</span>
   <span class="label secondary-pale">次要</span>
   <span class="label success-pale">成功</span>
@@ -123,7 +123,6 @@
   <span class="label lighter-pale">更浅色</span>
   <span class="label light-pale">浅色</span>
   <span class="label gray-pale">灰色</span>
-  <span class="label dark-pale">深色</span>
 </Example>
 
 ```html
@@ -137,37 +136,34 @@
 <span class="label lighter-pale">更浅色</span>
 <span class="label light-pale">浅色</span>
 <span class="label gray-pale">灰色</span>
-<span class="label dark-pale">深色</span>
 ```
 
-搭配 CSS 工具类 `bd-*` 还可以为浅色标签添加描边。
+搭配 CSS 工具类 `ring-*` 还可以为浅色标签添加描边。
 
-<Example class="flex gap-4 flex-wrap" background="light-circle">
-  <span class="label primary-pale bd-primary">主要</span>
-  <span class="label secondary-pale bd-secondary">次要</span>
-  <span class="label success-pale bd-success">成功</span>
-  <span class="label warning-pale bd-warning">关注</span>
-  <span class="label danger-pale bd-danger">警告</span>
-  <span class="label important-pale bd-important">重要</span>
-  <span class="label special-pale bd-special">特殊</span>
-  <span class="label lighter-pale bd-lighter">更浅色</span>
-  <span class="label light-pale bd-light">浅色</span>
-  <span class="label gray-pale bd-gray">灰色</span>
-  <span class="label dark-pale bd-dark">深色</span>
+<Example class="flex gap-4 flex-wrap">
+  <span class="label primary-pale ring-primary">主要</span>
+  <span class="label secondary-pale ring-secondary">次要</span>
+  <span class="label success-pale ring-success">成功</span>
+  <span class="label warning-pale ring-warning">关注</span>
+  <span class="label danger-pale ring-danger">警告</span>
+  <span class="label important-pale ring-important">重要</span>
+  <span class="label special-pale ring-special">特殊</span>
+  <span class="label lighter-pale ring-lighter">更浅色</span>
+  <span class="label light-pale ring-light">浅色</span>
+  <span class="label gray-pale ring-dark">灰色</span>
 </Example>
 
 ```html
-<span class="label primary-pale bd-primary">主要</span>
-<span class="label secondary-pale bd-secondary">次要</span>
-<span class="label success-pale bd-success">成功</span>
-<span class="label warning-pale bd-warning">关注</span>
-<span class="label danger-pale bd-danger">警告</span>
-<span class="label important-pale bd-important">重要</span>
-<span class="label special-pale bd-special">特殊</span>
-<span class="label lighter-pale bd-lighter">更浅色</span>
-<span class="label light-pale bd-light">浅色</span>
-<span class="label gray-pale bd-gray">灰色</span>
-<span class="label dark-pale bd-dark">深色</span>
+<span class="label primary-pale ring-primary">主要</span>
+<span class="label secondary-pale ring-secondary">次要</span>
+<span class="label success-pale ring-success">成功</span>
+<span class="label warning-pale ring-warning">关注</span>
+<span class="label danger-pale ring-danger">警告</span>
+<span class="label important-pale ring-important">重要</span>
+<span class="label special-pale ring-special">特殊</span>
+<span class="label lighter-pale ring-lighter">更浅色</span>
+<span class="label light-pale ring-light">浅色</span>
+<span class="label gray-pale ring-dark">灰色</span>
 ```
 
 ### 标签文本颜色
