@@ -128,7 +128,7 @@ export class AjaxForm extends ComponentBase<AjaxFormOptions, AjaxFormEvents, HTM
                 return;
             }
             $control.addClass('has-error');
-            const $group = $control.closest('.form-group');
+            const $group = $control.closest('.form-group,.form-batch-control');
             if ($group.length) {
                 const tipElement = document.getElementById(`${name}Tip`);
                 let $tip = tipElement ? $(tipElement) : null;
