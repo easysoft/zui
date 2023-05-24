@@ -61,6 +61,7 @@ export class ComponentBase<O extends {} = {}, V extends CustomEventMap = {}, E e
 
         (this.constructor as typeof ComponentBase).all.set(element, this);
         this.#element = element;
+        element.setAttribute('data-zui', (this.constructor as typeof ComponentBase).NAME);
 
         this.init();
         requestAnimationFrame(() => {
@@ -163,5 +164,19 @@ export class ComponentBase<O extends {} = {}, V extends CustomEventMap = {}, E e
 
     static ensure<O extends {}, V extends CustomEventMap, E extends HTMLElement, T extends typeof ComponentBase<O, V, E>>(this: T, element: E, options?: O): InstanceType<T> {
         return (this.get<O, V, E, T>(element) || new this(element, options)) as InstanceType<T>;
+    }
+
+    static query<O extends {}, V extends CustomEventMap, E extends HTMLElement, T extends typeof ComponentBase<O, V, E>>(target: string | HTMLElement): InstanceType<T> | undefined {
+        if (target === undefined) {
+            return [...this.getAll().values()].pop();
+        }
+        if (typeof target === 'string') {
+            target = document.querySelector(target) as HTMLElement;
+        }
+        if (!target) {
+            return;
+        }
+        target = target.closest(`[data-zui="${this.NAME}"]`) as HTMLElement;
+        return target ? this.get(target as E) : undefined;
     }
 }
