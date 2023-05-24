@@ -45,14 +45,19 @@ export class Toolbar<T extends ActionBasicProps = ToolbarItemOptions, P extends 
     }
 
     renderTypedItem(ItemComponent: ComponentType, rootProps: JSX.HTMLAttributes, itemProps: T) {
-        const btnProps = (this.isBtnItem(itemProps.type) ? {btnType: 'ghost', ...this.props.btnProps} : {}) as ButtonProps;
+        const {type} = itemProps;
+        const userBtnProps = this.props.btnProps;
+        const btnProps = (this.isBtnItem(type) ? {btnType: 'ghost', ...userBtnProps} : {}) as ButtonProps;
         const props = {
             ...rootProps,
             ...btnProps,
             ...itemProps,
-            className: classes(`${this.name}-${itemProps.type}`, rootProps.className as ClassNameLike, btnProps.className, itemProps.className),
+            className: classes(`${this.name}-${type}`, rootProps.className as ClassNameLike, btnProps.className, itemProps.className),
             style: Object.assign({}, rootProps.style, btnProps.style, itemProps.style),
         } as T;
+        if (type === 'btn-group') {
+            props.btnProps = userBtnProps;
+        }
         return <ItemComponent {...props} />;
     }
 }
