@@ -1,5 +1,6 @@
-import {classes} from '@zui/browser-helpers/src/classes';
 import {Attributes, ComponentType, h as _h} from 'preact';
+import {classes} from '@zui/browser-helpers/src/classes';
+import {renderIcon} from '@zui/com-helpers/src/helpers/render-icon';
 import {ActionItemProps} from '../types/action-item-props';
 
 export function ActionItem({
@@ -19,10 +20,10 @@ export function ActionItem({
     ...others
 }: ActionItemProps) {
     const finalChildren = [
-        typeof icon === 'string' ? <i class={`icon ${icon}`} /> : icon,
+        renderIcon(icon),
         <span className="text">{text}</span>,
         typeof children === 'function' ? children() : children,
-        typeof trailingIcon === 'string' ? <i class={`icon ${trailingIcon}`} /> : trailingIcon,
+        renderIcon(trailingIcon),
     ];
     return _h(component as ComponentType, {
         className: classes(className, {disabled, active}),
