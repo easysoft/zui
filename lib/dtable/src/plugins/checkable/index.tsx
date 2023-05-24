@@ -140,7 +140,7 @@ const checkablePlugin: DTablePlugin<DTableCheckableTypes> = {
         checkbox() {
             const checked = this.isAllRowChecked();
             return [
-                <div style={{padding: '0 calc(3 * var(--space))', display: 'flex', alignItems: 'center'}} onClick={() => this.toggleCheckRows()}><input type="checkbox" checked={checked} /></div>,
+                <div style={{paddingRight: 'calc(3*var(--space))', display: 'flex', alignItems: 'center'}} onClick={() => this.toggleCheckRows()}><input type="checkbox" checked={checked} /></div>,
             ];
         },
         checkedInfo(_, layout) {
