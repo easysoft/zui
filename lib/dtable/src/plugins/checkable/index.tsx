@@ -3,12 +3,14 @@ import {definePlugin} from '../../helpers/shared-plugins';
 import './style.css';
 import type {CustomRenderResult} from '../../types/common';
 import type {DTablePluginTypes, DTableWithPlugin, DTablePlugin} from '../../types/plugin';
+import type {ComponentChildren} from 'preact';
 
 export interface DTableCheckableTypes extends DTablePluginTypes {
     options: Partial<{
         checkable: boolean | 'auto';
+        checkInfo: (this: DTableCheckable, checks: string[]) => ComponentChildren;
         checkOnClickRow: boolean;
-        canRowCheckable: ((this: DTableCheckable, rowID: string) => boolean);
+        canRowCheckable: (this: DTableCheckable, rowID: string) => boolean;
         beforeCheckRows: (this: DTableCheckable, ids: string[] | undefined, changes: Record<string, boolean>, checkedRows: Record<string, boolean>) => void;
         onCheckChange: (this: DTableCheckable, changes: Record<string, boolean>) => void;
         checkboxRender: (this: DTableCheckable, checked: boolean, rowID: string) => CustomRenderResult;
@@ -144,7 +146,12 @@ const checkablePlugin: DTablePlugin<DTableCheckableTypes> = {
             ];
         },
         checkedInfo(_, layout) {
-            const checkedCount = this.getChecks().length;
+            const checks = this.getChecks();
+            const {checkInfo} = this.options;
+            if (checkInfo) {
+                return [checkInfo.call(this, checks)];
+            }
+            const checkedCount = checks.length;
             const texts: string[] = [];
             if (checkedCount) {
                 texts.push(this.i18n('checkedCountInfo', {selected: checkedCount}));
