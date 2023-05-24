@@ -8,7 +8,7 @@ export type I18nValuesMap = Record<string, string | object>;
 
 export type I18nLangMap = Record<I18nLangCode, I18nValuesMap>;
 
-let globalLangCode = document.documentElement.getAttribute('lang')?.toLowerCase() ?? 'zh_cn';
+let globalLangCode = (document.documentElement.getAttribute('lang') || 'zh_cn').toLowerCase().replace('-', '_');
 
 let globalLangMap: I18nLangMap | undefined;
 
