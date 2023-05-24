@@ -10,7 +10,7 @@ export function getDefaultOptions() {
         minColWidth: 20,
         maxColWidth: 9999,
         header: true,
-        footer: false,
+        footer: undefined,
         headerHeight: 0,
         footerHeight: 0,
         rowHover: true,
