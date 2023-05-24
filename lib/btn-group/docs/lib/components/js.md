@@ -55,15 +55,15 @@ new zui.BtnGroup('#btnGroup2', {
 
 <script>
 new zui.BtnGroup('#iconBtnGroup', {
-    defaultBtnProps: {className: 'ghost'},
+    btnProps: {className: 'ghost'},
     // items: ...,
 });
 new zui.BtnGroup('#iconBtnGroup2', {
-    defaultBtnProps: {className: 'text-primary'},
+    btnProps: {className: 'text-primary'},
     // items: ...,
 });
 new zui.BtnGroup('#iconBtnGroup3', {
-    defaultBtnProps: {className: 'primary-outline bg-canvas'},
+    btnProps: {className: 'primary-outline bg-canvas'},
     // items: ...,
 });
 </script>
@@ -203,7 +203,7 @@ new BtnGroup('#btnGroup', {
 * 类型：`string`
 * 必选：否
 
-### `defaultBtnProps`
+### `btnProps`
 
 继承 [按钮属性](/lib/components/button/js.html#选项)。
 
@@ -312,7 +312,7 @@ export default {
             ];
             btnGroupProps.forEach(item => {
                 new zui.BtnGroup(item.id, {
-                    defaultBtnProps: {className: item.className},
+                    btnProps: {className: item.className},
                     items: btnGroupItems,
                 });
             });
@@ -340,4 +340,3 @@ export default {
     },
 };
 </script>
-

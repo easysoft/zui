@@ -46,7 +46,7 @@ export class BtnGroup extends Component<BtnGroupOptions> {
     }
 
     renderItem(options: Omit<BtnGroupOptions, 'items'> & {items: BtnProps[]}, item: BtnProps, index: number) {
-        const {itemRender, defaultBtnProps, onClickItem} = options;
+        const {itemRender, btnProps: defaultBtnProps, onClickItem} = options;
         const btnProps: BtnProps = {key: index, ...item};
         if (defaultBtnProps) {
             Object.assign(btnProps, defaultBtnProps);
@@ -74,7 +74,7 @@ export class BtnGroup extends Component<BtnGroupOptions> {
             items,
             size,
             type,
-            defaultBtnProps,
+            btnProps,
             children,
             itemRender,
             onClickItem,

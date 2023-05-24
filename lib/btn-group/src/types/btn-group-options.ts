@@ -10,7 +10,7 @@ export interface BtnGroupOptions {
     items?: BtnProps[] | (() => BtnProps[]);
     size?: 'xs' | 'sm' | 'lg' | 'xl';
     type?: string;
-    defaultBtnProps?: Partial<BtnProps>;
+    btnProps?: Partial<BtnProps>;
     children?: ComponentChildren | (() => ComponentChildren);
     itemRender?: BtnGroupItemRender,
     onClickItem?: (info: {item: BtnProps, index: number, event: MouseEvent}) => void;
