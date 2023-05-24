@@ -1,5 +1,6 @@
 import {Component, h as _h, ComponentType, Attributes} from 'preact';
 import {classes} from '@zui/browser-helpers/src/classes';
+import {renderIcon} from '@zui/com-helpers/src/helpers/render-icon';
 import '../style/index.css';
 import {ButtonProps} from '../types/button-props';
 
@@ -46,7 +47,7 @@ export class Button extends Component<ButtonProps> {
                 type: ButtonComponent === 'button' ? btnType : undefined,
                 ...others,
             } as Attributes,
-            loading ? <i class={`spin icon ${loadingIcon || 'icon-spinner-snake'}`} /> : typeof icon === 'string' ? <i class={`icon ${icon}`} /> : icon,
+            loading ? <i class={`spin icon ${loadingIcon || 'icon-spinner-snake'}`} /> : renderIcon(icon),
             isEmptyText ? null : <span className="text">{loading ? loadingText : text}</span>,
             loading ? null : children,
             loading ? null : typeof trailingIcon === 'string' ? <i class={`icon ${trailingIcon}`} /> : trailingIcon,
