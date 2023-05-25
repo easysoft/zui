@@ -50,6 +50,7 @@ export type DTableSortableTypes = {
         nestedMap: Map<string, NestedRowInfo>,
     },
     methods: {
+        getNestedInfo: typeof getNestedInfo;
         toggleRow: typeof toggleRow;
         isAllCollapsed: typeof isAllCollapsed;
         getNestedRowInfo: typeof getNestedRowInfo;
@@ -84,7 +85,14 @@ function getNestedRowInfo(this: DTableNested, rowID: string): NestedRowInfo {
     return info;
 }
 
-function toggleRow(this: DTableNested, rowID: string | (RowID)[], collapsed?: boolean) {
+function getNestedInfo(this: DTableNested, rowID?: string): NestedRowInfo | Map<string, NestedRowInfo> {
+    if (rowID !== undefined) {
+        return getNestedRowInfo.call(this, rowID);
+    }
+    return this.data.nestedMap;
+}
+
+function toggleRow(this: DTableNested, rowID: RowID | RowID[], collapsed?: boolean) {
     let collapsedRows: Record<string, boolean> = this.state.collapsedRows as Record<string, true> ?? {};
     const {nestedMap} = this.data;
     if (rowID === 'HEADER') {
