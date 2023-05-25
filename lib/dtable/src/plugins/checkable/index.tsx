@@ -8,10 +8,10 @@ import type {ComponentChildren} from 'preact';
 export interface DTableCheckableTypes extends DTablePluginTypes {
     options: Partial<{
         checkable: boolean | 'auto';
-        checkInfo: (this: DTableCheckable, checks: string[]) => ComponentChildren;
         checkOnClickRow: boolean;
+        checkInfo: (this: DTableCheckable, checks: string[]) => ComponentChildren;
         canRowCheckable: (this: DTableCheckable, rowID: string) => boolean;
-        beforeCheckRows: (this: DTableCheckable, ids: string[] | undefined, changes: Record<string, boolean>, checkedRows: Record<string, boolean>) => void;
+        beforeCheckRows: (this: DTableCheckable, ids: string[] | undefined, changes: Record<string, boolean>, checkedRows: Record<string, boolean>) => Record<string, boolean>;
         onCheckChange: (this: DTableCheckable, changes: Record<string, boolean>) => void;
         checkboxRender: (this: DTableCheckable, checked: boolean, rowID: string) => CustomRenderResult;
     }>,
@@ -23,9 +23,11 @@ export interface DTableCheckableTypes extends DTablePluginTypes {
         isRowChecked: typeof isRowChecked;
         isAllRowChecked: typeof isAllRowChecked;
         getChecks: typeof getChecks;
+        toggleCheckable: typeof toggleCheckable;
     },
     state: {
         checkedRows: Record<string, true>;
+        forceCheckable?: boolean;
     },
 }
 
@@ -107,14 +109,28 @@ function getChecks(this: DTableCheckable): string[] {
     return Object.keys(this.state.checkedRows);
 }
 
+function toggleCheckable(this: DTableCheckable, toggle?: boolean) {
+    const {checkable} = this.options;
+    if (toggle === undefined) {
+        toggle = !checkable;
+    }
+    if (checkable === toggle) {
+        return;
+    }
+    this.setState({forceCheckable: toggle});
+}
+
 const checkablePlugin: DTablePlugin<DTableCheckableTypes> = {
     name: 'checkable',
     defaultOptions: {
         checkable: 'auto',
     },
-    when: options => !!options.checkable,
+    when: options => options.checkable !== undefined,
     options(options) {
-        if (options.checkable === 'auto') {
+        const {forceCheckable} = this.state;
+        if (forceCheckable !== undefined) {
+            options.checkable = forceCheckable;
+        } else if (options.checkable === 'auto') {
             options.checkable = !!options.cols.some(col => col.checkbox);
         }
         return options;
@@ -127,11 +143,16 @@ const checkablePlugin: DTablePlugin<DTableCheckableTypes> = {
         isRowChecked,
         isAllRowChecked,
         getChecks,
+        toggleCheckable,
     },
     i18n: {
         zh_cn: {
             checkedCountInfo: '已选择 {selected} 项',
             totalCountInfo: '共 {total} 项',
+        },
+        zh_tw: {
+            checkedCountInfo: '已選擇 {selected} 項',
+            totalCountInfo: '共 {total} 項',
         },
         en: {
             checkedCountInfo: 'Selected {selected} items',
