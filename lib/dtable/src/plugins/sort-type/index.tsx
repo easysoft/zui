@@ -21,7 +21,7 @@ export type DTableSortType = DTableWithPlugin<DTableSortTypeTypes>;
 const sortTypePlugin: DTablePlugin<DTableSortTypeTypes> = {
     name: 'sort-type',
     onRenderHeaderCell(result, info) {
-        const {row, col} = info;
+        const {col} = info;
         const {sortType: sortTypeSetting} = col.setting;
         if (sortTypeSetting) {
             const sortTypeName = sortTypeSetting === true ? 'none' : sortTypeSetting;
@@ -39,7 +39,7 @@ const sortTypePlugin: DTablePlugin<DTableSortTypeTypes> = {
                     sortLink = {url: sortLink};
                 }
                 const {url, ...linkProps} = sortLink;
-                result.push(<a href={formatString(url, row.data)} {...linkProps}></a>);
+                result[0] = <a href={formatString(url, {...col.setting, sortType: nextSortType})} {...linkProps}>{result[0]}</a>;
             }
         }
         return result;
