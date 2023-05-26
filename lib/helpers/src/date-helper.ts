@@ -134,8 +134,11 @@ export const isDBY = (date: DateLike, now?: DateLike): boolean => isSameDay(crea
  * @param format 格式化字符串
  * @returns 日期时间格式化文本
  */
-export const formatDate = (date: DateLike, format = 'yyyy-MM-dd hh:mm'): string => {
+export const formatDate = (date: DateLike, format = 'yyyy-MM-dd hh:mm', invalidDateValue = ''): string => {
     date = createDate(date);
+    if (Number.isNaN(date.getDay())) {
+        return invalidDateValue;
+    }
 
     const dateInfo = {
         'M+': date.getMonth() + 1,

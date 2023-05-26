@@ -158,6 +158,8 @@ const cols = [
 * `string`：使用字符串模版来格式化日期时间；
 * `(value: any, info: {row: any, col: ColInfo}) => string`：使用函数来动态生成日期时间。
 
+当由行数据提供的日期不合法时，可以通过 `invalidDate` 属性提供一个默认的字符串用于替代显示。
+
 ::: tip 提示
 要让格式化日期时间生效，确保对应单元格的原始值为日期时间类型或者可以转换为日期时间的字符串或时间戳。
 :::
@@ -172,6 +174,9 @@ const cols = [
 
         /* 使用字符串进行格式化，{0} 表示单元格的原始值。 */
         formatDate: 'yyyy-MM-dd',
+
+        /* 日期不合法时显示的字符串。 */
+        invalidDate: '无效日期',
     }, {
         name: 'updatedAt',
         title: '更新时间',

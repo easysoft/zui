@@ -25,6 +25,7 @@ export type DTableRichTypes = {
         link: ColLinkSetting;
         format: ColFormatSetting;
         formatDate: ColDateFormatSetting;
+        invalidDate: string;
         html: ColHTMLSetting;
         map: ColMapSetting;
     }>,
@@ -57,7 +58,7 @@ export function renderFormat(format: ColFormatSetting | undefined, info: {row: R
     return formatString(format, value);
 }
 
-export function renderDatetime(format: ColDateFormatSetting, info: {row: RowInfo, col: ColInfo}, value?: unknown) {
+export function renderDatetime(format: ColDateFormatSetting, info: {row: RowInfo, col: ColInfo}, value?: unknown, invalidDate?: string) {
     value = value ?? info.row.data?.[info.col.name];
     if (format === false) {
         return value as string;
@@ -68,7 +69,7 @@ export function renderDatetime(format: ColDateFormatSetting, info: {row: RowInfo
     if (typeof format === 'function') {
         format = format(value, info);
     }
-    return formatDate(value as DateLike, format);
+    return formatDate(value as DateLike, format, invalidDate);
 }
 
 export function renderLinkCell(result: CustomRenderResultList, info: {row: RowInfo, col: ColInfo}) {
@@ -99,8 +100,8 @@ export function renderMapCell(result: CustomRenderResultList, info: {row: RowInf
 }
 
 export function renderDatetimeCell(result: CustomRenderResultList, info: {row: RowInfo, col: ColInfo}, defaultFormat: ColDateFormatSetting = '[yyyy-]MM-dd hh:mm') {
-    const {format = defaultFormat} = info.col.setting;
-    result[0] = renderDatetime(format as ColDateFormatSetting, info, result[0]);
+    const {format = defaultFormat, invalidDate} = info.col.setting as DTableRichTypes['col'];
+    result[0] = renderDatetime(format as ColDateFormatSetting, info, result[0], invalidDate);
     return result;
 }
 
@@ -144,7 +145,7 @@ const richPlugin: DTablePlugin<DTableRichTypes> = {
         },
         datetime: {
             onRenderCell(result, info) {
-                return renderDatetimeCell(result, info);
+                return renderDatetimeCell(result, info, '[yyyy-]MM-dd hh:mm');
             },
         },
         date: {
