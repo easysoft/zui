@@ -83,6 +83,7 @@ export function Cell({col, className, height, row, onRenderCell, style: styleFro
             className={classes(outerClassName)}
             style={outerStyle}
             data-col={col.name}
+            data-type={col.type}
             {...others}
             {...outerAttrs}
         >
