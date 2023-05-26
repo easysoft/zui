@@ -8,6 +8,9 @@
 .vp-doc > div > h3 {
     @apply -mb-2;
 }
+.vp-doc .example a:hover {
+    @apply -no-underline;
+}
 .VPSidebar > .nav {
     @apply -block;
 }
