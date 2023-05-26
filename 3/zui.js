@@ -4283,9 +4283,10 @@ const Pt = 24 * 60 * 60 * 1e3, ct = (e) => e ? (e instanceof Date || (typeof e =
   e = ct(e), n = ct(n);
   const t = 1e3 * 60 * 60 * 24, s = Math.floor(e.getTime() / t), i = Math.floor(n.getTime() / t);
   return Math.floor((s + 4) / 7) === Math.floor((i + 4) / 7);
-}, _d = (e, n) => fs(ct(n), e), bd = (e, n) => fs(ct(n).getTime() - Pt, e), wd = (e, n) => fs(ct(n).getTime() + Pt, e), vd = (e, n) => fs(ct(n).getTime() - 2 * Pt, e), Lo = (e, n = "yyyy-MM-dd hh:mm") => {
-  e = ct(e);
-  const t = {
+}, _d = (e, n) => fs(ct(n), e), bd = (e, n) => fs(ct(n).getTime() - Pt, e), wd = (e, n) => fs(ct(n).getTime() + Pt, e), vd = (e, n) => fs(ct(n).getTime() - 2 * Pt, e), Lo = (e, n = "yyyy-MM-dd hh:mm", t = "") => {
+  if (e = ct(e), Number.isNaN(e.getDay()))
+    return t;
+  const s = {
     "M+": e.getMonth() + 1,
     "d+": e.getDate(),
     "h+": e.getHours(),
@@ -4294,10 +4295,10 @@ const Pt = 24 * 60 * 60 * 1e3, ct = (e) => e ? (e instanceof Date || (typeof e =
     "s+": e.getSeconds(),
     "S+": e.getMilliseconds()
   };
-  return /(y+)/i.test(n) && (n.includes("[yyyy-]") && (n = n.replace("[yyyy-]", Ao(e) ? "" : "yyyy-")), n = n.replace(RegExp.$1, `${e.getFullYear()}`.substring(4 - RegExp.$1.length))), Object.keys(t).forEach((s) => {
-    if (new RegExp(`(${s})`).test(n)) {
-      const i = `${t[s]}`;
-      n = n.replace(RegExp.$1, RegExp.$1.length === 1 ? i : `00${i}`.substring(i.length));
+  return /(y+)/i.test(n) && (n.includes("[yyyy-]") && (n = n.replace("[yyyy-]", Ao(e) ? "" : "yyyy-")), n = n.replace(RegExp.$1, `${e.getFullYear()}`.substring(4 - RegExp.$1.length))), Object.keys(s).forEach((i) => {
+    if (new RegExp(`(${i})`).test(n)) {
+      const o = `${s[i]}`;
+      n = n.replace(RegExp.$1, RegExp.$1.length === 1 ? o : `00${o}`.substring(o.length));
     }
   }), n;
 }, xd = (e, n, t) => {
@@ -5859,6 +5860,7 @@ function va({ col: e, className: n, height: t, row: s, onRenderCell: i, style: o
       className: D(m),
       style: c,
       "data-col": e.name,
+      "data-type": e.type,
       ...u,
       ...A,
       children: [
@@ -6996,7 +6998,7 @@ const qf = {
 }, Gf = $e(qf);
 function Wa(e, n, t, s) {
   if (!e)
-    return;
+    return t;
   typeof e == "function" && (e = e(n)), typeof e == "string" && (e = { url: e });
   const { url: i, ...o } = e;
   return /* @__PURE__ */ _("a", { href: rt(i, n.row.data), ...s, ...o, children: t });
@@ -7006,9 +7008,9 @@ function cr(e, n, t) {
   if (e != null)
     return t = t ?? ((s = n.row.data) == null ? void 0 : s[n.col.name]), typeof e == "function" ? e(t, n) : rt(e, t);
 }
-function ja(e, n, t) {
-  var s;
-  return t = t ?? ((s = n.row.data) == null ? void 0 : s[n.col.name]), e === !1 ? t : (e === !0 && (e = "[yyyy-]MM-dd hh:mm"), typeof e == "function" && (e = e(t, n)), Lo(t, e));
+function ja(e, n, t, s) {
+  var i;
+  return t = t ?? ((i = n.row.data) == null ? void 0 : i[n.col.name]), e === !1 ? t : (e === !0 && (e = "[yyyy-]MM-dd hh:mm"), typeof e == "function" && (e = e(t, n)), Lo(t, e, s));
 }
 function Ba(e, n) {
   const { link: t } = n.col.setting, s = Wa(t, n, e[0]);
@@ -7023,8 +7025,8 @@ function Fa(e, n) {
   return typeof t == "function" ? e[0] = t(e[0], n) : typeof t == "object" && t && (e[0] = t[e[0]] ?? e[0]), e;
 }
 function mn(e, n, t = "[yyyy-]MM-dd hh:mm") {
-  const { format: s = t } = n.col.setting;
-  return e[0] = ja(s, n, e[0]), e;
+  const { format: s = t, invalidDate: i } = n.col.setting;
+  return e[0] = ja(s, n, e[0], i), e;
 }
 function jo(e, n, t = !1) {
   const { html: s = t } = n.col.setting;
@@ -7056,7 +7058,7 @@ const Yf = {
     },
     datetime: {
       onRenderCell(e, n) {
-        return mn(e, n);
+        return mn(e, n, "[yyyy-]MM-dd hh:mm");
       }
     },
     date: {
