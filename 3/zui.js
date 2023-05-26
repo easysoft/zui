@@ -6994,12 +6994,12 @@ const qf = {
       return this.toggleRow(n), !0;
   }
 }, Gf = $e(qf);
-function Wa(e, n, t) {
+function Wa(e, n, t, s) {
   if (!e)
     return;
   typeof e == "function" && (e = e(n)), typeof e == "string" && (e = { url: e });
-  const { url: s, ...i } = e;
-  return /* @__PURE__ */ _("a", { href: rt(s, n.row.data), ...i, children: t });
+  const { url: i, ...o } = e;
+  return /* @__PURE__ */ _("a", { href: rt(i, n.row.data), ...s, ...o, children: t });
 }
 function cr(e, n, t) {
   var s;
