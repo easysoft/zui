@@ -758,6 +758,33 @@ function (this: DTableCheckable, checks: string[]): ComponentChildren;
 
 * `checks`：当前所有选中的行 ID。
 
+下面为一个例子：
+
+```js
+const options = {
+    /* 自定义选项便于 checkInfo 回调函数使用。 */
+    defaultSummary: '本页共 {total} 项，其中任务 {task} 项',
+
+    /* 生成选中信息。 */
+    checkInfo(checks) {
+        /* 所有行。 */
+        const rows = this.layout.rows;
+
+        /* 选中时的信息。 */
+        if (checks.length) {
+            /* 以 HTML 格式返回。 */
+            return {html: `本页共 ${rows.length} 项，已选中 <strong>${checks.length}</strong> 项`}
+        }
+
+        /* 未选中时的信息。 */
+        return zui.formatString(this.options.defaultSummary, {
+            total: rows.length,
+            task: rows.filter(x => x.data.type === 'task').length,
+        });
+    }
+};
+```
+
 ### API
 
 #### 表格初始化选项
@@ -770,7 +797,7 @@ interface PluginDTableOptions {
     /* 是否在点击行时切换选中状态。 */
     checkOnClickRow?: boolean;
 
-    /* 自定义在表尾显示 Checkbox 和 选中信息。 */
+    /* 自定义函数用于生成在表尾显示的选中信息。 */
     checkInfo?: (this: DTableCheckable, checks: string[]) => ComponentChildren;
 
     /* 自定义判断行是否可以被选中。 */
