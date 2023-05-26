@@ -4409,6 +4409,7 @@ function sf({
     const u = { ...n, recPerPage: a };
     return {
       text: `${a}`,
+      active: a === n.recPerPage,
       url: typeof t == "function" ? t(u) : rt(t, u)
     };
   });
