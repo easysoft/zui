@@ -15,6 +15,7 @@ export function PagerSizeMenu({
         const info = {...pagerInfo, recPerPage};
         return {
             text: `${recPerPage}`,
+            active: recPerPage === pagerInfo.recPerPage,
             url: typeof linkCreator === 'function' ? linkCreator(info)  : formatString(linkCreator, info),
         };
     });
