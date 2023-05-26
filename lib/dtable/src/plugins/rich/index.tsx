@@ -35,7 +35,7 @@ export type DTableRich = DTableWithPlugin<DTableRichTypes>;
 
 export function renderLink(link: ColLinkSetting | undefined, info: {row: RowInfo, col: ColInfo}, content?: ComponentChildren, props?: Record<string, unknown>) {
     if (!link) {
-        return;
+        return content;
     }
     if (typeof link === 'function') {
         link = link(info as unknown as {row: RowInfo, col: ColInfo});
