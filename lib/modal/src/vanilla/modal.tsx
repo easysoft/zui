@@ -4,7 +4,6 @@ import {getLang} from '@zui/i18n';
 import {$, HtmlContent} from '@zui/core';
 import {ModalBase} from './modal-base';
 import {ModalOptions, ModalDialogOptions, ModalCustomOptions, ModalAjaxOptions, ModalAlertOptions, ModalTypedOptions, ModalConfirmOptions} from '../types';
-import {setAttr, setClass} from '@zui/com-helpers/src/helpers/element-helper';
 import type {ToolbarOptions, ToolbarItemProps} from '@zui/toolbar/src/types';
 import {ModalDialog} from '../component';
 import {ModalIframeContent} from '../component/modal-iframe-content';
@@ -92,15 +91,12 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
             const {id} = this;
             modal = this.element.querySelector<HTMLElement>(`#${id}`);
             if (!modal) {
-                modal = document.createElement('div');
-                setAttr(modal, {
-                    id,
-                    style: this.options.style,
-                });
-                setClass(modal, ['modal modal-async', this.options.className]);
-                this.element.appendChild(modal);
+                modal = $('<div>').attr('id', id)
+                    .css(this.options.style || {})
+                    .setClass('modal modal-async', this.options.className)
+                    .appendTo(this.element)[0];
             }
-            this.#modal = modal;
+            this.#modal = modal!;
         }
         return modal;
     }
@@ -127,7 +123,7 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
         return new Promise((resolve) => {
             if (Array.isArray(dialogOptions)) {
                 this.modalElement.innerHTML = dialogOptions[0];
-                executeScripts(this.modalElement);
+                $(this.modalElement).runJS();
                 return resolve();
             }
             const {afterRender, ...others} = dialogOptions;

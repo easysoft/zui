@@ -1,7 +1,5 @@
-import type {JSX} from 'preact';
-import {$} from '@zui/core';
+import {$, JSX} from '@zui/core';
 import {ComponentBase} from '@zui/com-helpers/src/helpers/vanilla-component';
-import {setAttr, setClass, setStyle} from '@zui/com-helpers/src/helpers/element-helper';
 import type {ModalBaseOptions, ModalEvents, ModalPositionSetting, ModalSizeSetting} from '../types';
 
 export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends ComponentBase<T, ModalEvents, HTMLElement> {
@@ -88,14 +86,14 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
 
         const {modalElement} = this;
         const {animation, backdrop, className, style} = this.options;
-        setClass(modalElement, [{
+        $(modalElement).setClass({
             'modal-trans': animation,
             'modal-no-backdrop': !backdrop,
-        }, ModalBase.CLASS_SHOW, className]);
-        setStyle(modalElement, {
+        }, ModalBase.CLASS_SHOW, className).css({
             zIndex: `${ModalBase.zIndex++}`,
             ...style,
         });
+
 
         this.layout();
         this.emit('show', this);
@@ -135,17 +133,17 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
         }
 
         size = size ?? this.options.size;
-        setAttr(dialog, 'data-size', null);
-        const sizeStyle: JSX.CSSProperties = {width: null, height: null};
+        $(dialog).removeAttr('data-size');
+        const sizeStyle: Record<string, number | string> = {width: '', height: ''};
         if (typeof size === 'object') {
             sizeStyle.width = size.width;
             sizeStyle.height = size.height;
         } else if (typeof size === 'string' && ['md', 'sm', 'lg', 'full'].includes(size)) {
-            setAttr(dialog, 'data-size', size);
+            $(dialog).attr('data-size', size);
         } else if (size) {
             sizeStyle.width = size;
         }
-        setStyle(dialog, sizeStyle);
+        $(dialog).css(sizeStyle);
 
         position = position ?? this.options.position ?? 'fit';
         const width = dialog.clientWidth;
@@ -181,8 +179,8 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
             style.top = position;
         }
 
-        setStyle(dialog, style);
-        setStyle(this.modalElement, 'justifyContent', style.left ? 'flex-start' : 'center');
+        $(dialog).css(style);
+        $(this.modalElement).css('justifyContent', style.left ? 'flex-start' : 'center');
     }
 
     #handleClick = (event: MouseEvent) => {
