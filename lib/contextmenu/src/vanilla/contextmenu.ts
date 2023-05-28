@@ -1,6 +1,5 @@
 import {render, h} from 'preact';
 import {ComponentBase} from '@zui/com-helpers/src/helpers/vanilla-component';
-import {isRightBtn} from '@zui/com-helpers/src/helpers/mouse-event';
 import {MenuOptions} from '@zui/menu';
 import '../style/vars.css';
 import '../style/contextmenu.css';
@@ -286,7 +285,7 @@ export class ContextMenu<T extends ContextMenuOptions = ContextMenuOptions, E ex
             return;
         }
 
-        if (event && isRightBtn(event as MouseEvent)) {
+        if (event && (event as MouseEvent).button === 2) {
             return;
         }
         const all = this.getAll().entries();
