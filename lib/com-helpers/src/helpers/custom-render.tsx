@@ -1,5 +1,5 @@
 import {h as _h, isValidElement, ComponentChildren, JSX} from 'preact';
-import {classes, ClassNameLike} from '@zui/browser-helpers/src/classes';
+import {classes, ClassNameLike} from '@zui/core';
 
 export type CustomRenderResultItem = Partial<{
     html: string;

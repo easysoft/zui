@@ -57,7 +57,7 @@ export class ComponentBase<O extends {} = {}, V extends CustomEventMap = {}, E e
         }
 
         this.#options = {...(this.constructor as typeof ComponentBase).DEFAULT} as ComponentOptions<O, V>;
-        this.setOptions({...(element instanceof HTMLElement ? $(element).data() : null), ...options} as ComponentOptions<O, V>);
+        this.setOptions({...(element instanceof HTMLElement ? $(element).dataset() : null), ...options} as ComponentOptions<O, V>);
 
         (this.constructor as typeof ComponentBase).all.set(element, this);
         this.#element = element;

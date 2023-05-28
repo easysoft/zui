@@ -8,7 +8,6 @@
         "./src/**/*"
     ],
     "dependencies": {
-        "@zui/browser-helpers": "workspace:^0.0.1",
         "@zui/core": "workspace:^0.0.1",
         "@zui/event-bus": "workspace:^0.0.1",
         "@zui/i18n": "workspace:^0.0.1"
