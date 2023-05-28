@@ -164,12 +164,12 @@ importers:
 
   lib/action-menu:
     dependencies:
-      '@zui/browser-helpers':
-        specifier: workspace:^0.0.1
-        version: link:../browser-helpers
       '@zui/com-helpers':
         specifier: workspace:^0.0.1
         version: link:../com-helpers
+      '@zui/core':
+        specifier: workspace:^0.0.1
+        version: link:../core
       '@zui/css-icons':
         specifier: workspace:^0.0.1
         version: link:../css-icons
@@ -192,21 +192,21 @@ importers:
 
   lib/ajax-form:
     dependencies:
-      '@zui/cash':
-        specifier: workspace:^0.0.1
-        version: link:../cash
       '@zui/com-helpers':
         specifier: workspace:*
         version: link:../com-helpers
+      '@zui/core':
+        specifier: workspace:^0.0.1
+        version: link:../core
 
   lib/alert:
     dependencies:
-      '@zui/browser-helpers':
-        specifier: workspace:*
-        version: link:../browser-helpers
       '@zui/button':
         specifier: workspace:*
         version: link:../button
+      '@zui/core':
+        specifier: workspace:*
+        version: link:../core
       '@zui/css-icons':
         specifier: workspace:*
         version: link:../css-icons
@@ -226,12 +226,12 @@ importers:
 
   lib/avatar:
     dependencies:
-      '@zui/browser-helpers':
-        specifier: workspace:*
-        version: link:../browser-helpers
       '@zui/com-helpers':
         specifier: workspace:*
         version: link:../com-helpers
+      '@zui/core':
+        specifier: workspace:*
+        version: link:../core
       '@zui/helpers':
         specifier: workspace:*
         version: link:../helpers
@@ -274,8 +274,6 @@ importers:
         specifier: workspace:*
         version: link:../utilities
 
-  lib/browser-helpers: {}
-
   lib/btn-group:
     dependencies:
       '@zui/button':
@@ -285,12 +283,12 @@ importers:
       '@zui/base':
         specifier: workspace:*
         version: link:../base
-      '@zui/browser-helpers':
-        specifier: workspace:^0.0.1
-        version: link:../browser-helpers
       '@zui/com-helpers':
         specifier: workspace:^0.0.1
         version: link:../com-helpers
+      '@zui/core':
+        specifier: workspace:^0.0.1
+        version: link:../core
       '@zui/dropdown':
         specifier: workspace:^0.0.1
         version: link:../dropdown
@@ -303,12 +301,12 @@ importers:
 
   lib/button:
     dependencies:
-      '@zui/browser-helpers':
-        specifier: workspace:^0.0.1
-        version: link:../browser-helpers
       '@zui/com-helpers':
         specifier: workspace:^0.0.1
         version: link:../com-helpers
+      '@zui/core':
+        specifier: workspace:^0.0.1
+        version: link:../core
       '@zui/css-icons':
         specifier: workspace:^0.0.1
         version: link:../css-icons
@@ -329,8 +327,6 @@ importers:
         specifier: workspace:^0.0.1
         version: link:../../dev
 
-  lib/cash: {}
-
   lib/checkbox:
     devDependencies:
       '@zui/base':
@@ -342,12 +338,9 @@ importers:
 
   lib/com-helpers:
     dependencies:
-      '@zui/browser-helpers':
+      '@zui/core':
         specifier: workspace:^0.0.1
-        version: link:../browser-helpers
-      '@zui/cash':
-        specifier: workspace:^0.0.1
-        version: link:../cash
+        version: link:../core
       '@zui/event-bus':
         specifier: workspace:^0.0.1
         version: link:../event-bus
@@ -399,6 +392,8 @@ importers:
         specifier: ^3.0.1
         version: 3.0.1
 
+  lib/core: {}
+
   lib/css-icons:
     devDependencies:
       '@zui/base':
@@ -407,18 +402,15 @@ importers:
 
   lib/dashboard:
     dependencies:
-      '@zui/browser-helpers':
-        specifier: workspace:^0.0.1
-        version: link:../browser-helpers
-      '@zui/cash':
-        specifier: workspace:^0.0.1
-        version: link:../cash
       '@zui/com-helpers':
         specifier: workspace:^0.0.1
         version: link:../com-helpers
       '@zui/contextmenu':
         specifier: workspace:^0.0.1
         version: link:../contextmenu
+      '@zui/core':
+        specifier: workspace:^0.0.1
+        version: link:../core
       '@zui/css-icons':
         specifier: workspace:^0.0.1
         version: link:../css-icons
@@ -447,12 +439,12 @@ importers:
       '@floating-ui/dom':
         specifier: ^1.1.0
         version: 1.1.0
-      '@zui/browser-helpers':
-        specifier: workspace:*
-        version: link:../browser-helpers
       '@zui/com-helpers':
         specifier: workspace:*
         version: link:../com-helpers
+      '@zui/core':
+        specifier: workspace:*
+        version: link:../core
       '@zui/css-icons':
         specifier: workspace:^0.0.1
         version: link:../css-icons
@@ -478,9 +470,6 @@ importers:
 
   lib/dropdown:
     dependencies:
-      '@zui/browser-helpers':
-        specifier: workspace:*
-        version: link:../browser-helpers
       '@zui/button':
         specifier: workspace:0.0.1
         version: link:../button
@@ -490,6 +479,9 @@ importers:
       '@zui/contextmenu':
         specifier: workspace:*
         version: link:../contextmenu
+      '@zui/core':
+        specifier: workspace:*
+        version: link:../core
       '@zui/css-icons':
         specifier: workspace:^0.0.1
         version: link:../css-icons
@@ -512,15 +504,15 @@ importers:
 
   lib/dtable:
     dependencies:
-      '@zui/browser-helpers':
-        specifier: workspace:^0.0.1
-        version: link:../browser-helpers
       '@zui/com-helpers':
         specifier: workspace:^0.0.1
         version: link:../com-helpers
       '@zui/contextmenu':
         specifier: workspace:^0.0.1
         version: link:../contextmenu
+      '@zui/core':
+        specifier: workspace:^0.0.1
+        version: link:../core
       '@zui/css-icons':
         specifier: workspace:^0.0.1
         version: link:../css-icons
@@ -596,8 +588,6 @@ importers:
         version: link:../utilities
 
   lib/helpers: {}
-
-  lib/htm: {}
 
   lib/i18n:
     dependencies:
@@ -675,12 +665,12 @@ importers:
       '@zui/action-menu':
         specifier: workspace:^0.0.1
         version: link:../action-menu
-      '@zui/browser-helpers':
-        specifier: workspace:^0.0.1
-        version: link:../browser-helpers
       '@zui/com-helpers':
         specifier: workspace:^0.0.1
         version: link:../com-helpers
+      '@zui/core':
+        specifier: workspace:^0.0.1
+        version: link:../core
       '@zui/css-icons':
         specifier: workspace:^0.0.1
         version: link:../css-icons
@@ -703,9 +693,9 @@ importers:
       '@zui/alert':
         specifier: workspace:^0.0.1
         version: link:../alert
-      '@zui/cash':
+      '@zui/core':
         specifier: workspace:^0.0.1
-        version: link:../cash
+        version: link:../core
       '@zui/css-icons':
         specifier: workspace:^0.0.1
         version: link:../css-icons
@@ -713,9 +703,6 @@ importers:
       '@zui/base':
         specifier: workspace:*
         version: link:../base
-      '@zui/browser-helpers':
-        specifier: workspace:^0.0.1
-        version: link:../browser-helpers
       '@zui/com-helpers':
         specifier: workspace:^0.0.1
         version: link:../com-helpers
@@ -734,18 +721,15 @@ importers:
       '@zui/base':
         specifier: workspace:*
         version: link:../base
-      '@zui/browser-helpers':
-        specifier: workspace:^0.0.1
-        version: link:../browser-helpers
       '@zui/button':
         specifier: workspace:^0.0.1
         version: link:../button
-      '@zui/cash':
-        specifier: workspace:^0.0.1
-        version: link:../cash
       '@zui/com-helpers':
         specifier: workspace:^0.0.1
         version: link:../com-helpers
+      '@zui/core':
+        specifier: workspace:^0.0.1
+        version: link:../core
       '@zui/css-icons':
         specifier: workspace:^0.0.1
         version: link:../css-icons
@@ -768,12 +752,12 @@ importers:
       '@zui/action-menu':
         specifier: workspace:^0.0.1
         version: link:../action-menu
-      '@zui/browser-helpers':
-        specifier: workspace:^0.0.1
-        version: link:../browser-helpers
       '@zui/com-helpers':
         specifier: workspace:^0.0.1
         version: link:../com-helpers
+      '@zui/core':
+        specifier: workspace:^0.0.1
+        version: link:../core
       '@zui/css-icons':
         specifier: workspace:^0.0.1
         version: link:../css-icons
@@ -805,9 +789,6 @@ importers:
       '@zui/action-menu':
         specifier: workspace:^0.0.1
         version: link:../action-menu
-      '@zui/browser-helpers':
-        specifier: workspace:^0.0.1
-        version: link:../browser-helpers
       '@zui/btn-group':
         specifier: workspace:^0.0.1
         version: link:../btn-group
@@ -817,6 +798,9 @@ importers:
       '@zui/com-helpers':
         specifier: workspace:^0.0.1
         version: link:../com-helpers
+      '@zui/core':
+        specifier: workspace:^0.0.1
+        version: link:../core
       '@zui/helpers':
         specifier: workspace:^0.0.1
         version: link:../helpers
@@ -863,15 +847,15 @@ importers:
       '@zui/base':
         specifier: workspace:*
         version: link:../base
-      '@zui/browser-helpers':
-        specifier: workspace:^0.0.1
-        version: link:../browser-helpers
       '@zui/button':
         specifier: workspace:*
         version: link:../button
       '@zui/com-helpers':
         specifier: workspace:^0.0.1
         version: link:../com-helpers
+      '@zui/core':
+        specifier: workspace:^0.0.1
+        version: link:../core
       '@zui/css-icons':
         specifier: workspace:^0.0.1
         version: link:../css-icons
@@ -899,9 +883,9 @@ importers:
 
   lib/scrollbar:
     dependencies:
-      '@zui/browser-helpers':
+      '@zui/core':
         specifier: workspace:^0.0.1
-        version: link:../browser-helpers
+        version: link:../core
     devDependencies:
       '@zui/base':
         specifier: workspace:*
@@ -914,12 +898,12 @@ importers:
 
   lib/switch:
     dependencies:
-      '@zui/browser-helpers':
-        specifier: workspace:^0.0.1
-        version: link:../browser-helpers
       '@zui/com-helpers':
         specifier: workspace:^0.0.1
         version: link:../com-helpers
+      '@zui/core':
+        specifier: workspace:^0.0.1
+        version: link:../core
       '@zui/css-icons':
         specifier: workspace:^0.0.1
         version: link:../css-icons
@@ -963,12 +947,12 @@ importers:
       '@floating-ui/dom':
         specifier: ^1.1.0
         version: 1.1.0
-      '@zui/browser-helpers':
-        specifier: workspace:*
-        version: link:../browser-helpers
       '@zui/com-helpers':
         specifier: workspace:*
         version: link:../com-helpers
+      '@zui/core':
+        specifier: workspace:*
+        version: link:../core
       '@zui/css-icons':
         specifier: workspace:^0.0.1
         version: link:../css-icons
@@ -997,9 +981,6 @@ importers:
       '@zui/action-menu':
         specifier: workspace:^0.0.1
         version: link:../action-menu
-      '@zui/browser-helpers':
-        specifier: workspace:^0.0.1
-        version: link:../browser-helpers
       '@zui/btn-group':
         specifier: workspace:^0.0.1
         version: link:../btn-group
@@ -1009,6 +990,9 @@ importers:
       '@zui/com-helpers':
         specifier: workspace:^0.0.1
         version: link:../com-helpers
+      '@zui/core':
+        specifier: workspace:^0.0.1
+        version: link:../core
       '@zui/css-icons':
         specifier: workspace:^0.0.1
         version: link:../css-icons
@@ -1037,15 +1021,15 @@ importers:
       '@floating-ui/dom':
         specifier: ^1.1.0
         version: 1.1.0
-      '@zui/browser-helpers':
-        specifier: workspace:*
-        version: link:../browser-helpers
       '@zui/button':
         specifier: workspace:0.0.1
         version: link:../button
       '@zui/com-helpers':
         specifier: workspace:*
         version: link:../com-helpers
+      '@zui/core':
+        specifier: workspace:*
+        version: link:../core
       '@zui/css-icons':
         specifier: workspace:^0.0.1
         version: link:../css-icons
@@ -1090,12 +1074,12 @@ importers:
       '@zui/base':
         specifier: workspace:*
         version: link:../base
-      '@zui/browser-helpers':
-        specifier: workspace:^0.0.1
-        version: link:../browser-helpers
       '@zui/com-helpers':
         specifier: workspace:^0.0.1
         version: link:../com-helpers
+      '@zui/core':
+        specifier: workspace:^0.0.1
+        version: link:../core
       '@zui/css-icons':
         specifier: workspace:^0.0.1
         version: link:../css-icons
