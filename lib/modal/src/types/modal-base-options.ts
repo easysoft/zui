@@ -1,5 +1,5 @@
 import {JSX} from 'preact';
-import {ClassNameLike} from '@zui/browser-helpers/src/classes';
+import {ClassNameLike} from '@zui/core';
 import {ModalBackdropType} from './modal-backdrop-type';
 import {ModalPositionSetting} from './modal-position-setting';
 import {ModalSizeSetting} from './modal-size-setting';

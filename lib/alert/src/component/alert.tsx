@@ -1,5 +1,5 @@
 import {isValidElement, ComponentChildren} from 'preact';
-import {classes} from '@zui/browser-helpers/src/classes';
+import {classes} from '@zui/core';
 import {Button} from '@zui/button/src/component/button';
 import type {ButtonProps} from '@zui/button';
 import type {ToolbarOptions} from '@zui/toolbar';

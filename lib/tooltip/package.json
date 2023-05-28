@@ -22,7 +22,7 @@
     "dependencies": {
         "@floating-ui/core": "^1.1.0",
         "@floating-ui/dom": "^1.1.0",
-        "@zui/browser-helpers": "workspace:*",
+        "@zui/core": "workspace:*",
         "@zui/button": "workspace:0.0.1",
         "@zui/com-helpers": "workspace:*",
         "@zui/css-icons": "workspace:^0.0.1"

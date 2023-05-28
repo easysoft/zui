@@ -1,5 +1,5 @@
 import {Component, ComponentChildren, JSX} from 'preact';
-import {classes} from '@zui/browser-helpers/src/classes';
+import {classes} from '@zui/core';
 import {contrastColor, hslToRgb} from '@zui/helpers/src/color-helper';
 import {getUniqueCode} from '@zui/helpers/src/string-code';
 import {AvatarOptions} from '../types/';

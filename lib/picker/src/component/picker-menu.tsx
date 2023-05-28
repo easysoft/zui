@@ -1,5 +1,5 @@
 import {Component} from 'preact';
-import {classes} from '@zui/browser-helpers/src/classes';
+import {classes} from '@zui/core';
 import {Menu} from '@zui/menu/src/component/menu';
 import {MenuItemOptions} from '@zui/menu/src/types';
 import {PickerMenuProps} from '../types';

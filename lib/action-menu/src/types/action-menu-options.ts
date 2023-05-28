@@ -1,5 +1,5 @@
 import type {ComponentType, ComponentChildren, JSX, h as _h, VNode} from 'preact';
-import type {ClassNameLike} from '@zui/browser-helpers/src/classes';
+import type {ClassNameLike} from '@zui/core';
 import type {ActionBasicProps} from './action-basic-props';
 import type {ActionMenuItemOptions} from './action-menu-item-options';
 import type {ActionMenu} from '../component/action-menu';

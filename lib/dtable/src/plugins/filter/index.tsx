@@ -1,7 +1,7 @@
 import {definePlugin} from '../../helpers/shared-plugins';
 import './style.css';
 import type {DTableWithPlugin, DTablePlugin, DTablePluginTypes} from '../../types/plugin';
-import {classes, ClassNameLike} from '@zui/browser-helpers/src/classes';
+import {classes, ClassNameLike} from '@zui/core';
 import type {RowInfo} from '../../types/row';
 import {ComponentChildren, render} from 'preact';
 
@@ -29,7 +29,7 @@ export interface DTableFilterTypes extends DTablePluginTypes {
         submit: (event: Event) => void;
     }>
     methods: {
-       
+
     }
     state: {
         id: string;
@@ -165,7 +165,7 @@ function onReset(event: Event) {
         return;
     }
     const filterContentElement = target.closest<HTMLInputElement>('.dtable-filter-content');
-    
+
     if (!filterContentElement) {
         return;
     }

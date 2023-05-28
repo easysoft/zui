@@ -1,5 +1,5 @@
 import {Component} from 'preact';
-import {classes} from '@zui/browser-helpers/src/classes';
+import {classes} from '@zui/core';
 import type {JSXInternal} from 'preact/src/jsx';
 
 type TabsProp = {

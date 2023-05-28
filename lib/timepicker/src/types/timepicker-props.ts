@@ -1,5 +1,5 @@
 import type {JSX} from 'preact';
-import type {ClassNameLike} from '@zui/browser-helpers/src/classes';
+import type {ClassNameLike} from '@zui/core';
 import type {Placement, Strategy} from '@floating-ui/core';
 
 export type TimepickerProps = Partial<{

@@ -1,4 +1,4 @@
-import {classes} from '@zui/browser-helpers/src/classes';
+import {classes} from '@zui/core';
 import {ActionMenuNested} from '@zui/action-menu/src/component/action-menu-nested';
 import '@zui/css-icons/src/icons/caret.css';
 import type {ActionMenuItemOptions, ActionItemProps} from '@zui/action-menu/src/types';

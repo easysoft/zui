@@ -3,7 +3,7 @@ import {Menu} from '@zui/menu/src/component/menu';
 import '@zui/css-icons/src/icons/caret.css';
 import '../style/index.css';
 import {flip, computePosition, ComputePositionConfig} from '@floating-ui/dom';
-import {classes} from '@zui/browser-helpers/src/classes';
+import {classes} from '@zui/core';
 
 export class ContextMenu<T extends MenuItemOptions = MenuItemOptions> extends Menu<T> {
     get nestedTrigger() {

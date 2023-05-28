@@ -1,5 +1,5 @@
 import {Component} from 'preact';
-import {classes} from '@zui/browser-helpers/src/classes';
+import {classes} from '@zui/core';
 import {Alert} from '@zui/alert/src/component';
 import {MessagerItemOptions, MessagerPlacement} from '../types';
 

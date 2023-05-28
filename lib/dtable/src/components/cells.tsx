@@ -1,4 +1,4 @@
-import {classes, ClassNameLike} from '@zui/browser-helpers/src/classes';
+import {classes, ClassNameLike} from '@zui/core';
 import {Cell, CellProps} from './cell';
 import type {CellRenderCallback} from '../types/cell';
 import type {ColInfo} from '../types/col';

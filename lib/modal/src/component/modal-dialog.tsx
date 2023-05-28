@@ -1,4 +1,4 @@
-import {classes} from '@zui/browser-helpers/src/classes';
+import {classes} from '@zui/core';
 import {Toolbar} from '@zui/toolbar/src/component/toolbar';
 import {Component, isValidElement} from 'preact';
 import {ModalDialogOptions} from '../types';

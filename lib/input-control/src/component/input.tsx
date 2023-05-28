@@ -1,6 +1,6 @@
 import {Component} from 'preact';
 import type {JSXInternal} from 'preact/src/jsx';
-import {classes} from '@zui/browser-helpers/src/classes';
+import {classes} from '@zui/core';
 
 type InputProps = {
     type?: string;

@@ -1,4 +1,4 @@
-import {classes} from '@zui/browser-helpers/src/classes';
+import {classes} from '@zui/core';
 import {Attributes, ComponentType, h as _h} from 'preact';
 import {ActionHeadingProps} from '../types/action-heading-props';
 

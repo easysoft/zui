@@ -1,6 +1,6 @@
 import type {DTable} from '../main-react';
 
-export type ClassNameLike = import('@zui/browser-helpers/src/classes').ClassNameLike;
+export type ClassNameLike = import('@zui/core').ClassNameLike;
 
 export type CustomRenderResultItem = import('@zui/com-helpers/src/helpers/custom-render').CustomRenderResultItem;
 export type CustomRenderResult<T extends Array<unknown> = unknown[], THIS = DTable> = import('@zui/com-helpers/src/helpers/custom-render').CustomRenderResult<T, THIS>;

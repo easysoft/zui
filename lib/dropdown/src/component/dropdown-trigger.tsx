@@ -1,4 +1,4 @@
-import {classes} from '@zui/browser-helpers/src/classes';
+import {classes} from '@zui/core';
 import type {JSX} from 'preact';
 import {Component, createRef} from 'preact';
 import {DropdownOptions} from '../types/dropdown-options';

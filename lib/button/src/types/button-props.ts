@@ -1,5 +1,5 @@
 import type {ComponentType, ComponentChildren, JSX, VNode} from 'preact';
-import {ClassNameLike} from '../../../browser-helpers/src/classes';
+import {ClassNameLike} from '@zui/core';
 
 export type ButtonProps = {
     component?: string | ComponentType;

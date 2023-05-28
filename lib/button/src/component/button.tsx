@@ -1,5 +1,5 @@
 import {Component, h as _h, ComponentType, Attributes} from 'preact';
-import {classes} from '@zui/browser-helpers/src/classes';
+import {classes} from '@zui/core';
 import {renderIcon} from '@zui/com-helpers/src/helpers/render-icon';
 import '../style/index.css';
 import {ButtonProps} from '../types/button-props';

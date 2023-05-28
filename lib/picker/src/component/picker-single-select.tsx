@@ -1,4 +1,4 @@
-import {classes} from '@zui/browser-helpers/src/classes';
+import {classes} from '@zui/core';
 import '@zui/css-icons/src/icons/caret.css';
 import {Component} from 'preact';
 import {PickerSelectProps} from '../types';

@@ -1,4 +1,4 @@
-import {classes} from '@zui/browser-helpers/src/classes';
+import {classes} from '@zui/core';
 import {definePlugin} from '../../helpers/shared-plugins';
 import './style.css';
 import type {CustomRenderResult} from '../../types/common';

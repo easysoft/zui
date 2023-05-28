@@ -8,7 +8,7 @@
         "./src/**/*"
     ],
     "dependencies": {
-        "@zui/browser-helpers": "workspace:*",
+        "@zui/core": "workspace:*",
         "@zui/toolbar": "workspace:*",
         "@zui/button": "workspace:*",
         "@zui/css-icons": "workspace:*"

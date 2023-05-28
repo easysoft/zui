@@ -11,7 +11,7 @@
     "module": "src/main.ts",
     "browser": "src/main.ts",
     "dependencies": {
-        "@zui/browser-helpers": "workspace:^0.0.1",
+        "@zui/core": "workspace:^0.0.1",
         "@zui/helpers": "workspace:^0.0.1",
         "@zui/scrollbar": "workspace:^0.0.1",
         "@zui/store": "workspace:^0.0.1",

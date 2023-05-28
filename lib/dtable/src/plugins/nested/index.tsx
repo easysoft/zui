@@ -1,4 +1,4 @@
-import {classes} from '@zui/browser-helpers/src/classes';
+import {classes} from '@zui/core';
 import {definePlugin} from '../../helpers/shared-plugins';
 import '@zui/css-icons/src/icons/toggle.css';
 import './style.css';

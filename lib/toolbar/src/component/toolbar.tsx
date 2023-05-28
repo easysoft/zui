@@ -1,4 +1,4 @@
-import {classes, ClassNameLike} from '@zui/browser-helpers/src/classes';
+import {classes, ClassNameLike} from '@zui/core';
 import {ActionMenu} from '@zui/action-menu/src/component/action-menu';
 import {ActionBasicProps} from '@zui/action-menu/src/types';
 import '@zui/css-icons/src/icons/caret.css';

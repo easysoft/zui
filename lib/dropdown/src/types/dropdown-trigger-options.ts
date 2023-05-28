@@ -1,5 +1,5 @@
 import type {ComponentChildren, JSX} from 'preact';
-import type {ClassNameLike} from '@zui/browser-helpers/src/classes';
+import type {ClassNameLike} from '@zui/core';
 import {DropdownOptions} from './dropdown-options';
 import {DropdownTriggerState} from './dropdown-trigger-state';
 

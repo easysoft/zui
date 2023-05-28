@@ -1,5 +1,5 @@
 import type {JSX, ComponentChildren} from 'preact';
-import type {ClassNameLike} from '@zui/browser-helpers/src/classes';
+import type {ClassNameLike} from '@zui/core';
 import type {PickerItemBasic} from './picker-item-props';
 
 export type PickerSelectProps = {

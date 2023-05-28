@@ -1,4 +1,4 @@
-import {ClassNameLike} from '@zui/browser-helpers/src/classes';
+import {ClassNameLike} from '@zui/core';
 import {MenuOptions} from '@zui/menu/src/types';
 import {JSX} from 'preact';
 import {PickerItemProps} from './picker-item-props';

@@ -1,5 +1,5 @@
 import {JSX, ComponentChildren} from 'preact';
-import {ClassNameLike} from '../../../browser-helpers/src/classes';
+import {ClassNameLike} from '@zui/core';
 
 export interface AvatarOptions {
     className?: ClassNameLike;

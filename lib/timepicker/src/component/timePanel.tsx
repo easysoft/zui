@@ -1,5 +1,5 @@
 import {Component, createRef} from 'preact';
-import {classes} from '@zui/browser-helpers/src/classes';
+import {classes} from '@zui/core';
 import {getTimeFormat, getTimeList} from '../helpers';
 import type {TimepickerProps, TimeDataProps} from '../types';
 

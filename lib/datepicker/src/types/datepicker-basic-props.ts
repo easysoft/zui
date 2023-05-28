@@ -1,5 +1,5 @@
 import type {JSX} from 'preact';
-import type {ClassNameLike} from '@zui/browser-helpers/src/classes';
+import type {ClassNameLike} from '@zui/core';
 
 export type DatepickerBasicProps = Partial<{
     className: ClassNameLike;

@@ -1,5 +1,5 @@
 import {JSX, ComponentChildren, h as _h, VNode} from 'preact';
-import {ClassNameLike} from '../../../browser-helpers/src/classes';
+import {ClassNameLike} from '@zui/core';
 import {BtnProps} from './btn-props';
 
 export type BtnGroupItemRender = ((item: BtnProps, h: typeof _h) => VNode | Partial<BtnProps>);

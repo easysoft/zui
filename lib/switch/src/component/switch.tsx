@@ -1,5 +1,5 @@
 import {Component, h as _h, Attributes, ComponentType, ComponentChild} from 'preact';
-import {classes} from '../../../browser-helpers/src/classes';
+import {classes} from '@zui/core';
 import {SwitchProps} from '../types/switch-props';
 
 export class Switch extends Component<SwitchProps> {

@@ -6,7 +6,7 @@
     "browserslist": "",
     "dependencies": {
         "@zui/com-helpers": "workspace:*",
-        "@zui/browser-helpers": "workspace:*",
+        "@zui/core": "workspace:*",
         "@zui/helpers": "workspace:*"
     },
     "devDependencies": {

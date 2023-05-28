@@ -1,5 +1,5 @@
 import {Component, h as _h, isValidElement, JSX} from 'preact';
-import {classes} from '@zui/browser-helpers/src/classes';
+import {classes} from '@zui/core';
 import {Button} from '@zui/button/src/component/button';
 import {BtnProps} from '../types/btn-props';
 import {BtnGroupOptions} from '../types/btn-group-options';

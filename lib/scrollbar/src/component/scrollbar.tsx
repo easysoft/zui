@@ -1,4 +1,4 @@
-import {ClassNameLike, classes} from '@zui/browser-helpers/src/classes';
+import {ClassNameLike, classes} from '@zui/core';
 import {Component, JSX, RefObject} from 'preact';
 import './scrollbar.css';
 

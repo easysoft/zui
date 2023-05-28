@@ -1,4 +1,4 @@
-import {classes} from '@zui/browser-helpers/src/classes';
+import {classes} from '@zui/core';
 import dayjs, {Dayjs} from 'dayjs';
 import '@zui/css-icons/src/icons/caret.css';
 import {createGroups} from '../helpers/index';

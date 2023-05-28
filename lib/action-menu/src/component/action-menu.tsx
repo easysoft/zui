@@ -1,6 +1,6 @@
 import {Component, createRef, h as _h, isValidElement} from 'preact';
 import type {JSX, ComponentType} from 'preact';
-import {classes, ClassNameLike} from '@zui/browser-helpers/src/classes';
+import {classes, ClassNameLike} from '@zui/core';
 import '@zui/css-icons/src/icons/caret.css';
 import '../style/index.css';
 import {ActionDivider} from './action-divider';

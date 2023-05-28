@@ -1,5 +1,5 @@
 import type {ComponentChildren, JSX} from 'preact';
-import type {ClassNameLike} from '@zui/browser-helpers/src/classes';
+import type {ClassNameLike} from '@zui/core';
 import type {ToolbarOptions} from '@zui/toolbar';
 import type {ButtonProps} from '@zui/button';
 

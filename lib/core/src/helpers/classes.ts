@@ -1,11 +1,25 @@
-export type ClassNameLike = null | undefined | boolean | string | {[key: string]: unknown} | (() => ClassNameLike) | ClassNameLike[];
+import {$, Cash} from '../cash';
 
+/**
+ * Classname like.
+ */
+export type ClassNameLike = string | null | undefined | boolean | {[key: string]: unknown} | (() => ClassNameLike) | ClassNameLike[];
+
+/**
+ * Classname setting.
+ */
 export type ClassNameSetting = [name: string, toggle: boolean];
 
+/**
+ * Get class name setting list from arguments.
+ *
+ * @param args Classname like arguments.
+ * @returns Classname setting list.
+ */
 export function getClassList(...args: ClassNameLike[]): ClassNameSetting[] {
     const settings: ClassNameSetting[] = [];
 
-    /* Indexes map to keep classname's order */
+    /* Indexes map to keep classname's order. */
     const indexes = new Map<string, number>();
 
     const setSetting = (name: string | [name: string, toggle?: unknown], toggle?: unknown) => {
@@ -42,6 +56,12 @@ export function getClassList(...args: ClassNameLike[]): ClassNameSetting[] {
     return settings.sort((a, b) => (indexes.get(a[0]) || 0) - (indexes.get(b[0]) || 0));
 }
 
+/**
+ * Get classname string from arguments.
+ *
+ * @param args Classname like arguments.
+ * @returns Classname string.
+ */
 export const classes = (...args: ClassNameLike[]): string => {
     return getClassList(...args).reduce<string[]>((classList, [name, toggle]) => {
         if (toggle) {
@@ -49,4 +69,30 @@ export const classes = (...args: ClassNameLike[]): string => {
         }
         return classList;
     }, []).join(' ');
+};
+
+/* Declare types. */
+declare module 'cash-dom' {
+    interface CashStatic {
+        classes(...args: ClassNameLike[]): string;
+    }
+
+    interface Cash {
+        setClass(merge: ClassNameLike | boolean, ...args: ClassNameLike[]): Cash;
+    }
+}
+
+/* Extend as $.classes() */
+$.classes = classes;
+
+/* Extend as $.fn.setClass() */
+$.fn.setClass = function (this: Cash, merge: ClassNameLike | boolean, ...args: ClassNameLike[]): Cash {
+    return this.each((_, ele) => {
+        const $ele = $(ele);
+        if (merge === true) {
+            $ele.attr('class', classes($ele.attr('class'), ...args));
+        } else {
+            $ele.addClass(classes(merge, ...args));
+        }
+    });
 };

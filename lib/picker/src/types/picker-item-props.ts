@@ -1,5 +1,5 @@
 import type {ComponentChildren, VNode, JSX, ComponentType} from 'preact';
-import type {ClassNameLike} from '@zui/browser-helpers/src/classes';
+import type {ClassNameLike} from '@zui/core';
 
 export interface PickerItemBasic {
     value: string;

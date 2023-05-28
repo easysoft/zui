@@ -1,4 +1,4 @@
-import {classes} from '@zui/browser-helpers/src/classes';
+import {classes} from '@zui/core';
 import {ToolbarDropdown} from '@zui/toolbar/src/component';
 import {formatString} from '@zui/helpers/src/format-string';
 import {PageLinkCreator, PagerInfo, PagerSizeMenuProps} from '../types';
