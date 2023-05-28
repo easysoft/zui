@@ -1,18 +1,18 @@
 {
-    "name": "@zui/cash",
+    "name": "@zui/core",
     "version": "0.0.1",
     "main": "src/main.ts",
     "browser": "src/main.ts",
-    "dependencies": {
-    },
-    "devDependencies": {
-    },
+    "files": [
+        "./src/**/*"
+    ],
     "zui": {
         "type": "js-helpers",
-        "displayName": "Cash",
+        "displayName": "JS 核心模块",
         "contributes": {
             "js": [
-                "module"
+                "method",
+                "class"
             ]
         }
     }

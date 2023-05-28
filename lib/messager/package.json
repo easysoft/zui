@@ -16,7 +16,7 @@
     "dependencies": {
         "@zui/css-icons": "workspace:^0.0.1",
         "@zui/alert": "workspace:^0.0.1",
-        "@zui/cash": "workspace:^0.0.1"
+        "@zui/core": "workspace:^0.0.1"
     },
     "devDependencies": {
         "zui-dev": "workspace:*",

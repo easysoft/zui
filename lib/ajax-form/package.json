@@ -13,7 +13,7 @@
     ],
     "dependencies": {
         "@zui/com-helpers": "workspace:*",
-        "@zui/cash": "workspace:^0.0.1"
+        "@zui/core": "workspace:^0.0.1"
     },
     "zui": {
         "type": "js-ui",

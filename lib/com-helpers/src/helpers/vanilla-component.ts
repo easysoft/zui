@@ -1,7 +1,7 @@
 import {CustomEventListener, CustomEventMap} from '@zui/event-bus';
 import {EventHub} from '@zui/event-bus/src/event-hub';
 import {i18n} from '@zui/i18n';
-import {$} from '@zui/cash';
+import {$} from '@zui/core';
 
 export type ComponentHTMLEventMap = {[event in keyof HTMLElementEventMap]: HTMLElementEventMap[event]};
 

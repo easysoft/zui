@@ -1,5 +1,5 @@
 import type {JSX} from 'preact';
-import {$} from '@zui/cash/src/cash';
+import {$} from '@zui/core';
 import {ComponentBase} from '@zui/com-helpers/src/helpers/vanilla-component';
 import {setAttr, setClass, setStyle} from '@zui/com-helpers/src/helpers/element-helper';
 import type {ModalBaseOptions, ModalEvents, ModalPositionSetting, ModalSizeSetting} from '../types';

@@ -1,4 +1,4 @@
-import {$, Cash} from '@zui/cash/src/cash';
+import {$, Cash} from '@zui/core';
 import {ComponentBase} from '@zui/com-helpers/src/helpers/vanilla-component';
 import type {AjaxFormOptions, AjaxFormResult, AjaxFormEvents} from '../types';
 

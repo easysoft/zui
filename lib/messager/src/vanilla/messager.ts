@@ -1,5 +1,5 @@
 import {nanoid} from 'nanoid';
-import {$} from '@zui/cash/src/cash';
+import {$} from '@zui/core';
 import {MessagerOptions} from '../types';
 import {ComponentBase} from '@zui/com-helpers/src/helpers/vanilla-component';
 import {MessagerItem} from './messager-item';
