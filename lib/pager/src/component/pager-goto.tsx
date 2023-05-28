@@ -1,7 +1,7 @@
 import {Button} from '@zui/button/src/component/button';
 import {formatString} from '@zui/helpers/src/format-string';
 import {updatePagerInfo} from '../helpers/update-pager-info';
-import {PageLinkCreator, PagerInfo, PagerGotoProps, PagerOptions} from '../types';
+import {PageLinkCreator, PagerInfo, PagerGotoProps} from '../types';
 import {classes} from '@zui/core';
 
 export function PagerGoto({
