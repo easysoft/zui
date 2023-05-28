@@ -68,7 +68,7 @@ export class ActionMenuNested<T extends ActionBasicProps = ActionMenuNestedItemO
         return (!item.type || item.type === 'item') && !!(item as ActionNestedItemProps).items;
     }
 
-    renderToggleIcon(show: boolean, item: ActionNestedItemProps): ComponentChildren | void {
+    renderToggleIcon(_show: boolean, _item: ActionNestedItemProps): ComponentChildren | void {
     }
 
     getItemRenderProps(props: Omit<P, 'items'> & {items: T[]}, item: T, index: number): T {
