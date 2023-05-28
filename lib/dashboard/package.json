@@ -10,7 +10,6 @@
     "main": "src/main.ts",
     "module": "src/main.ts",
     "dependencies": {
-        "@zui/browser-helpers": "workspace:^0.0.1",
         "@zui/core": "workspace:^0.0.1",
         "@zui/helpers": "workspace:^0.0.1",
         "@zui/store": "workspace:^0.0.1",

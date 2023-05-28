@@ -1,8 +1,7 @@
 import {Component, ComponentChildren, createRef} from 'preact';
 import {ContextMenu} from '@zui/contextmenu';
 import {formatString} from '@zui/helpers';
-import {HtmlContent} from '@zui/com-helpers/src/helpers/html-content';
-import {$} from '@zui/core';
+import {$, HtmlContent} from '@zui/core';
 import '@zui/css-icons/src/icons/more.css';
 import type {BlockFetcher, BlockProps} from '../types';
 

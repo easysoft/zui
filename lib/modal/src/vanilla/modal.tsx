@@ -1,14 +1,13 @@
 import {render} from 'preact';
 import {nanoid} from 'nanoid';
 import {getLang} from '@zui/i18n';
+import {$, HtmlContent} from '@zui/core';
 import {ModalBase} from './modal-base';
 import {ModalOptions, ModalDialogOptions, ModalCustomOptions, ModalAjaxOptions, ModalAlertOptions, ModalTypedOptions, ModalConfirmOptions} from '../types';
 import {setAttr, setClass} from '@zui/com-helpers/src/helpers/element-helper';
 import type {ToolbarOptions, ToolbarItemProps} from '@zui/toolbar/src/types';
 import {ModalDialog} from '../component';
 import {ModalIframeContent} from '../component/modal-iframe-content';
-import {executeScripts} from '@zui/com-helpers/src/helpers/execute-script';
-import {HtmlContent} from '@zui/com-helpers/src/helpers/html-content';
 
 type ModalDialogHTML = [html: string];
 
