@@ -134,4 +134,4 @@ export async function ajaxSubmit(options: AjaxSubmitOptions): Promise<[result: A
     return [result, error];
 }
 
-$.extend(window, {ajaxSubmit});
+$.extend($, {ajaxSubmit});
