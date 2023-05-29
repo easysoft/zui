@@ -18,16 +18,23 @@ $.fn._attr = $.fn.attr;
 
 /* Extend the attr method. */
 $.fn.extend({
-    attr(this: Cash, attrs?: string | Record<string, string | null>, value?: string | null): Cash | string | null | undefined {
+    attr(this: Cash, ...args: (string | Record<string, string | null> | null)[]): Cash | string | null | undefined {
+        const [attrs, value] = args;
+        if (!args.length || (args.length === 1 && typeof attrs === 'string')) {
+            // eslint-disable-next-line prefer-spread
+            return this._attr.apply(this, args as [attrs: Record<string, string>]);
+        }
         if (typeof attrs === 'object') {
-            Object.keys(attrs).forEach((key) => {
-                const val = attrs[key];
-                if (val === null) {
-                    this.removeAttr(key);
-                } else {
-                    this._attr(key, val);
-                }
-            });
+            if (attrs) {
+                Object.keys(attrs).forEach((key) => {
+                    const val = attrs[key];
+                    if (val === null) {
+                        this.removeAttr(key);
+                    } else {
+                        this._attr(key, val);
+                    }
+                });
+            }
             return this;
         }
         if (value === null) {
