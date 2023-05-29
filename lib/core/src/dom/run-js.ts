@@ -9,10 +9,7 @@ import {$, Cash, Selector} from '../cash';
 export function runJS(selector: Selector, jsCode?: string) {
     const $element = $(selector);
     if (jsCode !== undefined) {
-        const script = document.createElement('script');
-        script.async = false;
-        script.innerHTML = jsCode;
-        $element.append(script);
+        $element.append(`<script>${jsCode}</script>`);
         return;
     }
     $element.find('script').each((_, script) => {
