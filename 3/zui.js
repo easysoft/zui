@@ -6996,7 +6996,7 @@ const zf = {
       state: "",
       level: 0
     };
-    if (s.parent = t, (o = e.data) != null && o[this.options.asParentKey ?? "asParent"] && (s.children = []), n.set(e.id, s), t) {
+    if (s.parent = t === "0" ? void 0 : t, (o = e.data) != null && o[this.options.asParentKey ?? "asParent"] && (s.children = []), n.set(e.id, s), t) {
       let r = n.get(t);
       r || (r = {
         state: "",
