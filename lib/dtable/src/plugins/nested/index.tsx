@@ -80,7 +80,7 @@ function getNestedRowInfo(this: DTableNested, rowID: RowID): NestedRowInfo {
         }
         parent = parentInfo.parent;
     }
-    info.state = isParentCollapsed ? NestedRowState.hidden : isRowCollapsed ? NestedRowState.collapsed : info.children ? NestedRowState.expanded : NestedRowState.normal;
+    info.state = isParentCollapsed ? NestedRowState.hidden : (isRowCollapsed ? NestedRowState.collapsed : (info.children ? NestedRowState.expanded : NestedRowState.normal));
     info.level = info.parent ? (getNestedRowInfo.call(this, info.parent).level + 1) : 0;
     return info;
 }
@@ -242,7 +242,7 @@ const nestedPlugin: DTablePlugin<DTableSortableTypes> = {
             state: NestedRowState.unknown,
             level: 0,
         };
-        info.parent = parent;
+        info.parent = parent === '0' ? undefined : parent;
         if (row.data?.[this.options.asParentKey ?? 'asParent']) {
             info.children = [];
         }
