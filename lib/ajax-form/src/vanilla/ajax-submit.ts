@@ -142,3 +142,16 @@ export async function ajaxSubmit(options: AjaxSubmitOptions): Promise<[result: A
 }
 
 $.extend($, {ajaxSubmit});
+
+$(document).on('click.ajaxSubmit.zui', '.ajax-submit', function (e) {
+    e.preventDefault();
+    const $this = $(this);
+    const options = $this.data() as AjaxSubmitOptions;
+    if (!options.url && $this.is('a')) {
+        options.url = $this.attr('href') || '';
+    }
+    if (options.url) {
+        options.element = this;
+        ajaxSubmit(options);
+    }
+});
