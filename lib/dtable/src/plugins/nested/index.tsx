@@ -40,14 +40,14 @@ export type DTableSortableTypes = {
         onRenderNestedToggle: (this: DTableNested, info: NestedRowInfo | undefined, rowID: string, col: ColInfo, rowData: RowData | undefined) => CustomRenderResult;
     }>,
     state: {
-        collapsedRows?: Record<string, boolean>;
+        collapsedRows?: Record<RowID, boolean>;
     },
     col: Partial<{
         nestedToggle: boolean;
         nestedIndent: number | boolean;
     }>,
     data: {
-        nestedMap: Map<string, NestedRowInfo>,
+        nestedMap: Map<RowID, NestedRowInfo>,
     },
     methods: {
         getNestedInfo: typeof getNestedInfo;
@@ -59,7 +59,7 @@ export type DTableSortableTypes = {
 
 export type DTableNested = DTableWithPlugin<DTableSortableTypes>;
 
-function getNestedRowInfo(this: DTableNested, rowID: string): NestedRowInfo {
+function getNestedRowInfo(this: DTableNested, rowID: RowID): NestedRowInfo {
     const info = this.data.nestedMap.get(rowID);
     if (!info || info.state !== NestedRowState.unknown) {
         return info ?? {state: NestedRowState.normal, level: -1};
@@ -227,6 +227,7 @@ const nestedPlugin: DTablePlugin<DTableSortableTypes> = {
         return {nestedMap: new Map()};
     },
     methods: {
+        getNestedInfo,
         toggleRow,
         isAllCollapsed,
         getNestedRowInfo,
@@ -236,7 +237,7 @@ const nestedPlugin: DTablePlugin<DTableSortableTypes> = {
     },
     onAddRow(row) {
         const {nestedMap} = this.data;
-        const parent = row.data?.[this.options.nestedParentKey ?? 'parent'] as string;
+        const parent = String(row.data?.[this.options.nestedParentKey ?? 'parent']);
         const info: NestedRowInfo = nestedMap.get(row.id) ?? {
             state: NestedRowState.unknown,
             level: 0,
