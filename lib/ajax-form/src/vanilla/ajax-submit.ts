@@ -4,7 +4,6 @@ import {AjaxFormResult, AjaxSubmitOptions} from '../types';
 function handleSubmitResult(result: AjaxFormResult, options: AjaxSubmitOptions) {
     const {message} = result;
     if (result.result === 'success') {
-        this.emit('success', {result}, false);
         if (options.onSuccess?.(result) === false) {
             return;
         }
@@ -13,7 +12,6 @@ function handleSubmitResult(result: AjaxFormResult, options: AjaxSubmitOptions) 
             options.onMessage?.(message, result);
         }
     } else {
-        this.emit('fail', {result}, false);
         if (options.onFail?.(result) === false) {
             return;
         }
