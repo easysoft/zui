@@ -1,5 +1,5 @@
 import type {ComponentChildren, JSX} from 'preact';
-import type {ClassNameLike} from '@zui/browser-helpers';
+import type {ClassNameLike} from '@zui/core';
 import type {ToolbarOptions} from '@zui/toolbar';
 
 export type ModalDialogOptions = {
