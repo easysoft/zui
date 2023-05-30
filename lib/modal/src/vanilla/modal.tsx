@@ -1,6 +1,6 @@
 import {render} from 'preact';
 import {nanoid} from 'nanoid';
-import {getLang} from '@zui/i18n';
+import {getLang} from '@zui/core';
 import {$, HtmlContent} from '@zui/core';
 import {ModalBase} from './modal-base';
 import {ModalOptions, ModalDialogOptions, ModalCustomOptions, ModalAjaxOptions, ModalAlertOptions, ModalTypedOptions, ModalConfirmOptions} from '../types';

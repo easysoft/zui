@@ -17,8 +17,7 @@
         "@zui/core": "workspace:^0.0.1",
         "@zui/css-icons": "workspace:^0.0.1",
         "@zui/base": "workspace:*",
-        "@zui/toolbar": "workspace:*",
-        "@zui/i18n": "workspace:*"
+        "@zui/toolbar": "workspace:*"
       },
     "devDependencies": {
         "zui-dev": "workspace:*",
