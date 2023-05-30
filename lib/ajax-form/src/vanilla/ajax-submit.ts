@@ -26,7 +26,7 @@ function handleSubmitResult(result: AjaxFormResult, options: AjaxSubmitOptions) 
 
     const closeModal = result.closeModal || options.closeModal;
     if (closeModal) {
-        $(this.element).trigger('zui.modal.hide', {target: typeof closeModal === 'string' ? closeModal : undefined});
+        $(options.element || document).trigger('zui.modal.hide', {target: typeof closeModal === 'string' ? closeModal : undefined});
     }
 
     // Handle callback
@@ -61,7 +61,7 @@ function handleSubmitResult(result: AjaxFormResult, options: AjaxSubmitOptions) 
     // Handle locate
     const load = result.load || options.load || result.locate;
     if (load) {
-        $(this.element).trigger('zui.locate', load);
+        $(options.element || document).trigger('zui.locate', load);
     }
 }
 
@@ -70,11 +70,16 @@ export async function ajaxSubmit(options: AjaxSubmitOptions): Promise<[result: A
         return [undefined, new Error('canceled')];
     }
 
+    const {loadingClass, element} = options;
+    if (element && loadingClass) {
+        $(element).addClass(loadingClass);
+    }
+
     const {data} = options;
-    let formData: FormData;
+    let formData: FormData | undefined;
     if (data instanceof FormData) {
         formData = data;
-    } else {
+    } else if (data) {
         formData = new FormData();
         for (const [name, value] of Object.entries(data)) {
             if (Array.isArray(value)) {
@@ -130,6 +135,10 @@ export async function ajaxSubmit(options: AjaxSubmitOptions): Promise<[result: A
     }
 
     options.onComplete?.(result, error);
+
+    if (element && loadingClass) {
+        $(element).removeClass(loadingClass);
+    }
 
     return [result, error];
 }

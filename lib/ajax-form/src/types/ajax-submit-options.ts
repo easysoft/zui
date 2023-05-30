@@ -1,9 +1,10 @@
 import {AjaxFormResult} from './ajax-form-result';
 
 export type AjaxSubmitOptions = {
-    data: Record<string, unknown> | FormData;
     url: string;
+    data?: Record<string, unknown> | FormData;
     element?: HTMLElement;
+    loadingClass?: string;
     method?: string;
     headers?: HeadersInit;
     beforeSubmit?: (options: AjaxSubmitOptions) => false | void;
