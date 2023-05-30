@@ -101,11 +101,12 @@ declare module 'cash-dom' {
 $.fn.dataset = $.fn.data;
 
 /* Extend as $.fn.data() */
-$.fn.data = function (this: Cash, data?: string | Record<string, unknown>, value?: unknown) {
-    if (value === undefined && typeof data !== 'object') {
-        if (!this.length) {
-            return;
-        }
+$.fn.data = function (this: Cash, ...args: (string | Record<string, unknown> | unknown)[]) {
+    if (!this.length) {
+        return;
+    }
+    const [data, value] = args;
+    if (!args.length || (args.length === 1 && typeof data === 'string')) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         return takeData(this[0]!, data as string) as any;
     }
