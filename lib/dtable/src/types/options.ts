@@ -1,4 +1,4 @@
-import type {ClassNameLike} from '@zui/browser-helpers';
+import type {ClassNameLike} from '@zui/core';
 import type preact from 'preact';
 import type {DTable} from '../main-react';
 import type {CellValueGetter, CellRenderCallback} from './cell';

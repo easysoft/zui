@@ -1,4 +1,4 @@
-import type {ClassNameLike} from '@zui/browser-helpers';
+import type {ClassNameLike} from '@zui/core';
 import type {CellProps} from '../main-react';
 import type {CellRenderCallback} from './cell';
 import type {ColInfo} from './col';

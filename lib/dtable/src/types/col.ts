@@ -1,4 +1,4 @@
-import type {ClassNameLike} from '@zui/browser-helpers';
+import type {ClassNameLike} from '@zui/core';
 import type {CellRenderCallback} from './cell';
 
 export type ColName = string;
