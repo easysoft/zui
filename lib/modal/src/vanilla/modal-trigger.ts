@@ -1,14 +1,12 @@
-import {ComponentBase} from '@zui/com-helpers/src/helpers/vanilla-component';
+import {Component, $} from '@zui/core';
 import type {ModalOptions, ModalTriggerOptions} from '../types';
 import {Modal} from './modal';
 import {ModalBase} from './modal-base';
 
-export class ModalTrigger extends ComponentBase<ModalTriggerOptions> {
+const TOGGLE_SELECTOR = '[data-toggle="modal"]';
+
+export class ModalTrigger extends Component<ModalTriggerOptions> {
     static NAME = 'ModalTrigger';
-
-    static EVENTS = true;
-
-    static TOGGLE_SELECTOR = '[data-toggle="modal"]';
 
     #modal?: ModalBase;
 
@@ -29,7 +27,7 @@ export class ModalTrigger extends ComponentBase<ModalTriggerOptions> {
 
     show() {
         const modal = this.#initModal();
-        return modal.show();
+        return modal?.show();
     }
 
     hide() {
@@ -42,7 +40,7 @@ export class ModalTrigger extends ComponentBase<ModalTriggerOptions> {
             ...others
         } = this.options;
         const builderOptions = others as ModalOptions;
-        const href = this.element.getAttribute('href') || '';
+        const href = this.$element.attr('href') || '';
         if (!builderOptions.type) {
             if ((builderOptions.target || href[0] === '#')) {
                 builderOptions.type = 'static';
@@ -63,10 +61,10 @@ export class ModalTrigger extends ComponentBase<ModalTriggerOptions> {
         if (modal) {
             modal.setOptions(options);
         } else if (options.type === 'static') {
-            modal = new ModalBase(this.#getStaticModalElement(), options);
+            modal = ModalBase.ensure(this.#getStaticModalElement(), options);
             this.#modal = modal;
         } else {
-            modal = new Modal(this.container, options);
+            modal = Modal.ensure(this.container, options);
             this.#modal = modal;
         }
         return modal;
@@ -75,9 +73,9 @@ export class ModalTrigger extends ComponentBase<ModalTriggerOptions> {
     #getStaticModalElement() {
         let selector = this.options.target as (string | undefined);
         if (!selector) {
-            const {element} = this;
-            if (element.tagName === 'A') {
-                const href = element.getAttribute('href');
+            const {$element} = this;
+            if ($element.is('a')) {
+                const href = $element.attr('href');
                 if (href?.startsWith('#')) {
                     selector = href;
                 }
@@ -87,11 +85,11 @@ export class ModalTrigger extends ComponentBase<ModalTriggerOptions> {
     }
 }
 
-window.addEventListener('click', (event: MouseEvent) => {
+$(document).on('click', (event: MouseEvent) => {
     const element = event.target as HTMLElement;
-    const toggleBtn = element.closest?.<HTMLElement>(ModalTrigger.TOGGLE_SELECTOR);
+    const toggleBtn = element.closest?.<HTMLElement>(TOGGLE_SELECTOR);
     if (toggleBtn) {
-        const modalTrigger = ModalTrigger.ensure(toggleBtn) as ModalTrigger;
+        const modalTrigger = ModalTrigger.ensure(toggleBtn);
         if (modalTrigger) {
             modalTrigger.show();
         }

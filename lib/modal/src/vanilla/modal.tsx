@@ -82,14 +82,14 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
     }
 
     get loading() {
-        return this.modalElement.classList.contains(Modal.LOADING_CLASS);
+        return this.modalElement?.classList.contains(Modal.LOADING_CLASS);
     }
 
     get modalElement() {
-        let modal: HTMLElement | null | undefined = this.#modal;
+        let modal = this.#modal;
         if (!modal) {
             const {id} = this;
-            modal = this.element.querySelector<HTMLElement>(`#${id}`);
+            modal = $(this.element).find(`#${id}`)[0];
             if (!modal) {
                 modal = $('<div>').attr('id', id)
                     .css(this.options.style || {})
@@ -98,7 +98,7 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
             }
             this.#modal = modal!;
         }
-        return modal;
+        return modal!;
     }
 
     afterInit() {
@@ -218,7 +218,7 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
         return new Promise((resolve) => {
             const {container = document.body, ...others} = options;
             const modal = new Modal(container, {show: true, ...others} as ModalOptions);
-            modal.once('hidden', () => resolve(modal));
+            modal.one('hidden', () => resolve(modal));
             modal.show();
         });
     }
