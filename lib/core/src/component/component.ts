@@ -10,7 +10,7 @@ export type ComponentEventCallback<E extends ComponentEventsDefnition, O extends
 /**
  * The component base class.
  */
-export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {}> {
+export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {}, U extends Element = Element> {
     /**
      * The default options.
      */
@@ -58,7 +58,7 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
     /**
      * Store the component element.
      */
-    #element?: Element;
+    #element?: U;
 
     /**
      * Store the component event handlers.
@@ -79,7 +79,7 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
         const gid = $.guid++;
         this.#gid = gid;
         $element.data(this.constructor.KEY, this).attr(this.constructor.DATA_KEY, `${gid}`);
-        this.#element = $element[0] as Element;
+        this.#element = $element[0] as U;
 
         this.#options = {...this.constructor.DEFAULT, ...$element.dataset()} as ComponentOptions<O>;
         this.setOptions(options);
@@ -243,7 +243,7 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
      * @param selector The component element selector.
      * @returns        The component instance.
      */
-    static get<O extends {}, E extends ComponentEvents, T extends typeof Component<O, E>>(this: T, selector: Selector): InstanceType<T> | undefined {
+    static get<O extends {}, E extends ComponentEvents, U extends Element, T extends typeof Component<O, E, U>>(this: T, selector: Selector): InstanceType<T> | undefined {
         return $(selector).data(this.KEY);
     }
 
@@ -255,7 +255,7 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
      * @param options   The component options.
      * @returns         The component instance.
      */
-    static ensure<O extends {}, E extends ComponentEvents, T extends typeof Component<O, E>>(this: T, selector: Selector, options?: Partial<ComponentOptions<O>>): InstanceType<T> {
+    static ensure<O extends {}, E extends ComponentEvents, U extends Element, T extends typeof Component<O, E, U>>(this: T, selector: Selector, options?: Partial<ComponentOptions<O>>): InstanceType<T> {
         const instance = this.get(selector);
         if (instance) {
             return instance;
@@ -270,7 +270,7 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
      * @param selector The component element selector.
      * @returns        All component instances.
      */
-    static getAll<O extends {}, E extends ComponentEvents, T extends typeof Component<O, E>>(this: T, selector?: Selector): InstanceType<T>[] {
+    static getAll<O extends {}, E extends ComponentEvents, U extends Element, T extends typeof Component<O, E, U>>(this: T, selector?: Selector): InstanceType<T>[] {
         return $(selector || 'body')
             .find(`[${this.DATA_KEY}]`)
             .map((_, element) => $(element).data(this.KEY))
@@ -284,7 +284,7 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
      * @param selector The component element selector.
      * @returns        The component instance.
      */
-    static query<O extends {}, E extends ComponentEvents, T extends typeof Component<O, E>>(this: T, selector?: Selector): InstanceType<T> | undefined {
+    static query<O extends {}, E extends ComponentEvents, U extends Element, T extends typeof Component<O, E, U>>(this: T, selector?: Selector): InstanceType<T> | undefined {
         if (selector === undefined) {
             return this.getAll().sort((a, b) => a.gid - b.gid)[0];
         }
