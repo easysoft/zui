@@ -1,4 +1,4 @@
-import {ComponentFromReact} from '@zui/com-helpers/src/helpers/component-react';
+import {ComponentFromReact} from '@zui/core';
 import {Dashboard as DashboardReact} from '../components';
 import type {DashboardOptions} from '../types/options';
 
