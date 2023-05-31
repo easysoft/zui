@@ -305,4 +305,24 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
         }
         return this.get($(selector).closest(`[${this.DATA_KEY}]`));
     }
+
+    /**
+     * Create cash fn.method for current component.
+     *
+     * @param name The method name.
+     */
+    static defineFn(name?: string) {
+        $.fn.extend({
+            [name || this.NAME.replace(/(^[A-Z]+)/, (match) => {
+                return match.toLowerCase();
+            })](options: Partial<ComponentOptions<{}>> | string, ...args: unknown[]) {
+                return this.each((_: number, element: Element) => {
+                    const component = this.ensure(element, typeof options === 'object' ? options : undefined);
+                    if (typeof options === 'string') {
+                        component[options]?.(...args);
+                    }
+                });
+            },
+        });
+    }
 }
