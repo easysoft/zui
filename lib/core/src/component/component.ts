@@ -260,6 +260,9 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
     static ensure<O extends {}, E extends ComponentEvents, U extends Element, T extends typeof Component<O, E, U>>(this: T, selector: Selector, options?: Partial<ComponentOptions<O>>): InstanceType<T> {
         const instance = this.get(selector);
         if (instance) {
+            if (options) {
+                instance.setOptions(options);
+            }
             return instance;
         }
         return new this(selector, options) as InstanceType<T>;
