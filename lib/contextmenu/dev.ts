@@ -1,5 +1,5 @@
-import '@zui/button';
-import '@zui/menu';
+// import '@zui/button';
+// import '@zui/menu';
 import '@zui/icons';
 import 'zui-dev';
 import 'preact/debug';
