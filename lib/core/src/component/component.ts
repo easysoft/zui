@@ -46,7 +46,7 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
      *
      * @see https://github.com/Microsoft/TypeScript/issues/3841#issuecomment-337560146
      */
-    declare ['constructor']: typeof Component;
+    declare ['constructor']: typeof Component<O, E, U>;
 
     /**
      * Store the component options.
