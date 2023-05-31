@@ -1,6 +1,6 @@
 import {render, h} from 'preact';
 import {TimepickerOptions} from '../types';
-import {ComponentBase} from '@zui/com-helpers/src/helpers/vanilla-component';
+import {Component} from '@zui/core';
 import {TimePanel} from '../component/timePanel';
 import '@zui/css-icons/src/icons/arrow.css';
 import '../style/index.css';
@@ -8,7 +8,7 @@ import dayjs from 'dayjs';
 import {computePosition, arrow, offset, flip, autoUpdate} from '@floating-ui/dom';
 import type {ComputePositionConfig, VirtualElement, Strategy, Side} from '@floating-ui/dom';
 
-export class Timepicker extends ComponentBase<TimepickerOptions> {
+export class Timepicker extends Component<TimepickerOptions> {
 
     static readonly NAME = 'timepicker';
 
@@ -287,4 +287,3 @@ const handleScroll = (event: Event) => {
 };
 
 window.addEventListener('scroll', handleScroll, true);
-
