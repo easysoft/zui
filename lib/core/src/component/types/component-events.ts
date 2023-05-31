@@ -23,7 +23,7 @@ export interface ComponentBaseEvents {
 /**
  * The event name for component.
  */
-export type ComponentEventName<E extends ComponentEventsDefnition> = ((E extends [infer E1, infer E2] ? (keyof E1 | keyof E2) : keyof E) | keyof ComponentBaseEvents) & string;
+export type ComponentEventName<E extends ComponentEventsDefnition> = ((E extends [infer E1, infer E2] ? (keyof E1 | keyof E2) : keyof E) | keyof ComponentBaseEvents | keyof HTMLElementEventMap) & string;
 
 /**
  * The event arguments for component.
@@ -36,4 +36,6 @@ export type ComponentEventArgs<E extends ComponentEventsDefnition, N extends Com
     ) : [
         ...(N extends keyof E ? (E[N] extends unknown[] ? E[N] : never) : never),
     ]
-);
+) | [
+    ...(N extends keyof HTMLElementEventMap ? [] : never),
+];
