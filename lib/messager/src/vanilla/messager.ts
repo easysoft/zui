@@ -1,10 +1,9 @@
 import {nanoid} from 'nanoid';
-import {$} from '@zui/core';
+import {$, Component} from '@zui/core';
 import {MessagerOptions} from '../types';
-import {ComponentBase} from '@zui/com-helpers/src/helpers/vanilla-component';
 import {MessagerItem} from './messager-item';
 
-export class Messager extends ComponentBase<MessagerOptions> {
+export class Messager extends Component<MessagerOptions> {
     static NAME = 'messager';
 
     static DEFAULT = {
@@ -17,13 +16,7 @@ export class Messager extends ComponentBase<MessagerOptions> {
 
     #holder?: HTMLElement;
 
-    #id = nanoid(6);
-
     #item?: MessagerItem;
-
-    get id() {
-        return this.#id;
-    }
 
     get isShown() {
         return !!this.#item?.isShown;
@@ -46,8 +39,9 @@ export class Messager extends ComponentBase<MessagerOptions> {
             const item = new MessagerItem(holder, this.options);
             item.on('hidden', () => {
                 item.destroy();
-                holder.remove();
+                holder?.remove();
                 this.#holder = undefined;
+                this.#item = undefined;
             });
             this.#item = item;
         }
@@ -59,21 +53,16 @@ export class Messager extends ComponentBase<MessagerOptions> {
             return this.#holder;
         }
         const {placement = 'top'} = this.options;
-        let container = this.element.querySelector(`.messagers-${placement}`);
-        if (!container) {
-            container = document.createElement('div');
-            container.className = `messagers messagers-${placement}`;
-            this.element.appendChild(container);
+        let $container = this.$element.find(`.messagers-${placement}`);
+        if (!$container.length) {
+            $container = $(`<div class="messagers messagers-${placement}"></div>`).appendTo(this.$element);
         }
-        let holder = container.querySelector<HTMLElement>(`#messager-${this.#id}`);
-        if (!holder) {
-            holder = document.createElement('div');
-            holder.className = 'messager-holder';
-            holder.id = `messager-${this.#id}`;
-            container.appendChild(holder);
-            this.#holder = holder;
+        let $holder = $container.find(`#messager-${this.gid}`);
+        if (!$holder.length) {
+            $holder = $(`<div class="messager-holder" id="messager-${this.gid}"></div>`).appendTo($container);
+            this.#holder = $holder[0];
         }
-        return holder;
+        return $holder[0];
     }
 
     static show(options: (MessagerOptions & {container?: string | HTMLElement}) | string) {
@@ -81,7 +70,9 @@ export class Messager extends ComponentBase<MessagerOptions> {
             options = {content: options};
         }
         const {container, ...others} = options;
-        const messager = new Messager(container || 'body', others);
+        const messager = Messager.ensure(container || 'body');
+        messager.setOptions(others);
+        messager.hide();
         messager.show();
         return messager;
     }

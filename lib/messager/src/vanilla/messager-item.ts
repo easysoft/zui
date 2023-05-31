@@ -1,11 +1,9 @@
-import {ComponentFromReact} from '@zui/com-helpers/src/helpers/component-react';
+import {$, ComponentFromReact} from '@zui/core';
 import {MessagerItem as MessagerItemReact} from '../component';
 import {MessagerOptions, MessagerEvents} from '../types';
 
 export class MessagerItem extends ComponentFromReact<MessagerOptions, MessagerItemReact, MessagerEvents> {
     static NAME = 'MessagerItem';
-
-    static EVENTS = true;
 
     static Component = MessagerItemReact;
 
@@ -19,12 +17,13 @@ export class MessagerItem extends ComponentFromReact<MessagerOptions, MessagerIt
 
     afterInit(): void {
         this.on('click', (event) => {
-            const dismissToggle = (event.target as HTMLElement).closest<HTMLElement>('.alert-close,[data-dismiss="messager"]');
-            if (dismissToggle) {
-                event.preventDefault();
-                event.stopPropagation();
-                this.hide();
+            const dismissToggle = $(event.target as Element).closest('.alert-close,[data-dismiss="messager"]');
+            if (!dismissToggle.length) {
+                return;
             }
+            event.preventDefault();
+            event.stopPropagation();
+            this.hide();
         });
     }
 
@@ -38,20 +37,20 @@ export class MessagerItem extends ComponentFromReact<MessagerOptions, MessagerIt
     }
 
     show() {
-        if (this._show) {
-            return;
-        }
-        this.emit('show');
         this.render();
-        this._show = true;
-
+        this.emit('show');
         this.#resetTimer(() => {
-            this.emit('shown');
-            const {time} = this.options;
-            if (time) {
-                this.#resetTimer(() => this.hide(), time);
-            }
-        });
+            this._show = true;
+            this.render();
+
+            this.#resetTimer(() => {
+                this.emit('shown');
+                const {time} = this.options;
+                if (time) {
+                    this.#resetTimer(() => this.hide(), time);
+                }
+            });
+        }, 100);
     }
 
     hide() {
@@ -59,13 +58,15 @@ export class MessagerItem extends ComponentFromReact<MessagerOptions, MessagerIt
             return;
         }
 
-        this._show = false;
-        this.emit('hide');
-        this.render();
-
         this.#resetTimer(() => {
-            this.emit('hidden');
-        });
+            this.emit('hide');
+            this._show = false;
+            this.render();
+
+            this.#resetTimer(() => {
+                this.emit('hidden');
+            });
+        }, 50);
     }
 
     #resetTimer(callback: () => void, time = 200) {
@@ -84,7 +85,7 @@ export class MessagerItem extends ComponentFromReact<MessagerOptions, MessagerIt
         }
         const {margin} = this.options;
         if (margin) {
-            this.element.style.margin = `${margin}px`;
+            this.$element.css('margin', `${margin}px`);
         }
     };
 }

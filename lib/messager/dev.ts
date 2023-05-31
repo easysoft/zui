@@ -2,6 +2,7 @@ import '@zui/btn-group';
 import '@zui/icons';
 import './src/main';
 import 'zui-dev';
+import {$} from '@zui/core';
 import {Messager} from './src/vanilla';
 
 onPageUpdate(() => {
