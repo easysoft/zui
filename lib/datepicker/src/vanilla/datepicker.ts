@@ -1,5 +1,5 @@
 import {render, h} from 'preact';
-import {ComponentBase} from '@zui/com-helpers/src/helpers/vanilla-component';
+import {Component} from '@zui/core';
 import {Calendar} from '../component/calendar';
 import '@zui/css-icons/src/icons/arrow.css';
 import '../style/index.css';
@@ -8,7 +8,7 @@ import {computePosition, arrow, flip, offset, autoUpdate} from '@floating-ui/dom
 import type {DatepickerOptions} from '../types';
 import type {VirtualElement, ComputePositionConfig, Strategy, Side} from '@floating-ui/dom';
 
-export class Datepicker extends ComponentBase<DatepickerOptions> {
+export class Datepicker extends Component<DatepickerOptions> {
 
     static readonly NAME = 'datepicker';
 
@@ -62,7 +62,7 @@ export class Datepicker extends ComponentBase<DatepickerOptions> {
         if (!this.datepicker || !this.element) {
             return false;
         }
-        this.element.classList.add(this.elementShowClass);
+        this.$element.addClass(this.elementShowClass);
         this.datepicker.classList.add(Datepicker.CLASS_SHOW);
         this.datepicker.classList.add('fade');
         this.#updatePosition();
@@ -71,7 +71,7 @@ export class Datepicker extends ComponentBase<DatepickerOptions> {
 
     hide() {
         this.#cleanup?.();
-        this.element.classList.remove(this.elementShowClass);
+        this.$element.removeClass(this.elementShowClass);
         this.#datepicker?.classList.remove(Datepicker.CLASS_SHOW);
         this.datepicker.classList.remove('fade');
         return true;
