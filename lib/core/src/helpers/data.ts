@@ -12,7 +12,7 @@ const cache = new WeakMap<object, Record<string, unknown>>();
  * @param key     Key to store.
  * @param value   Value to store.
  */
-export function storeData(target: object, key: string, value: unknown): void;
+export function storeData(target: object, key: string | null, value?: unknown): void;
 
 /**
  * Store data associated with the target object in the cache.
@@ -29,11 +29,15 @@ export function storeData(target: object, data: Record<string, unknown>): void;
  * @param keyOrData Key or data to store.
  * @param value     Value to store.
  */
-export function storeData(target: object, keyOrData: string | Record<string, unknown>, value?: unknown): void {
+export function storeData(target: object, keyOrData: string | Record<string, unknown> | null, value?: unknown): void {
     const hasCache = cache.has(target);
     const data = hasCache ? cache.get(target)! : {};
     if (typeof keyOrData === 'string') {
         data[keyOrData] = value;
+    } else if (keyOrData === null) {
+        Object.keys(data).forEach((key) => {
+            delete data[key];
+        });
     } else {
         Object.assign(data, keyOrData);
     }
@@ -94,6 +98,8 @@ declare module 'cash-dom' {
         dataset(name: string): unknown;
         dataset(name: string, value: unknown): Cash;
         dataset(dataset: Record<string, unknown>): Cash;
+
+        removeData(name?: string): Cash;
     }
 }
 
@@ -112,5 +118,11 @@ $.fn.data = function (this: Cash, ...args: (string | Record<string, unknown> | u
     }
     return this.each((_, ele) => {
         return storeData(ele, data as string, value);
+    });
+};
+
+$.fn.removeData = function (this: Cash, name: string | null = null) {
+    return this.each((_, ele) => {
+        return storeData(ele, name);
     });
 };
