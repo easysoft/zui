@@ -21,9 +21,7 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
      * It usually equals to the class name.
      * The name must be provided in subclass.
      */
-    static get NAME(): string {
-        throw new Error(`[ZUI] Component name must be provided in class "${this.name}".`);
-    }
+    static NAME = this.name;
 
     /**
      * Component data key, like "zui.menu"
