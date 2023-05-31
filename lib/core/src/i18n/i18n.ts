@@ -1,12 +1,7 @@
 import {deepGet} from '@zui/helpers/src/object/deep-get';
 import {mergeDeep} from '@zui/helpers/src/object/merge-deep';
 import {formatString} from '@zui/helpers/src/format-string';
-
-export type I18nLangCode = string;
-
-export type I18nValuesMap = Record<string, string | object>;
-
-export type I18nLangMap = Record<I18nLangCode, I18nValuesMap>;
+import {I18nLangMap, I18nLangCode, I18nValuesMap} from './types';
 
 let globalLangCode = (document.documentElement.getAttribute('lang') || 'zh_cn').toLowerCase().replace('-', '_');
 

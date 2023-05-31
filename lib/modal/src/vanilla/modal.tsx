@@ -1,6 +1,6 @@
 import {render} from 'preact';
 import {nanoid} from 'nanoid';
-import {getLang} from '@zui/core';
+import {i18n} from '@zui/core';
 import {$, HtmlContent} from '@zui/core';
 import {ModalBase} from './modal-base';
 import {ModalOptions, ModalDialogOptions, ModalCustomOptions, ModalAjaxOptions, ModalAlertOptions, ModalTypedOptions, ModalConfirmOptions} from '../types';
@@ -246,7 +246,7 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
             } as ToolbarItemProps;
             if (typeof item.key === 'string') {
                 if (!item.text) {
-                    item.text = getLang(item.key, item.key);
+                    item.text = i18n.getLang(item.key, item.key);
                 }
                 if (!item.btnType) {
                     item.btnType = `btn-wide ${item.key === 'confirm' ? 'primary' : 'btn-default'}`;
