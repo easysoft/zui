@@ -8,7 +8,7 @@ export type AjaxSubmitOptions = {
     method?: string;
     headers?: HeadersInit;
     beforeSubmit?: (options: AjaxSubmitOptions) => false | void;
-    beforeSend?: (formData: FormData) => void | FormData;
+    beforeSend?: (formData?: FormData) => void | FormData;
     contentType?: 'multipart/form-data',
     onSuccess?: (result: AjaxFormResult) => void | false;
     onFail?: (result: AjaxFormResult) => void | false;

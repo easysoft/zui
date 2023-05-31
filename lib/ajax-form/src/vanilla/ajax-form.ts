@@ -1,8 +1,7 @@
-import {$, Cash} from '@zui/core';
-import {ComponentBase} from '@zui/com-helpers/src/helpers/vanilla-component';
+import {$, Cash, Component} from '@zui/core';
 import type {AjaxFormOptions, AjaxFormResult, AjaxFormEvents} from '../types';
 
-export class AjaxForm extends ComponentBase<AjaxFormOptions, AjaxFormEvents, HTMLFormElement> {
+export class AjaxForm extends Component<AjaxFormOptions, AjaxFormEvents, HTMLFormElement> {
     static readonly NAME = 'ajaxform';
 
     init() {
@@ -31,7 +30,7 @@ export class AjaxForm extends ComponentBase<AjaxFormOptions, AjaxFormEvents, HTM
 
         const {element} = this;
         const options = $.extend({}, this.options);
-        this.emit('before', {event, element, options}, false);
+        this.emit('before', event, element, options);
         if (options.beforeSubmit?.(event, element, options) === false) {
             return;
         }
@@ -75,7 +74,7 @@ export class AjaxForm extends ComponentBase<AjaxFormOptions, AjaxFormEvents, HTM
             }
         }
 
-        this.emit('send', {formData}, false);
+        this.emit('send', formData);
         return formData;
     }
 
@@ -107,12 +106,12 @@ export class AjaxForm extends ComponentBase<AjaxFormOptions, AjaxFormEvents, HTM
             error = err;
         }
         if (error) {
-            this.emit('error', {error, responseText}, false);
+            this.emit('error', error, responseText);
             options.onError?.(error, responseText);
         } else {
             this.#handleResult(result!);
         }
-        this.emit('complete', {result, error}, false);
+        this.emit('complete', result, error);
         options.onComplete?.(result, error);
     }
 
@@ -150,7 +149,7 @@ export class AjaxForm extends ComponentBase<AjaxFormOptions, AjaxFormEvents, HTM
         const {options} = this;
         const {message} = result;
         if (result.result === 'success') {
-            this.emit('success', {result}, false);
+            this.emit('success', result);
             if (options.onSuccess?.(result) === false) {
                 return;
             }
@@ -159,7 +158,7 @@ export class AjaxForm extends ComponentBase<AjaxFormOptions, AjaxFormEvents, HTM
                 $(document).trigger('zui.messager.show', {content: message, type: 'success'});
             }
         } else {
-            this.emit('fail', {result}, false);
+            this.emit('fail', result);
             if (options.onFail?.(result) === false) {
                 return;
             }

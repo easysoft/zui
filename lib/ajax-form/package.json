@@ -12,7 +12,6 @@
         "zui:component"
     ],
     "dependencies": {
-        "@zui/com-helpers": "workspace:*",
         "@zui/core": "workspace:^0.0.1"
     },
     "zui": {
