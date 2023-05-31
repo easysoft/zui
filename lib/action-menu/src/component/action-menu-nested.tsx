@@ -68,6 +68,7 @@ export class ActionMenuNested<T extends ActionBasicProps = ActionMenuNestedItemO
         return (!item.type || item.type === 'item') && !!(item as ActionNestedItemProps).items;
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     renderToggleIcon(_show: boolean, _item: ActionNestedItemProps): ComponentChildren | void {
     }
 
