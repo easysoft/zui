@@ -171,8 +171,10 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
      * @param event  The event name.
      * @param args   The event arguments.
      */
-    emit<N extends ComponentEventName<E>>(event: N, ...args: ComponentEventArgs<E, N>) {
-        this.$element.trigger(this.constructor.wrapEventNames(event), [this, ...args]);
+    emit<N extends ComponentEventName<E>>(event: N, ...args: ComponentEventArgs<E, N>): Event {
+        const eventObject = $.Event(this.constructor.wrapEventNames(event));
+        this.$element.trigger(eventObject, [this, ...args]);
+        return eventObject as unknown as Event;
     }
 
     /**
