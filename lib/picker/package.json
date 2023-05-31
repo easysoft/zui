@@ -11,7 +11,6 @@
         "./src/**/*"
     ],
     "dependencies": {
-        "@zui/com-helpers": "workspace:^0.0.1",
         "@zui/core": "workspace:^0.0.1",
         "@zui/css-icons": "workspace:^0.0.1",
         "@zui/base": "workspace:*",
