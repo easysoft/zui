@@ -38,7 +38,7 @@ export class ContextMenu extends Component<ContextMenuOptions, ContextMenuEvents
     #cleanup?: () => void;
 
     get $menu() {
-        return $(this.menu);
+        return $(this.#menu);
     }
 
     get isShown() {
