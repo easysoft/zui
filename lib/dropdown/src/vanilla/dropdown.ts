@@ -1,4 +1,5 @@
 import '@zui/css-icons/src/icons/arrow.css';
+import {$} from '@zui/core';
 import {ContextMenu} from '@zui/contextmenu/src/vanilla/contextmenu';
 import {ContextMenuTrigger} from '@zui/contextmenu/src/types/contextmenu-trigger';
 import type {DropdownEvents} from '../types/dropdown-events';
@@ -6,12 +7,12 @@ import type {DropdownOptions} from '../types/dropdown-options';
 import '../css/dropdown.css';
 import {offset, arrow} from '@floating-ui/dom';
 
-export class Dropdown extends ContextMenu<DropdownOptions, DropdownEvents> {
-    static NAME = 'dropdown';
+const MENU_SELECTOR = '[data-toggle="dropdown"]';
 
+export class Dropdown extends ContextMenu<DropdownOptions, DropdownEvents> {
     static MENU_CLASS = 'dropdown-menu';
 
-    static MENU_SELECTOR = '[data-toggle="dropdown"]:not(.disabled):not(:disabled)';
+    static NAME = 'Dropdown';
 
     static DEFAULT = {
         ...ContextMenu.DEFAULT,
@@ -28,7 +29,7 @@ export class Dropdown extends ContextMenu<DropdownOptions, DropdownEvents> {
     }
 
     get elementShowClass() {
-        return `with-${(this.constructor as typeof Dropdown).NAME}-show`;
+        return `with-${this.constructor.NAME}-show`;
     }
 
     show(trigger?: ContextMenuTrigger, options?: {event?: MouseEvent, clearOthers?: boolean}) {
@@ -41,7 +42,7 @@ export class Dropdown extends ContextMenu<DropdownOptions, DropdownEvents> {
             if (!this.#hoverEventsBind && this.isHover) {
                 this.#bindHoverEvents();
             }
-            this.element.classList.add(this.elementShowClass);
+            this.$element.addClass(this.elementShowClass);
         }
         return result;
     }
@@ -49,7 +50,7 @@ export class Dropdown extends ContextMenu<DropdownOptions, DropdownEvents> {
     hide() {
         const result = super.hide();
         if (result) {
-            this.element.classList.remove(this.elementShowClass);
+            this.$element.removeClass(this.elementShowClass);
         }
         return result;
     }
@@ -65,14 +66,12 @@ export class Dropdown extends ContextMenu<DropdownOptions, DropdownEvents> {
 
     destroy() {
         if (this.#hoverEventsBind) {
-            this.element.removeEventListener('mouseleave', this.hideLater);
-            this.menu.removeEventListener('mouseenter', this.#cancelHide);
-            this.menu.removeEventListener('mouseleave', this.hideLater);
+            $(this.menu).off(this.constructor.NAMESPACE);
         }
         super.destroy();
     }
 
-    _getArrowSize() {
+    protected getArrowSize() {
         const {arrow: arrowOption} = this.options;
         if (!arrowOption) {
             return 0;
@@ -80,9 +79,9 @@ export class Dropdown extends ContextMenu<DropdownOptions, DropdownEvents> {
         return typeof arrowOption === 'number' ? arrowOption : 8;
     }
 
-    _getPopperOptions() {
-        const options = super._getPopperOptions();
-        const arrowSize = this._getArrowSize();
+    protected getPopperOptions() {
+        const options = super.getPopperOptions();
+        const arrowSize = this.getArrowSize();
         if (arrowSize && this.arrowEl) {
             options.middleware?.push(offset(arrowSize));
             options.middleware?.push(arrow({element: this.arrowEl}));
@@ -90,27 +89,29 @@ export class Dropdown extends ContextMenu<DropdownOptions, DropdownEvents> {
         return options;
     }
 
-    _ensureMenu() {
-        const menu = super._ensureMenu();
+    ensureMenu() {
+        const menu = super.ensureMenu();
         if (this.options.arrow) {
-            const arrowSize = this._getArrowSize();
-            this.arrowEl = document.createElement('div');
-            this.arrowEl.style.position = 'absolute';
-            this.arrowEl.style.width = `${arrowSize}px`;
-            this.arrowEl.style.height = `${arrowSize}px`;
-            this.arrowEl.style.transform = 'rotate(45deg)';
-            menu.append(this.arrowEl);
+            const arrowSize = this.getArrowSize();
+            const arrowEl = $('<div />').css({
+                position: 'absolute',
+                width: `${arrowSize}px`,
+                height: `${arrowSize}px`,
+                transform: 'rotate(45deg)',
+            });
+            this.arrowEl = arrowEl[0] as HTMLDivElement;
+            $(menu).append(arrowEl);
         }
         return menu;
     }
 
-    _getMenuOptions() {
-        const options = super._getMenuOptions();
+    protected getMenuOptions() {
+        const options = super.getMenuOptions();
         if (options && this.options.arrow) {
             const {afterRender} = options;
             options.afterRender = (...args) => {
                 if (this.arrowEl) {
-                    this.menu.querySelector('.menu')?.appendChild(this.arrowEl);
+                    $(this.menu).find('.menu').append(this.arrowEl);
                 }
                 afterRender?.(...args);
             };
@@ -124,30 +125,25 @@ export class Dropdown extends ContextMenu<DropdownOptions, DropdownEvents> {
     };
 
     #bindHoverEvents() {
-        const {menu} = this;
-        menu.addEventListener('mouseenter', this.#cancelHide);
-        menu.addEventListener('mouseleave', this.hideLater);
-        this.element.addEventListener('mouseleave', this.hideLater);
+        $(this.menu).on(`mouseenter${this.constructor.NAMESPACE}`, this.#cancelHide)
+            .on(`mouseleave${this.constructor.NAMESPACE}`, this.hideLater);
+        this.on('mouseleave', this.hideLater);
         this.#hoverEventsBind = true;
     }
 }
 
-document.addEventListener('click', function (event) {
-    const element = event.target as HTMLElement;
-    const toggleBtn = element.closest?.<HTMLElement>(Dropdown.MENU_SELECTOR);
-    if (toggleBtn) {
-        const dropdown = Dropdown.ensure(toggleBtn);
+$(document).on('click', function (event) {
+    const $toggleBtn = $(event.target as HTMLElement).closest(MENU_SELECTOR).not(':disabled,.disabled');
+    if ($toggleBtn.length) {
+        const dropdown = Dropdown.ensure($toggleBtn);
         if (dropdown.options.trigger === 'click') {
             dropdown.toggle();
         }
     } else {
         Dropdown.clear({event});
     }
-});
-
-document.addEventListener('mouseover', function (e) {
-    const element = e.target as HTMLElement;
-    const toggleBtn = element.closest?.<HTMLElement>(Dropdown.MENU_SELECTOR);
+}).on('mouseover', function (e) {
+    const toggleBtn = (e.target as HTMLElement).closest?.<HTMLElement>(MENU_SELECTOR);
     if (!toggleBtn) {
         return;
     }
@@ -157,16 +153,13 @@ document.addEventListener('mouseover', function (e) {
     }
 });
 
-const handleScroll = (event: Event) => {
-    const element = document.getElementsByClassName('with-dropdown-show')[0];
-    if (!element) {
-        return;
+let scrollTimer = 0;
+window.addEventListener('scroll', (event: Event) => {
+    if (scrollTimer) {
+        clearTimeout(scrollTimer);
     }
-    const toggleBtn = typeof element.closest === 'function' ? element.closest<HTMLElement>(Dropdown.MENU_SELECTOR) : null;
-    if (!toggleBtn || !(event.target as HTMLElement).contains(toggleBtn)) {
-        return;
-    }
-    Dropdown.clear({event});
-};
-
-window.addEventListener('scroll', handleScroll, true);
+    scrollTimer = window.setTimeout(() => {
+        Dropdown.clear({event});
+        scrollTimer = 0;
+    }, 50);
+}, true);

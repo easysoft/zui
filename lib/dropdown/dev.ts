@@ -16,7 +16,9 @@ onPageUpdate(() => {
                 {text: '导入', icon: 'icon-upload-alt'},
                 {text: '导出', icon: 'icon-download-alt'},
                 {
-                    text: '保存', icon: 'icon-save', onClick: (event) => console.log('> menuItem.clicked', event),
+                    text: '保存',
+                    icon: 'icon-save',
+                    onClick: (event) => console.log('> menuItem.clicked', event),
                     items: [
                         {text: '保存到云端'},
                         {
