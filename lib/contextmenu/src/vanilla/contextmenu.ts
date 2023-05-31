@@ -11,13 +11,13 @@ import type {ContextMenuEvents} from '../types/contextmenu-events';
 import type {ContextMenuTrigger} from '../types/contextmenu-trigger';
 import type {VirtualElement, ComputePositionConfig, Strategy, Side} from '@floating-ui/dom';
 
-const MENU_CLASS = 'contextmenu';
-
 const CLASS_SHOW = 'show';
 
-const MENU_SELECTOR = '[data-toggle="contextmenu"]:not(.disabled):not(:disabled)';
+const MENU_SELECTOR = '[data-toggle="contextmenu"]';
 
-export class ContextMenu extends Component<ContextMenuOptions, ContextMenuEvents, HTMLElement> {
+export class ContextMenu<O extends ContextMenuOptions = ContextMenuOptions, E extends ContextMenuEvents = ContextMenuEvents> extends Component<O, [ContextMenuEvents, E], HTMLElement> {
+    static MENU_CLASS = 'contextmenu';
+
     static NAME = 'ContextMenu';
 
     static DEFAULT: Partial<ContextMenuOptions> = {
@@ -27,26 +27,24 @@ export class ContextMenu extends Component<ContextMenuOptions, ContextMenuEvents
         preventOverflow :true,
     };
 
+    declare ['constructor']: typeof ContextMenu<O, E>;
+
     #menu?: HTMLElement;
 
     #virtualElement?: VirtualElement;
 
     #trigger?: ContextMenuTrigger;
 
-    #arrowEl?: HTMLDivElement;
+    arrowEl?: HTMLDivElement;
 
     #cleanup?: () => void;
 
-    get $menu() {
-        return $(this.#menu);
-    }
-
     get isShown() {
-        return this.$menu.hasClass(CLASS_SHOW);
+        return this.#menu && $(this.#menu).hasClass(CLASS_SHOW);
     }
 
     get menu() {
-        return this.#menu || this._ensureMenu();
+        return this.#menu || this.ensureMenu();
     }
 
     get trigger() {
@@ -59,8 +57,8 @@ export class ContextMenu extends Component<ContextMenuOptions, ContextMenuEvents
 
     init() {
         const {$element} = this;
-        if (!$element.is('body')) {
-            $element.attr('data-toggle', 'contextmenu');
+        if (!$element.is('body') && !$element.attr('data-toggle')) {
+            $element.attr('data-toggle', this.constructor.NAME.toLowerCase());
         }
     }
 
@@ -75,12 +73,13 @@ export class ContextMenu extends Component<ContextMenuOptions, ContextMenuEvents
             return false;
         }
 
-        if (this.isDynamic && !this._renderMenu()) {
+        if (this.isDynamic && !this.renderMenu()) {
             return false;
         }
 
-        this.$menu.addClass(CLASS_SHOW);
-        this._createPopper();
+        $(this.menu).addClass(CLASS_SHOW);
+
+        this.createPopper();
 
         this.emit('shown');
         return true;
@@ -97,7 +96,7 @@ export class ContextMenu extends Component<ContextMenuOptions, ContextMenuEvents
             return false;
         }
 
-        this.$menu.removeClass(CLASS_SHOW);
+        $(this.#menu).removeClass(CLASS_SHOW);
         this.emit('hidden');
         return true;
     }
@@ -112,14 +111,15 @@ export class ContextMenu extends Component<ContextMenuOptions, ContextMenuEvents
         this.#menu?.remove();
     }
 
-    _ensureMenu() {
+    protected ensureMenu() {
         const {$element} = this;
+        const MENU_CLASS = this.constructor.MENU_CLASS;
         let $menuElement: Cash | undefined;
         if (this.isDynamic) {
             $menuElement = $(`<div class="${MENU_CLASS}" />`).appendTo('body');
         } else if ($element.length) {
-            const target = $element.attr('href') || $element.dataset('target') as string;
-            if (target?.[0] === '#') {
+            const target = ($element.attr('href') || $element.dataset('target') || '') as string;
+            if (target[0] === '#') {
                 $menuElement = $(document).find(target);
             }
             if (!$menuElement?.length) {
@@ -139,16 +139,18 @@ export class ContextMenu extends Component<ContextMenuOptions, ContextMenuEvents
             throw new Error('[ZUI] ContextMenu: Cannot find menu element.');
         }
 
-        this.#menu = $menuElement.css({
+        $menuElement.css({
             width: 'max-content',
             position: this.options.strategy as Strategy,
             top: 0,
             left: 0,
-        })[0];
+        });
+
+        this.#menu = $menuElement[0];
         return $menuElement[0];
     }
 
-    _getPopperOptions() {
+    protected getPopperOptions() {
         const {placement, strategy} = this.options;
         const config: ComputePositionConfig = {
             middleware: [],
@@ -195,9 +197,9 @@ export class ContextMenu extends Component<ContextMenuOptions, ContextMenuEvents
         };
     }
 
-    _createPopper() {
-        const config = this._getPopperOptions();
-        const reference = this._getPopperElement();
+    protected createPopper() {
+        const config = this.getPopperOptions();
+        const reference = this.getPopperElement();
         const menu = this.menu!;
         this.#cleanup = autoUpdate(reference, menu, () => {
             computePosition(reference, menu, config).then(({x, y, middlewareData, placement}) => {
@@ -205,12 +207,12 @@ export class ContextMenu extends Component<ContextMenuOptions, ContextMenuEvents
                 const side = placement.split('-')[0] as Side;
                 const staticSide = this.#getStaticSide(side);
 
-                if (middlewareData.arrow && this.#arrowEl) {
+                if (middlewareData.arrow && this.arrowEl) {
                     const {x: arrowX, y: arrowY} = middlewareData.arrow;
-                    $(this.#arrowEl).css({
+                    $(this.arrowEl).css({
                         left: arrowX != null ? `${arrowX}px` : '',
                         top: arrowY != null ? `${arrowY}px` : '',
-                        [staticSide]: `${-this.#arrowEl.offsetWidth / 2}px`,
+                        [staticSide]: `${-this.arrowEl.offsetWidth / 2}px`,
                         background: 'inherit',
                         border: 'inherit',
                         ...this.#getNoneSideBorder(side),
@@ -220,7 +222,7 @@ export class ContextMenu extends Component<ContextMenuOptions, ContextMenuEvents
         });
     }
 
-    _getMenuOptions() {
+    protected getMenuOptions() {
         const {menu, items} = this.options;
         let menuItems = items || menu?.items;
         if (!menuItems) {
@@ -236,8 +238,8 @@ export class ContextMenu extends Component<ContextMenuOptions, ContextMenuEvents
         } as MenuOptions;
     }
 
-    _renderMenu() {
-        const menuOptions = this._getMenuOptions();
+    protected renderMenu() {
+        const menuOptions = this.getMenuOptions();
         if (!menuOptions) {
             return false;
         }
@@ -251,7 +253,7 @@ export class ContextMenu extends Component<ContextMenuOptions, ContextMenuEvents
         return true;
     }
 
-    _getPopperElement(): VirtualElement {
+    protected getPopperElement(): VirtualElement {
         if (!this.#virtualElement) {
             this.#virtualElement = {
                 getBoundingClientRect: () => {
@@ -322,10 +324,10 @@ export class ContextMenu extends Component<ContextMenuOptions, ContextMenuEvents
 // Bind global events.
 $(document).on('contextmenu', event => {
     const $target = $(event.target);
-    if ($target.closest(`.${MENU_CLASS}`).length) {
+    if ($target.closest(`.${ContextMenu.MENU_CLASS}`).length) {
         return;
     }
-    const toggleElement = $target.closest(MENU_SELECTOR);
+    const toggleElement = $target.closest(MENU_SELECTOR).not(':disabled,.disabled');
     if (toggleElement.length) {
         ContextMenu.ensure(toggleElement).show(event);
         event.preventDefault();

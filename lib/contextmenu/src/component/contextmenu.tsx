@@ -22,7 +22,7 @@ export class ContextMenu<T extends MenuItemOptions = MenuItemOptions> extends Me
         super.componentWillUnmount();
     }
 
-    _getPopperOptions() {
+    protected getPopperOptions() {
         const config: Partial<ComputePositionConfig> = {
             middleware: [flip()],
             placement: 'right-start',
@@ -30,14 +30,14 @@ export class ContextMenu<T extends MenuItemOptions = MenuItemOptions> extends Me
         return config;
     }
 
-    _getPopperElement() {
+    protected getPopperElement() {
         return this.ref.current?.parentElement as HTMLElement;
     }
 
-    _createPopper() {
-        const config = this._getPopperOptions();
+    protected createPopper() {
+        const config = this.getPopperOptions();
         if (this.ref.current) {
-            computePosition(this._getPopperElement(), this.ref.current, config).then(({x, y}) => {
+            computePosition(this.getPopperElement(), this.ref.current, config).then(({x, y}) => {
                 Object.assign((this.ref.current as HTMLElement).style, {
                     left: `${x}px`,
                     top: `${y}px`,
@@ -50,7 +50,7 @@ export class ContextMenu<T extends MenuItemOptions = MenuItemOptions> extends Me
     afterRender(firstRender: boolean) {
         super.afterRender(firstRender);
         if (this.props.controlledMenu) {
-            this._createPopper();
+            this.createPopper();
         }
     }
 
