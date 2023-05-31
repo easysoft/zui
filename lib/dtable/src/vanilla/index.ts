@@ -1,11 +1,11 @@
-import {ComponentFromReact} from '@zui/com-helpers/src/helpers/component-react';
+import {ComponentFromReact} from '@zui/core';
 import {DTable as DTableReact} from '../components/dtable';
 import {removePlugin, definePlugin} from '../helpers/shared-plugins';
 import * as plugins from '../plugins';
 import type {DTableOptions} from '../types/options';
 
 export class DTable extends ComponentFromReact<DTableOptions, DTableReact> {
-    static NAME = 'dtable';
+    static NAME = 'DTable';
 
     static Component = DTableReact;
 

@@ -9,7 +9,7 @@ import {addPlugin, initPlugins, removePlugin} from '../helpers/shared-plugins';
 import {getDefaultOptions} from '../helpers/default-options';
 import '../style/index.css';
 import type {ComponentChildren, JSX} from 'preact';
-import {CustomRender, CustomRenderResult, CustomRenderResultList} from '@zui/com-helpers/src/helpers/custom-render';
+import {CustomRender, CustomRenderResult, CustomRenderResultList} from '@zui/core';
 import type {CellRenderCallback} from '../types/cell';
 import type {ColInfoLike, ColInfo} from '../types/col';
 import type {DTableState, DTableLayout, DTableEventListener, DTableEventTarget, DTablePointerInfo} from '../types/dtable';
