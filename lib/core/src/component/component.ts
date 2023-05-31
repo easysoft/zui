@@ -81,6 +81,10 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
         $element.data(this.constructor.KEY, this).attr(this.constructor.DATA_KEY, `${gid}`);
         this.#element = $element[0] as U;
 
+        $element.on('DOMNodeRemovedFromDocument', () => {
+            this.destroy();
+        });
+
         this.#options = {...this.constructor.DEFAULT, ...$element.dataset()} as ComponentOptions<O>;
         this.setOptions(options);
 
