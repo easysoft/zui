@@ -1,11 +1,11 @@
 import '@zui/css-icons/src/icons/arrow.css';
 import '../style/index.css';
-import {ComponentBase} from '@zui/com-helpers/src/helpers/vanilla-component';
+import {Component} from '@zui/core';
 import {autoUpdate, computePosition, offset, flip, arrow} from '@floating-ui/dom';
 import type {TooltipOptions, TooltipTrigger} from '../types';
 import type {VirtualElement, ComputePositionConfig, Strategy, Side} from '@floating-ui/dom';
 
-export class Tooltip extends ComponentBase<TooltipOptions> {
+export class Tooltip extends Component<TooltipOptions> {
 
     static readonly NAME = 'tooltip';
 

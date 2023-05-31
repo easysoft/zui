@@ -24,7 +24,6 @@
         "@floating-ui/dom": "^1.1.0",
         "@zui/core": "workspace:*",
         "@zui/button": "workspace:0.0.1",
-        "@zui/com-helpers": "workspace:*",
         "@zui/css-icons": "workspace:^0.0.1"
     },
     "zui": {
