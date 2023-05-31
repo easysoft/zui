@@ -271,7 +271,7 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
      * @returns        All component instances.
      */
     static getAll<O extends {}, E extends ComponentEvents, U extends Element, T extends typeof Component<O, E, U>>(this: T, selector?: Selector): InstanceType<T>[] {
-        return $(selector || 'body')
+        return $(selector || document)
             .find(`[${this.DATA_KEY}]`)
             .map((_, element) => $(element).data(this.KEY))
             .get() as InstanceType<T>[];
