@@ -1,6 +1,6 @@
 import {Attributes, ComponentType, h as _h} from 'preact';
 import {classes} from '@zui/core';
-import {renderIcon} from '@zui/com-helpers/src/helpers/render-icon';
+import {renderIcon} from '@zui/core';
 import {ActionItemProps} from '../types/action-item-props';
 
 export function ActionItem({
