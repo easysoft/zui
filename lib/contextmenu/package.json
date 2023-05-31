@@ -16,9 +16,7 @@
         "zui-dev": "workspace:^0.0.1"
     },
     "dependencies": {
-        "@floating-ui/core": "^1.1.0",
-        "@floating-ui/dom": "^1.1.0",
-        "@zui/com-helpers": "workspace:*",
+        "@zui/core": "workspace:*",
         "@zui/menu": "workspace:*"
     },
     "zui": {

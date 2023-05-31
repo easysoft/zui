@@ -344,9 +344,6 @@ importers:
       '@zui/event-bus':
         specifier: workspace:^0.0.1
         version: link:../event-bus
-      '@zui/i18n':
-        specifier: workspace:^0.0.1
-        version: link:../i18n
     devDependencies:
       '@types/jquery':
         specifier: ^3.5.14
@@ -357,15 +354,9 @@ importers:
 
   lib/contextmenu:
     dependencies:
-      '@floating-ui/core':
-        specifier: ^1.1.0
-        version: 1.1.0
-      '@floating-ui/dom':
-        specifier: ^1.1.0
-        version: 1.1.0
-      '@zui/com-helpers':
+      '@zui/core':
         specifier: workspace:*
-        version: link:../com-helpers
+        version: link:../core
       '@zui/menu':
         specifier: workspace:*
         version: link:../menu
@@ -417,9 +408,6 @@ importers:
       '@zui/helpers':
         specifier: workspace:^0.0.1
         version: link:../helpers
-      '@zui/i18n':
-        specifier: workspace:^0.0.1
-        version: link:../i18n
       '@zui/store':
         specifier: workspace:^0.0.1
         version: link:../store
@@ -519,9 +507,6 @@ importers:
       '@zui/helpers':
         specifier: workspace:^0.0.1
         version: link:../helpers
-      '@zui/i18n':
-        specifier: workspace:^0.0.1
-        version: link:../i18n
       '@zui/menu':
         specifier: workspace:^0.0.1
         version: link:../menu
@@ -588,12 +573,6 @@ importers:
         version: link:../utilities
 
   lib/helpers: {}
-
-  lib/i18n:
-    dependencies:
-      '@zui/helpers':
-        specifier: workspace:^0.0.1
-        version: link:../helpers
 
   lib/icons:
     devDependencies:
@@ -733,9 +712,6 @@ importers:
       '@zui/css-icons':
         specifier: workspace:^0.0.1
         version: link:../css-icons
-      '@zui/i18n':
-        specifier: workspace:*
-        version: link:../i18n
       '@zui/toolbar':
         specifier: workspace:*
         version: link:../toolbar

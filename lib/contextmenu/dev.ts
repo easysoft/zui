@@ -34,6 +34,18 @@ onPageLoad(() => {
             },
         },
     });
+    contextMenu.on('show', (e) => {
+        console.log('> contextmenu.show', e);
+    });
+    contextMenu.on('shown', (e) => {
+        console.log('> contextmenu.shown', e);
+    });
+    contextMenu.on('hide', (e) => {
+        console.log('> contextmenu.hide', e);
+    });
+    contextMenu.on('hidden', (e) => {
+        console.log('> contextmenu.hidden', e);
+    });
     console.log('> contextMenu', contextMenu);
 
     document.getElementById('menuToggle2')?.addEventListener('click', (event) => {
@@ -54,6 +66,18 @@ onPageLoad(() => {
                 },
             },
         });
-        console.log('> contextmenu', contextmenu);
+        contextmenu.on('show', (e) => {
+            console.log('>> contextmenu.show', e);
+        });
+        contextmenu.on('shown', (e) => {
+            console.log('>> contextmenu.shown', e);
+        });
+        contextmenu.on('hide', (e) => {
+            console.log('>> contextmenu.hide', e);
+        });
+        contextmenu.on('hidden', (e) => {
+            console.log('>> contextmenu.hidden', e);
+        });
+        console.log('>> contextmenu', contextmenu);
     });
 });

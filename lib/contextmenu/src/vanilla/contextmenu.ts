@@ -1,10 +1,10 @@
 import {render, h} from 'preact';
-import {$, Cash, Component} from '@zui/core';
+import {$, Cash, Component, Selector} from '@zui/core';
 import {MenuOptions} from '@zui/menu';
+import {autoUpdate, computePosition, flip} from '@floating-ui/dom';
 import '../style/vars.css';
 import '../style/contextmenu.css';
 import {ContextMenu as ContextMenuReact} from '../component/contextmenu';
-import {autoUpdate, computePosition, flip} from '@floating-ui/dom';
 import type {MenuItemOptions} from '@zui/menu/src/types/menu-item-options';
 import type {ContextMenuOptions} from '../types/contextmenu-options';
 import type {ContextMenuEvents} from '../types/contextmenu-events';
@@ -33,7 +33,7 @@ export class ContextMenu extends Component<ContextMenuOptions, ContextMenuEvents
 
     #trigger?: ContextMenuTrigger;
 
-    arrowEl?: HTMLDivElement;
+    #arrowEl?: HTMLDivElement;
 
     #cleanup?: () => void;
 
@@ -64,29 +64,40 @@ export class ContextMenu extends Component<ContextMenuOptions, ContextMenuEvents
         }
     }
 
-    show(trigger?: ContextMenuTrigger) {
+    show(trigger?: ContextMenuTrigger): boolean {
+        if (this.isShown) {
+            return false;
+        }
+
         this.#trigger = trigger;
-        this.emit('show', this.trigger);
+        const showEvent = this.emit('show', this.trigger);
+        if (showEvent.defaultPrevented) {
+            return false;
+        }
 
         if (this.isDynamic && !this._renderMenu()) {
             return false;
         }
 
-        $(this.menu).addClass(CLASS_SHOW);
+        this.$menu.addClass(CLASS_SHOW);
         this._createPopper();
 
         this.emit('shown');
         return true;
     }
 
-    hide() {
+    hide(): boolean {
+        if (!this.isShown) {
+            return false;
+        }
+
         this.#cleanup?.();
         const hideEvent = this.emit('hide');
         if (hideEvent.defaultPrevented) {
             return false;
         }
 
-        $(this.#menu).removeClass(CLASS_SHOW);
+        this.$menu.removeClass(CLASS_SHOW);
         this.emit('hidden');
         return true;
     }
@@ -105,7 +116,7 @@ export class ContextMenu extends Component<ContextMenuOptions, ContextMenuEvents
         const {$element} = this;
         let $menuElement: Cash | undefined;
         if (this.isDynamic) {
-            $('body').append(`<div class="${MENU_CLASS}" />`);
+            $menuElement = $(`<div class="${MENU_CLASS}" />`).appendTo('body');
         } else if ($element.length) {
             const target = $element.attr('href') || $element.dataset('target') as string;
             if (target?.[0] === '#') {
@@ -194,12 +205,12 @@ export class ContextMenu extends Component<ContextMenuOptions, ContextMenuEvents
                 const side = placement.split('-')[0] as Side;
                 const staticSide = this.#getStaticSide(side);
 
-                if (middlewareData.arrow && this.arrowEl) {
+                if (middlewareData.arrow && this.#arrowEl) {
                     const {x: arrowX, y: arrowY} = middlewareData.arrow;
-                    $(this.arrowEl).css({
+                    $(this.#arrowEl).css({
                         left: arrowX != null ? `${arrowX}px` : '',
                         top: arrowY != null ? `${arrowY}px` : '',
-                        [staticSide]: `${-this.arrowEl.offsetWidth / 2}px`,
+                        [staticSide]: `${-this.#arrowEl.offsetWidth / 2}px`,
                         background: 'inherit',
                         border: 'inherit',
                         ...this.#getNoneSideBorder(side),
@@ -293,9 +304,7 @@ export class ContextMenu extends Component<ContextMenuOptions, ContextMenuEvents
     ContextMenuTrigger}) {
         const {event, ...otherOptions} = options;
         const contextmenu = this.ensure(document.body);
-        if (Object.keys(otherOptions).length) {
-            contextmenu.setOptions(otherOptions);
-        }
+        contextmenu.setOptions(otherOptions);
         contextmenu.show(event);
         if (event instanceof Event) {
             event.stopPropagation();
@@ -303,8 +312,8 @@ export class ContextMenu extends Component<ContextMenuOptions, ContextMenuEvents
         return contextmenu;
     }
 
-    static hide() {
-        const contextmenu = this.get(document.body);
+    static hide(selector?: Selector) {
+        const contextmenu = this.query(selector);
         contextmenu?.hide();
         return contextmenu;
     }
