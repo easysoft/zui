@@ -236,7 +236,7 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
      * @param names The event names.
      * @returns     The wrapped event names.
      */
-    static wrapEventNames(names: string): string {
+    private static wrapEventNames(names: string): string {
         return names.split(' ').map(name => name.includes('.') ? name : `${name}${this.NAMESPACE}`).join(' ');
     }
 
