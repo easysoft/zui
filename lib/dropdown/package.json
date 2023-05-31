@@ -23,7 +23,6 @@
     "dependencies": {
         "@zui/core": "workspace:*",
         "@zui/button": "workspace:0.0.1",
-        "@zui/com-helpers": "workspace:*",
         "@zui/contextmenu": "workspace:*",
         "@zui/css-icons": "workspace:^0.0.1",
         "@zui/menu": "workspace:*"
