@@ -2,7 +2,7 @@ import {Component} from 'preact';
 import {classes} from '@zui/core';
 import type {JSXInternal} from 'preact/src/jsx';
 
-type TabsProp = {
+export type TabsProp = {
     activeKey?: string | number;
     animated?: boolean;
     items: Array<{

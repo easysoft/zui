@@ -1,46 +1,44 @@
-import {ComponentBase} from '@zui/com-helpers/src/helpers/vanilla-component';
+import {Component, $} from '@zui/core';
 
-export class NavTabs extends ComponentBase<T> {
+const NAV_CLASS = 'nav-tabs';
+
+export class NavTabs extends Component {
     static NAME = 'NavTabs';
 
-    static NAV_CLASS = 'nav-tabs';
-
-    static EVENTS = true;
-
-    static TOGGLE_SELECTOR = '[data-toggle="tab"]';
-
-    #navTarget: HTMLElement;
+    #navTarget?: HTMLElement;
 
     init(): void {
-        const {element} = this;
-        if (element !== document.body && !element.hasAttribute('data-toggle')) {
-            element.setAttribute('data-toggle', 'tab');
+        const {$element} = this;
+        if (!$element.is('body') && !$element.attr('data-toggle')) {
+            $element.attr('data-toggle', 'tab');
         }
     }
 
     showTarget(): void {
-        const target = this.element.getAttribute('href') || this.element.dataset.target || this.element.dataset.tab;
-        if (target?.startsWith('#')) {
-            this.#navTarget = document.querySelector<HTMLElement>(target);
+        const {$element} = this;
+        const target = ($element.attr('href') || $element.dataset('target') || $element.dataset('tab') || '') as string;
+        if (target.startsWith('#')) {
+            this.#navTarget = $(target)[0];
         }
-        this.addActive(this.element.closest(`.${(this.constructor as typeof NavTabs).NAV_CLASS}`), this.element.parentElement);
+        this.addActive($element.closest(`.${NAV_CLASS}`)[0] as HTMLElement, $element.parent()[0] as HTMLElement);
         if (!this.#navTarget) {
             return;
         }
-        this.addActive(this.#navTarget.parentElement, this.#navTarget);
+        this.addActive($(this.#navTarget as HTMLElement)[0] as HTMLElement, this.#navTarget);
         this.#navTarget.dispatchEvent(new CustomEvent('show.zui3.tab'));
     }
 
     show(): void {
-        const target = this.element.getAttribute('href') || this.element.dataset.target || this.element.dataset.tab;
-        if (target?.startsWith('#')) {
-            this.#navTarget = document.querySelector<HTMLElement>(target);
+        const {$element} = this;
+        const target = ($element.attr('href') || $element.dataset('target') || $element.dataset('tab') || '') as string;
+        if (target.startsWith('#')) {
+            this.#navTarget = $(target)[0];
         }
         if (!this.#navTarget) {
             return;
         }
-        this.addActive(this.#navTarget.parentElement, this.#navTarget);
-        this.addActive(this.element.closest(`.${(this.constructor as typeof NavTabs).NAV_CLASS}`), this.element.parentElement);
+        this.addActive(this.#navTarget.parentElement!, this.#navTarget);
+        this.addActive($element.closest(`.${NAV_CLASS}`)[0] as HTMLElement, $element.parent()[0] as HTMLElement);
     }
 
     addActive(clickPane: HTMLElement, target: HTMLElement): void {
@@ -70,11 +68,7 @@ export class NavTabs extends ComponentBase<T> {
     }
 }
 
-document.addEventListener('click', (event: MouseEvent) => {
-    if (event.target instanceof HTMLElement) {
-        if (event.target.dataset.toggle === 'tab' || event.target.getAttribute('data-tab')) {
-            event.preventDefault();
-            new NavTabs(event.target).showTarget();
-        }
-    }
+$(document).on('click', '[data-toggle="tab"],[data-tab]', (event: MouseEvent) => {
+    event.preventDefault();
+    NavTabs.ensure(event.target as Element).showTarget();
 });
