@@ -190,6 +190,16 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
     }
 
     /**
+     * Listen to a component event.
+     *
+     * @param event     The event name.
+     * @param callback  The event callback.
+     */
+    one<N extends ComponentEventName<E>>(event: N, callback: ComponentEventCallback<E, O, N>) {
+        this.$element.one(this.constructor.wrapEventNames(event), callback);
+    }
+
+    /**
      * Stop listening to a component event.
      * @param event     The event name.
      * @param callback  The event callback.
