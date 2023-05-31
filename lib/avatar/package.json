@@ -5,7 +5,6 @@
     "main": "src/main.ts",
     "browserslist": "",
     "dependencies": {
-        "@zui/com-helpers": "workspace:*",
         "@zui/core": "workspace:*",
         "@zui/helpers": "workspace:*"
     },
