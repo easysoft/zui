@@ -1,17 +1,16 @@
 import {i18n} from '../i18n';
 import {$, Element, Selector} from '../cash';
-import type {ComponentCustomEvent, ComponentEventArgs, ComponentEventName, ComponentOptions} from './types';
+import type {ComponentEventArgs, ComponentEventName, ComponentOptions, ComponentEvents, ComponentEventsDefnition} from './types';
 
 /**
  * The event callback for component.
  */
-export type ComponentEventCallback<E extends ComponentCustomEvent, O extends {}, N extends ComponentEventName<E> = ComponentEventName<E>> = (event: Event, args: [Component<O, E>, ...ComponentEventArgs<E, N>]) => void | false;
-
+export type ComponentEventCallback<E extends ComponentEventsDefnition, O extends {}, N extends ComponentEventName<E>> = (event: Event, args: [Component<O, E>, ComponentEventArgs<E, N>]) => void | false;
 
 /**
  * The component base class.
  */
-export class Component<O extends {} = {}, E extends ComponentCustomEvent = {}> {
+export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {}> {
     /**
      * The default options.
      */
@@ -38,6 +37,10 @@ export class Component<O extends {} = {}, E extends ComponentCustomEvent = {}> {
      */
     static get NAMESPACE(): `.${string}.zui` {
         return `.${this.NAME}.zui`;
+    }
+
+    static get DATA_KEY(): `data-zui-${string}` {
+        return `data-zui-${this.NAME}`;
     }
 
     /**
@@ -75,7 +78,7 @@ export class Component<O extends {} = {}, E extends ComponentCustomEvent = {}> {
 
         const gid = $.guid++;
         this.#gid = gid;
-        $element.data(this.constructor.KEY, this).attr(`data-zui-${this.constructor.KEY}`, `${gid}`);
+        $element.data(this.constructor.KEY, this).attr(this.constructor.DATA_KEY, `${gid}`);
         this.#element = $element[0] as Element;
 
         this.#options = {...this.constructor.DEFAULT, ...$element.dataset()} as ComponentOptions<O>;
@@ -83,7 +86,7 @@ export class Component<O extends {} = {}, E extends ComponentCustomEvent = {}> {
 
         this.init();
         requestAnimationFrame(() => {
-            (this.emit as ((event: string, ...args: unknown[]) => void))('inited', this.options);
+            this.emit('inited', this.options);
             this.afterInit();
         });
     }
@@ -141,8 +144,8 @@ export class Component<O extends {} = {}, E extends ComponentCustomEvent = {}> {
     destroy() {
         this.$element
             .off(this.constructor.NAMESPACE)
-            .data(this.constructor.KEY, undefined)
-            .attr(`data-zui-${this.constructor.KEY}`, null);
+            .removeData(this.constructor.KEY)
+            .attr(this.constructor.DATA_KEY, null);
 
         this.#options = undefined;
         this.#element = undefined;
@@ -169,7 +172,7 @@ export class Component<O extends {} = {}, E extends ComponentCustomEvent = {}> {
      * @param args   The event arguments.
      */
     emit<N extends ComponentEventName<E>>(event: N, ...args: ComponentEventArgs<E, N>) {
-        this.$element.trigger(this.constructor.#wrapEventNames(event), [this, ...args]);
+        this.$element.trigger(this.constructor.wrapEventNames(event), [this, ...args]);
     }
 
     /**
@@ -179,7 +182,7 @@ export class Component<O extends {} = {}, E extends ComponentCustomEvent = {}> {
      * @param callback  The event callback.
      */
     on<N extends ComponentEventName<E>>(event: N, callback: ComponentEventCallback<E, O, N>) {
-        this.$element.on(this.constructor.#wrapEventNames(event), callback);
+        this.$element.on(this.constructor.wrapEventNames(event), callback);
     }
 
     /**
@@ -189,7 +192,7 @@ export class Component<O extends {} = {}, E extends ComponentCustomEvent = {}> {
      */
     off<N extends ComponentEventName<E>>(event: N, callback?: ComponentEventCallback<E, O, N>) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        this.$element.off(this.constructor.#wrapEventNames(event), callback as any);
+        this.$element.off(this.constructor.wrapEventNames(event), callback as any);
     }
 
     /**
@@ -227,7 +230,7 @@ export class Component<O extends {} = {}, E extends ComponentCustomEvent = {}> {
      * @param names The event names.
      * @returns     The wrapped event names.
      */
-    static #wrapEventNames(names: string): string {
+    static wrapEventNames(names: string): string {
         return names.split(' ').map(name => name.includes('.') ? name : `${name}${this.NAMESPACE}`).join(' ');
     }
 
@@ -238,7 +241,7 @@ export class Component<O extends {} = {}, E extends ComponentCustomEvent = {}> {
      * @param selector The component element selector.
      * @returns        The component instance.
      */
-    static get<O extends {}, E extends ComponentCustomEvent, T extends typeof Component<O, E>>(this: T, selector: Selector): InstanceType<T> | undefined {
+    static get<O extends {}, E extends ComponentEvents, T extends typeof Component<O, E>>(this: T, selector: Selector): InstanceType<T> | undefined {
         return $(selector).data(this.KEY);
     }
 
@@ -250,7 +253,7 @@ export class Component<O extends {} = {}, E extends ComponentCustomEvent = {}> {
      * @param options   The component options.
      * @returns         The component instance.
      */
-    static ensure<O extends {}, E extends ComponentCustomEvent, T extends typeof Component<O, E>>(this: T, selector: Selector, options?: Partial<ComponentOptions<O>>): InstanceType<T> {
+    static ensure<O extends {}, E extends ComponentEvents, T extends typeof Component<O, E>>(this: T, selector: Selector, options?: Partial<ComponentOptions<O>>): InstanceType<T> {
         const instance = this.get(selector);
         if (instance) {
             return instance;
@@ -265,8 +268,11 @@ export class Component<O extends {} = {}, E extends ComponentCustomEvent = {}> {
      * @param selector The component element selector.
      * @returns        All component instances.
      */
-    static getAll<O extends {}, E extends ComponentCustomEvent, T extends typeof Component<O, E>>(this: T, selector?: Selector): InstanceType<T>[] {
-        return $(selector || 'body').find(`[data-zui-${this.KEY}]`).map((_, element) => $(element).data(this.KEY)).get() as InstanceType<T>[];
+    static getAll<O extends {}, E extends ComponentEvents, T extends typeof Component<O, E>>(this: T, selector?: Selector): InstanceType<T>[] {
+        return $(selector || 'body')
+            .find(`[${this.DATA_KEY}]`)
+            .map((_, element) => $(element).data(this.KEY))
+            .get() as InstanceType<T>[];
     }
 
     /**
@@ -276,10 +282,10 @@ export class Component<O extends {} = {}, E extends ComponentCustomEvent = {}> {
      * @param selector The component element selector.
      * @returns        The component instance.
      */
-    static query<O extends {}, E extends ComponentCustomEvent, T extends typeof Component<O, E>>(this: T, selector?: Selector): InstanceType<T> | undefined {
+    static query<O extends {}, E extends ComponentEvents, T extends typeof Component<O, E>>(this: T, selector?: Selector): InstanceType<T> | undefined {
         if (selector === undefined) {
             return this.getAll().sort((a, b) => a.gid - b.gid)[0];
         }
-        return this.get($(selector).closest(`[data-zui-${this.KEY}]`));
+        return this.get($(selector).closest(`[${this.DATA_KEY}]`));
     }
 }
