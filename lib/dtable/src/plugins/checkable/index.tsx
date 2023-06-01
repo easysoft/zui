@@ -120,10 +120,17 @@ function toggleCheckable(this: DTableCheckable, toggle?: boolean) {
     this.setState({forceCheckable: toggle});
 }
 
+function renderCheckbox(checked: boolean) {
+    return (<div class={`checkbox-primary dtable-checkbox${checked ? ' checked' : ''}`}>
+        <label></label>
+    </div>);
+}
+
 const checkablePlugin: DTablePlugin<DTableCheckableTypes> = {
     name: 'checkable',
     defaultOptions: {
         checkable: 'auto',
+        checkboxRender: renderCheckbox,
     },
     when: options => options.checkable !== undefined,
     options(options) {
@@ -193,9 +200,7 @@ const checkablePlugin: DTablePlugin<DTableCheckableTypes> = {
         const showCheckbox = typeof checkboxSetting === 'function' ? checkboxSetting.call(this, rowID) : checkboxSetting;
         if (showCheckbox) {
             const checked = this.isRowChecked(rowID);
-            const checkbox = this.options.checkboxRender?.call(this, checked, rowID) ?? (
-                <input type="checkbox" checked={checked} />
-            );
+            const checkbox = this.options.checkboxRender?.call(this, checked, rowID);
             result.unshift(checkbox);
             result.push({className: 'has-checkbox'});
         }
@@ -207,9 +212,7 @@ const checkablePlugin: DTablePlugin<DTableCheckableTypes> = {
         const showCheckbox = typeof checkboxSetting === 'function' ? checkboxSetting.call(this, rowID) : checkboxSetting;
         if (showCheckbox) {
             const checked = this.isAllRowChecked();
-            const checkbox = this.options.checkboxRender?.call(this, checked, rowID) ?? (
-                <input type="checkbox" checked={checked} />
-            );
+            const checkbox = (this.options.checkboxRender)?.call(this, checked, rowID);
             result.unshift(checkbox);
             result.push({className: 'has-checkbox'});
         }

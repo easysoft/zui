@@ -5,3 +5,6 @@
 .dtable-rows > .dtable-row.is-checked > .dtable-cells {
     background: var(--dtable-checked-bg);
 }
+.checkbox-primary.dtable-checkbox {
+    @apply --mr-1.5;
+}
