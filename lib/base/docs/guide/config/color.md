@@ -172,6 +172,7 @@ const uiColors = [
   {code: 'link', name: '链接颜色', meaning: '链接的颜色，例如超链接、按钮链接等，通常与主题色保持一致。'},
   {code: 'link-hover', name: '链接悬停颜色', meaning: '链接的在鼠标悬停状态时的颜色'},
   {code: 'link-visited', name: '链接访问后的颜色', meaning: '链接的在点击访问后的颜色'},
+  {code: 'placeholder', name: '占位文本颜色', meaning: '通常用于输入框的占位文本颜色'},
   {code: 'border', name: '边框颜色', meaning: '控件的边框颜色'},
   {code: 'border-strong', name: '加重的边框颜色', meaning: '加重的控件的边框颜色'},
   {code: 'border-light', name: '轻量的边框颜色', meaning: '轻量的控件的边框颜色'},
