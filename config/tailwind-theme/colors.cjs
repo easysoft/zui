@@ -74,6 +74,9 @@ const linkHover = primary[600];
 /** 链接（visited） */
 const linkVisited = primary[700];
 
+/* 占位文本颜色（placeholder） */
+const placeholder = gray[400];
+
 /** Border */
 const border = gray[200];
 
@@ -107,6 +110,7 @@ module.exports = {
     link,
     'link-hover': linkHover,
     'link-visited': linkVisited,
+    placeholder,
     border,
     'border-strong': borderStrong,
     'border-light': borderLight,
