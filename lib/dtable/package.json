@@ -30,7 +30,6 @@
         "./src/**/*"
     ],
     "devDependencies": {
-        "@types/jquery": "^3.5.14",
         "@zui/avatar": "workspace:^0.0.1",
         "@zui/label": "workspace:^0.0.1",
         "@zui/icons": "workspace:^0.0.1",
