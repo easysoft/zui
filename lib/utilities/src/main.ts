@@ -9,3 +9,11 @@ import './backgrounds/index.css';
 import './borders/index.css';
 import './effects/index.css';
 import './interactivity/index.css';
+import {$} from '@zui/core';
+
+$(() => {
+    $('.disabled, [disabled]').on('click', (e) => {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+    });
+});

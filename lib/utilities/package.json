@@ -5,7 +5,8 @@
     "keywords": ["css", "zui:css-utilities"],
     "main": "src/main.ts",
     "devDependencies": {
-        "@zui/base": "workspace:*"
+        "@zui/base": "workspace:*",
+        "@zui/core": "workspace:^0.0.1"
     },
     "files": [
         "./src/**/*"
