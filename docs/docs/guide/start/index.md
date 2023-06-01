@@ -34,4 +34,9 @@
 * ✅ `calc()`
 * 🚫 `vw`、`vh`
 
+### 第三方依赖
+
+* [floating UI](https://floating-ui.com/)
+* [preact](https://preactjs.com/)
+
 如果把握不准对照支持的浏览器参考 https://caniuse.com/ 。
