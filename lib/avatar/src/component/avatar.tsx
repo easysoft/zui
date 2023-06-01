@@ -7,13 +7,12 @@ import '../style/index.css';
 
 function getAvatarText(text: string, maxTextLength: number) {
     if (/^[\u4e00-\u9fa5\s]+$/.test(text)) {
-        text = text.length <= maxTextLength ? text : text.substring(text.length - maxTextLength);
-    } else if (/^[A-Za-z\d\s]+$/.test(text)) {
-        text = text[0].toUpperCase();
-    } else {
-        text = text.length <= maxTextLength ? text : text.substring(0, maxTextLength);
+        return text.length <= maxTextLength ? text : text.substring(text.length - maxTextLength);
     }
-    return text;
+    if (/^[A-Za-z\d\s]+$/.test(text)) {
+        return text[0].toUpperCase();
+    }
+    return text.length <= maxTextLength ? text : text.substring(0, maxTextLength);
 }
 
 export class Avatar extends Component<AvatarOptions> {
