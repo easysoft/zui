@@ -69,21 +69,22 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
      * @param options The component initial options.
      */
     constructor(element: Selector, options?: Partial<ComponentOptions<O>>) {
+        const {KEY, DATA_KEY, DEFAULT} = this.constructor;
         const $element = $(element);
-        if ($element.data(this.constructor.KEY)) {
+        if ($element.data(KEY)) {
             throw new Error('[ZUI] The component has been initialized on element.');
         }
 
         const gid = $.guid++;
         this.#gid = gid;
-        $element.data(this.constructor.KEY, this).attr(this.constructor.DATA_KEY, `${gid}`);
+        $element.data(KEY, this).attr(DATA_KEY, `${gid}`);
         this.#element = $element[0] as U;
 
         $element.on('DOMNodeRemovedFromDocument', () => {
             this.destroy();
         });
 
-        this.#options = {...this.constructor.DEFAULT, ...$element.dataset()} as ComponentOptions<O>;
+        this.#options = {...DEFAULT, ...$element.dataset()} as ComponentOptions<O>;
         this.setOptions(options);
 
         this.init();
@@ -144,10 +145,11 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
      * Destroy the component.
      */
     destroy() {
+        const {NAMESPACE, KEY, DATA_KEY} = this.constructor;
         this.$element
-            .off(this.constructor.NAMESPACE)
-            .removeData(this.constructor.KEY)
-            .attr(this.constructor.DATA_KEY, null);
+            .off(NAMESPACE)
+            .removeData(KEY)
+            .attr(DATA_KEY, null);
 
         this.#options = undefined;
         this.#element = undefined;
