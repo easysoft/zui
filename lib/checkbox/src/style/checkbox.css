@@ -7,6 +7,3 @@
 .radio > input[type="radio"] {
   @apply -accent-primary-500 -rounded-lg;
 }
-.checkbox > input[type="checkbox"]:focus {
-  outline: 2px solid var(--form-control-focus);
-}
