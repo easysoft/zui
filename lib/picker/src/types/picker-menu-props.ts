@@ -14,12 +14,13 @@ export interface PickerMenuProps {
     maxHeight?: number;
     maxWidth?: number;
     searchHint?: string;
+    multiple?: boolean | number;
 
     selections: string[];
     items: PickerItemProps[];
-    onSelectItem: (item: PickerItemProps) => void;
     menu?: MenuOptions;
 
+    onSelectItem: (item: PickerItemProps) => void;
     onShow?: () => void;
     onShown?: () => void;
     onHide?: () => void;

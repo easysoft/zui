@@ -9,6 +9,7 @@ export type PickerSelectProps = {
     disabled?: boolean;
     placeholder?: string;
     focused?: boolean;
+    multiple?: boolean | number;
     selections?: PickerItemBasic[];
     onClick?: (event: MouseEvent) => void;
     onDeselect?: (items: PickerItemBasic[], event: MouseEvent) => void;

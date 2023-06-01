@@ -30,7 +30,7 @@ export class PickerSingleSelect extends Component<PickerSelectProps> {
             <span className="picker-single-selection">{selection.text ?? selection.value}</span>
         ) : (<span className="picker-select-placeholder">{placeholder}</span>);
         const deselectBtnView = (selection && onDeselect) ? (
-            <button type="button" className="btn picker-deselect-btn" onClick={this.#handleDeselectBtnClick}><span className="close"></span></button>
+            <button type="button" className="btn picker-deselect-btn size-sm square ghost" onClick={this.#handleDeselectBtnClick}><span className="close"></span></button>
         ) : null;
         return (
             <div

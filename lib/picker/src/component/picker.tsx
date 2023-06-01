@@ -1,11 +1,11 @@
 import {Component, createRef} from 'preact';
 import {nanoid} from 'nanoid';
-import {classes} from '@zui/core';
+import {classes, $, createPortal} from '@zui/core';
+import {computePosition, flip, shift, autoUpdate} from '@floating-ui/dom';
 import {PickerItemBasic, PickerItemProps, PickerMenuProps, PickerOptions, PickerSelectProps} from '../types';
 import {PickerMultiSelect} from './picker-multi-select';
 import {PickerSingleSelect} from './picker-single-select';
 import {PickerMenu} from './picker-menu';
-import {createUniqList} from '../helpers/create-uniq-list';
 import '@zui/form-control/src/style/index.css';
 import '../style/index.css';
 
@@ -15,16 +15,16 @@ export type PickerState = {
     loading: boolean;
     items: PickerItemProps[];
     search: string,
-
 };
 
 export class Picker extends Component<PickerOptions, PickerState> {
-    static defaultProps = {
+    static defaultProps: Partial<PickerOptions> = {
         container: 'body',
         valueSplitter: ',',
         search: true,
-        menuWidth: 'auto',
-        menuMaxHeight: 400,
+        menuWidth: '100%',
+        menuDirection: 'auto',
+        menuMaxHeight: 300,
     };
 
     #asyncId = 0;
@@ -32,6 +32,8 @@ export class Picker extends Component<PickerOptions, PickerState> {
     #id = nanoid();
 
     #menu = createRef<PickerMenu>();
+
+    #autoUpdateMenu?: () => void;
 
     constructor(props: PickerOptions) {
         super(props);
@@ -53,15 +55,17 @@ export class Picker extends Component<PickerOptions, PickerState> {
     }
 
     componentDidMount() {
-        this.props.afterRender?.call(this, {firstRender: true});
+        this.#afterRender(true);
     }
 
     componentDidUpdate(): void {
-        this.props.afterRender?.call(this, {firstRender: false});
+        this.#afterRender();
     }
 
     componentWillUnmount(): void {
         this.props.beforeDestroy?.call(this);
+        this.#autoUpdateMenu?.();
+        this.#autoUpdateMenu = undefined;
     }
 
     async loadItemList(): Promise<PickerItemProps[]> {
@@ -151,10 +155,13 @@ export class Picker extends Component<PickerOptions, PickerState> {
 
     #formatValueList(value?: string | string[]): string[] {
         if (typeof value === 'string') {
-            return createUniqList(value.split(this.props.valueSplitter ?? ','));
+            if (!value.length) {
+                return [];
+            }
+            return $.unique(value.split(this.props.valueSplitter ?? ',')) as string[];
         }
         if (Array.isArray(value)) {
-            return createUniqList(value);
+            return $.unique(value) as string[];
         }
         return [];
     }
@@ -165,29 +172,29 @@ export class Picker extends Component<PickerOptions, PickerState> {
     }
 
     #getSelectProps(): PickerSelectProps {
-        const {placeholder, disabled} = this.props;
+        const {placeholder, disabled, multiple} = this.props;
         const {open} = this.state;
 
         return {
             focused: open,
             placeholder,
             disabled,
+            multiple,
             selections: this.getSelections(),
             onClick: this.#handleSelectClick,
             onDeselect: this.#handleDeselect,
         };
     }
 
-    #handleDeselect = (items: PickerItemBasic[], event: MouseEvent) => {
+    #handleDeselect = (items: PickerItemBasic[]) => {
         const {valueList} = this;
         const deselectedSet = new Set(items.map(item => item.value));
         const newValueList = valueList.filter(x => !deselectedSet.has(x));
         this.setState({value: newValueList.length ? newValueList.join(this.props.valueSplitter ?? ',') : undefined});
     };
 
-    #handleSelectClick = (event: MouseEvent) => {
-        console.log('#handleSelectClick', event);
-        this.setState({open: true});
+    #handleSelectClick = () => {
+        requestAnimationFrame(() => this.toggle());
     };
 
     #handleMenuRequestHide = () => {
@@ -205,16 +212,18 @@ export class Picker extends Component<PickerOptions, PickerState> {
     };
 
     #getMenuProps(): PickerMenuProps {
-        const {search, menuClass, menuWidth, menuStyle, menuMaxHeight, menuMaxWidth} = this.props;
+        const {search, menuClass, menuWidth, menuStyle, menuMaxHeight, menuMaxWidth, multiple, searchHint} = this.props;
         const {items} = this.state;
         return {
             id: this.#id,
             items,
             selections: this.valueList,
             search: search === true || (typeof search === 'number' && search <= items.length),
+            searchHint,
             style: menuStyle,
+            multiple,
             className: menuClass,
-            width: menuWidth,
+            width: menuWidth === '100%' ? 'auto' : menuWidth,
             maxHeight: menuMaxHeight,
             maxWidth: menuMaxWidth,
             onRequestHide: this.#handleMenuRequestHide,
@@ -222,21 +231,78 @@ export class Picker extends Component<PickerOptions, PickerState> {
         };
     }
 
+    #renderMenu() {
+        const {open} = this.state;
+        if (!open) {
+            return null;
+        }
+
+        const $containerParent = $(this.props.container || 'body');
+        let $container = $containerParent.find('.pickers-container');
+        if (!$container.length) {
+            $container = $('<div>').addClass('pickers-container').appendTo($containerParent);
+        }
+
+        const {Menu = PickerMenu} = this.props;
+        return createPortal(<Menu {...this.#getMenuProps()} ref={this.#menu} />, $container[0]!);
+    }
+
+    #updateMenuPosition() {
+        const picker = $(`#picker-${this.#id}`)[0];
+        const menu = $(`#picker-menu-${this.#id}`)[0];
+        if (!menu || !picker || !this.state.open) {
+            if (this.#autoUpdateMenu) {
+                this.#autoUpdateMenu();
+                this.#autoUpdateMenu = undefined;
+            }
+            return;
+        }
+
+        if (this.#autoUpdateMenu) {
+            return;
+        }
+
+        this.#autoUpdateMenu = autoUpdate(picker, menu, () => {
+            const {menuDirection, menuWidth} = this.props;
+            computePosition(picker, menu, {
+                placement: `${menuDirection === 'top' ? 'top' : 'bottom'}-start`,
+                middleware: [menuDirection === 'auto' ? flip() : null, shift()].filter(Boolean),
+            }).then(({x, y}) => {
+                $(menu).css({left: x, top: y, width: menuWidth === '100%' ? $(picker).width() : undefined});
+            });
+            if (menuWidth === '100%') {
+                $(menu).css({width: $(picker).width()});
+            }
+        });
+    }
+
+    #afterRender(firstRender = false) {
+        this.props.afterRender?.call(this, {firstRender});
+        this.#updateMenuPosition();
+    }
+
     render() {
         const {
             className,
             style,
             children,
-            multiple: multi,
+            multiple,
+            Select,
+            name,
         } = this.props;
 
-        const SelectComponent = multi ? PickerMultiSelect : PickerSingleSelect;
-
+        const SelectComponent = Select || (multiple ? PickerMultiSelect : PickerSingleSelect);
+        const selectProps = this.#getSelectProps();
         return (
-            <div className={classes('picker', className)} style={style} id={`picker-${this.#id}`}>
-                {<SelectComponent {...this.#getSelectProps()} />}
+            <div
+                id={`picker-${this.#id}`}
+                className={classes('picker', className)}
+                style={style}
+            >
+                {<SelectComponent {...selectProps} />}
                 {children}
-                {this.state.open ? <PickerMenu {...this.#getMenuProps()} ref={this.#menu} /> : null}
+                {this.#renderMenu()}
+                {name ? <input type="hidden" className="picker-value" name={name} value={this.state.value} /> : null}
             </div>
         );
     }

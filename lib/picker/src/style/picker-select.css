@@ -8,7 +8,10 @@
 }
 
 .picker-select-placeholder {
-  @apply -flex-auto;
+  @apply -flex-auto -text-placeholder;
+}
+.picker-select-multi .picker-select-placeholder {
+  @apply -px-1;
 }
 
 .picker-single-selection {
@@ -16,7 +19,10 @@
 }
 
 .picker-deselect-btn {
-  @apply -rounded -p-1;
+  @apply -p-1 -rounded-full;
+}
+.picker-deselect-btn:not(:hover) {
+  @apply -opacity-70;
 }
 
 .picker-select-multi.form-control {
@@ -26,5 +32,5 @@
   @apply -flex -flex-wrap -gap-1;
 }
 .picker-multi-selection {
-  @apply -flex -items-center -border -rounded -bg-surface -pl-1;
+  @apply -flex -items-center -border -bg-surface -pl-2 -rounded-full;
 }

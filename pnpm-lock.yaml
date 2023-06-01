@@ -968,6 +968,9 @@ importers:
       '@zui/base':
         specifier: workspace:*
         version: link:../base
+      '@zui/core':
+        specifier: workspace:^0.0.1
+        version: link:../core
 
   lib/virtual-grid:
     dependencies:

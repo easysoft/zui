@@ -1,28 +1,30 @@
 .picker-menu {
-  @apply -flex -flex-col -absolute -z-50 -opacity-0 -transition-opacity;
-  border-radius: var(--menu-radius);
-  box-shadow: var(--menu-shadow);
-  border: var(--menu-border);
-  background: var(--menu-bg);
+  @apply -flex -flex-col -fixed -z-50 -opacity-0 -transition-opacity -bg-canvas;
 }
 .picker-menu.shown {
   @apply -opacity-100;
 }
 
-.picker-menu-search {
-  @apply -flex-none -relative -px-2 -mt-2;
+.picker-menu-search-input {
+  @apply -pr-8 -h-7;
 }
 
+.picker-menu-search {
+  @apply -flex-none -relative -m-2;
+}
 .picker-menu-search > .magnifier {
-  @apply -absolute -right-4 -top-2.5 -opacity-50;
+  @apply -absolute -right-2 -top-2 -opacity-50;
 }
 .picker-menu-search-clear.btn {
-  @apply -absolute -right-2 -top-1.5 -w-5 -h-5 -cursor-pointer;
-}
-.picker-menu-list.menu {
-  @apply -shadow-none -border-none -flex-auto;
+  @apply -absolute -right-2 -top-1 -w-5 -h-5 -cursor-pointer;
 }
 
+.picker-menu-list.menu {
+  @apply -shadow-none -border-none -flex-auto -min-h-0 -overflow-y-auto;
+}
+.picker-menu-search + .picker-menu-list.menu {
+  @apply -pt-0 --mt-0.5;
+}
 .picker-menu-item-match {
   @apply -underline -font-bold;
 }
