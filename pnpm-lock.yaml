@@ -164,9 +164,6 @@ importers:
 
   lib/action-menu:
     dependencies:
-      '@zui/com-helpers':
-        specifier: workspace:^0.0.1
-        version: link:../com-helpers
       '@zui/core':
         specifier: workspace:^0.0.1
         version: link:../core
@@ -192,9 +189,6 @@ importers:
 
   lib/ajax-form:
     dependencies:
-      '@zui/com-helpers':
-        specifier: workspace:*
-        version: link:../com-helpers
       '@zui/core':
         specifier: workspace:^0.0.1
         version: link:../core
@@ -226,9 +220,6 @@ importers:
 
   lib/avatar:
     dependencies:
-      '@zui/com-helpers':
-        specifier: workspace:*
-        version: link:../com-helpers
       '@zui/core':
         specifier: workspace:*
         version: link:../core
@@ -283,9 +274,6 @@ importers:
       '@zui/base':
         specifier: workspace:*
         version: link:../base
-      '@zui/com-helpers':
-        specifier: workspace:^0.0.1
-        version: link:../com-helpers
       '@zui/core':
         specifier: workspace:^0.0.1
         version: link:../core
@@ -301,9 +289,6 @@ importers:
 
   lib/button:
     dependencies:
-      '@zui/com-helpers':
-        specifier: workspace:^0.0.1
-        version: link:../com-helpers
       '@zui/core':
         specifier: workspace:^0.0.1
         version: link:../core
@@ -335,22 +320,6 @@ importers:
       '@zui/utilities':
         specifier: workspace:*
         version: link:../utilities
-
-  lib/com-helpers:
-    dependencies:
-      '@zui/core':
-        specifier: workspace:^0.0.1
-        version: link:../core
-      '@zui/event-bus':
-        specifier: workspace:^0.0.1
-        version: link:../event-bus
-    devDependencies:
-      '@types/jquery':
-        specifier: ^3.5.14
-        version: 3.5.14
-      jquery:
-        specifier: ^3.6.0
-        version: 3.6.0
 
   lib/contextmenu:
     dependencies:
@@ -393,9 +362,6 @@ importers:
 
   lib/dashboard:
     dependencies:
-      '@zui/com-helpers':
-        specifier: workspace:^0.0.1
-        version: link:../com-helpers
       '@zui/contextmenu':
         specifier: workspace:^0.0.1
         version: link:../contextmenu
@@ -427,9 +393,6 @@ importers:
       '@floating-ui/dom':
         specifier: ^1.1.0
         version: 1.1.0
-      '@zui/com-helpers':
-        specifier: workspace:*
-        version: link:../com-helpers
       '@zui/core':
         specifier: workspace:*
         version: link:../core
@@ -461,9 +424,6 @@ importers:
       '@zui/button':
         specifier: workspace:0.0.1
         version: link:../button
-      '@zui/com-helpers':
-        specifier: workspace:*
-        version: link:../com-helpers
       '@zui/contextmenu':
         specifier: workspace:*
         version: link:../contextmenu
@@ -492,9 +452,6 @@ importers:
 
   lib/dtable:
     dependencies:
-      '@zui/com-helpers':
-        specifier: workspace:^0.0.1
-        version: link:../com-helpers
       '@zui/contextmenu':
         specifier: workspace:^0.0.1
         version: link:../contextmenu
@@ -523,9 +480,6 @@ importers:
         specifier: workspace:^0.0.1
         version: link:../toolbar
     devDependencies:
-      '@types/jquery':
-        specifier: ^3.5.14
-        version: 3.5.14
       '@zui/avatar':
         specifier: workspace:^0.0.1
         version: link:../avatar
@@ -644,9 +598,6 @@ importers:
       '@zui/action-menu':
         specifier: workspace:^0.0.1
         version: link:../action-menu
-      '@zui/com-helpers':
-        specifier: workspace:^0.0.1
-        version: link:../com-helpers
       '@zui/core':
         specifier: workspace:^0.0.1
         version: link:../core
@@ -682,9 +633,6 @@ importers:
       '@zui/base':
         specifier: workspace:*
         version: link:../base
-      '@zui/com-helpers':
-        specifier: workspace:^0.0.1
-        version: link:../com-helpers
       '@zui/icons':
         specifier: workspace:*
         version: link:../icons
@@ -703,9 +651,6 @@ importers:
       '@zui/button':
         specifier: workspace:^0.0.1
         version: link:../button
-      '@zui/com-helpers':
-        specifier: workspace:^0.0.1
-        version: link:../com-helpers
       '@zui/core':
         specifier: workspace:^0.0.1
         version: link:../core
@@ -728,9 +673,6 @@ importers:
       '@zui/action-menu':
         specifier: workspace:^0.0.1
         version: link:../action-menu
-      '@zui/com-helpers':
-        specifier: workspace:^0.0.1
-        version: link:../com-helpers
       '@zui/core':
         specifier: workspace:^0.0.1
         version: link:../core
@@ -771,9 +713,6 @@ importers:
       '@zui/button':
         specifier: workspace:^0.0.1
         version: link:../button
-      '@zui/com-helpers':
-        specifier: workspace:^0.0.1
-        version: link:../com-helpers
       '@zui/core':
         specifier: workspace:^0.0.1
         version: link:../core
@@ -826,9 +765,6 @@ importers:
       '@zui/button':
         specifier: workspace:*
         version: link:../button
-      '@zui/com-helpers':
-        specifier: workspace:^0.0.1
-        version: link:../com-helpers
       '@zui/core':
         specifier: workspace:^0.0.1
         version: link:../core
@@ -853,9 +789,9 @@ importers:
 
   lib/progress-circle:
     dependencies:
-      '@zui/com-helpers':
+      '@zui/core':
         specifier: workspace:*
-        version: link:../com-helpers
+        version: link:../core
 
   lib/scrollbar:
     dependencies:
@@ -874,9 +810,6 @@ importers:
 
   lib/switch:
     dependencies:
-      '@zui/com-helpers':
-        specifier: workspace:^0.0.1
-        version: link:../com-helpers
       '@zui/core':
         specifier: workspace:^0.0.1
         version: link:../core
@@ -923,9 +856,6 @@ importers:
       '@floating-ui/dom':
         specifier: ^1.1.0
         version: 1.1.0
-      '@zui/com-helpers':
-        specifier: workspace:*
-        version: link:../com-helpers
       '@zui/core':
         specifier: workspace:*
         version: link:../core
@@ -963,9 +893,6 @@ importers:
       '@zui/button':
         specifier: workspace:^0.0.1
         version: link:../button
-      '@zui/com-helpers':
-        specifier: workspace:^0.0.1
-        version: link:../com-helpers
       '@zui/core':
         specifier: workspace:^0.0.1
         version: link:../core
@@ -1000,9 +927,6 @@ importers:
       '@zui/button':
         specifier: workspace:0.0.1
         version: link:../button
-      '@zui/com-helpers':
-        specifier: workspace:*
-        version: link:../com-helpers
       '@zui/core':
         specifier: workspace:*
         version: link:../core
@@ -1050,9 +974,6 @@ importers:
       '@zui/base':
         specifier: workspace:*
         version: link:../base
-      '@zui/com-helpers':
-        specifier: workspace:^0.0.1
-        version: link:../com-helpers
       '@zui/core':
         specifier: workspace:^0.0.1
         version: link:../core
@@ -1982,12 +1903,6 @@ packages:
       '@types/node': 20.2.3
     dev: true
 
-  /@types/jquery@3.5.14:
-    resolution: {integrity: sha512-X1gtMRMbziVQkErhTQmSe2jFwwENA/Zr+PprCkF63vFq+Yt5PZ4AlKqgmeNlwgn7dhsXEK888eIW2520EpC+xg==}
-    dependencies:
-      '@types/sizzle': 2.3.3
-    dev: true
-
   /@types/json-schema@7.0.11:
     resolution: {integrity: sha512-wOuvG1SN4Us4rez+tylwwwCV1psiNVOkJeM3AUWUNWg/jDQY2+HE/444y5gc+jBmRqASOm2Oeh5c1axHobwRKQ==}
     dev: true
@@ -2031,10 +1946,6 @@ packages:
 
   /@types/semver@7.5.0:
     resolution: {integrity: sha512-G8hZ6XJiHnuhQKR7ZmysCeJWE08o8T0AXtk5darsCaTVsYZhhgUrq53jizaR2FvsoeCwJhlmwTjkXBY5Pn/ZHw==}
-    dev: true
-
-  /@types/sizzle@2.3.3:
-    resolution: {integrity: sha512-JYM8x9EGF163bEyhdJBpR2QX1R5naCJHC8ucJylJ3w9/CVBaskdQ8WqBf8MmQrd1kRvp/a4TS8HJ+bxzR7ZJYQ==}
     dev: true
 
   /@types/web-bluetooth@0.0.16:
@@ -3754,10 +3665,6 @@ packages:
   /jiti@1.18.2:
     resolution: {integrity: sha512-QAdOptna2NYiSSpv0O/BwoHBSmz4YhpzJHyi+fnMRTXFjp7B8i/YG5Z8IfusxB1ufjcD2Sre1F3R+nX3fvy7gg==}
     hasBin: true
-    dev: true
-
-  /jquery@3.6.0:
-    resolution: {integrity: sha512-JVzAR/AjBvVt2BmYhxRCSYysDsPcssdmTFnzyLEts9qNwmjmu4JTAMYubEfwVOSwpQ1I1sKKFcxhZCI2buerfw==}
     dev: true
 
   /jquery@3.7.0:
