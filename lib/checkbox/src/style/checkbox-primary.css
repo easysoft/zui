@@ -1,6 +1,6 @@
 .checkbox-primary,
 .radio-primary {
-  @apply -flex -gap-1.5 -relative;
+  @apply -flex -gap-1.5 -relative -min-h-[20px];
 }
 .checkbox-primary > input[type="checkbox"],
 .radio-primary > input[type="radio"] {
@@ -22,6 +22,7 @@
   @apply -border -rounded-sm -border-gray-400 -bg-canvas;
 }
 .checkbox-primary > label::after {
+  @apply -scale-90;
   background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZD0iTTksMjAuNDJMMi43OSwxNC4yMUw1LjYyLDExLjM4TDksMTQuNzdMMTguODgsNC44OEwyMS43MSw3LjcxTDksMjAuNDJaIiBmaWxsPSIjZmZmIiAvPjwvc3ZnPg==");
 }
 .radio-primary > label::before {
