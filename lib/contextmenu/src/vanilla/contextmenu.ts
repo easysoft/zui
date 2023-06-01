@@ -35,7 +35,7 @@ export class ContextMenu<O extends ContextMenuOptions = ContextMenuOptions, E ex
 
     #trigger?: ContextMenuTrigger;
 
-    arrowEl?: HTMLDivElement;
+    protected arrowEl?: HTMLDivElement;
 
     #cleanup?: () => void;
 
@@ -173,27 +173,15 @@ export class ContextMenu<O extends ContextMenuOptions = ContextMenuOptions, E ex
     }
 
     #getNoneSideBorder(side: Side) {
-        if (side === 'bottom') {
-            return {
-                borderBottomStyle: 'none',
-                borderRightStyle: 'none',
-            };
-        }
-        if (side === 'top') {
-            return {
-                borderTopStyle: 'none',
-                borderLeftStyle: 'none',
-            };
-        }
-        if (side === 'left') {
-            return {
-                borderBottomStyle: 'none',
-                borderLeftStyle: 'none',
-            };
-        }
+        const sideMap = {
+            bottom: 'Right',
+            top: 'Left',
+            left: 'Bottom',
+            right: 'Top',
+        };
         return {
-            borderTopStyle: 'none',
-            borderRightStyle: 'none',
+            [`border${side[0].toUpperCase()}${side.substring(1)}Style`]: 'none',
+            [`border${sideMap[side]}Style`]: 'none',
         };
     }
 
