@@ -14,6 +14,7 @@ import type {ActionBasicProps} from '../types/action-basic-props';
 import type {ActionMenuItemOptions} from '../types/action-menu-item-options';
 
 export class ActionMenu<T extends ActionBasicProps = ActionMenuItemOptions, P extends ActionMenuOptions<T> = ActionMenuOptions<T>, S = {}> extends Component<P, S> {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     static ItemComponents: Record<string, ComponentType<any>> = {
         divider: ActionDivider,
         item: ActionItem,
