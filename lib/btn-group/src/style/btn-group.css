@@ -1,5 +1,5 @@
 .btn-group {
-  @apply -flex;
+  @apply -flex -gap-px;
 }
 
 .btn-group > .btn:focus-within,
