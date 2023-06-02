@@ -1,7 +1,7 @@
 import {Component, createRef} from 'preact';
 import {nanoid} from 'nanoid';
 import {classes, $, createPortal} from '@zui/core';
-import {computePosition, flip, shift, autoUpdate} from '@floating-ui/dom';
+import {computePosition, flip, offset, shift, autoUpdate} from '@floating-ui/dom';
 import {PickerItemBasic, PickerItemProps, PickerMenuProps, PickerOptions, PickerSelectProps} from '../types';
 import {PickerMultiSelect} from './picker-multi-select';
 import {PickerSingleSelect} from './picker-single-select';
@@ -266,7 +266,7 @@ export class Picker extends Component<PickerOptions, PickerState> {
             const {menuDirection, menuWidth} = this.props;
             computePosition(picker, menu, {
                 placement: `${menuDirection === 'top' ? 'top' : 'bottom'}-start`,
-                middleware: [menuDirection === 'auto' ? flip() : null, shift()].filter(Boolean),
+                middleware: [menuDirection === 'auto' ? flip() : null, shift(), offset(1)].filter(Boolean),
             }).then(({x, y}) => {
                 $(menu).css({left: x, top: y, width: menuWidth === '100%' ? $(picker).width() : undefined});
             });
