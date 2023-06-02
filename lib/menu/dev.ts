@@ -25,14 +25,15 @@ onPageUpdate(() => {
 
     const checkableMenu = new Menu('#checkableMenu', {
         items: [
-            {text: '复制', checked: true},
-            {text: '粘贴', checked: true},
+            {text: '复制', active: true},
+            {text: '粘贴', active: false},
             {text: '剪切'},
             {type: 'heading', text: '更多操作'},
-            {text: '导入', checked: true},
+            {text: '导入', active: false},
             {text: '导出', checked: true},
-            {text: '保存', checked: true, onClick: (event) => console.log('> menuItem.clicked', event)},
+            {text: '保存', active: true, onClick: (event) => console.log('> menuItem.clicked', event)},
         ],
+        checkbox: true,
         onClickItem: (info) => {
             console.log('> checkableMenu.onClickItem', info);
         },

@@ -16,8 +16,9 @@ export interface PickerMenuProps {
     minWidth?: number;
     searchHint?: string;
     multiple?: boolean | number;
-
     selections: string[];
+
+    checkbox?: boolean;
     items: PickerItemProps[];
     menu?: MenuOptions;
 

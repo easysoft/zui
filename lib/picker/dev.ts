@@ -2,6 +2,7 @@ import 'zui-dev';
 import '@zui/button';
 import '@zui/menu';
 import '@zui/form-control';
+import '@zui/checkbox';
 import {Picker} from './src/main';
 
 const items = [
@@ -40,6 +41,7 @@ onPageUpdate(() => {
             defaultValue: 'banana,orange',
             name: 'picker',
             placeholder: '请选择你的最爱',
+            menuCheckbox: true,
         });
         console.log('> multiPicker', multiPicker);
     }

@@ -765,6 +765,9 @@ importers:
       '@zui/button':
         specifier: workspace:*
         version: link:../button
+      '@zui/checkbox':
+        specifier: workspace:*
+        version: link:../checkbox
       '@zui/core':
         specifier: workspace:^0.0.1
         version: link:../core

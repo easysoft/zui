@@ -212,7 +212,7 @@ export class Picker extends Component<PickerOptions, PickerState> {
     };
 
     #getMenuProps(): PickerMenuProps {
-        const {search, menuClass, menuWidth, menuStyle, menuMaxHeight, menuMaxWidth, menuMinWidth, multiple, searchHint} = this.props;
+        const {search, menuClass, menuWidth, menuStyle, menuMaxHeight, menuMaxWidth, menuMinWidth, multiple, searchHint, menuCheckbox} = this.props;
         const {items} = this.state;
         return {
             id: this.#id,
@@ -227,6 +227,7 @@ export class Picker extends Component<PickerOptions, PickerState> {
             maxHeight: menuMaxHeight,
             maxWidth: menuMaxWidth,
             minWidth: menuMinWidth,
+            checkbox: menuCheckbox,
             onRequestHide: this.#handleMenuRequestHide,
             onSelectItem: this.#handleSelectItem,
         };

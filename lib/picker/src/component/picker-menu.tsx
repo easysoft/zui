@@ -1,7 +1,7 @@
 import {Component, createRef} from 'preact';
 import {classes, $} from '@zui/core';
 import {Menu} from '@zui/menu/src/component/menu';
-import {MenuItemOptions} from '@zui/menu/src/types';
+import {MenuItemProps} from '@zui/menu/src/types';
 import {PickerMenuProps} from '../types';
 import '@zui/css-icons/src/icons/magnifier.css';
 import '@zui/css-icons/src/icons/close.css';
@@ -54,11 +54,11 @@ export class PickerMenu extends Component<PickerMenuProps, PickerMenuState> {
         });
     }
 
-    #getMenuItems(): MenuItemOptions[] {
+    #getMenuItems(): MenuItemProps[] {
         const {selections, items} = this.props;
         const selectionsSet = new Set(selections);
         const searchKeys = this.state.keys.toLowerCase().split(' ').filter(x => x.length);
-        return items.reduce<MenuItemOptions[]>((list, item) => {
+        return items.reduce<MenuItemProps[]>((list, item) => {
             const {
                 value,
                 keys,
@@ -75,7 +75,7 @@ export class PickerMenu extends Component<PickerMenuProps, PickerMenuState> {
                     active: selectionsSet.has(value),
                     text: displayText,
                     ...others,
-                } as MenuItemOptions);
+                } as MenuItemProps);
             }
             return list;
         }, []);
@@ -88,7 +88,7 @@ export class PickerMenu extends Component<PickerMenuProps, PickerMenuState> {
         this.hide();
     };
 
-    #handleItemClick = ({item}: {item: MenuItemOptions}) => {
+    #handleItemClick = ({item}: {item: MenuItemProps}) => {
         const pickerItem = this.props.items.find(x => x.value === item.key);
         if (pickerItem) {
             this.props.onSelectItem(pickerItem);
@@ -115,6 +115,7 @@ export class PickerMenu extends Component<PickerMenuProps, PickerMenuState> {
             width,
             menu,
             searchHint,
+            checkbox,
         } = this.props;
 
         const {show, keys} = this.state;
@@ -139,7 +140,7 @@ export class PickerMenu extends Component<PickerMenuProps, PickerMenuState> {
                         {hasSearch ? <button type="button" className="btn picker-menu-search-clear square size-sm ghost" onClick={this.#handleClearBtnClick}><span className="close"></span></button> : <span className="magnifier"></span>}
                     </div>
                 ) : null}
-                <Menu className="picker-menu-list" items={this.#getMenuItems()} onClickItem={this.#handleItemClick} {...menu} />
+                <Menu className="picker-menu-list" items={this.#getMenuItems()} onClickItem={this.#handleItemClick} checkbox={checkbox} {...menu} />
             </div>
         );
     }

@@ -45,6 +45,7 @@ export type PickerOptions = {
     menuClass?: ClassNameLike;
     menuStyle?: JSX.CSSProperties;
     menuItemHeight?: number;
+    menuCheckbox?: boolean;
     onMenuShow?: () => void;
     onMenuShown?: () => void;
     onMenuHide?: () => void;
