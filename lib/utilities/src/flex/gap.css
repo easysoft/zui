@@ -7,6 +7,7 @@
 .gap-0\.5      {@apply -gap-0.5;}
 .gap-x-0\.5    {@apply -gap-x-0.5;}
 .gap-y-0\.5    {@apply -gap-y-0.5;}
+.gap-3px       {@apply -gap-[3px];}
 .gap-1         {@apply -gap-1;}
 .gap-x-1       {@apply -gap-x-1;}
 .gap-y-1       {@apply -gap-y-1;}
