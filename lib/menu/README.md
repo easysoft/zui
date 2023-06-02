@@ -24,6 +24,12 @@ const menu = new Menu('#menu', {
 console.log('> menu', menu);
 ```
 
+## 选择框
+
+```html:example
+<div id="checkableMenu"></div>
+```
+
 ## 多层级组件模式
 
 ```html:example

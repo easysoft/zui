@@ -1,6 +1,7 @@
 import 'preact/debug';
 import '@zui/icons';
 import '@zui/avatar';
+import '@zui/checkbox';
 import 'zui-dev';
 import {Menu} from './src/main';
 
@@ -21,6 +22,22 @@ onPageUpdate(() => {
         },
     });
     console.log('> menu', menu);
+
+    const checkableMenu = new Menu('#checkableMenu', {
+        items: [
+            {text: '复制', checked: true},
+            {text: '粘贴', checked: true},
+            {text: '剪切'},
+            {type: 'heading', text: '更多操作'},
+            {text: '导入', checked: true},
+            {text: '导出', checked: true},
+            {text: '保存', checked: true, onClick: (event) => console.log('> menuItem.clicked', event)},
+        ],
+        onClickItem: (info) => {
+            console.log('> checkableMenu.onClickItem', info);
+        },
+    });
+    console.log('> checkableMenu', checkableMenu);
 
     const nestedMenu = new Menu('#nestedMenu', {
         items: [
