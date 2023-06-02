@@ -39,7 +39,8 @@ export type PickerOptions = {
     /** Menu width */
     menuWidth: number | 'auto' | '100%';
     menuMaxHeight?: number;
-    menuMaxWidth?: number;
+    menuMaxWidth?: number; // Only for width = 'auto'
+    menuMinWidth?: number; // Only for width = 'auto'
     menuDirection?: PickerMenuDirection;
     menuClass?: ClassNameLike;
     menuStyle?: JSX.CSSProperties;

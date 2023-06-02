@@ -13,6 +13,7 @@ export interface PickerMenuProps {
     width: number | 'auto';
     maxHeight?: number;
     maxWidth?: number;
+    minWidth?: number;
     searchHint?: string;
     multiple?: boolean | number;
 
