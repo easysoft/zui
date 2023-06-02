@@ -12,6 +12,7 @@ import {ActionBasic} from './action-basic';
 import type {ActionMenuOptions} from '../types/action-menu-options';
 import type {ActionBasicProps} from '../types/action-basic-props';
 import type {ActionMenuItemOptions} from '../types/action-menu-item-options';
+import {ActionItemProps} from '../types';
 
 export class ActionMenu<T extends ActionBasicProps = ActionMenuItemOptions, P extends ActionMenuOptions<T> = ActionMenuOptions<T>, S = {}> extends Component<P, S> {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -129,6 +130,10 @@ export class ActionMenu<T extends ActionBasicProps = ActionMenuItemOptions, P ex
             component: typeof component === 'string' ? component : undefined,
         });
 
+        if (props.checkbox && type === 'item' && (itemProps as ActionItemProps).checked === undefined) {
+            (itemProps as ActionItemProps).checked = (itemProps as ActionItemProps).active;
+        }
+
         return this.renderTypedItem(ItemComponent, {
             className: classes(rootClass),
             children: rootChildren,
@@ -144,21 +149,14 @@ export class ActionMenu<T extends ActionBasicProps = ActionMenuItemOptions, P ex
 
     renderTypedItem(ItemComponent: ComponentType, rootProps: JSX.HTMLAttributes, itemProps: T) {
         const {children, className, key, ...rootAttrs} = rootProps;
-        const {activeClass = '', activeKey, activeIcon} = this.props;
-        const iconView = !!activeIcon && (activeKey === key)
-            ? <i className={`checked icon icon-${activeIcon}`} />
-            : null;
-
-        const isActive = activeKey === key;
 
         return (
             <li
-                className={classes('action-menu-item', `${this.name}-${itemProps.type}`, className as ClassNameLike, {[activeClass]: isActive})}
+                className={classes('action-menu-item', `${this.name}-${itemProps.type}`, className as ClassNameLike)}
                 key={key}
                 {...(rootAttrs as JSX.HTMLAttributes<HTMLLIElement>)}
             >
                 <ItemComponent {...itemProps} />
-                {iconView}
                 {typeof children === 'function' ? children() : children}
             </li>
         );

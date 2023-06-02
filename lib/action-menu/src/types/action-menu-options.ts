@@ -3,7 +3,6 @@ import type {ClassNameLike} from '@zui/core';
 import type {ActionBasicProps} from './action-basic-props';
 import type {ActionMenuItemOptions} from './action-menu-item-options';
 import type {ActionMenu} from '../component/action-menu';
-import {ActionMenuItemKey} from './action-menu-item-key';
 
 export type ActionMenuItemRender<T extends ActionBasicProps = ActionMenuItemOptions> = ((item: T, h: typeof _h) => VNode | Partial<T>);
 
@@ -19,7 +18,5 @@ export interface ActionMenuOptions<T extends ActionBasicProps = ActionMenuItemOp
     beforeRender?: (info: {menu: ActionMenu<T>, options: ActionMenuOptions<T>}) => (Partial<Omit<ActionMenuOptions<T>, 'onClickItem' | 'beforeRender' | 'beforeDestroy' | 'afterRender'>> | undefined);
     afterRender?: (info: {menu: ActionMenu<T>, firstRender: boolean}) => void;
     beforeDestroy?: (info: {menu: ActionMenu<T>}) => void;
-    activeClass?: string;
-    activeKey?: ActionMenuItemKey;
-    activeIcon?: string;
+    checkbox?: boolean;
 }

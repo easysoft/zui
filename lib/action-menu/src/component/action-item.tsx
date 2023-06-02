@@ -16,10 +16,16 @@ export function ActionItem({
     target,
     trailingIcon,
     hint,
+    checked,
     onClick,
     ...others
 }: ActionItemProps) {
     const finalChildren = [
+        typeof checked === 'boolean' ? (
+            <div class={`checkbox-primary${checked ? ' checked' : ''}`}>
+                <label />
+            </div>
+        ) : null,
         renderIcon(icon),
         <span className="text">{text}</span>,
         typeof children === 'function' ? children() : children,

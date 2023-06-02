@@ -1,6 +1,7 @@
 import 'preact/debug';
 import '@zui/icons';
 import '@zui/avatar';
+import '@zui/checkbox';
 import '@zui/nav';
 import 'zui-dev';
 import {ActionMenu, ActionMenuNested} from './src/main';
@@ -15,7 +16,7 @@ onPageUpdate(() => {
             {type: 'divider'},
             {type: 'heading', text: '更多操作'},
             {text: '导入', icon: 'icon-upload-alt'},
-            {text: '导出', icon: 'icon-download-alt'},
+            {text: '导出', icon: 'icon-download-alt', checked: true},
         ],
         onClickItem: (info) => {
             console.log('> menu.onClickItem', info);

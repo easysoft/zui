@@ -7,6 +7,7 @@ export interface ActionItemProps extends ActionBasicProps {
     disabled?: boolean;
     active?: boolean;
     icon?: string | VNode;
+    checked?: boolean;
     text?: ComponentChildren;
     trailingIcon?: string | VNode;
     hint?: string;
