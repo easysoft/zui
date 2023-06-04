@@ -1,4 +1,4 @@
-import {Component, createRef} from 'preact';
+import {Component, ComponentChild, createRef} from 'preact';
 import {classes, $} from '@zui/core';
 import {Menu} from '@zui/menu/src/component/menu';
 import {MenuItemProps} from '@zui/menu/src/types';
@@ -9,6 +9,32 @@ import '@zui/css-icons/src/icons/close.css';
 export type PickerMenuState = {
     keys: string,
     show?: boolean,
+};
+
+const underlineWithSearchKeys = (searchKeys: string[], text: string[]): ComponentChild[] => {
+    return searchKeys.reduce<ComponentChild[]>((result, key) => {
+        return [...result].reduce<ComponentChild[]>((list, span) => {
+            if (typeof span !== 'string') {
+                list.push(span);
+                return list;
+            }
+            const parts = span.toLowerCase().split(key);
+            if (parts.length === 1) {
+                list.push(span);
+                return list;
+            }
+            let start = 0;
+            parts.forEach((part, index) => {
+                if (index) {
+                    list.push(<span class="picker-menu-item-match">{span.substring(start, start + key.length)}</span>);
+                    start += key.length;
+                }
+                list.push(span.substring(start, start + part.length));
+                start += part.length;
+            });
+            return list;
+        }, []);
+    }, text);
 };
 
 export class PickerMenu extends Component<PickerMenuProps, PickerMenuState> {
@@ -68,7 +94,7 @@ export class PickerMenu extends Component<PickerMenuProps, PickerMenuState> {
             if (!searchKeys.length || searchKeys.every(searchKey => value.toLowerCase().includes(searchKey) || keys?.toLowerCase().includes(searchKey) || (typeof text === 'string' && text.toLowerCase().includes(searchKey)))) {
                 let displayText = text ?? value;
                 if (typeof displayText === 'string' && searchKeys.length) {
-                    displayText = <span dangerouslySetInnerHTML={{__html: searchKeys.reduce((t, s) => t.replace(s, `<span class="picker-menu-item-match">${s}</span>`), displayText)}}></span>;
+                    displayText = underlineWithSearchKeys(searchKeys, [displayText]);
                 }
                 list.push({
                     key: value,
