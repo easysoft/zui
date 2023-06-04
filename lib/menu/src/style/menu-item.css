@@ -5,7 +5,8 @@
     background: var(--menu-active-bg);
     color: var(--menu-active-color);
 }
-.menu-item > a:hover {
+.menu-item > a:hover,
+.menu-item > a.hover {
     background: var(--menu-hover-bg);
     color: var(--menu-hover-color);
 }
