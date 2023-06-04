@@ -4,6 +4,7 @@ import {renderIcon} from '@zui/core';
 import {ActionItemProps} from '../types/action-item-props';
 
 export function ActionItem({
+    type,
     component = 'a',
     className,
     children,
