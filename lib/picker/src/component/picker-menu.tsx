@@ -1,4 +1,5 @@
 import {Component, ComponentChild, createRef} from 'preact';
+import tinykeys from 'tinykeys';
 import {classes, $} from '@zui/core';
 import {Menu} from '@zui/menu/src/component/menu';
 import {MenuItemProps} from '@zui/menu/src/types';
@@ -9,6 +10,7 @@ import '@zui/css-icons/src/icons/close.css';
 export type PickerMenuState = {
     keys: string,
     show?: boolean,
+    hover?: string,
 };
 
 const underlineWithSearchKeys = (searchKeys: string[], text: string[]): ComponentChild[] => {
@@ -44,13 +46,81 @@ export class PickerMenu extends Component<PickerMenuProps, PickerMenuState> {
 
     #searchInput = createRef<HTMLInputElement>();
 
+    #menu = createRef<Menu>();
+
+    #unbindHotkey?: () => void;
+
     componentDidMount(): void {
         $(document).on('click', this.#handleDocClick);
         this.show(this.focus.bind(this));
+
+        this.#unbindHotkey = tinykeys(window, {
+            Escape: () => {
+                if (!this.state.show) {
+                    return;
+                }
+                if (this.state.keys) {
+                    this.setState({keys: ''});
+                } else {
+                    this.hide();
+                }
+            },
+            Enter: () => {
+                if (!this.state.show) {
+                    return;
+                }
+                const $hoverItem = this.#getHoverItem();
+                if ($hoverItem?.length) {
+                    this.select($hoverItem.dataset('value') as string);
+                }
+            },
+            ArrowUp: () => {
+                if (!this.state.show) {
+                    return;
+                }
+                const $hoverItem = this.#getHoverItem()?.parent();
+                if (!$hoverItem?.length) {
+                    return;
+                }
+                let $prevItem = $hoverItem.prev();
+                if (!$prevItem.length) {
+                    $prevItem = $hoverItem.parent().children().last();
+                }
+                this.setHoverItem($prevItem.children('a').dataset('value') as string);
+            },
+            ArrowDown: () => {
+                if (!this.state.show) {
+                    return;
+                }
+                const $hoverItem = this.#getHoverItem()?.parent();
+                if (!$hoverItem?.length) {
+                    return;
+                }
+                let $nextItem = $hoverItem.next();
+                if (!$nextItem.length) {
+                    $nextItem = $hoverItem.parent().children().first();
+                }
+                this.setHoverItem($nextItem.children('a').dataset('value') as string);
+            },
+        });
+
+        const menu = this.#getMenuElement();
+        if (menu) {
+            $(menu).on('mouseenter.pickerMenu.zui', '.menu-item', (event) => {
+                const $item = $(event.currentTarget);
+                this.setHoverItem($item.children('a').dataset('value') as string);
+            });
+        }
     }
 
     componentWillUnmount(): void {
         $(document).off('click', this.#handleDocClick);
+        this.#unbindHotkey?.();
+
+        const menu = this.#getMenuElement();
+        if (menu) {
+            $(menu).off('.pickerMenu.zui');
+        }
     }
 
     show(callback?: () => void) {
@@ -80,15 +150,46 @@ export class PickerMenu extends Component<PickerMenuProps, PickerMenuState> {
         });
     }
 
+    select(value: string) {
+        const pickerItem = this.props.items.find(x => x.value === value);
+        if (pickerItem) {
+            this.props.onSelectItem(pickerItem);
+        }
+    }
+
+    setHoverItem(value: string) {
+        this.setState({hover: value}, () => {
+            const $hoverItem = this.#getHoverItem();
+            if ($hoverItem?.length) {
+                $hoverItem[0]!.scrollIntoView({block: 'nearest', behavior: 'smooth'});
+            }
+        });
+    }
+
+    #getMenuElement() {
+        return this.#menu.current?.ref.current;
+    }
+
+    #getHoverItem() {
+        const menu = this.#getMenuElement();
+        if (!menu) {
+            return;
+        }
+        return $(menu).find('.menu-item>a.hover');
+    }
+
     #getMenuItems(): MenuItemProps[] {
         const {selections, items} = this.props;
         const selectionsSet = new Set(selections);
-        const searchKeys = this.state.keys.toLowerCase().split(' ').filter(x => x.length);
-        return items.reduce<MenuItemProps[]>((list, item) => {
+        const {keys: keysString, hover} = this.state;
+        const searchKeys = keysString.toLowerCase().split(' ').filter(x => x.length);
+        let hasHover = false;
+        const menuItems = items.reduce<MenuItemProps[]>((list, item) => {
             const {
                 value,
                 keys,
                 text,
+                className,
                 ...others
             } = item;
             if (!searchKeys.length || searchKeys.every(searchKey => value.toLowerCase().includes(searchKey) || keys?.toLowerCase().includes(searchKey) || (typeof text === 'string' && text.toLowerCase().includes(searchKey)))) {
@@ -96,15 +197,24 @@ export class PickerMenu extends Component<PickerMenuProps, PickerMenuState> {
                 if (typeof displayText === 'string' && searchKeys.length) {
                     displayText = underlineWithSearchKeys(searchKeys, [displayText]);
                 }
+                if (value === hover) {
+                    hasHover = true;
+                }
                 list.push({
                     key: value,
                     active: selectionsSet.has(value),
                     text: displayText,
+                    className: classes(className, {hover: value === hover}),
+                    'data-value': value,
                     ...others,
                 } as MenuItemProps);
             }
             return list;
         }, []);
+        if (!hasHover && menuItems.length) {
+            menuItems[0].className = classes(menuItems[0].className, 'hover');
+        }
+        return menuItems;
     }
 
     #handleDocClick = (event: MouseEvent) => {
@@ -115,10 +225,7 @@ export class PickerMenu extends Component<PickerMenuProps, PickerMenuState> {
     };
 
     #handleItemClick = ({item}: {item: MenuItemProps}) => {
-        const pickerItem = this.props.items.find(x => x.value === item.key);
-        if (pickerItem) {
-            this.props.onSelectItem(pickerItem);
-        }
+        this.select(item.key as string);
     };
 
     #handleSearchChange = (event: Event) => {
@@ -130,17 +237,43 @@ export class PickerMenu extends Component<PickerMenuProps, PickerMenuState> {
         this.setState({keys: ''}, this.focus.bind(this));
     };
 
+    #renderSearch() {
+        const {
+            search,
+            searchHint,
+        } = this.props;
+
+        const {keys} = this.state;
+        const hasSearch = keys.trim().length;
+
+        if (!search) {
+            return null;
+        }
+        return (
+            <div className="picker-menu-search">
+                <input
+                    className="form-control picker-menu-search-input"
+                    type="text"
+                    placeholder={searchHint}
+                    value={keys}
+                    onChange={this.#handleSearchChange}
+                    onInput={this.#handleSearchChange}
+                    ref={this.#searchInput}
+                />
+                {hasSearch ? <button type="button" className="btn picker-menu-search-clear square size-sm ghost" onClick={this.#handleClearBtnClick}><span className="close"></span></button> : <span className="magnifier"></span>}
+            </div>
+        );
+    }
+
     render() {
         const {
             id,
-            search,
             className,
             style = {},
             maxHeight,
             maxWidth,
             width,
             menu,
-            searchHint,
             checkbox,
         } = this.props;
 
@@ -152,21 +285,15 @@ export class PickerMenu extends Component<PickerMenuProps, PickerMenuState> {
                 id={`picker-menu-${id}`}
                 style={{maxHeight, maxWidth, width, ...style}}
             >
-                {search ? (
-                    <div className="picker-menu-search">
-                        <input
-                            className="form-control picker-menu-search-input"
-                            type="text"
-                            placeholder={searchHint}
-                            value={keys}
-                            onChange={this.#handleSearchChange}
-                            onInput={this.#handleSearchChange}
-                            ref={this.#searchInput}
-                        />
-                        {hasSearch ? <button type="button" className="btn picker-menu-search-clear square size-sm ghost" onClick={this.#handleClearBtnClick}><span className="close"></span></button> : <span className="magnifier"></span>}
-                    </div>
-                ) : null}
-                <Menu className="picker-menu-list" items={this.#getMenuItems()} onClickItem={this.#handleItemClick} checkbox={checkbox} {...menu} />
+                {this.#renderSearch()}
+                <Menu
+                    ref={this.#menu}
+                    className="picker-menu-list"
+                    items={this.#getMenuItems()}
+                    onClickItem={this.#handleItemClick}
+                    checkbox={checkbox}
+                    {...menu}
+                />
             </div>
         );
     }

@@ -39,7 +39,8 @@
     "hotkeys-js": "^3.10.2",
     "htm": "^3.1.1",
     "nanoid": "^4.0.2",
-    "preact": "^10.15.0"
+    "preact": "^10.15.0",
+    "tinykeys": "^1.4.0"
   },
   "devDependencies": {
     "@faker-js/faker": "^8.0.1",
