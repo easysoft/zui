@@ -933,11 +933,9 @@ export class DTable extends Component<DTableOptions, DTableState> {
             const extraWidth = scrollWidth - scrollColsWidth;
             if (extraWidth > 0) {
                 const totalFlex = flexCols.reduce((total, col) => total + col.flex, 0);
-                let totalFlexWidth = 0;
                 flexCols.forEach(col => {
-                    const flexWidth = Math.min(extraWidth - totalFlexWidth, Math.ceil(extraWidth * (col.flex / totalFlex)));
+                    const flexWidth = Math.min(extraWidth, Math.ceil(extraWidth * (col.flex / totalFlex)));
                     col.realWidth = flexWidth + col.width;
-                    totalFlexWidth += col.realWidth;
                 });
             } else {
                 flexCols.forEach(col => {
