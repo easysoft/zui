@@ -132,7 +132,7 @@ type PickerOptions = {
     searchHint?: string;
 
     /** 值变更回调函数。 */
-    onChange?: (value: string | string[], items: PickerItemProps | PickerItemProps[]) => void;
+    onChange?: (value: string | string[]) => void;
 
     /** 当取消选择值时的回调函数。 */
     onDeselect?: (value: string, item: PickerItemProps) => false | void;
