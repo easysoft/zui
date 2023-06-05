@@ -14,10 +14,10 @@ export interface PickerItemProps extends PickerItemBasic {
     rootStyle?: JSX.CSSProperties;
     rootChildren?: ComponentChildren | (() => ComponentChildren);
     component?: string | ComponentType;
+    className?: ClassNameLike;
     icon?: string | VNode;
     trailingIcon?: string | VNode;
     hint?: string;
-    className?: ClassNameLike;
     attrs?: JSX.HTMLAttributes<HTMLLIElement>;
     style?: JSX.CSSProperties;
     children?: ComponentChildren | (() => ComponentChildren);

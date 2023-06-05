@@ -26,7 +26,6 @@ onPageUpdate(() => {
         const singlePicker = new Picker(singlePickerElement, {
             items,
             defaultValue: 'banana',
-            name: 'picker',
             placeholder: '请选择你的最爱',
             searchHint: '搜索选项',
         });
@@ -39,7 +38,6 @@ onPageUpdate(() => {
             multiple: true,
             items,
             defaultValue: 'banana,orange',
-            name: 'picker',
             placeholder: '请选择你的最爱',
             menuCheckbox: true,
         });
