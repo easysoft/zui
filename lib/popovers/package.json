@@ -1,0 +1,26 @@
+{
+    "name": "@zui/popovers",
+    "description": "ZUI Toolbar",
+    "version": "0.0.1",
+    "keywords": ["css", "components"],
+    "main": "src/main.ts",
+    "devDependencies": {
+        "zui-dev": "workspace:^0.0.1"
+    },
+    "dependencies": {
+        "@zui/core": "workspace:^0.0.1"
+    },
+    "files": [
+        "./src/**/*"
+    ],
+    "exports": {
+        ".": "./src/main.ts"
+    },
+    "zui": {
+        "type": "component",
+        "displayName": "下拉面板",
+        "contributes": {
+            "css": ["class", "var"]
+        }
+    }
+}
