@@ -11,6 +11,9 @@
 .vp-doc .example a:hover {
     @apply -no-underline;
 }
+input:focus, textarea:focus, select:focus {
+    @apply -outline-1 -outline;
+}
 .VPSidebar > .nav {
     @apply -block;
 }
