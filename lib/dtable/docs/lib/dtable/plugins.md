@@ -412,6 +412,47 @@ const cols = [
 ];
 ```
 
+## 列分组 `group`
+
+在定义列时通过 `group` 属性为列分配一个组名，这样具有相同组名的列会视为一组。配合使用其他选项可以实现不同的效果。
+
+### 分组间分割线
+
+通过设置初始化选项 `groupDivider` 为 `true`，可以为相邻但不同属于不同分组的列添加分割线。下面为一个实际的例子：
+
+```js
+const options = {
+    /* 为相邻但不同属于不同分组的列添加分割线。 */
+    groupDivider: true,
+
+    /* 定义列。 */
+    cols: [
+        {
+            name: 'id',
+            title: 'ID',
+            group: 'main'  // 设置分组为 main。
+        },
+        {
+            name: 'title',
+            title: '标题',
+            group: 'main'  // 设置分组为 main。
+        },
+        {
+            name: 'startDate',
+            title: '开始日期',
+            group: 'date'  // 设置分组为 date
+        },
+        {
+            name: 'endDate',
+            title: '结束日期',
+            group: 'date'  // 设置分组为 date
+        }
+    ]
+};
+```
+
+上例中标题列和开始日期列相邻但属于不同的分组，会在它们之间添加一个分割线。
+
 ## 列鼠标悬停效果 `col-hover`
 
 <Badge text="内置插件" />
