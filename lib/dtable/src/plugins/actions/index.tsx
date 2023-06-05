@@ -3,9 +3,11 @@ import {Toolbar} from '@zui/toolbar/src/component/toolbar';
 import type {ToolbarOptions, ToolbarItemOptions, ToolbarDropdownProps} from '@zui/toolbar/src/types';
 import {definePlugin} from '../../helpers/shared-plugins';
 import type {DTablePlugin, DTableWithPlugin} from '../../types/plugin';
-import type {RowInfo} from '../../types/row';
+import type {RowData, RowInfo} from '../../types/row';
 import type {ColInfo} from '../../types/col';
 import type {MenuItemOptions} from '@zui/menu/src/types';
+
+type ActionItemInfo = Partial<ToolbarItemOptions & {name: string, items?: MenuItemOptions[]}>;
 
 export type DTableActionsTypes = {
     col: Partial<{
@@ -20,7 +22,7 @@ export type DTableActionsTypes = {
     }>,
 };
 
-function createActionFromString(action: string): Partial<ToolbarItemOptions & {name: string, items?: MenuItemOptions[]}> {
+function createActionFromString(action: string): ActionItemInfo {
     const [name, items] = action.split(':');
     const actionInfo: {type?: string, name: string, items?: MenuItemOptions[], disabled?: boolean} = name[0] === '-' ? {name: name.substring(1), disabled: true} : {name};
     if (items?.length) {
@@ -51,6 +53,15 @@ const defaultActionItemCreator = (item: Partial<ToolbarDropdownProps>, info: {ro
     return item;
 };
 
+const getActionItems = (actions: string | (string | ActionItemInfo)[]): ActionItemInfo[] => {
+    if (typeof actions === 'string') {
+        actions = actions.split('|');
+    }
+    return actions.map(action => {
+        return typeof action === 'string' ? createActionFromString(action) : action;
+    }).filter(Boolean) as ActionItemInfo[];
+};
+
 /**
  * @todo auto calculate column width by actions setting
  */
@@ -60,20 +71,13 @@ const actionsPlugin: DTablePlugin<DTableActionsTypes> = {
         actions: {
             onRenderCell(result, info) {
                 const {row, col} = info;
-                let actionItems = row.data?.[col.name] as string | (string | Partial<ToolbarItemOptions & {name: string, items?: (string | MenuItemOptions)[]}>)[];
-                if (typeof actionItems === 'string') {
-                    actionItems = actionItems.split('|');
-                }
-                if (!actionItems?.length) {
+                const actionItems = getActionItems(row.data?.[col.name] as string | (string | ActionItemInfo)[]);
+                if (!actionItems.length) {
                     return result;
                 }
                 const {actionsSetting, actionsMap, actionsCreator = (this as DTableWithPlugin<DTableActionsTypes>).options.actionsCreator, actionItemCreator = (this as DTableWithPlugin<DTableActionsTypes>).options.actionItemCreator || defaultActionItemCreator} = col.setting;
                 const toolbarOptions: ToolbarOptions = {
                     items: actionsCreator?.(info) ?? actionItems.map(action => {
-                        action = typeof action === 'string' ? createActionFromString(action) : action;
-                        if (!action) {
-                            return;
-                        }
                         const {name, items, ...others} = action;
                         if (actionsMap && name) {
                             Object.assign(others, actionsMap[name], {...others});
@@ -101,7 +105,7 @@ const actionsPlugin: DTablePlugin<DTableActionsTypes> = {
                             (others as ToolbarDropdownProps).dropdown = dropdown;
                         }
                         return actionItemCreator ? actionItemCreator(others, info) : others;
-                    }).filter(Boolean) as ToolbarItemOptions[],
+                    }) as ToolbarItemOptions[],
                     btnProps: {size: 'sm', className: 'text-primary'},
                     ...actionsSetting,
                 };
@@ -111,6 +115,29 @@ const actionsPlugin: DTablePlugin<DTableActionsTypes> = {
                 return result;
             },
         },
+    },
+    beforeLayout(options) {
+        if (!Array.isArray(options.data) || !options.data.length) {
+            return;
+        }
+        options.cols.forEach((col, index) => {
+            if (col.type !== 'actions' || col.width) {
+                return;
+            }
+            const {actionsMap = {}} = col;
+            const actions = getActionItems((options.data as RowData[])[0][col.name] as string | (string | ActionItemInfo)[]);
+            const width = actions.reduce((total, action) => {
+                const item = action.name ? actionsMap[action.name] : null;
+                if (item && item.type === 'dropdown' && item.caret && !item.text) {
+                    return total + 16;
+                }
+                return total + 24;
+            }, 24);
+            options.cols[index] = {
+                ...col,
+                width,
+            };
+        });
     },
 };
 
