@@ -1,5 +1,8 @@
+.pickers-container {
+  @apply -fixed -left-0 -top-0 -z-50;
+}
 .picker-menu {
-  @apply -flex -flex-col -fixed -z-50 -opacity-0 -transition-opacity -bg-canvas;
+  @apply -flex -flex-col -absolute -z-50 -opacity-0 -transition-opacity -bg-canvas;
 }
 .picker-menu.shown {
   @apply -opacity-100;
