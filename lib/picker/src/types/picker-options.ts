@@ -28,7 +28,7 @@ export type PickerOptions = {
     search?: boolean | number;
     searchDelay?: number;
     searchHint?: string;
-    onChange?: (value: string | string[], items: PickerItemProps | PickerItemProps[]) => void;
+    onChange?: (value: string | undefined | string[]) => void;
     onDeselect?: (value: string, item: PickerItemProps) => false | void;
     onSelect?: (value: string, item: PickerItemProps) => false | void;
     onFocus?: () => void;

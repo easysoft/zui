@@ -46,7 +46,7 @@ export class Picker extends Component<PickerOptions, PickerState> {
         };
     }
 
-    get value(): string | undefined {
+    get value() {
         return this.state.value;
     }
 
@@ -133,6 +133,15 @@ export class Picker extends Component<PickerOptions, PickerState> {
         return this.toggle(false);
     }
 
+    getValue() {
+        return this.props.multiple ? this.valueList : this.value;
+    }
+
+    async setValue(value?: string | string[], otherState?: Partial<PickerState>): Promise<void> {
+        await this.#waitState({value: this.#formatValue(value), ...otherState});
+        this.props.onChange?.call(this, this.getValue());
+    }
+
     toggleValue(value: string, toggle?: boolean) {
         const {valueList} = this;
         const oldIndex = valueList.indexOf(value);
@@ -144,7 +153,7 @@ export class Picker extends Component<PickerOptions, PickerState> {
         } else {
             valueList.push(value);
         }
-        this.setState({value: valueList.join(this.props.valueSplitter ?? ',')});
+        return this.setValue(valueList);
     }
 
     #waitState(state: Partial<PickerState>): Promise<void> {
@@ -190,7 +199,7 @@ export class Picker extends Component<PickerOptions, PickerState> {
         const {valueList} = this;
         const deselectedSet = new Set(items.map(item => item.value));
         const newValueList = valueList.filter(x => !deselectedSet.has(x));
-        this.setState({value: newValueList.length ? newValueList.join(this.props.valueSplitter ?? ',') : undefined});
+        this.setValue(newValueList);
     };
 
     #handleSelectClick = () => {
@@ -205,7 +214,7 @@ export class Picker extends Component<PickerOptions, PickerState> {
         if (this.props.multiple) {
             this.toggleValue(item.value);
         } else {
-            this.setState({value: item.value}, () => {
+            this.setValue(item.value).then(() => {
                 this.#menu.current?.hide();
             });
         }
