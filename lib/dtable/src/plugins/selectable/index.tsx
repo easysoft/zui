@@ -100,8 +100,8 @@ export function parseSelection(this: DTableSelectable, selections: DTableSelecti
             }
         }
     } else if (row >= 0) {
-        const {colsInfo} = this.layout;
-        const colsCount = colsInfo.fixedLeftCols.length + colsInfo.scrollCols.length + colsInfo.fixedRightCols.length;
+        const {cols: colsInfo} = this.layout;
+        const colsCount = colsInfo.list.length;
         for (let i = 0; i < colsCount; i++) {
             cells.push({col: i, row});
         }
@@ -130,7 +130,7 @@ export function parseRange(this: DTableSelectable, range: DTableRangeSelection):
     const rowStart = Math.min(startPos.row, endPos.row);
     const rowEnd = Math.max(startPos.row, endPos.row);
     const cells: DTableCellPos[] = [];
-    const colsCount = Object.keys(this.layout.colsMap).length;
+    const colsCount = Object.keys(this.layout.cols.map).length;
     for (let col = colStart; col <= colEnd; col++) {
         if (rowStart < 0 || rowEnd < 0) {
             const rowsCount = this.layout.rows.length;
@@ -275,7 +275,7 @@ function selectNextCell(this: DTableSelectable, direction?: 'right' | 'down' | '
     } else {
         colIndex++;
     }
-    if (rowIndex >= 0 && colIndex >= 0 && rowIndex < this.layout.rows.length && colIndex < this.layout.colsList.length) {
+    if (rowIndex >= 0 && colIndex >= 0 && rowIndex < this.layout.rows.length && colIndex < this.layout.cols.list.length) {
         const pos = {col: colIndex, row: rowIndex};
         if (isCellSelectable(this, pos)) {
             this.scrollTo(pos);
@@ -295,8 +295,8 @@ function deselectCells(this: DTableSelectable, selections: DTableSelection | DTa
 }
 
 function selectAllCells(this: DTableSelectable): void {
-    const {colsInfo} = this.layout;
-    const colsCount = colsInfo.fixedLeftCols.length + colsInfo.scrollCols.length + colsInfo.fixedRightCols.length;
+    const {cols: colsInfo} = this.layout;
+    const colsCount = colsInfo.list.length;
     const rowsCount = this.layout.rows.length;
     const {selectedMap} = this.state;
     const checkSelectable = typeof this.options.selectable === 'function' ? this.options.selectable : false;
@@ -353,8 +353,7 @@ function isRowSelected(this: DTableSelectable, row: number | string | RowInfo): 
     if (typeof rowIndex !== 'number') {
         return false;
     }
-    const {colsList} = this.layout;
-    return colsList.every(col => {
+    return this.layout.cols.list.every(col => {
         return col.name === 'INDEX' || this.isCellSelected({col: col.index, row: rowIndex});
     });
 }

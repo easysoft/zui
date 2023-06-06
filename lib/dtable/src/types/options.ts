@@ -4,7 +4,7 @@ import type {DTable} from '../main-react';
 import type {CellValueGetter, CellRenderCallback} from './cell';
 import type {ColSetting} from './col';
 import type {CustomRenderResultList, CustomRenderResultGenerator, CustomRenderResultItem} from './common';
-import type {DTableLayout} from './dtable';
+import type {DTableLayout} from './layout';
 import type {DTablePluginLike} from './plugin';
 import type {RowData, RowProps, RowInfo} from './row';
 
@@ -17,10 +17,10 @@ export interface DTableDataOptions<C = ColSetting> {
 }
 
 export interface DTableLayoutOptions {
-    width: number | '100%' | 'auto' | ((this: DTable) => number | 'auto');
-    height: number | '100%' | 'auto' | {min: number, max: number} | ((this: DTable, actualHeight: number) => number | 'auto' | {min: number, max: number});
-    fixedLeftWidth?: number | 'auto' | ((this: DTable, actualWidth: number) => number | 'auto');
-    fixedRightWidth?: number | 'auto' | ((this: DTable, actualWidth: number) => number | 'auto');
+    width: number | '100%' | ((this: DTable) => number | '100%');
+    height: number | '100%' | 'auto' | {min: number, max: number} | ((this: DTable) => number | 'auto' | {min: number, max: number});
+    fixedLeftWidth?: number | 'auto' | `${number}%` | ((this: DTable) => number);
+    fixedRightWidth?: number | 'auto' | `${number}%` | ((this: DTable) => number);
     rowHeight: number;
     defaultColWidth: number;
     minColWidth: number;

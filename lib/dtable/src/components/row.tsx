@@ -8,13 +8,7 @@ export function Row({
     className,
     top,
     height,
-    fixedLeftCols,
-    fixedRightCols,
-    scrollCols,
-    fixedLeftWidth,
-    scrollWidth,
-    scrollColsWidth,
-    fixedRightWidth,
+    cols: {left, center, right},
     scrollLeft,
     CellComponent = Cell,
     onRenderCell,
@@ -22,12 +16,12 @@ export function Row({
     ...others
 }: RowProps) {
     let flexLeftView = null;
-    if (fixedLeftCols?.length) {
+    if (left.list.length) {
         flexLeftView = (
             <Cells
                 className="dtable-fixed-left"
-                cols={fixedLeftCols}
-                width={fixedLeftWidth}
+                cols={left.list}
+                width={left.width}
                 row={row}
                 CellComponent={CellComponent}
                 onRenderCell={onRenderCell}
@@ -36,13 +30,13 @@ export function Row({
     }
 
     let scrollableView = null;
-    if (scrollCols?.length) {
+    if (center.list.length) {
         scrollableView = (
             <Cells
                 className="dtable-flexable"
-                cols={scrollCols}
-                left={fixedLeftWidth - scrollLeft}
-                width={Math.max(scrollWidth, scrollColsWidth)}
+                cols={center.list}
+                left={left.width - scrollLeft}
+                width={Math.max(center.width, center.totalWidth)}
                 row={row}
                 CellComponent={CellComponent}
                 onRenderCell={onRenderCell}
@@ -51,13 +45,13 @@ export function Row({
     }
 
     let flexRightView = null;
-    if (fixedRightCols?.length) {
+    if (right.list.length) {
         flexRightView = (
             <Cells
                 className="dtable-fixed-right"
-                cols={fixedRightCols}
-                left={fixedLeftWidth + scrollWidth}
-                width={fixedRightWidth}
+                cols={right.list}
+                left={left.width + center.width}
+                width={right.width}
                 row={row}
                 CellComponent={CellComponent}
                 onRenderCell={onRenderCell}

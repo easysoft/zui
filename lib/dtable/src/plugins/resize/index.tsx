@@ -1,4 +1,4 @@
-import {clamp} from '../../helpers/clamp';
+import {clamp} from '../../helpers/number';
 import {definePlugin} from '../../helpers/shared-plugins';
 import {mousemove, DTableMousemoveTypes} from '../mousemove';
 import './style.css';

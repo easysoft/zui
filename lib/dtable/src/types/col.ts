@@ -27,9 +27,10 @@ export type ColSetting<S = {}> = S & {
     name: ColName;
 } & Partial<{
     title: string;
-    width: number;
+    width: number | `${number}%`;
     minWidth: number;
     maxWidth: number;
+    order: number;
     flex: ColFlex;
     fixed: ColFixedSide;
     border: 'left' | 'right' | boolean;

@@ -1,7 +1,8 @@
+import type {JSX, ComponentType, h as _h} from 'preact';
 import type {ClassNameLike} from '@zui/core';
 import type {CellProps} from '../main-react';
 import type {CellRenderCallback} from './cell';
-import type {ColInfo} from './col';
+import type {DTableColsLayout} from './layout';
 
 export type RowID = string;
 
@@ -25,17 +26,24 @@ export type RowProps = {
     row: RowInfo;
     top: number;
     height: number;
-    fixedLeftWidth: number;
-    scrollWidth: number;
-    scrollColsWidth: number;
-    fixedRightWidth: number;
+    cols: DTableColsLayout;
     scrollLeft: number;
-} & Partial<{
-    className: ClassNameLike;
-    fixedLeftCols: ColInfo[];
-    fixedRightCols: ColInfo[];
-    scrollCols: ColInfo[];
-    style: preact.JSX.CSSProperties;
-    CellComponent: preact.ComponentType<CellProps>;
-    onRenderCell: CellRenderCallback;
-}>;
+    className?: ClassNameLike;
+    style?: JSX.CSSProperties;
+    CellComponent?: ComponentType<CellProps>;
+    onRenderCell?: CellRenderCallback;
+};
+
+export type RowsProps = {
+    top: number;
+    height: number;
+    rowHeight: number;
+    rows: RowInfo[];
+    cols: DTableColsLayout;
+    scrollLeft: number;
+    scrollTop: number;
+    className?: ClassNameLike;
+    style?: JSX.CSSProperties;
+    onRenderCell?: CellRenderCallback;
+    onRenderRow?: (data: {props: RowProps, row: RowInfo}, h: typeof _h) => Partial<RowProps | (RowProps & JSX.HTMLAttributes<HTMLElement>)> | void;
+};

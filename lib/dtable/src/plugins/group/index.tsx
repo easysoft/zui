@@ -33,10 +33,10 @@ const groupPlugin: DTablePlugin<DTableGroupTypes> = {
         if (!this.options.groupDivider) {
             return;
         }
-        const {colsInfo: {fixedLeftCols, scrollCols, fixedRightCols}} = layout;
-        applyGroupDivider(fixedLeftCols);
-        applyGroupDivider(scrollCols);
-        applyGroupDivider(fixedRightCols);
+        const {cols} = layout;
+        applyGroupDivider(cols.left.list);
+        applyGroupDivider(cols.center.list);
+        applyGroupDivider(cols.right.list);
     },
 };
 

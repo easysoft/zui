@@ -1,24 +1,15 @@
 import {h as _h} from 'preact';
-import {Row} from './row';
 import type {JSX} from 'preact';
-import type {CellRenderCallback} from '../types/cell';
-import type {ColInfo} from '../types/col';
-import type {RowProps} from '../types/row';
+import {Row} from './row';
+import type {DTableColsLayout, RowProps, CellRenderCallback} from '../types';
 
 type HeaderProps = {
     height: number;
-    fixedLeftCols: ColInfo[];
-    fixedRightCols: ColInfo[];
-    scrollCols: ColInfo[];
-    fixedLeftWidth: number;
-    scrollWidth: number;
-    fixedRightWidth: number;
     scrollLeft: number;
-    scrollColsWidth: number;
-} & Partial<{
-    onRenderCell: CellRenderCallback;
-    onRenderRow: (data: {props: RowProps}, h: typeof _h) => Partial<RowProps | (RowProps & JSX.HTMLAttributes<HTMLElement>)> | void;
-}>;
+    cols: DTableColsLayout;
+    onRenderCell?: CellRenderCallback;
+    onRenderRow?: (data: {props: RowProps}, h: typeof _h) => Partial<RowProps | (RowProps & JSX.HTMLAttributes<HTMLElement>)> | void;
+};
 
 export function Header({height, onRenderRow, ...otherProps}: HeaderProps) {
     const props: RowProps = {

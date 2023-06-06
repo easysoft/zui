@@ -90,12 +90,12 @@ const autoscrollPlugin: DTablePlugin<DTableAutoscrollTypes, [DTableMousemoveType
             const scrollInfo: {scrollLeft?: number, scrollTop?: number} = {};
             const {layout} = this;
             if (colInfo) {
-                const {scrollLeft, colsInfo} = layout;
+                const {scrollLeft, cols: colsInfo} = layout;
                 const colRight = colInfo.left + colInfo.realWidth;
                 if (colInfo.left < scrollLeft) {
                     scrollInfo.scrollLeft = colInfo.left - extra;
-                } else if (colRight > (colsInfo.scrollWidth + scrollLeft)) {
-                    scrollInfo.scrollLeft = colRight - colsInfo.scrollWidth + extra;
+                } else if (colRight > (colsInfo.center.width + scrollLeft)) {
+                    scrollInfo.scrollLeft = colRight - colsInfo.center.width + extra;
                 }
             }
             if (rowInfo) {
