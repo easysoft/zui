@@ -981,6 +981,10 @@ function actionItemCreator: (item: Partial<ToolbarItemOptions>, info: {row: RowI
 
 操作按钮通过工具栏组件实现，可以通过初始化选项 `actionsSetting` 来定义操作工具栏的配置，该配置为工具栏组件的初始化选项 `ToolbarOptions`。
 
+### 自动定义操作列宽度
+
+当列被定义操作列时，如果没有指定宽度 `width`，则会根据第一行实际按钮的个数自动计算宽度，需要注意的是确保所有行拥有相同的按钮个数，如果第一行按钮个数不是最大的，则会导致后面行的按钮显示不全，此时需要自行通过 `width` 指定宽度。
+
 ### API
 
 #### 初始化选项
