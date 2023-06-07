@@ -173,9 +173,6 @@ importers:
       '@zui/css-icons':
         specifier: workspace:^0.0.1
         version: link:../css-icons
-      preact:
-        specifier: 10.11.2
-        version: 10.11.2
     devDependencies:
       '@zui/avatar':
         specifier: workspace:^0.0.1
@@ -789,6 +786,16 @@ importers:
         version: link:../utilities
       zui-dev:
         specifier: workspace:*
+        version: link:../../dev
+
+  lib/popovers:
+    dependencies:
+      '@zui/core':
+        specifier: workspace:^0.0.1
+        version: link:../core
+    devDependencies:
+      zui-dev:
+        specifier: workspace:^0.0.1
         version: link:../../dev
 
   lib/progress: {}
@@ -4443,10 +4450,6 @@ packages:
       nanoid: 3.3.6
       picocolors: 1.0.0
       source-map-js: 1.0.2
-
-  /preact@10.11.2:
-    resolution: {integrity: sha512-skAwGDFmgxhq1DCBHke/9e12ewkhc7WYwjuhHB8HHS8zkdtITXLRmUMTeol2ldxvLwYtwbFeifZ9uDDWuyL4Iw==}
-    dev: false
 
   /preact@10.15.0:
     resolution: {integrity: sha512-nZSa8M2R2m1n7nJSBlzDpxRJaIsejrTO1vlFbdpFvyC8qM1iU+On2y0otfoUm6SRB5o0lF0CKDFxg6grEFU0iQ==}

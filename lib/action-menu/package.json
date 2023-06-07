@@ -18,8 +18,7 @@
     },
     "dependencies": {
         "@zui/css-icons": "workspace:^0.0.1",
-        "@zui/core": "workspace:^0.0.1",
-        "preact": "10.11.2"
+        "@zui/core": "workspace:^0.0.1"
     },
     "zui": {
         "type": "control",
