@@ -43,7 +43,7 @@
     "tinykeys": "^1.4.0"
   },
   "devDependencies": {
-    "@faker-js/faker": "^8.0.1",
+    "@faker-js/faker": "^8.0.2",
     "@mertasan/tailwindcss-variables": "^2.6.1",
     "@preact/preset-vite": "^2.5.0",
     "@types/fs-extra": "^11.0.1",
