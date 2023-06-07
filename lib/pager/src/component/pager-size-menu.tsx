@@ -9,11 +9,13 @@ export function PagerSizeMenu({
     linkCreator,
     items = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 100, 200, 500, 1000, 2000],
     dropdown = {},
+    itemProps,
     ...dropdownProps
 }: PagerSizeMenuProps & {pagerInfo: PagerInfo, linkCreator: PageLinkCreator}) {
     dropdown.items = dropdown.items ?? items.map(recPerPage => {
         const info = {...pagerInfo, recPerPage};
         return {
+            ...itemProps,
             text: `${recPerPage}`,
             active: recPerPage === pagerInfo.recPerPage,
             url: typeof linkCreator === 'function' ? linkCreator(info)  : formatString(linkCreator, info),
