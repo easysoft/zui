@@ -11,6 +11,7 @@ type ActionItemInfo = Partial<ToolbarItemOptions & {name: string, items?: MenuIt
 
 export type DTableActionsTypes = {
     col: Partial<{
+        actions?: string | (string | ActionItemInfo)[],
         actionsCreator: (info: {row: RowInfo, col: ColInfo}) => ToolbarItemOptions[],
         actionItemCreator: (item: Partial<ToolbarItemOptions>, info: {row: RowInfo, col: ColInfo}) => ToolbarItemOptions,
         actionsSetting: Partial<ToolbarOptions>,
@@ -53,7 +54,10 @@ const defaultActionItemCreator = (item: Partial<ToolbarDropdownProps>, info: {ro
     return item;
 };
 
-const getActionItems = (actions: string | (string | ActionItemInfo)[]): ActionItemInfo[] => {
+const getActionItems = (actions?: string | (string | ActionItemInfo)[]): ActionItemInfo[] => {
+    if (!actions) {
+        return [];
+    }
     if (typeof actions === 'string') {
         actions = actions.split('|');
     }
@@ -71,7 +75,7 @@ const actionsPlugin: DTablePlugin<DTableActionsTypes> = {
         actions: {
             onRenderCell(result, info) {
                 const {row, col} = info;
-                const actionItems = getActionItems(row.data?.[col.name] as string | (string | ActionItemInfo)[]);
+                const actionItems = getActionItems(row.data?.[col.name] as string | (string | ActionItemInfo)[] || col.setting.actions);
                 if (!actionItems.length) {
                     return result;
                 }
