@@ -12,7 +12,6 @@ export class Pager<T extends ActionBasicProps = PagerItemOptions, P extends Page
     static NAME = 'pager';
 
     static defaultProps = {
-        gap: 1,
         btnProps: {
             btnType: 'ghost',
             size: 'sm',
