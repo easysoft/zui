@@ -92,7 +92,7 @@ const actionsPlugin: DTablePlugin<DTableActionsTypes> = {
                             }
                         }
                         if (items && others.type === 'dropdown') {
-                            const {dropdown = {}} = (others as ToolbarDropdownProps);
+                            const {dropdown = {placement: 'bottom-end'}} = (others as ToolbarDropdownProps);
                             dropdown.menu = {
                                 className: 'menu-dtable-actions',
                                 items: items.reduce((list, item) => {
