@@ -917,7 +917,7 @@ const colSetting = {
 
 ### 定义行上的操作按钮
 
-要定义具体的行对应列上的操作按钮，需要在该行对应列属性上定义要显示的按钮信息，可以通过如下方式进行定义：
+#### 操作按钮定义类型
 
 ```ts
 /* 定义要展示的每个操作按钮，name 属性为操作按钮名称 */
@@ -929,6 +929,37 @@ type RowActionList = string | RowActionItem[];
 /* *行数据对象上的值类型 */
 type ActionsColDataInRow = RowActionList;
 ```
+
+#### 通过列定义配置
+
+通过列定义配置 `actions` 指定改列上显示的操作按钮，例如：
+
+
+```js
+const colSetting = {
+    name: 'actions',
+    type: 'actions',
+    actions: ['edit', 'delete', 'close', 'start', 'pause', 'active', 'other'],
+    actionsMap: {
+        edit: {icon: 'icon-edit', hint: '编辑'},
+        group: {icon: 'icon-group', hint: '团队'},
+        split: {icon: 'icon-split', hint: '添加子项目集'},
+        delete: {icon: 'icon-trash', hint: '删除', text: '删除'},
+        close: {icon: 'icon-off', hint: '关闭', 'data-toggle': 'modal', url: '#test?id={id}'},
+        start: {icon: 'icon-start', hint: '开始'},
+        pause: {icon: 'icon-pause', text: '挂起项目集'},
+        active: {icon: 'icon-magic', text: '激活项目集', 'data-toggle': 'modal', url: '#test?id={id}'},
+        other: {type: 'dropdown', caret: true, hint: '其他操作'},
+        link: {name: 'link', icon: 'icon-link', text: '关联产品'},
+        whitelist: {name: 'whitelist', icon: 'icon-shield-check', text: '项目白名单'},
+        more: {type: 'dropdown', icon: 'icon-ellipsis-v', caret: false, hint: '更多'},
+    }
+}
+```
+
+#### 在行数据上配置
+
+要定义具体的行对应列上的操作按钮，需要在该行对应列属性上定义要显示的按钮信息，可以通过如下方式进行定义：
 
 下面为一个实际的例子：
 
@@ -961,7 +992,9 @@ const rowData = {
 以上可以简化为 `|` 拼接的形式，其中 `-` 前缀表示该操作被禁用，`:` 定义该操作按钮为下拉菜单，`:` 后为下拉菜单中要展示的按钮：
 
 ```js
-const rowData = 'close|other:-pause,active|group|-edit|more:delete,link';
+const rowData = {
+    actions: 'close|other:-pause,active|group|-edit|more:delete,link'
+};
 ```
 
 ### 自定义生成操作按钮
@@ -1005,6 +1038,9 @@ interface PluginDTableOptions {
 interface ColActionsSetting {
     /* 设置列类型 */
     type: 'actions';
+
+    /* 一次性指定当前列上所有操作按钮 */
+    actions?: string | (string | ActionItemInfo)[];
 
     /* 指定一个对象用于定义该列上所有可能出现的操作按钮，映射为按钮名称和按钮属性 */
     actionsMap: Record<string, Partial<ToolbarItemOptions>>;
