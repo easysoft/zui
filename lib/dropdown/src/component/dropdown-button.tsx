@@ -12,8 +12,8 @@ export class DropdownButton extends DropdownTrigger<DropdownButtonOptions> {
         const props = this.beforeRender();
         let {caret = true} = props;
         if (caret !== false && (show || caret === true)) {
-            const currentPlacement = show ? placement : this.props.dropdown?.placement;
-            caret = (currentPlacement === 'top' ? 'up' : currentPlacement === 'bottom' ? 'down' : currentPlacement as typeof caret) || (typeof caret === 'string' ? caret : '') || 'down';
+            const currentPlacement = (show ? placement : this.props.dropdown?.placement) || '';
+            caret = (currentPlacement.includes('top') ? 'up' : currentPlacement.includes('bottom') ? 'down' : currentPlacement as typeof caret) || (typeof caret === 'string' ? caret : '') || 'down';
         }
         props.caret = caret;
         return <Button {...props} />;
