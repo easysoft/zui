@@ -233,7 +233,7 @@ const nestedPlugin: DTablePlugin<DTableSortableTypes> = {
         getNestedRowInfo,
     },
     beforeLayout() {
-        this.data.nestedMap.clear();
+        this.data.nestedMap?.clear();
     },
     onAddRow(row) {
         const {nestedMap} = this.data;

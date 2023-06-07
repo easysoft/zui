@@ -472,12 +472,15 @@ export class DTable extends Component<DTableOptions, DTableState> {
     }
 
     #renderFooter(layout: DTableLayout) {
-        const {footer} = layout;
+        let {footer} = layout;
         if (!footer) {
             return null;
         }
 
-        const customResults = typeof footer === 'function' ? footer.call(this, layout) : Array.isArray(footer) ? footer : [footer];
+        if (typeof footer === 'function') {
+            footer = footer.call(this, layout);
+        }
+        const customResults = Array.isArray(footer) ? footer : [footer];
         return (
             <CustomRender
                 className='dtable-footer'
