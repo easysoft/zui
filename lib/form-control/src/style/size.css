@@ -1,0 +1,6 @@
+.form-control.size-sm {
+  @apply -text-sm -px-2 -h-6;
+}
+.form-control.size-lg {
+  @apply -text-lg -px-4 -h-10;
+}

@@ -61,6 +61,13 @@ Hello, world!
 </textarea>
 ```
 
+## 尺寸 `size-*`
+
+```html:example: row gap-4
+<input type="text" class="form-control size-sm" placeholder="小号" />
+<input type="text" class="form-control" placeholder="正常" />
+<input type="text" class="form-control size-lg" placeholder="大号" />
+```
 
 ## 特殊状态
 
