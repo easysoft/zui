@@ -1,0 +1,10 @@
+.input-control.size-sm > .form-control,
+.input-control.size-sm > .input-control-prefix,
+.input-control.size-sm > .input-control-suffix {
+  @apply -text-sm -h-6;
+}
+.input-control.size-lg > .form-control,
+.input-control.size-lg > .input-control-prefix,
+.input-control.size-lg > .input-control-suffix {
+  @apply -text-lg -h-10;
+}

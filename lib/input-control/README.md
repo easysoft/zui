@@ -95,3 +95,23 @@
   <label for="inputPasswordExample2" class="input-control-suffix text-right text-success">安全!!!</label>
 </div>
 ```
+
+
+### `size-*`
+
+```html:example:row gap-3
+<div class="input-control has-prefix has-suffix size-sm">
+  <input id="inputAccountExample2" type="text" class="form-control" placeholder="">
+  <label for="inputAccountExample2" class="input-control-prefix">用户名:</label>
+</div>
+<div class="input-control has-prefix has-suffix">
+  <input id="inputEmailExample2" type="email" class="form-control" placeholder="">
+  <label for="inputEmailExample2" class="input-control-prefix">邮箱:</label>
+  <label for="inputEmailExample2" class="input-control-suffix"><i class="icon icon-check"></i></label>
+</div>
+<div class="input-control has-prefix has-suffix size-lg">
+  <input id="inputGiftExample2" type="text" class="form-control" placeholder="礼品码">
+  <label for="inputGiftExample2" class="input-control-prefix"><i class="icon icon-gift"></i></label>
+  <label for="inputPasswordExample2" class="input-control-suffix text-right text-red">享 8 折</label>
+</div>
+```
