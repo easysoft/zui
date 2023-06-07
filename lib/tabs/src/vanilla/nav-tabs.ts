@@ -7,14 +7,14 @@ export class NavTabs extends Component {
 
     #navTarget?: HTMLElement;
 
-    init(): void {
+    init() {
         const {$element} = this;
         if (!$element.is('body') && !$element.attr('data-toggle')) {
             $element.attr('data-toggle', 'tab');
         }
     }
 
-    showTarget(): void {
+    showTarget() {
         const {$element} = this;
         const target = ($element.attr('href') || $element.dataset('target') || $element.dataset('tab') || '') as string;
         if (target.startsWith('#')) {
@@ -24,11 +24,11 @@ export class NavTabs extends Component {
         if (!this.#navTarget) {
             return;
         }
-        this.addActive($(this.#navTarget as HTMLElement)[0] as HTMLElement, this.#navTarget);
+        this.addActive(this.#navTarget.parentElement as HTMLElement, this.#navTarget);
         this.#navTarget.dispatchEvent(new CustomEvent('show.zui3.tab'));
     }
 
-    show(): void {
+    show() {
         const {$element} = this;
         const target = ($element.attr('href') || $element.dataset('target') || $element.dataset('tab') || '') as string;
         if (target.startsWith('#')) {
@@ -41,7 +41,7 @@ export class NavTabs extends Component {
         this.addActive($element.closest(`.${NAV_CLASS}`)[0] as HTMLElement, $element.parent()[0] as HTMLElement);
     }
 
-    addActive(clickPane: HTMLElement, target: HTMLElement): void {
+    addActive(clickPane: HTMLElement, target: HTMLElement) {
         const children = clickPane.children;
         const childrenArr = Array.from(children);
         childrenArr.forEach(item => {
