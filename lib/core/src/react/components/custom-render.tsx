@@ -55,7 +55,14 @@ export function renderCustomResult<T extends HTMLElement = HTMLElement>(props: C
             if (onGenerate) {
                 items.push(...onGenerate.call(generatorThis, render as CustomRenderResultGenerator, result, ...generateArgs));
             } else {
-                items.push(...((render as CustomRenderResultGenerator).call(generatorThis, result, ...generateArgs) ?? []));
+                const renderResult = (render as CustomRenderResultGenerator).call(generatorThis, result, ...generateArgs);
+                if (renderResult) {
+                    if (Array.isArray(renderResult)) {
+                        items.push(...renderResult);
+                    } else {
+                        items.push(renderResult);
+                    }
+                }
             }
         } else {
             items.push(render);
