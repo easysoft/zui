@@ -897,6 +897,13 @@ export class DTable extends Component<DTableOptions, DTableState> {
         }];
         const children: ComponentChildren[] = [];
         if (layout) {
+            children.push(
+                this.#renderHeader(layout),
+                this.#renderRows(layout),
+                this.#renderFooter(layout),
+                this.#renderScrollBars(layout),
+            );
+
             this.#plugins.forEach(plugin => {
                 const result = plugin.onRender?.call(this, layout);
                 if (!result) {
@@ -922,10 +929,6 @@ export class DTable extends Component<DTableOptions, DTableState> {
                 ref={this.ref}
                 tabIndex={-1}
             >
-                {layout && this.#renderHeader(layout)}
-                {layout && this.#renderRows(layout)}
-                {layout && this.#renderFooter(layout)}
-                {layout && this.#renderScrollBars(layout)}
                 {children}
             </div>
         );
