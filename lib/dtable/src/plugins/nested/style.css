@@ -8,5 +8,5 @@
     @apply -flex -rounded-sm -flex-none --ml-1 -w-5 -h-5 -items-center -justify-center --order-1;
 }
 .dtable-nested-toggle.is-no-child {
-    @apply -hidden;
+    @apply --mr-1 -opacity-0 -pointer-events-none;
 }
