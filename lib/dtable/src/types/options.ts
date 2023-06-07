@@ -18,7 +18,7 @@ export interface DTableDataOptions<C = ColSetting> {
 
 export interface DTableLayoutOptions {
     width: number | '100%' | ((this: DTable) => number | '100%');
-    height: number | '100%' | 'auto' | {min: number, max: number} | ((this: DTable) => number | 'auto' | {min: number, max: number});
+    height: number | '100%' | 'auto' | {min: number, max: number} | ((this: DTable, actualHeight: number) => number | 'auto' | {min: number, max: number});
     fixedLeftWidth?: number | 'auto' | `${number}%` | ((this: DTable) => number);
     fixedRightWidth?: number | 'auto' | `${number}%` | ((this: DTable) => number);
     rowHeight: number;

@@ -769,7 +769,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
         const rowsHeightTotal = rows.length * rowHeight;
         const actualHeight = headerHeight + footerHeight + rowsHeightTotal;
         if (typeof heightSetting === 'function') {
-            heightSetting = heightSetting.call(this);
+            heightSetting = heightSetting.call(this, actualHeight);
         }
         if (heightSetting === 'auto') {
             height = actualHeight;
