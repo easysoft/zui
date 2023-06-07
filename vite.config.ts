@@ -38,6 +38,7 @@ export default defineConfig(async ({mode}) => {
                 },
             },
             assetsInlineLimit: 256,
+            sourcemap: true,
         },
         esbuild: {
             jsxFactory: 'h',
