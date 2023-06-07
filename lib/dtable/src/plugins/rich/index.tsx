@@ -100,8 +100,8 @@ export function renderMapCell(result: CustomRenderResultList, info: {row: RowInf
 }
 
 export function renderDatetimeCell(result: CustomRenderResultList, info: {row: RowInfo, col: ColInfo}, defaultFormat: ColDateFormatSetting = '[yyyy-]MM-dd hh:mm') {
-    const {format = defaultFormat, invalidDate} = info.col.setting as DTableRichTypes['col'];
-    result[0] = renderDatetime(format as ColDateFormatSetting, info, result[0], invalidDate);
+    const {formatDate: dateFormat = defaultFormat, invalidDate} = info.col.setting as DTableRichTypes['col'];
+    result[0] = renderDatetime(dateFormat, info, result[0], invalidDate);
     return result;
 }
 
@@ -144,19 +144,13 @@ const richPlugin: DTablePlugin<DTableRichTypes> = {
             },
         },
         datetime: {
-            onRenderCell(result, info) {
-                return renderDatetimeCell(result, info, '[yyyy-]MM-dd hh:mm');
-            },
+            formatDate: '[yyyy-]MM-dd hh:mm',
         },
         date: {
-            onRenderCell(result, info) {
-                return renderDatetimeCell(result, info, 'yyyy-MM-dd');
-            },
+            formatDate: 'yyyy-MM-dd',
         },
         time: {
-            onRenderCell(result, info) {
-                return renderDatetimeCell(result, info, 'hh:mm');
-            },
+            formatDate: 'hh:mm',
         },
     },
     onRenderCell(result, info) {
