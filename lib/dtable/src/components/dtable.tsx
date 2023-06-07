@@ -433,6 +433,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
         if (header === true) {
             return (
                 <Header
+                    key="header"
                     scrollLeft={scrollLeft}
                     height={headerHeight}
                     cols={cols}
@@ -445,6 +446,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
         const customResults = Array.isArray(header) ? header : [header];
         return (
             <CustomRender
+                key="header"
                 className='dtable-header'
                 style={{height: headerHeight}}
                 renders={customResults}
@@ -458,6 +460,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
         const {headerHeight, rowsHeight, visibleRows, rowHeight, cols, scrollLeft, scrollTop} = layout;
         return (
             <Rows
+                key="rows"
                 top={headerHeight}
                 height={rowsHeight}
                 rows={visibleRows}
@@ -482,6 +485,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
         const customResults = Array.isArray(footer) ? footer : [footer];
         return (
             <CustomRender
+                key="footer"
                 className='dtable-footer'
                 style={{height: layout.footerHeight, top: layout.rowsHeight + layout.headerHeight}}
                 renders={customResults}
@@ -922,6 +926,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
                 {layout && this.#renderRows(layout)}
                 {layout && this.#renderFooter(layout)}
                 {layout && this.#renderScrollBars(layout)}
+                {children}
             </div>
         );
     }
