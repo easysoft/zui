@@ -56,6 +56,6 @@
 
 .dtable-footer {
     @apply -absolute -z-10 -w-full -flex -items-center -rounded-t-[inherit] -px-3;
-    border-top: 1px sold var(--dtable-border-color);
+    border-top: 1px solid var(--dtable-border-color);
     background: var(--dtable-footer-bg);
 }
