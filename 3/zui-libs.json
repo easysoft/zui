@@ -51,8 +51,7 @@
         },
         "dependencies": {
             "@zui/css-icons": "workspace:^0.0.1",
-            "@zui/core": "workspace:^0.0.1",
-            "preact": "10.11.2"
+            "@zui/core": "workspace:^0.0.1"
         },
         "zui": {
             "type": "control",
@@ -1172,6 +1171,44 @@
         }
     },
     {
+        "name": "@zui/popovers",
+        "version": "0.0.1",
+        "description": "ZUI Toolbar",
+        "keywords": [
+            "css",
+            "components"
+        ],
+        "main": "src/main.ts",
+        "devDependencies": {
+            "zui-dev": "workspace:^0.0.1"
+        },
+        "dependencies": {
+            "@zui/core": "workspace:^0.0.1"
+        },
+        "files": [
+            "./src/**/*"
+        ],
+        "exports": {
+            ".": "./src/main.ts"
+        },
+        "zui": {
+            "type": "component",
+            "displayName": "下拉面板",
+            "contributes": {
+                "css": [
+                    "class",
+                    "var"
+                ]
+            },
+            "path": "/home/runner/work/zui/zui/lib/popovers",
+            "workspace": true,
+            "sourceType": "build-in",
+            "name": "popovers",
+            "order": 4010000032,
+            "packageJsonPath": "/home/runner/work/zui/zui/lib/popovers/package.json"
+        }
+    },
+    {
         "name": "@zui/table",
         "version": "0.0.1",
         "description": "ZUI table",
@@ -1201,7 +1238,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "table",
-            "order": 4010000032,
+            "order": 4010000033,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/table/package.json"
         }
     },
@@ -1249,7 +1286,7 @@
             "sourceType": "build-in",
             "name": "timepicker",
             "wip": true,
-            "order": 4010000033,
+            "order": 4010000034,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/timepicker/package.json"
         }
     },
@@ -1296,7 +1333,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "toolbar",
-            "order": 4010000034,
+            "order": 4010000035,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/toolbar/package.json"
         }
     },
@@ -1341,7 +1378,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "tooltip",
-            "order": 4010000035,
+            "order": 4010000036,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/tooltip/package.json"
         }
     },
@@ -1376,44 +1413,8 @@
             "sourceType": "build-in",
             "name": "virtual-grid",
             "wip": true,
-            "order": 4010000036,
+            "order": 4010000037,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/virtual-grid/package.json"
-        }
-    },
-    {
-        "name": "@zui/ajax-form",
-        "version": "0.0.1",
-        "main": "src/main.ts",
-        "browser": "src/main.ts",
-        "browserslist": "",
-        "files": [
-            "./src/**/*"
-        ],
-        "keywords": [
-            "js",
-            "zui:component"
-        ],
-        "dependencies": {
-            "@zui/core": "workspace:^0.0.1"
-        },
-        "zui": {
-            "type": "js-ui",
-            "displayName": "ajaxForm",
-            "contributes": {
-                "css": [
-                    "class",
-                    "var"
-                ],
-                "js": [
-                    "component"
-                ]
-            },
-            "path": "/home/runner/work/zui/zui/lib/ajax-form",
-            "workspace": true,
-            "sourceType": "build-in",
-            "name": "ajax-form",
-            "order": 5010000037,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/ajax-form/package.json"
         }
     },
     {
