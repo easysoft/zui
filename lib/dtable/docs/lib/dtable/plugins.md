@@ -229,6 +229,40 @@ const cols = [
 ];
 ```
 
+### 悬停提示
+
+在列定义上通过 `hint` 属性来启用悬停提示，支持以下值：
+
+* `true`：使用单元格原始值作为提示内容；
+* `string`：使用字符串模版来生成提示内容；
+* `(info: {row: any, col: ColInfo}) => string`：使用函数来动态生成提示内容。
+
+下面为一个实际的例子：
+
+```js
+const cols = [
+    {
+        name: 'name',
+        title: '项目名称',
+
+        /* 使用字符串进行格式化，{0} 表示单元格的原始值。 */
+        hint: '项目名称：{0}',
+    }, {
+        name: 'status',
+        title: '状态',
+
+        /* 使用函数动态生成提示内容。 */
+        hint: (info) => `项目状态：${info.row.status}`,
+    }, {
+        name: 'actions',
+        title: '操作',
+
+        /* 将单元格原始值直接作为提示内容。 */
+        hint: true,
+    }
+];
+```
+
 ## 按列排序 `sort-type`
 
 <Badge text="内置插件" />

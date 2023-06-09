@@ -28,6 +28,7 @@ export type DTableRichTypes = {
         invalidDate: string;
         html: ColHTMLSetting;
         map: ColMapSetting;
+        hint: boolean | string | ((info: {row: RowInfo, col: ColInfo}) => string);
     }>,
 };
 
@@ -154,7 +155,7 @@ const richPlugin: DTablePlugin<DTableRichTypes> = {
         },
     },
     onRenderCell(result, info) {
-        const {formatDate: dateFormat, html} = info.col.setting;
+        const {formatDate: dateFormat, html, hint} = info.col.setting;
         if (dateFormat) {
             result = renderDatetimeCell(result, info, dateFormat);
         }
@@ -165,6 +166,16 @@ const richPlugin: DTablePlugin<DTableRichTypes> = {
             result = renderHtmlCell(result, info);
         } else {
             result = renderLinkCell(result, info);
+        }
+
+        if (hint) {
+            let hintText = result[0];
+            if (typeof hint === 'function') {
+                hintText = hint.call(this, info);
+            } else if (typeof hint === 'string') {
+                hintText = formatString(hint, info.row.data);
+            }
+            result.push({attrs: {title: hintText}});
         }
 
         return result;
