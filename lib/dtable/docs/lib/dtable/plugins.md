@@ -12,7 +12,7 @@
 
 * `string`：使用模版字符串来生成链接；
 * `{url: string} & JSX.HTMLAttributes<HTMLAnchorElement>`：使用对象来生成链接，对象中的其他属性将作为链接的属性；
-* `((info: {row: RowInfo, col: ColInfo}) => string | ({url: string} & JSX.HTMLAttributes<HTMLAnchorElement>))`：使用函数来动态生成链接。
+* `((info: {row: RowInfo, col: ColInfo}) => string | false | ({url: string} & JSX.HTMLAttributes<HTMLAnchorElement>))`：使用函数来动态生成链接，如果在函数内返回 `false` 则不生成链接。
 
 下面为一个实际的例子：
 
