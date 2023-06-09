@@ -305,11 +305,11 @@ export class DTable extends Component<DTableOptions, DTableState> {
         if (idOrIndex === -1 || idOrIndex === 'HEADER') {
             return {id: 'HEADER', index: -1, top: 0};
         }
-        const {rows, rowsMap} = this.layout;
+        const {rows, rowsMap, allRows} = this.layout;
         if (typeof idOrIndex === 'number') {
             return rows[idOrIndex];
         }
-        return rowsMap[idOrIndex];
+        return rowsMap[idOrIndex] || allRows.find(x => x.id === idOrIndex);
     }
 
     getCellValue(row: RowInfo | string | number, col: ColInfo | string | number): unknown {
