@@ -6,7 +6,7 @@ import './style.css';
 import type {DateLike} from '@zui/helpers/src/date-helper';
 import type {DTablePlugin, RowInfo, ColInfo, DTableWithPlugin, CustomRenderResultList} from '../../types';
 
-export type ColLinkSetting = string | ({url: string} & JSX.HTMLAttributes<HTMLAnchorElement>) | ((info: {row: RowInfo, col: ColInfo}) => string | ({url: string} & JSX.HTMLAttributes<HTMLAnchorElement>));
+export type ColLinkSetting = string | false | ({url: string} & JSX.HTMLAttributes<HTMLAnchorElement>) | ((info: {row: RowInfo, col: ColInfo}) => string | false | ({url: string} & JSX.HTMLAttributes<HTMLAnchorElement>));
 
 export type ColDateFormatSetting = boolean | string | ((value: unknown, info: {row: RowInfo, col: ColInfo}) => string);
 
@@ -34,14 +34,14 @@ export type DTableRichTypes = {
 export type DTableRich = DTableWithPlugin<DTableRichTypes>;
 
 export function renderLink(link: ColLinkSetting | undefined, info: {row: RowInfo, col: ColInfo}, content?: ComponentChildren, props?: Record<string, unknown>) {
-    if (!link) {
-        return content;
-    }
     if (typeof link === 'function') {
         link = link(info as unknown as {row: RowInfo, col: ColInfo});
     }
     if (typeof link === 'string') {
         link = {url: link};
+    }
+    if (!link) {
+        return content;
     }
     const {url, ...linkProps} = link;
     return <a href={formatString(url, info.row.data)} {...props} {...linkProps}>{content}</a>;
