@@ -6347,9 +6347,9 @@ let Ko = class extends U {
       const { row: r, col: o } = s;
       s.value = this.getCellValue(r, o), n[0] = s.value;
       const a = r.id === "HEADER" ? "onRenderHeaderCell" : "onRenderCell";
-      return o.setting[a] && (n = o.setting[a].call(this, n, s, i)), this.options[a] && (n = this.options[a].call(this, n, s, i)), S(this, J).forEach((l) => {
+      return S(this, J).forEach((l) => {
         l[a] && (n = l[a].call(this, n, s, i));
-      }), n;
+      }), this.options[a] && (n = this.options[a].call(this, n, s, i)), o.setting[a] && (n = o.setting[a].call(this, n, s, i)), n;
     }), P(this, Zs, (n, s) => {
       s === "horz" ? this.scroll({ scrollLeft: n }) : this.scroll({ scrollTop: n });
     }), P(this, Pr, (n) => {
@@ -7202,9 +7202,8 @@ const ud = {
   }
 }, fd = ue(ud);
 function ch(t, e, n, s) {
-  if (!t)
+  if (typeof t == "function" && (t = t(e)), typeof t == "string" && (t = { url: t }), !t)
     return n;
-  typeof t == "function" && (t = t(e)), typeof t == "string" && (t = { url: t });
   const { url: i, ...r } = t;
   return /* @__PURE__ */ m("a", { href: lt(i, e.row.data), ...s, ...r, children: n });
 }
