@@ -14,6 +14,9 @@
 input:focus, textarea:focus, select:focus {
     @apply -outline-1 -outline;
 }
+.vp-doc [class*='language-'] pre {
+  max-height: 500px;
+}
 .VPSidebar > .nav {
     @apply -block;
 }
