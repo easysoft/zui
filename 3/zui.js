@@ -6921,9 +6921,12 @@ function id(t) {
   return this.state.checkedRows[t] ?? !1;
 }
 function sh() {
-  var n, s;
-  const t = this.getChecks().length, { canRowCheckable: e } = this.options;
-  return e ? t === ((n = this.layout) == null ? void 0 : n.allRows.reduce((i, r) => i + (e.call(this, r.id) ? 1 : 0), 0)) : t === ((s = this.layout) == null ? void 0 : s.allRows.length);
+  var s, i;
+  const t = (s = this.layout) == null ? void 0 : s.allRows.length;
+  if (!t)
+    return !1;
+  const e = this.getChecks().length, { canRowCheckable: n } = this.options;
+  return n ? e === ((i = this.layout) == null ? void 0 : i.allRows.reduce((r, o) => r + (n.call(this, o.id) ? 1 : 0), 0)) : e === t;
 }
 function rd() {
   return Object.keys(this.state.checkedRows);
