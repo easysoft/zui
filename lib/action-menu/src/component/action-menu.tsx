@@ -88,6 +88,9 @@ export class ActionMenu<T extends ActionBasicProps = ActionMenuItemOptions, P ex
     }
 
     renderItem(props: Omit<P, 'items'> & {items: T[]}, item: T, index: number) {
+        if (!item) {
+            return null;
+        }
         const itemAllProps = this.getItemRenderProps(props, item, index);
 
         const {itemRender} = props;
@@ -176,8 +179,6 @@ export class ActionMenu<T extends ActionBasicProps = ActionMenuItemOptions, P ex
             beforeRender,
             afterRender,
             beforeDestroy,
-            activeClass,
-            activeKey,
             ...others
         } = props;
 
