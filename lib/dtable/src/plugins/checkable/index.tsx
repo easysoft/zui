@@ -95,6 +95,10 @@ function isRowChecked(this: DTableCheckable, rowID: string): boolean {
 }
 
 function isAllRowChecked(this: DTableCheckable): boolean {
+    const allRowLength = this.layout?.allRows.length;
+    if (!allRowLength) {
+        return false;
+    }
     const checkedLength = this.getChecks().length;
     const {canRowCheckable} = this.options;
     if (canRowCheckable) {
@@ -102,7 +106,7 @@ function isAllRowChecked(this: DTableCheckable): boolean {
             return length + (canRowCheckable.call(this, row.id) ? 1 : 0);
         }, 0);
     }
-    return checkedLength === this.layout?.allRows.length;
+    return checkedLength === allRowLength;
 }
 
 function getChecks(this: DTableCheckable): string[] {
