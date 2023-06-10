@@ -11,9 +11,6 @@ export default [
         "files": [
             "./src/**/*"
         ],
-        "devDependencies": {
-            "vue": "^3.2.47"
-        },
         "zui": {
             "type": "css-base",
             "displayName": "CSS 基础",
