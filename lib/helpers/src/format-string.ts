@@ -60,7 +60,7 @@ enum BYTE_UNITS {
  * @param unit 单位，如果留空，则自动使用最合适的单位
  * @returns 格式化后的字符串
  */
-export function formatBytes(size: number, fixed = 2, unit: keyof typeof BYTE_UNITS | '' = '') {
+export function formatBytes(size: number, fixed = 2, unit?: keyof typeof BYTE_UNITS) {
     if (Number.isNaN(size)) {
         return '?KB';
     }
