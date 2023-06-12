@@ -956,27 +956,10 @@ function el(t, e, n) {
   }), Object.keys(i).length ? (!s && t instanceof Element && Object.assign(i, y(t).dataset(), i), dn.set(t, i)) : dn.delete(t);
 }
 function lu(t, e) {
-  let n = dn.get(t);
-  return !n && t instanceof Element && (n = y(t).dataset(!0)), e === void 0 ? n || {} : n == null ? void 0 : n[e];
+  let n = dn.get(t) || {};
+  return t instanceof Element && (n = Object.assign({}, y(t).dataset(), n)), e === void 0 ? n : n[e];
 }
-y.parseVal = (t) => {
-  try {
-    return JSON.parse(t);
-  } catch {
-    return t;
-  }
-};
 y.fn.dataset = y.fn.data;
-y.fn.dataval = function(t) {
-  if (typeof t == "string") {
-    const n = this.dataset(t);
-    return typeof n == "string" ? y.parseVal(n) : n;
-  }
-  const e = this.dataset();
-  return y.isPlainObject(e) && Object.keys(e).forEach((n) => {
-    e[n] = y.parseVal(e[n]);
-  }), e;
-};
 y.fn.data = function(...t) {
   if (!this.length)
     return;
