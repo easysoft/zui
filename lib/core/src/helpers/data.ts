@@ -94,16 +94,13 @@ export function takeData(target: object, key?: string) {
 /* Declare types. */
 declare module 'cash-dom' {
     interface Cash {
-        _data(): Record<string, unknown> | undefined;
-        _data(name: string): unknown;
-        _data(name: string, value: unknown): Cash;
-        _data(dataset: Record<string, unknown>): Cash;
-
-        dataset<T extends Record<string, unknown>>(parse?: boolean): T | undefined;
-        dataset<T>(parse: boolean, name: string): T | undefined;
-        dataset<T>(name: string): T;
+        dataset(): Record<string, string> | undefined;
+        dataset(name: string): string | undefined;
         dataset(name: string, value: unknown): Cash;
         dataset(dataset: Record<string, unknown>): Cash;
+
+        dataval<T extends Record<string, unknown>>(name: string): T | undefined;
+        dataval<T>(name?: string): T | undefined;
 
         removeData(name?: string): Cash;
     }
@@ -124,24 +121,19 @@ $.parseVal = <T> (val: string): T => {
 
 
 /* Backup the origin $.fn.data method. */
-$.fn._data = $.fn.data;
-$.fn.dataset = function (this: Cash, ...args: (boolean | string | Record<string, unknown> | unknown)[]) {
-    if (args.length && typeof args[0] === 'boolean') {
-        const parse = args.shift() as boolean;
-        const data = (this._data as (...args: unknown[]) => unknown)(...args);
-        if (parse) {
-            if (typeof args[1] === 'string') {
-                return $.parseVal(data as string) as Cash;
-            }
-            if ($.isPlainObject(data)) {
-                Object.keys(data).forEach((key) => {
-                    data[key] = $.parseVal(data[key] as string);
-                });
-            }
-        }
-        return data as Cash;
+$.fn.dataset = $.fn.data;
+$.fn.dataval = function<T> (this: Cash, name?: string): T | undefined {
+    if (typeof name === 'string') {
+        const val = this.dataset(name);
+        return typeof val === 'string' ? $.parseVal<T>(val) : val;
     }
-    return (this._data as (...args: unknown[]) => Cash)(...args);
+    const data = this.dataset();
+    if ($.isPlainObject(data)) {
+        Object.keys(data).forEach((key) => {
+            data[key] = $.parseVal(data[key] as string);
+        });
+    }
+    return data as T;
 };
 
 /* Extend as $.fn.data() */
