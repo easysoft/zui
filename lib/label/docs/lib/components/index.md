@@ -19,13 +19,13 @@
 <Example class="flex gap-4 flex-wrap" background="light-circle">
   <span class="label primary">主要标签</span>
   <span class="label black rounded-none">黑色标签</span>
-  <span class="label dark-outline circle">描边</span>
+  <span class="label dark-outline rounded-full">描边</span>
 </Example>
 
 ```html
 <span class="label primary">主要标签</span>
 <span class="label black rounded-none">黑色标签</span>
-<span class="label dark-outline circle">描边</span>
+<span class="label dark-outline rounded-full">描边</span>
 ```
 
 ## 外观类型
@@ -253,11 +253,11 @@
 
 ## 与按钮组合使用
 <Example class="flex gap-4 items-end">
-  <button class="btn" type="button">按钮 <span class="label sm circle">12</span></button>
+  <button class="btn" type="button">按钮 <span class="label sm rounded-full">12</span></button>
 </Example>
 
 ```html
-<button class="btn" type="button">按钮 <span class="label sm circle">12</span></button>
+<button class="btn" type="button">按钮 <span class="label sm rounded-full">12</span></button>
 ```
 ## CSS 类
 
