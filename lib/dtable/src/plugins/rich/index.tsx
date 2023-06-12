@@ -70,7 +70,7 @@ export function renderDatetime(format: ColDateFormatSetting, info: {row: RowInfo
     if (typeof format === 'function') {
         format = format(value, info);
     }
-    return formatDate(value as DateLike, format, invalidDate);
+    return formatDate(value as DateLike, format, invalidDate ?? value as string);
 }
 
 export function renderLinkCell(result: CustomRenderResultList, info: {row: RowInfo, col: ColInfo}) {
