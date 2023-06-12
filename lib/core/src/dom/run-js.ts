@@ -1,4 +1,4 @@
-import {$, Cash, Selector} from '../cash';
+import {$, Cash, Selector, CashStatic} from '../cash';
 
 /**
  * Run javascript in an element.
@@ -27,7 +27,22 @@ declare module 'cash-dom' {
     interface Cash {
         runJS(jsCode?: string): this;
     }
+
+    interface CashStatic {
+        runJS<T>(jsCode: string, ...args: [name: string, value: unknown][]): T;
+    }
 }
+
+/* Extend as $.runJS() */
+$.runJS = <T>(jsCode: string, ...args: [name: string, value: unknown][]): T => {
+    jsCode = jsCode.trim();
+    if (!jsCode.startsWith('return ')) {
+        jsCode = `return ${jsCode}`;
+    }
+    // eslint-disable-next-line @typescript-eslint/no-implied-eval
+    const func = new Function(...args.map(([name]) => name), jsCode);
+    return func(...args.map(([, value]) => value));
+};
 
 /* Extend as $.fn.runJS() */
 $.fn.runJS = function (this: Cash, jsCode?: string) {
