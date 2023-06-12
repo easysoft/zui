@@ -309,7 +309,7 @@
   <button type="button" class="btn rounded-md">中等圆角</button>
   <button type="button" class="btn rounded-lg">大圆角</button>
   <button type="button" class="btn rounded-xl">超大圆角</button>
-  <button type="button" class="btn circle">完整圆角</button>
+  <button type="button" class="btn rounded-full">完整圆角</button>
 </Example>
 
 ```html
@@ -319,7 +319,7 @@
 <button type="button" class="btn rounded-md">中等圆角</button>
 <button type="button" class="btn rounded-lg">大圆角</button>
 <button type="button" class="btn rounded-xl">超大圆角</button>
-<button type="button" class="btn circle">完整圆角</button>
+<button type="button" class="btn rounded-full">完整圆角</button>
 ```
 
 ### 按钮阴影效果
