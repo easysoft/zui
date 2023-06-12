@@ -101,21 +101,7 @@ declare module 'cash-dom' {
 
         removeData(name?: string): Cash;
     }
-
-    interface CashStatic {
-        parseVal<T>(val: string): T;
-    }
 }
-
-/* Add static methods. */
-$.parseVal = <T> (val: string): T => {
-    try {
-        return JSON.parse(val) as T;
-    } catch (e) {
-        return val as unknown as T;
-    }
-};
-
 
 /* Backup the origin $.fn.data method. */
 $.fn.dataset = $.fn.data;
