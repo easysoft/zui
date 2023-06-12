@@ -38,7 +38,7 @@ export function renderLink(link: ColLinkSetting | undefined, info: {row: RowInfo
     if (typeof link === 'function') {
         link = link(info as unknown as {row: RowInfo, col: ColInfo});
     }
-    if (typeof link === 'string') {
+    if (typeof link === 'string' && link.length) {
         link = {url: link};
     }
     if (!link) {
