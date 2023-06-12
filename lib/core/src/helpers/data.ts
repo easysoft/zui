@@ -1,4 +1,4 @@
-import {$, Cash, CashStatic} from '../cash';
+import {$, Cash} from '../cash';
 
 /**
  * Cache for data associated with the target object.
@@ -81,26 +81,23 @@ export function takeData(target: object, key: string): unknown;
  * @returns      Data associated with the target object.
  */
 export function takeData(target: object, key?: string) {
-    let data = cache.get(target);
-    if (!data && target instanceof Element) {
-        data = $(target).dataset(true);
+    let data = cache.get(target) || {};
+    if (target instanceof Element) {
+        data = Object.assign({}, $(target).dataset(), data);
     }
     if (key === undefined) {
-        return data || {};
+        return data;
     }
-    return data?.[key];
+    return data[key];
 }
 
 /* Declare types. */
 declare module 'cash-dom' {
     interface Cash {
-        dataset(): Record<string, string> | undefined;
-        dataset(name: string): string | undefined;
+        dataset(): Record<string, unknown> | undefined;
+        dataset(name: string): unknown | undefined;
         dataset(name: string, value: unknown): Cash;
         dataset(dataset: Record<string, unknown>): Cash;
-
-        dataval<T extends Record<string, unknown>>(name: string): T | undefined;
-        dataval<T>(name?: string): T | undefined;
 
         removeData(name?: string): Cash;
     }
@@ -122,19 +119,6 @@ $.parseVal = <T> (val: string): T => {
 
 /* Backup the origin $.fn.data method. */
 $.fn.dataset = $.fn.data;
-$.fn.dataval = function<T> (this: Cash, name?: string): T | undefined {
-    if (typeof name === 'string') {
-        const val = this.dataset(name);
-        return typeof val === 'string' ? $.parseVal<T>(val) : val;
-    }
-    const data = this.dataset();
-    if ($.isPlainObject(data)) {
-        Object.keys(data).forEach((key) => {
-            data[key] = $.parseVal(data[key] as string);
-        });
-    }
-    return data as T;
-};
 
 /* Extend as $.fn.data() */
 $.fn.data = function (this: Cash, ...args: (string | Record<string, unknown> | unknown)[]) {
@@ -151,6 +135,7 @@ $.fn.data = function (this: Cash, ...args: (string | Record<string, unknown> | u
     });
 };
 
+/* Extend as $.fn.removeData() */
 $.fn.removeData = function (this: Cash, name: string | null = null) {
     return this.each((_, ele) => {
         return storeData(ele, name);
