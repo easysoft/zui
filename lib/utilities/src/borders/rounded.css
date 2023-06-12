@@ -6,6 +6,7 @@
 .rounded-xl    {@apply -rounded-xl;}
 .rounded-2xl   {@apply -rounded-2xl;}
 .rounded-3xl   {@apply -rounded-3xl;}
+.circle,
 .rounded-full  {@apply -rounded-full;}
 
 .rounded-l-none {@apply -rounded-l-none;}
