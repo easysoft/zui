@@ -862,7 +862,7 @@ function st(t, ...e) {
   return t;
 }
 var jr = /* @__PURE__ */ ((t) => (t[t.B = 1] = "B", t[t.KB = 1024] = "KB", t[t.MB = 1048576] = "MB", t[t.GB = 1073741824] = "GB", t[t.TB = 1099511627776] = "TB", t))(jr || {});
-function _d(t, e = 2, n = "") {
+function _d(t, e = 2, n) {
   return Number.isNaN(t) ? "?KB" : (n || (t < 1024 ? n = "B" : t < 1048576 ? n = "KB" : t < 1073741824 ? n = "MB" : t < 1099511627776 ? n = "GB" : n = "TB"), (t / jr[n]).toFixed(e) + n);
 }
 const bd = (t) => {
@@ -957,9 +957,30 @@ function el(t, e, n) {
 }
 function lu(t, e) {
   let n = dn.get(t);
-  return !n && t instanceof Element && (n = y(t).dataset()), e === void 0 ? n || {} : n == null ? void 0 : n[e];
+  return !n && t instanceof Element && (n = y(t).dataset(!0)), e === void 0 ? n || {} : n == null ? void 0 : n[e];
 }
-y.fn.dataset = y.fn.data;
+y.parseVal = (t) => {
+  try {
+    return JSON.parse(t);
+  } catch {
+    return t;
+  }
+};
+y.fn._data = y.fn.data;
+y.fn.dataset = function(...t) {
+  if (t.length && typeof t[0] == "boolean") {
+    const e = t.shift(), n = this._data(...t);
+    if (e) {
+      if (typeof t[1] == "string")
+        return y.parseVal(n);
+      y.isPlainObject(n) && Object.keys(n).forEach((s) => {
+        n[s] = y.parseVal(n[s]);
+      });
+    }
+    return n;
+  }
+  return this._data(...t);
+};
 y.fn.data = function(...t) {
   if (!this.length)
     return;
@@ -1012,6 +1033,7 @@ function Yr(t, e, n = !1) {
     Yr(s, r.innerHTML), r.remove();
   });
 }
+y.runJS = (t, ...e) => (t = t.trim(), t.startsWith("return ") || (t = `return ${t}`), new Function(...e.map(([s]) => s), t)(...e.map(([, s]) => s)));
 y.fn.runJS = function(t) {
   return this.each((e, n) => {
     Yr(n, t);
