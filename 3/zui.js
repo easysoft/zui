@@ -966,20 +966,16 @@ y.parseVal = (t) => {
     return t;
   }
 };
-y.fn._data = y.fn.data;
-y.fn.dataset = function(...t) {
-  if (t.length && typeof t[0] == "boolean") {
-    const e = t.shift(), n = this._data(...t);
-    if (e) {
-      if (typeof t[1] == "string")
-        return y.parseVal(n);
-      y.isPlainObject(n) && Object.keys(n).forEach((s) => {
-        n[s] = y.parseVal(n[s]);
-      });
-    }
-    return n;
+y.fn.dataset = y.fn.data;
+y.fn.dataval = function(t) {
+  if (typeof t == "string") {
+    const n = this.dataset(t);
+    return typeof n == "string" ? y.parseVal(n) : n;
   }
-  return this._data(...t);
+  const e = this.dataset();
+  return y.isPlainObject(e) && Object.keys(e).forEach((n) => {
+    e[n] = y.parseVal(e[n]);
+  }), e;
 };
 y.fn.data = function(...t) {
   if (!this.length)
