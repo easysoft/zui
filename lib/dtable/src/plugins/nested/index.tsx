@@ -7,7 +7,7 @@ import type {CustomRenderResult} from '../../types/common';
 import type {DTableWithPlugin, DTablePlugin} from '../../types/plugin';
 import type {RowInfo, RowData, RowID, RowProps} from '../../types/row';
 
-export enum NestedRowState {
+export const enum NestedRowState {
     unknown = '',
     collapsed = 'collapsed',  // As collapsed parent and show
     expanded = 'expanded',   // As expanded parent and show
