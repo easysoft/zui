@@ -1,4 +1,4 @@
-import {$, Cash} from '../cash';
+import {$, Cash, CashStatic} from '../cash';
 
 /**
  * Cache for data associated with the target object.
@@ -83,7 +83,7 @@ export function takeData(target: object, key: string): unknown;
 export function takeData(target: object, key?: string) {
     let data = cache.get(target);
     if (!data && target instanceof Element) {
-        data = $(target).dataset();
+        data = $(target).dataset(true);
     }
     if (key === undefined) {
         return data || {};
@@ -94,17 +94,55 @@ export function takeData(target: object, key?: string) {
 /* Declare types. */
 declare module 'cash-dom' {
     interface Cash {
-        dataset(): Record<string, unknown> | undefined;
-        dataset(name: string): unknown;
+        _data(): Record<string, unknown> | undefined;
+        _data(name: string): unknown;
+        _data(name: string, value: unknown): Cash;
+        _data(dataset: Record<string, unknown>): Cash;
+
+        dataset<T extends Record<string, unknown>>(parse?: boolean): T | undefined;
+        dataset<T>(parse: boolean, name: string): T | undefined;
+        dataset<T>(name: string): T;
         dataset(name: string, value: unknown): Cash;
         dataset(dataset: Record<string, unknown>): Cash;
 
         removeData(name?: string): Cash;
     }
+
+    interface CashStatic {
+        parseVal<T>(val: string): T;
+    }
 }
 
+/* Add static methods. */
+$.parseVal = <T> (val: string): T => {
+    try {
+        return JSON.parse(val) as T;
+    } catch (e) {
+        return val as unknown as T;
+    }
+};
+
+
 /* Backup the origin $.fn.data method. */
-$.fn.dataset = $.fn.data;
+$.fn._data = $.fn.data;
+$.fn.dataset = function (this: Cash, ...args: (boolean | string | Record<string, unknown> | unknown)[]) {
+    if (args.length && typeof args[0] === 'boolean') {
+        const parse = args.shift() as boolean;
+        const data = (this._data as (...args: unknown[]) => unknown)(...args);
+        if (parse) {
+            if (typeof args[1] === 'string') {
+                return $.parseVal(data as string) as Cash;
+            }
+            if ($.isPlainObject(data)) {
+                Object.keys(data).forEach((key) => {
+                    data[key] = $.parseVal(data[key] as string);
+                });
+            }
+        }
+        return data as Cash;
+    }
+    return (this._data as (...args: unknown[]) => Cash)(...args);
+};
 
 /* Extend as $.fn.data() */
 $.fn.data = function (this: Cash, ...args: (string | Record<string, unknown> | unknown)[]) {
