@@ -7165,7 +7165,7 @@ function Go(t, e, n) {
 }
 function lh(t, e, n, s) {
   var i;
-  return n = n ?? ((i = e.row.data) == null ? void 0 : i[e.col.name]), t === !1 ? n : (t === !0 && (t = "[yyyy-]MM-dd hh:mm"), typeof t == "function" && (t = t(n, e)), fr(n, t, s));
+  return n = n ?? ((i = e.row.data) == null ? void 0 : i[e.col.name]), t === !1 ? n : (t === !0 && (t = "[yyyy-]MM-dd hh:mm"), typeof t == "function" && (t = t(n, e)), fr(n, t, s ?? n));
 }
 function ch(t, e) {
   const { link: n } = e.col.setting, s = ah(n, e, t[0]);
