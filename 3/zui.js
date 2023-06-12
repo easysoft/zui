@@ -7153,7 +7153,7 @@ const ad = {
   }
 }, ld = ue(ad);
 function ah(t, e, n, s) {
-  if (typeof t == "function" && (t = t(e)), typeof t == "string" && (t = { url: t }), !t)
+  if (typeof t == "function" && (t = t(e)), typeof t == "string" && t.length && (t = { url: t }), !t)
     return n;
   const { url: i, ...r } = t;
   return /* @__PURE__ */ m("a", { href: st(i, e.row.data), ...s, ...r, children: n });
