@@ -6950,10 +6950,10 @@ const sd = {
     n && (this.toggleCheckRows(n.checked), t.stopPropagation());
   },
   onRowClick(t, { rowID: e }) {
-    const n = t.target;
-    if (!n)
+    const n = y(t.target);
+    if (!n.length || n.closest("btn,a,button").length)
       return;
-    (n.closest('input[type="checkbox"],.dtable-checkbox,.btn,a,button') || this.options.checkOnClickRow) && this.toggleCheckRows(e);
+    (n.closest('input[type="checkbox"],.dtable-checkbox').length || this.options.checkOnClickRow) && this.toggleCheckRows(e);
   }
 }, id = ue(sd);
 var nh = /* @__PURE__ */ ((t) => (t.unknown = "", t.collapsed = "collapsed", t.expanded = "expanded", t.hidden = "hidden", t.normal = "normal", t))(nh || {});
