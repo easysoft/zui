@@ -3729,7 +3729,7 @@ y(window).on("resize", () => {
     e.isShown && e.options.responsive && e.layout();
   });
 });
-y(document).on("zui.modal.hide", (t, e) => {
+y(document).on("to-hide.modal.zui", (t, e) => {
   he.hide(e == null ? void 0 : e.target);
 });
 class Zl extends U {
@@ -4076,7 +4076,7 @@ nc = function() {
   return this.container.querySelector(t || ".modal");
 };
 sc.NAME = "ModalTrigger";
-y(document).on("click", (t) => {
+y(document).on("click.modal.zui", (t) => {
   var s;
   const e = t.target, n = (s = e.closest) == null ? void 0 : s.call(e, hf);
   if (n) {
@@ -6953,7 +6953,7 @@ const sd = {
     const n = t.target;
     if (!n)
       return;
-    (n.closest('input[type="checkbox"],.dtable-checkbox') || this.options.checkOnClickRow) && this.toggleCheckRows(e);
+    (n.closest('input[type="checkbox"],.dtable-checkbox,.btn,a,button') || this.options.checkOnClickRow) && this.toggleCheckRows(e);
   }
 }, id = ue(sd);
 var nh = /* @__PURE__ */ ((t) => (t.unknown = "", t.collapsed = "collapsed", t.expanded = "expanded", t.hidden = "hidden", t.normal = "normal", t))(nh || {});
