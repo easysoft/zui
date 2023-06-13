@@ -244,7 +244,7 @@ const checkablePlugin: DTablePlugin<DTableCheckableTypes> = {
         if (!target) {
             return;
         }
-        const checkbox = target.closest<HTMLInputElement>('input[type="checkbox"],.dtable-checkbox');
+        const checkbox = target.closest<HTMLInputElement>('input[type="checkbox"],.dtable-checkbox,.btn,a,button');
         if (checkbox || this.options.checkOnClickRow) {
             this.toggleCheckRows(rowID);
         }

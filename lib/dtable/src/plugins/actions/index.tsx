@@ -114,7 +114,7 @@ const actionsPlugin: DTablePlugin<DTableActionsTypes> = {
                     ...actionsSetting,
                 };
                 result[0] = (
-                    <Toolbar {...toolbarOptions} onClickItem={({event}) => {event.stopPropagation();}} />
+                    <Toolbar {...toolbarOptions} />
                 );
                 return result;
             },
