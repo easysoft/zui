@@ -220,6 +220,6 @@ $(window).on('resize', () => {
     });
 });
 
-$(document).on('zui.modal.hide', (_: Event, data?: {target?: HTMLDivElement | string}) => {
+$(document).on('to-hide.modal.zui', (_: Event, data?: {target?: HTMLDivElement | string}) => {
     ModalBase.hide(data?.target);
 });

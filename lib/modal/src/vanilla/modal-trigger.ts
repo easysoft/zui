@@ -85,7 +85,7 @@ export class ModalTrigger extends Component<ModalTriggerOptions> {
     }
 }
 
-$(document).on('click', (event: MouseEvent) => {
+$(document).on('click.modal.zui', (event: MouseEvent) => {
     const element = event.target as HTMLElement;
     const toggleBtn = element.closest?.<HTMLElement>(TOGGLE_SELECTOR);
     if (toggleBtn) {
