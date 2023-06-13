@@ -1338,8 +1338,8 @@ function du(t) {
 }
 const kd = du.bind(q);
 function pu(t) {
-  const { tagName: e = "div", class: n, className: s, style: i, children: r, attrs: o, ...a } = t;
-  return q(e, { class: T(n, s), style: i, ...a, ...o }, r);
+  const { tagName: e = "div", className: n, style: s, children: i, attrs: r, ...o } = t;
+  return q(e, { class: T(n), style: s, ...o, ...r }, i);
 }
 var gu = 0;
 function m(t, e, n, s, i, r) {
