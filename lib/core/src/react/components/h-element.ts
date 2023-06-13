@@ -12,11 +12,6 @@ export interface HElementProps<T extends keyof JSX.IntrinsicElements = 'div'> ex
     tagName?: keyof JSX.IntrinsicElements;
 
     /**
-     * The class name of the element.
-     */
-    class?: ClassNameLike;
-
-    /**
      * The alternative class name of the element.
      */
     className?: ClassNameLike;
@@ -39,6 +34,6 @@ export interface HElementProps<T extends keyof JSX.IntrinsicElements = 'div'> ex
 }
 
 export function HElement(props: HElementProps) {
-    const {tagName = 'div', class: classN, className, style, children, attrs, ...others} = props;
-    return h(tagName, {class: classes(classN, className), style, ...others, ...attrs}, children);
+    const {tagName = 'div', className, style, children, attrs, ...others} = props;
+    return h(tagName, {class: classes(className), style, ...others, ...attrs}, children);
 }
