@@ -1,4 +1,4 @@
-import {classes} from '@zui/core';
+import {classes, $} from '@zui/core';
 import {definePlugin} from '../../helpers/shared-plugins';
 import './style.css';
 import type {CustomRenderResult} from '../../types/common';
@@ -240,12 +240,12 @@ const checkablePlugin: DTablePlugin<DTableCheckableTypes> = {
         }
     },
     onRowClick(event, {rowID}) {
-        const target = event.target as HTMLElement;
-        if (!target) {
+        const $target = $(event.target as HTMLElement);
+        if (!$target.length || $target.closest('btn,a,button').length) {
             return;
         }
-        const checkbox = target.closest<HTMLInputElement>('input[type="checkbox"],.dtable-checkbox,.btn,a,button');
-        if (checkbox || this.options.checkOnClickRow) {
+        const $checkbox = $target.closest('input[type="checkbox"],.dtable-checkbox');
+        if ($checkbox.length || this.options.checkOnClickRow) {
             this.toggleCheckRows(rowID);
         }
     },
