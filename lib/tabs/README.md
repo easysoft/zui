@@ -6,7 +6,7 @@
 
 ```html:example: gap-3
 <ul class="nav nav-tabs">
-  <li class="nav-item active"><a data-toggle="tab" href="#tabContent1">标签1</a></li>
+  <li class="nav-item"><a class="active" data-toggle="tab" href="#tabContent1">标签1</a></li>
   <li class="nav-item"><a data-toggle="tab" href="#tabContent2">标签2</a></li>
   <li class="nav-item"><a data-toggle="tab" href="#tabContent3">标签3</a></li>
 </ul>
@@ -23,13 +23,13 @@
 </div>
 ```
 
-给链接设置 `data-tab=*` 属性，属性值指向所切换的标签页内容元素的 `id`  。
+给链接设置 `data-target=*` 属性，属性值指向所切换的标签页内容元素的 `id`  。
 
 ```html:example: gap-3
 <ul class="nav nav-tabs">
-  <li class="nav-item active"><a data-tab="#tab2Content1">标签1</a></li>
-  <li class="nav-item"><a data-tab="#tab2Content2">标签2</a></li>
-  <li class="nav-item"><a data-tab="#tab2Content3">标签3</a></li>
+  <li class="nav-item"><a class="active" data-toggle="tab"  data-target="#tab2Content1">标签1</a></li>
+  <li class="nav-item"><a  data-toggle="tab" data-target="#tab2Content2">标签2</a></li>
+  <li class="nav-item"><a  data-toggle="tab" data-target="#tab2Content3">标签3</a></li>
 </ul>
 <div class="tab-content">
   <div class="tab-pane active" id="tab2Content1">
@@ -48,18 +48,18 @@
 
 ```html:example: gap-3
 <ul class="nav nav-tabs">
-  <li class="nav-item active"><a data-tab="#tab3Content1">标签1</a></li>
-  <li class="nav-item"><a data-tab="#tab3Content2">标签2</a></li>
-  <li class="nav-item"><a data-tab="#tab3Content3">标签3</a></li>
+  <li class="nav-item"><a class="active" data-toggle="tab" href="#tab3Content1">标签1</a></li>
+  <li class="nav-item"><a data-toggle="tab" href="#tab3Content2">标签2</a></li>
+  <li class="nav-item"><a data-toggle="tab" href="#tab3Content3">标签3</a></li>
 </ul>
 <div class="tab-content">
-  <div class="tab-pane fade active in" id="tab3Content1">
+  <div class="tab-pane duration-500 fade active in" id="tab3Content1">
     <p>我是标签1。</p>
   </div>
-  <div class="tab-pane fade" id="tab3Content2">
+  <div class="tab-pane duration-500 fade" id="tab3Content2">
     <p>我是标签2。</p>
   </div>
-  <div class="tab-pane fade" id="tab3Content3">
+  <div class="tab-pane duration-500 fade" id="tab3Content3">
     <p>我是标签3。</p>
   </div>
 </div>
@@ -70,18 +70,18 @@
 ```html:example: gap-3
 <div class="flex">
   <ul class="nav nav-tabs nav-stacked">
-    <li class="nav-item active"><a data-tab="#tab4Content1">标签1</a></li>
-    <li class="nav-item"><a data-tab="#tab4Content2">标签2</a></li>
-    <li class="nav-item"><a data-tab="#tab4Content3">标签3</a></li>
+    <li class="nav-item"><a class="active" data-toggle="tab" href="#tab4Content1">标签1</a></li>
+    <li class="nav-item"><a data-toggle="tab" href="#tab4Content2">标签2</a></li>
+    <li class="nav-item"><a data-toggle="tab" href="#tab4Content3">标签3</a></li>
   </ul>
   <div class="tab-content">
-    <div class="tab-pane fade active in" id="tab4Content1">
+    <div class="tab-pane fade duration-1000 active in" id="tab4Content1">
       <p>我是标签1。</p>
     </div>
-    <div class="tab-pane fade" id="tab4Content2">
+    <div class="tab-pane fade duration-1000" id="tab4Content2">
       <p>我是标签2。</p>
     </div>
-    <div class="tab-pane fade" id="tab4Content3">
+    <div class="tab-pane fade duration-1000" id="tab4Content3">
       <p>我是标签3。</p>
     </div>
   </div>

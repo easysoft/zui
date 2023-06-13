@@ -1,2 +1,2 @@
-import './style/nav-tabs.css';
+import './style';
 export * from './vanilla';

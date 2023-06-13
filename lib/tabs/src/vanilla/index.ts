@@ -1,1 +1,1 @@
-export * from './nav-tabs';
+export * from './tabs';

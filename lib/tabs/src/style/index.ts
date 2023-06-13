@@ -1,0 +1,1 @@
+import './tab-pane.css';

@@ -1,0 +1,6 @@
+.tab-pane {
+  @apply -hidden;
+}
+.tab-pane.active {
+  @apply -block;
+}
