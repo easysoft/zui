@@ -16,4 +16,5 @@ export type ModalBaseOptions = {
     animation?: boolean;
     transTime?: number;
     responsive?: boolean;
+    destoryOnHide?: boolean;
 };
