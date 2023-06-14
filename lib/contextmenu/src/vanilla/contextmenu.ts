@@ -20,6 +20,8 @@ export class ContextMenu<O extends ContextMenuOptions = ContextMenuOptions, E ex
 
     static NAME = 'ContextMenu';
 
+    static MULTI_INSTANCE = true;
+
     static DEFAULT: Partial<ContextMenuOptions> = {
         placement: 'bottom-start',
         strategy: 'fixed',
