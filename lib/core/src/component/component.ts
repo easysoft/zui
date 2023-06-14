@@ -208,7 +208,7 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
      * @param args   The event arguments.
      */
     emit<N extends ComponentEventName<E>>(event: N, ...args: ComponentEventArgs<E, N>): Event {
-        const eventObject = $.Event(this.constructor.wrapEventNames(event));
+        const eventObject = $.Event(this.constructor.wrapEvent(event));
         this.$element.trigger(eventObject, [this, ...args]);
         return eventObject as unknown as Event;
     }
@@ -220,7 +220,7 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
      * @param callback  The event callback.
      */
     on<N extends ComponentEventName<E>>(event: N, callback: ComponentEventCallback<E, O, N>) {
-        this.$element.on(this.constructor.wrapEventNames(event), callback);
+        this.$element.on(this.constructor.wrapEvent(event), callback);
     }
 
     /**
@@ -230,7 +230,7 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
      * @param callback  The event callback.
      */
     one<N extends ComponentEventName<E>>(event: N, callback: ComponentEventCallback<E, O, N>) {
-        this.$element.one(this.constructor.wrapEventNames(event), callback);
+        this.$element.one(this.constructor.wrapEvent(event), callback);
     }
 
     /**
@@ -240,7 +240,7 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
      */
     off<N extends ComponentEventName<E>>(event: N, callback?: ComponentEventCallback<E, O, N>) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        this.$element.off(this.constructor.wrapEventNames(event), callback as any);
+        this.$element.off(this.constructor.wrapEvent(event), callback as any);
     }
 
     /**
@@ -278,7 +278,7 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
      * @param names The event names.
      * @returns     The wrapped event names.
      */
-    private static wrapEventNames(names: string): string {
+    private static wrapEvent(names: string): string {
         return names.split(' ').map(name => name.includes('.') ? name : `${name}${this.NAMESPACE}`).join(' ');
     }
 
