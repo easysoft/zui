@@ -18,10 +18,6 @@ export class ContextMenu<T extends MenuItemOptions = MenuItemOptions> extends Me
         return 'menu-context';
     }
 
-    componentWillUnmount() {
-        super.componentWillUnmount();
-    }
-
     protected getPopperOptions() {
         const config: Partial<ComputePositionConfig> = {
             middleware: [flip()],

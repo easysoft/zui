@@ -312,7 +312,7 @@ export class ContextMenu<O extends ContextMenuOptions = ContextMenuOptions, E ex
 }
 
 // Bind global events.
-$(document).on('contextmenu', event => {
+$(document).on('contextmenu.contextmenu.zui', event => {
     const $target = $(event.target);
     if ($target.closest(`.${ContextMenu.MENU_CLASS}`).length) {
         return;
@@ -322,4 +322,4 @@ $(document).on('contextmenu', event => {
         ContextMenu.ensure(toggleElement).show(event);
         event.preventDefault();
     }
-}).on('click', ContextMenu.clear.bind(ContextMenu));
+}).on('click.contextmenu.zui', ContextMenu.clear.bind(ContextMenu));
