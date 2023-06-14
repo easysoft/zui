@@ -120,6 +120,12 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
         return false;
     }
 
+    destroy() {
+        super.destroy();
+        this.#modal?.remove();
+        this.#modal = undefined;
+    }
+
     render(options?: Partial<T>) {
         super.render(options);
         this.buildDialog();
