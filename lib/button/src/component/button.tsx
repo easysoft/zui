@@ -1,8 +1,7 @@
 import {Component, h as _h, ComponentType, Attributes} from 'preact';
-import {classes} from '@zui/core';
-import {renderIcon} from '@zui/core';
-import '../style/index.css';
+import {classes, Icon} from '@zui/core';
 import {ButtonProps} from '../types/button-props';
+import '../style/index.css';
 
 export class Button extends Component<ButtonProps> {
     render() {
@@ -47,7 +46,7 @@ export class Button extends Component<ButtonProps> {
                 type: ButtonComponent === 'button' ? btnType : undefined,
                 ...others,
             } as Attributes,
-            loading ? <i class={`spin icon ${loadingIcon || 'icon-spinner-snake'}`} /> : renderIcon(icon),
+            <Icon icon={loading ? `icon ${loadingIcon || 'icon-spinner-snake'} spin` : icon} />,
             isEmptyText ? null : <span className="text">{loading ? loadingText : text}</span>,
             loading ? null : children,
             loading ? null : typeof trailingIcon === 'string' ? <i class={`icon ${trailingIcon}`} /> : trailingIcon,
