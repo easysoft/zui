@@ -170,9 +170,10 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
      * Destroy the component.
      */
     destroy() {
-        const {NAMESPACE, KEY, DATA_KEY, MULTI_INSTANCE} = this.constructor;
-        this.$element
-            .off(NAMESPACE)
+        const {KEY, DATA_KEY, MULTI_INSTANCE} = this.constructor;
+        const {$element} = this;
+        $element
+            .off(this.namespace)
             .removeData(KEY)
             .attr(DATA_KEY, null);
 
@@ -180,6 +181,12 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
             const map = this.$element.data(`${KEY}:ALL`) as Map<string | number, Component<O, E>>;
             if (map) {
                 map.delete(this.#key);
+                if (map.size === 0) {
+                    this.$element.removeData(`${KEY}:ALL`);
+                } else {
+                    const nextInstance =  map.values().next().value;
+                    $element.data(KEY, nextInstance).attr(DATA_KEY, nextInstance.gid);
+                }
             }
         }
 
@@ -208,7 +215,7 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
      * @param args   The event arguments.
      */
     emit<N extends ComponentEventName<E>>(event: N, ...args: ComponentEventArgs<E, N>): Event {
-        const eventObject = $.Event(this.constructor.wrapEvent(event));
+        const eventObject = $.Event(this.#wrapEvent(event));
         this.$element.trigger(eventObject, [this, ...args]);
         return eventObject as unknown as Event;
     }
@@ -220,7 +227,7 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
      * @param callback  The event callback.
      */
     on<N extends ComponentEventName<E>>(event: N, callback: ComponentEventCallback<E, O, N>) {
-        this.$element.on(this.constructor.wrapEvent(event), callback);
+        this.$element.on(this.#wrapEvent(event), callback);
     }
 
     /**
@@ -230,7 +237,7 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
      * @param callback  The event callback.
      */
     one<N extends ComponentEventName<E>>(event: N, callback: ComponentEventCallback<E, O, N>) {
-        this.$element.one(this.constructor.wrapEvent(event), callback);
+        this.$element.one(this.#wrapEvent(event), callback);
     }
 
     /**
@@ -240,7 +247,7 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
      */
     off<N extends ComponentEventName<E>>(event: N, callback?: ComponentEventCallback<E, O, N>) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        this.$element.off(this.constructor.wrapEvent(event), callback as any);
+        this.$element.off(this.#wrapEvent(event), callback as any);
     }
 
     /**
@@ -273,13 +280,21 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
     }
 
     /**
+     * Get event namespace.
+     * @returns Event namespace.
+     */
+    get namespace() {
+        return `.${this.#key}${this.constructor.NAMESPACE}`;
+    }
+
+    /**
      * Wrap event names with component namespace.
      *
      * @param names The event names.
      * @returns     The wrapped event names.
      */
-    private static wrapEvent(names: string): string {
-        return names.split(' ').map(name => name.includes('.') ? name : `${name}${this.NAMESPACE}`).join(' ');
+    #wrapEvent(names: string) {
+        return names.split(' ').map(name => name.includes('.') ? name : `${name}${this.namespace}`).join(' ');
     }
 
     /**
