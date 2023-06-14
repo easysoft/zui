@@ -93,14 +93,13 @@ export class Dropdown extends ContextMenu<DropdownOptions, DropdownEvents> {
         const menu = super.ensureMenu();
         if (this.options.arrow) {
             const arrowSize = this.getArrowSize();
-            const arrowEl = $('<div />').css({
+            const arrowEl = $('<div class="arrow-el" />').css({
                 position: 'absolute',
                 width: `${arrowSize}px`,
                 height: `${arrowSize}px`,
                 transform: 'rotate(45deg)',
             });
             this.arrowEl = arrowEl[0] as HTMLDivElement;
-            $(menu).append(arrowEl);
         }
         return menu;
     }
@@ -111,7 +110,11 @@ export class Dropdown extends ContextMenu<DropdownOptions, DropdownEvents> {
             const {afterRender} = options;
             options.afterRender = (...args) => {
                 if (this.arrowEl) {
-                    $(this.menu).find('.menu').append(this.arrowEl);
+                    $(this.menu).find('.menu').each((_, menu) => {
+                        if ($(menu).find('.arrow-el').length === 0 && $(menu).parent().hasClass('dropdown-menu')) {
+                            $(menu).append(this.arrowEl);
+                        }
+                    });
                 }
                 afterRender?.(...args);
             };
