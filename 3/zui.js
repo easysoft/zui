@@ -2864,13 +2864,13 @@ const ba = '[data-toggle="dropdown"]', Ul = class extends _t {
   ensureMenu() {
     const t = super.ensureMenu();
     if (this.options.arrow) {
-      const e = this.getArrowSize(), n = y("<div />").css({
+      const e = this.getArrowSize(), n = y('<div class="arrow-el" />').css({
         position: "absolute",
         width: `${e}px`,
         height: `${e}px`,
         transform: "rotate(45deg)"
       });
-      this.arrowEl = n[0], y(t).append(n);
+      this.arrowEl = n[0];
     }
     return t;
   }
@@ -2879,7 +2879,9 @@ const ba = '[data-toggle="dropdown"]', Ul = class extends _t {
     if (t && this.options.arrow) {
       const { afterRender: e } = t;
       t.afterRender = (...n) => {
-        this.arrowEl && y(this.menu).find(".menu").append(this.arrowEl), e == null || e(...n);
+        this.arrowEl && y(this.menu).find(".menu").each((s, i) => {
+          y(i).find(".arrow-el").length === 0 && y(i).parent().hasClass("dropdown-menu") && y(i).append(this.arrowEl);
+        }), e == null || e(...n);
       };
     }
     return t;
