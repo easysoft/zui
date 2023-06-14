@@ -11,7 +11,9 @@ const DISMISS_SELECTOR = '[data-dismiss="modal"]';
 export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Component<T, ModalEvents, HTMLElement> {
     static NAME = 'Modal';
 
-    static DEFAULT = {
+    static MULTI_INSTANCE = true;
+
+    static DEFAULT: Partial<ModalBaseOptions> = {
         position: 'fit',
         show: true,
         keyboard: true,

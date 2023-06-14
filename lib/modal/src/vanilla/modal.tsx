@@ -233,7 +233,7 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
         if (typeof options === 'string') {
             options = {message: options} as ModalAlertOptions;
         }
-        const {type, message, icon, iconClass = 'icon-lg muted', actions = 'confirm', onClickAction, custom, ...otherOptions} = options;
+        const {type, message, icon, iconClass = 'icon-lg muted', actions = 'confirm', onClickAction, custom, key = '__alert', ...otherOptions} = options;
         let content = <div>{message}</div>;
         if (icon) {
             content = (
@@ -268,7 +268,7 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
             gap: 4,
             items: actionItems,
             onClickItem: ({item, event}) => {
-                const modal = Modal.query(event.target as HTMLDivElement) as Modal;
+                const modal = Modal.query(event.target as HTMLDivElement, key) as Modal;
                 result = item.key as string;
                 const actionResult = onClickAction?.(item, modal);
                 if (actionResult !== false && modal) {
@@ -278,6 +278,7 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
         } : undefined;
 
         await Modal.open({
+            key,
             type: 'custom',
             size: 400,
             className: 'modal-alert',
