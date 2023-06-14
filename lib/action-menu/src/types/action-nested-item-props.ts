@@ -4,5 +4,7 @@ import type {ActionItemProps} from './action-item-props';
 import type {ActionMenuNestedItemOptions} from './action-menu-nested-item-options';
 
 export interface ActionNestedItemProps<T extends ActionBasicProps = ActionMenuNestedItemOptions> extends ActionItemProps {
+    show?: boolean;
+    level?: number;
     items?: T[] | ((currentItem: ActionNestedItemProps<T>, menu: ActionMenuNested<T>) => T[])
 }

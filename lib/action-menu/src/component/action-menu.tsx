@@ -63,9 +63,6 @@ export class ActionMenu<T extends ActionBasicProps = ActionMenuItemOptions, P ex
 
     beforeRender(): Omit<P, 'items'> & {items: T[]} {
         const props = {...this.props};
-        if (typeof props.items === 'function') {
-            props.items = props.items(this);
-        }
         const customOptions = props.beforeRender?.({menu: this, options: props});
         if (customOptions) {
             Object.assign(props, customOptions);
@@ -134,7 +131,7 @@ export class ActionMenu<T extends ActionBasicProps = ActionMenuItemOptions, P ex
         });
 
         if (props.checkbox && type === 'item' && (itemProps as ActionItemProps).checked === undefined) {
-            (itemProps as ActionItemProps).checked = (itemProps as ActionItemProps).active;
+            (itemProps as ActionItemProps).checked = !!(itemProps as ActionItemProps).active;
         }
 
         return this.renderTypedItem(ItemComponent, {
@@ -155,7 +152,7 @@ export class ActionMenu<T extends ActionBasicProps = ActionMenuItemOptions, P ex
 
         return (
             <li
-                className={classes('action-menu-item', `${this.name}-${itemProps.type}`, className as ClassNameLike)}
+                className={classes(`${(this.constructor as typeof ActionMenu).NAME}-item`, `${this.name}-${itemProps.type}`, className as ClassNameLike)}
                 key={key}
                 {...(rootAttrs as JSX.HTMLAttributes<HTMLLIElement>)}
             >

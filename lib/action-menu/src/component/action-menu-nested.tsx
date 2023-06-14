@@ -26,7 +26,15 @@ export class ActionMenuNested<T extends ActionBasicProps = ActionMenuNestedItemO
 
     beforeRender(): Omit<P, 'items'> & {items: T[]} {
         const allProps = super.beforeRender();
-        const {nestedShow, nestedTrigger, defaultNestedShow, controlledMenu, ...props} = allProps;
+        const {nestedShow, nestedTrigger, defaultNestedShow, controlledMenu, indent, level, ...props} = allProps;
+        if (typeof props.items === 'function') {
+            props.items = props.items(this);
+        }
+        if (!controlledMenu && indent) {
+            props.style = Object.assign({
+                [`--${this.name}-indent`]: `${indent}px`,
+            }, props.style);
+        }
         return props as Omit<P, 'items'> & {items: T[]};
     }
 
@@ -42,7 +50,7 @@ export class ActionMenuNested<T extends ActionBasicProps = ActionMenuNestedItemO
             return;
         }
         const NestedMenuComponent = (this.constructor as typeof ActionMenuNested);
-        const {name, controlledMenu, nestedShow, beforeDestroy, beforeRender, itemRender, onClickItem, afterRender, commonItemProps} = this.props;
+        const {name, controlledMenu, nestedShow, beforeDestroy, beforeRender, itemRender, onClickItem, afterRender, commonItemProps, level} = this.props;
 
         return (
             <NestedMenuComponent
@@ -57,6 +65,7 @@ export class ActionMenuNested<T extends ActionBasicProps = ActionMenuNestedItemO
                 beforeRender={beforeRender as ActionMenuOptions['beforeRender']}
                 beforeDestroy={beforeDestroy as ActionMenuOptions['beforeDestroy']}
                 itemRender={itemRender as ActionMenuOptions['itemRender']}
+                level={(level || 0) + 1}
             />
         );
     }
@@ -71,6 +80,7 @@ export class ActionMenuNested<T extends ActionBasicProps = ActionMenuNestedItemO
 
     getItemRenderProps(props: Omit<P, 'items'> & {items: T[]}, item: T, index: number): T {
         const itemProps = super.getItemRenderProps(props, item, index);
+        (itemProps as ActionNestedItemProps).level = (props.level || 0);
         if (!this.isNestedItem(itemProps)) {
             return itemProps;
         }
@@ -82,7 +92,6 @@ export class ActionMenuNested<T extends ActionBasicProps = ActionMenuNestedItemO
                 itemProps.rootChildren,
                 this.renderNestedMenu(item),
             ];
-            itemProps.component = ActionNestedItem;
         }
         if (this.nestedTrigger === 'hover') {
             itemProps.rootAttrs = {
@@ -101,7 +110,7 @@ export class ActionMenuNested<T extends ActionBasicProps = ActionMenuNestedItemO
         if (toggleIcon) {
             itemProps.children = [itemProps.children, toggleIcon];
         }
-
+        (itemProps as ActionNestedItemProps).show = show;
         itemProps.rootClass = [itemProps.rootClass, 'has-nested-menu', show ? 'show' : ''];
         return itemProps;
     }

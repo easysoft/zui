@@ -7,5 +7,7 @@ export interface ActionMenuNestedOptions<T extends ActionBasicProps = ActionMenu
     nestedTrigger?: 'click' | 'hover',
     nestedShow?: boolean | Record<string | number | symbol, boolean>,
     defaultNestedShow?: boolean | Record<string | number | symbol, boolean>,
-    controlledMenu?: ActionMenuNested<T>
+    controlledMenu?: ActionMenuNested<T>,
+    level?: number,
+    indent?: number,
 }
