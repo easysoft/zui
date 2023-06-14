@@ -945,6 +945,40 @@ importers:
         specifier: workspace:*
         version: link:../../dev
 
+  lib/tree:
+    dependencies:
+      '@zui/action-menu':
+        specifier: workspace:*
+        version: link:../action-menu
+      '@zui/base':
+        specifier: workspace:*
+        version: link:../base
+      '@zui/button':
+        specifier: workspace:*
+        version: link:../button
+      '@zui/checkbox':
+        specifier: workspace:*
+        version: link:../checkbox
+      '@zui/core':
+        specifier: workspace:^0.0.1
+        version: link:../core
+      '@zui/css-icons':
+        specifier: workspace:^0.0.1
+        version: link:../css-icons
+      '@zui/menu':
+        specifier: workspace:*
+        version: link:../menu
+      '@zui/toolbar':
+        specifier: workspace:*
+        version: link:../toolbar
+    devDependencies:
+      '@zui/utilities':
+        specifier: workspace:*
+        version: link:../utilities
+      zui-dev:
+        specifier: workspace:*
+        version: link:../../dev
+
   lib/upload:
     dependencies:
       '@zui/button':
