@@ -1,6 +1,5 @@
 import {Attributes, ComponentType, h as _h} from 'preact';
-import {classes} from '@zui/core';
-import {renderIcon} from '@zui/core';
+import {classes, Icon} from '@zui/core';
 import {ActionItemProps} from '../types/action-item-props';
 
 export function ActionItem({
@@ -27,10 +26,10 @@ export function ActionItem({
                 <label />
             </div>
         ) : null,
-        renderIcon(icon),
+        <Icon icon={icon} />,
         <span className="text">{text}</span>,
         typeof children === 'function' ? children() : children,
-        renderIcon(trailingIcon),
+        <Icon icon={trailingIcon} />,
     ];
     return _h(component as ComponentType, {
         className: classes(className, {disabled, active}),
