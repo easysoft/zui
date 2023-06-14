@@ -24,6 +24,11 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
     static NAME = this.name;
 
     /**
+     * Whether the component supports multiple instances.
+     */
+    static MULTI_INSTANCE = false;
+
+    /**
      * Component data key, like "zui.menu"
      */
     static get KEY(): `zui.${string}` {
@@ -59,9 +64,14 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
     #element?: U;
 
     /**
-     * Store the component event handlers.
+     * The component global ID.
      */
     #gid: number;
+
+    /**
+     * The component key.
+     */
+    #key: string | number;
 
     /**
      * The component constructor.
@@ -69,15 +79,14 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
      * @param options The component initial options.
      */
     constructor(element: Selector, options?: Partial<ComponentOptions<O>>) {
-        const {KEY, DATA_KEY, DEFAULT} = this.constructor;
+        const {KEY, DATA_KEY, DEFAULT, MULTI_INSTANCE} = this.constructor;
         const $element = $(element);
-        if ($element.data(KEY)) {
+        if ($element.data(KEY) && !MULTI_INSTANCE) {
             throw new Error('[ZUI] The component has been initialized on element.');
         }
 
         const gid = $.guid++;
         this.#gid = gid;
-        $element.data(KEY, this).attr(DATA_KEY, `${gid}`);
         this.#element = $element[0] as U;
 
         $element.on('DOMNodeRemovedFromDocument', () => {
@@ -86,6 +95,18 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
 
         this.#options = {...DEFAULT, ...$element.dataset()} as ComponentOptions<O>;
         this.setOptions(options);
+        this.#key = this.options.key ?? `__${gid}`;
+
+        $element.data(KEY, this).attr(DATA_KEY, `${gid}`);
+        if (MULTI_INSTANCE) {
+            const dataName = `${KEY}:ALL`;
+            let instanceMap = $element.data(dataName);
+            if (!instanceMap) {
+                instanceMap = new Map();
+                $element.data(dataName, instanceMap);
+            }
+            instanceMap.set(this.#key, this);
+        }
 
         this.init();
         requestAnimationFrame(() => {
@@ -99,6 +120,10 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
      */
     get element() {
         return this.#element!;
+    }
+
+    get key() {
+        return this.#key;
     }
 
     /**
@@ -145,11 +170,18 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
      * Destroy the component.
      */
     destroy() {
-        const {NAMESPACE, KEY, DATA_KEY} = this.constructor;
+        const {NAMESPACE, KEY, DATA_KEY, MULTI_INSTANCE} = this.constructor;
         this.$element
             .off(NAMESPACE)
             .removeData(KEY)
             .attr(DATA_KEY, null);
+
+        if (MULTI_INSTANCE) {
+            const map = this.$element.data(`${KEY}:ALL`) as Map<string | number, Component<O, E>>;
+            if (map) {
+                map.delete(this.#key);
+            }
+        }
 
         this.#options = undefined;
         this.#element = undefined;
@@ -257,8 +289,16 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
      * @param selector The component element selector.
      * @returns        The component instance.
      */
-    static get<O extends {}, E extends ComponentEvents, U extends Element, T extends typeof Component<O, E, U>>(this: T, selector: Selector): InstanceType<T> | undefined {
-        return $(selector).data(this.KEY);
+    static get<O extends {}, E extends ComponentEvents, U extends Element, T extends typeof Component<O, E, U>>(this: T, selector: Selector, key?: string | number): InstanceType<T> | undefined {
+        const $element = $(selector);
+        if (this.MULTI_INSTANCE && key !== undefined) {
+            const instanceMap = $element.data(`${this.KEY}:ALL`);
+            if (instanceMap) {
+                return instanceMap.get(key);
+            }
+            return;
+        }
+        return $element.data(this.KEY);
     }
 
     /**
@@ -270,7 +310,7 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
      * @returns         The component instance.
      */
     static ensure<O extends {}, E extends ComponentEvents, U extends Element, T extends typeof Component<O, E, U>>(this: T, selector: Selector, options?: Partial<ComponentOptions<O>>): InstanceType<T> {
-        const instance = this.get(selector);
+        const instance = this.get(selector, options?.key);
         if (instance) {
             if (options) {
                 instance.setOptions(options);
@@ -288,10 +328,21 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
      * @returns        All component instances.
      */
     static getAll<O extends {}, E extends ComponentEvents, U extends Element, T extends typeof Component<O, E, U>>(this: T, selector?: Selector): InstanceType<T>[] {
-        return $(selector || document)
-            .find(`[${this.DATA_KEY}]`)
-            .map((_, element) => $(element).data(this.KEY))
-            .get() as InstanceType<T>[];
+        const {MULTI_INSTANCE, DATA_KEY} = this;
+        const list: InstanceType<T>[] = [];
+        $(selector || document)
+            .find(`[${DATA_KEY}]`)
+            .each((_, element) => {
+                if (MULTI_INSTANCE) {
+                    const instanceMap = $(element).data(`${this.KEY}:ALL`);
+                    if (instanceMap) {
+                        list.push(...instanceMap.values());
+                    } else {
+                        list.push($(element).data(this.KEY));
+                    }
+                }
+            });
+        return list;
     }
 
     /**
@@ -301,11 +352,11 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
      * @param selector The component element selector.
      * @returns        The component instance.
      */
-    static query<O extends {}, E extends ComponentEvents, U extends Element, T extends typeof Component<O, E, U>>(this: T, selector?: Selector): InstanceType<T> | undefined {
+    static query<O extends {}, E extends ComponentEvents, U extends Element, T extends typeof Component<O, E, U>>(this: T, selector?: Selector, key?: string | number): InstanceType<T> | undefined {
         if (selector === undefined) {
             return this.getAll().sort((a, b) => a.gid - b.gid)[0];
         }
-        return this.get($(selector).closest(`[${this.DATA_KEY}]`));
+        return this.get($(selector).closest(`[${this.DATA_KEY}]`), key);
     }
 
     /**
