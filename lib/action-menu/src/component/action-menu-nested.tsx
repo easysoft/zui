@@ -38,6 +38,24 @@ export class ActionMenuNested<T extends ActionBasicProps = ActionMenuNestedItemO
         return props as Omit<P, 'items'> & {items: T[]};
     }
 
+    getNestedMenuProps(items: ActionMenuNestedItemOptions[]): ActionMenuNestedOptions {
+        const {name, controlledMenu, nestedShow, beforeDestroy, beforeRender, itemRender, onClickItem, afterRender, commonItemProps, level} = this.props;
+        return {
+            items: items,
+            name: name,
+            nestedShow: this.#controlled ? this.state.nestedShow : nestedShow,
+            nestedTrigger: this.nestedTrigger,
+            controlledMenu: (controlledMenu || this) as ActionMenuNested,
+            commonItemProps: commonItemProps,
+            onClickItem: onClickItem as ActionMenuOptions['onClickItem'],
+            afterRender: afterRender as ActionMenuOptions['afterRender'],
+            beforeRender: beforeRender as ActionMenuOptions['beforeRender'],
+            beforeDestroy: beforeDestroy as ActionMenuOptions['beforeDestroy'],
+            itemRender: itemRender as ActionMenuOptions['itemRender'],
+            level: (level || 0) + 1,
+        };
+    }
+
     renderNestedMenu(item: ActionNestedItemProps) {
         let {items} = item;
         if (!items) {
@@ -50,23 +68,10 @@ export class ActionMenuNested<T extends ActionBasicProps = ActionMenuNestedItemO
             return;
         }
         const NestedMenuComponent = (this.constructor as typeof ActionMenuNested);
-        const {name, controlledMenu, nestedShow, beforeDestroy, beforeRender, itemRender, onClickItem, afterRender, commonItemProps, level} = this.props;
+        const props = this.getNestedMenuProps(items);
 
         return (
-            <NestedMenuComponent
-                items={items}
-                name={name}
-                nestedShow={this.#controlled ? this.state.nestedShow : nestedShow}
-                nestedTrigger={this.nestedTrigger}
-                controlledMenu={(controlledMenu || this) as ActionMenuNested}
-                commonItemProps={commonItemProps}
-                onClickItem={onClickItem as ActionMenuOptions['onClickItem']}
-                afterRender={afterRender as ActionMenuOptions['afterRender']}
-                beforeRender={beforeRender as ActionMenuOptions['beforeRender']}
-                beforeDestroy={beforeDestroy as ActionMenuOptions['beforeDestroy']}
-                itemRender={itemRender as ActionMenuOptions['itemRender']}
-                level={(level || 0) + 1}
-            />
+            <NestedMenuComponent {...props} />
         );
     }
 
