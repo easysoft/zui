@@ -223,7 +223,7 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
     static open(options: ModalTypedOptions & {container?: string | HTMLElement}): Promise<Modal> {
         return new Promise((resolve) => {
             const {container = document.body, ...others} = options;
-            const modal = new Modal(container, {show: true, ...others} as ModalOptions);
+            const modal = Modal.ensure(container, {show: true, ...others} as ModalOptions);
             modal.one('hidden', () => resolve(modal));
             modal.show();
         });
