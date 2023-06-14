@@ -1,4 +1,4 @@
-import {Attributes, ComponentChildren, ComponentType, h as _h} from 'preact';
+import {Attributes, h as _h} from 'preact';
 import {classes, Icon} from '@zui/core';
 import {Toolbar} from '@zui/toolbar/src/component';
 import '@zui/css-icons/src/icons/caret.css';
@@ -26,25 +26,6 @@ export function TreeItem({
     items,
     ...others
 }: TreeItemProps) {
-    console.log('> TreeItem.render', text, {type,
-        component,
-        className,
-        children,
-        url,
-        disabled,
-        active,
-        icon,
-        text,
-        target,
-        trailingIcon,
-        hint,
-        checked,
-        actions,
-        show,
-        items,
-        attrs,
-        others,
-    });
     const toolbarOptions = Array.isArray(actions) ? {items: actions} : actions;
     return (
         <div
