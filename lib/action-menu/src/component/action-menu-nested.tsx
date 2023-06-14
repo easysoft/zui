@@ -71,7 +71,7 @@ export class ActionMenuNested<T extends ActionBasicProps = ActionMenuNestedItemO
         const props = this.getNestedMenuProps(items);
 
         return (
-            <NestedMenuComponent {...props} />
+            <NestedMenuComponent {...props} data-level={props.level} />
         );
     }
 
