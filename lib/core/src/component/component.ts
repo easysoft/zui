@@ -352,9 +352,12 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
                     const instanceMap = $(element).data(`${this.KEY}:ALL`);
                     if (instanceMap) {
                         list.push(...instanceMap.values());
-                    } else {
-                        list.push($(element).data(this.KEY));
+                        return;
                     }
+                }
+                const instance = $(element).data(this.KEY);
+                if (instance) {
+                    list.push(instance);
                 }
             });
         return list;
