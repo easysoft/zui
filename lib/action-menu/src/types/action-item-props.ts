@@ -1,4 +1,5 @@
-import type {ComponentChildren, VNode} from 'preact';
+import type {ComponentChildren} from 'preact';
+import type {IconType} from '@zui/core';
 import type {ActionBasicProps} from './action-basic-props';
 
 export interface ActionItemProps extends ActionBasicProps {
@@ -6,9 +7,9 @@ export interface ActionItemProps extends ActionBasicProps {
     target?: string;
     disabled?: boolean;
     active?: boolean;
-    icon?: string | VNode;
+    icon?: IconType;
     checked?: boolean;
     text?: ComponentChildren;
-    trailingIcon?: string | VNode;
+    trailingIcon?: IconType;
     hint?: string;
 }
