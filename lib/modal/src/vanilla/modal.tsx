@@ -229,7 +229,7 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
         });
     }
 
-    static alert(options: string | ModalAlertOptions): Promise<string | undefined> {
+    static async alert(options: string | ModalAlertOptions): Promise<string | undefined> {
         if (typeof options === 'string') {
             options = {message: options} as ModalAlertOptions;
         }
@@ -277,7 +277,7 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
             },
         } : undefined;
 
-        return Modal.open({
+        await Modal.open({
             type: 'custom',
             size: 400,
             className: 'modal-alert',
@@ -285,21 +285,23 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
             backdrop: 'static',
             custom: {footerActions, ...(typeof custom === 'function' ? custom() : custom)},
             ...otherOptions,
-        }).then(() => result);
+        });
+        return result;
     }
 
-    static confirm(options: string | ModalConfirmOptions) {
+    static async confirm(options: string | ModalConfirmOptions): Promise<boolean> {
         if (typeof options === 'string') {
             options = {message: options} as ModalConfirmOptions;
         }
         const {onClickAction, onResult, ...otherOptions} = options;
-        return Modal.alert({
+        const result = await Modal.alert({
             actions: ['confirm', 'cancel'],
-            onClickAction: (item, modal) => {
-                onResult?.(item.key === 'confirm', modal);
-                onClickAction?.(item, modal);
+            onClickAction: (item_1, modal) => {
+                onResult?.(item_1.key === 'confirm', modal);
+                onClickAction?.(item_1, modal);
             },
             ...otherOptions,
-        }).then((result) => result === 'confirm');
+        });
+        return result === 'confirm';
     }
 }

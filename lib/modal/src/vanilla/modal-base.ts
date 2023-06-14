@@ -33,7 +33,7 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
         return this.element;
     }
 
-    get isShown() {
+    get shown() {
         return this.modalElement.classList.contains(CLASS_SHOW);
     }
 
@@ -49,7 +49,7 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
                 const {dialog} = this;
                 if (dialog) {
                     const rob = new ResizeObserver(() => {
-                        if (!this.isShown) {
+                        if (!this.shown) {
                             return;
                         }
                         const width = dialog.clientWidth;
@@ -76,7 +76,7 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
     }
 
     show(options?: Partial<T>) {
-        if (this.isShown) {
+        if (this.shown) {
             return false;
         }
 
@@ -106,7 +106,7 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
     }
 
     hide() {
-        if (!this.isShown) {
+        if (!this.shown) {
             return false;
         }
 
@@ -121,7 +121,7 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
     }
 
     layout(position?: ModalPositionSetting, size?: ModalSizeSetting) {
-        if (!this.isShown) {
+        if (!this.shown) {
             return;
         }
 
@@ -211,10 +211,10 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
     }
 }
 
-$(window).on('resize', () => {
+$(window).on('resize.modal.zui', () => {
     ModalBase.getAll().forEach((modal) => {
         const m = (modal as ModalBase);
-        if (m.isShown && m.options.responsive) {
+        if (m.shown && m.options.responsive) {
             m.layout();
         }
     });
