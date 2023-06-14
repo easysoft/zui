@@ -26,7 +26,7 @@ export class ActionMenuNested<T extends ActionBasicProps = ActionMenuNestedItemO
 
     beforeRender(): Omit<P, 'items'> & {items: T[]} {
         const allProps = super.beforeRender();
-        const {nestedShow, nestedTrigger, defaultNestedShow, controlledMenu, indent, level, ...props} = allProps;
+        const {nestedShow, nestedTrigger, defaultNestedShow, controlledMenu, indent, ...props} = allProps;
         if (typeof props.items === 'function') {
             props.items = props.items(this);
         }
