@@ -1,6 +1,7 @@
-import {Attributes, h as _h} from 'preact';
+import {Attributes} from 'preact';
 import {classes, Icon} from '@zui/core';
 import {Toolbar} from '@zui/toolbar/src/component';
+import type {ToolbarOptions} from '@zui/toolbar/src/types';
 import '@zui/css-icons/src/icons/caret.css';
 import {TreeItemProps} from '../types/tree-item-props';
 
@@ -26,27 +27,28 @@ export function TreeItem({
     items,
     ...others
 }: TreeItemProps) {
-    const toolbarOptions = Array.isArray(actions) ? {items: actions} : actions;
+    const toolbarOptions = Array.isArray(actions) ? {btnProps: {size: 'sm'}, items: actions} as ToolbarOptions : actions;
     return (
         <div
             className={classes('tree-item-content', className, {disabled, active})}
             title={hint}
             data-target={target}
             style={Object.assign({paddingLeft: `${level * 20}px`}, style)}
+            data-level={level}
             {...(attrs as Attributes)}
             {...(others as Attributes)}
         >
-            <span class={classes('tree-toggle-icon', items ? `caret-${show ? 'down' : 'right'}` : '')} />
+            <span class={`tree-toggle-icon${items ? ' state' : ''}`}>{items ? <span class={`caret-${show ? 'down' : 'right'}`}></span> : null}</span>
             {typeof checked === 'boolean' ? (
-                <div class={`checkbox-primary${checked ? ' checked' : ''}`}>
+                <div class={`tree-checkbox checkbox-primary${checked ? ' checked' : ''}`}>
                     <label />
                 </div>
             ) : null}
-            <Icon icon={icon} />
-            {_h(url ? 'a' : 'span', {href: url, className: 'text'}, text)}
+            <Icon icon={icon} className="tree-icon" />
+            {url ? <a className="text tree-link not-nested-toggle" href={url}>{text}</a> : <span class="text">{text}</span>}
             {typeof children === 'function' ? children() : children}
             {toolbarOptions ? <Toolbar {...toolbarOptions} /> : null}
-            <Icon icon={trailingIcon} />
+            <Icon icon={trailingIcon} className="tree-trailing-icon" />
         </div>
     );
 }

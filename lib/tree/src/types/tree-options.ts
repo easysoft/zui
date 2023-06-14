@@ -8,5 +8,6 @@ export interface TreeOptions<T extends ActionBasicProps = TreeItemOptions> exten
     collapsedIcon?: IconType;
     expandedIcon?: IconType;
     normalIcon?: IconType;
-    actionsCreator?: (item: T) => ToolbarOptions | ToolbarItemOptions[];
+    itemActions?: ToolbarOptions | ToolbarItemOptions[] | ((item: T) => ToolbarOptions | ToolbarItemOptions[]);
+    hover?: boolean;
 }
