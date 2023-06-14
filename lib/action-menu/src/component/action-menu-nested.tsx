@@ -42,7 +42,7 @@ export class ActionMenuNested<T extends ActionBasicProps = ActionMenuNestedItemO
             return;
         }
         const NestedMenuComponent = (this.constructor as typeof ActionMenuNested);
-        const {name, controlledMenu, nestedShow, beforeDestroy, beforeRender, itemRender, activeClass, activeKey, onClickItem, afterRender, commonItemProps, activeIcon} = this.props;
+        const {name, controlledMenu, nestedShow, beforeDestroy, beforeRender, itemRender, onClickItem, afterRender, commonItemProps} = this.props;
 
         return (
             <NestedMenuComponent
@@ -57,9 +57,6 @@ export class ActionMenuNested<T extends ActionBasicProps = ActionMenuNestedItemO
                 beforeRender={beforeRender as ActionMenuOptions['beforeRender']}
                 beforeDestroy={beforeDestroy as ActionMenuOptions['beforeDestroy']}
                 itemRender={itemRender as ActionMenuOptions['itemRender']}
-                activeClass={activeClass}
-                activeKey={activeKey}
-                activeIcon={activeIcon}
             />
         );
     }
