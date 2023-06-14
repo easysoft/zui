@@ -1,4 +1,5 @@
 import {ComponentChildren} from 'preact';
+import {$} from '@zui/core';
 import type {ActionBasicProps, ActionMenuItemKey, ActionNestedItemProps, ActionMenuNestedItemOptions, ActionMenuNestedOptions, ActionMenuNestedState, ActionMenuOptions} from '../types';
 import {ActionMenu} from './action-menu';
 import {ActionNestedItem} from './action-nested-item';
@@ -184,6 +185,9 @@ export class ActionMenuNested<T extends ActionBasicProps = ActionMenuNestedItemO
     }
 
     #toggleMenuByEvent = (key: ActionMenuItemKey, toggle: boolean | undefined, event: MouseEvent) => {
+        if ($(event.target as HTMLElement).closest('.not-nested-toggle').length) {
+            return;
+        }
         this.toggleNestedMenu(key, toggle);
         event.preventDefault();
     };
