@@ -1,12 +1,13 @@
 import {formatBytes} from '@zui/helpers/src/format-string';
+import {Component, $, Cash} from '@zui/core';
 
 type UploadOptions = {
     name: string;
     uploadText: string;
     renameText: string;
     deleteText: string;
-    showRenameBtn: boolean;
-    showDeleteBtn: boolean;
+    renameBtn: boolean;
+    deleteBtn: boolean;
     showIcon: boolean;
     icon: HTMLElement | null;
     renameConfirmText: string;
@@ -22,276 +23,253 @@ type UploadOptions = {
     defaultFileList: File[];
 }>;
 
-const defaultOptions: UploadOptions = {
-    name: 'file',
-    icon: null,
-    uploadText: '上传文件',
-    renameText: '重命名',
-    deleteText: '删除',
-    showRenameBtn: false,
-    showDeleteBtn: false,
-    showIcon: true,
-    renameConfirmText: '确定',
-    renameCancelText: '取消',
-    multiple: false,
-    listPosition: 'bottom',
-};
+export class Upload extends Component<UploadOptions> {
+    private $input: Cash;
 
-export default class Upload {
-    readonly #uploadElm: HTMLElement;
+    private $label: Cash;
 
-    readonly #inputElm: HTMLInputElement;
+    private $list: Cash;
 
-    readonly #labelElm: HTMLLabelElement;
+    private fileMap: Map<string, File>;
 
-    readonly #listElm: HTMLDivElement;
+    private itemMap: Map<string, Cash>;
 
-    readonly #options: UploadOptions;
+    private dataTransfer: DataTransfer;
 
-    #fileMap = new Map<string, File>();
+    static DEFAULT = {
+        name: 'file',
+        icon: null,
+        uploadText: '上传文件',
+        renameText: '重命名',
+        deleteText: '删除',
+        renameBtn: false,
+        deleteBtn: false,
+        showIcon: true,
+        renameConfirmText: '确定',
+        renameCancelText: '取消',
+        multiple: false,
+        listPosition: 'bottom',
+    };
 
-    #itemMap = new Map<string, HTMLElement>();
+    init() {
+        this.fileMap = new Map();
+        this.itemMap = new Map();
+        this.dataTransfer = new DataTransfer();
 
-    #dataTransfer = new DataTransfer();
-
-    constructor(elm: HTMLElement, options: Partial<UploadOptions> = {}) {
-        this.#uploadElm = elm;
-        this.#options = {...defaultOptions, ...options};
-
-        const {name, multiple, accept, defaultFileList, uploadText, listPosition} = this.#options;
-
+        const {multiple, defaultFileList} = this.options;
         if (!multiple) {
-            this.#options.maxCount = 1;
+            this.options.maxCount = 1;
         }
 
-        this.#inputElm = document.createElement('input');
-        this.#inputElm.type = 'file';
-        this.#inputElm.name = name;
-        this.#inputElm.id = name;
-        this.#inputElm.multiple = multiple;
-        if (accept) {
-            this.#inputElm.accept = accept;
-        }
-        this.#uploadElm.appendChild(this.#inputElm);
-
-        this.#labelElm = document.createElement('label');
-        this.#labelElm.classList.add('btn', 'primary');
-        this.#labelElm.htmlFor = name;
-        this.#labelElm.innerHTML = uploadText;
-
-        this.#listElm = document.createElement('div');
-        this.#listElm.classList.add('file-list');
-
-        if (listPosition === 'bottom') {
-            this.#uploadElm.appendChild(this.#labelElm);
-            this.#uploadElm.appendChild(this.#listElm);
-        } else {
-            this.#uploadElm.appendChild(this.#listElm);
-            this.#uploadElm.appendChild(this.#labelElm);
-        }
-
+        this.initInputCash();
+        this.initUploadCash();
         if (defaultFileList) {
-            this.#addFileItem(defaultFileList);
+            this.addFileItem(defaultFileList);
         }
-
-        this.#addChangeListener();
     }
 
-    #addChangeListener() {
-        this.#inputElm.addEventListener('change', (event) => {
-            const fileList = (event.target as HTMLInputElement).files;
-            if (!fileList) {
-                return;
-            }
-
-            const files = [...fileList];
-            this.#addFileItem(files);
-            this.#options.onChange?.(files);
-        });
+    private initUploadCash() {
+        const {name, uploadText, listPosition} = this.options;
+        this.$label = $(`<label class="btn primary" for="${name}">${uploadText}</label>`);
+        this.$list = $('<div class="file-list"></div>');
+        const $children = listPosition === 'bottom'
+            ? [this.$label, this.$list]
+            : [this.$list, this.$label];
+        this.$element.append(this.$input, ...$children);
     }
 
-    #addFile(file: File) {
-        if (!this.#options.multiple) {
-            this.#fileMap.clear();
-            this.#dataTransfer.items.clear();
-        }
-        this.#fileMap.set(file.name, file);
-        this.#dataTransfer.items.add(file);
-        this.#inputElm.files = this.#dataTransfer.files;
-    }
+    private initInputCash() {
+        const {name, multiple, accept, onChange} = this.options;
 
-    #addFileItem(files: File[]) {
-        if (this.#options.multiple) {
-            for (const file of files) {
-                if (this.#options.maxCount && this.#fileMap.size >= this.#options.maxCount) {
+        this.$input = $('<input />')
+            .prop('type', 'file')
+            .prop('name', name)
+            .prop('id', name)
+            .prop('multiple', multiple)
+            .on('change', event => {
+                const fileList = (event.target as HTMLInputElement).files;
+                if (!fileList) {
                     return;
                 }
-                this.#addFile(file);
-                const item = this.#createFileItem(file);
-                this.#itemMap.set(file.name, item);
-                this.#listElm.appendChild(item);
+
+                const files = [...fileList];
+                this.addFileItem(files);
+                onChange?.(files);
+            });
+
+        if (accept) {
+            this.$input.prop('accept', accept);
+        }
+    }
+
+    private addFile(file: File) {
+        if (!this.options.multiple) {
+            this.fileMap.clear();
+            this.dataTransfer.items.clear();
+        }
+        this.fileMap.set(file.name, file);
+        this.dataTransfer.items.add(file);
+        this.$input.prop('files', this.dataTransfer.files);
+    }
+
+    private addFileItem(files: File[]) {
+        const {multiple, maxCount} = this.options;
+        if (multiple) {
+            for (const file of files) {
+                if (maxCount && this.fileMap.size >= maxCount) {
+                    return;
+                }
+                this.addFile(file);
+                const item = this.createFileItem(file);
+                this.itemMap.set(file.name, item);
+                this.$list.append(item);
             }
             return;
         }
 
         const file = files[0];
-        this.#addFile(file);
-        const item = this.#createFileItem(file);
-        this.#itemMap.clear();
-        this.#itemMap.set(file.name, item);
-        this.#listElm.innerHTML = '';
-        this.#listElm.appendChild(item);
+        this.addFile(file);
+        const item = this.createFileItem(file);
+        this.itemMap.clear();
+        this.itemMap.set(file.name, item);
+        this.$list.empty().append(item);
     }
 
-    #deleteFile(file: File) {
-        this.#options.onDelete?.(file);
-        this.#fileMap.delete(file.name);
-        this.#dataTransfer = new DataTransfer();
-        this.#fileMap.forEach((f) => {
-            this.#dataTransfer.items.add(f);
-        });
-        this.#inputElm.files = this.#dataTransfer.files;
+    private deleteFile(file: File) {
+        this.options.onDelete?.(file);
+        this.fileMap.delete(file.name);
+        this.dataTransfer = new DataTransfer();
+        this.fileMap.forEach((f) => this.dataTransfer.items.add(f));
+        this.$input.prop('files', this.dataTransfer.files);
     }
 
-    #deleteFileItem(name: string) {
-        const file = this.#fileMap.get(name);
+    private deleteFileItem(name: string) {
+        const file = this.fileMap.get(name);
         if (!file) {
             return;
         }
-        this.#deleteFile(file);
-        const fileItemElm = this.#itemMap.get(file.name);
-        this.#itemMap.delete(file.name);
-        if (!fileItemElm) {
-            return;
-        }
-        this.#listElm.removeChild(fileItemElm);
+
+        this.itemMap.get(file.name)?.remove();
+        this.itemMap.delete(file.name);
+        this.deleteFile(file);
     }
 
-    #renameFile(file: File, name: string) {
-        this.#options.onRename?.(name, file.name);
-        this.#fileMap.delete(file.name);
-        const newFile = new File([file], name);
-        this.#fileMap.set(name, newFile);
-        this.#dataTransfer = new DataTransfer();
-        this.#fileMap.forEach((f) => {
-            this.#dataTransfer.items.add(f);
-        });
-        this.#inputElm.files = this.#dataTransfer.files;
+    private renameFile(file: File, newName: string) {
+        this.options.onRename?.(newName, file.name);
+        this.fileMap.delete(file.name);
+
+        this.dataTransfer = new DataTransfer();
+        file = new File([file], newName);
+        this.fileMap
+            .set(newName, file)
+            .forEach((f) => this.dataTransfer.items.add(f));
+
+        this.$input.prop('files', this.dataTransfer.files);
     }
 
-    #renameFileItem(file: File, name: string) {
-        const item = this.#itemMap.get(file.name);
+    private renameFileItem(file: File, newName: string) {
+        const item = this.itemMap.get(file.name);
         if (!item) {
             return;
         }
-        this.#itemMap.delete(file.name);
-        this.#itemMap.set(name, item);
-        this.#renameFile(file, name);
+
+        this.itemMap
+            .set(newName, item)
+            .delete(file.name);
+        this.renameFile(file, newName);
     }
 
 
-    #createFileItem(file: File) {
-        const fileItem = document.createElement('li');
-        fileItem.classList.add('file-item');
+    private createFileItem(file: File) {
+        const {showIcon} = this.options;
+        return $('<li class="file-item"></li>')
+            .append(showIcon ? this.fileIcon() : null)
+            .append(this.fileInfo(file))
+            .append(this.renameInput(file));
+    }
 
-        if (this.#options.showIcon) {
-            fileItem.appendChild(this.#createFileIcon());
+    private fileIcon() {
+        const {icon} = this.options;
+        if (icon) {
+            return $(icon);
         }
 
-        const fileInfoElm = this.#createFileInfoElm(file);
-        fileItem.appendChild(fileInfoElm);
-        const renameInput = this.#createRenameInput(file);
-        fileItem.appendChild(renameInput);
-        return fileItem;
+        return $('<i class="icon icon-paper-clip"></i>');
     }
 
-    #createFileIcon() {
-        if (this.#options.icon) {
-            return this.#options.icon;
+    private fileInfo(file: File) {
+        const $name = $(`<span class="file-name">${file.name}</span>`);
+        const $size = $(`<span class="file-size text-gray">${formatBytes(file.size)}</span>`);
+        const $fileInfo = $('<div class="file-info"></div>')
+            .append($name)
+            .append($size);
+
+        const {renameBtn, renameText, deleteBtn, deleteText} = this.options;
+        if (renameBtn) {
+            $fileInfo.append(
+                $('<span />')
+                    .addClass('btn size-sm rounded-sm text-primary canvas file-action file-rename')
+                    .html(renameText)
+                    .on('click', () => {
+                        $fileInfo
+                            .addClass('hidden')
+                            .closest('.file-item')
+                            .find('.input-group.hidden')
+                            .removeClass('hidden');
+                    }),
+            );
         }
-
-        const icon = document.createElement('i');
-        icon.classList.add('icon', 'icon-paper-clip');
-        return icon;
+        if (deleteBtn) {
+            $fileInfo.append(
+                $('<span />')
+                    .html(deleteText)
+                    .addClass('btn size-sm rounded-sm text-primary canvas file-action file-delete')
+                    .on('click', () => this.deleteFileItem($name.html())),
+            );
+        }
+        return $fileInfo;
     }
 
-    #createFileInfoElm(file: File) {
-        const fileInfoElm = document.createElement('div');
-        fileInfoElm.classList.add('file-info');
-        const name = document.createElement('span');
-        name.classList.add('file-name');
-        name.innerHTML = file.name;
-        fileInfoElm.appendChild(name);
-        const size = document.createElement('span');
-        size.classList.add('file-size', 'text-gray');
-        size.innerHTML = formatBytes(file.size);
-        fileInfoElm.appendChild(size);
-        if (this.#options.showRenameBtn) {
-            const renameBtn = document.createElement('span');
-            renameBtn.classList.add('btn', 'size-sm', 'rounded-sm', 'text-primary', 'canvas', 'file-action', 'file-rename');
-            renameBtn.innerHTML = this.#options.renameText;
-            renameBtn.addEventListener('click', () => {
-                fileInfoElm.classList.add('hidden');
-                fileInfoElm.closest('.file-item')?.querySelector('.input-group.hidden')?.classList.remove('hidden');
+    private renameInput(file: File) {
+        const {renameConfirmText, renameCancelText} = this.options;
+        const $renameInput = $('<div class="input-group hidden"></div>');
+        const $input = $('<input />')
+            .addClass('form-control')
+            .prop('type', 'text')
+            .prop('autofocus', true)
+            .prop('defaultValue', file.name);
+        const $submitBtn = $('<button />')
+            .addClass('btn')
+            .prop('type', 'button')
+            .html(renameConfirmText)
+            .on('click', () => {
+                $renameInput.addClass('hidden');
+                this.renameFileItem(file, $input.val() as string);
+                $renameInput
+                    .closest('.file-item')
+                    .find('.file-info.hidden')
+                    .removeClass('hidden')
+                    .find('.file-name')
+                    .html($input.val() as string);
             });
-            fileInfoElm.appendChild(renameBtn);
-        }
-        if (this.#options.showDeleteBtn) {
-            const deleteBtn = document.createElement('span');
-            deleteBtn.classList.add('btn', 'size-sm', 'rounded-sm', 'text-primary', 'canvas', 'file-action', 'file-delete');
-            deleteBtn.innerHTML = this.#options.deleteText;
-            deleteBtn.addEventListener('click', () => {
-                this.#deleteFileItem(name.innerHTML);
+        const $cancelBtn = $('<button />')
+            .prop('type', 'button')
+            .addClass('btn')
+            .html(renameCancelText)
+            .on('click', () => {
+                $input.val(file.name);
+                $renameInput
+                    .addClass('hidden')
+                    .closest('.file-item')
+                    .find('.file-info.hidden')
+                    .removeClass('hidden');
             });
-            fileInfoElm.appendChild(deleteBtn);
-        }
-        return fileInfoElm;
-    }
+        const $groupBtn = $('<div class="btn-group"></div')
+            .append($submitBtn)
+            .append($cancelBtn);
 
-    #createRenameInput(file: File) {
-        const renameInput = document.createElement('div');
-        renameInput.classList.add('input-group', 'hidden');
-
-        const input = document.createElement('input');
-        input.type = 'text';
-        input.autofocus = true;
-        input.classList.add('form-control');
-        input.defaultValue = file.name;
-        renameInput.appendChild(input);
-
-        const groupBtn = document.createElement('div');
-        groupBtn.classList.add('input-group-btn');
-        renameInput.appendChild(groupBtn);
-
-        const submitBtn = document.createElement('button');
-        submitBtn.type = 'button';
-        submitBtn.classList.add('btn');
-        submitBtn.innerHTML = this.#options.renameConfirmText;
-        submitBtn.addEventListener('click', () => {
-            renameInput.classList.add('hidden');
-            this.#renameFileItem(file, input.value);
-            const fileInfoElm = renameInput.closest('.file-item')?.querySelector('.file-info.hidden');
-            if (!fileInfoElm) {
-                return;
-            }
-            fileInfoElm.classList.remove('hidden');
-            const nameElm = fileInfoElm.querySelector('.file-name');
-            if (nameElm) {
-                nameElm.innerHTML = input.value;
-            }
-        });
-        groupBtn.appendChild(submitBtn);
-
-        const cancelBtn = document.createElement('button');
-        cancelBtn.type = 'button';
-        cancelBtn.classList.add('btn');
-        cancelBtn.innerHTML = this.#options.renameCancelText;
-        cancelBtn.addEventListener('click', () => {
-            renameInput.classList.add('hidden');
-            input.value = file.name;
-            renameInput.closest('.file-item')?.querySelector('.file-info.hidden')?.classList.remove('hidden');
-        });
-        groupBtn.appendChild(cancelBtn);
-        return renameInput;
+        return $renameInput
+            .append($input)
+            .append($groupBtn);
     }
 }

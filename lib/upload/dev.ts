@@ -1,5 +1,5 @@
-import Upload from './src/main';
 import 'zui-dev';
+import {Upload} from './src/main';
 
 onPageLoad(() => {
     const uploadElm1 = document.querySelector('#example1') as HTMLElement | null;
@@ -9,6 +9,8 @@ onPageLoad(() => {
     }
     new Upload(uploadElm1, {
         name: 'upload1',
+        deleteBtn: true,
+        renameBtn: true,
     });
 
     const uploadElm2 = document.querySelector('#example2') as HTMLElement | null;
@@ -24,8 +26,8 @@ onPageLoad(() => {
     new Upload(uploadElm2, {
         name: 'upload2',
         multiple: true,
-        showDeleteBtn: true,
-        showRenameBtn: true,
+        deleteBtn: true,
+        renameBtn: true,
         defaultFileList: [file1, file2],
     });
 });
