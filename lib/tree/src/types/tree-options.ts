@@ -4,7 +4,6 @@ import type {TreeItemOptions} from './tree-item-options';
 import type {ToolbarOptions, ToolbarItemOptions} from '@zui/toolbar/src/types';
 
 export interface TreeOptions<T extends ActionBasicProps = TreeItemOptions> extends ActionMenuNestedOptions<T> {
-    animate?: boolean;
     collapsedIcon?: IconType;
     expandedIcon?: IconType;
     normalIcon?: IconType;
