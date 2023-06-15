@@ -91,17 +91,27 @@ const actionsPlugin: DTablePlugin<DTableActionsTypes> = {
                                 Object.assign(others, buildProps(result, info));
                             }
                         }
+                        if (others.disabled) {
+                            delete others.url;
+                            delete others['data-toggle'];
+                        }
                         if (items && others.type === 'dropdown') {
                             const {dropdown = {placement: 'bottom-end'}} = (others as ToolbarDropdownProps);
                             dropdown.menu = {
                                 className: 'menu-dtable-actions',
                                 items: items.reduce((list, item) => {
-                                    const itemAction = (typeof item === 'string' ? {name: item} : {...item}) as MenuItemOptions & {name?: string, url?: string};
+                                    const itemAction = (typeof item === 'string' ? {name: item} : {...item}) as MenuItemOptions & {name?: string, url?: string, disabled?: boolean};
                                     if (itemAction?.name) {
                                         if (actionsMap && 'name' in itemAction) {
                                             Object.assign(itemAction, actionsMap[itemAction.name], {...itemAction});
                                         }
                                         list.push(itemAction as MenuItemOptions);
+                                    }
+                                    if (itemAction.disabled) {
+                                        delete itemAction.url;
+                                        delete itemAction['data-toggle'];
+                                    } else if (itemAction.url) {
+                                        itemAction.url = formatString(itemAction.url, row.data);
                                     }
                                     return list;
                                 }, [] as MenuItemOptions[]),
