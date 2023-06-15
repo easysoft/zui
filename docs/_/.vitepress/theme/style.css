@@ -9,31 +9,31 @@ body {
 }
 
 .vp-doc > div > h3 {
-    @apply -mb-2;
+  @apply -mb-2;
 }
 .vp-doc .example a:hover {
-    @apply -no-underline;
+  @apply -no-underline;
 }
 .vp-doc .example li + li {
-    @apply -mt-0;
+  @apply -mt-0;
 }
 .VPDoc > .container {
   @apply -min-w-0;
 }
 input:focus, textarea:focus, select:focus {
-    @apply -outline-1 -outline;
+  @apply -outline-1 -outline;
 }
 .vp-doc [class*='language-'] pre {
   max-height: 500px;
 }
 .VPSidebar > .nav {
-    @apply -block;
+  @apply -block;
 }
 .VPSidebarItem .caret {
-    @apply -border-none;
+  @apply -border-none;
 }
 .VPNavBarMenu.menu {
-    @apply -shadow-none -border-none -bg-transparent;
+  @apply -shadow-none -border-none -bg-transparent;
 }
 
 .VPSidebarItem .text {
@@ -47,9 +47,9 @@ input:focus, textarea:focus, select:focus {
 }
 
 .-bg-stripes-blue {
-    background-color: #60a5fa1a;
-    background-image: linear-gradient(135deg,#3b82f680 10%,#0000 0,#0000 50%,#3b82f680 0,#3b82f680 60%,#0000 0,#0000);
-    background-size: 7.07px 7.07px;
+  background-color: #60a5fa1a;
+  background-image: linear-gradient(135deg,#3b82f680 10%,#0000 0,#0000 50%,#3b82f680 0,#3b82f680 60%,#0000 0,#0000);
+  background-size: 7.07px 7.07px;
 }
 
 button.DocSearch-Button {
