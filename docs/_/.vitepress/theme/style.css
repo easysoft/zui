@@ -17,6 +17,9 @@ body {
 .vp-doc .example li + li {
     @apply -mt-0;
 }
+.VPDoc > .container {
+  @apply -min-w-0;
+}
 input:focus, textarea:focus, select:focus {
     @apply -outline-1 -outline;
 }
