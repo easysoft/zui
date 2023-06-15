@@ -28,7 +28,7 @@ export function formatString(str: string, ...args: [Record<string, unknown>] | u
     if (args.length === 1 && typeof args[0] === 'object' && args[0]) {
         const obj = args[0];
         Object.keys(obj).forEach(key => {
-            const value = obj[key] ?? 0;
+            const value = (obj as Record<string, unknown>)[key] ?? '';
             str = str.replace(new RegExp(`\\{${key}\\}`, 'g'), `${value}`);
         });
         return str;

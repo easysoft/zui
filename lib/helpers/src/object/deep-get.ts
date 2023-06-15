@@ -31,14 +31,14 @@ export function deepGetPath(object: object, pathName: string | string[]): (objec
             name = name.substring(0, bracketIndex);
         }
 
-        context = context[name];
+        context = (context as Record<string, object>)[name];
         way.push(context);
         if (subName !== undefined) {
             if (typeof context === 'object' && context !== null) {
                 if (context instanceof Map) {
                     context = context.get(subName);
                 } else {
-                    context = context[subName];
+                    context = (context as Record<string, object>)[subName];
                 }
                 way.push(context);
             } else {
