@@ -3655,7 +3655,7 @@ const Ui = "show", Ca = "in", cf = '[data-dismiss="modal"]', Ss = class extends 
   constructor() {
     super(...arguments), gn(this, kn), gn(this, Fe, 0), gn(this, ks, void 0), gn(this, me, void 0), gn(this, cr, (t) => {
       const e = t.target;
-      (e.closest(cf) || this.options.backdrop === !0 && !e.closest(".modal-dialog") && e.closest(".modal")) && this.hide();
+      (e.closest(cf) || this.options.backdrop === !0 && !e.closest(".modal-dialog") && e.closest(".modal")) && (t.stopPropagation(), this.hide());
     });
   }
   get modalElement() {
