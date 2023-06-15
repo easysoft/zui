@@ -4,9 +4,13 @@ import 'highlight.js/styles/github.css';
 import {loadLibPage, loadLibs, currentLibName} from './libs';
 import './style.css';
 
-const libNav = document.querySelector<HTMLDivElement>('#libNav');
-if (libNav) {
-    const groupedLibs = await loadLibs();
+const groupedLibs = await loadLibs();
+
+async function buildLibNav() {
+    const libNav = document.querySelector<HTMLDivElement>('#libNav');
+    if (!libNav) {
+        return;
+    }
     const html: string[] = [];
     let count = 0;
     for (const [type, libs] of groupedLibs) {
@@ -42,6 +46,8 @@ if (libNav) {
     }
 }
 
+await buildLibNav();
+
 if (import.meta.hot) {
     import.meta.hot.on('zui:lib-page-updated', (data) => {
         if (data.libName === currentLibName) {
@@ -55,6 +61,6 @@ if (import.meta.hot) {
     });
 
     if (currentLibName) {
-        loadLibPage(currentLibName);
+        await loadLibPage(currentLibName);
     }
 }
