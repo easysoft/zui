@@ -85,9 +85,9 @@ const actionsPlugin: DTablePlugin<DTableActionsTypes> = {
                         const {name, items, ...others} = action;
                         if (actionsMap && name) {
                             Object.assign(others, actionsMap[name], {...others});
-                            if (typeof (others as any).buildProps === 'function') {
-                                const {buildProps} = others as any;
-                                delete (others as any).buildProps;
+                            const {buildProps} = others as {buildProps?: unknown};
+                            if (typeof buildProps === 'function') {
+                                delete (others as {buildProps?: unknown}).buildProps;
                                 Object.assign(others, buildProps(result, info));
                             }
                         }
