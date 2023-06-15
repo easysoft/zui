@@ -21,7 +21,6 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
         backdrop: true,
         responsive: true,
         transTime: 300,
-        destoryOnHide: true,
     };
 
     static zIndex = 2000;
@@ -119,10 +118,6 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
         this.#resetTransTimer(() => {
             $(this.modalElement).removeClass(CLASS_SHOW);
             this.emit('hidden');
-
-            if (this.options.destoryOnHide) {
-                this.destroy();
-            }
         });
         return true;
     }

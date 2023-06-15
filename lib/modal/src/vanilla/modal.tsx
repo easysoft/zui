@@ -75,6 +75,7 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
     static DEFAULT = {
         ...ModalBase.DEFAULT,
         loadTimeout: 10000,
+        destoryOnHide: true,
     } as Partial<ModalOptions>;
 
     #modal?: HTMLElement;
@@ -89,6 +90,10 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
 
     get loading() {
         return this.modalElement?.classList.contains(Modal.LOADING_CLASS);
+    }
+
+    get shown() {
+        return !!this.#modal?.classList.contains('show');
     }
 
     get modalElement() {
@@ -110,6 +115,11 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
     afterInit() {
         super.afterInit();
         this.#id = this.options.id || `modal-${nanoid()}`;
+        this.on('hidden', () => {
+            if (this.options.destoryOnHide) {
+                this.destroy();
+            }
+        });
     }
 
     show(options?: Partial<T>) {

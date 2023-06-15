@@ -26,12 +26,11 @@ export class ModalTrigger extends Component<ModalTriggerOptions> {
     }
 
     show() {
-        const modal = this.#initModal();
-        return modal?.show();
+        return this.#initModal()?.show();
     }
 
     hide() {
-        this.#modal?.hide();
+        return this.#modal?.hide();
     }
 
     #getBuilderOptions(): ModalOptions {
@@ -52,6 +51,7 @@ export class ModalTrigger extends Component<ModalTriggerOptions> {
             builderOptions.url = href;
         }
 
+
         return builderOptions;
     }
 
@@ -60,13 +60,21 @@ export class ModalTrigger extends Component<ModalTriggerOptions> {
         let modal = this.#modal;
         if (modal) {
             modal.setOptions(options);
-        } else if (options.type === 'static') {
-            modal = ModalBase.ensure(this.#getStaticModalElement(), options);
-            this.#modal = modal;
+            return modal;
+        }
+        if (options.type === 'static') {
+            const modalElement = this.#getStaticModalElement();
+            if (!modalElement) {
+                return;
+            }
+            modal = ModalBase.ensure(modalElement, options);
         } else {
             modal = Modal.ensure(this.container, options);
-            this.#modal = modal;
         }
+        this.#modal = modal;
+        modal.on('destroyed', () => {
+            this.#modal = undefined;
+        });
         return modal;
     }
 
