@@ -1862,7 +1862,7 @@ const Qi = class extends U {
     (n = (e = this.props).afterRender) == null || n.call(e, { menu: this, firstRender: t });
   }
   handleItemClick(t, e, n, s) {
-    n && n.call(s.target, s);
+    n && n.call(s.target, s, t, e);
     const { onClickItem: i } = this.props;
     i && i({ menu: this, item: t, index: e, event: s });
   }
@@ -1872,7 +1872,7 @@ const Qi = class extends U {
     return e && Object.assign(t, e), t;
   }
   getItemRenderProps(t, e, n) {
-    const { commonItemProps: s, onClickItem: i } = t, r = { key: n, ...e };
+    const { commonItemProps: s, onClickItem: i } = t, r = { ...e };
     return s && Object.assign(r, s[e.type || "item"]), (i || e.onClick) && (r.onClick = this.handleItemClick.bind(this, r, n, e.onClick)), r.className = M(r.className), r;
   }
   renderItem(t, e, n) {
@@ -2035,7 +2035,7 @@ let yi = class extends Ne {
     const i = super.getItemRenderProps(e, n, s);
     if (i.level = e.level || 0, !this.isNestedItem(i))
       return i;
-    const r = i.key ?? s;
+    const r = i.key ?? i.id ?? `${e.level || 0}:${s}`;
     ut(this, ys).add(r);
     const o = this.isNestedMenuShow(r);
     if (o && (i.rootChildren = [
@@ -5625,8 +5625,8 @@ function Xf({
   items: _,
   ...k
 }) {
-  const C = Array.isArray(m) ? { btnProps: { size: "sm" }, items: m } : m;
-  return /* @__PURE__ */ g(
+  const C = Array.isArray(m) ? { items: m } : m;
+  return C && (C.btnProps || (C.btnProps = { size: "sm" }), C.className = M("tree-actions not-nested-toggle", C.className)), /* @__PURE__ */ g(
     "div",
     {
       className: M("tree-item-content", n, { disabled: a, active: l }),
