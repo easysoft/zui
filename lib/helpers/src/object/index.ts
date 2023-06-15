@@ -1,2 +1,1 @@
-export * from './is-object';
-export * from './merge-deep';
+export * from './deep-get';
