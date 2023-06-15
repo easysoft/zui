@@ -1,0 +1,31 @@
+.tree-item-content {
+  @apply -flex -flex-row -items-center -gap-1;
+}
+.tree-toggle-icon {
+  @apply -w-4 -flex -items-center -justify-center -rounded -h-4;
+  --caret-size: 5px;
+}
+.tree-checkbox {
+  @apply --mr-1;
+}
+.tree-icon {
+  @apply -w-4 -opacity-50;
+}
+.tree-item-content:hover > .tree-icon {
+  @apply -opacity-80;
+}
+
+.tree-hover .tree-item-content {
+  @apply hover:-bg-surface -rounded -transition-colors;
+}
+
+.tree-link:not(:hover) {
+  @apply -text-inherit;
+}
+
+.tree-item-content > .toolbar {
+  @apply -ml-4 -opacity-60;
+}
+.tree-item-content:hover > .toolbar {
+  @apply -opacity-100;
+}
