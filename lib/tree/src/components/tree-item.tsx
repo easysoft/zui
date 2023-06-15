@@ -27,7 +27,13 @@ export function TreeItem({
     items,
     ...others
 }: TreeItemProps) {
-    const toolbarOptions = Array.isArray(actions) ? {btnProps: {size: 'sm'}, items: actions} as ToolbarOptions : actions;
+    const toolbarOptions = Array.isArray(actions) ? {items: actions} as ToolbarOptions : actions;
+    if (toolbarOptions) {
+        if (!toolbarOptions.btnProps) {
+            toolbarOptions.btnProps = {size: 'sm'};
+        }
+        toolbarOptions.className = classes('tree-actions not-nested-toggle', toolbarOptions.className);
+    }
     return (
         <div
             className={classes('tree-item-content', className, {disabled, active})}
