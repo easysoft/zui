@@ -18,8 +18,8 @@ const tree = new zui.Tree('#treeExample', {
             items: [
                 {text: '前端', url: '#前端'},
                 {
-                    text: '大产品',
-                    url: '#大产品',
+                    text: '产品',
+                    url: '#产品',
                     items: [
                         {text: '桌面端', url: '#桌面端'},
                         {text: '移动端', url: '#移动端'},
@@ -140,8 +140,8 @@ const items = [
         items: [
             {text: '前端', url: '#前端'},
             {
-                text: '大产品',
-                url: '#大产品',
+                text: '产品',
+                url: '#产品',
                 items: [
                     {text: '桌面端', url: '#桌面端'},
                     {text: '移动端', url: '#移动端'},
