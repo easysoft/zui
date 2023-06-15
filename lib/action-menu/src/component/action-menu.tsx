@@ -51,9 +51,9 @@ export class ActionMenu<T extends ActionBasicProps = ActionMenuItemOptions, P ex
         this.props.afterRender?.({menu: this, firstRender});
     }
 
-    handleItemClick(item: T, index: number, onClick: ((event: MouseEvent) => void) | undefined, event: MouseEvent) {
+    handleItemClick(item: T, index: number, onClick: ((event: MouseEvent, item: T, index: number) => void) | undefined, event: MouseEvent) {
         if (onClick) {
-            onClick.call(event.target, event);
+            onClick.call(event.target, event, item, index);
         }
         const {onClickItem} = this.props;
         if (onClickItem) {
@@ -72,7 +72,7 @@ export class ActionMenu<T extends ActionBasicProps = ActionMenuItemOptions, P ex
 
     getItemRenderProps(props: Omit<P, 'items'> & {items: T[]}, item: T, index: number): T {
         const {commonItemProps, onClickItem} = props;
-        const itemProps: T = {key: index, ...item};
+        const itemProps: T = {...item};
 
         if (commonItemProps) {
             Object.assign(itemProps, commonItemProps[item.type || 'item']);

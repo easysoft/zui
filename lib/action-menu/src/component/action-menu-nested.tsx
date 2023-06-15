@@ -90,7 +90,7 @@ export class ActionMenuNested<T extends ActionBasicProps = ActionMenuNestedItemO
         if (!this.isNestedItem(itemProps)) {
             return itemProps;
         }
-        const key = itemProps.key ?? index;
+        const key = itemProps.key ?? (itemProps as {id?: string}).id ?? `${(props.level || 0)}:${index}`;
         this.#keys.add(key);
         const show = this.isNestedMenuShow(key);
         if (show) {
