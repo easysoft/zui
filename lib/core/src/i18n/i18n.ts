@@ -1,5 +1,5 @@
+import {$} from '../cash';
 import {deepGet} from '@zui/helpers/src/object/deep-get';
-import {mergeDeep} from '@zui/helpers/src/object/merge-deep';
 import {formatString} from '@zui/helpers/src/format-string';
 import {I18nLangMap, I18nLangCode, I18nValuesMap} from './types';
 
@@ -24,7 +24,7 @@ export function addI18nMap(codeOrMap: I18nLangCode | I18nLangMap, values?: I18nV
     if (typeof codeOrMap === 'string') {
         codeOrMap = {[codeOrMap]: values ?? {}};
     }
-    mergeDeep(globalLangMap, codeOrMap);
+    $.extend(true, globalLangMap, codeOrMap);
 }
 
 export function i18n(maps: I18nLangMap | (I18nLangMap | undefined)[] | undefined, key: string, defaultValue?: string, langCode?: I18nLangCode, globalPrefix?: string): string | undefined;

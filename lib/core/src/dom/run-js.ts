@@ -1,4 +1,4 @@
-import {$, Cash, Selector, CashStatic} from '../cash';
+import {$, Cash, Selector} from '../cash';
 
 /**
  * Run javascript in an element.

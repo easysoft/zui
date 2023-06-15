@@ -49,7 +49,7 @@ function Portal(this: any, props: any) {
                     that._container.appendChild(child);
                 },
                 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                insertBefore(child: VNode, before: VNode) {
+                insertBefore(child: VNode, _before: VNode) {
                     this.childNodes.push(child);
                     that._container.appendChild(child);
                 },
