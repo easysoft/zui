@@ -172,6 +172,9 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
     destroy() {
         const {KEY, DATA_KEY, MULTI_INSTANCE} = this.constructor;
         const {$element} = this;
+
+        (this.emit as ((event: string, ...args: unknown[]) => void))('destroyed');
+
         $element
             .off(this.namespace)
             .removeData(KEY)
@@ -192,8 +195,6 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
 
         this.#options = undefined;
         this.#element = undefined;
-
-        (this.emit as ((event: string, ...args: unknown[]) => void))('destroyed');
     }
 
     /**
