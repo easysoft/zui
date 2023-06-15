@@ -1,21 +1,12 @@
 import {Component, createRef} from 'preact';
-import {nanoid} from 'nanoid';
 import {classes, $, createPortal} from '@zui/core';
 import {computePosition, flip, offset, shift, autoUpdate} from '@floating-ui/dom';
-import {PickerItemBasic, PickerItemProps, PickerMenuProps, PickerOptions, PickerSelectProps} from '../types';
+import {PickerItemBasic, PickerItemProps, PickerMenuProps, PickerOptions, PickerSelectProps, PickerState} from '../types';
 import {PickerMultiSelect} from './picker-multi-select';
 import {PickerSingleSelect} from './picker-single-select';
 import {PickerMenu} from './picker-menu';
 import '@zui/form-control/src/style/index.css';
 import '../style/index.css';
-
-export type PickerState = {
-    value?: string;
-    open: boolean;
-    loading: boolean;
-    items: PickerItemProps[];
-    search: string,
-};
 
 export class Picker extends Component<PickerOptions, PickerState> {
     static defaultProps: Partial<PickerOptions> = {
@@ -29,7 +20,7 @@ export class Picker extends Component<PickerOptions, PickerState> {
 
     #asyncId = 0;
 
-    #id = nanoid();
+    #id = $.guid++;
 
     #menu = createRef<PickerMenu>();
 
@@ -68,7 +59,7 @@ export class Picker extends Component<PickerOptions, PickerState> {
         this.#autoUpdateMenu = undefined;
     }
 
-    async loadItemList(): Promise<PickerItemProps[]> {
+    async loadItems(): Promise<PickerItemProps[]> {
         let {items} = this.props;
         if (typeof items === 'function') {
             const asyncId = ++this.#asyncId;
@@ -121,7 +112,7 @@ export class Picker extends Component<PickerOptions, PickerState> {
         }
         await this.#waitState({open});
         if (open) {
-            this.loadItemList();
+            this.loadItems();
         }
     }
 
@@ -224,7 +215,7 @@ export class Picker extends Component<PickerOptions, PickerState> {
         const {search, menuClass, menuWidth, menuStyle, menuMaxHeight, menuMaxWidth, menuMinWidth, multiple, searchHint, menuCheckbox} = this.props;
         const {items} = this.state;
         return {
-            id: this.#id,
+            id: `${this.#id}`,
             items,
             selections: this.valueList,
             search: search === true || (typeof search === 'number' && search <= items.length),

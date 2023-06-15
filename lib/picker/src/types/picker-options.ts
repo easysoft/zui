@@ -1,6 +1,6 @@
 import type {ComponentType, JSX} from 'preact';
 import type {ClassNameLike} from '@zui/core';
-import type {PickerItemProps} from './picker-item-props';
+import type {PickerItemOptions} from './picker-item-options';
 import type {PickerMenuDirection} from './picker-menu-direction';
 import type {PickerLangData} from './picker-lang-data';
 import type {PickerSelectProps} from './picker-select-props';
@@ -23,14 +23,14 @@ export type PickerOptions = {
     defaultValue?: string | string[];
     placeholder?: string;
     valueSplitter?: string;
-    items: PickerItemProps[] | (() => (Promise<PickerItemProps[]> | PickerItemProps[]));
+    items: PickerItemOptions[] | (() => (Promise<PickerItemOptions[]> | PickerItemOptions[]));
     hotkey?: boolean;
     search?: boolean | number;
     searchDelay?: number;
     searchHint?: string;
     onChange?: (value: string | undefined | string[]) => void;
-    onDeselect?: (value: string, item: PickerItemProps) => false | void;
-    onSelect?: (value: string, item: PickerItemProps) => false | void;
+    onDeselect?: (value: string, item: PickerItemOptions) => false | void;
+    onSelect?: (value: string, item: PickerItemOptions) => false | void;
     onFocus?: () => void;
     onNoResults?: (search: string) => string | void;
 
