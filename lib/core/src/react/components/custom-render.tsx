@@ -1,4 +1,4 @@
-import {h as _h, isValidElement, ComponentChildren, JSX} from 'preact';
+import {h as _h, isValidElement, ComponentChildren, JSX, Attributes} from 'preact';
 import {classes, ClassNameLike} from '../../helpers';
 
 export type CustomRenderResultItem = Partial<{
@@ -114,5 +114,5 @@ export function CustomRender({
     ...props
 }: CustomRenderProps) {
     const [attrs, children] = renderCustomResult(props);
-    return _h(tag, attrs as unknown as Record<string, any>, ...children);
+    return _h(tag, attrs as Attributes, ...children);
 }
