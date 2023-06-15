@@ -36,7 +36,7 @@ export type DTableRich = DTableWithPlugin<DTableRichTypes>;
 
 export function renderLink(link: ColLinkSetting | undefined, info: {row: RowInfo, col: ColInfo}, content?: ComponentChildren, props?: Record<string, unknown>) {
     if (typeof link === 'function') {
-        link = link(info as unknown as {row: RowInfo, col: ColInfo});
+        link = link(info);
     }
     if (typeof link === 'string' && link.length) {
         link = {url: link};
@@ -44,8 +44,17 @@ export function renderLink(link: ColLinkSetting | undefined, info: {row: RowInfo
     if (!link) {
         return content;
     }
-    const {url, ...linkProps} = link;
-    return <a href={formatString(url, info.row.data)} {...props} {...linkProps}>{content}</a>;
+    const {url, ...linkProps} = link as ({url: string;} & JSX.HTMLAttributes<HTMLAnchorElement>);
+    const {setting} = info.col;
+    const dataset: Record<string, string> = {};
+    if (setting) {
+        Object.keys(setting).forEach(k => {
+            if (k.startsWith('data-')) {
+                dataset[k] = setting[k] as string;
+            }
+        });
+    }
+    return <a href={formatString(url, info.row.data)} {...props} {...linkProps} {...dataset}>{content}</a>;
 }
 
 export function renderFormat(format: ColFormatSetting | undefined, info: {row: RowInfo, col: ColInfo}, value?: unknown) {

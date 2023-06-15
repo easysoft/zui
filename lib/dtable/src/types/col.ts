@@ -44,5 +44,6 @@ export type ColSetting<S = {}> = S & {
     hidden: boolean;
     colHover: boolean;
     onRenderCell: CellRenderCallback<ColSetting & S>;
+    [prop: `data-${string}`]: string;
     [prop: string]: unknown;
 }>;
