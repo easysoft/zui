@@ -1,6 +1,9 @@
 /**
  * Custom style for zui
  * -------------------------------------------------------------------------- */
+body {
+  @apply !-bg-canvas;
+}
 .Layout {
   font-size: 1rem;
 }
@@ -10,6 +13,9 @@
 }
 .vp-doc .example a:hover {
     @apply -no-underline;
+}
+.vp-doc .example li + li {
+    @apply -mt-0;
 }
 input:focus, textarea:focus, select:focus {
     @apply -outline-1 -outline;
