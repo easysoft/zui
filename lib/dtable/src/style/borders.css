@@ -3,6 +3,9 @@
     @apply -border-b;
     border-color: var(--dtable-border-color);
 }
+.dtable-rows > .dtable-row:last-child {
+    @apply -border-b-transparent;
+}
 
 /* Fixed columns divider */
 .dtable-cells.dtable-fixed-left::before,

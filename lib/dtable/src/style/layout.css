@@ -1,5 +1,5 @@
 .dtable {
-    @apply -relative -outline-none;
+    @apply -relative -outline-none -bg-canvas;
 }
 
 .dtable-header {
