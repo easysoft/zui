@@ -1,4 +1,3 @@
-import {nanoid} from 'nanoid';
 import {$, Component} from '@zui/core';
 import {MessagerOptions} from '../types';
 import {MessagerItem} from './messager-item';
