@@ -4,16 +4,17 @@ import './style.css';
 import type {CustomRenderResult} from '../../types/common';
 import type {DTablePluginTypes, DTableWithPlugin, DTablePlugin} from '../../types/plugin';
 import type {ComponentChildren} from 'preact';
+import {RowID} from '../../types';
 
 export interface DTableCheckableTypes extends DTablePluginTypes {
     options: Partial<{
         checkable: boolean | 'auto';
         checkOnClickRow: boolean;
         checkInfo: (this: DTableCheckable, checks: string[]) => ComponentChildren;
-        canRowCheckable: (this: DTableCheckable, rowID: string) => boolean;
+        canRowCheckable: (this: DTableCheckable, rowID: string) => boolean | 'disabled';
         beforeCheckRows: (this: DTableCheckable, ids: string[] | undefined, changes: Record<string, boolean>, checkedRows: Record<string, boolean>) => Record<string, boolean>;
         onCheckChange: (this: DTableCheckable, changes: Record<string, boolean>) => void;
-        checkboxRender: (this: DTableCheckable, checked: boolean, rowID: string) => CustomRenderResult;
+        checkboxRender: (this: DTableCheckable, checked: boolean, rowID: string, disabled?: boolean) => CustomRenderResult;
     }>,
     col: {
         checkbox?: boolean | ((this: DTableCheckable, rowID: string) => boolean);
@@ -33,7 +34,7 @@ export interface DTableCheckableTypes extends DTablePluginTypes {
 
 export type DTableCheckable = DTableWithPlugin<DTableCheckableTypes>;
 
-function toggleCheckRows(this: DTableCheckable, ids?: string | string[] | boolean, checked?: boolean): Record<string, boolean> {
+function toggleCheckRows(this: DTableCheckable, ids?: string | string[] | boolean, checked?: boolean, preventDisabled = false): Record<string, boolean> {
     if (typeof ids === 'boolean') {
         checked = ids;
         ids = undefined;
@@ -42,7 +43,8 @@ function toggleCheckRows(this: DTableCheckable, ids?: string | string[] | boolea
     const changes: Record<string, boolean> = {};
     const {canRowCheckable} = this.options;
     const toggleRow = (id: string, toggle: boolean) => {
-        if (canRowCheckable && !canRowCheckable.call(this, id)) {
+        const checkable = canRowCheckable ? canRowCheckable.call(this, id) : true;
+        if (!checkable || (preventDisabled && checkable === 'disabled')) {
             return;
         }
         const oldChecked = !!checkedRows[id];
@@ -124,8 +126,8 @@ function toggleCheckable(this: DTableCheckable, toggle?: boolean) {
     this.setState({forceCheckable: toggle});
 }
 
-function renderCheckbox(checked: boolean) {
-    return (<div class={`checkbox-primary dtable-checkbox${checked ? ' checked' : ''}`}>
+function renderCheckbox(checked: boolean, _rowID?: RowID, disabled = false) {
+    return (<div class={`checkbox-primary dtable-checkbox${checked ? ' checked' : ''}${disabled ? ' disabled' : ''}`}>
         <label></label>
     </div>);
 }
@@ -197,14 +199,15 @@ const checkablePlugin: DTablePlugin<DTableCheckableTypes> = {
     onRenderCell(result, {row, col}) {
         const {id: rowID} = row;
         const {canRowCheckable} = this.options;
-        if (canRowCheckable && !canRowCheckable.call(this, rowID)) {
+        const checkable = canRowCheckable ? canRowCheckable.call(this, rowID) : true;
+        if (!checkable) {
             return result;
         }
         const {checkbox: checkboxSetting} = col.setting;
         const showCheckbox = typeof checkboxSetting === 'function' ? checkboxSetting.call(this, rowID) : checkboxSetting;
         if (showCheckbox) {
             const checked = this.isRowChecked(rowID);
-            const checkbox = this.options.checkboxRender?.call(this, checked, rowID);
+            const checkbox = this.options.checkboxRender?.call(this, checked, rowID, checkable === 'disabled');
             result.unshift(checkbox);
             result.push({className: 'has-checkbox'});
         }
@@ -244,9 +247,9 @@ const checkablePlugin: DTablePlugin<DTableCheckableTypes> = {
         if (!$target.length || $target.closest('btn,a,button').length) {
             return;
         }
-        const $checkbox = $target.closest('input[type="checkbox"],.dtable-checkbox');
+        const $checkbox = $target.closest('input[type="checkbox"],.dtable-checkbox').not('.disabled');
         if ($checkbox.length || this.options.checkOnClickRow) {
-            this.toggleCheckRows(rowID);
+            this.toggleCheckRows(rowID, undefined, true);
         }
     },
 };

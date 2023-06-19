@@ -773,10 +773,10 @@ const options = {
 
 ### 限制行是否可以被选中
 
-有时并非所有行可以被选中，此时可以通过初始化选项 `canRowCheckable` 指定一个回调函数来动态返回是否可以选中，该回调函数定义如下：
+有时并非所有行可以被选中，此时可以通过初始化选项 `canRowCheckable` 指定一个回调函数来动态返回是否可以选中，如果在该函数中返回 `'disabled'` 则禁止通过点击复选框选中，但仍然可以通过方法选中。该回调函数定义如下：
 
 ```ts
-function(this: DTableCheckable, rowID: string): boolean
+function(this: DTableCheckable, rowID: string): boolean | 'disabled'
 ```
 
 其中参数定义如下：
