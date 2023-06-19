@@ -7,6 +7,7 @@ import type {Modal} from '../vanilla/modal';
 export type ModalOptions = ModalBaseOptions & {
     type: string;
     id?: string;
+    key?: string;
     loadingText?: string;
     loadTimeout?: number;
     failedTip?: string;

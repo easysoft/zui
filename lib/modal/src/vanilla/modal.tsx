@@ -313,9 +313,9 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
         const {onClickAction, onResult, ...otherOptions} = options;
         const result = await Modal.alert({
             actions: ['confirm', 'cancel'],
-            onClickAction: (item_1, modal) => {
-                onResult?.(item_1.key === 'confirm', modal);
-                onClickAction?.(item_1, modal);
+            onClickAction: (item, modal) => {
+                onResult?.(item.key === 'confirm', modal);
+                onClickAction?.(item, modal);
             },
             ...otherOptions,
         });
