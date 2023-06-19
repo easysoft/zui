@@ -7090,26 +7090,27 @@ const rd = {
     }
   }
 }, ad = de(rd, { buildIn: !0 });
-function ld(e, t) {
-  var r, a;
+function ld(e, t, n = !1) {
+  var a, l;
   typeof e == "boolean" && (t = e, e = void 0);
-  const n = this.state.checkedRows, s = {}, { canRowCheckable: i } = this.options, o = (l, h) => {
-    i && !i.call(this, l) || !!n[l] === h || (h ? n[l] = !0 : delete n[l], s[l] = h);
+  const s = this.state.checkedRows, i = {}, { canRowCheckable: o } = this.options, r = (h, c) => {
+    const u = o ? o.call(this, h) : !0;
+    !u || n && u === "disabled" || !!s[h] === c || (c ? s[h] = !0 : delete s[h], i[h] = c);
   };
-  if (e === void 0 ? (t === void 0 && (t = !ah.call(this)), (r = this.layout) == null || r.allRows.forEach(({ id: l }) => {
-    o(l, !!t);
-  })) : (Array.isArray(e) || (e = [e]), e.forEach((l) => {
-    o(l, t ?? !n[l]);
-  })), Object.keys(s).length) {
-    const l = (a = this.options.beforeCheckRows) == null ? void 0 : a.call(this, e, s, n);
-    l && Object.keys(l).forEach((h) => {
-      l[h] ? n[h] = !0 : delete n[h];
-    }), this.setState({ checkedRows: { ...n } }, () => {
-      var h;
-      (h = this.options.onCheckChange) == null || h.call(this, s);
+  if (e === void 0 ? (t === void 0 && (t = !ah.call(this)), (a = this.layout) == null || a.allRows.forEach(({ id: h }) => {
+    r(h, !!t);
+  })) : (Array.isArray(e) || (e = [e]), e.forEach((h) => {
+    r(h, t ?? !s[h]);
+  })), Object.keys(i).length) {
+    const h = (l = this.options.beforeCheckRows) == null ? void 0 : l.call(this, e, i, s);
+    h && Object.keys(h).forEach((c) => {
+      h[c] ? s[c] = !0 : delete s[c];
+    }), this.setState({ checkedRows: { ...s } }, () => {
+      var c;
+      (c = this.options.onCheckChange) == null || c.call(this, i);
     });
   }
-  return s;
+  return i;
 }
 function cd(e) {
   return this.state.checkedRows[e] ?? !1;
@@ -7129,8 +7130,8 @@ function ud(e) {
   const { checkable: t } = this.options;
   e === void 0 && (e = !t), t !== e && this.setState({ forceCheckable: e });
 }
-function za(e) {
-  return /* @__PURE__ */ g("div", { class: `checkbox-primary dtable-checkbox${e ? " checked" : ""}`, children: /* @__PURE__ */ g("label", {}) });
+function za(e, t, n = !1) {
+  return /* @__PURE__ */ g("div", { class: `checkbox-primary dtable-checkbox${e ? " checked" : ""}${n ? " disabled" : ""}`, children: /* @__PURE__ */ g("label", {}) });
 }
 const fd = {
   name: "checkable",
@@ -7185,14 +7186,14 @@ const fd = {
     }
   },
   onRenderCell(e, { row: t, col: n }) {
-    var a;
-    const { id: s } = t, { canRowCheckable: i } = this.options;
-    if (i && !i.call(this, s))
+    var l;
+    const { id: s } = t, { canRowCheckable: i } = this.options, o = i ? i.call(this, s) : !0;
+    if (!o)
       return e;
-    const { checkbox: o } = n.setting;
-    if (typeof o == "function" ? o.call(this, s) : o) {
-      const l = this.isRowChecked(s), h = (a = this.options.checkboxRender) == null ? void 0 : a.call(this, l, s);
-      e.unshift(h), e.push({ className: "has-checkbox" });
+    const { checkbox: r } = n.setting;
+    if (typeof r == "function" ? r.call(this, s) : r) {
+      const h = this.isRowChecked(s), c = (l = this.options.checkboxRender) == null ? void 0 : l.call(this, h, s, o === "disabled");
+      e.unshift(c), e.push({ className: "has-checkbox" });
     }
     return e;
   },
@@ -7220,7 +7221,7 @@ const fd = {
     const n = y(e.target);
     if (!n.length || n.closest("btn,a,button").length)
       return;
-    (n.closest('input[type="checkbox"],.dtable-checkbox').length || this.options.checkOnClickRow) && this.toggleCheckRows(t);
+    (n.closest('input[type="checkbox"],.dtable-checkbox').not(".disabled").length || this.options.checkOnClickRow) && this.toggleCheckRows(t, void 0, !0);
   }
 }, dd = de(fd);
 var lh = /* @__PURE__ */ ((e) => (e.unknown = "", e.collapsed = "collapsed", e.expanded = "expanded", e.hidden = "hidden", e.normal = "normal", e))(lh || {});
