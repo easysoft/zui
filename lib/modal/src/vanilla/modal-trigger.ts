@@ -100,6 +100,7 @@ $(document).on('click.modal.zui', (event: MouseEvent) => {
         const modalTrigger = ModalTrigger.ensure(toggleBtn);
         if (modalTrigger) {
             modalTrigger.show();
+            event.preventDefault();
         }
     }
 });
