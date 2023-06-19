@@ -278,6 +278,7 @@
 <div class="flex items-center justify-center w-full h-10 shadow-md canvas">shadow-md</div>
 <div class="flex items-center justify-center w-full h-10 shadow-lg canvas">shadow-lg</div>
 <div class="flex items-center justify-center w-full h-10 shadow-xl canvas">shadow-xl</div>
+<div class="flex items-center justify-center w-full h-10 shadow-2xl canvas">shadow-2xl</div>
 ```
 
 ### Box Shadow Color
