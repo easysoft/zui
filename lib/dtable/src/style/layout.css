@@ -27,9 +27,8 @@
     @apply -z-10;
 }
 
-
 .dtable-cell {
-    @apply -absolute -h-full;
+    @apply -absolute -h-full -transition-colors;
 }
 .dtable-cell::before,
 .dtable-cell::after {
