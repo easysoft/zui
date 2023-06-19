@@ -229,7 +229,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
         this.#handleEvent(detail instanceof Event ? detail : new CustomEvent<T>(event, {detail}), event);
     }
 
-    scroll(info: {scrollLeft?: number, scrollTop?: number, offsetLeft?: number, offsetTop?: number, to?: 'up' | 'down' | 'end' | 'home' | 'left' | 'right' | 'left-begin' | 'right-end'}, callback?: (this: DTable, result: boolean) => void): boolean {
+    scroll(info: {scrollLeft?: number, scrollTop?: number, offsetLeft?: number, offsetTop?: number, to?: 'up' | 'down' | 'bottom' | 'top' | 'left' | 'right' | 'begin' | 'end'}, callback?: (this: DTable, result: boolean) => void): boolean {
         const {scrollLeft: scrollLeftOld, scrollTop: scrollTopOld, rowsHeightTotal, rowsHeight, rowHeight, cols: {center: {totalWidth, width}}} = this.layout;
         const {to} = info;
         let {scrollLeft, scrollTop} = info;
@@ -238,13 +238,13 @@ export class DTable extends Component<DTableOptions, DTableState> {
             scrollTop = scrollTopOld + (to === 'down' ? 1 : -1) * Math.floor(rowsHeight / rowHeight) * rowHeight;
         } else if (to === 'left' || to === 'right') {
             scrollLeft = scrollLeftOld + (to === 'right' ? 1 : -1) * width;
-        } else if (to === 'home') {
+        } else if (to === 'top') {
             scrollTop = 0;
-        } else if (to === 'end') {
+        } else if (to === 'bottom') {
             scrollTop = rowsHeightTotal - rowsHeight;
-        } else if (to === 'left-begin') {
+        } else if (to === 'begin') {
             scrollLeft = 0;
-        } else if (to === 'right-end') {
+        } else if (to === 'end') {
             scrollLeft = totalWidth - width;
         } else {
             const {offsetLeft, offsetTop} = info;
@@ -498,7 +498,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
 
     #renderScrollBars(layout: DTableLayout) {
         const scrollbars = [];
-        const {scrollLeft, cols: {left: {width: fixedLeftWidth}, center: {width: centerWidth, totalWidth: centerScrollWidth}}, scrollTop, rowsHeight, rowsHeightTotal, footerHeight} = layout;
+        const {scrollLeft, cols: {left: {width: fixedLeftWidth}, center: {width: centerWidth, totalWidth: centerScrollWidth}}, scrollTop, rowsHeight, rowsHeightTotal, footerHeight, headerHeight} = layout;
         const {scrollbarSize = 12, horzScrollbarPos} = this.options;
         if (centerScrollWidth > centerWidth) {
             scrollbars.push(
@@ -514,6 +514,8 @@ export class DTable extends Component<DTableOptions, DTableState> {
                     size={scrollbarSize}
                     wheelContainer={this.ref}
                 />,
+                <div className="dtable-scroll-shadow is-left" style={{left: fixedLeftWidth, height: headerHeight + rowsHeight}}></div>,
+                <div className="dtable-scroll-shadow is-right" style={{left: fixedLeftWidth + centerWidth, height: headerHeight + rowsHeight}}></div>,
             );
         }
         if (rowsHeightTotal > rowsHeight) {
@@ -527,7 +529,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
                     onScroll={this.#handleScroll}
                     right={0}
                     size={scrollbarSize}
-                    top={layout.headerHeight}
+                    top={headerHeight}
                     wheelContainer={this.ref}
                 />,
             );
@@ -885,18 +887,26 @@ export class DTable extends Component<DTableOptions, DTableState> {
     render() {
         const layout = this.#getLayout();
         const {className, rowHover, colHover, cellHover, bordered, striped, scrollbarHover} = this.options;
-        const style = {width: layout?.width, height: layout?.height};
+        const style: JSX.CSSProperties = {};
         const classNames: ClassNameLike = ['dtable', className, {
             'dtable-hover-row': rowHover,
             'dtable-hover-col': colHover,
             'dtable-hover-cell': cellHover,
             'dtable-bordered': bordered,
             'dtable-striped': striped,
-            'dtable-scrolled-down': (layout?.scrollTop ?? 0) > 0,
             'scrollbar-hover': scrollbarHover,
         }];
         const children: ComponentChildren[] = [];
         if (layout) {
+            style.width = layout.width;
+            style.height = layout.height;
+            classNames.push({
+                'dtable-scrolled-down': layout.scrollTop > 0,
+                'dtable-scrolled-bottom': layout.scrollTop >= (layout.rowsHeightTotal - layout.rowsHeight),
+                'dtable-scrolled-right': layout.scrollLeft > 0,
+                'dtable-scrolled-end': layout.scrollLeft >= (layout.cols.center.totalWidth - layout.cols.center.width),
+            });
+
             children.push(
                 this.#renderHeader(layout),
                 this.#renderRows(layout),

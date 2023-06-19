@@ -1,6 +1,28 @@
 .dtable .scrollbar {
-    @apply -z-10;
+  @apply -z-10;
+}
+.dtable-header {
+  @apply -transition-colors -duration-1000;
 }
 .dtable-scrolled-down .dtable-header {
-    @apply -shadow-md;
+  @apply -border-b -border-b-border-strong;
+}
+
+.dtable-scroll-shadow {
+  @apply -absolute -top-0 -w-[8px] -z-20 -opacity-0 -transition-opacity -duration-1000 -pointer-events-none;
+  background-image: linear-gradient(90deg, rgba(0 0 0 / 0.03), rgba(0 0 0 / 0)), linear-gradient(90deg, rgba(0 0 0 / 0.03) 0%, rgba(0 0 0 / 0) 50%);
+}
+.dtable:hover .dtable-scroll-shadow {
+  @apply -opacity-100;
+}
+.dtable-scroll-shadow.is-right {
+  @apply --ml-[7px] -rotate-180;
+}
+.dtable-scroll-shadow.is-left,
+.dtable-scrolled-end .dtable-scroll-shadow.is-right {
+  @apply -invisible;
+}
+.dtable-scrolled-right .dtable-scroll-shadow.is-left,
+.dtable-scroll-shadow.is-right {
+  @apply -visible;
 }
