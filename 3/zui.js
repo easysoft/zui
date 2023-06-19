@@ -4260,7 +4260,7 @@ y(document).on("click.modal.zui", (e) => {
   const t = e.target, n = (s = t.closest) == null ? void 0 : s.call(t, wf);
   if (n) {
     const i = lc.ensure(n);
-    i && i.show();
+    i && (i.show(), e.preventDefault());
   }
 });
 let cc = class extends We {
