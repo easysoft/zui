@@ -27,6 +27,7 @@ export class ContextMenu<O extends ContextMenuOptions = ContextMenuOptions, E ex
         strategy: 'fixed',
         flip: true,
         preventOverflow :true,
+        destoryOnHide: true,
     };
 
     declare ['constructor']: typeof ContextMenu<O, E>;
@@ -62,6 +63,15 @@ export class ContextMenu<O extends ContextMenuOptions = ContextMenuOptions, E ex
         if (!$element.is('body') && !$element.attr('data-toggle')) {
             $element.attr('data-toggle', this.constructor.NAME.toLowerCase());
         }
+    }
+
+    afterInit() {
+        super.afterInit();
+        this.on('hidden', () => {
+            if (this.options.destoryOnHide && this.isDynamic) {
+                this.destroy();
+            }
+        });
     }
 
     show(trigger?: ContextMenuTrigger): boolean {
@@ -319,7 +329,11 @@ $(document).on('contextmenu.contextmenu.zui', event => {
     }
     const toggleElement = $target.closest(MENU_SELECTOR).not(':disabled,.disabled');
     if (toggleElement.length) {
-        ContextMenu.ensure(toggleElement).show(event);
+        const contextMenu = ContextMenu.ensure(toggleElement, toggleElement.data('options'));
+        if (!toggleElement.data('options')) {
+            toggleElement.data('options', contextMenu.options);
+        }
+        contextMenu.show(event);
         event.preventDefault();
     }
 }).on('click.contextmenu.zui', ContextMenu.clear.bind(ContextMenu));

@@ -12,4 +12,5 @@ export type ContextMenuOptions = {
     subMenuTrigger?: 'click' | 'hover',
     menu?: Partial<MenuOptions>,
     items?: MenuItemOptions[] | ((menu: ContextMenu) => MenuItemOptions[]),
+    destoryOnHide?: boolean;
 };
