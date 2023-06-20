@@ -279,7 +279,7 @@ const nestedPlugin: DTablePlugin<DTableSortableTypes> = {
         const {nestedToggle} = col.setting;
         const info = this.getNestedRowInfo(rowID);
         if (nestedToggle && (info.children || info.parent)) {
-            result.unshift(this.options.onRenderNestedToggle?.call(this, info, rowID, col, rowData) ?? (<a role="button" className={`dtable-nested-toggle state${info.children ? '' : ' is-no-child'}`}><span className="toggle-icon"></span></a>));
+            result.unshift(this.options.onRenderNestedToggle?.call(this, info, rowID, col, rowData) ?? (<a className={`dtable-nested-toggle state${info.children ? '' : ' is-no-child'}`}><span className="toggle-icon"></span></a>));
         }
         if (info.level) {
             let {nestedIndent = nestedToggle} = col.setting;
@@ -295,7 +295,7 @@ const nestedPlugin: DTablePlugin<DTableSortableTypes> = {
     onRenderHeaderCell(result, {row, col}) {
         const {id: rowID} = row;
         if (col.setting.nestedToggle) {
-            result.unshift(this.options.onRenderNestedToggle?.call(this, undefined, rowID, col, undefined) ?? (<a type="button" className="dtable-nested-toggle state"><span className="toggle-icon"></span></a>));
+            result.unshift(this.options.onRenderNestedToggle?.call(this, undefined, rowID, col, undefined) ?? (<a className="dtable-nested-toggle state"><span className="toggle-icon"></span></a>));
         }
         return result;
     },
