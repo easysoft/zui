@@ -11,3 +11,7 @@
 .form-control.disabled {
   @apply -bg-[--form-control-disabled];
 }
+.form-control[readonly],
+.form-control.readonly {
+  @apply -bg-[--form-control-readonly];
+}

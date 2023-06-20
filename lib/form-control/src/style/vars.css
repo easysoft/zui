@@ -3,4 +3,5 @@
   --form-control-border: var(--color-border-strong);
   --form-control-focus: var(--color-primary-500);
   --form-control-disabled: var(--color-surface);
+  --form-control-readonly: var(--color-surface);
 }
