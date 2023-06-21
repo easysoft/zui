@@ -39,7 +39,7 @@ export function TreeItem({
             className={classes('tree-item-content', className, {disabled, active})}
             title={hint}
             data-target={target}
-            style={Object.assign({paddingLeft: `${level * 20}px`}, style)}
+            style={Object.assign({paddingLeft: `${level * 14}px`}, style)}
             data-level={level}
             {...(attrs as Attributes)}
             {...(others as Attributes)}
