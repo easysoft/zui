@@ -5777,7 +5777,7 @@ function Zf({
       className: T("tree-item-content", n, { disabled: a, active: l }),
       title: f,
       "data-target": u,
-      style: Object.assign({ paddingLeft: `${w * 20}px` }, i),
+      style: Object.assign({ paddingLeft: `${w * 14}px` }, i),
       "data-level": w,
       ...o,
       ...$,
