@@ -322,18 +322,20 @@ export class ContextMenu<O extends ContextMenuOptions = ContextMenuOptions, E ex
 }
 
 // Bind global events.
-$(document).on('contextmenu.contextmenu.zui', event => {
+$(document).on(`contextmenu${ContextMenu.NAMESPACE}`, event => {
     const $target = $(event.target);
     if ($target.closest(`.${ContextMenu.MENU_CLASS}`).length) {
         return;
     }
     const toggleElement = $target.closest(MENU_SELECTOR).not(':disabled,.disabled');
     if (toggleElement.length) {
-        const contextMenu = ContextMenu.ensure(toggleElement, toggleElement.data('options'));
-        if (!toggleElement.data('options')) {
-            toggleElement.data('options', contextMenu.options);
+        const optionsCacheKey = `${ContextMenu.KEY}:options`;
+        const optionsCache = toggleElement.data(optionsCacheKey);
+        const contextMenu = ContextMenu.ensure(toggleElement, optionsCache);
+        if (!optionsCache) {
+            toggleElement.data(optionsCacheKey, contextMenu.options);
         }
         contextMenu.show(event);
         event.preventDefault();
     }
-}).on('click.contextmenu.zui', ContextMenu.clear.bind(ContextMenu));
+}).on(`click${ContextMenu.NAMESPACE}`, ContextMenu.clear.bind(ContextMenu));
