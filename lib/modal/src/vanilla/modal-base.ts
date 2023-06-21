@@ -78,13 +78,13 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
     }
 
     show(options?: Partial<T>) {
+        const {modalElement} = this;
         if (this.shown) {
+            $(modalElement).css('z-index', `${ModalBase.zIndex++}`);
             return false;
         }
 
         this.setOptions(options);
-
-        const {modalElement} = this;
         const {animation, backdrop, className, style} = this.options;
         $(modalElement).setClass({
             'modal-trans': animation,

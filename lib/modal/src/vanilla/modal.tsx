@@ -1,6 +1,5 @@
 import {render} from 'preact';
-import {delay, i18n} from '@zui/core';
-import {$, HtmlContent} from '@zui/core';
+import {delay, i18n, $, HtmlContent} from '@zui/core';
 import {ModalBase} from './modal-base';
 import {ModalOptions, ModalDialogOptions, ModalCustomOptions, ModalAjaxOptions, ModalAlertOptions, ModalTypedOptions, ModalConfirmOptions} from '../types';
 import type {ToolbarOptions, ToolbarItemProps} from '@zui/toolbar/src/types';
@@ -104,19 +103,19 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
                 id = options.id || `modal-${$.guid++}`;
                 this.#id = id;
             }
-            modal = $(this.element).find(`#${id}`)[0];
+            const {$element} = this;
+            modal = $element.find(`#${id}`)[0];
             if (!modal) {
                 const key = this.key as string;
                 modal = $('<div>')
                     .attr({
                         id,
                         'data-key': key,
-                        [this.constructor.DATA_KEY]: `${this.gid}`,
                     })
                     .data(this.constructor.KEY, this)
                     .css(options.style || {})
                     .setClass('modal modal-async load-indicator', options.className)
-                    .appendTo(this.element)[0];
+                    .appendTo($element)[0];
             }
             this.#modal = modal!;
         }
@@ -202,7 +201,7 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
 
         const {modalElement, options} = this;
         const $modal = $(modalElement);
-        const {type, loadTimeout, loadingText = ''} = options;
+        const {type, loadTimeout, loadingText = null} = options;
         const build = builders[type];
 
         if (!build) {
