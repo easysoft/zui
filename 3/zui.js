@@ -66,7 +66,7 @@ function Re(e) {
 function tt(e) {
   return typeof e == "string";
 }
-function rt(e) {
+function at(e) {
   return e === void 0;
 }
 function Bn(e) {
@@ -137,7 +137,7 @@ function gi(e) {
   return tt(e) ? e.match(Ah) || [] : [];
 }
 x.toggleClass = function(e, t) {
-  const n = gi(e), s = !rt(t);
+  const n = gi(e), s = !at(t);
   return this.each((i, o) => {
     j(o) && K(n, (r, a) => {
       s ? t ? o.classList.add(a) : o.classList.remove(a) : o.classList.toggle(a);
@@ -164,7 +164,7 @@ function Lh(e, t) {
         const n = this[0].getAttribute(e);
         return Bn(n) ? void 0 : n;
       }
-      return rt(t) ? this : Bn(t) ? this.removeAttr(e) : this.each((n, s) => {
+      return at(t) ? this : Bn(t) ? this.removeAttr(e) : this.each((n, s) => {
         j(s) && s.setAttribute(e, t);
       });
     }
@@ -181,7 +181,7 @@ x.hasClass = function(e) {
   return !!e && Uo.call(this, (t) => j(t) && t.classList.contains(e));
 };
 x.get = function(e) {
-  return rt(e) ? Ga.call(this) : (e = Number(e), this[e < 0 ? e + this.length : e]);
+  return at(e) ? Ga.call(this) : (e = Number(e), this[e < 0 ? e + this.length : e]);
 };
 x.eq = function(e) {
   return y(this.get(e));
@@ -193,7 +193,7 @@ x.last = function() {
   return this.eq(-1);
 };
 function Wh(e) {
-  return rt(e) ? this.get().map((t) => j(t) || Rh(t) ? t.textContent : "").join("") : this.each((t, n) => {
+  return at(e) ? this.get().map((t) => j(t) || Rh(t) ? t.textContent : "").join("") : this.each((t, n) => {
     j(n) && (n.textContent = e);
   });
 }
@@ -292,7 +292,7 @@ function Oh(e) {
         r.selected = i.indexOf(r.value) >= 0;
       }, !0) : n.checked = i.indexOf(n.value) >= 0;
     } else
-      n.value = rt(e) || Bn(e) ? "" : e;
+      n.value = at(e) || Bn(e) ? "" : e;
   }) : this[0] && Ja(this[0]);
 }
 x.val = Oh;
@@ -365,7 +365,7 @@ x.append = function() {
 function Vh(e) {
   if (!arguments.length)
     return this[0] && this[0].innerHTML;
-  if (rt(e))
+  if (at(e))
     return this;
   const t = /<script[\s>]/.test(e);
   return this.each((n, s) => {
@@ -608,7 +608,7 @@ function tu(e, t) {
     return n;
   }
   if (tt(e))
-    return arguments.length < 2 ? this[0] && ra(this[0], e) : rt(t) ? this : this.each((n, s) => {
+    return arguments.length < 2 ? this[0] && ra(this[0], e) : at(t) ? this : this.each((n, s) => {
       Qh(s, e, t);
     });
   for (const n in e)
@@ -633,7 +633,7 @@ K(["Width", "Height"], (e, t) => {
   const n = t.toLowerCase();
   x[n] = function(s) {
     if (!this[0])
-      return rt(s) ? void 0 : this;
+      return at(s) ? void 0 : this;
     if (!arguments.length)
       return rn(this[0]) ? this[0].document.documentElement[`client${t}`] : ke(this[0]) ? el(this[0], t) : this[0].getBoundingClientRect()[n] - sa(this[0], !e);
     const i = parseInt(s, 10);
@@ -651,7 +651,7 @@ x.toggle = function(e) {
     if (!j(n))
       return;
     const s = ia(n);
-    (rt(e) ? s : e) ? (n.style.display = n[aa] || "", ia(n) && (n.style.display = Ph(n.tagName))) : s || (n[aa] = Vt(n, "display"), n.style.display = "none");
+    (at(e) ? s : e) ? (n.style.display = n[aa] || "", ia(n) && (n.style.display = Ph(n.tagName))) : s || (n[aa] = Vt(n, "display"), n.style.display = "none");
   });
 };
 x.hide = function() {
@@ -705,7 +705,7 @@ function Ds(e, t, n, s, i) {
       Ds(e, t, n, s, i);
 }
 x.off = function(e, t, n) {
-  if (rt(e))
+  if (at(e))
     this.each((s, i) => {
       !j(i) && !ke(i) && !rn(i) || Ds(i);
     });
@@ -736,7 +736,7 @@ function su(e, t, n, s, i) {
       this.on(o, t, n, e[o], i);
     return this;
   }
-  return tt(t) || (rt(t) || Bn(t) ? t = "" : rt(n) ? (n = t, t = "") : (s = n, n = t, t = "")), Re(s) || (s = n, n = void 0), s ? (K(gi(e), (o, r) => {
+  return tt(t) || (at(t) || Bn(t) ? t = "" : at(n) ? (n = t, t = "") : (s = n, n = t, t = "")), Re(s) || (s = n, n = void 0), s ? (K(gi(e), (o, r) => {
     const [a, l] = Jo(r), h = Xo(a), c = a in nl, u = a in Ko;
     h && this.each((d, f) => {
       if (!j(f) && !ke(f) && !rn(f))
@@ -795,7 +795,7 @@ x.serialize = function() {
       if (i.disabled || !i.name || i.tagName === "FIELDSET" || au.test(i.type) || ol.test(i.type) && !i.checked)
         return;
       const o = Ja(i);
-      if (!rt(o)) {
+      if (!at(o)) {
         const r = pi(o) ? o : [o];
         K(r, (a, l) => {
           e += ru(i.name, l);
@@ -833,7 +833,7 @@ function cu(e, t, n) {
     return n;
   }
 }
-function it(e, ...t) {
+function ot(e, ...t) {
   if (t.length === 0)
     return e;
   if (t.length === 1 && typeof t[0] == "object" && t[0]) {
@@ -886,7 +886,7 @@ function qt(e, t, n, s, i, o) {
     if (a = cu(h, c), a !== void 0)
       break;
   }
-  return a === void 0 ? s : n ? it(a, ...Array.isArray(n) ? n : [n]) : a;
+  return a === void 0 ? s : n ? ot(a, ...Array.isArray(n) ? n : [n]) : a;
 }
 function du(e, t, n, s) {
   return qt(void 0, e, t, n, s);
@@ -1687,7 +1687,7 @@ const kl = class {
     });
   }
 };
-let ht = kl;
+let ut = kl;
 fe = /* @__PURE__ */ new WeakMap();
 mn = /* @__PURE__ */ new WeakMap();
 ys = /* @__PURE__ */ new WeakMap();
@@ -1696,10 +1696,10 @@ De = /* @__PURE__ */ new WeakSet();
 gn = function(e) {
   return e.split(" ").map((t) => t.includes(".") ? t : `${t}${this.namespace}`).join(" ");
 };
-ht.DEFAULT = {};
-ht.NAME = kl.name;
-ht.MULTI_INSTANCE = !1;
-class et extends ht {
+ut.DEFAULT = {};
+ut.NAME = kl.name;
+ut.MULTI_INSTANCE = !1;
+class et extends ut {
   constructor() {
     super(...arguments), this.ref = Ct();
   }
@@ -1975,7 +1975,7 @@ function Nu({
 var El = (e, t, n) => {
   if (!t.has(e))
     throw TypeError("Cannot " + n);
-}, ft = (e, t, n) => (El(e, t, "read from private field"), n ? n.call(e) : t.get(e)), Hi = (e, t, n) => {
+}, dt = (e, t, n) => (El(e, t, "read from private field"), n ? n.call(e) : t.get(e)), Hi = (e, t, n) => {
   if (t.has(e))
     throw TypeError("Cannot add the same private member more than once");
   t instanceof WeakSet ? t.add(e) : t.set(e, n);
@@ -1984,7 +1984,7 @@ let _i = class extends Ne {
   constructor(t) {
     super(t), Hi(this, vs, /* @__PURE__ */ new Set()), Hi(this, Rt, void 0), Hi(this, yn, (n, s, i) => {
       y(i.target).closest(".not-nested-toggle").length || (this.toggleNestedMenu(n, s), i.preventDefault());
-    }), Au(this, Rt, t.nestedShow === void 0), ft(this, Rt) && (this.state = { nestedShow: t.defaultNestedShow ?? {} });
+    }), Au(this, Rt, t.nestedShow === void 0), dt(this, Rt) && (this.state = { nestedShow: t.defaultNestedShow ?? {} });
   }
   get nestedTrigger() {
     return this.props.nestedTrigger;
@@ -2000,7 +2000,7 @@ let _i = class extends Ne {
     return {
       items: t,
       name: n,
-      nestedShow: ft(this, Rt) ? this.state.nestedShow : i,
+      nestedShow: dt(this, Rt) ? this.state.nestedShow : i,
       nestedTrigger: this.nestedTrigger,
       controlledMenu: s || this,
       commonItemProps: c,
@@ -2030,7 +2030,7 @@ let _i = class extends Ne {
     if (i.level = t.level || 0, !this.isNestedItem(i))
       return i;
     const o = i.key ?? i.id ?? `${t.level || 0}:${s}`;
-    ft(this, vs).add(o);
+    dt(this, vs).add(o);
     const r = this.isNestedMenuShow(o);
     if (r && (i.rootChildren = [
       i.rootChildren,
@@ -2038,30 +2038,30 @@ let _i = class extends Ne {
     ]), this.nestedTrigger === "hover")
       i.rootAttrs = {
         ...i.rootAttrs,
-        onMouseEnter: ft(this, yn).bind(this, o, !0),
-        onMouseLeave: ft(this, yn).bind(this, o, !1)
+        onMouseEnter: dt(this, yn).bind(this, o, !0),
+        onMouseLeave: dt(this, yn).bind(this, o, !1)
       };
     else if (this.nestedTrigger === "click") {
       const { onClick: l } = i;
       i.onClick = (h) => {
-        ft(this, yn).call(this, o, void 0, h), l == null || l(h);
+        dt(this, yn).call(this, o, void 0, h), l == null || l(h);
       };
     }
     const a = this.renderToggleIcon(r, i);
     return a && (i.children = [i.children, a]), i.show = r, i.rootClass = [i.rootClass, "has-nested-menu", r ? "show" : ""], i;
   }
   isNestedMenuShow(t) {
-    const n = ft(this, Rt) ? this.state.nestedShow : this.props.nestedShow;
+    const n = dt(this, Rt) ? this.state.nestedShow : this.props.nestedShow;
     return n && typeof n == "object" ? n[t] : !!n;
   }
   toggleNestedMenu(t, n) {
     const { controlledMenu: s } = this.props;
     if (s)
       return s.toggleNestedMenu(t, n);
-    if (!ft(this, Rt))
+    if (!dt(this, Rt))
       return !1;
     let { nestedShow: i = {} } = this.state;
-    if (typeof i == "boolean" && (i === !0 ? i = [...ft(this, vs).values()].reduce((o, r) => (o[r] = !0, o), {}) : i = {}), n === void 0)
+    if (typeof i == "boolean" && (i === !0 ? i = [...dt(this, vs).values()].reduce((o, r) => (o[r] = !0, o), {}) : i = {}), n === void 0)
       n = !i[t];
     else if (!!i[t] == !!n)
       return !1;
@@ -2074,10 +2074,10 @@ let _i = class extends Ne {
     return this.toggleNestedMenu(t, !1);
   }
   showAllNestedMenu() {
-    ft(this, Rt) && this.setState({ nestedShow: !0 });
+    dt(this, Rt) && this.setState({ nestedShow: !0 });
   }
   hideAllNestedMenu() {
-    ft(this, Rt) && this.setState({ nestedShow: !1 });
+    dt(this, Rt) && this.setState({ nestedShow: !1 });
   }
 };
 vs = /* @__PURE__ */ new WeakMap();
@@ -2276,9 +2276,9 @@ const xi = function(e) {
     }(r));
     u || f === "none" || $.push(...function(R, D, W, I) {
       const P = ts(R);
-      let F = function(ut, Mt, rs) {
+      let F = function(ft, Mt, rs) {
         const cn = ["left", "right"], as = ["right", "left"], Wi = ["top", "bottom"], _h = ["bottom", "top"];
-        switch (ut) {
+        switch (ft) {
           case "top":
           case "bottom":
             return rs ? Mt ? as : cn : Mt ? cn : as;
@@ -2289,7 +2289,7 @@ const xi = function(e) {
             return [];
         }
       }(_e(R), W === "start", I);
-      return P && (F = F.map((ut) => ut + "-" + P), D && (F = F.concat(F.map(Bi)))), F;
+      return P && (F = F.map((ft) => ft + "-" + P), D && (F = F.concat(F.map(Bi)))), F;
     }(r, p, f, _));
     const C = [r, ...$], k = await Al(t, m), M = [];
     let N = ((n = i.flip) == null ? void 0 : n.overflows) || [];
@@ -2307,7 +2307,7 @@ const xi = function(e) {
         switch (d) {
           case "bestFit": {
             var b;
-            const I = (b = N.map((P) => [P.placement, P.overflows.filter((F) => F > 0).reduce((F, ut) => F + ut, 0)]).sort((P, F) => P[1] - F[1])[0]) == null ? void 0 : b[0];
+            const I = (b = N.map((P) => [P.placement, P.overflows.filter((F) => F > 0).reduce((F, ft) => F + ft, 0)]).sort((P, F) => P[1] - F[1])[0]) == null ? void 0 : b[0];
             I && (W = I);
             break;
           }
@@ -2351,27 +2351,27 @@ const so = function(e) {
     return { ...m, data: { x: m.x - n, y: m.y - s } };
   } };
 };
-function ct(e) {
+function ht(e) {
   var t;
   return ((t = e.ownerDocument) == null ? void 0 : t.defaultView) || window;
 }
 function mt(e) {
-  return ct(e).getComputedStyle(e);
+  return ht(e).getComputedStyle(e);
 }
 function Ll(e) {
-  return e instanceof ct(e).Node;
+  return e instanceof ht(e).Node;
 }
 function ae(e) {
   return Ll(e) ? (e.nodeName || "").toLowerCase() : "#document";
 }
 function yt(e) {
-  return e instanceof ct(e).HTMLElement;
+  return e instanceof ht(e).HTMLElement;
 }
 function Bt(e) {
-  return e instanceof ct(e).Element;
+  return e instanceof ht(e).Element;
 }
 function ga(e) {
-  return typeof ShadowRoot < "u" && (e instanceof ct(e).ShadowRoot || e instanceof ShadowRoot);
+  return typeof ShadowRoot < "u" && (e instanceof ht(e).ShadowRoot || e instanceof ShadowRoot);
 }
 function Vn(e) {
   const { overflow: t, overflowX: n, overflowY: s, display: i } = mt(e);
@@ -2413,7 +2413,7 @@ function Pl(e, t, n) {
   var s, i;
   if (t === void 0 && (t = !0), !ar())
     return wa;
-  const o = e ? ct(e) : window;
+  const o = e ? ht(e) : window;
   return !n || t && n !== o ? wa : { x: ((s = o.visualViewport) == null ? void 0 : s.offsetLeft) || 0, y: ((i = o.visualViewport) == null ? void 0 : i.offsetTop) || 0 };
 }
 function Se(e, t, n, s) {
@@ -2424,11 +2424,11 @@ function Se(e, t, n, s) {
   const a = Pl(o, n, s);
   let l = (i.left + a.x) / r.x, h = (i.top + a.y) / r.y, c = i.width / r.x, u = i.height / r.y;
   if (o) {
-    const d = ct(o), f = s && Bt(s) ? ct(s) : s;
+    const d = ht(o), f = s && Bt(s) ? ht(s) : s;
     let p = d.frameElement;
     for (; p && s && f !== d; ) {
       const m = Ve(p), v = p.getBoundingClientRect(), w = getComputedStyle(p), _ = v.left + (p.clientLeft + parseFloat(w.paddingLeft)) * m.x, $ = v.top + (p.clientTop + parseFloat(w.paddingTop)) * m.y;
-      l *= m.x, h *= m.y, c *= m.x, u *= m.y, l += _, h += $, p = ct(p).frameElement;
+      l *= m.x, h *= m.y, c *= m.x, u *= m.y, l += _, h += $, p = ht(p).frameElement;
     }
   }
   return Bs({ width: c, height: u, x: l, y: h });
@@ -2455,14 +2455,14 @@ function Il(e) {
 function Us(e, t) {
   var n;
   t === void 0 && (t = []);
-  const s = Il(e), i = s === ((n = e.ownerDocument) == null ? void 0 : n.body), o = ct(s);
+  const s = Il(e), i = s === ((n = e.ownerDocument) == null ? void 0 : n.body), o = ht(s);
   return i ? t.concat(o, o.visualViewport || [], Vn(s) ? s : []) : t.concat(s, Us(s));
 }
 function va(e, t, n) {
   let s;
   if (t === "viewport")
     s = function(i, o) {
-      const r = ct(i), a = zt(i), l = r.visualViewport;
+      const r = ht(i), a = zt(i), l = r.visualViewport;
       let h = a.clientWidth, c = a.clientHeight, u = 0, d = 0;
       if (l) {
         h = l.width, c = l.height;
@@ -2497,7 +2497,7 @@ function _a(e, t) {
   return yt(e) && mt(e).position !== "fixed" ? t ? t(e) : e.offsetParent : null;
 }
 function ba(e, t) {
-  const n = ct(e);
+  const n = ht(e);
   if (!yt(e))
     return n;
   let s = _a(e, t);
@@ -2582,8 +2582,8 @@ function cr(e, t, n, s) {
         return;
       const D = cs(O), W = cs($.clientWidth - (A + b)), I = cs($.clientHeight - (O + R)), P = cs(A);
       let F = !0;
-      _ = new IntersectionObserver((ut) => {
-        const Mt = ut[0].intersectionRatio;
+      _ = new IntersectionObserver((ft) => {
+        const Mt = ft[0].intersectionRatio;
         if (Mt !== N) {
           if (!F)
             return k();
@@ -2661,7 +2661,7 @@ var hr = (e, t, n) => {
   t instanceof WeakSet ? t.add(e) : t.set(e, n);
 }, hs = (e, t, n, s) => (hr(e, t, "write to private field"), s ? s.call(e, n) : t.set(e, n), n), xa = (e, t, n) => (hr(e, t, "access private method"), n), Jt, wn, _s, bs, oo, Hl, ro, Bl;
 const zi = "show", qu = '[data-toggle="contextmenu"]';
-class pt extends ht {
+class it extends ut {
   constructor() {
     super(...arguments), We(this, oo), We(this, ro), We(this, Jt, void 0), We(this, wn, void 0), We(this, _s, void 0), We(this, bs, void 0);
   }
@@ -2830,26 +2830,26 @@ Bl = function(e) {
     [`border${t[e]}Style`]: "none"
   };
 };
-pt.MENU_CLASS = "contextmenu";
-pt.NAME = "ContextMenu";
-pt.MULTI_INSTANCE = !0;
-pt.DEFAULT = {
+it.MENU_CLASS = "contextmenu";
+it.NAME = "ContextMenu";
+it.MULTI_INSTANCE = !0;
+it.DEFAULT = {
   placement: "bottom-start",
   strategy: "fixed",
   flip: !0,
   preventOverflow: !0,
   destoryOnHide: !0
 };
-y(document).on("contextmenu.contextmenu.zui", (e) => {
+y(document).on(`contextmenu${it.NAMESPACE}`, (e) => {
   const t = y(e.target);
-  if (t.closest(`.${pt.MENU_CLASS}`).length)
+  if (t.closest(`.${it.MENU_CLASS}`).length)
     return;
   const n = t.closest(qu).not(":disabled,.disabled");
   if (n.length) {
-    const s = pt.ensure(n, n.data("options"));
-    n.data("options") || n.data("options", s.options), s.show(e), e.preventDefault();
+    const s = `${it.KEY}:options`, i = n.data(s), o = it.ensure(n, i);
+    i || n.data(s, o.options), o.show(e), e.preventDefault();
   }
-}).on("click.contextmenu.zui", pt.clear.bind(pt));
+}).on(`click${it.NAMESPACE}`, it.clear.bind(it));
 var ur = (e, t, n) => {
   if (!t.has(e))
     throw TypeError("Cannot " + n);
@@ -2858,7 +2858,7 @@ var ur = (e, t, n) => {
     throw TypeError("Cannot add the same private member more than once");
   t instanceof WeakSet ? t.add(e) : t.set(e, n);
 }, ao = (e, t, n, s) => (ur(e, t, "write to private field"), s ? s.call(e, n) : t.set(e, n), n), ju = (e, t, n) => (ur(e, t, "access private method"), n), Ln, _n, Vs, lo, zl;
-const $a = '[data-toggle="dropdown"]', Fl = class extends pt {
+const $a = '[data-toggle="dropdown"]', Fl = class extends it {
   constructor() {
     super(...arguments), us(this, lo), us(this, Ln, !1), us(this, _n, 0), this.hideLater = () => {
       vn(this, Vs).call(this), ao(this, _n, window.setTimeout(this.hide.bind(this), 100));
@@ -2933,7 +2933,7 @@ zl = function() {
 oe.MENU_CLASS = "dropdown-menu";
 oe.NAME = "Dropdown";
 oe.DEFAULT = {
-  ...pt.DEFAULT,
+  ...it.DEFAULT,
   strategy: "fixed",
   trigger: "click"
 };
@@ -3281,7 +3281,7 @@ var dr = (e, t, n) => {
     throw TypeError("Cannot add the same private member more than once");
   t instanceof WeakSet ? t.add(e) : t.set(e, n);
 }, xs = (e, t, n, s) => (dr(e, t, "write to private field"), s ? s.call(e, n) : t.set(e, n), n), ql = (e, t, n) => (dr(e, t, "access private method"), n), qe, It, co, jl, pr, Gl;
-const Yl = class extends ht {
+const Yl = class extends ut {
   constructor() {
     super(...arguments), ds(this, co), ds(this, pr), ds(this, qe, void 0), ds(this, It, void 0);
   }
@@ -3408,7 +3408,7 @@ class Jl extends et {
 }
 Jl.NAME = "BtnGroup";
 Jl.Component = Vl;
-class nf extends ht {
+class nf extends ut {
   init() {
     this.fileMap = /* @__PURE__ */ new Map(), this.itemMap = /* @__PURE__ */ new Map(), this.dataTransfer = new DataTransfer();
     const { multiple: t, defaultFileList: n } = this.options;
@@ -3787,7 +3787,7 @@ var yr = (e, t, n) => {
     throw TypeError("Cannot add the same private member more than once");
   t instanceof WeakSet ? t.add(e) : t.set(e, n);
 }, Wn = (e, t, n, s) => (yr(e, t, "write to private field"), s ? s.call(e, n) : t.set(e, n), n), Fi = (e, t, n) => (yr(e, t, "access private method"), n), ze, ks, pe, ho, bn, Cs;
-const Ui = "show", Ma = "in", ff = '[data-dismiss="modal"]', xn = class extends ht {
+const Ui = "show", Ma = "in", ff = '[data-dismiss="modal"]', xn = class extends ut {
   constructor() {
     super(...arguments), fn(this, bn), fn(this, ze, 0), fn(this, ks, void 0), fn(this, pe, void 0), fn(this, ho, (e) => {
       const t = e.target, n = t.closest(".modal");
@@ -4212,7 +4212,7 @@ var _r = (e, t, n) => {
   t instanceof WeakSet ? t.add(e) : t.set(e, n);
 }, Ea = (e, t, n, s) => (_r(e, t, "write to private field"), s ? s.call(e, n) : t.set(e, n), n), po = (e, t, n) => (_r(e, t, "access private method"), n), xe, br, ic, mo, oc, xr, rc;
 const wf = '[data-toggle="modal"]';
-class ac extends ht {
+class ac extends ut {
   constructor() {
     super(...arguments), ps(this, br), ps(this, mo), ps(this, xr), ps(this, xe, void 0);
   }
@@ -4311,14 +4311,14 @@ function vf({
   ...a
 }) {
   const l = qn(o, s);
-  return a.text === void 0 && !a.icon && i && (a.text = typeof i == "function" ? i(l) : it(i, l)), a.url === void 0 && r && (a.url = typeof r == "function" ? r(l) : it(r, l)), a.disabled === void 0 && (a.disabled = s !== void 0 && l.page === o.page), /* @__PURE__ */ g(jt, { type: n, ...a });
+  return a.text === void 0 && !a.icon && i && (a.text = typeof i == "function" ? i(l) : ot(i, l)), a.url === void 0 && r && (a.url = typeof r == "function" ? r(l) : ot(r, l)), a.disabled === void 0 && (a.disabled = s !== void 0 && l.page === o.page), /* @__PURE__ */ g(jt, { type: n, ...a });
 }
-const Wt = 24 * 60 * 60 * 1e3, at = (e) => e ? (e instanceof Date || (typeof e == "string" && (e = e.trim(), /^\d+$/.test(e) && (e = Number.parseInt(e, 10))), typeof e == "number" && e < 1e10 && (e *= 1e3), e = new Date(e)), e) : /* @__PURE__ */ new Date(), ss = (e, t = /* @__PURE__ */ new Date()) => (e = at(e), t = at(t), e.getFullYear() === t.getFullYear() && e.getMonth() === t.getMonth() && e.getDate() === t.getDate()), go = (e, t = /* @__PURE__ */ new Date()) => at(e).getFullYear() === at(t).getFullYear(), _f = (e, t = /* @__PURE__ */ new Date()) => (e = at(e), t = at(t), e.getFullYear() === t.getFullYear() && e.getMonth() === t.getMonth()), Vd = (e, t = /* @__PURE__ */ new Date()) => {
-  e = at(e), t = at(t);
+const Wt = 24 * 60 * 60 * 1e3, lt = (e) => e ? (e instanceof Date || (typeof e == "string" && (e = e.trim(), /^\d+$/.test(e) && (e = Number.parseInt(e, 10))), typeof e == "number" && e < 1e10 && (e *= 1e3), e = new Date(e)), e) : /* @__PURE__ */ new Date(), ss = (e, t = /* @__PURE__ */ new Date()) => (e = lt(e), t = lt(t), e.getFullYear() === t.getFullYear() && e.getMonth() === t.getMonth() && e.getDate() === t.getDate()), go = (e, t = /* @__PURE__ */ new Date()) => lt(e).getFullYear() === lt(t).getFullYear(), _f = (e, t = /* @__PURE__ */ new Date()) => (e = lt(e), t = lt(t), e.getFullYear() === t.getFullYear() && e.getMonth() === t.getMonth()), Vd = (e, t = /* @__PURE__ */ new Date()) => {
+  e = lt(e), t = lt(t);
   const n = 1e3 * 60 * 60 * 24, s = Math.floor(e.getTime() / n), i = Math.floor(t.getTime() / n);
   return Math.floor((s + 4) / 7) === Math.floor((i + 4) / 7);
-}, qd = (e, t) => ss(at(t), e), jd = (e, t) => ss(at(t).getTime() - Wt, e), Gd = (e, t) => ss(at(t).getTime() + Wt, e), Yd = (e, t) => ss(at(t).getTime() - 2 * Wt, e), yo = (e, t = "yyyy-MM-dd hh:mm", n = "") => {
-  if (e = at(e), Number.isNaN(e.getDay()))
+}, qd = (e, t) => ss(lt(t), e), jd = (e, t) => ss(lt(t).getTime() - Wt, e), Gd = (e, t) => ss(lt(t).getTime() + Wt, e), Yd = (e, t) => ss(lt(t).getTime() - 2 * Wt, e), yo = (e, t = "yyyy-MM-dd hh:mm", n = "") => {
+  if (e = lt(e), Number.isNaN(e.getDay()))
     return n;
   const s = {
     "M+": e.getMonth() + 1,
@@ -4401,7 +4401,7 @@ function bf({
   ...r
 }) {
   const a = qn(i, n);
-  return s = typeof s == "function" ? s(a) : it(s, a), /* @__PURE__ */ g(Sl, { ...r, children: [
+  return s = typeof s == "function" ? s(a) : ot(s, a), /* @__PURE__ */ g(Sl, { ...r, children: [
     o,
     s
   ] });
@@ -4423,7 +4423,7 @@ function xf({
     for (let m = d; m <= f; m++) {
       l.text = m, delete l.icon, l.disabled = !1;
       const v = qn(i, m);
-      r && (l.url = typeof r == "function" ? r(v) : it(r, v)), p.push(/* @__PURE__ */ g(jt, { type: n, ...l, onClick: o }));
+      r && (l.url = typeof r == "function" ? r(v) : ot(r, v)), p.push(/* @__PURE__ */ g(jt, { type: n, ...l, onClick: o }));
     }
     return p;
   };
@@ -4446,11 +4446,11 @@ function $f({
       ...o,
       text: `${h}`,
       active: h === t.recPerPage,
-      url: typeof n == "function" ? n(c) : it(n, c)
+      url: typeof n == "function" ? n(c) : ot(n, c)
     };
   });
   const { text: a = "" } = r;
-  return r.text = typeof a == "function" ? a(t) : it(a, t), i.menu = { ...i.menu, className: T((l = i.menu) == null ? void 0 : l.className, "pager-size-menu") }, /* @__PURE__ */ g(Ul, { type: "dropdown", dropdown: i, ...r });
+  return r.text = typeof a == "function" ? a(t) : ot(a, t), i.menu = { ...i.menu, className: T((l = i.menu) == null ? void 0 : l.className, "pager-size-menu") }, /* @__PURE__ */ g(Ul, { type: "dropdown", dropdown: i, ...r });
 }
 function kf({
   key: e,
@@ -4474,9 +4474,9 @@ function kf({
       return;
     u = u <= i.pageTotal ? u : i.pageTotal;
     const v = qn(i, u);
-    a && !a({ info: v, event: m }) || (m.target.href = c.url = typeof l == "function" ? l(v) : it(l, v));
+    a && !a({ info: v, event: m }) || (m.target.href = c.url = typeof l == "function" ? l(v) : ot(l, v));
   }, p = qn(i, t || 0);
-  return c.url = typeof l == "function" ? l(p) : it(l, p), /* @__PURE__ */ g("div", { className: T("input-group", "pager-goto-group", o ? `size-${o}` : ""), children: [
+  return c.url = typeof l == "function" ? l(p) : ot(l, p), /* @__PURE__ */ g("div", { className: T("input-group", "pager-goto-group", o ? `size-${o}` : ""), children: [
     /* @__PURE__ */ g("input", { type: "number", class: "form-control", max: i.pageTotal, min: "1", onInput: d }),
     /* @__PURE__ */ g(jt, { type: s, ...c, onClick: f })
   ] });
@@ -5059,7 +5059,7 @@ class vc extends et {
 }
 vc.NAME = "Picker";
 vc.Component = wc;
-class _c extends ht {
+class _c extends ut {
   constructor() {
     super(...arguments), this.cleanup = () => {
     }, this.toggle = () => {
@@ -5254,15 +5254,15 @@ const qf = function(e) {
     }(r));
     u || f === "none" || $.push(...function(b, R, D, W) {
       const I = is(b);
-      let P = function(F, ut, Mt) {
+      let P = function(F, ft, Mt) {
         const rs = ["left", "right"], cn = ["right", "left"], as = ["top", "bottom"], Wi = ["bottom", "top"];
         switch (F) {
           case "top":
           case "bottom":
-            return Mt ? ut ? cn : rs : ut ? rs : cn;
+            return Mt ? ft ? cn : rs : ft ? rs : cn;
           case "left":
           case "right":
-            return ut ? as : Wi;
+            return ft ? as : Wi;
           default:
             return [];
         }
@@ -5306,12 +5306,12 @@ const qf = function(e) {
     return { x: n + i.x, y: s + i.y, data: i };
   } };
 };
-function lt(e) {
+function ct(e) {
   var t;
   return ((t = e.ownerDocument) == null ? void 0 : t.defaultView) || window;
 }
 function $t(e) {
-  return lt(e).getComputedStyle(e);
+  return ct(e).getComputedStyle(e);
 }
 function le(e) {
   return kc(e) ? (e.nodeName || "").toLowerCase() : "";
@@ -5324,16 +5324,16 @@ function $c() {
   return e && Array.isArray(e.brands) ? (ms = e.brands.map((t) => t.brand + "/" + t.version).join(" "), ms) : navigator.userAgent;
 }
 function Gt(e) {
-  return e instanceof lt(e).HTMLElement;
+  return e instanceof ct(e).HTMLElement;
 }
 function gt(e) {
-  return e instanceof lt(e).Element;
+  return e instanceof ct(e).Element;
 }
 function kc(e) {
-  return e instanceof lt(e).Node;
+  return e instanceof ct(e).Node;
 }
 function Na(e) {
-  return typeof ShadowRoot > "u" ? !1 : e instanceof lt(e).ShadowRoot || e instanceof ShadowRoot;
+  return typeof ShadowRoot > "u" ? !1 : e instanceof ct(e).ShadowRoot || e instanceof ShadowRoot;
 }
 function Ei(e) {
   const { overflow: t, overflowX: n, overflowY: s, display: i } = $t(e);
@@ -5380,14 +5380,14 @@ function Me(e, t, n, s) {
   const r = e.getBoundingClientRect(), a = Mc(e);
   let l = Ec;
   t && (s ? gt(s) && (l = Ge(s)) : l = Ge(e));
-  const h = a ? lt(a) : window, c = !Cc() && n;
+  const h = a ? ct(a) : window, c = !Cc() && n;
   let u = (r.left + (c && ((i = h.visualViewport) == null ? void 0 : i.offsetLeft) || 0)) / l.x, d = (r.top + (c && ((o = h.visualViewport) == null ? void 0 : o.offsetTop) || 0)) / l.y, f = r.width / l.x, p = r.height / l.y;
   if (a) {
-    const m = lt(a), v = s && gt(s) ? lt(s) : s;
+    const m = ct(a), v = s && gt(s) ? ct(s) : s;
     let w = m.frameElement;
     for (; w && s && v !== m; ) {
       const _ = Ge(w), $ = w.getBoundingClientRect(), C = getComputedStyle(w);
-      $.x += (w.clientLeft + parseFloat(C.paddingLeft)) * _.x, $.y += (w.clientTop + parseFloat(C.paddingTop)) * _.y, u *= _.x, d *= _.y, f *= _.x, p *= _.y, u += $.x, d += $.y, w = lt(w).frameElement;
+      $.x += (w.clientLeft + parseFloat(C.paddingLeft)) * _.x, $.y += (w.clientTop + parseFloat(C.paddingTop)) * _.y, u *= _.x, d *= _.y, f *= _.x, p *= _.y, u += $.x, d += $.y, w = ct(w).frameElement;
     }
   }
   return { width: f, height: p, top: d, right: u + f, bottom: d + p, left: u, x: u, y: d };
@@ -5423,7 +5423,7 @@ function La(e) {
   return Gt(e) && $t(e).position !== "fixed" ? e.offsetParent : null;
 }
 function Wa(e) {
-  const t = lt(e);
+  const t = ct(e);
   let n = La(e);
   for (; n && Gf(n) && $t(n).position === "static"; )
     n = La(n);
@@ -5444,12 +5444,12 @@ function Rc(e) {
 function Dn(e, t) {
   var n;
   t === void 0 && (t = []);
-  const s = Rc(e), i = s === ((n = e.ownerDocument) == null ? void 0 : n.body), o = lt(s);
+  const s = Rc(e), i = s === ((n = e.ownerDocument) == null ? void 0 : n.body), o = ct(s);
   return i ? t.concat(o, o.visualViewport || [], Ei(s) ? s : []) : t.concat(s, Dn(s));
 }
 function Pa(e, t, n) {
   return t === "viewport" ? Xs(function(s, i) {
-    const o = lt(s), r = re(s), a = o.visualViewport;
+    const o = ct(s), r = re(s), a = o.visualViewport;
     let l = r.clientWidth, h = r.clientHeight, c = 0, u = 0;
     if (a) {
       l = a.width, h = a.height;
@@ -5541,10 +5541,10 @@ var Lr = (e, t, n) => {
   if (t.has(e))
     throw TypeError("Cannot add the same private member more than once");
   t instanceof WeakSet ? t.add(e) : t.set(e, n);
-}, Ee = (e, t, n, s) => (Lr(e, t, "write to private field"), s ? s.call(e, n) : t.set(e, n), n), xt = (e, t, n) => (Lr(e, t, "access private method"), n), In, On, Mn, Fe, ot, $o, Qs, Ri, Wr, Pr, Nc, ko, Ac, Dr, Lc, Ir, Wc, Or, Pc, Co, Dc, Hr, Ic, Hn, So, Oc;
-const Ue = class extends ht {
+}, Ee = (e, t, n, s) => (Lr(e, t, "write to private field"), s ? s.call(e, n) : t.set(e, n), n), xt = (e, t, n) => (Lr(e, t, "access private method"), n), In, On, Mn, Fe, rt, $o, Qs, Ri, Wr, Pr, Nc, ko, Ac, Dr, Lc, Ir, Wc, Or, Pc, Co, Dc, Hr, Ic, Hn, So, Oc;
+const Ue = class extends ut {
   constructor() {
-    super(...arguments), G(this, Ri), G(this, Pr), G(this, ko), G(this, Dr), G(this, Ir), G(this, Or), G(this, Co), G(this, Hr), G(this, So), G(this, In, !1), G(this, On, void 0), G(this, Mn, 0), G(this, Fe, void 0), G(this, ot, void 0), G(this, $o, void 0), G(this, Qs, void 0), this.hideLater = () => {
+    super(...arguments), G(this, Ri), G(this, Pr), G(this, ko), G(this, Dr), G(this, Ir), G(this, Or), G(this, Co), G(this, Hr), G(this, So), G(this, In, !1), G(this, On, void 0), G(this, Mn, 0), G(this, Fe, void 0), G(this, rt, void 0), G(this, $o, void 0), G(this, Qs, void 0), this.hideLater = () => {
       U(this, Hn).call(this), Ee(this, Mn, window.setTimeout(this.hide.bind(this), 100));
     }, G(this, Hn, () => {
       clearTimeout(U(this, Mn)), Ee(this, Mn, 0);
@@ -5599,7 +5599,7 @@ In = /* @__PURE__ */ new WeakMap();
 On = /* @__PURE__ */ new WeakMap();
 Mn = /* @__PURE__ */ new WeakMap();
 Fe = /* @__PURE__ */ new WeakMap();
-ot = /* @__PURE__ */ new WeakMap();
+rt = /* @__PURE__ */ new WeakMap();
 $o = /* @__PURE__ */ new WeakMap();
 Qs = /* @__PURE__ */ new WeakMap();
 Ri = /* @__PURE__ */ new WeakSet();
@@ -5610,7 +5610,7 @@ Wr = function() {
 Pr = /* @__PURE__ */ new WeakSet();
 Nc = function() {
   const e = xt(this, Ri, Wr).call(this);
-  return Ee(this, ot, document.createElement("div")), U(this, ot).style.position = this.options.strategy, U(this, ot).style.width = `${e}px`, U(this, ot).style.height = `${e}px`, U(this, ot).style.transform = "rotate(45deg)", U(this, ot);
+  return Ee(this, rt, document.createElement("div")), U(this, rt).style.position = this.options.strategy, U(this, rt).style.width = `${e}px`, U(this, rt).style.height = `${e}px`, U(this, rt).style.transform = "rotate(45deg)", U(this, rt);
 };
 ko = /* @__PURE__ */ new WeakSet();
 Ac = function() {
@@ -5641,7 +5641,7 @@ Lc = function() {
     strategy: t,
     placement: n
   };
-  return this.options.arrow && U(this, ot) && ((i = s.middleware) == null || i.push(Bf({ element: U(this, ot) }))), s;
+  return this.options.arrow && U(this, rt) && ((i = s.middleware) == null || i.push(Bf({ element: U(this, rt) }))), s;
 };
 Ir = /* @__PURE__ */ new WeakSet();
 Wc = function(e) {
@@ -5678,12 +5678,12 @@ Dc = function() {
         top: `${s}px`
       });
       const r = o.split("-")[0], a = xt(this, Ir, Wc).call(this, r);
-      if (i.arrow && U(this, ot)) {
+      if (i.arrow && U(this, rt)) {
         const { x: l, y: h } = i.arrow;
-        Object.assign(U(this, ot).style, {
+        Object.assign(U(this, rt).style, {
           left: l != null ? `${l}px` : "",
           top: h != null ? `${h}px` : "",
-          [a]: `${-U(this, ot).offsetWidth / 2}px`,
+          [a]: `${-U(this, rt).offsetWidth / 2}px`,
           background: "inherit",
           border: "inherit",
           ...xt(this, Or, Pc).call(this, r)
@@ -5836,7 +5836,7 @@ class Qf extends V {
     super(n);
     L(this, Qn, Ct());
     L(this, ui, (n) => {
-      n.stopPropagation(), pt.show({
+      n.stopPropagation(), it.show({
         event: n.target,
         placement: "bottom-end",
         menu: {
@@ -5880,7 +5880,7 @@ class Qf extends V {
     typeof s == "string" ? s = { url: s } : typeof s == "function" && (s = s(n.id, n));
     const { url: i, ...o } = s;
     this.setState({ loading: !0 }, () => {
-      fetch(it(i, n), {
+      fetch(ot(i, n), {
         headers: { "X-Requested-With": "XMLHttpRequest" },
         ...o
       }).then((r) => {
@@ -5919,18 +5919,18 @@ Qn = new WeakMap(), ui = new WeakMap(), fi = new WeakMap(), di = new WeakMap();
 var Bc = (e, t, n) => {
   if (!t.has(e))
     throw TypeError("Cannot " + n);
-}, Ft = (e, t, n) => (Bc(e, t, "read from private field"), n ? n.call(e) : t.get(e)), dt = (e, t, n) => {
+}, Ft = (e, t, n) => (Bc(e, t, "read from private field"), n ? n.call(e) : t.get(e)), pt = (e, t, n) => {
   if (t.has(e))
     throw TypeError("Cannot add the same private member more than once");
   t instanceof WeakSet ? t.add(e) : t.set(e, n);
 }, vt = (e, t, n) => (Bc(e, t, "access private method"), n), Yt, zr, zc, Fr, Fc, Mo, Uc, Ur, Vc, ti, Eo, Ni, To, Vr, qc, Ro, No, Ai, qr;
 const jr = class extends V {
   constructor() {
-    super(...arguments), dt(this, zr), dt(this, Fr), dt(this, Mo), dt(this, Ur), dt(this, ti), dt(this, Ni), dt(this, Vr), dt(this, Yt, /* @__PURE__ */ new Map()), this.state = {}, dt(this, Ro, (e) => {
+    super(...arguments), pt(this, zr), pt(this, Fr), pt(this, Mo), pt(this, Ur), pt(this, ti), pt(this, Ni), pt(this, Vr), pt(this, Yt, /* @__PURE__ */ new Map()), this.state = {}, pt(this, Ro, (e) => {
       var n;
       const t = (n = e.dataTransfer) == null ? void 0 : n.getData("application/id");
       t !== void 0 && (this.setState({ dragging: t }), console.log("handleBlockDragStart", e));
-    }), dt(this, No, (e) => {
+    }), pt(this, No, (e) => {
       this.setState({ dragging: void 0 }), console.log("handleBlockDragEnd", e);
     });
   }
@@ -6049,7 +6049,7 @@ Ai = /* @__PURE__ */ new WeakSet();
 qr = function([e, t, n, s], [i, o, r, a]) {
   return !(e + n <= i || i + r <= e || t + s <= o || o + a <= t);
 };
-dt(Gr, Ai);
+pt(Gr, Ai);
 Gr.defaultProps = {
   responsive: !1,
   blocks: [],
@@ -7421,12 +7421,12 @@ function fh(e, t, n, s) {
   const { url: i, ...o } = e, { setting: r } = t.col, a = {};
   return r && Object.keys(r).forEach((l) => {
     l.startsWith("data-") && (a[l] = r[l]);
-  }), /* @__PURE__ */ g("a", { href: it(i, t.row.data), ...s, ...o, ...a, children: n });
+  }), /* @__PURE__ */ g("a", { href: ot(i, t.row.data), ...s, ...o, ...a, children: n });
 }
 function ta(e, t, n) {
   var s;
   if (e != null)
-    return n = n ?? ((s = t.row.data) == null ? void 0 : s[t.col.name]), typeof e == "function" ? e(n, t) : it(e, n);
+    return n = n ?? ((s = t.row.data) == null ? void 0 : s[t.col.name]), typeof e == "function" ? e(n, t) : ot(e, n);
 }
 function dh(e, t, n, s) {
   var i;
@@ -7490,7 +7490,7 @@ const wd = {
     const { formatDate: n, html: s, hint: i } = t.col.setting;
     if (n && (e = yh(e, t, n)), e = gh(e, t), e = mh(e, t), s ? e = Bo(e, t) : e = ph(e, t), i) {
       let o = e[0];
-      typeof i == "function" ? o = i.call(this, t) : typeof i == "string" && (o = it(i, t.row.data)), e.push({ attrs: { title: o } });
+      typeof i == "function" ? o = i.call(this, t) : typeof i == "string" && (o = ot(i, t.row.data)), e.push({ attrs: { title: o } });
     }
     return e;
   }
@@ -7548,7 +7548,7 @@ const _d = {
         const r = i === "asc" ? "desc" : "asc";
         typeof o == "function" && (o = o.call(this, n, r, i)), typeof o == "string" && (o = { url: o });
         const { url: a, ...l } = o;
-        e[0] = /* @__PURE__ */ g("a", { href: it(a, { ...n.setting, sortType: r }), ...l, children: e[0] });
+        e[0] = /* @__PURE__ */ g("a", { href: ot(a, { ...n.setting, sortType: r }), ...l, children: e[0] });
       }
     }
     return e;
@@ -7604,7 +7604,7 @@ var wh = (e, t, n) => {
   t instanceof WeakSet ? t.add(e) : t.set(e, n);
 }, za = (e, t, n, s) => (wh(e, t, "write to private field"), s ? s.call(e, n) : t.set(e, n), n), Be;
 const Ed = "nav", zo = '[data-toggle="tab"]', Td = "active";
-class vh extends ht {
+class vh extends ut {
   constructor() {
     super(...arguments), Md(this, Be, 0);
   }
@@ -7638,9 +7638,9 @@ export {
   Tl as ActionMenuNested,
   ec as Avatar,
   Jl as BtnGroup,
-  ht as Component,
+  ut as Component,
   et as ComponentFromReact,
-  pt as ContextMenu,
+  it as ContextMenu,
   sr as CustomRender,
   os as DTable,
   jc as Dashboard,
@@ -7671,7 +7671,7 @@ export {
   y as cash,
   T as classes,
   Nd as convertBytes,
-  at as createDate,
+  lt as createDate,
   Su as createPortal,
   Ct as createRef,
   cu as deepGet,
@@ -7681,7 +7681,7 @@ export {
   hu as formatBytes,
   yo as formatDate,
   Kd as formatDateSpan,
-  it as formatString,
+  ot as formatString,
   al as getClassList,
   Xd as getTimeBeforeDesc,
   q as h,
