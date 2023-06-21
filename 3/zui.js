@@ -3335,7 +3335,7 @@ mr.DEFAULT = {
   margin: 6,
   time: 5e3
 };
-y(document).on("zui.messager.show", (e, t) => {
+y(document).on("to-show.messager.zui", (e, t) => {
   t && mr.show(t);
 });
 let gr = class extends V {
