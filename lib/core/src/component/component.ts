@@ -71,7 +71,7 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
     /**
      * The component key.
      */
-    #key: string | number;
+    protected _key: string | number;
 
     /**
      * The component constructor.
@@ -95,7 +95,7 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
 
         this.#options = {...DEFAULT, ...$element.dataset()} as ComponentOptions<O>;
         this.setOptions(options);
-        this.#key = this.options.key ?? `__${gid}`;
+        this._key = this.options.key ?? `__${gid}`;
 
         $element.data(KEY, this).attr(DATA_KEY, `${gid}`);
         if (MULTI_INSTANCE) {
@@ -105,7 +105,7 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
                 instanceMap = new Map();
                 $element.data(dataName, instanceMap);
             }
-            instanceMap.set(this.#key, this);
+            instanceMap.set(this._key, this);
         }
 
         this.init();
@@ -123,7 +123,7 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
     }
 
     get key() {
-        return this.#key;
+        return this._key;
     }
 
     /**
@@ -183,7 +183,7 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
         if (MULTI_INSTANCE) {
             const map = this.$element.data(`${KEY}:ALL`) as Map<string | number, Component<O, E>>;
             if (map) {
-                map.delete(this.#key);
+                map.delete(this._key);
                 if (map.size === 0) {
                     this.$element.removeData(`${KEY}:ALL`);
                 } else {
@@ -285,7 +285,7 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
      * @returns Event namespace.
      */
     get namespace() {
-        return `.${this.#key}${this.constructor.NAMESPACE}`;
+        return `.${this._key}${this.constructor.NAMESPACE}`;
     }
 
     /**
