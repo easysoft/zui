@@ -10,9 +10,9 @@ import type {RowInfo, RowData, RowID, RowProps} from '../../types/row';
 export const enum NestedRowState {
     unknown = '',
     collapsed = 'collapsed',  // As collapsed parent and show
-    expanded = 'expanded',   // As expanded parent and show
-    hidden = 'hidden',     // As collapsed parent or child and hidden
-    normal = 'normal',     // As expanded child and show
+    expanded = 'expanded',    // As expanded parent and show
+    hidden = 'hidden',        // As collapsed parent or child and hidden
+    normal = 'normal',        // As expanded child and show
 }
 
 export type NestedRowInfo = {
