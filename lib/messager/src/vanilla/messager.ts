@@ -77,7 +77,7 @@ export class Messager extends Component<MessagerOptions> {
     }
 }
 
-$(document).on('zui.messager.show', (_: Event, options: MessagerOptions & {container?: string | HTMLElement}) => {
+$(document).on('to-show.messager.zui', (_: Event, options: MessagerOptions & {container?: string | HTMLElement}) => {
     if (options) {
         Messager.show(options);
     }
