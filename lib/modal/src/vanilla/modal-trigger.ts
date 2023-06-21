@@ -51,6 +51,10 @@ export class ModalTrigger extends Component<ModalTriggerOptions> {
             builderOptions.url = href;
         }
 
+        if (!builderOptions.key && builderOptions.id) {
+            builderOptions.key = builderOptions.id;
+        }
+
 
         return builderOptions;
     }
