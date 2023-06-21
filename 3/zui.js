@@ -5136,7 +5136,7 @@ class _c extends ht {
   }
   initArrow() {
     const { arrow: t } = this.options;
-    t && (this.$arrow = y('<div class="arrow bg-inherit rotate-45 absolute w-2 h-2"></div>'), this.$target.append(this.$arrow));
+    t && (this.$arrow = y('<div class="fl-arrow bg-inherit rotate-45 absolute w-2 h-2"></div>'), this.$target.append(this.$arrow));
   }
 }
 _c.NAME = "Popovers";
