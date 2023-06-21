@@ -1,5 +1,5 @@
 import {render} from 'preact';
-import {i18n} from '@zui/core';
+import {delay, i18n} from '@zui/core';
 import {$, HtmlContent} from '@zui/core';
 import {ModalBase} from './modal-base';
 import {ModalOptions, ModalDialogOptions, ModalCustomOptions, ModalAjaxOptions, ModalAlertOptions, ModalTypedOptions, ModalConfirmOptions} from '../types';
@@ -68,9 +68,9 @@ const builders: Record<string, ModalBuildFunction> = {
     iframe: buildIframeModal as ModalBuildFunction,
 };
 
-export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
-    static LOADING_CLASS = 'loading';
+const LOADING_CLASS = 'loading';
 
+export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
     static DEFAULT = {
         ...ModalBase.DEFAULT,
         loadTimeout: 10000,
@@ -88,7 +88,7 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
     }
 
     get loading() {
-        return this.modalElement?.classList.contains(Modal.LOADING_CLASS);
+        return this.modalElement?.classList.contains(LOADING_CLASS);
     }
 
     get shown() {
@@ -98,9 +98,10 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
     get modalElement() {
         let modal = this.#modal;
         if (!modal) {
+            const {options} = this;
             let id = this.#id;
             if (!id) {
-                id = this.options.id || `modal-${$.guid++}`;
+                id = options.id || `modal-${$.guid++}`;
                 this.#id = id;
             }
             modal = $(this.element).find(`#${id}`)[0];
@@ -113,8 +114,8 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
                         [this.constructor.DATA_KEY]: `${this.gid}`,
                     })
                     .data(this.constructor.KEY, this)
-                    .css(this.options.style || {})
-                    .setClass('modal modal-async', this.options.className)
+                    .css(options.style || {})
+                    .setClass('modal modal-async load-indicator', options.className)
                     .appendTo(this.element)[0];
             }
             this.#modal = modal!;
@@ -176,18 +177,6 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
         });
     }
 
-    #renderLoading() {
-        const {loadingText} = this.options;
-        return this.#renderDialog({
-            body: (
-                <div className="modal-loading-indicator">
-                    <span className="spinner"></span>
-                    {loadingText ? <span className="modal-loading-text">{loadingText}</span> : null}
-                </div>
-            ),
-        });
-    }
-
     #renderLoadFail(failedTip?: string) {
         if (!failedTip) {
             return;
@@ -212,16 +201,15 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
         }
 
         const {modalElement, options} = this;
-        const {type, loadTimeout} = options;
+        const $modal = $(modalElement);
+        const {type, loadTimeout, loadingText = ''} = options;
         const build = builders[type];
 
         if (!build) {
             console.warn(`Modal: Cannot build modal with type "${type}"`);
             return false;
         }
-        modalElement.classList.add(Modal.LOADING_CLASS);
-
-        await this.#renderLoading();
+        $modal.attr('data-loading', loadingText).addClass(LOADING_CLASS);
 
         if (loadTimeout) {
             this.#loadingTimer = window.setTimeout(() => {
@@ -243,7 +231,9 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
             this.#loadingTimer = 0;
         }
 
-        modalElement.classList.remove(Modal.LOADING_CLASS);
+        await delay(100);
+
+        $modal.removeClass(LOADING_CLASS);
 
         return true;
     }

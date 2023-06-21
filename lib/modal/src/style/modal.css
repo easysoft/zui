@@ -1,6 +1,11 @@
 .modal {
-  @apply -hidden -overflow-hidden -fixed -inset-0 -items-center -justify-center -z-[2000];
-  background: var(--modal-bg);
+  @apply -hidden -overflow-hidden -fixed -inset-0 -items-center -justify-center -z-[2000] -bg-[--modal-bg];
+}
+.modal.load-indicator::before {
+  @apply -bg-inherit -transition-none;
+}
+.modal.loading::after {
+  @apply -text-canvas;
 }
 .modal.show {
   @apply -flex;

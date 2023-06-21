@@ -6,3 +6,7 @@
 .modal-content {
   @apply -flex -flex-col -h-full -max-h-screen;
 }
+
+.loading > .modal-dialog > .modal-content {
+  @apply -opacity-0 -invisible;
+}
