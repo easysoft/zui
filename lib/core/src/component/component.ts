@@ -74,6 +74,11 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
     protected _key: string | number;
 
     /**
+     * The component initialized flag.
+     */
+    #inited = false;
+
+    /**
      * The component constructor.
      *
      * @param options The component initial options.
@@ -110,9 +115,14 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
 
         this.init();
         requestAnimationFrame(() => {
+            this.#inited = true;
             this.emit('inited', this.options);
             this.afterInit();
         });
+    }
+
+    get inited() {
+        return this.#inited;
     }
 
     /**
