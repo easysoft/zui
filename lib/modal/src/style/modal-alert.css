@@ -1,3 +1,15 @@
 .modal-alert .modal-footer {
   @apply -justify-end;
 }
+.modal-alert .modal-header {
+  @apply --mb-4;
+}
+.modal-alert .modal-footer {
+  @apply --mt-3;
+}
+.modal-alert .modal-actions + .modal-body {
+  @apply -pr-12;
+}
+.modal-alert .modal-header + .modal-actions + .modal-body {
+  @apply -pr-5;
+}
