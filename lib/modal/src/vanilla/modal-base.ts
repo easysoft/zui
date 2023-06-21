@@ -185,7 +185,11 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
 
     #handleClick = (event: MouseEvent) => {
         const target = event.target as HTMLElement;
-        if (target.closest(DISMISS_SELECTOR) || (this.options.backdrop === true && !target.closest('.modal-dialog') && target.closest('.modal'))) {
+        const modal = target.closest('.modal');
+        if (!modal || modal !== this.modalElement) {
+            return;
+        }
+        if (target.closest(DISMISS_SELECTOR) || (this.options.backdrop === true && target === modal)) {
             event.stopPropagation();
             this.hide();
         }

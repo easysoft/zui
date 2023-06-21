@@ -1,5 +1,4 @@
 import {render} from 'preact';
-import {nanoid} from 'nanoid';
 import {i18n} from '@zui/core';
 import {$, HtmlContent} from '@zui/core';
 import {ModalBase} from './modal-base';
@@ -99,10 +98,21 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
     get modalElement() {
         let modal = this.#modal;
         if (!modal) {
-            const {id} = this;
+            let id = this.#id;
+            if (!id) {
+                id = this.options.id || `modal-${$.guid++}`;
+                this.#id = id;
+            }
             modal = $(this.element).find(`#${id}`)[0];
             if (!modal) {
-                modal = $('<div>').attr('id', id)
+                const key = this.key as string;
+                modal = $('<div>')
+                    .attr({
+                        id,
+                        'data-key': key,
+                        [this.constructor.DATA_KEY]: `${this.gid}`,
+                    })
+                    .data(this.constructor.KEY, this)
                     .css(this.options.style || {})
                     .setClass('modal modal-async', this.options.className)
                     .appendTo(this.element)[0];
@@ -114,7 +124,6 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
 
     afterInit() {
         super.afterInit();
-        this.#id = this.options.id || `modal-${nanoid()}`;
         this.on('hidden', () => {
             if (this.options.destoryOnHide) {
                 this.destroy();
@@ -132,8 +141,11 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
 
     destroy() {
         super.destroy();
-        this.#modal?.remove();
-        this.#modal = undefined;
+        const modal = this.#modal;
+        if (modal) {
+            $(modal).removeData(this.constructor.KEY).remove();
+            this.#modal = undefined;
+        }
     }
 
     render(options?: Partial<T>) {
