@@ -159,7 +159,7 @@ export class Popovers extends Component<PopoversOptions> {
             return;
         }
 
-        this.$arrow = $('<div class="arrow bg-inherit rotate-45 absolute w-2 h-2"></div>');
+        this.$arrow = $('<div class="fl-arrow bg-inherit rotate-45 absolute w-2 h-2"></div>');
         this.$target.append(this.$arrow);
     }
 }
