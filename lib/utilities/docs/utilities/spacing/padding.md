@@ -81,411 +81,411 @@
             </tr>
             <tr>
                 <td>.p-0.5</td>
-                <td><code>padding: 0.125rep; /* 2px */</code></td>
+                <td><code>padding: 0.125rem; /* 2px */</code></td>
             </tr>
             <tr>
                 <td rowspan="2">.px-0.5</td>
-                <td><code>padding-left: 0.125rep; /* 2px */</code></td>
+                <td><code>padding-left: 0.125rem; /* 2px */</code></td>
             </tr>
             <tr>
-                <td><code>padding-right: 0.125rep; /* 2px */</code></td>
+                <td><code>padding-right: 0.125rem; /* 2px */</code></td>
             </tr>
             <tr>
                 <td rowspan="2">.py-0.5</td>
-                <td><code>padding-top: 0.125rep; /* 2px */</code></td>
+                <td><code>padding-top: 0.125rem; /* 2px */</code></td>
             </tr>
             <tr>
-                <td><code>padding-bottop: 0.125rep; /* 2px */</code></td>
+                <td><code>padding-bottop: 0.125rem; /* 2px */</code></td>
             </tr>
             <tr>
                 <td>.pt-0.5</td>
-                <td><code>padding-top: 0.125rep; /* 2px */</code></td>
+                <td><code>padding-top: 0.125rem; /* 2px */</code></td>
             </tr>
             <tr>
                 <td>.pr-0.5</td>
-                <td><code>padding-right: 0.125rep; /* 2px */</code></td>
+                <td><code>padding-right: 0.125rem; /* 2px */</code></td>
             </tr>
             <tr>
                 <td>.pb-0.5</td>
-                <td><code>padding-bottop: 0.125rep; /* 2px */</code></td>
+                <td><code>padding-bottop: 0.125rem; /* 2px */</code></td>
             </tr>
             <tr>
                 <td>.pl-0.5</td>
-                <td><code>padding-left: 0.125rep; /* 2px */</code></td>
+                <td><code>padding-left: 0.125rem; /* 2px */</code></td>
             </tr>
             <tr>
                 <td>.p-1</td>
-                <td><code>padding: 0.25rep; /* 4px */</code></td>
+                <td><code>padding: 0.25rem; /* 4px */</code></td>
             </tr>
             <tr>
                 <td rowspan="2">.px-1</td>
-                <td><code>padding-left: 0.25rep; /* 4px */</code></td>
+                <td><code>padding-left: 0.25rem; /* 4px */</code></td>
             </tr>
             <tr>
-                <td><code>padding-right: 0.25rep; /* 4px */</code></td>
+                <td><code>padding-right: 0.25rem; /* 4px */</code></td>
             </tr>
             <tr>
                 <td rowspan="2">.py-1</td>
-                <td><code>padding-top: 0.25rep; /* 4px */</code></td>
+                <td><code>padding-top: 0.25rem; /* 4px */</code></td>
             </tr>
             <tr>
-                <td><code>padding-bottop: 0.25rep; /* 4px */</code></td>
+                <td><code>padding-bottop: 0.25rem; /* 4px */</code></td>
             </tr>
             <tr>
                 <td>.pt-1</td>
-                <td><code>padding-top: 0.25rep; /* 4px */</code></td>
+                <td><code>padding-top: 0.25rem; /* 4px */</code></td>
             </tr>
             <tr>
                 <td>.pr-1</td>
-                <td><code>padding-right: 0.25rep; /* 4px */</code></td>
+                <td><code>padding-right: 0.25rem; /* 4px */</code></td>
             </tr>
             <tr>
                 <td>.pb-1</td>
-                <td><code>padding-bottop: 0.25rep; /* 4px */</code></td>
+                <td><code>padding-bottop: 0.25rem; /* 4px */</code></td>
             </tr>
             <tr>
                 <td>.pl-1</td>
-                <td><code>padding-left: 0.25rep; /* 4px */</code></td>
+                <td><code>padding-left: 0.25rem; /* 4px */</code></td>
             </tr>
             <tr>
                 <td>.p-1.5</td>
-                <td><code>padding: 0.375rep; /* 6px */</code></td>
+                <td><code>padding: 0.375rem; /* 6px */</code></td>
             </tr>
             <tr>
                 <td rowspan="2">.px-1.5</td>
-                <td><code>padding-left: 0.375rep; /* 6px */</code></td>
+                <td><code>padding-left: 0.375rem; /* 6px */</code></td>
             </tr>
             <tr>
-                <td><code>padding-right: 0.375rep; /* 6px */</code></td>
+                <td><code>padding-right: 0.375rem; /* 6px */</code></td>
             </tr>
             <tr>
                 <td rowspan="2">.py-1.5</td>
-                <td><code>padding-top: 0.375rep; /* 6px */</code></td>
+                <td><code>padding-top: 0.375rem; /* 6px */</code></td>
             </tr>
             <tr>
-                <td><code>padding-bottop: 0.375rep; /* 6px */</code></td>
+                <td><code>padding-bottop: 0.375rem; /* 6px */</code></td>
             </tr>
             <tr>
                 <td>.pt-1.5</td>
-                <td><code>padding-top: 0.375rep; /* 6px */</code></td>
+                <td><code>padding-top: 0.375rem; /* 6px */</code></td>
             </tr>
             <tr>
                 <td>.pr-1.5</td>
-                <td><code>padding-right: 0.375rep; /* 6px */</code></td>
+                <td><code>padding-right: 0.375rem; /* 6px */</code></td>
             </tr>
             <tr>
                 <td>.pb-1.5</td>
-                <td><code>padding-bottop: 0.375rep; /* 6px */</code></td>
+                <td><code>padding-bottop: 0.375rem; /* 6px */</code></td>
             </tr>
             <tr>
                 <td>.pl-1.5</td>
-                <td><code>padding-left: 0.375rep; /* 6px */</code></td>
+                <td><code>padding-left: 0.375rem; /* 6px */</code></td>
             </tr>
             <tr>
                 <td>.p-2</td>
-                <td><code>padding: 0.5rep; /* 8px */</code></td>
+                <td><code>padding: 0.5rem; /* 8px */</code></td>
             </tr>
             <tr>
                 <td rowspan="2">.px-2</td>
-                <td><code>padding-left: 0.5rep; /* 8px */</code></td>
+                <td><code>padding-left: 0.5rem; /* 8px */</code></td>
             </tr>
             <tr>
-                <td><code>padding-right: 0.5rep; /* 8px */</code></td>
+                <td><code>padding-right: 0.5rem; /* 8px */</code></td>
             </tr>
             <tr>
                 <td rowspan="2">.py-2</td>
-                <td><code>padding-top: 0.5rep; /* 8px */</code></td>
+                <td><code>padding-top: 0.5rem; /* 8px */</code></td>
             </tr>
             <tr>
-                <td><code>padding-bottop: 0.5rep; /* 8px */</code></td>
+                <td><code>padding-bottop: 0.5rem; /* 8px */</code></td>
             </tr>
             <tr>
                 <td>.pt-2</td>
-                <td><code>padding-top: 0.5rep; /* 8px */</code></td>
+                <td><code>padding-top: 0.5rem; /* 8px */</code></td>
             </tr>
             <tr>
                 <td>.pr-2</td>
-                <td><code>padding-right: 0.5rep; /* 8px */</code></td>
+                <td><code>padding-right: 0.5rem; /* 8px */</code></td>
             </tr>
             <tr>
                 <td>.pb-2</td>
-                <td><code>padding-bottop: 0.5rep; /* 8px */</code></td>
+                <td><code>padding-bottop: 0.5rem; /* 8px */</code></td>
             </tr>
             <tr>
                 <td>.pl-2</td>
-                <td><code>padding-left: 0.5rep; /* 8px */</code></td>
+                <td><code>padding-left: 0.5rem; /* 8px */</code></td>
             </tr>
             <tr>
                 <td>.p-2.5</td>
-                <td><code>padding: 0.625rep; /* 10px */</code></td>
+                <td><code>padding: 0.625rem; /* 10px */</code></td>
             </tr>
             <tr>
                 <td rowspan="2">.px-2.5</td>
-                <td><code>padding-left: 0.625rep; /* 10px */</code></td>
+                <td><code>padding-left: 0.625rem; /* 10px */</code></td>
             </tr>
             <tr>
-                <td><code>padding-right: 0.625rep; /* 10px */</code></td>
+                <td><code>padding-right: 0.625rem; /* 10px */</code></td>
             </tr>
             <tr>
                 <td rowspan="2">.py-2.5</td>
-                <td><code>padding-top: 0.625rep; /* 10px */</code></td>
+                <td><code>padding-top: 0.625rem; /* 10px */</code></td>
             </tr>
             <tr>
-                <td><code>padding-bottop: 0.625rep; /* 10px */</code></td>
+                <td><code>padding-bottop: 0.625rem; /* 10px */</code></td>
             </tr>
             <tr>
                 <td>.pt-2.5</td>
-                <td><code>padding-top: 0.625rep; /* 10px */</code></td>
+                <td><code>padding-top: 0.625rem; /* 10px */</code></td>
             </tr>
             <tr>
                 <td>.pr-2.5</td>
-                <td><code>padding-right: 0.625rep; /* 10px */</code></td>
+                <td><code>padding-right: 0.625rem; /* 10px */</code></td>
             </tr>
             <tr>
                 <td>.pb-2.5</td>
-                <td><code>padding-bottop: 0.625rep; /* 10px */</code></td>
+                <td><code>padding-bottop: 0.625rem; /* 10px */</code></td>
             </tr>
             <tr>
                 <td>.pl-2.5</td>
-                <td><code>padding-left: 0.625rep; /* 10px */</code></td>
+                <td><code>padding-left: 0.625rem; /* 10px */</code></td>
             </tr>
             <tr>
                 <td>.p-3</td>
-                <td><code>padding: 0.75rep; /* 12px */</code></td>
+                <td><code>padding: 0.75rem; /* 12px */</code></td>
             </tr>
             <tr>
                 <td rowspan="2">.px-3</td>
-                <td><code>padding-left: 0.75rep; /* 12px */</code></td>
+                <td><code>padding-left: 0.75rem; /* 12px */</code></td>
             </tr>
             <tr>
-                <td><code>padding-right: 0.75rep; /* 12px */</code></td>
+                <td><code>padding-right: 0.75rem; /* 12px */</code></td>
             </tr>
             <tr>
                 <td rowspan="2">.py-3</td>
-                <td><code>padding-top: 0.75rep; /* 12px */</code></td>
+                <td><code>padding-top: 0.75rem; /* 12px */</code></td>
             </tr>
             <tr>
-                <td><code>padding-bottop: 0.75rep; /* 12px */</code></td>
+                <td><code>padding-bottop: 0.75rem; /* 12px */</code></td>
             </tr>
             <tr>
                 <td>.pt-3</td>
-                <td><code>padding-top: 0.75rep; /* 12px */</code></td>
+                <td><code>padding-top: 0.75rem; /* 12px */</code></td>
             </tr>
             <tr>
                 <td>.pr-3</td>
-                <td><code>padding-right: 0.75rep; /* 12px */</code></td>
+                <td><code>padding-right: 0.75rem; /* 12px */</code></td>
             </tr>
             <tr>
                 <td>.pb-3</td>
-                <td><code>padding-bottop: 0.75rep; /* 12px */</code></td>
+                <td><code>padding-bottop: 0.75rem; /* 12px */</code></td>
             </tr>
             <tr>
                 <td>.pl-3</td>
-                <td><code>padding-left: 0.75rep; /* 12px */</code></td>
+                <td><code>padding-left: 0.75rem; /* 12px */</code></td>
             </tr>
             <tr>
                 <td>.p-3.5</td>
-                <td><code>padding: 0.875rep; /* 14px */</code></td>
+                <td><code>padding: 0.875rem; /* 14px */</code></td>
             </tr>
             <tr>
                 <td rowspan="2">.px-3.5</td>
-                <td><code>padding-left: 0.875rep; /* 14px */</code></td>
+                <td><code>padding-left: 0.875rem; /* 14px */</code></td>
             </tr>
             <tr>
-                <td><code>padding-right: 0.875rep; /* 14px */</code></td>
+                <td><code>padding-right: 0.875rem; /* 14px */</code></td>
             </tr>
             <tr>
                 <td rowspan="2">.py-3.5</td>
-                <td><code>padding-top: 0.875rep; /* 14px */</code></td>
+                <td><code>padding-top: 0.875rem; /* 14px */</code></td>
             </tr>
             <tr>
-                <td><code>padding-bottop: 0.875rep; /* 14px */</code></td>
+                <td><code>padding-bottop: 0.875rem; /* 14px */</code></td>
             </tr>
             <tr>
                 <td>.pt-3.5</td>
-                <td><code>padding-top: 0.875rep; /* 14px */</code></td>
+                <td><code>padding-top: 0.875rem; /* 14px */</code></td>
             </tr>
             <tr>
                 <td>.pr-3.5</td>
-                <td><code>padding-right: 0.875rep; /* 14px */</code></td>
+                <td><code>padding-right: 0.875rem; /* 14px */</code></td>
             </tr>
             <tr>
                 <td>.pb-3.5</td>
-                <td><code>padding-bottop: 0.875rep; /* 14px */</code></td>
+                <td><code>padding-bottop: 0.875rem; /* 14px */</code></td>
             </tr>
             <tr>
                 <td>.pl-3.5</td>
-                <td><code>padding-left: 0.875rep; /* 14px */</code></td>
+                <td><code>padding-left: 0.875rem; /* 14px */</code></td>
             </tr>
             <tr>
                 <td>.p-4</td>
-                <td><code>padding: 1rep; /* 16px */</code></td>
+                <td><code>padding: 1rem; /* 16px */</code></td>
             </tr>
             <tr>
                 <td rowspan="2">.px-4</td>
-                <td><code>padding-left: 1rep; /* 16px */</code></td>
+                <td><code>padding-left: 1rem; /* 16px */</code></td>
             </tr>
             <tr>
-                <td><code>padding-right: 1rep; /* 16px */</code></td>
+                <td><code>padding-right: 1rem; /* 16px */</code></td>
             </tr>
             <tr>
                 <td rowspan="2">.py-4</td>
-                <td><code>padding-top: 1rep; /* 16px */</code></td>
+                <td><code>padding-top: 1rem; /* 16px */</code></td>
             </tr>
             <tr>
-                <td><code>padding-bottop: 1rep; /* 16px */</code></td>
+                <td><code>padding-bottop: 1rem; /* 16px */</code></td>
             </tr>
             <tr>
                 <td>.pt-4</td>
-                <td><code>padding-top: 1rep; /* 16px */</code></td>
+                <td><code>padding-top: 1rem; /* 16px */</code></td>
             </tr>
             <tr>
                 <td>.pr-4</td>
-                <td><code>padding-right: 1rep; /* 16px */</code></td>
+                <td><code>padding-right: 1rem; /* 16px */</code></td>
             </tr>
             <tr>
                 <td>.pb-4</td>
-                <td><code>padding-bottop: 1rep; /* 16px */</code></td>
+                <td><code>padding-bottop: 1rem; /* 16px */</code></td>
             </tr>
             <tr>
                 <td>.pl-4</td>
-                <td><code>padding-left: 1rep; /* 16px */</code></td>
+                <td><code>padding-left: 1rem; /* 16px */</code></td>
             </tr>
             <tr>
                 <td>.p-5</td>
-                <td><code>padding: 1.25rep; /* 20px */</code></td>
+                <td><code>padding: 1.25rem; /* 20px */</code></td>
             </tr>
             <tr>
                 <td rowspan="2">.px-5</td>
-                <td><code>padding-left: 1.25rep; /* 20px */</code></td>
+                <td><code>padding-left: 1.25rem; /* 20px */</code></td>
             </tr>
             <tr>
-                <td><code>padding-right: 1.25rep; /* 20px */</code></td>
+                <td><code>padding-right: 1.25rem; /* 20px */</code></td>
             </tr>
             <tr>
                 <td rowspan="2">.py-5</td>
-                <td><code>padding-top: 1.25rep; /* 20px */</code></td>
+                <td><code>padding-top: 1.25rem; /* 20px */</code></td>
             </tr>
             <tr>
-                <td><code>padding-bottop: 1.25rep; /* 20px */</code></td>
+                <td><code>padding-bottop: 1.25rem; /* 20px */</code></td>
             </tr>
             <tr>
                 <td>.pt-5</td>
-                <td><code>padding-top: 1.25rep; /* 20px */</code></td>
+                <td><code>padding-top: 1.25rem; /* 20px */</code></td>
             </tr>
             <tr>
                 <td>.pr-5</td>
-                <td><code>padding-right: 1.25rep; /* 20px */</code></td>
+                <td><code>padding-right: 1.25rem; /* 20px */</code></td>
             </tr>
             <tr>
                 <td>.pb-5</td>
-                <td><code>padding-bottop: 1.25rep; /* 20px */</code></td>
+                <td><code>padding-bottop: 1.25rem; /* 20px */</code></td>
             </tr>
             <tr>
                 <td>.pl-5</td>
-                <td><code>padding-left: 1.25rep; /* 20px */</code></td>
+                <td><code>padding-left: 1.25rem; /* 20px */</code></td>
             </tr>
             <tr>
                 <td>.p-6</td>
-                <td><code>padding: 1.5rep; /* 24px */</code></td>
+                <td><code>padding: 1.5rem; /* 24px */</code></td>
             </tr>
             <tr>
                 <td rowspan="2">.px-6</td>
-                <td><code>padding-left: 1.5rep; /* 24px */</code></td>
+                <td><code>padding-left: 1.5rem; /* 24px */</code></td>
             </tr>
             <tr>
-                <td><code>padding-right: 1.5rep; /* 24px */</code></td>
+                <td><code>padding-right: 1.5rem; /* 24px */</code></td>
             </tr>
             <tr>
                 <td rowspan="2">.py-6</td>
-                <td><code>padding-top: 1.5rep; /* 24px */</code></td>
+                <td><code>padding-top: 1.5rem; /* 24px */</code></td>
             </tr>
             <tr>
-                <td><code>padding-bottop: 1.5rep; /* 24px */</code></td>
+                <td><code>padding-bottop: 1.5rem; /* 24px */</code></td>
             </tr>
             <tr>
                 <td>.pt-6</td>
-                <td><code>padding-top: 1.5rep; /* 24px */</code></td>
+                <td><code>padding-top: 1.5rem; /* 24px */</code></td>
             </tr>
             <tr>
                 <td>.pr-6</td>
-                <td><code>padding-right: 1.5rep; /* 24px */</code></td>
+                <td><code>padding-right: 1.5rem; /* 24px */</code></td>
             </tr>
             <tr>
                 <td>.pb-6</td>
-                <td><code>padding-bottop: 1.5rep; /* 24px */</code></td>
+                <td><code>padding-bottop: 1.5rem; /* 24px */</code></td>
             </tr>
             <tr>
                 <td>.pl-6</td>
-                <td><code>padding-left: 1.5rep; /* 24px */</code></td>
+                <td><code>padding-left: 1.5rem; /* 24px */</code></td>
             </tr>
             <tr>
                 <td>.p-7</td>
-                <td>width: 7rep; /* 112px */</td>
+                <td>width: 7rem; /* 112px */</td>
             </tr>
             <tr>
                 <td rowspan="2">.px-7</td>
-                <td><code>padding-left: 1.75rep; /* 28px */</code></td>
+                <td><code>padding-left: 1.75rem; /* 28px */</code></td>
             </tr>
             <tr>
-                <td><code>padding-right: 1.75rep; /* 28px */</code></td>
+                <td><code>padding-right: 1.75rem; /* 28px */</code></td>
             </tr>
             <tr>
                 <td rowspan="2">.py-7</td>
-                <td><code>padding-left: 1.75rep; /* 28px */</code></td>
+                <td><code>padding-left: 1.75rem; /* 28px */</code></td>
             </tr>
             <tr>
-                <td><code>padding-right: 1.75rep; /* 28px */</code></td>
+                <td><code>padding-right: 1.75rem; /* 28px */</code></td>
             </tr>
             <tr>
                 <td>.pt-7</td>
-                <td><code>padding-top: 1.75rep; /* 28px */</code></td>
+                <td><code>padding-top: 1.75rem; /* 28px */</code></td>
             </tr>
             <tr>
                 <td>.pr-7</td>
-                <td><code>padding-right: 1.75rep; /* 28px */</code></td>
+                <td><code>padding-right: 1.75rem; /* 28px */</code></td>
             </tr>
             <tr>
                 <td>.pb-7</td>
-                <td><code>padding-bottop: 1.75rep; /* 28px */</code></td>
+                <td><code>padding-bottop: 1.75rem; /* 28px */</code></td>
             </tr>
             <tr>
                 <td>.pl-7</td>
-                <td><code>padding-left: 1.75rep; /* 28px */</code></td>
+                <td><code>padding-left: 1.75rem; /* 28px */</code></td>
             </tr>
             <tr>
                 <td>.p-8</td>
-                <td><code>padding: 2rep; /* 32px */</code></td>
+                <td><code>padding: 2rem; /* 32px */</code></td>
             </tr>
             <tr>
                 <td rowspan="2">.px-8</td>
-                <td><code>padding-left: 2rep; /* 32px */</code></td>
+                <td><code>padding-left: 2rem; /* 32px */</code></td>
             </tr>
             <tr>
-                <td><code>padding-right: 2rep; /* 32px */</code></td>
+                <td><code>padding-right: 2rem; /* 32px */</code></td>
             </tr>
             <tr>
                 <td rowspan="2">.py-8</td>
-                <td><code>padding-top: 2rep; /* 32px */</code></td>
+                <td><code>padding-top: 2rem; /* 32px */</code></td>
             </tr>
             <tr>
-                <td><code>padding-bottop: 2rep; /* 32px */</code></td>
+                <td><code>padding-bottop: 2rem; /* 32px */</code></td>
             </tr>
             <tr>
                 <td>.pt-8</td>
-                <td><code>padding-top: 2rep; /* 32px */</code></td>
+                <td><code>padding-top: 2rem; /* 32px */</code></td>
             </tr>
             <tr>
                 <td>.pr-8</td>
-                <td><code>padding-right: 2rep; /* 32px */</code></td>
+                <td><code>padding-right: 2rem; /* 32px */</code></td>
             </tr>
             <tr>
                 <td>.pb-8</td>
-                <td><code>padding-bottop: 2rep; /* 32px */</code></td>
+                <td><code>padding-bottop: 2rem; /* 32px */</code></td>
             </tr>
             <tr>
                 <td>.pl-8</td>
-                <td><code>padding-left: 2rep; /* 32px */</code></td>
+                <td><code>padding-left: 2rem; /* 32px */</code></td>
             </tr>
         </tbody>
     </table>
