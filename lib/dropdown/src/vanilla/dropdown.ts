@@ -135,26 +135,38 @@ export class Dropdown extends ContextMenu<DropdownOptions, DropdownEvents> {
     }
 }
 
-$(document).on('click', function (event) {
-    const $toggleBtn = $(event.target as HTMLElement).closest(MENU_SELECTOR).not(':disabled,.disabled');
-    if ($toggleBtn.length) {
-        const dropdown = Dropdown.ensure($toggleBtn);
+const optionsCacheKey = `${Dropdown.KEY}:options`;
+$(document)
+    .on('click', function (event) {
+        const $toggleBtn = $(event.target as HTMLElement).closest(MENU_SELECTOR).not(':disabled,.disabled');
+        if (!$toggleBtn.length) {
+            Dropdown.clear({event});
+            return;
+        }
+
+        const optionsCache = $toggleBtn.data(optionsCacheKey);
+        const dropdown = Dropdown.ensure($toggleBtn, optionsCache);
+        if (!optionsCache) {
+            $toggleBtn.data(optionsCacheKey, dropdown.options);
+        }
         if (dropdown.options.trigger === 'click') {
             dropdown.toggle();
         }
-    } else {
-        Dropdown.clear({event});
-    }
-}).on('mouseover', function (e) {
-    const toggleBtn = (e.target as HTMLElement).closest?.<HTMLElement>(MENU_SELECTOR);
-    if (!toggleBtn) {
-        return;
-    }
-    const dropdown = Dropdown.ensure(toggleBtn);
-    if (dropdown.isHover) {
-        dropdown.show();
-    }
-});
+    })
+    .on('mouseover', function (event) {
+        const $toggleBtn = $(event.target as HTMLElement).closest(MENU_SELECTOR);
+        if (!$toggleBtn.length) {
+            return;
+        }
+        const optionsCache = $toggleBtn.data(optionsCacheKey);
+        const dropdown = Dropdown.ensure($toggleBtn, optionsCache);
+        if (!optionsCache) {
+            $toggleBtn.data(optionsCacheKey, dropdown.options);
+        }
+        if (dropdown.isHover) {
+            dropdown.show();
+        }
+    });
 
 let scrollTimer = 0;
 window.addEventListener('scroll', (event: Event) => {
