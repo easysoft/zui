@@ -9,10 +9,12 @@ import {$, Cash, Selector} from '../cash';
 export function runJS(selector: Selector, jsCode?: string, removeAfterRun = false) {
     const $element = $(selector);
     if (jsCode !== undefined) {
-        const id = `zui-runjs-${$.guid++}`;
-        $element.append(`<script id="${id}">${jsCode}</script>`);
-        if (removeAfterRun) {
-            $element.find(`#${id}`).remove();
+        if (jsCode.length) {
+            const id = `zui-runjs-${$.guid++}`;
+            $element.append(`<script id="${id}">${jsCode}</script>`);
+            if (removeAfterRun) {
+                $element.find(`#${id}`).remove();
+            }
         }
         return;
     }
