@@ -135,11 +135,11 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
     }
 
     protected _getPop(props: RenderableProps<O>): ComponentType<PickPopProps<S>> {
-        return props.Pop || (Pick.Pop as ComponentType<PickPopProps<S>>);
+        return props.Pop || ((this.constructor as typeof Pick).Pop as ComponentType<PickPopProps<S>>);
     }
 
     protected _getTrigger(props: RenderableProps<O>): ComponentType<PickTriggerProps<S>> {
-        return props.Trigger || (Pick.Trigger as ComponentType<PickTriggerProps<S>>);
+        return props.Trigger || ((this.constructor as typeof Pick).Trigger as ComponentType<PickTriggerProps<S>>);
     }
 
     componentDidMount() {

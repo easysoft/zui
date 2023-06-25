@@ -25,7 +25,7 @@ export class PickTrigger<S extends PickState = PickState, P extends PickTriggerP
             'pick',
             className,
             opened && 'is-open',
-            focused && 'focus',
+            (focused || opened) && 'focus',
             disabled && 'disabled',
         );
     }

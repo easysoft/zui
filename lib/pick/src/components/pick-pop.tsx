@@ -47,12 +47,24 @@ export class PickPop<S extends PickState = PickState, P extends PickPopProps<S> 
     }
 
     protected _render(props: RenderableProps<P>) {
-        const {id, style} = props;
+        const {
+            id,
+            style,
+            maxHeight,
+            maxWidth,
+            minHeight,
+            minWidth,
+        } = props;
+        const finalStyle = $.extend({maxHeight,
+            maxWidth,
+            minHeight,
+            minWidth,
+        }, style);
         return (
             <div
                 id={`pick-pop-${id}`}
                 className={this._getClass(props)}
-                style={style}
+                style={finalStyle}
                 ref={this.#ref}
             >
                 {this._renderPop(props)}
@@ -87,7 +99,7 @@ export class PickPop<S extends PickState = PickState, P extends PickPopProps<S> 
         }
 
         this.#layoutWatcher = autoUpdate(trigger, element, () => {
-            const {direction, width, maxHeight, maxWidth, minHeight, minWidth} = props;
+            const {direction, width} = props;
             computePosition(trigger, element, {
                 placement: `${direction === 'top' ? 'top' : 'bottom'}-start`,
                 middleware: [direction === 'auto' ? flip() : null, shift(), offset(1)].filter(Boolean),
@@ -96,10 +108,6 @@ export class PickPop<S extends PickState = PickState, P extends PickPopProps<S> 
                     left: x,
                     top: y,
                     width: width === '100%' ? $(trigger).outerWidth() : undefined,
-                    maxHeight,
-                    maxWidth,
-                    minHeight,
-                    minWidth,
                 });
             });
             if (width === '100%') {
