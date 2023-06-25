@@ -34,3 +34,16 @@
 .picker-multi-selection {
   @apply -flex -items-center -border -bg-surface -pl-2 -rounded-full;
 }
+
+.picker-menu-search-input {
+  @apply -pr-8 -h-7;
+}
+.picker-menu-search {
+  @apply -flex-none -relative -m-2;
+}
+.picker-menu-search > .magnifier {
+  @apply -absolute -right-2 -top-2 -opacity-50;
+}
+.picker-menu-search-clear.btn {
+  @apply -absolute -right-2 -top-1 -w-5 -h-5 -cursor-pointer;
+}

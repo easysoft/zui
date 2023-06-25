@@ -1,5 +1,5 @@
-import type {ComponentChildren, VNode, JSX, ComponentType} from 'preact';
-import type {ClassNameLike} from '@zui/core';
+import type {ComponentChildren, JSX, ComponentType} from 'preact';
+import type {ClassNameLike, IconType} from '@zui/core';
 
 export interface PickerItemBasic {
     value: string;
@@ -14,11 +14,13 @@ export interface PickerItemOptions extends PickerItemBasic {
     rootStyle?: JSX.CSSProperties;
     rootChildren?: ComponentChildren | (() => ComponentChildren);
     component?: string | ComponentType;
+
     className?: ClassNameLike;
-    icon?: string | VNode;
-    trailingIcon?: string | VNode;
-    hint?: string;
-    attrs?: JSX.HTMLAttributes<HTMLLIElement>;
     style?: JSX.CSSProperties;
     children?: ComponentChildren | (() => ComponentChildren);
+    attrs?: JSX.HTMLAttributes<HTMLLIElement>;
+
+    icon?: IconType;
+    trailingIcon?: IconType;
+    hint?: string;
 }

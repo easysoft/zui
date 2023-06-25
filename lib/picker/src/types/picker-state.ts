@@ -1,9 +1,10 @@
-import {PickerItemOptions} from './picker-item-options';
+import type {PickState} from '@zui/pick';
+import type {PickerItemBasic, PickerItemOptions} from './picker-item-options';
 
-export type PickerState = {
-    value?: string;
-    open: boolean;
+export interface PickerState extends PickState {
     loading: boolean;
     items: PickerItemOptions[];
-    search: string,
-};
+    selections: PickerItemBasic[];
+    search: string;
+    hoverItem?: string;
+}

@@ -802,6 +802,9 @@ importers:
       '@zui/menu':
         specifier: workspace:*
         version: link:../menu
+      '@zui/pick':
+        specifier: workspace:*
+        version: link:../pick
     devDependencies:
       '@zui/utilities':
         specifier: workspace:*
