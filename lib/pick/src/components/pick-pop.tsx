@@ -95,7 +95,7 @@ export class PickPop<S extends PickState = PickState, P extends PickPopProps<S> 
                 $(element).css({
                     left: x,
                     top: y,
-                    width: width === '100%' ? $(trigger).width() : undefined,
+                    width: width === '100%' ? $(trigger).outerWidth() : undefined,
                     maxHeight,
                     maxWidth,
                     minHeight,
