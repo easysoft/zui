@@ -1,8 +1,9 @@
-import {Component, ComponentChildren, RenderableProps} from 'preact';
+import {Component, ComponentChildren, ComponentType, RenderableProps} from 'preact';
 import {$, delay} from '@zui/core';
 import type {PickOptions, PickPopProps, PickState, PickTriggerProps} from '../types';
 import {PickTrigger} from './pick-trigger';
 import {PickPop} from './pick-pop';
+import '../style';
 
 export class Pick<S extends PickState = PickState, O extends PickOptions<S> = PickOptions<S>> extends Component<O, S> {
     static Trigger = PickTrigger;
@@ -133,6 +134,14 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
         this.props.afterRender?.call(this, {firstRender});
     }
 
+    protected _getPop(props: RenderableProps<O>): ComponentType<PickPopProps<S>> {
+        return props.Pop || (Pick.Pop as ComponentType<PickPopProps<S>>);
+    }
+
+    protected _getTrigger(props: RenderableProps<O>): ComponentType<PickTriggerProps<S>> {
+        return props.Trigger || (Pick.Trigger as ComponentType<PickTriggerProps<S>>);
+    }
+
     componentDidMount() {
         this._afterRender(true);
     }
@@ -185,18 +194,20 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
     }
 
     render(props: RenderableProps<O>, state: Readonly<S>) {
-        const {
-            Trigger = (this.constructor as typeof Pick<S, O>).Trigger<S>,
-            Pop = (this.constructor as typeof Pick<S, O>).Pop<S>,
-        } = props;
         const {open: opened} = state;
+        const Trigger = this._getTrigger(props);
+        let popView: ComponentChildren;
+        if (opened) {
+            const Pop = this._getPop(props);
+            popView = (<Pop key="pop" {...this._getPopProps(props, state)}>
+                {this._renderPop(props, state)}
+            </Pop>);
+        }
         return (<>
             <Trigger key="pick" {...this._getTriggerProps(props, state)}>
                 {this._renderTrigger(props, state)}
             </Trigger>
-            {opened ? (<Pop key="pop" {...this._getPopProps(props, state)}>
-                {this._renderPop(props, state)}
-            </Pop>) : null}
+            {popView}
         </>);
     }
 }
