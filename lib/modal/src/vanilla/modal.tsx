@@ -240,7 +240,11 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
     static open(options: ModalTypedOptions & {container?: string | HTMLElement}): Promise<Modal> {
         return new Promise((resolve) => {
             const {container = document.body, ...others} = options;
-            const modal = Modal.ensure(container, {show: true, ...others} as ModalOptions);
+            const modalOptions = {show: true, ...others} as ModalOptions;
+            if (!modalOptions.type && modalOptions.url) {
+                modalOptions.type = 'ajax';
+            }
+            const modal = Modal.ensure(container, modalOptions);
             modal.one('hidden', () => resolve(modal));
             modal.show();
         });
