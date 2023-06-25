@@ -60,6 +60,13 @@ export class PickPop<S extends PickState = PickState, P extends PickPopProps<S> 
         );
     }
 
+    protected _handleDocClick = (e: MouseEvent) => {
+        const {state: {open}, id, togglePop} = this.props;
+        if (open !== 'closing' && !$(e.target as HTMLElement).closest(`#pick-${id},#pick-pop-${id}`).length) {
+            togglePop(false);
+        }
+    };
+
     protected layout() {
         const {element, trigger, props} = this;
         const {state} = props;
@@ -99,9 +106,12 @@ export class PickPop<S extends PickState = PickState, P extends PickPopProps<S> 
 
     componentDidMount() {
         this.layout();
+        $(document).on('click', this._handleDocClick);
     }
 
     componentWillUnmount(): void {
+        $(document).off('click', this._handleDocClick);
+
         const layoutWatcher = this.#layoutWatcher;
         if (layoutWatcher) {
             layoutWatcher();

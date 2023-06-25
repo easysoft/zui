@@ -9,10 +9,6 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
 
     static Pop = PickPop;
 
-    static Hotkey = {
-
-    };
-
     static defaultProps: Partial<PickOptions> = {
         popContainer: 'body',
         popClass: 'menu-popup',
@@ -53,6 +49,11 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
     };
 
     toggle = async (open?: boolean, state?: Partial<S>): Promise<S> => {
+        const {state: currentState} = this;
+        if (typeof open === 'boolean' && open === (!!currentState.open && currentState.open !== 'closing')) {
+            return currentState;
+        }
+
         if (this.#toggleTimer) {
             clearTimeout(this.#toggleTimer);
             this.#toggleTimer = 0;
@@ -132,17 +133,8 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
         this.props.afterRender?.call(this, {firstRender});
     }
 
-    protected _handleDocClick = (e: MouseEvent) => {
-        const {open} = this.state;
-        const {id} = this;
-        if (open && !$(e.target as HTMLElement).closest(`#pick-${id},#pick-pop-${id}`).length) {
-            this.toggle(false);
-        }
-    };
-
     componentDidMount() {
         this._afterRender(true);
-        $(document).on('click', this._handleDocClick);
     }
 
     componentWillUpdate(_nextProps: Readonly<O>, nextState: Readonly<S>): void {
@@ -178,7 +170,6 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
     }
 
     componentWillUnmount(): void {
-        $(document).off('click', this._handleDocClick);
         this.props.beforeDestroy?.call(this);
         if (this.#toggleTimer) {
             clearTimeout(this.#toggleTimer);
