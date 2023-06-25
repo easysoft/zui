@@ -1,30 +1,6 @@
 import {convertBytes, formatBytes} from '@zui/helpers/src/format-string';
 import {Component, $, Cash} from '@zui/core';
-
-type UploadOptions = {
-    name: string;
-    renameBtn: boolean;
-    deleteBtn: boolean;
-    showIcon: boolean;
-    icon: HTMLElement | null;
-    multiple: boolean;
-    listPosition: 'bottom' | 'top';
-} & Partial<{
-    uploadText: string;
-    renameText: string;
-    deleteText: string;
-    confirmText: string;
-    cancelText: string;
-    tipText: string;
-    btnClass: string;
-    onChange: (files: File[]) => void;
-    onDelete: (file: File) => void;
-    onRename: (newName: string, oldName: string) => void;
-    limitCount: number;
-    accept: string;
-    defaultFileList: File[];
-    limitSize: `${number}${'B' | 'KB' | 'MB' | 'GB'}` | false;
-}>;
+import {UploadOptions} from '../types';
 
 export class Upload extends Component<UploadOptions> {
     private $input: Cash;
@@ -45,15 +21,14 @@ export class Upload extends Component<UploadOptions> {
 
     static DEFAULT: Partial<UploadOptions> = {
         name: 'file',
-        icon: null,
         uploadText: '上传文件',
         renameText: '重命名',
         deleteText: '删除',
         confirmText: '确定',
         cancelText: '取消',
         tipText: '（不超过 %s）',
-        renameBtn: false,
-        deleteBtn: false,
+        renameBtn: true,
+        deleteBtn: true,
         showIcon: true,
         multiple: true,
         listPosition: 'bottom',
@@ -213,7 +188,7 @@ export class Upload extends Component<UploadOptions> {
     private fileIcon() {
         const {icon} = this.options;
         if (icon) {
-            return $(icon);
+            return $(`<i class="icon icon-${icon}"></i>`);
         }
 
         return $('<i class="icon icon-paper-clip"></i>');

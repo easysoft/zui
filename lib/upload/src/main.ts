@@ -1,6 +1,7 @@
-import './upload.css';
 import '@zui/button';
 import '@zui/input-group';
 import '@zui/btn-group';
+import './style';
 
-export {Upload} from './upload';
+export * from './types';
+export * from './vanilla';
