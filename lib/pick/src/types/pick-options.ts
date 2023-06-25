@@ -19,7 +19,7 @@ export interface PickOptions<S extends PickState = PickState> {
     defaultValue?: string;
     name?: string;
     onFocus?: () => void;
-    onChange?: (value: string, oldValue: string) => void;
+    onChange?: (value: string | undefined, oldValue: string | undefined) => void;
 
     popClass?: ClassNameLike;
     popStyle?: JSX.CSSProperties;

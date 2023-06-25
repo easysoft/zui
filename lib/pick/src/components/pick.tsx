@@ -9,6 +9,10 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
 
     static Pop = PickPop;
 
+    static Hotkey = {
+
+    };
+
     static defaultProps: Partial<PickOptions> = {
         popContainer: 'body',
         popClass: 'menu-popup',
@@ -156,15 +160,19 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
     }
 
     componentDidUpdate(_previousProps: Readonly<O>, previousState: Readonly<S>): void {
-        const {open: opened} = this.state;
-        const {open: previousOpened} = previousState;
-        if (!!opened !== !!previousOpened) {
+        const {open: opened, value} = this.state;
+        const {open: prevOpened, value: prevValue} = previousState;
+        if (!!opened !== !!prevOpened) {
             const {onPopShown, onPopHidden} = this.props;
             if (opened && onPopShown) {
                 onPopShown();
             } else if (!opened && onPopHidden) {
                 onPopHidden();
             }
+        }
+        const {onChange} = this.props;
+        if (value !== prevValue && onChange) {
+            onChange(value, prevValue);
         }
         this._afterRender();
     }
