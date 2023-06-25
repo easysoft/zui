@@ -33,6 +33,7 @@ export class Upload extends Component<UploadOptions> {
         listPosition: 'bottom',
         limitSize: false,
         icon: 'file-o',
+        btnClass: '',
     };
 
     init() {
