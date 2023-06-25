@@ -23,6 +23,8 @@ export class Picker extends Pick<PickerState, PickerOptions> {
 
     #abort?: AbortController;
 
+    #updateTimer = 0;
+
     constructor(props: PickerOptions) {
         super(props);
         $.extend(this.state, {
@@ -92,10 +94,16 @@ export class Picker extends Pick<PickerState, PickerOptions> {
 
         const {items: itemsSetting, searchDelay} = this.props;
         const {search} = this.state;
-        let items: PickerItemOptions[] | undefined;
+        let items: PickerItemOptions[] = [];
         if (typeof itemsSetting === 'function') {
             await delay(searchDelay || 500);
+            if (this.#abort !== abort) {
+                return items;
+            }
             items = await itemsSetting(search, {signal: abort.signal});
+            if (this.#abort !== abort) {
+                return items;
+            }
         } else if (search.length) {
             const searchKeys = $.unique(search.toLowerCase().split(' ').filter(x => x.length)) as string[];
             if (!searchKeys.length) {
@@ -119,21 +127,21 @@ export class Picker extends Pick<PickerState, PickerOptions> {
         }
 
         this.#abort = undefined;
-        return items || [];
+        return items;
     }
 
-    async update() {
+    async update(force?: boolean) {
         const {state, props} = this;
         const cache = this.#itemsCacheInfo || {};
         const newState: Partial<PickerState> = {};
         this.#itemsCacheInfo = cache;
-        if (cache.search !== state.search || props.items !== cache.items) {
+        if (force || cache.search !== state.search || props.items !== cache.items) {
             newState.items = await this.load();
             newState.loading = false;
             cache.items = props.items;
             cache.search = state.search;
         }
-        if (cache.value !== state.value) {
+        if (force || cache.value !== state.value) {
             const items = newState.items || state.items;
             const map = new Map(items.map(x => [x.value, x]));
             newState.selections = this.valueList.map(value => {
@@ -146,20 +154,31 @@ export class Picker extends Pick<PickerState, PickerOptions> {
         }
     }
 
+    async tryUpdate() {
+        if (this.#updateTimer) {
+            clearTimeout(this.#updateTimer);
+        }
+        this.#updateTimer = window.setTimeout(() => {
+            this.#updateTimer = 0;
+            this.update();
+        }, 100);
+    }
+
     componentDidUpdate(previousProps: Readonly<PickerOptions>, previousState: Readonly<PickerState>): void {
         super.componentDidUpdate(previousProps, previousState);
-        this.update();
+        this.tryUpdate();
     }
 
     componentDidMount(): void {
         super.componentDidMount();
-        this.update();
+        this.tryUpdate();
     }
 
     componentWillUnmount(): void {
         this.#abort?.abort();
         this.#abort = undefined;
         this.#itemsCacheInfo = undefined;
+        clearTimeout(this.#updateTimer);
         super.componentWillUnmount();
     }
 
@@ -168,6 +187,8 @@ export class Picker extends Pick<PickerState, PickerOptions> {
             ...super._getTriggerProps(props, state),
             multiple: props.multiple,
             placeholder: props.placeholder,
+            search: props.search,
+            searchHint: props.searchHint,
             onDeselect: this.deselect,
             onSelect: this.select,
             onClear: this.clear,
@@ -180,6 +201,8 @@ export class Picker extends Pick<PickerState, PickerOptions> {
             ...super._getPopProps(props, state),
             menu: props.menu,
             multiple: props.multiple,
+            search: props.search,
+            searchHint: props.searchHint,
             onDeselect: this.deselect,
             onSelect: this.select,
             onClear: this.clear,

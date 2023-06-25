@@ -3,7 +3,7 @@ import {classes, $} from '@zui/core';
 import {Menu} from '@zui/menu/src/component/menu';
 import {MenuItemProps} from '@zui/menu/src/types';
 import {PickPop} from '@zui/pick/src/components';
-import {PickerItemBasic, PickerMenuProps, PickerState} from '../types';
+import {PickerMenuProps, PickerState} from '../types';
 import '@zui/css-icons/src/icons/magnifier.css';
 import '@zui/css-icons/src/icons/close.css';
 
@@ -73,12 +73,13 @@ export class PickerMenu extends PickPop<PickerState, PickerMenuProps> {
     }
 
     #getMenuItems(): MenuItemProps[] {
-        const {selections, items, hoverItem: hover} = this.props.state;
+        const {selections, items, hoverItem: hover, search} = this.props.state;
         const selectionsSet = new Set(selections.map(x => x.value));
         let hasHover = false;
+        const searchKeys = $.unique(search.toLowerCase().split(' ').filter(x => x.length)) as string[];
         const menuItems = items.reduce<MenuItemProps[]>((list, item) => {
             const {
-                value,
+                value = '',
                 keys,
                 text,
                 className,
@@ -87,10 +88,11 @@ export class PickerMenu extends PickPop<PickerState, PickerMenuProps> {
             if (value === hover) {
                 hasHover = true;
             }
+            const displayText = `${text ?? value}`;
             list.push({
                 key: value,
                 active: selectionsSet.has(value),
-                text: text ?? value,
+                text: underlineWithSearchKeys(searchKeys, [displayText]),
                 className: classes(className, {hover: value === hover}),
                 'data-value': value,
                 ...others,
