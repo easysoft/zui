@@ -1,0 +1,38 @@
+{
+    "name": "@zui/pick",
+    "version": "0.0.1",
+    "main": "src/main.ts",
+    "browserslist": "",
+    "keywords": [
+        "css",
+        "zui:control"
+    ],
+    "files": [
+        "./src/**/*"
+    ],
+    "dependencies": {
+        "@zui/action-menu": "workspace:*",
+        "@zui/base": "workspace:*",
+        "@zui/button": "workspace:*",
+        "@zui/core": "workspace:^0.0.1",
+        "@zui/css-icons": "workspace:^0.0.1",
+        "@zui/checkbox": "workspace:*",
+        "@zui/form-control": "workspace:*",
+        "@zui/menu": "workspace:*"
+    },
+    "devDependencies": {
+        "zui-dev": "workspace:*",
+        "@zui/button": "workspace:0.0.1",
+        "@zui/utilities": "workspace:*"
+    },
+    "zui": {
+        "type": "component",
+        "displayName": "选择器",
+        "contributes": {
+            "css": [
+                "class",
+                "var"
+            ]
+        }
+    }
+}
