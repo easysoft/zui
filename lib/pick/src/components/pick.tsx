@@ -152,8 +152,8 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
     }
 
     componentDidUpdate(_previousProps: Readonly<O>, previousState: Readonly<S>): void {
-        const {open: opened, value} = this.state;
-        const {open: prevOpened, value: prevValue} = previousState;
+        const {open: opened, value, focus} = this.state;
+        const {open: prevOpened, value: prevValue, focus: prevFocus} = previousState;
         if (!!opened !== !!prevOpened) {
             const {onPopShown, onPopHidden} = this.props;
             if (opened && onPopShown) {
@@ -162,9 +162,17 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
                 onPopHidden();
             }
         }
-        const {onChange} = this.props;
-        if (value !== prevValue && onChange) {
-            onChange(value, prevValue);
+        if (value !== prevValue) {
+            const {onChange} = this.props;
+            onChange?.(value, prevValue);
+        }
+        if (focus !== prevFocus) {
+            const {onFocus, onBlur} = this.props;
+            if (focus && onFocus) {
+                onFocus();
+            } else if (!focus && onBlur) {
+                onBlur();
+            }
         }
         this._afterRender();
     }

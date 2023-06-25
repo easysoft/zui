@@ -32,7 +32,6 @@ export class PickTrigger<S extends PickState = PickState, P extends PickTriggerP
 
     protected _renderTrigger() {
         const {children, state} = this.props;
-        return JSON.stringify(this.props.state);
         return children ?? (state.value as string);
     }
 

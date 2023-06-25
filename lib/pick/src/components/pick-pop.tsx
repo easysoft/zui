@@ -46,8 +46,8 @@ export class PickPop<S extends PickState = PickState, P extends PickPopProps<S> 
         return this.#container;
     }
 
-    protected _renderPop(props: RenderableProps<P>) {
-        const {id, style, children} = props;
+    protected _render(props: RenderableProps<P>) {
+        const {id, style} = props;
         return (
             <div
                 id={`pick-pop-${id}`}
@@ -55,9 +55,13 @@ export class PickPop<S extends PickState = PickState, P extends PickPopProps<S> 
                 style={style}
                 ref={this.#ref}
             >
-                {children}
+                {this._renderPop(props)}
             </div>
         );
+    }
+
+    protected _renderPop(props: RenderableProps<P>) {
+        return props.children;
     }
 
     protected _handleDocClick = (e: MouseEvent) => {
@@ -91,7 +95,7 @@ export class PickPop<S extends PickState = PickState, P extends PickPopProps<S> 
                 $(element).css({
                     left: x,
                     top: y,
-                    width: width === '100%' ? $(element).width() : undefined,
+                    width: width === '100%' ? $(trigger).width() : undefined,
                     maxHeight,
                     maxWidth,
                     minHeight,
@@ -122,6 +126,6 @@ export class PickPop<S extends PickState = PickState, P extends PickPopProps<S> 
     }
 
     render(props: RenderableProps<P>) {
-        return createPortal(this._renderPop(props), this._getContainer(props));
+        return createPortal(this._render(props), this._getContainer(props));
     }
 }
