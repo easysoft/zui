@@ -1,26 +1,29 @@
-import {formatBytes} from '@zui/helpers/src/format-string';
+import {convertBytes, formatBytes} from '@zui/helpers/src/format-string';
 import {Component, $, Cash} from '@zui/core';
 
 type UploadOptions = {
     name: string;
-    uploadText: string;
-    renameText: string;
-    deleteText: string;
     renameBtn: boolean;
     deleteBtn: boolean;
     showIcon: boolean;
     icon: HTMLElement | null;
-    renameConfirmText: string;
-    renameCancelText: string;
     multiple: boolean;
     listPosition: 'bottom' | 'top';
 } & Partial<{
+    uploadText: string;
+    renameText: string;
+    deleteText: string;
+    confirmText: string;
+    cancelText: string;
+    tipText: string;
+    btnClass: string;
     onChange: (files: File[]) => void;
     onDelete: (file: File) => void;
     onRename: (newName: string, oldName: string) => void;
-    maxCount: number;
+    limitCount: number;
     accept: string;
     defaultFileList: File[];
+    limitSize: `${number}${'B' | 'KB' | 'MB' | 'GB'}` | false;
 }>;
 
 export class Upload extends Component<UploadOptions> {
@@ -36,29 +39,37 @@ export class Upload extends Component<UploadOptions> {
 
     private dataTransfer: DataTransfer;
 
-    static DEFAULT = {
+    private limitBytes: number;
+
+    private currentBytes: number;
+
+    static DEFAULT: Partial<UploadOptions> = {
         name: 'file',
         icon: null,
         uploadText: '上传文件',
         renameText: '重命名',
         deleteText: '删除',
+        confirmText: '确定',
+        cancelText: '取消',
+        tipText: '（不超过 %s）',
         renameBtn: false,
         deleteBtn: false,
         showIcon: true,
-        renameConfirmText: '确定',
-        renameCancelText: '取消',
-        multiple: false,
+        multiple: true,
         listPosition: 'bottom',
+        limitSize: false,
     };
 
     init() {
+        const {multiple, defaultFileList, limitSize} = this.options;
         this.fileMap = new Map();
         this.itemMap = new Map();
         this.dataTransfer = new DataTransfer();
+        this.limitBytes = limitSize ? convertBytes(limitSize) : Number.MAX_VALUE;
+        this.currentBytes = 0;
 
-        const {multiple, defaultFileList} = this.options;
         if (!multiple) {
-            this.options.maxCount = 1;
+            this.options.limitCount = 1;
         }
 
         this.initInputCash();
@@ -69,12 +80,13 @@ export class Upload extends Component<UploadOptions> {
     }
 
     private initUploadCash() {
-        const {name, uploadText, listPosition} = this.options;
-        this.$label = $(`<label class="btn primary" for="${name}">${uploadText}</label>`);
-        this.$list = $('<div class="file-list"></div>');
+        const {name, uploadText, listPosition, limitSize, btnClass, tipText} = this.options;
+        const $tip = limitSize ? $(`<span class="upload-tip">${tipText?.replace('%s', limitSize)}</span>`) : null;
+        this.$label = $(`<label class="btn ${btnClass}" for="${name}">${uploadText}</label>`);
+        this.$list = $('<div class="file-list py-1"></div>');
         const $children = listPosition === 'bottom'
-            ? [this.$label, this.$list]
-            : [this.$list, this.$label];
+            ? [this.$label, $tip, this.$list]
+            : [this.$list, this.$label, $tip];
         this.$element.append(this.$input, ...$children);
     }
 
@@ -82,6 +94,7 @@ export class Upload extends Component<UploadOptions> {
         const {name, multiple, accept, onChange} = this.options;
 
         this.$input = $('<input />')
+            .addClass('hidden')
             .prop('type', 'file')
             .prop('name', name)
             .prop('id', name)
@@ -106,17 +119,22 @@ export class Upload extends Component<UploadOptions> {
         if (!this.options.multiple) {
             this.fileMap.clear();
             this.dataTransfer.items.clear();
+            this.currentBytes = file.size;
         }
         this.fileMap.set(file.name, file);
         this.dataTransfer.items.add(file);
         this.$input.prop('files', this.dataTransfer.files);
+        this.currentBytes += file.size;
     }
 
     private addFileItem(files: File[]) {
-        const {multiple, maxCount} = this.options;
+        const {multiple, limitCount} = this.options;
         if (multiple) {
             for (const file of files) {
-                if (maxCount && this.fileMap.size >= maxCount) {
+                if (limitCount && this.fileMap.size >= limitCount) {
+                    return;
+                }
+                if (this.currentBytes + file.size > this.limitBytes) {
                     return;
                 }
                 this.addFile(file);
@@ -128,6 +146,9 @@ export class Upload extends Component<UploadOptions> {
         }
 
         const file = files[0];
+        if (file.size > this.limitBytes) {
+            return;
+        }
         this.addFile(file);
         const item = this.createFileItem(file);
         this.itemMap.clear();
@@ -138,6 +159,7 @@ export class Upload extends Component<UploadOptions> {
     private deleteFile(file: File) {
         this.options.onDelete?.(file);
         this.fileMap.delete(file.name);
+        this.currentBytes -= file.size;
         this.dataTransfer = new DataTransfer();
         this.fileMap.forEach((f) => this.dataTransfer.items.add(f));
         this.$input.prop('files', this.dataTransfer.files);
@@ -182,7 +204,7 @@ export class Upload extends Component<UploadOptions> {
 
     private createFileItem(file: File) {
         const {showIcon} = this.options;
-        return $('<li class="file-item"></li>')
+        return $('<li class="file-item my-1 flex items-center gap-2"></li>')
             .append(showIcon ? this.fileIcon() : null)
             .append(this.fileInfo(file))
             .append(this.renameInput(file));
@@ -200,7 +222,7 @@ export class Upload extends Component<UploadOptions> {
     private fileInfo(file: File) {
         const $name = $(`<span class="file-name">${file.name}</span>`);
         const $size = $(`<span class="file-size text-gray">${formatBytes(file.size)}</span>`);
-        const $fileInfo = $('<div class="file-info"></div>')
+        const $fileInfo = $('<div class="file-info flex items-center gap-2"></div>')
             .append($name)
             .append($size);
 
@@ -209,7 +231,7 @@ export class Upload extends Component<UploadOptions> {
             $fileInfo.append(
                 $('<span />')
                     .addClass('btn size-sm rounded-sm text-primary canvas file-action file-rename')
-                    .html(renameText)
+                    .html(renameText!)
                     .on('click', () => {
                         $fileInfo
                             .addClass('hidden')
@@ -222,7 +244,7 @@ export class Upload extends Component<UploadOptions> {
         if (deleteBtn) {
             $fileInfo.append(
                 $('<span />')
-                    .html(deleteText)
+                    .html(deleteText!)
                     .addClass('btn size-sm rounded-sm text-primary canvas file-action file-delete')
                     .on('click', () => this.deleteFileItem($name.html())),
             );
@@ -231,7 +253,7 @@ export class Upload extends Component<UploadOptions> {
     }
 
     private renameInput(file: File) {
-        const {renameConfirmText, renameCancelText} = this.options;
+        const {confirmText, cancelText} = this.options;
         const $renameInput = $('<div class="input-group hidden"></div>');
         const $input = $('<input />')
             .addClass('form-control')
@@ -239,9 +261,9 @@ export class Upload extends Component<UploadOptions> {
             .prop('autofocus', true)
             .prop('defaultValue', file.name);
         const $submitBtn = $('<button />')
-            .addClass('btn')
+            .addClass('btn rename-confirm-btn')
             .prop('type', 'button')
-            .html(renameConfirmText)
+            .html(confirmText!)
             .on('click', () => {
                 $renameInput.addClass('hidden');
                 this.renameFileItem(file, $input.val() as string);
@@ -254,8 +276,8 @@ export class Upload extends Component<UploadOptions> {
             });
         const $cancelBtn = $('<button />')
             .prop('type', 'button')
-            .addClass('btn')
-            .html(renameCancelText)
+            .addClass('btn rename-cancel-btn')
+            .html(cancelText!)
             .on('click', () => {
                 $input.val(file.name);
                 $renameInput

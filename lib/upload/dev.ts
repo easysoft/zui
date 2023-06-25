@@ -3,7 +3,6 @@ import {Upload} from './src/main';
 
 onPageLoad(() => {
     const uploadElm1 = document.querySelector('#example1') as HTMLElement | null;
-    console.log(uploadElm1);
     if (!uploadElm1) {
         return;
     }
@@ -29,5 +28,6 @@ onPageLoad(() => {
         deleteBtn: true,
         renameBtn: true,
         defaultFileList: [file1, file2],
+        limitSize: '50MB',
     });
 });
