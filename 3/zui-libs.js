@@ -1164,7 +1164,8 @@ export default [
             "@zui/css-icons": "workspace:^0.0.1",
             "@zui/checkbox": "workspace:*",
             "@zui/form-control": "workspace:*",
-            "@zui/menu": "workspace:*"
+            "@zui/menu": "workspace:*",
+            "@zui/pick": "workspace:*"
         },
         "devDependencies": {
             "zui-dev": "workspace:*",
