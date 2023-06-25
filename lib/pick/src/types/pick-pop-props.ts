@@ -1,4 +1,5 @@
 import type {JSX, ComponentChildren} from 'preact';
+import type {ClassNameLike} from '@zui/core';
 import type {PickState, PickerStateChanger} from './pick-state';
 import type {PickPopDirection} from './pick-pop-direction';
 
@@ -8,7 +9,7 @@ export interface PickPopProps<S extends PickState = PickState> {
     changeState: PickerStateChanger<S>;
     togglePop: (open?: boolean, state?: Partial<S>) => Promise<S>;
 
-    className?: string;
+    className?: ClassNameLike;
     style?: JSX.CSSProperties;
     children?: ComponentChildren;
 

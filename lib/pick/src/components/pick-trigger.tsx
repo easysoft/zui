@@ -22,6 +22,7 @@ export class PickTrigger<S extends PickState = PickState, P extends PickTriggerP
         const {state, className} = this.props;
         const {open: opened, disabled, focus: focused} = state;
         return classes(
+            'pick',
             className,
             opened && 'is-open',
             focused && 'focus',
@@ -47,7 +48,7 @@ export class PickTrigger<S extends PickState = PickState, P extends PickTriggerP
         const {id, style} = props;
         return (
             <div
-                id={id}
+                id={`pick-${id}`}
                 className={this._getClass()}
                 style={style}
                 tabIndex={-1}

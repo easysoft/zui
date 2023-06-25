@@ -13,7 +13,7 @@ export class PickPop<S extends PickState = PickState, P extends PickPopProps<S> 
     #container?: HTMLElement;
 
     get trigger(): HTMLElement | undefined | null {
-        return $(`#${this.props.id}`)[0];
+        return $(`#pick-${this.props.id}`)[0];
     }
 
     get element(): HTMLElement | undefined | null {
@@ -25,9 +25,10 @@ export class PickPop<S extends PickState = PickState, P extends PickPopProps<S> 
     }
 
     protected _getClass(props: RenderableProps<P>) {
-        const {className = 'menu-popup', state} = props;
+        const {className, state} = props;
         const {open} = state;
         return classes(
+            'pick-pop',
             className,
             open === true && 'in',
         );
@@ -49,7 +50,7 @@ export class PickPop<S extends PickState = PickState, P extends PickPopProps<S> 
         const {id, style, children} = props;
         return (
             <div
-                id={id}
+                id={`pick-pop-${id}`}
                 className={this._getClass(props)}
                 style={style}
                 ref={this.#ref}
@@ -97,10 +98,6 @@ export class PickPop<S extends PickState = PickState, P extends PickPopProps<S> 
     }
 
     componentDidMount() {
-        this.layout();
-    }
-
-    componentDidUpdate() {
         this.layout();
     }
 

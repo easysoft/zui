@@ -1,4 +1,5 @@
 import type {JSX, ComponentChildren} from 'preact';
+import type {ClassNameLike} from '@zui/core';
 import type {PickState, PickerStateChanger} from './pick-state';
 
 export interface PickTriggerProps<S extends PickState = PickState> {
@@ -9,7 +10,7 @@ export interface PickTriggerProps<S extends PickState = PickState> {
 
     name?: string;
 
-    className?: string;
+    className?: ClassNameLike;
     style?: JSX.CSSProperties;
     children?: ComponentChildren;
 }

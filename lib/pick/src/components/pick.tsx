@@ -1,5 +1,5 @@
 import {Component, ComponentChildren, RenderableProps} from 'preact';
-import {classes, $, delay} from '@zui/core';
+import {$, delay} from '@zui/core';
 import type {PickOptions, PickPopProps, PickState, PickTriggerProps} from '../types';
 import {PickTrigger} from './pick-trigger';
 import {PickPop} from './pick-pop';
@@ -11,6 +11,7 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
 
     static defaultProps: Partial<PickOptions> = {
         popContainer: 'body',
+        popClass: 'menu-popup',
         popWidth: '100%',
         popDirection: 'auto',
         popMinWidth: 50,
@@ -83,9 +84,9 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
 
     protected _getTriggerProps(props: RenderableProps<O>, state: Readonly<S>): PickTriggerProps<S> {
         return {
-            id: `pick-${this.id}`,
+            id: this.id,
             state: state,
-            className: classes('pick', props.className),
+            className: props.className,
             style: props.style,
             name: props.name,
             changeState: this.changeState,
@@ -95,9 +96,9 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
 
     protected _getPopProps(props: RenderableProps<O>, state: Readonly<S>): PickPopProps<S> {
         return {
-            id: `pick-pop-${this.id}`,
+            id: this.id,
             state: state,
-            className: classes('pick-pop', props.popClass),
+            className: props.popClass,
             style: props.popStyle,
             changeState: this.changeState,
             togglePop: this.toggle,
@@ -127,8 +128,17 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
         this.props.afterRender?.call(this, {firstRender});
     }
 
+    protected _handleDocClick = (e: MouseEvent) => {
+        const {open} = this.state;
+        const {id} = this;
+        if (open && !$(e.target as HTMLElement).closest(`#pick-${id},#pick-pop-${id}`).length) {
+            this.toggle(false);
+        }
+    };
+
     componentDidMount() {
         this._afterRender(true);
+        $(document).on('click', this._handleDocClick);
     }
 
     componentWillUpdate(_nextProps: Readonly<O>, nextState: Readonly<S>): void {
@@ -160,6 +170,7 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
     }
 
     componentWillUnmount(): void {
+        $(document).off('click', this._handleDocClick);
         this.props.beforeDestroy?.call(this);
         if (this.#toggleTimer) {
             clearTimeout(this.#toggleTimer);
