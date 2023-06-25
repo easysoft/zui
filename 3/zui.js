@@ -3478,7 +3478,7 @@ class gd extends ut {
   }
   fileIcon() {
     const { icon: t } = this.options;
-    return g(t || '<i class="icon icon-paper-clip"></i>');
+    return g(t ? `<i class="icon icon-${t}"></i>` : '<i class="icon icon-paper-clip"></i>');
   }
   fileInfo(t) {
     const n = g(`<span class="file-name">${t.name}</span>`), s = g(`<span class="file-size text-gray">${ku(t.size)}</span>`), i = g('<div class="file-info flex items-center gap-2"></div>').append(n).append(s), { renameBtn: o, renameText: r, deleteBtn: a, deleteText: l } = this.options;
@@ -3501,15 +3501,14 @@ class gd extends ut {
 }
 gd.DEFAULT = {
   name: "file",
-  icon: null,
   uploadText: "上传文件",
   renameText: "重命名",
   deleteText: "删除",
   confirmText: "确定",
   cancelText: "取消",
   tipText: "（不超过 %s）",
-  renameBtn: !1,
-  deleteBtn: !1,
+  renameBtn: !0,
+  deleteBtn: !0,
   showIcon: !0,
   multiple: !0,
   listPosition: "bottom",
