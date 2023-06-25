@@ -4540,7 +4540,8 @@ class Id extends z {
     );
   }
   _renderTrigger() {
-    return this.props, JSON.stringify(this.props.state);
+    const { children: t, state: n } = this.props;
+    return t ?? n.value;
   }
   _renderValue() {
     const { name: t, state: n } = this.props;
@@ -4573,7 +4574,10 @@ class Od extends z {
     L(this, xe, void 0);
     L(this, $t, void 0);
     L(this, ie, void 0);
-    this.state = { show: !1 }, D(this, xe, wt());
+    this.state = { show: !1 }, D(this, xe, wt()), this._handleDocClick = (n) => {
+      const { state: { open: s }, id: i, togglePop: o } = this.props;
+      s !== "closing" && !g(n.target).closest(`#pick-${i},#pick-pop-${i}`).length && o(!1);
+    };
   }
   get trigger() {
     return g(`#pick-${this.props.id}`)[0];
@@ -4601,8 +4605,8 @@ class Od extends z {
     }
     return C(this, ie);
   }
-  _renderPop(n) {
-    const { id: s, style: i, children: o } = n;
+  _render(n) {
+    const { id: s, style: i } = n;
     return /* @__PURE__ */ m(
       "div",
       {
@@ -4610,9 +4614,12 @@ class Od extends z {
         className: this._getClass(n),
         style: i,
         ref: C(this, xe),
-        children: o
+        children: this._renderPop(n)
       }
     );
+  }
+  _renderPop(n) {
+    return n.children;
   }
   layout() {
     const { element: n, trigger: s, props: i } = this, { state: o } = i;
@@ -4629,7 +4636,7 @@ class Od extends z {
         g(n).css({
           left: f,
           top: d,
-          width: a === "100%" ? g(n).width() : void 0,
+          width: a === "100%" ? g(s).width() : void 0,
           maxHeight: l,
           maxWidth: h,
           minHeight: c,
@@ -4639,14 +4646,15 @@ class Od extends z {
     }));
   }
   componentDidMount() {
-    this.layout();
+    this.layout(), g(document).on("click", this._handleDocClick);
   }
   componentWillUnmount() {
+    g(document).off("click", this._handleDocClick);
     const n = C(this, $t);
     n && (n(), D(this, $t, void 0)), D(this, ie, void 0), D(this, xe, void 0);
   }
   render(n) {
-    return Wl(this._renderPop(n), this._getContainer(n));
+    return Wl(this._render(n), this._getContainer(n));
   }
 }
 xe = new WeakMap(), $t = new WeakMap(), ie = new WeakMap();
@@ -4665,20 +4673,20 @@ let Oi = class extends z {
         s == null || s(), i(this.state);
       });
     }), this.toggle = async (n, s) => {
+      const { state: i } = this;
+      if (typeof n == "boolean" && n === (!!i.open && i.open !== "closing"))
+        return i;
       vn(this, pt) && (clearTimeout(vn(this, pt)), Be(this, pt, 0));
-      let i = await this.changeState((r) => (n = n ?? !r.open, {
+      let o = await this.changeState((a) => (n = n ?? !a.open, {
         open: n ? "opening" : "closing",
         ...s
       }));
-      const { open: o } = i;
-      return o === "closing" ? (await ho(200, (r) => {
-        Be(this, pt, r);
-      }), Be(this, pt, 0), i = await this.changeState({ open: !1 })) : o === "opening" && (await ho(50, (r) => {
-        Be(this, pt, r);
-      }), Be(this, pt, 0), i = await this.changeState({ open: !0 })), i;
-    }, this._handleDocClick = (n) => {
-      const { open: s } = this.state, { id: i } = this;
-      s && !g(n.target).closest(`#pick-${i},#pick-pop-${i}`).length && this.toggle(!1);
+      const { open: r } = o;
+      return r === "closing" ? (await ho(200, (a) => {
+        Be(this, pt, a);
+      }), Be(this, pt, 0), o = await this.changeState({ open: !1 })) : r === "opening" && (await ho(50, (a) => {
+        Be(this, pt, a);
+      }), Be(this, pt, 0), o = await this.changeState({ open: !0 })), o;
     }, this.state = {
       value: t.defaultValue,
       open: !1,
@@ -4731,7 +4739,7 @@ let Oi = class extends z {
     (n = this.props.afterRender) == null || n.call(this, { firstRender: t });
   }
   componentDidMount() {
-    this._afterRender(!0), g(document).on("click", this._handleDocClick);
+    this._afterRender(!0);
   }
   componentWillUpdate(t, n) {
     const { open: s } = this.state, { open: i } = n;
@@ -4741,16 +4749,24 @@ let Oi = class extends z {
     i && o ? o() : !i && r && r();
   }
   componentDidUpdate(t, n) {
-    const { open: s } = this.state, { open: i } = n;
-    if (!!s != !!i) {
-      const { onPopShown: o, onPopHidden: r } = this.props;
-      s && o ? o() : !s && r && r();
+    const { open: s, value: i, focus: o } = this.state, { open: r, value: a, focus: l } = n;
+    if (!!s != !!r) {
+      const { onPopShown: h, onPopHidden: c } = this.props;
+      s && h ? h() : !s && c && c();
+    }
+    if (i !== a) {
+      const { onChange: h } = this.props;
+      h == null || h(i, a);
+    }
+    if (o !== l) {
+      const { onFocus: h, onBlur: c } = this.props;
+      o && h ? h() : !o && c && c();
     }
     this._afterRender();
   }
   componentWillUnmount() {
     var t;
-    g(document).off("click", this._handleDocClick), (t = this.props.beforeDestroy) == null || t.call(this), vn(this, pt) && clearTimeout(vn(this, pt));
+    (t = this.props.beforeDestroy) == null || t.call(this), vn(this, pt) && clearTimeout(vn(this, pt));
   }
   render(t, n) {
     const {
