@@ -20,7 +20,6 @@ export class Upload extends Component<UploadOptions> {
     private currentBytes: number;
 
     static DEFAULT: Partial<UploadOptions> = {
-        name: 'file',
         uploadText: '上传文件',
         renameText: '重命名',
         deleteText: '删除',
@@ -33,6 +32,7 @@ export class Upload extends Component<UploadOptions> {
         multiple: true,
         listPosition: 'bottom',
         limitSize: false,
+        icon: 'file-o',
     };
 
     init() {
@@ -187,11 +187,7 @@ export class Upload extends Component<UploadOptions> {
 
     private fileIcon() {
         const {icon} = this.options;
-        if (icon) {
-            return $(`<i class="icon icon-${icon}"></i>`);
-        }
-
-        return $('<i class="icon icon-paper-clip"></i>');
+        return $(`<i class="icon icon-${icon}"></i>`);
     }
 
     private fileInfo(file: File) {
