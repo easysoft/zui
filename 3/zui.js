@@ -22,7 +22,7 @@ class Mi {
     let s = t;
     if (et(t)) {
       const i = n || Gt;
-      if (s = Hh.test(t) && Ee(i) ? i.getElementById(t.slice(1).replace(/\\/g, "")) : zh.test(t) ? al(t) : co(i) ? i.find(t) : et(i) ? y(i).find(t) : nr(t, i), !s)
+      if (s = Hh.test(t) && Ee(i) ? i.getElementById(t.slice(1).replace(/\\/g, "")) : zh.test(t) ? al(t) : co(i) ? i.find(t) : et(i) ? m(i).find(t) : nr(t, i), !s)
         return;
     } else if (Pe(t))
       return this.ready(t);
@@ -34,8 +34,8 @@ class Mi {
     return new Mi(t, n);
   }
 }
-const x = Mi.prototype, y = x.init;
-y.fn = y.prototype = x;
+const x = Mi.prototype, m = x.init;
+m.fn = m.prototype = x;
 x.length = 0;
 x.splice = Oh;
 typeof Symbol == "function" && (x[Symbol.iterator] = el[Symbol.iterator]);
@@ -81,11 +81,11 @@ function sr(e) {
   const t = Object.getPrototypeOf(e);
   return t === null || t === Object.prototype;
 }
-y.isWindow = un;
-y.isFunction = Pe;
-y.isArray = Si;
-y.isNumeric = ol;
-y.isPlainObject = sr;
+m.isWindow = un;
+m.isFunction = Pe;
+m.isArray = Si;
+m.isNumeric = ol;
+m.isPlainObject = sr;
 function K(e, t, n) {
   if (n) {
     let s = e.length;
@@ -105,7 +105,7 @@ function K(e, t, n) {
         return e;
   return e;
 }
-y.each = K;
+m.each = K;
 x.each = function(e) {
   return K(this, e);
 };
@@ -120,7 +120,7 @@ function Gs(...e) {
   if (!n)
     return {};
   if (!s)
-    return Gs(t, y, n);
+    return Gs(t, m, n);
   for (let i = 0; i < s; i++) {
     const o = e[i];
     for (const r in o)
@@ -128,7 +128,7 @@ function Gs(...e) {
   }
   return n;
 }
-y.extend = Gs;
+m.extend = Gs;
 x.extend = function(e) {
   return Gs(x, e);
 };
@@ -184,7 +184,7 @@ x.get = function(e) {
   return at(e) ? il.call(this) : (e = Number(e), this[e < 0 ? e + this.length : e]);
 };
 x.eq = function(e) {
-  return y(this.get(e));
+  return m(this.get(e));
 };
 x.first = function() {
   return this.eq(0);
@@ -231,7 +231,7 @@ function Ti(e) {
 }
 x.filter = function(e) {
   const t = Ti(e);
-  return y(tr.call(this, (n, s) => t.call(n, s, n)));
+  return m(tr.call(this, (n, s) => t.call(n, s, n)));
 };
 function de(e, t) {
   return t ? e.filter(t) : e;
@@ -256,9 +256,9 @@ function al(e) {
   if (Jh.test(e))
     return [Le(RegExp.$1)];
   const t = Xh.test(e) && RegExp.$1, n = ga[t] || ga["*"];
-  return n.innerHTML = e, y(n.childNodes).detach().get();
+  return n.innerHTML = e, m(n.childNodes).detach().get();
 }
-y.parseHTML = al;
+m.parseHTML = al;
 x.has = function(e) {
   const t = et(e) ? (n, s) => nr(e, s).length : (n, s) => s.contains(e);
   return this.filter(t);
@@ -300,22 +300,22 @@ x.is = function(e) {
   const t = Ti(e);
   return er.call(this, (n, s) => t.call(n, s, n));
 };
-y.guid = 1;
+m.guid = 1;
 function Et(e) {
   return e.length > 1 ? tr.call(e, (t, n, s) => nl.call(s, t) === n) : e;
 }
-y.unique = Et;
+m.unique = Et;
 x.add = function(e, t) {
-  return y(Et(this.get().concat(y(e, t).get())));
+  return m(Et(this.get().concat(m(e, t).get())));
 };
 x.children = function(e) {
-  return de(y(Et(Zt(this, (t) => t.children))), e);
+  return de(m(Et(Zt(this, (t) => t.children))), e);
 };
 x.parent = function(e) {
-  return de(y(Et(Zt(this, "parentNode"))), e);
+  return de(m(Et(Zt(this, "parentNode"))), e);
 };
 x.index = function(e) {
-  const t = e ? y(e)[0] : this[0], n = e ? this : y(t).parent().children();
+  const t = e ? m(e)[0] : this[0], n = e ? this : m(t).parent().children();
   return nl.call(n, t);
 };
 x.closest = function(e) {
@@ -326,14 +326,14 @@ x.closest = function(e) {
   return n.length ? n.closest(e) : t;
 };
 x.siblings = function(e) {
-  return de(y(Et(Zt(this, (t) => y(t).parent().children().not(t)))), e);
+  return de(m(Et(Zt(this, (t) => m(t).parent().children().not(t)))), e);
 };
 x.find = function(e) {
-  return y(Et(Zt(this, (t) => nr(e, t))));
+  return m(Et(Zt(this, (t) => nr(e, t))));
 };
 const Qh = /^\s*<!(?:\[CDATA\[|--)|(?:\]\]|--)>\s*$/g, tu = /^$|^module$|\/(java|ecma)script/i, eu = ["type", "src", "nonce", "noModule"];
 function nu(e, t) {
-  const n = y(e);
+  const n = m(e);
   n.filter("script").add(n.find("script")).each((s, i) => {
     if (tu.test(i.type) && Qa.contains(i)) {
       const o = Le("script");
@@ -348,10 +348,10 @@ function su(e, t, n, s, i) {
 }
 function fe(e, t, n, s, i, o, r, a) {
   return K(e, (l, h) => {
-    K(y(h), (c, u) => {
-      K(y(t), (f, d) => {
-        const p = n ? u : d, m = n ? d : u, v = n ? c : f;
-        su(p, v ? m.cloneNode(!0) : m, s, i, !v);
+    K(m(h), (c, u) => {
+      K(m(t), (f, d) => {
+        const p = n ? u : d, y = n ? d : u, v = n ? c : f;
+        su(p, v ? y.cloneNode(!0) : y, s, i, !v);
       }, a);
     }, r);
   }, o), t;
@@ -369,7 +369,7 @@ function iu(e) {
     return this;
   const t = /<script[\s>]/.test(e);
   return this.each((n, s) => {
-    G(s) && (t ? y(s).empty().append(e) : s.innerHTML = e);
+    G(s) && (t ? m(s).empty().append(e) : s.innerHTML = e);
   });
 }
 x.html = iu;
@@ -378,7 +378,7 @@ x.appendTo = function(e) {
 };
 x.wrapInner = function(e) {
   return this.each((t, n) => {
-    const s = y(n), i = s.contents();
+    const s = m(n), i = s.contents();
     i.length ? i.wrapAll(e) : s.append(e);
   });
 };
@@ -386,15 +386,15 @@ x.before = function() {
   return fe(arguments, this, !1, !0);
 };
 x.wrapAll = function(e) {
-  let t = y(e), n = t[0];
+  let t = m(e), n = t[0];
   for (; n.children.length; )
     n = n.firstElementChild;
   return this.first().before(t), this.appendTo(n);
 };
 x.wrap = function(e) {
   return this.each((t, n) => {
-    const s = y(e)[0];
-    y(n).wrapAll(t ? s.cloneNode(!0) : s);
+    const s = m(e)[0];
+    m(n).wrapAll(t ? s.cloneNode(!0) : s);
   });
 };
 x.insertAfter = function(e) {
@@ -410,10 +410,10 @@ x.prependTo = function(e) {
   return fe(arguments, this, !0, !0, !0, !1, !1, !0);
 };
 x.contents = function() {
-  return y(Et(Zt(this, (e) => e.tagName === "IFRAME" ? [e.contentDocument] : e.tagName === "TEMPLATE" ? e.content.childNodes : e.childNodes)));
+  return m(Et(Zt(this, (e) => e.tagName === "IFRAME" ? [e.contentDocument] : e.tagName === "TEMPLATE" ? e.content.childNodes : e.childNodes)));
 };
 x.next = function(e, t, n) {
-  return de(y(Et(Zt(this, "nextElementSibling", t, n))), e);
+  return de(m(Et(Zt(this, "nextElementSibling", t, n))), e);
 };
 x.nextAll = function(e) {
   return this.next(e, !0);
@@ -422,13 +422,13 @@ x.nextUntil = function(e, t) {
   return this.next(t, !0, e);
 };
 x.parents = function(e, t) {
-  return de(y(Et(Zt(this, "parentElement", !0, t))), e);
+  return de(m(Et(Zt(this, "parentElement", !0, t))), e);
 };
 x.parentsUntil = function(e, t) {
   return this.parents(t, e);
 };
 x.prev = function(e, t, n) {
-  return de(y(Et(Zt(this, "previousElementSibling", t, n))), e);
+  return de(m(Et(Zt(this, "previousElementSibling", t, n))), e);
 };
 x.prevAll = function(e) {
   return this.prev(e, !0);
@@ -437,7 +437,7 @@ x.prevUntil = function(e, t) {
   return this.prev(t, !0, e);
 };
 x.map = function(e) {
-  return y(Dh.apply([], sl.call(this, (t, n) => e.call(t, n, t))));
+  return m(Dh.apply([], sl.call(this, (t, n) => e.call(t, n, t))));
 };
 x.clone = function() {
   return this.map((e, t) => t.cloneNode(!0));
@@ -451,21 +451,21 @@ x.offsetParent = function() {
   });
 };
 x.slice = function(e, t) {
-  return y(il.call(this, e, t));
+  return m(il.call(this, e, t));
 };
 const ou = /-([a-z])/g;
 function ir(e) {
   return e.replace(ou, (t, n) => n.toUpperCase());
 }
 x.ready = function(e) {
-  const t = () => setTimeout(e, 0, y);
+  const t = () => setTimeout(e, 0, m);
   return Gt.readyState !== "loading" ? t() : Gt.addEventListener("DOMContentLoaded", t), this;
 };
 x.unwrap = function() {
   return this.parent().each((e, t) => {
     if (t.tagName === "BODY")
       return;
-    const n = y(t);
+    const n = m(t);
     n.replaceWith(n.children());
   }), this;
 };
@@ -490,7 +490,7 @@ x.position = function() {
     for (; (i === s.body || i === s.documentElement) && jt(i, "position") === "static"; )
       i = i.parentNode;
     if (i !== e && G(i)) {
-      const o = y(i).offset();
+      const o = m(i).offset();
       n.top -= o.top + kt(i, "borderTopWidth"), n.left -= o.left + kt(i, "borderLeftWidth");
     }
   }
@@ -728,7 +728,7 @@ x.replaceWith = function(e) {
   return this.before(e).remove();
 };
 x.replaceAll = function(e) {
-  return y(e).replaceWith(this), this;
+  return m(e).replaceWith(this), this;
 };
 function yu(e, t, n, s, i) {
   if (!et(e)) {
@@ -741,39 +741,39 @@ function yu(e, t, n, s, i) {
     h && this.each((f, d) => {
       if (!G(d) && !Ee(d) && !un(d))
         return;
-      const p = function(m) {
-        if (m.target[`___i${m.type}`])
-          return m.stopImmediatePropagation();
-        if (m.namespace && !gl(l, m.namespace.split(rr)) || !t && (u && (m.target !== d || m.___ot === h) || c && m.relatedTarget && d.contains(m.relatedTarget)))
+      const p = function(y) {
+        if (y.target[`___i${y.type}`])
+          return y.stopImmediatePropagation();
+        if (y.namespace && !gl(l, y.namespace.split(rr)) || !t && (u && (y.target !== d || y.___ot === h) || c && y.relatedTarget && d.contains(y.relatedTarget)))
           return;
         let v = d;
         if (t) {
-          let _ = m.target;
+          let _ = y.target;
           for (; !rl(_, t); )
             if (_ === d || (_ = _.parentNode, !_))
               return;
           v = _;
         }
-        Object.defineProperty(m, "currentTarget", {
+        Object.defineProperty(y, "currentTarget", {
           configurable: !0,
           get() {
             return v;
           }
-        }), Object.defineProperty(m, "delegateTarget", {
+        }), Object.defineProperty(y, "delegateTarget", {
           configurable: !0,
           get() {
             return d;
           }
-        }), Object.defineProperty(m, "data", {
+        }), Object.defineProperty(y, "data", {
           configurable: !0,
           get() {
             return n;
           }
         });
-        const w = s.call(v, m, m.___td);
-        i && js(d, h, l, t, p), w === !1 && (m.preventDefault(), m.stopPropagation());
+        const w = s.call(v, y, y.___td);
+        i && js(d, h, l, t, p), w === !1 && (y.preventDefault(), y.stopPropagation());
       };
-      p.guid = s.guid = s.guid || y.guid++, mu(d, h, l, t, p);
+      p.guid = s.guid = s.guid || m.guid++, mu(d, h, l, t, p);
     });
   }), this) : this;
 }
@@ -804,7 +804,7 @@ x.serialize = function() {
     });
   }), e.slice(1);
 };
-window.$ = y;
+window.$ = m;
 function xu(e, t) {
   if (e == null)
     return [e, void 0];
@@ -870,7 +870,7 @@ function Su(e) {
   ur = e.toLowerCase();
 }
 function yl(e, t) {
-  ne || (ne = {}), typeof e == "string" && (e = { [e]: t ?? {} }), y.extend(!0, ne, e);
+  ne || (ne = {}), typeof e == "string" && (e = { [e]: t ?? {} }), m.extend(!0, ne, e);
 }
 function Yt(e, t, n, s, i, o) {
   Array.isArray(e) ? ne && e.unshift(ne) : e = ne ? [ne, e] : [e], typeof n == "string" && (o = i, i = s, s = n, n = void 0);
@@ -926,12 +926,12 @@ function wl(...e) {
     typeof i == "function" && (i = i()), Array.isArray(i) ? wl(...i).forEach(s) : i && typeof i == "object" ? Object.entries(i).forEach(s) : typeof i == "string" && i.split(" ").forEach((o) => s(o, !0));
   }), t.sort((i, o) => (n.get(i[0]) || 0) - (n.get(o[0]) || 0));
 }
-const E = (...e) => wl(...e).reduce((t, [n, s]) => (s && t.push(n), t), []).join(" ");
-y.classes = E;
-y.fn.setClass = function(e, ...t) {
+const T = (...e) => wl(...e).reduce((t, [n, s]) => (s && t.push(n), t), []).join(" ");
+m.classes = T;
+m.fn.setClass = function(e, ...t) {
   return this.each((n, s) => {
-    const i = y(s);
-    e === !0 ? i.attr("class", E(i.attr("class"), ...t)) : i.addClass(E(e, ...t));
+    const i = m(s);
+    e === !0 ? i.attr("class", T(i.attr("class"), ...t)) : i.addClass(T(e, ...t));
   });
 };
 const _n = /* @__PURE__ */ new WeakMap();
@@ -941,24 +941,24 @@ function vl(e, t, n) {
     delete i[o];
   }) : Object.assign(i, t), Object.keys(i).forEach((o) => {
     i[o] === void 0 && delete i[o];
-  }), Object.keys(i).length ? (!s && e instanceof Element && Object.assign(i, y(e).dataset(), i), _n.set(e, i)) : _n.delete(e);
+  }), Object.keys(i).length ? (!s && e instanceof Element && Object.assign(i, m(e).dataset(), i), _n.set(e, i)) : _n.delete(e);
 }
 function Eu(e, t) {
   let n = _n.get(e) || {};
-  return e instanceof Element && (n = Object.assign({}, y(e).dataset(), n)), t === void 0 ? n : n[t];
+  return e instanceof Element && (n = Object.assign({}, m(e).dataset(), n)), t === void 0 ? n : n[t];
 }
-y.fn.dataset = y.fn.data;
-y.fn.data = function(...e) {
+m.fn.dataset = m.fn.data;
+m.fn.data = function(...e) {
   if (!this.length)
     return;
   const [t, n] = e;
   return !e.length || e.length === 1 && typeof t == "string" ? Eu(this[0], t) : this.each((s, i) => vl(i, t, n));
 };
-y.fn.removeData = function(e = null) {
+m.fn.removeData = function(e = null) {
   return this.each((t, n) => vl(n, e));
 };
-y.fn._attr = y.fn.attr;
-y.fn.extend({
+m.fn._attr = m.fn.attr;
+m.fn.extend({
   attr(...e) {
     const [t, n] = e;
     return !e.length || e.length === 1 && typeof t == "string" ? this._attr.apply(this, e) : typeof t == "object" ? (t && Object.keys(t).forEach((s) => {
@@ -967,7 +967,7 @@ y.fn.extend({
     }), this) : n === null ? this.removeAttr(t) : this._attr(t, n);
   }
 });
-y.Event = (e, t) => {
+m.Event = (e, t) => {
   const [n, ...s] = e.split("."), i = new Event(n, {
     bubbles: !0,
     cancelable: !0
@@ -979,7 +979,7 @@ const ho = (e, t) => new Promise((n) => {
   t && t(s);
 });
 function _l(e, t) {
-  const n = y(e)[0];
+  const n = m(e)[0];
   if (!n)
     return !1;
   const { left: s, top: i, width: o, height: r } = n.getBoundingClientRect(), { innerHeight: a, innerWidth: l } = window, { clientHeight: h, clientWidth: c } = document.documentElement, u = a || h, f = l || c;
@@ -988,16 +988,16 @@ function _l(e, t) {
   const d = i <= u && i + r >= 0, p = s <= f && s + o >= 0;
   return d && p;
 }
-y.fn.isVisible = function(e) {
+m.fn.isVisible = function(e) {
   return this.each((t, n) => {
     _l(n, e);
   });
 };
 function dr(e, t, n = !1) {
-  const s = y(e);
+  const s = m(e);
   if (t !== void 0) {
     if (t.length) {
-      const i = `zui-runjs-${y.guid++}`;
+      const i = `zui-runjs-${m.guid++}`;
       s.append(`<script id="${i}">${t}<\/script>`), n && s.find(`#${i}`).remove();
     }
     return;
@@ -1006,8 +1006,8 @@ function dr(e, t, n = !1) {
     dr(s, o.innerHTML), o.remove();
   });
 }
-y.runJS = (e, ...t) => (e = e.trim(), e.startsWith("return ") || (e = `return ${e}`), new Function(...t.map(([s]) => s), e)(...t.map(([, s]) => s)));
-y.fn.runJS = function(e) {
+m.runJS = (e, ...t) => (e = e.trim(), e.startsWith("return ") || (e = `return ${e}`), new Function(...t.map(([s]) => s), e)(...t.map(([, s]) => s)));
+m.fn.runJS = function(e) {
   return this.each((t, n) => {
     dr(n, e);
   });
@@ -1078,7 +1078,7 @@ function Ks() {
   Ks.__r = 0;
 }
 function Sl(e, t, n, s, i, o, r, a, l, h) {
-  var c, u, f, d, p, m, v, w = s && s.__k || $l, _ = w.length;
+  var c, u, f, d, p, y, v, w = s && s.__k || $l, _ = w.length;
   for (n.__k = [], c = 0; c < t.length; c++)
     if ((d = n.__k[c] = (d = t[c]) == null || typeof d == "boolean" || typeof d == "function" ? null : typeof d == "string" || typeof d == "number" || typeof d == "bigint" ? Ss(null, d, null, null, d) : fr(d) ? Ss(rs, { children: d }, null, null, null) : d.__b > 0 ? Ss(d.type, d.props, d.key, d.ref ? d.ref : null, d.__v) : d) != null) {
       if (d.__ = n, d.__b = n.__b + 1, (f = w[c]) === null || f && d.key == f.key && d.type === f.type)
@@ -1091,9 +1091,9 @@ function Sl(e, t, n, s, i, o, r, a, l, h) {
           }
           f = null;
         }
-      pr(e, d, f = f || Ys, i, o, r, a, l, h), p = d.__e, (u = d.ref) && f.ref != u && (v || (v = []), f.ref && v.push(f.ref, null, d), v.push(u, d.__c || p, d)), p != null ? (m == null && (m = p), typeof d.type == "function" && d.__k === f.__k ? d.__d = l = Ml(d, l, e) : l = El(e, d, f, w, p, l), typeof n.type == "function" && (n.__d = l)) : l && f.__e == l && l.parentNode != e && (l = jn(f));
+      pr(e, d, f = f || Ys, i, o, r, a, l, h), p = d.__e, (u = d.ref) && f.ref != u && (v || (v = []), f.ref && v.push(f.ref, null, d), v.push(u, d.__c || p, d)), p != null ? (y == null && (y = p), typeof d.type == "function" && d.__k === f.__k ? d.__d = l = Ml(d, l, e) : l = El(e, d, f, w, p, l), typeof n.type == "function" && (n.__d = l)) : l && f.__e == l && l.parentNode != e && (l = jn(f));
     }
-  for (n.__e = m, c = _; c--; )
+  for (n.__e = y, c = _; c--; )
     w[c] != null && (typeof n.type == "function" && w[c].__e != null && w[c].__e == n.__d && (n.__d = Tl(s).nextSibling), Al(w[c], w[c]));
   if (v)
     for (c = 0; c < v.length; c++)
@@ -1176,14 +1176,14 @@ function $a(e) {
   return this.l[e.type + !0](F.event ? F.event(e) : e);
 }
 function pr(e, t, n, s, i, o, r, a, l) {
-  var h, c, u, f, d, p, m, v, w, _, $, S, k, T, N, A = t.type;
+  var h, c, u, f, d, p, y, v, w, _, $, S, k, E, N, A = t.type;
   if (t.constructor !== void 0)
     return null;
   n.__h != null && (l = n.__h, a = t.__e = n.__e, t.__h = null, o = [a]), (h = F.__b) && h(t);
   try {
     t:
       if (typeof A == "function") {
-        if (v = t.props, w = (h = A.contextType) && s[h.__c], _ = h ? w ? w.props.value : h.__ : s, n.__c ? m = (c = t.__c = n.__c).__ = c.__E : ("prototype" in A && A.prototype.render ? t.__c = c = new A(v, _) : (t.__c = c = new z(v, _), c.constructor = A, c.render = Au), w && w.sub(c), c.props = v, c.state || (c.state = {}), c.context = _, c.__n = s, u = c.__d = !0, c.__h = [], c._sb = []), c.__s == null && (c.__s = c.state), A.getDerivedStateFromProps != null && (c.__s == c.state && (c.__s = le({}, c.__s)), le(c.__s, A.getDerivedStateFromProps(v, c.__s))), f = c.props, d = c.state, c.__v = t, u)
+        if (v = t.props, w = (h = A.contextType) && s[h.__c], _ = h ? w ? w.props.value : h.__ : s, n.__c ? y = (c = t.__c = n.__c).__ = c.__E : ("prototype" in A && A.prototype.render ? t.__c = c = new A(v, _) : (t.__c = c = new z(v, _), c.constructor = A, c.render = Au), w && w.sub(c), c.props = v, c.state || (c.state = {}), c.context = _, c.__n = s, u = c.__d = !0, c.__h = [], c._sb = []), c.__s == null && (c.__s = c.state), A.getDerivedStateFromProps != null && (c.__s == c.state && (c.__s = le({}, c.__s)), le(c.__s, A.getDerivedStateFromProps(v, c.__s))), f = c.props, d = c.state, c.__v = t, u)
           A.getDerivedStateFromProps == null && c.componentWillMount != null && c.componentWillMount(), c.componentDidMount != null && c.__h.push(c.componentDidMount);
         else {
           if (A.getDerivedStateFromProps == null && v !== f && c.componentWillReceiveProps != null && c.componentWillReceiveProps(v, _), !c.__e && c.shouldComponentUpdate != null && c.shouldComponentUpdate(v, c.__s, _) === !1 || t.__v === n.__v) {
@@ -1199,14 +1199,14 @@ function pr(e, t, n, s, i, o, r, a, l) {
           });
         }
         if (c.context = _, c.props = v, c.__P = e, S = F.__r, k = 0, "prototype" in A && A.prototype.render) {
-          for (c.state = c.__s, c.__d = !1, S && S(t), h = c.render(c.props, c.state, c.context), T = 0; T < c._sb.length; T++)
-            c.__h.push(c._sb[T]);
+          for (c.state = c.__s, c.__d = !1, S && S(t), h = c.render(c.props, c.state, c.context), E = 0; E < c._sb.length; E++)
+            c.__h.push(c._sb[E]);
           c._sb = [];
         } else
           do
             c.__d = !1, S && S(t), h = c.render(c.props, c.state, c.context), c.state = c.__s;
           while (c.__d && ++k < 25);
-        c.state = c.__s, c.getChildContext != null && (s = le(le({}, s), c.getChildContext())), u || c.getSnapshotBeforeUpdate == null || (p = c.getSnapshotBeforeUpdate(f, d)), Sl(e, fr(N = h != null && h.type === rs && h.key == null ? h.props.children : h) ? N : [N], t, n, s, i, o, r, a, l), c.base = t.__e, t.__h = null, c.__h.length && r.push(c), m && (c.__E = c.__ = null), c.__e = !1;
+        c.state = c.__s, c.getChildContext != null && (s = le(le({}, s), c.getChildContext())), u || c.getSnapshotBeforeUpdate == null || (p = c.getSnapshotBeforeUpdate(f, d)), Sl(e, fr(N = h != null && h.type === rs && h.key == null ? h.props.children : h) ? N : [N], t, n, s, i, o, r, a, l), c.base = t.__e, t.__h = null, c.__h.length && r.push(c), y && (c.__E = c.__ = null), c.__e = !1;
       } else
         o == null && t.__v === n.__v ? (t.__k = n.__k, t.__e = n.__e) : t.__e = Nu(n.__e, t, n, s, i, o, r, l);
     (h = F.diffed) && h(t);
@@ -1333,7 +1333,7 @@ function Lu(e) {
 const jf = Lu.bind(q);
 function Pu(e) {
   const { tagName: t = "div", className: n, style: s, children: i, attrs: o, ...r } = e;
-  return q(t, { class: E(n), style: s, ...r, ...o }, i);
+  return q(t, { class: T(n), style: s, ...r, ...o }, i);
 }
 var Wu = 0;
 function g(e, t, n, s, i, o) {
@@ -1353,7 +1353,7 @@ class Pl extends z {
     L(this, Qn, wt());
   }
   componentDidMount() {
-    this.props.executeScript && y(C(this, Qn).current).runJS();
+    this.props.executeScript && m(C(this, Qn).current).runJS();
   }
   render(n) {
     const { executeScript: s, html: i, ...o } = n;
@@ -1374,24 +1374,24 @@ function Du(e) {
     onRenderItem: h,
     ...c
   } = e, u = [n], f = { ...s }, d = [], p = [];
-  return i.forEach((m) => {
+  return i.forEach((y) => {
     const v = [];
-    if (typeof m == "string" && a && a[m] && (m = a[m]), typeof m == "function")
+    if (typeof y == "string" && a && a[y] && (y = a[y]), typeof y == "function")
       if (l)
-        v.push(...l.call(r, m, d, ...o));
+        v.push(...l.call(r, y, d, ...o));
       else {
-        const w = m.call(r, d, ...o);
+        const w = y.call(r, d, ...o);
         w && (Array.isArray(w) ? v.push(...w) : v.push(w));
       }
     else
-      v.push(m);
+      v.push(y);
     v.forEach((w) => {
       w != null && (typeof w == "object" && !tt(w) && ("html" in w || "__html" in w || "className" in w || "style" in w || "attrs" in w || "children" in w) ? w.html ? d.push(
-        /* @__PURE__ */ g("div", { className: E(w.className), style: w.style, dangerouslySetInnerHTML: { __html: w.html }, ...w.attrs ?? {} })
+        /* @__PURE__ */ g("div", { className: T(w.className), style: w.style, dangerouslySetInnerHTML: { __html: w.html }, ...w.attrs ?? {} })
       ) : w.__html ? p.push(w.__html) : (w.style && Object.assign(f, w.style), w.className && u.push(w.className), w.children && d.push(w.children), w.attrs && Object.assign(c, w.attrs)) : d.push(w));
     });
   }), p.length && Object.assign(c, { dangerouslySetInnerHTML: { __html: p } }), [{
-    className: E(u),
+    className: T(u),
     style: f,
     ...c
   }, d];
@@ -1410,7 +1410,7 @@ function Kn(e) {
   if (tt(t))
     return t;
   const i = ["icon", n];
-  return typeof t == "string" ? i.push(t.startsWith("icon-") ? t : `icon-${t}`) : typeof t == "object" && (i.push(t.className), Object.assign(s, t)), /* @__PURE__ */ g("i", { className: E(i), ...s });
+  return typeof t == "string" ? i.push(t.startsWith("icon-") ? t : `icon-${t}`) : typeof t == "object" && (i.push(t.className), Object.assign(s, t)), /* @__PURE__ */ g("i", { className: T(i), ...s });
 }
 function Iu(e) {
   return this.getChildContext = () => e.context, e.children;
@@ -1458,10 +1458,10 @@ const Dl = class {
    */
   constructor(e, t) {
     gn(this, ze), gn(this, ge, void 0), gn(this, bn, void 0), gn(this, Ms, void 0), gn(this, Es, !1);
-    const { KEY: n, DATA_KEY: s, DEFAULT: i, MULTI_INSTANCE: o } = this.constructor, r = y(e);
+    const { KEY: n, DATA_KEY: s, DEFAULT: i, MULTI_INSTANCE: o } = this.constructor, r = m(e);
     if (r.data(n) && !o)
       throw new Error("[ZUI] The component has been initialized on element.");
-    const a = y.guid++;
+    const a = m.guid++;
     if (Ie(this, Ms, a), Ie(this, bn, r[0]), r.on("DOMNodeRemovedFromDocument", () => {
       this.destroy();
     }), Ie(this, ge, { ...i, ...r.dataset() }), this.setOptions(t), this._key = this.options.key ?? `__${a}`, r.data(n, this).attr(s, `${a}`), o) {
@@ -1516,7 +1516,7 @@ const Dl = class {
    * Get the component element as a jQuery like object.
    */
   get $element() {
-    return y(this.element);
+    return m(this.element);
   }
   /**
    * Initialize the component.
@@ -1560,7 +1560,7 @@ const Dl = class {
    * @returns The component options.
    */
   setOptions(e) {
-    return e && y.extend(De(this, ge), e), De(this, ge);
+    return e && m.extend(De(this, ge), e), De(this, ge);
   }
   /**
    * Emit a component event.
@@ -1568,7 +1568,7 @@ const Dl = class {
    * @param args   The event arguments.
    */
   emit(e, ...t) {
-    const n = y.Event(ys(this, ze, xn).call(this, e));
+    const n = m.Event(ys(this, ze, xn).call(this, e));
     return this.$element.trigger(n, [this, ...t]), n;
   }
   /**
@@ -1623,7 +1623,7 @@ const Dl = class {
    * @returns        The component instance.
    */
   static get(e, t) {
-    const n = y(e);
+    const n = m(e);
     if (this.MULTI_INSTANCE && t !== void 0) {
       const s = n.data(`${this.KEY}:ALL`);
       return s ? s.get(t) : void 0;
@@ -1651,15 +1651,15 @@ const Dl = class {
    */
   static getAll(e) {
     const { MULTI_INSTANCE: t, DATA_KEY: n } = this, s = [];
-    return y(e || document).find(`[${n}]`).each((i, o) => {
+    return m(e || document).find(`[${n}]`).each((i, o) => {
       if (t) {
-        const a = y(o).data(`${this.KEY}:ALL`);
+        const a = m(o).data(`${this.KEY}:ALL`);
         if (a) {
           s.push(...a.values());
           return;
         }
       }
-      const r = y(o).data(this.KEY);
+      const r = m(o).data(this.KEY);
       r && s.push(r);
     }), s;
   }
@@ -1671,7 +1671,7 @@ const Dl = class {
    * @returns        The component instance.
    */
   static query(e, t) {
-    return e === void 0 ? this.getAll().sort((n, s) => n.gid - s.gid)[0] : this.get(y(e).closest(`[${this.DATA_KEY}]`), t);
+    return e === void 0 ? this.getAll().sort((n, s) => n.gid - s.gid)[0] : this.get(m(e).closest(`[${this.DATA_KEY}]`), t);
   }
   /**
    * Create cash fn.method for current component.
@@ -1679,7 +1679,7 @@ const Dl = class {
    * @param name The method name.
    */
   static defineFn(e) {
-    y.fn.extend({
+    m.fn.extend({
       [e || this.NAME.replace(/(^[A-Z]+)/, (t) => t.toLowerCase())](t, ...n) {
         return this.each((s, i) => {
           var r;
@@ -1748,7 +1748,7 @@ function Hu({
   attrs: i
 }) {
   return q(e, {
-    className: E(t),
+    className: T(t),
     style: s,
     ...i
   }, n);
@@ -1769,7 +1769,7 @@ function Il({
   hint: f,
   checked: d,
   onClick: p,
-  ...m
+  ...y
 }) {
   const v = [
     typeof d == "boolean" ? /* @__PURE__ */ g("div", { class: `checkbox-primary${d ? " checked" : ""}`, children: /* @__PURE__ */ g("label", {}) }) : null,
@@ -1779,12 +1779,12 @@ function Il({
     /* @__PURE__ */ g(Kn, { icon: u })
   ];
   return q(t, {
-    className: E(n, { disabled: r, active: a }),
+    className: T(n, { disabled: r, active: a }),
     title: f,
     [t === "a" ? "href" : "data-url"]: o,
     [t === "a" ? "target" : "data-target"]: c,
     onClick: p,
-    ...m,
+    ...y,
     ...i
   }, ...v);
 }
@@ -1798,7 +1798,7 @@ function Bu({
   onClick: r
 }) {
   return q(e, {
-    className: E(t),
+    className: T(t),
     style: o,
     onClick: r,
     ...s
@@ -1815,7 +1815,7 @@ function zu({
   children: a
 }) {
   return q(e, {
-    className: E(t),
+    className: T(t),
     style: { width: s, height: s, flex: i, ...n },
     onClick: r,
     ...o
@@ -1832,7 +1832,7 @@ function Ol({
   attrs: i
 }) {
   return q(e, {
-    className: E(t),
+    className: T(t),
     style: s,
     ...i
   }, n);
@@ -1870,7 +1870,7 @@ const fo = class extends z {
   }
   getItemRenderProps(e, t, n) {
     const { commonItemProps: s, onClickItem: i } = e, o = { ...t };
-    return s && Object.assign(o, s[t.type || "item"]), (i || t.onClick) && (o.onClick = this.handleItemClick.bind(this, o, n, t.onClick)), o.className = E(o.className), o;
+    return s && Object.assign(o, s[t.type || "item"]), (i || t.onClick) && (o.onClick = this.handleItemClick.bind(this, o, n, t.onClick)), o.className = T(o.className), o;
   }
   renderItem(e, t, n) {
     if (!t)
@@ -1893,7 +1893,7 @@ const fo = class extends z {
       return /* @__PURE__ */ g(
         "li",
         {
-          className: E("action-menu-item", `${this.name}-html`, h, f.className),
+          className: T("action-menu-item", `${this.name}-html`, h, f.className),
           ...l,
           style: c || f.style,
           dangerouslySetInnerHTML: { __html: f.html }
@@ -1905,7 +1905,7 @@ const fo = class extends z {
       type: o,
       component: typeof r == "string" ? r : void 0
     }), e.checkbox && o === "item" && f.checked === void 0 && (f.checked = !!f.active), this.renderTypedItem(d, {
-      className: E(h),
+      className: T(h),
       children: u,
       style: c,
       key: a,
@@ -1921,7 +1921,7 @@ const fo = class extends z {
     return /* @__PURE__ */ g(
       "li",
       {
-        className: E(`${this.constructor.NAME}-item`, `${this.name}-${n.type}`, i),
+        className: T(`${this.constructor.NAME}-item`, `${this.name}-${n.type}`, i),
         ...r,
         children: [
           /* @__PURE__ */ g(e, { ...n }),
@@ -1946,7 +1946,7 @@ const fo = class extends z {
       beforeDestroy: u,
       ...f
     } = e, d = this.constructor.ROOT_TAG;
-    return /* @__PURE__ */ g(d, { class: E(this.name, i), style: n, ...f, ref: this.ref, children: [
+    return /* @__PURE__ */ g(d, { class: T(this.name, i), style: n, ...f, ref: this.ref, children: [
       o && o.map(this.renderItem.bind(this, e)),
       r
     ] });
@@ -1986,7 +1986,7 @@ var Bl = (e, t, n) => {
 let Ni = class extends We {
   constructor(t) {
     super(t), Ji(this, Ts, /* @__PURE__ */ new Set()), Ji(this, At, void 0), Ji(this, $n, (n, s, i) => {
-      y(i.target).closest(".not-nested-toggle").length || (this.toggleNestedMenu(n, s), i.preventDefault());
+      m(i.target).closest(".not-nested-toggle").length || (this.toggleNestedMenu(n, s), i.preventDefault());
     }), Vu(this, At, t.nestedShow === void 0), ft(this, At) && (this.state = { nestedShow: t.defaultNestedShow ?? {} });
   }
   get nestedTrigger() {
@@ -2103,7 +2103,7 @@ let Ai = class extends Ni {
   beforeRender() {
     const t = super.beforeRender();
     let { hasIcons: n } = t;
-    return n === void 0 && (n = t.items.some((s) => s.icon)), t.className = E(t.className, this.menuName, {
+    return n === void 0 && (n = t.items.some((s) => s.icon)), t.className = T(t.className, this.menuName, {
       "has-icons": n,
       "has-nested-items": t.items.some((s) => this.isNestedItem(s)),
       "menu-popup": t.popup
@@ -2135,22 +2135,22 @@ class Kt extends z {
       loadingIcon: f,
       loadingText: d,
       icon: p,
-      text: m,
+      text: y,
       trailingIcon: v,
       caret: w,
       square: _,
       hint: $,
       ...S
-    } = this.props, k = t || (a ? "a" : "button"), T = m == null || typeof m == "string" && !m.length || u && !d, N = w && T && !p && !v && !r && !u;
+    } = this.props, k = t || (a ? "a" : "button"), E = y == null || typeof y == "string" && !y.length || u && !d, N = w && E && !p && !v && !r && !u;
     return q(
       k,
       {
-        className: E("btn", n, o, {
+        className: T("btn", n, o, {
           "btn-caret": N,
           disabled: h || u,
           active: c,
           loading: u,
-          square: _ === void 0 ? !N && !r && T : _
+          square: _ === void 0 ? !N && !r && E : _
         }, i ? `size-${i}` : ""),
         title: $,
         [k === "a" ? "href" : "data-url"]: a,
@@ -2159,7 +2159,7 @@ class Kt extends z {
         ...S
       },
       /* @__PURE__ */ g(Kn, { icon: u ? `icon ${f || "icon-spinner-snake"} spin` : p }),
-      T ? null : /* @__PURE__ */ g("span", { className: "text", children: u ? d : m }),
+      E ? null : /* @__PURE__ */ g("span", { className: "text", children: u ? d : y }),
       u ? null : r,
       u ? null : typeof v == "string" ? /* @__PURE__ */ g("i", { class: `icon ${v}` }) : v,
       u ? null : w ? /* @__PURE__ */ g("span", { className: typeof w == "string" ? `caret-${w}` : "caret" }) : null
@@ -2218,9 +2218,9 @@ function Ca(e, t, n) {
 const Gu = async (e, t, n) => {
   const { placement: s = "bottom", strategy: i = "absolute", middleware: o = [], platform: r } = n, a = o.filter(Boolean), l = await (r.isRTL == null ? void 0 : r.isRTL(t));
   let h = await r.getElementRects({ reference: e, floating: t, strategy: i }), { x: c, y: u } = Ca(h, s, l), f = s, d = {}, p = 0;
-  for (let m = 0; m < a.length; m++) {
-    const { name: v, fn: w } = a[m], { x: _, y: $, data: S, reset: k } = await w({ x: c, y: u, initialPlacement: s, placement: f, strategy: i, middlewareData: d, rects: h, platform: r, elements: { reference: e, floating: t } });
-    c = _ ?? c, u = $ ?? u, d = { ...d, [v]: { ...d[v], ...S } }, k && p <= 50 && (p++, typeof k == "object" && (k.placement && (f = k.placement), k.rects && (h = k.rects === !0 ? await r.getElementRects({ reference: e, floating: t, strategy: i }) : k.rects), { x: c, y: u } = Ca(h, f, l)), m = -1);
+  for (let y = 0; y < a.length; y++) {
+    const { name: v, fn: w } = a[y], { x: _, y: $, data: S, reset: k } = await w({ x: c, y: u, initialPlacement: s, placement: f, strategy: i, middlewareData: d, rects: h, platform: r, elements: { reference: e, floating: t } });
+    c = _ ?? c, u = $ ?? u, d = { ...d, [v]: { ...d[v], ...S } }, k && p <= 50 && (p++, typeof k == "object" && (k.placement && (f = k.placement), k.rects && (h = k.rects === !0 ? await r.getElementRects({ reference: e, floating: t, strategy: i }) : k.rects), { x: c, y: u } = Ca(h, f, l)), y = -1);
   }
   return { x: c, y: u, placement: f, strategy: i, middlewareData: d };
 };
@@ -2238,7 +2238,7 @@ function Js(e) {
 async function Vl(e, t) {
   var n;
   t === void 0 && (t = {});
-  const { x: s, y: i, platform: o, rects: r, elements: a, strategy: l } = e, { boundary: h = "clippingAncestors", rootBoundary: c = "viewport", elementContext: u = "floating", altBoundary: f = !1, padding: d = 0 } = cs(t, e), p = Ul(d), m = a[f ? u === "floating" ? "reference" : "floating" : u], v = Js(await o.getClippingRect({ element: (n = await (o.isElement == null ? void 0 : o.isElement(m))) == null || n ? m : m.contextElement || await (o.getDocumentElement == null ? void 0 : o.getDocumentElement(a.floating)), boundary: h, rootBoundary: c, strategy: l })), w = u === "floating" ? { ...r.floating, x: s, y: i } : r.reference, _ = await (o.getOffsetParent == null ? void 0 : o.getOffsetParent(a.floating)), $ = await (o.isElement == null ? void 0 : o.isElement(_)) && await (o.getScale == null ? void 0 : o.getScale(_)) || { x: 1, y: 1 }, S = Js(o.convertOffsetParentRelativeRectToViewportRelativeRect ? await o.convertOffsetParentRelativeRectToViewportRelativeRect({ rect: w, offsetParent: _, strategy: l }) : w);
+  const { x: s, y: i, platform: o, rects: r, elements: a, strategy: l } = e, { boundary: h = "clippingAncestors", rootBoundary: c = "viewport", elementContext: u = "floating", altBoundary: f = !1, padding: d = 0 } = cs(t, e), p = Ul(d), y = a[f ? u === "floating" ? "reference" : "floating" : u], v = Js(await o.getClippingRect({ element: (n = await (o.isElement == null ? void 0 : o.isElement(y))) == null || n ? y : y.contextElement || await (o.getDocumentElement == null ? void 0 : o.getDocumentElement(a.floating)), boundary: h, rootBoundary: c, strategy: l })), w = u === "floating" ? { ...r.floating, x: s, y: i } : r.reference, _ = await (o.getOffsetParent == null ? void 0 : o.getOffsetParent(a.floating)), $ = await (o.isElement == null ? void 0 : o.isElement(_)) && await (o.getScale == null ? void 0 : o.getScale(_)) || { x: 1, y: 1 }, S = Js(o.convertOffsetParentRelativeRectToViewportRelativeRect ? await o.convertOffsetParentRelativeRectToViewportRelativeRect({ rect: w, offsetParent: _, strategy: l }) : w);
   return { top: (v.top - S.top + p.top) / $.y, bottom: (S.bottom - v.bottom + p.bottom) / $.y, left: (v.left - S.left + p.left) / $.x, right: (S.right - v.right + p.right) / $.x };
 }
 const po = Math.min, ju = Math.max;
@@ -2249,10 +2249,10 @@ const mo = (e) => ({ name: "arrow", options: e, async fn(t) {
   const { x: n, y: s, placement: i, rects: o, platform: r, elements: a } = t, { element: l, padding: h = 0 } = cs(e, t) || {};
   if (l == null)
     return {};
-  const c = Ul(h), u = { x: n, y: s }, f = ls(i), d = yr(f), p = await r.getDimensions(l), m = f === "y", v = m ? "top" : "left", w = m ? "bottom" : "right", _ = m ? "clientHeight" : "clientWidth", $ = o.reference[d] + o.reference[f] - u[f] - o.floating[d], S = u[f] - o.reference[f], k = await (r.getOffsetParent == null ? void 0 : r.getOffsetParent(l));
-  let T = k ? k[_] : 0;
-  T && await (r.isElement == null ? void 0 : r.isElement(k)) || (T = a.floating[_] || o.floating[d]);
-  const N = $ / 2 - S / 2, A = T / 2 - p[d] / 2 - 1, H = po(c[v], A), b = po(c[w], A), R = H, I = T - p[d] - b, P = T / 2 - p[d] / 2 + N, O = go(R, P, I), W = as(i) != null && P != O && o.reference[d] / 2 - (P < R ? H : b) - p[d] / 2 < 0 ? P < R ? R - P : I - P : 0;
+  const c = Ul(h), u = { x: n, y: s }, f = ls(i), d = yr(f), p = await r.getDimensions(l), y = f === "y", v = y ? "top" : "left", w = y ? "bottom" : "right", _ = y ? "clientHeight" : "clientWidth", $ = o.reference[d] + o.reference[f] - u[f] - o.floating[d], S = u[f] - o.reference[f], k = await (r.getOffsetParent == null ? void 0 : r.getOffsetParent(l));
+  let E = k ? k[_] : 0;
+  E && await (r.isElement == null ? void 0 : r.isElement(k)) || (E = a.floating[_] || o.floating[d]);
+  const N = $ / 2 - S / 2, A = E / 2 - p[d] / 2 - 1, H = po(c[v], A), b = po(c[w], A), R = H, I = E - p[d] - b, P = E / 2 - p[d] / 2 + N, O = go(R, P, I), W = as(i) != null && P != O && o.reference[d] / 2 - (P < R ? H : b) - p[d] / 2 < 0 ? P < R ? R - P : I - P : 0;
   return { [f]: u[f] - W, data: { [f]: O, centerOffset: P - O + W } };
 } }), Yu = ["top", "right", "bottom", "left"];
 Yu.reduce((e, t) => e.concat(t, t + "-start", t + "-end"), []);
@@ -2273,7 +2273,7 @@ function Zi(e) {
 const hs = function(e) {
   return e === void 0 && (e = {}), { name: "flip", options: e, async fn(t) {
     var n;
-    const { placement: s, middlewareData: i, rects: o, initialPlacement: r, platform: a, elements: l } = t, { mainAxis: h = !0, crossAxis: c = !0, fallbackPlacements: u, fallbackStrategy: f = "bestFit", fallbackAxisSideDirection: d = "none", flipAlignment: p = !0, ...m } = cs(e, t), v = ke(s), w = ke(r) === r, _ = await (a.isRTL == null ? void 0 : a.isRTL(l.floating)), $ = u || (w || !p ? [Zs(r)] : function(R) {
+    const { placement: s, middlewareData: i, rects: o, initialPlacement: r, platform: a, elements: l } = t, { mainAxis: h = !0, crossAxis: c = !0, fallbackPlacements: u, fallbackStrategy: f = "bestFit", fallbackAxisSideDirection: d = "none", flipAlignment: p = !0, ...y } = cs(e, t), v = ke(s), w = ke(r) === r, _ = await (a.isRTL == null ? void 0 : a.isRTL(l.floating)), $ = u || (w || !p ? [Zs(r)] : function(R) {
       const I = Zs(R);
       return [Zi(R), I, Zi(I)];
     }(r));
@@ -2294,13 +2294,13 @@ const hs = function(e) {
       }(ke(R), P === "start", O);
       return W && (U = U.map((dt) => dt + "-" + W), I && (U = U.concat(U.map(Zi)))), U;
     }(r, p, d, _));
-    const S = [r, ...$], k = await Vl(t, m), T = [];
+    const S = [r, ...$], k = await Vl(t, y), E = [];
     let N = ((n = i.flip) == null ? void 0 : n.overflows) || [];
-    if (h && T.push(k[v]), c) {
+    if (h && E.push(k[v]), c) {
       const { main: R, cross: I } = Xu(s, o, _);
-      T.push(k[R], k[I]);
+      E.push(k[R], k[I]);
     }
-    if (N = [...N, { placement: s, overflows: T }], !T.every((R) => R <= 0)) {
+    if (N = [...N, { placement: s, overflows: E }], !E.every((R) => R <= 0)) {
       var A, H;
       const R = (((A = i.flip) == null ? void 0 : A.index) || 0) + 1, I = S[R];
       if (I)
@@ -2325,9 +2325,9 @@ const hs = function(e) {
 }, Li = function(e) {
   return e === void 0 && (e = 0), { name: "offset", options: e, async fn(t) {
     const { x: n, y: s } = t, i = await async function(o, r) {
-      const { placement: a, platform: l, elements: h } = o, c = await (l.isRTL == null ? void 0 : l.isRTL(h.floating)), u = ke(a), f = as(a), d = ls(a) === "x", p = ["left", "top"].includes(u) ? -1 : 1, m = c && d ? -1 : 1, v = cs(r, o);
+      const { placement: a, platform: l, elements: h } = o, c = await (l.isRTL == null ? void 0 : l.isRTL(h.floating)), u = ke(a), f = as(a), d = ls(a) === "x", p = ["left", "top"].includes(u) ? -1 : 1, y = c && d ? -1 : 1, v = cs(r, o);
       let { mainAxis: w, crossAxis: _, alignmentAxis: $ } = typeof v == "number" ? { mainAxis: v, crossAxis: 0, alignmentAxis: null } : { mainAxis: 0, crossAxis: 0, alignmentAxis: null, ...v };
-      return f && typeof $ == "number" && (_ = f === "end" ? -1 * $ : $), d ? { x: _ * m, y: w * p } : { x: w * p, y: _ * m };
+      return f && typeof $ == "number" && (_ = f === "end" ? -1 * $ : $), d ? { x: _ * y, y: w * p } : { x: w * p, y: _ * y };
     }(t, e);
     return { x: n + i.x, y: s + i.y, data: i };
   } };
@@ -2350,8 +2350,8 @@ const Qs = function(e) {
       const v = f === "y" ? "bottom" : "right";
       p = go(p + c[f === "y" ? "top" : "left"], p, p - c[v]);
     }
-    const m = a.fn({ ...t, [u]: d, [f]: p });
-    return { ...m, data: { x: m.x - n, y: m.y - s } };
+    const y = a.fn({ ...t, [u]: d, [f]: p });
+    return { ...y, data: { x: y.x - n, y: y.y - s } };
   } };
 };
 function ht(e) {
@@ -2430,8 +2430,8 @@ function Re(e, t, n, s) {
     const f = ht(o), d = s && Ft(s) ? ht(s) : s;
     let p = f.frameElement;
     for (; p && s && d !== f; ) {
-      const m = Ke(p), v = p.getBoundingClientRect(), w = getComputedStyle(p), _ = v.left + (p.clientLeft + parseFloat(w.paddingLeft)) * m.x, $ = v.top + (p.clientTop + parseFloat(w.paddingTop)) * m.y;
-      l *= m.x, h *= m.y, c *= m.x, u *= m.y, l += _, h += $, p = ht(p).frameElement;
+      const y = Ke(p), v = p.getBoundingClientRect(), w = getComputedStyle(p), _ = v.left + (p.clientLeft + parseFloat(w.paddingLeft)) * y.x, $ = v.top + (p.clientTop + parseFloat(w.paddingTop)) * y.y;
+      l *= y.x, h *= y.y, c *= y.x, u *= y.y, l += _, h += $, p = ht(p).frameElement;
     }
   }
   return Js({ width: c, height: u, x: l, y: h });
@@ -2536,10 +2536,10 @@ const ed = { getClippingRect: function(e) {
       return u;
     let f = ei(h).filter((v) => Ft(v) && he(v) !== "body"), d = null;
     const p = mt(h).position === "fixed";
-    let m = p ? dn(h) : h;
-    for (; Ft(m) && !Pi(m); ) {
-      const v = mt(m), w = yo(m);
-      w || v.position !== "fixed" || (d = null), (p ? !w && !d : !w && v.position === "static" && d && ["absolute", "fixed"].includes(d.position) || Xn(m) && !w && Xl(h, m)) ? f = f.filter((_) => _ !== m) : d = v, m = dn(m);
+    let y = p ? dn(h) : h;
+    for (; Ft(y) && !Pi(y); ) {
+      const v = mt(y), w = yo(y);
+      w || v.position !== "fixed" || (d = null), (p ? !w && !d : !w && v.position === "static" && d && ["absolute", "fixed"].includes(d.position) || Xn(y) && !w && Xl(h, y)) ? f = f.filter((_) => _ !== y) : d = v, y = dn(y);
     }
     return c.set(h, f), f;
   }(t, this._c) : [].concat(n), r = [...o, s], a = r[0], l = r.reduce((h, c) => {
@@ -2569,19 +2569,19 @@ const ed = { getClippingRect: function(e) {
 function Di(e, t, n, s) {
   s === void 0 && (s = {});
   const { ancestorScroll: i = !0, ancestorResize: o = !0, elementResize: r = !0, layoutShift: a = typeof IntersectionObserver == "function", animationFrame: l = !1 } = s, h = vr(e), c = i || o ? [...h ? ei(h) : [], ...ei(t)] : [];
-  c.forEach((m) => {
-    i && m.addEventListener("scroll", n, { passive: !0 }), o && m.addEventListener("resize", n);
+  c.forEach((y) => {
+    i && y.addEventListener("scroll", n, { passive: !0 }), o && y.addEventListener("resize", n);
   });
-  const u = h && a ? function(m, v) {
+  const u = h && a ? function(y, v) {
     let w, _ = null;
-    const $ = Ut(m);
+    const $ = Ut(y);
     function S() {
       clearTimeout(w), _ && _.disconnect(), _ = null;
     }
-    return function k(T, N) {
-      T === void 0 && (T = !1), N === void 0 && (N = 1), S();
-      const { left: A, top: H, width: b, height: R } = m.getBoundingClientRect();
-      if (T || v(), !b || !R)
+    return function k(E, N) {
+      E === void 0 && (E = !1), N === void 0 && (N = 1), S();
+      const { left: A, top: H, width: b, height: R } = y.getBoundingClientRect();
+      if (E || v(), !b || !R)
         return;
       const I = ws(H), P = ws($.clientWidth - (A + b)), O = ws($.clientHeight - (H + R)), W = ws(A);
       let U = !0;
@@ -2595,18 +2595,18 @@ function Di(e, t, n, s) {
           }, 100) : k(!1, Tt);
         }
         U = !1;
-      }, { rootMargin: -I + "px " + -P + "px " + -O + "px " + -W + "px", threshold: N }), _.observe(m);
+      }, { rootMargin: -I + "px " + -P + "px " + -O + "px " + -W + "px", threshold: N }), _.observe(y);
     }(!0), S;
   }(h, n) : null;
   let f, d = null;
   r && (d = new ResizeObserver(n), h && !l && d.observe(h), d.observe(t));
   let p = l ? Re(e) : null;
-  return l && function m() {
+  return l && function y() {
     const v = Re(e);
-    !p || v.x === p.x && v.y === p.y && v.width === p.width && v.height === p.height || n(), p = v, f = requestAnimationFrame(m);
+    !p || v.x === p.x && v.y === p.y && v.width === p.width && v.height === p.height || n(), p = v, f = requestAnimationFrame(y);
   }(), n(), () => {
-    c.forEach((m) => {
-      i && m.removeEventListener("scroll", n), o && m.removeEventListener("resize", n);
+    c.forEach((y) => {
+      i && y.removeEventListener("scroll", n), o && y.removeEventListener("resize", n);
     }), u && u(), d && d.disconnect(), d = null, l && cancelAnimationFrame(f);
   };
 }
@@ -2649,7 +2649,7 @@ let nd = class extends Ai {
   }
   beforeRender() {
     const t = super.beforeRender();
-    return t.className = E(t.className, "menu-popup"), t;
+    return t.className = T(t.className, "menu-popup"), t;
   }
   renderToggleIcon() {
     return /* @__PURE__ */ g("span", { class: "contextmenu-toggle-icon caret-right" });
@@ -2669,7 +2669,7 @@ class it extends ut {
     super(...arguments), Oe(this, wo), Oe(this, vo), Oe(this, te, void 0), Oe(this, kn, void 0), Oe(this, Rs, void 0), Oe(this, Ns, void 0);
   }
   get isShown() {
-    return Rt(this, te) && y(Rt(this, te)).hasClass(Qi);
+    return Rt(this, te) && m(Rt(this, te)).hasClass(Qi);
   }
   get menu() {
     return Rt(this, te) || this.ensureMenu();
@@ -2690,11 +2690,11 @@ class it extends ut {
     });
   }
   show(t) {
-    return this.isShown || (vs(this, Rs, t), this.emit("show", this.trigger).defaultPrevented) || this.isDynamic && !this.renderMenu() ? !1 : (y(this.menu).addClass(Qi), this.createPopper(), this.emit("shown"), !0);
+    return this.isShown || (vs(this, Rs, t), this.emit("show", this.trigger).defaultPrevented) || this.isDynamic && !this.renderMenu() ? !1 : (m(this.menu).addClass(Qi), this.createPopper(), this.emit("shown"), !0);
   }
   hide() {
     var t;
-    return !this.isShown || ((t = Rt(this, Ns)) == null || t.call(this), this.emit("hide").defaultPrevented) ? !1 : (y(Rt(this, te)).removeClass(Qi), this.emit("hidden"), !0);
+    return !this.isShown || ((t = Rt(this, Ns)) == null || t.call(this), this.emit("hide").defaultPrevented) ? !1 : (m(Rt(this, te)).removeClass(Qi), this.emit("hidden"), !0);
   }
   toggle(t) {
     return this.isShown ? this.hide() : this.show(t);
@@ -2707,10 +2707,10 @@ class it extends ut {
     const { $element: t } = this, n = this.constructor.MENU_CLASS;
     let s;
     if (this.isDynamic)
-      s = y(`<div class="${n}" />`).appendTo("body");
+      s = m(`<div class="${n}" />`).appendTo("body");
     else if (t.length) {
       const i = t.attr("href") || t.dataset("target") || "";
-      if (i[0] === "#" && (s = y(document).find(i)), !(s != null && s.length)) {
+      if (i[0] === "#" && (s = m(document).find(i)), !(s != null && s.length)) {
         const o = t.next();
         o.hasClass(n) ? s = o : s = t.parent().find(`.${n}`);
       }
@@ -2738,11 +2738,11 @@ class it extends ut {
     const t = this.getPopperOptions(), n = this.getPopperElement(), s = this.menu;
     vs(this, Ns, Di(n, s, () => {
       us(n, s, t).then(({ x: i, y: o, middlewareData: r, placement: a }) => {
-        y(s).css({ left: `${i}px`, top: `${o}px` });
+        m(s).css({ left: `${i}px`, top: `${o}px` });
         const l = a.split("-")[0], h = Aa(this, wo, Jl).call(this, l);
         if (r.arrow && this.arrowEl) {
           const { x: c, y: u } = r.arrow;
-          y(this.arrowEl).css({
+          m(this.arrowEl).css({
             left: c != null ? `${c}px` : "",
             top: u != null ? `${u}px` : "",
             [h]: `${-this.arrowEl.offsetWidth / 2}px`,
@@ -2843,8 +2843,8 @@ it.DEFAULT = {
   preventOverflow: !0,
   destoryOnHide: !0
 };
-y(document).on(`contextmenu${it.NAMESPACE}`, (e) => {
-  const t = y(e.target);
+m(document).on(`contextmenu${it.NAMESPACE}`, (e) => {
+  const t = m(e.target);
   if (t.closest(`.${it.MENU_CLASS}`).length)
     return;
   const n = t.closest(sd).not(":disabled,.disabled");
@@ -2888,7 +2888,7 @@ const La = '[data-toggle="dropdown"]', tc = class extends it {
     return this.isShown ? this.hide() : this.show(e, { event: e, ...t });
   }
   destroy() {
-    Cn(this, Hn) && y(this.menu).off(this.constructor.NAMESPACE), super.destroy();
+    Cn(this, Hn) && m(this.menu).off(this.constructor.NAMESPACE), super.destroy();
   }
   getArrowSize() {
     const { arrow: e } = this.options;
@@ -2902,7 +2902,7 @@ const La = '[data-toggle="dropdown"]', tc = class extends it {
   ensureMenu() {
     const e = super.ensureMenu();
     if (this.options.arrow) {
-      const t = this.getArrowSize(), n = y('<div class="arrow-el" />').css({
+      const t = this.getArrowSize(), n = m('<div class="arrow-el" />').css({
         position: "absolute",
         width: `${t}px`,
         height: `${t}px`,
@@ -2917,8 +2917,8 @@ const La = '[data-toggle="dropdown"]', tc = class extends it {
     if (e && this.options.arrow) {
       const { afterRender: t } = e;
       e.afterRender = (...n) => {
-        this.arrowEl && y(this.menu).find(".menu").each((s, i) => {
-          y(i).find(".arrow-el").length === 0 && y(i).parent().hasClass("dropdown-menu") && y(i).append(this.arrowEl);
+        this.arrowEl && m(this.menu).find(".menu").each((s, i) => {
+          m(i).find(".arrow-el").length === 0 && m(i).parent().hasClass("dropdown-menu") && m(i).append(this.arrowEl);
         }), t == null || t(...n);
       };
     }
@@ -2931,7 +2931,7 @@ Sn = /* @__PURE__ */ new WeakMap();
 ni = /* @__PURE__ */ new WeakMap();
 bo = /* @__PURE__ */ new WeakSet();
 Ql = function() {
-  y(this.menu).on(`mouseenter${this.constructor.NAMESPACE}`, Cn(this, ni)).on(`mouseleave${this.constructor.NAMESPACE}`, this.hideLater), this.on("mouseleave", this.hideLater), _o(this, Hn, !0);
+  m(this.menu).on(`mouseenter${this.constructor.NAMESPACE}`, Cn(this, ni)).on(`mouseleave${this.constructor.NAMESPACE}`, this.hideLater), this.on("mouseleave", this.hideLater), _o(this, Hn, !0);
 };
 Vt.MENU_CLASS = "dropdown-menu";
 Vt.NAME = "Dropdown";
@@ -2941,8 +2941,8 @@ Vt.DEFAULT = {
   trigger: "click"
 };
 const bs = `${Vt.KEY}:options`;
-y(document).on("click", function(e) {
-  const t = y(e.target).closest(La).not(":disabled,.disabled");
+m(document).on("click", function(e) {
+  const t = m(e.target).closest(La).not(":disabled,.disabled");
   if (!t.length) {
     Vt.clear({ event: e });
     return;
@@ -2950,7 +2950,7 @@ y(document).on("click", function(e) {
   const n = t.data(bs), s = Vt.ensure(t, n);
   n || t.data(bs, s.options), s.options.trigger === "click" && s.toggle();
 }).on("mouseover", function(e) {
-  const t = y(e.target).closest(La);
+  const t = m(e.target).closest(La);
   if (!t.length)
     return;
   const n = t.data(bs), s = Vt.ensure(t, n);
@@ -3006,7 +3006,7 @@ class od extends z {
   beforeRender() {
     const { className: n, children: s, dropdown: i, ...o } = this.props;
     return {
-      className: E("dropdown", n),
+      className: T("dropdown", n),
       children: typeof s == "function" ? s(this.state) : s,
       ...o,
       "data-toggle": "dropdown",
@@ -3098,7 +3098,7 @@ let nc = class extends z {
     return /* @__PURE__ */ g(
       "div",
       {
-        className: E("btn-group", i ? `size-${i}` : "", n),
+        className: T("btn-group", i ? `size-${i}` : "", n),
         ...d,
         children: [
           s && s.map(this.renderItem.bind(this, t)),
@@ -3119,7 +3119,7 @@ function ad({
 let _t = class extends We {
   beforeRender() {
     const { gap: t, btnProps: n, wrap: s, ...i } = super.beforeRender();
-    return i.className = E(i.className, s ? "flex-wrap" : "", typeof t == "number" ? `gap-${t}` : ""), typeof t == "string" && (i.style ? i.style.gap = t : i.style = { gap: t }), i;
+    return i.className = T(i.className, s ? "flex-wrap" : "", typeof t == "number" ? `gap-${t}` : ""), typeof t == "string" && (i.style ? i.style.gap = t : i.style = { gap: t }), i;
   }
   isBtnItem(t) {
     return t === "item" || t === "dropdown";
@@ -3129,7 +3129,7 @@ let _t = class extends We {
       ...n,
       ...r,
       ...s,
-      className: E(`${this.name}-${i}`, n.className, r.className, s.className),
+      className: T(`${this.name}-${i}`, n.className, r.className, s.className),
       style: Object.assign({}, n.style, r.style, s.style)
     };
     return i === "btn-group" && (a.btnProps = o), /* @__PURE__ */ g(t, { ...a });
@@ -3163,9 +3163,9 @@ function ld({
   let u;
   a === !0 ? u = /* @__PURE__ */ g(Kt, { className: "alert-close btn ghost", square: !0, onClick: l, children: /* @__PURE__ */ g("span", { class: "close" }) }) : tt(a) ? u = a : typeof a == "object" && (u = /* @__PURE__ */ g(Kt, { ...a, onClick: l }));
   const f = tt(n) ? n : n ? /* @__PURE__ */ g(_t, { ...n }) : null;
-  return /* @__PURE__ */ g("div", { className: E("alert", e), style: t, ...c, children: [
+  return /* @__PURE__ */ g("div", { className: T("alert", e), style: t, ...c, children: [
     tt(h) ? h : typeof h == "string" ? /* @__PURE__ */ g("i", { className: `icon ${h}` }) : null,
-    tt(i) ? i : /* @__PURE__ */ g("div", { className: E("alert-content", o), children: [
+    tt(i) ? i : /* @__PURE__ */ g("div", { className: T("alert-content", o), children: [
       tt(s) ? s : s && /* @__PURE__ */ g("div", { className: "alert-heading", children: s }),
       /* @__PURE__ */ g("div", { className: "alert-text", children: i }),
       s ? f : null
@@ -3215,7 +3215,7 @@ let hd = class extends z {
     return /* @__PURE__ */ g(
       ld,
       {
-        className: E("messager", l, i, r === !0 ? cd(o) : r, a ? "in" : ""),
+        className: T("messager", l, i, r === !0 ? cd(o) : r, a ? "in" : ""),
         ...c
       }
     );
@@ -3242,7 +3242,7 @@ class xr extends Q {
   }
   afterInit() {
     this.on("click", (t) => {
-      y(t.target).closest('.alert-close,[data-dismiss="messager"]').length && (t.preventDefault(), t.stopPropagation(), this.hide());
+      m(t.target).closest('.alert-close,[data-dismiss="messager"]').length && (t.preventDefault(), t.stopPropagation(), this.hide());
     });
   }
   setOptions(t) {
@@ -3327,9 +3327,9 @@ oc = function() {
     return Ce(this, Xe);
   const { placement: e = "top" } = this.options;
   let t = this.$element.find(`.messagers-${e}`);
-  t.length || (t = y(`<div class="messagers messagers-${e}"></div>`).appendTo(this.$element));
+  t.length || (t = m(`<div class="messagers messagers-${e}"></div>`).appendTo(this.$element));
   let n = t.find(`#messager-${this.gid}`);
-  return n.length || (n = y(`<div class="messager-holder" id="messager-${this.gid}"></div>`).appendTo(t), As(this, Xe, n[0])), n[0];
+  return n.length || (n = m(`<div class="messager-holder" id="messager-${this.gid}"></div>`).appendTo(t), As(this, Xe, n[0])), n[0];
 };
 Cr.NAME = "messager";
 Cr.DEFAULT = {
@@ -3339,7 +3339,7 @@ Cr.DEFAULT = {
   margin: 6,
   time: 5e3
 };
-y(document).on("to-show.messager.zui", (e, t) => {
+m(document).on("to-show.messager.zui", (e, t) => {
   t && Cr.show(t);
 });
 let Sr = class extends z {
@@ -3384,7 +3384,7 @@ let fd = class extends z {
       defaultChecked: l,
       onChange: h,
       ...c
-    } = this.props, u = this.state.checked ? 1 : 0, f = t || "div", d = typeof o == "string" ? /* @__PURE__ */ g("i", { class: `icon ${o}` }) : o, p = typeof r == "string" ? /* @__PURE__ */ g("i", { class: `icon ${r}` }) : r, m = [
+    } = this.props, u = this.state.checked ? 1 : 0, f = t || "div", d = typeof o == "string" ? /* @__PURE__ */ g("i", { class: `icon ${o}` }) : o, p = typeof r == "string" ? /* @__PURE__ */ g("i", { class: `icon ${r}` }) : r, y = [
       /* @__PURE__ */ g("input", { onChange: h, type: "checkbox", value: u, checked: !!this.state.checked }),
       /* @__PURE__ */ g("label", { children: [
         d,
@@ -3395,11 +3395,11 @@ let fd = class extends z {
     return q(
       f,
       {
-        className: E("switch", n, { disabled: a }),
+        className: T("switch", n, { disabled: a }),
         onClick: this.handleOnClick,
         ...c
       },
-      ...m,
+      ...y,
       s
     );
   }
@@ -3420,13 +3420,13 @@ class pd extends ut {
   }
   initUploadCash() {
     const { name: t, uploadText: n, listPosition: s } = this.options;
-    this.$label = y(`<label class="btn primary" for="${t}">${n}</label>`), this.$list = y('<div class="file-list"></div>');
+    this.$label = m(`<label class="btn primary" for="${t}">${n}</label>`), this.$list = m('<div class="file-list"></div>');
     const i = s === "bottom" ? [this.$label, this.$list] : [this.$list, this.$label];
     this.$element.append(this.$input, ...i);
   }
   initInputCash() {
     const { name: t, multiple: n, accept: s, onChange: i } = this.options;
-    this.$input = y("<input />").prop("type", "file").prop("name", t).prop("id", t).prop("multiple", n).on("change", (o) => {
+    this.$input = m("<input />").prop("type", "file").prop("name", t).prop("id", t).prop("multiple", n).on("change", (o) => {
       const r = o.target.files;
       if (!r)
         return;
@@ -3473,28 +3473,28 @@ class pd extends ut {
   }
   createFileItem(t) {
     const { showIcon: n } = this.options;
-    return y('<li class="file-item"></li>').append(n ? this.fileIcon() : null).append(this.fileInfo(t)).append(this.renameInput(t));
+    return m('<li class="file-item"></li>').append(n ? this.fileIcon() : null).append(this.fileInfo(t)).append(this.renameInput(t));
   }
   fileIcon() {
     const { icon: t } = this.options;
-    return y(t || '<i class="icon icon-paper-clip"></i>');
+    return m(t || '<i class="icon icon-paper-clip"></i>');
   }
   fileInfo(t) {
-    const n = y(`<span class="file-name">${t.name}</span>`), s = y(`<span class="file-size text-gray">${ku(t.size)}</span>`), i = y('<div class="file-info"></div>').append(n).append(s), { renameBtn: o, renameText: r, deleteBtn: a, deleteText: l } = this.options;
+    const n = m(`<span class="file-name">${t.name}</span>`), s = m(`<span class="file-size text-gray">${ku(t.size)}</span>`), i = m('<div class="file-info"></div>').append(n).append(s), { renameBtn: o, renameText: r, deleteBtn: a, deleteText: l } = this.options;
     return o && i.append(
-      y("<span />").addClass("btn size-sm rounded-sm text-primary canvas file-action file-rename").html(r).on("click", () => {
+      m("<span />").addClass("btn size-sm rounded-sm text-primary canvas file-action file-rename").html(r).on("click", () => {
         i.addClass("hidden").closest(".file-item").find(".input-group.hidden").removeClass("hidden");
       })
     ), a && i.append(
-      y("<span />").html(l).addClass("btn size-sm rounded-sm text-primary canvas file-action file-delete").on("click", () => this.deleteFileItem(n.html()))
+      m("<span />").html(l).addClass("btn size-sm rounded-sm text-primary canvas file-action file-delete").on("click", () => this.deleteFileItem(n.html()))
     ), i;
   }
   renameInput(t) {
-    const { renameConfirmText: n, renameCancelText: s } = this.options, i = y('<div class="input-group hidden"></div>'), o = y("<input />").addClass("form-control").prop("type", "text").prop("autofocus", !0).prop("defaultValue", t.name), r = y("<button />").addClass("btn").prop("type", "button").html(n).on("click", () => {
+    const { renameConfirmText: n, renameCancelText: s } = this.options, i = m('<div class="input-group hidden"></div>'), o = m("<input />").addClass("form-control").prop("type", "text").prop("autofocus", !0).prop("defaultValue", t.name), r = m("<button />").addClass("btn").prop("type", "button").html(n).on("click", () => {
       i.addClass("hidden"), this.renameFileItem(t, o.val()), i.closest(".file-item").find(".file-info.hidden").removeClass("hidden").find(".file-name").html(o.val());
-    }), a = y("<button />").prop("type", "button").addClass("btn").html(s).on("click", () => {
+    }), a = m("<button />").prop("type", "button").addClass("btn").html(s).on("click", () => {
       o.val(t.name), i.addClass("hidden").closest(".file-item").find(".file-info.hidden").removeClass("hidden");
-    }), l = y('<div class="btn-group"></div').append(r).append(a);
+    }), l = m('<div class="btn-group"></div').append(r).append(a);
     return i.append(o).append(l);
   }
 }
@@ -3743,7 +3743,7 @@ let dc = class extends z {
       hueDistance: f = 43,
       saturation: d = 0.4,
       lightness: p = 0.6,
-      children: m,
+      children: y,
       ...v
     } = this.props, w = ["avatar", t], _ = { ...n, background: r, color: a };
     let $ = 32;
@@ -3762,18 +3762,18 @@ let dc = class extends z {
           _.color = Wa(H);
         }
       }
-      let T;
-      $ && $ < 14 * k.length && (T = { transform: `scale(${$ / (14 * k.length)})`, whiteSpace: "nowrap" }), S = /* @__PURE__ */ g("div", { "data-actualSize": $, className: "avatar-text", style: T, children: k });
+      let E;
+      $ && $ < 14 * k.length && (E = { transform: `scale(${$ / (14 * k.length)})`, whiteSpace: "nowrap" }), S = /* @__PURE__ */ g("div", { "data-actualSize": $, className: "avatar-text", style: E, children: k });
     }
     return /* @__PURE__ */ g(
       "div",
       {
-        className: E(w),
+        className: T(w),
         style: _,
         ...v,
         children: [
           S,
-          m
+          y
         ]
       }
     );
@@ -3829,24 +3829,24 @@ const eo = "show", Ia = "in", $d = '[data-dismiss="modal"]', En = class extends 
   show(e) {
     const { modalElement: t } = this;
     if (this.shown)
-      return y(t).css("z-index", `${En.zIndex++}`), !1;
+      return m(t).css("z-index", `${En.zIndex++}`), !1;
     this.setOptions(e);
     const { animation: n, backdrop: s, className: i, style: o } = this.options;
-    return y(t).setClass({
+    return m(t).setClass({
       "modal-trans": n,
       "modal-no-backdrop": !s
     }, eo, i).css({
       zIndex: `${En.zIndex++}`,
       ...o
     }), this.layout(), this.emit("show"), to(this, Mn, Ws).call(this, () => {
-      y(t).addClass(Ia), to(this, Mn, Ws).call(this, () => {
+      m(t).addClass(Ia), to(this, Mn, Ws).call(this, () => {
         this.emit("shown");
       });
     }, 50), !0;
   }
   hide() {
-    return this.shown ? (y(this.modalElement).removeClass(Ia), this.emit("hide"), to(this, Mn, Ws).call(this, () => {
-      y(this.modalElement).removeClass(eo), this.emit("hidden");
+    return this.shown ? (m(this.modalElement).removeClass(Ia), this.emit("hide"), to(this, Mn, Ws).call(this, () => {
+      m(this.modalElement).removeClass(eo), this.emit("hidden");
     }), !0) : !1;
   }
   layout(e, t) {
@@ -3855,9 +3855,9 @@ const eo = "show", Ia = "in", $d = '[data-dismiss="modal"]', En = class extends 
     const { dialog: n } = this;
     if (!n)
       return;
-    t = t ?? this.options.size, y(n).removeAttr("data-size");
+    t = t ?? this.options.size, m(n).removeAttr("data-size");
     const s = { width: "", height: "" };
-    typeof t == "object" ? (s.width = t.width, s.height = t.height) : typeof t == "string" && ["md", "sm", "lg", "full"].includes(t) ? y(n).attr("data-size", t) : t && (s.width = t), y(n).css(s), e = e ?? this.options.position ?? "fit";
+    typeof t == "object" ? (s.width = t.width, s.height = t.height) : typeof t == "string" && ["md", "sm", "lg", "full"].includes(t) ? m(n).attr("data-size", t) : t && (s.width = t), m(n).css(s), e = e ?? this.options.position ?? "fit";
     const i = n.clientWidth, o = n.clientHeight;
     Bn(this, ye, [i, o]), typeof e == "function" && (e = e({ width: i, height: o }));
     const r = {
@@ -3867,7 +3867,7 @@ const eo = "show", Ia = "in", $d = '[data-dismiss="modal"]', En = class extends 
       right: null,
       alignSelf: "center"
     };
-    typeof e == "number" ? (r.alignSelf = "flex-start", r.top = e) : typeof e == "object" && e ? (r.alignSelf = "flex-start", Object.assign(r, e)) : e === "fit" ? (r.alignSelf = "flex-start", r.top = `${Math.max(0, Math.floor((window.innerHeight - o) / 3))}px`) : e === "bottom" ? r.alignSelf = "flex-end" : e === "top" ? r.alignSelf = "flex-start" : e !== "center" && typeof e == "string" && (r.alignSelf = "flex-start", r.top = e), y(n).css(r), y(this.modalElement).css("justifyContent", r.left ? "flex-start" : "center");
+    typeof e == "number" ? (r.alignSelf = "flex-start", r.top = e) : typeof e == "object" && e ? (r.alignSelf = "flex-start", Object.assign(r, e)) : e === "fit" ? (r.alignSelf = "flex-start", r.top = `${Math.max(0, Math.floor((window.innerHeight - o) / 3))}px`) : e === "bottom" ? r.alignSelf = "flex-end" : e === "top" ? r.alignSelf = "flex-start" : e !== "center" && typeof e == "string" && (r.alignSelf = "flex-start", r.top = e), m(n).css(r), m(this.modalElement).css("justifyContent", r.left ? "flex-start" : "center");
   }
   static hide(e) {
     var t;
@@ -3899,13 +3899,13 @@ Qt.DEFAULT = {
   transTime: 300
 };
 Qt.zIndex = 2e3;
-y(window).on("resize.modal.zui", () => {
+m(window).on("resize.modal.zui", () => {
   Qt.getAll().forEach((e) => {
     const t = e;
     t.shown && t.options.responsive && t.layout();
   });
 });
-y(document).on("to-hide.modal.zui", (e, t) => {
+m(document).on("to-hide.modal.zui", (e, t) => {
   Qt.hide(t == null ? void 0 : t.target);
 });
 class pc extends z {
@@ -3957,7 +3957,7 @@ class pc extends z {
       style: n,
       children: s
     } = this.props;
-    return /* @__PURE__ */ g("div", { className: E("modal-dialog", t), style: n, children: /* @__PURE__ */ g("div", { className: "modal-content", children: [
+    return /* @__PURE__ */ g("div", { className: T("modal-dialog", t), style: n, children: /* @__PURE__ */ g("div", { className: "modal-content", children: [
       this.renderHeader(),
       this.renderActions(),
       this.renderBody(),
@@ -4080,11 +4080,11 @@ const Ed = {
     if (!e) {
       const { options: t } = this;
       let n = Nt(this, Tn);
-      n || (n = t.id || `modal-${y.guid++}`, He(this, Tn, n));
+      n || (n = t.id || `modal-${m.guid++}`, He(this, Tn, n));
       const { $element: s } = this;
       if (e = s.find(`#${n}`)[0], !e) {
         const i = this.key;
-        e = y("<div>").attr({
+        e = m("<div>").attr({
           id: n,
           "data-key": i
         }).data(this.constructor.KEY, this).css(t.style || {}).setClass("modal modal-async load-indicator", t.className).appendTo(s)[0];
@@ -4104,7 +4104,7 @@ const Ed = {
   destroy() {
     super.destroy();
     const e = Nt(this, we);
-    e && (y(e).removeData(this.constructor.KEY).remove(), He(this, we, void 0));
+    e && (m(e).removeData(this.constructor.KEY).remove(), He(this, we, void 0));
   }
   render(e) {
     super.render(e), this.buildDialog();
@@ -4113,7 +4113,7 @@ const Ed = {
     if (this.loading)
       return !1;
     Nt(this, Lt) && clearTimeout(Nt(this, Lt));
-    const { modalElement: e, options: t } = this, n = y(e), { type: s, loadTimeout: i, loadingText: o = null } = t, r = Ed[s];
+    const { modalElement: e, options: t } = this, n = m(e), { type: s, loadTimeout: i, loadingText: o = null } = t, r = Ed[s];
     if (!r)
       return console.warn(`Modal: Cannot build modal with type "${s}"`), !1;
     n.attr("data-loading", o).addClass(no), i && He(this, Lt, window.setTimeout(() => {
@@ -4146,8 +4146,8 @@ const Ed = {
     const d = u.length ? {
       gap: 4,
       items: u,
-      onClickItem: ({ item: p, event: m }) => {
-        const v = Rn.query(m.target, l);
+      onClickItem: ({ item: p, event: y }) => {
+        const v = Rn.query(y.target, l);
         f = p.key, (r == null ? void 0 : r(p, v)) !== !1 && v && v.hide();
       }
     } : void 0;
@@ -4182,7 +4182,7 @@ ii = /* @__PURE__ */ new WeakSet();
 Tr = function(e) {
   return new Promise((t) => {
     if (Array.isArray(e))
-      return this.modalElement.innerHTML = e[0], y(this.modalElement).runJS(), t();
+      return this.modalElement.innerHTML = e[0], m(this.modalElement).runJS(), t();
     const { afterRender: n, ...s } = e;
     e = {
       afterRender: (i) => {
@@ -4275,7 +4275,7 @@ wc = function() {
   return this.container.querySelector(e || ".modal");
 };
 vc.NAME = "ModalTrigger";
-y(document).on("click.modal.zui", (e) => {
+m(document).on("click.modal.zui", (e) => {
   var s;
   const t = e.target, n = (s = t.closest) == null ? void 0 : s.call(t, Td);
   if (n) {
@@ -4286,7 +4286,7 @@ y(document).on("click.modal.zui", (e) => {
 let _c = class extends We {
   beforeRender() {
     const t = super.beforeRender();
-    return t.className = E(t.className, t.type ? `nav-${t.type}` : "", {
+    return t.className = T(t.className, t.type ? `nav-${t.type}` : "", {
       "nav-stacked": t.stacked
     }), t;
   }
@@ -4424,9 +4424,9 @@ function Ld({
     return;
   const l = { ...a, square: !0 }, h = () => (l.text = "", l.icon = "icon-ellipsis-h", l.disabled = !0, /* @__PURE__ */ g(Kt, { type: n, ...l })), c = (f, d) => {
     const p = [];
-    for (let m = f; m <= d; m++) {
-      l.text = m, delete l.icon, l.disabled = !1;
-      const v = Jn(i, m);
+    for (let y = f; y <= d; y++) {
+      l.text = y, delete l.icon, l.disabled = !1;
+      const v = Jn(i, y);
       r && (l.url = typeof r == "function" ? r(v) : ot(r, v)), p.push(/* @__PURE__ */ g(Kt, { type: n, ...l, onClick: o }));
     }
     return p;
@@ -4454,7 +4454,7 @@ function Pd({
     };
   });
   const { text: a = "" } = r;
-  return r.text = typeof a == "function" ? a(t) : ot(a, t), i.menu = { ...i.menu, className: E((l = i.menu) == null ? void 0 : l.className, "pager-size-menu") }, /* @__PURE__ */ g(ec, { type: "dropdown", dropdown: i, ...r });
+  return r.text = typeof a == "function" ? a(t) : ot(a, t), i.menu = { ...i.menu, className: T((l = i.menu) == null ? void 0 : l.className, "pager-size-menu") }, /* @__PURE__ */ g(ec, { type: "dropdown", dropdown: i, ...r });
 }
 function Wd({
   key: e,
@@ -4470,17 +4470,17 @@ function Wd({
 }) {
   const c = { ...h };
   let u;
-  const f = (m) => {
+  const f = (y) => {
     var v;
-    u = Number((v = m.target) == null ? void 0 : v.value) || 1, u = u > i.pageTotal ? i.pageTotal : u;
-  }, d = (m) => {
-    if (!(m != null && m.target))
+    u = Number((v = y.target) == null ? void 0 : v.value) || 1, u = u > i.pageTotal ? i.pageTotal : u;
+  }, d = (y) => {
+    if (!(y != null && y.target))
       return;
     u = u <= i.pageTotal ? u : i.pageTotal;
     const v = Jn(i, u);
-    a && !a({ info: v, event: m }) || (m.target.href = c.url = typeof l == "function" ? l(v) : ot(l, v));
+    a && !a({ info: v, event: y }) || (y.target.href = c.url = typeof l == "function" ? l(v) : ot(l, v));
   }, p = Jn(i, t || 0);
-  return c.url = typeof l == "function" ? l(p) : ot(l, p), /* @__PURE__ */ g("div", { className: E("input-group", "pager-goto-group", o ? `size-${o}` : ""), children: [
+  return c.url = typeof l == "function" ? l(p) : ot(l, p), /* @__PURE__ */ g("div", { className: T("input-group", "pager-goto-group", o ? `size-${o}` : ""), children: [
     /* @__PURE__ */ g("input", { type: "number", class: "form-control", max: i.pageTotal, min: "1", onInput: f }),
     /* @__PURE__ */ g(Kt, { type: s, ...c, onClick: d })
   ] });
@@ -4520,7 +4520,7 @@ xc.Component = Ii;
 class Dd extends z {
   constructor() {
     super(...arguments), this._handleClick = (t) => {
-      y(t.target).closest("a,.btn").length || this.props.togglePop();
+      m(t.target).closest("a,.btn").length || this.props.togglePop();
     }, this._handleFocus = () => {
       this.props.changeState({ focus: !0 });
     }, this._handleBlur = () => {
@@ -4529,7 +4529,8 @@ class Dd extends z {
   }
   _getClass() {
     const { state: t, className: n } = this.props, { open: s, disabled: i, focus: o } = t;
-    return E(
+    return T(
+      "pick",
       n,
       s && "is-open",
       o && "focus",
@@ -4548,7 +4549,7 @@ class Dd extends z {
     return /* @__PURE__ */ g(
       "div",
       {
-        id: n,
+        id: `pick-${n}`,
         className: this._getClass(),
         style: s,
         tabIndex: -1,
@@ -4573,7 +4574,7 @@ class Id extends z {
     this.state = { show: !1 }, D(this, xe, wt());
   }
   get trigger() {
-    return y(`#${this.props.id}`)[0];
+    return m(`#pick-${this.props.id}`)[0];
   }
   get element() {
     var n;
@@ -4583,17 +4584,18 @@ class Id extends z {
     return C(this, ie);
   }
   _getClass(n) {
-    const { className: s = "menu-popup", state: i } = n, { open: o } = i;
-    return E(
+    const { className: s, state: i } = n, { open: o } = i;
+    return T(
+      "pick-pop",
       s,
       o === !0 && "in"
     );
   }
   _getContainer(n) {
     if (!C(this, ie)) {
-      const s = y(n.container || "body");
+      const s = m(n.container || "body");
       let i = s.find(".pick-container");
-      i.length || (i = y("<div>").addClass("pick-container").appendTo(s)), D(this, ie, i[0]);
+      i.length || (i = m("<div>").addClass("pick-container").appendTo(s)), D(this, ie, i[0]);
     }
     return C(this, ie);
   }
@@ -4602,7 +4604,7 @@ class Id extends z {
     return /* @__PURE__ */ g(
       "div",
       {
-        id: s,
+        id: `pick-pop-${s}`,
         className: this._getClass(n),
         style: i,
         ref: C(this, xe),
@@ -4622,22 +4624,19 @@ class Id extends z {
         placement: `${r === "top" ? "top" : "bottom"}-start`,
         middleware: [r === "auto" ? hs() : null, Qs(), Li(1)].filter(Boolean)
       }).then(({ x: f, y: d }) => {
-        y(n).css({
+        m(n).css({
           left: f,
           top: d,
-          width: a === "100%" ? y(n).width() : void 0,
+          width: a === "100%" ? m(n).width() : void 0,
           maxHeight: l,
           maxWidth: h,
           minHeight: c,
           minWidth: u
         });
-      }), a === "100%" && y(n).css({ width: y(n).width() });
+      }), a === "100%" && m(n).css({ width: m(n).width() });
     }));
   }
   componentDidMount() {
-    this.layout();
-  }
-  componentDidUpdate() {
     this.layout();
   }
   componentWillUnmount() {
@@ -4675,21 +4674,24 @@ let Oi = class extends z {
       }), Be(this, pt, 0), i = await this.changeState({ open: !1 })) : o === "opening" && (await ho(50, (r) => {
         Be(this, pt, r);
       }), Be(this, pt, 0), i = await this.changeState({ open: !0 })), i;
+    }, this._handleDocClick = (n) => {
+      const { open: s } = this.state, { id: i } = this;
+      s && !m(n.target).closest(`#pick-${i},#pick-pop-${i}`).length && this.toggle(!1);
     }, this.state = {
       value: t.defaultValue,
       open: !1,
       focus: !1,
       disabled: !1
-    }, Be(this, Os, t.id ?? `_${y.guid++}`);
+    }, Be(this, Os, t.id ?? `_${m.guid++}`);
   }
   get id() {
     return vn(this, Os);
   }
   _getTriggerProps(t, n) {
     return {
-      id: `pick-${this.id}`,
+      id: this.id,
       state: n,
-      className: E("pick", t.className),
+      className: t.className,
       style: t.style,
       name: t.name,
       changeState: this.changeState,
@@ -4698,9 +4700,9 @@ let Oi = class extends z {
   }
   _getPopProps(t, n) {
     return {
-      id: `pick-pop-${this.id}`,
+      id: this.id,
       state: n,
-      className: E("pick-pop", t.popClass),
+      className: t.popClass,
       style: t.popStyle,
       changeState: this.changeState,
       togglePop: this.toggle,
@@ -4727,7 +4729,7 @@ let Oi = class extends z {
     (n = this.props.afterRender) == null || n.call(this, { firstRender: t });
   }
   componentDidMount() {
-    this._afterRender(!0);
+    this._afterRender(!0), m(document).on("click", this._handleDocClick);
   }
   componentWillUpdate(t, n) {
     const { open: s } = this.state, { open: i } = n;
@@ -4746,7 +4748,7 @@ let Oi = class extends z {
   }
   componentWillUnmount() {
     var t;
-    (t = this.props.beforeDestroy) == null || t.call(this), vn(this, pt) && clearTimeout(vn(this, pt));
+    m(document).off("click", this._handleDocClick), (t = this.props.beforeDestroy) == null || t.call(this), vn(this, pt) && clearTimeout(vn(this, pt));
   }
   render(t, n) {
     const {
@@ -4765,6 +4767,7 @@ Oi.Trigger = Dd;
 Oi.Pop = Id;
 Oi.defaultProps = {
   popContainer: "body",
+  popClass: "menu-popup",
   popWidth: "100%",
   popDirection: "auto",
   popMinWidth: 50,
@@ -4798,7 +4801,7 @@ class Od extends z {
     return /* @__PURE__ */ g(
       "div",
       {
-        className: E("picker-select picker-select-multi form-control", n, { disabled: i, focused: o }),
+        className: T("picker-select picker-select-multi form-control", n, { disabled: i, focused: o }),
         style: s,
         onClick: r,
         children: [
@@ -4841,7 +4844,7 @@ class Hd extends z {
     return /* @__PURE__ */ g(
       "div",
       {
-        className: E("picker-select picker-select-single form-control", n, { disabled: i, focused: r }),
+        className: T("picker-select picker-select-single form-control", n, { disabled: i, focused: r }),
         style: s,
         onClick: h,
         children: [
@@ -4922,7 +4925,7 @@ class Gd extends z {
     L(this, hn, void 0);
     L(this, is, void 0);
     this.state = { keys: "", show: !1 }, D(this, oe, 0), D(this, rn, wt()), D(this, an, wt()), D(this, cn, (n) => {
-      y(n.target).closest(`#picker-menu-${this.props.id}`).length || this.hide();
+      m(n.target).closest(`#picker-menu-${this.props.id}`).length || this.hide();
     }), D(this, ss, ({ item: n }) => {
       this.select(n.key);
     }), D(this, hn, (n) => {
@@ -4932,7 +4935,7 @@ class Gd extends z {
     });
   }
   componentDidMount() {
-    y(document).on("click", C(this, cn)), this.show(this.focus.bind(this)), D(this, ns, Vd(window, {
+    m(document).on("click", C(this, cn)), this.show(this.focus.bind(this)), D(this, ns, Vd(window, {
       Escape: () => {
         this.state.show && (this.state.keys ? this.setState({ keys: "" }) : this.hide());
       },
@@ -4964,16 +4967,16 @@ class Gd extends z {
       }
     }));
     const n = nt(this, ln, Hs).call(this);
-    n && y(n).on("mouseenter.pickerMenu.zui", ".menu-item", (s) => {
-      const i = y(s.currentTarget);
+    n && m(n).on("mouseenter.pickerMenu.zui", ".menu-item", (s) => {
+      const i = m(s.currentTarget);
       this.setHoverItem(i.children("a").dataset("value"));
     });
   }
   componentWillUnmount() {
     var s;
-    y(document).off("click", C(this, cn)), (s = C(this, ns)) == null || s.call(this);
+    m(document).off("click", C(this, cn)), (s = C(this, ns)) == null || s.call(this);
     const n = nt(this, ln, Hs).call(this);
-    n && y(n).off(".pickerMenu.zui");
+    n && m(n).off(".pickerMenu.zui");
   }
   show(n) {
     if (this.state.show) {
@@ -5018,7 +5021,7 @@ class Gd extends z {
     return /* @__PURE__ */ g(
       "div",
       {
-        className: E("picker-menu menu-popup", s, { shown: c, "has-search": f }),
+        className: T("picker-menu menu-popup", s, { shown: c, "has-search": f }),
         id: `picker-menu-${n}`,
         style: { maxHeight: o, maxWidth: r, width: a, ...i },
         children: [
@@ -5045,7 +5048,7 @@ oe = new WeakMap(), rn = new WeakMap(), an = new WeakMap(), ns = new WeakMap(), 
 }, $e = new WeakSet(), Nn = function() {
   const n = nt(this, ln, Hs).call(this);
   if (n)
-    return y(n).find(".menu-item>a.hover");
+    return m(n).find(".menu-item>a.hover");
 }, bi = new WeakSet(), Sc = function() {
   const { selections: n, items: s } = this.props, i = new Set(n), { keys: o, hover: r } = this.state, a = o.toLowerCase().split(" ").filter((c) => c.length);
   let l = !1;
@@ -5054,7 +5057,7 @@ oe = new WeakMap(), rn = new WeakMap(), an = new WeakMap(), ns = new WeakMap(), 
       value: f,
       keys: d,
       text: p,
-      className: m,
+      className: y,
       ...v
     } = u;
     if (!a.length || a.every((w) => f.toLowerCase().includes(w) || (d == null ? void 0 : d.toLowerCase().includes(w)) || typeof p == "string" && p.toLowerCase().includes(w))) {
@@ -5063,14 +5066,14 @@ oe = new WeakMap(), rn = new WeakMap(), an = new WeakMap(), ns = new WeakMap(), 
         key: f,
         active: i.has(f),
         text: w,
-        className: E(m, { hover: f === r }),
+        className: T(y, { hover: f === r }),
         "data-value": f,
         ...v
       });
     }
     return c;
   }, []);
-  return !l && h.length && (h[0].className = E(h[0].className, "hover")), h;
+  return !l && h.length && (h[0].className = T(h[0].className, "hover")), h;
 }, cn = new WeakMap(), ss = new WeakMap(), hn = new WeakMap(), is = new WeakMap(), xi = new WeakSet(), Mc = function() {
   const {
     search: n,
@@ -5109,7 +5112,7 @@ var Lr = (e, t, n) => {
 }), st = (e, t, n) => (Lr(e, t, "access private method"), n), Bs, fn, ri, Bt, Ue, An, ai, Pr, zs, Ro, No, Ec, Wr, Dr, Ir, Or, Hr, Tc, Ao, Rc, Br, Nc, Fs, Lo;
 let Ac = class extends z {
   constructor(t) {
-    super(t), X(this, Ue), X(this, ai), X(this, zs), X(this, No), X(this, Hr), X(this, Ao), X(this, Br), X(this, Fs), X(this, Bs, 0), X(this, fn, y.guid++), X(this, ri, wt()), X(this, Bt, void 0), X(this, Wr, (n) => {
+    super(t), X(this, Ue), X(this, ai), X(this, zs), X(this, No), X(this, Hr), X(this, Ao), X(this, Br), X(this, Fs), X(this, Bs, 0), X(this, fn, m.guid++), X(this, ri, wt()), X(this, Bt, void 0), X(this, Wr, (n) => {
       const { valueList: s } = this, i = new Set(n.map((r) => r.value)), o = s.filter((r) => !i.has(r));
       this.setValue(o);
     }), X(this, Dr, () => {
@@ -5207,7 +5210,7 @@ let Ac = class extends z {
       "div",
       {
         id: `picker-${Z(this, fn)}`,
-        className: E("picker", t),
+        className: T("picker", t),
         style: n,
         children: [
           /* @__PURE__ */ g(a, { ...l }),
@@ -5231,7 +5234,7 @@ An = function(e) {
 };
 ai = /* @__PURE__ */ new WeakSet();
 Pr = function(e) {
-  return typeof e == "string" ? e.length ? y.unique(e.split(this.props.valueSplitter ?? ",")) : [] : Array.isArray(e) ? y.unique(e) : [];
+  return typeof e == "string" ? e.length ? m.unique(e.split(this.props.valueSplitter ?? ",")) : [] : Array.isArray(e) ? m.unique(e) : [];
 };
 zs = /* @__PURE__ */ new WeakSet();
 Ro = function(e) {
@@ -5281,15 +5284,15 @@ Rc = function() {
   const { open: e } = this.state;
   if (!e)
     return null;
-  const t = y(this.props.container || "body");
+  const t = m(this.props.container || "body");
   let n = t.find(".pickers-container");
-  n.length || (n = y("<div>").addClass("pickers-container").appendTo(t));
+  n.length || (n = m("<div>").addClass("pickers-container").appendTo(t));
   const { Menu: s = Gd } = this.props;
   return Wl(/* @__PURE__ */ g(s, { ...st(this, Hr, Tc).call(this), ref: Z(this, ri) }), n[0]);
 };
 Br = /* @__PURE__ */ new WeakSet();
 Nc = function() {
-  const e = y(`#picker-${Z(this, fn)}`)[0], t = y(`#picker-menu-${Z(this, fn)}`)[0];
+  const e = m(`#picker-${Z(this, fn)}`)[0], t = m(`#picker-menu-${Z(this, fn)}`)[0];
   if (!t || !e || !this.state.open) {
     Z(this, Bt) && (Z(this, Bt).call(this), oi(this, Bt, void 0));
     return;
@@ -5300,8 +5303,8 @@ Nc = function() {
       placement: `${n === "top" ? "top" : "bottom"}-start`,
       middleware: [n === "auto" ? hs() : null, Qs(), Li(1)].filter(Boolean)
     }).then(({ x: i, y: o }) => {
-      y(t).css({ left: i, top: o, width: s === "100%" ? y(e).width() : void 0 });
-    }), s === "100%" && y(t).css({ width: y(e).width() });
+      m(t).css({ left: i, top: o, width: s === "100%" ? m(e).width() : void 0 });
+    }), s === "100%" && m(t).css({ width: m(e).width() });
   }));
 };
 Fs = /* @__PURE__ */ new WeakSet();
@@ -5376,12 +5379,12 @@ class Pc extends ut {
     const t = this.$element.data("target");
     if (!t)
       throw new Error("popsvers trigger must have target.");
-    const n = y(t);
+    const n = m(t);
     if (!n.length)
       throw new Error("popovers target must exist.");
     const { strategy: s } = this.options;
     n.addClass(s), n.addClass("hidden"), n.addClass("z-50"), n.on("click", (i) => {
-      y(i.target).data("dismiss") === "popovers" && this.hide();
+      m(i.target).data("dismiss") === "popovers" && this.hide();
     }), this.$target = n;
   }
   show() {
@@ -5391,14 +5394,14 @@ class Pc extends ut {
     this.$target.addClass("hidden"), this.$mask.addClass("hidden");
   }
   initMask() {
-    const t = y('<div class="fixed top-0 right-0 bottom-0 left-0 z-40 hidden"></div>');
+    const t = m('<div class="fixed top-0 right-0 bottom-0 left-0 z-40 hidden"></div>');
     t.on("click", () => {
       this.hide();
     }), this.$target.parent().append(t), this.$mask = t;
   }
   initArrow() {
     const { arrow: t } = this.options;
-    t && (this.$arrow = y('<div class="fl-arrow bg-inherit rotate-45 absolute w-2 h-2"></div>'), this.$target.append(this.$arrow));
+    t && (this.$arrow = m('<div class="fl-arrow bg-inherit rotate-45 absolute w-2 h-2"></div>'), this.$target.append(this.$arrow));
   }
 }
 Pc.NAME = "Popovers";
@@ -5458,9 +5461,9 @@ function za(e, t, n) {
 const Yd = async (e, t, n) => {
   const { placement: s = "bottom", strategy: i = "absolute", middleware: o = [], platform: r } = n, a = o.filter(Boolean), l = await (r.isRTL == null ? void 0 : r.isRTL(t));
   let h = await r.getElementRects({ reference: e, floating: t, strategy: i }), { x: c, y: u } = za(h, s, l), f = s, d = {}, p = 0;
-  for (let m = 0; m < a.length; m++) {
-    const { name: v, fn: w } = a[m], { x: _, y: $, data: S, reset: k } = await w({ x: c, y: u, initialPlacement: s, placement: f, strategy: i, middlewareData: d, rects: h, platform: r, elements: { reference: e, floating: t } });
-    c = _ ?? c, u = $ ?? u, d = { ...d, [v]: { ...d[v], ...S } }, k && p <= 50 && (p++, typeof k == "object" && (k.placement && (f = k.placement), k.rects && (h = k.rects === !0 ? await r.getElementRects({ reference: e, floating: t, strategy: i }) : k.rects), { x: c, y: u } = za(h, f, l)), m = -1);
+  for (let y = 0; y < a.length; y++) {
+    const { name: v, fn: w } = a[y], { x: _, y: $, data: S, reset: k } = await w({ x: c, y: u, initialPlacement: s, placement: f, strategy: i, middlewareData: d, rects: h, platform: r, elements: { reference: e, floating: t } });
+    c = _ ?? c, u = $ ?? u, d = { ...d, [v]: { ...d[v], ...S } }, k && p <= 50 && (p++, typeof k == "object" && (k.placement && (f = k.placement), k.rects && (h = k.rects === !0 ? await r.getElementRects({ reference: e, floating: t, strategy: i }) : k.rects), { x: c, y: u } = za(h, f, l)), y = -1);
   }
   return { x: c, y: u, placement: f, strategy: i, middlewareData: d };
 };
@@ -5475,7 +5478,7 @@ function li(e) {
 async function Kd(e, t) {
   var n;
   t === void 0 && (t = {});
-  const { x: s, y: i, platform: o, rects: r, elements: a, strategy: l } = e, { boundary: h = "clippingAncestors", rootBoundary: c = "viewport", elementContext: u = "floating", altBoundary: f = !1, padding: d = 0 } = t, p = Dc(d), m = a[f ? u === "floating" ? "reference" : "floating" : u], v = li(await o.getClippingRect({ element: (n = await (o.isElement == null ? void 0 : o.isElement(m))) == null || n ? m : m.contextElement || await (o.getDocumentElement == null ? void 0 : o.getDocumentElement(a.floating)), boundary: h, rootBoundary: c, strategy: l })), w = u === "floating" ? { ...r.floating, x: s, y: i } : r.reference, _ = await (o.getOffsetParent == null ? void 0 : o.getOffsetParent(a.floating)), $ = await (o.isElement == null ? void 0 : o.isElement(_)) && await (o.getScale == null ? void 0 : o.getScale(_)) || { x: 1, y: 1 }, S = li(o.convertOffsetParentRelativeRectToViewportRelativeRect ? await o.convertOffsetParentRelativeRectToViewportRelativeRect({ rect: w, offsetParent: _, strategy: l }) : w);
+  const { x: s, y: i, platform: o, rects: r, elements: a, strategy: l } = e, { boundary: h = "clippingAncestors", rootBoundary: c = "viewport", elementContext: u = "floating", altBoundary: f = !1, padding: d = 0 } = t, p = Dc(d), y = a[f ? u === "floating" ? "reference" : "floating" : u], v = li(await o.getClippingRect({ element: (n = await (o.isElement == null ? void 0 : o.isElement(y))) == null || n ? y : y.contextElement || await (o.getDocumentElement == null ? void 0 : o.getDocumentElement(a.floating)), boundary: h, rootBoundary: c, strategy: l })), w = u === "floating" ? { ...r.floating, x: s, y: i } : r.reference, _ = await (o.getOffsetParent == null ? void 0 : o.getOffsetParent(a.floating)), $ = await (o.isElement == null ? void 0 : o.isElement(_)) && await (o.getScale == null ? void 0 : o.getScale(_)) || { x: 1, y: 1 }, S = li(o.convertOffsetParentRelativeRectToViewportRelativeRect ? await o.convertOffsetParentRelativeRectToViewportRelativeRect({ rect: w, offsetParent: _, strategy: l }) : w);
   return { top: (v.top - S.top + p.top) / $.y, bottom: (S.bottom - v.bottom + p.bottom) / $.y, left: (v.left - S.left + p.left) / $.x, right: (S.right - v.right + p.right) / $.x };
 }
 const Xd = Math.min, Jd = Math.max;
@@ -5486,11 +5489,11 @@ const Qd = (e) => ({ name: "arrow", options: e, async fn(t) {
   const { element: n, padding: s = 0 } = e || {}, { x: i, y: o, placement: r, rects: a, platform: l } = t;
   if (n == null)
     return {};
-  const h = Dc(s), c = { x: i, y: o }, u = Hi(r), f = zr(u), d = await l.getDimensions(n), p = u === "y" ? "top" : "left", m = u === "y" ? "bottom" : "right", v = a.reference[f] + a.reference[u] - c[u] - a.floating[f], w = c[u] - a.reference[u], _ = await (l.getOffsetParent == null ? void 0 : l.getOffsetParent(n));
+  const h = Dc(s), c = { x: i, y: o }, u = Hi(r), f = zr(u), d = await l.getDimensions(n), p = u === "y" ? "top" : "left", y = u === "y" ? "bottom" : "right", v = a.reference[f] + a.reference[u] - c[u] - a.floating[f], w = c[u] - a.reference[u], _ = await (l.getOffsetParent == null ? void 0 : l.getOffsetParent(n));
   let $ = _ ? u === "y" ? _.clientHeight || 0 : _.clientWidth || 0 : 0;
   $ === 0 && ($ = a.floating[f]);
-  const S = v / 2 - w / 2, k = h[p], T = $ - d[f] - h[m], N = $ / 2 - d[f] / 2 + S, A = Zd(k, N, T), H = fs(r) != null && N != A && a.reference[f] / 2 - (N < k ? h[p] : h[m]) - d[f] / 2 < 0;
-  return { [u]: c[u] - (H ? N < k ? k - N : T - N : 0), data: { [u]: A, centerOffset: N - A } };
+  const S = v / 2 - w / 2, k = h[p], E = $ - d[f] - h[y], N = $ / 2 - d[f] / 2 + S, A = Zd(k, N, E), H = fs(r) != null && N != A && a.reference[f] / 2 - (N < k ? h[p] : h[y]) - d[f] / 2 < 0;
+  return { [u]: c[u] - (H ? N < k ? k - N : E - N : 0), data: { [u]: A, centerOffset: N - A } };
 } }), tf = ["top", "right", "bottom", "left"];
 tf.reduce((e, t) => e.concat(t, t + "-start", t + "-end"), []);
 const ef = { left: "right", right: "left", bottom: "top", top: "bottom" };
@@ -5510,7 +5513,7 @@ function io(e) {
 const of = function(e) {
   return e === void 0 && (e = {}), { name: "flip", options: e, async fn(t) {
     var n;
-    const { placement: s, middlewareData: i, rects: o, initialPlacement: r, platform: a, elements: l } = t, { mainAxis: h = !0, crossAxis: c = !0, fallbackPlacements: u, fallbackStrategy: f = "bestFit", fallbackAxisSideDirection: d = "none", flipAlignment: p = !0, ...m } = e, v = Je(s), w = Je(r) === r, _ = await (a.isRTL == null ? void 0 : a.isRTL(l.floating)), $ = u || (w || !p ? [ci(r)] : function(b) {
+    const { placement: s, middlewareData: i, rects: o, initialPlacement: r, platform: a, elements: l } = t, { mainAxis: h = !0, crossAxis: c = !0, fallbackPlacements: u, fallbackStrategy: f = "bestFit", fallbackAxisSideDirection: d = "none", flipAlignment: p = !0, ...y } = e, v = Je(s), w = Je(r) === r, _ = await (a.isRTL == null ? void 0 : a.isRTL(l.floating)), $ = u || (w || !p ? [ci(r)] : function(b) {
       const R = ci(b);
       return [io(b), R, io(R)];
     }(r));
@@ -5531,13 +5534,13 @@ const of = function(e) {
       }(Je(b), I === "start", P);
       return O && (W = W.map((U) => U + "-" + O), R && (W = W.concat(W.map(io)))), W;
     }(r, p, d, _));
-    const S = [r, ...$], k = await Kd(t, m), T = [];
+    const S = [r, ...$], k = await Kd(t, y), E = [];
     let N = ((n = i.flip) == null ? void 0 : n.overflows) || [];
-    if (h && T.push(k[v]), c) {
+    if (h && E.push(k[v]), c) {
       const { main: b, cross: R } = nf(s, o, _);
-      T.push(k[b], k[R]);
+      E.push(k[b], k[R]);
     }
-    if (N = [...N, { placement: s, overflows: T }], !T.every((b) => b <= 0)) {
+    if (N = [...N, { placement: s, overflows: E }], !E.every((b) => b <= 0)) {
       var A;
       const b = (((A = i.flip) == null ? void 0 : A.index) || 0) + 1, R = S[b];
       if (R)
@@ -5561,9 +5564,9 @@ const of = function(e) {
 }, rf = function(e) {
   return e === void 0 && (e = 0), { name: "offset", options: e, async fn(t) {
     const { x: n, y: s } = t, i = await async function(o, r) {
-      const { placement: a, platform: l, elements: h } = o, c = await (l.isRTL == null ? void 0 : l.isRTL(h.floating)), u = Je(a), f = fs(a), d = Hi(a) === "x", p = ["left", "top"].includes(u) ? -1 : 1, m = c && d ? -1 : 1, v = typeof r == "function" ? r(o) : r;
+      const { placement: a, platform: l, elements: h } = o, c = await (l.isRTL == null ? void 0 : l.isRTL(h.floating)), u = Je(a), f = fs(a), d = Hi(a) === "x", p = ["left", "top"].includes(u) ? -1 : 1, y = c && d ? -1 : 1, v = typeof r == "function" ? r(o) : r;
       let { mainAxis: w, crossAxis: _, alignmentAxis: $ } = typeof v == "number" ? { mainAxis: v, crossAxis: 0, alignmentAxis: null } : { mainAxis: 0, crossAxis: 0, alignmentAxis: null, ...v };
-      return f && typeof $ == "number" && (_ = f === "end" ? -1 * $ : $), d ? { x: _ * m, y: w * p } : { x: w * p, y: _ * m };
+      return f && typeof $ == "number" && (_ = f === "end" ? -1 * $ : $), d ? { x: _ * y, y: w * p } : { x: w * p, y: _ * y };
     }(t, e);
     return { x: n + i.x, y: s + i.y, data: i };
   } };
@@ -5645,9 +5648,9 @@ function Ne(e, t, n, s) {
   const h = a ? ct(a) : window, c = !Hc() && n;
   let u = (r.left + (c && ((i = h.visualViewport) == null ? void 0 : i.offsetLeft) || 0)) / l.x, f = (r.top + (c && ((o = h.visualViewport) == null ? void 0 : o.offsetTop) || 0)) / l.y, d = r.width / l.x, p = r.height / l.y;
   if (a) {
-    const m = ct(a), v = s && yt(s) ? ct(s) : s;
-    let w = m.frameElement;
-    for (; w && s && v !== m; ) {
+    const y = ct(a), v = s && yt(s) ? ct(s) : s;
+    let w = y.frameElement;
+    for (; w && s && v !== y; ) {
       const _ = Ze(w), $ = w.getBoundingClientRect(), S = getComputedStyle(w);
       $.x += (w.clientLeft + parseFloat(S.paddingLeft)) * _.x, $.y += (w.clientTop + parseFloat(S.paddingTop)) * _.y, u *= _.x, f *= _.y, d *= _.x, p *= _.y, u += $.x, f += $.y, w = ct(w).frameElement;
     }
@@ -5738,10 +5741,10 @@ const cf = { getClippingRect: function(e) {
       return u;
     let f = Fn(h).filter((v) => yt(v) && ue(v) !== "body"), d = null;
     const p = St(h).position === "fixed";
-    let m = p ? Zn(h) : h;
-    for (; yt(m) && !Fr(m); ) {
-      const v = St(m), w = Po(m);
-      (p ? w || d : w || v.position !== "static" || !d || !["absolute", "fixed"].includes(d.position)) ? d = v : f = f.filter((_) => _ !== m), m = Zn(m);
+    let y = p ? Zn(h) : h;
+    for (; yt(y) && !Fr(y); ) {
+      const v = St(y), w = Po(y);
+      (p ? w || d : w || v.position !== "static" || !d || !["absolute", "fixed"].includes(d.position)) ? d = v : f = f.filter((_) => _ !== y), y = Zn(y);
     }
     return c.set(h, f), f;
   }(t, this._c) : [].concat(n), r = [...o, s], a = r[0], l = r.reduce((h, c) => {
@@ -6026,17 +6029,17 @@ function df({
   trailingIcon: f,
   hint: d,
   checked: p,
-  actions: m,
+  actions: y,
   show: v,
   level: w = 0,
   items: _,
   ...$
 }) {
-  const S = Array.isArray(m) ? { items: m } : m;
-  return S && (S.btnProps || (S.btnProps = { size: "sm" }), S.className = E("tree-actions not-nested-toggle", S.className)), /* @__PURE__ */ g(
+  const S = Array.isArray(y) ? { items: y } : y;
+  return S && (S.btnProps || (S.btnProps = { size: "sm" }), S.className = T("tree-actions not-nested-toggle", S.className)), /* @__PURE__ */ g(
     "div",
     {
-      className: E("tree-item-content", n, { disabled: a, active: l }),
+      className: T("tree-item-content", n, { disabled: a, active: l }),
       title: d,
       "data-target": u,
       style: Object.assign({ paddingLeft: `calc(${w} * var(--tree-indent, 20px))` }, i),
@@ -6081,7 +6084,7 @@ let Xr = class extends Ni {
   }
   beforeRender() {
     const t = super.beforeRender(), { hover: n } = this.props;
-    return n && (t.className = E(t.className, "tree-hover")), t;
+    return n && (t.className = T(t.className, "tree-hover")), t;
   }
 };
 Xr.ItemComponents = {
@@ -6129,10 +6132,10 @@ class ff extends z {
     return C(this, os).current;
   }
   componentDidMount() {
-    this.load(), y(this.element).on("load.zui.dashboard", this.load.bind(this));
+    this.load(), m(this.element).on("load.zui.dashboard", this.load.bind(this));
   }
   componentWillUnmount() {
-    y(this.element).off("load.zui.dashboard");
+    m(this.element).off("load.zui.dashboard");
   }
   load() {
     const { block: n } = this.props;
@@ -6428,11 +6431,11 @@ class ja extends z {
       bottom: h,
       right: c,
       ...r
-    }, m = {};
-    return s === "horz" ? (p.height = i, p.width = n, m.width = this.barSize, m.left = Math.round(Math.min(u, f) * (n - m.width) / u)) : (p.width = i, p.height = n, m.height = this.barSize, m.top = Math.round(Math.min(u, f) * (n - m.height) / u)), /* @__PURE__ */ g(
+    }, y = {};
+    return s === "horz" ? (p.height = i, p.width = n, y.width = this.barSize, y.left = Math.round(Math.min(u, f) * (n - y.width) / u)) : (p.width = i, p.height = n, y.height = this.barSize, y.top = Math.round(Math.min(u, f) * (n - y.height) / u)), /* @__PURE__ */ g(
       "div",
       {
-        className: E("scrollbar", o, {
+        className: T("scrollbar", o, {
           "is-vert": s === "vert",
           "is-horz": s === "horz",
           "is-dragging": d
@@ -6443,7 +6446,7 @@ class ja extends z {
           "div",
           {
             className: "scrollbar-bar",
-            style: m,
+            style: y,
             onMouseDown: this._handleMouseDown
           }
         )
@@ -6466,12 +6469,12 @@ function ah({ col: e, className: t, height: n, row: s, onRenderCell: i, style: o
   }, p = ["dtable-cell", l, t, e.setting.className, {
     "has-border-left": f === !0 || f === "left",
     "has-border-right": f === !0 || f === "right"
-  }], m = ["dtable-cell-content", e.setting.cellClass], v = (H = s.data) == null ? void 0 : H[e.name], w = [a ?? v ?? ""], _ = i ? i(w, { row: s, col: e, value: v }, q) : w, $ = [], S = [], k = {}, T = {};
+  }], y = ["dtable-cell-content", e.setting.cellClass], v = (H = s.data) == null ? void 0 : H[e.name], w = [a ?? v ?? ""], _ = i ? i(w, { row: s, col: e, value: v }, q) : w, $ = [], S = [], k = {}, E = {};
   let N = "div";
   _ == null || _.forEach((b) => {
     if (typeof b == "object" && b && !tt(b) && ("html" in b || "className" in b || "style" in b || "attrs" in b || "children" in b || "tagName" in b)) {
       const R = b.outer ? $ : S;
-      b.html ? R.push(/* @__PURE__ */ g("div", { className: E("dtable-cell-html", b.className), style: b.style, dangerouslySetInnerHTML: { __html: b.html }, ...b.attrs ?? {} })) : (b.style && Object.assign(b.outer ? c : d, b.style), b.className && (b.outer ? p : m).push(b.className), b.children && R.push(b.children), b.attrs && Object.assign(b.outer ? k : T, b.attrs)), b.tagName && !b.outer && (N = b.tagName);
+      b.html ? R.push(/* @__PURE__ */ g("div", { className: T("dtable-cell-html", b.className), style: b.style, dangerouslySetInnerHTML: { __html: b.html }, ...b.attrs ?? {} })) : (b.style && Object.assign(b.outer ? c : d, b.style), b.className && (b.outer ? p : y).push(b.className), b.children && R.push(b.children), b.attrs && Object.assign(b.outer ? k : E, b.attrs)), b.tagName && !b.outer && (N = b.tagName);
     } else
       S.push(b);
   });
@@ -6479,21 +6482,21 @@ function ah({ col: e, className: t, height: n, row: s, onRenderCell: i, style: o
   return /* @__PURE__ */ g(
     "div",
     {
-      className: E(p),
+      className: T(p),
       style: c,
       "data-col": e.name,
       "data-type": e.type,
       ...h,
       ...k,
       children: [
-        S.length > 0 && /* @__PURE__ */ g(A, { className: E(m), style: d, ...T, children: S }),
+        S.length > 0 && /* @__PURE__ */ g(A, { className: T(y), style: d, ...E, children: S }),
         $
       ]
     }
   );
 }
 function oo({ row: e, className: t, top: n = 0, left: s = 0, width: i, height: o, cols: r, CellComponent: a = ah, onRenderCell: l }) {
-  return /* @__PURE__ */ g("div", { className: E("dtable-cells", t), style: { top: n, left: s, width: i, height: o }, children: r.map((h) => h.visible ? /* @__PURE__ */ g(
+  return /* @__PURE__ */ g("div", { className: T("dtable-cells", t), style: { top: n, left: s, width: i, height: o }, children: r.map((h) => h.visible ? /* @__PURE__ */ g(
     a,
     {
       col: h,
@@ -6553,12 +6556,12 @@ function lh({
       onRenderCell: h
     }
   ));
-  const m = { top: n, height: s, lineHeight: `${s - 2}px`, ...c };
+  const y = { top: n, height: s, lineHeight: `${s - 2}px`, ...c };
   return /* @__PURE__ */ g(
     "div",
     {
-      className: E("dtable-row", t),
-      style: m,
+      className: T("dtable-row", t),
+      style: y,
       "data-id": e.id,
       ...u,
       children: [
@@ -6594,7 +6597,7 @@ function gf({
   onRenderRow: a,
   ...l
 }) {
-  return t = { ...t, top: n, height: i }, /* @__PURE__ */ g("div", { className: E("dtable-rows", e), style: t, children: s.map((h) => {
+  return t = { ...t, top: n, height: i }, /* @__PURE__ */ g("div", { className: T("dtable-rows", e), style: t, children: s.map((h) => {
     const c = {
       className: `dtable-row-${h.index % 2 ? "odd" : "even"}`,
       row: h,
@@ -6719,12 +6722,12 @@ function vf(e, t, n, s) {
     flexList: [],
     widthSetting: h(l)
   }, d = [], p = {};
-  let m = !1;
+  let y = !1;
   const v = [], w = {};
   if (n.forEach((_) => {
     const { colTypes: $, onAddCol: S } = _;
-    $ && Object.entries($).forEach(([k, T]) => {
-      w[k] || (w[k] = []), w[k].push(T);
+    $ && Object.entries($).forEach(([k, E]) => {
+      w[k] || (w[k] = []), w[k].push(E);
     }), S && v.push(S);
   }), t.cols.forEach((_) => {
     if (_.hidden)
@@ -6737,7 +6740,7 @@ function vf(e, t, n, s) {
       maxWidth: r,
       ..._,
       type: $
-    }, T = {
+    }, E = {
       name: S,
       type: $,
       setting: k,
@@ -6753,10 +6756,10 @@ function vf(e, t, n, s) {
       W && Object.assign(k, W, _);
     });
     const { fixed: A, flex: H, minWidth: b = o, maxWidth: R = r } = k, I = Ya(k.width || i, i);
-    T.flex = H === !0 ? 1 : typeof H == "number" ? H : 0, T.width = wf(I < 1 ? Math.round(I * s) : I, b, R), v.forEach((O) => O.call(e, T)), d.push(T), p[T.name] = T;
+    E.flex = H === !0 ? 1 : typeof H == "number" ? H : 0, E.width = wf(I < 1 ? Math.round(I * s) : I, b, R), v.forEach((O) => O.call(e, E)), d.push(E), p[E.name] = E;
     const P = A ? A === "left" ? u : f : c;
-    P.list.push(T), P.totalWidth += T.width, P.width = P.totalWidth, T.flex && P.flexList.push(T), typeof k.order == "number" && (m = !0);
-  }), m) {
+    P.list.push(E), P.totalWidth += E.width, P.width = P.totalWidth, E.flex && P.flexList.push(E), typeof k.order == "number" && (y = !0);
+  }), y) {
     const _ = ($, S) => ($.setting.order ?? 0) - (S.setting.order ?? 0);
     d.sort(_), u.list.sort(_), c.list.sort(_), f.list.sort(_);
   }
@@ -6954,8 +6957,8 @@ let ca = class extends z {
     else if (c === "end")
       u = l - h;
     else {
-      const { offsetLeft: p, offsetTop: m } = t;
-      typeof p == "number" && (u = s + p), typeof m == "number" && (u = i + m);
+      const { offsetLeft: p, offsetTop: y } = t;
+      typeof p == "number" && (u = s + p), typeof y == "number" && (u = i + y);
     }
     const d = {};
     return typeof u == "number" && (u = Math.max(0, Math.min(u, l - h)), u !== s && (d.scrollLeft = u)), typeof f == "number" && (f = Math.max(0, Math.min(f, o - r)), f !== i && (d.scrollTop = f)), Object.keys(d).length ? (this.setState(d, () => {
@@ -7063,7 +7066,7 @@ let ca = class extends z {
       "div",
       {
         id: M(this, Pn),
-        className: E(c),
+        className: T(c),
         style: h,
         ref: this.ref,
         tabIndex: -1,
@@ -7274,9 +7277,9 @@ wh = function() {
   u.forEach((b, R) => {
     f[b.id] = b, b.index = R, b.top = b.index * l;
   });
-  const { header: d, footer: p } = t, m = d ? t.headerHeight || l : 0, v = p ? t.footerHeight || l : 0;
+  const { header: d, footer: p } = t, y = d ? t.headerHeight || l : 0, v = p ? t.footerHeight || l : 0;
   let w = t.height, _ = 0;
-  const $ = u.length * l, S = m + v + $;
+  const $ = u.length * l, S = y + v + $;
   if (typeof w == "function" && (w = w.call(this, S)), w === "auto")
     _ = S;
   else if (typeof w == "object")
@@ -7291,7 +7294,7 @@ wh = function() {
     }
   } else
     _ = w;
-  const k = _ - m - v, T = {
+  const k = _ - y - v, E = {
     options: t,
     allRows: h,
     width: i,
@@ -7304,16 +7307,16 @@ wh = function() {
     header: d,
     footer: p,
     footerGenerators: n,
-    headerHeight: m,
+    headerHeight: y,
     footerHeight: v,
     cols: o
-  }, N = (H = t.onLayout) == null ? void 0 : H.call(this, T);
-  N && Object.assign(T, N), e.forEach((b) => {
+  }, N = (H = t.onLayout) == null ? void 0 : H.call(this, E);
+  N && Object.assign(E, N), e.forEach((b) => {
     if (b.onLayout) {
-      const R = b.onLayout.call(this, T);
-      R && Object.assign(T, R);
+      const R = b.onLayout.call(this, E);
+      R && Object.assign(E, R);
     }
-  }), Y(this, It, T);
+  }), Y(this, It, E);
 };
 Jo = /* @__PURE__ */ new WeakSet();
 vh = function() {
@@ -7330,8 +7333,8 @@ vh = function() {
   });
   const { rowsHeightTotal: i, rowsHeight: o, rows: r, rowHeight: a } = e, l = Math.min(Math.max(0, i - o), this.state.scrollTop), h = Math.floor(l / a), c = l + o, u = Math.min(r.length, Math.ceil(c / a)), f = [], { rowDataGetter: d } = this.options;
   for (let p = h; p < u; p++) {
-    const m = r[p];
-    m.lazy && d && (m.data = d([m.id])[0], m.lazy = !1), f.push(m);
+    const y = r[p];
+    y.lazy && d && (y.data = d([y.id])[0], y.lazy = !1), f.push(y);
   }
   return e.visibleRows = f, e.scrollTop = l, e.scrollLeft = n, e;
 };
@@ -7486,7 +7489,7 @@ const Sf = {
   },
   onRenderRow({ props: e, row: t }) {
     if (this.isRowChecked(t.id))
-      return { className: E(e.className, "is-checked") };
+      return { className: T(e.className, "is-checked") };
   },
   onHeaderCellClick(e) {
     const t = e.target;
@@ -7496,7 +7499,7 @@ const Sf = {
     n && (this.toggleCheckRows(n.checked), e.stopPropagation());
   },
   onRowClick(e, { rowID: t }) {
-    const n = y(e.target);
+    const n = m(e.target);
     if (!n.length || n.closest("btn,a,button").length)
       return;
     (n.closest('input[type="checkbox"],.dtable-checkbox').not(".disabled").length || this.options.checkOnClickRow) && this.toggleCheckRows(t, void 0, !0);
@@ -7659,12 +7662,12 @@ const Rf = {
   onRenderRow({ props: e, row: t }) {
     const n = this.getNestedRowInfo(t.id);
     return {
-      className: E(e.className, `is-${n.state}`),
+      className: T(e.className, `is-${n.state}`),
       "data-parent": n.parent
     };
   },
   onRenderHeaderRow({ props: e }) {
-    return e.className = E(e.className, `is-${this.isAllCollapsed() ? "collapsed" : "expanded"}`), e;
+    return e.className = T(e.className, `is-${this.isAllCollapsed() ? "collapsed" : "expanded"}`), e;
   },
   onHeaderCellClick(e) {
     const t = e.target;
@@ -7763,7 +7766,7 @@ function ao(e, { row: t, col: n }) {
     return e;
   const { avatarClass: o = "rounded-full", avatarKey: r = `${n.name}Avatar`, avatarProps: a, avatarCodeKey: l, avatarNameKey: h = `${n.name}Name` } = n.setting, c = (s ? s[h] : i) || e[0], u = {
     size: "xs",
-    className: E(o, a == null ? void 0 : a.className, "flex-none"),
+    className: T(o, a == null ? void 0 : a.className, "flex-none"),
     src: s ? s[r] : void 0,
     text: c,
     code: l ? s ? s[l] : void 0 : i,
@@ -7872,11 +7875,11 @@ class Lh extends ut {
   }
   active(t) {
     const n = this.$element, s = n.find(Qo);
-    let i = t ? y(t).first() : s.filter(`.${Uf}`);
+    let i = t ? m(t).first() : s.filter(`.${Uf}`);
     if (!i.length && (i = n.find(Qo).first(), !i.length))
       return;
     s.removeClass("active"), i.addClass("active");
-    const o = i.attr("href") || i.data("target"), r = y(o);
+    const o = i.attr("href") || i.data("target"), r = m(o);
     r.length && (r.parent().children(".tab-pane").removeClass("active in"), r.addClass("active"), Ja(this, qe) && clearTimeout(Ja(this, qe)), Za(this, qe, setTimeout(() => {
       r.addClass("in"), Za(this, qe, 0);
     }, 10)));
@@ -7884,18 +7887,18 @@ class Lh extends ut {
 }
 qe = /* @__PURE__ */ new WeakMap();
 Lh.NAME = "Tabs";
-y(document).on("click.tabs.zui", Qo, (e) => {
+m(document).on("click.tabs.zui", Qo, (e) => {
   e.preventDefault();
-  const t = y(e.target), n = t.closest(`.${Ff}`);
+  const t = m(e.target), n = t.closest(`.${Ff}`);
   n.length && Lh.ensure(n).active(t);
 });
-y(() => {
-  y(".disabled, [disabled]").on("click", (e) => {
+m(() => {
+  m(".disabled, [disabled]").on("click", (e) => {
     e.preventDefault(), e.stopImmediatePropagation();
   });
 });
 export {
-  y as $,
+  m as $,
   Hl as ActionMenu,
   zl as ActionMenuNested,
   fc as Avatar,
@@ -7931,8 +7934,8 @@ export {
   Qc as Tree,
   pd as Upload,
   Ha as calculateTimestamp,
-  y as cash,
-  E as classes,
+  m as cash,
+  T as classes,
   qf as convertBytes,
   lt as createDate,
   Wl as createPortal,
