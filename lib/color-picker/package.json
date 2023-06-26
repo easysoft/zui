@@ -1,0 +1,35 @@
+{
+    "name": "@zui/color-picker",
+    "version": "0.0.1",
+    "main": "src/main.ts",
+    "browserslist": "",
+    "keywords": [
+        "css",
+        "zui:control"
+    ],
+    "files": [
+        "./src/**/*"
+    ],
+    "dependencies": {
+        "@zui/base": "workspace:*",
+        "@zui/button": "workspace:*",
+        "@zui/core": "workspace:^0.0.1",
+        "@zui/css-icons": "workspace:^0.0.1",
+        "@zui/pick": "workspace:*"
+    },
+    "devDependencies": {
+        "zui-dev": "workspace:*",
+        "@zui/button": "workspace:0.0.1",
+        "@zui/utilities": "workspace:*"
+    },
+    "zui": {
+        "type": "component",
+        "displayName": "颜色选择器",
+        "contributes": {
+            "css": [
+                "class",
+                "var"
+            ]
+        }
+    }
+}

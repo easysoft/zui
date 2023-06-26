@@ -1,0 +1,9 @@
+.color-picker-heading {
+  @apply -flex -flex-row -justify-between -p-2 --mb-1 -items-center -font-bold;
+}
+.color-picker-row {
+  @apply -flex -flex-wrap -gap-2 -flex-row -p-2;
+}
+.color-picker-item {
+  @apply -rounded-full -ring-0 -w-5 -h-5 -px-0.5 -text-canvas;
+}
