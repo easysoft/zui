@@ -12,6 +12,11 @@ export class PickPop<S extends PickState = PickState, P extends PickPopProps<S> 
 
     #container?: HTMLElement;
 
+    constructor(props: P) {
+        super(props);
+        this._handleClick = this._handleClick.bind(this);
+    }
+
     get trigger(): HTMLElement | undefined | null {
         return $(`#pick-${this.props.id}`)[0];
     }
@@ -22,6 +27,19 @@ export class PickPop<S extends PickState = PickState, P extends PickPopProps<S> 
 
     get container(): HTMLElement | undefined {
         return this.#container;
+    }
+
+    protected _handleClick(event: MouseEvent) {
+        const {togglePop} = this.props;
+        const $target = $(event.target as HTMLElement);
+        const $value = $target.closest('[data-pick-value]');
+        if ($value.length) {
+            event.stopPropagation();
+            return togglePop(false, {value: `${$value.dataset('pickValue')}`} as Partial<S>);
+        }
+        if ($target.closest('[data-dismiss="pick"]').length) {
+            return togglePop(false);
+        }
     }
 
     protected _getClass(props: RenderableProps<P>) {
@@ -66,6 +84,7 @@ export class PickPop<S extends PickState = PickState, P extends PickPopProps<S> 
                 className={this._getClass(props)}
                 style={finalStyle}
                 ref={this.#ref}
+                onClick={this._handleClick}
             >
                 {this._renderPop(props)}
             </div>
@@ -78,7 +97,8 @@ export class PickPop<S extends PickState = PickState, P extends PickPopProps<S> 
 
     protected _handleDocClick = (e: MouseEvent) => {
         const {state: {open}, id, togglePop} = this.props;
-        if (open !== 'closing' && !$(e.target as HTMLElement).closest(`#pick-${id},#pick-pop-${id}`).length) {
+        const $target = $(e.target as HTMLElement);
+        if (open !== 'closing' && !$target.closest(`#pick-${id},#pick-pop-${id}`).length) {
             togglePop(false);
         }
     };
@@ -99,10 +119,10 @@ export class PickPop<S extends PickState = PickState, P extends PickPopProps<S> 
         }
 
         this.#layoutWatcher = autoUpdate(trigger, element, () => {
-            const {direction, width} = props;
+            const {placement, width} = props;
             computePosition(trigger, element, {
-                placement: `${direction === 'top' ? 'top' : 'bottom'}-start`,
-                middleware: [direction === 'auto' ? flip() : null, shift(), offset(1)].filter(Boolean),
+                placement: (!placement || placement === 'auto') ? 'bottom-start' : placement,
+                middleware: [placement === 'auto' ? flip() : null, shift(), offset(1)].filter(Boolean),
             }).then(({x, y}) => {
                 $(element).css({
                     left: x,

@@ -1,7 +1,7 @@
 import type {JSX, ComponentChildren} from 'preact';
 import type {ClassNameLike} from '@zui/core';
 import type {PickState, PickerStateChanger} from './pick-state';
-import type {PickPopDirection} from './pick-pop-direction';
+import type {PickPopPlacement} from './pick-pop-placement';
 
 export interface PickPopProps<S extends PickState = PickState> {
     id: string;
@@ -13,7 +13,7 @@ export interface PickPopProps<S extends PickState = PickState> {
     style?: JSX.CSSProperties;
     children?: ComponentChildren;
 
-    direction?: PickPopDirection;
+    placement?: PickPopPlacement;
     container?: string | HTMLElement;
     width?: number | 'auto' | '100%' | (() => number | 'auto');
     height?: number | 'auto' | (() => number | 'auto');

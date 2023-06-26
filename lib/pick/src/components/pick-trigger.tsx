@@ -10,10 +10,15 @@ export class PickTrigger<S extends PickState = PickState, P extends PickTriggerP
 
     protected _handleClick(event: MouseEvent) {
         event.stopPropagation();
-        if ($(event.target as HTMLElement).closest('a,.btn,input').length) {
+        const {togglePop} = this.props;
+        const $target = $(event.target as HTMLElement);
+        if ($target.closest('[data-dismiss="pick"]').length) {
+            return togglePop(false);
+        }
+        if ($target.closest('a,input').length) {
             return;
         }
-        this.props.togglePop(true);
+        togglePop(true);
     }
 
     protected _getClass() {

@@ -14,7 +14,7 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
         popContainer: 'body',
         popClass: 'menu-popup',
         popWidth: '100%',
-        popDirection: 'auto',
+        popPlacement: 'auto',
         popMinWidth: 50,
         popMinHeight: 32,
         popMaxHeight: 300,
@@ -110,7 +110,7 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
             style: props.popStyle,
             changeState: this.changeState,
             togglePop: this.toggle,
-            direction: props.popDirection,
+            placement: props.popPlacement,
 
             container: props.popContainer,
             width: props.popWidth,
