@@ -11,6 +11,8 @@ export class Upload extends Component<UploadOptions> {
 
     private fileMap: Map<string, File>;
 
+    private renameMap: Map<string, string>;
+
     private itemMap: Map<string, Cash>;
 
     private dataTransfer: DataTransfer;
@@ -40,6 +42,7 @@ export class Upload extends Component<UploadOptions> {
     init() {
         const {multiple, defaultFileList, limitSize} = this.options;
         this.fileMap = new Map();
+        this.renameMap = new Map();
         this.itemMap = new Map();
         this.dataTransfer = new DataTransfer();
         this.limitBytes = limitSize ? convertBytes(limitSize) : Number.MAX_VALUE;
@@ -71,8 +74,7 @@ export class Upload extends Component<UploadOptions> {
             return;
         }
 
-        this.$label = $(`<label class="draggable-area col justify-center items-center cursor-pointer block w-full h-16 border border-dashed border-gray" for="${name}"></label>`);
-        this.$label
+        this.$label = $(`<label class="draggable-area col justify-center items-center cursor-pointer block w-full h-16 border border-dashed border-gray" for="${name}"></label>`)
             .append(`<span class="text-primary">${uploadText}</span>`)
             .append($tip);
         this.bindDragEvent();
@@ -124,10 +126,13 @@ export class Upload extends Component<UploadOptions> {
 
     private addFile(file: File) {
         if (!this.options.multiple) {
+            this.renameMap.clear();
             this.fileMap.clear();
             this.dataTransfer.items.clear();
             this.currentBytes = file.size;
         }
+
+        this.renameMap.set(file.name, file.name);
         this.fileMap.set(file.name, file);
         this.dataTransfer.items.add(file);
         this.$input.prop('files', this.dataTransfer.files);
@@ -156,6 +161,7 @@ export class Upload extends Component<UploadOptions> {
         if (file.size > this.limitBytes) {
             return;
         }
+
         this.addFile(file);
         const item = this.createFileItem(file);
         this.itemMap.clear();
@@ -166,6 +172,7 @@ export class Upload extends Component<UploadOptions> {
     private deleteFile(file: File) {
         this.options.onDelete?.(file);
         this.fileMap.delete(file.name);
+
         this.currentBytes -= file.size;
         this.dataTransfer = new DataTransfer();
         this.fileMap.forEach((f) => this.dataTransfer.items.add(f));
@@ -173,7 +180,9 @@ export class Upload extends Component<UploadOptions> {
     }
 
     private deleteFileItem(name: string) {
-        const file = this.fileMap.get(name);
+        const fileName =  this.renameMap.get(name) ?? name;
+        this.renameMap.delete(name);
+        const file = this.fileMap.get(fileName);
         if (!file) {
             return;
         }
@@ -197,6 +206,11 @@ export class Upload extends Component<UploadOptions> {
     }
 
     private renameFileItem(file: File, newName: string) {
+        const fileName =  this.renameMap.get(file.name);
+        this.renameMap.set(file.name, newName);
+        if (fileName) {
+            file = this.fileMap.get(fileName) ?? file;
+        }
         const item = this.itemMap.get(file.name);
         if (!item) {
             return;
@@ -214,7 +228,7 @@ export class Upload extends Component<UploadOptions> {
         return $('<li class="file-item my-1 flex items-center gap-2"></li>')
             .append(showIcon ? this.fileIcon() : null)
             .append(this.fileInfo(file))
-            .append(this.renameInput(file));
+            .append(this.createRenameContainer(file));
     }
 
     private fileIcon() {
@@ -261,9 +275,9 @@ export class Upload extends Component<UploadOptions> {
         return $fileInfo;
     }
 
-    private renameInput(file: File) {
+    private createRenameContainer(file: File) {
         const {confirmText, cancelText} = this.options;
-        const $renameInput = $('<div class="input-group hidden"></div>');
+        const $renameContainer = $('<div class="input-group hidden"></div>');
         const $input = $('<input />')
             .addClass('form-control')
             .prop('type', 'text')
@@ -271,9 +285,9 @@ export class Upload extends Component<UploadOptions> {
             .prop('defaultValue', file.name)
             .on('keydown', (e: KeyboardEvent) => {
                 if (e.key === 'Enter') {
-                    $renameInput.addClass('hidden');
+                    $renameContainer.addClass('hidden');
                     this.renameFileItem(file, $input.val() as string);
-                    $renameInput
+                    $renameContainer
                         .closest('.file-item')
                         .find('.file-info.hidden')
                         .removeClass('hidden')
@@ -281,7 +295,7 @@ export class Upload extends Component<UploadOptions> {
                         .html($input.val() as string);
                 } else if (e.key === 'Escape') {
                     $input.val(file.name);
-                    $renameInput
+                    $renameContainer
                         .addClass('hidden')
                         .closest('.file-item')
                         .find('.file-info.hidden')
@@ -293,9 +307,9 @@ export class Upload extends Component<UploadOptions> {
             .prop('type', 'button')
             .html(confirmText!)
             .on('click', () => {
-                $renameInput.addClass('hidden');
+                $renameContainer.addClass('hidden');
                 this.renameFileItem(file, $input.val() as string);
-                $renameInput
+                $renameContainer
                     .closest('.file-item')
                     .find('.file-info.hidden')
                     .removeClass('hidden')
@@ -308,7 +322,7 @@ export class Upload extends Component<UploadOptions> {
             .html(cancelText!)
             .on('click', () => {
                 $input.val(file.name);
-                $renameInput
+                $renameContainer
                     .addClass('hidden')
                     .closest('.file-item')
                     .find('.file-info.hidden')
@@ -318,7 +332,7 @@ export class Upload extends Component<UploadOptions> {
             .append($submitBtn)
             .append($cancelBtn);
 
-        return $renameInput
+        return $renameContainer
             .append($input)
             .append($groupBtn);
     }
