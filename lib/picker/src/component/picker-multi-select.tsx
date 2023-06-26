@@ -3,6 +3,7 @@ import '@zui/css-icons/src/icons/caret.css';
 import '@zui/css-icons/src/icons/close.css';
 import {PickTrigger} from '@zui/pick/src/components';
 import {PickerItemBasic, PickerSelectProps, PickerState} from '../types';
+import {PickerSearch} from './picker-search';
 
 export class PickerMultiSelect extends PickTrigger<PickerState, PickerSelectProps> {
     #handleDeselectBtnClick = (event: MouseEvent) => {
@@ -12,6 +13,14 @@ export class PickerMultiSelect extends PickTrigger<PickerState, PickerSelectProp
             onDeselect(value);
         }
         event.stopPropagation();
+    };
+
+    #handleSearch = (search: string) => {
+        this.props.changeState({search});
+    };
+
+    #handleSearchClear = () => {
+        this.props.togglePop(true, {search: ''} as Partial<PickerState>);
     };
 
     protected _getClass() {
@@ -30,14 +39,29 @@ export class PickerMultiSelect extends PickTrigger<PickerState, PickerSelectProp
         );
     };
 
+    protected _renderSearch() {
+        const {state: {search}, searchHint} = this.props;
+        return (
+            <PickerSearch
+                inline
+                defaultSearch={search}
+                onSearch={this.#handleSearch}
+                onClear={this.#handleSearchClear}
+                placeholder={searchHint}
+            />
+        );
+    }
+
     protected _renderTrigger() {
-        const {state: {selections = []}, placeholder, children} = this.props;
-        if (!selections.length) {
+        const {state: {selections = [], open}, search, placeholder, children} = this.props;
+        const showSearch = open && search;
+        if (!showSearch && !selections.length) {
             return <span key="selections" className="picker-select-placeholder">{placeholder}</span>;
         }
         return [
             <div key="selections" className="picker-multi-selections">
                 {selections.map(this._renderSelection)}
+                {showSearch ? this._renderSearch() : null}
             </div>,
             children,
             <span key="caret" class="caret"></span>,
