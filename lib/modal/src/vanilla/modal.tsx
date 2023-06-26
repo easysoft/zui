@@ -122,6 +122,11 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
         return modal!;
     }
 
+    get $emitter() {
+        const modal = this.#modal;
+        return modal ? $(modal) : this.$element;
+    }
+
     afterInit() {
         super.afterInit();
         this.on('hidden', () => {
