@@ -1,4 +1,4 @@
-import {ComponentChildren} from 'preact';
+import {ComponentChildren, createRef} from 'preact';
 import {classes} from '@zui/core';
 import {PickTrigger} from '@zui/pick/src/components';
 import {PickerSearch} from './picker-search';
@@ -6,6 +6,8 @@ import {PickerSelectProps, PickerState} from '../types';
 import '@zui/css-icons/src/icons/caret.css';
 
 export class PickerSingleSelect extends PickTrigger<PickerState, PickerSelectProps> {
+    #search = createRef<PickerSearch>();
+
     #handleDeselectBtnClick = (event: MouseEvent) => {
         this.props.onClear();
         this.props.togglePop(true, {search: ''});
@@ -34,6 +36,11 @@ export class PickerSingleSelect extends PickTrigger<PickerState, PickerSelectPro
         return placeholder;
     }
 
+    protected _handleClick(event: MouseEvent): void {
+        super._handleClick(event);
+        this.#search.current?.focus();
+    }
+
     protected _getClass() {
         return classes(
             super._getClass(),
@@ -45,6 +52,7 @@ export class PickerSingleSelect extends PickTrigger<PickerState, PickerSelectPro
         const {state: {search}} = this.props;
         return (
             <PickerSearch
+                ref={this.#search}
                 defaultSearch={search}
                 onSearch={this.#handleSearch}
                 onClear={this.#handleSearchClear}

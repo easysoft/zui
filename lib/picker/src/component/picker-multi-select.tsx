@@ -1,4 +1,4 @@
-import {classes, $} from '@zui/core';
+import {classes, $, createRef} from '@zui/core';
 import '@zui/css-icons/src/icons/caret.css';
 import '@zui/css-icons/src/icons/close.css';
 import {PickTrigger} from '@zui/pick/src/components';
@@ -6,6 +6,8 @@ import {PickerItemBasic, PickerSelectProps, PickerState} from '../types';
 import {PickerSearch} from './picker-search';
 
 export class PickerMultiSelect extends PickTrigger<PickerState, PickerSelectProps> {
+    #search = createRef<PickerSearch>();
+
     #handleDeselectBtnClick = (event: MouseEvent) => {
         const {onDeselect, state: {selections}} = this.props;
         const value = $(event.target as HTMLElement).closest('.picker-deselect-btn').dataset('value') as string;
@@ -22,6 +24,11 @@ export class PickerMultiSelect extends PickTrigger<PickerState, PickerSelectProp
     #handleSearchClear = () => {
         this.props.togglePop(true, {search: ''} as Partial<PickerState>);
     };
+
+    protected _handleClick(event: MouseEvent): void {
+        super._handleClick(event);
+        this.#search.current?.focus();
+    }
 
     protected _getClass() {
         return classes(
@@ -44,6 +51,7 @@ export class PickerMultiSelect extends PickTrigger<PickerState, PickerSelectProp
         return (
             <PickerSearch
                 inline
+                ref={this.#search}
                 defaultSearch={search}
                 onSearch={this.#handleSearch}
                 onClear={this.#handleSearchClear}
