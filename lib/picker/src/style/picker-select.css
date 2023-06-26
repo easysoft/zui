@@ -34,16 +34,19 @@
 .picker-multi-selection {
   @apply -flex -items-center -border -bg-surface -pl-2 -rounded-full;
 }
+.picker-multi-selection > .text {
+  @apply -max-w-[180px] -whitespace-nowrap -overflow-clip;
+}
 
-.picker-menu-search-input {
-  @apply -pr-8 -h-7;
+.picker-search-input {
+  @apply -pr-8 -h-7 -px-0 -border-transparent !-ring-0 -outline-0;
 }
-.picker-menu-search {
-  @apply -flex-none -relative -m-2;
+.picker-search {
+  @apply -flex-none -relative -w-full;
 }
-.picker-menu-search > .magnifier {
-  @apply -absolute -right-2 -top-2 -opacity-50;
+.picker-search > .magnifier {
+  @apply -absolute -right-0 -top-2 -opacity-50;
 }
-.picker-menu-search-clear.btn {
-  @apply -absolute -right-2 -top-1 -w-5 -h-5 -cursor-pointer;
+.picker-search-clear.btn {
+  @apply -absolute -right-0 -top-1 -w-5 -h-5 -cursor-pointer;
 }

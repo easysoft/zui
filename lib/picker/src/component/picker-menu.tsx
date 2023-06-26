@@ -112,7 +112,7 @@ export class PickerMenu extends PickPop<PickerState, PickerMenuProps> {
             onToggleValue(value);
         } else {
             onSelect(value);
-            togglePop(false);
+            togglePop(false, {search: ''});
         }
     };
 

@@ -12,6 +12,8 @@ export interface PickerOptions extends PickOptions<PickerState> {
     menu?: MenuOptions;
     items: PickerItemOptions[] | PickerItemsFetcher;
     searchDelay?: number;
+    search?: boolean | number;
+    searchHint?: string;
 
     onDeselect?: (values: string | string[]) => false | void;
     onSelect?: (values: string | string[]) => false | void;

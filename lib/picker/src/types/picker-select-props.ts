@@ -4,6 +4,8 @@ import type {PickerState} from './picker-state';
 export interface PickerSelectProps extends PickTriggerProps<PickerState> {
     placeholder?: string;
     multiple?: boolean | number;
+    search?: boolean | number;
+    searchHint?: string;
 
     onSelect: (values: string | string[]) => void;
     onDeselect: (values: string | string[]) => void;
