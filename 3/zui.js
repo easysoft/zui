@@ -3408,9 +3408,9 @@ class Qd extends lt {
     this.fileMap = /* @__PURE__ */ new Map(), this.renameMap = /* @__PURE__ */ new Map(), this.itemMap = /* @__PURE__ */ new Map(), this.dataTransfer = new DataTransfer(), this.limitBytes = s ? ld(s) : Number.MAX_VALUE, this.currentBytes = 0, t || (this.options.limitCount = 1), this.$element.addClass("upload"), this.initFileInputCash(), this.initUploadCash(), n && this.addFileItem(n);
   }
   initUploadCash() {
-    const { name: t, uploadText: n, listPosition: s, limitSize: i, btnClass: r, tipText: o, draggable: a } = this.options;
+    const { name: t, uploadText: n, listPosition: s, limitSize: i, btnClass: r, tip: o, draggable: a } = this.options;
     this.$list = m('<div class="file-list py-1"></div>');
-    const l = i ? m(`<span class="upload-tip">${o == null ? void 0 : o.replace("%s", i)}</span>`) : null;
+    const l = i ? m(`<span class="upload-tip">${o}</span>`) : null;
     if (!a) {
       this.$label = m(`<label class="btn ${r}" for="${t}">${n}</label>`);
       const c = s === "bottom" ? [this.$label, l, this.$list] : [this.$list, this.$label, l];
@@ -3446,22 +3446,34 @@ class Qd extends lt {
   addFile(t) {
     this.options.multiple || (this.renameMap.clear(), this.fileMap.clear(), this.dataTransfer.items.clear(), this.currentBytes = t.size), this.renameMap.set(t.name, t.name), this.fileMap.set(t.name, t), this.dataTransfer.items.add(t), this.$input.prop("files", this.dataTransfer.files), this.currentBytes += t.size;
   }
+  renameDuplicatedFile(t) {
+    if (!this.fileMap.has(t.name))
+      return t;
+    const n = t.name.lastIndexOf(".");
+    if (n === -1)
+      return this.renameDuplicatedFile(new File([t], `${t.name}(1)`));
+    const s = t.name.substring(0, n), i = t.name.substring(n);
+    return this.renameDuplicatedFile(new File([t], `${s}(1)${i}`));
+  }
   addFileItem(t) {
-    const { multiple: n, limitCount: s } = this.options;
+    const { multiple: n, limitCount: s, exceededSizeHint: i, exceededCountHint: r } = this.options;
     if (n) {
-      for (const o of t) {
-        if (console.log(this.limitBytes, this.currentBytes, o.size), s && this.fileMap.size >= s || this.currentBytes + o.size > this.limitBytes)
-          return;
-        const a = this.createFileItem(o);
-        this.itemMap.set(o.name, a), this.$list.append(a);
+      for (let l of t) {
+        if (s && this.fileMap.size >= s)
+          return alert(i);
+        if (this.currentBytes + l.size > this.limitBytes)
+          return alert(r);
+        l = this.renameDuplicatedFile(l);
+        const h = this.createFileItem(l);
+        this.itemMap.set(l.name, h), this.$list.append(h);
       }
       return;
     }
-    const i = t[0];
-    if (i.size > this.limitBytes)
+    const o = this.renameDuplicatedFile(t[0]);
+    if (o.size > this.limitBytes)
       return;
-    const r = this.createFileItem(i);
-    this.itemMap.clear(), this.itemMap.set(i.name, r), this.$list.empty().append(r);
+    const a = this.createFileItem(o);
+    this.itemMap.clear(), this.itemMap.set(o.name, a), this.$list.empty().append(a);
   }
   deleteFileItem(t) {
     var i, r, o;
@@ -3498,14 +3510,21 @@ class Qd extends lt {
     ), i;
   }
   createRenameContainer(t) {
-    const { confirmText: n, cancelText: s } = this.options, i = m('<div class="input-group hidden"></div>'), r = m("<input />").addClass("form-control").prop("type", "text").prop("autofocus", !0).prop("defaultValue", t.name).on("keydown", (h) => {
-      h.key === "Enter" ? (this.renameFileItem(t, r.val()), i.addClass("hidden").closest(".file-item").find(".file-info.hidden").removeClass("hidden").find(".file-name").html(r.val())) : h.key === "Escape" && (r.val(t.name), i.addClass("hidden").closest(".file-item").find(".file-info.hidden").removeClass("hidden"));
-    }), o = m("<button />").addClass("btn rename-confirm-btn").prop("type", "button").html(n).on("click", () => {
-      this.renameFileItem(t, r.val()), i.addClass("hidden").closest(".file-item").find(".file-info.hidden").removeClass("hidden").find(".file-name").html(r.val());
-    }), a = m("<button />").prop("type", "button").addClass("btn rename-cancel-btn").html(s).on("click", () => {
-      r.val(t.name), i.addClass("hidden").closest(".file-item").find(".file-info.hidden").removeClass("hidden");
-    }), l = m('<div class="btn-group"></div').append(o).append(a);
-    return i.append(r).append(l);
+    const { confirmText: n, cancelText: s, duplicatedHint: i } = this.options, r = m('<div class="input-group hidden"></div>'), o = m("<input />").addClass("form-control").prop("type", "text").prop("autofocus", !0).prop("defaultValue", t.name).on("keydown", (c) => {
+      if (c.key === "Enter") {
+        if (this.fileMap.has(o.val()))
+          return alert(i);
+        this.renameFileItem(t, o.val()), r.addClass("hidden").closest(".file-item").find(".file-info.hidden").removeClass("hidden").find(".file-name").html(o.val());
+      } else
+        c.key === "Escape" && (o.val(t.name), r.addClass("hidden").closest(".file-item").find(".file-info.hidden").removeClass("hidden"));
+    }), a = m("<button />").addClass("btn primary rename-confirm-btn").prop("type", "button").html(n).on("click", () => {
+      if (this.fileMap.has(o.val()))
+        return alert(i);
+      this.renameFileItem(t, o.val()), r.addClass("hidden").closest(".file-item").find(".file-info.hidden").removeClass("hidden").find(".file-name").html(o.val());
+    }), l = m("<button />").prop("type", "button").addClass("btn rename-cancel-btn").html(s).on("click", () => {
+      o.val(t.name), r.addClass("hidden").closest(".file-item").find(".file-info.hidden").removeClass("hidden");
+    }), h = m('<div class="btn-group"></div').append(a).append(l);
+    return r.append(o).append(h);
   }
 }
 Qd.DEFAULT = {
@@ -3514,7 +3533,6 @@ Qd.DEFAULT = {
   deleteText: "删除",
   confirmText: "确定",
   cancelText: "取消",
-  tipText: "（不超过 %s）",
   renameBtn: !0,
   deleteBtn: !0,
   showIcon: !0,
