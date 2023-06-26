@@ -517,6 +517,7 @@ export default [
             "workspace": true,
             "sourceType": "build-in",
             "name": "progress-circle",
+            "wip": true,
             "order": 2010000014,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/progress-circle/package.json"
         }
