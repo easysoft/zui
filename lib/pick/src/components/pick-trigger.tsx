@@ -4,28 +4,20 @@ import type {PickState, PickTriggerProps} from '../types';
 
 export class PickTrigger<S extends PickState = PickState, P extends PickTriggerProps<S> = PickTriggerProps<S>> extends Component<P> {
     protected _handleClick = (event: MouseEvent) => {
-        if ($(event.target as HTMLElement).closest('a,.btn').length) {
+        event.stopPropagation();
+        if ($(event.target as HTMLElement).closest('a,.btn,input').length) {
             return;
         }
         this.props.togglePop();
     };
 
-    protected _handleFocus = () => {
-        this.props.changeState({focus: true} as Partial<S>);
-    };
-
-    protected _handleBlur = () => {
-        this.props.changeState({focus: false} as Partial<S>);
-    };
-
     protected _getClass() {
         const {state, className} = this.props;
-        const {open: opened, disabled, focus: focused} = state;
+        const {open: opened, disabled} = state;
         return classes(
             'pick',
             className,
-            opened && 'is-open',
-            (focused || opened) && 'focus',
+            opened && 'is-open focus',
             disabled && 'disabled',
         );
     }
@@ -52,8 +44,6 @@ export class PickTrigger<S extends PickState = PickState, P extends PickTriggerP
                 style={style}
                 tabIndex={-1}
                 onClick={this._handleClick}
-                onFocus={this._handleFocus}
-                onBlur={this._handleBlur}
             >
                 {this._renderTrigger()}
                 {this._renderValue()}

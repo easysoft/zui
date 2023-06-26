@@ -1,7 +1,6 @@
 export interface PickState {
     value?: string;
     open: boolean | 'opening' | 'closing';
-    focus: boolean;
     disabled: boolean;
 }
 
