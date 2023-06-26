@@ -120,12 +120,12 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    protected _renderTrigger(props: RenderableProps<O>, state: Readonly<S>): ComponentChildren {
+    protected _renderTrigger(_props: RenderableProps<O>, _state: Readonly<S>): ComponentChildren {
         return null;
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    protected _renderPop(props: RenderableProps<O>, state: Readonly<S>): ComponentChildren {
+    protected _renderPop(_props: RenderableProps<O>, _state: Readonly<S>): ComponentChildren {
         return null;
     }
 

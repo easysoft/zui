@@ -24,7 +24,7 @@ export class PickerMultiSelect extends PickTrigger<PickerState, PickerSelectProp
     protected _renderSelection = (selection: PickerItemBasic) => {
         return (
             <div className="picker-multi-selection" key={selection.value}>
-                {selection.text ?? selection.value}
+                <span className="text">{selection.text ?? selection.value}</span>
                 <div className="picker-deselect-btn btn size-xs ghost" onClick={this.#handleDeselectBtnClick} data-value={selection.value}><span className="close"></span></div>
             </div>
         );

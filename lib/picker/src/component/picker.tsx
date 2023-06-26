@@ -161,7 +161,7 @@ export class Picker extends Pick<PickerState, PickerOptions> {
         this.#updateTimer = window.setTimeout(() => {
             this.#updateTimer = 0;
             this.update();
-        }, 100);
+        }, 50);
     }
 
     componentDidUpdate(previousProps: Readonly<PickerOptions>, previousState: Readonly<PickerState>): void {
