@@ -30,4 +30,18 @@ onPageLoad(() => {
         defaultFileList: [file1, file2],
         limitSize: '50MB',
     });
+
+    const uploadElm3 = document.querySelector('#example3') as HTMLElement | null;
+    if (!uploadElm3) {
+        return;
+    }
+
+    new Upload(uploadElm3, {
+        name: 'upload3',
+        multiple: true,
+        deleteBtn: true,
+        renameBtn: true,
+        limitSize: '50MB',
+        draggable: true,
+    });
 });
