@@ -33,8 +33,8 @@ const file2 = new File(['file2'], 'file2.txt', {
 const upload2 = new Upload(uploadElm2, {
     name: 'upload2',
     multiple: true,
-    showDeleteBtn: true,
-    showRenameBtn: true,
+    deleteBtn: true,
+    renameBtn: true,
     defaultFileList: [file1, file2],
 });
 ```
@@ -50,10 +50,10 @@ const upload2 = new Upload(uploadElm2, {
 ```js
 const uploadElm3 = document.querySelector('#example3');
 const upload3 = new Upload(uploadElm3, {
-    draggable: true,
     name: 'upload3',
     multiple: true,
-    showDeleteBtn: true,
-    showRenameBtn: true,
+    deleteBtn: true,
+    renameBtn: true,
+    draggable: true,
 });
 ```
