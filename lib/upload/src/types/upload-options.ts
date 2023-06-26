@@ -17,6 +17,7 @@ export type UploadOptions = {
     onChange: (files: File[]) => void;
     onDelete: (file: File) => void;
     onRename: (newName: string, oldName: string) => void;
+    draggable: boolean;
     limitCount: number;
     accept: string;
     defaultFileList: File[];

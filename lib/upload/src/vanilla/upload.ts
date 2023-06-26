@@ -34,6 +34,7 @@ export class Upload extends Component<UploadOptions> {
         limitSize: false,
         icon: 'file-o',
         btnClass: '',
+        draggable: false,
     };
 
     init() {
@@ -48,6 +49,7 @@ export class Upload extends Component<UploadOptions> {
             this.options.limitCount = 1;
         }
 
+        this.$element.addClass('upload');
         this.initInputCash();
         this.initUploadCash();
         if (defaultFileList) {
@@ -56,14 +58,43 @@ export class Upload extends Component<UploadOptions> {
     }
 
     private initUploadCash() {
-        const {name, uploadText, listPosition, limitSize, btnClass, tipText} = this.options;
-        const $tip = limitSize ? $(`<span class="upload-tip">${tipText?.replace('%s', limitSize)}</span>`) : null;
-        this.$label = $(`<label class="btn ${btnClass}" for="${name}">${uploadText}</label>`);
+        const {name, uploadText, listPosition, limitSize, btnClass, tipText, draggable} = this.options;
         this.$list = $('<div class="file-list py-1"></div>');
+        const $tip = limitSize ? $(`<span class="upload-tip">${tipText?.replace('%s', limitSize)}</span>`) : null;
+
+        if (!draggable) {
+            this.$label = $(`<label class="btn ${btnClass}" for="${name}">${uploadText}</label>`);
+            const $children = listPosition === 'bottom'
+                ? [this.$label, $tip, this.$list]
+                : [this.$list, this.$label, $tip];
+            this.$element.append(this.$input, ...$children);
+            return;
+        }
+
+        this.$label = $(`<label class="draggable-area col justify-center items-center cursor-pointer block w-full h-16 border border-dashed border-gray" for="${name}"></label>`);
+        this.$label
+            .append(`<span class="text-primary">${uploadText}</span>`)
+            .append($tip);
+        this.bindDragEvent();
         const $children = listPosition === 'bottom'
-            ? [this.$label, $tip, this.$list]
-            : [this.$list, this.$label, $tip];
+            ? [this.$label, this.$list]
+            : [this.$list, this.$label];
         this.$element.append(this.$input, ...$children);
+    }
+
+    private bindDragEvent() {
+        this.$label
+            .on('dragover', (e) => {
+                e.preventDefault();
+            })
+            .on('dragleave', (e) => {
+                e.preventDefault();
+            })
+            .on('drop', (e) => {
+                e.preventDefault();
+                const files = Array.from(e.dataTransfer?.files ?? []) as File[];
+                this.addFileItem(files);
+            });
     }
 
     private initInputCash() {
@@ -204,12 +235,18 @@ export class Upload extends Component<UploadOptions> {
                 $('<span />')
                     .addClass('btn size-sm rounded-sm text-primary canvas file-action file-rename')
                     .html(renameText!)
-                    .on('click', () => {
+                    .on('click', (e) => {
                         $fileInfo
                             .addClass('hidden')
                             .closest('.file-item')
                             .find('.input-group.hidden')
                             .removeClass('hidden');
+                        const input = $(e.target).closest('li').find('input')[0] as HTMLInputElement;
+                        input.focus();
+                        if (input.value.lastIndexOf('.') !== -1) {
+                            input.setSelectionRange(0, input.value.lastIndexOf('.'));
+                        }
+
                     }),
             );
         }
@@ -231,7 +268,26 @@ export class Upload extends Component<UploadOptions> {
             .addClass('form-control')
             .prop('type', 'text')
             .prop('autofocus', true)
-            .prop('defaultValue', file.name);
+            .prop('defaultValue', file.name)
+            .on('keydown', (e: KeyboardEvent) => {
+                if (e.key === 'Enter') {
+                    $renameInput.addClass('hidden');
+                    this.renameFileItem(file, $input.val() as string);
+                    $renameInput
+                        .closest('.file-item')
+                        .find('.file-info.hidden')
+                        .removeClass('hidden')
+                        .find('.file-name')
+                        .html($input.val() as string);
+                } else if (e.key === 'Escape') {
+                    $input.val(file.name);
+                    $renameInput
+                        .addClass('hidden')
+                        .closest('.file-item')
+                        .find('.file-info.hidden')
+                        .removeClass('hidden');
+                }
+            });
         const $submitBtn = $('<button />')
             .addClass('btn rename-confirm-btn')
             .prop('type', 'button')
