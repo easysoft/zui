@@ -158,6 +158,13 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
     }
 
     /**
+     * Get the component event emitter.
+     */
+    get $emitter() {
+        return this.$element;
+    }
+
+    /**
      * Initialize the component.
      */
     init() {}
@@ -226,8 +233,8 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
      * @param args   The event arguments.
      */
     emit<N extends ComponentEventName<E>>(event: N, ...args: ComponentEventArgs<E, N>): Event {
-        const eventObject = $.Event(this.#wrapEvent(event));
-        this.$element.trigger(eventObject, [this, ...args]);
+        const eventObject = $.Event(this._wrapEvent(event));
+        this.$emitter.trigger(eventObject, [this, ...args]);
         return eventObject as unknown as Event;
     }
 
@@ -238,7 +245,7 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
      * @param callback  The event callback.
      */
     on<N extends ComponentEventName<E>>(event: N, callback: ComponentEventCallback<E, O, N>) {
-        this.$element.on(this.#wrapEvent(event), callback);
+        this.$element.on(this._wrapEvent(event), callback);
     }
 
     /**
@@ -248,7 +255,7 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
      * @param callback  The event callback.
      */
     one<N extends ComponentEventName<E>>(event: N, callback: ComponentEventCallback<E, O, N>) {
-        this.$element.one(this.#wrapEvent(event), callback);
+        this.$element.one(this._wrapEvent(event), callback);
     }
 
     /**
@@ -258,7 +265,7 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
      */
     off<N extends ComponentEventName<E>>(event: N, callback?: ComponentEventCallback<E, O, N>) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        this.$element.off(this.#wrapEvent(event), callback as any);
+        this.$element.off(this._wrapEvent(event), callback as any);
     }
 
     /**
@@ -304,7 +311,7 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
      * @param names The event names.
      * @returns     The wrapped event names.
      */
-    #wrapEvent(names: string) {
+    protected _wrapEvent(names: string) {
         return names.split(' ').map(name => name.includes('.') ? name : `${name}${this.namespace}`).join(' ');
     }
 
