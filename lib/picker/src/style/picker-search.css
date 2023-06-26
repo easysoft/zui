@@ -1,0 +1,22 @@
+.picker-search-input {
+  @apply -pr-8 -h-7 -px-0 -border-transparent !-ring-0 -outline-0
+}
+.picker-search {
+  @apply -flex-none -relative -w-full;
+}
+.picker-search > .magnifier {
+  @apply -absolute -right-0 -top-2 -opacity-50;
+}
+.picker-search-clear.btn {
+  @apply -absolute -right-0 -top-1 -w-5 -h-5 -cursor-pointer;
+}
+
+.picker-search.is-inline {
+  @apply -w-16 -min-w-[64px];
+}
+.is-inline > .picker-search-input {
+  @apply -min-w-[64px] -px-1 -h-5;
+}
+.picker-search-measure {
+  @apply -absolute -top-0 -left-0 -h-0 -overflow-hidden -whitespace-nowrap;
+}
