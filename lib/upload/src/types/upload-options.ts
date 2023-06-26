@@ -12,7 +12,7 @@ export type UploadOptions = {
     deleteText: string;
     confirmText: string;
     cancelText: string;
-    tipText: string;
+    tip: string;
     btnClass: string;
     onChange: (files: File[]) => void;
     onDelete: (file: File) => void;
@@ -22,4 +22,7 @@ export type UploadOptions = {
     accept: string;
     defaultFileList: File[];
     limitSize: `${number}${'B' | 'KB' | 'MB' | 'GB'}` | false;
+    duplicatedHint: string;
+    exceededSizeHint: string;
+    exceededCountHint: string;
 }>;

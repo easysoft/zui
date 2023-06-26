@@ -27,7 +27,6 @@ export class Upload extends Component<UploadOptions> {
         deleteText: '删除',
         confirmText: '确定',
         cancelText: '取消',
-        tipText: '（不超过 %s）',
         renameBtn: true,
         deleteBtn: true,
         showIcon: true,
@@ -61,9 +60,9 @@ export class Upload extends Component<UploadOptions> {
     }
 
     private initUploadCash() {
-        const {name, uploadText, listPosition, limitSize, btnClass, tipText, draggable} = this.options;
+        const {name, uploadText, listPosition, limitSize, btnClass, tip, draggable} = this.options;
         this.$list = $('<div class="file-list py-1"></div>');
-        const $tip = limitSize ? $(`<span class="upload-tip">${tipText?.replace('%s', limitSize)}</span>`) : null;
+        const $tip = limitSize ? $(`<span class="upload-tip">${tip}</span>`) : null;
 
         if (!draggable) {
             this.$label = $(`<label class="btn ${btnClass}" for="${name}">${uploadText}</label>`);
@@ -149,17 +148,32 @@ export class Upload extends Component<UploadOptions> {
         this.currentBytes += file.size;
     }
 
+    private renameDuplicatedFile(file: File) {
+        if (!this.fileMap.has(file.name)) {
+            return file;
+        }
+
+        const pos = file.name.lastIndexOf('.');
+        if (pos === -1) {
+            return this.renameDuplicatedFile(new File([file], `${file.name}(1)`));
+        }
+
+        const fileName = file.name.substring(0, pos);
+        const fileExt = file.name.substring(pos);
+        return this.renameDuplicatedFile(new File([file], `${fileName}(1)${fileExt}`));
+    }
+
     private addFileItem(files: File[]) {
-        const {multiple, limitCount} = this.options;
+        const {multiple, limitCount, exceededSizeHint, exceededCountHint} = this.options;
         if (multiple) {
-            for (const file of files) {
-                console.log(this.limitBytes, this.currentBytes, file.size);
+            for (let file of files) {
                 if (limitCount && this.fileMap.size >= limitCount) {
-                    return;
+                    return alert(exceededSizeHint);
                 }
                 if (this.currentBytes + file.size > this.limitBytes) {
-                    return;
+                    return alert(exceededCountHint);
                 }
+                file = this.renameDuplicatedFile(file);
                 const item = this.createFileItem(file);
                 this.itemMap.set(file.name, item);
                 this.$list.append(item);
@@ -167,7 +181,7 @@ export class Upload extends Component<UploadOptions> {
             return;
         }
 
-        const file = files[0];
+        const file = this.renameDuplicatedFile(files[0]);
         if (file.size > this.limitBytes) {
             return;
         }
@@ -279,7 +293,7 @@ export class Upload extends Component<UploadOptions> {
     }
 
     private createRenameContainer(file: File) {
-        const {confirmText, cancelText} = this.options;
+        const {confirmText, cancelText, duplicatedHint} = this.options;
         const $renameContainer = $('<div class="input-group hidden"></div>');
         const $input = $('<input />')
             .addClass('form-control')
@@ -288,6 +302,9 @@ export class Upload extends Component<UploadOptions> {
             .prop('defaultValue', file.name)
             .on('keydown', (e: KeyboardEvent) => {
                 if (e.key === 'Enter') {
+                    if (this.fileMap.has($input.val() as string)) {
+                        return alert(duplicatedHint);
+                    }
                     this.renameFileItem(file, $input.val() as string);
                     $renameContainer
                         .addClass('hidden')
@@ -306,10 +323,13 @@ export class Upload extends Component<UploadOptions> {
                 }
             });
         const $submitBtn = $('<button />')
-            .addClass('btn rename-confirm-btn')
+            .addClass('btn primary rename-confirm-btn')
             .prop('type', 'button')
             .html(confirmText!)
             .on('click', () => {
+                if (this.fileMap.has($input.val() as string)) {
+                    return alert(duplicatedHint);
+                }
                 this.renameFileItem(file, $input.val() as string);
                 $renameContainer
                     .addClass('hidden')
