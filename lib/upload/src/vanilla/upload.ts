@@ -53,7 +53,7 @@ export class Upload extends Component<UploadOptions> {
         }
 
         this.$element.addClass('upload');
-        this.initInputCash();
+        this.initFileInputCash();
         this.initUploadCash();
         if (defaultFileList) {
             this.addFileItem(defaultFileList);
@@ -88,18 +88,28 @@ export class Upload extends Component<UploadOptions> {
         this.$label
             .on('dragover', (e) => {
                 e.preventDefault();
+                console.log('dragover');
+                if (!this.$label.hasClass('border-primary')) {
+                    this.$label.removeClass('border-gray');
+                    this.$label.addClass('border-primary');
+                }
             })
             .on('dragleave', (e) => {
                 e.preventDefault();
+                this.$label.removeClass('border-primary');
+                this.$label.addClass('border-gray');
             })
             .on('drop', (e) => {
                 e.preventDefault();
+                this.$label.removeClass('border-primary');
+                this.$label.addClass('border-gray');
                 const files = Array.from(e.dataTransfer?.files ?? []) as File[];
+                console.log(e.dataTransfer.files);
                 this.addFileItem(files);
             });
     }
 
-    private initInputCash() {
+    private initFileInputCash() {
         const {name, multiple, accept, onChange} = this.options;
 
         this.$input = $('<input />')
@@ -143,13 +153,13 @@ export class Upload extends Component<UploadOptions> {
         const {multiple, limitCount} = this.options;
         if (multiple) {
             for (const file of files) {
+                console.log(this.limitBytes, this.currentBytes, file.size);
                 if (limitCount && this.fileMap.size >= limitCount) {
                     return;
                 }
                 if (this.currentBytes + file.size > this.limitBytes) {
                     return;
                 }
-                this.addFile(file);
                 const item = this.createFileItem(file);
                 this.itemMap.set(file.name, item);
                 this.$list.append(item);
@@ -162,21 +172,10 @@ export class Upload extends Component<UploadOptions> {
             return;
         }
 
-        this.addFile(file);
         const item = this.createFileItem(file);
         this.itemMap.clear();
         this.itemMap.set(file.name, item);
         this.$list.empty().append(item);
-    }
-
-    private deleteFile(file: File) {
-        this.options.onDelete?.(file);
-        this.fileMap.delete(file.name);
-
-        this.currentBytes -= file.size;
-        this.dataTransfer = new DataTransfer();
-        this.fileMap.forEach((f) => this.dataTransfer.items.add(f));
-        this.$input.prop('files', this.dataTransfer.files);
     }
 
     private deleteFileItem(name: string) {
@@ -189,24 +188,17 @@ export class Upload extends Component<UploadOptions> {
 
         this.itemMap.get(file.name)?.remove();
         this.itemMap.delete(file.name);
-        this.deleteFile(file);
-    }
-
-    private renameFile(file: File, newName: string) {
-        this.options.onRename?.(newName, file.name);
+        this.options.onDelete?.(file);
         this.fileMap.delete(file.name);
 
+        this.currentBytes -= file.size;
         this.dataTransfer = new DataTransfer();
-        file = new File([file], newName);
-        this.fileMap
-            .set(newName, file)
-            .forEach((f) => this.dataTransfer.items.add(f));
-
+        this.fileMap.forEach((f) => this.dataTransfer.items.add(f));
         this.$input.prop('files', this.dataTransfer.files);
     }
 
     private renameFileItem(file: File, newName: string) {
-        const fileName =  this.renameMap.get(file.name);
+        const fileName = this.renameMap.get(file.name);
         this.renameMap.set(file.name, newName);
         if (fileName) {
             file = this.fileMap.get(fileName) ?? file;
@@ -219,15 +211,26 @@ export class Upload extends Component<UploadOptions> {
         this.itemMap
             .set(newName, item)
             .delete(file.name);
-        this.renameFile(file, newName);
+        this.options.onRename?.(newName, file.name);
+        this.fileMap.delete(file.name);
+
+        this.dataTransfer = new DataTransfer();
+        file = new File([file], newName);
+        this.fileMap
+            .set(newName, file)
+            .forEach((f) => this.dataTransfer.items.add(f));
+
+        this.$input.prop('files', this.dataTransfer.files);
     }
 
 
     private createFileItem(file: File) {
         const {showIcon} = this.options;
+        this.addFile(file);
+
         return $('<li class="file-item my-1 flex items-center gap-2"></li>')
             .append(showIcon ? this.fileIcon() : null)
-            .append(this.fileInfo(file))
+            .append(this.createfileInfo(file))
             .append(this.createRenameContainer(file));
     }
 
@@ -236,7 +239,7 @@ export class Upload extends Component<UploadOptions> {
         return $(`<i class="icon icon-${icon}"></i>`);
     }
 
-    private fileInfo(file: File) {
+    private createfileInfo(file: File) {
         const $name = $(`<span class="file-name">${file.name}</span>`);
         const $size = $(`<span class="file-size text-gray">${formatBytes(file.size)}</span>`);
         const $fileInfo = $('<div class="file-info flex items-center gap-2"></div>')
@@ -255,10 +258,10 @@ export class Upload extends Component<UploadOptions> {
                             .closest('.file-item')
                             .find('.input-group.hidden')
                             .removeClass('hidden');
-                        const input = $(e.target).closest('li').find('input')[0] as HTMLInputElement;
-                        input.focus();
-                        if (input.value.lastIndexOf('.') !== -1) {
-                            input.setSelectionRange(0, input.value.lastIndexOf('.'));
+                        const inputEl = $(e.target).closest('li').find('input')[0] as HTMLInputElement;
+                        inputEl.focus();
+                        if (inputEl.value.lastIndexOf('.') !== -1) {
+                            inputEl.setSelectionRange(0, inputEl.value.lastIndexOf('.'));
                         }
 
                     }),
@@ -285,9 +288,9 @@ export class Upload extends Component<UploadOptions> {
             .prop('defaultValue', file.name)
             .on('keydown', (e: KeyboardEvent) => {
                 if (e.key === 'Enter') {
-                    $renameContainer.addClass('hidden');
                     this.renameFileItem(file, $input.val() as string);
                     $renameContainer
+                        .addClass('hidden')
                         .closest('.file-item')
                         .find('.file-info.hidden')
                         .removeClass('hidden')
@@ -307,9 +310,9 @@ export class Upload extends Component<UploadOptions> {
             .prop('type', 'button')
             .html(confirmText!)
             .on('click', () => {
-                $renameContainer.addClass('hidden');
                 this.renameFileItem(file, $input.val() as string);
                 $renameContainer
+                    .addClass('hidden')
                     .closest('.file-item')
                     .find('.file-info.hidden')
                     .removeClass('hidden')
