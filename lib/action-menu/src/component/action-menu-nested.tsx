@@ -92,7 +92,7 @@ export class ActionMenuNested<T extends ActionBasicProps = ActionMenuNestedItemO
         }
         const key = itemProps.key ?? (itemProps as {id?: string}).id ?? `${(props.level || 0)}:${index}`;
         this.#keys.add(key);
-        const show = this.isNestedMenuShow(key);
+        const show = this.isExpanded(key);
         if (show) {
             itemProps.rootChildren = [
                 itemProps.rootChildren,
@@ -121,7 +121,7 @@ export class ActionMenuNested<T extends ActionBasicProps = ActionMenuNestedItemO
         return itemProps;
     }
 
-    isNestedMenuShow(key: ActionMenuItemKey) {
+    isExpanded(key: ActionMenuItemKey) {
         const nestedShow = this.#controlled ? this.state.nestedShow : this.props.nestedShow;
         if (nestedShow && typeof nestedShow === 'object') {
             return nestedShow[key];
@@ -129,10 +129,10 @@ export class ActionMenuNested<T extends ActionBasicProps = ActionMenuNestedItemO
         return !!nestedShow;
     }
 
-    toggleNestedMenu(key: ActionMenuItemKey, toggle?: boolean): boolean {
+    toggle(key: ActionMenuItemKey, toggle?: boolean): boolean {
         const {controlledMenu} = this.props;
         if (controlledMenu) {
-            return controlledMenu.toggleNestedMenu(key, toggle);
+            return controlledMenu.toggle(key, toggle);
         }
         if (!this.#controlled) {
             return false;
@@ -162,22 +162,22 @@ export class ActionMenuNested<T extends ActionBasicProps = ActionMenuNestedItemO
         return true;
     }
 
-    showNestedMenu(key: ActionMenuItemKey) {
-        return this.toggleNestedMenu(key, true);
+    expand(key: ActionMenuItemKey) {
+        return this.toggle(key, true);
     }
 
-    hideNestedMenu(key: ActionMenuItemKey) {
-        return this.toggleNestedMenu(key, false);
+    collapse(key: ActionMenuItemKey) {
+        return this.toggle(key, false);
     }
 
-    showAllNestedMenu() {
+    expandAll() {
         if (!this.#controlled) {
             return;
         }
         this.setState({nestedShow: true});
     }
 
-    hideAllNestedMenu() {
+    collapseAll() {
         if (!this.#controlled) {
             return;
         }
@@ -188,7 +188,7 @@ export class ActionMenuNested<T extends ActionBasicProps = ActionMenuNestedItemO
         if ($(event.target as HTMLElement).closest('.not-nested-toggle').length) {
             return;
         }
-        this.toggleNestedMenu(key, toggle);
+        this.toggle(key, toggle);
         event.preventDefault();
     };
 }
