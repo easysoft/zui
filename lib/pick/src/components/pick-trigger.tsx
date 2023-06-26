@@ -8,7 +8,7 @@ export class PickTrigger<S extends PickState = PickState, P extends PickTriggerP
         if ($(event.target as HTMLElement).closest('a,.btn,input').length) {
             return;
         }
-        this.props.togglePop();
+        this.props.togglePop(true);
     };
 
     protected _getClass() {
