@@ -6,15 +6,29 @@ html {
   @apply -overflow-hidden;
 }
 body {
-  @apply -overflow-auto;
+  @apply -overflow-auto -pl-48;
 }
 
 aside {
+    @apply -w-48;
     background: linear-gradient(125deg, var(--color-primary-900) 0%, var(--color-primary-900) 40%, var(--color-primary-800) calc(40% + 1px), var(--color-primary-800) 60%, var(--color-primary-700) calc(60% + 1px), var(--color-primary-700) 72%, var(--color-primary-500) calc(72% + 1px), var(--color-primary-500) 100%);
 }
 #libPage {
     @apply -p-5 -pr-48;
 }
+.at-home > aside {
+    @apply -w-full;
+}
+.at-home #libNav {
+    @apply -flex -flex-row -flex-wrap -gap-x-8;
+}
+.at-home #libNav > li {
+    @apply -w-full -my-2 -py-2 -bg-white/10 -text-center;
+}
+.at-home #libNav > a {
+    @apply -w-48 -py-2 -justify-start;
+}
+
 h1 {
     @apply -text-2xl -font-bold -mb-5 -mt-5;
 }

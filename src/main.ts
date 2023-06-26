@@ -68,5 +68,7 @@ if (import.meta.hot) {
                 anchor.scrollIntoView({block: 'start'});
             }
         }
+    } else {
+        document.body.classList.add('at-home');
     }
 }
