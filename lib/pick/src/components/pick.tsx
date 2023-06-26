@@ -51,7 +51,10 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
     toggle = async (open?: boolean, state?: Partial<S>): Promise<S> => {
         const {state: currentState} = this;
         if (typeof open === 'boolean' && open === (!!currentState.open && currentState.open !== 'closing')) {
-            return currentState;
+            if (state) {
+                await this.changeState(state);
+            }
+            return this.state;
         }
 
         if (this.#toggleTimer) {
