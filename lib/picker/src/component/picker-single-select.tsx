@@ -1,48 +1,27 @@
-import {ComponentChildren, createRef} from 'preact';
+import {ComponentChildren} from 'preact';
 import {classes} from '@zui/core';
 import {PickTrigger} from '@zui/pick/src/components';
+import {PickerSearch} from './picker-search';
 import {PickerSelectProps, PickerState} from '../types';
 import '@zui/css-icons/src/icons/caret.css';
 
 export class PickerSingleSelect extends PickTrigger<PickerState, PickerSelectProps> {
-    #searchInput = createRef<HTMLInputElement>();
-
-    focus() {
-        this.#searchInput.current?.focus();
-    }
-
-    componentDidUpdate(previousProps: Readonly<PickerSelectProps>): void {
-        if (!previousProps.state.open && this.props.state.open) {
-            this.focus();
-        }
-    }
-
     #handleDeselectBtnClick = (event: MouseEvent) => {
         this.props.onClear();
         this.props.togglePop(true, {search: ''});
         event.stopPropagation();
     };
 
-    #handleSearchChange = (event: Event) => {
-        const search = (event.target as HTMLInputElement).value;
+    #handleSearch = (search: string) => {
         this.props.changeState({search});
     };
 
-    #handleClearBtnClick = (event: MouseEvent) => {
-        event.stopPropagation();
+    #handleSearchClear = () => {
         this.props.togglePop(true, {search: ''} as Partial<PickerState>);
     };
 
-    protected _getClass() {
-        return classes(
-            super._getClass(),
-            'picker-select picker-select-single form-control',
-        );
-    }
-
-    protected _buildSearch() {
-        const {searchHint, state: {search, value, selections}} = this.props;
-        const hasSearch = search.trim().length;
+    #getSearchPlaceholder() {
+        const {searchHint, state: {value, selections}} = this.props;
         let placeholder = searchHint;
         if (placeholder === undefined) {
             const selection = selections.find(x => x.value === value);
@@ -52,19 +31,25 @@ export class PickerSingleSelect extends PickTrigger<PickerState, PickerSelectPro
                 placeholder = value;
             }
         }
+        return placeholder;
+    }
+
+    protected _getClass() {
+        return classes(
+            super._getClass(),
+            'picker-select picker-select-single form-control',
+        );
+    }
+
+    protected _renderSearch() {
+        const {state: {search}} = this.props;
         return (
-            <div className="picker-search"  key="main">
-                <input
-                    className="form-control picker-search-input"
-                    type="text"
-                    placeholder={placeholder}
-                    value={search}
-                    onChange={this.#handleSearchChange}
-                    onInput={this.#handleSearchChange}
-                    ref={this.#searchInput}
-                />
-                {hasSearch ? <button type="button" className="btn picker-search-clear square size-sm ghost" onClick={this.#handleClearBtnClick}><span className="close"></span></button> : <span className="magnifier"></span>}
-            </div>
+            <PickerSearch
+                defaultSearch={search}
+                onSearch={this.#handleSearch}
+                onClear={this.#handleSearchClear}
+                placeholder={this.#getSearchPlaceholder()}
+            />
         );
     }
 
@@ -75,7 +60,7 @@ export class PickerSingleSelect extends PickTrigger<PickerState, PickerSelectPro
         const showSearch = open && search;
         let view: ComponentChildren;
         if (showSearch) {
-            view = this._buildSearch();
+            view = this._renderSearch();
         } else if (selection) {
             view = <span key="main" className="picker-single-selection">{selection.text ?? selection.value}</span>;
         } else {

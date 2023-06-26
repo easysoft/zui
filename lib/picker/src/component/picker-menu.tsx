@@ -4,7 +4,6 @@ import {Menu} from '@zui/menu/src/component/menu';
 import {MenuItemProps} from '@zui/menu/src/types';
 import {PickPop} from '@zui/pick/src/components';
 import {PickerMenuProps, PickerState} from '../types';
-import '@zui/css-icons/src/icons/magnifier.css';
 import '@zui/css-icons/src/icons/close.css';
 
 const underlineWithSearchKeys = (searchKeys: string[], text: string[]): ComponentChild[] => {
