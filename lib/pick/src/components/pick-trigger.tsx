@@ -3,13 +3,18 @@ import {classes, $} from '@zui/core';
 import type {PickState, PickTriggerProps} from '../types';
 
 export class PickTrigger<S extends PickState = PickState, P extends PickTriggerProps<S> = PickTriggerProps<S>> extends Component<P> {
-    protected _handleClick = (event: MouseEvent) => {
+    constructor(props: P) {
+        super(props);
+        this._handleClick = this._handleClick.bind(this);
+    }
+
+    protected _handleClick(event: MouseEvent) {
         event.stopPropagation();
         if ($(event.target as HTMLElement).closest('a,.btn,input').length) {
             return;
         }
         this.props.togglePop(true);
-    };
+    }
 
     protected _getClass() {
         const {state, className} = this.props;
