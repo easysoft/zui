@@ -144,6 +144,13 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
         return props.Trigger || ((this.constructor as typeof Pick).Trigger as ComponentType<PickTriggerProps<S>>);
     }
 
+    protected _handleChange(value: string | undefined, oldValue: string | undefined) {
+        const {onChange} = this.props;
+        if (onChange) {
+            onChange(value, oldValue);
+        }
+    }
+
     componentDidMount() {
         this._afterRender(true);
     }
@@ -174,8 +181,7 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
             }
         }
         if (value !== prevValue) {
-            const {onChange} = this.props;
-            onChange?.(value, prevValue);
+            this._handleChange(value, prevValue);
         }
         this._afterRender();
     }
