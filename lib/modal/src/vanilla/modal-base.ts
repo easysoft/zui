@@ -132,18 +132,19 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
             return;
         }
 
+        const $dialog = $(dialog);
         size = size ?? this.options.size;
-        $(dialog).removeAttr('data-size');
+        $dialog.removeAttr('data-size');
         const sizeStyle: Record<string, number | string> = {width: '', height: ''};
         if (typeof size === 'object') {
             sizeStyle.width = size.width;
             sizeStyle.height = size.height;
         } else if (typeof size === 'string' && ['md', 'sm', 'lg', 'full'].includes(size)) {
-            $(dialog).attr('data-size', size);
+            $dialog.attr('data-size', size);
         } else if (size) {
             sizeStyle.width = size;
         }
-        $(dialog).css(sizeStyle);
+        $dialog.css(sizeStyle);
 
         position = position ?? this.options.position ?? 'fit';
         const width = dialog.clientWidth;
@@ -179,7 +180,7 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
             style.top = position;
         }
 
-        $(dialog).css(style);
+        $dialog.css(style);
         $(this.modalElement).css('justifyContent', style.left ? 'flex-start' : 'center');
     }
 

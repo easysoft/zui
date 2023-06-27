@@ -87,7 +87,7 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
     }
 
     get loading() {
-        return this.modalElement?.classList.contains(LOADING_CLASS);
+        return this.#modal?.classList.contains(LOADING_CLASS);
     }
 
     get shown() {
@@ -161,8 +161,7 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
     #renderDialog(dialogOptions: ModalDialogOptions | ModalDialogHTML): Promise<void> {
         return new Promise((resolve) => {
             if (Array.isArray(dialogOptions)) {
-                this.modalElement.innerHTML = dialogOptions[0];
-                $(this.modalElement).runJS();
+                $(this.modalElement).html(dialogOptions[0]).runJS();
                 return resolve();
             }
             const {afterRender, ...others} = dialogOptions;
