@@ -23,7 +23,7 @@ aside {
     @apply -flex -flex-row -flex-wrap -gap-x-8;
 }
 .at-home #libNav > li {
-    @apply -w-full -my-2 -py-2 -bg-white/10 -text-center;
+    @apply -w-full -my-2 -py-2 -bg-black/10 -text-center;
 }
 .at-home #libNav > a {
     @apply -w-48 -py-2 -justify-start;
