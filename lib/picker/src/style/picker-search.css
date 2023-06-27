@@ -1,5 +1,5 @@
 .picker-search-input {
-  @apply -pr-8 -h-7 -px-0 -border-transparent !-ring-0 -outline-0
+  @apply -pr-8 -h-7 -px-0 -border-transparent !-ring-0 !-outline-0;
 }
 .picker-search {
   @apply -flex-none -relative -w-full;
