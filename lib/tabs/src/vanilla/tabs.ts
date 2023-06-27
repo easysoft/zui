@@ -16,7 +16,7 @@ export class Tabs extends Component {
         const $items = $nav.find(NAV_ITEM_SELECTOR);
 
         /* Find the nav item to active. */
-        let $navItem = selector ? $(selector).first() : $items.filter(`.${ACTIVE_CLASS}`);
+        let $navItem = selector ? $(selector).closest(NAV_ITEM_SELECTOR) : $items.filter(`.${ACTIVE_CLASS}`);
         if (!$navItem.length) {
             $navItem = $nav.find(NAV_ITEM_SELECTOR).first();
             if (!$navItem.length) {
