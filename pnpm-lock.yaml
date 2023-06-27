@@ -869,6 +869,31 @@ importers:
         specifier: workspace:*
         version: link:../utilities
 
+  lib/search-box:
+    dependencies:
+      '@zui/base':
+        specifier: workspace:*
+        version: link:../base
+      '@zui/button':
+        specifier: workspace:*
+        version: link:../button
+      '@zui/core':
+        specifier: workspace:^0.0.1
+        version: link:../core
+      '@zui/css-icons':
+        specifier: workspace:^0.0.1
+        version: link:../css-icons
+      '@zui/input-control':
+        specifier: workspace:*
+        version: link:../input-control
+    devDependencies:
+      '@zui/utilities':
+        specifier: workspace:*
+        version: link:../utilities
+      zui-dev:
+        specifier: workspace:*
+        version: link:../../dev
+
   lib/store: {}
 
   lib/switch:
