@@ -234,6 +234,8 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
             this.#loadingTimer = 0;
         }
 
+        this.layout();
+
         await delay(100);
 
         $modal.removeClass(LOADING_CLASS);
