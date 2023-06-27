@@ -16,7 +16,10 @@ export class Block extends Component<BlockProps, BlockState> {
 
     constructor(props: BlockProps) {
         super(props);
-        this.state = {content: <div class="dashboard-block-body">{props.block.content}</div>};
+        const {block: {content}} = props;
+        this.state = {
+            content: ($.isPlainObject(content) && (content as {html?: string}).html) ? (<div class="dashboard-block-body" dangerouslySetInnerHTML={{__html: (content as {html: string}).html}} />) : (<div class="dashboard-block-body">{props.block.content}</div>),
+        };
     }
 
     get element() {

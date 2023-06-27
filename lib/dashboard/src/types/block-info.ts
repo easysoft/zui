@@ -13,6 +13,6 @@ export type BlockInfo = {
     title?: string;
     toolbar?: ToolbarOptions;
     placeholder?: ComponentChildren;
-    content?: ComponentChildren;
+    content?: ComponentChildren | {html: string};
     menu?: ContextMenuOptions;
 };

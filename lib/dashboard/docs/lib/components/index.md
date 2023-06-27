@@ -84,7 +84,7 @@ blockSizeMap: {
 | `title` | `string` | 区块的标题，可选，默认为 `undefined` |
 | `toolbar` | `ToolbarOptions` | 区块的工具栏，可选，默认为 `undefined` |
 | `placeholder` | `ComponentChildren` | 区块的占位内容，可选，默认为 `undefined` |
-| `content` | `ComponentChildren` | 区块的内容，可选，默认为 `undefined` |
+| `content` | `ComponentChildren` \| `{html: string}` | 区块的内容，可选，默认为 `undefined`，当设置为 `{html: string}` 时可以设置 HTML。 |
 | `menu` | `ContextMenuOptions` | 区块的右键菜单，可选，默认为 `undefined` |
 
 ## 方法
