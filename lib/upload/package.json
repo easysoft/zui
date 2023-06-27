@@ -19,7 +19,7 @@
         "zui-dev": "workspace:^0.0.1"
     },
     "zui": {
-        "type": "control",
+        "type": "component",
         "displayName": "上传文件",
         "contributes": {
             "css": [
