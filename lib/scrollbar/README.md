@@ -67,5 +67,3 @@
   <p>Molestiae saepe deleniti voluptas excepturi nostrum. Consequatur eius non voluptates!</p>
 </div>
 ```
-
-## JS Scrollbar
