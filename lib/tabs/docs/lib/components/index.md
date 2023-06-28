@@ -2,20 +2,16 @@
 
 标签页允许通过点击一个导航或列表项目来切换显示的内容。<br />
 标签页内容使用 `.tab-pane` 作为容器元素，所有供切换显示的 `.tab-pane` 放置在 `.tab-content` 容器元素内。<br />
-为确保在页面显示的时候标签页能够指示正确的标签和显示正确的内容，在初始状态需要为当前选中的导航项目 `<li class="nav-item">` 元素添加 `.active` 类，并且为当前显示的标签页内容元素 `.tab-pane` 添加 `.active` 类。
+为确保在页面显示的时候标签页能够指示正确的标签和显示正确的内容，在初始状态需要为当前选中的导航项目 `li.nav-item>a` 元素添加 `.active` 类，并且为当前显示的标签页内容元素 `.tab-pane` 添加 `.active` 类。
 
 ## 使用方法
 
 为导航上每个用于切换标签内容的链接添加 `href` 或 `data-target` 属性指向当前标签页内容的 `id` ，并添加 `data-toggle="tab"` 属性。
+-accent-inverse
 
-<style>
-.nav-tabs > .active > a {
-  color: #2b80ff;
-}
-</style>
 <Example>
   <ul class="nav nav-tabs">
-    <li class="nav-item active"><a data-toggle="tab" href="#tabContent1">标签1</a></li>
+    <li class="nav-item"><a class="active" data-toggle="tab" href="#tabContent1">标签1</a></li>
     <li class="nav-item"><a data-toggle="tab" href="#tabContent2">标签2</a></li>
     <li class="nav-item"><a data-toggle="tab" href="#tabContent3">标签3</a></li>
   </ul>
@@ -34,7 +30,7 @@
 
 ```html
   <ul class="nav nav-tabs">
-    <li class="nav-item active"><a data-toggle="tab" href="#tabContent1">标签1</a></li>
+    <li class="nav-item"><a class="active" data-toggle="tab" href="#tabContent1">标签1</a></li>
     <li class="nav-item"><a data-toggle="tab" href="#tabContent2">标签2</a></li>
     <li class="nav-item"><a data-toggle="tab" href="#tabContent3">标签3</a></li>
   </ul>
@@ -55,7 +51,7 @@
 
 <Example>
   <ul class="nav nav-tabs">
-    <li class="nav-item active"><a data-toggle="tab" href="#tabContent4">标签1</a></li>
+    <li class="nav-item"><a class="active" data-toggle="tab" href="#tabContent4">标签1</a></li>
     <li class="nav-item"><a data-toggle="tab" href="#tabContent5">标签2</a></li>
     <li class="nav-item"><a data-toggle="tab" href="#tabContent6">标签3</a></li>
   </ul>
@@ -74,7 +70,7 @@
 
 ```html
 <ul class="nav nav-tabs">
-  <li class="nav-item active"><a data-toggle="tab" href="#tabContent1">标签1</a></li>
+  <li class="nav-item"><a class="active" data-toggle="tab" href="#tabContent1">标签1</a></li>
   <li class="nav-item"><a data-toggle="tab" href="#tabContent2">标签2</a></li>
   <li class="nav-item"><a data-toggle="tab" href="#tabContent3">标签3</a></li>
 </ul>
@@ -91,13 +87,13 @@
 </div>
 ```
 
-另一种快捷方法是为用于切换标签页的链接使用 `data-tab` 属性，属性值指向所切换的 `.tab-pane` 元素。这种方法不需要 `data-target` 和 `data-toggle="tab"` 属性。
+另一种快捷方法是为用于切换标签页的链接使用 `data-toggle="tab" href` 属性，属性值指向所切换的 `.tab-pane` 元素。这种方法不需要 `data-target` 和 `data-toggle="tab"` 属性。
 
 <Example>
   <ul class="nav nav-tabs">
-    <li class="nav-item active"><a data-tab="#tab2Content1">标签1</a></li>
-    <li class="nav-item"><a data-tab="#tab2Content2">标签2</a></li>
-    <li class="nav-item"><a data-tab="#tab2Content3">标签3</a></li>
+    <li class="nav-item"><a class="active" data-toggle="tab" href="#tab2Content1">标签1</a></li>
+    <li class="nav-item"><a data-toggle="tab" href="#tab2Content2">标签2</a></li>
+    <li class="nav-item"><a data-toggle="tab" href="#tab2Content3">标签3</a></li>
   </ul>
   <div class="tab-content">
     <div class="tab-pane active" id="tab2Content1">
@@ -114,9 +110,9 @@
 
 ```html
 <ul class="nav nav-tabs">
-  <li class="nav-item active"><a data-tab="#tab2Content1">标签1</a></li>
-  <li class="nav-item"><a data-tab="#tab2Content2">标签2</a></li>
-  <li class="nav-item"><a data-tab="#tab2Content3">标签3</a></li>
+  <li class="nav-item"><a class="active" data-toggle="tab" href="#tab2Content1">标签1</a></li>
+  <li class="nav-item"><a data-toggle="tab" href="#tab2Content2">标签2</a></li>
+  <li class="nav-item"><a data-toggle="tab" href="#tab2Content3">标签3</a></li>
 </ul>
 <div class="tab-content">
   <div class="tab-pane active" id="tab2Content1">
@@ -137,9 +133,9 @@
 
 <Example>
   <ul class="nav nav-tabs">
-    <li class="nav-item active"><a data-tab="#tab3Content1">标签1</a></li>
-    <li class="nav-item"><a data-tab="#tab3Content2">标签2</a></li>
-    <li class="nav-item"><a data-tab="#tab3Content3">标签3</a></li>
+    <li class="nav-item"><a class="active" data-toggle="tab" href="#tab3Content1">标签1</a></li>
+    <li class="nav-item"><a data-toggle="tab" href="#tab3Content2">标签2</a></li>
+    <li class="nav-item"><a data-toggle="tab" href="#tab3Content3">标签3</a></li>
   </ul>
   <div class="tab-content">
     <div class="tab-pane fade active in" id="tab3Content1">
@@ -156,9 +152,9 @@
 
 ```html
 <ul class="nav nav-tabs">
-  <li class="nav-item active"><a data-tab="#tab3Content1">标签1</a></li>
-  <li class="nav-item"><a data-tab="#tab3Content2">标签2</a></li>
-  <li class="nav-item"><a data-tab="#tab3Content3">标签3</a></li>
+  <li class="nav-item"><a class="active" data-toggle="tab" href="#tab3Content1">标签1</a></li>
+  <li class="nav-item"><a data-toggle="tab" href="#tab3Content2">标签2</a></li>
+  <li class="nav-item"><a data-toggle="tab" href="#tab3Content3">标签3</a></li>
 </ul>
 <div class="tab-content">
   <div class="tab-pane fade active in" id="tab3Content1">
@@ -180,9 +176,9 @@
 <Example>
   <div class="flex">
     <ul class="nav nav-tabs nav-stacked">
-      <li class="nav-item active"><a data-tab="#tab4Content1">标签1</a></li>
-      <li class="nav-item"><a data-tab="#tab4Content2">标签2</a></li>
-      <li class="nav-item"><a data-tab="#tab4Content3">标签3</a></li>
+      <li class="nav-item"><a class="active" data-toggle="tab" href="#tab4Content1">标签1</a></li>
+      <li class="nav-item"><a data-toggle="tab" href="#tab4Content2">标签2</a></li>
+      <li class="nav-item"><a data-toggle="tab" href="#tab4Content3">标签3</a></li>
     </ul>
     <div class="tab-content">
       <div class="tab-pane fade active in" id="tab4Content1">
@@ -201,9 +197,9 @@
 ```html
 <div class="flex">
   <ul class="nav nav-tabs nav-stacked">
-    <li class="nav-item active"><a data-tab="#tab4Content1">标签1</a></li>
-    <li class="nav-item"><a data-tab="#tab4Content2">标签2</a></li>
-    <li class="nav-item"><a data-tab="#tab4Content3">标签3</a></li>
+    <li class="nav-item"><a class="active" data-toggle="tab" href="#tab4Content1">标签1</a></li>
+    <li class="nav-item"><a data-toggle="tab" href="#tab4Content2">标签2</a></li>
+    <li class="nav-item"><a data-toggle="tab" href="#tab4Content3">标签3</a></li>
   </ul>
   <div class="tab-content">
     <div class="tab-pane fade active in" id="tab4Content1">
@@ -243,4 +239,3 @@
 | `tab-pane`    | 实体类 | 元素作为单独的标签页容器 |
 | `fade`        | 工具类 | 标签页使用渐变动画效果 |
 | `in`          | 工具类 | 标签页使用渐变动画效果，和 `fade` 同时使用 |
-
