@@ -3714,22 +3714,22 @@ class To extends V {
     }
     s.closest("a,input").length || n(!0);
   }
-  _getClass() {
-    const { state: t, className: n } = this.props, { open: s, disabled: i } = t;
+  _getClass(t) {
+    const { state: n, className: s } = t, { open: i, disabled: r } = n;
     return M(
       "pick",
-      n,
-      s && "is-open focus",
-      i && "disabled"
+      s,
+      i && "is-open focus",
+      r && "disabled"
     );
   }
-  _renderTrigger() {
-    const { children: t, state: n } = this.props;
-    return t ?? n.value;
+  _renderTrigger(t) {
+    const { children: n, state: s } = t;
+    return n ?? s.value;
   }
-  _renderValue() {
-    const { name: t, state: n } = this.props;
-    return t ? /* @__PURE__ */ g("input", { type: "hidden", className: "pick-value", name: t, value: n.value }) : null;
+  _renderValue(t) {
+    const { name: n, state: s } = t;
+    return n ? /* @__PURE__ */ g("input", { type: "hidden", className: "pick-value", name: n, value: s.value }) : null;
   }
   render(t) {
     const { id: n, style: s } = t;
@@ -3737,13 +3737,13 @@ class To extends V {
       "div",
       {
         id: `pick-${n}`,
-        className: this._getClass(),
+        className: this._getClass(t),
         style: s,
         tabIndex: -1,
         onClick: this._handleClick,
         children: [
-          this._renderTrigger(),
-          this._renderValue()
+          this._renderTrigger(t),
+          this._renderValue(t)
         ]
       }
     );
@@ -4867,34 +4867,34 @@ class Hd extends To {
     var s;
     super._handleClick(n), (s = k(this, fn).current) == null || s.focus();
   }
-  _getClass() {
+  _getClass(n) {
     return M(
-      super._getClass(),
+      super._getClass(n),
       "picker-select picker-select-multi form-control"
     );
   }
-  _renderSearch() {
-    const { state: { search: n }, searchHint: s } = this.props;
+  _renderSearch(n) {
+    const { state: { search: s }, searchHint: i } = n;
     return /* @__PURE__ */ g(
       Mc,
       {
         inline: !0,
         ref: k(this, fn),
-        defaultSearch: n,
+        defaultSearch: s,
         onSearch: k(this, rs),
         onClear: k(this, os),
-        placeholder: s
+        placeholder: i
       }
     );
   }
-  _renderTrigger() {
-    const { state: { selections: n = [], open: s }, search: i, placeholder: r, children: o } = this.props, a = s && i;
-    return !a && !n.length ? /* @__PURE__ */ g("span", { className: "picker-select-placeholder", children: r }, "selections") : [
+  _renderTrigger(n) {
+    const { state: { selections: s = [], open: i }, search: r, placeholder: o, children: a } = this.props, l = i && r;
+    return !l && !s.length ? /* @__PURE__ */ g("span", { className: "picker-select-placeholder", children: o }, "selections") : [
       /* @__PURE__ */ g("div", { className: "picker-multi-selections", children: [
-        n.map(this._renderSelection),
-        a ? this._renderSearch() : null
+        s.map(this._renderSelection),
+        l ? this._renderSearch(n) : null
       ] }, "selections"),
-      o,
+      a,
       /* @__PURE__ */ g("span", { class: "caret" }, "caret")
     ];
   }
@@ -4920,35 +4920,35 @@ class Bd extends To {
     var s;
     super._handleClick(n), (s = k(this, as).current) == null || s.focus();
   }
-  _getClass() {
+  _getClass(n) {
     return M(
-      super._getClass(),
+      super._getClass(n),
       "picker-select picker-select-single form-control"
     );
   }
-  _renderSearch() {
-    const { state: { search: n } } = this.props;
+  _renderSearch(n) {
+    const { state: { search: s } } = n;
     return /* @__PURE__ */ g(
       Mc,
       {
         ref: k(this, as),
-        defaultSearch: n,
+        defaultSearch: s,
         onSearch: k(this, vi),
         onClear: k(this, bi),
         placeholder: ye(this, xi, Tc).call(this)
       }
     );
   }
-  _renderTrigger() {
-    const { children: n, state: { selections: s = [], open: i }, placeholder: r, search: o } = this.props, [a] = s, l = i && o;
-    let h;
-    l ? h = this._renderSearch() : a ? h = /* @__PURE__ */ g("span", { className: "picker-single-selection", children: a.text ?? a.value }, "main") : h = /* @__PURE__ */ g("span", { className: "picker-select-placeholder", children: r }, "main");
-    const c = a && !l ? /* @__PURE__ */ g("button", { type: "button", className: "btn picker-deselect-btn size-sm square ghost", onClick: k(this, _i), children: /* @__PURE__ */ g("span", { className: "close" }) }, "deselect") : null;
+  _renderTrigger(n) {
+    const { children: s, state: { selections: i = [], open: r }, placeholder: o, search: a } = n, [l] = i, h = r && a;
+    let c;
+    h ? c = this._renderSearch(n) : l ? c = /* @__PURE__ */ g("span", { className: "picker-single-selection", children: l.text ?? l.value }, "main") : c = /* @__PURE__ */ g("span", { className: "picker-select-placeholder", children: o }, "main");
+    const u = l && !h ? /* @__PURE__ */ g("button", { type: "button", className: "btn picker-deselect-btn size-sm square ghost", onClick: k(this, _i), children: /* @__PURE__ */ g("span", { className: "close" }) }, "deselect") : null;
     return [
-      h,
-      n,
       c,
-      l ? null : /* @__PURE__ */ g("span", { className: "caret" }, "caret")
+      s,
+      u,
+      h ? null : /* @__PURE__ */ g("span", { className: "caret" }, "caret")
     ];
   }
 }
