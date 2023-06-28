@@ -1,4 +1,4 @@
-import {classes} from '@zui/core';
+import {CustomContent, classes} from '@zui/core';
 import {Attributes, ComponentType, h as _h} from 'preact';
 import {ActionHeadingProps} from '../types/action-heading-props';
 
@@ -8,6 +8,7 @@ export function ActionHeading({
     text,
     attrs,
     children,
+    content,
     style,
     onClick,
 }: ActionHeadingProps) {
@@ -16,5 +17,5 @@ export function ActionHeading({
         style,
         onClick,
         ...attrs,
-    } as Attributes, text, typeof children === 'function' ? children() : children);
+    } as Attributes, text, <CustomContent content={content} />, children);
 }

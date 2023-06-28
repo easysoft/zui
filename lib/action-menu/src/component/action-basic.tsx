@@ -1,4 +1,4 @@
-import {classes} from '@zui/core';
+import {CustomContent, classes} from '@zui/core';
 import {Attributes, ComponentType, h as _h} from 'preact';
 import {ActionBasicProps} from '../types';
 
@@ -6,6 +6,7 @@ export function ActionBasic({
     component = 'div',
     className,
     children,
+    content,
     style,
     attrs,
 }: ActionBasicProps) {
@@ -13,5 +14,5 @@ export function ActionBasic({
         className: classes(className),
         style,
         ...attrs,
-    } as Attributes, children);
+    } as Attributes, <CustomContent content={content} />, children);
 }

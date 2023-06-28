@@ -1,5 +1,5 @@
 import {Attributes, ComponentType, h as _h} from 'preact';
-import {classes, Icon} from '@zui/core';
+import {classes, CustomContent, Icon} from '@zui/core';
 import {ActionItemProps} from '../types/action-item-props';
 
 export function ActionItem({
@@ -7,6 +7,7 @@ export function ActionItem({
     component = 'a',
     className,
     children,
+    content,
     attrs,
     url,
     disabled,
@@ -28,7 +29,8 @@ export function ActionItem({
         ) : null,
         <Icon icon={icon} />,
         <span className="text">{text}</span>,
-        typeof children === 'function' ? children() : children,
+        <CustomContent content={content} />,
+        children,
         <Icon icon={trailingIcon} />,
     ];
     return _h(component as ComponentType, {
