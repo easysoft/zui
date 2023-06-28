@@ -1,4 +1,5 @@
 import 'zui-dev';
+import '@zui/icons';
 import {Upload} from './src/main';
 
 onPageLoad(() => {

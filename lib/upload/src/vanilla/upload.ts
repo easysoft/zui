@@ -1,15 +1,16 @@
 import {convertBytes, formatBytes} from '@zui/helpers/src/format-string';
 import {Component, $, Cash} from '@zui/core';
 import {UploadOptions} from '../types';
+import {Tooltip} from '@zui/tooltip';
 
 export class Upload extends Component<UploadOptions> {
-    private $input: Cash;
+    protected $input: Cash;
 
-    private $label: Cash;
+    protected $label: Cash;
 
-    private $list: Cash;
+    protected $list: Cash;
 
-    private fileMap: Map<string, File>;
+    protected fileMap: Map<string, File>;
 
     private renameMap: Map<string, string>;
 
@@ -19,14 +20,17 @@ export class Upload extends Component<UploadOptions> {
 
     private limitBytes: number;
 
-    private currentBytes: number;
+    protected currentBytes: number;
 
     static DEFAULT: Partial<UploadOptions> = {
         uploadText: '上传文件',
         renameText: '重命名',
+        renameIcon: 'edit',
         deleteText: '删除',
+        deleteIcon: 'trash',
         confirmText: '确定',
         cancelText: '取消',
+        useIconBtn: true,
         renameBtn: true,
         deleteBtn: true,
         showIcon: true,
@@ -36,6 +40,7 @@ export class Upload extends Component<UploadOptions> {
         icon: 'file-o',
         btnClass: '',
         draggable: false,
+        showSize: true,
     };
 
     init() {
@@ -59,10 +64,10 @@ export class Upload extends Component<UploadOptions> {
         }
     }
 
-    private initUploadCash() {
-        const {name, uploadText, listPosition, limitSize, btnClass, tip, draggable} = this.options;
-        this.$list = $('<div class="file-list py-1"></div>');
-        const $tip = limitSize ? $(`<span class="upload-tip">${tip}</span>`) : null;
+    protected initUploadCash() {
+        const {name, uploadText, listPosition, btnClass, tip, draggable} = this.options;
+        this.$list = $('<ul class="file-list py-1"></ul>');
+        const $tip = $(`<span class="upload-tip">${tip}</span>`);
 
         if (!draggable) {
             this.$label = $(`<label class="btn ${btnClass}" for="${name}">${uploadText}</label>`);
@@ -163,7 +168,7 @@ export class Upload extends Component<UploadOptions> {
         return this.renameDuplicatedFile(new File([file], `${fileName}(1)${fileExt}`));
     }
 
-    private addFileItem(files: File[]) {
+    protected addFileItem(files: File[]) {
         const {multiple, limitCount, exceededSizeHint, exceededCountHint} = this.options;
         if (multiple) {
             for (let file of files) {
@@ -238,13 +243,13 @@ export class Upload extends Component<UploadOptions> {
     }
 
 
-    private createFileItem(file: File) {
+    protected createFileItem(file: File) {
         const {showIcon} = this.options;
         this.addFile(file);
 
         return $('<li class="file-item my-1 flex items-center gap-2"></li>')
             .append(showIcon ? this.fileIcon() : null)
-            .append(this.createfileInfo(file))
+            .append(this.createFileInfo(file))
             .append(this.createRenameContainer(file));
     }
 
@@ -253,19 +258,53 @@ export class Upload extends Component<UploadOptions> {
         return $(`<i class="icon icon-${icon}"></i>`);
     }
 
-    private createfileInfo(file: File) {
-        const $name = $(`<span class="file-name">${file.name}</span>`);
-        const $size = $(`<span class="file-size text-gray">${formatBytes(file.size)}</span>`);
-        const $fileInfo = $('<div class="file-info flex items-center gap-2"></div>')
-            .append($name)
-            .append($size);
+    protected fileRenameBtn(text: string) {
+        const {useIconBtn, renameIcon} = this.options;
+        if (useIconBtn) {
+            const $icon = $(`<i class="icon icon-${renameIcon}"></i>`)
+                .addClass('cursor-pointer file-action file-reanme');
+            new Tooltip($icon, {title: text});
+            return $icon;
+        }
 
-        const {renameBtn, renameText, deleteBtn, deleteText} = this.options;
+        return $('<button />')
+            .addClass('btn size-sm rounded-sm text-primary canvas file-action file-rename')
+            .html(text);
+    }
+
+    protected fileDeleteBtn(text: string) {
+        const {useIconBtn, deleteIcon} = this.options;
+        if (useIconBtn) {
+            const $icon = $(`<i class="icon icon-${deleteIcon}"></i>`)
+                .addClass('cursor-pointer file-action file-delete');
+            new Tooltip($icon, {title: text});
+            return $icon;
+        }
+
+        return $('<button />')
+            .html(text)
+            .addClass('btn size-sm rounded-sm text-primary canvas file-action file-delete');
+    }
+
+    protected fileName(name: string) {
+        return $(`<span class="file-name">${name}</span>`);
+    }
+
+    protected fileSize(size: number) {
+        return $(`<span class="file-size text-gray">${formatBytes(size)}</span>`);
+    }
+
+    protected createFileInfo(file: File) {
+        const {renameBtn, renameText, deleteBtn, deleteText, showSize} = this.options;
+        const $name = this.fileName(file.name);
+        const $fileInfo = $('<div class="file-info flex items-center gap-2"></div>');
+        $fileInfo.append($name);
+        if (showSize) {
+            $fileInfo.append(this.fileSize(file.size));
+        }
         if (renameBtn) {
             $fileInfo.append(
-                $('<span />')
-                    .addClass('btn size-sm rounded-sm text-primary canvas file-action file-rename')
-                    .html(renameText!)
+                this.fileRenameBtn(renameText!)
                     .on('click', (e) => {
                         $fileInfo
                             .addClass('hidden')
@@ -283,9 +322,7 @@ export class Upload extends Component<UploadOptions> {
         }
         if (deleteBtn) {
             $fileInfo.append(
-                $('<span />')
-                    .html(deleteText!)
-                    .addClass('btn size-sm rounded-sm text-primary canvas file-action file-delete')
+                this.fileDeleteBtn(deleteText!)
                     .on('click', () => this.deleteFileItem($name.html())),
             );
         }

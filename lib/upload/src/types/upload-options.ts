@@ -3,15 +3,19 @@ export type UploadOptions = {
 } & Partial<{
     icon: string;
     showIcon: boolean;
+    showSize: boolean;
     multiple: boolean;
     listPosition: 'bottom' | 'top';
     renameBtn: boolean;
     deleteBtn: boolean;
     uploadText: string;
+    renameIcon: string;
     renameText: string;
+    deleteIcon: string;
     deleteText: string;
     confirmText: string;
     cancelText: string;
+    useIconBtn: boolean;
     tip: string;
     btnClass: string;
     onChange: (files: File[]) => void;
