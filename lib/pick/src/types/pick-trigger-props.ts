@@ -13,4 +13,6 @@ export interface PickTriggerProps<S extends PickState = PickState> {
     className?: ClassNameLike;
     style?: JSX.CSSProperties;
     children?: ComponentChildren;
+    attrs?: Record<string, unknown>;
+    tagName?: keyof JSX.IntrinsicElements;
 }

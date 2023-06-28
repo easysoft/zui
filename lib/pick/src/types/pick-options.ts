@@ -10,6 +10,9 @@ export interface PickOptions<S extends PickState = PickState> {
     id?: string;
     className?: ClassNameLike;
     style?: JSX.CSSProperties;
+    tagName?: keyof JSX.IntrinsicElements;
+    attrs?: Record<string, unknown>;
+
     afterRender?: (info: {firstRender: boolean}) => void;
     beforeDestroy?: () => void;
 
