@@ -22,8 +22,8 @@ export class PickTrigger<S extends PickState = PickState, P extends PickTriggerP
         togglePop(true);
     }
 
-    protected _getClass() {
-        const {state, className} = this.props;
+    protected _getClass(props: RenderableProps<P>) {
+        const {state, className} = props;
         const {open: opened, disabled} = state;
         return classes(
             'pick',
@@ -33,13 +33,13 @@ export class PickTrigger<S extends PickState = PickState, P extends PickTriggerP
         );
     }
 
-    protected _renderTrigger() {
-        const {children, state} = this.props;
+    protected _renderTrigger(props: RenderableProps<P>) {
+        const {children, state} = props;
         return children ?? (state.value as string);
     }
 
-    protected _renderValue() {
-        const {name, state} = this.props;
+    protected _renderValue(props: RenderableProps<P>) {
+        const {name, state} = props;
         if (name) {
             return <input type="hidden" className="pick-value" name={name} value={state.value} />;
         }
@@ -51,13 +51,13 @@ export class PickTrigger<S extends PickState = PickState, P extends PickTriggerP
         return (
             <div
                 id={`pick-${id}`}
-                className={this._getClass()}
+                className={this._getClass(props)}
                 style={style}
                 tabIndex={-1}
                 onClick={this._handleClick}
             >
-                {this._renderTrigger()}
-                {this._renderValue()}
+                {this._renderTrigger(props)}
+                {this._renderValue(props)}
             </div>
         );
     }
