@@ -1,4 +1,4 @@
-import {Component, ComponentChildren, RenderableProps, h as _h} from 'preact';
+import {Component, ComponentChildren, JSX, RenderableProps, h as _h} from 'preact';
 import {classes, $} from '@zui/core';
 import type {PickState, PickTriggerProps} from '../types';
 
@@ -33,6 +33,18 @@ export class PickTrigger<S extends PickState = PickState, P extends PickTriggerP
         );
     }
 
+    protected _getProps(props: RenderableProps<P>): JSX.HTMLAttributes<HTMLElement> {
+        const {id, style, attrs} = props;
+        return {
+            id: `pick-${id}`,
+            className: this._getClass(props),
+            style,
+            tabIndex: -1,
+            onClick: this._handleClick,
+            ...attrs,
+        };
+    }
+
     protected _renderTrigger(props: RenderableProps<P>): ComponentChildren {
         const {children, state} = props;
         return children ?? (state.value as string);
@@ -47,17 +59,9 @@ export class PickTrigger<S extends PickState = PickState, P extends PickTriggerP
     }
 
     render(props: RenderableProps<P>) {
-        const {id, style, tagName = 'div', attrs} = props;
         return _h(
-            tagName,
-            {
-                id: `pick-${id}`,
-                className: this._getClass(props),
-                style,
-                tabIndex: -1,
-                onClick: this._handleClick,
-                ...attrs,
-            },
+            props.tagName || 'div',
+            this._getProps(props),
             this._renderTrigger(props),
             this._renderValue(props),
         );
