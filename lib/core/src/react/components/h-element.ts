@@ -1,11 +1,11 @@
-import {PreactDOMAttributes, h} from 'preact';
-import type {JSX} from 'preact';
+import {h} from 'preact';
+import type {PreactDOMAttributes, JSX, RefObject} from 'preact';
 import {ClassNameLike, classes} from '../../helpers/classes';
 
 /**
  * The HTML props that can be passed to a component which root not is a html element.
  */
-export interface HElementProps<T extends keyof JSX.IntrinsicElements = 'div'> extends PreactDOMAttributes  {
+export interface HElementProps<T extends keyof JSX.IntrinsicElements = 'div', H extends HTMLElement = HTMLDivElement> extends PreactDOMAttributes  {
     /**
      * The tag name of the element.
      */
@@ -26,6 +26,10 @@ export interface HElementProps<T extends keyof JSX.IntrinsicElements = 'div'> ex
      */
     attrs?: JSX.IntrinsicElements[T];
 
+    /**
+     * The ref of the element.
+     */
+    forwardRef?: RefObject<H>;
 
     /**
      * The other props of the element.
@@ -34,6 +38,6 @@ export interface HElementProps<T extends keyof JSX.IntrinsicElements = 'div'> ex
 }
 
 export function HElement(props: HElementProps) {
-    const {tagName = 'div', className, style, children, attrs, ...others} = props;
-    return h(tagName, {class: classes(className), style, ...others, ...attrs}, children);
+    const {tagName = 'div', className, style, children, attrs, forwardRef, ...others} = props;
+    return h(tagName, {ref: forwardRef, class: classes(className), style, ...others, ...attrs}, children);
 }

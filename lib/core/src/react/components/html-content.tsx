@@ -39,6 +39,6 @@ export class HtmlContent extends Component<HtmlContentProps> {
 
     render(props: HtmlContentProps) {
         const {executeScript, html, ...others} = props;
-        return <HElement ref={this.#ref} dangerouslySetInnerHTML={{__html: html}} {...others} />;
+        return <HElement forwardRef={this.#ref} dangerouslySetInnerHTML={{__html: html}} {...others} />;
     }
 }
