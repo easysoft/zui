@@ -26,7 +26,7 @@
 使用 `scroll-auto` 使得滚动条立即滚动。点击按钮查看滚动效果：
 
 <Example background="light-circle">
-  <div class="w-56 h-28 rounded leading-8 scroll-auto of-x-hidden of-y-scroll m-auto">
+  <div class="w-56 h-28 rounded leading-8 scroll-auto overflow-x-hidden overflow-y-scroll m-auto">
     <div class="relative h-full text-center -bg-gray-200"><input readonly id="one" class="absolute t-0 h-full p-0 m-0 w-12" />1</div>
     <div class="relative h-full text-center -bg-secondary-200"><input readonly id="two" class="absolute t-0 h-full p-0 m-0 w-12"/>2</div>
     <div class="relative h-full text-center -bg-success-200"><input readonly id="three" class="absolute t-0 h-full p-0 m-0 w-12"/>3</div>
@@ -60,7 +60,7 @@
 使用 `scroll-smooth` 使得窗口平稳滚动。点击按钮查看滚动效果：
 
 <Example background="light-circle">
-  <div class="w-56 h-28 rounded leading-8 scroll-smooth of-y-scroll m-auto">
+  <div class="w-56 h-28 rounded leading-8 scroll-smooth overflow-y-scroll m-auto">
     <div class="relative h-full text-center -bg-gray-200"><input readonly id="smoothOne" class="absolute t-0 h-full p-0 m-0 w-12" />1</div>
     <div class="relative h-full text-center -bg-secondary-200"><input readonly id="smoothTwo" class="absolute t-0 h-full p-0 m-0 w-12"/>2</div>
     <div class="relative h-full text-center -bg-success-200"><input readonly id="smoothThree" class="absolute t-0 h-full p-0 m-0 w-12"/>3</div>

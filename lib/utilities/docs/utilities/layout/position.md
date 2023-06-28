@@ -72,7 +72,7 @@
 `sticky` 元素根据正常文档流进行定位，然后相对它的最近滚动祖先和 containing block，包括 table-related 元素，基于 top、right、bottom 和 left 的值进行偏移。偏移值不会影响任何其他元素的位置。
 
 <Example class="bg-surface">
-  <div class="h-48 of-auto mt-4">
+  <div class="h-48 overflow-auto mt-4">
     <div class="sticky top-0 bg-secondary ">黄鹤楼送孟浩然之广陵</div>
     <div class="py-4">
       <p>故人西辞黄鹤楼，</p>
@@ -101,7 +101,7 @@
 </Example>
 
 ```html
-<div class="h-48 of-auto">
+<div class="h-48 overflow-auto">
   <div class="sticky top-0">Sticky 1</div>
   <div class="py-4">
     <!-- ... -->
