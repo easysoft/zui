@@ -3723,6 +3723,17 @@ class To extends V {
       r && "disabled"
     );
   }
+  _getProps(t) {
+    const { id: n, style: s, attrs: i } = t;
+    return {
+      id: `pick-${n}`,
+      className: this._getClass(t),
+      style: s,
+      tabIndex: -1,
+      onClick: this._handleClick,
+      ...i
+    };
+  }
   _renderTrigger(t) {
     const { children: n, state: s } = t;
     return n ?? s.value;
@@ -3732,17 +3743,9 @@ class To extends V {
     return n ? /* @__PURE__ */ g("input", { type: "hidden", className: "pick-value", name: n, value: s.value }) : null;
   }
   render(t) {
-    const { id: n, style: s, tagName: i = "div", attrs: r } = t;
     return q(
-      i,
-      {
-        id: `pick-${n}`,
-        className: this._getClass(t),
-        style: s,
-        tabIndex: -1,
-        onClick: this._handleClick,
-        ...r
-      },
+      t.tagName || "div",
+      this._getProps(t),
       this._renderTrigger(t),
       this._renderValue(t)
     );
