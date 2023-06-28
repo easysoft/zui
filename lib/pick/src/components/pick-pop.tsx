@@ -1,4 +1,4 @@
-import {Component, RefObject, RenderableProps, createRef} from 'preact';
+import {Component, ComponentChildren, RefObject, RenderableProps, VNode, createRef} from 'preact';
 import {computePosition, flip, offset, shift, autoUpdate} from '@floating-ui/dom';
 import {$, classes, createPortal} from '@zui/core';
 import type {PickState, PickPopProps} from '../types';
@@ -64,7 +64,7 @@ export class PickPop<S extends PickState = PickState, P extends PickPopProps<S> 
         return this.#container;
     }
 
-    protected _render(props: RenderableProps<P>) {
+    protected _render(props: RenderableProps<P>): VNode {
         const {
             id,
             style,
@@ -93,7 +93,7 @@ export class PickPop<S extends PickState = PickState, P extends PickPopProps<S> 
         );
     }
 
-    protected _renderPop(props: RenderableProps<P>) {
+    protected _renderPop(props: RenderableProps<P>): ComponentChildren {
         return props.children;
     }
 

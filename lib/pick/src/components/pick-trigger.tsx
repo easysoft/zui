@@ -1,4 +1,4 @@
-import {Component, RenderableProps} from 'preact';
+import {Component, ComponentChildren, RenderableProps} from 'preact';
 import {classes, $} from '@zui/core';
 import type {PickState, PickTriggerProps} from '../types';
 
@@ -33,12 +33,12 @@ export class PickTrigger<S extends PickState = PickState, P extends PickTriggerP
         );
     }
 
-    protected _renderTrigger(props: RenderableProps<P>) {
+    protected _renderTrigger(props: RenderableProps<P>): ComponentChildren {
         const {children, state} = props;
         return children ?? (state.value as string);
     }
 
-    protected _renderValue(props: RenderableProps<P>) {
+    protected _renderValue(props: RenderableProps<P>): ComponentChildren {
         const {name, state} = props;
         if (name) {
             return <input type="hidden" className="pick-value" name={name} value={state.value} />;
