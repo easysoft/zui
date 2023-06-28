@@ -3732,20 +3732,19 @@ class To extends V {
     return n ? /* @__PURE__ */ g("input", { type: "hidden", className: "pick-value", name: n, value: s.value }) : null;
   }
   render(t) {
-    const { id: n, style: s } = t;
-    return /* @__PURE__ */ g(
-      "div",
+    const { id: n, style: s, tagName: i = "div", attrs: r } = t;
+    return q(
+      i,
       {
         id: `pick-${n}`,
         className: this._getClass(t),
         style: s,
         tabIndex: -1,
         onClick: this._handleClick,
-        children: [
-          this._renderTrigger(t),
-          this._renderValue(t)
-        ]
-      }
+        ...r
+      },
+      this._renderTrigger(t),
+      this._renderValue(t)
     );
   }
 }
@@ -3905,6 +3904,8 @@ let ge = class extends V {
       className: t.className,
       style: t.style,
       name: t.name,
+      tagName: t.tagName,
+      attrs: t.attrs,
       changeState: this.changeState,
       togglePop: this.toggle
     };
