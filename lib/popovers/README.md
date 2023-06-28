@@ -6,8 +6,8 @@
         <input id="inputExample1" type="text" class="form-control" placeholder="搜索">
         <label for="inputExample1" class="input-control-prefix"><i class="icon icon-search"></i></label>
     </div>
-    <form id="panel" class="bg-white col h-64 of-hidden shadow" style="width: 352px;">
-        <div class="flex-auto of-y-auto pt-4 pl-4 pb-4">
+    <form id="panel" class="bg-white col h-64 overflow-hidden shadow" style="width: 352px;">
+        <div class="flex-auto overflow-y-auto pt-4 pl-4 pb-4">
             <label class="checkbox">
                 <input type="checkbox" name="matrix-1"> 场景矩阵 1
             </label>
