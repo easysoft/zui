@@ -1,4 +1,4 @@
-import {Component, ComponentChildren, RefObject, RenderableProps, VNode, createRef} from 'preact';
+import {Component, ComponentChildren, JSX, RefObject, RenderableProps, VNode, createRef} from 'preact';
 import {computePosition, flip, offset, shift, autoUpdate} from '@floating-ui/dom';
 import {$, classes, createPortal} from '@zui/core';
 import type {PickState, PickPopProps} from '../types';
@@ -50,6 +50,29 @@ export class PickPop<S extends PickState = PickState, P extends PickPopProps<S> 
         );
     }
 
+    protected _getProps(props: RenderableProps<P>): JSX.HTMLAttributes<HTMLDivElement> {
+        const {
+            id,
+            style,
+            maxHeight,
+            maxWidth,
+            minHeight,
+            minWidth,
+        } = props;
+        const finalStyle = $.extend({maxHeight,
+            maxWidth,
+            minHeight,
+            minWidth,
+        }, style);
+        return {
+            id: `pick-pop-${id}`,
+            className: this._getClass(props),
+            style: finalStyle,
+            ref: this.#ref,
+            onClick: this._handleClick,
+        };
+    }
+
     protected _getContainer(props: RenderableProps<P>): HTMLElement {
         if (!this.#container) {
             const $containerParent = $(props.container || 'body');
@@ -63,30 +86,9 @@ export class PickPop<S extends PickState = PickState, P extends PickPopProps<S> 
     }
 
     protected _render(props: RenderableProps<P>): VNode {
-        const {
-            id,
-            style,
-            maxHeight,
-            maxWidth,
-            minHeight,
-            minWidth,
-            children,
-        } = props;
-        const finalStyle = $.extend({maxHeight,
-            maxWidth,
-            minHeight,
-            minWidth,
-        }, style);
         return (
-            <div
-                id={`pick-pop-${id}`}
-                className={this._getClass(props)}
-                style={finalStyle}
-                ref={this.#ref}
-                onClick={this._handleClick}
-            >
+            <div {...this._getProps(props)}>
                 {this._renderPop(props)}
-                {children}
             </div>
         );
     }
