@@ -3,9 +3,7 @@ import {computePosition, flip, offset, shift, autoUpdate} from '@floating-ui/dom
 import {$, classes, createPortal} from '@zui/core';
 import type {PickState, PickPopProps} from '../types';
 
-export class PickPop<S extends PickState = PickState, P extends PickPopProps<S> = PickPopProps<S>> extends Component<P> {
-    state = {show: false};
-
+export class PickPop<S extends PickState = PickState, P extends PickPopProps<S> = PickPopProps<S>, STATE = {}> extends Component<P, STATE> {
     #ref: RefObject<HTMLDivElement> | undefined = createRef<HTMLDivElement>();
 
     #layoutWatcher?: () => void;
