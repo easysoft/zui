@@ -63,24 +63,25 @@ Modal.alert(options: ModalAlertOptions): Promise<string | undefined>;
 * `message`：要提示的消息文本；
 * `options`：一个警告框选项对象 `ModalAlertOptions`，定义如下：
 
-  ```ts
-  interface ModalAlertOptions extends ModalCustomOptions {
-      /* 提示消息 */
-      message: string;
+```ts
+interface ModalAlertOptions extends ModalCustomOptions {
+    /* 提示消息 */
+    message: string | {html: string};
 
-      /* 提示消息前的图标名称 */
-      icon?: string;
+    /* 提示消息前的图标名称 */
+    icon?: string;
 
-      /* 提示消息图标类名 */
-      iconClass?: string;
+    /* 提示消息图标类名 */
+    iconClass?: string;
 
-      /* 自定义提示按钮 */
-      actions?: ToolbarItemOptions[] | string | string[];
+    /* 自定义提示按钮 */
+    actions?: ToolbarItemOptions[] | string | string[];
 
-      /* 当点击提示按钮时的回调函数 */
-      onClickAction?: (item: ToolbarItemOptions, modal: Modal) => false | void;
-  }
-  ```
+    /* 当点击提示按钮时的回调函数 */
+    onClickAction?: (item: ToolbarItemOptions, modal: Modal) => false | void;
+}
+```
+
 该方法会通过 `Promise` 异步返回用户点击的按钮名称。
 
 下面为一个示例：

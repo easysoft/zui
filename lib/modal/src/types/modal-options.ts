@@ -40,7 +40,7 @@ export interface ModalIframeOptions extends ModalOptions {
 }
 
 export interface ModalAlertOptions extends ModalCustomOptions {
-    message: string;
+    message: string | {html: string};
     icon?: string;
     iconClass?: string;
     actions?: ToolbarItemOptions[] | string | string[];
