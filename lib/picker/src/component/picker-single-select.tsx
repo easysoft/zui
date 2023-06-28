@@ -41,15 +41,15 @@ export class PickerSingleSelect extends PickTrigger<PickerState, PickerSelectPro
         this.#search.current?.focus();
     }
 
-    protected _getClass() {
+    protected _getClass(props: PickerSelectProps) {
         return classes(
-            super._getClass(),
+            super._getClass(props),
             'picker-select picker-select-single form-control',
         );
     }
 
-    protected _renderSearch() {
-        const {state: {search}} = this.props;
+    protected _renderSearch(props: PickerSelectProps) {
+        const {state: {search}} = props;
         return (
             <PickerSearch
                 ref={this.#search}
@@ -61,14 +61,14 @@ export class PickerSingleSelect extends PickTrigger<PickerState, PickerSelectPro
         );
     }
 
-    protected _renderTrigger() {
-        const {children, state: {selections = [], open}, placeholder, search} = this.props;
+    protected _renderTrigger(props: PickerSelectProps) {
+        const {children, state: {selections = [], open}, placeholder, search} = props;
 
         const [selection] = selections;
         const showSearch = open && search;
         let view: ComponentChildren;
         if (showSearch) {
-            view = this._renderSearch();
+            view = this._renderSearch(props);
         } else if (selection) {
             view = <span key="main" className="picker-single-selection">{selection.text ?? selection.value}</span>;
         } else {

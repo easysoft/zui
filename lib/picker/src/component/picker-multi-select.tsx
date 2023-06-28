@@ -30,9 +30,9 @@ export class PickerMultiSelect extends PickTrigger<PickerState, PickerSelectProp
         this.#search.current?.focus();
     }
 
-    protected _getClass() {
+    protected _getClass(props: PickerSelectProps) {
         return classes(
-            super._getClass(),
+            super._getClass(props),
             'picker-select picker-select-multi form-control',
         );
     }
@@ -46,8 +46,8 @@ export class PickerMultiSelect extends PickTrigger<PickerState, PickerSelectProp
         );
     };
 
-    protected _renderSearch() {
-        const {state: {search}, searchHint} = this.props;
+    protected _renderSearch(props: PickerSelectProps) {
+        const {state: {search}, searchHint} = props;
         return (
             <PickerSearch
                 inline
@@ -60,7 +60,7 @@ export class PickerMultiSelect extends PickTrigger<PickerState, PickerSelectProp
         );
     }
 
-    protected _renderTrigger() {
+    protected _renderTrigger(props: PickerSelectProps) {
         const {state: {selections = [], open}, search, placeholder, children} = this.props;
         const showSearch = open && search;
         if (!showSearch && !selections.length) {
@@ -69,7 +69,7 @@ export class PickerMultiSelect extends PickTrigger<PickerState, PickerSelectProp
         return [
             <div key="selections" className="picker-multi-selections">
                 {selections.map(this._renderSelection)}
-                {showSearch ? this._renderSearch() : null}
+                {showSearch ? this._renderSearch(props) : null}
             </div>,
             children,
             <span key="caret" class="caret"></span>,
