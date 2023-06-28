@@ -2,7 +2,7 @@
 
 通过 JS 动态弹出下拉菜单
 
-```html:example: -flex -gap-3 of-visible
+```html:example: -flex -gap-3 overflow-visible
 <button class="btn" type="button" data-toggle="dropdown" id="dropdownToggle">动态下拉菜单 <span class="caret"></span></button>
 ```
 
@@ -44,7 +44,7 @@ console.log('> dropdown', dropdown);
 
 ## 下拉菜单
 
-```html:example: -flex -gap-3 of-visible
+```html:example: -flex -gap-3 overflow-visible
 <button class="btn" type="button" data-toggle="dropdown">菜单按钮 <span class="caret"></span></button>
 <menu class="dropdown-menu menu">
   <li class="menu-item"><a>操作</a></li>
@@ -56,7 +56,7 @@ console.log('> dropdown', dropdown);
 
 ## 显示箭头
 
-```html:example: -flex -gap-3 of-visible
+```html:example: -flex -gap-3 overflow-visible
 <button class="btn" type="button" data-toggle="dropdown" data-arrow="true">显示箭头 <span class="caret"></span></button>
 <menu class="dropdown-menu menu">
   <li class="menu-item"><a>操作</a></li>
@@ -65,7 +65,7 @@ console.log('> dropdown', dropdown);
 </menu>
 ```
 
-```html:example: -flex -gap-3 of-visible
+```html:example: -flex -gap-3 overflow-visible
 <button class="btn" type="button" data-toggle="dropdown" data-arrow="12">自定义箭头大小 <span class="caret"></span></button>
 <menu class="dropdown-menu menu">
   <li class="menu-item"><a>操作</a></li>
