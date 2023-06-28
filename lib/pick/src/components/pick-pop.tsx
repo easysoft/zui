@@ -72,6 +72,7 @@ export class PickPop<S extends PickState = PickState, P extends PickPopProps<S> 
             maxWidth,
             minHeight,
             minWidth,
+            children,
         } = props;
         const finalStyle = $.extend({maxHeight,
             maxWidth,
@@ -87,6 +88,7 @@ export class PickPop<S extends PickState = PickState, P extends PickPopProps<S> 
                 onClick={this._handleClick}
             >
                 {this._renderPop(props)}
+                {children}
             </div>
         );
     }
