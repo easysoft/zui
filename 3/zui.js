@@ -3792,8 +3792,9 @@ class dc extends V {
       maxHeight: r,
       maxWidth: o,
       minHeight: a,
-      minWidth: l
-    } = n, h = m.extend({
+      minWidth: l,
+      children: h
+    } = n, c = m.extend({
       maxHeight: r,
       maxWidth: o,
       minHeight: a,
@@ -3804,10 +3805,13 @@ class dc extends V {
       {
         id: `pick-pop-${s}`,
         className: this._getClass(n),
-        style: h,
+        style: c,
         ref: k(this, Me),
         onClick: this._handleClick,
-        children: this._renderPop(n)
+        children: [
+          this._renderPop(n),
+          h
+        ]
       }
     );
   }
