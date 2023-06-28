@@ -12,6 +12,7 @@ export interface PickOptions<S extends PickState = PickState> {
     style?: JSX.CSSProperties;
     tagName?: keyof JSX.IntrinsicElements;
     attrs?: Record<string, unknown>;
+    clickType?: 'toggle' | 'open';
 
     afterRender?: (info: {firstRender: boolean}) => void;
     beforeDestroy?: () => void;

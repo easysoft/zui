@@ -18,6 +18,7 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
         popMinWidth: 50,
         popMinHeight: 32,
         popMaxHeight: 300,
+        clickType: 'open',
     };
 
     #id: string;
@@ -90,6 +91,14 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
         return newState;
     };
 
+    open(state?: Partial<S>) {
+        return this.toggle(true, state);
+    }
+
+    close(state?: Partial<S>) {
+        return this.toggle(false, state);
+    }
+
     protected _getTriggerProps(props: RenderableProps<O>, state: Readonly<S>): PickTriggerProps<S> {
         return {
             id: this.id,
@@ -99,6 +108,7 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
             name: props.name,
             tagName: props.tagName,
             attrs: props.attrs,
+            clickType: props.clickType,
             changeState: this.changeState,
             togglePop: this.toggle,
         };
