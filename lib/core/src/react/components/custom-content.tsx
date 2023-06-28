@@ -14,6 +14,12 @@ export type CustomContentProps<ARGS extends [] = [], THIS = unknown> = {
     generatorArgs?: ARGS;
 };
 
+/**
+ * Component for rendering custom content.
+ *
+ * @param props Custom content props.
+ * @returns Custom content.
+ */
 export function CustomContent<ARGS extends [] = [], THIS = unknown>(props: CustomContentProps<ARGS, THIS>) {
     const {content, generatorThis, generatorArgs = []} = props;
     if (typeof content === 'function') {
