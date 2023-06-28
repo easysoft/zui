@@ -28,6 +28,11 @@
     background: var(--scrollbar-drag-bg);
 }
 
+.scrollbar-thin::-webkit-scrollbar {
+    height: calc(var(--scrollbar-size) / 2);
+    width: calc(var(--scrollbar-size) / 2);
+}
+
 /**
  * Scrollbar hover effection
  */
