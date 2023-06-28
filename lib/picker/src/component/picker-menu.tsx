@@ -1,5 +1,5 @@
 import {ComponentChild, ComponentChildren, RefObject, RenderableProps, createRef} from 'preact';
-import {classes, $} from '@zui/core';
+import {classes, $, CustomContent} from '@zui/core';
 import {Menu} from '@zui/menu/src/component/menu';
 import {MenuItemProps} from '@zui/menu/src/types';
 import {PickPop} from '@zui/pick/src/components';
@@ -87,11 +87,11 @@ export class PickerMenu extends PickPop<PickerState, PickerMenuProps> {
             if (value === hover) {
                 hasHover = true;
             }
-            const displayText = `${text ?? value}`;
+            const displayText = text ?? value;
             list.push({
                 key: value,
                 active: selectionsSet.has(value),
-                text: underlineWithSearchKeys(searchKeys, [displayText]),
+                text: typeof displayText === 'string' ? underlineWithSearchKeys(searchKeys, [displayText]) : <CustomContent content={displayText} />,
                 className: classes(className, {hover: value === hover}),
                 'data-value': value,
                 ...others,

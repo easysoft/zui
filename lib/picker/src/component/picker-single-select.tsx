@@ -19,7 +19,7 @@ export class PickerSingleSelect extends PickTrigger<PickerState, PickerSelectPro
     };
 
     #handleSearchClear = () => {
-        this.props.togglePop(true, {search: ''} as Partial<PickerState>);
+        this.props.togglePop(true, {search: ''});
     };
 
     #getSearchPlaceholder() {
