@@ -13,7 +13,8 @@ export class PickTrigger<S extends PickState = PickState, P extends PickTriggerP
         const {togglePop} = this.props;
         const $target = $(event.target as HTMLElement);
         if ($target.closest('[data-dismiss="pick"]').length) {
-            return togglePop(false);
+            togglePop(false);
+            return;
         }
         if ($target.closest('a,input').length) {
             return;
