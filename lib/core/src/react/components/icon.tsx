@@ -21,8 +21,10 @@ export function Icon(props: IconProps) {
     if (typeof icon === 'string') {
         classList.push(icon.startsWith('icon-') ? icon : `icon-${icon}`);
     } else if (typeof icon === 'object') {
-        classList.push((icon as JSX.HTMLAttributes<HTMLElement>).className as string);
-        Object.assign(others, icon);
+        const {className: iconClass, ...iconOthers} = icon;
+        classList.push(iconClass as string);
+        Object.assign(others, iconOthers);
+        return <Icon className={classes(classList)} {...others} />;
     }
     return <i className={classes(classList)} {...others} />;
 }
