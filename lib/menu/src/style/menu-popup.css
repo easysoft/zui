@@ -1,4 +1,4 @@
 .menu-popup {
-  @apply -shadow-xl -ring-1 -ring-inverse -ring-opacity-5;
+  @apply -shadow-xl -ring-1 -ring-inverse -ring-opacity-5 -bg-canvas -bg-opacity-[0.85] -backdrop-blur-lg;
   border-radius: var(--menu-radius);
 }
