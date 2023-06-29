@@ -40,7 +40,7 @@ export class ActionMenuNested<T extends ActionBasicProps = ActionMenuNestedItemO
     }
 
     getNestedMenuProps(items: ActionMenuNestedItemOptions[]): ActionMenuNestedOptions {
-        const {name, controlledMenu, nestedShow, beforeDestroy, beforeRender, itemRender, onClickItem, afterRender, commonItemProps, level} = this.props;
+        const {name, controlledMenu, nestedShow, beforeDestroy, beforeRender, itemRender, onClickItem, afterRender, commonItemProps, level, itemRenderProps} = this.props;
         return {
             items: items,
             name: name,
@@ -53,6 +53,7 @@ export class ActionMenuNested<T extends ActionBasicProps = ActionMenuNestedItemO
             beforeRender: beforeRender as ActionMenuOptions['beforeRender'],
             beforeDestroy: beforeDestroy as ActionMenuOptions['beforeDestroy'],
             itemRender: itemRender as ActionMenuOptions['itemRender'],
+            itemRenderProps: itemRenderProps as ActionMenuOptions['itemRenderProps'],
             level: (level || 0) + 1,
         };
     }
