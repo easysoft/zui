@@ -91,18 +91,18 @@
 
 <Example>
   <ul class="nav nav-tabs">
-    <li class="nav-item"><a class="active" data-toggle="tab" href="#tab2Content1">标签1</a></li>
-    <li class="nav-item"><a data-toggle="tab" href="#tab2Content2">标签2</a></li>
-    <li class="nav-item"><a data-toggle="tab" href="#tab2Content3">标签3</a></li>
+    <li class="nav-item"><a class="active" data-toggle="tab" href="#tab2Content7">标签1</a></li>
+    <li class="nav-item"><a data-toggle="tab" href="#tab2Content8">标签2</a></li>
+    <li class="nav-item"><a data-toggle="tab" href="#tab2Content9">标签3</a></li>
   </ul>
   <div class="tab-content">
-    <div class="tab-pane active" id="tab2Content1">
+    <div class="tab-pane active" id="tab2Content7">
       <p>我是标签1。</p>
     </div>
-    <div class="tab-pane" id="tab2Content2">
+    <div class="tab-pane" id="tab2Content8">
       <p>我是标签2。</p>
     </div>
-    <div class="tab-pane" id="tab2Content3">
+    <div class="tab-pane" id="tab2Content9">
       <p>我是标签3。</p>
     </div>
   </div>
@@ -110,18 +110,18 @@
 
 ```html
 <ul class="nav nav-tabs">
-  <li class="nav-item"><a class="active" data-toggle="tab" href="#tab2Content1">标签1</a></li>
-  <li class="nav-item"><a data-toggle="tab" href="#tab2Content2">标签2</a></li>
-  <li class="nav-item"><a data-toggle="tab" href="#tab2Content3">标签3</a></li>
+  <li class="nav-item"><a class="active" data-toggle="tab" href="#tab2Content7">标签1</a></li>
+  <li class="nav-item"><a data-toggle="tab" href="#tab2Content8">标签2</a></li>
+  <li class="nav-item"><a data-toggle="tab" href="#tab2Content9">标签3</a></li>
 </ul>
 <div class="tab-content">
-  <div class="tab-pane active" id="tab2Content1">
+  <div class="tab-pane active" id="tab2Content7">
     <p>我是标签1。</p>
   </div>
-  <div class="tab-pane" id="tab2Content2">
+  <div class="tab-pane" id="tab2Content8">
     <p>我是标签2。</p>
   </div>
-  <div class="tab-pane" id="tab2Content3">
+  <div class="tab-pane" id="tab2Content9">
     <p>我是标签3。</p>
   </div>
 </div>
@@ -133,18 +133,18 @@
 
 <Example>
   <ul class="nav nav-tabs">
-    <li class="nav-item"><a class="active" data-toggle="tab" href="#tab3Content1">标签1</a></li>
-    <li class="nav-item"><a data-toggle="tab" href="#tab3Content2">标签2</a></li>
-    <li class="nav-item"><a data-toggle="tab" href="#tab3Content3">标签3</a></li>
+    <li class="nav-item"><a class="active" data-toggle="tab" href="#tab3Content10">标签1</a></li>
+    <li class="nav-item"><a data-toggle="tab" href="#tab3Content11">标签2</a></li>
+    <li class="nav-item"><a data-toggle="tab" href="#tab3Content12">标签3</a></li>
   </ul>
   <div class="tab-content">
-    <div class="tab-pane fade active in" id="tab3Content1">
+    <div class="tab-pane fade active in" id="tab3Content10">
       <p>我是标签1。</p>
     </div>
-    <div class="tab-pane fade" id="tab3Content2">
+    <div class="tab-pane fade" id="tab3Content11">
       <p>我是标签2。</p>
     </div>
-    <div class="tab-pane fade" id="tab3Content3">
+    <div class="tab-pane fade" id="tab3Content12">
       <p>我是标签3。</p>
     </div>
   </div>
@@ -152,18 +152,18 @@
 
 ```html
 <ul class="nav nav-tabs">
-  <li class="nav-item"><a class="active" data-toggle="tab" href="#tab3Content1">标签1</a></li>
-  <li class="nav-item"><a data-toggle="tab" href="#tab3Content2">标签2</a></li>
-  <li class="nav-item"><a data-toggle="tab" href="#tab3Content3">标签3</a></li>
+  <li class="nav-item"><a class="active" data-toggle="tab" href="#tab3Content10">标签1</a></li>
+  <li class="nav-item"><a data-toggle="tab" href="#tab3Content11">标签2</a></li>
+  <li class="nav-item"><a data-toggle="tab" href="#tab3Content12">标签3</a></li>
 </ul>
 <div class="tab-content">
-  <div class="tab-pane fade active in" id="tab3Content1">
+  <div class="tab-pane fade active in" id="tab3Content10">
     <p>我是标签1。</p>
   </div>
-  <div class="tab-pane fade" id="tab3Content2">
+  <div class="tab-pane fade" id="tab3Content11">
     <p>我是标签2。</p>
   </div>
-  <div class="tab-pane fade" id="tab3Content3">
+  <div class="tab-pane fade" id="tab3Content12">
     <p>我是标签3。</p>
   </div>
 </div>
@@ -176,18 +176,18 @@
 <Example>
   <div class="flex">
     <ul class="nav nav-tabs nav-stacked">
-      <li class="nav-item"><a class="active" data-toggle="tab" href="#tab4Content1">标签1</a></li>
-      <li class="nav-item"><a data-toggle="tab" href="#tab4Content2">标签2</a></li>
-      <li class="nav-item"><a data-toggle="tab" href="#tab4Content3">标签3</a></li>
+      <li class="nav-item"><a class="active" data-toggle="tab" href="#tab4Content13">标签1</a></li>
+      <li class="nav-item"><a data-toggle="tab" href="#tab4Content14">标签2</a></li>
+      <li class="nav-item"><a data-toggle="tab" href="#tab4Content15">标签3</a></li>
     </ul>
     <div class="tab-content">
-      <div class="tab-pane fade active in" id="tab4Content1">
+      <div class="tab-pane fade active in" id="tab4Content13">
         <p>我是标签1。</p>
       </div>
-      <div class="tab-pane fade" id="tab4Content2">
+      <div class="tab-pane fade" id="tab4Content14">
         <p>我是标签2。</p>
       </div>
-      <div class="tab-pane fade" id="tab4Content3">
+      <div class="tab-pane fade" id="tab4Content15">
         <p>我是标签3。</p>
       </div>
     </div>
@@ -197,18 +197,18 @@
 ```html
 <div class="flex">
   <ul class="nav nav-tabs nav-stacked">
-    <li class="nav-item"><a class="active" data-toggle="tab" href="#tab4Content1">标签1</a></li>
-    <li class="nav-item"><a data-toggle="tab" href="#tab4Content2">标签2</a></li>
-    <li class="nav-item"><a data-toggle="tab" href="#tab4Content3">标签3</a></li>
+    <li class="nav-item"><a class="active" data-toggle="tab" href="#tab4Content13">标签1</a></li>
+    <li class="nav-item"><a data-toggle="tab" href="#tab4Content14">标签2</a></li>
+    <li class="nav-item"><a data-toggle="tab" href="#tab4Content15">标签3</a></li>
   </ul>
   <div class="tab-content">
     <div class="tab-pane fade active in" id="tab4Content1">
       <p>我是标签1。</p>
     </div>
-    <div class="tab-pane fade" id="tab4Content2">
+    <div class="tab-pane fade" id="tab4Content14">
       <p>我是标签2。</p>
     </div>
-    <div class="tab-pane fade" id="tab4Content3">
+    <div class="tab-pane fade" id="tab4Content15">
       <p>我是标签3。</p>
     </div>
   </div>
@@ -224,10 +224,54 @@
 
 当显示一个新的标签页时，这些事件会被触发：
 
-* `show.zui.tab`: 当前标签页在显示时触发；
-* `shown.zui.tab`: 当前标签页在显示后（动画执行完毕）触发。
+* `show`: 当前标签页在显示时触发；
+* `shown`: 当前标签页在显示后（动画执行完毕）触发。
 
-[调用方法待定]
+通过为 [data-toggle="tab"] 链接添加 `data-name` 属性，这样事件触发时会传递该属性值作为参数，如果不指定则使用 `[data-target]` 的值作为参数。
+
+<Example>
+  <ul class="nav nav-tabs" id="tabsExample">
+    <li class="nav-item"><a class="active" data-toggle="tab" data-name="tab1" href="#tabContent16">标签1</a></li>
+    <li class="nav-item"><a data-toggle="tab" data-name="tab2" href="#tabContent17">标签2</a></li>
+    <li class="nav-item"><a data-toggle="tab" href="#tabContent18">标签3</a></li>
+  </ul>
+  <div class="tab-content">
+    <div class="tab-pane active" id="tabContent16">
+      <p>我是标签1。</p>
+    </div>
+    <div class="tab-pane" id="tabContent17">
+      <p>我是标签2。</p>
+    </div>
+    <div class="tab-pane" id="tabContent18">
+      <p>我是标签3。</p>
+    </div>
+  </div>
+</Example>
+
+```html
+<ul class="nav nav-tabs" id="tabsExample">
+  <li class="nav-item"><a class="active" data-toggle="tab" data-name="tab1" href="#tabContent16">标签1</a></li>
+  <li class="nav-item"><a data-toggle="tab" data-name="tab2" href="#tabContent17">标签2</a></li>
+  <li class="nav-item"><a data-toggle="tab" href="#tabContent18">标签3</a></li>
+</ul>
+<div class="tab-content">
+  <div class="tab-pane active" id="tabContent16">
+    <p>我是标签1。</p>
+  </div>
+  <div class="tab-pane" id="tabContent17">
+    <p>我是标签2。</p>
+  </div>
+  <div class="tab-pane" id="tabContent18">
+    <p>我是标签3。</p>
+  </div>
+</div>
+
+<script>
+$('#tabsExample').on('show shown', function(event, info) {
+  console.log('>', event.type, info);
+});
+</script>
+```
 
 ## CSS类
 
@@ -239,3 +283,15 @@
 | `tab-pane`    | 实体类 | 元素作为单独的标签页容器 |
 | `fade`        | 工具类 | 标签页使用渐变动画效果 |
 | `in`          | 工具类 | 标签页使用渐变动画效果，和 `fade` 同时使用 |
+
+<script setup>
+import {onMounted} from 'vue';
+
+onMounted(() => {
+    onZUIReady(() => {
+        $('#tabsExample').on('show shown', function(event, info) {
+          console.log('>', event.type, info);
+        });
+    });
+});
+</script>
