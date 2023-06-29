@@ -1086,6 +1086,37 @@ importers:
       '@zui/input-group':
         specifier: workspace:^0.0.1
         version: link:../input-group
+      '@zui/tooltip':
+        specifier: workspace:^0.0.1
+        version: link:../tooltip
+    devDependencies:
+      zui-dev:
+        specifier: workspace:^0.0.1
+        version: link:../../dev
+
+  lib/upload-imgs:
+    dependencies:
+      '@zui/button':
+        specifier: workspace:^0.0.1
+        version: link:../button
+      '@zui/core':
+        specifier: workspace:^0.0.1
+        version: link:../core
+      '@zui/helpers':
+        specifier: workspace:^0.0.1
+        version: link:../helpers
+      '@zui/icons':
+        specifier: workspace:0.0.1
+        version: link:../icons
+      '@zui/input-group':
+        specifier: workspace:^0.0.1
+        version: link:../input-group
+      '@zui/tooltip':
+        specifier: workspace:^0.0.1
+        version: link:../tooltip
+      '@zui/upload':
+        specifier: workspace:^0.0.1
+        version: link:../upload
     devDependencies:
       zui-dev:
         specifier: workspace:^0.0.1
