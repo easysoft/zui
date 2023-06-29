@@ -6,21 +6,13 @@ import '@zui/css-icons/src/icons/more.css';
 import type {BlockFetcher, BlockProps} from '../types';
 
 export type BlockState = {
-    content: ComponentChildren;
+    content?: ComponentChildren;
     loading?: boolean;
     dragging?: boolean;
 };
 
 export class Block extends Component<BlockProps, BlockState> {
     #ref = createRef<HTMLDivElement>();
-
-    constructor(props: BlockProps) {
-        super(props);
-        const {block: {content}} = props;
-        this.state = {
-            content: ($.isPlainObject(content) && (content as {html?: string}).html) ? (<div class="dashboard-block-body" dangerouslySetInnerHTML={{__html: (content as {html: string}).html}} />) : (<div class="dashboard-block-body">{props.block.content}</div>),
-        };
-    }
 
     get element() {
         return this.#ref.current!;
@@ -98,8 +90,16 @@ export class Block extends Component<BlockProps, BlockState> {
 
     render() {
         const {left, top, width, height, style, block} = this.props;
-        const {title, menu, id} = block;
-        const {loading, content, dragging} = this.state;
+        const {title, menu, id, content: blockContent} = block;
+        const {loading, dragging} = this.state;
+        let {content} = this.state;
+        if (content === undefined) {
+            if ($.isPlainObject(blockContent) && (blockContent as {html?: string}).html) {
+                content = <div class="dashboard-block-body" dangerouslySetInnerHTML={{__html: (blockContent as {html: string}).html}} />;
+            } else {
+                <div class="dashboard-block-body">{blockContent}</div>;
+            }
+        }
         return (
             <div class="dashboard-block-cell" style={{left, top, width, height, ...style}}>
                 <div
