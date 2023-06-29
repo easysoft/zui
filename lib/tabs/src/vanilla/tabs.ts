@@ -6,7 +6,7 @@ const NAV_ITEM_SELECTOR = '[data-toggle="tab"]';
 
 const ACTIVE_CLASS = 'active';
 
-export class Tabs extends Component {
+export class Tabs extends Component<{}, {show: [target: string], shown: [target: string]}> {
     static NAME = 'Tabs';
 
     #timer = 0;
@@ -29,19 +29,22 @@ export class Tabs extends Component {
         $navItem.addClass('active');
 
         /* Add active class to panes. */
-        const target = $navItem.attr('href') || $navItem.data('target');
+        const target: string = $navItem.attr('href') || $navItem.data('target');
+        const name: string = $navItem.data('name') || target;
         const $activePane = $(target);
         if (!$activePane.length) {
             return;
         }
         $activePane.parent().children('.tab-pane').removeClass('active in');
-        $activePane.addClass('active');
+        $activePane.addClass('active').trigger('show', [name]);
 
+        this.emit('show', name);
         if (this.#timer) {
             clearTimeout(this.#timer);
         }
         this.#timer = setTimeout(() => {
-            $activePane.addClass('in');
+            $activePane.addClass('in').trigger('show', [name]);
+            this.emit('shown', name);
             this.#timer = 0;
         }, 10) as unknown as number;
     }
