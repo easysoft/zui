@@ -58,7 +58,7 @@ export class PickerMenu extends PickPop<PickerState, PickerMenuProps> {
         this.props.changeState({hoverItem: value}, () => {
             const $hoverItem = this.#getHoverItem();
             if ($hoverItem?.length) {
-                $hoverItem[0]!.scrollIntoView({block: 'nearest', behavior: 'smooth'});
+                $hoverItem.scrollIntoView({block: 'nearest', behavior: 'smooth'});
             }
         });
     }
