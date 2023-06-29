@@ -11,3 +11,11 @@
 .upload .file-item:hover .file-info {
     display: flex !important;
 }
+
+.upload .file-name {
+    border: 1px solid transparent;
+}
+
+.upload .file-name:hover {
+    border: 1px solid #ddd;
+}

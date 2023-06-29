@@ -3,7 +3,7 @@ import {Component, $, Cash} from '@zui/core';
 import {UploadOptions} from '../types';
 import {Tooltip} from '@zui/tooltip';
 
-export class Upload extends Component<UploadOptions> {
+export class Upload<T extends UploadOptions = UploadOptions> extends Component<T> {
     protected $input: Cash;
 
     protected $label: Cash;
@@ -89,7 +89,7 @@ export class Upload extends Component<UploadOptions> {
         this.$element.append(this.$input, ...$children);
     }
 
-    private bindDragEvent() {
+    protected bindDragEvent() {
         this.$label
             .on('dragover', (e) => {
                 e.preventDefault();
