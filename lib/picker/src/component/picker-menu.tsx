@@ -6,7 +6,7 @@ import {PickPop} from '@zui/pick/src/components';
 import {PickerMenuProps, PickerState} from '../types';
 import '@zui/css-icons/src/icons/close.css';
 
-const underlineWithSearchKeys = (searchKeys: string[], text: string[]): ComponentChild[] => {
+export const underlineKeys = (searchKeys: string[], text: string[]): ComponentChild[] => {
     return searchKeys.reduce<ComponentChild[]>((result, key) => {
         return [...result].reduce<ComponentChild[]>((list, span) => {
             if (typeof span !== 'string') {
@@ -91,7 +91,7 @@ export class PickerMenu extends PickPop<PickerState, PickerMenuProps> {
             list.push({
                 key: value,
                 active: selectionsSet.has(value),
-                text: typeof displayText === 'string' ? underlineWithSearchKeys(searchKeys, [displayText]) : <CustomContent content={displayText} />,
+                text: typeof displayText === 'string' ? underlineKeys(searchKeys, [displayText]) : <CustomContent content={displayText} />,
                 className: classes(className, {hover: value === hover}),
                 'data-value': value,
                 ...others,
