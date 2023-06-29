@@ -46,10 +46,10 @@ export class Button extends Component<ButtonProps> {
                 type: ButtonComponent === 'button' ? btnType : undefined,
                 ...others,
             } as Attributes,
-            <Icon icon={loading ? `icon ${loadingIcon || 'icon-spinner-snake'} spin` : icon} />,
+            loading ? <Icon icon={loadingIcon || 'icon-spinner-snake'} className="spin" /> : <Icon icon={icon} />,
             isEmptyText ? null : <span className="text">{loading ? loadingText : text}</span>,
             loading ? null : children,
-            loading ? null : typeof trailingIcon === 'string' ? <i class={`icon ${trailingIcon}`} /> : trailingIcon,
+            loading ? null : <Icon icon={trailingIcon} />,
             loading ? null : caret ? <span className={typeof caret === 'string' ? `caret-${caret}` : 'caret'} /> : null,
         );
     }

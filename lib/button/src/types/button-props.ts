@@ -1,5 +1,5 @@
-import type {ComponentType, ComponentChildren, JSX, VNode} from 'preact';
-import {ClassNameLike} from '@zui/core';
+import type {ComponentType, ComponentChildren, JSX} from 'preact';
+import type {ClassNameLike, IconType} from '@zui/core';
 
 export type ButtonProps = {
     component?: string | ComponentType;
@@ -14,13 +14,13 @@ export type ButtonProps = {
     target?: string;
     disabled?: boolean;
     active?: boolean;
-    icon?: string | VNode;
+    icon?: IconType;
     text?: ComponentChildren;
     square?: boolean;
-    trailingIcon?: string | VNode;
+    trailingIcon?: IconType;
     caret?: 'up' | 'down' | 'left' | 'right' | boolean;
     hint?: string;
     loading?: boolean;
-    loadingIcon?: string;
+    loadingIcon?: IconType;
     loadingText?: string;
 };
