@@ -6,7 +6,7 @@ import {PickPop} from '@zui/pick/src/components';
 import {PickerMenuProps, PickerState} from '../types';
 import '@zui/css-icons/src/icons/close.css';
 
-export const underlineKeys = (searchKeys: string[], text: string[]): ComponentChild[] => {
+export const underlineKeys = (searchKeys: string[], text: string[], className = 'is-match'): ComponentChild[] => {
     return searchKeys.reduce<ComponentChild[]>((result, key) => {
         return [...result].reduce<ComponentChild[]>((list, span) => {
             if (typeof span !== 'string') {
@@ -21,7 +21,7 @@ export const underlineKeys = (searchKeys: string[], text: string[]): ComponentCh
             let start = 0;
             parts.forEach((part, index) => {
                 if (index) {
-                    list.push(<span class="picker-menu-item-match">{span.substring(start, start + key.length)}</span>);
+                    list.push(<span class={className}>{span.substring(start, start + key.length)}</span>);
                     start += key.length;
                 }
                 list.push(span.substring(start, start + part.length));
