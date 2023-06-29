@@ -8,7 +8,7 @@
 /* With icons */
 .input-control-suffix,
 .input-control-prefix {
-  @apply -absolute -left-0 -top-0 -h-8 -flex -items-center -opacity-50 -px-2 -whitespace-nowrap -w-[--input-control-prefix];
+  @apply -absolute -left-0 -top-0 -h-full -flex -items-center -opacity-50 -px-2 -whitespace-nowrap -w-[--input-control-prefix];
 }
 .input-control-suffix {
   @apply -justify-end -w-[--input-control-suffix];
