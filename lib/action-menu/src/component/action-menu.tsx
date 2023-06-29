@@ -71,7 +71,7 @@ export class ActionMenu<T extends ActionBasicProps = ActionMenuItemOptions, P ex
     }
 
     getItemRenderProps(props: Omit<P, 'items'> & {items: T[]}, item: T, index: number): T {
-        const {commonItemProps, onClickItem} = props;
+        const {commonItemProps, onClickItem, itemRenderProps} = props;
         const itemProps: T = {...item};
 
         if (commonItemProps) {
@@ -81,6 +81,9 @@ export class ActionMenu<T extends ActionBasicProps = ActionMenuItemOptions, P ex
             itemProps.onClick = this.handleItemClick.bind(this, itemProps, index, item.onClick as ((event: MouseEvent) => void)) as JSX.MouseEventHandler<HTMLAnchorElement>;
         }
         itemProps.className = classes(itemProps.className);
+        if (itemRenderProps) {
+            Object.assign(itemProps, itemRenderProps(itemProps));
+        }
         return itemProps;
     }
 
