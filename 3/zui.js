@@ -6192,9 +6192,10 @@ var Yo = (e, t, n) => {
 let th = class extends V {
   constructor(t) {
     super(t), ve(this, Vs), ve(this, Bs, void 0), ve(this, zs, nt()), ve(this, Ae, 0), ve(this, Or, (n) => {
+      const s = this.state.value;
       n.stopPropagation(), this.setState({ value: "" }, () => {
-        var s, i;
-        (i = (s = this.props).onClear) == null || i.call(s, n), this.focus();
+        const { onChange: i, onClear: r } = this.props;
+        r == null || r(n), this.focus(), s.trim() !== "" && (i == null || i("", n));
       });
     }), ve(this, Fs, (n) => {
       const s = this.state.value, i = n.target.value, { onChange: r } = this.props;
