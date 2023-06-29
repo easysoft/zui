@@ -1908,8 +1908,8 @@ const gr = class extends V {
     return t && Object.assign(e, t), e;
   }
   getItemRenderProps(e, t, n) {
-    const { commonItemProps: s, onClickItem: i } = e, r = { ...t };
-    return s && Object.assign(r, s[t.type || "item"]), (i || t.onClick) && (r.onClick = this.handleItemClick.bind(this, r, n, t.onClick)), r.className = M(r.className), r;
+    const { commonItemProps: s, onClickItem: i, itemRenderProps: r } = e, o = { ...t };
+    return s && Object.assign(o, s[t.type || "item"]), (i || t.onClick) && (o.onClick = this.handleItemClick.bind(this, o, n, t.onClick)), o.className = M(o.className), r && Object.assign(o, r(o)), o;
   }
   renderItem(e, t, n) {
     if (!t)
