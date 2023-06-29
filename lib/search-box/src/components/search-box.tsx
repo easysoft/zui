@@ -31,10 +31,15 @@ export class SearchBox extends Component<SearchBoxOptions, SearchBoxState> {
     }
 
     #handleClearBtnClick = (event: MouseEvent) => {
+        const oldValue = this.state.value;
         event.stopPropagation();
         this.setState({value: ''}, () => {
-            this.props.onClear?.(event);
+            const {onChange, onClear} = this.props;
+            onClear?.(event);
             this.focus();
+            if (oldValue.trim() !== '') {
+                onChange?.('', event);
+            }
         });
     };
 
