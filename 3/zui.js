@@ -5861,16 +5861,16 @@ as = new WeakMap(), vi = new WeakMap(), _i = new WeakMap(), bi = new WeakMap(), 
   }
   return r;
 };
-const af = (e, t) => e.reduce((n, s) => [...n].reduce((i, r) => {
-  if (typeof r != "string")
-    return i.push(r), i;
-  const o = r.toLowerCase().split(s);
-  if (o.length === 1)
-    return i.push(r), i;
-  let a = 0;
-  return o.forEach((l, h) => {
-    h && (i.push(/* @__PURE__ */ m("span", { class: "picker-menu-item-match", children: r.substring(a, a + s.length) })), a += s.length), i.push(r.substring(a, a + l.length)), a += l.length;
-  }), i;
+const af = (e, t, n = "is-match") => e.reduce((s, i) => [...s].reduce((r, o) => {
+  if (typeof o != "string")
+    return r.push(o), r;
+  const a = o.toLowerCase().split(i);
+  if (a.length === 1)
+    return r.push(o), r;
+  let l = 0;
+  return a.forEach((h, c) => {
+    c && (r.push(/* @__PURE__ */ m("span", { class: n, children: o.substring(l, l + i.length) })), l += i.length), r.push(o.substring(l, l + h.length)), l += h.length;
+  }), r;
 }, []), t);
 var $i, Ci, Kc, ki, Xc, Si;
 class lf extends Lc {
