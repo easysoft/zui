@@ -31,6 +31,7 @@ export class SearchBox extends Component<SearchBoxOptions, SearchBoxState> {
     }
 
     #handleClearBtnClick = (event: MouseEvent) => {
+        event.stopPropagation();
         this.setState({value: ''}, () => {
             this.props.onClear?.(event);
             this.focus();
