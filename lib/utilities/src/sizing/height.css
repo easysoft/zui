@@ -54,3 +54,6 @@
 .h-min    {@apply -h-min;}
 .h-max    {@apply -h-max;}
 .h-fit    {@apply -h-fit;}
+
+.max-h-full {@apply -max-h-full;}
+.min-h-0    {@apply -min-h-0;}
