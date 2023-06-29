@@ -24,21 +24,22 @@ export class Upload extends Component<UploadOptions> {
 
     static DEFAULT: Partial<UploadOptions> = {
         uploadText: '上传文件',
-        renameText: '重命名',
-        renameIcon: 'edit',
-        deleteText: '删除',
-        deleteIcon: 'trash',
         confirmText: '确定',
         cancelText: '取消',
         useIconBtn: true,
         renameBtn: true,
+        renameText: '重命名',
+        renameIcon: 'edit',
         deleteBtn: true,
+        deleteText: '删除',
+        deleteIcon: 'trash',
         showIcon: true,
         multiple: true,
         listPosition: 'bottom',
         limitSize: false,
         icon: 'file-o',
         btnClass: '',
+        tip: '',
         draggable: false,
         showSize: true,
     };
@@ -173,10 +174,10 @@ export class Upload extends Component<UploadOptions> {
         if (multiple) {
             for (let file of files) {
                 if (limitCount && this.fileMap.size >= limitCount) {
-                    return alert(exceededSizeHint);
+                    return alert(exceededCountHint);
                 }
                 if (this.currentBytes + file.size > this.limitBytes) {
-                    return alert(exceededCountHint);
+                    return alert(exceededSizeHint);
                 }
                 file = this.renameDuplicatedFile(file);
                 const item = this.createFileItem(file);
@@ -197,7 +198,7 @@ export class Upload extends Component<UploadOptions> {
         this.$list.empty().append(item);
     }
 
-    private deleteFileItem(name: string) {
+    protected deleteFileItem(name: string) {
         const fileName =  this.renameMap.get(name) ?? name;
         this.renameMap.delete(name);
         const file = this.fileMap.get(fileName);
@@ -205,8 +206,10 @@ export class Upload extends Component<UploadOptions> {
             return;
         }
 
-        this.itemMap.get(file.name)?.remove();
+        const $item = this.itemMap.get(file.name);
         this.itemMap.delete(file.name);
+        $item?.addClass('hidden');
+        setTimeout(() => $item?.remove(), 3000);
         this.options.onDelete?.(file);
         this.fileMap.delete(file.name);
 
@@ -216,7 +219,7 @@ export class Upload extends Component<UploadOptions> {
         this.$input.prop('files', this.dataTransfer.files);
     }
 
-    private renameFileItem(file: File, newName: string) {
+    protected renameFileItem(file: File, newName: string) {
         const fileName = this.renameMap.get(file.name);
         this.renameMap.set(file.name, newName);
         if (fileName) {
@@ -259,31 +262,31 @@ export class Upload extends Component<UploadOptions> {
     }
 
     protected fileRenameBtn(text: string) {
-        const {useIconBtn, renameIcon} = this.options;
+        const {useIconBtn, renameIcon, renameClass} = this.options;
         if (useIconBtn) {
-            const $icon = $(`<i class="icon icon-${renameIcon}"></i>`)
-                .addClass('cursor-pointer file-action file-reanme');
-            new Tooltip($icon, {title: text});
-            return $icon;
+            const $iconBtn = $(`<button class="btn btn-link h-5 w-5 ${renameClass}"><i class="icon icon-${renameIcon}"></i></button>`)
+                .addClass('cursor-pointer file-action file-rename');
+            new Tooltip($iconBtn, {title: text});
+            return $iconBtn;
         }
 
         return $('<button />')
-            .addClass('btn size-sm rounded-sm text-primary canvas file-action file-rename')
+            .addClass(`btn size-sm rounded-sm text-primary canvas file-action file-rename ${renameClass}`)
             .html(text);
     }
 
     protected fileDeleteBtn(text: string) {
-        const {useIconBtn, deleteIcon} = this.options;
+        const {useIconBtn, deleteIcon, deleteClass} = this.options;
         if (useIconBtn) {
-            const $icon = $(`<i class="icon icon-${deleteIcon}"></i>`)
+            const $iconBtn = $(`<button class="btn btn-link h-5 w-5 ${deleteClass}"><i class="icon icon-${deleteIcon}"></i></button>`)
                 .addClass('cursor-pointer file-action file-delete');
-            new Tooltip($icon, {title: text});
-            return $icon;
+            new Tooltip($iconBtn, {title: text});
+            return $iconBtn;
         }
 
         return $('<button />')
             .html(text)
-            .addClass('btn size-sm rounded-sm text-primary canvas file-action file-delete');
+            .addClass(`btn size-sm rounded-sm text-primary canvas file-action file-delete ${deleteClass}`);
     }
 
     protected fileName(name: string) {
@@ -296,9 +299,8 @@ export class Upload extends Component<UploadOptions> {
 
     protected createFileInfo(file: File) {
         const {renameBtn, renameText, deleteBtn, deleteText, showSize} = this.options;
-        const $name = this.fileName(file.name);
         const $fileInfo = $('<div class="file-info flex items-center gap-2"></div>');
-        $fileInfo.append($name);
+        $fileInfo.append(this.fileName(file.name));
         if (showSize) {
             $fileInfo.append(this.fileSize(file.size));
         }
@@ -309,29 +311,28 @@ export class Upload extends Component<UploadOptions> {
                         $fileInfo
                             .addClass('hidden')
                             .closest('.file-item')
-                            .find('.input-group.hidden')
+                            .find('.input-rename-container.hidden')
                             .removeClass('hidden');
                         const inputEl = $(e.target).closest('li').find('input')[0] as HTMLInputElement;
                         inputEl.focus();
                         if (inputEl.value.lastIndexOf('.') !== -1) {
                             inputEl.setSelectionRange(0, inputEl.value.lastIndexOf('.'));
                         }
-
                     }),
             );
         }
         if (deleteBtn) {
             $fileInfo.append(
                 this.fileDeleteBtn(deleteText!)
-                    .on('click', () => this.deleteFileItem($name.html())),
+                    .on('click', () => this.deleteFileItem(file.name)),
             );
         }
         return $fileInfo;
     }
 
-    private createRenameContainer(file: File) {
+    protected createRenameContainer(file: File) {
         const {confirmText, cancelText, duplicatedHint} = this.options;
-        const $renameContainer = $('<div class="input-group hidden"></div>');
+        const $renameContainer = $('<div class="input-group input-rename-container hidden"></div>');
         const $input = $('<input />')
             .addClass('form-control')
             .prop('type', 'text')
@@ -339,17 +340,22 @@ export class Upload extends Component<UploadOptions> {
             .prop('defaultValue', file.name)
             .on('keydown', (e: KeyboardEvent) => {
                 if (e.key === 'Enter') {
+                    const $fileItem = $renameContainer.closest('.file-item');
+                    const $fileName = $fileItem.find('.file-name');
+                    if ($fileName.html() === $input.val()) {
+                        $renameContainer.addClass('hidden');
+                        $fileItem.find('.file-info.hidden').removeClass('hidden');
+                        return;
+                    }
+
                     if (this.fileMap.has($input.val() as string)) {
                         return alert(duplicatedHint);
                     }
+
                     this.renameFileItem(file, $input.val() as string);
-                    $renameContainer
-                        .addClass('hidden')
-                        .closest('.file-item')
-                        .find('.file-info.hidden')
-                        .removeClass('hidden')
-                        .find('.file-name')
-                        .html($input.val() as string);
+                    $renameContainer.addClass('hidden');
+                    $fileItem.find('.file-info.hidden').removeClass('hidden');
+                    $fileName.html($input.val() as string);
                 } else if (e.key === 'Escape') {
                     $input.val(file.name);
                     $renameContainer
@@ -364,17 +370,21 @@ export class Upload extends Component<UploadOptions> {
             .prop('type', 'button')
             .html(confirmText!)
             .on('click', () => {
+                const $fileItem = $renameContainer.closest('.file-item');
+                const $fileName = $fileItem.find('.file-name');
+                if ($fileName.html() === $input.val()) {
+                    $renameContainer.addClass('hidden');
+                    $fileItem.find('.file-info.hidden').removeClass('hidden');
+                    return;
+                }
+
                 if (this.fileMap.has($input.val() as string)) {
                     return alert(duplicatedHint);
                 }
                 this.renameFileItem(file, $input.val() as string);
-                $renameContainer
-                    .addClass('hidden')
-                    .closest('.file-item')
-                    .find('.file-info.hidden')
-                    .removeClass('hidden')
-                    .find('.file-name')
-                    .html($input.val() as string);
+                $renameContainer.addClass('hidden');
+                $fileItem.find('.file-info.hidden').removeClass('hidden');
+                $fileName.html($input.val() as string);
             });
         const $cancelBtn = $('<button />')
             .prop('type', 'button')

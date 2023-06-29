@@ -6,13 +6,15 @@ export type UploadOptions = {
     showSize: boolean;
     multiple: boolean;
     listPosition: 'bottom' | 'top';
-    renameBtn: boolean;
-    deleteBtn: boolean;
     uploadText: string;
+    renameBtn: boolean;
     renameIcon: string;
     renameText: string;
+    renameClass: string;
+    deleteBtn: boolean;
     deleteIcon: string;
     deleteText: string;
+    deleteClass: string;
     confirmText: string;
     cancelText: string;
     useIconBtn: boolean;
