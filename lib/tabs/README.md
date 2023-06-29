@@ -5,10 +5,10 @@
 给链接添加 `href` 或 `data-target` 属性，属性值指向所切换的标签页内容元素的 `id` 。并添加 `data-toggle="tab"` 属性。
 
 ```html:example: gap-3
-<ul class="nav nav-tabs">
-  <li class="nav-item"><a class="active" data-toggle="tab" href="#tabContent1">标签1</a></li>
-  <li class="nav-item"><a data-toggle="tab" href="#tabContent2">标签2</a></li>
-  <li class="nav-item"><a data-toggle="tab" href="#tabContent3">标签3</a></li>
+<ul class="nav nav-tabs" id="tabs">
+  <li class="nav-item"><a id="tab1" class="active" data-toggle="tab" href="#tabContent1">标签1</a></li>
+  <li class="nav-item"><a id="tab2" data-toggle="tab" href="#tabContent2">标签2</a></li>
+  <li class="nav-item"><a id="tab3" data-toggle="tab" href="#tabContent3">标签3</a></li>
 </ul>
 <div class="tab-content">
   <div class="tab-pane active" id="tabContent1">

@@ -10,6 +10,7 @@
     ],
     "devDependencies": {
         "@zui/base": "workspace:*",
+        "@zui/core": "workspace:*",
         "@zui/nav": "workspace:^0.0.1",
         "@zui/utilities": "workspace:*"
     },
