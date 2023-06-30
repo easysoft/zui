@@ -4,6 +4,7 @@
 .tree-toggle-icon {
   @apply -w-4 -flex -items-center -justify-center -rounded -h-4;
   --caret-size: 5px;
+  --caret-opacity: .3;
 }
 .tree-checkbox {
   @apply --mr-1;
