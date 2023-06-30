@@ -7,7 +7,7 @@
   <div class="alert-content">
     Hi! 这条消息可能需要你注意。
   </div>
-  <button type="button" class="alert-close btn ghost square"><span class="close"></span></button>
+  <button type="button" class="alert-close btn ghost square text-inherit"><span class="close"></span></button>
 </div>
 ```
 
