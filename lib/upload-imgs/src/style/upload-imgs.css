@@ -1,0 +1,12 @@
+.upload .upload-tip {
+    color: var(--color-slate-500);
+}
+
+.file-item > .img {
+    width: 120px;
+    height: 120px;
+}
+
+.upload .file-item:hover .file-size {
+    display: flex !important;
+}

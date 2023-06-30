@@ -1,78 +1,76 @@
 import {Upload} from '@zui/upload';
 import {Cash, $} from '@zui/core';
-import {Tooltip} from '@zui/tooltip';
-import {formatBytes} from '@zui/helpers/src/format-string';
 import {UploadImgsOptions} from '../types';
 
 export class UploadImgs extends Upload<UploadImgsOptions> {
     private $uploadInfo: Cash;
 
+    private $tip: Cash;
+
+    private $uploadButtonItem: Cash;
+
     static DEFAULT: Partial<UploadImgsOptions> = {
-        uploadText: '开始上传',
-        confirmText: '确定',
-        cancelText: '取消',
+        uploadText: '添加文件',
         renameBtn: true,
         renameText: '重命名',
         renameIcon: 'edit',
+        renameClass: '',
         deleteBtn: true,
         deleteText: '删除',
         deleteIcon: 'trash',
-        deleteClass: 'text-danger',
+        deleteClass: '',
         showIcon: false,
         multiple: true,
-        listPosition: 'bottom',
         limitSize: false,
-        icon: 'file-o',
         btnClass: '',
         draggable: true,
         accept: 'image/jpg, image/jpeg, image/gif, image/png',
         showSize: true,
         useIconBtn: true,
-        commentText: '',
-        addImgsText: '添加文件',
-        toUploadText: '待上传',
-        totalSizeText: '共 %s 个文件，总大小 %s。',
+        totalCountText: '共 <span class="font-bold text-black">%s</span> 个文件 <span class="font-bold text-black">%s</span> 个文件等待上传。',
     };
 
     init() {
-        this.options.onSizeChange = (size) => {
-            this.$uploadInfo.html(this.options.totalSizeText!.replace('%s', this.fileMap.size.toString()).replace('%s', formatBytes(size)));
+        this.initUploadButtonItemCash();
+        this.options.onSizeChange = () => {
+            this.$uploadInfo.html(this.options.totalCountText!.replace('%s', this.fileMap.size.toString()).replace('%s', this.fileMap.size.toString()));
+            if (this.fileMap.size > 0) {
+                this.$tip.remove();
+                this.$list.append(this.$uploadButtonItem);
+            } else {
+                this.$uploadButtonItem.remove();
+                this.$label.append(this.$tip);
+            }
         };
         super.init();
         this.$list.addClass('flex');
     }
 
+    protected initUploadButtonItemCash() {
+        this.$uploadButtonItem = $(`<label class="upload-button-item order-last" for="${this.options.name}" />`)
+            .addClass('flex justify-center items-center cursor-pointer')
+            .css({width: 120, height: 120, background: 'var(--color-slate-100)'})
+            .append($('<i class="icon icon-plus" />'));
+    }
+
     protected initUploadCash() {
-        const {name, tip, uploadText, commentText, addImgsText, totalSizeText, handleUpload} = this.options;
+        const {name, tip, uploadText, totalCountText} = this.options;
         this.$list = $('<ul class="file-list py-1 flex-wrap gap-x-4 gap-y-4"></ul>');
-        this.$label = $('<div class="draggable-area relative block w-full border border-dashed border-gray"></div>').css({minHeight: 160});
+        this.$label = $('<div class="draggable-area relative block w-full border border-dashed border-gray"></div>').css({minHeight: 64});
         if (tip) {
-            const $tip = $(`<span class="upload-tip absolute inset-0 flex justify-center items-center">${tip}</span>`);
-            this.$label.append($tip);
+            this.$tip = $('<div class="absolute inset-0 col justify-center items-center"></div>')
+                .append(`<label for="${name}" class="text-primary cursor-pointer">${uploadText}</label>`)
+                .append($(`<span class="upload-tip">${tip}</span>`));
+            this.$label.append(this.$tip);
         }
         this.$label.append(this.$input, this.$list);
         this.bindDragEvent();
         this.$element.append(this.$label);
-        if (commentText) {
-            const $comment = $(`<div class="text-secondary py-2">${commentText}</div>`);
-            this.$element.append($comment);
-        }
 
-        const $footer = $('<div class="flex justify-between"></div>');
-        const $btnGroup = $('<div class="flex gap-3"></div>');
-        const $addBtn = $(`<label class="btn primary" for="${name}"><i class="icon icon-plus"></i>${addImgsText}</label>`);
-        const $uploadBtn = $(`<button class="btn primary"><i class="icon icon-arrow-up"></i>${uploadText}</button>`);
-        if (handleUpload) {
-            $uploadBtn.on('click', () => {
-                handleUpload(Array.from(this.fileMap.values()));
-            });
-        }
-        $btnGroup.append($addBtn).append($uploadBtn);
-        this.$uploadInfo = $('<div></div>')
+        this.$uploadInfo = $('<div class="py-1" />')
             .css({color: 'var(--color-slate-500)'})
-            .html(totalSizeText!.replace('%s', this.fileMap.size.toString()).replace('%s', formatBytes(this.currentBytes)));
-        $footer.append($btnGroup).append(this.$uploadInfo);
-        this.$element.append($footer);
+            .html(totalCountText!.replace('%s', this.fileMap.size.toString()).replace('%s', this.fileMap.size.toString()));
+        this.$element.append(this.$uploadInfo);
     }
 
     protected addFileItem(files: File[]) {
@@ -83,25 +81,29 @@ export class UploadImgs extends Upload<UploadImgsOptions> {
     }
 
     protected createFileItem(file: File) {
-        const $fileItem = super.createFileItem(file);
-        $fileItem
+        const $fileItem = super.createFileItem(file)
             .addClass('relative')
             .removeClass('flex items-center gap-2 my-1');
         this.setImageUrl(file, $fileItem);
-        $fileItem.append(this.toUploadTip());
-        if (this.options.showSize) {
-            const $fileSize = this.fileSize(file.size)
-                .addClass('file-size label text-white circle darker absolute px-1 hidden')
-                .removeClass('text-gray')
-                .css({bottom: 36, left: 4});
-            $fileItem.append($fileSize);
+
+        const {deleteBtn, showSize} = this.options;
+        if (deleteBtn) {
+            $fileItem.append(
+                this.fileDeleteBtn()
+                    .addClass('absolute right-0 top-0 text-white')
+                    .css({background: 'var(--color-slate-500)'})
+                    .on('click', () => this.deleteFileItem(file.name)),
+            );
         }
-        const $name = $(`<div class="file-name text-center py-1 ellipsis">${file.name}</div>`)
-            .css({width: 120})
-            .on('click', (e) => {
-                $(e.target).closest('.file-item').find('.file-rename').trigger('click');
-            });
-        $fileItem.append($name);
+        if (showSize) {
+            $fileItem.append(
+                this.fileSize(file.size)
+                    .addClass('file-size label text-white circle darker absolute px-1 hidden')
+                    .removeClass('text-gray')
+                    .css({top: 96, left: 4}),
+            );
+        }
+
         return $fileItem;
     }
 
@@ -109,48 +111,31 @@ export class UploadImgs extends Upload<UploadImgsOptions> {
         const fr = new FileReader();
         fr.onload = () => {
             $('<div class="img flex-none" />')
+                .addClass('rounded')
                 .css({backgroundImage: `url(${fr.result})`})
                 .prependTo($fileItem);
         };
         fr.readAsDataURL(file);
     }
 
-    private toUploadTip() {
-        const {toUploadText} = this.options;
-        const $icon = $('<i class="icon icon-arrow-up absolute"></i>').css({top: 4, left: 4});
-        new Tooltip($icon, {title: toUploadText});
-        return $icon;
-    }
-
     protected createFileInfo(file: File) {
-        const {renameBtn, renameText, deleteBtn, deleteText} = this.options;
-        const $fileInfo = $('<div />')
-            .addClass('hidden absolute top-0 right-0 left-0 file-info flex items-center justify-end')
-            .css({background: 'rgba(255, 255, 255, .85)'});
-        const $btnGroup = $('<div></div>');
-        if (renameBtn) {
-            $btnGroup.append(
-                this.fileRenameBtn(renameText!)
-                    .on('click', (e) => {
-                        const $item = $(e.target).closest('li');
-                        $item.find('.file-name').addClass('hidden');
-                        $item.find('.input-rename-container').removeClass('hidden');
-                        const inputEl = $item.find('input')[0] as HTMLInputElement;
-                        inputEl.focus();
-                        if (inputEl.value.lastIndexOf('.') !== -1) {
-                            inputEl.setSelectionRange(0, inputEl.value.lastIndexOf('.'));
-                        }
-                    }),
-            );
-        }
-        if (deleteBtn) {
-            $btnGroup.append(
-                this.fileDeleteBtn(deleteText!)
-                    .on('click', () => this.deleteFileItem(file.name)),
-            );
-        }
+        const $renameBtn = this.fileRenameBtn()
+            .addClass('flex-none')
+            .on('click', (e) => {
+                const $item = $(e.target).closest('.file-item');
+                $item.find('.file-info').addClass('hidden');
+                $item.find('.input-rename-container').removeClass('hidden');
 
-        $fileInfo.append($btnGroup);
+                const inputEl = $item.find('input')[0] as HTMLInputElement;
+                inputEl.focus();
+                if (inputEl.value.lastIndexOf('.') !== -1) {
+                    inputEl.setSelectionRange(0, inputEl.value.lastIndexOf('.'));
+                }
+            });
+        const $fileInfo = $('<div class="file-info flex justify-between items-center"></div>')
+            .css({width: 120})
+            .append($(`<div class="file-name py-1 ellipsis">${file.name}</div>`))
+            .append($renameBtn);
 
         return $fileInfo;
     }
@@ -162,13 +147,13 @@ export class UploadImgs extends Upload<UploadImgsOptions> {
             .prop('type', 'text')
             .prop('autofocus', true)
             .prop('defaultValue', file.name)
-            .css({width: 120, height: 30})
+            .css({width: 120})
             .on('keydown', (e: KeyboardEvent) => {
                 if (e.key === 'Enter') {
                     const $fileName = $input.closest('.file-item').find('.file-name');
                     if ($fileName.html() === $input.val()) {
                         $input.addClass('hidden');
-                        $fileName.removeClass('hidden');
+                        $fileName.closest('.file-info').removeClass('hidden');
                         return;
                     }
                     if (this.fileMap.has($input.val() as string)) {
@@ -176,7 +161,7 @@ export class UploadImgs extends Upload<UploadImgsOptions> {
                     }
                     this.renameFileItem(file, $input.val() as string);
                     $input.addClass('hidden');
-                    $fileName.html($input.val() as string).removeClass('hidden');
+                    $fileName.html($input.val() as string).closest('.file-info').removeClass('hidden');
                 } else if (e.key === 'Escape') {
                     $input.val(file.name)
                         .addClass('hidden')
@@ -189,7 +174,7 @@ export class UploadImgs extends Upload<UploadImgsOptions> {
                 const $fileName = $input.closest('.file-item').find('.file-name');
                 if ($fileName.html() === $input.val()) {
                     $input.addClass('hidden');
-                    $fileName.removeClass('hidden');
+                    $fileName.closest('.file-info').removeClass('hidden');
                     return;
                 }
                 if (this.fileMap.has($input.val() as string)) {
@@ -197,7 +182,7 @@ export class UploadImgs extends Upload<UploadImgsOptions> {
                 }
                 this.renameFileItem(file, $input.val() as string);
                 $input.addClass('hidden');
-                $fileName.html($input.val() as string).removeClass('hidden');
+                $fileName.html($input.val() as string).closest('.file-info').removeClass('hidden');
             });
 
         return $input;

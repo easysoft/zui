@@ -30,9 +30,11 @@ export class Upload<T extends UploadOptions = UploadOptions> extends Component<T
         renameBtn: true,
         renameText: '重命名',
         renameIcon: 'edit',
+        renameClass: '',
         deleteBtn: true,
         deleteText: '删除',
         deleteIcon: 'trash',
+        deleteClass: '',
         showIcon: true,
         multiple: true,
         listPosition: 'bottom',
@@ -265,31 +267,31 @@ export class Upload<T extends UploadOptions = UploadOptions> extends Component<T
         return $(`<i class="icon icon-${icon}"></i>`);
     }
 
-    protected fileRenameBtn(text: string) {
-        const {useIconBtn, renameIcon, renameClass} = this.options;
+    protected fileRenameBtn() {
+        const {useIconBtn, renameText, renameIcon, renameClass} = this.options;
         if (useIconBtn) {
-            const $iconBtn = $(`<button class="btn btn-link h-5 w-5 ${renameClass}"><i class="icon icon-${renameIcon}"></i></button>`)
-                .addClass('cursor-pointer file-action file-rename');
-            new Tooltip($iconBtn, {title: text});
+            const $iconBtn = $(`<button class="btn btn-link h-5 w-5 p-0 ${renameClass}"><i class="icon icon-${renameIcon}"></i></button>`)
+                .addClass('file-action file-rename');
+            new Tooltip($iconBtn, {title: renameText});
             return $iconBtn;
         }
 
         return $('<button />')
             .addClass(`btn size-sm rounded-sm text-primary canvas file-action file-rename ${renameClass}`)
-            .html(text);
+            .html(renameText!);
     }
 
-    protected fileDeleteBtn(text: string) {
-        const {useIconBtn, deleteIcon, deleteClass} = this.options;
+    protected fileDeleteBtn() {
+        const {useIconBtn, deleteText, deleteIcon, deleteClass} = this.options;
         if (useIconBtn) {
-            const $iconBtn = $(`<button class="btn btn-link h-5 w-5 ${deleteClass}"><i class="icon icon-${deleteIcon}"></i></button>`)
-                .addClass('cursor-pointer file-action file-delete');
-            new Tooltip($iconBtn, {title: text});
+            const $iconBtn = $(`<button class="btn btn-link h-5 w-5 p-0 ${deleteClass}"><i class="icon icon-${deleteIcon}"></i></button>`)
+                .addClass('file-action file-delete');
+            new Tooltip($iconBtn, {title: deleteText});
             return $iconBtn;
         }
 
         return $('<button />')
-            .html(text)
+            .html(deleteText!)
             .addClass(`btn size-sm rounded-sm text-primary canvas file-action file-delete ${deleteClass}`);
     }
 
@@ -302,7 +304,7 @@ export class Upload<T extends UploadOptions = UploadOptions> extends Component<T
     }
 
     protected createFileInfo(file: File) {
-        const {renameBtn, renameText, deleteBtn, deleteText, showSize} = this.options;
+        const {renameBtn, deleteBtn, showSize} = this.options;
         const $fileInfo = $('<div class="file-info flex items-center gap-2"></div>');
         $fileInfo.append(this.fileName(file.name));
         if (showSize) {
@@ -310,7 +312,7 @@ export class Upload<T extends UploadOptions = UploadOptions> extends Component<T
         }
         if (renameBtn) {
             $fileInfo.append(
-                this.fileRenameBtn(renameText!)
+                this.fileRenameBtn()
                     .on('click', (e) => {
                         $fileInfo
                             .addClass('hidden')
@@ -327,7 +329,7 @@ export class Upload<T extends UploadOptions = UploadOptions> extends Component<T
         }
         if (deleteBtn) {
             $fileInfo.append(
-                this.fileDeleteBtn(deleteText!)
+                this.fileDeleteBtn()
                     .on('click', () => this.deleteFileItem(file.name)),
             );
         }

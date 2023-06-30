@@ -1,1 +1,1 @@
-import './upload.css';
+import './upload-imgs.css';
