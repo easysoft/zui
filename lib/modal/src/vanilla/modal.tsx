@@ -161,7 +161,7 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
     #renderDialog(dialogOptions: ModalDialogOptions | ModalDialogHTML): Promise<void> {
         return new Promise((resolve) => {
             if (Array.isArray(dialogOptions)) {
-                $(this.modalElement).html(dialogOptions[0]).runJS();
+                $(this.modalElement).html(dialogOptions[0]);
                 return resolve();
             }
             const {afterRender, ...others} = dialogOptions;
