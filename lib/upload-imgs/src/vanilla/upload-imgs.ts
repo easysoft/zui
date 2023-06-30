@@ -43,7 +43,7 @@ export class UploadImgs extends Upload<UploadImgsOptions> {
     }
 
     protected initUploadCash() {
-        const {name, tip, uploadText, commentText, addImgsText, totalSizeText} = this.options;
+        const {name, tip, uploadText, commentText, addImgsText, totalSizeText, handleUpload} = this.options;
         this.$list = $('<ul class="file-list py-1 flex-wrap gap-x-4 gap-y-4"></ul>');
         this.$label = $('<div class="draggable-area relative block w-full border border-dashed border-gray"></div>').css({minHeight: 160});
         if (tip) {
@@ -62,6 +62,11 @@ export class UploadImgs extends Upload<UploadImgsOptions> {
         const $btnGroup = $('<div class="flex gap-3"></div>');
         const $addBtn = $(`<label class="btn primary" for="${name}"><i class="icon icon-plus"></i>${addImgsText}</label>`);
         const $uploadBtn = $(`<button class="btn primary"><i class="icon icon-arrow-up"></i>${uploadText}</button>`);
+        if (handleUpload) {
+            $uploadBtn.on('click', () => {
+                handleUpload(Array.from(this.fileMap.values()));
+            });
+        }
         $btnGroup.append($addBtn).append($uploadBtn);
         this.$uploadInfo = $('<div></div>')
             .css({color: 'var(--color-slate-500)'})

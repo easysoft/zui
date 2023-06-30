@@ -4,4 +4,5 @@ export type UploadImgsOptions = UploadOptions & Partial<{
     addImgsText: string;
     toUploadText: string;
     totalSizeText: string;
+    handleUpload: (files: File[]) => void;
 }>;
