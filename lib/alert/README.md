@@ -17,7 +17,7 @@
     <button type="button" class="btn primary-outline">确认</button>
     <button type="button" class="btn">取消</button>
   </div>
-  <button type="button" class="alert-close btn ghost square"><span class="close"></span></button>
+  <button type="button" class="alert-close btn ghost square text-inherit"><span class="close"></span></button>
 </div>
 ```
 
@@ -34,7 +34,7 @@
       <button type="button" class="btn">取消</button>
     </div>
   </div>
-  <button type="button" class="alert-close btn ghost square"><span class="close"></span></button>
+  <button type="button" class="alert-close btn ghost square text-inherit"><span class="close"></span></button>
 </div>
 ```
 
