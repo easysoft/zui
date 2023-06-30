@@ -5,6 +5,8 @@ import {formatBytes} from '@zui/helpers/src/format-string';
 import {UploadImgsOptions} from '../types';
 
 export class UploadImgs extends Upload<UploadImgsOptions> {
+    private $uploadInfo: Cash;
+
     static DEFAULT: Partial<UploadImgsOptions> = {
         uploadText: '开始上传',
         confirmText: '确定',
@@ -33,8 +35,10 @@ export class UploadImgs extends Upload<UploadImgsOptions> {
     };
 
     init() {
+        this.options.onSizeChange = (size) => {
+            this.$uploadInfo.html(this.options.totalSizeText!.replace('%s', this.fileMap.size.toString()).replace('%s', formatBytes(size)));
+        };
         super.init();
-
         this.$list.addClass('flex');
     }
 
@@ -59,9 +63,10 @@ export class UploadImgs extends Upload<UploadImgsOptions> {
         const $addBtn = $(`<label class="btn primary" for="${name}"><i class="icon icon-plus"></i>${addImgsText}</label>`);
         const $uploadBtn = $(`<button class="btn primary"><i class="icon icon-arrow-up"></i>${uploadText}</button>`);
         $btnGroup.append($addBtn).append($uploadBtn);
-        const $uploadInfo = $('<div></div>')
+        this.$uploadInfo = $('<div></div>')
+            .css({color: 'var(--color-slate-500)'})
             .html(totalSizeText!.replace('%s', this.fileMap.size.toString()).replace('%s', formatBytes(this.currentBytes)));
-        $footer.append($btnGroup).append($uploadInfo);
+        $footer.append($btnGroup).append(this.$uploadInfo);
         this.$element.append($footer);
     }
 

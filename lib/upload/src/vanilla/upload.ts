@@ -140,7 +140,8 @@ export class Upload<T extends UploadOptions = UploadOptions> extends Component<T
     }
 
     private addFile(file: File) {
-        if (!this.options.multiple) {
+        const {multiple, onSizeChange} = this.options;
+        if (!multiple) {
             this.renameMap.clear();
             this.fileMap.clear();
             this.dataTransfer.items.clear();
@@ -152,6 +153,7 @@ export class Upload<T extends UploadOptions = UploadOptions> extends Component<T
         this.dataTransfer.items.add(file);
         this.$input.prop('files', this.dataTransfer.files);
         this.currentBytes += file.size;
+        onSizeChange?.(this.currentBytes);
     }
 
     private renameDuplicatedFile(file: File) {
@@ -206,14 +208,16 @@ export class Upload<T extends UploadOptions = UploadOptions> extends Component<T
             return;
         }
 
+        const {onDelete, onSizeChange} = this.options;
         const $item = this.itemMap.get(file.name);
         this.itemMap.delete(file.name);
         $item?.addClass('hidden');
         setTimeout(() => $item?.remove(), 3000);
-        this.options.onDelete?.(file);
+        onDelete?.(file);
         this.fileMap.delete(file.name);
 
         this.currentBytes -= file.size;
+        onSizeChange?.(this.currentBytes);
         this.dataTransfer = new DataTransfer();
         this.fileMap.forEach((f) => this.dataTransfer.items.add(f));
         this.$input.prop('files', this.dataTransfer.files);
