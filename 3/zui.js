@@ -4476,7 +4476,7 @@ li = /* @__PURE__ */ new WeakSet();
 Po = function(e) {
   return new Promise((t) => {
     if (Array.isArray(e))
-      return g(this.modalElement).html(e[0]).runJS(), t();
+      return g(this.modalElement).html(e[0]), t();
     const { afterRender: n, ...s } = e;
     e = {
       afterRender: (i) => {
