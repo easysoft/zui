@@ -14,7 +14,7 @@ export interface ActionMenuOptions<T extends ActionBasicProps = ActionMenuItemOp
     items: T[] | ((menu: ActionMenu<T>) => T[]),
     commonItemProps?: Record<string, Partial<T>>,
     itemRender?: Record<string, ComponentType> | ActionMenuItemRender<T>,
-    itemRenderProps?: (item: T) => Partial<T>,
+    itemRenderProps?: (item: T) => T,
     onClickItem?: (info: {menu: ActionMenu<T>, item: T, index: number, event: MouseEvent}) => void;
     beforeRender?: (info: {menu: ActionMenu<T>, options: ActionMenuOptions<T>}) => (Partial<Omit<ActionMenuOptions<T>, 'onClickItem' | 'beforeRender' | 'beforeDestroy' | 'afterRender'>> | undefined);
     afterRender?: (info: {menu: ActionMenu<T>, firstRender: boolean}) => void;

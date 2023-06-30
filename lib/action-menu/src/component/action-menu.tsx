@@ -72,7 +72,7 @@ export class ActionMenu<T extends ActionBasicProps = ActionMenuItemOptions, P ex
 
     getItemRenderProps(props: Omit<P, 'items'> & {items: T[]}, item: T, index: number): T {
         const {commonItemProps, onClickItem, itemRenderProps} = props;
-        const itemProps: T = {...item};
+        let itemProps: T = {...item};
 
         if (commonItemProps) {
             Object.assign(itemProps, commonItemProps[item.type || 'item']);
@@ -82,7 +82,7 @@ export class ActionMenu<T extends ActionBasicProps = ActionMenuItemOptions, P ex
         }
         itemProps.className = classes(itemProps.className);
         if (itemRenderProps) {
-            Object.assign(itemProps, itemRenderProps(itemProps));
+            itemProps = itemRenderProps(itemProps);
         }
         return itemProps;
     }
