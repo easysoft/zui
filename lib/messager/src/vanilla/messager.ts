@@ -76,9 +76,3 @@ export class Messager extends Component<MessagerOptions> {
         return messager;
     }
 }
-
-$(document).on('to-show.messager.zui', (_: Event, options: MessagerOptions & {container?: string | HTMLElement}) => {
-    if (options) {
-        Messager.show(options);
-    }
-});
