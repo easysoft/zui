@@ -1,5 +1,5 @@
 import type {ComponentChildren, JSX} from 'preact';
-import type {ClassNameLike} from '@zui/core';
+import type {ClassNameLike, IconType} from '@zui/core';
 import type {ToolbarOptions} from '@zui/toolbar';
 import type {ButtonProps} from '@zui/button';
 
@@ -7,7 +7,7 @@ export interface AlertOptions {
     className?: ClassNameLike;
     style?: JSX.CSSProperties;
     actions?: ToolbarOptions | ComponentChildren;
-    icon?: ComponentChildren;
+    icon?: IconType;
     heading?: ComponentChildren;
     content?: ComponentChildren;
     contentClass?: ClassNameLike;

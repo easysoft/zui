@@ -1,5 +1,5 @@
 import {isValidElement, ComponentChildren} from 'preact';
-import {classes} from '@zui/core';
+import {classes, Icon} from '@zui/core';
 import {Button} from '@zui/button/src/component/button';
 import type {ButtonProps} from '@zui/button';
 import type {ToolbarOptions} from '@zui/toolbar';
@@ -31,7 +31,7 @@ export function Alert({
     const actionsToolbar = isValidElement(actions) ? actions : (actions ? <Toolbar {...actions as ToolbarOptions} /> : null);
     return (
         <div className={classes('alert', className)} style={style} {...others}>
-            {isValidElement(icon) ? icon : (typeof icon === 'string' ? <i className={`icon ${icon}`}></i> : null)}
+            <Icon icon={icon} />
             {isValidElement(content) ? content : (
                 <div className={classes('alert-content', contentClass)}>
                     {isValidElement(heading) ? heading : (heading && <div className="alert-heading">{heading}</div>)}
