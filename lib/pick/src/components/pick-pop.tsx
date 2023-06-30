@@ -153,6 +153,7 @@ export class PickPop<S extends PickState = PickState, P extends PickPopProps<S> 
         }
         this.#container = undefined;
         this.#ref = undefined;
+        $(`pick-pop-${this.props.id}`).remove();
     }
 
     render(props: RenderableProps<P>) {

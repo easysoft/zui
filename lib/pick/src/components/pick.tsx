@@ -1,4 +1,4 @@
-import {Component, ComponentChildren, ComponentType, RenderableProps} from 'preact';
+import {Component, ComponentChildren, ComponentClass, ComponentType, RefObject, RenderableProps, createRef} from 'preact';
 import {$, delay} from '@zui/core';
 import type {PickOptions, PickPopProps, PickState, PickTriggerProps} from '../types';
 import {PickTrigger} from './pick-trigger';
@@ -24,6 +24,8 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
     #id: string;
 
     #toggleTimer = 0;
+
+    #pop: RefObject<ComponentType<PickPopProps<S>>> = createRef();
 
     constructor(props: O) {
         super(props);
@@ -203,6 +205,10 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
         if (this.#toggleTimer) {
             clearTimeout(this.#toggleTimer);
         }
+        const pop = this.#pop.current as unknown as Component<PickPopProps<S>>;
+        if (pop && pop.componentWillUnmount) {
+            pop.componentWillUnmount();
+        }
     }
 
     render(props: RenderableProps<O>, state: Readonly<S>) {
@@ -211,7 +217,7 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
         let popView: ComponentChildren;
         if (opened) {
             const Pop = this._getPop(props);
-            popView = (<Pop key="pop" {...this._getPopProps(props, state)}>
+            popView = (<Pop key="pop" ref={this.#pop} {...this._getPopProps(props, state)}>
                 {this._renderPop(props, state)}
             </Pop>);
         }
