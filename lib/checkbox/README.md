@@ -155,3 +155,53 @@
   <label for="primaryCheckbox23">禁用</label>
 </div>
 ```
+
+## Check List
+
+```html:example
+<div class="check-list-inline">
+  <label class="checkbox">
+    <input type="checkbox"> 复选框 1
+  </label>
+  <label class="checkbox">
+    <input type="checkbox"> 复选框 2
+  </label>
+  <label class="checkbox">
+    <input type="checkbox"> 复选框 1
+  </label>
+  <label class="checkbox">
+    <input type="checkbox"> 复选框 2
+  </label>
+  <label class="checkbox">
+    <input type="checkbox"> 复选框 1
+  </label>
+  <label class="checkbox">
+    <input type="checkbox"> 复选框 2
+  </label>
+  <label class="checkbox">
+    <input type="checkbox"> 复选框 1
+  </label>
+  <label class="checkbox">
+    <input type="checkbox"> 复选框 2
+  </label>
+  <label class="checkbox">
+    <input type="checkbox"> 复选框 1
+  </label>
+  <label class="checkbox">
+    <input type="checkbox"> 复选框 2
+  </label>
+</div>
+```
+
+```html:example
+<div class="check-list">
+  <div class="checkbox-primary">
+    <input type="checkbox" id="primaryCheckbox1">
+    <label for="primaryCheckbox1">未选中</label>
+  </div>
+  <div class="checkbox-primary">
+    <input type="checkbox" checked="checked" id="primaryCheckbox2">
+    <label for="primaryCheckbox2">选中</label>
+  </div>
+</div>
+```
