@@ -117,7 +117,7 @@ export class Upload<T extends UploadOptions = UploadOptions> extends Component<T
     }
 
     private initFileInputCash() {
-        const {name, multiple, accept, onChange} = this.options;
+        const {name, multiple, accept} = this.options;
 
         this.$input = $('<input />')
             .addClass('hidden')
@@ -133,7 +133,6 @@ export class Upload<T extends UploadOptions = UploadOptions> extends Component<T
 
                 const files = [...fileList];
                 this.addFileItem(files);
-                onChange?.(files);
             });
 
         if (accept) {
@@ -201,32 +200,38 @@ export class Upload<T extends UploadOptions = UploadOptions> extends Component<T
 
     protected addFileItem(files: File[]) {
         files = this.filterFiles(files);
-        const {multiple, limitCount, exceededSizeHint, exceededCountHint} = this.options;
+        const {multiple, limitCount, exceededSizeHint, exceededCountHint, onAdd} = this.options;
         if (multiple) {
+            const validFiles: File[] = [];
             for (let file of files) {
                 if (limitCount && this.fileMap.size >= limitCount) {
+                    onAdd?.(validFiles);
                     return alert(exceededCountHint);
                 }
                 if (this.currentBytes + file.size > this.limitBytes) {
+                    onAdd?.(validFiles);
                     return alert(exceededSizeHint);
                 }
                 file = this.renameDuplicatedFile(file);
                 const item = this.createFileItem(file);
                 this.itemMap.set(file.name, item);
                 this.$list.append(item);
+                validFiles.push(file);
             }
+            onAdd?.(validFiles);
+            return;
+        }
+
+        if (files[0].size > this.limitBytes) {
             return;
         }
 
         const file = this.renameDuplicatedFile(files[0]);
-        if (file.size > this.limitBytes) {
-            return;
-        }
-
         const item = this.createFileItem(file);
         this.itemMap.clear();
         this.itemMap.set(file.name, item);
         this.$list.empty().append(item);
+        onAdd?.(file);
     }
 
     protected deleteFileItem(name: string) {

@@ -20,7 +20,7 @@ export type UploadOptions = {
     useIconBtn: boolean;
     tip: string;
     btnClass: string;
-    onChange: (files: File[]) => void;
+    onAdd: (files: File[] | File) => void;
     onDelete: (file: File) => void;
     onRename: (newName: string, oldName: string) => void;
     onSizeChange: (size: number) => void;

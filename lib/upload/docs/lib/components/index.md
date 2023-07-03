@@ -296,11 +296,11 @@ const upload = new Upload('#example8', {
 + 类型：`string`
 + 必选：否
 
-### `onChange`
+### `onAdd`
 
 文件变更回调。
 
-+ 类型：`(files: File[]) => void`
++ 类型：`(files: File[] | File) => void`
 + 必选：否
 
 ### `onDelete`
