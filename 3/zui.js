@@ -6129,13 +6129,13 @@ class oh extends ht {
     });
   }
   initFileInputCash() {
-    const { name: t, multiple: n, accept: s, onChange: i } = this.options;
-    this.$input = m("<input />").addClass("hidden").prop("type", "file").prop("name", t).prop("id", t).prop("multiple", n).on("change", (r) => {
-      const o = r.target.files;
-      if (!o)
+    const { name: t, multiple: n, accept: s } = this.options;
+    this.$input = m("<input />").addClass("hidden").prop("type", "file").prop("name", t).prop("id", t).prop("multiple", n).on("change", (i) => {
+      const r = i.target.files;
+      if (!r)
         return;
-      const a = [...o];
-      this.addFileItem(a), i == null || i(a);
+      const o = [...r];
+      this.addFileItem(o);
     }), s && this.$input.prop("accept", s);
   }
   addFile(t) {
@@ -6162,24 +6162,25 @@ class oh extends ht {
   }
   addFileItem(t) {
     t = this.filterFiles(t);
-    const { multiple: n, limitCount: s, exceededSizeHint: i, exceededCountHint: r } = this.options;
+    const { multiple: n, limitCount: s, exceededSizeHint: i, exceededCountHint: r, onAdd: o } = this.options;
     if (n) {
-      for (let l of t) {
+      const h = [];
+      for (let c of t) {
         if (s && this.fileMap.size >= s)
-          return alert(r);
-        if (this.currentBytes + l.size > this.limitBytes)
-          return alert(i);
-        l = this.renameDuplicatedFile(l);
-        const h = this.createFileItem(l);
-        this.itemMap.set(l.name, h), this.$list.append(h);
+          return o == null || o(h), alert(r);
+        if (this.currentBytes + c.size > this.limitBytes)
+          return o == null || o(h), alert(i);
+        c = this.renameDuplicatedFile(c);
+        const d = this.createFileItem(c);
+        this.itemMap.set(c.name, d), this.$list.append(d), h.push(c);
       }
+      o == null || o(h);
       return;
     }
-    const o = this.renameDuplicatedFile(t[0]);
-    if (o.size > this.limitBytes)
+    if (t[0].size > this.limitBytes)
       return;
-    const a = this.createFileItem(o);
-    this.itemMap.clear(), this.itemMap.set(o.name, a), this.$list.empty().append(a);
+    const a = this.renameDuplicatedFile(t[0]), l = this.createFileItem(a);
+    this.itemMap.clear(), this.itemMap.set(a.name, l), this.$list.empty().append(l), o == null || o(a);
   }
   deleteFileItem(t) {
     const n = this.renameMap.get(t) ?? t;
