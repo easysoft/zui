@@ -1,0 +1,21 @@
+.chevron-left,
+.chevron-right,
+.chevron-down,
+.chevron-up {
+  @apply -w-3.5 -h-3.5 -relative -inline-flex -items-center -justify-center;
+}
+.chevron-left::before,
+.chevron-right::before,
+.chevron-down::before,
+.chevron-up::before {
+  @apply -content-[''] -block -w-2 -h-2 -rotate-45 -border-current -border -border-t-0 -border-l-0 -origin-center --translate-y-0.5;
+}
+.chevron-left::before {
+  @apply -rotate-[135deg] -translate-y-0 -translate-x-0.5;
+}
+.chevron-right::before {
+  @apply --rotate-45 -translate-y-0 --translate-x-0.5;
+}
+.chevron-up::before {
+  @apply -rotate-[225deg] -translate-y-0.5;
+}

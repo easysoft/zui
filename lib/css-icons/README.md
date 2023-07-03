@@ -32,10 +32,31 @@
 <span class="spinner text-xl text-primary"></span>
 ```
 
+## 更多
+
+```html:example:flex items-center gap-2
+<span class="more"></span>
+<span class="more-vert"></span>
+<span class="more-vert text-xl"></span>
+```
+
 ## 箭头
 
 ```html:example:relative
-<span class="arrow bg-primary"></span>
+<span class="arrow"></span>
+<span class="arrow arrow-left"></span>
+<span class="arrow arrow-right"></span>
+<span class="arrow arrow-down"></span>
+<span class="arrow arrow-up"></span>
+```
+
+## V 形
+
+```html:example:relative
+<span class="chevron-left"></span>
+<span class="chevron-right"></span>
+<span class="chevron-down"></span>
+<span class="chevron-up"></span>
 ```
 
 ## 关闭

@@ -18,26 +18,28 @@
   @apply -rotate-45 -visible;
 }
 
-.arrow-top {
-    bottom: calc(-1px - var(--arrow-size));
-    border-bottom: inherit;
-    border-right: inherit;
+.arrow-top,
+.arrow-up {
+  bottom: calc(-1px - var(--arrow-size));
+  border-bottom: inherit;
+  border-right: inherit;
 }
 
-.arrow-bottom {
-    top: calc(-1px - var(--arrow-size));
-    border-top: inherit;
-    border-left: inherit;
+.arrow-bottom,
+.arrow-down {
+  top: calc(-1px - var(--arrow-size));
+  border-top: inherit;
+  border-left: inherit;
 }
 
 .arrow-left {
-    right: calc(-1px - var(--arrow-size));
-    border-top: inherit;
-    border-right: inherit;
+  right: calc(-1px - var(--arrow-size));
+  border-top: inherit;
+  border-right: inherit;
 }
 
 .arrow-right {
-    left: calc(-1px - var(--arrow-size));
-    border-bottom: inherit;
-    border-left: inherit;
+  left: calc(-1px - var(--arrow-size));
+  border-bottom: inherit;
+  border-left: inherit;
 }
