@@ -8,7 +8,7 @@
     @apply -ml-2;
 }
 .contextmenu .has-nested-menu.show > a:not(:hover) {
-    background: var(--contextmenu-nested-hover-bg);
+    @apply -bg-[--contextmenu-nested-hover-bg];
 }
 .contextmenu .menu {
     @apply -absolute;
