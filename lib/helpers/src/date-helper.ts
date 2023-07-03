@@ -37,11 +37,7 @@ export const createDate = (date?: DateLike): Date => {
  * @returns 如果为 `true` 则表示两个日期是同一天
  */
 export const isSameDay = (date1: DateLike, date2: DateLike = new Date()): boolean => {
-    date1 = createDate(date1);
-    date2 = createDate(date2);
-    return date1.getFullYear() === date2.getFullYear()
-        && date1.getMonth() === date2.getMonth()
-        && date1.getDate() === date2.getDate();
+    return createDate(date1).toDateString() === createDate(date2).toDateString();
 };
 
 /**
@@ -104,14 +100,6 @@ export const isYesterday = (date: DateLike, now?: DateLike): boolean => isSameDa
  * @returns 如果为 `true` 则表示是明天
  */
 export const isTomorrow = (date: DateLike, now?: DateLike): boolean => isSameDay(createDate(now).getTime() + TIME_DAY, date);
-
-/**
- * 判断指定的日期是否是在前天
- * @param date 要判断的日期时间表达值
- * @param now 作为今天判断依据的日期，如果留空则使用当前系统时间
- * @returns 如果为 `true` 则表示是前天
- */
-export const isDBY = (date: DateLike, now?: DateLike): boolean => isSameDay(createDate(now).getTime() - 2 * TIME_DAY, date);
 
 /**
  * 格式化日期时间值为字符串，所有可用的格式化参数有：
@@ -182,67 +170,4 @@ export const formatDateSpan = (date1: DateLike, date2: DateLike, format?: {full?
     }
     const date2Str = formatDate(date2, isSameYear(date1, date2) ? (isSameMonth(date1, date2) ? finalFormat.day : finalFormat.month) : finalFormat.full);
     return finalFormat.str.replace('{0}', date1Str).replace('{1}', date2Str);
-};
-
-/**
- * 根据描述获取当前时间与指定描述之间的毫秒数
- * @param desc 起始时间
- * @returns 毫秒数
- * @function
- */
-export const getTimeBeforeDesc = (desc: string): number => {
-    const now = new Date().getTime();
-    switch (desc) {
-        case 'oneWeek':
-            return now - (TIME_DAY * 7);
-        case 'oneMonth':
-            return now - (TIME_DAY * 31);
-        case 'threeMonth':
-            return now - (TIME_DAY * 31 * 3);
-        case 'halfYear':
-            return now - (TIME_DAY * 183);
-        case 'oneYear':
-            return now - (TIME_DAY * 365);
-        case 'twoYear':
-            return now - (2 * (TIME_DAY * 365));
-        default:
-            return 0;
-    }
-};
-
-/**
- * 基于初始时间戳计算加或减一段时间戳后的时间戳
- * @param duration 时间长度
- * @param unit 时间单位
- * @param add 加/减
- * @param initialDate 初始时间戳
- * @returns 时间戳
- */
-export const calculateTimestamp = (duration: number, unit: 'year' | 'quarter' | 'month' | 'week' | 'day' | 'hour' | 'minute', add = true, initialDate = Date.now()): number => {
-    switch (unit) {
-        case 'year':
-            duration *= 365;
-            return calculateTimestamp(duration, 'day', add, initialDate);
-        case 'quarter':
-            duration *= 3; // eslint-disable-line no-fallthrough
-            break;
-        case 'month':
-            duration *= 30;
-            return calculateTimestamp(duration, 'day', add, initialDate);
-        case 'week':
-            duration *= 7; // eslint-disable-line no-fallthrough
-            break;
-        case 'day':
-            duration *= 24; // eslint-disable-line no-fallthrough
-            break;
-        case 'hour':
-            duration *= 60; // eslint-disable-line no-fallthrough
-            break;
-        case 'minute':
-            duration *= 60000;
-            break;
-        default:
-            duration = 0;
-    }
-    return add ? initialDate + duration : initialDate - duration;
 };
