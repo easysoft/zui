@@ -57,6 +57,22 @@ const upload = new UploadImgs('#example3', {
 });
 ```
 
+## 限制图片类型
+
+通过设置 `accept` 属性限制上传图片的类型。
+
+<Example>
+    <div id="example4"></div>
+</Example>
+
+```js
+const upload = new UploadImgs('#example4', {
+    name: 'files4',
+    tip: '可点击添加或拖拽上传，图片格式支持jpg、jpeg',
+    accept: 'image/jpg, image/jpeg'
+});
+```
+
 ## 选项
 
 ### `name`
@@ -249,7 +265,8 @@ export default {
         onZUIReady(() => {
             new zui.UploadImgs('#example1', {name: 'files1', tip: '可点击添加或拖拽上传，图片格式支持jpg、jpeg、gif、png'});
             new zui.UploadImgs('#example2', {name: 'files2', multiple: true, limitCount: 5, exceededCountHint: '超出上传文件数量限制', tip: '可点击添加或拖拽上传，图片格式支持jpg、jpeg、gif、png',});
-            new zui.UploadImgs('#example3', {name: 'files3', multiple: true, limitSize: '50MB', exceededSizeHint: '超出上传文件大小限制', tip: '可点击添加或拖拽上传，图片格式支持jpg、jpeg、gif、png',});
+            new zui.UploadImgs('#example3', {name: 'files3', multiple: true, limitSize: '50MB', exceededSizeHint: '超出上传文件大小限制', tip: '可点击添加或拖拽上传，图片格式支持jpg、jpeg、gif、png'});
+            new zui.UploadImgs('#example4', {name: 'files4', tip: '可点击添加或拖拽上传，图片格式支持jpg、jpeg', accept: 'image/jpg, image/jpeg'});
         });
     }
 };
