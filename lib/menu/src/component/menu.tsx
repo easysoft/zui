@@ -26,7 +26,7 @@ export class Menu<T extends ActionMenuItemOptions = MenuItemOptions> extends Act
         options.className = classes(options.className, this.menuName, {
             'has-icons': hasIcons,
             'has-nested-items': options.items.some(x => this.isNestedItem(x)),
-            'menu-popup': options.popup,
+            'popup': options.popup,
         });
         return options;
     }
