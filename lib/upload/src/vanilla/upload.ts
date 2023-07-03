@@ -173,7 +173,34 @@ export class Upload<T extends UploadOptions = UploadOptions> extends Component<T
         return this.renameDuplicatedFile(new File([file], `${fileName}(1)${fileExt}`));
     }
 
+    protected filterFiles(files: File[]) {
+        const {accept} = this.options;
+        if (!accept) return files;
+
+        const fileTypes = accept.replace(/\s/g, '').split(',');
+        const mimeList: string[] = [];
+        const mimeAllList: string[] = [];
+        const extList: string[] = [];
+
+        fileTypes.forEach(type => {
+            if (type.endsWith('/*')) {
+                mimeAllList.push(type.substring(0, type.length - 1));
+            } else if (type.includes('/')) {
+                mimeList.push(type);
+            } else if (type.startsWith('.')) {
+                extList.push(type);
+            }
+        });
+
+        return files.filter(file => (
+            mimeList.includes(file.type)
+                || mimeAllList.some(x => file.type.startsWith(x))
+                || extList.some(x => file.name.endsWith(x))
+        ));
+    }
+
     protected addFileItem(files: File[]) {
+        files = this.filterFiles(files);
         const {multiple, limitCount, exceededSizeHint, exceededCountHint} = this.options;
         if (multiple) {
             for (let file of files) {

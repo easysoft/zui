@@ -73,16 +73,14 @@ export class UploadImgs extends Upload<UploadImgsOptions> {
         this.$element.append(this.$uploadInfo);
     }
 
-    protected addFileItem(files: File[]) {
+    protected filterFiles(files: File[]) {
         const {accept} = this.options;
-        console.log(accept);
         if (accept === 'image/*') {
-            files = files.filter(file => file.type.includes('image'));
-        } else {
-            const imageTypes = accept!.replace(/\s/g, '').replace(/\./g, 'image/').split(',');
-            files = files.filter(file => imageTypes.includes(file.type));
+            return files.filter(file => file.type.includes('image'));
         }
-        super.addFileItem(files);
+
+        const imageTypes = accept!.replace(/\s/g, '').replace(/\./g, 'image/').split(',');
+        return files.filter(file => imageTypes.includes(file.type));
     }
 
     protected createFileItem(file: File) {

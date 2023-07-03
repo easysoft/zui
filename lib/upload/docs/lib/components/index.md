@@ -394,10 +394,7 @@ export default {
             new zui.Upload('#example7', {name: 'files7', draggable: true, tip: '可点击添加或拖拽上传，不超过50M'});
             const file1 = new File(['file1'], 'file1.txt', {type: 'text/plain'});
             const file2 = new File(['file2'], 'file2.txt', {type: 'text/plain'});
-            new zui.Upload('#example8', {
-                name: 'files8',
-                defaultFileList: [file1, file2]
-            });
+            new zui.Upload('#example8', {name: 'files8', defaultFileList: [file1, file2]});
         });
     }
 };
