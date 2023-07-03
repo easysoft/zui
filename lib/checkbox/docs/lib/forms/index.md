@@ -265,6 +265,23 @@
   <div class="radio-primary checked"><label>选中</label></div>
 ```
 
+## 开关
+
+<Example>
+  <div class="switch">
+    <input type="checkbox" id="darkModeExample1">
+    <label for="darkModeExample1">深色模式</label>
+  </div>
+  <div class="switch">
+    <input type="checkbox" checked="checked" id="darkModeExample2">
+    <label for="darkModeExample2">深色模式</label>
+  </div>
+  <div class="switch">
+    <input type="checkbox" checked="checked" disabled="disabled" id="darkModeExample3">
+    <label for="darkModeExample3">深色模式</label>
+  </div>
+</Example>
+
  ## CSS 类
 
  单选框和复选框提供了如下CSS类
@@ -277,3 +294,6 @@
  | `radio-inline`          | 实体类 | 内联单选框组件 |
  | `checkbox-primary`      | 实体类 | 高级外观的复选框组件 |
  | `radio-primary`         | 实体类 | 高级外观的单选框组件 |
+ | `switch`         | 实体类 | 开关组件 |
+ | `checked`         | 修饰类 | 强制使用选中外观 |
+ | `focus`         | 修饰类 | 强制使用激活外观 |
