@@ -118,6 +118,27 @@ const upload = new Upload('#example7', {
 });
 ```
 
+## 默认文件列表
+
+通过设置 `defaultFileList` 属性为组件添加默认文件列表。
+
+<Example>
+    <div id="example8"></div>
+</Example>
+
+```js
+const file1 = new File(['file1'], 'file1.txt', {
+    type: 'text/plain',
+});
+const file2 = new File(['file2'], 'file2.txt', {
+    type: 'text/plain',
+});
+const upload = new Upload('#example8', {
+    name: 'files8',
+    defaultFileList: [file1, file2]
+});
+```
+
 ## 选项
 
 ### `name`
@@ -371,6 +392,12 @@ export default {
             new zui.Upload('#example5', {name: 'files5', renameBtn: false, deleteBtn: false});
             new zui.Upload('#example6', {name: 'files6', useIconBtn: false});
             new zui.Upload('#example7', {name: 'files7', draggable: true, tip: '可点击添加或拖拽上传，不超过50M'});
+            const file1 = new File(['file1'], 'file1.txt', {type: 'text/plain'});
+            const file2 = new File(['file2'], 'file2.txt', {type: 'text/plain'});
+            new zui.Upload('#example8', {
+                name: 'files8',
+                defaultFileList: [file1, file2]
+            });
         });
     }
 };
