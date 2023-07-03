@@ -12,7 +12,7 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
 
     static defaultProps: Partial<PickOptions> = {
         popContainer: 'body',
-        popClass: 'menu-popup',
+        popClass: 'popup',
         popWidth: '100%',
         popPlacement: 'auto',
         popMinWidth: 50,
