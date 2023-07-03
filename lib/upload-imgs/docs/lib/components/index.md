@@ -104,7 +104,7 @@ const upload = new UploadImgs('#example4', {
 
 + 类型：`string`
 + 必选：否
-+ 默认值：`'上传文件'`
++ 默认值：`'添加文件'`
 
 ### `renameBtn`
 
@@ -259,6 +259,14 @@ const upload = new UploadImgs('#example4', {
 + 类型：`string`
 + 必选：否
 
+### `totalCountText`
+
+文件数量提示。
+
++ 类型：`string`
++ 必选：否
++ 默认值：`'共 <span class="font-bold text-black">%s</span> 个文件 <span class="font-bold text-black">%s</span> 个文件等待上传。'`
+
 <script>
 export default {
     mounted() {
@@ -266,7 +274,7 @@ export default {
             new zui.UploadImgs('#example1', {name: 'files1', tip: '可点击添加或拖拽上传，图片格式支持jpg、jpeg、gif、png'});
             new zui.UploadImgs('#example2', {name: 'files2', multiple: true, limitCount: 5, exceededCountHint: '超出上传文件数量限制', tip: '可点击添加或拖拽上传，图片格式支持jpg、jpeg、gif、png',});
             new zui.UploadImgs('#example3', {name: 'files3', multiple: true, limitSize: '50MB', exceededSizeHint: '超出上传文件大小限制', tip: '可点击添加或拖拽上传，图片格式支持jpg、jpeg、gif、png'});
-            new zui.UploadImgs('#example4', {name: 'files4', tip: '可点击添加或拖拽上传，图片格式支持jpg、jpeg', accept: 'image/jpg, image/jpeg'});
+            new zui.UploadImgs('#example4', {name: 'files4', tip: '可点击添加或拖拽上传，图片格式支持jpg、jpeg', accept: 'image/jpg,.png'});
         });
     }
 };
