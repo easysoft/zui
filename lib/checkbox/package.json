@@ -12,7 +12,7 @@
     ],
     "zui": {
         "type": "control",
-        "displayName": "复选框和单选框",
+        "displayName": "选择和开关",
         "contributes": {
             "css": ["class", "var"]
         }

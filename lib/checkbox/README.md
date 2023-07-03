@@ -138,3 +138,20 @@
   <label>选中</label>
 </div>
 ```
+
+## 开关
+
+```html:example
+<div class="switch">
+  <input type="checkbox" id="primaryCheckbox21">
+  <label for="primaryCheckbox21">未选中</label>
+</div>
+<div class="switch">
+  <input type="checkbox" checked="checked" id="primaryCheckbox22">
+  <label for="primaryCheckbox22">选中</label>
+</div>
+<div class="switch">
+  <input type="checkbox" checked="checked" disabled="disabled" id="primaryCheckbox23">
+  <label for="primaryCheckbox23">禁用</label>
+</div>
+```
