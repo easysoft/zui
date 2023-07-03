@@ -5845,11 +5845,14 @@ const en = class extends ht {
   destroy() {
     U(this, Vn) && (this.element.removeEventListener("mouseleave", this.hideLater), this.tooltip.removeEventListener("mouseenter", U(this, Gn)), this.tooltip.removeEventListener("mouseleave", this.hideLater)), super.destroy();
   }
-  static clear(e) {
+  static clear(e = {}) {
     e instanceof Event && (e = { event: e });
-    const { exclude: t } = e || {}, n = this.getAll().entries(), s = new Set(t || []);
-    for (const [i, r] of n)
-      s.has(i) || r.hide();
+    const { exclude: t } = e;
+    if (t) {
+      const n = this.getAll(), s = new Set(t);
+      for (const i of n)
+        s.has(i.element) || i.hide();
+    }
   }
 };
 let ct = en;
