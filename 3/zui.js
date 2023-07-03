@@ -6288,8 +6288,14 @@ class df extends ih {
     this.$list = g('<ul class="file-list py-1 flex-wrap gap-x-4 gap-y-4"></ul>'), this.$label = g('<div class="draggable-area relative block w-full border border-dashed border-gray"></div>').css({ minHeight: 64 }), this.$tip = g('<div class="absolute inset-0 col justify-center items-center"></div>').append(`<label for="${t}" class="text-primary cursor-pointer">${s}</label>`), n && this.$tip.append(g(`<span class="upload-tip">${n}</span>`)), this.$label.append(this.$tip), this.$label.append(this.$input, this.$list), this.bindDragEvent(), this.$element.append(this.$label), this.$uploadInfo = g('<div class="py-1" />').css({ color: "var(--color-slate-500)" }).html(i.replace("%s", this.fileMap.size.toString()).replace("%s", this.fileMap.size.toString())), this.$element.append(this.$uploadInfo);
   }
   addFileItem(t) {
-    const { accept: n } = this.options, s = n.replace(/\s/g, "").split(",");
-    t = t.filter((i) => s.includes(i.type)), super.addFileItem(t);
+    const { accept: n } = this.options;
+    if (console.log(n), n === "image/*")
+      t = t.filter((s) => s.type.includes("image"));
+    else {
+      const s = n.replace(/\s/g, "").replace(/\./g, "image/").split(",");
+      t = t.filter((i) => s.includes(i.type));
+    }
+    super.addFileItem(t);
   }
   createFileItem(t) {
     const n = super.createFileItem(t).addClass("relative").removeClass("flex items-center gap-2 my-1");
