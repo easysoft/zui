@@ -218,7 +218,7 @@
     <input type="text" class="form-control">
     <div class="dropdown">
       <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">选项 <span class="caret"></span></button>
-      <ul class="menu menu-popup dropdown-menu menu-align-right" role="menu">
+      <ul class="menu popup dropdown-menu menu-align-right" role="menu">
         <li class="menu-item"><a href="#">选项</a></li>
         <li class="menu-item"><a href="#">另一个选项</a></li>
         <li class="menu-item"><a href="#">更多选项</a></li>
@@ -234,7 +234,7 @@
   <input type="text" class="form-control">
   <div class="dropdown">
     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">选项 <span class="caret"></span></button>
-    <ul class="menu menu-popup dropdown-menu menu-align-right" role="menu">
+    <ul class="menu popup dropdown-menu menu-align-right" role="menu">
       <li class="menu-item"><a href="#">选项</a></li>
       <li class="menu-item"><a href="#">另一个选项</a></li>
       <li class="menu-item"><a href="#">更多选项</a></li>
@@ -256,7 +256,7 @@
       <button type="button" class="btn btn-default" tabindex="-1">主要选项</button>
       <div class="dropdown menu-align-right inline-block">
         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">选项 <span class="caret"></span></button>
-        <ul class="menu menu-popup dropdown-menu" role="menu">
+        <ul class="menu popup dropdown-menu" role="menu">
           <li class="menu-item"><a href="#">选项</a></li>
           <li class="menu-item"><a href="#">另一个选项</a></li>
           <li class="menu-item"><a href="#">更多选项</a></li>
