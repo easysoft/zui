@@ -2,10 +2,12 @@ import '@zui/css-icons/src/icons/arrow.css';
 import '../style/index.css';
 import {Component} from '@zui/core';
 import {autoUpdate, computePosition, offset, flip, arrow} from '@floating-ui/dom';
+
+import type {ComponentEventsDefnition} from '@zui/core';
 import type {TooltipOptions, TooltipTrigger} from '../types';
 import type {VirtualElement, ComputePositionConfig, Strategy, Side} from '@floating-ui/dom';
 
-export class Tooltip extends Component<TooltipOptions> {
+export class Tooltip extends Component<TooltipOptions, ComponentEventsDefnition, HTMLElement> {
 
     static readonly NAME = 'tooltip';
 
@@ -284,18 +286,20 @@ export class Tooltip extends Component<TooltipOptions> {
         this.#hoverEventsBind = true;
     }
 
-    static clear(options?: {event?: Event, exclude?: HTMLElement[]} | Event) {
+    static clear(options: Partial<{event: Event, exclude: HTMLElement[]}> | Event = {}) {
         if (options instanceof Event) {
             options = {event: options};
         }
-        const {exclude} = options || {};
-        const all = this.getAll().entries();
-        const excludeSet = new Set(exclude || []);
-        for (const [ele, tooltip] of all) {
-            if (excludeSet.has(ele)) {
-                continue;
+        const {exclude} = options;
+        if (exclude) {
+            const all = this.getAll();
+            const excludeSet = new Set(exclude);
+            for (const tooltip of all) {
+                if (excludeSet.has(tooltip.element)) {
+                    continue;
+                }
+                tooltip.hide();
             }
-            tooltip.hide();
         }
     }
 }
