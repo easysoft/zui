@@ -143,7 +143,7 @@ export class ContextMenu<O extends ContextMenuOptions = ContextMenuOptions, E ex
                 }
             }
             if ($menuElement) {
-                $menuElement.addClass('menu-popup');
+                $menuElement.addClass('popup');
             }
         }
 
