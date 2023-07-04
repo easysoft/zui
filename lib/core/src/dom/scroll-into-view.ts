@@ -20,7 +20,7 @@ export function scrollIntoView(selector: Selector, options?: CashScrollIntoViewO
     const $element = $(selector);
     const {ifNeeded = true, ...other} = options || {};
     $element.each((_, ele) => {
-        if (ifNeeded && isVisible(ele, {fullyCheck: true})) {
+        if (ifNeeded && isVisible(ele, {viewport: ele.getBoundingClientRect()})) {
             return;
         }
         ele.scrollIntoView(other);
