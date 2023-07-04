@@ -1,42 +1,73 @@
 # 环形进度条
 
+环形进度条生成器允许通过 JS 动态创建一个环形进度条。
+
 ## 使用方法
 
-添加`.progress-circle`类到svg元素上，可获得环形进度条的基本样式。
+### 简单使用
 
 <Example>
-  <svg class="progress-circle" percent="40" circleSize="24" BorderSize="2" height="24">
-    <circle cx="12" cy="12" r="11" stroke="var(--progress-circle-bg)" />
-    <circle cx="12" cy="12" r="11" stroke="var(--progress-circle-bar-color)" stroke-dasharray="69.09" stroke-dashoffset="41.45" />
-    <text x="12" y="13" dominant-baseline="middle">40</text>
-  </svg>
+  <div data-zui="ProgressCircle"></div>
 </Example>
 
-```js
-  const percent = 40, circleSize = 24, BorderSize = 2;
-  const radius = (circleSize - borderSize) / 2; // 11
-  const dashoffset = (percent / 100) * 2 * Math.PI * radius; // 41.45
-  const dasharray = ((100 - percent) / 100) * 2 * Math.PI * radius; // 69.09
-```
 
 ```html
-<svg class="progress-circle" percent="40" circleSize="24" BorderSize="2" height="24">
-  <circle cx="12" cy="12" r="11" stroke="var(--progress-circle-bg)" />
-  <circle cx="12" cy="12" r="11" stroke="var(--progress-circle-bar-color)" stroke-dasharray="69.09" stroke-dashoffset="41.45" />
-  <text x="12" y="13" dominant-baseline="middle">40</text>
-</svg>
+<div id="progressCircleExample"></div>
+
+<script>
+const progressCircle = new zui.ProgressCircle('#progressCircleExample');
+</script>
 ```
 
+### 指定参数
 
- ## CSS 类
+<Example>
+  <div data-zui="ProgressCircle" data-percent="75" data-size="128" data-circle-color="var(--color-success-500)"></div>
+</Example>
 
- 进度条提供了如下 CSS 类
-  | 类        | 类型           | 作用  |
-  | ------------- |:-------------:| ----- |
-  | `progress-circle`          | 实体类 | 元素作为进度条组件 |
 
- ## CSS变量
- | 变量名称 | 变量含义 |
- | -------- | -------- |
- | --progress-circle-bg           | 环形进度条组件背景颜色 |
- | --progress-circle-bar-color    | 环形进度条组件颜色     |
+```html
+<div id="progressCircleExample"></div>
+
+<script>
+const progressCircle = new zui.ProgressCircle('#progressCircleExample', {
+    percent: 75,
+    size: 128,
+    circleColor: 'var(--color-success-500)',
+});
+</script>
+```
+
+### 通过 `[data-zui]` 初始化
+
+<Example>
+  <div data-zui="ProgressCircle" data-percent="80" data-size="64"></div>
+</Example>
+
+```html
+<div data-zui="ProgressCircle" data-percent="80" data-size="64"></div>
+```
+
+## 选项
+
+```ts
+type ProgressCircleOptions = {
+    /** 百分比。 */
+    percent?: number;
+
+    /** 环形进度条的尺寸（长和宽相等）。 */
+    size?: number;
+
+    /** 环形部分的宽度，如果指定为小于 1 的数，则按 size 的比例取值。 */
+    circleWidth?: number;
+
+    /** 环形部分的背景色。 */
+    circleBg: string;
+
+    /** 环形部分的前景色。 */
+    circleColor: string;
+
+    /** 是否在中间区域显示百分比文本，或者直接指定要显示的文本。 */
+    text?: string | boolean;
+};
+```

@@ -1,32 +1,30 @@
 import {Component} from 'preact';
+import {ProgressCircleOptions} from '../types';
 
-export interface ProgressCircleProps {
-    circleSize: number,
-    circleBorderSize: number,
-    percent: number,
-    circleBgColor: string,
-    circleColor: string,
-}
+export class ProgressCircle extends Component<ProgressCircleOptions> {
 
-export class ProgressCircle extends Component<ProgressCircleProps> {
-    static NAME = 'zui.progress-circle';
-
-    static defaultProps = {
-        circleSize: 24,
-        circleBorderSize: 2,
-        circleBgColor: 'var(--progress-circle-bg)',
-        circleColor: 'var(--progress-circle-bar-color)',
+    static defaultProps: Partial<ProgressCircleOptions> = {
+        percent: 50,
+        size: 24,
+        circleWidth: 0.1,
+        circleBg: 'var(--color-surface)',
+        circleColor: 'var(--color-primary-500)',
+        text: true,
     };
 
-    render() {
-        const {percent, circleSize, circleBorderSize, circleBgColor, circleColor} = this.props;
-        const radius = (circleSize - circleBorderSize) / 2;
-        const center = circleSize / 2;
+    render(props: ProgressCircleOptions) {
+        const {percent = 50, size = 24, circleBg, circleColor, text} = props;
+        const center = size / 2;
+        let {circleWidth = 0.2} = props;
+        if (circleWidth < 1) {
+            circleWidth = size * circleWidth;
+        }
+        const radius = (size - circleWidth) / 2;
         return (
-            <svg width={circleSize} height={circleSize} class="progress-circle">
-                <circle cx={center} cy={center} r={radius} stroke={circleBgColor} stroke-width={circleBorderSize}/>
-                <circle cx={center} cy={center} r={radius} stroke={circleColor} stroke-dasharray={Math.PI * radius * 2} stroke-dashoffset={Math.PI * radius * 2 * (100 - percent) / 100} stroke-width={circleBorderSize}/>
-                <text x={center} y={center + circleBorderSize / 4 } dominant-baseline="middle"  style={{fontSize: `${radius}px`}}>{Math.round(percent)}</text>
+            <svg width={size} height={size}>
+                <circle cx={center} cy={center} r={radius} stroke-width={circleWidth} stroke={circleBg} fill="transparent" />
+                <circle cx={center} cy={center} r={radius} stroke-width={circleWidth} stroke={circleColor} fill="transparent" stroke-linecap="round" stroke-dasharray={Math.PI * radius * 2} stroke-dashoffset={Math.PI * radius * 2 * (100 - percent) / 100} style={{transformOrigin: 'center', transform: 'rotate(-90deg)'}} />
+                {text ? <text x={center} y={center + (circleWidth / 2)} dominant-baseline="middle" text-anchor="middle" style={{fontSize: `${radius}px`}}>{text === true ? Math.round(percent) : text}</text> : null}
             </svg>
         );
     }

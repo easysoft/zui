@@ -16,7 +16,6 @@
     "zui": {
         "type": "control",
         "displayName": "环形进度条",
-        "wip": true,
         "contributes": {
             "css": ["class", "var"]
         }
