@@ -7,7 +7,7 @@
 }
 
 .i-calendar::before {
-  @apply -w-[.6em] -border-b-0 -top-[.307em] -left-[.15em] -border-dotted;
+  @apply -w-[.6em] -border-b-0 -top-[.307em] -left-[.15em];
 }
 .i-calendar::after {
   @apply -w-[0.538em] -h-[0.3077em] -left-[0.17em] --top-[.154em] -border-t-0 -border-b-0;
