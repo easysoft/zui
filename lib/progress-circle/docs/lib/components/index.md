@@ -52,6 +52,9 @@ const progressCircle = new zui.ProgressCircle('#progressCircleExample', {
 
 ```ts
 type ProgressCircleOptions = {
+    /** SVG 元素 CSS 类名。 */
+    className?: string;
+
     /** 百分比。 */
     percent?: number;
 
@@ -69,5 +72,14 @@ type ProgressCircleOptions = {
 
     /** 是否在中间区域显示百分比文本，或者直接指定要显示的文本。 */
     text?: string | boolean;
+
+    /** 百分比文本的样式。 */
+    textStyle?: string | JSX.CSSProperties;
+
+    /** 百分比文本的 X 坐标。 */
+    textX?: number;
+
+    /** 百分比文本的 Y 坐标。 */
+    textY?: number;
 };
 ```
