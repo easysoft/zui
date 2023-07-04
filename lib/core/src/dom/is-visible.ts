@@ -5,7 +5,8 @@ import {$, Cash, Selector} from '../cash';
  */
 type ISVisibleOptions = {
     /** Whether to check if the element is fully visible. */
-    fullyCheck: boolean;
+    fullyCheck?: boolean;
+    viewport?: {left: number, top: number, width: number, height: number} | DOMRectReadOnly
 };
 
 /**
@@ -22,23 +23,25 @@ export function isVisible(selector: Selector, options?: ISVisibleOptions): boole
         return false;
     }
 
+    let {viewport} = options || {};
     const {left, top, width, height} = element.getBoundingClientRect();
-    const {innerHeight, innerWidth} = window;
-    const {clientHeight, clientWidth} = document.documentElement;
-    const windowHeight = innerHeight || clientHeight;
-    const windowWidth = innerWidth || clientWidth;
-
+    if (!viewport) {
+        const {innerHeight, innerWidth} = window;
+        const {clientHeight, clientWidth} = document.documentElement;
+        viewport = {left: 0, top: 0, width: innerWidth || clientWidth, height: innerHeight || clientHeight};
+    }
+    const {left: viewportLeft, top: viewportTop, width: viewportWidth, height: viewportHeight} = viewport;
     if (options?.fullyCheck) {
         return (
-            (left >= 0)
-                && (top >= 0)
-                && ((left + width) <= windowWidth)
-                && ((top + height) <= windowHeight)
+            (left >= viewportLeft)
+                && (top >= viewportTop)
+                && ((left + width) <= viewportWidth)
+                && ((top + height) <= viewportHeight)
         );
     }
     // http://stackoverflow.com/questions/325933/determine-whether-two-date-ranges-overlap
-    const vertInView = (top <= windowHeight) && ((top + height) >= 0);
-    const horInView = (left <= windowWidth) && ((left + width) >= 0);
+    const horInView = (left <= viewportWidth) && ((left + width) >= viewportLeft);
+    const vertInView = (top <= viewportHeight) && ((top + height) >= viewportTop);
 
     return vertInView && horInView;
 }
