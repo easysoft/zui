@@ -90,3 +90,11 @@
 <span class="i-time text-primary"></span>
 <span class="i-time text-xl"></span>
 ```
+
+## 日历
+
+```html:example:flex items-center gap-2
+<span class="i-calendar"></span>
+<span class="i-calendar text-primary"></span>
+<span class="i-calendar text-xl"></span>
+```

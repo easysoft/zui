@@ -1,0 +1,14 @@
+.i-calendar {
+  @apply -inline-block -relative -w-[1em] -h-[.79em] -rounded -mt-[.16em] -border-[.08em] -border-current;
+}
+.i-calendar::before,
+.i-calendar::after {
+  @apply -content-[''] -absolute -border-[.08em] -border-current;
+}
+
+.i-calendar::before {
+  @apply -w-[.6em] -border-b-0 -top-[.307em] -left-[.15em] -border-dotted;
+}
+.i-calendar::after {
+  @apply -w-[0.538em] -h-[0.3077em] -left-[0.17em] --top-[.154em] -border-t-0 -border-b-0;
+}
