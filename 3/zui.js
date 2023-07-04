@@ -3417,14 +3417,14 @@ cc.DEFAULT = {
 };
 let hc = class extends V {
   render(t) {
-    const { percent: n = 50, size: s = 24, circleBg: i, circleColor: r, text: o } = t, a = s / 2;
-    let { circleWidth: l = 0.2 } = t;
-    l < 1 && (l = s * l);
-    const h = (s - l) / 2;
-    return /* @__PURE__ */ g("svg", { width: s, height: s, children: [
-      /* @__PURE__ */ g("circle", { cx: a, cy: a, r: h, "stroke-width": l, stroke: i, fill: "transparent" }),
-      /* @__PURE__ */ g("circle", { cx: a, cy: a, r: h, "stroke-width": l, stroke: r, fill: "transparent", "stroke-linecap": "round", "stroke-dasharray": Math.PI * h * 2, "stroke-dashoffset": Math.PI * h * 2 * (100 - n) / 100, style: { transformOrigin: "center", transform: "rotate(-90deg)" } }),
-      o ? /* @__PURE__ */ g("text", { x: a, y: a + l / 2, "dominant-baseline": "middle", "text-anchor": "middle", style: { fontSize: `${h}px` }, children: o === !0 ? Math.round(n) : o }) : null
+    const { percent: n = 50, size: s = 24, circleBg: i, circleColor: r, text: o, className: a, textStyle: l, textX: h, textY: c } = t, d = s / 2;
+    let { circleWidth: u = 0.2 } = t;
+    u < 1 && (u = s * u);
+    const f = (s - u) / 2;
+    return /* @__PURE__ */ g("svg", { className: a, width: s, height: s, children: [
+      /* @__PURE__ */ g("circle", { cx: d, cy: d, r: f, "stroke-width": u, stroke: i, fill: "transparent" }),
+      /* @__PURE__ */ g("circle", { cx: d, cy: d, r: f, "stroke-width": u, stroke: r, fill: "transparent", "stroke-linecap": "round", "stroke-dasharray": Math.PI * f * 2, "stroke-dashoffset": Math.PI * f * 2 * (100 - n) / 100, style: { transformOrigin: "center", transform: "rotate(-90deg)" } }),
+      o ? /* @__PURE__ */ g("text", { x: h ?? d, y: c ?? d + u / 2, "dominant-baseline": "middle", "text-anchor": "middle", style: l || { fontSize: `${f}px` }, children: o === !0 ? Math.round(n) : o }) : null
     ] });
   }
 };
