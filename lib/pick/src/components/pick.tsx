@@ -1,4 +1,4 @@
-import {Component, ComponentChildren, ComponentClass, ComponentType, RefObject, RenderableProps, createRef} from 'preact';
+import {Component, ComponentChildren, ComponentType, RefObject, RenderableProps, createRef} from 'preact';
 import {$, delay} from '@zui/core';
 import type {PickOptions, PickPopProps, PickState, PickTriggerProps} from '../types';
 import {PickTrigger} from './pick-trigger';
@@ -25,7 +25,7 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
 
     #toggleTimer = 0;
 
-    #pop: RefObject<ComponentType<PickPopProps<S>>> = createRef();
+    #pop: RefObject<PickPop<S, PickPopProps<S>>> = createRef();
 
     constructor(props: O) {
         super(props);
@@ -40,6 +40,10 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
 
     get id() {
         return this.#id;
+    }
+
+    get pop() {
+        return this.#pop.current;
     }
 
     changeState = (state: Partial<S> | ((prevState: Readonly<S>) => Partial<S>), callback?: () => void): Promise<S> => {

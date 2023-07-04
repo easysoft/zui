@@ -12,6 +12,9 @@ export interface PickPopProps<S extends PickState = PickState> {
     className?: ClassNameLike;
     style?: JSX.CSSProperties;
     children?: ComponentChildren;
+    afterRender?: (info: {firstRender: boolean}) => void;
+    beforeDestroy?: () => void;
+    onLayout?: (element: HTMLElement) => void;
 
     placement?: PickPopPlacement;
     container?: string | HTMLElement;

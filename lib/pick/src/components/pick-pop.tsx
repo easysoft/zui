@@ -131,6 +131,7 @@ export class PickPop<S extends PickState = PickState, P extends PickPopProps<S> 
                     top: y,
                     width: width === '100%' ? $(trigger).outerWidth() : undefined,
                 });
+                this.props.onLayout?.(element);
             });
             if (width === '100%') {
                 $(element).css({width: $(element).width()});
@@ -141,7 +142,13 @@ export class PickPop<S extends PickState = PickState, P extends PickPopProps<S> 
     componentDidMount() {
         this.layout();
         $(document).on('click', this._handleDocClick);
+        this.props.afterRender?.({firstRender: true});
     }
+
+    componentDidUpdate(): void {
+        this.props.afterRender?.({firstRender: false});
+    }
+
 
     componentWillUnmount(): void {
         $(document).off('click', this._handleDocClick);
@@ -154,6 +161,8 @@ export class PickPop<S extends PickState = PickState, P extends PickPopProps<S> 
         this.#container = undefined;
         this.#ref = undefined;
         $(`pick-pop-${this.props.id}`).remove();
+
+        this.props.beforeDestroy?.();
     }
 
     render(props: RenderableProps<P>) {
