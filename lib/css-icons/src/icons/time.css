@@ -1,0 +1,7 @@
+.i-time {
+  @apply -inline-block -relative -w-[1em] -h-[1em] -border-[.08em] -border-current -rounded-[50%];
+}
+
+.i-time::after {
+  @apply -content-[''] -border-[.08em] -w-[.385em] -h-[.385em] -border-current -absolute -left-[0.3846em] -top-[0.08em] -border-t-0 -border-r-0;
+}
