@@ -8,7 +8,7 @@ import {ColorPickerOptions} from '../types';
 export class ColorPicker extends Pick<PickState, ColorPickerOptions> {
     static defaultProps = {
         ...Pick.defaultProps,
-        className: 'color-picker rounded btn square size-sm ghost',
+        className: 'rounded btn square size-sm ghost',
         popClass: 'color-picker-pop popup',
         colors: ['#ef4444', '#f97316', '#eab308', '#84cc16', '#22c55e', '#14b8a6', '#0ea5e9', '#6366f1', '#a855f7', '#d946ef', '#ec4899'],
         closeBtn: true,
@@ -63,9 +63,7 @@ export class ColorPicker extends Pick<PickState, ColorPickerOptions> {
         triggerProps.style = $.extend({
             color: state.value,
         }, triggerProps.style);
-        if (props.disabled) {
-            triggerProps.className = classes(triggerProps.className, 'disabled');
-        }
+        triggerProps.className = classes('color-picker', triggerProps.className, {disabled: props.disabled});
         return triggerProps;
     }
 
