@@ -17,7 +17,18 @@
 ```JavaScript
 const colorPicker = new ColorPicker('#color-picker-1', {
     heading: '选择颜色',
+    defaultValue: '#0ea5e9'
 })
+```
+
+## 通过 `[data-zui]` 初始化
+
+<Example>
+  <div data-zui="colorPicker"></div>
+</Example>
+
+```html
+<div data-zui="colorPicker"></div>
 ```
 
 ## 自定义颜色
@@ -45,23 +56,16 @@ const colorPicker = new ColorPicker('#color-picker-2', {
 通过设置 `icon` 属性自定义颜色显示图标。
 
 <Example>
-    <div id="color-picker-3"></div>
+  <div data-zui="colorPicker" data-icon="color"></div>
 </Example>
 
 ```html
-<div id="color-picker-3"></div>
-```
-
-```JavaScript
-const colorPicker = new ColorPicker('#color-picker-3', {
-    heading: '选择颜色',
-    icon: 'zentao',
-});
+<div data-zui="colorPicker" data-icon="color"></div>
 ```
 
 ## 同步颜色
 
-通过为 `syncText`、`syncColor`、`syncBackground`、`syncBorder` 设置选择器可实现将当前选中的颜色信息同步到相应元素。
+通过为 `syncValue`、`syncColor`、`syncBackground`、`syncBorder` 设置选择器可实现将当前选中的颜色信息同步到相应元素。
 
 <Example>
     <div id="color-picker-4"></div>
@@ -86,12 +90,46 @@ const colorPicker = new ColorPicker('#color-picker-3', {
 ```JavaScript
 const colorPicker = new ColorPicker('#color-picker-4', {
     heading: '选择颜色',
-    syncText: '#sync-text',
+    syncValue: '#sync-text',
     syncColor: '#sync-color',
     syncBackground: '#sync-background',
     syncBorder: '#sync-border',
 });
 ```
+
+## 配合使用
+
+### 作为按钮
+
+<Example>
+  <button type="button" class="btn w-8 p-0" data-zui="colorPicker" data-default-value="#f97316" data-class-name="center w-8 h-8 square"></button>
+</Example>
+
+### 在输入组中使用
+
+<Example>
+  <div class="input-group">
+    <input type="text" class="form-control" placeholder="选择颜色" id="colorPickerInput">
+    <button type="button" class="btn w-8 p-0" data-zui="colorPicker" data-default-value="#f97316" data-sync-value="#colorPickerInput" data-sync-color="#colorPickerInput" data-class-name="center w-8 h-8 square"></button>
+  </div>
+</Example>
+
+```html
+<div class="input-group">
+  <input type="text" class="form-control" placeholder="选择颜色" id="colorPickerInput">
+  <button type="button" class="btn w-8 p-0" data-zui="colorPicker" data-default-value="#f97316" data-sync-value="#colorPickerInput" data-sync-color="#colorPickerInput" data-class-name="center w-8 h-8 square"></button>
+</div>
+```
+
+### 在输入框中使用
+
+<Example>
+  <div class="input-control has-suffix-icon">
+    <input type="text" class="form-control" placeholder="选择颜色" id="colorPickerInput">
+    <label class="input-control-suffix" data-zui="colorPicker"></label>
+  </div>
+</Example>
+
 
 ## 选项
 
@@ -117,7 +155,7 @@ const colorPicker = new ColorPicker('#color-picker-4', {
 + 必选：否
 + 默认值：`true`
 
-### `syncText`
+### `syncValue`
 
 颜色值容器选择器。
 
@@ -145,12 +183,84 @@ const colorPicker = new ColorPicker('#color-picker-4', {
 + 类型：`string`
 + 必选：否
 
+## API
+
+### `ColorPickerOptions`
+
+```ts
+interface ColorPickerOptions {
+    /** 组件根元素的 ID。 */
+    id?: string;
+
+    /** 组件根元素的类名。 */
+    className?: ClassNameLike;
+
+    /** 组件根元素的样式。 */
+    style?: JSX.CSSProperties;
+
+    /** 组件根元素的标签名。 */
+    tagName?: string;
+
+    /** 附加到组件根元素上的属性。 */
+    attrs?: Record<string, unknown>;
+
+    /** 点击类型，`toggle` 表示点击按钮时切换显示隐藏，`open` 表示点击按钮时只打开。 */
+    clickType?: 'toggle' | 'open';
+
+    /** 渲染完成后的回调函数。 */
+    afterRender?: (info: {firstRender: boolean}) => void;
+
+    /** 销毁前的回调函数。 */
+    beforeDestroy?: () => void;
+
+    /** 作为表单项的名称。 */
+    name?: string;
+
+    /** 初始默认颜色值。 */
+    defaultValue?: string;
+
+    /** 颜色值变更时的回调函数 */
+    onChange?: (value: string | undefined, oldValue: string | undefined) => void;
+
+    /** 是否禁用。 */
+    disabled?: boolean;
+
+    /** 颜色选项列表。 */
+    colors?: string | string[];
+
+    /** 将触发按钮显示为图标。 */
+    icon?: IconType;
+
+    /** 指定选择器同步颜色值作为文本到的元素。 */
+    syncValue?: string;
+
+    /** 指定选择器同步文字颜色到的元素。 */
+    syncColor?: string;
+
+    /** 指定选择器同步背景颜色到的元素。 */
+    syncBackground?: string;
+
+    /** 指定选择器同步边框颜色到的元素。 */
+    syncBorder?: string;
+
+    /** 提示文字。 */
+    hint?: string;
+
+    /** 是否在弹出面板上显示关闭按钮。 */
+    closeBtn?: boolean;
+
+    /** 弹出面板的标题。 */
+    heading?: ComponentChildren;
+}
+```
+
 <script>
 export default {
     mounted() {
         onZUIReady(() => {
             new zui.ColorPicker('#color-picker-1', {
                 heading: '选择颜色',
+                defaultValue: '#0ea5e9'
             });
 
             new zui.ColorPicker('#color-picker-2', {
@@ -159,15 +269,9 @@ export default {
                 defaultValue: '#374259',
             });
 
-            new zui.ColorPicker('#color-picker-3', {
-                heading: '选择颜色',
-                icon: 'zentao',
-                hint: '这是一个提示'
-            });
-
             new zui.ColorPicker('#color-picker-4', {
                 heading: '选择颜色',
-                syncText: '#sync-text',
+                syncValue: '#sync-text',
                 syncColor: '#sync-color',
                 syncBackground: '#sync-background',
                 syncBorder: '#sync-border',
