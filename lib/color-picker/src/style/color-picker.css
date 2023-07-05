@@ -5,5 +5,5 @@
   @apply -flex -flex-wrap -gap-2 -flex-row -p-2;
 }
 .color-picker-item {
-  @apply -rounded-full -ring-0 -w-5 -h-5 -px-0.5 -text-canvas;
+  @apply -flex -justify-center -items-center -rounded-full -ring-0 -w-5 -h-5 -px-0.5 -text-canvas;
 }
