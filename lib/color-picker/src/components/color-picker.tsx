@@ -1,5 +1,5 @@
 import {ComponentChildren} from 'preact';
-import {Icon, $} from '@zui/core';
+import {Icon, $, classes} from '@zui/core';
 import '@zui/css-icons/src/icons/close.css';
 import {Pick} from '@zui/pick/src/components/pick';
 import {PickOptions, PickState, PickTriggerProps} from '@zui/pick/src/types';
@@ -38,6 +38,9 @@ export class ColorPicker extends Pick<PickState, ColorPickerOptions> {
     }
 
     _handleChange(value: string | undefined, prevValue: string | undefined) {
+        if (this.props.disabled) {
+            return;
+        }
         super._handleChange(value, prevValue);
         this.syncColor();
     }
@@ -55,6 +58,9 @@ export class ColorPicker extends Pick<PickState, ColorPickerOptions> {
         triggerProps.style = $.extend({
             color: state.value,
         }, triggerProps.style);
+        if (props.disabled) {
+            triggerProps.className = classes(triggerProps.className, 'disabled');
+        }
         return triggerProps;
     }
 
