@@ -65,7 +65,11 @@ export class ColorPicker extends Pick<PickState, ColorPickerOptions> {
     }
 
     _renderPop(props: ColorPickerOptions, state: PickState): ComponentChildren {
-        const {colors = [], closeBtn, heading} = props;
+        const {closeBtn, heading} = props;
+        let {colors = []} = props;
+        if (typeof colors === 'string') {
+            colors = colors.split(',');
+        }
         const {value} = state;
         let headingView: ComponentChildren;
         if (heading) {
