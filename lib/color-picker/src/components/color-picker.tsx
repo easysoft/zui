@@ -16,10 +16,13 @@ export class ColorPicker extends Pick<PickState, ColorPickerOptions> {
         popMinWidth: 176,
     } as Partial<PickOptions>;
 
-    _handleChange(value: string | undefined, prevValue: string | undefined) {
-        super._handleChange(value, prevValue);
-        const {syncBackground, syncBorder, syncColor, syncText} = this.props;
-        const cssValue = value || '';
+    componentDidMount(): void {
+        this.syncColor();
+    }
+
+    syncColor() {
+        const {syncBackground, syncBorder, syncColor, syncValue} = this.props;
+        const cssValue = this.state.value || '';
         if (syncBackground) {
             $(syncBackground).css('backgroundColor', cssValue);
         }
@@ -32,6 +35,11 @@ export class ColorPicker extends Pick<PickState, ColorPickerOptions> {
         if (syncValue) {
             $(syncValue).text(cssValue);
         }
+    }
+
+    _handleChange(value: string | undefined, prevValue: string | undefined) {
+        super._handleChange(value, prevValue);
+        this.syncColor();
     }
 
     _renderTrigger(props: ColorPickerOptions, state: PickState): ComponentChildren {
