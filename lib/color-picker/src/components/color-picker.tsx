@@ -33,7 +33,12 @@ export class ColorPicker extends Pick<PickState, ColorPickerOptions> {
             $(syncColor).css('color', cssValue);
         }
         if (syncValue) {
-            $(syncValue).text(cssValue);
+            const $value = $(syncValue);
+            if ($value.is('input,textarea,select')) {
+                $value.val(cssValue);
+            } else {
+                $value.text(cssValue);
+            }
         }
     }
 
