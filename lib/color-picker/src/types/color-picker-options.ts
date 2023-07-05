@@ -4,7 +4,7 @@ import {PickOptions} from '@zui/pick/src/types';
 export interface ColorPickerOptions extends PickOptions {
     colors?: string[];
     icon?: IconType;
-    syncText?: string;
+    syncValue?: string;
     syncColor?: string;
     syncBackground?: string;
     syncBorder?: string;

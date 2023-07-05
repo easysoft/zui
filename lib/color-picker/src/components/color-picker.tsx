@@ -29,8 +29,8 @@ export class ColorPicker extends Pick<PickState, ColorPickerOptions> {
         if (syncColor) {
             $(syncColor).css('color', cssValue);
         }
-        if (syncText) {
-            $(syncText).text(cssValue);
+        if (syncValue) {
+            $(syncValue).text(cssValue);
         }
     }
 
