@@ -221,6 +221,10 @@ export class Tooltip extends Component<TooltipOptions, ComponentEventsDefnition,
         const config = this.#getComputePositionConfig();
         const reference = this.#getReferenceElement();
         this.#cleanup = autoUpdate(reference, this.tooltip, () => {
+            if (!this.element) {
+                return;
+            }
+
             computePosition(reference, this.tooltip, config).then(({x, y, middlewareData, placement}) => {
                 Object.assign(this.tooltip.style, {
                     left: `${x}px`,
