@@ -4,6 +4,7 @@ import {PickTrigger} from '@zui/pick/src/components';
 import {PickerSearch} from './picker-search';
 import {PickerSelectProps, PickerState} from '../types';
 import '@zui/css-icons/src/icons/caret.css';
+import '@zui/css-icons/src/icons/close.css';
 
 export class PickerSingleSelect extends PickTrigger<PickerState, PickerSelectProps> {
     #search = createRef<PickerSearch>();
