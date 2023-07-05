@@ -4044,7 +4044,10 @@ let Yc = class extends mt {
   }
   syncColor() {
     const { syncBackground: t, syncBorder: n, syncColor: s, syncValue: i } = this.props, r = this.state.value || "";
-    t && g(t).css("backgroundColor", r), n && g(n).css("borderColor", r), s && g(s).css("color", r), i && g(i).text(r);
+    if (t && g(t).css("backgroundColor", r), n && g(n).css("borderColor", r), s && g(s).css("color", r), i) {
+      const o = g(i);
+      o.is("input,textarea,select") ? o.val(r) : o.text(r);
+    }
   }
   _handleChange(t, n) {
     this.props.disabled || (super._handleChange(t, n), this.syncColor());
@@ -4059,7 +4062,7 @@ let Yc = class extends mt {
     const s = super._getTriggerProps(t, n);
     return s.style = g.extend({
       color: n.value
-    }, s.style), t.disabled && (s.className = M(s.className, "disabled")), s;
+    }, s.style), s.className = M("color-picker", s.className, { disabled: t.disabled }), s;
   }
   _renderPop(t, n) {
     const { closeBtn: s, heading: i } = t;
@@ -4081,7 +4084,7 @@ let Yc = class extends mt {
 };
 Yc.defaultProps = {
   ...mt.defaultProps,
-  className: "color-picker rounded btn square size-sm ghost",
+  className: "rounded btn square size-sm ghost",
   popClass: "color-picker-pop popup",
   colors: ["#ef4444", "#f97316", "#eab308", "#84cc16", "#22c55e", "#14b8a6", "#0ea5e9", "#6366f1", "#a855f7", "#d946ef", "#ec4899"],
   closeBtn: !0,
