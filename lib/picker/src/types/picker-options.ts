@@ -17,6 +17,5 @@ export interface PickerOptions extends PickOptions<PickerState> {
 
     onDeselect?: (values: string | string[]) => false | void;
     onSelect?: (values: string | string[]) => false | void;
-    onNoResults?: (search: string) => string | void;
     onClear?: () => void;
 }
