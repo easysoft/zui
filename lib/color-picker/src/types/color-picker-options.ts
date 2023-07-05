@@ -8,7 +8,6 @@ export interface ColorPickerOptions extends PickOptions {
     syncColor?: string;
     syncBackground?: string;
     syncBorder?: string;
-    hint?: string;
     closeBtn?: boolean;
     heading?: ComponentChildren;
 }
