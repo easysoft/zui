@@ -70,6 +70,42 @@ const picker = new zui.Picker('#multiPickerExample', {
 </script>
 ```
 
+## 使用 `[data-zui]` 初始化
+
+<Example>
+  <div class="input-group-control" data-zui="picker" data-items='[{"text": "Apple", "value": "apple"}, {"text": "Banana", "value": "banana"}]'></div>
+</Example>
+
+```html
+<div class="input-group-control" data-zui="picker" data-items='[{"text": "Apple", "value": "apple"}, {"text": "Banana", "value": "banana"}]'></div>
+```
+
+<Example>
+  <div class="input-group-control" data-zui="picker" data-items='[{"text": "Apple", "value": "apple"}, {"text": "Banana", "value": "banana"}]' data-multiple="true"></div>
+</Example>
+
+```html
+<div class="input-group-control" data-zui="picker" data-items='[{"text": "Apple", "value": "apple"}, {"text": "Banana", "value": "banana"}]' data-multiple="true"></div>
+```
+
+## 在输入组中使用
+
+<Example>
+  <div class="input-group">
+    <span class="input-group-addon">选择一种水果</span>
+    <div class="input-group-control" data-zui="picker" data-items='[{"text": "Apple", "value": "apple"}, {"text": "Banana", "value": "banana"}]'></div>
+    <button type="button" class="btn btn-default" tabindex="-1">刷新</button>
+  </div>
+</Example>
+
+```html
+<div class="input-group">
+  <span class="input-group-addon">选择一种水果</span>
+  <div class="input-group-control" data-zui="picker" data-items='[{"text": "Apple", "value": "apple"}, {"text": "Banana", "value": "banana"}]'></div>
+  <button type="button" class="btn btn-default" tabindex="-1">刷新</button>
+</div>
+```
+
 ## 初始化选项
 
 ```ts
@@ -140,11 +176,8 @@ type PickerOptions = {
     /** 当选择值时的回调函数。 */
     onSelect?: (value: string, item: PickerItemProps) => false | void;
 
-    /** 当激活选择框时的回调函数。 */
-    onFocus?: () => void;
-
-    /** 当没有可选项的回调函数。 */
-    onNoResults?: (search: string) => string | void;
+    /** 当清空值时的回调函数。 */
+    onClear?: () => void;
 
     /** 菜单宽度，如果设置为 `'100%'` 则与选择框宽度一致，默认 `'100%'`。 */
     menuWidth: number | 'auto' | '100%';
@@ -174,16 +207,16 @@ type PickerOptions = {
     menuCheckbox?: boolean;
 
     /** 菜单显示时的回调函数。 */
-    onMenuShow?: () => void;
+    onPopShow?: () => void;
 
     /** 菜单显示后的回调函数。 */
-    onMenuShown?: () => void;
+    onPopShown?: () => void;
 
     /** 菜单隐藏时的回调函数。 */
-    onMenuHide?: () => void;
+    onPopHide?: () => void;
 
     /** 菜单隐藏后的回调函数。 */
-    onMenuHidden?: () => void;
+    onPopHidden?: () => void;
 };
 ```
 
