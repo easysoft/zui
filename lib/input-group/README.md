@@ -51,6 +51,13 @@
         <input type="text" class="form-control" placeholder="备注">
         <button type="button" class="btn">提交</button>
       </div>
+      <div class="input-group">
+        <button type="button" class="btn" data-toggle="dropdown">类别<span class="caret"></span></button>
+        <span class="input-group-addon"><i class="icon icon-star"></i></span>
+        <div class="input-group-control">
+          <input type="text" class="form-control" placeholder="用户名">
+        </div>
+      </div>
     </div>
   </div>
 ```

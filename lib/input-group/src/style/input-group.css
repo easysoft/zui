@@ -11,11 +11,16 @@
   @apply -h-8 -ring-[--form-control-border] -ring-1 -px-2 -flex -items-center -flex-none -z-0 -rounded-[--form-control-radius] -bg-[--input-group-addon-bg];
 }
 
+.input-group-control {
+  @apply -flex-auto;
+}
 
-.input-group > * + * {
+.input-group > * + *,
+.input-group > * + .input-group-control > * {
   @apply -rounded-l-none;
 }
-.input-group > *:not(:last-child) {
+.input-group > *:not(:last-child),
+.input-group > .input-group-control:not(:last-child) > * {
   @apply -rounded-r-none;
 }
 
