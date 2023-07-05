@@ -5903,7 +5903,7 @@ Fr = /* @__PURE__ */ new WeakSet();
 nh = function() {
   const e = St(this, Ko, Qc).call(this), t = St(this, Jo, sh).call(this);
   De(this, ui, cf(t, this.tooltip, () => {
-    hf(t, this.tooltip, e).then(({ x: n, y: s, middlewareData: i, placement: r }) => {
+    this.element && hf(t, this.tooltip, e).then(({ x: n, y: s, middlewareData: i, placement: r }) => {
       Object.assign(this.tooltip.style, {
         left: `${n}px`,
         top: `${s}px`
