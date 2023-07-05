@@ -7,6 +7,7 @@ import type {PickerState} from './picker-state';
 export interface PickerOptions extends PickOptions<PickerState> {
     multiple?: boolean | number;
     placeholder?: string;
+    required?: boolean;
 
     valueSplitter?: string;
     menu?: MenuOptions;
