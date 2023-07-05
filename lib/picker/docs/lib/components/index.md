@@ -113,14 +113,23 @@ const picker = new zui.Picker('#multiPickerExample', {
  * 初始化选项。
  */
 type PickerOptions = {
+    /** 组件根元素的 ID。 */
+    id?: string;
+
     /** 类名。 */
     className?: ClassNameLike;
 
     /** 样式。 */
     style?: JSX.CSSProperties;
 
-    /** 下拉面板容器元素。 */
-    container?: string | HTMLElement;
+    /** 组件根元素的标签名。 */
+    tagName?: string;
+
+    /** 附加到组件根元素上的属性。 */
+    attrs?: Record<string, unknown>;
+
+    /** 点击类型，`toggle` 表示点击按钮时切换显示隐藏，`open` 表示点击按钮时只打开。 */
+    clickType?: 'toggle' | 'open';
 
     /** 渲染完成后的回调函数。 */
     afterRender?: (info: {firstRender: boolean}) => void;
@@ -131,17 +140,20 @@ type PickerOptions = {
     /** 作为表单项的名称。 */
     name?: string;
 
+    /** 默认值。 */
+    defaultValue?: string | string[];
+
+    /** 值变更回调函数。 */
+    onChange?: (value: string | string[]) => void;
+
     /** 是否禁用。 */
     disabled?: boolean;
 
     /** 是否允许选择多个值，如果指定为数字，则限制多选的数目，默认 `false`。 */
     multiple?: boolean | number;
 
-    /** 是否可选（允许空值，可以被清除）。 */
-    optional?: boolean;
-
-    /** 默认值。 */
-    defaultValue?: string | string[];
+    /** 是否必选（不允许空值，不可以被清除）。 */
+    required?: boolean;
 
     /** 选择框上的占位文本。 */
     placeholder?: string;
@@ -152,8 +164,8 @@ type PickerOptions = {
     /** 列表项或列表项获取方法。 */
     items: PickerItemProps[] | (() => (Promise<PickerItemProps[]> | PickerItemProps[]));
 
-    /** 是否启用缓存。 */
-    cache?: boolean;
+    /** 附加的菜单选项。 */
+    menu?: MenuOptions;
 
     /** 是否启用快捷键。 */
     hotkey?: boolean;
@@ -167,9 +179,6 @@ type PickerOptions = {
     /** 搜索提示文本。 */
     searchHint?: string;
 
-    /** 值变更回调函数。 */
-    onChange?: (value: string | string[]) => void;
-
     /** 当取消选择值时的回调函数。 */
     onDeselect?: (value: string, item: PickerItemProps) => false | void;
 
@@ -179,32 +188,35 @@ type PickerOptions = {
     /** 当清空值时的回调函数。 */
     onClear?: () => void;
 
+    /** 下拉面板容器元素。 */
+    popContainer?: string | HTMLElement;
+
     /** 菜单宽度，如果设置为 `'100%'` 则与选择框宽度一致，默认 `'100%'`。 */
-    menuWidth: number | 'auto' | '100%';
+    popWidth: number | 'auto' | '100%';
+
+    /** 菜单高度，默认 `'auto'`。 */
+    popHeight: number | 'auto';
 
     /** 菜单最大高度，默认 `300`。 */
-    menuMaxHeight?: number;
+    popMaxHeight?: number;
+
+    /** 菜单最小高度，默认 `32`。 */
+    popMinHeight?: number;
 
     /** 菜单最大宽度，当宽度设置为 `'auto'` 时生效。 */
-    menuMaxWidth?: number;
+    popMaxWidth?: number;
 
-    /** 菜单最小宽度，当宽度设置为 `'auto'` 时生效。 */
-    menuMinWidth?: number;
+    /** 菜单最小宽度，当宽度设置为 `'auto'` 时生效，默认 50。 */
+    popMinWidth?: number;
 
     /** 菜单方向，默认 `'auto'`。 */
-    menuDirection?: PickerMenuDirection;
+    popPlacement?: PickerMenuDirection;
 
     /** 菜单类名。 */
-    menuClass?: ClassNameLike;
+    popClass?: ClassNameLike;
 
     /** 菜单样式。 */
-    menuStyle?: JSX.CSSProperties;
-
-    /** 菜单项高度，默认 `32`。 */
-    menuItemHeight?: number;
-
-    /** 是否为多选菜单项显示复选框。 */
-    menuCheckbox?: boolean;
+    popStyle?: JSX.CSSProperties;
 
     /** 菜单显示时的回调函数。 */
     onPopShow?: () => void;
