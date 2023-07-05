@@ -1,0 +1,6 @@
+.time-picker-menu {
+  @apply -max-h-[inherit];
+}
+.time-picker-menu .menu-item > a {
+  @apply -justify-center;
+}

@@ -1,0 +1,34 @@
+.date-picker-menu .mini-calendar {
+  @apply --mt-3;
+}
+.date-pick-menu-month,
+.date-pick-menu-years {
+  @apply -max-h-[260px] -px-2 -flex -flex-row -gap-px -flex-wrap -pb-2;
+}
+.date-pick-menu-years > .btn {
+  @apply -w-10;
+}
+
+.date-pick-menu-years > .btn.is-current {
+  @apply -bg-primary-100 -text-primary-500;
+}
+.date-pick-menu-month > .btn.active,
+.date-pick-menu-years > .btn.active {
+  @apply -bg-primary-500 -text-canvas;
+}
+.date-pick-menu-month > .btn {
+  @apply -w-12;
+}
+.date-picker-menu-footer {
+  @apply -flex -flex-row -border-t -p-1;
+}
+.date-picker-menu-footer > .toolbar {
+  @apply -flex-auto -justify-center;
+}
+
+.date-picker-menu > .menu {
+  @apply -border-r;
+}
+.date-picker-menu .menu-item {
+  @apply -text-primary-500;
+}

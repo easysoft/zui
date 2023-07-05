@@ -1,0 +1,25 @@
+.mini-calendar {
+  @apply -p-2;
+}
+.mini-calendar > .row > .col {
+  @apply -w-[14.2857%] -items-center -justify-center;
+}
+.mini-calendar-day {
+  @apply -h-8;
+}
+.mini-calendar-day > a {
+  @apply -w-8;
+}
+.mini-calendar-day.is-weekend > a {
+  @apply -text-gray-500;
+}
+.mini-calendar-day.active > a,
+.mini-calendar-day.is-today > a {
+  @apply -bg-primary-100 -text-primary-500;
+}
+.mini-calendar-day.selected > a {
+  @apply -bg-primary-500 -text-canvas;
+}
+.mini-calendar-day.is-out-month {
+  @apply -opacity-50;
+}
