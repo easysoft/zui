@@ -125,10 +125,17 @@ const colorPicker = new ColorPicker('#color-picker-4', {
 
 <Example>
   <div class="input-control has-suffix-icon">
-    <input type="text" class="form-control" placeholder="选择颜色" id="colorPickerInput">
-    <label class="input-control-suffix" data-zui="colorPicker"></label>
+    <input type="text" class="form-control" placeholder="选择颜色" id="colorPickerInput2">
+    <label class="input-control-suffix" data-zui="colorPicker" data-sync-value="#colorPickerInput2" data-sync-color="#colorPickerInput2"></label>
   </div>
 </Example>
+
+```html
+<div class="input-control has-suffix-icon">
+    <input type="text" class="form-control" placeholder="选择颜色" id="colorPickerInput2">
+    <label class="input-control-suffix" data-zui="colorPicker" data-sync-value="#colorPickerInput2" data-sync-color="#colorPickerInput2"></label>
+  </div>
+```
 
 
 ## 选项
