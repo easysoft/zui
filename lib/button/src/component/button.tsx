@@ -24,6 +24,7 @@ export class Button extends Component<ButtonProps> {
             trailingIcon,
             caret,
             square,
+            rounded = true,
             hint,
             ...others
         } = this.props;
@@ -39,7 +40,7 @@ export class Button extends Component<ButtonProps> {
                     active,
                     loading,
                     square: square === undefined ? (!onlyCaret && !children && isEmptyText) : square,
-                }, size ? `size-${size}` : ''),
+                }, size ? `size-${size}` : '', typeof rounded === 'string' ? rounded : {rounded}),
                 title: hint,
                 [ButtonComponent === 'a' ? 'href' : 'data-url']: url,
                 [ButtonComponent === 'a' ? 'target' : 'data-target']: target,

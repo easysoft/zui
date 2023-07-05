@@ -13,6 +13,7 @@ export type ButtonProps = {
     url?: string;
     target?: string;
     disabled?: boolean;
+    rounded?: boolean | string;
     active?: boolean;
     icon?: IconType;
     text?: ComponentChildren;
