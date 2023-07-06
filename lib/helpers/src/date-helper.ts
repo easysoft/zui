@@ -1,5 +1,7 @@
 export type DateLike = Date | number | string;
 
+export type DurationType = 'day' | 'month' | 'year' | 'week' | 'hour' | 'minute' | 'second';
+
 /**
  * 一天的总毫秒数
  */
@@ -27,6 +29,31 @@ export const createDate = (date?: DateLike): Date => {
         date *= 1000;
     }
     date = new Date(date);
+    return date;
+};
+
+export const addDate = (date: DateLike, value: number | string, type: DurationType = 'day'): Date => {
+    if (typeof value === 'string') {
+        const count = Number.parseInt(value, 10);
+        type = value.replace(count.toString(), '') as DurationType;
+        value = count;
+    }
+    date = new Date(createDate(date).getTime());
+    if (type === 'month') {
+        date.setMonth(date.getMonth() + value);
+    } else if (type === 'year') {
+        date.setFullYear(date.getFullYear() + value);
+    } else if (type === 'week') {
+        date.setDate(date.getDate() + value * 7);
+    } else if (type === 'hour') {
+        date.setHours(date.getHours() + value);
+    } else if (type === 'minute') {
+        date.setMinutes(date.getMinutes() + value);
+    } else if (type === 'second') {
+        date.setSeconds(date.getSeconds() + value);
+    } else {
+        date.setDate(date.getDate() + value);
+    }
     return date;
 };
 
