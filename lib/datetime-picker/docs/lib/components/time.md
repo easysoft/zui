@@ -23,19 +23,35 @@ const timePicker = new zui.TimePicker('#timePicker');
   <div data-zui="timePicker" data-default-value="now"></div>
 </Example>
 
+```html
+<div id="timePicker1"></div>
+<div id="timePicker2"></div>
+
+<script>
+const timePicker1 = new zui.DatePicker('#timePicker1', {
+    defaultValue: '9:42'
+});
+const timePicker2 = new zui.DatePicker('#timePicker2', {
+    defaultValue: 'now'
+});
+</script>
+```
+
 ## 格式化
 
 通过 `format` 选项设置日期格式化形式。
 
 <Example>
-  <div data-zui="timePicker" data-format="现在时间 hh:mm"></div>
+  <div data-zui="timePicker" data-format="hh:mm"></div>
 </Example>
 
 ```html
 <div id="timePicker"></div>
 
 <script>
-const timePicker = new zui.TimePicker('#timePicker');
+const timePicker = new zui.TimePicker('#timePicker', {
+  format: 'hh:mm'
+});
 </script>
 ```
 
