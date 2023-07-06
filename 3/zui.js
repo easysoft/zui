@@ -3906,6 +3906,7 @@ let mt = class extends z {
         s == null || s(), i(this.state);
       });
     }), this.toggle = async (n, s) => {
+      this.props.disabled && (n = !1);
       const { state: i } = this;
       if (typeof n == "boolean" && n === (!!i.open && i.open !== "closing"))
         return s && await this.changeState(s), this.state;
@@ -4211,6 +4212,8 @@ let Zc = class extends mt {
     });
   }
   setTime(t) {
+    if (this.props.disabled)
+      return;
     let n = "";
     if (typeof t == "string")
       n = t;
@@ -4228,11 +4231,11 @@ let Zc = class extends mt {
     return t ? [t.getHours(), t.getMinutes()] : null;
   }
   _renderTrigger(t, n) {
-    const { placeholder: s, name: i, icon: r, required: o } = t, { value: a = "", open: l } = n, h = `time-picker${this.id}`;
-    let c;
-    return l && !o && a.length ? c = /* @__PURE__ */ f("button", { type: "button", className: "btn size-sm square ghost", onClick: Ws(this, Qr), children: /* @__PURE__ */ f("span", { className: "close" }) }) : r && (r === !0 ? c = /* @__PURE__ */ f("i", { class: "i-time" }) : c = /* @__PURE__ */ f(nt, { icon: r })), [
-      /* @__PURE__ */ f("input", { name: i, id: h, type: "text", class: "form-control", placeholder: s, value: a, onFocus: Ws(this, Xr), onChange: Ws(this, Jr) }, "input"),
-      c ? /* @__PURE__ */ f("label", { for: h, class: "input-control-suffix", children: c }, "icon") : null
+    const { placeholder: s, name: i, icon: r, required: o, disabled: a } = t, { value: l = "", open: h } = n, c = `time-picker${this.id}`;
+    let d;
+    return h && !o && l.length ? d = /* @__PURE__ */ f("button", { type: "button", className: "btn size-sm square ghost", onClick: Ws(this, Qr), children: /* @__PURE__ */ f("span", { className: "close" }) }) : r && (r === !0 ? d = /* @__PURE__ */ f("i", { class: "i-time" }) : d = /* @__PURE__ */ f(nt, { icon: r })), [
+      /* @__PURE__ */ f("input", { name: i, id: c, type: "text", class: "form-control", placeholder: s, value: l, disabled: a, onFocus: Ws(this, Xr), onChange: Ws(this, Jr) }, "input"),
+      d ? /* @__PURE__ */ f("label", { for: c, class: "input-control-suffix", children: d }, "icon") : null
     ];
   }
   _getTriggerProps(t, n) {
@@ -4496,6 +4499,8 @@ let eh = class extends mt {
     }), Mr(this, no, () => {
       this.setDate("");
     }), this.setDate = (t) => {
+      if (this.props.disabled)
+        return;
       const n = Z(t), s = !t || Number.isNaN(n.getDay()), { onInvalid: i, defaultValue: r = "", required: o } = this.props;
       this.setState({ value: s ? o ? r : "" : Xt(n, this.props.format) }, () => {
         !s && i && i(t), this.toggle(!1);
@@ -4503,11 +4508,11 @@ let eh = class extends mt {
     };
   }
   _renderTrigger(t, n) {
-    const { placeholder: s, name: i, icon: r, required: o } = t, { value: a = "", open: l } = n, h = `date-picker${this.id}`;
-    let c;
-    return l && !o && a.length ? c = /* @__PURE__ */ f("button", { type: "button", className: "btn size-sm square ghost", onClick: Sr(this, no), children: /* @__PURE__ */ f("span", { className: "close" }) }) : r && (r === !0 ? c = /* @__PURE__ */ f("i", { class: "i-calendar" }) : c = /* @__PURE__ */ f(nt, { icon: r })), [
-      /* @__PURE__ */ f("input", { name: i, id: h, type: "text", class: "form-control", placeholder: s, value: a, onFocus: Sr(this, to), onChange: Sr(this, eo) }, "input"),
-      c ? /* @__PURE__ */ f("label", { for: h, class: "input-control-suffix", children: c }, "icon") : null
+    const { placeholder: s, name: i, icon: r, required: o, disabled: a } = t, { value: l = "", open: h } = n, c = `date-picker${this.id}`;
+    let d;
+    return h && !o && l.length ? d = /* @__PURE__ */ f("button", { type: "button", className: "btn size-sm square ghost", onClick: Sr(this, no), children: /* @__PURE__ */ f("span", { className: "close" }) }) : r && (r === !0 ? d = /* @__PURE__ */ f("i", { class: "i-calendar" }) : d = /* @__PURE__ */ f(nt, { icon: r })), [
+      /* @__PURE__ */ f("input", { name: i, id: c, type: "text", class: "form-control", placeholder: s, value: l, disabled: a, onFocus: Sr(this, to), onChange: Sr(this, eo) }, "input"),
+      d ? /* @__PURE__ */ f("label", { for: c, class: "input-control-suffix", children: d }, "icon") : null
     ];
   }
   _getTriggerProps(t, n) {
