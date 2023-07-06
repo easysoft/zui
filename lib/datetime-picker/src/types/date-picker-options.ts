@@ -5,10 +5,10 @@ import type {ToolbarItemOptions, ToolbarOptions} from '@zui/toolbar';
 import type {DateLike} from '@zui/helpers/src/date-helper';
 
 export interface DatePickerOptions extends PickOptions {
+    required?: boolean;
     placeholder?: string;
     format?: string;
     icon?: IconType | boolean;
-    required?: boolean;
     weekNames?: string[];
     monthNames?: string[];
     yearText?: string;

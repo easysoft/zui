@@ -29,6 +29,9 @@ export class DatePicker extends Pick<PickState, DatePickerOptions> {
     };
 
     setDate = (value: string) => {
+        if (this.props.disabled) {
+            return;
+        }
         const date = createDate(value);
         const isInvalid = !value || Number.isNaN(date.getDay());
         const {onInvalid, defaultValue = '', required} = this.props;
@@ -41,7 +44,7 @@ export class DatePicker extends Pick<PickState, DatePickerOptions> {
     };
 
     _renderTrigger(props: DatePickerOptions, state: PickState): ComponentChildren {
-        const {placeholder, name, icon, required} = props;
+        const {placeholder, name, icon, required, disabled} = props;
         const {value = '', open} = state;
         const id = `date-picker${this.id}`;
         let iconView: ComponentChildren;
@@ -55,7 +58,7 @@ export class DatePicker extends Pick<PickState, DatePickerOptions> {
             }
         }
         return [
-            <input key="input" name={name} id={id} type="text" class="form-control" placeholder={placeholder} value={value} onFocus={this.#handleInputFocus} onChange={this.#handleInputChange} />,
+            <input key="input" name={name} id={id} type="text" class="form-control" placeholder={placeholder} value={value} disabled={disabled} onFocus={this.#handleInputFocus} onChange={this.#handleInputChange} />,
             iconView ? <label key="icon" for={id} class="input-control-suffix">{iconView}</label> : null,
         ];
     }

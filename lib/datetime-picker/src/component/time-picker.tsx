@@ -47,6 +47,9 @@ export class TimePicker extends Pick<PickState, TimePickerOptions> {
     };
 
     setTime(value: string | {hour?: number, minute?: number}) {
+        if (this.props.disabled) {
+            return;
+        }
         let valueString = '';
         if (typeof value === 'string') {
             valueString = value;
@@ -71,7 +74,7 @@ export class TimePicker extends Pick<PickState, TimePickerOptions> {
     }
 
     _renderTrigger(props: TimePickerOptions, state: PickState): ComponentChildren {
-        const {placeholder, name, icon, required} = props;
+        const {placeholder, name, icon, required, disabled} = props;
         const {value = '', open} = state;
         const id = `time-picker${this.id}`;
         let iconView: ComponentChildren;
@@ -85,7 +88,7 @@ export class TimePicker extends Pick<PickState, TimePickerOptions> {
             }
         }
         return [
-            <input key="input" name={name} id={id} type="text" class="form-control" placeholder={placeholder} value={value} onFocus={this.#handleInputFocus} onChange={this.#handleInputChange} />,
+            <input key="input" name={name} id={id} type="text" class="form-control" placeholder={placeholder} value={value} disabled={disabled} onFocus={this.#handleInputFocus} onChange={this.#handleInputChange} />,
             iconView ? <label key="icon" for={id} class="input-control-suffix">{iconView}</label> : null,
         ];
     }
