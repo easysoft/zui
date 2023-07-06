@@ -19,9 +19,23 @@ const datePicker = new zui.DatePicker('#datePicker');
 通过 `defaultValue` 选项设置默认值，设置为 `'today'` 可以将默认值设置为当天。
 
 <Example className="row gap-3">
-  <div data-zui="datePicker" data-default-value="2023-06-12"></div>
-  <div data-zui="datePicker" data-default-value="today"></div>
+  <div data-zui="datePicker2" data-default-value="2023-06-12"></div>
+  <div data-zui="datePicker2" data-default-value="today"></div>
 </Example>
+
+```html
+<div id="datePicker1"></div>
+<div id="datePicker2"></div>
+
+<script>
+const datePicker1 = new zui.DatePicker('#datePicker1', {
+    defaultValue: '2023-06-12'
+});
+const datePicker2 = new zui.DatePicker('#datePicker2', {
+    defaultValue: 'today'
+});
+</script>
+```
 
 ## 格式化
 
@@ -35,8 +49,20 @@ const datePicker = new zui.DatePicker('#datePicker');
 <div id="datePicker"></div>
 
 <script>
-const datePicker = new zui.DatePicker('#datePicker');
+const datePicker = new zui.DatePicker('#datePicker', {
+    format: 'yyyy/M/d'
+});
 </script>
+```
+
+## 通过 `[data-zui="datePicker"]` 初始化
+
+<Example>
+  <div data-zui="datePicker" data-default-value="today" data-format="yyyy/M/d"></div>
+</Example>
+
+```html
+<div data-zui="datePicker" data-default-value="today" data-format="yyyy/M/d"></div>
 ```
 
 ## 自定义菜单
@@ -48,20 +74,20 @@ const datePicker = new zui.DatePicker('#datePicker');
 通过 `menu` 选项可以在弹出面板左侧显示一个[自定义菜单](/lib/components/menu/js.html)，在菜单项配置上通过 `[data-set-date]` 属性指定点击菜单项时要设定的日期。
 
 <Example>
-  <div data-zui="datePicker" data-menu='{"items":[{"text": "一周之后", "data-set-date": "now+1week"},{"text": "一个月之后", "data-set-date": "now+1month"}, {"text": "两个月之后", "data-set-date": "now+2month"}, {"text": "一年之后", "data-set-date": "now+1year"}]}'></div>
+  <div data-zui="datePicker" data-menu='{"items":[{"text": "一周之后", "data-set-date": "today+1week"},{"text": "一个月之后", "data-set-date": "today+1month"}, {"text": "两个月之后", "data-set-date": "today+2month"}, {"text": "一年之后", "data-set-date": "today+1year"}]}'></div>
 </Example>
 
 ```html
 <div id="datePicker"></div>
 
 <script>
-const now = new Date();
+const today = new Date();
 const datePicker = new zui.DatePicker('#datePicker', {
     menu: [
-        {text: '一周之后', 'data-set-date': zui.addDate(now, 1, 'week').getTime()},
-        {text: '一个月之后', 'data-set-date': zui.addDate(now, 1, 'month').getTime()},
-        {text: '两个月之后', 'data-set-date': zui.addDate(now, 2, 'month').getTime()},
-        {text: '一年之后', 'data-set-date': zui.addDate(now, 1, 'year').getTime()},
+        {text: '一周之后', 'data-set-date': zui.addDate(today, 1, 'week').getTime()},
+        {text: '一个月之后', 'data-set-date': zui.addDate(today, 1, 'month').getTime()},
+        {text: '两个月之后', 'data-set-date': zui.addDate(today, 2, 'month').getTime()},
+        {text: '一年之后', 'data-set-date': zui.addDate(today, 1, 'year').getTime()},
     ]
 });
 </script>
@@ -73,19 +99,19 @@ const datePicker = new zui.DatePicker('#datePicker', {
 
 
 <Example>
-  <div data-zui="datePicker" data-actions='{"items":[{"text": "一周", "data-set-date": "now+1week"},{"text": "一个月", "data-set-date": "now+1month"}, {"text": "两个月", "data-set-date": "now+2month"}, {"text": "清除", "data-set-date": ""}]}'></div>
+  <div data-zui="datePicker" data-actions='{"items":[{"text": "一周", "data-set-date": "today+1week"},{"text": "一个月", "data-set-date": "today+1month"}, {"text": "两个月", "data-set-date": "today+2month"}, {"text": "清除", "data-set-date": ""}]}'></div>
 </Example>
 
 ```html
 <div id="datePicker"></div>
 
 <script>
-const now = new Date();
+const today = new Date();
 const datePicker = new zui.DatePicker('#datePicker', {
     actions: [
-        {text: '一周', 'data-set-date': zui.addDate(now, 1, 'week').getTime()},
-        {text: '一个月', 'data-set-date': zui.addDate(now, 1, 'month').getTime()},
-        {text: '两个月', 'data-set-date': zui.addDate(now, 2, 'month').getTime()},
+        {text: '一周', 'data-set-date': zui.addDate(today, 1, 'week').getTime()},
+        {text: '一个月', 'data-set-date': zui.addDate(today, 1, 'month').getTime()},
+        {text: '两个月', 'data-set-date': zui.addDate(today, 2, 'month').getTime()},
         {text: '清除', 'data-set-date': ""},
     ]
 });
@@ -109,7 +135,7 @@ type DatePickerOptions = {
     tagName?: string;
 
     /** 附加到组件根元素上的属性。 */
-    attrs?: Record<string, unknown>;
+    attrs?: Record<string, unktodayn>;
 
     /** 点击类型，`toggle` 表示点击按钮时切换显示隐藏，`open` 表示点击按钮时只打开。 */
     clickType?: 'toggle' | 'open';
