@@ -16,6 +16,17 @@ export class DatePicker extends Pick<PickState, DatePickerOptions> {
         icon: true,
     } as Partial<PickOptions>;
 
+    constructor(props: DatePickerOptions) {
+        super(props);
+        const state = this.state as PickState;
+        if (props.required) {
+            state.value = 'today';
+        }
+        if (state.value === 'today') {
+            state.value = formatDate(new Date(), props.format);
+        }
+    }
+
     #handleInputFocus = () => {
         this.toggle(true);
     };
