@@ -16,7 +16,6 @@ export class Dropdown extends ContextMenu<DropdownOptions, DropdownEvents> {
 
     static DEFAULT = {
         ...ContextMenu.DEFAULT,
-        strategy: 'fixed',
         trigger: 'click',
     } as Partial<DropdownOptions>;
 
