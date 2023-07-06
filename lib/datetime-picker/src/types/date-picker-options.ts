@@ -6,6 +6,7 @@ import type {DateLike} from '@zui/helpers/src/date-helper';
 
 export interface DatePickerOptions extends PickOptions {
     required?: boolean;
+    readonly?: boolean;
     placeholder?: string;
     format?: string;
     icon?: IconType | boolean;

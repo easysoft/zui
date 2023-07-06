@@ -158,6 +158,9 @@ type DatePickerOptions = {
     /** 是否禁用。 */
     disabled?: boolean;
 
+    /** 是否只读，不允许手动修改。 */
+    readonly?: boolean;
+
     /** 是否必须提供值（不能清除和选择空值）。 */
     required?: boolean;
 
