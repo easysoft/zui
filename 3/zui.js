@@ -1928,7 +1928,9 @@ const Hr = class extends z {
   }
   beforeRender() {
     var n;
-    const e = { ...this.props }, t = (n = e.beforeRender) == null ? void 0 : n.call(e, { menu: this, options: e });
+    const e = { ...this.props };
+    typeof e.items == "function" && (e.items = e.items(this)), e.items || (e.items = []);
+    const t = (n = e.beforeRender) == null ? void 0 : n.call(e, { menu: this, options: e });
     return t && Object.assign(e, t), e;
   }
   getItemRenderProps(e, t, n) {
