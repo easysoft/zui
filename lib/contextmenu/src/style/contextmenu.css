@@ -10,6 +10,3 @@
 .contextmenu .has-nested-menu.show > a:not(:hover) {
     @apply -bg-[--contextmenu-nested-hover-bg];
 }
-.contextmenu .menu {
-    @apply -absolute;
-}

@@ -203,11 +203,10 @@ export class ContextMenu<O extends ContextMenuOptions = ContextMenuOptions, E ex
         const menu = this.menu!;
         this.#cleanup = autoUpdate(reference, menu, () => {
             computePosition(reference, menu, config).then(({x, y, middlewareData, placement}) => {
-                $(menu).css({left: `${x}px`, top: `${y}px`});
-                const side = placement.split('-')[0] as Side;
-                const staticSide = this.#getStaticSide(side);
-
+                $(menu).css({left: x, top: y});
                 if (middlewareData.arrow && this.arrowEl) {
+                    const side = placement.split('-')[0] as Side;
+                    const staticSide = this.#getStaticSide(side);
                     const {x: arrowX, y: arrowY} = middlewareData.arrow;
                     $(this.arrowEl).css({
                         left: arrowX != null ? `${arrowX}px` : '',

@@ -1,13 +1,18 @@
-import {classes, $} from '@zui/core';
+import {$, classes} from '@zui/core';
 import type {MenuItemOptions} from '@zui/menu/src/types';
 import {Menu} from '@zui/menu/src/component/menu';
 import {MenuOptions} from '@zui/menu/src/types';
 import {flip, computePosition, shift, offset} from '@floating-ui/dom';
-import {ActionMenuNestedItemOptions} from '@zui/action-menu/src/types';
 import '@zui/css-icons/src/icons/caret.css';
 import '../style/index.css';
+import {ActionMenuNestedItemOptions} from '@zui/action-menu/src/types';
 
 export class ContextMenu<T extends MenuItemOptions = MenuItemOptions> extends Menu<T> {
+    static defaultProps: Partial<MenuOptions> = {
+        ...Menu.defaultProps,
+        popup: true,
+    };
+
     #layoutTimer = 0;
 
     get nestedTrigger() {
@@ -41,8 +46,10 @@ export class ContextMenu<T extends MenuItemOptions = MenuItemOptions> extends Me
     }
 
     getNestedMenuProps(items: ActionMenuNestedItemOptions[]): MenuOptions {
+        const props = super.getNestedMenuProps(items);
         return {
-            ...super.getNestedMenuProps(items),
+            ...props,
+            className: classes('absolute', props.className),
             popup: true,
         };
     }
@@ -53,12 +60,6 @@ export class ContextMenu<T extends MenuItemOptions = MenuItemOptions> extends Me
             this.layout();
             this.#layoutTimer = window.setTimeout(this.layout.bind(this), 100);
         }
-    }
-
-    beforeRender() {
-        const options = super.beforeRender();
-        options.className = classes(options.className, 'popup');
-        return options;
     }
 
     renderToggleIcon() {
