@@ -20,7 +20,7 @@ export class PickTrigger<S extends PickState = PickState, P extends PickTriggerP
         if ($target.closest('a,input').length) {
             return;
         }
-        togglePop(clickType === 'open' ? true : undefined);
+        requestAnimationFrame(() => togglePop(clickType === 'open' ? true : undefined));
     }
 
     protected _getClass(props: RenderableProps<P>) {
