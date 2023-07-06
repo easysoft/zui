@@ -100,7 +100,7 @@ export class PickPop<S extends PickState = PickState, P extends PickPopProps<S> 
     protected _handleDocClick = (e: MouseEvent) => {
         const {state: {open}, id, togglePop} = this.props;
         const $target = $(e.target as HTMLElement);
-        if (open !== 'closing' && !$target.closest(`#pick-${id},#pick-pop-${id}`).length) {
+        if (open !== 'closing' && !$target.closest(`#pick-${id},#pick-pop-${id}`).length && $target.parent().length) {
             togglePop(false);
         }
     };
