@@ -21,6 +21,7 @@ export interface PickOptions<S extends PickState = PickState> {
     Pop?: ComponentType<PickPopProps<S>>;
 
     defaultValue?: string;
+    disabled?: boolean;
     name?: string;
     onChange?: (value: string | undefined, oldValue: string | undefined) => void;
 
