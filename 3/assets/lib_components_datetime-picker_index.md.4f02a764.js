@@ -79,6 +79,9 @@ import{_ as e,H as t,o as E,c,J as n,E as l,C as s,a as o,V as p}from"./chunks/f
 <span class="line"><span style="color:#E1E4E8;">    </span><span style="color:#6A737D;">/** 是否禁用。 */</span></span>
 <span class="line"><span style="color:#E1E4E8;">    </span><span style="color:#FFAB70;">disabled</span><span style="color:#F97583;">?:</span><span style="color:#E1E4E8;"> </span><span style="color:#79B8FF;">boolean</span><span style="color:#E1E4E8;">;</span></span>
 <span class="line"></span>
+<span class="line"><span style="color:#E1E4E8;">    </span><span style="color:#6A737D;">/** 是否只读，不允许手动修改。 */</span></span>
+<span class="line"><span style="color:#E1E4E8;">    </span><span style="color:#FFAB70;">readonly</span><span style="color:#F97583;">?:</span><span style="color:#E1E4E8;"> </span><span style="color:#79B8FF;">boolean</span><span style="color:#E1E4E8;">;</span></span>
+<span class="line"></span>
 <span class="line"><span style="color:#E1E4E8;">    </span><span style="color:#6A737D;">/** 是否必须提供值（不能清除和选择空值）。 */</span></span>
 <span class="line"><span style="color:#E1E4E8;">    </span><span style="color:#FFAB70;">required</span><span style="color:#F97583;">?:</span><span style="color:#E1E4E8;"> </span><span style="color:#79B8FF;">boolean</span><span style="color:#E1E4E8;">;</span></span>
 <span class="line"></span>

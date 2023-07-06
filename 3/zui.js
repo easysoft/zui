@@ -4242,11 +4242,11 @@ let Qc = class extends mt {
     return t ? [t.getHours(), t.getMinutes()] : null;
   }
   _renderTrigger(t, n) {
-    const { placeholder: s, name: i, icon: r, required: o, disabled: a } = t, { value: l = "", open: h } = n, c = `time-picker${this.id}`;
-    let d;
-    return h && !o && l.length ? d = /* @__PURE__ */ f("button", { type: "button", className: "btn size-sm square ghost", onClick: Os(this, to), children: /* @__PURE__ */ f("span", { className: "close" }) }) : r && (r === !0 ? d = /* @__PURE__ */ f("i", { class: "i-time" }) : d = /* @__PURE__ */ f(nt, { icon: r })), [
-      /* @__PURE__ */ f("input", { name: i, id: c, type: "text", class: "form-control", placeholder: s, value: l, disabled: a, onFocus: Os(this, Jr), onChange: Os(this, Zr) }, "input"),
-      d ? /* @__PURE__ */ f("label", { for: c, class: "input-control-suffix", children: d }, "icon") : null
+    const { placeholder: s, name: i, icon: r, required: o, disabled: a, readonly: l } = t, { value: h = "", open: c } = n, d = `time-picker${this.id}`;
+    let u;
+    return c && !o && h.length ? u = /* @__PURE__ */ f("button", { type: "button", className: "btn size-sm square ghost", onClick: Os(this, to), children: /* @__PURE__ */ f("span", { className: "close" }) }) : r && (r === !0 ? u = /* @__PURE__ */ f("i", { class: "i-time" }) : u = /* @__PURE__ */ f(nt, { icon: r })), [
+      /* @__PURE__ */ f("input", { name: i, id: d, type: "text", class: "form-control", placeholder: s, value: h, disabled: a, readOnly: l, onFocus: Os(this, Jr), onChange: Os(this, Zr) }, "input"),
+      u ? /* @__PURE__ */ f("label", { for: d, class: "input-control-suffix", children: u }, "icon") : null
     ];
   }
   _getTriggerProps(t, n) {
@@ -4521,11 +4521,11 @@ let nh = class extends mt {
     t.required && (n.value = "today"), n.value === "today" && (n.value = $t(/* @__PURE__ */ new Date(), t.format));
   }
   _renderTrigger(t, n) {
-    const { placeholder: s, icon: i, required: r, disabled: o } = t, { value: a = "", open: l } = n, h = `date-picker${this.id}`;
-    let c;
-    return l && !r && a.length ? c = /* @__PURE__ */ f("button", { type: "button", className: "btn size-sm square ghost", onClick: Mr(this, so), children: /* @__PURE__ */ f("span", { className: "close" }) }) : i && (i === !0 ? c = /* @__PURE__ */ f("i", { class: "i-calendar" }) : c = /* @__PURE__ */ f(nt, { icon: i })), [
-      /* @__PURE__ */ f("input", { id: h, type: "text", class: "form-control", placeholder: s, value: a, disabled: o, onFocus: Mr(this, eo), onChange: Mr(this, no) }, "input"),
-      c ? /* @__PURE__ */ f("label", { for: h, class: "input-control-suffix", children: c }, "icon") : null
+    const { placeholder: s, icon: i, required: r, disabled: o, readonly: a } = t, { value: l = "", open: h } = n, c = `date-picker${this.id}`;
+    let d;
+    return h && !r && l.length ? d = /* @__PURE__ */ f("button", { type: "button", className: "btn size-sm square ghost", onClick: Mr(this, so), children: /* @__PURE__ */ f("span", { className: "close" }) }) : i && (i === !0 ? d = /* @__PURE__ */ f("i", { class: "i-calendar" }) : d = /* @__PURE__ */ f(nt, { icon: i })), [
+      /* @__PURE__ */ f("input", { id: c, type: "text", class: "form-control", placeholder: s, value: l, disabled: o, readOnly: a, onFocus: Mr(this, eo), onChange: Mr(this, no) }, "input"),
+      d ? /* @__PURE__ */ f("label", { for: c, class: "input-control-suffix", children: d }, "icon") : null
     ];
   }
   _getTriggerProps(t, n) {
