@@ -11,11 +11,11 @@ onPageUpdate(() => {
         const datePicker = new DatePicker(datePickerElement, {
             clearText: '待定',
             menu: [{
-                text: '一个月',
-                'data-set-date': '2023-08-05',
+                text: '上一个月',
+                'data-set-date': 'now-1month',
             }, {
                 text: '两个月',
-                'data-set-date': '2023-09-05',
+                'data-set-date': 'now+2month',
             }],
         });
         console.log('> datePicker', datePicker);

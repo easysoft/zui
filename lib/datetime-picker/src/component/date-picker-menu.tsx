@@ -1,5 +1,5 @@
 import {Component, RefObject, createRef} from 'preact';
-import {createDate, formatDate, formatString} from '@zui/helpers';
+import {addDate, createDate, formatDate, formatString} from '@zui/helpers';
 import {$, i18n} from '@zui/core';
 import {Menu} from '@zui/menu/src/component';
 import {Button} from '@zui/button/src/component/button';
@@ -83,6 +83,13 @@ export class DatePickerMenu extends Component<DatePickerMenuProps, DatePickerMen
     }
 
     changeDate = (date: string) => {
+        if (date.startsWith('now')) {
+            let time = new Date();
+            if (date.length > 3) {
+                time = addDate(time, date.substring(3).replace('+', ''));
+            }
+            date = formatDate(time, 'yyyy-MM-dd');
+        }
         this.props.onChange?.(date);
     };
 
@@ -122,7 +129,7 @@ export class DatePickerMenu extends Component<DatePickerMenuProps, DatePickerMen
                 <div className="cell" style="width: 312px">
                     <div className="row p-2">
                         <Button type={select === 'year' ? 'primary-pale' : 'ghost'} size="sm" caret onClick={this._showSelect.bind(this, 'year')}>{formatString(yearText, year)}</Button>
-                        <Button type={select === 'month' ? 'primary-pale' : 'ghost'} size="sm" caret onClick={this._showSelect.bind(this, 'month')}>{monthNames ? monthNames[month] : month}</Button>
+                        <Button type={select === 'month' ? 'primary-pale' : 'ghost'} size="sm" caret onClick={this._showSelect.bind(this, 'month')}>{monthNames ? monthNames[month - 1] : month}</Button>
                         <div className="flex-auto"></div>
                         {
                             isSelectDay ? (
