@@ -3,7 +3,7 @@
 }
 .date-pick-menu-month,
 .date-pick-menu-years {
-  @apply -max-h-[260px] -px-2 -flex -flex-row -gap-px -flex-wrap -pb-2;
+  @apply -max-h-[237px] -px-2 -flex -flex-row -gap-px -flex-wrap -pb-2;
 }
 .date-pick-menu-years > .btn {
   @apply -w-10;
