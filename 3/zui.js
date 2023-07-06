@@ -3796,7 +3796,7 @@ class Kc extends z {
     A(this, le, void 0);
     O(this, Ee, G()), this._handleDocClick = (s) => {
       const { state: { open: i }, id: r, togglePop: o } = this.props, a = g(s.target);
-      i !== "closing" && !a.closest(`#pick-${r},#pick-pop-${r}`).length && o(!1);
+      i !== "closing" && !a.closest(`#pick-${r},#pick-pop-${r}`).length && a.parent().length && o(!1);
     }, this._handleClick = this._handleClick.bind(this);
   }
   get trigger() {
