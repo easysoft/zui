@@ -1,6 +1,6 @@
 import {Component, RefObject, createRef} from 'preact';
 import {createDate, formatDate, formatString} from '@zui/helpers';
-import {$} from '@zui/core';
+import {$, i18n} from '@zui/core';
 import {Menu} from '@zui/menu/src/component';
 import {Button} from '@zui/button/src/component/button';
 import {ToolbarItemProps} from '@zui/toolbar/src/types';
@@ -102,9 +102,9 @@ export class DatePickerMenu extends Component<DatePickerMenuProps, DatePickerMen
     render(props: DatePickerMenuProps, state: DatePickerMenuState) {
         const {
             date,
-            yearText = '{0}',
-            monthNames,
-            weekNames,
+            yearText = i18n.getLang('yearFormat') || '{0}',
+            weekNames = i18n.getLang('weekNames'),
+            monthNames = i18n.getLang('monthNames'),
             weekStart,
         } = props;
         const currentDate = date ? new Date(date) : undefined;
