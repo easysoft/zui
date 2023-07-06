@@ -63,6 +63,12 @@ export class ActionMenu<T extends ActionBasicProps = ActionMenuItemOptions, P ex
 
     beforeRender(): Omit<P, 'items'> & {items: T[]} {
         const props = {...this.props};
+        if (typeof props.items === 'function') {
+            props.items = props.items(this);
+        }
+        if (!props.items) {
+            props.items = [];
+        }
         const customOptions = props.beforeRender?.({menu: this, options: props});
         if (customOptions) {
             Object.assign(props, customOptions);
