@@ -83,10 +83,10 @@ export class DatePickerMenu extends Component<DatePickerMenuProps, DatePickerMen
     }
 
     changeDate = (date: string) => {
-        if (date.startsWith('now')) {
+        if (date.startsWith('today')) {
             let time = new Date();
             if (date.length > 3) {
-                time = addDate(time, date.substring(3).replace('+', ''));
+                time = addDate(time, date.substring(5).replace('+', ''));
             }
             date = formatDate(time, 'yyyy-MM-dd');
         }
