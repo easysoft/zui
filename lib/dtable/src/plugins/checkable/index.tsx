@@ -138,7 +138,7 @@ const checkablePlugin: DTablePlugin<DTableCheckableTypes> = {
         checkable: 'auto',
         checkboxRender: renderCheckbox,
     },
-    when: options => options.checkable !== undefined,
+    when: options => !!options.checkable,
     options(options) {
         const {forceCheckable} = this.state;
         if (forceCheckable !== undefined) {
