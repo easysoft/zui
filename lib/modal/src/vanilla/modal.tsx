@@ -1,5 +1,5 @@
 import {render} from 'preact';
-import {delay, i18n, $, HtmlContent} from '@zui/core';
+import {delay, i18n, $, HtmlContent, classes} from '@zui/core';
 import {ModalBase} from './modal-base';
 import {ModalOptions, ModalDialogOptions, ModalCustomOptions, ModalAjaxOptions, ModalAlertOptions, ModalTypedOptions, ModalConfirmOptions} from '../types';
 import type {ToolbarOptions, ToolbarItemProps} from '@zui/toolbar/src/types';
@@ -261,16 +261,17 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
             options = {message: options} as ModalAlertOptions;
         }
         const {type, message, icon, iconClass = 'icon-lg muted', actions = 'confirm', onClickAction, custom, key = '__alert', ...otherOptions} = options;
+        const customOptions = (typeof custom === 'function' ? custom() : custom) || {};
         let content = typeof message === 'object' && message.html ? <div dangerouslySetInnerHTML={{__html: message.html}}></div> : (<div>{message}</div>);
         if (icon) {
             content = (
-                <div className="modal-body row gap-4 items-center">
+                <div className={classes('modal-body row gap-4 items-center', customOptions.bodyClass)}>
                     <div className={`icon ${icon} ${iconClass}`} />
                     {content}
                 </div>
             );
         } else {
-            content = <div className="modal-body">{content}</div>;
+            content = <div className={classes('modal-body', customOptions.bodyClass)}>{content}</div>;
         }
         const actionItems: ToolbarItemProps[] = [];
         (Array.isArray(actions) ? actions : [actions]).forEach((item) => {
@@ -311,7 +312,7 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
             className: 'modal-alert',
             content,
             backdrop: 'static',
-            custom: {footerActions, ...(typeof custom === 'function' ? custom() : custom)},
+            custom: {footerActions, ...customOptions},
             ...otherOptions,
         });
         return result;

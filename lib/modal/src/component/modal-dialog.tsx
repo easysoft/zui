@@ -21,6 +21,7 @@ export class ModalDialog extends Component<ModalDialogOptions> {
     renderHeader() {
         const {
             header,
+            headerClass,
             title,
         } = this.props;
         if (isValidElement(header)) {
@@ -30,7 +31,7 @@ export class ModalDialog extends Component<ModalDialogOptions> {
             return null;
         }
         return (
-            <div className="modal-header">
+            <div className={classes('modal-header', headerClass)}>
                 <div className="modal-title">{title}</div>
             </div>
         );
@@ -60,6 +61,7 @@ export class ModalDialog extends Component<ModalDialogOptions> {
     renderBody() {
         const {
             body,
+            bodyClass,
         } = this.props;
         if (!body) {
             return null;
@@ -68,7 +70,7 @@ export class ModalDialog extends Component<ModalDialogOptions> {
             return body;
         }
         return (
-            <div className="modal-body">
+            <div className={classes('modal-body', bodyClass)}>
                 {body}
             </div>
         );
@@ -77,6 +79,7 @@ export class ModalDialog extends Component<ModalDialogOptions> {
     renderFooter() {
         const {
             footer,
+            footerClass,
             footerActions,
         } = this.props;
         if (isValidElement(footer)) {
@@ -86,7 +89,7 @@ export class ModalDialog extends Component<ModalDialogOptions> {
             return null;
         }
         return (
-            <div className="modal-footer">
+            <div className={classes('modal-footer', footerClass)}>
                 {footerActions ? <Toolbar {...footerActions} /> : null}
             </div>
         );
@@ -96,12 +99,13 @@ export class ModalDialog extends Component<ModalDialogOptions> {
         const {
             className,
             style,
+            contentClass,
             children,
         } = this.props;
 
         return (
             <div className={classes('modal-dialog', className)} style={style}>
-                <div className="modal-content">
+                <div className={classes('modal-content', contentClass)}>
                     {this.renderHeader()}
                     {this.renderActions()}
                     {this.renderBody()}
