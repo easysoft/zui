@@ -8,14 +8,18 @@
 import {computed} from 'vue';
 
 const props = defineProps<{
+  className?: string,
   background?: 'light-grid' | 'blue-circle',
   padding?: string | number,
   border?: string | number
 }>();
 
 const classList = computed(() => {
-  const {padding = 'p-4'} = props;
+  const {padding = 'p-4', className} = props;
   const list = ['text-base example'];
+  if (typeof className === 'string' && className.length) {
+    list.push(className);
+  }
   if (typeof padding === 'number') {
     list.push(`p-${padding}`);
   } else if (padding) {
