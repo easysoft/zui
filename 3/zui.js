@@ -3741,7 +3741,7 @@ class ia extends z {
       s(!1);
       return;
     }
-    r.closest("a,input").length || s(i === "open" ? !0 : void 0);
+    r.closest("a,input").length || requestAnimationFrame(() => s(i === "open" ? !0 : void 0));
   }
   _getClass(n) {
     const { state: s, className: i } = n, { open: r, disabled: o } = s;
