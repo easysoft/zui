@@ -17,6 +17,9 @@ onPageUpdate(() => {
                 text: '两个月',
                 'data-set-date': 'now+2month',
             }],
+            format: 'yyyy/MM/dd',
+            defaultValue: 'today',
+            name: 'date',
         });
         console.log('> datePicker', datePicker);
     }
@@ -24,6 +27,8 @@ onPageUpdate(() => {
     const timePickerElement = document.querySelector<HTMLElement>('#timePickerExample');
     if (timePickerElement) {
         const timePicker = new TimePicker(timePickerElement, {
+            format: 'h:m',
+            defaultValue: 'now',
         });
         console.log('> timePicker', timePicker);
     }
