@@ -1,5 +1,5 @@
 import {ComponentChildren} from 'preact';
-import {$} from '@zui/core';
+import {$, classes} from '@zui/core';
 import type {ActionBasicProps, ActionMenuItemKey, ActionNestedItemProps, ActionMenuNestedItemOptions, ActionMenuNestedOptions, ActionMenuNestedState, ActionMenuOptions} from '../types';
 import {ActionMenu} from './action-menu';
 import {ActionNestedItem} from './action-nested-item';
@@ -30,6 +30,12 @@ export class ActionMenuNested<T extends ActionBasicProps = ActionMenuNestedItemO
         const {nestedShow, nestedTrigger, defaultNestedShow, controlledMenu, indent, ...props} = allProps;
         if (typeof props.items === 'function') {
             props.items = props.items(this);
+        }
+        if (!props.items) {
+            props.items = [];
+        }
+        if (!props.items.some(x => (x as ActionNestedItemProps).items)) {
+            props.className = classes(props.className, 'no-nested-items');
         }
         if (!controlledMenu && indent) {
             props.style = Object.assign({

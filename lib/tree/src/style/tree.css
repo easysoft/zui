@@ -6,6 +6,9 @@
   --caret-size: 5px;
   --caret-opacity: .3;
 }
+.tree.no-nested-items > .tree-item > .tree-item-content > .tree-toggle-icon {
+  @apply -w-1;
+}
 .tree-checkbox {
   @apply --mr-1;
 }
