@@ -11,16 +11,25 @@ export class PickTrigger<S extends PickState = PickState, P extends PickTriggerP
     }
 
     protected _handleClick(event: MouseEvent) {
-        const {togglePop, clickType} = this.props;
+        const {togglePop, clickType, onClick} = this.props;
+        let toggle: undefined | boolean = clickType === 'open' ? true : undefined;
         const $target = $(event.target as HTMLElement);
-        if ($target.closest('[data-dismiss="pick"]').length) {
-            togglePop(false);
+        const clickResult = onClick?.(event);
+        if (event.defaultPrevented) {
             return;
         }
-        if ($target.closest('a,input').length) {
-            return;
+        if (typeof clickResult === 'boolean') {
+            toggle = clickResult;
+        } else {
+            if ($target.closest('[data-dismiss="pick"]').length) {
+                togglePop(false);
+                return;
+            }
+            if ($target.closest('a,input').length) {
+                return;
+            }
         }
-        requestAnimationFrame(() => togglePop(clickType === 'open' ? true : undefined));
+        requestAnimationFrame(() => togglePop(toggle));
     }
 
     protected _getClass(props: RenderableProps<P>) {

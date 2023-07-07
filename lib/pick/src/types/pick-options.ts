@@ -24,6 +24,7 @@ export interface PickOptions<S extends PickState = PickState> {
     disabled?: boolean;
     name?: string;
     onChange?: (value: string | undefined, oldValue: string | undefined) => void;
+    onClick?: (event: MouseEvent) => void | boolean;
 
     popClass?: ClassNameLike;
     popStyle?: JSX.CSSProperties;
