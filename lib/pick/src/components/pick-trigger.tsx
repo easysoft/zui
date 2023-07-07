@@ -1,13 +1,16 @@
-import {Component, ComponentChildren, JSX, RenderableProps, h as _h, createRef} from 'preact';
+import {Component, ComponentChildren, JSX, RenderableProps, h as _h} from 'preact';
 import {classes, $} from '@zui/core';
 import type {PickState, PickTriggerProps} from '../types';
 
+const EVENT_FROM_PICK = Symbol('EVENT_FROM_PICK');
+
 export class PickTrigger<S extends PickState = PickState, P extends PickTriggerProps<S> = PickTriggerProps<S>, STATE = {}> extends Component<P, STATE> {
-    #input = createRef<HTMLInputElement>();
+    #hasInput: boolean;
 
     constructor(props: P) {
         super(props);
         this._handleClick = this._handleClick.bind(this);
+        this.#hasInput = !!$(`#${props.id}`).length;
     }
 
     protected _handleClick(event: MouseEvent) {
@@ -61,19 +64,40 @@ export class PickTrigger<S extends PickState = PickState, P extends PickTriggerP
     }
 
     protected _renderValue(props: RenderableProps<P>): ComponentChildren {
-        const {name, state} = props;
+        const {name, state: {value = ''}, id} = props;
         if (name) {
-            return <input ref={this.#input} type="hidden" className="pick-value" name={name} value={state.value} />;
+            if (this.#hasInput) {
+                $(`#${id}`).val(value);
+            } else {
+                return <input id={id} type="hidden" className="pick-value" name={name} value={value} />;
+
+            }
         }
         return null;
     }
 
-    componentDidUpdate(previousProps: Readonly<P>): void {
-        if (previousProps.state.value !== this.props.state.value) {
-            const input = this.#input.current;
-            if (input) {
-                $(input).trigger('change');
+    componentDidMount(): void {
+        const {id, state} = this.props;
+        $(`#${id}`).on(`change.pick.zui.${id}`, (event: Event, from: symbol) => {
+            if (from === EVENT_FROM_PICK) {
+                return;
             }
+            const value = (event.target as HTMLInputElement).value;
+            if (value !== state.value) {
+                this.props.changeState({value} as Partial<S>);
+            }
+        });
+    }
+
+    componentWillUnmount(): void {
+        const {id} = this.props;
+        $(`#${id}`).off(`change.pick.zui.${id}`);
+    }
+
+    componentDidUpdate(previousProps: Readonly<P>): void {
+        const {id, state, name} = this.props;
+        if (name && previousProps.state.value !== state.value) {
+            $(`#${id}`).trigger('change', EVENT_FROM_PICK);
         }
     }
 

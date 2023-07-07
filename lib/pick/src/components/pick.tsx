@@ -35,7 +35,7 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
             disabled: false,
         } as S;
 
-        this.#id = props.id ?? `_${$.guid++}`;
+        this.#id = props.id ?? `_pick${$.guid++}`;
     }
 
     get id() {
