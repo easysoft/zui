@@ -246,6 +246,11 @@ export class Upload<T extends UploadOptions = UploadOptions> extends Component<T
         const $item = this.itemMap.get(file.name);
         this.itemMap.delete(file.name);
         $item?.addClass('hidden');
+        const tooltipInstance = $item?.find('.file-delete')?.data('tooltip');
+        if (tooltipInstance) {
+            tooltipInstance.destroy();
+            tooltipInstance.tooltip.remove();
+        }
         setTimeout(() => $item?.remove(), 3000);
         onDelete?.(file);
         this.fileMap.delete(file.name);
@@ -318,7 +323,7 @@ export class Upload<T extends UploadOptions = UploadOptions> extends Component<T
         if (useIconBtn) {
             const $iconBtn = $(`<button class="btn btn-link h-5 w-5 p-0 ${deleteClass}"><i class="icon icon-${deleteIcon}"></i></button>`)
                 .addClass('file-action file-delete');
-            new Tooltip($iconBtn, {title: deleteText});
+            $iconBtn.data('tooltip', new Tooltip($iconBtn, {title: deleteText}));
             return $iconBtn;
         }
 
