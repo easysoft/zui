@@ -19,7 +19,7 @@ export class DatePicker extends Pick<PickState, DatePickerOptions> {
     constructor(props: DatePickerOptions) {
         super(props);
         const state = this.state as PickState;
-        if (props.required) {
+        if (props.required && state.value === undefined) {
             state.value = 'today';
         }
         if (state.value === 'today') {
@@ -57,7 +57,7 @@ export class DatePicker extends Pick<PickState, DatePickerOptions> {
     _renderTrigger(props: DatePickerOptions, state: PickState): ComponentChildren {
         const {placeholder, icon, required, disabled, readonly} = props;
         const {value = '', open} = state;
-        const id = `date-picker${this.id}`;
+        const id = `date-picker-${this.id}`;
         let iconView: ComponentChildren;
         if (open && !required && value.length) {
             iconView = <button type="button" className="btn size-sm square ghost" onClick={this.#handleClearBtnClick}><span className="close"></span></button>;

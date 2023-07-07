@@ -33,7 +33,7 @@ export class TimePicker extends Pick<PickState, TimePickerOptions> {
     constructor(props: TimePickerOptions) {
         super(props);
         const state = this.state as PickState;
-        if (props.required) {
+        if (props.required && state.value === undefined) {
             state.value = 'now';
         }
         if (state.value === 'now') {
@@ -87,7 +87,7 @@ export class TimePicker extends Pick<PickState, TimePickerOptions> {
     _renderTrigger(props: TimePickerOptions, state: PickState): ComponentChildren {
         const {placeholder, name, icon, required, disabled, readonly} = props;
         const {value = '', open} = state;
-        const id = `time-picker${this.id}`;
+        const id = `time-picker-${this.id}`;
         let iconView: ComponentChildren;
         if (open && !required && value.length) {
             iconView = <button type="button" className="btn size-sm square ghost" onClick={this.#handleClearBtnClick}><span className="close"></span></button>;

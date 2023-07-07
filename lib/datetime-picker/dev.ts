@@ -18,7 +18,6 @@ onPageUpdate(() => {
                 'data-set-date': 'now+2month',
             }],
             format: 'yyyy/MM/dd',
-            defaultValue: 'today',
             name: 'date',
         });
         console.log('> datePicker', datePicker);
