@@ -196,6 +196,13 @@ const upload = new Upload('#example8', {
 + 必选：否
 + 默认值：`'上传文件'`
 
+### `uploadIcon`
+
+上传按钮图标。
+
++ 类型：`string`
++ 必选：否
+
 ### `renameBtn`
 
 是否启用重命名按钮。
