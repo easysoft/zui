@@ -43,38 +43,49 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
         return this.modalElement.querySelector('.modal-dialog');
     }
 
-    afterInit() {
-        this.on('click', this.#handleClick);
+    get rob() {
+        return this.#rob;
+    }
 
-        if (this.options.responsive) {
-            if (typeof ResizeObserver !== 'undefined') {
-                const {dialog} = this;
-                if (dialog) {
-                    const rob = new ResizeObserver(() => {
-                        if (!this.shown) {
-                            return;
-                        }
-                        const width = dialog.clientWidth;
-                        const height = dialog.clientHeight;
-                        if (!this.#lastDialogSize || this.#lastDialogSize[0] !== width || this.#lastDialogSize[1] !== height) {
-                            this.#lastDialogSize = [width, height];
-                            this.layout();
-                        }
-                    });
-                    rob.observe(dialog);
-                    this.#rob = rob;
-                }
+    protected _observeResize() {
+        if (!this.options.responsive) {
+            return;
+        }
+        if (typeof ResizeObserver !== 'undefined') {
+            this.#rob?.disconnect();
+            const {dialog} = this;
+            if (dialog) {
+                const rob = new ResizeObserver(() => {
+                    if (!this.shown) {
+                        return;
+                    }
+                    const width = dialog.clientWidth;
+                    const height = dialog.clientHeight;
+                    const [lastWidth, lastHeight] = this.#lastDialogSize || [];
+                    if (lastWidth !== width || lastHeight !== height) {
+                        this.#lastDialogSize = [width, height];
+                        this.layout();
+                    }
+                });
+                rob.observe(dialog);
+                this.#rob = rob;
             }
         }
+    }
 
+    afterInit() {
+        this.on('click', this.#handleClick);
         if (this.options.show) {
             this.show();
         }
+
+        this._observeResize();
     }
 
     destroy(): void {
         super.destroy();
         this.#rob?.disconnect();
+        this.#rob = undefined;
     }
 
     show(options?: Partial<T>) {
@@ -134,17 +145,19 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
 
         const $dialog = $(dialog);
         size = size ?? this.options.size;
-        $dialog.removeAttr('data-size');
-        const sizeStyle: Record<string, number | string> = {width: '', height: ''};
-        if (typeof size === 'object') {
-            sizeStyle.width = size.width;
-            sizeStyle.height = size.height;
-        } else if (typeof size === 'string' && ['md', 'sm', 'lg', 'full'].includes(size)) {
-            $dialog.attr('data-size', size);
-        } else if (size) {
-            sizeStyle.width = size;
+        if (size) {
+            $dialog.removeAttr('data-size');
+            const sizeStyle: Record<string, number | string> = {width: '', height: ''};
+            if (typeof size === 'object') {
+                sizeStyle.width = size.width;
+                sizeStyle.height = size.height;
+            } else if (typeof size === 'string' && ['md', 'sm', 'lg', 'full'].includes(size)) {
+                $dialog.attr('data-size', size);
+            } else if (size) {
+                sizeStyle.width = size;
+            }
+            $dialog.css(sizeStyle);
         }
-        $dialog.css(sizeStyle);
 
         position = position ?? this.options.position ?? 'fit';
         const width = dialog.clientWidth;

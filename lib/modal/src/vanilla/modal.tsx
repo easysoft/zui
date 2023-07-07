@@ -162,6 +162,8 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
         return new Promise((resolve) => {
             if (Array.isArray(dialogOptions)) {
                 $(this.modalElement).html(dialogOptions[0]);
+                this.layout();
+                this._observeResize();
                 return resolve();
             }
             const {afterRender, ...others} = dialogOptions;
@@ -169,6 +171,7 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
                 afterRender: (info) => {
                     this.layout();
                     afterRender?.(info);
+                    this._observeResize();
                     resolve();
                 },
                 ...others,
