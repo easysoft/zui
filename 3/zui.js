@@ -6564,18 +6564,26 @@ class Vh extends pt {
     this.fileMap = /* @__PURE__ */ new Map(), this.renameMap = /* @__PURE__ */ new Map(), this.itemMap = /* @__PURE__ */ new Map(), this.dataTransfer = new DataTransfer(), this.limitBytes = s ? gu(s) : Number.MAX_VALUE, this.currentBytes = 0, t || (this.options.limitCount = 1), this.$element.addClass("upload"), this.initFileInputCash(), this.initUploadCash(), n && this.addFileItem(n);
   }
   initUploadCash() {
-    const { name: t, uploadText: n, listPosition: s, btnClass: i, tip: r, draggable: o } = this.options;
+    const { name: t, uploadText: n, uploadIcon: s, listPosition: i, btnClass: r, tip: o, draggable: a } = this.options;
     this.$list = m('<ul class="file-list py-1"></ul>');
-    const a = m(`<span class="upload-tip">${r}</span>`);
-    if (!o) {
-      this.$label = m(`<label class="btn ${i}" for="${t}">${n}</label>`);
-      const h = s === "bottom" ? [this.$label, a, this.$list] : [this.$list, this.$label, a];
-      this.$element.append(this.$input, ...h);
+    const l = m(`<span class="upload-tip">${o}</span>`);
+    if (!a) {
+      if (this.$label = m(`<label class="btn ${r}" for="${t}">${n}</label>`), s) {
+        const u = m(`<i class="icon icon-${s}"></i>`);
+        this.$label.prepend(u);
+      }
+      const d = i === "bottom" ? [this.$label, l, this.$list] : [this.$list, this.$label, l];
+      this.$element.append(this.$input, ...d);
       return;
     }
-    this.$label = m(`<label class="draggable-area col justify-center items-center cursor-pointer block w-full h-16 border border-dashed border-gray" for="${t}"></label>`).append(`<span class="text-primary">${n}</span>`).append(a), this.bindDragEvent();
-    const l = s === "bottom" ? [this.$label, this.$list] : [this.$list, this.$label];
-    this.$element.append(this.$input, ...l);
+    const h = m(`<span class="text-primary">${n}</span>`);
+    if (s) {
+      const d = m(`<i class="icon icon-${s} mr-1"></i>`);
+      h.prepend(d);
+    }
+    this.$label = m(`<label class="draggable-area col justify-center items-center cursor-pointer block w-full h-16 border border-dashed border-gray" for="${t}"></label>`).append(h).append(l), this.bindDragEvent();
+    const c = i === "bottom" ? [this.$label, this.$list] : [this.$list, this.$label];
+    this.$element.append(this.$input, ...c);
   }
   bindDragEvent() {
     this.$label.on("dragover", (t) => {
@@ -6765,8 +6773,14 @@ class sp extends Vh {
     this.$uploadButtonItem = m(`<label class="upload-button-item order-last" for="${this.options.name}" />`).addClass("flex justify-center items-center cursor-pointer").css({ width: 120, height: 120, background: "var(--color-slate-100)" }).append(m('<i class="icon icon-plus" />'));
   }
   initUploadCash() {
-    const { name: t, tip: n, uploadText: s, totalCountText: i } = this.options;
-    this.$list = m('<ul class="file-list py-1 flex-wrap gap-x-4 gap-y-4"></ul>'), this.$label = m('<div class="draggable-area relative block w-full border border-dashed border-gray"></div>').css({ minHeight: 64 }), this.$tip = m('<div class="absolute inset-0 col justify-center items-center"></div>').append(`<label for="${t}" class="text-primary cursor-pointer">${s}</label>`), n && this.$tip.append(m(`<span class="upload-tip">${n}</span>`)), this.$label.append(this.$tip), this.$label.append(this.$input, this.$list), this.bindDragEvent(), this.$element.append(this.$label), this.$uploadInfo = m('<div class="py-1" />').css({ color: "var(--color-slate-500)" }).html(i.replace("%s", this.fileMap.size.toString()).replace("%s", this.fileMap.size.toString())), this.$element.append(this.$uploadInfo);
+    const { name: t, tip: n, uploadText: s, uploadIcon: i, totalCountText: r } = this.options;
+    this.$list = m('<ul class="file-list py-1 flex-wrap gap-x-4 gap-y-4"></ul>'), this.$label = m('<div class="draggable-area relative block w-full border border-dashed border-gray"></div>').css({ minHeight: 64 });
+    const o = m(`<label for="${t}" class="text-primary cursor-pointer">${s}</label>`);
+    if (i) {
+      const a = m(`<i class="icon icon-${i} mr-1"></i>`);
+      o.prepend(a);
+    }
+    this.$tip = m('<div class="absolute inset-0 col justify-center items-center"></div>').append(o), n && this.$tip.append(m(`<span class="upload-tip">${n}</span>`)), this.$label.append(this.$tip), this.$label.append(this.$input, this.$list), this.bindDragEvent(), this.$element.append(this.$label), this.$uploadInfo = m('<div class="py-1" />').css({ color: "var(--color-slate-500)" }).html(r.replace("%s", this.fileMap.size.toString()).replace("%s", this.fileMap.size.toString())), this.$element.append(this.$uploadInfo);
   }
   filterFiles(t) {
     const { accept: n } = this.options;
