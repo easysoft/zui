@@ -6644,13 +6644,16 @@ class Vh extends pt {
     this.itemMap.clear(), this.itemMap.set(a.name, l), this.$list.empty().append(l), o == null || o(a);
   }
   deleteFileItem(t) {
+    var l;
     const n = this.renameMap.get(t) ?? t;
     this.renameMap.delete(t);
     const s = this.fileMap.get(n);
     if (!s)
       return;
     const { onDelete: i, onSizeChange: r } = this.options, o = this.itemMap.get(s.name);
-    this.itemMap.delete(s.name), o == null || o.addClass("hidden"), setTimeout(() => o == null ? void 0 : o.remove(), 3e3), i == null || i(s), this.fileMap.delete(s.name), this.currentBytes -= s.size, r == null || r(this.currentBytes), this.dataTransfer = new DataTransfer(), this.fileMap.forEach((a) => this.dataTransfer.items.add(a)), this.$input.prop("files", this.dataTransfer.files);
+    this.itemMap.delete(s.name), o == null || o.addClass("hidden");
+    const a = (l = o == null ? void 0 : o.find(".file-delete")) == null ? void 0 : l.data("tooltip");
+    a && (a.destroy(), a.tooltip.remove()), setTimeout(() => o == null ? void 0 : o.remove(), 3e3), i == null || i(s), this.fileMap.delete(s.name), this.currentBytes -= s.size, r == null || r(this.currentBytes), this.dataTransfer = new DataTransfer(), this.fileMap.forEach((h) => this.dataTransfer.items.add(h)), this.$input.prop("files", this.dataTransfer.files);
   }
   renameFileItem(t, n) {
     var r, o;
@@ -6679,7 +6682,7 @@ class Vh extends pt {
     const { useIconBtn: t, deleteText: n, deleteIcon: s, deleteClass: i } = this.options;
     if (t) {
       const r = m(`<button class="btn btn-link h-5 w-5 p-0 ${i}"><i class="icon icon-${s}"></i></button>`).addClass("file-action file-delete");
-      return new ut(r, { title: n }), r;
+      return r.data("tooltip", new ut(r, { title: n })), r;
     }
     return m("<button />").html(n).addClass(`btn size-sm rounded-sm text-primary canvas file-action file-delete ${i}`);
   }
