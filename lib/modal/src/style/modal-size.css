@@ -7,3 +7,6 @@
 .modal-dialog[data-size="lg"] {
   width: var(--modal-lg);
 }
+.modal-dialog[data-size="xl"] {
+  width: var(--modal-xl);
+}
