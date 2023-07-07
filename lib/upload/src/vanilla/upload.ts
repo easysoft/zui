@@ -68,12 +68,16 @@ export class Upload<T extends UploadOptions = UploadOptions> extends Component<T
     }
 
     protected initUploadCash() {
-        const {name, uploadText, listPosition, btnClass, tip, draggable} = this.options;
+        const {name, uploadText, uploadIcon, listPosition, btnClass, tip, draggable} = this.options;
         this.$list = $('<ul class="file-list py-1"></ul>');
         const $tip = $(`<span class="upload-tip">${tip}</span>`);
 
         if (!draggable) {
             this.$label = $(`<label class="btn ${btnClass}" for="${name}">${uploadText}</label>`);
+            if (uploadIcon) {
+                const $uploadIcon = $(`<i class="icon icon-${uploadIcon}"></i>`);
+                this.$label.prepend($uploadIcon);
+            }
             const $children = listPosition === 'bottom'
                 ? [this.$label, $tip, this.$list]
                 : [this.$list, this.$label, $tip];
@@ -81,8 +85,13 @@ export class Upload<T extends UploadOptions = UploadOptions> extends Component<T
             return;
         }
 
+        const $uploadText = $(`<span class="text-primary">${uploadText}</span>`);
+        if (uploadIcon) {
+            const $uploadIcon = $(`<i class="icon icon-${uploadIcon} mr-1"></i>`);
+            $uploadText.prepend($uploadIcon);
+        }
         this.$label = $(`<label class="draggable-area col justify-center items-center cursor-pointer block w-full h-16 border border-dashed border-gray" for="${name}"></label>`)
-            .append(`<span class="text-primary">${uploadText}</span>`)
+            .append($uploadText)
             .append($tip);
         this.bindDragEvent();
         const $children = listPosition === 'bottom'

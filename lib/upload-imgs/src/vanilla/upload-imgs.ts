@@ -54,11 +54,16 @@ export class UploadImgs extends Upload<UploadImgsOptions> {
     }
 
     protected initUploadCash() {
-        const {name, tip, uploadText, totalCountText} = this.options;
+        const {name, tip, uploadText, uploadIcon, totalCountText} = this.options;
         this.$list = $('<ul class="file-list py-1 flex-wrap gap-x-4 gap-y-4"></ul>');
         this.$label = $('<div class="draggable-area relative block w-full border border-dashed border-gray"></div>').css({minHeight: 64});
+        const $uploadText = $(`<label for="${name}" class="text-primary cursor-pointer">${uploadText}</label>`);
+        if (uploadIcon) {
+            const $uploadIcon = $(`<i class="icon icon-${uploadIcon} mr-1"></i>`);
+            $uploadText.prepend($uploadIcon);
+        }
         this.$tip = $('<div class="absolute inset-0 col justify-center items-center"></div>')
-            .append(`<label for="${name}" class="text-primary cursor-pointer">${uploadText}</label>`);
+            .append($uploadText);
         if (tip) {
             this.$tip.append($(`<span class="upload-tip">${tip}</span>`));
         }

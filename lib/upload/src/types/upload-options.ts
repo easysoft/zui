@@ -7,6 +7,7 @@ export type UploadOptions = {
     multiple: boolean;
     listPosition: 'bottom' | 'top';
     uploadText: string;
+    uploadIcon: string;
     renameBtn: boolean;
     renameIcon: string;
     renameText: string;
