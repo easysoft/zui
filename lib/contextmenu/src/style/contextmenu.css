@@ -1,5 +1,5 @@
 .contextmenu {
-    @apply -hidden -z-50;
+    @apply -hidden -z-dropdown;
 }
 .contextmenu.show {
     @apply -block;

@@ -23,7 +23,7 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
         transTime: 300,
     };
 
-    static zIndex = 2000;
+    static zIndex = 1500;
 
     #transitionTimer = 0;
 

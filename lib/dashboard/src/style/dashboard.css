@@ -11,7 +11,7 @@
   @apply -absolute -inset-2 -transition-opacity -bg-canvas -rounded;
 }
 .dashboard-block.is-dragging {
-  @apply -opacity-0 -z-10;
+  @apply -opacity-0 -z-overlay;
 }
 .dashboard-block-header {
   @apply -absolute -top-0 -left-0 -right-0 -flex -flex-row -items-center -justify-between -p-3 -rounded-t -cursor-move -z-10;

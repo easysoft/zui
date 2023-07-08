@@ -1,5 +1,5 @@
 .messagers {
-  @apply -absolute -inset-0 -pointer-events-none -flex -p-4 -flex-col -justify-end -items-end -z-[2050];
+  @apply -absolute -inset-0 -pointer-events-none -flex -p-4 -flex-col -justify-end -items-end -z-messager;
 }
 .messagers-top-left,
 .messagers-top-right {

@@ -24,7 +24,7 @@ export class ContextMenu<O extends ContextMenuOptions = ContextMenuOptions, E ex
 
     static DEFAULT: Partial<ContextMenuOptions> = {
         placement: 'bottom-start',
-        strategy: 'fixed',
+        strategy: 'absolute',
         flip: true,
         preventOverflow :true,
         destoryOnHide: true,
