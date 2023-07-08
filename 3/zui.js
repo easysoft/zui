@@ -2930,7 +2930,7 @@ ot.NAME = "ContextMenu";
 ot.MULTI_INSTANCE = !0;
 ot.DEFAULT = {
   placement: "bottom-start",
-  strategy: "fixed",
+  strategy: "absolute",
   flip: !0,
   preventOverflow: !0,
   destoryOnHide: !0
@@ -4737,7 +4737,7 @@ te.DEFAULT = {
   responsive: !0,
   transTime: 300
 };
-te.zIndex = 2e3;
+te.zIndex = 1500;
 m(window).on("resize.modal.zui", () => {
   te.getAll().forEach((e) => {
     const t = e;
