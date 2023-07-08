@@ -9,7 +9,7 @@
 
 .form-control[disabled],
 .form-control.disabled {
-  @apply -bg-[--form-control-disabled];
+  @apply -bg-[--form-control-disabled] -opacity-100;
 }
 .form-control[readonly],
 .form-control.readonly {
