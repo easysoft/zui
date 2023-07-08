@@ -198,6 +198,7 @@ export class Picker extends Pick<PickerState, PickerOptions> {
             placeholder: props.placeholder,
             search: props.search,
             searchHint: props.searchHint,
+            disabled: props.disabled,
             onDeselect: this.deselect,
             onSelect: this.select,
             onClear: this.clear,
@@ -242,6 +243,9 @@ export class Picker extends Pick<PickerState, PickerOptions> {
     }
 
     #setValue(value?: string | string[]) {
+        if (this.props.disabled) {
+            return;
+        }
         const stateValue = value === undefined ? value : this.#formatValue(value);
         if (stateValue === this.state.value) {
             return;

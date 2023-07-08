@@ -6,6 +6,7 @@ export interface PickerSelectProps extends PickTriggerProps<PickerState> {
     multiple?: boolean | number;
     search?: boolean | number;
     searchHint?: string;
+    disabled?: boolean;
 
     onSelect: (values: string | string[]) => void;
     onDeselect: (values: string | string[]) => void;

@@ -34,6 +34,7 @@ export class PickerMultiSelect extends PickTrigger<PickerState, PickerSelectProp
         return classes(
             super._getClass(props),
             'picker-select picker-select-multi form-control',
+            props.disabled ? 'disabled' : '',
         );
     }
 
@@ -41,7 +42,7 @@ export class PickerMultiSelect extends PickTrigger<PickerState, PickerSelectProp
         return (
             <div className="picker-multi-selection" key={selection.value}>
                 <span className="text">{selection.text ?? selection.value}</span>
-                <div className="picker-deselect-btn btn size-xs ghost" onClick={this.#handleDeselectBtnClick} data-value={selection.value}><span className="close"></span></div>
+                {this.props.disabled ? null : <div className="picker-deselect-btn btn size-xs ghost" onClick={this.#handleDeselectBtnClick} data-value={selection.value}><span className="close"></span></div>}
             </div>
         );
     };
