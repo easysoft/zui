@@ -5565,26 +5565,28 @@ var da = (e, t, n) => {
 }, ve = (e, t, n, s) => (da(e, t, "write to private field"), s ? s.call(e, n) : t.set(e, n), n), _t = (e, t, n) => (da(e, t, "access private method"), n), Hn, Ot, $e, tn, Gn, ua, _h, ie, ke;
 let fa = class extends mt {
   constructor(t) {
-    super(t), Ke(this, tn), Ke(this, ua), Ke(this, ie), Ke(this, Hn, void 0), Ke(this, Ot, void 0), Ke(this, $e, 0), this.toggleValue = (n, s) => {
+    super(t), Ke(this, tn), Ke(this, ua), Ke(this, ie), Ke(this, Hn, void 0), Ke(this, Ot, void 0), Ke(this, $e, 0), this.toggleValue = (i, r) => {
       if (!this.props.multiple)
-        return s || n !== this.value ? _t(this, ie, ke).call(this, n) : _t(this, ie, ke).call(this);
-      const { valueList: i } = this, r = i.indexOf(n);
-      if (s !== r >= 0)
-        return r > -1 ? i.splice(r, 1) : i.push(n), _t(this, ie, ke).call(this, i);
-    }, this.deselect = (n) => {
-      const { valueList: s } = this, i = new Set(_t(this, tn, Gn).call(this, n)), r = s.filter((o) => !i.has(o));
-      _t(this, ie, ke).call(this, r);
+        return r || i !== this.value ? _t(this, ie, ke).call(this, i) : _t(this, ie, ke).call(this);
+      const { valueList: o } = this, a = o.indexOf(i);
+      if (r !== a >= 0)
+        return a > -1 ? o.splice(a, 1) : o.push(i), _t(this, ie, ke).call(this, o);
+    }, this.deselect = (i) => {
+      const { valueList: r } = this, o = new Set(_t(this, tn, Gn).call(this, i)), a = r.filter((l) => !o.has(l));
+      _t(this, ie, ke).call(this, a);
     }, this.clear = () => {
       _t(this, ie, ke).call(this);
-    }, this.select = (n) => {
-      const s = _t(this, tn, Gn).call(this, n), i = this.props.multiple ? [...this.valueList, ...s] : s[0];
-      return _t(this, ie, ke).call(this, i);
-    }, this.isSelected = (n) => this.valueList.includes(n), m.extend(this.state, {
+    }, this.select = (i) => {
+      const r = _t(this, tn, Gn).call(this, i), o = this.props.multiple ? [...this.valueList, ...r] : r[0];
+      return _t(this, ie, ke).call(this, o);
+    }, this.isSelected = (i) => this.valueList.includes(i), m.extend(this.state, {
       loading: !1,
       search: "",
       items: t.items,
       selections: []
     });
+    const { required: n, items: s } = t;
+    this.state.value === void 0 && n && Array.isArray(s) && s.length && (this.state.value = s[0].value);
   }
   get value() {
     return this.state.value;
@@ -5617,10 +5619,11 @@ let fa = class extends mt {
   async update(t) {
     const { state: n, props: s } = this, i = ne(this, Hn) || {}, r = {};
     if (ve(this, Hn, i), (t || i.search !== n.search || s.items !== i.items) && (r.items = await this.load(), r.loading = !1, i.items = s.items, i.search = n.search), t || i.value !== n.value) {
-      const o = r.items || n.items, a = new Map(o.map((l) => [l.value, l]));
-      r.selections = this.valueList.map((l) => a.get(l) || { value: l }), i.value = n.value;
+      const a = r.items || n.items, l = new Map(a.map((h) => [h.value, h]));
+      r.selections = this.valueList.map((h) => l.get(h) || { value: h }), i.value = n.value;
     }
-    Object.keys(r).length && await this.changeState(r);
+    const o = r.items;
+    n.value === void 0 && s.required && Array.isArray(o) && o.length && (r.value = o[0].value), Object.keys(r).length && await this.changeState(r);
   }
   async tryUpdate() {
     ne(this, $e) && clearTimeout(ne(this, $e)), ve(this, $e, window.setTimeout(() => {
