@@ -33,6 +33,11 @@ export class Picker extends Pick<PickerState, PickerOptions> {
             items: props.items,
             selections: [],
         });
+
+        const {required, items} = props;
+        if (this.state.value === undefined && required && Array.isArray(items) && items.length) {
+            (this.state as PickerState).value = items[0].value;
+        }
     }
 
     get value() {
@@ -148,6 +153,10 @@ export class Picker extends Pick<PickerState, PickerOptions> {
                 return map.get(value) || {value};
             });
             cache.value = state.value;
+        }
+        const newItems = newState.items;
+        if (state.value === undefined && props.required && Array.isArray(newItems) && newItems.length) {
+            newState.value = newItems[0].value;
         }
         if (Object.keys(newState).length) {
             await this.changeState(newState);
