@@ -56,9 +56,9 @@
 .radio-primary.checked > label::after {
   @apply -opacity-100;
 }
-.checkbox-primary > input[type="checkbox"]:checked:disabled + label,
-.checkbox-primary.checked.disabled > label,
-.radio-primary > input[type="radio"]:checked:disabled + label,
-.radio-primary.checked.disabled > label {
-  @apply -grayscale -opacity-70;
+.checkbox-primary > input[type="checkbox"]:disabled + label,
+.checkbox-primary.disabled > label,
+.radio-primary > input[type="radio"]:disabled + label,
+.radio-primary.disabled > label {
+  @apply -grayscale -opacity-70 -cursor-not-allowed -pointer-events-none;
 }

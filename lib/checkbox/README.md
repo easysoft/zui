@@ -95,8 +95,12 @@
   <label for="primaryCheckbox2">选中</label>
 </div>
 <div class="checkbox-primary">
-  <input type="checkbox" checked="checked" disabled="disabled" id="primaryCheckbox3">
+  <input type="checkbox" disabled="disabled" id="primaryCheckbox3">
   <label for="primaryCheckbox3">禁用</label>
+</div>
+<div class="checkbox-primary">
+  <input type="checkbox" checked="checked" disabled="disabled" id="primaryCheckbox4">
+  <label for="primaryCheckbox4">禁用</label>
 </div>
 ```
 
@@ -114,8 +118,12 @@
   <label for="primaryradio3">选项三</label>
 </div>
 <div class="radio-primary">
-  <input type="radio" name="primaryRadioGroup1" checked="checked" disabled="disabled" id="primaryradio4">
+  <input type="radio" name="primaryRadioGroup1" disabled="disabled" id="primaryradio4">
   <label for="primaryradio4">禁用</label>
+</div>
+<div class="radio-primary">
+  <input type="radio" name="primaryRadioGroup1" checked="checked" disabled="disabled" id="primaryradio5">
+  <label for="primaryradio5">禁用</label>
 </div>
 ```
 
