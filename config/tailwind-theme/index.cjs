@@ -5,6 +5,7 @@ const fontSize = require('./font-size.cjs');
 const fontFamily = require('./font-family.cjs');
 const variables = require('./variables.cjs');
 const screens = require('./screens.cjs');
+const zIndex = require('./z-index.cjs');
 const {toVars} = require('./to-vars.cjs');
 
 module.exports = {
@@ -14,6 +15,7 @@ module.exports = {
         fontFamily,
         borderRadius: toVars(borderRadius, 'radius'),
         boxShadow: toVars(boxShadow, 'shadow'),
+        zIndex,
         screens,
         variables,
     },
