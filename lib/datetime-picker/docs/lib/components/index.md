@@ -19,8 +19,8 @@ const datePicker = new zui.DatePicker('#datePicker');
 通过 `defaultValue` 选项设置默认值，设置为 `'today'` 可以将默认值设置为当天。
 
 <Example className="row gap-3">
-  <div data-zui="datePicker2" data-default-value="2023-06-12"></div>
-  <div data-zui="datePicker2" data-default-value="today"></div>
+  <div data-zui="datePicker" data-default-value="2023-06-12"></div>
+  <div data-zui="datePicker" data-default-value="today"></div>
 </Example>
 
 ```html
