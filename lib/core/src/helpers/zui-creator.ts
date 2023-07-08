@@ -1,16 +1,18 @@
 import {$} from '../cash';
 
+type ZUIComponentOptions = Record<string, unknown>;
+
 declare class ZUIComponentClass {
-    constructor(element: HTMLElement, options: Record<string, unknown>);
+    constructor(element: HTMLElement, options: ZUIComponentOptions);
 }
 
 interface ZUIComponent {
-    new (element: HTMLElement, options: Record<string, unknown>): ZUIComponentClass;
+    new (element: HTMLElement, options: ZUIComponentOptions): ZUIComponentClass;
 }
 
 export const componentsMap = new Map<string, ZUIComponent>();
 
-export function create(name: string, element: HTMLElement, options: Record<string, unknown>) {
+export function create(name: string, element: HTMLElement, options: ZUIComponentOptions) {
     const {zui} = window as unknown as {zui: Record<string, ZUIComponent>};
     if (!componentsMap.size) {
         Object.keys(zui).forEach((n) => {
@@ -22,6 +24,15 @@ export function create(name: string, element: HTMLElement, options: Record<strin
     }
     const Component = componentsMap.get(name.toLowerCase());
     return Component ? new Component(element, options) : null;
+}
+
+/* Declare types. */
+declare module 'cash-dom' {
+    interface Cash {
+        zui(): Cash;
+        zui(name: string): ZUIComponentClass;
+        zui(name: string, options: ZUIComponentOptions | undefined | null): ZUIComponentClass;
+    }
 }
 
 /** Auto call creator on elements match [data-zui]. */
