@@ -4085,6 +4085,13 @@ mt.defaultProps = {
   clickType: "open"
 };
 let Jc = class extends mt {
+  constructor(t) {
+    super(t), this.state.value === void 0 && t.required && (this.state.value = this.getColors()[0]);
+  }
+  getColors() {
+    const { colors: t } = this.props;
+    return typeof t == "string" ? t.split(",") : t || [];
+  }
   componentDidMount() {
     this.syncColor();
   }
@@ -4111,10 +4118,7 @@ let Jc = class extends mt {
     }, s.style), s.className = k("color-picker", s.className, { disabled: t.disabled }), s;
   }
   _renderPop(t, n) {
-    const { closeBtn: s, heading: i } = t;
-    let { colors: r = [] } = t;
-    typeof r == "string" && (r = r.split(","));
-    const { value: o } = n;
+    const { closeBtn: s, heading: i } = t, r = this.getColors(), { value: o } = n;
     let a;
     return i && (a = /* @__PURE__ */ p("div", { className: "color-picker-heading", children: [
       i,
