@@ -10,6 +10,7 @@ onPageUpdate(() => {
         const colorPicker = new ColorPicker(colorPickerElement, {
             heading: '选择颜色',
             closeBtn: true,
+            required: true,
         });
         console.log('> colorPicker', colorPicker);
     }

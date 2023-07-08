@@ -2,7 +2,7 @@ import {IconType, ComponentChildren} from '@zui/core';
 import {PickOptions} from '@zui/pick/src/types';
 
 export interface ColorPickerOptions extends PickOptions {
-    disabled?: boolean;
+    required?: boolean;
     colors?: string | string[];
     icon?: IconType;
     syncValue?: string;

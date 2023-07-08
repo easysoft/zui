@@ -16,6 +16,21 @@ export class ColorPicker extends Pick<PickState, ColorPickerOptions> {
         popMinWidth: 176,
     } as Partial<PickOptions>;
 
+    constructor(props: ColorPickerOptions) {
+        super(props);
+        if (this.state.value === undefined && props.required) {
+            (this.state as PickState).value = this.getColors()[0];
+        }
+    }
+
+    getColors() {
+        const {colors} = this.props;
+        if (typeof colors === 'string') {
+            return colors.split(',');
+        }
+        return colors || [];
+    }
+
     componentDidMount(): void {
         this.syncColor();
     }
@@ -69,10 +84,7 @@ export class ColorPicker extends Pick<PickState, ColorPickerOptions> {
 
     _renderPop(props: ColorPickerOptions, state: PickState): ComponentChildren {
         const {closeBtn, heading} = props;
-        let {colors = []} = props;
-        if (typeof colors === 'string') {
-            colors = colors.split(',');
-        }
+        const colors = this.getColors();
         const {value} = state;
         let headingView: ComponentChildren;
         if (heading) {
