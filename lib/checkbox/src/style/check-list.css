@@ -1,6 +1,6 @@
 .check-list {
-  @apply -flex -flex-col -gap-2 -py-2;
+  @apply -flex -flex-col -gap-2 -py-1.5;
 }
 .check-list-inline {
-  @apply -flex -flex-row -items-center -gap-x-4 -gap-y-2 -flex-wrap;
+  @apply -flex -flex-row -items-center -gap-x-4 -gap-y-2 -flex-wrap -py-1.5;
 }
