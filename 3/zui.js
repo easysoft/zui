@@ -8005,11 +8005,11 @@ ld = function() {
     const { defaultOptions: i } = s;
     return i && Object.assign(n, i), n;
   }, {}), ...this.props };
-  return X(this, Q, E(this, Te).reduce((n, s) => {
+  return X(this, Vt, t), X(this, Q, E(this, Te).reduce((n, s) => {
     const { when: i, options: r } = s;
     let o = t;
     return r && (o = Object.assign({ ...o }, typeof r == "function" ? r.call(this, t) : r)), (!i || i(o)) && (o !== t && Object.assign(t, o), n.push(s)), n;
-  }, [])), X(this, Vt, t), X(this, Ai, [this.options.i18n, ...this.plugins.map((n) => n.i18n)].filter(Boolean)), !0;
+  }, [])), X(this, Ai, [this.options.i18n, ...this.plugins.map((n) => n.i18n)].filter(Boolean)), !0;
 };
 Ia = /* @__PURE__ */ new WeakSet();
 cd = function() {
