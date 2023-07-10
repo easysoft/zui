@@ -661,6 +661,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
             }
             return currentOptions;
         }, {}), ...this.props} as DTableOptions;
+        this.#options = options;
 
         this.#plugins = this.#allPlugins.reduce<DTablePlugin[]>((list, plugin) => {
             const {when, options: optionsModifier} = plugin;
@@ -676,7 +677,6 @@ export class DTable extends Component<DTableOptions, DTableState> {
             }
             return list;
         }, []);
-        this.#options = options;
 
         this.#i18nMaps = [this.options.i18n, ...this.plugins.map(x => x.i18n)].filter(Boolean) as Record<string, Record<string, string | object>>[];
 
