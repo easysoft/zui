@@ -31,7 +31,7 @@ export function Alert({
     const actionsToolbar = isValidElement(actions) ? actions : (actions ? <Toolbar {...actions as ToolbarOptions} /> : null);
     return (
         <div className={classes('alert', className)} style={style} {...others}>
-            <Icon icon={icon} />
+            <Icon icon={icon} className="alert-icon" />
             {isValidElement(content) ? content : (
                 <div className={classes('alert-content', contentClass)}>
                     {isValidElement(heading) ? heading : (heading && <div className="alert-heading">{heading}</div>)}

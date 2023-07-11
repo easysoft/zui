@@ -1,19 +1,23 @@
 .alert {
-  @apply -flex -items-center -px-4 -py-3 -gap-3;
-  background: var(--alert-bg);
-  border-radius: var(--alert-radius);
+  @apply -flex -items-center -px-4 -py-3 -gap-3 -bg-[--alert-bg] -rounded;
 }
 .alert-content {
   @apply -flex-auto -flex -flex-col -gap-3;
 }
 .alert-close {
-  @apply -flex-none --mr-2 --mt-2 --mb-2;
+  @apply -flex-none --mr-2 --mt-2 --mb-2 -self-start;
 }
 .alert-link {
   @apply -font-bold -text-inherit hover:-text-inherit hover:-underline;
 }
+.alert-icon {
+  @apply -mr-4 -ml-2;
+}
 .alert-heading {
   @apply -font-bold -m-0;
+}
+.alert-text {
+  @apply -whitespace-pre-line;
 }
 .alert-actions {
   @apply -flex -items-center -gap-2;

@@ -1,4 +1,3 @@
 :root {
-  --alert-radius: var(--radius);
   --alert-bg: var(--color-surface);
 }
