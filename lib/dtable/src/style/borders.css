@@ -12,7 +12,7 @@
 }
 .dtable-bordered::before {
     content: '';
-    @apply -block -absolute -inset-0 -z-20 -border -border-[--dtable-border-color] -rounded-[inherit];
+    @apply -block -absolute -inset-0 -z-[15] -border -border-[--dtable-border-color] -rounded-[inherit] -pointer-events-none;
 }
 .dtable-bordered .dtable-cell::before {
     @apply -border;

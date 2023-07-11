@@ -14,18 +14,6 @@ export function Block({
     style,
     onRenderCell,
 }: BlockProps) {
-    console.log('> body', {
-        top,
-        height,
-        rowHeight,
-        rows,
-        cols: {left, center, right},
-        scrollLeft,
-        scrollTop,
-        className,
-        style,
-        onRenderCell,
-    });
     let leftView = null;
     if (left.list.length) {
         leftView = (

@@ -1,5 +1,5 @@
-.dtable-cell.dtable-row-hover,
-.dtable-cell.dtable-col-hover,
-.dtable-hover-cell .dtable-rows .dtable-cell:hover::before {
+.dtable-hover-col .dtable-cell.is-hover-col,
+.dtable-hover-row .dtable-body .dtable-cell.is-hover-row,
+.dtable-hover-cell .dtable-cell:hover::before {
     @apply -bg-[--dtable-hover-bg];
 }

@@ -44,6 +44,9 @@ onPageLoad(() => {
                 ])),
             },
             height: 400,
+            colHover: 'header',
+            cellHover: true,
+            rowHover: true,
             responsive: true,
             plugins: [datagrid],
         });

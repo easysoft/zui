@@ -8,7 +8,7 @@ import '../style/index.css';
 import type {ComponentChildren, JSX} from 'preact';
 import {CustomRender, CustomRenderResult, CustomRenderResultList} from '@zui/core';
 import type {CellRenderCallback} from '../types/cell';
-import type {ColInfoLike, ColInfo} from '../types/col';
+import type {ColInfoLike, ColInfo, ColName} from '../types/col';
 import type {DTableState, DTableLayout, DTableEventListener, DTableEventTarget, DTablePointerInfo} from '../types';
 import type {DTableOptions} from '../types/options';
 import type {DTablePlugin} from '../types/plugin';
@@ -44,6 +44,8 @@ export class DTable extends Component<DTableOptions, DTableState> {
     #rob?: ResizeObserver;
 
     #i18nMaps: Record<string, Record<string, string | object>>[] = [];
+
+    #hover: {in: boolean; row?: RowID; col?: ColName} = {in: false};
 
     constructor(props: DTableOptions) {
         super(props);
@@ -92,8 +94,16 @@ export class DTable extends Component<DTableOptions, DTableState> {
         return this.#data;
     }
 
+    get element() {
+        return this.ref.current;
+    }
+
     get parent() {
-        return this.props.parent ?? this.ref.current?.parentElement;
+        return this.props.parent ?? this.element?.parentElement;
+    }
+
+    get hoverInfo() {
+        return this.#hover;
     }
 
     componentWillReceiveProps(): void {
@@ -125,7 +135,13 @@ export class DTable extends Component<DTableOptions, DTableState> {
         this.on('click', this.#handleClick as DTableEventListener);
         this.on('keydown', this.#handleKeydown as DTableEventListener);
 
-        if (this.options.responsive) {
+        const {options} = this;
+        if (options.rowHover || options.colHover) {
+            this.on('mouseover', this.#handleMouseover as DTableEventListener);
+            this.on('mouseleave', this.#handleMouseleave as DTableEventListener);
+        }
+
+        if (options.responsive) {
             if (typeof ResizeObserver !== 'undefined') {
                 const {parent} = this;
                 if (parent) {
@@ -156,15 +172,15 @@ export class DTable extends Component<DTableOptions, DTableState> {
     componentWillUnmount() {
         this.#rob?.disconnect();
 
-        const {current} = this.ref;
-        if (current) {
+        const {element} = this;
+        if (element) {
             for (const event of this.#events.keys()) {
                 if (event.startsWith('window_')) {
                     window.removeEventListener(event.replace('window_', ''), this.#handleWindowEvent);
                 } else if (event.startsWith('document_')) {
                     document.removeEventListener(event.replace('document_', ''), this.#handleDocumentEvent);
                 }  else {
-                    current.removeEventListener(event, this.#handleEvent);
+                    element.removeEventListener(event, this.#handleEvent);
                 }
             }
         }
@@ -195,7 +211,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
             } else if (event.startsWith('document_')) {
                 document.addEventListener(event.replace('document_', ''), this.#handleDocumentEvent);
             } else {
-                this.ref.current?.addEventListener(event, this.#handleEvent);
+                this.element?.addEventListener(event, this.#handleEvent);
             }
         }
     }
@@ -219,7 +235,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
             } else if (event.startsWith('document_')) {
                 document.removeEventListener(event.replace('document_', ''), this.#handleDocumentEvent);
             } else {
-                this.ref.current?.removeEventListener(event, this.#handleEvent);
+                this.element?.removeEventListener(event, this.#handleEvent);
             }
         }
     }
@@ -644,6 +660,47 @@ export class DTable extends Component<DTableOptions, DTableState> {
             return !this.scroll({to: key.replace('page', '') as Parameters<DTable['scroll']>[0]['to']});
         }
     };
+
+    #handleMouseover = (event: MouseEvent) => {
+        const $cell = $(event.target as HTMLElement).closest('.dtable-cell');
+        if (!$cell.length) {
+            return this.#updateHoverInfo(false);
+        }
+        this.#updateHoverInfo([$cell.attr('data-row') as RowID, $cell.attr('data-col') as ColName]);
+    };
+
+    #handleMouseleave = () => {
+        this.#updateHoverInfo(false);
+    };
+
+    #updateHoverInfo(info: [row: RowID, col: ColName] | false) {
+        const {element, options} = this;
+        if (!element) {
+            return;
+        }
+        const $element = $(element);
+        const newInfo = info ? {in: true, row: info[0], col: info[1]} : {in: false};
+        if (options.colHover === 'header' && newInfo.row !== 'HEADER') {
+            newInfo.col = undefined;
+        }
+        const oldInfo = this.#hover;
+        if (newInfo.in !== oldInfo.in) {
+            $element.toggleClass('dtable-hover', newInfo.in);
+        }
+        if (newInfo.row !== oldInfo.row) {
+            $element.find('.is-hover-row').removeClass('is-hover-row');
+            if (newInfo.row) {
+                $element.find(`.dtable-cell[data-row="${newInfo.row}"]`).addClass('is-hover-row');
+            }
+        }
+        if (newInfo.col !== oldInfo.col) {
+            $element.find('.is-hover-col').removeClass('is-hover-col');
+            if (newInfo.col) {
+                $element.find(`.dtable-cell[data-col="${newInfo.col}"]`).addClass('is-hover-col');
+            }
+        }
+        this.#hover = newInfo;
+    }
 
     #initOptions(): boolean {
         if (this.#options) {

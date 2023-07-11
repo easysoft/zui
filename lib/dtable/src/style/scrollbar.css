@@ -1,5 +1,5 @@
 .dtable .scrollbar {
-  @apply -z-10;
+  @apply -z-20;
 }
 .dtable-header {
   @apply -transition-colors -duration-1000;
