@@ -1,18 +1,8 @@
-/* Row divider */
-.dtable-row {
-    @apply -border-b;
-    border-color: var(--dtable-border-color);
-}
-.dtable-rows > .dtable-row:last-child {
-    @apply -border-b-transparent;
-}
-
 /* Fixed columns divider */
 .dtable-cells.dtable-fixed-left::before,
 .dtable-cells.dtable-fixed-right::before {
-    @apply -absolute -w-full -h-full -pointer-events-none -border-inherit;
-    content: ' ';
-    border-color: var(--dtable-border-color);
+    content: '';
+    @apply -absolute -z-[5] -w-full -h-full -pointer-events-none -border-[--dtable-border-color];
 }
 .dtable-cells.dtable-fixed-left::before {
     @apply -border-r --right-px;
@@ -20,23 +10,16 @@
 .dtable-cells.dtable-fixed-right::before {
     @apply -border-l -left-0;
 }
-
-.dtable-bordered .dtable-cell::after {
-    @apply -border -opacity-100;
+.dtable-bordered::before {
+    content: '';
+    @apply -block -absolute -inset-0 -z-20 -border -border-[--dtable-border-color] -rounded-[inherit];
 }
-.dtable-cell.has-border-left::after {
-    @apply -border-l -opacity-100;
+.dtable-bordered .dtable-cell::before {
+    @apply -border;
 }
-.dtable-cell.has-border-right::after {
-    @apply -border-r -opacity-100;
+.dtable-cell.has-border-left::before {
+    @apply -border-l;
 }
-
-.dtable-bordered .dtable-header::after,
-.dtable-bordered .dtable-rows::after {
-    @apply -absolute -border -left-0 -right-0 --top-px -bottom-0 -pointer-events-none -z-20;
-    content: ' ';
-    border-color: var(--dtable-border-color);
-}
-.dtable-bordered .dtable-header::after {
-    @apply -top-0;
+.dtable-cell.has-border-right::before {
+    @apply -border-r;
 }
