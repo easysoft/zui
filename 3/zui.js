@@ -8452,7 +8452,7 @@ function Fa(e, t, n) {
 }
 function xd(e, t, n, s) {
   var i;
-  return n = n ?? ((i = t.row.data) == null ? void 0 : i[t.col.name]), e === !1 ? n : (e === !0 && (e = "[yyyy-]MM-dd hh:mm"), typeof e == "function" && (e = e(n, t)), kt(n, e, s ?? n));
+  return n ? (n = n ?? ((i = t.row.data) == null ? void 0 : i[t.col.name]), e === !1 ? n : (e === !0 && (e = "[yyyy-]MM-dd hh:mm"), typeof e == "function" && (e = e(n, t)), kt(n, e, s ?? n))) : s;
 }
 function Cd(e, t) {
   const { link: n } = t.col.setting, s = bd(n, t, e[0]);
