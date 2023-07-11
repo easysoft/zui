@@ -49,9 +49,7 @@ export interface DTableCallbackOptions {
     onRenderCell?: CellRenderCallback;
     onRenderHeaderCell?: CellRenderCallback;
     onRenderRow?: (this: DTable, data: {props: RowProps, row: RowInfo}, h: typeof preact.h) => Partial<RowProps | (RowProps & preact.JSX.HTMLAttributes<HTMLElement>)> | void;
-    onRenderHeaderRow?: (this: DTable, data: {props: RowProps}, h: typeof preact.h) => RowProps;
     afterRender?: (this: DTable) => void;
-    onRowClick?: (this: DTable, event: MouseEvent, data: {rowID: string, rowInfo?: RowInfo, element: HTMLElement, cellElement?: HTMLElement}) => void | true;
     onCellClick?: (this: DTable, event: MouseEvent, data: {rowID: string, colName: string, rowInfo?: RowInfo, element: HTMLElement}) => void | true;
     onHeaderCellClick?: (this: DTable, event: MouseEvent, data: {colName: string, element: HTMLElement}) => void;
     onAddRow?: (this: DTable, row: RowInfo, index: number) => void | false;

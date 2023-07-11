@@ -557,39 +557,6 @@ export class DTable extends Component<DTableOptions, DTableState> {
         this.#plugins.forEach(plugin => plugin.afterRender?.call(this));
     }
 
-    // #handleRenderRow = (data: {props: RowProps, row: RowInfo}, h: typeof _h): Partial<RowProps | (RowProps & JSX.HTMLAttributes<HTMLElement>)> | void => {
-    //     if (this.options.onRenderRow) {
-    //         const result = this.options.onRenderRow.call(this, data, h);
-    //         if (result) {
-    //             Object.assign(data.props, result);
-    //         }
-    //     }
-
-    //     this.#plugins.forEach(plugin => {
-    //         if (plugin.onRenderRow) {
-    //             const result = plugin.onRenderRow.call(this, data, h);
-    //             if (result) {
-    //                 Object.assign(data.props, result);
-    //             }
-    //         }
-    //     });
-    //     return data.props;
-    // };
-
-    // #handleRenderHeaderRow = (data: {props: RowProps}, h: typeof _h): RowProps => {
-    //     if (this.options.onRenderHeaderRow) {
-    //         data.props = this.options.onRenderHeaderRow.call(this, data, h);
-    //     }
-
-    //     this.#plugins.forEach(plugin => {
-    //         if (plugin.onRenderHeaderRow) {
-    //             data.props = plugin.onRenderHeaderRow.call(this, data, h);
-    //         }
-    //     });
-
-    //     return data.props;
-    // };
-
     #handleRenderCell = (result: CustomRenderResultList, data: {row: RowInfo, col: ColInfo, value: unknown}, h: typeof _h) : CustomRenderResultList => {
         const {row, col} = data;
         data.value = this.getCellValue(row, col);
@@ -640,15 +607,6 @@ export class DTable extends Component<DTableOptions, DTableState> {
                     if (plugin.onCellClick?.call(this, event, {colName, rowID, rowInfo, element: cellElement}) === true) {
                         return;
                     }
-                }
-            }
-            if (this.options.onRowClick?.call(this, event, {rowID, rowInfo, element: cellElement}) === true) {
-                return;
-            }
-
-            for (const plugin of this.#plugins) {
-                if (plugin.onRowClick?.call(this, event, {rowID, rowInfo, element: cellElement}) === true) {
-                    return;
                 }
             }
         }
