@@ -24,7 +24,6 @@ export function Icon(props: IconProps) {
         const {className: iconClass, ...iconOthers} = icon;
         classList.push(iconClass as string);
         Object.assign(others, iconOthers);
-        return <Icon className={classes(classList)} {...others} />;
     }
     return <i className={classes(classList)} {...others} />;
 }
