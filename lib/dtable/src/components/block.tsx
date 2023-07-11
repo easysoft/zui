@@ -39,7 +39,7 @@ export function Block({
                 scrollLeft={scrollLeft}
                 scrollTop={scrollTop}
                 cols={center.list}
-                left={left.width - scrollLeft}
+                left={left.width}
                 width={center.width}
                 rowHeight={rowHeight}
                 onRenderCell={onRenderCell}
