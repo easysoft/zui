@@ -4,16 +4,16 @@
     --dtable-checked-border: var(--color-border-strong);
 }
 
-.dtable-rows > .dtable-row.is-checked > .dtable-cells {
+.dtable-cell.is-checked {
     @apply -bg-[--dtable-checked-bg];
 }
 .checkbox-primary.dtable-checkbox {
     @apply --mr-1.5;
 }
-.dtable-hover-row .dtable-rows > .dtable-row.is-checked:hover .dtable-cell,
-.is-checked > .dtable-cell.dtable-col-hover {
+.dtable-hover-row .dtable-cell.is-hover-row.is-checked,
+.dtable-hover-col .dtable-cell.is-hover-col.is-checked {
     @apply -bg-[--dtable-checked-bg-hover];
 }
-.dtable-row.is-checked {
+.dtable-cell.is-checked {
     --dtable-border-color: var(--dtable-checked-border);
 }

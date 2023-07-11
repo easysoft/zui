@@ -102,7 +102,7 @@ const editablePlugin: DTablePlugin<DTableEditableTypes, [DTableDraftTypes]> = {
                 rows = [rows];
             }
 
-            const colsNames = this.layout.colsList.reduce<string[]>((names, col) => {
+            const colsNames = this.layout.cols.list.reduce<string[]>((names, col) => {
                 if (col.name !== 'HEADER') {
                     names.push(col.name);
                 }
@@ -167,7 +167,7 @@ const editablePlugin: DTablePlugin<DTableEditableTypes, [DTableDraftTypes]> = {
 
             const deleteColsSet = new Set(deleteCols.map(col => col.index));
             const restCols = new Map<number, Record<string, unknown>>();
-            const {colsList} = this.layout;
+            const {cols: {list: colsList}} = this.layout;
             const colsCount = colsList.length;
             const rowIdList = this.layout.rows.reduce<string[]>((ids, row) => {
                 ids.push(row.id);

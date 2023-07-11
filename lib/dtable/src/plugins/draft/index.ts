@@ -99,7 +99,7 @@ const draftPlugin: DTablePlugin<DTableDraftTypes> = {
             if (!rowInfo) {
                 return {};
             }
-            return this.layout.colsList.reduce<Partial<RowData>>((data, col) => {
+            return this.layout.cols.list.reduce<Partial<RowData>>((data, col) => {
                 if (!options?.includeIndexCol && col.name === 'INDEX') {
                     return data;
                 }

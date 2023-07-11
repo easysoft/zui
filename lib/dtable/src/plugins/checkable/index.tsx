@@ -1,4 +1,4 @@
-import {classes, $} from '@zui/core';
+import {$} from '@zui/core';
 import {definePlugin} from '../../helpers/shared-plugins';
 import './style.css';
 import type {CustomRenderResult} from '../../types/common';
@@ -132,6 +132,8 @@ function renderCheckbox(checked: boolean, _rowID?: RowID, disabled = false) {
     </div>);
 }
 
+const checkboxSelector = 'input[type="checkbox"],.dtable-checkbox';
+
 const checkablePlugin: DTablePlugin<DTableCheckableTypes> = {
     name: 'checkable',
     defaultOptions: {
@@ -205,11 +207,14 @@ const checkablePlugin: DTablePlugin<DTableCheckableTypes> = {
         }
         const {checkbox: checkboxSetting} = col.setting;
         const showCheckbox = typeof checkboxSetting === 'function' ? checkboxSetting.call(this, rowID) : checkboxSetting;
+        const checked = this.isRowChecked(rowID);
         if (showCheckbox) {
-            const checked = this.isRowChecked(rowID);
             const checkbox = this.options.checkboxRender?.call(this, checked, rowID, checkable === 'disabled');
             result.unshift(checkbox);
-            result.push({className: 'has-checkbox'});
+            result.push({outer: true, className: 'has-checkbox'});
+        }
+        if (checked) {
+            result.push({outer: true, className: 'is-checked'});
         }
         return result;
     },
@@ -221,33 +226,27 @@ const checkablePlugin: DTablePlugin<DTableCheckableTypes> = {
             const checked = this.isAllRowChecked();
             const checkbox = (this.options.checkboxRender)?.call(this, checked, rowID);
             result.unshift(checkbox);
-            result.push({className: 'has-checkbox'});
+            result.push({outer: true, className: 'has-checkbox'});
         }
         return result;
-    },
-    onRenderRow({props, row}) {
-        if (!this.isRowChecked(row.id)) {
-            return;
-        }
-        return {className: classes(props.className, 'is-checked')};
     },
     onHeaderCellClick(event) {
         const target = event.target as HTMLElement;
         if (!target) {
             return;
         }
-        const checkbox = target.closest<HTMLInputElement>('input[type="checkbox"],.dtable-checkbox');
+        const checkbox = target.closest<HTMLInputElement>(checkboxSelector);
         if (checkbox) {
             this.toggleCheckRows(checkbox.checked);
             event.stopPropagation();
         }
     },
-    onRowClick(event, {rowID}) {
+    onCellClick(event, {rowID}) {
         const $target = $(event.target as HTMLElement);
         if (!$target.length || $target.closest('btn,a,button.not-checkable,.form-control,.btn').length) {
             return;
         }
-        const $checkbox = $target.closest('input[type="checkbox"],.dtable-checkbox').not('.disabled');
+        const $checkbox = $target.closest(checkboxSelector).not('.disabled');
         if ($checkbox.length || this.options.checkOnClickRow) {
             this.toggleCheckRows(rowID, undefined, true);
         }
