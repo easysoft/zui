@@ -1078,7 +1078,7 @@ function Y() {
 function _n(e) {
   return e.children;
 }
-function B(e, t) {
+function z(e, t) {
   this.props = e, this.context = t;
 }
 function Qn(e, t) {
@@ -1215,7 +1215,7 @@ function Go(e, t, n, s, i, r, o, a, l) {
   try {
     t:
       if (typeof P == "function") {
-        if (w = t.props, v = (h = P.contextType) && s[h.__c], _ = h ? v ? v.props.value : h.__ : s, n.__c ? y = (c = t.__c = n.__c).__ = c.__E : ("prototype" in P && P.prototype.render ? t.__c = c = new P(w, _) : (t.__c = c = new B(w, _), c.constructor = P, c.render = Cu), v && v.sub(c), c.props = w, c.state || (c.state = {}), c.context = _, c.__n = s, d = c.__d = !0, c.__h = [], c._sb = []), c.__s == null && (c.__s = c.state), P.getDerivedStateFromProps != null && (c.__s == c.state && (c.__s = de({}, c.__s)), de(c.__s, P.getDerivedStateFromProps(w, c.__s))), u = c.props, f = c.state, c.__v = t, d)
+        if (w = t.props, v = (h = P.contextType) && s[h.__c], _ = h ? v ? v.props.value : h.__ : s, n.__c ? y = (c = t.__c = n.__c).__ = c.__E : ("prototype" in P && P.prototype.render ? t.__c = c = new P(w, _) : (t.__c = c = new z(w, _), c.constructor = P, c.render = Cu), v && v.sub(c), c.props = w, c.state || (c.state = {}), c.context = _, c.__n = s, d = c.__d = !0, c.__h = [], c._sb = []), c.__s == null && (c.__s = c.state), P.getDerivedStateFromProps != null && (c.__s == c.state && (c.__s = de({}, c.__s)), de(c.__s, P.getDerivedStateFromProps(w, c.__s))), u = c.props, f = c.state, c.__v = t, d)
           P.getDerivedStateFromProps == null && c.componentWillMount != null && c.componentWillMount(), c.componentDidMount != null && c.__h.push(c.componentDidMount);
         else {
           if (P.getDerivedStateFromProps == null && w !== u && c.componentWillReceiveProps != null && c.componentWillReceiveProps(w, _), !c.__e && c.shouldComponentUpdate != null && c.shouldComponentUpdate(w, c.__s, _) === !1 || t.__v === n.__v) {
@@ -1331,12 +1331,12 @@ er = Ql.slice, F = { __e: function(e, t, n, s) {
   throw e;
 } }, Jl = 0, Q = function(e) {
   return e != null && e.constructor === void 0;
-}, B.prototype.setState = function(e, t) {
+}, z.prototype.setState = function(e, t) {
   var n;
   n = this.__s != null && this.__s !== this.state ? this.__s : this.__s = de({}, this.state), typeof e == "function" && (e = e(de({}, n), this.props)), e && de(n, e), e != null && this.__v && (t && this._sb.push(t), Ga(this));
-}, B.prototype.forceUpdate = function(e) {
+}, z.prototype.forceUpdate = function(e) {
   this.__v && (this.__e = !0, e && this.__h.push(e), Ga(this));
-}, B.prototype.render = _n, Se = [], Zl = typeof Promise == "function" ? Promise.prototype.then.bind(Promise.resolve()) : setTimeout, Or = function(e, t) {
+}, z.prototype.render = _n, Se = [], Zl = typeof Promise == "function" ? Promise.prototype.then.bind(Promise.resolve()) : setTimeout, Or = function(e, t) {
   return e.__v.__b - t.__v.__b;
 }, mi.__r = 0;
 var cc = function(e, t, n, s) {
@@ -1379,7 +1379,7 @@ function p(e, t, n, s, i, r) {
   return F.vnode && F.vnode(h), h;
 }
 var rs;
-class Yo extends B {
+class Yo extends z {
   constructor() {
     super(...arguments);
     D(this, rs, Y());
@@ -1900,7 +1900,7 @@ function mc({
     ...r
   }, /* @__PURE__ */ p(nr, { content: s }), n);
 }
-const Hr = class extends B {
+const Hr = class extends z {
   constructor() {
     super(...arguments), this.ref = Y();
   }
@@ -2185,7 +2185,7 @@ class wc extends q {
 }
 wc.NAME = "Menu";
 wc.Component = fe;
-class nt extends B {
+class nt extends z {
   render() {
     const {
       component: t,
@@ -3054,7 +3054,7 @@ window.addEventListener("scroll", (e) => {
   }, 50);
 }, !0);
 var os, cn;
-class Ju extends B {
+class Ju extends z {
   constructor(n) {
     var s;
     super(n);
@@ -3134,7 +3134,7 @@ function Dc({
 }) {
   return /* @__PURE__ */ p(Zu, { type: n, ...s });
 }
-let Lc = class extends B {
+let Lc = class extends z {
   componentDidMount() {
     var t;
     (t = this.props.afterRender) == null || t.call(this, { firstRender: !0 });
@@ -3255,7 +3255,7 @@ function tf({
   a === !0 ? d = /* @__PURE__ */ p(nt, { className: "alert-close btn ghost square text-inherit", square: !0, onClick: l, children: /* @__PURE__ */ p("span", { class: "close" }) }) : Q(a) ? d = a : typeof a == "object" && (d = /* @__PURE__ */ p(nt, { ...a, onClick: l }));
   const u = Q(n) ? n : n ? /* @__PURE__ */ p(ft, { ...n }) : null;
   return /* @__PURE__ */ p("div", { className: $("alert", e), style: t, ...c, children: [
-    /* @__PURE__ */ p(et, { icon: h }),
+    /* @__PURE__ */ p(et, { icon: h, className: "alert-icon" }),
     Q(i) ? i : /* @__PURE__ */ p("div", { className: $("alert-content", r), children: [
       Q(s) ? s : s && /* @__PURE__ */ p("div", { className: "alert-heading", children: s }),
       /* @__PURE__ */ p("div", { className: "alert-text", children: i }),
@@ -3277,41 +3277,24 @@ function ef(e) {
   }
   return "fade";
 }
-let nf = class extends B {
-  componentDidMount() {
-    var t;
-    (t = this.props.afterRender) == null || t.call(this, { firstRender: !0 });
-  }
-  componentDidUpdate() {
-    var t;
-    (t = this.props.afterRender) == null || t.call(this, { firstRender: !1 });
-  }
-  componentWillUnmount() {
-    var t;
-    (t = this.props.beforeDestroy) == null || t.call(this);
-  }
-  render() {
-    const {
-      afterRender: t,
-      beforeDestroy: n,
-      margin: s,
-      type: i,
-      placement: r,
-      animation: o,
-      show: a,
-      className: l,
-      time: h,
-      ...c
-    } = this.props;
-    return /* @__PURE__ */ p(
-      tf,
-      {
-        className: $("messager", l, i, o === !0 ? ef(r) : o, a ? "in" : ""),
-        ...c
-      }
-    );
-  }
-};
+function nf({
+  margin: e,
+  type: t,
+  placement: n,
+  animation: s,
+  show: i,
+  className: r,
+  time: o,
+  ...a
+}) {
+  return /* @__PURE__ */ p(
+    tf,
+    {
+      className: $("messager", r, t, s === !0 ? ef(n) : s, i ? "in" : ""),
+      ...a
+    }
+  );
+}
 var sf = (e, t, n) => {
   if (!t.has(e))
     throw TypeError("Cannot " + n);
@@ -3430,7 +3413,7 @@ Bc.DEFAULT = {
   margin: 6,
   time: 5e3
 };
-let zc = class extends B {
+let zc = class extends z {
   render(t) {
     const { percent: n = 50, size: s = 24, circleBg: i, circleColor: r, text: o, className: a, textStyle: l, textX: h, textY: c } = t, d = s / 2;
     let { circleWidth: u = 0.2 } = t;
@@ -3669,7 +3652,7 @@ function uf(e) {
 function ff(e, t) {
   return /^[\u4e00-\u9fa5\s]+$/.test(e) ? e.length <= t ? e : e.substring(e.length - t) : /^[A-Za-z\d\s]+$/.test(e) ? e[0].toUpperCase() : e.length <= t ? e : e.substring(0, t);
 }
-let qc = class extends B {
+let qc = class extends z {
   render() {
     const {
       className: t,
@@ -3732,7 +3715,7 @@ Yc.NAME = "BtnGroup";
 Yc.Component = Lc;
 const cl = Symbol("EVENT_FROM_PICK");
 var ls;
-class ia extends B {
+class ia extends z {
   constructor(n) {
     super(n);
     D(this, ls, void 0);
@@ -3817,7 +3800,7 @@ class ia extends B {
 }
 ls = new WeakMap();
 var Ee, Tt, le;
-class Kc extends B {
+class Kc extends z {
   constructor(n) {
     super(n);
     D(this, Ee, void 0);
@@ -3937,7 +3920,7 @@ var jc = (e, t, n) => {
     throw TypeError("Cannot add the same private member more than once");
   t instanceof WeakSet ? t.add(e) : t.set(e, n);
 }, Ge = (e, t, n, s) => (jc(e, t, "write to private field"), s ? s.call(e, n) : t.set(e, n), n), Js, vt, Pn;
-let mt = class extends B {
+let mt = class extends z {
   constructor(t) {
     super(t), Sr(this, Js, void 0), Sr(this, vt, 0), Sr(this, Pn, Y()), this.changeState = (n, s) => new Promise((i) => {
       this.setState(n, () => {
@@ -4151,11 +4134,11 @@ const ns = 24 * 60 * 60 * 1e3, Z = (e) => e ? (e instanceof Date || (typeof e ==
     n = t.replace(s.toString(), ""), t = s;
   }
   return e = new Date(Z(e).getTime()), n === "month" ? e.setMonth(e.getMonth() + t) : n === "year" ? e.setFullYear(e.getFullYear() + t) : n === "week" ? e.setDate(e.getDate() + t * 7) : n === "hour" ? e.setHours(e.getHours() + t) : n === "minute" ? e.setMinutes(e.getMinutes() + t) : n === "second" ? e.setSeconds(e.getSeconds() + t) : e.setDate(e.getDate() + t), e;
-}, Ms = (e, t = /* @__PURE__ */ new Date()) => Z(e).toDateString() === Z(t).toDateString(), Xr = (e, t = /* @__PURE__ */ new Date()) => Z(e).getFullYear() === Z(t).getFullYear(), Zc = (e, t = /* @__PURE__ */ new Date()) => (e = Z(e), t = Z(t), e.getFullYear() === t.getFullYear() && e.getMonth() === t.getMonth()), qp = (e, t = /* @__PURE__ */ new Date()) => {
+}, Ms = (e, t = /* @__PURE__ */ new Date()) => Z(e).toDateString() === Z(t).toDateString(), Xr = (e, t = /* @__PURE__ */ new Date()) => Z(e).getFullYear() === Z(t).getFullYear(), Zc = (e, t = /* @__PURE__ */ new Date()) => (e = Z(e), t = Z(t), e.getFullYear() === t.getFullYear() && e.getMonth() === t.getMonth()), Vp = (e, t = /* @__PURE__ */ new Date()) => {
   e = Z(e), t = Z(t);
   const n = 1e3 * 60 * 60 * 24, s = Math.floor(e.getTime() / n), i = Math.floor(t.getTime() / n);
   return Math.floor((s + 4) / 7) === Math.floor((i + 4) / 7);
-}, Gp = (e, t) => Ms(Z(t), e), Yp = (e, t) => Ms(Z(t).getTime() - ns, e), Kp = (e, t) => Ms(Z(t).getTime() + ns, e), $t = (e, t = "yyyy-MM-dd hh:mm", n = "") => {
+}, qp = (e, t) => Ms(Z(t), e), Gp = (e, t) => Ms(Z(t).getTime() - ns, e), Yp = (e, t) => Ms(Z(t).getTime() + ns, e), $t = (e, t = "yyyy-MM-dd hh:mm", n = "") => {
   if (e = Z(e), Number.isNaN(e.getDay()))
     return n;
   const s = {
@@ -4173,7 +4156,7 @@ const ns = 24 * 60 * 60 * 1e3, Z = (e) => e ? (e instanceof Date || (typeof e ==
       t = t.replace(RegExp.$1, RegExp.$1.length === 1 ? r : `00${r}`.substring(r.length));
     }
   }), t;
-}, jp = (e, t, n) => {
+}, Kp = (e, t, n) => {
   const s = {
     full: "yyyy-M-d",
     month: "M-d",
@@ -4187,7 +4170,7 @@ const ns = 24 * 60 * 60 * 1e3, Z = (e) => e ? (e instanceof Date || (typeof e ==
   return s.str.replace("{0}", i).replace("{1}", r);
 };
 var cs, hs;
-class mf extends B {
+class mf extends z {
   constructor() {
     super(...arguments);
     D(this, cs, Y());
@@ -4337,7 +4320,7 @@ const yf = (e, t, n = 0) => {
   };
 }, dl = (e, t) => new Set((Array.isArray(e) ? e : [e]).map((n) => $t(n, t)));
 var Li;
-class vf extends B {
+class vf extends z {
   constructor() {
     super(...arguments);
     D(this, Li, (n) => {
@@ -4391,7 +4374,7 @@ class vf extends B {
 }
 Li = new WeakMap();
 var ds, Ii;
-class ul extends B {
+class ul extends z {
   constructor() {
     super(...arguments);
     D(this, ds, Y());
@@ -4415,7 +4398,7 @@ class ul extends B {
 }
 ds = new WeakMap(), Ii = new WeakMap();
 var un, us, fs, ps, ms, gs, Wi, th, Oi, eh;
-class wf extends B {
+class wf extends z {
   constructor(n) {
     super(n);
     D(this, Wi);
@@ -4751,7 +4734,7 @@ m(window).on("resize.modal.zui", () => {
 m(document).on("to-hide.modal.zui", (e, t) => {
   te.hide(t == null ? void 0 : t.target);
 });
-class rh extends B {
+class rh extends z {
   componentDidMount() {
     var t;
     (t = this.props.afterRender) == null || t.call(this, { firstRender: !0 });
@@ -4815,7 +4798,7 @@ class rh extends B {
 }
 rh.defaultProps = { closeBtn: !0 };
 var fn, pn, mn;
-class xf extends B {
+class xf extends z {
   constructor() {
     super(...arguments);
     D(this, fn, void 0);
@@ -5297,7 +5280,7 @@ class ph extends q {
 ph.NAME = "Pick";
 ph.Component = mt;
 var gn, ys, vs, Hi;
-class mh extends B {
+class mh extends z {
   constructor(n) {
     super(n);
     D(this, gn, Y());
@@ -5805,7 +5788,7 @@ var pa = (e, t, n) => {
     throw TypeError("Cannot add the same private member more than once");
   t instanceof WeakSet ? t.add(e) : t.set(e, n);
 }, ei = (e, t, n, s) => (pa(e, t, "write to private field"), s ? s.call(e, n) : t.set(e, n), n), ml = (e, t, n) => (pa(e, t, "access private method"), n), ni, si, Pe, co, ii, ri, oi, ho;
-let xh = class extends B {
+let xh = class extends z {
   constructor(t) {
     super(t), _e(this, oi), _e(this, ni, void 0), _e(this, si, Y()), _e(this, Pe, 0), _e(this, co, (n) => {
       const s = this.state.value;
@@ -6883,7 +6866,7 @@ ep.DEFAULT = {
   totalCountText: '共 <span class="font-bold text-black">%s</span> 个文件 <span class="font-bold text-black">%s</span> 个文件等待上传。'
 };
 var Cs, Ki, ji, Xi, Tl;
-let np = (Tl = class extends B {
+let np = (Tl = class extends z {
   constructor() {
     super(...arguments);
     D(this, Cs, Y());
@@ -6975,7 +6958,7 @@ var Vh = (e, t, n) => {
     throw TypeError("Cannot add the same private member more than once");
   t instanceof WeakSet ? t.add(e) : t.set(e, n);
 }, kt = (e, t, n) => (Vh(e, t, "access private method"), n), Zt, ka, qh, Sa, Gh, yo, Yh, Ma, Kh, Ei, vo, pr, wo, Ta, jh, _o, bo, mr, Ea;
-const Na = class extends B {
+const Na = class extends z {
   constructor() {
     super(...arguments), wt(this, ka), wt(this, Sa), wt(this, yo), wt(this, Ma), wt(this, Ei), wt(this, pr), wt(this, Ta), wt(this, Zt, /* @__PURE__ */ new Map()), this.state = {}, wt(this, _o, (e) => {
       var n;
@@ -7132,7 +7115,7 @@ class Xh extends q {
 Xh.NAME = "Dashboard";
 Xh.Component = Ra;
 var ce, he;
-class xl extends B {
+class xl extends z {
   constructor(n) {
     super(n);
     D(this, ce, void 0);
@@ -7570,18 +7553,18 @@ function ed({
 var Aa = (e, t, n) => {
   if (!t.has(e))
     throw TypeError("Cannot " + n);
-}, N = (e, t, n) => (Aa(e, t, "read from private field"), n ? n.call(e) : t.get(e)), z = (e, t, n) => {
+}, N = (e, t, n) => (Aa(e, t, "read from private field"), n ? n.call(e) : t.get(e)), B = (e, t, n) => {
   if (t.has(e))
     throw TypeError("Cannot add the same private member more than once");
   t instanceof WeakSet ? t.add(e) : t.set(e, n);
 }, X = (e, t, n, s) => (Aa(e, t, "write to private field"), s ? s.call(e, n) : t.set(e, n), n), Bt = (e, t, n) => (Aa(e, t, "access private method"), n), Xe, zn, De, Vt, Te, rt, zt, Ht, Fn, ai, Ai, re, Un, Vn, xo, nd, Co, sd, $o, id, ko, rd, li, So, gr, Pi, Mo, To, Pa, od, Da, ad, Eo, ld;
-let La = class extends B {
+let La = class extends z {
   constructor(t) {
-    super(t), z(this, xo), z(this, Co), z(this, $o), z(this, ko), z(this, li), z(this, Pa), z(this, Da), z(this, Eo), this.ref = Y(), z(this, Xe, 0), z(this, zn, void 0), z(this, De, !1), z(this, Vt, void 0), z(this, Te, void 0), z(this, rt, []), z(this, zt, void 0), z(this, Ht, /* @__PURE__ */ new Map()), z(this, Fn, {}), z(this, ai, void 0), z(this, Ai, []), this.updateLayout = () => {
+    super(t), B(this, xo), B(this, Co), B(this, $o), B(this, ko), B(this, li), B(this, Pa), B(this, Da), B(this, Eo), this.ref = Y(), B(this, Xe, 0), B(this, zn, void 0), B(this, De, !1), B(this, Vt, void 0), B(this, Te, void 0), B(this, rt, []), B(this, zt, void 0), B(this, Ht, /* @__PURE__ */ new Map()), B(this, Fn, {}), B(this, ai, void 0), B(this, Ai, []), this.updateLayout = () => {
       N(this, Xe) && cancelAnimationFrame(N(this, Xe)), X(this, Xe, requestAnimationFrame(() => {
         this.update({ dirtyType: "layout" }), X(this, Xe, 0);
       }));
-    }, z(this, re, (n, s) => {
+    }, B(this, re, (n, s) => {
       s = s || n.type;
       const i = N(this, Ht).get(s);
       if (i != null && i.length) {
@@ -7591,20 +7574,20 @@ let La = class extends B {
             break;
           }
       }
-    }), z(this, Un, (n) => {
+    }), B(this, Un, (n) => {
       N(this, re).call(this, n, `window_${n.type}`);
-    }), z(this, Vn, (n) => {
+    }), B(this, Vn, (n) => {
       N(this, re).call(this, n, `document_${n.type}`);
-    }), z(this, gr, (n, s, i) => {
+    }), B(this, gr, (n, s, i) => {
       const { row: r, col: o } = s;
       s.value = this.getCellValue(r, o), n[0] = s.value;
       const a = r.id === "HEADER" ? "onRenderHeaderCell" : "onRenderCell";
       return N(this, rt).forEach((l) => {
         l[a] && (n = l[a].call(this, n, s, i));
       }), this.options[a] && (n = this.options[a].call(this, n, s, i)), o.setting[a] && (n = o.setting[a].call(this, n, s, i)), n;
-    }), z(this, Pi, (n, s) => {
+    }), B(this, Pi, (n, s) => {
       s === "horz" ? this.scroll({ scrollLeft: n }) : this.scroll({ scrollTop: n });
-    }), z(this, Mo, (n) => {
+    }), B(this, Mo, (n) => {
       var a, l, h, c, d;
       const s = this.getPointerInfo(n);
       if (!s)
@@ -7630,7 +7613,7 @@ let La = class extends B {
           if (((d = f.onRowClick) == null ? void 0 : d.call(this, n, { rowID: i, rowInfo: u, element: o })) === !0)
             return;
       }
-    }), z(this, To, (n) => {
+    }), B(this, To, (n) => {
       const s = n.key.toLowerCase();
       if (["pageup", "pagedown", "home", "end"].includes(s))
         return !this.scroll({ to: s.replace("page", "") });
@@ -8709,7 +8692,7 @@ export {
   _h as Picker,
   bh as Popovers,
   Fc as ProgressCircle,
-  B as ReactComponent,
+  z as ReactComponent,
   Ch as SearchBox,
   ns as TIME_DAY,
   xd as Tabs,
@@ -8734,7 +8717,7 @@ export {
   Pp as dom,
   fu as formatBytes,
   $t as formatDate,
-  jp as formatDateSpan,
+  Kp as formatDateSpan,
   it as formatString,
   Kl as getClassList,
   K as h,
@@ -8743,12 +8726,12 @@ export {
   tt as i18n,
   Ms as isSameDay,
   Zc as isSameMonth,
-  qp as isSameWeek,
+  Vp as isSameWeek,
   Xr as isSameYear,
-  Gp as isToday,
-  Kp as isTomorrow,
+  qp as isToday,
+  Yp as isTomorrow,
   Q as isValidElement,
-  Yp as isYesterday,
+  Gp as isYesterday,
   ol as nativeEvents,
   ts as render,
   dc as renderCustomContent,
