@@ -30,7 +30,7 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
     constructor(props: O) {
         super(props);
         this.state = {
-            value: props.defaultValue,
+            value: String(props.defaultValue ?? ''),
             open: false,
             disabled: false,
         } as S;
@@ -166,7 +166,7 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
         return props.Trigger || ((this.constructor as typeof Pick).Trigger as ComponentType<PickTriggerProps<S>>);
     }
 
-    protected _handleChange(value: string | undefined, oldValue: string | undefined) {
+    protected _handleChange(value: string, oldValue: string) {
         const {onChange} = this.props;
         if (onChange) {
             onChange(value, oldValue);

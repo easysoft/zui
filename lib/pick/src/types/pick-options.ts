@@ -23,7 +23,7 @@ export interface PickOptions<S extends PickState = PickState> {
     defaultValue?: string;
     disabled?: boolean;
     name?: string;
-    onChange?: (value: string | undefined, oldValue: string | undefined) => void;
+    onChange?: (value: string, oldValue: string) => void;
     onClick?: (event: MouseEvent) => void | boolean;
 
     popClass?: ClassNameLike;

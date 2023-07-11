@@ -1,5 +1,5 @@
 export interface PickState {
-    value?: string;
+    value: string;
     open: boolean | 'opening' | 'closing';
     disabled: boolean;
 }
