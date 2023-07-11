@@ -1,5 +1,5 @@
 import {Attributes} from 'preact';
-import {classes, Icon} from '@zui/core';
+import {classes, CustomContent, Icon} from '@zui/core';
 import {Toolbar} from '@zui/toolbar/src/component';
 import type {ToolbarOptions} from '@zui/toolbar/src/types';
 import '@zui/css-icons/src/icons/caret.css';
@@ -10,6 +10,7 @@ export function TreeItem({
     component,
     className,
     children,
+    content,
     style,
     attrs,
     url,
@@ -52,7 +53,8 @@ export function TreeItem({
             ) : null}
             <Icon icon={icon} className="tree-icon" />
             {url ? <a className="text tree-link not-nested-toggle" href={url}>{text}</a> : <span class="text">{text}</span>}
-            {typeof children === 'function' ? children() : children}
+            <CustomContent content={content} />
+            {children}
             {toolbarOptions ? <Toolbar {...toolbarOptions} /> : null}
             <Icon icon={trailingIcon} className="tree-trailing-icon" />
         </div>
