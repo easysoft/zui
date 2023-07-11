@@ -10,6 +10,8 @@ export interface PickerOptions extends PickOptions<PickerState> {
     required?: boolean;
 
     valueSplitter?: string;
+    limitValueInList?: boolean;
+    emptyValue?: string;
     menu?: MenuOptions;
     items: PickerItemOptions[] | PickerItemsFetcher;
     searchDelay?: number;

@@ -2,7 +2,7 @@ import {ComponentType, RenderableProps} from 'preact';
 import {$, delay} from '@zui/core';
 import {Pick} from '@zui/pick/src/components';
 import {PickTriggerProps} from '@zui/pick/src/types';
-import {PickerItemOptions, PickerMenuProps, PickerOptions, PickerSelectProps, PickerState} from '../types';
+import {PickerItemBasic, PickerItemOptions, PickerMenuProps, PickerOptions, PickerSelectProps, PickerState} from '../types';
 import '@zui/form-control/src/style/index.css';
 import '../style/index.css';
 import {PickerMultiSelect} from './picker-multi-select';
@@ -14,7 +14,9 @@ export class Picker extends Pick<PickerState, PickerOptions> {
         ...Pick.defaultProps,
         className: 'picker',
         valueSplitter: ',',
+        limitValueInList: true,
         search: true,
+        emptyValue: '',
     };
 
     static Pop = PickerMenu as typeof Pick.Pop;
@@ -25,6 +27,8 @@ export class Picker extends Pick<PickerState, PickerOptions> {
 
     #updateTimer = 0;
 
+    #emptyValueSet: Set<string>;
+
     constructor(props: PickerOptions) {
         super(props);
         $.extend(this.state, {
@@ -34,9 +38,18 @@ export class Picker extends Pick<PickerState, PickerOptions> {
             selections: [],
         });
 
-        const {required, items} = props;
-        if (this.state.value === undefined && required && Array.isArray(items) && items.length) {
-            (this.state as PickerState).value = items[0].value;
+        const {valueSplitter = ',', emptyValue = ''} = this.props;
+        this.#emptyValueSet = new Set(emptyValue.split(valueSplitter));
+
+        const {items} = props;
+        if (Array.isArray(items) && items.length) {
+            if (props.limitValueInList) {
+                const valueSet = new Set(items.map(x => x.value));
+                (this.state as PickerState).value = this.valueList.filter(x => valueSet.has(x)).join(props.valueSplitter);
+            }
+            if (!this.valueList.length && props.required && !props.multiple) {
+                (this.state as PickerState).value = items[0].value;
+            }
         }
     }
 
@@ -47,6 +60,14 @@ export class Picker extends Pick<PickerState, PickerOptions> {
     get valueList(): string[] {
         return this.#formatValueList(this.state.value);
     }
+
+    get firstEmptyValue() {
+        return this.#emptyValueSet.values().next().value;
+    }
+
+    isEmptyValue = (value: string) => {
+        return this.#emptyValueSet.has(value);
+    };
 
     toggleValue = (value: string, toggle?: boolean) => {
         if (!this.props.multiple) {
@@ -141,7 +162,7 @@ export class Picker extends Pick<PickerState, PickerOptions> {
         const newState: Partial<PickerState> = {};
         this.#itemsCacheInfo = cache;
         if (force || cache.search !== state.search || props.items !== cache.items) {
-            newState.items = await this.load();
+            newState.items = (await this.load()).filter(x => !this.isEmptyValue(x.value));
             newState.loading = false;
             cache.items = props.items;
             cache.search = state.search;
@@ -149,13 +170,16 @@ export class Picker extends Pick<PickerState, PickerOptions> {
         if (force || cache.value !== state.value) {
             const items = newState.items || state.items;
             const map = new Map(items.map(x => [x.value, x]));
-            newState.selections = this.valueList.map(value => {
-                return map.get(value) || {value};
-            });
+            newState.selections = this.valueList.reduce<PickerItemBasic[]>((list, value) => {
+                if (!this.isEmptyValue(value)) {
+                    list.push(map.get(value) || {value});
+                }
+                return list;
+            }, []);
             cache.value = state.value;
         }
         const newItems = newState.items;
-        if (state.value === undefined && props.required && Array.isArray(newItems) && newItems.length) {
+        if (props.required && !props.multiple && this.isEmptyValue(this.state.value) && Array.isArray(newItems) && newItems.length) {
             newState.value = newItems[0].value;
         }
         if (Object.keys(newState).length) {
@@ -224,29 +248,30 @@ export class Picker extends Pick<PickerState, PickerOptions> {
         return props.Trigger || (props.multiple ? PickerMultiSelect : PickerSingleSelect) as unknown as ComponentType<PickTriggerProps<PickerState>>;
     }
 
-    #formatValueList(value?: string | string[]): string[] {
-        if (typeof value === 'string') {
-            if (!value.length) {
-                return [];
-            }
-            return $.unique(value.split(this.props.valueSplitter ?? ',')) as string[];
+    #formatValueList(value: string | string[]): string[] {
+        let list: string[] = [];
+        if (typeof value === 'string' && value.length) {
+            list = $.unique(value.split(this.props.valueSplitter ?? ',')) as string[];
+        } else if (Array.isArray(value)) {
+            list = $.unique(value) as string[];
         }
-        if (Array.isArray(value)) {
-            return $.unique(value) as string[];
-        }
-        return [];
+        return list.filter(x => !this.isEmptyValue(x));
     }
 
-    #formatValue(value?: string | string[]): string | undefined {
+    #formatValue(value: string | string[]): string {
         const list = this.#formatValueList(value);
-        return list.length ? list.join(this.props.valueSplitter ?? ',') : undefined;
+        return list.length ? list.join(this.props.valueSplitter ?? ',') : this.firstEmptyValue;
     }
 
-    #setValue(value?: string | string[]) {
+    #setValue(value: string | string[] = []) {
         if (this.props.disabled) {
             return;
         }
-        const stateValue = value === undefined ? value : this.#formatValue(value);
+        const valueList = this.#formatValueList(value);
+        if (!valueList.length && this.props.required) {
+            return;
+        }
+        const stateValue = this.#formatValue(value);
         if (stateValue === this.state.value) {
             return;
         }
