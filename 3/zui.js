@@ -4237,7 +4237,7 @@ let Qc = class extends mt {
       this.setTime("");
     });
     const n = this.state;
-    t.required && n.value === void 0 && (n.value = "now"), n.value === "now" && (n.value = $t(/* @__PURE__ */ new Date(), t.format));
+    n.value === "now" && (n.value = $t(/* @__PURE__ */ new Date(), t.format));
   }
   setTime(t) {
     if (this.props.disabled)
@@ -4535,7 +4535,7 @@ let nh = class extends mt {
       });
     };
     const n = this.state;
-    t.required && n.value === void 0 && (n.value = "today"), n.value === "today" && (n.value = $t(/* @__PURE__ */ new Date(), t.format));
+    n.value === "today" && (n.value = $t(/* @__PURE__ */ new Date(), t.format));
   }
   _renderTrigger(t, n) {
     const { placeholder: s, icon: i, required: r, disabled: o, readonly: a } = t, { value: l = "", open: h } = n, c = `date-picker-${this.id}`;
