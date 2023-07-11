@@ -19,6 +19,7 @@ onPageUpdate(() => {
             }],
             format: 'yyyy/MM/dd',
             name: 'date',
+            required: true,
         });
         console.log('> datePicker', datePicker);
     }

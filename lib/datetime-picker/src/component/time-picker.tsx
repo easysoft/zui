@@ -33,9 +33,6 @@ export class TimePicker extends Pick<PickState, TimePickerOptions> {
     constructor(props: TimePickerOptions) {
         super(props);
         const state = this.state as PickState;
-        if (props.required && state.value === undefined) {
-            state.value = 'now';
-        }
         if (state.value === 'now') {
             state.value = formatDate(new Date(), props.format);
         }

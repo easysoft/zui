@@ -19,9 +19,6 @@ export class DatePicker extends Pick<PickState, DatePickerOptions> {
     constructor(props: DatePickerOptions) {
         super(props);
         const state = this.state as PickState;
-        if (props.required && state.value === undefined) {
-            state.value = 'today';
-        }
         if (state.value === 'today') {
             state.value = formatDate(new Date(), props.format);
         }
