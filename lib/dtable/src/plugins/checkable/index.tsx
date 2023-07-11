@@ -244,7 +244,7 @@ const checkablePlugin: DTablePlugin<DTableCheckableTypes> = {
     },
     onRowClick(event, {rowID}) {
         const $target = $(event.target as HTMLElement);
-        if (!$target.length || $target.closest('btn,a,button').length) {
+        if (!$target.length || $target.closest('btn,a,button.not-checkable,.form-control,.btn').length) {
             return;
         }
         const $checkbox = $target.closest('input[type="checkbox"],.dtable-checkbox').not('.disabled');
