@@ -4,6 +4,9 @@
 .modal-alert .modal-header {
   @apply --mb-4;
 }
+.modal-alert .modal-body {
+  @apply -whitespace-pre-line;
+}
 .modal-alert .modal-footer {
   @apply --mt-3;
 }
