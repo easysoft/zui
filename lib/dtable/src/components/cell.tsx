@@ -9,21 +9,24 @@ import type {RowInfo} from '../types/row';
 export type CellProps = {
     col: ColInfo;
     row: RowInfo;
-} & Partial<{
+    left?: number,
+    top?: number,
+    width?: number,
     height: number;
-    className: ClassNameLike;
-    style: JSX.CSSProperties;
-    outerClass: ClassNameLike;
-    outerStyle: JSX.CSSProperties;
-    children: ComponentChildren;
-    onRenderCell: CellRenderCallback;
-}>;
+    className?: ClassNameLike;
+    style?: JSX.CSSProperties;
+    outerClass?: ClassNameLike;
+    outerStyle?: JSX.CSSProperties;
+    children?: ComponentChildren;
+    onRenderCell?: CellRenderCallback;
+};
 
-export function Cell({col, className, height, row, onRenderCell, style: styleFromParent, outerStyle: outerStyleFromParent, children: childrenFromParent, outerClass, ...others}: CellProps) {
+export function Cell({col, className, height, row, onRenderCell, style: styleFromParent, outerStyle: outerStyleFromParent, children: childrenFromParent, outerClass, width, left, top, ...others}: CellProps) {
     const outerStyle = {
-        left: col.left,
-        width: col.realWidth,
-        height,
+        left: left ?? col.left,
+        top: top ?? row.top,
+        width: width ?? col.realWidth,
+        height: height,
         ...outerStyleFromParent,
     };
     const {align, border} = col.setting;
@@ -83,7 +86,8 @@ export function Cell({col, className, height, row, onRenderCell, style: styleFro
             className={classes(outerClassName)}
             style={outerStyle}
             data-col={col.name}
-            data-type={col.type}
+            data-row={row.id}
+            data-type={col.type || null}
             {...others}
             {...outerAttrs}
         >

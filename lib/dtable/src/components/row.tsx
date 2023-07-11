@@ -22,7 +22,8 @@ export function Row({
                 className="dtable-fixed-left"
                 cols={left.list}
                 width={left.width}
-                row={row}
+                rowHeight={height}
+                rows={[row]}
                 CellComponent={CellComponent}
                 onRenderCell={onRenderCell}
             />
@@ -36,8 +37,10 @@ export function Row({
                 className="dtable-flexable"
                 cols={center.list}
                 left={left.width - scrollLeft}
+                scrollLeft={scrollLeft}
                 width={Math.max(center.width, center.totalWidth)}
-                row={row}
+                rowHeight={height}
+                rows={[row]}
                 CellComponent={CellComponent}
                 onRenderCell={onRenderCell}
             />
@@ -52,7 +55,8 @@ export function Row({
                 cols={right.list}
                 left={left.width + center.width}
                 width={right.width}
-                row={row}
+                rowHeight={height}
+                rows={[row]}
                 CellComponent={CellComponent}
                 onRenderCell={onRenderCell}
             />

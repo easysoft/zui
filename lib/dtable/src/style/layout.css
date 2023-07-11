@@ -3,12 +3,13 @@
 }
 
 .dtable-header {
-    @apply -relative -z-20 -overflow-hidden -rounded-t-[inherit];
-    background: var(--dtable-header-bg);
+    @apply -relative -z-20 -overflow-hidden -rounded-t-[inherit] -bg-[--dtable-header-bg];
 }
-
-.dtable-rows {
+.dtable-body {
     @apply -absolute -z-10 -w-full -overflow-hidden;
+}
+.dtable-cells-container {
+    @apply -absolute -z-10 -w-full -h-full;
 }
 
 .dtable-row {

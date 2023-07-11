@@ -1,9 +1,7 @@
 import {Component, createRef, h as _h} from 'preact';
 import {nanoid} from 'nanoid';
-import {classes, ClassNameLike, i18n} from '@zui/core';
+import {classes, $, ClassNameLike, i18n} from '@zui/core';
 import {Scrollbar} from '@zui/scrollbar/src/component/scrollbar';
-import {Header} from './header';
-import {Rows} from './rows';
 import {addPlugin, initPlugins, removePlugin} from '../helpers/shared-plugins';
 import {getDefaultOptions} from '../helpers/default-options';
 import '../style/index.css';
@@ -14,8 +12,9 @@ import type {ColInfoLike, ColInfo} from '../types/col';
 import type {DTableState, DTableLayout, DTableEventListener, DTableEventTarget, DTablePointerInfo} from '../types';
 import type {DTableOptions} from '../types/options';
 import type {DTablePlugin} from '../types/plugin';
-import type {RowInfoLike, RowInfo, RowProps, RowData, RowID} from '../types/row';
+import type {RowInfoLike, RowInfo, RowData, RowID} from '../types/row';
 import {initColsLayout} from '../helpers/layout';
+import {Block} from './block';
 
 export class DTable extends Component<DTableOptions, DTableState> {
     static addPlugin = addPlugin;
@@ -359,22 +358,17 @@ export class DTable extends Component<DTableOptions, DTableState> {
         if (!target || target.closest('.no-cell-event')) {
             return;
         }
-        const cellElement = target.closest<HTMLElement>('.dtable-cell');
-        if (!cellElement) {
+        const $cell = $(target).closest('.dtable-cell');
+        if (!$cell.length) {
             return;
         }
-        const rowElement = cellElement.closest<HTMLElement>('.dtable-row');
-        if (!rowElement) {
-            return;
-        }
-        const colName = cellElement?.getAttribute('data-col');
-        const rowID = rowElement?.getAttribute('data-id');
+        const rowID = $cell.attr('data-row');
+        const colName = $cell.attr('data-col');
         if (typeof colName !== 'string' || typeof rowID !== 'string') {
             return;
         }
         return {
-            cellElement,
-            rowElement,
+            cellElement: $cell[0] as HTMLElement,
             colName,
             rowID,
             target,
@@ -394,7 +388,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
     i18n(key: string, defaultValue?: string): string;
     i18n(key: string, args?: (string | number)[] | Record<string, string | number>, defaultValue?: string): string;
     i18n(key: string, args?: string | (string | number)[] | Record<string, string | number>, defaultValue?: string): string {
-        return i18n(this.#i18nMaps, key, args, defaultValue, this.options.lang) ?? `{i18n:${key}}`;
+        return i18n(this.#i18nMaps, key, args as string, defaultValue, this.options.lang) ?? `{i18n:${key}}`;
     }
 
     getPlugin(pluginName: string): DTablePlugin | undefined {
@@ -426,19 +420,23 @@ export class DTable extends Component<DTableOptions, DTableState> {
     };
 
     #renderHeader(layout: DTableLayout) {
-        const {header, cols, headerHeight, scrollLeft} = layout;
+        const {header, cols, headerHeight, scrollLeft, rowHeight} = layout;
         if (!header) {
             return null;
         }
         if (header === true) {
             return (
-                <Header
+                <Block
                     key="header"
-                    scrollLeft={scrollLeft}
-                    height={headerHeight}
+                    className="dtable-header"
                     cols={cols}
+                    height={headerHeight}
+                    scrollLeft={scrollLeft}
+                    rowHeight={rowHeight}
+                    scrollTop={0}
+                    rows={{id: 'HEADER', index: -1, top: 0}}
+                    top={0}
                     onRenderCell={this.#handleRenderCell}
-                    onRenderRow={this.#handleRenderHeaderRow}
                 />
             );
         }
@@ -456,11 +454,12 @@ export class DTable extends Component<DTableOptions, DTableState> {
         );
     }
 
-    #renderRows(layout: DTableLayout) {
+    #renderBody(layout: DTableLayout) {
         const {headerHeight, rowsHeight, visibleRows, rowHeight, cols, scrollLeft, scrollTop} = layout;
         return (
-            <Rows
-                key="rows"
+            <Block
+                key="body"
+                className="dtable-body"
                 top={headerHeight}
                 height={rowsHeight}
                 rows={visibleRows}
@@ -469,7 +468,6 @@ export class DTable extends Component<DTableOptions, DTableState> {
                 scrollTop={scrollTop}
                 cols={cols}
                 onRenderCell={this.#handleRenderCell}
-                onRenderRow={this.#handleRenderRow}
             />
         );
     }
@@ -543,38 +541,38 @@ export class DTable extends Component<DTableOptions, DTableState> {
         this.#plugins.forEach(plugin => plugin.afterRender?.call(this));
     }
 
-    #handleRenderRow = (data: {props: RowProps, row: RowInfo}, h: typeof _h): Partial<RowProps | (RowProps & JSX.HTMLAttributes<HTMLElement>)> | void => {
-        if (this.options.onRenderRow) {
-            const result = this.options.onRenderRow.call(this, data, h);
-            if (result) {
-                Object.assign(data.props, result);
-            }
-        }
+    // #handleRenderRow = (data: {props: RowProps, row: RowInfo}, h: typeof _h): Partial<RowProps | (RowProps & JSX.HTMLAttributes<HTMLElement>)> | void => {
+    //     if (this.options.onRenderRow) {
+    //         const result = this.options.onRenderRow.call(this, data, h);
+    //         if (result) {
+    //             Object.assign(data.props, result);
+    //         }
+    //     }
 
-        this.#plugins.forEach(plugin => {
-            if (plugin.onRenderRow) {
-                const result = plugin.onRenderRow.call(this, data, h);
-                if (result) {
-                    Object.assign(data.props, result);
-                }
-            }
-        });
-        return data.props;
-    };
+    //     this.#plugins.forEach(plugin => {
+    //         if (plugin.onRenderRow) {
+    //             const result = plugin.onRenderRow.call(this, data, h);
+    //             if (result) {
+    //                 Object.assign(data.props, result);
+    //             }
+    //         }
+    //     });
+    //     return data.props;
+    // };
 
-    #handleRenderHeaderRow = (data: {props: RowProps}, h: typeof _h): RowProps => {
-        if (this.options.onRenderHeaderRow) {
-            data.props = this.options.onRenderHeaderRow.call(this, data, h);
-        }
+    // #handleRenderHeaderRow = (data: {props: RowProps}, h: typeof _h): RowProps => {
+    //     if (this.options.onRenderHeaderRow) {
+    //         data.props = this.options.onRenderHeaderRow.call(this, data, h);
+    //     }
 
-        this.#plugins.forEach(plugin => {
-            if (plugin.onRenderHeaderRow) {
-                data.props = plugin.onRenderHeaderRow.call(this, data, h);
-            }
-        });
+    //     this.#plugins.forEach(plugin => {
+    //         if (plugin.onRenderHeaderRow) {
+    //             data.props = plugin.onRenderHeaderRow.call(this, data, h);
+    //         }
+    //     });
 
-        return data.props;
-    };
+    //     return data.props;
+    // };
 
     #handleRenderCell = (result: CustomRenderResultList, data: {row: RowInfo, col: ColInfo, value: unknown}, h: typeof _h) : CustomRenderResultList => {
         const {row, col} = data;
@@ -617,24 +615,23 @@ export class DTable extends Component<DTableOptions, DTableState> {
                 });
             }
         } else {
-            const {rowElement} = pointerInfo;
             const rowInfo = this.layout.visibleRows.find(row => row.id === rowID);
             if (cellElement) {
-                if (this.options.onCellClick?.call(this, event, {colName, rowID, rowInfo, element: cellElement, rowElement}) === true) {
+                if (this.options.onCellClick?.call(this, event, {colName, rowID, rowInfo, element: cellElement}) === true) {
                     return;
                 }
                 for (const plugin of this.#plugins) {
-                    if (plugin.onCellClick?.call(this, event, {colName, rowID, rowInfo, element: cellElement, rowElement}) === true) {
+                    if (plugin.onCellClick?.call(this, event, {colName, rowID, rowInfo, element: cellElement}) === true) {
                         return;
                     }
                 }
             }
-            if (this.options.onRowClick?.call(this, event, {rowID, rowInfo, element: rowElement}) === true) {
+            if (this.options.onRowClick?.call(this, event, {rowID, rowInfo, element: cellElement}) === true) {
                 return;
             }
 
             for (const plugin of this.#plugins) {
-                if (plugin.onRowClick?.call(this, event, {rowID, rowInfo, element: rowElement}) === true) {
+                if (plugin.onRowClick?.call(this, event, {rowID, rowInfo, element: cellElement}) === true) {
                     return;
                 }
             }
@@ -909,7 +906,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
 
             children.push(
                 this.#renderHeader(layout),
-                this.#renderRows(layout),
+                this.#renderBody(layout),
                 this.#renderFooter(layout),
                 this.#renderScrollBars(layout),
             );

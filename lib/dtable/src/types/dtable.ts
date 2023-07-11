@@ -15,7 +15,6 @@ export type DTableEventTarget = '' | 'window' | 'document';
 
 export type DTablePointerInfo = {
     cellElement: HTMLElement,
-    rowElement: HTMLElement,
     colName: string,
     rowID: string,
     target: HTMLElement,

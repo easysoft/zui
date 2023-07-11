@@ -7,3 +7,4 @@ export * from './common';
 export * from './col';
 export * from './cell';
 export * from './layout';
+export * from './block-props';
