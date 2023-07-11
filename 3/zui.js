@@ -8264,7 +8264,7 @@ const pp = {
   },
   onRowClick(e, { rowID: t }) {
     const n = m(e.target);
-    if (!n.length || n.closest("btn,a,button").length)
+    if (!n.length || n.closest("btn,a,button.not-checkable,.form-control,.btn").length)
       return;
     (n.closest('input[type="checkbox"],.dtable-checkbox').not(".disabled").length || this.options.checkOnClickRow) && this.toggleCheckRows(t, void 0, !0);
   }
