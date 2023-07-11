@@ -26,10 +26,13 @@
 .dtable-cell {
   @apply -absolute -transition-colors;
 }
+.dtable-cell:hover {
+  @apply -z-[1];
+}
 .dtable-cell::before,
 .dtable-cell::after {
   content: '';
-  @apply -absolute -z-[1] -opacity-0 -pointer-events-none -left-0 --top-px --right-px -bottom-0;
+  @apply -absolute -z-[2] -opacity-0 -pointer-events-none -left-0 --top-px --right-px -bottom-0;
 }
 .dtable-cell::before {
   @apply -border-b -opacity-100;
