@@ -223,6 +223,7 @@ export class Picker extends Pick<PickerState, PickerOptions> {
             search: props.search,
             searchHint: props.searchHint,
             disabled: props.disabled,
+            clearable: !!this.valueList.length && !props.required,
             onDeselect: this.deselect,
             onSelect: this.select,
             onClear: this.clear,
@@ -271,7 +272,7 @@ export class Picker extends Pick<PickerState, PickerOptions> {
         if (!valueList.length && this.props.required) {
             return;
         }
-        const stateValue = this.#formatValue(value);
+        const stateValue = this.#formatValue(valueList);
         if (stateValue === this.state.value) {
             return;
         }

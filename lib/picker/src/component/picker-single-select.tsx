@@ -10,11 +10,10 @@ export class PickerSingleSelect extends PickTrigger<PickerState, PickerSelectPro
     #search = createRef<PickerSearch>();
 
     #handleDeselectBtnClick = (event: MouseEvent) => {
-        if (!this.props.disabled) {
+        if (this.props.disabled) {
             return;
         }
         this.props.onClear();
-        this.props.togglePop(true, {search: ''});
         event.stopPropagation();
     };
 
@@ -67,7 +66,7 @@ export class PickerSingleSelect extends PickTrigger<PickerState, PickerSelectPro
     }
 
     protected _renderTrigger(props: PickerSelectProps) {
-        const {children, state: {selections = [], open}, placeholder, search, disabled} = props;
+        const {children, state: {selections = [], open}, placeholder, search, disabled, clearable} = props;
 
         const [selection] = selections;
         const showSearch = open && search;
@@ -79,7 +78,7 @@ export class PickerSingleSelect extends PickTrigger<PickerState, PickerSelectPro
         } else {
             view = <span key="main" className="picker-select-placeholder">{placeholder}</span>;
         }
-        const deselectBtnView = (selection && !showSearch) ? (
+        const deselectBtnView = (clearable && !showSearch) ? (
             <button key="deselect" type="button" className="btn picker-deselect-btn size-sm square ghost" disabled={disabled} onClick={this.#handleDeselectBtnClick}><span className="close"></span></button>
         ) : null;
         const caret = showSearch ? null : <span key="caret" className="caret"></span>;
