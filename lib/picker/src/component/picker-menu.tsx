@@ -41,7 +41,7 @@ export class PickerMenu extends PickPop<PickerState, PickerMenuProps> {
         if (menu) {
             $(menu).on('mouseenter.picker.zui', '.menu-item', (event) => {
                 const $item = $(event.currentTarget);
-                this.setHoverItem($item.children('a').dataset('value') as string);
+                this.setHoverItem($item.children('a').attr('data-value') ?? '');
             });
         }
     }
