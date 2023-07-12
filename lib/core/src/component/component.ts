@@ -426,7 +426,8 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
             [fnName](options: Partial<ComponentOptions<{}>> | string, ...args: unknown[]) {
                 const initOptions = typeof options === 'object' ? options : undefined;
                 const callMethod = typeof options === 'string' ? options : undefined;
-                return this.each((_: number, element: Element) => {
+                let callResult: unknown;
+                this.each((_: number, element: Element) => {
                     let instance = ZUIComponent.get(element);
                     if (instance) {
                         if (initOptions) {
@@ -436,9 +437,18 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
                         instance = new ZUIComponent(element, initOptions);
                     }
                     if (callMethod) {
-                        (instance as unknown as Record<string, (...args: unknown[]) => void>)[callMethod]?.(...args);
+                        let method: ((...args: unknown[]) => void) = (instance as unknown as Record<string, (...args: unknown[]) => void>)[callMethod];
+                        if (method !== undefined) {
+                            method = (instance as unknown as {$: Record<string, (...args: unknown[]) => void>}).$[callMethod as string];
+                        }
+                        if (typeof method === 'function') {
+                            callResult = method(...args);
+                        } else {
+                            callResult = method;
+                        }
                     }
                 });
+                return callResult !== undefined ? callResult : this;
             },
         });
     }
