@@ -1,11 +1,10 @@
-import {classes} from '@zui/core';
 import {definePlugin} from '../../helpers/shared-plugins';
 import '@zui/css-icons/src/icons/toggle.css';
 import './style.css';
 import type {ColInfo} from '../../types/col';
 import type {CustomRenderResult} from '../../types/common';
 import type {DTableWithPlugin, DTablePlugin} from '../../types/plugin';
-import type {RowInfo, RowData, RowID, RowProps} from '../../types/row';
+import type {RowInfo, RowData, RowID} from '../../types/row';
 
 export const enum NestedRowState {
     unknown = '',
