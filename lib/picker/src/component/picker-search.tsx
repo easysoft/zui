@@ -41,6 +41,7 @@ export class PickerSearch extends Component<PickerSearchProps, PickerSearchState
         const search = (event.target as HTMLInputElement).value;
         this.props.onSearch?.(search);
         this.setState({search});
+        event.stopPropagation();
     };
 
     #handleClear = (event: MouseEvent) => {
