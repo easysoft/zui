@@ -7874,7 +7874,7 @@ qn = /* @__PURE__ */ new WeakMap();
 Gn = /* @__PURE__ */ new WeakMap();
 So = /* @__PURE__ */ new WeakSet();
 cd = function(e) {
-  const { header: t, cols: n, headerHeight: s, scrollLeft: i, rowHeight: r } = e;
+  const { header: t, cols: n, headerHeight: s, scrollLeft: i } = e;
   if (!t)
     return null;
   if (t === !0)
@@ -7885,7 +7885,7 @@ cd = function(e) {
         cols: n,
         height: s,
         scrollLeft: i,
-        rowHeight: r,
+        rowHeight: s,
         scrollTop: 0,
         rows: { id: "HEADER", index: -1, top: 0 },
         top: 0,
@@ -7893,13 +7893,13 @@ cd = function(e) {
       },
       "header"
     );
-  const o = Array.isArray(t) ? t : [t];
+  const r = Array.isArray(t) ? t : [t];
   return /* @__PURE__ */ f(
     ta,
     {
       className: "dtable-header",
       style: { height: s },
-      renders: o,
+      renders: r,
       generateArgs: [e],
       generatorThis: this
     },
