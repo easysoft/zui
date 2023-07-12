@@ -436,7 +436,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
     };
 
     #renderHeader(layout: DTableLayout) {
-        const {header, cols, headerHeight, scrollLeft, rowHeight} = layout;
+        const {header, cols, headerHeight, scrollLeft} = layout;
         if (!header) {
             return null;
         }
@@ -448,7 +448,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
                     cols={cols}
                     height={headerHeight}
                     scrollLeft={scrollLeft}
-                    rowHeight={rowHeight}
+                    rowHeight={headerHeight}
                     scrollTop={0}
                     rows={{id: 'HEADER', index: -1, top: 0}}
                     top={0}
