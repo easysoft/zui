@@ -53,13 +53,14 @@ export function defineFn(name?: string) {
 /* Declare types. */
 declare module 'cash-dom' {
     interface Cash {
+        zuiInit(this: Cash): Cash;
         zui(this: Cash, name: string, key?: string | number | true): ZUIComponentClass | ZUIComponentClass[] | undefined;
     }
 }
 
-/** Auto call creator on elements match [data-zui]. */
-$(() => {
-    $('[data-zui]').each(function () {
+/** Define the $.fn.zuiInit method. */
+$.fn.zuiInit = function (this: Cash) {
+    this.find('[data-zui]').each(function () {
         const $element = $(this);
         const options = $element.dataset() as Record<string, unknown>;
         const name = options.zui as string;
