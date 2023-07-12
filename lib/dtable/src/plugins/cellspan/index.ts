@@ -79,17 +79,11 @@ const cellspanPlugin: DTablePlugin<DTableCellSpanTypes> = {
                 initCellSpanInfo(cols[colListName].list, row, rowListIndex);
             });
         });
-
-        console.log('> layout', {
-            cellSpanMap,
-            overlayedCellSet,
-        });
     },
     onRenderCell(result, {row, col}) {
         const id: DTableCellID = `C${col.index}R${row.index}`;
         if (this.data.overlayedCellSet.has(id)) {
-            result.length = 0;
-            result.push({outer: true, style: {display: 'none'}});
+            result.push({outer: true, style: {display: 'none', className: 'cellspan-overlayed-cell'}});
         } else {
             const info = this.data.cellSpanMap.get(id);
             if (info) {
