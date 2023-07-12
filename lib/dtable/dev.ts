@@ -17,6 +17,7 @@ import {datagrid} from './src/plugins/datagrid';
 import {moveable} from './src/plugins/moveable';
 import {actions} from './src/plugins/actions';
 import {pager} from './src/plugins/pager';
+import {cellspan} from './src/plugins/cellspan';
 
 const faker = new Faker({locale: [zh_CN, en]});
 
@@ -48,7 +49,21 @@ onPageLoad(() => {
             cellHover: true,
             rowHover: true,
             responsive: true,
-            plugins: [datagrid],
+            plugins: [datagrid, cellspan],
+            getCellSpan({row, col}) {
+                if (col.index === 1 && row.index === 0) {
+                    return {
+                        colSpan: 2,
+                        rowSpan: 2,
+                    };
+                }
+                if (col.index === 3 && row.index % 3 === 1) {
+                    return {
+                        colSpan: 3,
+                        rowSpan: 2,
+                    };
+                }
+            },
         });
         console.log('dataTable', dataTable);
     }
