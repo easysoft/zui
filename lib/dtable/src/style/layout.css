@@ -11,7 +11,7 @@
   @apply -overflow-hidden;
 }
 .dtable-cells {
-  @apply -absolute -h-full -bg-[--dtable-bg];
+  @apply -z-0 -absolute -h-full -bg-[--dtable-bg];
 }
 .dtable-cells-container {
   @apply -absolute -w-full -h-full;
@@ -25,9 +25,6 @@
 }
 .dtable-cell {
   @apply -absolute -transition-colors;
-}
-.dtable-cell:hover {
-  @apply -z-[1];
 }
 .dtable-cell::before,
 .dtable-cell::after {
