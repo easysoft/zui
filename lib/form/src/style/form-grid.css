@@ -32,6 +32,6 @@
   @apply -flex-auto;
 }
 
-.form-group-wrapper {
+.form-grid .form-group-wrapper {
   @apply -w-full -flex-auto;
 }
