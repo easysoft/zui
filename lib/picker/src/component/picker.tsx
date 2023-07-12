@@ -58,7 +58,7 @@ export class Picker extends Pick<PickerState, PickerOptions> {
     }
 
     get valueList(): string[] {
-        return this.#formatValueList(this.state.value);
+        return this.formatValueList(this.state.value);
     }
 
     get firstEmptyValue() {
@@ -72,9 +72,9 @@ export class Picker extends Pick<PickerState, PickerOptions> {
     toggleValue = (value: string, toggle?: boolean) => {
         if (!this.props.multiple) {
             if (toggle || value !== this.value) {
-                return this.#setValue(value);
+                return this.setValue(value);
             }
-            return this.#setValue();
+            return this.setValue();
         }
         const {valueList} = this;
         const oldIndex = valueList.indexOf(value);
@@ -86,24 +86,24 @@ export class Picker extends Pick<PickerState, PickerOptions> {
         } else {
             valueList.push(value);
         }
-        return this.#setValue(valueList);
+        return this.setValue(valueList);
     };
 
     deselect = (values: string | string[]) => {
         const {valueList} = this;
-        const deselectedSet = new Set(this.#formatValueList(values));
+        const deselectedSet = new Set(this.formatValueList(values));
         const newValueList = valueList.filter(x => !deselectedSet.has(x));
-        this.#setValue(newValueList);
+        this.setValue(newValueList);
     };
 
     clear = () => {
-        this.#setValue();
+        this.setValue();
     };
 
     select = (values: string | string[]) => {
-        const valueList = this.#formatValueList(values);
+        const valueList = this.formatValueList(values);
         const newValueList = this.props.multiple ? [...this.valueList, ...valueList] : valueList[0];
-        return this.#setValue(newValueList);
+        return this.setValue(newValueList);
     };
 
     isSelected = (value: string) => {
@@ -249,7 +249,7 @@ export class Picker extends Pick<PickerState, PickerOptions> {
         return props.Trigger || (props.multiple ? PickerMultiSelect : PickerSingleSelect) as unknown as ComponentType<PickTriggerProps<PickerState>>;
     }
 
-    #formatValueList(value: string | string[]): string[] {
+    formatValueList(value: string | string[]): string[] {
         let list: string[] = [];
         if (typeof value === 'string' && value.length) {
             list = $.unique(value.split(this.props.valueSplitter ?? ',')) as string[];
@@ -259,20 +259,20 @@ export class Picker extends Pick<PickerState, PickerOptions> {
         return list.filter(x => !this.isEmptyValue(x));
     }
 
-    #formatValue(value: string | string[]): string {
-        const list = this.#formatValueList(value);
+    formatValue(value: string | string[]): string {
+        const list = this.formatValueList(value);
         return list.length ? list.join(this.props.valueSplitter ?? ',') : this.firstEmptyValue;
     }
 
-    #setValue(value: string | string[] = []) {
+    setValue(value: string | string[] = []) {
         if (this.props.disabled) {
             return;
         }
-        const valueList = this.#formatValueList(value);
+        const valueList = this.formatValueList(value);
         if (!valueList.length && this.props.required) {
             return;
         }
-        const stateValue = this.#formatValue(valueList);
+        const stateValue = this.formatValue(valueList);
         if (stateValue === this.state.value) {
             return;
         }
