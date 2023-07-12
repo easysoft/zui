@@ -420,12 +420,23 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
         if ($.fn[fnName]) {
             fnName = `zui${this.NAME}` as keyof Cash;
         }
+        // eslint-disable-next-line @typescript-eslint/no-this-alias
+        const ZUIComponent = this;
         $.fn.extend({
             [fnName](options: Partial<ComponentOptions<{}>> | string, ...args: unknown[]) {
+                const initOptions = typeof options === 'object' ? options : undefined;
+                const callMethod = typeof options === 'string' ? options : undefined;
                 return this.each((_: number, element: Element) => {
-                    const component = this.ensure(element, typeof options === 'object' ? options : undefined);
-                    if (typeof options === 'string') {
-                        component[options]?.(...args);
+                    let instance = ZUIComponent.get(element);
+                    if (instance) {
+                        if (initOptions) {
+                            instance.render(initOptions);
+                        }
+                    } else {
+                        instance = new ZUIComponent(element, initOptions);
+                    }
+                    if (callMethod) {
+                        (instance as unknown as Record<string, (...args: unknown[]) => void>)[callMethod]?.(...args);
                     }
                 });
             },
