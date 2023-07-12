@@ -8,39 +8,30 @@
     user-select: none;
 }
 .dtable-cell.is-select::after {
-    border-color: var(--dtable-selected-color);
-    @apply -opacity-100 -z-10;
+    @apply -opacity-100 -border -border-[--dtable-selected-color] -z-10;
+}
+.dtable-cell.is-selecting {
+    background: var(--dtable-selecting-bg);
 }
 .dtable-cell.is-selected {
     background: var(--dtable-selected-bg);
 }
-.dtable-row.is-row-selected .dtable-cell[data-col="INDEX"]::after,
+.dtable-cell.is-row-selected[data-col="INDEX"]::after,
 .dtable-cell.is-col-selected::after {
-    @apply -bg-inverse/5;
+    @apply -bg-inverse/5 -opacity-100;
 }
-
-.dtable-hover-col .dtable-cell.dtable-col-hover.is-select,
-.dtable-hover-row .dtable-rows > .dtable-row:hover .dtable-cell.is-select,
-.dtable-cell.is-selecting {
-    background: var(--dtable-selecting-bg);
+.dtable-cell.has-cell-selected {
+    @apply -text-[--dtable-highlight-color];
 }
-.has-cell-select.dtable-row {
-    @apply -z-10;
-}
-.dtable-rows > .dtable-row:first-child .dtable-cell.is-select::after {
+.dtable-cell.is-first-row.is-select::after {
     @apply -top-0;
 }
-.dtable-rows > .dtable-row:last-child .dtable-cell.is-select::after {
-    @apply -bottom-0;
+.dtable-cell.is-last-row.is-select::after {
+    @apply -bottom-px;
 }
-.dtable-row > .dtable-cells:first-child > .dtable-cell.is-select:first-child::after,
-.dtable-fixed-left + .dtable-cells > .dtable-cell.is-select:first-child::after {
+.dtable-cell.is-first-in-row.is-select::after {
     @apply -left-px;
 }
-.dtable-row > .dtable-cells:last-child > .dtable-cell.is-select:last-child::after {
+.dtable-cell.is-last-in-row.is-select::after {
     @apply -right-px;
-}
-.dtable-in-header .dtable-cell.has-cell-selected,
-.dtable-rows .dtable-cell.has-cell-selected {
-    color: var(--dtable-highlight-color);
 }

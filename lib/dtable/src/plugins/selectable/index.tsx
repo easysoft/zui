@@ -531,11 +531,6 @@ const selectablePlugin: DTablePlugin<DTableSelectableTypes, [DTableMousemoveType
             return {className: 'dtable-selectable'};
         }
     },
-    onRenderRow({props, row}) {
-        if (hasCellSelectInRow(this, row.index)) {
-            return  {className: classes(props.className, 'has-cell-select', this.isRowSelected(row) ? 'is-row-selected' : '')};
-        }
-    },
     onRenderCell(result, {row, col}) {
         const rowInfo = this.getRowInfo(row.id);
         if (!rowInfo) {
@@ -547,8 +542,12 @@ const selectablePlugin: DTablePlugin<DTableSelectableTypes, [DTableMousemoveType
         } else if (this.isCellSelected(pos)) {
             result.push({outer: true, className: 'is-select is-selected'});
         }
-        if (this.options.markSelectRange && col.name === 'INDEX' && hasCellSelectInRow(this, rowInfo.index)) {
-            result.push({outer: true, className: 'has-cell-selected'});
+        if (this.options.markSelectRange && col.name === 'INDEX') {
+            if (this.isRowSelected(rowInfo)) {
+                result.push({outer: true, className: 'is-row-selected has-cell-selected'});
+            } else if (hasCellSelectInRow(this, rowInfo.index)) {
+                result.push({outer: true, className: 'has-cell-selected'});
+            }
         }
         return result;
     },
