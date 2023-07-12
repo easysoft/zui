@@ -1,4 +1,4 @@
-import {$} from '../cash';
+import {$, Cash, Selector} from '../cash';
 
 type ZUIComponentOptions = Record<string, unknown>;
 
@@ -10,6 +10,8 @@ interface ZUIComponent {
     ZUI: string;
     NAME: string;
     defineFn(): void;
+    getAll(selector?: Selector): ZUIComponentClass[];
+    query(selector?: Selector, key?: string | number): ZUIComponentClass | undefined;
     new (element: HTMLElement, options: ZUIComponentOptions): ZUIComponentClass;
 }
 
@@ -51,9 +53,7 @@ export function defineFn(name?: string) {
 /* Declare types. */
 declare module 'cash-dom' {
     interface Cash {
-        zui(): Cash;
-        zui(name: string): ZUIComponentClass;
-        zui(name: string, options: ZUIComponentOptions | undefined | null): ZUIComponentClass;
+        zui(this: Cash, name: string, key?: string | number | true): ZUIComponentClass | ZUIComponentClass[] | undefined;
     }
 }
 
@@ -66,4 +66,26 @@ $(() => {
         delete options.zui;
         create(name, this, options);
     });
+    return this;
+};
+
+/** Define the $.fn.zui method. */
+$.fn.zui = function (this: Cash, name: string, key?: string | number | true) {
+    const element = this[0];
+    if (!element) {
+        return;
+    }
+    const Component = getComponent(name);
+    if (!Component) {
+        return;
+    }
+    if (key === true) {
+        return Component.getAll(element);
+    }
+    return Component.query(element, key);
+};
+
+/** Auto call creator on elements match [data-zui]. */
+$(() => {
+    $('body').zuiInit();
 });
