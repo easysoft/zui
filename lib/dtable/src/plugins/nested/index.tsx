@@ -279,7 +279,10 @@ const nestedPlugin: DTablePlugin<DTableSortableTypes> = {
         const {nestedToggle} = col.setting;
         const info = this.getNestedRowInfo(rowID);
         if (nestedToggle && (info.children || info.parent)) {
-            result.unshift(this.options.onRenderNestedToggle?.call(this, info, rowID, col, rowData) ?? (<a className={`dtable-nested-toggle state${info.children ? '' : ' is-no-child'}`}><span className="toggle-icon"></span></a>));
+            result.unshift(
+                this.options.onRenderNestedToggle?.call(this, info, rowID, col, rowData) ?? (<a className={`dtable-nested-toggle state${info.children ? '' : ' is-no-child'}`}><span className="toggle-icon"></span></a>),
+                {outer: true, className: `is-${info.state}`},
+            );
         }
         if (info.level) {
             let {nestedIndent = nestedToggle} = col.setting;
@@ -295,20 +298,13 @@ const nestedPlugin: DTablePlugin<DTableSortableTypes> = {
     onRenderHeaderCell(result, {row, col}) {
         const {id: rowID} = row;
         if (col.setting.nestedToggle) {
-            result.unshift(this.options.onRenderNestedToggle?.call(this, undefined, rowID, col, undefined) ?? (<a className="dtable-nested-toggle state"><span className="toggle-icon"></span></a>));
+            result.unshift(
+                this.options.onRenderNestedToggle?.call(this, undefined, rowID, col, undefined) ?? (<a className="dtable-nested-toggle state"><span className="toggle-icon"></span></a>),
+                {outer: true, className: `is-${this.isAllCollapsed() ? NestedRowState.collapsed : NestedRowState.expanded}`},
+            );
+
         }
         return result;
-    },
-    onRenderRow({props, row}) {
-        const info = this.getNestedRowInfo(row.id);
-        return {
-            className: classes(props.className, `is-${info.state}`),
-            'data-parent': info.parent,
-        };
-    },
-    onRenderHeaderRow({props}): RowProps {
-        props.className = classes(props.className, `is-${this.isAllCollapsed() ? NestedRowState.collapsed : NestedRowState.expanded}`);
-        return props;
     },
     onHeaderCellClick(event) {
         const target = event.target as HTMLElement;
