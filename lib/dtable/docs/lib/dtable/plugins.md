@@ -1190,6 +1190,49 @@ interface PluginDTableOptions {
 }
 ```
 
+## 跨行跨列 `cellspan`
+
+该插件允许表格中的单元格跨行或跨列展示，可以通过初始化选项 `cellspan` 来启用。
+
+### 定义单元格跨行跨列
+
+为了让单元格跨行跨列展示，需要通过选项 `getCellSpan` 定义一个回调函数来判断给定的单元格跨行跨列信息。该回调函数定义如下：
+
+```ts
+function getCellSpan(cell: {row: RowInfo, col: ColInfo}): {colSpan?: number, rowSpan?: number} | undefined;
+```
+
+从参数 `cell` 中可以获取当前要判断的单元格所属的行和列信息，在当前方法返回的对象中可以指定 `colSpan` 和 `rowSpan` 来让单元格按对应的跨行跨列数展示。下面为一个实际的例子：
+
+```js
+const options = {
+    /* 引入单元格跨行跨列插件。 */
+    plugins: ['cellspan'],
+
+    /* 定义单元格跨行跨列信息。 */
+    getCellSpan: (cell) => {
+        /* 让第 1 行第 1 列的单元格分别跨 2 行 展示。 */
+        if (cell.row.index === 0 && cell.col.index === 0) {
+            return {rowSpan: 2};
+        }
+
+        /* 让进度列的从第 2 行开始，跨 3 列 2 行展示，每隔三行重复此规则。 */
+        if (cell.col.name === 'progress' && cell.row.index % 3 === 1) {
+            return {
+                colSpan: 3,
+                rowSpan: 2,
+            };
+        }
+    }
+};
+```
+
+实际展示效果如下：
+
+<Example>
+  <div id="dtable-cellspan"></div>
+</Example>
+
 ## 拖放排序 `sortable`
 
 <Badge text="WIP" type="danger" />
@@ -1247,3 +1290,8 @@ interface PluginDTableOptions {
 ## 自动滚动 `autoscroll`
 
 <Badge text="WIP" type="danger" />
+
+<script>
+import index from './plugins.js';
+export default index;
+</script>
