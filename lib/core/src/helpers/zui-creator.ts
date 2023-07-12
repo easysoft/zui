@@ -7,23 +7,45 @@ declare class ZUIComponentClass {
 }
 
 interface ZUIComponent {
+    ZUI: string;
+    NAME: string;
+    defineFn(): void;
     new (element: HTMLElement, options: ZUIComponentOptions): ZUIComponentClass;
 }
 
 export const componentsMap = new Map<string, ZUIComponent>();
 
-export function create(name: string, element: HTMLElement, options: ZUIComponentOptions) {
+export function getComponent(name?: string): ZUIComponent | undefined {
     const {zui} = window as unknown as {zui: Record<string, ZUIComponent>};
     if (!componentsMap.size) {
         Object.keys(zui).forEach((n) => {
-            if (n[0] !== n[0].toUpperCase()) {
+            const Component = zui[n];
+            if (!Component.ZUI) {
                 return;
             }
-            componentsMap.set(n.toLowerCase(), zui[n]);
+            componentsMap.set(n.toLowerCase(), Component);
         });
     }
-    const Component = componentsMap.get(name.toLowerCase());
+    return name ? componentsMap.get(name.toLowerCase()) : undefined;
+}
+
+export function create(name: string, element: HTMLElement, options: ZUIComponentOptions) {
+    const Component = getComponent(name);
     return Component ? new Component(element, options) : null;
+}
+
+export function defineFn(name?: string) {
+    if (name) {
+        const Component = getComponent(name);
+        if (Component) {
+            Component.defineFn();
+        }
+    } else {
+        getComponent();
+        componentsMap.forEach((Component) => {
+            Component.defineFn();
+        });
+    }
 }
 
 /* Declare types. */
