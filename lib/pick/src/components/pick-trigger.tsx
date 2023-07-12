@@ -2,7 +2,7 @@ import {Component, ComponentChildren, JSX, RenderableProps, h as _h} from 'preac
 import {classes, $} from '@zui/core';
 import type {PickState, PickTriggerProps} from '../types';
 
-const EVENT_FROM_PICK = Symbol('EVENT_FROM_PICK');
+const EVENT_PICK = Symbol('EVENT_PICK');
 
 export class PickTrigger<S extends PickState = PickState, P extends PickTriggerProps<S> = PickTriggerProps<S>, STATE = {}> extends Component<P, STATE> {
     #hasInput: boolean;
@@ -79,7 +79,7 @@ export class PickTrigger<S extends PickState = PickState, P extends PickTriggerP
     componentDidMount(): void {
         const {id, state} = this.props;
         $(`#${id}`).on(`change.pick.zui.${id}`, (event: Event, from: symbol) => {
-            if (from === EVENT_FROM_PICK) {
+            if (from === EVENT_PICK) {
                 return;
             }
             const value = (event.target as HTMLInputElement).value;
@@ -97,7 +97,7 @@ export class PickTrigger<S extends PickState = PickState, P extends PickTriggerP
     componentDidUpdate(previousProps: Readonly<P>): void {
         const {id, state, name} = this.props;
         if (name && previousProps.state.value !== state.value) {
-            $(`#${id}`).trigger('change', EVENT_FROM_PICK);
+            $(`#${id}`).trigger('change', EVENT_PICK);
         }
     }
 
