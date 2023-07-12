@@ -9,6 +9,8 @@ export type IconProps = {
     [key: string]: unknown;
 };
 
+const createIconClass = (icon: string) => icon.startsWith('icon-') ? icon : `icon-${icon}`;
+
 export function Icon(props: IconProps) {
     const {icon, className, ...others} = props;
     if (!icon) {
@@ -19,10 +21,10 @@ export function Icon(props: IconProps) {
     }
     const classList: ClassNameLike[] = ['icon', className as string];
     if (typeof icon === 'string') {
-        classList.push(icon.startsWith('icon-') ? icon : `icon-${icon}`);
+        classList.push(createIconClass(icon));
     } else if (typeof icon === 'object') {
-        const {className: iconClass, ...iconOthers} = icon;
-        classList.push(iconClass as string);
+        const {className: iconClass, icon: finalIcon, ...iconOthers} = icon;
+        classList.push(iconClass as string, finalIcon ? createIconClass(finalIcon as string) : '');
         Object.assign(others, iconOthers);
     }
     return <i className={classes(classList)} {...others} />;
