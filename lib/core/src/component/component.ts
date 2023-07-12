@@ -1,5 +1,5 @@
 import {i18n} from '../i18n';
-import {$, Element, Selector} from '../cash';
+import {$, Cash, Element, Selector} from '../cash';
 import type {ComponentEventArgs, ComponentEventName, ComponentOptions, ComponentEvents, ComponentEventsDefnition} from './types';
 
 /**
@@ -27,6 +27,15 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
      * Whether the component supports multiple instances.
      */
     static MULTI_INSTANCE = false;
+
+    /**
+     * ZUI name
+     */
+    static get ZUI() {
+        return this.NAME.replace(/(^[A-Z]+)/, (match) => {
+            return match.toLowerCase();
+        });
+    }
 
     /**
      * Component data key, like "zui.menu"
@@ -407,10 +416,12 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
      * @param name The method name.
      */
     static defineFn(name?: string) {
+        let fnName = (name || this.ZUI) as keyof Cash;
+        if ($.fn[fnName]) {
+            fnName = `zui${this.NAME}` as keyof Cash;
+        }
         $.fn.extend({
-            [name || this.NAME.replace(/(^[A-Z]+)/, (match) => {
-                return match.toLowerCase();
-            })](options: Partial<ComponentOptions<{}>> | string, ...args: unknown[]) {
+            [fnName](options: Partial<ComponentOptions<{}>> | string, ...args: unknown[]) {
                 return this.each((_: number, element: Element) => {
                     const component = this.ensure(element, typeof options === 'object' ? options : undefined);
                     if (typeof options === 'string') {
