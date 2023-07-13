@@ -13,7 +13,7 @@ export type DTableCustomInfo = {
     props?: Record<string, unknown> | ((info: CellInfo) => Record<string, unknown>);
 };
 
-export type DTableCustomSetting = DTableCustomHTMLCode | DTableCustomHTMLElementType | DTableCustomInfo | DTableCustomInfo[] | ((cell: CellInfo) => DTableCustomInfo | DTableCustomInfo[]);
+export type DTableCustomSetting = DTableCustomHTMLCode | DTableCustomHTMLElementType | DTableCustomInfo | DTableCustomInfo[] | ((cell: CellInfo) => DTableCustomInfo | DTableCustomInfo[] | undefined);
 
 export type DTableCustomTypes = {
     col: Partial<{
@@ -35,11 +35,11 @@ const customPlugin: DTablePlugin<DTableCustomTypes> = {
     onRenderCell(result, cell) {
         const {col} = cell;
         let {custom} = col.setting;
-        if (!custom) {
-            return result;
-        }
         if (typeof custom === 'function') {
             custom = custom(cell);
+        }
+        if (!custom) {
+            return result;
         }
         const customList = Array.isArray(custom) ? custom : [custom];
         const {customMap} = this.options;
