@@ -5,5 +5,6 @@ export * from './dtable';
 export * from './common';
 export * from './col';
 export * from './cell';
+export * from './row';
 export * from './layout';
 export * from './block-props';
