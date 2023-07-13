@@ -2,15 +2,83 @@
 .inset-auto     {@apply -inset-auto}
 .inset-x-0      {@apply -inset-x-0}
 .inset-y-0      {@apply -inset-y-0}
+
 .top-0          {@apply -top-0}
 .right-0        {@apply -right-0}
 .bottom-0       {@apply -bottom-0}
 .left-0         {@apply -left-0}
+
 .top-full       {@apply -top-full}
 .right-full     {@apply -right-full}
 .bottom-full    {@apply -bottom-full}
 .left-full      {@apply -left-full}
+
 .top-auto       {@apply -top-auto}
 .right-auto     {@apply -right-auto}
 .bottom-auto    {@apply -bottom-auto}
 .left-auto      {@apply -left-auto}
+
+.top-px         {@apply -top-px}
+.right-px       {@apply -right-px}
+.bottom-px      {@apply -bottom-px}
+.left-px        {@apply -left-px}
+
+.top-0\.5       {@apply -top-0.5}
+.right-0\.5     {@apply -right-0.5}
+.bottom-0\.5    {@apply -bottom-0.5}
+.left-0\.5      {@apply -left-0.5}
+
+.top-1          {@apply -top-1}
+.right-1        {@apply -right-1}
+.bottom-1       {@apply -bottom-1}
+.left-1         {@apply -left-1}
+
+.top-1\.5       {@apply -top-1.5}
+.right-1\.5     {@apply -right-1.5}
+.bottom-1\.5    {@apply -bottom-1.5}
+.left-1\.5      {@apply -left-1.5}
+
+.top-2          {@apply -top-2}
+.right-2        {@apply -right-2}
+.bottom-2       {@apply -bottom-2}
+.left-2         {@apply -left-2}
+
+.top-2\.5       {@apply -top-2.5}
+.right-2\.5     {@apply -right-2.5}
+.bottom-2\.5    {@apply -bottom-2.5}
+.left-2\.5      {@apply -left-2.5}
+
+.top-3          {@apply -top-3}
+.right-3        {@apply -right-3}
+.bottom-3       {@apply -bottom-3}
+.left-3         {@apply -left-3}
+
+.top-3\.5       {@apply -top-3.5}
+.right-3\.5     {@apply -right-3.5}
+.bottom-3\.5    {@apply -bottom-3.5}
+.left-3\.5      {@apply -left-3.5}
+
+.top-4          {@apply -top-4}
+.right-4        {@apply -right-4}
+.bottom-4       {@apply -bottom-4}
+.left-4         {@apply -left-4}
+
+.top-5          {@apply -top-5}
+.right-5        {@apply -right-5}
+.bottom-5       {@apply -bottom-5}
+.left-5         {@apply -left-5}
+
+.top-6          {@apply -top-6}
+.right-6        {@apply -right-6}
+.bottom-6       {@apply -bottom-6}
+.left-6         {@apply -left-6}
+
+.top-7          {@apply -top-7}
+.right-7        {@apply -right-7}
+.bottom-7       {@apply -bottom-7}
+.left-7         {@apply -left-7}
+
+.top-8          {@apply -top-8}
+.right-8        {@apply -right-8}
+.bottom-8       {@apply -bottom-8}
+.left-8         {@apply -left-8}
