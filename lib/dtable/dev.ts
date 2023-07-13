@@ -29,8 +29,18 @@ onPageLoad(() => {
             datasource: {
                 cols: [
                     {name: 'C1', title: '名称', width: 150},
-                    {name: 'C2', title: '类型', width: 100},
-                    {name: 'C3', title: '重量', width: 60, align: 'right'},
+                    {
+                        name: 'C2',
+                        title: '类型',
+                        width: 100,
+                    },
+                    {
+                        name: 'C3',
+                        title: '重量',
+                        width: 60,
+                        align: 'right',
+                        custom: '<strong>{value}</strong>',
+                    },
                     {
                         name: 'C4',
                         title: '自定义',
