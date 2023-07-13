@@ -1,12 +1,11 @@
 import type {ClassNameLike} from '@zui/core';
-import type preact from 'preact';
 import type {DTable} from '../main-react';
 import type {CellValueGetter, CellRenderCallback} from './cell';
 import type {ColSetting} from './col';
 import type {CustomRenderResultList, CustomRenderResultGenerator, CustomRenderResultItem} from './common';
 import type {DTableLayout} from './layout';
 import type {DTablePluginLike} from './plugin';
-import type {RowData, RowProps, RowInfo} from './row';
+import type {RowData, RowInfo} from './row';
 
 export interface DTableDataOptions<C = ColSetting> {
     cols: C[];
@@ -48,7 +47,6 @@ export interface DTableCallbackOptions {
     onScroll?: (this: DTable, scrollInfo: {scrollTop?: number, scrollLeft?: number}) => void;
     onRenderCell?: CellRenderCallback;
     onRenderHeaderCell?: CellRenderCallback;
-    onRenderRow?: (this: DTable, data: {props: RowProps, row: RowInfo}, h: typeof preact.h) => Partial<RowProps | (RowProps & preact.JSX.HTMLAttributes<HTMLElement>)> | void;
     afterRender?: (this: DTable) => void;
     onCellClick?: (this: DTable, event: MouseEvent, data: {rowID: string, colName: string, rowInfo?: RowInfo, element: HTMLElement}) => void | true;
     onHeaderCellClick?: (this: DTable, event: MouseEvent, data: {colName: string, element: HTMLElement}) => void;

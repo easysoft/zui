@@ -1,8 +1,8 @@
-import type {JSX, h as _h} from 'preact';
+import type {JSX} from 'preact';
 import type {ClassNameLike} from '@zui/core';
 import type {CellRenderCallback} from './cell';
 import type {DTableColsLayout} from './layout';
-import type {RowInfo, RowProps} from './row';
+import type {RowInfo} from './row';
 
 export type BlockProps = {
     top: number;
@@ -15,5 +15,4 @@ export type BlockProps = {
     className?: ClassNameLike;
     style?: JSX.CSSProperties;
     onRenderCell?: CellRenderCallback;
-    // onRenderRow?: (data: {props: RowProps, row: RowInfo}, h: typeof _h) => Partial<RowProps | (RowProps & JSX.HTMLAttributes<HTMLElement>)> | void;
 };

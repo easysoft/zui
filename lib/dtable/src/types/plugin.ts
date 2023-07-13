@@ -6,7 +6,7 @@ import type {DTableState, DTableEventTarget, DTableHTMLEvent, DTableEventListene
 import type {DTableLayout} from './layout';
 import type {MergeUnionTypes, MergeIntersectionTypes} from './helper';
 import type {DTableOptions} from './options';
-import type {RowInfo, RowProps} from './row';
+import type {RowInfo} from './row';
 
 export type DTablePluginName = string;
 
