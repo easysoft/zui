@@ -8192,21 +8192,21 @@ Da.removePlugin = td;
 const cp = {
   name: "custom",
   onRenderCell(e, t) {
-    const { col: n } = t, { custom: s } = n.setting;
+    const { col: n } = t, { custom: s = [] } = n.setting;
     if (!s)
       return e;
     const i = Array.isArray(s) ? s : [s], { customMap: r } = this.options;
     return i.forEach((o) => {
       let a;
-      typeof o == "string" ? (o = r[o] || o, a = o.startsWith("<") ? {
-        component: ir,
+      typeof o == "string" && r && r[o] && (o = r[o]), typeof o == "string" ? a = o.startsWith("<") ? {
+        type: ir,
         props: { html: et(o, { value: t.value, ...t.row.data, $value: t.value }) }
       } : {
-        component: o
-      }) : a = o;
-      const l = a.component;
+        type: o
+      } : a = o;
+      const l = a.type;
       let h = a.props || t;
-      typeof h == "function" && (h = h(t)), e[0] = /* @__PURE__ */ p(l, { ...h });
+      typeof h == "function" && (h = h(t)), e[0] = { outer: !0, children: /* @__PURE__ */ p(l, { ...h }) };
     }), e;
   }
 }, hp = ee(cp);
