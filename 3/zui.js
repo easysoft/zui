@@ -8219,9 +8219,8 @@ const cp = {
   onRenderCell(e, t) {
     const { col: n } = t;
     let { custom: s } = n.setting;
-    if (!s)
+    if (typeof s == "function" && (s = s(t)), !s)
       return e;
-    typeof s == "function" && (s = s(t));
     const i = Array.isArray(s) ? s : [s], { customMap: r } = this.options;
     return i.forEach((o) => {
       let a;
