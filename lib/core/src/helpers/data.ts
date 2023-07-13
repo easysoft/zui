@@ -74,15 +74,23 @@ export function takeData(target: object): Record<string, unknown>;
 export function takeData(target: object, key: string): unknown;
 
 /**
+ * Take data associated by key with the target object from the cache.
+ *
+ * @param target  Target object to take data.
+ * @param key     Key to take.
+ */
+export function takeData(target: object, key: string | undefined, skipElementData: boolean): unknown;
+
+/**
  * Take data associated with the target object from the cache.
  *
  * @param target Target object to take data.
  * @param key    Key to take.
  * @returns      Data associated with the target object.
  */
-export function takeData(target: object, key?: string) {
+export function takeData(target: object, key?: string, skipElementData?: boolean): unknown {
     let data = cache.get(target) || {};
-    if (target instanceof Element) {
+    if (!skipElementData && target instanceof Element) {
         data = Object.assign({}, $(target).dataset(), data);
     }
     if (key === undefined) {
