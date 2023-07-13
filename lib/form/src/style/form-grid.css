@@ -32,6 +32,7 @@
   @apply -flex-auto;
 }
 
+.form .form-group-wrapper,
 .form-grid .form-group-wrapper {
-  @apply -w-full -flex-auto;
+  @apply -w-full -flex-auto -z-[1];
 }
