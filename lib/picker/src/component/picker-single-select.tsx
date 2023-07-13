@@ -32,8 +32,6 @@ export class PickerSingleSelect extends PickTrigger<PickerState, PickerSelectPro
             const selection = selections.find(x => x.value === value);
             if (selection && typeof selection.text === 'string') {
                 placeholder = selection.text;
-            } else {
-                placeholder = value;
             }
         }
         return placeholder;
@@ -74,7 +72,7 @@ export class PickerSingleSelect extends PickTrigger<PickerState, PickerSelectPro
         if (showSearch) {
             view = this._renderSearch(props);
         } else if (selection) {
-            view = <span key="main" className="picker-single-selection">{selection.text ?? selection.value}</span>;
+            view = <span key="main" className="picker-single-selection">{selection.text}</span>;
         } else {
             view = <span key="main" className="picker-select-placeholder">{placeholder}</span>;
         }

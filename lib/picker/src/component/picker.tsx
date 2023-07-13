@@ -41,8 +41,9 @@ export class Picker extends Pick<PickerState, PickerOptions> {
         const {valueSplitter = ',', emptyValue = ''} = this.props;
         this.#emptyValueSet = new Set(emptyValue.split(valueSplitter));
 
-        const {items} = props;
+        const {items} = this.state;
         if (Array.isArray(items) && items.length) {
+            items.forEach(item => item.value = String(item.value)); // Fix item value could be non-string.
             if (props.limitValueInList) {
                 const valueSet = new Set(items.map(x => x.value));
                 (this.state as PickerState).value = this.valueList.filter(x => valueSet.has(x)).join(props.valueSplitter);
@@ -162,7 +163,13 @@ export class Picker extends Pick<PickerState, PickerOptions> {
         const newState: Partial<PickerState> = {};
         this.#itemsCacheInfo = cache;
         if (force || cache.search !== state.search || props.items !== cache.items) {
-            newState.items = (await this.load()).filter(x => !this.isEmptyValue(x.value));
+            newState.items = (await this.load()).filter(x => {
+                x.value = String(x.value);
+                if (this.isEmptyValue(x.value)) {
+                    return false;
+                }
+                return true;
+            });
             newState.loading = false;
             cache.items = props.items;
             cache.search = state.search;

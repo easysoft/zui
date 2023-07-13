@@ -10,8 +10,8 @@ export class PickerMultiSelect extends PickTrigger<PickerState, PickerSelectProp
 
     #handleDeselectBtnClick = (event: MouseEvent) => {
         const {onDeselect, state: {selections}} = this.props;
-        const value = $(event.target as HTMLElement).closest('.picker-deselect-btn').dataset('value') as string;
-        if (onDeselect && selections.length && value) {
+        const value = $(event.target as HTMLElement).closest('.picker-deselect-btn').attr('data-value');
+        if (onDeselect && selections.length && typeof value === 'string') {
             onDeselect(value);
         }
         event.stopPropagation();
@@ -41,7 +41,7 @@ export class PickerMultiSelect extends PickTrigger<PickerState, PickerSelectProp
     protected _renderSelection = (selection: PickerItemBasic) => {
         return (
             <div className="picker-multi-selection" key={selection.value}>
-                <span className="text">{selection.text ?? selection.value}</span>
+                <span className="text">{selection.text}</span>
                 {this.props.disabled ? null : <div className="picker-deselect-btn btn size-xs ghost" onClick={this.#handleDeselectBtnClick} data-value={selection.value}><span className="close"></span></div>}
             </div>
         );
