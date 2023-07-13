@@ -3,13 +3,11 @@ import type {ColSetting, ColInfo} from './col';
 import type {CustomRenderResultList} from './common';
 import type {RowInfo} from './row';
 
+export type CellInfo<C = ColSetting> = {value?: unknown, row: RowInfo, col: ColInfo<C>};
+
 export type CellRenderCallback<C = ColSetting> = (
     result: CustomRenderResultList,
-    data: {
-        row: RowInfo,
-        col: ColInfo<C>,
-        value: unknown,
-    },
+    cell: CellInfo<C>,
     h: typeof _h,
 ) => CustomRenderResultList;
 
