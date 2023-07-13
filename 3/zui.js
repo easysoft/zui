@@ -8213,7 +8213,7 @@ hu = function() {
 Ia.addPlugin = Qh;
 Ia.removePlugin = tu;
 const cp = {
-  html: { type: bs }
+  html: { component: bs }
 }, hp = {
   name: "custom",
   onRenderCell(e, t) {
@@ -8226,12 +8226,12 @@ const cp = {
     return i.forEach((o) => {
       let a;
       typeof o == "string" ? a = o.startsWith("<") ? {
-        type: bs,
+        component: bs,
         props: { html: et(o, { value: t.value, ...t.row.data, $value: t.value }) }
       } : {
-        type: o
+        component: o
       } : a = o;
-      const { type: l } = a;
+      const { component: l } = a;
       typeof l == "string" && m.extend(a, cp[l], r == null ? void 0 : r[l]);
       const h = l;
       let c = a.props || t;
