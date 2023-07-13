@@ -1,8 +1,10 @@
 import {$, Cash, Selector} from '../cash';
+import {takeData} from './data';
 
 type ZUIComponentOptions = Record<string, unknown>;
 
 declare class ZUIComponentClass {
+    gid: number;
     constructor(element: HTMLElement, options: ZUIComponentOptions);
 }
 
@@ -54,7 +56,7 @@ export function defineFn(name?: string) {
 declare module 'cash-dom' {
     interface Cash {
         zuiInit(this: Cash): Cash;
-        zui(this: Cash, name: string, key?: string | number | true): ZUIComponentClass | ZUIComponentClass[] | undefined;
+        zui(this: Cash, name?: string, key?: string | number | true): ZUIComponentClass | ZUIComponentClass[] | Record<string, ZUIComponentClass> | undefined;
     }
 }
 
@@ -71,10 +73,25 @@ $.fn.zuiInit = function (this: Cash) {
 };
 
 /** Define the $.fn.zui method. */
-$.fn.zui = function (this: Cash, name: string, key?: string | number | true) {
+$.fn.zui = function (this: Cash, name?: string | true, key?: string | number | true) {
     const element = this[0];
     if (!element) {
         return;
+    }
+    if (typeof name !== 'string') {
+        const data = takeData(element, undefined, true) as Record<string, ZUIComponentClass>;
+        const result: Record<string, ZUIComponentClass> = {};
+        let lastComponent: ZUIComponentClass | undefined;
+        Object.keys(data).forEach((dataKey) => {
+            if (dataKey.startsWith('zui.')) {
+                const component = data[dataKey] as ZUIComponentClass;
+                result[dataKey] = component;
+                if (!lastComponent || lastComponent.gid < component.gid) {
+                    lastComponent = result[dataKey];
+                }
+            }
+        });
+        return name === true ? result : lastComponent;
     }
     const Component = getComponent(name);
     if (!Component) {
