@@ -18,6 +18,7 @@ import {moveable} from './src/plugins/moveable';
 import {actions} from './src/plugins/actions';
 import {pager} from './src/plugins/pager';
 import {cellspan} from './src/plugins/cellspan';
+import {custom} from './src/plugins/custom';
 
 const faker = new Faker({locale: [zh_CN, en]});
 
@@ -30,6 +31,24 @@ onPageLoad(() => {
                     {name: 'C1', title: '名称', width: 150},
                     {name: 'C2', title: '类型', width: 100},
                     {name: 'C3', title: '重量', width: 60, align: 'right'},
+                    {
+                        name: 'C4',
+                        title: '自定义',
+                        width: 60,
+                        align: 'right',
+                        custom: {
+                            type: 'input',
+                            props: ({value}) => {
+                                return {
+                                    className: 'form-control flex-auto',
+                                    value,
+                                    onChange: (event) => {
+                                        console.log('> onChange', event.target.value);
+                                    },
+                                };
+                            },
+                        },
+                    },
                 ],
                 data: Array(100).fill(0).map(() => ([
                     faker.animal.cetacean(),
@@ -49,7 +68,7 @@ onPageLoad(() => {
             cellHover: true,
             rowHover: true,
             responsive: true,
-            plugins: [datagrid, cellspan],
+            plugins: [datagrid, cellspan, custom],
             getCellSpan({row, col}) {
                 if (col.index === 1 && row.index === 0) {
                     return {

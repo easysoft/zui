@@ -1,5 +1,5 @@
 import {JSX, ComponentType} from 'preact';
-import {CellInfo, ColInfo, DTablePlugin, DTableWithPlugin, RowInfo} from '../../types';
+import {CellInfo, DTablePlugin, DTableWithPlugin} from '../../types';
 import {HtmlContent} from '@zui/core/src/react';
 import {formatString} from '@zui/helpers';
 import {definePlugin} from '../../helpers/shared-plugins';
@@ -8,7 +8,7 @@ export type DTableCustomHTMLCode = string;
 export type DTableCustomHTMLElementType = keyof JSX.IntrinsicElements;
 
 export type DTableCustomInfo = {
-    component: DTableCustomHTMLCode | DTableCustomHTMLElementType | ComponentType;
+    type: DTableCustomHTMLCode | DTableCustomHTMLElementType | ComponentType;
     props?: Record<string, unknown> | ((info: CellInfo) => Record<string, unknown>);
 };
 
@@ -19,7 +19,7 @@ export type DTableCustomTypes = {
         custom: DTableCustomSetting;
     }>,
     options: {
-        customMap: Record<string, DTableCustomSetting>;
+        customMap: Record<string, DTableCustomInfo>;
     }
 };
 
@@ -29,7 +29,7 @@ const customPlugin: DTablePlugin<DTableCustomTypes> = {
     name: 'custom',
     onRenderCell(result, cell) {
         const {col} = cell;
-        const {custom} = col.setting;
+        const {custom = []} = col.setting;
         if (!custom) {
             return result;
         }
@@ -37,23 +37,25 @@ const customPlugin: DTablePlugin<DTableCustomTypes> = {
         const {customMap} = this.options;
         customList.forEach(setting => {
             let info: DTableCustomInfo;
+            if (typeof setting === 'string' && customMap && customMap[setting]) {
+                setting = customMap[setting];
+            }
             if (typeof setting === 'string') {
-                setting = customMap[setting] || setting;
                 info = setting.startsWith('<') ? {
-                    component: HtmlContent as unknown as ComponentType,
+                    type: HtmlContent as unknown as ComponentType,
                     props: {html: formatString(setting, {value: cell.value, ...cell.row.data, $value: cell.value})},
                 } : {
-                    component: setting,
+                    type: setting,
                 };
             } else {
                 info = setting;
             }
-            const Component = info.component as ComponentType;
+            const Component = info.type as ComponentType;
             let props = info.props || (cell as Record<string, unknown>);
             if (typeof props === 'function') {
                 props = props(cell);
             }
-            result[0] = <Component {...props} />;
+            result[0] = {outer: true, children: <Component {...props} />};
         });
         return result;
     },
