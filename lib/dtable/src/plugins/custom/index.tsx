@@ -9,7 +9,7 @@ export type DTableCustomHTMLCode = string;
 export type DTableCustomHTMLElementType = keyof JSX.IntrinsicElements;
 
 export type DTableCustomInfo = {
-    type: DTableCustomHTMLCode | DTableCustomHTMLElementType | ComponentType;
+    component: DTableCustomHTMLCode | DTableCustomHTMLElementType | ComponentType;
     props?: Record<string, unknown> | ((info: CellInfo) => Record<string, unknown>);
 };
 
@@ -27,7 +27,7 @@ export type DTableCustomTypes = {
 export type DTableCustom = DTableWithPlugin<DTableCustomTypes>;
 
 const defaultCustomMap: Record<string, DTableCustomInfo> = {
-    html: {type: HtmlContent as unknown as ComponentType},
+    html: {component: HtmlContent as unknown as ComponentType},
 };
 
 const customPlugin: DTablePlugin<DTableCustomTypes> = {
@@ -47,19 +47,19 @@ const customPlugin: DTablePlugin<DTableCustomTypes> = {
             let info: DTableCustomInfo;
             if (typeof setting === 'string') {
                 info = setting.startsWith('<') ? {
-                    type: HtmlContent as unknown as ComponentType,
+                    component: HtmlContent as unknown as ComponentType,
                     props: {html: formatString(setting, {value: cell.value, ...cell.row.data, $value: cell.value})},
                 } : {
-                    type: setting,
+                    component: setting,
                 };
             } else {
                 info = setting;
             }
-            const {type} = info;
-            if (typeof type === 'string') {
-                $.extend(info, defaultCustomMap[type], customMap?.[type]);
+            const {component} = info;
+            if (typeof component === 'string') {
+                $.extend(info, defaultCustomMap[component], customMap?.[component]);
             }
-            const Component = type as ComponentType;
+            const Component = component as ComponentType;
             let props = info.props || (cell as Record<string, unknown>);
             if (typeof props === 'function') {
                 props = props(cell);
