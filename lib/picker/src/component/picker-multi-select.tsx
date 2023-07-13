@@ -1,7 +1,7 @@
 import {classes, $, createRef} from '@zui/core';
 import '@zui/css-icons/src/icons/caret.css';
 import '@zui/css-icons/src/icons/close.css';
-import {PickTrigger} from '@zui/pick/src/components';
+import {PickTrigger, EVENT_PICK} from '@zui/pick/src/components';
 import {PickerItemBasic, PickerSelectProps, PickerState} from '../types';
 import {PickerSearch} from './picker-search';
 
@@ -75,5 +75,35 @@ export class PickerMultiSelect extends PickTrigger<PickerState, PickerSelectProp
             children,
             <span key="caret" class="caret"></span>,
         ];
+    }
+
+    protected _renderValue(props: PickerSelectProps) {
+        const {name, state: {value = ''}, id, valueList, emptyValue} = props;
+        const values = valueList.length ? valueList : [emptyValue];
+        if (name) {
+            if (this.hasInput) {
+                $(`#${id}`).val(value);
+            } else {
+                return (
+                    <select id={id} multiple className="pick-value" name={name} style={{display: 'none'}}>
+                        {values.map(x => <option key={x} value={x}>{x}</option>)}
+                    </select>
+                );
+            }
+        }
+        return null;
+    }
+
+    componentDidMount() {
+        super.componentDidMount();
+        const {id, valueList, emptyValue} = this.props;
+        $(`#${id}`).val(valueList.length ? valueList : [emptyValue]);
+    }
+
+    componentDidUpdate(previousProps: PickerSelectProps): void {
+        const {id, state, name, valueList, emptyValue} = this.props;
+        if (name && previousProps.state.value !== state.value) {
+            $(`#${id}`).val(valueList.length ? valueList : [emptyValue]).trigger('change', EVENT_PICK);
+        }
     }
 }

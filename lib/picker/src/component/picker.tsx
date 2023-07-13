@@ -224,6 +224,8 @@ export class Picker extends Pick<PickerState, PickerOptions> {
             searchHint: props.searchHint,
             disabled: props.disabled,
             clearable: !!this.valueList.length && !props.required,
+            valueList: this.valueList,
+            emptyValue: this.firstEmptyValue,
             onDeselect: this.deselect,
             onSelect: this.select,
             onClear: this.clear,

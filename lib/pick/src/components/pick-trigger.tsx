@@ -2,7 +2,7 @@ import {Component, ComponentChildren, JSX, RenderableProps, h as _h} from 'preac
 import {classes, $} from '@zui/core';
 import type {PickState, PickTriggerProps} from '../types';
 
-const EVENT_PICK = Symbol('EVENT_PICK');
+export const EVENT_PICK = Symbol('EVENT_PICK');
 
 export class PickTrigger<S extends PickState = PickState, P extends PickTriggerProps<S> = PickTriggerProps<S>, STATE = {}> extends Component<P, STATE> {
     #hasInput: boolean;
@@ -11,6 +11,10 @@ export class PickTrigger<S extends PickState = PickState, P extends PickTriggerP
         super(props);
         this._handleClick = this._handleClick.bind(this);
         this.#hasInput = !!$(`#${props.id}`).length;
+    }
+
+    get hasInput() {
+        return this.#hasInput;
     }
 
     protected _handleClick(event: MouseEvent) {

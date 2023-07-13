@@ -24,6 +24,7 @@ onPageUpdate(() => {
     const singlePickerElement = document.querySelector<HTMLElement>('#singlePicker');
     if (singlePickerElement) {
         const singlePicker = new Picker(singlePickerElement, {
+            name: 'selectOne',
             items,
             defaultValue: 'banana',
             placeholder: '请选择你的最爱',
@@ -35,6 +36,7 @@ onPageUpdate(() => {
     const multiPickerElement = document.querySelector<HTMLElement>('#multiPicker');
     if (multiPickerElement) {
         const multiPicker = new Picker(multiPickerElement, {
+            name: 'selectSome',
             multiple: true,
             items,
             defaultValue: 'banana,orange',
