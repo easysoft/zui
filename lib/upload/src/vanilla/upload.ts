@@ -317,12 +317,14 @@ export class Upload<T extends UploadOptions = UploadOptions> extends Component<T
         const {useIconBtn, renameText, renameIcon, renameClass} = this.options;
         if (useIconBtn) {
             const $iconBtn = $(`<button class="btn btn-link h-5 w-5 p-0 ${renameClass}"><i class="icon icon-${renameIcon}"></i></button>`)
+                .prop('type', 'button')
                 .addClass('file-action file-rename');
             new Tooltip($iconBtn, {title: renameText});
             return $iconBtn;
         }
 
         return $('<button />')
+            .prop('type', 'button')
             .addClass(`btn size-sm rounded-sm text-primary canvas file-action file-rename ${renameClass}`)
             .html(renameText!);
     }
@@ -331,6 +333,7 @@ export class Upload<T extends UploadOptions = UploadOptions> extends Component<T
         const {useIconBtn, deleteText, deleteIcon, deleteClass} = this.options;
         if (useIconBtn) {
             const $iconBtn = $(`<button class="btn btn-link h-5 w-5 p-0 ${deleteClass}"><i class="icon icon-${deleteIcon}"></i></button>`)
+                .prop('type', 'button')
                 .addClass('file-action file-delete');
             $iconBtn.data('tooltip', new Tooltip($iconBtn, {title: deleteText}));
             return $iconBtn;
@@ -338,6 +341,7 @@ export class Upload<T extends UploadOptions = UploadOptions> extends Component<T
 
         return $('<button />')
             .html(deleteText!)
+            .prop('type', 'button')
             .addClass(`btn size-sm rounded-sm text-primary canvas file-action file-delete ${deleteClass}`);
     }
 
