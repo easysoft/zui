@@ -47,7 +47,7 @@ onPageLoad(() => {
                         width: 60,
                         align: 'right',
                         custom: {
-                            type: 'input',
+                            component: 'input',
                             props: ({value}) => {
                                 return {
                                     className: 'form-control flex-auto',
