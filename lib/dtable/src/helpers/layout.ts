@@ -10,11 +10,11 @@ function initSectionColsLayout(cols: DTableColsSectionLayout, fixed = false) {
     if (cols.widthSetting && cols.width !== cols.widthSetting) {
         cols.width = cols.widthSetting;
         const extraWidth = cols.width - cols.totalWidth;
-        if (fixed || extraWidth > 0) {
+        if ((!fixed && extraWidth > 0) || (fixed && extraWidth !== 0)) {
             const flexCols = cols.flexList.length ? cols.flexList : cols.list;
             const totalFlex = flexCols.reduce((total, col) => total + (col.flex || 1), 0);
             flexCols.forEach(col => {
-                const flexWidth = Math.min(extraWidth, Math.ceil(extraWidth * ((col.flex || 1) / totalFlex)));
+                const flexWidth = Math[extraWidth < 0 ? 'max' : 'min'](extraWidth, Math.ceil(extraWidth * ((col.flex || 1) / totalFlex)));
                 col.realWidth = col.width + flexWidth;
             });
         }
