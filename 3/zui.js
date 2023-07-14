@@ -4584,8 +4584,8 @@ let ih = class extends gt {
         !r && o && o(s), this.toggle(!1);
       });
     };
-    const n = this.state;
-    n.value === "today" && (n.value = xt(/* @__PURE__ */ new Date(), t.format));
+    const { value: n } = this.state;
+    n && (this.state.value = xt(n === "today" ? /* @__PURE__ */ new Date() : n, t.format));
   }
   _renderTrigger(t, n) {
     const { placeholder: s, icon: i, required: r, disabled: o, readonly: a } = t, { value: l = "", open: h } = n, c = `date-picker-${this.id}`;
