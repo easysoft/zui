@@ -6774,18 +6774,18 @@ class qh extends mt {
   fileRenameBtn() {
     const { useIconBtn: t, renameText: n, renameIcon: s, renameClass: i } = this.options;
     if (t) {
-      const r = m(`<button class="btn btn-link h-5 w-5 p-0 ${i}"><i class="icon icon-${s}"></i></button>`).addClass("file-action file-rename");
+      const r = m(`<button class="btn btn-link h-5 w-5 p-0 ${i}"><i class="icon icon-${s}"></i></button>`).prop("type", "button").addClass("file-action file-rename");
       return new ft(r, { title: n }), r;
     }
-    return m("<button />").addClass(`btn size-sm rounded-sm text-primary canvas file-action file-rename ${i}`).html(n);
+    return m("<button />").prop("type", "button").addClass(`btn size-sm rounded-sm text-primary canvas file-action file-rename ${i}`).html(n);
   }
   fileDeleteBtn() {
     const { useIconBtn: t, deleteText: n, deleteIcon: s, deleteClass: i } = this.options;
     if (t) {
-      const r = m(`<button class="btn btn-link h-5 w-5 p-0 ${i}"><i class="icon icon-${s}"></i></button>`).addClass("file-action file-delete");
+      const r = m(`<button class="btn btn-link h-5 w-5 p-0 ${i}"><i class="icon icon-${s}"></i></button>`).prop("type", "button").addClass("file-action file-delete");
       return r.data("tooltip", new ft(r, { title: n })), r;
     }
-    return m("<button />").html(n).addClass(`btn size-sm rounded-sm text-primary canvas file-action file-delete ${i}`);
+    return m("<button />").html(n).prop("type", "button").addClass(`btn size-sm rounded-sm text-primary canvas file-action file-delete ${i}`);
   }
   fileName(t) {
     return m(`<span class="file-name">${t}</span>`);
