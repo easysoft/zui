@@ -7395,10 +7395,10 @@ function Lr(e, t = !1) {
   if (e.widthSetting && e.width !== e.widthSetting) {
     e.width = e.widthSetting;
     const s = e.width - e.totalWidth;
-    if (t || s > 0) {
+    if (!t && s > 0 || t && s !== 0) {
       const i = e.flexList.length ? e.flexList : e.list, r = i.reduce((o, a) => o + (a.flex || 1), 0);
       i.forEach((o) => {
-        const a = Math.min(s, Math.ceil(s * ((o.flex || 1) / r)));
+        const a = Math[s < 0 ? "max" : "min"](s, Math.ceil(s * ((o.flex || 1) / r)));
         o.realWidth = o.width + a;
       });
     }
