@@ -8260,7 +8260,7 @@ function Wa(e, t, n) {
 }
 function du(e, t, n, s) {
   var i;
-  return n ? (n = n ?? ((i = t.row.data) == null ? void 0 : i[t.col.name]), e === !1 ? n : (e === !0 && (e = "[yyyy-]MM-dd hh:mm"), typeof e == "function" && (e = e(n, t)), xt(n, e, s ?? n))) : s;
+  return n ? (n = n ?? ((i = t.row.data) == null ? void 0 : i[t.col.name]), e === !1 ? n : (e === !0 && (e = "[yyyy-]MM-dd hh:mm"), typeof e == "function" && (e = e(n, t)), xt(n, e, s ?? n))) : s ?? n;
 }
 function fu(e, t) {
   const { link: n } = t.col.setting, s = uu(n, t, e[0]);
