@@ -10,10 +10,10 @@ export type DTableCustomHTMLElementType = keyof JSX.IntrinsicElements;
 
 export type DTableCustomInfo = {
     component: DTableCustomHTMLCode | DTableCustomHTMLElementType | ComponentType;
-    props?: Record<string, unknown> | ((info: CellInfo) => Record<string, unknown>);
+    props?: Record<string, unknown> | ((this: DTableCustom, info: CellInfo) => Record<string, unknown>);
 };
 
-export type DTableCustomSetting = DTableCustomHTMLCode | DTableCustomHTMLElementType | DTableCustomInfo | DTableCustomInfo[] | ((cell: CellInfo) => DTableCustomInfo | DTableCustomInfo[] | undefined);
+export type DTableCustomSetting = DTableCustomHTMLCode | DTableCustomHTMLElementType | DTableCustomInfo | DTableCustomInfo[] | ((this: DTableCustom, cell: CellInfo) => (DTableCustomInfo | DTableCustomInfo[] | undefined));
 
 export type DTableCustomTypes = {
     col: Partial<{
@@ -36,7 +36,7 @@ const customPlugin: DTablePlugin<DTableCustomTypes> = {
         const {col} = cell;
         let {custom} = col.setting;
         if (typeof custom === 'function') {
-            custom = custom(cell);
+            custom = custom.call(this, cell);
         }
         if (!custom) {
             return result;
@@ -55,15 +55,22 @@ const customPlugin: DTablePlugin<DTableCustomTypes> = {
             } else {
                 info = setting;
             }
-            const {component} = info;
+            let {component} = info;
+            const reducers = [info];
             if (typeof component === 'string') {
-                $.extend(info, defaultCustomMap[component], customMap?.[component]);
+                reducers.unshift(defaultCustomMap[component], customMap?.[component]);
             }
+            const props = {};
+            reducers.forEach((current) => {
+                if (current) {
+                    const {props: currentProps} = current;
+                    if (currentProps) {
+                        $.extend(props, typeof currentProps === 'function' ? currentProps.call(this, cell) : currentProps);
+                    }
+                    component = current.component || component;
+                }
+            }, {props: {}} as DTableCustomInfo);
             const Component = component as ComponentType;
-            let props = info.props || (cell as Record<string, unknown>);
-            if (typeof props === 'function') {
-                props = props(cell);
-            }
             result[0] = {outer: true, className: 'dtable-custom-cell', children: <Component {...props} />};
         });
         return result;
