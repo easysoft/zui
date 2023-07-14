@@ -69,7 +69,7 @@ export function renderFormat(format: ColFormatSetting | undefined, info: {row: R
 
 export function renderDatetime(format: ColDateFormatSetting, info: {row: RowInfo, col: ColInfo}, value?: unknown, invalidDate?: string) {
     if (!value) {
-        return invalidDate;
+        return invalidDate ?? value;
     }
     value = value ?? info.row.data?.[info.col.name];
     if (format === false) {
