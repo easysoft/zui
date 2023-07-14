@@ -32,7 +32,7 @@ export type DTableWithPluginColInfo<T extends DTablePluginTypes = {}, D extends 
 
 export type PluginColSettingModifier<T extends DTablePluginTypes = {}, D extends DTablePluginTypes[] = []> = (col: DTableWithPluginColSetting<T, D>) => Partial<DTableWithPluginColSetting<T, D>> | undefined;
 
-export type PluginPropsDependency<T extends DTablePluginTypes, D extends DTablePluginTypes[], P extends keyof DTablePluginTypes> = MergeUnionTypes<NonNullable<(D[number])[P] | T[P]>>;
+export type PluginPropsDependency<T extends DTablePluginTypes, D extends DTablePluginTypes[], P extends keyof DTablePluginTypes> = MergeUnionTypes<NonNullable<(P extends keyof D[number] ? (D[number])[P] : {}) | (P extends keyof T ? T[P] : {})>>;
 
 export type PluginCustomEvents<T extends DTablePluginTypes, D extends DTablePluginTypes[]> = PluginPropsDependency<T, D, 'events'>;
 
