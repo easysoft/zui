@@ -8,7 +8,7 @@ export type DashboardOptions =  {
     grid?: number;
     gap?: number;
     cellHeight?: number;
-    cache?: boolean;
+    cache?: boolean | string;
     blockFetch?: BlockFetcher;
     blockDefaultSize?: [width: number, height: number] | {width: number, height: number};
     blockSizeMap: Record<string, [width: number, height: number] | {width: number, height: number}>;

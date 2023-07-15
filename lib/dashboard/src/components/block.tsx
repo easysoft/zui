@@ -45,7 +45,7 @@ export class Block extends Component<BlockProps, BlockState> {
         const {url, ...fetchInitOptions} = fetcher;
         const newState: Partial<BlockState> = {loading: true, url};
         if (cache) {
-            const cacheHtml = store.session.get<string>(`${CACHE_PREFIX}${url}`);
+            const cacheHtml = typeof cache === 'string' ? store.get<string>(`${CACHE_PREFIX}${cache}:${url}`) : store.session.get<string>(`${CACHE_PREFIX}${url}`);
             if (cacheHtml) {
                 newState.content = <HtmlContent class="dashboard-block-body" html={cacheHtml} executeScript />;
             }
@@ -59,7 +59,11 @@ export class Block extends Component<BlockProps, BlockState> {
                     response.text().then((html) => {
                         this.setState({loading: false, content: <HtmlContent class="dashboard-block-body" html={html} executeScript />}, () => {
                             if (cache) {
-                                store.session.set(`${CACHE_PREFIX}${url}`, html);
+                                if (typeof cache === 'string') {
+                                    store.set(`${CACHE_PREFIX}${cache}:${url}`, html);
+                                } else {
+                                    store.session.set(`${CACHE_PREFIX}${url}`, html);
+                                }
                             }
                         });
                     });

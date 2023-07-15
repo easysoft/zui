@@ -11,7 +11,7 @@ export type BlockProps = {
     block: BlockInfo;
     index: number;
     moreMenu?: string | boolean;
-    cache?: boolean;
+    cache?: boolean | string;
     onDragStart?: (event: DragEvent) => void;
     onDragEnd?: (event: DragEvent) => void;
 };
