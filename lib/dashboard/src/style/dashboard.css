@@ -24,7 +24,7 @@
 }
 .dashboard-block-body > .panel {
   @apply -w-full -h-full -flex -flex-col;
-  box-shadow: 0px 6px 16px rgba(202, 215, 235, 0.25);
+  --tw-shadow: 0px 6px 16px rgba(202, 215, 235, 0.25);
 }
 .dashboard-block-body .panel-heading {
   @apply -flex-none;
@@ -36,5 +36,5 @@
   @apply -pr-12;
 }
 .dashboard-block-body .panel-title {
-  @apply -h-8;
+  @apply -h-8 -text-md;
 }
