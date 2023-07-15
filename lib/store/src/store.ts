@@ -11,6 +11,8 @@ export class Store {
 
     #name: string;
 
+    #userName: string;
+
     #storage: Storage;
 
     #alterStorage?: Store;
@@ -22,7 +24,8 @@ export class Store {
      */
     constructor(name?: string, type: StoreType = 'local') {
         this.#type = type;
-        this.#name = `ZUI_STORE:${name ?? nanoid()}`;
+        this.#userName = name ?? nanoid();
+        this.#name = `ZUI_STORE:${this.#userName}`;
         this.#storage = type === 'local' ? localStorage : sessionStorage;
     }
 
@@ -41,7 +44,7 @@ export class Store {
             return this;
         }
         if (!this.#alterStorage) {
-            this.#alterStorage = new Store(this.#name, 'session');
+            this.#alterStorage = new Store(this.#userName, 'session');
         }
         return this.#alterStorage;
     }
