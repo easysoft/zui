@@ -54,10 +54,26 @@ export class Store {
     }
 
     /**
-     * Get value from store
+     * Get value from store.
      * @param key Key to get
-     * @param defaultValue default value to return if key is not found
-     * @returns Value of key or defaultValue if key is not found
+     * @returns Value of key or undefined if key is not found
+     */
+    get<T>(key: string): T | undefined;
+
+    /**
+     * Get value from store, if key is not found, return defaultValue.
+     *
+     * @param key          Key to get.
+     * @param defaultValue Default value to return if key is not found.
+     */
+    get<T>(key: string, defaultValue: T): T;
+
+    /**
+     * Get value from store.
+     *
+     * @param key          Key to get.
+     * @param defaultValue Default value to return if key is not found.
+     * @returns Value of key or defaultValue if key is not found.
      */
     get<T>(key: string, defaultValue?: T): T | undefined {
         const value = this.#storage.getItem(this.#getActualKey(key));
