@@ -14,6 +14,7 @@ export type DashboardState = {
 export class Dashboard extends Component<Required<DashboardOptions>, DashboardState> {
     static defaultProps: DashboardOptions = {
         responsive: false,
+        cache: true,
         blocks: [],
         grid: 3,
         gap: 16,
@@ -180,9 +181,8 @@ export class Dashboard extends Component<Required<DashboardOptions>, DashboardSt
 
     render() {
         const {blocks, height: dashboardHeight} = this.#layout();
-        const {cellHeight, grid} = this.props;
+        const {cellHeight, grid, cache} = this.props;
         const map = this.#map;
-        console.log('Dashboard.render', {blocks, map}, this);
         return (
             <div class="dashboard">
                 <div class="dashboard-blocks" style={{height: dashboardHeight * cellHeight}}>
@@ -199,6 +199,7 @@ export class Dashboard extends Component<Required<DashboardOptions>, DashboardSt
                                 height={cellHeight * height}
                                 width={`${100 * width / grid}%`}
                                 block={block}
+                                cache={cache}
                                 moreMenu
                                 onDragStart={this.#handleBlockDragStart}
                                 onDragEnd={this.#handleBlockDragEnd}
