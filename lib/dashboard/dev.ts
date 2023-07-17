@@ -9,7 +9,7 @@ import {Dashboard} from './src/main';
 onPageLoad(() => {
     const dashboard = new Dashboard('#dashboard', {
         blocks: [
-            {id: 1, size: [3, 8], left: 0, top: 20},
+            {id: 1, size: [3, 8]},
             {id: 2, size: 'lg'},
             {id: 3, size: {width: 3, height: 3}},
             {id: 4, placeholder: 'placeholder'},

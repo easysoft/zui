@@ -1,17 +1,16 @@
-import {JSX} from 'preact';
-import type {BlockInfo} from './block-info';
+import type {BlockContentSetting} from './block-info';
 
 export type BlockProps = {
     id: string;
-    style?: JSX.CSSProperties;
-    height: number | string;
-    width: number | string;
     left: number | string;
     top: number | string;
-    block: BlockInfo;
     index: number;
-    moreMenu?: string | boolean;
-    cache?: boolean | string;
+    width: number | string;
+    height: number | string;
+    loading?: boolean;
+    content: BlockContentSetting;
+    title?: string;
     onDragStart?: (event: DragEvent) => void;
     onDragEnd?: (event: DragEvent) => void;
+    onMenuBtnClick?: (event: MouseEvent) => void;
 };
