@@ -1,8 +1,5 @@
 .dashboard-blocks {
   @apply -p-2 -relative;
-  /* background-image: linear-gradient(var(--color-primary-100) 1px, transparent 1px), linear-gradient(90deg, var(--color-primary-100) 1px, transparent 1px), linear-gradient(var(--color-primary-50) 1px, transparent 1px), linear-gradient(90deg, var(--color-primary-50) 1px, #fff 1px);
-  background-size: 33.33333% 256px, 33.33333% 256px, 8.33333% 64px, 8.33333% 64px;
-  background-position: -1px -1px, -1px -1px, -1px -1px, -1px -1px; */
 }
 .dashboard-block-cell {
   @apply -absolute -transition-[left,top];
@@ -14,7 +11,10 @@
   @apply -opacity-0 -z-overlay;
 }
 .dashboard-block-header {
-  @apply -absolute -top-0 -left-0 -right-0 -flex -flex-row -items-center -justify-between -p-3 -rounded-t -cursor-move -z-10;
+  @apply -absolute -top-0 -left-0 -right-0 -flex -flex-row -items-center -justify-between -p-3 -rounded-t -pointer-events-none -z-10;
+}
+.dashboard-block-header > * {
+  @apply -pointer-events-auto;
 }
 .dashboard-block-title {
   @apply -font-bold -text-md;
@@ -27,7 +27,7 @@
   --tw-shadow: 0px 6px 16px rgba(202, 215, 235, 0.25);
 }
 .dashboard-block-body .panel-heading {
-  @apply -flex-none;
+  @apply -flex-none -cursor-move;
 }
 .dashboard-block-body .panel-body {
   @apply -flex-auto -overflow-y-auto;
@@ -37,4 +37,7 @@
 }
 .dashboard-block-body .panel-title {
   @apply -h-8 -text-md;
+}
+.dashboard-block-actions .btn {
+  @apply -opacity-60 hover:-opacity-100;
 }
