@@ -286,7 +286,7 @@ export class Picker extends Pick<PickerState, PickerOptions> {
         }
         const {items, limitValueInList} = this.props;
         if (limitValueInList) {
-            const valueSet = new Set((Array.isArray(items) ? items : this.state.items).map(x => x.value));
+            const valueSet = new Set((Array.isArray(items) ? items : this.state.items).map(x => String(x.value)));
             valueList = valueList.filter(x => valueSet.has(x));
         }
         const stateValue = this.formatValue(valueList);
