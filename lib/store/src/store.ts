@@ -3,6 +3,8 @@ import {nanoid} from 'nanoid';
 /** Store type */
 export type StoreType = 'local' | 'session';
 
+const STR_PREFIX = '```ZUI_STR\n';
+
 /**
  * Store for using localStorage and sessionStorage
  */
@@ -78,9 +80,15 @@ export class Store {
     get<T>(key: string, defaultValue?: T): T | undefined {
         const value = this.#storage.getItem(this.#getActualKey(key));
         if (typeof value === 'string') {
-            return JSON.parse(value);
+            if (value.startsWith(STR_PREFIX)) {
+                return value.substring(STR_PREFIX.length) as T;
+            }
+            try {
+                return JSON.parse(value);
+            // eslint-disable-next-line no-empty
+            } catch (_error) {}
         }
-        return value ?? defaultValue;
+        return (value as T) ?? defaultValue;
     }
 
     /**
@@ -92,7 +100,7 @@ export class Store {
         if (value === undefined || value === null) {
             return this.remove(key);
         }
-        this.#storage.setItem(this.#getActualKey(key), JSON.stringify(value));
+        this.#storage.setItem(this.#getActualKey(key), typeof value === 'string' ? `${STR_PREFIX}${value}` : JSON.stringify(value));
     }
 
     /**
