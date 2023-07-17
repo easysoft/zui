@@ -30,11 +30,21 @@ export interface HtmlContentProps extends HElementProps {
 export class HtmlContent extends Component<HtmlContentProps> {
     #ref = createRef<HTMLDivElement>();
 
-    componentDidMount(): void {
+    #runJS() {
         if (!this.props.executeScript) {
             return;
         }
         $(this.#ref.current).runJS();
+    }
+
+    componentDidMount(): void {
+        this.#runJS();
+    }
+
+    componentDidUpdate(previousProps: Readonly<HtmlContentProps>): void {
+        if (this.props.html !== previousProps.html) {
+            this.#runJS();
+        }
     }
 
     render(props: HtmlContentProps) {
