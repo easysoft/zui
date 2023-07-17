@@ -8,7 +8,7 @@ export type BlockState = {
 };
 
 export class Block extends Component<BlockProps, BlockState> {
-    #handleDragStart = (event: DragEvent) => {
+    protected _onDragStart = (event: DragEvent) => {
         const element = (event.target as HTMLElement).closest('.dashboard-block');
         if (!element) {
             return;
@@ -23,7 +23,7 @@ export class Block extends Component<BlockProps, BlockState> {
         this.props.onDragStart?.(event);
     };
 
-    #handleDragEnd = (event: DragEvent) => {
+    protected _onDragEnd = (event: DragEvent) => {
         this.setState({dragging: false});
         this.props.onDragEnd?.(event);
     };
@@ -36,8 +36,8 @@ export class Block extends Component<BlockProps, BlockState> {
                 <div
                     class={`dashboard-block load-indicator${(loading && !content) ? ' loading'  : ''}${onMenuBtnClick ? ' has-more-menu' : ''}${dragging ? ' is-dragging' : ''}`}
                     draggable
-                    onDragStart={this.#handleDragStart}
-                    onDragEnd={this.#handleDragEnd}
+                    onDragStart={this._onDragStart}
+                    onDragEnd={this._onDragEnd}
                     data-id={id}
                 >
                     <div class="dashboard-block-header">
