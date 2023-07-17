@@ -109,7 +109,10 @@ export class Dashboard extends Component<Required<DashboardOptions>, DashboardSt
         this.update({id, loading: true, needLoad: false}, async () => {
             const fetchUrl = formatString(url, block);
             try {
-                const response = await fetch(formatString(fetchUrl, block), fetchOptions);
+                const response = await fetch(formatString(fetchUrl, block), {
+                    headers: {'X-Requested-With': 'XMLHttpRequest'},
+                    ...fetchOptions,
+                });
                 if (!response.ok) {
                     throw new Error(`Server response: ${response.status} ${response.statusText}}`);
 
