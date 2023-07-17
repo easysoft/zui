@@ -14,6 +14,6 @@ export type DashboardOptions =  {
     blockDefaultSize?: [width: number, height: number] | {width: number, height: number};
     blockSizeMap: Record<string, [width: number, height: number] | {width: number, height: number}>;
     blockMenu?: ContextMenuOptions;
-    onClickBlockMenu?: (info: {item: MenuItemOptions, event: MouseEvent}) => void;
+    onClickMenu?: (info: {item: MenuItemOptions, event: MouseEvent}) => void;
     onLayoutChange?: (blocks: BlockSetting[]) => void;
 };

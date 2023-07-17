@@ -329,7 +329,7 @@ export class Dashboard extends Component<Required<DashboardOptions>, DashboardSt
         }
         event.stopPropagation();
         const {menu} = block;
-        const {onClickBlockMenu} = this.props;
+        const {onClickMenu: onClickBlockMenu} = this.props;
         ContextMenu.show({
             event: (event.target as HTMLElement),
             placement: 'bottom-end',
