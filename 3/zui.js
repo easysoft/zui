@@ -5629,12 +5629,12 @@ let Gd = (Rn = class extends Bt {
   setValue(t = []) {
     if (this.props.disabled)
       return;
+    !Array.isArray(t) && typeof t != "string" && (t = t !== null ? String(t) : this.firstEmptyValue);
     const e = this.formatValueList(t);
-    if (!e.length && this.props.required)
-      return;
+    if (!e.length)
+      return this.changeState({ value: this.firstEmptyValue });
     const i = this.formatValue(e);
-    if (i !== this.state.value)
-      return this.changeState({ value: i });
+    return this.changeState({ value: i });
   }
 }, wn = new WeakMap(), $t = new WeakMap(), At = new WeakMap(), vn = new WeakMap(), Rn.defaultProps = {
   ...Bt.defaultProps,
