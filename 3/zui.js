@@ -5630,9 +5630,13 @@ let Gd = (Rn = class extends Bt {
     if (this.props.disabled)
       return;
     !Array.isArray(t) && typeof t != "string" && (t = t !== null ? String(t) : this.firstEmptyValue);
-    const e = this.formatValueList(t);
+    let e = this.formatValueList(t);
     if (!e.length)
       return this.changeState({ value: this.firstEmptyValue });
+    if (this.props.limitValueInList) {
+      const o = new Set(this.state.items.map((r) => r.value));
+      e = e.filter((r) => o.has(r));
+    }
     const i = this.formatValue(e);
     return this.changeState({ value: i });
   }
