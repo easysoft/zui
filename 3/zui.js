@@ -6877,7 +6877,7 @@ let Jd = (As = class extends W {
       if (!o || !o.menu)
         return;
       t.stopPropagation();
-      const { menu: r } = o, { onClickBlockMenu: a } = this.props;
+      const { menu: r } = o, { onClickMenu: a } = this.props;
       lt.show({
         event: t.target,
         placement: "bottom-end",
@@ -6913,7 +6913,10 @@ let Jd = (As = class extends W {
     this.update({ id: n, loading: !0, needLoad: !1 }, async () => {
       const r = Y(i, e);
       try {
-        const a = await fetch(Y(r, e), o);
+        const a = await fetch(Y(r, e), {
+          headers: { "X-Requested-With": "XMLHttpRequest" },
+          ...o
+        });
         if (!a.ok)
           throw new Error(`Server response: ${a.status} ${a.statusText}}`);
         const l = await a.text();
