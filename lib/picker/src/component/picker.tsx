@@ -63,7 +63,7 @@ export class Picker extends Pick<PickerState, PickerOptions> {
     }
 
     get firstEmptyValue() {
-        return this.#emptyValueSet.values().next().value;
+        return this.#emptyValueSet.values().next().value as string;
     }
 
     isEmptyValue = (value: string) => {
@@ -273,18 +273,18 @@ export class Picker extends Pick<PickerState, PickerOptions> {
         return list.length ? list.join(this.props.valueSplitter ?? ',') : this.firstEmptyValue;
     }
 
-    setValue(value: string | string[] = []) {
+    setValue(value: unknown = []) {
         if (this.props.disabled) {
             return;
         }
-        const valueList = this.formatValueList(value);
-        if (!valueList.length && this.props.required) {
-            return;
+        if (!Array.isArray(value) && typeof value !== 'string') {
+            value = value !== null ? String(value) : this.firstEmptyValue;
+        }
+        const valueList = this.formatValueList(value as string | string[]);
+        if (!valueList.length) {
+            return this.changeState({value: this.firstEmptyValue});
         }
         const stateValue = this.formatValue(valueList);
-        if (stateValue === this.state.value) {
-            return;
-        }
         return this.changeState({value: stateValue});
     }
 }
