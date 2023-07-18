@@ -1884,9 +1884,10 @@ function ec({
   hint: p,
   checked: g,
   onClick: b,
-  ...x
+  data: x,
+  ...w
 }) {
-  const w = [
+  const _ = [
     typeof g == "boolean" ? /* @__PURE__ */ m("div", { class: `checkbox-primary${g ? " checked" : ""}`, children: /* @__PURE__ */ m("label", {}) }) : null,
     /* @__PURE__ */ m(et, { icon: h }),
     /* @__PURE__ */ m("span", { className: "text", children: u }),
@@ -1900,9 +1901,9 @@ function ec({
     [n === "a" ? "href" : "data-url"]: r,
     [n === "a" ? "target" : "data-target"]: c,
     onClick: b,
-    ...x,
+    ...w,
     ...o
-  }, ...w);
+  }, ..._);
 }
 function Su({
   component: s = "div",
@@ -4942,8 +4943,10 @@ const fe = class fe extends Oe {
     return new Promise((e) => {
       const { container: i = document.body, ...o } = t, r = { show: !0, ...o };
       !r.type && r.url && (r.type = "ajax");
-      const a = fe.ensure(i, r);
-      a.one("hidden", () => e(a)), a.show();
+      const a = fe.ensure(i, r), l = `.zui.Modal.open${y.guid++}`;
+      a.on(`hidden${l}`, () => {
+        a.off(l), e(a);
+      }), a.show();
     });
   }
   static async alert(t) {
@@ -6904,7 +6907,7 @@ let Jd = (As = class extends W {
         menu: {
           onClickItem: (l) => {
             var h;
-            ((h = l.item.attrs) == null ? void 0 : h["data-type"]) === "refresh" && this.load(i), a && a(l);
+            ((h = l.item.data) == null ? void 0 : h.type) === "refresh" && this.load(i), a && a.call(this, l, o);
           }
         },
         ...r
