@@ -254,7 +254,11 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
                 modalOptions.type = 'ajax';
             }
             const modal = Modal.ensure(container, modalOptions);
-            modal.one('hidden', () => resolve(modal));
+            const namespace = `.zui.Modal.open${$.guid++}`;
+            modal.on(`hidden${namespace}`, () => {
+                modal.off(namespace);
+                resolve(modal);
+            });
             modal.show();
         });
     }
