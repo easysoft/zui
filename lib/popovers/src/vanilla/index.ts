@@ -20,18 +20,16 @@ export class Popovers extends Component<PopoversOptions> {
 
     private $target!: Cash;
 
-    private $mask!: Cash;
+    private $mask: Cash;
 
-    private $arrow!: Cash;
+    private $arrow: Cash;
 
     private toggle!: () => void;
 
     init() {
-        const {trigger, mask} = this.options;
+        const {trigger} = this.options;
         this.initTarget();
-        if (mask) {
-            this.initMask();
-        }
+        this.initMask();
         this.initArrow();
         this.createPopper();
 
@@ -141,15 +139,19 @@ export class Popovers extends Component<PopoversOptions> {
 
     private show() {
         this.$target.removeClass('hidden');
-        this.$mask.removeClass('hidden');
+        this.$mask?.removeClass('hidden');
     }
 
     private hide() {
         this.$target.addClass('hidden');
-        this.$mask.addClass('hidden');
+        this.$mask?.addClass('hidden');
     }
 
     private initMask() {
+        const {mask} = this.options;
+        if (!mask) {
+            return;
+        }
         const $mask = $('<div class="fixed top-0 right-0 bottom-0 left-0 z-40 hidden"></div>');
         $mask.on('click', () => {
             this.hide();
