@@ -254,7 +254,7 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
      * @param event     The event name.
      * @param callback  The event callback.
      */
-    on<N extends ComponentEventName<E>>(event: N, callback: ComponentEventCallback<E, O, N>, options?: {once?: boolean}) {
+    on<N extends ComponentEventName<E>>(event: N | (string & {}), callback: ComponentEventCallback<E, O, N>, options?: {once?: boolean}) {
         // eslint-disable-next-line @typescript-eslint/no-this-alias
         const component = this;
         this.$element[options?.once ? 'one' : 'on'](this._wrapEvent(event), function (this: Component<O, E>, e: N extends keyof HTMLElementEventMap ? HTMLElementEventMap[N] : Event, info: [Component<O, E>, ComponentEventArgs<E, N>]) {
@@ -279,7 +279,7 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
      * @param event     The event name.
      * @param callback  The event callback.
      */
-    off<N extends ComponentEventName<E>>(event: N) {
+    off<N extends ComponentEventName<E>>(event: N | (string & {})) {
         this.$element.off(this._wrapEvent(event));
     }
 
