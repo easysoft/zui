@@ -1059,7 +1059,7 @@ function Yr(s, e, t = !1) {
     Yr(n, o.innerHTML), o.remove();
   });
 }
-y.runJS = (s, ...e) => (s = s.trim(), s.startsWith("return ") || (s = `return ${s}`), new Function(...e.map(([n]) => n), s)(...e.map(([, n]) => n)));
+y.runJS = (s, ...e) => (s = s.trim(), !s.startsWith("return ") && !s.endsWith(";") && (s = `return ${s}`), new Function(...e.map(([n]) => n), s)(...e.map(([, n]) => n)));
 y.fn.runJS = function(s) {
   return this.each((e, t) => {
     Yr(t, s);
