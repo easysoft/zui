@@ -91,6 +91,11 @@ export class Dashboard extends Component<Required<DashboardOptions>, DashboardSt
         this.setState({blocks});
     }
 
+    add(blocks: BlockSetting | BlockSetting[]) {
+        blocks = Array.isArray(blocks) ? blocks : [blocks];
+        this.setState({blocks: [...this.state.blocks, ...this._initBlocks(blocks)]});
+    }
+
     load(id: string, fetcher?: BlockFetcher) {
         const block = this.getBlock(id);
         if (!block || block.loading) {
