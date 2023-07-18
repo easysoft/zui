@@ -2,6 +2,7 @@ import type {ContextMenuOptions} from '@zui/contextmenu/src/types';
 import type {BlockFetcher} from './block-fetcher';
 import type {BlockSetting} from './block-setting';
 import type {MenuItemOptions} from '@zui/menu/src/types';
+import type {BlockInfo} from './block-info';
 
 export type DashboardOptions =  {
     responsive?: boolean;
@@ -14,6 +15,6 @@ export type DashboardOptions =  {
     blockDefaultSize?: [width: number, height: number] | {width: number, height: number};
     blockSizeMap: Record<string, [width: number, height: number] | {width: number, height: number}>;
     blockMenu?: ContextMenuOptions;
-    onClickMenu?: (info: {item: MenuItemOptions, event: MouseEvent}) => void;
+    onClickMenu?: (info: {item: MenuItemOptions, event: MouseEvent}, block: BlockInfo) => void;
     onLayoutChange?: (blocks: BlockSetting[]) => void;
 };

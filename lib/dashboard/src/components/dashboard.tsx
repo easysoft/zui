@@ -338,11 +338,11 @@ export class Dashboard extends Component<Required<DashboardOptions>, DashboardSt
             placement: 'bottom-end',
             menu: {
                 onClickItem: (info) => {
-                    if ((info.item.attrs?.['data-type']) === 'refresh') {
+                    if ((info.item.data?.type) === 'refresh') {
                         this.load(id);
                     }
                     if (onClickBlockMenu) {
-                        onClickBlockMenu(info);
+                        onClickBlockMenu.call(this, info, block);
                     }
                 },
             },
