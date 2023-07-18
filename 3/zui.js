@@ -6931,6 +6931,9 @@ let Jd = (As = class extends W {
     const { blocks: t } = this.state, n = t.findIndex((i) => i.id === e);
     n < 0 || (t.splice(n, 1), this.setState({ blocks: t }));
   }
+  add(e) {
+    e = Array.isArray(e) ? e : [e], this.setState({ blocks: [...this.state.blocks, ...this._initBlocks(e)] });
+  }
   load(e, t) {
     const n = this.getBlock(e);
     if (!n || n.loading || (t = t || n.fetch, typeof t == "string" ? t = { url: t } : typeof t == "function" && (t = t(n.id, n)), !t || !t.url))
