@@ -1,0 +1,34 @@
+.group:hover .group-hover\:opacity-100,
+.hover\:opacity-100:hover,
+.group:active .group-active\:opacity-100,
+.active\:opacity-100:active,
+.group.active .group-active\:opacity-100,
+.active\:opacity-100.active {@apply -opacity-100;}
+
+.group:hover .group-hover\:text-primary,
+.hover\:text-primary:hover,
+.group:active .group-active\:text-primary,
+.active\:text-primary:active,
+.group.active .group-active\:text-primary,
+.active\:text-primary.active {@apply -text-primary-500;}
+
+.group:hover .group-hover\:primary,
+.hover\:primary:hover,
+.group:active .group-active\:primary,
+.active\:primary:active,
+.group.active .group-active\:primary,
+.active\:primary.active {@apply -bg-primary-500 -text-canvas;}
+
+.group:hover .group-hover\:canvas,
+.hover\:canvas:hover,
+.group:active .group-active\:canvas,
+.active\:canvas:active,
+.group.active .group-active\:canvas,
+.active\:canvas.active {@apply -bg-canvas;}
+
+.group:hover .group-hover\:font-bold,
+.hover\:font-bold:hover,
+.group:active .group-active\:font-bold,
+.active\:font-bold:active,
+.group.active .group-active\:font-bold,
+.active\:font-bold.active {@apply -font-bold;}
