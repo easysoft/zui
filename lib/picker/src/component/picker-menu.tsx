@@ -88,14 +88,16 @@ export class PickerMenu extends PickPop<PickerState, PickerMenuProps> {
                 hasHover = true;
             }
             const displayText = text ?? value;
-            list.push({
-                key: value,
-                active: selectionsSet.has(value),
-                text: typeof displayText === 'string' ? underlineKeys(searchKeys, [displayText]) : <CustomContent content={displayText} />,
-                className: classes(className, {hover: value === hover}),
-                'data-value': value,
-                ...others,
-            } as MenuItemProps);
+            if (displayText) {
+                list.push({
+                    key: value,
+                    active: selectionsSet.has(value),
+                    text: typeof displayText === 'string' ? underlineKeys(searchKeys, [displayText]) : <CustomContent content={displayText} />,
+                    className: classes(className, {hover: value === hover}),
+                    'data-value': value,
+                    ...others,
+                } as MenuItemProps);
+            }
             return list;
         }, []);
         if (!hasHover && menuItems.length) {
