@@ -438,11 +438,13 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
                     }
                     if (callMethod) {
                         let method: ((...args: unknown[]) => void) = (instance as unknown as Record<string, (...args: unknown[]) => void>)[callMethod];
-                        if (method !== undefined) {
-                            method = (instance as unknown as {$: Record<string, (...args: unknown[]) => void>}).$[callMethod as string];
+                        let callThis: unknown = instance;
+                        if (method === undefined) {
+                            callThis = (instance as unknown as {$: Record<string, (...args: unknown[]) => void>}).$;
+                            method = (callThis as Record<string, (...args: unknown[]) => void>)[callMethod as string];
                         }
                         if (typeof method === 'function') {
-                            callResult = method(...args);
+                            callResult = method.call(callThis, ...args);
                         } else {
                             callResult = method;
                         }
