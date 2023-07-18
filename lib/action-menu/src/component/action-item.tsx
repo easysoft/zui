@@ -19,6 +19,7 @@ export function ActionItem({
     hint,
     checked,
     onClick,
+    data,
     ...others
 }: ActionItemProps) {
     const finalChildren = [

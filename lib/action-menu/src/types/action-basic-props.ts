@@ -16,4 +16,5 @@ export interface ActionBasicProps {
     content?: CustomContentType<[ActionBasicProps]>;
     children?: ComponentChildren;
     onClick?: JSX.MouseEventHandler<HTMLAnchorElement>;
+    data?: Record<string, unknown>;
 }
