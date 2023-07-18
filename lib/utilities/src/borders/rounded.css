@@ -9,7 +9,11 @@
 .circle,
 .rounded-full  {@apply -rounded-full;}
 
-.rounded-l-none {@apply -rounded-l-none;}
-.rounded-t-none {@apply -rounded-t-none;}
-.rounded-r-none {@apply -rounded-r-none;}
-.rounded-b-none {@apply -rounded-b-none;}
+.rounded-l-none  {@apply -rounded-l-none;}
+.rounded-t-none  {@apply -rounded-t-none;}
+.rounded-r-none  {@apply -rounded-r-none;}
+.rounded-b-none  {@apply -rounded-b-none;}
+.rounded-br-none {@apply -rounded-br-none;}
+.rounded-bl-none {@apply -rounded-bl-none;}
+.rounded-tr-none {@apply -rounded-tr-none;}
+.rounded-tl-none {@apply -rounded-tl-none;}
