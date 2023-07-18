@@ -5693,8 +5693,8 @@ uo.NAME = "Picker", uo.Component = Nd;
 let Za = uo;
 const fo = class fo extends dt {
   init() {
-    const { trigger: e, mask: t } = this.options;
-    this.initTarget(), t && this.initMask(), this.initArrow(), this.createPopper(), this.toggle = () => {
+    const { trigger: e } = this.options;
+    this.initTarget(), this.initMask(), this.initArrow(), this.createPopper(), this.toggle = () => {
       if (this.$target.hasClass("hidden")) {
         this.show();
         return;
@@ -5751,16 +5751,21 @@ const fo = class fo extends dt {
     }), this.$target = t;
   }
   show() {
-    this.$target.removeClass("hidden"), this.$mask.removeClass("hidden");
+    var e;
+    this.$target.removeClass("hidden"), (e = this.$mask) == null || e.removeClass("hidden");
   }
   hide() {
-    this.$target.addClass("hidden"), this.$mask.addClass("hidden");
+    var e;
+    this.$target.addClass("hidden"), (e = this.$mask) == null || e.addClass("hidden");
   }
   initMask() {
-    const e = y('<div class="fixed top-0 right-0 bottom-0 left-0 z-40 hidden"></div>');
-    e.on("click", () => {
+    const { mask: e } = this.options;
+    if (!e)
+      return;
+    const t = y('<div class="fixed top-0 right-0 bottom-0 left-0 z-40 hidden"></div>');
+    t.on("click", () => {
       this.hide();
-    }), this.$target.parent().append(e), this.$mask = e;
+    }), this.$target.parent().append(t), this.$mask = t;
   }
   initArrow() {
     const { arrow: e } = this.options;
