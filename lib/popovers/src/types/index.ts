@@ -7,4 +7,6 @@ export type PopoversOptions = Partial<{
     shift: boolean | Parameters<typeof shift>[0];
     arrow: boolean;
     offset: number;
+    trigger: string;
+    mask: boolean;
 }>;

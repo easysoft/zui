@@ -12,21 +12,26 @@ export class Popovers extends Component<PopoversOptions> {
         shift: {padding: 5},
         arrow: false,
         offset: 1,
+        trigger: 'click',
+        mask: true,
     };
 
-    cleanup = () => {};
+    cleanup!: () => void;
 
-    private $target: Cash;
+    private $target!: Cash;
 
-    private $mask: Cash;
+    private $mask!: Cash;
 
-    private $arrow: Cash;
+    private $arrow!: Cash;
 
-    private toggle = () => {};
+    private toggle!: () => void;
 
     init() {
+        const {trigger, mask} = this.options;
         this.initTarget();
-        this.initMask();
+        if (mask) {
+            this.initMask();
+        }
         this.initArrow();
         this.createPopper();
 
@@ -37,13 +42,14 @@ export class Popovers extends Component<PopoversOptions> {
             }
             this.hide();
         };
-        this.$element.addClass('z-50')
-            .on('click', this.toggle);
+        this.$element
+            .addClass('z-50')
+            .on(trigger!, this.toggle);
     }
 
     destroy() {
         this.cleanup();
-        this.$element.off('click', this.toggle);
+        this.$element.off(this.options.trigger!, this.toggle);
         this.$target.remove();
     }
 
