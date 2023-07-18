@@ -38,7 +38,7 @@ declare module 'cash-dom' {
 /* Extend as $.runJS() */
 $.runJS = <T>(jsCode: string, ...args: [name: string, value: unknown][]): T => {
     jsCode = jsCode.trim();
-    if (!jsCode.startsWith('return ')) {
+    if (!jsCode.startsWith('return ') && !jsCode.endsWith(';')) {
         jsCode = `return ${jsCode}`;
     }
     // eslint-disable-next-line @typescript-eslint/no-implied-eval
