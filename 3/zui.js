@@ -1806,8 +1806,8 @@ const Fe = class Fe {
         return this.each((h, u) => {
           let c = n.get(u);
           if (c ? r && c.render(r) : c = new n(u, r), a) {
-            let d = c[a];
-            d !== void 0 && (d = c.$[a]), typeof d == "function" ? l = d(...o) : l = d;
+            let d = c[a], p = c;
+            d === void 0 && (p = c.$, d = p[a]), typeof d == "function" ? l = d.call(p, ...o) : l = d;
           }
         }), l !== void 0 ? l : this;
       }
@@ -5518,7 +5518,7 @@ ao = new WeakMap(), lo = new WeakSet(), Mc = function() {
     } = c;
     d === i && (a = !0);
     const w = g ?? d;
-    return u.push({
+    return w && u.push({
       key: d,
       active: r.has(d),
       text: typeof w == "string" ? Ed(l, [w]) : /* @__PURE__ */ m(zs, { content: w }),
