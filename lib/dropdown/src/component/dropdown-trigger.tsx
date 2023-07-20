@@ -25,6 +25,7 @@ export class DropdownTrigger<T extends DropdownTriggerOptions = DropdownTriggerO
     }
 
     componentDidMount(): void {
+        const {items} = this.props;
         const {modifiers = [], ...dropdownOptions} = this.props.dropdown || {};
         modifiers.push({
             name: 'dropdown-trigger',
@@ -36,6 +37,7 @@ export class DropdownTrigger<T extends DropdownTriggerOptions = DropdownTriggerO
             },
         });
         this.#dropdown = Dropdown.ensure(this.triggerElement, {
+            items,
             ...dropdownOptions,
             modifiers,
             onShow: () => {
@@ -52,7 +54,7 @@ export class DropdownTrigger<T extends DropdownTriggerOptions = DropdownTriggerO
     }
 
     beforeRender() {
-        const {className, children, dropdown, ...props} = this.props;
+        const {className, children, dropdown, items, ...props} = this.props;
         return {
             className: classes('dropdown', className),
             children: typeof children === 'function' ? children(this.state) : children,
