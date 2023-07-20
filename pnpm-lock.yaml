@@ -981,12 +981,6 @@ importers:
 
   lib/tooltip:
     dependencies:
-      '@floating-ui/core':
-        specifier: ^1.1.0
-        version: 1.1.0
-      '@floating-ui/dom':
-        specifier: ^1.1.0
-        version: 1.1.0
       '@zui/button':
         specifier: workspace:0.0.1
         version: link:../button
@@ -996,6 +990,9 @@ importers:
       '@zui/css-icons':
         specifier: workspace:^0.0.1
         version: link:../css-icons
+      '@zui/popover':
+        specifier: workspace:*
+        version: link:../popover
     devDependencies:
       '@zui/base':
         specifier: workspace:*
@@ -2065,18 +2062,8 @@ packages:
     engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0, npm: '>=6.14.13'}
     dev: true
 
-  /@floating-ui/core@1.1.0:
-    resolution: {integrity: sha512-zbsLwtnHo84w1Kc8rScAo5GMk1GdecSlrflIbfnEBJwvTSj1SL6kkOYV+nHraMCPEy+RNZZUaZyL8JosDGCtGQ==}
-    dev: false
-
   /@floating-ui/core@1.3.1:
     resolution: {integrity: sha512-Bu+AMaXNjrpjh41znzHqaz3r2Nr8hHuHZT6V2LBKMhyMl0FgKA62PNYbqnfgmzOhoWZj70Zecisbo4H1rotP5g==}
-    dev: false
-
-  /@floating-ui/dom@1.1.0:
-    resolution: {integrity: sha512-TSogMPVxbRe77QCj1dt8NmRiJasPvuc+eT5jnJ6YpLqgOD2zXc5UA3S1qwybN+GVCDNdKfpKy1oj8RpzLJvh6A==}
-    dependencies:
-      '@floating-ui/core': 1.1.0
     dev: false
 
   /@floating-ui/dom@1.4.5:
