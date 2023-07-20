@@ -1076,24 +1076,24 @@ y.fn.scrollIntoView = function(s) {
     Ol(t, s);
   });
 };
-y.getScript = function(s, e) {
-  return new Promise((t) => {
-    const n = y(`script[src="${s}"]`), i = () => {
-      t(), e == null || e();
+y.getScript = function(s, e, t) {
+  return new Promise((n) => {
+    const i = y(`script[src="${s}"]`), o = () => {
+      n(), t == null || t();
     };
-    if (n.length) {
-      if (n.dataset("loaded"))
-        i();
+    if (i.length) {
+      if (i.dataset("loaded"))
+        o();
       else {
-        const r = n.data("loadCalls") || [];
-        r.push(i), n.data("loadCalls", r);
+        const a = i.data("loadCalls") || [];
+        a.push(o), i.data("loadCalls", a);
       }
       return;
     }
-    const o = document.createElement("script");
-    o.async = !0, o.onload = () => {
-      i(), (y(o).dataset("loaded", !0).data("loadCalls") || []).forEach((a) => a());
-    }, o.src = s, y("head").append(o);
+    const r = document.createElement("script");
+    r.async = !0, e && Object.assign(r, e), r.onload = () => {
+      o(), (y(r).dataset("loaded", !0).data("loadCalls") || []).forEach((l) => l());
+    }, r.src = s, y("head").append(r);
   });
 };
 const Nf = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
