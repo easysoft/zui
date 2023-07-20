@@ -65,17 +65,17 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
     /**
      * Store the component options.
      */
-    #options?: ComponentOptions<O>;
+    private _options?: ComponentOptions<O>;
 
     /**
      * Store the component element.
      */
-    #element?: U;
+    private _element?: U;
 
     /**
      * The component global ID.
      */
-    #gid: number;
+    private _gid: number;
 
     /**
      * The component key.
@@ -85,7 +85,7 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
     /**
      * The component initialized flag.
      */
-    #inited = false;
+    private _inited = false;
 
     /**
      * The component constructor.
@@ -100,14 +100,14 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
         }
 
         const gid = $.guid++;
-        this.#gid = gid;
-        this.#element = $element[0] as U;
+        this._gid = gid;
+        this._element = $element[0] as U;
 
         $element.on('DOMNodeRemovedFromDocument', () => {
             this.destroy();
         });
 
-        this.#options = {...DEFAULT, ...$element.dataset()} as ComponentOptions<O>;
+        this._options = {...DEFAULT, ...$element.dataset()} as ComponentOptions<O>;
         this.setOptions(options);
         this._key = this.options.key ?? `__${gid}`;
 
@@ -124,21 +124,21 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
 
         this.init();
         requestAnimationFrame(() => {
-            this.#inited = true;
-            this.emit('inited', this.options);
+            this._inited = true;
             this.afterInit();
+            this.emit('inited', this.options);
         });
     }
 
     get inited() {
-        return this.#inited;
+        return this._inited;
     }
 
     /**
      * Get the component element.
      */
     get element() {
-        return this.#element!;
+        return this._element!;
     }
 
     get key() {
@@ -149,14 +149,14 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
      * Get the component options.
      */
     get options() {
-        return this.#options!;
+        return this._options!;
     }
 
     /**
      * Get the component global id.
      */
     get gid() {
-        return this.#gid;
+        return this._gid;
     }
 
     /**
@@ -219,8 +219,8 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
             }
         }
 
-        this.#options = undefined;
-        this.#element = undefined;
+        this._options = undefined;
+        this._element = undefined;
     }
 
     /**
@@ -231,9 +231,9 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
      */
     setOptions(options?: Partial<ComponentOptions<O>>) {
         if (options) {
-            $.extend(this.#options, options);
+            $.extend(this._options, options);
         }
-        return this.#options;
+        return this._options;
     }
 
     /**
