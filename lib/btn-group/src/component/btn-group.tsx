@@ -1,6 +1,7 @@
 import {Component, h as _h, isValidElement, JSX} from 'preact';
 import {classes} from '@zui/core';
 import {Button} from '@zui/button/src/component/button';
+import {DropdownButton} from '@zui/dropdown/src/component/dropdown-button';
 import {BtnProps} from '../types/btn-props';
 import {BtnGroupOptions} from '../types/btn-group-options';
 import '../style/index.css';
@@ -42,7 +43,8 @@ export class BtnGroup extends Component<BtnGroupOptions> {
 
     onRenderItem(item: BtnProps, index: number) {
         const {key = index, ...others} = item;
-        return <Button key={key} {...others} />;
+        const ButtonComponent = (item.dropdown || item.items) ? DropdownButton : Button;
+        return <ButtonComponent key={key} {...others} />;
     }
 
     renderItem(options: Omit<BtnGroupOptions, 'items'> & {items: BtnProps[]}, item: BtnProps, index: number) {
