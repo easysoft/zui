@@ -20,7 +20,7 @@
 
 .arrow-top,
 .arrow-up {
-  bottom: calc(-1px - var(--arrow-size));
+  top: calc(-1px - var(--arrow-size));
   border-bottom: inherit;
   border-right: inherit;
   border-width: 1px 0 0 1px;
@@ -28,7 +28,7 @@
 
 .arrow-bottom,
 .arrow-down {
-  top: calc(-1px - var(--arrow-size));
+  bottom: calc(-1px - var(--arrow-size));
   border-top: inherit;
   border-left: inherit;
   border-width: 0 1px 1px 0;
