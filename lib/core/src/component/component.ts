@@ -314,7 +314,9 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
      * @returns            The i18n text.
      */
     i18n(key: string, args?: string | (string | number)[] | Record<string, string | number>, defaultValue?: string): string {
-        return i18n(this.options.i18n, key, args, defaultValue, this.options.lang, this.constructor.NAME) ?? i18n(this.options.i18n, key, args, defaultValue, this.options.lang) ?? `{i18n:${key}}`;
+        return i18n(this.options.i18n, key, args, defaultValue, this.options.lang, this.constructor.NAME)
+            ?? i18n<string>(this.options.i18n, key, args, defaultValue, this.options.lang)
+            ?? `{i18n:${key}}`;
     }
 
     /**
