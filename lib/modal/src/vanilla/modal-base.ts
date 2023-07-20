@@ -25,11 +25,11 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
 
     static zIndex = 1500;
 
-    #transitionTimer = 0;
+    protected _timer = 0;
 
-    #rob?: ResizeObserver;
+    protected _rob?: ResizeObserver;
 
-    #lastDialogSize?: [width: number, height: number];
+    protected _lastDialogSize?: [width: number, height: number];
 
     get modalElement() {
         return this.element;
@@ -44,7 +44,7 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
     }
 
     get rob() {
-        return this.#rob;
+        return this._rob;
     }
 
     protected _observeResize() {
@@ -52,7 +52,7 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
             return;
         }
         if (typeof ResizeObserver !== 'undefined') {
-            this.#rob?.disconnect();
+            this._rob?.disconnect();
             const {dialog} = this;
             if (dialog) {
                 const rob = new ResizeObserver(() => {
@@ -61,20 +61,20 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
                     }
                     const width = dialog.clientWidth;
                     const height = dialog.clientHeight;
-                    const [lastWidth, lastHeight] = this.#lastDialogSize || [];
+                    const [lastWidth, lastHeight] = this._lastDialogSize || [];
                     if (lastWidth !== width || lastHeight !== height) {
-                        this.#lastDialogSize = [width, height];
+                        this._lastDialogSize = [width, height];
                         this.layout();
                     }
                 });
                 rob.observe(dialog);
-                this.#rob = rob;
+                this._rob = rob;
             }
         }
     }
 
     afterInit() {
-        this.on('click', this.#handleClick);
+        this.on('click', this._handleClick);
         if (this.options.show) {
             this.show();
         }
@@ -84,8 +84,8 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
 
     destroy(): void {
         super.destroy();
-        this.#rob?.disconnect();
-        this.#rob = undefined;
+        this._rob?.disconnect();
+        this._rob = undefined;
     }
 
     show(options?: Partial<T>) {
@@ -109,9 +109,9 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
         this.layout();
         this.emit('show');
 
-        this.#resetTransTimer(() => {
+        this._setTimer(() => {
             $(modalElement).addClass(CLASS_SHOWN);
-            this.#resetTransTimer(() => {
+            this._setTimer(() => {
                 this.emit('shown');
             });
         }, 50);
@@ -126,7 +126,7 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
         $(this.modalElement).removeClass(CLASS_SHOWN);
         this.emit('hide');
 
-        this.#resetTransTimer(() => {
+        this._setTimer(() => {
             $(this.modalElement).removeClass(CLASS_SHOW);
             this.emit('hidden');
         });
@@ -162,7 +162,7 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
         position = position ?? this.options.position ?? 'fit';
         const width = dialog.clientWidth;
         const height = dialog.clientHeight;
-        this.#lastDialogSize = [width, height];
+        this._lastDialogSize = [width, height];
         if (typeof position === 'function') {
             position = position({width, height});
         }
@@ -197,7 +197,7 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
         $(this.modalElement).css('justifyContent', style.left ? 'flex-start' : 'center');
     }
 
-    #handleClick = (event: MouseEvent) => {
+    protected _handleClick = (event: MouseEvent) => {
         const target = event.target as HTMLElement;
         const modal = target.closest('.modal');
         if (!modal || modal !== this.modalElement) {
@@ -209,14 +209,14 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
         }
     };
 
-    #resetTransTimer(callback?: () => void, time?: number) {
-        if (this.#transitionTimer) {
-            clearTimeout(this.#transitionTimer);
-            this.#transitionTimer = 0;
+    protected _setTimer(callback?: () => void, time?: number) {
+        if (this._timer) {
+            clearTimeout(this._timer);
+            this._timer = 0;
         }
         if (callback) {
             if (this.options.animation) {
-                this.#transitionTimer = window.setTimeout(callback, time ?? this.options.transTime);
+                this._timer = window.setTimeout(callback, time ?? this.options.transTime);
             } else {
                 callback();
             }
@@ -232,7 +232,7 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
     }
 }
 
-$(window).on('resize.modal.zui', () => {
+$(window).on(`resize.${ModalBase.NAMESPACE}`, () => {
     ModalBase.getAll().forEach((modal) => {
         const m = (modal as ModalBase);
         if (m.shown && m.options.responsive) {
@@ -241,6 +241,6 @@ $(window).on('resize.modal.zui', () => {
     });
 });
 
-$(document).on('to-hide.modal.zui', (_: Event, data?: {target?: HTMLDivElement | string}) => {
+$(document).on(`to-hide.${ModalBase.NAMESPACE}`, (_: Event, data?: {target?: HTMLDivElement | string}) => {
     ModalBase.hide(data?.target);
 });

@@ -8,10 +8,10 @@ const TOGGLE_SELECTOR = '[data-toggle="modal"]';
 export class ModalTrigger extends Component<ModalTriggerOptions> {
     static NAME = 'ModalTrigger';
 
-    #modal?: ModalBase;
+    protected _modal?: ModalBase;
 
     get modal() {
-        return this.#modal;
+        return this._modal;
     }
 
     get container() {
@@ -26,14 +26,14 @@ export class ModalTrigger extends Component<ModalTriggerOptions> {
     }
 
     show() {
-        return this.#initModal()?.show();
+        return this._initModal()?.show();
     }
 
     hide() {
-        return this.#modal?.hide();
+        return this._modal?.hide();
     }
 
-    #getBuilderOptions(): ModalOptions {
+    protected _getBuilderOptions(): ModalOptions {
         const {
             container,
             ...others
@@ -59,15 +59,15 @@ export class ModalTrigger extends Component<ModalTriggerOptions> {
         return builderOptions;
     }
 
-    #initModal() {
-        const options = this.#getBuilderOptions();
-        let modal = this.#modal;
+    protected _initModal() {
+        const options = this._getBuilderOptions();
+        let modal = this._modal;
         if (modal) {
             modal.setOptions(options);
             return modal;
         }
         if (options.type === 'static') {
-            const modalElement = this.#getStaticModalElement();
+            const modalElement = this._getStaticModalElement();
             if (!modalElement) {
                 return;
             }
@@ -75,14 +75,14 @@ export class ModalTrigger extends Component<ModalTriggerOptions> {
         } else {
             modal = Modal.ensure(this.container, options);
         }
-        this.#modal = modal;
+        this._modal = modal;
         modal.on('destroyed', () => {
-            this.#modal = undefined;
+            this._modal = undefined;
         });
         return modal;
     }
 
-    #getStaticModalElement() {
+    protected _getStaticModalElement() {
         let selector = this.options.target as (string | undefined);
         if (!selector) {
             const {$element} = this;
@@ -97,9 +97,8 @@ export class ModalTrigger extends Component<ModalTriggerOptions> {
     }
 }
 
-$(document).on('click.modal.zui', (event: MouseEvent) => {
-    const element = event.target as HTMLElement;
-    const toggleBtn = element.closest?.<HTMLElement>(TOGGLE_SELECTOR);
+$(document).on(`click${ModalTrigger.NAMESPACE}`, TOGGLE_SELECTOR, (event: MouseEvent) => {
+    const toggleBtn = event.currentTarget as HTMLElement;
     if (toggleBtn) {
         const modalTrigger = ModalTrigger.ensure(toggleBtn);
         if (modalTrigger) {
