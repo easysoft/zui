@@ -21,7 +21,7 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
      * It usually equals to the class name.
      * The name must be provided in subclass.
      */
-    static NAME = this.name;
+    static NAME: string;
 
     /**
      * Whether the component supports multiple instances.
@@ -93,7 +93,12 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
      * @param options The component initial options.
      */
     constructor(element: Selector, options?: Partial<ComponentOptions<O>>) {
-        const {KEY, DATA_KEY, DEFAULT, MULTI_INSTANCE} = this.constructor;
+        const {KEY, DATA_KEY, DEFAULT, MULTI_INSTANCE, NAME} = this.constructor;
+
+        if (!NAME) {
+            throw new Error('[ZUI] The component must have a "NAME" static property.');
+        }
+
         const $element = $(element);
         if ($element.data(KEY) && !MULTI_INSTANCE) {
             throw new Error('[ZUI] The component has been initialized on element.');
