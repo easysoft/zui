@@ -141,19 +141,19 @@ export class Dashboard extends Component<Required<DashboardOptions>, DashboardSt
 
     loadNext() {
         const {blocks} = this.state;
-        let needLoadBlock: BlockInfo | undefined;
+        let needLoadID = '';
         for (const block of blocks) {
             if (block.loading) {
                 return;
             }
             if (block.needLoad) {
-                needLoadBlock = block;
+                needLoadID = block.id;
             }
         }
-        if (!needLoadBlock) {
+        if (!needLoadID.length) {
             return;
         }
-        requestAnimationFrame(() => this.load(needLoadBlock!.id));
+        requestAnimationFrame(() => this.load(needLoadID));
     }
 
     protected _setCache(id: string, html: string) {
