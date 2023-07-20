@@ -42,6 +42,7 @@ $.getScript = function (src: string, props?: ScriptProps, success?: () => void):
             onLoad();
             const callbacks = $(script).dataset('loaded', true).data('loadCalls') || [];
             callbacks.forEach((callback: () => void) => callback());
+            $(script).removeData('loadCalls');
         };
         script.src = src;
         $('head').append(script);
