@@ -11,7 +11,7 @@ onPageLoad(() => {
 
     const popover2 = new Popover('#popoverTrigger2', {
         title: '这是提示消息',
-        content: '哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈',
+        content: {html: '<strong class="text-primary">哈哈哈哈</strong>哈哈哈哈哈哈哈哈哈哈哈哈'},
     });
     console.log('> popover2', popover2);
 

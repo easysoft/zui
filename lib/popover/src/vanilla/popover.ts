@@ -3,7 +3,13 @@ import {Component, $} from '@zui/core';
 import {PopoverEvents, PopoverOptions, PopoverPanelOptions} from '../types';
 import {PopoverPanel} from './popover-panel';
 
-export class Popover extends Component<PopoverOptions, PopoverEvents> {
+const TOGGLE_SELECTOR = '[data-toggle="popover"]';
+
+const CLASS_SHOW = 'show';
+
+const CLASS_SHOWN = 'in';
+
+export class Popover<O extends PopoverOptions = PopoverOptions> extends Component<O, PopoverEvents, HTMLElement> {
     static NAME = 'Popover';
 
     static Z_INDEX = 1700;
@@ -107,7 +113,7 @@ export class Popover extends Component<PopoverOptions, PopoverEvents> {
         }
 
         if (!this.inited) {
-            this.setOptions({show: true});
+            this.setOptions({show: true} as Partial<O>);
             return;
         }
 
@@ -122,7 +128,7 @@ export class Popover extends Component<PopoverOptions, PopoverEvents> {
         this._targetElement = target;
         const $target = $(target);
         const {animation, mask} = this.options;
-        $target.addClass('show');
+        $target.addClass(CLASS_SHOW);
         if (animation) {
             $target.addClass(animation === true ? 'fade' : animation);
         }
@@ -136,7 +142,7 @@ export class Popover extends Component<PopoverOptions, PopoverEvents> {
         }
 
         this._setTimer(() => {
-            $target.addClass('in');
+            $target.addClass(CLASS_SHOWN);
 
             this._setTimer(() => {
                 this.emit('shown');
@@ -162,7 +168,7 @@ export class Popover extends Component<PopoverOptions, PopoverEvents> {
         const $target = $(this._targetElement as HTMLElement);
         this._shown = false;
         this.emit('hide');
-        $target.removeClass('in');
+        $target.removeClass(CLASS_SHOWN);
 
         if (!this._virtual) {
             const triggerElement = this._triggerElement as HTMLElement;
@@ -173,7 +179,7 @@ export class Popover extends Component<PopoverOptions, PopoverEvents> {
 
         this._setTimer(() => {
             this.emit('hidden');
-            $target.removeClass('show');
+            $target.removeClass(CLASS_SHOW);
 
             this._destoryTarget();
         }, this.options.animation ? 200 : 0);
@@ -253,7 +259,7 @@ export class Popover extends Component<PopoverOptions, PopoverEvents> {
         });
     }
 
-    render(options?: PopoverOptions) {
+    render(options?: Partial<O>) {
         super.render(options);
         const targetElement = this._targetElement;
         if (!targetElement) {
@@ -338,3 +344,19 @@ export class Popover extends Component<PopoverOptions, PopoverEvents> {
         return $target[0]!;
     }
 }
+
+$(document).on(`click${Popover.NAMESPACE} mouseenter${Popover.NAMESPACE}`, TOGGLE_SELECTOR, (event: MouseEvent) => {
+    const $toggleBtn = $(event.currentTarget as HTMLElement);
+    if ($toggleBtn.length && !$toggleBtn.data(Popover.KEY)) {
+        const trigger = $toggleBtn.data('trigger') || 'click';
+        const eventForTrigger = event.type === 'mouseover' ? 'hover' : 'click';
+        if (eventForTrigger !== trigger) {
+            return;
+        }
+        const modalTrigger = Popover.ensure($toggleBtn);
+        if (modalTrigger) {
+            modalTrigger.show();
+            event.preventDefault();
+        }
+    }
+});
