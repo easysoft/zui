@@ -982,7 +982,7 @@ function oi(s) {
   const { zui: e } = window;
   return Gs.size || Object.keys(e).forEach((t) => {
     const n = e[t];
-    n.ZUI && Gs.set(t.toLowerCase(), n);
+    !n.NAME || !n.ZUI || Gs.set(t.toLowerCase(), n);
   }), s ? Gs.get(s.toLowerCase()) : void 0;
 }
 function cu(s, e, t) {
@@ -1092,7 +1092,7 @@ y.getScript = function(s, e, t) {
     }
     const r = document.createElement("script");
     r.async = !0, e && Object.assign(r, e), r.onload = () => {
-      o(), (y(r).dataset("loaded", !0).data("loadCalls") || []).forEach((l) => l());
+      o(), (y(r).dataset("loaded", !0).data("loadCalls") || []).forEach((l) => l()), y(r).removeData("loadCalls");
     }, r.src = s, y("head").append(r);
   });
 };
