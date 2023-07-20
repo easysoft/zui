@@ -1,32 +1,15 @@
 .tooltip {
-  @apply -z-tooltip -rounded -text-white -py-1 -px-2 -text-xs -opacity-0 -hidden;
+  @apply -z-tooltip -rounded -bg-inverse -border-inverse -text-canvas -py-1 -px-2 -text-xs -max-w-md;
 }
-.btn.with-tooltip-show {
-  @apply -shadow-inner;
+.tooltip > .arrow {
+  @apply -border-0;
 }
-
-.tooltip > .arrow-top {
-  @apply -mb-px;
+.tooltip-has-title {
+  @apply -shadow -py-2;
 }
-
-.tooltip > .arrow-bottom {
-  @apply -mt-px;
+.tooltip-heading {
+  @apply -font-bold -text-base -p-1;
 }
-
-.tooltip > .arrow-left {
-  @apply -mr-px;
-}
-
-.tooltip > .arrow-right {
-  @apply -ml-px;
-}
-.tooltip.fade {
-  @apply -opacity-0 -transition-opacity	-ease-linear -delay-150;
-}
-.tooltip .arrow {
-  @apply -opacity-0;
-}
-.tooltip.show .arrow,
-.tooltip.show {
-  @apply -opacity-100 -block;
+.tooltip-content {
+  @apply -p-1;
 }
