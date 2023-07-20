@@ -2,8 +2,8 @@
 .arrow,
 .arrow::before {
   @apply -absolute;
-  width: calc(var(--arrow-size) * 2);
-  height: calc(var(--arrow-size) * 2);
+  width: calc(var(--arrow-size) * 1.4142);
+  height: calc(var(--arrow-size) * 1.4142);
   background: inherit;
 }
 
@@ -20,7 +20,7 @@
 
 .arrow-top,
 .arrow-up {
-  top: calc(-1px - var(--arrow-size));
+  top: calc(1px - var(--arrow-size));
   border-bottom: inherit;
   border-right: inherit;
   border-width: 1px 0 0 1px;
@@ -28,21 +28,21 @@
 
 .arrow-bottom,
 .arrow-down {
-  bottom: calc(-1px - var(--arrow-size));
+  bottom: calc(1px - var(--arrow-size));
   border-top: inherit;
   border-left: inherit;
   border-width: 0 1px 1px 0;
 }
 
 .arrow-left {
-  right: calc(-1px - var(--arrow-size));
+  left: calc(1px - var(--arrow-size));
   border-top: inherit;
   border-right: inherit;
   border-width: 0 0 1px 1px;
 }
 
 .arrow-right {
-  left: calc(-1px - var(--arrow-size));
+  right: calc(1px - var(--arrow-size));
   border-bottom: inherit;
   border-left: inherit;
   border-width: 1px 1px 0 0;
