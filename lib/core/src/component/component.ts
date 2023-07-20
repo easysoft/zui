@@ -47,8 +47,8 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
     /**
      * Component namespace, like ".zui.menu"
      */
-    static get NAMESPACE(): `.${string}.zui` {
-        return `.${this.NAME}.zui`;
+    static get NAMESPACE(): `.zui.${string}` {
+        return `.zui.${this.ZUI}`;
     }
 
     static get DATA_KEY(): `data-zui-${string}` {
@@ -324,7 +324,7 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
      * @returns Event namespace.
      */
     get namespace() {
-        return `.${this._key}${this.constructor.NAMESPACE}`;
+        return `${this.constructor.NAMESPACE}.${this._key}`;
     }
 
     /**
