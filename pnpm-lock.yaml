@@ -850,6 +850,19 @@ importers:
         specifier: workspace:*
         version: link:../../dev
 
+  lib/popover:
+    dependencies:
+      '@zui/core':
+        specifier: workspace:^0.0.1
+        version: link:../core
+      '@zui/css-icons':
+        specifier: workspace:^0.0.1
+        version: link:../css-icons
+    devDependencies:
+      zui-dev:
+        specifier: workspace:^0.0.1
+        version: link:../../dev
+
   lib/popovers:
     dependencies:
       '@zui/core':

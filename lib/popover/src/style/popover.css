@@ -1,0 +1,19 @@
+.popover {
+  @apply -absolute -w-max -hidden;
+}
+.popover.show {
+  @apply -block;
+}
+.popover-heading {
+  @apply -bg-surface -h-10 -flex -items-center -pl-3 -pr-2 -justify-between -rounded-t-[inherit];
+}
+.popover-title {
+  @apply -flex-auto -font-bold;
+}
+.popover-content {
+  @apply -p-3;
+}
+.popover > .arrow-up,
+.popover > .arrow-top {
+  @apply -bg-surface;
+}
