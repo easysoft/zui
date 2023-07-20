@@ -24,7 +24,7 @@ export function getComponent(name?: string): ZUIComponent | undefined {
     if (!componentsMap.size) {
         Object.keys(zui).forEach((n) => {
             const Component = zui[n];
-            if (!Component.ZUI) {
+            if (!Component.NAME || !Component.ZUI) {
                 return;
             }
             componentsMap.set(n.toLowerCase(), Component);
