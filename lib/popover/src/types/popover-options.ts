@@ -3,6 +3,8 @@ import type {Selector} from '@zui/core';
 import type {PopoverPanelOptions} from './popover-panel-options';
 
 export type PopoverOptions = Omit<PopoverPanelOptions, 'arrow' | 'arrowStyle' | 'onlyInner'> & {
+    name?: string;
+
     /* The panel target element. */
     target?: Selector | (() => HTMLElement);
 
@@ -19,6 +21,6 @@ export type PopoverOptions = Omit<PopoverPanelOptions, 'arrow' | 'arrowStyle' | 
     offset?: number;
     mask?: boolean;
     delay?: number;
-    show?: boolean;
+    show?: boolean | number;
     animation?: boolean | string;
 };

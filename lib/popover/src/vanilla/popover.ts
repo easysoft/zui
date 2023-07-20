@@ -1,7 +1,8 @@
 import {arrow, computePosition, flip, shift, autoUpdate, offset, VirtualElement} from '@floating-ui/dom';
-import {Component, $, getClassList} from '@zui/core';
+import {Component, $} from '@zui/core';
 import {PopoverEvents, PopoverOptions, PopoverPanelOptions} from '../types';
 import {PopoverPanel} from './popover-panel';
+import '@zui/css-icons/src/icons/arrow.css';
 
 const TOGGLE_SELECTOR = '[data-toggle="popover"]';
 
@@ -88,8 +89,9 @@ export class Popover<O extends PopoverOptions = PopoverOptions> extends Componen
                 });
             }
         }
-        if (this.options.show) {
-            this.show();
+        const {show} = this.options;
+        if (show) {
+            this.show(show);
         }
     }
 
@@ -162,7 +164,7 @@ export class Popover<O extends PopoverOptions = PopoverOptions> extends Componen
 
     hide() {
         if (!this._shown || !this._targetElement) {
-            return;
+            this._setTimer();
         }
 
         const $target = $(this._targetElement as HTMLElement);
@@ -199,9 +201,7 @@ export class Popover<O extends PopoverOptions = PopoverOptions> extends Componen
             const {namespace} = this;
             $(this._triggerElement as HTMLElement).off(namespace);
         }
-        if (this._timer) {
-            clearTimeout(this._timer);
-        }
+        this._setTimer();
         this._destoryTarget();
         $(document).off(this.namespace);
     }
@@ -223,7 +223,7 @@ export class Popover<O extends PopoverOptions = PopoverOptions> extends Componen
         }
 
         this._layoutWatcher = autoUpdate(trigger, element, () => {
-            const {placement: placementSetting, width, flip: isFlip, shift: shiftSetting, offset: offsetSetting, arrow: arrowSetting} = this.options;
+            const {placement: placementSetting, width, flip: isFlip, shift: shiftSetting, offset: offsetSetting, arrow: arrowSetting, name = 'popover'} = this.options;
             if (width === '100%' && !this._virtual) {
                 $(element).css({width: $(trigger as HTMLElement).width()});
             }
@@ -253,7 +253,7 @@ export class Popover<O extends PopoverOptions = PopoverOptions> extends Componen
                     $(arrowElement!).css({
                         left: arrowPosition.x,
                         top: arrowPosition.y,
-                    }).attr('class', `arrow arrow-${staticSide}`);
+                    }).attr('class', `arrow ${name}-arrow arrow-${staticSide}`);
                 }
                 if (this.options.animation === true) {
                     $element.attr('class', `${$element.attr('class')!.split(' ').filter(n => n !== 'fade' && !n.startsWith('fade-from')).join(' ')} fade-from-${staticSide}`);
@@ -270,6 +270,9 @@ export class Popover<O extends PopoverOptions = PopoverOptions> extends Componen
         }
         const panelOptions = this._getRenderOptions();
         $(targetElement).toggleClass('popup', panelOptions.popup).css(panelOptions.style!);
+        if (panelOptions.className) {
+            $(targetElement).setClass(panelOptions.className);
+        }
         if (this._dynamic) {
             let panel = this._panel;
             if (panel && panel.element !== targetElement) {
@@ -289,28 +292,30 @@ export class Popover<O extends PopoverOptions = PopoverOptions> extends Componen
     }
 
     protected _getRenderOptions(): PopoverPanelOptions {
+        const {name = 'popover'} = this.options;
         const {
             popup,
             title,
-            titleClass,
-            headingClass,
             content,
+            headingClass = `${name}-heading`,
+            titleClass = `${name}-title`,
+            contentClass = `${name}-content`,
             style,
-            className,
+            className = name,
             closeBtn,
             arrow: arrowSetting,
         } = this.options;
         return {
-            id: `${this._id}_panel`,
             popup,
             title,
             titleClass,
             headingClass,
+            contentClass,
             content,
             style: {zIndex: (this.constructor as typeof Popover).Z_INDEX++, ...style},
             className,
             closeBtn,
-            arrow: !!arrowSetting,
+            arrow: arrowSetting ? `arrow ${name}-arrow` : false,
             onlyInner: true,
         };
     }
@@ -326,9 +331,12 @@ export class Popover<O extends PopoverOptions = PopoverOptions> extends Componen
         }
     }
 
-    protected _setTimer(callback: () => void, delay = 0) {
+    protected _setTimer(callback?: () => void, delay = 0) {
         if (this._timer) {
             clearTimeout(this._timer);
+        }
+        if (!callback) {
+            return;
         }
         this._timer = window.setTimeout(() => {
             this._timer = 0;
@@ -356,10 +364,7 @@ $(document).on(`click${Popover.NAMESPACE} mouseenter${Popover.NAMESPACE}`, TOGGL
         if (eventForTrigger !== trigger) {
             return;
         }
-        const modalTrigger = Popover.ensure($toggleBtn);
-        if (modalTrigger) {
-            modalTrigger.show();
-            event.preventDefault();
-        }
+        Popover.ensure($toggleBtn, {show: true});
+        event.preventDefault();
     }
 });

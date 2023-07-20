@@ -13,13 +13,18 @@
 .popover-content {
   @apply -p-3;
 }
-.popover > .arrow-up,
-.popover > .arrow-top {
+.popover-arrow.arrow-up,
+.popover-arrow.arrow-top {
   @apply -bg-surface;
 }
 .popover > .btn-close {
   @apply -absolute -right-2 -top-2.5;
 }
+
 .btn-close + .popover-content {
   @apply -pr-12;
+}
+
+.btn.with-popover-show {
+  @apply -shadow-inner;
 }

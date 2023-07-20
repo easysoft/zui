@@ -13,15 +13,15 @@ export class PopoverPanel extends Component<PopoverPanelOptions> {
             className,
             closeBtn,
             arrow,
-            headingClass = 'popover-heading',
-            titleClass = 'popover-title',
-            contentClass = 'popover-content',
+            headingClass,
+            titleClass,
+            contentClass,
             arrowStyle,
             onlyInner,
         } = props;
 
         let contentView = <CustomContent key="content" content={content} />;
-        if (contentClass) {
+        if (contentClass || title) {
             contentView = <div key="content" className={contentClass}>{contentView}</div>;
         }
 

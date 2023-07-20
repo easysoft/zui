@@ -13,6 +13,6 @@ export type PopoverPanelOptions = {
     style?: JSX.CSSProperties;
     className?: ClassNameLike;
     closeBtn?: boolean;
-    arrow?: boolean | 'top' | 'bottom' | 'left' | 'right' | 'up' | 'down';
+    arrow?: boolean | string;
     arrowStyle?: JSX.CSSProperties;
 };
