@@ -398,40 +398,6 @@ importers:
         specifier: workspace:^0.0.1
         version: link:../../dev
 
-  lib/datepicker:
-    dependencies:
-      '@floating-ui/core':
-        specifier: ^1.1.0
-        version: 1.1.0
-      '@floating-ui/dom':
-        specifier: ^1.1.0
-        version: 1.1.0
-      '@zui/core':
-        specifier: workspace:*
-        version: link:../core
-      '@zui/css-icons':
-        specifier: workspace:^0.0.1
-        version: link:../css-icons
-      '@zui/icons':
-        specifier: workspace:^0.0.1
-        version: link:../icons
-    devDependencies:
-      '@zui/base':
-        specifier: workspace:*
-        version: link:../base
-      '@zui/form':
-        specifier: workspace:0.0.1
-        version: link:../form
-      '@zui/input-control':
-        specifier: workspace:0.0.1
-        version: link:../input-control
-      '@zui/utilities':
-        specifier: workspace:*
-        version: link:../utilities
-      zui-dev:
-        specifier: workspace:*
-        version: link:../../dev
-
   lib/datetime-picker:
     dependencies:
       '@zui/base':
@@ -965,40 +931,6 @@ importers:
       '@zui/utilities':
         specifier: workspace:*
         version: link:../utilities
-
-  lib/timepicker:
-    dependencies:
-      '@floating-ui/core':
-        specifier: ^1.1.0
-        version: 1.1.0
-      '@floating-ui/dom':
-        specifier: ^1.1.0
-        version: 1.1.0
-      '@zui/core':
-        specifier: workspace:*
-        version: link:../core
-      '@zui/css-icons':
-        specifier: workspace:^0.0.1
-        version: link:../css-icons
-    devDependencies:
-      '@zui/base':
-        specifier: workspace:*
-        version: link:../base
-      '@zui/form':
-        specifier: workspace:0.0.1
-        version: link:../form
-      '@zui/icons':
-        specifier: workspace:^0.0.1
-        version: link:../icons
-      '@zui/input-control':
-        specifier: workspace:0.0.1
-        version: link:../input-control
-      '@zui/utilities':
-        specifier: workspace:*
-        version: link:../utilities
-      zui-dev:
-        specifier: workspace:*
-        version: link:../../dev
 
   lib/toolbar:
     dependencies:
