@@ -19,13 +19,13 @@
 .fade-from-top,
 .fade-from-left,
 .fade-from-right{
-  @apply -scale-75;
+  @apply -scale-90;
 }
 
-.fade-from-bottom   {@apply -translate-y-1/2;}
-.fade-from-top      {@apply --translate-y-1/2;}
-.fade-from-left     {@apply --translate-x-1/2;}
-.fade-from-right    {@apply -translate-x-1/2;}
+.fade-from-bottom   {@apply -translate-y-1/4;}
+.fade-from-top      {@apply --translate-y-1/4;}
+.fade-from-left     {@apply --translate-x-1/4;}
+.fade-from-right    {@apply -translate-x-1/4;}
 
 .fade.in,
 .fade-from-center.in,
