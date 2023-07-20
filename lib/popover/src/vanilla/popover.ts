@@ -1,5 +1,5 @@
 import {arrow, computePosition, flip, shift, autoUpdate, offset, VirtualElement} from '@floating-ui/dom';
-import {Component, $} from '@zui/core';
+import {Component, $, getClassList} from '@zui/core';
 import {PopoverEvents, PopoverOptions, PopoverPanelOptions} from '../types';
 import {PopoverPanel} from './popover-panel';
 
@@ -25,7 +25,7 @@ export class Popover<O extends PopoverOptions = PopoverOptions> extends Componen
         trigger: 'click',
         mask: true,
         delay: 0,
-        animation: 'fade',
+        animation: true,
         closeBtn: true,
         popup: true,
     };
@@ -238,7 +238,7 @@ export class Popover<O extends PopoverOptions = PopoverOptions> extends Componen
                     arrowSetting ? arrow({element: arrowElement!}) : null,
                 ].filter(Boolean),
             }).then(({x, y, middlewareData, placement}) => {
-                $(element).css({
+                const $element = $(element).css({
                     left: x,
                     top: y,
                 });
@@ -254,6 +254,9 @@ export class Popover<O extends PopoverOptions = PopoverOptions> extends Componen
                         left: arrowPosition.x,
                         top: arrowPosition.y,
                     }).attr('class', `arrow arrow-${staticSide}`);
+                }
+                if (this.options.animation === true) {
+                    $element.attr('class', `${$element.attr('class')!.split(' ').filter(n => n !== 'fade' && !n.startsWith('fade-from')).join(' ')} fade-from-${staticSide}`);
                 }
             });
         });
