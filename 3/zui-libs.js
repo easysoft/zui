@@ -1369,11 +1369,10 @@ export default [
             "zui-dev": "workspace:*"
         },
         "dependencies": {
-            "@floating-ui/core": "^1.1.0",
-            "@floating-ui/dom": "^1.1.0",
             "@zui/core": "workspace:*",
             "@zui/button": "workspace:0.0.1",
-            "@zui/css-icons": "workspace:^0.0.1"
+            "@zui/css-icons": "workspace:^0.0.1",
+            "@zui/popover": "workspace:*"
         },
         "zui": {
             "type": "component",
