@@ -6100,8 +6100,8 @@ d(document).on(`click${Nt.NAMESPACE} mouseenter${Nt.NAMESPACE}`, uu, (n) => {
     const t = e.data("trigger") || "hover";
     if ((n.type === "mouseover" ? "hover" : "click") !== t)
       return;
-    const i = e.attr("title"), o = e.dataset("content");
-    i && e.removeAttr("title").attr("data-origin-title", i), Nt.ensure(e, { show: Nt.DEFAULT.delay || !0, content: o || i, title: o ? i : void 0 }), n.preventDefault();
+    let i = e.attr("title"), o = e.dataset("content");
+    i ? e.removeAttr("title").attr("data-origin-title", i) : i = e.dataset("title"), o || (o = i, i = ""), Nt.ensure(e, { show: Nt.DEFAULT.delay || !0, content: o || i, title: o ? i : void 0 }), n.preventDefault();
   }
 });
 function du({
