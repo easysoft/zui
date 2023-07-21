@@ -17,4 +17,4 @@
 .surface {@apply -ring-surface -bg-surface -text-fore;}
 .canvas  {@apply -ring-canvas -bg-canvas -text-fore;}
 .inverse {@apply -ring-fore -bg-fore -text-canvas;}
-.ghost   {@apply -ring-transparent -bg-transparent -text-fore;}
+.ghost   {@apply -ring-transparent -bg-transparent;}
