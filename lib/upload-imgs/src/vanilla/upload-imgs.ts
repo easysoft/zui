@@ -9,6 +9,8 @@ export class UploadImgs extends Upload<UploadImgsOptions> {
 
     private $uploadButtonItem: Cash;
 
+    static NAME = 'UploadImgs';
+
     static DEFAULT: Partial<UploadImgsOptions> = {
         uploadText: '添加文件',
         renameBtn: true,

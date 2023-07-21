@@ -22,6 +22,8 @@ export class Upload<T extends UploadOptions = UploadOptions> extends Component<T
 
     protected currentBytes: number;
 
+    static NAME = 'Upload';
+
     static DEFAULT: Partial<UploadOptions> = {
         uploadText: '上传文件',
         confirmText: '确定',
