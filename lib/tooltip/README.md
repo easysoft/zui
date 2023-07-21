@@ -9,15 +9,15 @@
 ```html:example:
 <div class="w-2/4">
   <div class="flex justify-center gap-1">
-    <button type="button" class="btn" data-toggle="tooltip" data-content="提示消息" data-placement="top-start">上左</button>
-    <button type="button" class="btn" data-toggle="tooltip" data-content="提示消息" data-placement="top">上中</button>
-    <button type="button" class="btn" data-toggle="tooltip" data-content="提示消息" data-placement="top-end">上右</button>
+    <button type="button" class="btn" data-toggle="tooltip" data-title="提示消息" data-placement="top-start">上左</button>
+    <button type="button" class="btn" data-toggle="tooltip" data-title="提示消息" data-placement="top">上中</button>
+    <button type="button" class="btn" data-toggle="tooltip" data-title="提示消息" data-placement="top-end">上右</button>
   </div>
   <div class="flex justify-between">
     <div class="col gap-1">
-      <button type="button" class="btn" data-toggle="tooltip" data-content="提示消息" data-placement="left-start">左上</button>
-      <button type="button" class="btn" data-toggle="tooltip" data-content="提示消息" data-placement="left">左中</button>
-      <button type="button" class="btn" data-toggle="tooltip" data-content="提示消息" data-placement="left-end">左下</button>
+      <button type="button" class="btn" data-toggle="tooltip" title="提示消息" data-placement="left-start">左上</button>
+      <button type="button" class="btn" data-toggle="tooltip" title="提示消息" data-placement="left">左中</button>
+      <button type="button" class="btn" data-toggle="tooltip" title="提示消息" data-placement="left-end">左下</button>
     </div>
     <div class="col gap-1">
       <button type="button" class="btn" data-toggle="tooltip" data-content="提示消息" data-placement="right-start">右上</button>

@@ -35,10 +35,16 @@ $(document).on(`click${Tooltip.NAMESPACE} mouseenter${Tooltip.NAMESPACE}`, TOGGL
         if (eventForTrigger !== trigger) {
             return;
         }
-        const title = $toggleBtn.attr('title');
-        const content = $toggleBtn.dataset('content');
+        let title = $toggleBtn.attr('title');
+        let content = $toggleBtn.dataset('content');
         if (title) {
             $toggleBtn.removeAttr('title').attr('data-origin-title', title);
+        } else {
+            title = $toggleBtn.dataset('title') as string;
+        }
+        if (!content) {
+            content = title;
+            title = '';
         }
         (Tooltip as typeof Popover).ensure($toggleBtn, {show: Tooltip.DEFAULT.delay || true, content: content || title, title: content ? title : undefined});
         event.preventDefault();
