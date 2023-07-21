@@ -14,6 +14,7 @@ export class Tooltip extends Popover<TooltipOptions> {
         closeBtn: false,
         popup: false,
         name: 'tooltip',
+        animation: 'fade',
     };
 
     protected _getRenderOptions(): PopoverPanelOptions {

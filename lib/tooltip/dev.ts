@@ -7,5 +7,6 @@ onPageUpdate(() => {
         title: '点击展示提示内容',
         content: '哈哈哈',
         trigger: 'click',
+        closeBtn: true,
     });
 });

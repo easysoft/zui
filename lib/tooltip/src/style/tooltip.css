@@ -5,10 +5,16 @@
   @apply -border-0;
 }
 .tooltip-has-title {
-  @apply -shadow -py-2;
+  @apply -shadow-xl -px-3 -pt-2 -pb-3 -bg-opacity-80 -backdrop-blur;
+}
+.tooltip-has-title > .arrow {
+  @apply -opacity-75;
 }
 .tooltip-heading {
-  @apply -font-bold -text-base -p-1;
+  @apply -flex -items-center -gap-4 -justify-between -font-bold -text-base -p-1;
+}
+.tooltip-heading > .btn-close {
+  @apply --mr-1;
 }
 .tooltip-content {
   @apply -p-1;
