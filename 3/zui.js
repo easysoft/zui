@@ -6090,7 +6090,8 @@ Pi.NAME = "Tooltip", Pi.DEFAULT = {
   delay: 500,
   closeBtn: !1,
   popup: !1,
-  name: "tooltip"
+  name: "tooltip",
+  animation: "fade"
 };
 let Nt = Pi;
 d(document).on(`click${Nt.NAMESPACE} mouseenter${Nt.NAMESPACE}`, uu, (n) => {
