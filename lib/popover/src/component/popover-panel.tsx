@@ -1,6 +1,8 @@
 import {Component, ComponentChild} from 'preact';
 import {PopoverPanelOptions} from '../types';
 import {classes, CustomContent} from '@zui/core';
+import '@zui/css-icons/src/icons/arrow.css';
+import '@zui/css-icons/src/icons/close.css';
 
 export class PopoverPanel extends Component<PopoverPanelOptions> {
     render(props: PopoverPanelOptions) {

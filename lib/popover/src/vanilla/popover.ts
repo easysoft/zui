@@ -2,7 +2,6 @@ import {arrow, computePosition, flip, shift, autoUpdate, offset, VirtualElement}
 import {Component, $} from '@zui/core';
 import {PopoverEvents, PopoverOptions, PopoverPanelOptions} from '../types';
 import {PopoverPanel} from './popover-panel';
-import '@zui/css-icons/src/icons/arrow.css';
 
 const TOGGLE_SELECTOR = '[data-toggle="popover"]';
 
