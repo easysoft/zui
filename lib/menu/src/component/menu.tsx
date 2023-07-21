@@ -5,7 +5,7 @@ import type {ActionMenuItemOptions, ActionItemProps} from '@zui/action-menu/src/
 import type {MenuOptions, MenuItemOptions} from '../types';
 import '../style/index.css';
 
-export class Menu<T extends ActionMenuItemOptions = MenuItemOptions> extends ActionMenuNested<T, MenuOptions<T>> {
+export class Menu<T extends ActionMenuItemOptions = MenuItemOptions, O extends MenuOptions<T> = MenuOptions<T>> extends ActionMenuNested<T, O> {
     static NAME = 'menu';
 
     get nestedTrigger() {
