@@ -128,13 +128,14 @@ export class Popover<O extends PopoverOptions = PopoverOptions> extends Componen
         }
         this._targetElement = target;
         const $target = $(target);
-        const {animation, mask} = this.options;
+        const {animation, mask, onShow, onShown} = this.options;
         $target.addClass(CLASS_SHOW);
         if (animation) {
             $target.addClass(animation === true ? 'fade' : animation);
         }
         this._shown = true;
         this.render();
+        onShow?.call(this);
         this.emit('show');
 
         if (!this._virtual) {
@@ -146,6 +147,7 @@ export class Popover<O extends PopoverOptions = PopoverOptions> extends Componen
             $target.addClass(CLASS_SHOWN);
 
             this._setTimer(() => {
+                onShown?.call(this);
                 this.emit('shown');
             }, 200);
 
@@ -166,8 +168,10 @@ export class Popover<O extends PopoverOptions = PopoverOptions> extends Componen
             this._setTimer();
         }
 
+        const {destroyOnHide, animation, onHide, onHidden} = this.options;
         const $target = $(this._targetElement as HTMLElement);
         this._shown = false;
+        onHide?.call(this);
         this.emit('hide');
         $target.removeClass(CLASS_SHOWN);
 
@@ -179,11 +183,17 @@ export class Popover<O extends PopoverOptions = PopoverOptions> extends Componen
         $(document).off(this.namespace);
 
         this._setTimer(() => {
+            onHidden?.call(this);
             this.emit('hidden');
             $target.removeClass(CLASS_SHOW);
 
+            if (destroyOnHide) {
+                this._setTimer(() => {
+                    this.destroy();
+                }, typeof destroyOnHide === 'number' ? destroyOnHide : 0);
+            }
             this._destoryTarget();
-        }, this.options.animation ? 200 : 0);
+        }, animation ? 200 : 0);
     }
 
     toggle() {
