@@ -9,10 +9,11 @@ export type PopoverOptions = Omit<PopoverPanelOptions, 'arrow' | 'arrowStyle' | 
     target?: Selector | (() => HTMLElement);
 
     /* The trigger element. */
-    element?: Selector | VirtualElement | (() => (Selector | VirtualElement));
+    element?: HTMLElement | VirtualElement;
     width?: number | 'auto' | '100%' | (() => number | 'auto');
     container?: Selector;
-    trigger?: 'click' | 'hover' | 'manual';
+    trigger?: 'click' | 'hover' | 'manual' | (string & {});
+    triggerEvent?: Event;
     placement?: Placement;
     strategy?: Strategy;
     flip?: boolean;

@@ -28,3 +28,12 @@
 .btn.with-popover-show {
   @apply -shadow-inner;
 }
+.with-popover-show[data-popover-placement="top"] > .caret {
+  @apply -rotate-180;
+}
+.with-popover-show[data-popover-placement="left"] > .caret {
+  @apply -rotate-90;
+}
+.with-popover-show[data-popover-placement="right"] > .caret {
+  @apply --rotate-90;
+}

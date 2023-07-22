@@ -44,7 +44,7 @@ console.log('> popover', popover);
 
 ```html:example
 <button type="button" class="btn" data-toggle="popover" data-content="这是提示消息">点击显示 Popover</button>
-<button type="button" class="btn" data-toggle="popover" data-title="这是提示标题" data-content="这是提示消息">Hover 显示 Popover</button>
+<button type="button" class="btn" data-toggle="popover" data-trigger="hover" data-title="这是提示标题" data-content="这是提示消息">Hover 显示 Popover</button>
 ```
 
 ## 动态
