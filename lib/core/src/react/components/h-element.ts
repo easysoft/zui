@@ -1,5 +1,5 @@
 import {h, Component} from 'preact';
-import type {PreactDOMAttributes, JSX, RefObject, ComponentType, ComponentChild, RenderableProps, ComponentChildren} from 'preact';
+import type {PreactDOMAttributes, JSX, RefObject, ComponentType, RenderableProps, ComponentChildren} from 'preact';
 import {ClassNameLike, classes} from '../../helpers/classes';
 
 /**
