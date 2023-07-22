@@ -1562,6 +1562,7 @@ export default [
             "@zui/button": "workspace:0.0.1",
             "@zui/icons": "workspace:^0.0.1",
             "@zui/utilities": "workspace:*",
+            "@zui/dropdown": "workspace:*",
             "zui-dev": "workspace:^0.0.1"
         },
         "dependencies": {
@@ -1660,9 +1661,9 @@ export default [
         },
         "dependencies": {
             "@zui/core": "workspace:*",
-            "@zui/button": "workspace:0.0.1",
-            "@zui/contextmenu": "workspace:*",
-            "@zui/css-icons": "workspace:^0.0.1",
+            "@zui/button": "workspace:*",
+            "@zui/popover": "workspace:*",
+            "@zui/css-icons": "workspace:*",
             "@zui/menu": "workspace:*"
         },
         "zui": {
