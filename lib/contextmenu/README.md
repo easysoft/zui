@@ -1,16 +1,20 @@
 # 右键菜单
 
-## 静态
+## 被动打开目标菜单
 
 ```html:example
-<div class="items-center justify-center h-32 primary-pale row" data-toggle="contextmenu">
+<div class="items-center justify-center h-32 primary-pale row" id="contextMenuToggle1" data-target="#contextMenu1">
     在此区域使用右键菜单
 </div>
-<menu class="contextmenu menu">
+<menu class="contextmenu menu popup" id="contextMenu1">
   <li class="menu-item"><a>操作</a></li>
   <li class="menu-item"><a>另一个操作</a></li>
   <li class="menu-item"><a>更多操作</a></li>
 </menu>
+```
+
+```js
+const contextMenu = new ContextMenu('#contextMenuToggle1');
 ```
 
 ## 动态

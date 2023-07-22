@@ -1,11 +1,14 @@
-// import '@zui/button';
-// import '@zui/menu';
+import '@zui/button';
+import '@zui/menu';
 import '@zui/icons';
 import 'zui-dev';
 import 'preact/debug';
 import {ContextMenu} from './src/main';
 
 onPageLoad(() => {
+    const contextMenu1 = new ContextMenu('#contextMenuToggle1');
+    console.log('> contextMenu1', contextMenu1);
+
     const contextMenu = new ContextMenu('#menuToggle1', {
         menu: {
             items: [
@@ -50,7 +53,7 @@ onPageLoad(() => {
 
     document.getElementById('menuToggle2')?.addEventListener('click', (event) => {
         const contextmenu = ContextMenu.show({
-            event,
+            triggerEvent: event,
             menu: {
                 items: [
                     {text: '复制', icon: 'icon-copy'},

@@ -1,12 +1,9 @@
 .contextmenu {
-    @apply -hidden -z-dropdown;
+    @apply -hidden;
 }
 .contextmenu.show {
     @apply -block;
 }
-.contextmenu-toggle-icon {
-    @apply -ml-2;
-}
-.contextmenu .has-nested-menu.show > a:not(:hover) {
-    @apply -bg-[--contextmenu-nested-hover-bg];
+.contextmenu.popup {
+    @apply -absolute;
 }
