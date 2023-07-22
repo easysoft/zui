@@ -1,179 +1,69 @@
-import '@zui/css-icons/src/icons/arrow.css';
-import {$} from '@zui/core';
-import {ContextMenu} from '@zui/contextmenu/src/vanilla/contextmenu';
-import {ContextMenuTrigger} from '@zui/contextmenu/src/types/contextmenu-trigger';
-import type {DropdownEvents} from '../types/dropdown-events';
-import type {DropdownOptions} from '../types/dropdown-options';
-import '../css/dropdown.css';
-import {offset, arrow} from '@floating-ui/dom';
+import {$, h} from '@zui/core';
+import {Popover, PopoverPanelOptions} from '@zui/popover';
+import {DropdownMenu} from '../component';
+import type {DropdownOptions, DropdownMenuOptions} from '../types';
 
-const MENU_SELECTOR = '[data-toggle="dropdown"]';
+const TOGGLE_SELECTOR = '[data-toggle="dropdown"]';
 
-export class Dropdown extends ContextMenu<DropdownOptions, DropdownEvents> {
-    static MENU_CLASS = 'dropdown-menu';
-
+export class Dropdown<O extends DropdownOptions = DropdownOptions> extends Popover<O> {
     static NAME = 'Dropdown';
 
-    static DEFAULT = {
-        ...ContextMenu.DEFAULT,
-        trigger: 'click',
-    } as Partial<DropdownOptions>;
-
-    #hoverEventsBind = false;
-
-    #hideTimer = 0;
-
-    get isHover() {
-        return this.options.trigger === 'hover';
-    }
-
-    get elementShowClass() {
-        return `with-${this.constructor.NAME}-show`;
-    }
-
-    show(trigger?: ContextMenuTrigger, options?: {event?: MouseEvent, clearOthers?: boolean}) {
-        if (options?.clearOthers !== false) {
-            Dropdown.clear({event: options?.event, exclude: [this.element]});
-        }
-
-        const result = super.show(trigger);
-        if (result) {
-            if (!this.#hoverEventsBind && this.isHover) {
-                this.#bindHoverEvents();
-            }
-            this.$element.addClass(this.elementShowClass);
-        }
-        return result;
-    }
-
-    hide() {
-        const result = super.hide();
-        if (result) {
-            this.$element.removeClass(this.elementShowClass);
-        }
-        return result;
-    }
-
-    toggle(event?: MouseEvent, options?: {clearOthers?: boolean}) {
-        return this.isShown ? this.hide() : this.show(event, {event, ...options});
-    }
-
-    hideLater = () => {
-        this.#cancelHide();
-        this.#hideTimer = window.setTimeout(this.hide.bind(this), 100);
+    static DEFAULT: Partial<DropdownOptions> = {
+        ...Popover.DEFAULT,
+        name: 'dropdown',
+        placement: 'bottom-start',
+        arrow: false,
+        closeBtn: false,
+        animation: 'fade',
     };
 
-    destroy() {
-        if (this.#hoverEventsBind) {
-            $(this.menu).off(this.constructor.NAMESPACE);
+    protected _getMenuOptions(): DropdownMenuOptions {
+        let {items = []} = this.options;
+        if (typeof items === 'function') {
+            items = items(this);
         }
-        super.destroy();
+        return {
+            items,
+            nestedTrigger: 'hover',
+            placement: this.options.placement,
+            popup: false,
+            ...this.options.menu,
+        };
     }
 
-    protected getArrowSize() {
-        const {arrow: arrowOption} = this.options;
-        if (!arrowOption) {
-            return 0;
-        }
-        return typeof arrowOption === 'number' ? arrowOption : 8;
+    protected _getRenderOptions(): PopoverPanelOptions {
+        return {
+            ...super._getRenderOptions(),
+            contentClass: '',
+            content: h(DropdownMenu, this._getMenuOptions()),
+        };
     }
 
-    protected getPopperOptions() {
-        const options = super.getPopperOptions();
-        const arrowSize = this.getArrowSize();
-        if (arrowSize && this.arrowEl) {
-            options.middleware?.push(offset(arrowSize));
-            options.middleware?.push(arrow({element: this.arrowEl}));
+    protected _onClickDoc = (event: MouseEvent) => {
+        if (!$(event.target as HTMLElement).closest('.not-hide-menu').length) {
+            this.hide();
         }
-        return options;
-    }
-
-    ensureMenu() {
-        const menu = super.ensureMenu();
-        if (this.options.arrow) {
-            const arrowSize = this.getArrowSize();
-            const arrowEl = $('<div class="arrow-el" />').css({
-                position: 'absolute',
-                width: `${arrowSize}px`,
-                height: `${arrowSize}px`,
-                transform: 'rotate(45deg)',
-            });
-            this.arrowEl = arrowEl[0] as HTMLDivElement;
-        }
-        return menu;
-    }
-
-    protected getMenuOptions() {
-        const options = super.getMenuOptions();
-        if (options && this.options.arrow) {
-            const {afterRender} = options;
-            options.afterRender = (...args) => {
-                if (this.arrowEl) {
-                    $(this.menu).find('.menu').each((_, menu) => {
-                        if ($(menu).find('.arrow-el').length === 0 && $(menu).parent().hasClass('dropdown-menu')) {
-                            $(menu).append(this.arrowEl);
-                        }
-                    });
-                }
-                afterRender?.(...args);
-            };
-        }
-        return options;
-    }
-
-    #cancelHide = () => {
-        clearTimeout(this.#hideTimer);
-        this.#hideTimer = 0;
     };
-
-    #bindHoverEvents() {
-        $(this.menu).on(`mouseenter${this.constructor.NAMESPACE}`, this.#cancelHide)
-            .on(`mouseleave${this.constructor.NAMESPACE}`, this.hideLater);
-        this.on('mouseleave', this.hideLater);
-        this.#hoverEventsBind = true;
-    }
 }
 
-const optionsCacheKey = `${Dropdown.KEY}:options`;
-$(document)
-    .on('click', function (event) {
-        const $toggleBtn = $(event.target as HTMLElement).closest(MENU_SELECTOR).not(':disabled,.disabled');
-        if (!$toggleBtn.length) {
-            Dropdown.clear({event});
+
+$(document).on(`click${Dropdown.NAMESPACE} mouseenter${Dropdown.NAMESPACE}`, TOGGLE_SELECTOR, (event: MouseEvent) => {
+    const $toggleBtn = $(event.currentTarget as HTMLElement);
+    if ($toggleBtn.length && !$toggleBtn.data(Dropdown.KEY)) {
+        const trigger = $toggleBtn.data('trigger') || 'click';
+        const eventForTrigger = event.type === 'mouseover' ? 'hover' : 'click';
+        if (eventForTrigger !== trigger) {
             return;
         }
-
-        const optionsCache = $toggleBtn.data(optionsCacheKey);
-        const dropdown = Dropdown.ensure($toggleBtn, optionsCache);
-        if (!optionsCache) {
-            $toggleBtn.data(optionsCacheKey, dropdown.options);
+        const options: DropdownOptions = {
+            ...$toggleBtn.data(),
+            show: true,
+            triggerEvent: event,
+        };
+        if (!options.target && !options.items && !options.menu) {
+            options.target = $toggleBtn.next('.dropdown-menu');
         }
-        if (dropdown.options.trigger === 'click') {
-            dropdown.toggle();
-        }
-    })
-    .on('mouseover', function (event) {
-        const $toggleBtn = $(event.target as HTMLElement).closest(MENU_SELECTOR);
-        if (!$toggleBtn.length) {
-            return;
-        }
-        const optionsCache = $toggleBtn.data(optionsCacheKey);
-        const dropdown = Dropdown.ensure($toggleBtn, optionsCache);
-        if (!optionsCache) {
-            $toggleBtn.data(optionsCacheKey, dropdown.options);
-        }
-        if (dropdown.isHover) {
-            dropdown.show();
-        }
-    });
-
-let scrollTimer = 0;
-window.addEventListener('scroll', (event: Event) => {
-    if (scrollTimer) {
-        clearTimeout(scrollTimer);
+        (Dropdown as typeof Popover).ensure($toggleBtn, options);
+        event.preventDefault();
     }
-    scrollTimer = window.setTimeout(() => {
-        Dropdown.clear({event});
-        scrollTimer = 0;
-    }, 50);
-}, true);
+});

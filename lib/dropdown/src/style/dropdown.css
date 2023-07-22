@@ -1,0 +1,18 @@
+.dropdown,
+.dropdown-menu {
+  @apply -absolute -z-dropdown;
+}
+.dropdown-menu {
+  @apply -hidden;
+  --menu-min-width: 7rem;
+}
+.show > .dropdown-menu,
+.dropdown-menu.show {
+  @apply -block;
+}
+.popover > .dropdown-menu {
+  @apply -relative;
+}
+.dropdown-menu .has-nested-menu.show > a:not(:hover) {
+    @apply -bg-primary-100;
+}

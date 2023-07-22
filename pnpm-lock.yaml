@@ -355,6 +355,9 @@ importers:
       '@zui/button':
         specifier: workspace:0.0.1
         version: link:../button
+      '@zui/dropdown':
+        specifier: workspace:*
+        version: link:../dropdown
       '@zui/icons':
         specifier: workspace:^0.0.1
         version: link:../icons
@@ -447,20 +450,20 @@ importers:
   lib/dropdown:
     dependencies:
       '@zui/button':
-        specifier: workspace:0.0.1
-        version: link:../button
-      '@zui/contextmenu':
         specifier: workspace:*
-        version: link:../contextmenu
+        version: link:../button
       '@zui/core':
         specifier: workspace:*
         version: link:../core
       '@zui/css-icons':
-        specifier: workspace:^0.0.1
+        specifier: workspace:*
         version: link:../css-icons
       '@zui/menu':
         specifier: workspace:*
         version: link:../menu
+      '@zui/popover':
+        specifier: workspace:*
+        version: link:../popover
     devDependencies:
       '@zui/base':
         specifier: workspace:*
