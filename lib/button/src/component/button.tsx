@@ -1,57 +1,54 @@
-import {Component, h as _h, ComponentType, Attributes} from 'preact';
-import {classes, Icon} from '@zui/core';
+import {classes, HElement, Icon} from '@zui/core';
 import {ButtonProps} from '../types/button-props';
+import type {RenderableProps} from 'preact';
 import '../style/index.css';
 
-export class Button extends Component<ButtonProps> {
-    render() {
-        const {
-            component,
-            type,
-            btnType,
-            size,
-            className,
-            children,
-            url,
-            target,
-            disabled,
-            active,
-            loading,
-            loadingIcon,
-            loadingText,
-            icon,
-            text,
-            trailingIcon,
-            caret,
-            square,
-            rounded = true,
-            hint,
-            ...others
-        } = this.props;
+export class Button<P extends ButtonProps = ButtonProps> extends HElement<P> {
+    protected declare _isEmptyText?: boolean;
 
-        const ButtonComponent = component || (url ? 'a' : 'button');
-        const isEmptyText = text === undefined || text === null || (typeof text === 'string' && !text.length) || loading && !loadingText;
-        const onlyCaret = caret && isEmptyText && !icon && !trailingIcon && !children && !loading;
-        return _h(
-            ButtonComponent as ComponentType<ButtonProps>, {
-                className: classes('btn', type, className, {
-                    'btn-caret': onlyCaret,
-                    disabled: disabled || loading,
-                    active,
-                    loading,
-                    square: square === undefined ? (!onlyCaret && !children && isEmptyText) : square,
-                }, size ? `size-${size}` : '', typeof rounded === 'string' ? rounded : {rounded}),
-                title: hint,
-                [ButtonComponent === 'a' ? 'href' : 'data-url']: url,
-                [ButtonComponent === 'a' ? 'target' : 'data-target']: target,
-                type: ButtonComponent === 'button' ? btnType : undefined,
-                ...others,
-            } as Attributes,
+    protected declare _onlyCaret?: boolean;
+
+    protected _beforeRender(props: RenderableProps<P>) {
+        const {text, loading, loadingText, caret, icon, trailingIcon, children} = props;
+        this._isEmptyText = text === undefined || text === null || (typeof text === 'string' && !text.length) || loading && !loadingText;
+        this._onlyCaret = caret && this._isEmptyText && !icon && !trailingIcon && !children && !loading;
+    }
+
+    protected _getChildren(props: RenderableProps<P>) {
+        const {loading, loadingIcon, loadingText, icon, text, children, trailingIcon, caret} = props;
+        return [
             loading ? <Icon icon={loadingIcon || 'icon-spinner-snake'} className="spin" /> : <Icon icon={icon} />,
-            isEmptyText ? null : <span className="text">{loading ? loadingText : text}</span>,
+            this._isEmptyText ? null : <span className="text">{loading ? loadingText : text}</span>,
             loading ? null : children,
             loading ? null : <Icon icon={trailingIcon} />,
             loading ? null : caret ? <span className={typeof caret === 'string' ? `caret-${caret}` : 'caret'} /> : null,
-        );
+        ];
+    }
+
+    protected _getClassName(props: RenderableProps<P>) {
+        const {type, className, disabled, loading, active, children, square, size, rounded} = props;
+        return classes('btn', type, className, {
+            'btn-caret': this._onlyCaret,
+            disabled: disabled || loading,
+            active,
+            loading,
+            square: square === undefined ? (!this._onlyCaret && !children && this._isEmptyText) : square,
+        }, size ? `size-${size}` : '', typeof rounded === 'string' ? rounded : {rounded});
+    }
+
+    protected _getComponent(props: RenderableProps<P>) {
+        return props.component || (props.url ? 'a' : 'button');
+    }
+
+    protected _getProps(props: RenderableProps<P>) {
+        const component = this._getComponent(props);
+        const {url, target, btnType, hint} = props;
+        return {
+            ...super._getProps(props),
+            title: hint,
+            [component === 'a' ? 'href' : 'data-url']: url,
+            [component === 'a' ? 'target' : 'data-target']: target,
+            type: component === 'button' ? btnType : undefined,
+        };
     }
 }

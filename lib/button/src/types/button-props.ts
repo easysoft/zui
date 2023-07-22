@@ -1,14 +1,10 @@
-import type {ComponentType, ComponentChildren, JSX} from 'preact';
-import type {ClassNameLike, IconType} from '@zui/core';
+import type {ComponentChildren, JSX} from 'preact';
+import type {IconType, HElementProps} from '@zui/core';
 
-export type ButtonProps = {
-    component?: string | ComponentType;
+export interface ButtonProps extends HElementProps {
     type?: string; // primary, secondary ...
     btnType?: 'button' | 'submit' | 'reset';
     size?: 'xs' | 'sm' | 'lg' | 'xl',
-    className?: ClassNameLike;
-    style?: JSX.CSSProperties;
-    children?: ComponentChildren | (() => ComponentChildren);
     onClick?: JSX.MouseEventHandler<HTMLAnchorElement>;
     url?: string;
     target?: string;
@@ -24,4 +20,4 @@ export type ButtonProps = {
     loading?: boolean;
     loadingIcon?: IconType;
     loadingText?: string;
-};
+}
