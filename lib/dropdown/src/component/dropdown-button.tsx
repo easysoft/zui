@@ -1,21 +1,43 @@
+import {createRef} from 'preact';
+import {$} from '@zui/core';
 import {Button} from '@zui/button/src/component/button';
-import {DropdownButtonOptions} from '../types';
-import {DropdownTrigger} from './dropdown-trigger';
+import type {DropdownButtonOptions} from '../types';
+import type {Dropdown} from '../vanilla';
 
-export class DropdownButton extends DropdownTrigger<DropdownButtonOptions> {
+export class DropdownButton extends Button<DropdownButtonOptions> {
+    static defaultProps: Partial<DropdownButtonOptions> = {
+        caret: true,
+    };
+
+    _ref = createRef();
+
     get triggerElement() {
-        return this.ref.current.base as HTMLElement;
+        return this._ref.current as HTMLElement;
     }
 
-    render() {
-        const {placement, show} = this.state;
-        const props = this.beforeRender();
-        let {caret = true} = props;
-        if (caret !== false && (show || caret === true)) {
-            const currentPlacement = (show ? placement : this.props.dropdown?.placement) || '';
-            caret = (currentPlacement.includes('top') ? 'up' : currentPlacement.includes('bottom') ? 'down' : currentPlacement as typeof caret) || (typeof caret === 'string' ? caret : '') || 'down';
+    componentDidMount(): void {
+        const {dropdown, items} = this.props;
+        $(this.triggerElement).data({
+            items,
+            ...dropdown,
+        });
+    }
+
+    componentWillUnmount(): void {
+        const dropdown = $(this.triggerElement).zui('dropdown') as Dropdown;
+        if (dropdown) {
+            dropdown.destroy();
         }
-        props.caret = caret;
-        return <Button {...props} />;
+    }
+
+    protected _getProps(props: DropdownButtonOptions) {
+        const {trigger, placement} = props;
+        return {
+            ...super._getProps(props),
+            'data-toggle': 'dropdown',
+            'data-trigger': trigger,
+            'data-placement': placement,
+            ref: this._ref,
+        };
     }
 }
