@@ -317,7 +317,7 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
         const element = this._targetElement!;
         const {placement: placementSetting, flip: isFlip, shift: shiftSetting, offset: offsetSetting, arrow: arrowSetting} = this.options;
         const arrowElement = arrowSetting ? element.querySelector('.arrow') : null;
-        const arrowSize = arrowElement ? (typeof arrowSetting === 'number' ? arrowSetting : 8) : 0;
+        const arrowSize = arrowElement ? (typeof arrowSetting === 'number' ? arrowSetting : 5) : 0;
         return [trigger, element, {
             placement: placementSetting,
             middleware: [
@@ -354,7 +354,7 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
             className,
             closeBtn,
             arrow: arrowSetting ? `arrow ${name}-arrow` : false,
-            arrowStyle: {'--arrow-size': `${typeof arrowSetting === 'number' ? arrowSetting : 8}px`},
+            arrowStyle: {'--arrow-size': `${typeof arrowSetting === 'number' ? arrowSetting : 5}px`},
             onlyInner: true,
         };
     }
