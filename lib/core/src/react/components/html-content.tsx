@@ -28,27 +28,27 @@ export interface HtmlContentProps extends HElementProps {
  * <HtmlContent html="<script>alert('Hello world')</script>" executeScript />
  */
 export class HtmlContent extends Component<HtmlContentProps> {
-    #ref = createRef<HTMLDivElement>();
+    protected _ref = createRef<HTMLDivElement>();
 
-    #runJS() {
+    protected _runJS() {
         if (!this.props.executeScript) {
             return;
         }
-        $(this.#ref.current).runJS();
+        $(this._ref.current).runJS();
     }
 
     componentDidMount(): void {
-        this.#runJS();
+        this._runJS();
     }
 
     componentDidUpdate(previousProps: Readonly<HtmlContentProps>): void {
         if (this.props.html !== previousProps.html) {
-            this.#runJS();
+            this._runJS();
         }
     }
 
     render(props: HtmlContentProps) {
         const {executeScript, html, ...others} = props;
-        return <HElement forwardRef={this.#ref} dangerouslySetInnerHTML={{__html: html}} {...others} />;
+        return <HElement forwardRef={this._ref} dangerouslySetInnerHTML={{__html: html}} {...others} />;
     }
 }
