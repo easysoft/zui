@@ -15,12 +15,27 @@ export class DropdownButton extends Button<DropdownButtonOptions> {
         return this._ref.current as HTMLElement;
     }
 
-    componentDidMount(): void {
+    _updateData() {
         const {dropdown, items} = this.props;
-        $(this.triggerElement).data({
+        const $trigger = $(this.triggerElement);
+        const instance = $trigger.zui('dropdown') as Dropdown;
+        const options = {
             items,
             ...dropdown,
-        });
+        };
+        if (instance) {
+            instance.setOptions(options);
+        } else {
+            $trigger.data(options);
+        }
+    }
+
+    componentDidMount(): void {
+        this._updateData();
+    }
+
+    componentDidUpdate(): void {
+        this._updateData();
     }
 
     componentWillUnmount(): void {
