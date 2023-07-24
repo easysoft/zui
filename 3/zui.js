@@ -5564,7 +5564,7 @@ const Bh = '[data-toggle="popover"]', Or = "show", Hr = "in", _e = class _e exte
   }
   static show(e) {
     const { element: t } = e;
-    return new this(t instanceof HTMLElement ? t : document.body, { show: !0, destroyOnHide: !0, ...e });
+    return this.ensure(t instanceof HTMLElement ? t : document.body, { show: !0, destroyOnHide: !0, ...e });
   }
 };
 _e.NAME = "Popover", _e.Z_INDEX = 1700, _e.MULTI_INSTANCE = !0, _e.DEFAULT = {
