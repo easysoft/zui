@@ -46,7 +46,7 @@ export class Block extends Component<BlockProps, BlockState> {
                             <button class="toolbar-item dashboard-block-action btn square ghost rounded size-sm" data-type="more" onClick={onMenuBtnClick}><div class="more-vert"></div></button>
                         </div>) : null}
                     </div>
-                    {$.isPlainObject(content) && (content as {html?: string}).html ? <HtmlContent class="dashboard-block-body" executeScript {...(content as {html: string})} /> : (
+                    {$.isPlainObject(content) && (content as {html?: string}).html ? <HtmlContent className="dashboard-block-body" executeScript {...(content as {html: string})} /> : (
                         <div class="dashboard-block-body">{content}</div>
                     )}
                 </div>

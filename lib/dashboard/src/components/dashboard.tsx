@@ -35,7 +35,7 @@ export class Dashboard extends Component<Required<DashboardOptions>, DashboardSt
         gap: 16,
         cellHeight: 64,
         blockDefaultSize: [1, 3],
-        blockMenu: {items: [{text: 'Refresh', attrs: {'data-type': 'refresh'}}]},
+        blockMenu: {items: [{text: 'Refresh', data: {type: 'refresh'}}]},
         blockSizeMap: {
             xs: [1, 3],
             sm: [1, 4],
@@ -339,7 +339,8 @@ export class Dashboard extends Component<Required<DashboardOptions>, DashboardSt
         const {menu} = block;
         const {onClickMenu: onClickBlockMenu} = this.props;
         ContextMenu.show({
-            event: (event.target as HTMLElement),
+            triggerEvent: event,
+            element: event.target as HTMLElement,
             placement: 'bottom-end',
             menu: {
                 onClickItem: (info) => {
@@ -350,8 +351,8 @@ export class Dashboard extends Component<Required<DashboardOptions>, DashboardSt
                         onClickBlockMenu.call(this, info, block);
                     }
                 },
+                ...menu,
             },
-            ...menu,
         });
     };
 
