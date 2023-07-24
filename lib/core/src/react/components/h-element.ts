@@ -17,6 +17,11 @@ export interface HElementProps extends PreactDOMAttributes {
     className?: ClassNameLike;
 
     /**
+     * The alternative class name of the element.
+     */
+    class?: ClassNameLike;
+
+    /**
      * The style of the element.
      */
     style?: JSX.CSSProperties;
@@ -44,11 +49,11 @@ export interface HElementProps extends PreactDOMAttributes {
 
 export class HElement<P extends HElementProps, S = {}> extends Component<P, S> {
     protected _getClassName(props: RenderableProps<P>): ClassNameLike {
-        return props.className;
+        return [props.className, props.class];
     }
 
     protected _getProps(props: RenderableProps<P>): Record<string, unknown> {
-        const {className, attrs, data, forwardRef, children, style, ...others} = props;
+        const {className, class: className2, attrs, data, forwardRef, children, style, ...others} = props;
         const other = Object.keys(others).reduce<Record<string, unknown>>((map, key) => {
             if (key === 'dangerouslySetInnerHTML' || key.startsWith('data-')) {
                 map[key] = others[key as keyof typeof others];
