@@ -19,9 +19,17 @@ export class Tooltip extends Popover<TooltipOptions> {
     };
 
     protected _getRenderOptions(): PopoverPanelOptions {
-        const {type, className, title} = this.options;
+        const {type, className, title: originTitle, content: originContent} = this.options;
+        let title = originTitle;
+        let content = originContent;
+        if (content === undefined) {
+            content = title;
+            title = undefined;
+        }
         return {
             ...super._getRenderOptions(),
+            title,
+            content,
             className: classes('tooltip', type, className, title ? 'tooltip-has-title' : ''),
             contentClass: title ? 'tooltip-content' : '',
         };
@@ -36,18 +44,7 @@ $(document).on(`click${Tooltip.NAMESPACE} mouseenter${Tooltip.NAMESPACE}`, TOGGL
         if (eventForTrigger !== trigger) {
             return;
         }
-        let title = $toggleBtn.attr('title');
-        let content = $toggleBtn.dataset('content');
-        if (title) {
-            $toggleBtn.removeAttr('title').attr('data-origin-title', title);
-        } else {
-            title = $toggleBtn.dataset('title') as string;
-        }
-        if (!content) {
-            content = title;
-            title = '';
-        }
-        (Tooltip as typeof Popover).ensure($toggleBtn, {show: Tooltip.DEFAULT.delay || true, content: content || title, title: content ? title : undefined});
+        (Tooltip as typeof Popover).ensure($toggleBtn, {show: Tooltip.DEFAULT.delay || true});
         event.preventDefault();
     }
 });
