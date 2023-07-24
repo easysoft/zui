@@ -13,9 +13,11 @@ export class ContextMenu extends Dropdown<ContextMenuOptions> {
 
     protected _getLayoutOptions(): [trigger: ReferenceElement, element: HTMLElement, options: Partial<ComputePositionConfig>] {
         const options = super._getLayoutOptions();
-        options[0] = {
-            getBoundingClientRect: this._getClickBounding,
-        };
+        if (!this.options.element) {
+            options[0] = {
+                getBoundingClientRect: this._getClickBounding,
+            };
+        }
         return options;
     }
 }
