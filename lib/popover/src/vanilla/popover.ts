@@ -417,7 +417,7 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
 
     static show<O extends PopoverOptions, E extends ComponentEvents, T extends typeof Popover<O, E>>(this: T, options: O): InstanceType<T> {
         const {element} = options;
-        const popover = new this(element instanceof HTMLElement ? element : document.body, {show: true, destroyOnHide: true, ...options});
+        const popover = (this as typeof Popover).ensure(element instanceof HTMLElement ? element : document.body, {show: true, destroyOnHide: true, ...options});
         return popover as InstanceType<T>;
     }
 }
