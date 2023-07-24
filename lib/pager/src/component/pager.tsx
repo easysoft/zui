@@ -30,7 +30,7 @@ export class Pager<T extends ActionBasicProps = PagerItemOptions, P extends Page
 
     get pagerInfo() {
         const {page = 1, recTotal = 0, recPerPage = 10} = this.props;
-        return {page, recTotal, recPerPage, pageTotal: recPerPage ? Math.ceil(recTotal / recPerPage) : 0};
+        return {page: +page, recTotal: +recTotal, recPerPage: +recPerPage, pageTotal: recPerPage ? Math.ceil(recTotal / recPerPage) : 0};
     }
 
     isBtnItem(type?: string) {
@@ -40,10 +40,11 @@ export class Pager<T extends ActionBasicProps = PagerItemOptions, P extends Page
     getItemRenderProps(options: Omit<P, 'items'> & {items: T[]}, item: T, index: number): T {
         const props = super.getItemRenderProps(options, item, index);
         const type = item.type || 'item';
+        const {pagerInfo} = this;
         if (type === 'info') {
-            Object.assign(props, {pagerInfo: this.pagerInfo});
+            Object.assign(props, {pagerInfo});
         } else if (type === 'link' || type === 'size-menu' || type === 'nav' || type === 'goto') {
-            Object.assign(props, {pagerInfo: this.pagerInfo, linkCreator: options.linkCreator});
+            Object.assign(props, {pagerInfo, linkCreator: options.linkCreator});
         }
         return props;
     }

@@ -12,7 +12,7 @@ export function PagerSizeMenu({
     itemProps,
     ...dropdownProps
 }: PagerSizeMenuProps & {pagerInfo: PagerInfo, linkCreator: PageLinkCreator}) {
-    dropdown.items = dropdown.items ?? items.map(recPerPage => {
+    dropdown.items = dropdown.items || items.map(recPerPage => {
         const info = {...pagerInfo, recPerPage};
         return {
             ...itemProps,
