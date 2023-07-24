@@ -49,13 +49,13 @@ export class HElement<P extends HElementProps, S = {}> extends Component<P, S> {
 
     protected _getProps(props: RenderableProps<P>): Record<string, unknown> {
         const {className, attrs, data, forwardRef, children, style, ...others} = props;
-        const dataset = Object.keys(others).reduce<Record<string, unknown>>((map, key) => {
-            if (key.startsWith('data-')) {
+        const other = Object.keys(others).reduce<Record<string, unknown>>((map, key) => {
+            if (key === 'dangerouslySetInnerHTML' || key.startsWith('data-')) {
                 map[key] = others[key as keyof typeof others];
             }
             return map;
         }, {});
-        return {ref: forwardRef, class: classes(this._getClassName(props)), style, ...dataset, ...attrs};
+        return {ref: forwardRef, class: classes(this._getClassName(props)), style, ...other, ...attrs};
     }
 
     protected _getComponent(props: RenderableProps<P>): ComponentType | keyof JSX.IntrinsicElements {
