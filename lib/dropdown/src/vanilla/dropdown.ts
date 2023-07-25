@@ -60,6 +60,12 @@ $(document).on(`click${Dropdown.NAMESPACE} mouseenter${Dropdown.NAMESPACE}`, TOG
             show: true,
             triggerEvent: event,
         };
+        if (!options.target && $toggleBtn.is('a')) {
+            const href = $toggleBtn.attr('href') as string;
+            if (href && '#0'.includes(href[0])) {
+                options.target = href;
+            }
+        }
         if (!options.target && !options.items && !options.menu) {
             options.target = $toggleBtn.next('.dropdown-menu');
         }
