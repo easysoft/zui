@@ -42,13 +42,18 @@ export class Button<P extends ButtonProps = ButtonProps> extends HElement<P> {
 
     protected _getProps(props: RenderableProps<P>) {
         const component = this._getComponent(props);
-        const {url, target, btnType, hint} = props;
-        return {
+        const {url, target, btnType = 'button', hint} = props;
+        const componentProps: Record<string, unknown> = {
             ...super._getProps(props),
             title: hint,
-            [component === 'a' ? 'href' : 'data-url']: url,
-            [component === 'a' ? 'target' : 'data-target']: target,
             type: component === 'button' ? btnType : undefined,
         };
+        if (url !== undefined) {
+            componentProps[component === 'a' ? 'href' : 'data-url'] = url;
+        }
+        if (target !== undefined) {
+            componentProps[component === 'a' ? 'target' : 'data-target'] = target;
+        }
+        return componentProps;
     }
 }
