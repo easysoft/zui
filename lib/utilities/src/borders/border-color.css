@@ -6,6 +6,7 @@
 .border-important {@apply -border-important-500;}
 .border-special   {@apply -border-special-500;}
 
+.border-strong  {@apply -border-border-strong;}
 .border-white   {@apply -border-white;}
 .border-lighter {@apply -border-gray-100;}
 .border-light   {@apply -border-gray-300;}
