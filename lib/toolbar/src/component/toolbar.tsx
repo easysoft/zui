@@ -48,6 +48,10 @@ export class Toolbar<T extends ActionBasicProps = ToolbarItemOptions, P extends 
         const {type} = itemProps;
         const userBtnProps = this.props.btnProps;
         const btnProps = (this.isBtnItem(type) ? {btnType: 'ghost', ...userBtnProps} : {}) as ButtonProps;
+        if (btnProps.type) {
+            btnProps.btnType = btnProps.type;
+            delete btnProps.type;
+        }
         const props = {
             ...rootProps,
             ...btnProps,
