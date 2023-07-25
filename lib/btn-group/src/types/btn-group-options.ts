@@ -1,6 +1,7 @@
-import {JSX, ComponentChildren, h as _h, VNode} from 'preact';
-import {ClassNameLike} from '@zui/core';
-import {BtnProps} from './btn-props';
+import type {JSX, ComponentChildren, h as _h, VNode} from 'preact';
+import type {ClassNameLike} from '@zui/core';
+import type {ButtonProps} from '@zui/button';
+import type {BtnProps} from './btn-props';
 
 export type BtnGroupItemRender = ((item: BtnProps, h: typeof _h) => VNode | Partial<BtnProps>);
 
@@ -10,8 +11,8 @@ export interface BtnGroupOptions {
     items?: BtnProps[] | (() => BtnProps[]);
     size?: 'xs' | 'sm' | 'lg' | 'xl';
     type?: string;
-    btnProps?: Partial<BtnProps>;
-    children?: ComponentChildren | (() => ComponentChildren);
+    btnProps?: Partial<ButtonProps>;
+    children?: ComponentChildren;
     itemRender?: BtnGroupItemRender,
     onClickItem?: (info: {item: BtnProps, index: number, event: MouseEvent}) => void;
     beforeRender?: (options: BtnProps) => (Partial<Omit<BtnProps, 'onClickItem' | 'beforeRender' | 'beforeDestroy' | 'afterRender'>> | undefined);
