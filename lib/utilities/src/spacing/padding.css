@@ -109,7 +109,7 @@
 .pr-8 {@apply -pr-8;}
 .pb-8 {@apply -pb-8;}
 .pl-8 {@apply -pl-8;}
-/*
+
 .p-9  {@apply -p-9;}
 .px-9 {@apply -px-9;}
 .py-9 {@apply -py-9;}
@@ -126,6 +126,7 @@
 .pb-10 {@apply -pb-10;}
 .pl-10 {@apply -pl-10;}
 
+/*
 .p-11  {@apply -p-11;}
 .p-12  {@apply -p-12;}
 .p-14  {@apply -p-14;}
