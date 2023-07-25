@@ -415,10 +415,10 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
         }
     };
 
-    static show<O extends PopoverOptions, E extends ComponentEvents, T extends typeof Popover<O, E>>(this: T, options: O): InstanceType<T> {
-        const {element} = options;
-        const popover = (this as typeof Popover).ensure(element instanceof HTMLElement ? element : document.body, {show: true, destroyOnHide: true, ...options});
-        return popover as InstanceType<T>;
+    static show<O extends PopoverOptions, E extends ComponentEvents, T extends typeof Popover<O, E>>(this: T, options: O & {event?: Event}): InstanceType<T> {
+        const {element: elementSetting, event, ...otherOptions} = options;
+        const element = elementSetting || (event?.currentTarget as HTMLElement);
+        return (this as typeof Popover).ensure(element instanceof HTMLElement ? element : document.body, {element, show: true, destroyOnHide: true, triggerEvent: event, ...otherOptions}) as InstanceType<T>;
     }
 }
 
