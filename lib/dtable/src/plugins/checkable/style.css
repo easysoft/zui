@@ -4,7 +4,8 @@
     --dtable-checked-border: var(--color-border-strong);
 }
 
-.dtable-cell.is-checked {
+.dtable-cell.is-checked,
+.dtable-striped .dtable-cell.is-odd-row.is-checked {
     @apply -bg-[--dtable-checked-bg];
 }
 .checkbox-primary.dtable-checkbox {
