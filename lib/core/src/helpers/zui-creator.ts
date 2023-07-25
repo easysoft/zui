@@ -21,7 +21,7 @@ export const componentsMap = new Map<string, ZUIComponent>();
 
 export function getComponent(name?: string): ZUIComponent | undefined {
     const {zui} = window as unknown as {zui: Record<string, ZUIComponent>};
-    if (!componentsMap.size) {
+    if (!componentsMap.size || (name && !componentsMap.has(name.toUpperCase()))) {
         Object.keys(zui).forEach((n) => {
             const Component = zui[n];
             if (!Component.NAME || !Component.ZUI) {
