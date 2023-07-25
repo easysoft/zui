@@ -14,6 +14,6 @@
 .btn-group > .btn:not(:first-child) {
   @apply -rounded-l-none -border-l -border-l-canvas/50;
 }
-.btn-group > .btn + .btn {
+.btn-group > .btn:not(:last-child) {
   @apply -rounded-r-none;
 }
