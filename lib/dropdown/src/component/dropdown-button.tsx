@@ -2,7 +2,7 @@ import {createRef} from 'preact';
 import {$} from '@zui/core';
 import {Button} from '@zui/button/src/component/button';
 import type {DropdownButtonOptions} from '../types';
-import type {Dropdown} from '../vanilla';
+import {Dropdown} from '../vanilla';
 
 export class DropdownButton extends Button<DropdownButtonOptions> {
     static defaultProps: Partial<DropdownButtonOptions> = {
@@ -18,7 +18,7 @@ export class DropdownButton extends Button<DropdownButtonOptions> {
     _updateData() {
         const {dropdown, items} = this.props;
         const $trigger = $(this.triggerElement);
-        const instance = $trigger.zui('dropdown') as Dropdown;
+        const instance = Dropdown.get(this.triggerElement);
         const options = {
             items,
             ...dropdown,
@@ -39,10 +39,7 @@ export class DropdownButton extends Button<DropdownButtonOptions> {
     }
 
     componentWillUnmount(): void {
-        const dropdown = $(this.triggerElement).zui('dropdown') as Dropdown;
-        if (dropdown) {
-            dropdown.destroy();
-        }
+        Dropdown.get(this.triggerElement)?.destroy();
     }
 
     protected _getProps(props: DropdownButtonOptions) {
