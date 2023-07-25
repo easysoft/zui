@@ -3885,7 +3885,7 @@ class Ja extends B {
     var s, i;
     f(document).off("click", this._handleDocClick);
     const t = y(this, ft);
-    t && (t(), $(this, ft, void 0)), $(this, zt, void 0), $(this, oe, void 0), f(`pick-pop-${this.props.id}`).remove(), (i = (s = this.props).beforeDestroy) == null || i.call(s);
+    t && (t(), $(this, ft, void 0)), $(this, zt, void 0), $(this, oe, void 0), f(`#pick-pop-${this.props.id}`).remove(), (i = (s = this.props).beforeDestroy) == null || i.call(s);
   }
   render(t) {
     return Pc(this._render(t), this._getContainer(t));
