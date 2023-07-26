@@ -2797,7 +2797,7 @@ const Pi = (s, e, t) => {
       e === "hover" ? r.on(`mouseenter${a}`, (l) => {
         this.show({ delay: !0, event: l });
       }).on(`mouseleave${a}`, () => {
-        this.hide();
+        this.delayHide();
       }) : e && r.on(`${e}${a}`, (l) => {
         this.toggle({ event: l }), l.preventDefault();
       });
@@ -2821,7 +2821,7 @@ const Pi = (s, e, t) => {
   show(e) {
     const { delay: t, event: n } = e || {};
     if (n && (this._triggerEvent = n), t)
-      return this._setTimer(() => {
+      return this._resetTimer(() => {
         this.show();
       }, t === !0 ? this.options.delay : t);
     if (!this.inited) {
@@ -2834,18 +2834,27 @@ const Pi = (s, e, t) => {
     if (!i)
       return;
     this._targetElement = i;
-    const o = f(i), { animation: r, mask: a, onShow: l, onShown: h } = this.options;
-    o.addClass(wr), r && o.addClass(r === !0 ? "fade" : r), this._shown = !0, this.render(), l == null || l.call(this), this.emit("show"), this._virtual || f(this._triggerElement).addClass("with-popover-show"), this._setTimer(() => {
-      o.addClass(vr), this._setTimer(() => {
+    const o = f(i), { animation: r, mask: a, onShow: l, onShown: h, trigger: u } = this.options;
+    if (o.addClass(wr), r && o.addClass(r === !0 ? "fade" : r), this._shown = !0, this.render(), l == null || l.call(this), this.emit("show"), u === "hover") {
+      this._clearDelayHide();
+      const { namespace: c } = this;
+      o.on(`mouseenter${c}`, () => {
+        this._clearDelayHide();
+      }).on(`mouseleave${c}`, () => {
+        this.delayHide();
+      });
+    }
+    this._virtual || f(this._triggerElement).addClass("with-popover-show"), this._resetTimer(() => {
+      o.addClass(vr), this._resetTimer(() => {
         h == null || h.call(this), this.emit("shown");
       }, 200), a && f(document).on(`click${this.namespace}`, this._onClickDoc);
     }, 50);
   }
   hide() {
-    (!this._shown || !this._targetElement) && this._setTimer();
-    const { destroyOnHide: e, animation: t, onHide: n, onHidden: i } = this.options, o = f(this._targetElement);
-    this._shown = !1, n == null || n.call(this), this.emit("hide"), o.removeClass(vr), this._virtual || f(this._triggerElement).removeClass("with-popover-show").removeAttr("data-popover-placement"), f(document).off(this.namespace), this._setTimer(() => {
-      i == null || i.call(this), this.emit("hidden"), o.removeClass(wr), e && this._setTimer(() => {
+    (!this._shown || !this._targetElement) && this._resetTimer();
+    const { destroyOnHide: e, animation: t, onHide: n, onHidden: i, trigger: o } = this.options, r = f(this._targetElement);
+    this._shown = !1, n == null || n.call(this), this.emit("hide"), r.removeClass(vr), o === "hover" && (this._clearDelayHide(), r.off(this.namespace)), this._virtual || f(this._triggerElement).removeClass("with-popover-show").removeAttr("data-popover-placement"), f(document).off(this.namespace), this._resetTimer(() => {
+      i == null || i.call(this), this.emit("hidden"), r.removeClass(wr), e && this._resetTimer(() => {
         this.destroy();
       }, typeof e == "number" ? e : 0), this._destoryTarget();
     }, t ? 200 : 0);
@@ -2858,7 +2867,7 @@ const Pi = (s, e, t) => {
       const { namespace: e } = this;
       f(this._triggerElement).off(e);
     }
-    this._setTimer(), this._destoryTarget();
+    this._resetTimer(), this._destoryTarget(), this._clearDelayHide();
   }
   layout() {
     const e = this._triggerElement, t = this._targetElement, n = this._layoutWatcher;
@@ -2897,6 +2906,14 @@ const Pi = (s, e, t) => {
       o && o.element !== t && (o.destroy(), o = void 0), o ? o.render(n) : (o = new Ji(t, n), o.on("inited", () => this.layout())), this._panel = o;
     } else
       n.arrow && (i.find(".arrow").length || i.append(f('<div class="arrow"></div>').css(n.arrowStyle))), this.layout();
+  }
+  delayHide(e = 100) {
+    this._hideTimer = window.setTimeout(() => {
+      this._hideTimer = 0, this.hide();
+    }, e);
+  }
+  _clearDelayHide() {
+    this._hideTimer && (clearTimeout(this._hideTimer), this._hideTimer = 0);
   }
   _getLayoutOptions() {
     const e = this._triggerElement, t = this._targetElement, { placement: n, flip: i, shift: o, offset: r, arrow: a, strategy: l } = this.options, h = a ? t.querySelector(".arrow") : null, u = h ? typeof a == "number" ? a : 5 : 0;
@@ -2943,7 +2960,7 @@ const Pi = (s, e, t) => {
     var e, t, n;
     (e = this._layoutWatcher) == null || e.call(this), this._layoutWatcher = void 0, this._dynamic && ((t = this._panel) == null || t.destroy(), (n = this._targetElement) == null || n.remove(), this._panel = void 0, this._targetElement = void 0);
   }
-  _setTimer(e, t = 0) {
+  _resetTimer(e, t = 0) {
     this._timer && clearTimeout(this._timer), e && (this._timer = window.setTimeout(() => {
       this._timer = 0, e();
     }, t));
