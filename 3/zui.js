@@ -2868,20 +2868,21 @@ const Pi = (s, e, t) => {
     }
     n || (this._layoutWatcher = Wo(e, t, () => {
       const { width: i, animation: o, name: r = "popover" } = this.options;
-      i === "100%" && !this._virtual && f(t).css({ width: f(e).width() }), Pi(...this._getLayoutOptions()).then(({ x: a, y: l, middlewareData: h, placement: u }) => {
-        const c = f(t).css({
+      i === "100%" && !this._virtual && f(t).css({ width: f(e).width() }), Pi(...this._getLayoutOptions()).then(({ x: a, y: l, middlewareData: h, placement: u, strategy: c }) => {
+        const p = f(t).css({
+          position: c,
           left: a,
           top: l
-        }), p = u.split("-")[0], m = {
+        }), m = u.split("-")[0], g = {
           top: "bottom",
           right: "left",
           bottom: "top",
           left: "right"
-        }[p], g = h.arrow;
-        g && c.find(".arrow").css({
-          left: g.x,
-          top: g.y
-        }).attr("class", `arrow ${r}-arrow arrow-${m}`), o === !0 && c.attr("class", `${c.attr("class").split(" ").filter((b) => b !== "fade" && !b.startsWith("fade-from")).join(" ")} fade-from-${m}`), this._virtual || f(this._triggerElement).attr("data-popover-placement", p);
+        }[m], b = h.arrow;
+        b && p.find(".arrow").css({
+          left: b.x,
+          top: b.y
+        }).attr("class", `arrow ${r}-arrow arrow-${g}`), o === !0 && p.attr("class", `${p.attr("class").split(" ").filter((v) => v !== "fade" && !v.startsWith("fade-from")).join(" ")} fade-from-${g}`), this._virtual || f(this._triggerElement).attr("data-popover-placement", m);
       });
     }));
   }
@@ -2898,14 +2899,15 @@ const Pi = (s, e, t) => {
       n.arrow && (i.find(".arrow").length || i.append(f('<div class="arrow"></div>').css(n.arrowStyle))), this.layout();
   }
   _getLayoutOptions() {
-    const e = this._triggerElement, t = this._targetElement, { placement: n, flip: i, shift: o, offset: r, arrow: a } = this.options, l = a ? t.querySelector(".arrow") : null, h = l ? typeof a == "number" ? a : 5 : 0;
+    const e = this._triggerElement, t = this._targetElement, { placement: n, flip: i, shift: o, offset: r, arrow: a, strategy: l } = this.options, h = a ? t.querySelector(".arrow") : null, u = h ? typeof a == "number" ? a : 5 : 0;
     return [e, t, {
       placement: n,
+      strategy: l,
       middleware: [
         i ? Ri() : null,
         o ? sn(typeof o == "object" ? o : void 0) : null,
-        r || h ? Ii((r || 0) + h) : null,
-        a ? to({ element: l }) : null
+        r || u ? Ii((r || 0) + u) : null,
+        a ? to({ element: h }) : null
       ].filter(Boolean)
     }];
   }
