@@ -57,6 +57,8 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
 
     protected declare _layoutWatcher?: () => void;
 
+    protected declare _hideTimer?: number;
+
     get shown() {
         return this._shown;
     }
@@ -79,7 +81,7 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
                 $triggerElement.on(`mouseenter${namespace}`, (event: MouseEvent) => {
                     this.show({delay: true, event});
                 }).on(`mouseleave${namespace}`, () => {
-                    this.hide();
+                    this.delayHide();
                 });
             } else if (trigger) {
                 $triggerElement.on(`${trigger}${namespace}`, (event: Event) => {
@@ -127,7 +129,7 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
         }
 
         if (delay) {
-            return this._setTimer(() => {
+            return this._resetTimer(() => {
                 this.show();
             }, delay === true ? this.options.delay : delay);
         }
@@ -147,7 +149,7 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
         }
         this._targetElement = target;
         const $target = $(target);
-        const {animation, mask, onShow, onShown} = this.options;
+        const {animation, mask, onShow, onShown, trigger} = this.options;
         $target.addClass(CLASS_SHOW);
         if (animation) {
             $target.addClass(animation === true ? 'fade' : animation);
@@ -157,14 +159,24 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
         onShow?.call(this);
         this.emit('show');
 
+        if (trigger === 'hover') {
+            this._clearDelayHide();
+            const {namespace} = this;
+            $target.on(`mouseenter${namespace}`, () => {
+                this._clearDelayHide();
+            }).on(`mouseleave${namespace}`, () => {
+                this.delayHide();
+            });
+        }
+
         if (!this._virtual) {
             $(this._triggerElement as HTMLElement).addClass('with-popover-show');
         }
 
-        this._setTimer(() => {
+        this._resetTimer(() => {
             $target.addClass(CLASS_SHOWN);
 
-            this._setTimer(() => {
+            this._resetTimer(() => {
                 onShown?.call(this);
                 this.emit('shown');
             }, 200);
@@ -177,15 +189,20 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
 
     hide() {
         if (!this._shown || !this._targetElement) {
-            this._setTimer();
+            this._resetTimer();
         }
 
-        const {destroyOnHide, animation, onHide, onHidden} = this.options;
+        const {destroyOnHide, animation, onHide, onHidden, trigger} = this.options;
         const $target = $(this._targetElement as HTMLElement);
         this._shown = false;
         onHide?.call(this);
         this.emit('hide');
         $target.removeClass(CLASS_SHOWN);
+
+        if (trigger === 'hover') {
+            this._clearDelayHide();
+            $target.off(this.namespace);
+        }
 
         if (!this._virtual) {
             $(this._triggerElement as HTMLElement).removeClass('with-popover-show').removeAttr('data-popover-placement');
@@ -193,13 +210,13 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
 
         $(document).off(this.namespace);
 
-        this._setTimer(() => {
+        this._resetTimer(() => {
             onHidden?.call(this);
             this.emit('hidden');
             $target.removeClass(CLASS_SHOW);
 
             if (destroyOnHide) {
-                this._setTimer(() => {
+                this._resetTimer(() => {
                     this.destroy();
                 }, typeof destroyOnHide === 'number' ? destroyOnHide : 0);
             }
@@ -222,8 +239,9 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
             const {namespace} = this;
             $(this._triggerElement as HTMLElement).off(namespace);
         }
-        this._setTimer();
+        this._resetTimer();
         this._destoryTarget();
+        this._clearDelayHide();
     }
 
     layout() {
@@ -313,6 +331,20 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
         }
     }
 
+    protected delayHide(delay = 100) {
+        this._hideTimer = window.setTimeout(() => {
+            this._hideTimer = 0;
+            this.hide();
+        }, delay);
+    }
+
+    protected _clearDelayHide() {
+        if (this._hideTimer) {
+            clearTimeout(this._hideTimer);
+            this._hideTimer = 0;
+        }
+    }
+
     protected _getLayoutOptions(): [trigger: ReferenceElement, element: HTMLElement, options: Partial<ComputePositionConfig>] {
         const trigger = this._triggerElement;
         const element = this._targetElement!;
@@ -372,7 +404,7 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
         }
     }
 
-    protected _setTimer(callback?: () => void, delay = 0) {
+    protected _resetTimer(callback?: () => void, delay = 0) {
         if (this._timer) {
             clearTimeout(this._timer);
         }
