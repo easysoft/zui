@@ -247,8 +247,9 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
             if (width === '100%' && !this._virtual) {
                 $(element).css({width: $(trigger as HTMLElement).width()});
             }
-            computePosition(...this._getLayoutOptions()).then(({x, y, middlewareData, placement}) => {
+            computePosition(...this._getLayoutOptions()).then(({x, y, middlewareData, placement, strategy}) => {
                 const $element = $(element).css({
+                    position: strategy,
                     left: x,
                     top: y,
                 });
@@ -315,11 +316,12 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
     protected _getLayoutOptions(): [trigger: ReferenceElement, element: HTMLElement, options: Partial<ComputePositionConfig>] {
         const trigger = this._triggerElement;
         const element = this._targetElement!;
-        const {placement: placementSetting, flip: isFlip, shift: shiftSetting, offset: offsetSetting, arrow: arrowSetting} = this.options;
+        const {placement: placementSetting, flip: isFlip, shift: shiftSetting, offset: offsetSetting, arrow: arrowSetting, strategy} = this.options;
         const arrowElement = arrowSetting ? element.querySelector('.arrow') : null;
         const arrowSize = arrowElement ? (typeof arrowSetting === 'number' ? arrowSetting : 5) : 0;
         return [trigger, element, {
             placement: placementSetting,
+            strategy,
             middleware: [
                 isFlip ? flip() : null,
                 shiftSetting ? shift(typeof shiftSetting === 'object' ? shiftSetting : undefined) : null,
