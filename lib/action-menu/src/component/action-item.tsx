@@ -29,7 +29,7 @@ export function ActionItem({
             </div>
         ) : null,
         <Icon icon={icon} />,
-        <span className="text">{text}</span>,
+        text ? <span className="text">{text}</span> : null,
         <CustomContent content={content} />,
         children,
         <Icon icon={trailingIcon} />,
