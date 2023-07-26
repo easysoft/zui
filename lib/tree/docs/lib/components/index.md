@@ -239,3 +239,81 @@ onMounted(() => {
 | `style` | `object` | `null` | 自定义 CSS 样式 |
 
 其中 `itemActions` 可以为工具栏按钮定义列表或工具栏对象或通过函数返回工具栏对象，函数接收参数为当前节点的数据。
+
+## 菜单条目定义
+
+```ts
+type TreeItemOptions = {
+    /** 作为链接的 URL。 */
+    url?: string;
+
+    /** 作为链接的目标。 */
+    target?: string;
+
+    /** 是否禁用。 */
+    disabled?: boolean;
+
+    /** 是否激活。 */
+    active?: boolean;
+
+    /** 图标。 */
+    icon?: IconType;
+
+    /** 是否选中。 */
+    checked?: boolean;
+
+    /** 菜单项文本。 */
+    text?: ComponentChildren;
+
+    /** 尾部图标。 */
+    trailingIcon?: IconType;
+
+    /** 提示文本。 */
+    hint?: string;
+
+    /** 根元素类名。 */
+    rootClass?: ClassNameLike;
+
+    /** 根元素属性。 */
+    rootAttrs?: JSX.HTMLAttributes<HTMLLIElement>;
+
+    /** 根元素样式。 */
+    rootStyle?: JSX.CSSProperties;
+
+    /** 菜单项组件名称。 */
+    component?: string | ComponentType;
+
+    /** 内部键。 */
+    key?: ActionMenuItemKey;
+
+    /** 菜单项类型。 */
+    type?: string;
+
+    /** 菜单项元素属性。 */
+    attrs?: JSX.HTMLAttributes<HTMLElement> & {[key: `data-${string}`]: unknown};
+
+    /** 菜单项元素类名。 */
+    className?: ClassNameLike;
+
+    /** 菜单项元素样式。 */
+    style?: JSX.CSSProperties;
+
+    /** 菜单项自定义内容。 */
+    content?: CustomContentType<[ActionBasicProps]>;
+
+    /** 菜单项点击事件。 */
+    onClick?: JSX.MouseEventHandler<HTMLAnchorElement>;
+
+    /** 菜单项关联数据。 */
+    data?: Record<string, unknown>;
+
+    /** 是否默认展开。 */
+    show?: boolean;
+
+    /** 子级菜单列表。 */
+    items?: T[] | ((currentItem: ActionNestedItemProps<T>, menu: ActionMenuNested<T>) => T[])
+
+    /** 工具栏定义。 */
+    actions?: ToolbarOptions | ToolbarItemOptions[];
+};
+```
