@@ -8,10 +8,10 @@ var y = (s, e, t) => (Li(s, e, "read from private field"), t ? t.call(s) : e.get
   e instanceof WeakSet ? e.add(s) : e.set(s, t);
 }, $ = (s, e, t, n) => (Li(s, e, "write to private field"), n ? n.call(s, t) : e.set(s, t), t);
 var P = (s, e, t) => (Li(s, e, "access private method"), t);
-const At = document, as = window, Qr = At.documentElement, be = At.createElement.bind(At), ta = be("div"), Oi = be("table"), Ml = be("tbody"), Jo = be("tr"), { isArray: ki, prototype: ea } = Array, { concat: Rl, filter: bo, indexOf: na, map: sa, push: Il, slice: ia, some: wo, splice: Al } = ea, Dl = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, Pl = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, Ll = /<.+>/, Ol = /^\w+$/;
+const At = document, as = window, Qr = At.documentElement, we = At.createElement.bind(At), ta = we("div"), Oi = we("table"), Ml = we("tbody"), Jo = we("tr"), { isArray: ki, prototype: ea } = Array, { concat: Rl, filter: bo, indexOf: na, map: sa, push: Il, slice: ia, some: wo, splice: Al } = ea, Dl = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, Pl = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, Ll = /<.+>/, Ol = /^\w+$/;
 function vo(s, e) {
   const t = Hl(e);
-  return !s || !t && !me(e) && !V(e) ? [] : !t && Pl.test(s) ? e.getElementsByClassName(s.slice(1).replace(/\\/g, "")) : !t && Ol.test(s) ? e.getElementsByTagName(s) : e.querySelectorAll(s);
+  return !s || !t && !ge(e) && !V(e) ? [] : !t && Pl.test(s) ? e.getElementsByClassName(s.slice(1).replace(/\\/g, "")) : !t && Ol.test(s) ? e.getElementsByTagName(s) : e.querySelectorAll(s);
 }
 class Si {
   constructor(e, t) {
@@ -22,9 +22,9 @@ class Si {
     let n = e;
     if (et(e)) {
       const i = t || At;
-      if (n = Dl.test(e) && me(i) ? i.getElementById(e.slice(1).replace(/\\/g, "")) : Ll.test(e) ? aa(e) : Ki(i) ? i.find(e) : et(i) ? f(i).find(e) : vo(e, i), !n)
+      if (n = Dl.test(e) && ge(i) ? i.getElementById(e.slice(1).replace(/\\/g, "")) : Ll.test(e) ? aa(e) : Ki(i) ? i.find(e) : et(i) ? f(i).find(e) : vo(e, i), !n)
         return;
-    } else if (we(e))
+    } else if (ve(e))
       return this.ready(e);
     (n.nodeType || n === as) && (n = [n]), this.length = n.length;
     for (let i = 0, o = this.length; i < o; i++)
@@ -42,10 +42,10 @@ typeof Symbol == "function" && (k[Symbol.iterator] = ea[Symbol.iterator]);
 function Ki(s) {
   return s instanceof Si;
 }
-function Ve(s) {
+function Ue(s) {
   return !!s && s === s.window;
 }
-function me(s) {
+function ge(s) {
   return !!s && s.nodeType === 9;
 }
 function Hl(s) {
@@ -60,7 +60,7 @@ function Bl(s) {
 function Wl(s) {
   return typeof s == "boolean";
 }
-function we(s) {
+function ve(s) {
   return typeof s == "function";
 }
 function et(s) {
@@ -81,8 +81,8 @@ function _o(s) {
   const e = Object.getPrototypeOf(s);
   return e === null || e === Object.prototype;
 }
-f.isWindow = Ve;
-f.isFunction = we;
+f.isWindow = Ue;
+f.isFunction = ve;
 f.isArray = ki;
 f.isNumeric = oa;
 f.isPlainObject = _o;
@@ -214,7 +214,7 @@ const Hi = {};
 function Vl(s) {
   if (Hi[s])
     return Hi[s];
-  const e = be(s);
+  const e = we(s);
   At.body.insertBefore(e, null);
   const t = Dt(e, "display");
   return At.body.removeChild(e), Hi[s] = t !== "none" ? t : "block";
@@ -227,7 +227,7 @@ function ra(s, e) {
   return !!t && !!e && t.call(s, e);
 }
 function Ti(s) {
-  return et(s) ? (e, t) => ra(t, s) : we(s) ? s : Ki(s) ? (e, t) => s.is(t) : s ? (e, t) => t === s : () => !1;
+  return et(s) ? (e, t) => ra(t, s) : ve(s) ? s : Ki(s) ? (e, t) => s.is(t) : s ? (e, t) => t === s : () => !1;
 }
 k.filter = function(s) {
   const e = Ti(s);
@@ -254,7 +254,7 @@ function aa(s) {
   if (!et(s))
     return [];
   if (ql.test(s))
-    return [be(RegExp.$1)];
+    return [we(RegExp.$1)];
   const e = Ul.test(s) && RegExp.$1, t = tr[e] || tr["*"];
   return t.innerHTML = s, f(t.childNodes).detach().get();
 }
@@ -268,7 +268,7 @@ k.not = function(s) {
   return this.filter((t, n) => (!et(s) || V(n)) && !e.call(n, t, n));
 };
 function Ot(s, e, t, n) {
-  const i = [], o = we(e), r = n && Ti(n);
+  const i = [], o = ve(e), r = n && Ti(n);
   for (let a = 0, l = s.length; a < l; a++)
     if (o) {
       const h = e(s[a]);
@@ -336,7 +336,7 @@ function Jl(s, e) {
   const t = f(s);
   t.filter("script").add(t.find("script")).each((n, i) => {
     if (Gl.test(i.type) && Qr.contains(i)) {
-      const o = be("script");
+      const o = we("script");
       o.text = i.textContent.replace(Kl, ""), U(Xl, (r, a) => {
         i[a] && (o[a] = i[a]);
       }), e.head.insertBefore(o, null), e.head.removeChild(o);
@@ -625,7 +625,7 @@ U([!0, !1], (s, e) => {
     const i = `${e ? "outer" : "inner"}${n}`;
     k[i] = function(o) {
       if (this[0])
-        return Ve(this[0]) ? e ? this[0][`inner${n}`] : this[0].document.documentElement[`client${n}`] : me(this[0]) ? da(this[0], n) : this[0][`${e ? "offset" : "client"}${n}`] + (o && e ? vt(this[0], `margin${t ? "Top" : "Left"}`) + vt(this[0], `margin${t ? "Bottom" : "Right"}`) : 0);
+        return Ue(this[0]) ? e ? this[0][`inner${n}`] : this[0].document.documentElement[`client${n}`] : ge(this[0]) ? da(this[0], n) : this[0][`${e ? "offset" : "client"}${n}`] + (o && e ? vt(this[0], `margin${t ? "Top" : "Left"}`) + vt(this[0], `margin${t ? "Bottom" : "Right"}`) : 0);
     };
   });
 });
@@ -635,7 +635,7 @@ U(["Width", "Height"], (s, e) => {
     if (!this[0])
       return it(n) ? void 0 : this;
     if (!arguments.length)
-      return Ve(this[0]) ? this[0].document.documentElement[`client${e}`] : me(this[0]) ? da(this[0], e) : this[0].getBoundingClientRect()[t] - Zo(this[0], !s);
+      return Ue(this[0]) ? this[0].document.documentElement[`client${e}`] : ge(this[0]) ? da(this[0], e) : this[0].getBoundingClientRect()[t] - Zo(this[0], !s);
     const i = parseInt(n, 10);
     return this.each((o, r) => {
       if (!V(r))
@@ -679,7 +679,7 @@ k.trigger = function(s, e) {
   s.___td = e;
   const t = s.___ot in ko;
   return this.each((n, i) => {
-    t && we(i[s.___ot]) && (i[`___i${s.type}`] = !0, i[s.___ot](), i[`___i${s.type}`] = !1), i.dispatchEvent(s);
+    t && ve(i[s.___ot]) && (i[`___i${s.type}`] = !0, i[s.___ot](), i[`___i${s.type}`] = !1), i.dispatchEvent(s);
   });
 };
 function pa(s) {
@@ -707,13 +707,13 @@ function cs(s, e, t, n, i) {
 k.off = function(s, e, t) {
   if (it(s))
     this.each((n, i) => {
-      !V(i) && !me(i) && !Ve(i) || cs(i);
+      !V(i) && !ge(i) && !Ue(i) || cs(i);
     });
   else if (et(s))
-    we(e) && (t = e, e = ""), U(Ei(s), (n, i) => {
+    ve(e) && (t = e, e = ""), U(Ei(s), (n, i) => {
       const [o, r] = Eo(i), a = So(o);
       this.each((l, h) => {
-        !V(h) && !me(h) && !Ve(h) || cs(h, a, r, e, t);
+        !V(h) && !ge(h) && !Ue(h) || cs(h, a, r, e, t);
       });
     });
   else
@@ -736,10 +736,10 @@ function dc(s, e, t, n, i) {
       this.on(o, e, t, s[o], i);
     return this;
   }
-  return et(e) || (it(e) || nn(e) ? e = "" : it(t) ? (t = e, e = "") : (n = t, t = e, e = "")), we(n) || (n = t, t = void 0), n ? (U(Ei(s), (o, r) => {
+  return et(e) || (it(e) || nn(e) ? e = "" : it(t) ? (t = e, e = "") : (n = t, t = e, e = "")), ve(n) || (n = t, t = void 0), n ? (U(Ei(s), (o, r) => {
     const [a, l] = Eo(r), h = So(a), u = a in fa, c = a in ko;
     h && this.each((p, m) => {
-      if (!V(m) && !me(m) && !Ve(m))
+      if (!V(m) && !ge(m) && !Ue(m))
         return;
       const g = function(b) {
         if (b.target[`___i${b.type}`])
@@ -1102,7 +1102,7 @@ const Eu = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   runJS: Ro,
   scrollIntoView: _a
 }, Symbol.toStringTag, { value: "Module" }));
-var Ni, W, Ca, X, ee, ir, $a, Gi, Ce = {}, xa = [], kc = /acit|ex(?:s|g|n|p|$)|rph|grid|ows|mnc|ntw|ine[ch]|zoo|^ord|itera/i, Io = Array.isArray;
+var Ni, W, Ca, X, ne, ir, $a, Gi, $e = {}, xa = [], kc = /acit|ex(?:s|g|n|p|$)|rph|grid|ows|mnc|ntw|ine[ch]|zoo|^ord|itera/i, Io = Array.isArray;
 function Kt(s, e) {
   for (var t in e)
     s[t] = e[t];
@@ -1128,7 +1128,7 @@ function ss(s, e, t, n, i) {
 function Y() {
   return { current: null };
 }
-function Ge(s) {
+function Xe(s) {
   return s.children;
 }
 function B(s, e) {
@@ -1154,18 +1154,18 @@ function Sa(s) {
   }
 }
 function or(s) {
-  (!s.__d && (s.__d = !0) && ee.push(s) && !fs.__r++ || ir !== W.debounceRendering) && ((ir = W.debounceRendering) || $a)(fs);
+  (!s.__d && (s.__d = !0) && ne.push(s) && !fs.__r++ || ir !== W.debounceRendering) && ((ir = W.debounceRendering) || $a)(fs);
 }
 function fs() {
   var s, e, t, n, i, o, r, a, l;
-  for (ee.sort(Gi); s = ee.shift(); )
-    s.__d && (e = ee.length, n = void 0, i = void 0, o = void 0, a = (r = (t = s).__v).__e, (l = t.__P) && (n = [], i = [], (o = Kt({}, r)).__v = r.__v + 1, Ao(l, r, o, t.__n, l.ownerSVGElement !== void 0, r.__h != null ? [a] : null, n, a ?? ds(r), r.__h, i), Ma(n, r, i), r.__e != a && Sa(r)), ee.length > e && ee.sort(Gi));
+  for (ne.sort(Gi); s = ne.shift(); )
+    s.__d && (e = ne.length, n = void 0, i = void 0, o = void 0, a = (r = (t = s).__v).__e, (l = t.__P) && (n = [], i = [], (o = Kt({}, r)).__v = r.__v + 1, Ao(l, r, o, t.__n, l.ownerSVGElement !== void 0, r.__h != null ? [a] : null, n, a ?? ds(r), r.__h, i), Ma(n, r, i), r.__e != a && Sa(r)), ne.length > e && ne.sort(Gi));
   fs.__r = 0;
 }
 function Ea(s, e, t, n, i, o, r, a, l, h, u) {
   var c, p, m, g, b, v, w, C, x, T, S = 0, M = n && n.__k || xa, I = M.length, A = I, D = e.length;
   for (t.__k = [], c = 0; c < D; c++)
-    (g = t.__k[c] = (g = e[c]) == null || typeof g == "boolean" || typeof g == "function" ? null : typeof g == "string" || typeof g == "number" || typeof g == "bigint" ? ss(null, g, null, null, g) : Io(g) ? ss(Ge, { children: g }, null, null, null) : g.__b > 0 ? ss(g.type, g.props, g.key, g.ref ? g.ref : null, g.__v) : g) != null && (g.__ = t, g.__b = t.__b + 1, (C = Sc(g, M, w = c + S, A)) === -1 ? m = Ce : (m = M[C] || Ce, M[C] = void 0, A--), Ao(s, g, m, i, o, r, a, l, h, u), b = g.__e, (p = g.ref) && m.ref != p && (m.ref && Do(m.ref, null, g), u.push(p, g.__c || b, g)), b != null && (v == null && (v = b), T = !(x = m === Ce || m.__v === null) && C === w, x ? C == -1 && S-- : C !== w && (C === w + 1 ? (S++, T = !0) : C > w ? A > D - w ? (S += C - w, T = !0) : S-- : S = C < w && C == w - 1 ? C - w : 0), w = c + S, T = T || C == c && !x, typeof g.type != "function" || C === w && m.__k !== g.__k ? typeof g.type == "function" || T ? g.__d !== void 0 ? (l = g.__d, g.__d = void 0) : l = b.nextSibling : l = Na(s, b, l) : l = Ta(g, l, s), typeof t.type == "function" && (t.__d = l)));
+    (g = t.__k[c] = (g = e[c]) == null || typeof g == "boolean" || typeof g == "function" ? null : typeof g == "string" || typeof g == "number" || typeof g == "bigint" ? ss(null, g, null, null, g) : Io(g) ? ss(Xe, { children: g }, null, null, null) : g.__b > 0 ? ss(g.type, g.props, g.key, g.ref ? g.ref : null, g.__v) : g) != null && (g.__ = t, g.__b = t.__b + 1, (C = Sc(g, M, w = c + S, A)) === -1 ? m = $e : (m = M[C] || $e, M[C] = void 0, A--), Ao(s, g, m, i, o, r, a, l, h, u), b = g.__e, (p = g.ref) && m.ref != p && (m.ref && Do(m.ref, null, g), u.push(p, g.__c || b, g)), b != null && (v == null && (v = b), T = !(x = m === $e || m.__v === null) && C === w, x ? C == -1 && S-- : C !== w && (C === w + 1 ? (S++, T = !0) : C > w ? A > D - w ? (S += C - w, T = !0) : S-- : S = C < w && C == w - 1 ? C - w : 0), w = c + S, T = T || C == c && !x, typeof g.type != "function" || C === w && m.__k !== g.__k ? typeof g.type == "function" || T ? g.__d !== void 0 ? (l = g.__d, g.__d = void 0) : l = b.nextSibling : l = Na(s, b, l) : l = Ta(g, l, s), typeof t.type == "function" && (t.__d = l)));
   for (t.__e = v, c = I; c--; )
     M[c] != null && (typeof t.type == "function" && M[c].__e != null && M[c].__e == t.__d && (t.__d = M[c].__e.nextSibling), Ra(M[c], M[c]));
 }
@@ -1271,7 +1271,7 @@ function Ao(s, e, t, n, i, o, r, a, l, h) {
           do
             c.__d = !1, S && S(e), u = c.render(c.props, c.state, c.context), c.state = c.__s;
           while (c.__d && ++M < 25);
-        c.state = c.__s, c.getChildContext != null && (n = Kt(Kt({}, n), c.getChildContext())), p || c.getSnapshotBeforeUpdate == null || (b = c.getSnapshotBeforeUpdate(m, g)), Ea(s, Io(A = u != null && u.type === Ge && u.key == null ? u.props.children : u) ? A : [A], e, t, n, i, o, r, a, l, h), c.base = e.__e, e.__h = null, c.__h.length && r.push(c), v && (c.__E = c.__ = null);
+        c.state = c.__s, c.getChildContext != null && (n = Kt(Kt({}, n), c.getChildContext())), p || c.getSnapshotBeforeUpdate == null || (b = c.getSnapshotBeforeUpdate(m, g)), Ea(s, Io(A = u != null && u.type === Xe && u.key == null ? u.props.children : u) ? A : [A], e, t, n, i, o, r, a, l, h), c.base = e.__e, e.__h = null, c.__h.length && r.push(c), v && (c.__E = c.__ = null);
       } else
         o == null && e.__v === t.__v ? (e.__k = t.__k, e.__e = t.__e) : e.__e = Tc(t.__e, e, t, n, i, o, r, l, h);
     (u = W.diffed) && u(e);
@@ -1309,7 +1309,7 @@ function Tc(s, e, t, n, i, o, r, a, l) {
   if (g === null)
     p === m || a && s.data === m || (s.data = m);
   else {
-    if (o = o && Ni.call(s.childNodes), u = (p = t.props || Ce).dangerouslySetInnerHTML, c = m.dangerouslySetInnerHTML, !a) {
+    if (o = o && Ni.call(s.childNodes), u = (p = t.props || $e).dangerouslySetInnerHTML, c = m.dangerouslySetInnerHTML, !a) {
       if (o != null)
         for (p = {}, b = 0; b < s.attributes.length; b++)
           p[s.attributes[b].name] = s.attributes[b].value;
@@ -1352,7 +1352,7 @@ function Nc(s, e, t) {
 }
 function ms(s, e, t) {
   var n, i, o, r;
-  W.__ && W.__(s, e), i = (n = typeof t == "function") ? null : t && t.__k || e.__k, o = [], r = [], Ao(e, s = (!n && t || e).__k = G(Ge, null, [s]), i || Ce, Ce, e.ownerSVGElement !== void 0, !n && t ? [t] : i ? null : e.firstChild ? Ni.call(e.childNodes) : null, o, !n && t ? t : i ? i.__e : e.firstChild, n, r), Ma(o, s, r);
+  W.__ && W.__(s, e), i = (n = typeof t == "function") ? null : t && t.__k || e.__k, o = [], r = [], Ao(e, s = (!n && t || e).__k = G(Xe, null, [s]), i || $e, $e, e.ownerSVGElement !== void 0, !n && t ? [t] : i ? null : e.firstChild ? Ni.call(e.childNodes) : null, o, !n && t ? t : i ? i.__e : e.firstChild, n, r), Ma(o, s, r);
 }
 Ni = xa.slice, W = { __e: function(s, e, t, n) {
   for (var i, o, r; e = e.__; )
@@ -1371,7 +1371,7 @@ Ni = xa.slice, W = { __e: function(s, e, t, n) {
   t = this.__s != null && this.__s !== this.state ? this.__s : this.__s = Kt({}, this.state), typeof s == "function" && (s = s(Kt({}, t), this.props)), s && Kt(t, s), s != null && this.__v && (e && this._sb.push(e), or(this));
 }, B.prototype.forceUpdate = function(s) {
   this.__v && (this.__e = !0, s && this.__h.push(s), or(this));
-}, B.prototype.render = Ge, ee = [], $a = typeof Promise == "function" ? Promise.prototype.then.bind(Promise.resolve()) : setTimeout, Gi = function(s, e) {
+}, B.prototype.render = Xe, ne = [], $a = typeof Promise == "function" ? Promise.prototype.then.bind(Promise.resolve()) : setTimeout, Gi = function(s, e) {
   return s.__v.__b - e.__v.__b;
 }, fs.__r = 0;
 var Ia = function(s, e, t, n) {
@@ -1493,9 +1493,9 @@ function Xi({
 function Aa(s, e, t) {
   return typeof s == "function" ? s.call(e, ...t) : Array.isArray(s) ? s.map((n) => Aa(n, e, t)) : X(s) || s === null ? s : typeof s == "object" ? s.html ? /* @__PURE__ */ d(Xn, { ...s }) : /* @__PURE__ */ d(Po, { ...s }) : s;
 }
-function Xe(s) {
+function ee(s) {
   const { content: e, generatorThis: t, generatorArgs: n } = s, i = Aa(e, t, n);
-  return i == null || typeof i == "boolean" ? null : X(i) ? i : /* @__PURE__ */ d(Ge, { children: i });
+  return i == null || typeof i == "boolean" ? null : X(i) ? i : /* @__PURE__ */ d(Xe, { children: i });
 }
 const hr = (s) => s.startsWith("icon-") ? s : `icon-${s}`;
 function tt(s) {
@@ -1893,8 +1893,8 @@ function Da({
   const C = [
     typeof g == "boolean" ? /* @__PURE__ */ d("div", { class: `checkbox-primary${g ? " checked" : ""}`, children: /* @__PURE__ */ d("label", {}) }) : null,
     /* @__PURE__ */ d(tt, { icon: h }),
-    /* @__PURE__ */ d("span", { className: "text", children: u }),
-    /* @__PURE__ */ d(Xe, { content: i }),
+    u ? /* @__PURE__ */ d("span", { className: "text", children: u }) : null,
+    /* @__PURE__ */ d(ee, { content: i }),
     n,
     /* @__PURE__ */ d(tt, { icon: p })
   ];
@@ -1923,7 +1923,7 @@ function Oc({
     style: r,
     onClick: a,
     ...n
-  }, t, /* @__PURE__ */ d(Xe, { content: o }), i);
+  }, t, /* @__PURE__ */ d(ee, { content: o }), i);
 }
 function Hc({
   component: s = "div",
@@ -1957,7 +1957,7 @@ function Pa({
     className: N(e),
     style: i,
     ...o
-  }, /* @__PURE__ */ d(Xe, { content: n }), t);
+  }, /* @__PURE__ */ d(ee, { content: n }), t);
 }
 var Mt;
 let Mi = (Mt = class extends B {
@@ -2097,13 +2097,13 @@ function Wc({
 }) {
   return /* @__PURE__ */ d(Da, { ...n });
 }
-var ln, ht, ke, cn;
+var ln, ht, Se, cn;
 let Lo = (cn = class extends Mi {
   constructor(t) {
     super(t);
     _(this, ln, /* @__PURE__ */ new Set());
     _(this, ht, void 0);
-    _(this, ke, (t, n, i) => {
+    _(this, Se, (t, n, i) => {
       f(i.target).closest(".not-nested-toggle").length || (this.toggle(t, n), i.preventDefault());
     });
     $(this, ht, t.nestedShow === void 0), y(this, ht) && (this.state = { nestedShow: t.defaultNestedShow ?? {} });
@@ -2161,13 +2161,13 @@ let Lo = (cn = class extends Mi {
     ]), this.nestedTrigger === "hover")
       o.rootAttrs = {
         ...o.rootAttrs,
-        onMouseEnter: y(this, ke).bind(this, r, !0),
-        onMouseLeave: y(this, ke).bind(this, r, !1)
+        onMouseEnter: y(this, Se).bind(this, r, !0),
+        onMouseLeave: y(this, Se).bind(this, r, !1)
       };
     else if (this.nestedTrigger === "click") {
       const { onClick: h } = o;
       o.onClick = (u) => {
-        y(this, ke).call(this, r, void 0, u), h == null || h(u);
+        y(this, Se).call(this, r, void 0, u), h == null || h(u);
       };
     }
     const l = this.renderToggleIcon(a, o);
@@ -2202,7 +2202,7 @@ let Lo = (cn = class extends Mi {
   collapseAll() {
     y(this, ht) && this.setState({ nestedShow: !1 });
   }
-}, ln = new WeakMap(), ht = new WeakMap(), ke = new WeakMap(), cn.ItemComponents = {
+}, ln = new WeakMap(), ht = new WeakMap(), Se = new WeakMap(), cn.ItemComponents = {
   item: Wc
 }, cn);
 const Ts = class Ts extends z {
@@ -2210,7 +2210,7 @@ const Ts = class Ts extends z {
 Ts.NAME = "ActionMenuNested", Ts.Component = Lo;
 let dr = Ts;
 var hn;
-let ge = (hn = class extends Lo {
+let ye = (hn = class extends Lo {
   get nestedTrigger() {
     return this.props.nestedTrigger || "click";
   }
@@ -2232,7 +2232,7 @@ let ge = (hn = class extends Lo {
 }, hn.NAME = "menu", hn);
 const Ns = class Ns extends z {
 };
-Ns.NAME = "Menu", Ns.Component = ge;
+Ns.NAME = "Menu", Ns.Component = ye;
 let fr = Ns;
 class Q extends Po {
   _beforeRender(e) {
@@ -2296,7 +2296,7 @@ let zc = class extends B {
       arrowStyle: m,
       onlyInner: g
     } = e;
-    let b = /* @__PURE__ */ d(Xe, { content: o }, "content");
+    let b = /* @__PURE__ */ d(ee, { content: o }, "content");
     (p || i) && (b = /* @__PURE__ */ d("div", { className: p, children: b }, "content"));
     const v = [], w = l ? /* @__PURE__ */ d("button", { className: "btn ghost square size-sm btn-close", "data-dismiss": "popover", children: /* @__PURE__ */ d("span", { className: "close" }) }) : null;
     return i ? v.push(/* @__PURE__ */ d("div", { className: u, children: [
@@ -2315,17 +2315,17 @@ function Jn(s) {
 function Oo(s) {
   return s === "y" ? "height" : "width";
 }
-function de(s) {
+function fe(s) {
   return s.split("-")[0];
 }
 function Zn(s) {
-  return ["top", "bottom"].includes(de(s)) ? "x" : "y";
+  return ["top", "bottom"].includes(fe(s)) ? "x" : "y";
 }
 function pr(s, e, t) {
   let { reference: n, floating: i } = s;
   const o = n.x + n.width / 2 - i.width / 2, r = n.y + n.height / 2 - i.height / 2, a = Zn(e), l = Oo(a), h = n[l] / 2 - i[l] / 2, u = a === "x";
   let c;
-  switch (de(e)) {
+  switch (fe(e)) {
     case "top":
       c = { x: o, y: n.y - i.height };
       break;
@@ -2408,7 +2408,7 @@ function Wi(s) {
 const Ri = function(s) {
   return s === void 0 && (s = {}), { name: "flip", options: s, async fn(e) {
     var t;
-    const { placement: n, middlewareData: i, rects: o, initialPlacement: r, platform: a, elements: l } = e, { mainAxis: h = !0, crossAxis: u = !0, fallbackPlacements: c, fallbackStrategy: p = "bestFit", fallbackAxisSideDirection: m = "none", flipAlignment: g = !0, ...b } = Qn(s, e), v = de(n), w = de(r) === r, C = await (a.isRTL == null ? void 0 : a.isRTL(l.floating)), x = c || (w || !g ? [ys(r)] : function(L) {
+    const { placement: n, middlewareData: i, rects: o, initialPlacement: r, platform: a, elements: l } = e, { mainAxis: h = !0, crossAxis: u = !0, fallbackPlacements: c, fallbackStrategy: p = "bestFit", fallbackAxisSideDirection: m = "none", flipAlignment: g = !0, ...b } = Qn(s, e), v = fe(n), w = fe(r) === r, C = await (a.isRTL == null ? void 0 : a.isRTL(l.floating)), x = c || (w || !g ? [ys(r)] : function(L) {
       const R = ys(L);
       return [Wi(L), R, Wi(R)];
     }(r));
@@ -2426,7 +2426,7 @@ const Ri = function(s) {
           default:
             return [];
         }
-      }(de(L), E === "start", O);
+      }(fe(L), E === "start", O);
       return F && (j = j.map((ot) => ot + "-" + F), R && (j = j.concat(j.map(Wi)))), j;
     }(r, g, m, C));
     const T = [r, ...x], S = await Oa(e, b), M = [];
@@ -2460,7 +2460,7 @@ const Ri = function(s) {
 }, Ii = function(s) {
   return s === void 0 && (s = 0), { name: "offset", options: s, async fn(e) {
     const { x: t, y: n } = e, i = await async function(o, r) {
-      const { placement: a, platform: l, elements: h } = o, u = await (l.isRTL == null ? void 0 : l.isRTL(h.floating)), c = de(a), p = Jn(a), m = Zn(a) === "x", g = ["left", "top"].includes(c) ? -1 : 1, b = u && m ? -1 : 1, v = Qn(r, o);
+      const { placement: a, platform: l, elements: h } = o, u = await (l.isRTL == null ? void 0 : l.isRTL(h.floating)), c = fe(a), p = Jn(a), m = Zn(a) === "x", g = ["left", "top"].includes(c) ? -1 : 1, b = u && m ? -1 : 1, v = Qn(r, o);
       let { mainAxis: w, crossAxis: C, alignmentAxis: x } = typeof v == "number" ? { mainAxis: v, crossAxis: 0, alignmentAxis: null } : { mainAxis: 0, crossAxis: 0, alignmentAxis: null, ...v };
       return p && typeof x == "number" && (C = p === "end" ? -1 * x : x), m ? { x: C * b, y: w * g } : { x: w * g, y: C * b };
     }(e, s);
@@ -2475,7 +2475,7 @@ const sn = function(s) {
     const { x: t, y: n, placement: i } = e, { mainAxis: o = !0, crossAxis: r = !1, limiter: a = { fn: (v) => {
       let { x: w, y: C } = v;
       return { x: w, y: C };
-    } }, ...l } = Qn(s, e), h = { x: t, y: n }, u = await Oa(e, l), c = Zn(de(i)), p = Gc(c);
+    } }, ...l } = Qn(s, e), h = { x: t, y: n }, u = await Oa(e, l), c = Zn(fe(i)), p = Gc(c);
     let m = h[c], g = h[p];
     if (o) {
       const v = c === "y" ? "bottom" : "right";
@@ -2525,7 +2525,7 @@ function Ho() {
 function Ai(s) {
   return ["html", "body", "#document"].includes(Xt(s));
 }
-const no = Math.min, $e = Math.max, bs = Math.round, es = Math.floor, Jt = (s) => ({ x: s, y: s });
+const no = Math.min, xe = Math.max, bs = Math.round, es = Math.floor, Jt = (s) => ({ x: s, y: s });
 function Ba(s) {
   const e = xt(s);
   let t = parseFloat(e.width) || 0, n = parseFloat(e.height) || 0;
@@ -2538,7 +2538,7 @@ function Rt(s) {
 function Bo(s) {
   return Rt(s) ? s : s.contextElement;
 }
-function xe(s) {
+function ke(s) {
   const e = Bo(s);
   if (!at(e))
     return Jt(1);
@@ -2551,11 +2551,11 @@ function Wa(s) {
   const e = st(s);
   return Ho() && e.visualViewport ? { x: e.visualViewport.offsetLeft, y: e.visualViewport.offsetTop } : Jc;
 }
-function ye(s, e, t, n) {
+function be(s, e, t, n) {
   e === void 0 && (e = !1), t === void 0 && (t = !1);
   const i = s.getBoundingClientRect(), o = Bo(s);
   let r = Jt(1);
-  e && (n ? Rt(n) && (r = xe(n)) : r = xe(s));
+  e && (n ? Rt(n) && (r = ke(n)) : r = ke(s));
   const a = function(p, m, g) {
     return m === void 0 && (m = !1), !(!g || m && g !== st(p)) && m;
   }(o, t, n) ? Wa(o) : Jt(0);
@@ -2564,7 +2564,7 @@ function ye(s, e, t, n) {
     const p = st(o), m = n && Rt(n) ? st(n) : n;
     let g = p.frameElement;
     for (; g && n && m !== p; ) {
-      const b = xe(g), v = g.getBoundingClientRect(), w = getComputedStyle(g), C = v.left + (g.clientLeft + parseFloat(w.paddingLeft)) * b.x, x = v.top + (g.clientTop + parseFloat(w.paddingTop)) * b.y;
+      const b = ke(g), v = g.getBoundingClientRect(), w = getComputedStyle(g), C = v.left + (g.clientLeft + parseFloat(w.paddingLeft)) * b.x, x = v.top + (g.clientTop + parseFloat(w.paddingTop)) * b.y;
       l *= b.x, h *= b.y, u *= b.x, c *= b.y, l += C, h += x, g = st(g).frameElement;
     }
   }
@@ -2578,16 +2578,16 @@ function It(s) {
   return (e = (Ha(s) ? s.ownerDocument : s.document) || window.document) == null ? void 0 : e.documentElement;
 }
 function Fa(s) {
-  return ye(It(s)).left + Di(s).scrollLeft;
+  return be(It(s)).left + Di(s).scrollLeft;
 }
-function Ue(s) {
+function qe(s) {
   if (Xt(s) === "html")
     return s;
   const e = s.assignedSlot || s.parentNode || mr(s) && s.host || It(s);
   return mr(e) ? e.host : e;
 }
 function za(s) {
-  const e = Ue(s);
+  const e = qe(s);
   return Ai(e) ? s.ownerDocument ? s.ownerDocument.body : s.body : at(e) && on(e) ? e : za(e);
 }
 function ws(s, e) {
@@ -2611,14 +2611,14 @@ function gr(s, e, t) {
     }(s, t);
   else if (e === "document")
     n = function(i) {
-      const o = It(i), r = Di(i), a = i.ownerDocument.body, l = $e(o.scrollWidth, o.clientWidth, a.scrollWidth, a.clientWidth), h = $e(o.scrollHeight, o.clientHeight, a.scrollHeight, a.clientHeight);
+      const o = It(i), r = Di(i), a = i.ownerDocument.body, l = xe(o.scrollWidth, o.clientWidth, a.scrollWidth, a.clientWidth), h = xe(o.scrollHeight, o.clientHeight, a.scrollHeight, a.clientHeight);
       let u = -r.scrollLeft + Fa(i);
       const c = -r.scrollTop;
-      return xt(a).direction === "rtl" && (u += $e(o.clientWidth, a.clientWidth) - l), { width: l, height: h, x: u, y: c };
+      return xt(a).direction === "rtl" && (u += xe(o.clientWidth, a.clientWidth) - l), { width: l, height: h, x: u, y: c };
     }(It(s));
   else if (Rt(e))
     n = function(i, o) {
-      const r = ye(i, !0, o === "fixed"), a = r.top + i.clientTop, l = r.left + i.clientLeft, h = at(i) ? xe(i) : Jt(1);
+      const r = be(i, !0, o === "fixed"), a = r.top + i.clientTop, l = r.left + i.clientLeft, h = at(i) ? ke(i) : Jt(1);
       return { width: i.clientWidth * h.x, height: i.clientHeight * h.y, x: l * h.x, y: a * h.y };
     }(e, t);
   else {
@@ -2628,16 +2628,16 @@ function gr(s, e, t) {
   return gs(n);
 }
 function ja(s, e) {
-  const t = Ue(s);
+  const t = qe(s);
   return !(t === e || !Rt(t) || Ai(t)) && (xt(t).position === "fixed" || ja(t, e));
 }
 function Zc(s, e, t) {
-  const n = at(e), i = It(e), o = t === "fixed", r = ye(s, !0, o, e);
+  const n = at(e), i = It(e), o = t === "fixed", r = be(s, !0, o, e);
   let a = { scrollLeft: 0, scrollTop: 0 };
   const l = Jt(0);
   if (n || !n && !o)
     if ((Xt(e) !== "body" || on(i)) && (a = Di(e)), at(e)) {
-      const h = ye(e, !0, o, e);
+      const h = be(e, !0, o, e);
       l.x = h.x + e.clientLeft, l.y = h.y + e.clientTop;
     } else
       i && (l.x = Fa(i));
@@ -2654,11 +2654,11 @@ function br(s, e) {
   for (; n && Xc(n) && xt(n).position === "static"; )
     n = yr(n, e);
   return n && (Xt(n) === "html" || Xt(n) === "body" && xt(n).position === "static" && !eo(n)) ? t : n || function(i) {
-    let o = Ue(i);
+    let o = qe(i);
     for (; at(o) && !Ai(o); ) {
       if (eo(o))
         return o;
-      o = Ue(o);
+      o = qe(o);
     }
     return null;
   }(s) || t;
@@ -2671,8 +2671,8 @@ const Qc = { convertOffsetParentRelativeRectToViewportRelativeRect: function(s) 
   let r = { scrollLeft: 0, scrollTop: 0 }, a = Jt(1);
   const l = Jt(0);
   if ((i || !i && n !== "fixed") && ((Xt(t) !== "body" || on(o)) && (r = Di(t)), at(t))) {
-    const h = ye(t);
-    a = xe(t), l.x = h.x + t.clientLeft, l.y = h.y + t.clientTop;
+    const h = be(t);
+    a = ke(t), l.x = h.x + t.clientLeft, l.y = h.y + t.clientTop;
   }
   return { width: e.width * a.x, height: e.height * a.y, x: e.x * a.x - r.scrollLeft * a.x + l.x, y: e.y * a.y - r.scrollTop * a.y + l.y };
 }, getDocumentElement: It, getClippingRect: function(s) {
@@ -2683,15 +2683,15 @@ const Qc = { convertOffsetParentRelativeRectToViewportRelativeRect: function(s) 
       return u;
     let c = ws(l).filter((b) => Rt(b) && Xt(b) !== "body"), p = null;
     const m = xt(l).position === "fixed";
-    let g = m ? Ue(l) : l;
+    let g = m ? qe(l) : l;
     for (; Rt(g) && !Ai(g); ) {
       const b = xt(g), v = eo(g);
-      v || b.position !== "fixed" || (p = null), (m ? !v && !p : !v && b.position === "static" && p && ["absolute", "fixed"].includes(p.position) || on(g) && !v && ja(l, g)) ? c = c.filter((w) => w !== g) : p = b, g = Ue(g);
+      v || b.position !== "fixed" || (p = null), (m ? !v && !p : !v && b.position === "static" && p && ["absolute", "fixed"].includes(p.position) || on(g) && !v && ja(l, g)) ? c = c.filter((w) => w !== g) : p = b, g = qe(g);
     }
     return h.set(l, c), c;
   }(e, this._c) : [].concat(t), n], r = o[0], a = o.reduce((l, h) => {
     const u = gr(e, h, i);
-    return l.top = $e(u.top, l.top), l.right = no(u.right, l.right), l.bottom = no(u.bottom, l.bottom), l.left = $e(u.left, l.left), l;
+    return l.top = xe(u.top, l.top), l.right = no(u.right, l.right), l.bottom = no(u.bottom, l.bottom), l.left = xe(u.left, l.left), l;
   }, gr(e, r, i));
   return { width: a.right - a.left, height: a.bottom - a.top, x: a.left, y: a.top };
 }, getOffsetParent: br, getElementRects: async function(s) {
@@ -2702,7 +2702,7 @@ const Qc = { convertOffsetParentRelativeRectToViewportRelativeRect: function(s) 
   return Array.from(s.getClientRects());
 }, getDimensions: function(s) {
   return Ba(s);
-}, getScale: xe, isElement: Rt, isRTL: function(s) {
+}, getScale: ke, isElement: Rt, isRTL: function(s) {
   return getComputedStyle(s).direction === "rtl";
 } };
 function Wo(s, e, t, n) {
@@ -2722,7 +2722,7 @@ function Wo(s, e, t, n) {
       const { left: D, top: H, width: L, height: R } = v.getBoundingClientRect();
       if (I || w(), !L || !R)
         return;
-      const E = { rootMargin: -es(H) + "px " + -es(T.clientWidth - (D + L)) + "px " + -es(T.clientHeight - (H + R)) + "px " + -es(D) + "px", threshold: $e(0, no(1, A)) || 1 };
+      const E = { rootMargin: -es(H) + "px " + -es(T.clientWidth - (D + L)) + "px " + -es(T.clientHeight - (H + R)) + "px " + -es(D) + "px", threshold: xe(0, no(1, A)) || 1 };
       let O = !0;
       function F(j) {
         const ot = j[0].intersectionRatio;
@@ -2750,9 +2750,9 @@ function Wo(s, e, t, n) {
       g && g.observe(e);
     })), t();
   }), h && !l && g.observe(h), g.observe(e));
-  let b = l ? ye(s) : null;
+  let b = l ? be(s) : null;
   return l && function v() {
-    const w = ye(s);
+    const w = be(s);
     !b || w.x === b.x && w.y === b.y && w.width === b.width && w.height === b.height || t(), b = w, p = requestAnimationFrame(v);
   }(), t(), () => {
     u.forEach((v) => {
@@ -2763,7 +2763,7 @@ function Wo(s, e, t, n) {
 const Pi = (s, e, t) => {
   const n = /* @__PURE__ */ new Map(), i = { platform: Qc, ...t }, o = { ...i.platform, _c: n };
   return jc(s, e, { ...i, platform: o });
-}, th = '[data-toggle="popover"]', wr = "show", vr = "in", _e = class _e extends $t {
+}, th = '[data-toggle="popover"]', wr = "show", vr = "in", Ce = class Ce extends $t {
   constructor() {
     super(...arguments), this._getClickBounding = () => {
       const e = this._triggerEvent;
@@ -2956,7 +2956,7 @@ const Pi = (s, e, t) => {
     return this.ensure(o instanceof HTMLElement ? o : document.body, { element: o, show: !0, destroyOnHide: !0, triggerEvent: n, ...i });
   }
 };
-_e.NAME = "Popover", _e.Z_INDEX = 1700, _e.MULTI_INSTANCE = !0, _e.DEFAULT = {
+Ce.NAME = "Popover", Ce.Z_INDEX = 1700, Ce.MULTI_INSTANCE = !0, Ce.DEFAULT = {
   placement: "top",
   strategy: "absolute",
   flip: !0,
@@ -2969,7 +2969,7 @@ _e.NAME = "Popover", _e.Z_INDEX = 1700, _e.MULTI_INSTANCE = !0, _e.DEFAULT = {
   closeBtn: !0,
   popup: !0
 };
-let _t = _e;
+let _t = Ce;
 f(document).on(`click${_t.NAMESPACE} mouseenter${_t.NAMESPACE}`, th, (s) => {
   const e = f(s.currentTarget);
   if (e.length && !e.data(_t.KEY)) {
@@ -3069,7 +3069,7 @@ jo.defaultProps = {
   caret: !0
 };
 let vs = jo;
-const Vo = class Vo extends ge {
+const Vo = class Vo extends ye {
   constructor() {
     super(...arguments), this._layoutTimer = 0;
   }
@@ -3110,7 +3110,7 @@ const Vo = class Vo extends ge {
   }
 };
 Vo.defaultProps = {
-  ...ge.defaultProps,
+  ...ye.defaultProps,
   popup: !0,
   nestedTrigger: "hover",
   placement: "right-start"
@@ -3284,7 +3284,7 @@ function oh({
     }
   );
 }
-var Ft, ve;
+var Ft, _e;
 const Is = class Is extends z {
   constructor() {
     super(...arguments);
@@ -3311,35 +3311,35 @@ const Is = class Is extends z {
     };
   }
   show() {
-    this.render(), this.emit("show"), P(this, Ft, ve).call(this, () => {
-      this._show = !0, this.render(), P(this, Ft, ve).call(this, () => {
+    this.render(), this.emit("show"), P(this, Ft, _e).call(this, () => {
+      this._show = !0, this.render(), P(this, Ft, _e).call(this, () => {
         this.emit("shown");
         const { time: t } = this.options;
-        t && P(this, Ft, ve).call(this, () => this.hide(), t);
+        t && P(this, Ft, _e).call(this, () => this.hide(), t);
       });
     }, 100);
   }
   hide() {
-    this._show && P(this, Ft, ve).call(this, () => {
-      this.emit("hide"), this._show = !1, this.render(), P(this, Ft, ve).call(this, () => {
+    this._show && P(this, Ft, _e).call(this, () => {
+      this.emit("hide"), this._show = !1, this.render(), P(this, Ft, _e).call(this, () => {
         this.emit("hidden");
       });
     }, 50);
   }
 };
-Ft = new WeakSet(), ve = function(t, n = 200) {
+Ft = new WeakSet(), _e = function(t, n = 200) {
   this._showTimer && clearTimeout(this._showTimer), this._showTimer = window.setTimeout(() => {
     t(), this._showTimer = 0;
   }, n);
 }, Is.NAME = "MessagerItem", Is.Component = oh;
 let io = Is;
-var se, ut, As, qa, Ds, Ya;
+var ie, ut, As, qa, Ds, Ya;
 const en = class en extends $t {
   constructor() {
     super(...arguments);
     _(this, As);
     _(this, Ds);
-    _(this, se, void 0);
+    _(this, ie, void 0);
     _(this, ut, void 0);
   }
   get isShown() {
@@ -3359,24 +3359,24 @@ const en = class en extends $t {
     return o.setOptions(i), o.hide(), o.show(), o;
   }
 };
-se = new WeakMap(), ut = new WeakMap(), As = new WeakSet(), qa = function() {
+ie = new WeakMap(), ut = new WeakMap(), As = new WeakSet(), qa = function() {
   if (y(this, ut))
     y(this, ut).setOptions(this.options);
   else {
     const t = P(this, Ds, Ya).call(this), n = new io(t, this.options);
     n.on("hidden", () => {
-      n.destroy(), t == null || t.remove(), $(this, se, void 0), $(this, ut, void 0);
+      n.destroy(), t == null || t.remove(), $(this, ie, void 0), $(this, ut, void 0);
     }), $(this, ut, n);
   }
   return y(this, ut);
 }, Ds = new WeakSet(), Ya = function() {
-  if (y(this, se))
-    return y(this, se);
+  if (y(this, ie))
+    return y(this, ie);
   const { placement: t = "top" } = this.options;
   let n = this.$element.find(`.messagers-${t}`);
   n.length || (n = f(`<div class="messagers messagers-${t}"></div>`).appendTo(this.$element));
   let i = n.find(`#messager-${this.gid}`);
-  return i.length || (i = f(`<div class="messager-holder" id="messager-${this.gid}"></div>`).appendTo(n), $(this, se, i[0])), i[0];
+  return i.length || (i = f(`<div class="messager-holder" id="messager-${this.gid}"></div>`).appendTo(n), $(this, ie, i[0])), i[0];
 }, en.NAME = "messager", en.DEFAULT = {
   placement: "top",
   animation: !0,
@@ -3497,7 +3497,7 @@ class Ka extends ah {
 }
 let Ga = (s = 21) => crypto.getRandomValues(new Uint8Array(s)).reduce((e, t) => (t &= 63, t < 36 ? e += t.toString(36) : t < 62 ? e += (t - 26).toString(36).toUpperCase() : t > 62 ? e += "-" : e += "_", e), "");
 const Fi = "```ZUI_STR\n";
-var dn, ie, Se, dt, Ee, Te, is;
+var dn, oe, Ee, dt, Te, Ne, is;
 const Uo = class Uo {
   /**
    * Create new store instance
@@ -3505,13 +3505,13 @@ const Uo = class Uo {
    * @param type Store type
    */
   constructor(e, t = "local") {
-    _(this, Te);
+    _(this, Ne);
     _(this, dn, void 0);
-    _(this, ie, void 0);
-    _(this, Se, void 0);
-    _(this, dt, void 0);
+    _(this, oe, void 0);
     _(this, Ee, void 0);
-    $(this, dn, t), $(this, Se, e ?? Ga()), $(this, ie, `ZUI_STORE:${y(this, Se)}`), $(this, dt, t === "local" ? localStorage : sessionStorage);
+    _(this, dt, void 0);
+    _(this, Te, void 0);
+    $(this, dn, t), $(this, Ee, e ?? Ga()), $(this, oe, `ZUI_STORE:${y(this, Ee)}`), $(this, dt, t === "local" ? localStorage : sessionStorage);
   }
   /**
    * Get store type
@@ -3523,7 +3523,7 @@ const Uo = class Uo {
    * Get session type store instance
    */
   get session() {
-    return this.type === "session" ? this : (y(this, Ee) || $(this, Ee, new Uo(y(this, Se), "session")), y(this, Ee));
+    return this.type === "session" ? this : (y(this, Te) || $(this, Te, new Uo(y(this, Ee), "session")), y(this, Te));
   }
   /**
    * Get value from store.
@@ -3533,7 +3533,7 @@ const Uo = class Uo {
    * @returns Value of key or defaultValue if key is not found.
    */
   get(e, t) {
-    const n = y(this, dt).getItem(P(this, Te, is).call(this, e));
+    const n = y(this, dt).getItem(P(this, Ne, is).call(this, e));
     if (typeof n == "string") {
       if (n.startsWith(Fi))
         return n.substring(Fi.length);
@@ -3552,14 +3552,14 @@ const Uo = class Uo {
   set(e, t) {
     if (t == null)
       return this.remove(e);
-    y(this, dt).setItem(P(this, Te, is).call(this, e), typeof t == "string" ? `${Fi}${t}` : JSON.stringify(t));
+    y(this, dt).setItem(P(this, Ne, is).call(this, e), typeof t == "string" ? `${Fi}${t}` : JSON.stringify(t));
   }
   /**
    * Remove key-value pair from store
    * @param key Key to remove
    */
   remove(e) {
-    y(this, dt).removeItem(P(this, Te, is).call(this, e));
+    y(this, dt).removeItem(P(this, Ne, is).call(this, e));
   }
   /**
    * Iterate all key-value pairs in store
@@ -3568,9 +3568,9 @@ const Uo = class Uo {
   each(e) {
     for (let t = 0; t < y(this, dt).length; t++) {
       const n = y(this, dt).key(t);
-      if (n != null && n.startsWith(y(this, ie))) {
+      if (n != null && n.startsWith(y(this, oe))) {
         const i = y(this, dt).getItem(n);
-        typeof i == "string" && e(n.substring(y(this, ie).length + 1), JSON.parse(i));
+        typeof i == "string" && e(n.substring(y(this, oe).length + 1), JSON.parse(i));
       }
     }
   }
@@ -3585,8 +3585,8 @@ const Uo = class Uo {
     }), e;
   }
 };
-dn = new WeakMap(), ie = new WeakMap(), Se = new WeakMap(), dt = new WeakMap(), Ee = new WeakMap(), Te = new WeakSet(), is = function(e) {
-  return `${y(this, ie)}:${e}`;
+dn = new WeakMap(), oe = new WeakMap(), Ee = new WeakMap(), dt = new WeakMap(), Te = new WeakMap(), Ne = new WeakSet(), is = function(e) {
+  return `${y(this, oe)}:${e}`;
 };
 let _s = Uo;
 const tn = new _s("DEFAULT");
@@ -3697,15 +3697,15 @@ const Os = class Os extends z {
 Os.NAME = "BtnGroup", Os.Component = Ua;
 let Er = Os;
 const oo = Symbol("EVENT_PICK");
-var Ne;
+var Me;
 class Fo extends B {
   constructor(t) {
     super(t);
-    _(this, Ne, void 0);
-    this._handleClick = this._handleClick.bind(this), $(this, Ne, !!f(`#${t.id}`).length);
+    _(this, Me, void 0);
+    this._handleClick = this._handleClick.bind(this), $(this, Me, !!f(`#${t.id}`).length);
   }
   get hasInput() {
-    return y(this, Ne);
+    return y(this, Me);
   }
   _handleClick(t) {
     const { togglePop: n, clickType: i, onClick: o } = this.props;
@@ -3752,7 +3752,7 @@ class Fo extends B {
   _renderValue(t) {
     const { name: n, state: { value: i = "" }, id: o } = t;
     if (n)
-      if (y(this, Ne))
+      if (y(this, Me))
         f(`#${o}`).val(i);
       else
         return /* @__PURE__ */ d("input", { id: o, type: "hidden", className: "pick-value", name: n, value: i });
@@ -3784,15 +3784,15 @@ class Fo extends B {
     );
   }
 }
-Ne = new WeakMap();
-var oe, ft, zt;
+Me = new WeakMap();
+var re, ft, zt;
 class Ja extends B {
   constructor(t) {
     super(t);
-    _(this, oe, void 0);
+    _(this, re, void 0);
     _(this, ft, void 0);
     _(this, zt, void 0);
-    $(this, oe, Y()), this._handleDocClick = (n) => {
+    $(this, re, Y()), this._handleDocClick = (n) => {
       const { state: { open: i }, id: o, togglePop: r } = this.props, a = f(n.target);
       i !== "closing" && !a.closest(`#pick-${o},#pick-pop-${o}`).length && a.parent().length && r(!1);
     }, this._handleClick = this._handleClick.bind(this);
@@ -3802,7 +3802,7 @@ class Ja extends B {
   }
   get element() {
     var t;
-    return (t = y(this, oe)) == null ? void 0 : t.current;
+    return (t = y(this, re)) == null ? void 0 : t.current;
   }
   get container() {
     return y(this, zt);
@@ -3840,7 +3840,7 @@ class Ja extends B {
       id: `pick-pop-${n}`,
       className: this._getClass(t),
       style: h,
-      ref: y(this, oe),
+      ref: y(this, re),
       onClick: this._handleClick
     };
   }
@@ -3891,21 +3891,21 @@ class Ja extends B {
     var n, i;
     f(document).off("click", this._handleDocClick);
     const t = y(this, ft);
-    t && (t(), $(this, ft, void 0)), $(this, zt, void 0), $(this, oe, void 0), f(`#pick-pop-${this.props.id}`).remove(), (i = (n = this.props).beforeDestroy) == null || i.call(n);
+    t && (t(), $(this, ft, void 0)), $(this, zt, void 0), $(this, re, void 0), f(`#pick-pop-${this.props.id}`).remove(), (i = (n = this.props).beforeDestroy) == null || i.call(n);
   }
   render(t) {
     return Pc(this._render(t), this._getContainer(t));
   }
 }
-oe = new WeakMap(), ft = new WeakMap(), zt = new WeakMap();
-var fn, nt, re, fe;
-let Pt = (fe = class extends B {
+re = new WeakMap(), ft = new WeakMap(), zt = new WeakMap();
+var fn, nt, ae, pe;
+let Pt = (pe = class extends B {
   constructor(t) {
     super(t);
     _(this, fn, void 0);
     _(this, nt, void 0);
-    _(this, re, void 0);
-    $(this, nt, 0), $(this, re, Y()), this.changeState = (n, i) => new Promise((o) => {
+    _(this, ae, void 0);
+    $(this, nt, 0), $(this, ae, Y()), this.changeState = (n, i) => new Promise((o) => {
       this.setState(n, () => {
         i == null || i(), o(this.state);
       });
@@ -3935,7 +3935,7 @@ let Pt = (fe = class extends B {
     return y(this, fn);
   }
   get pop() {
-    return y(this, re).current;
+    return y(this, ae).current;
   }
   open(t) {
     return this.toggle(!0, t);
@@ -4019,7 +4019,7 @@ let Pt = (fe = class extends B {
   componentWillUnmount() {
     var n;
     (n = this.props.beforeDestroy) == null || n.call(this), y(this, nt) && clearTimeout(y(this, nt));
-    const t = y(this, re).current;
+    const t = y(this, ae).current;
     t && t.componentWillUnmount && t.componentWillUnmount();
   }
   render(t, n) {
@@ -4027,14 +4027,14 @@ let Pt = (fe = class extends B {
     let r;
     if (i) {
       const a = this._getPop(t);
-      r = /* @__PURE__ */ d(a, { ref: y(this, re), ...this._getPopProps(t, n), children: this._renderPop(t, n) }, "pop");
+      r = /* @__PURE__ */ d(a, { ref: y(this, ae), ...this._getPopProps(t, n), children: this._renderPop(t, n) }, "pop");
     }
-    return /* @__PURE__ */ d(Ge, { children: [
+    return /* @__PURE__ */ d(Xe, { children: [
       /* @__PURE__ */ d(o, { ...this._getTriggerProps(t, n), children: this._renderTrigger(t, n) }, "pick"),
       r
     ] });
   }
-}, fn = new WeakMap(), nt = new WeakMap(), re = new WeakMap(), fe.Trigger = Fo, fe.Pop = Ja, fe.defaultProps = {
+}, fn = new WeakMap(), nt = new WeakMap(), ae = new WeakMap(), pe.Trigger = Fo, pe.Pop = Ja, pe.defaultProps = {
   popContainer: "body",
   popClass: "popup",
   popWidth: "100%",
@@ -4043,7 +4043,7 @@ let Pt = (fe = class extends B {
   popMinHeight: 32,
   popMaxHeight: 300,
   clickType: "open"
-}, fe);
+}, pe);
 var pn;
 let ph = (pn = class extends Pt {
   constructor(e) {
@@ -4168,7 +4168,7 @@ class gh extends B {
     const l = "col w-10 max-h-full overflow-y-auto scrollbar-thin scrollbar-hover";
     return /* @__PURE__ */ d("div", { className: "time-picker-menu row", ref: y(this, mn), children: [
       /* @__PURE__ */ d(
-        ge,
+        ye,
         {
           className: l,
           items: r,
@@ -4176,7 +4176,7 @@ class gh extends B {
         }
       ),
       /* @__PURE__ */ d(
-        ge,
+        ye,
         {
           className: l,
           items: a,
@@ -4366,19 +4366,19 @@ class Rr extends B {
   }
 }
 bn = new WeakMap(), Vs = new WeakMap();
-var Me, wn, vn, _n, Cn, $n, Us, Qa, qs, tl;
+var Re, wn, vn, _n, Cn, $n, Us, Qa, qs, tl;
 class vh extends B {
   constructor(t) {
     super(t);
     _(this, Us);
     _(this, qs);
-    _(this, Me, void 0);
+    _(this, Re, void 0);
     _(this, wn, void 0);
     _(this, vn, void 0);
     _(this, _n, void 0);
     _(this, Cn, void 0);
     _(this, $n, void 0);
-    $(this, Me, Y()), $(this, wn, (r) => {
+    $(this, Re, Y()), $(this, wn, (r) => {
       const a = f(r.target).closest("[data-set-date]");
       a.length && this.changeDate(a.dataset("set-date"));
     }), $(this, vn, () => {
@@ -4406,7 +4406,7 @@ class vh extends B {
     this.setState((n) => n.select === t ? { select: "day" } : { select: t });
   }
   componentDidMount() {
-    f(y(this, Me).current).find(".active").scrollIntoView();
+    f(y(this, Re).current).find(".active").scrollIntoView();
   }
   render(t, n) {
     const {
@@ -4420,7 +4420,7 @@ class vh extends B {
       month: c,
       select: p
     } = n, m = p === "day", g = K(t.minDate || "1970-1-1"), b = K(t.maxDate || "2099-12-1");
-    return /* @__PURE__ */ d("div", { className: "date-picker-menu row", ref: y(this, Me), onClick: y(this, wn), children: [
+    return /* @__PURE__ */ d("div", { className: "date-picker-menu row", ref: y(this, Re), onClick: y(this, wn), children: [
       P(this, Us, Qa).call(this, t),
       /* @__PURE__ */ d("div", { className: "cell", style: "width: 312px", children: [
         /* @__PURE__ */ d("div", { className: "row p-2", children: [
@@ -4468,9 +4468,9 @@ class vh extends B {
     ] });
   }
 }
-Me = new WeakMap(), wn = new WeakMap(), vn = new WeakMap(), _n = new WeakMap(), Cn = new WeakMap(), $n = new WeakMap(), Us = new WeakSet(), Qa = function(t) {
+Re = new WeakMap(), wn = new WeakMap(), vn = new WeakMap(), _n = new WeakMap(), Cn = new WeakMap(), $n = new WeakMap(), Us = new WeakSet(), Qa = function(t) {
   let { menu: n } = t;
-  return n ? (Array.isArray(n) && (n = { items: n }), /* @__PURE__ */ d(ge, { ...n })) : null;
+  return n ? (Array.isArray(n) && (n = { items: n }), /* @__PURE__ */ d(ye, { ...n })) : null;
 }, qs = new WeakSet(), tl = function(t) {
   let { actions: n } = t;
   const { todayText: i, clearText: o } = t;
@@ -4744,31 +4744,31 @@ const qo = class qo extends B {
 };
 qo.defaultProps = { closeBtn: !0 };
 let ao = qo;
-var Re, Ie, Ae;
+var Ie, Ae, De;
 class $h extends B {
   constructor() {
     super(...arguments);
-    _(this, Re, void 0);
     _(this, Ie, void 0);
     _(this, Ae, void 0);
-    $(this, Re, Y()), this.state = {}, $(this, Ae, () => {
+    _(this, De, void 0);
+    $(this, Ie, Y()), this.state = {}, $(this, De, () => {
       var i, o;
-      const t = (o = (i = y(this, Re).current) == null ? void 0 : i.contentWindow) == null ? void 0 : o.document;
+      const t = (o = (i = y(this, Ie).current) == null ? void 0 : i.contentWindow) == null ? void 0 : o.document;
       if (!t)
         return;
-      let n = y(this, Ie);
+      let n = y(this, Ae);
       n == null || n.disconnect(), n = new ResizeObserver(() => {
         const r = t.body, a = t.documentElement, l = Math.ceil(Math.max(r.scrollHeight, r.offsetHeight, a.offsetHeight));
         this.setState({ height: l });
-      }), n.observe(t.body), n.observe(t.documentElement), $(this, Ie, n);
+      }), n.observe(t.body), n.observe(t.documentElement), $(this, Ae, n);
     });
   }
   componentDidMount() {
-    y(this, Ae).call(this);
+    y(this, De).call(this);
   }
   componentWillUnmount() {
     var t;
-    (t = y(this, Ie)) == null || t.disconnect();
+    (t = y(this, Ae)) == null || t.disconnect();
   }
   render() {
     const { url: t } = this.props;
@@ -4778,13 +4778,13 @@ class $h extends B {
         className: "modal-iframe",
         style: this.state,
         src: t,
-        ref: y(this, Re),
-        onLoad: y(this, Ae)
+        ref: y(this, Ie),
+        onLoad: y(this, De)
       }
     );
   }
 }
-Re = new WeakMap(), Ie = new WeakMap(), Ae = new WeakMap();
+Ie = new WeakMap(), Ae = new WeakMap(), De = new WeakMap();
 function xh(s, e) {
   const { custom: t, title: n, content: i } = e;
   return {
@@ -4830,18 +4830,18 @@ const Eh = {
   ajax: kh,
   iframe: Sh
 }, ji = "loading";
-var pt, De, mt, Tn, co, Nn, ho;
+var pt, Pe, mt, Tn, co, Nn, ho;
 const Bt = class Bt extends Lt {
   constructor() {
     super(...arguments);
     _(this, Tn);
     _(this, Nn);
     _(this, pt, void 0);
-    _(this, De, void 0);
+    _(this, Pe, void 0);
     _(this, mt, void 0);
   }
   get id() {
-    return y(this, De);
+    return y(this, Pe);
   }
   get loading() {
     var t;
@@ -4855,8 +4855,8 @@ const Bt = class Bt extends Lt {
     let t = y(this, pt);
     if (!t) {
       const { options: n } = this;
-      let i = y(this, De);
-      i || (i = n.id || `modal-${f.guid++}`, $(this, De, i));
+      let i = y(this, Pe);
+      i || (i = n.id || `modal-${f.guid++}`, $(this, Pe, i));
       const { $element: o } = this;
       if (t = o.find(`#${i}`)[0], !t) {
         const r = this.key;
@@ -4958,7 +4958,7 @@ const Bt = class Bt extends Lt {
     }) === "confirm";
   }
 };
-pt = new WeakMap(), De = new WeakMap(), mt = new WeakMap(), Tn = new WeakSet(), co = function(t) {
+pt = new WeakMap(), Pe = new WeakMap(), mt = new WeakMap(), Tn = new WeakSet(), co = function(t) {
   return new Promise((n) => {
     if (Array.isArray(t))
       return f(this.modalElement).html(t[0]), this.layout(), this._observeResize(), n();
@@ -5168,8 +5168,8 @@ function Dh({
     /* @__PURE__ */ d(Q, { type: n, ...u, onClick: m })
   ] });
 }
-var pe;
-let Ph = (pe = class extends Zt {
+var me;
+let Ph = (me = class extends Zt {
   get pagerInfo() {
     const { page: e = 1, recTotal: t = 0, recPerPage: n = 10 } = this.props;
     return { page: +e, recTotal: +t, recPerPage: +n, pageTotal: n ? Math.ceil(t / n) : 0 };
@@ -5181,19 +5181,19 @@ let Ph = (pe = class extends Zt {
     const i = super.getItemRenderProps(e, t, n), o = t.type || "item", { pagerInfo: r } = this;
     return o === "info" ? Object.assign(i, { pagerInfo: r }) : (o === "link" || o === "size-menu" || o === "nav" || o === "goto") && Object.assign(i, { pagerInfo: r, linkCreator: e.linkCreator }), i;
   }
-}, pe.NAME = "pager", pe.defaultProps = {
+}, me.NAME = "pager", me.defaultProps = {
   btnProps: {
     btnType: "ghost",
     size: "sm"
   }
-}, pe.ItemComponents = {
+}, me.ItemComponents = {
   ...Zt.ItemComponents,
   link: Mh,
   info: Rh,
   nav: Ih,
   "size-menu": Ah,
   goto: Dh
-}, pe);
+}, me);
 const Xs = class Xs extends z {
 };
 Xs.NAME = "Pager", Xs.Component = Ph;
@@ -5202,11 +5202,11 @@ const Js = class Js extends z {
 };
 Js.NAME = "Pick", Js.Component = Pt;
 let Or = Js;
-var Pe, Rn, In, Zs;
+var Le, Rn, In, Zs;
 class el extends B {
   constructor(t) {
     super(t);
-    _(this, Pe, Y());
+    _(this, Le, Y());
     _(this, Rn, Y());
     _(this, In, (t) => {
       var i, o;
@@ -5221,7 +5221,7 @@ class el extends B {
   }
   focus() {
     var t;
-    (t = y(this, Pe).current) == null || t.focus();
+    (t = y(this, Le).current) == null || t.focus();
   }
   componentDidMount() {
     this.focus();
@@ -5229,7 +5229,7 @@ class el extends B {
   componentDidUpdate() {
     const { inline: t } = this.props;
     if (t) {
-      const { current: n } = y(this, Rn), { current: i } = y(this, Pe);
+      const { current: n } = y(this, Rn), { current: i } = y(this, Le);
       if (n && i) {
         const o = f(i).parent();
         o.width(Math.ceil(Math.min(n.clientWidth, o.closest(".picker").outerWidth() - 32)));
@@ -5249,23 +5249,23 @@ class el extends B {
           value: r,
           onChange: y(this, In),
           onInput: y(this, In),
-          ref: y(this, Pe)
+          ref: y(this, Le)
         }
       ),
       l
     ] });
   }
 }
-Pe = new WeakMap(), Rn = new WeakMap(), In = new WeakMap(), Zs = new WeakMap();
-var Le, An, Dn, Pn;
+Le = new WeakMap(), Rn = new WeakMap(), In = new WeakMap(), Zs = new WeakMap();
+var Oe, An, Dn, Pn;
 class Lh extends Fo {
   constructor() {
     super(...arguments);
-    _(this, Le, void 0);
+    _(this, Oe, void 0);
     _(this, An, void 0);
     _(this, Dn, void 0);
     _(this, Pn, void 0);
-    $(this, Le, Y()), $(this, An, (t) => {
+    $(this, Oe, Y()), $(this, An, (t) => {
       const { onDeselect: n, state: { selections: i } } = this.props, o = f(t.target).closest(".picker-deselect-btn").attr("data-value");
       n && i.length && typeof o == "string" && n(o), t.stopPropagation();
     }), $(this, Dn, (t) => {
@@ -5273,13 +5273,13 @@ class Lh extends Fo {
     }), $(this, Pn, () => {
       this.props.togglePop(!0, { search: "" });
     }), this._renderSelection = (t) => /* @__PURE__ */ d("div", { className: "picker-multi-selection", children: [
-      /* @__PURE__ */ d("span", { className: "text", children: t.text }),
+      /* @__PURE__ */ d("span", { className: "text", children: /* @__PURE__ */ d(ee, { content: t.text }) }),
       this.props.disabled ? null : /* @__PURE__ */ d("div", { className: "picker-deselect-btn btn size-xs ghost", onClick: y(this, An), "data-value": t.value, children: /* @__PURE__ */ d("span", { className: "close" }) })
     ] }, t.value);
   }
   _handleClick(t) {
     var n;
-    super._handleClick(t), (n = y(this, Le).current) == null || n.focus();
+    super._handleClick(t), (n = y(this, Oe).current) == null || n.focus();
   }
   _getClass(t) {
     return N(
@@ -5294,7 +5294,7 @@ class Lh extends Fo {
       el,
       {
         inline: !0,
-        ref: y(this, Le),
+        ref: y(this, Oe),
         defaultSearch: n,
         onSearch: y(this, Dn),
         onClear: y(this, Pn),
@@ -5332,7 +5332,7 @@ class Lh extends Fo {
     o && t.state.value !== i.value && f(`#${n}`).val(r.length ? r : [a]).trigger("change", oo);
   }
 }
-Le = new WeakMap(), An = new WeakMap(), Dn = new WeakMap(), Pn = new WeakMap();
+Oe = new WeakMap(), An = new WeakMap(), Dn = new WeakMap(), Pn = new WeakMap();
 var Ln, Qs, ti, ei, ni, nl;
 class Oh extends Fo {
   constructor() {
@@ -5376,7 +5376,7 @@ class Oh extends Fo {
   _renderTrigger(t) {
     const { children: n, state: { selections: i = [], open: o }, placeholder: r, search: a, disabled: l, clearable: h } = t, [u] = i, c = o && a;
     let p;
-    c ? p = this._renderSearch(t) : u ? p = /* @__PURE__ */ d("span", { className: "picker-single-selection", children: u.text }, "main") : p = /* @__PURE__ */ d("span", { className: "picker-select-placeholder", children: r }, "main");
+    c ? p = this._renderSearch(t) : u ? p = /* @__PURE__ */ d("span", { className: "picker-single-selection", children: /* @__PURE__ */ d(ee, { content: u.text }) }, "main") : p = /* @__PURE__ */ d("span", { className: "picker-select-placeholder", children: r }, "main");
     const m = h && !c ? /* @__PURE__ */ d("button", { type: "button", className: "btn picker-deselect-btn size-sm square ghost", disabled: l, onClick: y(this, Qs), children: /* @__PURE__ */ d("span", { className: "close" }) }, "deselect") : null;
     return [
       p,
@@ -5446,7 +5446,7 @@ class Bh extends Ja {
   _renderPop(t) {
     const { menu: n } = t;
     return /* @__PURE__ */ d(
-      ge,
+      ye,
       {
         ref: y(this, si),
         className: "picker-menu-list",
@@ -5470,30 +5470,30 @@ si = new WeakMap(), ii = new WeakSet(), sl = function() {
       keys: m,
       text: g,
       className: b,
-      ...v
+      content: v,
+      ...w
     } = c;
-    p === i && (a = !0);
-    const w = g ?? p;
-    return w && u.push({
+    return p === i && (a = !0), g && u.push({
       key: p,
       active: r.has(p),
-      text: typeof w == "string" ? Hh(l, [w]) : /* @__PURE__ */ d(Xe, { content: w }),
+      text: v ? null : typeof g == "string" ? Hh(l, [g]) : /* @__PURE__ */ d(ee, { content: g }),
       className: N(b, { hover: p === i }),
       "data-value": p,
-      ...v
+      content: v,
+      ...w
     }), u;
   }, []);
   return !a && h.length && (h[0].className = N(h[0].className, "hover")), h;
 }, ri = new WeakMap();
-var Oe, gt, Et, He, qe;
-let Wh = (qe = class extends Pt {
+var He, gt, Et, Be, Ye;
+let Wh = (Ye = class extends Pt {
   constructor(t) {
     super(t);
-    _(this, Oe, void 0);
+    _(this, He, void 0);
     _(this, gt, void 0);
     _(this, Et, void 0);
-    _(this, He, void 0);
-    $(this, Et, 0), this.isEmptyValue = (r) => y(this, He).has(r), this.toggleValue = (r, a) => {
+    _(this, Be, void 0);
+    $(this, Et, 0), this.isEmptyValue = (r) => y(this, Be).has(r), this.toggleValue = (r, a) => {
       if (!this.props.multiple)
         return a || r !== this.value ? this.setValue(r) : this.setValue();
       const { valueList: l } = this, h = l.indexOf(r);
@@ -5514,7 +5514,7 @@ let Wh = (qe = class extends Pt {
       selections: []
     });
     const { valueSplitter: n = ",", emptyValue: i = "" } = this.props;
-    $(this, He, new Set(i.split(n)));
+    $(this, Be, new Set(i.split(n)));
     const { items: o } = this.state;
     if (Array.isArray(o) && o.length) {
       if (o.forEach((r) => r.value = String(r.value)), t.limitValueInList) {
@@ -5531,7 +5531,7 @@ let Wh = (qe = class extends Pt {
     return this.formatValueList(this.state.value);
   }
   get firstEmptyValue() {
-    return y(this, He).values().next().value;
+    return y(this, Be).values().next().value;
   }
   async load() {
     let t = y(this, gt);
@@ -5556,8 +5556,8 @@ let Wh = (qe = class extends Pt {
     return $(this, gt, void 0), r;
   }
   async update(t) {
-    const { state: n, props: i } = this, o = y(this, Oe) || {}, r = {};
-    if ($(this, Oe, o), (t || o.search !== n.search || i.items !== o.items) && (r.items = (await this.load()).filter((l) => (l.value = String(l.value), !this.isEmptyValue(l.value))), r.loading = !1, o.items = i.items, o.search = n.search), t || o.value !== n.value) {
+    const { state: n, props: i } = this, o = y(this, He) || {}, r = {};
+    if ($(this, He, o), (t || o.search !== n.search || i.items !== o.items) && (r.items = (await this.load()).filter((l) => (l.value = String(l.value), !this.isEmptyValue(l.value))), r.loading = !1, o.items = i.items, o.search = n.search), t || o.value !== n.value) {
       const l = r.items || n.items, h = new Map(l.map((u) => [u.value, u]));
       r.selections = this.valueList.reduce((u, c) => (this.isEmptyValue(c) || u.push(h.get(c) || { value: c }), u), []), o.value = n.value;
     }
@@ -5577,7 +5577,7 @@ let Wh = (qe = class extends Pt {
   }
   componentWillUnmount() {
     var t;
-    (t = y(this, gt)) == null || t.abort(), $(this, gt, void 0), $(this, Oe, void 0), clearTimeout(y(this, Et)), super.componentWillUnmount();
+    (t = y(this, gt)) == null || t.abort(), $(this, gt, void 0), $(this, He, void 0), clearTimeout(y(this, Et)), super.componentWillUnmount();
   }
   _getTriggerProps(t, n) {
     return {
@@ -5635,14 +5635,14 @@ let Wh = (qe = class extends Pt {
     const r = this.formatValue(n);
     return this.changeState({ value: r });
   }
-}, Oe = new WeakMap(), gt = new WeakMap(), Et = new WeakMap(), He = new WeakMap(), qe.defaultProps = {
+}, He = new WeakMap(), gt = new WeakMap(), Et = new WeakMap(), Be = new WeakMap(), Ye.defaultProps = {
   ...Pt.defaultProps,
   className: "picker",
   valueSplitter: ",",
   limitValueInList: !0,
   search: !0,
   emptyValue: ""
-}, qe.Pop = Bh, qe);
+}, Ye.Pop = Bh, Ye);
 const ai = class ai extends z {
 };
 ai.NAME = "Picker", ai.Component = Wh;
@@ -5896,16 +5896,15 @@ function jh({
       className: N("tree-item-content", t, { disabled: l, active: h }),
       title: g,
       "data-target": p,
-      style: Object.assign({ paddingLeft: `calc(${C} * var(--tree-indent, 20px))` }, o),
+      style: { paddingLeft: `calc(${C} * var(--tree-indent, 20px))` },
       "data-level": C,
-      ...r,
       ...T,
       children: [
         /* @__PURE__ */ d("span", { class: `tree-toggle-icon${x ? " state" : ""}`, children: x ? /* @__PURE__ */ d("span", { class: `caret-${w ? "down" : "right"}` }) : null }),
         typeof b == "boolean" ? /* @__PURE__ */ d("div", { class: `tree-checkbox checkbox-primary${b ? " checked" : ""}`, children: /* @__PURE__ */ d("label", {}) }) : null,
         /* @__PURE__ */ d(tt, { icon: u, className: "tree-icon" }),
-        a ? /* @__PURE__ */ d("a", { className: "text tree-link not-nested-toggle", href: a, children: c }) : /* @__PURE__ */ d("span", { class: "text", children: c }),
-        /* @__PURE__ */ d(Xe, { content: i }),
+        a ? /* @__PURE__ */ d("a", { className: "text tree-link not-nested-toggle", href: a, style: o, ...r, children: c }) : /* @__PURE__ */ d("span", { class: "text", style: o, ...r, children: c }),
+        /* @__PURE__ */ d(ee, { content: i }),
         n,
         S ? /* @__PURE__ */ d(Zt, { ...S }) : null,
         /* @__PURE__ */ d(tt, { icon: m, className: "tree-trailing-icon" })
@@ -5913,8 +5912,8 @@ function jh({
     }
   );
 }
-var Ye;
-let Vh = (Ye = class extends Lo {
+var Ke;
+let Vh = (Ke = class extends Lo {
   get nestedTrigger() {
     return this.props.nestedTrigger || "click";
   }
@@ -5942,9 +5941,9 @@ let Vh = (Ye = class extends Lo {
     const e = super.beforeRender(), { hover: t } = this.props;
     return t && (e.className = N(e.className, "tree-hover")), e;
   }
-}, Ye.ItemComponents = {
+}, Ke.ItemComponents = {
   item: jh
-}, Ye.NAME = "tree", Ye);
+}, Ke.NAME = "tree", Ke);
 const fi = class fi extends z {
 };
 fi.NAME = "Tree", fi.Component = Vh;
@@ -6988,8 +6987,8 @@ function Gr({
     }
   );
 }
-var qt, Be, Tt, yt, Yt, Z, bt, rt, ae, Vn, We, le, wt, ce, he, bi, ll, wi, cl, vi, hl, _i, ul, Un, mo, Fe, ze, qn, Yn, Kn, Gn, je, os, Ci, dl, $i, fl, xi, pl, Ke;
-let Zh = (Ke = class extends B {
+var qt, We, Tt, yt, Yt, Z, bt, rt, le, Vn, Fe, ce, wt, he, ue, bi, ll, wi, cl, vi, hl, _i, ul, Un, mo, ze, je, qn, Yn, Kn, Gn, Ve, os, Ci, dl, $i, fl, xi, pl, Ge;
+let Zh = (Ge = class extends B {
   constructor(t) {
     super(t);
     _(this, bi);
@@ -6997,32 +6996,32 @@ let Zh = (Ke = class extends B {
     _(this, vi);
     _(this, _i);
     _(this, Un);
-    _(this, je);
+    _(this, Ve);
     _(this, Ci);
     _(this, $i);
     _(this, xi);
     _(this, qt, void 0);
-    _(this, Be, void 0);
+    _(this, We, void 0);
     _(this, Tt, void 0);
     _(this, yt, void 0);
     _(this, Yt, void 0);
     _(this, Z, void 0);
     _(this, bt, void 0);
     _(this, rt, void 0);
-    _(this, ae, void 0);
-    _(this, Vn, void 0);
-    _(this, We, void 0);
     _(this, le, void 0);
-    _(this, wt, void 0);
-    _(this, ce, void 0);
-    _(this, he, void 0);
+    _(this, Vn, void 0);
     _(this, Fe, void 0);
+    _(this, ce, void 0);
+    _(this, wt, void 0);
+    _(this, he, void 0);
+    _(this, ue, void 0);
     _(this, ze, void 0);
+    _(this, je, void 0);
     _(this, qn, void 0);
     _(this, Yn, void 0);
     _(this, Kn, void 0);
     _(this, Gn, void 0);
-    this.ref = Y(), $(this, qt, 0), $(this, Tt, !1), $(this, Z, []), $(this, rt, /* @__PURE__ */ new Map()), $(this, ae, {}), $(this, We, []), $(this, le, { in: !1 }), this.updateLayout = () => {
+    this.ref = Y(), $(this, qt, 0), $(this, Tt, !1), $(this, Z, []), $(this, rt, /* @__PURE__ */ new Map()), $(this, le, {}), $(this, Fe, []), $(this, ce, { in: !1 }), this.updateLayout = () => {
       y(this, qt) && cancelAnimationFrame(y(this, qt)), $(this, qt, requestAnimationFrame(() => {
         this.update({ dirtyType: "layout" }), $(this, qt, 0);
       }));
@@ -7036,18 +7035,18 @@ let Zh = (Ke = class extends B {
             break;
           }
       }
-    }), $(this, ce, (n) => {
-      y(this, wt).call(this, n, `window_${n.type}`);
     }), $(this, he, (n) => {
+      y(this, wt).call(this, n, `window_${n.type}`);
+    }), $(this, ue, (n) => {
       y(this, wt).call(this, n, `document_${n.type}`);
-    }), $(this, Fe, (n, i, o) => {
+    }), $(this, ze, (n, i, o) => {
       const { row: r, col: a } = i;
       i.value = this.getCellValue(r, a), n[0] = i.value;
       const l = r.id === "HEADER" ? "onRenderHeaderCell" : "onRenderCell";
       return y(this, Z).forEach((h) => {
         h[l] && (n = h[l].call(this, n, i, o));
       }), this.options[l] && (n = this.options[l].call(this, n, i, o)), a.setting[l] && (n = a.setting[l].call(this, n, i, o)), n;
-    }), $(this, ze, (n, i) => {
+    }), $(this, je, (n, i) => {
       i === "horz" ? this.scroll({ scrollLeft: n }) : this.scroll({ scrollTop: n });
     }), $(this, qn, (n) => {
       var l, h, u;
@@ -7077,16 +7076,16 @@ let Zh = (Ke = class extends B {
     }), $(this, Kn, (n) => {
       const i = f(n.target).closest(".dtable-cell");
       if (!i.length)
-        return P(this, je, os).call(this, !1);
-      P(this, je, os).call(this, [i.attr("data-row"), i.attr("data-col")]);
+        return P(this, Ve, os).call(this, !1);
+      P(this, Ve, os).call(this, [i.attr("data-row"), i.attr("data-col")]);
     }), $(this, Gn, () => {
-      P(this, je, os).call(this, !1);
-    }), $(this, Be, t.id ?? `dtable-${Ga(10)}`), this.state = { scrollTop: 0, scrollLeft: 0, renderCount: 0 }, $(this, Yt, Object.freeze(Kh(t.plugins))), y(this, Yt).forEach((n) => {
+      P(this, Ve, os).call(this, !1);
+    }), $(this, We, t.id ?? `dtable-${Ga(10)}`), this.state = { scrollTop: 0, scrollLeft: 0, renderCount: 0 }, $(this, Yt, Object.freeze(Kh(t.plugins))), y(this, Yt).forEach((n) => {
       var a;
       const { methods: i, data: o, state: r } = n;
       i && Object.entries(i).forEach(([l, h]) => {
         typeof h == "function" && Object.assign(this, { [l]: h.bind(this) });
-      }), o && Object.assign(y(this, ae), o.call(this)), r && Object.assign(this.state, r.call(this)), (a = n.onCreate) == null || a.call(this, n);
+      }), o && Object.assign(y(this, le), o.call(this)), r && Object.assign(this.state, r.call(this)), (a = n.onCreate) == null || a.call(this, n);
     });
   }
   get options() {
@@ -7100,10 +7099,10 @@ let Zh = (Ke = class extends B {
     return y(this, bt);
   }
   get id() {
-    return y(this, Be);
+    return y(this, We);
   }
   get data() {
-    return y(this, ae);
+    return y(this, le);
   }
   get element() {
     return this.ref.current;
@@ -7113,7 +7112,7 @@ let Zh = (Ke = class extends B {
     return this.props.parent ?? ((t = this.element) == null ? void 0 : t.parentElement);
   }
   get hoverInfo() {
-    return y(this, le);
+    return y(this, ce);
   }
   componentWillReceiveProps() {
     $(this, yt, void 0);
@@ -7152,20 +7151,20 @@ let Zh = (Ke = class extends B {
     const { element: t } = this;
     if (t)
       for (const i of y(this, rt).keys())
-        i.startsWith("window_") ? window.removeEventListener(i.replace("window_", ""), y(this, ce)) : i.startsWith("document_") ? document.removeEventListener(i.replace("document_", ""), y(this, he)) : t.removeEventListener(i, y(this, wt));
+        i.startsWith("window_") ? window.removeEventListener(i.replace("window_", ""), y(this, he)) : i.startsWith("document_") ? document.removeEventListener(i.replace("document_", ""), y(this, ue)) : t.removeEventListener(i, y(this, wt));
     y(this, Z).forEach((i) => {
       var o;
       (o = i.onUnmounted) == null || o.call(this);
     }), y(this, Yt).forEach((i) => {
       var o;
       (o = i.onDestory) == null || o.call(this);
-    }), $(this, ae, {}), y(this, rt).clear();
+    }), $(this, le, {}), y(this, rt).clear();
   }
   on(t, n, i) {
     var r;
     i && (t = `${i}_${t}`);
     const o = y(this, rt).get(t);
-    o ? o.push(n) : (y(this, rt).set(t, [n]), t.startsWith("window_") ? window.addEventListener(t.replace("window_", ""), y(this, ce)) : t.startsWith("document_") ? document.addEventListener(t.replace("document_", ""), y(this, he)) : (r = this.element) == null || r.addEventListener(t, y(this, wt)));
+    o ? o.push(n) : (y(this, rt).set(t, [n]), t.startsWith("window_") ? window.addEventListener(t.replace("window_", ""), y(this, he)) : t.startsWith("document_") ? document.addEventListener(t.replace("document_", ""), y(this, ue)) : (r = this.element) == null || r.addEventListener(t, y(this, wt)));
   }
   off(t, n, i) {
     var a;
@@ -7174,7 +7173,7 @@ let Zh = (Ke = class extends B {
     if (!o)
       return;
     const r = o.indexOf(n);
-    r >= 0 && o.splice(r, 1), o.length || (y(this, rt).delete(t), t.startsWith("window_") ? window.removeEventListener(t.replace("window_", ""), y(this, ce)) : t.startsWith("document_") ? document.removeEventListener(t.replace("document_", ""), y(this, he)) : (a = this.element) == null || a.removeEventListener(t, y(this, wt)));
+    r >= 0 && o.splice(r, 1), o.length || (y(this, rt).delete(t), t.startsWith("window_") ? window.removeEventListener(t.replace("window_", ""), y(this, he)) : t.startsWith("document_") ? document.removeEventListener(t.replace("document_", ""), y(this, ue)) : (a = this.element) == null || a.removeEventListener(t, y(this, wt)));
   }
   emitCustomEvent(t, n) {
     y(this, wt).call(this, n instanceof Event ? n : new CustomEvent(t, { detail: n }), t);
@@ -7268,7 +7267,7 @@ let Zh = (Ke = class extends B {
       };
   }
   i18n(t, n, i) {
-    return J(y(this, We), t, n, i, this.options.lang) ?? `{i18n:${t}}`;
+    return J(y(this, Fe), t, n, i, this.options.lang) ?? `{i18n:${t}}`;
   }
   getPlugin(t) {
     return this.plugins.find((n) => n.name === t);
@@ -7299,7 +7298,7 @@ let Zh = (Ke = class extends B {
     })), /* @__PURE__ */ d(
       "div",
       {
-        id: y(this, Be),
+        id: y(this, We),
         className: N(c),
         style: u,
         ref: this.ref,
@@ -7308,7 +7307,7 @@ let Zh = (Ke = class extends B {
       }
     );
   }
-}, qt = new WeakMap(), Be = new WeakMap(), Tt = new WeakMap(), yt = new WeakMap(), Yt = new WeakMap(), Z = new WeakMap(), bt = new WeakMap(), rt = new WeakMap(), ae = new WeakMap(), Vn = new WeakMap(), We = new WeakMap(), le = new WeakMap(), wt = new WeakMap(), ce = new WeakMap(), he = new WeakMap(), bi = new WeakSet(), ll = function(t) {
+}, qt = new WeakMap(), We = new WeakMap(), Tt = new WeakMap(), yt = new WeakMap(), Yt = new WeakMap(), Z = new WeakMap(), bt = new WeakMap(), rt = new WeakMap(), le = new WeakMap(), Vn = new WeakMap(), Fe = new WeakMap(), ce = new WeakMap(), wt = new WeakMap(), he = new WeakMap(), ue = new WeakMap(), bi = new WeakSet(), ll = function(t) {
   const { header: n, cols: i, headerHeight: o, scrollLeft: r } = t;
   if (!n)
     return null;
@@ -7324,7 +7323,7 @@ let Zh = (Ke = class extends B {
         scrollTop: 0,
         rows: { id: "HEADER", index: -1, top: 0 },
         top: 0,
-        onRenderCell: y(this, Fe)
+        onRenderCell: y(this, ze)
       },
       "header"
     );
@@ -7353,7 +7352,7 @@ let Zh = (Ke = class extends B {
       scrollLeft: l,
       scrollTop: h,
       cols: a,
-      onRenderCell: y(this, Fe)
+      onRenderCell: y(this, ze)
     },
     "body"
   );
@@ -7384,7 +7383,7 @@ let Zh = (Ke = class extends B {
         scrollPos: i,
         scrollSize: a,
         clientSize: r,
-        onScroll: y(this, ze),
+        onScroll: y(this, je),
         left: o,
         bottom: (g === "inside" ? 0 : -m) + c,
         size: m,
@@ -7402,7 +7401,7 @@ let Zh = (Ke = class extends B {
         scrollPos: l,
         scrollSize: u,
         clientSize: h,
-        onScroll: y(this, ze),
+        onScroll: y(this, je),
         right: 0,
         size: m,
         top: p,
@@ -7417,14 +7416,14 @@ let Zh = (Ke = class extends B {
     var i;
     return (i = n.afterRender) == null ? void 0 : i.call(this);
   });
-}, Fe = new WeakMap(), ze = new WeakMap(), qn = new WeakMap(), Yn = new WeakMap(), Kn = new WeakMap(), Gn = new WeakMap(), je = new WeakSet(), os = function(t) {
+}, ze = new WeakMap(), je = new WeakMap(), qn = new WeakMap(), Yn = new WeakMap(), Kn = new WeakMap(), Gn = new WeakMap(), Ve = new WeakSet(), os = function(t) {
   const { element: n, options: i } = this;
   if (!n)
     return;
   const o = f(n), r = t ? { in: !0, row: t[0], col: t[1] } : { in: !1 };
   i.colHover === "header" && r.row !== "HEADER" && (r.col = void 0);
-  const a = y(this, le);
-  r.in !== a.in && o.toggleClass("dtable-hover", r.in), r.row !== a.row && (o.find(".is-hover-row").removeClass("is-hover-row"), r.row && o.find(`.dtable-cell[data-row="${r.row}"]`).addClass("is-hover-row")), r.col !== a.col && (o.find(".is-hover-col").removeClass("is-hover-col"), r.col && o.find(`.dtable-cell[data-col="${r.col}"]`).addClass("is-hover-col")), $(this, le, r);
+  const a = y(this, ce);
+  r.in !== a.in && o.toggleClass("dtable-hover", r.in), r.row !== a.row && (o.find(".is-hover-row").removeClass("is-hover-row"), r.row && o.find(`.dtable-cell[data-row="${r.row}"]`).addClass("is-hover-row")), r.col !== a.col && (o.find(".is-hover-col").removeClass("is-hover-col"), r.col && o.find(`.dtable-cell[data-col="${r.col}"]`).addClass("is-hover-col")), $(this, ce, r);
 }, Ci = new WeakSet(), dl = function() {
   if (y(this, yt))
     return !1;
@@ -7436,7 +7435,7 @@ let Zh = (Ke = class extends B {
     const { when: r, options: a } = o;
     let l = n;
     return a && (l = Object.assign({ ...l }, typeof a == "function" ? a.call(this, n) : a)), (!r || r(l)) && (l !== n && Object.assign(n, l), i.push(o)), i;
-  }, [])), $(this, We, [this.options.i18n, ...this.plugins.map((i) => i.i18n)].filter(Boolean)), !0;
+  }, [])), $(this, Fe, [this.options.i18n, ...this.plugins.map((i) => i.i18n)].filter(Boolean)), !0;
 }, $i = new WeakSet(), fl = function() {
   var H, L;
   const { plugins: t } = this;
@@ -7547,7 +7546,7 @@ let Zh = (Ke = class extends B {
     w.lazy && b && (w.data = b([w.id])[0], w.lazy = !1), g.push(w);
   }
   return t.visibleRows = g, t.scrollTop = u, t.scrollLeft = i, t;
-}, Ke.addPlugin = ol, Ke.removePlugin = rl, Ke);
+}, Ge.addPlugin = ol, Ge.removePlugin = rl, Ge);
 const Qh = {
   html: { component: Xn }
 }, tu = {
@@ -8117,16 +8116,16 @@ const pu = {
   renderMapCell: wl,
   rich: su,
   sortType: yu
-}, Symbol.toStringTag, { value: "Module" })), ne = class ne extends z {
+}, Symbol.toStringTag, { value: "Module" })), se = class se extends z {
 };
-ne.NAME = "DTable", ne.Component = Zh, ne.definePlugin = Ht, ne.removePlugin = rl, ne.plugins = Cu;
-let Zr = ne;
+se.NAME = "DTable", se.Component = Zh, se.definePlugin = Ht, se.removePlugin = rl, se.plugins = Cu;
+let Zr = se;
 const $u = "nav", rs = '[data-toggle="tab"]', xu = "active";
-var ue;
+var de;
 const Ko = class Ko extends $t {
   constructor() {
     super(...arguments);
-    _(this, ue, 0);
+    _(this, de, 0);
   }
   active(t) {
     const n = this.$element, i = n.find(rs);
@@ -8135,12 +8134,12 @@ const Ko = class Ko extends $t {
       return;
     i.removeClass("active"), o.addClass("active");
     const r = o.attr("href") || o.data("target"), a = o.data("name") || r, l = f(r);
-    l.length && (l.parent().children(".tab-pane").removeClass("active in"), l.addClass("active").trigger("show", [a]), this.emit("show", a), y(this, ue) && clearTimeout(y(this, ue)), $(this, ue, setTimeout(() => {
-      l.addClass("in").trigger("show", [a]), this.emit("shown", a), $(this, ue, 0);
+    l.length && (l.parent().children(".tab-pane").removeClass("active in"), l.addClass("active").trigger("show", [a]), this.emit("show", a), y(this, de) && clearTimeout(y(this, de)), $(this, de, setTimeout(() => {
+      l.addClass("in").trigger("show", [a]), this.emit("shown", a), $(this, de, 0);
     }, 10)));
   }
 };
-ue = new WeakMap(), Ko.NAME = "Tabs";
+de = new WeakMap(), Ko.NAME = "Tabs";
 let yo = Ko;
 f(document).on("click.tabs.zui", rs, (s) => {
   s.preventDefault();
@@ -8162,7 +8161,7 @@ export {
   $t as Component,
   z as ComponentFromReact,
   po as ContextMenu,
-  Xe as CustomContent,
+  ee as CustomContent,
   Xi as CustomRender,
   Zr as DTable,
   Ur as Dashboard,
