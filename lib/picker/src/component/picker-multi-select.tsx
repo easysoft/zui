@@ -1,4 +1,4 @@
-import {classes, $, createRef} from '@zui/core';
+import {classes, $, createRef, CustomContent} from '@zui/core';
 import '@zui/css-icons/src/icons/caret.css';
 import '@zui/css-icons/src/icons/close.css';
 import {PickTrigger, EVENT_PICK} from '@zui/pick/src/components';
@@ -41,7 +41,7 @@ export class PickerMultiSelect extends PickTrigger<PickerState, PickerSelectProp
     protected _renderSelection = (selection: PickerItemBasic) => {
         return (
             <div className="picker-multi-selection" key={selection.value}>
-                <span className="text">{selection.text}</span>
+                <span className="text"><CustomContent content={selection.text} /></span>
                 {this.props.disabled ? null : <div className="picker-deselect-btn btn size-xs ghost" onClick={this.#handleDeselectBtnClick} data-value={selection.value}><span className="close"></span></div>}
             </div>
         );
