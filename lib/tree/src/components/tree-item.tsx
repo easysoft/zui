@@ -40,9 +40,8 @@ export function TreeItem({
             className={classes('tree-item-content', className, {disabled, active})}
             title={hint}
             data-target={target}
-            style={Object.assign({paddingLeft: `calc(${level} * var(--tree-indent, 20px))`}, style)}
+            style={{paddingLeft: `calc(${level} * var(--tree-indent, 20px))`}}
             data-level={level}
-            {...(attrs as Attributes)}
             {...(others as Attributes)}
         >
             <span class={`tree-toggle-icon${items ? ' state' : ''}`}>{items ? <span class={`caret-${show ? 'down' : 'right'}`}></span> : null}</span>
@@ -52,7 +51,7 @@ export function TreeItem({
                 </div>
             ) : null}
             <Icon icon={icon} className="tree-icon" />
-            {url ? <a className="text tree-link not-nested-toggle" href={url}>{text}</a> : <span class="text">{text}</span>}
+            {url ? <a className="text tree-link not-nested-toggle" href={url} style={style} {...(attrs as Attributes)}>{text}</a> : <span class="text" style={style} {...(attrs as Attributes)}>{text}</span>}
             <CustomContent content={content} />
             {children}
             {toolbarOptions ? <Toolbar {...toolbarOptions} /> : null}
