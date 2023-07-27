@@ -10,6 +10,7 @@ export interface ActionMenuOptions<T extends ActionBasicProps = ActionMenuItemOp
     name?: string;
     className?: ClassNameLike;
     style?: JSX.CSSProperties;
+    compact?: boolean;
     children?: ComponentChildren | (() => ComponentChildren);
     items: T[] | ((menu: ActionMenu<T>) => T[]),
     commonItemProps?: Record<string, Partial<T>>,

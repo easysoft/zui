@@ -185,13 +185,14 @@ export class ActionMenu<T extends ActionBasicProps = ActionMenuItemOptions, P ex
             beforeRender,
             afterRender,
             beforeDestroy,
+            compact,
             ...others
         } = props;
 
         const RootTag = (this.constructor as typeof ActionMenu<T>).ROOT_TAG as unknown as ComponentType;
 
         return (
-            <RootTag class={classes(this.name, className)} style={style} {...others} ref={this.ref}>
+            <RootTag class={classes(this.name, className, compact ? 'compact' : '')} style={style} {...others} ref={this.ref}>
                 {items && items.map(this.renderItem.bind(this, props))}
                 {children}
             </RootTag>
