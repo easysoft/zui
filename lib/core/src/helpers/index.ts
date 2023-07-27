@@ -4,4 +4,5 @@ export * from './css';
 export * from './attr';
 export * from './event';
 export * from './delay';
+export * from './share-data';
 export * from './zui-creator';
