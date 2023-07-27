@@ -47,7 +47,7 @@ export class PickerMenu extends PickPop<PickerState, PickerMenuProps> {
     }
 
     componentWillUnmount(): void {
-        super.componentDidMount();
+        super.componentWillUnmount();
         const menu = this.element;
         if (menu) {
             $(menu).off('.picker.zui');
