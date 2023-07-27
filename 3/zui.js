@@ -6345,11 +6345,10 @@ let qh = (jn = class extends B {
       const o = this.getBlock(i);
       if (!o || !o.menu)
         return;
-      t.stopPropagation();
       const { menu: r } = o, { onClickMenu: a } = this.props;
       po.show({
         triggerEvent: t,
-        element: t.target,
+        element: t.currentTarget,
         placement: "bottom-end",
         menu: {
           onClickItem: (l) => {
