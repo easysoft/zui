@@ -2070,9 +2070,10 @@ let Mi = (Mt = class extends B {
       beforeRender: u,
       afterRender: c,
       beforeDestroy: p,
-      ...m
-    } = e, g = this.constructor.ROOT_TAG;
-    return /* @__PURE__ */ d(g, { class: N(this.name, o), style: n, ...m, ref: this.ref, children: [
+      compact: m,
+      ...g
+    } = e, b = this.constructor.ROOT_TAG;
+    return /* @__PURE__ */ d(b, { class: N(this.name, o, m ? "compact" : ""), style: n, ...g, ref: this.ref, children: [
       r && r.map(this.renderItem.bind(this, e)),
       a
     ] });
