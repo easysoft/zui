@@ -204,7 +204,7 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
             return;
         }
         if (target.closest(DISMISS_SELECTOR) || (this.options.backdrop === true && target === modal)) {
-            event.stopPropagation();
+            event.preventDefault();
             this.hide();
         }
     };
