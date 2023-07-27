@@ -5447,7 +5447,7 @@ class Bh extends Ja {
     });
   }
   componentWillUnmount() {
-    super.componentDidMount();
+    super.componentWillUnmount();
     const t = this.element;
     t && f(t).off(".picker.zui");
   }
