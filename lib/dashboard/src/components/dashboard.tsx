@@ -335,12 +335,11 @@ export class Dashboard extends Component<Required<DashboardOptions>, DashboardSt
         if (!block || !block.menu) {
             return;
         }
-        event.stopPropagation();
         const {menu} = block;
         const {onClickMenu: onClickBlockMenu} = this.props;
         ContextMenu.show({
             triggerEvent: event,
-            element: event.target as HTMLElement,
+            element: event.currentTarget as HTMLElement,
             placement: 'bottom-end',
             menu: {
                 onClickItem: (info) => {
