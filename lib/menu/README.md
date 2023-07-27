@@ -8,6 +8,8 @@
 
 ```js
 const menu = new Menu('#menu', {
+    popup: true,
+    compact: true,
     items: [
         {title: '复制', icon: 'icon-copy'},
         {title: '粘贴', icon: 'icon-paste'},
@@ -15,6 +17,7 @@ const menu = new Menu('#menu', {
         {type: 'heading', title: '更多操作'},
         {title: '导入', icon: 'icon-upload-alt'},
         {title: '导出', icon: 'icon-download-alt'},
+        {type: 'divider'},
         {title: '保存', icon: 'icon-save', onClick: (event) => console.log('> menuItem.clicked', event)},
     ],
     onClickItem: (info) => {
@@ -83,8 +86,22 @@ console.log('> menu', menu);
 </menu>
 ```
 
-## 禁用的菜单项
+## 紧凑模式
 
+```html:example
+<menu class="menu compact popup has-icons -w-32">
+  <li class="menu-item"><a><i class="icon icon-copy"></i> 复制</a></li>
+  <li class="menu-item"><a><i class="icon icon-paste"></i> 粘贴</a></li>
+  <li class="menu-item"><a>剪切</a></li>
+  <li class="menu-divider"></li>
+  <li class="menu-heading">更多操作</li>
+  <li class="menu-item"><a><i class="icon icon-upload-alt"></i> 导入</a></li>
+  <li class="menu-item"><a><i class="icon icon-download-alt"></i> 导出</a></li>
+  <li class="menu-item"><a><i class="icon icon-save"></i> 保存</a></li>
+</menu>
+```
+
+## 禁用的菜单项
 
 ```html:example
 <menu class="menu has-icons -w-32">

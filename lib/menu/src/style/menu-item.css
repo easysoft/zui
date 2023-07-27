@@ -1,5 +1,5 @@
 .menu-item > a {
-    @apply -m-1 -flex -text-inherit -px-2 -py-0.5 -rounded -items-center -transition-colors -relative -justify-between -truncate -cursor-pointer -gap-1;
+    @apply -flex -text-inherit -px-2 -py-1 -rounded -items-center -transition-colors -relative -justify-between -truncate -cursor-pointer -gap-1;
 }
 .menu-item > .active {
     background: var(--menu-active-bg);

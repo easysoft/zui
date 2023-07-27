@@ -1,0 +1,6 @@
+.menu.compact .menu-item > a {
+  @apply -py-0.5;
+}
+.menu.compact .menu-heading {
+  @apply -h-7;
+}

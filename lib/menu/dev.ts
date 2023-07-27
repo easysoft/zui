@@ -8,6 +8,7 @@ import {Menu} from './src/main';
 onPageUpdate(() => {
     const menu = new Menu('#menu', {
         popup: true,
+        compact: true,
         items: [
             {text: '复制', icon: 'icon-copy'},
             {text: '粘贴', icon: 'icon-paste'},
@@ -15,6 +16,7 @@ onPageUpdate(() => {
             {type: 'heading', text: '更多操作'},
             {text: '导入', icon: 'icon-upload-alt'},
             {text: '导出', icon: 'icon-download-alt'},
+            {type: 'divider'},
             {text: '保存', icon: 'icon-save', onClick: (event) => console.log('> menuItem.clicked', event)},
         ],
         onClickItem: (info) => {
