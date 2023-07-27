@@ -4584,7 +4584,7 @@ const zi = "show", Dr = "in", Ch = '[data-dismiss="modal"]', ct = class ct exten
   constructor() {
     super(...arguments), this._timer = 0, this._handleClick = (e) => {
       const t = e.target, n = t.closest(".modal");
-      !n || n !== this.modalElement || (t.closest(Ch) || this.options.backdrop === !0 && t === n) && (e.stopPropagation(), this.hide());
+      !n || n !== this.modalElement || (t.closest(Ch) || this.options.backdrop === !0 && t === n) && (e.preventDefault(), this.hide());
     };
   }
   get modalElement() {
