@@ -64,9 +64,13 @@ declare module 'cash-dom' {
 $.fn.zuiInit = function (this: Cash) {
     this.find('[data-zui]').each(function () {
         const $element = $(this);
-        const options = $element.dataset() as Record<string, unknown>;
-        const name = options.zui as string;
-        delete options.zui;
+        let options = $element.dataset() as Record<string, unknown>;
+        const [name, optionsName] = (options.zui as string).split(':');
+        if (optionsName) {
+            options = $.share[optionsName] as Record<string, unknown>;
+        } else {
+            delete options.zui;
+        }
         create(name, this, options);
     });
     return this;
