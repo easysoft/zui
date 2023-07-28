@@ -5,18 +5,18 @@ import type {PickState, PickTriggerProps} from '../types';
 export const EVENT_PICK = Symbol('EVENT_PICK');
 
 export class PickTrigger<S extends PickState = PickState, P extends PickTriggerProps<S> = PickTriggerProps<S>, STATE = {}> extends Component<P, STATE> {
-    #hasInput: boolean;
+    _hasInput: boolean;
 
     _skipTriggerChange?: string | false;
 
     constructor(props: P) {
         super(props);
         this._handleClick = this._handleClick.bind(this);
-        this.#hasInput = !!$(`#${props.id}`).length;
+        this._hasInput = !!$(`#${props.id}`).length;
     }
 
     get hasInput() {
-        return this.#hasInput;
+        return this._hasInput;
     }
 
     protected _handleClick(event: MouseEvent) {
@@ -72,7 +72,7 @@ export class PickTrigger<S extends PickState = PickState, P extends PickTriggerP
     protected _renderValue(props: RenderableProps<P>): ComponentChildren {
         const {name, state: {value = ''}, id} = props;
         if (name) {
-            if (this.#hasInput) {
+            if (this._hasInput) {
                 $(`#${id}`).val(value);
             } else {
                 return <input id={id} type="hidden" className="pick-value" name={name} value={value} />;
@@ -84,7 +84,7 @@ export class PickTrigger<S extends PickState = PickState, P extends PickTriggerP
 
     componentDidMount(): void {
         const {id, state} = this.props;
-        $(`#${id}`).on(`change.pick.zui.${id}`, (event: Event, from: symbol) => {
+        $(`#${id}`).on(`change.zui.pick.${id}`, (event: Event, from: symbol) => {
             if (from === EVENT_PICK) {
                 return;
             }
@@ -98,7 +98,7 @@ export class PickTrigger<S extends PickState = PickState, P extends PickTriggerP
 
     componentWillUnmount(): void {
         const {id} = this.props;
-        $(`#${id}`).off(`change.pick.zui.${id}`);
+        $(`#${id}`).off(`change.zui.pick.${id}`);
     }
 
     componentDidUpdate(previousProps: Readonly<P>): void {
