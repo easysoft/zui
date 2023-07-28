@@ -5567,21 +5567,25 @@ let Fh = (qe = class extends Lt {
         return r;
     } else if (o.length) {
       const a = p.unique(o.toLowerCase().split(" ").filter((l) => l.length));
-      a.length ? r = s.reduce((l, h) => {
+      r = s, a.length && (r = s.reduce((l, h) => {
         const {
           value: u,
           keys: c = "",
           text: f
         } = h;
         return a.every((m) => u.toLowerCase().includes(m) || c.toLowerCase().includes(m) || typeof f == "string" && f.toLowerCase().includes(m)) && l.push(h), l;
-      }, []) : r = s;
+      }, []));
     } else
       r = s;
     return $(this, gt, void 0), r;
   }
   async update(t) {
     const { state: s, props: i } = this, o = b(this, Oe) || {}, r = {};
-    if ($(this, Oe, o), (t || o.search !== s.search || i.items !== o.items) && (r.items = (await this.load()).filter((l) => (l.value = String(l.value), !this.isEmptyValue(l.value))), r.loading = !1, o.items = i.items, o.search = s.search), t || o.value !== s.value) {
+    if ($(this, Oe, o), t || o.search !== s.search || i.items !== o.items) {
+      const l = await this.load();
+      r.items = l.filter((h) => (h.value = String(h.value), !this.isEmptyValue(h.value))), r.loading = !1, o.items = i.items, o.search = s.search;
+    }
+    if (t || o.value !== s.value) {
       const l = r.items || s.items, h = new Map(l.map((u) => [u.value, u]));
       r.selections = this.valueList.reduce((u, c) => (this.isEmptyValue(c) || u.push(h.get(c) || { value: c }), u), []), o.value = s.value;
     }
