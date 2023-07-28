@@ -7,6 +7,8 @@ export const EVENT_PICK = Symbol('EVENT_PICK');
 export class PickTrigger<S extends PickState = PickState, P extends PickTriggerProps<S> = PickTriggerProps<S>, STATE = {}> extends Component<P, STATE> {
     #hasInput: boolean;
 
+    _skipTriggerChange?: string | false;
+
     constructor(props: P) {
         super(props);
         this._handleClick = this._handleClick.bind(this);
@@ -88,6 +90,7 @@ export class PickTrigger<S extends PickState = PickState, P extends PickTriggerP
             }
             const value = (event.target as HTMLInputElement).value;
             if (value !== state.value) {
+                this._skipTriggerChange = value;
                 this.props.changeState({value} as Partial<S>);
             }
         });
@@ -101,7 +104,10 @@ export class PickTrigger<S extends PickState = PickState, P extends PickTriggerP
     componentDidUpdate(previousProps: Readonly<P>): void {
         const {id, state, name} = this.props;
         if (name && previousProps.state.value !== state.value) {
-            $(`#${id}`).trigger('change', EVENT_PICK);
+            if (this._skipTriggerChange !== state.value) {
+                $(`#${id}`).trigger('change', EVENT_PICK);
+            }
+            this._skipTriggerChange = false;
         }
     }
 
