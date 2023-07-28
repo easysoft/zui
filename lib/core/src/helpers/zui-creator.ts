@@ -6,6 +6,9 @@ type ZUIComponentOptions = Record<string, unknown>;
 declare class ZUIComponentClass {
     gid: number;
     constructor(element: HTMLElement, options: ZUIComponentOptions);
+    setOptions(options: ZUIComponentOptions): void;
+    render(options?: ZUIComponentOptions): void;
+    destroy(): void;
 }
 
 interface ZUIComponent {
