@@ -11,7 +11,9 @@ declare class ZUIComponentClass {
 interface ZUIComponent {
     ZUI: string;
     NAME: string;
+    MULTI_INSTANCE: boolean;
     defineFn(): void;
+    get(selector?: Selector): ZUIComponentClass;
     getAll(selector?: Selector): ZUIComponentClass[];
     query(selector?: Selector, key?: string | number): ZUIComponentClass | undefined;
     new (element: HTMLElement, options: ZUIComponentOptions): ZUIComponentClass;
@@ -35,7 +37,14 @@ export function getComponent(name?: string): ZUIComponent | undefined {
 
 export function create(name: string, element: HTMLElement, options: ZUIComponentOptions) {
     const Component = getComponent(name);
-    return Component ? new Component(element, options) : null;
+    if (!Component) {
+        return null;
+    }
+    if (!Component.MULTI_INSTANCE && Component.get(element)) {
+        console.error(`[ZUI] cannot create component "${name}" on element which already has a component instance.`, {element, options});
+        return null;
+    }
+    return new Component(element, options);
 }
 
 export function defineFn(name?: string) {
