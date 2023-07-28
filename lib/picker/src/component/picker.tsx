@@ -133,9 +133,8 @@ export class Picker extends Pick<PickerState, PickerOptions> {
             }
         } else if (search.length) {
             const searchKeys = $.unique(search.toLowerCase().split(' ').filter(x => x.length)) as string[];
-            if (!searchKeys.length) {
-                items = itemsSetting;
-            } else {
+            items = itemsSetting;
+            if (searchKeys.length) {
                 items = itemsSetting.reduce<PickerItemOptions[]>((list, item) => {
                     const {
                         value,
@@ -163,7 +162,8 @@ export class Picker extends Pick<PickerState, PickerOptions> {
         const newState: Partial<PickerState> = {};
         this.#itemsCacheInfo = cache;
         if (force || cache.search !== state.search || props.items !== cache.items) {
-            newState.items = (await this.load()).filter(x => {
+            const loadItems = await this.load();
+            newState.items = loadItems.filter(x => {
                 x.value = String(x.value);
                 if (this.isEmptyValue(x.value)) {
                     return false;
