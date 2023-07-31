@@ -1633,6 +1633,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "dashboard",
+            "publicPath": false,
             "order": 5010000042,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/dashboard/package.json"
         }
