@@ -18,6 +18,7 @@ export interface ZuiLibInfo {
     path: string;               // 'libs/avatar',
     extsName?: string;          // 'zentao
     order: number;              // 0
+    publicPath?: string | false;
     workspace?: boolean;
     packageJsonPath?: string;
     tailwindConfigPath?: string;

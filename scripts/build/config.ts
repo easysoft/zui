@@ -388,8 +388,8 @@ export async function prepareBuildFiles(config: BuildConfig, buildDir: string) {
         }
         if (lib.zui.sourceType !== 'npm') {
             const libPublicPath = Path.join(lib.zui.path, 'public');
-            if (fs.existsSync(libPublicPath)) {
-                await fs.copy(libPublicPath, Path.join(publicPath, lib.zui.name));
+            if (lib.zui.publicPath !== false && fs.existsSync(libPublicPath)) {
+                await fs.copy(libPublicPath, Path.join(publicPath, lib.zui.publicPath || lib.zui.name));
             }
         }
     }
