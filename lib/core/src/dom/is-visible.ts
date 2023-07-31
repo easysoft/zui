@@ -49,13 +49,11 @@ export function isVisible(selector: Selector, options?: ISVisibleOptions): boole
 /* Declare types. */
 declare module 'cash-dom' {
     interface Cash {
-        isVisible(options?: ISVisibleOptions): this;
+        isVisible(options?: ISVisibleOptions): boolean;
     }
 }
 
 /* Extend as $.fn.isVisible() */
 $.fn.isVisible = function (this: Cash, options?: ISVisibleOptions) {
-    return this.each((_, ele) => {
-        isVisible(ele, options);
-    });
+    return isVisible(this, options);
 };
