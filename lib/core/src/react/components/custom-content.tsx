@@ -20,7 +20,7 @@ export function renderCustomContent<ARGS extends unknown[] = unknown[], THIS = u
     generatorArgs?: ARGS,
 ): ComponentChildren {
     if (typeof content === 'function') {
-        return (content as CustomContentGenerator<ARGS, THIS>).call(generatorThis, ...(generatorArgs as ARGS));
+        return (content as CustomContentGenerator<ARGS, THIS>).call(generatorThis, ...((generatorArgs || []) as ARGS));
     }
     if (Array.isArray(content)) {
         return content.map((x) => renderCustomContent(x, generatorThis, generatorArgs));
