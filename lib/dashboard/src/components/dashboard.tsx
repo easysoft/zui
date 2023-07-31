@@ -1,5 +1,6 @@
-import {Component} from 'preact';
+import {Component, RefObject, createRef} from 'preact';
 import {store} from '@zui/store';
+import {$} from '@zui/core';
 import {formatString} from '@zui/helpers';
 import {Block} from './block';
 import {ContextMenu} from '@zui/contextmenu';
@@ -55,12 +56,16 @@ export class Dashboard extends Component<Required<DashboardOptions>, DashboardSt
         },
     };
 
+    protected _ref: RefObject<HTMLDivElement> = createRef();
+
+    protected _loadTimer = 0;
+
+    map: BlocksMap = new Map();
+
     constructor(props: Required<DashboardOptions>) {
         super(props);
         this.state = {blocks: this._initBlocks(props.blocks)};
     }
-
-    map: BlocksMap = new Map();
 
     getBlock(id: string) {
         return this.state.blocks.find(block => block.id === id);
@@ -146,14 +151,27 @@ export class Dashboard extends Component<Required<DashboardOptions>, DashboardSt
             if (block.loading) {
                 return;
             }
-            if (block.needLoad) {
+            if (!block.visible && this._isVisible(block.id)) {
+                return this.update({id: block.id, visible: true});
+            }
+            if (block.needLoad && block.visible) {
                 needLoadID = block.id;
+                break;
             }
         }
         if (!needLoadID.length) {
             return;
         }
         requestAnimationFrame(() => this.load(needLoadID));
+    }
+
+    tryLoadNext = () => {
+        clearTimeout(this._loadTimer);
+        this._loadTimer = window.setTimeout(() => this.loadNext(), 100);
+    };
+
+    protected _isVisible(id: string) {
+        return !!$(this._ref.current).find(`.dashboard-block[data-id="${id}"]`).isVisible();
     }
 
     protected _setCache(id: string, html: string) {
@@ -357,6 +375,7 @@ export class Dashboard extends Component<Required<DashboardOptions>, DashboardSt
 
     componentDidMount(): void {
         this.loadNext();
+        $(window).on('scroll', this.tryLoadNext);
     }
 
     componentDidUpdate(previousProps: Readonly<Required<DashboardOptions>>): void {
@@ -367,13 +386,22 @@ export class Dashboard extends Component<Required<DashboardOptions>, DashboardSt
         }
     }
 
+    componentWillUnmount(): void {
+        clearTimeout(this._loadTimer);
+        $(window).off('scroll', this.tryLoadNext);
+    }
+
     render() {
         const {blocks, height: dashboardHeight} = this._layout();
         const {cellHeight, grid} = this.props;
         const map = this.map;
         return (
             <div class="dashboard">
-                <div class="dashboard-blocks" style={{height: dashboardHeight * cellHeight}}>
+                <div
+                    class="dashboard-blocks"
+                    style={{height: dashboardHeight * cellHeight}}
+                    ref={this._ref}
+                >
                     {blocks.map((block, index) => {
                         const {id, menu, content, title} = block;
                         const [left, top, width, height] = map.get(id) || [0, 0, block.width, block.height];

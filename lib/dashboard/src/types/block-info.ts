@@ -12,6 +12,7 @@ export type BlockInfo = {
     left: number;
     top: number;
     needLoad: boolean;
+    visible?: boolean;
     loading: boolean;
     fetch?: BlockFetcher;
     title?: string;
