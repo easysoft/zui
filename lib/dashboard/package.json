@@ -29,6 +29,7 @@
     "zui": {
         "type": "js-ui",
         "displayName": "仪表盘",
+        "publicPath": false,
         "contributes": {
             "css": [
                 "class",
