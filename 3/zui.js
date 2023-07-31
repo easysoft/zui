@@ -1493,7 +1493,7 @@ function Gi({
   return G(n, t, ...s);
 }
 function Ia(n, e, t) {
-  return typeof n == "function" ? n.call(e, ...t) : Array.isArray(n) ? n.map((s) => Ia(s, e, t)) : X(n) || n === null ? n : typeof n == "object" ? n.html ? /* @__PURE__ */ d(Ks, { ...n }) : /* @__PURE__ */ d(Do, { ...n }) : n;
+  return typeof n == "function" ? n.call(e, ...t || []) : Array.isArray(n) ? n.map((s) => Ia(s, e, t)) : X(n) || n === null ? n : typeof n == "object" ? n.html ? /* @__PURE__ */ d(Ks, { ...n }) : /* @__PURE__ */ d(Do, { ...n }) : n;
 }
 function ee(n) {
   const { content: e, generatorThis: t, generatorArgs: s } = n, i = Ia(e, t, s);
