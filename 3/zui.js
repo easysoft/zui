@@ -3383,8 +3383,8 @@ const ts = class ts extends $t {
   }
   static show(t) {
     typeof t == "string" && (t = { content: t });
-    const { container: s, ...i } = t, o = ts.ensure(s || "body");
-    return o.setOptions(i), o.hide(), o.show(), o;
+    const { container: s, ...i } = t, o = ts.ensure(s || "body", { key: `messager_${p.guid++}`, ...i });
+    return o.hide(), o.show(), o;
   }
 };
 ie = new WeakMap(), ut = new WeakMap(), In = new WeakSet(), qa = function() {
