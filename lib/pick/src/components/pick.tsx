@@ -173,6 +173,13 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
         }
     }
 
+    setValue(value: string) {
+        if (this.props.disabled) {
+            return;
+        }
+        return this.changeState({value} as Partial<S>);
+    }
+
     componentDidMount() {
         this._afterRender(true);
     }
