@@ -13,6 +13,8 @@ export class Messager extends Component<MessagerOptions> {
         time: 5000,
     } as Partial<MessagerOptions>;
 
+    static MULTI_INSTANCE = true;
+
     #holder?: HTMLElement;
 
     #item?: MessagerItem;
