@@ -4022,6 +4022,10 @@ let Lt = (pe = class extends B {
     const { onChange: i } = this.props;
     i && i(t, s);
   }
+  setValue(t) {
+    if (!this.props.disabled)
+      return this.changeState({ value: t });
+  }
   componentDidMount() {
     this._afterRender(!0);
   }
