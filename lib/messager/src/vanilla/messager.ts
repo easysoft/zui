@@ -69,8 +69,7 @@ export class Messager extends Component<MessagerOptions> {
             options = {content: options};
         }
         const {container, ...others} = options;
-        const messager = Messager.ensure(container || 'body');
-        messager.setOptions(others);
+        const messager = Messager.ensure(container || 'body', {key: `messager_${$.guid++}`, ...others} as Partial<MessagerOptions>);
         messager.hide();
         messager.show();
         return messager;
