@@ -8,6 +8,7 @@ export interface AlertOptions {
     style?: JSX.CSSProperties;
     actions?: ToolbarOptions | ComponentChildren;
     icon?: IconType;
+    iconClass?: string;
     heading?: ComponentChildren;
     content?: ComponentChildren;
     contentClass?: ClassNameLike;

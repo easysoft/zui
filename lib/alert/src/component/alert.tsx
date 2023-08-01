@@ -18,6 +18,7 @@ export function Alert({
     close,
     onClose,
     icon,
+    iconClass,
     ...others
 }: AlertOptions) {
     let closeButton: ComponentChildren;
@@ -31,7 +32,7 @@ export function Alert({
     const actionsToolbar = isValidElement(actions) ? actions : (actions ? <Toolbar {...actions as ToolbarOptions} /> : null);
     return (
         <div className={classes('alert', className)} style={style} {...others}>
-            <Icon icon={icon} className="alert-icon" />
+            <Icon icon={icon} className={classes('alert-icon', iconClass)} />
             {isValidElement(content) ? content : (
                 <div className={classes('alert-content', contentClass)}>
                     {isValidElement(heading) ? heading : (heading && <div className="alert-heading">{heading}</div>)}
