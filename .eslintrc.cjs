@@ -14,6 +14,7 @@ module.exports = {
         project: ['./tsconfig.root.json', './lib/*/tsconfig.json', './docs/tsconfig.json', './exts/*/*/tsconfig.json', './exts/*/tsconfig.json'],
     },
     plugins: ['import', '@typescript-eslint'],
+    ignorePatterns: ['./build/**/*', './dist/**/*', './lib/*/public/**/*', './exts/*/*/public/**/*'],
     rules: {
         'semi-spacing': 'error',
         'indent': ['error', 4, {'SwitchCase': 1}],
