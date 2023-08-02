@@ -17,6 +17,10 @@ export type GetLibOptions = {
 /* Declare types. */
 declare module 'cash-dom' {
     interface CashStatic {
+        libPath?: string;
+
+        setLibPath(path: string): void;
+
         getLib(options: GetLibOptions & {src: string}): Promise<unknown>;
         getLib(src: string, options?: GetLibOptions): Promise<unknown>;
         getLib(src: string, callback?: GetLibCallback): Promise<unknown>;
@@ -29,6 +33,10 @@ declare module 'cash-dom' {
         getScript(optionsOrSrc: string | (GetLibOptions & {src: string}), optionsOrCallback?: GetLibOptions | GetLibCallback, callback?: GetLibCallback): Promise<unknown>;
     }
 }
+
+$.setLibPath = function (path: string): void {
+    $.libPath = path;
+};
 
 
 /** Define the $.getLib method. */
@@ -61,7 +69,8 @@ $.getLib = function (optionsOrSrc: string | (GetLibOptions & {src: string}), opt
         if (!src) {
             throw new Error('[ZUI] No src provided for $.getLib.');
         }
-        const $oldScripts = $(id ? `#${id}` : `script[src="${src}"]`);
+        const libSrc = $.libPath ? `${$.libPath}/${src}`.replace('//', '/') : src;
+        const $oldScripts = $(id ? `#${id}` : `script[src="${libSrc}"]`);
         if ($oldScripts.length) {
             if ($oldScripts.dataset('loaded')) {
                 onSuccess();
@@ -90,7 +99,7 @@ $.getLib = function (optionsOrSrc: string | (GetLibOptions & {src: string}), opt
             callbacks.forEach(x => x());
             $(script).removeData('loadCalls');
         };
-        script.src = src;
+        script.src = libSrc;
         $('head').append(script);
     });
 };
