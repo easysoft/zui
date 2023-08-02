@@ -19,11 +19,16 @@ declare module 'cash-dom' {
     interface CashStatic {
         libRoot?: string;
 
+        libMap?: Record<string, GetLibOptions>;
+
         setLibRoot(root: string): void;
 
+        registerLib(name: string, options: GetLibOptions): void;
+
         getLib(options: GetLibOptions): Promise<unknown>;
-        getLib(src: string, options?: Omit<GetLibOptions, 'src'>): Promise<unknown>;
-        getLib(src: string, callback?: GetLibCallback): Promise<unknown>;
+        getLib(src: string): Promise<unknown>;
+        getLib(src: string, options: Omit<GetLibOptions, 'src'>): Promise<unknown>;
+        getLib(src: string, callback: GetLibCallback): Promise<unknown>;
         getLib(src: string, options: GetLibCallback, callback?: GetLibCallback): Promise<unknown>;
         getLib(optionsOrSrc: string | GetLibOptions, optionsOrCallback?: Omit<GetLibOptions, 'src'> | GetLibCallback, callback?: GetLibCallback): Promise<unknown>;
 
@@ -34,16 +39,23 @@ declare module 'cash-dom' {
     }
 }
 
+/** Define the $.libRoot property. */
 $.setLibRoot = function (root: string): void {
     $.libRoot = root;
 };
 
+/** Define the $.libMap property. */
+$.registerLib = function (name: string, options: GetLibOptions): void {
+    if (!$.libMap) {
+        $.libMap = {};
+    }
+    $.libMap[name] = options;
+};
 
 /** Define the $.getLib method. */
 $.getLib = function (optionsOrSrc: string | (GetLibOptions & {src: string}), optionsOrCallback?: Omit<GetLibOptions, 'src'> | GetLibCallback, callback?: GetLibCallback): Promise<unknown> {
-
     return new Promise((resolve) => {
-        const options: GetLibOptions = typeof optionsOrSrc === 'string' ? {src: optionsOrSrc} : optionsOrSrc;
+        let options: GetLibOptions = typeof optionsOrSrc === 'string' ? {src: optionsOrSrc} : $.extend({}, optionsOrSrc);
         if (typeof optionsOrCallback === 'function') {
             options.success = optionsOrCallback;
         } else if (optionsOrCallback) {
@@ -52,6 +64,19 @@ $.getLib = function (optionsOrSrc: string | (GetLibOptions & {src: string}), opt
         if (callback) {
             options.success = callback;
         }
+
+        let {src} = options;
+        if (!src) {
+            throw new Error('[ZUI] No src provided for $.getLib.');
+        }
+        if ($.libMap && $.libMap[src]) {
+            options = $.extend({}, $.libMap[src], options);
+            src = options.src;
+        }
+        if ($.libRoot) {
+            src = `${$.libRoot}/${src}`.replace('//', '/');
+        }
+
         const {success, name} = options;
         const getLibVar = () => {
             return name ? (window as unknown as Record<string, unknown>)[name] : undefined;
@@ -65,12 +90,8 @@ $.getLib = function (optionsOrSrc: string | (GetLibOptions & {src: string}), opt
             return;
         }
 
-        const {src, id} = options;
-        if (!src) {
-            throw new Error('[ZUI] No src provided for $.getLib.');
-        }
-        const libSrc = $.libRoot ? `${$.libRoot}/${src}`.replace('//', '/') : src;
-        const $oldScripts = $(id ? `#${id}` : `script[src="${libSrc}"]`);
+        const {id} = options;
+        const $oldScripts = $(id ? `#${id}` : `script[src="${src}"]`);
         if ($oldScripts.length) {
             if ($oldScripts.dataset('loaded')) {
                 onSuccess();
@@ -99,7 +120,7 @@ $.getLib = function (optionsOrSrc: string | (GetLibOptions & {src: string}), opt
             callbacks.forEach(x => x());
             $(script).removeData('loadCalls');
         };
-        script.src = libSrc;
+        script.src = src;
         $('head').append(script);
     });
 };
