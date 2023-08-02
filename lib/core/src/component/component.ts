@@ -157,9 +157,9 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
         }
 
         this.init();
-        requestAnimationFrame(() => {
+        requestAnimationFrame(async () => {
             this._inited = true;
-            this.afterInit();
+            await this.afterInit();
             this.emit('inited', this.options);
         });
     }
@@ -215,7 +215,7 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
     /**
      * Do something after the component initialized.
      */
-    afterInit() {}
+    afterInit(): void | Promise<void> {}
 
     /**
      * Render the component.
