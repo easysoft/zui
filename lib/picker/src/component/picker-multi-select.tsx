@@ -85,7 +85,7 @@ export class PickerMultiSelect extends PickTrigger<PickerState, PickerSelectProp
                 $(`#${id}`).val(value);
             } else {
                 return (
-                    <select id={id} multiple className="pick-value" name={name} style={{display: 'none'}}>
+                    <select id={id} multiple className="pick-value" name={name.endsWith('[]') ? name : `${name}[]`} style={{display: 'none'}}>
                         {values.map(x => <option key={x} value={x}>{x}</option>)}
                     </select>
                 );
