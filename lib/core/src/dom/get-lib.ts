@@ -25,12 +25,12 @@ declare module 'cash-dom' {
 
         registerLib(name: string, options: GetLibOptions): void;
 
-        getLib(options: GetLibOptions): Promise<unknown>;
-        getLib(src: string): Promise<unknown>;
-        getLib(src: string, options: Omit<GetLibOptions, 'src'>): Promise<unknown>;
-        getLib(src: string, callback: GetLibCallback): Promise<unknown>;
-        getLib(src: string, options: GetLibCallback, callback?: GetLibCallback): Promise<unknown>;
-        getLib(optionsOrSrc: string | GetLibOptions, optionsOrCallback?: Omit<GetLibOptions, 'src'> | GetLibCallback, callback?: GetLibCallback): Promise<unknown>;
+        getLib<T = unknown>(options: GetLibOptions): Promise<T>;
+        getLib<T = unknown>(src: string): Promise<T>;
+        getLib<T = unknown>(src: string, options: Omit<GetLibOptions, 'src'>): Promise<T>;
+        getLib<T = unknown>(src: string, callback: GetLibCallback): Promise<T>;
+        getLib<T = unknown>(src: string, options: GetLibCallback, callback?: GetLibCallback): Promise<T>;
+        getLib<T = unknown>(optionsOrSrc: string | GetLibOptions, optionsOrCallback?: Omit<GetLibOptions, 'src'> | GetLibCallback, callback?: GetLibCallback): Promise<T>;
 
         /**
          * @deprecated Use $.getLib instead.
@@ -53,8 +53,8 @@ $.registerLib = function (name: string, options: GetLibOptions): void {
 };
 
 /** Define the $.getLib method. */
-$.getLib = function (optionsOrSrc: string | (GetLibOptions & {src: string}), optionsOrCallback?: Omit<GetLibOptions, 'src'> | GetLibCallback, callback?: GetLibCallback): Promise<unknown> {
-    return new Promise((resolve) => {
+$.getLib = function<T = unknown> (optionsOrSrc: string | (GetLibOptions & {src: string}), optionsOrCallback?: Omit<GetLibOptions, 'src'> | GetLibCallback, callback?: GetLibCallback): Promise<T> {
+    return new Promise((resolve, reject) => {
         let options: GetLibOptions = typeof optionsOrSrc === 'string' ? {src: optionsOrSrc} : $.extend({}, optionsOrSrc);
         if (typeof optionsOrCallback === 'function') {
             options.success = optionsOrCallback;
@@ -67,7 +67,7 @@ $.getLib = function (optionsOrSrc: string | (GetLibOptions & {src: string}), opt
 
         let {src} = options;
         if (!src) {
-            throw new Error('[ZUI] No src provided for $.getLib.');
+            return reject(new Error('[ZUI] No src provided for $.getLib.'));
         }
         if ($.libMap && $.libMap[src]) {
             options = $.extend({}, $.libMap[src], options);
@@ -82,7 +82,7 @@ $.getLib = function (optionsOrSrc: string | (GetLibOptions & {src: string}), opt
             return name ? (window as unknown as Record<string, unknown>)[name] : undefined;
         };
         const onSuccess = () => {
-            resolve(getLibVar());
+            resolve(getLibVar() as T);
             success?.();
         };
         if (getLibVar()) {
