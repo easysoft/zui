@@ -11,6 +11,7 @@ export type GetLibOptions = {
     type?: string;
     integrity?: string;
     name?: string;
+    root?: string;
     success?: GetLibCallback;
 };
 
@@ -49,6 +50,9 @@ $.registerLib = function (name: string, options: GetLibOptions): void {
     if (!$.libMap) {
         $.libMap = {};
     }
+    if (!options.name && options.id) {
+        options.id = `zui-lib-${name}`;
+    }
     $.libMap[name] = options;
 };
 
@@ -69,12 +73,14 @@ $.getLib = function<T = unknown> (optionsOrSrc: string | (GetLibOptions & {src: 
         if (!src) {
             return reject(new Error('[ZUI] No src provided for $.getLib.'));
         }
-        if ($.libMap && $.libMap[src]) {
-            options = $.extend({}, $.libMap[src], options);
-            src = options.src;
+        const lib = $.libMap && $.libMap[src];
+        if (lib) {
+            options = $.extend({}, lib, options);
+            src = lib.src || options.src;
         }
-        if ($.libRoot) {
-            src = `${$.libRoot}/${src}`.replace('//', '/');
+        const {root = $.libRoot} = options;
+        if (root) {
+            src = `${root}/${src}`.replace('//', '/');
         }
 
         const {success, name} = options;
@@ -119,6 +125,9 @@ $.getLib = function<T = unknown> (optionsOrSrc: string | (GetLibOptions & {src: 
             const callbacks: GetLibCallback[] = $(script).dataset('loaded', true).data('loadCalls') || [];
             callbacks.forEach(x => x());
             $(script).removeData('loadCalls');
+        };
+        script.onerror = () => {
+            reject(new Error(`[ZUI] Failed to load lib from: ${src}`));
         };
         script.src = src;
         $('head').append(script);
