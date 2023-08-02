@@ -6,6 +6,14 @@
 .bg-important {@apply -bg-important-500;}
 .bg-special   {@apply -bg-special-500;}
 
+.bg-primary-pale   {@apply -bg-primary-100;}
+.bg-secondary-pale {@apply -bg-secondary-100;}
+.bg-success-pale   {@apply -bg-success-100;}
+.bg-warning-pale   {@apply -bg-warning-100;}
+.bg-danger-pale    {@apply -bg-danger-100;}
+.bg-important-pale {@apply -bg-important-100;}
+.bg-special-pale   {@apply -bg-special-100;}
+
 .bg-white   {@apply -bg-white;}
 .bg-lighter {@apply -bg-gray-300;}
 .bg-light   {@apply -bg-gray-400;}
