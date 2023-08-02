@@ -9,4 +9,5 @@ export type PopoversOptions = Partial<{
     offset: number;
     trigger: string;
     mask: boolean;
+    delay: number;
 }>;

@@ -14,6 +14,7 @@ export class Popovers extends Component<PopoversOptions> {
         offset: 1,
         trigger: 'click',
         mask: true,
+        delay: 0,
     };
 
     cleanup!: () => void;
@@ -34,11 +35,19 @@ export class Popovers extends Component<PopoversOptions> {
         this.createPopper();
 
         this.toggle = () => {
-            if (this.$target.hasClass('hidden')) {
-                this.show();
-                return;
+            const exec = () => {
+                if (this.$target.hasClass('hidden')) {
+                    this.show();
+                    return;
+                }
+                this.hide();
+            };
+            const {delay} = this.options;
+            if (delay === 0) {
+                exec();
+            } else {
+                setTimeout(exec, delay);
             }
-            this.hide();
         };
         this.$element
             .addClass('z-50')
