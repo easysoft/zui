@@ -17,9 +17,9 @@ export type GetLibOptions = {
 /* Declare types. */
 declare module 'cash-dom' {
     interface CashStatic {
-        libPath?: string;
+        libRoot?: string;
 
-        setLibPath(path: string): void;
+        setLibRoot(root: string): void;
 
         getLib(options: GetLibOptions & {src: string}): Promise<unknown>;
         getLib(src: string, options?: GetLibOptions): Promise<unknown>;
@@ -34,8 +34,8 @@ declare module 'cash-dom' {
     }
 }
 
-$.setLibPath = function (path: string): void {
-    $.libPath = path;
+$.setLibRoot = function (root: string): void {
+    $.libRoot = root;
 };
 
 
@@ -69,7 +69,7 @@ $.getLib = function (optionsOrSrc: string | (GetLibOptions & {src: string}), opt
         if (!src) {
             throw new Error('[ZUI] No src provided for $.getLib.');
         }
-        const libSrc = $.libPath ? `${$.libPath}/${src}`.replace('//', '/') : src;
+        const libSrc = $.libRoot ? `${$.libRoot}/${src}`.replace('//', '/') : src;
         const $oldScripts = $(id ? `#${id}` : `script[src="${libSrc}"]`);
         if ($oldScripts.length) {
             if ($oldScripts.dataset('loaded')) {
