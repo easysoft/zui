@@ -5682,11 +5682,14 @@ const ai = class ai extends $t {
   init() {
     const { trigger: e } = this.options;
     this.initTarget(), this.initMask(), this.initArrow(), this.createPopper(), this.toggle = () => {
-      if (this.$target.hasClass("hidden")) {
-        this.show();
-        return;
-      }
-      this.hide();
+      const t = () => {
+        if (this.$target.hasClass("hidden")) {
+          this.show();
+          return;
+        }
+        this.hide();
+      }, { delay: s } = this.options;
+      s === 0 ? t() : setTimeout(t, s);
     }, this.$element.addClass("z-50").on(e, this.toggle);
   }
   destroy() {
@@ -5767,7 +5770,8 @@ ai.NAME = "Popovers", ai.DEFAULT = {
   arrow: !1,
   offset: 1,
   trigger: "click",
-  mask: !0
+  mask: !0,
+  delay: 0
 };
 let Hr = ai;
 var Ls, Ps, jt, li, Os, Hs, Bs, ho, Ws;
