@@ -37,8 +37,8 @@ export function ActionItem({
     return _h(component as ComponentType, {
         className: classes(className, {disabled, active}),
         title: hint,
-        [component === 'a' ? 'href' : 'data-url']: url,
-        [component === 'a' ? 'target' : 'data-target']: target,
+        [component === 'a' ? 'href' : 'data-url']: disabled ? undefined : url,
+        [component === 'a' ? 'target' : 'data-target']: disabled ? undefined : target,
         onClick,
         ...others,
         ...attrs,
