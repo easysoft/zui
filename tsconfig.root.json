@@ -15,5 +15,9 @@
     "tailwind.config.cjs",
     "postcss.config.cjs",
     ".eslintrc.cjs"
+  ],
+  "exclude": [
+    "./lib/*/public/",
+    "./exts/*/*/public/",
   ]
 }

@@ -23,5 +23,8 @@
     "config",
     "dev/src/dev.ts",
     "exts/*/dev.ts"
+  ],
+  "exclude": [
+    "public"
   ]
 }
