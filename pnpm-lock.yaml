@@ -922,6 +922,25 @@ importers:
         specifier: workspace:*
         version: link:../../dev
 
+  lib/sortable:
+    dependencies:
+      '@zui/core':
+        specifier: workspace:^0.0.1
+        version: link:../core
+    devDependencies:
+      '@types/sortablejs':
+        specifier: ^1.15.1
+        version: 1.15.1
+      '@zui/menu':
+        specifier: workspace:^0.0.1
+        version: link:../menu
+      sortablejs:
+        specifier: ^1.15.0
+        version: 1.15.0
+      zui-dev:
+        specifier: workspace:^0.0.1
+        version: link:../../dev
+
   lib/store: {}
 
   lib/table:
@@ -2296,6 +2315,10 @@ packages:
 
   /@types/semver@7.5.0:
     resolution: {integrity: sha512-G8hZ6XJiHnuhQKR7ZmysCeJWE08o8T0AXtk5darsCaTVsYZhhgUrq53jizaR2FvsoeCwJhlmwTjkXBY5Pn/ZHw==}
+    dev: true
+
+  /@types/sortablejs@1.15.1:
+    resolution: {integrity: sha512-g/JwBNToh6oCTAwNS8UGVmjO7NLDKsejVhvE4x1eWiPTC3uCuNsa/TD4ssvX3du+MLiM+SHPNDuijp8y76JzLQ==}
     dev: true
 
   /@types/web-bluetooth@0.0.17:
@@ -4919,6 +4942,10 @@ packages:
   /slash@3.0.0:
     resolution: {integrity: sha512-g9Q1haeby36OSStwb4ntCGGGaKsaVSjQ68fBxoQcutl5fS1vuY18H3wSt3jFyFtrkx+Kz0V1G85A4MyAdDMi2Q==}
     engines: {node: '>=8'}
+    dev: true
+
+  /sortablejs@1.15.0:
+    resolution: {integrity: sha512-bv9qgVMjUMf89wAvM6AxVvS/4MX3sPeN0+agqShejLU5z5GX4C75ow1O2e5k4L6XItUyAK3gH6AxSbXrOM5e8w==}
     dev: true
 
   /source-map-js@1.0.2:

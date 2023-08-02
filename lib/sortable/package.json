@@ -1,0 +1,32 @@
+{
+    "name": "@zui/sortable",
+    "description": "Sortable JS plugin from https://github.com/SortableJS/Sortable",
+    "version": "0.0.1",
+    "keywords": [
+        "js",
+        "zui:js-lib"
+    ],
+    "browser": "src/main.ts",
+    "main": "src/main.ts",
+    "files": [
+        "./src/**/*"
+    ],
+    "zui": {
+        "type": "js-helpers",
+        "displayName": "Sortable JS",
+        "contributes": {
+            "js": [
+                "module"
+            ]
+        }
+    },
+    "dependencies": {
+        "@zui/core": "workspace:^0.0.1"
+    },
+    "devDependencies": {
+        "sortablejs": "^1.15.0",
+        "zui-dev": "workspace:^0.0.1",
+        "@zui/menu": "workspace:^0.0.1",
+        "@types/sortablejs": "^1.15.1"
+    }
+}
