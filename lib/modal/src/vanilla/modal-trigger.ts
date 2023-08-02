@@ -98,9 +98,9 @@ export class ModalTrigger extends Component<ModalTriggerOptions> {
 }
 
 $(document).on(`click${ModalTrigger.NAMESPACE}`, TOGGLE_SELECTOR, (event: MouseEvent) => {
-    const toggleBtn = event.currentTarget as HTMLElement;
-    if (toggleBtn) {
-        const modalTrigger = ModalTrigger.ensure(toggleBtn);
+    const $toggleBtn = $(event.currentTarget as HTMLElement);
+    if ($toggleBtn.length && !$toggleBtn.is('[disabled],.disabled')) {
+        const modalTrigger = ModalTrigger.ensure($toggleBtn);
         if (modalTrigger) {
             modalTrigger.show();
             event.preventDefault();
