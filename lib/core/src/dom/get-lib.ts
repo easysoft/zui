@@ -3,7 +3,7 @@ import {$} from '../cash';
 export type GetLibCallback = () => void;
 
 export type GetLibOptions = {
-    src?: string;
+    src: string;
     id?: string;
     async?: boolean;
     defer?: boolean;
@@ -21,16 +21,16 @@ declare module 'cash-dom' {
 
         setLibRoot(root: string): void;
 
-        getLib(options: GetLibOptions & {src: string}): Promise<unknown>;
-        getLib(src: string, options?: GetLibOptions): Promise<unknown>;
+        getLib(options: GetLibOptions): Promise<unknown>;
+        getLib(src: string, options?: Omit<GetLibOptions, 'src'>): Promise<unknown>;
         getLib(src: string, callback?: GetLibCallback): Promise<unknown>;
         getLib(src: string, options: GetLibCallback, callback?: GetLibCallback): Promise<unknown>;
-        getLib(optionsOrSrc: string | (GetLibOptions & {src: string}), optionsOrCallback?: GetLibOptions | GetLibCallback, callback?: GetLibCallback): Promise<unknown>;
+        getLib(optionsOrSrc: string | GetLibOptions, optionsOrCallback?: Omit<GetLibOptions, 'src'> | GetLibCallback, callback?: GetLibCallback): Promise<unknown>;
 
         /**
          * @deprecated Use $.getLib instead.
          */
-        getScript(optionsOrSrc: string | (GetLibOptions & {src: string}), optionsOrCallback?: GetLibOptions | GetLibCallback, callback?: GetLibCallback): Promise<unknown>;
+        getScript(optionsOrSrc: string | (GetLibOptions & {src: string}), optionsOrCallback?: Omit<GetLibOptions, 'src'> | GetLibCallback, callback?: GetLibCallback): Promise<unknown>;
     }
 }
 
@@ -40,7 +40,7 @@ $.setLibRoot = function (root: string): void {
 
 
 /** Define the $.getLib method. */
-$.getLib = function (optionsOrSrc: string | (GetLibOptions & {src: string}), optionsOrCallback?: GetLibOptions | GetLibCallback, callback?: GetLibCallback): Promise<unknown> {
+$.getLib = function (optionsOrSrc: string | (GetLibOptions & {src: string}), optionsOrCallback?: Omit<GetLibOptions, 'src'> | GetLibCallback, callback?: GetLibCallback): Promise<unknown> {
 
     return new Promise((resolve) => {
         const options: GetLibOptions = typeof optionsOrSrc === 'string' ? {src: optionsOrSrc} : optionsOrSrc;
