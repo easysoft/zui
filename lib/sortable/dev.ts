@@ -4,7 +4,7 @@ import {$} from '@zui/core';
 import {Sortable} from './src/main';
 
 $.registerLib('sortablejs', {
-    src: 'lib/sortable/public/sortable.min.js',
+    src: '/lib/sortable/public/sortable.min.js',
     name: 'Sortable',
 });
 
