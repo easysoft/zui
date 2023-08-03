@@ -3595,7 +3595,9 @@ const es = class es extends at {
     return this.Module || (this.Module = await d.getLib("sortablejs")), this.Module;
   }
 };
-es.NAME = "Sortable", es.DEFAULT = {};
+es.NAME = "Sortable", es.DEFAULT = {
+  animation: 150
+};
 let xr = es;
 d.registerLib("sortablejs", {
   src: "sortable/sortable.min.js",

@@ -652,7 +652,6 @@
         "devDependencies": {
             "sortablejs": "^1.15.0",
             "zui-dev": "workspace:^0.0.1",
-            "@zui/menu": "workspace:^0.0.1",
             "@types/sortablejs": "^1.15.1"
         }
     },
