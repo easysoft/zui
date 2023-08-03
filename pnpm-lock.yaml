@@ -447,6 +447,16 @@ importers:
         specifier: workspace:*
         version: link:../../dev
 
+  lib/dnd:
+    dependencies:
+      '@zui/core':
+        specifier: workspace:^0.0.1
+        version: link:../core
+    devDependencies:
+      zui-dev:
+        specifier: workspace:^0.0.1
+        version: link:../../dev
+
   lib/dropdown:
     dependencies:
       '@zui/button':
@@ -931,9 +941,6 @@ importers:
       '@types/sortablejs':
         specifier: ^1.15.1
         version: 1.15.1
-      '@zui/menu':
-        specifier: workspace:^0.0.1
-        version: link:../menu
       sortablejs:
         specifier: ^1.15.0
         version: 1.15.0
