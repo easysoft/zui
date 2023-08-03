@@ -5,6 +5,7 @@ export class Sortable extends Component<SortableOptions> {
     static NAME = 'Sortable';
 
     static DEFAULT: Partial<SortableOptions> = {
+        animation: 150,
     };
 
     declare module: SortableModule;
