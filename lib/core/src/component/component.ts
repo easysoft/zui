@@ -352,7 +352,7 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
      * Get event namespace.
      * @returns Event namespace.
      */
-    get namespace() {
+    get namespace(): `.zui.${string}` {
         return `${this.constructor.NAMESPACE}.${this._key}`;
     }
 
