@@ -53,11 +53,12 @@ async function buildAjaxModal(this: Modal, _element: HTMLElement, options: Modal
 }
 
 async function buildIframeModal(this: Modal, _element: HTMLElement, options: ModalAjaxOptions): Promise<ModalDialogOptions | boolean | undefined> {
-    const {url, custom, title} = options;
+    const {url, custom, title, size} = options;
+    const hasHeight = typeof size === 'object' && typeof size.height === 'number';
     return {
         title,
         ...custom,
-        body: <ModalIframeContent url={url} />,
+        body: <ModalIframeContent url={url} watchHeight={!hasHeight} />,
     };
 }
 

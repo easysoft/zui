@@ -2,6 +2,7 @@ import {Component, createRef} from 'preact';
 
 export type ModalIframeContentProps = {
     url: string;
+    watchHeight?: boolean;
 };
 
 export type ModalIframeContentState = {
@@ -9,48 +10,54 @@ export type ModalIframeContentState = {
 };
 
 export class ModalIframeContent extends Component<ModalIframeContentProps> {
-    #ref = createRef<HTMLIFrameElement>();
+    static defaultProps: Partial<ModalIframeContentProps> = {
+        watchHeight: true,
+    };
 
-    #rob?: ResizeObserver;
+    _ref = createRef<HTMLIFrameElement>();
+
+    _rob?: ResizeObserver;
 
     state: ModalIframeContentState = {};
 
     componentDidMount() {
-        this.#watchIframeHeight();
+        if (this.props.watchHeight) {
+            this._watchIframeHeight();
+        }
     }
 
     componentWillUnmount(): void {
-        this.#rob?.disconnect();
+        this._rob?.disconnect();
     }
 
-    #watchIframeHeight = () => {
-        const iframeDoc = this.#ref.current?.contentWindow?.document;
+    _watchIframeHeight = () => {
+        const iframeDoc = this._ref.current?.contentWindow?.document;
         if (!iframeDoc) {
             return;
         }
 
-        let rob = this.#rob;
+        let rob = this._rob;
         rob?.disconnect();
         rob = new ResizeObserver(() => {
             const body = iframeDoc.body;
             const html = iframeDoc.documentElement;
-            const height = Math.ceil(Math.max(body.scrollHeight, body.offsetHeight, html.offsetHeight));
+            const height = Math.ceil(Math.max(body.scrollHeight, body.offsetHeight, html.offsetHeight)) + 1;
             this.setState({height});
         });
         rob.observe(iframeDoc.body);
         rob.observe(iframeDoc.documentElement);
-        this.#rob = rob;
+        this._rob = rob;
     };
 
     render() {
-        const {url} = this.props;
+        const {url, watchHeight} = this.props;
         return (
             <iframe
                 className="modal-iframe"
                 style={this.state}
                 src={url}
-                ref={this.#ref}
-                onLoad={this.#watchIframeHeight}
+                ref={this._ref}
+                onLoad={watchHeight ? this._watchIframeHeight : undefined}
             />
         );
     }
