@@ -79,11 +79,14 @@ export class PickerMultiSelect extends PickTrigger<PickerState, PickerSelectProp
 
     protected _renderValue(props: PickerSelectProps) {
         const {name, state: {value = ''}, id, valueList, emptyValue} = props;
-        const values = valueList.length ? valueList : [emptyValue];
+        if (!valueList.length) {
+            return super._renderValue(props);
+        }
         if (name) {
             if (this.hasInput) {
                 $(`#${id}`).val(value);
             } else {
+                const values = valueList.length ? valueList : [emptyValue];
                 return (
                     <select id={id} multiple className="pick-value" name={name.endsWith('[]') ? name : `${name}[]`} style={{display: 'none'}}>
                         {values.map(x => <option key={x} value={x}>{x}</option>)}
