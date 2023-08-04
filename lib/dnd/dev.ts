@@ -26,6 +26,9 @@ onPageUpdate(() => {
         onDrop: (event, dragElement, dropElement) => {
             console.log('onDrop', {event, dragElement, dropElement});
         },
+        onChange(newState, oldState) {
+            console.log('onChange', {newState, oldState});
+        },
     });
     console.log('> sortable1', sortable1);
 });
