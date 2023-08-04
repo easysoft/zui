@@ -10,6 +10,6 @@
   @apply -w-4 -flex-auto;
 }
 
-.toolbar > .dropdown {
+.toolbar > .dropdown.show {
   @apply -flex -items-center -relative;
 }
