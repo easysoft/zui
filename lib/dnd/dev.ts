@@ -1,7 +1,7 @@
 import '@zui/menu';
 import 'zui-dev';
 import {$} from '@zui/core';
-import {Draggable} from './src/main';
+import {Draggable, Moveable} from './src/main';
 
 $.registerLib('sortablejs', {
     src: '/lib/sortable/public/sortable.min.js',
@@ -9,7 +9,7 @@ $.registerLib('sortablejs', {
 });
 
 onPageUpdate(() => {
-    const sortable1 = new Draggable('#example1', {
+    const draggable = new Draggable('#example1', {
         onDragStart: (event, dragElement) => {
             console.log('onDragStart', event, dragElement);
             return true;
@@ -30,5 +30,13 @@ onPageUpdate(() => {
             console.log('onChange', {newState, oldState});
         },
     });
-    console.log('> sortable1', sortable1);
+    console.log('> draggable', draggable);
+
+    const moveable = new Moveable('#example2', {
+        onChange(newState, oldState, event) {
+            console.log('onChange', event.type, {newState, oldState});
+        },
+    });
+
+    console.log('> moveable', moveable);
 });
