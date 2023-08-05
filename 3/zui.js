@@ -3585,8 +3585,8 @@ const ph = '[moveable="true"]', Ln = class Ln extends ot {
         this._raf = 0, this._setState(e), (t = this.options.onMove) == null || t.call(this, e, this._state);
       }));
     }, this._handleMouseUp = (e) => {
-      var t;
-      this._state && (this._raf && (cancelAnimationFrame(this._raf), this._raf = 0), this._setState(e), (t = this.options.onMoveEnd) == null || t.call(this, e, this._state), this._clean());
+      var t, s;
+      this._state && (this._raf && (cancelAnimationFrame(this._raf), this._raf = 0), this._setState(e), (t = this.options.onMove) == null || t.call(this, e, this._state), (s = this.options.onMoveEnd) == null || s.call(this, e, this._state), this._clean());
     };
   }
   get state() {
