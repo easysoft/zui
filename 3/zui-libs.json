@@ -617,7 +617,6 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "dnd",
-            "wip": true,
             "order": 3010000017,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/dnd/package.json"
         },
