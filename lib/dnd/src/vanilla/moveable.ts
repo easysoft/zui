@@ -133,6 +133,7 @@ export class Moveable extends Component<MoveableOptions> {
             this._raf = 0;
         }
         this._setState(event);
+        this.options.onMove?.call(this, event, this._state!);
         this.options.onMoveEnd?.call(this, event, this._state!);
         this._clean();
     };
