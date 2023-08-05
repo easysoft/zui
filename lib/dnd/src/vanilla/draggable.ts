@@ -7,7 +7,7 @@ export class Draggable extends Component<DraggableOptions> {
     static NAME = 'Draggable';
 
     static DEFAULT: Partial<DraggableOptions> = {
-        selector: 'li',
+        selector: '[draggable="true"]',
         dropEffect: 'move',
         hasDraggingClass: 'has-dragging',
         draggingClass: 'is-dragging',
@@ -18,6 +18,10 @@ export class Draggable extends Component<DraggableOptions> {
     protected _state: DraggableState = {dragging: null, dropping: null};
 
     protected _$targets?: Cash;
+
+    get state() {
+        return this._state;
+    }
 
     get dragElement() {
         return this._state.dragging;
@@ -47,7 +51,7 @@ export class Draggable extends Component<DraggableOptions> {
         super.destroy();
     }
 
-    setState(newState: Partial<DraggableState>) {
+    protected _setState(newState: Partial<DraggableState>) {
         const oldState = this._state;
         const {dragging = oldState.dragging, dropping = oldState.dropping} = newState;
         if (dragging === oldState.dragging && dropping === oldState.dropping) {
@@ -78,7 +82,7 @@ export class Draggable extends Component<DraggableOptions> {
             $dragElement.addClass(draggingClass);
         }
 
-        this.setState({dragging: dragElement});
+        this._setState({dragging: dragElement});
     };
 
     protected _handleDragStart = (event: DragEvent) => {
@@ -144,7 +148,7 @@ export class Draggable extends Component<DraggableOptions> {
             return;
         }
         event.preventDefault();
-        this.setState({dropping: target});
+        this._setState({dropping: target});
         const {droppingClass} = this.options;
         if (droppingClass) {
             $(target).addClass(droppingClass);
@@ -159,7 +163,7 @@ export class Draggable extends Component<DraggableOptions> {
         if (!dragElement || !dropElement) {
             return;
         }
-        this.setState({dropping: dropElement});
+        this._setState({dropping: dropElement});
         event.preventDefault();
         const {onDragOver} = this.options;
         this._setDragEffect(event);
@@ -174,14 +178,14 @@ export class Draggable extends Component<DraggableOptions> {
         if (!dragElement || !dropElement) {
             return;
         }
-        this.setState({dropping: dropElement});
+        this._setState({dropping: dropElement});
         event.preventDefault();
         this.options.onDragEnter?.call(this, event, dragElement, dropElement);
         const {droppingClass} = this.options;
         if (droppingClass) {
             $(dropElement).removeClass(droppingClass);
         }
-        this.setState({dropping: null});
+        this._setState({dropping: null});
     };
 
     protected _handleDrop = (event: DragEvent) => {
@@ -193,7 +197,7 @@ export class Draggable extends Component<DraggableOptions> {
         this.options.onDrop?.call(this, event, this.dragElement!, dropTarget);
     };
 
-    _clean() {
+    protected _clean() {
         const {draggingClass, droppableClass, droppingClass, hasDraggingClass} = this.options;
         if (hasDraggingClass) {
             this.$element.removeClass(hasDraggingClass);
@@ -201,12 +205,11 @@ export class Draggable extends Component<DraggableOptions> {
         const {dragElement} = this;
         if (dragElement) {
             const $dragElement = $(dragElement);
-            $dragElement.removeAttr('draggable');
             if (draggingClass) {
                 $dragElement.removeClass(draggingClass);
             }
         }
-        this.setState({dropping: null, dragging: null});
+        this._setState({dropping: null, dragging: null});
 
         const $targets = this._$targets;
         if ($targets) {
