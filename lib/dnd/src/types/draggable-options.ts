@@ -11,8 +11,8 @@ export type DraggableOptions = {
     droppingClass?: string;
     dropEffect?: 'copy' | 'move' | 'link' | 'none';
     onChange?: (newState: DraggableState, oldState: DraggableState) => void;
-    beforeDrag?: (event: MouseEvent, dragElement: HTMLElement) => boolean;
-    onDragStart?: (event: DragEvent, dragElement: HTMLElement) => boolean;
+    beforeDrag?: (event: MouseEvent, dragElement: HTMLElement) => void | boolean;
+    onDragStart?: (event: DragEvent, dragElement: HTMLElement) => void | boolean;
     onDrag?: (event: DragEvent, dragElement: HTMLElement) => void;
     onDragEnd?: (event: DragEvent, dragElement: HTMLElement) => void;
     onDragEnter?: (event: DragEvent, dragElement: HTMLElement, dropElement: HTMLElement) => void;
