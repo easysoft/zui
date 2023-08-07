@@ -1,8 +1,11 @@
 .tooltip {
   @apply -z-tooltip -rounded -bg-inverse -border-inverse -text-canvas -py-1 -px-2 -text-xs -max-w-md;
 }
-.tooltip > .arrow {
+.tooltip:not(.white) > .arrow {
   @apply -border-0;
+}
+.tooltip.white > .arrow {
+  border-color: inherit;
 }
 .tooltip-has-title {
   @apply -shadow-xl -px-3 -pt-2 -pb-3 -bg-opacity-80 -backdrop-blur;

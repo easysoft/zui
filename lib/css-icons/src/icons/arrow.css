@@ -26,12 +26,22 @@
   border-width: 1px 0 0 1px;
 }
 
+.white > .arrow-top,
+.white > .arrow-up {
+  top: calc(0px - var(--arrow-size));
+}
+
 .arrow-bottom,
 .arrow-down {
   bottom: calc(1px - var(--arrow-size));
   border-top: inherit;
   border-left: inherit;
   border-width: 0 1px 1px 0;
+}
+
+.white > .arrow-bottom,
+.white > .arrow-down {
+  bottom: calc(0px - var(--arrow-size));
 }
 
 .arrow-left {
@@ -41,9 +51,17 @@
   border-width: 0 0 1px 1px;
 }
 
+.white > .arrow-left {
+  left: calc(0px - var(--arrow-size));
+}
+
 .arrow-right {
   right: calc(1px - var(--arrow-size));
   border-bottom: inherit;
   border-left: inherit;
   border-width: 1px 1px 0 0;
+}
+
+.white > .arrow-right {
+  right: calc(0px - var(--arrow-size));
 }
