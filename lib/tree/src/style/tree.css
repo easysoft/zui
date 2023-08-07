@@ -2,7 +2,7 @@
   @apply -flex -flex-row -items-center -gap-1 -min-h-[24px];
 }
 .tree-toggle-icon {
-  @apply -w-4 -flex -items-center -justify-center -rounded -h-4;
+  @apply -w-4 -flex -items-center -justify-center -rounded -h-4 -flex-none;
   --caret-size: 5px;
   --caret-opacity: .3;
 }
