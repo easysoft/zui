@@ -8,14 +8,15 @@
 }
 .checkbox-primary > label,
 .radio-primary > label {
-  @apply -relative -pl-5 -cursor-pointer;
+  @apply -relative -cursor-pointer;
+  padding-left: calc(var(--checkbox-size) + 8px);
 }
 .checkbox-primary > label::before,
 .checkbox-primary > label::after,
 .radio-primary > label::before,
 .radio-primary > label::after {
-  content: ' ';
-  @apply -absolute -block -w-3 -h-3 --left-0 -top-1 -transition-all;
+  @apply -content-[''] -absolute -block -w-[--checkbox-size] -h-[--checkbox-size] --left-0 -transition-all;
+  top: calc((20px - var(--checkbox-size)) / 2);
 }
 
 .checkbox-primary > label::before {
@@ -33,7 +34,12 @@
   @apply -border -rounded-full -border-gray-400;
 }
 .radio-primary > label::after {
-  @apply -w-2 -h-2 -top-1.5 -left-0.5 -bg-primary-500 -rounded-full -opacity-0;
+  @apply  -bg-primary-500 -rounded-full -opacity-0;
+  --checkbox-radio-size: calc(var(--checkbox-size) * 2 / 3);
+  width: var(--checkbox-radio-size);
+  height: var(--checkbox-radio-size);
+  top: calc((20px - var(--checkbox-radio-size)) / 2);
+  left: calc((var(--checkbox-size) - var(--checkbox-radio-size)) / 2);
 }
 
 .checkbox-primary > label:hover::before,
