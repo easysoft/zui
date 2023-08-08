@@ -2,6 +2,7 @@ import {JSX, ComponentChildren} from 'preact';
 import {formatString} from '@zui/helpers/src/format-string';
 import {formatDate} from '@zui/helpers/src/date-helper';
 import {ProgressCircle} from '@zui/progress-circle/src/component';
+import {ProgressBar} from '@zui/progress/src/components';
 import {definePlugin} from '../../helpers/shared-plugins';
 import type {DateLike} from '@zui/helpers/src/date-helper';
 import type {DTablePlugin, RowInfo, ColInfo, DTableWithPlugin, CustomRenderResultList} from '../../types';
@@ -22,6 +23,10 @@ export type DTableRichTypes = {
         circleBgColor: string;
         circleColor: string;
         circleBorderSize: number;
+        progressType: 'circle' | 'bar';
+        barColor: string;
+        barWidth: number;
+        barHeight: number;
         link: ColLinkSetting;
         format: ColFormatSetting;
         formatDate: ColDateFormatSetting;
@@ -70,7 +75,7 @@ export function renderFormat(format: ColFormatSetting | undefined, info: {row: R
 
 export function renderDatetime(format: ColDateFormatSetting, info: {row: RowInfo, col: ColInfo}, value?: unknown, invalidDate?: string) {
     if (!value) {
-        return invalidDate ?? value;
+        return invalidDate ?? value as string;
     }
     value = value ?? info.row.data?.[info.col.name];
     if (format === false) {
@@ -142,9 +147,17 @@ const richPlugin: DTablePlugin<DTableRichTypes> = {
         progress: {
             align: 'center',
             onRenderCell(result, {col}) {
-                const {circleSize = 24, circleBorderSize = 1, circleBgColor = 'var(--color-border)', circleColor = 'var(--color-success-500)'} = col.setting;
-                result[0] = (
+                const {progressType, barColor, barHeight = 6, barWidth = 64, circleSize = 24, circleBorderSize = 1, circleBgColor = 'var(--color-border)', circleColor = 'var(--color-success-500)'} = col.setting;
                 const percent = result[0] as number;
+                result[0] = progressType === 'bar' ? (
+                    <ProgressBar
+                        className="rounded-full"
+                        width={barWidth}
+                        height={barHeight}
+                        color={barColor || circleColor}
+                        percent={percent}
+                    />
+                ) : (
                     <ProgressCircle
                         percent={percent}
                         size={circleSize}

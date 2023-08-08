@@ -6,6 +6,7 @@ import '@zui/icons';
 import '@zui/dropdown';
 import '@zui/form';
 import '@zui/input-control';
+import '@zui/progress';
 import {Faker, zh_CN, en} from '@faker-js/faker';
 import {DTable} from './src/main';
 import {checkable} from './src/plugins/checkable';

@@ -508,6 +508,9 @@ importers:
       '@zui/pager':
         specifier: workspace:^0.0.1
         version: link:../pager
+      '@zui/progress':
+        specifier: workspace:^0.0.1
+        version: link:../progress
       '@zui/progress-circle':
         specifier: workspace:^0.0.1
         version: link:../progress-circle
