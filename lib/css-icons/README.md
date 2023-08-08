@@ -42,12 +42,14 @@
 
 ## 箭头
 
-```html:example:relative
-<span class="arrow"></span>
-<span class="arrow arrow-left"></span>
-<span class="arrow arrow-right"></span>
-<span class="arrow arrow-down"></span>
-<span class="arrow arrow-up"></span>
+```html:example
+<div class="-w-32 -h-16 -relative">
+  <span class="arrow"></span>
+  <span class="arrow arrow-left"></span>
+  <span class="arrow arrow-right"></span>
+  <span class="arrow arrow-down"></span>
+  <span class="arrow arrow-up"></span>
+</div>
 ```
 
 ## V 形
