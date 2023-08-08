@@ -12,12 +12,10 @@ type CalenderInfo = {
 
 const getCalendarInfo = (year: number, month: number, weekStart = 0): CalenderInfo => {
     const firstDay = new Date(year, month - 1, 1);
-    const endDay = new Date(year, month, 0);
     const firstDayOfWeek = firstDay.getDay();
     const startTime = firstDay.getTime() - ((7 + firstDayOfWeek - weekStart) % 7) * TIME_DAY;
-    const days = endDay.getDate();
     return {
-        days,
+        days: 7 * 5,
         startTime,
         firstDay: firstDay.getTime(),
     };

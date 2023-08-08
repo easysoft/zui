@@ -23,7 +23,7 @@ export class DatetimePicker extends Pick<PickState, DatetimePickerOptions> {
     static defaultProps = {
         ...Pick.defaultProps,
         popWidth: 'auto',
-        popMaxHeight: 320,
+        popMaxHeight: 310,
         dateFormat: 'yyyy-MM-dd',
         timeFormat: 'hh:mm',
         joiner: ' ',
@@ -63,7 +63,7 @@ export class DatetimePicker extends Pick<PickState, DatetimePickerOptions> {
     };
 
     setTime(value: string | {hour?: number, minute?: number}) {
-        const {onInvalid, required, defaultValue, timeFormat, joiner, disabled} = this.props;
+        const {onInvalid, required, defaultValue, timeFormat, joiner, disabled, dateFormat} = this.props;
         if (disabled) {
             return;
         }
@@ -78,7 +78,7 @@ export class DatetimePicker extends Pick<PickState, DatetimePickerOptions> {
         }
 
         const date = parseTime(valueString);
-        const [dateString] = this.state.value.split(joiner);
+        const dateString = this.state.value.split(joiner)[0] || formatDate(new Date(), dateFormat);
         this.setState({value: date ? `${dateString}${joiner}${formatDate(date, timeFormat)}` : (required ? defaultValue : '')}, () => {
             if (!date && onInvalid) {
                 onInvalid(valueString);

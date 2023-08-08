@@ -96,8 +96,8 @@ export class TimePicker extends Pick<PickState, TimePickerOptions> {
             }
         }
         return [
-            <input key="input" id={id} type="text" class="form-control" placeholder={placeholder} value={value} disabled={disabled} readOnly={readonly} onFocus={this.#handleInputFocus} onChange={this.#handleInputChange} />,
-            iconView ? <label key="icon" for={id} class="input-control-suffix">{iconView}</label> : null,
+            <input key="input" id={id} type="text" className="form-control" placeholder={placeholder} value={value} disabled={disabled} readOnly={readonly} onFocus={this.#handleInputFocus} onChange={this.#handleInputChange} />,
+            iconView ? <label key="icon" for={id} className="input-control-suffix">{iconView}</label> : null,
         ];
     }
 
