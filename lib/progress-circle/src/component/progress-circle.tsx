@@ -2,7 +2,6 @@ import {Component} from 'preact';
 import {ProgressCircleOptions} from '../types';
 
 export class ProgressCircle extends Component<ProgressCircleOptions> {
-
     static defaultProps: Partial<ProgressCircleOptions> = {
         percent: 50,
         size: 24,
