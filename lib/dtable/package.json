@@ -19,6 +19,7 @@
         "@zui/menu": "workspace:^0.0.1",
         "@zui/css-icons": "workspace:^0.0.1",
         "@zui/toolbar": "workspace:^0.0.1",
+        "@zui/progress-circle": "workspace:^0.0.1",
         "@zui/pager": "workspace:^0.0.1"
     },
     "exports": {

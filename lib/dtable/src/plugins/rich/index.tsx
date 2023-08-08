@@ -1,6 +1,7 @@
 import {JSX, ComponentChildren} from 'preact';
 import {formatString} from '@zui/helpers/src/format-string';
 import {formatDate} from '@zui/helpers/src/date-helper';
+import {ProgressCircle} from '@zui/progress-circle/src/component';
 import {definePlugin} from '../../helpers/shared-plugins';
 import type {DateLike} from '@zui/helpers/src/date-helper';
 import type {DTablePlugin, RowInfo, ColInfo, DTableWithPlugin, CustomRenderResultList} from '../../types';
@@ -142,15 +143,14 @@ const richPlugin: DTablePlugin<DTableRichTypes> = {
             align: 'center',
             onRenderCell(result, {col}) {
                 const {circleSize = 24, circleBorderSize = 1, circleBgColor = 'var(--color-border)', circleColor = 'var(--color-success-500)'} = col.setting;
-                const radius = (circleSize - circleBorderSize) / 2;
-                const center = circleSize / 2;
-                const percent = result[0] as number;
                 result[0] = (
-                    <svg width={circleSize} height={circleSize}>
-                        <circle cx={center} cy={center} r={radius} stroke-width={circleBorderSize} stroke={circleBgColor} fill="transparent" />
-                        <circle cx={center} cy={center} r={radius} stroke-width={circleBorderSize} stroke={circleColor} fill="transparent" stroke-linecap="round" stroke-dasharray={Math.PI * radius * 2} stroke-dashoffset={Math.PI * radius * 2 * (100 - percent) / 100} style={{transformOrigin: 'center', transform: 'rotate(-90deg)'}} />
-                        <text x={center} y={center + circleBorderSize} dominant-baseline="middle" text-anchor="middle" style={{fontSize: `${radius}px`}}>{Math.round(percent)}</text>
-                    </svg>
+                    <ProgressCircle
+                        size={circleSize}
+                        circleWidth={circleBorderSize}
+                        circleBg={circleBgColor}
+                        circleColor={circleColor}
+                        text
+                    />
                 );
                 return result;
             },
