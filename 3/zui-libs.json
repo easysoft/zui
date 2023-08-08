@@ -469,6 +469,9 @@
         "files": [
             "./src/**/*"
         ],
+        "dependencies": {
+            "@zui/core": "workspace:*"
+        },
         "zui": {
             "type": "control",
             "displayName": "进度条",
@@ -1780,6 +1783,8 @@
             "@zui/menu": "workspace:^0.0.1",
             "@zui/css-icons": "workspace:^0.0.1",
             "@zui/toolbar": "workspace:^0.0.1",
+            "@zui/progress": "workspace:^0.0.1",
+            "@zui/progress-circle": "workspace:^0.0.1",
             "@zui/pager": "workspace:^0.0.1"
         },
         "exports": {
