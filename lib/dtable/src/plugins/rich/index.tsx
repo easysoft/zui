@@ -144,7 +144,9 @@ const richPlugin: DTablePlugin<DTableRichTypes> = {
             onRenderCell(result, {col}) {
                 const {circleSize = 24, circleBorderSize = 1, circleBgColor = 'var(--color-border)', circleColor = 'var(--color-success-500)'} = col.setting;
                 result[0] = (
+                const percent = result[0] as number;
                     <ProgressCircle
+                        percent={percent}
                         size={circleSize}
                         circleWidth={circleBorderSize}
                         circleBg={circleBgColor}
