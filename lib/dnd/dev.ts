@@ -12,7 +12,6 @@ onPageUpdate(() => {
     const draggable = new Draggable('#example1', {
         onDragStart: (event, dragElement) => {
             console.log('onDragStart', event, dragElement);
-            return true;
         },
         onDragEnd: (event, dragElement) => {
             console.log('onDragEnd', {event, dragElement});

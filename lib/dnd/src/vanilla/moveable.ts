@@ -1,4 +1,4 @@
-import {Component, $, Cash} from '@zui/core';
+import {Component, $} from '@zui/core';
 import {MoveableOptions, MoveableState} from '../types';
 
 const MOVEABLE_SELECTOR = '[moveable="true"]';
