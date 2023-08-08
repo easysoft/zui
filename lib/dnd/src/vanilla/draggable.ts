@@ -79,6 +79,7 @@ export class Draggable extends Component<DraggableOptions> {
         $dragElement.attr('draggable', 'true');
         const {draggingClass} = this.options;
         if (draggingClass) {
+            this.$element.find(draggingClass).removeClass(draggingClass);
             $dragElement.addClass(draggingClass);
         }
 
@@ -139,52 +140,48 @@ export class Draggable extends Component<DraggableOptions> {
     };
 
     protected _handleDragEnter = (event: DragEvent) => {
-        const {dragElement} = this;
-        if (!dragElement) {
-            return;
-        }
-        const target = $(event.target as HTMLElement).closest(DROPPABLE_SELECTOR)[0];
-        if (!target) {
-            return;
-        }
-        event.preventDefault();
-        this._setState({dropping: target});
-        const {droppingClass} = this.options;
-        if (droppingClass) {
-            $(target).addClass(droppingClass);
-        }
-        this._setDragEffect(event);
-        this.options.onDragEnter?.call(this, event, dragElement, target);
+        this._handleDragOver(event);
     };
 
     protected _handleDragOver = (event: DragEvent) => {
         const {dragElement} = this;
         const dropElement = $(event.target as HTMLElement).closest(DROPPABLE_SELECTOR)[0];
+        const oldDropElement = this.state.dropping;
         if (!dragElement || !dropElement) {
             return;
         }
-        this._setState({dropping: dropElement});
         event.preventDefault();
-        const {onDragOver} = this.options;
         this._setDragEffect(event);
-        if (onDragOver) {
-            onDragOver.call(this, event, dragElement, dropElement);
+        if (oldDropElement !== dropElement) {
+            const {droppingClass} = this.options;
+            if (droppingClass) {
+                if (oldDropElement) {
+                    this._leaveDropElement(event, oldDropElement);
+                }
+                $(dropElement).addClass(droppingClass);
+            }
+            this._setState({dropping: dropElement});
+            this.options.onDragEnter?.call(this, event, dragElement, dropElement);
         }
+        this.options.onDragOver?.call(this, event, dragElement, dropElement);
     };
 
-    protected _handleDragLeave = (event: DragEvent) => {
-        const {dragElement} = this;
-        const dropElement = $(event.target as HTMLElement).closest(DROPPABLE_SELECTOR)[0];
-        if (!dragElement || !dropElement) {
-            return;
-        }
-        this._setState({dropping: dropElement});
-        event.preventDefault();
-        this.options.onDragEnter?.call(this, event, dragElement, dropElement);
+    protected _leaveDropElement(event: DragEvent, dropElement: HTMLElement) {
         const {droppingClass} = this.options;
         if (droppingClass) {
             $(dropElement).removeClass(droppingClass);
         }
+        this.options.onDragLeave?.call(this, event, this.dragElement!, dropElement);
+    }
+
+    protected _handleDragLeave = (event: DragEvent) => {
+        const {dragElement} = this;
+        const dropElement = $(event.target as HTMLElement).filter(DROPPABLE_SELECTOR)[0];
+        if (!dragElement || !dropElement) {
+            return;
+        }
+        event.preventDefault();
+        this._leaveDropElement(event, dropElement);
         this._setState({dropping: null});
     };
 
