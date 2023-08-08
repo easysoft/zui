@@ -8,6 +8,9 @@
    "files": [
        "./src/**/*"
    ],
+   "dependencies": {
+        "@zui/core": "workspace:*"
+    },
    "zui": {
        "type": "control",
        "displayName": "进度条",

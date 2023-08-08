@@ -889,7 +889,11 @@ importers:
         specifier: workspace:^0.0.1
         version: link:../../dev
 
-  lib/progress: {}
+  lib/progress:
+    dependencies:
+      '@zui/core':
+        specifier: workspace:*
+        version: link:../core
 
   lib/progress-circle:
     dependencies:

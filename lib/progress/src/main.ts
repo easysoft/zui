@@ -1,2 +1,1 @@
-import './vars.css';
-import './progress.css';
+import './style';
