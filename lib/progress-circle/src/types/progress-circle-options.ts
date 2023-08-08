@@ -1,4 +1,4 @@
-import type {JSX} from '@zui/core';
+import type {JSX, ComponentChildren} from '@zui/core';
 
 export type ProgressCircleOptions = {
     className?: string;
@@ -11,4 +11,5 @@ export type ProgressCircleOptions = {
     textStyle?: string | JSX.CSSProperties;
     textX?: number;
     textY?: number;
+    children?: ComponentChildren;
 };
