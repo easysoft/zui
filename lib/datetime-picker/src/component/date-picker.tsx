@@ -37,13 +37,13 @@ export class DatePicker extends Pick<PickState, DatePickerOptions> {
     };
 
     setDate = (value: string) => {
-        if (this.props.disabled) {
+        const {onInvalid, defaultValue = '', required, disabled, format} = this.props;
+        if (disabled) {
             return;
         }
         const date = createDate(value);
         const isInvalid = !value || Number.isNaN(date.getDay());
-        const {onInvalid, defaultValue = '', required} = this.props;
-        this.setState({value: isInvalid ? (required ? defaultValue : '') : formatDate(date, this.props.format)}, () => {
+        this.setState({value: isInvalid ? (required ? defaultValue : '') : formatDate(date, format)}, () => {
             if (!isInvalid && onInvalid) {
                 onInvalid(value);
             }
@@ -66,8 +66,8 @@ export class DatePicker extends Pick<PickState, DatePickerOptions> {
             }
         }
         return [
-            <input key="input" id={id} type="text" class="form-control" placeholder={placeholder} value={value} disabled={disabled} readOnly={readonly} onFocus={this.#handleInputFocus} onChange={this.#handleInputChange} />,
-            iconView ? <label key="icon" for={id} class="input-control-suffix">{iconView}</label> : null,
+            <input key="input" id={id} type="text" className="form-control" placeholder={placeholder} value={value} disabled={disabled} readOnly={readonly} onFocus={this.#handleInputFocus} onChange={this.#handleInputChange} />,
+            iconView ? <label key="icon" for={id} className="input-control-suffix">{iconView}</label> : null,
         ];
     }
 

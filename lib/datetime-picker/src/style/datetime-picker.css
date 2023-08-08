@@ -1,0 +1,3 @@
+.datetime-picker-menu {
+    @apply -max-h-[inherit];
+}

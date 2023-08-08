@@ -16,9 +16,12 @@ export class DatePickerMenu extends Component<DatePickerMenuProps, DatePickerMen
     constructor(props: DatePickerMenuProps) {
         super(props);
         const {date} = props;
-        const now = new Date();
-        const currentDate = date ? new Date(date) : undefined;
-        this.state = {select: 'day', year: currentDate ? currentDate.getFullYear() : now.getFullYear(), month: currentDate ? (currentDate.getMonth() + 1) : (now.getMonth() + 1)};
+        const currentDate = date ? new Date(date) : new Date();
+        this.state = {
+            select: 'day',
+            year: currentDate.getFullYear(),
+            month: currentDate.getMonth() + 1,
+        };
     }
 
     #handleClick = (event: MouseEvent) => {
@@ -102,7 +105,7 @@ export class DatePickerMenu extends Component<DatePickerMenuProps, DatePickerMen
         });
     }
 
-    componentDidMount(): void {
+    componentDidMount() {
         $(this.#ref.current).find('.active').scrollIntoView();
     }
 
@@ -132,45 +135,55 @@ export class DatePickerMenu extends Component<DatePickerMenuProps, DatePickerMen
                         <Button type={select === 'month' ? 'primary-pale' : 'ghost'} size="sm" caret onClick={this._showSelect.bind(this, 'month')}>{monthNames ? monthNames[month - 1] : month}</Button>
                         <div className="flex-auto"></div>
                         {
-                            isSelectDay ? (
-                                <div>
-                                    <Button type="ghost" size="sm" square onClick={this.#switchToPrevMonth}><i className="chevron-left"></i></Button>
-                                    <Button type="ghost" size="sm" square onClick={this.#switchToNextMonth}><i className="chevron-right"></i></Button>
-                                </div>
-                            ) : null
+                            isSelectDay
+                                ? (
+                                    <div>
+                                        <Button type="ghost" size="sm" square onClick={this.#switchToPrevMonth}><i className="chevron-left"></i></Button>
+                                        <Button type="ghost" size="sm" square onClick={this.#switchToNextMonth}><i className="chevron-right"></i></Button>
+                                    </div>
+                                )
+                                : null
                         }
                     </div>
-                    {isSelectDay ? (
-                        <MiniCalendar
-                            weekStart={weekStart}
-                            weekNames={weekNames}
-                            monthNames={monthNames}
-                            year={year}
-                            month={month}
-                            selections={currentDate}
-                            onClickDate={this.changeDate}
-                        />
-                    ) : null}
                     {
-                        select === 'year' ? (
-                            <ValueSelector
-                                className="date-pick-menu-years overflow-y-auto scrollbar-hover scrollbar-thin"
-                                value={year}
-                                min={minDate.getFullYear()}
-                                max={maxDate.getFullYear()}
-                                onChange={this.#changeYear}
-                            />
-                        ) : (
-                            select === 'month' ? (
-                                <ValueSelector
-                                    className="date-pick-menu-month overflow-y-auto scrollbar-hover scrollbar-thin"
-                                    value={month}
-                                    min={1}
-                                    max={12}
-                                    onChange={this.#changeMonth}
+                        isSelectDay
+                            ? (
+                                <MiniCalendar
+                                    weekStart={weekStart}
+                                    weekNames={weekNames}
+                                    monthNames={monthNames}
+                                    year={year}
+                                    month={month}
+                                    selections={currentDate}
+                                    onClickDate={this.changeDate}
                                 />
-                            ) : null
-                        )
+                            )
+                            : null
+                    }
+                    {
+                        select === 'year'
+                            ? (
+                                <ValueSelector
+                                    className="date-pick-menu-years overflow-y-auto scrollbar-hover scrollbar-thin"
+                                    value={year}
+                                    min={minDate.getFullYear()}
+                                    max={maxDate.getFullYear()}
+                                    onChange={this.#changeYear}
+                                />
+                            )
+                            : (
+                                select === 'month'
+                                    ? (
+                                        <ValueSelector
+                                            className="date-pick-menu-month overflow-y-auto scrollbar-hover scrollbar-thin"
+                                            value={month}
+                                            min={1}
+                                            max={12}
+                                            onChange={this.#changeMonth}
+                                        />
+                                    )
+                                    : null
+                            )
                     }
                     {isSelectDay ? this.#renderFooter(props) : null}
                 </div>
