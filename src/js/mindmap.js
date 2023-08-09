@@ -640,14 +640,14 @@
             $node.children('.caption').html(nodeData.caption);
         } else // create new node
         {
-            $node = $(options.nodeTeamplate.format({
+            $node = $(options.nodeTeamplate.format($.extend({}, nodeData, {
                 type: nodeData.type || 'node',
                 collapesed: nodeData.collapesed,
                 caption: nodeData.caption || '',
                 id: nodeData.id,
                 parent: parentId || 'root',
                 text: nodeData.text
-            })).toggleClass('mindmap-collapesed', !!nodeData.collapesed)
+            }))).toggleClass('mindmap-collapesed', !!nodeData.collapesed)
                .toggleClass('mindmap-expanded', !nodeData.collapesed).appendTo($desktop)
                .toggleClass('mindmap-has-child', !!(nodeData.children && nodeData.children.length));
 
