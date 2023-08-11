@@ -83,6 +83,7 @@
         toggleTemplate: '<i class="list-toggle icon"></i>',
 
         // sortable: false, //
+        itemConverter: null, // function(item) {}
     };
 
     Tree.prototype.add = function(rootEle, items, expand, disabledAnimate, notStore) {
@@ -103,14 +104,18 @@
             if(!Array.isArray(items)) {
                 items = [items];
             }
+            var itemConverter = options.itemConverter;
+            var itemCreator = options.itemCreator;
+            var itemRender = options.itemRender;
             $.each(items, function(idx, item) {
+                if(itemConverter) item = itemConverter(item);
                 var $li = $('<li/>').data(item).appendTo($ul);
                 if(item.id !== undefined) $li.attr('data-id', item.id);
                 var $wrapper = options.itemWrapper ? $(options.itemWrapper === true ? '<div class="tree-item-wrapper"/>' : options.itemWrapper).appendTo($li) : $li;
                 if(item.html) {
                     $wrapper.html(item.html)
-                } else if(typeof that.options.itemCreator === 'function') {
-                    var itemContent = that.options.itemCreator($li, item);
+                } else if(itemCreator) {
+                    var itemContent = itemCreator($li, item);
                     if(itemContent !== true && itemContent !== false) $wrapper.html(itemContent);
                 } else if(item.url) {
                     $wrapper.append($('<a/>', {href: item.url}).text(item.title || item.name));
@@ -120,6 +125,9 @@
                 that._initItem($li, item.idx || idx, $ul, item);
                 if(item.children && item.children.length) {
                     that.add($li, item.children);
+                }
+                if(itemRender) {
+                    itemRender($li, item);
                 }
             });
             this._initList($ul);
