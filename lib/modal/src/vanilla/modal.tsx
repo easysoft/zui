@@ -156,7 +156,7 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
 
     render(options?: Partial<T>) {
         super.render(options);
-        this.buildDialog();
+        return this.buildDialog();
     }
 
     #renderDialog(dialogOptions: ModalDialogOptions | ModalDialogHTML): Promise<void> {
