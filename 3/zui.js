@@ -5345,7 +5345,7 @@ const Ft = class Ft extends Pt {
     t && (d(t).removeData(this.constructor.KEY).remove(), $(this, gt, void 0));
   }
   render(t) {
-    super.render(t), this.buildDialog();
+    return super.render(t), this.buildDialog();
   }
   async buildDialog() {
     if (this.loading)
