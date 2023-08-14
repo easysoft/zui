@@ -125,7 +125,7 @@
             if(item.id === undefined) item.id = (parent ? (parent.id + '_') : '') + idx;
             var $li = $('<li/>', {'data-id': item.id}).data(item);
             var $wrapper = $itemWrapper ? $itemWrapper.clone().appendTo($li) : $li;
-            var html = '';
+            var html = null;
             if(item.html) {
                 html = item.html;
             } else if(itemCreator) {
@@ -136,7 +136,9 @@
             } else {
                 html = '<span>' + escape(item.title || item.name) + '</span>';
             }
-            $wrapper.html(html);
+            if (typeof html === 'string') {
+                $wrapper.html(html);
+            }
             that._initItem($li, $ul, item, null, true);
             if(item.children && item.children.length) {
                 var $childUl = that.$ulTmp.clone().appendTo($li);
