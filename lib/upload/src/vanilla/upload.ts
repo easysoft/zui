@@ -106,21 +106,25 @@ export class Upload<T extends UploadOptions = UploadOptions> extends Component<T
         this.$label
             .on('dragover', (e) => {
                 e.preventDefault();
-                console.log('dragover');
                 if (!this.$label.hasClass('border-primary')) {
                     this.$label.removeClass('border-gray');
                     this.$label.addClass('border-primary');
+                }
+                if (!this.$label.hasClass('dragover')) {
+                    this.$label.addClass('dragover');
                 }
             })
             .on('dragleave', (e) => {
                 e.preventDefault();
                 this.$label.removeClass('border-primary');
                 this.$label.addClass('border-gray');
+                this.$label.removeClass('dragover');
             })
             .on('drop', (e) => {
                 e.preventDefault();
                 this.$label.removeClass('border-primary');
                 this.$label.addClass('border-gray');
+                this.$label.removeClass('dragover');
                 const files = Array.from(e.dataTransfer?.files ?? []) as File[];
                 console.log(e.dataTransfer.files);
                 this.addFileItem(files);

@@ -1,3 +1,7 @@
 .upload .upload-tip {
     color: var(--color-slate-500);
 }
+
+.upload .draggable-area.dragover {
+    background-color: rgba(var(--color-primary-500-rgb), 0.1);
+}
