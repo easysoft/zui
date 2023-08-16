@@ -1,4 +1,4 @@
-import {Placement, Strategy, shift} from '@floating-ui/core';
+import {Placement, Strategy, shift} from '@floating-ui/dom';
 
 export type PopoversOptions = Partial<{
     placement: Placement;
