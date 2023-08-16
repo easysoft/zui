@@ -10,7 +10,7 @@ export class ProgressBar extends Component<ProgressBarOptions> {
     };
 
     render(props: ProgressBarOptions) {
-        const {percent = 50, color, background, height, width, children, className, style} = props;
+        const {percent = 50, color, background = null, height, width, children, className, style} = props;
         return (
             <div class={classes('progress', className)} style={{
                 width,
