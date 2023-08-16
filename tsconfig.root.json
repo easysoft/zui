@@ -6,6 +6,7 @@
     "./lib/*/dev.ts",
     "./exts/*/*/docs/",
     "./exts/*/*/src/",
+    "./exts/*/*/dev/",
     "./exts/*/*/dev.ts",
     "scripts",
     "src",
