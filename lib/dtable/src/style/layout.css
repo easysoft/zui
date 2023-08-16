@@ -32,7 +32,10 @@
   @apply -absolute -z-[2] -opacity-0 -pointer-events-none -left-0 --top-px --right-px -bottom-0;
 }
 .dtable-cell::before {
-  @apply -border-b -opacity-100;
+  @apply -border-b -opacity-100 -border-[--dtable-border-color];
+}
+.dtable-cell.is-last-row::before {
+  @apply -border-b-0;
 }
 
 .dtable-header .dtable-cell {
