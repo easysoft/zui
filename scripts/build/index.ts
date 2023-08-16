@@ -19,6 +19,21 @@ if (viteFile) {
     }
 }
 
+if (argv.noCash) {
+    viteConfig = mergeConfig(viteConfig, {
+        build: {
+            rollupOptions: {
+                external: ['cash-dom'],
+                output: {
+                    globals: {
+                        'cash-dom': '$',
+                    },
+                }
+            }
+        }
+    });
+}
+
 const buildLibPaths = getBuildLibPaths(argv.exts ?? argv.e);
 const buildConfig = await createBuildConfig({
     libs: argv.lib ?? argv.l ?? argv.config ?? argv.c ?? argv._.join(' '),
