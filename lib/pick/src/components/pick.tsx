@@ -36,6 +36,7 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
         } as S;
 
         this.#id = props.id ?? `_pick${$.guid++}`;
+        this.changeState = this.changeState.bind(this);
     }
 
     get id() {
@@ -46,14 +47,14 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
         return this.#pop.current;
     }
 
-    changeState = (state: Partial<S> | ((prevState: Readonly<S>) => Partial<S>), callback?: () => void): Promise<S> => {
+    changeState(state: Partial<S> | ((prevState: Readonly<S>) => Partial<S>), callback?: () => void): Promise<S> {
         return new Promise<S>(resolve => {
             this.setState(state, () => {
                 callback?.();
                 resolve(this.state);
             });
         });
-    };
+    }
 
     toggle = async (open?: boolean, state?: Partial<S>): Promise<S> => {
         if (this.props.disabled) {

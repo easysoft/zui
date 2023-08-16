@@ -21,26 +21,20 @@ const items = [
 ];
 
 onPageUpdate(() => {
-    const singlePickElement = document.querySelector<HTMLElement>('#singlePick');
-    if (singlePickElement) {
-        const singlePick = new Pick(singlePickElement, {
-            items,
-            defaultValue: 'banana',
-            placeholder: '请选择你的最爱',
-            searchHint: '搜索选项',
-        });
-        console.log('> singlePick', singlePick);
-    }
+    const singlePick = new Pick('#singlePick', {
+        items,
+        defaultValue: 'banana',
+        placeholder: '请选择你的最爱',
+        searchHint: '搜索选项',
+    });
+    console.log('> singlePick', singlePick);
 
-    const multiPickElement = document.querySelector<HTMLElement>('#multiPick');
-    if (multiPickElement) {
-        const multiPick = new Pick(multiPickElement, {
-            multiple: true,
-            items,
-            defaultValue: 'banana,orange',
-            placeholder: '请选择你的最爱',
-            menuCheckbox: true,
-        });
-        console.log('> multiPick', multiPick);
-    }
+    const multiPick = new Pick('#multiPick', {
+        multiple: true,
+        items,
+        defaultValue: 'banana,orange',
+        placeholder: '请选择你的最爱',
+        menuCheckbox: true,
+    });
+    console.log('> multiPick', multiPick);
 });
