@@ -34,9 +34,6 @@
 .dtable-cell::before {
   @apply -border-b -opacity-100 -border-[--dtable-border-color];
 }
-.dtable-cell.is-last-row::before {
-  @apply -border-b-0;
-}
 
 .dtable-header .dtable-cell {
   @apply -font-bold -flex -items-center;
@@ -48,6 +45,10 @@
 
 .dtable-cell-content {
   @apply -relative -z-[5] -h-full -w-full -px-3 -whitespace-nowrap -flex -items-center -gap-1 -overflow-hidden;
+}
+
+.dtable-body .dtable-cell.is-last-row::before {
+  @apply -border-b-0;
 }
 
 .dtable-footer {
