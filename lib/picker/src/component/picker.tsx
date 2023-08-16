@@ -156,6 +156,23 @@ export class Picker extends Pick<PickerState, PickerOptions> {
         return items;
     }
 
+    changeState(state: Partial<PickerState> | ((prevState: Readonly<PickerState>) => Partial<PickerState>), callback?: (() => void) | undefined): Promise<PickerState> {
+        return super.changeState((prevState) => {
+            const newState = typeof state === 'function' ? state(prevState) : state;
+            if ((newState.value !== undefined && newState.value !== prevState.value) || (newState.items && newState.items !== prevState.items)) {
+                const items = newState.items || prevState.items;
+                const map = new Map(items.map(x => [x.value, x]));
+                newState.selections = this.formatValueList(newState.value ?? prevState.value).reduce<PickerItemBasic[]>((list, value) => {
+                    if (!this.isEmptyValue(value)) {
+                        list.push(map.get(value) || {value});
+                    }
+                    return list;
+                }, []);
+            }
+            return newState;
+        }, callback);
+    }
+
     async update(force?: boolean) {
         const {state, props} = this;
         const cache = this.#itemsCacheInfo || {};
@@ -175,14 +192,6 @@ export class Picker extends Pick<PickerState, PickerOptions> {
             cache.search = state.search;
         }
         if (force || cache.value !== state.value) {
-            const items = newState.items || state.items;
-            const map = new Map(items.map(x => [x.value, x]));
-            newState.selections = this.valueList.reduce<PickerItemBasic[]>((list, value) => {
-                if (!this.isEmptyValue(value)) {
-                    list.push(map.get(value) || {value});
-                }
-                return list;
-            }, []);
             cache.value = state.value;
         }
         const newItems = newState.items;

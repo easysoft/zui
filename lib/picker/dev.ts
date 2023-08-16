@@ -21,27 +21,21 @@ const items = [
 ];
 
 onPageUpdate(() => {
-    const singlePickerElement = document.querySelector<HTMLElement>('#singlePicker');
-    if (singlePickerElement) {
-        const singlePicker = new Picker(singlePickerElement, {
-            name: 'selectOne',
-            items,
-            defaultValue: 'banana',
-            placeholder: '请选择你的最爱',
-            searchHint: '搜索选项',
-        });
-        console.log('> singlePicker', singlePicker);
-    }
+    const singlePicker = new Picker('#singlePicker', {
+        name: 'selectOne',
+        items,
+        defaultValue: 'banana',
+        placeholder: '请选择你的最爱',
+        searchHint: '搜索选项',
+    });
+    console.log('> singlePicker', singlePicker);
 
-    const multiPickerElement = document.querySelector<HTMLElement>('#multiPicker');
-    if (multiPickerElement) {
-        const multiPicker = new Picker(multiPickerElement, {
-            name: 'selectSome',
-            multiple: true,
-            items,
-            defaultValue: 'banana,orange',
-            placeholder: '请选择你的最爱',
-        });
-        console.log('> multiPicker', multiPicker);
-    }
+    const multiPicker = new Picker('#multiPicker', {
+        name: 'selectSome',
+        multiple: true,
+        items,
+        defaultValue: 'banana,orange',
+        placeholder: '请选择你的最爱',
+    });
+    console.log('> multiPicker', multiPicker);
 });
