@@ -1,2 +1,3 @@
-export * from './main-css';
+export * from './style';
 export * from './types';
+import './style';
