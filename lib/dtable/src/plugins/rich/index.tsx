@@ -3,6 +3,7 @@ import {formatString} from '@zui/helpers/src/format-string';
 import {formatDate} from '@zui/helpers/src/date-helper';
 import {ProgressCircle} from '@zui/progress-circle/src/component';
 import {ProgressBar} from '@zui/progress/src/components';
+import '@zui/progress/src/style';
 import {definePlugin} from '../../helpers/shared-plugins';
 import type {DateLike} from '@zui/helpers/src/date-helper';
 import type {DTablePlugin, RowInfo, ColInfo, DTableWithPlugin, CustomRenderResultList} from '../../types';
@@ -25,6 +26,7 @@ export type DTableRichTypes = {
         circleBorderSize: number;
         progressType: 'circle' | 'bar';
         barColor: string;
+        barBgColor: string;
         barWidth: number;
         barHeight: number;
         link: ColLinkSetting;
@@ -147,7 +149,7 @@ const richPlugin: DTablePlugin<DTableRichTypes> = {
         progress: {
             align: 'center',
             onRenderCell(result, {col}) {
-                const {progressType, barColor, barHeight = 6, barWidth = 64, circleSize = 24, circleBorderSize = 1, circleBgColor = 'var(--color-border)', circleColor = 'var(--color-success-500)'} = col.setting;
+                const {progressType, barColor, barBgColor, barHeight = 6, barWidth = 64, circleSize = 24, circleBorderSize = 1, circleBgColor = 'var(--color-border)', circleColor = 'var(--color-success-500)'} = col.setting;
                 const percent = result[0] as number;
                 result[0] = progressType === 'bar' ? (
                     <ProgressBar
@@ -155,6 +157,7 @@ const richPlugin: DTablePlugin<DTableRichTypes> = {
                         width={barWidth}
                         height={barHeight}
                         color={barColor || circleColor}
+                        background={barBgColor}
                         percent={percent}
                     />
                 ) : (
