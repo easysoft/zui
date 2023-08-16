@@ -4,7 +4,6 @@ import {classes, $, ClassNameLike, i18n} from '@zui/core';
 import {Scrollbar} from '@zui/scrollbar/src/component/scrollbar';
 import {addPlugin, initPlugins, removePlugin} from '../helpers/shared-plugins';
 import {getDefaultOptions} from '../helpers/default-options';
-import '../style/index.css';
 import type {ComponentChildren, JSX} from 'preact';
 import {CustomRender, CustomRenderResult, CustomRenderResultList} from '@zui/core';
 import type {CellRenderCallback} from '../types/cell';
