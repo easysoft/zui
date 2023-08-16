@@ -2171,7 +2171,14 @@ let Uo = (rs = class extends Hi {
     if (!s || (typeof s == "function" && (s = s(t, this)), !s.length))
       return;
     const i = this.constructor, o = this.getNestedMenuProps(s);
-    return /* @__PURE__ */ f(i, { ...o, "data-level": o.level });
+    return /* @__PURE__ */ f(
+      i,
+      {
+        ...o,
+        "data-level": o.level,
+        style: { "--level": o.level }
+      }
+    );
   }
   isNestedItem(t) {
     return (!t.type || t.type === "item") && !!t.items;
