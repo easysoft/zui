@@ -1,7 +1,6 @@
 import {Component} from 'preact';
 import {classes} from '@zui/core';
 import {ProgressBarOptions} from '../types';
-import '../style';
 
 export class ProgressBar extends Component<ProgressBarOptions> {
     static defaultProps: Partial<ProgressBarOptions> = {
