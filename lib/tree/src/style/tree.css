@@ -33,3 +33,13 @@
 .tree-item-content:hover > .toolbar {
   @apply -opacity-100;
 }
+.tree {
+  @apply -relative;
+}
+.directory-outline .has-nested-menu > .tree::before {
+  @apply -absolute -z-50 -bottom-0;
+  content: '';
+  left: calc(var(--level) * 20px - 12px);
+  top: -9px;
+  border-left: 1px solid var(--color-gray-300);
+}

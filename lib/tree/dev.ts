@@ -33,6 +33,7 @@ onPageUpdate(() => {
     ];
     const tree = new Tree('#tree', {
         // checkbox: true,
+        className: 'directory-outline',
         indent: 20,
         collapsedIcon: 'folder-close',
         expandedIcon: 'folder-open',
