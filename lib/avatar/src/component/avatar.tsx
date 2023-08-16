@@ -3,7 +3,6 @@ import {classes} from '@zui/core';
 import {contrastColor, hslToRgb} from '@zui/helpers/src/color-helper';
 import {getUniqueCode} from '@zui/helpers/src/string-code';
 import {AvatarOptions} from '../types/';
-import '../style/index.css';
 
 function getAvatarText(text: string, maxTextLength: number) {
     if (/^[\u4e00-\u9fa5\s]+$/.test(text)) {
