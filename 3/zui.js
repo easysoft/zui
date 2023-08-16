@@ -8857,7 +8857,7 @@ const vr = 'input[type="checkbox"],.dtable-checkbox', Id = {
     if (!t)
       return;
     const e = t.closest(vr);
-    e && (this.toggleCheckRows(e.checked), s.stopPropagation());
+    e && this.toggleCheckRows(e.checked);
   },
   onCellClick(s, { rowID: t }) {
     const e = u(s.target);
