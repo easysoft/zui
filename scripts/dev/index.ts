@@ -4,7 +4,7 @@ import {exec} from '../utilities/exec';
 
 const argv = minimist(process.argv.slice(2).filter((x, i) => i || x !== '--'));
 const libSetting = argv.lib ?? 'all';
-const libs = await getLibList(libSetting);
+const libs = await getLibList(libSetting.split(','));
 const tailwindConfigs = libs.reduce<string[]>((list, libConfig) => {
     if (libConfig.zui.tailwindConfigPath && libConfig.name !== '@zui/base') {
         list.push(libConfig.zui.tailwindConfigPath);

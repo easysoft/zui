@@ -40,7 +40,7 @@ export async function getLibs(libPath: string | string[] = '', options: {root?: 
         return libs;
     }
 
-    if (libPath.toLowerCase() === 'buildin') {
+    if (libPath.toLowerCase() === 'buildin' || libPath === 'zui') {
         libPath = Path.resolve(root, './lib');
     } else if (!Path.isAbsolute(libPath)) {
         const extsLibPath = Path.resolve(root, 'exts', libPath);
