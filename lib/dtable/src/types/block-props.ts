@@ -1,4 +1,4 @@
-import type {JSX} from 'preact';
+import type {JSX, ComponentChildren} from 'preact';
 import type {ClassNameLike} from '@zui/core';
 import type {CellRenderCallback} from './cell';
 import type {DTableColsLayout} from './layout';
@@ -15,4 +15,5 @@ export type BlockProps = {
     className?: ClassNameLike;
     style?: JSX.CSSProperties;
     onRenderCell?: CellRenderCallback;
+    children?: ComponentChildren;
 };

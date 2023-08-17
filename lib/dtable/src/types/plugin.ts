@@ -79,6 +79,7 @@ export type DTablePlugin<T extends DTablePluginTypes = DTablePluginTypes, D exte
     onRenderHeaderCell: (this: PluginTable, result: CustomRenderResultList, data: CellInfo<PluginColSetting>, h: typeof preact.h) => CustomRenderResultList;
     onRenderCell: (this: PluginTable, result: CustomRenderResultList, data: CellInfo<PluginColSetting>, h: typeof preact.h) => CustomRenderResultList;
     onRender: (this: PluginTable, layout: DTableLayout) => CustomRenderResultItem | void;
+    beforeRender?: (this: PluginTable, layout: DTableLayout) => (DTableLayout | void);
     afterRender: (this: PluginTable) => void;
     onCellClick: (this: PluginTable, event: MouseEvent, data: {rowID: string, colName: string, rowInfo?: RowInfo, element: HTMLElement}) => void | true;
     onHeaderCellClick: (this: PluginTable, event: MouseEvent, data: {colName: string, element: HTMLElement}) => void;

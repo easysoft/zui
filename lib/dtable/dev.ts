@@ -20,6 +20,7 @@ import {actions} from './src/plugins/actions';
 import {pager} from './src/plugins/pager';
 import {cellspan} from './src/plugins/cellspan';
 import {custom} from './src/plugins/custom';
+import {rowEditor} from './src/plugins/row-editor';
 
 const faker = new Faker({locale: [zh_CN, en]});
 
@@ -200,7 +201,7 @@ onPageLoad(() => {
             cellHover: true,
             colHover: 'header',
             checkOnClickRow: true,
-            plugins: [checkable, nested, moveable, actions, pager],
+            plugins: [checkable, nested, moveable, actions, pager, rowEditor],
             striped: true,
             responsive: true,
             footPager: {

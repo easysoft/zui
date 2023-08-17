@@ -43,10 +43,11 @@ export interface DTableStyleOptions {
 }
 
 export interface DTableCallbackOptions {
-    onLayout?: (this: DTable, layout: DTableLayout) => (DTableLayout | undefined);
+    onLayout?: (this: DTable, layout: DTableLayout) => (DTableLayout | void);
     onScroll?: (this: DTable, scrollInfo: {scrollTop?: number, scrollLeft?: number}) => void;
     onRenderCell?: CellRenderCallback;
     onRenderHeaderCell?: CellRenderCallback;
+    beforeRender?: (this: DTable, layout: DTableLayout) => (DTableLayout | void);
     afterRender?: (this: DTable) => void;
     onCellClick?: (this: DTable, event: MouseEvent, data: {rowID: string, colName: string, rowInfo?: RowInfo, element: HTMLElement}) => void | true;
     onHeaderCellClick?: (this: DTable, event: MouseEvent, data: {colName: string, element: HTMLElement}) => void;

@@ -435,7 +435,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
     };
 
     #renderHeader(layout: DTableLayout) {
-        const {header, cols, headerHeight, scrollLeft} = layout;
+        const {header, cols, headerHeight, scrollLeft, headerChildren} = layout;
         if (!header) {
             return null;
         }
@@ -452,7 +452,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
                     rows={{id: 'HEADER', index: -1, top: 0}}
                     top={0}
                     onRenderCell={this.#handleRenderCell}
-                />
+                >{headerChildren}</Block>
             );
         }
 
@@ -465,12 +465,12 @@ export class DTable extends Component<DTableOptions, DTableState> {
                 renders={customResults}
                 generateArgs={[layout]}
                 generatorThis={this}
-            />
+            >{headerChildren}</CustomRender>
         );
     }
 
     #renderBody(layout: DTableLayout) {
-        const {headerHeight, rowsHeight, visibleRows, rowHeight, cols, scrollLeft, scrollTop} = layout;
+        const {headerHeight, rowsHeight, visibleRows, rowHeight, cols, scrollLeft, scrollTop, bodyChildren} = layout;
         return (
             <Block
                 key="body"
@@ -483,7 +483,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
                 scrollTop={scrollTop}
                 cols={cols}
                 onRenderCell={this.#handleRenderCell}
-            />
+            >{bodyChildren}</Block>
         );
     }
 
@@ -505,7 +505,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
                 generateArgs={[layout]}
                 generatorThis={this}
                 generators={layout.footerGenerators}
-            />
+            >{layout.footerChildren}</CustomRender>
         );
     }
 
@@ -888,16 +888,22 @@ export class DTable extends Component<DTableOptions, DTableState> {
             visibleRows.push(row);
         }
 
-        layout.visibleRows = visibleRows;
-        layout.scrollTop = scrollTop;
-        layout.scrollLeft = scrollLeft;
+        Object.assign(layout, {
+            visibleRows,
+            scrollTop,
+            scrollLeft,
+            headerChildren: [],
+            bodyChildren: [],
+            footerChildren: [],
+            children: [],
+        });
 
         return layout;
     }
 
     render() {
-        const layout = this.#getLayout();
-        const {className, rowHover, colHover, cellHover, bordered, striped, scrollbarHover} = this.options;
+        let layout = this.#getLayout();
+        const {className, rowHover, colHover, cellHover, bordered, striped, scrollbarHover, beforeRender} = this.options;
         const style: JSX.CSSProperties = {};
         const classNames: ClassNameLike = ['dtable', className, {
             'dtable-hover-row': rowHover,
@@ -909,6 +915,20 @@ export class DTable extends Component<DTableOptions, DTableState> {
         }];
         const children: ComponentChildren[] = [];
         if (layout) {
+            if (beforeRender) {
+                const newLayout = beforeRender.call(this, layout);
+                if (newLayout) {
+                    layout = newLayout;
+                }
+            }
+
+            this.#plugins.forEach(plugin => {
+                const newLayout = plugin.beforeRender?.call(this, layout!);
+                if (newLayout) {
+                    layout = newLayout;
+                }
+            });
+
             style.width = layout.width;
             style.height = layout.height;
             classNames.push({
@@ -918,6 +938,9 @@ export class DTable extends Component<DTableOptions, DTableState> {
                 'dtable-scrolled-end': layout.scrollLeft >= (layout.cols.center.totalWidth - layout.cols.center.width),
             });
 
+            if (layout.children) {
+                children.push(...layout.children);
+            }
             children.push(
                 this.#renderHeader(layout),
                 this.#renderBody(layout),
@@ -926,7 +949,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
             );
 
             this.#plugins.forEach(plugin => {
-                const result = plugin.onRender?.call(this, layout);
+                const result = plugin.onRender?.call(this, layout!);
                 if (!result) {
                     return;
                 }

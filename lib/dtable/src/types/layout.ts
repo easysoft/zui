@@ -1,3 +1,4 @@
+import type {ComponentChild} from 'preact';
 import type {DTable} from '../components/dtable';
 import type {ColInfo} from './col';
 import type {CustomRenderResultList, CustomRenderResult} from './common';
@@ -45,6 +46,10 @@ export type DTableLayout = {
     headerHeight: number,
     footerHeight: number,
     cols: DTableColsLayout;
+    headerChildren?: ComponentChild[];
+    bodyChildren?: ComponentChild[];
+    footerChildren?: ComponentChild[];
+    children?: ComponentChild[];
 
     visibleRows: RowInfo[];
     scrollTop: number;
