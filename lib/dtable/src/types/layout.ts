@@ -46,10 +46,12 @@ export type DTableLayout = {
     headerHeight: number,
     footerHeight: number,
     cols: DTableColsLayout;
+    className?: string;
     headerChildren?: ComponentChild[];
     bodyChildren?: ComponentChild[];
     footerChildren?: ComponentChild[];
     children?: ComponentChild[];
+    scrollable?: boolean;
 
     visibleRows: RowInfo[];
     scrollTop: number;

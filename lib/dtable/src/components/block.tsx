@@ -13,6 +13,7 @@ export function Block({
     className,
     style,
     onRenderCell,
+    children,
 }: BlockProps) {
     let leftView = null;
     if (left.list.length) {
@@ -71,6 +72,7 @@ export function Block({
             {leftView}
             {centerView}
             {rightView}
+            {children}
         </div>
     );
 }

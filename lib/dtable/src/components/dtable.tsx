@@ -896,6 +896,8 @@ export class DTable extends Component<DTableOptions, DTableState> {
             bodyChildren: [],
             footerChildren: [],
             children: [],
+            className: '',
+            scrollable: true,
         });
 
         return layout;
@@ -915,6 +917,8 @@ export class DTable extends Component<DTableOptions, DTableState> {
         }];
         const children: ComponentChildren[] = [];
         if (layout) {
+            classNames.push(layout.className);
+
             if (beforeRender) {
                 const newLayout = beforeRender.call(this, layout);
                 if (newLayout) {
@@ -931,6 +935,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
 
             style.width = layout.width;
             style.height = layout.height;
+            style['--dtable-row-height'] = `${layout.rowHeight}px`;
             classNames.push({
                 'dtable-scrolled-down': layout.scrollTop > 0,
                 'dtable-scrolled-bottom': layout.scrollTop >= (layout.rowsHeightTotal - layout.rowsHeight),
@@ -945,8 +950,10 @@ export class DTable extends Component<DTableOptions, DTableState> {
                 this.#renderHeader(layout),
                 this.#renderBody(layout),
                 this.#renderFooter(layout),
-                this.#renderScrollBars(layout),
             );
+            if (layout.scrollable) {
+                children.push(this.#renderScrollBars(layout));
+            }
 
             this.#plugins.forEach(plugin => {
                 const result = plugin.onRender?.call(this, layout!);

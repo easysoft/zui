@@ -24,7 +24,8 @@
   @apply -z-10;
 }
 .dtable-cell {
-  @apply -absolute -transition-colors;
+  @apply -absolute -transition;
+  transition-property: color, background-color, border-color, transform;
 }
 .dtable-cell::before,
 .dtable-cell::after {
