@@ -27,6 +27,7 @@ export type CustomRenderProps<T extends Array<unknown> = unknown[], THIS = unkno
     generatorThis?: THIS;
     onGenerate?: (this: THIS, generator: CustomRenderResultGenerator<T>, result: ComponentChildren[], ...args: T) => (ComponentChildren | CustomRenderResultItem)[];
     onRenderItem?: (item: CustomRenderResultItem) => ComponentChildren;
+    children?: ComponentChildren;
 };
 
 export function renderCustomResult<T extends HTMLElement = HTMLElement>(props: CustomRenderProps): [JSX.HTMLAttributes<T>, ComponentChildren[]] {
