@@ -170,7 +170,7 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
     protected _handleChange(value: string, oldValue: string) {
         const {onChange} = this.props;
         if (onChange) {
-            onChange(value, oldValue);
+            onChange.call(this, value, oldValue);
         }
     }
 
