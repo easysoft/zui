@@ -332,7 +332,12 @@ export async function createBuildConfig(options: BuildConfigOptions): Promise<Bu
 
     const ignoreLibsSet = buildConfig.libs.reduce((set, lib) => {
         if (lib.zui.sourceType === 'exts' && lib.zui.replace) {
-            set.add(lib.zui.replace);
+            lib.zui.replace.split(',').forEach(x => {
+                x = x.trim();
+                if (x.length) {
+                    set.add(x);
+                }
+            });
         }
         return set;
     }, new Set<string>());
