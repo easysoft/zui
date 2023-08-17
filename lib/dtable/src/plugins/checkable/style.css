@@ -11,6 +11,9 @@
 .checkbox-primary.dtable-checkbox {
     @apply --mr-1.5;
 }
+.dtable-checkbox {
+    @apply --order-5;
+}
 .dtable-hover-row .dtable-cell.is-hover-row.is-checked,
 .dtable-hover-col .dtable-cell.is-hover-col.is-checked {
     @apply -bg-[--dtable-checked-bg-hover];
