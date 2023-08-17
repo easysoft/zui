@@ -1,5 +1,5 @@
-export * from './custom';
 export * from './rich';
+export * from './custom';
 export * from './checkable';
 export * from './nested';
 export * from './avatar';

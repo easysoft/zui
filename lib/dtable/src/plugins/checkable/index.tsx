@@ -210,8 +210,10 @@ const checkablePlugin: DTablePlugin<DTableCheckableTypes> = {
         const checked = this.isRowChecked(rowID);
         if (showCheckbox) {
             const checkbox = this.options.checkboxRender?.call(this, checked, rowID, checkable === 'disabled');
-            result.unshift(checkbox);
-            result.push({outer: true, className: 'has-checkbox'});
+            result.push(
+                checkbox,
+                {outer: true, className: 'has-checkbox'},
+            );
         }
         if (checked) {
             result.push({outer: true, className: 'is-checked'});
@@ -225,8 +227,7 @@ const checkablePlugin: DTablePlugin<DTableCheckableTypes> = {
         if (showCheckbox) {
             const checked = this.isAllRowChecked();
             const checkbox = (this.options.checkboxRender)?.call(this, checked, rowID);
-            result.unshift(checkbox);
-            result.push({outer: true, className: 'has-checkbox'});
+            result.push(checkbox, {outer: true, className: 'has-checkbox'});
         }
         return result;
     },
