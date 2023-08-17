@@ -43,14 +43,18 @@ const defaultActionItemCreator = (item: Partial<ToolbarDropdownProps>, info: {ro
     if (item.url) {
         item.url = formatString(item.url, info.row.data);
     }
-    if (item.dropdown?.items) {
-        item.dropdown.items = (item.dropdown.items as (MenuItemOptions & {url?: string})[]).map(x => {
+    const data = {row: info.row.id, col: info.col.name};
+    const items = item.dropdown?.items || item.items;
+    if (items) {
+        (items as (MenuItemOptions & {url?: string})[]).forEach(x => {
             if (x.url) {
                 x.url = formatString(x.url, info.row.data);
             }
+            x.data = data;
             return x;
         });
     }
+    item.data = data;
     return item;
 };
 
@@ -79,10 +83,15 @@ const actionsPlugin: DTablePlugin<DTableActionsTypes> = {
                 if (!actionItems.length) {
                     return result;
                 }
-                const {actionsSetting, actionsMap, actionsCreator = (this as DTableWithPlugin<DTableActionsTypes>).options.actionsCreator, actionItemCreator = (this as DTableWithPlugin<DTableActionsTypes>).options.actionItemCreator || defaultActionItemCreator} = col.setting;
+                const {
+                    actionsSetting,
+                    actionsMap,
+                    actionsCreator = (this as DTableWithPlugin<DTableActionsTypes>).options.actionsCreator,
+                    actionItemCreator = (this as DTableWithPlugin<DTableActionsTypes>).options.actionItemCreator || defaultActionItemCreator,
+                } = col.setting;
                 const toolbarOptions: ToolbarOptions = {
                     items: actionsCreator?.(info) ?? actionItems.map(action => {
-                        const {name, items, ...others} = action;
+                        const {name, ...others} = action;
                         if (actionsMap && name) {
                             Object.assign(others, actionsMap[name], {...others});
                             const {buildProps} = others as {buildProps?: unknown};
@@ -91,6 +100,7 @@ const actionsPlugin: DTablePlugin<DTableActionsTypes> = {
                                 Object.assign(others, buildProps(result, info));
                             }
                         }
+                        const {items} = others;
                         if (others.disabled) {
                             delete others.url;
                             delete others['data-toggle'];
@@ -99,24 +109,24 @@ const actionsPlugin: DTablePlugin<DTableActionsTypes> = {
                             const {dropdown = {placement: 'bottom-end'}} = (others as ToolbarDropdownProps);
                             dropdown.menu = {
                                 className: 'menu-dtable-actions',
-                                items: items.reduce((list, item) => {
-                                    const itemAction = (typeof item === 'string' ? {name: item} : {...item}) as MenuItemOptions & {name?: string, url?: string, disabled?: boolean};
-                                    if (itemAction?.name) {
-                                        if (actionsMap && 'name' in itemAction) {
-                                            Object.assign(itemAction, actionsMap[itemAction.name], {...itemAction});
-                                        }
-                                        list.push(itemAction as MenuItemOptions);
-                                    }
-                                    if (itemAction.disabled) {
-                                        delete itemAction.url;
-                                        delete itemAction['data-toggle'];
-                                    } else if (itemAction.url) {
-                                        itemAction.url = formatString(itemAction.url, row.data);
-                                    }
-                                    return list;
-                                }, [] as MenuItemOptions[]),
                             };
+                            dropdown.items = items.map((item) => {
+                                const itemAction = (typeof item === 'string' ? {name: item} : {...item}) as MenuItemOptions & {name?: string, url?: string, disabled?: boolean};
+                                if (itemAction.name) {
+                                    if (actionsMap && 'name' in actionsMap) {
+                                        Object.assign(itemAction, actionsMap[itemAction.name], {...itemAction});
+                                    }
+                                }
+                                if (itemAction.disabled) {
+                                    delete itemAction.url;
+                                    delete itemAction['data-toggle'];
+                                } else if (itemAction.url) {
+                                    itemAction.url = formatString(itemAction.url, row.data);
+                                }
+                                return itemAction;
+                            });
                             (others as ToolbarDropdownProps).dropdown = dropdown;
+                            delete others.items;
                         }
                         return actionItemCreator ? actionItemCreator(others, info) : others;
                     }) as ToolbarItemOptions[],
