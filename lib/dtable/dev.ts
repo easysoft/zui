@@ -200,7 +200,7 @@ onPageLoad(() => {
             cellHover: true,
             colHover: 'header',
             checkOnClickRow: true,
-            plugins: [checkable, nested, moveable, actions, pager, rowEditor],
+            plugins: [checkable, nested, moveable, actions, pager],
             striped: true,
             responsive: true,
             footPager: {
