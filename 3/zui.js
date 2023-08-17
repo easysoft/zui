@@ -4763,7 +4763,7 @@ let st = class extends O {
   }
   _handleChange(t, e) {
     const { onChange: s } = this.props;
-    s && s(t, e);
+    s && s.call(this, t, e);
   }
   setValue(t) {
     if (!this.props.disabled)
@@ -7951,10 +7951,11 @@ function bl({
   scrollTop: l,
   className: h,
   style: d,
-  onRenderCell: c
+  onRenderCell: c,
+  children: p
 }) {
-  let p = null;
-  i.list.length && (p = /* @__PURE__ */ f(
+  let m = null;
+  i.list.length && (m = /* @__PURE__ */ f(
     ai,
     {
       className: "dtable-fixed-left",
@@ -7967,8 +7968,8 @@ function bl({
     },
     "left"
   ));
-  let m = null;
-  o.list.length && (m = /* @__PURE__ */ f(
+  let g = null;
+  o.list.length && (g = /* @__PURE__ */ f(
     ai,
     {
       rows: s,
@@ -7983,8 +7984,8 @@ function bl({
     },
     "center"
   ));
-  let g = null;
-  return r.list.length && (g = /* @__PURE__ */ f(
+  let y = null;
+  return r.list.length && (y = /* @__PURE__ */ f(
     ai,
     {
       className: "dtable-fixed-right",
@@ -8003,9 +8004,10 @@ function bl({
       className: x("dtable-block", h),
       style: { ...d, top: n, height: t },
       children: [
-        p,
         m,
-        g
+        g,
+        y,
+        p
       ]
     }
   );
@@ -8282,7 +8284,7 @@ let Wo = class extends O {
       "scrollbar-hover": l
     }], p = [];
     if (t) {
-      if (h) {
+      if (c.push(t.className), h) {
         const m = h.call(this, t);
         m && (t = m);
       }
@@ -8290,7 +8292,7 @@ let Wo = class extends O {
         var y;
         const g = (y = m.beforeRender) == null ? void 0 : y.call(this, t);
         g && (t = g);
-      }), d.width = t.width, d.height = t.height, c.push({
+      }), d.width = t.width, d.height = t.height, d["--dtable-row-height"] = `${t.rowHeight}px`, c.push({
         "dtable-scrolled-down": t.scrollTop > 0,
         "dtable-scrolled-bottom": t.scrollTop >= t.rowsHeightTotal - t.rowsHeight,
         "dtable-scrolled-right": t.scrollLeft > 0,
@@ -8298,9 +8300,8 @@ let Wo = class extends O {
       }), t.children && p.push(...t.children), p.push(
         lt(this, Li, Cl).call(this, t),
         lt(this, Wi, kl).call(this, t),
-        lt(this, Oi, $l).call(this, t),
-        lt(this, Bi, xl).call(this, t)
-      ), E(this, nt).forEach((m) => {
+        lt(this, Oi, $l).call(this, t)
+      ), t.scrollable && p.push(lt(this, Bi, xl).call(this, t)), E(this, nt).forEach((m) => {
         var y;
         const g = (y = m.onRender) == null ? void 0 : y.call(this, t);
         g && (g.style && Object.assign(d, g.style), g.className && c.push(g.className), g.children && p.push(g.children));
@@ -8606,7 +8607,9 @@ Sl = function() {
     headerChildren: [],
     bodyChildren: [],
     footerChildren: [],
-    children: []
+    children: [],
+    className: "",
+    scrollable: !0
   }), n;
 };
 Wo.addPlugin = yl;
