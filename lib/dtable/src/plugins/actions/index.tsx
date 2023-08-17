@@ -113,7 +113,7 @@ const actionsPlugin: DTablePlugin<DTableActionsTypes> = {
                             dropdown.items = items.map((item) => {
                                 const itemAction = (typeof item === 'string' ? {name: item} : {...item}) as MenuItemOptions & {name?: string, url?: string, disabled?: boolean};
                                 if (itemAction.name) {
-                                    if (actionsMap && 'name' in actionsMap) {
+                                    if (actionsMap && actionsMap[itemAction.name]) {
                                         Object.assign(itemAction, actionsMap[itemAction.name], {...itemAction});
                                     }
                                 }
