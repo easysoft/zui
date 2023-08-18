@@ -7,9 +7,9 @@ import '@zui/css-icons/src/icons/caret.css';
 import '@zui/css-icons/src/icons/close.css';
 
 export class PickerSingleSelect extends PickTrigger<PickerState, PickerSelectProps> {
-    #search = createRef<PickerSearch>();
+    protected _search = createRef<PickerSearch>();
 
-    #handleDeselectBtnClick = (event: MouseEvent) => {
+    protected _handleDeselectClick = (event: MouseEvent) => {
         if (this.props.disabled) {
             return;
         }
@@ -17,15 +17,15 @@ export class PickerSingleSelect extends PickTrigger<PickerState, PickerSelectPro
         event.stopPropagation();
     };
 
-    #handleSearch = (search: string) => {
+    protected _handleSearch = (search: string) => {
         this.props.changeState({search});
     };
 
-    #handleSearchClear = () => {
+    protected _handleSearchClear = () => {
         this.props.togglePop(true, {search: ''});
     };
 
-    #getSearchPlaceholder() {
+    protected _getSearchPlaceholder() {
         const {searchHint, state: {value, selections}} = this.props;
         let placeholder = searchHint;
         if (placeholder === undefined) {
@@ -39,7 +39,7 @@ export class PickerSingleSelect extends PickTrigger<PickerState, PickerSelectPro
 
     protected _handleClick(event: MouseEvent): void {
         super._handleClick(event);
-        this.#search.current?.focus();
+        this._search.current?.focus();
     }
 
     protected _getClass(props: PickerSelectProps) {
@@ -54,11 +54,11 @@ export class PickerSingleSelect extends PickTrigger<PickerState, PickerSelectPro
         const {state: {search}} = props;
         return (
             <PickerSearch
-                ref={this.#search}
+                ref={this._search}
                 defaultSearch={search}
-                onSearch={this.#handleSearch}
-                onClear={this.#handleSearchClear}
-                placeholder={this.#getSearchPlaceholder()}
+                onSearch={this._handleSearch}
+                onClear={this._handleSearchClear}
+                placeholder={this._getSearchPlaceholder()}
             />
         );
     }
@@ -77,7 +77,7 @@ export class PickerSingleSelect extends PickTrigger<PickerState, PickerSelectPro
             view = <span key="main" className="picker-select-placeholder">{placeholder}</span>;
         }
         const deselectBtnView = (clearable && !showSearch) ? (
-            <button key="deselect" type="button" className="btn picker-deselect-btn size-sm square ghost" disabled={disabled} onClick={this.#handleDeselectBtnClick}><span className="close"></span></button>
+            <button key="deselect" type="button" className="btn picker-deselect-btn size-sm square ghost" disabled={disabled} onClick={this._handleDeselectClick}><span className="close"></span></button>
         ) : null;
         const caret = showSearch ? null : <span key="caret" className="caret"></span>;
 

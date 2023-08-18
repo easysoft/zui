@@ -23,13 +23,14 @@ export class Picker extends Pick<PickerState, PickerOptions> {
 
     static Pop = PickerMenu as typeof Pick.Pop;
 
-    #itemsCacheInfo?: {search?: string, value?: string, items?: PickerOptions['items']};
+    protected _itemsCacheInfo?: {search?: string, value?: string, items?: PickerOptions['items']};
 
-    #abort?: AbortController;
+    protected _abort?: AbortController;
 
-    #updateTimer = 0;
+    protected _updateTimer = 0;
 
-    #emptyValueSet: Set<string>;
+    protected _emptyValueSet: Set<string>;
+
     protected _trigger = createRef<PickerTrigger>();
 
     constructor(props: PickerOptions) {
@@ -42,7 +43,7 @@ export class Picker extends Pick<PickerState, PickerOptions> {
         });
 
         const {valueSplitter = ',', emptyValue = ''} = this.props;
-        this.#emptyValueSet = new Set(emptyValue.split(valueSplitter));
+        this._emptyValueSet = new Set(emptyValue.split(valueSplitter));
 
         const {items} = this.state;
         if (Array.isArray(items) && items.length) {
@@ -66,11 +67,11 @@ export class Picker extends Pick<PickerState, PickerOptions> {
     }
 
     get firstEmptyValue() {
-        return this.#emptyValueSet.values().next().value as string;
+        return this._emptyValueSet.values().next().value as string;
     }
 
     isEmptyValue = (value: string) => {
-        return this.#emptyValueSet.has(value);
+        return this._emptyValueSet.has(value);
     };
 
     toggleValue = (value: string, toggle?: boolean) => {
@@ -115,23 +116,23 @@ export class Picker extends Pick<PickerState, PickerOptions> {
     };
 
     async load(): Promise<PickerItemOptions[]> {
-        let abort = this.#abort;
+        let abort = this._abort;
         if (abort) {
             abort.abort();
         }
         abort = new AbortController();
-        this.#abort = abort;
+        this._abort = abort;
 
         const {items: itemsSetting, searchDelay} = this.props;
         const {search} = this.state;
         let items: PickerItemOptions[] = [];
         if (typeof itemsSetting === 'function') {
             await delay(searchDelay || 500);
-            if (this.#abort !== abort) {
+            if (this._abort !== abort) {
                 return items;
             }
             items = await itemsSetting(search, {signal: abort.signal});
-            if (this.#abort !== abort) {
+            if (this._abort !== abort) {
                 return items;
             }
         } else if (search.length) {
@@ -155,7 +156,7 @@ export class Picker extends Pick<PickerState, PickerOptions> {
             items = itemsSetting;
         }
 
-        this.#abort = undefined;
+        this._abort = undefined;
         return items;
     }
 
@@ -178,9 +179,9 @@ export class Picker extends Pick<PickerState, PickerOptions> {
 
     async update(force?: boolean) {
         const {state, props} = this;
-        const cache = this.#itemsCacheInfo || {};
+        const cache = this._itemsCacheInfo || {};
         const newState: Partial<PickerState> = {};
-        this.#itemsCacheInfo = cache;
+        this._itemsCacheInfo = cache;
         if (force || cache.search !== state.search || props.items !== cache.items) {
             const loadItems = await this.load();
             newState.items = loadItems.filter(x => {
@@ -207,11 +208,11 @@ export class Picker extends Pick<PickerState, PickerOptions> {
     }
 
     async tryUpdate() {
-        if (this.#updateTimer) {
-            clearTimeout(this.#updateTimer);
+        if (this._updateTimer) {
+            clearTimeout(this._updateTimer);
         }
-        this.#updateTimer = window.setTimeout(() => {
-            this.#updateTimer = 0;
+        this._updateTimer = window.setTimeout(() => {
+            this._updateTimer = 0;
             this.update();
         }, 50);
     }
@@ -227,10 +228,10 @@ export class Picker extends Pick<PickerState, PickerOptions> {
     }
 
     componentWillUnmount(): void {
-        this.#abort?.abort();
-        this.#abort = undefined;
-        this.#itemsCacheInfo = undefined;
-        clearTimeout(this.#updateTimer);
+        this._abort?.abort();
+        this._abort = undefined;
+        this._itemsCacheInfo = undefined;
+        clearTimeout(this._updateTimer);
         super.componentWillUnmount();
     }
 

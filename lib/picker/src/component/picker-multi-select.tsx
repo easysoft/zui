@@ -6,9 +6,9 @@ import {PickerItemBasic, PickerSelectProps, PickerState} from '../types';
 import {PickerSearch} from './picker-search';
 
 export class PickerMultiSelect extends PickTrigger<PickerState, PickerSelectProps> {
-    #search = createRef<PickerSearch>();
+    protected _search = createRef<PickerSearch>();
 
-    #handleDeselectBtnClick = (event: MouseEvent) => {
+    protected _handleDeselectClick = (event: MouseEvent) => {
         const {onDeselect, state: {selections}} = this.props;
         const value = $(event.target as HTMLElement).closest('.picker-deselect-btn').attr('data-value');
         if (onDeselect && selections.length && typeof value === 'string') {
@@ -17,17 +17,17 @@ export class PickerMultiSelect extends PickTrigger<PickerState, PickerSelectProp
         event.stopPropagation();
     };
 
-    #handleSearch = (search: string) => {
+    protected _handleSearch = (search: string) => {
         this.props.changeState({search});
     };
 
-    #handleSearchClear = () => {
+    protected _handleSearchClear = () => {
         this.props.togglePop(true, {search: ''} as Partial<PickerState>);
     };
 
     protected _handleClick(event: MouseEvent): void {
         super._handleClick(event);
-        this.#search.current?.focus();
+        this._search.current?.focus();
     }
 
     protected _getClass(props: PickerSelectProps) {
@@ -42,7 +42,7 @@ export class PickerMultiSelect extends PickTrigger<PickerState, PickerSelectProp
         return (
             <div className="picker-multi-selection" key={selection.value}>
                 <span className="text"><CustomContent content={selection.text} /></span>
-                {this.props.disabled ? null : <div className="picker-deselect-btn btn size-xs ghost" onClick={this.#handleDeselectBtnClick} data-value={selection.value}><span className="close"></span></div>}
+                {this.props.disabled ? null : <div className="picker-deselect-btn btn size-xs ghost" onClick={this._handleDeselectClick} data-value={selection.value}><span className="close"></span></div>}
             </div>
         );
     };
@@ -52,10 +52,10 @@ export class PickerMultiSelect extends PickTrigger<PickerState, PickerSelectProp
         return (
             <PickerSearch
                 inline
-                ref={this.#search}
+                ref={this._search}
                 defaultSearch={search}
-                onSearch={this.#handleSearch}
-                onClear={this.#handleSearchClear}
+                onSearch={this._handleSearch}
+                onClear={this._handleSearchClear}
                 placeholder={searchHint}
             />
         );

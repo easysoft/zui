@@ -33,7 +33,7 @@ export const underlineKeys = (searchKeys: string[], text: string[], className = 
 };
 
 export class PickerMenu extends PickPop<PickerState, PickerMenuProps> {
-    #menu: RefObject<HTMLDivElement> = createRef();
+    protected _menu: RefObject<HTMLDivElement> = createRef();
 
     componentDidMount(): void {
         super.componentDidMount();
@@ -129,7 +129,7 @@ export class PickerMenu extends PickPop<PickerState, PickerMenuProps> {
         const {menu} = props;
         return (
             <Menu
-                ref={this.#menu}
+                ref={this._menu}
                 className="picker-menu-list"
                 items={this.#getMenuItems()}
                 onClickItem={this.#handleItemClick}

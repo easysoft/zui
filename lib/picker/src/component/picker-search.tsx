@@ -8,9 +8,9 @@ export type PickerSearchState = {
 };
 
 export class PickerSearch extends Component<PickerSearchProps, PickerSearchState> {
-    #searchInput = createRef<HTMLInputElement>();
+    protected _searchInput = createRef<HTMLInputElement>();
 
-    #measure = createRef<HTMLDivElement>();
+    protected _measure = createRef<HTMLDivElement>();
 
     constructor(props: PickerSearchProps) {
         super(props);
@@ -18,7 +18,7 @@ export class PickerSearch extends Component<PickerSearchProps, PickerSearchState
     }
 
     focus() {
-        this.#searchInput.current?.focus();
+        this._searchInput.current?.focus();
     }
 
     componentDidMount(): void {
@@ -28,8 +28,8 @@ export class PickerSearch extends Component<PickerSearchProps, PickerSearchState
     componentDidUpdate(): void {
         const {inline} = this.props;
         if (inline) {
-            const {current} = this.#measure;
-            const {current: input} = this.#searchInput;
+            const {current} = this._measure;
+            const {current: input} = this._searchInput;
             if (current && input) {
                 const $search = $(input).parent();
                 $search.width(Math.ceil(Math.min(current.clientWidth, $search.closest('.picker').outerWidth() - 32)));
@@ -57,7 +57,7 @@ export class PickerSearch extends Component<PickerSearchProps, PickerSearchState
         let extraView: ComponentChild;
         if (inline) {
             extraView = (
-                <div className="picker-search-measure" ref={this.#measure}>{search}</div>
+                <div className="picker-search-measure" ref={this._measure}>{search}</div>
             );
         } else if (hasSearch) {
             extraView = (
@@ -76,7 +76,7 @@ export class PickerSearch extends Component<PickerSearchProps, PickerSearchState
                     value={search}
                     onChange={this.#handleChange}
                     onInput={this.#handleChange}
-                    ref={this.#searchInput}
+                    ref={this._searchInput}
                 />
                 {extraView}
             </div>
