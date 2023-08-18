@@ -2,7 +2,7 @@ import {createRef, render, h, Attributes} from 'preact';
 import type {Component as ComponentReact, ComponentClass} from 'preact';
 import {Component as ComponentBase, ComponentEventsDefnition} from '../component';
 
-export class ComponentFromReact<O extends {} = {}, C extends ComponentReact<O> = ComponentReact<O>, E extends ComponentEventsDefnition = {}, U extends Element = Element> extends ComponentBase<O, E, U> {
+export class ComponentFromReact<O extends {} = {}, C extends ComponentReact<O> = ComponentReact<O>, E extends ComponentEventsDefnition = {}, U extends HTMLElement = HTMLElement> extends ComponentBase<O, E, U> {
     /**
      * The React component class.
      */

@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {VNode, createElement, render, RenderableProps, ContainerNode} from 'preact';
+import {createElement, render} from 'preact';
+
+import type {VNode, RenderableProps, ContainerNode} from 'preact';
 
 /**
  * @param {import('../../src/index').RenderableProps<{ context: any }>} props

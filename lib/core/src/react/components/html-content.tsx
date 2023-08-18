@@ -1,21 +1,8 @@
 import {Component, createRef} from 'preact';
 import {$} from '../../cash';
-import {HElement, HElementProps} from './h-element';
+import {HElement} from './h-element';
 
-/**
- * HTML content component props.
- */
-export interface HtmlContentProps extends HElementProps {
-    /**
-     * HTML code.
-     */
-    html: string,
-
-    /**
-     * Execute script.
-     */
-    executeScript?: boolean,
-}
+import type {HtmlContentProps} from '../types';
 
 /**
  * HTML content component.

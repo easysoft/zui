@@ -1,26 +1,25 @@
-import {ComponentChildren, isValidElement, VNode} from 'preact';
-import {HtmlContent, HtmlContentProps} from './html-content';
-import {HElementProps, HElement} from './h-element';
+import {isValidElement} from 'preact';
+import {HtmlContent} from './html-content';
+import {HElement} from './h-element';
 
-export type CustomContentStatic = ComponentChildren | HtmlContentProps | HElementProps;
+import type {ComponentChildren, VNode} from 'preact';
+import type {HtmlContentProps, HElementProps, CustomContentType, CustomContentGenerator, CustomContentProps} from '../types';
 
-export type CustomContentGenerator<ARGS extends unknown[] = unknown[], THIS = unknown> = (this: THIS | undefined, ...args: ARGS | []) => CustomContentStatic;
-
-export type CustomContentType<ARGS extends unknown[] = unknown[], THIS = unknown> = CustomContentStatic | CustomContentGenerator<ARGS, THIS>;
-
-export type CustomContentProps<ARGS extends unknown[] = unknown[], THIS = unknown> = {
-    content: CustomContentType<ARGS, THIS> | CustomContentType<ARGS, THIS>[];
-    generatorThis?: THIS;
-    generatorArgs?: ARGS;
-};
-
-export function renderCustomContent<ARGS extends unknown[] = unknown[], THIS = unknown>(
-    content: CustomContentType<ARGS, THIS> | CustomContentType<ARGS, THIS>[],
-    generatorThis?: THIS,
-    generatorArgs?: ARGS,
+/**
+ * Render custom content.
+ *
+ * @param content  The content to render.
+ * @param generatorThis  The `this` value to use when calling the generator.
+ * @param generatorArgs  The arguments to pass to the generator.
+ * @returns The rendered content.
+ */
+export function renderCustomContent(
+    content: CustomContentType | CustomContentType[],
+    generatorThis?: unknown,
+    generatorArgs?: unknown[],
 ): ComponentChildren {
     if (typeof content === 'function') {
-        return (content as CustomContentGenerator<ARGS, THIS>).call(generatorThis, ...((generatorArgs || []) as ARGS));
+        return (content as CustomContentGenerator).call(generatorThis, ...(generatorArgs || []));
     }
     if (Array.isArray(content)) {
         return content.map((x) => renderCustomContent(x, generatorThis, generatorArgs));
@@ -43,7 +42,7 @@ export function renderCustomContent<ARGS extends unknown[] = unknown[], THIS = u
  * @param props Custom content props.
  * @returns Custom content.
  */
-export function CustomContent<ARGS extends unknown[] = unknown[], THIS = unknown>(props: CustomContentProps<ARGS, THIS>): VNode | null {
+export function CustomContent(props: CustomContentProps): VNode | null {
     const {content, generatorThis, generatorArgs} = props;
     const result = renderCustomContent(content, generatorThis, generatorArgs);
     if (result === undefined || result === null || typeof result === 'boolean') {

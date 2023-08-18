@@ -1,16 +1,17 @@
-import {JSX, VNode, isValidElement} from 'preact';
-import {ClassNameLike, classes} from '../../helpers/classes';
+import {isValidElement} from 'preact';
+import {classes} from '../../helpers/classes';
 
-export type IconType = string | JSX.HTMLAttributes<HTMLElement> | VNode;
-
-export type IconProps = {
-    icon?: IconType;
-    className?: ClassNameLike;
-    [key: string]: unknown;
-};
+import type {ClassNameLike} from '../../helpers/classes';
+import type {IconProps} from '../types';
 
 const createIconClass = (icon: string) => icon.startsWith('icon-') ? icon : `icon-${icon}`;
 
+/**
+ * Component for rendering icons.
+ *
+ * @param props Icon properties.
+ * @returns Icon element.
+ */
 export function Icon(props: IconProps) {
     const {icon, className, ...others} = props;
     if (!icon) {

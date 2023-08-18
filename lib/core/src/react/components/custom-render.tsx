@@ -1,6 +1,9 @@
 import {h as _h, isValidElement, ComponentChildren, JSX, Attributes} from 'preact';
 import {classes, ClassNameLike} from '../../helpers';
 
+/**
+ * @deprecated Use `CustomContent` instead.
+ */
 export type CustomRenderResultItem = Partial<{
     html: string;
     __html: string;
@@ -11,12 +14,24 @@ export type CustomRenderResultItem = Partial<{
     [prop: string]: unknown;
 }>;
 
+/**
+ * @deprecated Use `CustomContent` instead.
+ */
 export type CustomRenderResultGenerator<T extends Array<unknown> = unknown[], THIS = unknown> = (this: THIS, result: ComponentChildren[], ...args: T) => (ComponentChildren | CustomRenderResultItem)[] | undefined | void;
 
+/**
+ * @deprecated Use `CustomContent` instead.
+ */
 export type CustomRenderResult<T extends Array<unknown> = unknown[], THIS = unknown> = CustomRenderResultGenerator<T, THIS> | CustomRenderResultItem | ComponentChildren;
 
+/**
+ * @deprecated Use `CustomContent` instead.
+ */
 export type CustomRenderResultList<T extends Array<unknown> = unknown[], THIS = unknown> = CustomRenderResult<T, THIS>[];
 
+/**
+ * @deprecated Use `CustomContent` instead.
+ */
 export type CustomRenderProps<T extends Array<unknown> = unknown[], THIS = unknown> = {
     tag?: string;
     className?: ClassNameLike;
@@ -30,6 +45,9 @@ export type CustomRenderProps<T extends Array<unknown> = unknown[], THIS = unkno
     children?: ComponentChildren;
 };
 
+/**
+ * @deprecated Use `renderCustomContent` instead.
+ */
 export function renderCustomResult<T extends HTMLElement = HTMLElement>(props: CustomRenderProps): [JSX.HTMLAttributes<T>, ComponentChildren[]] {
     const {
         tag,
@@ -110,6 +128,9 @@ export function renderCustomResult<T extends HTMLElement = HTMLElement>(props: C
     }, result];
 }
 
+/**
+ * @deprecated Use `CustomContent` instead.
+ */
 export function CustomRender({
     tag = 'div',
     ...props
