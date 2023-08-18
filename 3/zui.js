@@ -6230,10 +6230,13 @@ class qh extends or {
       this.props.changeState({ search: t });
     }, this._handleSearchClear = () => {
       this.props.togglePop(!0, { search: "" });
-    }, this._renderSelection = (t) => /* @__PURE__ */ f("div", { className: "picker-multi-selection", children: [
-      /* @__PURE__ */ f("span", { className: "text", children: /* @__PURE__ */ f(Zt, { content: t.text }) }),
-      this.props.disabled ? null : /* @__PURE__ */ f("div", { className: "picker-deselect-btn btn size-xs ghost", onClick: this._handleDeselectClick, "data-value": t.value, children: /* @__PURE__ */ f("span", { className: "close" }) })
-    ] }, t.value);
+    }, this._renderSelection = (t) => {
+      const { text: e } = t;
+      return /* @__PURE__ */ f("div", { className: "picker-multi-selection", title: typeof e == "string" ? e : void 0, children: [
+        /* @__PURE__ */ f("span", { className: "text", children: /* @__PURE__ */ f(Zt, { content: e }) }),
+        this.props.disabled ? null : /* @__PURE__ */ f("div", { className: "picker-deselect-btn btn size-xs ghost", onClick: this._handleDeselectClick, "data-value": t.value, children: /* @__PURE__ */ f("span", { className: "close" }) })
+      ] }, t.value);
+    };
   }
   _handleClick(t) {
     var e;
@@ -6341,7 +6344,13 @@ class Yh extends or {
   _renderTrigger(t) {
     const { children: e, state: { selections: n = [], open: i }, placeholder: r, search: o, disabled: a, clearable: l } = t, [h] = n, d = i && o;
     let c;
-    d ? c = this._renderSearch(t) : h ? c = /* @__PURE__ */ f("span", { className: "picker-single-selection", children: /* @__PURE__ */ f(Zt, { content: h.text }) }, "main") : c = /* @__PURE__ */ f("span", { className: "picker-select-placeholder", children: r }, "main");
+    if (d)
+      c = this._renderSearch(t);
+    else if (h) {
+      const { text: g } = h;
+      c = /* @__PURE__ */ f("span", { className: "picker-single-selection", title: typeof g == "string" ? g : void 0, children: /* @__PURE__ */ f(Zt, { content: g }) }, "main");
+    } else
+      c = /* @__PURE__ */ f("span", { className: "picker-select-placeholder", children: r }, "main");
     const p = l && !d ? /* @__PURE__ */ f("button", { type: "button", className: "btn picker-deselect-btn size-sm square ghost", disabled: a, onClick: this._handleDeselectClick, children: /* @__PURE__ */ f("span", { className: "close" }) }, "deselect") : null;
     return [
       c,
