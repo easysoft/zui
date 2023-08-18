@@ -72,7 +72,12 @@ export class PickerSingleSelect extends PickTrigger<PickerState, PickerSelectPro
         if (showSearch) {
             view = this._renderSearch(props);
         } else if (selection) {
-            view = <span key="main" className="picker-single-selection"><CustomContent content={selection.text} /></span>;
+            const {text} = selection;
+            view = (
+                <span key="main" className="picker-single-selection" title={typeof text === 'string' ? text : undefined}>
+                    <CustomContent content={text} />
+                </span>
+            );
         } else {
             view = <span key="main" className="picker-select-placeholder">{placeholder}</span>;
         }

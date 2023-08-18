@@ -39,9 +39,10 @@ export class PickerMultiSelect extends PickTrigger<PickerState, PickerSelectProp
     }
 
     protected _renderSelection = (selection: PickerItemBasic) => {
+        const {text} = selection;
         return (
-            <div className="picker-multi-selection" key={selection.value}>
-                <span className="text"><CustomContent content={selection.text} /></span>
+            <div className="picker-multi-selection" key={selection.value} title={typeof text === 'string' ? text : undefined}>
+                <span className="text"><CustomContent content={text} /></span>
                 {this.props.disabled ? null : <div className="picker-deselect-btn btn size-xs ghost" onClick={this._handleDeselectClick} data-value={selection.value}><span className="close"></span></div>}
             </div>
         );
