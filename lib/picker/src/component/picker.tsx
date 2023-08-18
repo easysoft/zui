@@ -1,6 +1,6 @@
-import {ComponentType, RenderableProps} from 'preact';
+import {ComponentType, RefObject, RenderableProps, createRef} from 'preact';
 import {$, delay} from '@zui/core';
-import {Pick} from '@zui/pick/src/components';
+import {Pick, PickTrigger} from '@zui/pick/src/components';
 import {PickTriggerProps} from '@zui/pick/src/types';
 import {PickerItemBasic, PickerItemOptions, PickerMenuProps, PickerOptions, PickerSelectProps, PickerState} from '../types';
 import '@zui/form-control/src/style/index.css';
@@ -8,6 +8,8 @@ import '../style/index.css';
 import {PickerMultiSelect} from './picker-multi-select';
 import {PickerSingleSelect} from './picker-single-select';
 import {PickerMenu} from './picker-menu';
+
+type PickerTrigger = PickTrigger<PickerState, PickerSelectProps>;
 
 export class Picker extends Pick<PickerState, PickerOptions> {
     static defaultProps = {
@@ -28,6 +30,7 @@ export class Picker extends Pick<PickerState, PickerOptions> {
     #updateTimer = 0;
 
     #emptyValueSet: Set<string>;
+    protected _trigger = createRef<PickerTrigger>();
 
     constructor(props: PickerOptions) {
         super(props);
@@ -231,9 +234,10 @@ export class Picker extends Pick<PickerState, PickerOptions> {
         super.componentWillUnmount();
     }
 
-    protected _getTriggerProps(props: RenderableProps<PickerOptions>, state: Readonly<PickerState>): PickerSelectProps {
+    protected _getTriggerProps(props: RenderableProps<PickerOptions>, state: Readonly<PickerState>): PickerSelectProps & {ref: RefObject<PickerTrigger>} {
         return {
             ...super._getTriggerProps(props, state),
+            ref: this._trigger,
             multiple: props.multiple,
             placeholder: props.placeholder,
             search: props.search,
@@ -282,7 +286,7 @@ export class Picker extends Pick<PickerState, PickerOptions> {
         return list.length ? list.join(this.props.valueSplitter ?? ',') : this.firstEmptyValue;
     }
 
-    setValue(value: unknown = []) {
+    setValue(value: unknown = [], silent?: boolean) {
         if (this.props.disabled) {
             return;
         }
@@ -290,15 +294,20 @@ export class Picker extends Pick<PickerState, PickerOptions> {
             value = value !== null ? String(value) : this.firstEmptyValue;
         }
         let valueList = this.formatValueList(value as string | string[]);
-        if (!valueList.length) {
-            return this.changeState({value: this.firstEmptyValue});
-        }
-        const {items, limitValueInList} = this.props;
-        if (limitValueInList) {
-            const valueSet = new Set((Array.isArray(items) ? items : this.state.items).map(x => String(x.value)));
-            valueList = valueList.filter(x => valueSet.has(x));
+        if (valueList.length) {
+            const {items, limitValueInList} = this.props;
+            if (limitValueInList) {
+                const valueSet = new Set((Array.isArray(items) ? items : this.state.items).map(x => String(x.value)));
+                valueList = valueList.filter(x => valueSet.has(x));
+            }
         }
         const stateValue = this.formatValue(valueList);
+        if (silent) {
+            const trigger = this._trigger.current;
+            if (trigger) {
+                trigger._skipTriggerChange = stateValue;
+            }
+        }
         return this.changeState({value: stateValue});
     }
 }

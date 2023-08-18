@@ -79,9 +79,6 @@ export class PickerMultiSelect extends PickTrigger<PickerState, PickerSelectProp
 
     protected _renderValue(props: PickerSelectProps) {
         const {name, state: {value = ''}, id, valueList, emptyValue} = props;
-        if (!valueList.length) {
-            return super._renderValue(props);
-        }
         if (name) {
             if (this.hasInput) {
                 $(`#${id}`).val(value);
@@ -106,7 +103,11 @@ export class PickerMultiSelect extends PickTrigger<PickerState, PickerSelectProp
     componentDidUpdate(previousProps: PickerSelectProps): void {
         const {id, state, name, valueList, emptyValue} = this.props;
         if (name && previousProps.state.value !== state.value) {
-            $(`#${id}`).val(valueList.length ? valueList : [emptyValue]).trigger('change', EVENT_PICK);
+            const $select = $(`#${id}`).val(valueList.length ? valueList : [emptyValue]);
+            if (this._skipTriggerChange !== state.value) {
+                $select.trigger('change', EVENT_PICK);
+            }
+            this._skipTriggerChange = false;
         }
     }
 }
