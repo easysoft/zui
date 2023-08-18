@@ -29,10 +29,10 @@
   @apply -h-auto -pl-1 -min-h-[32px];
 }
 .picker-multi-selections {
-  @apply -flex -flex-wrap -gap-1;
+  @apply -flex -flex-wrap -gap-1 -min-w-0;
 }
 .picker-multi-selection {
-  @apply -flex -items-center -border -bg-surface -pl-2 -rounded-full;
+  @apply -flex -items-center -border -bg-surface -pl-2 -rounded-full -max-w-full;
 }
 .picker-multi-selection > .text {
   @apply -max-w-[180px] -whitespace-nowrap -overflow-clip;
