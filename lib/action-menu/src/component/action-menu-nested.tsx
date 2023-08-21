@@ -4,7 +4,7 @@ import type {ActionBasicProps, ActionMenuItemKey, ActionNestedItemProps, ActionM
 import {ActionMenu} from './action-menu';
 import {ActionNestedItem} from './action-nested-item';
 
-export class ActionMenuNested<T extends ActionBasicProps = ActionMenuNestedItemOptions, P extends ActionMenuNestedOptions<T> = ActionMenuNestedOptions<T>> extends ActionMenu<T, P, ActionMenuNestedState> {
+export class ActionMenuNested<T extends ActionBasicProps = ActionMenuNestedItemOptions, P extends ActionMenuNestedOptions<T> = ActionMenuNestedOptions<T>, S extends ActionMenuNestedState = ActionMenuNestedState> extends ActionMenu<T, P, S> {
     static ItemComponents = {
         item: ActionNestedItem,
     };
@@ -17,7 +17,7 @@ export class ActionMenuNested<T extends ActionBasicProps = ActionMenuNestedItemO
         super(props);
         this.#controlled = props.nestedShow === undefined; // Controlled menu use state to store nested
         if (this.#controlled) {
-            this.state = {nestedShow: props.defaultNestedShow ?? {}};
+            this.state = {nestedShow: props.defaultNestedShow ?? {}} as S;
         }
     }
 
