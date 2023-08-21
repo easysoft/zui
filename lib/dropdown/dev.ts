@@ -1,6 +1,7 @@
 import '@zui/button';
 import '@zui/menu';
 import '@zui/icons';
+import '@zui/input-control';
 import 'zui-dev';
 import {Dropdown} from './src/main';
 
@@ -8,6 +9,8 @@ onPageUpdate(() => {
     const dropdown = new Dropdown('#dropdownToggle', {
         arrow: true,
         menu: {
+            search: true,
+            searchPlacement: 'top',
             items: [
                 {text: '复制', icon: 'icon-copy'},
                 {text: '粘贴', icon: 'icon-paste'},

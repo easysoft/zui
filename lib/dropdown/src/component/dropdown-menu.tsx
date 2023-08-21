@@ -1,16 +1,17 @@
 import {$, classes} from '@zui/core';
 import {flip, computePosition, shift, offset} from '@floating-ui/dom';
-import {Menu} from '@zui/menu/src/component/menu';
+import {SearchMenu} from '@zui/menu/src/component';
 import '@zui/css-icons/src/icons/caret.css';
 import type {MenuItemOptions} from '@zui/menu/src/types';
 import type {MenuOptions} from '@zui/menu/src/types';
 import type {ActionMenuNestedItemOptions} from '@zui/action-menu/src/types';
 import type {DropdownMenuOptions} from '../types/dropdown-menu-options';
 
-export class DropdownMenu<T extends MenuItemOptions = MenuItemOptions, O extends DropdownMenuOptions<T> = DropdownMenuOptions<T>> extends Menu<T, O> {
+export class DropdownMenu<T extends MenuItemOptions = MenuItemOptions, O extends DropdownMenuOptions<T> = DropdownMenuOptions<T>> extends SearchMenu<T, O> {
     static defaultProps: Partial<DropdownMenuOptions> = {
-        ...Menu.defaultProps,
+        ...SearchMenu.defaultProps,
         popup: true,
+        search: false,
         nestedTrigger: 'hover',
         placement: 'right-start',
     };

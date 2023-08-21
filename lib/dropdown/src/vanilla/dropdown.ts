@@ -40,7 +40,7 @@ export class Dropdown<O extends DropdownOptions = DropdownOptions> extends Popov
     }
 
     protected _onClickDoc = (event: MouseEvent) => {
-        if (!$(event.target as HTMLElement).closest('.not-hide-menu').length) {
+        if (!$(event.target as HTMLElement).closest('.not-hide-menu,.form-control,input,label').length) {
             this.hide();
         }
     };
