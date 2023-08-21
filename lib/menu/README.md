@@ -1,5 +1,11 @@
 # 菜单
 
+## 搜索菜单
+
+```html:example
+<div id="searchMenu"></div>
+```
+
 ## 组件模式
 
 ```html:example

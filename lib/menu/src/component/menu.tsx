@@ -1,11 +1,12 @@
 import {classes} from '@zui/core';
 import {ActionMenuNested} from '@zui/action-menu/src/component/action-menu-nested';
 import '@zui/css-icons/src/icons/caret.css';
-import type {ActionMenuItemOptions, ActionItemProps} from '@zui/action-menu/src/types';
-import type {MenuOptions, MenuItemOptions} from '../types';
 import '../style/index.css';
 
-export class Menu<T extends ActionMenuItemOptions = MenuItemOptions, O extends MenuOptions<T> = MenuOptions<T>> extends ActionMenuNested<T, O> {
+import type {ActionMenuItemOptions, ActionItemProps} from '@zui/action-menu/src/types';
+import type {MenuOptions, MenuItemOptions, MenuState} from '../types';
+
+export class Menu<T extends ActionMenuItemOptions = MenuItemOptions, O extends MenuOptions<T> = MenuOptions<T>, S extends MenuState = MenuState> extends ActionMenuNested<T, O, S> {
     static NAME = 'menu';
 
     get nestedTrigger() {

@@ -651,6 +651,9 @@ importers:
       '@zui/css-icons':
         specifier: workspace:^0.0.1
         version: link:../css-icons
+      '@zui/search-box':
+        specifier: workspace:^0.0.1
+        version: link:../search-box
     devDependencies:
       '@zui/avatar':
         specifier: workspace:^0.0.1

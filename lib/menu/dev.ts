@@ -2,10 +2,31 @@ import 'preact/debug';
 import '@zui/icons';
 import '@zui/avatar';
 import '@zui/checkbox';
+import '@zui/form-control';
+import '@zui/input-control';
 import 'zui-dev';
-import {Menu} from './src/main';
+import {Menu, SearchMenu} from './src/main';
 
 onPageUpdate(() => {
+    const searchMenu = new SearchMenu('#searchMenu', {
+        popup: true,
+        compact: true,
+        items: [
+            {text: '复制', icon: 'icon-copy'},
+            {text: '粘贴', icon: 'icon-paste'},
+            {text: '剪切'},
+            {type: 'heading', text: '更多操作'},
+            {text: '导入', icon: 'icon-upload-alt'},
+            {text: '导出', icon: 'icon-download-alt'},
+            {type: 'divider'},
+            {text: '保存', icon: 'icon-save', onClick: (event) => console.log('> menuItem.clicked', event)},
+        ],
+        onClickItem: (info) => {
+            console.log('> menu.onClickItem', info);
+        },
+    });
+    console.log('> searchMenu', searchMenu);
+
     const menu = new Menu('#menu', {
         popup: true,
         compact: true,
