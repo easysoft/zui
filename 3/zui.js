@@ -1002,7 +1002,7 @@ class kc {
     const v = y.headers || {};
     Mr(v, "X-Requested-With", "XMLHttpRequest"), r && Mr(v, "Content-Type", r), y.headers = v, y.signal && y.signal.addEventListener("abort", () => {
       this.abort();
-    }), y.signal = this._controller.signal, this.url = t, this.request = y;
+    }), p && this.success(p), m && this.fail(m), g && this.complete(g), y.signal = this._controller.signal, this.url = t, this.request = y;
   }
   _emit(t, ...e) {
     this._callbacks[t].forEach((n) => {
@@ -1029,9 +1029,9 @@ class kc {
       } else
         throw new Error(o);
     } catch (o) {
-      this.error = o, this._emit("error", this.error, r);
+      this.error = o, this._emit("error", this.error, r == null ? void 0 : r.statusText);
     }
-    this._timeoutID && clearTimeout(this._timeoutID), this._emit("complete", r);
+    this._timeoutID && clearTimeout(this._timeoutID), this._emit("complete", r, r == null ? void 0 : r.statusText);
   }
 }
 u.ajax = (s, t) => {
