@@ -1,8 +1,8 @@
 export type AjaxBeforeSendCallback = (init: RequestInit) => void | false;
 
-export type AjaxCompleteCallback = (response: Response | undefined) => void;
+export type AjaxCompleteCallback = (response: Response | undefined, statusText: string | undefined) => void;
 
-export type AjaxErrorCallback = (error: Error, response?: Response) => void;
+export type AjaxErrorCallback = (error: Error, statusText: string | undefined) => void;
 
 export type AjaxSuccessCallback = (data: unknown, statusText: string, response: Response) => unknown;
 

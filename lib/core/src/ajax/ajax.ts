@@ -170,6 +170,15 @@ export class Ajax {
                 this.abort();
             });
         }
+        if (success) {
+            this.success(success);
+        }
+        if (error) {
+            this.fail(error);
+        }
+        if (complete) {
+            this.complete(complete);
+        }
         initOptions.signal = this._controller.signal;
         this.url = url;
         this.request = initOptions;
@@ -212,13 +221,13 @@ export class Ajax {
             }
         } catch (err) {
             this.error = err as Error;
-            this._emit('error', this.error, response);
+            this._emit('error', this.error, response?.statusText);
         }
 
         if (this._timeoutID) {
             clearTimeout(this._timeoutID);
         }
 
-        this._emit('complete', response);
+        this._emit('complete', response, response?.statusText);
     }
 }
