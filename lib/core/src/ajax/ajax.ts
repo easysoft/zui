@@ -200,9 +200,9 @@ export class Ajax {
         });
     }
 
-    async send() {
+    async send(): Promise<[data?: unknown | undefined, error?: Error | undefined, response?: Response | undefined]> {
         if (this.completed) {
-            return;
+            return [];
         }
         this._init();
 
