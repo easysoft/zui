@@ -85,16 +85,8 @@ export class Ajax {
         return this.success(calback);
     }
 
-    then(calback: AjaxSuccessCallback) {
-        return this.success(calback);
-    }
-
-    catch(calback: AjaxErrorCallback) {
-        return this.on('error', calback);
-    }
-
     fail(calback: AjaxErrorCallback) {
-        return this.catch(calback);
+        return this.on('error', calback);
     }
 
     complete(calback: AjaxCompleteCallback) {
@@ -105,8 +97,36 @@ export class Ajax {
         return this.complete(calback);
     }
 
-    finally(calback: AjaxCompleteCallback) {
-        return this.complete(calback);
+    then(resolve: (data: unknown) => void, reject?: (error: Error) => void) {
+        if (this.completed) {
+            if (reject && this.error) {
+                reject(this.error);
+            } else {
+                resolve(this.data);
+            }
+        } else {
+            this.success((data) => resolve(data));
+            if (reject) {
+                this.fail(reject);
+            }
+        }
+        return this;
+    }
+
+    catch(calback: (error: Error) => void) {
+        if (this.error) {
+            calback(this.error);
+            return this;
+        }
+        return this.on('error', (error) => calback(error));
+    }
+
+    finally(onFinally: () => void) {
+        if (this.completed) {
+            onFinally();
+            return this;
+        }
+        return this.complete(() => onFinally());
     }
 
     abort(abortError?: Error) {
