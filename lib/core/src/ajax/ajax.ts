@@ -220,6 +220,5 @@ export class Ajax {
         }
 
         this._emit('complete', response);
-        return this;
     }
 }
