@@ -66,6 +66,10 @@ export class Ajax {
         return this.data !== undefined || this.error !== undefined;
     }
 
+    get [Symbol.toStringTag]() {
+        return 'Ajax';
+    }
+
     constructor(setting: AjaxSetting) {
         this.setting = setting;
         this._controller = new AbortController();
@@ -216,7 +220,7 @@ export class Ajax {
 
     private _emit<T extends keyof AjaxCallbackMap>(name: T, ...args: Parameters<AjaxCallbackMap[T]>) {
         this._callbacks[name].forEach((callback) => {
-            callback(...(args as [arg0: Error & Response, arg1: string & Response, response: Response]));
+            callback(...(args as [arg0: Error & Response, statusText: string, arg2: string & Response]));
         });
     }
 
