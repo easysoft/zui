@@ -972,6 +972,10 @@ class kc {
   abort() {
     return this.completed ? !1 : (this._controller.abort(), !0);
   }
+  getResponseHeader(t) {
+    var e;
+    return (e = this.response) == null ? void 0 : e.headers.get(t);
+  }
   _init() {
     if (this.completed)
       return;
