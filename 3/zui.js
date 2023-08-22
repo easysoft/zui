@@ -1019,22 +1019,23 @@ class kc {
     t && (this._timeoutID = window.setTimeout(() => {
       this.abort(new Error("timeout"));
     }, t));
-    let r;
+    let r, o, a;
     try {
       r = await fetch(this.url, this.request), this.response = r;
-      const { statusText: o } = r;
+      const { statusText: l } = r;
       if (r.ok) {
-        const a = e || Cc(r.headers.get("Content-Type"), n), l = await (a === "json" ? r.json() : r.text());
-        this.data = l;
-        const h = (i == null ? void 0 : i(l, a)) ?? l;
-        this._emit("success", h, o, r);
+        const h = e || Cc(r.headers.get("Content-Type"), n);
+        a = await (h === "json" ? r.json() : r.text()), this.data = a;
+        const d = (i == null ? void 0 : i(a, h)) ?? a;
+        this._emit("success", d, l, r);
       } else
-        throw new Error(o);
-    } catch (o) {
-      let a = o, l = !1;
-      a.name === "AbortError" && (this._abortError ? a = this._abortError : l = !0), this.error = a, l || this._emit("error", a, r == null ? void 0 : r.statusText, a.message);
+        throw new Error(l);
+    } catch (l) {
+      o = l;
+      let h = !1;
+      o.name === "AbortError" && (this._abortError ? o = this._abortError : h = !0), this.error = o, h || this._emit("error", o, r == null ? void 0 : r.statusText, o.message);
     }
-    this._timeoutID && clearTimeout(this._timeoutID), this._emit("complete", r, r == null ? void 0 : r.statusText);
+    return this._timeoutID && clearTimeout(this._timeoutID), this._emit("complete", r, r == null ? void 0 : r.statusText), [a, o, r];
   }
 }
 u.ajax = (s, t) => {
