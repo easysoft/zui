@@ -134,7 +134,7 @@ export class Ajax {
             contentType,
             crossDomain,
             accepts,
-            dataType: dataTypeSetting,
+            dataType,
             timeout,
             dataFilter,
             beforeSend,
