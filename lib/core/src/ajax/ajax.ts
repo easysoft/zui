@@ -115,6 +115,10 @@ export class Ajax {
         return true;
     }
 
+    getResponseHeader(name: string) {
+        return this.response?.headers.get(name);
+    }
+
     private _init() {
         if (this.completed) {
             return;
