@@ -48,6 +48,8 @@ export class Ajax {
 
     private _callbacks: {[P in keyof AjaxCallbackMap]: AjaxCallbackMap[P][];};
 
+    private declare _abortError?: Error;
+
     setting: AjaxSetting;
 
     declare data: unknown;
@@ -107,10 +109,11 @@ export class Ajax {
         return this.complete(calback);
     }
 
-    abort() {
+    abort(abortError?: Error) {
         if (this.completed) {
             return false;
         }
+        this._abortError = abortError;
         this._controller.abort();
         return true;
     }
@@ -147,17 +150,20 @@ export class Ajax {
         if (type) {
             initOptions.method = type;
         }
-        if (data && processData) {
-            let dataSetting = data;
-            if ($.isPlainObject(dataSetting)) {
-                dataSetting = Object.entries(dataSetting);
+        let dataSetting = data;
+        if (dataSetting) {
+            if (processData) {
+                if ($.isPlainObject(dataSetting)) {
+                    dataSetting = Object.entries(dataSetting);
+                }
+                if (Array.isArray(dataSetting)) {
+                    dataSetting = dataSetting.reduce((formData, [name, value]) => {
+                        setFormItem(formData, name, value);
+                        return formData;
+                    }, new FormData());
+                }
             }
-            if (Array.isArray(dataSetting)) {
-                initOptions.body = dataSetting.reduce((formData, [name, value]) => {
-                    setFormItem(formData, name, value);
-                    return formData;
-                }, new FormData());
-            }
+            initOptions.body = dataSetting as BodyInit;
         }
         if (crossDomain) {
             initOptions.mode = 'cors';
@@ -203,10 +209,9 @@ export class Ajax {
         const {timeout, dataType: dataTypeSetting, accepts, dataFilter} = this.setting;
         if (timeout) {
             this._timeoutID = window.setTimeout(() => {
-                this.abort();
+                this.abort(new Error('timeout'));
             }, timeout);
         }
-
 
         let response: Response | undefined;
         try {
@@ -224,8 +229,19 @@ export class Ajax {
 
             }
         } catch (err) {
-            this.error = err as Error;
-            this._emit('error', this.error, response?.statusText);
+            let error = err as Error;
+            let skipTriggerError = false;
+            if (error.name === 'AbortError') {
+                if (this._abortError) {
+                    error = this._abortError;
+                } else {
+                    skipTriggerError = true;
+                }
+            }
+            this.error = error;
+            if (!skipTriggerError) {
+                this._emit('error', error, response?.statusText, error.message);
+            }
         }
 
         if (this._timeoutID) {
