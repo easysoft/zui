@@ -214,22 +214,24 @@ export class Ajax {
         }
 
         let response: Response | undefined;
+        let error: Error | undefined;
+        let data: unknown | undefined;
         try {
             response = await fetch(this.url, this.request);
             this.response = response;
             const {statusText} = response;
             if (response.ok) {
                 const dataType = dataTypeSetting || getDataType(response.headers.get('Content-Type'), accepts);
-                const resData = await (dataType === 'json' ? response.json() : response.text());
-                this.data = resData;
-                const filteredData = dataFilter?.(resData, dataType) ?? resData;
+                data = await (dataType === 'json' ? response.json() : response.text());
+                this.data = data;
+                const filteredData = dataFilter?.(data, dataType) ?? data;
                 this._emit('success', filteredData, statusText, response);
             } else {
                 throw new Error(statusText);
 
             }
         } catch (err) {
-            let error = err as Error;
+            error = err as Error;
             let skipTriggerError = false;
             if (error.name === 'AbortError') {
                 if (this._abortError) {
@@ -249,5 +251,6 @@ export class Ajax {
         }
 
         this._emit('complete', response, response?.statusText);
+        return [data, error, response];
     }
 }
