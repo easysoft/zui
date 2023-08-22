@@ -951,14 +951,8 @@ class kc {
   done(t) {
     return this.success(t);
   }
-  then(t) {
-    return this.success(t);
-  }
-  catch(t) {
-    return this.on("error", t);
-  }
   fail(t) {
-    return this.catch(t);
+    return this.on("error", t);
   }
   complete(t) {
     return this.on("complete", t);
@@ -966,8 +960,14 @@ class kc {
   always(t) {
     return this.complete(t);
   }
+  then(t, e) {
+    return this.completed ? e && this.error ? e(this.error) : t(this.data) : (this.success((n) => t(n)), e && this.fail(e)), this;
+  }
+  catch(t) {
+    return this.error ? (t(this.error), this) : this.on("error", (e) => t(e));
+  }
   finally(t) {
-    return this.complete(t);
+    return this.completed ? (t(), this) : this.complete(() => t());
   }
   abort(t) {
     return this.completed ? !1 : (this._abortError = t, this._controller.abort(), !0);
