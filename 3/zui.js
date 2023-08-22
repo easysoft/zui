@@ -1013,7 +1013,7 @@ class kc {
   }
   async send() {
     if (this.completed)
-      return;
+      return [];
     this._init();
     const { timeout: t, dataType: e, accepts: n, dataFilter: i } = this.setting;
     t && (this._timeoutID = window.setTimeout(() => {
