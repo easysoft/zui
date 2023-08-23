@@ -21,14 +21,13 @@ function buildCustomModal(this: Modal, _element: HTMLElement, options: ModalCust
 
 async function buildAjaxModal(this: Modal, _element: HTMLElement, options: ModalAjaxOptions): Promise<ModalDialogOptions | ModalDialogHTML | boolean | undefined> {
     const {dataType = 'html', url, request, custom, title, replace = true, executeScript = true} = options;
-    const response = await fetch(url, {
+    const text = await $.ajax({
+        url,
         headers: {
-            'X-Requested-With': 'XMLHttpRequest',
             'X-ZUI-Modal': 'true',
         },
         ...request,
-    });
-    const text = await response.text();
+    }) as string;
     if (dataType !== 'html') {
         try {
             const data = JSON.parse(text);
