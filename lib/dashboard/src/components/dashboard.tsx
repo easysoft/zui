@@ -119,15 +119,10 @@ export class Dashboard extends Component<Required<DashboardOptions>, DashboardSt
         this.update({id, loading: true, needLoad: false}, async () => {
             const fetchUrl = formatString(url, block);
             try {
-                const response = await fetch(formatString(fetchUrl, block), {
-                    headers: {'X-Requested-With': 'XMLHttpRequest'},
+                const html = await $.ajax({
+                    url: formatString(fetchUrl, block),
                     ...fetchOptions,
-                });
-                if (!response.ok) {
-                    throw new Error(`Server response: ${response.status} ${response.statusText}}`);
-
-                }
-                const html = await response.text();
+                }) as string;
                 this.update({id, loading: false, content: {html}}, () => {
                     this._setCache(id, html);
                 });
