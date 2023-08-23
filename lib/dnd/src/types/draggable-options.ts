@@ -6,7 +6,7 @@ export type DraggableOptions = {
     handle?: string;
     hasDraggingClass?: string;
     draggingClass?: string;
-    target?: string | ((dragElement: HTMLElement) => (HTMLElement[] | Cash));
+    target?: string | ((dragElement: HTMLElement) => (HTMLElement | HTMLElement[] | Cash));
     droppableClass?: string;
     droppingClass?: string;
     dropEffect?: 'copy' | 'move' | 'link' | 'none';
