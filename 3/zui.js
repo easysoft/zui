@@ -1028,7 +1028,7 @@ class kc {
       const { statusText: l } = r;
       if (r.ok) {
         const h = e || Cc(r.headers.get("Content-Type"), n);
-        a = await (h === "json" ? r.json() : r.text()), this.data = a;
+        h === "blob" || h === "file" ? a = await r.blob() : h === "json" ? a = await r.json() : a = await r.text(), this.data = a;
         const d = (i == null ? void 0 : i(a, h)) ?? a;
         this._emit("success", d, l, r);
       } else
@@ -6031,27 +6031,27 @@ function zh(s, t) {
   };
 }
 async function Vh(s, t) {
-  const { dataType: e = "html", url: n, request: i, custom: r, title: o, replace: a = !0, executeScript: l = !0 } = t, d = await (await fetch(n, {
+  const { dataType: e = "html", url: n, request: i, custom: r, title: o, replace: a = !0, executeScript: l = !0 } = t, h = await u.ajax({
+    url: n,
     headers: {
-      "X-Requested-With": "XMLHttpRequest",
       "X-ZUI-Modal": "true"
     },
     ...i
-  })).text();
+  });
   if (e !== "html")
     try {
-      const c = JSON.parse(d);
+      const d = JSON.parse(h);
       return {
         title: o,
         ...r,
-        ...c
+        ...d
       };
     } catch {
     }
-  return a !== !1 && e === "html" ? [d] : {
+  return a !== !1 && e === "html" ? [h] : {
     title: o,
     ...r,
-    body: e === "html" ? /* @__PURE__ */ f(us, { className: "modal-body", html: d, executeScript: l }) : d
+    body: e === "html" ? /* @__PURE__ */ f(us, { className: "modal-body", html: h, executeScript: l }) : h
   };
 }
 async function Uh(s, t) {
