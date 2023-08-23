@@ -4207,11 +4207,7 @@ class fa extends at {
   constructor() {
     super(...arguments), this._state = { dragging: null, dropping: null }, this._handleMouseDown = (t) => {
       const { selector: e, handle: n, beforeDrag: i } = this.options, r = u(t.target), o = r.closest(e), a = o[0];
-      if (!a || n && !r.closest(n).length || i && i.call(this, t, a) === !1)
-        return;
-      o.attr("draggable", "true");
-      const { draggingClass: l } = this.options;
-      l && (this.$element.find(l).removeClass(l), o.addClass(l)), this._setState({ dragging: a });
+      !a || n && !r.closest(n).length || i && i.call(this, t, a) === !1 || (o.attr("draggable", "true"), this._setState({ dragging: a }));
     }, this._handleDragStart = (t) => {
       const { dragElement: e } = this;
       if (!e) {
@@ -4223,8 +4219,10 @@ class fa extends at {
         this._clean();
         return;
       }
-      const { $element: r } = this, { target: o, selector: a, droppableClass: l, hasDraggingClass: h } = n, d = typeof o == "function" ? u(o.call(this, e)) : r.find(o || a || Ie);
-      l && (r.find(l).removeClass(l), d.addClass(l)), h && r.addClass(h), r.find(Ie).removeAttr("droppable"), d.attr("droppable", "true"), this._$targets = d;
+      const { $element: r } = this, { target: o, selector: a, draggingClass: l, droppableClass: h, hasDraggingClass: d } = n;
+      l && (this.$element.find(l).removeClass(l), u(e).addClass(l));
+      const c = typeof o == "function" ? u(o.call(this, e)) : r.find(o || a || Ie);
+      h && (r.find(h).removeClass(h), c.addClass(h)), d && r.addClass(d), r.find(Ie).removeAttr("droppable"), c.attr("droppable", "true"), this._$targets = c;
     }, this._handleDrag = (t) => {
       var n;
       const { dragElement: e } = this;
