@@ -77,12 +77,6 @@ export class Draggable extends Component<DraggableOptions> {
         }
 
         $dragElement.attr('draggable', 'true');
-        const {draggingClass} = this.options;
-        if (draggingClass) {
-            this.$element.find(draggingClass).removeClass(draggingClass);
-            $dragElement.addClass(draggingClass);
-        }
-
         this._setState({dragging: dragElement});
     };
 
@@ -100,7 +94,12 @@ export class Draggable extends Component<DraggableOptions> {
         }
 
         const {$element} = this;
-        const {target, selector, droppableClass, hasDraggingClass} = options;
+        const {target, selector, draggingClass, droppableClass, hasDraggingClass} = options;
+        if (draggingClass) {
+            this.$element.find(draggingClass).removeClass(draggingClass);
+            $(dragElement).addClass(draggingClass);
+        }
+
         const $targets = (typeof target === 'function' ? $(target.call(this, dragElement)) : $element.find(target || selector || DROPPABLE_SELECTOR));
         if (droppableClass) {
             $element.find(droppableClass).removeClass(droppableClass);
