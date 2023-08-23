@@ -246,7 +246,13 @@ export class Ajax {
             const {statusText} = response;
             if (response.ok) {
                 const dataType = dataTypeSetting || getDataType(response.headers.get('Content-Type'), accepts);
-                data = await (dataType === 'json' ? response.json() : response.text());
+                if (dataType === 'blob' || dataType === 'file') {
+                    data = await response.blob();
+                } else if (dataType === 'json') {
+                    data = await response.json();
+                } else {
+                    data = await response.text();
+                }
                 this.data = data;
                 const filteredData = dataFilter?.(data, dataType) ?? data;
                 this._emit('success', filteredData, statusText, response);
