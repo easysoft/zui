@@ -108,6 +108,11 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
     private _autoDestory = 0;
 
     /**
+     * Element removed observer.
+     */
+    private _mobs?: MutationObserver;
+
+    /**
      * The component constructor.
      *
      * @param options The component initial options.
@@ -129,17 +134,28 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
         this._gid = gid;
         this._element = element;
 
-        $element.on('DOMNodeRemovedFromDocument', () => {
-            if (this._autoDestory) {
-                clearTimeout(this._autoDestory);
-            }
-            this._autoDestory = window.setTimeout(() => {
-                this._autoDestory = 0;
-                if (isElementDetached(element)) {
-                    this.destroy();
-                }
-            }, 100);
-        });
+        const $parent = $element.parent();
+        if ($parent.length) {
+            this._mobs = new MutationObserver((mutations) => {
+                mutations.forEach((mutation) => {
+                    mutation.removedNodes.forEach(ele => {
+                        if (ele !== element) {
+                            return;
+                        }
+                        if (this._autoDestory) {
+                            clearTimeout(this._autoDestory);
+                        }
+                        this._autoDestory = window.setTimeout(() => {
+                            this._autoDestory = 0;
+                            if (isElementDetached(element)) {
+                                this.destroy();
+                            }
+                        }, 100);
+                    });
+                });
+            });
+            this._mobs.observe($parent[0]!, {childList: true, subtree: false});
+        }
 
         this._options = {...DEFAULT, ...$element.dataset()} as ComponentOptions<O>;
         this.setOptions(options);
@@ -235,6 +251,8 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
 
         (this.emit as ((event: string, ...args: unknown[]) => void))('destroyed');
 
+        this._mobs?.disconnect();
+
         $element
             .off(this.namespace)
             .removeData(KEY)
@@ -252,9 +270,6 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
                 }
             }
         }
-
-        this._options = undefined;
-        this._element = undefined;
     }
 
     /**
