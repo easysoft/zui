@@ -10,6 +10,7 @@ export type BlockProps = {
     loading?: boolean;
     content: BlockContentSetting;
     title?: string;
+    draggable?: boolean;
     onDragStart?: (event: DragEvent) => void;
     onDragEnd?: (event: DragEvent) => void;
     onMenuBtnClick?: (event: MouseEvent) => void;

@@ -1,11 +1,14 @@
 import {Component, RefObject, createRef} from 'preact';
 import {store} from '@zui/store';
 import {$} from '@zui/core';
+import {Draggable} from '@zui/dnd';
 import {formatString} from '@zui/helpers';
 import {Block} from './block';
 import {ContextMenu} from '@zui/contextmenu';
 import type {DashboardOptions, BlockInfo, DashboardLayout, BlockFetcher, BlockSetting, BlockContentSetting} from '../types';
 import '../style';
+import {PopoverOptions} from '@zui/popover/src/types';
+import {MenuItemOptions} from '@zui/menu/src/types';
 
 export type BlockLocation = [left: number, top: number, width: number, height: number];
 
@@ -18,11 +21,19 @@ export type BlockSizeSetting = [width: number, height: number] | {
 
 export type DashboardState = {
     dragging?: string;
+    dropping?: BlockLocation;
     blocks: BlockInfo[];
 };
 
 const isBlockIntersect = ([left1, top1, width1, height1]: BlockLocation, [left2, top2, width2, height2]: BlockLocation) => {
     return !((left1 + width1) <= left2 || (left2 + width2) <= left1 || (top1 + height1) <= top2 || (top2 + height2) <= top1);
+};
+
+const compareLocation = (a: BlockLocation, b: BlockLocation) => {
+    if (a[1] === b[1]) {
+        return a[0] - b[0];
+    }
+    return a[1] - b[1];
 };
 
 const CACHE_PREFIX = 'Dashboard:Block.cache:';
@@ -60,7 +71,15 @@ export class Dashboard extends Component<Required<DashboardOptions>, DashboardSt
 
     protected _loadTimer = 0;
 
-    map: BlocksMap = new Map();
+    protected _draggable?: Draggable;
+
+    protected _dragOffset?: [x: number, y: number];
+
+    protected _dragging?: BlockLocation;
+
+    protected _map: BlocksMap = new Map();
+
+    protected _oldMap: BlocksMap = new Map();
 
     constructor(props: Required<DashboardOptions>) {
         super(props);
@@ -202,6 +221,8 @@ export class Dashboard extends Component<Required<DashboardOptions>, DashboardSt
             const {
                 id,
                 size,
+                width: widthSetting,
+                height: heightSetting,
                 left = -1,
                 top = -1,
                 fetch = blockFetch,
@@ -210,7 +231,7 @@ export class Dashboard extends Component<Required<DashboardOptions>, DashboardSt
                 ...rest
             } = block;
 
-            const [width, height] = this._getBlockSize(size);
+            const [width, height] = this._getBlockSize((widthSetting && heightSetting) ? {width: widthSetting, height: heightSetting} : size);
             return {
                 id: `${id}`,
                 width,
@@ -243,33 +264,135 @@ export class Dashboard extends Component<Required<DashboardOptions>, DashboardSt
     }
 
     protected _layout(): DashboardLayout {
-        this.map.clear();
-        let height = 0;
-        const {blocks} = this.state;
-        blocks.forEach(block => {
-            this._layoutBlock(block);
-            const [, blockTop, , blockHeight] = this.map.get(block.id)!;
-            height = Math.max(height, blockTop + blockHeight);
+        const {blocks, dragging, dropping} = this.state;
+        const map = this._map;
+        if (map.size) {
+            const empty: BlockLocation = [0, 0, 0, 0];
+            blocks.sort((a, b) => compareLocation(map.get(a.id) || empty, map.get(b.id) || empty));
+        }
+        map.clear();
+        if (dragging && dropping) {
+            map.set(dragging, dropping);
+        }
+        blocks.forEach((block) => {
+            if (block.id !== dragging) {
+                this._layoutBlock(block);
+            }
         });
+        const locations = Array.from(map.entries());
+        locations.sort((a, b) => compareLocation(a[1], b[1]));
+        let height = 0;
+        locations.forEach(([id, location]) => {
+            let top = location[1] - 1;
+            while (top >= 0 && this._canMove([location[0], top, location[2], location[3]], id)) {
+                top--;
+            }
+            top++;
+            location[1] = top;
+            height = Math.max(height, top + location[3]);
+        });
+        if (dropping) {
+            height = Math.max(height, dropping[1] + dropping[3]);
+        }
 
         return {blocks, height};
     }
 
+    protected _initDraggable() {
+        const blocksElement = this._ref.current!;
+        this._draggable = new Draggable(blocksElement, {
+            selector: '.dashboard-block',
+            target: () => blocksElement,
+            beforeDrag: (event, element) => {
+                const bounding = element.getBoundingClientRect();
+                if ((event.clientY - bounding.top) > 48) {
+                    event.preventDefault();
+                    return false;
+                }
+                this._dragOffset = [event.clientX - bounding.left, event.clientY - bounding.top];
+            },
+            onDragStart: (_event, element) => {
+                const id = element.dataset.id;
+                if (id === undefined) {
+                    return;
+                }
+                this._dragging = this._map.get(id);
+                this.setState({dragging: id});
+            },
+            onDragOver: (event) => {
+                const {cellHeight, grid} = this.props;
+                const bounding = blocksElement.getBoundingClientRect();
+                const [, , width, height] = this._dragging!;
+                const [offsetX, offsetY] = this._dragOffset!;
+                const dropLeft = Math.min(grid - width, Math.max(0, Math.round((event.clientX - bounding.left - offsetX) / (bounding.width / grid))));
+                const dropTop = Math.max(0, Math.round((event.clientY - bounding.top - offsetY) / cellHeight));
+                const oldDropPos = this.state.dropping;
+                if (oldDropPos && oldDropPos[0] === dropLeft && oldDropPos[1] === dropTop) {
+                    return;
+                }
+                this.setState({dropping: [dropLeft, dropTop, width, height]});
+            },
+            onDragEnd: () => {
+                const {dragging, dropping} = this.state;
+                const newState: Partial<DashboardState> = {dragging: undefined, dropping: undefined};
+                const layout: Record<string, {top: number, left: number}> = {};
+                if (dragging && dropping) {
+                    const {blocks} = this.state;
+                    blocks.forEach((block, index) => {
+                        const [left, top] = dragging === block.id ? dropping : this._map.get(block.id)!;
+                        if (block.left !== left || block.top !== top) {
+                            blocks[index] = {...block, left, top};
+                            layout[block.id] = {left, top};
+                        }
+                    });
+                    newState.blocks = blocks;
+                }
+                this.setState(newState, this._checkLayout);
+                this._dragging = undefined;
+                this._dragOffset = undefined;
+            },
+        });
+    }
+
+    protected _checkLayout = () => {
+        const {onLayoutChange} = this.props;
+        if (!onLayoutChange) {
+            return;
+        }
+        const {blocks} = this.state;
+        const layout: Record<string, {top: number, left: number, width: number, height: number}> = {};
+        let layoutChanged = false;
+        blocks.forEach((block) => {
+            const [left, top, width, height] = this._map.get(block.id)!;
+            const oldLocation = this._oldMap.get(block.id);
+            if (!oldLocation || oldLocation[0] !== left || oldLocation[1] !== top || oldLocation[2] !== width || oldLocation[3] !== height) {
+                layoutChanged = true;
+                layout[block.id] = {left, top, width, height};
+                this._oldMap.set(block.id, [left, top, width, height]);
+            }
+        });
+        if (layoutChanged) {
+            onLayoutChange(layout);
+        }
+    };
+
     protected _layoutBlock(block: BlockInfo) {
-        const map = this.map;
         const {id, left: expectLeft, top: expectTop, width, height} = block;
+        const location: BlockLocation = [expectLeft, expectTop, width, height];
         if (expectLeft < 0 || expectTop < 0) {
-            const [left, top] = this._appendBlock(width, height, expectLeft, expectTop);
-            map.set(id, [left, top, width, height]);
+            this._appendBlock(id, location);
         } else {
-            this._insertBlock(id, [expectLeft, expectTop, width, height]);
+            this._insertBlock(id, location);
         }
     }
 
-    protected _canPlace(location: BlockLocation) {
-        const {dragging} = this.state;
-        for (const [blockID, block] of this.map.entries()) {
-            if (blockID === dragging) {
+    protected _canMove(location: BlockLocation, id?: string) {
+        const {dropping} = this.state;
+        if (dropping && isBlockIntersect(location, dropping)) {
+            return false;
+        }
+        for (const [blockID, block] of this._map.entries()) {
+            if (blockID === id) {
                 continue;
             }
             if (isBlockIntersect(block, location)) {
@@ -279,28 +402,34 @@ export class Dashboard extends Component<Required<DashboardOptions>, DashboardSt
         return true;
     }
 
-    protected _insertBlock(id: string, location: BlockLocation) {
-        this.map.set(id, location);
-        for (const [blockID, block] of this.map.entries()) {
-            if (blockID === id) {
-                continue;
-            }
-            if (isBlockIntersect(block, location)) {
-                block[1] = location[1] + location[3];
-                this._insertBlock(blockID, block);
-            }
-        }
+    protected _canPlace(location: BlockLocation) {
+        const {dragging} = this.state;
+        return this._canMove(location, dragging);
     }
 
-    protected _appendBlock(width: number, height: number, expectLeft: number, expectTop: number) {
+    protected _insertBlock(id: string, location: BlockLocation) {
+        const {dropping} = this.state;
+        if (dropping && isBlockIntersect(location, dropping)) {
+            location[1] = dropping[1] + dropping[3];
+        }
+        while (!this._canPlace(location)) {
+            location[1] = location[1] + 1;
+        }
+        this._map.set(id, location);
+    }
+
+    protected _appendBlock(id: string, location: BlockLocation) {
+        const [expectLeft, expectTop, width, height] = location;
+        let topSetting = expectTop;
         if (expectLeft >= 0 && expectTop >= 0) {
-            if (this._canPlace([expectLeft, expectTop, width, height])) {
-                return [expectLeft, expectTop];
+            if (this._canPlace(location)) {
+                this._map.set(id, [expectLeft, expectTop, width, height]);
+                return;
             }
-            expectTop = -1;
+            topSetting = -1;
         }
         let left = expectLeft < 0 ? 0 : expectLeft;
-        let top = expectTop < 0 ? 0 : expectTop;
+        let top = topSetting < 0 ? 0 : topSetting;
         let found = false;
         const grid = this.props.grid;
         while (!found) {
@@ -318,22 +447,8 @@ export class Dashboard extends Component<Required<DashboardOptions>, DashboardSt
                 top += 1;
             }
         }
-        return [left, top];
+        this._map.set(id, [left, top, width, height]);
     }
-
-    protected _handleDragStart = (event: DragEvent) => {
-        const id = event.dataTransfer?.getData('application/id');
-        if (id === undefined) {
-            return;
-        }
-        this.setState({dragging: id});
-        console.log('handleBlockDragStart', event);
-    };
-
-    protected _handleDragEnd = (event: DragEvent) => {
-        this.setState({dragging: undefined});
-        console.log('handleBlockDragEnd', event);
-    };
 
     protected _handleMenuClick = (event: MouseEvent) => {
         const element = (event.target as HTMLElement).closest<HTMLElement>('.dashboard-block');
@@ -355,7 +470,7 @@ export class Dashboard extends Component<Required<DashboardOptions>, DashboardSt
             element: event.currentTarget as HTMLElement,
             placement: 'bottom-end',
             menu: {
-                onClickItem: (info) => {
+                onClickItem: (info: {item: MenuItemOptions, event: MouseEvent}) => {
                     if ((info.item.data?.type) === 'refresh') {
                         this.load(id);
                     }
@@ -365,12 +480,16 @@ export class Dashboard extends Component<Required<DashboardOptions>, DashboardSt
                 },
                 ...menu,
             },
-        });
+        } as PopoverOptions);
     };
 
     componentDidMount(): void {
         this.loadNext();
         $(window).on('scroll', this.tryLoadNext);
+        this._initDraggable();
+        for (const [id, location] of this._map.entries()) {
+            this._oldMap.set(id, [...location]);
+        }
     }
 
     componentDidUpdate(previousProps: Readonly<Required<DashboardOptions>>): void {
@@ -384,12 +503,14 @@ export class Dashboard extends Component<Required<DashboardOptions>, DashboardSt
     componentWillUnmount(): void {
         clearTimeout(this._loadTimer);
         $(window).off('scroll', this.tryLoadNext);
+        this._draggable!.destroy();
     }
 
     render() {
         const {blocks, height: dashboardHeight} = this._layout();
         const {cellHeight, grid} = this.props;
-        const map = this.map;
+        const {dropping, dragging} = this.state;
+        const map = this._map;
         return (
             <div class="dashboard">
                 <div
@@ -397,9 +518,16 @@ export class Dashboard extends Component<Required<DashboardOptions>, DashboardSt
                     style={{height: dashboardHeight * cellHeight}}
                     ref={this._ref}
                 >
+                    {dropping ? (
+                        <div
+                            key="dropping"
+                            className="dashboard-drop-shadow"
+                            style={{left: `${100 * dropping[0] / grid}%`, top: cellHeight * dropping[1], width: `${100 * dropping[2] / grid}%`, height: cellHeight * dropping[3]}}
+                        />
+                    ) : null}
                     {blocks.map((block, index) => {
                         const {id, menu, content, title} = block;
-                        const [left, top, width, height] = map.get(id) || [0, 0, block.width, block.height];
+                        const [left, top, width, height] = (id === dragging && dropping) ? dropping : (map.get(id) || [0, 0, block.width, block.height]);
                         return (
                             <Block
                                 key={block.id}
@@ -411,8 +539,6 @@ export class Dashboard extends Component<Required<DashboardOptions>, DashboardSt
                                 height={cellHeight * height}
                                 content={content}
                                 title={title}
-                                onDragStart={this._handleDragStart}
-                                onDragEnd={this._handleDragEnd}
                                 onMenuBtnClick={menu ? this._handleMenuClick : undefined}
                             />
                         );

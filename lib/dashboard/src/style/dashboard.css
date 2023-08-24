@@ -1,5 +1,5 @@
 .dashboard-blocks {
-  @apply -p-2 -relative;
+  @apply -relative;
 }
 .dashboard-block-cell {
   @apply -absolute -transition-[left,top];
@@ -40,4 +40,10 @@
 }
 .dashboard-block-actions .btn {
   @apply -opacity-60 hover:-opacity-100;
+}
+.dashboard-drop-shadow {
+  @apply -absolute -transition-[left,top];
+}
+.dashboard-drop-shadow::before {
+  @apply -content-[''] -absolute -inset-2 -rounded -shadow-inner -bg-inverse/5;
 }

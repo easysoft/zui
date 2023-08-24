@@ -15,6 +15,7 @@
         "@zui/store": "workspace:^0.0.1",
         "@zui/contextmenu": "workspace:^0.0.1",
         "@zui/css-icons": "workspace:^0.0.1",
+        "@zui/dnd": "workspace:^0.0.1",
         "@zui/toolbar": "workspace:^0.0.1"
     },
     "exports": {

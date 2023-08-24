@@ -9,7 +9,7 @@ import {Dashboard} from './src/main';
 onPageLoad(() => {
     const dashboard = new Dashboard('#dashboard', {
         blocks: [
-            {id: 1, size: [3, 8]},
+            {id: 1, size: [3, 2]},
             {id: 2, size: 'lg'},
             {id: 3, size: {width: 3, height: 3}},
             {id: 4, placeholder: 'placeholder'},
@@ -20,6 +20,9 @@ onPageLoad(() => {
             {id: 9, size: 'xs'},
         ],
         blockFetch: '/lib/dashboard/public/block-{id}.html',
+        onLayoutChange: (layout) => {
+            console.log('> layout', layout);
+        },
     });
     console.log('> dashboard', dashboard);
 });
