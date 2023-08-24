@@ -264,7 +264,7 @@ export class Upload<T extends UploadOptions = UploadOptions> extends Component<T
         const tooltipInstance = $item?.find('.file-delete')?.data('tooltip');
         if (tooltipInstance) {
             tooltipInstance.destroy();
-            tooltipInstance.tooltip.remove();
+            tooltipInstance.tooltip?.remove();
         }
         setTimeout(() => $item?.remove(), 3000);
         onDelete?.(file);

@@ -122,7 +122,7 @@ export class UploadImgs extends Upload<UploadImgsOptions> {
         fr.onload = () => {
             $('<div class="img flex-none" />')
                 .addClass('rounded')
-                .css({backgroundImage: `url(${fr.result})`})
+                .css({backgroundImage: `url(${fr.result})`, backgroundSize: 'cover'})
                 .prependTo($fileItem);
         };
         fr.readAsDataURL(file);
