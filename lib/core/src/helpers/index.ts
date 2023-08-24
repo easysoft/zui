@@ -6,3 +6,4 @@ export * from './event';
 export * from './delay';
 export * from './share-data';
 export * from './zui-creator';
+export * from './scroll';
