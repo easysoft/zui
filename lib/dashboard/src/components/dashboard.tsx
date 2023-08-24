@@ -216,7 +216,7 @@ export class Dashboard extends Component<Required<DashboardOptions>, DashboardSt
     }
 
     protected _initBlocks(blockSettings: BlockSetting[]) {
-        const {blockFetch, blockMenu} = this.props;
+        const {blockFetch, blockMenu, grid} = this.props;
         const blocks = blockSettings.map<BlockInfo>((block) => {
             const {
                 id,
@@ -236,7 +236,7 @@ export class Dashboard extends Component<Required<DashboardOptions>, DashboardSt
                 id: `${id}`,
                 width,
                 height,
-                left,
+                left: Math.min(left, grid - width),
                 top,
                 fetch,
                 menu,
