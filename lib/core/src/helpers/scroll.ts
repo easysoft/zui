@@ -13,6 +13,9 @@ export function disableScroll(selector: Selector, disable = true): void {
     const element = $element[0] as HTMLElement;
     const dataName = 'zui-disable-scroll';
     if (disable) {
+        if ($element.data(dataName)) {
+            return;
+        }
         const scrollbarWidth = (element === document.body) ? (window.innerWidth - document.body.clientWidth) : (element.offsetWidth - element.clientWidth);
         if (!scrollbarWidth) {
             return;
