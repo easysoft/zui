@@ -5,3 +5,7 @@
 .upload .draggable-area.dragover {
     background-color: rgba(var(--color-primary-500-rgb), 0.1);
 }
+
+.upload .draggable-area {
+    border: 1px dashed var(--color-gray-300);
+}

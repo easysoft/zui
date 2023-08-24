@@ -92,7 +92,7 @@ export class Upload<T extends UploadOptions = UploadOptions> extends Component<T
             const $uploadIcon = $(`<i class="icon icon-${uploadIcon} mr-1"></i>`);
             $uploadText.prepend($uploadIcon);
         }
-        this.$label = $(`<label class="draggable-area col justify-center items-center cursor-pointer block w-full h-16 border border-dashed border-gray" for="${name}"></label>`)
+        this.$label = $(`<label class="draggable-area col justify-center items-center cursor-pointer block w-full h-16" for="${name}"></label>`)
             .append($uploadText)
             .append($tip);
         this.bindDragEvent();
