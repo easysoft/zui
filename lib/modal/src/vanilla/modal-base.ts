@@ -105,7 +105,6 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
             ...style,
         });
 
-
         this.layout();
         this.emit('show');
 
@@ -168,30 +167,32 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
         }
 
         const style: JSX.CSSProperties = {
-            top: null,
             left: null,
             bottom: null,
             right: null,
-            alignSelf: 'center',
         };
-
+        let top: number | string | null = null;
+        let alignSelf: string | number | null | undefined = 'center';
         if (typeof position === 'number') {
-            style.alignSelf = 'flex-start';
-            style.top = position;
+            alignSelf = 'flex-start';
+            top = position;
         } else if (typeof position === 'object' && position) {
-            style.alignSelf = 'flex-start';
             Object.assign(style, position);
+            top = style.top ?? top;
+            alignSelf = style.alignSelf ?? 'flex-start';
         } else if (position === 'fit') {
-            style.alignSelf = 'flex-start';
-            style.top = `${Math.max(0, Math.floor((window.innerHeight - height) / 3))}px`;
+            alignSelf = 'flex-start';
+            top = `${Math.max(0, Math.floor((window.innerHeight - height) / 3))}px`;
         } else if (position === 'bottom') {
-            style.alignSelf = 'flex-end';
+            alignSelf = 'flex-end';
         } else if (position === 'top') {
-            style.alignSelf = 'flex-start';
+            alignSelf = 'flex-start';
         } else if (position !== 'center' && typeof position === 'string') {
-            style.alignSelf = 'flex-start';
-            style.top = position;
+            alignSelf = 'flex-start';
+            top = position;
         }
+        style.top = top;
+        style.alignSelf = alignSelf;
 
         $dialog.css(style);
         $(this.modalElement).css('justifyContent', style.left ? 'flex-start' : 'center');
