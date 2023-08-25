@@ -12,6 +12,13 @@
 .group.active .group-active\:text-primary,
 .active\:text-primary.active {@apply -text-primary-500;}
 
+.group:hover .group-hover\:border-primary,
+.hover\:border-primary:hover,
+.group:active .group-active\:border-primary,
+.active\:border-primary:active,
+.group.active .group-active\:border-primary,
+.active\:border-primary.active {@apply -border-primary-500;}
+
 .group:hover .group-hover\:primary,
 .hover\:primary:hover,
 .group:active .group-active\:primary,
@@ -32,3 +39,10 @@
 .active\:font-bold:active,
 .group.active .group-active\:font-bold,
 .active\:font-bold.active {@apply -font-bold;}
+
+.group:hover .group-hover\:shadow,
+.hover\:shadow:hover,
+.group:active .group-active\:shadow,
+.active\:shadow:active,
+.group.active .group-active\:shadow,
+.active\:shadow.active {@apply -shadow;}
