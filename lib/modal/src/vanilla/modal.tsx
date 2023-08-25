@@ -129,7 +129,7 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
 
     afterInit() {
         super.afterInit();
-        this.on('shown', () => {
+        this.on('show', () => {
             $('body').disableScroll();
         });
         this.on('hidden', () => {
