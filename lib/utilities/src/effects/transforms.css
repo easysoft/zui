@@ -20,4 +20,6 @@
 .rotate-12     {@apply -rotate-12;}
 .rotate-45     {@apply -rotate-45;}
 .rotate-90     {@apply -rotate-90;}
+.rotate-135    {@apply -rotate-[135deg];}
 .rotate-180    {@apply -rotate-180;}
+.rotate-270    {@apply -rotate-[270deg];}
