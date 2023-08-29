@@ -3,9 +3,6 @@ import {ProgressCircleOptions} from '../types';
 
 export class ProgressCircle extends Component<ProgressCircleOptions> {
     static defaultProps: Partial<ProgressCircleOptions> = {
-        percent: 50,
-        size: 24,
-        circleWidth: 0.1,
         circleBg: 'var(--color-surface)',
         circleColor: 'var(--color-primary-500)',
         text: true,
@@ -14,7 +11,7 @@ export class ProgressCircle extends Component<ProgressCircleOptions> {
     render(props: ProgressCircleOptions) {
         const {percent = 50, size = 24, circleBg, circleColor, text, className, textStyle, textX, textY, children} = props;
         const center = size / 2;
-        let {circleWidth = 0.2} = props;
+        let {circleWidth = 0.1} = props;
         if (circleWidth < 1) {
             circleWidth = size * circleWidth;
         }
