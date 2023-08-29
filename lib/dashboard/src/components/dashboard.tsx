@@ -144,12 +144,15 @@ export class Dashboard extends Component<Required<DashboardOptions>, DashboardSt
                 }) as string;
                 this.update({id, loading: false, content: {html}}, () => {
                     this._setCache(id, html);
+                    this.props.onLoad?.call(this, html, block);
                 });
             } catch (error) {
                 const content = (
                     <div class="panel center text-danger p-5">Error: {(error as Error).message}</div>
                 );
-                this.update({id, loading: false, content});
+                this.update({id, loading: false, content}, () => {
+                    this.props.onLoadFail?.call(this, error as Error, block);
+                });
             }
         });
     }
