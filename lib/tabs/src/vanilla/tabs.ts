@@ -43,7 +43,7 @@ export class Tabs extends Component<{}, {show: [target: string], shown: [target:
             clearTimeout(this.#timer);
         }
         this.#timer = setTimeout(() => {
-            $activePane.addClass('in').trigger('show', [name]);
+            $activePane.addClass('in').trigger('shown', [name]);
             this.emit('shown', name);
             this.#timer = 0;
         }, 10) as unknown as number;
