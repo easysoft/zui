@@ -20,10 +20,15 @@ export function scrollIntoView(selector: Selector, options?: CashScrollIntoViewO
     const $element = $(selector);
     const {ifNeeded = true, ...other} = options || {};
     $element.each((_, ele) => {
-        if (ifNeeded && isVisible(ele, {viewport: ele.getBoundingClientRect()})) {
-            return;
+        if (ifNeeded) {
+            if ((ele as unknown as {scrollIntoViewIfNeeded?: (options: ScrollIntoViewOptions) => void}).scrollIntoViewIfNeeded) {
+                return (ele as unknown as {scrollIntoViewIfNeeded: (options: ScrollIntoViewOptions) => void}).scrollIntoViewIfNeeded({block: 'nearest', ...other});
+            }
+            if (isVisible(ele, {viewport: ele.getBoundingClientRect()})) {
+                return;
+            }
         }
-        ele.scrollIntoView(other);
+        ele.scrollIntoView({block: 'nearest', ...other});
     });
     return $element;
 }
