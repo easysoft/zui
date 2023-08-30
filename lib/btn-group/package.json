@@ -19,6 +19,7 @@
         "@zui/button": "workspace:^0.0.1"
     },
     "devDependencies": {
+        "zui-dev": "workspace:*",
         "@zui/base": "workspace:*",
         "@zui/icons": "workspace:*",
         "@zui/dropdown": "workspace:^0.0.1",

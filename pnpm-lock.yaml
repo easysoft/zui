@@ -283,6 +283,9 @@ importers:
       '@zui/utilities':
         specifier: workspace:*
         version: link:../utilities
+      zui-dev:
+        specifier: workspace:*
+        version: link:../../dev
 
   lib/button:
     dependencies:
@@ -390,6 +393,9 @@ importers:
       '@zui/css-icons':
         specifier: workspace:^0.0.1
         version: link:../css-icons
+      '@zui/dnd':
+        specifier: workspace:^0.0.1
+        version: link:../dnd
       '@zui/helpers':
         specifier: workspace:^0.0.1
         version: link:../helpers

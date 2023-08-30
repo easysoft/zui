@@ -2,7 +2,7 @@ import 'preact/debug';
 import '@zui/dropdown';
 import '@zui/icons';
 import '@zui/button';
-import {BtnGroup} from './src/vanilla';
+import {BtnGroup} from './src/main';
 import 'zui-dev';
 
 onPageLoad(() => {
