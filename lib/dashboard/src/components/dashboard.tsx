@@ -98,8 +98,8 @@ export class Dashboard extends Component<Required<DashboardOptions>, DashboardSt
             return;
         }
         const block = blocks[index];
-        if (info.fetch && info.fetch !== block.fetch && block.needLoad) {
-            info.needLoad = false;
+        if (info.fetch && info.fetch !== block.fetch && info.needLoad === undefined) {
+            info.needLoad = true;
         }
         blocks[index] = {...block, ...info};
         this.setState({blocks}, callback);
