@@ -34,6 +34,14 @@ if (argv.noCash) {
     });
 }
 
+if (argv.noSourceMap) {
+    viteConfig = mergeConfig(viteConfig, {
+        build: {
+            sourcemap: false
+        }
+    });
+}
+
 const buildLibPaths = getBuildLibPaths(argv.exts ?? argv.e);
 const buildConfig = await createBuildConfig({
     libs: argv.lib ?? argv.l ?? argv.config ?? argv.c ?? argv._.join(' '),
