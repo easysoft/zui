@@ -26,7 +26,7 @@ export class Tabs extends Component<{}, {show: [target: string], shown: [target:
 
         /* Add active class to nav item. */
         $items.removeClass('active');
-        $navItem.addClass('active').scrollIntoView();
+        $navItem.addClass('active');
 
         /* Add active class to panes. */
         const target: string = $navItem.attr('href') || $navItem.data('target');
