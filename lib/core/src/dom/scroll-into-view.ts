@@ -22,13 +22,13 @@ export function scrollIntoView(selector: Selector, options?: CashScrollIntoViewO
     $element.each((_, ele) => {
         if (ifNeeded) {
             if ((ele as unknown as {scrollIntoViewIfNeeded?: (options: ScrollIntoViewOptions) => void}).scrollIntoViewIfNeeded) {
-                return (ele as unknown as {scrollIntoViewIfNeeded: (options: ScrollIntoViewOptions) => void}).scrollIntoViewIfNeeded({block: 'nearest', ...other});
+                return (ele as unknown as {scrollIntoViewIfNeeded: (options: ScrollIntoViewOptions) => void}).scrollIntoViewIfNeeded(other);
             }
             if (isVisible(ele, {viewport: ele.getBoundingClientRect()})) {
                 return;
             }
         }
-        ele.scrollIntoView({block: 'nearest', ...other});
+        ele.scrollIntoView(other);
     });
     return $element;
 }
