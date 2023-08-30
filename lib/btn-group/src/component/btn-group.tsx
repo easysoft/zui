@@ -4,7 +4,6 @@ import {Button} from '@zui/button/src/component/button';
 import {DropdownButton} from '@zui/dropdown/src/component/dropdown-button';
 import {BtnProps} from '../types/btn-props';
 import {BtnGroupOptions} from '../types/btn-group-options';
-import '../style/index.css';
 
 export class BtnGroup extends Component<BtnGroupOptions> {
     componentDidMount() {
