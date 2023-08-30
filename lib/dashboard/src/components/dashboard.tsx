@@ -144,7 +144,7 @@ export class Dashboard extends Component<Required<DashboardOptions>, DashboardSt
                 }) as string;
                 this.update({id, loading: false, content: {html}}, () => {
                     this._setCache(id, html);
-                    this.props.onLoad?.call(this, html, block);
+                    this.props.onLoad?.call(this, block);
                 });
             } catch (error) {
                 const content = (

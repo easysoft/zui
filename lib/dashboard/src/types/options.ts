@@ -17,6 +17,6 @@ export type DashboardOptions =  {
     blockMenu?: ContextMenuOptions;
     onClickMenu?: (info: {item: MenuItemOptions, event: MouseEvent}, block: BlockInfo) => void;
     onLayoutChange?: (layout: Record<string, {top: number, left: number, width: number, height: number}>) => void;
-    onLoad?: (html: string, info: BlockInfo) => void;
+    onLoad?: (info: BlockInfo) => void;
     onLoadFail?: (error: Error, info: BlockInfo) => void;
 };
