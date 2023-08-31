@@ -813,6 +813,7 @@
             "@zui/button": "workspace:^0.0.1"
         },
         "devDependencies": {
+            "zui-dev": "workspace:*",
             "@zui/base": "workspace:*",
             "@zui/icons": "workspace:*",
             "@zui/dropdown": "workspace:^0.0.1",
@@ -1682,6 +1683,7 @@
             "@zui/store": "workspace:^0.0.1",
             "@zui/contextmenu": "workspace:^0.0.1",
             "@zui/css-icons": "workspace:^0.0.1",
+            "@zui/dnd": "workspace:^0.0.1",
             "@zui/toolbar": "workspace:^0.0.1"
         },
         "exports": {
