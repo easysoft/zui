@@ -15,11 +15,11 @@
     @apply -block -absolute -inset-0 -z-[15] -border -border-[--dtable-border-color] -rounded-[inherit] -pointer-events-none;
 }
 .dtable-bordered .dtable-cell::before {
-    @apply -border;
+    @apply -border --right-px;
 }
 .dtable-cell.has-border-left::before {
     @apply -border-l;
 }
 .dtable-cell.has-border-right::before {
-    @apply -border-r;
+    @apply -border-r --right-px;
 }

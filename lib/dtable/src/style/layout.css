@@ -30,7 +30,7 @@
 .dtable-cell::before,
 .dtable-cell::after {
   content: '';
-  @apply -absolute -z-[2] -opacity-0 -pointer-events-none -left-0 --top-px --right-px -bottom-0;
+  @apply -absolute -z-[2] -opacity-0 -pointer-events-none -left-0 --top-px -right-0 -bottom-0;
 }
 .dtable-cell::before {
   @apply -border-b -opacity-100 -border-[--dtable-border-color];
