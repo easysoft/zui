@@ -1,5 +1,5 @@
-import {JSX, ComponentChildren} from 'preact';
-import {ClassNameLike} from '@zui/core';
+import type {JSX, ComponentChildren} from 'preact';
+import type {ClassNameLike, IconType} from '@zui/core';
 
 export interface AvatarOptions {
     className?: ClassNameLike;
@@ -9,6 +9,7 @@ export interface AvatarOptions {
     rounded?: boolean | 'sm' | 'md' | 'lg' | number;
     background?: string;
     foreColor?: string;
+    icon?: IconType;
     text?: string;
     code?: string | number;
     maxTextLength?: number;

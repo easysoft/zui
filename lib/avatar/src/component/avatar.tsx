@@ -1,5 +1,5 @@
 import {Component, ComponentChildren, JSX} from 'preact';
-import {classes} from '@zui/core';
+import {classes, Icon} from '@zui/core';
 import {contrastColor, hslToRgb} from '@zui/helpers/src/color-helper';
 import {getUniqueCode} from '@zui/helpers/src/string-code';
 import {AvatarOptions} from '../types/';
@@ -24,6 +24,7 @@ export class Avatar extends Component<AvatarOptions> {
             rounded,
             background,
             foreColor,
+            icon,
             text,
             code,
             maxTextLength = 2,
@@ -64,6 +65,9 @@ export class Avatar extends Component<AvatarOptions> {
         if (src) {
             finalClass.push('has-img');
             content = <img className="avatar-img" src={src} alt={text} />;
+        } else if (icon) {
+            finalClass.push('has-icon');
+            content = <Icon icon={icon} />;
         } else if (text?.length) {
             const displayText = getAvatarText(text, maxTextLength);
             finalClass.push('has-text', `has-text-${displayText.length}`);
