@@ -1,4 +1,4 @@
-import {$} from '@zui/core';
+import {$, Cash} from '@zui/core';
 import {Ajax} from './ajax';
 import type {AjaxFormData, AjaxSetting, AjaxSuccessCallback} from './types';
 
@@ -12,6 +12,10 @@ declare module 'cash-dom' {
         get(url: string, dataOrSuccess?: AjaxFormData | AjaxSuccessCallback, successOrDataType?: AjaxSuccessCallback | string, dataType?: string, method?: string): Ajax;
 
         post(url: string, dataOrSuccess?: AjaxFormData | AjaxSuccessCallback, successOrDataType?: AjaxSuccessCallback | string, dataType?: string): Ajax;
+    }
+
+    interface Cash {
+        load(this: Cash, url: string, dataOrSuccess?: AjaxFormData | AjaxSuccessCallback, success?: AjaxSuccessCallback): Cash;
     }
 }
 
@@ -70,4 +74,21 @@ $.get = (url: string, dataOrSuccess?: AjaxFormData | AjaxSuccessCallback, succes
 /* Extend as $.post() to create post for cash. */
 $.post = (url: string, dataOrSuccess?: AjaxFormData | AjaxSuccessCallback, successOrDataType?: AjaxSuccessCallback | string, dataType?: string) => {
     return $.get(url, dataOrSuccess, successOrDataType, dataType, 'POST');
+};
+
+/* Extend as $.load() to create load for cash. */
+$.fn.load = function (this: Cash, url: string, dataOrSuccess?: AjaxFormData | AjaxSuccessCallback, success?: AjaxSuccessCallback): Cash {
+    if (typeof dataOrSuccess === 'function') {
+        success = dataOrSuccess;
+        dataOrSuccess = undefined;
+    }
+    const [realUrl, selector] = url.split(' ');
+    $.get(realUrl, dataOrSuccess, (data, statusText, response) => {
+        if (selector) {
+            data = $(data as string).find(selector).html();
+        }
+        $(this).html(data as string);
+        success?.call(this, data, statusText, response);
+    }, 'html');
+    return this;
 };
