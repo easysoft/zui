@@ -126,22 +126,12 @@ export class Dashboard extends Component<Required<DashboardOptions>, DashboardSt
             return;
         }
         fetcher = fetcher || block.fetch;
-        if (typeof fetcher === 'string') {
-            fetcher = {url: fetcher};
-        } else if (typeof fetcher === 'function') {
-            fetcher = fetcher(block.id, block);
-        }
-        if (!fetcher || !fetcher.url) {
+        if (!fetcher) {
             return;
         }
-        const {url, ...fetchOptions} = fetcher;
         this.update({id, loading: true, needLoad: false}, async () => {
-            const fetchUrl = formatString(url, block);
             try {
-                const html = await $.ajax({
-                    url: formatString(fetchUrl, block),
-                    ...fetchOptions,
-                }) as string;
+                const html = await $.fetch(fetcher!, [id, block], ({url}) => ({url: formatString(url, block)}));
                 this.update({id, loading: false, content: {html}}, () => {
                     this._setCache(id, html);
                     this.props.onLoad?.call(this, block);

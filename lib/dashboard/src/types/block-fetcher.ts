@@ -1,9 +1,4 @@
+import type {FetcherSetting} from '@zui/core';
 import type {BlockSetting} from './block-setting';
 
-export type BlockFetchUrl = string;
-
-export type BlockFetchInit = RequestInit & {url: string};
-
-export type BlockFetchFn = (id: string, block: BlockSetting) => BlockFetchInit;
-
-export type BlockFetcher = BlockFetchInit | BlockFetchUrl | BlockFetchFn;
+export type BlockFetcher = FetcherSetting<string, [id: string, block: BlockSetting]>;
