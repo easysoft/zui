@@ -25,8 +25,8 @@ const sortTypePlugin: DTablePlugin<DTableSortTypeTypes> = {
         const {sortType: sortTypeSetting} = col.setting;
         if (sortTypeSetting) {
             const sortTypeName = sortTypeSetting === true ? 'none' : sortTypeSetting;
+            const sortIcon = <div className={`dtable-sort dtable-sort-${sortTypeName}`} />;
             result.push(
-                <div className={`dtable-sort dtable-sort-${sortTypeName}`} />,
                 {outer: true, attrs: {'data-sort': sortTypeName}},
             );
             let {sortLink = this.options.sortLink} = col.setting;
@@ -39,7 +39,9 @@ const sortTypePlugin: DTablePlugin<DTableSortTypeTypes> = {
                     sortLink = {url: sortLink};
                 }
                 const {url, ...linkProps} = sortLink;
-                result[0] = <a href={formatString(url, {...col.setting, sortType: nextSortType})} {...linkProps}>{result[0]}</a>;
+                result[0] = <a className="dtable-sort-link" href={formatString(url, {...col.setting, sortType: nextSortType})} {...linkProps}>{result[0]}{sortIcon}</a>;
+            } else {
+                result.push(sortIcon);
             }
         }
         return result;
