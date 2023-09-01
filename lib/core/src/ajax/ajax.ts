@@ -41,7 +41,7 @@ function getDataType(contentType: string | undefined | null, accepts: Record<str
     return 'text';
 }
 
-export class Ajax {
+export class Ajax<T> {
     private declare _timeoutID: number;
 
     private _controller: AbortController;
@@ -52,7 +52,7 @@ export class Ajax {
 
     setting: AjaxSetting;
 
-    declare data: unknown;
+    declare data: T;
 
     declare error: Error;
 
@@ -76,7 +76,7 @@ export class Ajax {
         this._callbacks = {success: [], error: [], complete: []};
     }
 
-    on<T extends keyof AjaxCallbackMap>(name: T, callback: AjaxCallbackMap[T]) {
+    on<N extends keyof AjaxCallbackMap>(name: N, callback: AjaxCallbackMap[N]) {
         (this._callbacks[name]).push(callback);
         return this;
     }
@@ -101,7 +101,7 @@ export class Ajax {
         return this.complete(calback);
     }
 
-    then(resolve: (data: unknown) => void, reject?: (error: Error) => void) {
+    then(resolve: (data: T) => void, reject?: (error: Error) => void) {
         if (this.completed) {
             if (reject && this.error) {
                 reject(this.error);
@@ -109,7 +109,7 @@ export class Ajax {
                 resolve(this.data);
             }
         } else {
-            this.success((data) => resolve(data));
+            this.success((data) => resolve(data as T));
             if (reject) {
                 this.fail(reject);
             }
@@ -218,13 +218,13 @@ export class Ajax {
         this.request = initOptions;
     }
 
-    private _emit<T extends keyof AjaxCallbackMap>(name: T, ...args: Parameters<AjaxCallbackMap[T]>) {
+    private _emit<N extends keyof AjaxCallbackMap>(name: N, ...args: Parameters<AjaxCallbackMap[N]>) {
         this._callbacks[name].forEach((callback) => {
             callback(...(args as [arg0: Error & Response, statusText: string, arg2: string & Response]));
         });
     }
 
-    async send(): Promise<[data?: unknown | undefined, error?: Error | undefined, response?: Response | undefined]> {
+    async send<D = T>(): Promise<[data?: D | undefined, error?: Error | undefined, response?: Response | undefined]> {
         if (this.completed) {
             return [];
         }
@@ -253,7 +253,7 @@ export class Ajax {
                 } else {
                     data = await response.text();
                 }
-                this.data = data;
+                this.data = data as T;
                 const filteredData = dataFilter?.(data, dataType) ?? data;
                 this._emit('success', filteredData, statusText, response);
             } else {
@@ -281,6 +281,6 @@ export class Ajax {
         }
 
         this._emit('complete', response, response?.statusText);
-        return [data, error, response];
+        return [data as D, error, response];
     }
 }
