@@ -8,6 +8,10 @@
         "@zui/base": "workspace:*",
         "@zui/utilities": "workspace:*"
     },
+    "dependencies": {
+        "@zui/base": "workspace:*",
+        "@zui/core": "workspace:^0.0.1"
+    },
     "files": [
     ],
     "zui": {

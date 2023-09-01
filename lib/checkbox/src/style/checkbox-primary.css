@@ -26,6 +26,7 @@
   @apply -scale-90;
   background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZD0iTTksMjAuNDJMMi43OSwxNC4yMUw1LjYyLDExLjM4TDksMTQuNzdMMTguODgsNC44OEwyMS43MSw3LjcxTDksMjAuNDJaIiBmaWxsPSIjZmZmIiAvPjwvc3ZnPg==");
 }
+.checkbox-primary.indeterminate > label::after,
 .checkbox-primary > input[type="checkbox"]:indeterminate + label::after {
   @apply -opacity-100 -bg-cover;
   background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgdmlld0JveD0iMCAwIDIwNDggMjA0OCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxwYXRoIGZpbGw9IiNmZmZmZmYiIGQ9Ik0xNTM2IDUxMnYxMDI0SDUxMlY1MTJoMTAyNHoiLz4KPC9zdmc+");
@@ -53,6 +54,7 @@
   @apply -outline -outline-focus -outline-2 -border-primary-500;
 }
 .checkbox-primary > input[type="checkbox"]:checked + label::before,
+.checkbox-primary.indeterminate > label::before,
 .checkbox-primary > input[type="checkbox"]:indeterminate + label::before,
 .checkbox-primary.checked > label::before {
   @apply -border-primary-500 -bg-primary-500;
