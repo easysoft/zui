@@ -230,7 +230,7 @@ export class Ajax<T> {
         }
         this._init();
 
-        const {timeout, dataType: dataTypeSetting, accepts, dataFilter} = this.setting;
+        const {timeout, dataType: dataTypeSetting, accepts, dataFilter, throws} = this.setting;
         if (timeout) {
             this._timeoutID = window.setTimeout(() => {
                 this.abort(new Error('timeout'));
@@ -258,7 +258,6 @@ export class Ajax<T> {
                 this._emit('success', filteredData, statusText, response);
             } else {
                 throw new Error(statusText);
-
             }
         } catch (err) {
             error = err as Error;
@@ -281,6 +280,9 @@ export class Ajax<T> {
         }
 
         this._emit('complete', response, response?.statusText);
+        if (error && throws) {
+            throw error;
+        }
         return [data as D, error, response];
     }
 }

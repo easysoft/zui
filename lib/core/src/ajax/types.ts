@@ -35,6 +35,7 @@ export interface AjaxSetting extends RequestInit {
     success?: AjaxSuccessCallback;
     error?: AjaxErrorCallback;
     complete?: AjaxCompleteCallback;
+    throws?: boolean;
 }
 
 export type FetcherUrl = string;
