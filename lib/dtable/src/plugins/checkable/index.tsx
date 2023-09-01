@@ -1,10 +1,12 @@
 import {$} from '@zui/core';
+import {Checkbox} from '@zui/checkbox/src/component';
 import {definePlugin} from '../../helpers/shared-plugins';
 import './style.css';
+
 import type {CustomRenderResult} from '../../types/common';
 import type {DTablePluginTypes, DTableWithPlugin, DTablePlugin} from '../../types/plugin';
 import type {ComponentChildren} from 'preact';
-import {RowID} from '../../types';
+import type {RowID} from '../../types';
 
 export interface DTableCheckableTypes extends DTablePluginTypes {
     options: Partial<{
@@ -127,9 +129,7 @@ function toggleCheckable(this: DTableCheckable, toggle?: boolean) {
 }
 
 function renderCheckbox(checked: boolean, _rowID?: RowID, disabled = false) {
-    return (<div class={`checkbox-primary dtable-checkbox${checked ? ' checked' : ''}${disabled ? ' disabled' : ''}`}>
-        <label></label>
-    </div>);
+    return <Checkbox className="dtable-checkbox" checked={checked} disabled={disabled} />;
 }
 
 const checkboxSelector = 'input[type="checkbox"],.dtable-checkbox';

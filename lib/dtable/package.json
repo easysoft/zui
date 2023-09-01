@@ -15,6 +15,7 @@
         "@zui/helpers": "workspace:^0.0.1",
         "@zui/scrollbar": "workspace:^0.0.1",
         "@zui/store": "workspace:^0.0.1",
+        "@zui/checkbox": "workspace:^0.0.1",
         "@zui/contextmenu": "workspace:^0.0.1",
         "@zui/menu": "workspace:^0.0.1",
         "@zui/css-icons": "workspace:^0.0.1",
