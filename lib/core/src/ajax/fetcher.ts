@@ -2,29 +2,31 @@ import {$} from '../cash';
 import {Ajax} from './ajax';
 import type {AjaxSetting, FetcherSetting} from './types';
 
-export function fetchData<T = {}, A extends unknown[] = unknown[]>(setting: FetcherSetting<T, A>, args: A = ([] as unknown as A)): Promise<T> {
-    let ajaxSetting: AjaxSetting | undefined;
+export async function fetchData<T = {}, A extends unknown[] = unknown[]>(setting: FetcherSetting<T, A>, args: A = ([] as unknown as A), extraAjaxSetting?: Partial<AjaxSetting> | ((ajaxSetting: AjaxSetting) => Partial<AjaxSetting>)): Promise<T> {
+    const ajaxSetting = {throws: true} as AjaxSetting;
     if (typeof setting === 'string') {
-        ajaxSetting = {url: setting};
+        ajaxSetting.url = setting;
     } else if (typeof setting === 'object') {
-        ajaxSetting = setting;
+        $.extend(ajaxSetting, setting);
     } else if (typeof setting === 'function') {
         const result = setting(...args);
         if (result instanceof Promise) {
-            return result;
+            const data = await result;
+            return data;
         }
-        ajaxSetting = result;
+        $.extend(ajaxSetting, result);
     }
-    if (ajaxSetting) {
-        const ajax = new Ajax<T>(ajaxSetting);
-        return ajax.send() as Promise<T>;
+    if (extraAjaxSetting) {
+        $.extend(ajaxSetting, typeof extraAjaxSetting === 'function' ? extraAjaxSetting(ajaxSetting) : extraAjaxSetting);
     }
-    throw new Error('Invalid fetcher setting');
+    const ajax = new Ajax<T>(ajaxSetting);
+    const [data] = await ajax.send();
+    return data as T;
 }
 
 declare module 'cash-dom' {
     interface CashStatic {
-        fetch<T = {}, A extends unknown[] = unknown[]>(setting: FetcherSetting<T, A>, args?: A): Promise<T>
+        fetch<T = {}, A extends unknown[] = unknown[]>(setting: FetcherSetting<T, A>, args?: A, extraAjaxSetting?: Partial<AjaxSetting> | ((ajaxSetting: AjaxSetting) => Partial<AjaxSetting>)): Promise<T>
     }
 }
 
