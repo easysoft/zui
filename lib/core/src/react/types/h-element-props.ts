@@ -16,11 +16,6 @@ export interface HElementProps extends PreactDOMAttributes {
     className?: ClassNameLike;
 
     /**
-     * The alternative class name of the element.
-     */
-    class?: ClassNameLike;
-
-    /**
      * The style of the element.
      */
     style?: JSX.CSSProperties;
@@ -43,5 +38,5 @@ export interface HElementProps extends PreactDOMAttributes {
     /**
      * The other props of the element.
      */
-    [dataKey: `data-${string}`]: unknown;
+    [dataKey: `data-${string}` | `on${string}`]: unknown;
 }
