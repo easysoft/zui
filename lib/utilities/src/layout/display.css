@@ -6,5 +6,4 @@
 .table             {@apply -table;}
 .table-cell        {@apply -table-cell;}
 .table-row         {@apply -table-row;}
-.list-item         {@apply -list-item;}
 .hidden            {@apply !-hidden;}
