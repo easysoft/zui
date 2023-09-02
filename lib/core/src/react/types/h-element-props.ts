@@ -16,6 +16,11 @@ export interface HElementProps extends PreactDOMAttributes {
     className?: ClassNameLike;
 
     /**
+     * The class name of the element.
+     */
+    class?: ClassNameLike;
+
+    /**
      * The style of the element.
      */
     style?: JSX.CSSProperties;
