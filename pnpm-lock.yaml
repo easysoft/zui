@@ -310,10 +310,14 @@ importers:
         version: link:../../dev
 
   lib/checkbox:
-    devDependencies:
+    dependencies:
       '@zui/base':
         specifier: workspace:*
         version: link:../base
+      '@zui/core':
+        specifier: workspace:^0.0.1
+        version: link:../core
+    devDependencies:
       '@zui/utilities':
         specifier: workspace:*
         version: link:../utilities
@@ -496,6 +500,9 @@ importers:
 
   lib/dtable:
     dependencies:
+      '@zui/checkbox':
+        specifier: workspace:^0.0.1
+        version: link:../checkbox
       '@zui/contextmenu':
         specifier: workspace:^0.0.1
         version: link:../contextmenu
@@ -642,6 +649,31 @@ importers:
       '@zui/utilities':
         specifier: workspace:*
         version: link:../utilities
+
+  lib/list:
+    dependencies:
+      '@zui/avatar':
+        specifier: workspace:^0.0.1
+        version: link:../avatar
+      '@zui/button':
+        specifier: workspace:^0.0.1
+        version: link:../button
+      '@zui/core':
+        specifier: workspace:^0.0.1
+        version: link:../core
+      '@zui/css-icons':
+        specifier: workspace:^0.0.1
+        version: link:../css-icons
+    devDependencies:
+      '@zui/base':
+        specifier: workspace:*
+        version: link:../base
+      '@zui/icons':
+        specifier: workspace:^0.0.1
+        version: link:../icons
+      zui-dev:
+        specifier: workspace:^0.0.1
+        version: link:../../dev
 
   lib/menu:
     dependencies:

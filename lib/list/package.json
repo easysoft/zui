@@ -1,0 +1,35 @@
+{
+    "name": "@zui/list",
+    "version": "0.0.1",
+    "main": "src/main.ts",
+    "browserslist": "",
+    "files": [
+        "./src/**/*"
+    ],
+    "exports": {
+        ".": "./src/main.ts",
+        "./react": "./src/main-react.ts"
+    },
+    "devDependencies": {
+        "@zui/base": "workspace:*",
+        "@zui/icons": "workspace:^0.0.1",
+        "zui-dev": "workspace:^0.0.1"
+    },
+    "dependencies": {
+        "@zui/avatar": "workspace:^0.0.1",
+        "@zui/button": "workspace:^0.0.1",
+        "@zui/css-icons": "workspace:^0.0.1",
+        "@zui/checkbox": "workspace:^0.0.1",
+        "@zui/core": "workspace:^0.0.1"
+    },
+    "zui": {
+        "type": "control",
+        "displayName": "列表",
+        "contributes": {
+            "css": [
+                "class",
+                "var"
+            ]
+        }
+    }
+}
