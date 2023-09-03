@@ -1,11 +1,11 @@
-import {$, HElement, classes} from '@zui/core';
+import {$, HElement, classes, fetchData} from '@zui/core';
 import {ListItem} from './list-item';
 
 import type {ComponentChildren, ComponentType, JSX, RenderableProps} from 'preact';
-import type {ClassNameLike} from '@zui/core';
-import type {ListProps, Item} from '../types';
+import type {ClassNameLike, CustomContentType} from '@zui/core';
+import type {ListProps, Item, ListState, ItemsSetting, ItemsFetcher} from '../types';
 
-export class List<P extends ListProps = ListProps, S = {}> extends HElement<P, S> {
+export class List<P extends ListProps = ListProps, S extends ListState = ListState> extends HElement<P, S> {
     static ItemComponents: Record<string, ComponentType<{}>> = {
         item: ListItem,
         element: HElement,
@@ -26,8 +26,11 @@ export class List<P extends ListProps = ListProps, S = {}> extends HElement<P, S
 
     protected _items?: Item[];
 
+    protected _loadedSetting?: ItemsSetting;
+
     constructor(props: P) {
         super(props);
+        this.state = {} as S;
         this._handleClick = this._handleClick.bind(this);
     }
 
@@ -41,10 +44,12 @@ export class List<P extends ListProps = ListProps, S = {}> extends HElement<P, S
 
     componentDidMount() {
         this.afterRender(true);
+        this.tryLoad();
     }
 
     componentDidUpdate(): void {
         this.afterRender(false);
+        this.tryLoad();
     }
 
     componentWillUnmount(): void {
@@ -53,6 +58,30 @@ export class List<P extends ListProps = ListProps, S = {}> extends HElement<P, S
 
     afterRender(firstRender: boolean) {
         this.props.afterRender?.call(this, firstRender);
+    }
+
+    load(): void {
+        const {items, onLoad, onLoadFail} = this.props;
+        this._loadedSetting = items;
+        this.setState({loading: true, items: []}, async () => {
+            const newState = {loading: false} as Partial<S>;
+            try {
+                const newItems = await fetchData(items as ItemsFetcher, [this], {throws: true});
+                newState.items = onLoad?.call(this, newItems) || newItems;
+            } catch (error) {
+                newState.loadFailed = (typeof onLoadFail === 'function' ? (onLoadFail as (error: Error) => CustomContentType | undefined).call(this, error as Error) : onLoadFail) || String(error);
+            }
+            this.setState(newState);
+        });
+    }
+
+    tryLoad(): void {
+        const {loading} = this.state;
+        const {items} = this.props;
+        if (!loading || !items || Array.isArray(items) || items === this._loadedSetting) {
+            return;
+        }
+        this.load();
     }
 
     protected _renderItem(props: RenderableProps<P>, item: Item, index: number): ComponentChildren {
@@ -66,10 +95,10 @@ export class List<P extends ListProps = ListProps, S = {}> extends HElement<P, S
     }
 
     protected _getItem(props: RenderableProps<P>, item: Item, index: number): Item {
-        const {itemProps, itemPropsMap = {}, getItem} = props;
+        const {itemProps, itemPropsMap = {}, getItem, keyName = 'id'} = props;
         const {type = 'item'} = item;
         item = $.extend(
-            {key: index, type},
+            {key: item[keyName] ?? index, type},
             itemProps,
             itemPropsMap[type],
             item,
@@ -96,7 +125,8 @@ export class List<P extends ListProps = ListProps, S = {}> extends HElement<P, S
     }
 
     protected _getClassName(props: RenderableProps<P>): ClassNameLike {
-        return [props.className, this.name];
+        const {loading, loadFailed} = this.state;
+        return [props.className, this.name, loading ? 'loading' : (loadFailed ? 'is-load-failed' : '')];
     }
 
     protected _getProps(props: RenderableProps<P>): Record<string, unknown> {
@@ -108,13 +138,22 @@ export class List<P extends ListProps = ListProps, S = {}> extends HElement<P, S
 
     protected _getItems(props: RenderableProps<P>): Item[] {
         const {items = []} = props;
-        this._items = typeof items === 'function' ? items.call(this) : items;
+        if (Array.isArray(items)) {
+            this._items = items;
+        } else {
+            this._items = this.state.items || [];
+        }
+
         return this._items;
     }
 
     protected _getChildren(props: RenderableProps<P>): ComponentChildren {
         const items = this._getItems(props);
         const children = items.map((item, index) => this._renderItem(props, this._getItem(props, item, index), index));
+        const {loadFailed} = this.state;
+        if (loadFailed) {
+            children.push(loadFailed);
+        }
         if (props.children) {
             children.push(props.children);
         }

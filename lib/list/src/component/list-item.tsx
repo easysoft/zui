@@ -108,9 +108,7 @@ export class ListItem<P extends ListItemProps = ListItemProps, S = {}> extends H
             trailingIcon ? <Icon key="trailing-icon" icon={trailingIcon} /> : null,
             actions ? (
                 <div key="actions" className={classes('list-item-actions', actionsClass)}>{
-                    actions.map((action, index) => {
-                        <Button key={index} {...action} />;
-                    })
+                    actions.map((action, index) => <Button key={index} type="ghost" size="sm" {...action} />)
                 }</div>
             ) : null,
         ];
