@@ -1,4 +1,4 @@
-import {$, HElement, classes, fetchData} from '@zui/core';
+import {$, HElement, fetchData} from '@zui/core';
 import {ListItem} from './list-item';
 
 import type {ComponentChildren, ComponentType, JSX, RenderableProps} from 'preact';
@@ -15,7 +15,11 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
 
     static ITEM_NAME = 'item';
 
-    static ROOT_TAG: keyof JSX.IntrinsicElements = 'div';
+    static ROOT_TAG: keyof JSX.IntrinsicElements = 'ul';
+
+    static defaultItemProps: Partial<Item> = {
+        component: 'li',
+    };
 
     /**
      * Access to static properties via this.constructor.
@@ -97,13 +101,19 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
     protected _getItem(props: RenderableProps<P>, item: Item, index: number): Item {
         const {itemProps, itemPropsMap = {}, getItem, keyName = 'id'} = props;
         const {type = 'item'} = item;
+        const {name, itemName} = this;
         item = $.extend(
-            {key: item[keyName] ?? index, type},
+            {
+                ...this.constructor.defaultItemProps,
+                key: item[keyName] ?? index,
+                type,
+            },
             itemProps,
             itemPropsMap[type],
             item,
             {
-                className: classes(`${this.itemName} ${this.name}-${type}`, itemProps?.className, itemPropsMap[type]?.className, item.className),
+                rootClass: [itemName, `${itemName}-type-${type}`, itemProps?.rootClass, itemPropsMap[type]?.rootClass, item.rootClass],
+                className: [`${name}-${type}`, itemProps?.className, itemPropsMap[type]?.className, item.className],
                 'zui-list-item': index,
             },
         );

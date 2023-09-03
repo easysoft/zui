@@ -12,6 +12,7 @@ export interface ListItemProps extends Item {
     active?: boolean;
     divider?: boolean;
     icon?: IconType;
+    hover?: boolean;
     avatar?: AvatarOptions;
     leading?: CustomContentType;
     leadingClass?: ClassNameLike;

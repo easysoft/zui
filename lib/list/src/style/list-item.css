@@ -1,0 +1,33 @@
+.list-item,
+.list-heading {
+  @apply -flex -flex-row -flex-nowrap -py-1 -gap-2 -items-center;
+}
+
+.list-divider {
+  @apply -border-b -my-1;
+}
+
+.list-item-icon,
+.list-item-trailing-icon,
+.list-item-avatar,
+.list-item-trailing,
+.list-item-actions {
+  @apply -flex-none;
+}
+
+.list-item-title {
+  @apply -flex-auto -font-bold;
+}
+.list-item-subtitle {
+  @apply -flex-auto -text-sm -opacity-80;
+}
+
+.list-item-text,
+.list-item-content {
+  @apply -flex-auto;
+}
+
+.list-item-leading,
+.list-item-trailing {
+  @apply -flex-none -flex -items-center -gap-2;
+}
