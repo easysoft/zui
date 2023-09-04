@@ -82,7 +82,7 @@ export class ListItem<P extends ListItemProps = ListItemProps, S = {}> extends H
         const contents: ComponentChild[] = [
             title ? <TitleComponent key="title" className={classes('list-item-title', titleClass)} href={titleAsLink ? url : undefined} target={titleAsLink ? target : undefined}>{title}</TitleComponent> : null,
             subtitle ? <div key="subtitle" className={classes('list-item-subtitle', subtitleClass)}>{subtitle}</div> : null,
-            text ? <div key="text" className={classes('list-item-text', textClass)}>{text}</div> : null,
+            text ? <div key="text" className={classes('list-item-text text', textClass)}>{text}</div> : null,
         ];
         if (!multiline) {
             return contents;
