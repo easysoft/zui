@@ -16,7 +16,7 @@
 }
 
 .list-item-title {
-  @apply -flex-auto -font-bold;
+  @apply -flex-auto;
 }
 .list-item-subtitle {
   @apply -flex-auto -text-sm -opacity-80;

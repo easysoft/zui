@@ -1,9 +1,9 @@
-import {$, HElement, fetchData} from '@zui/core';
+import {$, HElement, createRef, fetchData} from '@zui/core';
 import {ListItem} from './list-item';
 
 import type {ComponentChildren, ComponentType, JSX, RenderableProps} from 'preact';
 import type {ClassNameLike, CustomContentType} from '@zui/core';
-import type {ListProps, Item, ListState, ItemsSetting, ItemsFetcher} from '../types';
+import type {ListProps, Item, ListState, ItemsSetting, ItemsFetcher, ItemKey} from '../types';
 
 export class List<P extends ListProps = ListProps, S extends ListState = ListState> extends HElement<P, S> {
     static ItemComponents: Record<string, ComponentType<{}>> = {
@@ -30,7 +30,13 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
 
     protected _items?: Item[];
 
+    protected _ref = createRef<HTMLElement>();
+
     protected _loadedSetting?: ItemsSetting;
+
+    protected _keyIndexes?: ItemKey[];
+
+    state: S;
 
     constructor(props: P) {
         super(props);
@@ -88,6 +94,21 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
         this.load();
     }
 
+    getKey(index: number): ItemKey | undefined {
+        return this._keyIndexes?.[index];
+    }
+
+    getItemByKey(key: ItemKey) {
+        if (!this._items) {
+            return;
+        }
+        const index = this._keyIndexes?.indexOf(key);
+        if (index === undefined || index < 0) {
+            return;
+        }
+        return this._items[index];
+    }
+
     protected _renderItem(props: RenderableProps<P>, item: Item, index: number): ComponentChildren {
         const {itemRender} = props;
         if (itemRender) {
@@ -95,7 +116,7 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
         }
         const {type = 'item'} = item;
         const ItemComponent = (this.constructor as typeof List).ItemComponents[type] || ListItem;
-        return <ItemComponent {...item} />;
+        return <ItemComponent zui-key={item.key} {...item} />;
     }
 
     protected _getItem(props: RenderableProps<P>, item: Item, index: number): Item {
@@ -117,7 +138,32 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
                 'zui-list-item': index,
             },
         );
-        return getItem ? getItem.call(this, item, index) : item;
+        item = getItem ? getItem.call(this, item, index) : item;
+        this._keyIndexes![index] = item.key!;
+        return item;
+    }
+
+    protected _getItemFromEvent(event: MouseEvent): {
+        index: number;
+        item: Item;
+        element: HTMLElement;
+        event: MouseEvent;
+        key: ItemKey;
+    } | undefined {
+        const element = (event.target as HTMLElement).closest('[zui-list-item]') as HTMLElement;
+        if (!element || element.parentElement !== this._ref.current) {
+            return;
+        }
+        const index = +element.getAttribute('zui-list-item')!;
+        const item = this._items?.[index];
+        if (!item) {
+            return;
+        }
+        const key = this.getKey(index);
+        if (key === undefined) {
+            return;
+        }
+        return {index, item, element, event, key};
     }
 
     protected _handleClick(event: MouseEvent) {
@@ -125,13 +171,11 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
         if (!onClickItem) {
             return;
         }
-        const $item = $(event.target as HTMLElement).closest('[zui-list-item]');
-        const index = +$item.attr('zui-list-item')!;
-        const item = this._items?.[index];
-        if (!item) {
+        const info = this._getItemFromEvent(event);
+        if (!info) {
             return;
         }
-        onClickItem.call(this, {item, event, index});
+        onClickItem.call(this, info);
     }
 
     protected _getClassName(props: RenderableProps<P>): ClassNameLike {
@@ -143,6 +187,7 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
         return {
             onClick: this._handleClick,
             ...super._getProps(props),
+            ref: this._ref,
         };
     }
 
@@ -153,7 +198,7 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
         } else {
             this._items = this.state.items || [];
         }
-
+        this._keyIndexes = [];
         return this._items;
     }
 

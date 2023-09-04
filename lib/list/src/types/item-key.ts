@@ -1,1 +1,1 @@
-export type ItemKey = string | number | symbol;
+export type ItemKey = string | number;

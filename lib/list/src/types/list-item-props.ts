@@ -11,6 +11,7 @@ export interface ListItemProps extends Item {
     disabled?: boolean;
     active?: boolean;
     divider?: boolean;
+    toggleIcon?: CustomContentType;
     icon?: IconType;
     hover?: boolean;
     avatar?: AvatarOptions;

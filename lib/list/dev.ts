@@ -3,9 +3,40 @@ import '@zui/icons';
 import '@zui/button';
 import '@zui/avatar';
 import '@zui/checkbox';
-import {List} from './src/main';
+import {List, NestedList} from './src/main';
 
 onPageUpdate(() => {
+    const items = [
+        {
+            title: '研发',
+            subtitle: '副标题',
+            onClick: () => console.log('click 研发'),
+            items: [
+                {
+                    icon: 'star',
+                    title: '大产品',
+                    url: '#大产品',
+                    items: [
+                        {text: '前端', url: '#前端'},
+                        {text: '后端', subtitle: '#后端',  onClick: () => console.log('click 后端')},
+                    ],
+                },
+                {title: '桌面端'},
+                {title: '移动端'},
+                {title: '测试'},
+                {title: '运维'},
+            ],
+        },
+        {title: '市场'},
+        {title: '技术支持'},
+        {title: '财务'},
+        {title: '行政'},
+    ];
+    const nestedList = new NestedList('#nestedList', {
+        items: items,
+    });
+    console.log('> nestedList', nestedList);
+
     const simpleList = new List('#simpleList', {
         items: [
             {text: '文本', onClick: () => console.log('ok')},

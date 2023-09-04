@@ -1,0 +1,3 @@
+.list-nested-sub {
+    padding-left: var(--list-indent);
+}

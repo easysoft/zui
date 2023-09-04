@@ -13,15 +13,7 @@ export class ListItem<P extends ListItemProps = ListItemProps, S = {}> extends H
     };
 
     protected _getClassName(props: RenderableProps<P>): ClassNameLike {
-        const {rootClass, active, disabled, divider, checked, multiline, hover} = props;
-        return [rootClass, {
-            active,
-            disabled,
-            'has-divider': divider,
-            'has-hover state': hover,
-            checked,
-            multiline,
-        }];
+        return props.rootClass;
     }
 
     protected _beforeRender(props: RenderableProps<P>): void | RenderableProps<P> | undefined {
@@ -38,6 +30,7 @@ export class ListItem<P extends ListItemProps = ListItemProps, S = {}> extends H
         const {
             icon,
             avatar,
+            toggleIcon,
             leading,
             leadingClass,
             checked,
@@ -45,6 +38,9 @@ export class ListItem<P extends ListItemProps = ListItemProps, S = {}> extends H
             multiline,
         } = props;
         const contents: ComponentChild[] = [];
+        if (toggleIcon) {
+            contents.push(<CustomContent key="toggleIcon" content={toggleIcon} />);
+        }
         if (checked !== undefined) {
             contents.push(<Checkbox key="checkbox" className="list-item-checkbox" checked={checked} {...checkbox} />);
         }
@@ -139,11 +135,25 @@ export class ListItem<P extends ListItemProps = ListItemProps, S = {}> extends H
             url,
             actions,
             target,
+            active,
+            disabled,
+            divider,
+            checked,
+            multiline,
+            hover,
         } = props;
         const asLink = url && !actions;
         const ComponentName = asLink ? 'a' : 'div';
+        const classList = classes(className, className2, {
+            active,
+            disabled,
+            'has-divider': divider,
+            'has-hover state': hover,
+            checked,
+            multiline,
+        });
         return (
-            <ComponentName key="item" className={classes(className, className2)} href={asLink ? url : undefined} target={asLink ? target : undefined}>
+            <ComponentName key="item" className={classList} href={asLink ? url : undefined} target={asLink ? target : undefined}>
                 {this._renderLeading(props)}
                 {this._renderContent(props)}
                 {this._renderTrailing(props)}
