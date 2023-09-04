@@ -855,7 +855,8 @@ export default [
             "./react": "./src/main-react.ts"
         },
         "dependencies": {
-            "@zui/button": "workspace:^0.0.1"
+            "@zui/button": "workspace:^0.0.1",
+            "@zui/list": "workspace:^0.0.1"
         },
         "devDependencies": {
             "zui-dev": "workspace:*",
@@ -1442,8 +1443,7 @@ export default [
             "@zui/btn-group": "workspace:^0.0.1",
             "@zui/dropdown": "workspace:^0.0.1",
             "@zui/core": "workspace:^0.0.1",
-            "@zui/css-icons": "workspace:^0.0.1",
-            "@zui/action-menu": "workspace:^0.0.1"
+            "@zui/list": "workspace:^0.0.1"
         },
         "files": [
             "./src/**/*"
