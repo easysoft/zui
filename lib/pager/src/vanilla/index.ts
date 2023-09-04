@@ -1,9 +1,8 @@
 import {ComponentFromReact} from '@zui/core';
-import type {ActionBasicProps} from '@zui/action-menu/src/types/action-basic-props';
 import {Pager as PagerReact} from '../component/pager';
-import {PagerOptions, PagerItemOptions} from '../types';
+import {PagerOptions} from '../types';
 
-export class Pager<T extends ActionBasicProps = PagerItemOptions> extends ComponentFromReact<PagerOptions<T>, PagerReact<T>> {
+export class Pager<T extends PagerOptions = PagerOptions> extends ComponentFromReact<T> {
     static NAME = 'Pager';
 
     static Component = PagerReact;
