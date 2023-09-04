@@ -1,9 +1,6 @@
-import {ActionBasicProps, ActionMenuOptions} from '@zui/action-menu/src/types';
-import {ButtonProps} from '@zui/button/src/types';
-import {ToolbarItemOptions} from './toolbar-item-options';
+import type {ButtonProps} from '@zui/button';
+import type {ListProps} from '@zui/list';
 
-export interface ToolbarOptions<T extends ActionBasicProps = ToolbarItemOptions> extends ActionMenuOptions<T> {
-    wrap?: boolean,
-    gap?: number | string,
+export interface ToolbarOptions extends ListProps {
     btnProps?: ButtonProps,
 }

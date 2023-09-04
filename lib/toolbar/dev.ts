@@ -1,9 +1,9 @@
+import 'zui-dev';
 import '@zui/icons';
 import '@zui/button';
 import '@zui/btn-group';
 import '@zui/dropdown';
-import 'zui-dev';
-import {Toolbar} from './src/main-vanilla';
+import {Toolbar} from './src/main';
 
 onPageUpdate(() => {
     const toolbar = new Toolbar('#toolbar', {
@@ -14,6 +14,10 @@ onPageUpdate(() => {
             {type: 'divider'},
             {text: '博客', icon: 'icon-rss'},
             {text: '关注我们', icon: 'icon-group'},
+            {type: 'dropdown', text: '导入', icon: 'icon-upload-alt', items: [
+                {text: '导入文件'},
+                {text: '导入目录'},
+            ]},
             {type: 'space', flex: 1},
             {
                 type: 'btn-group',
