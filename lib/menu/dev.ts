@@ -4,13 +4,13 @@ import '@zui/avatar';
 import '@zui/checkbox';
 import '@zui/form-control';
 import '@zui/input-control';
+import '@zui/list';
 import 'zui-dev';
 import {Menu, SearchMenu} from './src/main';
 
 onPageUpdate(() => {
     const searchMenu = new SearchMenu('#searchMenu', {
         popup: true,
-        compact: true,
         items: [
             {text: '复制', icon: 'icon-copy'},
             {text: '粘贴', icon: 'icon-paste'},
@@ -29,7 +29,6 @@ onPageUpdate(() => {
 
     const menu = new Menu('#menu', {
         popup: true,
-        compact: true,
         items: [
             {text: '复制', icon: 'icon-copy'},
             {text: '粘贴', icon: 'icon-paste'},

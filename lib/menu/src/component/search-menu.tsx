@@ -1,48 +1,52 @@
-import {classes, $} from '@zui/core';
+import {$} from '@zui/core';
 import {SearchBox} from '@zui/search-box/src/components';
 import {Menu} from './menu';
 
-import type {ComponentChild, JSX, VNode} from 'preact';
-import type {SearchMenuState, MenuItemOptions, SearchMenuOptions, MenuItemProps} from '../types';
-import type {SearchBoxOptions} from '@zui/search-box/src/types';
-import type {ActionMenuItemOptions} from '@zui/action-menu/src/types';
+import type {ComponentChild, ComponentChildren, RenderableProps} from 'preact';
+import type {ClassNameLike} from '@zui/core';
+import type {Item, NestedItem} from '@zui/list';
+import type {SearchBoxOptions} from '@zui/search-box';
+import type {SearchMenuOptions, SearchMenuState} from '../types';
 
-const isItemMatch = (item: MenuItemProps & {keys?: string}, searchKeys: string[]) => {
-    const {keys = '', text} = item;
-    return !searchKeys.length || searchKeys.every(searchKey => keys.toLowerCase().includes(searchKey) || (typeof text === 'string' && text.toLowerCase().includes(searchKey)));
-};
+export class SearchMenu<T extends SearchMenuOptions = SearchMenuOptions> extends Menu<T, SearchMenuState> {
+    static isItemMatch(item: Item & {keys?: string}, searchKeys: string[]) {
+        const {keys = '', text} = item;
+        return !searchKeys.length || searchKeys.every(searchKey => keys.toLowerCase().includes(searchKey) || (typeof text === 'string' && text.toLowerCase().includes(searchKey)));
+    }
 
-export class SearchMenu<T extends ActionMenuItemOptions = MenuItemOptions, O extends SearchMenuOptions<T> = SearchMenuOptions<T>, S extends SearchMenuState = SearchMenuState> extends Menu<T, O, S> {
-    _searchKeys: string[] = [];
+    protected _searchKeys: string[] = [];
 
     _handleSearchChange = (search: string) => {
         this._searchKeys = $.unique(search.toLowerCase().split(' ').filter(x => x.length)) as string[];
         this.setState({search});
     };
 
-    renderItem(props: Omit<O, 'items'> & {items: T[];}, item: T, index: number): JSX.Element | VNode<{}> | null {
-        if (!isItemMatch(item, this._searchKeys)) {
-            return null;
+    protected _getItem(props: RenderableProps<T>, item: NestedItem, index: number): NestedItem | undefined {
+        if (!(this.constructor as typeof SearchMenu).isItemMatch(item, this._searchKeys)) {
+            return;
         }
-        return super.renderItem(props, item, index);
+        return super._getItem(props, item, index);
     }
 
-    beforeRender(): Omit<O, 'items'> & {items: T[];} {
-        const {search = true, searchPlacement = 'top', ...options} = super.beforeRender();
-        if (!search) {
-            return options as Omit<O, 'items'> & {items: T[];};
+    protected _getChildren(props: RenderableProps<T>): ComponentChildren {
+        let children = super._getChildren(props) || [];
+        const {search = true} = props;
+        if (search) {
+            if (!Array.isArray(children)) {
+                children = [children];
+            }
+            const searchOptions: SearchBoxOptions = {
+                onChange: this._handleSearchChange,
+            };
+            if (typeof search === 'object') {
+                $.extend(searchOptions, search);
+            }
+            (children as ComponentChild[]).push(<SearchBox key="search" {...searchOptions} />);
         }
-        options.className = classes(options.className, 'search-menu', `search-menu-on-${searchPlacement || 'top'}`);
-        options.children = options.children ? (Array.isArray(options.children) ? options.children : [options.children]) : [];
-        const searchOptions: SearchBoxOptions = {
-            onChange: this._handleSearchChange,
-        };
-        if (typeof search === 'object') {
-            Object.assign(searchOptions, search);
-        }
-        (options.children as ComponentChild[]).push(
-            <SearchBox key="search" {...searchOptions} />,
-        );
-        return options as Omit<O, 'items'> & {items: T[];};
+        return children;
+    }
+
+    protected _getClassName(props: RenderableProps<T>): ClassNameLike {
+        return [super._getClassName(props), 'search-menu', `search-menu-on-${props.searchPlacement || 'top'}`];
     }
 }

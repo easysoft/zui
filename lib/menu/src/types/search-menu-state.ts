@@ -1,5 +1,5 @@
-import {MenuState} from './menu-state';
+import {NestedListState} from '@zui/list';
 
-export type SearchMenuState = MenuState & {
-    search: string;
-};
+export interface SearchMenuState extends NestedListState {
+    search?: string;
+}

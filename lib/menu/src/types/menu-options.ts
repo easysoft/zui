@@ -1,7 +1,5 @@
-import type {ActionBasicProps, ActionMenuNestedOptions} from '@zui/action-menu/src/types';
-import type {MenuItemOptions} from './menu-item-options';
+import type {NestedListProps} from '@zui/list';
 
-export interface MenuOptions<T extends ActionBasicProps = MenuItemOptions> extends ActionMenuNestedOptions<T> {
-    hasIcons?: boolean;
+export interface MenuOptions extends NestedListProps {
     popup?: boolean;
 }

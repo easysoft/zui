@@ -1,21 +1,9 @@
 .menu-nested {
-    --menu-indent: 1.5rem;
+  --menu-indent: 10px;
 }
-.has-nested-menu > .menu-nested {
-    @apply -shadow-none -border-none -ml-[--menu-indent];
+.menu-nested .menu {
+  @apply -shadow-none -border-none -ml-[--menu-indent] --mt-2;
 }
-.menu-nested .menu-toggle-icon {
-    @apply -absolute -left-1;
-}
-.menu .menu-nested {
-    @apply --mt-2;
-}
-.menu-nested.has-nested-items > .menu-item > a {
-    @apply -pl-4;
-}
-.menu-nested.has-nested-items.has-icons > .menu-item > a {
-    @apply -pl-9;
-}
-.menu-nested.has-nested-items.has-icons > .menu-item > a > .icon:first-child {
-    @apply -left-3;
+.menu-nested .menu-item > a {
+  @apply -pl-0;
 }

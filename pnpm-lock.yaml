@@ -683,15 +683,15 @@ importers:
 
   lib/menu:
     dependencies:
-      '@zui/action-menu':
-        specifier: workspace:^0.0.1
-        version: link:../action-menu
       '@zui/core':
         specifier: workspace:^0.0.1
         version: link:../core
       '@zui/css-icons':
         specifier: workspace:^0.0.1
         version: link:../css-icons
+      '@zui/list':
+        specifier: workspace:^0.0.1
+        version: link:../list
       '@zui/search-box':
         specifier: workspace:^0.0.1
         version: link:../search-box
