@@ -1,9 +1,9 @@
 import {List} from '@zui/list/src/component';
 
 import type {RenderableProps} from 'preact';
-import type {Item} from '@zui/list';
 import type {ClassNameLike} from '@zui/core';
-import type {NavOptions} from '../types/nav-options';
+import type {Item} from '@zui/list';
+import type {NavOptions} from '../types';
 
 export class Nav<T extends NavOptions = NavOptions> extends List<T> {
     static NAME = 'nav';
