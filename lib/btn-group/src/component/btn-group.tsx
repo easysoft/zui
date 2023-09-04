@@ -1,98 +1,44 @@
-import {Component, h as _h, isValidElement, JSX} from 'preact';
-import {classes} from '@zui/core';
-import {Button} from '@zui/button/src/component/button';
+import {$} from '@zui/core';
+import {Button} from '@zui/button/src/component';
+import {List} from '@zui/list/src/component';
 import {DropdownButton} from '@zui/dropdown/src/component/dropdown-button';
-import {BtnProps} from '../types/btn-props';
-import {BtnGroupOptions} from '../types/btn-group-options';
 
-export class BtnGroup extends Component<BtnGroupOptions> {
-    componentDidMount() {
-        this.props.afterRender?.call(this, {firstRender: true});
-    }
+import type {RenderableProps} from 'preact';
+import type {ClassNameLike} from '@zui/core';
+import type {BtnGroupOptions} from '../types';
 
-    componentDidUpdate(): void {
-        this.props.afterRender?.call(this, {firstRender: false});
-    }
+export class BtnGroup<T extends BtnGroupOptions = BtnGroupOptions> extends List<T> {
+    static ItemComponents: typeof List.ItemComponents = {
+        ...List.ItemComponents,
+        item: [Button, (item, props) => {
+            const {style, ...others} = item;
+            const {btnProps = {}, btnType} = props as BtnGroupOptions;
+            return {
+                btnType,
+                ...btnProps,
+                ...others,
+                style: btnProps.style ? $.extend({}, btnProps.style, style) : style,
+                type: '',
+            };
+        }],
+        dropdown: [DropdownButton, (item, props) => {
+            const {size, btnProps = {}, btnType} = props as BtnGroupOptions;
+            return {
+                size,
+                btnType,
+                ...btnProps,
+                ...item,
+                type: '',
+            };
+        }],
+    };
 
-    componentWillUnmount(): void {
-        this.props.beforeDestroy?.call(this);
-    }
+    static NAME = 'btn-group';
 
-    handleItemClick(item: BtnProps, index: number, onClick: ((event: MouseEvent) => void) | undefined, event: MouseEvent) {
-        if (onClick) {
-            onClick.call(event.target, event);
-        }
-        const {onClickItem} = this.props;
-        if (onClickItem) {
-            onClickItem.call(this, {item, index, event});
-        }
-    }
+    static ITEM_NAME = '';
 
-    beforeRender(): Omit<BtnGroupOptions, 'items'> & {items: BtnProps[]} {
-        const options = {...this.props};
-        const customOptions = options.beforeRender?.call(this, options);
-        if (customOptions) {
-            Object.assign(options, customOptions);
-        }
-        if (typeof options.items === 'function') {
-            options.items = options.items.call(this);
-        }
-        return options as Omit<BtnGroupOptions, 'items'> & {items: BtnProps[]};
-    }
-
-    onRenderItem(item: BtnProps, index: number) {
-        const {key = index, ...others} = item;
-        const ButtonComponent = (item.dropdown || item.items) ? DropdownButton : Button;
-        return <ButtonComponent key={key} {...others} />;
-    }
-
-    renderItem(options: Omit<BtnGroupOptions, 'items'> & {items: BtnProps[]}, item: BtnProps, index: number) {
-        const {itemRender, btnProps: defaultBtnProps, onClickItem} = options;
-        const btnProps: BtnProps = {key: index, ...item};
-        if (defaultBtnProps) {
-            Object.assign(btnProps, defaultBtnProps);
-        }
-        if (onClickItem) {
-            btnProps.onClick = this.handleItemClick.bind(this, btnProps, index, item.onClick as ((event: MouseEvent) => void)) as JSX.MouseEventHandler<HTMLAnchorElement>;
-        }
-        if (itemRender) {
-            const result = itemRender.call(this, btnProps, _h);
-            if (isValidElement(result)) {
-                return result;
-            }
-            if (typeof result === 'object') {
-                Object.assign(btnProps, result);
-            }
-        }
-
-        return this.onRenderItem(btnProps, index);
-    }
-
-    render() {
-        const options = this.beforeRender();
-        const {
-            className,
-            items,
-            size,
-            type,
-            btnProps,
-            children,
-            itemRender,
-            onClickItem,
-            beforeRender,
-            afterRender,
-            beforeDestroy,
-            ...others
-        } = options;
-
-        return (
-            <div
-                className={classes('btn-group', size ? `size-${size}` : '', className)}
-                {...others}
-            >
-                {items && items.map(this.renderItem.bind(this, options))}
-                {children}
-            </div>
-        );
+    protected _getClassName(props: RenderableProps<T>): ClassNameLike {
+        const {size} = props;
+        return [super._getClassName(props), size ? `size-${size}` : ''];
     }
 }
