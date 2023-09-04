@@ -36,8 +36,19 @@ export class HElement<P extends HElementProps, S = {}> extends Component<P, S> {
         return props;
     }
 
+    protected _onRender(component: ComponentType | keyof JSX.IntrinsicElements, props: Record<string, unknown>, children: ComponentChildren): [component: ComponentType | keyof JSX.IntrinsicElements, props: Record<string, unknown>, children: ComponentChildren] | void {
+        return [component, props, children];
+    }
+
     render(props: RenderableProps<P>) {
         props = this._beforeRender(props) || props;
-        return h(this._getComponent(props) as ComponentType, this._getProps(props), this._getChildren(props));
+        let component = this._getComponent(props);
+        let componentProps = this._getProps(props);
+        let children = this._getChildren(props);
+        const renderResult = this._onRender(component, componentProps, children);
+        if (renderResult) {
+            [component, componentProps, children] = renderResult;
+        }
+        return h(component as ComponentType, componentProps, children);
     }
 }
