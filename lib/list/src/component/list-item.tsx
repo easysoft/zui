@@ -129,6 +129,7 @@ export class ListItem<P extends ListItemProps = ListItemProps, S = {}> extends H
 
     protected _render(props: RenderableProps<P>): ComponentChild {
         const {
+            innerComponent,
             className,
             class: className2,
             url,
@@ -141,8 +142,8 @@ export class ListItem<P extends ListItemProps = ListItemProps, S = {}> extends H
             multiline,
             hover,
         } = props;
-        const asLink = url && !actions;
-        const ComponentName = asLink ? 'a' : 'div';
+        const ComponentName = innerComponent || ((url && !actions) ? 'a' : 'div');
+        const asLink = ComponentName === 'a';
         const classList = classes(className, className2, {
             active,
             disabled,

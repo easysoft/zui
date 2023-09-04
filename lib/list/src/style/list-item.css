@@ -1,5 +1,5 @@
-.list-item > .item-wrapper,
-.list-heading > .item-wrapper {
+.list-item > .item-inner,
+.list-heading > .item-inner {
   @apply -flex -flex-row -flex-nowrap -py-1 -gap-2 -items-center;
 }
 

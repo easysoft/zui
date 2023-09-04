@@ -151,7 +151,7 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
             item,
             {
                 rootClass: [itemName, `${name}-${type}`, itemProps?.rootClass, itemPropsMap[type]?.rootClass, item.rootClass],
-                className: [`${itemName}-wrapper`, itemProps?.className, itemPropsMap[type]?.className, item.className],
+                className: [`${itemName}-inner`, itemProps?.className, itemPropsMap[type]?.className, item.className],
                 'zui-item': index,
                 'zui-type': type,
             },
