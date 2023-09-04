@@ -31,5 +31,10 @@ export class BtnGroup<T extends BtnGroupOptions = BtnGroupOptions> extends List<
 
     static ITEM_NAME = '';
 
+    static ROOT_TAG = 'nav';
+
+    static defaultItemProps: Partial<Item> = {
+    };
+
     static getBtnProps = getBtnProps;
 }
