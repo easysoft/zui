@@ -1,3 +1,6 @@
 .list-nested-sub {
-    padding-left: var(--list-indent);
+  @apply -pl-[--list-indent];
+}
+.list-toggle-icon {
+  @apply -w-5 -h-5 -flex -items-center -justify-center --mr-1 -rounded;
 }

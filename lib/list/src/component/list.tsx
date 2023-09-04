@@ -6,9 +6,11 @@ import type {ClassNameLike, CustomContentType} from '@zui/core';
 import type {ListProps, Item, ListState, ItemsSetting, ItemsFetcher, ItemKey} from '../types';
 
 export class List<P extends ListProps = ListProps, S extends ListState = ListState> extends HElement<P, S> {
-    static ItemComponents: Record<string, ComponentType<{}>> = {
+    static ItemComponents: Record<string, ComponentType | [ComponentType, Partial<Item> | ((item: Item) => Partial<Item>)]> = {
         item: ListItem,
         element: HElement,
+        divider: [HElement, (item) => ({className: [item.className, item.rootClass, 'divider']})],
+        heading: ListItem,
     };
 
     static NAME = 'list';
@@ -115,7 +117,15 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
             return itemRender.call(this, item, index);
         }
         const {type = 'item'} = item;
-        const ItemComponent = (this.constructor as typeof List).ItemComponents[type] || ListItem;
+        let ItemComponent = (this.constructor as typeof List).ItemComponents[type] || ListItem;
+        if (Array.isArray(ItemComponent)) {
+            let defaultItemProps = ItemComponent[1];
+            if (typeof defaultItemProps === 'function') {
+                defaultItemProps = defaultItemProps.call(this, item);
+            }
+            $.extend(item, defaultItemProps);
+            ItemComponent = ItemComponent[0];
+        }
         return <ItemComponent zui-key={item.key} {...item} />;
     }
 
@@ -133,9 +143,10 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
             itemPropsMap[type],
             item,
             {
-                rootClass: [itemName, `${itemName}-type-${type}`, itemProps?.rootClass, itemPropsMap[type]?.rootClass, item.rootClass],
-                className: [`${name}-${type}`, itemProps?.className, itemPropsMap[type]?.className, item.className],
-                'zui-list-item': index,
+                rootClass: [itemName, `${name}-${type}`, itemProps?.rootClass, itemPropsMap[type]?.rootClass, item.rootClass],
+                className: [`${itemName}-wrapper`, itemProps?.className, itemPropsMap[type]?.className, item.className],
+                'zui-item': index,
+                'zui-type': type,
             },
         );
         item = getItem ? getItem.call(this, item, index) : item;
@@ -150,11 +161,11 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
         event: MouseEvent;
         key: ItemKey;
     } | undefined {
-        const element = (event.target as HTMLElement).closest('[zui-list-item]') as HTMLElement;
+        const element = (event.target as HTMLElement).closest('[zui-item]') as HTMLElement;
         if (!element || element.parentElement !== this._ref.current) {
             return;
         }
-        const index = +element.getAttribute('zui-list-item')!;
+        const index = +element.getAttribute('zui-item')!;
         const item = this._items?.[index];
         if (!item) {
             return;

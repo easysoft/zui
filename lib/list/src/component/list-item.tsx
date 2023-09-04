@@ -9,7 +9,6 @@ import type {ListItemProps} from '../types';
 
 export class ListItem<P extends ListItemProps = ListItemProps, S = {}> extends HElement<P, S> {
     static defaultProps = {
-        hover: true,
     };
 
     protected _getClassName(props: RenderableProps<P>): ClassNameLike {
@@ -151,6 +150,7 @@ export class ListItem<P extends ListItemProps = ListItemProps, S = {}> extends H
             'has-hover state': hover,
             checked,
             multiline,
+            state: asLink,
         });
         return (
             <ComponentName key="item" className={classList} href={asLink ? url : undefined} target={asLink ? target : undefined}>

@@ -1,4 +1,4 @@
-import {$, Icon} from '@zui/core';
+import {$, Icon, classes} from '@zui/core';
 import {List} from './list';
 import '@zui/css-icons/src/icons/caret.css';
 
@@ -110,24 +110,29 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
     protected _getItem(props: RenderableProps<P>, item: NestedItem, index: number): NestedItem {
         const {items, ...itemProps} = super._getItem(props, item, index) as NestedItem;
         const {normalIcon, collapsedIcon, expandedIcon} = props;
-        if (!items) {
-            itemProps.toggleIcon = normalIcon ? <Icon icon={normalIcon} /> : <span className="list-toggle-icon"></span>;
-            return itemProps;
-        }
-        const isExpanded = this.isExpanded(itemProps.key!, props.parentKey);
-        itemProps.className = [itemProps.className, 'has-nested-items', `is-nested-${isExpanded ? 'show' : 'hide'}`];
-        if (isExpanded) {
-            let {children = []} = itemProps;
-            if (!Array.isArray(children)) {
-                children = [children];
+        let toggleIcon: ComponentChild;
+        let toggleClass: string | undefined;
+        if (items) {
+            const isExpanded = this.isExpanded(itemProps.key!, props.parentKey);
+            toggleClass = `state is-${isExpanded ? 'expanded' : 'collapsed'}`;
+            itemProps.className = [itemProps.className, 'has-nested-items', `is-nested-${isExpanded ? 'show' : 'hide'}`];
+            if (isExpanded) {
+                let {children = []} = itemProps;
+                if (!Array.isArray(children)) {
+                    children = [children];
+                }
+                (children as ComponentChild[]).push(this._renderNestedList(props, items, itemProps));
+                itemProps.children = children;
+                itemProps['zui-parent'] = props.parentKey;
+                toggleIcon = expandedIcon ? <Icon icon={expandedIcon} /> : <span className="caret-down"></span>;
+            } else {
+                toggleIcon = collapsedIcon ? <Icon icon={collapsedIcon} /> : <span className="caret-right"></span>;
             }
-            (children as ComponentChild[]).push(this._renderNestedList(props, items, itemProps));
-            itemProps.children = children;
-            itemProps['zui-parent'] = props.parentKey;
-            itemProps.toggleIcon = expandedIcon ? <Icon icon={expandedIcon} /> : <span className="list-toggle-icon"><span className="caret-down"></span></span>;
         } else {
-            itemProps.toggleIcon = collapsedIcon ? <Icon icon={collapsedIcon} /> : <span className="list-toggle-icon"><span className="caret-right"></span></span>;
+            toggleIcon = <Icon icon={normalIcon} />;
+            toggleClass = 'is-empty';
         }
+        itemProps.toggleIcon = <span className={classes('list-toggle-icon', toggleClass)}>{toggleIcon}</span>;
         return itemProps;
     }
 

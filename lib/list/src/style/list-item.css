@@ -1,10 +1,6 @@
-.list-item,
-.list-heading {
+.list-item > .item-wrapper,
+.list-heading > .item-wrapper {
   @apply -flex -flex-row -flex-nowrap -py-1 -gap-2 -items-center;
-}
-
-.list-divider {
-  @apply -border-b -my-1;
 }
 
 .list-item-icon,
