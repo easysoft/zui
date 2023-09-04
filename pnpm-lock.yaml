@@ -264,6 +264,9 @@ importers:
       '@zui/button':
         specifier: workspace:^0.0.1
         version: link:../button
+      '@zui/list':
+        specifier: workspace:^0.0.1
+        version: link:../list
     devDependencies:
       '@zui/base':
         specifier: workspace:*
@@ -1030,9 +1033,6 @@ importers:
 
   lib/toolbar:
     dependencies:
-      '@zui/action-menu':
-        specifier: workspace:^0.0.1
-        version: link:../action-menu
       '@zui/btn-group':
         specifier: workspace:^0.0.1
         version: link:../btn-group
@@ -1042,12 +1042,12 @@ importers:
       '@zui/core':
         specifier: workspace:^0.0.1
         version: link:../core
-      '@zui/css-icons':
-        specifier: workspace:^0.0.1
-        version: link:../css-icons
       '@zui/dropdown':
         specifier: workspace:^0.0.1
         version: link:../dropdown
+      '@zui/list':
+        specifier: workspace:^0.0.1
+        version: link:../list
     devDependencies:
       '@zui/avatar':
         specifier: workspace:^0.0.1
