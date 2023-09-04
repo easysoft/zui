@@ -3,7 +3,7 @@ import {ListItem} from './list-item';
 
 import type {ComponentChildren, ComponentType, JSX, RenderableProps} from 'preact';
 import type {ClassNameLike, CustomContentType} from '@zui/core';
-import type {ListProps, Item, ListState, ItemsSetting, ItemsFetcher, ItemKey} from '../types';
+import type {ListProps, Item, ListState, ItemsSetting, ItemsFetcher, ItemKey, ListSpaceProps} from '../types';
 
 export class List<P extends ListProps = ListProps, S extends ListState = ListState> extends HElement<P, S> {
     static ItemComponents: Record<string, ComponentType | [ComponentType, Partial<Item> | ((item: Item) => Partial<Item>)]> = {
@@ -11,6 +11,13 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
         element: HElement,
         divider: [HElement, (item) => ({className: [item.className, item.rootClass, 'divider']})],
         heading: ListItem,
+        space: [HElement, (item) => {
+            const {space, flex, style} = item as ListSpaceProps;
+            return {
+                className: [item.className, item.rootClass],
+                style: {width: space, height: space, flex, ...style},
+            };
+        }],
     };
 
     static NAME = 'list';
