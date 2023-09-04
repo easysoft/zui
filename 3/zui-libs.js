@@ -1113,7 +1113,7 @@ export default [
         "dependencies": {
             "@zui/button": "workspace:^0.0.1",
             "@zui/btn-group": "workspace:^0.0.1",
-            "@zui/action-menu": "workspace:^0.0.1",
+            "@zui/list": "workspace:^0.0.1",
             "@zui/toolbar": "workspace:^0.0.1",
             "@zui/helpers": "workspace:^0.0.1",
             "@zui/core": "workspace:^0.0.1"
@@ -1129,11 +1129,6 @@ export default [
         "files": [
             "./src/**/*"
         ],
-        "exports": {
-            ".": "./src/main.ts",
-            "./css": "./src/main-css.ts",
-            "./react": "./src/main-react.ts"
-        },
         "zui": {
             "type": "component",
             "displayName": "分页",
