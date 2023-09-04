@@ -36,8 +36,9 @@ export class HElement<P extends HElementProps, S = {}> extends Component<P, S> {
         return props;
     }
 
-    protected _onRender(component: ComponentType | keyof JSX.IntrinsicElements, props: Record<string, unknown>, children: ComponentChildren): [component: ComponentType | keyof JSX.IntrinsicElements, props: Record<string, unknown>, children: ComponentChildren] | void {
-        return [component, props, children];
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    protected _onRender(component: ComponentType | keyof JSX.IntrinsicElements, componentProps: Record<string, unknown>, children: ComponentChildren, _props: RenderableProps<P>): [component: ComponentType | keyof JSX.IntrinsicElements, componentProps: Record<string, unknown>, children: ComponentChildren] | void {
+        return [component, componentProps, children];
     }
 
     render(props: RenderableProps<P>) {
@@ -45,7 +46,7 @@ export class HElement<P extends HElementProps, S = {}> extends Component<P, S> {
         let component = this._getComponent(props);
         let componentProps = this._getProps(props);
         let children = this._getChildren(props);
-        const renderResult = this._onRender(component, componentProps, children);
+        const renderResult = this._onRender(component, componentProps, children, props);
         if (renderResult) {
             [component, componentProps, children] = renderResult;
         }
