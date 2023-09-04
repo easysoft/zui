@@ -3,7 +3,7 @@
 }
 
 .toolbar-divider {
-  @apply -w-px -h-4 -mx-2 -bg-border;
+  @apply -w-px -my-1 -mx-2 -bg-border;
 }
 
 .toolbar-space {
