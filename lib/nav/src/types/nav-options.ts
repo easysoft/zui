@@ -1,8 +1,6 @@
-import {ActionBasicProps} from '@zui/action-menu/src/types/action-basic-props';
-import {ActionMenuOptions} from '@zui/action-menu/src/types/action-menu-options';
-import {NavItemOptions} from './nav-item-options';
+import type {ListProps} from '@zui/list';
 
-export interface NavOptions<T extends ActionBasicProps = NavItemOptions> extends ActionMenuOptions<T> {
+export interface NavOptions extends ListProps {
     type?: 'primary' | 'secondary' | 'pills' | 'tabs',
     stacked?: boolean;
 }

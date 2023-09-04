@@ -33,7 +33,7 @@ console.log('> nav', nav);
   <li class="nav-item"><a><span class="text">产品</span></a></li>
   <li class="nav-item"><a><span class="text">价格</span></a></li>
   <li class="nav-item"><a class="disabled"><span class="text">动态</span></a></li>
-  <li class="nav-divider"></li>
+  <li class="nav-divider divider"></li>
   <li class="nav-item">
     <a data-toggle="dropdown" href="#navDropdown1">
       <span class="text">更多</span><span class="caret"></span>
@@ -88,7 +88,7 @@ console.log('> nav', nav);
   <li class="nav-item"><a><span class="text">产品</span></a></li>
   <li class="nav-item"><a><span class="text">价格</span></a></li>
   <li class="nav-item"><a class="disabled"><span class="text">动态</span></a></li>
-  <li class="nav-divider"></li>
+  <li class="nav-divider divider"></li>
   <li class="nav-item">
     <a data-toggle="dropdown" href="#navDropdown3">
       <span class="text">更多</span><span class="caret"></span>
@@ -115,7 +115,7 @@ console.log('> nav', nav);
   <li class="nav-item"><a><span class="text">产品</span></a></li>
   <li class="nav-item"><a><span class="text">价格</span></a></li>
   <li class="nav-item"><a class="disabled"><span class="text">动态</span></a></li>
-  <li class="nav-divider"></li>
+  <li class="nav-divider divider"></li>
   <li class="nav-item">
     <a data-toggle="dropdown" href="#navDropdown4">
       <span class="text">更多</span><span class="caret"></span>
@@ -142,7 +142,7 @@ console.log('> nav', nav);
   <li class="nav-item"><a><span class="text">产品</span></a></li>
   <li class="nav-item"><a><span class="text">价格</span></a></li>
   <li class="nav-item"><a class="disabled"><span class="text">动态</span></a></li>
-  <li class="nav-divider"></li>
+  <li class="nav-divider divider"></li>
   <li class="nav-item">
     <a data-toggle="dropdown" href="#navDropdown5">
       <span class="text">更多</span><span class="caret"></span>
@@ -170,7 +170,7 @@ console.log('> nav', nav);
     <li class="nav-item"><a><span class="text">产品</span></a></li>
     <li class="nav-item"><a><span class="text">价格</span></a></li>
     <li class="nav-item"><a class="disabled"><span class="text">动态</span></a></li>
-    <li class="nav-divider"></li>
+    <li class="nav-divider divider"></li>
     <li class="nav-item">
       <a data-toggle="dropdown" href="#navDropdown6">
         <span class="text">更多</span><span class="caret"></span>
@@ -193,7 +193,7 @@ console.log('> nav', nav);
     <li class="nav-item"><a><span class="text">产品</span></a></li>
     <li class="nav-item"><a><span class="text">价格</span></a></li>
     <li class="nav-item"><a class="disabled"><span class="text">动态</span></a></li>
-    <li class="nav-divider"></li>
+    <li class="nav-divider divider"></li>
     <li class="nav-item">
       <a data-toggle="dropdown" href="#navDropdown6">
         <span class="text">更多</span><span class="caret"></span>
@@ -205,7 +205,7 @@ console.log('> nav', nav);
     <li class="nav-item"><a><span class="text">产品</span></a></li>
     <li class="nav-item"><a><span class="text">价格</span></a></li>
     <li class="nav-item"><a class="disabled"><span class="text">动态</span></a></li>
-    <li class="nav-divider"></li>
+    <li class="nav-divider divider"></li>
     <li class="nav-item">
       <a data-toggle="dropdown" href="#navDropdown6">
         <span class="text">更多</span><span class="caret"></span>
@@ -217,7 +217,7 @@ console.log('> nav', nav);
     <li class="nav-item"><a><span class="text">产品</span></a></li>
     <li class="nav-item"><a><span class="text">价格</span></a></li>
     <li class="nav-item"><a class="disabled"><span class="text">动态</span></a></li>
-    <li class="nav-divider"></li>
+    <li class="nav-divider divider"></li>
     <li class="nav-item">
       <a data-toggle="dropdown" href="#navDropdown6">
         <span class="text">更多</span><span class="caret"></span>
@@ -241,7 +241,7 @@ console.log('> nav', nav);
     <li class="nav-item"><a><span class="text">产品</span></a></li>
     <li class="nav-item"><a><span class="text">价格</span></a></li>
     <li class="nav-item"><a class="disabled"><span class="text">动态</span></a></li>
-    <li class="nav-divider"></li>
+    <li class="nav-divider divider"></li>
     <li class="nav-item">
       <a data-toggle="dropdown" href="#navDropdown7">
         <span class="text">更多</span><span class="caret"></span>
@@ -264,7 +264,7 @@ console.log('> nav', nav);
     <li class="nav-item"><a><span class="text">产品</span></a></li>
     <li class="nav-item"><a><span class="text">价格</span></a></li>
     <li class="nav-item"><a class="disabled"><span class="text">动态</span></a></li>
-    <li class="nav-divider"></li>
+    <li class="nav-divider divider"></li>
     <li class="nav-item">
       <a data-toggle="dropdown" href="#navDropdown7">
         <span class="text">更多</span><span class="caret"></span>
@@ -276,7 +276,7 @@ console.log('> nav', nav);
     <li class="nav-item"><a><span class="text">产品</span></a></li>
     <li class="nav-item"><a><span class="text">价格</span></a></li>
     <li class="nav-item"><a class="disabled"><span class="text">动态</span></a></li>
-    <li class="nav-divider"></li>
+    <li class="nav-divider divider"></li>
     <li class="nav-item">
       <a data-toggle="dropdown" href="#navDropdown7">
         <span class="text">更多</span><span class="caret"></span>
@@ -288,7 +288,7 @@ console.log('> nav', nav);
     <li class="nav-item"><a><span class="text">产品</span></a></li>
     <li class="nav-item"><a><span class="text">价格</span></a></li>
     <li class="nav-item"><a class="disabled"><span class="text">动态</span></a></li>
-    <li class="nav-divider"></li>
+    <li class="nav-divider divider"></li>
     <li class="nav-item">
       <a data-toggle="dropdown" href="#navDropdown7">
         <span class="text">更多</span><span class="caret"></span>
@@ -313,7 +313,7 @@ console.log('> nav', nav);
     <li class="nav-item"><a><span class="text">产品</span></a></li>
     <li class="nav-item"><a><span class="text">价格</span></a></li>
     <li class="nav-item"><a class="disabled"><span class="text">动态</span></a></li>
-    <li class="nav-divider"></li>
+    <li class="nav-divider divider"></li>
     <li class="nav-item">
       <a data-toggle="dropdown" href="#navDropdown8">
         <span class="text">更多</span><span class="caret"></span>
@@ -338,7 +338,7 @@ console.log('> nav', nav);
     <li class="nav-item"><a><span class="text">产品</span></a></li>
     <li class="nav-item"><a><span class="text">价格</span></a></li>
     <li class="nav-item"><a class="disabled"><span class="text">动态</span></a></li>
-    <li class="nav-divider"></li>
+    <li class="nav-divider divider"></li>
     <li class="nav-item">
       <a data-toggle="dropdown" href="#navDropdown8">
         <span class="text">更多</span><span class="caret"></span>
@@ -351,7 +351,7 @@ console.log('> nav', nav);
     <li class="nav-item"><a><span class="text">产品</span></a></li>
     <li class="nav-item"><a><span class="text">价格</span></a></li>
     <li class="nav-item"><a class="disabled"><span class="text">动态</span></a></li>
-    <li class="nav-divider"></li>
+    <li class="nav-divider divider"></li>
     <li class="nav-item">
       <a data-toggle="dropdown" href="#navDropdown8">
         <span class="text">更多</span><span class="caret"></span>
@@ -364,7 +364,7 @@ console.log('> nav', nav);
     <li class="nav-item"><a><span class="text">产品</span></a></li>
     <li class="nav-item"><a><span class="text">价格</span></a></li>
     <li class="nav-item"><a class="disabled"><span class="text">动态</span></a></li>
-    <li class="nav-divider"></li>
+    <li class="nav-divider divider"></li>
     <li class="nav-item">
       <a data-toggle="dropdown" href="#navDropdown8">
         <span class="text">更多</span><span class="caret"></span>
@@ -379,7 +379,7 @@ console.log('> nav', nav);
     <li class="nav-item"><a><span class="text">产品</span></a></li>
     <li class="nav-item"><a><span class="text">价格</span></a></li>
     <li class="nav-item"><a class="disabled"><span class="text">动态</span></a></li>
-    <li class="nav-divider"></li>
+    <li class="nav-divider divider"></li>
     <li class="nav-item">
       <a data-toggle="dropdown" href="#navDropdown8">
         <span class="text">更多</span><span class="caret"></span>
@@ -404,7 +404,7 @@ console.log('> nav', nav);
     <li class="nav-item"><a><span class="text">产品</span></a></li>
     <li class="nav-item"><a><span class="text">价格</span></a></li>
     <li class="nav-item"><a class="disabled"><span class="text">动态</span></a></li>
-    <li class="nav-divider"></li>
+    <li class="nav-divider divider"></li>
     <li class="nav-item">
       <a data-toggle="dropdown" href="#navDropdown8">
         <span class="text">更多</span><span class="caret"></span>
@@ -417,7 +417,7 @@ console.log('> nav', nav);
     <li class="nav-item"><a><span class="text">产品</span></a></li>
     <li class="nav-item"><a><span class="text">价格</span></a></li>
     <li class="nav-item"><a class="disabled"><span class="text">动态</span></a></li>
-    <li class="nav-divider"></li>
+    <li class="nav-divider divider"></li>
     <li class="nav-item">
       <a data-toggle="dropdown" href="#navDropdown8">
         <span class="text">更多</span><span class="caret"></span>
@@ -430,7 +430,7 @@ console.log('> nav', nav);
     <li class="nav-item"><a><span class="text">产品</span></a></li>
     <li class="nav-item"><a><span class="text">价格</span></a></li>
     <li class="nav-item"><a class="disabled"><span class="text">动态</span></a></li>
-    <li class="nav-divider"></li>
+    <li class="nav-divider divider"></li>
     <li class="nav-item">
       <a data-toggle="dropdown" href="#navDropdown8">
         <span class="text">更多</span><span class="caret"></span>

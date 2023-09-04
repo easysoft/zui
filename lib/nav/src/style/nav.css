@@ -20,8 +20,9 @@
   opacity: var(--disabled-opacity);
 }
 
+.nav > .divider,
 .nav-divider {
-  @apply -w-px -h-4 -mx-2 -bg-current -opacity-30;
+  @apply -my-2 -mx-2;
 }
 
 .nav-heading {

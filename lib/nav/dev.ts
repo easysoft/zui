@@ -3,7 +3,7 @@ import '@zui/icons';
 import '@zui/button';
 import '@zui/btn-group';
 import '@zui/dropdown';
-import {Nav} from './src/main-vanilla';
+import {Nav} from './src/main';
 
 onPageUpdate(() => {
     const nav = new Nav('#nav', {
@@ -14,6 +14,14 @@ onPageUpdate(() => {
             {type: 'divider'},
             {text: '博客', icon: 'icon-rss'},
             {text: '关注我们', icon: 'icon-group'},
+            {
+                type: 'btn-group',
+                text: '按钮组',
+                items: [
+                    {text: '按钮1'},
+                    {text: '按钮2'},
+                ],
+            },
         ],
         onClickItem: (info) => {
             console.log('> nav.onClickItem', info);

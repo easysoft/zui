@@ -658,6 +658,9 @@ importers:
       '@zui/button':
         specifier: workspace:^0.0.1
         version: link:../button
+      '@zui/checkbox':
+        specifier: workspace:^0.0.1
+        version: link:../checkbox
       '@zui/core':
         specifier: workspace:^0.0.1
         version: link:../core
@@ -755,15 +758,15 @@ importers:
 
   lib/nav:
     dependencies:
-      '@zui/action-menu':
-        specifier: workspace:^0.0.1
-        version: link:../action-menu
       '@zui/core':
         specifier: workspace:^0.0.1
         version: link:../core
       '@zui/css-icons':
         specifier: workspace:^0.0.1
         version: link:../css-icons
+      '@zui/list':
+        specifier: workspace:^0.0.1
+        version: link:../list
     devDependencies:
       '@zui/avatar':
         specifier: workspace:^0.0.1
