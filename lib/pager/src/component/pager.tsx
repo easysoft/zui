@@ -10,18 +10,16 @@ import type {RenderableProps, ComponentType} from 'preact';
 import type {Item} from '@zui/list';
 import type {PagerInfo, PagerOptions} from '../types';
 
-const {getBtnProps} = Toolbar;
-
 export class Pager<T extends PagerOptions = PagerOptions> extends Toolbar<T> {
     static NAME = 'pager';
 
     static ItemComponents: typeof Toolbar.ItemComponents = {
         ...Toolbar.ItemComponents,
         info: PagerInfoItem as ComponentType,
-        link: [PagerLink as ComponentType, getBtnProps],
-        nav: [PagerNav as unknown as ComponentType, getBtnProps],
-        'size-menu': [PagerSizeMenu as ComponentType, getBtnProps],
-        goto: [PagerGoto as ComponentType, getBtnProps],
+        link: [PagerLink as ComponentType, this.getBtnProps],
+        nav: [PagerNav as unknown as ComponentType, this.getBtnProps],
+        'size-menu': [PagerSizeMenu as ComponentType, this.getBtnProps],
+        goto: [PagerGoto as ComponentType, this.getBtnProps],
     };
 
     static defaultItemProps: Partial<Item> = {
@@ -41,7 +39,7 @@ export class Pager<T extends PagerOptions = PagerOptions> extends Toolbar<T> {
         return super._beforeRender(props);
     }
 
-    protected _getItem(props: RenderableProps<T>, item: Item, index: number): Item {
+    protected _getItem(props: RenderableProps<T>, item: Item, index: number): Item | undefined {
         const propsMap = super._getItem(props, item, index);
         const type = item.type || 'item';
         const pagerInfo = this._pagerInfo!;
