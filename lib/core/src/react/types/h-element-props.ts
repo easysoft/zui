@@ -43,5 +43,5 @@ export interface HElementProps extends PreactDOMAttributes {
     /**
      * The other props of the element.
      */
-    [dataKey: `data-${string}` | `on${string}`]: unknown;
+    [dataKey: `data-${string}` | `on${string}` | `zui-${string}`]: unknown;
 }
