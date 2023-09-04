@@ -6,8 +6,9 @@ import type {ClassNameLike, CustomContentType} from '@zui/core';
 import type {ListProps, Item, ListState, ItemsSetting, ItemsFetcher, ItemKey, ListSpaceProps} from '../types';
 
 export class List<P extends ListProps = ListProps, S extends ListState = ListState> extends HElement<P, S> {
-    static ItemComponents: Record<string, ComponentType | [ComponentType, Partial<Item> | ((item: Item) => Partial<Item>)]> = {
+    static ItemComponents: Record<string, ComponentType | [ComponentType, Partial<Item> | ((this: List, item: Item, props: ListProps) => Partial<Item>)]> = {
         item: ListItem,
+        custom: ListItem,
         element: HElement,
         divider: [HElement, (item) => ({className: [item.className, item.rootClass, 'divider']})],
         heading: ListItem,
@@ -128,7 +129,7 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
         if (Array.isArray(ItemComponent)) {
             let defaultItemProps = ItemComponent[1];
             if (typeof defaultItemProps === 'function') {
-                defaultItemProps = defaultItemProps.call(this, item);
+                defaultItemProps = defaultItemProps.call(this, item, props);
             }
             $.extend(item, defaultItemProps);
             ItemComponent = ItemComponent[0];
@@ -151,9 +152,10 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
             item,
             {
                 rootClass: [itemName, `${name}-${type}`, itemProps?.rootClass, itemPropsMap[type]?.rootClass, item.rootClass],
-                className: [`${itemName}-inner`, itemProps?.className, itemPropsMap[type]?.className, item.className],
+                className: [itemName ? `${itemName}-inner` : '', itemProps?.className, itemPropsMap[type]?.className, item.className],
                 'zui-item': index,
                 'zui-type': type,
+                style: {...itemProps?.style, ...itemPropsMap[type]?.style, ...item.style},
             },
         );
         item = getItem ? getItem.call(this, item, index) : item;
