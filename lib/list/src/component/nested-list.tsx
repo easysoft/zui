@@ -2,7 +2,7 @@ import {$, Icon, classes} from '@zui/core';
 import {List} from './list';
 import '@zui/css-icons/src/icons/caret.css';
 
-import type {ComponentChild, ComponentChildren, RenderableProps} from 'preact';
+import type {ComponentChild, ComponentChildren, ComponentType, JSX, RenderableProps} from 'preact';
 import type {ClassNameLike} from '@zui/core/src/helpers';
 import type {ItemKey, ItemsSetting, NestedItem, NestedListProps, NestedListState} from '../types';
 
@@ -24,6 +24,10 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
     };
 
     protected _controlled: boolean;
+
+    protected declare _hasIcons: boolean;
+
+    protected declare _hasNestedItems: boolean;
 
     constructor(props: P) {
         super(props);
@@ -107,7 +111,7 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
         return <NestedList key="nested" {...nestedListProps} />;
     }
 
-    protected _getItem(props: RenderableProps<P>, item: NestedItem, index: number): NestedItem {
+    protected _getItem(props: RenderableProps<P>, item: NestedItem, index: number): NestedItem | undefined {
         const {items, ...itemProps} = super._getItem(props, item, index) as NestedItem;
         const {normalIcon, collapsedIcon, expandedIcon} = props;
         let toggleIcon: ComponentChild;
@@ -128,11 +132,19 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
             } else {
                 toggleIcon = collapsedIcon ? <Icon icon={collapsedIcon} /> : <span className="caret-right"></span>;
             }
-        } else {
+        } else if (this._hasNestedItems) {
             toggleIcon = <Icon icon={normalIcon} />;
             toggleClass = 'is-empty';
         }
-        itemProps.toggleIcon = <span className={classes('list-toggle-icon', toggleClass)}>{toggleIcon}</span>;
+        if (toggleIcon) {
+            itemProps.toggleIcon = <span className={classes('list-toggle-icon', toggleClass)}>{toggleIcon}</span>;
+        }
+        if (item.icon) {
+            this._hasIcons = true;
+        }
+        if (item.items) {
+            this._hasNestedItems = true;
+        }
         return itemProps;
     }
 
@@ -196,5 +208,20 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
         propsMap['zui-level'] = level;
         propsMap.style = {...style, '--list-nested-indent': `${level * indent}px`, '--list-indent': `${indent}px`};
         return propsMap;
+    }
+
+    protected _beforeRender(props: RenderableProps<P>): void | RenderableProps<P> | undefined {
+        this._hasIcons = false;
+        this._hasNestedItems = false;
+        return super._beforeRender(props);
+    }
+
+    protected _onRender(component: ComponentType | keyof JSX.IntrinsicElements, props: Record<string, unknown>, children: ComponentChildren): void | [component: ComponentType | keyof JSX.IntrinsicElements, props: Record<string, unknown>, children: ComponentChildren] {
+        props.className = classes(
+            props.className as ClassNameLike,
+            this._hasIcons ? 'has-icons' : '',
+            this._hasNestedItems ? 'has-nested-items' : 'no-nested-items',
+        );
+        return [component, props, children];
     }
 }

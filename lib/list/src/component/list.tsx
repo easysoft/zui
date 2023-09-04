@@ -119,10 +119,10 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
         return this._items[index];
     }
 
-    protected _renderItem(props: RenderableProps<P>, item: Item, index: number): ComponentChildren {
+    protected _renderItem(props: RenderableProps<P>, item: Item): ComponentChildren {
         const {itemRender} = props;
         if (itemRender) {
-            return itemRender.call(this, item, index);
+            return itemRender.call(this, item);
         }
         const {type = 'item'} = item;
         let ItemComponent = (this.constructor as typeof List).ItemComponents[type] || ListItem;
@@ -137,7 +137,7 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
         return <ItemComponent zui-key={item.key} {...item} />;
     }
 
-    protected _getItem(props: RenderableProps<P>, item: Item, index: number): Item {
+    protected _getItem(props: RenderableProps<P>, item: Item, index: number): Item | undefined {
         const {itemProps, itemPropsMap = {}, getItem, keyName = 'id'} = props;
         const {type = 'item'} = item;
         const {name, itemName} = this;
@@ -159,7 +159,6 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
             },
         );
         item = getItem ? getItem.call(this, item, index) : item;
-        this._keyIndexes![index] = item.key!;
         return item;
     }
 
@@ -219,12 +218,19 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
             this._items = this.state.items || [];
         }
         this._keyIndexes = [];
-        return this._items;
+        return this._items.reduce<Item[]>((list, item, index) => {
+            const finalItem = this._getItem(props, item, index);
+            if (finalItem) {
+                list.push(finalItem);
+                this._keyIndexes![index] = finalItem.key!;
+            }
+            return list;
+        }, []);
     }
 
     protected _getChildren(props: RenderableProps<P>): ComponentChildren {
         const items = this._getItems(props);
-        const children = items.map((item, index) => this._renderItem(props, this._getItem(props, item, index), index));
+        const children = items.map((item) => this._renderItem(props, item));
         const {loadFailed} = this.state;
         if (loadFailed) {
             children.push(loadFailed);
