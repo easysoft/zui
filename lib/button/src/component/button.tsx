@@ -56,7 +56,7 @@ export class Button<P extends ButtonProps = ButtonProps> extends HElement<P> {
                     componentProps.type = btnType;
                 }
             } else {
-                componentProps.className = classes([componentProps.className as ClassNameLike, btnType]);
+                componentProps.className = classes([componentProps.class as ClassNameLike, btnType]);
             }
         }
         if (!disabled) {
