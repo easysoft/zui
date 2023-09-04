@@ -1,4 +1,6 @@
-import {classes, HElement, Icon} from '@zui/core';
+import {HElement, Icon, classes} from '@zui/core';
+
+import type {ClassNameLike} from '@zui/core';
 import type {ButtonProps} from '../types/button-props';
 import type {RenderableProps} from 'preact';
 
@@ -26,13 +28,13 @@ export class Button<P extends ButtonProps = ButtonProps> extends HElement<P> {
 
     protected _getClassName(props: RenderableProps<P>) {
         const {type, className, disabled, loading, active, children, square, size, rounded} = props;
-        return classes('btn', type, className, {
+        return ['btn', type, className, {
             'btn-caret': this._onlyCaret,
             disabled: disabled || loading,
             active,
             loading,
             square: square === undefined ? (!this._onlyCaret && !children && this._isEmptyText) : square,
-        }, size ? `size-${size}` : '', typeof rounded === 'string' ? rounded : {rounded});
+        }, size ? `size-${size}` : '', typeof rounded === 'string' ? rounded : {rounded}];
     }
 
     protected _getComponent(props: RenderableProps<P>) {
@@ -42,18 +44,27 @@ export class Button<P extends ButtonProps = ButtonProps> extends HElement<P> {
     protected _getProps(props: RenderableProps<P>) {
         const component = this._getComponent(props);
         const {url, target, disabled, btnType = 'button', hint} = props;
+        const asLink = component === 'a';
         const componentProps: Record<string, unknown> = {
             ...super._getProps(props),
             disabled,
             title: hint,
-            type: component === 'button' ? btnType : undefined,
         };
+        if (btnType) {
+            if (['button', 'reset', 'submit'].includes(btnType)) {
+                if (component === 'button') {
+                    componentProps.type = btnType;
+                }
+            } else {
+                componentProps.className = classes([componentProps.className as ClassNameLike, btnType]);
+            }
+        }
         if (!disabled) {
             if (url !== undefined) {
-                componentProps[component === 'a' ? 'href' : 'data-url'] = url;
+                componentProps[asLink ? 'href' : 'data-url'] = url;
             }
             if (target !== undefined) {
-                componentProps[component === 'a' ? 'target' : 'data-target'] = target;
+                componentProps[asLink ? 'target' : 'data-target'] = target;
             }
         }
         return componentProps;
