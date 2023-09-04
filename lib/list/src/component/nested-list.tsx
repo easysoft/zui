@@ -4,7 +4,7 @@ import '@zui/css-icons/src/icons/caret.css';
 
 import type {ComponentChild, ComponentChildren, ComponentType, JSX, RenderableProps} from 'preact';
 import type {ClassNameLike} from '@zui/core/src/helpers';
-import type {ItemKey, ItemsSetting, NestedItem, NestedListProps, NestedListState} from '../types';
+import type {Item, ItemKey, ItemsSetting, NestedItem, NestedListProps, NestedListState} from '../types';
 
 type MouseEventInfo = {
     index: number;
@@ -29,13 +29,18 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
 
     protected declare _hasNestedItems: boolean;
 
+    protected declare _hasCheckbox: boolean;
+
     constructor(props: P) {
         super(props);
         this._controlled = props.nestedShow !== undefined; // Controlled menu use state to store nested
         this.state.nestedShow = props.defaultNestedShow ?? {};
         this._handleClickNestedItem = this._handleClickNestedItem.bind(this);
         this._handleHoverNestedItem = this._handleHoverNestedItem.bind(this);
+    }
 
+    get isRoot() {
+        return !this.props.level;
     }
 
     get nestedShow() {
@@ -108,12 +113,13 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
             ...item.listProps,
             level: level + 1,
         };
-        return <NestedList key="nested" {...nestedListProps} />;
+        const NestedListComponent = this.constructor as typeof NestedList;
+        return <NestedListComponent key="nested" {...nestedListProps} />;
     }
 
     protected _getItem(props: RenderableProps<P>, item: NestedItem, index: number): NestedItem | undefined {
         const {items, ...itemProps} = super._getItem(props, item, index) as NestedItem;
-        const {normalIcon, collapsedIcon, expandedIcon} = props;
+        const {collapsedIcon, expandedIcon} = props;
         let toggleIcon: ComponentChild;
         let toggleClass: string | undefined;
         if (items) {
@@ -132,9 +138,6 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
             } else {
                 toggleIcon = collapsedIcon ? <Icon icon={collapsedIcon} /> : <span className="caret-right"></span>;
             }
-        } else if (this._hasNestedItems) {
-            toggleIcon = <Icon icon={normalIcon} />;
-            toggleClass = 'is-empty';
         }
         if (toggleIcon) {
             itemProps.toggleIcon = <span className={classes('list-toggle-icon', toggleClass)}>{toggleIcon}</span>;
@@ -145,7 +148,22 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
         if (item.items) {
             this._hasNestedItems = true;
         }
+        if (item.checked !== undefined) {
+            this._hasCheckbox = true;
+        }
         return itemProps;
+    }
+
+    protected _renderItem(props: RenderableProps<P>, item: Item): ComponentChildren {
+        if (item.type === 'item') {
+            if (this._hasIcons && !item.icon) {
+                item.icon = '_';
+            }
+            if (this._hasNestedItems && !item.toggleIcon) {
+                item.toggleIcon = <span className="list-toggle-icon is-empty"><Icon icon={props.normalIcon} /></span>;
+            }
+        }
+        return super._renderItem(props, item);
     }
 
     protected _getItemFromEvent(event: MouseEvent): MouseEventInfo | undefined {
@@ -212,7 +230,7 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
 
     protected _beforeRender(props: RenderableProps<P>): void | RenderableProps<P> | undefined {
         this._hasIcons = false;
-        this._hasNestedItems = false;
+        this._hasNestedItems = !this.isRoot;
         return super._beforeRender(props);
     }
 
@@ -221,6 +239,7 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
             props.className as ClassNameLike,
             this._hasIcons ? 'has-icons' : '',
             this._hasNestedItems ? 'has-nested-items' : 'no-nested-items',
+            this._hasCheckbox ? 'has-checkbox' : '',
         );
         return [component, props, children];
     }
