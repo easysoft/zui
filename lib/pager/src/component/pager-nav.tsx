@@ -5,12 +5,10 @@ import {formatString} from '@zui/helpers/src/format-string';
 import {updatePagerInfo} from '../helpers/update-pager-info';
 
 export function PagerNav({
-    key,
     type: pagerItemType,
     btnType: type,
     count = 12,
     pagerInfo,
-    onClick,
     linkCreator,
     ...btnProps
 }: PagerNavProps & {pagerInfo: PagerInfo, linkCreator: PageLinkCreator}) {
@@ -33,10 +31,10 @@ export function PagerNav({
             delete newBtnProps.icon;
             newBtnProps.disabled = false;
             const info = updatePagerInfo(pagerInfo, i);
-            if (linkCreator) {     
+            if (linkCreator) {
                 newBtnProps.url = typeof linkCreator === 'function' ? linkCreator(info)  : formatString(linkCreator, info);
             }
-            elements.push(<Button type={type} {...newBtnProps} onClick={onClick} />);
+            elements.push(<Button type={type} {...newBtnProps} />);
         }
         return elements;
     };
@@ -57,4 +55,3 @@ export function PagerNav({
     }
     return resultElements;
 }
-

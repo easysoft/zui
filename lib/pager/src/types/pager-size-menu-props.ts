@@ -1,9 +1,10 @@
-import type {ToolbarItemProps} from '@zui/toolbar/src/types';
-import type {DropdownButtonOptions} from '@zui/dropdown/src/types';
+import type {ButtonProps} from '@zui/button';
+import type {Item} from '@zui/list';
+import type {DropdownButtonOptions} from '@zui/dropdown';
+import type {MenuItemProps} from '@zui/menu';
 import type {PagerInfo} from './pager-info';
-import type {MenuItemProps} from '@zui/menu/src/types';
 
-export interface PagerSizeMenuProps extends ToolbarItemProps {
+export interface PagerSizeMenuProps extends Item, Omit<ButtonProps, 'type'> {
     type: 'size-menu',
     items?: number[],
     itemProps?: Partial<MenuItemProps>,

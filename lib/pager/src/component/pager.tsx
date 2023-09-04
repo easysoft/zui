@@ -1,51 +1,55 @@
-import {Toolbar} from '@zui/toolbar/src/component/toolbar';
-import {ActionBasicProps} from '@zui/action-menu/src/types';
-import type {PagerOptions, PagerItemOptions} from '../types';
-import '../style/index.css';
+import {$} from '@zui/core';
+import {Toolbar} from '@zui/toolbar/src/component';
 import {PagerLink} from './pager-link';
 import {PagerInfoItem} from './pager-info';
 import {PagerNav} from './pager-nav';
 import {PagerSizeMenu} from './pager-size-menu';
 import {PagerGoto} from './pager-goto';
 
-export class Pager<T extends ActionBasicProps = PagerItemOptions, P extends PagerOptions<T> = PagerOptions<T>> extends Toolbar<T, P> {
+import type {RenderableProps, ComponentType} from 'preact';
+import type {Item} from '@zui/list';
+import type {PagerInfo, PagerOptions} from '../types';
+
+const {getBtnProps} = Toolbar;
+
+export class Pager<T extends PagerOptions = PagerOptions> extends Toolbar<T> {
     static NAME = 'pager';
 
-    static defaultProps = {
-        btnProps: {
-            btnType: 'ghost',
-            size: 'sm',
-        },
-    };
-
-    static ItemComponents = {
+    static ItemComponents: typeof Toolbar.ItemComponents = {
         ...Toolbar.ItemComponents,
-        link: PagerLink,
-        info: PagerInfoItem,
-        nav: PagerNav,
-        'size-menu': PagerSizeMenu,
-        goto: PagerGoto,
+        info: PagerInfoItem as ComponentType,
+        link: [PagerLink as ComponentType, getBtnProps],
+        nav: [PagerNav as unknown as ComponentType, getBtnProps],
+        'size-menu': [PagerSizeMenu as ComponentType, getBtnProps],
+        goto: [PagerGoto as ComponentType, getBtnProps],
     };
 
+    static defaultItemProps: Partial<Item> = {
+        btnType: 'ghost',
+        size: 'sm',
+    };
+
+    protected _pagerInfo?: PagerInfo;
 
     get pagerInfo() {
+        return this._pagerInfo!;
+    }
+
+    protected _beforeRender(props: RenderableProps<T>): void | RenderableProps<T> | undefined {
         const {page = 1, recTotal = 0, recPerPage = 10} = this.props;
-        return {page: +page, recTotal: +recTotal, recPerPage: +recPerPage, pageTotal: recPerPage ? Math.ceil(recTotal / recPerPage) : 0};
+        this._pagerInfo = {page: +page, recTotal: +recTotal, recPerPage: +recPerPage, pageTotal: recPerPage ? Math.ceil(recTotal / recPerPage) : 0};
+        return super._beforeRender(props);
     }
 
-    isBtnItem(type?: string) {
-        return type === 'link' || type === 'nav' || type === 'size-menu' || type === 'goto' || super.isBtnItem(type);
-    }
-
-    getItemRenderProps(options: Omit<P, 'items'> & {items: T[]}, item: T, index: number): T {
-        const props = super.getItemRenderProps(options, item, index);
+    protected _getItem(props: RenderableProps<T>, item: Item, index: number): Item {
+        const propsMap = super._getItem(props, item, index);
         const type = item.type || 'item';
-        const {pagerInfo} = this;
+        const pagerInfo = this._pagerInfo!;
         if (type === 'info') {
-            Object.assign(props, {pagerInfo});
+            $.extend(propsMap, {pagerInfo});
         } else if (type === 'link' || type === 'size-menu' || type === 'nav' || type === 'goto') {
-            Object.assign(props, {pagerInfo, linkCreator: options.linkCreator});
+            $.extend(propsMap, {pagerInfo, linkCreator: props.linkCreator});
         }
-        return props;
+        return propsMap;
     }
 }

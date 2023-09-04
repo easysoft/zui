@@ -1,7 +1,8 @@
-import {ToolbarItemProps} from '@zui/toolbar/src/types';
-import {PagerInfo} from './pager-info';
+import type {Item} from '@zui/list';
+import type {ButtonProps} from '@zui/button';
+import type {PagerInfo} from './pager-info';
 
-export interface PagerNavProps extends ToolbarItemProps {
+export interface PagerNavProps extends Item, Omit<ButtonProps, 'type'> {
     type: 'nav';
     count?: number;
     format?: string | ((info: PagerInfo) => string);

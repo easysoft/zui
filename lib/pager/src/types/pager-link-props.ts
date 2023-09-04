@@ -1,8 +1,9 @@
-import {ToolbarItemProps} from '@zui/toolbar/src/types';
-import {PageName} from './page-name';
-import {PagerInfo} from './pager-info';
+import type {Item} from '@zui/list';
+import type {ButtonProps} from '@zui/button';
+import type {PageName} from './page-name';
+import type {PagerInfo} from './pager-info';
 
-export interface PagerLinkProps extends ToolbarItemProps {
+export interface PagerLinkProps extends Item, Omit<ButtonProps, 'type'> {
     type: 'link',
     page?: PageName,
     format?: string | ((info: PagerInfo) => string);

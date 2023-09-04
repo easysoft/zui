@@ -1,5 +1,5 @@
 import {classes} from '@zui/core';
-import {ToolbarDropdown} from '@zui/toolbar/src/component';
+import {DropdownButton} from '@zui/dropdown/src/component';
 import {formatString} from '@zui/helpers/src/format-string';
 import {PageLinkCreator, PagerInfo, PagerSizeMenuProps} from '../types';
 
@@ -25,6 +25,6 @@ export function PagerSizeMenu({
     dropdownProps.text = typeof text === 'function' ? text(pagerInfo) : formatString(text, pagerInfo);
     dropdown.menu = {...dropdown.menu, className: classes(dropdown.menu?.className, 'pager-size-menu')} as typeof dropdown.menu;
     return (
-        <ToolbarDropdown type="dropdown" dropdown={dropdown} {...dropdownProps} />
+        <DropdownButton type="dropdown" dropdown={dropdown} {...dropdownProps} />
     );
 }

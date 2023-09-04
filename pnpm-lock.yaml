@@ -795,9 +795,6 @@ importers:
 
   lib/pager:
     dependencies:
-      '@zui/action-menu':
-        specifier: workspace:^0.0.1
-        version: link:../action-menu
       '@zui/btn-group':
         specifier: workspace:^0.0.1
         version: link:../btn-group
@@ -810,6 +807,9 @@ importers:
       '@zui/helpers':
         specifier: workspace:^0.0.1
         version: link:../helpers
+      '@zui/list':
+        specifier: workspace:^0.0.1
+        version: link:../list
       '@zui/toolbar':
         specifier: workspace:^0.0.1
         version: link:../toolbar

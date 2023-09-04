@@ -1,8 +1,9 @@
-import {ToolbarItemProps} from '@zui/toolbar/src/types';
-import {PagerInfo} from './pager-info';
-import {PageName} from './page-name';
+import type {Item} from '@zui/list';
+import type {ButtonProps} from '@zui/button';
+import type {PagerInfo} from './pager-info';
+import type {PageName} from './page-name';
 
-export interface PagerGotoProps extends ToolbarItemProps {
+export interface PagerGotoProps extends Item, Omit<ButtonProps, 'type'> {
     type: 'goto',
     page?: PageName;
     text?: string | ((info: PagerInfo) => string);

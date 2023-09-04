@@ -1,8 +1,8 @@
-import {ActionBasicProps} from '@zui/action-menu/src/types';
-import {PageName} from './page-name';
-import {PagerInfo} from './pager-info';
+import type {Item} from '@zui/list';
+import type {PageName} from './page-name';
+import type {PagerInfo} from './pager-info';
 
-export interface PagerInfoProps extends ActionBasicProps {
+export interface PagerInfoProps extends Item {
     type: 'info',
     page?: PageName,
     text?: string | ((info: PagerInfo) => string);

@@ -1,6 +1,7 @@
 import '@zui/form';
 import '@zui/dropdown';
 import '@zui/icons';
+import '@zui/button';
 import '@zui/input-group';
 import {Pager} from './src/main';
 import 'zui-dev';
@@ -91,6 +92,6 @@ onPageUpdate(() => {
         },
     });
     console.log('goto', pagerGoto);
-    
-    
+
+
 });
