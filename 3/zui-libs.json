@@ -441,7 +441,7 @@
             "@zui/core": "workspace:^0.0.1",
             "@zui/search-box": "workspace:^0.0.1",
             "@zui/css-icons": "workspace:^0.0.1",
-            "@zui/action-menu": "workspace:^0.0.1"
+            "@zui/list": "workspace:^0.0.1"
         },
         "zui": {
             "type": "control",
