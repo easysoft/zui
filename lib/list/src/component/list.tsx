@@ -25,7 +25,7 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
 
     static ITEM_NAME = 'item';
 
-    static ROOT_TAG: keyof JSX.IntrinsicElements = 'ul';
+    static ROOT_TAG = 'ul';
 
     static defaultItemProps: Partial<Item> = {
         component: 'li',
@@ -236,6 +236,6 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
     }
 
     protected _getComponent(props: RenderableProps<P>): ComponentType | keyof JSX.IntrinsicElements {
-        return props.component || (this.constructor as typeof List).ROOT_TAG;
+        return props.component || ((this.constructor as typeof List).ROOT_TAG as keyof JSX.IntrinsicElements);
     }
 }
