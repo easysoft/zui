@@ -25,9 +25,4 @@ export class Toolbar<T extends ToolbarOptions = ToolbarOptions> extends BtnGroup
         }
         return propsMap;
     }
-
-    protected _getClassName(props: RenderableProps<T>): ClassNameLike {
-        const {gap} = props;
-        return [super._getClassName(props), gap ? (typeof gap === 'number' ? `${gap}`) : '']
-    }
 }
