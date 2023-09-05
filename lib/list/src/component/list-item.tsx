@@ -41,13 +41,13 @@ export class ListItem<P extends ListItemProps = ListItemProps, S = {}> extends H
             contents.push(<CustomContent key="toggleIcon" content={toggleIcon} />);
         }
         if (checked !== undefined) {
-            contents.push(<Checkbox key="checkbox" className="list-item-checkbox" checked={checked} {...checkbox} />);
+            contents.push(<Checkbox key="checkbox" className="item-checkbox" checked={checked} {...checkbox} />);
         }
         if (icon) {
-            contents.push(<Icon key="icon" className="list-item-icon" icon={icon} />);
+            contents.push(<Icon key="icon" className="item-icon" icon={icon} />);
         }
         if (avatar) {
-            contents.push(<Avatar key="avatar" {...avatar} className={classes('list-item-avatar', avatar.className)} />);
+            contents.push(<Avatar key="avatar" {...avatar} className={classes('item-avatar', avatar.className)} />);
         }
         const customLeading = leading ? <CustomContent key="leading" content={leading} /> : null;
         if (multiline) {
@@ -55,11 +55,11 @@ export class ListItem<P extends ListItemProps = ListItemProps, S = {}> extends H
                 contents.push(customLeading);
             }
             return contents.length ? [
-                <div key="leading" className={classes('list-item-leading', leadingClass)}>{contents}</div>,
+                <div key="leading" className={classes('item-leading', leadingClass)}>{contents}</div>,
             ] : [];
         }
         if (customLeading) {
-            contents.push(<div key="leading" className={classes('list-item-leading', leadingClass)}>{customLeading}</div>);
+            contents.push(<div key="leading" className={classes('item-leading', leadingClass)}>{customLeading}</div>);
         }
         return contents;
     }
@@ -80,15 +80,15 @@ export class ListItem<P extends ListItemProps = ListItemProps, S = {}> extends H
         const titleAsLink = url && actions;
         const TitleComponent = titleAsLink ? 'a' : 'div';
         const contents: ComponentChild[] = [
-            title ? <TitleComponent key="title" className={classes('list-item-title', titleClass)} href={titleAsLink ? url : undefined} target={titleAsLink ? target : undefined}>{title}</TitleComponent> : null,
-            subtitle ? <div key="subtitle" className={classes('list-item-subtitle', subtitleClass)}>{subtitle}</div> : null,
-            text ? <div key="text" className={classes('list-item-text text', textClass)}>{text}</div> : null,
+            title ? <TitleComponent key="title" className={classes('item-title', titleClass)} href={titleAsLink ? url : undefined} target={titleAsLink ? target : undefined}>{title}</TitleComponent> : null,
+            subtitle ? <div key="subtitle" className={classes('item-subtitle', subtitleClass)}>{subtitle}</div> : null,
+            text ? <div key="text" className={classes('item-text text', textClass)}>{text}</div> : null,
         ];
         if (!multiline) {
             return contents;
         }
         return [
-            <div className="list-item-content" key="content">
+            <div className="item-content" key="content">
                 {contents}
             </div>,
         ];
@@ -105,10 +105,10 @@ export class ListItem<P extends ListItemProps = ListItemProps, S = {}> extends H
         } = props;
         const contents: ComponentChild[] = [];
         if (trailingIcon) {
-            contents.push(<Icon key="trailing-icon" className="list-item-trailing-icon" icon={trailingIcon} />);
+            contents.push(<Icon key="trailing-icon" className="item-trailing-icon" icon={trailingIcon} />);
         }
         if (actions?.length) {
-            contents.push(<div key="actions" className={classes('list-item-actions', actionsClass)}>{
+            contents.push(<div key="actions" className={classes('item-actions', actionsClass)}>{
                 actions.map((action, index) => <Button key={index} type="ghost" size="sm" {...action} />)
             }</div>);
         }
@@ -118,11 +118,11 @@ export class ListItem<P extends ListItemProps = ListItemProps, S = {}> extends H
                 contents.push(customTrailing);
             }
             return contents.length ? [
-                <div key="trailing" className={classes('list-item-trailing', trailingClass)}>{contents}{customTrailing}</div>,
+                <div key="trailing" className={classes('item-trailing', trailingClass)}>{contents}{customTrailing}</div>,
             ] : [];
         }
         if (customTrailing) {
-            contents.push(<div key="trailing" className={classes('list-item-trailing', trailingClass)}>{customTrailing}</div>);
+            contents.push(<div key="trailing" className={classes('item-trailing', trailingClass)}>{customTrailing}</div>);
         }
         return contents;
     }

@@ -3,27 +3,27 @@
   @apply -flex -flex-row -flex-nowrap -py-1 -gap-2 -items-center;
 }
 
-.list-item-icon,
-.list-item-trailing-icon,
-.list-item-avatar,
-.list-item-trailing,
-.list-item-actions {
+.item-icon,
+.item-trailing-icon,
+.item-avatar,
+.item-trailing,
+.item-actions {
   @apply -flex-none;
 }
 
-.list-item-title {
+.item-title {
   @apply -flex-auto;
 }
-.list-item-subtitle {
+.item-subtitle {
   @apply -flex-auto -text-sm -opacity-80;
 }
 
-.list-item-text,
-.list-item-content {
+.item-text,
+.item-content {
   @apply -flex-auto;
 }
 
-.list-item-leading,
-.list-item-trailing {
+.item-leading,
+.item-trailing {
   @apply -flex-none -flex -items-center -gap-2;
 }
