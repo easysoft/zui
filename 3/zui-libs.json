@@ -1781,6 +1781,7 @@
             "@zui/button": "workspace:*",
             "@zui/popover": "workspace:*",
             "@zui/css-icons": "workspace:*",
+            "@zui/list": "workspace:*",
             "@zui/menu": "workspace:*"
         },
         "zui": {
