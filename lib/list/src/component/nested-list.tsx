@@ -1,4 +1,4 @@
-import {$, Icon, classes} from '@zui/core';
+import {Icon, classes} from '@zui/core';
 import {List} from './list';
 import '@zui/css-icons/src/icons/caret.css';
 
@@ -31,6 +31,8 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
 
     protected declare _hasCheckbox: boolean;
 
+    protected declare _hoverTimer: number;
+
     constructor(props: P) {
         super(props);
         this._controlled = props.nestedShow !== undefined; // Controlled menu use state to store nested
@@ -52,7 +54,7 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
     isExpanded(key: ItemKey, parentKey: ItemKey | undefined) {
         const {nestedShow} = this;
         const name = `${parentKey !== undefined ? `${parentKey}:` : ''}${key}`;
-        return typeof nestedShow === 'object' ? nestedShow[name] : nestedShow;
+        return !!(typeof nestedShow === 'object' ? nestedShow[name] : nestedShow);
     }
 
     toggle(key: ItemKey, toggle?: boolean) {
@@ -103,31 +105,73 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
         return [super._getClassName(props), 'list-nested', props.level ? 'list-nested-sub' : 'list-nested-root'];
     }
 
-    protected _renderNestedList(props: RenderableProps<P>, items: ItemsSetting, item: NestedItem): ComponentChildren {
-        const {children, forwardRef, data, attrs, style, parentKey, nestedTrigger, level = 0, onHoverItem, ...shareProps} = props;
-        const nestedListProps: NestedListProps = {
-            ...shareProps,
+    protected _getNestedProps(props: RenderableProps<P>, items: ItemsSetting, item: NestedItem): NestedListProps {
+        const {
+            className,
+            class: className2,
+            component,
+            name,
+            itemName,
+            keyName,
+            itemRender,
+            indent,
+            collapsedIcon,
+            expandedIcon,
+            normalIcon,
+            nestedToggle,
+            onToggle,
+            parentKey,
+            nestedTrigger,
+            level = 0,
+            onHoverItem,
+        } = props;
+        return {
+            component,
+            name,
+            itemName,
+            keyName,
+            itemRender,
+            indent,
+            collapsedIcon,
+            expandedIcon,
+            normalIcon,
+            nestedToggle,
+            onToggle,
             items,
             parentKey: parentKey ? `${parentKey}:${item.key}` : item.key,
             nestedShow: this.nestedShow,
             onClickItem: this._handleClickNestedItem,
             onHoverItem: (onHoverItem || nestedTrigger === 'hover') ? this._handleHoverNestedItem : undefined,
             ...item.listProps,
+            className: classes(className, className2, item.listProps?.className),
             level: level + 1,
         };
+    }
+
+    protected _renderNestedList(props: RenderableProps<P>, items: ItemsSetting, item: NestedItem): ComponentChildren {
+        const nestedListProps = this._getNestedProps(props, items, item);
         const NestedListComponent = this.constructor as typeof NestedList;
         return <NestedListComponent key="nested" {...nestedListProps} />;
     }
 
+    protected _renderNestedToggle(props: RenderableProps<P>, isExpanded: boolean | null) {
+        let toggleIcon: ComponentChild;
+        let toggleClass = '';
+        if (typeof isExpanded === 'boolean') {
+            toggleIcon = isExpanded ? (props.expandedIcon || <span className="caret-down"></span>) : (props.collapsedIcon || <span className="caret-right"></span>);
+            toggleClass = `state is-${isExpanded ? 'expanded' : 'collapsed'}`;
+        } else {
+            toggleIcon = <Icon icon={props.normalIcon} />;
+            toggleClass = 'is-empty';
+        }
+        return <span className={classes('list-toggle-icon', toggleClass)}>{toggleIcon}</span>;
+    }
+
     protected _getItem(props: RenderableProps<P>, item: NestedItem, index: number): NestedItem | undefined {
         const {items, ...itemProps} = super._getItem(props, item, index) as NestedItem;
-        const {collapsedIcon, expandedIcon} = props;
-        let toggleIcon: ComponentChild;
-        let toggleClass: string | undefined;
         if (items) {
             const isExpanded = this.isExpanded(itemProps.key!, props.parentKey);
-            toggleClass = `state is-${isExpanded ? 'expanded' : 'collapsed'}`;
-            itemProps.className = [itemProps.className, 'has-nested-items', `is-nested-${isExpanded ? 'show' : 'hide'}`];
+            itemProps.rootClass = [itemProps.rootClass, 'is-nested', `is-nested-${isExpanded ? 'show' : 'hide'}`];
             if (isExpanded) {
                 let {children = []} = itemProps;
                 if (!Array.isArray(children)) {
@@ -136,13 +180,10 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
                 (children as ComponentChild[]).push(this._renderNestedList(props, items, itemProps));
                 itemProps.children = children;
                 itemProps['zui-parent'] = props.parentKey;
-                toggleIcon = expandedIcon ? <Icon icon={expandedIcon} /> : <span className="caret-down"></span>;
-            } else {
-                toggleIcon = collapsedIcon ? <Icon icon={collapsedIcon} /> : <span className="caret-right"></span>;
             }
-        }
-        if (toggleIcon) {
-            itemProps.toggleIcon = <span className={classes('list-toggle-icon', toggleClass)}>{toggleIcon}</span>;
+            itemProps.toggleIcon = this._renderNestedToggle(props, isExpanded);
+            itemProps.onMouseEnter = this._handleHover;
+            itemProps.onMouseLeave = this._handleHover;
         }
         if (item.icon) {
             this._hasIcons = true;
@@ -162,14 +203,17 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
                 item.icon = '_';
             }
             if (this._hasNestedItems && !item.toggleIcon) {
-                item.toggleIcon = <span className="list-toggle-icon is-empty"><Icon icon={props.normalIcon} /></span>;
+                item.toggleIcon = this._renderNestedToggle(props, null);
             }
         }
         return super._renderItem(props, item);
     }
 
     protected _getItemFromEvent(event: MouseEvent): MouseEventInfo | undefined {
-        const info = super._getItemFromEvent(event);
+        const info = super._getItemFromEvent(event) as MouseEventInfo;
+        if (event.type === 'mouseenter' || event.type === 'mouseleave') {
+            info.hover = event.type === 'mouseenter';
+        }
         return info ? {...info, parentKey: this.props.parentKey} : undefined;
     }
 
@@ -209,22 +253,21 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
         if (!info) {
             return;
         }
-        const hover = event.type === 'mouseenter';
-        this.props.onHoverItem?.call(this, {hover, ...info});
-        if (!this._controlled) {
-            this._toggleFromEvent(info);
+        if (this._hoverTimer) {
+            clearTimeout(this._hoverTimer);
         }
+        this._hoverTimer = window.setTimeout(() => {
+            this._hoverTimer = 0;
+            this.props.onHoverItem?.call(this, info as {hover: boolean, item: NestedItem, index: number, event: MouseEvent});
+            if (!this._controlled) {
+                this._toggleFromEvent(info);
+            }
+        }, 100);
     }
 
     protected _getProps(props: RenderableProps<P>): Record<string, unknown> {
-        const {onHoverItem, nestedTrigger, style, level = 0, indent = 20} = props;
         const propsMap = super._getProps(props);
-        if (onHoverItem || nestedTrigger === 'hover') {
-            $.extend(propsMap, {
-                onMouseEnter: this._handleHover,
-                onMouseLeave: this._handleHover,
-            });
-        }
+        const {style, level = 0, indent = 20} = props;
         propsMap['zui-level'] = level;
         propsMap.style = {...style, '--list-nested-indent': `${level * indent}px`, '--list-indent': `${indent}px`};
         return propsMap;
