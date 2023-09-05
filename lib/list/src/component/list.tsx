@@ -63,21 +63,17 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
     }
 
     componentDidMount() {
-        this.afterRender(true);
+        this._afterRender(true);
         this.tryLoad();
     }
 
     componentDidUpdate(): void {
-        this.afterRender(false);
+        this._afterRender(false);
         this.tryLoad();
     }
 
     componentWillUnmount(): void {
         this.props.beforeDestroy?.call(this);
-    }
-
-    afterRender(firstRender: boolean) {
-        this.props.afterRender?.call(this, firstRender);
     }
 
     load(): void {
@@ -117,6 +113,10 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
             return;
         }
         return this._items[index];
+    }
+
+    protected _afterRender(firstRender: boolean) {
+        this.props.afterRender?.call(this, firstRender);
     }
 
     protected _renderItem(props: RenderableProps<P>, item: Item): ComponentChildren {
