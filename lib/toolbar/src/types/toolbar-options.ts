@@ -1,6 +1,5 @@
-import type {ButtonProps} from '@zui/button';
-import type {ListProps} from '@zui/list';
+import type {BtnGroupOptions} from '@zui/btn-group';
 
-export interface ToolbarOptions extends ListProps {
-    btnProps?: ButtonProps,
+export interface ToolbarOptions extends BtnGroupOptions {
+    gap?: number | string;
 }
