@@ -9,6 +9,11 @@ import type {SearchBoxOptions} from '@zui/search-box';
 import type {SearchMenuOptions, SearchMenuState} from '../types';
 
 export class SearchMenu<T extends SearchMenuOptions = SearchMenuOptions> extends Menu<T, SearchMenuState> {
+    static defaultProps = {
+        ...Menu.defaultProps,
+        search: true,
+    };
+
     static isItemMatch(item: Item & {keys?: string}, searchKeys: string[]) {
         const {keys = '', text} = item;
         return !searchKeys.length || searchKeys.every(searchKey => keys.toLowerCase().includes(searchKey) || (typeof text === 'string' && text.toLowerCase().includes(searchKey)));
@@ -30,7 +35,7 @@ export class SearchMenu<T extends SearchMenuOptions = SearchMenuOptions> extends
 
     protected _getChildren(props: RenderableProps<T>): ComponentChildren {
         let children = super._getChildren(props);
-        const {search = true} = props;
+        const {search} = props;
         if (!search) {
             return children;
         }
