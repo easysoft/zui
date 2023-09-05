@@ -37,6 +37,8 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
         this.state.nestedShow = props.defaultNestedShow ?? {};
         this._handleClickNestedItem = this._handleClickNestedItem.bind(this);
         this._handleHoverNestedItem = this._handleHoverNestedItem.bind(this);
+        this._handleHover = this._handleHover.bind(this);
+        this._handleClick = this._handleClick.bind(this);
     }
 
     get isRoot() {
