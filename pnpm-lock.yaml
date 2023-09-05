@@ -481,6 +481,9 @@ importers:
       '@zui/css-icons':
         specifier: workspace:*
         version: link:../css-icons
+      '@zui/list':
+        specifier: workspace:*
+        version: link:../list
       '@zui/menu':
         specifier: workspace:*
         version: link:../menu

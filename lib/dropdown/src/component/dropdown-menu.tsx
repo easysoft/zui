@@ -1,14 +1,14 @@
 import {$, classes} from '@zui/core';
 import {flip, computePosition, shift, offset} from '@floating-ui/dom';
 import {SearchMenu} from '@zui/menu/src/component';
-import '@zui/css-icons/src/icons/caret.css';
-import type {MenuItemOptions} from '@zui/menu/src/types';
-import type {MenuOptions} from '@zui/menu/src/types';
-import type {ActionMenuNestedItemOptions} from '@zui/action-menu/src/types';
+
+import type {ClassNameLike} from '@zui/core';
+import type {RenderableProps} from 'preact';
+import type {ItemsSetting, NestedItem, NestedListProps} from '@zui/list';
 import type {DropdownMenuOptions} from '../types/dropdown-menu-options';
 
-export class DropdownMenu<T extends MenuItemOptions = MenuItemOptions, O extends DropdownMenuOptions<T> = DropdownMenuOptions<T>> extends SearchMenu<T, O> {
-    static defaultProps: Partial<DropdownMenuOptions> = {
+export class DropdownMenu<T extends DropdownMenuOptions = DropdownMenuOptions> extends SearchMenu<T> {
+    static defaultProps = {
         ...SearchMenu.defaultProps,
         popup: true,
         search: false,
@@ -18,16 +18,12 @@ export class DropdownMenu<T extends MenuItemOptions = MenuItemOptions, O extends
 
     protected _layoutTimer = 0;
 
-    get name() {
-        return 'menu';
-    }
-
-    get menuName() {
-        return 'dropdown-menu';
+    protected _getClassName(props: RenderableProps<T>): ClassNameLike {
+        return ['dropdown-menu', super._getClassName(props)];
     }
 
     protected layout() {
-        const element = this.ref.current as HTMLElement;
+        const element = this._ref.current as HTMLElement;
         const trigger = element?.parentElement;
         if (!element || !trigger) {
             return;
@@ -44,18 +40,16 @@ export class DropdownMenu<T extends MenuItemOptions = MenuItemOptions, O extends
         });
     }
 
-    getNestedMenuProps(items: ActionMenuNestedItemOptions[]): MenuOptions {
-        const props = super.getNestedMenuProps(items);
-        return {
-            ...props,
-            className: classes('show', props.className),
-            popup: true,
-        };
+    protected _getNestedProps(props: RenderableProps<T>, items: ItemsSetting, item: NestedItem): NestedListProps {
+        const nestedProps = super._getNestedProps(props, items, item) as DropdownMenuOptions;
+        nestedProps.className = classes(nestedProps.className, 'show');
+        nestedProps.popup = true;
+        return nestedProps;
     }
 
-    afterRender(firstRender: boolean) {
-        super.afterRender(firstRender);
-        if (this.props.controlledMenu) {
+    protected _afterRender(firstRender: boolean) {
+        super._afterRender(firstRender);
+        if (!this.isRoot) {
             this.layout();
             this._layoutTimer = window.setTimeout(this.layout.bind(this), 100);
         }

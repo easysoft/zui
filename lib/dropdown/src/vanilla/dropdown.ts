@@ -1,6 +1,9 @@
 import {$, h} from '@zui/core';
-import {Popover, PopoverPanelOptions} from '@zui/popover';
+import {Popover} from '@zui/popover';
 import {DropdownMenu} from '../component';
+
+import type {ComponentType} from 'preact';
+import type {PopoverPanelOptions} from '@zui/popover';
 import type {DropdownOptions, DropdownMenuOptions} from '../types';
 
 const TOGGLE_SELECTOR = '[data-toggle="dropdown"]';
@@ -18,16 +21,13 @@ export class Dropdown<O extends DropdownOptions = DropdownOptions> extends Popov
     };
 
     protected _getMenuOptions(): DropdownMenuOptions {
-        let {items = []} = this.options;
-        if (typeof items === 'function') {
-            items = items(this);
-        }
+        const {items, placement, menu} = this.options;
         return {
             items,
             nestedTrigger: 'hover',
-            placement: this.options.placement,
+            placement: placement,
             popup: false,
-            ...this.options.menu,
+            ...menu,
         };
     }
 
@@ -35,7 +35,7 @@ export class Dropdown<O extends DropdownOptions = DropdownOptions> extends Popov
         return {
             ...super._getRenderOptions(),
             contentClass: '',
-            content: h(DropdownMenu, this._getMenuOptions()),
+            content: h(DropdownMenu as unknown as ComponentType<DropdownMenuOptions>, this._getMenuOptions()),
         };
     }
 

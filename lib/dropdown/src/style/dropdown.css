@@ -13,6 +13,15 @@
 .popover > .dropdown-menu {
   @apply -relative;
 }
-.dropdown-menu .has-nested-menu.show > a:not(:hover) {
+.dropdown-menu .is-nested-show > a:not(:hover) {
     @apply -bg-primary-100;
+}
+.menu-nested .menu.dropdown-menu {
+  @apply -ml-auto -my-auto;
+}
+.dropdown-menu .menu-item.is-nested > .item-inner > .list-toggle-icon {
+  @apply -absolute -right-1 -top-1;
+}
+.dropdown-menu .menu-item.is-nested-show > .item-inner > .list-toggle-icon {
+  @apply --rotate-90 -top-1;
 }
