@@ -44,8 +44,8 @@ export class HElement<P extends HElementProps, S = {}> extends Component<P, S> {
     render(props: RenderableProps<P>) {
         props = this._beforeRender(props) || props;
         let component = this._getComponent(props);
-        let componentProps = this._getProps(props);
         let children = this._getChildren(props);
+        let componentProps = this._getProps(props);
         const renderResult = this._onRender(component, componentProps, children, props);
         if (renderResult) {
             [component, componentProps, children] = renderResult;
