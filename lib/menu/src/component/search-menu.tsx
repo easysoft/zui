@@ -29,24 +29,26 @@ export class SearchMenu<T extends SearchMenuOptions = SearchMenuOptions> extends
     }
 
     protected _getChildren(props: RenderableProps<T>): ComponentChildren {
-        let children = super._getChildren(props) || [];
+        let children = super._getChildren(props);
         const {search = true} = props;
-        if (search) {
-            if (!Array.isArray(children)) {
-                children = [children];
-            }
-            const searchOptions: SearchBoxOptions = {
-                onChange: this._handleSearchChange,
-            };
-            if (typeof search === 'object') {
-                $.extend(searchOptions, search);
-            }
-            (children as ComponentChild[]).push(<SearchBox key="search" {...searchOptions} />);
+        if (!search) {
+            return children;
         }
+        children = children || [];
+        if (!Array.isArray(children)) {
+            children = [children];
+        }
+        const searchOptions: SearchBoxOptions = {
+            onChange: this._handleSearchChange,
+        };
+        if (typeof search === 'object') {
+            $.extend(searchOptions, search);
+        }
+        (children as ComponentChild[]).push(<SearchBox key="search" {...searchOptions} />);
         return children;
     }
 
     protected _getClassName(props: RenderableProps<T>): ClassNameLike {
-        return [super._getClassName(props), 'search-menu', `search-menu-on-${props.searchPlacement || 'top'}`];
+        return [super._getClassName(props), props.search ? `search-menu search-menu-on-${props.searchPlacement || 'top'}` : ''];
     }
 }
