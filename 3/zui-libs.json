@@ -1191,7 +1191,6 @@
             "./src/**/*"
         ],
         "dependencies": {
-            "@zui/action-menu": "workspace:*",
             "@zui/base": "workspace:*",
             "@zui/button": "workspace:*",
             "@zui/core": "workspace:^0.0.1",
@@ -1235,7 +1234,6 @@
             "./src/**/*"
         ],
         "dependencies": {
-            "@zui/action-menu": "workspace:*",
             "@zui/base": "workspace:*",
             "@zui/button": "workspace:*",
             "@zui/core": "workspace:^0.0.1",

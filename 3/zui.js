@@ -1657,9 +1657,9 @@ class Ct extends O {
   }
   render(t) {
     t = this._beforeRender(t) || t;
-    let e = this._getComponent(t), n = this._getProps(t), i = this._getChildren(t);
-    const o = this._onRender(e, n, i, t);
-    return o && ([e, n, i] = o), Z(e, n, i);
+    let e = this._getComponent(t), n = this._getChildren(t), i = this._getProps(t);
+    const o = this._onRender(e, i, n, t);
+    return o && ([e, i, n] = o), Z(e, i, n);
   }
 }
 var Bc = 0;
@@ -2686,11 +2686,11 @@ class ce extends Ct {
       checkbox: l,
       multiline: c
     } = t, d = [];
-    i && d.push(/* @__PURE__ */ f(ht, { content: i }, "toggleIcon")), a !== void 0 && d.push(/* @__PURE__ */ f(xn, { className: "list-item-checkbox", checked: a, ...l }, "checkbox")), e && d.push(/* @__PURE__ */ f(z, { className: "list-item-icon", icon: e }, "icon")), n && d.push(/* @__PURE__ */ f(Qi, { ...n, className: k("list-item-avatar", n.className) }, "avatar"));
+    i && d.push(/* @__PURE__ */ f(ht, { content: i }, "toggleIcon")), a !== void 0 && d.push(/* @__PURE__ */ f(xn, { className: "item-checkbox", checked: a, ...l }, "checkbox")), e && d.push(/* @__PURE__ */ f(z, { className: "item-icon", icon: e }, "icon")), n && d.push(/* @__PURE__ */ f(Qi, { ...n, className: k("item-avatar", n.className) }, "avatar"));
     const h = o ? /* @__PURE__ */ f(ht, { content: o }, "leading") : null;
     return c ? (h && d.push(h), d.length ? [
-      /* @__PURE__ */ f("div", { className: k("list-item-leading", r), children: d }, "leading")
-    ] : []) : (h && d.push(/* @__PURE__ */ f("div", { className: k("list-item-leading", r), children: h }, "leading")), d);
+      /* @__PURE__ */ f("div", { className: k("item-leading", r), children: d }, "leading")
+    ] : []) : (h && d.push(/* @__PURE__ */ f("div", { className: k("item-leading", r), children: h }, "leading")), d);
   }
   _renderContent(t) {
     const {
@@ -2705,12 +2705,12 @@ class ce extends Ct {
       actions: d,
       target: h
     } = t, m = c && d, g = [
-      o ? /* @__PURE__ */ f(m ? "a" : "div", { className: k("list-item-title", r), href: m ? c : void 0, target: m ? h : void 0, children: o }, "title") : null,
-      a ? /* @__PURE__ */ f("div", { className: k("list-item-subtitle", l), children: a }, "subtitle") : null,
-      n ? /* @__PURE__ */ f("div", { className: k("list-item-text text", i), children: n }, "text") : null
+      o ? /* @__PURE__ */ f(m ? "a" : "div", { className: k("item-title", r), href: m ? c : void 0, target: m ? h : void 0, children: o }, "title") : null,
+      a ? /* @__PURE__ */ f("div", { className: k("item-subtitle", l), children: a }, "subtitle") : null,
+      n ? /* @__PURE__ */ f("div", { className: k("item-text text", i), children: n }, "text") : null
     ];
     return e ? [
-      /* @__PURE__ */ f("div", { className: "list-item-content", children: g }, "content")
+      /* @__PURE__ */ f("div", { className: "item-content", children: g }, "content")
     ] : g;
   }
   _renderTrailing(t) {
@@ -2722,14 +2722,14 @@ class ce extends Ct {
       actions: r,
       actionsClass: a
     } = t, l = [];
-    o && l.push(/* @__PURE__ */ f(z, { className: "list-item-trailing-icon", icon: o }, "trailing-icon")), r != null && r.length && l.push(/* @__PURE__ */ f("div", { className: k("list-item-actions", a), children: r.map((d, h) => /* @__PURE__ */ f(J, { type: "ghost", size: "sm", ...d }, h)) }, "actions"));
+    o && l.push(/* @__PURE__ */ f(z, { className: "item-trailing-icon", icon: o }, "trailing-icon")), r != null && r.length && l.push(/* @__PURE__ */ f("div", { className: k("item-actions", a), children: r.map((d, h) => /* @__PURE__ */ f(J, { type: "ghost", size: "sm", ...d }, h)) }, "actions"));
     const c = n ? /* @__PURE__ */ f(ht, { content: n }, "trailing") : null;
     return e ? (c && l.push(c), l.length ? [
-      /* @__PURE__ */ f("div", { className: k("list-item-trailing", i), children: [
+      /* @__PURE__ */ f("div", { className: k("item-trailing", i), children: [
         l,
         c
       ] }, "trailing")
-    ] : []) : (c && l.push(/* @__PURE__ */ f("div", { className: k("list-item-trailing", i), children: c }, "trailing")), l);
+    ] : []) : (c && l.push(/* @__PURE__ */ f("div", { className: k("item-trailing", i), children: c }, "trailing")), l);
   }
   _render(t) {
     const {
