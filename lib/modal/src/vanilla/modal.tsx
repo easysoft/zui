@@ -129,9 +129,6 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
 
     afterInit() {
         super.afterInit();
-        this.on('show', () => {
-            $('body').disableScroll();
-        });
         this.on('hidden', () => {
             if (this.options.destoryOnHide) {
                 this.destroy();
@@ -144,6 +141,7 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
 
     show(options?: Partial<T>) {
         if (super.show(options)) {
+            $('body').disableScroll();
             this.buildDialog();
             return true;
         }
