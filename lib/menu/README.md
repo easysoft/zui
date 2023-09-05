@@ -52,7 +52,7 @@ console.log('> menu', menu);
   <li class="menu-item"><a>复制</a></li>
   <li class="menu-item"><a>粘贴</a></li>
   <li class="menu-item"><a>剪切</a></li>
-  <li class="menu-divider"></li>
+  <li class="menu-divider divider"></li>
   <li class="menu-heading">更多操作</li>
   <li class="menu-item"><a>导入</a></li>
   <li class="menu-item"><a>导出</a></li>
@@ -69,7 +69,7 @@ console.log('> menu', menu);
   <li class="menu-item"><a>复制</a></li>
   <li class="menu-item"><a>粘贴</a></li>
   <li class="menu-item"><a>剪切</a></li>
-  <li class="menu-divider"></li>
+  <li class="menu-divider divider"></li>
   <li class="menu-heading">更多操作</li>
   <li class="menu-item"><a>导入</a></li>
   <li class="menu-item"><a>导出</a></li>
@@ -84,7 +84,7 @@ console.log('> menu', menu);
   <li class="menu-item"><a><i class="icon icon-copy"></i> 复制</a></li>
   <li class="menu-item"><a><i class="icon icon-paste"></i> 粘贴</a></li>
   <li class="menu-item"><a>剪切</a></li>
-  <li class="menu-divider"></li>
+  <li class="menu-divider divider"></li>
   <li class="menu-heading">更多操作</li>
   <li class="menu-item"><a><i class="icon icon-upload-alt"></i> 导入</a></li>
   <li class="menu-item"><a><i class="icon icon-download-alt"></i> 导出</a></li>
@@ -99,7 +99,7 @@ console.log('> menu', menu);
   <li class="menu-item"><a><i class="icon icon-copy"></i> 复制</a></li>
   <li class="menu-item"><a><i class="icon icon-paste"></i> 粘贴</a></li>
   <li class="menu-item"><a>剪切</a></li>
-  <li class="menu-divider"></li>
+  <li class="menu-divider divider"></li>
   <li class="menu-heading">更多操作</li>
   <li class="menu-item"><a><i class="icon icon-upload-alt"></i> 导入</a></li>
   <li class="menu-item"><a><i class="icon icon-download-alt"></i> 导出</a></li>
@@ -156,11 +156,11 @@ console.log('> menu', menu);
       <div class="text-gray text-sm">zhangsan</div>
     </div>
   </li>
-  <li class="menu-divider"></li>
+  <li class="menu-divider divider"></li>
   <li class="menu-item"><a>个人资料</a></li>
   <li class="menu-item"><a>修改密码</a></li>
   <li class="menu-item"><a>主题</a></li>
-  <li class="menu-divider"></li>
+  <li class="menu-divider divider"></li>
   <li class="menu-item text-danger"><a>退出</a></li>
 </menu>
 ```
