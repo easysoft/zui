@@ -878,9 +878,6 @@ importers:
 
   lib/picker:
     dependencies:
-      '@zui/action-menu':
-        specifier: workspace:*
-        version: link:../action-menu
       '@zui/base':
         specifier: workspace:*
         version: link:../base
