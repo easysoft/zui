@@ -1,12 +1,10 @@
 import type {IconType} from '@zui/core';
-import type {ActionBasicProps, ActionMenuNestedOptions} from '@zui/action-menu/src/types';
-import type {TreeItemOptions} from './tree-item-options';
-import type {ToolbarOptions, ToolbarItemOptions} from '@zui/toolbar/src/types';
+import type {NestedListProps} from '@zui/list';
+import type {TreeActionsSetting} from './tree-actions-setting';
 
-export interface TreeOptions<T extends ActionBasicProps = TreeItemOptions> extends ActionMenuNestedOptions<T> {
+export interface TreeOptions extends NestedListProps {
+    itemActions?: TreeActionsSetting;
     collapsedIcon?: IconType;
     expandedIcon?: IconType;
     normalIcon?: IconType;
-    itemActions?: ToolbarOptions | ToolbarItemOptions[] | ((item: T) => ToolbarOptions | ToolbarItemOptions[]);
-    hover?: boolean;
 }

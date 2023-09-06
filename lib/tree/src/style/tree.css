@@ -1,45 +1,40 @@
+/* Tree content. */
 .tree-item-content {
-  @apply -flex -flex-row -items-center -gap-1 -min-h-[24px];
+  @apply -flex -flex-row -items-center -gap-1 -min-h-[24px] -pl-[--list-nested-indent];
 }
-.tree-toggle-icon {
+
+/* Toggle icon. */
+.tree .list-toggle-icon {
   @apply -w-4 -flex -items-center -justify-center -rounded -h-4 -flex-none;
   --caret-size: 5px;
   --caret-opacity: .3;
 }
-.tree.no-nested-items > .tree-item > .tree-item-content > .tree-toggle-icon {
-  @apply -w-1;
-}
+
+/* Checkbox. */
 .tree-checkbox {
   @apply --mr-1;
 }
-.tree-icon {
+
+/* Hover effection. */
+.tree-item-content > .item-icon {
   @apply -w-4 -opacity-50;
 }
-.tree-item-content:hover > .tree-icon {
+.tree-item-content:hover > .item-icon {
   @apply -opacity-80;
 }
-
-.tree-hover .tree-item-content {
-  @apply hover:-bg-surface -rounded -transition-colors;
+.tree-item-content.has-hover {
+  @apply -rounded;
 }
 
-.tree-link:not(:hover) {
+/* Link title. */
+.tree-item-content > a.item-title:not(:hover) {
   @apply -text-inherit;
 }
 
+/* Toolbar. */
 .tree-item-content > .toolbar {
   @apply -ml-4 -opacity-60;
 }
 .tree-item-content:hover > .toolbar {
   @apply -opacity-100;
-}
-.tree {
-  @apply -relative;
-}
-.directory-outline .has-nested-menu > .tree::before {
-  @apply -absolute -z-50 -bottom-0;
-  content: '';
-  left: calc(var(--level) * 20px - 12px);
-  top: -9px;
-  border-left: 1px solid var(--color-gray-300);
 }

@@ -1,3 +1,2 @@
 export * from './tree-options';
-export * from './tree-item-props';
-export * from './tree-item-options';
+export * from './tree-actions-setting';

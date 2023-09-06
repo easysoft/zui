@@ -1086,9 +1086,6 @@ importers:
 
   lib/tree:
     dependencies:
-      '@zui/action-menu':
-        specifier: workspace:*
-        version: link:../action-menu
       '@zui/base':
         specifier: workspace:*
         version: link:../base
@@ -1104,6 +1101,9 @@ importers:
       '@zui/css-icons':
         specifier: workspace:^0.0.1
         version: link:../css-icons
+      '@zui/list':
+        specifier: workspace:*
+        version: link:../list
       '@zui/menu':
         specifier: workspace:*
         version: link:../menu

@@ -1,55 +1,50 @@
-import {ActionMenuNested} from '@zui/action-menu/src/component/action-menu-nested';
 import {classes} from '@zui/core';
-import type {ActionMenuItemOptions} from '@zui/action-menu/src/types';
-import type {TreeOptions, TreeItemOptions} from '../types';
-import {TreeItem} from './tree-item';
+import {NestedList} from '@zui/list/src/component';
+import {Toolbar} from '@zui/toolbar/src/component';
 
-export class Tree<T extends ActionMenuItemOptions = TreeItemOptions> extends ActionMenuNested<T, TreeOptions<T>> {
-    static ItemComponents = {
-        item: TreeItem,
+import type {ComponentChild, RenderableProps} from 'preact';
+import type {ClassNameLike} from '@zui/core';
+import type {Item, NestedItem} from '@zui/list';
+import type {TreeActionsSetting, TreeOptions} from '../types';
+
+export class Tree<T extends TreeOptions = TreeOptions> extends NestedList<T> {
+    static defaultItemProps: Partial<Item> = {
+        component: 'li',
+        innerComponent: 'div',
+        className: 'tree-item-content',
+        trailingClass: 'tree-actions',
     };
 
     static NAME = 'tree';
 
-    get nestedTrigger() {
-        return this.props.nestedTrigger || 'click';
-    }
+    static inheritNestedProps = [...NestedList.inheritNestedProps, 'itemActions', 'expandedIcon', 'collapsedIcon', 'normalIcon'];
 
-    get menuName() {
-        return 'tree';
-    }
-
-    getNestedMenuProps(items: TreeItemOptions[]): TreeOptions {
-        const props = super.getNestedMenuProps(items) as TreeOptions<T>;
-        const {collapsedIcon, expandedIcon, normalIcon, itemActions} = this.props;
-        return {
-            collapsedIcon, expandedIcon, normalIcon, itemActions,
-            ...props,
-        } as TreeOptions;
-    }
-
-    getItemRenderProps(props: Omit<TreeOptions<T>, 'items'> & {items: T[];}, item: T, index: number): T {
-        const itemProps = super.getItemRenderProps(props, item, index) as TreeItemOptions;
-        const {collapsedIcon, expandedIcon, normalIcon, itemActions} = props;
-        if (itemProps.icon === undefined) {
-            itemProps.icon = itemProps.items ? (itemProps.show ? expandedIcon : collapsedIcon) : normalIcon;
+    protected _getItem(props: RenderableProps<T>, item: NestedItem, index: number): NestedItem | undefined {
+        const nestedItem = super._getItem(props, item, index);
+        if (!nestedItem) {
+            return;
         }
-        if (itemProps.actions === undefined && itemActions) {
-            itemProps.actions = typeof itemActions === 'function' ? itemActions(item) : itemActions;
+        if (nestedItem.type === 'item') {
+            if (nestedItem.icon === undefined) {
+                nestedItem.icon = item.items ? (nestedItem.expanded ? props.expandedIcon : props.collapsedIcon) : props.normalIcon;
+            }
+            let actions = (nestedItem.actions as TreeActionsSetting) || props.itemActions;
+            if (typeof actions === 'function') {
+                actions = actions.call(this, nestedItem);
+            }
+            if (Array.isArray(actions)) {
+                actions = {items: actions};
+            }
+            if (actions) {
+                let trailing = nestedItem.trailing || [];
+                if (!Array.isArray(trailing)) {
+                    trailing = [trailing];
+                }
+                (trailing as ComponentChild[]).push(<Toolbar key="toolbar" className={classes('not-nested-toggle', nestedItem.actionsClass as ClassNameLike, actions.className)} size="sm" {...actions} />);
+                nestedItem.trailing = trailing;
+            }
         }
-        return itemProps as T;
-    }
-
-    renderToggleIcon() {
-        return null;
-    }
-
-    beforeRender(): Omit<TreeOptions<T>, 'items'> & {items: T[];} {
-        const props = super.beforeRender();
-        const {hover} = this.props;
-        if (hover) {
-            props.className = classes(props.className, 'tree-hover');
-        }
-        return props;
+        nestedItem.actions = true;
+        return nestedItem;
     }
 }
