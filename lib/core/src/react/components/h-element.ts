@@ -10,11 +10,11 @@ import type {HElementProps} from '../types';
  */
 export class HElement<P extends HElementProps, S = {}> extends Component<P, S> {
     protected _getClassName(props: RenderableProps<P>): ClassNameLike {
-        return [props.className, props.class];
+        return props.className;
     }
 
     protected _getProps(props: RenderableProps<P>): Record<string, unknown> {
-        const {className, class: className2, attrs, data, forwardRef, children, component, style, ...others} = props;
+        const {className, attrs, data, forwardRef, children, component, style, ...others} = props;
         const other = Object.keys(others).reduce<Record<string, unknown>>((map, key) => {
             if (key === 'dangerouslySetInnerHTML' || /^(on[A-Z]|data-|zui-)[a-zA-Z-]+/.test(key)) {
                 map[key] = others[key as keyof typeof others];

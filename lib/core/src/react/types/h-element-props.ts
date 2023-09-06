@@ -11,14 +11,9 @@ export interface HElementProps extends PreactDOMAttributes {
     component?: ComponentType | keyof JSX.IntrinsicElements;
 
     /**
-     * The alternative class name of the element.
-     */
-    className?: ClassNameLike;
-
-    /**
      * The class name of the element.
      */
-    class?: ClassNameLike;
+    className?: ClassNameLike;
 
     /**
      * The style of the element.
