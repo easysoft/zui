@@ -2,7 +2,7 @@ import type {PickOptions} from '@zui/pick';
 import type {MenuOptions} from '@zui/menu/src/types';
 import type {PickerState} from './picker-state';
 
-export interface PickerOptions extends PickOptions<PickerState> {
+export interface PickerOptions<S extends PickerState = PickerState> extends PickOptions<S> {
     multiple?: boolean | number;
     placeholder?: string;
     required?: boolean;

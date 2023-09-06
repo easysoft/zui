@@ -4,7 +4,7 @@ import {Pick, PickTrigger} from '@zui/pick/src/components';
 import {PickTriggerProps} from '@zui/pick/src/types';
 import {PickerItemBasic, PickerItemOptions, PickerMenuProps, PickerOptions, PickerSelectProps, PickerState} from '../types';
 import '@zui/form-control/src/style/index.css';
-import '../style/index.ts';
+import '../style';
 import {PickerMultiSelect} from './picker-multi-select';
 import {PickerSingleSelect} from './picker-single-select';
 import {PickerMenu} from './picker-menu';
@@ -21,7 +21,7 @@ function getValueMap(items: PickerItemOptions[], userMap?: Map<string, PickerIte
     }, userMap || new Map());
 }
 
-export class Picker extends Pick<PickerState, PickerOptions> {
+export class Picker<S extends PickerState = PickerState, O extends PickerOptions<S> = PickerOptions<S>> extends Pick<S, O> {
     static defaultProps = {
         ...Pick.defaultProps,
         className: 'picker',
@@ -43,7 +43,7 @@ export class Picker extends Pick<PickerState, PickerOptions> {
 
     protected _trigger = createRef<PickerTrigger>();
 
-    constructor(props: PickerOptions) {
+    constructor(props: O) {
         super(props);
         $.extend(this.state, {
             loading: false,
@@ -170,7 +170,7 @@ export class Picker extends Pick<PickerState, PickerOptions> {
         return items;
     }
 
-    changeState(state: Partial<PickerState> | ((prevState: Readonly<PickerState>) => Partial<PickerState>), callback?: (() => void) | undefined): Promise<PickerState> {
+    changeState(state: Partial<S> | ((prevState: Readonly<S>) => Partial<S>), callback?: (() => void) | undefined): Promise<S> {
         return super.changeState((prevState) => {
             const newState = typeof state === 'function' ? state(prevState) : state;
             if ((newState.value !== undefined && newState.value !== prevState.value) || (newState.items && newState.items !== prevState.items)) {
@@ -190,7 +190,7 @@ export class Picker extends Pick<PickerState, PickerOptions> {
     async update(force?: boolean) {
         const {state, props} = this;
         const cache = this._itemsCacheInfo || {};
-        const newState: Partial<PickerState> = {};
+        const newState: Partial<S> = {};
         this._itemsCacheInfo = cache;
         if (force || cache.search !== state.search || props.items !== cache.items) {
             const loadItems = await this.load();
@@ -227,7 +227,7 @@ export class Picker extends Pick<PickerState, PickerOptions> {
         }, 50);
     }
 
-    componentDidUpdate(previousProps: Readonly<PickerOptions>, previousState: Readonly<PickerState>): void {
+    componentDidUpdate(previousProps: Readonly<O>, previousState: Readonly<S>): void {
         super.componentDidUpdate(previousProps, previousState);
         this.tryUpdate();
     }
@@ -245,7 +245,7 @@ export class Picker extends Pick<PickerState, PickerOptions> {
         super.componentWillUnmount();
     }
 
-    protected _getTriggerProps(props: RenderableProps<PickerOptions>, state: Readonly<PickerState>): PickerSelectProps & {ref: RefObject<PickerTrigger>} {
+    protected _getTriggerProps(props: RenderableProps<O>, state: Readonly<S>): PickerSelectProps & {ref: RefObject<PickerTrigger>} {
         return {
             ...super._getTriggerProps(props, state),
             ref: this._trigger,
@@ -264,7 +264,7 @@ export class Picker extends Pick<PickerState, PickerOptions> {
         };
     }
 
-    protected _getPopProps(props: RenderableProps<PickerOptions>, state: Readonly<PickerState>): PickerMenuProps {
+    protected _getPopProps(props: RenderableProps<O>, state: Readonly<S>): PickerMenuProps {
         return {
             ...super._getPopProps(props, state),
             menu: props.checkbox ? $.extend({checkbox: props.checkbox}, props.menu) : props.menu,
@@ -278,8 +278,8 @@ export class Picker extends Pick<PickerState, PickerOptions> {
         };
     }
 
-    protected _getTrigger(props: RenderableProps<PickerOptions>): ComponentType<PickTriggerProps<PickerState>> {
-        return props.Trigger || (props.multiple ? PickerMultiSelect : PickerSingleSelect) as unknown as ComponentType<PickTriggerProps<PickerState>>;
+    protected _getTrigger(props: RenderableProps<O>): ComponentType<PickTriggerProps<S>> {
+        return props.Trigger || (props.multiple ? PickerMultiSelect : PickerSingleSelect) as unknown as ComponentType<PickTriggerProps<S>>;
     }
 
     formatValueList(value: string | string[]): string[] {
