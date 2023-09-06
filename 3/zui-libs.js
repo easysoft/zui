@@ -1519,12 +1519,12 @@ export default [
             "./src/**/*"
         ],
         "dependencies": {
-            "@zui/action-menu": "workspace:*",
             "@zui/base": "workspace:*",
             "@zui/button": "workspace:*",
             "@zui/core": "workspace:^0.0.1",
             "@zui/css-icons": "workspace:^0.0.1",
             "@zui/checkbox": "workspace:*",
+            "@zui/list": "workspace:*",
             "@zui/toolbar": "workspace:*",
             "@zui/menu": "workspace:*"
         },
