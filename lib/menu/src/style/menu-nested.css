@@ -2,8 +2,8 @@
   --menu-indent: 10px;
 }
 .menu-nested .menu {
-  @apply -ml-[--menu-indent] --my-2;
+  @apply -ml-[--menu-indent] --my-2 -pr-0;
 }
-.menu-nested .menu-item > a {
+.menu-nested .menu-item > .item-inner {
   @apply -pl-0;
 }

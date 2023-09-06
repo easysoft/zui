@@ -1,5 +1,5 @@
-.menu-item > a {
-    @apply -flex -text-inherit -px-2 -py-1 -rounded -items-center -transition-colors -relative -justify-between -truncate -cursor-pointer -gap-1;
+.menu-item > .item-inner {
+    @apply -flex -text-inherit -px-2 -py-1 -rounded -items-center -justify-between -transition-colors -relative -truncate -cursor-pointer -gap-1;
 }
 .menu-item > .active {
     background: var(--menu-active-bg);
@@ -10,6 +10,6 @@
     background: var(--menu-hover-bg);
     color: var(--menu-hover-color);
 }
-.menu-item > a > .text {
+.menu-item > a > .item-title {
     @apply -flex-auto;
 }
