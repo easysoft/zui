@@ -4,7 +4,7 @@ import {Pick, PickTrigger} from '@zui/pick/src/components';
 import {PickTriggerProps} from '@zui/pick/src/types';
 import {PickerItemBasic, PickerItemOptions, PickerMenuProps, PickerOptions, PickerSelectProps, PickerState} from '../types';
 import '@zui/form-control/src/style/index.css';
-import '../style/index.css';
+import '../style/index.ts';
 import {PickerMultiSelect} from './picker-multi-select';
 import {PickerSingleSelect} from './picker-single-select';
 import {PickerMenu} from './picker-menu';
