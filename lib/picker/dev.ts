@@ -1,8 +1,10 @@
 import 'zui-dev';
 import '@zui/button';
+import '@zui/list';
 import '@zui/menu';
 import '@zui/form-control';
 import '@zui/checkbox';
+import '@zui/avatar';
 import {Picker} from './src/main';
 
 const items = [
@@ -20,6 +22,29 @@ const items = [
     {text: 'Cake', value: 'cake', keys: 'food'},
 ];
 
+const nestedItems = [
+    {
+        text: '水果',
+        value: 'fruit',
+        items: [
+            {text: '西红柿', value: 'tomato', keys: 'fruit food xihongshi', subtitle: '绿色蔬菜'},
+            {text: '西瓜', value: 'watermelon', keys: 'fruit food xigua'},
+            {text: '苹果', value: 'apple', keys: 'fruit food pingguo'},
+            {text: '香蕉', value: 'banana', keys: 'fruit food xiangjiao'},
+        ],
+    },
+    {
+        text: '蔬菜',
+        value: 'vegetable',
+        items: [
+            {text: '西红柿', value: 'tomato', keys: 'fruit food xihongshi'},
+            {text: '西瓜2', value: 'watermelon2', keys: 'fruit food xigua'},
+            {text: '苹果2', value: 'apple2', keys: 'fruit food pingguo'},
+            {text: '香蕉2', value: 'banana2', keys: 'fruit food xiangjiao'},
+        ],
+    },
+];
+
 onPageUpdate(() => {
     const singlePicker = new Picker('#singlePicker', {
         name: 'selectOne',
@@ -33,7 +58,27 @@ onPageUpdate(() => {
     const multiPicker = new Picker('#multiPicker', {
         name: 'selectSome',
         multiple: true,
-        items,
+        items: nestedItems,
+        menu: {
+            itemProps: {
+                avatarClass: 'size-sm',
+            },
+            checkbox: true,
+            getItem: (item) => {
+                if (item.type === 'item') {
+                    if (item.items) {
+                        item.titleClass = 'font-bold';
+                    } else {
+                        item.avatar = {
+                            text: item.text[0], // 或者通过 src 指定图片
+                            size: 'xs',
+                            circle: true,
+                        };
+                    }
+                }
+                return item;
+            },
+        },
         defaultValue: 'banana,orange',
         placeholder: '请选择你的最爱',
     });

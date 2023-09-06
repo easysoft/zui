@@ -1,7 +1,5 @@
 import type {PickOptions} from '@zui/pick';
 import type {MenuOptions} from '@zui/menu/src/types';
-import type {PickerItemOptions} from './picker-item-options';
-import type {PickerItemsFetcher} from './picker-items-fetcher';
 import type {PickerState} from './picker-state';
 
 export interface PickerOptions extends PickOptions<PickerState> {
@@ -13,7 +11,8 @@ export interface PickerOptions extends PickOptions<PickerState> {
     emptyValue?: string;
     limitValueInList?: boolean;
     menu?: MenuOptions;
-    items: PickerItemOptions[] | PickerItemsFetcher;
+    checkbox?: MenuOptions['checkbox'];
+    items: MenuOptions['items'];
     searchDelay?: number;
     search?: boolean | number;
     searchHint?: string;

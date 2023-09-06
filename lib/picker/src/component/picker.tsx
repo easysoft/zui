@@ -1,5 +1,5 @@
 import {ComponentType, RefObject, RenderableProps, createRef} from 'preact';
-import {$, delay} from '@zui/core';
+import {$, delay, fetchData} from '@zui/core';
 import {Pick, PickTrigger} from '@zui/pick/src/components';
 import {PickTriggerProps} from '@zui/pick/src/types';
 import {PickerItemBasic, PickerItemOptions, PickerMenuProps, PickerOptions, PickerSelectProps, PickerState} from '../types';
@@ -10,6 +10,16 @@ import {PickerSingleSelect} from './picker-single-select';
 import {PickerMenu} from './picker-menu';
 
 type PickerTrigger = PickTrigger<PickerState, PickerSelectProps>;
+
+function getValueMap(items: PickerItemOptions[], userMap?: Map<string, PickerItemOptions>): Map<string, PickerItemOptions> {
+    return items.reduce<Map<string, PickerItemOptions>>((map, item) => {
+        if (Array.isArray(item.items)) {
+            getValueMap(item.items as PickerItemOptions[], map);
+        }
+        map.set(item.value, item);
+        return map;
+    }, userMap || new Map());
+}
 
 export class Picker extends Pick<PickerState, PickerOptions> {
     static defaultProps = {
@@ -49,11 +59,11 @@ export class Picker extends Pick<PickerState, PickerOptions> {
         if (Array.isArray(items) && items.length) {
             items.forEach(item => item.value = String(item.value)); // Fix item value could be non-string.
             if (props.limitValueInList) {
-                const valueSet = new Set(items.map(x => x.value));
-                (this.state as PickerState).value = this.valueList.filter(x => valueSet.has(x)).join(props.valueSplitter);
+                const valueMap = getValueMap(items);
+                (this.state as PickerState).value = this.valueList.filter(x => valueMap.has(x)).join(props.valueSplitter);
             }
             if (!this.valueList.length && props.required && !props.multiple) {
-                (this.state as PickerState).value = items[0].value;
+                (this.state as PickerState).value = items[0].value ?? '';
             }
         }
     }
@@ -123,15 +133,15 @@ export class Picker extends Pick<PickerState, PickerOptions> {
         abort = new AbortController();
         this._abort = abort;
 
-        const {items: itemsSetting, searchDelay} = this.props;
+        const {items: itemsSetting = [], searchDelay} = this.props;
         const {search} = this.state;
         let items: PickerItemOptions[] = [];
-        if (typeof itemsSetting === 'function') {
+        if (!Array.isArray(itemsSetting)) {
             await delay(searchDelay || 500);
             if (this._abort !== abort) {
                 return items;
             }
-            items = await itemsSetting(search, {signal: abort.signal});
+            items = await fetchData(itemsSetting, [this, search], {signal: abort.signal});
             if (this._abort !== abort) {
                 return items;
             }
@@ -141,10 +151,10 @@ export class Picker extends Pick<PickerState, PickerOptions> {
             if (searchKeys.length) {
                 items = itemsSetting.reduce<PickerItemOptions[]>((list, item) => {
                     const {
-                        value,
+                        value = '',
                         keys = '',
                         text,
-                    } = item;
+                    } = item as PickerItemOptions;
 
                     if (searchKeys.every(searchKey => value.toLowerCase().includes(searchKey) || keys.toLowerCase().includes(searchKey) || (typeof text === 'string' && text.toLowerCase().includes(searchKey)))) {
                         list.push(item);
@@ -165,10 +175,10 @@ export class Picker extends Pick<PickerState, PickerOptions> {
             const newState = typeof state === 'function' ? state(prevState) : state;
             if ((newState.value !== undefined && newState.value !== prevState.value) || (newState.items && newState.items !== prevState.items)) {
                 const items = newState.items || prevState.items;
-                const map = new Map(items.map(x => [x.value, x]));
+                const map = getValueMap(items);
                 newState.selections = this.formatValueList(newState.value ?? prevState.value).reduce<PickerItemBasic[]>((list, value) => {
                     if (!this.isEmptyValue(value)) {
-                        list.push(map.get(value) || {value});
+                        list.push(map.get(value) || {value, text: value});
                     }
                     return list;
                 }, []);
@@ -257,7 +267,7 @@ export class Picker extends Pick<PickerState, PickerOptions> {
     protected _getPopProps(props: RenderableProps<PickerOptions>, state: Readonly<PickerState>): PickerMenuProps {
         return {
             ...super._getPopProps(props, state),
-            menu: props.menu,
+            menu: props.checkbox ? $.extend({checkbox: props.checkbox}, props.menu) : props.menu,
             multiple: props.multiple,
             search: props.search,
             searchHint: props.searchHint,
@@ -298,8 +308,8 @@ export class Picker extends Pick<PickerState, PickerOptions> {
         if (valueList.length) {
             const {items, limitValueInList} = this.props;
             if (limitValueInList) {
-                const valueSet = new Set((Array.isArray(items) ? items : this.state.items).map(x => String(x.value)));
-                valueList = valueList.filter(x => valueSet.has(x));
+                const valueMap = getValueMap((Array.isArray(items) ? items : this.state.items) as PickerItemOptions[]);
+                valueList = valueList.filter(x => valueMap.has(x));
             }
         }
         const stateValue = this.formatValue(valueList);
