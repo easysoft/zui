@@ -17,11 +17,17 @@
     @apply -bg-primary-100;
 }
 .menu-nested .menu.dropdown-menu {
-  @apply -ml-auto -my-auto;
+  @apply -ml-auto -my-auto -pr-2;
+}
+.dropdown-menu .list-toggle-icon.is-empty {
+  @apply -hidden;
+}
+.dropdown-menu.menu-nested .menu-item > .item-inner {
+  @apply -pl-2;
 }
 .dropdown-menu .menu-item.is-nested > .item-inner > .list-toggle-icon {
-  @apply -absolute -right-1 -top-1;
+  @apply -absolute -right-1 -top-1.5;
 }
 .dropdown-menu .menu-item.is-nested-show > .item-inner > .list-toggle-icon {
-  @apply --rotate-90 -top-1;
+  @apply --rotate-90 -top-1.5;
 }
