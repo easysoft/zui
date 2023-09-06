@@ -32,4 +32,5 @@ export interface ListItemProps extends Item {
     trailingIcon?: IconType;
     actions?: ButtonProps[];
     actionsClass?: ClassNameLike;
+    actionsAttrs?: Record<string, unknown>;
 }

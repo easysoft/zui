@@ -5,4 +5,5 @@ import type {NestedListProps} from './nested-list-props';
 export interface NestedItem extends Item {
     items?: ItemsSetting;
     listProps?: NestedListProps;
+    expanded?: boolean;
 }

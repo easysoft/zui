@@ -50,16 +50,13 @@ export class ListItem<P extends ListItemProps = ListItemProps, S = {}> extends H
             contents.push(<Avatar key="avatar" {...avatar} className={classes('item-avatar', avatar.className)} />);
         }
         const customLeading = leading ? <CustomContent key="leading" content={leading} /> : null;
+        if (customLeading) {
+            contents.push(customLeading);
+        }
         if (multiline) {
-            if (customLeading) {
-                contents.push(customLeading);
-            }
             return contents.length ? [
                 <div key="leading" className={classes('item-leading', leadingClass)}>{contents}</div>,
             ] : [];
-        }
-        if (customLeading) {
-            contents.push(<div key="leading" className={classes('item-leading', leadingClass)}>{customLeading}</div>);
         }
         return contents;
     }
@@ -67,9 +64,8 @@ export class ListItem<P extends ListItemProps = ListItemProps, S = {}> extends H
     protected _renderContent(props: RenderableProps<P>): ComponentChild[] {
         const {
             multiline,
-            text,
+
             textClass,
-            title,
             titleClass,
             subtitle,
             subtitleClass,
@@ -79,6 +75,11 @@ export class ListItem<P extends ListItemProps = ListItemProps, S = {}> extends H
         } = props;
         const titleAsLink = url && actions;
         const TitleComponent = titleAsLink ? 'a' : 'div';
+        let {title, text} = props;
+        if (title === undefined) {
+            title = text;
+            text = null;
+        }
         const contents: ComponentChild[] = [
             title ? <TitleComponent key="title" className={classes('item-title', titleClass)} href={titleAsLink ? url : undefined} target={titleAsLink ? target : undefined}>{title}</TitleComponent> : null,
             subtitle ? <div key="subtitle" className={classes('item-subtitle', subtitleClass)}>{subtitle}</div> : null,
@@ -102,27 +103,25 @@ export class ListItem<P extends ListItemProps = ListItemProps, S = {}> extends H
             trailingIcon,
             actions,
             actionsClass,
+            actionsAttrs,
         } = props;
         const contents: ComponentChild[] = [];
         if (trailingIcon) {
             contents.push(<Icon key="trailing-icon" className="item-trailing-icon" icon={trailingIcon} />);
         }
         if (actions?.length) {
-            contents.push(<div key="actions" className={classes('item-actions', actionsClass)}>{
+            contents.push(<div key="actions" className={classes('item-actions toolbar', actionsClass)} {...actionsAttrs}>{
                 actions.map((action, index) => <Button key={index} type="ghost" size="sm" {...action} />)
             }</div>);
         }
         const customTrailing = trailing ? <CustomContent key="trailing" content={trailing} /> : null;
+        if (customTrailing) {
+            contents.push(customTrailing);
+        }
         if (multiline) {
-            if (customTrailing) {
-                contents.push(customTrailing);
-            }
             return contents.length ? [
                 <div key="trailing" className={classes('item-trailing', trailingClass)}>{contents}{customTrailing}</div>,
             ] : [];
-        }
-        if (customTrailing) {
-            contents.push(<div key="trailing" className={classes('item-trailing', trailingClass)}>{customTrailing}</div>);
         }
         return contents;
     }

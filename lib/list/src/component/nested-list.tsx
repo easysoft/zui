@@ -17,11 +17,20 @@ type MouseEventInfo = {
 };
 
 export class NestedList<P extends NestedListProps = NestedListProps, S extends NestedListState = NestedListState> extends List<P, S> {
+    /**
+     * Access to static properties via this.constructor.
+     *
+     * @see https://github.com/Microsoft/TypeScript/issues/3841#issuecomment-337560146
+     */
+    declare ['constructor']: typeof NestedList;
+
     static defaultProps = {
         defaultNestedShow: false,
         level: 0,
         indent: 20,
     };
+
+    static inheritNestedProps = ['component', 'name', 'itemName', 'keyName', 'indent', 'hover', 'divider', 'multiline', 'toggleIcons', 'nestedToggle', 'itemRender', 'onToggle'];
 
     protected _controlled: boolean;
 
@@ -51,10 +60,10 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
         return (this._controlled ? this.props.nestedShow : this.state.nestedShow) ?? false;
     }
 
-    isExpanded(key: ItemKey, parentKey: ItemKey | undefined) {
+    isExpanded(key: ItemKey, parentKey: ItemKey | undefined, defaultExpanded?: boolean) {
         const {nestedShow} = this;
         const name = `${parentKey !== undefined ? `${parentKey}:` : ''}${key}`;
-        return !!(typeof nestedShow === 'object' ? nestedShow[name] : nestedShow);
+        return !!(typeof nestedShow === 'object' ? (nestedShow[name] ?? defaultExpanded) : nestedShow);
     }
 
     toggle(key: ItemKey, toggle?: boolean) {
@@ -109,34 +118,16 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
         const {
             className,
             class: className2,
-            component,
-            name,
-            itemName,
-            keyName,
-            itemRender,
-            indent,
-            collapsedIcon,
-            expandedIcon,
-            normalIcon,
-            nestedToggle,
-            onToggle,
             parentKey,
             nestedTrigger,
             level = 0,
             onHoverItem,
         } = props;
         return {
-            component,
-            name,
-            itemName,
-            keyName,
-            itemRender,
-            indent,
-            collapsedIcon,
-            expandedIcon,
-            normalIcon,
-            nestedToggle,
-            onToggle,
+            ...(this.constructor.inheritNestedProps.reduce((propMap, key) => {
+                propMap[key as keyof P] = props[key as keyof P];
+                return propMap;
+            }, {} as P)),
             items,
             parentKey: parentKey ? `${parentKey}:${item.key}` : item.key,
             nestedShow: this.nestedShow,
@@ -157,11 +148,12 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
     protected _renderNestedToggle(props: RenderableProps<P>, isExpanded: boolean | null) {
         let toggleIcon: ComponentChild;
         let toggleClass = '';
+        const {toggleIcons = {}} = props;
         if (typeof isExpanded === 'boolean') {
-            toggleIcon = isExpanded ? (props.expandedIcon || <span className="caret-down"></span>) : (props.collapsedIcon || <span className="caret-right"></span>);
+            toggleIcon = isExpanded ? (toggleIcons.expanded || <span className="caret-down"></span>) : (toggleIcons.collapsed || <span className="caret-right"></span>);
             toggleClass = `state is-${isExpanded ? 'expanded' : 'collapsed'}`;
         } else {
-            toggleIcon = <Icon icon={props.normalIcon} />;
+            toggleIcon = <Icon icon={toggleIcons.normal} />;
             toggleClass = 'is-empty';
         }
         return <span className={classes('list-toggle-icon', toggleClass)}>{toggleIcon}</span>;
@@ -170,7 +162,7 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
     protected _getItem(props: RenderableProps<P>, item: NestedItem, index: number): NestedItem | undefined {
         const {items, ...itemProps} = super._getItem(props, item, index) as NestedItem;
         if (items) {
-            const isExpanded = this.isExpanded(itemProps.key!, props.parentKey);
+            const isExpanded = itemProps.expanded ?? this.isExpanded(itemProps.key!, props.parentKey);
             itemProps.rootClass = [itemProps.rootClass, 'is-nested', `is-nested-${isExpanded ? 'show' : 'hide'}`];
             if (isExpanded) {
                 let {children = []} = itemProps;
@@ -181,6 +173,7 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
                 itemProps.children = children;
                 itemProps['zui-parent'] = props.parentKey;
             }
+            itemProps.expanded = isExpanded;
             itemProps.toggleIcon = this._renderNestedToggle(props, isExpanded);
             itemProps.onMouseEnter = this._handleHover;
             itemProps.onMouseLeave = this._handleHover;
@@ -259,7 +252,7 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
         this._hoverTimer = window.setTimeout(() => {
             this._hoverTimer = 0;
             this.props.onHoverItem?.call(this, info as {hover: boolean, item: NestedItem, index: number, event: MouseEvent});
-            if (!this._controlled) {
+            if (!this._controlled && this.props.nestedTrigger === 'hover') {
                 this._toggleFromEvent(info);
             }
         }, 100);

@@ -2,7 +2,7 @@
   @apply -pl-[--list-indent];
 }
 .list-toggle-icon {
-  @apply -w-5 -h-5 -flex -items-center -justify-center --mr-1 -rounded;
+  @apply -w-4 -h-4 -flex -items-center -justify-center --mr-1 -rounded;
 }
 .list-nested-root.no-nested-items > .item > .item-inner > .list-toggle-icon {
   @apply -hidden;

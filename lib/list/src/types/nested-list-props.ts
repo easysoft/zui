@@ -10,9 +10,7 @@ export interface NestedListProps extends ListProps<NestedItem> {
     nestedTrigger?: 'click' | 'hover' | 'toggle' | 'icon',
     nestedShow?: boolean | Record<ItemKey, boolean>;
     defaultNestedShow?: boolean | Record<ItemKey, boolean>;
-    collapsedIcon?: IconType;
-    expandedIcon?: IconType;
-    normalIcon?: IconType;
+    toggleIcons?: {collapsed?: IconType, expanded?: IconType, normal?: IconType};
     nestedToggle?: string;
     onToggle?: (key: ItemKey, toggle: boolean) => false | void;
     onHoverItem?: (info: {hover: boolean, item: NestedItem, index: number, event: MouseEvent}) => void;

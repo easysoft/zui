@@ -138,21 +138,25 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
     }
 
     protected _getItem(props: RenderableProps<P>, item: Item, index: number): Item | undefined {
-        const {itemProps, itemPropsMap = {}, getItem, keyName = 'id'} = props;
+        const {itemProps, itemPropsMap = {}, getItem, keyName = 'id', divider, hover, multiline} = props;
         const {type = 'item'} = item;
         const {name, itemName} = this;
+        const {defaultItemProps = {}} = this.constructor;
         item = $.extend(
             {
-                ...this.constructor.defaultItemProps,
+                ...defaultItemProps,
                 key: item[keyName] ?? index,
                 type,
+                divider,
+                hover,
+                multiline,
             },
             itemProps,
             itemPropsMap[type],
             item,
             {
-                rootClass: [itemName, `${name}-${type}`, itemProps?.rootClass, itemPropsMap[type]?.rootClass, item.rootClass],
-                className: [itemName ? `${itemName}-inner` : '', itemProps?.className, itemPropsMap[type]?.className, item.className],
+                rootClass: [defaultItemProps.rootClass, itemName, `${name}-${type}`, itemProps?.rootClass, itemPropsMap[type]?.rootClass, item.rootClass],
+                className: [defaultItemProps.className, itemName ? `${itemName}-inner` : '', itemProps?.className, itemPropsMap[type]?.className, item.className],
                 'zui-item': index,
                 'zui-type': type,
                 style: {...itemProps?.style, ...itemPropsMap[type]?.style, ...item.style},

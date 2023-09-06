@@ -9,6 +9,9 @@ export interface ListProps<T extends Item = Item> extends HElementProps {
     items?: ItemsSetting;
     itemProps?: Partial<T>;
     itemPropsMap?: Record<string, Partial<T>>;
+    hover?: boolean;
+    divider?: boolean;
+    multiline?: boolean;
     getItem?: (item: T, index: number) => T;
     onLoad?: (items: T[]) => void | T[];
     onLoadFail?: CustomContentType | ((error: Error) => CustomContentType | void);
