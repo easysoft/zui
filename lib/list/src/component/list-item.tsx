@@ -47,7 +47,11 @@ export class ListItem<P extends ListItemProps = ListItemProps, S = {}> extends H
             contents.push(<Icon key="icon" className="item-icon" icon={icon} />);
         }
         if (avatar) {
-            contents.push(<Avatar key="avatar" {...avatar} className={classes('item-avatar', avatar.className)} />);
+            const avatarProps = typeof avatar === 'function' ? avatar.call(this, props) : avatar;
+            if (avatarProps) {
+                avatarProps.className = classes('item-avatar', avatarProps.className);
+                contents.push(<Avatar key="avatar" {...avatarProps} />);
+            }
         }
         const customLeading = leading ? <CustomContent key="leading" content={leading} /> : null;
         if (customLeading) {
@@ -63,8 +67,6 @@ export class ListItem<P extends ListItemProps = ListItemProps, S = {}> extends H
 
     protected _renderContent(props: RenderableProps<P>): ComponentChild[] {
         const {
-            multiline,
-
             textClass,
             titleClass,
             subtitle,
@@ -72,6 +74,7 @@ export class ListItem<P extends ListItemProps = ListItemProps, S = {}> extends H
             url,
             actions,
             target,
+            content,
         } = props;
         const titleAsLink = url && actions;
         const TitleComponent = titleAsLink ? 'a' : 'div';
@@ -85,13 +88,11 @@ export class ListItem<P extends ListItemProps = ListItemProps, S = {}> extends H
             subtitle ? <div key="subtitle" className={classes('item-subtitle', subtitleClass)}>{subtitle}</div> : null,
             text ? <div key="text" className={classes('item-text text', textClass)}>{text}</div> : null,
         ];
-        if (!multiline) {
-            return contents;
-        }
         return [
             <div className="item-content" key="content">
                 {contents}
             </div>,
+            content ? <CustomContent key="extraContent" content={content} /> : null,
         ];
     }
 
@@ -130,7 +131,6 @@ export class ListItem<P extends ListItemProps = ListItemProps, S = {}> extends H
         const {
             innerComponent,
             className,
-            class: className2,
             url,
             actions,
             target,
@@ -143,7 +143,7 @@ export class ListItem<P extends ListItemProps = ListItemProps, S = {}> extends H
         } = props;
         const ComponentName = innerComponent || ((url && !actions) ? 'a' : 'div');
         const asLink = ComponentName === 'a';
-        const classList = classes(className, className2, {
+        const classList = classes(className, {
             active,
             disabled,
             'has-divider': divider,

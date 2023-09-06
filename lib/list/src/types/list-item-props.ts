@@ -16,7 +16,7 @@ export interface ListItemProps extends Item {
     toggleIcon?: CustomContentType;
     icon?: IconType;
     hover?: boolean;
-    avatar?: AvatarOptions;
+    avatar?: AvatarOptions | ((item: Item) => AvatarOptions);
     leading?: CustomContentType;
     leadingClass?: ClassNameLike;
     url?: string;
@@ -33,4 +33,5 @@ export interface ListItemProps extends Item {
     actions?: ButtonProps[];
     actionsClass?: ClassNameLike;
     actionsAttrs?: Record<string, unknown>;
+    content?: CustomContentType;
 }

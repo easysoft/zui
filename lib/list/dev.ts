@@ -34,6 +34,7 @@ onPageUpdate(() => {
     ];
     const nestedList = new NestedList('#nestedList', {
         items: items,
+        checkbox: true,
     });
     console.log('> nestedList', nestedList);
 

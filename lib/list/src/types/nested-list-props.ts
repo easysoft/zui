@@ -7,7 +7,7 @@ export interface NestedListProps extends ListProps<NestedItem> {
     parentKey?: ItemKey;
     indent?: number;
     level?: number;
-    nestedTrigger?: 'click' | 'hover' | 'toggle' | 'icon',
+    nestedTrigger?: 'click' | 'hover',
     nestedShow?: boolean | Record<ItemKey, boolean>;
     defaultNestedShow?: boolean | Record<ItemKey, boolean>;
     toggleIcons?: {collapsed?: IconType, expanded?: IconType, normal?: IconType};

@@ -30,15 +30,11 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
         indent: 20,
     };
 
-    static inheritNestedProps = ['component', 'name', 'itemName', 'keyName', 'indent', 'hover', 'divider', 'multiline', 'toggleIcons', 'nestedToggle', 'itemRender', 'onToggle'];
+    static inheritNestedProps = ['component', 'name', 'itemName', 'keyName', 'indent', 'hover', 'divider', 'multiline', 'toggleIcons', 'nestedToggle', 'itemRender', 'onToggle', 'checkbox', 'getItem'];
 
     protected _controlled: boolean;
 
-    protected declare _hasIcons: boolean;
-
     protected declare _hasNestedItems: boolean;
-
-    protected declare _hasCheckbox: boolean;
 
     protected declare _hoverTimer: number;
 
@@ -117,7 +113,6 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
     protected _getNestedProps(props: RenderableProps<P>, items: ItemsSetting, item: NestedItem): NestedListProps {
         const {
             className,
-            class: className2,
             parentKey,
             nestedTrigger,
             level = 0,
@@ -134,7 +129,7 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
             onClickItem: this._handleClickNestedItem,
             onHoverItem: (onHoverItem || nestedTrigger === 'hover') ? this._handleHoverNestedItem : undefined,
             ...item.listProps,
-            className: classes(className, className2, item.listProps?.className),
+            className: classes(className, item.listProps?.className),
             level: level + 1,
         };
     }
@@ -178,14 +173,8 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
             itemProps.onMouseEnter = this._handleHover;
             itemProps.onMouseLeave = this._handleHover;
         }
-        if (item.icon) {
-            this._hasIcons = true;
-        }
         if (item.items) {
             this._hasNestedItems = true;
-        }
-        if (item.checked !== undefined) {
-            this._hasCheckbox = true;
         }
         return itemProps;
     }
@@ -204,16 +193,20 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
 
     protected _getItemFromEvent(event: MouseEvent): MouseEventInfo | undefined {
         const info = super._getItemFromEvent(event) as MouseEventInfo;
+        if (!info) {
+            return;
+        }
         if (event.type === 'mouseenter' || event.type === 'mouseleave') {
             info.hover = event.type === 'mouseenter';
         }
-        return info ? {...info, parentKey: this.props.parentKey} : undefined;
+        return {...info, parentKey: this.props.parentKey};
     }
 
     protected _toggleFromEvent(info: MouseEventInfo) {
         const {item, hover, event, key, parentKey} = info;
         const {nestedTrigger, nestedToggle} = this.props;
-        if (!item.items || event.defaultPrevented || (nestedTrigger === 'hover' && hover === undefined) || (nestedTrigger === 'click' && event.type !== 'click') || (nestedToggle && !(event.target as HTMLElement).closest(nestedToggle)) || (event.target as HTMLElement).closest('.not-nested-toggle')) {
+        const target = event.target as HTMLElement;
+        if (!item.items || event.defaultPrevented || (nestedTrigger === 'hover' && hover === undefined) || (nestedTrigger === 'click' && event.type !== 'click') || target.closest('.not-nested-toggle') || (nestedToggle && !target.closest(nestedToggle)) || (!nestedToggle && target.closest('a,.btn,.item-checkbox') && !target.closest('.list-toggle-icon,.item-icon'))) {
             return;
         }
         const toggle = typeof hover === 'boolean' ? hover : undefined;
@@ -273,11 +266,10 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
     }
 
     protected _onRender(component: ComponentType | keyof JSX.IntrinsicElements, props: Record<string, unknown>, children: ComponentChildren): void | [component: ComponentType | keyof JSX.IntrinsicElements, props: Record<string, unknown>, children: ComponentChildren] {
+        [component, props, children] = super._onRender(component, props, children) || [component, props, children];
         props.className = classes(
             props.className as ClassNameLike,
-            this._hasIcons ? 'has-icons' : '',
             this._hasNestedItems ? 'has-nested-items' : 'no-nested-items',
-            this._hasCheckbox ? 'has-checkbox' : '',
         );
         return [component, props, children];
     }

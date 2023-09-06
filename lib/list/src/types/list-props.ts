@@ -1,6 +1,7 @@
 import type {ComponentChildren, CustomContentType, HElementProps} from '@zui/core';
 import type {Item} from './item';
 import type {ItemsSetting} from './items-setting';
+import type {CheckboxProps} from '@zui/checkbox/src/types';
 
 export interface ListProps<T extends Item = Item> extends HElementProps {
     name?: string;
@@ -12,7 +13,8 @@ export interface ListProps<T extends Item = Item> extends HElementProps {
     hover?: boolean;
     divider?: boolean;
     multiline?: boolean;
-    getItem?: (item: T, index: number) => T;
+    checkbox?: boolean | CheckboxProps;
+    getItem?: (item: T, index: number) => T | undefined;
     onLoad?: (items: T[]) => void | T[];
     onLoadFail?: CustomContentType | ((error: Error) => CustomContentType | void);
     itemRender?: (item: T) => ComponentChildren;

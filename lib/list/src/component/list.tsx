@@ -1,4 +1,4 @@
-import {$, HElement, createRef, fetchData} from '@zui/core';
+import {$, HElement, classes, createRef, fetchData} from '@zui/core';
 import {ListItem} from './list-item';
 
 import type {ComponentChildren, ComponentType, JSX, RenderableProps} from 'preact';
@@ -45,6 +45,10 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
     protected _loadedSetting?: ItemsSetting;
 
     protected _keyIndexes?: ItemKey[];
+
+    protected declare _hasIcons: boolean;
+
+    protected declare _hasCheckbox: boolean;
 
     state: S;
 
@@ -131,21 +135,20 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
             if (typeof defaultItemProps === 'function') {
                 defaultItemProps = defaultItemProps.call(this, item, props);
             }
-            $.extend(item, defaultItemProps);
+            item = $.extend({}, defaultItemProps, item);
             ItemComponent = ItemComponent[0];
         }
         return <ItemComponent zui-key={item.key} {...item} />;
     }
 
     protected _getItem(props: RenderableProps<P>, item: Item, index: number): Item | undefined {
-        const {itemProps, itemPropsMap = {}, getItem, keyName = 'id', divider, hover, multiline} = props;
+        const {itemProps, itemPropsMap = {}, getItem, keyName = 'id', divider, hover, multiline, checkbox} = props;
         const {type = 'item'} = item;
         const {name, itemName} = this;
         const {defaultItemProps = {}} = this.constructor;
         item = $.extend(
             {
                 ...defaultItemProps,
-                key: item[keyName] ?? index,
                 type,
                 divider,
                 hover,
@@ -155,6 +158,7 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
             itemPropsMap[type],
             item,
             {
+                key: item.key ?? item[keyName] ?? index,
                 rootClass: [defaultItemProps.rootClass, itemName, `${name}-${type}`, itemProps?.rootClass, itemPropsMap[type]?.rootClass, item.rootClass],
                 className: [defaultItemProps.className, itemName ? `${itemName}-inner` : '', itemProps?.className, itemPropsMap[type]?.className, item.className],
                 'zui-item': index,
@@ -162,8 +166,27 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
                 style: {...itemProps?.style, ...itemPropsMap[type]?.style, ...item.style},
             },
         );
-        item = getItem ? getItem.call(this, item, index) : item;
-        return item;
+
+        if (checkbox && type === 'item') {
+            if (item.checked === undefined) {
+                item.checked = false;
+            }
+            if (typeof checkbox === 'object') {
+                item.checkbox = item.checkbox ? $.extend({}, checkbox, item.checkbox) : checkbox;
+            }
+        }
+
+        const finalItem = getItem ? getItem.call(this, item, index) : item;
+        if (finalItem) {
+            if (finalItem.icon) {
+                this._hasIcons = true;
+            }
+            if (finalItem.checked !== undefined) {
+                this._hasCheckbox = true;
+            }
+        }
+
+        return finalItem;
     }
 
     protected _getItemFromEvent(event: MouseEvent): {
@@ -247,5 +270,14 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
 
     protected _getComponent(props: RenderableProps<P>): ComponentType | keyof JSX.IntrinsicElements {
         return props.component || ((this.constructor as typeof List).ROOT_TAG as keyof JSX.IntrinsicElements);
+    }
+
+    protected _onRender(component: ComponentType | keyof JSX.IntrinsicElements, props: Record<string, unknown>, children: ComponentChildren): void | [component: ComponentType | keyof JSX.IntrinsicElements, componentProps: Record<string, unknown>, children: ComponentChildren] {
+        props.className = classes(
+            props.className as ClassNameLike,
+            this._hasIcons ? 'has-icons' : '',
+            this._hasCheckbox ? 'has-checkbox' : '',
+        );
+        return [component, props, children];
     }
 }

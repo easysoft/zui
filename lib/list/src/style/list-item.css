@@ -11,11 +11,8 @@
   @apply -flex-none;
 }
 
-.item-title {
-  @apply -flex-auto;
-}
 .item-subtitle {
-  @apply -flex-auto -text-sm -opacity-80;
+  @apply -text-sm -opacity-80;
 }
 
 .item-text,
@@ -26,4 +23,14 @@
 .item-leading,
 .item-trailing {
   @apply -flex-none -flex -items-center -gap-2;
+}
+
+.item-checkbox {
+  @apply --mr-1;
+}
+.item-content {
+  @apply -flex -gap-2 -items-center;
+}
+.multiline .item-content {
+  @apply -gap-1 -items-start;
 }
