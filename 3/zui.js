@@ -2562,8 +2562,8 @@ let ut = class extends vt {
   _getItems(t) {
     const { items: e = [] } = t;
     return Array.isArray(e) ? this._items = e : this._items = this.state.items || [], this._keyIndexes = [], this._items.reduce((n, i, r) => {
-      const o = this._getItem(t, i, r);
-      return o && (n.push(o), this._keyIndexes[r] = o.key), n;
+      const o = this._getItem(t, i, r) ?? i;
+      return o !== !1 && (n.push(o), this._keyIndexes[r] = o.key), n;
     }, []);
   }
   _getChildren(t) {
@@ -2675,16 +2675,19 @@ let _e = class extends ut {
     return typeof e == "boolean" ? (n = e ? r.expanded || /* @__PURE__ */ f("span", { className: "caret-down" }) : r.collapsed || /* @__PURE__ */ f("span", { className: "caret-right" }), i = `state is-${e ? "expanded" : "collapsed"}`) : (n = /* @__PURE__ */ f(K, { icon: r.normal }), i = "is-empty"), /* @__PURE__ */ f("span", { className: $("list-toggle-icon", i), children: n });
   }
   _getItem(t, e, n) {
-    const { items: i, ...r } = super._getItem(t, e, n);
-    if (i) {
-      const o = r.expanded ?? this.isExpanded(r.key, t.parentKey);
-      if (r.rootClass = [r.rootClass, "is-nested", `is-nested-${o ? "show" : "hide"}`], o) {
-        let { children: a = [] } = r;
-        Array.isArray(a) || (a = [a]), a.push(this._renderNestedList(t, i, r)), r.children = a, r["zui-parent"] = t.parentKey;
+    const i = super._getItem(t, e, n) ?? e;
+    if (i === !1)
+      return i;
+    const { items: r, ...o } = i;
+    if (r) {
+      const a = o.expanded ?? this.isExpanded(o.key, t.parentKey);
+      if (o.rootClass = [o.rootClass, "is-nested", `is-nested-${a ? "show" : "hide"}`], a) {
+        let { children: l = [] } = o;
+        Array.isArray(l) || (l = [l]), l.push(this._renderNestedList(t, r, o)), o.children = l, o["zui-parent"] = t.parentKey;
       }
-      r.expanded = o, r.toggleIcon = this._renderNestedToggle(t, o), r.onMouseEnter = this._handleHover, r.onMouseLeave = this._handleHover;
+      o.expanded = a, o.toggleIcon = this._renderNestedToggle(t, a), o.onMouseEnter = this._handleHover, o.onMouseLeave = this._handleHover, this._hasNestedItems = !0;
     }
-    return e.items && (this._hasNestedItems = !0), r;
+    return o;
   }
   _renderItem(t, e) {
     return e.type === "item" && (this._hasIcons && !e.icon && (e.icon = "_"), this._hasNestedItems && !e.toggleIcon && (e.toggleIcon = this._renderNestedToggle(t, null))), super._renderItem(t, e);
