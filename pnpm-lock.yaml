@@ -169,28 +169,6 @@ importers:
         specifier: ^1.0.0-rc.10
         version: 1.0.0-rc.10(@algolia/client-search@4.19.1)(@types/node@20.5.7)(search-insights@2.8.0)
 
-  lib/action-menu:
-    dependencies:
-      '@zui/core':
-        specifier: workspace:^0.0.1
-        version: link:../core
-      '@zui/css-icons':
-        specifier: workspace:^0.0.1
-        version: link:../css-icons
-    devDependencies:
-      '@zui/avatar':
-        specifier: workspace:^0.0.1
-        version: link:../avatar
-      '@zui/base':
-        specifier: workspace:*
-        version: link:../base
-      '@zui/icons':
-        specifier: workspace:^0.0.1
-        version: link:../icons
-      zui-dev:
-        specifier: workspace:^0.0.1
-        version: link:../../dev
-
   lib/alert:
     dependencies:
       '@zui/button':
@@ -264,19 +242,16 @@ importers:
       '@zui/button':
         specifier: workspace:^0.0.1
         version: link:../button
-      '@zui/list':
-        specifier: workspace:^0.0.1
-        version: link:../list
-    devDependencies:
-      '@zui/base':
-        specifier: workspace:*
-        version: link:../base
       '@zui/core':
         specifier: workspace:^0.0.1
         version: link:../core
       '@zui/dropdown':
         specifier: workspace:^0.0.1
         version: link:../dropdown
+    devDependencies:
+      '@zui/base':
+        specifier: workspace:*
+        version: link:../base
       '@zui/icons':
         specifier: workspace:*
         version: link:../icons

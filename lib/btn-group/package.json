@@ -16,16 +16,15 @@
         "./react": "./src/main-react.ts"
     },
     "dependencies": {
+        "@zui/core": "workspace:^0.0.1",
         "@zui/button": "workspace:^0.0.1",
-        "@zui/list": "workspace:^0.0.1"
+        "@zui/dropdown": "workspace:^0.0.1"
     },
     "devDependencies": {
         "zui-dev": "workspace:*",
         "@zui/base": "workspace:*",
         "@zui/icons": "workspace:*",
-        "@zui/dropdown": "workspace:^0.0.1",
-        "@zui/utilities": "workspace:*",
-        "@zui/core": "workspace:^0.0.1"
+        "@zui/utilities": "workspace:*"
     },
     "zui": {
         "type": "component",

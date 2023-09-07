@@ -1,5 +1,6 @@
 import 'preact/debug';
 import 'zui-dev';
+import '@zui/menu';
 import '@zui/dropdown';
 import '@zui/icons';
 import '@zui/button';

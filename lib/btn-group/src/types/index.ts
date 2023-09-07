@@ -1,2 +1,2 @@
+export * from './btn-group-item';
 export * from './btn-group-options';
-export * from './btn-group-dropdown-props';
