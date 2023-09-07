@@ -12,4 +12,5 @@ export interface PickerMenuProps extends PickPopProps<PickerState> {
     onDeselect: (values: string | string[]) => void;
     onClear: () => void;
     onToggleValue: (value: string, toggle?: boolean) => void;
+    onSetValue: (value: string | string[], silent?: boolean) => void;
 }

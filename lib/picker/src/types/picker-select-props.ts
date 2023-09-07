@@ -15,4 +15,5 @@ export interface PickerSelectProps extends PickTriggerProps<PickerState> {
     onDeselect: (values: string | string[]) => void;
     onClear: () => void;
     onToggleValue: (value: string, toggle?: boolean) => void;
+    onSetValue: (value: string | string[], silent?: boolean) => void;
 }

@@ -54,6 +54,7 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
 
         const {valueSplitter = ',', emptyValue = ''} = this.props;
         this._emptyValueSet = new Set(emptyValue.split(valueSplitter));
+        this.setValue = this.setValue.bind(this);
 
         const {items} = this.state;
         if (Array.isArray(items) && items.length) {
@@ -261,6 +262,7 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
             onSelect: this.select,
             onClear: this.clear,
             onToggleValue: this.toggleValue,
+            onSetValue: this.setValue,
         };
     }
 
@@ -275,6 +277,7 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
             onSelect: this.select,
             onClear: this.clear,
             onToggleValue: this.toggleValue,
+            onSetValue: this.setValue,
         };
     }
 
