@@ -98,45 +98,6 @@ console.log('> btnGroup', btnGroup);
 </div>
 ```
 
-## btn-group radius
-
-```html:example: -flex -gap-3
-<div class="btn-group rounded-none">
-  <button type="button" class="btn">左</button>
-  <button type="button" class="btn">中</button>
-  <button type="button" class="btn">右</button>
-</div>
-<div class="btn-group rounded-sm">
-  <button type="button" class="btn">左</button>
-  <button type="button" class="btn">中</button>
-  <button type="button" class="btn">右</button>
-</div>
-<div class="btn-group rounded">
-  <button type="button" class="btn">左</button>
-  <button type="button" class="btn">中</button>
-  <button type="button" class="btn">右</button>
-</div>
-<div class="btn-group rounded-md">
-  <button type="button" class="btn">左</button>
-  <button type="button" class="btn">中</button>
-  <button type="button" class="btn">右</button>
-</div>
-<div class="btn-group rounded-lg">
-  <button type="button" class="btn">左</button>
-  <button type="button" class="btn">中</button>
-  <button type="button" class="btn">右</button>
-</div>
-<div class="btn-group rounded-xl">
-  <button type="button" class="btn">左</button>
-  <button type="button" class="btn">中</button>
-  <button type="button" class="btn">右</button>
-</div>
-<div class="btn-group circle">
-  <button type="button" class="btn">左</button>
-  <button type="button" class="btn">中</button>
-  <button type="button" class="btn">右</button>
-</div>
-```
 ## with dropdown
 
 ```html:example: -flex -gap-3
