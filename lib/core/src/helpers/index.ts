@@ -6,5 +6,6 @@ export * from './attr';
 export * from './event';
 export * from './delay';
 export * from './share-data';
+export * from './merge-props';
 export * from './zui-creator';
 export * from './scroll';
