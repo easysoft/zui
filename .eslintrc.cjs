@@ -31,6 +31,7 @@ module.exports = {
         {
             files: ['**/*.{ts,tsx}'],
             rules: {
+                '@typescript-eslint/no-unused-vars': 'warn',
                 '@typescript-eslint/no-var-requires': 'error',
                 '@typescript-eslint/indent': ['error', 4, {'SwitchCase': 1}],
                 '@typescript-eslint/object-curly-spacing': ['error', 'never'],
