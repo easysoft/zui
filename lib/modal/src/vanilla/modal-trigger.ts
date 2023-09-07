@@ -51,8 +51,8 @@ export class ModalTrigger extends Component<ModalTriggerOptions> {
             builderOptions.url = href;
         }
 
-        if (!builderOptions.key && builderOptions.id) {
-            builderOptions.key = builderOptions.id;
+        if (builderOptions.key === undefined) {
+            builderOptions.key = `${this._key}`;
         }
 
 
