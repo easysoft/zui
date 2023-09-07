@@ -18,7 +18,7 @@ export function getZData(selector: Selector): Record<string, unknown> | undefine
     return Array.from(element.attributes).reduce<Record<string, unknown>>((data, attribute) => {
         let {name, value} = attribute;
         if (name.startsWith('z-')) {
-            name = name.slice(2);
+            name = name.slice(2).replace(/-([a-z])/g, (g) => g[1].toUpperCase());
             try {
                 value = JSON.parse(value);
             } catch (error) {
@@ -37,6 +37,7 @@ export function setZData(selector: Selector, data: Record<string, unknown>) {
         if (typeof value !== 'string') {
             value = JSON.stringify(value);
         }
+        name = name.replace(/[A-Z]/g, (g) => `-${g.toLowerCase()}`);
         $element.attr(`z-${name}`, value as string);
     });
 }
