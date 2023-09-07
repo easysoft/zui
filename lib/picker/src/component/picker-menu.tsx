@@ -140,7 +140,6 @@ export class PickerMenu extends PickPop<PickerState, PickerMenuProps> {
 
     _handleItemClick = ({item, event}: {item: Item, event: MouseEvent}) => {
         const value = item.value as string;
-        console.log('> _handleItemClick', value, item, event);
         if (value === undefined || (event.target as HTMLElement).closest('.item-icon,.list-toggle-icon')) {
             return;
         }
