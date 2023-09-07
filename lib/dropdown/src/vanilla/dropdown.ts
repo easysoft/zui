@@ -21,12 +21,13 @@ export class Dropdown<O extends DropdownOptions = DropdownOptions> extends Popov
     };
 
     protected _getMenuOptions(): DropdownMenuOptions {
-        const {items, placement, menu} = this.options;
+        const {items, placement, menu, onClickItem} = this.options;
         return {
             items,
             nestedTrigger: 'hover',
             placement: placement,
             popup: false,
+            onClickItem: onClickItem,
             ...menu,
         };
     }

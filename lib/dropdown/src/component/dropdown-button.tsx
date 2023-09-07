@@ -17,11 +17,12 @@ export class DropdownButton extends Button<DropdownButtonOptions> {
     }
 
     _updateData() {
-        const {dropdown, items} = this.props;
+        const {dropdown, items, onClickItem} = this.props;
         const $trigger = $(this.triggerElement);
         const instance = Dropdown.get(this.triggerElement);
         const options = {
             items,
+            onClickItem,
             ...dropdown,
         };
         if (instance) {
