@@ -1073,7 +1073,7 @@ u.fn.load = function(s, t, e) {
   }, "html"), this;
 };
 async function Oi(s, t = [], e) {
-  const n = { throws: !0 };
+  const n = { throws: !0, dataType: "json" };
   if (typeof s == "string")
     n.url = s;
   else if (typeof s == "object")
@@ -6760,7 +6760,7 @@ class jh extends _a {
   constructor() {
     super(...arguments), this._menu = V(), this._handleItemClick = ({ item: t, event: e }) => {
       const n = t.value;
-      if (console.log("> _handleItemClick", n, t, e), n === void 0 || e.target.closest(".item-icon,.list-toggle-icon"))
+      if (n === void 0 || e.target.closest(".item-icon,.list-toggle-icon"))
         return;
       const { multiple: i, onToggleValue: r, onSelect: o, togglePop: a, onDeselect: l } = this.props;
       if (i)
@@ -6878,7 +6878,7 @@ let dr = class extends st {
       selections: []
     });
     const { valueSplitter: e = ",", emptyValue: n = "" } = this.props;
-    this._emptyValueSet = new Set(n.split(e));
+    this._emptyValueSet = new Set(n.split(e)), this.setValue = this.setValue.bind(this);
     const { items: i } = this.state;
     if (Array.isArray(i) && i.length) {
       if (i.forEach((r) => r.value = String(r.value)), t.limitValueInList) {
@@ -6969,7 +6969,8 @@ let dr = class extends st {
       onDeselect: this.deselect,
       onSelect: this.select,
       onClear: this.clear,
-      onToggleValue: this.toggleValue
+      onToggleValue: this.toggleValue,
+      onSetValue: this.setValue
     };
   }
   _getPopProps(t, e) {
@@ -6982,7 +6983,8 @@ let dr = class extends st {
       onDeselect: this.deselect,
       onSelect: this.select,
       onClear: this.clear,
-      onToggleValue: this.toggleValue
+      onToggleValue: this.toggleValue,
+      onSetValue: this.setValue
     };
   }
   _getTrigger(t) {
@@ -7592,7 +7594,7 @@ let qa = class extends H {
     const n = this.getBlock(t);
     !n || n.loading || (e = e || n.fetch, e && this.update({ id: t, loading: !0, needLoad: !1 }, async () => {
       try {
-        const i = await u.fetch(e, [t, n], ({ url: r }) => ({ url: X(r, n) }));
+        const i = await u.fetch(e, [t, n], ({ url: r }) => ({ url: X(r, n), dataType: "html" }));
         this.update({ id: t, loading: !1, content: { html: i } }, () => {
           var r;
           this._setCache(t, i), (r = this.props.onLoad) == null || r.call(this, n);
