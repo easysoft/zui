@@ -2,18 +2,28 @@
 
 用于方便用户从多个选项列表中进行选择。
 
-## 示例
-
-### 单选
+## 远程数据
 
 ```html:example
-<div id="singlePicker"></div>
+<div id="singlePickerRemote"></div>
 ```
 
 ### 多选
 
 ```html:example
-<div id="multiPicker"></div>
+<div id="multiPickerRemote"></div>
+```
+
+## 多层级
+
+```html:example
+<div id="singlePickerNested"></div>
+```
+
+### 多选
+
+```html:example
+<div id="multiPickerNested"></div>
 ```
 
 ```js
@@ -68,6 +78,20 @@ const multiPicker = new Picker('#multiPicker', {
     placeholder: '请选择你的最爱',
 });
 console.log('> multiPicker', multiPicker);
+```
+
+## 简单示例
+
+### 单选
+
+```html:example
+<div id="singlePicker"></div>
+```
+
+### 多选
+
+```html:example
+<div id="multiPicker"></div>
 ```
 
 ## 使用方法

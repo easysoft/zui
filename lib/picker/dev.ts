@@ -46,16 +46,54 @@ const nestedItems = [
 ];
 
 onPageUpdate(() => {
-    const singlePicker = new Picker('#singlePicker', {
+    const singlePickerRemote = new Picker('#singlePickerRemote', {
         name: 'selectOne',
-        items,
+        items: '/lib/picker/dev/items.json',
         defaultValue: 'banana',
         placeholder: '请选择你的最爱',
         searchHint: '搜索选项',
     });
-    console.log('> singlePicker', singlePicker);
+    console.log('> singlePickerRemote', singlePickerRemote);
 
-    const multiPicker = new Picker('#multiPicker', {
+    const multiPickerRemote = new Picker('#multiPickerRemote', {
+        name: 'selectSome',
+        multiple: true,
+        items: '/lib/picker/dev/nested-items.json',
+        menu: {
+            itemProps: {
+                avatarClass: 'size-sm',
+            },
+            checkbox: true,
+            getItem: (item) => {
+                if (item.type === 'item') {
+                    if (item.items) {
+                        item.titleClass = 'font-bold';
+                    } else {
+                        item.avatar = {
+                            text: item.text?.[0], // 或者通过 src 指定图片
+                            size: 'xs',
+                            circle: true,
+                        };
+                    }
+                }
+                return item;
+            },
+        },
+        defaultValue: 'banana,orange',
+        placeholder: '请选择你的最爱',
+    });
+    console.log('> multiPickerRemote', multiPickerRemote);
+
+    const singlePickerNested = new Picker('#singlePickerNested', {
+        name: 'selectOne',
+        items: nestedItems,
+        defaultValue: 'banana',
+        placeholder: '请选择你的最爱',
+        searchHint: '搜索选项',
+    });
+    console.log('> singlePickerNested', singlePickerNested);
+
+    const multiPickerNested = new Picker('#multiPickerNested', {
         name: 'selectSome',
         multiple: true,
         items: nestedItems,
@@ -70,7 +108,7 @@ onPageUpdate(() => {
                         item.titleClass = 'font-bold';
                     } else {
                         item.avatar = {
-                            text: item.text[0], // 或者通过 src 指定图片
+                            text: item.text?.[0], // 或者通过 src 指定图片
                             size: 'xs',
                             circle: true,
                         };
@@ -79,6 +117,24 @@ onPageUpdate(() => {
                 return item;
             },
         },
+        defaultValue: 'banana,orange',
+        placeholder: '请选择你的最爱',
+    });
+    console.log('> multiPickerNested', multiPickerNested);
+
+    const singlePicker = new Picker('#singlePicker', {
+        name: 'selectOne',
+        items,
+        defaultValue: 'banana',
+        placeholder: '请选择你的最爱',
+        searchHint: '搜索选项',
+    });
+    console.log('> singlePicker', singlePicker);
+
+    const multiPicker = new Picker('#multiPicker', {
+        name: 'selectSome',
+        multiple: true,
+        items: items,
         defaultValue: 'banana,orange',
         placeholder: '请选择你的最爱',
     });
