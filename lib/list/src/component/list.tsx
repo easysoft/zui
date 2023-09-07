@@ -141,7 +141,7 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
         return <ItemComponent zui-key={item.key} {...item} />;
     }
 
-    protected _getItem(props: RenderableProps<P>, item: Item, index: number): Item | undefined {
+    protected _getItem(props: RenderableProps<P>, item: Item, index: number): Item | false | undefined {
         const {itemProps, itemPropsMap = {}, getItem, keyName = 'id', divider, hover, multiline, checkbox} = props;
         const {type = 'item'} = item;
         const {name, itemName} = this;
@@ -246,8 +246,8 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
         }
         this._keyIndexes = [];
         return this._items.reduce<Item[]>((list, item, index) => {
-            const finalItem = this._getItem(props, item, index);
-            if (finalItem) {
+            const finalItem = this._getItem(props, item, index) ?? item;
+            if (finalItem !== false) {
                 list.push(finalItem);
                 this._keyIndexes![index] = finalItem.key!;
             }

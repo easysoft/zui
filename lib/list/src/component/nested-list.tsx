@@ -154,8 +154,12 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
         return <span className={classes('list-toggle-icon', toggleClass)}>{toggleIcon}</span>;
     }
 
-    protected _getItem(props: RenderableProps<P>, item: NestedItem, index: number): NestedItem | undefined {
-        const {items, ...itemProps} = super._getItem(props, item, index) as NestedItem;
+    protected _getItem(props: RenderableProps<P>, item: NestedItem, index: number): NestedItem | false | undefined {
+        const nestedItem = super._getItem(props, item, index) ?? item;
+        if (nestedItem === false) {
+            return nestedItem;
+        }
+        const {items, ...itemProps} = nestedItem as NestedItem;
         if (items) {
             const isExpanded = itemProps.expanded ?? this.isExpanded(itemProps.key!, props.parentKey);
             itemProps.rootClass = [itemProps.rootClass, 'is-nested', `is-nested-${isExpanded ? 'show' : 'hide'}`];
@@ -172,8 +176,6 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
             itemProps.toggleIcon = this._renderNestedToggle(props, isExpanded);
             itemProps.onMouseEnter = this._handleHover;
             itemProps.onMouseLeave = this._handleHover;
-        }
-        if (item.items) {
             this._hasNestedItems = true;
         }
         return itemProps;

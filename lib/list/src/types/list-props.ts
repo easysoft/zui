@@ -14,7 +14,7 @@ export interface ListProps<T extends Item = Item> extends HElementProps {
     divider?: boolean;
     multiline?: boolean;
     checkbox?: boolean | CheckboxProps;
-    getItem?: (item: T, index: number) => T | undefined;
+    getItem?: (item: T, index: number) => T | false | undefined;
     onLoad?: (items: T[]) => void | T[];
     onLoadFail?: CustomContentType | ((error: Error) => CustomContentType | void);
     itemRender?: (item: T) => ComponentChildren;
