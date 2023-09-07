@@ -131,7 +131,7 @@ export class Dashboard extends Component<Required<DashboardOptions>, DashboardSt
         }
         this.update({id, loading: true, needLoad: false}, async () => {
             try {
-                const html = await $.fetch(fetcher!, [id, block], ({url}) => ({url: formatString(url, block)}));
+                const html = await $.fetch(fetcher!, [id, block], ({url}) => ({url: formatString(url, block), dataType: 'html'}));
                 this.update({id, loading: false, content: {html}}, () => {
                     this._setCache(id, html);
                     this.props.onLoad?.call(this, block);
