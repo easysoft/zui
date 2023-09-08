@@ -2,8 +2,9 @@ import type {IconType} from '@zui/core';
 import type {ItemKey} from '@zui/common-list';
 import type {ListProps} from './list-props';
 import type {NestedItem} from './nested-item';
+import type {NestedListItem} from './nested-list-item';
 
-export interface NestedListProps extends ListProps<NestedItem> {
+export interface NestedListProps<T extends NestedItem = NestedListItem> extends ListProps<T> {
     parentKey?: ItemKey;
     indent?: number;
     level?: number;
@@ -13,5 +14,5 @@ export interface NestedListProps extends ListProps<NestedItem> {
     toggleIcons?: {collapsed?: IconType, expanded?: IconType, normal?: IconType};
     nestedToggle?: string;
     onToggle?: (key: ItemKey, toggle: boolean) => false | void;
-    onHoverItem?: (info: {hover: boolean, item: NestedItem, index: number, event: MouseEvent}) => void;
+    onHoverItem?: (info: {hover: boolean, item: T, index: number, event: MouseEvent}) => void;
 }
