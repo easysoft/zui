@@ -5,7 +5,7 @@ import type {Item, ItemType} from './item';
 /** Item render function. */
 export type ItemRender = (item: Item, index: number) => ComponentChildren;
 
-/** List items setting/ */
+/** List items setting. */
 export type ItemsSetting = Item[] | (() => Item[]);
 
 /**

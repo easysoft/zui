@@ -142,7 +142,7 @@ export class HList<P extends HListProps = HListProps, S = {}> extends HElement<P
             item = mergeProps({}, defaultItemProps, item);
             ItemComponent = ItemComponent[0];
         }
-        return <ItemComponent z-key={item.key} z-index={index} z-type={type} {...item} />;
+        return <ItemComponent z-key={item.key} z-item={index} z-type={type} {...item} />;
     }
 
     /**
@@ -153,7 +153,7 @@ export class HList<P extends HListProps = HListProps, S = {}> extends HElement<P
      * @param index  The item index.
      * @returns The item to rendered, if return false, the item will not be rendered.
      */
-    protected _getItem(props: RenderableProps<P>, item: Item, index: number): Item | false | undefined {
+    protected _getItem(props: RenderableProps<P>, item: Item, index: number): Item | false {
         const {itemProps, itemPropsMap = {}, getItem, keyName = 'id'} = props;
         const {type = this.constructor.defaultItemType} = item;
         const {name, itemName} = this;
@@ -169,7 +169,13 @@ export class HList<P extends HListProps = HListProps, S = {}> extends HElement<P
             item,
         );
 
-        return getItem ? getItem.call(this, item, index) : item;
+        if (getItem) {
+            const result = getItem.call(this, item, index);
+            if (result !== undefined) {
+                return result;
+            }
+        }
+        return item;
     }
 
     /**
@@ -198,7 +204,7 @@ export class HList<P extends HListProps = HListProps, S = {}> extends HElement<P
         this._items = items as Item[];
         this._keyIndexes = [];
         return this._items.reduce<Item[]>((list, item, index) => {
-            const finalItem = this._getItem(props, item, index) ?? item;
+            const finalItem = this._getItem(props, item, index);
             if (finalItem !== false) {
                 list.push(finalItem);
                 this._keyIndexes![index] = finalItem.key!;
