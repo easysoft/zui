@@ -1,6 +1,6 @@
-import {CustomContent, HElement, Icon, classes, $, mergeProps} from '@zui/core';
+import {CustomContent, HElement, Icon, classes, mergeProps} from '@zui/core';
 import {Avatar} from '@zui/avatar/src/component';
-import {Button} from '@zui/button/src/component/button';
+import {Button} from '@zui/button/src/component';
 import {Checkbox} from '@zui/checkbox/src/component';
 
 import type {ComponentChild, ComponentChildren, RenderableProps} from 'preact';

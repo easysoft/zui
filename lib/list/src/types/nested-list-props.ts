@@ -1,4 +1,5 @@
-import type {IconType, ItemKey} from '@zui/core';
+import type {IconType} from '@zui/core';
+import type {ItemKey} from '@zui/common-list';
 import type {ListProps} from './list-props';
 import type {NestedItem} from './nested-item';
 

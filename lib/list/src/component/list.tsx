@@ -1,13 +1,15 @@
-import {$, HElement, classes, createRef, fetchData, HList, mergeProps, removeUndefinedProps} from '@zui/core';
+import {$, HElement, classes, createRef, fetchData, mergeProps, removeUndefinedProps} from '@zui/core';
+import {CommonList} from '@zui/common-list/src/component';
 import {ListItem} from './list-item';
 
 import type {ComponentChild, ComponentChildren, RenderableProps} from 'preact';
-import type {ClassNameLike, CustomContentType, Item, ItemKey} from '@zui/core';
+import type {ClassNameLike, CustomContentType} from '@zui/core';
+import type {Item, ItemKey} from '@zui/common-list';
 import type {ListProps, ListState, ListItemsSetting, ListItemsFetcher} from '../types';
 
-export class List<P extends ListProps = ListProps, S extends ListState = ListState> extends HList<P, S> {
-    static ItemComponents: typeof HList.ItemComponents  = {
-        ...HList.ItemComponents,
+export class List<P extends ListProps = ListProps, S extends ListState = ListState> extends CommonList<P, S> {
+    static ItemComponents: typeof CommonList.ItemComponents  = {
+        ...CommonList.ItemComponents,
         default: HElement,
         item: ListItem,
         heading: ListItem,

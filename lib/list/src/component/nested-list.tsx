@@ -3,7 +3,8 @@ import {List} from './list';
 import '@zui/css-icons/src/icons/caret.css';
 
 import type {ComponentChild, ComponentChildren, RenderableProps} from 'preact';
-import type {ClassNameLike, Item, ItemKey} from '@zui/core';
+import type {ClassNameLike} from '@zui/core';
+import type {Item, ItemKey} from '@zui/common-list';
 import type {ListItemsSetting, NestedItem, NestedListProps, NestedListState} from '../types';
 
 type MouseEventInfo = {

@@ -1,4 +1,4 @@
-import type {ItemKey} from '@zui/core';
+import type {ItemKey} from '@zui/common-list';
 import type {ListState} from './list-state';
 
 export interface NestedListState extends ListState {

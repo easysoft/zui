@@ -1,4 +1,4 @@
-import type {Item} from '@zui/core';
+import type {Item} from '@zui/common-list';
 import type {ListItemsSetting} from './list-items-setting';
 import type {NestedListProps} from './nested-list-props';
 
