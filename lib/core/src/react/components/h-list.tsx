@@ -30,8 +30,7 @@ export class HList<P extends HListProps = HListProps, S = {}> extends HElement<P
     static ItemComponents: Record<HItemType, ComponentType | [ComponentType, Partial<HItem> | ((this: HList, item: HItem, props: HListProps) => Partial<HItem>)]> = {
         default: HElement,
         item: HElement,
-        divider: [HElement, (item) => ({className: ['divider', item.className]})],
-        heading: [HElement, (item) => ({className: ['heading', item.className]})],
+        divider: [HElement, {className: 'divider'}],
         space: [HElement, (item) => {
             const {space, flex, style} = item as {space: JSX.CSSProperties['width'], flex: JSX.CSSProperties['flex'], style: JSX.CSSProperties};
             return {
