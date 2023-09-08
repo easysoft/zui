@@ -6,6 +6,9 @@
     "files": [
         "./src/**/*"
     ],
+    "devDependencies": {
+        "zui-dev": "workspace:*"
+    },
     "zui": {
         "type": "js-helpers",
         "displayName": "JS 核心模块",

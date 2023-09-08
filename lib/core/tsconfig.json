@@ -7,5 +7,6 @@
   "include": [
     "src",
     "docs",
+    "dev",
   ]
 }
