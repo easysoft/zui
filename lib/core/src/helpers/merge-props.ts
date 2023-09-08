@@ -1,5 +1,4 @@
 import {$} from '../cash';
-import {ClassNameLike, classes} from './classes';
 
 export function mergeProps<T extends Record<string, unknown> = Record<string, unknown>>(props: Record<string, unknown>, ...args: unknown[]) {
     args.forEach(arg => {
@@ -8,10 +7,15 @@ export function mergeProps<T extends Record<string, unknown> = Record<string, un
         }
         Object.keys(arg as Partial<T>).forEach(key => {
             let value = arg[key];
-            if (key === 'className' || key.endsWith('Class')) {
-                value = props[key] ? classes(props[key] as ClassNameLike, value) : value;
-            } else if (key === 'style' || key.endsWith('Style')) {
-                value = props[key] ? $.extend(props[key] as ClassNameLike, value) : value;
+            const oldValue = props[key];
+            if (oldValue !== undefined) {
+                if (key === 'className' || key.endsWith('Class')) {
+                    value = [oldValue, value];
+                } else if (key === 'children') {
+                    value = [...(Array.isArray(oldValue) ? oldValue : [oldValue]), ...(Array.isArray(value) ? value : [value])];
+                } else if ($.isPlainObject(oldValue) && (key === 'style' || key.endsWith('Style') || key === 'attrs' || key.endsWith('Attrs'))) {
+                    value = $.extend(oldValue, value);
+                }
             }
             props[key] = value;
         });
