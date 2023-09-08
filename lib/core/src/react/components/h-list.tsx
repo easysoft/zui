@@ -3,7 +3,7 @@ import {mergeProps} from '../../helpers';
 
 import type {ComponentChildren, ComponentType, JSX, RenderableProps} from 'preact';
 import type {ClassNameLike} from '../../helpers';
-import type {HListProps, HItem, HItemKey, HItemType} from '../types';
+import type {HListProps, Item, ItemKey, ItemType} from '../types';
 
 /**
  * Generic list component.
@@ -27,7 +27,7 @@ export class HList<P extends HListProps = HListProps, S = {}> extends HElement<P
     /**
      * Item components, used for rendering for different item types.
      */
-    static ItemComponents: Record<HItemType, ComponentType | [ComponentType, Partial<HItem> | ((this: HList, item: HItem, props: HListProps) => Partial<HItem>)]> = {
+    static ItemComponents: Record<ItemType, ComponentType | [ComponentType, Partial<Item> | ((this: HList, item: Item, props: HListProps) => Partial<Item>)]> = {
         default: HElement,
         item: HElement,
         divider: [HElement, {className: 'divider'}],
@@ -42,14 +42,14 @@ export class HList<P extends HListProps = HListProps, S = {}> extends HElement<P
     /**
      * Item default common props, used for rendering for all item types.
      */
-    static defaultItemProps: Partial<HItem> = {
+    static defaultItemProps: Partial<Item> = {
         component: 'li',
     };
 
     /**
      * Item default props, used for rendering for different item types.
      */
-    static defaultItemPropsMap: Partial<Record<HItemType, Partial<HItem>>> = {};
+    static defaultItemPropsMap: Partial<Record<ItemType, Partial<Item>>> = {};
 
     /**
      * Item default type, used for rendering for item without type.
@@ -66,12 +66,12 @@ export class HList<P extends HListProps = HListProps, S = {}> extends HElement<P
     /**
      * Store the rendered item keys by index.
      */
-    protected declare _keyIndexes: HItemKey[];
+    protected declare _keyIndexes: ItemKey[];
 
     /**
      * Store the rendered items.
      */
-    protected declare _items: HItem[];
+    protected declare _items: Item[];
 
     /**
      * Get the root element name, used for class name.
@@ -93,7 +93,7 @@ export class HList<P extends HListProps = HListProps, S = {}> extends HElement<P
      * @param index The rendered item index.
      * @returns The item key, if the item is not rendered, return undefined.
      */
-    getKey(index: number): HItemKey | undefined {
+    getKey(index: number): ItemKey | undefined {
         return this._keyIndexes?.[index];
     }
 
@@ -103,7 +103,7 @@ export class HList<P extends HListProps = HListProps, S = {}> extends HElement<P
      * @param key  The item key.
      * @returns The rendered item.
      */
-    getItemByKey(key: HItemKey): HItem | undefined {
+    getItemByKey(key: ItemKey): Item | undefined {
         if (!this._items) {
             return;
         }
@@ -122,7 +122,7 @@ export class HList<P extends HListProps = HListProps, S = {}> extends HElement<P
      * @param index  The item index.
      * @returns The item rendered content.
      */
-    protected _renderItem(props: RenderableProps<P>, item: HItem, index: number): ComponentChildren {
+    protected _renderItem(props: RenderableProps<P>, item: Item, index: number): ComponentChildren {
         const {type} = item;
         let {itemRender} = props;
         if (itemRender && typeof itemRender === 'object') {
@@ -153,7 +153,7 @@ export class HList<P extends HListProps = HListProps, S = {}> extends HElement<P
      * @param index  The item index.
      * @returns The item to rendered, if return false, the item will not be rendered.
      */
-    protected _getItem(props: RenderableProps<P>, item: HItem, index: number): HItem | false | undefined {
+    protected _getItem(props: RenderableProps<P>, item: Item, index: number): Item | false | undefined {
         const {itemProps, itemPropsMap = {}, getItem, keyName = 'id'} = props;
         const {type = this.constructor.defaultItemType} = item;
         const {name, itemName} = this;
@@ -188,16 +188,16 @@ export class HList<P extends HListProps = HListProps, S = {}> extends HElement<P
      * @param props  Current list properties.
      * @returns Item list.
      */
-    protected _getItems(props: RenderableProps<P>): HItem[] {
+    protected _getItems(props: RenderableProps<P>): Item[] {
         let {items = []} = props;
         if (typeof items === 'function') {
             items = items.call(this);
         } else if (!Array.isArray(items)) {
             items = [];
         }
-        this._items = items as HItem[];
+        this._items = items as Item[];
         this._keyIndexes = [];
-        return this._items.reduce<HItem[]>((list, item, index) => {
+        return this._items.reduce<Item[]>((list, item, index) => {
             const finalItem = this._getItem(props, item, index) ?? item;
             if (finalItem !== false) {
                 list.push(finalItem);

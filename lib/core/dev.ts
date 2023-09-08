@@ -9,7 +9,7 @@ onPageUpdate(() => {
         items: [
             {children: '文本', onClick: () => console.log('ok')},
             {children: '标题'},
-            {type: 'heading', children: '标题'},
+            {type: 'heading', children: '标题', className: 'text-primary'},
             {type: 'divider'},
             {children: '大标题'},
             {children: '链接'},

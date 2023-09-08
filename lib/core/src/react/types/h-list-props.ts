@@ -1,9 +1,9 @@
 import type {ComponentChildren} from 'preact';
 import type {HElementProps} from './h-element-props';
-import type {HItem, HItemType} from './h-item';
+import type {Item, ItemType} from './item';
 
 /** Item render function. */
-export type HItemRender = (item: HItem, index: number) => ComponentChildren;
+export type HItemRender = (item: Item, index: number) => ComponentChildren;
 
 /**
  * HList properties.
@@ -27,17 +27,17 @@ export interface HListProps extends HElementProps {
     /**
      * List items, can be an array or a function that returns an array.
      */
-    items?: HItem[] | (() => HItem[]) | {};
+    items?: Item[] | (() => Item[]) | {};
 
     /**
      * Item common properties.
      */
-    itemProps?: Partial<HItem>;
+    itemProps?: Partial<Item>;
 
     /**
      * Item properties map for different item types.
      */
-    itemPropsMap?: Partial<Record<HItemType, Partial<HItem>>>;
+    itemPropsMap?: Partial<Record<ItemType, Partial<Item>>>;
 
     /**
      * Get item definition, can convert original item.
@@ -46,10 +46,10 @@ export interface HListProps extends HElementProps {
      * @param index List item index.
      * @returns List item definition or false to skip this item.
      */
-    getItem?: (item: HItem, index: number) => HItem | false | undefined;
+    getItem?: (item: Item, index: number) => Item | false | undefined;
 
     /**
      * Item render functions.
      */
-    itemRender?: HItemRender | Record<HItemType, HItemRender>;
+    itemRender?: HItemRender | Record<ItemType, HItemRender>;
 }
