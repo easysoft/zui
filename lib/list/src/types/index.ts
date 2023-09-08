@@ -1,4 +1,4 @@
-export * from './list-item-props';
+export * from './listitem-props';
 export * from './list-items-setting';
 export * from './list-props';
 export * from './list-state';

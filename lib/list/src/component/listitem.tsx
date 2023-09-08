@@ -4,9 +4,9 @@ import {Button} from '@zui/button/src/component';
 import {Checkbox} from '@zui/checkbox/src/component';
 
 import type {ComponentChild, ComponentChildren, RenderableProps} from 'preact';
-import type {ListItemProps} from '../types';
+import type {ListitemProps} from '../types';
 
-export class ListItem<P extends ListItemProps = ListItemProps, S = {}> extends HElement<P, S> {
+export class Listitem<P extends ListitemProps = ListitemProps, S = {}> extends HElement<P, S> {
     protected _renderLeading(props: RenderableProps<P>): ComponentChild[] {
         const {
             icon,

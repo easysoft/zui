@@ -1,3 +1,3 @@
-export * from './list-item';
+export * from './listitem';
 export * from './list';
 export * from './nested-list';

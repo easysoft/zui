@@ -1,9 +1,10 @@
 import type {CustomContentType} from '@zui/core';
 import type {Item, CommonListProps} from '@zui/common-list';
+import type {CheckboxProps} from '@zui/checkbox';
 import type {ListItemsSetting} from './list-items-setting';
-import type {CheckboxProps} from '@zui/checkbox/src/types';
+import type {ListItem} from './list-item';
 
-export interface ListProps<T extends Item = Item> extends CommonListProps {
+export interface ListProps<T extends Item = ListItem> extends CommonListProps<T> {
     items?: ListItemsSetting;
     hover?: boolean;
     divider?: boolean;

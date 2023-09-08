@@ -32,5 +32,5 @@
   @apply -flex -gap-2 -items-center;
 }
 .multiline .item-content {
-  @apply -gap-1 -items-start;
+  @apply -gap-1 -items-start -flex-col;
 }

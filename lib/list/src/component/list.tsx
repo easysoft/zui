@@ -1,6 +1,6 @@
 import {$, HElement, classes, createRef, fetchData, mergeProps, removeUndefinedProps} from '@zui/core';
 import {CommonList} from '@zui/common-list/src/component';
-import {ListItem} from './list-item';
+import {Listitem} from './listitem';
 
 import type {ComponentChild, ComponentChildren, RenderableProps} from 'preact';
 import type {ClassNameLike, CustomContentType} from '@zui/core';
@@ -11,8 +11,8 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
     static ItemComponents: typeof CommonList.ItemComponents  = {
         ...CommonList.ItemComponents,
         default: HElement,
-        item: ListItem,
-        heading: ListItem,
+        item: Listitem,
+        heading: Listitem,
     };
 
     static NAME = 'list';

@@ -5,7 +5,7 @@ import type {AvatarOptions} from '@zui/avatar';
 import type {CheckboxProps, CheckedType} from '@zui/checkbox';
 import type {ButtonProps} from '@zui/button';
 
-export interface ListItemProps extends Item {
+export interface ListitemProps extends Item {
     innerComponent?: ComponentType | keyof JSX.IntrinsicElements;
     innerClass?: ClassNameLike;
     innerAttrs?: Record<string, unknown>;
