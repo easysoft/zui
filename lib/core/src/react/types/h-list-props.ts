@@ -3,7 +3,10 @@ import type {HElementProps} from './h-element-props';
 import type {Item, ItemType} from './item';
 
 /** Item render function. */
-export type HItemRender = (item: Item, index: number) => ComponentChildren;
+export type ItemRender = (item: Item, index: number) => ComponentChildren;
+
+/** List items setting/ */
+export type ItemsSetting = Item[] | (() => Item[]);
 
 /**
  * HList properties.
@@ -27,7 +30,7 @@ export interface HListProps extends HElementProps {
     /**
      * List items, can be an array or a function that returns an array.
      */
-    items?: Item[] | (() => Item[]) | {};
+    items?: ItemsSetting | {};
 
     /**
      * Item common properties.
@@ -51,5 +54,5 @@ export interface HListProps extends HElementProps {
     /**
      * Item render functions.
      */
-    itemRender?: HItemRender | Record<ItemType, HItemRender>;
+    itemRender?: ItemRender | Record<ItemType, ItemRender>;
 }
