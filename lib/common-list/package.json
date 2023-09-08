@@ -1,0 +1,30 @@
+{
+    "name": "@zui/common-list",
+    "version": "0.0.1",
+    "main": "src/main.ts",
+    "browserslist": "",
+    "files": [
+        "./src/**/*"
+    ],
+    "exports": {
+        ".": "./src/main.ts",
+        "./react": "./src/main-react.ts"
+    },
+    "devDependencies": {
+        "@zui/base": "workspace:*",
+        "zui-dev": "workspace:^0.0.1"
+    },
+    "dependencies": {
+        "@zui/core": "workspace:^0.0.1"
+    },
+    "zui": {
+        "type": "control",
+        "displayName": "通用列表",
+        "contributes": {
+            "css": [
+                "class",
+                "var"
+            ]
+        }
+    }
+}

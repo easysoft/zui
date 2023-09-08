@@ -1,4 +1,4 @@
-import type {HElementProps} from './h-element-props';
+import type {HElementProps} from '@zui/core';
 
 export type ItemType = 'item' | 'divider' | 'space' | (string & {});
 

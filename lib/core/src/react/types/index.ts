@@ -6,5 +6,3 @@ export * from './custom-content-generator';
 export * from './custom-content-type';
 export * from './icon-type';
 export * from './icon-props';
-export * from './item';
-export * from './h-list-props';

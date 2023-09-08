@@ -1,5 +1,5 @@
 import type {ComponentChildren} from 'preact';
-import type {HElementProps} from './h-element-props';
+import type {HElementProps} from '@zui/core';
 import type {Item, ItemType} from './item';
 
 /** Item render function. */
@@ -11,7 +11,7 @@ export type ItemsSetting = Item[] | (() => Item[]);
 /**
  * HList properties.
  */
-export interface HListProps extends HElementProps {
+export interface CommonListProps extends HElementProps {
     /**
      * List name, used to generate the class name.
      */

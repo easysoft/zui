@@ -1,14 +1,13 @@
-import {HElement} from './h-element';
-import {mergeProps} from '../../helpers';
+import {HElement, mergeProps} from '@zui/core';
 
 import type {ComponentChildren, ComponentType, JSX, RenderableProps} from 'preact';
-import type {ClassNameLike} from '../../helpers';
-import type {HListProps, Item, ItemKey, ItemType} from '../types';
+import type {ClassNameLike} from '../../../core/src/helpers';
+import type {CommonListProps, Item, ItemKey, ItemType} from '../types';
 
 /**
  * Generic list component.
  */
-export class HList<P extends HListProps = HListProps, S = {}> extends HElement<P, S> {
+export class CommonList<P extends CommonListProps = CommonListProps, S = {}> extends HElement<P, S> {
     /**
      * Root element default name, used for class name.
      */
@@ -27,7 +26,7 @@ export class HList<P extends HListProps = HListProps, S = {}> extends HElement<P
     /**
      * Item components, used for rendering for different item types.
      */
-    static ItemComponents: Record<ItemType, ComponentType | [ComponentType, Partial<Item> | ((this: HList, item: Item, props: HListProps) => Partial<Item>)]> = {
+    static ItemComponents: Record<ItemType, ComponentType | [ComponentType, Partial<Item> | ((this: CommonList, item: Item, props: CommonListProps) => Partial<Item>)]> = {
         default: HElement,
         item: HElement,
         divider: [HElement, {className: 'divider'}],
@@ -61,7 +60,7 @@ export class HList<P extends HListProps = HListProps, S = {}> extends HElement<P
      *
      * @see https://github.com/Microsoft/TypeScript/issues/3841#issuecomment-337560146
      */
-    declare ['constructor']: typeof HList;
+    declare ['constructor']: typeof CommonList;
 
     /**
      * Store the rendered item keys by index.
