@@ -26,9 +26,8 @@ export class CommonList<P extends CommonListProps = CommonListProps, S = {}> ext
     /**
      * Item components, used for rendering for different item types.
      */
-    static ItemComponents: Record<ItemType, ComponentType | [ComponentType, Partial<Item> | ((this: CommonList, item: Item, props: CommonListProps) => Partial<Item>)]> = {
+    static ItemComponents: Partial<Record<ItemType, ComponentType | [ComponentType, Partial<Item> | ((this: CommonList, item: Item, props: CommonListProps) => Partial<Item>)]>> = {
         default: HElement,
-        item: HElement,
         divider: [HElement, {className: 'divider'}],
         space: [HElement, (item) => {
             const {space, flex, style} = item as {space: JSX.CSSProperties['width'], flex: JSX.CSSProperties['flex'], style: JSX.CSSProperties};
@@ -132,7 +131,7 @@ export class CommonList<P extends CommonListProps = CommonListProps, S = {}> ext
         }
 
         const {ItemComponents} = this.constructor;
-        let ItemComponent = ItemComponents[type!] || ItemComponents.default;
+        let ItemComponent = ItemComponents[type!] || ItemComponents.default || HElement;
         if (Array.isArray(ItemComponent)) {
             let defaultItemProps = ItemComponent[1];
             if (typeof defaultItemProps === 'function') {

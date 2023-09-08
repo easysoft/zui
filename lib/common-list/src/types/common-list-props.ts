@@ -3,15 +3,15 @@ import type {HElementProps} from '@zui/core';
 import type {Item, ItemType} from './item';
 
 /** Item render function. */
-export type ItemRender = (item: Item, index: number) => ComponentChildren;
+export type ItemRender<T extends Item = Item> = (item: T, index: number) => ComponentChildren;
 
 /** List items setting. */
-export type ItemsSetting = Item[] | (() => Item[]);
+export type ItemsSetting<T extends Item = Item> = T[] | (() => T[]);
 
 /**
  * HList properties.
  */
-export interface CommonListProps extends HElementProps {
+export interface CommonListProps<T extends Item = Item> extends HElementProps {
     /**
      * List name, used to generate the class name.
      */
@@ -30,17 +30,17 @@ export interface CommonListProps extends HElementProps {
     /**
      * List items, can be an array or a function that returns an array.
      */
-    items?: ItemsSetting | {};
+    items?: ItemsSetting<T> | {};
 
     /**
      * Item common properties.
      */
-    itemProps?: Partial<Item>;
+    itemProps?: Partial<T>;
 
     /**
      * Item properties map for different item types.
      */
-    itemPropsMap?: Partial<Record<ItemType, Partial<Item>>>;
+    itemPropsMap?: Partial<Record<ItemType, Partial<T>>>;
 
     /**
      * Get item definition, can convert original item.
@@ -49,10 +49,10 @@ export interface CommonListProps extends HElementProps {
      * @param index List item index.
      * @returns List item definition or false to skip this item.
      */
-    getItem?: (item: Item, index: number) => Item | false | undefined;
+    getItem?: (item: T, index: number) => T | false | undefined;
 
     /**
      * Item render functions.
      */
-    itemRender?: ItemRender | Record<ItemType, ItemRender>;
+    itemRender?: ItemRender<T> | Record<ItemType, ItemRender<T>>;
 }
