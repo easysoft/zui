@@ -17,7 +17,7 @@ export class HList<P extends HListProps = HListProps, S = {}> extends HElement<P
     /**
      * Item default name, used for class name.
      */
-    static ITEM_NAME = '';
+    static ITEM_NAME = 'item';
 
     /**
      * Root element default tag name, used for DOM rendering.
@@ -29,7 +29,7 @@ export class HList<P extends HListProps = HListProps, S = {}> extends HElement<P
      */
     static ItemComponents: Record<HItemType, ComponentType | [ComponentType, Partial<HItem> | ((this: HList, item: HItem, props: HListProps) => Partial<HItem>)]> = {
         default: HElement,
-        item: [HElement, (item) => ({className: ['item', item.className]})],
+        item: HElement,
         divider: [HElement, (item) => ({className: ['divider', item.className]})],
         heading: [HElement, (item) => ({className: ['heading', item.className]})],
         space: [HElement, (item) => {
@@ -166,7 +166,7 @@ export class HList<P extends HListProps = HListProps, S = {}> extends HElement<P
             defaultItemPropsMap[type],
             itemProps,
             itemPropsMap[type],
-            {className: [itemName, `${name}-${type}`]},
+            {className: [name ? `${name}-${type}` : '', itemName]},
             item,
         );
 
