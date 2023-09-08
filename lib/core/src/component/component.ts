@@ -456,7 +456,7 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
      */
     static query<O extends {}, E extends ComponentEvents, U extends HTMLElement, T extends typeof Component<O, E, U>>(this: T, selector?: Selector, key?: string | number): InstanceType<T> | undefined {
         if (selector === undefined) {
-            return this.getAll().sort((a, b) => a.gid - b.gid)[0];
+            return this.getAll().sort((a, b) => b.gid - a.gid)[0];
         }
         return this.get($(selector).closest(`[${this.DATA_KEY}]`), key);
     }
