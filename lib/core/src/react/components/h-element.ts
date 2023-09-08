@@ -21,7 +21,7 @@ export class HElement<P extends HElementProps, S = {}> extends Component<P, S> {
             }
             return map;
         }, {});
-        return {ref: forwardRef, className: classes(this._getClassName(props)), style, ...other, ...attrs};
+        return {ref: forwardRef, className: classes(this._getClassName(props)) || undefined, style, ...other, ...attrs};
     }
 
     protected _getComponent(props: RenderableProps<P>): ComponentType | keyof JSX.IntrinsicElements {
