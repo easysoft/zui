@@ -1,70 +1,43 @@
-import {HElement, mergeProps, removeUndefinedProps} from '@zui/core';
+import {$, mergeProps, removeUndefinedProps} from '@zui/core';
 import {Button} from '@zui/button/src/component';
 import {DropdownButton} from '@zui/dropdown/src/component';
+import {CommonList} from '@zui/common-list/src/component';
 
-import type {ClassNameLike} from '@zui/core';
-import type {RenderableProps, ComponentChildren, ComponentType} from 'preact';
+import type {RenderableProps} from 'preact';
 import type {ButtonProps} from '@zui/button';
-import type {BtnGroupItem, BtnGroupOptions} from '../types';
+import type {Item} from '@zui/common-list';
+import type {BtnGroupOptions} from '../types';
 
-export class BtnGroup<T extends BtnGroupOptions = BtnGroupOptions> extends HElement<T> {
+export class BtnGroup<T extends BtnGroupOptions = BtnGroupOptions> extends CommonList<T> {
     static NAME = 'btn-group';
 
-    static ItemComponents: Record<string, ComponentType> = {
-        item: Button,
-        dropdown: DropdownButton,
-    };
+    /**
+     * Root element default tag name, used for DOM rendering.
+     */
+    static TAG = 'nav';
 
-    static defaultProps: Partial<BtnGroupOptions> = {
-        component: 'nav',
+    static ItemComponents = {
+        ...CommonList.ItemComponents,
+        default: Button,
+        dropdown: DropdownButton,
     };
 
     protected _shareBtnProps?: Partial<ButtonProps>;
 
-    /**
-     * Access to static properties via this.constructor.
-     *
-     * @see https://github.com/Microsoft/TypeScript/issues/3841#issuecomment-337560146
-     */
-    declare ['constructor']: typeof BtnGroup;
-
-    protected _getItems(props: RenderableProps<T>): BtnGroupItem[] {
-        let {items = []} = props;
-        if (typeof items === 'function') {
-            items = items.call(this);
+    protected _getItem(props: RenderableProps<T>, item: Item, index: number): false | Item {
+        if (!item.type && (item.dropdown || item.items)) {
+            item = $.extend({type: 'dropdown'}, item);
         }
-        return items;
-    }
-
-    protected _renderItem(props: RenderableProps<T>, item: BtnGroupItem, index: number) {
-        const {itemRender} = props;
-        if (itemRender) {
-            return itemRender.call(this, item, index);
+        const itemProps = super._getItem(props, item, index);
+        if (!itemProps) {
+            return itemProps;
         }
-        const btnProps = mergeProps({key: index}, this._shareBtnProps, item);
-        const type = btnProps.type as string || ((btnProps.dropdown || btnProps.items) ? 'dropdown' : 'item');
-        const ComponentName = (btnProps.component || this.constructor.ItemComponents[type]) as ComponentType;
-        return <ComponentName {...btnProps}/>;
+        return mergeProps({}, this._shareBtnProps, itemProps);
     }
 
     protected _beforeRender(props: RenderableProps<T>): void | RenderableProps<T> | undefined {
         const {btnProps, btnType, size} = props;
 
         this._shareBtnProps = mergeProps({}, btnProps, removeUndefinedProps({btnType, size}));
-    }
-
-    protected _getChildren(props: RenderableProps<T>): ComponentChildren {
-        const {getItem} = props;
-        return this._getItems(props).map((item, index) => {
-            const finalItem = getItem?.call(this, item, index) ?? item;
-            if (finalItem === false) {
-                return null;
-            }
-            return this._renderItem(props, finalItem, index);
-        });
-    }
-
-    protected _getClassName(props: RenderableProps<T>): ClassNameLike {
-        return [this.constructor.NAME, props.className];
     }
 }
