@@ -1,12 +1,13 @@
 import type {JSX, ComponentType} from 'preact';
-import type {ClassNameLike, CustomContentType, IconType} from '@zui/core';
+import type {ClassNameLike, CustomContentType, IconType, Item} from '@zui/core';
 import type {AvatarOptions} from '@zui/avatar';
 import type {CheckboxProps, CheckedType} from '@zui/checkbox/src/types';
 import type {ButtonProps} from '@zui/button';
-import type {Item} from './item';
 
 export interface ListItemProps extends Item {
     innerComponent?: ComponentType | keyof JSX.IntrinsicElements;
+    innerClass?: ClassNameLike;
+    innerAttrs?: Record<string, unknown>;
     multiline?: boolean;
     checked?: CheckedType;
     checkbox?: CheckboxProps;

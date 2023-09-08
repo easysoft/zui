@@ -1,30 +1,12 @@
-import {CustomContent, HElement, Icon, classes, $} from '@zui/core';
+import {CustomContent, HElement, Icon, classes, $, mergeProps} from '@zui/core';
 import {Avatar} from '@zui/avatar/src/component';
 import {Button} from '@zui/button/src/component/button';
 import {Checkbox} from '@zui/checkbox/src/component';
 
 import type {ComponentChild, ComponentChildren, RenderableProps} from 'preact';
-import type {ClassNameLike} from '@zui/core';
 import type {ListItemProps} from '../types';
 
 export class ListItem<P extends ListItemProps = ListItemProps, S = {}> extends HElement<P, S> {
-    static defaultProps = {
-    };
-
-    protected _getClassName(props: RenderableProps<P>): ClassNameLike {
-        return props.rootClass;
-    }
-
-    protected _beforeRender(props: RenderableProps<P>): void | RenderableProps<P> | undefined {
-        const {title, subtitle, multiline} = props;
-        if (multiline === undefined) {
-            return $.extend({
-                multiline: !!(title && subtitle),
-            }, props);
-        }
-        return props;
-    }
-
     protected _renderLeading(props: RenderableProps<P>): ComponentChild[] {
         const {
             icon,
@@ -130,7 +112,8 @@ export class ListItem<P extends ListItemProps = ListItemProps, S = {}> extends H
     protected _render(props: RenderableProps<P>): ComponentChild {
         const {
             innerComponent,
-            className,
+            innerClass,
+            innerAttrs,
             url,
             actions,
             target,
@@ -139,21 +122,28 @@ export class ListItem<P extends ListItemProps = ListItemProps, S = {}> extends H
             divider,
             checked,
             multiline,
+            title,
+            subtitle,
             hover,
         } = props;
         const ComponentName = innerComponent || ((url && !actions) ? 'a' : 'div');
         const asLink = ComponentName === 'a';
-        const classList = classes(className, {
-            active,
-            disabled,
-            'has-divider': divider,
-            'has-hover state': hover,
-            checked,
-            multiline,
-            state: asLink,
-        });
+        const attrs = mergeProps({
+            key: 'item',
+            className: classes(innerClass, {
+                active,
+                disabled,
+                'has-divider': divider,
+                'has-hover state': hover,
+                checked,
+                multiline: multiline ?? !!(title && subtitle),
+                state: asLink,
+            }),
+            href: asLink ? url : undefined,
+            target: asLink ? target : undefined,
+        }, innerAttrs);
         return (
-            <ComponentName key="item" className={classList} href={asLink ? url : undefined} target={asLink ? target : undefined}>
+            <ComponentName {...attrs}>
                 {this._renderLeading(props)}
                 {this._renderContent(props)}
                 {this._renderTrailing(props)}

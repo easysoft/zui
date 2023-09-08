@@ -1,10 +1,10 @@
-import {Icon, classes} from '@zui/core';
+import {Icon, classes, mergeProps} from '@zui/core';
 import {List} from './list';
 import '@zui/css-icons/src/icons/caret.css';
 
-import type {ComponentChild, ComponentChildren, ComponentType, JSX, RenderableProps} from 'preact';
-import type {ClassNameLike} from '@zui/core/src/helpers';
-import type {Item, ItemKey, ItemsSetting, NestedItem, NestedListProps, NestedListState} from '../types';
+import type {ComponentChild, ComponentChildren, RenderableProps} from 'preact';
+import type {ClassNameLike, Item, ItemKey} from '@zui/core';
+import type {ListItemsSetting, NestedItem, NestedListProps, NestedListState} from '../types';
 
 type MouseEventInfo = {
     index: number;
@@ -17,14 +17,7 @@ type MouseEventInfo = {
 };
 
 export class NestedList<P extends NestedListProps = NestedListProps, S extends NestedListState = NestedListState> extends List<P, S> {
-    /**
-     * Access to static properties via this.constructor.
-     *
-     * @see https://github.com/Microsoft/TypeScript/issues/3841#issuecomment-337560146
-     */
-    declare ['constructor']: typeof NestedList;
-
-    static defaultProps = {
+    static defaultProps: Partial<NestedListProps> = {
         defaultNestedShow: false,
         level: 0,
         indent: 20,
@@ -41,7 +34,7 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
     constructor(props: P) {
         super(props);
         this._controlled = props.nestedShow !== undefined; // Controlled menu use state to store nested
-        this.state.nestedShow = props.defaultNestedShow ?? {};
+        (this.state as S).nestedShow = props.defaultNestedShow ?? {};
         this._handleClickNestedItem = this._handleClickNestedItem.bind(this);
         this._handleHoverNestedItem = this._handleHoverNestedItem.bind(this);
         this._handleHover = this._handleHover.bind(this);
@@ -110,7 +103,7 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
         return [super._getClassName(props), 'list-nested', props.level ? 'list-nested-sub' : 'list-nested-root'];
     }
 
-    protected _getNestedProps(props: RenderableProps<P>, items: ItemsSetting, item: NestedItem): NestedListProps {
+    protected _getNestedProps(props: RenderableProps<P>, items: ListItemsSetting, item: NestedItem): NestedListProps {
         const {
             className,
             parentKey,
@@ -118,23 +111,21 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
             level = 0,
             onHoverItem,
         } = props;
-        return {
-            ...(this.constructor.inheritNestedProps.reduce((propMap, key) => {
-                propMap[key as keyof P] = props[key as keyof P];
-                return propMap;
-            }, {} as P)),
+        return mergeProps(((this.constructor as typeof NestedList).inheritNestedProps.reduce<Record<string, unknown>>((propMap, key) => {
+            propMap[key] = props[key as keyof P];
+            return propMap;
+        }, {})), {
+            level: level + 1,
+            className,
             items,
             parentKey: parentKey ? `${parentKey}:${item.key}` : item.key,
             nestedShow: this.nestedShow,
             onClickItem: this._handleClickNestedItem,
             onHoverItem: (onHoverItem || nestedTrigger === 'hover') ? this._handleHoverNestedItem : undefined,
-            ...item.listProps,
-            className: classes(className, item.listProps?.className),
-            level: level + 1,
-        };
+        }, item.listProps);
     }
 
-    protected _renderNestedList(props: RenderableProps<P>, items: ItemsSetting, item: NestedItem): ComponentChildren {
+    protected _renderNestedList(props: RenderableProps<P>, items: ListItemsSetting, item: NestedItem): ComponentChildren {
         const nestedListProps = this._getNestedProps(props, items, item);
         const NestedListComponent = this.constructor as typeof NestedList;
         return <NestedListComponent key="nested" {...nestedListProps} />;
@@ -154,34 +145,30 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
         return <span className={classes('list-toggle-icon', toggleClass)}>{toggleIcon}</span>;
     }
 
-    protected _getItem(props: RenderableProps<P>, item: NestedItem, index: number): NestedItem | false | undefined {
+    protected _getItem(props: RenderableProps<P>, item: NestedItem, index: number): NestedItem | false {
         const nestedItem = super._getItem(props, item, index) ?? item;
-        if (nestedItem === false) {
+        if (!nestedItem) {
             return nestedItem;
         }
         const {items, ...itemProps} = nestedItem as NestedItem;
         if (items) {
-            const isExpanded = itemProps.expanded ?? this.isExpanded(itemProps.key!, props.parentKey);
-            itemProps.rootClass = [itemProps.rootClass, 'is-nested', `is-nested-${isExpanded ? 'show' : 'hide'}`];
-            if (isExpanded) {
-                let {children = []} = itemProps;
-                if (!Array.isArray(children)) {
-                    children = [children];
-                }
-                (children as ComponentChild[]).push(this._renderNestedList(props, items, itemProps));
-                itemProps.children = children;
-                itemProps['zui-parent'] = props.parentKey;
-            }
-            itemProps.expanded = isExpanded;
-            itemProps.toggleIcon = this._renderNestedToggle(props, isExpanded);
-            itemProps.onMouseEnter = this._handleHover;
-            itemProps.onMouseLeave = this._handleHover;
+            const expanded = itemProps.expanded ?? this.isExpanded(itemProps.key!, props.parentKey);
+            mergeProps(itemProps, {
+                expanded: expanded,
+                className: ['is-nested', `is-nested-${expanded ? 'show' : 'hide'}`],
+                toggleIcon: this._renderNestedToggle(props, expanded),
+                onMouseEnter: this._handleHover,
+                onMouseLeave: this._handleHover,
+            }, expanded ? {
+                children: this._renderNestedList(props, items, itemProps),
+                'z-parent': props.parentKey,
+            } : null);
             this._hasNestedItems = true;
         }
         return itemProps;
     }
 
-    protected _renderItem(props: RenderableProps<P>, item: Item): ComponentChildren {
+    protected _renderItem(props: RenderableProps<P>, item: Item, index: number): ComponentChildren {
         if (item.type === 'item') {
             if (this._hasIcons && !item.icon) {
                 item.icon = '_';
@@ -190,7 +177,7 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
                 item.toggleIcon = this._renderNestedToggle(props, null);
             }
         }
-        return super._renderItem(props, item);
+        return super._renderItem(props, item, index);
     }
 
     protected _getItemFromEvent(event: MouseEvent): MouseEventInfo | undefined {
@@ -256,8 +243,9 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
     protected _getProps(props: RenderableProps<P>): Record<string, unknown> {
         const propsMap = super._getProps(props);
         const {style, level = 0, indent = 20} = props;
-        propsMap['zui-level'] = level;
+        propsMap['z-level'] = level;
         propsMap.style = {...style, '--list-nested-indent': `${level * indent}px`, '--list-indent': `${indent}px`};
+        propsMap.className = classes(propsMap.className as ClassNameLike, this._hasNestedItems ? 'has-nested-items' : 'no-nested-items');
         return propsMap;
     }
 
@@ -265,14 +253,5 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
         this._hasIcons = false;
         this._hasNestedItems = !this.isRoot;
         return super._beforeRender(props);
-    }
-
-    protected _onRender(component: ComponentType | keyof JSX.IntrinsicElements, props: Record<string, unknown>, children: ComponentChildren): void | [component: ComponentType | keyof JSX.IntrinsicElements, props: Record<string, unknown>, children: ComponentChildren] {
-        [component, props, children] = super._onRender(component, props, children) || [component, props, children];
-        props.className = classes(
-            props.className as ClassNameLike,
-            this._hasNestedItems ? 'has-nested-items' : 'no-nested-items',
-        );
-        return [component, props, children];
     }
 }

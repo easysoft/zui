@@ -8,6 +8,10 @@ import {List, NestedList} from './src/main';
 onPageUpdate(() => {
     const items = [
         {
+            type: 'heading',
+            title: '这是标题',
+        },
+        {
             title: '研发',
             subtitle: '副标题',
             onClick: () => console.log('click 研发'),
@@ -39,6 +43,7 @@ onPageUpdate(() => {
     console.log('> nestedList', nestedList);
 
     const simpleList = new List('#simpleList', {
+        checkbox: true,
         items: [
             {text: '文本', onClick: () => console.log('ok')},
             {title: '标题'},

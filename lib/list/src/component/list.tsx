@@ -1,69 +1,32 @@
-import {$, HElement, classes, createRef, fetchData} from '@zui/core';
+import {$, HElement, classes, createRef, fetchData, HList, mergeProps, removeUndefinedProps} from '@zui/core';
 import {ListItem} from './list-item';
 
-import type {ComponentChildren, ComponentType, JSX, RenderableProps} from 'preact';
-import type {ClassNameLike, CustomContentType} from '@zui/core';
-import type {ListProps, Item, ListState, ItemsSetting, ItemsFetcher, ItemKey, ListSpaceProps} from '../types';
+import type {ComponentChild, ComponentChildren, RenderableProps} from 'preact';
+import type {ClassNameLike, CustomContentType, Item, ItemKey} from '@zui/core';
+import type {ListProps, ListState, ListItemsSetting, ListItemsFetcher} from '../types';
 
-export class List<P extends ListProps = ListProps, S extends ListState = ListState> extends HElement<P, S> {
-    static ItemComponents: Record<string, ComponentType | [ComponentType, Partial<Item> | ((this: List, item: Item, props: ListProps) => Partial<Item>)]> = {
+export class List<P extends ListProps = ListProps, S extends ListState = ListState> extends HList<P, S> {
+    static ItemComponents: typeof HList.ItemComponents  = {
+        ...HList.ItemComponents,
+        default: HElement,
         item: ListItem,
-        custom: ListItem,
-        element: HElement,
-        divider: [HElement, (item) => ({className: [item.className, item.rootClass, 'divider']})],
         heading: ListItem,
-        space: [HElement, (item) => {
-            const {space, flex, style} = item as ListSpaceProps;
-            return {
-                className: [item.className, item.rootClass],
-                style: {width: space, height: space, flex, ...style},
-            };
-        }],
     };
 
     static NAME = 'list';
 
-    static ITEM_NAME = 'item';
-
-    static ROOT_TAG = 'ul';
-
-    static defaultItemProps: Partial<Item> = {
-        component: 'li',
-    };
-
-    /**
-     * Access to static properties via this.constructor.
-     *
-     * @see https://github.com/Microsoft/TypeScript/issues/3841#issuecomment-337560146
-     */
-    declare ['constructor']: typeof List;
-
-    protected _items?: Item[];
-
     protected _ref = createRef<HTMLElement>();
 
-    protected _loadedSetting?: ItemsSetting;
-
-    protected _keyIndexes?: ItemKey[];
+    protected _loadedSetting?: ListItemsSetting;
 
     protected declare _hasIcons: boolean;
 
     protected declare _hasCheckbox: boolean;
 
-    state: S;
-
     constructor(props: P) {
         super(props);
         this.state = {} as S;
         this._handleClick = this._handleClick.bind(this);
-    }
-
-    get name() {
-        return this.props.name || this.constructor.NAME;
-    }
-
-    get itemName() {
-        return this.props.itemName || this.constructor.ITEM_NAME;
     }
 
     componentDidMount() {
@@ -86,7 +49,7 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
         this.setState({loading: true, items: []}, async () => {
             const newState = {loading: false} as Partial<S>;
             try {
-                const newItems = await fetchData(items as ItemsFetcher, [this], {throws: true});
+                const newItems = await fetchData(items as ListItemsFetcher, [this], {throws: true});
                 newState.items = onLoad?.call(this, newItems) || newItems;
             } catch (error) {
                 newState.loadFailed = (typeof onLoadFail === 'function' ? (onLoadFail as (error: Error) => CustomContentType | undefined).call(this, error as Error) : onLoadFail) || String(error);
@@ -104,89 +67,46 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
         this.load();
     }
 
-    getKey(index: number): ItemKey | undefined {
-        return this._keyIndexes?.[index];
-    }
-
-    getItemByKey(key: ItemKey) {
-        if (!this._items) {
-            return;
-        }
-        const index = this._keyIndexes?.indexOf(key);
-        if (index === undefined || index < 0) {
-            return;
-        }
-        return this._items[index];
-    }
-
     protected _afterRender(firstRender: boolean) {
         this.props.afterRender?.call(this, firstRender);
     }
 
-    protected _renderItem(props: RenderableProps<P>, item: Item): ComponentChildren {
-        const {itemRender} = props;
-        if (itemRender) {
-            return itemRender.call(this, item);
+    protected _getItem(props: RenderableProps<P>, item: Item, index: number): Item | false {
+        let renderedItem = super._getItem(props, item, index);
+        if (!renderedItem) {
+            return renderedItem;
         }
-        const {type = 'item'} = item;
-        let ItemComponent = (this.constructor as typeof List).ItemComponents[type] || ListItem;
-        if (Array.isArray(ItemComponent)) {
-            let defaultItemProps = ItemComponent[1];
-            if (typeof defaultItemProps === 'function') {
-                defaultItemProps = defaultItemProps.call(this, item, props);
-            }
-            item = $.extend({}, defaultItemProps, item);
-            ItemComponent = ItemComponent[0];
-        }
-        return <ItemComponent zui-key={item.key} {...item} />;
-    }
 
-    protected _getItem(props: RenderableProps<P>, item: Item, index: number): Item | false | undefined {
-        const {itemProps, itemPropsMap = {}, getItem, keyName = 'id', divider, hover, multiline, checkbox} = props;
-        const {type = 'item'} = item;
-        const {name, itemName} = this;
-        const {defaultItemProps = {}} = this.constructor;
-        item = $.extend(
-            {
-                ...defaultItemProps,
-                type,
-                divider,
-                hover,
-                multiline,
-            },
-            itemProps,
-            itemPropsMap[type],
-            item,
-            {
-                key: item.key ?? item[keyName] ?? index,
-                rootClass: [defaultItemProps.rootClass, itemName, `${name}-${type}`, itemProps?.rootClass, itemPropsMap[type]?.rootClass, item.rootClass],
-                className: [defaultItemProps.className, itemName ? `${itemName}-inner` : '', itemProps?.className, itemPropsMap[type]?.className, item.className],
-                'zui-item': index,
-                'zui-type': type,
-                style: {...itemProps?.style, ...itemPropsMap[type]?.style, ...item.style},
-            },
-        );
+        const {divider, hover, multiline} = props;
+        renderedItem = mergeProps({}, removeUndefinedProps({
+            divider,
+            hover,
+            multiline,
+        }), renderedItem);
 
-        if (checkbox && type === 'item') {
-            if (item.checked === undefined) {
-                item.checked = false;
-            }
-            if (typeof checkbox === 'object') {
-                item.checkbox = item.checkbox ? $.extend({}, checkbox, item.checkbox) : checkbox;
+        const {itemName, name} = this;
+        renderedItem.innerClass = [itemName ? `${itemName}-inner${name ? ` ${name}-${itemName}-inner` : ''}` : '', renderedItem.innerClass];
+
+        if (renderedItem.type === 'item') {
+            const {checkbox} = props;
+            if (checkbox) {
+                if (renderedItem.checked === undefined) {
+                    renderedItem.checked = false;
+                }
+                if (typeof checkbox === 'object') {
+                    renderedItem.checkbox = renderedItem.checkbox ? $.extend({}, checkbox, renderedItem.checkbox) : checkbox;
+                }
             }
         }
 
-        const finalItem = getItem ? getItem.call(this, item, index) : item;
-        if (finalItem) {
-            if (finalItem.icon) {
-                this._hasIcons = true;
-            }
-            if (finalItem.checked !== undefined) {
-                this._hasCheckbox = true;
-            }
+        if (renderedItem.icon) {
+            this._hasIcons = true;
+        }
+        if (renderedItem.checked !== undefined) {
+            this._hasCheckbox = true;
         }
 
-        return finalItem;
+        return renderedItem;
     }
 
     protected _getItemFromEvent(event: MouseEvent): {
@@ -196,12 +116,12 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
         event: MouseEvent;
         key: ItemKey;
     } | undefined {
-        const element = (event.target as HTMLElement).closest('[zui-item]') as HTMLElement;
+        const element = (event.target as HTMLElement).closest('[z-item]') as HTMLElement;
         if (!element || element.parentElement !== this._ref.current) {
             return;
         }
-        const index = +element.getAttribute('zui-item')!;
-        const item = this._items?.[index];
+        const index = +element.getAttribute('z-item')!;
+        const item = this._items[index];
         if (!item) {
             return;
         }
@@ -226,58 +146,25 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
 
     protected _getClassName(props: RenderableProps<P>): ClassNameLike {
         const {loading, loadFailed} = this.state;
-        return [props.className, this.name, loading ? 'loading' : (loadFailed ? 'is-load-failed' : '')];
+        return [super._getClassName(props), loading ? 'loading' : (loadFailed ? 'is-load-failed' : '')];
     }
 
     protected _getProps(props: RenderableProps<P>): Record<string, unknown> {
+        const {className, ...others} = super._getProps(props);
         return {
+            ...others,
             onClick: this._handleClick,
-            ...super._getProps(props),
             ref: this._ref,
+            className: classes(className as ClassNameLike, this._hasIcons ? 'has-icons' : '', this._hasCheckbox ? 'has-checkbox' : ''),
         };
     }
 
-    protected _getItems(props: RenderableProps<P>): Item[] {
-        const {items = []} = props;
-        if (Array.isArray(items)) {
-            this._items = items;
-        } else {
-            this._items = this.state.items || [];
-        }
-        this._keyIndexes = [];
-        return this._items.reduce<Item[]>((list, item, index) => {
-            const finalItem = this._getItem(props, item, index) ?? item;
-            if (finalItem !== false) {
-                list.push(finalItem);
-                this._keyIndexes![index] = finalItem.key!;
-            }
-            return list;
-        }, []);
-    }
-
     protected _getChildren(props: RenderableProps<P>): ComponentChildren {
-        const items = this._getItems(props);
-        const children = items.map((item) => this._renderItem(props, item));
+        const children = super._getChildren(props) as ComponentChild[];
         const {loadFailed} = this.state;
         if (loadFailed) {
             children.push(loadFailed);
         }
-        if (props.children) {
-            children.push(props.children);
-        }
         return children;
-    }
-
-    protected _getComponent(props: RenderableProps<P>): ComponentType | keyof JSX.IntrinsicElements {
-        return props.component || ((this.constructor as typeof List).ROOT_TAG as keyof JSX.IntrinsicElements);
-    }
-
-    protected _onRender(component: ComponentType | keyof JSX.IntrinsicElements, props: Record<string, unknown>, children: ComponentChildren): void | [component: ComponentType | keyof JSX.IntrinsicElements, componentProps: Record<string, unknown>, children: ComponentChildren] {
-        props.className = classes(
-            props.className as ClassNameLike,
-            this._hasIcons ? 'has-icons' : '',
-            this._hasCheckbox ? 'has-checkbox' : '',
-        );
-        return [component, props, children];
     }
 }
