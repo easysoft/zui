@@ -85,7 +85,7 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
         }), renderedItem);
 
         const {itemName, name} = this;
-        renderedItem.innerClass = [itemName ? `${itemName}-inner${name ? ` ${name}-${itemName}-inner` : ''}` : '', renderedItem.innerClass];
+        renderedItem.innerClass = [itemName ? `${itemName}-inner${name ? ` ${name}-${renderedItem.type}-inner` : ''}` : '', renderedItem.innerClass];
 
         if (renderedItem.type === 'item') {
             const {checkbox} = props;

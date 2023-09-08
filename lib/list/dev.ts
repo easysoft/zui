@@ -12,6 +12,9 @@ onPageUpdate(() => {
             title: '这是标题',
         },
         {
+            type: 'divider',
+        },
+        {
             title: '研发',
             subtitle: '副标题',
             onClick: () => console.log('click 研发'),

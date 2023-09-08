@@ -1,4 +1,4 @@
-.list-item-inner {
+.listitem {
   @apply -flex -flex-row -flex-nowrap -py-1 -gap-2 -items-center;
 }
 
@@ -27,6 +27,7 @@
 .item-checkbox {
   @apply --mr-1;
 }
+
 .item-content {
   @apply -flex -gap-2 -items-center;
 }

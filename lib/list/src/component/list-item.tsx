@@ -130,7 +130,7 @@ export class ListItem<P extends ListItemProps = ListItemProps, S = {}> extends H
         const asLink = ComponentName === 'a';
         const attrs = mergeProps({
             key: 'item',
-            className: classes(innerClass, {
+            className: classes('listitem', innerClass, {
                 active,
                 disabled,
                 'has-divider': divider,
