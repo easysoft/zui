@@ -454,9 +454,13 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
      * @param selector The component element selector.
      * @returns        The component instance.
      */
-    static query<O extends {}, E extends ComponentEvents, U extends HTMLElement, T extends typeof Component<O, E, U>>(this: T, selector?: Selector, key?: string | number): InstanceType<T> | undefined {
+    static query<O extends {}, E extends ComponentEvents, U extends HTMLElement, T extends typeof Component<O, E, U>>(this: T, selector?: Selector, key?: string | number, filter?: (instance: InstanceType<T>, index: number) => boolean): InstanceType<T> | undefined {
         if (selector === undefined) {
-            return this.getAll().sort((a, b) => b.gid - a.gid)[0];
+            let all = this.getAll();
+            if (filter) {
+                all = all.filter(filter);
+            }
+            return all.sort((a, b) => b.gid - a.gid)[0];
         }
         return this.get($(selector).closest(`[${this.DATA_KEY}]`), key);
     }
