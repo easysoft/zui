@@ -101,7 +101,7 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
     }
 
     protected _getClassName(props: RenderableProps<P>): ClassNameLike {
-        return [super._getClassName(props), 'list-nested', props.level ? 'list-nested-sub' : 'list-nested-root'];
+        return [super._getClassName(props), 'is-nested', props.level ? 'is-nested-sub' : 'is-nested-root'];
     }
 
     protected _getNestedProps(props: RenderableProps<P>, items: ListItemsSetting, item: NestedItem): NestedListProps {
@@ -143,7 +143,7 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
             toggleIcon = <Icon icon={toggleIcons.normal} />;
             toggleClass = 'is-empty';
         }
-        return <span className={classes('list-toggle-icon', toggleClass)}>{toggleIcon}</span>;
+        return <span className={classes(`${this.name}-toggle nested-toggle-icon`, toggleClass)}>{toggleIcon}</span>;
     }
 
     protected _getItem(props: RenderableProps<P>, item: NestedItem, index: number): NestedItem | false {
@@ -196,7 +196,7 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
         const {item, hover, event, key, parentKey} = info;
         const {nestedTrigger, nestedToggle} = this.props;
         const target = event.target as HTMLElement;
-        if (!item.items || event.defaultPrevented || (nestedTrigger === 'hover' && hover === undefined) || (nestedTrigger === 'click' && event.type !== 'click') || target.closest('.not-nested-toggle') || (nestedToggle && !target.closest(nestedToggle)) || (!nestedToggle && target.closest('a,.btn,.item-checkbox') && !target.closest('.list-toggle-icon,.item-icon'))) {
+        if (!item.items || event.defaultPrevented || (nestedTrigger === 'hover' && hover === undefined) || (nestedTrigger === 'click' && event.type !== 'click') || target.closest('.not-nested-toggle') || (nestedToggle && !target.closest(nestedToggle)) || (!nestedToggle && target.closest('a,.btn,.item-checkbox') && !target.closest('.nested-toggle-icon,.item-icon'))) {
             return;
         }
         const toggle = typeof hover === 'boolean' ? hover : undefined;

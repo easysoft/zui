@@ -1,9 +1,6 @@
-.list-nested-sub {
+.list.is-nested-sub {
   @apply -pl-[--list-indent];
 }
-.list-toggle-icon {
+.nested-toggle-icon {
   @apply -w-4 -h-4 -flex -items-center -justify-center --mr-1 -rounded;
-}
-.list-nested-root.no-nested-items > .item > .item-inner > .list-toggle-icon {
-  @apply -hidden;
 }
