@@ -11,15 +11,36 @@ import {Menu, SearchMenu} from './src/main';
 onPageUpdate(() => {
     const searchMenu = new SearchMenu('#searchMenu', {
         popup: true,
+        searchBox: true,
+        search: '复制',
         items: [
-            {text: '复制', icon: 'icon-copy'},
-            {text: '粘贴', icon: 'icon-paste'},
+            {text: '复制', icon: 'icon-copy', keys: 'fuzhi fz'},
+            {text: '粘贴', icon: 'icon-paste', keys: 'zhantie zt'},
             {text: '剪切'},
             {type: 'heading', text: '更多操作'},
-            {text: '导入', icon: 'icon-upload-alt'},
+            {
+                text: '导入',
+                icon: 'icon-upload-alt',
+                items: [
+                    {text: '从本地导入'},
+                    {text: '从网络导入'},
+                ],
+            },
             {text: '导出', icon: 'icon-download-alt'},
             {type: 'divider'},
-            {text: '保存', icon: 'icon-save', onClick: (event) => console.log('> menuItem.clicked', event)},
+            {
+                text: '保存', icon: 'icon-save', onClick: (event) => console.log('> menuItem.clicked', event),
+                items: [
+                    {text: '保存到云端'},
+                    {
+                        text: '下载到本地',
+                        items: [
+                            {text: '下载为 PDF'},
+                            {text: '下载为 Excel'},
+                        ],
+                    },
+                ],
+            },
         ],
         onClickItem: (info) => {
             console.log('> menu.onClickItem', info);

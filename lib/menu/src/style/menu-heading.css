@@ -1,3 +1,3 @@
 .menu-heading {
-  @apply -h-8 -px-2 -font-bold -text-xs -flex -items-center -text-[--menu-heading-color];
+  @apply -h-8 -px-1 -font-bold -text-xs -flex -items-center -text-[--menu-heading-color];
 }
