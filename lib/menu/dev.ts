@@ -12,7 +12,7 @@ onPageUpdate(() => {
     const searchMenu = new SearchMenu('#searchMenu', {
         popup: true,
         searchBox: true,
-        search: '复制',
+        // search: '复制',
         items: [
             {text: '复制', icon: 'icon-copy', keys: 'fuzhi fz'},
             {text: '粘贴', icon: 'icon-paste', keys: 'zhantie zt'},

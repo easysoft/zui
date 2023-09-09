@@ -7,3 +7,16 @@
 .search-menu-on-bootom > .search-box {
   @apply -mt-2;
 }
+
+.search-menu .item.is-not-match {
+  @apply -hidden;
+}
+.search-menu .item.is-not-match.has-match-child {
+  @apply -list-item;
+}
+.search-menu .item.is-not-match.has-match-child > .item-inner {
+  @apply -opacity-50 -pointer-events-none;
+}
+.search-menu.no-toggle-on-search .nested-toggle-icon {
+  @apply -pointer-events-none;
+}
