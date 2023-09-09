@@ -121,6 +121,14 @@ export class CommonList<P extends CommonListProps = CommonListProps, S = {}> ext
      * @returns The item rendered content.
      */
     protected _renderItem(props: RenderableProps<P>, item: Item, index: number): ComponentChildren {
+        const {beforeRenderItem} = props;
+        if (beforeRenderItem) {
+            const result = beforeRenderItem.call(this, item, index);
+            if (result !== undefined) {
+                item = result;
+            }
+        }
+
         const {type} = item;
         let {itemRender} = props;
         if (itemRender && typeof itemRender === 'object') {

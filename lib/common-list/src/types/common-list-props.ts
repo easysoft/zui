@@ -55,4 +55,9 @@ export interface CommonListProps<T extends Item = Item> extends HElementProps {
      * Item render functions.
      */
     itemRender?: ItemRender<T> | Record<ItemType, ItemRender<T>>;
+
+    /**
+     * Before render item, can convert original item.
+     */
+    beforeRenderItem?: (item: T, index: number) => T | void;
 }
