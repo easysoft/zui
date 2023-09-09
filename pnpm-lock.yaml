@@ -242,6 +242,9 @@ importers:
       '@zui/button':
         specifier: workspace:^0.0.1
         version: link:../button
+      '@zui/common-list':
+        specifier: workspace:^0.0.1
+        version: link:../common-list
       '@zui/core':
         specifier: workspace:^0.0.1
         version: link:../core
@@ -323,6 +326,19 @@ importers:
         version: link:../utilities
       zui-dev:
         specifier: workspace:*
+        version: link:../../dev
+
+  lib/common-list:
+    dependencies:
+      '@zui/core':
+        specifier: workspace:^0.0.1
+        version: link:../core
+    devDependencies:
+      '@zui/base':
+        specifier: workspace:*
+        version: link:../base
+      zui-dev:
+        specifier: workspace:^0.0.1
         version: link:../../dev
 
   lib/contextmenu:
@@ -642,6 +658,9 @@ importers:
       '@zui/checkbox':
         specifier: workspace:^0.0.1
         version: link:../checkbox
+      '@zui/common-list':
+        specifier: workspace:^0.0.1
+        version: link:../common-list
       '@zui/core':
         specifier: workspace:^0.0.1
         version: link:../core
@@ -661,6 +680,9 @@ importers:
 
   lib/menu:
     dependencies:
+      '@zui/common-list':
+        specifier: workspace:^0.0.1
+        version: link:../common-list
       '@zui/core':
         specifier: workspace:^0.0.1
         version: link:../core
