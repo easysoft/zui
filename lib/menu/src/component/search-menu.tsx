@@ -14,8 +14,7 @@ export class SearchMenu<T extends SearchMenuOptions = SearchMenuOptions> extends
 
     static defaultProps: Partial<SearchMenuOptions> = {
         ...Menu.defaultProps,
-        renderCollapsedList: true,
-        expandOnSearch: true,
+        nestedShow: true,
     };
 
     protected declare _searchKeys: string[];
