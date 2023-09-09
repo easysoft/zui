@@ -10,6 +10,7 @@ export type SearchBoxOptions = {
     style?: JSX.CSSProperties;
     delay?: number;
     defaultValue?: string;
+    value?: string;
     placeholder?: string;
     disabled?: boolean;
     readonly?: boolean;

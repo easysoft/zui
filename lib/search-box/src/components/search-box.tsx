@@ -83,10 +83,11 @@ export class SearchBox extends Component<SearchBoxOptions, SearchBoxState> {
     }
 
     render(props: RenderableProps<SearchBoxOptions>, state: Readonly<SearchBoxState>) {
-        const {style, className, rootClass, rootStyle, readonly, disabled, circle, placeholder, mergeIcon, searchIcon, clearIcon} = props;
+        const {style, className, rootClass, rootStyle, readonly, disabled, circle, placeholder, mergeIcon, searchIcon, clearIcon, value: controlledValue} = props;
         const {focus, value} = state;
         const {id} = this;
-        const empty = typeof value !== 'string' || !value.trim().length;
+        const finalValue = controlledValue ?? value;
+        const empty = typeof finalValue !== 'string' || !finalValue.trim().length;
         let prefixView: ComponentChildren;
         let suffixView: ComponentChildren;
         let searchIconView: ComponentChildren;
@@ -129,7 +130,7 @@ export class SearchBox extends Component<SearchBoxOptions, SearchBoxState> {
                     placeholder={placeholder}
                     disabled={disabled}
                     readonly={readonly}
-                    value={value}
+                    value={finalValue}
                     onInput={this.#handleChange}
                     onChange={this.#handleChange}
                     onFocus={this.#handleFocus}
