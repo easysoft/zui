@@ -1,6 +1,9 @@
 .list.is-nested-sub {
   @apply -pl-[--list-indent];
 }
+.is-nested-collapsed {
+  @apply -hidden;
+}
 .nested-toggle-icon {
   @apply -w-4 -h-4 -flex -items-center -justify-center --mr-1 -rounded;
 }

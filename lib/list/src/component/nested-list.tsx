@@ -24,7 +24,7 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
         indent: 20,
     };
 
-    static inheritNestedProps = ['component', 'name', 'itemName', 'keyName', 'indent', 'hover', 'divider', 'multiline', 'toggleIcons', 'nestedToggle', 'itemRender', 'onToggle', 'checkbox', 'getItem'];
+    static inheritNestedProps = ['component', 'name', 'itemName', 'keyName', 'indent', 'hover', 'divider', 'multiline', 'toggleIcons', 'nestedToggle', 'itemRender', 'beforeRenderItem', 'onToggle', 'checkbox', 'getItem'];
 
     protected _controlled: boolean;
 
@@ -104,7 +104,7 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
         return [super._getClassName(props), 'is-nested', props.level ? 'is-nested-sub' : 'is-nested-root'];
     }
 
-    protected _getNestedProps(props: RenderableProps<P>, items: ListItemsSetting, item: NestedItem): NestedListProps {
+    protected _getNestedProps(props: RenderableProps<P>, items: ListItemsSetting, item: NestedItem, expanded: boolean): NestedListProps {
         const {
             className,
             parentKey,
@@ -117,7 +117,7 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
             return propMap;
         }, {})), {
             level: level + 1,
-            className,
+            className: [className, `is-nested-${expanded ? 'expanded' : 'collapsed'}`],
             items,
             parentKey: parentKey ? `${parentKey}:${item.key}` : item.key,
             nestedShow: this.nestedShow,
@@ -126,8 +126,11 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
         }, item.listProps);
     }
 
-    protected _renderNestedList(props: RenderableProps<P>, items: ListItemsSetting, item: NestedItem): ComponentChildren {
-        const nestedListProps = this._getNestedProps(props, items, item);
+    protected _renderNestedList(props: RenderableProps<P>, items: ListItemsSetting, item: NestedItem, expanded: boolean): ComponentChildren {
+        if (!expanded && !props.renderCollapsedList) {
+            return;
+        }
+        const nestedListProps = this._getNestedProps(props, items, item, expanded);
         const NestedListComponent = this.constructor as typeof NestedList;
         return <NestedListComponent key="nested" {...nestedListProps} />;
     }
@@ -153,17 +156,22 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
         }
         const {items, ...itemProps} = nestedItem as NestedItem;
         if (items) {
-            const expanded = itemProps.expanded ?? this.isExpanded(itemProps.key!, props.parentKey);
+            const {parentKey} = props;
+            const expanded = itemProps.expanded ?? this.isExpanded(itemProps.key!, parentKey);
             mergeProps(itemProps, {
+                parentKey,
                 expanded: expanded,
                 className: ['is-nested', `is-nested-${expanded ? 'show' : 'hide'}`],
                 toggleIcon: this._renderNestedToggle(props, expanded),
                 onMouseEnter: this._handleHover,
                 onMouseLeave: this._handleHover,
-            }, expanded ? {
-                children: this._renderNestedList(props, items, itemProps),
-                'z-parent': props.parentKey,
-            } : null);
+                'z-parent': parentKey,
+                'z-key-path': `${parentKey !== undefined ? `${parentKey}:` : ''}${itemProps.key}`,
+            });
+            const nestedListContent = this._renderNestedList(props, items, itemProps, expanded);
+            if (nestedListContent) {
+                mergeProps(itemProps, {children: nestedListContent});
+            }
             this._hasNestedItems = true;
         }
         return itemProps;
@@ -242,12 +250,15 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
     }
 
     protected _getProps(props: RenderableProps<P>): Record<string, unknown> {
-        const propsMap = super._getProps(props);
-        const {style, level = 0, indent = 20} = props;
-        propsMap['z-level'] = level;
-        propsMap.style = {...style, '--list-nested-indent': `${level * indent}px`, '--list-indent': `${indent}px`};
-        propsMap.className = classes(propsMap.className as ClassNameLike, this._hasNestedItems ? 'has-nested-items' : 'no-nested-items');
-        return propsMap;
+        const {level = 0, indent = 20, parentKey} = props;
+        const finalProps = mergeProps(super._getProps(props), {
+            'z-level': level,
+            'z-parent-key': parentKey,
+            style: {'--list-nested-indent': `${level * indent}px`, '--list-indent': `${indent}px`},
+            className: this._hasNestedItems ? 'has-nested-items' : 'no-nested-items',
+        });
+        finalProps.className = classes(finalProps.className as ClassNameLike);
+        return finalProps;
     }
 
     protected _beforeRender(props: RenderableProps<P>): void | RenderableProps<P> | undefined {
