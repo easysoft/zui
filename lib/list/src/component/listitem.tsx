@@ -103,7 +103,7 @@ export class Listitem<P extends ListitemProps = ListitemProps, S = {}> extends H
                 className: actionsClass,
             });
             contents.push(
-                <Toolbar key="actions" {...toolbarOptions} />,
+                <Toolbar key="actions" size="sm" {...toolbarOptions} />,
             );
         }
         const customTrailing = trailing ? <CustomContent key="trailing" content={trailing} /> : null;
