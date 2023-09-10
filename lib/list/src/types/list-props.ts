@@ -5,7 +5,7 @@ import type {ListItemsSetting} from './list-items-setting';
 import type {ListItem} from './list-item';
 
 export interface ListProps<T extends Item = ListItem> extends CommonListProps<T> {
-    items?: ListItemsSetting;
+    items?: ListItemsSetting<T>;
     hover?: boolean;
     divider?: boolean;
     multiline?: boolean;
