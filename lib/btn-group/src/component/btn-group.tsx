@@ -1,6 +1,5 @@
 import {$, mergeProps, removeUndefinedProps} from '@zui/core';
 import {Button} from '@zui/button/src/component';
-import {DropdownButton} from '@zui/dropdown/src/component';
 import {CommonList} from '@zui/common-list/src/component';
 
 import type {RenderableProps} from 'preact';
@@ -19,7 +18,6 @@ export class BtnGroup<T extends BtnGroupOptions = BtnGroupOptions> extends Commo
     static ItemComponents = {
         ...CommonList.ItemComponents,
         default: Button,
-        dropdown: DropdownButton,
     };
 
     protected _shareBtnProps?: Partial<ButtonProps>;
