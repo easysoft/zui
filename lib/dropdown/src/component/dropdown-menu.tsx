@@ -4,7 +4,6 @@ import {SearchMenu} from '@zui/menu/src/component';
 
 import type {ClassNameLike} from '@zui/core';
 import type {RenderableProps} from 'preact';
-import type {ListItemsSetting, NestedItem, NestedListItem, NestedListProps} from '@zui/list';
 import type {DropdownMenuOptions} from '../types/dropdown-menu-options';
 
 export class DropdownMenu<T extends DropdownMenuOptions = DropdownMenuOptions> extends SearchMenu<T> {
