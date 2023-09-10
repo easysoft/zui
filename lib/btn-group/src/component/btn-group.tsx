@@ -24,6 +24,10 @@ export class BtnGroup<T extends BtnGroupOptions = BtnGroupOptions> extends Commo
 
     protected _shareBtnProps?: Partial<ButtonProps>;
 
+    protected _isBtnType(item: Item): boolean {
+        return item.type === 'button' || item.type === 'dropdown';
+    }
+
     protected _getItem(props: RenderableProps<T>, item: Item, index: number): false | Item {
         if (!item.type && (item.dropdown || item.items)) {
             item = $.extend({type: 'dropdown'}, item);
@@ -32,7 +36,10 @@ export class BtnGroup<T extends BtnGroupOptions = BtnGroupOptions> extends Commo
         if (!itemProps) {
             return itemProps;
         }
-        return mergeProps({}, this._shareBtnProps, itemProps);
+        if (this._isBtnType(item)) {
+            return mergeProps({}, this._shareBtnProps, itemProps);
+        }
+        return itemProps;
     }
 
     protected _beforeRender(props: RenderableProps<T>): void | RenderableProps<T> | undefined {
