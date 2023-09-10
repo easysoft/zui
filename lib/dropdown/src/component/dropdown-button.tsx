@@ -57,4 +57,4 @@ export class DropdownButton extends Button<DropdownButtonOptions> {
     }
 }
 
-Object.assign(BtnGroup.ItemComponents, {dropdown: Dropdown});
+Object.assign(BtnGroup.ItemComponents, {dropdown: DropdownButton});
