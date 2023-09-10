@@ -8,6 +8,9 @@ export function mergeProps<T extends Record<string, unknown> = Record<string, un
         Object.keys(arg as Partial<T>).forEach(key => {
             let value = (arg as Record<string, unknown>)[key];
             const oldValue = props[key];
+            if (value === oldValue) {
+                return;
+            }
             if (oldValue !== undefined) {
                 if (key === 'className' || key.endsWith('Class')) {
                     value = [oldValue, value];
