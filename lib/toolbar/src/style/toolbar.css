@@ -7,7 +7,7 @@
 }
 
 .toolbar-space {
-  @apply -w-4 -flex-auto;
+  @apply -w-px -h-px -flex-auto;
 }
 
 .toolbar > .dropdown.show {

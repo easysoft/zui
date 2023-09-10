@@ -2,6 +2,7 @@ import 'zui-dev';
 import '@zui/icons';
 import '@zui/button';
 import '@zui/btn-group';
+import '@zui/menu';
 import '@zui/dropdown';
 import {Toolbar} from './src/main';
 
@@ -20,7 +21,7 @@ onPageUpdate(() => {
             ]},
             {type: 'space', flex: 1},
             {
-                type: 'btn-group',
+                type: 'btnGroup',
                 items: [
                     {text: '登录', icon: 'icon-user'},
                     {text: '注册', icon: 'icon-lock'},
