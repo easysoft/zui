@@ -14,7 +14,7 @@ export class SearchMenu<T extends SearchMenuOptions = SearchMenuOptions> extends
 
     static defaultProps: Partial<SearchMenuOptions> = {
         ...Menu.defaultProps,
-        nestedShow: true,
+        defaultNestedShow: true,
     };
 
     protected declare _searchKeys: string[];
@@ -32,9 +32,11 @@ export class SearchMenu<T extends SearchMenuOptions = SearchMenuOptions> extends
     }
 
     componentWillUpdate(nextProps: Readonly<T>): void {
-        this._searchControlled = nextProps.search !== undefined;
-        if (this._searchControlled && nextProps.search !== this.props.search) {
-            this._searchKeys = (this.constructor as typeof SearchMenu).getSearchKeys(nextProps.search);
+        if (this.isRoot) {
+            this._searchControlled = nextProps.search !== undefined;
+            if (this._searchControlled && nextProps.search !== this.props.search) {
+                this._searchKeys = (this.constructor as typeof SearchMenu).getSearchKeys(nextProps.search);
+            }
         }
     }
 

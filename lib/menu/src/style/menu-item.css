@@ -1,4 +1,5 @@
-.menu-item > .item-inner {
+.menu-item > .item-inner,
+.menu-item > a {
     @apply -flex -text-inherit -px-2 -py-1 -rounded -items-center -justify-between -transition-colors -relative -truncate -cursor-pointer -gap-1;
 }
 .menu-item > .active {
