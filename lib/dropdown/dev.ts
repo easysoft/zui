@@ -10,7 +10,7 @@ onPageUpdate(() => {
     const dropdown = new Dropdown('#dropdownToggle', {
         arrow: true,
         menu: {
-            search: true,
+            searchBox: true,
             searchPlacement: 'top',
             items: [
                 {text: '复制', icon: 'icon-copy'},

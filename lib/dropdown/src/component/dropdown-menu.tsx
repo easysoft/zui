@@ -1,20 +1,24 @@
-import {$, classes} from '@zui/core';
+import {$} from '@zui/core';
 import {flip, computePosition, shift, offset} from '@floating-ui/dom';
 import {SearchMenu} from '@zui/menu/src/component';
 
 import type {ClassNameLike} from '@zui/core';
 import type {RenderableProps} from 'preact';
-import type {ItemsSetting, NestedItem, NestedListProps} from '@zui/list';
+import type {ListItemsSetting, NestedItem, NestedListItem, NestedListProps} from '@zui/list';
 import type {DropdownMenuOptions} from '../types/dropdown-menu-options';
 
 export class DropdownMenu<T extends DropdownMenuOptions = DropdownMenuOptions> extends SearchMenu<T> {
-    static defaultProps = {
+    static defaultProps: Partial<DropdownMenuOptions> = {
         ...SearchMenu.defaultProps,
         popup: true,
-        search: false,
+        searchBox: false,
         nestedTrigger: 'hover',
         placement: 'right-start',
+        defaultNestedShow: false,
+        expandOnSearch: false,
     };
+
+    static inheritNestedProps = [...SearchMenu.inheritNestedProps, 'popup'];
 
     protected _layoutTimer = 0;
 
@@ -40,13 +44,6 @@ export class DropdownMenu<T extends DropdownMenuOptions = DropdownMenuOptions> e
         });
     }
 
-    protected _getNestedProps(props: RenderableProps<T>, items: ItemsSetting, item: NestedItem): NestedListProps {
-        const nestedProps = super._getNestedProps(props, items, item) as DropdownMenuOptions;
-        nestedProps.className = classes(nestedProps.className, 'show');
-        nestedProps.popup = true;
-        return nestedProps;
-    }
-
     protected _afterRender(firstRender: boolean) {
         super._afterRender(firstRender);
         if (!this.isRoot) {
@@ -55,8 +52,11 @@ export class DropdownMenu<T extends DropdownMenuOptions = DropdownMenuOptions> e
         }
     }
 
-    renderToggleIcon() {
-        return <span class="dropdown-menu-toggle-icon caret-right ml-2" />;
+    protected _renderNestedToggle(_props: RenderableProps<T>, isExpanded: boolean | null) {
+        if (typeof isExpanded !== 'boolean') {
+            return;
+        }
+        return <span className={`${this.name}-toggle nested-toggle-icon`}><span className="caret-right" /></span>;
     }
 
     componentWillUnmount(): void {

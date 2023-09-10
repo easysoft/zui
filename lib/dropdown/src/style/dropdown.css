@@ -1,33 +1,28 @@
-.dropdown,
-.dropdown-menu {
+.dropdown {
   @apply -absolute -z-dropdown;
 }
 .dropdown-menu {
-  @apply -hidden;
+  @apply -hidden -absolute;
   --menu-min-width: 7rem;
 }
 .show > .dropdown-menu,
+.is-nested-show > .dropdown-menu,
 .dropdown-menu.show {
   @apply -block;
 }
 .popover > .dropdown-menu {
   @apply -relative;
 }
+
 .dropdown-menu .is-nested-show > a:not(:hover) {
     @apply -bg-primary-100;
 }
 .menu-nested .menu.dropdown-menu {
   @apply -ml-auto -my-auto -pr-2;
 }
-.dropdown-menu .list-toggle-icon.is-empty {
-  @apply -hidden;
-}
 .dropdown-menu.menu-nested .menu-item > .item-inner {
   @apply -pl-2;
 }
-.dropdown-menu .menu-item.is-nested > .item-inner > .list-toggle-icon {
+.dropdown-menu .menu-item.is-nested > .item-inner > .nested-toggle-icon {
   @apply -absolute -right-1 -top-1.5;
-}
-.dropdown-menu .menu-item.is-nested-show > .item-inner > .list-toggle-icon {
-  @apply --rotate-90 -top-1.5;
 }

@@ -24,9 +24,7 @@ export class Dropdown<O extends DropdownOptions = DropdownOptions> extends Popov
         const {items, placement, menu, onClickItem} = this.options;
         return {
             items,
-            nestedTrigger: 'hover',
             placement: placement,
-            popup: false,
             onClickItem: onClickItem,
             ...menu,
         };
