@@ -1,9 +1,9 @@
 import type {IconType} from '@zui/core';
-import type {NestedListProps} from '@zui/list';
-import type {TreeActionsSetting} from './tree-actions-setting';
+import type {ListitemProps} from '@zui/list';
+import type {MenuOptions} from '@zui/menu';
 
-export interface TreeOptions extends NestedListProps {
-    itemActions?: TreeActionsSetting;
+export interface TreeOptions extends MenuOptions {
+    itemActions?: ListitemProps['actions'];
     collapsedIcon?: IconType;
     expandedIcon?: IconType;
     normalIcon?: IconType;

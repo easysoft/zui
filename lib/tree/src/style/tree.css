@@ -1,40 +1,40 @@
 /* Tree content. */
-.tree-item-content {
+.tree-item-inner {
   @apply -flex -flex-row -items-center -gap-1 -min-h-[24px] -pl-[--list-nested-indent];
 }
 
 /* Toggle icon. */
-.tree .list-toggle-icon {
+.tree-toggle {
   @apply -w-4 -flex -items-center -justify-center -rounded -h-4 -flex-none;
   --caret-size: 5px;
   --caret-opacity: .3;
 }
 
 /* Checkbox. */
-.tree-checkbox {
+.tree .item-checkbox {
   @apply --mr-1;
 }
 
 /* Hover effection. */
-.tree-item-content > .item-icon {
+.tree-item-inner > .item-icon {
   @apply -w-4 -opacity-50;
 }
-.tree-item-content:hover > .item-icon {
+.tree-item-inner:hover > .item-icon {
   @apply -opacity-80;
 }
-.tree-item-content.has-hover {
+.tree-item-inner.has-hover {
   @apply -rounded;
 }
 
 /* Link title. */
-.tree-item-content > a.item-title:not(:hover) {
+.tree-item-inner > a.item-title:not(:hover) {
   @apply -text-inherit;
 }
 
 /* Toolbar. */
-.tree-item-content > .toolbar {
+.tree-item-inner > .toolbar {
   @apply -ml-4 -opacity-60;
 }
-.tree-item-content:hover > .toolbar {
+.tree-item-inner:hover > .toolbar {
   @apply -opacity-100;
 }
