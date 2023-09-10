@@ -106,7 +106,6 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
 
     protected _getNestedProps(props: RenderableProps<P>, items: ListItemsSetting, item: NestedItem, expanded: boolean): NestedListProps {
         const {
-            className,
             parentKey,
             nestedTrigger,
             level = 0,
@@ -117,7 +116,7 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
             return propMap;
         }, {})), {
             level: level + 1,
-            className: [className, `is-nested-${expanded ? 'expanded' : 'collapsed'}`],
+            className: `is-nested-${expanded ? 'expanded' : 'collapsed'}`,
             items,
             parentKey: parentKey ? `${parentKey}:${item.key}` : item.key,
             nestedShow: this.nestedShow,
@@ -135,7 +134,7 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
         return <NestedListComponent key="nested" {...nestedListProps} />;
     }
 
-    protected _renderNestedToggle(props: RenderableProps<P>, isExpanded: boolean | null) {
+    protected _renderNestedToggle(props: RenderableProps<P>, isExpanded: boolean | null): ComponentChild {
         let toggleIcon: ComponentChild;
         let toggleClass = '';
         const {toggleIcons = {}} = props;
@@ -234,6 +233,7 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
 
     protected _handleHover(event: MouseEvent) {
         const info = this._getItemFromEvent(event);
+
         if (!info) {
             return;
         }
