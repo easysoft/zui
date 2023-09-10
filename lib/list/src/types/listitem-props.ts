@@ -3,7 +3,7 @@ import type {ClassNameLike, CustomContentType, IconType} from '@zui/core';
 import type {Item} from '@zui/common-list';
 import type {AvatarOptions} from '@zui/avatar';
 import type {CheckboxProps, CheckedType} from '@zui/checkbox';
-import type {ButtonProps} from '@zui/button';
+import type {ToolbarOptions, ToolbarItemOptions} from '@zui/toolbar';
 
 export interface ListitemProps extends Item {
     innerComponent?: ComponentType | keyof JSX.IntrinsicElements;
@@ -32,7 +32,7 @@ export interface ListitemProps extends Item {
     trailing?: CustomContentType;
     trailingClass?: ClassNameLike;
     trailingIcon?: IconType;
-    actions?: ButtonProps[];
+    actions?: ToolbarItemOptions[] | ToolbarOptions | ((item: Item) => ToolbarItemOptions[] | ToolbarOptions);
     actionsClass?: ClassNameLike;
     actionsAttrs?: Record<string, unknown>;
     content?: CustomContentType;
