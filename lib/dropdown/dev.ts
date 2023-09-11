@@ -18,7 +18,14 @@ onPageUpdate(() => {
                 {text: '剪切'},
                 {type: 'heading', text: '更多操作'},
                 {text: '导入', icon: 'icon-upload-alt'},
-                {text: '导出', icon: 'icon-download-alt'},
+                {
+                    text: '导出',
+                    icon: 'icon-download-alt',
+                    items: [
+                        {text: '导出为 PDF'},
+                        {text: '导出为 PNG'},
+                    ],
+                },
                 {
                     text: '保存',
                     icon: 'icon-save',
