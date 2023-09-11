@@ -9,7 +9,7 @@ export class Tree<T extends TreeOptions = TreeOptions> extends Menu<T> {
     static NAME = 'tree';
 
     static defaultItemProps: Partial<Item> = {
-        ...Menu.defaultProps,
+        ...Menu.defaultItemProps,
         innerComponent: 'div',
     };
 

@@ -26,7 +26,7 @@ onPageUpdate(() => {
                 {text: '运维', url: '#运维'},
             ],
         },
-        {text: '市场', url: '#市场'},
+        {text: '市场', url: '#市场', active: true},
         {text: '技术支持', url: '#技术支持'},
         {text: '财务', url: '#财务'},
         {text: '行政', url: '#行政'},
