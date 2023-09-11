@@ -38,3 +38,8 @@
 .tree-item-inner:hover > .toolbar {
   @apply -opacity-100;
 }
+
+.tree-item > .active {
+  background: var(--menu-active-bg);
+  color: var(--menu-active-color);
+}
