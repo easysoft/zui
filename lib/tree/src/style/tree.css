@@ -10,11 +10,6 @@
   --caret-opacity: .3;
 }
 
-/* Checkbox. */
-.tree .item-checkbox {
-  @apply --mr-1;
-}
-
 /* Hover effection. */
 .tree-item-inner > .item-icon {
   @apply -w-4 -opacity-50;
