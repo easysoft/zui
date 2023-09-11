@@ -10,7 +10,7 @@ import {Picker} from './src/main';
 
 const items = [
     {text: 'Apple', value: 'apple', keys: 'fruit food'},
-    {text: 'Banana Banana Banana', value: 'banana', keys: 'fruit food'},
+    {text: 'Banana Banana Banana', value: 'banana', keys: 'fruit food', disabled: true},
     {text: 'Orange', value: 'orange', keys: 'fruit food'},
     {text: 'Strawberries', value: 'strawberries', keys: 'fruit food'},
     {text: 'Cat', value: 'cat', keys: 'animals pet'},

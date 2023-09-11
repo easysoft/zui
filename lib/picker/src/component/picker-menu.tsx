@@ -70,7 +70,7 @@ export class PickerMenu extends PickPop<PickerState, PickerMenuProps> {
 
     _handleItemClick = ({item, event}: {item: NestedListItem, event: MouseEvent}) => {
         const value = item.value as string;
-        if (value === undefined || (event.target as HTMLElement).closest('.item-icon,.nested-toggle-icon')) {
+        if (item.disabled || value === undefined || (event.target as HTMLElement).closest('.item-icon,.nested-toggle-icon,.disabled')) {
             return;
         }
         const {multiple, onToggleValue, onSelect, togglePop, onDeselect} = this.props;
