@@ -76,6 +76,7 @@ onPageUpdate(() => {
                             size: 'xs',
                             circle: true,
                         };
+
                         // 对选择项值为 `xxx/xxx` 进行特殊判断
                         const value = item.value;
                         if (typeof value === 'string' && value.includes('/')) {

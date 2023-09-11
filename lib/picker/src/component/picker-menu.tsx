@@ -22,7 +22,7 @@ function getValueMap(items: NestedItem[], userMap?: Map<string, NestedItem>): Ma
 }
 
 export class PickerMenu extends PickPop<PickerState, PickerMenuProps> {
-    protected _menu: RefObject<HTMLDivElement> = createRef();
+    protected _menu: RefObject<SearchMenu> = createRef();
 
     protected declare _hasCheckbox: boolean;
 
@@ -47,12 +47,15 @@ export class PickerMenu extends PickPop<PickerState, PickerMenuProps> {
         const valueSet = new Set(this.props.valueList);
         let subItems = item.items;
         let isAllItemsChecked = false;
+        let hasSomeItemsChecked = false;
         if (Array.isArray(subItems)) {
             isAllItemsChecked = true;
             subItems = subItems.reduce<NestedItem[]>((list, subItem, subIndex) => {
                 const finalSubItem = this._getItem(subItem, subIndex);
                 if (finalSubItem) {
-                    if (!finalSubItem.active) {
+                    if (finalSubItem.active) {
+                        hasSomeItemsChecked = true;
+                    } else {
                         isAllItemsChecked = false;
                     }
                     list.push(finalSubItem);
@@ -64,7 +67,7 @@ export class PickerMenu extends PickPop<PickerState, PickerMenuProps> {
         item = {
             ...item,
             active: selected,
-            checked: (this._hasCheckbox || typeof item.checked === 'boolean') ? selected : undefined,
+            checked: (this._hasCheckbox || typeof item.checked === 'boolean') ? (isAllItemsChecked ? true : (hasSomeItemsChecked ? 'indeterminate' : selected)) : undefined,
             className: classes(item.className, {hover: item.value !== undefined && item.value === this.props.state.hoverItem}),
             items: subItems,
         };
@@ -89,12 +92,15 @@ export class PickerMenu extends PickPop<PickerState, PickerMenuProps> {
         if (item.disabled || value === undefined || target.closest('.item-icon,.nested-toggle-icon,.disabled')) {
             return;
         }
+        if (Array.isArray(item.items) && item.items.every(x => this._disabledSet.has(x.value as string))) {
+            return;
+        }
         const {multiple, onToggleValue, onSelect, togglePop, onDeselect} = this.props;
         if (multiple) {
             if (item.items) {
                 const map = getValueMap(item.items as NestedItem[]);
                 const values = [...map.values()].filter(x => !x.items && !this._disabledSet.has(x.value as string)).map(x => x.value as string);
-                if (target.closest('.item-inner.active')) {
+                if ($(target).closest('.tree-item').children('.tree').children('.tree-item').children('.tree-item-inner.active').length) {
                     onDeselect(values);
                 } else {
                     onSelect(values);
