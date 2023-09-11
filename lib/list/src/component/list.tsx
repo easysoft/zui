@@ -121,6 +121,7 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
     protected _getItemFromEvent(event: MouseEvent): {
         index: number;
         item: Item;
+        renderedItem: Item;
         element: HTMLElement;
         event: MouseEvent;
         key: ItemKey;
@@ -138,7 +139,7 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
         if (key === undefined) {
             return;
         }
-        return {index, item, element, event, key};
+        return {index, item, element, event, key, renderedItem: this.getRenderedItemByKey(key)!};
     }
 
     protected _handleClick(event: MouseEvent) {

@@ -15,5 +15,5 @@ export interface ListProps<T extends Item = ListItem> extends CommonListProps<T>
     beforeRender?: (options: ListProps) => void;
     afterRender?: (firstRender: boolean) => void;
     beforeDestroy?: () => void;
-    onClickItem?: (info: {item: T, index: number, event: MouseEvent}) => void;
+    onClickItem?: (info: {item: T, index: number, event: MouseEvent, renderedItem: T}) => void;
 }

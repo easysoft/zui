@@ -10,6 +10,7 @@ import type {ListItemsSetting, NestedItem, NestedListProps, NestedListState} fro
 type MouseEventInfo = {
     index: number;
     item: NestedItem;
+    renderedItem: NestedItem;
     element: HTMLElement;
     event: MouseEvent;
     key: ItemKey;
@@ -207,7 +208,7 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
         this.toggle(`${parentKey !== undefined ? `${parentKey}:` : ''}${key}`, toggle);
     }
 
-    protected _handleClickNestedItem(info: {item: NestedItem, index: number, event: MouseEvent}) {
+    protected _handleClickNestedItem(info: {item: NestedItem, renderedItem: NestedItem, index: number, event: MouseEvent}) {
         this.props.onClickItem?.call(this, info);
         this._toggleFromEvent(info as MouseEventInfo);
     }
