@@ -31,8 +31,6 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
 
     protected declare _hasNestedItems: boolean;
 
-    protected declare _hoverTimer: number;
-
     constructor(props: P) {
         super(props);
         this._controlled = props.nestedShow !== undefined; // Controlled menu use state to store nested
@@ -235,16 +233,10 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
         if (!info) {
             return;
         }
-        if (this._hoverTimer) {
-            clearTimeout(this._hoverTimer);
+        this.props.onHoverItem?.call(this, info as {hover: boolean, item: NestedItem, index: number, event: MouseEvent});
+        if (!this._controlled && this.props.nestedTrigger === 'hover') {
+            this._toggleFromEvent(info);
         }
-        this._hoverTimer = window.setTimeout(() => {
-            this._hoverTimer = 0;
-            this.props.onHoverItem?.call(this, info as {hover: boolean, item: NestedItem, index: number, event: MouseEvent});
-            if (!this._controlled && this.props.nestedTrigger === 'hover') {
-                this._toggleFromEvent(info);
-            }
-        }, 100);
     }
 
     protected _getProps(props: RenderableProps<P>): Record<string, unknown> {
