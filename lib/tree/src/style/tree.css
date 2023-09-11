@@ -5,7 +5,7 @@
 
 /* Toggle icon. */
 .tree-toggle {
-  @apply -w-4 -flex -items-center -justify-center -rounded -h-4 -flex-none;
+  @apply -w-4 -flex -items-center -justify-center -rounded -h-4 -flex-none -mr-0;
   --caret-size: 5px;
   --caret-opacity: .3;
 }

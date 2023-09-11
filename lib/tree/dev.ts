@@ -5,6 +5,7 @@ import '@zui/icons';
 import '@zui/form-control';
 import '@zui/checkbox';
 import '@zui/input-control';
+import '@zui/list';
 import {Tree, SearchTree} from './src/main';
 
 onPageUpdate(() => {
