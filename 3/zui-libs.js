@@ -390,6 +390,7 @@ export default [
         "dependencies": {
             "@zui/avatar": "workspace:^0.0.1",
             "@zui/button": "workspace:^0.0.1",
+            "@zui/toolbar": "workspace:^0.0.1",
             "@zui/css-icons": "workspace:^0.0.1",
             "@zui/checkbox": "workspace:^0.0.1",
             "@zui/common-list": "workspace:^0.0.1",
@@ -856,13 +857,13 @@ export default [
         "dependencies": {
             "@zui/core": "workspace:^0.0.1",
             "@zui/button": "workspace:^0.0.1",
-            "@zui/dropdown": "workspace:^0.0.1",
             "@zui/common-list": "workspace:^0.0.1"
         },
         "devDependencies": {
             "zui-dev": "workspace:*",
             "@zui/base": "workspace:*",
             "@zui/icons": "workspace:*",
+            "@zui/dropdown": "workspace:*",
             "@zui/utilities": "workspace:*"
         },
         "zui": {
@@ -1078,6 +1079,7 @@ export default [
         "dependencies": {
             "@zui/core": "workspace:^0.0.1",
             "@zui/css-icons": "workspace:^0.0.1",
+            "@zui/common-list": "workspace:^0.0.1",
             "@zui/list": "workspace:^0.0.1"
         },
         "files": [
@@ -1240,6 +1242,7 @@ export default [
             "@zui/checkbox": "workspace:*",
             "@zui/form-control": "workspace:*",
             "@zui/menu": "workspace:*",
+            "@zui/tree": "workspace:*",
             "@zui/pick": "workspace:*"
         },
         "devDependencies": {
