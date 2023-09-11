@@ -20,3 +20,7 @@
 .search-menu.no-toggle-on-search .nested-toggle-icon {
   @apply -pointer-events-none;
 }
+
+.search-menu .is-match-keys {
+  @apply -underline -font-bold;
+}

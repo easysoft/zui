@@ -10,7 +10,7 @@ import type {SearchBoxOptions} from '@zui/search-box';
 import type {SearchMenuOptions, SearchMenuState} from '../types';
 
 export class SearchMenu<T extends SearchMenuOptions = SearchMenuOptions> extends Menu<T, SearchMenuState> {
-    static inheritNestedProps = [...Menu.inheritNestedProps, 'isItemMatch', 'search'];
+    static inheritNestedProps = [...Menu.inheritNestedProps, 'isItemMatch', 'search', 'underlineKeys'];
 
     static defaultProps: Partial<SearchMenuOptions> = {
         ...Menu.defaultProps,
@@ -72,7 +72,7 @@ export class SearchMenu<T extends SearchMenuOptions = SearchMenuOptions> extends
 
     protected _isItemMatch(props: RenderableProps<T>, item: NestedItem, index: number, parentKey: ItemKey | undefined) {
         const {isItemMatch} = props;
-        const isMatch = isItemMatch ? isItemMatch.call(this, item, this._searchKeys, index, parentKey) : (this.constructor as typeof SearchMenu).isItemMatch(item, this._searchKeys);
+        const isMatch = isItemMatch ? isItemMatch.call(this, item, this._searchKeys, index, parentKey) : (this.constructor as typeof SearchMenu).isItemMatch(item, this._searchKeys, props.searchProps);
         if (this.isRoot && isMatch && parentKey !== undefined) {
             let key = '';
             String(parentKey).split(':').forEach(x => {
@@ -108,6 +108,14 @@ export class SearchMenu<T extends SearchMenuOptions = SearchMenuOptions> extends
 
     protected _renderItem(props: RenderableProps<T>, item: Item, index: number): ComponentChildren {
         item.className = [item.className, item.hidden ? 'is-not-match' : ''];
+        if (props.underlineKeys && this._searchKeys.length) {
+            ['text', 'title', 'subtitle', 'content'].forEach(key => {
+                if (typeof item[key] === 'string') {
+                    item[key] = (this.constructor as typeof SearchMenu).underlineKeys(this._searchKeys, [item[key] as string]);
+                    console.log('> item', key, item[key], item);
+                }
+            });
+        }
         return super._renderItem(props, item, index);
     }
 
@@ -137,7 +145,7 @@ export class SearchMenu<T extends SearchMenuOptions = SearchMenuOptions> extends
 
     protected _getClassName(props: RenderableProps<T>): ClassNameLike {
         const isSearchMode = this.isRoot && this._searchKeys.length;
-        return [super._getClassName(props), props.searchBox ? `search-menu search-menu-on-${props.searchPlacement || 'top'}` : '', isSearchMode ? 'is-search-mode' : '', isSearchMode && props.expandOnSearch ? 'no-toggle-on-search' : ''];
+        return [super._getClassName(props), 'search-menu', props.searchBox ? `search-menu-on-${props.searchPlacement || 'top'}` : '', isSearchMode ? 'is-search-mode' : '', isSearchMode && props.expandOnSearch ? 'no-toggle-on-search' : ''];
     }
 
     protected _beforeRender(props: RenderableProps<T>): void | RenderableProps<T> | undefined {
@@ -154,12 +162,14 @@ export class SearchMenu<T extends SearchMenuOptions = SearchMenuOptions> extends
      * @param searchKeys    Search keys.
      * @returns Whether item is matched.
      */
-    static isItemMatch(item: Item, searchKeys: string[]) {
+    static isItemMatch(item: Item, searchKeys: string[], searchProps = ['keys', 'text', 'title', 'subtitle']) {
         if (!searchKeys.length) {
             return true;
         }
-        const {keys, text, title, subtitle} = item;
-        return searchKeys.every(searchKey => [keys, text, title, subtitle].some(x => typeof x === 'string' && x.length && x.toLowerCase().includes(searchKey)));
+        return searchKeys.every(searchKey => searchProps.some(propName => {
+            const propValue = item[propName];
+            return typeof propValue === 'string' && propValue.length && propValue.toLowerCase().includes(searchKey);
+        }));
     }
 
     /**
@@ -170,5 +180,31 @@ export class SearchMenu<T extends SearchMenuOptions = SearchMenuOptions> extends
      */
     static getSearchKeys(search: string = ''): string[] {
         return $.unique((search).toLowerCase().split(' ').filter(x => x.length)) as string[];
+    }
+
+    static underlineKeys(searchKeys: string[], text: string[], className = 'is-match-keys'): ComponentChild[] {
+        return searchKeys.reduce<ComponentChild[]>((result, key) => {
+            return [...result].reduce<ComponentChild[]>((list, span) => {
+                if (typeof span !== 'string') {
+                    list.push(span);
+                    return list;
+                }
+                const parts = span.toLowerCase().split(key);
+                if (parts.length === 1) {
+                    list.push(span);
+                    return list;
+                }
+                let start = 0;
+                parts.forEach((part, index) => {
+                    if (index) {
+                        list.push(<span class={className}>{span.substring(start, start + key.length)}</span>);
+                        start += key.length;
+                    }
+                    list.push(span.substring(start, start + part.length));
+                    start += part.length;
+                });
+                return list;
+            }, []);
+        }, text);
     }
 }
