@@ -18,6 +18,7 @@
         "@zui/checkbox": "workspace:*",
         "@zui/form-control": "workspace:*",
         "@zui/menu": "workspace:*",
+        "@zui/tree": "workspace:*",
         "@zui/pick": "workspace:*"
     },
     "devDependencies": {

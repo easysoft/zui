@@ -1,7 +1,7 @@
 import type {PickTriggerProps} from '@zui/pick';
 import type {PickerState} from './picker-state';
 
-export interface PickerSelectProps extends PickTriggerProps<PickerState> {
+export interface PickerSelectProps<S extends PickerState = PickerState> extends PickTriggerProps<S> {
     placeholder?: string;
     multiple?: boolean | number;
     search?: boolean | number;

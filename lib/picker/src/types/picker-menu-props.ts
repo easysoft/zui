@@ -1,12 +1,16 @@
-import type {MenuOptions} from '@zui/menu/src/types';
+import type {MenuOptions} from '@zui/menu';
+import type {TreeOptions} from '@zui/tree';
 import type {PickPopProps} from '@zui/pick';
 import type {PickerState} from './picker-state';
 
-export interface PickerMenuProps extends PickPopProps<PickerState> {
+export interface PickerMenuProps<S extends PickerState = PickerState> extends PickPopProps<S> {
     multiple?: boolean | number;
+    tree?: TreeOptions | boolean;
     menu?: MenuOptions;
+    checkbox?: MenuOptions['checkbox'];
     search?: boolean | number;
     searchHint?: string;
+    valueList: string[];
 
     onSelect: (values: string | string[]) => void;
     onDeselect: (values: string | string[]) => void;

@@ -4,6 +4,6 @@
 .picker-menu-search + .picker-menu-list.menu {
   @apply -pt-0 --mt-0.5;
 }
-.menu-item .text .is-match {
-  @apply -underline -font-bold;
+.picker-menu-list.tree {
+  @apply -p-2;
 }

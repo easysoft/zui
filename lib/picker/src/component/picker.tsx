@@ -1,13 +1,15 @@
-import {ComponentType, RefObject, RenderableProps, createRef} from 'preact';
+import {createRef} from 'preact';
 import {$, delay, fetchData} from '@zui/core';
-import {Pick, PickTrigger} from '@zui/pick/src/components';
-import {PickTriggerProps} from '@zui/pick/src/types';
-import {PickerItemBasic, PickerItemOptions, PickerMenuProps, PickerOptions, PickerSelectProps, PickerState} from '../types';
-import '@zui/form-control/src/style/index.css';
-import '../style';
+import {Pick} from '@zui/pick/src/components';
 import {PickerMultiSelect} from './picker-multi-select';
 import {PickerSingleSelect} from './picker-single-select';
 import {PickerMenu} from './picker-menu';
+
+import type {ComponentType, RefObject, RenderableProps} from 'preact';
+import type {ListItem, ListItemsFetcher} from '@zui/list';
+import type {PickTriggerProps} from '@zui/pick';
+import type {PickTrigger} from '@zui/pick/src/components';
+import type {PickerItemBasic, PickerItemOptions, PickerMenuProps, PickerOptions, PickerSelectProps, PickerState} from '../types';
 
 type PickerTrigger = PickTrigger<PickerState, PickerSelectProps>;
 
@@ -126,7 +128,10 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
         return this.valueList.includes(value);
     };
 
-    async load(): Promise<PickerItemOptions[]> {
+    /**
+     * @todo Let SearchMenu to load items.
+     */
+    async load(): Promise<ListItem[]> {
         let abort = this._abort;
         if (abort) {
             abort.abort();
@@ -136,32 +141,15 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
 
         const {items: itemsSetting = [], searchDelay} = this.props;
         const {search} = this.state;
-        let items: PickerItemOptions[] = [];
+        let items: ListItem[] = [];
         if (!Array.isArray(itemsSetting)) {
             await delay(searchDelay || 500);
             if (this._abort !== abort) {
                 return items;
             }
-            items = await fetchData(itemsSetting, [this, search], {signal: abort.signal});
+            items = await fetchData(itemsSetting as ListItemsFetcher, [this, search], {signal: abort.signal});
             if (this._abort !== abort) {
                 return items;
-            }
-        } else if (search.length) {
-            const searchKeys = $.unique(search.toLowerCase().split(' ').filter(x => x.length)) as string[];
-            items = itemsSetting;
-            if (searchKeys.length) {
-                items = itemsSetting.reduce<PickerItemOptions[]>((list, item) => {
-                    const {
-                        value = '',
-                        keys = '',
-                        text,
-                    } = item as PickerItemOptions;
-
-                    if (searchKeys.every(searchKey => value.toLowerCase().includes(searchKey) || keys.toLowerCase().includes(searchKey) || (typeof text === 'string' && text.toLowerCase().includes(searchKey)))) {
-                        list.push(item);
-                    }
-                    return list;
-                }, []);
             }
         } else {
             items = itemsSetting;
@@ -197,11 +185,11 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
             const loadItems = await this.load();
             newState.items = loadItems.filter(x => {
                 x.value = String(x.value);
-                if (this.isEmptyValue(x.value)) {
+                if (this.isEmptyValue(x.value as string)) {
                     return false;
                 }
                 return true;
-            });
+            }) as PickerItemOptions[];
             newState.loading = false;
             cache.items = props.items;
             cache.search = state.search;
@@ -246,7 +234,7 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
         super.componentWillUnmount();
     }
 
-    protected _getTriggerProps(props: RenderableProps<O>, state: Readonly<S>): PickerSelectProps & {ref: RefObject<PickerTrigger>} {
+    protected _getTriggerProps(props: RenderableProps<O>, state: Readonly<S>): PickerSelectProps<S> & {ref: RefObject<PickerTrigger>} {
         return {
             ...super._getTriggerProps(props, state),
             ref: this._trigger,
@@ -266,13 +254,16 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
         };
     }
 
-    protected _getPopProps(props: RenderableProps<O>, state: Readonly<S>): PickerMenuProps {
+    protected _getPopProps(props: RenderableProps<O>, state: Readonly<S>): PickerMenuProps<S> {
         return {
             ...super._getPopProps(props, state),
-            menu: props.checkbox ? $.extend({checkbox: props.checkbox}, props.menu) : props.menu,
+            menu: props.menu,
+            tree: props.tree,
+            checkbox: props.checkbox,
             multiple: props.multiple,
             search: props.search,
             searchHint: props.searchHint,
+            valueList: this.valueList,
             onDeselect: this.deselect,
             onSelect: this.select,
             onClear: this.clear,
@@ -322,6 +313,6 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
                 trigger._skipTriggerChange = stateValue;
             }
         }
-        return this.changeState({value: stateValue});
+        return this.changeState({value: stateValue} as S);
     }
 }

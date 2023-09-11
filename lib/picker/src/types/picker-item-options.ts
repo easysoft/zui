@@ -1,5 +1,5 @@
 import type {CustomContentType} from '@zui/core';
-import type {NestedItem} from '@zui/list/src/types';
+import type {NestedItem} from '@zui/list';
 
 export interface PickerItemBasic {
     value: string;

@@ -12,6 +12,8 @@ export class PickerSearch extends Component<PickerSearchProps, PickerSearchState
 
     protected _measure = createRef<HTMLDivElement>();
 
+    protected _changeTimer = 0;
+
     constructor(props: PickerSearchProps) {
         super(props);
         this.state = {search: props.defaultSearch ?? ''};
@@ -37,10 +39,25 @@ export class PickerSearch extends Component<PickerSearchProps, PickerSearchState
         }
     }
 
+    componentWillUnmount(): void {
+        clearTimeout(this._changeTimer);
+    }
+
     #handleChange = (event: Event) => {
         const search = (event.target as HTMLInputElement).value;
-        this.props.onSearch?.(search);
-        this.setState({search});
+        this.setState({search}, () => {
+            const {onSearch} = this.props;
+            if (!onSearch) {
+                return;
+            }
+            if (this._changeTimer) {
+                clearTimeout(this._changeTimer);
+            }
+            this._changeTimer = window.setTimeout(() => {
+                this._changeTimer = 0;
+                onSearch(search);
+            }, this.props.debounce || 300);
+        });
         event.stopPropagation();
     };
 

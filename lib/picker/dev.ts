@@ -5,6 +5,7 @@ import '@zui/menu';
 import '@zui/form-control';
 import '@zui/checkbox';
 import '@zui/avatar';
+import '@zui/tree';
 import {Picker} from './src/main';
 
 const items = [
@@ -59,6 +60,7 @@ onPageUpdate(() => {
         name: 'selectSome',
         multiple: true,
         items: '/lib/picker/dev/nested-items.json',
+        tree: true,
         menu: {
             itemProps: {
                 avatarClass: 'size-sm',
@@ -96,6 +98,7 @@ onPageUpdate(() => {
     const multiPickerNested = new Picker('#multiPickerNested', {
         name: 'selectSome',
         multiple: true,
+        tree: true,
         items: nestedItems,
         menu: {
             itemProps: {

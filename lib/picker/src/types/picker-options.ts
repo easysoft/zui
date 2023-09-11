@@ -1,5 +1,6 @@
 import type {PickOptions} from '@zui/pick';
-import type {MenuOptions} from '@zui/menu/src/types';
+import type {MenuOptions} from '@zui/menu';
+import type {TreeOptions} from '@zui/tree';
 import type {PickerState} from './picker-state';
 
 export interface PickerOptions<S extends PickerState = PickerState> extends PickOptions<S> {
@@ -10,6 +11,7 @@ export interface PickerOptions<S extends PickerState = PickerState> extends Pick
     valueSplitter?: string;
     emptyValue?: string;
     limitValueInList?: boolean;
+    tree?: TreeOptions | boolean;
     menu?: MenuOptions;
     checkbox?: MenuOptions['checkbox'];
     items: MenuOptions['items'];
