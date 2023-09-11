@@ -67,9 +67,14 @@ export class CommonList<P extends CommonListProps = CommonListProps, S = {}> ext
     protected declare _keyIndexes: ItemKey[];
 
     /**
-     * Store the rendered items.
+     * Store the raw items.
      */
     protected declare _items: Item[];
+
+    /**
+     * Store the rendered items.
+     */
+    protected declare _renderedItems: Item[];
 
     /**
      * Get the root element name, used for class name.
@@ -101,15 +106,20 @@ export class CommonList<P extends CommonListProps = CommonListProps, S = {}> ext
      * @param key  The item key.
      * @returns The rendered item.
      */
-    getItemByKey(key: ItemKey): Item | undefined {
-        if (!this._items) {
+    getItemByKey(key: ItemKey, rendered = false): Item | undefined {
+        const items = rendered ? this._renderedItems : this._items;
+        if (!items) {
             return;
         }
         const index = this._keyIndexes?.indexOf(key);
         if (index === undefined || index < 0) {
             return;
         }
-        return this._items[index];
+        return items[index];
+    }
+
+    getRenderedItemByKey(key: ItemKey): Item | undefined {
+        return this.getItemByKey(key);
     }
 
     /**
@@ -128,6 +138,8 @@ export class CommonList<P extends CommonListProps = CommonListProps, S = {}> ext
                 item = result;
             }
         }
+
+        this._renderedItems[index] = item;
 
         const {type} = item;
         let {itemRender} = props;
@@ -207,6 +219,7 @@ export class CommonList<P extends CommonListProps = CommonListProps, S = {}> ext
         } else if (!Array.isArray(items)) {
             items = [];
         }
+        this._renderedItems = [];
         this._items = items as Item[];
         this._keyIndexes = [];
         return this._items.reduce<Item[]>((list, item, index) => {
