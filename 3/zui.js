@@ -2567,15 +2567,13 @@ class Gn extends dt {
       content: c
     } = t, d = o && a, h = d ? "a" : "div";
     let { title: p, text: m } = t;
-    p === void 0 && (p = m, m = null);
-    const g = [
-      p ? /* @__PURE__ */ f(h, { className: T("item-title", n), href: d ? o : void 0, target: d ? l : void 0, children: p }, "title") : null,
-      i ? /* @__PURE__ */ f("div", { className: T("item-subtitle", r), children: i }, "subtitle") : null,
-      m ? /* @__PURE__ */ f("div", { className: T("item-text text", e), children: m }, "text") : null
-    ];
-    return [
-      /* @__PURE__ */ f("div", { className: "item-content", children: g }, "content"),
-      c ? /* @__PURE__ */ f(Gt, { content: c }, "extraContent") : null
+    return p === void 0 && (p = m, m = null), [
+      /* @__PURE__ */ f("div", { className: "item-content", children: [
+        p ? /* @__PURE__ */ f(h, { className: T("item-title", n), href: d ? o : void 0, target: d ? l : void 0, children: p }, "title") : null,
+        i ? /* @__PURE__ */ f("div", { className: T("item-subtitle", r), children: i }, "subtitle") : null,
+        m ? /* @__PURE__ */ f("div", { className: T("item-text text", e), children: m }, "text") : null,
+        c ? /* @__PURE__ */ f(Gt, { content: c }, "extraContent") : null
+      ] }, "content")
     ];
   }
   _renderTrailing(t) {
@@ -2700,6 +2698,9 @@ let gs = class extends ft {
       d && (i.checked === void 0 && (i.checked = !1), typeof d == "object" && (i.checkbox = i.checkbox ? u.extend({}, d, i.checkbox) : d));
     }
     return i.icon && (this._hasIcons = !0), i.checked !== void 0 && (this._hasCheckbox = !0), i;
+  }
+  _renderItem(t, e, n) {
+    return e.type === "item" && this._hasIcons && e.icon === void 0 && (e.icon = "EMPTY"), super._renderItem(t, e, n);
   }
   _getItemFromEvent(t) {
     const e = t.target.closest("[z-item]");
@@ -2838,7 +2839,7 @@ let Re = class extends gs {
     return o;
   }
   _renderItem(t, e, n) {
-    return e.type === "item" && (this._hasIcons && !e.icon && (e.icon = "_"), this._hasNestedItems && !e.toggleIcon && (e.toggleIcon = this._renderNestedToggle(t, null))), super._renderItem(t, e, n);
+    return e.type === "item" && this._hasNestedItems && e.toggleIcon === void 0 && (e.toggleIcon = this._renderNestedToggle(t, null)), super._renderItem(t, e, n);
   }
   _getItemFromEvent(t) {
     const e = super._getItemFromEvent(t);
@@ -6950,7 +6951,7 @@ let Cs = class extends st {
 };
 Cs.NAME = "tree";
 Cs.defaultItemProps = {
-  ...st.defaultProps,
+  ...st.defaultItemProps,
   innerComponent: "div"
 };
 Cs.inheritNestedProps = [...st.inheritNestedProps, "itemActions", "expandedIcon", "collapsedIcon", "normalIcon"];
