@@ -111,6 +111,13 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
         return renderedItem;
     }
 
+    protected _renderItem(props: RenderableProps<P>, item: Item, index: number): ComponentChildren {
+        if (item.type === 'item' && this._hasIcons && item.icon === undefined) {
+            item.icon = 'EMPTY';
+        }
+        return super._renderItem(props, item, index);
+    }
+
     protected _getItemFromEvent(event: MouseEvent): {
         index: number;
         item: Item;

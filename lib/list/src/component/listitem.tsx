@@ -65,16 +65,13 @@ export class Listitem<P extends ListitemProps = ListitemProps, S = {}> extends H
             title = text;
             text = null;
         }
-        const contents: ComponentChild[] = [
-            title ? <TitleComponent key="title" className={classes('item-title', titleClass)} href={titleAsLink ? url : undefined} target={titleAsLink ? target : undefined}>{title}</TitleComponent> : null,
-            subtitle ? <div key="subtitle" className={classes('item-subtitle', subtitleClass)}>{subtitle}</div> : null,
-            text ? <div key="text" className={classes('item-text text', textClass)}>{text}</div> : null,
-        ];
         return [
             <div className="item-content" key="content">
-                {contents}
+                {title ? <TitleComponent key="title" className={classes('item-title', titleClass)} href={titleAsLink ? url : undefined} target={titleAsLink ? target : undefined}>{title}</TitleComponent> : null}
+                {subtitle ? <div key="subtitle" className={classes('item-subtitle', subtitleClass)}>{subtitle}</div> : null}
+                {text ? <div key="text" className={classes('item-text text', textClass)}>{text}</div> : null}
+                {content ? <CustomContent key="extraContent" content={content} /> : null}
             </div>,
-            content ? <CustomContent key="extraContent" content={content} /> : null,
         ];
     }
 

@@ -178,10 +178,7 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
 
     protected _renderItem(props: RenderableProps<P>, item: Item, index: number): ComponentChildren {
         if (item.type === 'item') {
-            if (this._hasIcons && !item.icon) {
-                item.icon = '_';
-            }
-            if (this._hasNestedItems && !item.toggleIcon) {
+            if (this._hasNestedItems && item.toggleIcon === undefined) {
                 item.toggleIcon = this._renderNestedToggle(props, null);
             }
         }

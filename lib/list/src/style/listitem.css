@@ -10,13 +10,17 @@
   @apply -flex-none;
 }
 
+.item-icon.icon-EMPTY {
+  @apply -hidden;
+}
+
 .item-subtitle {
   @apply -text-sm -opacity-80;
 }
 
 .item-text,
 .item-content {
-  @apply -flex-auto;
+  @apply -flex-auto -min-w-0;
 }
 
 .item-leading,
