@@ -3,20 +3,20 @@
         "text": "水果",
         "value": "fruit",
         "items": [
-            {"text": "西红柿", "value": "tomato", "keys": "fruit food xihongshi", "subtitle": "绿色蔬菜"},
-            {"text": "西瓜", "value": "watermelon", "keys": "fruit food xigua"},
-            {"text": "苹果", "value": "apple", "keys": "fruit food pingguo"},
-            {"text": "香蕉", "value": "banana", "keys": "fruit food xiangjiao", "disabled": true}
+            {"text": "西红柿", "value": "fruit/tomato", "keys": "fruit food xihongshi", "subtitle": "绿色蔬菜"},
+            {"text": "西瓜", "value": "fruit/watermelon", "keys": "fruit food xigua"},
+            {"text": "苹果", "value": "fruit/apple", "keys": "fruit food pingguo"},
+            {"text": "香蕉", "value": "fruit/banana", "keys": "fruit food xiangjiao", "disabled": true}
         ]
     },
     {
         "text": "蔬菜",
         "value": "vegetable",
         "items": [
-            {"text": "西红柿", "value": "tomato", "keys": "fruit food xihongshi"},
-            {"text": "西瓜2", "value": "watermelon2", "keys": "fruit food xigua"},
-            {"text": "苹果2", "value": "apple2", "keys": "fruit food pingguo"},
-            {"text": "香蕉2", "value": "banana2", "keys": "fruit food xiangjiao"}
+            {"text": "西红柿", "value": "vegetable/tomato", "keys": "fruit food xihongshi"},
+            {"text": "西瓜", "value": "vegetable/watermelon", "keys": "fruit food xigua"},
+            {"text": "苹果", "value": "vegetable/apple", "keys": "fruit food pingguo"},
+            {"text": "香蕉", "value": "vegetable/banana", "keys": "fruit food xiangjiao"}
         ]
     }
 ]

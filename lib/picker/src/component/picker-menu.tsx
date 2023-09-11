@@ -6,8 +6,8 @@ import {PickPop} from '@zui/pick/src/components';
 import '@zui/css-icons/src/icons/close.css';
 
 import type {NestedItem, NestedListItem} from '@zui/list';
+import type {MenuOptions, SearchMenuOptions} from '@zui/menu';
 import type {PickerMenuProps, PickerState} from '../types';
-import {MenuOptions, SearchMenuOptions} from '@zui/menu/src/types';
 
 function getValueMap(items: NestedItem[], userMap?: Map<string, NestedItem>): Map<string, NestedItem> {
     return items.reduce<Map<string, NestedItem>>((map, item) => {
@@ -27,6 +27,10 @@ export class PickerMenu extends PickPop<PickerState, PickerMenuProps> {
     protected declare _hasCheckbox: boolean;
 
     protected declare _getItemCallback: MenuOptions['getItem'];
+
+    protected declare _renderItemCallback: MenuOptions['beforeRenderItem'];
+
+    protected _disabledSet: Set<string> = new Set();
 
     _getHoverItem() {
         const menu = this.element;
@@ -65,20 +69,32 @@ export class PickerMenu extends PickPop<PickerState, PickerMenuProps> {
             items: subItems,
         };
         const result = this._getItemCallback?.call(this, item, index);
-        return result ?? item;
+        if (!result) {
+            return result;
+        }
+        item = result;
+        if (item.disabled) {
+            this._disabledSet.add(item.value as string);
+        }
+        return item;
     };
 
-    _handleItemClick = ({item, event}: {item: NestedListItem, event: MouseEvent}) => {
+    _beforeRenderItem = (item: NestedItem, index: number) => {
+        return this._renderItemCallback?.call(this, item, index);
+    };
+
+    _handleItemClick = ({item, event}: {item: NestedListItem, event: MouseEvent, renderedItem: NestedItem}) => {
         const value = item.value as string;
-        if (item.disabled || value === undefined || (event.target as HTMLElement).closest('.item-icon,.nested-toggle-icon,.disabled')) {
+        const target = event.target as HTMLElement;
+        if (item.disabled || value === undefined || target.closest('.item-icon,.nested-toggle-icon,.disabled')) {
             return;
         }
         const {multiple, onToggleValue, onSelect, togglePop, onDeselect} = this.props;
         if (multiple) {
             if (item.items) {
                 const map = getValueMap(item.items as NestedItem[]);
-                const values = [...map.values()].filter(x => !x.items).map(x => x.value as string);
-                if ((event.target as HTMLElement).closest('.item-inner.active')) {
+                const values = [...map.values()].filter(x => !x.items && !this._disabledSet.has(x.value as string)).map(x => x.value as string);
+                if (target.closest('.item-inner.active')) {
                     onDeselect(values);
                 } else {
                     onSelect(values);
@@ -118,10 +134,13 @@ export class PickerMenu extends PickPop<PickerState, PickerMenuProps> {
 
     protected _renderPop(props: RenderableProps<PickerMenuProps>): ComponentChildren {
         const {tree} = props;
+        this._disabledSet.clear();
         const menuProps = this._getMenuProps(props);
         this._hasCheckbox = !!menuProps.checkbox;
         this._getItemCallback = menuProps.getItem;
+        this._renderItemCallback = menuProps.beforeRenderItem;
         menuProps.getItem = this._getItem;
+        menuProps.beforeRenderItem = this._beforeRenderItem;
         if (tree) {
             return <SearchTree hover {...menuProps} />;
         }

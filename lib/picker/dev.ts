@@ -31,7 +31,7 @@ const nestedItems = [
             {text: '西红柿', value: 'tomato', keys: 'fruit food xihongshi', subtitle: '绿色蔬菜'},
             {text: '西瓜', value: 'watermelon', keys: 'fruit food xigua'},
             {text: '苹果', value: 'apple', keys: 'fruit food pingguo'},
-            {text: '香蕉', value: 'banana', keys: 'fruit food xiangjiao'},
+            {text: '香蕉', value: 'banana', keys: 'fruit food xiangjiao', disabled: true},
         ],
     },
     {
@@ -66,7 +66,7 @@ onPageUpdate(() => {
                 avatarClass: 'size-sm',
             },
             checkbox: true,
-            getItem: (item) => {
+            getItem(item) {
                 if (item.type === 'item') {
                     if (item.items) {
                         item.titleClass = 'font-bold';
@@ -76,6 +76,16 @@ onPageUpdate(() => {
                             size: 'xs',
                             circle: true,
                         };
+                        // 对选择项值为 `xxx/xxx` 进行特殊判断
+                        const value = item.value;
+                        if (typeof value === 'string' && value.includes('/')) {
+                            // 获取 `/xxx` 的部分
+                            const suffix = '/' + value.split('/')[1];
+                            // 判断已选中的值中是否保护 `/xxx` 结尾的值，如果有，将当前项目设置为禁用
+                            if (this.props.valueList.some(x => x !== value && x.endsWith(suffix))) {
+                                item.disabled = true;
+                            }
+                        }
                     }
                 }
                 return item;
@@ -105,7 +115,7 @@ onPageUpdate(() => {
                 avatarClass: 'size-sm',
             },
             checkbox: true,
-            getItem: (item) => {
+            getItem(item) {
                 if (item.type === 'item') {
                     if (item.items) {
                         item.titleClass = 'font-bold';

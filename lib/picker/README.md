@@ -4,6 +4,8 @@
 
 ## 远程数据
 
+### 单选
+
 ```html:example
 <div id="singlePickerRemote"></div>
 ```
@@ -15,6 +17,8 @@
 ```
 
 ## 多层级
+
+### 单选
 
 ```html:example
 <div id="singlePickerNested"></div>
