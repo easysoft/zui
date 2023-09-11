@@ -1,8 +1,8 @@
 import type {IconType} from '@zui/core';
-import type {ListitemProps} from '@zui/list';
+import type {ListitemProps, NestedItem, NestedListItem} from '@zui/list';
 import type {MenuOptions} from '@zui/menu';
 
-export interface TreeOptions extends MenuOptions {
+export interface TreeOptions<T extends NestedItem = NestedListItem> extends MenuOptions<T> {
     itemActions?: ListitemProps['actions'];
     collapsedIcon?: IconType;
     expandedIcon?: IconType;
