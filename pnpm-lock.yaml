@@ -248,13 +248,13 @@ importers:
       '@zui/core':
         specifier: workspace:^0.0.1
         version: link:../core
-      '@zui/dropdown':
-        specifier: workspace:^0.0.1
-        version: link:../dropdown
     devDependencies:
       '@zui/base':
         specifier: workspace:*
         version: link:../base
+      '@zui/dropdown':
+        specifier: workspace:*
+        version: link:../dropdown
       '@zui/icons':
         specifier: workspace:*
         version: link:../icons
@@ -667,6 +667,9 @@ importers:
       '@zui/css-icons':
         specifier: workspace:^0.0.1
         version: link:../css-icons
+      '@zui/toolbar':
+        specifier: workspace:^0.0.1
+        version: link:../toolbar
     devDependencies:
       '@zui/base':
         specifier: workspace:*
@@ -761,6 +764,9 @@ importers:
 
   lib/nav:
     dependencies:
+      '@zui/common-list':
+        specifier: workspace:^0.0.1
+        version: link:../common-list
       '@zui/core':
         specifier: workspace:^0.0.1
         version: link:../core
@@ -902,6 +908,9 @@ importers:
       '@zui/pick':
         specifier: workspace:*
         version: link:../pick
+      '@zui/tree':
+        specifier: workspace:*
+        version: link:../tree
     devDependencies:
       '@zui/utilities':
         specifier: workspace:*
