@@ -29,7 +29,7 @@
 }
 
 .item-checkbox {
-  @apply --mr-1;
+  @apply --mr-2;
 }
 
 .item-content {
