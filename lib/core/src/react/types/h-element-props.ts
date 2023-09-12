@@ -28,7 +28,7 @@ export interface HElementProps extends PreactDOMAttributes {
     /**
      * The extra data.
      */
-    data?: Record<string, unknown>;
+    data?: unknown;
 
     /**
      * The ref of the element.
