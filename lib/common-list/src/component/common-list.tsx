@@ -69,7 +69,7 @@ export class CommonList<P extends CommonListProps = CommonListProps, S = {}> ext
     /**
      * Store the rendered items.
      */
-    protected declare _renderedItems: (Item | false)[];
+    protected declare _renderedItems: Item[];
 
     /**
      * Get the root element name, used for class name.
@@ -92,7 +92,7 @@ export class CommonList<P extends CommonListProps = CommonListProps, S = {}> ext
      * @returns The item key, if the item is not rendered, return undefined.
      */
     getKey(index: number): ItemKey | undefined {
-        return this._items?.[index]?.key;
+        return this._renderedItems?.[index]?.key;
     }
 
     /**
@@ -211,8 +211,8 @@ export class CommonList<P extends CommonListProps = CommonListProps, S = {}> ext
             if (finalItem) {
                 children.push(this._renderItem(props, finalItem, index));
             }
-            return finalItem;
-        });
+            return finalItem ? finalItem : undefined;
+        }) as Item[];
         return children;
     }
 
