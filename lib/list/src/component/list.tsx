@@ -63,7 +63,7 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
     tryLoad(): void {
         const {loading} = this.state;
         const {items} = this.props;
-        if (!loading || !items || Array.isArray(items) || items === this._loadedSetting) {
+        if (loading || !items || Array.isArray(items) || items === this._loadedSetting) {
             return;
         }
         this.load();
@@ -71,6 +71,12 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
 
     protected _afterRender(firstRender: boolean) {
         this.props.afterRender?.call(this, firstRender);
+    }
+
+    protected _getItems(props: RenderableProps<P>): Item[] {
+        const {items} = props;
+        const {items: stateItems} = this.state;
+        return stateItems || (Array.isArray(items) ? items : []);
     }
 
     protected _getItem(props: RenderableProps<P>, item: Item, index: number): Item | false {
@@ -139,7 +145,8 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
         if (key === undefined) {
             return;
         }
-        return {index, item, element, event, key, renderedItem: this.getRenderedItemByKey(key)!};
+        const renderedItem = this._renderedItems[index];
+        return {index, item, element, event, key, renderedItem};
     }
 
     protected _handleClick(event: MouseEvent) {
