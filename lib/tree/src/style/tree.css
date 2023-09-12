@@ -1,11 +1,11 @@
 /* Tree content. */
 .tree-item-inner {
-  @apply -flex -flex-row -items-center -gap-1 -min-h-[24px] -pl-[--list-nested-indent];
+  @apply -flex -flex-row -items-center -min-h-[24px] -pl-[--list-nested-indent];
 }
 
 /* Toggle icon. */
 .tree-toggle {
-  @apply -w-4 -flex -items-center -justify-center -rounded -h-4 -flex-none -mr-0;
+  @apply -w-4 -flex -items-center -justify-center -rounded -h-4 -flex-none;
   --caret-size: 5px;
   --caret-opacity: .3;
 }
