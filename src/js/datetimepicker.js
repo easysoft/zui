@@ -1267,12 +1267,12 @@
             var $this = $(this),
                 data = $this.data('datetimepicker'),
                 options = typeof option == 'object' && option;
-            if(!data) {
-                $this.data('datetimepicker', (data = new Datetimepicker(this, $.extend({}, $.fn.datetimepicker.defaults, $this.data(), options))));
-            } else {
+            if(data) {
                 if(typeof option == 'string' && typeof data[option] == 'function') {
                     data[option].apply(data, args);
                 }
+            } else if (typeof option !== 'string') {
+                $this.data('datetimepicker', (data = new Datetimepicker(this, $.extend({}, $.fn.datetimepicker.defaults, $this.data(), options))));
             }
         });
     };
