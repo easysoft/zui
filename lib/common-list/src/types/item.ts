@@ -2,7 +2,7 @@ import type {HElementProps} from '@zui/core';
 
 export type ItemType = 'item' | 'divider' | 'space' | (string & {});
 
-export type ItemKey = string | number;
+export type ItemKey = string;
 
 /** HList item. */
 export interface Item extends HElementProps {

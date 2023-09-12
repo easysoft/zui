@@ -149,17 +149,17 @@ export class CommonList<P extends CommonListProps = CommonListProps, S = {}> ext
         const {defaultItemProps = {}, defaultItemPropsMap = {}} = this.constructor;
 
         item = mergeProps(
-            {
-                type,
-                key: item[keyName] ?? index,
-                _index: index,
-            },
+            {type},
             defaultItemProps,
             defaultItemPropsMap[type],
             itemProps,
             itemPropsMap[type],
             {className: [name ? `${name}-${type}` : '', itemName]},
             item,
+            {
+                _index: index,
+                key: String((keyName ? item[keyName] : item.key) ?? index),
+            },
         );
 
         if (getItem) {
