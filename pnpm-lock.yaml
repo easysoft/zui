@@ -1208,6 +1208,19 @@ importers:
         specifier: workspace:*
         version: link:../../dev
 
+  lib/virtualize:
+    dependencies:
+      '@zui/core':
+        specifier: workspace:^0.0.1
+        version: link:../core
+    devDependencies:
+      '@zui/utilities':
+        specifier: workspace:*
+        version: link:../utilities
+      zui-dev:
+        specifier: workspace:*
+        version: link:../../dev
+
 packages:
 
   /@aashutoshrathi/word-wrap@1.2.6:

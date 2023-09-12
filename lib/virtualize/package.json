@@ -1,0 +1,26 @@
+{
+    "name": "@zui/virtualize",
+    "version": "0.0.1",
+    "main": "src/main.ts",
+    "files": [
+        "./src/**/*"
+    ],
+    "dependencies": {
+        "@zui/core": "workspace:^0.0.1"
+      },
+    "devDependencies": {
+        "zui-dev": "workspace:*",
+        "@zui/utilities": "workspace:*"
+    },
+    "zui": {
+        "type": "component",
+        "displayName": "虚拟渲染",
+        "wip": true,
+        "contributes": {
+            "css": [
+                "class",
+                "var"
+            ]
+        }
+    }
+}
