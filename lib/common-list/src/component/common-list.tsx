@@ -1,6 +1,6 @@
 import {HElement, mergeProps} from '@zui/core';
 
-import type {ComponentChildren, ComponentType, JSX, RenderableProps} from 'preact';
+import type {ComponentChild, ComponentChildren, ComponentType, JSX, RenderableProps} from 'preact';
 import type {ClassNameLike} from '../../../core/src/helpers';
 import type {CommonListProps, Item, ItemKey, ItemType} from '../types';
 
@@ -62,11 +62,6 @@ export class CommonList<P extends CommonListProps = CommonListProps, S = {}> ext
     declare ['constructor']: typeof CommonList;
 
     /**
-     * Store the rendered item keys by index.
-     */
-    protected declare _keyIndexes: ItemKey[];
-
-    /**
      * Store the raw items.
      */
     protected declare _items: Item[];
@@ -74,7 +69,7 @@ export class CommonList<P extends CommonListProps = CommonListProps, S = {}> ext
     /**
      * Store the rendered items.
      */
-    protected declare _renderedItems: Item[];
+    protected declare _renderedItems: (Item | false)[];
 
     /**
      * Get the root element name, used for class name.
@@ -97,29 +92,7 @@ export class CommonList<P extends CommonListProps = CommonListProps, S = {}> ext
      * @returns The item key, if the item is not rendered, return undefined.
      */
     getKey(index: number): ItemKey | undefined {
-        return this._keyIndexes?.[index];
-    }
-
-    /**
-     * Get the rendered item by index.
-     *
-     * @param key  The item key.
-     * @returns The rendered item.
-     */
-    getItemByKey(key: ItemKey, rendered = false): Item | undefined {
-        const items = rendered ? this._renderedItems : this._items;
-        if (!items) {
-            return;
-        }
-        const index = this._keyIndexes?.indexOf(key);
-        if (index === undefined || index < 0) {
-            return;
-        }
-        return items[index];
-    }
-
-    getRenderedItemByKey(key: ItemKey): Item | undefined {
-        return this.getItemByKey(key);
+        return this._items?.[index]?.key;
     }
 
     /**
@@ -138,8 +111,6 @@ export class CommonList<P extends CommonListProps = CommonListProps, S = {}> ext
                 item = result;
             }
         }
-
-        this._renderedItems[index] = item;
 
         const {type} = item;
         let {itemRender} = props;
@@ -178,7 +149,11 @@ export class CommonList<P extends CommonListProps = CommonListProps, S = {}> ext
         const {defaultItemProps = {}, defaultItemPropsMap = {}} = this.constructor;
 
         item = mergeProps(
-            {type, key: item[keyName] ?? index},
+            {
+                type,
+                key: item[keyName] ?? index,
+                _index: index,
+            },
             defaultItemProps,
             defaultItemPropsMap[type],
             itemProps,
@@ -219,17 +194,26 @@ export class CommonList<P extends CommonListProps = CommonListProps, S = {}> ext
         } else if (!Array.isArray(items)) {
             items = [];
         }
-        this._renderedItems = [];
-        this._items = items as Item[];
-        this._keyIndexes = [];
-        return this._items.reduce<Item[]>((list, item, index) => {
+        return items as Item[];
+    }
+
+    /**
+     * Render items.
+     *
+     * @param props  props  Current list properties.
+     * @param items  Render items.
+     * @returns React render children.
+     */
+    protected _renderItems(props: RenderableProps<P>, items: Item[]): ComponentChild[] {
+        const children: ComponentChild[] = [];
+        this._renderedItems = items.map((item, index) => {
             const finalItem = this._getItem(props, item, index);
-            if (finalItem !== false) {
-                list.push(finalItem);
-                this._keyIndexes![index] = finalItem.key!;
+            if (finalItem) {
+                children.push(this._renderItem(props, finalItem, index));
             }
-            return list;
-        }, []);
+            return finalItem;
+        });
+        return children;
     }
 
     /**
@@ -240,7 +224,8 @@ export class CommonList<P extends CommonListProps = CommonListProps, S = {}> ext
      */
     protected _getChildren(props: RenderableProps<P>): ComponentChildren {
         const items = this._getItems(props);
-        const children = items.map((item, index) => this._renderItem(props, item, index));
+        this._items = items;
+        const children = this._renderItems(props, items);
         if (props.children) {
             children.push(props.children);
         }
