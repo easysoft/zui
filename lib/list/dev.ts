@@ -6,6 +6,18 @@ import '@zui/checkbox';
 import {List, NestedList} from './src/main';
 
 onPageUpdate(() => {
+    const remoteNestedList = new NestedList('#remoteNestedList', {
+        items: '/lib/list/dev/nested-items.json',
+        checkbox: true,
+    });
+    console.log('> remoteNestedList', remoteNestedList);
+
+    const remoteSimpleList = new List('#remoteSimpleList', {
+        checkbox: true,
+        items: '/lib/list/dev/items.json',
+    });
+    console.log('> remoteSimpleList', remoteSimpleList);
+
     const items = [
         {
             type: 'heading',
