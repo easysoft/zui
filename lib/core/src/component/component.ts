@@ -47,9 +47,7 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
      * ZUI name
      */
     static get ZUI() {
-        return this.NAME.replace(/(^[A-Z]+)/, (match) => {
-            return match.toLowerCase();
-        });
+        return this.NAME.replace(/(^[A-Z]+)/, (match) => match.toLowerCase());
     }
 
     /**
