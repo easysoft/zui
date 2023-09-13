@@ -1,6 +1,7 @@
 import {isValidElement} from 'preact';
 import {HtmlContent} from './html-content';
 import {HElement} from './h-element';
+import {registerComponent} from './components';
 
 import type {ComponentChildren, VNode} from 'preact';
 import type {HtmlContentProps, HElementProps, CustomContentType, CustomContentGenerator, CustomContentProps} from '../types';
@@ -53,3 +54,5 @@ export function CustomContent(props: CustomContentProps): VNode | null {
     }
     return <>{result}</>;
 }
+
+registerComponent({CustomContent, custom: CustomContent});
