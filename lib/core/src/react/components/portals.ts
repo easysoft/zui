@@ -18,7 +18,7 @@ function ContextProvider(this: any, props: RenderableProps<{context: any}>) {
  *
  * TODO: use createRoot() instead of fake root
  */
-function Portal(this: any, props: any) {
+export function Portal(this: any, props: any) {
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const that = this;
     const container = props._container;

@@ -54,5 +54,3 @@ export function CustomContent(props: CustomContentProps): VNode | null {
     }
     return <>{result}</>;
 }
-
-registerComponent({CustomContent, custom: CustomContent});

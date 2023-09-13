@@ -4,15 +4,15 @@ const components: Record<string, ComponentType> = {};
 
 export function registerComponent<P = {}>(name: string, component?: ComponentType<P>): void;
 
-export function registerComponent<P = {}>(componentMap: Record<string, ComponentType<P>>): void;
+export function registerComponent(componentMap: Record<string, unknown>): void;
 
-export function registerComponent<P = {}>(nameOrMap: string | Record<string, ComponentType<P>>, component?: ComponentType<P>): void {
+export function registerComponent(nameOrMap: string | Record<string, unknown>, component?: ComponentType): void {
     if (typeof nameOrMap === 'object') {
         Object.keys(nameOrMap).forEach(name => {
-            registerComponent(name, nameOrMap[name]);
+            registerComponent(name, nameOrMap[name] as ComponentType);
         });
     } else if (component) {
-        components[nameOrMap.toLowerCase()] = component as ComponentType;
+        components[nameOrMap.toLowerCase()] = component;
     }
 }
 
