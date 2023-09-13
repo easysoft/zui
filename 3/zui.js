@@ -1011,7 +1011,7 @@ class Eo {
   }
   _emit(t, ...e) {
     this._callbacks[t].forEach((n) => {
-      n(...e);
+      n.call(this, ...e);
     });
   }
   async send() {
