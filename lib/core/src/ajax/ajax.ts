@@ -220,7 +220,7 @@ export class Ajax<T> {
 
     private _emit<N extends keyof AjaxCallbackMap>(name: N, ...args: Parameters<AjaxCallbackMap[N]>) {
         this._callbacks[name].forEach((callback) => {
-            callback(...(args as [arg0: Error & Response, statusText: string, arg2: string & Response]));
+            callback.call(this, ...(args as [arg0: Error & Response, statusText: string, arg2: string & Response]));
         });
     }
 
