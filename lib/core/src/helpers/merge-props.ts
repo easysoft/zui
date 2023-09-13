@@ -16,7 +16,7 @@ export function mergeProps<T extends Record<string, unknown> = Record<string, un
                     value = [oldValue, value];
                 } else if (key === 'children') {
                     value = [...(Array.isArray(oldValue) ? oldValue : [oldValue]), ...(Array.isArray(value) ? value : [value])];
-                } else if (typeof oldValue == 'object' && (key === 'style' || key.endsWith('Style') || key === 'attrs' || key.endsWith('Attrs'))) {
+                } else if (typeof oldValue == 'object' && (key === 'style' || key.endsWith('Style') || key === 'attrs' || key.endsWith('Attrs') || key === 'props')) {
                     value = $.extend(oldValue, value);
                 }
             }
