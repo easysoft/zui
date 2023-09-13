@@ -26,6 +26,11 @@ export interface HElementProps extends PreactDOMAttributes {
     attrs?: Record<string, unknown>;
 
     /**
+     * The component properties.
+     */
+    props?: Record<string, unknown>;
+
+    /**
      * The extra data.
      */
     data?: unknown;
