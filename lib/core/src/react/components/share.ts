@@ -7,8 +7,11 @@ import {registerComponent} from './components';
 
 registerComponent({
     HElement,
+    element: HElement,
     HtmlContent,
+    html: HtmlContent,
     CustomContent,
+    custom: CustomContent,
     Icon,
     Portal,
 });
