@@ -698,6 +698,7 @@ export default [
             "workspace": true,
             "sourceType": "build-in",
             "name": "event-bus",
+            "wip": true,
             "order": 3010000019,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/event-bus/package.json"
         }
