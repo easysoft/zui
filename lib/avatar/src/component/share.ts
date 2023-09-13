@@ -1,4 +1,4 @@
-import {registerComponent} from '@zui/core';
+import {registerReactComponent} from '@zui/core';
 import * as components from './index';
 
-registerComponent(components);
+registerReactComponent(components);

@@ -4,7 +4,7 @@ import {classes} from '../../helpers/classes';
 import type {JSX, ComponentType, RenderableProps, ComponentChildren} from 'preact';
 import type {ClassNameLike} from '../../helpers/classes';
 import type {HElementProps} from '../types';
-import {getComponent} from './components';
+import {getReactComponent} from './components';
 
 /**
  * The base HTML element.
@@ -27,7 +27,7 @@ export class HElement<P extends HElementProps, S = {}> extends Component<P, S> {
 
     protected _getComponent(props: RenderableProps<P>): ComponentType | keyof JSX.IntrinsicElements {
         const {component = 'div'} = props;
-        return (typeof component === 'string' ? getComponent(component as string) : component) || component;
+        return (typeof component === 'string' ? getReactComponent(component as string) : component) || component;
     }
 
     protected _getChildren(props: RenderableProps<P>): ComponentChildren {

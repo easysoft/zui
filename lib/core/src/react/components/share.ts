@@ -3,9 +3,9 @@ import {HtmlContent} from './html-content';
 import {CustomContent} from './custom-content';
 import {Icon} from './icon';
 import {Portal} from './portals';
-import {registerComponent} from './components';
+import {registerReactComponent} from './components';
 
-registerComponent({
+registerReactComponent({
     HElement,
     element: HElement,
     HtmlContent,
