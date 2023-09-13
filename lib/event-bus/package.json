@@ -11,6 +11,7 @@
     "zui": {
         "type": "js-helpers",
         "displayName": "Event Bus",
+        "wip": true,
         "contributes": {
             "js": ["class"]
         }
