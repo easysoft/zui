@@ -4,6 +4,7 @@ import {HElement} from './h-element';
 
 import type {ComponentChildren, VNode} from 'preact';
 import type {HtmlContentProps, HElementProps, CustomContentType, CustomContentGenerator, CustomContentProps} from '../types';
+import {mergeProps} from '../../helpers';
 
 /**
  * Render custom content.
@@ -24,14 +25,19 @@ export function renderCustomContent(
     if (Array.isArray(content)) {
         return content.map((x) => renderCustomContent(x, generatorThis, generatorArgs));
     }
-    if (isValidElement(content) || content === null) {
-        return content;
-    }
-    if (typeof content === 'object') {
+    if (typeof content === 'object' && ((content as HtmlContentProps).html || (content as HtmlContentProps).component)) {
         if ((content as HtmlContentProps).html) {
             return <HtmlContent {...content as HtmlContentProps} />;
         }
+        let {children} = content as HElementProps;
+        if (children) {
+            children = Array.isArray(children) ? children : [children];
+            content = mergeProps({children: (children as CustomContentType[]).map((x) => renderCustomContent(x, generatorThis, generatorArgs))}, content);
+        }
         return <HElement {...content as HElementProps} />;
+    }
+    if (isValidElement(content) || content === null) {
+        return content;
     }
     return content;
 }
