@@ -1,10 +1,10 @@
 import {h, Component} from 'preact';
 import {classes} from '../../helpers/classes';
+import {getReactComponent} from './components';
 
 import type {JSX, ComponentType, RenderableProps, ComponentChildren} from 'preact';
 import type {ClassNameLike} from '../../helpers/classes';
 import type {HElementProps} from '../types';
-import {getReactComponent} from './components';
 
 /**
  * The base HTML element.

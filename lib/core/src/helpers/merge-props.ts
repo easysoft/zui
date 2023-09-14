@@ -1,3 +1,4 @@
+import {ComponentChildren, toChildArray} from 'preact';
 import {$} from '../cash';
 
 export function mergeProps<T extends Record<string, unknown> = Record<string, unknown>>(props: Record<string, unknown>, ...args: unknown[]) {
@@ -15,7 +16,7 @@ export function mergeProps<T extends Record<string, unknown> = Record<string, un
                 if (key === 'className' || key.endsWith('Class')) {
                     value = [oldValue, value];
                 } else if (key === 'children') {
-                    value = [...(Array.isArray(oldValue) ? oldValue : [oldValue]), ...(Array.isArray(value) ? value : [value])];
+                    value = [...toChildArray(oldValue), ...toChildArray(value as ComponentChildren)];
                 } else if (typeof oldValue == 'object' && (key === 'style' || key.endsWith('Style') || key === 'attrs' || key.endsWith('Attrs') || key === 'props')) {
                     value = $.extend(oldValue, value);
                 }
