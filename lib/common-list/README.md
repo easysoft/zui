@@ -2,5 +2,5 @@
 
 
 ```html:example
-<div id="commonList"></div>
+<ul id="commonList"></ul>
 ```

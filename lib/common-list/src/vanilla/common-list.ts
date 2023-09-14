@@ -7,4 +7,6 @@ export class CommonList extends ComponentFromReact<CommonListProps, CommonListRe
     static NAME = 'CommonList';
 
     static Component = CommonListReact;
+
+    static replace = true;
 }
