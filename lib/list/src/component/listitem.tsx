@@ -57,6 +57,7 @@ export class Listitem<P extends ListitemProps = ListitemProps, S = {}> extends H
             actions,
             target,
             content,
+            contentClass,
         } = props;
         const titleAsLink = url && actions;
         const TitleComponent = titleAsLink ? 'a' : 'div';
@@ -66,9 +67,9 @@ export class Listitem<P extends ListitemProps = ListitemProps, S = {}> extends H
             text = null;
         }
         return [
-            <div className="item-content" key="content">
-                {title ? <TitleComponent key="title" className={classes('item-title', titleClass)} href={titleAsLink ? url : undefined} target={titleAsLink ? target : undefined}>{title}</TitleComponent> : null}
-                {subtitle ? <div key="subtitle" className={classes('item-subtitle', subtitleClass)}>{subtitle}</div> : null}
+            <div className={classes('item-content', contentClass)} key="content">
+                {title ? <TitleComponent key="title" className={classes('item-title', titleClass)} href={titleAsLink ? url : undefined} target={titleAsLink ? target : undefined}><CustomContent content={title} /></TitleComponent> : null}
+                {subtitle ? <div key="subtitle" className={classes('item-subtitle', subtitleClass)}><CustomContent content={subtitle} /></div> : null}
                 {text ? <div key="text" className={classes('item-text text', textClass)}>{text}</div> : null}
                 {content ? <CustomContent key="extraContent" content={content} /> : null}
             </div>,
@@ -82,8 +83,6 @@ export class Listitem<P extends ListitemProps = ListitemProps, S = {}> extends H
             trailingClass,
             trailingIcon,
             actions,
-            actionsClass,
-            actionsAttrs,
         } = props;
         const contents: ComponentChild[] = [];
         if (trailingIcon) {
@@ -96,9 +95,6 @@ export class Listitem<P extends ListitemProps = ListitemProps, S = {}> extends H
                     items: toolbarOptions,
                 };
             }
-            toolbarOptions =  mergeProps(toolbarOptions as Record<string, unknown>, actionsAttrs, {
-                className: actionsClass,
-            });
             contents.push(
                 <Toolbar key="actions" size="sm" {...toolbarOptions} />,
             );

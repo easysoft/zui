@@ -33,7 +33,6 @@ export interface ListitemProps extends Item {
     trailingClass?: ClassNameLike;
     trailingIcon?: IconType;
     actions?: ToolbarItemOptions[] | ToolbarOptions | ((item: Item) => ToolbarItemOptions[] | ToolbarOptions);
-    actionsClass?: ClassNameLike;
-    actionsAttrs?: Record<string, unknown>;
+    contentClass?: ClassNameLike;
     content?: CustomContentType;
 }
