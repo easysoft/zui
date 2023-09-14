@@ -2,7 +2,7 @@ import {$} from '@zui/core';
 import {SearchBox} from '@zui/search-box/src/components';
 import {Menu} from './menu';
 
-import type {ComponentChild, ComponentChildren, RenderableProps} from 'preact';
+import {toChildArray, type ComponentChild, type ComponentChildren, type RenderableProps} from 'preact';
 import type {ClassNameLike} from '@zui/core';
 import type {Item, ItemKey} from '@zui/common-list';
 import type {ListItemsSetting, NestedItem, NestedListItem, NestedListProps} from '@zui/list';
@@ -125,10 +125,7 @@ export class SearchMenu<T extends SearchMenuOptions = SearchMenuOptions> extends
         if (!searchBox) {
             return children;
         }
-        children = children || [];
-        if (!Array.isArray(children)) {
-            children = [children];
-        }
+        children = toChildArray(children);
         const searchOptions: SearchBoxOptions = {
             onChange: this._handleSearchChange,
         };
