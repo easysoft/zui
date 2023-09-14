@@ -71,37 +71,15 @@ export class Card<P extends CardProps = CardProps, S = {}> extends HElement<P, S
             footActions,
         } = props;
         if (footer || footActions) {
-            let toolbarOptions = typeof footActions === 'function' ? footActions.call(this, props) : footActions;
-            if (Array.isArray(toolbarOptions)) {
-                toolbarOptions = {
-                    items: toolbarOptions,
-                };
-            }
-            toolbarOptions = mergeProps({key: 'actions', className: 'card-foot-actions', size: 'sm'}, toolbarOptions);
             return (<div className={classes('card-footer', footerClass)}>
                 <CustomContent key="footer" content={footer} />
-                <Toolbar {...toolbarOptions} />
+                {Toolbar.render(footActions, [props], {key: 'foot-actions', className: 'card-foot-actions', size: 'sm'}, this)}
             </div>);
         }
     }
 
     protected _renderActions(props: RenderableProps<P>): ComponentChildren {
-        const {
-            actions,
-        } = props;
-
-        if (!actions) {
-            return;
-        }
-
-        let toolbarOptions = typeof actions === 'function' ? actions.call(this, props) : actions;
-        if (Array.isArray(toolbarOptions)) {
-            toolbarOptions = {
-                items: toolbarOptions,
-            };
-        }
-        toolbarOptions = mergeProps({key: 'actions', className: 'card-actions', size: 'sm'}, toolbarOptions);
-        return <Toolbar {...toolbarOptions} />;
+        return Toolbar.render(props.actions, [props], {key: 'actions', className: 'card-actions', size: 'sm'}, this);
     }
 
     protected _renderList(props: RenderableProps<P>): ComponentChildren {
