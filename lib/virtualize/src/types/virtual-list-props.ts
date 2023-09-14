@@ -10,8 +10,6 @@ export interface VirtualListProps extends HElementProps {
     gap?: number;
     overscan?: number;
     horizontal?: boolean;
-    initialScroll?: number;
-    initialScrollIndex?: number;
     defaultItemSize?: number;
     itemKey?: string | ((data: unknown, index: number) => string);
     itemCount?: number | ((data: unknown) => number);
