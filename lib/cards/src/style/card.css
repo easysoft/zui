@@ -1,0 +1,22 @@
+.card {
+  @apply -shadow-sm -rounded -ring-1 -ring-border -ring-opacity-5 hover:-shadow -transition-[shadow,border,color,background-color];
+}
+
+.card-heading,
+.card-header,
+.card-content,
+.card-footer {
+  @apply -py-1 -px-2
+}
+.card-heading {
+  @apply -flex -items-center -gap-2;
+}
+.card-icon {
+  @apply -opacity-50;
+}
+.card-header {
+  @apply -bg-surface;
+}
+.card-content {
+  @apply -flex -flex-col -gap-1;
+}

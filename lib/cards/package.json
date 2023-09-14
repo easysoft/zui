@@ -1,0 +1,41 @@
+{
+    "name": "@zui/cards",
+    "description": "ZUI Cards",
+    "version": "0.0.1",
+    "keywords": [
+        "js",
+        "cs",
+        "zui:component"
+    ],
+    "main": "src/main.ts",
+    "module": "src/main.ts",
+    "browser": "src/main.ts",
+    "dependencies": {
+        "@zui/core": "workspace:^0.0.1",
+        "@zui/helpers": "workspace:^0.0.1",
+        "@zui/common-list": "workspace:^0.0.1",
+        "@zui/list": "workspace:^0.0.1",
+        "@zui/menu": "workspace:^0.0.1",
+        "@zui/css-icons": "workspace:^0.0.1",
+        "@zui/toolbar": "workspace:^0.0.1"
+    },
+    "files": [
+        "./src/**/*"
+    ],
+    "devDependencies": {
+        "zui-dev": "workspace:^0.0.1"
+    },
+    "zui": {
+        "type": "js-ui",
+        "displayName": "卡片",
+        "contributes": {
+            "css": [
+                "class",
+                "var"
+            ],
+            "js": [
+                "component"
+            ]
+        }
+    }
+}
