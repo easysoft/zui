@@ -1,10 +1,10 @@
-import {classes, $} from '@zui/core';
+import {classes, $, mergeProps} from '@zui/core';
 import {BtnGroup} from '@zui/btn-group/src/component/btn-group';
 
 import type {Item} from '@zui/common-list';
-import type {ToolbarOptions} from '../types';
+import type {ToolbarOptions, ToolbarSetting} from '../types';
 import type {ClassNameLike} from '@zui/core/src/helpers';
-import type {RenderableProps} from 'preact';
+import type {Attributes, RenderableProps} from 'preact';
 
 export class Toolbar<T extends ToolbarOptions = ToolbarOptions> extends BtnGroup<T> {
     static NAME = 'toolbar';
@@ -29,5 +29,21 @@ export class Toolbar<T extends ToolbarOptions = ToolbarOptions> extends BtnGroup
             }
         }
         return propsMap;
+    }
+
+    static render<T extends unknown[] = []>(this: unknown, setting: ToolbarSetting<T> | undefined, args: T, defaultProps?: Partial<ToolbarOptions> & Attributes, thisObject?: unknown) {
+        let toolbarOptions = typeof setting === 'function' ? setting.call(thisObject ?? this, ...args) : setting;
+        if (!toolbarOptions) {
+            return;
+        }
+        if (Array.isArray(toolbarOptions)) {
+            toolbarOptions = {
+                items: toolbarOptions,
+            };
+        }
+        if (defaultProps) {
+            toolbarOptions = mergeProps(defaultProps as Record<string, unknown>, toolbarOptions);
+        }
+        return <Toolbar {...toolbarOptions} />;
     }
 }
