@@ -10,6 +10,8 @@ import type {HElementProps} from '../types';
  * The base HTML element.
  */
 export class HElement<P extends HElementProps, S = {}> extends Component<P, S> {
+    static HElement = true;
+
     protected _getClassName(props: RenderableProps<P>): ClassNameLike {
         return props.className;
     }
