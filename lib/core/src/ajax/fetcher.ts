@@ -24,6 +24,10 @@ export async function fetchData<T = {}, A extends unknown[] = unknown[]>(setting
     return data as T;
 }
 
+export function isFetchSetting(setting: FetcherSetting | unknown): setting is FetcherSetting {
+    return !!(setting && (typeof setting === 'string' || (typeof setting === 'object' && (setting as AjaxSetting).url) || typeof setting === 'function'));
+}
+
 declare module 'cash-dom' {
     interface CashStatic {
         fetch<T = {}, A extends unknown[] = unknown[]>(setting: FetcherSetting<T, A>, args?: A, extraAjaxSetting?: Partial<AjaxSetting> | ((ajaxSetting: AjaxSetting) => Partial<AjaxSetting>)): Promise<T>
