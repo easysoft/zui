@@ -130,7 +130,7 @@ const actionsPlugin: DTablePlugin<DTableActionsTypes> = {
                         }
                         return actionItemCreator ? actionItemCreator(others, info) : others;
                     }) as ToolbarItemOptions[],
-                    btnProps: {size: 'sm', className: 'text-primary'},
+                    btnProps: {btnType: 'ghost', size: 'sm', className: 'text-primary'},
                     ...actionsSetting,
                 };
                 result[0] = (
