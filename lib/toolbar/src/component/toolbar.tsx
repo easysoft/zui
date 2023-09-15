@@ -9,13 +9,16 @@ import type {Attributes, RenderableProps} from 'preact';
 export class Toolbar<T extends ToolbarOptions = ToolbarOptions> extends BtnGroup<T> {
     static NAME = 'toolbar';
 
-    static defaultItemProps: Partial<Item> = {
-        btnType: 'ghost',
+    static defaultProps: Partial<Item> = {
+        btnProps: {
+            btnType: 'ghost',
+        },
     };
 
     static ItemComponents = {
         ...BtnGroup.ItemComponents,
         btnGroup: BtnGroup,
+        'btn-group': BtnGroup,
     };
 
     protected _getProps(props: RenderableProps<T>): Record<string, unknown> {
@@ -29,6 +32,17 @@ export class Toolbar<T extends ToolbarOptions = ToolbarOptions> extends BtnGroup
             }
         }
         return propsMap;
+    }
+
+    protected _getItem(props: RenderableProps<T>, item: Item, index: number): false | Item {
+        const itemProps = super._getItem(props, item, index);
+        if (!itemProps) {
+            return itemProps;
+        }
+        if (itemProps.type === 'btn-group' || itemProps.type === 'btnGroup') {
+            itemProps.btnProps = mergeProps({}, this._shareBtnProps, itemProps.btnProps);
+        }
+        return itemProps;
     }
 
     static render<T extends unknown[] = []>(this: unknown, setting: ToolbarSetting<T> | undefined, args: T, defaultProps?: Partial<ToolbarOptions> & Attributes, thisObject?: unknown) {
