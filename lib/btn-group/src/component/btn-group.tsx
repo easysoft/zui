@@ -20,6 +20,13 @@ export class BtnGroup<T extends BtnGroupOptions = BtnGroupOptions> extends Commo
         default: Button,
     };
 
+    /**
+     * Item default common props, used for rendering for all item types.
+     */
+    static defaultItemProps: Partial<Item> = {
+        component: undefined,
+    };
+
     protected _shareBtnProps?: Partial<ButtonProps>;
 
     protected _isBtnType(item: Item): boolean {
