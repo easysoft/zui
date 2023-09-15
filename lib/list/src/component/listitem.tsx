@@ -3,7 +3,7 @@ import {Avatar} from '@zui/avatar/src/component';
 import {Toolbar} from '@zui/toolbar/src/component';
 import {Checkbox} from '@zui/checkbox/src/component';
 
-import type {ComponentChild, ComponentChildren, RenderableProps} from 'preact';
+import {toChildArray, type ComponentChild, type ComponentChildren, type ComponentType, type JSX, type RenderableProps} from 'preact';
 import type {ListitemProps} from '../types';
 
 export class Listitem<P extends ListitemProps = ListitemProps, S = {}> extends HElement<P, S> {
@@ -111,7 +111,7 @@ export class Listitem<P extends ListitemProps = ListitemProps, S = {}> extends H
         return contents;
     }
 
-    protected _render(props: RenderableProps<P>): ComponentChild {
+    protected _render(props: RenderableProps<P>, extraAttrs?: Record<string, unknown>): ComponentChild {
         const {
             innerComponent,
             innerClass,
@@ -143,7 +143,7 @@ export class Listitem<P extends ListitemProps = ListitemProps, S = {}> extends H
             }),
             href: asLink ? url : undefined,
             target: asLink ? target : undefined,
-        }, innerAttrs);
+        }, extraAttrs, innerAttrs);
         return (
             <ComponentName {...attrs}>
                 {this._renderLeading(props)}
@@ -153,10 +153,14 @@ export class Listitem<P extends ListitemProps = ListitemProps, S = {}> extends H
         );
     }
 
-    protected _getChildren(props: RenderableProps<P>): ComponentChildren {
-        return [
-            this._render(props),
-            props.children,
-        ];
+    protected _onRender(component: ComponentType | keyof JSX.IntrinsicElements, componentProps: Record<string, unknown>, children: ComponentChildren, _props: RenderableProps<P>): void | [component: ComponentType | keyof JSX.IntrinsicElements, componentProps: Record<string, unknown>, children: ComponentChildren] {
+        const innerAttrs = Object.keys(componentProps).reduce<Record<string, unknown>>((attrs, key) => {
+            if (key.startsWith('data-')) {
+                attrs[key] = componentProps[key];
+                delete componentProps[key];
+            }
+            return attrs;
+        }, {});
+        return [component, componentProps, [this._render(_props, innerAttrs), ...toChildArray(children)]];
     }
 }
