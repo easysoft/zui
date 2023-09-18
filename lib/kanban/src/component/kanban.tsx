@@ -4,7 +4,7 @@ import {KanbanBody} from './kanban-body';
 
 import type {ComponentChildren, RenderableProps} from 'preact';
 import type {ClassNameLike, CustomContentType} from '@zui/core';
-import type {KanbanColOptions, KanbanData, KanbanDataFetcher, KanbanDataSetting, KanbanItem, KanbanLaneOptions, KanbanProps, KanbanState} from '../types';
+import type {KanbanColName, KanbanColOptions, KanbanData, KanbanDataFetcher, KanbanDataSetting, KanbanItem, KanbanLaneName, KanbanLaneOptions, KanbanProps, KanbanState} from '../types';
 
 function sortByOrder(a: {order?: number}, b: {order?: number}) {
     return a.order! - b.order!;
@@ -53,6 +53,18 @@ export class Kanban extends HElement<KanbanProps, KanbanState> {
             return;
         }
         this.load();
+    }
+
+    getCol(name: KanbanColName) {
+        return this._data.cols.find(col => col.name === name);
+    }
+
+    getLane(name: KanbanLaneName) {
+        return this._data.lanes.find(lane => lane.name === name);
+    }
+
+    getData() {
+        return this._data;
     }
 
     protected _afterRender(firstRender: boolean) {
@@ -122,7 +134,7 @@ export class Kanban extends HElement<KanbanProps, KanbanState> {
                             if (itemProps) {
                                 item = mergeProps({}, itemProps, item) as unknown as KanbanItem;
                             }
-                            const result = getItem?.call(this, {col, lane, item}) ?? item;
+                            const result = getItem?.call(this, {col: col.name, lane: lane.name, item}) ?? item;
                             if (result !== false && !result.deleted) {
                                 list.push(result);
                                 if (typeof result.order === 'number') {
@@ -144,8 +156,9 @@ export class Kanban extends HElement<KanbanProps, KanbanState> {
         if (needSort) {
             lanes.sort(sortByOrder);
         }
-        console.log('> data', {cols, lanes, items});
-        return {cols, lanes, items};
+        this._data = {cols, lanes, items};
+        console.log('> data', this._data);
+        return this._data;
     }
 
     protected _getClassName(props: RenderableProps<KanbanProps>): ClassNameLike {
@@ -165,7 +178,7 @@ export class Kanban extends HElement<KanbanProps, KanbanState> {
         const data = this._getData(props);
         return [
             <KanbanHeader key="header" cols={data.cols} />,
-            <KanbanBody key="body" {...data} />,
+            <KanbanBody key="body" itemRender={props.itemRender} {...data} />,
             props.children,
         ];
     }

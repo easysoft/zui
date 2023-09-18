@@ -30,6 +30,7 @@ export class KanbanLane extends HElement<KanbanLaneProps> {
 
     protected _getChildren(props: RenderableProps<KanbanLaneProps>): ComponentChildren {
         const {
+            name,
             title,
             titleClass,
             actions,
@@ -43,7 +44,7 @@ export class KanbanLane extends HElement<KanbanLaneProps> {
                 {Toolbar.render(actions, [props], {key: 'actions', className: 'kanban-lane-actions', size: 'sm'}, this)}
             </div>,
             <div key="cols" className="kanban-lane-cols">
-                {cols.map(col => <KanbanLaneCol key={col.name} items={items[col.name]} {...col} />)}
+                {cols.map(col => <KanbanLaneCol key={col.name} lane={name} items={items[col.name]} {...col} />)}
             </div>,
         ];
     }
