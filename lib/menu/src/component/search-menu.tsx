@@ -112,7 +112,6 @@ export class SearchMenu<T extends SearchMenuOptions = SearchMenuOptions> extends
             ['text', 'title', 'subtitle', 'content'].forEach(key => {
                 if (typeof item[key] === 'string') {
                     item[key] = (this.constructor as typeof SearchMenu).underlineKeys(this._searchKeys, [item[key] as string]);
-                    console.log('> item', key, item[key], item);
                 }
             });
         }
