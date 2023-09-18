@@ -3120,7 +3120,7 @@ let Tt = class extends rt {
   }
   _renderItem(t, e, n) {
     return e.className = [e.className, e.hidden ? "is-not-match" : ""], t.underlineKeys && this._searchKeys.length && ["text", "title", "subtitle", "content"].forEach((i) => {
-      typeof e[i] == "string" && (e[i] = this.constructor.underlineKeys(this._searchKeys, [e[i]]), console.log("> item", i, e[i], e));
+      typeof e[i] == "string" && (e[i] = this.constructor.underlineKeys(this._searchKeys, [e[i]]));
     }), super._renderItem(t, e, n);
   }
   _getChildren(t) {
@@ -6979,8 +6979,8 @@ class rd extends Na {
         className: $(t.className, { hover: t.value !== void 0 && t.value === this.props.state.hoverItem }),
         items: i
       };
-      const l = (c = this._getItemCallback) == null ? void 0 : c.call(this, t, e);
-      return l && (t = l, t.disabled && this._disabledSet.add(t.value), t);
+      const l = ((c = this._getItemCallback) == null ? void 0 : c.call(this, t, e)) ?? t;
+      return l && (l.disabled && this._disabledSet.add(l.value), l);
     }, this._beforeRenderItem = (t, e) => {
       var n;
       return (n = this._renderItemCallback) == null ? void 0 : n.call(this, t, e);
