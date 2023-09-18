@@ -1,10 +1,10 @@
-import type {PreactDOMAttributes, JSX, RefObject, ComponentType} from 'preact';
+import type {PreactDOMAttributes, JSX, RefObject, ComponentType, Attributes} from 'preact';
 import type {ClassNameLike} from '../../helpers/classes';
 
 /**
  * The HTML props that can be passed to a component which root not is a html element.
  */
-export interface HElementProps extends PreactDOMAttributes {
+export interface HElementProps extends PreactDOMAttributes, Attributes {
     /**
      * The component or the HTML element name.
      */
