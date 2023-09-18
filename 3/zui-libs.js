@@ -1965,7 +1965,8 @@ export default [
             "@zui/menu": "workspace:^0.0.1",
             "@zui/css-icons": "workspace:^0.0.1",
             "@zui/cards": "workspace:^0.0.1",
-            "@zui/toolbar": "workspace:^0.0.1"
+            "@zui/toolbar": "workspace:^0.0.1",
+            "@zui/dnd": "workspace:^0.0.1"
         },
         "files": [
             "./src/**/*"
