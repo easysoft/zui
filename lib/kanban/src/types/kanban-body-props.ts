@@ -1,4 +1,4 @@
-import type {ComponentChildren} from 'preact';
+import type {CustomContentType} from '@zui/core';
 import type {KanbanColOptions} from './kanban-col-options';
 import type {KanbanItemInfo} from './kanban-item-info';
 import type {KanbanItems} from './kanban-items';
@@ -8,5 +8,5 @@ export interface KanbanBodyProps {
     cols: KanbanColOptions[];
     lanes: KanbanLaneOptions[];
     items: KanbanItems;
-    itemRender?: (info: KanbanItemInfo) => ComponentChildren;
+    itemRender?: (info: KanbanItemInfo) => CustomContentType;
 }
