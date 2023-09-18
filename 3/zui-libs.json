@@ -1991,7 +1991,6 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "kanban",
-            "wip": true,
             "order": 5010000050,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/kanban/package.json"
         }
