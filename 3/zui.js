@@ -8829,47 +8829,50 @@ let Tr = class extends O {
   }
   render() {
     let t = dt(this, Wi, yl).call(this);
-    const { className: e, rowHover: n, colHover: i, cellHover: r, bordered: o, striped: a, scrollbarHover: l, beforeRender: c } = this.options, d = {}, h = ["dtable", e, {
+    const { className: e, rowHover: n, colHover: i, cellHover: r, bordered: o, striped: a, scrollbarHover: l, beforeRender: c, emptyTip: d } = this.options, h = {}, m = ["dtable", e, {
       "dtable-hover-row": n,
       "dtable-hover-col": i,
       "dtable-hover-cell": r,
       "dtable-bordered": o,
       "dtable-striped": a,
       "scrollbar-hover": l
-    }], m = [];
+    }], p = [];
     if (t) {
-      if (h.push(t.className), c) {
-        const p = c.call(this, t);
-        p && (t = p);
+      const _ = !t.rows.length;
+      if (m.push(t.className, _ ? "dtable-is-empty" : ""), c) {
+        const g = c.call(this, t);
+        g && (t = g);
       }
-      N(this, nt).forEach((p) => {
-        var g;
-        const _ = (g = p.beforeRender) == null ? void 0 : g.call(this, t);
-        _ && (t = _);
-      }), d.width = t.width, d.height = t.height, d["--dtable-row-height"] = `${t.rowHeight}px`, h.push({
+      N(this, nt).forEach((g) => {
+        var y;
+        const v = (y = g.beforeRender) == null ? void 0 : y.call(this, t);
+        v && (t = v);
+      }), h.width = t.width, h.height = t.height, h["--dtable-row-height"] = `${t.rowHeight}px`, m.push({
         "dtable-scrolled-down": t.scrollTop > 0,
         "dtable-scrolled-bottom": t.scrollTop >= t.rowsHeightTotal - t.rowsHeight,
         "dtable-scrolled-right": t.scrollLeft > 0,
         "dtable-scrolled-end": t.scrollLeft >= t.cols.center.totalWidth - t.cols.center.width
-      }), t.children && m.push(...t.children), m.push(
+      }), t.children && p.push(...t.children), _ && d ? (delete h.height, p.push(
+        /* @__PURE__ */ f("div", { className: "dtable-empty-tip", children: /* @__PURE__ */ f(F, { content: d, generatorThis: this, generatorArgs: [t] }) }, "empty-tip")
+      )) : (p.push(
         dt(this, Ti, ul).call(this, t),
         dt(this, Ei, fl).call(this, t),
         dt(this, Mi, pl).call(this, t)
-      ), t.scrollable && m.push(dt(this, Ii, ml).call(this, t)), N(this, nt).forEach((p) => {
-        var g;
-        const _ = (g = p.onRender) == null ? void 0 : g.call(this, t);
-        _ && (_.style && Object.assign(d, _.style), _.className && h.push(_.className), _.children && m.push(_.children));
+      ), t.scrollable && p.push(dt(this, Ii, ml).call(this, t))), N(this, nt).forEach((g) => {
+        var y;
+        const v = (y = g.onRender) == null ? void 0 : y.call(this, t);
+        v && (v.style && Object.assign(h, v.style), v.className && m.push(v.className), v.children && p.push(v.children));
       });
     }
     return /* @__PURE__ */ f(
       "div",
       {
         id: N(this, Xe),
-        className: $(h),
-        style: d,
+        className: $(m),
+        style: h,
         ref: this.ref,
         tabIndex: -1,
-        children: m
+        children: p
       }
     );
   }
