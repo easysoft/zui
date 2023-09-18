@@ -3495,7 +3495,7 @@ const rh = '[moveable="true"]';
 class ua extends ht {
   constructor() {
     super(...arguments), this._handleMouseDown = (t) => {
-      const { options: e } = this, { selector: n, handle: i, onMoveStart: r } = e, o = u(t.target), a = o.closest(n), l = a[0];
+      const { options: e } = this, { selector: n, handle: i, onMoveStart: r } = e, o = u(t.target), a = n === "self" ? this.$element : o.closest(n), l = a[0];
       if (!l || i && !o.closest(i).length || r && r.call(this, t, l) === !1)
         return;
       a.attr("moveable", "true");
@@ -3525,7 +3525,7 @@ class ua extends ht {
     this._clean(), u(document).off(this.namespace), super.destroy();
   }
   _setState(t, e) {
-    var a;
+    var l;
     t.preventDefault();
     let n = {
       x: t.pageX,
@@ -3533,36 +3533,38 @@ class ua extends ht {
     };
     const i = this._state;
     if (e) {
-      const l = u(e);
+      const c = u(e);
       if (this.options.move === !0) {
-        const d = l.css("position");
-        n.strategy = d === "fixed" || d === "absolute" ? "position" : "transform";
+        const h = c.css("position");
+        n.strategy = h === "fixed" || h === "absolute" ? "position" : "transform";
       } else
-        n.strategy = "none";
-      const c = l.position();
+        n.strategy = this.options.move || "none";
+      const d = c.position();
       n = u.extend(n, {
         target: e,
         startX: n.x,
         startY: n.y,
         deltaX: 0,
         deltaY: 0,
-        startLeft: c.left,
-        startTop: c.top,
-        left: c.left,
-        top: c.top
+        startLeft: d.left,
+        startTop: d.top,
+        left: d.left,
+        top: d.top,
+        scrollLeft: e.scrollLeft,
+        scrollTop: e.scrollTop
       });
     } else if (i) {
-      const l = n.x - i.startX, c = n.y - i.startY;
+      const c = n.x - i.startX, d = n.y - i.startY;
       n = u.extend({}, i, n, {
-        deltaX: l,
-        deltaY: c,
-        left: i.startLeft + l,
-        top: i.startTop + c
+        deltaX: c,
+        deltaY: d,
+        left: i.startLeft + c,
+        top: i.startTop + d
       });
     }
     this._state = n;
-    const { strategy: r, target: o } = n;
-    r === "position" ? u(o).css({ left: n.left, top: n.top }) : r === "transform" && u(o).css("transform", `translate(${n.deltaX}px, ${n.deltaY}px)`), (a = this.options.onChange) == null || a.call(this, n, i, t);
+    const { strategy: r, target: o } = n, a = u(o);
+    r === "position" ? a.css({ left: n.left, top: n.top }) : r === "transform" ? a.css("transform", `translate(${n.deltaX}px, ${n.deltaY}px)`) : r === "scroll" && (o.scrollLeft = n.scrollLeft - n.deltaX, o.scrollTop = n.scrollTop - n.deltaY), (l = this.options.onChange) == null || l.call(this, n, i, t);
   }
   _clean() {
     u(document).off("mousemove mouseup");
