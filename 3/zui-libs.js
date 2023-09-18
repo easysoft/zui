@@ -1698,6 +1698,53 @@ export default [
         }
     },
     {
+        "name": "@zui/cards",
+        "version": "0.0.1",
+        "description": "ZUI Cards",
+        "keywords": [
+            "js",
+            "cs",
+            "zui:component"
+        ],
+        "main": "src/main.ts",
+        "module": "src/main.ts",
+        "browser": "src/main.ts",
+        "dependencies": {
+            "@zui/core": "workspace:^0.0.1",
+            "@zui/helpers": "workspace:^0.0.1",
+            "@zui/common-list": "workspace:^0.0.1",
+            "@zui/list": "workspace:^0.0.1",
+            "@zui/menu": "workspace:^0.0.1",
+            "@zui/css-icons": "workspace:^0.0.1",
+            "@zui/toolbar": "workspace:^0.0.1"
+        },
+        "files": [
+            "./src/**/*"
+        ],
+        "devDependencies": {
+            "zui-dev": "workspace:^0.0.1"
+        },
+        "zui": {
+            "type": "js-ui",
+            "displayName": "卡片",
+            "contributes": {
+                "css": [
+                    "class",
+                    "var"
+                ],
+                "js": [
+                    "component"
+                ]
+            },
+            "path": "/home/runner/work/zui/zui/lib/cards",
+            "workspace": true,
+            "sourceType": "build-in",
+            "name": "cards",
+            "order": 5010000045,
+            "packageJsonPath": "/home/runner/work/zui/zui/lib/cards/package.json"
+        }
+    },
+    {
         "name": "@zui/contextmenu",
         "version": "0.0.1",
         "main": "src/main.ts",
@@ -1735,7 +1782,7 @@ export default [
             "workspace": true,
             "sourceType": "build-in",
             "name": "contextmenu",
-            "order": 5010000045,
+            "order": 5010000046,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/contextmenu/package.json"
         }
     },
@@ -1785,7 +1832,7 @@ export default [
             "sourceType": "build-in",
             "name": "dashboard",
             "publicPath": false,
-            "order": 5010000046,
+            "order": 5010000047,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/dashboard/package.json"
         }
     },
@@ -1835,7 +1882,7 @@ export default [
             "workspace": true,
             "sourceType": "build-in",
             "name": "dropdown",
-            "order": 5010000047,
+            "order": 5010000048,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/dropdown/package.json"
         }
     },
@@ -1895,8 +1942,57 @@ export default [
             "workspace": true,
             "sourceType": "build-in",
             "name": "dtable",
-            "order": 5010000048,
+            "order": 5010000049,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/dtable/package.json"
+        }
+    },
+    {
+        "name": "@zui/kanban",
+        "version": "0.0.1",
+        "description": "ZUI Kanban",
+        "keywords": [
+            "js",
+            "cs",
+            "zui:component"
+        ],
+        "main": "src/main.ts",
+        "module": "src/main.ts",
+        "browser": "src/main.ts",
+        "dependencies": {
+            "@zui/core": "workspace:^0.0.1",
+            "@zui/helpers": "workspace:^0.0.1",
+            "@zui/scrollbar": "workspace:^0.0.1",
+            "@zui/menu": "workspace:^0.0.1",
+            "@zui/css-icons": "workspace:^0.0.1",
+            "@zui/cards": "workspace:^0.0.1",
+            "@zui/toolbar": "workspace:^0.0.1"
+        },
+        "files": [
+            "./src/**/*"
+        ],
+        "devDependencies": {
+            "zui-dev": "workspace:^0.0.1",
+            "@zui/icons": "workspace:^0.0.1"
+        },
+        "zui": {
+            "type": "js-ui",
+            "displayName": "看板",
+            "contributes": {
+                "css": [
+                    "class",
+                    "var"
+                ],
+                "js": [
+                    "component"
+                ]
+            },
+            "path": "/home/runner/work/zui/zui/lib/kanban",
+            "workspace": true,
+            "sourceType": "build-in",
+            "name": "kanban",
+            "wip": true,
+            "order": 5010000050,
+            "packageJsonPath": "/home/runner/work/zui/zui/lib/kanban/package.json"
         }
     },
     {
@@ -1931,7 +2027,7 @@ export default [
             "workspace": true,
             "sourceType": "build-in",
             "name": "tabs",
-            "order": 5010000049,
+            "order": 5010000051,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/tabs/package.json"
         }
     },
@@ -1963,7 +2059,7 @@ export default [
             "workspace": true,
             "sourceType": "build-in",
             "name": "css-icons",
-            "order": 6010000050,
+            "order": 6010000052,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/css-icons/package.json"
         }
     },
@@ -1996,7 +2092,7 @@ export default [
             "workspace": true,
             "sourceType": "build-in",
             "name": "utilities",
-            "order": 6010000051,
+            "order": 6010000053,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/utilities/package.json"
         }
     },
@@ -2027,7 +2123,7 @@ export default [
             "workspace": true,
             "sourceType": "build-in",
             "name": "helpers",
-            "order": 7010000052,
+            "order": 7010000054,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/helpers/package.json"
         }
     }
