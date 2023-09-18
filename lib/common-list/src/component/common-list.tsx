@@ -1,4 +1,4 @@
-import {HElement, mergeProps} from '@zui/core';
+import {CustomContent, HElement, mergeProps} from '@zui/core';
 
 import type {ComponentChild, ComponentChildren, ComponentType, JSX, RenderableProps} from 'preact';
 import type {ClassNameLike} from '../../../core/src/helpers';
@@ -118,7 +118,10 @@ export class CommonList<P extends CommonListProps = CommonListProps, S = {}> ext
             itemRender = itemRender[type!];
         }
         if (itemRender) {
-            return itemRender.call(this, item, index);
+            const customResult = itemRender.call(this, item, index);
+            if (customResult !== undefined) {
+                return <CustomContent z-key={item.key} z-item={index} z-type={type} content={customResult} />;
+            }
         }
 
         const {ItemComponents} = this.constructor;

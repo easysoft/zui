@@ -1,9 +1,8 @@
-import type {ComponentChildren} from 'preact';
-import type {HElementProps} from '@zui/core';
+import type {CustomContentType, HElementProps} from '@zui/core';
 import type {Item, ItemType} from './item';
 
 /** Item render function. */
-export type ItemRender<T extends Item = Item> = (item: T, index: number) => ComponentChildren;
+export type ItemRender<T extends Item = Item> = (item: T, index: number) => CustomContentType;
 
 /** List items setting. */
 export type ItemsSetting<T extends Item = Item> = T[] | (() => T[]);
