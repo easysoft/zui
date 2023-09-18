@@ -71,15 +71,14 @@ export class PickerMenu extends PickPop<PickerState, PickerMenuProps> {
             className: classes(item.className, {hover: item.value !== undefined && item.value === this.props.state.hoverItem}),
             items: subItems,
         };
-        const result = this._getItemCallback?.call(this, item, index);
+        const result = this._getItemCallback?.call(this, item, index) ?? item;
         if (!result) {
             return result;
         }
-        item = result;
-        if (item.disabled) {
-            this._disabledSet.add(item.value as string);
+        if (result.disabled) {
+            this._disabledSet.add(result.value as string);
         }
-        return item;
+        return result;
     };
 
     _beforeRenderItem = (item: NestedItem, index: number) => {
