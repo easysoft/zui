@@ -1,0 +1,6 @@
+.kanban.has-dragging {
+  @apply -cursor-move;
+}
+.kanban-item.is-dragging {
+  @apply -opacity-10 -cursor-move;
+}

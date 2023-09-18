@@ -1,4 +1,5 @@
-import {HElement, createRef, fetchData, isFetchSetting, mergeProps} from '@zui/core';
+import {$, HElement, createRef, fetchData, isFetchSetting, mergeProps} from '@zui/core';
+import {Draggable} from '@zui/dnd';
 import {KanbanHeader} from './kanban-header';
 import {KanbanBody} from './kanban-body';
 
@@ -11,15 +12,29 @@ function sortByOrder(a: {order?: number}, b: {order?: number}) {
 }
 
 export class Kanban extends HElement<KanbanProps, KanbanState> {
+    static defaultProps: Partial<KanbanProps> = {
+        draggable: true,
+    };
+
     protected declare _loadedSetting: KanbanDataSetting;
 
     protected declare _data: KanbanData;
+
+    protected _draggable?: Draggable;
 
     protected _ref = createRef<HTMLElement>();
 
     componentDidMount() {
         this._afterRender(true);
         this.tryLoad();
+
+        const {draggable} = this.props;
+        if (draggable && this._ref.current) {
+            this._draggable = new Draggable(this._ref.current, $.extend({
+                selector: '.kanban-item',
+            }, typeof draggable === 'object' ? draggable : null));
+            console.log('this._draggable', this._draggable);
+        }
     }
 
     componentDidUpdate(): void {
@@ -29,6 +44,7 @@ export class Kanban extends HElement<KanbanProps, KanbanState> {
 
     componentWillUnmount(): void {
         this.props.beforeDestroy?.call(this);
+        this._draggable?.destroy();
     }
 
     load(): void {

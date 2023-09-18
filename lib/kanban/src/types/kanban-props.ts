@@ -1,4 +1,5 @@
 import type {CustomContentType, HElementProps} from '@zui/core';
+import type {DraggableOptions} from '@zui/dnd';
 import type {KanbanDataSetting} from './kanban-data-setting';
 import type {KanbanLaneOptions} from './kanban-lane-options';
 import type {KanbanColOptions} from './kanban-col-options';
@@ -22,4 +23,5 @@ export interface KanbanProps extends HElementProps {
     beforeRender?: (options: KanbanProps) => void;
     afterRender?: (firstRender: boolean) => void;
     beforeDestroy?: () => void;
+    draggable?: DraggableOptions | boolean;
 }
