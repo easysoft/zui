@@ -1,5 +1,5 @@
 .card {
-  @apply -shadow-sm -rounded -ring-1 -ring-border -ring-opacity-5 hover:-shadow -transition-[shadow,border,color,background-color];
+  @apply -shadow-sm -rounded -ring-1 -ring-border -ring-opacity-5 hover:-shadow -transition-[shadow,border,color,background-color] -bg-canvas;
 }
 
 .card-heading,
