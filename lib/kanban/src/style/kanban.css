@@ -1,0 +1,56 @@
+.kanban {
+  @apply -flex -flex-col -items-start;
+}
+
+/* Kanban header. */
+.kanban-header {
+  @apply -flex -flex-row -h-[--kanban-header-height];
+}
+.kanban-header-lane-name {
+  @apply -flex-none -w-[--kanban-lane-name-width] -bg-fore/5;
+}
+.kanban-header-cols {
+  @apply -flex -flex-row -gap-2;
+}
+.kanban-header-col {
+  @apply -w-[--kanban-col-width] -bg-surface -relative -px-10 -h-full -flex -flex-1 -flex-row -items-center -border-b;
+}
+.kanban-header-title {
+  @apply -flex -flex-row -items-center -flex-auto -justify-center -overflow-hidden;
+}
+.kanban-header-title > .as-title {
+  @apply -font-bold;
+}
+.kanban-header-col-actions {
+  @apply -absolute -top-1 -right-1;
+}
+.kanban-header-col-actions > .btn {
+  @apply -opacity-60 hover:-opacity-100;
+}
+
+/* Kanban body. */
+.kanban-body {
+  @apply -flex -flex-col -gap-2;
+}
+.kanban-lane {
+  @apply -flex -flex-row -h-[--kanban-lane-height] -min-h-[96px];
+}
+.kanban-lane-name {
+  @apply -bg-[--kanban-lane-color] -text-white -w-[--kanban-lane-name-width] -flex-none -flex -items-center -justify-center -relative;
+  writing-mode: vertical-rl;
+}
+.kanban-lane-cols {
+  @apply -flex -flex-row -gap-2;
+}
+.kanban-lane-col {
+  @apply -w-[--kanban-col-width] -bg-inverse/5 -h-full;
+}
+.kanban-lane.is-first > .kanban-lane-name::before {
+  @apply -content-[''] -block -absolute -left-0 -right-0 -h-[--kanban-header-height] --top-[--kanban-header-height] -bg-[--kanban-lane-color];
+}
+
+/* Kanban items. */
+.kanban-items {
+  @apply -h-full -overflow-auto -p-2;
+  scrollbar-gutter: both-edges stable;
+}
