@@ -35,7 +35,8 @@ export class KanbanLane extends HElement<KanbanLaneProps> {
             titleClass,
             actions,
             cols,
-            items,
+            items = {},
+            itemRender,
         } = props;
 
         return [
@@ -44,7 +45,7 @@ export class KanbanLane extends HElement<KanbanLaneProps> {
                 {Toolbar.render(actions, [props], {key: 'actions', className: 'kanban-lane-actions', size: 'sm'}, this)}
             </div>,
             <div key="cols" className="kanban-lane-cols">
-                {cols.map(col => <KanbanLaneCol key={col.name} lane={name} items={items[col.name]} {...col} />)}
+                {cols.map(col => <KanbanLaneCol key={col.name} itemRender={itemRender} lane={name} items={items[col.name]} {...col} />)}
             </div>,
         ];
     }

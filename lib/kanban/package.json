@@ -30,7 +30,6 @@
     "zui": {
         "type": "js-ui",
         "displayName": "看板",
-        "wip": true,
         "contributes": {
             "css": [
                 "class",

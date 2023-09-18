@@ -33,7 +33,7 @@ export class KanbanLaneCol extends Component<KanbanLaneColProps> {
         };
         return (
             <div className="kanban-lane-col" style={style}>
-                {content ? <div className={classes('kanban-col-content', contentClass)}><CustomContent content={content} /></div> : null}
+                {content ? <div className={classes('kanban-col-content', contentClass)}><CustomContent content={content} generatorThis={this} generatorArgs={[props]} /></div> : null}
                 <CardList key="list" className="kanban-items scrollbar-thin scrollbar-hover" itemProps={kanbanItemProps} items={items} itemRender={itemRender ? this._renderItem : undefined} />
             </div>
         );

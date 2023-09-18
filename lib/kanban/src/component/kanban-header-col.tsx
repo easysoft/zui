@@ -38,8 +38,6 @@ export class KanbanHeaderCol extends HElement<KanbanColProps> {
             icon,
             trailingIcon,
             actions,
-            content,
-            contentClass,
         } = props;
 
         return [
@@ -50,7 +48,6 @@ export class KanbanHeaderCol extends HElement<KanbanColProps> {
                 {subtitle ? <span key="subtitle" className={classes('as-subtitle', subtitleClass)}><CustomContent content={subtitle} /></span> : null}
                 {trailingIcon ? <Icon key="trailingIcon" className="as-trailing-icon" icon={trailingIcon} /> : null}
             </div>,
-            content ? <div key="content" className={classes('kanban-header-col-content', contentClass)}><CustomContent content={content} /></div> : null,
             Toolbar.render(actions, [props], {key: 'actions', className: 'kanban-header-col-actions', size: 'sm'}, this),
         ];
     }
