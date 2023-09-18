@@ -20,7 +20,7 @@ export function renderCustomContent(
     generatorArgs?: unknown[],
 ): ComponentChildren {
     if (typeof content === 'function') {
-        return (content as CustomContentGenerator).call(generatorThis, ...(generatorArgs || []));
+        content = (content as CustomContentGenerator).call(generatorThis, ...(generatorArgs || []));
     }
     if (Array.isArray(content)) {
         return content.map((x) => renderCustomContent(x, generatorThis, generatorArgs));
