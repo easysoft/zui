@@ -55,3 +55,7 @@
 .dtable-footer {
   @apply -absolute -z-10 -w-full -flex -items-center -rounded-b-[inherit] -px-3 -border-t -border-[--dtable-border-color] -bg-[--dtable-footer-bg];
 }
+
+.dtable-empty-tip {
+  @apply -flex -items-center -justify-center -h-full;
+}

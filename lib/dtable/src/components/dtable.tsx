@@ -1,6 +1,6 @@
 import {Component, createRef, h as _h} from 'preact';
 import {nanoid} from 'nanoid';
-import {classes, $, ClassNameLike, i18n} from '@zui/core';
+import {classes, $, ClassNameLike, i18n, CustomContent} from '@zui/core';
 import {Scrollbar} from '@zui/scrollbar/src/component/scrollbar';
 import {addPlugin, initPlugins, removePlugin} from '../helpers/shared-plugins';
 import {getDefaultOptions} from '../helpers/default-options';
@@ -905,7 +905,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
 
     render() {
         let layout = this.#getLayout();
-        const {className, rowHover, colHover, cellHover, bordered, striped, scrollbarHover, beforeRender} = this.options;
+        const {className, rowHover, colHover, cellHover, bordered, striped, scrollbarHover, beforeRender, emptyTip} = this.options;
         const style: JSX.CSSProperties = {};
         const classNames: ClassNameLike = ['dtable', className, {
             'dtable-hover-row': rowHover,
@@ -917,7 +917,8 @@ export class DTable extends Component<DTableOptions, DTableState> {
         }];
         const children: ComponentChildren[] = [];
         if (layout) {
-            classNames.push(layout.className);
+            const isEmpty = !layout.rows.length;
+            classNames.push(layout.className, isEmpty ? 'dtable-is-empty' : '');
 
             if (beforeRender) {
                 const newLayout = beforeRender.call(this, layout);
@@ -946,13 +947,22 @@ export class DTable extends Component<DTableOptions, DTableState> {
             if (layout.children) {
                 children.push(...layout.children);
             }
-            children.push(
-                this.#renderHeader(layout),
-                this.#renderBody(layout),
-                this.#renderFooter(layout),
-            );
-            if (layout.scrollable) {
-                children.push(this.#renderScrollBars(layout));
+            if (isEmpty && emptyTip) {
+                delete style.height;
+                children.push(
+                    <div key="empty-tip" className="dtable-empty-tip">
+                        <CustomContent content={emptyTip} generatorThis={this} generatorArgs={[layout]} />
+                    </div>,
+                );
+            } else {
+                children.push(
+                    this.#renderHeader(layout),
+                    this.#renderBody(layout),
+                    this.#renderFooter(layout),
+                );
+                if (layout.scrollable) {
+                    children.push(this.#renderScrollBars(layout));
+                }
             }
 
             this.#plugins.forEach(plugin => {

@@ -1,4 +1,4 @@
-import type {ClassNameLike} from '@zui/core';
+import type {ClassNameLike, CustomContentType} from '@zui/core';
 import type {DTable} from '../main-react';
 import type {CellValueGetter, CellRenderCallback} from './cell';
 import type {ColSetting} from './col';
@@ -32,6 +32,7 @@ export interface DTableLayoutOptions {
     scrollbarHover: boolean;
     scrollbarSize?: number;
     horzScrollbarPos?: 'inside' | 'outside';
+    emptyTip?: CustomContentType;
 }
 
 export interface DTableStyleOptions {
