@@ -2,7 +2,7 @@ import type {MoveableState} from './moveable-state';
 import type {MoveableStrategy} from './moveable-strategy';
 
 export type MoveableOptions = {
-    selector?: string;
+    selector?: 'self' | (string & {});
     handle?: string;
     hasMovingClass?: string;
     movingClass?: string;

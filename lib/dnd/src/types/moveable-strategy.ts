@@ -1,1 +1,1 @@
-export type MoveableStrategy = 'position' | 'transform' | 'none';
+export type MoveableStrategy = 'position' | 'transform' | 'scroll' | 'none';

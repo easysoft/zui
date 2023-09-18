@@ -48,7 +48,7 @@ export class Moveable extends Component<MoveableOptions> {
                 const position = $target.css('position');
                 newState.strategy = (position === 'fixed' || position === 'absolute') ? 'position' : 'transform';
             } else {
-                newState.strategy = 'none';
+                newState.strategy = this.options.move || 'none';
             }
             const position = $target.position()!;
             newState = $.extend(newState, {
@@ -61,6 +61,8 @@ export class Moveable extends Component<MoveableOptions> {
                 startTop: position.top,
                 left: position.left,
                 top: position.top,
+                scrollLeft: target.scrollLeft,
+                scrollTop: target.scrollTop,
             });
         } else if (oldState) {
             const deltaX = newState.x - oldState.startX;
@@ -74,10 +76,14 @@ export class Moveable extends Component<MoveableOptions> {
         }
         this._state = newState;
         const {strategy, target: currentTarget} = newState;
+        const $target = $(currentTarget);
         if (strategy === 'position') {
-            $(currentTarget).css({left: newState.left, top: newState.top});
+            $target.css({left: newState.left, top: newState.top});
         } else if (strategy === 'transform') {
-            $(currentTarget).css('transform', `translate(${newState.deltaX}px, ${newState.deltaY}px)`);
+            $target.css('transform', `translate(${newState.deltaX}px, ${newState.deltaY}px)`);
+        } else if (strategy === 'scroll') {
+            currentTarget.scrollLeft = newState.scrollLeft - newState.deltaX;
+            currentTarget.scrollTop = newState.scrollTop - newState.deltaY;
         }
         this.options.onChange?.call(this, newState, oldState, event);
     }
@@ -86,7 +92,7 @@ export class Moveable extends Component<MoveableOptions> {
         const {options} = this;
         const {selector, handle, onMoveStart} = options;
         const $clickTarget = $(event.target as HTMLElement);
-        const $moveElement = $clickTarget.closest(selector);
+        const $moveElement = selector === 'self' ? this.$element : $clickTarget.closest(selector);
 
         const moveElement = $moveElement[0];
         if (!moveElement || (handle && !$clickTarget.closest(handle).length)) {

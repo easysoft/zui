@@ -13,4 +13,6 @@ export type MoveableState = {
     deltaY: number,
     left: number,
     top: number,
+    scrollLeft: number,
+    scrollTop: number,
 };
