@@ -1,9 +1,9 @@
-import type {KanbanColName} from './kanban-col-name';
+import type {KanbanColOptions} from './kanban-col-options';
 import type {KanbanItem} from './kanban-item';
-import type {KanbanLaneName} from './kanban-lane-name';
+import type {KanbanLaneOptions} from './kanban-lane-options';
 
 export type KanbanItemInfo = {
     item: KanbanItem,
-    lane: KanbanLaneName,
-    col: KanbanColName,
+    lane: KanbanLaneOptions,
+    col: KanbanColOptions,
 };

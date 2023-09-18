@@ -1,10 +1,10 @@
-import {HElement, fetchData, isFetchSetting, mergeProps} from '@zui/core';
+import {HElement, createRef, fetchData, isFetchSetting, mergeProps} from '@zui/core';
 import {KanbanHeader} from './kanban-header';
 import {KanbanBody} from './kanban-body';
 
 import type {ComponentChildren, RenderableProps} from 'preact';
 import type {ClassNameLike, CustomContentType} from '@zui/core';
-import type {KanbanColOptions, KanbanData, KanbanDataFetcher, KanbanDataSetting, KanbanLaneOptions, KanbanProps, KanbanState} from '../types';
+import type {KanbanColOptions, KanbanData, KanbanDataFetcher, KanbanDataSetting, KanbanItem, KanbanLaneOptions, KanbanProps, KanbanState} from '../types';
 
 function sortByOrder(a: {order?: number}, b: {order?: number}) {
     return a.order! - b.order!;
@@ -14,6 +14,8 @@ export class Kanban extends HElement<KanbanProps, KanbanState> {
     protected declare _loadedSetting: KanbanDataSetting;
 
     protected declare _data: KanbanData;
+
+    protected _ref = createRef<HTMLElement>();
 
     componentDidMount() {
         this._afterRender(true);
@@ -58,17 +60,21 @@ export class Kanban extends HElement<KanbanProps, KanbanState> {
     }
 
     protected _getData(props: RenderableProps<KanbanProps>) {
-        const {data, colProps, laneProps} = props;
+        const {data, getCol, colProps, getLane, laneProps, getItem, itemProps} = props;
         const {data: stateData} = this.state;
         const kanbanData = (stateData || isFetchSetting(data) ? stateData : data) || {} as KanbanData;
         let needSort = false;
         const {items = {}} = kanbanData;
         let {cols = [], lanes = []} = kanbanData;
         cols = cols.map((col, index) => {
-            if (typeof colProps === 'function') {
-                col = colProps.call(this, col);
-            } else if (colProps) {
+            if (colProps) {
                 col = mergeProps({}, colProps, col) as unknown as KanbanColOptions;
+            }
+            if (getCol) {
+                const result = getCol.call(this, col);
+                if (result !== false) {
+                    col = result || col;
+                }
             }
             if (typeof col.width === 'function') {
                 col = mergeProps({}, col, {
@@ -87,10 +93,14 @@ export class Kanban extends HElement<KanbanProps, KanbanState> {
         }
         needSort = false;
         lanes = lanes.map((lane, index) => {
-            if (typeof laneProps === 'function') {
-                lane = laneProps.call(this, lane);
-            } else if (laneProps) {
+            if (laneProps) {
                 lane = mergeProps({}, laneProps, lane) as unknown as KanbanLaneOptions;
+            }
+            if (getLane) {
+                const result = getLane.call(this, lane);
+                if (result !== false) {
+                    lane = result || lane;
+                }
             }
             if (typeof lane.height === 'function') {
                 lane = mergeProps({}, lane, {
@@ -105,9 +115,27 @@ export class Kanban extends HElement<KanbanProps, KanbanState> {
             const laneItems = items[lane.name];
             if (laneItems) {
                 cols.forEach(col => {
-                    const laneColItems = laneItems[col.name];
+                    let laneColItems = laneItems[col.name];
                     if (laneColItems) {
-                        laneColItems.sort(sortByOrder);
+                        needSort = false;
+                        laneColItems = laneColItems.reduce<KanbanItem[]>((list, item) => {
+                            if (itemProps) {
+                                item = mergeProps({}, itemProps, item) as unknown as KanbanItem;
+                            }
+                            const result = getItem?.call(this, {col, lane, item}) ?? item;
+                            if (result !== false && !result.deleted) {
+                                list.push(result);
+                                if (typeof result.order === 'number') {
+                                    needSort = true;
+                                } else {
+                                    result.order = list.length - 1;
+                                }
+                            }
+                            return list;
+                        }, []);
+                        if (needSort) {
+                            laneColItems.sort(sortByOrder);
+                        }
                     }
                 });
             }
@@ -126,6 +154,7 @@ export class Kanban extends HElement<KanbanProps, KanbanState> {
 
     protected _getProps(props: RenderableProps<KanbanProps>): Record<string, unknown> {
         return mergeProps(super._getProps(props), {
+            ref: this._ref,
             style: {
                 '--kanban-lane-name-width': props.laneNameWidth,
             },
