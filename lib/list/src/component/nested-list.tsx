@@ -25,7 +25,7 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
         indent: 20,
     };
 
-    static inheritNestedProps = ['component', 'name', 'itemName', 'keyName', 'indent', 'hover', 'divider', 'multiline', 'toggleIcons', 'nestedToggle', 'itemRender', 'beforeRenderItem', 'onToggle', 'checkbox', 'getItem'];
+    static inheritNestedProps = ['component', 'name', 'itemName', 'itemKey', 'indent', 'hover', 'divider', 'multiline', 'toggleIcons', 'nestedToggle', 'itemRender', 'beforeRenderItem', 'onToggle', 'checkbox', 'getItem'];
 
     protected _controlled: boolean;
 
