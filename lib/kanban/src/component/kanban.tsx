@@ -6,6 +6,7 @@ import {KanbanBody} from './kanban-body';
 import type {ComponentChildren, RenderableProps} from 'preact';
 import type {ClassNameLike, CustomContentType} from '@zui/core';
 import type {KanbanColName, KanbanColOptions, KanbanData, KanbanDataFetcher, KanbanDataSetting, KanbanItem, KanbanLaneName, KanbanLaneOptions, KanbanProps, KanbanState} from '../types';
+import {Listitem} from '@zui/list/src/component';
 
 function sortByOrder(a: {order?: number}, b: {order?: number}) {
     return a.order! - b.order!;
@@ -14,6 +15,7 @@ function sortByOrder(a: {order?: number}, b: {order?: number}) {
 export class Kanban extends HElement<KanbanProps, KanbanState> {
     static defaultProps: Partial<KanbanProps> = {
         draggable: true,
+        sticky: true,
     };
 
     protected declare _loadedSetting: KanbanDataSetting;
@@ -33,7 +35,6 @@ export class Kanban extends HElement<KanbanProps, KanbanState> {
             this._draggable = new Draggable(this._ref.current, $.extend({
                 selector: '.kanban-item',
             }, typeof draggable === 'object' ? draggable : null));
-            console.log('this._draggable', this._draggable);
         }
     }
 
@@ -178,7 +179,7 @@ export class Kanban extends HElement<KanbanProps, KanbanState> {
     }
 
     protected _getClassName(props: RenderableProps<KanbanProps>): ClassNameLike {
-        return ['kanban', props.className];
+        return ['kanban', props.className, props.sticky ? 'kanban-sticky' : '', props.heading ? 'has-heading' : ''];
     }
 
     protected _getProps(props: RenderableProps<KanbanProps>): Record<string, unknown> {
@@ -192,7 +193,9 @@ export class Kanban extends HElement<KanbanProps, KanbanState> {
 
     protected _getChildren(props: RenderableProps<KanbanProps>): ComponentChildren {
         const data = this._getData(props);
+        const {heading} = props;
         return [
+            heading && <Listitem key="heading" {...mergeProps({className: 'kanban-heading'}, heading)} />,
             <KanbanHeader key="header" cols={data.cols} />,
             <KanbanBody key="body" itemRender={props.itemRender} {...data} />,
             props.children,

@@ -2,4 +2,6 @@
 
 ## 示例
 
-<div id="kanban"></div>
+```html:example: bg-surface
+<div id="kanbanList"></div>
+```

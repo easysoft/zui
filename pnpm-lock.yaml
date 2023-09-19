@@ -680,6 +680,9 @@ importers:
       '@zui/helpers':
         specifier: workspace:^0.0.1
         version: link:../helpers
+      '@zui/list':
+        specifier: workspace:^0.0.1
+        version: link:../list
       '@zui/menu':
         specifier: workspace:^0.0.1
         version: link:../menu

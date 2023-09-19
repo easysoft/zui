@@ -51,6 +51,17 @@
 
 /* Kanban items. */
 .kanban-items {
-  @apply -h-full -overflow-auto -p-2;
+  @apply -overflow-auto -p-2;
   scrollbar-gutter: both-edges stable;
+}
+
+/* Kanban heading. */
+.kanban-heading {
+  @apply -w-full;
+}
+.kanban-heading .listitem {
+  @apply -h-9;
+}
+.kanban-heading .item-title {
+  @apply -font-bold;
 }

@@ -14,3 +14,5 @@ export * from './kanban-lane-col-props';
 export * from './kanban-lane-props';
 export * from './kanban-body-props';
 export * from './kanban-props';
+export * from './kanban-list-props';
+export * from './kanban-list-state';

@@ -5,14 +5,30 @@ import '@zui/icons';
 import '@zui/button';
 import '@zui/list/src/style';
 import '@zui/dropdown';
+import '@zui/toolbar';
 import '@zui/checkbox';
 import '@zui/cards';
 import '@zui/menu/src/style';
-import {Kanban} from './src/main';
+import {KanbanList} from './src/main';
 import {createKanbanData} from './dev/create-kanban-data';
 
 onPageLoad(() => {
-    const kanban = new Kanban('#kanban', {
+    const kanbanOptions = {
+        heading: {
+            title: 'Kanban',
+            actions: [
+                {icon: 'cog text-gray', title: '设置'},
+                {
+                    type: 'dropdown',
+                    icon: 'ellipsis-v text-gray',
+                    caret: false,
+                    placement: 'bottom-end',
+                    items: [ // 下拉菜单内容
+                        {text: '编辑', icon: 'edit'},
+                    ],
+                },
+            ],
+        },
         data: createKanbanData(),
         colProps: {
             /* 通过 actions 自定义列操作按钮（actions 还可以为一个回调函数动态返回操作按钮设置）。 */
@@ -69,6 +85,16 @@ onPageLoad(() => {
                 },
             }, col);
         },
+    };
+    const kanban2Options = {
+        heading: {
+            title: {html: '<span>设置区域</span> <i class="icon icon-chevron-up"></i>'},
+        },
+        data: createKanbanData(),
+    };
+    const kanbanList = new KanbanList('#kanbanList', {
+        items: [kanbanOptions, kanban2Options],
+        height: 'calc(100vh - 160px)',
     });
-    console.log('> kanban', kanban);
+    console.log('> kanbanList', kanbanList);
 });

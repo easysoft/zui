@@ -1,0 +1,6 @@
+.kanban-sticky .kanban-header {
+  @apply -sticky -top-0 -bg-canvas -z-10;
+}
+.kanban-sticky .kanban-lane-name {
+  @apply -sticky -left-0 -z-10;
+}

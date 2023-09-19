@@ -1,0 +1,19 @@
+.kanban-container {
+  @apply -h-screen -overflow-auto -pr-3 -pb-2 -flex -flex-col -gap-3;
+  scrollbar-gutter: stable;
+}
+
+.kanban-container > .kanban {
+  @apply -bg-canvas -rounded -shadow -p-3 -w-fit -min-w-full;
+}
+.kanban-container > .kanban.has-heading {
+  @apply -pt-0
+}
+.kanban-container .kanban-heading > .listitem {
+  @apply -sticky -left-3;
+  width: calc(var(--kanban-container-width) - 24px);
+}
+
+.kanban-container.is-moving {
+  @apply -cursor-grabbing;
+}
