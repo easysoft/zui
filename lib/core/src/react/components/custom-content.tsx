@@ -14,27 +14,25 @@ import {mergeProps} from '../../helpers';
  * @param generatorArgs  The arguments to pass to the generator.
  * @returns The rendered content.
  */
-export function renderCustomContent(
-    content: CustomContentType | CustomContentType[],
-    generatorThis?: unknown,
-    generatorArgs?: unknown[],
-): ComponentChildren {
+export function renderCustomContent(props: CustomContentProps): ComponentChildren {
+    const {content: contentSetting, generatorArgs, generatorThis, ...others} = props;
+    let content = contentSetting;
     if (typeof content === 'function') {
         content = (content as CustomContentGenerator).call(generatorThis, ...(generatorArgs || []));
     }
     if (Array.isArray(content)) {
-        return content.map((x) => renderCustomContent(x, generatorThis, generatorArgs));
+        return content.map((x) => renderCustomContent({...others, content: x, generatorThis, generatorArgs}));
     }
     if (typeof content === 'object' && ((content as HtmlContentProps).html || (content as HtmlContentProps).component)) {
         if ((content as HtmlContentProps).html) {
-            return <HtmlContent {...content as HtmlContentProps} />;
+            return <HtmlContent {...(mergeProps(others, content) as unknown as HtmlContentProps)} />;
         }
         let {children} = content as HElementProps;
         if (children) {
             children = Array.isArray(children) ? children : [children];
-            content = mergeProps({children: (children as CustomContentType[]).map((x) => renderCustomContent(x, generatorThis, generatorArgs))}, content);
+            content = mergeProps({children: (children as CustomContentType[]).map((x) => renderCustomContent({...others, content: x, generatorThis, generatorArgs}))}, content);
         }
-        return <HElement {...content as HElementProps} />;
+        return <HElement {...(mergeProps(others, content) as unknown as HElementProps)} />;
     }
     if (isValidElement(content) || content === null) {
         return content;
@@ -49,8 +47,7 @@ export function renderCustomContent(
  * @returns Custom content.
  */
 export function CustomContent(props: CustomContentProps): VNode | null {
-    const {content, generatorThis, generatorArgs} = props;
-    const result = renderCustomContent(content, generatorThis, generatorArgs);
+    const result = renderCustomContent(props);
     if (result === undefined || result === null || typeof result === 'boolean') {
         return null;
     }
