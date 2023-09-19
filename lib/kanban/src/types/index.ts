@@ -16,3 +16,5 @@ export * from './kanban-body-props';
 export * from './kanban-props';
 export * from './kanban-list-props';
 export * from './kanban-list-state';
+export * from './kanban-group-props';
+export * from './kanban-group-state';

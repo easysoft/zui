@@ -6,7 +6,6 @@ import {KanbanBody} from './kanban-body';
 import type {ComponentChildren, RenderableProps} from 'preact';
 import type {ClassNameLike, CustomContentType} from '@zui/core';
 import type {KanbanColName, KanbanColOptions, KanbanData, KanbanDataFetcher, KanbanDataSetting, KanbanItem, KanbanLaneName, KanbanLaneOptions, KanbanProps, KanbanState} from '../types';
-import {Listitem} from '@zui/list/src/component';
 
 function sortByOrder(a: {order?: number}, b: {order?: number}) {
     return a.order! - b.order!;
@@ -179,7 +178,7 @@ export class Kanban extends HElement<KanbanProps, KanbanState> {
     }
 
     protected _getClassName(props: RenderableProps<KanbanProps>): ClassNameLike {
-        return ['kanban', props.className, props.sticky ? 'kanban-sticky' : '', props.heading ? 'has-heading' : ''];
+        return ['kanban', props.className, props.sticky ? 'kanban-sticky' : ''];
     }
 
     protected _getProps(props: RenderableProps<KanbanProps>): Record<string, unknown> {
@@ -193,9 +192,7 @@ export class Kanban extends HElement<KanbanProps, KanbanState> {
 
     protected _getChildren(props: RenderableProps<KanbanProps>): ComponentChildren {
         const data = this._getData(props);
-        const {heading} = props;
         return [
-            heading && <Listitem key="heading" {...mergeProps({className: 'kanban-heading'}, heading)} />,
             <KanbanHeader key="header" cols={data.cols} />,
             <KanbanBody key="body" itemRender={props.itemRender} {...data} />,
             props.children,
