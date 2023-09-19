@@ -24,9 +24,10 @@ export class KanbanGroup extends Component<KanbanGroupProps, KanbanGroupState> {
     render(props: RenderableProps<KanbanGroupProps>, state: Readonly<KanbanGroupState>) {
         const {heading, toggleFromHeading, ...others} = props;
         const {collapsed} = state;
+        const headingProps = mergeProps({className: 'kanban-heading', onClick: toggleFromHeading ? this._handleClickHeading : undefined}, typeof heading === 'function' ? heading.call(this) : heading);
         return (
             <div className={classes('kanban-group', collapsed ? 'is-collapsed' : 'is-expanded', heading ? 'has-heading' : '')}>
-                {heading && <Listitem key="heading" {...mergeProps({className: 'kanban-heading', onClick: toggleFromHeading ? this._handleClickHeading : undefined}, heading)} />}
+                {heading && <Listitem key="heading" {...headingProps} />}
                 {collapsed ? null : <Kanban key="kanban" {...others} />}
             </div>
         );

@@ -3,7 +3,7 @@ import type {KanbanProps} from './kanban-props';
 
 export interface KanbanGroupProps extends KanbanProps {
     type?: string;
-    heading?: ListitemProps;
+    heading?: ListitemProps | (() => ListitemProps);
     collapsed?: boolean;
     toggleFromHeading?: boolean;
 }
