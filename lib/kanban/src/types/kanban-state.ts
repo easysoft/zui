@@ -4,5 +4,6 @@ import type {CustomContentType} from '@zui/core/src/react';
 export type KanbanState = {
     loading?: boolean;
     data?: KanbanData;
+    changes?: Partial<KanbanData>;
     loadFailed?: CustomContentType;
 };

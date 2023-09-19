@@ -19,6 +19,7 @@ export interface KanbanProps extends HElementProps {
     getLane?: (lane: KanbanLaneOptions) => KanbanLaneOptions | false;
     getItem?: (info: KanbanItemInfo) => KanbanItem | false;
     itemRender?: (info: KanbanItemInfo) => CustomContentType;
+    itemKey?: string;
     onLoad?: (data: KanbanData) => void | KanbanData;
     onLoadFail?: CustomContentType | ((error: Error) => CustomContentType | void);
     beforeRender?: (options: KanbanProps) => void;
