@@ -4,7 +4,8 @@ import {Kanban} from './kanban';
 
 import type {ComponentChildren, RenderableProps} from 'preact';
 import type {ClassNameLike} from '@zui/core';
-import type {KanbanData, KanbanDataSetting, KanbanListProps, KanbanListState} from '../types';
+import type {KanbanData, KanbanDataSetting, KanbanGroupProps, KanbanListProps, KanbanListState, KanbanProps} from '../types';
+import {KanbanGroup} from './kanban-group';
 
 export class KanbanList extends HElement<KanbanListProps, KanbanListState> {
     static defaultProps: Partial<KanbanListProps> = {
@@ -79,7 +80,7 @@ export class KanbanList extends HElement<KanbanListProps, KanbanListState> {
     }
 
     protected _getClassName(props: RenderableProps<KanbanListProps>): ClassNameLike {
-        return ['kanban-container', props.className, props.sticky ? 'has-sticky' : '', props.moveable ? 'is-moveable' : '', props.scrollbarHover ? 'scrollbar-hover' : ''];
+        return ['kanban-list', props.className, props.sticky ? 'has-sticky' : '', props.moveable ? 'is-moveable' : '', props.scrollbarHover ? 'scrollbar-hover' : ''];
     }
 
     protected _getProps(props: RenderableProps<KanbanListProps>): Record<string, unknown> {
@@ -92,8 +93,8 @@ export class KanbanList extends HElement<KanbanListProps, KanbanListState> {
             style: {
                 width: widthSetting,
                 height: heightSetting,
-                '--kanban-container-width': `${actualWidth || width}px`,
-                '--kanban-container-height': `${actualHeight || height}px`,
+                '--kanban-list-width': `${actualWidth || width}px`,
+                '--kanban-list-height': `${actualHeight || height}px`,
             },
         });
     }
@@ -101,7 +102,10 @@ export class KanbanList extends HElement<KanbanListProps, KanbanListState> {
     protected _getChildren(props: RenderableProps<KanbanListProps>): ComponentChildren {
         const {items = []} = props;
         return [
-            ...items.map((kanbanProps, index) => <Kanban key={kanbanProps.key ?? index} sticky={props.sticky} {...kanbanProps}/>),
+            ...items.map((kanbanProps, index) => {
+                const KanbanComponent = ((kanbanProps as KanbanGroupProps).heading !== undefined || (kanbanProps as KanbanGroupProps).type === 'group') ? KanbanGroup : Kanban;
+                return <KanbanComponent key={(kanbanProps as KanbanProps).key ?? index} sticky={props.sticky} {...(kanbanProps as KanbanProps)}/>;
+            }),
             props.children,
         ];
     }

@@ -25,7 +25,7 @@ export class KanbanGroup extends Component<KanbanGroupProps, KanbanGroupState> {
         const {heading, toggleFromHeading, ...others} = props;
         const {collapsed} = state;
         return (
-            <div className={classes('kanban-group', collapsed ? 'is-collapsed' : 'is-expanded')}>
+            <div className={classes('kanban-group', collapsed ? 'is-collapsed' : 'is-expanded', heading ? 'has-heading' : '')}>
                 {heading && <Listitem key="heading" {...mergeProps({className: 'kanban-heading', onClick: toggleFromHeading ? this._handleClickHeading : undefined}, heading)} />}
                 {collapsed ? null : <Kanban key="kanban" {...others} />}
             </div>

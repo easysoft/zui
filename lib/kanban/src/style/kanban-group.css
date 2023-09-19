@@ -1,0 +1,11 @@
+.kanban-group {
+  @apply -bg-canvas -rounded -shadow -p-3 -w-fit -min-w-full;
+}
+
+.kanban-group.has-heading {
+  @apply -pt-0
+}
+.kanban-heading > .listitem {
+  @apply -sticky -left-3;
+  width: calc(var(--kanban-list-width) - 24px);
+}
