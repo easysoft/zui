@@ -129,7 +129,7 @@ export class CommonList<P extends CommonListProps = CommonListProps, S = {}> ext
         if (Array.isArray(ItemComponent)) {
             let defaultItemProps = ItemComponent[1];
             if (typeof defaultItemProps === 'function') {
-                defaultItemProps = defaultItemProps.call(this, item, props);
+                defaultItemProps = defaultItemProps.call(this as CommonList, item, props);
             }
             item = mergeProps({}, defaultItemProps, item);
             ItemComponent = ItemComponent[0];
