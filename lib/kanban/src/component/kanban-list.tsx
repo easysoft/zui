@@ -2,7 +2,7 @@ import {$, HElement, createRef, mergeProps} from '@zui/core';
 import {Moveable} from '@zui/dnd';
 import {Kanban} from './kanban';
 
-import type {ComponentChildren, RenderableProps} from 'preact';
+import type {ComponentChildren, RefObject, RenderableProps} from 'preact';
 import type {ClassNameLike} from '@zui/core';
 import type {KanbanData, KanbanDataSetting, KanbanGroupProps, KanbanListProps, KanbanListState, KanbanProps} from '../types';
 import {KanbanGroup} from './kanban-group';
@@ -28,6 +28,8 @@ export class KanbanList extends HElement<KanbanListProps, KanbanListState> {
     protected _rob?: ResizeObserver;
 
     protected _layoutTimer?: number;
+
+    protected _kanbanRefs = new Map<string, RefObject<Kanban>>();
 
     componentDidMount() {
         const {moveable, responsive} = this.props;
@@ -58,17 +60,11 @@ export class KanbanList extends HElement<KanbanListProps, KanbanListState> {
         this._rob?.disconnect();
     }
 
-    protected _tryUpdateLayout(): void {
-        if (this._layoutTimer) {
-            cancelAnimationFrame(this._layoutTimer);
-        }
-        this._layoutTimer = requestAnimationFrame(() => {
-            this.updateLayout();
-            this._layoutTimer = 0;
-        });
+    getKanban(key: string) {
+        return this._kanbanRefs.get(key)?.current;
     }
 
-    protected updateLayout(): void {
+    updateLayout(): void {
         const element = this._ref.current;
         if (!element) {
             return;
@@ -77,6 +73,16 @@ export class KanbanList extends HElement<KanbanListProps, KanbanListState> {
         const width = $element.width();
         const height = $element.height();
         this.setState({width, height});
+    }
+
+    protected _tryUpdateLayout(): void {
+        if (this._layoutTimer) {
+            cancelAnimationFrame(this._layoutTimer);
+        }
+        this._layoutTimer = requestAnimationFrame(() => {
+            this.updateLayout();
+            this._layoutTimer = 0;
+        });
     }
 
     protected _getClassName(props: RenderableProps<KanbanListProps>): ClassNameLike {
@@ -103,8 +109,14 @@ export class KanbanList extends HElement<KanbanListProps, KanbanListState> {
         const {items = []} = props;
         return [
             ...items.map((kanbanProps, index) => {
+                const key = String((kanbanProps as KanbanProps).key ?? index);
+                let ref = this._kanbanRefs.get(key);
+                if (!ref) {
+                    ref = createRef<Kanban>();
+                    this._kanbanRefs.set(key, ref);
+                }
                 const KanbanComponent = ((kanbanProps as KanbanGroupProps).heading !== undefined || (kanbanProps as KanbanGroupProps).type === 'group') ? KanbanGroup : Kanban;
-                return <KanbanComponent key={(kanbanProps as KanbanProps).key ?? index} sticky={props.sticky} {...(kanbanProps as KanbanProps)}/>;
+                return <KanbanComponent key={key} ref={ref} sticky={props.sticky} {...(kanbanProps as KanbanProps)}/>;
             }),
             props.children,
         ];

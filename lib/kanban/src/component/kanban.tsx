@@ -56,7 +56,7 @@ function mergeData(data: Partial<KanbanData>, extraData: Partial<KanbanData>, it
     return {lanes, cols, items};
 }
 
-export class Kanban extends HElement<KanbanProps, KanbanState> {
+export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState = KanbanState> extends HElement<P, S> {
     static defaultProps: Partial<KanbanProps> = {
         draggable: true,
         sticky: true,
@@ -129,10 +129,10 @@ export class Kanban extends HElement<KanbanProps, KanbanState> {
         return this._data;
     }
 
-    update(changes: Partial<KanbanData>): Promise<KanbanState> {
+    update(changes: Partial<KanbanData>): Promise<S> {
         return this.changeState((prevState) => ({
             changes: mergeData(prevState.changes || {}, changes, this.props.itemKey || 'id'),
-        }));
+        } as Partial<S>));
     }
 
     addItem(lane: KanbanLaneName, col: KanbanColName, item: KanbanItem | KanbanItem[]) {
@@ -185,7 +185,7 @@ export class Kanban extends HElement<KanbanProps, KanbanState> {
         this.props.afterRender?.call(this, firstRender);
     }
 
-    protected _getData(props: RenderableProps<KanbanProps>) {
+    protected _getData(props: RenderableProps<P>) {
         const {data, getCol, colProps, getLane, laneProps, getItem, itemProps, itemKey = 'id'} = props;
         const {data: stateData, changes} = this.state;
         let kanbanData = (stateData || isFetchSetting(data) ? stateData : data) || {} as KanbanData;
@@ -280,15 +280,14 @@ export class Kanban extends HElement<KanbanProps, KanbanState> {
             lanes.sort(sortByOrder);
         }
         this._data = {cols, lanes, items};
-        console.log('> data', this._data);
         return this._data;
     }
 
-    protected _getClassName(props: RenderableProps<KanbanProps>): ClassNameLike {
+    protected _getClassName(props: RenderableProps<P>): ClassNameLike {
         return ['kanban', props.className, props.sticky ? 'kanban-sticky' : ''];
     }
 
-    protected _getProps(props: RenderableProps<KanbanProps>): Record<string, unknown> {
+    protected _getProps(props: RenderableProps<P>): Record<string, unknown> {
         return mergeProps(super._getProps(props), {
             ref: this._ref,
             style: {
@@ -297,7 +296,7 @@ export class Kanban extends HElement<KanbanProps, KanbanState> {
         });
     }
 
-    protected _getChildren(props: RenderableProps<KanbanProps>): ComponentChildren {
+    protected _getChildren(props: RenderableProps<P>): ComponentChildren {
         const data = this._getData(props);
         return [
             <KanbanHeader key="header" cols={data.cols} />,
