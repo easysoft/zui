@@ -12,6 +12,15 @@ import type {HElementProps} from '../types';
 export class HElement<P extends HElementProps, S = {}> extends Component<P, S> {
     static HElement = true;
 
+    changeState(state: Partial<S> | ((prevState: Readonly<S>) => Partial<S>), callback?: () => void): Promise<S> {
+        return new Promise<S>(resolve => {
+            this.setState(state, () => {
+                callback?.();
+                resolve(this.state);
+            });
+        });
+    }
+
     protected _getClassName(props: RenderableProps<P>): ClassNameLike {
         return props.className;
     }
