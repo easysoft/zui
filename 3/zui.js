@@ -10032,9 +10032,9 @@ class jd extends O {
     };
   }
   render(t, e) {
-    const { heading: n, toggleFromHeading: i, ...r } = t, { collapsed: o } = e;
+    const { heading: n, toggleFromHeading: i, ...r } = t, { collapsed: o } = e, a = H({ className: "kanban-heading", onClick: i ? this._handleClickHeading : void 0 }, typeof n == "function" ? n.call(this) : n);
     return /* @__PURE__ */ f("div", { className: x("kanban-group", o ? "is-collapsed" : "is-expanded", n ? "has-heading" : ""), children: [
-      n && /* @__PURE__ */ f(on, { ...H({ className: "kanban-heading", onClick: i ? this._handleClickHeading : void 0 }, n) }, "heading"),
+      n && /* @__PURE__ */ f(on, { ...a }, "heading"),
       o ? null : /* @__PURE__ */ f(On, { ...r }, "kanban")
     ] });
   }
