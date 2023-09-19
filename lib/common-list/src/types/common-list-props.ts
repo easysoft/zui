@@ -24,7 +24,7 @@ export interface CommonListProps<T extends Item = Item> extends HElementProps {
     /**
      * Item key name, used to generate every item key form item definition.
      */
-    keyName?: string;
+    itemKey?: string;
 
     /**
      * List items, can be an array or a function that returns an array.

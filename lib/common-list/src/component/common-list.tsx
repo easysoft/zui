@@ -146,7 +146,7 @@ export class CommonList<P extends CommonListProps = CommonListProps, S = {}> ext
      * @returns The item to rendered, if return false, the item will not be rendered.
      */
     protected _getItem(props: RenderableProps<P>, item: Item, index: number): Item | false {
-        const {itemProps, itemPropsMap = {}, getItem, keyName = 'id'} = props;
+        const {itemProps, itemPropsMap = {}, getItem, itemKey = 'id'} = props;
         const {type = this.constructor.defaultItemType} = item;
         const {name, itemName} = this;
         const {defaultItemProps = {}, defaultItemPropsMap = {}} = this.constructor;
@@ -161,7 +161,7 @@ export class CommonList<P extends CommonListProps = CommonListProps, S = {}> ext
             item,
             {
                 _index: index,
-                key: String((keyName ? item[keyName] : item.key) ?? index),
+                key: String((itemKey ? item[itemKey] : item.key) ?? index),
             },
         );
 
