@@ -32,9 +32,11 @@ onPageLoad(() => {
         data: {
             ...createKanbanData(),
             links: [
+                {from: '5', to: '12'},
                 {from: '16', to: '20'},
                 {from: '16', to: '23'},
                 {from: '24', to: '56'},
+                {from: '6', to: '56'},
             ],
         },
         colProps: {
@@ -149,8 +151,8 @@ onPageLoad(() => {
         },
     };
     const kanbanList = new KanbanList('#kanbanList', {
-        items: [kanban3Options],
         // items: [kanbanOptions, kanban2Options, kanban3Options],
+        items: [kanbanOptions],
         height: 'calc(100vh - 160px)',
     });
     console.log('> kanbanList', kanbanList);

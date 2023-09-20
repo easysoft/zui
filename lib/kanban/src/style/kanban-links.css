@@ -1,0 +1,18 @@
+.kanban-links {
+  @apply -absolute -inset-0 -pointer-events-none;
+}
+.kanban-link {
+  @apply -absolute -flex -items-center -justify-center -text-[--kanban-link-color];
+}
+.kanban-link > svg {
+  @apply -absolute;
+}
+.kanban-link-text {
+  @apply -pointer-events-auto -relative -whitespace-nowrap -px-0.5 -text-center -h-[1em] -rounded -leading-none
+}
+.kanban-link-start-point {
+  @apply -absolute -w-2 -h-2 -bg-current -rounded-full --translate-x-1 --translate-y-1;
+}
+.kanban-link-start-point::before {
+  @apply -content-[''] -block -absolute --inset-1 -bg-current -rounded-full -opacity-20;
+}

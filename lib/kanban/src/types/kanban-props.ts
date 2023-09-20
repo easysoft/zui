@@ -6,6 +6,7 @@ import type {KanbanColOptions} from './kanban-col-options';
 import type {KanbanItem} from './kanban-item';
 import type {KanbanItemInfo} from './kanban-item-info';
 import type {KanbanData} from './kanban-data';
+import type {KanbanLinkOptions} from './kanban-link-options';
 
 export interface KanbanProps extends HElementProps {
     data: KanbanDataSetting;
@@ -13,6 +14,7 @@ export interface KanbanProps extends HElementProps {
     colProps?: Partial<KanbanColOptions>;
     laneNameWidth?: number;
     itemProps?: Partial<KanbanItem>;
+    linkProps?: Partial<KanbanLinkOptions>;
     sortLane?: boolean;
     sticky?: boolean;
     lanesGap?: SizeSetting;
@@ -20,6 +22,7 @@ export interface KanbanProps extends HElementProps {
     getCol?: (col: KanbanColOptions) => KanbanColOptions | false;
     getLane?: (lane: KanbanLaneOptions) => KanbanLaneOptions | false;
     getItem?: (info: KanbanItemInfo) => KanbanItem | false;
+    getLink?: (link: KanbanLinkOptions) => KanbanLinkOptions | false;
     itemRender?: (info: KanbanItemInfo) => CustomContentType;
     itemKey?: string;
     onLoad?: (data: KanbanData) => void | KanbanData;

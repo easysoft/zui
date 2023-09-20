@@ -3,7 +3,7 @@ import {Draggable} from '@zui/dnd';
 import {KanbanHeader} from './kanban-header';
 import {KanbanBody} from './kanban-body';
 import {KanbanLinks} from './kanban-links';
-import {getCols, mergeData, sortByOrder, getLanes} from '../helpers/helpers';
+import {getCols, mergeData, sortByOrder, getLanes} from '../helpers/kanban-helpers';
 
 import type {ComponentChildren, RenderableProps} from 'preact';
 import type {ClassNameLike, CustomContentType} from '@zui/core';

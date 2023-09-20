@@ -3,6 +3,7 @@ import {$} from '@zui/core';
 
 import type {RenderableProps} from 'preact';
 import type {KanbanLinkOptions, KanbanLinksProps, KanbanLinksState} from '../types';
+import {KanbanLink} from './kanban-link';
 
 export class KanbanLinks extends Component<KanbanLinksProps, KanbanLinksState> {
     _ref = createRef<HTMLDivElement>();
@@ -48,12 +49,13 @@ export class KanbanLinks extends Component<KanbanLinksProps, KanbanLinksState> {
     _updateLayout() {
         const idSet = [...this._idSet];
         const $kanban = $(this._kanban).find('.kanban-body');
+        const {top: offsetTop, left: offsetLeft} = this._kanban.getBoundingClientRect();
         const layout: KanbanLinksState['layout'] = {};
         idSet.forEach(id => {
             const element = $kanban.find(`.kanban-item[z-key="${id}"]`)[0];
             if (element) {
                 const {top, left, bottom, right} = element.getBoundingClientRect();
-                layout[id] = {top, left, bottom, right};
+                layout[id] = {top: top - offsetTop, left: left - offsetLeft, bottom: bottom - offsetTop, right: right - offsetLeft};
             }
         });
         this.setState({layout});
@@ -61,19 +63,16 @@ export class KanbanLinks extends Component<KanbanLinksProps, KanbanLinksState> {
 
     _renderLink(link: KanbanLinkOptions) {
         const {layout} = this.state;
-        const from = String(link.from);
-        const to = String(link.to);
-        const fromBounding = layout[from];
-        const toBounding = layout[to];
+        const {from, to} = link;
+        const fromReact = layout[from];
+        const toRect = layout[to];
         this._idSet.add(from);
         this._idSet.add(to);
-        if (!fromBounding || !toBounding) {
+        if (!fromReact || !toRect) {
             return null;
         }
         return (
-            <div key={`${from}-${to}`} className="kanban-link">
-                {JSON.stringify({fromBounding, toBounding})}
-            </div>
+            <KanbanLink key={`${from}-${to}`} {...link} fromRect={fromReact} toRect={toRect} />
         );
     }
 
