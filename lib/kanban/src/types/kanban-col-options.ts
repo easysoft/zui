@@ -4,6 +4,8 @@ import type {KanbanColName} from './kanban-col-name';
 
 export interface KanbanColOptions extends HElementProps {
     name: KanbanColName;
+    parentName?: KanbanColName;
+    asParent?: boolean;
     deleted?: boolean;
     width?: SizeSetting | ((col: KanbanColOptions) => SizeSetting);
     minWidth?: SizeSetting;

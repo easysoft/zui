@@ -29,20 +29,29 @@ onPageLoad(() => {
                 },
             ],
         },
-        data: createKanbanData(),
+        data: {
+            ...createKanbanData(),
+            links: [
+                {from: '16', to: '20'},
+                {from: '16', to: '23'},
+                {from: '24', to: '56'},
+            ],
+        },
         colProps: {
             /* 通过 actions 自定义列操作按钮（actions 还可以为一个回调函数动态返回操作按钮设置）。 */
-            actions: [{
-                icon: 'check-plus text-primary',
-                onClick: () => console.log('Click add'),
-            }, {
-                type: 'dropdown',
-                icon: 'ellipsis-v text-primary',
-                caret: false,
-                items: [ // 下拉菜单内容
-                    {text: '编辑', icon: 'edit'},
-                ],
-            }],
+            actions: () => {
+                return [{
+                    icon: 'check-plus text-primary',
+                    onClick: () => console.log('Click add'),
+                }, {
+                    type: 'dropdown',
+                    icon: 'ellipsis-v text-primary',
+                    caret: false,
+                    items: [ // 下拉菜单内容
+                        {text: '编辑', icon: 'edit'},
+                    ],
+                }];
+            },
         },
         itemRender: (info) => {
             /* 自定义渲染卡片，通过 {html: ...} 返回卡片 HTML内容。 */

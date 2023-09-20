@@ -31,6 +31,11 @@ export class KanbanList extends HElement<KanbanListProps, KanbanListState> {
 
     protected _kanbanRefs = new Map<string, RefObject<Kanban>>();
 
+    constructor(props: KanbanListProps) {
+        super(props);
+        console.time('kanbanList.init');
+    }
+
     componentDidMount() {
         const {moveable, responsive} = this.props;
         if (moveable && this._ref.current) {
@@ -53,6 +58,7 @@ export class KanbanList extends HElement<KanbanListProps, KanbanListState> {
             });
             this._rob = rob;
         }
+        console.timeEnd('kanbanList.init');
     }
 
     componentWillUnmount(): void {

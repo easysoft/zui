@@ -2,10 +2,11 @@ import {$, HElement, createRef, fetchData, isFetchSetting, mergeProps} from '@zu
 import {Draggable} from '@zui/dnd';
 import {KanbanHeader} from './kanban-header';
 import {KanbanBody} from './kanban-body';
+import {KanbanLinks} from './kanban-links';
 
 import type {ComponentChildren, RenderableProps} from 'preact';
 import type {ClassNameLike, CustomContentType} from '@zui/core';
-import type {KanbanColName, KanbanColOptions, KanbanData, KanbanDataFetcher, KanbanDataSetting, KanbanItem, KanbanLaneName, KanbanLaneOptions, KanbanProps, KanbanState} from '../types';
+import type {KanbanColName, KanbanColOptions, KanbanData, KanbanDataFetcher, KanbanDataSetting, KanbanItem, KanbanLaneName, KanbanLaneOptions, KanbanLinkOptions, KanbanProps, KanbanState} from '../types';
 
 function sortByOrder(a: {order?: number}, b: {order?: number}) {
     return a.order! - b.order!;
@@ -44,6 +45,7 @@ function mergeItemList<T extends KanbanLaneOptions | KanbanColOptions | KanbanIt
 function mergeData(data: Partial<KanbanData>, extraData: Partial<KanbanData>, itemKey: string): Partial<KanbanData> {
     const lanes = mergeItemList(data.lanes, extraData.lanes, itemKey);
     const cols = mergeItemList(data.cols, extraData.cols, itemKey);
+    const links = mergeItemList(data.links, extraData.links, itemKey);
     const extraItems = extraData.items || {};
     const items = Object.keys(extraItems).reduce((map, lane) => {
         const laneItems = extraItems[lane];
@@ -53,9 +55,8 @@ function mergeData(data: Partial<KanbanData>, extraData: Partial<KanbanData>, it
         });
         return map;
     }, {...data.items});
-    return {lanes, cols, items};
+    return {lanes, cols, items, links};
 }
-
 export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState = KanbanState> extends HElement<P, S> {
     static defaultProps: Partial<KanbanProps> = {
         draggable: true,
@@ -194,7 +195,7 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
         }
         let needSort = false;
         const {items = {}} = kanbanData;
-        let {cols = [], lanes = []} = kanbanData;
+        let {cols = [], lanes = [], links = []} = kanbanData;
         cols = cols.reduce<KanbanColOptions[]>((list, col, index) => {
             if (colProps) {
                 col = mergeProps({}, colProps, col) as unknown as KanbanColOptions;
@@ -224,6 +225,7 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
             cols.sort(sortByOrder);
         }
         needSort = false;
+        const itemIdSet = new Set<string>();
         lanes = lanes.reduce<KanbanLaneOptions[]>((list, lane, index) => {
             if (laneProps) {
                 lane = mergeProps({}, laneProps, lane) as unknown as KanbanLaneOptions;
@@ -257,12 +259,13 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
                                 }
                                 const result = getItem?.call(this, {col: col.name, lane: lane.name, item}) ?? item;
                                 if (result !== false && !result.deleted) {
-                                    colItems.push(result);
                                     if (typeof result.order === 'number') {
                                         needSort = true;
                                     } else {
                                         result.order = colItems.length - 1;
                                     }
+                                    colItems.push(result);
+                                    itemIdSet.add(String(result[itemKey]));
                                 }
                                 return colItems;
                             }, []);
@@ -279,7 +282,13 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
         if (needSort) {
             lanes.sort(sortByOrder);
         }
-        this._data = {cols, lanes, items};
+        links = links.reduce<KanbanLinkOptions[]>((list, link) => {
+            if (!link.deleted && itemIdSet.has(String(link.from)) && itemIdSet.has(String(link.to))) {
+                list.push(link);
+            }
+            return list;
+        }, []);
+        this._data = {cols, lanes, items, links};
         return this._data;
     }
 
@@ -297,10 +306,18 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
     }
 
     protected _getChildren(props: RenderableProps<P>): ComponentChildren {
-        const data = this._getData(props);
+        const {cols, lanes, items, links} = this._getData(props);
+        console.log('> Kanban.render', {cols, lanes, items, links});
         return [
-            <KanbanHeader key="header" cols={data.cols} />,
-            <KanbanBody key="body" itemRender={props.itemRender} {...data} />,
+            <KanbanHeader key="header" cols={cols} />,
+            <KanbanBody
+                key="body"
+                itemRender={props.itemRender}
+                cols={cols}
+                lanes={lanes}
+                items={items}
+            />,
+            links?.length ? <KanbanLinks key="links" links={links} /> : null,
             props.children,
         ];
     }

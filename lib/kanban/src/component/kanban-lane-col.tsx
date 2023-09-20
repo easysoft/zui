@@ -1,17 +1,41 @@
-import {classes, CustomContent} from '@zui/core';
+import {Component, createRef} from 'preact';
+import {classes, $, CustomContent} from '@zui/core';
 import {CardList} from '@zui/cards/src/component';
 
-import {Component, ComponentChildren, type JSX} from 'preact';
+import type {ComponentChildren, JSX, RefObject} from 'preact';
+import type {HtmlContentProps} from '@zui/core';
 import type {KanbanItem, KanbanLaneColProps} from '../types';
 
-const kanbanItemProps = {
-    className: 'kanban-item',
-};
-
 export class KanbanLaneCol extends Component<KanbanLaneColProps> {
+    static defaultProps = {
+        watchSize: true,
+    };
+
+    protected _listRef: RefObject<HTMLElement> = createRef();
+
+    protected declare _ob: ResizeObserver;
+
+    componentDidMount(): void {
+        const {current} = this._listRef;
+        if (current) {
+            this._ob = new ResizeObserver((entries) => {
+                $(this._listRef.current).trigger('laneColResize', entries[0]);
+            });
+            this._ob.observe(current);
+        }
+    }
+
+    componentWillUnmount(): void {
+        this._ob?.disconnect();
+    }
+
     protected _renderItem = (item: KanbanItem): ComponentChildren => {
         const {itemRender, lane, name} = this.props;
-        return itemRender!.call(this, {item, lane, col: name});
+        const result = itemRender!.call(this, {item, lane, col: name});
+        if (typeof result === 'object' && (result as HtmlContentProps).html) {
+            $.extend(result, {});
+        }
+        return result;
     };
 
     render(props: KanbanLaneColProps) {
@@ -24,6 +48,7 @@ export class KanbanLaneCol extends Component<KanbanLaneColProps> {
             content,
             contentClass,
             itemRender,
+            watchSize,
         } = props;
         const style: JSX.CSSProperties = {
             '--kanban-col-color': color,
@@ -33,8 +58,19 @@ export class KanbanLaneCol extends Component<KanbanLaneColProps> {
         };
         return (
             <div className="kanban-lane-col" style={style}>
-                {content ? <div className={classes('kanban-col-content', contentClass)}><CustomContent content={content} generatorThis={this} generatorArgs={[props]} /></div> : null}
-                <CardList key="list" className="kanban-items scrollbar-thin scrollbar-hover" itemProps={kanbanItemProps} items={items} itemRender={itemRender ? this._renderItem : undefined} />
+                {content ? (
+                    <div className={classes('kanban-col-content', contentClass)}>
+                        <CustomContent content={content} generatorThis={this} generatorArgs={[props]} />
+                    </div>
+                ) : null}
+                <CardList
+                    key="list"
+                    forwardRef={watchSize ? this._listRef : undefined}
+                    className="kanban-items scrollbar-thin scrollbar-hover"
+                    itemProps={{className: 'kanban-item'}}
+                    items={items}
+                    itemRender={itemRender ? this._renderItem : undefined}
+                />
             </div>
         );
     }
