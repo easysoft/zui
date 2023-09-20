@@ -1,5 +1,5 @@
 .card {
-  @apply -shadow-sm -rounded -ring-1 -ring-border -ring-opacity-5 hover:-shadow -transition-[shadow,border,color,background-color] -bg-canvas;
+  @apply -shadow-sm -rounded -ring-1 -ring-border -ring-opacity-5 hover:-shadow -transition-[shadow,border,color,background-color] -bg-canvas -relative;
 }
 
 .card-heading,
@@ -19,4 +19,7 @@
 }
 .card-content {
   @apply -flex -flex-col -gap-1;
+}
+.card-actions {
+  @apply -absolute -right-1 -top-1;
 }

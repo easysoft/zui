@@ -18,6 +18,18 @@ onPageLoad(() => {
                 subtitle: {component: 'span', className: 'text-gray', children: '这是副标题'},
                 content: '主要内容',
                 footer: '自定义内容',
+                actions: [
+                    {icon: 'cog text-gray', title: '设置'},
+                    {
+                        type: 'dropdown',
+                        icon: 'ellipsis-v text-gray',
+                        caret: false,
+                        placement: 'bottom-end',
+                        items: [ // 下拉菜单内容
+                            {text: '编辑', icon: 'edit'},
+                        ],
+                    },
+                ],
             },
         ],
     });
