@@ -2,6 +2,7 @@ import {createRef} from 'preact';
 import {$} from '@zui/core';
 import {Button} from '@zui/button/src/component/button';
 import {BtnGroup} from '@zui/btn-group/src/component';
+import {Toolbar} from '@zui/toolbar/src/component';
 import {Dropdown} from '../vanilla';
 
 import type {DropdownButtonOptions} from '../types';
@@ -58,3 +59,4 @@ export class DropdownButton extends Button<DropdownButtonOptions> {
 }
 
 Object.assign(BtnGroup.ItemComponents, {dropdown: DropdownButton});
+Object.assign(Toolbar.ItemComponents, {dropdown: DropdownButton});
