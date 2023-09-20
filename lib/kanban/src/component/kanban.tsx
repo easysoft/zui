@@ -1,4 +1,4 @@
-import {$, HElement, createRef, fetchData, isFetchSetting, mergeProps} from '@zui/core';
+import {$, HElement, createRef, fetchData, isFetchSetting, mergeProps, toCssSize} from '@zui/core';
 import {Draggable} from '@zui/dnd';
 import {KanbanHeader} from './kanban-header';
 import {KanbanBody} from './kanban-body';
@@ -301,6 +301,8 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
             ref: this._ref,
             style: {
                 '--kanban-lane-name-width': props.laneNameWidth,
+                '--kanban-cols-gap': props.colsGap ? toCssSize(props.colsGap) : undefined,
+                '--kanban-lanes-gap': props.lanesGap ? toCssSize(props.lanesGap) : undefined,
             },
         });
     }
