@@ -1,9 +1,9 @@
 import {CustomContent, HElement, classes, mergeProps} from '@zui/core';
 import {Toolbar} from '@zui/toolbar/src/component';
 
-import type {ComponentChildren, RenderableProps} from 'preact';
+import type {ComponentChild, ComponentChildren, RenderableProps} from 'preact';
 import type {ClassNameLike} from '@zui/core';
-import type {KanbanLaneProps} from '../types';
+import type {KanbanColOptions, KanbanLaneName, KanbanLaneProps} from '../types';
 import {KanbanLaneCol} from './kanban-lane-col';
 
 export class KanbanLane extends HElement<KanbanLaneProps> {
@@ -28,6 +28,10 @@ export class KanbanLane extends HElement<KanbanLaneProps> {
         });
     }
 
+    protected _renderCol(laneName: KanbanLaneName, col: KanbanColOptions, itemRender: KanbanLaneProps['itemRender'], items: KanbanLaneProps['items']) {
+        return <KanbanLaneCol key={col.name} itemRender={itemRender} lane={laneName} items={items[col.name]} {...col} />;
+    }
+
     protected _getChildren(props: RenderableProps<KanbanLaneProps>): ComponentChildren {
         const {
             name,
@@ -45,7 +49,16 @@ export class KanbanLane extends HElement<KanbanLaneProps> {
                 {Toolbar.render(actions, [props], {key: 'actions', className: 'kanban-lane-actions', size: 'sm'}, this)}
             </div>,
             <div key="cols" className="kanban-lane-cols">
-                {cols.map(col => <KanbanLaneCol key={col.name} itemRender={itemRender} lane={name} items={items[col.name]} {...col} />)}
+                {cols.reduce<ComponentChild[]>((list, col) => {
+                    if (col.subCols) {
+                        col.subCols.forEach(subCol => {
+                            list.push(this._renderCol(name, subCol, itemRender, items));
+                        });
+                    } else {
+                        list.push(this._renderCol(name, col, itemRender, items));
+                    }
+                    return list;
+                }, [])}
             </div>,
         ];
     }

@@ -6,14 +6,27 @@
 .kanban-header {
   @apply -flex -flex-row -h-[--kanban-header-height];
 }
+.kanban.has-sub-cols .kanban-header {
+  height: calc(var(--kanban-header-height) * 2);
+}
 .kanban-header-lane-name {
   @apply -flex-none -w-[--kanban-lane-name-width] -bg-fore/5;
 }
-.kanban-header-cols {
-  @apply -flex -flex-row -gap-2;
+.kanban-header-cols,
+.kanban-header-sub-cols {
+  @apply -flex -flex-row -gap-[--kanban-cols-gap] -flex-1;
+}
+.kanban-header-sub-cols {
+  @apply -border-t-2 -border-canvas;
 }
 .kanban-header-col {
-  @apply -w-[--kanban-col-width] -bg-surface -relative -px-10 -h-full -flex -flex-1 -flex-row -items-center -border-b;
+  @apply -w-[--kanban-col-width] -h-full -flex -flex-1 -flex-col -items-center -border-b;
+}
+.kanban-header-col.has-subs {
+  @apply -w-auto;
+}
+.kanban-header-col-wrapper {
+  @apply -bg-surface -relative -px-10 -w-full -flex-1 -flex -flex-row -items-center;
 }
 .kanban-header-title {
   @apply -flex -flex-row -items-center -flex-auto -justify-center -overflow-hidden;
@@ -30,7 +43,7 @@
 
 /* Kanban body. */
 .kanban-body {
-  @apply -flex -flex-col -gap-2;
+  @apply -flex -flex-col -gap-[--kanban-lanes-gap];
 }
 .kanban-lane {
   @apply -flex -flex-row -h-[--kanban-lane-height] -min-h-[96px];
@@ -40,13 +53,16 @@
   writing-mode: vertical-rl;
 }
 .kanban-lane-cols {
-  @apply -flex -flex-row -gap-2;
+  @apply -flex -flex-row -gap-[--kanban-cols-gap];
 }
 .kanban-lane-col {
   @apply -w-[--kanban-col-width] -bg-inverse/5 -h-full;
 }
 .kanban-lane.is-first > .kanban-lane-name::before {
-  @apply -content-[''] -block -absolute -left-0 -right-0 -h-[--kanban-header-height] --top-[--kanban-header-height] -bg-[--kanban-lane-color];
+  @apply -content-[''] -block -absolute -left-0 -right-0 -h-[--kanban-header-height] -bottom-full -bg-[--kanban-lane-color];
+}
+.kanban.has-sub-cols .kanban-lane.is-first > .kanban-lane-name::before {
+  height: calc(var(--kanban-header-height) * 2);
 }
 
 /* Kanban items. */

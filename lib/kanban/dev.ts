@@ -101,8 +101,56 @@ onPageLoad(() => {
         },
         data: createKanbanData(),
     };
+    const kanban3Options = {
+        heading: {
+            title: '父子列',
+        },
+        data: {
+            cols: [
+                {title: '未完成', name: 'todo'},
+                {title: '进行中', name: 'doing'},
+                {title: '已指派', name: 'assigned', parentName: 'doing'},
+                {title: '实现中', name: 'wip', parentName: 'doing'},
+                {title: '已完成', name: 'done'},
+                {title: '其他', name: 'other', asParent: true},
+            ],
+            lanes: [
+                {title: '需求', name: 'story'},
+                {title: '任务', name: 'task'},
+            ],
+            items: {
+                story: {
+                    todo: [
+                        {id: '1', title: '用户需求1'},
+                        {id: '2', title: '用户需求2'},
+                        {id: '3', title: '用户需求3'},
+                    ],
+                    assigned: [
+                        {id: '4', title: '用户需求4'},
+                        {id: '5', title: '用户需求5'},
+                        {id: '6', title: '用户需求6'},
+                    ],
+                },
+                task: {
+                    assigned: [
+                        {id: '12', title: '任务1'},
+                    ],
+                    wip: [
+                        {id: '7', title: '任务1'},
+                        {id: '8', title: '任务2'},
+                    ],
+                    done: [
+                        {id: '9', title: '任务3'},
+                        {id: '10', title: '任务4'},
+                        {id: '11', title: '任务5'},
+                    ],
+                },
+            },
+        },
+    };
     const kanbanList = new KanbanList('#kanbanList', {
-        items: [kanbanOptions, kanban2Options],
+        items: [kanban3Options],
+        // items: [kanbanOptions, kanban2Options, kanban3Options],
         height: 'calc(100vh - 160px)',
     });
     console.log('> kanbanList', kanbanList);

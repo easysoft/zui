@@ -1,6 +1,9 @@
 :root {
   --kanban-lane-name-width: 20px;
   --kanban-col-width: 280px;
+  --kanban-cols-gap: 2px;
+  --kanban-lanes-gap: 2px;
   --kanban-header-height: 32px;
   --kanban-lane-height: auto;
+  --kanban-lane-color: var(--color-primary-500);
 }

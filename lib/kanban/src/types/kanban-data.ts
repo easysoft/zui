@@ -8,4 +8,5 @@ export interface KanbanData {
     cols: KanbanColOptions[];
     items: KanbanItems;
     links?: KanbanLinkOptions[];
+    hasSubCols?: boolean;
 }

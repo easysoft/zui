@@ -8,7 +8,6 @@ export function createLane(): KanbanLaneOptions {
     return {
         name,
         title: `${name[0].toUpperCase()}${name.substring(1)}`,
-        color: `hsl(${(43 * $.guid++) % 360}deg 40% 50%)`,
     };
 }
 
@@ -17,7 +16,6 @@ export function createCol(): KanbanColOptions {
     return {
         name,
         title: `${name[0].toUpperCase()}${name.substring(1)}`,
-        color: `hsl(${(43 * $.guid++) % 360}deg 40% 50%)`,
     };
 }
 

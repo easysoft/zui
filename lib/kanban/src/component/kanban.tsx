@@ -3,60 +3,12 @@ import {Draggable} from '@zui/dnd';
 import {KanbanHeader} from './kanban-header';
 import {KanbanBody} from './kanban-body';
 import {KanbanLinks} from './kanban-links';
+import {getCols, mergeData, sortByOrder, getLanes} from '../helpers/helpers';
 
 import type {ComponentChildren, RenderableProps} from 'preact';
 import type {ClassNameLike, CustomContentType} from '@zui/core';
 import type {KanbanColName, KanbanColOptions, KanbanData, KanbanDataFetcher, KanbanDataSetting, KanbanItem, KanbanLaneName, KanbanLaneOptions, KanbanLinkOptions, KanbanProps, KanbanState} from '../types';
 
-function sortByOrder(a: {order?: number}, b: {order?: number}) {
-    return a.order! - b.order!;
-}
-
-function mergeItemList<T extends KanbanLaneOptions | KanbanColOptions | KanbanItem>(items: T[] | undefined, newItems: T[] | undefined, itemKey: string): T[] {
-    if (!items) {
-        return newItems ? [...newItems ] : [];
-    }
-    const finalItems = [...items];
-    if (newItems) {
-        let order = 0;
-        const indexMap = finalItems.reduce((map, item, index) => {
-            map.set(item[itemKey as keyof T] as string, index);
-            order = Math.max(item.order ?? index, order);
-            return map;
-        }, new Map<string, number>());
-        newItems.forEach(item => {
-            const key = item[itemKey as keyof T] as string;
-            if (indexMap.has(key)) {
-                finalItems[indexMap.get(key)!] = {
-                    ...finalItems[indexMap.get(key)!],
-                    ...item,
-                };
-            } else {
-                finalItems.push({
-                    order: order++,
-                    ...item,
-                });
-            }
-        });
-    }
-    return finalItems;
-}
-
-function mergeData(data: Partial<KanbanData>, extraData: Partial<KanbanData>, itemKey: string): Partial<KanbanData> {
-    const lanes = mergeItemList(data.lanes, extraData.lanes, itemKey);
-    const cols = mergeItemList(data.cols, extraData.cols, itemKey);
-    const links = mergeItemList(data.links, extraData.links, itemKey);
-    const extraItems = extraData.items || {};
-    const items = Object.keys(extraItems).reduce((map, lane) => {
-        const laneItems = extraItems[lane];
-        map[lane] = {...map[lane]};
-        Object.keys(laneItems).forEach((col) => {
-            map[lane][col] = mergeItemList(map[lane][col], laneItems[col], itemKey);
-        });
-        return map;
-    }, {...data.items});
-    return {lanes, cols, items, links};
-}
 export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState = KanbanState> extends HElement<P, S> {
     static defaultProps: Partial<KanbanProps> = {
         draggable: true,
@@ -187,113 +139,63 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
     }
 
     protected _getData(props: RenderableProps<P>) {
-        const {data, getCol, colProps, getLane, laneProps, getItem, itemProps, itemKey = 'id'} = props;
+        const {data, getItem, itemProps, itemKey = 'id'} = props;
         const {data: stateData, changes} = this.state;
         let kanbanData = (stateData || isFetchSetting(data) ? stateData : data) || {} as KanbanData;
         if (changes) {
             kanbanData = mergeData(kanbanData, changes, itemKey) as KanbanData;
         }
-        let needSort = false;
+        let hasSubCols = false;
         const {items = {}} = kanbanData;
-        let {cols = [], lanes = [], links = []} = kanbanData;
-        cols = cols.reduce<KanbanColOptions[]>((list, col, index) => {
-            if (colProps) {
-                col = mergeProps({}, colProps, col) as unknown as KanbanColOptions;
-            }
-            if (getCol) {
-                const result = getCol.call(this, col);
-                if (result !== false) {
-                    col = result || col;
-                }
-            }
-            if (!col.deleted) {
-                if (typeof col.width === 'function') {
-                    col = mergeProps({}, col, {
-                        width: col.width.call(this, col),
-                    }) as unknown as KanbanColOptions;
-                }
-                if (typeof col.order === 'number') {
-                    needSort = true;
-                } else {
-                    col.order = index;
-                }
-                list.push(col);
-            }
-            return list;
-        }, []);
-        if (needSort) {
-            cols.sort(sortByOrder);
-        }
-        needSort = false;
         const itemIdSet = new Set<string>();
-        lanes = lanes.reduce<KanbanLaneOptions[]>((list, lane, index) => {
-            if (laneProps) {
-                lane = mergeProps({}, laneProps, lane) as unknown as KanbanLaneOptions;
+        const cols = getCols.call(this, kanbanData.cols, props, col => {
+            if (col.parentName !== undefined) {
+                hasSubCols = true;
             }
-            if (getLane) {
-                const result = getLane.call(this, lane);
-                if (result !== false) {
-                    lane = result || lane;
-                }
-            }
-            if (!lane.deleted) {
-                if (typeof lane.height === 'function') {
-                    lane = mergeProps({}, lane, {
-                        height: lane.height.call(this, lane),
-                    }) as unknown as KanbanLaneOptions;
-                }
-                if (typeof lane.order === 'number') {
-                    needSort = true;
-                } else {
-                    lane.order = index;
-                }
-                const laneItems = items[lane.name];
-                if (laneItems) {
-                    cols.forEach(col => {
-                        let laneColItems = laneItems[col.name];
-                        if (laneColItems) {
-                            needSort = false;
-                            laneColItems = laneColItems.reduce<KanbanItem[]>((colItems, item) => {
-                                if (itemProps) {
-                                    item = mergeProps({}, itemProps, item) as unknown as KanbanItem;
-                                }
-                                const result = getItem?.call(this, {col: col.name, lane: lane.name, item}) ?? item;
-                                if (result !== false && !result.deleted) {
-                                    if (typeof result.order === 'number') {
-                                        needSort = true;
-                                    } else {
-                                        result.order = colItems.length - 1;
-                                    }
-                                    colItems.push(result);
-                                    itemIdSet.add(String(result[itemKey]));
-                                }
-                                return colItems;
-                            }, []);
-                            if (needSort) {
-                                laneColItems.sort(sortByOrder);
+        });
+        const lanes = getLanes.call(this, kanbanData.lanes, props, (lane) => {
+            const laneItems = items[lane.name];
+            if (laneItems) {
+                cols.forEach(col => {
+                    let laneColItems = laneItems[col.name];
+                    if (laneColItems) {
+                        let needSort = false;
+                        laneColItems = laneColItems.reduce<KanbanItem[]>((colItems, item) => {
+                            if (itemProps) {
+                                item = mergeProps({}, itemProps, item) as unknown as KanbanItem;
                             }
+                            const finalItem = getItem?.call(this, {col: col.name, lane: lane.name, item}) ?? item;
+                            if (finalItem !== false && !finalItem.deleted) {
+                                if (typeof finalItem.order === 'number') {
+                                    needSort = true;
+                                } else {
+                                    finalItem.order = colItems.length - 1;
+                                }
+                                colItems.push(finalItem);
+                                itemIdSet.add(String(finalItem[itemKey]));
+                            }
+                            return colItems;
+                        }, []);
+                        if (needSort) {
+                            laneColItems.sort(sortByOrder);
                         }
-                    });
-                }
-                list.push(lane);
+                    }
+                });
             }
-            return list;
-        }, []);
-        if (needSort) {
-            lanes.sort(sortByOrder);
-        }
+        });
+        let {links = []} = kanbanData;
         links = links.reduce<KanbanLinkOptions[]>((list, link) => {
             if (!link.deleted && itemIdSet.has(String(link.from)) && itemIdSet.has(String(link.to))) {
                 list.push(link);
             }
             return list;
         }, []);
-        this._data = {cols, lanes, items, links};
+        this._data = {cols, lanes, items, links, hasSubCols};
         return this._data;
     }
 
     protected _getClassName(props: RenderableProps<P>): ClassNameLike {
-        return ['kanban', props.className, props.sticky ? 'kanban-sticky' : ''];
+        return ['kanban', props.className, props.sticky ? 'kanban-sticky' : '', this._data.hasSubCols ? 'has-sub-cols' : ''];
     }
 
     protected _getProps(props: RenderableProps<P>): Record<string, unknown> {

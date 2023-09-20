@@ -1,4 +1,4 @@
-import type {CustomContentType, HElementProps} from '@zui/core';
+import type {CustomContentType, HElementProps, SizeSetting} from '@zui/core';
 import type {DraggableOptions} from '@zui/dnd';
 import type {KanbanDataSetting} from './kanban-data-setting';
 import type {KanbanLaneOptions} from './kanban-lane-options';
@@ -15,6 +15,8 @@ export interface KanbanProps extends HElementProps {
     itemProps?: Partial<KanbanItem>;
     sortLane?: boolean;
     sticky?: boolean;
+    lanesGap?: SizeSetting;
+    colsGap?: SizeSetting;
     getCol?: (col: KanbanColOptions) => KanbanColOptions | false;
     getLane?: (lane: KanbanLaneOptions) => KanbanLaneOptions | false;
     getItem?: (info: KanbanItemInfo) => KanbanItem | false;
