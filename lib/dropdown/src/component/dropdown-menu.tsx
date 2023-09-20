@@ -51,7 +51,7 @@ export class DropdownMenu<T extends DropdownMenuOptions = DropdownMenuOptions> e
         }
     }
 
-    protected _renderNestedToggle(_props: RenderableProps<T>, isExpanded: boolean | null) {
+    protected _renderNestedToggle(_props: RenderableProps<T>, isExpanded: boolean | undefined) {
         if (typeof isExpanded !== 'boolean') {
             return;
         }
