@@ -59,4 +59,6 @@ export interface CommonListProps<T extends Item = Item> extends HElementProps {
      * Before render item, can convert original item.
      */
     beforeRenderItem?: (item: T, index: number) => T | void;
+
+    onClickItem?: (info: {item: T, index: number, event: MouseEvent, renderedItem: T}) => void;
 }

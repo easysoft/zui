@@ -71,6 +71,11 @@ export class CommonList<P extends CommonListProps = CommonListProps, S = {}> ext
      */
     protected declare _renderedItems: Item[];
 
+    constructor(props: P) {
+        super(props);
+        this._handleClick = this._handleClick.bind(this);
+    }
+
     /**
      * Get the root element name, used for class name.
      */
@@ -93,6 +98,43 @@ export class CommonList<P extends CommonListProps = CommonListProps, S = {}> ext
      */
     getKey(index: number): ItemKey | undefined {
         return this._renderedItems?.[index]?.key;
+    }
+
+    protected _getItemFromEvent(event: MouseEvent): {
+        index: number;
+        item: Item;
+        renderedItem: Item;
+        element: HTMLElement;
+        event: MouseEvent;
+        key: ItemKey;
+    } | undefined {
+        const element = (event.target as HTMLElement).closest('[z-item]') as HTMLElement;
+        if (!element || !element.parentElement?.hasAttribute(`z-gid-${this._gid}`)) {
+            return;
+        }
+        const index = +element.getAttribute('z-item')!;
+        const item = this._items[index];
+        if (!item) {
+            return;
+        }
+        const key = this.getKey(index);
+        if (key === undefined) {
+            return;
+        }
+        const renderedItem = this._renderedItems[index];
+        return {index, item, element, event, key, renderedItem};
+    }
+
+    protected _handleClick(event: MouseEvent) {
+        const {onClickItem} = this.props;
+        if (!onClickItem) {
+            return;
+        }
+        const info = this._getItemFromEvent(event);
+        if (!info) {
+            return;
+        }
+        onClickItem.call(this, info);
     }
 
     /**
@@ -172,6 +214,11 @@ export class CommonList<P extends CommonListProps = CommonListProps, S = {}> ext
             }
         }
         return item;
+    }
+
+    protected _getProps(props: RenderableProps<P>): Record<string, unknown> {
+        const finalProps = super._getProps(props);
+        return props.onClickItem ? {onClick: this._handleClick, ...finalProps} : finalProps;
     }
 
     /**
