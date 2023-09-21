@@ -31,12 +31,14 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
 
     protected _lastDialogSize?: [width: number, height: number];
 
+    protected declare _shown: boolean;
+
     get modalElement() {
         return this.element;
     }
 
     get shown() {
-        return this.modalElement.classList.contains(CLASS_SHOW);
+        return this._shown;
     }
 
     get dialog(): HTMLElement | null {
@@ -56,7 +58,7 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
             const {dialog} = this;
             if (dialog) {
                 const rob = new ResizeObserver(() => {
-                    if (!this.shown) {
+                    if (!this._shown) {
                         return;
                     }
                     const width = dialog.clientWidth;
@@ -90,11 +92,12 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
 
     show(options?: Partial<T>) {
         const {modalElement} = this;
-        if (this.shown) {
+        if (this._shown) {
             $(modalElement).css('z-index', `${ModalBase.zIndex++}`);
             return false;
         }
 
+        this._shown = true;
         this.setOptions(options);
         const {animation, backdrop, className, style} = this.options;
         $(modalElement).setClass({
@@ -118,10 +121,11 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
     }
 
     hide() {
-        if (!this.shown) {
+        if (!this._shown) {
             return false;
         }
 
+        this._shown = false;
         $(this.modalElement).removeClass(CLASS_SHOWN);
         this.emit('hide');
 
@@ -133,7 +137,7 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
     }
 
     layout(position?: ModalPositionSetting, size?: ModalSizeSetting) {
-        if (!this.shown) {
+        if (!this._shown) {
             return;
         }
 
