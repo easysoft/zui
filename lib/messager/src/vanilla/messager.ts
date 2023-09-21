@@ -1,4 +1,4 @@
-import {$, Component} from '@zui/core';
+import {$, nextGid, Component} from '@zui/core';
 import {MessagerOptions} from '../types';
 import {MessagerItem} from './messager-item';
 
@@ -71,7 +71,7 @@ export class Messager extends Component<MessagerOptions> {
             options = {content: options};
         }
         const {container, ...others} = options;
-        const messager = Messager.ensure(container || 'body', {key: `messager_${$.guid++}`, ...others} as Partial<MessagerOptions>);
+        const messager = Messager.ensure(container || 'body', {key: `messager_${nextGid()}`, ...others} as Partial<MessagerOptions>);
         messager.hide();
         messager.show();
         return messager;

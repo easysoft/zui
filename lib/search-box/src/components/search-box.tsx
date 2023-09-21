@@ -1,5 +1,5 @@
 import {Component, ComponentChildren, RenderableProps, createRef} from 'preact';
-import {$, classes, Icon} from '@zui/core';
+import {classes, Icon, nextGid} from '@zui/core';
 import type {SearchBoxOptions, SearchBoxState} from '../types';
 import '../style';
 
@@ -19,7 +19,7 @@ export class SearchBox extends Component<SearchBoxOptions, SearchBoxState> {
     constructor(props: SearchBoxOptions) {
         super(props);
         this.state = {focus: false, value: props.defaultValue || ''};
-        this.#id = props.id || `search-box-${$.guid++}`;
+        this.#id = props.id || `search-box-${nextGid()}`;
     }
 
     get id() {

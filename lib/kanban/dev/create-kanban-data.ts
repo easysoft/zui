@@ -1,5 +1,5 @@
 import {faker} from '@faker-js/faker/locale/zh_CN';
-import {$} from '@zui/core';
+import {nextGid} from '@zui/core';
 
 import type {KanbanColOptions, KanbanItem, KanbanLaneOptions, KanbanData, KanbanItems} from '../src/main';
 
@@ -21,7 +21,7 @@ export function createCol(): KanbanColOptions {
 
 export function createCard(): KanbanItem {
     return {
-        id: $.guid++,
+        id: nextGid(),
         title: faker.lorem.paragraph(1),
     };
 }

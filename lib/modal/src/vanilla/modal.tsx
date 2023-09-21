@@ -1,10 +1,11 @@
 import {render} from 'preact';
-import {delay, i18n, $, HtmlContent, classes} from '@zui/core';
+import {delay, i18n, $, nextGid, HtmlContent, classes} from '@zui/core';
 import {ModalBase} from './modal-base';
 import {ModalOptions, ModalDialogOptions, ModalCustomOptions, ModalAjaxOptions, ModalAlertOptions, ModalTypedOptions, ModalConfirmOptions} from '../types';
-import type {ToolbarOptions, ToolbarItemProps} from '@zui/toolbar/src/types';
 import {ModalDialog} from '../component';
 import {ModalIframeContent} from '../component/modal-iframe-content';
+
+import type {ToolbarOptions, ToolbarItemOptions} from '@zui/toolbar';
 
 type ModalDialogHTML = [html: string];
 
@@ -100,7 +101,7 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
             const {options} = this;
             let id = this.#id;
             if (!id) {
-                id = options.id || `modal-${$.guid++}`;
+                id = options.id || `modal-${nextGid()}`;
                 this.#id = id;
             }
             const {$element} = this;
@@ -258,7 +259,7 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
                 modalOptions.type = 'ajax';
             }
             const modal = Modal.ensure(container, modalOptions);
-            const namespace = `${Modal.NAMESPACE}.open${$.guid++}`;
+            const namespace = `${Modal.NAMESPACE}.open${nextGid()}`;
             modal.on(`hidden${namespace}`, () => {
                 modal.off(namespace);
                 resolve(modal);
@@ -284,11 +285,11 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
         } else {
             content = <div className={classes('modal-body', customOptions.bodyClass)}>{content}</div>;
         }
-        const actionItems: ToolbarItemProps[] = [];
+        const actionItems: ToolbarItemOptions[] = [];
         (Array.isArray(actions) ? actions : [actions]).forEach((item) => {
             item = {
                 ...(typeof item === 'string' ? {key: item} : item),
-            } as ToolbarItemProps;
+            } as ToolbarItemOptions;
             if (typeof item.key === 'string') {
                 if (!item.text) {
                     item.text = i18n.getLang(item.key, item.key);

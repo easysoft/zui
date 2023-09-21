@@ -1,5 +1,5 @@
 import {Component, ComponentChildren, ComponentType, RefObject, RenderableProps, createRef} from 'preact';
-import {$, delay} from '@zui/core';
+import {delay, nextGid} from '@zui/core';
 import type {PickOptions, PickPopProps, PickState, PickTriggerProps} from '../types';
 import {PickTrigger} from './pick-trigger';
 import {PickPop} from './pick-pop';
@@ -35,7 +35,7 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
             disabled: false,
         } as S;
 
-        this.#id = props.id ?? `_pick${$.guid++}`;
+        this.#id = props.id ?? `_pick${nextGid()}`;
         this.changeState = this.changeState.bind(this);
     }
 
