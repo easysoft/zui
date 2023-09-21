@@ -179,6 +179,7 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
                         if (needSort) {
                             laneColItems.sort(sortByOrder);
                         }
+                        laneItems[col.name] = laneColItems;
                     }
                 });
             }

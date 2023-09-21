@@ -149,10 +149,24 @@ onPageLoad(() => {
                 },
             },
         },
+        itemProps: {
+            actions: () => {
+                return [{
+                    icon: 'check-plus text-primary',
+                    onClick: () => console.log('Click add'),
+                }, {
+                    type: 'dropdown',
+                    icon: 'ellipsis-v text-primary',
+                    caret: false,
+                    items: [ // 下拉菜单内容
+                        {text: '编辑', icon: 'edit'},
+                    ],
+                }];
+            },
+        },
     };
     const kanbanList = new KanbanList('#kanbanList', {
-        // items: [kanbanOptions, kanban2Options, kanban3Options],
-        items: [kanbanOptions],
+        items: [kanbanOptions, kanban2Options, kanban3Options],
         height: 'calc(100vh - 160px)',
     });
     console.log('> kanbanList', kanbanList);
