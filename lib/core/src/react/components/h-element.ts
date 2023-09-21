@@ -1,4 +1,5 @@
 import {h, Component} from 'preact';
+import {nextGid} from '../../helpers/gid';
 import {classes} from '../../helpers/classes';
 import {getReactComponent} from './components';
 
@@ -11,6 +12,16 @@ import type {HElementProps} from '../types';
  */
 export class HElement<P extends HElementProps, S = {}> extends Component<P, S> {
     static HElement = true;
+
+    private _gid = nextGid();
+
+    get gid() {
+        return this._gid;
+    }
+
+    get element() {
+        return document.querySelector(`[z-gid-${this._gid}]`);
+    }
 
     changeState(state: Partial<S> | ((prevState: Readonly<S>) => Partial<S>), callback?: () => void): Promise<S> {
         return new Promise<S>(resolve => {
@@ -33,7 +44,7 @@ export class HElement<P extends HElementProps, S = {}> extends Component<P, S> {
             }
             return map;
         }, {});
-        return {ref: forwardRef, className: classes(this._getClassName(props)) || undefined, style, ...other, ...attrs, ...componentProps};
+        return {ref: forwardRef, className: classes(this._getClassName(props)) || undefined, style, [`z-gid-${this._gid}`]: '', ...other, ...attrs, ...componentProps};
     }
 
     protected _getComponent(props: RenderableProps<P>): ComponentType | keyof JSX.IntrinsicElements {
