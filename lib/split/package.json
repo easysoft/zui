@@ -1,0 +1,28 @@
+{
+    "name": "@zui/split",
+    "description": "split.js plugin from https://split.js.org/",
+    "version": "0.0.1",
+    "browser": "src/main.ts",
+    "main": "src/main.ts",
+    "files": [
+        "./src/**/*"
+    ],
+    "zui": {
+        "type": "js-helpers",
+        "displayName": "Split.js",
+        "contributes": {
+            "js": [
+                "module"
+            ]
+        }
+    },
+    "dependencies": {
+        "@zui/core": "workspace:^0.0.1",
+        "split.js": "^1.6.5"
+    },
+    "devDependencies": {
+        "@types/sortablejs": "^1.15.1",
+        "sortablejs": "^1.15.0",
+        "zui-dev": "workspace:^0.0.1"
+    }
+}

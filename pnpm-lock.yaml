@@ -1073,6 +1073,25 @@ importers:
         specifier: workspace:^0.0.1
         version: link:../../dev
 
+  lib/split:
+    dependencies:
+      '@zui/core':
+        specifier: workspace:^0.0.1
+        version: link:../core
+      split.js:
+        specifier: ^1.6.5
+        version: 1.6.5
+    devDependencies:
+      '@types/sortablejs':
+        specifier: ^1.15.1
+        version: 1.15.1
+      sortablejs:
+        specifier: ^1.15.0
+        version: 1.15.0
+      zui-dev:
+        specifier: workspace:^0.0.1
+        version: link:../../dev
+
   lib/store: {}
 
   lib/table:
@@ -4937,6 +4956,10 @@ packages:
     engines: {node: '>=0.10.0'}
     requiresBuild: true
     dev: true
+
+  /split.js@1.6.5:
+    resolution: {integrity: sha512-mPTnGCiS/RiuTNsVhCm9De9cCAUsrNFFviRbADdKiiV+Kk8HKp/0fWu7Kr8pi3/yBmsqLFHuXGT9UUZ+CNLwFw==}
+    dev: false
 
   /string.prototype.trim@1.2.8:
     resolution: {integrity: sha512-lfjY4HcixfQXOfaqCvcBuOIapyaroTXhbkfJN3gcB1OtyupngWK4sEET9Knd0cXd28kTUqu/kHoV4HKSJdnjiQ==}
