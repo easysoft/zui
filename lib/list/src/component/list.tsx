@@ -1,10 +1,10 @@
-import {$, HElement, classes, createRef, fetchData, mergeProps, removeUndefinedProps} from '@zui/core';
+import {$, HElement, classes, fetchData, mergeProps, removeUndefinedProps} from '@zui/core';
 import {CommonList} from '@zui/common-list/src/component';
 import {Listitem} from './listitem';
 
 import type {ComponentChild, ComponentChildren, RenderableProps} from 'preact';
 import type {ClassNameLike, CustomContentType} from '@zui/core';
-import type {Item, ItemKey} from '@zui/common-list';
+import type {Item} from '@zui/common-list';
 import type {ListProps, ListState, ListItemsSetting, ListItemsFetcher} from '../types';
 
 export class List<P extends ListProps = ListProps, S extends ListState = ListState> extends CommonList<P, S> {
@@ -17,8 +17,6 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
 
     static NAME = 'list';
 
-    protected _ref = createRef<HTMLElement>();
-
     protected _loadedSetting?: ListItemsSetting;
 
     protected declare _hasIcons: boolean;
@@ -28,7 +26,6 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
     constructor(props: P) {
         super(props);
         this.state = {} as S;
-        this._handleClick = this._handleClick.bind(this);
     }
 
     componentDidMount() {
@@ -124,42 +121,6 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
         return super._renderItem(props, item, index);
     }
 
-    protected _getItemFromEvent(event: MouseEvent): {
-        index: number;
-        item: Item;
-        renderedItem: Item;
-        element: HTMLElement;
-        event: MouseEvent;
-        key: ItemKey;
-    } | undefined {
-        const element = (event.target as HTMLElement).closest('[z-item]') as HTMLElement;
-        if (!element || element.parentElement !== this._ref.current) {
-            return;
-        }
-        const index = +element.getAttribute('z-item')!;
-        const item = this._items[index];
-        if (!item) {
-            return;
-        }
-        const key = this.getKey(index);
-        if (key === undefined) {
-            return;
-        }
-        const renderedItem = this._renderedItems[index];
-        return {index, item, element, event, key, renderedItem};
-    }
-
-    protected _handleClick(event: MouseEvent) {
-        const {onClickItem} = this.props;
-        if (!onClickItem) {
-            return;
-        }
-        const info = this._getItemFromEvent(event);
-        if (!info) {
-            return;
-        }
-        onClickItem.call(this, info);
-    }
 
     protected _getClassName(props: RenderableProps<P>): ClassNameLike {
         const {loading, loadFailed} = this.state;
@@ -171,7 +132,6 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
         return {
             ...others,
             onClick: this._handleClick,
-            ref: this._ref,
             className: classes(className as ClassNameLike, this._hasIcons ? 'has-icons' : '', this._hasCheckbox ? 'has-checkbox' : ''),
         };
     }
