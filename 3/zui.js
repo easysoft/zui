@@ -2263,6 +2263,9 @@ const eh = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
 }, Symbol.toStringTag, { value: "Module" }));
 ye(eh);
 let ft = class extends K {
+  constructor(t) {
+    super(t), this._handleClick = this._handleClick.bind(this);
+  }
   /**
    * Get the root element name, used for class name.
    */
@@ -2284,6 +2287,27 @@ let ft = class extends K {
   getKey(t) {
     var e, n;
     return (n = (e = this._renderedItems) == null ? void 0 : e[t]) == null ? void 0 : n.key;
+  }
+  _getItemFromEvent(t) {
+    var a;
+    const e = t.target.closest("[z-item]");
+    if (!e || !((a = e.parentElement) != null && a.hasAttribute(`z-gid-${this._gid}`)))
+      return;
+    const n = +e.getAttribute("z-item"), i = this._items[n];
+    if (!i)
+      return;
+    const r = this.getKey(n);
+    if (r === void 0)
+      return;
+    const o = this._renderedItems[n];
+    return { index: n, item: i, element: e, event: t, key: r, renderedItem: o };
+  }
+  _handleClick(t) {
+    const { onClickItem: e } = this.props;
+    if (!e)
+      return;
+    const n = this._getItemFromEvent(t);
+    n && e.call(this, n);
   }
   /**
    * Render the item content.
@@ -2342,6 +2366,10 @@ let ft = class extends K {
         return p;
     }
     return e;
+  }
+  _getProps(t) {
+    const e = super._getProps(t);
+    return t.onClickItem ? { onClick: this._handleClick, ...e } : e;
   }
   /**
    * Get the list root element classname list.
@@ -2743,7 +2771,7 @@ class rn extends K {
 }
 let ee = class extends ft {
   constructor(t) {
-    super(t), this._ref = V(), this.state = {}, this._handleClick = this._handleClick.bind(this);
+    super(t), this.state = {};
   }
   componentDidMount() {
     this._afterRender(!0), this.tryLoad();
@@ -2800,26 +2828,6 @@ let ee = class extends ft {
   _renderItem(t, e, n) {
     return e.type === "item" && this._hasIcons && e.icon === void 0 && (e.icon = "EMPTY"), super._renderItem(t, e, n);
   }
-  _getItemFromEvent(t) {
-    const e = t.target.closest("[z-item]");
-    if (!e || e.parentElement !== this._ref.current)
-      return;
-    const n = +e.getAttribute("z-item"), i = this._items[n];
-    if (!i)
-      return;
-    const r = this.getKey(n);
-    if (r === void 0)
-      return;
-    const o = this._renderedItems[n];
-    return { index: n, item: i, element: e, event: t, key: r, renderedItem: o };
-  }
-  _handleClick(t) {
-    const { onClickItem: e } = this.props;
-    if (!e)
-      return;
-    const n = this._getItemFromEvent(t);
-    n && e.call(this, n);
-  }
   _getClassName(t) {
     const { loading: e, loadFailed: n } = this.state;
     return [super._getClassName(t), e ? "loading" : n ? "is-load-failed" : ""];
@@ -2829,7 +2837,6 @@ let ee = class extends ft {
     return {
       ...n,
       onClick: this._handleClick,
-      ref: this._ref,
       className: x(e, this._hasIcons ? "has-icons" : "", this._hasCheckbox ? "has-checkbox" : "")
     };
   }
