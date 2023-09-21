@@ -10334,7 +10334,7 @@ let Vn = class extends K {
             i && (w = R({}, i, w));
             const S = (n == null ? void 0 : n.call(this, { col: y.name, lane: _.name, item: w })) ?? w;
             return S !== !1 && !S.deleted && (typeof S.order == "number" ? C = !0 : S.order = k.length - 1, k.push(S), h.add(String(S[r]))), k;
-          }, []), C && b.sort(vn);
+          }, []), C && b.sort(vn), v[y.name] = b;
         }
       });
     });
