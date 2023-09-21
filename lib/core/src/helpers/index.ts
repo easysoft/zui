@@ -1,3 +1,4 @@
+export * from './gid';
 export * from './classes';
 export * from './data';
 export * from './z';
