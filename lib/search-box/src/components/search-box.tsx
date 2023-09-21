@@ -1,7 +1,9 @@
-import {Component, ComponentChildren, RenderableProps, createRef} from 'preact';
+import {Component, createRef} from 'preact';
 import {classes, Icon, nextGid} from '@zui/core';
-import type {SearchBoxOptions, SearchBoxState} from '../types';
 import '../style';
+
+import type {ComponentChildren, RenderableProps} from 'preact';
+import type {SearchBoxOptions, SearchBoxState} from '../types';
 
 export class SearchBox extends Component<SearchBoxOptions, SearchBoxState> {
     static defaultProps: Partial<SearchBoxOptions> = {
@@ -10,24 +12,24 @@ export class SearchBox extends Component<SearchBoxOptions, SearchBoxState> {
         delay: 500,
     };
 
-    #id: string;
+    protected _gid: string;
 
-    #input = createRef<HTMLInputElement>();
+    protected _input = createRef<HTMLInputElement>();
 
-    #timer = 0;
+    protected _timer = 0;
 
     constructor(props: SearchBoxOptions) {
         super(props);
         this.state = {focus: false, value: props.defaultValue || ''};
-        this.#id = props.id || `search-box-${nextGid()}`;
+        this._gid = props.id || `search-box-${nextGid()}`;
     }
 
     get id() {
-        return this.#id;
+        return this._gid;
     }
 
     get input() {
-        return this.#input.current;
+        return this._input.current;
     }
 
     #handleClearBtnClick = (event: MouseEvent) => {
@@ -52,9 +54,9 @@ export class SearchBox extends Component<SearchBoxOptions, SearchBoxState> {
                 return;
             }
             this.#clearTimer();
-            this.#timer = window.setTimeout(() => {
+            this._timer = window.setTimeout(() => {
                 onChange(value, event);
-                this.#timer = 0;
+                this._timer = 0;
             }, this.props.delay || 0);
         });
     };
@@ -68,10 +70,10 @@ export class SearchBox extends Component<SearchBoxOptions, SearchBoxState> {
     };
 
     #clearTimer() {
-        if (this.#timer) {
-            clearTimeout(this.#timer);
+        if (this._timer) {
+            clearTimeout(this._timer);
         }
-        this.#timer = 0;
+        this._timer = 0;
     }
 
     focus() {
@@ -122,7 +124,7 @@ export class SearchBox extends Component<SearchBoxOptions, SearchBoxState> {
             <div class={classes('search-box input-control', rootClass, {focus, empty, 'has-prefix-icon': prefixView, 'has-suffix-icon': suffixView})} style={rootStyle}>
                 {prefixView}
                 <input
-                    ref={this.#input}
+                    ref={this._input}
                     id={id}
                     type="text"
                     class={classes('form-control', className, {'rounded-full': circle})}
