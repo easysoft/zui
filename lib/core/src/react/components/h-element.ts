@@ -13,7 +13,7 @@ import type {HElementProps} from '../types';
 export class HElement<P extends HElementProps, S = {}> extends Component<P, S> {
     static HElement = true;
 
-    private _gid = nextGid();
+    protected _gid = nextGid();
 
     get gid() {
         return this._gid;
