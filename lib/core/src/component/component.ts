@@ -1,5 +1,8 @@
 import {i18n} from '../i18n';
-import {$, Cash, Element, Selector} from '../cash';
+import {$} from '../cash';
+import {nextGid} from '../helpers';
+
+import type {Cash, Element, Selector} from '../cash';
 import type {ComponentEventArgs, ComponentEventName, ComponentOptions, ComponentEvents, ComponentEventsDefnition} from './types';
 
 /**
@@ -128,7 +131,7 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
         }
 
         const element = $element[0] as U;
-        const gid = $.guid++;
+        const gid = nextGid();
         this._gid = gid;
         this._element = element;
 

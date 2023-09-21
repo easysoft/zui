@@ -1,4 +1,7 @@
-import {$, Cash, Selector} from '../cash';
+import {$, Cash} from '../cash';
+import {nextGid} from '../helpers';
+
+import type {Selector} from '../cash';
 
 /**
  * Run javascript in an element.
@@ -10,7 +13,7 @@ export function runJS(selector: Selector, jsCode?: string, removeAfterRun = fals
     const $element = $(selector);
     if (jsCode !== undefined) {
         if (jsCode.length) {
-            const id = `zui-runjs-${$.guid++}`;
+            const id = `zui-runjs-${nextGid()}`;
             $element.append(`<script id="${id}">${jsCode}</script>`);
             if (removeAfterRun) {
                 $element.find(`#${id}`).remove();
