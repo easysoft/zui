@@ -61,7 +61,7 @@ export class SearchMenu<T extends SearchMenuOptions = SearchMenuOptions> extends
         if (!this.isRoot) {
             return;
         }
-        $(this._ref.current as HTMLElement).find('.item.is-nested.is-not-match').filter((_, element) => this._matchedParents.has(element.getAttribute('z-key-path') || '')).addClass('has-match-child');
+        $(this.element).find('.item.is-nested.is-not-match').filter((_, element) => this._matchedParents.has(element.getAttribute('z-key-path') || '')).addClass('has-match-child');
     }
 
     protected _handleSearchChange = (search: string) => {
