@@ -62,6 +62,7 @@ function z(this: Cash, ...args: unknown[]): Record<string, unknown> | unknown | 
         return this;
     }
     setZData(this, {[args[0] as string]: args[1]});
+    return this;
 }
 
 /* Extend as $.fn.z() */
