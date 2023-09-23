@@ -1078,6 +1078,9 @@ importers:
       '@zui/core':
         specifier: workspace:^0.0.1
         version: link:../core
+      '@zui/css-icons':
+        specifier: workspace:^0.0.1
+        version: link:../css-icons
       split.js:
         specifier: ^1.6.5
         version: 1.6.5

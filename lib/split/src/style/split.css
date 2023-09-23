@@ -1,0 +1,76 @@
+.split {
+  @apply -flex -flex-row;
+}
+.split-vert {
+  @apply -flex-col;
+}
+.split-cell {
+  @apply -min-w-0 -min-h-0
+}
+.has-animation > .split-cell {
+  @apply -transition-[width,height];
+}
+
+.gutter {
+  @apply -flex-none -relative -flex -flex-row -items-stretch -justify-center -cursor-ew-resize -rounded;
+}
+.gutter-vert {
+  @apply -flex-col -cursor-ns-resize;
+}
+.gutter::before {
+  @apply -content-[''] -block -bg-border -transition-all;
+}
+.gutter-horz::before {
+  @apply -w-px;
+}
+.gutter-vert::before {
+  @apply -h-px;
+}
+.gutter-horz:hover::before {
+  @apply -w-3/4;
+}
+.gutter-vert:hover::before {
+  @apply -h-3/4;
+}
+
+.gutter-toggle {
+  @apply -absolute -h-7 -flex -items-center -justify-center -top-1/2 -border-border -border -w-3 --mt-3.5 -bg-canvas -rounded-lg;
+}
+.gutter-toggle > span {
+  @apply -scale-75
+}
+.gutter:hover .gutter-toggle {
+  @apply -border-gray-500 -text-gray-500 -bg-gray-100;
+}
+.gutter .gutter-toggle:hover {
+  @apply -bg-primary-500 -border-primary-500 -text-canvas;
+}
+.is-last > .gutter-toggle {
+  @apply --scale-x-100;
+}
+.is-first > .gutter-toggle {
+  @apply -scale-x-100;
+}
+
+.gutter-vert .gutter-toggle {
+  @apply -top-auto -left-1/2 -rotate-90 -mt-0 --ml-1.5;
+}
+
+.gutter.is-next-collapsed > .gutter-toggle {
+  @apply -scale-x-100;
+}
+.gutter.is-prev-collapsed > .gutter-toggle {
+  @apply --scale-x-100;
+}
+.gutter-horz.is-first.is-prev-collapsed {
+  transform: translateX(calc(-1px - var(--split-gutter-size) / 2));
+}
+.gutter-horz.is-last.is-next-collapsed {
+  transform: translateX(calc(1px + var(--split-gutter-size) / 2));
+}
+.gutter-vert.is-first.is-prev-collapsed {
+  transform: translateY(calc(-1px - var(--split-gutter-size) / 2));
+}
+.gutter-vert.is-last.is-next-collapsed {
+  transform: translateY(calc(1px + var(--split-gutter-size) / 2));
+}
