@@ -766,6 +766,7 @@ export default [
         },
         "dependencies": {
             "@zui/core": "workspace:^0.0.1",
+            "@zui/css-icons": "workspace:^0.0.1",
             "split.js": "^1.6.5"
         },
         "devDependencies": {
