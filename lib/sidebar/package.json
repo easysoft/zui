@@ -1,0 +1,28 @@
+{
+    "name": "@zentao/sidebar",
+    "version": "0.0.1",
+    "main": "src/main.ts",
+    "browserslist": "",
+    "files": [
+        "./src/**/*"
+    ],
+    "dependencies": {
+        "@zui/base": "workspace:*",
+        "@zui/core": "workspace:*",
+        "@zui/store": "workspace:*",
+        "@zui/split": "workspace:*",
+        "@zui/dnd": "workspace:*"
+    },
+    "devDependencies": {
+    },
+    "zui": {
+        "type": "component",
+        "displayName": "侧边栏",
+        "contributes": {
+            "css": [
+                "class",
+                "var"
+            ]
+        }
+    }
+}

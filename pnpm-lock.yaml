@@ -1057,6 +1057,24 @@ importers:
         specifier: workspace:*
         version: link:../../dev
 
+  lib/sidebar:
+    dependencies:
+      '@zui/base':
+        specifier: workspace:*
+        version: link:../base
+      '@zui/core':
+        specifier: workspace:*
+        version: link:../core
+      '@zui/dnd':
+        specifier: workspace:*
+        version: link:../dnd
+      '@zui/split':
+        specifier: workspace:*
+        version: link:../split
+      '@zui/store':
+        specifier: workspace:*
+        version: link:../store
+
   lib/sortable:
     dependencies:
       '@zui/core':
