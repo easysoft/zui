@@ -1421,7 +1421,7 @@ export default [
         }
     },
     {
-        "name": "@zentao/sidebar",
+        "name": "sidebar",
         "version": "0.0.1",
         "main": "src/main.ts",
         "browserslist": "",
@@ -1435,7 +1435,10 @@ export default [
             "@zui/split": "workspace:*",
             "@zui/dnd": "workspace:*"
         },
-        "devDependencies": {},
+        "devDependencies": {
+            "zui-dev": "workspace:*",
+            "@zui/utilities": "workspace:*"
+        },
         "zui": {
             "type": "component",
             "displayName": "侧边栏",
@@ -1448,7 +1451,7 @@ export default [
             "path": "/home/runner/work/zui/zui/lib/sidebar",
             "workspace": true,
             "sourceType": "build-in",
-            "name": "@zentao/sidebar",
+            "name": "sidebar",
             "order": 4010000038,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/sidebar/package.json"
         }
