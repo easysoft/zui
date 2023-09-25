@@ -1,5 +1,6 @@
 import {$, Cash, Selector} from '../cash';
 import {takeData} from './data';
+import {getZData} from './z';
 
 type ZUIComponentOptions = Record<string, unknown>;
 
@@ -76,7 +77,7 @@ declare module 'cash-dom' {
 $.fn.zuiInit = function (this: Cash) {
     this.find('[data-zui]').each(function () {
         const $element = $(this);
-        let options = $element.dataset() as Record<string, unknown>;
+        let options = getZData($element, 'data-')!;
         const [name, optionsName] = (options.zui as string).split(':');
         if ($element.zui(name)) {
             return;
