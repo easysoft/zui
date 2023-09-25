@@ -12,10 +12,10 @@
 }
 
 .gutter {
-  @apply -flex-none -relative -flex -flex-row -items-stretch -justify-center -cursor-ew-resize -rounded;
+  @apply -flex-none -relative -flex -flex-row -items-stretch -justify-center -cursor-col-resize -rounded;
 }
 .gutter-vert {
-  @apply -flex-col -cursor-ns-resize;
+  @apply -flex-col -cursor-row-resize;
 }
 .gutter::before {
   @apply -content-[''] -block -bg-border -transition-all;
