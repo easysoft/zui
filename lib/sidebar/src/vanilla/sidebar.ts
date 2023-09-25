@@ -91,20 +91,23 @@ export class Sidebar extends Component<SidebarOptions, {
         this._maxWidth = calcSize(maxWidth, containerWidth);
         this._width = (preserve ? store.get(this._storeID) : null) || this._defaultWidth;
         $container.addClass(`has-sidebar-${side}`);
-        $element.addClass(`sidebar-${side}`).toggleClass(ANIMATION_CLASS, !!animation);
+        $element.addClass(`sidebar-${side}`);
 
         let $gutter = $element.find('.sidebar-gutter');
         if (!$gutter.length) {
             $gutter = $('<div class="sidebar-gutter gutter gutter-horz"></div>').appendTo($element);
         }
-        $element.css('--gutter-width', `${gutterWidth}px`);
+        this._$gutter = $gutter;
+
+        this.render();
+        $element.css({'--gutter-width': `${gutterWidth}px`, width: `var(--sidebar-${side}-width)`});
+
         if (toggleBtn) {
             $gutter.append(`<button class="gutter-toggle" type="button"><span class="chevron-${side}"></span></button>`);
             $gutter.on('click', '.gutter-toggle', () => this.toggle());
         }
         if (dbclick) {
             $gutter.on('dblclick', () => {
-                console.log('dbclick', dbclick);
                 if (dbclick === 'reset') {
                     this.update(this._defaultWidth);
                 } else {
@@ -135,9 +138,9 @@ export class Sidebar extends Component<SidebarOptions, {
                 },
             });
         }
-        this._$gutter = $gutter;
-
-        this.render();
+        if (animation) {
+            $element.addClass(ANIMATION_CLASS);
+        }
     }
 
     destroy(): void {

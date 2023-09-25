@@ -1,14 +1,8 @@
 .sidebar {
-  @apply -flex-none -relative;
+  @apply !-flex-none -relative;
 }
 .sidebar.has-animation {
   @apply -transition-[width,margin];
-}
-.sidebar-left {
-  @apply !-w-[--sidebar-left-width];
-}
-.sidebar-right {
-  @apply !-w-[--sidebar-right-width];
 }
 .sidebar-left.is-collapsed {
   @apply --ml-[--gutter-width];
@@ -16,10 +10,22 @@
 .sidebar-right.is-collapsed {
   @apply --mr-[--gutter-width];
 }
+.sidebar.is-collapsed > * {
+  @apply -hidden;
+}
+.sidebar.is-collapsed > .sidebar-gutter {
+  @apply -flex;
+}
 
 .sidebar-gutter {
   @apply -w-[--gutter-width] -absolute -left-full -top-0 -bottom-0;
 }
 .is-collapsed > .gutter > .gutter-toggle > span {
   @apply --rotate-180;
+}
+.sidebar-gutter::before {
+  @apply -opacity-0 -rounded-full;
+}
+.sidebar-gutter:hover::before {
+  @apply -opacity-100 -w-2;
 }
