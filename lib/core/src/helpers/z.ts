@@ -20,7 +20,13 @@ export function getZData(selector: Selector, prefix = 'z-'): Record<string, unkn
         if (name.startsWith(prefix)) {
             name = name.slice(prefix.length).replace(/-([a-z])/g, (g) => g[1].toUpperCase());
             try {
-                value = JSON.parse(value);
+                if (value.startsWith('RAWJS<') && value.endsWith('>RAWJS')) {
+                    // eslint-disable-next-line @typescript-eslint/no-implied-eval
+                    const func = new Function(`return ${value.substring(6, value.length - 6)}`);
+                    value = func();
+                } else {
+                    value = JSON.parse(value);
+                }
             } catch (error) {
                 // Ignore.
             }
@@ -34,6 +40,9 @@ export function setZData(selector: Selector, data: Record<string, unknown>, pref
     const $element = $(selector);
     Object.keys(data).forEach((name) => {
         let value = data[name];
+        if (typeof value === 'function') {
+            value = `RAWJS<${value}>RAWJS`;
+        }
         if (typeof value !== 'string') {
             value = JSON.stringify(value);
         }
