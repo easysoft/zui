@@ -12,9 +12,9 @@ function calcSize(size: SizeSetting, totalSize: number) {
     return unit === '%' ? (totalSize * value / 100) : value;
 }
 
-const RESIZING_CLASS = 'is-resizing-sidebar';
+const RESIZING_CLASS = 'is-sidebar-resizing';
 
-const ANIMATION_CLASS = 'has-animation';
+const ANIMATION_CLASS = 'has-sidebar-animation';
 
 export class Sidebar extends Component<SidebarOptions, {
     sidebarResize: [number];
@@ -30,6 +30,8 @@ export class Sidebar extends Component<SidebarOptions, {
     };
 
     declare _container: HTMLElement;
+
+    declare _parent: HTMLElement;
 
     declare _width: number;
 
@@ -52,10 +54,6 @@ export class Sidebar extends Component<SidebarOptions, {
     declare _minWidth: number;
 
     declare _maxWidth: number;
-
-    get $container() {
-        return $(this._container);
-    }
 
     get side() {
         return this._side;
@@ -83,14 +81,17 @@ export class Sidebar extends Component<SidebarOptions, {
             width,
             minWidth = 0,
             maxWidth = Number.MAX_SAFE_INTEGER,
+            parent,
         } = this.options;
+        const $parent = parent ? $(parent) : $container;
         this._storeID = preserve ? `SIDEBAR:${preserve}:width` : '';
         this._side = side;
         this._defaultWidth = calcSize(width || $element.width(), containerWidth);
         this._minWidth = calcSize(minWidth, containerWidth);
         this._maxWidth = calcSize(maxWidth, containerWidth);
         this._width = (preserve ? store.get(this._storeID) : null) || this._defaultWidth;
-        $container.addClass(`has-sidebar-${side}`);
+        this._parent = $parent[0]!;
+        $parent.addClass(`has-sidebar-${side}`);
         $element.addClass(`sidebar-${side}`);
 
         let $gutter = $element.find('.sidebar-gutter');
@@ -121,8 +122,7 @@ export class Sidebar extends Component<SidebarOptions, {
                 move: false,
                 onMoveStart: () => {
                     this._startWidth = this._width;
-                    $element.removeClass(ANIMATION_CLASS);
-                    $container.addClass(RESIZING_CLASS);
+                    $parent.addClass(RESIZING_CLASS).removeClass(ANIMATION_CLASS);
                 },
                 onMove: (_event, info) => {
                     if (Math.abs(info.deltaX) < 10) {
@@ -132,15 +132,15 @@ export class Sidebar extends Component<SidebarOptions, {
                 },
                 onMoveEnd: () => {
                     if (animation) {
-                        $element.addClass(ANIMATION_CLASS);
+                        $parent.addClass(ANIMATION_CLASS);
                     }
-                    $container.removeClass(RESIZING_CLASS);
+                    $parent.removeClass(RESIZING_CLASS);
                 },
             });
         }
         if (animation) {
             this._raf = requestAnimationFrame(() => {
-                $element.addClass(ANIMATION_CLASS);
+                $parent.addClass(ANIMATION_CLASS);
             });
         }
     }
@@ -174,7 +174,7 @@ export class Sidebar extends Component<SidebarOptions, {
             return;
         }
 
-        width = width < this._minWidth ? 0 : Math.min(this._maxWidth, width, this.$container.width());
+        width = width < this._minWidth ? 0 : Math.min(this._maxWidth, width, this._container.clientWidth);
         if (width === this._width) {
             return;
         }
@@ -198,7 +198,7 @@ export class Sidebar extends Component<SidebarOptions, {
         const {side, width} = this;
         const isCollapsed = !width;
         this.$element.toggleClass('is-collapsed', isCollapsed);
-        this.$container
+        $(this._parent)
             .css(`--sidebar-${side}-width`, `${width}px`)
             .toggleClass('is-sidebar-left-collapsed', isCollapsed);
     }

@@ -1,7 +1,7 @@
 .sidebar {
   @apply !-flex-none -relative;
 }
-.sidebar.has-animation {
+.has-sidebar-animation .sidebar {
   @apply -transition-[width,margin];
 }
 .sidebar-left.is-collapsed {
@@ -28,4 +28,8 @@
 }
 .sidebar-gutter:hover::before {
   @apply -opacity-100 -w-2;
+}
+
+.is-sidebar-resizing {
+  @apply -cursor-col-resize;
 }
