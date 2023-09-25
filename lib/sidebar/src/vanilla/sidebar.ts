@@ -139,7 +139,9 @@ export class Sidebar extends Component<SidebarOptions, {
             });
         }
         if (animation) {
-            $element.addClass(ANIMATION_CLASS);
+            this._raf = requestAnimationFrame(() => {
+                $element.addClass(ANIMATION_CLASS);
+            });
         }
     }
 
@@ -154,7 +156,6 @@ export class Sidebar extends Component<SidebarOptions, {
 
     toggle(collapsed?: boolean) {
         collapsed = collapsed ?? !!this._width;
-        console.log('> toggle', collapsed);
         if (collapsed) {
             this._widthBack = this._width;
         }
