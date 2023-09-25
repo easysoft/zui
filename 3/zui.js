@@ -2682,24 +2682,23 @@ class rn extends K {
       /* @__PURE__ */ u("div", { className: x("item-leading", o), children: d }, "leading")
     ] : [] : d;
   }
-  _renderContent(t) {
+  _renderContent(t, e) {
     const {
-      textClass: e,
-      titleClass: n,
-      subtitle: i,
-      subtitleClass: r,
-      url: o,
-      actions: a,
+      textClass: n,
+      titleClass: i,
+      subtitle: r,
+      subtitleClass: o,
+      url: a,
       target: l,
       content: c,
       contentClass: d
-    } = t, h = o && a, m = h ? "a" : "div";
+    } = t, h = a && !e, m = h ? "a" : "div";
     let { title: p, text: g } = t;
     return p === void 0 && (p = g, g = null), [
       /* @__PURE__ */ u("div", { className: x("item-content", d), children: [
-        p ? /* @__PURE__ */ u(m, { className: x("item-title", n), href: h ? o : void 0, target: h ? l : void 0, children: /* @__PURE__ */ u(F, { content: p }) }, "title") : null,
-        i ? /* @__PURE__ */ u("div", { className: x("item-subtitle", r), children: /* @__PURE__ */ u(F, { content: i }) }, "subtitle") : null,
-        g ? /* @__PURE__ */ u("div", { className: x("item-text text", e), children: g }, "text") : null,
+        p ? /* @__PURE__ */ u(m, { className: x("item-title", i), href: h ? a : void 0, target: h ? l : void 0, children: /* @__PURE__ */ u(F, { content: p }) }, "title") : null,
+        r ? /* @__PURE__ */ u("div", { className: x("item-subtitle", o), children: /* @__PURE__ */ u(F, { content: r }) }, "subtitle") : null,
+        g ? /* @__PURE__ */ u("div", { className: x("item-text text", n), children: g }, "text") : null,
         c ? /* @__PURE__ */ u(F, { content: c }, "extraContent") : null
       ] }, "content")
     ];
@@ -2754,13 +2753,11 @@ class rn extends K {
         checked: m,
         multiline: p ?? !!(g && _),
         state: v
-      }),
-      href: v ? o : void 0,
-      target: v ? l : void 0
-    }, e, r);
+      })
+    }, v ? { href: o, target: l } : null, e, r);
     return /* @__PURE__ */ u(y, { ...C, children: [
       this._renderLeading(t),
-      this._renderContent(t),
+      this._renderContent(t, v),
       this._renderTrailing(t)
     ] });
   }
@@ -6655,7 +6652,7 @@ class xr extends Tt {
     return ["dropdown-menu", super._getClassName(t)];
   }
   layout() {
-    const t = this._ref.current, e = t == null ? void 0 : t.parentElement;
+    const t = this.element, e = t == null ? void 0 : t.parentElement;
     !t || !e || Hn(e, t, {
       placement: this.props.placement,
       middleware: [Dn(), ls(), Ln(1)]
