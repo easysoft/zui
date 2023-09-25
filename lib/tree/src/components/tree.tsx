@@ -8,6 +8,11 @@ import type {TreeOptions} from '../types';
 export class Tree<T extends TreeOptions = TreeOptions> extends Menu<T> {
     static NAME = 'tree';
 
+    static defaultProps: Partial<TreeOptions> = {
+        ...Menu.defaultProps,
+        indent: 12,
+    };
+
     static defaultItemProps: Partial<Item> = {
         ...Menu.defaultItemProps,
         innerComponent: 'div',
