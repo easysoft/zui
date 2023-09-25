@@ -7769,10 +7769,10 @@ class Vl extends dt {
       minWidth: p = 0,
       maxWidth: g = Number.MAX_SAFE_INTEGER
     } = this.options;
-    this._storeID = r ? `SIDEBAR:${r}:width` : "", this._side = o, this._defaultWidth = Ci(m || t.width(), i), this._minWidth = Ci(p, i), this._maxWidth = Ci(g, i), this._width = (r ? we.get(this._storeID) : null) || this._defaultWidth, e.addClass(`has-sidebar-${o}`), t.addClass(`sidebar-${o}`).toggleClass(ki, !!d);
+    this._storeID = r ? `SIDEBAR:${r}:width` : "", this._side = o, this._defaultWidth = Ci(m || t.width(), i), this._minWidth = Ci(p, i), this._maxWidth = Ci(g, i), this._width = (r ? we.get(this._storeID) : null) || this._defaultWidth, e.addClass(`has-sidebar-${o}`), t.addClass(`sidebar-${o}`);
     let _ = t.find(".sidebar-gutter");
-    _.length || (_ = u('<div class="sidebar-gutter gutter gutter-horz"></div>').appendTo(t)), t.css("--gutter-width", `${a}px`), l && (_.append(`<button class="gutter-toggle" type="button"><span class="chevron-${o}"></span></button>`), _.on("click", ".gutter-toggle", () => this.toggle())), c && _.on("dblclick", () => {
-      console.log("dbclick", c), c === "reset" ? this.update(this._defaultWidth) : this.toggle();
+    _.length || (_ = u('<div class="sidebar-gutter gutter gutter-horz"></div>').appendTo(t)), this._$gutter = _, this.render(), t.css({ "--gutter-width": `${a}px`, width: `var(--sidebar-${o}-width)` }), l && (_.append(`<button class="gutter-toggle" type="button"><span class="chevron-${o}"></span></button>`), _.on("click", ".gutter-toggle", () => this.toggle())), c && _.on("dblclick", () => {
+      c === "reset" ? this.update(this._defaultWidth) : this.toggle();
     }), h && (this._moveable = new si(_, {
       selector: "self",
       move: !1,
@@ -7785,7 +7785,7 @@ class Vl extends dt {
       onMoveEnd: () => {
         d && t.addClass(ki), e.removeClass(qo);
       }
-    })), this._$gutter = _, this.render();
+    })), d && t.addClass(ki);
   }
   destroy() {
     var t;
