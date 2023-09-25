@@ -47,19 +47,18 @@ export class Listitem<P extends ListitemProps = ListitemProps, S = {}> extends H
         return contents;
     }
 
-    protected _renderContent(props: RenderableProps<P>): ComponentChild[] {
+    protected _renderContent(props: RenderableProps<P>, linkRendered?: boolean): ComponentChild[] {
         const {
             textClass,
             titleClass,
             subtitle,
             subtitleClass,
             url,
-            actions,
             target,
             content,
             contentClass,
         } = props;
-        const titleAsLink = url && actions;
+        const titleAsLink = url && !linkRendered;
         const TitleComponent = titleAsLink ? 'a' : 'div';
         let {title, text} = props;
         if (title === undefined) {
@@ -141,13 +140,11 @@ export class Listitem<P extends ListitemProps = ListitemProps, S = {}> extends H
                 multiline: multiline ?? !!(title && subtitle),
                 state: asLink,
             }),
-            href: asLink ? url : undefined,
-            target: asLink ? target : undefined,
-        }, extraAttrs, innerAttrs);
+        }, asLink ? {href: url, target} : null, extraAttrs, innerAttrs);
         return (
             <ComponentName {...attrs}>
                 {this._renderLeading(props)}
-                {this._renderContent(props)}
+                {this._renderContent(props, asLink)}
                 {this._renderTrailing(props)}
             </ComponentName>
         );
