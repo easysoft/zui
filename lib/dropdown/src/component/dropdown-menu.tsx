@@ -26,7 +26,7 @@ export class DropdownMenu<T extends DropdownMenuOptions = DropdownMenuOptions> e
     }
 
     protected layout() {
-        const element = this._ref.current as HTMLElement;
+        const element = this.element as HTMLElement;
         const trigger = element?.parentElement;
         if (!element || !trigger) {
             return;
