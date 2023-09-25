@@ -10,6 +10,7 @@
     "zui": {
         "type": "js-helpers",
         "displayName": "Split.js",
+        "wip": true,
         "contributes": {
             "js": [
                 "module"
