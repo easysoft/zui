@@ -17,6 +17,7 @@ onPageUpdate(() => {
                 {text: '粘贴', icon: 'icon-paste'},
                 {text: '剪切'},
                 {type: 'heading', text: '更多操作'},
+                {type: 'divider'},
                 {text: '导入', icon: 'icon-upload-alt'},
                 {
                     text: '导出',
