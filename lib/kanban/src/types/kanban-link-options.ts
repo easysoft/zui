@@ -9,8 +9,10 @@ export type KanbanLinkShape = 'straight' | 'fold' | 'curve';
 export type KanbanLinkStyle = 'solid' | 'dashed' | 'dotted';
 
 export interface KanbanLinkOptions extends Item {
+    /** 连线起始元素 ID。 */
     from: string;
 
+    /** 连线结束元素 ID。 */
     to: string;
 
     /** 起始指向的元素侧面位置。 */
