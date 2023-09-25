@@ -761,6 +761,7 @@ export default [
             "workspace": true,
             "sourceType": "build-in",
             "name": "split",
+            "wip": true,
             "order": 3010000021,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/split/package.json"
         },
