@@ -1,5 +1,5 @@
 {
-    "name": "@zentao/sidebar",
+    "name": "sidebar",
     "version": "0.0.1",
     "main": "src/main.ts",
     "browserslist": "",
@@ -14,6 +14,8 @@
         "@zui/dnd": "workspace:*"
     },
     "devDependencies": {
+        "zui-dev": "workspace:*",
+        "@zui/utilities": "workspace:*"
     },
     "zui": {
         "type": "component",

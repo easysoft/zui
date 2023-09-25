@@ -1074,6 +1074,13 @@ importers:
       '@zui/store':
         specifier: workspace:*
         version: link:../store
+    devDependencies:
+      '@zui/utilities':
+        specifier: workspace:*
+        version: link:../utilities
+      zui-dev:
+        specifier: workspace:*
+        version: link:../../dev
 
   lib/sortable:
     dependencies:
