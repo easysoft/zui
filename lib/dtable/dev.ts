@@ -7,6 +7,8 @@ import '@zui/dropdown';
 import '@zui/form';
 import '@zui/input-control';
 import '@zui/progress';
+import '@zui/tooltip';
+import '@zui/popover';
 import {Faker, zh_CN, en} from '@faker-js/faker';
 import {DTable} from './src/main';
 import {checkable} from './src/plugins/checkable';
@@ -125,10 +127,30 @@ onPageLoad(() => {
                             html: `<span class="label size-sm ${row.data?.milestone ? 'important' : 'secondary'}-pale circle">+${releaseIncrease - 6}</span>`,
                         });
                     }
+                    result.push({attrs: {'data-toggle': 'popover', 'data-content': '发布说明'}});
                     return result;
                 }},
             ],
-            data: [],
+            data: Array(2000).fill(0).map((_, index) => ({
+                id: `${index}`,
+                name: faker.animal.cetacean(),
+                productLine: faker.lorem.word(),
+                manager: `${faker.person.lastName()}${faker.person.firstName()}`,
+                feedback: faker.number.int(150),
+                storyDraft: faker.number.int(150),
+                storyActive: faker.number.int(150),
+                storyChanged: faker.number.int(150),
+                completion: faker.number.int(100),
+                plan: faker.number.int(10),
+                execution: faker.number.int(20),
+                caseCoverage: faker.number.int(100),
+                bugActive: faker.number.int(100),
+                fixRate: faker.number.int(100),
+                release: faker.number.int(200),
+                releaseIncrease: faker.number.int(10),
+                milestone: faker.datatype.boolean(),
+                managerAvatar: `/lib/avatar/assets/avatar-${faker.number.int({min: 1, max: 10})}.png`,
+            })),
             emptyTip: '暂无',
             height: 400,
             striped: false,
