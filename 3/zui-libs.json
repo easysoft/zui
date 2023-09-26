@@ -394,6 +394,7 @@
             "@zui/css-icons": "workspace:^0.0.1",
             "@zui/checkbox": "workspace:^0.0.1",
             "@zui/common-list": "workspace:^0.0.1",
+            "@zui/store": "workspace:^0.0.1",
             "@zui/core": "workspace:^0.0.1"
         },
         "zui": {
