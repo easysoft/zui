@@ -2198,23 +2198,23 @@ class W extends at {
    * @param options new options.
    */
   render(t) {
-    const { element: e } = this, { Component: n, replace: i } = this.constructor, r = {
+    const { element: e } = this, { Component: n, replace: i } = this.constructor, { $replace: r = i, ...o } = this.setOptions(t), a = {
       ref: this.ref,
-      ...this.setOptions(t)
+      ...o
     };
-    if (i && n.HElement) {
-      const o = Array.from(e.attributes).reduce((a, l) => {
-        const { name: c, value: d } = l;
-        return a[c === "class" ? "className" : c] = d, a;
+    if (r && n.HElement) {
+      const l = Array.from(e.attributes).reduce((c, d) => {
+        const { name: h, value: m } = d;
+        return c[h === "class" ? "className" : h] = m, c;
       }, {});
       return as(
-        $t(n, R({ component: e.tagName.toLowerCase(), attrs: o }, r)),
+        $t(n, R({ component: e.tagName.toLowerCase(), attrs: l }, a)),
         e.parentElement,
         e
       );
     }
     as(
-      $t(n, r),
+      $t(n, a),
       e
     );
   }
@@ -3537,7 +3537,7 @@ class An extends at {
       const { movingClass: c, hasMovingClass: d } = e;
       c && a.addClass(c), d && this.$element.addClass(d), this._setState(t, l), f(document).off("mousemove mouseup").on(`mousemove${this.namespace}`, this._handleMouseMove.bind(this)).on(`mouseup${this.namespace}`, this._handleMouseUp.bind(this));
     }, this._handleMouseMove = (t) => {
-      this._state && (this._raf && cancelAnimationFrame(this._raf), this._raf = requestAnimationFrame(() => {
+      this._state && (t.preventDefault(), this._raf && cancelAnimationFrame(this._raf), this._raf = requestAnimationFrame(() => {
         var e;
         this._raf = 0, this._setState(t), (e = this.options.onMove) == null || e.call(this, t, this._state);
       }));
@@ -3561,7 +3561,6 @@ class An extends at {
   }
   _setState(t, e) {
     var l;
-    t.preventDefault();
     let n = {
       x: t.pageX,
       y: t.pageY
@@ -10500,7 +10499,7 @@ let Kl = class extends K {
     const { moveable: t, responsive: e } = this.props;
     if (t && this._ref.current && (this._moveable = new An(this._ref.current, f.extend({ selector: "self", move: "scroll", onMoveStart: (n, i) => {
       const { bottom: r, right: o } = i.getBoundingClientRect();
-      return n.clientY < r && n.clientY > r - 20 || n.clientX < o && n.clientX > o - 20 ? !1 : !f(n.target).closest("a,.btn,.state,.kanban-item").length;
+      return n.clientY < r && n.clientY > r - 20 || n.clientX < o && n.clientX > o - 20 ? !1 : !f(n.target).closest("a,input,.btn,.state,.kanban-item").length;
     } }, typeof t == "object" ? t : null))), e) {
       const n = new ResizeObserver(this._tryUpdateLayout.bind(this));
       (typeof e != "boolean" ? f(e) : f(this._ref.current).parent()).each((r, o) => {
