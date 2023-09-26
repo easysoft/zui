@@ -29,8 +29,8 @@ export class BtnGroup<T extends BtnGroupOptions = BtnGroupOptions> extends Commo
 
     protected _shareBtnProps?: Partial<ButtonProps>;
 
-    protected _isBtnType(item: Item): boolean {
-        return item.type === 'item' || item.type === 'dropdown';
+    protected _isBtnType({type}: Item): boolean {
+        return type === 'item' || type === 'dropdown';
     }
 
     protected _getItem(props: RenderableProps<T>, item: Item, index: number): false | Item {
