@@ -1,9 +1,11 @@
-import {createRef, render, h, Attributes} from 'preact';
-import type {Component as ComponentReact, ComponentClass} from 'preact';
-import {Component as ComponentBase, ComponentEventsDefnition} from '../component';
+import {createRef, render, h} from 'preact';
+import {Component as ComponentBase} from '../component';
 import {mergeProps} from '../helpers';
 
-export class ComponentFromReact<O extends {} = {}, C extends ComponentReact<O> = ComponentReact<O>, E extends ComponentEventsDefnition = {}, U extends HTMLElement = HTMLElement> extends ComponentBase<O, E, U> {
+import type {ComponentEventsDefnition} from '../component';
+import type {Component as ComponentReact, ComponentClass} from 'preact';
+
+export class ComponentFromReact<O extends {} = {}, C extends ComponentReact<O> = ComponentReact<O>, E extends ComponentEventsDefnition = {}, U extends HTMLElement = HTMLElement> extends ComponentBase<O & {$replace?: boolean}, E, U> {
     /**
      * The React component class.
      */
@@ -59,11 +61,12 @@ export class ComponentFromReact<O extends {} = {}, C extends ComponentReact<O> =
     render(options?: Partial<O>) {
         const {element} = this;
         const {Component, replace} = this.constructor;
+        const {$replace = replace, ...userOptions} = this.setOptions(options);
         const props = {
             ref: this.ref,
-            ...this.setOptions(options),
-        } as Attributes;
-        if (replace && (Component as {HElement?: boolean}).HElement) {
+            ...userOptions,
+        };
+        if ($replace && (Component as {HElement?: boolean}).HElement) {
             const attrs = Array.from(element.attributes).reduce<Record<string, unknown>>((data, attribute) => {
                 const {name, value} = attribute;
                 data[name === 'class' ? 'className' : name] = value;
