@@ -6,4 +6,6 @@ export class Tree extends ComponentFromReact<TreeOptions, TreeReact> {
     static NAME = 'Tree';
 
     static Component = TreeReact;
-}
+
+    static replace = true;
+} 

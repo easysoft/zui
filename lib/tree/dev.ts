@@ -39,6 +39,7 @@ onPageUpdate(() => {
         expandedIcon: 'folder-open',
         normalIcon: 'file-o',
         hover: true,
+        defaultNestedShow: true,
         itemActions: {
             items: [
                 {

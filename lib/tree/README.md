@@ -3,11 +3,11 @@
 ## 示例
 
 ```html:example
-<div id="tree"></div>
+<menu id="tree"></menu>
 ```
 
 ## 可搜索树形菜单
 
 ```html:example
-<div id="searchTree"></div>
+<menu id="searchTree"></menu>
 ```

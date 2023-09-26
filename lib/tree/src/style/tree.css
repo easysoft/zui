@@ -5,7 +5,7 @@
 
 /* Toggle icon. */
 .tree-toggle {
-  @apply -w-4 -flex -items-center -justify-center -rounded -h-4 -flex-none --mr-2;
+  @apply -w-4 -flex -items-center -justify-center -rounded -h-4 -flex-none --mr-1.5;
   --caret-size: 5px;
   --caret-opacity: .3;
 }
@@ -22,6 +22,7 @@
 }
 
 /* Link title. */
+.tree-item-inner .item-title:not(:hover),
 .tree-item-inner > a.item-title:not(:hover) {
   @apply -text-inherit;
 }
