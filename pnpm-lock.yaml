@@ -875,6 +875,9 @@ importers:
       '@zui/button':
         specifier: workspace:^0.0.1
         version: link:../button
+      '@zui/common-list':
+        specifier: workspace:^0.0.1
+        version: link:../common-list
       '@zui/core':
         specifier: workspace:^0.0.1
         version: link:../core
