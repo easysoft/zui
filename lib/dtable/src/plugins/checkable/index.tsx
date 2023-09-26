@@ -114,7 +114,8 @@ function isAllRowChecked(this: DTableCheckable): boolean {
 }
 
 function getChecks(this: DTableCheckable): string[] {
-    return Object.keys(this.state.checkedRows);
+    const allRowIDSet = new Set(this.layout?.allRows.map(row => row.id));
+    return Object.keys(this.state.checkedRows).filter(id => allRowIDSet.has(id));
 }
 
 function toggleCheckable(this: DTableCheckable, toggle?: boolean) {
