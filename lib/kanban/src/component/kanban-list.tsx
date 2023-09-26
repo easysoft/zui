@@ -46,8 +46,8 @@ export class KanbanList extends HElement<KanbanListProps, KanbanListState> {
                     return false;
                 }
 
-                /* Ignore click on link or buttons. */
-                return !$(event.target as HTMLElement).closest('a,.btn,.state,.kanban-item').length;
+                /* Ignore click on link, input or buttons. */
+                return !$(event.target as HTMLElement).closest('a,input,.btn,.state,.kanban-item').length;
             }}, typeof moveable === 'object' ? moveable : null));
         }
         if (responsive) {
