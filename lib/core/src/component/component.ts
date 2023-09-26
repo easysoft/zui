@@ -279,11 +279,11 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
      * @param options  The component options to set.
      * @returns The component options.
      */
-    setOptions(options?: Partial<ComponentOptions<O>>) {
+    setOptions(options?: Partial<ComponentOptions<O>>): ComponentOptions<O> {
         if (options) {
             $.extend(this._options, options);
         }
-        return this._options;
+        return this._options!;
     }
 
     /**
