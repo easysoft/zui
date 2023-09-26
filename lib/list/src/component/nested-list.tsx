@@ -35,10 +35,18 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
 
     protected _itemsMap: Map<string, Item> = new Map();
 
+    protected _defaultNestedShow?: boolean;
+
     constructor(props: P) {
         super(props);
         this._controlled = props.nestedShow !== undefined; // Controlled menu use state to store nested
-        (this.state as S).nestedShow = props.defaultNestedShow ?? {};
+        const {defaultNestedShow} = props;
+        if (typeof defaultNestedShow === 'boolean') {
+            this._defaultNestedShow = defaultNestedShow;
+            (this.state as S).nestedShow = {};
+        } else {
+            (this.state as S).nestedShow = defaultNestedShow ?? {};
+        }
         this._handleClickNestedItem = this._handleClickNestedItem.bind(this);
         this._handleHoverNestedItem = this._handleHoverNestedItem.bind(this);
         this._handleHover = this._handleHover.bind(this);
@@ -54,54 +62,42 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
         return (this._controlled ? this.props.nestedShow : this.state.nestedShow) ?? false;
     }
 
-    isExpanded(key: ItemKey, parentKey: ItemKey | undefined, defaultExpanded?: boolean) {
+    isExpanded(key: ItemKey, parentKey?: ItemKey) {
         const {nestedShow} = this;
         const name = `${parentKey !== undefined ? `${parentKey}:` : ''}${key}`;
-        return !!(typeof nestedShow === 'object' ? (nestedShow[name] ?? defaultExpanded) : nestedShow);
+        if (typeof nestedShow === 'boolean') {
+            return nestedShow;
+        }
+        return !!(nestedShow[name] ?? this._defaultNestedShow);
     }
 
     toggle(key: ItemKey, toggle?: boolean) {
         if (this._controlled) {
             return;
         }
-        const nestedShow = this._getNestedMap();
-        toggle = toggle ?? !nestedShow[key];
-        if (toggle === !!nestedShow[key]) {
+        const isExpanded = this.isExpanded(key);
+        if (toggle === undefined) {
+            toggle = !isExpanded;
+        } else if (toggle === isExpanded) {
             return;
         }
         if (this.props.onToggle?.call(this, key, toggle) === false) {
             return;
         }
-        nestedShow[key] = toggle;
-        return this.setState({nestedShow});
+        return this.setState(prevState => ({
+            nestedShow: {
+                ...prevState.nestedShow,
+                [key]: toggle,
+            },
+        }));
     }
 
-    toggleAll(show?: boolean) {
+    toggleAll(show: boolean) {
         if (this._controlled) {
             return;
         }
-        let {nestedShow} = this;
-        if (typeof nestedShow === 'boolean') {
-            return this.setState({nestedShow: show ?? !nestedShow});
-        }
-        nestedShow = this._getNestedMap();
-        const firstKey = this._items?.[0]?.key;
-        show = show ?? (firstKey ? !nestedShow[firstKey] : true);
-        this.setState({nestedShow: show});
-    }
-
-    protected _getNestedMap(): Record<ItemKey, boolean> {
-        const {nestedShow} = this;
-        if (typeof nestedShow === 'boolean') {
-            return (this._items || []).reduce<Record<ItemKey, boolean>>((map, item, index) => {
-                const {key = this.getKey(index)} = item;
-                if (key !== undefined) {
-                    map[key] = nestedShow;
-                }
-                return map;
-            }, {});
-        }
-        return nestedShow;
+        this._defaultNestedShow = show;
+        return this.setState({});
     }
 
     protected _getClassName(props: RenderableProps<P>): ClassNameLike {
@@ -122,6 +118,7 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
             items,
             parentKey: parentKey ? `${parentKey}:${item.key}` : item.key,
             nestedShow: this.nestedShow,
+            defaultNestedShow: this._defaultNestedShow,
             onClickItem: this._handleClickNestedItem,
             onHoverItem: this._needHandleHover ? this._handleHoverNestedItem : undefined,
             beforeRenderItem: this._beforeRenderNestedItem,

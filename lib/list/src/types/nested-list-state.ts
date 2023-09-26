@@ -4,5 +4,5 @@ import type {NestedItem} from './nested-item';
 import type {NestedListItem} from './nested-list-item';
 
 export interface NestedListState<T extends NestedItem = NestedListItem> extends ListState<T> {
-    nestedShow?: boolean | Record<ItemKey, boolean>;
+    nestedShow?: Record<ItemKey, boolean>;
 }
