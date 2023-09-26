@@ -36,7 +36,6 @@ export class Moveable extends Component<MoveableOptions> {
     }
 
     protected _setState(event: MouseEvent, target?: HTMLElement) {
-        event.preventDefault();
         let newState = {
             x: event.pageX,
             y: event.pageY,
@@ -120,6 +119,7 @@ export class Moveable extends Component<MoveableOptions> {
         if (!this._state) {
             return;
         }
+        event.preventDefault();
         if (this._raf) {
             cancelAnimationFrame(this._raf);
         }
