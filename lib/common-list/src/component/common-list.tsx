@@ -203,7 +203,7 @@ export class CommonList<P extends CommonListProps = CommonListProps, S = {}> ext
             item,
             {
                 _index: index,
-                key: String((itemKey ? item[itemKey] : item.key) ?? index),
+                key: String((itemKey ? item[itemKey] : item.key) ?? (item.key ?? index)),
             },
         );
 
