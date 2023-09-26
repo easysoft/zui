@@ -166,7 +166,7 @@
             if(that.store.time) {
                 that.$.find('li:not(.tree-action-item)').each(function() {
                     var $li= $(this);
-                    that[that.store[$li.data('id')] ? 'expand' : 'collapse']($li, true, true);
+                    that[that.store[$li.attr('data-id')] ? 'expand' : 'collapse']($li, true, true);
                 });
             }
         }
@@ -181,13 +181,14 @@
                 $parentItem.prepend(that.options.toggleTemplate);
             }
         }
-        data = data || ($parentItem ? $parentItem.data() : {id: 0});
+        data = data || ($parentItem ? $parentItem.data() : null);
         if(!skipCheckExists) {
             $list.removeClass('has-active-item');
-            var $children = $list.attr('data-id', data.id).children('li:not(.tree-action-item)').each(function(index) {
+            var id = data ? data.id : 0;
+            var $children = $list.attr('data-id', id).children('li:not(.tree-action-item)').each(function(index) {
                 var $item = $(this);
                 var item = $item.data();
-                if (item.id === undefined) item.id = data.id + '_' + index;
+                if (item.id === undefined) item.id = id + '_' + index;
                 that._initItem($item, $list, item);
             });
             if($children.length === 1 && !$children.find('ul').length)
@@ -302,7 +303,7 @@
     Tree.prototype.preserve = function($li, id, expand) {
         if(!this.isPreserve) return;
         if($li) {
-            id = id || $li.data('id');
+            id = id || $li.attr('data-id');
             expand = expand === undefined ? $li.hasClass('open') : false;
             if(expand) this.store[id] = expand;
             else delete this.store[id];
