@@ -40,6 +40,7 @@ onPageUpdate(() => {
         normalIcon: 'file-o',
         hover: true,
         defaultNestedShow: true,
+        preserve: 'myTree',
         itemActions: {
             items: [
                 {

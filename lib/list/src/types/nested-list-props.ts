@@ -8,6 +8,7 @@ export interface NestedListProps<T extends NestedItem = NestedListItem> extends 
     parentKey?: ItemKey;
     indent?: number;
     level?: number;
+    preserve?: string;
     nestedTrigger?: 'click' | 'hover',
     nestedShow?: boolean | Record<ItemKey, boolean>;
     defaultNestedShow?: boolean | Record<ItemKey, boolean>;

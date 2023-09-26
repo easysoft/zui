@@ -1,4 +1,5 @@
-import {Icon, classes, mergeProps} from '@zui/core';
+import {Icon, classes, mergeProps, $} from '@zui/core';
+import {store} from '@zui/store';
 import {List} from './list';
 import '@zui/css-icons/src/icons/caret.css';
 
@@ -33,25 +34,29 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
 
     protected declare _needHandleHover: boolean;
 
-    protected _itemsMap: Map<string, Item> = new Map();
+    protected declare _storeID: string;
 
-    protected _defaultNestedShow?: boolean;
+    protected _itemsMap: Map<string, Item> = new Map();
 
     constructor(props: P) {
         super(props);
-        this._controlled = props.nestedShow !== undefined; // Controlled menu use state to store nested
+        this._controlled = props.nestedShow !== undefined; // Uncontrolled menu use state to store nested
         const {defaultNestedShow} = props;
-        if (typeof defaultNestedShow === 'boolean') {
-            this._defaultNestedShow = defaultNestedShow;
-            (this.state as S).nestedShow = {};
-        } else {
-            (this.state as S).nestedShow = defaultNestedShow ?? {};
+        $.extend(this.state, typeof defaultNestedShow === 'boolean' ? {defaultShow: defaultNestedShow, nestedShow: {}} : {nestedShow: defaultNestedShow || {}});
+        const {preserve} = props;
+        if (preserve && !this._controlled) {
+            this._storeID = `${this.constructor.NAME}:${preserve}:state`;
+            const storeState = store.get(this._storeID);
+            if (storeState) {
+                $.extend(this.state, storeState);
+            }
         }
         this._handleClickNestedItem = this._handleClickNestedItem.bind(this);
         this._handleHoverNestedItem = this._handleHoverNestedItem.bind(this);
         this._handleHover = this._handleHover.bind(this);
         this._handleClick = this._handleClick.bind(this);
         this._beforeRenderNestedItem = this._beforeRenderNestedItem.bind(this);
+        this._preserveState = this._preserveState.bind(this);
     }
 
     get isRoot() {
@@ -68,7 +73,7 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
         if (typeof nestedShow === 'boolean') {
             return nestedShow;
         }
-        return !!(nestedShow[name] ?? this._defaultNestedShow);
+        return !!(nestedShow[name] ?? this.state.defaultShow);
     }
 
     toggle(key: ItemKey, toggle?: boolean) {
@@ -89,15 +94,20 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
                 ...prevState.nestedShow,
                 [key]: toggle,
             },
-        }));
+        }), this._preserveState);
     }
 
     toggleAll(show: boolean) {
         if (this._controlled) {
             return;
         }
-        this._defaultNestedShow = show;
-        return this.setState({});
+        return this.setState({nestedShow: {}, defaultShow: show}, this._preserveState);
+    }
+
+    protected _preserveState() {
+        if (this._storeID) {
+            store.set(this._storeID, this.state);
+        }
     }
 
     protected _getClassName(props: RenderableProps<P>): ClassNameLike {
@@ -118,7 +128,7 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
             items,
             parentKey: parentKey ? `${parentKey}:${item.key}` : item.key,
             nestedShow: this.nestedShow,
-            defaultNestedShow: this._defaultNestedShow,
+            defaultNestedShow: this.state.defaultShow,
             onClickItem: this._handleClickNestedItem,
             onHoverItem: this._needHandleHover ? this._handleHoverNestedItem : undefined,
             beforeRenderItem: this._beforeRenderNestedItem,
