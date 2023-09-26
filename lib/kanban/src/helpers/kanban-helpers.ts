@@ -109,6 +109,34 @@ export function getLanes(this: unknown, lanes: KanbanLaneOptions[] | undefined, 
     return lanes;
 }
 
+export function getColItems(this: unknown, items: KanbanItem[] | undefined, lane: KanbanLaneOptions, col: KanbanColOptions, options: Pick<KanbanProps, 'itemProps' | 'getItem'>, forEachItem?: (item: KanbanItem) => void) {
+    if (!items?.length) {
+        return [];
+    }
+    const {itemProps, getItem} = options;
+    let needSort = false;
+    items = items.reduce<KanbanItem[]>((colItems, item) => {
+        if (itemProps) {
+            item = mergeProps({}, itemProps, item) as unknown as KanbanItem;
+        }
+        const finalItem = getItem?.call(this, {col: col.name, lane: lane.name, item}) ?? item;
+        if (finalItem !== false && !finalItem.deleted) {
+            if (typeof finalItem.order === 'number') {
+                needSort = true;
+            } else {
+                finalItem.order = colItems.length - 1;
+            }
+            colItems.push(finalItem);
+            forEachItem?.call(this, finalItem);
+        }
+        return colItems;
+    }, []);
+    if (needSort) {
+        items.sort(sortByOrder);
+    }
+    return items;
+}
+
 export function sortByOrder(a: {order?: number}, b: {order?: number}) {
     return a.order! - b.order!;
 }

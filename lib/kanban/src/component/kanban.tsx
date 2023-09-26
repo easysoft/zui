@@ -3,11 +3,12 @@ import {Draggable} from '@zui/dnd';
 import {KanbanHeader} from './kanban-header';
 import {KanbanBody} from './kanban-body';
 import {KanbanLinks} from './kanban-links';
-import {getCols, mergeData, sortByOrder, getLanes} from '../helpers/kanban-helpers';
+import {getCols, mergeData, sortByOrder, getLanes, getColItems} from '../helpers/kanban-helpers';
 
 import type {ComponentChildren, RenderableProps} from 'preact';
 import type {ClassNameLike, CustomContentType} from '@zui/core';
 import type {KanbanColName, KanbanColOptions, KanbanData, KanbanDataFetcher, KanbanDataSetting, KanbanItem, KanbanLaneName, KanbanLaneOptions, KanbanLinkOptions, KanbanProps, KanbanState} from '../types';
+import {it} from 'node:test';
 
 export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState = KanbanState> extends HElement<P, S> {
     static defaultProps: Partial<KanbanProps> = {
@@ -139,7 +140,7 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
     }
 
     protected _getData(props: RenderableProps<P>) {
-        const {data, getItem, itemProps, itemKey = 'id'} = props;
+        const {data, itemKey = 'id'} = props;
         const {data: stateData, changes} = this.state;
         let kanbanData = (stateData || isFetchSetting(data) ? stateData : data) || {} as KanbanData;
         if (changes) {
@@ -147,40 +148,23 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
         }
         let hasSubCols = false;
         const {items = {}} = kanbanData;
-        const itemIdSet = new Set<string>();
         const cols = getCols.call(this, kanbanData.cols, props, col => {
             if (col.parentName !== undefined) {
                 hasSubCols = true;
             }
         });
+        const itemIdSet = new Set<string>();
+        const updateIdSet = (item: KanbanItem) => {
+            itemIdSet.add(String(item[itemKey]));
+        };
         const lanes = getLanes.call(this, kanbanData.lanes, props, (lane) => {
             const laneItems = items[lane.name];
             if (laneItems) {
                 cols.forEach(col => {
-                    let laneColItems = laneItems[col.name];
-                    if (laneColItems) {
-                        let needSort = false;
-                        laneColItems = laneColItems.reduce<KanbanItem[]>((colItems, item) => {
-                            if (itemProps) {
-                                item = mergeProps({}, itemProps, item) as unknown as KanbanItem;
-                            }
-                            const finalItem = getItem?.call(this, {col: col.name, lane: lane.name, item}) ?? item;
-                            if (finalItem !== false && !finalItem.deleted) {
-                                if (typeof finalItem.order === 'number') {
-                                    needSort = true;
-                                } else {
-                                    finalItem.order = colItems.length - 1;
-                                }
-                                colItems.push(finalItem);
-                                itemIdSet.add(String(finalItem[itemKey]));
-                            }
-                            return colItems;
-                        }, []);
-                        if (needSort) {
-                            laneColItems.sort(sortByOrder);
-                        }
-                        laneItems[col.name] = laneColItems;
-                    }
+                    laneItems[col.name] = getColItems.call(this, laneItems[col.name], lane, col, props, updateIdSet);
+                    col.subCols?.forEach(subCol => {
+                        laneItems[subCol.name] = getColItems.call(this, laneItems[subCol.name], lane, subCol, props, updateIdSet);
+                    });
                 });
             }
         });
