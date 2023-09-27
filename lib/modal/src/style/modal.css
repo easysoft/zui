@@ -13,3 +13,6 @@
 .modal-no-backdrop {
   @apply -bg-transparent -pointer-events-none;
 }
+.modal-hide {
+  @apply !-opacity-0;
+}

@@ -8,6 +8,8 @@ const CLASS_SHOWN = 'in';
 
 const DISMISS_SELECTOR = '[data-dismiss="modal"]';
 
+const HIDE_CLASS = 'modal-hide';
+
 export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Component<T, ModalEvents, HTMLElement> {
     static NAME = 'Modal';
 
@@ -22,6 +24,8 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
         responsive: true,
         transTime: 300,
     };
+
+    static hideOthersOnShow = true;
 
     static zIndex = 1500;
 
@@ -93,7 +97,7 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
     show(options?: Partial<T>) {
         const {modalElement} = this;
         if (this._shown) {
-            $(modalElement).css('z-index', `${ModalBase.zIndex++}`);
+            $(modalElement).removeClass(HIDE_CLASS).css('z-index', `${ModalBase.zIndex++}`);
             return false;
         }
 
@@ -103,10 +107,21 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
         $(modalElement).setClass({
             'modal-trans': animation,
             'modal-no-backdrop': !backdrop,
+            [HIDE_CLASS]: false,
         }, CLASS_SHOW, className).css({
             zIndex: `${ModalBase.zIndex++}`,
             ...style,
         });
+
+        /* Hide other shown modals. */
+        const constructor = this.constructor as typeof ModalBase;
+        if (constructor.hideOthersOnShow) {
+            constructor.getAll().forEach((modal) => {
+                if (modal !== this && modal.shown) {
+                    modal.hideForOther();
+                }
+            });
+        }
 
         this.layout();
         this.emit('show');
@@ -118,6 +133,10 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
             });
         }, 50);
         return true;
+    }
+
+    hideForOther() {
+        $(this.modalElement).addClass(HIDE_CLASS);
     }
 
     hide() {
@@ -133,6 +152,12 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
             $(this.modalElement).removeClass(CLASS_SHOW);
             this.emit('hidden');
         });
+
+        /* Show other hidden modals. */
+        const constructor = this.constructor as typeof ModalBase;
+        if (constructor.hideOthersOnShow) {
+            constructor.getAll().findLast(x => x.shown && x !== this)?.show();
+        }
         return true;
     }
 
@@ -244,8 +269,4 @@ $(window).on(`resize.${ModalBase.NAMESPACE}`, () => {
             m.layout();
         }
     });
-});
-
-$(document).on(`to-hide.${ModalBase.NAMESPACE}`, (_: Event, data?: {target?: HTMLDivElement | string}) => {
-    ModalBase.hide(data?.target);
 });
