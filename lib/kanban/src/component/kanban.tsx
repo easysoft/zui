@@ -3,12 +3,11 @@ import {Draggable} from '@zui/dnd';
 import {KanbanHeader} from './kanban-header';
 import {KanbanBody} from './kanban-body';
 import {KanbanLinks} from './kanban-links';
-import {getCols, mergeData, sortByOrder, getLanes, getColItems} from '../helpers/kanban-helpers';
+import {getCols, mergeData, getLanes, getColItems} from '../helpers/kanban-helpers';
 
 import type {ComponentChildren, RenderableProps} from 'preact';
 import type {ClassNameLike, CustomContentType} from '@zui/core';
 import type {KanbanColName, KanbanColOptions, KanbanData, KanbanDataFetcher, KanbanDataSetting, KanbanItem, KanbanLaneName, KanbanLaneOptions, KanbanLinkOptions, KanbanProps, KanbanState} from '../types';
-import {it} from 'node:test';
 
 export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState = KanbanState> extends HElement<P, S> {
     static defaultProps: Partial<KanbanProps> = {
