@@ -445,7 +445,7 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
                     list.push(instance);
                 }
             });
-        return list;
+        return list.sort((a, b) => a.gid - b.gid);
     }
 
     /**
@@ -461,7 +461,7 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
             if (filter) {
                 all = all.filter(filter);
             }
-            return all.sort((a, b) => b.gid - a.gid)[0];
+            return all.pop();
         }
         return this.get($(selector).closest(`[${this.DATA_KEY}]`), key);
     }
