@@ -2347,6 +2347,8 @@ let ft = class extends K {
    * @returns The item to rendered, if return false, the item will not be rendered.
    */
   _getItem(t, e, n) {
+    if (!e)
+      return !1;
     const { itemProps: i, itemPropsMap: r = {}, getItem: o, itemKey: a = "id" } = t, { type: l = this.constructor.defaultItemType } = e, { name: c, itemName: d } = this, { defaultItemProps: h = {}, defaultItemPropsMap: m = {} } = this.constructor;
     if (e = R(
       { type: l },
