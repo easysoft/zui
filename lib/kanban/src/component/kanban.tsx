@@ -15,7 +15,6 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
         draggable: true,
         sticky: true,
         itemKey: 'id',
-        editLinks: true,
     };
 
     protected declare _loadedSetting: KanbanDataSetting;
