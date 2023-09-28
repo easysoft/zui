@@ -15,20 +15,22 @@ export interface KanbanProps extends HElementProps {
     laneNameWidth?: number;
     itemProps?: Partial<KanbanItem>;
     linkProps?: Partial<KanbanLinkOptions>;
+    editLinks?: boolean;
     sortLane?: boolean;
     sticky?: boolean;
     lanesGap?: SizeSetting;
     colsGap?: SizeSetting;
+    draggable?: DraggableOptions | boolean;
+    itemKey?: string;
     getCol?: (col: KanbanColOptions) => KanbanColOptions | false;
     getLane?: (lane: KanbanLaneOptions) => KanbanLaneOptions | false;
     getItem?: (info: KanbanItemInfo) => KanbanItem | false;
     getLink?: (link: KanbanLinkOptions) => KanbanLinkOptions | false;
     itemRender?: (info: KanbanItemInfo) => CustomContentType;
-    itemKey?: string;
+    onAddLink?: (newLink: KanbanLinkOptions) => void | false | Promise<void | false>;
     onLoad?: (data: KanbanData) => void | KanbanData;
     onLoadFail?: CustomContentType | ((error: Error) => CustomContentType | void);
     beforeRender?: (options: KanbanProps) => void;
     afterRender?: (firstRender: boolean) => void;
     beforeDestroy?: () => void;
-    draggable?: DraggableOptions | boolean;
 }

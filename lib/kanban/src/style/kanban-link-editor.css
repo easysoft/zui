@@ -1,0 +1,25 @@
+.kanban-link-editor {
+  @apply -absolute -inset-0 -pointer-events-none -z-20;
+}
+.kanban-link-editor-to,
+.kanban-link-editor-from {
+  @apply -absolute -ring-1 -ring-primary-500 -rounded -shadow-primary-500;
+}
+.kanban-link-editor-point {
+  @apply -absolute -pointer-events-auto -w-2 -h-2 -bg-primary-500 -rounded-full --translate-x-1 --translate-y-1 -ring-primary-500/10 -ring-4 -cursor-move -opacity-50 -transition-all;
+}
+.kanban-link-editor-point.is-left {
+  @apply -left-0 -top-1/2;
+}
+.kanban-link-editor-point.is-right {
+  @apply -right-0 -top-1/2 -translate-x-1;
+}
+.kanban-link-editor-point.is-top {
+  @apply -top-0 -left-1/2;
+}
+.kanban-link-editor-point.is-bottom {
+  @apply -bottom-0 -left-1/2 -translate-y-1;
+}
+.kanban-link-editor-point:hover {
+  @apply -ring-primary-500/50 -opacity-100 -ring-8;
+}

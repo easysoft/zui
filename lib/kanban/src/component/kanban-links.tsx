@@ -1,25 +1,24 @@
 import {Component, createRef} from 'preact';
 import {$} from '@zui/core';
+import {KanbanLink} from './kanban-link';
 
 import type {RenderableProps} from 'preact';
 import type {KanbanLinkOptions, KanbanLinksProps, KanbanLinksState} from '../types';
-import {KanbanLink} from './kanban-link';
 
 export class KanbanLinks extends Component<KanbanLinksProps, KanbanLinksState> {
-    _ref = createRef<HTMLDivElement>();
+    protected _ref = createRef<HTMLDivElement>();
 
-    declare _kanban: HTMLElement;
+    protected declare _kanban: HTMLElement;
 
-    _idSet = new Set<string>();
+    protected _idSet = new Set<string>();
 
-    _raf?: number;
+    protected _raf?: number;
 
     state: KanbanLinksState = {layout: {}};
 
     componentDidMount(): void {
         const kanbanElement = this._ref.current?.closest('.kanban') as HTMLElement;
-        $(kanbanElement).on('laneColResize.kanban.link', (event, entry) => {
-            console.log('> laneColResize', event, entry);
+        $(kanbanElement).on('laneColResize.kanban', () => {
             this._tryUpdateLayout();
         });
         this._kanban = kanbanElement;
@@ -29,10 +28,16 @@ export class KanbanLinks extends Component<KanbanLinksProps, KanbanLinksState> {
     componentWillUnmount(): void {
         const kanbanElement = this._ref.current?.closest('.kanban');
         if (kanbanElement) {
-            $(kanbanElement).off('.kanban.link');
+            $(kanbanElement).off('.kanban');
         }
         if (this._raf) {
             cancelAnimationFrame(this._raf);
+        }
+    }
+
+    componentDidUpdate(previousProps: Readonly<KanbanLinksProps>): void {
+        if (previousProps.links !== this.props.links) {
+            this._tryUpdateLayout();
         }
     }
 
