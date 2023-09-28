@@ -4,10 +4,10 @@ import {layoutLink} from '../helpers/link-helpers';
 import type {KanbanLinkProps} from '../types';
 
 export function KanbanLink(props: KanbanLinkProps) {
-    const {text, textSize} = props;
+    const {text, textSize, color} = props;
     const {x, y, padding, width, height, svgProps, markers, svgPathProps, svgPathBackProps, fromPos} = layoutLink(props);
     return (
-        <div className="kanban-link" style={{left: x, top: y, width, height}}>
+        <div className="kanban-link" style={{left: x, top: y, width, height, color}}>
             <svg {...svgProps} xmlns="http://www.w3.org/2000/svg" version="1.1">
                 {markers.length ? (
                     <defs>
