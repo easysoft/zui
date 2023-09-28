@@ -66,6 +66,7 @@ export class KanbanLinkEditor extends Component<KanbanLinkEditorProps, KanbanLin
                 if (!this.state.from) {
                     return false;
                 }
+                $(kanbanElement).addClass('is-adding-link');
             },
             onMove: (event) => {
                 const {top: offsetTop, left: offsetLeft} = this._kanban.getBoundingClientRect();
@@ -82,10 +83,11 @@ export class KanbanLinkEditor extends Component<KanbanLinkEditorProps, KanbanLin
             onMoveEnd: () => {
                 const {from, to} = this.state;
                 const {onAddLink} = this.props;
-                if (onAddLink && from !== undefined && to !== undefined) {
+                if (from !== to && onAddLink && from !== undefined && to !== undefined) {
                     onAddLink?.call(this, from, to);
                 }
                 this._cancelHover();
+                $(kanbanElement).removeClass('is-adding-link');
             },
         });
     }
