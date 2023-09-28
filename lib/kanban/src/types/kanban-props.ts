@@ -28,6 +28,7 @@ export interface KanbanProps extends HElementProps {
     getLink?: (link: KanbanLinkOptions) => KanbanLinkOptions | false;
     itemRender?: (info: KanbanItemInfo) => CustomContentType;
     onAddLink?: (newLink: KanbanLinkOptions) => void | false | Promise<void | false>;
+    onDeleteLink?: (link: KanbanLinkOptions) => void | false | Promise<void | false>;
     onLoad?: (data: KanbanData) => void | KanbanData;
     onLoadFail?: CustomContentType | ((error: Error) => CustomContentType | void);
     beforeRender?: (options: KanbanProps) => void;

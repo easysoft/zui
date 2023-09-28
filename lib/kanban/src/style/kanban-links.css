@@ -1,5 +1,5 @@
 .kanban-links {
-  @apply -absolute -inset-0 -pointer-events-none;
+  @apply -absolute -inset-0 -pointer-events-none -z-20;
 }
 .kanban-link {
   @apply -absolute -flex -items-center -justify-center -text-[--kanban-link-color];
@@ -15,4 +15,13 @@
 }
 .kanban-link-start-point::before {
   @apply -content-[''] -block -absolute --inset-1 -bg-current -rounded-full -opacity-20;
+}
+.kanban-link path {
+  @apply -pointer-events-auto;
+}
+.kanban-link-delete-btn {
+  @apply -pointer-events-auto -opacity-0 -transition-all -scale-75;
+}
+.is-hover .kanban-link-delete-btn {
+  @apply -opacity-100 -scale-100;
 }

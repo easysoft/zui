@@ -77,7 +77,7 @@ export class KanbanLinks extends Component<KanbanLinksProps, KanbanLinksState> {
             return null;
         }
         return (
-            <KanbanLink key={`${from}-${to}`} {...link} fromRect={fromReact} toRect={toRect} />
+            <KanbanLink key={`${from}-${to}`} {...link} fromRect={fromReact} toRect={toRect} onDelete={this.props.onDeleteLink} />
         );
     }
 

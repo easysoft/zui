@@ -15,6 +15,7 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
         draggable: true,
         sticky: true,
         itemKey: 'id',
+        editLinks: true,
     };
 
     protected declare _loadedSetting: KanbanDataSetting;
@@ -150,6 +151,16 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
         this.update({links: [newLink]});
     };
 
+    protected _onDeleteLink = async (link: KanbanLinkOptions) => {
+        const {onDeleteLink} = this.props;
+        const result = await onDeleteLink?.call(this, link);
+        if (result === false) {
+            return;
+        }
+        const {from, to} = link;
+        this.update({links: [{from, to, id: `${from}:${to}`, deleted: true}]});
+    };
+
     protected _getData(props: RenderableProps<P>) {
         const {data, itemKey = 'id'} = props;
         const {data: stateData, changes} = this.state;
@@ -210,6 +221,7 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
 
     protected _getChildren(props: RenderableProps<P>): ComponentChildren {
         const {cols, lanes, items, links} = this._getData(props);
+        const {editLinks} = props;
         console.log('> Kanban.render', {cols, lanes, items, links});
         return [
             <KanbanHeader key="header" cols={cols} />,
@@ -220,8 +232,8 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
                 lanes={lanes}
                 items={items}
             />,
-            links?.length ? <KanbanLinks key="links" links={links} /> : null,
-            props.editLinks ? <KanbanLinkEditor key="linkEditor" onAddLink={this._onAddLink} /> : null,
+            links?.length ? <KanbanLinks key="links" links={links} onDeleteLink={editLinks ? (this._onDeleteLink as (link: KanbanLinkOptions) => void) : undefined} /> : null,
+            editLinks ? <KanbanLinkEditor key="linkEditor" onAddLink={this._onAddLink} /> : null,
             props.children,
         ];
     }
