@@ -3,13 +3,17 @@
 ## 搜索菜单
 
 ```html:example
-<div id="searchMenu"></div>
+<menu id="searchMenu1"></menu>
+```
+
+```html:example
+<menu id="searchMenu2"></menu>
 ```
 
 ## 组件模式
 
 ```html:example
-<div id="menu"></div>
+<menu id="menu"></menu>
 ```
 
 ```js
@@ -36,13 +40,13 @@ console.log('> menu', menu);
 ## 选择框
 
 ```html:example
-<div id="checkableMenu"></div>
+<menu id="checkableMenu"></menu>
 ```
 
 ## 多层级组件模式
 
 ```html:example
-<div id="nestedMenu"></div>
+<menu id="nestedMenu"></menu>
 ```
 
 ## 通用

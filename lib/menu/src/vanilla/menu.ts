@@ -7,4 +7,6 @@ export class Menu extends ComponentFromReact<MenuOptions, MenuReact<MenuOptions>
     static NAME = 'Menu';
 
     static Component = MenuReact;
+
+    static replace = true;
 }

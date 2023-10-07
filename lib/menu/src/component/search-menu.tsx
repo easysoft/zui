@@ -50,11 +50,11 @@ export class SearchMenu<T extends SearchMenuOptions = SearchMenuOptions> extends
         this._updateMatchedParents();
     }
 
-    isExpanded(key: ItemKey, parentKey: ItemKey | undefined, defaultExpanded?: boolean | undefined): boolean {
+    isExpanded(key: ItemKey, parentKey: ItemKey | undefined): boolean {
         if (this.props.expandOnSearch && this._searchKeys.length) {
             return true;
         }
-        return super.isExpanded(key, parentKey, defaultExpanded);
+        return super.isExpanded(key, parentKey);
     }
 
     protected _updateMatchedParents(): void {
@@ -121,7 +121,7 @@ export class SearchMenu<T extends SearchMenuOptions = SearchMenuOptions> extends
     protected _getChildren(props: RenderableProps<T>): ComponentChildren {
         let children = super._getChildren(props);
         const {searchBox} = props;
-        if (!searchBox) {
+        if (!searchBox || !this.isRoot) {
             return children;
         }
         children = toChildArray(children);
