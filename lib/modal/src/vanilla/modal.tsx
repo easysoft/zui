@@ -135,14 +135,14 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
                 this.destroy();
             }
             if (!Modal.getAll().some((modal) => modal.shown)) {
-                $('body').enableScroll();
+                $('html').enableScroll();
             }
         });
     }
 
     show(options?: Partial<T>) {
         if (super.show(options)) {
-            $('body').disableScroll();
+            $('html').disableScroll();
             this.buildDialog();
             return true;
         }
