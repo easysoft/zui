@@ -7,6 +7,8 @@ import type {JSX, ComponentType, RenderableProps, ComponentChildren} from 'preac
 import type {ClassNameLike} from '../../helpers/classes';
 import type {HElementProps} from '../types';
 
+const strDangerouslySetInnerHTML = 'dangerouslySetInnerHTML';
+
 /**
  * The base HTML element.
  */
@@ -39,9 +41,10 @@ export class HElement<P extends HElementProps, S = {}> extends Component<P, S> {
     protected _getProps(props: RenderableProps<P>): Record<string, unknown> {
         const {className, attrs, props: componentProps, data, forwardRef, children, component, style, ...others} = props;
         const other = Object.keys(others).reduce<Record<string, unknown>>((map, key) => {
-            if (key === 'dangerouslySetInnerHTML' || /^(on[A-Z]|data-|zui-|z-)[a-zA-Z-]+/.test(key)) {
+
+            if (key === strDangerouslySetInnerHTML || /^(on[A-Z]|data-|zui-|z-)[a-zA-Z-]+/.test(key)) {
                 const val = others[key as keyof typeof others];
-                map[key] = (val && typeof val === 'object') ? JSON.stringify(val) : val;
+                map[key] = (key !== strDangerouslySetInnerHTML && val && typeof val === 'object') ? JSON.stringify(val) : val;
             }
             return map;
         }, {});
