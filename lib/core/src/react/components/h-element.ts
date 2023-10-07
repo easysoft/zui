@@ -40,7 +40,8 @@ export class HElement<P extends HElementProps, S = {}> extends Component<P, S> {
         const {className, attrs, props: componentProps, data, forwardRef, children, component, style, ...others} = props;
         const other = Object.keys(others).reduce<Record<string, unknown>>((map, key) => {
             if (key === 'dangerouslySetInnerHTML' || /^(on[A-Z]|data-|zui-|z-)[a-zA-Z-]+/.test(key)) {
-                map[key] = others[key as keyof typeof others];
+                const val = others[key as keyof typeof others];
+                map[key] = (val && typeof val === 'object') ? JSON.stringify(val) : val;
             }
             return map;
         }, {});
