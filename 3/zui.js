@@ -1540,6 +1540,10 @@ function nh(s, t = !0) {
   if (t) {
     if (e.data(i))
       return;
+    if ((e.css("scrollbar-gutter") || "").includes("stable")) {
+      e.data(i, { overflow: e.css("overflow") }).css("overflow", "hidden");
+      return;
+    }
     const r = n === document.body ? window.innerWidth - document.body.clientWidth : n.offsetWidth - n.clientWidth;
     if (!r)
       return;
@@ -6055,11 +6059,11 @@ const hd = {
   }
   afterInit() {
     super.afterInit(), this.on("hidden", () => {
-      this.options.destoryOnHide && this.destroy(), ne.getAll().some((t) => t.shown) || f("body").enableScroll();
+      this.options.destoryOnHide && this.destroy(), ne.getAll().some((t) => t.shown) || f("html").enableScroll();
     });
   }
   show(t) {
-    return super.show(t) ? (f("body").disableScroll(), this.buildDialog(), !0) : !1;
+    return super.show(t) ? (f("html").disableScroll(), this.buildDialog(), !0) : !1;
   }
   destroy() {
     super.destroy();
