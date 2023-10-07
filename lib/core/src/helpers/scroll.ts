@@ -16,6 +16,10 @@ export function disableScroll(selector: Selector, disable = true): void {
         if ($element.data(dataName)) {
             return;
         }
+        if (($element.css('scrollbar-gutter') || '').includes('stable')) {
+            $element.data(dataName, {overflow: $element.css('overflow')}).css('overflow', 'hidden');
+            return;
+        }
         const scrollbarWidth = (element === document.body) ? (window.innerWidth - document.body.clientWidth) : (element.offsetWidth - element.clientWidth);
         if (!scrollbarWidth) {
             return;
