@@ -14,7 +14,7 @@ export interface DTableCheckableTypes extends DTablePluginTypes {
         checkOnClickRow: boolean;
         checkInfo: (this: DTableCheckable, checks: string[]) => ComponentChildren;
         canRowCheckable: (this: DTableCheckable, rowID: string) => boolean | 'disabled';
-        beforeCheckRows: (this: DTableCheckable, ids: string[] | undefined, changes: Record<string, boolean>, checkedRows: Record<string, boolean>) => Record<string, boolean>;
+        beforeCheckRows: (this: DTableCheckable, ids: string[] | undefined, changes: Record<string, boolean>, checkedRows: Record<string, boolean>) => Record<string, boolean> | undefined;
         onCheckChange: (this: DTableCheckable, changes: Record<string, boolean>) => void;
         checkboxRender: (this: DTableCheckable, checked: boolean, rowID: string, disabled?: boolean) => CustomRenderResult;
     }>,

@@ -29,7 +29,7 @@ export type DTableSortableOptions = Partial<{
     beforeCheckRows: (this: DTableNested, ids: string[] | undefined, changes: Record<string, boolean>, checkedRows: Record<string, boolean>) => void;
 }>;
 
-export type DTableSortableTypes = {
+export type DTableNestedTypes = {
     options: Partial<DTableSortableOptions & {
         nested: boolean | 'auto';
         nestedParentKey: string;
@@ -56,7 +56,7 @@ export type DTableSortableTypes = {
     }
 };
 
-export type DTableNested = DTableWithPlugin<DTableSortableTypes>;
+export type DTableNested = DTableWithPlugin<DTableNestedTypes>;
 
 function getNestedRowInfo(this: DTableNested, rowID: RowID): NestedRowInfo {
     const info = this.data.nestedMap.get(rowID);
@@ -188,7 +188,7 @@ function updateParentRow(dtable: DTableNested, parentID: string, checked: boolea
     }
 }
 
-const nestedPlugin: DTablePlugin<DTableSortableTypes> = {
+const nestedPlugin: DTablePlugin<DTableNestedTypes> = {
     name: 'nested',
     defaultOptions: {
         nested: 'auto',
