@@ -26,13 +26,13 @@
   @apply -w-auto;
 }
 .kanban-header-col-wrapper {
-  @apply -bg-surface -relative -px-10 -w-full -flex-1 -flex -flex-row -items-center;
+  @apply -bg-surface -relative -px-14 -w-full -flex-1 -flex -flex-row -items-center;
 }
 .kanban-header-title {
   @apply -flex -flex-row -items-center -flex-auto -justify-center -overflow-hidden;
 }
 .kanban-header-title > .as-title {
-  @apply -font-bold;
+  @apply -font-bold -overflow-hidden -whitespace-nowrap;
 }
 .kanban-header-col-actions {
   @apply -absolute -top-1 -right-1;
@@ -57,6 +57,9 @@
 }
 .kanban-lane-col {
   @apply -w-[--kanban-col-width] -bg-inverse/5 -h-full;
+}
+.kanban-col-content {
+  @apply -relative -z-10;
 }
 .kanban-lane.is-first > .kanban-lane-name::before {
   @apply -content-[''] -block -absolute -left-0 -right-0 -h-[--kanban-header-height] -bottom-full -bg-[--kanban-lane-color];
