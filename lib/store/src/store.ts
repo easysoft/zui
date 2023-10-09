@@ -1,62 +1,61 @@
-import {nanoid} from 'nanoid';
-
-/** Store type */
+/** Store type. */
 export type StoreType = 'local' | 'session';
 
 const STR_PREFIX = '```ZUI_STR\n';
 
 /**
- * Store for using localStorage and sessionStorage
+ * Store for using localStorage and sessionStorage.
  */
 export class Store {
-    #type: StoreType;
+    protected _type: StoreType;
 
-    #name: string;
+    protected _name: string;
 
-    #userName: string;
+    protected _id: string;
 
-    #storage: Storage;
+    protected _storage: Storage;
 
-    #alterStorage?: Store;
+    protected _altStorage?: Store;
 
     /**
-     * Create new store instance
-     * @param name Name of store
-     * @param type Store type
+     * Create new store instance.
+     * @param id   Store profile ID.
+     * @param type Store type.
      */
-    constructor(name?: string, type: StoreType = 'local') {
-        this.#type = type;
-        this.#userName = name ?? nanoid();
-        this.#name = `ZUI_STORE:${this.#userName}`;
-        this.#storage = type === 'local' ? localStorage : sessionStorage;
+    constructor(id: string = '', type: StoreType = 'local') {
+        this._type = type;
+        this._id = id;
+        this._name = `ZUI_STORE:${this._id}`;
+        this._storage = type === 'local' ? localStorage : sessionStorage;
     }
 
     /**
-     * Get store type
+     * Get store type.
      */
     get type(): StoreType {
-        return this.#type;
+        return this._type;
     }
 
     /**
-     * Get session type store instance
+     * Get session type store instance.
      */
     get session(): Store {
         if (this.type === 'session') {
             return this;
         }
-        if (!this.#alterStorage) {
-            this.#alterStorage = new Store(this.#userName, 'session');
+        if (!this._altStorage) {
+            this._altStorage = new Store(this._id, 'session');
         }
-        return this.#alterStorage;
+        return this._altStorage;
     }
 
-    #getActualKey(key: string): string {
-        return `${this.#name}:${key}`;
+    protected _getKey(key: string): string {
+        return `${this._name}:${key}`;
     }
 
     /**
      * Get value from store.
+     *
      * @param key Key to get
      * @returns Value of key or undefined if key is not found
      */
@@ -78,7 +77,7 @@ export class Store {
      * @returns Value of key or defaultValue if key is not found.
      */
     get<T>(key: string, defaultValue?: T): T | undefined {
-        const value = this.#storage.getItem(this.#getActualKey(key));
+        const value = this._storage.getItem(this._getKey(key));
         if (typeof value === 'string') {
             if (value.startsWith(STR_PREFIX)) {
                 return value.substring(STR_PREFIX.length) as T;
@@ -92,44 +91,48 @@ export class Store {
     }
 
     /**
-     * Set key-value pair in store
-     * @param key Key to set
-     * @param value Value to set
+     * Set key-value pair in store.
+     *
+     * @param key Key to set.
+     * @param value Value to set.
      */
     set(key: string, value: unknown): void {
         if (value === undefined || value === null) {
             return this.remove(key);
         }
-        this.#storage.setItem(this.#getActualKey(key), typeof value === 'string' ? `${STR_PREFIX}${value}` : JSON.stringify(value));
+        this._storage.setItem(this._getKey(key), typeof value === 'string' ? `${STR_PREFIX}${value}` : JSON.stringify(value));
     }
 
     /**
-     * Remove key-value pair from store
-     * @param key Key to remove
+     * Remove key-value pair from store.
+     *
+     * @param key Key to remove.
      */
     remove(key: string): void {
-        this.#storage.removeItem(this.#getActualKey(key));
+        this._storage.removeItem(this._getKey(key));
     }
 
     /**
-     * Iterate all key-value pairs in store
-     * @param callback Callback function to call for each key-value pair in the store
+     * Iterate all key-value pairs in store.
+     *
+     * @param callback Callback function to call for each key-value pair in the store.
      */
     each(callback: (name: string, value: unknown) => void): void {
-        for (let i = 0; i < this.#storage.length; i++) {
-            const key = this.#storage.key(i);
-            if (key?.startsWith(this.#name)) {
-                const value = this.#storage.getItem(key);
+        for (let i = 0; i < this._storage.length; i++) {
+            const key = this._storage.key(i);
+            if (key?.startsWith(this._name)) {
+                const value = this._storage.getItem(key);
                 if (typeof value === 'string') {
-                    callback(key.substring(this.#name.length + 1), JSON.parse(value));
+                    callback(key.substring(this._name.length + 1), JSON.parse(value));
                 }
             }
         }
     }
 
     /**
-     * Get all key values in store
-     * @returns All key-value pairs in the store
+     * Get all key values in store.
+     *
+     * @returns All key-value pairs in the store.
      */
     getAll(): Record<string, unknown> {
         const result: Record<string, unknown> = {};
