@@ -9450,7 +9450,7 @@ const xd = {
   onRenderCell(s, t) {
     const { formatDate: e, html: n, hint: i } = t.col.setting;
     if (e && (s = Pl(s, t, e)), s = Al(s, t), s = Il(s, t), n ? s = Oi(s, t) : s = Ml(s, t), i) {
-      let r = s[0];
+      let r = t.value;
       typeof i == "function" ? r = i.call(this, t) : typeof i == "string" && (r = Q(i, t.row.data)), s.push({ attrs: { title: r } });
     }
     return s;
