@@ -67,7 +67,10 @@ export class DTable extends Component<DTableOptions, DTableState> {
             if (state) {
                 Object.assign(this.state, state.call(this));
             }
+        });
 
+        this.#initOptions();
+        this.#plugins.forEach(plugin => {
             plugin.onCreate?.call(this, plugin);
         });
     }
