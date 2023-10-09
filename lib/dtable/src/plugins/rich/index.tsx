@@ -198,7 +198,7 @@ const richPlugin: DTablePlugin<DTableRichTypes> = {
         }
 
         if (hint) {
-            let hintText = result[0];
+            let hintText = info.value;
             if (typeof hint === 'function') {
                 hintText = hint.call(this, info);
             } else if (typeof hint === 'string') {
