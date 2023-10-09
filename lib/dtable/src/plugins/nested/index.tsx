@@ -1,10 +1,15 @@
 import {definePlugin} from '../../helpers/shared-plugins';
+import {store} from '../store';
 import '@zui/css-icons/src/icons/toggle.css';
 import './style.css';
+
+import type {DTableSortableTypes} from '../sortable';
+import type {DTableCheckableTypes} from '../checkable';
+import type {DTableStoreTypes} from '../store';
 import type {ColInfo} from '../../types/col';
 import type {CustomRenderResult} from '../../types/common';
 import type {DTableWithPlugin, DTablePlugin} from '../../types/plugin';
-import type {RowInfo, RowData, RowID} from '../../types/row';
+import type {RowData, RowID} from '../../types/row';
 
 export const enum NestedRowState {
     unknown = '',
@@ -23,23 +28,19 @@ export type NestedRowInfo = {
     order: number;
 }>;
 
-export type DTableSortableOptions = Partial<{
-    checkable: boolean;
-    canSortTo: (this: DTableNested, from: RowInfo, to: RowInfo, moveType: string) => boolean;
-    beforeCheckRows: (this: DTableNested, ids: string[] | undefined, changes: Record<string, boolean>, checkedRows: Record<string, boolean>) => void;
-}>;
-
 export type DTableNestedTypes = {
-    options: Partial<DTableSortableOptions & {
+    options: Partial<{
         nested: boolean | 'auto';
         nestedParentKey: string;
         asParentKey: string;
         nestedIndent: number;
+        preserveNested: boolean;
+        defaultNestedState: Record<RowID, boolean>;
         onNestedChange: () => void;
         onRenderNestedToggle: (this: DTableNested, info: NestedRowInfo | undefined, rowID: string, col: ColInfo, rowData: RowData | undefined) => CustomRenderResult;
     }>,
     state: {
-        collapsedRows?: Record<RowID, boolean>;
+        nestedState: Record<RowID, boolean>;
     },
     col: Partial<{
         nestedToggle: boolean;
@@ -56,7 +57,9 @@ export type DTableNestedTypes = {
     }
 };
 
-export type DTableNested = DTableWithPlugin<DTableNestedTypes>;
+export type DTableNestedDependencies = [DTableSortableTypes, DTableCheckableTypes, DTableStoreTypes];
+
+export type DTableNested = DTableWithPlugin<DTableNestedTypes, DTableNestedDependencies>;
 
 function getNestedRowInfo(this: DTableNested, rowID: RowID): NestedRowInfo {
     const info = this.data.nestedMap.get(rowID);
@@ -67,8 +70,7 @@ function getNestedRowInfo(this: DTableNested, rowID: RowID): NestedRowInfo {
         info.state = NestedRowState.normal;
         return info;
     }
-    const collapsedRows = this.state.collapsedRows as (Record<string, true> | undefined);
-    const isRowCollapsed = info.children && collapsedRows && collapsedRows[rowID];
+    const isRowCollapsed = info.children && this.state.nestedState[rowID];
     let isParentCollapsed = false;
     let {parent} = info;
     while (parent) {
@@ -92,7 +94,7 @@ function getNestedInfo(this: DTableNested, rowID?: string): NestedRowInfo | Map<
 }
 
 function toggleRow(this: DTableNested, rowID: RowID | RowID[], collapsed?: boolean) {
-    let collapsedRows: Record<string, boolean> = this.state.collapsedRows as Record<string, true> ?? {};
+    let {nestedState} = this.state;
     const {nestedMap} = this.data;
     if (rowID === 'HEADER') {
         if (collapsed === undefined) {
@@ -102,31 +104,35 @@ function toggleRow(this: DTableNested, rowID: RowID | RowID[], collapsed?: boole
             const infos = nestedMap.entries();
             for (const [id, info] of infos) {
                 if (info.state === NestedRowState.expanded) {
-                    collapsedRows[id] = true;
+                    nestedState[id] = true;
                 }
             }
         } else {
-            collapsedRows = {};
+            nestedState = {};
         }
     } else {
         const ids = Array.isArray(rowID) ? rowID : [rowID];
         if (collapsed === undefined) {
-            collapsed = !collapsedRows[ids[0]];
+            collapsed = !nestedState[ids[0]];
         }
         ids.forEach(id => {
             const info = nestedMap.get(id);
             if (collapsed && info?.children) {
-                collapsedRows[id] = true;
+                nestedState[id] = true;
             } else {
-                delete collapsedRows[id];
+                delete nestedState[id];
             }
         });
     }
     this.update({
         dirtyType: 'layout',
-        state: {collapsedRows: {...collapsedRows}},
+        state: {nestedState: {...nestedState}},
     }, () => {
-        this.options.onNestedChange?.call(this);
+        const {onNestedChange, preserveNested} = this.options;
+        onNestedChange?.call(this);
+        if (preserveNested) {
+            this.data.store.set('nestedState', nestedState);
+        }
     });
 }
 
@@ -188,15 +194,18 @@ function updateParentRow(dtable: DTableNested, parentID: string, checked: boolea
     }
 }
 
-const nestedPlugin: DTablePlugin<DTableNestedTypes> = {
+const nestedToggleClass = 'dtable-nested-toggle';
+
+const nestedPlugin: DTablePlugin<DTableNestedTypes, DTableNestedDependencies> = {
     name: 'nested',
+    plugins: [store],
     defaultOptions: {
         nested: 'auto',
         nestedParentKey: 'parent',
         asParentKey: 'asParent',
         nestedIndent: 20,
         canSortTo(from, to) {
-            const {nestedMap} = this.data;
+            const {nestedMap} = (this as DTableNested).data;
             const fromInfo = nestedMap.get(from.id);
             const toInfo = nestedMap.get(to.id);
             return fromInfo?.parent === toInfo?.parent;
@@ -207,9 +216,9 @@ const nestedPlugin: DTablePlugin<DTableNestedTypes> = {
             }
             const result: Record<string, boolean> = {};
             Object.entries(changes).forEach(([rowID, checked]) => {
-                const info = checkNestedRow(this, rowID, checked, result);
+                const info = checkNestedRow(this as unknown as DTableNested, rowID, checked, result);
                 if (info?.parent) {
-                    updateParentRow(this, info.parent, checked, result, checkedRows);
+                    updateParentRow(this as unknown as DTableNested, info.parent, checked, result, checkedRows);
                 }
             });
             return result;
@@ -231,8 +240,18 @@ const nestedPlugin: DTablePlugin<DTableNestedTypes> = {
         isAllCollapsed,
         getNestedRowInfo,
     },
+    onCreate() {
+        let {defaultNestedState} = this.options;
+        if (this.options.preserveNested) {
+            const localNestedState = this.data.store.get('nestedState');
+            if (localNestedState) {
+                defaultNestedState = localNestedState as typeof defaultNestedState;
+            }
+        }
+        this.state.nestedState = defaultNestedState || {};
+    },
     beforeLayout() {
-        this.data.nestedMap?.clear();
+        this.data.nestedMap.clear();
     },
     onAddRow(row) {
         const {nestedMap} = this.data;
@@ -279,7 +298,7 @@ const nestedPlugin: DTablePlugin<DTableNestedTypes> = {
         const info = this.getNestedRowInfo(rowID);
         if (nestedToggle && (info.children || info.parent)) {
             result.push(
-                this.options.onRenderNestedToggle?.call(this, info, rowID, col, rowData) ?? (<a className={`dtable-nested-toggle state${info.children ? '' : ' is-no-child'}`}><span className="toggle-icon"></span></a>),
+                this.options.onRenderNestedToggle?.call(this, info, rowID, col, rowData) ?? (<a className={`${nestedToggleClass} state${info.children ? '' : ' is-no-child'}`}><span className="toggle-icon"></span></a>),
                 {outer: true, className: `is-${info.state}`},
             );
         }
@@ -298,7 +317,7 @@ const nestedPlugin: DTablePlugin<DTableNestedTypes> = {
         const {id: rowID} = row;
         if (col.setting.nestedToggle) {
             result.push(
-                this.options.onRenderNestedToggle?.call(this, undefined, rowID, col, undefined) ?? (<a className="dtable-nested-toggle state"><span className="toggle-icon"></span></a>),
+                this.options.onRenderNestedToggle?.call(this, undefined, rowID, col, undefined) ?? (<a className={`${nestedToggleClass} state`}><span className="toggle-icon"></span></a>),
                 {outer: true, className: `is-${this.isAllCollapsed() ? NestedRowState.collapsed : NestedRowState.expanded}`},
             );
 
@@ -310,7 +329,7 @@ const nestedPlugin: DTablePlugin<DTableNestedTypes> = {
         if (!target) {
             return;
         }
-        const toggleElement = target.closest<HTMLElement>('.dtable-nested-toggle');
+        const toggleElement = target.closest<HTMLElement>(`.${nestedToggleClass}`);
         if (!toggleElement) {
             return;
         }
@@ -326,7 +345,7 @@ const nestedPlugin: DTablePlugin<DTableNestedTypes> = {
         if (!info.children) {
             return;
         }
-        const toggleElement = target.closest<HTMLElement>('.dtable-nested-toggle');
+        const toggleElement = target.closest<HTMLElement>(`.${nestedToggleClass}`);
         if (!toggleElement) {
             return;
         }
