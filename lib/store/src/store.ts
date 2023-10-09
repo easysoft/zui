@@ -54,6 +54,16 @@ export class Store {
     }
 
     /**
+     * Switch store profile.
+     *
+     * @param id Store profile ID.
+     */
+    switch(id: string) {
+        this._id = id;
+        this._name = `ZUI_STORE:${this._id}`;
+    }
+
+    /**
      * Get value from store.
      *
      * @param key Key to get
