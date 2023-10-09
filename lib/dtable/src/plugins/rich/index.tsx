@@ -1,10 +1,11 @@
-import {JSX, ComponentChildren} from 'preact';
 import {formatString} from '@zui/helpers/src/format-string';
 import {formatDate} from '@zui/helpers/src/date-helper';
 import {ProgressCircle} from '@zui/progress-circle/src/component';
 import {ProgressBar} from '@zui/progress/src/components';
 import '@zui/progress/src/style';
 import {definePlugin} from '../../helpers/shared-plugins';
+
+import type {JSX, ComponentChildren} from 'preact';
 import type {DateLike} from '@zui/helpers/src/date-helper';
 import type {DTablePlugin, RowInfo, ColInfo, DTableWithPlugin, CustomRenderResultList} from '../../types';
 
