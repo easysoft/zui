@@ -1,8 +1,10 @@
 import {definePlugin} from '../../helpers/shared-plugins';
-import {mousemove, DTableMousemoveTypes} from '../mousemove';
+import {mousemove} from '../mousemove';
 import './style.css';
+
+import type {DTableMousemoveTypes} from '../mousemove';
 import type {DTable, RowInfo, ColInfo} from '../../main-react';
-import type {DTablePluginTypes, DTableWithPlugin, DTablePlugin} from '../../types/plugin';
+import type {DTableWithPlugin, DTablePlugin} from '../../types/plugin';
 import type {DTableAutoscrollTypes} from '../autoscroll';
 
 export type DTableColIndex       = number;
@@ -17,7 +19,7 @@ export type DTableCellPos        = {col: DTableColIndex, row: DTableRowIndex};
 
 export type DTableCellPosMap     =  Map<DTableColIndex, Set<DTableRowIndex>>;
 
-export interface DTableSelectableTypes extends DTablePluginTypes {
+export interface DTableSelectableTypes {
     options: Partial<{
         selectable: boolean | ((cellPos: DTableCellPos) => boolean);
         onSelectCells: (this: DTableSelectable, cells: DTableCellPos[]) => void;

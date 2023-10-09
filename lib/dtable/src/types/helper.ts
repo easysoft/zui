@@ -6,3 +6,5 @@ export type MergeIntersectionTypes<T> = {
 };
 
 export type MergeUnionTypes<U> = MergeIntersectionTypes<UnionToIntersection<U>>;
+
+export type PickPropType<T, P> = P extends keyof T ? T[P] : {};

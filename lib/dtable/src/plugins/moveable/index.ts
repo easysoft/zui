@@ -1,9 +1,11 @@
 import {definePlugin} from '../../helpers/shared-plugins';
-import {mousemove, DTableMousemoveTypes} from '../mousemove';
+import {mousemove} from '../mousemove';
 import './style.css';
-import type {DTablePluginTypes, DTableWithPlugin, DTablePlugin} from '../../types/plugin';
 
-export interface DTableMoveableTypes extends DTablePluginTypes {
+import type {DTableMousemoveTypes} from '../mousemove';
+import type {DTableWithPlugin, DTablePlugin} from '../../types/plugin';
+
+export interface DTableMoveableTypes {
     options: {
         moveable?: boolean | 'header';
     },

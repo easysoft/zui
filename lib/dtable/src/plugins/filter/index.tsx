@@ -1,9 +1,13 @@
+import {render} from 'preact';
+import {classes} from '@zui/core';
 import {definePlugin} from '../../helpers/shared-plugins';
 import './style.css';
-import type {DTableWithPlugin, DTablePlugin, DTablePluginTypes} from '../../types/plugin';
-import {classes, ClassNameLike} from '@zui/core';
+
+import type {ClassNameLike} from '@zui/core';
+import type {DTableWithPlugin, DTablePlugin} from '../../types/plugin';
 import type {RowInfo} from '../../types/row';
-import {ComponentChildren, render} from 'preact';
+import type {ComponentChildren} from 'preact';
+import type {DTableNested} from '../nested';
 
 export type DTableSortableOptions = Partial<{
     checkable: boolean;
@@ -11,7 +15,7 @@ export type DTableSortableOptions = Partial<{
     beforeCheckRows: (this: DTableNested, ids: string[] | undefined, changes: Record<string, boolean>, checkedRows: Record<string, boolean>) => void;
 }>;
 
-export interface DTableFilterTypes extends DTablePluginTypes {
+export interface DTableFilterTypes {
     options: Partial<{
         filterable: boolean;
         filterClassName: ClassNameLike;
@@ -41,7 +45,7 @@ export interface FilterDataOptions {
     text: string;
     key: string;
 }
-let filterOptions = [];
+let filterOptions: FilterDataOptions[] = [];
 function getFilterOptions(setting = {type: '', name: '', statusMap: {}}, data = []): FilterDataOptions[] {
     let filterOption = [];
     if (setting.type === 'status') {

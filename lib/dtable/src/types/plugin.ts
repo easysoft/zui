@@ -4,7 +4,7 @@ import type {ColInfo, ColSetting} from './col';
 import type {CustomRenderResultGenerator, CustomRenderResultItem, CustomRenderResultList} from './common';
 import type {DTableState, DTableEventTarget, DTableHTMLEvent, DTableEventListener} from './dtable';
 import type {DTableLayout} from './layout';
-import type {MergeUnionTypes, MergeIntersectionTypes} from './helper';
+import type {MergeUnionTypes, MergeIntersectionTypes, PickPropType} from './helper';
 import type {DTableOptions} from './options';
 import type {RowInfo} from './row';
 import type {CellInfo} from './cell';
@@ -32,7 +32,7 @@ export type DTableWithPluginColInfo<T extends DTablePluginTypes = {}, D extends 
 
 export type PluginColSettingModifier<T extends DTablePluginTypes = {}, D extends DTablePluginTypes[] = []> = (col: DTableWithPluginColSetting<T, D>) => Partial<DTableWithPluginColSetting<T, D>> | undefined;
 
-export type PluginPropsDependency<T extends DTablePluginTypes, D extends DTablePluginTypes[], P extends keyof DTablePluginTypes> = MergeUnionTypes<NonNullable<(P extends keyof D[number] ? (D[number])[P] : {}) | (P extends keyof T ? T[P] : {})>>;
+export type PluginPropsDependency<T extends DTablePluginTypes, D extends DTablePluginTypes[], P extends keyof DTablePluginTypes> = MergeUnionTypes<(P extends keyof T ? T[P] : never) | PickPropType<D[0], P> | PickPropType<D[1], P> | PickPropType<D[2], P> | PickPropType<D[3], P> | PickPropType<D[4], P> | PickPropType<D[5], P> | PickPropType<D[6], P> | PickPropType<D[7], P> | PickPropType<D[8], P> | PickPropType<D[9], P>>;
 
 export type PluginCustomEvents<T extends DTablePluginTypes, D extends DTablePluginTypes[]> = PluginPropsDependency<T, D, 'events'>;
 
@@ -55,7 +55,7 @@ export type DTablePluginEvents<T extends DTablePluginTypes = {}, D extends DTabl
     [event in keyof PluginCustomEvents<T, D>]: DTableEventListener<PluginTable, PluginCustomEvents<T, D>[event] extends Event ? PluginCustomEvents<T, D>[event] : Event>;
 }>>;
 
-export type DTablePlugin<T extends DTablePluginTypes = DTablePluginTypes, D extends DTablePluginTypes[] = [], PluginTable = DTableWithPlugin<T, D>, Options = DTableWithPluginOptions<T, D>, PluginColSetting = DTableWithPluginColSetting<T, D>, PluginColInfo = DTableWithPluginColInfo<T, D>> = {
+export type DTablePlugin<T extends DTablePluginTypes = {}, D extends DTablePluginTypes[] = [], PluginTable = DTableWithPlugin<T, D>, Options = DTableWithPluginOptions<T, D>, PluginColSetting = DTableWithPluginColSetting<T, D>, PluginColInfo = DTableWithPluginColInfo<T, D>> = {
     name: DTablePluginName;
 } & Partial<{
     when: (options: Options) => boolean,

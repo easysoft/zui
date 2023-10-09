@@ -1,9 +1,10 @@
 import {PagerOptions} from '@zui/pager/src/types';
 import {Pager} from '@zui/pager/src/component';
 import {definePlugin} from '../../helpers/shared-plugins';
-import type {DTablePlugin, DTablePluginTypes, DTableWithPlugin} from '../../types/plugin';
 
-export interface DTablePagerTypes extends DTablePluginTypes {
+import type {DTablePlugin, DTableWithPlugin} from '../../types/plugin';
+
+export interface DTablePagerTypes {
     options: Partial<{
         footPager: PagerOptions,
     }>,

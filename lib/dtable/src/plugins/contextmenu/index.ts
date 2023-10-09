@@ -1,14 +1,14 @@
 import {ContextMenu} from '@zui/contextmenu';
 import {definePlugin} from '../../helpers/shared-plugins';
-import type {MenuItemOptions} from '@zui/menu/src/types';
+import type {ListitemProps} from '@zui/list';
 import type {DTablePointerInfo} from '../../types/dtable';
-import type {DTablePluginTypes, DTableWithPlugin, DTablePlugin} from '../../types/plugin';
+import type {DTableWithPlugin, DTablePlugin} from '../../types/plugin';
 
-export interface DTableContextMenuTypes extends DTablePluginTypes {
+export interface DTableContextMenuTypes {
     options: Partial<{
         contextmenu: Partial<{
-            cell: MenuItemOptions[] | ((event: MouseEvent, info: DTablePointerInfo, menu: ContextMenu) => MenuItemOptions[] | undefined),
-            header: MenuItemOptions[] | ((event: MouseEvent, info: DTablePointerInfo, menu: ContextMenu) => MenuItemOptions[] | undefined),
+            cell: ListitemProps[] | ((event: MouseEvent, info: DTablePointerInfo, menu: ContextMenu) => ListitemProps[] | undefined),
+            header: ListitemProps[] | ((event: MouseEvent, info: DTablePointerInfo, menu: ContextMenu) => ListitemProps[] | undefined),
         }>;
     }>;
     data: {

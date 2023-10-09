@@ -1,22 +1,29 @@
 import {definePlugin} from '../../helpers/shared-plugins';
-import {editable, DTableEditableTypes} from '../editable';
-import {resize, DTableResizeTypes} from '../resize';
-import {DTableDraftTypes, DTableDraftRows} from '../draft';
-import {selectable, DTableCellPos, DTableSelectableTypes, parseRange} from '../selectable';
-import {hotkey, DTableHotkeyTypes} from '../hotkey';
-import {history, DTableHistoryTypes} from '../history';
-import {DTableStoreTypes} from '../store';
+import {editable} from '../editable';
+import {resize} from '../resize';
+import {selectable, parseRange} from '../selectable';
+import {hotkey} from '../hotkey';
+import {history} from '../history';
+import {autoscroll} from '../autoscroll';
 import './style.css';
-import {DTableMousemoveTypes} from '../mousemove';
-import {autoscroll, DTableAutoscrollTypes} from '../autoscroll';
-import type {DTablePluginTypes, DTableWithPlugin, DTablePlugin, ColSetting, ColInfo, RowInfo, RowData} from '../../types';
+
+import type {DTableEditableTypes} from '../editable';
+import type {DTableResizeTypes} from '../resize';
+import type {DTableCellPos, DTableSelectableTypes} from '../selectable';
+import type {DTableDraftTypes, DTableDraftRows} from '../draft';
+import type {DTableHotkeyTypes} from '../hotkey';
+import type {DTableHistoryTypes} from '../history';
+import type {DTableMousemoveTypes} from '../mousemove';
+import type {DTableStoreTypes} from '../store';
+import type {DTableAutoscrollTypes} from '../autoscroll';
+import type {DTableWithPlugin, DTablePlugin, ColSetting, ColInfo, RowInfo, RowData} from '../../types';
 
 export interface DTableDatasource {
     cols?: ColSetting[],
     data?: unknown[][]
 }
 
-export interface DTableDatagridTypes extends DTablePluginTypes {
+export interface DTableDatagridTypes {
     options: {
         datasource: DTableDatasource,
         minRows?: number,

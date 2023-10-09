@@ -1,11 +1,13 @@
 import {clamp} from '../../helpers/number';
 import {definePlugin} from '../../helpers/shared-plugins';
-import {mousemove, DTableMousemoveTypes} from '../mousemove';
+import {mousemove} from '../mousemove';
 import './style.css';
-import type {ColName} from '../../types/col';
-import type {DTablePluginTypes, DTableWithPlugin, DTablePlugin} from '../../types/plugin';
 
-export interface DTableResizeTypes extends DTablePluginTypes {
+import type {DTableMousemoveTypes} from '../mousemove';
+import type {ColName} from '../../types/col';
+import type {DTableWithPlugin, DTablePlugin} from '../../types/plugin';
+
+export interface DTableResizeTypes {
     options: Partial<{
         colResize: boolean | ((this: DTableResize, colName: ColName) => boolean);
         onColResize: (this: DTableResize, colName: ColName, width: number) => void;

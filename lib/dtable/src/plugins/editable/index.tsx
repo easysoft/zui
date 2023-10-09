@@ -1,10 +1,13 @@
-import {createRef, RefObject} from 'preact';
+import {createRef} from 'preact';
 import {definePlugin} from '../../helpers/shared-plugins';
-import {draft, DTableDraftTypes, DTableDraftRows} from '../draft';
-import type {DTablePluginTypes, DTableWithPlugin, DTablePlugin, DTableWithPluginColInfo, ColName, RowID, RowData, RowInfo, ColInfo} from '../../types';
+import {draft} from '../draft';
+
+import type {RefObject} from 'preact';
+import type {DTableDraftTypes, DTableDraftRows} from '../draft';
+import type {DTableWithPlugin, DTablePlugin, DTableWithPluginColInfo, ColName, RowID, RowData, RowInfo, ColInfo} from '../../types';
 import './style.css';
 
-export interface DTableEditableTypes extends DTablePluginTypes {
+export interface DTableEditableTypes {
     options: Partial<{
         editable: boolean | ((rowID: RowID, colName: ColName) => boolean);
         headerEditable: boolean;

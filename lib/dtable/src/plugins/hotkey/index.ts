@@ -1,11 +1,13 @@
-import hotkeys, {HotkeysEvent} from 'hotkeys-js';
+import hotkeys from 'hotkeys-js';
 import {definePlugin} from '../../helpers/shared-plugins';
+
+import type {HotkeysEvent} from 'hotkeys-js';
 import type {DTable} from '../../main-react';
-import type {DTablePluginTypes, DTableWithPlugin, DTablePlugin} from '../../types/plugin';
+import type {DTableWithPlugin, DTablePlugin} from '../../types/plugin';
 
 export type DTableHotkeyCallback = (this: DTable, event: KeyboardEvent, handler: HotkeysEvent) => void;
 
-export interface DTableHotkeyTypes extends DTablePluginTypes {
+export interface DTableHotkeyTypes {
     options: Partial<{
         hotkeys: Record<string, DTableHotkeyCallback>;
     }>,

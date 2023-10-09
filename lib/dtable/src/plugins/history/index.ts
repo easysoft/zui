@@ -1,7 +1,10 @@
 import {definePlugin} from '../../helpers/shared-plugins';
-import {store, DTableStoreTypes} from '../store';
-import {draft, cloneDraft, DTableDraftRows, DTableDraftTypes, mergeDraft} from '../draft';
-import type {DTablePluginTypes, DTableWithPlugin, DTablePlugin} from '../../types/plugin';
+import {store} from '../store';
+import {draft, cloneDraft, mergeDraft} from '../draft';
+
+import type {DTableStoreTypes} from '../store';
+import type {DTableDraftRows, DTableDraftTypes} from '../draft';
+import type {DTableWithPlugin, DTablePlugin} from '../../types/plugin';
 import type {RowData} from '../../types/row';
 
 export interface DTableHistoryItem {
@@ -9,7 +12,7 @@ export interface DTableHistoryItem {
     after: DTableDraftRows;
 }
 
-export interface DTableHistoryTypes extends DTablePluginTypes {
+export interface DTableHistoryTypes {
     options: Partial<{
         history?: boolean;
         historyTarget?: 'staging' | 'applied';

@@ -1,7 +1,9 @@
 import {definePlugin} from '../../helpers/shared-plugins';
-import {mousemove, DTableMousemoveTypes} from '../mousemove';
+import {mousemove} from '../mousemove';
+
+import type {DTableMousemoveTypes} from '../mousemove';
 import type {ColInfoLike} from '../../types/col';
-import type {DTablePluginTypes, DTableWithPlugin, DTablePlugin} from '../../types/plugin';
+import type {DTableWithPlugin, DTablePlugin} from '../../types/plugin';
 import type {RowInfoLike} from '../../types/row';
 
 export interface ScrollToMouseOption {
@@ -13,7 +15,7 @@ export interface ScrollToMouseOption {
     detectPadding: number,
 }
 
-export interface DTableAutoscrollTypes extends DTablePluginTypes {
+export interface DTableAutoscrollTypes {
     methods: {
         scrollTo: (this: DTableAutoscroll, info: {col?: ColInfoLike, row?: RowInfoLike, extra?: number}) => boolean;
         startScrollToMouse: (this: DTableAutoscroll, options?: Partial<ScrollToMouseOption>) => void;

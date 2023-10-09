@@ -1,13 +1,14 @@
 import {formatString} from '@zui/helpers/src/format-string';
 import {Toolbar} from '@zui/toolbar/src/component/toolbar';
-import type {ToolbarOptions, ToolbarItemOptions, ToolbarDropdownProps} from '@zui/toolbar/src/types';
 import {definePlugin} from '../../helpers/shared-plugins';
+
+import type {ToolbarOptions, ToolbarItemOptions, ToolbarDropdownOptions} from '@zui/toolbar/src/types';
 import type {DTablePlugin, DTableWithPlugin} from '../../types/plugin';
 import type {RowData, RowInfo} from '../../types/row';
 import type {ColInfo} from '../../types/col';
-import type {MenuItemOptions} from '@zui/menu/src/types';
+import type {ListitemProps} from '@zui/list/src/types';
 
-type ActionItemInfo = Partial<ToolbarItemOptions & {name: string, items?: MenuItemOptions[]}>;
+type ActionItemInfo = Partial<ToolbarItemOptions & {name: string, items?: ListitemProps[]}>;
 
 export type DTableActionsTypes = {
     col: Partial<{
@@ -25,7 +26,7 @@ export type DTableActionsTypes = {
 
 function createActionFromString(action: string): ActionItemInfo {
     const [name, items] = action.split(':');
-    const actionInfo: {type?: string, name: string, items?: MenuItemOptions[], disabled?: boolean} = name[0] === '-' ? {name: name.substring(1), disabled: true} : {name};
+    const actionInfo: {type?: string, name: string, items?: ListitemProps[], disabled?: boolean} = name[0] === '-' ? {name: name.substring(1), disabled: true} : {name};
     if (items?.length) {
         actionInfo.type = 'dropdown';
         actionInfo.items = items.split(',').reduce<{name: string, disabled?: boolean}[]>((list, itemName) => {
@@ -39,14 +40,14 @@ function createActionFromString(action: string): ActionItemInfo {
     return actionInfo;
 }
 
-const defaultActionItemCreator = (item: Partial<ToolbarDropdownProps>, info: {row: RowInfo, col: ColInfo}) => {
+const defaultActionItemCreator = (item: Partial<ToolbarDropdownOptions>, info: {row: RowInfo, col: ColInfo}) => {
     if (item.url) {
         item.url = formatString(item.url, info.row.data);
     }
     const data = {row: info.row.id, col: info.col.name};
     const items = item.dropdown?.items || item.items;
     if (items) {
-        (items as (MenuItemOptions & {url?: string})[]).forEach(x => {
+        (items as (ListitemProps & {url?: string})[]).forEach(x => {
             if (x.url) {
                 x.url = formatString(x.url, info.row.data);
             }
@@ -106,12 +107,12 @@ const actionsPlugin: DTablePlugin<DTableActionsTypes> = {
                             delete others['data-toggle'];
                         }
                         if (items && others.type === 'dropdown') {
-                            const {dropdown = {placement: 'bottom-end'}} = (others as ToolbarDropdownProps);
+                            const {dropdown = {placement: 'bottom-end'}} = (others as ToolbarDropdownOptions);
                             dropdown.menu = {
                                 className: 'menu-dtable-actions',
                             };
                             dropdown.items = items.map((item) => {
-                                const itemAction = (typeof item === 'string' ? {name: item} : {...item}) as MenuItemOptions & {name?: string, url?: string, disabled?: boolean};
+                                const itemAction = (typeof item === 'string' ? {name: item} : {...item}) as ListitemProps & {name?: string, url?: string, disabled?: boolean};
                                 if (itemAction.name) {
                                     if (actionsMap && actionsMap[itemAction.name]) {
                                         Object.assign(itemAction, actionsMap[itemAction.name], {...itemAction});
@@ -125,7 +126,7 @@ const actionsPlugin: DTablePlugin<DTableActionsTypes> = {
                                 }
                                 return itemAction;
                             });
-                            (others as ToolbarDropdownProps).dropdown = dropdown;
+                            (others as ToolbarDropdownOptions).dropdown = dropdown;
                             delete others.items;
                         }
                         return actionItemCreator ? actionItemCreator(others, info) : others;

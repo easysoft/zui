@@ -1,11 +1,11 @@
 import {Store} from '@zui/store/src/store';
 import {definePlugin} from '../../helpers/shared-plugins';
-import type {DTablePluginTypes, DTableWithPlugin, DTablePlugin} from '../../types/plugin';
+import type {DTableWithPlugin, DTablePlugin} from '../../types/plugin';
 
-export interface DTableStoreTypes extends DTablePluginTypes {
-    options: Partial<{
+export interface DTableStoreTypes {
+    options: {
         store: boolean;
-    }>;
+    };
     data: {
         store: Store;
     },
@@ -20,7 +20,7 @@ const storePlugin: DTablePlugin<DTableStoreTypes> = {
     },
     when: options => !!options.store,
     data() {
-        return {store: new Store(this.id)};
+        return {store: new Store(`DTable:${this.id}`)};
     },
 };
 

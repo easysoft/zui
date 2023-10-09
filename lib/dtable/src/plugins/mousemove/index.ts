@@ -1,7 +1,8 @@
 import {definePlugin} from '../../helpers/shared-plugins';
-import type {DTablePluginTypes, DTableWithPlugin, DTablePlugin} from '../../types/plugin';
 
-export interface DTableMousemoveTypes extends DTablePluginTypes {
+import type {DTableWithPlugin, DTablePlugin} from '../../types/plugin';
+
+export interface DTableMousemoveTypes {
     data: {
         mmRafID?: number;
         dmmRafID?: number;

@@ -4,11 +4,11 @@ import {definePlugin} from '../../helpers/shared-plugins';
 import './style.css';
 
 import type {CustomRenderResult} from '../../types/common';
-import type {DTablePluginTypes, DTableWithPlugin, DTablePlugin} from '../../types/plugin';
+import type {DTableWithPlugin, DTablePlugin} from '../../types/plugin';
 import type {ComponentChildren} from 'preact';
 import type {RowID} from '../../types';
 
-export interface DTableCheckableTypes extends DTablePluginTypes {
+export interface DTableCheckableTypes {
     options: Partial<{
         checkable: boolean | 'auto';
         checkOnClickRow: boolean;
