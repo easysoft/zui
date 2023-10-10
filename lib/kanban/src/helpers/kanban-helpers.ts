@@ -1,7 +1,7 @@
 import {mergeProps} from '@zui/core';
 import {getUniqueCode} from '@zui/helpers/src/string-code';
 
-import type {KanbanLaneOptions, KanbanColOptions, KanbanItem, KanbanData, KanbanProps} from '../types';
+import type {KanbanLaneOptions, KanbanColOptions, KanbanItem, KanbanData, KanbanProps, KanbanDataset} from '../types';
 
 export function getCols(this: unknown, cols: KanbanColOptions[] | undefined, options: Pick<KanbanProps, 'getCol' | 'colProps'>, forEachCol?: (col: KanbanColOptions) => void) {
     if (!cols || !cols.length) {
@@ -171,18 +171,43 @@ export function mergeList<T extends KanbanLaneOptions | KanbanColOptions | Kanba
     return finalItems;
 }
 
-export function mergeData(data: Partial<KanbanData>, extraData: Partial<KanbanData>, itemKey: string): Partial<KanbanData> {
-    const lanes = mergeList(data.lanes, extraData.lanes, itemKey);
-    const cols = mergeList(data.cols, extraData.cols, itemKey);
-    const links = mergeList(data.links, extraData.links, itemKey);
-    const extraItems = extraData.items || {};
-    const items = Object.keys(extraItems).reduce((map, lane) => {
-        const laneItems = extraItems[lane];
-        map[lane] = {...map[lane]};
-        Object.keys(laneItems).forEach((col) => {
-            map[lane][col] = mergeList(map[lane][col], laneItems[col], itemKey);
+function normalizeItems(items: KanbanDataset['items'], itemKey: string) : KanbanItem[] {
+    if (Array.isArray(items)) {
+        return items.map(item => {
+            return {
+                ...item,
+                [itemKey]: String(item[itemKey]),
+            };
         });
-        return map;
-    }, {...data.items});
+    }
+    return Object.keys(items).reduce<KanbanItem[]>((list, lane) => {
+        const laneItems = items[lane];
+        Object.keys(laneItems).forEach((col) => {
+            list.push(...(laneItems[col] || []).map(item => {
+                return {
+                    ...item,
+                    lane,
+                    col,
+                    [itemKey]: String(item[itemKey]),
+                };
+            }));
+        });
+        return list;
+    }, []);
+}
+
+export function normalizeData(data: KanbanDataset, itemKey: string): KanbanData {
+    const {items, ...others} = data;
+    return {
+        items: normalizeItems(items, itemKey),
+        ...others,
+    };
+}
+
+export function mergeData(data: Partial<KanbanData>, extraData: Partial<KanbanDataset>, itemKey: string): Partial<KanbanData> {
+    const lanes = mergeList(data.lanes, extraData.lanes, 'name');
+    const cols = mergeList(data.cols, extraData.cols, 'name');
+    const links = mergeList(data.links, extraData.links, itemKey);
+    const items = mergeList(data.items, normalizeItems(extraData.items || [], itemKey), itemKey);
     return {lanes, cols, items, links};
 }

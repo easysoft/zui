@@ -1,7 +1,7 @@
 import {faker} from '@faker-js/faker/locale/zh_CN';
 import {nextGid} from '@zui/core';
 
-import type {KanbanColOptions, KanbanItem, KanbanLaneOptions, KanbanData, KanbanItems} from '../src/main';
+import type {KanbanColOptions, KanbanItem, KanbanLaneOptions, KanbanData, KanbanItemsMap} from '../src/main';
 
 export function createLane(): KanbanLaneOptions {
     const name = faker.word.adjective();
@@ -36,8 +36,8 @@ export function createKanbanData(colCount?: number, laneCount?: number, colCardC
     return {
         cols,
         lanes,
-        items: lanes.reduce<KanbanItems>((data, lane) => {
-            data[lane.name] = cols.reduce<KanbanItems[string]>((laneData, col) => {
+        items: lanes.reduce<KanbanItemsMap>((data, lane) => {
+            data[lane.name] = cols.reduce<KanbanItemsMap[string]>((laneData, col) => {
                 laneData[col.name] = createList(createCard, colCardCount);
                 return laneData;
             }, {});

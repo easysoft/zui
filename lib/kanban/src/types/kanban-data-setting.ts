@@ -1,6 +1,6 @@
 import type {FetcherSetting} from '@zui/core';
-import type {KanbanData} from './kanban-data';
+import type {KanbanDataset} from './kanban-dataset';
 
-export type KanbanDataFetcher = FetcherSetting<KanbanData>;
+export type KanbanDataFetcher = FetcherSetting<KanbanDataset>;
 
-export type KanbanDataSetting = KanbanData | KanbanDataFetcher;
+export type KanbanDataSetting = KanbanDataset | KanbanDataFetcher;

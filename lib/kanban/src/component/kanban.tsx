@@ -3,12 +3,13 @@ import {Draggable} from '@zui/dnd';
 import {KanbanHeader} from './kanban-header';
 import {KanbanBody} from './kanban-body';
 import {KanbanLinks} from './kanban-links';
-import {getCols, mergeData, getLanes, getColItems} from '../helpers/kanban-helpers';
+import {KanbanLinkEditor} from './kanban-link-editor';
+import {getCols, mergeData, getLanes, getColItems, normalizeData} from '../helpers/kanban-helpers';
 
 import type {ComponentChildren, RenderableProps} from 'preact';
 import type {ClassNameLike, CustomContentType} from '@zui/core';
-import type {KanbanColName, KanbanColOptions, KanbanData, KanbanDataFetcher, KanbanDataSetting, KanbanItem, KanbanLaneName, KanbanLaneOptions, KanbanLinkOptions, KanbanProps, KanbanState} from '../types';
-import {KanbanLinkEditor} from './kanban-link-editor';
+import type {ItemKey} from '@zui/common-list';
+import type {KanbanColName, KanbanColOptions, KanbanData, KanbanDataset, KanbanDataFetcher, KanbanDataSetting, KanbanItem, KanbanLaneName, KanbanLaneOptions, KanbanLinkOptions, KanbanProps, KanbanState, KanbanDataMap, KanbanItemsMap} from '../types';
 
 export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState = KanbanState> extends HElement<P, S> {
     static defaultProps: Partial<KanbanProps> = {
@@ -19,11 +20,15 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
 
     protected declare _loadedSetting: KanbanDataSetting;
 
-    protected declare _data: KanbanData;
+    protected declare _data: KanbanDataMap;
 
     protected _draggable?: Draggable;
 
     protected _ref = createRef<HTMLElement>();
+
+    get itemKey() {
+        return this.props.itemKey || 'id';
+    }
 
     componentDidMount() {
         this._afterRender(true);
@@ -53,7 +58,7 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
         this.setState({loading: true}, async () => {
             const newState = {loading: false} as Partial<KanbanState>;
             try {
-                const newData = await fetchData(data as KanbanDataFetcher, [this], {throws: true});
+                const newData = normalizeData(await fetchData(data as KanbanDataFetcher, [this], {throws: true}), this.itemKey);
                 newState.data = onLoad?.call(this, newData) || newData;
             } catch (error) {
                 newState.loadFailed = (typeof onLoadFail === 'function' ? (onLoadFail as (error: Error) => CustomContentType | undefined).call(this, error as Error) : onLoadFail) || String(error);
@@ -79,33 +84,38 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
         return this._data.lanes.find(lane => lane.name === name);
     }
 
+    getItem(key: ItemKey) {
+        return this._data.map.get(key);
+    }
+
     getData() {
         return this._data;
     }
 
-    update(changes: Partial<KanbanData>): Promise<S> {
+    update(changes: Partial<KanbanDataset>): Promise<S> {
         console.log('> Kanban.update', changes, this);
         return this.changeState((prevState) => ({
-            changes: mergeData(prevState.changes || {}, changes, this.props.itemKey || 'id'),
+            changes: mergeData(prevState.changes || {}, changes, this.itemKey),
         } as Partial<S>));
     }
 
-    addItem(lane: KanbanLaneName, col: KanbanColName, item: KanbanItem | KanbanItem[]) {
-        return this.updateItem(lane, col, item);
+    addItem(item: KanbanItem | KanbanItem[], lane?: KanbanLaneName, col?: KanbanColName) {
+        return this.updateItem(item, lane, col);
     }
 
-    updateItem(lane: KanbanLaneName, col: KanbanColName, item: KanbanItem | KanbanItem[]) {
+    updateItem(item: KanbanItem | KanbanItem[], lane?: KanbanLaneName, col?: KanbanColName) {
+        const list = Array.isArray(item) ? item : [item];
         return this.update({
-            items: {
-                [lane]: {
-                    [col]: Array.isArray(item) ? item : [item],
-                },
-            },
+            items: (lane || col) ? list.map(x => ({
+                ...x,
+                lane: lane ?? x.lane,
+                col: col ?? x.col,
+            })) : list,
         });
     }
 
-    deleteItem(lane: KanbanLaneName, col: KanbanColName, itemKey: string | string[]) {
-        return this.updateItem(lane, col, Array.isArray(itemKey) ? itemKey.map(key => ({[this.props.itemKey || 'id']: key, deleted: true})) : {[this.props.itemKey!]: itemKey, deleted: true});
+    deleteItem(itemKey: string | string[]) {
+        return this.updateItem(Array.isArray(itemKey) ? itemKey.map(key => ({[this.props.itemKey || 'id']: key, deleted: true})) : {[this.itemKey]: itemKey, deleted: true});
     }
 
     updateLane(lane: KanbanLaneOptions | KanbanLaneOptions[]) {
@@ -136,18 +146,36 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
         return this.updateCol(Array.isArray(col) ? col.map(name => ({name, deleted: true})) : {name: col, deleted: true});
     }
 
+    updateLink(link: KanbanLinkOptions | KanbanLinkOptions[], change?: Partial<KanbanLinkOptions>) {
+        return this.update({
+            links: (Array.isArray(link) ? link : [link]).map(x => ({
+                ...x,
+                ...change,
+                [this.itemKey]: `${x.from}:${x.to}`,
+            })),
+        });
+    }
+
+    addLink(link: KanbanLinkOptions | KanbanLinkOptions[]) {
+        return this.updateLink(link);
+    }
+
+    deleteLink(link: KanbanLinkOptions | KanbanLinkOptions[]) {
+        return this.updateLink(link, {deleted: true});
+    }
+
     protected _afterRender(firstRender: boolean) {
         this.props.afterRender?.call(this, firstRender);
     }
 
     protected _onAddLink = async (from: string, to: string) => {
         const {onAddLink} = this.props;
-        const newLink = {from, to, [this.props.itemKey!]: `${from}:${to}`};
+        const newLink = {from, to, [this.itemKey]: `${from}:${to}`};
         const result = await onAddLink?.call(this, newLink);
         if (result === false) {
             return;
         }
-        this.update({links: [newLink]});
+        this.updateLink(newLink);
     };
 
     protected _onDeleteLink = async (link: KanbanLinkOptions) => {
@@ -156,42 +184,68 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
         if (result === false) {
             return;
         }
-        const {from, to} = link;
-        this.update({links: [{from, to, id: `${from}:${to}`, deleted: true}]});
+        this.deleteLink(link);
     };
 
-    protected _getData(props: RenderableProps<P>) {
-        const {data, itemKey = 'id'} = props;
+    protected _getData(props: RenderableProps<P>): KanbanDataMap {
+        const {data} = props;
+        const {itemKey} = this;
         const {data: stateData, changes} = this.state;
-        let kanbanData = (stateData || isFetchSetting(data) ? stateData : data) || {} as KanbanData;
+        let kanbanData = (stateData || isFetchSetting(data) ? stateData : normalizeData(data, itemKey)) || ({} as KanbanData);
         if (changes) {
             kanbanData = mergeData(kanbanData, changes, itemKey) as KanbanData;
         }
         let hasSubCols = false;
-        const {items = {}} = kanbanData;
+        const {items = []} = kanbanData;
+        const itemsMap: KanbanItemsMap = {};
         const cols = getCols.call(this, kanbanData.cols, props, col => {
             if (col.parentName !== undefined) {
                 hasSubCols = true;
             }
         });
-        const itemIdSet = new Set<string>();
-        const updateIdSet = (item: KanbanItem) => {
-            itemIdSet.add(String(item[itemKey]));
-        };
         const lanes = getLanes.call(this, kanbanData.lanes, props, (lane) => {
-            const laneItems = items[lane.name];
-            if (laneItems) {
-                cols.forEach(col => {
-                    laneItems[col.name] = getColItems.call(this, laneItems[col.name], lane, col, props, updateIdSet);
-                    col.subCols?.forEach(subCol => {
-                        laneItems[subCol.name] = getColItems.call(this, laneItems[subCol.name], lane, subCol, props, updateIdSet);
+            itemsMap[lane.name] = cols.reduce<Record<string, KanbanItem[]>>((map, col) => {
+                if (col.subCols) {
+                    col.subCols.forEach(subCol => {
+                        map[subCol.name] = [];
                     });
-                });
+                } else {
+                    map[col.name] = [];
+                }
+                return map;
+            }, {});
+        });
+        const deletedItemSet = new Set<ItemKey>();
+        const itemMap: Map<ItemKey, KanbanItem> = items.reduce((map, item) => {
+            if (item.deleted) {
+                deletedItemSet.add(item[itemKey] as ItemKey);
+                return map;
             }
+            map.set(item[itemKey], item);
+            const laneItemMap = itemsMap[item.lane!];
+            if (laneItemMap) {
+                const laneColItems = laneItemMap[item.col!];
+                if (laneColItems) {
+                    laneColItems.push(item);
+                }
+            }
+            return map;
+        }, new Map());
+        lanes.forEach(lane => {
+            const laneItems = itemsMap[lane.name];
+            if (!laneItems) {
+                return;
+            }
+            cols.forEach(col => {
+                laneItems[col.name] = getColItems.call(this, laneItems[col.name], lane, col, props);
+                col.subCols?.forEach(subCol => {
+                    laneItems[subCol.name] = getColItems.call(this, laneItems[subCol.name], lane, subCol, props);
+                });
+            });
         });
         let {links = []} = kanbanData;
         links = links.reduce<KanbanLinkOptions[]>((list, link) => {
-            if (!link.deleted && itemIdSet.has(String(link.from)) && itemIdSet.has(String(link.to))) {
+            if (!link.deleted && itemMap.has(link.from) && itemMap.has(link.to) && !deletedItemSet.has(link.from) && !deletedItemSet.has(link.to)) {
                 if (link[itemKey] === undefined) {
                     link[itemKey] = `${link.from}:${link.to}`;
                 }
@@ -199,7 +253,7 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
             }
             return list;
         }, []);
-        this._data = {cols, lanes, items, links, hasSubCols};
+        this._data = {cols, lanes, items: itemsMap, map: itemMap, links, hasSubCols};
         return this._data;
     }
 
@@ -219,9 +273,10 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
     }
 
     protected _getChildren(props: RenderableProps<P>): ComponentChildren {
-        const {cols, lanes, items, links} = this._getData(props);
+        const data = this._getData(props);
+        const {cols, lanes, items, links} = data;
         const {editLinks} = props;
-        console.log('> Kanban.render', {cols, lanes, items, links});
+        console.log('> Kanban.render', {...data, kanban: this});
         return [
             <KanbanHeader key="header" cols={cols} />,
             <KanbanBody
