@@ -23,3 +23,6 @@
 .card-actions {
   @apply -absolute -right-1 -top-1;
 }
+.card-actions + .card-heading {
+  @apply -pr-7;
+}
