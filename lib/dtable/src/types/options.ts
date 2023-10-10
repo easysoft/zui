@@ -28,7 +28,7 @@ export interface DTableLayoutOptions {
     footer?: boolean | CustomRenderResultList<[layout: DTableLayout], DTable> | ((this: DTable, layout: DTableLayout) => CustomRenderResultList<[layout: DTableLayout], DTable>);
     headerHeight: number;
     footerHeight: number;
-    responsive: boolean;
+    responsive: boolean | string;
     scrollbarHover: boolean;
     scrollbarSize?: number;
     horzScrollbarPos?: 'inside' | 'outside';

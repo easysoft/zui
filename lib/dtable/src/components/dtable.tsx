@@ -143,13 +143,18 @@ export class DTable extends Component<DTableOptions, DTableState> {
             this.on('mouseleave', this.#handleMouseleave as DTableEventListener);
         }
 
-        if (options.responsive) {
-            if (typeof ResizeObserver !== 'undefined') {
-                const {parent} = this;
-                if (parent) {
-                    const rob = new ResizeObserver(this.updateLayout);
-                    rob.observe(parent);
-                    this.#rob = rob;
+        const {responsive} = options;
+        if (responsive) {
+            if (typeof ResizeObserver !== 'undefined' && responsive !== 'window') {
+                const rob = new ResizeObserver(this.updateLayout);
+                this.#rob = rob;
+                if (typeof responsive === 'string' && responsive !== 'parent') {
+                    $(responsive).each((_, element) => rob.observe(element));
+                } else {
+                    const {parent} = this;
+                    if (parent) {
+                        rob.observe(parent);
+                    }
                 }
             } else {
                 this.on('window_resize', this.updateLayout);
