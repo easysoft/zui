@@ -19,6 +19,12 @@
 .kanban-link path {
   @apply -pointer-events-auto;
 }
+.kanban-link path+ path {
+  @apply -opacity-60;
+}
+.kanban-link.is-hover path + path {
+  @apply -opacity-100;
+}
 .kanban-link-delete-btn {
   @apply -pointer-events-auto -opacity-0 -transition-all -scale-75;
 }
