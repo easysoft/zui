@@ -1,5 +1,5 @@
 import {Component, createRef, h as _h} from 'preact';
-import {classes, $, i18n, CustomContent, nextGid} from '@zui/core';
+import {classes, $, i18n, CustomContent, nextGid, CustomRender} from '@zui/core';
 import {Scrollbar} from '@zui/scrollbar/src/component/scrollbar';
 import {addPlugin, initPlugins, removePlugin} from '../helpers/shared-plugins';
 import {getDefaultOptions} from '../helpers/default-options';
@@ -7,7 +7,7 @@ import {initColsLayout} from '../helpers/layout';
 import {Block} from './block';
 
 import type {ComponentChildren, JSX} from 'preact';
-import type {ClassNameLike, CustomRender, CustomRenderResult, CustomRenderResultList} from '@zui/core';
+import type {ClassNameLike, CustomRenderResult, CustomRenderResultList} from '@zui/core';
 import type {CellRenderCallback} from '../types/cell';
 import type {ColInfoLike, ColInfo, ColName} from '../types/col';
 import type {DTableState, DTableLayout, DTableEventListener, DTableEventTarget, DTablePointerInfo} from '../types';
