@@ -9,7 +9,7 @@
   @apply -py-1 -px-2
 }
 .card-heading {
-  @apply -flex -items-center -gap-2;
+  @apply -flex -items-center -gap-2 -min-h-[32px];
 }
 .card-icon {
   @apply -opacity-50;
