@@ -1,4 +1,4 @@
-import {Cash} from '@zui/core';
+import {Selector} from '@zui/core';
 import {DraggableState} from './draggable-state';
 
 export type DraggableOptions = {
@@ -6,7 +6,7 @@ export type DraggableOptions = {
     handle?: string;
     hasDraggingClass?: string;
     draggingClass?: string;
-    target?: string | ((dragElement: HTMLElement) => (HTMLElement | HTMLElement[] | Cash));
+    target?: string | ((dragElement: HTMLElement) => Selector);
     droppableClass?: string;
     droppingClass?: string;
     dropEffect?: 'copy' | 'move' | 'link' | 'none';
