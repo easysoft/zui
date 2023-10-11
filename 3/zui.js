@@ -6596,7 +6596,7 @@ class kt extends mt {
       items: t,
       placement: e,
       onClickItem: i,
-      relativeTarget: r,
+      relativeTarget: { target: r, event: this.options.triggerEvent, dropdown: this },
       ...n
     };
   }
@@ -10779,7 +10779,7 @@ let jl = class extends K {
   }
   getKanban(t) {
     var e;
-    return (e = this._kanbanRefs.get(t)) == null ? void 0 : e.current;
+    return (e = this._kanbanRefs.get(String(t))) == null ? void 0 : e.current;
   }
   updateLayout() {
     const t = this._ref.current;
@@ -10816,7 +10816,7 @@ let jl = class extends K {
         let o = this._kanbanRefs.get(r);
         o || (o = z(), this._kanbanRefs.set(r, o));
         const a = n.heading !== void 0 || n.type === "group" ? du : Rn;
-        return /* @__PURE__ */ u(a, { ref: o, sticky: t.sticky, ...n }, r);
+        return /* @__PURE__ */ u(a, { ref: o, sticky: t.sticky, ...n, "z-key": r }, r);
       }),
       t.children
     ];
