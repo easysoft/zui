@@ -107,6 +107,7 @@ export class CommonList<P extends CommonListProps = CommonListProps, S = {}> ext
         element: HTMLElement;
         event: MouseEvent;
         key: ItemKey;
+        relativeTarget?: unknown;
     } | undefined {
         const element = (event.target as HTMLElement).closest('[z-item]') as HTMLElement;
         if (!element || !element.parentElement?.hasAttribute(`z-gid-${this._gid}`)) {
@@ -122,7 +123,7 @@ export class CommonList<P extends CommonListProps = CommonListProps, S = {}> ext
             return;
         }
         const renderedItem = this._renderedItems[index];
-        return {index, item, element, event, key, renderedItem};
+        return {index, item, element, event, key, renderedItem, relativeTarget: this.props.relativeTarget};
     }
 
     protected _handleClick(event: MouseEvent) {

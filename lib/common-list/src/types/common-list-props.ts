@@ -60,5 +60,7 @@ export interface CommonListProps<T extends Item = Item> extends HElementProps {
      */
     beforeRenderItem?: (item: T, index: number) => T | void;
 
-    onClickItem?: (info: {item: T, index: number, event: MouseEvent, renderedItem: T}) => void;
+    onClickItem?: (info: {item: T, index: number, event: MouseEvent, renderedItem: T, relativeTarget?: unknown}) => void;
+
+    relativeTarget?: unknown;
 }
