@@ -14,4 +14,6 @@ export interface Item extends HElementProps {
 
     /** Other attributes. */
     [key: string]: unknown;
+
+    onClick?: (event: MouseEvent, data?: unknown) => void;
 }

@@ -127,15 +127,13 @@ export class CommonList<P extends CommonListProps = CommonListProps, S = {}> ext
     }
 
     protected _handleClick(event: MouseEvent) {
-        const {onClickItem} = this.props;
-        if (!onClickItem) {
-            return;
-        }
         const info = this._getItemFromEvent(event);
         if (!info) {
             return;
         }
-        onClickItem.call(this, info);
+        this.props.onClickItem?.call(this, info);
+        info.item.onClick?.call(this, event, info);
+        return info;
     }
 
     /**
@@ -208,6 +206,7 @@ export class CommonList<P extends CommonListProps = CommonListProps, S = {}> ext
             {
                 _index: index,
                 key: String((itemKey ? item[itemKey] : item.key) ?? (item.key ?? index)),
+                onClick: undefined,
             },
         );
 
