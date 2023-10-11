@@ -26,7 +26,7 @@ export class Dropdown<O extends DropdownOptions = DropdownOptions> extends Popov
             items,
             placement: placement,
             onClickItem: onClickItem,
-            relativeTarget,
+            relativeTarget: {target: relativeTarget, event: this.options.triggerEvent, dropdown: this},
             ...menu,
         };
     }
