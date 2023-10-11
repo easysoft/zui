@@ -56,7 +56,7 @@
   @apply -flex -flex-row -gap-[--kanban-cols-gap];
 }
 .kanban-lane-col {
-  @apply -w-[--kanban-col-width] -bg-inverse/5 -h-full;
+  @apply -w-[--kanban-col-width] -bg-inverse/5 -h-full -flex -flex-col;
 }
 .kanban-col-content {
   @apply -relative -z-10;
@@ -70,7 +70,7 @@
 
 /* Kanban items. */
 .kanban-items {
-  @apply -overflow-auto -p-2;
+  @apply -overflow-auto -p-2 -flex-auto;
   scrollbar-gutter: both-edges stable;
 }
 

@@ -118,7 +118,7 @@ onPageLoad(() => {
                 {title: '其他', name: 'other', asParent: true},
             ],
             lanes: [
-                {title: '需求', name: 'story'},
+                {title: '需求', name: 'story', maxHeight: 100},
                 {title: '任务', name: 'task'},
             ],
             items: {
@@ -132,6 +132,12 @@ onPageLoad(() => {
                         {id: '4', title: '用户需求4'},
                         {id: '5', title: '用户需求5'},
                         {id: '6', title: '用户需求6'},
+                        {id: '16', title: '用户需求16'},
+                        {id: '17', title: '用户需求17'},
+                        {id: '18', title: '用户需求18'},
+                        {id: '19', title: '用户需求19'},
+                        {id: '20', title: '用户需求20'},
+                        {id: '21', title: '用户需求21'},
                     ],
                 },
                 task: {
