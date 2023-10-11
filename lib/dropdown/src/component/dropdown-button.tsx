@@ -19,13 +19,14 @@ export class DropdownButton extends Button<DropdownButtonOptions> {
     }
 
     _updateData() {
-        const {dropdown, menu, items, onClickItem} = this.props;
+        const {dropdown, menu, items, onClickItem, relativeTarget = this.triggerElement} = this.props;
         const $trigger = $(this.triggerElement);
         const instance = Dropdown.get(this.triggerElement);
         const options = {
             items,
             onClickItem,
             menu,
+            relativeTarget,
             ...dropdown,
         };
         if (instance) {

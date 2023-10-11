@@ -6,6 +6,7 @@ export interface DropdownButtonOptions extends ButtonProps {
     dropdown?: DropdownOptions;
     trigger?: DropdownOptions['trigger'];
     placement?: DropdownOptions['placement'];
-    items?: DropdownOptions['items'],
-    onClickItem?: DropdownOptions['onClickItem'],
+    items?: DropdownOptions['items'];
+    relativeTarget?: DropdownOptions['relativeTarget'];
+    onClickItem?: DropdownOptions['onClickItem'];
 }
