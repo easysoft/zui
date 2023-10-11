@@ -26,13 +26,13 @@ export class ComponentFromReact<O extends {} = {}, C extends ComponentReact<O> =
     /**
      * The React ref for component instance.
      */
-    ref = createRef<C>();
+    protected _ref = createRef<C>();
 
     /**
      * The React component instance.
      */
     get $(): C | null {
-        return this.ref.current;
+        return this._ref.current;
     }
 
     /**
@@ -63,7 +63,7 @@ export class ComponentFromReact<O extends {} = {}, C extends ComponentReact<O> =
         const {Component, replace} = this.constructor;
         const {$replace = replace, ...userOptions} = this.setOptions(options);
         const props = {
-            ref: this.ref,
+            ref: this._ref,
             ...userOptions,
         };
         if ($replace && (Component as {HElement?: boolean}).HElement) {
