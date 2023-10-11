@@ -235,14 +235,11 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
     }
 
     protected _handleClick(event: MouseEvent) {
-        const info = this._getItemFromEvent(event);
-        if (!info) {
-            return;
-        }
-        this.props.onClickItem?.call(this, info);
-        if (!this._controlled) {
+        const info = super._handleClick(event);
+        if (info && !this._controlled) {
             this._toggleFromEvent(info);
         }
+        return info;
     }
 
     protected _handleHover(event: MouseEvent) {
