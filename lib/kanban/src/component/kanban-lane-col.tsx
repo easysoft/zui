@@ -49,6 +49,8 @@ export class KanbanLaneCol extends Component<KanbanLaneColProps> {
             contentClass,
             itemRender,
             watchSize,
+            name,
+            lane,
         } = props;
         const style: JSX.CSSProperties = {
             '--kanban-col-color': color,
@@ -57,7 +59,7 @@ export class KanbanLaneCol extends Component<KanbanLaneColProps> {
             maxWidth,
         };
         return (
-            <div className="kanban-lane-col" style={style}>
+            <div className="kanban-lane-col" style={style} z-lane={lane} z-col={name}>
                 {content ? (
                     <div className={classes('kanban-col-content', contentClass)}>
                         <CustomContent content={content} generatorThis={this} generatorArgs={[props]} />

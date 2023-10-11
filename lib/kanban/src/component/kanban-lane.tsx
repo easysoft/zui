@@ -17,6 +17,7 @@ export class KanbanLane extends HElement<KanbanLaneProps> {
             minHeight,
             maxHeight,
             color,
+            name,
         } = props;
         return mergeProps(super._getProps(props), {
             style: {
@@ -25,6 +26,7 @@ export class KanbanLane extends HElement<KanbanLaneProps> {
                 minHeight,
                 maxHeight,
             },
+            'z-lane': name,
         });
     }
 

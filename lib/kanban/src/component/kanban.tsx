@@ -84,8 +84,8 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
         return this._data.lanes.find(lane => lane.name === name);
     }
 
-    getItem(key: ItemKey) {
-        return this._data.map.get(key);
+    getItem(key: unknown) {
+        return this._data.map.get(String(key));
     }
 
     getData() {

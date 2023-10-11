@@ -16,6 +16,7 @@ export class KanbanHeaderCol extends HElement<KanbanColProps> {
             minWidth,
             maxWidth,
             color,
+            name,
         } = props;
         return mergeProps(super._getProps(props), {
             style: {
@@ -24,6 +25,7 @@ export class KanbanHeaderCol extends HElement<KanbanColProps> {
                 minWidth,
                 maxWidth,
             },
+            'z-col': name,
         });
     }
 
