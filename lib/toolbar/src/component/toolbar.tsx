@@ -39,8 +39,13 @@ export class Toolbar<T extends ToolbarOptions = ToolbarOptions> extends BtnGroup
         if (!itemProps) {
             return itemProps;
         }
-        if (itemProps.type === 'btn-group' || itemProps.type === 'btnGroup') {
+        const {type} = itemProps;
+        const isBtnGroup = type === 'btn-group' || type === 'btnGroup';
+        if (isBtnGroup) {
             itemProps.btnProps = mergeProps({}, this._shareBtnProps, itemProps.btnProps);
+        }
+        if ((isBtnGroup || type === 'dropdown') && !itemProps.relativeTarget) {
+            itemProps.relativeTarget = props.relativeTarget;
         }
         return itemProps;
     }
