@@ -101,6 +101,10 @@ export class Draggable extends Component<DraggableOptions> {
         }
 
         const $targets = (typeof target === 'function' ? $(target.call(this, dragElement)) : $element.find(target || selector || DROPPABLE_SELECTOR));
+        if (!$targets.length) {
+            this._clean();
+            return;
+        }
         if (droppableClass) {
             $element.find(droppableClass).removeClass(droppableClass);
             $targets.addClass(droppableClass);
