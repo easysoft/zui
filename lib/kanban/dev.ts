@@ -161,7 +161,19 @@ onPageLoad(() => {
                     caret: false,
                     items: [ // 下拉菜单内容
                         {text: '编辑', icon: 'edit'},
+                        {text: '删除', icon: 'trash'},
                     ],
+                    onClickItem: (info) => {
+                        const {relativeTarget} = info;
+                        if (!relativeTarget) {
+                            return;
+                        }
+                        const $target = $(relativeTarget.event.target).closest('.kanban');
+                        const kanbanList = KanbanList.query($target);
+                        const kanbanKey = $target.z('key') as string;
+                        const kanban = kanbanList!.$?.getKanban(kanbanKey);
+                        kanban?.deleteItem(relativeTarget.target.id);
+                    },
                 }];
             },
         },

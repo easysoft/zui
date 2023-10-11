@@ -66,8 +66,8 @@ export class KanbanList extends HElement<KanbanListProps, KanbanListState> {
         this._rob?.disconnect();
     }
 
-    getKanban(key: string) {
-        return this._kanbanRefs.get(key)?.current;
+    getKanban(key: unknown) {
+        return this._kanbanRefs.get(String(key))?.current;
     }
 
     updateLayout(): void {
@@ -122,7 +122,7 @@ export class KanbanList extends HElement<KanbanListProps, KanbanListState> {
                     this._kanbanRefs.set(key, ref);
                 }
                 const KanbanComponent = ((kanbanProps as KanbanGroupProps).heading !== undefined || (kanbanProps as KanbanGroupProps).type === 'group') ? KanbanGroup : Kanban;
-                return <KanbanComponent key={key} ref={ref} sticky={props.sticky} {...(kanbanProps as KanbanProps)}/>;
+                return <KanbanComponent key={key} ref={ref} sticky={props.sticky} {...(kanbanProps as KanbanProps)} z-key={key} />;
             }),
             props.children,
         ];
