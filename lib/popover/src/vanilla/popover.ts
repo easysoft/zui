@@ -2,6 +2,7 @@ import {arrow, computePosition, flip, shift, autoUpdate, offset, VirtualElement,
 import {Component, $, ComponentEvents} from '@zui/core';
 import {PopoverEvents, PopoverOptions, PopoverPanelOptions} from '../types';
 import {PopoverPanel} from './popover-panel';
+import {isElementDetached} from '@zui/core/src/dom';
 
 const TOGGLE_SELECTOR = '[data-toggle="popover"]';
 
@@ -187,7 +188,7 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
         }, 50);
     }
 
-    hide() {
+    hide(destroy?: boolean) {
         if (!this._shown || !this._targetElement) {
             this._resetTimer();
         }
@@ -215,10 +216,10 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
             this.emit('hidden');
             $target.removeClass(CLASS_SHOW);
 
-            if (destroyOnHide) {
+            if (destroyOnHide || destroy) {
                 this._resetTimer(() => {
                     this.destroy();
-                }, typeof destroyOnHide === 'number' ? destroyOnHide : 0);
+                }, (!destroy && typeof destroyOnHide === 'number') ? destroyOnHide : 0);
             }
             this._destoryTarget();
         }, animation ? 200 : 0);
@@ -246,9 +247,9 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
 
     layout() {
         const trigger = this._triggerElement;
-        const element = this._targetElement;
+        const target = this._targetElement;
         const layoutWatcher = this._layoutWatcher;
-        if (!element || !trigger || !this._shown) {
+        if (!target || !trigger || !this._shown) {
             if (layoutWatcher) {
                 layoutWatcher();
                 this._layoutWatcher = undefined;
@@ -260,13 +261,17 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
             return;
         }
 
-        this._layoutWatcher = autoUpdate(trigger, element, () => {
+        this._layoutWatcher = autoUpdate(trigger, target, () => {
             const {width, animation, name = 'popover'} = this.options;
             if (width === '100%' && !this._virtual) {
-                $(element).css({width: $(trigger as HTMLElement).width()});
+                $(target).css({width: $(trigger as HTMLElement).width()});
             }
             computePosition(...this._getLayoutOptions()).then(({x, y, middlewareData, placement, strategy}) => {
-                const $element = $(element).css({
+                if (trigger instanceof HTMLElement && isElementDetached(trigger)) {
+                    this.hide(true);
+                    return;
+                }
+                const $target = $(target).css({
                     position: strategy,
                     left: x,
                     top: y,
@@ -280,13 +285,13 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
                 }[popSide] as string;
                 const arrowPosition = middlewareData.arrow;
                 if (arrowPosition) {
-                    $element.find('.arrow').css({
+                    $target.find('.arrow').css({
                         left: arrowPosition.x,
                         top: arrowPosition.y,
                     }).attr('class', `arrow ${name}-arrow arrow-${arrowSide}`);
                 }
                 if (animation === true) {
-                    $element.attr('class', `${$element.attr('class')!.split(' ').filter(n => n !== 'fade' && !n.startsWith('fade-from')).join(' ')} fade-from-${arrowSide}`);
+                    $target.attr('class', `${$target.attr('class')!.split(' ').filter(n => n !== 'fade' && !n.startsWith('fade-from')).join(' ')} fade-from-${arrowSide}`);
                 }
                 if (!this._virtual) {
                     $(this._triggerElement as HTMLElement).attr('data-popover-placement', popSide);
