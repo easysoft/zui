@@ -88,15 +88,7 @@ export class Listitem<P extends ListitemProps = ListitemProps, S = {}> extends H
             contents.push(<Icon key="trailing-icon" className="item-trailing-icon" icon={trailingIcon} />);
         }
         if (actions) {
-            let toolbarOptions = typeof actions === 'function' ? actions.call(this, props) : actions;
-            if (Array.isArray(toolbarOptions)) {
-                toolbarOptions = {
-                    items: toolbarOptions,
-                };
-            }
-            contents.push(
-                <Toolbar key="actions" size="sm" {...toolbarOptions} />,
-            );
+            contents.push(Toolbar.render(actions, [props], {key: 'actions', relativeTarget: props, size: 'sm'}, this));
         }
         const customTrailing = trailing ? <CustomContent key="trailing" content={trailing} /> : null;
         if (customTrailing) {
