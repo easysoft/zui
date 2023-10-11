@@ -1,6 +1,7 @@
 import {i18n} from '../i18n';
 import {$} from '../cash';
 import {nextGid} from '../helpers';
+import {isElementDetached} from '../dom/is-detached';
 
 import type {Cash, Element, Selector} from '../cash';
 import type {ComponentEventArgs, ComponentEventName, ComponentOptions, ComponentEvents, ComponentEventsDefnition} from './types';
@@ -9,21 +10,6 @@ import type {ComponentEventArgs, ComponentEventName, ComponentOptions, Component
  * The event callback for component.
  */
 export type ComponentEventCallback<E extends ComponentEventsDefnition, O extends {}, N extends ComponentEventName<E>> = (event: N extends keyof HTMLElementEventMap ? HTMLElementEventMap[N] : Event, args: [Component<O, E>, ComponentEventArgs<E, N>]) => void | false;
-
-/**
- * Check whether the element is detached from document.
- * @param element  The element to check.
- * @returns       Whether the element is detached from document.
- */
-function isElementDetached(element: Node): boolean {
-    if (element.parentNode === document) {
-        return false;
-    }
-    if (!element.parentNode) {
-        return true;
-    }
-    return isElementDetached(element.parentNode);
-}
 
 /**
  * The component base class.
