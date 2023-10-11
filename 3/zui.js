@@ -10776,7 +10776,6 @@ let jl = class extends K {
         n.observe(o);
       }), this._rob = n;
     }
-    console.timeEnd("kanbanList.init");
   }
   componentWillUnmount() {
     var t, e;
@@ -10814,14 +10813,15 @@ let jl = class extends K {
     });
   }
   _getChildren(t) {
-    const { items: e = [] } = t;
+    const { items: e = [], kanbanProps: n } = t;
     return [
-      ...e.map((n, i) => {
-        const r = String(n.key ?? i);
-        let o = this._kanbanRefs.get(r);
-        o || (o = z(), this._kanbanRefs.set(r, o));
-        const a = n.heading !== void 0 || n.type === "group" ? du : Wn;
-        return /* @__PURE__ */ u(a, { ref: o, sticky: t.sticky, ...n, "z-key": r }, r);
+      ...e.map((i, r) => {
+        n && (i = typeof n == "function" ? n.call(this, i, r) : f.extend({}, n, i));
+        const o = String(i.key ?? r);
+        let a = this._kanbanRefs.get(o);
+        a || (a = z(), this._kanbanRefs.set(o, a));
+        const l = i.heading !== void 0 || i.type === "group" ? du : Wn;
+        return /* @__PURE__ */ u(l, { ref: a, sticky: t.sticky, ...i, "z-key": o }, o);
       }),
       t.children
     ];
