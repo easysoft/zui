@@ -59,7 +59,7 @@
   @apply -w-[--kanban-col-width] -bg-inverse/5 -h-full -flex -flex-col;
 }
 .kanban-col-content {
-  @apply -relative -z-10;
+  @apply -relative -z-[5];
 }
 .kanban-lane.is-first > .kanban-lane-name::before {
   @apply -content-[''] -block -absolute -left-0 -right-0 -h-[--kanban-header-height] -bottom-full -bg-[--kanban-lane-color];
