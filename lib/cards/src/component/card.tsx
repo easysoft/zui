@@ -73,13 +73,13 @@ export class Card<P extends CardProps = CardProps, S = {}> extends HElement<P, S
         if (footer || footActions) {
             return (<div className={classes('card-footer', footerClass)}>
                 <CustomContent key="footer" content={footer} />
-                {Toolbar.render(footActions, [props], {key: 'foot-actions', className: 'card-foot-actions', size: 'sm'}, this)}
+                {Toolbar.render(footActions, [props], {key: 'foot-actions', relativeTarget: props, className: 'card-foot-actions', size: 'sm'}, this)}
             </div>);
         }
     }
 
     protected _renderActions(props: RenderableProps<P>): ComponentChildren {
-        return Toolbar.render(props.actions, [props], {key: 'actions', className: 'card-actions', size: 'sm'}, this);
+        return Toolbar.render(props.actions, [props], {key: 'actions', relativeTarget: props, className: 'card-actions', size: 'sm'}, this);
     }
 
     protected _renderList(props: RenderableProps<P>): ComponentChildren {
