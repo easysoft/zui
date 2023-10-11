@@ -58,7 +58,6 @@ export class KanbanList extends HElement<KanbanListProps, KanbanListState> {
             });
             this._rob = rob;
         }
-        console.timeEnd('kanbanList.init');
     }
 
     componentWillUnmount(): void {
@@ -112,9 +111,12 @@ export class KanbanList extends HElement<KanbanListProps, KanbanListState> {
     }
 
     protected _getChildren(props: RenderableProps<KanbanListProps>): ComponentChildren {
-        const {items = []} = props;
+        const {items = [], kanbanProps: kanbanPropsSetting} = props;
         return [
             ...items.map((kanbanProps, index) => {
+                if (kanbanPropsSetting) {
+                    kanbanProps = typeof kanbanPropsSetting === 'function' ? kanbanPropsSetting.call(this, kanbanProps, index) : $.extend({}, kanbanPropsSetting, kanbanProps);
+                }
                 const key = String((kanbanProps as KanbanProps).key ?? index);
                 let ref = this._kanbanRefs.get(key);
                 if (!ref) {
