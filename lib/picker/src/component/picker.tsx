@@ -18,7 +18,7 @@ function getValueMap(items: PickerItemOptions[], userMap?: Map<string, PickerIte
         if (Array.isArray(item.items)) {
             getValueMap(item.items as PickerItemOptions[], map);
         }
-        map.set(item.value, item);
+        map.set(String(item.value), item);
         return map;
     }, userMap || new Map());
 }
@@ -276,14 +276,25 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
         return props.Trigger || (props.multiple ? PickerMultiSelect : PickerSingleSelect) as unknown as ComponentType<PickTriggerProps<S>>;
     }
 
-    formatValueList(value: string | string[]): string[] {
-        let list: string[] = [];
+    formatValueList(value: unknown): string[] {
+        let list: unknown[];
         if (typeof value === 'string' && value.length) {
-            list = $.unique(value.split(this.props.valueSplitter ?? ',')) as string[];
+            list = value.split(this.props.valueSplitter ?? ',');
         } else if (Array.isArray(value)) {
-            list = $.unique(value) as string[];
+            list = value;
+        } else {
+            list = [value];
         }
-        return list.filter(x => !this.isEmptyValue(x));
+        return ($.unique(list) as unknown[]).reduce<string[]>((values, x) => {
+            if (x === null || x === undefined) {
+                return values;
+            }
+            x = typeof x !== 'string' ? String(x) : x;
+            if (!this.isEmptyValue(x as string)) {
+                values.push(x as string);
+            }
+            return values;
+        }, []);
     }
 
     formatValue(value: string | string[]): string {
@@ -293,12 +304,9 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
 
     setValue(value: unknown = [], silent?: boolean) {
         if (this.props.disabled) {
-            return;
+            return Promise.resolve(this.state);
         }
-        if (!Array.isArray(value) && typeof value !== 'string') {
-            value = value !== null ? String(value) : this.firstEmptyValue;
-        }
-        let valueList = this.formatValueList(value as string | string[]);
+        let valueList = this.formatValueList(value);
         if (valueList.length) {
             const {items, limitValueInList} = this.props;
             if (limitValueInList) {
