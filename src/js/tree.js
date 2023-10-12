@@ -211,6 +211,7 @@
                     dragCssClass: 'tree-drag-holder',
                     trigger: '.sort-handler',
                     selector: 'li:not(.tree-action-item)',
+                    stopPropagation: true,
                     finish: function(e) {
                         that.callEvent('action', {action: actions.sort, $list: $list, target: e.target, item: data});
                     }
