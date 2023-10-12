@@ -76,12 +76,8 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
         return stateItems || (Array.isArray(items) ? items : []);
     }
 
-    protected _getItem(props: RenderableProps<P>, item: Item, index: number): Item | false {
-        let renderedItem = super._getItem(props, item, index);
-        if (!renderedItem) {
-            return renderedItem;
-        }
-
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    protected _getRenderedItem(props: RenderableProps<P>, renderedItem: Item, index: number): Item {
         const {divider, hover, multiline} = props;
         renderedItem = mergeProps({}, removeUndefinedProps({
             divider,
@@ -112,6 +108,14 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
         }
 
         return renderedItem;
+    }
+
+    protected _getItem(props: RenderableProps<P>, item: Item, index: number): Item | false {
+        const renderedItem = super._getItem(props, item, index);
+        if (!renderedItem) {
+            return renderedItem;
+        }
+        return this._getRenderedItem(props, renderedItem, index);
     }
 
     protected _renderItem(props: RenderableProps<P>, item: Item, index: number): ComponentChildren {
