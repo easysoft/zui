@@ -21,7 +21,7 @@
   @apply -flex -flex-col -gap-1;
 }
 .card-actions {
-  @apply -absolute -right-1 -top-1;
+  @apply -absolute -right-0.5 -top-0.5;
 }
 .card-actions + .card-heading {
   @apply -pr-7;

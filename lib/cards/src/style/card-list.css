@@ -1,3 +1,7 @@
 .card-list {
-  @apply -flex -flex-col -gap-2;
+  --list-gap: .75rem;
+  padding: calc(var(--list-gap) / 2);
+}
+.card-list-item {
+  padding: calc(var(--list-gap) / 2);
 }
