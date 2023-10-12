@@ -27,3 +27,4 @@ export * from './kanban-links-props';
 export * from './kanban-links-state';
 export * from './kanban-link-editor-props';
 export * from './kanban-link-editor-state';
+export * from './kanban-dnd-info';

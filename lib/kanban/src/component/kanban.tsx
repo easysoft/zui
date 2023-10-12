@@ -1,5 +1,5 @@
 import {$, HElement, createRef, fetchData, isFetchSetting, mergeProps, toCssSize} from '@zui/core';
-import {Draggable} from '@zui/dnd';
+import {Draggable, DraggableOptions} from '@zui/dnd';
 import {KanbanHeader} from './kanban-header';
 import {KanbanBody} from './kanban-body';
 import {KanbanLinks} from './kanban-links';
@@ -9,7 +9,7 @@ import {getCols, mergeData, getLanes, getColItems, normalizeData} from '../helpe
 import type {ComponentChildren, RenderableProps} from 'preact';
 import type {ClassNameLike, CustomContentType} from '@zui/core';
 import type {ItemKey} from '@zui/common-list';
-import type {KanbanColName, KanbanColOptions, KanbanData, KanbanDataset, KanbanDataFetcher, KanbanDataSetting, KanbanItem, KanbanLaneName, KanbanLaneOptions, KanbanLinkOptions, KanbanProps, KanbanState, KanbanDataMap, KanbanItemsMap} from '../types';
+import type {KanbanColName, KanbanColOptions, KanbanData, KanbanDataset, KanbanDataFetcher, KanbanDataSetting, KanbanItem, KanbanLaneName, KanbanLaneOptions, KanbanLinkOptions, KanbanProps, KanbanState, KanbanDataMap, KanbanItemsMap, KanbanItemInfo, KanbanDnDType, KanbanElementInfo} from '../types';
 
 export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState = KanbanState> extends HElement<P, S> {
     static defaultProps: Partial<KanbanProps> = {
@@ -33,13 +33,7 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
     componentDidMount() {
         this._afterRender(true);
         this.tryLoad();
-
-        const {draggable} = this.props;
-        if (draggable && this._ref.current) {
-            this._draggable = new Draggable(this._ref.current, $.extend({
-                selector: '.kanban-item',
-            }, typeof draggable === 'object' ? draggable : null));
-        }
+        this._initDraggable();
     }
 
     componentDidUpdate(): void {
@@ -162,6 +156,58 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
 
     deleteLink(link: KanbanLinkOptions | KanbanLinkOptions[]) {
         return this.updateLink(link, {deleted: true});
+    }
+
+    protected _getElementInfo(element: HTMLElement): KanbanElementInfo | undefined {
+        const $element = $(element);
+        const $item = $element.closest('.kanban-item');
+        if ($item.length) {
+            const item = this.getItem($item.attr('z-key'));
+            if (item) {
+                return {type: 'item', element, item, lane: item.lane, col: item.col};
+            }
+        }
+        const lane = $element.closest('.kanban-lane').attr('z-lane');
+        if (lane !== undefined) {
+            return {type: 'lane', element, lane: lane as string};
+        }
+        const $col = $element.closest('.kanban-header-col,.kanban-lane-col');
+        if ($col.length) {
+            return {type: 'col', element, col: $col.attr('z-col') as string, lane: $col.attr('z-lane') as string};
+        }
+    }
+
+    protected _initDraggable() {
+        const {draggable} = this.props;
+        const element = this._ref.current;
+        if (!draggable || !element) {
+            return;
+        }
+        const {dragTypes = 'item', onDragStart, onDrop, canDropHere} = this.props;
+        const dragTypeList = typeof dragTypes === 'string' ? dragTypes.split(',') : dragTypes;
+        const dragTypeSelectors: Record<string, string> = {
+            item: '.kanban-item',
+            lane: '.kanban-lane-name',
+            col: '.kanban-header-col',
+        };
+        const userOptions = typeof draggable === 'object' ? draggable : {};
+        const dragOptions: DraggableOptions = {
+            ...userOptions,
+            selector: userOptions.selector || dragTypeList.map(x => dragTypeSelectors[x] || '').join(''),
+            target: userOptions.target || ((dragElement: HTMLElement) => {
+                const info = this._getElementInfo(dragElement);
+                if (!info) {
+                    return;
+                }
+                const selector = ({
+                    lane: '.kanban-lane',
+                    col: '.kanban-header-col',
+                    item: '.kanban-item,.kanban-lane-col',
+                })[info.type];
+                return $(element).find(selector);
+            }),
+        };
+        this._draggable = new Draggable(element, dragOptions);
     }
 
     protected _afterRender(firstRender: boolean) {
