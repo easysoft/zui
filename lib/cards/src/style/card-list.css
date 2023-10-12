@@ -1,5 +1,5 @@
 .card-list {
-  --list-gap: .75rem;
+  --list-gap: .5rem;
   padding: calc(var(--list-gap) / 2);
 }
 .card-list-item {
