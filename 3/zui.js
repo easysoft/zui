@@ -1578,7 +1578,7 @@ function er(s) {
 }
 function oi(s) {
   const [t, e = "px"] = er(s);
-  return `${t}${e}`;
+  return Number.isNaN(t) ? null : `${t}${e}`;
 }
 function sr(s, t) {
   const e = f(s)[0];
@@ -7937,13 +7937,17 @@ class yo extends pl {
   }
 }
 let Pe = class extends te {
+  _getClassName(t) {
+    return [super._getClassName(t), t.countPerRow ? "card-grid" : ""];
+  }
   _getProps(t) {
-    const e = super._getProps(t), { gap: n } = t;
-    return n === void 0 ? e : D({
+    const { gap: e, countPerRow: n } = t;
+    return D({
       style: {
-        "--list-gap": oi(n)
+        "--list-gap": e ? oi(e) : void 0,
+        "--list-count-per-row": n
       }
-    }, e);
+    }, super._getProps(t));
   }
   _getRenderedItem(t, e) {
     return e;
