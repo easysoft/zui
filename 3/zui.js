@@ -10099,28 +10099,31 @@ class Fl extends W {
       content: a,
       contentClass: l,
       itemRender: c,
-      watchSize: d,
-      name: h,
-      lane: m
+      itemGap: d,
+      watchSize: h,
+      name: m,
+      lane: p,
+      itemCountPerRow: g
     } = t;
     return /* @__PURE__ */ u("div", { className: "kanban-lane-col", style: {
       "--kanban-col-color": o,
       "--kanban-col-width": n,
       minWidth: i,
       maxWidth: r
-    }, "z-lane": m, "z-col": h, children: [
+    }, "z-lane": p, "z-col": m, children: [
       a ? /* @__PURE__ */ u("div", { className: k("kanban-col-content", l), children: /* @__PURE__ */ u(O, { content: a, generatorThis: this, generatorArgs: [t] }) }) : null,
-      /* @__PURE__ */ u(
+      /* @__PURE__ */ u("div", { className: "kanban-items scrollbar-thin scrollbar-hover", children: /* @__PURE__ */ u(
         Pe,
         {
-          forwardRef: d ? this._listRef : void 0,
-          className: "kanban-items scrollbar-thin scrollbar-hover",
+          forwardRef: h ? this._listRef : void 0,
           itemProps: { className: "kanban-item" },
           items: e,
-          itemRender: c ? this._renderItem : void 0
+          itemRender: c ? this._renderItem : void 0,
+          countPerRow: g,
+          gap: d
         },
         "list"
-      )
+      ) })
     ] });
   }
 }
@@ -10129,7 +10132,8 @@ Fl.defaultProps = {
 };
 class tu extends K {
   _getClassName(t) {
-    return ["kanban-lane", t.className, t.index ? "" : "is-first"];
+    const { className: e, index: n, maxHeight: i, height: r } = t;
+    return ["kanban-lane", e, { "is-first": !n, "is-auto-height": !i && (!r || r === "auto") }];
   }
   _getProps(t) {
     const {
@@ -10361,7 +10365,7 @@ class lu extends W {
   _updateLayout() {
     const t = [...this._idSet], e = f(this._kanban).find(".kanban-body"), { top: n, left: i } = this._kanban.getBoundingClientRect(), r = {};
     t.forEach((o) => {
-      const a = e.find(`.kanban-item[z-key="${o}"]`)[0];
+      const a = e.find(`.kanban-item[z-key="${o}"]`).children()[0];
       if (a) {
         const { top: l, left: c, bottom: d, right: h } = a.getBoundingClientRect();
         r[o] = { top: l - n, left: c - i, bottom: d - n, right: h - i };
@@ -10394,7 +10398,7 @@ class cu extends W {
       this.state.from === o || r.hasClass("is-dragging") || this.setState({
         from: o,
         to: void 0,
-        fromRect: this._getRect(r[0]),
+        fromRect: this._getRect(r.children()[0]),
         dragPos: void 0
       });
     }).on(`mouseleave${As}`, n, () => {
@@ -10415,7 +10419,7 @@ class cu extends W {
         const { top: r, left: o } = this._kanban.getBoundingClientRect(), a = { left: i.clientX - o, top: i.clientY - r };
         let l, c;
         const d = f(i.target).closest(n);
-        d.length && l !== this.state.from && (l = d.attr("z-key"), c = this._getRect(d[0])), this.setState({ dragPos: a, to: l, toRect: c });
+        d.length && l !== this.state.from && (l = d.attr("z-key"), c = this._getRect(d.children()[0])), this.setState({ dragPos: a, to: l, toRect: c });
       },
       onMoveEnd: () => {
         const { from: i, to: r } = this.state, { onAddLink: o } = this.props;
@@ -10496,22 +10500,22 @@ class cu extends W {
 function hu(s, t, e) {
   if (!s || !s.length)
     return [];
-  const { getCol: n, colProps: i } = t;
-  let r = !1;
-  const o = [], a = /* @__PURE__ */ new Map();
-  return s = s.reduce((l, c, d) => {
-    if (i && (c = D({}, i, c)), n) {
-      const h = n.call(this, c);
-      h !== !1 && (c = h || c);
+  const { getCol: n, colProps: i, itemCountPerRow: r, itemGap: o } = t;
+  let a = !1;
+  const l = [], c = /* @__PURE__ */ new Map();
+  return s = s.reduce((d, h, m) => {
+    if (h = D({ itemGap: o, itemCountPerRow: r }, i, h), n) {
+      const p = n.call(this, h);
+      p !== !1 && (h = p || h);
     }
-    return c.deleted || (typeof c.width == "function" && (c = D({}, c, {
-      width: c.width.call(this, c)
-    })), typeof c.order == "number" ? r = !0 : c.order = d, e == null || e.call(this, c), c.parentName !== void 0 ? o.push(c) : (a.set(c.name, c), l.push(c))), l;
-  }, []), o.forEach((l) => {
-    const c = a.get(l.parentName);
-    c && (c.subCols = Xe(c.subCols, [l], "name"));
-  }), r && (s.sort(dn), [...a.values()].forEach((l) => {
-    l.subCols && l.subCols.sort(dn);
+    return h.deleted || (typeof h.width == "function" && (h = D({}, h, {
+      width: h.width.call(this, h)
+    })), typeof h.order == "number" ? a = !0 : h.order = m, e == null || e.call(this, h), h.parentName !== void 0 ? l.push(h) : (c.set(h.name, h), d.push(h))), d;
+  }, []), l.forEach((d) => {
+    const h = c.get(d.parentName);
+    h && (h.subCols = Xe(h.subCols, [d], "name"));
+  }), a && (s.sort(dn), [...c.values()].forEach((d) => {
+    d.subCols && d.subCols.sort(dn);
   })), s;
 }
 function du(s, t, e) {
