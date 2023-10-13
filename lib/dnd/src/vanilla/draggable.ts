@@ -190,11 +190,11 @@ export class Draggable extends Component<DraggableOptions> {
 
     protected _handleDrop = (event: DragEvent) => {
         const dropTarget = $(event.target as HTMLElement).closest(DROPPABLE_SELECTOR)[0];
-        if (!dropTarget) {
-            return;
+        if (dropTarget) {
+            event.preventDefault();
+            this.options.onDrop?.call(this, event, this.dragElement!, dropTarget);
         }
-        event.preventDefault();
-        this.options.onDrop?.call(this, event, this.dragElement!, dropTarget);
+        this._clean();
     };
 
     protected _clean() {
