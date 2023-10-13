@@ -9,7 +9,7 @@ import {getCols, mergeData, getLanes, getColItems, normalizeData} from '../helpe
 import type {ComponentChildren, RenderableProps} from 'preact';
 import type {ClassNameLike, CustomContentType} from '@zui/core';
 import type {ItemKey} from '@zui/common-list';
-import type {KanbanColName, KanbanColOptions, KanbanData, KanbanDataset, KanbanDataFetcher, KanbanDataSetting, KanbanItem, KanbanLaneName, KanbanLaneOptions, KanbanLinkOptions, KanbanProps, KanbanState, KanbanDataMap, KanbanItemsMap, KanbanItemInfo, KanbanDnDType, KanbanElementInfo} from '../types';
+import type {KanbanColName, KanbanColOptions, KanbanData, KanbanDataset, KanbanDataFetcher, KanbanDataSetting, KanbanItem, KanbanLaneName, KanbanLaneOptions, KanbanLinkOptions, KanbanProps, KanbanState, KanbanDataMap, KanbanItemsMap, KanbanItemInfo, KanbanDnDType, KanbanElementInfo, KanbanDropInfo, KanbanDropSide} from '../types';
 
 export type KanbanSnap = {
     date: number;
@@ -185,14 +185,102 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
                 return {type: 'item', element, item, lane: item.lane, col: item.col};
             }
         }
-        const lane = $element.closest('.kanban-lane').attr('z-lane');
-        if (lane !== undefined) {
-            return {type: 'lane', element, lane: lane as string};
-        }
         const $col = $element.closest('.kanban-header-col,.kanban-lane-col');
         if ($col.length) {
             return {type: 'col', element, col: $col.attr('z-col') as string, lane: $col.attr('z-lane') as string};
         }
+        const lane = $element.closest('.kanban-lane').attr('z-lane');
+        if (lane !== undefined) {
+            return {type: 'lane', element, lane: lane as string};
+        }
+    }
+
+    protected _getDropInfo(event: DragEvent, dragElement: HTMLElement, dropElement: HTMLElement): KanbanDropInfo | undefined {
+        const dragInfo = this._getElementInfo(dragElement);
+        if (!dragInfo) {
+            return;
+        }
+        const dropInfo = this._getElementInfo(dropElement);
+        if (!dropInfo) {
+            return;
+        }
+        let side: KanbanDropSide;
+        if (dragInfo.type === 'item' && dropInfo.type === 'col') {
+            side = 'inside';
+        } else {
+            const dropBounding = dropElement.getBoundingClientRect();
+            if (dragInfo.type === 'col') {
+                side = event.clientX < (dropBounding.left + dropBounding.width / 2) ? 'before' : 'after';
+            } else {
+                side = event.clientY < (dropBounding.top + dropBounding.height / 2) ? 'before' : 'after';
+            }
+        }
+        return {
+            side,
+            event,
+            drag: dragInfo,
+            drop: dropInfo,
+        };
+    }
+
+    protected _getDropChanges(info: KanbanDropInfo): Partial<KanbanData> {
+        const {drag, drop} = info;
+        const data = this._data;
+        const changes: Partial<KanbanData> = {};
+        const {itemKey} = this;
+        if (drag.type === 'item') {
+            const item = drag.item!;
+            const colItems = data.items[drop.lane!][drop.col!];
+            const newColItems = [...colItems];
+            const newItem: Partial<KanbanItem> = {
+                [itemKey]: item[itemKey],
+                order: item.order,
+            };
+            const isSameCol = drop.col === item.col;
+            const isSameLane = drop.lane === item.lane;
+            if (isSameCol && isSameLane && item[itemKey] === drop.item![itemKey]) {
+                return changes;
+            }
+            if (!isSameCol) {
+                newItem.col = drop.col;
+            }
+            if (!isSameLane) {
+                newItem.lane = drop.lane;
+            }
+            let changed = false;
+            if (drop.type === 'col' && (!isSameLane || !isSameCol)) {
+                newColItems.push(newItem);
+                changed = true;
+            } else if (drop.type === 'item') {
+                const dropItem = drop.item!;
+                const dragIndex = (drop.col !== item.col || drop.lane !== item.lane) ? -1 : newColItems.findIndex(x => x[itemKey] === item[itemKey]);
+                if (dragIndex >= 0) {
+                    newColItems.splice(dragIndex, 1);
+                }
+                const index = newColItems.findIndex(x => x[itemKey] === dropItem[itemKey]);
+                newColItems.splice(info.side === 'before' ? index : (index + 1), 0, newItem);
+                changed = true;
+            }
+            if (changed) {
+                changes.items = [];
+                let prevOrder = -1;
+                newColItems.forEach((changeItem, index) => {
+                    const order = Math.max(0, prevOrder + 1, changeItem.order ?? index);
+                    const oldItem = colItems[index];
+                    prevOrder = order;
+                    if (oldItem !== changeItem || order !== oldItem.order) {
+                        changeItem = {
+                            ...changeItem,
+                            order,
+                        };
+                    }
+                    if (changeItem !== oldItem) {
+                        changes.items!.push(changeItem);
+                    }
+                });
+            }
+        }
+        return changes;
     }
 
     protected _initDraggable() {
@@ -201,7 +289,7 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
         if (!draggable || !element) {
             return;
         }
-        const {dragTypes = 'item', onDragStart, onDrop, canDropHere} = this.props;
+        const {dragTypes = 'item', onDragStart, onDrop} = this.props;
         const dragTypeList = typeof dragTypes === 'string' ? dragTypes.split(',') : dragTypes;
         const dragTypeSelectors: Record<string, string> = {
             item: '.kanban-item',
@@ -209,21 +297,64 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
             col: '.kanban-header-col',
         };
         const userOptions = typeof draggable === 'object' ? draggable : {};
+        const updateDropElementAttr = (dropElement: HTMLElement, info?: KanbanDropInfo) => {
+            $(dropElement).attr({
+                'z-drag-type': info ? info.drag.type : null,
+                'z-drop-type': info ? info.drop.type : null,
+                'z-drop-side': info ? info.side : null,
+            });
+        };
         const dragOptions: DraggableOptions = {
             ...userOptions,
             selector: userOptions.selector || dragTypeList.map(x => dragTypeSelectors[x] || '').join(''),
             target: userOptions.target || ((dragElement: HTMLElement) => {
                 const info = this._getElementInfo(dragElement);
                 if (!info) {
-                    return; 
+                    return;
                 }
                 const selector = ({
                     lane: '.kanban-lane',
                     col: '.kanban-header-col',
-                    item: '.kanban-item,.kanban-lane-col',
+                    item: '.kanban-item,.kanban-items',
                 })[info.type];
                 return $(element).find(selector);
             }),
+            onDragStart: (event: DragEvent, dragElement: HTMLElement) => {
+                const info = this._getElementInfo(dragElement);
+                if (!info) {
+                    return false;
+                }
+                if (onDragStart) {
+                    return onDragStart.call(this, {event, drag: info});
+                }
+                return userOptions.onDragStart?.call(this, event, dragElement);
+            },
+            onDragOver: (event: DragEvent, dragElement: HTMLElement, dropElement: HTMLElement) => {
+                const info = this._getDropInfo(event, dragElement, dropElement);
+                if (!info) {
+                    return;
+                }
+                updateDropElementAttr(dropElement, info);
+            },
+            onDragLeave: (_event: DragEvent, _dragElement: HTMLElement, dropElement: HTMLElement) => {
+                updateDropElementAttr(dropElement);
+            },
+            onDrop: (event: DragEvent, dragElement: HTMLElement, dropElement: HTMLElement) => {
+                updateDropElementAttr(dropElement);
+                const info = this._getDropInfo(event, dragElement, dropElement);
+                if (!info) {
+                    return false;
+                }
+                if (onDrop) {
+                    const changes = this._getDropChanges(info);
+                    if (Object.keys(changes).length) {
+                        if (onDrop.call(this, changes, info) !== false) {
+                            this.update(changes);
+                        }
+                    }
+                }
+                return userOptions.onDrop?.call(this, event, dragElement, dropElement);
+            },
         };
         this._draggable = new Draggable(element, dragOptions);
     }

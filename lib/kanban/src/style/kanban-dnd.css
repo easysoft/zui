@@ -1,0 +1,22 @@
+.kanban-items.is-dropping {
+  @apply -relative;
+}
+.kanban-item.is-dropping {
+  @apply -relative -transition-transform;
+}
+.kanban-item.is-dropping::after,
+.kanban-items.is-dropping > .card-list::after {
+  @apply -block -content-[''] -h-1 -bg-warning-500/50 -rounded-full;
+}
+.kanban-item.is-dropping::after {
+  @apply -absolute -left-1 -right-1 --top-1;
+}
+.kanban-item.is-dropping[z-drop-side="before"] {
+  @apply -translate-y-1;
+}
+.kanban-item.is-dropping[z-drop-side="after"] {
+  @apply --translate-y-1;
+}
+.kanban-item.is-dropping[z-drop-side="after"]::after {
+  @apply -top-auto --bottom-1;
+}

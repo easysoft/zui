@@ -56,10 +56,29 @@ onPageLoad(() => {
                 }];
             },
         },
-        itemCountPerRow: 3,
-        itemRender: (info) => {
-            /* 自定义渲染卡片，通过 {html: ...} 返回卡片 HTML内容。 */
-            return {className: 'kanban-item card-list-item item', html: `<div class="card"><div class="card-heading"><span class="card-title">${info.item.title}</span></div></div>`};
+        itemProps: {
+            actions: () => {
+                return [{
+                    type: 'dropdown',
+                    icon: 'ellipsis-v text-primary',
+                    caret: false,
+                    items: [ // 下拉菜单内容
+                        {text: '编辑', icon: 'edit'},
+                        {text: '删除', icon: 'trash'},
+                    ],
+                    onClickItem: (info) => {
+                        const {relativeTarget} = info;
+                        if (!relativeTarget) {
+                            return;
+                        }
+                        const $target = $(relativeTarget.event.target).closest('.kanban');
+                        const kanbanList = KanbanList.query($target);
+                        const kanbanKey = $target.z('key') as string;
+                        const kanban = kanbanList!.$?.getKanban(kanbanKey);
+                        kanban?.deleteItem(relativeTarget.target.id);
+                    },
+                }];
+            },
         },
         getCol(col) {
             /* 通过 content 属性自定义列额外内容。 */
@@ -98,12 +117,23 @@ onPageLoad(() => {
                 },
             }, col);
         },
+        onDrop: (changes, info) => {
+            console.log('> onDrop', changes, info);
+        },
     };
     const kanban2Options = {
         heading: {
             title: {html: '<span>设置区域</span> <i class="icon icon-chevron-up"></i>'},
         },
+        itemCountPerRow: 3,
         data: createKanbanData(),
+        onDrop: (changes, info) => {
+            console.log('> onDrop', changes, info);
+        },
+        itemRender: (info) => {
+            /* 自定义渲染卡片，通过 {html: ...} 返回卡片 HTML内容。 */
+            return {className: 'kanban-item card-list-item item', html: `<div class="card"><div class="card-heading"><span class="card-title">${info.item.title}</span></div></div>`};
+        },
     };
     const kanban3Options = {
         heading: {
@@ -183,6 +213,9 @@ onPageLoad(() => {
                     },
                 }];
             },
+        },
+        onDrop: (changes, info) => {
+            console.log('> onDrop', changes, info);
         },
     };
     const kanbanList = new KanbanList('#kanbanList', {

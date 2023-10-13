@@ -9,12 +9,12 @@ export type KanbanElementInfo = Partial<KanbanItemInfo> & {
     element: HTMLElement,
 };
 
-export type KanbanDragInfo = Partial<KanbanItemInfo> & {
+export type KanbanDragInfo = {
     event: DragEvent,
     drag: KanbanElementInfo,
 };
 
-export type KanbanDropInfo = KanbanDragInfo & {
+export type KanbanDropInfo = {
     event: Event,
     drag: KanbanElementInfo,
     drop: KanbanElementInfo,
