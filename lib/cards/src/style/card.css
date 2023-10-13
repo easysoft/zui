@@ -1,5 +1,5 @@
 .card {
-  @apply -shadow-sm -rounded -ring-1 -ring-border -ring-opacity-5 hover:-shadow -transition-[shadow,border,color,background-color] -bg-canvas -relative;
+  @apply -shadow-sm -rounded -ring-1 -ring-border -ring-opacity-5 hover:-shadow -transition-[shadow,border,color,background-color] -bg-canvas -relative -min-h-[32px];
 }
 
 .card-heading,
@@ -9,7 +9,7 @@
   @apply -py-1 -px-2
 }
 .card-heading {
-  @apply -flex -items-center -gap-2 -min-h-[32px];
+  @apply -flex -items-center -gap-2;
 }
 .card-icon {
   @apply -opacity-50;
@@ -25,4 +25,7 @@
 }
 .card-actions + .card-heading {
   @apply -pr-7;
+}
+.card-subtitle {
+  @apply -text-sm -text-gray-500;
 }

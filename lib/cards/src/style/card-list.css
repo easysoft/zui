@@ -1,7 +1,15 @@
 .card-list {
-  --list-gap: .5rem;
+  --list-gap: .625rem;
+  --list-count-per-row: 1;
   padding: calc(var(--list-gap) / 2);
 }
 .card-list-item {
   padding: calc(var(--list-gap) / 2);
+  width: calc(100% / var(--list-count-per-row));
+}
+.card-grid {
+  @apply -flex -flex-wrap;
+}
+.card-grid .card {
+  @apply -h-full;
 }

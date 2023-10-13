@@ -1,4 +1,4 @@
-import {mergeProps, toCssSize} from '@zui/core';
+import {ClassNameLike, mergeProps, toCssSize} from '@zui/core';
 import {List} from '@zui/list/src/component';
 import {CardItem} from './card-item';
 
@@ -25,17 +25,18 @@ export class CardList<T extends CardListProps = CardListProps, S extends ListSta
         component: 'div',
     };
 
+    protected _getClassName(props: RenderableProps<T>): ClassNameLike {
+        return [super._getClassName(props), props.countPerRow ? 'card-grid' : ''];
+    }
+
     protected _getProps(props: RenderableProps<T>): Record<string, unknown> {
-        const propsMap = super._getProps(props);
-        const {gap} = props;
-        if (gap === undefined) {
-            return propsMap;
-        }
+        const {gap, countPerRow} = props;
         return mergeProps({
             style: {
-                '--list-gap': toCssSize(gap),
+                '--list-gap': gap ? toCssSize(gap) : undefined,
+                '--list-count-per-row': countPerRow,
             },
-        }, propsMap);
+        }, super._getProps(props));
     }
 
     protected _getRenderedItem(_props: RenderableProps<T>, renderedItem: Item): Item {

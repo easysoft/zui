@@ -34,7 +34,21 @@ onPageLoad(() => {
     console.log('> card', card);
 
     const cards = new CardList('#cards', {
+        countPerRow: 2,
         items: [
+            {title: 'Card title0'},
+            {title: 'Card title1'},
+            {title: 'Card title2'},
+            {title: 'Card title3'},
+            {title: 'Card title4'},
+            {title: 'Card title5', subtitle: 'Card subtitle'},
+            {title: 'Card title6', subtitle: 'Card subtitle'},
+            {title: 'Card title7'},
+            {title: 'Card title8'},
+            {title: 'Card title9'},
+            {title: 'Card title10'},
+            {title: 'Card title11', subtitle: 'Card subtitle'},
+            {title: 'Card title12', subtitle: 'Card subtitle'},
             {
                 title: '15.5 看板持续迭代',
                 prefix: '迭代',
