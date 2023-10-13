@@ -11,6 +11,13 @@ import type {ClassNameLike, CustomContentType} from '@zui/core';
 import type {ItemKey} from '@zui/common-list';
 import type {KanbanColName, KanbanColOptions, KanbanData, KanbanDataset, KanbanDataFetcher, KanbanDataSetting, KanbanItem, KanbanLaneName, KanbanLaneOptions, KanbanLinkOptions, KanbanProps, KanbanState, KanbanDataMap, KanbanItemsMap, KanbanItemInfo, KanbanDnDType, KanbanElementInfo} from '../types';
 
+export type KanbanSnap = {
+    date: number;
+    kanban: Kanban;
+    data: Partial<KanbanData>;
+    restore(): void;
+};
+
 export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState = KanbanState> extends HElement<P, S> {
     static defaultProps: Partial<KanbanProps> = {
         draggable: true,
@@ -91,6 +98,17 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
         return this.changeState((prevState) => ({
             changes: mergeData(prevState.changes || {}, changes, this.itemKey),
         } as Partial<S>));
+    }
+
+    getSnap(): KanbanSnap {
+        return {
+            date: Date.now(),
+            kanban: this as Kanban,
+            data: $.extend(true, {}, this._data) as Partial<KanbanData>,
+            restore() {
+                this.kanban.changeState({changes: this.data} as Partial<S>);
+            },
+        };
     }
 
     addItem(item: KanbanItem | KanbanItem[], lane?: KanbanLaneName, col?: KanbanColName) {
