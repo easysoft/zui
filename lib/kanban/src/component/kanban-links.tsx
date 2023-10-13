@@ -57,7 +57,7 @@ export class KanbanLinks extends Component<KanbanLinksProps, KanbanLinksState> {
         const {top: offsetTop, left: offsetLeft} = this._kanban.getBoundingClientRect();
         const layout: KanbanLinksState['layout'] = {};
         idSet.forEach(id => {
-            const element = $kanban.find(`.kanban-item[z-key="${id}"]`)[0];
+            const element = $kanban.find(`.kanban-item[z-key="${id}"]`).children()[0];
             if (element) {
                 const {top, left, bottom, right} = element.getBoundingClientRect();
                 layout[id] = {top: top - offsetTop, left: left - offsetLeft, bottom: bottom - offsetTop, right: right - offsetLeft};

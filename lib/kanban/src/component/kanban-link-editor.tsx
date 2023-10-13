@@ -40,7 +40,7 @@ export class KanbanLinkEditor extends Component<KanbanLinkEditorProps, KanbanLin
             this.setState({
                 from: id,
                 to: undefined,
-                fromRect: this._getRect($item[0]!),
+                fromRect: this._getRect($item.children()[0]!),
                 dragPos: undefined,
             });
         }).on(`mouseleave${EVENT_NAMESPACE}`, eventSelector, () => {
@@ -76,7 +76,7 @@ export class KanbanLinkEditor extends Component<KanbanLinkEditorProps, KanbanLin
                 const $item = $(event.target as HTMLElement).closest(eventSelector);
                 if ($item.length && to !== this.state.from) {
                     to = $item.attr('z-key') as string;
-                    toRect = this._getRect($item[0]!);
+                    toRect = this._getRect($item.children()[0]!);
                 }
                 this.setState({dragPos, to, toRect});
             },

@@ -1,14 +1,14 @@
 import 'preact/debug';
 import 'zui-dev';
-import {$} from '@zui/core';
 import '@zui/icons';
 import '@zui/button';
-import '@zui/list/src/style';
+import '@zui/list';
 import '@zui/dropdown';
 import '@zui/toolbar';
 import '@zui/checkbox';
 import '@zui/cards';
-import '@zui/menu/src/style';
+import '@zui/menu';
+import {$} from '@zui/core';
 import {KanbanList} from './src/main';
 import {createKanbanData} from './dev/create-kanban-data';
 
@@ -56,9 +56,10 @@ onPageLoad(() => {
                 }];
             },
         },
+        itemCountPerRow: 3,
         itemRender: (info) => {
             /* 自定义渲染卡片，通过 {html: ...} 返回卡片 HTML内容。 */
-            return {className: 'card kanban-item card-list-item item', html: `<div class="card-heading"><span class="card-title">${info.item.title}</span></div>`};
+            return {className: 'kanban-item card-list-item item', html: `<div class="card"><div class="card-heading"><span class="card-title">${info.item.title}</span></div></div>`};
         },
         getCol(col) {
             /* 通过 content 属性自定义列额外内容。 */

@@ -3,18 +3,16 @@ import {getUniqueCode} from '@zui/helpers/src/string-code';
 
 import type {KanbanLaneOptions, KanbanColOptions, KanbanItem, KanbanData, KanbanProps, KanbanDataset} from '../types';
 
-export function getCols(this: unknown, cols: KanbanColOptions[] | undefined, options: Pick<KanbanProps, 'getCol' | 'colProps'>, forEachCol?: (col: KanbanColOptions) => void) {
+export function getCols(this: unknown, cols: KanbanColOptions[] | undefined, options: Pick<KanbanProps, 'getCol' | 'colProps' | 'itemCountPerRow' | 'itemGap'>, forEachCol?: (col: KanbanColOptions) => void) {
     if (!cols || !cols.length) {
         return [];
     }
-    const {getCol, colProps} = options;
+    const {getCol, colProps, itemCountPerRow, itemGap} = options;
     let needSort = false;
     const subCols: KanbanColOptions[] = [];
     const rootColMap = new Map<string, KanbanColOptions>();
     cols = cols.reduce<KanbanColOptions[]>((list, col, index) => {
-        if (colProps) {
-            col = mergeProps({}, colProps, col) as unknown as KanbanColOptions;
-        }
+        col = mergeProps({itemGap, itemCountPerRow}, colProps, col) as unknown as KanbanColOptions;
         if (getCol) {
             const result = getCol.call(this, col);
             if (result !== false) {

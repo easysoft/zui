@@ -8,7 +8,8 @@ import {KanbanLaneCol} from './kanban-lane-col';
 
 export class KanbanLane extends HElement<KanbanLaneProps> {
     protected _getClassName(props: RenderableProps<KanbanLaneProps>): ClassNameLike {
-        return ['kanban-lane', props.className, props.index ? '' : 'is-first'];
+        const {className, index, maxHeight, height} = props;
+        return ['kanban-lane', className, {'is-first': !index, 'is-auto-height': !maxHeight && (!height || height === 'auto')}];
     }
 
     protected _getProps(props: RenderableProps<KanbanLaneProps>): Record<string, unknown> {

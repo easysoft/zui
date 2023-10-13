@@ -52,6 +52,9 @@
   @apply -bg-[--kanban-lane-color] -text-white -w-[--kanban-lane-name-width] -flex-none -flex -items-center -justify-center -relative;
   writing-mode: vertical-rl;
 }
+.kanban-lane-title {
+  @apply -max-h-32 -overflow-hidden -whitespace-nowrap;
+}
 .kanban-lane-cols {
   @apply -flex -flex-row -gap-[--kanban-cols-gap];
 }
@@ -70,8 +73,11 @@
 
 /* Kanban items. */
 .kanban-items {
-  @apply -overflow-auto -p-2 -flex-auto;
+  @apply -overflow-auto -flex-auto;
   scrollbar-gutter: both-edges stable;
+}
+.kanban-lane.is-auto-height .kanban-items {
+  scrollbar-gutter: initial;
 }
 
 /* Kanban heading. */

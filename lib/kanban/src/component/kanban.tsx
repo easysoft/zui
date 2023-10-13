@@ -197,7 +197,7 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
             target: userOptions.target || ((dragElement: HTMLElement) => {
                 const info = this._getElementInfo(dragElement);
                 if (!info) {
-                    return;
+                    return; 
                 }
                 const selector = ({
                     lane: '.kanban-lane',

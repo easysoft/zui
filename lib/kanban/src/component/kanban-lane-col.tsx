@@ -48,9 +48,11 @@ export class KanbanLaneCol extends Component<KanbanLaneColProps> {
             content,
             contentClass,
             itemRender,
+            itemGap,
             watchSize,
             name,
             lane,
+            itemCountPerRow,
         } = props;
         const style: JSX.CSSProperties = {
             '--kanban-col-color': color,
@@ -65,14 +67,17 @@ export class KanbanLaneCol extends Component<KanbanLaneColProps> {
                         <CustomContent content={content} generatorThis={this} generatorArgs={[props]} />
                     </div>
                 ) : null}
-                <CardList
-                    key="list"
-                    forwardRef={watchSize ? this._listRef : undefined}
-                    className="kanban-items scrollbar-thin scrollbar-hover"
-                    itemProps={{className: 'kanban-item'}}
-                    items={items}
-                    itemRender={itemRender ? this._renderItem : undefined}
-                />
+                <div className="kanban-items scrollbar-thin scrollbar-hover">
+                    <CardList
+                        key="list"
+                        forwardRef={watchSize ? this._listRef : undefined}
+                        itemProps={{className: 'kanban-item'}}
+                        items={items}
+                        itemRender={itemRender ? this._renderItem : undefined}
+                        countPerRow={itemCountPerRow}
+                        gap={itemGap}
+                    />
+                </div>
             </div>
         );
     }
