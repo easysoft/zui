@@ -10116,7 +10116,7 @@ class Fl extends W {
         Pe,
         {
           forwardRef: h ? this._listRef : void 0,
-          itemProps: { className: "kanban-item" },
+          itemProps: { className: "kanban-item card-list-item" },
           items: e,
           itemRender: c ? this._renderItem : void 0,
           countPerRow: g,
@@ -10654,7 +10654,7 @@ let Wn = class extends K {
       changes: No(e.changes || {}, t, this.itemKey)
     }));
   }
-  getSnap() {
+  createSnap() {
     return {
       date: Date.now(),
       kanban: this,
@@ -10833,7 +10833,10 @@ let Wn = class extends K {
           return !1;
         if (r) {
           const v = this._getDropChanges(g);
-          Object.keys(v).length && r.call(this, v, g) !== !1 && this.update(v);
+          if (Object.keys(v).length) {
+            const y = this.createSnap();
+            r.call(this, v, g, y.restore) !== !1 && this.update(v);
+          }
         }
         return (_ = l.onDrop) == null ? void 0 : _.call(this, h, m, p);
       }
