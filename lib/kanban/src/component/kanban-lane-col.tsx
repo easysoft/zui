@@ -71,7 +71,7 @@ export class KanbanLaneCol extends Component<KanbanLaneColProps> {
                     <CardList
                         key="list"
                         forwardRef={watchSize ? this._listRef : undefined}
-                        itemProps={{className: 'kanban-item'}}
+                        itemProps={{className: 'kanban-item card-list-item'}}
                         items={items}
                         itemRender={itemRender ? this._renderItem : undefined}
                         countPerRow={itemCountPerRow}
