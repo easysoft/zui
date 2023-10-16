@@ -221,7 +221,7 @@ export class CommonList<P extends CommonListProps = CommonListProps, S = {}> ext
 
     protected _getProps(props: RenderableProps<P>): Record<string, unknown> {
         const finalProps = super._getProps(props);
-        return props.onClickItem ? {onClick: this._handleClick, ...finalProps} : finalProps;
+        return {onClick: this._handleClick, ...finalProps};
     }
 
     /**
