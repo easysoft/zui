@@ -1718,14 +1718,14 @@ class K extends W {
     return t.className;
   }
   _getProps(t) {
-    const { className: e, attrs: n, props: i, data: r, forwardRef: o, children: a, component: l, style: c, ...d } = t, h = Object.keys(d).reduce((m, p) => {
-      if (p === Qr || /^(on[A-Z]|data-|zui-|z-)[a-zA-Z-]+/.test(p)) {
-        const g = d[p];
-        m[p] = p !== Qr && g && typeof g == "object" ? JSON.stringify(g) : g;
+    const { className: e, attrs: n, props: i, data: r, forwardRef: o, children: a, component: l, style: c, class: d, ...h } = t, m = Object.keys(h).reduce((p, g) => {
+      if (g === Qr || /^(on[A-Z]|data-|zui-|z-)[a-zA-Z-]+/.test(g)) {
+        const _ = h[g];
+        p[g] = g !== Qr && _ && typeof _ == "object" ? JSON.stringify(_) : _;
       }
-      return m;
+      return p;
     }, {});
-    return { ref: o, className: k(this._getClassName(t)) || void 0, style: c, [`z-gid-${this._gid}`]: "", ...h, ...n, ...i };
+    return { ref: o, className: k(this._getClassName(t), d) || void 0, style: c, [`z-gid-${this._gid}`]: "", ...m, ...n, ...i };
   }
   _getComponent(t) {
     const { component: e = "div" } = t;
@@ -2383,7 +2383,7 @@ let pt = class extends K {
   }
   _getProps(t) {
     const e = super._getProps(t);
-    return t.onClickItem ? { onClick: this._handleClick, ...e } : e;
+    return { onClick: this._handleClick, ...e };
   }
   /**
    * Get the list root element classname list.
