@@ -100,7 +100,7 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
         } as Partial<S>));
     }
 
-    getSnap(): KanbanSnap {
+    createSnap(): KanbanSnap {
         return {
             date: Date.now(),
             kanban: this as Kanban,
