@@ -11014,6 +11014,18 @@ Rr.NAME = "Kanban";
 Rr.replace = !0;
 Rr.Component = Wn;
 class Wr extends H {
+  updateKanban(t, e) {
+    if (t = Array.isArray(t) ? t : [t], e)
+      return this.render({ items: t });
+    const n = this.options.items || [], i = new Map(n.map((o, a) => [o.key, a])), r = [...n];
+    return t.forEach((o) => {
+      if (i.has(o.key)) {
+        const a = i.get(o.key);
+        r[a] = { ...n[a], ...o };
+      } else
+        r.push(o);
+    }), this.render({ items: r.filter((o) => !o.deleted) });
+  }
 }
 Wr.NAME = "KanbanList";
 Wr.replace = !0;
