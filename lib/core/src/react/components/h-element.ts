@@ -39,7 +39,7 @@ export class HElement<P extends HElementProps, S = {}> extends Component<P, S> {
     }
 
     protected _getProps(props: RenderableProps<P>): Record<string, unknown> {
-        const {className, attrs, props: componentProps, data, forwardRef, children, component, style, ...others} = props;
+        const {className, attrs, props: componentProps, data, forwardRef, children, component, style, class: classNameAlt, ...others} = props;
         const other = Object.keys(others).reduce<Record<string, unknown>>((map, key) => {
 
             if (key === strDangerouslySetInnerHTML || /^(on[A-Z]|data-|zui-|z-)[a-zA-Z-]+/.test(key)) {
@@ -48,7 +48,7 @@ export class HElement<P extends HElementProps, S = {}> extends Component<P, S> {
             }
             return map;
         }, {});
-        return {ref: forwardRef, className: classes(this._getClassName(props)) || undefined, style, [`z-gid-${this._gid}`]: '', ...other, ...attrs, ...componentProps};
+        return {ref: forwardRef, className: classes(this._getClassName(props), classNameAlt) || undefined, style, [`z-gid-${this._gid}`]: '', ...other, ...attrs, ...componentProps};
     }
 
     protected _getComponent(props: RenderableProps<P>): ComponentType | keyof JSX.IntrinsicElements {

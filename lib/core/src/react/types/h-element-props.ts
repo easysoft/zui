@@ -15,6 +15,12 @@ export interface HElementProps extends PreactDOMAttributes, Attributes {
      */
     className?: ClassNameLike;
 
+
+    /**
+     * The alternative class name of the element.
+     */
+    class?: ClassNameLike;
+
     /**
      * The style of the element.
      */
