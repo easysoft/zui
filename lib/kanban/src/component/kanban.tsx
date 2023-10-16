@@ -348,7 +348,8 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
                 if (onDrop) {
                     const changes = this._getDropChanges(info);
                     if (Object.keys(changes).length) {
-                        if (onDrop.call(this, changes, info) !== false) {
+                        const snap = this.createSnap();
+                        if (onDrop.call(this, changes, info, snap.restore) !== false) {
                             this.update(changes);
                         }
                     }

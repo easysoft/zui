@@ -42,7 +42,7 @@ export interface KanbanProps extends HElementProps {
     draggable?: DraggableOptions | boolean;
     dragTypes?: KanbanDnDType | KanbanDnDType[];
     onDragStart?: (info: KanbanDragInfo) => void | boolean;
-    onDrop?: (changes: Partial<KanbanData>, info: KanbanDropInfo) => void | false;
+    onDrop?: (changes: Partial<KanbanData>, info: KanbanDropInfo, restore: () => void) => void | false;
 
     /* Component lifecycle. */
     beforeRender?: (options: KanbanProps) => void;
