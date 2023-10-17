@@ -1,5 +1,5 @@
 .kanban-list {
-  @apply -h-screen -overflow-auto -pr-3 -pb-2 -flex -flex-col -gap-3;
+  @apply -h-screen -overflow-auto -flex -flex-col -gap-3;
   scrollbar-gutter: stable;
 }
 

@@ -1,4 +1,4 @@
-import {$, HElement, createRef, fetchData, isFetchSetting, mergeProps, toCssSize} from '@zui/core';
+import {$, Computed, HElement, createRef, fetchData, isFetchSetting, mergeProps, parseSize, toCssSize} from '@zui/core';
 import {Draggable, DraggableOptions} from '@zui/dnd';
 import {KanbanHeader} from './kanban-header';
 import {KanbanBody} from './kanban-body';
@@ -9,7 +9,7 @@ import {getCols, mergeData, getLanes, getColItems, normalizeData} from '../helpe
 import type {ComponentChildren, RenderableProps} from 'preact';
 import type {ClassNameLike, CustomContentType} from '@zui/core';
 import type {ItemKey} from '@zui/common-list';
-import type {KanbanColName, KanbanColOptions, KanbanData, KanbanDataset, KanbanDataFetcher, KanbanDataSetting, KanbanItem, KanbanLaneName, KanbanLaneOptions, KanbanLinkOptions, KanbanProps, KanbanState, KanbanDataMap, KanbanItemsMap, KanbanItemInfo, KanbanDnDType, KanbanElementInfo, KanbanDropInfo, KanbanDropSide} from '../types';
+import type {KanbanColName, KanbanColOptions, KanbanData, KanbanDataset, KanbanDataFetcher, KanbanDataSetting, KanbanItem, KanbanLaneName, KanbanLaneOptions, KanbanLinkOptions, KanbanProps, KanbanState, KanbanDataMap, KanbanItemsMap, KanbanElementInfo, KanbanDropInfo, KanbanDropSide} from '../types';
 
 export type KanbanSnap = {
     date: number;
@@ -22,16 +22,59 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
     static defaultProps: Partial<KanbanProps> = {
         draggable: true,
         sticky: true,
+        responsive: true,
         itemKey: 'id',
+        colWidth: 200,
+        colsGap: 8,
     };
 
     protected declare _loadedSetting: KanbanDataSetting;
 
-    protected declare _data: KanbanDataMap;
-
     protected _draggable?: Draggable;
 
     protected _ref = createRef<HTMLElement>();
+
+    protected _raf = 0;
+
+    protected _rob?: ResizeObserver;
+
+    protected _data = new Computed(this._getData.bind(this), () => {
+        const {getCol, colProps, itemCountPerRow, itemGap, getLane, laneProps, itemProps, getItem, responsive} = this.props;
+        return [
+            this._kanbanData,
+            getCol,
+            colProps,
+            itemCountPerRow,
+            itemGap,
+            getLane,
+            laneProps,
+            itemProps,
+            getItem,
+            responsive,
+        ];
+    });
+
+    protected _kanbanData = new Computed(() => {
+        const {itemKey, props} = this;
+        const {data} = props;
+        const {data: stateData, changes} = this.state;
+        const kanbanData = (stateData || isFetchSetting(data) ? stateData : normalizeData(data, itemKey)) || ({} as KanbanData);
+        if (changes) {
+            return mergeData(kanbanData, changes, itemKey) as KanbanData;
+        }
+        return kanbanData;
+    }, () => {
+        const {data: stateData, changes} = this.state;
+        return [
+            stateData,
+            changes,
+            this.props.data,
+        ];
+    });
+
+    get data() {
+        return this._data.cache;
+    }
 
     get itemKey() {
         return this.props.itemKey || 'id';
@@ -41,6 +84,21 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
         this._afterRender(true);
         this.tryLoad();
         this._initDraggable();
+
+        const {responsive} = this.props;
+        const element = this._ref.current;
+        if (element && responsive) {
+            const rob = new ResizeObserver(this.updateLayout.bind(this));
+            const $container = typeof responsive !== 'boolean' ? $(responsive) : $(element.closest('.kanban-list') || element.parentElement);
+            $container.each((_index, ele) => {
+                rob.observe(ele);
+            });
+            this._rob = rob;
+
+            if (!this.state.containerWidth) {
+                this.updateLayout();
+            }
+        }
     }
 
     componentDidUpdate(): void {
@@ -51,6 +109,7 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
     componentWillUnmount(): void {
         this.props.beforeDestroy?.call(this);
         this._draggable?.destroy();
+        this._rob?.disconnect();
     }
 
     load(): void {
@@ -68,6 +127,27 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
         });
     }
 
+    updateLayout() {
+        if (this._raf) {
+            cancelAnimationFrame(this._raf);
+        }
+        this._raf = requestAnimationFrame(() => {
+            this._raf = 0;
+            const element = this._ref.current;
+            if (element) {
+                const {responsive, laneNameWidth = 20} = this.props;
+                const $container = typeof responsive !== 'boolean' ? $(responsive) : $(element.closest('.kanban-list') || element.parentElement);
+                const container = $container[0];
+                let containerWidth = $container.width() - laneNameWidth - (container!.offsetWidth - container!.clientWidth);
+                const group = element.closest('.kanban-group');
+                if (group) {
+                    containerWidth -= group.clientWidth - $(group).width();
+                }
+                this.setState({containerWidth: containerWidth});
+            }
+        });
+    }
+
     tryLoad(): void {
         const {loading} = this.state;
         const {data} = this.props;
@@ -78,25 +158,21 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
     }
 
     getCol(name: KanbanColName) {
-        return this._data.cols.find(col => col.name === name);
+        return this.data.cols.find(col => col.name === name);
     }
 
     getLane(name: KanbanLaneName) {
-        return this._data.lanes.find(lane => lane.name === name);
+        return this.data.lanes.find(lane => lane.name === name);
     }
 
     getItem(key: unknown) {
-        return this._data.map.get(String(key));
-    }
-
-    getData() {
-        return this._data;
+        return this.data.map.get(String(key));
     }
 
     update(changes: Partial<KanbanDataset>): Promise<S> {
         console.log('> Kanban.update', changes, this);
         return this.changeState((prevState) => ({
-            changes: mergeData(prevState.changes || {}, changes, this.itemKey),
+            changes: mergeData({...prevState.changes}, changes, this.itemKey),
         } as Partial<S>));
     }
 
@@ -225,7 +301,7 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
 
     protected _getDropChanges(info: KanbanDropInfo): Partial<KanbanData> {
         const {drag, drop} = info;
-        const data = this._data;
+        const data = this.data;
         const changes: Partial<KanbanData> = {};
         const {itemKey} = this;
         if (drag.type === 'item') {
@@ -383,14 +459,9 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
         this.deleteLink(link);
     };
 
-    protected _getData(props: RenderableProps<P>): KanbanDataMap {
-        const {data} = props;
-        const {itemKey} = this;
-        const {data: stateData, changes} = this.state;
-        let kanbanData = (stateData || isFetchSetting(data) ? stateData : normalizeData(data, itemKey)) || ({} as KanbanData);
-        if (changes) {
-            kanbanData = mergeData(kanbanData, changes, itemKey) as KanbanData;
-        }
+    protected _getData(): KanbanDataMap {
+        const {itemKey, props} = this;
+        const kanbanData = this._kanbanData.value;
         let hasSubCols = false;
         const {items = []} = kanbanData;
         const itemsMap: KanbanItemsMap = {};
@@ -449,36 +520,91 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
             }
             return list;
         }, []);
-        this._data = {cols, lanes, items: itemsMap, map: itemMap, links, hasSubCols};
-        return this._data;
+
+        return {cols, lanes, items: itemsMap, map: itemMap, links, hasSubCols};
+    }
+
+    protected _layoutCols(cols: KanbanColOptions[], props: RenderableProps<P>): KanbanColOptions[] {
+        const {containerWidth} = this.state;
+        if (!containerWidth) {
+            return cols;
+        }
+        const {colsGap = 8, minColWidth: defaultMinColWidth = 150, maxColWidth: defaultMaxColWidth = 600, colWidth: defaultColWidth = 200, responsive} = props;
+        const responsiveCols: KanbanColOptions[] = [];
+        let totalWidth = 0;
+        cols = cols.map(col => {
+            if (col.subCols) {
+                return col;
+            }
+            const {minWidth = defaultMinColWidth, maxWidth = defaultMaxColWidth} = col;
+            let {width} = col;
+            if (typeof width === 'function') {
+                width = width.call(this, col);
+            }
+            width = width || (responsive ? 'auto' : defaultColWidth);
+            const [value, unit] = parseSize(width);
+            let isAutoCol = width === 'auto';
+            if (isAutoCol) {
+                width = minWidth;
+            } else {
+                if (unit === '%') {
+                    width = containerWidth * value / 100;
+                } else if (Number.isNaN(value)) {
+                    if (defaultColWidth === 'auto') {
+                        isAutoCol = true;
+                        width = minWidth;
+                    } else {
+                        width = defaultColWidth;
+                    }
+                } else {
+                    width = value;
+                }
+            }
+            width = Math.min(maxWidth, Math.max(minWidth, width));
+            totalWidth += width + (totalWidth ? colsGap : 0);
+            col = {...col, width, maxWidth, minWidth};
+            if (isAutoCol) {
+                responsiveCols.push(col);
+            }
+            return col;
+        });
+        if (responsiveCols.length && totalWidth < containerWidth) {
+            const extraColWidth = Math.floor((containerWidth - totalWidth) / responsiveCols.length);
+            responsiveCols.forEach(col => {
+                col.width = Math.min(col.maxWidth!, Math.max(col.minWidth!, col.width as number + extraColWidth));
+            });
+        }
+        return cols;
     }
 
     protected _getClassName(props: RenderableProps<P>): ClassNameLike {
-        return ['kanban', props.className, props.sticky ? 'kanban-sticky' : '', this._data.hasSubCols ? 'has-sub-cols' : ''];
+        return ['kanban', props.className, props.sticky ? 'kanban-sticky' : '', this.data.hasSubCols ? 'has-sub-cols' : ''];
     }
 
     protected _getProps(props: RenderableProps<P>): Record<string, unknown> {
+        const {laneNameWidth, colsGap, lanesGap} = props;
         return mergeProps(super._getProps(props), {
             ref: this._ref,
             style: {
-                '--kanban-lane-name-width': props.laneNameWidth,
-                '--kanban-cols-gap': props.colsGap ? toCssSize(props.colsGap) : undefined,
-                '--kanban-lanes-gap': props.lanesGap ? toCssSize(props.lanesGap) : undefined,
+                '--kanban-lane-name-width': laneNameWidth,
+                '--kanban-cols-gap': toCssSize(colsGap),
+                '--kanban-lanes-gap': toCssSize(lanesGap),
             },
         });
     }
 
     protected _getChildren(props: RenderableProps<P>): ComponentChildren {
-        const data = this._getData(props);
+        const data = this._data.value;
         const {cols, lanes, items, links} = data;
         const {editLinks} = props;
+        const layoutCols = this._layoutCols(cols, props);
         console.log('> Kanban.render', {...data, kanban: this});
         return [
-            <KanbanHeader key="header" cols={cols} />,
+            <KanbanHeader key="header" cols={layoutCols} />,
             <KanbanBody
                 key="body"
                 itemRender={props.itemRender}
-                cols={cols}
+                cols={layoutCols}
                 lanes={lanes}
                 items={items}
             />,

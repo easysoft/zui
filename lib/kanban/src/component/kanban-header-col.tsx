@@ -13,17 +13,13 @@ export class KanbanHeaderCol extends HElement<KanbanColProps> {
     protected _getProps(props: RenderableProps<KanbanColProps>): Record<string, unknown> {
         const {
             width,
-            minWidth,
-            maxWidth,
             color,
             name,
         } = props;
         return mergeProps(super._getProps(props), {
             style: {
                 '--kanban-col-color': color,
-                '--kanban-col-width': toCssSize(width),
-                minWidth: toCssSize(minWidth),
-                maxWidth: toCssSize(maxWidth),
+                '--kanban-col-width': `${width}px`,
             },
             'z-col': name,
         });

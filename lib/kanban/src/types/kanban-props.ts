@@ -14,13 +14,17 @@ export interface KanbanProps extends HElementProps {
     laneProps?: Partial<KanbanLaneOptions>;
     colProps?: Partial<KanbanColOptions>;
     laneNameWidth?: number;
+    colWidth?: number | 'auto';
+    minColWidth?: number;
+    maxColWidth?: number;
     itemCountPerRow?: number;
     itemProps?: Partial<KanbanItem>;
     editLinks?: boolean;
     sortLane?: boolean;
     sticky?: boolean;
     lanesGap?: SizeSetting;
-    colsGap?: SizeSetting;
+    colsGap?: number;
+    responsive?: boolean | string;
     itemGap?: SizeSetting;
     itemKey?: string;
     getCol?: (col: KanbanColOptions) => KanbanColOptions | false;

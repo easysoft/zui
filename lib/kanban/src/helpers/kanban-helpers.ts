@@ -23,9 +23,6 @@ export function getCols(this: unknown, cols: KanbanColOptions[] | undefined, opt
             return list;
         }
 
-        if (typeof col.width === 'function') {
-            col.width = col.width.call(this, col);
-        }
         if (typeof col.order === 'number') {
             needSort = true;
         } else {

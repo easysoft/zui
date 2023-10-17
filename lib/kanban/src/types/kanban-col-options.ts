@@ -8,8 +8,8 @@ export interface KanbanColOptions extends HElementProps {
     subCols?: KanbanColOptions[];
     deleted?: boolean;
     width?: SizeSetting | ((col: KanbanColOptions) => SizeSetting);
-    minWidth?: SizeSetting;
-    maxWidth?: SizeSetting;
+    minWidth?: number;
+    maxWidth?: number;
     itemCountPerRow?: number;
     itemGap?: SizeSetting;
     color?: string;

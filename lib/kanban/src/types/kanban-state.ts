@@ -6,4 +6,5 @@ export type KanbanState = {
     data?: KanbanData;
     changes?: Partial<KanbanData>;
     loadFailed?: CustomContentType;
+    containerWidth?: number;
 };

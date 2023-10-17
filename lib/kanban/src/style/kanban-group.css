@@ -1,5 +1,5 @@
 .kanban-group {
-  @apply -bg-canvas -rounded -shadow -p-3 -w-fit -min-w-full;
+  @apply -bg-canvas -rounded -shadow -p-3;
 }
 
 .kanban-group.has-heading {

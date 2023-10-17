@@ -9,11 +9,11 @@ import '@zui/checkbox';
 import '@zui/cards';
 import '@zui/menu';
 import {$} from '@zui/core';
-import {KanbanList} from './src/main';
+import {KanbanGroupProps, KanbanList, KanbanProps} from './src/main';
 import {createKanbanData} from './dev/create-kanban-data';
 
 onPageLoad(() => {
-    const kanbanOptions = {
+    const kanbanOptions: KanbanProps = {
         heading: {
             title: 'Kanban',
             actions: [
@@ -120,8 +120,9 @@ onPageLoad(() => {
         onDrop: (changes, info) => {
             console.log('> onDrop', changes, info);
         },
+        maxColWidth: 300,
     };
-    const kanban2Options = {
+    const kanban2Options: KanbanGroupProps = {
         heading: {
             title: {html: '<span>设置区域</span> <i class="icon icon-chevron-up"></i>'},
         },
@@ -135,7 +136,7 @@ onPageLoad(() => {
             return {className: 'kanban-item card-list-item item', html: `<div class="card"><div class="card-heading"><span class="card-title">${info.item.title}</span></div></div>`};
         },
     };
-    const kanban3Options = {
+    const kanban3Options: KanbanProps = {
         heading: {
             title: '父子列',
         },
@@ -219,7 +220,8 @@ onPageLoad(() => {
         },
     };
     const kanbanList = new KanbanList('#kanbanList', {
-        items: [kanbanOptions, kanban2Options, kanban3Options],
+        items: [kanbanOptions],
+        // items: [kanbanOptions, kanban2Options, kanban3Options],
         height: 'calc(100vh - 160px)',
     });
     console.log('> kanbanList', kanbanList);
