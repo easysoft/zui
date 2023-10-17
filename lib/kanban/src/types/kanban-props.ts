@@ -10,9 +10,19 @@ import type {KanbanLinkOptions} from './kanban-link-options';
 import type {KanbanDnDType, KanbanDragInfo, KanbanDropInfo} from './kanban-dnd-info';
 
 export interface KanbanProps extends HElementProps {
+    /* Data definition. */
     data: KanbanDataSetting;
     laneProps?: Partial<KanbanLaneOptions>;
     colProps?: Partial<KanbanColOptions>;
+    itemKey?: string;
+    sortLane?: boolean;
+    itemProps?: Partial<KanbanItem>;
+    getCol?: (col: KanbanColOptions) => KanbanColOptions | false;
+    getLane?: (lane: KanbanLaneOptions) => KanbanLaneOptions | false;
+    getItem?: (info: KanbanItemInfo) => KanbanItem | false;
+    itemRender?: (info: KanbanItemInfo) => CustomContentType;
+
+    /* Layout. */
     laneNameWidth?: number;
     colWidth?: number | 'auto' | ((col: KanbanColOptions) => number | 'auto');
     minColWidth?: number;
@@ -21,19 +31,11 @@ export interface KanbanProps extends HElementProps {
     minLaneHeight?: SizeSetting;
     maxLaneHeight?: SizeSetting;
     itemCountPerRow?: number;
-    itemProps?: Partial<KanbanItem>;
-    editLinks?: boolean;
-    sortLane?: boolean;
+    responsive?: boolean | string;
+    itemGap?: SizeSetting;
     sticky?: boolean;
     lanesGap?: SizeSetting;
     colsGap?: number;
-    responsive?: boolean | string;
-    itemGap?: SizeSetting;
-    itemKey?: string;
-    getCol?: (col: KanbanColOptions) => KanbanColOptions | false;
-    getLane?: (lane: KanbanLaneOptions) => KanbanLaneOptions | false;
-    getItem?: (info: KanbanItemInfo) => KanbanItem | false;
-    itemRender?: (info: KanbanItemInfo) => CustomContentType;
 
     /* Async load. */
     onLoad?: (data: KanbanData) => void | KanbanData;
@@ -41,6 +43,7 @@ export interface KanbanProps extends HElementProps {
 
     /* Link options.  */
     linkProps?: Partial<KanbanLinkOptions>;
+    editLinks?: boolean;
     getLink?: (link: KanbanLinkOptions) => KanbanLinkOptions | false;
     onAddLink?: (newLink: KanbanLinkOptions) => void | false | Promise<void | false>;
     onDeleteLink?: (link: KanbanLinkOptions) => void | false | Promise<void | false>;
