@@ -3635,14 +3635,14 @@ class Mn extends at {
         this._clean();
         return;
       }
-      const { $element: r } = this, { target: o, selector: a, draggingClass: l, droppableClass: c, hasDraggingClass: d } = s;
+      const { $element: r } = this, { target: o, selector: a, draggingClass: l, droppableClass: c, hasDraggingClass: d, canDrop: h } = s;
       l && (this.$element.find(l).removeClass(l), u(e).addClass(l));
-      const h = typeof o == "function" ? u(o.call(this, e)) : r.find(o || a || We);
-      if (!h.length) {
+      let m = typeof o == "function" ? u(o.call(this, e)) : r.find(o || a || We);
+      if (h && (m = m.filter((p, g) => h.call(this, t, e, g) !== !1)), !m.length) {
         this._clean();
         return;
       }
-      c && (r.find(c).removeClass(c), h.addClass(c)), d && r.addClass(d), r.find(We).removeAttr("droppable"), h.attr("droppable", "true"), this._$targets = h;
+      c && (r.find(c).removeClass(c), m.addClass(c)), d && r.addClass(d), r.find(We).removeAttr("droppable"), m.attr("droppable", "true"), this._$targets = m;
     }, this._handleDrag = (t) => {
       var s;
       const { dragElement: e } = this;
@@ -3654,15 +3654,16 @@ class Mn extends at {
     }, this._handleDragEnter = (t) => {
       this._handleDragOver(t);
     }, this._handleDragOver = (t) => {
-      var r, o;
-      const { dragElement: e } = this, s = u(t.target).closest(We)[0], i = this.state.dropping;
-      if (!(!e || !s)) {
-        if (t.preventDefault(), this._setDragEffect(t), i !== s) {
-          const { droppingClass: a } = this.options;
-          a && (i && this._leaveDropElement(t, i), u(s).addClass(a)), this._setState({ dropping: s }), (r = this.options.onDragEnter) == null || r.call(this, t, e, s);
-        }
-        (o = this.options.onDragOver) == null || o.call(this, t, e, s);
+      var o, a;
+      const { dragElement: e } = this, i = u(t.target).closest(We)[0];
+      if (!e || !i)
+        return;
+      const r = this.state.dropping;
+      if (t.preventDefault(), this._setDragEffect(t), r !== i) {
+        const { droppingClass: l } = this.options;
+        l && (r && this._leaveDropElement(t, r), u(i).addClass(l)), this._setState({ dropping: i }), (o = this.options.onDragEnter) == null || o.call(this, t, e, i);
       }
+      (a = this.options.onDragOver) == null || a.call(this, t, e, i);
     }, this._handleDragLeave = (t) => {
       const { dragElement: e } = this, s = u(t.target).filter(We)[0];
       !e || !s || (t.preventDefault(), this._leaveDropElement(t, s), this._setState({ dropping: null }));
@@ -10892,59 +10893,73 @@ let zn = class extends K {
     const { draggable: t } = this.props, e = this._ref.current;
     if (!t || !e)
       return;
-    const { dragTypes: s = "item", onDragStart: i, onDrop: r } = this.props, o = typeof s == "string" ? s.split(",") : s, a = {
+    const { dragTypes: s = "item", onDragStart: i, onDrop: r, canDrop: o, dropRules: a } = this.props, l = typeof s == "string" ? s.split(",") : s, c = {
       item: ".kanban-item",
       lane: ".kanban-lane-name",
       col: ".kanban-header-col"
-    }, l = typeof t == "object" ? t : {}, c = (h, m) => {
-      u(h).attr({
-        "z-drag-type": m ? m.drag.type : null,
-        "z-drop-type": m ? m.drop.type : null,
-        "z-drop-side": m ? m.side : null
+    }, d = typeof t == "object" ? t : {}, h = (p, g) => {
+      u(p).attr({
+        "z-drag-type": g ? g.drag.type : null,
+        "z-drop-type": g ? g.drop.type : null,
+        "z-drop-side": g ? g.side : null
       });
-    }, d = {
-      ...l,
-      selector: l.selector || o.map((h) => a[h] || "").join(""),
-      target: l.target || ((h) => {
-        const m = this._getElementInfo(h);
-        if (!m)
+    }, m = {
+      ...d,
+      selector: d.selector || l.map((p) => c[p] || "").join(""),
+      target: d.target || ((p) => {
+        const g = this._getElementInfo(p);
+        if (!g)
           return;
-        const p = {
+        const _ = {
           lane: ".kanban-lane",
           col: ".kanban-header-col",
           item: ".kanban-item,.kanban-items"
-        }[m.type];
-        return u(e).find(p);
+        }[g.type];
+        return u(e).find(_);
       }),
-      onDragStart: (h, m) => {
-        var g;
-        const p = this._getElementInfo(m);
-        return p ? i ? i.call(this, { event: h, drag: p }) : (g = l.onDragStart) == null ? void 0 : g.call(this, h, m) : !1;
+      canDrop: d.canDrop || o || a ? (p, g, _) => {
+        const b = this._getElementInfo(g);
+        if (!b)
+          return !1;
+        const y = this._getElementInfo(_);
+        if (!y)
+          return !1;
+        if (b.type === "item" && a) {
+          const v = b.col, w = y.col, x = b.lane, C = y.lane, S = a[`${x}:${v}`] ?? a[v];
+          return typeof S == "boolean" ? S : !S || S.includes(w) || S.includes(`${C}:${w}`) || S.includes(`${C}:`);
+        }
+        if (o)
+          return o.call(this, b, y);
+      } : void 0,
+      onDragStart: (p, g) => {
+        var b;
+        const _ = this._getElementInfo(g);
+        return _ ? i ? i.call(this, { event: p, drag: _ }) : (b = d.onDragStart) == null ? void 0 : b.call(this, p, g) : !1;
       },
-      onDragOver: (h, m, p) => {
-        const g = this._getDropInfo(h, m, p);
-        g && c(p, g);
+      onDragOver: (p, g, _) => {
+        const b = this._getDropInfo(p, g, _);
+        b && h(_, b);
       },
-      onDragLeave: (h, m, p) => {
-        c(p);
+      onDragLeave: (p, g, _) => {
+        h(_);
       },
-      onDrop: (h, m, p) => {
-        var _;
-        c(p);
-        const g = this._getDropInfo(h, m, p);
-        if (!g)
+      onDrop: (p, g, _) => {
+        var y;
+        h(_);
+        const b = this._getDropInfo(p, g, _);
+        if (!b)
           return !1;
         if (r) {
-          const b = this._getDropChanges(g);
-          if (Object.keys(b).length) {
-            const y = this.createSnap();
-            r.call(this, b, g, y.restore) !== !1 && this.update(b);
+          const v = this._getDropChanges(b);
+          if (Object.keys(v).length) {
+            const w = this.createSnap();
+            r.call(this, v, b, w.restore) !== !1 && this.update(v);
           }
         }
-        return (_ = l.onDrop) == null ? void 0 : _.call(this, h, m, p);
+        return (y = d.onDrop) == null ? void 0 : y.call(this, p, g, _);
       }
     };
-    this._draggable = new Mn(e, d);
+    this._draggable = new Mn(e, m);
   }
   _afterRender(t) {
     var e;
