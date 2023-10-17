@@ -529,19 +529,15 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
         if (!containerWidth) {
             return cols;
         }
-        const {colsGap = 8, minColWidth: defaultMinColWidth = 150, maxColWidth: defaultMaxColWidth = 600, colWidth: defaultColWidth = 200, responsive} = props;
+        const {colsGap = 8, minColWidth: defaultMinColWidth = 150, maxColWidth: defaultMaxColWidth = 600, colWidth: defaultColWidth = 200} = props;
         const responsiveCols: KanbanColOptions[] = [];
         let totalWidth = 0;
-        cols = cols.map(col => {
-            if (col.subCols) {
-                return col;
-            }
+        const processCol = (col: KanbanColOptions) => {
             const {minWidth = defaultMinColWidth, maxWidth = defaultMaxColWidth} = col;
-            let {width} = col;
+            let {width = defaultColWidth} = col;
             if (typeof width === 'function') {
                 width = width.call(this, col);
             }
-            width = width || (responsive ? 'auto' : defaultColWidth);
             const [value, unit] = parseSize(width);
             let isAutoCol = width === 'auto';
             if (isAutoCol) {
@@ -567,6 +563,15 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
                 responsiveCols.push(col);
             }
             return col;
+        };
+        cols = cols.map(col => {
+            if (col.subCols) {
+                return {
+                    ...col,
+                    subCols: col.subCols.map(processCol),
+                };
+            }
+            return processCol(col);
         });
         if (responsiveCols.length && totalWidth < containerWidth) {
             const extraColWidth = Math.floor((containerWidth - totalWidth) / responsiveCols.length);
@@ -595,10 +600,10 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
 
     protected _getChildren(props: RenderableProps<P>): ComponentChildren {
         const data = this._data.value;
-        const {cols, lanes, items, links} = data;
+        const {cols, lanes, items, links = []} = data;
         const {editLinks} = props;
         const layoutCols = this._layoutCols(cols, props);
-        console.log('> Kanban.render', {...data, kanban: this});
+        console.log('> Kanban.render', {...data, layoutCols, props, kanban: this});
         return [
             <KanbanHeader key="header" cols={layoutCols} />,
             <KanbanBody
@@ -608,7 +613,7 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
                 lanes={lanes}
                 items={items}
             />,
-            links?.length ? <KanbanLinks key="links" links={links} onDeleteLink={editLinks ? (this._onDeleteLink as (link: KanbanLinkOptions) => void) : undefined} /> : null,
+            links.length ? <KanbanLinks key="links" links={links} onDeleteLink={editLinks ? (this._onDeleteLink as (link: KanbanLinkOptions) => void) : undefined} /> : null,
             editLinks ? <KanbanLinkEditor key="linkEditor" onAddLink={this._onAddLink} /> : null,
             props.children,
         ];

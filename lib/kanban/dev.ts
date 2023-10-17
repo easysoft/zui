@@ -220,8 +220,7 @@ onPageLoad(() => {
         },
     };
     const kanbanList = new KanbanList('#kanbanList', {
-        items: [kanbanOptions],
-        // items: [kanbanOptions, kanban2Options, kanban3Options],
+        items: [kanbanOptions, kanban2Options, kanban3Options],
         height: 'calc(100vh - 160px)',
     });
     console.log('> kanbanList', kanbanList);
