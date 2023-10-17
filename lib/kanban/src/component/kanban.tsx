@@ -365,7 +365,7 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
         if (!draggable || !element) {
             return;
         }
-        const {dragTypes = 'item', onDragStart, onDrop} = this.props;
+        const {dragTypes = 'item', onDragStart, onDrop, canDrop, dropRules} = this.props;
         const dragTypeList = typeof dragTypes === 'string' ? dragTypes.split(',') : dragTypes;
         const dragTypeSelectors: Record<string, string> = {
             item: '.kanban-item',
@@ -395,6 +395,30 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
                 })[info.type];
                 return $(element).find(selector);
             }),
+            canDrop: userOptions.canDrop || (canDrop || dropRules) ? ((_event: DragEvent, dragElement: HTMLElement, dropElement: HTMLElement) => {
+                const dragInfo = this._getElementInfo(dragElement);
+                if (!dragInfo) {
+                    return false;
+                }
+                const dropInfo = this._getElementInfo(dropElement);
+                if (!dropInfo) {
+                    return false;
+                }
+                if (dragInfo.type === 'item' && dropRules) {
+                    const dragCol = dragInfo.col!;
+                    const dropCol = dropInfo.col!;
+                    const dragLane = dragInfo.lane!;
+                    const dropLane = dropInfo.lane!;
+                    const canDropCols = dropRules[`${dragLane}:${dragCol}`] ?? dropRules[dragCol];
+                    if (typeof canDropCols === 'boolean') {
+                        return canDropCols;
+                    }
+                    return !canDropCols || canDropCols.includes(dropCol) || canDropCols.includes(`${dropLane}:${dropCol}`) || canDropCols.includes(`${dropLane}:`);
+                }
+                if (canDrop) {
+                    return canDrop.call(this, dragInfo, dropInfo);
+                }
+            }) : undefined,
             onDragStart: (event: DragEvent, dragElement: HTMLElement) => {
                 const info = this._getElementInfo(dragElement);
                 if (!info) {

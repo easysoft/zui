@@ -7,7 +7,9 @@ import type {KanbanItem} from './kanban-item';
 import type {KanbanItemInfo} from './kanban-item-info';
 import type {KanbanData} from './kanban-data';
 import type {KanbanLinkOptions} from './kanban-link-options';
-import type {KanbanDnDType, KanbanDragInfo, KanbanDropInfo} from './kanban-dnd-info';
+import type {KanbanDnDType, KanbanDragInfo, KanbanDropInfo, KanbanElementInfo} from './kanban-dnd-info';
+import type {KanbanColName} from './kanban-col-name';
+import type {KanbanLaneName} from './kanban-lane-name';
 
 export interface KanbanProps extends HElementProps {
     /* Data definition. */
@@ -51,6 +53,8 @@ export interface KanbanProps extends HElementProps {
     /* Drag and drop. */
     draggable?: DraggableOptions | boolean;
     dragTypes?: KanbanDnDType | KanbanDnDType[];
+    dropRules?: Record<KanbanColName | `${KanbanLaneName}:${KanbanColName}`, boolean | (KanbanColName | `${KanbanLaneName}:${KanbanColName}`)[]>;
+    canDrop?: (dragInfo: KanbanElementInfo, dropInfo: KanbanElementInfo) => boolean | void;
     onDragStart?: (info: KanbanDragInfo) => void | boolean;
     onDrop?: (changes: Partial<KanbanData>, info: KanbanDropInfo, restore: () => void) => void | false;
 

@@ -218,6 +218,12 @@ onPageLoad(() => {
         onDrop: (changes, info) => {
             console.log('> onDrop', changes, info);
         },
+        canDrop: (dragInfo, dropInfo) => {
+            console.log('> canDrop', dragInfo, dropInfo);
+            if (dragInfo.col === 'todo') {
+                return dropInfo.col === 'assigned';
+            }
+        },
     };
     const kanbanList = new KanbanList('#kanbanList', {
         items: [kanbanOptions, kanban2Options, kanban3Options],
