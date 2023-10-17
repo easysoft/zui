@@ -27,6 +27,7 @@ export interface ListitemProps extends Item {
     textClass?: ClassNameLike;
     title?: CustomContentType;
     titleClass?: ClassNameLike;
+    titleAttrs?: Record<string, unknown>;
     subtitle?: CustomContentType;
     subtitleClass?: ClassNameLike;
     trailing?: CustomContentType;
@@ -35,4 +36,6 @@ export interface ListitemProps extends Item {
     actions?: ToolbarSetting<[Item]>;
     contentClass?: ClassNameLike;
     content?: CustomContentType;
+    contentAttrs?: Record<string, unknown>;
+    hint?: string;
 }
