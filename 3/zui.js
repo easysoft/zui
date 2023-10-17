@@ -10986,20 +10986,22 @@ let zn = class extends K {
     const { containerWidth: s } = this.state;
     if (!s)
       return t;
-    const { colsGap: i = 8, minColWidth: r = 150, maxColWidth: o = 600, colWidth: a = 200, responsive: l } = e, c = [];
-    let d = 0;
-    if (t = t.map((h) => {
-      if (h.subCols)
-        return h;
+    const { colsGap: i = 8, minColWidth: r = 150, maxColWidth: o = 600, colWidth: a = 200 } = e, l = [];
+    let c = 0;
+    const d = (h) => {
       const { minWidth: m = r, maxWidth: p = o } = h;
-      let { width: g } = h;
-      typeof g == "function" && (g = g.call(this, h)), g = g || (l ? "auto" : a);
+      let { width: g = a } = h;
+      typeof g == "function" && (g = g.call(this, h));
       const [_, b] = $n(g);
       let y = g === "auto";
-      return y ? g = m : b === "%" ? g = s * _ / 100 : Number.isNaN(_) ? a === "auto" ? (y = !0, g = m) : g = a : g = _, g = Math.min(p, Math.max(m, g)), d += g + (d ? i : 0), h = { ...h, width: g, maxWidth: p, minWidth: m }, y && c.push(h), h;
-    }), c.length && d < s) {
-      const h = Math.floor((s - d) / c.length);
-      c.forEach((m) => {
+      return y ? g = m : b === "%" ? g = s * _ / 100 : Number.isNaN(_) ? a === "auto" ? (y = !0, g = m) : g = a : g = _, g = Math.min(p, Math.max(m, g)), c += g + (c ? i : 0), h = { ...h, width: g, maxWidth: p, minWidth: m }, y && l.push(h), h;
+    };
+    if (t = t.map((h) => h.subCols ? {
+      ...h,
+      subCols: h.subCols.map(d)
+    } : d(h)), l.length && c < s) {
+      const h = Math.floor((s - c) / l.length);
+      l.forEach((m) => {
         m.width = Math.min(m.maxWidth, Math.max(m.minWidth, m.width + h));
       });
     }
@@ -11020,8 +11022,8 @@ let zn = class extends K {
     });
   }
   _getChildren(t) {
-    const e = this._data.value, { cols: s, lanes: i, items: r, links: o } = e, { editLinks: a } = t, l = this._layoutCols(s, t);
-    return console.log("> Kanban.render", { ...e, kanban: this }), [
+    const e = this._data.value, { cols: s, lanes: i, items: r, links: o = [] } = e, { editLinks: a } = t, l = this._layoutCols(s, t);
+    return console.log("> Kanban.render", { ...e, layoutCols: l, props: t, kanban: this }), [
       /* @__PURE__ */ f(eu, { cols: l }, "header"),
       /* @__PURE__ */ f(
         nu,
@@ -11033,7 +11035,7 @@ let zn = class extends K {
         },
         "body"
       ),
-      o != null && o.length ? /* @__PURE__ */ f(hu, { links: o, onDeleteLink: a ? this._onDeleteLink : void 0 }, "links") : null,
+      o.length ? /* @__PURE__ */ f(hu, { links: o, onDeleteLink: a ? this._onDeleteLink : void 0 }, "links") : null,
       a ? /* @__PURE__ */ f(du, { onAddLink: this._onAddLink }, "linkEditor") : null,
       t.children
     ];
