@@ -1,3 +1,5 @@
+import {isDiff} from './is-diff';
+
 /**
  * A class representing a computed value that can be cached and recomputed when its dependencies change.
  * @template T The type of the computed value.
@@ -74,9 +76,12 @@ export class Computed<T = unknown, D extends unknown[] = unknown[]> {
         }
 
         // Check if dependencies changed.
-        if (!this._lastDependencies || dependencies.some((dep, i) => dep !== this._lastDependencies![i])) {
+        const lastDependencies = this._lastDependencies;
+        if (!lastDependencies || dependencies.some((dept, index) => {
+            return isDiff(dept instanceof Computed ? dept.value : dept, lastDependencies[index]);
+        })) {
             this._value = this._compute();
-            this._lastDependencies = [...dependencies] as D;
+            this._lastDependencies = dependencies.map(x => x instanceof Computed ? x.cache : x) as D;
         }
 
         return this._value as T;
