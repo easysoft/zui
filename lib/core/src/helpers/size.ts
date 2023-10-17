@@ -21,7 +21,7 @@ export function toCssSize(size: SizeSetting | undefined | null): string | null {
     }
     const [val, unit = 'px'] = parseSize(size);
     if (Number.isNaN(val)) {
-        return null;
+        return typeof size === 'string' ? size : null;
     }
     return `${val}${unit}`;
 }
