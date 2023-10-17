@@ -15,7 +15,10 @@ export function parseSize(size: SizeSetting): [value: number, type?: 'px' | '%']
     return [NaN];
 }
 
-export function toCssSize(size: SizeSetting): string | null {
+export function toCssSize(size: SizeSetting | undefined | null): string | null {
+    if (size === undefined || size === null) {
+        return null;
+    }
     const [val, unit = 'px'] = parseSize(size);
     if (Number.isNaN(val)) {
         return null;
