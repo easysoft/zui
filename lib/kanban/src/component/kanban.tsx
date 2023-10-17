@@ -525,10 +525,7 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
     }
 
     protected _layoutCols(cols: KanbanColOptions[], props: RenderableProps<P>): KanbanColOptions[] {
-        const {containerWidth} = this.state;
-        if (!containerWidth) {
-            return cols;
-        }
+        const {containerWidth = 0} = this.state;
         const {colsGap = 8, minColWidth: defaultMinColWidth = 150, maxColWidth: defaultMaxColWidth = 600, colWidth: defaultColWidth = 200} = props;
         const responsiveCols: KanbanColOptions[] = [];
         let totalWidth = 0;
@@ -538,20 +535,13 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
             if (typeof width === 'function') {
                 width = width.call(this, col);
             }
-            const [value, unit] = parseSize(width);
-            let isAutoCol = width === 'auto';
+            const isAutoCol = width === 'auto';
             if (isAutoCol) {
                 width = minWidth;
             } else {
+                const [value, unit] = parseSize(width);
                 if (unit === '%') {
                     width = containerWidth * value / 100;
-                } else if (Number.isNaN(value)) {
-                    if (defaultColWidth === 'auto') {
-                        isAutoCol = true;
-                        width = minWidth;
-                    } else {
-                        width = defaultColWidth;
-                    }
                 } else {
                     width = value;
                 }
