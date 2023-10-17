@@ -1,31 +1,68 @@
 /**
- * Computed value.
+ * A class representing a computed value that can be cached and recomputed when its dependencies change.
+ * @template T The type of the computed value.
+ * @template D The type of the dependencies array.
  */
 export class Computed<T = unknown, D extends unknown[] = unknown[]> {
-    static DIRTY_VALUE = Symbol();
-
+    /**
+     * The dependencies of the computed value.
+     */
     protected _dependencies: D | (() => D);
 
+    /**
+     * The function that computes the value.
+     */
     protected _compute: () => T;
 
-    protected _value: T | typeof Computed.DIRTY_VALUE  = Computed.DIRTY_VALUE;
+    /**
+     * The cached value of the computed value.
+     */
+    protected _value?: T;
 
+    /**
+     * The last dependencies array used to compute the value.
+     */
     protected _lastDependencies: D | undefined;
 
+    /**
+     * Creates a new Computed instance.
+     * @param compute      The function that computes the value.
+     * @param dependencies The dependencies of the computed value.
+     */
     constructor(compute: () => T, dependencies: D | (() => D)) {
         this._compute = compute;
         this._dependencies = dependencies;
     }
 
+    /**
+     * Gets the computed value.
+     */
     get value(): T {
         return this.compute();
     }
 
+    /**
+     * Gets the cached value of the computed value.
+     */
+    get cache(): T {
+        return this._lastDependencies ? this._value as T : this.compute();
+    }
+
+    /**
+     * Forces the computed value to be recomputed.
+     * @param dependencies The new dependencies to use for recomputing the value.
+     * @returns The recomputed value.
+     */
     forceCompute(dependencies?: D | (() => D)) {
-        this._value = Computed.DIRTY_VALUE;
+        this._lastDependencies = undefined;
         return this.compute(dependencies);
     }
 
+    /**
+     * Computes the value of the computed value.
+     * @param dependencies The dependencies to use for computing the value.
+     * @returns The computed value.
+     */
     compute(dependencies?: D | (() => D)): T {
         if (dependencies !== undefined) {
             this._dependencies = dependencies;
@@ -36,10 +73,10 @@ export class Computed<T = unknown, D extends unknown[] = unknown[]> {
             dependencies = dependencies();
         }
 
-        // Check if dependencies changed
-        if (this._value === Computed.DIRTY_VALUE || !this._lastDependencies || dependencies.some((dep, i) => dep !== this._lastDependencies![i])) {
+        // Check if dependencies changed.
+        if (!this._lastDependencies || dependencies.some((dep, i) => dep !== this._lastDependencies![i])) {
             this._value = this._compute();
-            this._lastDependencies = dependencies;
+            this._lastDependencies = [...dependencies] as D;
         }
 
         return this._value as T;
