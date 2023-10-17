@@ -572,6 +572,21 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
         return cols;
     }
 
+    protected _layoutLanes(lanes: KanbanLaneOptions[], props: RenderableProps<P>): KanbanLaneOptions[] {
+        const {laneHeight, maxLaneHeight, minLaneHeight} = props;
+        if (!laneHeight && !maxLaneHeight && !minLaneHeight) {
+            return lanes;
+        }
+        return lanes.map(lane => {
+            return {
+                height: laneHeight,
+                maxHeight: maxLaneHeight,
+                minHeight: minLaneHeight,
+                ...lane,
+            };
+        });
+    }
+
     protected _getClassName(props: RenderableProps<P>): ClassNameLike {
         return ['kanban', props.className, props.sticky ? 'kanban-sticky' : '', this.data.hasSubCols ? 'has-sub-cols' : ''];
     }
@@ -593,14 +608,15 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
         const {cols, lanes, items, links = []} = data;
         const {editLinks} = props;
         const layoutCols = this._layoutCols(cols, props);
-        console.log('> Kanban.render', {...data, layoutCols, props, kanban: this});
+        const layoutLanes = this._layoutLanes(lanes, props);
+        console.log('> Kanban.render', {...data, layoutCols, layoutLanes, props, kanban: this});
         return [
             <KanbanHeader key="header" cols={layoutCols} />,
             <KanbanBody
                 key="body"
                 itemRender={props.itemRender}
                 cols={layoutCols}
-                lanes={lanes}
+                lanes={layoutLanes}
                 items={items}
             />,
             links.length ? <KanbanLinks key="links" links={links} onDeleteLink={editLinks ? (this._onDeleteLink as (link: KanbanLinkOptions) => void) : undefined} /> : null,

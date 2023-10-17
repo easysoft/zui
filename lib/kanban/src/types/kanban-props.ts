@@ -17,6 +17,9 @@ export interface KanbanProps extends HElementProps {
     colWidth?: number | 'auto' | ((col: KanbanColOptions) => number | 'auto');
     minColWidth?: number;
     maxColWidth?: number;
+    laneHeight?: SizeSetting | ((lane: KanbanLaneOptions) => SizeSetting);
+    minLaneHeight?: SizeSetting;
+    maxLaneHeight?: SizeSetting;
     itemCountPerRow?: number;
     itemProps?: Partial<KanbanItem>;
     editLinks?: boolean;
