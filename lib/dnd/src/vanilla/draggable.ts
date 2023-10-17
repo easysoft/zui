@@ -94,13 +94,18 @@ export class Draggable extends Component<DraggableOptions> {
         }
 
         const {$element} = this;
-        const {target, selector, draggingClass, droppableClass, hasDraggingClass} = options;
+        const {target, selector, draggingClass, droppableClass, hasDraggingClass, canDrop} = options;
         if (draggingClass) {
             this.$element.find(draggingClass).removeClass(draggingClass);
             $(dragElement).addClass(draggingClass);
         }
 
-        const $targets = (typeof target === 'function' ? $(target.call(this, dragElement)) : $element.find(target || selector || DROPPABLE_SELECTOR));
+        let $targets = (typeof target === 'function' ? $(target.call(this, dragElement)) : $element.find(target || selector || DROPPABLE_SELECTOR));
+        if (canDrop) {
+            $targets = $targets.filter((_, ele) => {
+                return canDrop.call(this, event, dragElement!, ele) !== false;
+            });
+        }
         if (!$targets.length) {
             this._clean();
             return;
@@ -148,11 +153,12 @@ export class Draggable extends Component<DraggableOptions> {
 
     protected _handleDragOver = (event: DragEvent) => {
         const {dragElement} = this;
-        const dropElement = $(event.target as HTMLElement).closest(DROPPABLE_SELECTOR)[0];
-        const oldDropElement = this.state.dropping;
+        const $target = $(event.target as HTMLElement);
+        const dropElement = $target.closest(DROPPABLE_SELECTOR)[0];
         if (!dragElement || !dropElement) {
             return;
         }
+        const oldDropElement = this.state.dropping;
         event.preventDefault();
         this._setDragEffect(event);
         if (oldDropElement !== dropElement) {

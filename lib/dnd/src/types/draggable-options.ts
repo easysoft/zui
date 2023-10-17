@@ -18,5 +18,6 @@ export type DraggableOptions = {
     onDragEnter?: (event: DragEvent, dragElement: HTMLElement, dropElement: HTMLElement) => void;
     onDragOver?: (event: DragEvent, dragElement: HTMLElement, dropElement: HTMLElement) => void;
     onDragLeave?: (event: DragEvent, dragElement: HTMLElement, dropElement: HTMLElement) => void;
+    canDrop?: (event: DragEvent, dragElement: HTMLElement, dropElement: HTMLElement) => boolean | void;
     onDrop?: (event: DragEvent, dragElement: HTMLElement, dropElement: HTMLElement) => void;
 };
