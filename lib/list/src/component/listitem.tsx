@@ -1,9 +1,10 @@
+import {toChildArray} from 'preact';
 import {CustomContent, HElement, Icon, classes, mergeProps} from '@zui/core';
 import {Avatar} from '@zui/avatar/src/component';
 import {Toolbar} from '@zui/toolbar/src/component';
 import {Checkbox} from '@zui/checkbox/src/component';
 
-import {toChildArray, type ComponentChild, type ComponentChildren, type ComponentType, type JSX, type RenderableProps} from 'preact';
+import type {ComponentChild, ComponentChildren, ComponentType, JSX, RenderableProps} from 'preact';
 import type {ListitemProps} from '../types';
 
 export class Listitem<P extends ListitemProps = ListitemProps, S = {}> extends HElement<P, S> {
