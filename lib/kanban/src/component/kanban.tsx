@@ -158,10 +158,12 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
     }
 
     getCol(name: KanbanColName) {
+        name = String(name);
         return this.data.cols.find(col => col.name === name);
     }
 
     getLane(name: KanbanLaneName) {
+        name = String(name);
         return this.data.lanes.find(lane => lane.name === name);
     }
 

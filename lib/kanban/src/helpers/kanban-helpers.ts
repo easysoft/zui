@@ -28,6 +28,9 @@ export function getCols(this: unknown, cols: KanbanColOptions[] | undefined, opt
         } else {
             col.order = index;
         }
+        if (typeof col.name !== 'string') {
+            col.name = String(col.name);
+        }
 
         forEachCol?.call(this, col);
         if (col.parentName !== undefined) {
@@ -74,26 +77,22 @@ export function getLanes(this: unknown, lanes: KanbanLaneOptions[] | undefined, 
                 lane = result || lane;
             }
         }
-        if (!lane.deleted) {
-            if (typeof lane.height === 'function') {
-                lane = mergeProps({}, lane, {
-                    height: lane.height.call(this, lane),
-                }) as unknown as KanbanLaneOptions;
-            }
-            if (typeof lane.order === 'number') {
-                needSort = true;
-            } else {
-                lane.order = index;
-            }
-            if (!lane.color) {
-                lane = {
-                    color: `hsl(${(43 * getUniqueCode(lane.name)) % 360}deg 40% 50%)`,
-                    ...lane,
-                };
-            }
-            forEachLane?.call(this, lane);
-            list.push(lane);
+        if (lane.deleted) {
+            return list;
         }
+        if (typeof lane.order === 'number') {
+            needSort = true;
+        } else {
+            lane.order = index;
+        }
+        if (lane.color === undefined) {
+            lane.color = `hsl(${(43 * getUniqueCode(lane.name)) % 360}deg 40% 50%)`;
+        }
+        if (typeof lane.name !== 'string') {
+            lane.name = String(lane.name);
+        }
+        forEachLane?.call(this, lane);
+        list.push(lane);
         return list;
     }, []);
     if (needSort) {
