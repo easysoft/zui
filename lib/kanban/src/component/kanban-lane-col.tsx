@@ -1,5 +1,5 @@
 import {Component, createRef} from 'preact';
-import {classes, $, CustomContent} from '@zui/core';
+import {classes, $, CustomContent, toCssSize} from '@zui/core';
 import {CardList} from '@zui/cards/src/component';
 
 import type {ComponentChildren, JSX, RefObject} from 'preact';
@@ -56,9 +56,9 @@ export class KanbanLaneCol extends Component<KanbanLaneColProps> {
         } = props;
         const style: JSX.CSSProperties = {
             '--kanban-col-color': color,
-            '--kanban-col-width': width as string,
-            minWidth,
-            maxWidth,
+            '--kanban-col-width': toCssSize(width),
+            minWidth: toCssSize(minWidth),
+            maxWidth: toCssSize(maxWidth),
         };
         return (
             <div className="kanban-lane-col" style={style} z-lane={lane} z-col={name}>

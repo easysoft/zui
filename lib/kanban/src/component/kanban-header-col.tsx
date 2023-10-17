@@ -1,4 +1,4 @@
-import {CustomContent, HElement, Icon, classes, mergeProps} from '@zui/core';
+import {CustomContent, HElement, Icon, classes, mergeProps, toCssSize} from '@zui/core';
 import {Toolbar} from '@zui/toolbar/src/component';
 
 import type {ComponentChildren, RenderableProps} from 'preact';
@@ -21,9 +21,9 @@ export class KanbanHeaderCol extends HElement<KanbanColProps> {
         return mergeProps(super._getProps(props), {
             style: {
                 '--kanban-col-color': color,
-                '--kanban-col-width': width,
-                minWidth,
-                maxWidth,
+                '--kanban-col-width': toCssSize(width),
+                minWidth: toCssSize(minWidth),
+                maxWidth: toCssSize(maxWidth),
             },
             'z-col': name,
         });
@@ -56,7 +56,7 @@ export class KanbanHeaderCol extends HElement<KanbanColProps> {
             </div>,
             subCols ? (
                 <div key="subs" className="kanban-header-sub-cols">
-                    {subCols.map((col, index) => <KanbanHeaderCol key={col.name} index={index} {...col} />)}
+                    {subCols.map((col) => <KanbanHeaderCol key={col.name} {...col} />)}
                 </div>
             ) : null,
         ];

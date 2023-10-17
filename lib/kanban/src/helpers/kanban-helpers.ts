@@ -24,9 +24,7 @@ export function getCols(this: unknown, cols: KanbanColOptions[] | undefined, opt
         }
 
         if (typeof col.width === 'function') {
-            col = mergeProps({}, col, {
-                width: col.width.call(this, col),
-            }) as unknown as KanbanColOptions;
+            col.width = col.width.call(this, col);
         }
         if (typeof col.order === 'number') {
             needSort = true;

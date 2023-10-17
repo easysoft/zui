@@ -1,4 +1,4 @@
-import type {CustomContentType} from '@zui/core';
+import type {CustomContentType, SizeSetting} from '@zui/core';
 import type {KanbanColOptions} from './kanban-col-options';
 import type {KanbanItem} from './kanban-item';
 import type {KanbanItemInfo} from './kanban-item-info';
@@ -9,4 +9,5 @@ export interface KanbanLaneColProps extends KanbanColOptions {
     lane: KanbanLaneName;
     itemRender?: (info: KanbanItemInfo) => CustomContentType;
     watchSize?: boolean;
+    width?: SizeSetting;
 }

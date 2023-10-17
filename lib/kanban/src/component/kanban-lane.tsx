@@ -1,9 +1,9 @@
-import {CustomContent, HElement, classes, mergeProps} from '@zui/core';
+import {CustomContent, HElement, classes, mergeProps, toCssSize} from '@zui/core';
 import {Toolbar} from '@zui/toolbar/src/component';
 
 import type {ComponentChild, ComponentChildren, RenderableProps} from 'preact';
 import type {ClassNameLike} from '@zui/core';
-import type {KanbanColOptions, KanbanLaneName, KanbanLaneProps} from '../types';
+import type {KanbanColOptions, KanbanColProps, KanbanLaneName, KanbanLaneProps} from '../types';
 import {KanbanLaneCol} from './kanban-lane-col';
 
 export class KanbanLane extends HElement<KanbanLaneProps> {
@@ -23,16 +23,16 @@ export class KanbanLane extends HElement<KanbanLaneProps> {
         return mergeProps(super._getProps(props), {
             style: {
                 '--kanban-lane-color': color,
-                height,
-                minHeight,
-                maxHeight,
+                height: toCssSize(height),
+                minHeight: toCssSize(minHeight),
+                maxHeight: toCssSize(maxHeight),
             },
             'z-lane': name,
         });
     }
 
     protected _renderCol(laneName: KanbanLaneName, col: KanbanColOptions, itemRender: KanbanLaneProps['itemRender'], items: KanbanLaneProps['items']) {
-        return <KanbanLaneCol key={col.name} itemRender={itemRender} lane={laneName} items={items[col.name]} {...col} />;
+        return <KanbanLaneCol key={col.name} itemRender={itemRender} lane={laneName} items={items[col.name]} {...(col as KanbanColProps)} />;
     }
 
     protected _getChildren(props: RenderableProps<KanbanLaneProps>): ComponentChildren {
