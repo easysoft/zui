@@ -1,4 +1,5 @@
 export * from './gid';
+export * from './is-diff';
 export * from './computed';
 export * from './classes';
 export * from './data';
