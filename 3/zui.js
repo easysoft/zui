@@ -1645,7 +1645,7 @@ function Ce(n) {
   if (n == null)
     return null;
   const [t, e = "px"] = $n(n);
-  return Number.isNaN(t) ? null : `${t}${e}`;
+  return Number.isNaN(t) ? typeof n == "string" ? n : null : `${t}${e}`;
 }
 function ir(n, t) {
   const e = u(n)[0];
@@ -10983,18 +10983,20 @@ let zn = class extends K {
     return h = h.reduce((m, p) => (!p.deleted && d.has(p.from) && d.has(p.to) && !c.has(p.from) && !c.has(p.to) && (p[t] === void 0 && (p[t] = `${p.from}:${p.to}`), m.push(p)), m), []), { cols: a, lanes: l, items: o, map: d, links: h, hasSubCols: i };
   }
   _layoutCols(t, e) {
-    const { containerWidth: s } = this.state;
-    if (!s)
-      return t;
-    const { colsGap: i = 8, minColWidth: r = 150, maxColWidth: o = 600, colWidth: a = 200 } = e, l = [];
+    const { containerWidth: s = 0 } = this.state, { colsGap: i = 8, minColWidth: r = 150, maxColWidth: o = 600, colWidth: a = 200 } = e, l = [];
     let c = 0;
     const d = (h) => {
       const { minWidth: m = r, maxWidth: p = o } = h;
       let { width: g = a } = h;
       typeof g == "function" && (g = g.call(this, h));
-      const [_, b] = $n(g);
-      let y = g === "auto";
-      return y ? g = m : b === "%" ? g = s * _ / 100 : Number.isNaN(_) ? a === "auto" ? (y = !0, g = m) : g = a : g = _, g = Math.min(p, Math.max(m, g)), c += g + (c ? i : 0), h = { ...h, width: g, maxWidth: p, minWidth: m }, y && l.push(h), h;
+      const _ = g === "auto";
+      if (_)
+        g = m;
+      else {
+        const [b, y] = $n(g);
+        y === "%" ? g = s * b / 100 : g = b;
+      }
+      return g = Math.min(p, Math.max(m, g)), c += g + (c ? i : 0), h = { ...h, width: g, maxWidth: p, minWidth: m }, _ && l.push(h), h;
     };
     if (t = t.map((h) => h.subCols ? {
       ...h,
@@ -11006,6 +11008,15 @@ let zn = class extends K {
       });
     }
     return t;
+  }
+  _layoutLanes(t, e) {
+    const { laneHeight: s, maxLaneHeight: i, minLaneHeight: r } = e;
+    return !s && !i && !r ? t : t.map((o) => ({
+      height: s,
+      maxHeight: i,
+      minHeight: r,
+      ...o
+    }));
   }
   _getClassName(t) {
     return ["kanban", t.className, t.sticky ? "kanban-sticky" : "", this.data.hasSubCols ? "has-sub-cols" : ""];
@@ -11022,15 +11033,15 @@ let zn = class extends K {
     });
   }
   _getChildren(t) {
-    const e = this._data.value, { cols: s, lanes: i, items: r, links: o = [] } = e, { editLinks: a } = t, l = this._layoutCols(s, t);
-    return console.log("> Kanban.render", { ...e, layoutCols: l, props: t, kanban: this }), [
+    const e = this._data.value, { cols: s, lanes: i, items: r, links: o = [] } = e, { editLinks: a } = t, l = this._layoutCols(s, t), c = this._layoutLanes(i, t);
+    return console.log("> Kanban.render", { ...e, layoutCols: l, layoutLanes: c, props: t, kanban: this }), [
       /* @__PURE__ */ f(eu, { cols: l }, "header"),
       /* @__PURE__ */ f(
         nu,
         {
           itemRender: t.itemRender,
           cols: l,
-          lanes: i,
+          lanes: c,
           items: r
         },
         "body"
