@@ -19,7 +19,7 @@ export class KanbanHeaderCol extends HElement<KanbanColProps> {
         return mergeProps(super._getProps(props), {
             style: {
                 '--kanban-col-color': color,
-                '--kanban-col-width': `${width}px`,
+                '--kanban-col-width': toCssSize(width),
             },
             'z-col': name,
         });
@@ -52,7 +52,7 @@ export class KanbanHeaderCol extends HElement<KanbanColProps> {
             </div>,
             subCols ? (
                 <div key="subs" className="kanban-header-sub-cols">
-                    {subCols.map((col) => <KanbanHeaderCol key={col.name} {...col} />)}
+                    {subCols.map((col, index) => <KanbanHeaderCol key={col.name} index={index} {...col} />)}
                 </div>
             ) : null,
         ];

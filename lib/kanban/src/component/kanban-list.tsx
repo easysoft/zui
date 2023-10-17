@@ -1,11 +1,11 @@
 import {$, HElement, createRef, mergeProps} from '@zui/core';
 import {Moveable} from '@zui/dnd';
 import {Kanban} from './kanban';
+import {KanbanGroup} from './kanban-group';
 
 import type {ComponentChildren, RefObject, RenderableProps} from 'preact';
 import type {ClassNameLike} from '@zui/core';
 import type {KanbanData, KanbanDataSetting, KanbanGroupProps, KanbanListProps, KanbanListState, KanbanProps} from '../types';
-import {KanbanGroup} from './kanban-group';
 
 export class KanbanList extends HElement<KanbanListProps, KanbanListState> {
     static defaultProps: Partial<KanbanListProps> = {

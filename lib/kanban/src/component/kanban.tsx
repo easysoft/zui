@@ -605,7 +605,7 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
         }
         return lanes.map(lane => {
             return {
-                height: laneHeight,
+                height: typeof laneHeight === 'function' ? laneHeight.call(this, lane) : laneHeight,
                 maxHeight: maxLaneHeight,
                 minHeight: minLaneHeight,
                 ...lane,

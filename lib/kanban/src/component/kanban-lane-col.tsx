@@ -54,7 +54,7 @@ export class KanbanLaneCol extends Component<KanbanLaneColProps> {
         } = props;
         const style: JSX.CSSProperties = {
             '--kanban-col-color': color,
-            '--kanban-col-width': `${width}px`,
+            '--kanban-col-width': toCssSize(width),
         };
         return (
             <div className="kanban-lane-col" style={style} z-lane={lane} z-col={name}>

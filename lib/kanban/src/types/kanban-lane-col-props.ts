@@ -9,5 +9,4 @@ export interface KanbanLaneColProps extends KanbanColOptions {
     lane: KanbanLaneName;
     itemRender?: (info: KanbanItemInfo) => CustomContentType;
     watchSize?: boolean;
-    width: number;
 }
