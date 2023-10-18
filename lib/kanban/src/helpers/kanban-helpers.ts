@@ -112,7 +112,7 @@ export function getColItems(this: unknown, items: KanbanItem[] | undefined, lane
         if (itemProps) {
             item = mergeProps({}, itemProps, item) as unknown as KanbanItem;
         }
-        const finalItem = getItem?.call(this, {col: col.name, lane: lane.name, item}) ?? item;
+        const finalItem = getItem?.call(this, {col: col.name, lane: lane.name, item, laneInfo: lane, colInfo: col}) ?? item;
         if (finalItem !== false && !finalItem.deleted) {
             if (typeof finalItem.order === 'number') {
                 needSort = true;

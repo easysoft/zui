@@ -21,7 +21,7 @@ export interface KanbanProps extends HElementProps {
     itemProps?: Partial<KanbanItem>;
     getCol?: (col: KanbanColOptions) => KanbanColOptions | false;
     getLane?: (lane: KanbanLaneOptions) => KanbanLaneOptions | false;
-    getItem?: (info: KanbanItemInfo) => KanbanItem | false;
+    getItem?: (info: KanbanItemInfo & {laneInfo: KanbanLaneOptions, colInfo: KanbanColOptions}) => KanbanItem | false;
     itemRender?: (info: KanbanItemInfo) => CustomContentType;
 
     /* Layout. */
