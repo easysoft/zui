@@ -34,8 +34,8 @@ export class BtnGroup<T extends BtnGroupOptions = BtnGroupOptions> extends Commo
     }
 
     protected _getItem(props: RenderableProps<T>, item: Item, index: number): false | Item {
-        if (!item.type && (item.dropdown || item.items)) {
-            item = $.extend({type: 'dropdown'}, item);
+        if (!item.type) {
+            item = $.extend({type: (item.dropdown || item.items) ? 'dropdown' : 'item'}, item);
         }
         let itemProps = super._getItem(props, item, index);
         if (!itemProps) {
