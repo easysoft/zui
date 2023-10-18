@@ -1,8 +1,9 @@
-import type {JSX} from 'preact';
 import {definePlugin} from '../../helpers/shared-plugins';
+import {formatString} from '@zui/helpers/src/format-string';
+
+import type {JSX} from 'preact';
 import type {ColInfo} from '../../types/col';
 import type {DTableWithPlugin, DTablePlugin} from '../../types/plugin';
-import {formatString} from '@zui/helpers/src/format-string';
 
 export type ColSortType = 'asc' | 'desc' | boolean;
 
@@ -13,6 +14,7 @@ export type DTableSortTypeTypes = {
     },
     options: {
         sortLink?: string | ({url: string} & JSX.HTMLAttributes<HTMLAnchorElement>) | ((this: DTableSortType, col: ColInfo, sortType: string, currentSortType: string) => (string | ({url: string} & JSX.HTMLAttributes<HTMLAnchorElement>))),
+        orderBy?: Record<string, ColSortType>
     }
 };
 
@@ -22,18 +24,22 @@ const sortTypePlugin: DTablePlugin<DTableSortTypeTypes> = {
     name: 'sort-type',
     onRenderHeaderCell(result, info) {
         const {col} = info;
-        const {sortType: sortTypeSetting} = col.setting;
+        let {sortType: sortTypeSetting} = col.setting;
+        const {sortLink: defaultSortLink, orderBy} = this.options;
+        if (orderBy && orderBy[col.name] !== undefined) {
+            sortTypeSetting = orderBy[col.name];
+        }
         if (sortTypeSetting) {
             const sortTypeName = sortTypeSetting === true ? 'none' : sortTypeSetting;
             const sortIcon = <div className={`dtable-sort dtable-sort-${sortTypeName}`} />;
             result.push(
                 {outer: true, attrs: {'data-sort': sortTypeName}},
             );
-            let {sortLink = this.options.sortLink} = col.setting;
+            let {sortLink = defaultSortLink} = col.setting;
             if (sortLink) {
                 const nextSortType = sortTypeName === 'asc' ? 'desc' : 'asc';
                 if (typeof sortLink === 'function') {
-                    sortLink = sortLink.call(this, col as ColInfo, nextSortType, sortTypeName);
+                    sortLink = sortLink.call(this, col as unknown as ColInfo, nextSortType, sortTypeName);
                 }
                 if (typeof sortLink === 'string') {
                     sortLink = {url: sortLink};
