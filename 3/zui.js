@@ -9575,7 +9575,7 @@ const Ed = {
     const { formatDate: e, html: n, hint: i } = t.col.setting;
     if (e && (s = Hl(s, t, e)), s = Wl(s, t), s = Rl(s, t), n ? s = Ui(s, t) : s = Ll(s, t), i) {
       let r = t.value;
-      typeof i == "function" ? r = i.call(this, t) : typeof i == "string" && (r = tt(i, t.row.data)), s.push({ attrs: { title: r } });
+      typeof i == "function" ? r = i.call(this, t) : typeof i == "string" ? r = tt(i, t.row.data) : typeof s[0] == "string" && (r = s[0]), s.push({ attrs: { title: r } });
     }
     return s;
   }
@@ -9976,23 +9976,25 @@ const qd = {
 }, Gd = Tt(qd, { buildIn: !0 }), Yd = {
   name: "sort-type",
   onRenderHeaderCell(s, t) {
-    const { col: e } = t, { sortType: n } = e.setting;
-    if (n) {
-      const i = n === !0 ? "none" : n, r = /* @__PURE__ */ f("div", { className: `dtable-sort dtable-sort-${i}` });
+    const { col: e } = t;
+    let { sortType: n } = e.setting;
+    const { sortLink: i, orderBy: r } = this.options;
+    if (r && r[e.name] !== void 0 && (n = r[e.name]), n) {
+      const o = n === !0 ? "none" : n, a = /* @__PURE__ */ f("div", { className: `dtable-sort dtable-sort-${o}` });
       s.push(
-        { outer: !0, attrs: { "data-sort": i } }
+        { outer: !0, attrs: { "data-sort": o } }
       );
-      let { sortLink: o = this.options.sortLink } = e.setting;
-      if (o) {
-        const a = i === "asc" ? "desc" : "asc";
-        typeof o == "function" && (o = o.call(this, e, a, i)), typeof o == "string" && (o = { url: o });
-        const { url: l, ...c } = o;
-        s[0] = /* @__PURE__ */ f("a", { className: "dtable-sort-link", href: tt(l, { ...e.setting, sortType: a }), ...c, children: [
+      let { sortLink: l = i } = e.setting;
+      if (l) {
+        const c = o === "asc" ? "desc" : "asc";
+        typeof l == "function" && (l = l.call(this, e, c, o)), typeof l == "string" && (l = { url: l });
+        const { url: d, ...h } = l;
+        s[0] = /* @__PURE__ */ f("a", { className: "dtable-sort-link", href: tt(d, { ...e.setting, sortType: c }), ...h, children: [
           s[0],
-          r
+          a
         ] });
       } else
-        s.push(r);
+        s.push(a);
     }
     return s;
   }
