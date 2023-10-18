@@ -4,7 +4,7 @@ import {nextGid} from '@zui/core';
 import type {KanbanColOptions, KanbanItem, KanbanLaneOptions, KanbanItemsMap, KanbanDataset} from '../src/main';
 
 export function createLane(): KanbanLaneOptions {
-    const name = faker.word.adjective();
+    const name = faker.word.noun();
     return {
         name,
         title: `${name[0].toUpperCase()}${name.substring(1)}`,

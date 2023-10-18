@@ -158,8 +158,7 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
     }
 
     getCol(name: KanbanColName) {
-        name = String(name);
-        return this.data.cols.find(col => col.name === name);
+        return this.data.colMap.get(String(name));
     }
 
     getLane(name: KanbanLaneName) {
@@ -491,10 +490,12 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
         let hasSubCols = false;
         const {items = []} = kanbanData;
         const itemsMap: KanbanItemsMap = {};
+        const colMap: Map<KanbanColName, KanbanColOptions> = new Map();
         const cols = getCols.call(this, kanbanData.cols, props, col => {
             if (col.parentName !== undefined) {
                 hasSubCols = true;
             }
+            colMap.set(col.name, col);
         });
         const lanes = getLanes.call(this, kanbanData.lanes, props, (lane) => {
             itemsMap[lane.name] = cols.reduce<Record<string, KanbanItem[]>>((map, col) => {
@@ -547,7 +548,7 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
             return list;
         }, []);
 
-        return {cols, lanes, items: itemsMap, map: itemMap, links, hasSubCols};
+        return {cols, lanes, items: itemsMap, map: itemMap, colMap, links, hasSubCols};
     }
 
     protected _layoutCols(cols: KanbanColOptions[], props: RenderableProps<P>): KanbanColOptions[] {
