@@ -204,6 +204,8 @@ const richPlugin: DTablePlugin<DTableRichTypes> = {
                 hintText = hint.call(this, info);
             } else if (typeof hint === 'string') {
                 hintText = formatString(hint, info.row.data);
+            } else if (typeof result[0] === 'string') {
+                hintText = result[0];
             }
             result.push({attrs: {title: hintText}});
         }
