@@ -1,12 +1,12 @@
 import {Toolbar} from '@zui/toolbar/src/component/toolbar';
 import {definePlugin} from '../../helpers/shared-plugins';
-import type {ToolbarOptions} from '@zui/toolbar/src/types';
+import type {ToolbarOptions, ToolbarItemOptions} from '@zui/toolbar/src/types';
 import type {DTablePlugin} from '../../types/plugin';
 import type {DTableCheckable, DTableCheckableTypes} from '../checkable';
 
 export type DTableToolbarTypes = {
     options: Partial<{
-        footToolbar: ToolbarOptions,
+        footToolbar: ToolbarOptions | ToolbarItemOptions[],
         showToolbarOnChecked: boolean,
     }>
 };
@@ -22,7 +22,7 @@ const toolbarPlugin: DTablePlugin<DTableToolbarTypes, [DTableCheckableTypes]> = 
             if (showToolbarOnChecked && !(this as DTableCheckable).getChecks().length) {
                 return [];
             }
-            return [footToolbar ? <Toolbar gap={2} {...footToolbar} /> : null];
+            return [footToolbar ? <Toolbar gap={2} {...(Array.isArray(footToolbar) ? {items: footToolbar} : footToolbar)} /> : null];
         },
     },
 };
