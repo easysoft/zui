@@ -34,6 +34,7 @@ export function getCols(this: unknown, cols: KanbanColOptions[] | undefined, opt
 
         forEachCol?.call(this, col);
         if (col.parentName !== undefined) {
+            col.parentName = String(col.parentName);
             subCols.push(col);
         } else {
             rootColMap.set(col.name, col);
