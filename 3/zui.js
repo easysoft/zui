@@ -5013,6 +5013,9 @@ let ct = class extends W {
   get pop() {
     return Ut(this, Ue).current;
   }
+  get value() {
+    return this.state.value;
+  }
   changeState(t, e) {
     return new Promise((n) => {
       this.setState(t, () => {
@@ -7245,9 +7248,6 @@ let Tr = class extends ct {
       }
       !this.valueList.length && t.required && !t.multiple && (this.state.value = i[0].value ?? "");
     }
-  }
-  get value() {
-    return this.state.value;
   }
   get valueList() {
     return this.formatValueList(this.state.value);
