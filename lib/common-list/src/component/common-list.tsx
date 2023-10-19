@@ -258,15 +258,16 @@ export class CommonList<P extends CommonListProps = CommonListProps, S = {}> ext
      * @returns React render children.
      */
     protected _renderItems(props: RenderableProps<P>, items: Item[]): ComponentChild[] {
-        const children: ComponentChild[] = [];
         this._renderedItems = items.map((item, index) => {
             const finalItem = this._getItem(props, item, index);
-            if (finalItem) {
-                children.push(this._renderItem(props, finalItem, index));
-            }
             return finalItem ? finalItem : undefined;
         }) as Item[];
-        return children;
+        return this._renderedItems.reduce<ComponentChild[]>((children, item, index) => {
+            if (item) {
+                children.push(this._renderItem(props, item, index));
+            }
+            return children;
+        }, []);
     }
 
     /**
