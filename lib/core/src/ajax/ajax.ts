@@ -12,7 +12,7 @@ function setHeader(headers: HeadersInit, name: string, value: string) {
     }
 }
 
-function setFormItem(formData: FormData, name: string, value: AjaxFormItemValue) {
+function setFormItem(formData: FormData, name: string, value: AjaxFormItemValue | AjaxFormItemValue[]) {
     if (value === undefined || value === null) {
         return;
     }
@@ -39,6 +39,33 @@ function getDataType(contentType: string | undefined | null, accepts: Record<str
     }
 
     return 'text';
+}
+
+export function createFormData(data: string | FormData | URLSearchParams | Record<string, AjaxFormItemValue | AjaxFormItemValue[]> | [name: string, value: AjaxFormItemValue][], existingFormData?: FormData): FormData {
+    const formData = existingFormData || new FormData();
+    if (data) {
+        if (typeof data === 'string') {
+            data = new URLSearchParams(data);
+        }
+        if (data instanceof URLSearchParams) {
+            data.forEach((value, name) => {
+                setFormItem(formData, name, value);
+            });
+        } else if (Array.isArray(data)) {
+            data.forEach(([name, value]) => {
+                setFormItem(formData, name, value);
+            });
+        } else if (data instanceof FormData) {
+            data.forEach((value, name) => {
+                setFormItem(formData, name, value);
+            });
+        } else if ($.isPlainObject(data)) {
+            Object.entries(data).forEach(([name, value]) => {
+                setFormItem(formData, name, value);
+            });
+        }
+    }
+    return formData;
 }
 
 export class Ajax<T> {
@@ -177,15 +204,7 @@ export class Ajax<T> {
         let dataSetting = data;
         if (dataSetting) {
             if (processData) {
-                if ($.isPlainObject(dataSetting)) {
-                    dataSetting = Object.entries(dataSetting);
-                }
-                if (Array.isArray(dataSetting)) {
-                    dataSetting = dataSetting.reduce((formData, [name, value]) => {
-                        setFormItem(formData, name, value);
-                        return formData;
-                    }, new FormData());
-                }
+                dataSetting = createFormData(dataSetting);
             }
             initOptions.body = dataSetting as BodyInit;
         }
