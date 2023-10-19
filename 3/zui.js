@@ -2497,11 +2497,10 @@ let pt = class extends K {
    * @returns React render children.
    */
   _renderItems(t, e) {
-    const n = [];
-    return this._renderedItems = e.map((i, r) => {
-      const o = this._getItem(t, i, r);
-      return o && n.push(this._renderItem(t, o, r)), o || void 0;
-    }), n;
+    return this._renderedItems = e.map((n, i) => {
+      const r = this._getItem(t, n, i);
+      return r || void 0;
+    }), this._renderedItems.reduce((n, i, r) => (i && n.push(this._renderItem(t, i, r)), n), []);
   }
   /**
    * Get root element rendered children.
