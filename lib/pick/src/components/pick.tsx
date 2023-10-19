@@ -47,6 +47,10 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
         return this.#pop.current;
     }
 
+    get value() {
+        return this.state.value;
+    }
+
     changeState(state: Partial<S> | ((prevState: Readonly<S>) => Partial<S>), callback?: () => void): Promise<S> {
         return new Promise<S>(resolve => {
             this.setState(state, () => {

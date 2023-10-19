@@ -71,10 +71,6 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
         }
     }
 
-    get value() {
-        return this.state.value;
-    }
-
     get valueList(): string[] {
         return this.formatValueList(this.state.value);
     }
