@@ -9,8 +9,6 @@ export interface DTableMoveableTypes {
     options: {
         moveable?: boolean | 'header';
     },
-    methods: {
-    },
     data: {
         disableMoveable?: boolean,
         moveableStartInfo?: {x: number, y: number, scrollLeft: number, scrollTop: number}
@@ -30,7 +28,7 @@ const moveablePlugin: DTablePlugin<DTableMoveableTypes, [DTableMousemoveTypes]> 
                 return;
             }
             const target = event.target as HTMLElement;
-            const flexableDiv = target.closest('.dtable-flexable');
+            const flexableDiv = target.closest('.dtable-scroll-center');
             if (!flexableDiv) {
                 return;
             }
