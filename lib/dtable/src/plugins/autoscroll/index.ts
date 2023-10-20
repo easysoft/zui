@@ -6,6 +6,8 @@ import type {ColInfoLike} from '../../types/col';
 import type {DTableWithPlugin, DTablePlugin} from '../../types/plugin';
 import type {RowInfoLike} from '../../types/row';
 
+export type ScrollSide = 'left' | 'right' | 'top' | 'bottom' | 'x' | 'y';
+
 export interface ScrollToMouseOption {
     interval: number,
     onlyInside: boolean,
@@ -13,6 +15,7 @@ export interface ScrollToMouseOption {
     maxStep:  number,
     delay: number,
     detectPadding: number,
+    side?: ScrollSide | ScrollSide[],
 }
 
 export interface DTableAutoscrollTypes {
@@ -39,11 +42,11 @@ function tryScrollToMouse(this: DTableAutoscroll) {
         return;
     }
 
-    const rowsBounding = this.ref.current?.querySelector('.dtable-rows')?.getBoundingClientRect();
+    const rowsBounding = this.ref.current?.querySelector('.dtable-body')?.getBoundingClientRect();
     if (!rowsBounding) {
         return;
     }
-    const {maxStep, detectPadding, speed} = scrollToMouse;
+    const {maxStep, detectPadding, speed, side} = scrollToMouse;
     const {x, y} = position;
     const {left, top, right, bottom} = rowsBounding;
     let deltaLeft = 0;
@@ -58,6 +61,25 @@ function tryScrollToMouse(this: DTableAutoscroll) {
     } else if (y > (bottom - detectPadding)) {
         deltaTop = Math.max(maxStep, y - (bottom - detectPadding));
     }
+    if (side) {
+        const scrollSides = new Set((Array.isArray(side) ? side : [side]).reduce<ScrollSide[]>((sides, item) => {
+            if (item === 'x') {
+                sides.push('left', 'right');
+            } else if (item === 'y') {
+                sides.push('top', 'bottom');
+            } else {
+                sides.push(item);
+            }
+            return sides;
+        }, []));
+        console.log('> ', scrollSides, deltaLeft, deltaTop);
+        if (!scrollSides.has('left') && deltaLeft < 0 || (!scrollSides.has('right') && deltaLeft > 0)) {
+            deltaLeft = 0;
+        }
+        if (!scrollSides.has('top') && deltaTop < 0 || (!scrollSides.has('bottom') && deltaTop > 0)) {
+            deltaTop = 0;
+        }
+    }
     const state: {scrollLeft?: number, scrollTop?: number} = {};
     if (deltaLeft !== 0) {
         state.scrollLeft = this.layout.scrollLeft + speed * deltaLeft;
@@ -65,9 +87,7 @@ function tryScrollToMouse(this: DTableAutoscroll) {
     if (deltaTop !== 0) {
         state.scrollTop = this.layout.scrollTop + speed * deltaTop;
     }
-    if (Object.keys(state).length) {
-        this.scroll(state);
-    }
+    this.scroll(state);
 }
 
 const autoscrollPlugin: DTablePlugin<DTableAutoscrollTypes, [DTableMousemoveTypes]> = {
