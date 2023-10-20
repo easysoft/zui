@@ -1,6 +1,16 @@
-.dtable-sorting .dtable-rows > .dtable-row {
-    @apply -transition-transform;
+.dtable-cell.is-sorting-from {
+  @apply -bg-[--dtable-bg] -z-20;
 }
-.dtable-row.is-dragging {
-    @apply -opacity-50 -z-10;
+.dtable-cell.is-sorting-from::before {
+  @apply -border-t;
+}
+.dtable-sorting .dtable-cell.is-sorting-after {
+  @apply --translate-y-full;
+}
+.dtable-sorting .dtable-cell.is-sorting-before {
+  @apply -translate-y-full;
+}
+.dtable-cell.is-sorting-from::before,
+.dtable-cell.is-sorting-before::before {
+  @apply -border-t;
 }
