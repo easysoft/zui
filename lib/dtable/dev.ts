@@ -9,6 +9,8 @@ import '@zui/input-control';
 import '@zui/progress';
 import '@zui/tooltip';
 import '@zui/popover';
+import '@zui/button';
+import '@zui/pager';
 import {Faker, zh_CN, en} from '@faker-js/faker';
 import {DTable} from './src/main';
 import {checkable} from './src/plugins/checkable';
@@ -169,19 +171,14 @@ onPageLoad(() => {
             cols: [
                 {name: 'id', title: 'ID', width: 80, fixed: 'left', sortType: 'desc', checkbox: true},
                 {name: 'name', title: '项目名称', minWidth: 200, flex: 1, sortType: true, nestedToggle: true},
-                {name: 'NESTED_STATE', title: '层级状态', minWidth: 300, onRenderCell: function (result, {row}) {
-                    result.length = 0;
-                    result.push(JSON.stringify(this.getNestedRowInfo(row.id)));
-                    return result;
-                }},
-                {name: 'manager', title: '负责人', sortType: true, border: true},
+                {name: 'manager', title: '负责人', sortType: true, border: true, width: 200},
                 {name: 'storyScale', title: '需求规模', sortType: true},
                 {name: 'executionCount', title: '执行数', sortType: true},
                 {name: 'invested', title: '已投入', sortType: true, border: 'left'},
                 {name: 'startDate', title: '开始日期', width: 90, align: 'center', sortType: true},
                 {name: 'endDate', title: '开始日期', width: 90, align: 'center', sortType: true, border: 'right'},
                 {name: 'progress', title: '进度', sortType: true},
-                {name: 'actions', title: '操作', width: 200, fixed: 'right', sortType: false, type: 'actions', actionsMap: {
+                {name: 'actions', title: '操作', width: 100, fixed: 'right', sortType: false, type: 'actions', actionsMap: {
                     add: {icon: 'icon-plus', hint: '添加'},
                     delete: {icon: 'icon-pencil', hint: '删除'},
                     edit: {icon: 'icon-edit', hint: '编辑'},
@@ -203,8 +200,9 @@ onPageLoad(() => {
             height: 400,
             cellHover: true,
             colHover: 'header',
+            moveable: 'header',
             checkOnClickRow: true,
-            plugins: [checkable, nested, moveable, actions, pager],
+            plugins: [checkable, nested, moveable, actions, pager, sortable],
             striped: true,
             responsive: true,
             footPager: {
