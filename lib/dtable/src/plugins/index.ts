@@ -6,3 +6,4 @@ export * from './avatar';
 export * from './sort-type';
 export * from './group';
 export * from './cellspan';
+export * from './sortable';
