@@ -5,6 +5,7 @@ import './style.css';
 
 import type {DTableWithPlugin, DTablePlugin} from '../../types/plugin';
 import type {DTableMousemoveTypes} from '../mousemove';
+import type {DTableNestedTypes, DTableNested} from '../nested';
 import type {RowInfo} from '../../types/row';
 
 export type SortingSide = 'before' | 'after';
@@ -42,12 +43,18 @@ export type DTableSortableTypes = {
     }
 };
 
-export type DTableSortable = DTableWithPlugin<DTableSortableTypes, [DTableMousemoveTypes]>;
+export type DTableSortable = DTableWithPlugin<DTableSortableTypes, [DTableMousemoveTypes, DTableNestedTypes]>;
 
-const sortablePlugin: DTablePlugin<DTableSortableTypes, [DTableMousemoveTypes]> = {
+const sortablePlugin: DTablePlugin<DTableSortableTypes, [DTableMousemoveTypes, DTableNestedTypes]> = {
     name: 'sortable',
     defaultOptions: {
         sortable: true,
+        canSortTo(this: DTableSortable, from: RowInfo, to: RowInfo) {
+            if (!this.options.nested) {
+                return true;
+            }
+            return (this as DTableNested).getNestedRowInfo(from.id).parent === (this as DTableNested).getNestedRowInfo(to.id).parent;
+        },
     },
     when: options => !!options.sortable,
     plugins: [mousemove],
