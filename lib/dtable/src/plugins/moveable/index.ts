@@ -42,17 +42,17 @@ const moveablePlugin: DTablePlugin<DTableMoveableTypes, [DTableMousemoveTypes]> 
                 scrollLeft,
                 scrollTop,
             };
-            this.ref.current?.classList.add('dtable-moving');
         },
         document_mouseup() {
             this.data.moveableStartInfo = undefined;
-            this.ref.current?.classList.remove('dtable-moving');
+            this.element?.classList.remove('dtable-moving');
         },
         document_mousemovesmooth(event) {
             const {moveableStartInfo} = (this as DTableMoveable).data;
             if (!moveableStartInfo) {
                 return;
             }
+            this.element?.classList.add('dtable-moving');
             const {clientX, clientY} = event as MouseEvent;
             const {x, y, scrollLeft, scrollTop} = moveableStartInfo;
             this.scroll({

@@ -119,21 +119,6 @@ export class DTable extends Component<DTableOptions, DTableState> {
             this.#afterRender();
         }
 
-        this.#plugins.forEach(plugin => {
-            let {events} = plugin;
-            if (!events) {
-                return;
-            }
-            if (typeof events === 'function') {
-                events = events.call(this);
-            }
-            Object.entries(events).forEach(([eventType, callback]) => {
-                if (callback) {
-                    this.on(eventType, callback as DTableEventListener);
-                }
-            });
-        });
-
         this.on('click', this.#handleClick as DTableEventListener);
         this.on('keydown', this.#handleKeydown as DTableEventListener);
 
@@ -172,6 +157,19 @@ export class DTable extends Component<DTableOptions, DTableState> {
         }
 
         this.#plugins.forEach(plugin => {
+            let {events} = plugin;
+            if (!events) {
+                return;
+            }
+            if (typeof events === 'function') {
+                events = events.call(this);
+            }
+            Object.entries(events).forEach(([eventType, callback]) => {
+                if (callback) {
+                    this.on(eventType, callback as DTableEventListener);
+                }
+            });
+
             plugin.onMounted?.call(this);
         });
     }
