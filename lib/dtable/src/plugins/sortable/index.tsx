@@ -1,10 +1,12 @@
 import {$} from '@zui/core';
 import {definePlugin} from '../../helpers/shared-plugins';
 import {mousemove} from '../mousemove';
+import {autoscroll} from '../autoscroll';
 import './style.css';
 
 import type {DTableWithPlugin, DTablePlugin} from '../../types/plugin';
 import type {DTableMousemoveTypes} from '../mousemove';
+import type {DTableAutoscrollTypes} from '../autoscroll';
 import type {DTableNestedTypes, DTableNested} from '../nested';
 import type {RowInfo} from '../../types/row';
 
@@ -43,9 +45,9 @@ export type DTableSortableTypes = {
     }
 };
 
-export type DTableSortable = DTableWithPlugin<DTableSortableTypes, [DTableMousemoveTypes, DTableNestedTypes]>;
+export type DTableSortable = DTableWithPlugin<DTableSortableTypes, [DTableMousemoveTypes, DTableNestedTypes, DTableAutoscrollTypes]>;
 
-const sortablePlugin: DTablePlugin<DTableSortableTypes, [DTableMousemoveTypes, DTableNestedTypes]> = {
+const sortablePlugin: DTablePlugin<DTableSortableTypes, [DTableMousemoveTypes, DTableNestedTypes, DTableAutoscrollTypes]> = {
     name: 'sortable',
     defaultOptions: {
         sortable: true,
@@ -53,11 +55,11 @@ const sortablePlugin: DTablePlugin<DTableSortableTypes, [DTableMousemoveTypes, D
             if (!this.options.nested) {
                 return true;
             }
-            return (this as DTableNested).getNestedRowInfo(from.id).parent === (this as DTableNested).getNestedRowInfo(to.id).parent;
+            return (this as unknown as DTableNested).getNestedRowInfo(from.id).parent === (this as unknown as DTableNested).getNestedRowInfo(to.id).parent;
         },
     },
     when: options => !!options.sortable,
-    plugins: [mousemove],
+    plugins: [mousemove, autoscroll],
     events: {
         mousedown(event) {
             if (this.data.disableSortable) {
@@ -82,6 +84,8 @@ const sortablePlugin: DTablePlugin<DTableSortableTypes, [DTableMousemoveTypes, D
             if (!this.data.sortableInfo) {
                 return;
             }
+            this.stopScrollToMouse();
+
             const sortingState = this.getSortingState(event);
             if (sortingState) {
                 let rowOrders: Record<string, number> | undefined;
@@ -125,12 +129,21 @@ const sortablePlugin: DTablePlugin<DTableSortableTypes, [DTableMousemoveTypes, D
             $(this.element).removeClass('dtable-sorting');
         },
         document_mousemovesmooth(event) {
+            const {sortableInfo} = this.data;
+            if (!sortableInfo) {
+                return;
+            }
             const sortingState = this.getSortingState(event);
             if (!sortingState) {
                 return;
             }
-            this.data.disableCheckable = true;
-            $(this.element).addClass('dtable-sorting');
+
+            if (!sortableInfo.state) {
+                this.startScrollToMouse({side: 'y'});
+                this.data.disableCheckable = true;
+                $(this.element).addClass('dtable-sorting');
+            }
+            sortableInfo.state = sortingState;
             this.setState(sortingState);
         },
     },
@@ -173,7 +186,6 @@ const sortablePlugin: DTablePlugin<DTableSortableTypes, [DTableMousemoveTypes, D
                 sortingTo: undefined,
                 sortingSide: undefined,
             };
-            sortableInfo.state = sortingState;
             return sortingState;
         },
     },
@@ -186,6 +198,13 @@ const sortablePlugin: DTablePlugin<DTableSortableTypes, [DTableMousemoveTypes, D
             return rowOrders[row1.id] - rowOrders[row2.id];
         });
         return rows;
+    },
+    beforeRender(layout) {
+        const {sortingFrom} = this.state;
+        const {visibleRows} = layout;
+        if (sortingFrom && !visibleRows.some(x => x.id === sortingFrom.id)) {
+            layout.visibleRows = [...visibleRows, sortingFrom];
+        }
     },
     onRenderCell(result, info, props) {
         const {sortingFrom, sortingPos, sortingTo, sortingSide} = this.state;

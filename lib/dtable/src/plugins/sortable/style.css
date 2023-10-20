@@ -15,5 +15,5 @@
 }
 .dtable-cell.is-sorting-from::before,
 .dtable-cell.is-sorting-before::before {
-  @apply -border-t;
+  @apply -border-y;
 }
