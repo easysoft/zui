@@ -10129,7 +10129,7 @@ function iu() {
   let b = 0;
   if (d < g - o ? b = -Math.max(r, g - o - d) : d > p - o && (b = Math.max(r, d - (p - o))), l) {
     const k = new Set((Array.isArray(l) ? l : [l]).reduce((C, $) => ($ === "x" ? C.push("left", "right") : $ === "y" ? C.push("top", "bottom") : C.push($), C), []));
-    console.log("> ", k, _, b), (!k.has("left") && _ < 0 || !k.has("right") && _ > 0) && (_ = 0), (!k.has("top") && b < 0 || !k.has("bottom") && b > 0) && (b = 0);
+    (!k.has("left") && _ < 0 || !k.has("right") && _ > 0) && (_ = 0), (!k.has("top") && b < 0 || !k.has("bottom") && b > 0) && (b = 0);
   }
   const y = {};
   _ !== 0 && (y.scrollLeft = this.layout.scrollLeft + a * _), b !== 0 && (y.scrollTop = this.layout.scrollTop + a * b), this.scroll(y);
