@@ -76,9 +76,8 @@ const sortablePlugin: DTablePlugin<DTableSortableTypes, [DTableMousemoveTypes, D
             if (!row || this.options.onSortStart?.call(this, row, event) === false) {
                 return;
             }
-            this.data.sortableInfo = {from: row, offset: event.pageY - info.cellElement.getBoundingClientRect().top};
+            this.data.sortableInfo = {from: row, offset: event.clientY - info.cellElement.getBoundingClientRect().top};
             this.data.disableCheckable = true;
-            console.log('sortable mousedown', this.data.sortableInfo);
         },
         document_mouseup(event) {
             if (!this.data.sortableInfo) {
@@ -146,8 +145,8 @@ const sortablePlugin: DTablePlugin<DTableSortableTypes, [DTableMousemoveTypes, D
             const bounding = this.element!.getBoundingClientRect();
             const width = bounding.width;
             const height = bounding.height - headerHeight - footerHeight;
-            const x = event.pageX - bounding.left;
-            const y = event.pageY - bounding.top - headerHeight;
+            const x = event.clientX - bounding.left;
+            const y = event.clientY - bounding.top - headerHeight;
             if (x < 0 || x > width || y < 0 || y > height) {
                 return sortableInfo.state;
             }
