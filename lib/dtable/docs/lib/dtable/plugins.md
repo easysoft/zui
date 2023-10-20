@@ -1235,7 +1235,74 @@ const options = {
 
 ## 拖放排序 `sortable`
 
-<Badge text="WIP" type="danger" />
+改插件允许通过拖放来改变表格内行的顺序，可以通过初始化选项 `sortable` 来启用。
+
+该插件需要手动启用：
+
+```js
+const options = {
+    plugins: ['sortable'],
+};
+```
+
+下面为一个实际例子：
+
+<Example>
+  <div id="dtable-sortable"></div>
+</Example>
+
+### API
+
+#### 初始化选项
+
+```ts
+interface PluginDTableOptions {
+    /* 是否启用拖放排序。 */
+    sortable: boolean;
+
+    /* 触发拖放排序的元素选择器。 */
+    sortHandler: string;
+
+    /**
+     * 使用回调函数给定是否能拖到指定行位置。
+     *
+     * @param from        拖动的行信息。
+     * @param to          被拖动到的行信息。
+     * @param sortingSide 拖动的行所在的位置（之前还是之后）。
+     * @returns 返回 false 可以紧致拖动到指定行。
+     */
+    canSortTo: (this: DTableSortable, from: RowInfo, to: RowInfo, sortingSide: SortingSide) => boolean;
+
+    /**
+     * 拖动开始时的回调函数。
+     *
+     * @param row   拖动的行信息。
+     * @param event 事件对象。
+     * @returns 返回 false 可以阻止拖动。
+     */
+    onSortStart: (this: DTableSortable, row: RowInfo, event: MouseEvent) => false | void;
+
+    /**
+     * 拖动结束时的回调函数。
+     *
+     * @param from        拖动的行信息。
+     * @param to          被拖动到的行信息。
+     * @param sortingSide 拖动的行所在的位置（之前还是之后）。
+     */
+    onSortEnd: (this: DTableSortable, from: RowInfo, to: RowInfo | undefined, sortingSide: SortingSide | undefined) => void;
+
+    /**
+     * 拖动过程中的回调函数。
+     *
+     * @param from        拖动的行信息。
+     * @param to          被拖动到的行信息。
+     * @param sortingSide 拖动的行所在的位置（之前还是之后）。
+     * @param orders      拖动后所有行的 ID 列表。
+     * @returns 返回 false 可以取消拖动。
+     */
+    onSort: (this: DTableSortable, from: RowInfo, to: RowInfo, sortingSide: SortingSide, orders: string[]) => void | false;
+}
+```
 
 ## 表头分组 `header-group`
 
