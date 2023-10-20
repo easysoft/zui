@@ -77,7 +77,6 @@ const sortablePlugin: DTablePlugin<DTableSortableTypes, [DTableMousemoveTypes, D
                 return;
             }
             this.data.sortableInfo = {from: row, offset: event.clientY - info.cellElement.getBoundingClientRect().top};
-            this.data.disableCheckable = true;
         },
         document_mouseup(event) {
             if (!this.data.sortableInfo) {
@@ -130,6 +129,7 @@ const sortablePlugin: DTablePlugin<DTableSortableTypes, [DTableMousemoveTypes, D
             if (!sortingState) {
                 return;
             }
+            this.data.disableCheckable = true;
             $(this.element).addClass('dtable-sorting');
             this.setState(sortingState);
         },
