@@ -72,7 +72,6 @@ function tryScrollToMouse(this: DTableAutoscroll) {
             }
             return sides;
         }, []));
-        console.log('> ', scrollSides, deltaLeft, deltaTop);
         if (!scrollSides.has('left') && deltaLeft < 0 || (!scrollSides.has('right') && deltaLeft > 0)) {
             deltaLeft = 0;
         }
