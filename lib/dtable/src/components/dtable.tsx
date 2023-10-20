@@ -952,7 +952,6 @@ export class DTable extends Component<DTableOptions, DTableState> {
         const children: ComponentChildren[] = [];
         if (layout) {
             const isEmpty = !layout.rows.length;
-            classNames.push(layout.className, isEmpty ? 'dtable-is-empty' : '');
 
             if (beforeRender) {
                 const newLayout = beforeRender.call(this, layout);
@@ -971,12 +970,16 @@ export class DTable extends Component<DTableOptions, DTableState> {
             style.width = layout.width;
             style.height = layout.height;
             style['--dtable-row-height'] = `${layout.rowHeight}px`;
-            classNames.push({
-                'dtable-scrolled-down': layout.scrollTop > 0,
-                'dtable-scrolled-bottom': layout.scrollTop >= (layout.rowsHeightTotal - layout.rowsHeight),
-                'dtable-scrolled-right': layout.scrollLeft > 0,
-                'dtable-scrolled-end': layout.scrollLeft >= (layout.cols.center.totalWidth - layout.cols.center.width),
-            });
+            classNames.push(
+                layout.className,
+                isEmpty ? 'dtable-is-empty' : '',
+                {
+                    'dtable-scrolled-down': layout.scrollTop > 0,
+                    'dtable-scrolled-bottom': layout.scrollTop >= (layout.rowsHeightTotal - layout.rowsHeight),
+                    'dtable-scrolled-right': layout.scrollLeft > 0,
+                    'dtable-scrolled-end': layout.scrollLeft >= (layout.cols.center.totalWidth - layout.cols.center.width),
+                },
+            );
 
             if (layout.children) {
                 children.push(...layout.children);
