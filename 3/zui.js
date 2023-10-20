@@ -9149,7 +9149,7 @@ let Wr = class extends W {
     }], m = [];
     if (t) {
       const p = !t.rows.length;
-      if (g.push(t.className, p ? "dtable-is-empty" : ""), c) {
+      if (c) {
         const _ = c.call(this, t);
         _ && (t = _);
       }
@@ -9157,12 +9157,16 @@ let Wr = class extends W {
         var y;
         const b = (y = _.beforeRender) == null ? void 0 : y.call(this, t);
         b && (t = b);
-      }), h.width = t.width, h.height = t.height, h["--dtable-row-height"] = `${t.rowHeight}px`, g.push({
-        "dtable-scrolled-down": t.scrollTop > 0,
-        "dtable-scrolled-bottom": t.scrollTop >= t.rowsHeightTotal - t.rowsHeight,
-        "dtable-scrolled-right": t.scrollLeft > 0,
-        "dtable-scrolled-end": t.scrollLeft >= t.cols.center.totalWidth - t.cols.center.width
-      }), t.children && m.push(...t.children), p && d ? (delete h.height, m.push(
+      }), h.width = t.width, h.height = t.height, h["--dtable-row-height"] = `${t.rowHeight}px`, g.push(
+        t.className,
+        p ? "dtable-is-empty" : "",
+        {
+          "dtable-scrolled-down": t.scrollTop > 0,
+          "dtable-scrolled-bottom": t.scrollTop >= t.rowsHeightTotal - t.rowsHeight,
+          "dtable-scrolled-right": t.scrollLeft > 0,
+          "dtable-scrolled-end": t.scrollLeft >= t.cols.center.totalWidth - t.cols.center.width
+        }
+      ), t.children && m.push(...t.children), p && d ? (delete h.height, m.push(
         /* @__PURE__ */ f("div", { className: "dtable-empty-tip", children: /* @__PURE__ */ f(F, { content: d, generatorThis: this, generatorArgs: [t] }) }, "empty-tip")
       )) : (m.push(
         ht(this, Li, Sl).call(this, t),
@@ -10238,14 +10242,14 @@ const au = {
           }, 50);
         });
       }
-      this.data.sortableInfo = void 0, u(this.element).removeClass("dtable-sorting");
+      this.data.sortableInfo = void 0;
     },
     document_mousemovesmooth(s) {
       const { sortableInfo: t } = this.data;
       if (!t)
         return;
       const e = this.getSortingState(s);
-      e && (t.state || (this.startScrollToMouse({ side: "y" }), this.data.disableCheckable = !0, u(this.element).addClass("dtable-sorting")), t.state = e, this.setState(e));
+      e && (t.state || (this.startScrollToMouse({ side: "y" }), this.data.disableCheckable = !0), t.state = e, this.setState(e));
     }
   },
   methods: {
@@ -10281,7 +10285,7 @@ const au = {
   },
   beforeRender(s) {
     const { sortingFrom: t } = this.state, { visibleRows: e } = s;
-    t && !e.some((n) => n.id === t.id) && (s.visibleRows = [...e, t]);
+    t && (e.some((n) => n.id === t.id) || (s.visibleRows = [...e, t]), s.className = x(s.className, "dtable-sorting"));
   },
   onRenderCell(s, t, e) {
     const { sortingFrom: n, sortingPos: i, sortingTo: r, sortingSide: o } = this.state;
