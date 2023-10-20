@@ -1,6 +1,9 @@
 .dtable {
   @apply -relative -bg-canvas;
 }
+.dtable.no-animation * {
+  @apply !-transition-none;
+}
 .dtable-block {
   @apply -absolute -w-full -overflow-hidden;
 }

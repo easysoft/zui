@@ -46,6 +46,8 @@ export class DTable extends Component<DTableOptions, DTableState> {
 
     #hover: {in: boolean; row?: RowID; col?: ColName} = {in: false};
 
+    _noAnimation?: number;
+
     constructor(props: DTableOptions) {
         super(props);
 
@@ -210,6 +212,10 @@ export class DTable extends Component<DTableOptions, DTableState> {
 
         this.#data = {};
         this.#events.clear();
+
+        if (this._noAnimation) {
+            clearTimeout(this._noAnimation);
+        }
     }
 
     on(event: string, callback: DTableEventListener, target?: DTableEventTarget) {
@@ -257,6 +263,17 @@ export class DTable extends Component<DTableOptions, DTableState> {
 
     emitCustomEvent<C extends string, T>(event: C, detail?: T) {
         this.#handleEvent(detail instanceof Event ? detail : new CustomEvent<T>(event, {detail}), event);
+    }
+
+    disableAnimation(delay = 200) {
+        if (this._noAnimation) {
+            clearTimeout(this._noAnimation);
+        }
+        this.element?.classList.add('no-animation');
+        this._noAnimation = window.setTimeout(() => {
+            this._noAnimation = undefined;
+            this.element?.classList.remove('no-animation');
+        }, delay);
     }
 
     scroll(info: {scrollLeft?: number, scrollTop?: number, offsetLeft?: number, offsetTop?: number, to?: 'up' | 'down' | 'bottom' | 'top' | 'left' | 'right' | 'begin' | 'end'}, callback?: (this: DTable, result: boolean) => void): boolean {
@@ -930,6 +947,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
             'dtable-bordered': bordered,
             'dtable-striped': striped,
             'scrollbar-hover': scrollbarHover,
+            'no-animation': this._noAnimation,
         }];
         const children: ComponentChildren[] = [];
         if (layout) {
