@@ -32,6 +32,9 @@ export interface DTableCheckableTypes {
         checkedRows: Record<string, true>;
         forceCheckable?: boolean;
     },
+    data: {
+        disableCheckable?: boolean,
+    },
 }
 
 export type DTableCheckable = DTableWithPlugin<DTableCheckableTypes>;
@@ -233,6 +236,9 @@ const checkablePlugin: DTablePlugin<DTableCheckableTypes> = {
         return result;
     },
     onHeaderCellClick(event) {
+        if (this.data.disableCheckable) {
+            return;
+        }
         const target = event.target as HTMLElement;
         if (!target) {
             return;
@@ -243,6 +249,9 @@ const checkablePlugin: DTablePlugin<DTableCheckableTypes> = {
         }
     },
     onCellClick(event, {rowID}) {
+        if (this.data.disableCheckable) {
+            return;
+        }
         const $target = $(event.target as HTMLElement);
         if (!$target.length || $target.closest('btn,a,button.not-checkable,.form-control,.btn').length) {
             return;
