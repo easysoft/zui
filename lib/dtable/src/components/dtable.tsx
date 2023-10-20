@@ -299,7 +299,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
                 scrollLeft = scrollLeftOld + offsetLeft;
             }
             if (typeof offsetTop ===  'number') {
-                scrollLeft = scrollTopOld + offsetTop;
+                scrollTop = scrollTopOld + offsetTop;
             }
         }
 
