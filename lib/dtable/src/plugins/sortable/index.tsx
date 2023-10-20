@@ -181,7 +181,7 @@ const sortablePlugin: DTablePlugin<DTableSortableTypes, [DTableMousemoveTypes]> 
         });
         return rows;
     },
-    onRenderCell(result, info) {
+    onRenderCell(result, info, props) {
         const {sortingFrom, sortingPos, sortingTo, sortingSide} = this.state;
         if (!sortingFrom) {
             return result;
@@ -190,7 +190,7 @@ const sortablePlugin: DTablePlugin<DTableSortableTypes, [DTableMousemoveTypes]> 
         const style: Record<string, unknown> = {};
         const className: string[] = [];
         if (sortingFrom.id === currentRow.id) {
-            style.top = sortingPos! - this.data.sortableInfo!.offset;
+            style.top = sortingPos! - this.data.sortableInfo!.offset + ((props.top ?? currentRow.top) - (currentRow.top - this.layout.scrollTop));
             className.push('is-sorting-from');
         } else if (sortingTo) {
             const isSortToCurrent = sortingTo.id === currentRow.id;

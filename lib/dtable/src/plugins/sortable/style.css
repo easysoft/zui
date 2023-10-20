@@ -1,3 +1,6 @@
+.dtable-sorting {
+  @apply -cursor-move;
+}
 .dtable-cell.is-sorting-from {
   @apply -bg-[--dtable-bg] -z-20;
 }
