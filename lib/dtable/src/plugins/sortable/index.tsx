@@ -1,4 +1,4 @@
-import {$} from '@zui/core';
+import {$, classes} from '@zui/core';
 import {definePlugin} from '../../helpers/shared-plugins';
 import {mousemove} from '../mousemove';
 import {autoscroll} from '../autoscroll';
@@ -126,7 +126,6 @@ const sortablePlugin: DTablePlugin<DTableSortableTypes, [DTableMousemoveTypes, D
             }
 
             this.data.sortableInfo = undefined;
-            $(this.element).removeClass('dtable-sorting');
         },
         document_mousemovesmooth(event) {
             const {sortableInfo} = this.data;
@@ -141,7 +140,6 @@ const sortablePlugin: DTablePlugin<DTableSortableTypes, [DTableMousemoveTypes, D
             if (!sortableInfo.state) {
                 this.startScrollToMouse({side: 'y'});
                 this.data.disableCheckable = true;
-                $(this.element).addClass('dtable-sorting');
             }
             sortableInfo.state = sortingState;
             this.setState(sortingState);
@@ -202,8 +200,11 @@ const sortablePlugin: DTablePlugin<DTableSortableTypes, [DTableMousemoveTypes, D
     beforeRender(layout) {
         const {sortingFrom} = this.state;
         const {visibleRows} = layout;
-        if (sortingFrom && !visibleRows.some(x => x.id === sortingFrom.id)) {
-            layout.visibleRows = [...visibleRows, sortingFrom];
+        if (sortingFrom) {
+            if (!visibleRows.some(x => x.id === sortingFrom.id)) {
+                layout.visibleRows = [...visibleRows, sortingFrom];
+            }
+            layout.className = classes(layout.className, 'dtable-sorting');
         }
     },
     onRenderCell(result, info, props) {
