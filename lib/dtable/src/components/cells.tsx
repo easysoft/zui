@@ -1,24 +1,9 @@
-import type {ComponentChild} from 'preact';
-import {classes, ClassNameLike} from '@zui/core';
-import {Cell, CellProps} from './cell';
-import type {CellRenderCallback} from '../types/cell';
-import type {ColInfo} from '../types/col';
-import type {RowInfo} from '../types/row';
+import {classes} from '@zui/core';
+import {Cell} from './cell';
 
-export type CellsProps = {
-    rows: RowInfo | RowInfo[];
-    cols: ColInfo[];
-    rowHeight: number;
-    scrollLeft?: number;
-    scrollTop?: number;
-    left?: number;
-    top?: number;
-    width?: number;
-    height?: number | '100%';
-    className?: ClassNameLike;
-    CellComponent?: preact.ComponentType<CellProps>;
-    onRenderCell?: CellRenderCallback;
-};
+import type {ComponentChild} from 'preact';
+import type {CellsProps} from '../types';
+
 
 export function Cells({
     rows = [],

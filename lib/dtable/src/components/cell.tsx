@@ -1,28 +1,15 @@
-import {ComponentType, h as _h, isValidElement} from 'preact';
-import {classes, ClassNameLike} from '@zui/core';
+import {h as _h, isValidElement} from 'preact';
+import {classes} from '@zui/core';
+
+import type {ComponentType} from 'preact';
+import type {ClassNameLike} from '@zui/core';
 import type {ComponentChildren, JSX} from 'preact';
-import type {CellRenderCallback} from '../types/cell';
-import type {ColInfo} from '../types/col';
+import type {CellProps} from '../types/cell';
 import type {CustomRenderResultList} from '../types/common';
-import type {RowInfo} from '../types/row';
 
-export type CellProps = {
-    col: ColInfo;
-    row: RowInfo;
-    left?: number,
-    top?: number,
-    width?: number,
-    height: number;
-    className?: ClassNameLike;
-    style?: JSX.CSSProperties;
-    outerClass?: ClassNameLike;
-    outerStyle?: JSX.CSSProperties;
-    children?: ComponentChildren;
-    onRenderCell?: CellRenderCallback;
-};
-
-export function Cell({col, className, height, row, onRenderCell, style: styleFromParent, outerStyle: outerStyleFromParent, children: childrenFromParent, outerClass, width, left, top, ...others}: CellProps) {
-    const outerStyle = {
+export function Cell(props: CellProps) {
+    const {col, className, height, row, onRenderCell, style: styleFromParent, outerStyle: outerStyleFromParent, children: childrenFromParent, outerClass, width, left, top, ...others} = props;
+    const outerStyle: JSX.CSSProperties = {
         left: left ?? col.left,
         top: top ?? row.top,
         width: width ?? col.realWidth,
@@ -43,7 +30,7 @@ export function Cell({col, className, height, row, onRenderCell, style: styleFro
 
     const value = row.data?.[col.name];
     const defaultResult: CustomRenderResultList = [childrenFromParent ?? value ?? ''];
-    const result: CustomRenderResultList = onRenderCell ? onRenderCell(defaultResult, {row, col, value}, _h) : defaultResult;
+    const result: CustomRenderResultList = onRenderCell ? onRenderCell(defaultResult, {row, col, value}, props, _h) : defaultResult;
 
     const outerChildren: ComponentChildren[] = [];
     const contentChildren: ComponentChildren[] = [];

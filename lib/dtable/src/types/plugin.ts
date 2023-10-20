@@ -7,7 +7,7 @@ import type {DTableLayout} from './layout';
 import type {MergeUnionTypes, MergeIntersectionTypes, PickPropType} from './helper';
 import type {DTableOptions} from './options';
 import type {RowInfo} from './row';
-import type {CellInfo} from './cell';
+import type {CellInfo, CellProps} from './cell';
 
 export type DTablePluginName = string;
 
@@ -76,8 +76,8 @@ export type DTablePlugin<T extends DTablePluginTypes = {}, D extends DTablePlugi
     onAddCol: (this: PluginTable, col: PluginColInfo) => void;
     beforeLayout: (this: PluginTable, options: Options) => (Partial<Options> | void);
     onLayout: (this: PluginTable, layout: DTableLayout) => (DTableLayout | void);
-    onRenderHeaderCell: (this: PluginTable, result: CustomRenderResultList, data: CellInfo<PluginColSetting>, h: typeof preact.h) => CustomRenderResultList;
-    onRenderCell: (this: PluginTable, result: CustomRenderResultList, data: CellInfo<PluginColSetting>, h: typeof preact.h) => CustomRenderResultList;
+    onRenderHeaderCell: (this: PluginTable, result: CustomRenderResultList, data: CellInfo<PluginColSetting>, props: CellProps, h: typeof preact.h) => CustomRenderResultList;
+    onRenderCell: (this: PluginTable, result: CustomRenderResultList, data: CellInfo<PluginColSetting>, props: CellProps, h: typeof preact.h) => CustomRenderResultList;
     onRender: (this: PluginTable, layout: DTableLayout) => CustomRenderResultItem | void;
     beforeRender?: (this: PluginTable, layout: DTableLayout) => (DTableLayout | void);
     afterRender: (this: PluginTable) => void;

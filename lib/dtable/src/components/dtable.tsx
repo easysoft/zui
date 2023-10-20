@@ -8,7 +8,7 @@ import {Block} from './block';
 
 import type {ComponentChildren, JSX} from 'preact';
 import type {ClassNameLike, CustomRenderResult, CustomRenderResultList} from '@zui/core';
-import type {CellRenderCallback} from '../types/cell';
+import type {CellProps, CellRenderCallback} from '../types/cell';
 import type {ColInfoLike, ColInfo, ColName} from '../types/col';
 import type {DTableState, DTableLayout, DTableEventListener, DTableEventTarget, DTablePointerInfo} from '../types';
 import type {DTableOptions} from '../types/options';
@@ -589,21 +589,21 @@ export class DTable extends Component<DTableOptions, DTableState> {
         this.#plugins.forEach(plugin => plugin.afterRender?.call(this));
     }
 
-    #handleRenderCell = (result: CustomRenderResultList, data: {row: RowInfo, col: ColInfo, value: unknown}, h: typeof _h) : CustomRenderResultList => {
+    #handleRenderCell = (result: CustomRenderResultList, data: {row: RowInfo, col: ColInfo, value: unknown}, cellProps: CellProps, h: typeof _h) : CustomRenderResultList => {
         const {row, col} = data;
         data.value = this.getCellValue(row, col);
         result[0] = data.value as ComponentChildren;
         const renderCallbackName = row.id === 'HEADER' ? 'onRenderHeaderCell' : 'onRenderCell';
         this.#plugins.forEach(plugin => {
             if (plugin[renderCallbackName]) {
-                result = (plugin[renderCallbackName] as CellRenderCallback).call(this, result, data, h);
+                result = (plugin[renderCallbackName] as CellRenderCallback).call(this, result, data, cellProps, h);
             }
         });
         if (this.options[renderCallbackName]) {
-            result = (this.options[renderCallbackName] as CellRenderCallback).call(this, result, data, h);
+            result = (this.options[renderCallbackName] as CellRenderCallback).call(this, result, data, cellProps, h);
         }
         if (col.setting[renderCallbackName]) {
-            result = (col.setting[renderCallbackName] as CellRenderCallback).call(this, result, data, h);
+            result = (col.setting[renderCallbackName] as CellRenderCallback).call(this, result, data, cellProps, h);
         }
         return result;
     };
