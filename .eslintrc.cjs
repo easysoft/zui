@@ -5,7 +5,7 @@ module.exports = {
         es2021: true,
         node: true,
     },
-    extends: ['airbnb-typescript', 'eslint:recommended', 'plugin:@typescript-eslint/recommended'],
+    extends: ['airbnb-typescript', 'eslint:recommended', 'plugin:@typescript-eslint/recommended-type-checked'],
     parser: '@typescript-eslint/parser',
     parserOptions: {
         ecmaVersion: 13,
