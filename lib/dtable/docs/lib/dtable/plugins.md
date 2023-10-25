@@ -363,6 +363,117 @@ interface PluginDTableOptions {
 }
 ```
 
+## 本地排序 `sort`
+
+<Badge text="内置插件" />
+
+设置表格支持点击列头在本地进行排序，在特定列上通过 `sort` 属性启用列本地排序，列头将根据排序类型显示为链接，用户点击后可以根据改列的排序规则进行排序。该插件为内置插件，无需手动引入即可使用。
+
+### 指定列的排序规则
+
+在列定义上通过 `sort` 属性设置列排序本地规则，支持以下值：
+
+* `true` 或 `'default'`：该列使用默认排序规则进行排序，通常为比较字符串；
+* `'date'`：该列按日期进行排序；
+* `'number'`：该列按数值进行排序；
+* `(row1: RowInfo, row2: RowInfo, col: ColInfo) => number`：指定一个函数来比较进行排序。
+* `false` 或 `undefined`：该列不支持排序。
+
+```js
+const cols = [
+    {
+        name: 'id',
+        title: 'ID',
+        sort: true  // 该列使用默认排序规则进行排序
+    }, {
+        name: 'name',
+        title: '产品名称',
+        sort: false   // 该列不支持排序
+    }, {
+        name: 'date',
+        title: '日期',
+        sort: 'date'  // 该列按日期进行排序
+    }, {
+        name: 'number',
+        title: '需求数',
+        sort: 'number'  // 该列按数值进行排序
+    }, {
+        name: 'status',
+        title: '状态',
+        sort: function(row1, row2) { // 指定一个函数来比较进行排序
+            const statusMap = {
+                wait: 0,
+                doing: 1,
+                done: 2,
+            };
+            return statusMap[row1.data.status] - statusMap[row2.data.status];
+        }
+    }
+];
+```
+
+### 指定通用排序规则
+
+通过初始化化选项 `sort` 属性设置通用排序规则，支持以下值：
+
+* `(row1: RowInfo, row2: RowInfo, col: ColInfo) => number`：指定默认排序规则比较行数；
+* `Record<string, (row1: RowInfo, row2: RowInfo, col: ColInfo) => number>`：指定列名到排序规则的映射；
+* `false`：禁用本地排序。
+
+下面为一个例子：
+
+```js
+const statusMap = {
+    wait: 0,
+    doing: 1,
+    done: 2,
+};
+
+const options = {
+    cols: [
+    {
+        name: 'status',
+        title: '状态',
+        sort: 'status' // 该列按 status 规则进行排序。
+    }
+    ],
+    sort: {
+        status:  function(row1, row2, col) { // 定义 status 排序规则。
+            return statusMap[row1.data[col.name]] - statusMap[row2.data[col.name]];
+        }
+    }
+};
+```
+
+### API
+
+#### 列定义配置
+
+```ts
+interface PluginColSetting {
+    /* 列是否启用排序，或者指定排序函数或排序规则名称 */
+    sort: boolean | ColSortFn | ColSortFnName,
+}
+```
+
+#### 表格初始化选项
+
+```ts
+/* 排序状态。 */
+type ColSortBy = {name: ColName, order: ColSortOrder};
+
+interface PluginDTableOptions {
+    /* 列是否启用排序，或者指定默认排序函数或排序规则映射。 */
+    sort?: boolean | ColSortFn | Record<ColSortFnName, ColSortFn>;
+
+    /* 默认的排序状态。 */
+    sortBy?: ColSortBy | ColSortBy[];
+
+    /* 是否启用多列排序。 */
+    multiSort?: boolean;
+}
+```
+
 ## 头像 `avatar`
 
 <Badge text="内置插件" />
