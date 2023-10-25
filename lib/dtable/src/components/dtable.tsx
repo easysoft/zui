@@ -799,13 +799,13 @@ export class DTable extends Component<DTableOptions, DTableState> {
         let rows = allRows;
         const rowsMap: Record<RowID, RowInfo> = {};
         if (options.onAddRows) {
-            const newRows = options.onAddRows.call(this, rows);
+            const newRows = options.onAddRows.call(this, rows, cols);
             if (newRows) {
                 rows = newRows;
             }
         }
         for (const plugin of plugins) {
-            const newRows = plugin.onAddRows?.call(this, rows);
+            const newRows = plugin.onAddRows?.call(this, rows, cols);
             if (newRows) {
                 rows = newRows;
             }

@@ -3,7 +3,7 @@ import type {DTable} from '../main-react';
 import type {CellValueGetter, CellRenderCallback} from './cell';
 import type {ColSetting} from './col';
 import type {CustomRenderResultList, CustomRenderResultGenerator, CustomRenderResultItem} from './common';
-import type {DTableLayout} from './layout';
+import type {DTableColsLayout, DTableLayout} from './layout';
 import type {DTablePluginLike} from './plugin';
 import type {RowData, RowInfo} from './row';
 
@@ -53,7 +53,7 @@ export interface DTableCallbackOptions {
     onCellClick?: (this: DTable, event: MouseEvent, data: {rowID: string, colName: string, rowInfo?: RowInfo, element: HTMLElement}) => void | true;
     onHeaderCellClick?: (this: DTable, event: MouseEvent, data: {colName: string, element: HTMLElement}) => void;
     onAddRow?: (this: DTable, row: RowInfo, index: number) => void | false;
-    onAddRows?: (this: DTable, rows: RowInfo[]) => RowInfo[] | void;
+    onAddRows?: (this: DTable, rows: RowInfo[], colsLayout: DTableColsLayout) => RowInfo[] | void;
 }
 
 export interface DTableOptions<C = ColSetting> extends DTableDataOptions<C>, DTableLayoutOptions, DTableStyleOptions, DTableCallbackOptions {

@@ -3,7 +3,7 @@ import type {DTable} from '../main-react';
 import type {ColInfo, ColSetting} from './col';
 import type {CustomRenderResultGenerator, CustomRenderResultItem, CustomRenderResultList} from './common';
 import type {DTableState, DTableEventTarget, DTableHTMLEvent, DTableEventListener} from './dtable';
-import type {DTableLayout} from './layout';
+import type {DTableColsLayout, DTableLayout} from './layout';
 import type {MergeUnionTypes, MergeIntersectionTypes, PickPropType} from './helper';
 import type {DTableOptions} from './options';
 import type {RowInfo} from './row';
@@ -84,7 +84,7 @@ export type DTablePlugin<T extends DTablePluginTypes = {}, D extends DTablePlugi
     onCellClick: (this: PluginTable, event: MouseEvent, data: {rowID: string, colName: string, rowInfo?: RowInfo, element: HTMLElement}) => void | true;
     onHeaderCellClick: (this: PluginTable, event: MouseEvent, data: {colName: string, element: HTMLElement}) => void;
     onAddRow: (this: PluginTable, row: RowInfo, index: number) => void | false;
-    onAddRows: (this: PluginTable, rows: RowInfo[]) => RowInfo[] | void;
+    onAddRows: (this: PluginTable, rows: RowInfo[], colsLayout: DTableColsLayout) => RowInfo[] | void;
     plugins: (DTablePluginLike | DTablePlugin<T, D>)[];
 }>;
 
