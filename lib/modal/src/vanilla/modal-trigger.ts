@@ -55,7 +55,6 @@ export class ModalTrigger extends Component<ModalTriggerOptions> {
             builderOptions.key = `${this._key}`;
         }
 
-
         return builderOptions;
     }
 
@@ -99,7 +98,7 @@ export class ModalTrigger extends Component<ModalTriggerOptions> {
 
 $(document).on(`click${ModalTrigger.NAMESPACE}`, TOGGLE_SELECTOR, (event: MouseEvent) => {
     const $toggleBtn = $(event.currentTarget as HTMLElement);
-    if ($toggleBtn.length && !$toggleBtn.is('[disabled],.disabled')) {
+    if ($toggleBtn.length && !$toggleBtn.is('[disabled],.disabled,.open-in-parent,no-global-listener')) { // .open-in-parent for compatibility with zentao 18 version
         const modalTrigger = ModalTrigger.ensure($toggleBtn);
         if (modalTrigger) {
             modalTrigger.show();
