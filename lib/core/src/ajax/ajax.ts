@@ -264,8 +264,9 @@ export class Ajax<T> {
             this.response = response;
             const {statusText} = response;
             if (response.ok) {
-                const dataType = dataTypeSetting || getDataType(response.headers.get('Content-Type'), accepts);
-                if (dataType === 'blob' || dataType === 'file') {
+                const isAttachment = response.headers.get('Content-Disposition')?.startsWith('attachment');
+                const dataType = isAttachment ? 'blob' : (dataTypeSetting || getDataType(response.headers.get('Content-Type'), accepts));
+                if (isAttachment || dataType === 'blob' || dataType === 'file') {
                     data = await response.blob();
                 } else if (dataType === 'json') {
                     data = await response.json();
