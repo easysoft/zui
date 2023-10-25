@@ -56,6 +56,7 @@ const defaultSortFns: Record<ColSortFnName, ColSortFn> = {
 
 const sortTypePlugin: DTablePlugin<DTableSortTypes> = {
     name: 'sort',
+    defaultOptions: {sort: true},
     when: options => !!options.sort,
     onCreate() {
         const {sortBy} = this.options;
