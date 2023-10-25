@@ -13,3 +13,4 @@ export * from './merge-props';
 export * from './zui-creator';
 export * from './scroll';
 export * from './size';
+export * from './download-file';
