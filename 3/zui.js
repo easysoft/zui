@@ -6343,7 +6343,7 @@ class Pi extends at {
 Pi.NAME = "ModalTrigger";
 u(document).on(`click${Pi.NAMESPACE}`, fd, (s) => {
   const t = u(s.currentTarget);
-  if (t.length && !t.is("[disabled],.disabled")) {
+  if (t.length && !t.is("[disabled],.disabled,.open-in-parent,no-global-listener")) {
     const e = Pi.ensure(t);
     e && (e.show(), s.preventDefault());
   }
