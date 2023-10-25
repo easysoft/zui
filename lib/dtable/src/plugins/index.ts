@@ -1,4 +1,5 @@
 export * from './rich';
+export * from './sort';
 export * from './custom';
 export * from './checkable';
 export * from './nested';
