@@ -11,6 +11,7 @@ export type ModalBaseOptions = {
     position?: ModalPositionSetting;
     backdrop?: ModalBackdropType;
     show?: boolean;
+    hideOthersOnShow?: boolean;
     keyboard?: boolean;
     moveable?: boolean;
     animation?: boolean;

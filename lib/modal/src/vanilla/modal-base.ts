@@ -90,8 +90,10 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
 
     destroy(): void {
         super.destroy();
-        this._rob?.disconnect();
-        this._rob = undefined;
+        if (this._rob) {
+            this._rob.disconnect();
+            this._rob = undefined;
+        }
     }
 
     show(options?: Partial<T>) {
@@ -115,7 +117,7 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
 
         /* Hide other shown modals. */
         const constructor = this.constructor as typeof ModalBase;
-        if (constructor.hideOthersOnShow) {
+        if (constructor.hideOthersOnShow && this.options.hideOthersOnShow !== false) {
             constructor.getAll().forEach((modal) => {
                 if (modal !== this && modal.shown) {
                     modal.hideForOther();
