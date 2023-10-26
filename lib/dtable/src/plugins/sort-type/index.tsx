@@ -4,6 +4,7 @@ import {formatString} from '@zui/helpers/src/format-string';
 import type {JSX} from 'preact';
 import type {ColInfo} from '../../types/col';
 import type {DTableWithPlugin, DTablePlugin} from '../../types/plugin';
+import type {DTableSortTypes} from '../sort';
 
 export type ColSortType = 'asc' | 'desc' | boolean;
 
@@ -18,12 +19,15 @@ export type DTableSortTypeTypes = {
     }
 };
 
-export type DTableSortType = DTableWithPlugin<DTableSortTypeTypes>;
+export type DTableSortType = DTableWithPlugin<DTableSortTypeTypes, [DTableSortTypes]>;
 
-const sortTypePlugin: DTablePlugin<DTableSortTypeTypes> = {
+const sortTypePlugin: DTablePlugin<DTableSortTypeTypes, [DTableSortTypes]> = {
     name: 'sort-type',
     onRenderHeaderCell(result, info) {
         const {col} = info;
+        if (col.setting.sort !== undefined) {
+            return result;
+        }
         let {sortType: sortTypeSetting} = col.setting;
         const {sortLink: defaultSortLink, orderBy} = this.options;
         if (orderBy && orderBy[col.name] !== undefined) {
