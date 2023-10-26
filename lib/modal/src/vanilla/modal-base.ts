@@ -98,15 +98,16 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
 
     show(options?: Partial<T>) {
         const {modalElement} = this;
+        const $modal = $(modalElement);
         if (this._shown) {
-            $(modalElement).removeClass(HIDE_CLASS).css('z-index', `${ModalBase.zIndex++}`);
+            $modal.removeClass(HIDE_CLASS).css('z-index', `${ModalBase.zIndex++}`);
             return false;
         }
 
         this._shown = true;
         this.setOptions(options);
         const {animation, backdrop, className, style} = this.options;
-        $(modalElement).setClass({
+        $modal.setClass({
             'modal-trans': animation,
             'modal-no-backdrop': !backdrop,
             [HIDE_CLASS]: false,
@@ -119,7 +120,7 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
         const constructor = this.constructor as typeof ModalBase;
         if (constructor.hideOthersOnShow && this.options.hideOthersOnShow !== false) {
             constructor.getAll().forEach((modal) => {
-                if (modal !== this && modal.shown) {
+                if (modal !== this && modal.shown && !$modal.closest(modal.element).length) {
                     modal.hideForOther();
                 }
             });
@@ -129,7 +130,7 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
         this.emit('show');
 
         this._setTimer(() => {
-            $(modalElement).addClass(CLASS_SHOWN);
+            $modal.addClass(CLASS_SHOWN);
             this._setTimer(() => {
                 this.emit('shown');
             });
