@@ -205,7 +205,7 @@ const nestedPlugin: DTablePlugin<DTableNestedTypes, DTableNestedDependencies> = 
         asParentKey: 'asParent',
         nestedIndent: 20,
         canSortTo(from, to) {
-            const {nestedMap} = (this as DTableNested).data;
+            const {nestedMap} = this.data;
             const fromInfo = nestedMap.get(from.id);
             const toInfo = nestedMap.get(to.id);
             return fromInfo?.parent === toInfo?.parent;
@@ -233,6 +233,9 @@ const nestedPlugin: DTablePlugin<DTableNestedTypes, DTableNestedDependencies> = 
     when: options => !!options.nested,
     data() {
         return {nestedMap: new Map()};
+    },
+    state() {
+        return {nestedState: {}};
     },
     methods: {
         getNestedInfo,
