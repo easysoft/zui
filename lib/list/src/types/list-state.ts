@@ -6,4 +6,5 @@ export interface ListState<T extends Item = ListItem> {
     items?: T[];
     loading?: boolean;
     loadFailed?: CustomContentType;
+    checked: Record<string, boolean>;
 }

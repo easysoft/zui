@@ -4,7 +4,8 @@ import {Listitem} from './listitem';
 
 import type {ComponentChild, ComponentChildren, RenderableProps} from 'preact';
 import type {ClassNameLike, CustomContentType} from '@zui/core';
-import type {Item} from '@zui/common-list';
+import type {Item, ItemKey} from '@zui/common-list';
+import type {CheckedType} from '@zui/checkbox';
 import type {ListProps, ListState, ListItemsSetting, ListItemsFetcher} from '../types';
 
 export class List<P extends ListProps = ListProps, S extends ListState = ListState> extends CommonList<P, S> {
@@ -25,7 +26,9 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
 
     constructor(props: P) {
         super(props);
-        this.state = {} as S;
+        this.state = {
+            checked: {},
+        } as S;
     }
 
     componentDidMount() {
@@ -57,13 +60,44 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
         });
     }
 
-    tryLoad(): void {
+    tryLoad() {
         const {loading} = this.state;
         const {items} = this.props;
         if (loading || !items || Array.isArray(items) || items === this._loadedSetting) {
-            return;
+            return false;
         }
         this.load();
+        return true;
+    }
+
+    isItemChecked(key: ItemKey, index?: number, defaultChecked: CheckedType = false): CheckedType {
+        const item = (typeof index === 'number' ? this._items[index] : this.getItem(key)) || {};
+        return this.state.checked[key] ?? item.checked ?? defaultChecked;
+    }
+
+    toggleItemChecked(key: ItemKey, checked?: boolean): void {
+        if (checked === undefined) {
+            checked = !this.isItemChecked(key);
+        }
+        const change = {[key]: checked};
+        this.setState(prevState => ({
+            checked: {
+                ...prevState.checked,
+                ...change,
+            },
+        }), () => {
+            const checkState = this.state.checked;
+            this.props.onCheck?.call(this, change, Object.keys(checkState).filter(x => checkState[x]));
+        });
+    }
+
+    getChecks() {
+        return this._renderedItems.reduce<ItemKey[]>((checks, {key}, index) => {
+            if (key !== undefined && this.isItemChecked(key, index)) {
+                checks.push(key);
+            }
+            return checks;
+        }, []);
     }
 
     protected _afterRender(firstRender: boolean) {
@@ -91,11 +125,12 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
         if (renderedItem.type === 'item') {
             const {checkbox} = props;
             if (checkbox) {
-                if (renderedItem.checked === undefined) {
-                    renderedItem.checked = false;
-                }
+                renderedItem.checked = this.isItemChecked(renderedItem.key!, index, renderedItem.checked as CheckedType);
                 if (typeof checkbox === 'object') {
                     renderedItem.checkbox = renderedItem.checkbox ? $.extend({}, checkbox, renderedItem.checkbox) : checkbox;
+                }
+                if (props.activeOnChecked && renderedItem.checked) {
+                    renderedItem.active = true;
                 }
             }
         }
@@ -125,6 +160,15 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
         return super._renderItem(props, item, index);
     }
 
+    protected _handleClick(event: MouseEvent) {
+        const info = super._handleClick(event);
+        if (this.props.checkOnClick && info && (event.target as HTMLElement).closest('.item-checkbox')) {
+            this.toggleItemChecked(info.key);
+            event.stopPropagation();
+            return;
+        }
+        return info;
+    }
 
     protected _getClassName(props: RenderableProps<P>): ClassNameLike {
         const {loading, loadFailed} = this.state;
@@ -135,7 +179,6 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
         const {className, ...others} = super._getProps(props);
         return {
             ...others,
-            onClick: this._handleClick,
             className: classes(className as ClassNameLike, this._hasIcons ? 'has-icons' : '', this._hasCheckbox ? 'has-checkbox' : ''),
         };
     }

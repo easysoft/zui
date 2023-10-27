@@ -9,11 +9,17 @@ onPageUpdate(() => {
     const remoteNestedList = new NestedList('#remoteNestedList', {
         items: '/lib/list/dev/nested-items.json',
         checkbox: true,
+        checkOnClick: true,
+        onCheck: function (changes, checks) {
+            console.log('onCheck', {changes, checks, allChecks: this.getChecks(), table: this});
+        },
     });
     console.log('> remoteNestedList', remoteNestedList);
 
     const remoteSimpleList = new List('#remoteSimpleList', {
         checkbox: true,
+        checkOnClick: true,
+        activeOnChecked: true,
         items: '/lib/list/dev/items.json',
     });
     console.log('> remoteSimpleList', remoteSimpleList);
@@ -32,16 +38,17 @@ onPageUpdate(() => {
             onClick: () => console.log('click 研发'),
             items: [
                 {
+
                     icon: 'star',
                     title: '大产品',
                     url: '#大产品',
                     items: [
-                        {text: '前端', url: '#前端'},
-                        {text: '后端', subtitle: '#后端',  onClick: () => console.log('click 后端')},
+                        {text: '前端', url: '#前端', checked: true},
+                        {text: '后端', subtitle: '#后端', checked: true, onClick: () => console.log('click 后端')},
                     ],
                 },
                 {title: '桌面端'},
-                {title: '移动端'},
+                {title: '移动端', checked: true},
                 {title: '测试'},
                 {title: '运维'},
             ],
@@ -54,11 +61,13 @@ onPageUpdate(() => {
     const nestedList = new NestedList('#nestedList', {
         items: items,
         checkbox: true,
+        checkOnClick: true,
     });
     console.log('> nestedList', nestedList);
 
     const simpleList = new List('#simpleList', {
         checkbox: true,
+        checkOnClick: true,
         items: [
             {text: '文本', onClick: () => console.log('ok')},
             {title: '标题'},
