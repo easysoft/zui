@@ -50,11 +50,11 @@ export class SearchMenu<T extends SearchMenuOptions = SearchMenuOptions> extends
         this._updateMatchedParents();
     }
 
-    isExpanded(key: ItemKey, parentKey: ItemKey | undefined): boolean {
+    isExpanded(keyPath: string): boolean {
         if (this.props.expandOnSearch && this._searchKeys.length) {
             return true;
         }
-        return super.isExpanded(key, parentKey);
+        return super.isExpanded(keyPath);
     }
 
     protected _updateMatchedParents(): void {

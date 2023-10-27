@@ -90,6 +90,7 @@ onPageUpdate(() => {
             {text: '保存', active: true, onClick: (event) => console.log('> menuItem.clicked', event)},
         ],
         checkbox: true,
+        checkOnClick: true,
         onClickItem: (info) => {
             console.log('> checkableMenu.onClickItem', info);
         },
