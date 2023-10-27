@@ -90,6 +90,22 @@ export class CommonList<P extends CommonListProps = CommonListProps, S = {}> ext
         return this.props.itemName || this.constructor.ITEM_NAME;
     }
 
+    getRenderedItem(key: ItemKey) {
+        return this._renderedItems.find((item) => item.key === key);
+    }
+
+    getItem(key: ItemKey): Item | undefined {
+        return this._items[this.getItemIndex(key)];
+    }
+
+    getItemIndex(key: ItemKey) {
+        return this._renderedItems.findIndex((item) => item.key === key);
+    }
+
+    getItemByIndex(index: number) {
+        return this._items[index];
+    }
+
     /**
      * Get the item key by index.
      *
