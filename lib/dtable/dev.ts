@@ -111,14 +111,14 @@ onPageLoad(() => {
                 {name: 'productLine', title: '所属产品线', minWidth: 110, sortType: true, flex: 1, sortLink: (col, sortType) => `#?sortby=${col.name}&order=${sortType}`},
                 {name: 'manager', title: '负责人', type: 'avatarName', width: 110, sortType: true, avatarKey: 'managerAvatar', avatarWithName: true},
                 {name: 'feedback', title: '反馈', width: 65, sortType: true, align: 'center'},
-                {name: 'storyDraft', title: '需求草稿', width: 90, sortType: true, align: 'center', group: '需求情况'},
-                {name: 'storyActive', title: '激活', width: 80, sortType: true, align: 'center', group: '需求情况'},
-                {name: 'storyChanged', title: '变更', width: 80, sortType: true, align: 'center', group: '需求情况'},
-                {name: 'completion', title: '完成率', type: 'progress', width: 80, sortType: true, align: 'center', group: '需求情况'},
+                {name: 'storyDraft', title: '需求草稿', width: 90, sortType: true, align: 'center', headerGroup: '需求情况'},
+                {name: 'storyActive', title: '激活', width: 80, sortType: true, align: 'center', headerGroup: '需求情况'},
+                {name: 'storyChanged', title: '变更', width: 80, sortType: true, align: 'center', headerGroup: '需求情况'},
+                {name: 'completion', title: '完成率', type: 'progress', width: 80, sortType: true, align: 'center', headerGroup: '需求情况'},
                 {name: 'plan', title: '计划', width: 80, sortType: true, align: 'center'},
                 {name: 'caseCoverage', title: '用例覆盖率', type: 'progress', width: 90, sortType: true, align: 'center'},
-                {name: 'bugActive', title: 'Bug激活', group: 'Bug情况', width: 80, sortType: true, align: 'center'},
-                {name: 'fixRate', title: '修复率', group: 'Bug情况', type: 'progress', width: 80, sortType: true, align: 'center'},
+                {name: 'bugActive', title: 'Bug激活', headerGroup: 'Bug情况', width: 80, sortType: true, align: 'center'},
+                {name: 'fixRate', title: '修复率', headerGroup: 'Bug情况', type: 'progress', width: 80, sortType: true, align: 'center'},
                 {name: 'release', title: '发布', width: 90, sortType: true, fixed: 'right', onRenderCell(result, {row}) {
                     const releaseIncrease = Number(row.data?.releaseIncrease);
                     result[0] = {

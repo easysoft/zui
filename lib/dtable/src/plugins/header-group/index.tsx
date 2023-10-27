@@ -1,6 +1,6 @@
 import {definePlugin} from '../../helpers/shared-plugins';
-import './style.css';
 import type {DTablePlugin} from '../../types/plugin';
+import './style.css';
 
 export type DTableHeaderGroupInfo = {
     cols: string[];
@@ -12,7 +12,7 @@ export type DTableHeaderGroupTypes = {
         headerGroup: boolean;
     }>,
     col: Partial<{
-        group: string;
+        headerGroup: string;
     }>,
     data: {
         headerGroups: Map<string, DTableHeaderGroupInfo>;
@@ -39,17 +39,17 @@ const headerGroupPlugin: DTablePlugin<DTableHeaderGroupTypes> = {
 
         const colsOrders: Record<string, number> = {};
         cols.forEach((col, index) => {
-            const {group} = col;
-            if (!group) {
+            const {headerGroup} = col;
+            if (!headerGroup) {
                 colsOrders[col.name] = index;
                 return;
             }
-            let groupInfo = headerGroups.get(group);
+            let groupInfo = headerGroups.get(headerGroup);
             if (groupInfo) {
                 groupInfo.cols.push(col.name);
             } else {
                 groupInfo = {cols: [col.name], index};
-                headerGroups.set(group, groupInfo);
+                headerGroups.set(headerGroup, groupInfo);
             }
             colsOrders[col.name] = groupInfo.index + (groupInfo.cols.length / cols.length);
         });
@@ -64,9 +64,9 @@ const headerGroupPlugin: DTablePlugin<DTableHeaderGroupTypes> = {
         };
     },
     onRenderHeaderCell(result, {col}) {
-        const {group} = col.setting;
-        if (group) {
-            const groupInfo = this.data.headerGroups.get(group) as DTableHeaderGroupInfo;
+        const {headerGroup} = col.setting;
+        if (headerGroup) {
+            const groupInfo = this.data.headerGroups.get(headerGroup) as DTableHeaderGroupInfo;
             const halfRow = this.layout.headerHeight / 2;
             if (col.name === groupInfo.cols[0]) {
                 const colWidth = groupInfo.cols.reduce((width, colName) => {
@@ -76,7 +76,7 @@ const headerGroupPlugin: DTablePlugin<DTableHeaderGroupTypes> = {
                     height: halfRow - 1,
                     width: colWidth - 1,
                 };
-                result.push(<div class="dtable-header-group" style={groupStyle}>{group}</div>);
+                result.push(<div class="dtable-header-group" style={groupStyle}>{headerGroup}</div>);
             }
             result.push({
                 className: 'dtable-header-as-group',

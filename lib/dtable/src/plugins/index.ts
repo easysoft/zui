@@ -6,5 +6,6 @@ export * from './nested';
 export * from './avatar';
 export * from './sort-type';
 export * from './group';
+export * from './header-group';
 export * from './cellspan';
 export * from './sortable';
