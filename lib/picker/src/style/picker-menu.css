@@ -1,4 +1,4 @@
-.picker-menu-list.menu {
+.picker-menu-list {
   @apply -shadow-none -border-none -flex-auto -min-h-0 -overflow-y-auto;
 }
 .picker-menu-search + .picker-menu-list.menu {
