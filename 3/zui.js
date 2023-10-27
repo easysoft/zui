@@ -9975,6 +9975,9 @@ const Ls = "dtable-nested-toggle", Xd = {
   data() {
     return { nestedMap: /* @__PURE__ */ new Map() };
   },
+  state() {
+    return { nestedState: {} };
+  },
   methods: {
     getNestedInfo: Gd,
     toggleRow: Yd,
