@@ -54,7 +54,7 @@ const defaultSortFns: Record<ColSortFnName, ColSortFn> = {
     },
 };
 
-const sortTypePlugin: DTablePlugin<DTableSortTypes> = {
+const sortPlugin: DTablePlugin<DTableSortTypes> = {
     name: 'sort',
     defaultOptions: {sort: true},
     when: options => !!options.sort,
@@ -140,4 +140,4 @@ const sortTypePlugin: DTablePlugin<DTableSortTypes> = {
     },
 };
 
-export const sortType = definePlugin(sortTypePlugin, {buildIn: true});
+export const sort = definePlugin(sortPlugin, {buildIn: true});
