@@ -1417,7 +1417,27 @@ interface PluginDTableOptions {
 
 ## 表头分组 `header-group`
 
-<Badge text="WIP" type="danger" />
+改插件允许将多个列合并为一个表头分组，可以通过初始化选项 `headerGroup` 来启用，然后在需要进行合并的列定义上通过 `headerGroup` 属性定义相同的分组名称。
+
+### API
+
+#### 初始化选项
+
+```ts
+interface PluginDTableOptions {
+    /* 是否启用表头分组。 */
+    headerGroup: boolean;
+}
+```
+
+#### 列定义配置
+
+```ts
+interface PluginColSetting {
+    /* 表头分组名称。 */
+    headerGroup?: string;
+}
+```
 
 ## 拖放改变列宽 `resize`
 
