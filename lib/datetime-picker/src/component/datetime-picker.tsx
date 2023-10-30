@@ -138,6 +138,7 @@ export class DatetimePicker extends Pick<PickState, DatetimePickerOptions> {
                 value={value}
                 disabled={disabled}
                 readOnly={readonly}
+                autoComplete="off"
                 onFocus={this.#handleInputFocus}
                 onChange={(e) => {
                     this.#handleDateInputChange(e);

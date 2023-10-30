@@ -66,7 +66,7 @@ export class DatePicker extends Pick<PickState, DatePickerOptions> {
             }
         }
         return [
-            <input key="input" id={id} type="text" className="form-control" placeholder={placeholder} value={value} disabled={disabled} readOnly={readonly} onFocus={this.#handleInputFocus} onChange={this.#handleInputChange} />,
+            <input key="input" id={id} type="text" className="form-control" placeholder={placeholder} value={value} disabled={disabled} readOnly={readonly} autoComplete="off" onFocus={this.#handleInputFocus} onChange={this.#handleInputChange} />,
             iconView ? <label key="icon" for={id} className="input-control-suffix">{iconView}</label> : null,
         ];
     }
