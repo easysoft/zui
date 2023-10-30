@@ -2937,11 +2937,11 @@ let se = class extends pt {
     }), () => {
       var r;
       const i = this.state.checked;
-      (r = this.props.onCheck) == null || r.call(this, s, Object.keys(i).filter((o) => i[o]));
+      (r = this.props.onCheck) == null || r.call(this, s, Object.keys(i).filter((o) => i[o] === !0));
     });
   }
   getChecks() {
-    return this._renderedItems.reduce((t, { key: e }, s) => (e !== void 0 && this.isItemChecked(e, s) && t.push(e), t), []);
+    return this._renderedItems.reduce((t, { key: e }, s) => (e !== void 0 && this.isItemChecked(e, s) === !0 && t.push(e), t), []);
   }
   _afterRender(t) {
     var e;
@@ -3189,7 +3189,7 @@ let Ae = class extends se {
       return this.setState({ nestedShow: {}, defaultShow: t }, this._preserveState);
   }
   getChecks() {
-    return Array.from(this.getItemMap().values()).reduce((t, { keyPath: e, data: s }) => ((this.state.checked[e] ?? s.checked) && t.push(e), t), []);
+    return Array.from(this.getItemMap().values()).reduce((t, { keyPath: e, data: s }) => (this.state.checked[e] === !0 && t.push(e), t), []);
   }
   isItemChecked(t, e, s = !1) {
     const i = (typeof e == "number" ? this._items[e] : this.getItem(t)) || {};
@@ -3220,7 +3220,7 @@ let Ae = class extends se {
       }, () => {
         var o;
         const r = this.state.checked;
-        (o = this.props.onCheck) == null || o.call(this, s, Object.keys(r).filter((a) => r[a]));
+        (o = this.props.onCheck) == null || o.call(this, s, Object.keys(r).filter((a) => r[a] === !0));
       });
     } else {
       const { parentKey: i, onCheck: r } = this.props, o = Object.keys(s).reduce((a, l) => (a[`${i !== void 0 ? `${i}:` : ""}${l}`] = s[l], a), {});
@@ -5490,7 +5490,7 @@ let Xa = class extends ct {
     const { placeholder: s, icon: i, required: r, disabled: o, readonly: a } = t, { value: l = "", open: c } = e, d = `time-picker-${this.id}`;
     let h;
     return c && !r && l.length ? h = /* @__PURE__ */ u("button", { type: "button", className: "btn size-sm square ghost", onClick: As(this, xi), children: /* @__PURE__ */ u("span", { className: "close" }) }) : i && (i === !0 ? h = /* @__PURE__ */ u("i", { class: "i-time" }) : h = /* @__PURE__ */ u(G, { icon: i })), [
-      /* @__PURE__ */ u("input", { id: d, type: "text", className: "form-control", placeholder: s, value: l, disabled: o, readOnly: a, onFocus: As(this, wi), onChange: As(this, Ci) }, "input"),
+      /* @__PURE__ */ u("input", { id: d, type: "text", className: "form-control", placeholder: s, value: l, disabled: o, readOnly: a, autoComplete: "off", onFocus: As(this, wi), onChange: As(this, Ci) }, "input"),
       h ? /* @__PURE__ */ u("label", { for: d, className: "input-control-suffix", children: h }, "icon") : null
     ];
   }
@@ -5773,7 +5773,7 @@ let tl = class extends ct {
     const { placeholder: s, icon: i, required: r, disabled: o, readonly: a } = t, { value: l = "", open: c } = e, d = `date-picker-${this.id}`;
     let h;
     return c && !r && l.length ? h = /* @__PURE__ */ u("button", { type: "button", className: "btn size-sm square ghost", onClick: Xn(this, Ti), children: /* @__PURE__ */ u("span", { className: "close" }) }) : i && (i === !0 ? h = /* @__PURE__ */ u("i", { class: "i-calendar" }) : h = /* @__PURE__ */ u(G, { icon: i })), [
-      /* @__PURE__ */ u("input", { id: d, type: "text", className: "form-control", placeholder: s, value: l, disabled: o, readOnly: a, onFocus: Xn(this, $i), onChange: Xn(this, Si) }, "input"),
+      /* @__PURE__ */ u("input", { id: d, type: "text", className: "form-control", placeholder: s, value: l, disabled: o, readOnly: a, autoComplete: "off", onFocus: Xn(this, $i), onChange: Xn(this, Si) }, "input"),
       h ? /* @__PURE__ */ u("label", { for: d, className: "input-control-suffix", children: h }, "icon") : null
     ];
   }
@@ -5835,6 +5835,7 @@ class cd extends W {
     const { date: e, time: s } = t;
     return /* @__PURE__ */ u("div", { className: "datetime-picker-menu row", children: [
       /* @__PURE__ */ u(Ja, { ...e }),
+      /* @__PURE__ */ u("div", { className: "divider" }),
       /* @__PURE__ */ u(Ya, { ...s })
     ] });
   }
@@ -5922,6 +5923,7 @@ let nl = class extends ct {
           value: l,
           disabled: o,
           readOnly: a,
+          autoComplete: "off",
           onFocus: Oe(this, Ni),
           onChange: (g) => {
             Oe(this, Mi).call(this, g), Oe(this, Ai).call(this, g);
@@ -7114,6 +7116,7 @@ class dl extends W {
           type: "text",
           placeholder: i,
           value: o,
+          autoComplete: "off",
           onChange: D(this, Te),
           onInput: D(this, Te),
           ref: this._searchInput
