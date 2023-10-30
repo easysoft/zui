@@ -14,6 +14,7 @@ export class DatetimePickerMenu extends Component<DatetimePickerMenuProps> {
         return (
             <div className="datetime-picker-menu row">
                 <DatePickerMenu {...date} />
+                <div className="divider" />
                 <TimePickerMenu {...time} />
             </div>
         );
