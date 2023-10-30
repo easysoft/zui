@@ -87,13 +87,13 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
             },
         }), () => {
             const checkState = this.state.checked;
-            this.props.onCheck?.call(this, change, Object.keys(checkState).filter(x => checkState[x]));
+            this.props.onCheck?.call(this, change, Object.keys(checkState).filter(x => checkState[x] === true));
         });
     }
 
     getChecks() {
         return this._renderedItems.reduce<ItemKey[]>((checks, {key}, index) => {
-            if (key !== undefined && this.isItemChecked(key, index)) {
+            if (key !== undefined && this.isItemChecked(key, index) === true) {
                 checks.push(key);
             }
             return checks;

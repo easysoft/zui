@@ -181,7 +181,7 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
 
     getChecks() {
         return Array.from(this.getItemMap().values()).reduce<ItemKey[]>((checks, {keyPath, data}) => {
-            if (this.state.checked[keyPath] ?? data.checked) {
+            if ((this.state.checked[keyPath] === true ?? data.checked) === true) {
                 checks.push(keyPath);
             }
             return checks;
@@ -238,7 +238,7 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
                 };
             }, () => {
                 const checkState = this.state.checked;
-                this.props.onCheck?.call(this, change, Object.keys(checkState).filter(x => checkState[x]));
+                this.props.onCheck?.call(this, change, Object.keys(checkState).filter(x => checkState[x] === true));
             });
         } else {
             const {parentKey, onCheck} = this.props;
