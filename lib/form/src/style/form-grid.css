@@ -7,7 +7,10 @@
 }
 
 .form-grid .form-group {
-  @apply -flex -flex-row -items-start -relative -flex-auto -min-h-[32px] -flex-wrap -pl-[--form-grid-label-width];
+  @apply -flex -flex-row -items-start -relative -flex-auto -min-h-[32px] -flex-wrap -pl-[--form-grid-label-width] -min-w-0;
+}
+.form-grid .form-group > * {
+  @apply -min-w-0;
 }
 .form-grid .form-group.no-label {
   @apply -pl-0;
@@ -34,5 +37,9 @@
 
 .form .form-group-wrapper,
 .form-grid .form-group-wrapper {
-  @apply -w-full -flex-auto -z-[1];
+  @apply -w-full -flex-auto -z-[1] -min-w-0;
+}
+.form .form-group-wrapper.flex-none,
+.form-grid .form-group-wrapper.flex-none {
+  @apply -flex-none;
 }
