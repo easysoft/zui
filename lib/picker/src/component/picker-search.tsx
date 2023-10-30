@@ -91,6 +91,7 @@ export class PickerSearch extends Component<PickerSearchProps, PickerSearchState
                     type="text"
                     placeholder={placeholder}
                     value={search}
+                    autoComplete="off"
                     onChange={this.#handleChange}
                     onInput={this.#handleChange}
                     ref={this._searchInput}
