@@ -2922,14 +2922,32 @@ let se = class extends pt {
     const { loading: t } = this.state, { items: e } = this.props;
     return t || !e || Array.isArray(e) || e === this._loadedSetting ? !1 : (this.load(), !0);
   }
-  isItemChecked(t, e, s = !1) {
+  isChecked(t, e, s = !1) {
     const i = (typeof e == "number" ? this._items[e] : this.getItem(t)) || {};
     return this.state.checked[t] ?? i.checked ?? s;
   }
-  toggleItemChecked(t, e) {
-    e === void 0 && (e = !this.isItemChecked(t));
-    const s = { [t]: e };
-    this.setState((i) => ({
+  toggleAllChecked(t) {
+    if (t === void 0) {
+      const e = this._renderedItems[0];
+      if (!e)
+        return;
+      t = !this.isChecked(e.key, 0);
+    }
+    this.toggleChecked(this._renderedItems.map((e) => e.key), t);
+  }
+  toggleChecked(t, e) {
+    let s;
+    if (Array.isArray(t)) {
+      if (!t.length)
+        return;
+      e === void 0 && (e = !this.isChecked(t[0])), s = t.reduce((i, r) => (i[r] = e, i), {});
+    } else if (typeof t == "object")
+      s = t;
+    else {
+      const i = this.isChecked(t);
+      e === void 0 && (e = !i), s = { [t]: e };
+    }
+    Object.keys(s).length && this.setState((i) => ({
       checked: {
         ...i.checked,
         ...s
@@ -2941,7 +2959,7 @@ let se = class extends pt {
     });
   }
   getChecks() {
-    return this._renderedItems.reduce((t, { key: e }, s) => (e !== void 0 && this.isItemChecked(e, s) === !0 && t.push(e), t), []);
+    return this._renderedItems.reduce((t, { key: e }, s) => (e !== void 0 && this.isChecked(e, s) === !0 && t.push(e), t), []);
   }
   _afterRender(t) {
     var e;
@@ -2962,7 +2980,7 @@ let se = class extends pt {
     const { itemName: a, name: l } = this;
     if (e.innerClass = [a ? `${a}-inner${l ? ` ${l}-${e.type}-inner` : ""}` : "", e.innerClass], e.type === "item") {
       const { checkbox: c } = t;
-      c && (e.checked = this.isItemChecked(e.key, s, e.checked), typeof c == "object" && (e.checkbox = e.checkbox ? f.extend({}, c, e.checkbox) : c), t.activeOnChecked && e.checked && (e.active = !0));
+      c && (e.checked = this.isChecked(e.key, s, e.checked), typeof c == "object" && (e.checkbox = e.checkbox ? f.extend({}, c, e.checkbox) : c), t.activeOnChecked && e.checked && (e.active = !0));
     }
     return e.icon && (this._hasIcons = !0), e.checked !== void 0 && (this._hasCheckbox = !0), e;
   }
@@ -2975,8 +2993,9 @@ let se = class extends pt {
   }
   _handleClick(t) {
     const e = super._handleClick(t);
-    if (this.props.checkOnClick && e && t.target.closest(".item-checkbox")) {
-      this.toggleItemChecked(e.key), t.stopPropagation();
+    let { checkOnClick: s } = this.props;
+    if (s === "any" ? s = ".item-checkbox,.item-content,.item-icon" : s === !0 && (s = ".item-checkbox"), s && e && t.target.closest(s)) {
+      this.toggleChecked(e.key), t.stopPropagation();
       return;
     }
     return e;
@@ -3133,22 +3152,24 @@ function Ca(n, t, e = /* @__PURE__ */ new Map(), s = 0, i) {
 }
 let Ae = class extends se {
   constructor(t) {
-    super(t), this._controlled = t.nestedShow !== void 0;
-    const { defaultNestedShow: e } = t;
-    f.extend(this.state, typeof e == "boolean" ? { defaultShow: e, nestedShow: {} } : { nestedShow: e || {} });
-    const { preserve: s } = t;
-    if (s && !this._controlled) {
+    super(t);
+    const { defaultNestedShow: e, preserve: s, nestedShow: i } = t;
+    if (f.extend(
+      this.state,
+      typeof e == "boolean" ? { defaultShow: e, nestedShow: {} } : { nestedShow: e || {} },
+      i !== void 0 ? { nestedShow: i } : null
+    ), s && i === void 0) {
       this._storeID = `${this.constructor.NAME}:${s}:state`;
-      const i = Wt.get(this._storeID);
-      i && f.extend(this.state, i);
+      const r = Wt.get(this._storeID);
+      r && f.extend(this.state, r);
     }
-    this._handleClickNestedItem = this._handleClickNestedItem.bind(this), this._handleHoverNestedItem = this._handleHoverNestedItem.bind(this), this._handleHover = this._handleHover.bind(this), this._handleClick = this._handleClick.bind(this), this._beforeRenderNestedItem = this._beforeRenderNestedItem.bind(this), this._handleNestedCheck = this._handleNestedCheck.bind(this), this._preserveState = this._preserveState.bind(this);
+    this._renderedItemMap = /* @__PURE__ */ new Map(), this._handleHover = this._handleHover.bind(this), this._handleClick = this._handleClick.bind(this), this._beforeRenderNestedItem = this._beforeRenderNestedItem.bind(this), this._handleNestedToggle = this._handleNestedToggle.bind(this), this._handleNestedCheck = this._handleNestedCheck.bind(this), this._preserveState = this._preserveState.bind(this);
   }
   get isRoot() {
     return !this.props.level;
   }
   get nestedShow() {
-    return (this._controlled ? this.props.nestedShow : this.state.nestedShow) ?? !1;
+    return this.props.nestedShow ?? this.state.nestedShow ?? !1;
   }
   getItemMap() {
     return this._itemMap || (this._itemMap = Ca(this._items, this.props.itemKey)), this._itemMap;
@@ -3168,36 +3189,38 @@ let Ae = class extends se {
     return typeof e == "boolean" ? e : !!(e[t] ?? this.state.defaultShow);
   }
   toggle(t, e) {
-    var i;
-    if (this._controlled)
-      return;
     const s = this.isExpanded(t);
-    if (e === void 0)
-      e = !s;
-    else if (e === s)
+    if (e === s)
       return;
-    if (((i = this.props.onToggle) == null ? void 0 : i.call(this, t, e)) !== !1)
-      return this.setState((r) => ({
+    e === void 0 && (e = !s);
+    const { nestedShow: i, onToggle: r } = this.props;
+    if (!(r && r.call(this, t, e) === !1) && i === void 0)
+      return this.setState((o) => ({
         nestedShow: {
-          ...r.nestedShow,
+          ...o.nestedShow,
           [t]: e
         }
       }), this._preserveState);
   }
   toggleAll(t) {
-    if (!this._controlled)
+    if (this.props.nestedShow === void 0)
       return this.setState({ nestedShow: {}, defaultShow: t }, this._preserveState);
   }
   getChecks() {
     return Array.from(this.getItemMap().values()).reduce((t, { keyPath: e, data: s }) => (this.state.checked[e] === !0 && t.push(e), t), []);
   }
-  isItemChecked(t, e, s = !1) {
+  isChecked(t, e, s = !1) {
     const i = (typeof e == "number" ? this._items[e] : this.getItem(t)) || {};
     return this.isRoot ? this.state.checked[t] ?? i.checked ?? s : this.props.checkedState[`${this.props.parentKey}:${t}`] ?? i.checked ?? s;
   }
-  toggleItemChecked(t, e) {
-    typeof t == "string" && e === void 0 && (e = !this.isItemChecked(t));
-    const s = typeof t == "object" ? t : { [t]: e };
+  toggleChecked(t, e) {
+    let s;
+    if (Array.isArray(t)) {
+      if (!t.length)
+        return;
+      e === void 0 && (e = !this.isChecked(t[0])), s = t.reduce((i, r) => (i[r] = e, i), {});
+    } else
+      typeof t == "object" ? s = t : (e === void 0 && (e = !this.isChecked(t)), s = { [t]: e });
     if (this.isRoot) {
       const i = this.getItemMap();
       this.setState(({ checked: r }) => {
@@ -3247,8 +3270,7 @@ let Ae = class extends se {
       defaultNestedShow: this.state.defaultShow,
       checkedState: t.checkedState || this.state.checked,
       onCheck: this.isRoot ? this._handleNestedCheck : t.onCheck,
-      onClickItem: this._handleClickNestedItem,
-      onHoverItem: this._needHandleHover ? this._handleHoverNestedItem : void 0,
+      onToggle: this.isRoot ? this._handleNestedToggle : t.onToggle,
       beforeRenderItem: this.isRoot ? this._beforeRenderNestedItem : t.beforeRenderItem
     }, s.listProps);
   }
@@ -3298,39 +3320,37 @@ let Ae = class extends se {
     }, this._needHandleHover ? {
       onMouseEnter: this._handleHover,
       onMouseLeave: this._handleHover
-    } : null, i ? { children: i } : null), this.isRoot && this._renderedItemMap.set(e._keyPath, e), super._renderItem(t, e, s);
+    } : null, i ? { children: i } : null), this._renderedItemMap.set(e._keyPath, e), super._renderItem(t, e, s);
   }
   _getItemFromEvent(t) {
     const e = super._getItemFromEvent(t);
-    if (e)
-      return (t.type === "mouseenter" || t.type === "mouseleave") && (e.hover = t.type === "mouseenter"), { ...e, parentKey: this.props.parentKey };
+    if (!e)
+      return;
+    (t.type === "mouseenter" || t.type === "mouseleave") && (e.hover = t.type === "mouseenter");
+    const { parentKey: s } = this.props;
+    return { ...e, parentKey: s, keyPath: `${s !== void 0 ? `${s}:` : ""}${e.key}` };
   }
   _toggleFromEvent(t) {
-    const { item: e, hover: s, event: i, key: r, parentKey: o } = t, { nestedTrigger: a, nestedToggle: l } = this.props, c = i.target;
-    if (!e.items || i.defaultPrevented || a === "hover" && s === void 0 || a === "click" && i.type !== "click" || c.closest(".not-nested-toggle") || l && !c.closest(l) || !l && c.closest("a,.btn,.item-checkbox") && !c.closest(".nested-toggle-icon,.item-icon"))
-      return;
-    const d = typeof s == "boolean" ? s : void 0;
-    this.toggle(`${o !== void 0 ? `${o}:` : ""}${r}`, d);
+    const { item: e, hover: s, event: i, keyPath: r } = t, { nestedTrigger: o, nestedToggle: a } = this.props, l = i.target;
+    if (!e.items || i.defaultPrevented || o === "hover" && s === void 0 || o === "click" && i.type !== "click" || l.closest(".not-nested-toggle") || a && !l.closest(a) || !a && l.closest("a,.btn,.item-checkbox") && !l.closest(".nested-toggle-icon,.item-icon"))
+      return t;
+    const c = typeof s == "boolean" ? s : void 0;
+    this.toggle(r, c);
   }
-  _handleClickNestedItem(t) {
-    var e;
-    (e = this.props.onClickItem) == null || e.call(this, t), this._toggleFromEvent(t);
-  }
-  _handleHoverNestedItem(t) {
-    var e;
-    (e = this.props.onHoverItem) == null || e.call(this, t), this._toggleFromEvent(t);
+  _handleNestedToggle(t, e) {
+    this.toggle(t, e);
   }
   _handleClick(t) {
     const e = super._handleClick(t);
-    return e && !this._controlled && this._toggleFromEvent(e), e;
+    return e && this._toggleFromEvent(e);
   }
   _handleHover(t) {
     var s;
     const e = this._getItemFromEvent(t);
-    e && ((s = this.props.onHoverItem) == null || s.call(this, e), !this._controlled && this.props.nestedTrigger === "hover" && this._toggleFromEvent(e));
+    e && ((s = this.props.onHoverItem) == null || s.call(this, e), this.props.nestedTrigger === "hover" && this._toggleFromEvent(e));
   }
   _handleNestedCheck(t) {
-    this.toggleItemChecked(t);
+    this.toggleChecked(t);
   }
   _getProps(t) {
     const { level: e = 0, indent: s = 20, parentKey: i } = t, r = R(super._getProps(t), {
@@ -3342,7 +3362,7 @@ let Ae = class extends se {
     return r.className = x(r.className), r;
   }
   _beforeRender(t) {
-    return this.isRoot && (this._renderedItemMap = /* @__PURE__ */ new Map()), this._hasIcons = !1, this._hasNestedItems = !this.isRoot, this._needHandleHover = !!(t.onHoverItem || t.nestedTrigger === "hover"), super._beforeRender(t);
+    return this._renderedItemMap.clear(), this._hasIcons = !1, this._hasNestedItems = !this.isRoot, this._needHandleHover = !!(t.onHoverItem || t.nestedTrigger === "hover"), super._beforeRender(t);
   }
 };
 Ae.defaultProps = {
@@ -3467,10 +3487,10 @@ let Nt = class extends it {
     super(t), this._handleSearchChange = (e) => {
       const s = this.constructor.getSearchKeys(e);
       this._searchKeys = s, this.setState({ search: s.join(" ") });
-    }, this._searchControlled = t.search !== void 0, this.state.search = this._searchControlled ? t.search : t.defaultSearch, this._searchKeys = this.constructor.getSearchKeys(this.state.search), this._isNestedItemMatch = this._isNestedItemMatch.bind(this);
+    }, this.state.search = t.search ?? t.defaultSearch, this._searchKeys = this.constructor.getSearchKeys(this.state.search), this._isNestedItemMatch = this._isNestedItemMatch.bind(this);
   }
   componentWillUpdate(t) {
-    this.isRoot && (this._searchControlled = t.search !== void 0, this._searchControlled && t.search !== this.props.search && (this._searchKeys = this.constructor.getSearchKeys(t.search)));
+    this.isRoot && t.search !== void 0 && t.search !== this.props.search && (this._searchKeys = this.constructor.getSearchKeys(t.search));
   }
   componentDidMount() {
     super.componentDidMount(), this._updateMatchedParents();
@@ -3519,7 +3539,7 @@ let Nt = class extends it {
     const i = {
       onChange: this._handleSearchChange
     };
-    return typeof s == "object" && f.extend(i, s), this._searchControlled && (i.value = this._searchKeys.join(" "), i.disabled = !0), e.push(/* @__PURE__ */ u(cr, { ...i }, "search")), e;
+    return typeof s == "object" && f.extend(i, s), t.search !== void 0 && (i.value = this._searchKeys.join(" "), i.disabled = !0), e.push(/* @__PURE__ */ u(cr, { ...i }, "search")), e;
   }
   _getClassName(t) {
     const e = this.isRoot && this._searchKeys.length;
