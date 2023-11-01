@@ -130,19 +130,15 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
 
     afterInit() {
         super.afterInit();
-        this.on('hidden', () => {
-            if (this.options.destoryOnHide) {
+        if (this.options.destoryOnHide) {
+            this.on('hidden', () => {
                 this.destroy();
-            }
-            if (!Modal.getAll().some((modal) => modal.shown)) {
-                $('html').enableScroll();
-            }
-        });
+            });
+        }
     }
 
     show(options?: Partial<T>) {
         if (super.show(options)) {
-            $('html').disableScroll();
             this.buildDialog();
             return true;
         }
