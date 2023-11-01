@@ -19,22 +19,18 @@ export class SearchMenu<T extends SearchMenuOptions = SearchMenuOptions> extends
 
     protected declare _searchKeys: string[];
 
-    protected declare _searchControlled: boolean;
-
     protected declare _matchedParents: Set<string>;
 
     constructor(props: T) {
         super(props);
-        this._searchControlled = props.search !== undefined;
-        (this.state as SearchMenuState).search = this._searchControlled ? props.search : props.defaultSearch;
+        (this.state as SearchMenuState).search = props.search ?? props.defaultSearch;
         this._searchKeys = (this.constructor as typeof SearchMenu).getSearchKeys(this.state.search);
         this._isNestedItemMatch = this._isNestedItemMatch.bind(this);
     }
 
     componentWillUpdate(nextProps: Readonly<T>): void {
         if (this.isRoot) {
-            this._searchControlled = nextProps.search !== undefined;
-            if (this._searchControlled && nextProps.search !== this.props.search) {
+            if (nextProps.search !== undefined && nextProps.search !== this.props.search) {
                 this._searchKeys = (this.constructor as typeof SearchMenu).getSearchKeys(nextProps.search);
             }
         }
@@ -131,7 +127,7 @@ export class SearchMenu<T extends SearchMenuOptions = SearchMenuOptions> extends
         if (typeof searchBox === 'object') {
             $.extend(searchOptions, searchBox);
         }
-        if (this._searchControlled) {
+        if (props.search !== undefined) {
             searchOptions.value = this._searchKeys.join(' ');
             searchOptions.disabled = true;
         }
