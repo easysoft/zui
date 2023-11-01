@@ -9,7 +9,7 @@ onPageUpdate(() => {
     const remoteNestedList = new NestedList('#remoteNestedList', {
         items: '/lib/list/dev/nested-items.json',
         checkbox: true,
-        checkOnClick: true,
+        checkOnClick: 'any',
         onCheck: function (changes, checks) {
             console.log('onCheck', {changes, checks, allChecks: this.getChecks(), table: this});
         },

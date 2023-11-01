@@ -70,16 +70,48 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
         return true;
     }
 
-    isItemChecked(key: ItemKey, index?: number, defaultChecked: CheckedType = false): CheckedType {
+    isChecked(key: ItemKey, index?: number, defaultChecked: CheckedType = false): CheckedType {
         const item = (typeof index === 'number' ? this._items[index] : this.getItem(key)) || {};
         return this.state.checked[key] ?? item.checked ?? defaultChecked;
     }
 
-    toggleItemChecked(key: ItemKey, checked?: boolean): void {
+    toggleAllChecked(checked?: boolean): void {
         if (checked === undefined) {
-            checked = !this.isItemChecked(key);
+            const firstItem = this._renderedItems[0];
+            if (!firstItem) {
+                return;
+            }
+            checked = !this.isChecked(firstItem.key!, 0);
         }
-        const change = {[key]: checked};
+        this.toggleChecked(this._renderedItems.map(x => x.key!), checked);
+    }
+
+    toggleChecked(keyOrChange: ItemKey | ItemKey[] | Record<ItemKey, CheckedType>, checked?: boolean): void {
+        let change: Record<ItemKey, CheckedType>;
+        if (Array.isArray(keyOrChange)) {
+            if (!keyOrChange.length) {
+                return;
+            }
+            if (checked === undefined) {
+                checked = !this.isChecked(keyOrChange[0]);
+            }
+            change = keyOrChange.reduce<Record<ItemKey, CheckedType>>((map, key) => {
+                map[key] = checked!;
+                return map;
+            }, {});
+        } else if (typeof keyOrChange === 'object') {
+            change = keyOrChange;
+        } else {
+            const isChecked = this.isChecked(keyOrChange);
+            if (checked === undefined) {
+                checked = !isChecked;
+            }
+            change = {[keyOrChange]: checked!};
+        }
+        if (!Object.keys(change).length) {
+            return;
+        }
+
         this.setState(prevState => ({
             checked: {
                 ...prevState.checked,
@@ -93,7 +125,7 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
 
     getChecks() {
         return this._renderedItems.reduce<ItemKey[]>((checks, {key}, index) => {
-            if (key !== undefined && this.isItemChecked(key, index) === true) {
+            if (key !== undefined && this.isChecked(key, index) === true) {
                 checks.push(key);
             }
             return checks;
@@ -125,7 +157,7 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
         if (renderedItem.type === 'item') {
             const {checkbox} = props;
             if (checkbox) {
-                renderedItem.checked = this.isItemChecked(renderedItem.key!, index, renderedItem.checked as CheckedType);
+                renderedItem.checked = this.isChecked(renderedItem.key!, index, renderedItem.checked as CheckedType);
                 if (typeof checkbox === 'object') {
                     renderedItem.checkbox = renderedItem.checkbox ? $.extend({}, checkbox, renderedItem.checkbox) : checkbox;
                 }
@@ -162,8 +194,14 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
 
     protected _handleClick(event: MouseEvent) {
         const info = super._handleClick(event);
-        if (this.props.checkOnClick && info && (event.target as HTMLElement).closest('.item-checkbox')) {
-            this.toggleItemChecked(info.key);
+        let {checkOnClick} = this.props;
+        if (checkOnClick === 'any') {
+            checkOnClick = '.item-checkbox,.item-content,.item-icon';
+        } else if (checkOnClick === true) {
+            checkOnClick = '.item-checkbox';
+        }
+        if (checkOnClick && info && (event.target as HTMLElement).closest(checkOnClick)) {
+            this.toggleChecked(info.key);
             event.stopPropagation();
             return;
         }

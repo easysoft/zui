@@ -10,7 +10,7 @@ export interface ListProps<T extends Item = ListItem> extends CommonListProps<T>
     divider?: boolean;
     multiline?: boolean;
     checkbox?: boolean | CheckboxProps;
-    checkOnClick?: boolean;
+    checkOnClick?: boolean | 'any' | (string & {});
     activeOnChecked?: boolean;
     onCheck?: (change: Record<ItemKey, CheckedType>, checks: ItemKey[]) => void;
     onLoad?: (items: T[]) => void | T[];
