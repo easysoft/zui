@@ -71,6 +71,9 @@ export class PickerMenu extends PickPop<PickerState, PickerMenuProps> {
             className: classes(item.className, {hover: item.value !== undefined && item.value === this.props.state.hoverItem}),
             items: subItems,
         };
+        if (item.content && item.text) {
+            delete item.text;
+        }
         const result = this._getItemCallback?.call(this, item, index) ?? item;
         if (!result) {
             return result;
