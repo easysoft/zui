@@ -6874,6 +6874,7 @@ class xt extends _t {
     const { items: t, placement: e, menu: s, onClickItem: i, relativeTarget: r = this._triggerElement } = this.options;
     return {
       items: t,
+      popup: !1,
       placement: e,
       onClickItem: i,
       relativeTarget: { target: r, event: this.options.triggerEvent, dropdown: this },
