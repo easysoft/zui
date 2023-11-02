@@ -23,7 +23,7 @@ export function renderCustomContent(props: CustomContentProps): ComponentChildre
     if (Array.isArray(content)) {
         return content.map((x) => renderCustomContent({...others, content: x, generatorThis, generatorArgs}));
     }
-    if (typeof content === 'object' && ((content as HtmlContentProps).html || (content as HtmlContentProps).component)) {
+    if (typeof content === 'object' && (typeof (content as HtmlContentProps).html === 'string' || (content as HtmlContentProps).component)) {
         if ((content as HtmlContentProps).html) {
             return <HtmlContent {...(mergeProps(others, content) as unknown as HtmlContentProps)} />;
         }
@@ -34,10 +34,16 @@ export function renderCustomContent(props: CustomContentProps): ComponentChildre
         }
         return <HElement {...(mergeProps(others, content) as unknown as HElementProps)} />;
     }
-    if (isValidElement(content) || content === null) {
+    if (isValidElement(content) || typeof content === 'string' || typeof content === 'number') {
         return content;
     }
-    return content;
+    if (content) {
+        console.groupCollapsed('[ZUI] CustomContent format error');
+        console.trace('content:', content);
+        console.log('props:', props);
+        console.groupEnd();
+    }
+    return null;
 }
 
 /**
