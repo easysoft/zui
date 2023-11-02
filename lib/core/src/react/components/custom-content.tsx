@@ -1,10 +1,10 @@
 import {isValidElement} from 'preact';
 import {HtmlContent} from './html-content';
 import {HElement} from './h-element';
+import {mergeProps} from '../../helpers';
 
 import type {ComponentChildren, VNode} from 'preact';
 import type {HtmlContentProps, HElementProps, CustomContentType, CustomContentGenerator, CustomContentProps} from '../types';
-import {mergeProps} from '../../helpers';
 
 /**
  * Render custom content.
