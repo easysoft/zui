@@ -7342,7 +7342,7 @@ class Nd extends Ua {
         checked: this._hasCheckbox || typeof t.checked == "boolean" ? r ? !0 : o ? "indeterminate" : a : void 0,
         className: x(t.className, { hover: t.value !== void 0 && t.value === this.props.state.hoverItem }),
         items: i
-      };
+      }, t.content && t.text && delete t.text;
       const l = ((c = this._getItemCallback) == null ? void 0 : c.call(this, t, e)) ?? t;
       return l && (l.disabled && this._disabledSet.add(l.value), l);
     }, this._beforeRenderItem = (t, e) => {
