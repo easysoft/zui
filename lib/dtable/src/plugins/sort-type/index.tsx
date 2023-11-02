@@ -1,5 +1,5 @@
+import {formatString} from '@zui/helpers';
 import {definePlugin} from '../../helpers/shared-plugins';
-import {formatString} from '@zui/helpers/src/format-string';
 
 import type {JSX} from 'preact';
 import type {ColInfo} from '../../types/col';
