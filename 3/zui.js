@@ -1924,13 +1924,13 @@ function ui(n) {
   let r = t;
   if (typeof r == "function" && (r = r.call(s, ...e || [])), Array.isArray(r))
     return r.map((o) => ui({ ...i, content: o, generatorThis: s, generatorArgs: e }));
-  if (typeof r == "object" && (r.html || r.component)) {
+  if (typeof r == "object" && (typeof r.html == "string" || r.component)) {
     if (r.html)
       return /* @__PURE__ */ u(de, { ...R(i, r) });
     let { children: o } = r;
     return o && (o = Array.isArray(o) ? o : [o], r = R({ children: o.map((a) => ui({ ...i, content: a, generatorThis: s, generatorArgs: e })) }, r)), /* @__PURE__ */ u(q, { ...R(i, r) });
   }
-  return gt(r) || r === null, r;
+  return gt(r) || typeof r == "string" || typeof r == "number" ? r : (r && (console.groupCollapsed("[ZUI] CustomContent format error"), console.trace("content:", r), console.log("props:", n), console.groupEnd()), null);
 }
 function F(n) {
   const t = ui(n);
