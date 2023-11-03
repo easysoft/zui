@@ -45,18 +45,25 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
         this.props.beforeDestroy?.call(this);
     }
 
+    setItems(items?: Item[], error?: Error) {
+        const {onLoadFail} = this.props;
+        this.setState({
+            loading: false,
+            items: items || [],
+            loadFailed: error ? (typeof onLoadFail === 'function' ? (onLoadFail as (error: Error) => CustomContentType | undefined).call(this, error as Error) : onLoadFail) || String(error) : undefined,
+        });
+    }
+
     load(): void {
-        const {items, onLoad, onLoadFail} = this.props;
+        const {items, onLoad} = this.props;
         this._loadedSetting = items;
         this.setState({loading: true, items: []}, async () => {
-            const newState = {loading: false} as Partial<S>;
             try {
                 const newItems = await fetchData(items as ListItemsFetcher, [this], {throws: true});
-                newState.items = onLoad?.call(this, newItems) || newItems;
+                this.setItems(onLoad?.call(this, newItems) || newItems);
             } catch (error) {
-                newState.loadFailed = (typeof onLoadFail === 'function' ? (onLoadFail as (error: Error) => CustomContentType | undefined).call(this, error as Error) : onLoadFail) || String(error);
+                this.setItems(undefined, error as Error);
             }
-            this.setState(newState);
         });
     }
 
@@ -75,13 +82,13 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
         return this.state.checked[key] ?? item.checked ?? defaultChecked;
     }
 
+    isAllChecked(): boolean {
+        return this._renderedItems.every(({key}, index) => this.isChecked(key!, index) === true);
+    }
+
     toggleAllChecked(checked?: boolean): void {
         if (checked === undefined) {
-            const firstItem = this._renderedItems[0];
-            if (!firstItem) {
-                return;
-            }
-            checked = !this.isChecked(firstItem.key!, 0);
+            checked = !this.isAllChecked();
         }
         this.toggleChecked(this._renderedItems.map(x => x.key!), checked);
     }

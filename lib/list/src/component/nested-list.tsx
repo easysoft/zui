@@ -93,6 +93,8 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
 
     protected declare _itemMap?: Map<string, ItemInfo>;
 
+    protected declare _needInitChecks?: boolean;
+
     constructor(props: P) {
         super(props);
         const {defaultNestedShow, preserve, nestedShow} = props;
@@ -108,6 +110,11 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
                 $.extend(this.state, storeState);
             }
         }
+
+        if (!props.level) {
+            this._needInitChecks = true;
+        }
+
         this._renderedItemMap = new Map();
         this._handleHover = this._handleHover.bind(this);
         this._handleClick = this._handleClick.bind(this);
@@ -123,6 +130,13 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
 
     get nestedShow() {
         return this.props.nestedShow ?? this.state.nestedShow ?? false;
+    }
+
+    setItems(items?: Item[] | undefined, error?: Error | undefined): void {
+        if (this.isRoot) {
+            this._needInitChecks = true;
+        }
+        super.setItems(items, error);
     }
 
     getItemMap() {
@@ -184,7 +198,7 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
 
     getChecks() {
         return Array.from(this.getItemMap().values()).reduce<ItemKey[]>((checks, {keyPath, data}) => {
-            if ((this.state.checked[keyPath] === true ?? data.checked) === true) {
+            if ((this.state.checked[keyPath] === true || data.checked) === true) {
                 checks.push(keyPath);
             }
             return checks;
@@ -219,6 +233,9 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
                 checked = !this.isChecked(keyOrChange);
             }
             change = {[keyOrChange]: checked!};
+        }
+        if (!Object.keys(change).length) {
+            return;
         }
         if (this.isRoot) {
             const map = this.getItemMap();
@@ -266,6 +283,21 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
                 return map;
             }, {});
             onCheck!.call(this, nestedChange, []);
+        }
+    }
+
+    protected _afterRender(firstRender: boolean): void {
+        super._afterRender(firstRender);
+        if (this._needInitChecks) {
+            const initChecks: Record<string, CheckedType> = {};
+            const itemMap = this.getItemMap();
+            itemMap.forEach(item => {
+                if (item.data.checked !== undefined) {
+                    initChecks[item.keyPath] = item.data.checked as CheckedType;
+                }
+            });
+            this.toggleChecked(initChecks);
+            this._needInitChecks = false;
         }
     }
 
@@ -345,7 +377,6 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
             mergeProps(nestedItem, {
                 expanded: expanded,
                 className: ['is-nested', `is-nested-${expanded ? 'show' : 'hide'}`],
-                _item: item,
             });
             this._hasNestedItems = true;
         }

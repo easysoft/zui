@@ -10,7 +10,7 @@
                 "items":
                 [
                     {"text": "水果/西瓜/黄皮", "value": "fruit/watermelon/yellow", "keys": "fruit food xigua huangpi"},
-                    {"text": "水果/西瓜/红皮", "value": "fruit/watermelon/red", "keys": "fruit food xigua hongpi"}
+                    {"checked": true, "text": "水果/西瓜/红皮", "value": "fruit/watermelon/red", "keys": "fruit food xigua hongpi"}
                 ]
             },
             {"text": "水果/苹果", "value": "fruit/apple", "keys": "fruit food pingguo"}
@@ -20,11 +20,16 @@
         "text": "蔬菜",
         "value": "vegetable",
         "items": [
-            {"text": "蔬菜/西红柿", "value": "vegetable/tomato", "keys": "fruit food xihongshi"}
+            {"checked": true, "text": "蔬菜/西红柿", "value": "vegetable/tomato", "keys": "fruit food xihongshi"}
         ]
     },
     {
+        "checked": true,
         "text": "肉类",
         "value": "meat"
+    },
+    {
+        "text": "饮料",
+        "value": "drink"
     }
 ]
