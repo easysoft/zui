@@ -14,21 +14,7 @@ import {createKanbanData} from './dev/create-kanban-data';
 
 onPageLoad(() => {
     const kanban1Options: KanbanProps = {
-        heading: {
-            title: 'Kanban',
-            actions: [
-                {icon: 'cog text-gray', title: '设置'},
-                {
-                    type: 'dropdown',
-                    icon: 'ellipsis-v text-gray',
-                    caret: false,
-                    placement: 'bottom-end',
-                    items: [ // 下拉菜单内容
-                        {text: '编辑', icon: 'edit'},
-                    ],
-                },
-            ],
-        },
+        key: 'kanban1',
         data: {
             ...createKanbanData(),
             links: [
@@ -123,6 +109,7 @@ onPageLoad(() => {
         maxColWidth: 300,
     };
     const kanban2Options: KanbanProps = {
+        key: 'kanban2',
         itemCountPerRow: 3,
         data: createKanbanData(),
         onDrop: (changes, info) => {
@@ -134,6 +121,7 @@ onPageLoad(() => {
         },
     };
     const kanbanRegionOptions: KanbanRegionProps = {
+        key: 'region1',
         heading: {
             title: 'Kanban Region',
             actions: [
