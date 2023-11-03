@@ -2394,6 +2394,9 @@ let pt = class extends q {
   get itemName() {
     return this.props.itemName || this.constructor.ITEM_NAME;
   }
+  getItems() {
+    return this._items;
+  }
   getRenderedItem(t) {
     return this._renderedItems.find((e) => e.key === t);
   }
@@ -2486,6 +2489,7 @@ let pt = class extends q {
       { className: [c ? `${c}-${l}` : "", d] },
       e,
       {
+        _item: e,
         _index: s,
         key: String((a ? e[a] : e.key) ?? e.key ?? s),
         onClick: void 0
@@ -2910,17 +2914,23 @@ let se = class extends pt {
     var t;
     (t = this.props.beforeDestroy) == null || t.call(this);
   }
+  setItems(t, e) {
+    const { onLoadFail: s } = this.props;
+    this.setState({
+      loading: !1,
+      items: t || [],
+      loadFailed: e ? (typeof s == "function" ? s.call(this, e) : s) || String(e) : void 0
+    });
+  }
   load() {
-    const { items: t, onLoad: e, onLoadFail: s } = this.props;
+    const { items: t, onLoad: e } = this.props;
     this._loadedSetting = t, this.setState({ loading: !0, items: [] }, async () => {
-      const i = { loading: !1 };
       try {
-        const r = await $n(t, [this], { throws: !0 });
-        i.items = (e == null ? void 0 : e.call(this, r)) || r;
-      } catch (r) {
-        i.loadFailed = (typeof s == "function" ? s.call(this, r) : s) || String(r);
+        const s = await $n(t, [this], { throws: !0 });
+        this.setItems((e == null ? void 0 : e.call(this, s)) || s);
+      } catch (s) {
+        this.setItems(void 0, s);
       }
-      this.setState(i);
     });
   }
   tryLoad() {
@@ -2931,14 +2941,11 @@ let se = class extends pt {
     const i = (typeof e == "number" ? this._items[e] : this.getItem(t)) || {};
     return this.state.checked[t] ?? i.checked ?? s;
   }
+  isAllChecked() {
+    return this._renderedItems.every(({ key: t }, e) => this.isChecked(t, e) === !0);
+  }
   toggleAllChecked(t) {
-    if (t === void 0) {
-      const e = this._renderedItems[0];
-      if (!e)
-        return;
-      t = !this.isChecked(e.key, 0);
-    }
-    this.toggleChecked(this._renderedItems.map((e) => e.key), t);
+    t === void 0 && (t = !this.isAllChecked()), this.toggleChecked(this._renderedItems.map((e) => e.key), t);
   }
   toggleChecked(t, e) {
     let s;
@@ -3168,13 +3175,16 @@ let Pe = class extends se {
       const r = Wt.get(this._storeID);
       r && f.extend(this.state, r);
     }
-    this._renderedItemMap = /* @__PURE__ */ new Map(), this._handleHover = this._handleHover.bind(this), this._handleClick = this._handleClick.bind(this), this._beforeRenderNestedItem = this._beforeRenderNestedItem.bind(this), this._handleNestedToggle = this._handleNestedToggle.bind(this), this._handleNestedCheck = this._handleNestedCheck.bind(this), this._preserveState = this._preserveState.bind(this);
+    t.level || (this._needInitChecks = !0), this._renderedItemMap = /* @__PURE__ */ new Map(), this._handleHover = this._handleHover.bind(this), this._handleClick = this._handleClick.bind(this), this._beforeRenderNestedItem = this._beforeRenderNestedItem.bind(this), this._handleNestedToggle = this._handleNestedToggle.bind(this), this._handleNestedCheck = this._handleNestedCheck.bind(this), this._preserveState = this._preserveState.bind(this);
   }
   get isRoot() {
     return !this.props.level;
   }
   get nestedShow() {
     return this.props.nestedShow ?? this.state.nestedShow ?? !1;
+  }
+  setItems(t, e) {
+    this.isRoot && (this._needInitChecks = !0), super.setItems(t, e);
   }
   getItemMap() {
     return this._itemMap || (this._itemMap = Ca(this._items, this.props.itemKey)), this._itemMap;
@@ -3212,7 +3222,7 @@ let Pe = class extends se {
       return this.setState({ nestedShow: {}, defaultShow: t }, this._preserveState);
   }
   getChecks() {
-    return Array.from(this.getItemMap().values()).reduce((t, { keyPath: e, data: s }) => (this.state.checked[e] === !0 && t.push(e), t), []);
+    return Array.from(this.getItemMap().values()).reduce((t, { keyPath: e, data: s }) => ((this.state.checked[e] === !0 || s.checked) === !0 && t.push(e), t), []);
   }
   isChecked(t, e, s = !1) {
     const i = (typeof e == "number" ? this._items[e] : this.getItem(t)) || {};
@@ -3226,33 +3236,42 @@ let Pe = class extends se {
       e === void 0 && (e = !this.isChecked(t[0])), s = t.reduce((i, r) => (i[r] = e, i), {});
     } else
       typeof t == "object" ? s = t : (e === void 0 && (e = !this.isChecked(t)), s = { [t]: e });
-    if (this.isRoot) {
-      const i = this.getItemMap();
-      this.setState(({ checked: r }) => {
-        const o = (a) => s[a.keyPath] ?? r[a.keyPath] ?? a.data.checked ?? !1;
-        return Object.keys(s).forEach((a) => {
-          e = s[a];
-          const l = i.get(a);
-          l && (wa(l, (c) => {
-            o(c) !== e && (s[c.keyPath] = e);
-          }), xh(l, (c) => {
-            const { children: d } = c, h = d.reduce((g, p) => (o(p) && g++, g), 0);
-            s[c.keyPath] = h === d.length ? !0 : h ? "indeterminate" : !1;
-          }));
-        }), {
-          checked: {
-            ...r,
-            ...s
-          }
-        };
-      }, () => {
-        var o;
-        const r = this.state.checked;
-        (o = this.props.onCheck) == null || o.call(this, s, Object.keys(r).filter((a) => r[a] === !0));
-      });
-    } else {
-      const { parentKey: i, onCheck: r } = this.props, o = Object.keys(s).reduce((a, l) => (a[`${i !== void 0 ? `${i}:` : ""}${l}`] = s[l], a), {});
-      r.call(this, o, []);
+    if (Object.keys(s).length)
+      if (this.isRoot) {
+        const i = this.getItemMap();
+        this.setState(({ checked: r }) => {
+          const o = (a) => s[a.keyPath] ?? r[a.keyPath] ?? a.data.checked ?? !1;
+          return Object.keys(s).forEach((a) => {
+            e = s[a];
+            const l = i.get(a);
+            l && (wa(l, (c) => {
+              o(c) !== e && (s[c.keyPath] = e);
+            }), xh(l, (c) => {
+              const { children: d } = c, h = d.reduce((g, p) => (o(p) && g++, g), 0);
+              s[c.keyPath] = h === d.length ? !0 : h ? "indeterminate" : !1;
+            }));
+          }), {
+            checked: {
+              ...r,
+              ...s
+            }
+          };
+        }, () => {
+          var o;
+          const r = this.state.checked;
+          (o = this.props.onCheck) == null || o.call(this, s, Object.keys(r).filter((a) => r[a] === !0));
+        });
+      } else {
+        const { parentKey: i, onCheck: r } = this.props, o = Object.keys(s).reduce((a, l) => (a[`${i !== void 0 ? `${i}:` : ""}${l}`] = s[l], a), {});
+        r.call(this, o, []);
+      }
+  }
+  _afterRender(t) {
+    if (super._afterRender(t), this._needInitChecks) {
+      const e = {};
+      this.getItemMap().forEach((i) => {
+        i.data.checked !== void 0 && (e[i.keyPath] = i.data.checked);
+      }), this.toggleChecked(e), this._needInitChecks = !1;
     }
   }
   _preserveState() {
@@ -3303,8 +3322,7 @@ let Pe = class extends se {
       const l = i.expanded ?? this.isExpanded(a);
       R(i, {
         expanded: l,
-        className: ["is-nested", `is-nested-${l ? "show" : "hide"}`],
-        _item: e
+        className: ["is-nested", `is-nested-${l ? "show" : "hide"}`]
       }), this._hasNestedItems = !0;
     }
     return R(i, {
@@ -10214,13 +10232,16 @@ function ri(n, { row: t, col: e }) {
   const { data: s } = t, i = s ? s[e.name] : void 0;
   if (!(i != null && i.length))
     return n;
-  const { avatarClass: r = "rounded-full", avatarKey: o = `${e.name}Avatar`, avatarProps: a, avatarCodeKey: l, avatarNameKey: c = `${e.name}Name` } = e.setting, d = (s ? s[c] : i) || n[0], h = {
+  const { avatarClass: r = "rounded-full", avatarKey: o = `${e.name}Avatar`, avatarCodeKey: a, avatarNameKey: l = `${e.name}Name` } = e.setting;
+  let { avatarProps: c = {} } = e.setting;
+  typeof c == "function" && (c = c(e, t));
+  const d = (s ? s[l] : i) || n[0], h = {
     size: "xs",
-    className: x(r, a == null ? void 0 : a.className, "flex-none"),
     src: s ? s[o] : void 0,
     text: d,
-    code: l ? s ? s[l] : void 0 : i,
-    ...a
+    code: a ? s ? s[a] : void 0 : i,
+    ...c,
+    className: x(r, c.className, "flex-none")
   };
   if (n[0] = /* @__PURE__ */ u(ws, { ...h }), e.type === "avatarBtn") {
     const { avatarBtnProps: g } = e.setting, p = typeof g == "function" ? g(e, t) : g;
