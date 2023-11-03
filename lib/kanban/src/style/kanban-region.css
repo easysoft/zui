@@ -1,8 +1,12 @@
-.kanban-group {
+.kanban-region {
   @apply -bg-canvas -rounded -shadow -p-3;
 }
 
-.kanban-group.has-heading {
+.kanban-region > .kanban + .kanban {
+  @apply -mt-3;
+}
+
+.kanban-region.has-heading {
   @apply -pt-0
 }
 .kanban-heading > .listitem {

@@ -79,6 +79,9 @@
 .kanban-lane.is-auto-height .kanban-items {
   scrollbar-gutter: initial;
 }
+.kanban-item .card-actions {
+  @apply -z-[5];
+}
 
 /* Kanban heading. */
 .kanban-heading {

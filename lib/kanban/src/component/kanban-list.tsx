@@ -1,11 +1,11 @@
 import {$, HElement, createRef, mergeProps} from '@zui/core';
 import {Moveable} from '@zui/dnd';
 import {Kanban} from './kanban';
-import {KanbanGroup} from './kanban-group';
+import {KanbanRegion} from './kanban-region';
 
 import type {ComponentChildren, RefObject, RenderableProps} from 'preact';
 import type {ClassNameLike} from '@zui/core';
-import type {KanbanData, KanbanDataSetting, KanbanGroupProps, KanbanListProps, KanbanListState, KanbanProps} from '../types';
+import type {KanbanData, KanbanDataSetting, KanbanRegionProps, KanbanListProps, KanbanListState, KanbanProps} from '../types';
 
 export class KanbanList extends HElement<KanbanListProps, KanbanListState> {
     static defaultProps: Partial<KanbanListProps> = {
@@ -112,21 +112,28 @@ export class KanbanList extends HElement<KanbanListProps, KanbanListState> {
 
     protected _getChildren(props: RenderableProps<KanbanListProps>): ComponentChildren {
         const {items = [], kanbanProps: kanbanPropsSetting} = props;
-        return [
+        const kanbanRefs = this._kanbanRefs;
+        const refKeys = new Set<string>(kanbanRefs.keys());
+        const children = [
             ...items.map((kanbanProps, index) => {
                 if (kanbanPropsSetting) {
                     kanbanProps = typeof kanbanPropsSetting === 'function' ? kanbanPropsSetting.call(this, kanbanProps, index) : $.extend({}, kanbanPropsSetting, kanbanProps);
                 }
-                const key = String((kanbanProps as KanbanProps).key ?? index);
-                let ref = this._kanbanRefs.get(key);
+                const key = String(kanbanProps.key ?? index);
+                let ref = kanbanRefs.get(key);
                 if (!ref) {
                     ref = createRef<Kanban>();
-                    this._kanbanRefs.set(key, ref);
+                    kanbanRefs.set(key, ref);
                 }
-                const KanbanComponent = ((kanbanProps as KanbanGroupProps).heading !== undefined || (kanbanProps as KanbanGroupProps).type === 'group') ? KanbanGroup : Kanban;
+                refKeys.delete(key);
+                const KanbanComponent = ((kanbanProps as KanbanRegionProps).heading !== undefined || (kanbanProps as KanbanRegionProps).items) ? KanbanRegion : Kanban;
                 return <KanbanComponent key={key} ref={ref} sticky={props.sticky} {...(kanbanProps as KanbanProps)} z-key={key} />;
             }),
             props.children,
         ];
+        refKeys.forEach(key => {
+            kanbanRefs.delete(key);
+        });
+        return children;
     }
 }

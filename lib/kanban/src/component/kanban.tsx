@@ -139,7 +139,7 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
                 const $container = typeof responsive !== 'boolean' ? $(responsive) : $(element.closest('.kanban-list') || element.parentElement);
                 const container = $container[0];
                 let containerWidth = $container.width() - laneNameWidth - (container!.offsetWidth - container!.clientWidth);
-                const group = element.closest('.kanban-group');
+                const group = element.closest('.kanban-region');
                 if (group) {
                     containerWidth -= group.clientWidth - $(group).width();
                 }

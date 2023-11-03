@@ -9,11 +9,11 @@ import '@zui/checkbox';
 import '@zui/cards';
 import '@zui/menu';
 import {$} from '@zui/core';
-import {KanbanGroupProps, KanbanList, KanbanProps} from './src/main';
+import {KanbanRegionProps, KanbanList, KanbanProps} from './src/main';
 import {createKanbanData} from './dev/create-kanban-data';
 
 onPageLoad(() => {
-    const kanbanOptions: KanbanProps = {
+    const kanban1Options: KanbanProps = {
         heading: {
             title: 'Kanban',
             actions: [
@@ -122,10 +122,7 @@ onPageLoad(() => {
         },
         maxColWidth: 300,
     };
-    const kanban2Options: KanbanGroupProps = {
-        heading: {
-            title: {html: '<span>设置区域</span> <i class="icon icon-chevron-up"></i>'},
-        },
+    const kanban2Options: KanbanProps = {
         itemCountPerRow: 3,
         data: createKanbanData(),
         onDrop: (changes, info) => {
@@ -136,10 +133,28 @@ onPageLoad(() => {
             return {className: 'kanban-item card-list-item item', html: `<div class="card"><div class="card-heading"><span class="card-title">${info.item.title}</span></div></div>`};
         },
     };
-    const kanban3Options: KanbanProps = {
+    const kanbanRegionOptions: KanbanRegionProps = {
         heading: {
-            title: '父子列',
+            title: 'Kanban Region',
+            actions: [
+                {icon: 'cog text-gray', title: '设置'},
+                {
+                    type: 'dropdown',
+                    icon: 'ellipsis-v text-gray',
+                    caret: false,
+                    placement: 'bottom-end',
+                    items: [ // 下拉菜单内容
+                        {text: '编辑', icon: 'edit'},
+                    ],
+                },
+            ],
         },
+        items: [
+            kanban1Options,
+            kanban2Options,
+        ],
+    };
+    const kanbanOptions: KanbanProps = {
         data: {
             cols: [
                 {title: '未完成', name: 'todo'},
@@ -226,7 +241,7 @@ onPageLoad(() => {
         },
     };
     const kanbanList = new KanbanList('#kanbanList', {
-        items: [kanbanOptions, kanban2Options, kanban3Options],
+        items: [kanbanOptions, kanbanRegionOptions],
         height: 'calc(100vh - 160px)',
     });
     console.log('> kanbanList', kanbanList);

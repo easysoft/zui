@@ -1,3 +1,3 @@
 export * from './kanban';
 export * from './kanban-list';
-export * from './kanban-group';
+export * from './kanban-region';

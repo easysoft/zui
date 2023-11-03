@@ -1,11 +1,11 @@
 import type {HElementProps, Selector, SizeSetting} from '@zui/core';
 import type {MoveableOptions} from '@zui/dnd/src/types';
 import type {KanbanProps} from './kanban-props';
-import type {KanbanGroupProps} from './kanban-group-props';
+import type {KanbanRegionProps} from './kanban-region-props';
 
 export interface KanbanListProps extends HElementProps {
-    items?: (KanbanProps | KanbanGroupProps)[];
-    kanbanProps?: Partial<KanbanGroupProps> | ((item: KanbanProps | KanbanGroupProps, index: number) => KanbanProps | KanbanGroupProps);
+    items?: (KanbanProps | KanbanRegionProps)[];
+    kanbanProps?: Partial<KanbanRegionProps> | ((item: KanbanProps | KanbanRegionProps, index: number) => KanbanProps | KanbanRegionProps);
     moveable?: boolean | MoveableOptions;
     responsive?: Selector | boolean;
     sticky?: boolean;

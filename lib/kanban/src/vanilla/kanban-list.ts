@@ -1,7 +1,7 @@
 import {ComponentFromReact} from '@zui/core';
 import {KanbanList as KanbanListReact} from '../component';
 
-import type {KanbanListProps, KanbanProps, KanbanGroupProps} from '../types';
+import type {KanbanListProps, KanbanProps, KanbanRegionProps} from '../types';
 
 export class KanbanList extends ComponentFromReact<KanbanListProps, KanbanListReact> {
     static NAME = 'KanbanList';
@@ -10,7 +10,7 @@ export class KanbanList extends ComponentFromReact<KanbanListProps, KanbanListRe
 
     static Component = KanbanListReact;
 
-    updateKanban(items: (KanbanProps | KanbanGroupProps) | (KanbanProps | KanbanGroupProps)[], reset?: boolean) {
+    updateKanban(items: (KanbanProps | KanbanRegionProps) | (KanbanProps | KanbanRegionProps)[], reset?: boolean) {
         items = Array.isArray(items) ? items : [items];
         if (reset) {
             return this.render({items});
