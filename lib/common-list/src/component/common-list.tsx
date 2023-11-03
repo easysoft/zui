@@ -90,6 +90,10 @@ export class CommonList<P extends CommonListProps = CommonListProps, S = {}> ext
         return this.props.itemName || this.constructor.ITEM_NAME;
     }
 
+    getItems() {
+        return this._items;
+    }
+
     getRenderedItem(key: ItemKey) {
         return this._renderedItems.find((item) => item.key === key);
     }
