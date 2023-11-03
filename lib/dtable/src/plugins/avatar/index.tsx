@@ -10,7 +10,7 @@ export type DTableAvatarTypes = {
         avatarClass?: string,
         avatarKey?: string,
         avatarCodeKey?: string,
-        avatarProps?: AvatarOptions,
+        avatarProps?: AvatarOptions | ((col: ColInfo, row: RowInfo) => AvatarOptions),
         avatarBtnProps?: JSX.HTMLAttributes<HTMLButtonElement> | ((col: ColInfo, row: RowInfo) => JSX.HTMLAttributes<HTMLButtonElement>),
         avatarNameKey?: string;
     }>,
@@ -24,15 +24,19 @@ function renderAvatarCell(result: CustomRenderResultList, {row, col}: {row: RowI
     if (!text?.length) {
         return result;
     }
-    const {avatarClass = 'rounded-full', avatarKey = `${col.name}Avatar`, avatarProps, avatarCodeKey, avatarNameKey = `${col.name}Name`} = col.setting as DTableAvatarTypes['col'];
+    const {avatarClass = 'rounded-full', avatarKey = `${col.name}Avatar`, avatarCodeKey, avatarNameKey = `${col.name}Name`} = col.setting as DTableAvatarTypes['col'];
+    let {avatarProps = {}} = col.setting as DTableAvatarTypes['col'];
+    if (typeof avatarProps === 'function') {
+        avatarProps = avatarProps(col, row);
+    }
     const name = (rowData ? (rowData[avatarNameKey] as string) : text) || result[0];
     const props = {
         size: 'xs',
-        className: classes(avatarClass, avatarProps?.className, 'flex-none'),
         src: rowData ? (rowData[avatarKey] as string) : undefined,
         text: name,
         code: avatarCodeKey ? (rowData ? (rowData[avatarCodeKey] as string) : undefined) : text,
         ...avatarProps,
+        className: classes(avatarClass, avatarProps.className, 'flex-none'),
     } as AvatarOptions;
 
     result[0] = <Avatar {...props} />;
