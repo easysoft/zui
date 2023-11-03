@@ -224,6 +224,7 @@ export class CommonList<P extends CommonListProps = CommonListProps, S = {}> ext
             {className: [name ? `${name}-${type}` : '', itemName]},
             item,
             {
+                _item: item,
                 _index: index,
                 key: String((itemKey ? item[itemKey] : item.key) ?? (item.key ?? index)),
                 onClick: undefined,
