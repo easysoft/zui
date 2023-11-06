@@ -6897,7 +6897,6 @@ class xt extends _t {
     const { items: t, placement: e, menu: s, onClickItem: i, relativeTarget: r = this._triggerElement } = this.options;
     return {
       items: t,
-      popup: !1,
       placement: e,
       onClickItem: i,
       relativeTarget: { target: r, event: this.options.triggerEvent, dropdown: this },
@@ -6908,6 +6907,7 @@ class xt extends _t {
     return {
       ...super._getRenderOptions(),
       contentClass: "",
+      popup: !1,
       content: $t(Nr, this._getMenuOptions())
     };
   }
