@@ -32,12 +32,16 @@ export class Dropdown<O extends DropdownOptions = DropdownOptions> extends Popov
     }
 
     protected _getRenderOptions(): PopoverPanelOptions {
-        return {
-            ...super._getRenderOptions(),
-            contentClass: '',
-            popup: false,
-            content: h(DropdownMenu as unknown as ComponentType<DropdownMenuOptions>, this._getMenuOptions()),
-        };
+        const options = super._getRenderOptions();
+        if (this._dynamic) {
+            return {
+                ...options,
+                contentClass: '',
+                popup: false,
+                content: h(DropdownMenu as unknown as ComponentType<DropdownMenuOptions>, this._getMenuOptions()),
+            };
+        }
+        return options;
     }
 
     protected _onClickDoc = (event: MouseEvent) => {
