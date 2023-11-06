@@ -4111,6 +4111,7 @@ let br = class extends Nt {
     const e = typeof t == "object" ? t : {};
     return {
       dataIdAttr: "z-key",
+      draggable: ".list-item",
       ...e,
       onSort: (s) => {
         var r, o;
