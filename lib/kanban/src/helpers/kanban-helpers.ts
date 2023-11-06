@@ -134,7 +134,7 @@ export function sortByOrder(a: {order?: number}, b: {order?: number}) {
     return a.order! - b.order!;
 }
 
-export function mergeList<T extends KanbanLaneOptions | KanbanColOptions | KanbanItem>(items: T[] | undefined, newItems: T[] | undefined, itemKey: string): T[] {
+export function mergeList<T extends {}>(items: T[] | undefined, newItems: T[] | undefined, itemKey: string = 'key'): T[] {
     if (!items) {
         return newItems ? [...newItems ] : [];
     }
@@ -143,7 +143,7 @@ export function mergeList<T extends KanbanLaneOptions | KanbanColOptions | Kanba
         let order = 0;
         const indexMap = finalItems.reduce((map, item, index) => {
             map.set(item[itemKey as keyof T] as string, index);
-            order = Math.max(item.order ?? index, order);
+            order = Math.max((item as {order?: number}).order ?? index, order);
             return map;
         }, new Map<string, number>());
         newItems.forEach(item => {

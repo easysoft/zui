@@ -2,7 +2,8 @@ import {Component, createRef, type RefObject, type ComponentChildren, type Rende
 import {$, classes, mergeProps} from '@zui/core';
 import {Listitem} from '@zui/list/src/component';
 import {Kanban} from './kanban';
-import type {KanbanRegionProps, KanbanRegionState} from '../types';
+import {mergeList, sortByOrder} from '../helpers/kanban-helpers';
+import type {KanbanProps, KanbanRegionProps, KanbanRegionState} from '../types';
 
 export class KanbanRegion extends Component<KanbanRegionProps, KanbanRegionState> {
     protected _kanbanRefs = new Map<string, RefObject<Kanban>>();
@@ -23,6 +24,12 @@ export class KanbanRegion extends Component<KanbanRegionProps, KanbanRegionState
         this.setState(prevState => ({collapsed: expanded === undefined ? !prevState.collapsed : !expanded}));
     }
 
+    update(state: Partial<KanbanRegionState>) {
+        return new Promise(resolve => {
+            this.setState(state, resolve as () => void);
+        });
+    }
+
     _handleClickHeading = (event: MouseEvent) => {
         if ($(event.target as HTMLElement).closest('a,.btn,button').not('.kanban-region-toggle').length) {
             return;
@@ -32,9 +39,16 @@ export class KanbanRegion extends Component<KanbanRegionProps, KanbanRegionState
 
     _buildItems(props: RenderableProps<KanbanRegionProps>): ComponentChildren[] {
         const {items = [], kanbanProps: kanbanPropsSetting} = props;
+        let {items: stateItems} = this.state;
+        if (stateItems) {
+            stateItems = mergeList(items, stateItems).filter(x => !(x as {deleted?: boolean}).deleted);
+            stateItems.sort(sortByOrder as ((a: KanbanProps, b: KanbanProps) => number));
+        } else {
+            stateItems = items;
+        }
         const kanbanRefs = this._kanbanRefs;
         const refKeys = new Set<string>(kanbanRefs.keys());
-        const children = items.map((item, index) => {
+        const children = stateItems.map((item, index) => {
             const kanbanProps = mergeProps(
                 {className: 'kanban-region-item', key: index},
                 typeof kanbanPropsSetting === 'function' ? kanbanPropsSetting.call(this, item, index) : kanbanPropsSetting,
@@ -57,8 +71,8 @@ export class KanbanRegion extends Component<KanbanRegionProps, KanbanRegionState
 
     render(props: RenderableProps<KanbanRegionProps>) {
         const {heading, toggleFromHeading} = props;
-        const {collapsed} = this.state;
-        const headingProps = mergeProps({className: 'kanban-heading', onClick: toggleFromHeading ? this._handleClickHeading : undefined}, typeof heading === 'function' ? heading.call(this) : heading);
+        const {collapsed, heading: headingState} = this.state;
+        const headingProps = mergeProps({className: 'kanban-heading', onClick: toggleFromHeading ? this._handleClickHeading : undefined}, typeof heading === 'function' ? heading.call(this) : heading, headingState);
         return (
             <div className={classes('kanban-region', collapsed ? 'is-collapsed' : 'is-expanded', heading ? 'has-heading' : '')}>
                 {heading && <Listitem key="heading" {...headingProps} />}

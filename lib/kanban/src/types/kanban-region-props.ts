@@ -4,8 +4,8 @@ import type {KanbanProps} from './kanban-props';
 export interface KanbanRegionProps {
     key?: string;
     heading?: ListitemProps | (() => ListitemProps);
+    items?: KanbanProps[];
     collapsed?: boolean;
     toggleFromHeading?: boolean;
-    items?: KanbanProps[];
     kanbanProps?: Partial<KanbanRegionProps> | ((item: KanbanProps | KanbanRegionProps, index: number) => KanbanProps | KanbanRegionProps);
 }
