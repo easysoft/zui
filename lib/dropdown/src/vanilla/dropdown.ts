@@ -24,7 +24,6 @@ export class Dropdown<O extends DropdownOptions = DropdownOptions> extends Popov
         const {items, placement, menu, onClickItem, relativeTarget = this._triggerElement} = this.options;
         return {
             items,
-            popup: false,
             placement: placement,
             onClickItem: onClickItem,
             relativeTarget: {target: relativeTarget, event: this.options.triggerEvent, dropdown: this},
@@ -36,6 +35,7 @@ export class Dropdown<O extends DropdownOptions = DropdownOptions> extends Popov
         return {
             ...super._getRenderOptions(),
             contentClass: '',
+            popup: false,
             content: h(DropdownMenu as unknown as ComponentType<DropdownMenuOptions>, this._getMenuOptions()),
         };
     }
