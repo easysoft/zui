@@ -8,5 +8,5 @@ export class SearchMenu extends ComponentFromReact<SearchMenuOptions, MenuReact>
 
     static Component = MenuReact;
 
-    static replace = true;
+    static replace = MenuReact.TAG;
 }

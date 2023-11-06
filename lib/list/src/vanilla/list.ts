@@ -6,4 +6,6 @@ export class List extends ComponentFromReact<ListProps, ListReact> {
     static NAME = 'List';
 
     static Component = ListReact;
+
+    static replace = ListReact.TAG;
 }

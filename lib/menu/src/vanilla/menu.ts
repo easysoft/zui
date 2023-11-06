@@ -8,5 +8,5 @@ export class Menu extends ComponentFromReact<MenuOptions, MenuReact<MenuOptions>
 
     static Component = MenuReact;
 
-    static replace = true;
+    static replace = MenuReact.TAG;
 }

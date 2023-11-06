@@ -6,4 +6,6 @@ export class NestedList extends ComponentFromReact<NestedListProps, NestedListRe
     static NAME = 'NestedList';
 
     static Component = NestedListReact;
+
+    static replace = NestedListReact.TAG;
 }

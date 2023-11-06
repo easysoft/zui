@@ -7,5 +7,5 @@ export class Tree extends ComponentFromReact<TreeOptions, TreeReact> {
 
     static Component = TreeReact;
 
-    static replace = true;
-} 
+    static replace = TreeReact.TAG;
+}
