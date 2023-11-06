@@ -14,7 +14,7 @@ export class ComponentFromReact<O extends {} = {}, C extends ComponentReact<O> =
     /**
      * Whether replace the element.
      */
-    static replace = false;
+    static replace: boolean | keyof HTMLElementTagNameMap | (string & {}) = false;
 
     /**
      * Access to static properties via this.constructor.
@@ -66,7 +66,7 @@ export class ComponentFromReact<O extends {} = {}, C extends ComponentReact<O> =
             ref: this._ref,
             ...userOptions,
         };
-        if ($replace && (Component as {HElement?: boolean}).HElement) {
+        if ($replace && (Component as {HElement?: boolean}).HElement && (element.tagName.toLowerCase() === $replace || $replace === true)) {
             const attrs = Array.from(element.attributes).reduce<Record<string, unknown>>((data, attribute) => {
                 const {name, value} = attribute;
                 data[name === 'class' ? 'className' : name] = value;
