@@ -6904,12 +6904,13 @@ class xt extends _t {
     };
   }
   _getRenderOptions() {
-    return {
-      ...super._getRenderOptions(),
+    const t = super._getRenderOptions();
+    return this._dynamic ? {
+      ...t,
       contentClass: "",
       popup: !1,
       content: $t(Nr, this._getMenuOptions())
-    };
+    } : t;
   }
 }
 xt.NAME = "Dropdown";
