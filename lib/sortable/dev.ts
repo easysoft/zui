@@ -25,6 +25,9 @@ onPageUpdate(() => {
             {title: '超复杂情况', subtitle: '这是副标题', url: 'https://openzui.com', icon: 'star', trailingIcon: 'arrow-right', avatar: {icon: 'flag', className: 'primary'}},
             {title: '超复杂情况', subtitle: '这是副标题', icon: 'star', trailingIcon: 'arrow-right', avatar: {icon: 'flag', className: 'success'}, checked: true, actions: [{icon: 'check'}]},
         ],
+        itemProps: {
+            icon: 'move muted',
+        },
         onSort: function (event, orders) {
             console.log('> onSort', event, orders);
         },

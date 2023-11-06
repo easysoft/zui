@@ -62,6 +62,7 @@ export class SortableList<P extends SortableListProps = SortableListProps, S ext
         const userOptions = typeof sortable === 'object' ? sortable : {};
         return {
             dataIdAttr: 'z-key',
+            draggable: '.list-item',
             ...userOptions,
             onSort: (event: SortableEvent) => {
                 const orders = this.getOrders();
