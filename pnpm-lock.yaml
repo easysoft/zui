@@ -1087,9 +1087,15 @@ importers:
 
   lib/sortable:
     dependencies:
+      '@zui/common-list':
+        specifier: workspace:^0.0.1
+        version: link:../common-list
       '@zui/core':
         specifier: workspace:^0.0.1
         version: link:../core
+      '@zui/list':
+        specifier: workspace:^0.0.1
+        version: link:../list
     devDependencies:
       '@types/sortablejs':
         specifier: ^1.15.1

@@ -1,0 +1,6 @@
+.sortable-list .listitem {
+  @apply -px-2 -bg-canvas;
+}
+.sortable-list .sortable-ghost > .listitem {
+  @apply -bg-warning-50;
+}

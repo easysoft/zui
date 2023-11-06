@@ -1,5 +1,13 @@
 # Sortable
 
+## SortableList
+
+```html:example
+<ul id="sortableList"></ul>
+```
+
+## Vanilla
+
 ```html:example
 <menu id="example1" class="col gap-1">
   <li class="ring p-2 canvas" draggable="false">Item 2</li>
