@@ -1,1 +1,1 @@
-export type {SortableOptions} from 'sortablejs';
+export type {SortableOptions, SortableEvent} from 'sortablejs';
