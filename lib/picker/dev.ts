@@ -53,6 +53,13 @@ onPageUpdate(() => {
         defaultValue: 'banana',
         placeholder: '请选择你的最爱',
         searchHint: '搜索选项',
+        cache: false,
+        menu: {
+            getItem(item) {
+                item.disabled = Math.random() > 0.5;
+                return item;
+            },
+        },
     });
     console.log('> singlePickerRemote', singlePickerRemote);
 

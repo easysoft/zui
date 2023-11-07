@@ -15,6 +15,7 @@ export interface PickerOptions<S extends PickerState = PickerState> extends Pick
     menu?: MenuOptions;
     checkbox?: MenuOptions['checkbox'];
     items: MenuOptions['items'];
+    cache?: boolean;
     searchDelay?: number;
     search?: boolean | number;
     searchHint?: string;

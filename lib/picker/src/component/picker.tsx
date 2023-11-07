@@ -31,6 +31,7 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
         limitValueInList: true,
         search: true,
         emptyValue: '',
+        cache: true,
     };
 
     static Pop = PickerMenu as typeof Pick.Pop;
@@ -177,7 +178,8 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
         const cache = this._itemsCacheInfo || {};
         const newState: Partial<S> = {};
         this._itemsCacheInfo = cache;
-        if (force || cache.search !== state.search || props.items !== cache.items) {
+        if (!state.loading && (force || cache.search !== state.search || props.items !== cache.items)) {
+            await this.changeState({loading: true} as Partial<S>);
             const loadItems = await this.load();
             newState.items = loadItems.filter(x => {
                 x.value = String(x.value);
@@ -189,6 +191,8 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
             newState.loading = false;
             cache.items = props.items;
             cache.search = state.search;
+        } else if (cache.items && !state.open && props.cache === false && !Array.isArray(props.items)) {
+            cache.items = undefined;
         }
         if (force || cache.value !== state.value) {
             cache.value = state.value;
@@ -229,6 +233,17 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
         clearTimeout(this._updateTimer);
         super.componentWillUnmount();
     }
+
+    // protected _handlePopToggle(opened: boolean): void {
+    //     console.log('> pop.toggle', opened);
+    //     if (opened) {
+    //         return;
+    //     }
+    //     const {items, cache} = this.props;
+    //     if (items && !Array.isArray(items) && cache === false && this._itemsCacheInfo) {
+    //         this._itemsCacheInfo.items = undefined;
+    //     }
+    // }
 
     protected _getTriggerProps(props: RenderableProps<O>, state: Readonly<S>): PickerSelectProps<S> & {ref: RefObject<PickerTrigger>} {
         return {
