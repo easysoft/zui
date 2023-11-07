@@ -50,6 +50,13 @@ function forEachParent(item: ItemInfo, callback: (parent: ItemInfo) => void) {
     }
 }
 
+function parentKeys(keyPath: string) {
+    return keyPath.split(':').reduce<string[]>((keys, item, index) => {
+        keys.push(index ? keys[index - 1] + ':' + item : item);
+        return keys;
+    }, []);
+}
+
 function initItemMap(items: Item[], itemKey: string | undefined, map: Map<string, ItemInfo> = new Map(), level = 0, parent?: ItemInfo) {
     items.forEach((item, index) => {
         const key = String((itemKey ? item[itemKey] : item.key) ?? (item.key ?? index));
@@ -112,6 +119,17 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
         }
 
         if (!props.level) {
+            const nestedState = this.state.nestedShow;
+            if (nestedState) {
+                Object.keys(nestedState).forEach(key => {
+                    if (!nestedState[key]) {
+                        return;
+                    }
+                    parentKeys(key).forEach(parentKey => {
+                        nestedState[parentKey] = true;
+                    });
+                });
+            }
             this._needInitChecks = true;
         }
 
@@ -182,10 +200,10 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
             return;
         }
         return this.setState(prevState => ({
-            nestedShow: {
-                ...prevState.nestedShow,
-                [keyPath]: toggle,
-            },
+            nestedShow: parentKeys(keyPath).reduce<Record<string, boolean>>((map, key) => {
+                map[key] = toggle!;
+                return map;
+            }, {...prevState.nestedShow}),
         }), this._preserveState);
     }
 

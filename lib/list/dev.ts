@@ -11,6 +11,7 @@ onPageUpdate(() => {
         checkbox: true,
         checkOnClick: 'any',
         activeOnChecked: true,
+        defaultNestedShow: {'0:0:1': true},
         onCheck: function (changes, checks) {
             console.log('> onCheck', {changes, checks, allChecks: this.getChecks(), table: this});
         },
