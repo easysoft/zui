@@ -171,7 +171,7 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
     }
 
     update(changes: Partial<KanbanDataset>): Promise<S> {
-        console.log('> Kanban.update', changes, this);
+        console.log('> Kanban.update', this.props.key, changes, this);
         return this.changeState((prevState) => ({
             changes: mergeData({...prevState.changes}, changes, this.itemKey),
         } as Partial<S>));

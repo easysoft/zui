@@ -2,11 +2,13 @@ import {Component, createRef, type RefObject, type ComponentChildren, type Rende
 import {$, classes, mergeProps} from '@zui/core';
 import {Listitem} from '@zui/list/src/component';
 import {Kanban} from './kanban';
-import {mergeList, sortByOrder} from '../helpers/kanban-helpers';
-import type {KanbanProps, KanbanRegionProps, KanbanRegionState} from '../types';
+import {mergeData, mergeList, sortByOrder} from '../helpers/kanban-helpers';
+import type {KanbanData, KanbanDataset, KanbanProps, KanbanRegionProps, KanbanRegionState} from '../types';
 
 export class KanbanRegion extends Component<KanbanRegionProps, KanbanRegionState> {
     protected _kanbanRefs = new Map<string, RefObject<Kanban>>();
+
+    protected _needUpdateData = new Map<string, Partial<KanbanData>>();
 
     constructor(props: KanbanRegionProps) {
         super(props);
@@ -14,6 +16,20 @@ export class KanbanRegion extends Component<KanbanRegionProps, KanbanRegionState
             ...this.state,
             collapsed: props.collapsed,
         };
+    }
+
+    componentDidUpdate(): void {
+        if (this.state.collapsed) {
+            return;
+        }
+        const needUpdateData = this._needUpdateData;
+        [...needUpdateData.keys()].forEach(key => {
+            const kanban = this.getKanban(key);
+            if (kanban) {
+                kanban.update(needUpdateData.get(key) as Partial<KanbanDataset>);
+                needUpdateData.delete(key);
+            }
+        });
     }
 
     getKanban(key: unknown) {
@@ -25,9 +41,36 @@ export class KanbanRegion extends Component<KanbanRegionProps, KanbanRegionState
     }
 
     update(state: Partial<KanbanRegionState>) {
+        console.log('> KanbanRegion.update', this.props.key, state, this);
+        const {items} = state;
+        if (items) {
+            state = {...state};
+            state.items = items.map((item, index) => {
+                const key = String(item.key || index);
+                if ((item as {deleted?: boolean}).deleted) {
+                    return {key, deleted: true} as unknown as KanbanProps;
+                }
+                if (item.data && typeof item.data === 'object' && this.getKanban(key)) {
+                    this._needUpdateKanban(key, item.data as Partial<KanbanDataset>);
+                    item = {...item};
+                    delete (item as Partial<KanbanProps>).data;
+                }
+
+                return item;
+            });
+        }
         return new Promise(resolve => {
-            this.setState(state, resolve as () => void);
+            this.setState(state.items ? (prevState) => {
+                return {...state, items: mergeList(prevState.items, state.items as KanbanProps[])};
+            } : state, resolve as () => void);
         });
+    }
+
+    _needUpdateKanban(key: string, data: Partial<KanbanDataset>) {
+        const needUpdateData = this._needUpdateData;
+        const oldData = needUpdateData.get(key);
+        const {kanbanItemKey = 'id'} = this.props;
+        needUpdateData.set(key, mergeData(oldData || {}, data, kanbanItemKey));
     }
 
     _handleClickHeading = (event: MouseEvent) => {
@@ -60,6 +103,7 @@ export class KanbanRegion extends Component<KanbanRegionProps, KanbanRegionState
                 ref = createRef<Kanban>();
                 kanbanRefs.set(key, ref);
             }
+            kanbanProps.ref = ref;
             refKeys.delete(key);
             return <Kanban {...kanbanProps} />;
         });

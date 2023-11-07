@@ -5,7 +5,7 @@ import {KanbanRegion} from './kanban-region';
 
 import type {ComponentChildren, RefObject, RenderableProps} from 'preact';
 import type {ClassNameLike} from '@zui/core';
-import type {KanbanData, KanbanDataSetting, KanbanRegionProps, KanbanListProps, KanbanListState, KanbanProps} from '../types';
+import type {KanbanData, KanbanDataSetting, KanbanRegionProps, KanbanListProps, KanbanListState, KanbanProps, KanbanRegionState, KanbanDataset} from '../types';
 
 export class KanbanList extends HElement<KanbanListProps, KanbanListState> {
     static defaultProps: Partial<KanbanListProps> = {
@@ -29,7 +29,7 @@ export class KanbanList extends HElement<KanbanListProps, KanbanListState> {
 
     protected _layoutTimer?: number;
 
-    protected _kanbanRefs = new Map<string, RefObject<Kanban>>();
+    protected _kanbanRefs = new Map<string, RefObject<Kanban | KanbanRegion>>();
 
     constructor(props: KanbanListProps) {
         super(props);
@@ -65,8 +65,32 @@ export class KanbanList extends HElement<KanbanListProps, KanbanListState> {
         this._rob?.disconnect();
     }
 
-    getKanban(key: unknown) {
-        return this._kanbanRefs.get(String(key))?.current;
+    getKanban(key: unknown): Kanban | KanbanRegion | null {
+        const keyStr = String(key);
+        const refs = this._kanbanRefs;
+        if (refs.has(keyStr)) {
+            return refs.get(keyStr)!.current;
+        }
+        let kanban: Kanban | null | undefined = null;
+        const refsList = Array.from(refs.values());
+        for (const ref of refsList) {
+            const current = ref.current!;
+            if (current instanceof KanbanRegion) {
+                kanban = current.getKanban(key);
+                if (kanban) {
+                    break;
+                }
+            }
+        }
+        return kanban || null;
+    }
+
+    update(key: unknown, data: Partial<KanbanRegionState | KanbanDataset>): Promise<unknown> {
+        const kanban = this.getKanban(key);
+        if (kanban) {
+            return (kanban as Kanban).update(data as Partial<KanbanDataset>);
+        }
+        return Promise.reject(new Error(`[ZUI] Kanban not found: ${key}`));
     }
 
     updateLayout(): void {
