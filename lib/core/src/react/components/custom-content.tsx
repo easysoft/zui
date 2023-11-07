@@ -23,6 +23,12 @@ export function renderCustomContent(props: CustomContentProps): ComponentChildre
     if (Array.isArray(content)) {
         return content.map((x) => renderCustomContent({...others, content: x, generatorThis, generatorArgs}));
     }
+    if ((typeof content === 'string' || typeof content === 'number')) {
+        if (Object.keys(others).length) {
+            return <div {...others}>{content}</div>;
+        }
+        return content;
+    }
     if (typeof content === 'object' && (typeof (content as HtmlContentProps).html === 'string' || (content as HtmlContentProps).component)) {
         if ((content as HtmlContentProps).html) {
             return <HtmlContent {...(mergeProps(others, content) as unknown as HtmlContentProps)} />;
@@ -34,7 +40,7 @@ export function renderCustomContent(props: CustomContentProps): ComponentChildre
         }
         return <HElement {...(mergeProps(others, content) as unknown as HElementProps)} />;
     }
-    if (isValidElement(content) || typeof content === 'string' || typeof content === 'number') {
+    if (isValidElement(content)) {
         return content;
     }
     if (content) {
