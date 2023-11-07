@@ -178,6 +178,15 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
         }
     }
 
+    protected _handlePopToggle(opened: boolean) {
+        const {onPopShown, onPopHidden} = this.props;
+        if (opened && onPopShown) {
+            onPopShown();
+        } else if (!opened && onPopHidden) {
+            onPopHidden();
+        }
+    }
+
     setValue(value: string) {
         if (this.props.disabled) {
             return;
@@ -207,12 +216,7 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
         const {open: opened, value} = this.state;
         const {open: prevOpened, value: prevValue} = previousState;
         if (!!opened !== !!prevOpened) {
-            const {onPopShown, onPopHidden} = this.props;
-            if (opened && onPopShown) {
-                onPopShown();
-            } else if (!opened && onPopHidden) {
-                onPopHidden();
-            }
+            this._handlePopToggle(!!opened);
         }
         if (value !== prevValue) {
             this._handleChange(value, prevValue);
