@@ -19,6 +19,13 @@
 .group.active .group-active\:border-primary,
 .active\:border-primary.active {@apply -border-primary-500;}
 
+.group:hover .group-hover\:primary-pale,
+.hover\:primary-pale:hover,
+.group:active .group-active\:primary-pale,
+.active\:primary-pale:active,
+.group.active .group-active\:primary-pale,
+.active\:primary-pale.active {@apply -bg-primary-50;}
+
 .group:hover .group-hover\:primary,
 .hover\:primary:hover,
 .group:active .group-active\:primary,
