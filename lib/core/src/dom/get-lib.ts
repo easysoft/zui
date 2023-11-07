@@ -80,7 +80,7 @@ $.getLib = function<T = unknown> (optionsOrSrc: string | (GetLibOptions & {src: 
         }
         const {root = $.libRoot} = options;
         if (root) {
-            src = `${root}/${src}`.replace('//', '/');
+            src = `${root}${(root.endsWith('/') && src.startsWith('/')) ? '' : '/'}${src}`;
         }
 
         const {success, name} = options;
