@@ -14,7 +14,7 @@ export async function fetchData<T = {}, A extends unknown[] = unknown[]>(setting
             const data = await result;
             return data;
         }
-        $.extend(ajaxSetting, result);
+        return result;
     }
     if (extraAjaxSetting) {
         $.extend(ajaxSetting, typeof extraAjaxSetting === 'function' ? extraAjaxSetting(ajaxSetting) : extraAjaxSetting);

@@ -42,8 +42,6 @@ export type FetcherUrl = string;
 
 export type FetcherInit = AjaxSetting;
 
-export type FetcherInitFn<A extends unknown[] = unknown[]> = (...args: A) => AjaxSetting;
+export type FetcherFn<T = {}, A extends unknown[] = unknown[]> = (...args: A) => Promise<T> | T;
 
-export type FetcherFn<T = {}, A extends unknown[] = unknown[]> = (...args: A) => Promise<T>;
-
-export type FetcherSetting<T = {}, A extends unknown[] = unknown[]> = FetcherUrl | FetcherInit | FetcherInitFn<A> | FetcherFn<T, A>;
+export type FetcherSetting<T = {}, A extends unknown[] = unknown[]> = FetcherUrl | FetcherInit | FetcherFn<T, A>;
