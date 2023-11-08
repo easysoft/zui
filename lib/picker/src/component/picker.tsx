@@ -234,17 +234,6 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
         super.componentWillUnmount();
     }
 
-    // protected _handlePopToggle(opened: boolean): void {
-    //     console.log('> pop.toggle', opened);
-    //     if (opened) {
-    //         return;
-    //     }
-    //     const {items, cache} = this.props;
-    //     if (items && !Array.isArray(items) && cache === false && this._itemsCacheInfo) {
-    //         this._itemsCacheInfo.items = undefined;
-    //     }
-    // }
-
     protected _getTriggerProps(props: RenderableProps<O>, state: Readonly<S>): PickerSelectProps<S> & {ref: RefObject<PickerTrigger>} {
         return {
             ...super._getTriggerProps(props, state),
@@ -253,7 +242,6 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
             placeholder: props.placeholder,
             search: props.search,
             searchHint: props.searchHint,
-            disabled: props.disabled,
             clearable: !!this.valueList.length && !props.required,
             valueList: this.valueList,
             emptyValue: this.firstEmptyValue,
