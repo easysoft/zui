@@ -1,11 +1,11 @@
-import {Component, createRef, type RefObject, type ComponentChildren, type RenderableProps} from 'preact';
-import {$, classes, mergeProps} from '@zui/core';
+import {createRef, type RefObject, type ComponentChildren, type RenderableProps} from 'preact';
+import {$, ClassNameLike, HElement, classes, mergeProps} from '@zui/core';
 import {Listitem} from '@zui/list/src/component';
 import {Kanban} from './kanban';
 import {mergeData, mergeList, sortByOrder} from '../helpers/kanban-helpers';
 import type {KanbanData, KanbanDataset, KanbanProps, KanbanRegionProps, KanbanRegionState} from '../types';
 
-export class KanbanRegion extends Component<KanbanRegionProps, KanbanRegionState> {
+export class KanbanRegion extends HElement<KanbanRegionProps, KanbanRegionState> {
     protected _kanbanRefs = new Map<string, RefObject<Kanban>>();
 
     protected _needUpdateData = new Map<string, Partial<KanbanData>>();
@@ -105,7 +105,7 @@ export class KanbanRegion extends Component<KanbanRegionProps, KanbanRegionState
             }
             kanbanProps.ref = ref;
             refKeys.delete(key);
-            return <Kanban {...kanbanProps} />;
+            return <Kanban z-key={key} {...kanbanProps} />;
         });
         refKeys.forEach(key => {
             kanbanRefs.delete(key);
@@ -113,15 +113,17 @@ export class KanbanRegion extends Component<KanbanRegionProps, KanbanRegionState
         return children;
     }
 
-    render(props: RenderableProps<KanbanRegionProps>) {
+    protected _getClassName(props: RenderableProps<KanbanRegionProps>): ClassNameLike {
+        return ['kanban-region', props.className, this.state.collapsed ? 'is-collapsed' : 'is-expanded', props.heading ? 'has-heading' : ''];
+    }
+
+    protected _getChildren(props: RenderableProps<KanbanRegionProps>): ComponentChildren {
         const {heading, toggleFromHeading} = props;
         const {collapsed, heading: headingState} = this.state;
         const headingProps = mergeProps({className: 'kanban-heading', onClick: toggleFromHeading ? this._handleClickHeading : undefined}, typeof heading === 'function' ? heading.call(this) : heading, headingState);
-        return (
-            <div className={classes('kanban-region', collapsed ? 'is-collapsed' : 'is-expanded', heading ? 'has-heading' : '')}>
-                {heading && <Listitem key="heading" {...headingProps} />}
-                {collapsed ? null : this._buildItems(props)}
-            </div>
-        );
+        return [
+            heading && <Listitem key="heading" {...headingProps} />,
+            collapsed ? null : this._buildItems(props),
+        ];
     }
 }

@@ -10,7 +10,7 @@ export class KanbanList extends ComponentFromReact<KanbanListProps, KanbanListRe
 
     static Component = KanbanListReact;
 
-    updateKanban(items: (KanbanProps | KanbanRegionProps) | (KanbanProps | KanbanRegionProps)[], reset?: boolean) {
+    update(items: (KanbanProps | KanbanRegionProps) | (KanbanProps | KanbanRegionProps)[], reset?: boolean) {
         items = Array.isArray(items) ? items : [items];
         if (reset) {
             return this.render({items});

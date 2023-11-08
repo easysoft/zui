@@ -85,7 +85,7 @@ export class KanbanList extends HElement<KanbanListProps, KanbanListState> {
         return kanban || null;
     }
 
-    update(key: unknown, data: Partial<KanbanRegionState | KanbanDataset>): Promise<unknown> {
+    updateKanban(key: unknown, data: Partial<KanbanRegionState | KanbanDataset>): Promise<unknown> {
         const kanban = this.getKanban(key);
         if (kanban) {
             return (kanban as Kanban).update(data as Partial<KanbanDataset>);

@@ -37,8 +37,32 @@ onPageLoad(() => {
                     icon: 'ellipsis-v text-primary',
                     caret: false,
                     items: [ // 下拉菜单内容
-                        {text: '编辑', icon: 'edit'},
+                        {text: '删除', icon: 'trash'},
                     ],
+                    onClickItem: (info) => {
+                        const {relativeTarget} = info;
+                        if (!relativeTarget) {
+                            return;
+                        }
+                        const $target = $(relativeTarget.event.target).closest('.kanban-header-col');
+                        const colName = $target.z('col') as string;
+                        const kanbanKey = $target.closest('.kanban').z('key') as string;
+                        const kanbanList = KanbanList.query($target);
+                        if (kanbanList) {
+                            const region = kanbanList.$?.getKanban('region1');
+                            region?.update({
+                                items: [
+                                    {
+                                        key: kanbanKey,
+                                        data: {
+                                            cols: [{name: colName, deleted: true}],
+                                        },
+                                    },
+                                ],
+                            });
+                        }
+                        console.log('> onClickItem', {colName, kanbanKey, kanbanList});
+                    },
                 }];
             },
         },
