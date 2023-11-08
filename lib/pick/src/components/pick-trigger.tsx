@@ -42,8 +42,8 @@ export class PickTrigger<S extends PickState = PickState, P extends PickTriggerP
     }
 
     protected _getClass(props: RenderableProps<P>) {
-        const {state, className} = props;
-        const {open: opened, disabled} = state;
+        const {state, className, disabled} = props;
+        const {open: opened} = state;
         return classes(
             'pick',
             className,
@@ -70,12 +70,12 @@ export class PickTrigger<S extends PickState = PickState, P extends PickTriggerP
     }
 
     protected _renderValue(props: RenderableProps<P>): ComponentChildren {
-        const {name, state: {value = ''}, id} = props;
+        const {name, state: {value = ''}, disabled, id} = props;
         if (name) {
             if (this._hasInput) {
                 $(`#${id}`).val(value);
             } else {
-                return <input id={id} type="hidden" className="pick-value" name={name} value={value} />;
+                return <input id={id} type="hidden" className="pick-value" name={name} value={value} disabled={disabled} />;
 
             }
         }

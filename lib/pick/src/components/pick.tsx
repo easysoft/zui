@@ -32,7 +32,6 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
         this.state = {
             value: String(props.defaultValue ?? ''),
             open: false,
-            disabled: false,
         } as S;
 
         this.#id = props.id ?? `_pick${nextGid()}`;
@@ -122,6 +121,7 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
             name: props.name,
             tagName: props.tagName,
             attrs: props.attrs,
+            disabled: props.disabled,
             clickType: props.clickType,
             onClick: props.onClick,
             changeState: this.changeState,
@@ -135,10 +135,10 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
             state: state,
             className: props.popClass,
             style: props.popStyle,
+            disabled: props.disabled,
             changeState: this.changeState,
             togglePop: this.toggle,
             placement: props.popPlacement,
-
             container: props.popContainer,
             width: props.popWidth,
             height: props.popHeight,
