@@ -54,12 +54,6 @@ onPageUpdate(() => {
         placeholder: '请选择你的最爱',
         searchHint: '搜索选项',
         cache: false,
-        menu: {
-            getItem(item) {
-                item.disabled = Math.random() > 0.5;
-                return item;
-            },
-        },
     });
     console.log('> singlePickerRemote', singlePickerRemote);
 
@@ -68,6 +62,7 @@ onPageUpdate(() => {
         multiple: true,
         items: '/lib/picker/dev/nested-items.json',
         tree: true,
+        disabled: true,
         menu: {
             itemProps: {
                 avatarClass: 'size-sm',
