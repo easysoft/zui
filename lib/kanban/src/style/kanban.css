@@ -1,5 +1,5 @@
 .kanban {
-  @apply -flex -flex-col -items-start -relative;
+  @apply -flex -flex-col -items-start -relative -min-w-fit;
 }
 
 /* Kanban header. */

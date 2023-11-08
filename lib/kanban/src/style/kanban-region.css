@@ -1,5 +1,5 @@
 .kanban-region {
-  @apply -bg-canvas -rounded -shadow -p-3;
+  @apply -bg-canvas -rounded -shadow -p-3 -min-w-fit;
 }
 
 .kanban-region > .kanban + .kanban {
