@@ -16,6 +16,7 @@ export function createCol(): KanbanColOptions {
     return {
         name,
         title: `${name[0].toUpperCase()}${name.substring(1)}`,
+        color: faker.color.rgb(),
     };
 }
 
