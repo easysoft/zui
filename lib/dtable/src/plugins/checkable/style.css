@@ -21,3 +21,6 @@
 .dtable-cell.is-checked {
     --dtable-border-color: var(--dtable-checked-border);
 }
+.dtable-check-info {
+    @apply -whitespace-nowrap -overflow-hidden -shrink -mr-2;
+}

@@ -1,4 +1,4 @@
-import {$} from '@zui/core';
+import {$, CustomContent} from '@zui/core';
 import {Checkbox} from '@zui/checkbox/src/component';
 import {definePlugin} from '../../helpers/shared-plugins';
 import './style.css';
@@ -189,7 +189,7 @@ const checkablePlugin: DTablePlugin<DTableCheckableTypes> = {
             const checks = this.getChecks();
             const {checkInfo} = this.options;
             if (checkInfo) {
-                return [checkInfo.call(this, checks)];
+                return [<CustomContent className="dtable-check-info" content={checkInfo.call(this, checks)} />];
             }
             const checkedCount = checks.length;
             const texts: string[] = [];
@@ -198,7 +198,7 @@ const checkablePlugin: DTablePlugin<DTableCheckableTypes> = {
             }
             texts.push(this.i18n('totalCountInfo', {total: layout.allRows.length}));
             return [
-                <div>{texts.join(', ')}</div>,
+                <div className="dtable-check-info">{texts.join(', ')}</div>,
             ];
         },
     },
