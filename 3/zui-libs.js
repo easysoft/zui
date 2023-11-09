@@ -552,6 +552,7 @@ export default [
             ".": "./src/main.ts"
         },
         "dependencies": {
+            "zui-dev": "workspace:*",
             "@zui/core": "workspace:*"
         },
         "zui": {
@@ -1425,7 +1426,7 @@ export default [
         }
     },
     {
-        "name": "sidebar",
+        "name": "@zui/sidebar",
         "version": "0.0.1",
         "main": "src/main.ts",
         "browserslist": "",
