@@ -46,9 +46,9 @@ export class Card<P extends CardProps = CardProps, S = {}> extends HElement<P, S
         return (
             <div className={classes('card-heading', headingClass)}>
                 {icon ? <Icon key="icon" className="card-icon" icon={icon} /> : null}
-                {prefix ? <span key="prefix" className={classes('card-prefix', prefixClass)}>{prefix}</span> : null}
+                {prefix ? <CustomContent key="prefix" className={classes('card-prefix', prefixClass)} content={prefix} /> : null}
                 {title ? <TitleComponent key="title" className={classes('card-title', titleClass)} href={titleUrl} {...titleAttrs}><CustomContent content={title} /></TitleComponent> : null}
-                {suffix ? <span key="suffix" className={classes('card-suffix', suffixClass)}>{suffix}</span> : null}
+                {suffix ? <CustomContent key="suffix" className={classes('card-suffix', suffixClass)} content={suffix} /> : null}
                 {heading ? <CustomContent key="extraHeading" content={heading} /> : null}
             </div>
         );
