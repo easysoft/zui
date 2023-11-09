@@ -15,6 +15,8 @@ const strDangerouslySetInnerHTML = 'dangerouslySetInnerHTML';
 export class HElement<P extends HElementProps, S = {}> extends Component<P, S> {
     static HElement = true;
 
+    static customProps: string[] = [];
+
     protected _gid = nextGid();
 
     get gid() {
@@ -40,9 +42,9 @@ export class HElement<P extends HElementProps, S = {}> extends Component<P, S> {
 
     protected _getProps(props: RenderableProps<P>): Record<string, unknown> {
         const {className, attrs, props: componentProps, data, forwardRef, children, component, style, class: classNameAlt, ...others} = props;
+        const customProps = new Set((this.constructor as typeof HElement).customProps);
         const other = Object.keys(others).reduce<Record<string, unknown>>((map, key) => {
-
-            if (key === strDangerouslySetInnerHTML || /^(on[A-Z]|data-|zui-|z-)[a-zA-Z-]+/.test(key)) {
+            if (!customProps.has(key) && (key === strDangerouslySetInnerHTML || /^(on[A-Z]|data-|zui-|z-)[a-zA-Z-]+/.test(key))) {
                 const val = others[key as keyof typeof others];
                 map[key] = (key !== strDangerouslySetInnerHTML && val && typeof val === 'object') ? JSON.stringify(val) : val;
             }
