@@ -19,4 +19,5 @@ export type KanbanDropInfo = {
     drag: KanbanElementInfo,
     drop: KanbanElementInfo,
     side: KanbanDropSide,
+    data?: unknown;
 };

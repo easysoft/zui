@@ -28,6 +28,8 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
         colsGap: 8,
     };
 
+    static customProps = ['onDrop', 'onDragStart'];
+
     protected declare _loadedSetting: KanbanDataSetting;
 
     protected _draggable?: Draggable;
@@ -171,7 +173,6 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
     }
 
     update(changes: Partial<KanbanDataset>): Promise<S> {
-        console.log('> Kanban.update', this.props.key, changes, this);
         return this.changeState((prevState) => ({
             changes: mergeData({...prevState.changes}, changes, this.itemKey),
         } as Partial<S>));
@@ -300,11 +301,16 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
         };
     }
 
-    protected _getDropChanges(info: KanbanDropInfo): Partial<KanbanData> {
+    protected _getDropChanges(info: KanbanDropInfo): {changes: Partial<KanbanData>, data?: {list: string[], lane: string, col: string}} {
         const {drag, drop} = info;
         const data = this.data;
         const changes: Partial<KanbanData> = {};
         const {itemKey} = this;
+        const changeData: {list: string[], lane: string, col: string} = {
+            list: [],
+            lane: drop.lane!,
+            col: drop.col!,
+        };
         if (drag.type === 'item') {
             const item = drag.item!;
             const colItems = data.items[drop.lane!][drop.col!];
@@ -316,7 +322,7 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
             const isSameCol = drop.col === item.col;
             const isSameLane = drop.lane === item.lane;
             if (isSameCol && isSameLane && item[itemKey] === drop.item![itemKey]) {
-                return changes;
+                return {changes, data: changeData};
             }
             if (!isSameCol) {
                 newItem.col = drop.col;
@@ -354,10 +360,11 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
                     if (changeItem !== oldItem) {
                         changes.items!.push(changeItem);
                     }
+                    changeData.list.push(changeItem[itemKey] as string);
                 });
             }
         }
-        return changes;
+        return {changes, data: changeData};
     }
 
     protected _initDraggable() {
@@ -447,8 +454,9 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
                     return false;
                 }
                 if (onDrop) {
-                    const changes = this._getDropChanges(info);
+                    const {changes, data} = this._getDropChanges(info);
                     if (Object.keys(changes).length) {
+                        info.data = data;
                         const snap = this.createSnap();
                         if (onDrop.call(this, changes, info, snap.restore) !== false) {
                             this.update(changes);
