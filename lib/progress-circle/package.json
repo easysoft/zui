@@ -11,6 +11,7 @@
       ".": "./src/main.ts"
     },
     "dependencies": {
+        "zui-dev": "workspace:*",
         "@zui/core": "workspace:*"
     },
     "zui": {

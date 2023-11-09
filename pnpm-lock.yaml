@@ -1021,6 +1021,9 @@ importers:
       '@zui/core':
         specifier: workspace:*
         version: link:../core
+      zui-dev:
+        specifier: workspace:*
+        version: link:../../dev
 
   lib/scrollbar:
     dependencies:
