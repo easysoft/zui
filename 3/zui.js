@@ -6744,11 +6744,11 @@ class _t extends lt {
     if (i instanceof HTMLElement) {
       const o = f(i), { namespace: a } = this;
       t === "hover" ? o.on(`mouseenter${a}`, (l) => {
-        this.show({ delay: !0, event: l });
+        this.setOptions(o.dataset()), this.show({ delay: !0, event: l });
       }).on(`mouseleave${a}`, () => {
         this.delayHide();
       }) : t && o.on(`${t}${a}`, (l) => {
-        this.toggle({ event: l }), l.preventDefault();
+        this.shown || this.setOptions(o.dataset()), this.toggle({ event: l }), l.preventDefault();
       });
     }
     const { show: r } = this.options;
@@ -6992,19 +6992,19 @@ St.DEFAULT = {
 f(document).on(`click${St.NAMESPACE} mouseenter${St.NAMESPACE}`, Md, (n) => {
   const t = f(n.currentTarget);
   if (t.length && !t.data(St.KEY)) {
-    const e = t.data("trigger") || "click";
-    if ((n.type === "mouseover" ? "hover" : "click") !== e)
+    const e = t.dataset() || {}, s = e.trigger || "click";
+    if ((n.type === "mouseover" ? "hover" : "click") !== s)
       return;
-    const i = {
-      ...t.data(),
+    const r = {
+      ...e,
       show: !0,
       triggerEvent: n
     };
-    if (!i.target && t.is("a")) {
-      const r = t.attr("href");
-      r && "#0".includes(r[0]) && (i.target = r);
+    if (!r.target && t.is("a")) {
+      const o = t.attr("href");
+      o && "#.".includes(o[0]) && (r.target = o);
     }
-    !i.target && !i.items && !i.menu && (i.target = t.next(".dropdown-menu")), St.ensure(t, i), n.preventDefault();
+    !r.target && !r.items && !r.menu && (r.target = t.next(".dropdown-menu")), St.ensure(t, r), n.preventDefault();
   }
 });
 class Bn extends st {
