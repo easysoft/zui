@@ -55,26 +55,27 @@ export class Dropdown<O extends DropdownOptions = DropdownOptions> extends Popov
 $(document).on(`click${Dropdown.NAMESPACE} mouseenter${Dropdown.NAMESPACE}`, TOGGLE_SELECTOR, (event: MouseEvent) => {
     const $toggleBtn = $(event.currentTarget as HTMLElement);
     if ($toggleBtn.length && !$toggleBtn.data(Dropdown.KEY)) {
-        const trigger = $toggleBtn.data('trigger') || 'click';
+        const dataset = $toggleBtn.dataset() || {};
+        const trigger = dataset.trigger || 'click';
         const eventForTrigger = event.type === 'mouseover' ? 'hover' : 'click';
         if (eventForTrigger !== trigger) {
             return;
         }
         const options: DropdownOptions = {
-            ...$toggleBtn.data(),
+            ...dataset,
             show: true,
             triggerEvent: event,
         };
         if (!options.target && $toggleBtn.is('a')) {
             const href = $toggleBtn.attr('href') as string;
-            if (href && '#0'.includes(href[0])) {
+            if (href && '#.'.includes(href[0])) {
                 options.target = href;
             }
         }
         if (!options.target && !options.items && !options.menu) {
             options.target = $toggleBtn.next('.dropdown-menu');
         }
-        (Dropdown as typeof Popover).ensure($toggleBtn, options);
+        Dropdown.ensure($toggleBtn, options);
         event.preventDefault();
     }
 });
