@@ -80,12 +80,16 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
             const {namespace} = this;
             if (trigger === 'hover') {
                 $triggerElement.on(`mouseenter${namespace}`, (event: MouseEvent) => {
+                    this.setOptions($triggerElement.dataset() as Partial<O>);
                     this.show({delay: true, event});
                 }).on(`mouseleave${namespace}`, () => {
                     this.delayHide();
                 });
             } else if (trigger) {
                 $triggerElement.on(`${trigger}${namespace}`, (event: Event) => {
+                    if (!this.shown) {
+                        this.setOptions($triggerElement.dataset() as Partial<O>);
+                    }
                     this.toggle({event});
                     event.preventDefault();
                 });
