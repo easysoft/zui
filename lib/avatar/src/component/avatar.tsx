@@ -72,7 +72,7 @@ export class Avatar extends Component<AvatarOptions> {
             const displayText = getAvatarText(text, maxTextLength);
             finalClass.push('has-text', `has-text-${displayText.length}`);
 
-            if (!background) {
+            if (background === undefined) {
                 const avatarCode = code ?? text;
                 const hue = (typeof avatarCode === 'number' ? avatarCode : getUniqueCode(avatarCode)) * hueDistance % 360;
                 finalStyle.background = `hsl(${hue},${saturation * 100}%,${lightness * 100}%)`;
