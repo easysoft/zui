@@ -10,10 +10,6 @@
   <li class="menu-item"><a>更多操作</a></li>
   <li class="menu-item not-hide-menu"><a>点击此项不关闭菜单</a></li>
 </menu>
-<menu class="dropdown-menu menu" id="dropdownMenu2">
-  <li class="menu-item"><a>操作2</a></li>
-  <li class="menu-item"><a>另一个操作</a></li>
-</menu>
 ```
 
 ## 动态下拉菜单
