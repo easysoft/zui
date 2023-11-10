@@ -1930,7 +1930,7 @@ function fi(n) {
     return r.map((o) => fi({ ...i, content: o, generatorThis: s, generatorArgs: e }));
   if (typeof r == "string" || typeof r == "number")
     return Object.keys(i).length ? /* @__PURE__ */ u("div", { ...i, children: r }) : r;
-  if (typeof r == "object" && (typeof r.html == "string" || r.component)) {
+  if (r && typeof r == "object" && (typeof r.html == "string" || r.component)) {
     if (r.html)
       return /* @__PURE__ */ u(fe, { ...W(i, r) });
     let { children: o } = r;
@@ -2659,15 +2659,14 @@ let Cs = class extends H {
       v.push("has-icon"), C = /* @__PURE__ */ u(q, { icon: l });
     else if (c != null && c.length) {
       const S = Ch(c, h);
-      if (v.push("has-text", `has-text-${S.length}`), o)
-        !a && o && (w.color = uo(o));
-      else {
+      if (v.push("has-text", `has-text-${S.length}`), o === void 0) {
         const I = d ?? c, A = (typeof I == "number" ? I : Sa(I)) * p % 360;
         if (w.background = `hsl(${A},${m * 100}%,${_ * 100}%)`, !a) {
           const N = wh(A, m, _);
           w.color = uo(N);
         }
-      }
+      } else
+        !a && o && (w.color = uo(o));
       let E;
       k && k < 14 * S.length && (E = { transform: `scale(${k / (14 * S.length)})`, whiteSpace: "nowrap" }), C = /* @__PURE__ */ u("div", { "data-actualSize": k, className: "avatar-text", style: E, children: S });
     }
