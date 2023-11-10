@@ -29,7 +29,7 @@ export function renderCustomContent(props: CustomContentProps): ComponentChildre
         }
         return content;
     }
-    if (typeof content === 'object' && (typeof (content as HtmlContentProps).html === 'string' || (content as HtmlContentProps).component)) {
+    if (content && typeof content === 'object' && (typeof (content as HtmlContentProps).html === 'string' || (content as HtmlContentProps).component)) {
         if ((content as HtmlContentProps).html) {
             return <HtmlContent {...(mergeProps(others, content) as unknown as HtmlContentProps)} />;
         }
