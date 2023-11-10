@@ -6744,11 +6744,13 @@ class _t extends lt {
     if (i instanceof HTMLElement) {
       const o = f(i), { namespace: a } = this;
       t === "hover" ? o.on(`mouseenter${a}`, (l) => {
-        this.setOptions(o.dataset()), this.show({ delay: !0, event: l });
+        const c = o.dataset("target");
+        c && this.setOptions({ target: c }), this.show({ delay: !0, event: l });
       }).on(`mouseleave${a}`, () => {
         this.delayHide();
       }) : t && o.on(`${t}${a}`, (l) => {
-        this.shown || this.setOptions(o.dataset()), this.toggle({ event: l }), l.preventDefault();
+        const c = o.dataset("target");
+        !this.shown && c && this.setOptions({ target: c }), this.toggle({ event: l }), l.preventDefault();
       });
     }
     const { show: r } = this.options;
@@ -6992,7 +6994,7 @@ St.DEFAULT = {
 f(document).on(`click${St.NAMESPACE} mouseenter${St.NAMESPACE}`, Md, (n) => {
   const t = f(n.currentTarget);
   if (t.length && !t.data(St.KEY)) {
-    const e = t.dataset() || {}, s = e.trigger || "click";
+    const e = t.data() || {}, s = e.trigger || "click";
     if ((n.type === "mouseover" ? "hover" : "click") !== s)
       return;
     const r = {
