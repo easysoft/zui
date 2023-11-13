@@ -7651,8 +7651,6 @@ let Lr = class extends ht {
     return e.length ? e.join(this.props.valueSplitter ?? ",") : this.firstEmptyValue;
   }
   setValue(t = [], e) {
-    if (this.props.disabled)
-      return Promise.resolve(this.state);
     let s = this.formatValueList(t);
     if (s.length) {
       const { items: r, limitValueInList: o } = this.props;
