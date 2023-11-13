@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {$, type Cash} from '../cash';
+import {$, type Cash, type Selector} from '../cash';
 
 type EventCallback = {
     (event: any, data?: any): any;
@@ -9,8 +9,7 @@ type EventCallback = {
 export class Bus {
     protected _$target: Cash;
 
-    constructor(descOrTarget: Node | string = '') {
-        const target = typeof descOrTarget === 'object' ? descOrTarget : document.querySelector(descOrTarget);
+    constructor(target: Selector) {
         this._$target = $(target);
     }
 
@@ -57,7 +56,7 @@ export class Bus {
     }
 }
 
-export const bus = new Bus('zui bus target');
+export const bus = new Bus(document);
 
 /* Declare types. */
 declare module 'cash-dom' {
