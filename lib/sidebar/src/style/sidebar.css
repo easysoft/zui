@@ -20,6 +20,9 @@
 .sidebar-gutter {
   @apply -w-[--gutter-width] -absolute -left-full -top-0 -bottom-0;
 }
+.sidebar-right > .sidebar-gutter {
+  @apply -right-full -left-auto;
+}
 .is-collapsed > .gutter > .gutter-toggle > span {
   @apply --rotate-180;
 }

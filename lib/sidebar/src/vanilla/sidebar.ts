@@ -125,10 +125,11 @@ export class Sidebar extends Component<SidebarOptions, {
                     $parent.addClass(RESIZING_CLASS).removeClass(ANIMATION_CLASS);
                 },
                 onMove: (_event, info) => {
-                    if (Math.abs(info.deltaX) < 10) {
+                    const {deltaX} = info;
+                    if (Math.abs(deltaX) < 10) {
                         return;
                     }
-                    this.update(this._startWidth + info.deltaX);
+                    this.update(this._startWidth + (deltaX * (side === 'left' ? 1 : -1)));
                 },
                 onMoveEnd: () => {
                     if (animation) {
