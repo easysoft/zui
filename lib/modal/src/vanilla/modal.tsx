@@ -254,6 +254,9 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
             if (!modalOptions.type && modalOptions.url) {
                 modalOptions.type = 'ajax';
             }
+            if (modalOptions.key === undefined) {
+                modalOptions.key = modalOptions.id;
+            }
             const modal = Modal.ensure(container, modalOptions);
             const namespace = `${Modal.NAMESPACE}.open${nextGid()}`;
             modal.on(`hidden${namespace}`, () => {
