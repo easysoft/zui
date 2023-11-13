@@ -302,9 +302,6 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
     }
 
     setValue(value: unknown = [], silent?: boolean) {
-        if (this.props.disabled) {
-            return Promise.resolve(this.state);
-        }
         let valueList = this.formatValueList(value);
         if (valueList.length) {
             const {items, limitValueInList} = this.props;
