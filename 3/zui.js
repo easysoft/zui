@@ -6483,7 +6483,7 @@ const kd = {
   static open(t) {
     return new Promise((e) => {
       const { container: s = document.body, ...i } = t, r = { show: !0, ...i };
-      !r.type && r.url && (r.type = "ajax");
+      !r.type && r.url && (r.type = "ajax"), r.key === void 0 && (r.key = r.id);
       const o = Se.ensure(s, r), a = `${Se.NAMESPACE}.open${Bt()}`;
       o.on(`hidden${a}`, () => {
         o.off(a), e(o);
