@@ -1678,9 +1678,8 @@ async function co(n, t) {
   return co(e);
 }
 class fh {
-  constructor(t = "") {
-    const e = typeof t == "object" ? t : document.querySelector(t);
-    this._$target = u(e);
+  constructor(t) {
+    this._$target = u(t);
   }
   on(...t) {
     return this._$target.on(...t), this;
@@ -1695,7 +1694,7 @@ class fh {
     return this._$target.trigger(...t), this;
   }
 }
-const zt = new fh("zui bus target");
+const zt = new fh(document);
 u.bus = zt;
 u.on = zt.on.bind(zt);
 u.one = zt.one.bind(zt);
