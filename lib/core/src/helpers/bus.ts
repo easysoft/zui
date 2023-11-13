@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {$, type Cash} from '../cash';
 
 type EventCallback = {
-    (event: unknown, data?: unknown): unknown;
+    (event: any, data?: any): any;
     guid?: number;
 };
 
@@ -15,26 +16,26 @@ export class Bus {
 
     on(events: Record<string, EventCallback>): this;
     on(events: Record<string, EventCallback>, selector: string): this;
-    on(events: Record<string, EventCallback>, data: unknown): this;
-    on(events: Record<string, EventCallback>, selector: string | null | undefined, data: unknown): this;
+    on(events: Record<string, EventCallback>, data: any): this;
+    on(events: Record<string, EventCallback>, selector: string | null | undefined, data: any): this;
     on(events: string, callback: EventCallback): this;
     on(events: string, selector: string, callback: EventCallback): this;
-    on(events: string, data: unknown, callback: EventCallback): this;
-    on(events: string, selector: string | null | undefined, data: unknown, callback: EventCallback, _one?: boolean): this;
-    on(...args: unknown[]): this {
+    on(events: string, data: any, callback: EventCallback): this;
+    on(events: string, selector: string | null | undefined, data: any, callback: EventCallback, _one?: boolean): this;
+    on(...args: any[]): this {
         this._$target.on(...(args as Parameters<Cash['on']>));
         return this;
     }
 
     one(events: Record<string, EventCallback>): this;
     one(events: Record<string, EventCallback>, selector: string): this;
-    one(events: Record<string, EventCallback>, data: unknown): this;
-    one(events: Record<string, EventCallback>, selector: string | null | undefined, data: unknown): this;
+    one(events: Record<string, EventCallback>, data: any): this;
+    one(events: Record<string, EventCallback>, selector: string | null | undefined, data: any): this;
     one(events: string, callback: EventCallback): this;
     one(events: string, selector: string, callback: EventCallback): this;
-    one(events: string, data: unknown, callback: EventCallback): this;
-    one(events: string, selector: string | null | undefined, data: unknown, callback: EventCallback): this;
-    one(...args: unknown[]): this {
+    one(events: string, data: any, callback: EventCallback): this;
+    one(events: string, selector: string | null | undefined, data: any, callback: EventCallback): this;
+    one(...args: any[]): this {
         this._$target.one(...(args as Parameters<Cash['one']>));
         return this;
     }
@@ -44,13 +45,13 @@ export class Bus {
     off(events: Record<string, EventCallback>): this;
     off(events: string, callback: EventCallback): this;
     off(events: string, selector: string, callback: EventCallback): this;
-    off(...args: unknown[]): this {
+    off(...args: any[]): this {
         this._$target.off(...(args as Parameters<Cash['off']>));
         return this;
     }
 
-    trigger(event: Event | string, data?: unknown): this;
-    trigger(...args: unknown[]): this {
+    trigger(event: Event | string, data?: any): this;
+    trigger(...args: any[]): this {
         this._$target.trigger(...(args as Parameters<Cash['trigger']>));
         return this;
     }
@@ -65,21 +66,21 @@ declare module 'cash-dom' {
 
         on(events: Record<string, EventCallback>): Bus;
         on(events: Record<string, EventCallback>, selector: string): Bus;
-        on(events: Record<string, EventCallback>, data: unknown): Bus;
-        on(events: Record<string, EventCallback>, selector: string | null | undefined, data: unknown): Bus;
+        on(events: Record<string, EventCallback>, data: any): Bus;
+        on(events: Record<string, EventCallback>, selector: string | null | undefined, data: any): Bus;
         on(events: string, callback: EventCallback): Bus;
         on(events: string, selector: string, callback: EventCallback): Bus;
-        on(events: string, data: unknown, callback: EventCallback): Bus;
-        on(events: string, selector: string | null | undefined, data: unknown, callback: EventCallback, _one?: boolean): Bus;
+        on(events: string, data: any, callback: EventCallback): Bus;
+        on(events: string, selector: string | null | undefined, data: any, callback: EventCallback, _one?: boolean): Bus;
 
         one(events: Record<string, EventCallback>): Bus;
         one(events: Record<string, EventCallback>, selector: string): Bus;
-        one(events: Record<string, EventCallback>, data: unknown): Bus;
-        one(events: Record<string, EventCallback>, selector: string | null | undefined, data: unknown): Bus;
+        one(events: Record<string, EventCallback>, data: any): Bus;
+        one(events: Record<string, EventCallback>, selector: string | null | undefined, data: any): Bus;
         one(events: string, callback: EventCallback): Bus;
         one(events: string, selector: string, callback: EventCallback): Bus;
-        one(events: string, data: unknown, callback: EventCallback): Bus;
-        one(events: string, selector: string | null | undefined, data: unknown, callback: EventCallback): Bus;
+        one(events: string, data: any, callback: EventCallback): Bus;
+        one(events: string, selector: string | null | undefined, data: any, callback: EventCallback): Bus;
 
         off(): Bus;
         off(events: string): Bus;
@@ -87,7 +88,7 @@ declare module 'cash-dom' {
         off(events: string, callback: EventCallback): Bus;
         off(events: string, selector: string, callback: EventCallback): Bus;
 
-        trigger(event: Event | string, data?: unknown): Bus;
+        trigger(event: Event | string, data?: any): Bus;
     }
 }
 
