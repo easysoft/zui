@@ -15,6 +15,9 @@ onPageUpdate(() => {
         onCheck: function (changes, checks) {
             console.log('> onCheck', {changes, checks, allChecks: this.getChecks(), table: this});
         },
+        onClickItem: (...args) => {
+            console.log('>> onClickItem', args);
+        },
     });
     console.log('> remoteNestedList', remoteNestedList);
 
