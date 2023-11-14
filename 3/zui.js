@@ -3425,7 +3425,7 @@ be.defaultProps = {
   level: 0,
   indent: 20
 };
-be.inheritNestedProps = ["component", "name", "itemName", "itemKey", "indent", "hover", "divider", "multiline", "toggleIcons", "nestedToggle", "itemRender", "beforeRenderItem", "onToggle", "checkbox", "getItem", "checkOnClick", "activeOnChecked", "checkedState"];
+be.inheritNestedProps = ["component", "name", "itemName", "itemKey", "indent", "hover", "divider", "multiline", "toggleIcons", "nestedToggle", "itemRender", "beforeRenderItem", "onToggle", "checkbox", "getItem", "checkOnClick", "activeOnChecked", "checkedState", "onClickItem"];
 class ur extends O {
 }
 ur.NAME = "List";
@@ -9182,9 +9182,9 @@ let Ur = class extends H {
       const { row: o, col: a } = s;
       s.value = this.getCellValue(o, a), e[0] = s.value;
       const l = o.id === "HEADER" ? "onRenderHeaderCell" : "onRenderCell";
-      return T(this, ot).forEach((c) => {
+      return a.setting[l] && (e = a.setting[l].call(this, e, s, i, r)), T(this, ot).forEach((c) => {
         c[l] && (e = c[l].call(this, e, s, i, r));
-      }), this.options[l] && (e = this.options[l].call(this, e, s, i, r)), a.setting[l] && (e = a.setting[l].call(this, e, s, i, r)), e;
+      }), this.options[l] && (e = this.options[l].call(this, e, s, i, r)), e;
     }), L(this, gn, (e, s) => {
       s === "horz" ? this.scroll({ scrollLeft: e }) : this.scroll({ scrollTop: e });
     }), L(this, zi, (e) => {
