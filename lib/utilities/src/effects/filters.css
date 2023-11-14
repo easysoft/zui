@@ -5,8 +5,9 @@
 .blur-lg   {@apply -blur-lg;}
 .blur-xl   {@apply -blur-xl;}
 
-.grayscale {@apply -grayscale;}
-.invert    {@apply -invert;}
+.grayscale    {@apply -grayscale;}
+.invert       {@apply -invert;}
+.filter-none  {@apply -filter-none;}
 
 .drop-shadow-none  {@apply -drop-shadow-none}
 .drop-shadow-sm    {@apply -drop-shadow-sm;}
