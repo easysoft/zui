@@ -594,6 +594,9 @@ export class DTable extends Component<DTableOptions, DTableState> {
         data.value = this.getCellValue(row, col);
         result[0] = data.value as ComponentChildren;
         const renderCallbackName = row.id === 'HEADER' ? 'onRenderHeaderCell' : 'onRenderCell';
+        if (col.setting[renderCallbackName]) {
+            result = (col.setting[renderCallbackName] as CellRenderCallback).call(this, result, data, cellProps, h);
+        }
         this.#plugins.forEach(plugin => {
             if (plugin[renderCallbackName]) {
                 result = (plugin[renderCallbackName] as CellRenderCallback).call(this, result, data, cellProps, h);
@@ -601,9 +604,6 @@ export class DTable extends Component<DTableOptions, DTableState> {
         });
         if (this.options[renderCallbackName]) {
             result = (this.options[renderCallbackName] as CellRenderCallback).call(this, result, data, cellProps, h);
-        }
-        if (col.setting[renderCallbackName]) {
-            result = (col.setting[renderCallbackName] as CellRenderCallback).call(this, result, data, cellProps, h);
         }
         return result;
     };
