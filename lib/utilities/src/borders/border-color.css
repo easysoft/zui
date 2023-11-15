@@ -14,6 +14,7 @@
 .border-darken  {@apply -border-gray-700;}
 .border-darker  {@apply -border-gray-900;}
 .border-black   {@apply -border-black;}
+.border-default {@apply -border-border;}
 
 .border-canvas  {@apply -border-canvas;}
 .border-surface {@apply -border-surface;}
