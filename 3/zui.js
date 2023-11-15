@@ -3245,9 +3245,15 @@ let be = class extends Mt {
     e === void 0 && (e = !s);
     const { nestedShow: i, onToggle: r } = this.props;
     if (!(r && r.call(this, t, e) === !1) && i === void 0)
-      return this.setState((o) => ({
-        nestedShow: mo(t).reduce((a, l) => (a[l] = e, a), { ...o.nestedShow })
-      }), this._preserveState);
+      return this.setState((o) => {
+        const a = {
+          ...o.nestedShow,
+          [t]: e
+        };
+        return {
+          nestedShow: e ? mo(t).reduce((l, c) => (l[c] = e, l), a) : a
+        };
+      }, this._preserveState);
   }
   toggleAll(t) {
     if (this.props.nestedShow === void 0)
