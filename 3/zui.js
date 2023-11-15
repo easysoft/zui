@@ -2383,7 +2383,7 @@ class st extends U {
       active: o,
       loading: r,
       square: l === void 0 ? !this._onlyCaret && !a && this._isEmptyText : l
-    }, c ? `size-${c}` : "", typeof d == "string" ? d : { rounded: d }];
+    }, c ? `size-${c}` : "", typeof d == "string" ? `rounded-${d}` : { rounded: d }];
   }
   _getComponent(t) {
     return t.component || (t.url ? "a" : "button");
