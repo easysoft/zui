@@ -32,6 +32,9 @@
 .sidebar-gutter:hover::before {
   @apply -opacity-100 -w-2;
 }
+.is-expanded .sidebar-gutter.gutter-border::before {
+  @apply -opacity-100;
+}
 
 .is-sidebar-resizing {
   @apply -cursor-col-resize;
