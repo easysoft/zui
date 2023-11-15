@@ -199,12 +199,18 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
         if (nestedShow !== undefined) {
             return;
         }
-        return this.setState(prevState => ({
-            nestedShow: parentKeys(keyPath).reduce<Record<string, boolean>>((map, key) => {
-                map[key] = toggle!;
-                return map;
-            }, {...prevState.nestedShow}),
-        }), this._preserveState);
+        return this.setState(prevState => {
+            const newNestedShow = {
+                ...prevState.nestedShow,
+                [keyPath]: toggle!,
+            };
+            return {
+                nestedShow: toggle ? parentKeys(keyPath).reduce<Record<string, boolean>>((map, key) => {
+                    map[key] = toggle!;
+                    return map;
+                }, newNestedShow) : newNestedShow,
+            };
+        }, this._preserveState);
     }
 
     toggleAll(show: boolean) {
