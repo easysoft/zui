@@ -26,3 +26,6 @@
 .dropdown-menu .menu-item.is-nested > .item-inner > .nested-toggle-icon {
   @apply -absolute -right-1 -top-1.5;
 }
+.dropdown > .arrow {
+  @apply -bg-canvas;
+}
