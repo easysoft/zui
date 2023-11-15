@@ -34,7 +34,7 @@ export class Button<P extends ButtonProps = ButtonProps> extends HElement<P> {
             active,
             loading,
             square: square === undefined ? (!this._onlyCaret && !children && this._isEmptyText) : square,
-        }, size ? `size-${size}` : '', typeof rounded === 'string' ? rounded : {rounded}];
+        }, size ? `size-${size}` : '', typeof rounded === 'string' ? `rounded-${rounded}` : {rounded}];
     }
 
     protected _getComponent(props: RenderableProps<P>) {
