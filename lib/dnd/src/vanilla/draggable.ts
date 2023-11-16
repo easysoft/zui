@@ -19,6 +19,8 @@ export class Draggable extends Component<DraggableOptions> {
 
     protected _$targets?: Cash;
 
+    protected declare _needClean: boolean;
+
     get state() {
         return this._state;
     }
@@ -141,10 +143,10 @@ export class Draggable extends Component<DraggableOptions> {
 
     protected _handleDragEnd = (event: DragEvent) => {
         const {dragElement} = this;
-        this._clean();
         if (dragElement) {
             this.options.onDragEnd?.call(this, event, dragElement);
         }
+        this._clean();
     };
 
     protected _handleDragEnter = (event: DragEvent) => {
@@ -200,10 +202,18 @@ export class Draggable extends Component<DraggableOptions> {
             event.preventDefault();
             this.options.onDrop?.call(this, event, this.dragElement!, dropTarget);
         }
-        this._clean();
+
+        this._needClean = true;
+        setTimeout(() => {
+            if (this._needClean) {
+                this._clean();
+            }
+        }, 50);
     };
 
     protected _clean() {
+        this._needClean = true;
+
         const {draggingClass, droppableClass, droppingClass, hasDraggingClass} = this.options;
         if (hasDraggingClass) {
             this.$element.removeClass(hasDraggingClass);
