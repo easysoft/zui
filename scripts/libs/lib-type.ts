@@ -13,13 +13,13 @@ export enum LibType {
 
 export const libTypeOrders = {
     [LibType.config]: 0,
-    [LibType.cssBase]: 1,
-    [LibType.control]: 2,
-    [LibType.jsHelpers]: 3,
-    [LibType.component]: 4,
-    [LibType.jsUI]: 5,
-    [LibType.cssUtilities]: 6,
-    [LibType.jsLib]: 7,
-    [LibType.other]: 8,
-    [LibType.examples]: 9,
+    [LibType.cssBase]: 10,
+    [LibType.control]: 20,
+    [LibType.jsHelpers]: 30,
+    [LibType.component]: 40,
+    [LibType.jsUI]: 50,
+    [LibType.cssUtilities]: 60,
+    [LibType.jsLib]: 70,
+    [LibType.other]: 80,
+    [LibType.examples]: 90,
 };

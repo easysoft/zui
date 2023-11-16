@@ -132,7 +132,7 @@ export async function getLibList(libPath: string | string[] = '', options: {root
 
 export function sortLibList(libList: LibInfo[]) {
     return libList.map((lib, idx) => {
-        lib.zui.order = (libTypeOrders[lib.zui.type] * 1000000000) + (lib.zui.sourceType === 'build-in' ? 10000000 : 11000000) + idx;
+        lib.zui.order = ((lib.zui.order ?? libTypeOrders[lib.zui.type]) * 1000000000) + (lib.zui.sourceType === 'build-in' ? 10000000 : 11000000) + idx;
         return lib;
     }).sort((a, b) => a.zui.order - b.zui.order);
 }
@@ -155,11 +155,10 @@ export function createLibFromPackageJson(packageJson: Record<string, unknown>, o
             name: defaultName,
             extsName,
             ...(packageJson.zui as Record<string, unknown>),
-            order: 0,
             packageJsonPath,
             tailwindConfigPath,
         },
     } as LibInfo;
-    libInfo.zui.order = (libTypeOrders[libInfo.zui.type] * 100000000) + idx;
+    libInfo.zui.order = ((libInfo.zui.order ?? libTypeOrders[libInfo.zui.type]) * 100000000) + idx;
     return libInfo;
 }
