@@ -37,6 +37,7 @@ export type DTableRichTypes = {
         html: ColHTMLSetting;
         map: ColMapSetting;
         hint: boolean | string | ((info: {row: RowInfo, col: ColInfo}) => string);
+        styleMap: Record<string, string> | ((info: {row: RowInfo, col: ColInfo}) => Record<string, string>);
     }>,
 };
 
@@ -120,6 +121,24 @@ export function renderMapCell(result: CustomRenderResultList, info: {row: RowInf
     return result;
 }
 
+export function renderStyleMapCell(styleMap: Record<string, string> | ((info: {row: RowInfo, col: ColInfo}) => Record<string, string>), result: CustomRenderResultList, info: {row: RowInfo, col: ColInfo}) {
+    const style: Record<string, unknown> = {};
+    if (typeof styleMap === 'function') {
+        Object.assign(style, styleMap(info));
+    } else {
+        Object.keys(styleMap).forEach(name => {
+            const value = info.row.data?.[styleMap[name]] as string;
+            if (value !== undefined) {
+                style[name] = value;
+            }
+        });
+    }
+    if (Object.keys(style).length) {
+        result.push({style});
+    }
+    return result;
+}
+
 export function renderDatetimeCell(result: CustomRenderResultList, info: {row: RowInfo, col: ColInfo}, defaultFormat: ColDateFormatSetting = '[yyyy-]MM-dd hh:mm') {
     const {formatDate: dateFormat = defaultFormat, invalidDate} = info.col.setting as DTableRichTypes['col'];
     result[0] = renderDatetime(dateFormat, info, result[0], invalidDate);
@@ -185,7 +204,7 @@ const richPlugin: DTablePlugin<DTableRichTypes> = {
         },
     },
     onRenderCell(result, info) {
-        const {formatDate: dateFormat, html, hint} = info.col.setting;
+        const {formatDate: dateFormat, html, hint, styleMap} = info.col.setting;
         if (dateFormat) {
             result = renderDatetimeCell(result, info, dateFormat);
         }
@@ -208,6 +227,10 @@ const richPlugin: DTablePlugin<DTableRichTypes> = {
                 hintText = result[0];
             }
             result.push({attrs: {title: hintText}});
+        }
+
+        if (styleMap) {
+            result = renderStyleMapCell(styleMap, result, info);
         }
 
         return result;

@@ -263,6 +263,47 @@ const cols = [
 ];
 ```
 
+### 从对象映射样式
+
+在列定义上通过 `styleMap` 属性设置一个对象来从单元格实际值映射要显示的样式或者通过函数来返回样式，定义如下：
+
+```ts
+type StyleMap = Record<string, string> | ((info: {row: RowInfo, col: ColInfo}) => Record<string, string>);
+```
+
+下面为一个实际的例子：
+
+```js
+const options = {
+    cols = [
+        {
+            name: 'status',
+            title: '状态',
+
+            /* 使用对象进行映射。 */
+            styleMap: {
+                color: 'statusColor',
+                background: 'statusBg',
+            },
+        }, {
+            name: 'category',
+            title: '分类',
+
+            /* 使用函数动态生成样式。 */
+            styleMap: (info) => ({color: info.category ? 'green' : '#ff00ff'}),
+        }, {
+            name: 'product',
+            title: '产品'
+        }
+    ],
+    data: [
+        {id: '1', product: '项目1', status: 'wait', statusColor: 'red', statusBg: 'yellow', category: ''},
+        {id: '2', product: '项目2', status: 'doing', statusColor: 'green', statusBg: 'blue', category: '类目1'},
+        {id: '3', product: '项目3', status: 'done', statusColor: 'blue', statusBg: 'green', category: '类目2'},
+    ]
+};
+```
+
 ## 按列排序 `sort-type`
 
 <Badge text="内置插件" />
