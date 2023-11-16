@@ -8,7 +8,6 @@ import {ContextMenu} from '@zui/contextmenu';
 import type {DashboardOptions, BlockInfo, DashboardLayout, BlockFetcher, BlockSetting, BlockContentSetting} from '../types';
 import '../style';
 import {PopoverOptions} from '@zui/popover/src/types';
-import {MenuItemOptions} from '@zui/menu/src/types';
 
 export type BlockLocation = [left: number, top: number, width: number, height: number];
 
@@ -463,8 +462,8 @@ export class Dashboard extends Component<Required<DashboardOptions>, DashboardSt
             element: event.currentTarget as HTMLElement,
             placement: 'bottom-end',
             menu: {
-                onClickItem: (info: {item: MenuItemOptions, event: MouseEvent}) => {
-                    if ((info.item.data?.type) === 'refresh') {
+                onClickItem: (info: {item: {data?: {type?: string}}, event: MouseEvent}) => {
+                    if (info.item.data?.type === 'refresh') {
                         this.load(id);
                     }
                     if (onClickBlockMenu) {
