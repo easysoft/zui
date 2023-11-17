@@ -4249,12 +4249,12 @@ class kr extends H {
     return null;
   }
   componentDidMount() {
-    const { id: t, state: e } = this.props;
-    u(`#${t}`).on(`change.zui.pick.${t} syncValue.zui.pick.${t}`, (s, i) => {
-      if (i === yi)
+    const { id: t } = this.props;
+    u(`#${t}`).on(`change.zui.pick.${t} syncValue.zui.pick.${t}`, (e, s) => {
+      if (s === yi)
         return;
-      const r = s.target.value;
-      this._skipTriggerChange = r, this.props.changeState({ value: r });
+      const i = e.target.value;
+      this._skipTriggerChange = i, this.props.changeState({ value: i });
     });
   }
   componentWillUnmount() {
@@ -5280,7 +5280,7 @@ var Xa = (n, t, e) => {
 }, we = (n, t, e, s) => (Xa(n, t, "write to private field"), s ? s.call(n, e) : t.set(n, e), e), Ks, vt, Ye;
 let ht = class extends H {
   constructor(t) {
-    super(t), Zn(this, Ks, void 0), Zn(this, vt, 0), Zn(this, Ye, B()), this.toggle = async (e, s) => {
+    super(t), Zn(this, Ks, void 0), Zn(this, vt, 0), Zn(this, Ye, B()), this._trigger = B(), this.toggle = async (e, s) => {
       this.props.disabled && (e = !1);
       const { state: i } = this;
       if (typeof e == "boolean" && e === (!!i.open && i.open !== "closing"))
@@ -5326,6 +5326,7 @@ let ht = class extends H {
   _getTriggerProps(t, e) {
     return {
       id: this.id,
+      ref: this._trigger,
       state: e,
       className: t.className,
       style: t.style,
@@ -5384,9 +5385,12 @@ let ht = class extends H {
     const { onPopShown: e, onPopHidden: s } = this.props;
     t && e ? e() : !t && s && s();
   }
-  setValue(t) {
-    if (!this.props.disabled)
-      return this.changeState({ value: t });
+  setValue(t, e) {
+    if (e) {
+      const s = this._trigger.current;
+      s && (s._skipTriggerChange = t);
+    }
+    return this.changeState({ value: t });
   }
   componentDidMount() {
     this._afterRender(!0);
@@ -7525,7 +7529,7 @@ function Ys(n, t) {
 }
 let Lr = class extends ht {
   constructor(t) {
-    super(t), this._updateTimer = 0, this._trigger = B(), this.isEmptyValue = (r) => this._emptyValueSet.has(r), this.toggleValue = (r, o) => {
+    super(t), this._updateTimer = 0, this.isEmptyValue = (r) => this._emptyValueSet.has(r), this.toggleValue = (r, o) => {
       if (!this.props.multiple)
         return o || r !== this.value ? this.setValue(r) : this.setValue();
       const { valueList: a } = this, l = a.indexOf(r);
@@ -7616,7 +7620,6 @@ let Lr = class extends ht {
   _getTriggerProps(t, e) {
     return {
       ...super._getTriggerProps(t, e),
-      ref: this._trigger,
       multiple: t.multiple,
       placeholder: t.placeholder,
       search: t.search,
@@ -7669,11 +7672,7 @@ let Lr = class extends ht {
       }
     }
     const i = this.formatValue(s);
-    if (e) {
-      const r = this._trigger.current;
-      r && (r._skipTriggerChange = i);
-    }
-    return this.changeState({ value: i });
+    return super.setValue(i, e);
   }
 };
 Lr.defaultProps = {
