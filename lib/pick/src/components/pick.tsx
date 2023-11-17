@@ -27,6 +27,8 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
 
     #pop: RefObject<PickPop<S, PickPopProps<S>>> = createRef();
 
+    protected _trigger = createRef<PickTrigger>();
+
     constructor(props: O) {
         super(props);
         this.state = {
@@ -112,9 +114,10 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
         return this.toggle(false, state);
     }
 
-    protected _getTriggerProps(props: RenderableProps<O>, state: Readonly<S>): PickTriggerProps<S> {
+    protected _getTriggerProps(props: RenderableProps<O>, state: Readonly<S>): PickTriggerProps<S> & {ref?: RefObject<PickTrigger>} {
         return {
             id: this.id,
+            ref: this._trigger,
             state: state,
             className: props.className,
             style: props.style,
@@ -187,9 +190,12 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
         }
     }
 
-    setValue(value: string) {
-        if (this.props.disabled) {
-            return;
+    setValue(value: string, silent?: boolean) {
+        if (silent) {
+            const trigger = this._trigger.current;
+            if (trigger) {
+                trigger._skipTriggerChange = value;
+            }
         }
         return this.changeState({value} as Partial<S>);
     }
