@@ -83,7 +83,7 @@ export class PickTrigger<S extends PickState = PickState, P extends PickTriggerP
     }
 
     componentDidMount(): void {
-        const {id, state} = this.props;
+        const {id} = this.props;
         $(`#${id}`).on(`change.zui.pick.${id} syncValue.zui.pick.${id}`, (event: Event, from: symbol) => {
             if (from === EVENT_PICK) {
                 return;
