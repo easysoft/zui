@@ -1,17 +1,13 @@
-import {createRef} from 'preact';
 import {$, delay, fetchData} from '@zui/core';
 import {Pick} from '@zui/pick/src/components';
 import {PickerMultiSelect} from './picker-multi-select';
 import {PickerSingleSelect} from './picker-single-select';
 import {PickerMenu} from './picker-menu';
 
-import type {ComponentType, RefObject, RenderableProps} from 'preact';
+import type {ComponentType, RenderableProps} from 'preact';
 import type {ListItem, ListItemsFetcher} from '@zui/list';
 import type {PickTriggerProps} from '@zui/pick';
-import type {PickTrigger} from '@zui/pick/src/components';
 import type {PickerItemBasic, PickerItemOptions, PickerMenuProps, PickerOptions, PickerSelectProps, PickerState} from '../types';
-
-type PickerTrigger = PickTrigger<PickerState, PickerSelectProps>;
 
 function getValueMap(items: PickerItemOptions[], userMap?: Map<string, PickerItemOptions>): Map<string, PickerItemOptions> {
     return items.reduce<Map<string, PickerItemOptions>>((map, item) => {
@@ -43,8 +39,6 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
     protected _updateTimer = 0;
 
     protected _emptyValueSet: Set<string>;
-
-    protected _trigger = createRef<PickerTrigger>();
 
     constructor(props: O) {
         super(props);
@@ -234,10 +228,9 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
         super.componentWillUnmount();
     }
 
-    protected _getTriggerProps(props: RenderableProps<O>, state: Readonly<S>): PickerSelectProps<S> & {ref: RefObject<PickerTrigger>} {
+    protected _getTriggerProps(props: RenderableProps<O>, state: Readonly<S>): PickerSelectProps<S> {
         return {
             ...super._getTriggerProps(props, state),
-            ref: this._trigger,
             multiple: props.multiple,
             placeholder: props.placeholder,
             search: props.search,
@@ -311,12 +304,6 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
             }
         }
         const stateValue = this.formatValue(valueList);
-        if (silent) {
-            const trigger = this._trigger.current;
-            if (trigger) {
-                trigger._skipTriggerChange = stateValue;
-            }
-        }
-        return this.changeState({value: stateValue} as S);
+        return super.setValue(stateValue, silent);
     }
 }
