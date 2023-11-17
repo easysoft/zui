@@ -11,7 +11,7 @@ import {Menu, SearchMenu} from './src/main';
 onPageUpdate(() => {
     const searchMenuItems = [
         {text: '复制', icon: 'icon-copy', keys: 'fuzhi fz'},
-        {text: '粘贴', icon: 'icon-paste', keys: 'zhantie zt'},
+        {text: '粘贴', icon: 'icon-paste', keys: 'zhantie zt', disabled: true},
         {text: '剪切'},
         {type: 'heading', text: '更多操作'},
         {

@@ -11,6 +11,12 @@
     background: var(--menu-hover-bg);
     color: var(--menu-hover-color);
 }
+.menu-item > a.disabled:hover,
+.menu-item > a.disabled:hover,
+.menu-item.disabled > a:hover,
+.menu-item.disabled > a:hover {
+    @apply -bg-inherit -text-inherit;
+}
 .menu-item > a > .item-title {
     @apply -flex-auto;
 }
