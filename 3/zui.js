@@ -9276,12 +9276,12 @@ let Ur = class extends H {
       e === !0 && (e = "window,parent");
       const s = e.split(",");
       if (typeof ResizeObserver < "u") {
-        const i = new ResizeObserver(this.updateLayout);
-        X(this, Xs, i);
-        const { parent: r } = this;
-        s.forEach((o) => {
-          o !== "window" && (o === "parent" ? r && i.observe(r) : u(o).each((a, l) => i.observe(l)));
-        });
+        const i = [], r = new ResizeObserver(this.updateLayout);
+        X(this, Xs, r);
+        const { parent: o } = this;
+        s.forEach((a) => {
+          a !== "window" && (a === "parent" ? o && r.observe(o) : a[0] === "~" ? i.push(a.slice(1)) : u(a).each((l, c) => r.observe(c)));
+        }), i.length && this.on(i.join(" "), this.updateLayout);
       }
       s.includes("window") && this.on("window_resize", this.updateLayout);
     }
