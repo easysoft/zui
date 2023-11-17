@@ -137,6 +137,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
             }
             const responsiveSelectors = responsive.split(',');
             if (typeof ResizeObserver !== 'undefined') {
+                const responsiveEvents: string[] = [];
                 const rob = new ResizeObserver(this.updateLayout);
                 this.#rob = rob;
                 const {parent} = this;
@@ -148,10 +149,15 @@ export class DTable extends Component<DTableOptions, DTableState> {
                         if (parent) {
                             rob.observe(parent);
                         }
+                    } else if (selector[0] === '~') {
+                        responsiveEvents.push(selector.slice(1));
                     } else {
                         $(selector).each((_, element) => rob.observe(element));
                     }
                 });
+                if (responsiveEvents.length) {
+                    this.on(responsiveEvents.join(' '), this.updateLayout);
+                }
             }
             if (responsiveSelectors.includes('window')) {
                 this.on('window_resize', this.updateLayout);
