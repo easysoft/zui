@@ -183,13 +183,10 @@ export class DTable extends Component<DTableOptions, DTableState> {
     }
 
     componentDidUpdate() {
-        if (this.#needRender) {
-            this.#afterRender();
-        } else {
-            this.#plugins.forEach(plugin => {
-                plugin.onUpdated?.call(this);
-            });
-        }
+        this.#afterRender();
+        this.#plugins.forEach(plugin => {
+            plugin.onUpdated?.call(this);
+        });
     }
 
     componentWillUnmount() {
