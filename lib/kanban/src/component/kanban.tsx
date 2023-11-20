@@ -239,6 +239,7 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
     updateLink(link: KanbanLinkOptions | KanbanLinkOptions[], change?: Partial<KanbanLinkOptions>) {
         return this.update({
             links: (Array.isArray(link) ? link : [link]).map(x => ({
+                deleted: false,
                 ...x,
                 ...change,
                 [this.itemKey]: `${x.from}:${x.to}`,
