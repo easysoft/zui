@@ -11485,6 +11485,7 @@ let As = class extends U {
   updateLink(t, e) {
     return this.update({
       links: (Array.isArray(t) ? t : [t]).map((s) => ({
+        deleted: !1,
         ...s,
         ...e,
         [this.itemKey]: `${s.from}:${s.to}`
