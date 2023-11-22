@@ -2391,7 +2391,7 @@ class st extends U {
   _getProps(t) {
     const e = this._getComponent(t), { url: s, target: i, disabled: r, btnType: o = "button", hint: a } = t, l = e === "a", c = {
       ...super._getProps(t),
-      disabled: r ? "" : void 0,
+      disabled: !l && r ? "" : void 0,
       title: a
     };
     return o && (["button", "reset", "submit"].includes(o) ? e === "button" && (c.type = o) : c.className = x([c.className, o])), r || (s !== void 0 && (c[l ? "href" : "data-url"] = s), i !== void 0 && (c[l ? "target" : "data-target"] = i)), c;
