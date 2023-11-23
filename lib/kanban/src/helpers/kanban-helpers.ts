@@ -200,7 +200,12 @@ export function normalizeData(data: KanbanDataset, itemKey: string): KanbanData 
 export function mergeData(data: Partial<KanbanData>, extraData: Partial<KanbanDataset>, itemKey: string): Partial<KanbanData> {
     const lanes = mergeList(data.lanes, extraData.lanes, 'name');
     const cols = mergeList(data.cols, extraData.cols, 'name');
-    const links = mergeList(data.links, extraData.links, itemKey);
+    const links = mergeList(data.links, extraData.links?.map(link => {
+        if (link[itemKey] === undefined) {
+            link[itemKey] = `${link.from}:${link.to}`;
+        }
+        return link;
+    }), itemKey);
     const items = mergeList(data.items, normalizeItems(extraData.items || [], itemKey), itemKey);
     return {lanes, cols, items, links};
 }

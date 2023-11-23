@@ -41,7 +41,7 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
     protected _rob?: ResizeObserver;
 
     protected _data = new Computed(this._getData.bind(this), () => {
-        const {getCol, colProps, itemCountPerRow, itemGap, getLane, laneProps, itemProps, getItem, responsive} = this.props;
+        const {getCol, colProps, itemCountPerRow, itemGap, getLane, laneProps, itemProps, getItem, getLink, linkProps, responsive} = this.props;
         return [
             this._kanbanData,
             getCol,
@@ -52,6 +52,8 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
             laneProps,
             itemProps,
             getItem,
+            linkProps,
+            getLink,
             responsive,
         ];
     });
@@ -481,7 +483,7 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
         if (result === false) {
             return;
         }
-        this.updateLink(newLink);
+        this.addLink(newLink);
     };
 
     protected _onDeleteLink = async (link: KanbanLinkOptions) => {
