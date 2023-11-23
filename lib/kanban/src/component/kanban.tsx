@@ -554,7 +554,10 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
                 if (link[itemKey] === undefined) {
                     link[itemKey] = `${link.from}:${link.to}`;
                 }
-                list.push(link);
+                const finalLink = props.getLink?.call(this, link) ?? link;
+                if (finalLink !== false && !finalLink.deleted) {
+                    list.push(finalLink);
+                }
             }
             return list;
         }, []);

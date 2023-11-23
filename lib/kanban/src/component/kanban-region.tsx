@@ -81,10 +81,10 @@ export class KanbanRegion extends HElement<KanbanRegionProps, KanbanRegionState>
     };
 
     _buildItems(props: RenderableProps<KanbanRegionProps>): ComponentChildren[] {
-        const {items = [], kanbanProps: kanbanPropsSetting} = props;
+        const {items = [], kanbanProps: kanbanPropsSetting, kanbanItemKey = 'id'} = props;
         let {items: stateItems} = this.state;
         if (stateItems) {
-            stateItems = mergeList(items, stateItems).filter(x => !(x as {deleted?: boolean}).deleted);
+            stateItems = mergeList(items, stateItems, kanbanItemKey).filter(x => !(x as {deleted?: boolean}).deleted);
             stateItems.sort(sortByOrder as ((a: KanbanProps, b: KanbanProps) => number));
         } else {
             stateItems = items;

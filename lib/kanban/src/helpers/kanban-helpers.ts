@@ -142,7 +142,7 @@ export function mergeList<T extends {}>(items: T[] | undefined, newItems: T[] | 
     if (newItems) {
         let order = 0;
         const indexMap = finalItems.reduce((map, item, index) => {
-            map.set(String(item[itemKey as keyof T]), index);
+            map.set(String(item[itemKey as keyof T] ?? index), index);
             order = Math.max((item as {order?: number}).order ?? index, order);
             return map;
         }, new Map<string, number>());
