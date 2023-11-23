@@ -11125,7 +11125,7 @@ class Wu extends H {
     return this._idSet.clear(), /* @__PURE__ */ f("div", { className: "kanban-links", ref: this._ref, children: e.map((s) => this._renderLink(s)) });
   }
 }
-const Fs = ".kanban";
+const Fs = ".kanbanLinkEditor";
 class Ou extends H {
   constructor() {
     super(...arguments), this._ref = B(), this.state = {};
