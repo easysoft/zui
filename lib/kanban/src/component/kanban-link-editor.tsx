@@ -6,7 +6,7 @@ import {KanbanLink} from './kanban-link';
 import type {ComponentChildren, RenderableProps} from 'preact';
 import type {KanbanLinkEditorProps, KanbanLinkEditorState} from '../types';
 
-const EVENT_NAMESPACE = '.kanban';
+const EVENT_NAMESPACE = '.kanbanLinkEditor';
 
 export class KanbanLinkEditor extends Component<KanbanLinkEditorProps, KanbanLinkEditorState> {
     protected _ref = createRef<HTMLDivElement>();
