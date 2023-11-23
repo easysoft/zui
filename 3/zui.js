@@ -11293,7 +11293,7 @@ function le(n, t, e = "key") {
   const s = [...n];
   if (t) {
     let i = 0;
-    const r = s.reduce((o, a, l) => (o.set(String(a[e]), l), i = Math.max(a.order ?? l, i), o), /* @__PURE__ */ new Map());
+    const r = s.reduce((o, a, l) => (o.set(String(a[e] ?? l), l), i = Math.max(a.order ?? l, i), o), /* @__PURE__ */ new Map());
     t.forEach((o) => {
       const a = String(o[e]);
       r.has(a) ? s[r.get(a)] = {
@@ -11680,7 +11680,15 @@ let As = class extends U {
       });
     });
     let { links: g = [] } = s;
-    return g = g.reduce((p, m) => (!m.deleted && h.has(m.from) && h.has(m.to) && !d.has(m.from) && !d.has(m.to) && (m[t] === void 0 && (m[t] = `${m.from}:${m.to}`), p.push(m)), p), []), { cols: l, lanes: c, items: o, map: h, colMap: a, links: g, hasSubCols: i };
+    return g = g.reduce((p, m) => {
+      var _;
+      if (!m.deleted && h.has(m.from) && h.has(m.to) && !d.has(m.from) && !d.has(m.to)) {
+        m[t] === void 0 && (m[t] = `${m.from}:${m.to}`);
+        const y = ((_ = e.getLink) == null ? void 0 : _.call(this, m)) ?? m;
+        y !== !1 && !y.deleted && p.push(y);
+      }
+      return p;
+    }, []), { cols: l, lanes: c, items: o, map: h, colMap: a, links: g, hasSubCols: i };
   }
   _layoutCols(t, e) {
     const { containerWidth: s = 0 } = this.state, { colsGap: i = 8, minColWidth: r = 150, maxColWidth: o = 600, colWidth: a = 200 } = e, l = [];
@@ -11801,21 +11809,21 @@ class Fo extends U {
     s.set(t, qi(i || {}, e, r));
   }
   _buildItems(t) {
-    const { items: e = [], kanbanProps: s } = t;
-    let { items: i } = this.state;
-    i ? (i = le(e, i).filter((l) => !l.deleted), i.sort(fs)) : i = e;
-    const r = this._kanbanRefs, o = new Set(r.keys()), a = i.map((l, c) => {
-      const d = W(
-        { className: "kanban-region-item", key: c },
-        typeof s == "function" ? s.call(this, l, c) : s,
-        l
-      ), h = String(d.key);
-      let g = r.get(h);
-      return g || (g = B(), r.set(h, g)), d.ref = g, o.delete(h), /* @__PURE__ */ f(As, { "z-key": h, ...d });
+    const { items: e = [], kanbanProps: s, kanbanItemKey: i = "id" } = t;
+    let { items: r } = this.state;
+    r ? (r = le(e, r, i).filter((c) => !c.deleted), r.sort(fs)) : r = e;
+    const o = this._kanbanRefs, a = new Set(o.keys()), l = r.map((c, d) => {
+      const h = W(
+        { className: "kanban-region-item", key: d },
+        typeof s == "function" ? s.call(this, c, d) : s,
+        c
+      ), g = String(h.key);
+      let p = o.get(g);
+      return p || (p = B(), o.set(g, p)), h.ref = p, a.delete(g), /* @__PURE__ */ f(As, { "z-key": g, ...h });
     });
-    return o.forEach((l) => {
-      r.delete(l);
-    }), a;
+    return a.forEach((c) => {
+      o.delete(c);
+    }), l;
   }
   _getClassName(t) {
     return ["kanban-region", t.className, this.state.collapsed ? "is-collapsed" : "is-expanded", t.heading ? "has-heading" : ""];
