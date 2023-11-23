@@ -588,8 +588,8 @@ export class DTable extends Component<DTableOptions, DTableState> {
 
     #afterRender() {
         this.#needRender = false;
-        this.options.afterRender?.call(this);
         this.#plugins.forEach(plugin => plugin.afterRender?.call(this));
+        this.options.afterRender?.call(this);
     }
 
     #handleRenderCell = (result: CustomRenderResultList, data: {row: RowInfo, col: ColInfo, value: unknown}, cellProps: CellProps, h: typeof _h) : CustomRenderResultList => {
