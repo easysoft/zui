@@ -37,8 +37,8 @@ export class DatePicker extends Pick<PickState, DatePickerOptions> {
     };
 
     setDate = (value: string) => {
-        const {onInvalid, defaultValue = '', required, disabled, format} = this.props;
-        if (disabled) {
+        const {onInvalid, defaultValue = '', required, disabled, readonly, format} = this.props;
+        if (disabled || readonly) {
             return;
         }
         const date = createDate(value);

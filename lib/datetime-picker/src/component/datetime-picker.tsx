@@ -63,8 +63,8 @@ export class DatetimePicker extends Pick<PickState, DatetimePickerOptions> {
     };
 
     setTime(value: string | {hour?: number, minute?: number}) {
-        const {onInvalid, required, defaultValue, timeFormat, joiner, disabled, dateFormat} = this.props;
-        if (disabled) {
+        const {onInvalid, required, defaultValue, timeFormat, joiner, disabled, readonly, dateFormat} = this.props;
+        if (disabled || readonly) {
             return;
         }
         let valueString = '';
@@ -92,8 +92,8 @@ export class DatetimePicker extends Pick<PickState, DatetimePickerOptions> {
     }
 
     setDate = (value: string) => {
-        const {onInvalid, defaultValue = '', required, dateFormat, disabled, joiner} = this.props;
-        if (disabled) {
+        const {onInvalid, defaultValue = '', required, dateFormat, disabled, readonly, joiner} = this.props;
+        if (disabled || readonly) {
             return;
         }
         const date = createDate(value);

@@ -55,7 +55,7 @@ export class TimePicker extends Pick<PickState, TimePickerOptions> {
     };
 
     setTime(value: string | {hour?: number, minute?: number}) {
-        if (this.props.disabled) {
+        if (this.props.disabled || this.props.readonly) {
             return;
         }
         let valueString = '';
