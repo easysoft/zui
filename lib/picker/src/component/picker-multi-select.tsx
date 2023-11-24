@@ -34,7 +34,6 @@ export class PickerMultiSelect extends PickTrigger<PickerState, PickerSelectProp
         return classes(
             super._getClass(props),
             'picker-select picker-select-multi form-control',
-            props.disabled ? 'disabled' : '',
         );
     }
 
@@ -43,7 +42,7 @@ export class PickerMultiSelect extends PickTrigger<PickerState, PickerSelectProp
         return (
             <div className="picker-multi-selection" key={selection.value} title={typeof text === 'string' ? text : undefined}>
                 <span className="text"><CustomContent content={text} /></span>
-                {this.props.disabled ? null : <div className="picker-deselect-btn btn size-xs ghost" onClick={this._handleDeselectClick} data-value={selection.value}><span className="close"></span></div>}
+                {(this.props.disabled || this.props.readonly) ? null : <div className="picker-deselect-btn btn size-xs ghost" onClick={this._handleDeselectClick} data-value={selection.value}><span className="close"></span></div>}
             </div>
         );
     };
@@ -79,14 +78,14 @@ export class PickerMultiSelect extends PickTrigger<PickerState, PickerSelectProp
     }
 
     protected _renderValue(props: PickerSelectProps) {
-        const {name, state: {value = ''}, disabled, id, valueList, emptyValue} = props;
+        const {name, state: {value = ''}, disabled, readonly, id, valueList, emptyValue} = props;
         if (name) {
             if (this.hasInput) {
                 $(`#${id}`).val(value);
             } else {
                 const values = valueList.length ? valueList : [emptyValue];
                 return (
-                    <select id={id} multiple className="pick-value" name={name.endsWith('[]') ? name : `${name}[]`} disabled={disabled} style={{display: 'none'}}>
+                    <select id={id} multiple className="pick-value" name={name.endsWith('[]') ? name : `${name}[]`} disabled={disabled} readonly={readonly} style={{display: 'none'}}>
                         {values.map(x => <option key={x} value={x}>{x}</option>)}
                     </select>
                 );

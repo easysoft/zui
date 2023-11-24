@@ -62,7 +62,7 @@ onPageUpdate(() => {
         multiple: true,
         items: '/lib/picker/dev/nested-items.json',
         tree: true,
-        disabled: true,
+        readonly: true,
         menu: {
             itemProps: {
                 avatarClass: 'size-sm',

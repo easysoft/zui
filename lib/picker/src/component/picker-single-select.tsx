@@ -46,7 +46,6 @@ export class PickerSingleSelect extends PickTrigger<PickerState, PickerSelectPro
         return classes(
             super._getClass(props),
             'picker-select picker-select-single form-control',
-            props.disabled ? 'disabled' : '',
         );
     }
 
@@ -64,7 +63,7 @@ export class PickerSingleSelect extends PickTrigger<PickerState, PickerSelectPro
     }
 
     protected _renderTrigger(props: PickerSelectProps) {
-        const {children, state: {selections = [], open}, placeholder, search, disabled, clearable} = props;
+        const {children, state: {selections = [], open}, placeholder, search, disabled, readonly, clearable} = props;
 
         const [selection] = selections;
         const showSearch = open && search;
@@ -82,7 +81,7 @@ export class PickerSingleSelect extends PickTrigger<PickerState, PickerSelectPro
             view = <span key="main" className="picker-select-placeholder">{placeholder}</span>;
         }
         const deselectBtnView = (clearable && !showSearch) ? (
-            <button key="deselect" type="button" className="btn picker-deselect-btn size-sm square ghost" disabled={disabled} onClick={this._handleDeselectClick}><span className="close"></span></button>
+            <button key="deselect" type="button" className="btn picker-deselect-btn size-sm square ghost" disabled={disabled} readonly={readonly} onClick={this._handleDeselectClick}><span className="close"></span></button>
         ) : null;
         const caret = showSearch ? null : <span key="caret" className="caret"></span>;
 
