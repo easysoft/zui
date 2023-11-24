@@ -4216,12 +4216,13 @@ class kr extends H {
     }
   }
   _getClass(t) {
-    const { state: e, className: s, disabled: i } = t, { open: r } = e;
+    const { state: e, className: s, disabled: i, readonly: r } = t, { open: o } = e;
     return x(
       "pick",
       s,
-      r && "is-open focus",
-      i && "disabled"
+      o && "is-open focus",
+      i && "disabled",
+      r && "readonly"
     );
   }
   _getProps(t) {
@@ -4240,12 +4241,12 @@ class kr extends H {
     return e ?? s.value;
   }
   _renderValue(t) {
-    const { name: e, state: { value: s = "" }, disabled: i, id: r } = t;
+    const { name: e, state: { value: s = "" }, disabled: i, readonly: r, id: o } = t;
     if (e)
       if (this._hasInput)
-        u(`#${r}`).val(s);
+        u(`#${o}`).val(s);
       else
-        return /* @__PURE__ */ f("input", { id: r, type: "hidden", className: "pick-value", name: e, value: s, disabled: i });
+        return /* @__PURE__ */ f("input", { id: o, type: "hidden", className: "pick-value", name: e, value: s, readonly: r, disabled: i });
     return null;
   }
   componentDidMount() {
@@ -5281,7 +5282,7 @@ var Xa = (n, t, e) => {
 let ht = class extends H {
   constructor(t) {
     super(t), Zn(this, Ks, void 0), Zn(this, vt, 0), Zn(this, Ye, B()), this._trigger = B(), this.toggle = async (e, s) => {
-      this.props.disabled && (e = !1);
+      (this.props.disabled || this.props.readonly) && (e = !1);
       const { state: i } = this;
       if (typeof e == "boolean" && e === (!!i.open && i.open !== "closing"))
         return s && await this.changeState(s), this.state;
@@ -5334,6 +5335,7 @@ let ht = class extends H {
       tagName: t.tagName,
       attrs: t.attrs,
       disabled: t.disabled,
+      readonly: t.readonly,
       clickType: t.clickType,
       onClick: t.onClick,
       changeState: this.changeState,
@@ -5347,6 +5349,7 @@ let ht = class extends H {
       className: t.popClass,
       style: t.popStyle,
       disabled: t.disabled,
+      readonly: t.readonly,
       changeState: this.changeState,
       togglePop: this.toggle,
       placement: t.popPlacement,
@@ -5613,7 +5616,7 @@ let el = class extends ht {
     e.value === "now" && (e.value = nt(/* @__PURE__ */ new Date(), t.format));
   }
   setTime(t) {
-    if (this.props.disabled)
+    if (this.props.disabled || this.props.readonly)
       return;
     let e = "";
     if (typeof t == "string")
@@ -5903,12 +5906,12 @@ let rl = class extends ht {
     }), Qn(this, Mi, () => {
       this.setDate("");
     }), this.setDate = (s) => {
-      const { onInvalid: i, defaultValue: r = "", required: o, disabled: a, format: l } = this.props;
-      if (a)
+      const { onInvalid: i, defaultValue: r = "", required: o, disabled: a, readonly: l, format: c } = this.props;
+      if (a || l)
         return;
-      const c = G(s), d = !s || Number.isNaN(c.getDay());
-      this.setState({ value: d ? o ? r : "" : nt(c, l) }, () => {
-        !d && i && i(s), this.toggle(!1);
+      const d = G(s), h = !s || Number.isNaN(d.getDay());
+      this.setState({ value: h ? o ? r : "" : nt(d, c) }, () => {
+        !h && i && i(s), this.toggle(!1);
       });
     };
     const { value: e } = this.state;
@@ -6015,31 +6018,31 @@ let ll = class extends ht {
     }), Ve(this, Pi, (o) => {
       this.setTime(o.target.value);
     }), this.setDate = (o) => {
-      const { onInvalid: a, defaultValue: l = "", required: c, dateFormat: d, disabled: h, joiner: g } = this.props;
-      if (h)
+      const { onInvalid: a, defaultValue: l = "", required: c, dateFormat: d, disabled: h, readonly: g, joiner: p } = this.props;
+      if (h || g)
         return;
-      const p = G(o), m = !o || Number.isNaN(p.getDay()), _ = nt(p, d), [, y = "00:00"] = this.state.value.split(g);
-      this.setState({ value: m ? c ? l : "" : `${_}${g}${y}` }, () => {
-        !m && a && a(o);
+      const m = G(o), _ = !o || Number.isNaN(m.getDay()), y = nt(m, d), [, b = "00:00"] = this.state.value.split(p);
+      this.setState({ value: _ ? c ? l : "" : `${y}${p}${b}` }, () => {
+        !_ && a && a(o);
       });
     };
     const { value: e } = this.state, { dateFormat: s, timeFormat: i, joiner: r } = t;
     e && (this.state.value = nt(e === "today" ? /* @__PURE__ */ new Date() : e, `${s}${r}${i}`));
   }
   setTime(t) {
-    const { onInvalid: e, required: s, defaultValue: i, timeFormat: r, joiner: o, disabled: a, dateFormat: l } = this.props;
-    if (a)
+    const { onInvalid: e, required: s, defaultValue: i, timeFormat: r, joiner: o, disabled: a, readonly: l, dateFormat: c } = this.props;
+    if (a || l)
       return;
-    let c = "";
+    let d = "";
     if (typeof t == "string")
-      c = t;
+      d = t;
     else {
-      const [, g = "00:00"] = this.state.value.split(o), [p, m] = g.split(":"), { hour: _ = +p, minute: y = +m } = t;
-      c = `${_}:${y}`;
+      const [, p = "00:00"] = this.state.value.split(o), [m, _] = p.split(":"), { hour: y = +m, minute: b = +_ } = t;
+      d = `${y}:${b}`;
     }
-    const d = xo(c), h = this.state.value.split(o)[0] || nt(/* @__PURE__ */ new Date(), l);
-    this.setState({ value: d ? `${h}${o}${nt(d, r)}` : s ? i : "" }, () => {
-      !d && e && e(c);
+    const h = xo(d), g = this.state.value.split(o)[0] || nt(/* @__PURE__ */ new Date(), c);
+    this.setState({ value: h ? `${g}${o}${nt(h, r)}` : s ? i : "" }, () => {
+      !h && e && e(d);
     });
   }
   getTime() {
@@ -7293,7 +7296,7 @@ class Ld extends kr {
       const { text: e } = t;
       return /* @__PURE__ */ f("div", { className: "picker-multi-selection", title: typeof e == "string" ? e : void 0, children: [
         /* @__PURE__ */ f("span", { className: "text", children: /* @__PURE__ */ f(R, { content: e }) }),
-        this.props.disabled ? null : /* @__PURE__ */ f("div", { className: "picker-deselect-btn btn size-xs ghost", onClick: this._handleDeselectClick, "data-value": t.value, children: /* @__PURE__ */ f("span", { className: "close" }) })
+        this.props.disabled || this.props.readonly ? null : /* @__PURE__ */ f("div", { className: "picker-deselect-btn btn size-xs ghost", onClick: this._handleDeselectClick, "data-value": t.value, children: /* @__PURE__ */ f("span", { className: "close" }) })
       ] }, t.value);
     };
   }
@@ -7304,8 +7307,7 @@ class Ld extends kr {
   _getClass(t) {
     return x(
       super._getClass(t),
-      "picker-select picker-select-multi form-control",
-      t.disabled ? "disabled" : ""
+      "picker-select picker-select-multi form-control"
     );
   }
   _renderSearch(t) {
@@ -7334,13 +7336,13 @@ class Ld extends kr {
     ];
   }
   _renderValue(t) {
-    const { name: e, state: { value: s = "" }, disabled: i, id: r, valueList: o, emptyValue: a } = t;
+    const { name: e, state: { value: s = "" }, disabled: i, readonly: r, id: o, valueList: a, emptyValue: l } = t;
     if (e)
       if (this.hasInput)
-        u(`#${r}`).val(s);
+        u(`#${o}`).val(s);
       else {
-        const l = o.length ? o : [a];
-        return /* @__PURE__ */ f("select", { id: r, multiple: !0, className: "pick-value", name: e.endsWith("[]") ? e : `${e}[]`, disabled: i, style: { display: "none" }, children: l.map((c) => /* @__PURE__ */ f("option", { value: c, children: c }, c)) });
+        const c = a.length ? a : [l];
+        return /* @__PURE__ */ f("select", { id: o, multiple: !0, className: "pick-value", name: e.endsWith("[]") ? e : `${e}[]`, disabled: i, readonly: r, style: { display: "none" }, children: c.map((d) => /* @__PURE__ */ f("option", { value: d, children: d }, d)) });
       }
     return null;
   }
@@ -7383,8 +7385,7 @@ class Rd extends kr {
   _getClass(t) {
     return x(
       super._getClass(t),
-      "picker-select picker-select-single form-control",
-      t.disabled ? "disabled" : ""
+      "picker-select picker-select-single form-control"
     );
   }
   _renderSearch(t) {
@@ -7401,21 +7402,21 @@ class Rd extends kr {
     );
   }
   _renderTrigger(t) {
-    const { children: e, state: { selections: s = [], open: i }, placeholder: r, search: o, disabled: a, clearable: l } = t, [c] = s, d = i && o;
-    let h;
-    if (d)
-      h = this._renderSearch(t);
-    else if (c) {
-      const { text: m } = c;
-      h = /* @__PURE__ */ f("span", { className: "picker-single-selection", title: typeof m == "string" ? m : void 0, children: /* @__PURE__ */ f(R, { content: m }) }, "main");
+    const { children: e, state: { selections: s = [], open: i }, placeholder: r, search: o, disabled: a, readonly: l, clearable: c } = t, [d] = s, h = i && o;
+    let g;
+    if (h)
+      g = this._renderSearch(t);
+    else if (d) {
+      const { text: _ } = d;
+      g = /* @__PURE__ */ f("span", { className: "picker-single-selection", title: typeof _ == "string" ? _ : void 0, children: /* @__PURE__ */ f(R, { content: _ }) }, "main");
     } else
-      h = /* @__PURE__ */ f("span", { className: "picker-select-placeholder", children: r }, "main");
-    const g = l && !d ? /* @__PURE__ */ f("button", { type: "button", className: "btn picker-deselect-btn size-sm square ghost", disabled: a, onClick: this._handleDeselectClick, children: /* @__PURE__ */ f("span", { className: "close" }) }, "deselect") : null;
+      g = /* @__PURE__ */ f("span", { className: "picker-select-placeholder", children: r }, "main");
+    const p = c && !h ? /* @__PURE__ */ f("button", { type: "button", className: "btn picker-deselect-btn size-sm square ghost", disabled: a, readonly: l, onClick: this._handleDeselectClick, children: /* @__PURE__ */ f("span", { className: "close" }) }, "deselect") : null;
     return [
-      h,
-      e,
       g,
-      d ? null : /* @__PURE__ */ f("span", { className: "caret" }, "caret")
+      e,
+      p,
+      h ? null : /* @__PURE__ */ f("span", { className: "caret" }, "caret")
     ];
   }
 }
