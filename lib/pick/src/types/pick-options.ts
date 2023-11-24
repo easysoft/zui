@@ -22,6 +22,7 @@ export interface PickOptions<S extends PickState = PickState> {
 
     defaultValue?: string;
     disabled?: boolean;
+    readonly?: boolean;
     name?: string;
     onChange?: (value: string, oldValue: string) => void;
     onClick?: (event: MouseEvent) => void | boolean;

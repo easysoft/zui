@@ -62,7 +62,7 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
     }
 
     toggle = async (open?: boolean, state?: Partial<S>): Promise<S> => {
-        if (this.props.disabled) {
+        if (this.props.disabled || this.props.readonly) {
             open = false;
         }
         const {state: currentState} = this;
@@ -125,6 +125,7 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
             tagName: props.tagName,
             attrs: props.attrs,
             disabled: props.disabled,
+            readonly: props.readonly,
             clickType: props.clickType,
             onClick: props.onClick,
             changeState: this.changeState,
@@ -139,6 +140,7 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
             className: props.popClass,
             style: props.popStyle,
             disabled: props.disabled,
+            readonly: props.readonly,
             changeState: this.changeState,
             togglePop: this.toggle,
             placement: props.popPlacement,
