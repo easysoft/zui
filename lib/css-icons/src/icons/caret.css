@@ -11,6 +11,10 @@
 :focus > .caret {
     opacity: inherit;
 }
+.disabled .caret,
+.readonly .caret {
+    opacity: var(--caret-opacity, .5);
+}
 
 .caret,
 .caret-down {
