@@ -1,5 +1,11 @@
 # Sortable
 
+## SortableTree
+
+```html:example
+<ul id="sortableTree"></ul>
+```
+
 ## SortableList
 
 ```html:example

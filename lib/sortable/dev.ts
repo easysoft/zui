@@ -1,12 +1,13 @@
 import '@zui/menu';
 import '@zui/list';
+import '@zui/tree';
 import '@zui/icons';
 import '@zui/button';
 import '@zui/avatar';
 import '@zui/checkbox';
 import 'zui-dev';
 import {$} from '@zui/core';
-import {Sortable, SortableList} from './src/main';
+import {Sortable, SortableList, SortableTree} from './src/main';
 
 $.registerLib('sortablejs', {
     src: '/lib/sortable/public/sortable.min.js',
@@ -14,6 +15,42 @@ $.registerLib('sortablejs', {
 });
 
 onPageUpdate(() => {
+    const sortableTree = new SortableTree('#sortableTree', {
+        items: [
+            {
+                text: '研发',
+                url: '#研发',
+                items: [
+                    {
+                        text: '大产品',
+                        items: [
+                            {text: '前端', url: '#前端'},
+                            {text: '后端', url: '#后端'},
+                        ],
+                    },
+                    {text: '桌面端', url: '#桌面端'},
+                    {text: '移动端', url: '#移动端'},
+                    {text: '测试', url: '#测试'},
+                    {text: '运维', url: '#运维'},
+                ],
+            },
+            {text: '市场', url: '#市场', active: true},
+            {text: '技术支持', url: '#技术支持'},
+            {text: '财务', url: '#财务'},
+            {text: '行政', url: '#行政'},
+        ],
+        itemProps: {
+            icon: 'move muted',
+        },
+        sortable: {
+            handle: '.icon-move',
+        },
+        onSort: function (event, orders, parentKey) {
+            console.log('> onSort', event, orders, parentKey);
+        },
+    });
+    console.log('> sortableTree', sortableTree);
+
     const sortableList = new SortableList('#sortableList', {
         items: [
             {text: '文本', onClick: () => console.log('ok')},

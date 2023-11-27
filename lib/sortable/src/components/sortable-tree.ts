@@ -1,16 +1,18 @@
-import {List} from '@zui/list/src/component';
+import {Tree} from '@zui/tree/src/components';
 import {Sortable} from '../vanilla/sortable';
 
 import type {RenderableProps} from 'preact';
 import type {SortableEvent} from 'sortablejs';
 import type {ClassNameLike} from '@zui/core';
-import type {SortableListProps, SortableListState, SortableOptions} from '../types';
-import {Item} from '@zui/common-list/src/types';
+import type {Item} from '@zui/common-list';
+import type {SortableTreeProps, SortableTreeState, SortableOptions} from '../types';
 
-export class SortableList<P extends SortableListProps = SortableListProps, S extends SortableListState = SortableListState> extends List<P, S> {
-    static defaultProps: Partial<SortableListProps> = {
+export class SortableTree<P extends SortableTreeProps = SortableTreeProps, S extends SortableTreeState = SortableTreeState> extends Tree<P, S> {
+    static defaultProps: Partial<SortableTreeProps> = {
         sortable: true,
     };
+
+    static inheritNestedProps = [...Tree.inheritNestedProps, 'onSort'];
 
     declare _sortable: Sortable;
 
@@ -51,7 +53,7 @@ export class SortableList<P extends SortableListProps = SortableListProps, S ext
     }
 
     protected _getClassName(props: RenderableProps<P>): ClassNameLike {
-        return [super._getClassName(props), 'sortable-list'];
+        return [super._getClassName(props), 'sortable-tree'];
     }
 
     protected _getSortableOptions(): SortableOptions | undefined {
@@ -61,14 +63,14 @@ export class SortableList<P extends SortableListProps = SortableListProps, S ext
         }
         const userOptions = typeof sortable === 'object' ? sortable : {};
         return {
-            group: `SortableList.${this.gid}`,
+            group: `SortableTree.${this.gid}`,
             dataIdAttr: 'z-key',
-            draggable: '.list-item',
+            draggable: '.tree-item',
             ...userOptions,
             onSort: (event: SortableEvent) => {
                 const orders = this.getOrders();
                 this.setState({orders});
-                this.props.onSort?.call(this, event, orders);
+                this.props.onSort?.call(this, event, orders, this.props.parentKey);
                 userOptions.onSort?.call(this, event);
             },
         };
