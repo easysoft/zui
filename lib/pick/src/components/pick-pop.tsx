@@ -153,7 +153,6 @@ export class PickPop<S extends PickState = PickState, P extends PickPopProps<S> 
         this.props.afterRender?.({firstRender: false});
     }
 
-
     componentWillUnmount(): void {
         $(document).off('click', this._handleDocClick);
 
