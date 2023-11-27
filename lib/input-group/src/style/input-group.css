@@ -15,12 +15,10 @@
   @apply -flex-auto;
 }
 
-.input-group > * + *,
-.input-group > * + .input-group-control > * {
+.input-group > * + * {
   @apply -rounded-l-none;
 }
-.input-group > *:not(:last-child),
-.input-group > .input-group-control:not(:last-child) > * {
+.input-group > *:not(:last-child) {
   @apply -rounded-r-none;
 }
 
