@@ -5,7 +5,7 @@
   @apply -transition-colors -duration-1000;
 }
 .dtable-scrolled-down .dtable-header {
-  @apply -border-b -border-b-border-strong;
+  @apply -border-b -border-b-inverse/20;
 }
 
 .dtable-scroll-shadow {
