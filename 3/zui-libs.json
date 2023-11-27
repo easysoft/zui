@@ -736,7 +736,9 @@
         "dependencies": {
             "@zui/core": "workspace:^0.0.1",
             "@zui/common-list": "workspace:^0.0.1",
-            "@zui/list": "workspace:^0.0.1"
+            "@zui/list": "workspace:^0.0.1",
+            "@zui/menu": "workspace:^0.0.1",
+            "@zui/tree": "workspace:^0.0.1"
         },
         "devDependencies": {
             "sortablejs": "^1.15.0",
