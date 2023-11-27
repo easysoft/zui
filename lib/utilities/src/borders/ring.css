@@ -40,7 +40,6 @@
 .ring-opacity-90  {--tw-ring-opacity: .9;}
 .ring-opacity-100 {--tw-ring-opacity: 1;}
 
-.-ring-offset-1  {@apply -ring-offset-[-1px]}
 .ring-offset-0   {@apply -ring-offset-0}
 .ring-offset-1   {@apply -ring-offset-1}
 .ring-offset-2   {@apply -ring-offset-2}
