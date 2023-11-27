@@ -3,9 +3,9 @@ import {Menu} from '@zui/menu/src/component';
 import type {RenderableProps} from 'preact';
 import type {Item} from '@zui/common-list';
 import type {NestedItem} from '@zui/list';
-import type {TreeOptions} from '../types';
+import type {TreeOptions, TreeState} from '../types';
 
-export class Tree<T extends TreeOptions = TreeOptions> extends Menu<T> {
+export class Tree<T extends TreeOptions = TreeOptions, S extends TreeState = TreeState> extends Menu<T, S> {
     static NAME = 'tree';
 
     static defaultProps: Partial<TreeOptions> = {
