@@ -4244,7 +4244,7 @@ let Rn = class extends jt {
 Rn.defaultProps = {
   sortable: !0
 };
-Rn.inheritNestedProps = [...jt.inheritNestedProps, "onSort"];
+Rn.inheritNestedProps = [...jt.inheritNestedProps, "onSort", "sortable"];
 class kr extends P {
 }
 kr.NAME = "SortableList";
