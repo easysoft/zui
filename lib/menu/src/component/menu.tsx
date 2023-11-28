@@ -1,7 +1,7 @@
 import {CustomContent, classes, mergeProps} from '@zui/core';
 import {NestedList, Listitem} from '@zui/list/src/component';
 
-import type {RenderableProps} from 'preact';
+import type {ComponentChildren, RenderableProps} from 'preact';
 import type {ClassNameLike} from '@zui/core';
 import type {NestedListState} from '@zui/list';
 import type {MenuOptions} from '../types';
@@ -19,23 +19,35 @@ export class Menu<T extends MenuOptions = MenuOptions, S extends NestedListState
     };
 
     protected _getClassName(props: RenderableProps<T>): ClassNameLike {
-        return classes(super._getClassName(props), this._hasNestedItems ? 'menu-nested' : '', props.className, props.popup ? 'popup' : '', props.compact ? 'compact' : '');
+        return classes(super._getClassName(props), this._hasNestedItems ? 'menu-nested' : '', props.className, props.wrap ? null : {popup: props.popup, compact: props.compact});
+    }
+
+    protected _getWrapperProps(props: RenderableProps<T>): Record<string, unknown> {
+        const {wrap, wrapClass, wrapHeight, wrapMaxHeight} = props;
+        const wrapProps = mergeProps({className: wrapClass}, typeof wrap === 'object' ? wrap : null, (wrapHeight || wrapMaxHeight) ? {style: {height: wrapHeight, maxHeight: wrapMaxHeight}} : null);
+        wrapProps.className = classes('menu-wrapper', {popup: props.popup, compact: props.compact}, wrapProps.className as ClassNameLike);
+        return wrapProps;
+    }
+
+    protected _renderWrapperHeader(props: RenderableProps<T>): ComponentChildren {
+        return <CustomContent key="header" content={props.header} />;
+    }
+
+    protected _renderWrapperFooter(props: RenderableProps<T>): ComponentChildren {
+        return <CustomContent key="footer" content={props.footer} />;
     }
 
     render(props: RenderableProps<T>) {
         const menuView = super.render(props);
-        const {wrap} = props;
-        if (wrap) {
-            const {wrapClass, wrapHeight, wrapMaxHeight, header, footer} = props;
-            const {className, ...otherProps} = mergeProps({className: wrapClass}, typeof wrap === 'object' ? wrap : null, (wrapHeight || wrapMaxHeight) ? {style: {height: wrapHeight, maxHeight: wrapMaxHeight}} : null);
+        if (props.wrap) {
             return (
-                <menu className={classes('menu-wrapper', className as string)} {...otherProps}>
-                    <CustomContent content={header} />
+                <menu {...this._getWrapperProps(props)}>
+                    {this._renderWrapperHeader(props)}
                     {menuView}
-                    <CustomContent content={footer} />
+                    {this._renderWrapperFooter(props)}
                 </menu>
             );
         }
-        return menuView;
+        return super.render(props);
     }
 }
