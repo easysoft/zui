@@ -44,7 +44,13 @@
 .has-prefix-icon {--input-control-prefix: 32px;}
 .has-suffix-icon {--input-control-suffix: 32px;}
 
+.input-control.has-prefix-icon {
+  --input-control-prefix: 32px;
+}
+.input-control.has-suffix-icon {
+  --input-control-suffix: 32px;
+}
 .input-control.has-prefix-icon > .input-control-prefix,
 .input-control.has-suffix-icon > .input-control-suffix {
-  @apply -w-8 -justify-center;
+  @apply -justify-center -p-0;
 }
