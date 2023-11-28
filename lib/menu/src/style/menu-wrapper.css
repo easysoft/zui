@@ -2,5 +2,5 @@
   @apply -flex -flex-col;
 }
 .menu-wrapper > .menu {
-  @apply -flex-auto -overflow-auto;
+  @apply -flex-auto -overflow-auto -min-h-0;
 }

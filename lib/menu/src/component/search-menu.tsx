@@ -128,6 +128,7 @@ export class SearchMenu<T extends SearchMenuOptions = SearchMenuOptions> extends
             return null;
         }
         const searchOptions: SearchBoxOptions = {
+            compact: true,
             onChange: this._handleSearchChange,
         };
         if (typeof searchBox === 'object') {
