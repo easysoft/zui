@@ -39,6 +39,7 @@ onPageUpdate(() => {
         },
     ];
     const searchMenu1 = new SearchMenu('#searchMenu1', {
+        wrap: true,
         popup: true,
         searchBox: true,
         searchPlacement: 'bottom',

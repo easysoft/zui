@@ -1,6 +1,14 @@
-import type {NestedItem, NestedListItem, NestedListProps} from '@zui/list';
+import {type SizeSetting, type ClassNameLike, type CustomContentType} from '@zui/core';
+import {type NestedListItem, type NestedListProps} from '@zui/list';
+import {type MenuItemOptions} from './menu-item-options';
 
-export interface MenuOptions<T extends NestedItem = NestedListItem> extends NestedListProps<T> {
+export interface MenuOptions<T extends MenuItemOptions = NestedListItem> extends NestedListProps<T> {
+    wrap?: boolean | Record<string, unknown>;
+    wrapClass?: ClassNameLike;
+    wrapHeight?: SizeSetting;
+    wrapMaxHeight?: SizeSetting;
+    header?: CustomContentType;
+    footer?: CustomContentType;
     popup?: boolean;
     compact?: boolean;
 }
