@@ -3,6 +3,7 @@ import type {ClassNameLike, IconType, JSX} from '@zui/core';
 export type SearchBoxOptions = {
     id?: string;
     name?: string;
+    compact?: boolean;
     className?: ClassNameLike;
     rootClass?: ClassNameLike;
     rootStyle?: JSX.CSSProperties;

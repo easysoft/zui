@@ -1,0 +1,6 @@
+.search-box.compact.has-prefix-icon {
+  --input-control-prefix: 24px;
+}
+.search-box.compact.has-suffix-icon {
+  --input-control-suffix: 24px;
+}

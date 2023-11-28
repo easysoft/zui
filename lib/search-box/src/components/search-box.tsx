@@ -32,7 +32,7 @@ export class SearchBox extends Component<SearchBoxOptions, SearchBoxState> {
         return this._input.current;
     }
 
-    #handleClearBtnClick = (event: MouseEvent) => {
+    _handleClearBtnClick = (event: MouseEvent) => {
         const oldValue = this.state.value;
         event.stopPropagation();
         this.setState({value: ''}, () => {
@@ -45,7 +45,7 @@ export class SearchBox extends Component<SearchBoxOptions, SearchBoxState> {
         });
     };
 
-    #handleChange = (event: Event) => {
+    _handleChange = (event: Event) => {
         const oldValue = this.state.value;
         const value = (event.target as HTMLInputElement).value;
         const {onChange} = this.props;
@@ -53,7 +53,7 @@ export class SearchBox extends Component<SearchBoxOptions, SearchBoxState> {
             if (!onChange || oldValue === value) {
                 return;
             }
-            this.#clearTimer();
+            this._clearTimer();
             this._timer = window.setTimeout(() => {
                 onChange(value, event);
                 this._timer = 0;
@@ -61,7 +61,7 @@ export class SearchBox extends Component<SearchBoxOptions, SearchBoxState> {
         });
     };
 
-    #handleFocus = (event: FocusEvent) => {
+    _handleFocus = (event: FocusEvent) => {
         const focus = event.type === 'focus';
         this.setState({focus}, () => {
             const callback = focus ? this.props.onFocus : this.props.onBlur;
@@ -69,7 +69,7 @@ export class SearchBox extends Component<SearchBoxOptions, SearchBoxState> {
         });
     };
 
-    #clearTimer() {
+    _clearTimer() {
         if (this._timer) {
             clearTimeout(this._timer);
         }
@@ -81,11 +81,11 @@ export class SearchBox extends Component<SearchBoxOptions, SearchBoxState> {
     }
 
     componentWillUnmount(): void {
-        this.#clearTimer();
+        this._clearTimer();
     }
 
     render(props: RenderableProps<SearchBoxOptions>, state: Readonly<SearchBoxState>) {
-        const {style, className, rootClass, rootStyle, readonly, disabled, circle, placeholder, mergeIcon, searchIcon, clearIcon, value: controlledValue} = props;
+        const {style, className, rootClass, rootStyle, readonly, disabled, circle, placeholder, mergeIcon, searchIcon, clearIcon, value: controlledValue, compact} = props;
         const {focus, value} = state;
         const {id} = this;
         const finalValue = controlledValue ?? value;
@@ -104,7 +104,7 @@ export class SearchBox extends Component<SearchBoxOptions, SearchBoxState> {
                 <button
                     type="button"
                     class="btn ghost size-sm square rounded-full"
-                    onClick={this.#handleClearBtnClick}
+                    onClick={this._handleClearBtnClick}
                 >
                     {clearIcon === true ? <span class="close" /> : <Icon icon={clearIcon} />}
                 </button>
@@ -121,22 +121,22 @@ export class SearchBox extends Component<SearchBoxOptions, SearchBoxState> {
         }
 
         return (
-            <div class={classes('search-box input-control', rootClass, {focus, empty, 'has-prefix-icon': prefixView, 'has-suffix-icon': suffixView})} style={rootStyle}>
+            <div class={classes('search-box input-control', rootClass, {focus, empty, compact, 'has-prefix-icon': prefixView, 'has-suffix-icon': suffixView})} style={rootStyle}>
                 {prefixView}
                 <input
                     ref={this._input}
                     id={id}
                     type="text"
-                    class={classes('form-control', className, {'rounded-full': circle})}
+                    class={classes('form-control', className, {'rounded-full': circle, 'size-sm': compact})}
                     style={style}
                     placeholder={placeholder}
                     disabled={disabled}
                     readonly={readonly}
                     value={finalValue}
-                    onInput={this.#handleChange}
-                    onChange={this.#handleChange}
-                    onFocus={this.#handleFocus}
-                    onBlur={this.#handleFocus}
+                    onInput={this._handleChange}
+                    onChange={this._handleChange}
+                    onFocus={this._handleFocus}
+                    onBlur={this._handleFocus}
                 />
                 {suffixView}
             </div>
