@@ -1,5 +1,5 @@
-import {arrow, computePosition, flip, shift, autoUpdate, offset, VirtualElement, ReferenceElement, ComputePositionConfig} from '@floating-ui/dom';
-import {Component, $, ComponentEvents} from '@zui/core';
+import {arrow, computePosition, flip, shift, size, autoUpdate, offset, VirtualElement, ReferenceElement, ComputePositionConfig} from '@floating-ui/dom';
+import {Component, $, ComponentEvents, JSX} from '@zui/core';
 import {PopoverEvents, PopoverOptions, PopoverPanelOptions} from '../types';
 import {PopoverPanel} from './popover-panel';
 import {isElementDetached} from '@zui/core/src/dom';
@@ -270,20 +270,31 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
         }
 
         this._layoutWatcher = autoUpdate(trigger, target, () => {
-            const {width, animation, name = 'popover'} = this.options;
-            if (width === '100%' && !this._virtual) {
-                $(target).css({width: $(trigger as HTMLElement).width()});
+            const {animation, name = 'popover'} = this.options;
+            if (!this._virtual) {
+                const style: JSX.CSSProperties = {};
+                const {width, height} = this.options;
+                if (width) {
+                    style.width = typeof width === 'function' ? width() : (width === '100%' ? $(trigger as HTMLElement).width() : width);
+                }
+                if (height) {
+                    style.height = typeof height === 'function' ? height() : height;
+                }
+                if (Object.keys(style).length) {
+                    $(target).css(style);
+                }
             }
             computePosition(...this._getLayoutOptions()).then(({x, y, middlewareData, placement, strategy}) => {
                 if (trigger instanceof HTMLElement && isElementDetached(trigger)) {
                     this.hide(true);
                     return;
                 }
-                const $target = $(target).css({
+                const style: JSX.CSSProperties = {
                     position: strategy,
                     left: x,
                     top: y,
-                });
+                };
+                const $target = $(target).css(style);
                 const popSide = placement.split('-')[0] as string;
                 const arrowSide = {
                     top: 'bottom',
@@ -361,7 +372,7 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
     protected _getLayoutOptions(): [trigger: ReferenceElement, element: HTMLElement, options: Partial<ComputePositionConfig>] {
         const trigger = this._triggerElement;
         const element = this._targetElement!;
-        const {placement: placementSetting, flip: isFlip, shift: shiftSetting, offset: offsetSetting, arrow: arrowSetting, strategy} = this.options;
+        const {placement: placementSetting, flip: isFlip, limitSize, shift: shiftSetting, offset: offsetSetting, arrow: arrowSetting, strategy} = this.options;
         const arrowElement = arrowSetting ? element.querySelector('.arrow') : null;
         const arrowSize = arrowElement ? (typeof arrowSetting === 'number' ? arrowSetting : 5) : 0;
         return [trigger, element, {
@@ -369,6 +380,11 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
             strategy,
             middleware: [
                 isFlip ? flip() : null,
+                limitSize ? size({
+                    apply({availableWidth, availableHeight, placement}) {
+                        $(element).css({maxHeight: availableHeight - (['top', 'bottom'].includes(placement.split('-')[0]) ? arrowSize : 0) - 2, maxWidth: availableWidth - 2});
+                    },
+                }) : null,
                 shiftSetting ? shift(typeof shiftSetting === 'object' ? shiftSetting : undefined) : null,
                 (offsetSetting || arrowSize) ? offset((offsetSetting || 0) + arrowSize) : null,
                 arrowSetting ? arrow({element: arrowElement!}) : null,
