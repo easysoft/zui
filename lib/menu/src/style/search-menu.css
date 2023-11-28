@@ -1,11 +1,11 @@
-.search-menu-on-top {
-  @apply -relative -pt-12;
+.search-menu {
+  @apply -flex -flex-col;
 }
-.search-menu-on-top > .search-box {
-  @apply -absolute -top-2 -left-2 -right-2;
+.search-menu-header {
+  @apply -p-2 --mb-2;
 }
-.search-menu-on-bootom > .search-box {
-  @apply -mt-2;
+.search-menu-footer {
+  @apply -p-2 --mt-2;
 }
 
 .search-menu .item.is-not-match {

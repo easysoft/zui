@@ -1,8 +1,8 @@
-import {$} from '@zui/core';
+import {$, classes} from '@zui/core';
 import {SearchBox} from '@zui/search-box/src/components';
 import {Menu} from './menu';
 
-import {toChildArray, type ComponentChild, type ComponentChildren, type RenderableProps} from 'preact';
+import {type ComponentChild, type ComponentChildren, type RenderableProps} from 'preact';
 import type {ClassNameLike} from '@zui/core';
 import type {Item, ItemKey} from '@zui/common-list';
 import type {ListItemsSetting, NestedItem, NestedListItem, NestedListProps} from '@zui/list';
@@ -15,6 +15,7 @@ export class SearchMenu<T extends SearchMenuOptions = SearchMenuOptions> extends
     static defaultProps: Partial<SearchMenuOptions> = {
         ...Menu.defaultProps,
         defaultNestedShow: true,
+        wrap: true,
     };
 
     protected declare _searchKeys: string[];
@@ -114,13 +115,18 @@ export class SearchMenu<T extends SearchMenuOptions = SearchMenuOptions> extends
         return super._renderItem(props, item, index);
     }
 
-    protected _getChildren(props: RenderableProps<T>): ComponentChildren {
-        let children = super._getChildren(props);
+    protected _getWrapperProps(props: RenderableProps<T>): Record<string, unknown> {
+        const wrapProps = super._getWrapperProps(props);
+        const isSearchMode = this.isRoot && this._searchKeys.length;
+        wrapProps.className = classes(wrapProps.className as ClassNameLike, 'search-menu', props.searchBox ? `search-menu-on-${props.searchPlacement || 'top'}` : '', isSearchMode ? 'is-search-mode' : '', isSearchMode && props.expandOnSearch ? 'no-toggle-on-search' : '');
+        return wrapProps;
+    }
+
+    protected _renderSearchBox(props: RenderableProps<T>): ComponentChildren {
         const {searchBox} = props;
         if (!searchBox || !this.isRoot) {
-            return children;
+            return null;
         }
-        children = toChildArray(children);
         const searchOptions: SearchBoxOptions = {
             onChange: this._handleSearchChange,
         };
@@ -131,13 +137,35 @@ export class SearchMenu<T extends SearchMenuOptions = SearchMenuOptions> extends
             searchOptions.value = this._searchKeys.join(' ');
             searchOptions.disabled = true;
         }
-        (children as ComponentChild[]).push(<SearchBox key="search" {...searchOptions} />);
-        return children;
+        return <SearchBox key="search" {...searchOptions} />;
     }
 
-    protected _getClassName(props: RenderableProps<T>): ClassNameLike {
-        const isSearchMode = this.isRoot && this._searchKeys.length;
-        return [super._getClassName(props), 'search-menu', props.searchBox ? `search-menu-on-${props.searchPlacement || 'top'}` : '', isSearchMode ? 'is-search-mode' : '', isSearchMode && props.expandOnSearch ? 'no-toggle-on-search' : ''];
+    protected _renderWrapperHeader(props: RenderableProps<T>): ComponentChildren {
+        const hasHeader = props.header;
+        const hasTopSearchBox = this.isRoot && props.searchBox && props.searchPlacement !== 'bottom';
+        if (!hasHeader && !hasTopSearchBox) {
+            return null;
+        }
+        return (
+            <header key="header" className="search-menu-header">
+                {hasHeader ? this._renderWrapperHeader(props) : null}
+                {hasTopSearchBox ? this._renderSearchBox(props) : null}
+            </header>
+        );
+    }
+
+    protected _renderWrapperFooter(props: RenderableProps<T>): ComponentChildren {
+        const hasFooter = props.footer;
+        const hasBottomSearchBox = this.isRoot && props.searchBox && props.searchPlacement === 'bottom';
+        if (!hasFooter && !hasBottomSearchBox) {
+            return null;
+        }
+        return (
+            <footer key="footer" className="search-menu-footer">
+                {hasFooter ? this._renderWrapperFooter(props) : null}
+                {this._renderSearchBox(props)}
+            </footer>
+        );
     }
 
     protected _beforeRender(props: RenderableProps<T>): void | RenderableProps<T> | undefined {
