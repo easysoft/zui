@@ -1,0 +1,6 @@
+.menu-wrapper {
+  @apply -flex -flex-col;
+}
+.menu-wrapper > .menu {
+  @apply -flex-auto -overflow-auto;
+}

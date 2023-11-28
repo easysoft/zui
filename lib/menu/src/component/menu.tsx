@@ -23,8 +23,8 @@ export class Menu<T extends MenuOptions = MenuOptions, S extends NestedListState
     }
 
     protected _getWrapperProps(props: RenderableProps<T>): Record<string, unknown> {
-        const {wrap, wrapClass, wrapHeight, wrapMaxHeight} = props;
-        const wrapProps = mergeProps({className: wrapClass}, typeof wrap === 'object' ? wrap : null, (wrapHeight || wrapMaxHeight) ? {style: {height: wrapHeight, maxHeight: wrapMaxHeight}} : null);
+        const {wrap, wrapClass, height, maxHeight} = props;
+        const wrapProps = mergeProps({className: wrapClass}, typeof wrap === 'object' ? wrap : null, (height || maxHeight) ? {style: {height, maxHeight}} : null);
         wrapProps.className = classes('menu-wrapper', {popup: props.popup, compact: props.compact}, wrapProps.className as ClassNameLike);
         return wrapProps;
     }

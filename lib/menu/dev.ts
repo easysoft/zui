@@ -45,6 +45,7 @@ onPageUpdate(() => {
         searchPlacement: 'bottom',
         underlineKeys: true,
         items: searchMenuItems,
+        maxHeight: 200,
         onClickItem: (info) => {
             console.log('> menu.onClickItem', info);
         },

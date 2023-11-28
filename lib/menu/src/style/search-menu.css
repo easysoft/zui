@@ -1,11 +1,6 @@
-.search-menu {
-  @apply -flex -flex-col;
-}
-.search-menu-header {
-  @apply -p-2 --mb-2;
-}
+.search-menu-header,
 .search-menu-footer {
-  @apply -p-2 --mt-2;
+  @apply -p-2;
 }
 
 .search-menu .item.is-not-match {

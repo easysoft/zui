@@ -5,8 +5,8 @@ import {type MenuItemOptions} from './menu-item-options';
 export interface MenuOptions<T extends MenuItemOptions = NestedListItem> extends NestedListProps<T> {
     wrap?: boolean | Record<string, unknown>;
     wrapClass?: ClassNameLike;
-    wrapHeight?: SizeSetting;
-    wrapMaxHeight?: SizeSetting;
+    height?: SizeSetting;
+    maxHeight?: SizeSetting;
     header?: CustomContentType;
     footer?: CustomContentType;
     popup?: boolean;
