@@ -3446,7 +3446,7 @@ let et = class extends be {
     return x(super._getClassName(t), this._hasNestedItems ? "menu-nested" : "", t.className, t.wrap ? null : { popup: t.popup, compact: t.compact });
   }
   _getWrapperProps(t) {
-    const { wrap: e, wrapClass: s, wrapHeight: i, wrapMaxHeight: r } = t, o = L({ className: s }, typeof e == "object" ? e : null, i || r ? { style: { height: i, maxHeight: r } } : null);
+    const { wrap: e, wrapClass: s, height: i, maxHeight: r } = t, o = L({ className: s }, typeof e == "object" ? e : null, i || r ? { style: { height: i, maxHeight: r } } : null);
     return o.className = x("menu-wrapper", { popup: t.popup, compact: t.compact }, o.className), o;
   }
   _renderWrapperHeader(t) {
