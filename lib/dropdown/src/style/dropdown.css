@@ -1,15 +1,20 @@
 .dropdown {
   @apply -absolute -z-dropdown;
 }
+
 .dropdown-menu {
   @apply -hidden -absolute;
   --menu-min-width: 7rem;
 }
 .show > .dropdown-menu,
+.show > .menu-wrapper,
 .is-nested-show > .dropdown-menu,
-.dropdown-menu.show {
+.dropdown-menu.show,
+.menu-wrapper > .dropdown-menu {
   @apply -block;
 }
+
+.menu-wrapper > .dropdown-menu,
 .popover > .dropdown-menu {
   @apply -relative;
 }
