@@ -3463,9 +3463,12 @@ let tt = class extends _e {
   _getClassName(t) {
     return S(super._getClassName(t), this._hasNestedItems ? "menu-nested" : "", t.className, t.wrap ? null : { popup: t.popup, compact: t.compact });
   }
+  _getWrapClass(t) {
+    return ["menu-wrapper", t.wrapClass, { popup: t.popup, compact: t.compact }];
+  }
   _getWrapperProps(t) {
-    const { wrap: e, wrapClass: s, height: i, maxHeight: r } = t, o = P({ className: s }, typeof e == "object" ? e : null, i || r ? { style: { height: i, maxHeight: r } } : null);
-    return o.className = S("menu-wrapper", { popup: t.popup, compact: t.compact }, o.className), o;
+    const { wrapAttrs: e, height: s, maxHeight: i } = t, r = P({}, e, s || i ? { style: { height: s, maxHeight: i } } : null);
+    return r.className = S(this._getWrapClass(t), r.className), r;
   }
   _renderWrapperHeader(t) {
     return /* @__PURE__ */ u(D, { content: t.header }, "header");
@@ -3616,9 +3619,9 @@ let kt = class extends tt {
       typeof e[i] == "string" && (e[i] = this.constructor.underlineKeys(this._searchKeys, [e[i]]));
     }), super._renderItem(t, e, s);
   }
-  _getWrapperProps(t) {
-    const e = super._getWrapperProps(t), s = this.isRoot && this._searchKeys.length;
-    return e.className = S(e.className, "search-menu", t.searchBox ? `search-menu-on-${t.searchPlacement || "top"}` : "", s ? "is-search-mode" : "", s && t.expandOnSearch ? "no-toggle-on-search" : ""), e;
+  _getWrapClass(t) {
+    const e = this.isRoot && this._searchKeys.length;
+    return S(super._getWrapClass(t), "search-menu", t.searchBox ? `search-menu-on-${t.searchPlacement || "top"}` : "", e ? "is-search-mode" : "", e && t.expandOnSearch ? "no-toggle-on-search" : "");
   }
   _renderSearchBox(t) {
     const { searchBox: e } = t;
@@ -3633,14 +3636,14 @@ let kt = class extends tt {
   _renderWrapperHeader(t) {
     const e = t.header, s = this.isRoot && t.searchBox && t.searchPlacement !== "bottom";
     return !e && !s ? null : /* @__PURE__ */ u("header", { className: "search-menu-header", children: [
-      e ? this._renderWrapperHeader(t) : null,
+      e ? super._renderWrapperHeader(t) : null,
       s ? this._renderSearchBox(t) : null
     ] }, "header");
   }
   _renderWrapperFooter(t) {
     const e = t.footer, s = this.isRoot && t.searchBox && t.searchPlacement === "bottom";
     return !e && !s ? null : /* @__PURE__ */ u("footer", { className: "search-menu-footer", children: [
-      e ? this._renderWrapperFooter(t) : null,
+      e ? super._renderWrapperFooter(t) : null,
       this._renderSearchBox(t)
     ] }, "footer");
   }
