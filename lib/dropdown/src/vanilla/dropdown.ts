@@ -18,15 +18,20 @@ export class Dropdown<O extends DropdownOptions = DropdownOptions> extends Popov
         arrow: false,
         closeBtn: false,
         animation: 'fade',
+        limitSize: true,
     };
 
     protected _getMenuOptions(): DropdownMenuOptions {
-        const {items, placement, menu, onClickItem, relativeTarget = this._triggerElement} = this.options;
+        const {items, placement, menu, tree, onClickItem, relativeTarget = this._triggerElement} = this.options;
         return {
             items,
-            placement: placement,
-            onClickItem: onClickItem,
+            placement,
+            tree,
+            onClickItem,
+            nestedToggle: '.item',
+            accordion: true,
             relativeTarget: {target: relativeTarget, event: this.options.triggerEvent, dropdown: this},
+            popup: true,
             ...menu,
         };
     }
@@ -45,7 +50,7 @@ export class Dropdown<O extends DropdownOptions = DropdownOptions> extends Popov
     }
 
     protected _onClickDoc = (event: MouseEvent) => {
-        if (!$(event.target as HTMLElement).closest('.not-hide-menu,.form-control,input,label').length) {
+        if (!$(event.target as HTMLElement).closest('.not-hide-menu,.form-control,input,label,.nested-toggle-icon,.item.is-nested').length) {
             this.hide();
         }
     };

@@ -1,36 +1,51 @@
 .dropdown {
-  @apply -absolute -z-dropdown;
+  @apply -absolute -z-dropdown -flex -flex-col;
+}
+.dropdown.show {
+  @apply -flex;
 }
 
 .dropdown-menu {
-  @apply -hidden -absolute;
+  @apply -hidden;
   --menu-min-width: 7rem;
 }
 .show > .dropdown-menu,
-.show > .menu-wrapper,
-.is-nested-show > .dropdown-menu,
 .dropdown-menu.show,
 .menu-wrapper > .dropdown-menu {
   @apply -block;
 }
 
-.menu-wrapper > .dropdown-menu,
-.popover > .dropdown-menu {
+.menu-wrapper .dropdown-menu,
+.dropdown > .dropdown-menu {
   @apply -relative;
 }
 
-.dropdown-menu .is-nested-show > a:not(:hover) {
-    @apply -bg-primary-100;
+.show > .menu-wrapper {
+  @apply -flex;
 }
+.dropdown > .menu-wrapper {
+  @apply -h-full -min-h-0;
+}
+
+.is-contextmenu .is-nested-show > a:not(:hover) {
+  @apply -bg-primary-100;
+}
+.is-contextmenu .menu-item.is-nested > .item-inner > .nested-toggle-icon {
+  @apply -absolute -right-1 -top-1.5;
+}
+.is-contextmenu .menu-nested .menu-item > .item-inner {
+  @apply -pl-2;
+}
+/*
+
 .menu-nested .menu.dropdown-menu {
   @apply -ml-auto -my-auto -pr-2;
 }
 .dropdown-menu.menu-nested .menu-item > .item-inner {
   @apply -pl-2;
 }
-.dropdown-menu .menu-item.is-nested > .item-inner > .nested-toggle-icon {
-  @apply -absolute -right-1 -top-1.5;
-}
+ */
+
 .dropdown > .arrow {
   @apply -bg-canvas;
 }

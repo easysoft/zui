@@ -25,6 +25,9 @@ onPageUpdate(() => {
                     items: [
                         {text: '导出为 PDF'},
                         {text: '导出为 PNG'},
+                        {text: '导出为 JPG'},
+                        {text: '导出为 Excel'},
+                        {text: '导出为 Word'},
                     ],
                 },
                 {
@@ -38,6 +41,10 @@ onPageUpdate(() => {
                             items: [
                                 {text: '下载为 PDF'},
                                 {text: '下载为 Excel'},
+                                {text: '下载为 Word'},
+                                {text: '下载为 PNG'},
+                                {text: '下载为 JPG'},
+                                {text: '下载为 SVG'},
                             ],
                         },
                     ],
