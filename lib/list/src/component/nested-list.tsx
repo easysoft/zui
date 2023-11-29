@@ -14,6 +14,7 @@ export type MouseEventInfo = {
     item: NestedItem;
     renderedItem: NestedItem;
     element: HTMLElement;
+    target: HTMLElement;
     event: MouseEvent;
     key: ItemKey;
     parentKey?: ItemKey;
@@ -459,14 +460,13 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
             info.hover = event.type === 'mouseenter';
         }
         const {parentKey} = this.props;
-        return {...info, parentKey, keyPath: `${parentKey !== undefined ? `${parentKey}:` : ''}${info.key}`};
+        return {...info, parentKey, keyPath: `${parentKey !== undefined ? `${parentKey}:` : ''}${info.key}`, target: target || event.target as HTMLElement};
     }
 
     protected _toggleFromEvent(info: MouseEventInfo) {
-        const {item, hover, event, keyPath} = info;
+        const {item, hover, event, keyPath, target} = info;
         const {nestedToggle} = this.props;
         const {isHoverTrigger} = this;
-        const target = event.target as HTMLElement;
         if (!item.items || event.defaultPrevented || (isHoverTrigger && hover === undefined) || (!isHoverTrigger && event.type !== 'click') || target.closest('.not-nested-toggle') || (nestedToggle && !target.closest(nestedToggle)) || (!nestedToggle && target.closest('a,.btn,.item-checkbox') && !target.closest('.nested-toggle-icon,.item-icon'))) {
             return info;
         }
@@ -488,7 +488,6 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
 
     protected _handleHover(event: MouseEvent) {
         const info = this._getItemFromEvent(event);
-        console.log('> handleHover', event.type, event.target, {event, info});
         if (!info) {
             return;
         }
@@ -507,6 +506,7 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
         this._hoverInfo = {
             info,
             timer: window.setTimeout(() => {
+                this._hoverInfo = undefined;
                 this._toggleFromEvent(info);
             }, info.hover ? 0 : 200),
         };
