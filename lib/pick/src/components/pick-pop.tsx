@@ -5,11 +5,11 @@ import {$, classes, createPortal} from '@zui/core';
 import type {PickState, PickPopProps} from '../types';
 
 export class PickPop<S extends PickState = PickState, P extends PickPopProps<S> = PickPopProps<S>, STATE = {}> extends Component<P, STATE> {
-    #ref: RefObject<HTMLDivElement> | undefined = createRef<HTMLDivElement>();
+    _ref: RefObject<HTMLDivElement> | undefined = createRef<HTMLDivElement>();
 
-    #layoutWatcher?: () => void;
+    _layoutWatcher?: () => void;
 
-    #container?: HTMLElement;
+    _container?: HTMLElement;
 
     constructor(props: P) {
         super(props);
@@ -21,11 +21,11 @@ export class PickPop<S extends PickState = PickState, P extends PickPopProps<S> 
     }
 
     get element(): HTMLElement | undefined | null {
-        return this.#ref?.current;
+        return this._ref?.current;
     }
 
     get container(): HTMLElement | undefined {
-        return this.#container;
+        return this._container;
     }
 
     protected _handleClick(event: MouseEvent) {
@@ -69,21 +69,21 @@ export class PickPop<S extends PickState = PickState, P extends PickPopProps<S> 
             id: `pick-pop-${id}`,
             className: this._getClass(props),
             style: finalStyle,
-            ref: this.#ref,
+            ref: this._ref,
             onClick: this._handleClick,
         };
     }
 
     protected _getContainer(props: RenderableProps<P>): HTMLElement {
-        if (!this.#container) {
+        if (!this._container) {
             const $containerParent = $(props.container || 'body');
             let $container = $containerParent.find('.pick-container');
             if (!$container.length) {
                 $container = $('<div>').addClass('pick-container').appendTo($containerParent);
             }
-            this.#container = $container[0]!;
+            this._container = $container[0]!;
         }
-        return this.#container;
+        return this._container;
     }
 
     protected _render(props: RenderableProps<P>): VNode {
@@ -110,18 +110,18 @@ export class PickPop<S extends PickState = PickState, P extends PickPopProps<S> 
         const {element, trigger, props} = this;
         const {state} = props;
         if (!element || !trigger || !state.open) {
-            if (this.#layoutWatcher) {
-                this.#layoutWatcher();
-                this.#layoutWatcher = undefined;
+            if (this._layoutWatcher) {
+                this._layoutWatcher();
+                this._layoutWatcher = undefined;
             }
             return;
         }
 
-        if (this.#layoutWatcher) {
+        if (this._layoutWatcher) {
             return;
         }
 
-        this.#layoutWatcher = autoUpdate(trigger, element, () => {
+        this._layoutWatcher = autoUpdate(trigger, element, () => {
             const {placement, width} = props;
             computePosition(trigger, element, {
                 placement: (!placement || placement === 'auto') ? 'bottom-start' : placement,
@@ -156,13 +156,13 @@ export class PickPop<S extends PickState = PickState, P extends PickPopProps<S> 
     componentWillUnmount(): void {
         $(document).off('click', this._handleDocClick);
 
-        const layoutWatcher = this.#layoutWatcher;
+        const layoutWatcher = this._layoutWatcher;
         if (layoutWatcher) {
             layoutWatcher();
-            this.#layoutWatcher = undefined;
+            this._layoutWatcher = undefined;
         }
-        this.#container = undefined;
-        this.#ref = undefined;
+        this._container = undefined;
+        this._ref = undefined;
         $(`#pick-pop-${this.props.id}`).remove();
 
         this.props.beforeDestroy?.();
