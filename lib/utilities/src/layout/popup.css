@@ -1,6 +1,3 @@
 .popup {
   @apply -shadow-xl -ring-1 -ring-inverse -ring-opacity-5 -bg-canvas -bg-opacity-[0.85] -backdrop-blur-lg -rounded;
 }
-.popup .popup {
-  @apply -bg-opacity-100 -backdrop-blur-none;
-}
