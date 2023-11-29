@@ -115,11 +115,9 @@ export class SearchMenu<T extends SearchMenuOptions = SearchMenuOptions> extends
         return super._renderItem(props, item, index);
     }
 
-    protected _getWrapperProps(props: RenderableProps<T>): Record<string, unknown> {
-        const wrapProps = super._getWrapperProps(props);
+    protected _getWrapClass(props: RenderableProps<T>): ClassNameLike {
         const isSearchMode = this.isRoot && this._searchKeys.length;
-        wrapProps.className = classes(wrapProps.className as ClassNameLike, 'search-menu', props.searchBox ? `search-menu-on-${props.searchPlacement || 'top'}` : '', isSearchMode ? 'is-search-mode' : '', isSearchMode && props.expandOnSearch ? 'no-toggle-on-search' : '');
-        return wrapProps;
+        return classes(super._getWrapClass(props), 'search-menu', props.searchBox ? `search-menu-on-${props.searchPlacement || 'top'}` : '', isSearchMode ? 'is-search-mode' : '', isSearchMode && props.expandOnSearch ? 'no-toggle-on-search' : '');
     }
 
     protected _renderSearchBox(props: RenderableProps<T>): ComponentChildren {
@@ -149,7 +147,7 @@ export class SearchMenu<T extends SearchMenuOptions = SearchMenuOptions> extends
         }
         return (
             <header key="header" className="search-menu-header">
-                {hasHeader ? this._renderWrapperHeader(props) : null}
+                {hasHeader ? super._renderWrapperHeader(props) : null}
                 {hasTopSearchBox ? this._renderSearchBox(props) : null}
             </header>
         );
@@ -163,7 +161,7 @@ export class SearchMenu<T extends SearchMenuOptions = SearchMenuOptions> extends
         }
         return (
             <footer key="footer" className="search-menu-footer">
-                {hasFooter ? this._renderWrapperFooter(props) : null}
+                {hasFooter ? super._renderWrapperFooter(props) : null}
                 {this._renderSearchBox(props)}
             </footer>
         );

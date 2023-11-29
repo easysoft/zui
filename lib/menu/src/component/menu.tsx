@@ -22,10 +22,14 @@ export class Menu<T extends MenuOptions = MenuOptions, S extends NestedListState
         return classes(super._getClassName(props), this._hasNestedItems ? 'menu-nested' : '', props.className, props.wrap ? null : {popup: props.popup, compact: props.compact});
     }
 
+    protected _getWrapClass(props: RenderableProps<T>): ClassNameLike {
+        return ['menu-wrapper', props.wrapClass, {popup: props.popup, compact: props.compact}];
+    }
+
     protected _getWrapperProps(props: RenderableProps<T>): Record<string, unknown> {
-        const {wrap, wrapClass, height, maxHeight} = props;
-        const wrapProps = mergeProps({className: wrapClass}, typeof wrap === 'object' ? wrap : null, (height || maxHeight) ? {style: {height, maxHeight}} : null);
-        wrapProps.className = classes('menu-wrapper', {popup: props.popup, compact: props.compact}, wrapProps.className as ClassNameLike);
+        const {wrapAttrs, height, maxHeight} = props;
+        const wrapProps = mergeProps({}, wrapAttrs, (height || maxHeight) ? {style: {height, maxHeight}} : null);
+        wrapProps.className = classes(this._getWrapClass(props), wrapProps.className as ClassNameLike);
         return wrapProps;
     }
 

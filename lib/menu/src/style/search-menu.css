@@ -1,6 +1,9 @@
-.search-menu-header,
+
+.search-menu-header {
+  @apply -px-2 -pt-2 -pb-0.5;
+}
 .search-menu-footer {
-  @apply -p-2;
+  @apply -px-2 -pb-2 -pt-0.5;
 }
 
 .search-menu .item.is-not-match {

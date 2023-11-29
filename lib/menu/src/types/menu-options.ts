@@ -3,7 +3,8 @@ import {type NestedListItem, type NestedListProps} from '@zui/list';
 import {type MenuItemOptions} from './menu-item-options';
 
 export interface MenuOptions<T extends MenuItemOptions = NestedListItem> extends NestedListProps<T> {
-    wrap?: boolean | Record<string, unknown>;
+    wrap?: boolean;
+    wrapAttrs?: Record<string, unknown>;
     wrapClass?: ClassNameLike;
     height?: SizeSetting;
     maxHeight?: SizeSetting;
