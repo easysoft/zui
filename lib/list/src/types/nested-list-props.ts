@@ -10,6 +10,7 @@ export interface NestedListProps<T extends NestedItem = NestedListItem> extends 
     level?: number;
     preserve?: string;
     nestedTrigger?: 'click' | 'hover',
+    accordion?: boolean;
     nestedShow?: boolean | Record<ItemKey, boolean>;
     defaultNestedShow?: boolean | Record<ItemKey, boolean>;
     toggleIcons?: {collapsed?: IconType, expanded?: IconType, normal?: IconType};
