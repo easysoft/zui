@@ -1,5 +1,6 @@
 .sidebar {
   @apply !-flex-none -relative;
+  --gutter-width: 1px;
 }
 .has-sidebar-animation .sidebar {
   @apply -transition-[width,margin];
