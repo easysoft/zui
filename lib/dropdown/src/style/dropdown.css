@@ -24,7 +24,7 @@
   @apply -flex;
 }
 .dropdown > .menu-wrapper {
-  @apply -h-full -min-h-0;
+  @apply -h-full;
 }
 
 .is-contextmenu .is-nested-show > a:not(:hover) {
@@ -36,15 +36,6 @@
 .is-contextmenu .menu-nested .menu-item > .item-inner {
   @apply -pl-2;
 }
-/*
-
-.menu-nested .menu.dropdown-menu {
-  @apply -ml-auto -my-auto -pr-2;
-}
-.dropdown-menu.menu-nested .menu-item > .item-inner {
-  @apply -pl-2;
-}
- */
 
 .dropdown > .arrow {
   @apply -bg-canvas;

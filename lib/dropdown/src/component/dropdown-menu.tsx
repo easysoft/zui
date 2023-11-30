@@ -43,11 +43,11 @@ export class DropdownMenu<T extends DropdownMenuOptions = DropdownMenuOptions> e
 
         computePosition(trigger, element, {
             placement: this.props.placement,
-            middleware: [flip(), size({
+            middleware: [flip(), shift(), offset(1), size({
                 apply({availableWidth, availableHeight}) {
                     $(element).css({maxHeight: availableHeight - 2, maxWidth: availableWidth - 2});
                 },
-            }), shift(), offset(1)],
+            })],
         }).then(({x, y}) => {
             $(element).css({
                 position: 'absolute',
