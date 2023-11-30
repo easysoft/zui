@@ -7375,7 +7375,7 @@ function Cd({
     };
   });
   const { text: a = "" } = o;
-  return o.text = typeof a == "function" ? a(t) : Q(a, t), i.menu = { ...i.menu, className: x((l = i.menu) == null ? void 0 : l.className, "pager-size-menu") }, /* @__PURE__ */ p(Ln, { type: "dropdown", dropdown: i, ...o });
+  return o.text = typeof a == "function" ? a(t) : Q(a, t), i.menu = { ...i.menu, className: x((l = i.menu) == null ? void 0 : l.className, "pager-size-menu") }, /* @__PURE__ */ p(Ln, { dropdown: i, ...o });
 }
 function kd({
   key: n,
