@@ -1,4 +1,4 @@
-.dropdown {
+.dropdown.popover {
   @apply -absolute -z-dropdown -flex -flex-col;
 }
 .dropdown.show {
