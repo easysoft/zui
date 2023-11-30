@@ -7083,14 +7083,14 @@ class yt extends lt {
       strategy: c,
       middleware: [
         i ? En() : null,
+        o ? is(typeof o == "object" ? o : void 0) : null,
+        a || h ? In((a || 0) + h) : null,
+        l ? ui({ element: d }) : null,
         r ? Ia({
           apply({ availableWidth: m, availableHeight: f, placement: g }) {
             u(e).css({ maxHeight: f - (["top", "bottom"].includes(g.split("-")[0]) ? h : 0) - 2, maxWidth: m - 2 });
           }
-        }) : null,
-        o ? is(typeof o == "object" ? o : void 0) : null,
-        a || h ? In((a || 0) + h) : null,
-        l ? ui({ element: d }) : null
+        }) : null
       ].filter(Boolean)
     }];
   }
@@ -7283,11 +7283,11 @@ class Tr extends kt {
     const t = (r = this.element) == null ? void 0 : r.parentElement, i = u(t).parent().children(".dropdown-menu").children(`[z-key-path="${this.props.parentKey}"]`)[0];
     !t || !i || Pn(i, t, {
       placement: this.props.placement,
-      middleware: [En(), Ia({
+      middleware: [En(), is(), In(1), Ia({
         apply({ availableWidth: o, availableHeight: a }) {
           u(t).css({ maxHeight: a - 2, maxWidth: o - 2 });
         }
-      }), is(), In(1)]
+      })]
     }).then(({ x: o, y: a }) => {
       u(t).css({
         position: "absolute",
