@@ -25,6 +25,6 @@ export function PagerSizeMenu({
     dropdownProps.text = typeof text === 'function' ? text(pagerInfo) : formatString(text, pagerInfo);
     dropdown.menu = {...dropdown.menu, className: classes(dropdown.menu?.className, 'pager-size-menu')} as typeof dropdown.menu;
     return (
-        <DropdownButton type="dropdown" dropdown={dropdown} {...dropdownProps} />
+        <DropdownButton dropdown={dropdown} {...dropdownProps} />
     );
 }
