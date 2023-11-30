@@ -102,7 +102,7 @@ export class PickerMenu extends PickPop<PickerState, PickerMenuProps> {
             if (item.items) {
                 const map = getValueMap(item.items as NestedItem[]);
                 const values = [...map.values()].filter(x => !x.items && !this._disabledSet.has(x.value as string)).map(x => x.value as string);
-                if ($(target).closest('.tree-item').children('.tree').children('.tree-item').children('.tree-item-inner.active').length) {
+                if ($(target).closest('.tree-item').children('.tree-item-inner.active').length) {
                     onDeselect(values);
                 } else {
                     onSelect(values);
