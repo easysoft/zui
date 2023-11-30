@@ -7681,7 +7681,7 @@ class $d extends Ha {
       if (r)
         if (t.items) {
           const h = [...al(t.items).values()].filter((m) => !m.items && !this._disabledSet.has(m.value)).map((m) => m.value);
-          u(i).closest(".tree-item").children(".tree").children(".tree-item").children(".tree-item-inner.active").length ? c(h) : a(h);
+          u(i).closest(".tree-item").children(".tree-item-inner.active").length ? c(h) : a(h);
         } else
           o(s);
       else
