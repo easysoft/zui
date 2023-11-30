@@ -380,14 +380,14 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
             strategy,
             middleware: [
                 isFlip ? flip() : null,
+                shiftSetting ? shift(typeof shiftSetting === 'object' ? shiftSetting : undefined) : null,
+                (offsetSetting || arrowSize) ? offset((offsetSetting || 0) + arrowSize) : null,
+                arrowSetting ? arrow({element: arrowElement!}) : null,
                 limitSize ? size({
                     apply({availableWidth, availableHeight, placement}) {
                         $(element).css({maxHeight: availableHeight - (['top', 'bottom'].includes(placement.split('-')[0]) ? arrowSize : 0) - 2, maxWidth: availableWidth - 2});
                     },
                 }) : null,
-                shiftSetting ? shift(typeof shiftSetting === 'object' ? shiftSetting : undefined) : null,
-                (offsetSetting || arrowSize) ? offset((offsetSetting || 0) + arrowSize) : null,
-                arrowSetting ? arrow({element: arrowElement!}) : null,
             ].filter(Boolean),
         }];
     }
