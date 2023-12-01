@@ -4340,20 +4340,16 @@ class mr extends O {
       requestAnimationFrame(() => e(r));
     }
   }
-  _isEmptyValue() {
-    const { state: { value: t } } = this.props;
-    return t == null || t === "";
-  }
   _getClass(t) {
-    const { state: e, className: s, disabled: i, readonly: r, pickerName: o } = t, { open: a } = e;
+    const { state: e, className: s, disabled: i, readonly: r, pickerName: o, empty: a } = t, { open: l } = e;
     return x(
       "pick",
       s,
       o ? `${o}-pick` : "",
-      a && "is-open focus",
+      l && "is-open focus",
       i && "disabled",
       r && "readonly",
-      this._isEmptyValue() ? "is-empty-value" : ""
+      a ? "is-empty-value" : ""
     );
   }
   _getProps(t) {
@@ -5359,18 +5355,14 @@ class Ha extends O {
     if (s.closest('[data-dismiss="pick"]').length)
       return e(!1);
   }
-  _isEmptyValue() {
-    const { state: { value: t } } = this.props;
-    return t == null || t === "";
-  }
   _getClass(t) {
-    const { className: e, state: s, pickerName: i } = t, { open: r } = s;
+    const { className: e, state: s, pickerName: i, empty: r } = t, { open: o } = s;
     return x(
       "pick-pop",
       i ? `${i}-pick-pop` : "",
       e,
-      r === !0 && "in",
-      this._isEmptyValue() ? "is-empty-value" : ""
+      o === !0 && "in",
+      r ? "is-empty-value" : ""
     );
   }
   _getProps(t) {
@@ -5559,6 +5551,10 @@ let ht = class extends O {
   _getTrigger(t) {
     return t.Trigger || this.constructor.Trigger;
   }
+  _isEmptyValue() {
+    const { value: t } = this.state;
+    return t == null || t === "";
+  }
   _handleChange(t, e) {
     const { onChange: s } = this.props;
     s && s.call(this, t, e);
@@ -5597,7 +5593,7 @@ let ht = class extends O {
   render(t, e) {
     const { open: s } = e, i = this._getTrigger(t);
     let r;
-    if (s) {
+    if (s && (!t.hidePopWhenEmpty || !this._isEmptyValue())) {
       const o = this._getPop(t);
       r = /* @__PURE__ */ p(o, { ref: Gt(this, Ge), ...this._getPopProps(t, e), children: this._renderPop(t, e) }, "pop");
     }
