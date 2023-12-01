@@ -32,9 +32,6 @@ importers:
       dayjs:
         specifier: ^1.11.10
         version: 1.11.10
-      hotkeys-js:
-        specifier: ^3.12.2
-        version: 3.12.2
       htm:
         specifier: ^3.1.1
         version: 3.1.1
@@ -995,16 +992,6 @@ importers:
       '@zui/css-icons':
         specifier: workspace:^0.0.1
         version: link:../css-icons
-    devDependencies:
-      zui-dev:
-        specifier: workspace:^0.0.1
-        version: link:../../dev
-
-  lib/popovers:
-    dependencies:
-      '@zui/core':
-        specifier: workspace:^0.0.1
-        version: link:../core
     devDependencies:
       zui-dev:
         specifier: workspace:^0.0.1
@@ -3845,10 +3832,6 @@ packages:
     resolution: {integrity: sha512-fJ7cW7fQGCYAkgv4CPfwFHrfd/cLS4Hau96JuJ+ZTOWhjnhoeN1ub1tFmALm/+lW5z4WCAuAV9bm05AP0mS6Gw==}
     engines: {node: '>=12.0.0'}
     dev: true
-
-  /hotkeys-js@3.12.2:
-    resolution: {integrity: sha512-Fi1g0SaDMJZosXLQzs7pbFj2T9VTwvJWx0e4dURXJqa9ERhd4q9fj3XXzgKQgyEnULZh88aQl5fiMv/vxzrEBQ==}
-    dev: false
 
   /htm@3.1.1:
     resolution: {integrity: sha512-983Vyg8NwUE7JkZ6NmOqpCZ+sh1bKv2iYTlUkzlWmA5JD2acKoxd4KVxbMmxX/85mtfdnDmTFoNKcg5DGAvxNQ==}

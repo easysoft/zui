@@ -354,19 +354,19 @@ export const datagridPlugin: DTablePlugin<DTableDatagridTypes, DTableDatagridDep
     options(options) {
         const {datagridHotkeys, datasource, hotkeys, editable: editableOption, selectable: selectableOption, beforeSelectCells, showRowIndex, colResize, onPasteToCell, afterStageDraft} = options;
         const defaultHotkeys: Record<string, string> = {
-            delete: 'delete,backspace',
-            selectAll: 'ctrl+a,command+a',
-            paste: 'ctrl+v,command+v',
-            copy: 'ctrl+c,command+c',
-            focus: 'enter',
-            cancel: 'esc',
-            cut: 'ctrl+x,command+x',
-            redo: 'ctrl+shift+z,command+shift+z',
-            undo: 'ctrl+z,command+z',
-            selectRight: 'tab,right',
-            selectLeft: 'left',
-            selectDown: 'down',
-            selectUp: 'up',
+            delete: 'Delete,Backspace',
+            selectAll: '$mod+a',
+            paste: '$mod+v',
+            copy: '$mod+c',
+            focus: 'Enter',
+            cancel: 'Escape',
+            cut: '$mod+x',
+            redo: '$mod+Shift+z',
+            undo: '$mod+z',
+            selectRight: 'Tab,ArrowRight',
+            selectLeft: 'ArrowLeft',
+            selectDown: 'ArrowDown',
+            selectUp: 'ArrowUp',
         };
         const hotkeysOverride = {
             ...hotkeys,

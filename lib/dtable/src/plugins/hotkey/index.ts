@@ -1,66 +1,47 @@
-import hotkeys from 'hotkeys-js';
+import {$, type HotkeysBindingMap} from '@zui/core';
 import {definePlugin} from '../../helpers/shared-plugins';
-
-import type {HotkeysEvent} from 'hotkeys-js';
-import type {DTable} from '../../main-react';
 import type {DTableWithPlugin, DTablePlugin} from '../../types/plugin';
-
-export type DTableHotkeyCallback = (this: DTable, event: KeyboardEvent, handler: HotkeysEvent) => void;
 
 export interface DTableHotkeyTypes {
     options: Partial<{
-        hotkeys: Record<string, DTableHotkeyCallback>;
+        hotkeys: HotkeysBindingMap;
     }>,
     data: {
-        hotkeys: Map<string, DTableHotkeyCallback>;
-        keys?: string;
+        hotkeysScope: string;
     },
-    methods: {
-        hotkeyHandler: (this: DTableHotkey, event: KeyboardEvent, handler: HotkeysEvent) => void;
-    }
 }
 
 export type DTableHotkey = DTableWithPlugin<DTableHotkeyTypes>;
 
 export const hotkeyPlugin: DTablePlugin<DTableHotkeyTypes> = {
     name: 'hotkey',
-    data() {
-        return {hotkeys: new Map()};
-    },
     when: options => !!options.hotkeys,
-    methods: {
-        hotkeyHandler(event, handler) {
-            this.data.hotkeys.get(handler.key)?.call(this, event, handler);
-        },
-    },
     onMounted() {
-        const {hotkeys: hotkeysOptions} = this.options;
-        if (!hotkeysOptions) {
+        const {hotkeys} = this.options;
+        if (!hotkeys) {
             return;
         }
-        const hotkeysMap = new Map();
-        Object.keys(hotkeysOptions).forEach(keys => {
-            const callback = hotkeysOptions[keys];
+        const hotkeysMap: HotkeysBindingMap = {};
+        Object.keys(hotkeys).forEach(keys => {
+            const callback = hotkeys[keys];
             keys.split(',').forEach(key => {
                 key = key.trim();
                 if (!key.length) {
                     return;
                 }
-                hotkeysMap.set(key, callback);
+                hotkeysMap[key] = callback;
             });
         });
-
-        const keys = [...hotkeysMap.keys()];
-        if (!keys.length) {
+        if (!Object.keys(hotkeysMap).length) {
             return;
         }
-        this.data.keys = keys.join(',');
-        hotkeys(this.data.keys, {element: this.ref.current}, this.hotkeyHandler);
-        this.data.hotkeys = hotkeysMap;
+        const hotkeysScope = `dtable_${this.id}`;
+        $(this.element).hotkeys(hotkeysMap, {scope: hotkeysScope});
+        this.data.hotkeysScope = hotkeysScope;
     },
     onUnmounted() {
-        if (this.data.keys) {
-            hotkeys.unbind(this.data.keys, this.hotkeyHandler);
+        if (this.data.hotkeysScope) {
+            $(this.element).unbindHotkeys(this.data.hotkeysScope);
         }
     },
 };

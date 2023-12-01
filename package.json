@@ -37,7 +37,6 @@
     "@zui/utilities": "workspace:*",
     "cash-dom": "^8.1.5",
     "dayjs": "^1.11.10",
-    "hotkeys-js": "^3.12.2",
     "htm": "^3.1.1",
     "nanoid": "^4.0.2",
     "preact": "^10.19.2",
