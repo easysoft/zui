@@ -41,6 +41,11 @@ export class PickTrigger<S extends PickState = PickState, P extends PickTriggerP
         requestAnimationFrame(() => togglePop(toggle));
     }
 
+    protected _isEmptyValue() {
+        const {state: {value}} = this.props;
+        return value === undefined || value === null || value === '';
+    }
+
     protected _getClass(props: RenderableProps<P>) {
         const {state, className, disabled, readonly} = props;
         const {open: opened} = state;
@@ -50,6 +55,7 @@ export class PickTrigger<S extends PickState = PickState, P extends PickTriggerP
             opened && 'is-open focus',
             disabled && 'disabled',
             readonly && 'readonly',
+            this._isEmptyValue() ? 'is-empty-value' : '',
         );
     }
 

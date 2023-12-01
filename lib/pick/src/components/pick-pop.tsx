@@ -41,6 +41,11 @@ export class PickPop<S extends PickState = PickState, P extends PickPopProps<S> 
         }
     }
 
+    protected _isEmptyValue() {
+        const {state: {value}} = this.props;
+        return value === undefined || value === null || value === '';
+    }
+
     protected _getClass(props: RenderableProps<P>) {
         const {className, state} = props;
         const {open} = state;
@@ -48,6 +53,7 @@ export class PickPop<S extends PickState = PickState, P extends PickPopProps<S> 
             'pick-pop',
             className,
             open === true && 'in',
+            this._isEmptyValue() ? 'is-empty-value' : '',
         );
     }
 
