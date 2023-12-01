@@ -47,11 +47,12 @@ export class PickTrigger<S extends PickState = PickState, P extends PickTriggerP
     }
 
     protected _getClass(props: RenderableProps<P>) {
-        const {state, className, disabled, readonly} = props;
+        const {state, className, disabled, readonly, pickerName} = props;
         const {open: opened} = state;
         return classes(
             'pick',
             className,
+            pickerName ? `${pickerName}-pick` : '',
             opened && 'is-open focus',
             disabled && 'disabled',
             readonly && 'readonly',

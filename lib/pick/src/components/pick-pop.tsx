@@ -47,10 +47,11 @@ export class PickPop<S extends PickState = PickState, P extends PickPopProps<S> 
     }
 
     protected _getClass(props: RenderableProps<P>) {
-        const {className, state} = props;
+        const {className, state, pickerName} = props;
         const {open} = state;
         return classes(
             'pick-pop',
+            pickerName ? `${pickerName}-pick-pop` : '',
             className,
             open === true && 'in',
             this._isEmptyValue() ? 'is-empty-value' : '',

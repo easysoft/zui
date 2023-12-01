@@ -11,6 +11,7 @@ export interface PickPopProps<S extends PickState = PickState> {
     changeState: PickerStateChanger<S>;
     togglePop: (open?: boolean, state?: Partial<S>) => Promise<S>;
 
+    pickerName?: string;
     className?: ClassNameLike;
     style?: JSX.CSSProperties;
     children?: ComponentChildren;
