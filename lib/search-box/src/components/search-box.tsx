@@ -48,16 +48,20 @@ export class SearchBox extends Component<SearchBoxOptions, SearchBoxState> {
     _handleChange = (event: Event) => {
         const oldValue = this.state.value;
         const value = (event.target as HTMLInputElement).value;
-        const {onChange} = this.props;
+        const {onChange, delay} = this.props;
         this.setState({value}, () => {
             if (!onChange || oldValue === value) {
                 return;
             }
-            this._clearTimer();
-            this._timer = window.setTimeout(() => {
+            if (delay) {
+                this._clearTimer();
+                this._timer = window.setTimeout(() => {
+                    onChange(value, event);
+                    this._timer = 0;
+                }, delay);
+            } else {
                 onChange(value, event);
-                this._timer = 0;
-            }, this.props.delay || 0);
+            }
         });
     };
 
@@ -124,6 +128,7 @@ export class SearchBox extends Component<SearchBoxOptions, SearchBoxState> {
             <div class={classes('search-box input-control', rootClass, {focus, empty, compact, 'has-prefix-icon': prefixView, 'has-suffix-icon': suffixView})} style={rootStyle}>
                 {prefixView}
                 <input
+                    key="input"
                     ref={this._input}
                     id={id}
                     type="text"
