@@ -178,6 +178,11 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
         return props.Trigger || ((this.constructor as typeof Pick).Trigger as ComponentType<PickTriggerProps<S>>);
     }
 
+    protected _isEmptyValue() {
+        const {value} = this.state;
+        return value === undefined || value === null || value === '';
+    }
+
     protected _handleChange(value: string, oldValue: string) {
         const {onChange} = this.props;
         if (onChange) {
@@ -249,7 +254,7 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
         const {open: opened} = state;
         const Trigger = this._getTrigger(props);
         let popView: ComponentChildren;
-        if (opened) {
+        if (opened && (!props.hidePopWhenEmpty || !this._isEmptyValue())) {
             const Pop = this._getPop(props);
             popView = (<Pop key="pop" ref={this.#pop} {...this._getPopProps(props, state)}>
                 {this._renderPop(props, state)}
