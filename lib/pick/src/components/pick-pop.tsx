@@ -1,6 +1,6 @@
 import {Component, ComponentChildren, JSX, RefObject, RenderableProps, VNode, createRef} from 'preact';
 import {computePosition, flip, offset, shift, autoUpdate} from '@floating-ui/dom';
-import {$, classes, createPortal} from '@zui/core';
+import {$, classes, createPortal, toCssSize} from '@zui/core';
 
 import type {PickState, PickPopProps} from '../types';
 
@@ -125,6 +125,18 @@ export class PickPop<S extends PickState = PickState, P extends PickPopProps<S> 
 
         this._layoutWatcher = autoUpdate(trigger, element, () => {
             const {placement, width} = props;
+            const getWidth = () => {
+                if (width === '100%') {
+                    return $(trigger).outerWidth();
+                }
+                if (typeof width === 'function') {
+                    return width();
+                }
+                if (width) {
+                    return toCssSize(width);
+                }
+                return undefined;
+            };
             computePosition(trigger, element, {
                 placement: (!placement || placement === 'auto') ? 'bottom-start' : placement,
                 middleware: [placement === 'auto' ? flip() : null, shift(), offset(1)].filter(Boolean),
@@ -135,12 +147,12 @@ export class PickPop<S extends PickState = PickState, P extends PickPopProps<S> 
                 $(element).css({
                     left: x,
                     top: y,
-                    width: width === '100%' ? $(trigger).outerWidth() : undefined,
+                    width: getWidth(),
                 });
                 this.props.onLayout?.(element);
             });
             if (width === '100%') {
-                $(element).css({width: $(element).width()});
+                $(element).css({width: getWidth()});
             }
         });
     }

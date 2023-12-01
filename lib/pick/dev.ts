@@ -22,6 +22,7 @@ const items = [
 
 onPageUpdate(() => {
     const singlePick = new Pick('#singlePick', {
+        id: 'test',
         items,
         defaultValue: 'banana',
         placeholder: '请选择你的最爱',

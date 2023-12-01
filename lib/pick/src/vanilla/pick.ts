@@ -6,4 +6,6 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
     static NAME = 'Pick';
 
     static Component = PickReact;
+
+    static replace = true;
 }
