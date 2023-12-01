@@ -533,7 +533,7 @@ export default [
             "sourceType": "build-in",
             "name": "progress",
             "packageJsonPath": "/home/runner/work/zui/zui/lib/progress/package.json",
-            "order": 2000000039010000000
+            "order": 2000000038010000000
         }
     },
     {
@@ -569,7 +569,7 @@ export default [
             "sourceType": "build-in",
             "name": "progress-circle",
             "packageJsonPath": "/home/runner/work/zui/zui/lib/progress-circle/package.json",
-            "order": 2000000040010000000
+            "order": 2000000039010000000
         }
     },
     {
@@ -615,7 +615,7 @@ export default [
             "sourceType": "build-in",
             "name": "scrollbar",
             "packageJsonPath": "/home/runner/work/zui/zui/lib/scrollbar/package.json",
-            "order": 2000000041010000000
+            "order": 2000000040010000000
         }
     },
     {
@@ -731,7 +731,7 @@ export default [
             "sourceType": "build-in",
             "name": "sortable",
             "packageJsonPath": "/home/runner/work/zui/zui/lib/sortable/package.json",
-            "order": 3000000044010000000
+            "order": 3000000043010000000
         },
         "dependencies": {
             "@zui/core": "workspace:^0.0.1",
@@ -769,7 +769,7 @@ export default [
             "name": "split",
             "wip": true,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/split/package.json",
-            "order": 3000000045010000000
+            "order": 3000000044010000000
         },
         "dependencies": {
             "@zui/core": "workspace:^0.0.1",
@@ -808,7 +808,7 @@ export default [
             "sourceType": "build-in",
             "name": "store",
             "packageJsonPath": "/home/runner/work/zui/zui/lib/store/package.json",
-            "order": 3000000046010000000
+            "order": 3000000045010000000
         }
     },
     {
@@ -1350,44 +1350,6 @@ export default [
         }
     },
     {
-        "name": "@zui/popovers",
-        "version": "0.0.1",
-        "description": "ZUI Toolbar",
-        "keywords": [
-            "css",
-            "components"
-        ],
-        "main": "src/main.ts",
-        "devDependencies": {
-            "zui-dev": "workspace:^0.0.1"
-        },
-        "dependencies": {
-            "@zui/core": "workspace:^0.0.1"
-        },
-        "files": [
-            "./src/**/*"
-        ],
-        "exports": {
-            ".": "./src/main.ts"
-        },
-        "zui": {
-            "type": "component",
-            "displayName": "下拉面板",
-            "contributes": {
-                "css": [
-                    "class",
-                    "var"
-                ]
-            },
-            "path": "/home/runner/work/zui/zui/lib/popovers",
-            "workspace": true,
-            "sourceType": "build-in",
-            "name": "popovers",
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/popovers/package.json",
-            "order": 4000000038010000000
-        }
-    },
-    {
         "name": "@zui/search-box",
         "version": "0.0.1",
         "main": "src/main.ts",
@@ -1424,7 +1386,7 @@ export default [
             "sourceType": "build-in",
             "name": "search-box",
             "packageJsonPath": "/home/runner/work/zui/zui/lib/search-box/package.json",
-            "order": 4000000042010000000
+            "order": 4000000041010000000
         }
     },
     {
@@ -1460,7 +1422,7 @@ export default [
             "sourceType": "build-in",
             "name": "sidebar",
             "packageJsonPath": "/home/runner/work/zui/zui/lib/sidebar/package.json",
-            "order": 4000000043010000000
+            "order": 4000000042010000000
         }
     },
     {
@@ -1494,7 +1456,7 @@ export default [
             "sourceType": "build-in",
             "name": "table",
             "packageJsonPath": "/home/runner/work/zui/zui/lib/table/package.json",
-            "order": 4000000047010000000
+            "order": 4000000046010000000
         }
     },
     {
@@ -1539,7 +1501,7 @@ export default [
             "sourceType": "build-in",
             "name": "toolbar",
             "packageJsonPath": "/home/runner/work/zui/zui/lib/toolbar/package.json",
-            "order": 4000000049010000000
+            "order": 4000000048010000000
         }
     },
     {
@@ -1583,7 +1545,7 @@ export default [
             "sourceType": "build-in",
             "name": "tooltip",
             "packageJsonPath": "/home/runner/work/zui/zui/lib/tooltip/package.json",
-            "order": 4000000050010000000
+            "order": 4000000049010000000
         }
     },
     {
@@ -1627,7 +1589,7 @@ export default [
             "sourceType": "build-in",
             "name": "tree",
             "packageJsonPath": "/home/runner/work/zui/zui/lib/tree/package.json",
-            "order": 4000000051010000000
+            "order": 4000000050010000000
         }
     },
     {
@@ -1665,7 +1627,7 @@ export default [
             "sourceType": "build-in",
             "name": "upload",
             "packageJsonPath": "/home/runner/work/zui/zui/lib/upload/package.json",
-            "order": 4000000052010000000
+            "order": 4000000051010000000
         }
     },
     {
@@ -1704,7 +1666,7 @@ export default [
             "sourceType": "build-in",
             "name": "upload-imgs",
             "packageJsonPath": "/home/runner/work/zui/zui/lib/upload-imgs/package.json",
-            "order": 4000000053010000000
+            "order": 4000000052010000000
         }
     },
     {
@@ -1739,7 +1701,7 @@ export default [
             "name": "virtual-grid",
             "wip": true,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/virtual-grid/package.json",
-            "order": 4000000055010000000
+            "order": 4000000054010000000
         }
     },
     {
@@ -1771,7 +1733,7 @@ export default [
             "name": "virtualize",
             "wip": true,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/virtualize/package.json",
-            "order": 4000000056010000000
+            "order": 4000000055010000000
         }
     },
     {
@@ -2106,7 +2068,7 @@ export default [
             "sourceType": "build-in",
             "name": "tabs",
             "packageJsonPath": "/home/runner/work/zui/zui/lib/tabs/package.json",
-            "order": 5000000048010000000
+            "order": 5000000047010001000
         }
     },
     {
@@ -2171,7 +2133,7 @@ export default [
             "sourceType": "build-in",
             "name": "utilities",
             "packageJsonPath": "/home/runner/work/zui/zui/lib/utilities/package.json",
-            "order": 6000000054010000000
+            "order": 6000000053010000000
         }
     },
     {
