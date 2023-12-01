@@ -89,7 +89,7 @@ export class SearchBox extends Component<SearchBoxOptions, SearchBoxState> {
     }
 
     render(props: RenderableProps<SearchBoxOptions>, state: Readonly<SearchBoxState>) {
-        const {style, className, rootClass, rootStyle, readonly, disabled, circle, placeholder, mergeIcon, searchIcon, clearIcon, value: controlledValue, compact} = props;
+        const {style, className, rootClass, rootStyle, readonly, disabled, circle, placeholder, mergeIcon, searchIcon, clearIcon, value: controlledValue, compact, prefixClass, suffixClass} = props;
         const {focus, value} = state;
         const {id} = this;
         const finalValue = controlledValue ?? value;
@@ -101,7 +101,7 @@ export class SearchBox extends Component<SearchBoxOptions, SearchBoxState> {
             searchIconView = searchIcon === true ? <span class="magnifier" /> : <Icon icon={searchIcon} />;
         }
         if (!mergeIcon && searchIcon) {
-            prefixView = <label key="prefix" for={id} class="input-control-prefix">{searchIconView}</label>;
+            prefixView = <label key="prefix" for={id} class={classes('input-control-prefix', prefixClass)}>{searchIconView}</label>;
         }
         if (clearIcon && !empty) {
             suffixView = (
@@ -118,7 +118,7 @@ export class SearchBox extends Component<SearchBoxOptions, SearchBoxState> {
         }
         if (suffixView) {
             suffixView = (
-                <label key="suffix" for={id} class="input-control-suffix">
+                <label key="suffix" for={id} class={classes('input-control-suffix', suffixClass)}>
                     {suffixView}
                 </label>
             );

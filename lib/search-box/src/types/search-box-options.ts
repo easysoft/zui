@@ -18,6 +18,8 @@ export type SearchBoxOptions = {
     clearIcon?: boolean | IconType;
     searchIcon?: boolean | IconType;
     mergeIcon?: boolean | IconType;
+    prefixClass?: ClassNameLike;
+    suffixClass?: ClassNameLike;
     onChange?: (value: string, event: Event) => void;
     onClear?: (event: MouseEvent) => void;
     onFocus?: (event: FocusEvent) => void;
