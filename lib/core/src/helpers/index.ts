@@ -15,3 +15,4 @@ export * from './scroll';
 export * from './size';
 export * from './download-file';
 export * from './bus';
+export * from './hotkeys';
