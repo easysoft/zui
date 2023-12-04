@@ -170,12 +170,6 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
 
         if (trigger === 'hover') {
             this._clearDelayHide();
-            const {namespace} = this;
-            $target.on(`mouseenter${namespace}`, () => {
-                this._clearDelayHide();
-            }).on(`mouseleave${namespace}`, () => {
-                this.delayHide();
-            });
         }
 
         if (!this._virtual) {
@@ -190,8 +184,8 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
                 this.emit('shown');
             }, 200);
 
-            if (mask) {
-                $(document).on(`click${this.namespace}`, this._onClickDoc);
+            if (mask && trigger !== 'hover') {
+                $(document).off(`click${this.namespace}`, this._onClickDoc).one(`click${this.namespace}`, this._onClickDoc);
             }
         }, 50);
     }
@@ -356,6 +350,8 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
     }
 
     protected delayHide(delay = 100) {
+        this._resetTimer();
+        this._clearDelayHide();
         this._hideTimer = window.setTimeout(() => {
             this._hideTimer = 0;
             this.hide();
