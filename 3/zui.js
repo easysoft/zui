@@ -7009,7 +7009,7 @@ class yt extends mt {
       };
     }, this._onClickDoc = (t) => {
       const e = f(t.target);
-      (!e.closest(`#${this._id}`).length && this._targetElement !== e.closest(".popover")[0] || e.closest('[data-dismiss="popover"]').length) && this.hide();
+      !e.closest(`#${this._id}`).length && this._targetElement !== e.closest(".popover")[0] && this.hide();
     };
   }
   get shown() {
@@ -7067,10 +7067,21 @@ class yt extends mt {
       return;
     this._targetElement = i;
     const r = f(i), { animation: o, mask: a, onShow: l, onShown: c, trigger: d } = this.options;
-    r.addClass(yo), o && r.addClass(o === !0 ? "fade" : o), this._shown = !0, this.render(), l == null || l.call(this), this.emit("show"), d === "hover" && this._clearDelayHide(), this._virtual || f(this._triggerElement).addClass("with-popover-show"), this._resetTimer(() => {
+    if (r.addClass(yo), o && r.addClass(o === !0 ? "fade" : o), this._shown = !0, this.render(), l == null || l.call(this), this.emit("show"), d === "hover") {
+      this._clearDelayHide();
+      const { namespace: h } = this;
+      r.off(h).on(`mouseenter${h}`, () => {
+        this._clearDelayHide();
+      }).on(`mouseleave${h}`, () => {
+        this.delayHide();
+      }).on(`click${h}`, '[data-dismiss="popover"]', () => {
+        this.hide();
+      });
+    }
+    this._virtual || f(this._triggerElement).addClass("with-popover-show"), this._resetTimer(() => {
       r.addClass(bo), this._resetTimer(() => {
         c == null || c.call(this), this.emit("shown");
-      }, 200), a && d !== "hover" && f(document).off(`click${this.namespace}`, this._onClickDoc).one(`click${this.namespace}`, this._onClickDoc);
+      }, 200), a && d !== "hover" && f(document).off(`click${this.namespace}`, this._onClickDoc).on(`click${this.namespace}`, this._onClickDoc);
     }, 50);
   }
   hide(t) {
