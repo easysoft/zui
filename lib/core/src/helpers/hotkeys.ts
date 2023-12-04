@@ -4,6 +4,7 @@ import {$, type Selector, Cash} from '../cash';
 export type HotkeysBindingOptions = KeyBindingHandlerOptions & {
     scope?: string;
     event?: 'keydown' | 'keyup' | 'keypress';
+    when?: (event: KeyboardEvent) => boolean;
 };
 
 export type HotkeysBindingMap = KeyBindingMap;
@@ -11,9 +12,12 @@ export type HotkeysBindingMap = KeyBindingMap;
 export type HotkeyBindingCallback = (event: KeyboardEvent) => void;
 
 export function bindHotkeys(selector: Selector, bindingMap: HotkeysBindingMap, options?: HotkeysBindingOptions) {
-    const {timeout, event = 'keydown', scope} = options || {};
+    const {timeout, event = 'keydown', scope, when} = options || {};
     const handler = createKeybindingsHandler(bindingMap, {timeout});
     return $(selector).on(`${event}.zui.hotkeys${scope ? `.${scope}` : ''}`, function (e: KeyboardEvent) {
+        if (!when || when(e) === false) {
+            return;
+        }
         handler(e);
     });
 }
