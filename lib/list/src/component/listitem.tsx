@@ -132,10 +132,10 @@ export class Listitem<P extends ListitemProps = ListitemProps, S = {}> extends H
                 active,
                 disabled,
                 'has-divider': divider,
-                'has-hover state': hover,
+                'has-hover': hover,
                 checked,
                 multiline: multiline ?? !!(title && subtitle),
-                state: asLink,
+                state: asLink && !disabled,
             }),
         }, asLink ? {href: url, target} : null, extraAttrs, innerAttrs);
         return (
