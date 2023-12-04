@@ -1,3 +1,4 @@
 :root {
   --checkbox-size: 12px;
+  --checkbox-color: var(--color-primary-500);
 }

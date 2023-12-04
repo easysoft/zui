@@ -6,7 +6,7 @@
 }
 .switch > label::before,
 .switch > label::after {
-  @apply -content-[''] -absolute -w-8 -h-4 -rounded-full -bg-surface -left-0 -top-0.5 -border-border-light -border -transition-all -duration-500;
+  @apply -content-[''] -absolute -w-8 -h-4 -rounded-full -bg-surface -left-0 -top-0.5 -border-border-strong -border -transition-all -duration-300;
 }
 .switch > label::before {
   @apply -cursor-pointer -shadow-inner;

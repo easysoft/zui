@@ -94,6 +94,10 @@
   <input type="checkbox" checked="checked" id="primaryCheckbox2">
   <label for="primaryCheckbox2">选中</label>
 </div>
+<div class="checkbox-primary" style="--checkbox-color: var(--color-success-500)">
+  <input type="checkbox" checked="checked" id="primaryCheckbox5">
+  <label for="primaryCheckbox5">自定义颜色</label>
+</div>
 <div class="checkbox-primary">
   <input type="checkbox" disabled="disabled" id="primaryCheckbox3">
   <label for="primaryCheckbox3">禁用</label>
@@ -101,6 +105,10 @@
 <div class="checkbox-primary">
   <input type="checkbox" checked="checked" disabled="disabled" id="primaryCheckbox4">
   <label for="primaryCheckbox4">禁用</label>
+</div>
+<div class="checkbox-primary indeterminate">
+  <input type="checkbox" id="primaryCheckbox6">
+  <label for="primaryCheckbox6">Indeterminate</label>
 </div>
 ```
 
