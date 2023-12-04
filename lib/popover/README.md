@@ -24,7 +24,7 @@
   <div class="arrow"></div>
   <div class="popover-heading">
     <div class="popover-title">标题</div>
-    <button class="btn ghost square size-sm"><span class="close"></span></button>
+    <button class="btn ghost square size-sm" data-dismiss="popover"><span class="close"></span></button>
   </div>
   <div class="popover-content">
     <div>这是提示框内容1</div>

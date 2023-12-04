@@ -170,6 +170,18 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
 
         if (trigger === 'hover') {
             this._clearDelayHide();
+            const {namespace} = this;
+            $target
+                .off(namespace)
+                .on(`mouseenter${namespace}`, () => {
+                    this._clearDelayHide();
+                })
+                .on(`mouseleave${namespace}`, () => {
+                    this.delayHide();
+                })
+                .on(`click${namespace}`, '[data-dismiss="popover"]', () => {
+                    this.hide();
+                });
         }
 
         if (!this._virtual) {
@@ -185,7 +197,7 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
             }, 200);
 
             if (mask && trigger !== 'hover') {
-                $(document).off(`click${this.namespace}`, this._onClickDoc).one(`click${this.namespace}`, this._onClickDoc);
+                $(document).off(`click${this.namespace}`, this._onClickDoc).on(`click${this.namespace}`, this._onClickDoc);
             }
         }, 50);
     }
@@ -469,7 +481,7 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
 
     protected _onClickDoc = (event: MouseEvent) => {
         const $clickTarget = $(event.target as HTMLElement);
-        if ((!$clickTarget.closest(`#${this._id}`).length && this._targetElement !== $clickTarget.closest('.popover')[0]) || $clickTarget.closest('[data-dismiss="popover"]').length) {
+        if ((!$clickTarget.closest(`#${this._id}`).length && this._targetElement !== $clickTarget.closest('.popover')[0])) {
             this.hide();
         }
     };
