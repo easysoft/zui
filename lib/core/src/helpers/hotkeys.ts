@@ -14,7 +14,6 @@ export function bindHotkeys(selector: Selector, bindingMap: HotkeysBindingMap, o
     const {timeout, event = 'keydown', scope} = options || {};
     const handler = createKeybindingsHandler(bindingMap, {timeout});
     return $(selector).on(`${event}.zui.hotkeys${scope ? `.${scope}` : ''}`, function (e: KeyboardEvent) {
-        console.log('> hotkey', e);
         handler(e);
     });
 }
