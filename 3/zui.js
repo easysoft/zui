@@ -7067,19 +7067,10 @@ class yt extends mt {
       return;
     this._targetElement = i;
     const r = f(i), { animation: o, mask: a, onShow: l, onShown: c, trigger: d } = this.options;
-    if (r.addClass(yo), o && r.addClass(o === !0 ? "fade" : o), this._shown = !0, this.render(), l == null || l.call(this), this.emit("show"), d === "hover") {
-      this._clearDelayHide();
-      const { namespace: h } = this;
-      r.on(`mouseenter${h}`, () => {
-        this._clearDelayHide();
-      }).on(`mouseleave${h}`, () => {
-        this.delayHide();
-      });
-    }
-    this._virtual || f(this._triggerElement).addClass("with-popover-show"), this._resetTimer(() => {
+    r.addClass(yo), o && r.addClass(o === !0 ? "fade" : o), this._shown = !0, this.render(), l == null || l.call(this), this.emit("show"), d === "hover" && this._clearDelayHide(), this._virtual || f(this._triggerElement).addClass("with-popover-show"), this._resetTimer(() => {
       r.addClass(bo), this._resetTimer(() => {
         c == null || c.call(this), this.emit("shown");
-      }, 200), a && f(document).on(`click${this.namespace}`, this._onClickDoc);
+      }, 200), a && d !== "hover" && f(document).off(`click${this.namespace}`, this._onClickDoc).one(`click${this.namespace}`, this._onClickDoc);
     }, 50);
   }
   hide(t) {
@@ -7148,7 +7139,7 @@ class yt extends mt {
       s.arrow && (i.find(".arrow").length || i.append(f('<div class="arrow"></div>').css(s.arrowStyle))), this.layout();
   }
   delayHide(t = 100) {
-    this._hideTimer = window.setTimeout(() => {
+    this._resetTimer(), this._clearDelayHide(), this._hideTimer = window.setTimeout(() => {
       this._hideTimer = 0, this.hide();
     }, t);
   }
