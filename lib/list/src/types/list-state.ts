@@ -8,4 +8,5 @@ export interface ListState<T extends Item = ListItem> {
     loading?: boolean;
     loadFailed?: CustomContentType;
     checked: Record<string, CheckedType>;
+    activeMap: Record<string, boolean>;
 }

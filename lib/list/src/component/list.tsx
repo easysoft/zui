@@ -1,4 +1,4 @@
-import {$, HElement, classes, fetchData, mergeProps, removeUndefinedProps} from '@zui/core';
+import {$, Computed, HElement, classes, fetchData, mergeProps, removeUndefinedProps} from '@zui/core';
 import {CommonList} from '@zui/common-list/src/component';
 import {Listitem} from './listitem';
 
@@ -24,10 +24,26 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
 
     protected declare _hasCheckbox: boolean;
 
+    protected _activeSet = new Computed<Set<string>>(() => {
+        const map = new Set<string>();
+        const {active} = this.props;
+        if (Array.isArray(active)) {
+            active.forEach(x => map.add(x));
+        } else if (typeof active === 'string') {
+            map.add(active);
+        } else if (active) {
+            Object.keys(active).forEach(x => active[x] && map.add(x));
+        }
+        const {activeMap} = this.state;
+        Object.keys(activeMap).forEach(x => activeMap[x] ? map.add(x) : map.delete(x));
+        return map;
+    }, () => [this.state.activeMap, this.props.active]);
+
     constructor(props: P) {
         super(props);
         this.state = {
             checked: {},
+            activeMap: {},
         } as S;
     }
 
@@ -86,14 +102,14 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
         return this._renderedItems.every(({key}, index) => this.isChecked(key!, index) === true);
     }
 
-    toggleAllChecked(checked?: boolean): void {
+    toggleAllChecked(checked?: boolean) {
         if (checked === undefined) {
             checked = !this.isAllChecked();
         }
-        this.toggleChecked(this._renderedItems.map(x => x.key!), checked);
+        return this.toggleChecked(this._renderedItems.map(x => x.key!), checked);
     }
 
-    toggleChecked(keyOrChange: ItemKey | ItemKey[] | Record<ItemKey, CheckedType>, checked?: boolean): void {
+    async toggleChecked(keyOrChange: ItemKey | ItemKey[] | Record<ItemKey, CheckedType>, checked?: boolean) {
         let change: Record<ItemKey, CheckedType>;
         if (Array.isArray(keyOrChange)) {
             if (!keyOrChange.length) {
@@ -119,12 +135,12 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
             return;
         }
 
-        this.setState(prevState => ({
+        await this.changeState(prevState => ({
             checked: {
                 ...prevState.checked,
                 ...change,
             },
-        }), () => {
+        } as Partial<S>), () => {
             const checkState = this.state.checked;
             this.props.onCheck?.call(this, change, Object.keys(checkState).filter(x => checkState[x] === true));
         });
@@ -137,6 +153,77 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
             }
             return checks;
         }, []);
+    }
+
+    isActive(key: string | Item) {
+        if (typeof key === 'object') {
+            key = key.key!;
+        }
+        return this._activeSet.cache.has(key);
+    }
+
+    getActiveKeys() {
+        return [...this._activeSet.value];
+    }
+
+    getActiveKey() {
+        return this.getActiveKeys()[0];
+    }
+
+    async toggleActive(keys: string | string[], active?: boolean) {
+        if (typeof keys === 'string') {
+            keys = [keys];
+        }
+        if (!keys.length) {
+            return;
+        }
+        active = active ?? !this.isActive(keys[0]);
+        await this.changeState(prevState => {
+            const activeMap = this.props.multipleActive ? (keys as string[]).reduce<Record<string, boolean>>((map, key) => {
+                map[key] = active!;
+                return map;
+            }, {...prevState.activeMap}) : {[keys[0]]: active!};
+            return {activeMap} as Partial<S>;
+        }, () => {
+            this.props.onActive?.call(this, keys as string[], active!);
+        });
+    }
+
+    getNextItem(key: string | undefined, condition?: (item: Item, index: number) => boolean, step = 1, items: Item[] | undefined = undefined): Item | undefined {
+        items = items || this._renderedItems;
+        if (key === undefined) {
+            return items.at(step ? 0 : -1);
+        }
+        const count = items.length;
+        let index = items.findIndex(x => x.key === key);
+        if (index < 0 || count < 2) {
+            return items.at(step ? 0 : -1);
+        }
+        let checkCount = 0;
+        condition = condition || ((x) => x.type === 'item' && !x.disabled);
+        while (checkCount < count) {
+            index = (index + step + count) % count;
+            const nextItem = items[index];
+            if (nextItem && condition.call(this, nextItem, index)) {
+                return nextItem;
+            }
+            checkCount++;
+        }
+    }
+
+    getPrevItem(key: string | undefined, condition?: (item: Item, index: number) => boolean): Item | undefined {
+        return this.getNextItem(key, condition, -1);
+    }
+
+    activeNext(condition?: (item: Item, index: number) => boolean, step = 1) {
+        const nextItem = this.getNextItem(this.getActiveKey(), condition, step);
+        if (nextItem) {
+            this.toggleActive(nextItem.key!);
+        }
+    }
+
+    activePrev(condition?: (item: Item, index: number) => boolean) {
+        this.activeNext(condition, -1);
     }
 
     protected _afterRender(firstRender: boolean) {
@@ -168,9 +255,12 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
                 if (typeof checkbox === 'object') {
                     renderedItem.checkbox = renderedItem.checkbox ? $.extend({}, checkbox, renderedItem.checkbox) : checkbox;
                 }
-                if (props.activeOnChecked && renderedItem.checked) {
+                if (props.activeOnChecked && renderedItem.checked === true) {
                     renderedItem.active = true;
                 }
+            }
+            if (renderedItem.active === undefined && this.isActive(renderedItem)) {
+                renderedItem.active = true;
             }
         }
 
@@ -229,6 +319,9 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
     }
 
     protected _getChildren(props: RenderableProps<P>): ComponentChildren {
+        this._hasIcons = false;
+        this._hasCheckbox = false;
+        this._activeSet.compute();
         const children = super._getChildren(props) as ComponentChild[];
         const {loadFailed} = this.state;
         if (loadFailed) {

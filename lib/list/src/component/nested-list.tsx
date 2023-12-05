@@ -58,8 +58,9 @@ function parentKeys(keyPath: string) {
     }, []);
 }
 
-function initItemMap(items: Item[], itemKey: string | undefined, map: Map<string, ItemInfo> = new Map(), level = 0, parent?: ItemInfo) {
-    items.forEach((item, index) => {
+
+function reduceNestedItems<T>(items: Item[], itemKey: string | undefined, reducer: (previousValue: T, info: ItemInfo) => T, initialValue: T, level = 0, parent?: ItemInfo): T {
+    return items.reduce((currentValue, item, index) => {
         const key = String((itemKey ? item[itemKey] : item.key) ?? (item.key ?? index));
         const keyPath = parent ? `${parent.keyPath}:${key}` : key;
         const itemInfo = {
@@ -74,12 +75,19 @@ function initItemMap(items: Item[], itemKey: string | undefined, map: Map<string
         if (parent) {
             parent.children.push(itemInfo);
         }
-        map.set(keyPath, itemInfo);
+        currentValue = reducer(currentValue, itemInfo);
         if (Array.isArray(item.items)) {
-            initItemMap(item.items as Item[], itemKey, map, level + 1, itemInfo);
+            return reduceNestedItems(item.items as Item[], itemKey, reducer, currentValue, level + 1, itemInfo);
         }
-    });
-    return map;
+        return currentValue;
+    }, initialValue);
+}
+
+function initItemMap(items: Item[], itemKey: string | undefined, map: Map<string, ItemInfo> = new Map()) {
+    return reduceNestedItems(items, itemKey, (currentMap, info) => {
+        currentMap.set(info.keyPath, info);
+        return currentMap;
+    }, map);
 }
 
 export class NestedList<P extends NestedListProps = NestedListProps, S extends NestedListState = NestedListState> extends List<P, S> {
@@ -191,7 +199,7 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
         return !!(nestedShow[keyPath] ?? this.state.defaultShow);
     }
 
-    toggle(keyPath: string, toggle?: boolean) {
+    async toggle(keyPath: string, toggle?: boolean) {
         const isExpanded = this.isExpanded(keyPath);
         if (toggle === isExpanded) {
             return;
@@ -206,7 +214,7 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
         if (nestedShow !== undefined) {
             return;
         }
-        return this.setState(prevState => {
+        await this.changeState(prevState => {
             const newNestedShow: Record<ItemKey, boolean> = {
                 ...prevState.nestedShow,
                 [keyPath]: toggle!,
@@ -227,7 +235,7 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
                     map[key] = toggle!;
                     return map;
                 }, newNestedShow) : newNestedShow,
-            };
+            } as Partial<S>;
         }, this._preserveState);
     }
 
@@ -255,7 +263,7 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
         return this.props.checkedState![`${this.props.parentKey}:${key}`] ?? (item.checked as CheckedType) ?? defaultChecked;
     }
 
-    toggleChecked(keyOrChange: ItemKey | ItemKey[] | Record<ItemKey, CheckedType>, checked?: CheckedType): void {
+    async toggleChecked(keyOrChange: ItemKey | ItemKey[] | Record<ItemKey, CheckedType>, checked?: CheckedType) {
         let change: Record<ItemKey, CheckedType>;
         if (Array.isArray(keyOrChange)) {
             if (!keyOrChange.length) {
@@ -281,7 +289,7 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
         }
         if (this.isRoot) {
             const map = this.getItemMap();
-            this.setState(({checked: prevChecked}) => {
+            await this.changeState(({checked: prevChecked}) => {
                 const isChecked = (item: ItemInfo) => {
                     return change[item.keyPath] ?? prevChecked[item.keyPath] ?? item.data.checked ?? false;
                 };
@@ -313,19 +321,76 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
                         ...prevChecked,
                         ...change,
                     },
-                };
+                } as Partial<S>;
             }, () => {
                 const checkState = this.state.checked;
                 this.props.onCheck?.call(this, change, Object.keys(checkState).filter(x => checkState[x] === true));
             });
-        } else {
-            const {parentKey, onCheck} = this.props;
-            const nestedChange = Object.keys(change).reduce<Record<string, CheckedType>>((map, key) => {
-                map[`${parentKey !== undefined ? `${parentKey}:` : ''}${key}`] = change[key];
-                return map;
-            }, {});
-            onCheck!.call(this, nestedChange, []);
+            return;
         }
+
+        const {parentKey, onCheck} = this.props;
+        const nestedChange = Object.keys(change).reduce<Record<string, CheckedType>>((map, key) => {
+            map[`${parentKey !== undefined ? `${parentKey}:` : ''}${key}`] = change[key];
+            return map;
+        }, {});
+        onCheck!.call(this, nestedChange, []);
+    }
+
+    isActive(keyPath: string | Item) {
+        if (typeof keyPath === 'object') {
+            const keyOrKeyPath = (keyPath._keyPath ?? keyPath.key) as (string | undefined);
+            if (keyOrKeyPath === undefined) {
+                return false;
+            }
+            keyPath = keyOrKeyPath;
+        }
+        const parentKey = this.props.parentKey!;
+        if (!this.isRoot && !keyPath.startsWith(parentKey + ':')) {
+            keyPath = `${parentKey}:${keyPath}`;
+        }
+        return this._activeSet.cache.has(keyPath);
+    }
+
+    async toggleActive(keys: string | string[], active?: boolean) {
+        if (typeof keys === 'string') {
+            keys = [keys];
+        }
+        if (this.isRoot) {
+            await super.toggleActive(keys, active);
+            if (this.props.toggleOnActive) {
+                (keys as string[]).forEach(key => {
+                    console.log('> active', key, this.isExpanded(key));
+                    if (this.isActive(key) && !this.isExpanded(key)) {
+                        this.toggle(key, true);
+                    }
+                });
+                return;
+            }
+        }
+
+        this.props.onActive?.call(this, keys, active ?? !this.isActive(keys[0]));
+    }
+
+    activeNext(condition?: (item: Item, index: number) => boolean, step = 1) {
+        const nextItem = this.getNextItem(this.getActiveKey(), condition, step);
+        if (nextItem) {
+            this.toggleActive(nextItem._keyPath as string);
+        }
+    }
+
+    getNextItem(key: string | undefined, condition?: (item: Item, index: number) => boolean, step = 1, items: Item[] | undefined = undefined): Item | undefined {
+        items = items || reduceNestedItems<Item[]>(this._items, this.props.itemKey, (list, info) => {
+            list.push({
+                _keyPath: info.keyPath,
+                type: 'item',
+                ...info.data,
+                ...this._renderedItemMap.get(info.keyPath),
+                key: info.keyPath,
+            });
+            return list;
+        }, []);
+        return super.getNextItem(key, condition, step, items);
     }
 
     protected _afterRender(firstRender: boolean): void {
@@ -358,6 +423,7 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
             parentKey,
             level = 0,
         } = props;
+        const {isRoot} = this;
         return mergeProps(((this.constructor as typeof NestedList).inheritNestedProps.reduce<Record<string, unknown>>((propMap, key) => {
             propMap[key] = props[key as keyof P];
             return propMap;
@@ -370,9 +436,10 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
             nestedShow: this.nestedShow,
             defaultNestedShow: this.state.defaultShow,
             checkedState: props.checkedState || this.state.checked,
-            onCheck: this.isRoot ? this._handleNestedCheck : props.onCheck,
-            onToggle: this.isRoot ? this._handleNestedToggle : props.onToggle,
-            beforeRenderItem: this.isRoot ? this._beforeRenderNestedItem : props.beforeRenderItem,
+            onCheck: isRoot ? this._handleNestedCheck : props.onCheck,
+            onToggle: isRoot ? this._handleNestedToggle : props.onToggle,
+            beforeRenderItem: isRoot ? this._beforeRenderNestedItem : props.beforeRenderItem,
+            active: isRoot ? this.getActiveKeys() : props.active,
         }, item.listProps);
     }
 
