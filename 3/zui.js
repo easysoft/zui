@@ -2997,15 +2997,21 @@ let Mt = class extends lt {
       activeMap: {}
     };
   }
+  get namespace() {
+    return `.zui.${this.constructor.NAME}.list_${this.gid}`;
+  }
   componentDidMount() {
-    this._afterRender(!0), this.tryLoad();
+    this._afterRender(!0), this.tryLoad(), this.props.activeOnHover && !this.props.multipleActive && f(this.element).on(`mouseenter${this.namespace}`, "[z-item]", (t) => {
+      const e = this._getItemFromEvent(t);
+      e && e.renderedItem.type === "item" && !e.renderedItem.disabled && !this.isActive(e.key) && this.toggleActive(e.key, !0);
+    });
   }
   componentDidUpdate() {
     this._afterRender(!1), this.tryLoad();
   }
   componentWillUnmount() {
     var t;
-    (t = this.props.beforeDestroy) == null || t.call(this);
+    f(this.element).off(this.namespace), (t = this.props.beforeDestroy) == null || t.call(this);
   }
   setItems(t, e) {
     const { onLoadFail: s } = this.props;
@@ -3427,25 +3433,29 @@ let _e = class extends Mt {
     const { parentKey: i, onCheck: r } = this.props, o = Object.keys(s).reduce((a, l) => (a[`${i !== void 0 ? `${i}:` : ""}${l}`] = s[l], a), {});
     r.call(this, o, []);
   }
+  getKeyPath(t) {
+    if (this.isRoot)
+      return t;
+    const e = this.props.parentKey;
+    return t.startsWith(e + ":") ? t : `${e}:${t}`;
+  }
   isActive(t) {
     if (typeof t == "object") {
-      const s = t._keyPath ?? t.key;
-      if (s === void 0)
+      const e = t._keyPath ?? t.key;
+      if (e === void 0)
         return !1;
-      t = s;
+      t = e;
     }
-    const e = this.props.parentKey;
-    return !this.isRoot && !t.startsWith(e + ":") && (t = `${e}:${t}`), this._activeSet.cache.has(t);
+    return this._activeSet.cache.has(this.getKeyPath(t));
   }
   async toggleActive(t, e) {
-    var s;
-    if (typeof t == "string" && (t = [t]), this.isRoot && (await super.toggleActive(t, e), this.props.toggleOnActive)) {
-      t.forEach((i) => {
-        console.log("> active", i, this.isExpanded(i)), this.isActive(i) && !this.isExpanded(i) && this.toggle(i, !0);
+    if (typeof t == "string" && (t = [t]), t = t.map((s) => this.getKeyPath(s)), this.isRoot) {
+      await super.toggleActive(t, e), this.props.toggleOnActive && t.forEach((s) => {
+        this.isActive(s) && !this.isExpanded(s) && this.toggle(s, !0);
       });
       return;
     }
-    (s = this.props.onActive) == null || s.call(this, t, e ?? !this.isActive(t[0]));
+    this.props.onActive.call(this, t, e ?? !this.isActive(t[0]));
   }
   activeNext(t, e = 1) {
     const s = this.getNextItem(this.getActiveKey(), t, e);
@@ -3491,7 +3501,8 @@ let _e = class extends Mt {
       onCheck: a ? this._handleNestedCheck : t.onCheck,
       onToggle: a ? this._handleNestedToggle : t.onToggle,
       beforeRenderItem: a ? this._beforeRenderNestedItem : t.beforeRenderItem,
-      active: a ? this.getActiveKeys() : t.active
+      active: a ? this.getActiveKeys() : t.active,
+      onActive: a ? this.toggleActive.bind(this) : t.onActive
     }, s.listProps);
   }
   _renderNestedList(t, e, s, i) {
@@ -3597,7 +3608,7 @@ _e.defaultProps = {
   level: 0,
   indent: 20
 };
-_e.inheritNestedProps = ["component", "name", "itemName", "itemKey", "indent", "hover", "divider", "multiline", "toggleIcons", "nestedToggle", "accordion", "itemRender", "itemProps", "beforeRenderItem", "onToggle", "checkbox", "getItem", "checkOnClick", "activeOnChecked", "checkedState", "onClickItem"];
+_e.inheritNestedProps = ["component", "name", "itemName", "itemKey", "indent", "hover", "divider", "multiline", "toggleIcons", "nestedToggle", "accordion", "itemRender", "itemProps", "beforeRenderItem", "onToggle", "checkbox", "getItem", "checkOnClick", "activeOnChecked", "checkedState", "onClickItem", "activeOnHover", "multipleActive", "onActive"];
 class tr extends L {
 }
 tr.NAME = "List";
