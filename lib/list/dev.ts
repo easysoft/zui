@@ -12,6 +12,7 @@ onPageUpdate(() => {
         checkOnClick: 'any',
         activeOnChecked: true,
         defaultNestedShow: {'0:0:1': true},
+        activeOnHover: true,
         onCheck: function (changes, checks) {
             console.log('> onCheck', {changes, checks, allChecks: this.getChecks(), table: this});
         },
@@ -25,6 +26,7 @@ onPageUpdate(() => {
         checkbox: true,
         checkOnClick: true,
         activeOnChecked: true,
+        activeOnHover: true,
         items: '/lib/list/dev/items.json',
     });
     console.log('> remoteSimpleList', remoteSimpleList);

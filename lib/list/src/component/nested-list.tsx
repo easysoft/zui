@@ -97,7 +97,7 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
         indent: 20,
     };
 
-    static inheritNestedProps = ['component', 'name', 'itemName', 'itemKey', 'indent', 'hover', 'divider', 'multiline', 'toggleIcons', 'nestedToggle', 'accordion', 'itemRender', 'itemProps', 'beforeRenderItem', 'onToggle', 'checkbox', 'getItem', 'checkOnClick', 'activeOnChecked', 'checkedState', 'onClickItem'];
+    static inheritNestedProps = ['component', 'name', 'itemName', 'itemKey', 'indent', 'hover', 'divider', 'multiline', 'toggleIcons', 'nestedToggle', 'accordion', 'itemRender', 'itemProps', 'beforeRenderItem', 'onToggle', 'checkbox', 'getItem', 'checkOnClick', 'activeOnChecked', 'checkedState', 'onClickItem', 'activeOnHover', 'multipleActive', 'onActive'];
 
     protected declare _hasNestedItems: boolean;
 
@@ -337,6 +337,17 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
         onCheck!.call(this, nestedChange, []);
     }
 
+    getKeyPath(key: string) {
+        if (this.isRoot) {
+            return key;
+        }
+        const parentKey = this.props.parentKey!;
+        if (!key.startsWith(parentKey + ':')) {
+            return `${parentKey}:${key}`;
+        }
+        return key;
+    }
+
     isActive(keyPath: string | Item) {
         if (typeof keyPath === 'object') {
             const keyOrKeyPath = (keyPath._keyPath ?? keyPath.key) as (string | undefined);
@@ -345,31 +356,27 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
             }
             keyPath = keyOrKeyPath;
         }
-        const parentKey = this.props.parentKey!;
-        if (!this.isRoot && !keyPath.startsWith(parentKey + ':')) {
-            keyPath = `${parentKey}:${keyPath}`;
-        }
-        return this._activeSet.cache.has(keyPath);
+        return this._activeSet.cache.has(this.getKeyPath(keyPath));
     }
 
     async toggleActive(keys: string | string[], active?: boolean) {
         if (typeof keys === 'string') {
             keys = [keys];
         }
+        keys = keys.map(key => this.getKeyPath(key));
         if (this.isRoot) {
             await super.toggleActive(keys, active);
             if (this.props.toggleOnActive) {
                 (keys as string[]).forEach(key => {
-                    console.log('> active', key, this.isExpanded(key));
                     if (this.isActive(key) && !this.isExpanded(key)) {
                         this.toggle(key, true);
                     }
                 });
-                return;
             }
+            return;
         }
 
-        this.props.onActive?.call(this, keys, active ?? !this.isActive(keys[0]));
+        this.props.onActive!.call(this, keys, active ?? !this.isActive(keys[0]));
     }
 
     activeNext(condition?: (item: Item, index: number) => boolean, step = 1) {
@@ -440,6 +447,7 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
             onToggle: isRoot ? this._handleNestedToggle : props.onToggle,
             beforeRenderItem: isRoot ? this._beforeRenderNestedItem : props.beforeRenderItem,
             active: isRoot ? this.getActiveKeys() : props.active,
+            onActive: isRoot ? this.toggleActive.bind(this) : props.onActive,
         }, item.listProps);
     }
 

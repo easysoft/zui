@@ -47,9 +47,22 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
         } as S;
     }
 
+    get namespace() {
+        return `.zui.${this.constructor.NAME}.list_${this.gid}`;
+    }
+
     componentDidMount() {
         this._afterRender(true);
         this.tryLoad();
+
+        if (this.props.activeOnHover && !this.props.multipleActive) {
+            $(this.element).on(`mouseenter${this.namespace}`, '[z-item]', (event) => {
+                const info = this._getItemFromEvent(event);
+                if (info && info.renderedItem.type === 'item' && !info.renderedItem.disabled && !this.isActive(info.key)) {
+                    this.toggleActive(info.key, true);
+                }
+            });
+        }
     }
 
     componentDidUpdate(): void {
@@ -58,6 +71,7 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
     }
 
     componentWillUnmount(): void {
+        $(this.element).off(this.namespace);
         this.props.beforeDestroy?.call(this);
     }
 
