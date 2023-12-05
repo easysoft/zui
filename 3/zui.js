@@ -3694,13 +3694,13 @@ let sr = class extends H {
     if (t) {
       const e = ph(t, {
         clear: {
-          keys: ["Escape"],
+          keys: "Escape",
           handler: (s) => {
             this.clear(s);
           }
         },
         enter: {
-          keys: ["Enter"],
+          keys: "Enter",
           handler: (s) => {
             var i, r;
             (r = (i = this.props).onEnter) == null || r.call(i, this.state.value, s);
@@ -3725,6 +3725,10 @@ let sr = class extends H {
   focus() {
     var t;
     (t = this.input) == null || t.focus();
+  }
+  blur() {
+    var t;
+    (t = this.input) == null || t.blur();
   }
   clear(t) {
     const e = this.state.value;
