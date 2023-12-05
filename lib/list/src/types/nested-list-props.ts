@@ -17,6 +17,7 @@ export interface NestedListProps<T extends NestedItem = NestedListItem> extends 
     nestedToggle?: string;
     renderCollapsedList?: boolean;
     checkedState?: Record<ItemKey, boolean>;
+    toggleOnActive?: boolean;
     onToggle?: (key: ItemKey, toggle: boolean) => false | void;
     onHoverItem?: (info: {hover: boolean, item: T, index: number, event: MouseEvent}) => void;
 }
