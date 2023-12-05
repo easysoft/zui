@@ -46,7 +46,6 @@ export class SearchBox extends Component<SearchBoxOptions, SearchBoxState> {
             });
             if (hotkeysMap) {
                 this._hotkeysScope = `SearchBox_${this._gid}`;
-                console.log('hotkeysMap', hotkeysMap);
                 $(this.input).hotkeys(hotkeysMap, {
                     scope: this._hotkeysScope,
                     event: 'keydown',
