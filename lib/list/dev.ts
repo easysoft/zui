@@ -10,7 +10,7 @@ onPageUpdate(() => {
         items: '/lib/list/dev/nested-items.json',
         checkbox: true,
         checkOnClick: 'any',
-        activeOnChecked: true,
+        selectOnChecked: true,
         defaultNestedShow: {'0:0:1': true},
         activeOnHover: true,
         onCheck: function (changes, checks) {
@@ -25,7 +25,7 @@ onPageUpdate(() => {
     const remoteSimpleList = new List('#remoteSimpleList', {
         checkbox: true,
         checkOnClick: true,
-        activeOnChecked: true,
+        selectOnChecked: true,
         activeOnHover: true,
         items: '/lib/list/dev/items.json',
     });
@@ -60,8 +60,8 @@ onPageUpdate(() => {
                 {title: '运维'},
             ],
         },
-        {title: '市场'},
-        {title: '技术支持'},
+        {title: '市场', active: true},
+        {title: '技术支持', selected: true},
         {title: '财务'},
         {title: '行政'},
     ];

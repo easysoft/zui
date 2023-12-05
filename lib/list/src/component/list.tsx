@@ -252,10 +252,9 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     protected _getRenderedItem(props: RenderableProps<P>, renderedItem: Item, index: number): Item {
-        const {divider, hover, multiline} = props;
+        const {divider, multiline} = props;
         renderedItem = mergeProps({}, removeUndefinedProps({
             divider,
-            hover,
             multiline,
         }), renderedItem);
 
@@ -269,8 +268,8 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
                 if (typeof checkbox === 'object') {
                     renderedItem.checkbox = renderedItem.checkbox ? $.extend({}, checkbox, renderedItem.checkbox) : checkbox;
                 }
-                if (props.activeOnChecked && renderedItem.checked === true) {
-                    renderedItem.active = true;
+                if (props.selectOnChecked && renderedItem.checked === true) {
+                    renderedItem.selected = true;
                 }
             }
             if (renderedItem.active === undefined && this.isActive(renderedItem)) {

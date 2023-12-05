@@ -6,12 +6,11 @@ import type {ListItem} from './list-item';
 
 export interface ListProps<T extends Item = ListItem> extends CommonListProps<T> {
     items?: ListItemsSetting<T>;
-    hover?: boolean;
     divider?: boolean;
     multiline?: boolean;
     checkbox?: boolean | CheckboxProps;
     checkOnClick?: boolean | 'any' | (string & {});
-    activeOnChecked?: boolean;
+    selectOnChecked?: boolean;
     active?: string | string[] | Record<string, boolean>;
     multipleActive?: boolean;
     activeOnHover?: boolean;

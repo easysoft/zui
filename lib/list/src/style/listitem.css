@@ -1,8 +1,11 @@
 .listitem {
-  @apply -flex -flex-row -flex-nowrap -py-1 -gap-2 -items-center;
+  @apply -flex -flex-row -flex-nowrap -p-1 -gap-2 -items-center -rounded;
+}
+.listitem.selected {
+  @apply -bg-primary-50;
 }
 .listitem.active {
-  @apply -bg-primary-50;
+  @apply -bg-primary-500 -text-canvas;
 }
 
 .item-icon,

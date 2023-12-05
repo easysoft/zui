@@ -121,7 +121,7 @@ export class Listitem<P extends ListitemProps = ListitemProps, S = {}> extends H
             title,
             subtitle,
             hint,
-            hover,
+            selected,
         } = props;
         const ComponentName = innerComponent || ((url && !actions) ? 'a' : 'div');
         const asLink = ComponentName === 'a';
@@ -132,7 +132,7 @@ export class Listitem<P extends ListitemProps = ListitemProps, S = {}> extends H
                 active,
                 disabled,
                 'has-divider': divider,
-                'has-hover': hover,
+                selected,
                 checked,
                 multiline: multiline ?? !!(title && subtitle),
                 state: asLink && !disabled,
