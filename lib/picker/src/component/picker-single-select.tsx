@@ -50,14 +50,16 @@ export class PickerSingleSelect extends PickTrigger<PickerState, PickerSelectPro
     }
 
     protected _renderSearch(props: PickerSelectProps) {
-        const {state: {search}} = props;
+        const {state: {search}, hotkeys} = props;
         return (
             <PickerSearch
                 ref={this._search}
+                id={props.id}
                 defaultSearch={search}
                 onSearch={this._handleSearch}
                 onClear={this._handleSearchClear}
                 placeholder={this._getSearchPlaceholder()}
+                hotkeys={hotkeys}
             />
         );
     }

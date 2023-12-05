@@ -48,15 +48,17 @@ export class PickerMultiSelect extends PickTrigger<PickerState, PickerSelectProp
     };
 
     protected _renderSearch(props: PickerSelectProps) {
-        const {state: {search}, searchHint} = props;
+        const {state: {search}, searchHint, hotkeys} = props;
         return (
             <PickerSearch
                 inline
+                id={props.id}
                 ref={this._search}
                 defaultSearch={search}
                 onSearch={this._handleSearch}
                 onClear={this._handleSearchClear}
                 placeholder={searchHint}
+                hotkeys={hotkeys}
             />
         );
     }

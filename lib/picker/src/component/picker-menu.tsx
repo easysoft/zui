@@ -32,12 +32,44 @@ export class PickerMenu extends PickPop<PickerState, PickerMenuProps> {
 
     protected _disabledSet: Set<string> = new Set();
 
-    _getHoverItem() {
-        const menu = this.element;
-        if (!menu) {
-            return;
+    protected _firstSelected?: string;
+
+    get menu() {
+        return this._menu.current;
+    }
+
+    componentDidMount(): void {
+        super.componentDidMount();
+        if (this._firstSelected === undefined) {
+            this.menu?.activeNext();
+        } else {
+            this.menu?.toggleActive(this._firstSelected, true);
         }
-        return $(menu).find('.menu-item>a.hover');
+
+        $(this.element).on('activeNext.zui.Picker', () => {
+            this.menu?.activeNext();
+        }).on('activePrev.zui.Picker', () => {
+            this.menu?.activePrev();
+        }).on('selectActive.zui.Picker', () => {
+            const menu = this.menu;
+            if (!menu) {
+                return;
+            }
+            const active = menu.getActiveKey();
+            if (active !== undefined) {
+                const item = menu.getRenderedItem(active);
+                if (item) {
+                    $(this.element).find(`.item[z-key-path="${item._keyPath}"]`).trigger('click');
+                }
+            }
+        }).on('hidePop.zui.Picker', () => {
+            this.props.togglePop(false);
+        });
+    }
+
+    componentWillUnmount(): void {
+        super.componentWillUnmount();
+        $(this.element).off('.zui.Picker');
     }
 
     _getItem = (item: NestedItem, index: number) => {
@@ -53,7 +85,7 @@ export class PickerMenu extends PickPop<PickerState, PickerMenuProps> {
             subItems = subItems.reduce<NestedItem[]>((list, subItem, subIndex) => {
                 const finalSubItem = this._getItem(subItem, subIndex);
                 if (finalSubItem) {
-                    if (finalSubItem.active) {
+                    if (finalSubItem.selected) {
                         hasSomeItemsChecked = true;
                     } else {
                         isAllItemsChecked = false;
@@ -65,12 +97,15 @@ export class PickerMenu extends PickPop<PickerState, PickerMenuProps> {
         }
         const selected = isAllItemsChecked || valueSet.has(item.value as string);
         item = {
+            selected,
             ...item,
-            active: selected,
             checked: (this._hasCheckbox || typeof item.checked === 'boolean') ? (isAllItemsChecked ? true : (hasSomeItemsChecked ? 'indeterminate' : selected)) : undefined,
             className: classes(item.className, {hover: item.value !== undefined && item.value === this.props.state.hoverItem}),
             items: subItems,
         };
+        if (selected && !item.disabled && this._firstSelected === undefined) {
+            this._firstSelected = item.key!;
+        }
         if (item.content && item.text) {
             delete item.text;
         }
@@ -102,7 +137,7 @@ export class PickerMenu extends PickPop<PickerState, PickerMenuProps> {
             if (item.items) {
                 const map = getValueMap(item.items as NestedItem[]);
                 const values = [...map.values()].filter(x => !x.items && !this._disabledSet.has(x.value as string)).map(x => x.value as string);
-                if ($(target).closest('.tree-item').children('.tree-item-inner.active').length) {
+                if ($(target).closest('.item').children('.item-inner.selected').length) {
                     onDeselect(values);
                 } else {
                     onSelect(values);
@@ -142,6 +177,7 @@ export class PickerMenu extends PickPop<PickerState, PickerMenuProps> {
 
     protected _renderPop(props: RenderableProps<PickerMenuProps>): ComponentChildren {
         const {tree} = props;
+        this._firstSelected = undefined;
         this._disabledSet.clear();
         const menuProps = this._getMenuProps(props);
         this._hasCheckbox = !!menuProps.checkbox;
@@ -150,7 +186,7 @@ export class PickerMenu extends PickPop<PickerState, PickerMenuProps> {
         menuProps.getItem = this._getItem;
         menuProps.beforeRenderItem = this._beforeRenderItem;
         if (tree) {
-            return <SearchTree hover {...menuProps} />;
+            return <SearchTree {...menuProps} />;
         }
         return <SearchMenu {...menuProps} />;
     }

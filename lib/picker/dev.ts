@@ -111,7 +111,7 @@ onPageUpdate(() => {
     const multiPickerNested = new Picker('#multiPickerNested', {
         name: 'selectSome',
         multiple: true,
-        tree: true,
+        // tree: true,
         items: nestedItems,
         menu: {
             itemProps: {

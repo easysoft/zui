@@ -28,6 +28,7 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
         search: true,
         emptyValue: '',
         cache: true,
+        hotkeys: true,
     };
 
     static Pop = PickerMenu as typeof Pick.Pop;
@@ -232,6 +233,7 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
         return {
             ...super._getTriggerProps(props, state),
             multiple: props.multiple,
+            hotkeys: props.hotkeys,
             placeholder: props.placeholder,
             search: props.search,
             searchHint: props.searchHint,

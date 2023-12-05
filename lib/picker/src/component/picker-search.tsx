@@ -1,5 +1,5 @@
 import {Component, ComponentChild, RenderableProps, createRef} from 'preact';
-import {$} from '@zui/core';
+import {$, getHotkeysMap, nextGid} from '@zui/core';
 import {PickerSearchProps} from '../types';
 import '@zui/css-icons/src/icons/magnifier.css';
 
@@ -14,17 +14,69 @@ export class PickerSearch extends Component<PickerSearchProps, PickerSearchState
 
     protected _changeTimer = 0;
 
+    protected _hotkeysScope?: string;
+
     constructor(props: PickerSearchProps) {
         super(props);
         this.state = {search: props.defaultSearch ?? ''};
+    }
+
+    get $pop() {
+        return $(`#pick-pop-${this.props.id}`);
     }
 
     focus() {
         this._searchInput.current?.focus();
     }
 
+    clear() {
+        this.props.onClear?.();
+        this.setState({search: ''}, () => this.focus());
+    }
+
     componentDidMount(): void {
         this.focus();
+
+        const {hotkeys} = this.props;
+        if (hotkeys) {
+            const hotkeysMap = getHotkeysMap(hotkeys, {
+                clear: {
+                    keys: 'Escape',
+                    handler: () => {
+                        if (this.state.search.trim().length) {
+                            this.clear();
+                        } else {
+                            this.$pop.trigger('hidePop');
+                        }
+                    },
+                },
+                enter: {
+                    keys: 'Enter',
+                    handler: () => {
+                        this.$pop.trigger('selectActive');
+                    },
+                },
+                activeNext: {
+                    keys: 'ArrowDown',
+                    handler: () => {
+                        this.$pop.trigger('activeNext');
+                    },
+                },
+                activePrev: {
+                    keys: 'ArrowUp',
+                    handler: () => {
+                        this.$pop.trigger('activePrev');
+                    },
+                },
+            });
+            if (hotkeysMap) {
+                this._hotkeysScope = `PickerSearch_${nextGid()}`;
+                $(this._searchInput.current).hotkeys(hotkeysMap, {
+                    scope: this._hotkeysScope,
+                    event: 'keydown',
+                });
+            }
+        }
     }
 
     componentDidUpdate(): void {
@@ -41,9 +93,12 @@ export class PickerSearch extends Component<PickerSearchProps, PickerSearchState
 
     componentWillUnmount(): void {
         clearTimeout(this._changeTimer);
+        if (this._hotkeysScope) {
+            $(this._searchInput.current).unbindHotkeys(this._hotkeysScope);
+        }
     }
 
-    #handleChange = (event: Event) => {
+    _handleChange = (event: Event) => {
         const search = (event.target as HTMLInputElement).value;
         this.setState({search}, () => {
             const {onSearch} = this.props;
@@ -61,10 +116,9 @@ export class PickerSearch extends Component<PickerSearchProps, PickerSearchState
         event.stopPropagation();
     };
 
-    #handleClear = (event: MouseEvent) => {
+    _handleClear = (event: MouseEvent) => {
         event.stopPropagation();
-        this.props.onClear?.();
-        this.setState({search: ''}, () => this.focus());
+        this.clear();
     };
 
     render(props: RenderableProps<PickerSearchProps>, state: Readonly<PickerSearchState>): ComponentChild {
@@ -78,7 +132,7 @@ export class PickerSearch extends Component<PickerSearchProps, PickerSearchState
             );
         } else if (hasSearch) {
             extraView = (
-                <button type="button" className="btn picker-search-clear square size-sm ghost" onClick={this.#handleClear}><span className="close"></span></button>
+                <button type="button" className="btn picker-search-clear square size-sm ghost" onClick={this._handleClear}><span className="close"></span></button>
             );
         } else {
             extraView = <span className="magnifier"></span>;
@@ -92,8 +146,8 @@ export class PickerSearch extends Component<PickerSearchProps, PickerSearchState
                     placeholder={placeholder}
                     value={search}
                     autoComplete="off"
-                    onChange={this.#handleChange}
-                    onInput={this.#handleChange}
+                    onChange={this._handleChange}
+                    onInput={this._handleChange}
                     ref={this._searchInput}
                 />
                 {extraView}
