@@ -1,5 +1,5 @@
 import {Component, createRef} from 'preact';
-import {classes, Icon, nextGid} from '@zui/core';
+import {$, classes, getHotkeysMap, Icon, nextGid} from '@zui/core';
 import '../style';
 
 import type {ComponentChildren, RenderableProps} from 'preact';
@@ -10,6 +10,7 @@ export class SearchBox extends Component<SearchBoxOptions, SearchBoxState> {
         clearIcon: true,
         searchIcon: true,
         delay: 500,
+        hotkeys: true,
     };
 
     protected _gid: string;
@@ -18,10 +19,46 @@ export class SearchBox extends Component<SearchBoxOptions, SearchBoxState> {
 
     protected _timer = 0;
 
+    protected _hotkeysScope?: string;
+
     constructor(props: SearchBoxOptions) {
         super(props);
         this.state = {focus: false, value: props.defaultValue || ''};
         this._gid = props.id || `search-box-${nextGid()}`;
+    }
+
+    componentDidMount(): void {
+        const {hotkeys} = this.props;
+        if (hotkeys) {
+            const hotkeysMap = getHotkeysMap(hotkeys, {
+                clear: {
+                    keys: ['Escape'],
+                    handler: (event) => {
+                        this.clear(event);
+                    },
+                },
+                enter: {
+                    keys: ['Enter'],
+                    handler: (event) => {
+                        this.props.onEnter?.(this.state.value, event);
+                    },
+                },
+            });
+            if (hotkeysMap) {
+                this._hotkeysScope = `SearchBox_${this._gid}`;
+                console.log('hotkeysMap', hotkeysMap);
+                $(this.input).hotkeys(hotkeysMap, {
+                    scope: this._hotkeysScope,
+                    event: 'keydown',
+                });
+            }
+        }
+    }
+
+    componentWillUnmount(): void {
+        if (this._hotkeysScope) {
+            $(this.input).unbindHotkeys(this._hotkeysScope);
+        }
     }
 
     get id() {
@@ -32,9 +69,12 @@ export class SearchBox extends Component<SearchBoxOptions, SearchBoxState> {
         return this._input.current;
     }
 
-    _handleClearBtnClick = (event: MouseEvent) => {
+    focus() {
+        this.input?.focus();
+    }
+
+    clear(event?: Event) {
         const oldValue = this.state.value;
-        event.stopPropagation();
         this.setState({value: ''}, () => {
             const {onChange, onClear} = this.props;
             onClear?.(event);
@@ -43,6 +83,11 @@ export class SearchBox extends Component<SearchBoxOptions, SearchBoxState> {
                 onChange?.('', event);
             }
         });
+    }
+
+    _handleClearBtnClick = (event: MouseEvent) => {
+        event.stopPropagation();
+        this.clear(event);
     };
 
     _handleChange = (event: Event) => {
@@ -78,14 +123,6 @@ export class SearchBox extends Component<SearchBoxOptions, SearchBoxState> {
             clearTimeout(this._timer);
         }
         this._timer = 0;
-    }
-
-    focus() {
-        this.input?.focus();
-    }
-
-    componentWillUnmount(): void {
-        this._clearTimer();
     }
 
     render(props: RenderableProps<SearchBoxOptions>, state: Readonly<SearchBoxState>) {

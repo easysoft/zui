@@ -1,4 +1,4 @@
-import type {ClassNameLike, IconType, JSX} from '@zui/core';
+import type {ClassNameLike, HotkeysSettings, IconType, JSX} from '@zui/core';
 
 export type SearchBoxOptions = {
     id?: string;
@@ -20,8 +20,10 @@ export type SearchBoxOptions = {
     mergeIcon?: boolean | IconType;
     prefixClass?: ClassNameLike;
     suffixClass?: ClassNameLike;
-    onChange?: (value: string, event: Event) => void;
-    onClear?: (event: MouseEvent) => void;
+    hotkeys?: HotkeysSettings;
+    onChange?: (value: string, event: Event | undefined) => void;
+    onEnter?: (value: string, event: Event | undefined) => void;
+    onClear?: (event: Event | undefined) => void;
     onFocus?: (event: FocusEvent) => void;
     onBlur?: (event: FocusEvent) => void;
 };
