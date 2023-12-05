@@ -32,13 +32,13 @@ export class SearchBox extends Component<SearchBoxOptions, SearchBoxState> {
         if (hotkeys) {
             const hotkeysMap = getHotkeysMap(hotkeys, {
                 clear: {
-                    keys: ['Escape'],
+                    keys: 'Escape',
                     handler: (event) => {
                         this.clear(event);
                     },
                 },
                 enter: {
-                    keys: ['Enter'],
+                    keys: 'Enter',
                     handler: (event) => {
                         this.props.onEnter?.(this.state.value, event);
                     },
@@ -71,6 +71,10 @@ export class SearchBox extends Component<SearchBoxOptions, SearchBoxState> {
 
     focus() {
         this.input?.focus();
+    }
+
+    blur() {
+        this.input?.blur();
     }
 
     clear(event?: Event) {
