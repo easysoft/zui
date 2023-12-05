@@ -18,8 +18,14 @@ export class Menu<T extends MenuOptions = MenuOptions, S extends NestedListState
         item: [Listitem, {innerComponent: 'a'}],
     };
 
+    static defaultProps: Partial<MenuOptions> = {
+        ...NestedList.defaultProps,
+        scrollbarHover: true,
+        activeOnHover: true,
+    };
+
     protected _getClassName(props: RenderableProps<T>): ClassNameLike {
-        return classes(super._getClassName(props), this._hasNestedItems ? 'menu-nested' : '', props.className, props.wrap ? null : {popup: props.popup, compact: props.compact});
+        return classes(super._getClassName(props), this._hasNestedItems ? 'menu-nested' : '', props.className, props.wrap ? {'scrollbar-thin': props.scrollbarThin, 'scrollbar-hover': props.scrollbarHover} : {popup: props.popup, compact: props.compact});
     }
 
     protected _getWrapClass(props: RenderableProps<T>): ClassNameLike {

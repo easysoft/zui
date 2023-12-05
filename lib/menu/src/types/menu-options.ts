@@ -12,4 +12,6 @@ export interface MenuOptions<T extends MenuItemOptions = NestedListItem> extends
     footer?: CustomContentType;
     popup?: boolean;
     compact?: boolean;
+    scrollbarThin?: boolean;
+    scrollbarHover?: boolean;
 }

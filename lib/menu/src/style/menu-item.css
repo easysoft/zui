@@ -1,15 +1,17 @@
 .menu-item > .item-inner,
 .menu-item > a {
-    @apply -flex -text-inherit -px-2 -py-1 -rounded -items-center -justify-between -transition-colors -relative -truncate -cursor-pointer -gap-1;
+    @apply -flex -text-inherit -px-2 -items-center -justify-between -transition-colors -relative -truncate -cursor-pointer -gap-1;
 }
+.menu-item > .selected {
+    background: var(--menu-selected-bg);
+    color: var(--menu-selected-color);
+}
+.menu-item > a:hover,
+.menu-item > a.hover,
+.menu-item > .active,
 .menu-item > .active {
     background: var(--menu-active-bg);
     color: var(--menu-active-color);
-}
-.menu-item > a:hover,
-.menu-item > a.hover {
-    background: var(--menu-hover-bg);
-    color: var(--menu-hover-color);
 }
 .menu-item > a.disabled:hover,
 .menu-item > a.disabled:hover,
