@@ -5006,14 +5006,20 @@ const mr = function(n) {
     name: "offset",
     options: n,
     async fn(t) {
+      var e, s;
       const {
-        x: e,
-        y: s
-      } = t, i = await qh(t, n);
-      return {
-        x: e + i.x,
-        y: s + i.y,
-        data: i
+        x: i,
+        y: r,
+        placement: o,
+        middlewareData: a
+      } = t, l = await qh(t, n);
+      return o === ((e = a.offset) == null ? void 0 : e.placement) && (s = a.arrow) != null && s.alignmentOffset ? {} : {
+        x: i + l.x,
+        y: r + l.y,
+        data: {
+          ...l,
+          placement: o
+        }
       };
     }
   };
