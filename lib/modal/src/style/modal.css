@@ -2,10 +2,13 @@
   @apply -hidden -overflow-hidden -fixed -inset-0 -items-center -justify-center -z-modal -bg-[--modal-bg];
 }
 .modal.load-indicator::before {
-  @apply -bg-inherit -transition-none;
+  @apply -bg-transparent -transition-none;
 }
 .modal.loading::after {
   @apply -text-canvas;
+}
+.modal.loading .modal-dialog {
+  @apply !-opacity-0;
 }
 .modal.show {
   @apply -flex;
