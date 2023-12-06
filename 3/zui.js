@@ -7165,7 +7165,7 @@ class yt extends pt {
       };
     }, this._onClickDoc = (t) => {
       const e = u(t.target);
-      !e.closest(`#${this._id}`).length && this._targetElement !== e.closest(".popover")[0] && this.hide();
+      !e.closest(`#${this._id}`).length && (this._virtual || !e.closest(this._triggerElement).length) && this._targetElement !== e.closest(".popover")[0] && this.hide();
     };
   }
   get shown() {
@@ -7223,21 +7223,18 @@ class yt extends pt {
       return;
     this._targetElement = i;
     const r = u(i), { animation: o, mask: a, onShow: l, onShown: c, trigger: d } = this.options;
-    if (r.addClass(_o), o && r.addClass(o === !0 ? "fade" : o), this._shown = !0, this.render(), l == null || l.call(this), this.emit("show"), d === "hover") {
+    r.addClass(_o), o && r.addClass(o === !0 ? "fade" : o), this._shown = !0, this.render(), l == null || l.call(this), this.emit("show");
+    const { namespace: h } = this;
+    d === "hover" && (this._clearDelayHide(), r.off(h).on(`mouseenter${h}`, () => {
       this._clearDelayHide();
-      const { namespace: h } = this;
-      r.off(h).on(`mouseenter${h}`, () => {
-        this._clearDelayHide();
-      }).on(`mouseleave${h}`, () => {
-        this.delayHide();
-      }).on(`click${h}`, '[data-dismiss="popover"]', () => {
-        this.hide();
-      });
-    }
-    this._virtual || u(this._triggerElement).addClass("with-popover-show"), this._resetTimer(() => {
+    }).on(`mouseleave${h}`, () => {
+      this.delayHide();
+    })), r.on(`click${h}`, '[data-dismiss="popover"]', () => {
+      this.hide();
+    }), this._virtual || u(this._triggerElement).addClass("with-popover-show"), this._resetTimer(() => {
       r.addClass(yo), this._resetTimer(() => {
         c == null || c.call(this), this.emit("shown");
-      }, 200), a && d !== "hover" && u(document).off(`click${this.namespace}`, this._onClickDoc).on(`click${this.namespace}`, this._onClickDoc);
+      }, 200), a && u(document).off(`click${this.namespace}`, this._onClickDoc).on(`click${this.namespace}`, this._onClickDoc);
     }, 50);
   }
   hide(t) {
@@ -7407,7 +7404,8 @@ const Id = '[data-toggle="dropdown"]';
 class St extends yt {
   constructor() {
     super(...arguments), this._onClickDoc = (t) => {
-      u(t.target).closest(".not-hide-menu,.form-control,input,label,.nested-toggle-icon,.item.is-nested").length || this.hide();
+      const e = u(t.target);
+      !e.closest(".not-hide-menu,.form-control,input,label,.nested-toggle-icon").length && (this._virtual || !e.closest(this._triggerElement).length) && this.hide();
     };
   }
   _getMenuOptions() {
@@ -7537,7 +7535,7 @@ class Sr extends kt {
     return ["dropdown-menu scrollbar-hover scrollbar-thin", super._getClassName(t)];
   }
   _afterRender(t) {
-    super._afterRender(t), this.layout();
+    super._afterRender(t), this.layout(), this._layoutTimer = window.setTimeout(this.layout.bind(this), 100);
   }
   _getNestedProps(t, e, s, i) {
     return D(this.isHoverTrigger ? {
