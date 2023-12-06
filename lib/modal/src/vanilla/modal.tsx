@@ -209,14 +209,14 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
 
         const {modalElement, options} = this;
         const $modal = $(modalElement);
-        const {type, loadTimeout, loadingText = null} = options;
+        const {type, loadTimeout, loadingClass = LOADING_CLASS, loadingText = null} = options;
         const build = builders[type];
 
         if (!build) {
             console.warn(`Modal: Cannot build modal with type "${type}"`);
             return false;
         }
-        $modal.attr('data-loading', loadingText).addClass(LOADING_CLASS);
+        $modal.attr('data-loading', loadingText).addClass(loadingClass);
 
         if (loadTimeout) {
             this.#loadingTimer = window.setTimeout(() => {
@@ -242,7 +242,7 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
 
         await delay(100);
 
-        $modal.removeClass(LOADING_CLASS);
+        $modal.removeClass(loadingClass);
 
         return true;
     }

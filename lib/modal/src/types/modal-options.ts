@@ -10,6 +10,7 @@ export type ModalOptions = ModalBaseOptions & {
     key?: string;
     loadingText?: string;
     loadTimeout?: number;
+    loadingClass?: string;
     failedTip?: string;
     timeoutTip?: string;
     title?: string;
