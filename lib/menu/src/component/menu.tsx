@@ -21,7 +21,6 @@ export class Menu<T extends MenuOptions = MenuOptions, S extends NestedListState
     static defaultProps: Partial<MenuOptions> = {
         ...NestedList.defaultProps,
         scrollbarHover: true,
-        activeOnHover: true,
     };
 
     protected _getClassName(props: RenderableProps<T>): ClassNameLike {
