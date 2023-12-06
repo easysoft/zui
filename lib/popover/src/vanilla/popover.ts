@@ -168,9 +168,9 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
         onShow?.call(this);
         this.emit('show');
 
+        const {namespace} = this;
         if (trigger === 'hover') {
             this._clearDelayHide();
-            const {namespace} = this;
             $target
                 .off(namespace)
                 .on(`mouseenter${namespace}`, () => {
@@ -178,11 +178,11 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
                 })
                 .on(`mouseleave${namespace}`, () => {
                     this.delayHide();
-                })
-                .on(`click${namespace}`, '[data-dismiss="popover"]', () => {
-                    this.hide();
                 });
         }
+        $target.on(`click${namespace}`, '[data-dismiss="popover"]', () => {
+            this.hide();
+        });
 
         if (!this._virtual) {
             $(this._triggerElement as HTMLElement).addClass('with-popover-show');
@@ -196,7 +196,7 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
                 this.emit('shown');
             }, 200);
 
-            if (mask && trigger !== 'hover') {
+            if (mask) {
                 $(document).off(`click${this.namespace}`, this._onClickDoc).on(`click${this.namespace}`, this._onClickDoc);
             }
         }, 50);
@@ -480,8 +480,8 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
     };
 
     protected _onClickDoc = (event: MouseEvent) => {
-        const $clickTarget = $(event.target as HTMLElement);
-        if ((!$clickTarget.closest(`#${this._id}`).length && this._targetElement !== $clickTarget.closest('.popover')[0])) {
+        const $target = $(event.target as HTMLElement);
+        if ((!$target.closest(`#${this._id}`).length && (this._virtual || !$target.closest(this._triggerElement as HTMLElement).length) && this._targetElement !== $target.closest('.popover')[0])) {
             this.hide();
         }
     };
