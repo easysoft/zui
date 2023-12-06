@@ -6,15 +6,25 @@ const fontSize = require('./font-size.cjs');
 
 // see https://github.com/mertasan/tailwindcss-variables
 module.exports = {
-    DEFAULT: {
-        color: colors,
-        radius: borderRadius,
-        shadow: boxShadow,
-        space: '0.25rem',
-        'font-size-root': fontSize.root,
-        'font-size-page': fontSize.page,
+    variables: {
+        DEFAULT: {
+            color: colors,
+            radius: borderRadius,
+            shadow: boxShadow,
+            space: '0.25rem',
+            'font-size-root': fontSize.root,
+            'font-size-page': fontSize.page[1],
+        },
+        '.dark': {
+            color: darkColors,
+        },
+        '.light-in-dark': {
+            color: colors,
+        },
     },
-    '.dark': {
-        color: darkColors,
+    darkVariables: {
+        '.dark-auto': {
+            color: darkColors,
+        },
     },
 };

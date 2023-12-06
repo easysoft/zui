@@ -17,6 +17,6 @@ module.exports = {
         boxShadow: toVars(boxShadow, 'shadow'),
         zIndex,
         screens,
-        variables,
+        ...variables,
     },
 };

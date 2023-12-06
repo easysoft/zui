@@ -3,7 +3,7 @@ const colorVariable = require('@mertasan/tailwindcss-variables/colorVariable');
 function toVars(colorObject, parentName = 'color', vars = {}) {
     Object.keys(colorObject).forEach(name => {
         const value = colorObject[name];
-        if (!value) {
+        if (!value || ['transparent', 'inherit', 'currentColor'].includes(value)) {
             return;
         }
         const varName = name === 'DEFAULT' ? '' : String(name).replace(/([A-Z])/g, '-$1').toLowerCase();

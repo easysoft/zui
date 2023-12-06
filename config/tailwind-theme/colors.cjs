@@ -57,7 +57,13 @@ const canvas = white;
 const inverse = black;
 
 /** 控件背景 */
+const surfaceLight = gray[50];
+
+/** 控件背景 */
 const surface = gray[100];
+
+/** 控件背景 */
+const surfaceStrong = gray[200];
 
 /** 文本 */
 const fore = gray[700];
@@ -73,6 +79,9 @@ const linkHover = primary[600];
 
 /** 链接（visited） */
 const linkVisited = primary[700];
+
+/** 链接（Active） */
+const linkActive = primary[800];
 
 /* 占位文本颜色（placeholder） */
 const placeholder = gray[400];
@@ -105,11 +114,14 @@ module.exports = {
     canvas,
     inverse,
     surface,
+    'surface-light': surfaceLight,
+    'surface-strong': surfaceStrong,
     fore,
     focus,
     link,
     'link-hover': linkHover,
     'link-visited': linkVisited,
+    'link-active': linkActive,
     placeholder,
     border,
     'border-strong': borderStrong,

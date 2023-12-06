@@ -4,7 +4,7 @@ const defaultTheme = require('./config/tailwind-theme/index.cjs');
 
 /** @type {import('tailwindcss').Config} */
 const config = {
-    darkMode: ['class', '[class="dark"]'],
+    darkMode: 'media',
     content: process.env.NODE_ENV === 'development' ? [
         './index.html',
         './index.md',
@@ -14,10 +14,12 @@ const config = {
         './lib/*/src/**/*.{vue,js,ts,jsx,tsx}',
         './exts/*/*/src/**/*.{vue,js,ts,jsx,tsx}',
     ] : [{raw: ''}],
+    safelist: ['dark'],
     theme: defaultTheme,
     plugins: [
         require('@mertasan/tailwindcss-variables')({
             colorVariables: true,
+            darkToRoot: false,
         }),
     ],
     prefix: '-',
@@ -26,7 +28,7 @@ const config = {
 function colorToVars(colorObject, parentName = 'color', vars = {}) {
     Object.keys(colorObject).forEach(name => {
         const value = colorObject[name];
-        if (!value) {
+        if (!value || ['transparent', 'inherit', 'currentColor'].includes(value)) {
             return;
         }
         const varName = String(name).replace(/([A-Z])/g, '-$1').toLowerCase();
@@ -70,5 +72,22 @@ if (argv.noPreflightStyle || process.env.TAILWIND_NO_PREFLIGHT) {
         preflight: false,
     };
 }
+
+[config.theme, config.theme.extend].forEach(theme => {
+    const varsSafelist = [];
+    ['variables', 'darkVariables'].forEach(key => {
+        const variables = theme[key];
+        if (typeof variables === 'object') {
+            Object.keys(variables).forEach(varKey => {
+                if (varKey.startsWith('.')) {
+                    varsSafelist.push(varKey.substring(1));
+                }
+            });
+        }
+    });
+    if (varsSafelist.length) {
+        config.safelist = [...new Set([...(config.safelist || []), ...varsSafelist])];
+    }
+});
 
 module.exports = config;
