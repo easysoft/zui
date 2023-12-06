@@ -50,7 +50,8 @@ export class Dropdown<O extends DropdownOptions = DropdownOptions> extends Popov
     }
 
     protected _onClickDoc = (event: MouseEvent) => {
-        if (!$(event.target as HTMLElement).closest('.not-hide-menu,.form-control,input,label,.nested-toggle-icon,.item.is-nested').length) {
+        const $target = $(event.target as HTMLElement);
+        if (!$target.closest('.not-hide-menu,.form-control,input,label,.nested-toggle-icon').length && (this._virtual || !$target.closest(this._triggerElement as HTMLElement).length)) {
             this.hide();
         }
     };

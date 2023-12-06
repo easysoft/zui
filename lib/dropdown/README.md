@@ -56,8 +56,6 @@ const dropdown = new Dropdown('#dropdownToggle', {
 console.log('> dropdown', dropdown);
 ```
 
-
-
 ## 显示箭头
 
 ```html:example: -flex -gap-3 overflow-visible

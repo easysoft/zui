@@ -64,6 +64,7 @@ export class DropdownMenu<T extends DropdownMenuOptions = DropdownMenuOptions> e
     protected _afterRender(firstRender: boolean) {
         super._afterRender(firstRender);
         this.layout();
+        this._layoutTimer = window.setTimeout(this.layout.bind(this), 100);
     }
 
     protected _getNestedProps(props: RenderableProps<T>, items: ListItemsSetting, item: NestedItem, expanded: boolean): NestedListProps {
