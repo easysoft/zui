@@ -3671,8 +3671,7 @@ J.ItemComponents = {
 };
 J.defaultProps = {
   ...ae.defaultProps,
-  scrollbarHover: !0,
-  activeOnHover: !0
+  scrollbarHover: !0
 };
 let tr = class extends H {
   constructor(t) {
@@ -8003,6 +8002,7 @@ class Rd extends ja {
       underlineKeys: !0,
       items: o,
       defaultNestedShow: !0,
+      activeOnHover: !0,
       search: a,
       onClickItem: this._handleItemClick,
       nestedToggle: ".nested-toggle-icon,.item-icon",
