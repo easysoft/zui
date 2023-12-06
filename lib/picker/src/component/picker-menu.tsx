@@ -167,6 +167,7 @@ export class PickerMenu extends PickPop<PickerState, PickerMenuProps> {
             underlineKeys: true,
             items: items,
             defaultNestedShow: true,
+            activeOnHover: true,
             search: search,
             onClickItem: this._handleItemClick,
             nestedToggle: '.nested-toggle-icon,.item-icon',
