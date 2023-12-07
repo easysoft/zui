@@ -1972,7 +1972,7 @@ class pe extends O {
     super(...arguments), this._ref = F();
   }
   _runJS() {
-    this.props.executeScript && u(this._ref.current).runJS();
+    this.props.executeScript && u(this._ref.current).runJS().zuiInit();
   }
   componentDidMount() {
     this._runJS();
@@ -7005,7 +7005,7 @@ sn = /* @__PURE__ */ new WeakSet();
 kr = function(n) {
   return new Promise((t) => {
     if (Array.isArray(n))
-      return u(this.modalElement).html(n[0]), this.layout(), this._observeResize(), t();
+      return u(this.modalElement).html(n[0]).zuiInit(), this.layout(), this._observeResize(), t();
     const { afterRender: e, ...s } = n;
     n = {
       afterRender: (i) => {
