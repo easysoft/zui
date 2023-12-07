@@ -1,6 +1,6 @@
 .menu-item > .item-inner,
 .menu-item > a {
-    @apply -flex -text-inherit -px-2 -items-center -justify-between -transition-colors -relative -truncate -cursor-pointer -gap-1;
+    @apply -flex -text-inherit -px-2 -py-1 -items-center -justify-between -transition-colors -relative -truncate -cursor-pointer -rounded;
 }
 .menu-item > .selected {
     background: var(--menu-selected-bg);
