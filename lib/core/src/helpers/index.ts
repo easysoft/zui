@@ -16,3 +16,4 @@ export * from './size';
 export * from './download-file';
 export * from './bus';
 export * from './hotkeys';
+export * from './fullscreen';
