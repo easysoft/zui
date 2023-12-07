@@ -38,8 +38,9 @@ onPageUpdate(() => {
         collapsedIcon: 'folder-close',
         expandedIcon: 'folder-open',
         normalIcon: 'file-o',
-        hover: true,
         defaultNestedShow: true,
+        checkOnClick: true,
+        activeOnHover: true,
         preserve: 'myTree',
         itemActions: {
             items: [
