@@ -21,7 +21,7 @@ export class HtmlContent extends Component<HtmlContentProps> {
         if (!this.props.executeScript) {
             return;
         }
-        $(this._ref.current).runJS();
+        $(this._ref.current).runJS().zuiInit();
     }
 
     componentDidMount(): void {
