@@ -15,43 +15,43 @@ export class Messager extends Component<MessagerOptions> {
 
     static MULTI_INSTANCE = true;
 
-    #holder?: HTMLElement;
+    protected _holder?: HTMLElement;
 
-    #item?: MessagerItem;
+    protected _item?: MessagerItem;
 
     get isShown() {
-        return !!this.#item?.isShown;
+        return !!this._item?.isShown;
     }
 
     show(options?: MessagerOptions) {
         this.setOptions(options);
-        this.#getItem().show();
+        this._getItem().show();
     }
 
     hide() {
-        this.#item?.hide();
+        this._item?.hide();
     }
 
-    #getItem() {
-        if (this.#item) {
-            this.#item.setOptions(this.options);
+    protected _getItem() {
+        if (this._item) {
+            this._item.setOptions(this.options);
         } else {
-            const holder = this.#getHolder();
+            const holder = this._getHolder();
             const item = new MessagerItem(holder, this.options);
             item.on('hidden', () => {
                 item.destroy();
                 holder?.remove();
-                this.#holder = undefined;
-                this.#item = undefined;
+                this._holder = undefined;
+                this._item = undefined;
             });
-            this.#item = item;
+            this._item = item;
         }
-        return this.#item;
+        return this._item;
     }
 
-    #getHolder() {
-        if (this.#holder) {
-            return this.#holder;
+    protected _getHolder() {
+        if (this._holder) {
+            return this._holder;
         }
         const {placement = 'top'} = this.options;
         let $container = this.$element.find(`.messagers-${placement}`);
@@ -61,7 +61,7 @@ export class Messager extends Component<MessagerOptions> {
         let $holder = $container.find(`#messager-${this.gid}`);
         if (!$holder.length) {
             $holder = $(`<div class="messager-holder" id="messager-${this.gid}"></div>`).appendTo($container);
-            this.#holder = $holder[0];
+            this._holder = $holder[0];
         }
         return $holder[0];
     }
