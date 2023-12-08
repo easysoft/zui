@@ -19,8 +19,6 @@ export class DropdownMenu<T extends DropdownMenuOptions = DropdownMenuOptions> e
 
     static inheritNestedProps = [...SearchMenu.inheritNestedProps, 'container', 'tree'];
 
-    protected _layoutTimer = 0;
-
     protected declare _nestedContextMenu: ComponentChild[];
 
     get isHoverTrigger(): boolean {
@@ -50,7 +48,6 @@ export class DropdownMenu<T extends DropdownMenuOptions = DropdownMenuOptions> e
             })],
         }).then(({x, y}) => {
             $(element).css({
-                position: 'absolute',
                 left: x,
                 top: y,
             });
@@ -64,7 +61,6 @@ export class DropdownMenu<T extends DropdownMenuOptions = DropdownMenuOptions> e
     protected _afterRender(firstRender: boolean) {
         super._afterRender(firstRender);
         this.layout();
-        this._layoutTimer = window.setTimeout(this.layout.bind(this), 100);
     }
 
     protected _getNestedProps(props: RenderableProps<T>, items: ListItemsSetting, item: NestedItem, expanded: boolean): NestedListProps {
@@ -125,12 +121,5 @@ export class DropdownMenu<T extends DropdownMenuOptions = DropdownMenuOptions> e
     protected _beforeRender(props: RenderableProps<T>): void | RenderableProps<T> | undefined {
         this._nestedContextMenu = [];
         return super._beforeRender(props);
-    }
-
-    componentWillUnmount(): void {
-        super.componentWillUnmount();
-        if (this._layoutTimer) {
-            clearTimeout(this._layoutTimer);
-        }
     }
 }

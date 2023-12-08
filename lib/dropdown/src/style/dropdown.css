@@ -26,6 +26,9 @@
 .dropdown > .menu-wrapper {
   @apply -h-full;
 }
+.dropdown > .menu-wrapper .menu-wrapper {
+  @apply -absolute;
+}
 
 .is-contextmenu .is-nested-show > a:not(:hover) {
   @apply -bg-primary-100;
