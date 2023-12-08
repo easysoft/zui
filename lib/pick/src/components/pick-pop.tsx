@@ -108,6 +108,20 @@ export class PickPop<S extends PickState = PickState, P extends PickPopProps<S> 
         }
     };
 
+    protected _getWidth() {
+        const {width} = this.props;
+        if (width === '100%') {
+            return $(this.trigger).outerWidth();
+        }
+        if (typeof width === 'function') {
+            return width();
+        }
+        if (width) {
+            return toCssSize(width);
+        }
+        return undefined;
+    }
+
     protected layout() {
         const {element, trigger, props} = this;
         const {state} = props;
@@ -125,18 +139,6 @@ export class PickPop<S extends PickState = PickState, P extends PickPopProps<S> 
 
         this._layoutWatcher = autoUpdate(trigger, element, () => {
             const {placement, width} = props;
-            const getWidth = () => {
-                if (width === '100%') {
-                    return $(trigger).outerWidth();
-                }
-                if (typeof width === 'function') {
-                    return width();
-                }
-                if (width) {
-                    return toCssSize(width);
-                }
-                return undefined;
-            };
             computePosition(trigger, element, {
                 placement: (!placement || placement === 'auto') ? 'bottom-start' : placement,
                 middleware: [placement === 'auto' ? flip() : null, shift(), offset(1)].filter(Boolean),
@@ -147,12 +149,12 @@ export class PickPop<S extends PickState = PickState, P extends PickPopProps<S> 
                 $(element).css({
                     left: x,
                     top: y,
-                    width: getWidth(),
+                    width: this._getWidth(),
                 });
                 this.props.onLayout?.(element);
             });
             if (width === '100%') {
-                $(element).css({width: getWidth()});
+                $(element).css({width: this._getWidth()});
             }
         });
     }
