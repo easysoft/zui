@@ -7580,9 +7580,6 @@ Tn.defaultProps = {
 Object.assign(xt.ItemComponents, { dropdown: Tn });
 Object.assign(at.ItemComponents, { dropdown: Tn });
 class yr extends wt {
-  constructor() {
-    super(...arguments), this._layoutTimer = 0;
-  }
   get isHoverTrigger() {
     const { nestedTrigger: t, tree: e } = this.props;
     return t ? t === "hover" : !e;
@@ -7601,7 +7598,6 @@ class yr extends wt {
       })]
     }).then(({ x: o, y: a }) => {
       u(t).css({
-        position: "absolute",
         left: o,
         top: a
       });
@@ -7611,7 +7607,7 @@ class yr extends wt {
     return ["dropdown-menu scrollbar-hover scrollbar-thin", super._getClassName(t)];
   }
   _afterRender(t) {
-    super._afterRender(t), this.layout(), this._layoutTimer = window.setTimeout(this.layout.bind(this), 100);
+    super._afterRender(t), this.layout();
   }
   _getNestedProps(t, e, s, i) {
     return D(this.isHoverTrigger ? {
@@ -7653,9 +7649,6 @@ class yr extends wt {
   }
   _beforeRender(t) {
     return this._nestedContextMenu = [], super._beforeRender(t);
-  }
-  componentWillUnmount() {
-    super.componentWillUnmount(), this._layoutTimer && clearTimeout(this._layoutTimer);
   }
 }
 yr.defaultProps = {
