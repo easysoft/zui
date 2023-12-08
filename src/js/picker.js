@@ -19,6 +19,7 @@
     var SHOWS = {};
 
     var DEFAULTS = {
+        width: null,
         lang: null,
         remote: null, // {url: '/picker/fetch?search={search}', method: 'GET'} or '/picker/fetch?search={search}&limit={limit}' or function({search, limit}, callback),
         remoteConverter: null, // function(responseData, textStatus, jqXHR, picker)
@@ -182,6 +183,8 @@
             $container = $('<div class="picker" />').insertAfter(that.$);
         }
         $container.addClass('picker').toggleClass('picker-multi', multi).toggleClass('picker-single', !multi);
+        if (options.width) $container.width(options.width);
+
         var $selections = $container.children('.picker-selections');
         if ($selections.length) {
             $selections.empty();
