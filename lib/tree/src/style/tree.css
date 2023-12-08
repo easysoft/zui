@@ -1,6 +1,6 @@
 /* Tree content. */
 .tree-item-inner {
-  @apply -flex -flex-row -items-center -min-h-[24px];
+  @apply -flex -flex-row -items-center -min-h-[24px] -pl-[--list-nested-indent];
 }
 
 /* Toggle icon. */
