@@ -39,3 +39,7 @@
   background: var(--menu-active-bg);
   color: var(--menu-active-color);
 }
+.tree-item > .selected {
+  background: var(--menu-selected-bg);
+  color: var(--menu-selected-color);
+}
