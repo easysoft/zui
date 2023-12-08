@@ -5687,6 +5687,15 @@ class Ra extends O {
   _renderPop(t) {
     return t.children;
   }
+  _getWidth() {
+    const { width: t } = this.props;
+    if (t === "100%")
+      return u(this.trigger).outerWidth();
+    if (typeof t == "function")
+      return t();
+    if (t)
+      return Ft(t);
+  }
   layout() {
     const { element: t, trigger: e, props: s } = this, { state: i } = s;
     if (!t || !e || !i.open) {
@@ -5694,25 +5703,18 @@ class Ra extends O {
       return;
     }
     this._layoutWatcher || (this._layoutWatcher = La(e, t, () => {
-      const { placement: r, width: o } = s, a = () => {
-        if (o === "100%")
-          return u(e).outerWidth();
-        if (typeof o == "function")
-          return o();
-        if (o)
-          return Ft(o);
-      };
+      const { placement: r, width: o } = s;
       pr(e, t, {
         placement: !r || r === "auto" ? "bottom-start" : r,
         middleware: [r === "auto" ? lr() : null, hr(), cr(1)].filter(Boolean)
-      }).then(({ x: l, y: c }) => {
-        var d, h;
+      }).then(({ x: a, y: l }) => {
+        var c, d;
         u.isDetached(e) || (u(t).css({
-          left: l,
-          top: c,
-          width: a()
-        }), (h = (d = this.props).onLayout) == null || h.call(d, t));
-      }), o === "100%" && u(t).css({ width: a() });
+          left: a,
+          top: l,
+          width: this._getWidth()
+        }), (d = (c = this.props).onLayout) == null || d.call(c, t));
+      }), o === "100%" && u(t).css({ width: this._getWidth() });
     }));
   }
   componentDidMount() {
