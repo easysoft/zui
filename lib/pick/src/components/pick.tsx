@@ -18,14 +18,15 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
         popMinWidth: 50,
         popMinHeight: 32,
         popMaxHeight: 300,
+
         clickType: 'open',
     };
 
-    #id: string;
+    _id: string;
 
-    #toggleTimer = 0;
+    _toggleTimer = 0;
 
-    #pop: RefObject<PickPop<S, PickPopProps<S>>> = createRef();
+    _pop: RefObject<PickPop<S, PickPopProps<S>>> = createRef();
 
     protected _trigger = createRef<PickTrigger>();
 
@@ -36,16 +37,16 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
             open: false,
         } as S;
 
-        this.#id = props.id ?? `_pick${nextGid()}`;
+        this._id = props.id ?? `_pick${nextGid()}`;
         this.changeState = this.changeState.bind(this);
     }
 
     get id() {
-        return this.#id;
+        return this._id;
     }
 
     get pop() {
-        return this.#pop.current;
+        return this._pop.current;
     }
 
     get value() {
@@ -73,9 +74,9 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
             return this.state;
         }
 
-        if (this.#toggleTimer) {
-            clearTimeout(this.#toggleTimer);
-            this.#toggleTimer = 0;
+        if (this._toggleTimer) {
+            clearTimeout(this._toggleTimer);
+            this._toggleTimer = 0;
         }
 
         let newState = await this.changeState(prevState => {
@@ -90,16 +91,16 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
 
         if (openState === 'closing') {
             await delay(200, (id) => {
-                this.#toggleTimer = id;
+                this._toggleTimer = id;
             });
-            this.#toggleTimer = 0;
+            this._toggleTimer = 0;
             newState = await this.changeState({open: false} as Partial<S>);
         } else if (openState === 'opening') {
             await delay(50, (id) => {
-                this.#toggleTimer = id;
+                this._toggleTimer = id;
             });
 
-            this.#toggleTimer = 0;
+            this._toggleTimer = 0;
             newState = await this.changeState({open: true} as Partial<S>);
         }
 
@@ -241,10 +242,10 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
 
     componentWillUnmount(): void {
         this.props.beforeDestroy?.call(this);
-        if (this.#toggleTimer) {
-            clearTimeout(this.#toggleTimer);
+        if (this._toggleTimer) {
+            clearTimeout(this._toggleTimer);
         }
-        const pop = this.#pop.current as unknown as Component<PickPopProps<S>>;
+        const pop = this._pop.current as unknown as Component<PickPopProps<S>>;
         if (pop && pop.componentWillUnmount) {
             pop.componentWillUnmount();
         }
@@ -256,7 +257,7 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
         let popView: ComponentChildren;
         if (opened && (!props.hidePopWhenEmpty || !this._isEmptyValue())) {
             const Pop = this._getPop(props);
-            popView = (<Pop key="pop" ref={this.#pop} {...this._getPopProps(props, state)}>
+            popView = (<Pop key="pop" ref={this._pop} {...this._getPopProps(props, state)}>
                 {this._renderPop(props, state)}
             </Pop>);
         }
