@@ -8,7 +8,7 @@ export type ItemRender<T extends Item = Item> = (item: T, index: number) => Cust
 export type ItemsSetting<T extends Item = Item> = T[] | (() => T[]);
 
 /**
- * HList properties.
+ * Represents the props for the CommonList component.
  */
 export interface CommonListProps<T extends Item = Item> extends HElementProps {
     /**
@@ -44,9 +44,9 @@ export interface CommonListProps<T extends Item = Item> extends HElementProps {
     /**
      * Get item definition, can convert original item.
      *
-     * @param item List item definition.
-     * @param index List item index.
-     * @returns List item definition or false to skip this item.
+     * @param item - The list item definition.
+     * @param index - The list item index.
+     * @returns The list item definition or false to skip this item.
      */
     getItem?: (item: T, index: number) => T | false | undefined;
 
@@ -57,10 +57,22 @@ export interface CommonListProps<T extends Item = Item> extends HElementProps {
 
     /**
      * Before render item, can convert original item.
+     *
+     * @param item - The list item definition.
+     * @param index - The list item index.
+     * @returns The modified list item definition.
      */
     beforeRenderItem?: (item: T, index: number) => T | void;
 
+    /**
+     * Handles the click event on an item.
+     *
+     * @param info - The information about the clicked item.
+     */
     onClickItem?: (info: {item: T, index: number, event: MouseEvent, renderedItem: T, relativeTarget?: unknown}) => void;
 
+    /**
+     * The relative target for the list.
+     */
     relativeTarget?: unknown;
 }
