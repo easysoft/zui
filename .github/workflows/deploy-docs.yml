@@ -2,7 +2,7 @@ name: Deploy
 on:
   push:
     branches:
-      - zui3_dev
+      - main
 jobs:
   deploy:
     runs-on: ubuntu-latest
