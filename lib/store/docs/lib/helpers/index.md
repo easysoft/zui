@@ -2,7 +2,7 @@
 
 本地存储（Local storage）是在浏览器本地存储应用数据的好途径。相比较 cookie 拥有更大的存储空间（相同域下一般达到 5M 以上存储空间），使用更灵活，而且不会在每次提交中发送到服务器。几乎所有浏览器都支持本地存储，甚至包括 IE。
 
-本地存储包括尺寸存储和会话存储，对应的是浏览器内置的 [`localStorage`](https://developer.mozilla.org/zh-CN/docs/Web/API/Window/localStorage) 和 [`sessionStorage`](https://developer.mozilla.org/zh-CN/docs/Web/API/Window/sessionStorage)。
+本地存储包括持久存储和会话存储，对应的是浏览器内置的 [`localStorage`](https://developer.mozilla.org/zh-CN/docs/Web/API/Window/localStorage) 和 [`sessionStorage`](https://developer.mozilla.org/zh-CN/docs/Web/API/Window/sessionStorage)。
 
 此 JS 插件提供了一系列方法用于读写本地存储数据。相比较直接使用这些浏览器原生接口，`Store` 类在读写数据时会自动进行转换，所以你可以存储任何可以被系列化为 JSON 的数据，例如数值、数组和复杂对象，而不仅仅是字符串。
 
@@ -40,7 +40,7 @@ store.get('mySecretCode'); // 基于存储数据的例子应该返回 1314520
 
 ## 移除数据
 
-读取数据使用 `Store` 实例上的 `remove` 方法。
+移除数据使用 `Store` 实例上的 `remove` 方法。
 
 **示例**
 
