@@ -69,7 +69,7 @@ export class KanbanRegion extends HElement<KanbanRegionProps, KanbanRegionState>
     _needUpdateKanban(key: string, data: Partial<KanbanDataset>) {
         const needUpdateData = this._needUpdateData;
         const oldData = needUpdateData.get(key);
-        const {kanbanItemKey = 'id'} = this.props;
+        const {kanbanItemKey = 'key'} = this.props;
         needUpdateData.set(key, mergeData(oldData || {}, data, kanbanItemKey));
     }
 
