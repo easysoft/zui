@@ -190,7 +190,7 @@ function normalizeItems(items: KanbanDataset['items'], itemKey: string) : Kanban
 }
 
 export function normalizeData(data: KanbanDataset, itemKey: string): KanbanData {
-    const {items, ...others} = data;
+    const {items = [], ...others} = data;
     return {
         items: normalizeItems(items, itemKey),
         ...others,
