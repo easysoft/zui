@@ -12253,7 +12253,7 @@ class yo extends B {
     });
   }
   _needUpdateKanban(t, e) {
-    const s = this._needUpdateData, i = s.get(t), { kanbanItemKey: r = "id" } = this.props;
+    const s = this._needUpdateData, i = s.get(t), { kanbanItemKey: r = "key" } = this.props;
     s.set(t, Ci(i || {}, e, r));
   }
   _buildItems(t) {
