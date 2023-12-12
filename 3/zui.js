@@ -11772,7 +11772,7 @@ function Ol(n, t) {
   }, []);
 }
 function _o(n, t) {
-  const { items: e, ...s } = n;
+  const { items: e = [], ...s } = n;
   return {
     items: Ol(e, t),
     ...s
