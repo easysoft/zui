@@ -12257,7 +12257,7 @@ class yo extends B {
     s.set(t, Ci(i || {}, e, r));
   }
   _buildItems(t) {
-    const { items: e = [], kanbanProps: s, kanbanItemKey: i = "id" } = t;
+    const { items: e = [], kanbanProps: s, kanbanItemKey: i = "key" } = t;
     let { items: r } = this.state;
     r ? (r = le(e, r, i).filter((c) => !c.deleted), r.sort(ns)) : r = e;
     const o = this._kanbanRefs, a = new Set(o.keys()), l = r.map((c, d) => {
