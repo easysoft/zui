@@ -12261,6 +12261,8 @@ class yo extends B {
     let { items: r } = this.state;
     r ? (r = le(e, r, i).filter((c) => !c.deleted), r.sort(ns)) : r = e;
     const o = this._kanbanRefs, a = new Set(o.keys()), l = r.map((c, d) => {
+      if (c.deleted)
+        return null;
       const h = D(
         { className: "kanban-region-item", key: d },
         typeof s == "function" ? s.call(this, c, d) : s,
