@@ -4,5 +4,5 @@ import type {KanbanProps} from './kanban-props';
 export interface KanbanRegionState {
     collapsed?: boolean;
     heading?: Partial<ListitemProps>;
-    items?: KanbanProps[];
+    items?: (KanbanProps & {deleted?: boolean})[];
 }

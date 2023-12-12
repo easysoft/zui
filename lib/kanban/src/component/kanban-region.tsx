@@ -92,6 +92,9 @@ export class KanbanRegion extends HElement<KanbanRegionProps, KanbanRegionState>
         const kanbanRefs = this._kanbanRefs;
         const refKeys = new Set<string>(kanbanRefs.keys());
         const children = stateItems.map((item, index) => {
+            if (item.deleted) {
+                return null;
+            }
             const kanbanProps = mergeProps(
                 {className: 'kanban-region-item', key: index},
                 typeof kanbanPropsSetting === 'function' ? kanbanPropsSetting.call(this, item, index) : kanbanPropsSetting,
