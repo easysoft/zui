@@ -12,7 +12,6 @@ export default defineConfig({
     base,
     description: 'Composable UI framework',
     cleanUrls: false,
-    appearance: false,
     ignoreDeadLinks: true,
     head: [
         ['link', {rel: 'icon', type: 'image/svg+xml', href: `${base}favicon.svg`}],
