@@ -16,7 +16,7 @@ const props = defineProps<{
 
 const classList = computed(() => {
   const {padding = 'p-4', className} = props;
-  const list = ['text-base example'];
+  const list = ['vp-raw example text-base'];
   if (typeof className === 'string' && className.length) {
     list.push(className);
   }
