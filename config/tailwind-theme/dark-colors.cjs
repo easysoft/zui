@@ -32,30 +32,23 @@ const gray = reverseShade(shades.slate);
 // 特殊颜色 - Special Colors
 // ======================
 
-/** 纯黑 */
-const black = shades.black;
-
-/** 纯白 */
-const white = shades.white;
-
-
 // UI 特殊颜色定义 - UI Special Colors
 // ======================
 
 /** 画布（页面背景） */
-const canvas = black;
+const canvas = gray[50];
 
 /** 画布反色 */
-const inverse = white;
+const inverse = shades.white;
 
 /** 控件背景 */
-const surfaceLight = gray[50];
+const surfaceLight = gray[100];
 
 /** 控件背景 */
-const surface = gray[100];
+const surface = gray[200];
 
 /** 控件背景 */
-const surfaceStrong = gray[200];
+const surfaceStrong = gray[300];
 
 /** 文本 */
 const fore = gray[700];
