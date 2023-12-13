@@ -135,7 +135,7 @@
 }
 
 .dark {
-  --vp-c-bg: #1e1e20;
+  --vp-c-bg: var(--color-canvas);
 
   --vp-c-bg-elv: #252529;
   --vp-c-bg-elv-up: #313136;

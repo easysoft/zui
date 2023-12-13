@@ -46,14 +46,8 @@ input:focus, textarea:focus, select:focus {
   @apply -text-[--vp-c-brand] -bg-[--vp-c-brand-dim];
 }
 
-.-bg-stripes-blue {
-  background-color: #60a5fa1a;
-  background-image: linear-gradient(135deg,#3b82f680 10%,#0000 0,#0000 50%,#3b82f680 0,#3b82f680 60%,#0000 0,#0000);
-  background-size: 7.07px 7.07px;
-}
-
 button.DocSearch-Button {
-  @apply -bg-[--vp-c-bg-alt];
+  @apply -bg-canvas/20 -backdrop-blur;
 }
 
 .custom-block.warning:hover {
@@ -65,4 +59,17 @@ button.DocSearch-Button {
 }
 .hover-scale-shadow {
   @apply -transition-[transform,box-shadow] hover:-scale-105 hover:-shadow-md hover:-z-10;
+}
+
+@media (min-width: 960px) {
+  .VPNavBar {
+    @apply -transition-colors;
+  }
+  .VPNavBar:not(.top) {
+    background: rgba(var(--color-canvas-rgb), .05)!important;
+    backdrop-filter: blur(10px)!important;
+  }
+  .VPNavBar:not(.top) .content-body {
+    background: none!important;
+  }
 }
