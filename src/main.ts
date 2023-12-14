@@ -1,4 +1,5 @@
 import '@zui/base';
+import '@zui/typography';
 import '@zui/scrollbar/src/main-css';
 import 'highlight.js/styles/github.css';
 import {loadLibPage, loadLibs, currentLibName} from './libs';

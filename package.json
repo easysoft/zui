@@ -34,6 +34,7 @@
     "@floating-ui/utils": "^0.1.6",
     "@zui/base": "workspace:*",
     "@zui/scrollbar": "workspace:*",
+    "@zui/typography": "workspace:*",
     "@zui/utilities": "workspace:*",
     "cash-dom": "^8.1.5",
     "dayjs": "^1.11.10",
