@@ -17,6 +17,10 @@
   @apply -my-[0.5em];
 }
 
+.article hr {
+  @apply -my-[1.5em];
+}
+
 .article table {
   @apply -border;
 }

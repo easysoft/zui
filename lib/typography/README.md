@@ -181,6 +181,7 @@ console.log('Hello World!');
     <li>编辑</li>
     <li>拖放</li>
   </ul>
+  <hr>
   <pre>import {Messager} from 'zui';
 
 Messager.show('Hello World!');
