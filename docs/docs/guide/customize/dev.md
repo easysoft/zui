@@ -21,3 +21,13 @@ ZUI3 每个组件在一个独立的目录内，拥有自己的 `package.json` �
 ::: tip 提示
 通常组件通过在 `package.json` 文件中设置属性 `private: true` 来让包仅在 zui3 [工作空间](https://pnpm.io/zh/workspaces)内可用，但组件仍然拥有作为公开的包发布到 npm 上进行独立使用。
 :::
+
+## 文档开发服务
+
+启动 ZUI 文档网站开发服务执行如下命令：
+
+```shell
+$ pnpm docs:dev
+```
+
+此命令会先打包 ZUI 并启动文档开发服务器，默认情况下可以通过网址：`http://localhost:5174/` 来访问文档开发服务页面。
