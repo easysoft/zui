@@ -1,5 +1,5 @@
 .nav {
-  @apply -flex -items-center -relative;
+  @apply -flex -items-center -relative -list-none -pl-0;
 }
 .nav-item {
   @apply -flex -items-center -relative -gap-3;
