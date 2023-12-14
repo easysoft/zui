@@ -1,6 +1,12 @@
 module.exports = {
     root: '16px',
     page: ['0.8125rem', {lineHeight: '1.5384615385'}], // 13px
+    h1: '2rem',
+    h2: '1.5rem',
+    h3: '1.25rem',
+    h4: '1rem',
+    h5: '0.875rem',
+    h6: '0.75rem',
     xs: ['0.75rem', {lineHeight: '1rem'}],     // 12px
     sm: ['0.75rem', {lineHeight: '1rem'}],     // 12px
     base: ['0.8125rem', {lineHeight: '1.25rem'}], // 13px
