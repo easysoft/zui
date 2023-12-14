@@ -1,0 +1,87 @@
+.pale,
+.primary-pale,
+.secondary-pale,
+.success-pale,
+.warning-pale,
+.danger-pale,
+.important-pale,
+.special-pale,
+.white-pale,
+.bright-pale,
+.lightest-pale,
+.lighter-pale,
+.light-gray-pale,
+.gray-pale,
+.dark-gray-pale,
+.darker-pale,
+.darkest-pale,
+.inky-pale,
+.black-pale {
+  @apply -skin;
+  --tw-bg-opacity: 0.1;
+  --skin-ring-opacity: 1;
+  --skin-text: var(--skin-color);
+  --skin-bg: var(--skin-color);
+  --skin-hover-bg-opacity: .1;
+}
+
+.pale {
+  --skin-hover-bg: var(--color-gray-500-rgb);
+}
+.primary-pale {
+  --skin-color: var(--color-primary-500-rgb);
+}
+.secondary-pale {
+  --skin-color: var(--color-secondary-500-rgb);
+}
+.success-pale {
+  --skin-color: var(--color-success-500-rgb);
+}
+.warning-pale {
+  --skin-color: var(--color-warning-500-rgb);
+}
+.danger-pale {
+  --skin-color: var(--color-danger-500-rgb);
+}
+.important-pale {
+  --skin-color: var(--color-important-500-rgb);
+}
+.special-pale {
+  --skin-color: var(--color-special-500-rgb);
+}
+
+
+.bright-pale {
+  --skin-color: var(--color-gray-100-rgb);
+  --skin-text: var(--color-gray-400-rgb);
+}
+.lightest-pale {
+  --skin-color: var(--color-gray-200-rgb);
+  --skin-text: var(--color-gray-400-rgb);
+}
+.lighter-pale {
+  --skin-color: var(--color-gray-300-rgb);
+  --skin-text: var(--color-gray-500-rgb);
+}
+.light-gray-pale {
+  --skin-color: var(--color-gray-400-rgb);
+  --skin-text: var(--color-gray-500-rgb);
+}
+.gray-pale {
+  --skin-color: var(--color-gray-500-rgb);
+}
+.dark-gray-pale {
+  --skin-color: var(--color-gray-600-rgb);
+}
+.darker-pale {
+  --skin-color: var(--color-gray-700-rgb);
+}
+.darkest-pale {
+  --skin-color: var(--color-gray-800-rgb);
+}
+.inky-pale {
+  --skin-color: var(--color-gray-900-rgb);
+}
+.black-pale {
+  --skin-color: var(--color-black-rgb);
+}

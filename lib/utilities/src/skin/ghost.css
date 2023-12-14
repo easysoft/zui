@@ -1,0 +1,40 @@
+.ghost,
+.primary-ghost,
+.secondary-ghost,
+.success-ghost,
+.warning-ghost,
+.danger-ghost,
+.important-ghost,
+.special-ghost {
+  @apply -skin;
+  --skin-ring-opacity: 0;
+  --tw-bg-opacity: 0;
+  --skin-text: var(--skin-color, var(--color-fore-rgb));
+  --skin-hover-bg: var(--skin-color);
+  --skin-hover-bg-opacity: .1;
+  --state-color: transparent;
+}
+.ghost {
+  --skin-hover-bg: var(--color-gray-500-rgb);
+}
+.primary-ghost {
+  --skin-color: var(--color-primary-500-rgb);
+}
+.secondary-ghost {
+  --skin-color: var(--color-secondary-500-rgb);
+}
+.success-ghost {
+  --skin-color: var(--color-success-500-rgb);
+}
+.warning-ghost {
+  --skin-color: var(--color-warning-500-rgb);
+}
+.danger-ghost {
+  --skin-color: var(--color-danger-500-rgb);
+}
+.important-ghost {
+  --skin-color: var(--color-important-500-rgb);
+}
+.special-ghost {
+  --skin-color: var(--color-special-500-rgb);
+}

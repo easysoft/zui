@@ -1,3 +1,7 @@
+.muted {
+  @apply -opacity-[--opacity-muted];
+}
+
 .opacity-0   {@apply -opacity-0;}
 .opacity-5   {@apply -opacity-5;}
 .opacity-10  {@apply -opacity-10;}

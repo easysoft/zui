@@ -1,0 +1,21 @@
+.canvas,
+.surface-light,
+.surface,
+.surface-strong {
+  @apply -text-fore;
+}
+.canvas  {
+  @apply -bg-canvas;
+}
+.surface-light {
+  @apply -bg-surface-light;
+}
+.surface {
+  @apply -bg-surface;
+}
+.surface-strong {
+  @apply -bg-surface-strong;
+}
+.inverse {
+  @apply -bg-inverse -text-canvas;
+}

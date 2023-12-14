@@ -2,9 +2,5 @@
 [disabled] *,
 [disabled],
 .disabled {
-    @apply !-cursor-not-allowed -grayscale -opacity-[--state-disabled-opacity];
-}
-
-.muted {
-    @apply -opacity-[--state-muted-opacity];
+    @apply !-cursor-not-allowed -grayscale -opacity-[--opacity-disabled];
 }

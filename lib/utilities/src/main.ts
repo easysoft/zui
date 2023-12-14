@@ -3,7 +3,7 @@ import './interactivity/index.css';
 import './layout/index.css';
 import './spacing/index.css';
 import './sizing/index.css';
-import './style/index.css';
+import './skin';
 import './typography/index.css';
 import './backgrounds/index.css';
 import './borders/index.css';

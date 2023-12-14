@@ -1,0 +1,90 @@
+.primary,
+.secondary,
+.success,
+.warning,
+.danger,
+.important,
+.special,
+.white,
+.bright,
+.lightest,
+.lighter,
+.lighten,   /* .lighten is deprecated */
+.light-gray,
+.gray,
+.darken, /* .darken is deprecated */
+.dark-gray,
+.darker,
+.darkest,
+.inky,
+.black {
+  @apply -skin;
+  --skin-text: var(--color-white-rgb);
+  --state-ring-color: rgb(var(--skin-color));
+}
+
+.primary {
+  --skin-color: var(--color-primary-500-rgb);
+}
+.secondary {
+  --skin-color: var(--color-secondary-500-rgb);
+}
+.success {
+  --skin-color: var(--color-success-500-rgb);
+}
+.warning {
+  --skin-color: var(--color-warning-500-rgb);
+}
+.danger {
+  --skin-color: var(--color-danger-500-rgb);
+}
+.important {
+  --skin-color: var(--color-important-500-rgb);
+}
+.special {
+  --skin-color: var(--color-special-500-rgb);
+}
+
+.white {
+  --skin-color: var(--color-white-rgb);
+  --skin-text: var(--color-fore-light-rgb);
+  --state-ring-color: rgb(var(--skin-text));
+}
+.bright {
+  --skin-color: var(--color-gray-100-rgb);
+  --skin-text: var(--color-fore-rgb);
+  --state-ring-color: rgb(var(--skin-text));
+}
+.lightest {
+  --skin-color: var(--color-gray-200-rgb);
+  --skin-text: var(--color-fore-rgb);
+  --state-ring-color: rgb(var(--skin-text));
+}
+.lighter {
+  --skin-color: var(--color-gray-300-rgb);
+  --skin-text: var(--color-fore-rgb);
+  --state-ring-color: rgb(var(--skin-text));
+}
+.light-gray,
+.lighten /* .lighten is deprecated */ {
+  --skin-color: var(--color-gray-400-rgb);
+}
+.gray {
+  --skin-color: var(--color-gray-500-rgb);
+}
+.dark-gray,
+.darken /* .darken is deprecated */ {
+  --skin-color: var(--color-gray-600-rgb);
+}
+.darker {
+  --skin-color: var(--color-gray-700-rgb);
+}
+.darkest {
+  --skin-color: var(--color-gray-800-rgb);
+}
+.inky {
+  --skin-color: var(--color-gray-900-rgb);
+}
+.black {
+  --skin-color: var(--color-black-rgb);
+}

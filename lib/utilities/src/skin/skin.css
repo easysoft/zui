@@ -1,0 +1,26 @@
+@tailwind utilities;
+
+@layer utilities {
+    .-skin {
+        --skin-bg: var(--skin-color);
+        --tw-ring-color: rgba(var(--skin-ring), var(--skin-ring-opacity));
+        --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+        --color-link-hover-rgb: var(--skin-text);
+
+        background-color: rgba(var(--skin-bg), var(--tw-bg-opacity));
+        background-image: var(--skin-bg-img);
+        color: rgba(var(--skin-text), var(--tw-text-opacity));
+        border: var(--skin-border-width) var(--skin-border-style) rgba(var(--skin-border, var(--skin-bg)), var(--tw-border-opacity));
+        box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+
+        @apply -transition-[color,background-color,border-color,text-decoration-color,box-shadow];
+    }
+
+    .-skin:hover {
+        background-color: rgba(var(--skin-hover-bg, var(--skin-bg)), var(--skin-hover-bg-opacity, var(--tw-bg-opacity)))!important;
+    }
+}
+
+.skin {
+    @apply -skin;
+}
