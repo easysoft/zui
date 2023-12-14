@@ -29,23 +29,23 @@ aside {
     @apply -w-48 -py-2 -justify-start;
 }
 
-h1 {
-    @apply -text-2xl -font-bold -mb-5 -mt-5;
+#libPage > h1 {
+    @apply -mb-5 -mt-5;
 }
-h2 {
-    @apply -text-xl -font-bold -mb-3 -mt-5;
+#libPage > h2 {
+    @apply -mb-3 -mt-5;
 }
-h3 {
-    @apply -text-lg -font-bold -mb-2 -mt-5;
+#libPage > h3 {
+    @apply -mb-2 -mt-5;
 }
-h4, h4, h6 {
-    @apply -text-base -font-bold -mb-2 -mt-5;
+#libPage > h4, #libPage > h5, #libPage > h6 {
+    @apply -mb-2 -mt-5;
 }
-p {
+#libPage > p {
     @apply -mb-2;
 }
-pre {
-    @apply -mb-2 -p-2 -border -border-gray-200 -overflow-y-auto -max-h-96;
+#libPage > pre {
+    @apply -mb-2 -border -border-gray-200 -overflow-y-auto -max-h-96;
 }
 pre.hljs {
     @apply -bg-gray-100;
@@ -61,7 +61,7 @@ pre[data-lang]::after {
     @apply -mb-2 -p-4 -border -border-gray-200;
 }
 .example + pre {
-    @apply -mt-[-0.5rem] -border-t-0;
+    @apply -mt-[-0.5rem] !-border-t-0;
 }
 
 .table-of-contents ul,
