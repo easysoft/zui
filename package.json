@@ -1,7 +1,7 @@
 {
   "name": "zui3",
   "private": true,
-  "version": "3.0.0",
+  "version": "3.0.0-alpha1",
   "type": "module",
   "engines": {
     "node": ">=14",
