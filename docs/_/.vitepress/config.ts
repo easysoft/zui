@@ -2,6 +2,7 @@ import {defineConfig} from 'vitepress';
 import {whyframe} from '@whyframe/core';
 import {whyframeVue} from '@whyframe/vue';
 import {themeConfig, extLibs} from './theme-config';
+import pkg from '../../../package.json';
 
 const base = process.env.BASE_PATH ?? '/';
 
@@ -36,6 +37,9 @@ export default defineConfig({
                 include: /\.(?:vue|md)$/, // also scan in markdown files
             }),
         ],
+        define: {
+            __ZUI_VERSION__: JSON.stringify(pkg.version),
+        }
     },
     themeConfig,
 });
