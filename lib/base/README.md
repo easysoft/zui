@@ -23,9 +23,3 @@ body {
     @apply -text-base -text-fore;
 }
 ```
-
-## Link colors
-
-```html:example
-<a href="/base/">This is a link!</a>
-```
