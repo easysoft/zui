@@ -36,7 +36,7 @@ button.addEventLinstener('click', function() {
 
 ```js
 Messager.show({
-    message: '这是一条悬浮消息。',
+    content: '这是一条悬浮消息。',
     placement: 'top-left' // 定义位置
 });
 ```
@@ -59,7 +59,7 @@ Messager.show({
 ```js
 document.querySelector('.messager-toggle').addEventListener('click', (event) => {
     Messager.show({
-        message: '这是一个漂浮消息。',
+        content: '这是一个漂浮消息。',
         type: event.target.dataset.type,
     });
 });
@@ -75,7 +75,7 @@ document.querySelector('.messager-toggle').addEventListener('click', (event) => 
 
 ```js
 Messager.show({
-    message: '这是一个漂浮消息。',
+    content: '这是一个漂浮消息。',
     close: false
 });
 ```
@@ -85,7 +85,7 @@ Messager.show({
 
 ```js
 new Messager({
-    massage: '你的邮件已成功发送。',
+    content: '你的邮件已成功发送。',
     type: 'success',
     close: true,
     actions: [{
@@ -157,7 +157,7 @@ new Messager({
 * 必选：否。
 * 默认值：4000 (ms);
 
-#### `message`
+#### `content`
 
 漂浮消息内容。
 
