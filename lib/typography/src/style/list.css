@@ -1,0 +1,12 @@
+ul {
+    @apply -list-disc -pl-[1.5em];
+}
+ol {
+    @apply -list-decimal -pl-[1.5em];
+}
+dt {
+    @apply -font-bold;
+}
+dd {
+    @apply -pl-[2em];
+}

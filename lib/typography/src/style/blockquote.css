@@ -1,0 +1,6 @@
+blockquote, .blockquote {
+    @apply -border-l-4 -pl-3 -text-md;
+}
+blockquote figcaption , .blockquote figcaption {
+    @apply -text-gray-500 -text-sm;
+}

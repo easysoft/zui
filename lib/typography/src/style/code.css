@@ -1,0 +1,18 @@
+code, .code {
+    @apply -text-important-500 -bg-important-500/10 -rounded -px-1;
+}
+
+pre {
+    @apply -overflow-auto -text-sm -p-2;
+}
+pre code {
+    @apply -text-inherit -bg-transparent -p-0;
+}
+
+var {
+    @apply -font-bold;
+}
+
+samp {
+    @apply -font-bold;
+}

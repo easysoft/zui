@@ -1,0 +1,21 @@
+.article {
+  @apply -leading-[1.75];
+}
+.article h1,
+.article h2,
+.article h3,
+.article h4,
+.article p,
+.article ul,
+.article ol,
+.article figure,
+.article blockquote,
+.article video,
+.article audio,
+.article img {
+  @apply -my-[0.5em];
+}
+.article ul ol, .article ul ul,
+.article ol ol, .article ol ul {
+  @apply -my-0;
+}

@@ -1,0 +1,27 @@
+{
+    "name": "@zui/typography",
+    "version": "0.0.1",
+    "main": "src/main.ts",
+    "browser": "src/main.ts",
+    "browserslist": "",
+    "files": [
+        "./src/**/*"
+    ],
+    "dependencies": {
+    },
+    "devDependencies": {
+        "@zui/base": "workspace:*",
+        "@zui/icons": "workspace:^0.0.1",
+        "@zui/utilities": "workspace:*"
+    },
+    "zui": {
+        "type": "css-base",
+        "displayName": "排版",
+        "contributes": {
+            "css": [
+                "class",
+                "var"
+            ]
+        }
+    }
+}
