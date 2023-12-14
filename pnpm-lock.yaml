@@ -23,6 +23,9 @@ importers:
       '@zui/scrollbar':
         specifier: workspace:*
         version: link:lib/scrollbar
+      '@zui/typography':
+        specifier: workspace:*
+        version: link:lib/typography
       '@zui/utilities':
         specifier: workspace:*
         version: link:lib/utilities
@@ -1234,6 +1237,18 @@ importers:
       zui-dev:
         specifier: workspace:*
         version: link:../../dev
+
+  lib/typography:
+    devDependencies:
+      '@zui/base':
+        specifier: workspace:*
+        version: link:../base
+      '@zui/icons':
+        specifier: workspace:^0.0.1
+        version: link:../icons
+      '@zui/utilities':
+        specifier: workspace:*
+        version: link:../utilities
 
   lib/upload:
     dependencies:
