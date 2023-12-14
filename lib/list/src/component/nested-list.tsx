@@ -248,7 +248,8 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
 
     getChecks() {
         return Array.from(this.getItemMap().values()).reduce<ItemKey[]>((checks, {keyPath, data}) => {
-            if ((this.state.checked[keyPath] === true || data.checked) === true) {
+            const checkState = this.state.checked[keyPath];
+            if ((checkState === true || (data.checked && checkState !== false)) === true) {
                 checks.push(keyPath);
             }
             return checks;
