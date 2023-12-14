@@ -29,6 +29,38 @@ export default [
         }
     },
     {
+        "name": "@zui/typography",
+        "version": "0.0.1",
+        "main": "src/main.ts",
+        "browser": "src/main.ts",
+        "browserslist": "",
+        "files": [
+            "./src/**/*"
+        ],
+        "dependencies": {},
+        "devDependencies": {
+            "@zui/base": "workspace:*",
+            "@zui/icons": "workspace:^0.0.1",
+            "@zui/utilities": "workspace:*"
+        },
+        "zui": {
+            "type": "css-base",
+            "displayName": "排版",
+            "contributes": {
+                "css": [
+                    "class",
+                    "var"
+                ]
+            },
+            "path": "/home/runner/work/zui/zui/lib/typography",
+            "workspace": true,
+            "sourceType": "build-in",
+            "name": "typography",
+            "packageJsonPath": "/home/runner/work/zui/zui/lib/typography/package.json",
+            "order": 1000000051010000000
+        }
+    },
+    {
         "name": "@zui/alert",
         "version": "0.0.1",
         "main": "src/main.ts",
@@ -1627,7 +1659,7 @@ export default [
             "sourceType": "build-in",
             "name": "upload",
             "packageJsonPath": "/home/runner/work/zui/zui/lib/upload/package.json",
-            "order": 4000000051010000000
+            "order": 4000000052010000000
         }
     },
     {
@@ -1666,7 +1698,7 @@ export default [
             "sourceType": "build-in",
             "name": "upload-imgs",
             "packageJsonPath": "/home/runner/work/zui/zui/lib/upload-imgs/package.json",
-            "order": 4000000052010000000
+            "order": 4000000053010000000
         }
     },
     {
@@ -1701,7 +1733,7 @@ export default [
             "name": "virtual-grid",
             "wip": true,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/virtual-grid/package.json",
-            "order": 4000000054010000000
+            "order": 4000000055010000000
         }
     },
     {
@@ -1733,7 +1765,7 @@ export default [
             "name": "virtualize",
             "wip": true,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/virtualize/package.json",
-            "order": 4000000055010000000
+            "order": 4000000056010000000
         }
     },
     {
@@ -2133,7 +2165,7 @@ export default [
             "sourceType": "build-in",
             "name": "utilities",
             "packageJsonPath": "/home/runner/work/zui/zui/lib/utilities/package.json",
-            "order": 6000000053010000000
+            "order": 6000000054010000000
         }
     },
     {

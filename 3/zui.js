@@ -3443,7 +3443,10 @@ let Kt = class extends xt {
       return this.setState({ nestedShow: {}, defaultShow: t }, this._preserveState);
   }
   getChecks() {
-    return Array.from(this.getItemMap().values()).reduce((t, { keyPath: e, data: s }) => ((this.state.checked[e] === !0 || s.checked) === !0 && t.push(e), t), []);
+    return Array.from(this.getItemMap().values()).reduce((t, { keyPath: e, data: s }) => {
+      const i = this.state.checked[e];
+      return (i === !0 || s.checked && i !== !1) === !0 && t.push(e), t;
+    }, []);
   }
   isChecked(t, e, s = !1) {
     const i = (typeof e == "number" ? this._items[e] : this.getItem(t)) || {};
