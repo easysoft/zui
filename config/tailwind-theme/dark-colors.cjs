@@ -57,16 +57,16 @@ const fore = gray[700];
 const focus = primary[200];
 
 /** 链接 */
-const link = primary[400];
+const link = primary[500];
 
 /** 链接（hover） */
-const linkHover = primary[500];
+const linkHover = primary[600];
 
 /** 链接（visited） */
-const linkVisited = primary[600];
+const linkVisited = primary[700];
 
 /** 链接（Active） */
-const linkActive = primary[700];
+const linkActive = primary[800];
 
 /* 占位文本颜色（placeholder） */
 const placeholder = gray[400];
