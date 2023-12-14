@@ -38,7 +38,7 @@ export const themeConfig: DefaultTheme.Config = {
     },
     footer: {
         message: 'MIT License (MIT)',
-        copyright: 'Copyright (C) 2022 cnezsoft.com',
+        copyright: 'Copyright (C) 2023 cnezsoft.com',
     },
     lastUpdatedText: '上次更新',
     outlineTitle: '本页目录',
@@ -61,22 +61,22 @@ function createNav() {
         {text: '指引',        link: '/guide/',     activeMatch: '/guide/'},
         {text: 'CSS 工具类',  link: '/utilities/', activeMatch: '/utilities/'},
         {text: '组件',        link: '/lib/',       activeMatch: '/lib/'},
-        // {text: '主题',        link: '/themes/',    activeMatch: '/themes/'},
+        {text: '主题',        link: '/themes/',    activeMatch: '/themes/'},
     ];
 }
 
-function initSidebars(): Record<string, {text: string, section?: string, items?: {text?: string, link: string}[], collapsed?: boolean}[]> {
+function initSidebars(): Record<string, {text: string, section?: string, items?: {text?: string, link: string}[], collapsed?: boolean, hidden?: boolean}[]> {
     return {
         '/guide/': [
             {text: '开始', section: 'start'},
-            // {text: '设计理念', section: 'concepts'},
+            {text: '设计理念', section: 'concepts', hidden: true},
             {text: '全局配置', section: 'config', collapsed: false},
             {text: '开发定制', section: 'customize'},
-            // {text: '贡献', section: 'contributes'},
-            // {text: '关于', section: 'about'}
+            {text: '贡献', section: 'contributes', hidden: true},
+            {text: '关于', section: 'about', hidden: true}
         ],
         '/utilities/': [
-            {text: '外观', section: 'style', collapsed: false},
+            {text: '外观', section: 'skin', collapsed: false},
             {text: '背景', section: 'backgrounds', collapsed: true},
             {text: '边框', section: 'borders', collapsed: true},
             {text: '布局', section: 'layout', collapsed: true},
@@ -88,8 +88,8 @@ function initSidebars(): Record<string, {text: string, section?: string, items?:
             {text: '交互', section: 'interactivity', collapsed: true},
         ],
         '/lib/': [
-            // {text: '布局', section: 'layout', collapsed: false},
-            // {text: '内容', section: 'content', collapsed: false},
+            {text: '布局', section: 'layout', collapsed: false, hidden: true},
+            {text: '内容', section: 'content', collapsed: false, hidden: true},
             {text: '图标', section: 'icons', collapsed: false},
             {text: '表单', section: 'forms', collapsed: false},
             {text: '数据表格', section: 'dtable', collapsed: false},
@@ -155,12 +155,20 @@ function createSidebar() {
         const files = glob.sync(`*/*/**/*.md`, {onlyFiles: true, cwd: libDocsPath});
         updateSections(files, sidebars, libDocsPath, lib.zui.name, lib.zui.extsName);
     });
-    Object.values(sidebars).forEach(sidebar => {
-        sidebar.forEach(section => {
-            if (!section.items) {
+    Object.keys(sidebars).forEach(key => {
+        sidebars[key] = sidebars[key].filter(section => {
+            if (section.hidden) {
+                return false;
+            }
+            if (section.items) {
+                section.items = section.items.sort((a, b) => {
+                    return (b.link.endsWith('/index.md') ? 1 : 0) - (a.link.endsWith('/index.md') ? 1 : 0);
+                });
+            } else {
                 section.items = [];
             }
             delete section.section;
+            return true;
         });
     });
     return sidebars;
