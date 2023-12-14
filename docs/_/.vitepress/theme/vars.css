@@ -166,10 +166,10 @@
 
   --vp-c-text-code: #c9def1;
 
-  --vp-c-brand-1: var(--color-primary-400);
-  --vp-c-brand-2: var(--color-primary-500);
-  --vp-c-brand-3: var(--color-primary-500);
-  --vp-c-brand-soft: rgba(var(--color-primary-800-rgb),.14);
+  --vp-c-brand-1: var(--color-primary-600);
+  --vp-c-brand-2: var(--color-primary-700);
+  --vp-c-brand-3: var(--color-primary-800);
+  --vp-c-brand-soft: rgba(var(--color-primary-900-rgb),.14);
 
   --vp-c-brand: var(--vp-c-blue);
   --vp-c-brand-dark: var(--vp-c-blue-light);
@@ -358,7 +358,7 @@
   --vp-input-bg-color: var(--vp-c-bg-alt);
   --vp-input-hover-border-color: var(--vp-c-gray);
 
-  --vp-input-switch-bg-color: var(--vp-c-mute);
+  --vp-input-switch-bg-color: rgba(var(--color-surface-strong-rgb), .4);
 }
 
 /**

@@ -47,7 +47,7 @@ input:focus, textarea:focus, select:focus {
 }
 
 button.DocSearch-Button {
-  @apply -bg-canvas/20 -backdrop-blur;
+  @apply -bg-surface/50 -backdrop-blur;
 }
 
 .custom-block.warning:hover {
