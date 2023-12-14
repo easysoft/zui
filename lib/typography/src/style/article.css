@@ -1,5 +1,5 @@
 .article {
-  @apply -leading-[1.75];
+  @apply -text-article;
 }
 .article h1,
 .article h2,
@@ -12,10 +12,27 @@
 .article blockquote,
 .article video,
 .article audio,
+.article table,
 .article img {
   @apply -my-[0.5em];
 }
-.article ul ol, .article ul ul,
-.article ol ol, .article ol ul {
+
+.article table {
+  @apply -border;
+}
+.article td, th {
+  @apply -border-b -px-3 -py-1;
+}
+.article thead {
+  background-color: var(--table-head-bg, var(--color-gray-100));
+}
+
+.article table *,
+.article ul *,
+.article ol * {
   @apply -my-0;
+}
+
+.article pre {
+  @apply -border -rounded -bg-gray-50;
 }

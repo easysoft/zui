@@ -181,5 +181,10 @@ console.log('Hello World!');
     <li>编辑</li>
     <li>拖放</li>
   </ul>
+  <pre>import {Messager} from 'zui';
+
+Messager.show('Hello World!');
+console.log('Hello World!', 'And this is a very long long long long long long long long long long long long long long long long long long long long long long long long code');
+</pre>
 </article>
 ```
