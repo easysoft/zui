@@ -12,7 +12,7 @@
   </div>
   <div v-for="scale in spacingScales" :key="scale" class="gap-4 row">
     <div class="w-12 font-mono font-bold">{{scale}}</div>
-    <CssPropValue class="w-12 text-sm text-center muted" prop="width" :target="`#example-spacing-${scale}`" />
+    <CssPropValue class="w-12 text-sm text-center muted" prop="width" :target="`#example-spacing-${scale.replace('.', '\\.')}`" />
     <div :class="`bg-secondary h-4 w-${scale}`" :id="`example-spacing-${scale}`"></div>
   </div>
 </Example>
