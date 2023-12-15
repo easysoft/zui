@@ -23,8 +23,9 @@ body {
 input:focus, textarea:focus, select:focus {
   @apply -outline-1 -outline;
 }
-.vp-doc [class*='language-'] pre {
+.vp-doc .vp-code {
   max-height: 500px;
+  font-size: inherit;
 }
 .VPSidebar > .nav {
   @apply -block;
