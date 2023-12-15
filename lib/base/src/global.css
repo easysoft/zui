@@ -4,3 +4,6 @@ html {
 body {
     @apply -bg-canvas -text-fore -text-page;
 }
+.dark {
+    @apply -text-fore;
+}
