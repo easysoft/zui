@@ -5,7 +5,6 @@
 .danger,
 .important,
 .special,
-.white,
 .bright,
 .lightest,
 .lighter,
@@ -16,75 +15,66 @@
 .dark-gray,
 .darker,
 .darkest,
-.inky,
-.black {
+.inky {
   @apply -skin;
-  --skin-text: var(--color-white-rgb);
-  --state-ring-color: rgb(var(--skin-color));
+  --skin-text: var(--color-fore-in-dark);
+  --state-ring-color: var(--skin-color);
 }
 
 .primary {
-  --skin-color: var(--color-primary-500-rgb);
+  --skin-color: var(--color-primary-500);
 }
 .secondary {
-  --skin-color: var(--color-secondary-500-rgb);
+  --skin-color: var(--color-secondary-500);
 }
 .success {
-  --skin-color: var(--color-success-500-rgb);
+  --skin-color: var(--color-success-500);
 }
 .warning {
-  --skin-color: var(--color-warning-500-rgb);
+  --skin-color: var(--color-warning-500);
 }
 .danger {
-  --skin-color: var(--color-danger-500-rgb);
+  --skin-color: var(--color-danger-500);
 }
 .important {
-  --skin-color: var(--color-important-500-rgb);
+  --skin-color: var(--color-important-500);
 }
 .special {
-  --skin-color: var(--color-special-500-rgb);
+  --skin-color: var(--color-special-500);
 }
 
-.white {
-  --skin-color: var(--color-white-rgb);
-  --skin-text: var(--color-fore-light-rgb);
-  --state-ring-color: rgb(var(--skin-text));
-}
 .bright {
-  --skin-color: var(--color-gray-100-rgb);
-  --skin-text: var(--color-fore-rgb);
-  --state-ring-color: rgb(var(--skin-text));
+  --skin-color: var(--color-gray-100);
+  --skin-text: var(--color-fore);
+  --state-ring-color: var(--skin-text);
 }
 .lightest {
-  --skin-color: var(--color-gray-200-rgb);
-  --skin-text: var(--color-fore-rgb);
-  --state-ring-color: rgb(var(--skin-text));
+  --skin-color: var(--color-gray-200);
+  --skin-text: var(--color-fore);
+  --state-ring-color: var(--skin-text);
 }
 .lighter {
-  --skin-color: var(--color-gray-300-rgb);
-  --skin-text: var(--color-fore-rgb);
-  --state-ring-color: rgb(var(--skin-text));
+  --skin-color: var(--color-gray-300);
+  --skin-text: var(--color-fore);
+  --state-ring-color: var(--skin-text);
 }
 .light-gray,
 .lighten /* .lighten is deprecated */ {
-  --skin-color: var(--color-gray-400-rgb);
+  --skin-color: var(--color-gray-400);
 }
 .gray {
-  --skin-color: var(--color-gray-500-rgb);
+  --skin-color: var(--color-gray-500);
 }
 .dark-gray,
 .darken /* .darken is deprecated */ {
-  --skin-color: var(--color-gray-600-rgb);
+  --skin-color: var(--color-gray-600);
 }
 .darker {
-  --skin-color: var(--color-gray-700-rgb);
+  --skin-color: var(--color-gray-700);
 }
 .darkest {
-  --skin-color: var(--color-gray-800-rgb);
+  --skin-color: var(--color-gray-800);
 }
 .inky {
-  --skin-color: var(--color-gray-900-rgb);
-}
-.black {
-  --skin-color: var(--color-black-rgb);
+  --skin-color: var(--color-gray-900);
 }

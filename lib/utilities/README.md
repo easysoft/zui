@@ -34,6 +34,8 @@
 <div class="surface"></div>
 <div class="surface-strong"></div>
 <div class="inverse"></div>
+<div class="white"></div>
+<div class="black"></div>
 ```
 
 ### Solid
@@ -41,7 +43,6 @@
 #### Accent
 
 ```html:example: blocks
-<div class="primary"></div>
 <div class="secondary"></div>
 <div class="success"></div>
 <div class="warning"></div>
@@ -61,7 +62,6 @@
 #### Grays
 
 ```html:example: blocks
-<div class="white"></div>
 <div class="bright"></div>
 <div class="lightest"></div>
 <div class="lighter"></div>
@@ -71,9 +71,7 @@
 <div class="darker"></div>
 <div class="darkest"></div>
 <div class="inky"></div>
-<div class="black"></div>
 <hr>
-<div class="white state"></div>
 <div class="bright state"></div>
 <div class="lightest state"></div>
 <div class="lighter state"></div>
@@ -83,7 +81,6 @@
 <div class="darker state"></div>
 <div class="darkest state"></div>
 <div class="inky state"></div>
-<div class="black state"></div>
 ```
 
 ### Ghost
@@ -161,7 +158,6 @@
 <div class="darker-pale"></div>
 <div class="darkest-pale"></div>
 <div class="inky-pale"></div>
-<div class="black-pale"></div>
 <hr>
 <h4>Accent State</h4>
 <div class="primary-pale state"></div>
@@ -181,7 +177,6 @@
 <div class="darker-pale state"></div>
 <div class="darkest-pale state"></div>
 <div class="inky-pale state"></div>
-<div class="black-pale state"></div>
 ```
 
 ## Text Colors

@@ -12,22 +12,27 @@
         transform: scale(var(--state-scale));
         transition-property: opacity, transform, box-shadow;
     }
-    .-state:hover::before,
-    .-state:active::before,
-    .-state:focus-visible::before {
-        @apply -opacity-100 -scale-100;
-    }
     .-state:focus-visible {
         @apply -outline-none;
     }
+    .-state:hover::before,
+    .-state:active::before,
     .-state:focus-visible::before {
-        background: var(--state-focus-color);
-        @apply -ring -ring-focus;
+        @apply -scale-100;
+    }
+    .-state:hover::before {
+        opacity: var(--state-hover-opacity, 1);
     }
     .-state:active::before {
-        background: var(--state-active-color);
+        background: var(--state-active-color, var(--state-color));
+        opacity: var(--state-active-opacity, .6);
         --tw-ring-color: var(--state-ring-color, currentColor);
-        @apply -ring -duration-700 -opacity-80;
+        @apply -ring -duration-700;
+    }
+    .-state:focus-visible::before {
+        background: var(--state-focus-color, var(--state-color));
+        opacity: var(--state-focus-opacity, 1);
+        @apply -ring -ring-focus;
     }
     .-state[disabled]::before,
     .-state.disabled::before {

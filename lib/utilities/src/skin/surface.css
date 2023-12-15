@@ -19,3 +19,9 @@
 .inverse {
   @apply -bg-inverse -text-canvas;
 }
+.white {
+  @apply -bg-white -text-fore-in-light -ring-white;
+}
+.black {
+  @apply -bg-black -text-fore-in-dark -ring-black;
+}
