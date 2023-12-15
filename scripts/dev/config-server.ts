@@ -105,7 +105,7 @@ export default (options: {rootPath: string}): Plugin => ({
                 },
                 injectTo: 'body',
             }];
-            if (libName !== 'utilities') {
+            if (libName !== 'utilities' && libName !== 'base') {
                 descriptors.push({
                     tag: 'script',
                     attrs: {
