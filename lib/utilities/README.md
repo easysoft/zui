@@ -201,282 +201,448 @@
 <div class="text-danger"></div>
 <div class="text-important"></div>
 <div class="text-special"></div>
+<hr>
+<div class="text-primary-50"></div>
+<div class="text-primary-100"></div>
+<div class="text-primary-200"></div>
+<div class="text-primary-300"></div>
+<div class="text-primary-400"></div>
+<div class="text-primary-500"></div>
+<div class="text-primary-600"></div>
+<div class="text-primary-700"></div>
+<div class="text-primary-800"></div>
+<div class="text-primary-900"></div>
+<div class="text-primary-950"></div>
+<hr>
+<div class="text-secondary-50"></div>
+<div class="text-secondary-100"></div>
+<div class="text-secondary-200"></div>
+<div class="text-secondary-300"></div>
+<div class="text-secondary-400"></div>
+<div class="text-secondary-500"></div>
+<div class="text-secondary-600"></div>
+<div class="text-secondary-700"></div>
+<div class="text-secondary-800"></div>
+<div class="text-secondary-900"></div>
+<div class="text-secondary-950"></div>
 <h4>Grays</h4>
-<div class="text-bright"></div>
-<div class="text-lightest"></div>
-<div class="text-lighter"></div>
-<div class="text-light-gray"></div>
+<div class="text-gray-50"></div>
+<div class="text-gray-100"></div>
+<div class="text-gray-200"></div>
+<div class="text-gray-300"></div>
+<div class="text-gray-400"></div>
 <div class="text-gray"></div>
-<div class="text-dark-gray"></div>
-<div class="text-darker"></div>
-<div class="text-darkest"></div>
-<div class="text-inky"></div>
+<div class="text-gray-500"></div>
+<div class="text-gray-600"></div>
+<div class="text-gray-700"></div>
+<div class="text-gray-800"></div>
+<div class="text-gray-900"></div>
+<div class="text-gray-950"></div>
 <h4>Surface</h4>
+<div class="text-white black"></div>
 <div class="text-black"></div>
-<div class="text-white"></div>
-<div class="text-fore"></div>
-<div class="text-fore-in-light"></div>
-<div class="text-fore-in-dark"></div>
-<div class="text-canvas"></div>
-<div class="text-surface-light"></div>
-<div class="text-surface"></div>
+<div class="text-canvas inverse"></div>
+<div class="text-surface-light inverse"></div>
+<div class="text-surface inverse"></div>
 <div class="text-surface-strong"></div>
 <div class="text-inverse"></div>
-<div class="text-current"></div>
-<div class="text-inherit"></div>
+<div class="text-fore-in-light"></div>
+<div class="text-fore-in-dark"></div>
+<div class="text-fore"></div>
+<div class="text-focus"></div>
+<div class="text-link"></div>
+<div class="text-link-hover"></div>
+<h4>Special</h4>
 <div class="text-transparent"></div>
+<div class="text-inherit"></div>
+<div class="text-current"></div>
 ```
 
-## Background
+### Text opacity
 
 ```html:example: blocks
-<div class="bg-primary">bg-primary</div>
-<div class="bg-secondary">bg-secondary</div>
-<div class="bg-success">bg-success</div>
-<div class="bg-warning">bg-warning</div>
-<div class="bg-danger">bg-danger</div>
-<div class="bg-important">bg-important</div>
-<div class="bg-special">bg-special</div>
-
-<div class="bg-white">bg-white</div>
-<div class="bg-lighter">bg-lighter</div>
-<div class="bg-light">bg-light</div>
-<div class="bg-gray">bg-gray</div>
-<div class="bg-dark">bg-dark</div>
-<div class="bg-darker">bg-darker</div>
-<div class="bg-black">bg-black</div>
-
-<div class="bg-canvas">bg-canvas</div>
-<div class="bg-surface">bg-surface</div>
-<div class="bg-inverse"><span class="text-white">bg-inverse</span></div>
-<div class="bg-current"><span class="text-white">bg-current</span></div>
-<div class="bg-inherit">bg-inherit</div>
-<div class="bg-transparent">bg-transparent</div>
+<div class="text-fore text-opacity-0"></div>
+<div class="text-fore text-opacity-10"></div>
+<div class="text-fore text-opacity-20"></div>
+<div class="text-fore text-opacity-30"></div>
+<div class="text-fore text-opacity-40"></div>
+<div class="text-fore text-opacity-50"></div>
+<div class="text-fore text-opacity-60"></div>
+<div class="text-fore text-opacity-70"></div>
+<div class="text-fore text-opacity-80"></div>
+<div class="text-fore text-opacity-90"></div>
+<div class="text-fore text-opacity-95"></div>
+<div class="text-fore text-opacity-100"></div>
 ```
 
-## Background opacity
+## Backgrounds
 
-```html:example: blocks
-<div class="bg-opacity-0 black">bg-opacity-0</div>
-<div class="black bg-opacity-10">bg-opacity-10</div>
-<div class="black bg-opacity-20">bg-opacity-20</div>
-<div class="black bg-opacity-30">bg-opacity-30</div>
-<div class="black bg-opacity-40">bg-opacity-40</div>
-<div class="bg-opacity-50 black">bg-opacity-50</div>
-<div class="black bg-opacity-60">bg-opacity-60</div>
-<div class="black bg-opacity-70">bg-opacity-70</div>
-<div class="black bg-opacity-80">bg-opacity-80</div>
-<div class="black bg-opacity-90">bg-opacity-90</div>
-<div class="black bg-opacity-95">bg-opacity-95</div>
-<div class="bg-opacity-100 black">bg-opacity-100</div>
+### Background Colors
+
+```html:example: blocks with-inverse-text
+<h4>Accent</h4>
+<div class="bg-primary"></div>
+<div class="bg-secondary"></div>
+<div class="bg-success"></div>
+<div class="bg-warning"></div>
+<div class="bg-danger"></div>
+<div class="bg-important"></div>
+<div class="bg-special"></div>
+<hr>
+<div class="bg-primary-50"></div>
+<div class="bg-primary-100"></div>
+<div class="bg-primary-200"></div>
+<div class="bg-primary-300"></div>
+<div class="bg-primary-400"></div>
+<div class="bg-primary-500"></div>
+<div class="bg-primary-600"></div>
+<div class="bg-primary-700"></div>
+<div class="bg-primary-800"></div>
+<div class="bg-primary-900"></div>
+<div class="bg-primary-950"></div>
+<hr>
+<div class="bg-secondary-50"></div>
+<div class="bg-secondary-100"></div>
+<div class="bg-secondary-200"></div>
+<div class="bg-secondary-300"></div>
+<div class="bg-secondary-400"></div>
+<div class="bg-secondary-500"></div>
+<div class="bg-secondary-600"></div>
+<div class="bg-secondary-700"></div>
+<div class="bg-secondary-800"></div>
+<div class="bg-secondary-900"></div>
+<div class="bg-secondary-950"></div>
+<h4>Grays</h4>
+<div class="bg-gray-50"></div>
+<div class="bg-gray-100"></div>
+<div class="bg-gray-200"></div>
+<div class="bg-gray-300"></div>
+<div class="bg-gray-400"></div>
+<div class="bg-gray"></div>
+<div class="bg-gray-500"></div>
+<div class="bg-gray-600"></div>
+<div class="bg-gray-700"></div>
+<div class="bg-gray-800"></div>
+<div class="bg-gray-900"></div>
+<div class="bg-gray-950"></div>
+<h4>Surface</h4>
+<div class="bg-white"></div>
+<div class="bg-black"></div>
+<div class="bg-canvas"></div>
+<div class="bg-surface-light"></div>
+<div class="bg-surface"></div>
+<div class="bg-surface-strong"></div>
+<div class="bg-inverse"></div>
+<div class="bg-fore-in-light"></div>
+<div class="bg-fore-in-dark"></div>
+<div class="bg-fore"></div>
+<div class="bg-focus"></div>
+<h4>Special</h4>
+<div class="bg-transparent"></div>
+<div class="bg-inherit"></div>
+<div class="bg-current"></div>
+<div class="bg-none"></div>
 ```
 
-## Ring
-
-### Ring color
+### Background opacity
 
 ```html:example: blocks
-<div class="ring ring-light">ring-light</div>
-<div class="ring">ring</div>
-<div class="ring ring-dark">ring-dark</div>
-<div class="ring ring-darker">ring-darker</div>
-<div class="ring ring-darkest">ring-darkest</div>
-<div class="ring ring-primary">ring-primary</div>
-<div class="ring ring-secondary">ring-secondary</div>
-<div class="ring ring-success">ring-success</div>
-<div class="ring ring-warning">ring-warning</div>
-<div class="ring ring-danger">ring-danger</div>
-<div class="ring ring-important">ring-important</div>
-<div class="ring ring-special">ring-special</div>
-<div class="ring ring-canvas">ring-canvas</div>
-<div class="ring ring-inverse">ring-inverse</div>
-<div class="ring ring-inherit">ring-inherit</div>
-<div class="ring ring-current">ring-current</div>
-<div class="ring ring-black">ring-black</div>
-<div class="ring ring-white">ring-white</div>
+<div class="bg-opacity-0 inverse"></div>
+<div class="bg-opacity-5 inverse"></div>
+<div class="bg-opacity-10 inverse"></div>
+<div class="bg-opacity-20 inverse"></div>
+<div class="bg-opacity-30 inverse"></div>
+<div class="bg-opacity-40 inverse"></div>
+<div class="bg-opacity-50 inverse"></div>
+<div class="bg-opacity-60 inverse"></div>
+<div class="bg-opacity-70 inverse"></div>
+<div class="bg-opacity-80 inverse"></div>
+<div class="bg-opacity-90 inverse"></div>
+<div class="bg-opacity-95 inverse"></div>
+<div class="bg-opacity-100 inverse"></div>
 ```
 
-### Ring width
+## Borders
+
+### Ring
+
+#### Default Ring
 
 ```html:example: blocks
-<div class="ring ring-0">ring-0</div>
-<div class="ring">ring</div>
-<div class="ring ring-2">ring-2</div>
-<div class="ring ring-3">ring-3</div>
-<div class="ring ring-4">ring-4</div>
-<div class="ring ring-8">ring-8</div>
+<div class="ring"></div>
 ```
 
-### Ring inset
+#### Ring color
 
 ```html:example: blocks
-<div class="ring ring-inset ring-0">ring-0</div>
-<div class="ring ring-inset">ring</div>
-<div class="ring ring-inset ring-2">ring-2</div>
-<div class="ring ring-inset ring-3">ring-3</div>
-<div class="ring ring-inset ring-4">ring-4</div>
-<div class="ring ring-inset ring-8">ring-8</div>
+<h4>Ring as Border</h4>
+<div class="ring ring-border-light"></div>
+<div class="ring ring-border"></div>
+<div class="ring ring-border-strong"></div>
+<h4>Ring with alpha</h4>
+<div class="ring ring-light"></div>
+<div class="ring ring-gray"></div>
+<div class="ring ring-dark"></div>
+<div class="ring ring-darker"></div>
+<div class="ring ring-darkest"></div>
+<h4>Ring with Accent color</h4>
+<div class="ring ring-primary"></div>
+<div class="ring ring-secondary"></div>
+<div class="ring ring-warning"></div>
+<div class="ring ring-success"></div>
+<div class="ring ring-danger"></div>
+<div class="ring ring-important"></div>
+<div class="ring ring-special"></div>
+<h4>Ring with Surface color</h4>
+<div class="ring ring-inverse"></div>
+<div class="ring ring-canvas"></div>
+<div class="ring ring-fore"></div>
+<div class="ring ring-black"></div>
+<div class="ring ring-white"></div>
+<h4>Ring with Special color</h4>
+<div class="ring ring-current"></div>
+<div class="ring ring-transparent"></div>
+<div class="ring ring-inherit"></div>
 ```
 
-### Ring opacity
+#### Ring width
 
 ```html:example: blocks
-<div class="opacity-0 ring ring-black">ring-opacity-0</div>
-<div class="ring ring-black opacity-5">ring-opacity-5</div>
-<div class="ring ring-black opacity-10">ring-opacity-10</div>
-<div class="ring ring-black opacity-20">ring-opacity-20</div>
-<div class="ring ring-black opacity-30">ring-opacity-30</div>
-<div class="ring ring-black opacity-40">ring-opacity-40</div>
-<div class="opacity-50 ring ring-black">ring-opacity-50</div>
-<div class="ring ring-black opacity-60">ring-opacity-60</div>
-<div class="ring ring-black opacity-70">ring-opacity-70</div>
-<div class="ring ring-black opacity-80">ring-opacity-80</div>
-<div class="ring ring-black opacity-90">ring-opacity-90</div>
-<div class="ring ring-black opacity-95">ring-opacity-95</div>
-<div class="opacity-100 ring ring-black">ring-opacity-100</div>
+<div class="ring ring-0"></div>
+<div class="ring"></div>
+<div class="ring ring-2"></div>
+<div class="ring ring-3"></div>
+<div class="ring ring-4"></div>
+<div class="ring ring-8"></div>
 ```
 
-## Border
-
-### Border Color
+#### Ring inset
 
 ```html:example: blocks
-<div class="border border-primary">border-primary</div>
-<div class="border border-secondary">border-secondary</div>
-<div class="border border-success">border-success</div>
-<div class="border border-warning">border-warning</div>
-<div class="border border-danger">border-danger</div>
-<div class="border border-important">border-important</div>
-<div class="border border-special">border-special</div>
-
-<div class="border border-white">border-white</div>
-<div class="border border-lighter">border-lighter</div>
-<div class="border border-light">border-light</div>
-<div class="border border-gray">border-gray</div>
-<div class="border border-dark">border-dark</div>
-<div class="border border-darker">border-darker</div>
-<div class="border border-black">border-black</div>
-
-<div class="border border-canvas">border-canvas</div>
-<div class="border border-surface">border-surface</div>
-<div class="border border-inverse">border-inverse</div>
-
-<div class="border border-current">border-current</div>
-<div class="border border-inherit">border-inherit</div>
-<div class="border border-transparent">border-transparent</div>
+<div class="ring ring-inset"></div>
+<div class="ring ring-inset ring-2"></div>
+<div class="ring ring-inset ring-3"></div>
+<div class="ring ring-inset ring-4"></div>
+<div class="ring ring-inset ring-8"></div>
 ```
 
-### Border Size
+#### Ring opacity
 
 ```html:example: blocks
-<div class="border-0 border-current">border-0</div>
-<div class="border border-current">border</div>
-<div class="border-2 border-current">border-2</div>
-<div class="border-4 border-current">border-4</div>
+<div class="ring ring-opacity-0"></div>
+<div class="ring ring-opacity-5"></div>
+<div class="ring ring-opacity-10"></div>
+<div class="ring ring-opacity-20"></div>
+<div class="ring ring-opacity-30"></div>
+<div class="ring ring-opacity-40"></div>
+<div class="ring ring-opacity-50"></div>
+<div class="ring ring-opacity-60"></div>
+<div class="ring ring-opacity-70"></div>
+<div class="ring ring-opacity-80"></div>
+<div class="ring ring-opacity-90"></div>
+<div class="ring ring-opacity-95"></div>
+<div class="ring ring-opacity-100"></div>
 ```
 
-### Border Radius
+#### Ring Offset
 
 ```html:example: blocks
-<div class="border border-current rounded-none">rounded-none</div>
-<div class="border border-current rounded-sm">rounded-sm</div>
-<div class="border border-current rounded">rounded</div>
-<div class="border border-current rounded-md">rounded-md</div>
-<div class="border border-current rounded-lg">rounded-lg</div>
-<div class="border border-current rounded-xl">rounded-xl</div>
-<div class="border border-current circle">rounded-full</div>
+<div class="ring ring-offset-0"></div>
+<div class="ring ring-offset-1"></div>
+<div class="ring ring-offset-2"></div>
+<div class="ring ring-offset-4"></div>
+<div class="ring ring-offset-8"></div>
+```
+
+### Border
+
+#### Border Width
+
+```html:example: blocks
+<h4>All sides</h4>
+<div class="border-0"></div>
+<div class="border"></div>
+<div class="border-2"></div>
+<div class="border-4"></div>
+<h4>Single side</h4>
+<div class="border-t-0"></div>
+<div class="border-r-0"></div>
+<div class="border-b-0"></div>
+<div class="border-l-0"></div>
+<div class="border-t"></div>
+<div class="border-r"></div>
+<div class="border-b"></div>
+<div class="border-l"></div>
+<div class="border-t-2"></div>
+<div class="border-r-2"></div>
+<div class="border-b-2"></div>
+<div class="border-l-2"></div>
+<div class="border-t-4"></div>
+<div class="border-r-4"></div>
+<div class="border-b-4"></div>
+<div class="border-l-4"></div>
+```
+
+#### Border Color
+
+```html:example: blocks
+<h4>Border defaults</h4>
+<div class="border border-light"></div>
+<div class="border"></div>
+<div class="border border-strong"></div>
+<h4>Accent</h4>
+<div class="border border-primary"></div>
+<div class="border border-secondary"></div>
+<div class="border border-warning"></div>
+<div class="border border-success"></div>
+<div class="border border-danger"></div>
+<div class="border border-important"></div>
+<div class="border border-special"></div>
+<h4>Grays</h4>
+<div class="border border-gray-50"></div>
+<div class="border border-gray-100"></div>
+<div class="border border-gray-200"></div>
+<div class="border border-gray-300"></div>
+<div class="border border-gray-400"></div>
+<div class="border border-gray-500"></div>
+<div class="border border-gray"></div>
+<div class="border border-gray-600"></div>
+<div class="border border-gray-700"></div>
+<div class="border border-gray-800"></div>
+<div class="border border-gray-900"></div>
+<div class="border border-gray-950"></div>
+<h4>Surface</h4>
+<div class="border border-white"></div>
+<div class="border border-black"></div>
+<div class="border border-canvas"></div>
+<div class="border border-surface-light"></div>
+<div class="border border-surface"></div>
+<div class="border border-surface-strong"></div>
+<div class="border border-inverse"></div>
+<div class="border border-fore-in-light"></div>
+<div class="border border-fore-in-dark"></div>
+<div class="border border-fore"></div>
+<div class="border border-focus"></div>
+<div class="border border-link"></div>
+<div class="border border-link-hover"></div>
+<h4>Special</h4>
+<div class="border border-current"></div>
+<div class="border border-transparent"></div>
+<div class="border border-inherit"></div>
 ```
 
 ### Border opacity
 
 ```html:example: blocks
-<div class="border opacity-0 border-inverse">border-opacity-0</div>
-<div class="border border-inverse opacity-5">border-opacity-5</div>
-<div class="border border-inverse opacity-10">border-opacity-10</div>
-<div class="border border-inverse opacity-20">border-opacity-20</div>
-<div class="border border-inverse opacity-30">border-opacity-30</div>
-<div class="border border-inverse opacity-40">border-opacity-40</div>
-<div class="border opacity-50 border-inverse">border-opacity-50</div>
-<div class="border border-inverse opacity-60">border-opacity-60</div>
-<div class="border border-inverse opacity-70">border-opacity-70</div>
-<div class="border border-inverse opacity-80">border-opacity-80</div>
-<div class="border border-inverse opacity-90">border-opacity-90</div>
-<div class="border border-inverse opacity-95">border-opacity-95</div>
-<div class="border opacity-100 border-inverse">border-opacity-100</div>
+<div class="border opacity-0"></div>
+<div class="border opacity-5"></div>
+<div class="border opacity-10"></div>
+<div class="border opacity-20"></div>
+<div class="border opacity-30"></div>
+<div class="border opacity-40"></div>
+<div class="border opacity-50"></div>
+<div class="border opacity-60"></div>
+<div class="border opacity-70"></div>
+<div class="border opacity-80"></div>
+<div class="border opacity-90"></div>
+<div class="border opacity-95"></div>
+<div class="border opacity-100"></div>
 ```
 
-## Box shadow
-
-### Box Shadow Size
+### Radius
 
 ```html:example: blocks
-<div class="shadow-inner canvas">shadow-inner</div>
-<div class="shadow-none canvas">shadow-none</div>
-<div class="shadow-sm canvas">shadow-sm</div>
-<div class="shadow canvas">shadow</div>
-<div class="shadow-md canvas">shadow-md</div>
-<div class="shadow-lg canvas">shadow-lg</div>
-<div class="shadow-xl canvas">shadow-xl</div>
-<div class="shadow-2xl canvas">shadow-2xl</div>
+<h4>All Sides</h4>
+<div class="border rounded-none"></div>
+<div class="border rounded-sm"></div>
+<div class="border rounded"></div>
+<div class="border rounded-md"></div>
+<div class="border rounded-lg"></div>
+<div class="border rounded-xl"></div>
+<div class="border rounded-2xl"></div>
+<div class="border rounded-3xl"></div>
+<div class="border rounded-full"></div>
+<h4>Remove from specific sides</h4>
+<div class="border rounded-lg rounded-t-none"></div>
+<div class="border rounded-lg rounded-r-none"></div>
+<div class="border rounded-lg rounded-b-none"></div>
+<div class="border rounded-lg rounded-l-none"></div>
+<div class="border rounded-lg rounded-br-none"></div>
+<div class="border rounded-lg rounded-bl-none"></div>
+<div class="border rounded-lg rounded-tr-none"></div>
+<div class="border rounded-lg rounded-tl-none"></div>
 ```
 
-### Box Shadow Color
+## Effects
+
+### Box shadow
+
+#### Box Shadow Size
 
 ```html:example: blocks
-<div class="shadow-md bg-surface shadow-primary">shadow-primary</div>
-<div class="shadow-md bg-surface shadow-secondary">shadow-secondary</div>
-<div class="shadow-md bg-surface shadow-success">shadow-success</div>
-<div class="shadow-md bg-surface shadow-warning">shadow-warning</div>
-<div class="shadow-md bg-surface shadow-danger">shadow-danger</div>
-<div class="shadow-md bg-surface shadow-important">shadow-important</div>
-<div class="shadow-md bg-surface shadow-special">shadow-special</div>
-
-<div class="shadow-md bg-surface shadow-white">shadow-white</div>
-<div class="shadow-md bg-surface shadow-lighter">shadow-lighter</div>
-<div class="shadow-md bg-surface shadow-light">shadow-light</div>
-<div class="shadow-md bg-surface shadow-gray">shadow-gray</div>
-<div class="shadow-md bg-surface shadow-dark">shadow-dark</div>
-<div class="shadow-md bg-surface shadow-darker">shadow-darker</div>
-<div class="shadow-md bg-surface shadow-black">shadow-black</div>
-
-<div class="shadow-md bg-surface shadow-transparent">shadow-transparent</div>
-<div class="shadow-md bg-surface shadow-inherit">shadow-inherit</div>
-<div class="shadow-md bg-surface shadow-current">shadow-current</div>
+<div class="shadow-inner canvas"></div>
+<div class="shadow-none canvas"></div>
+<div class="shadow-sm canvas"></div>
+<div class="shadow canvas"></div>
+<div class="shadow-md canvas"></div>
+<div class="shadow-lg canvas"></div>
+<div class="shadow-xl canvas"></div>
+<div class="shadow-2xl canvas"></div>
 ```
 
-## Opacity
+#### Box Shadow Colors
 
 ```html:example: blocks
-<div class="opacity-0 black">opacity-0</div>
-<div class="black opacity-5">opacity-5</div>
-<div class="black opacity-10">opacity-10</div>
-<div class="black opacity-20">opacity-20</div>
-<div class="black opacity-30">opacity-30</div>
-<div class="black opacity-40">opacity-40</div>
-<div class="opacity-50 black">opacity-50</div>
-<div class="black opacity-60">opacity-60</div>
-<div class="black opacity-70">opacity-70</div>
-<div class="black opacity-80">opacity-80</div>
-<div class="black opacity-90">opacity-90</div>
-<div class="black opacity-95">opacity-95</div>
-<div class="opacity-100 black">opacity-100</div>
+<h4>Accent</h4>
+<div class="shadow shadow-primary"></div>
+<div class="shadow shadow-secondary"></div>
+<div class="shadow shadow-success"></div>
+<div class="shadow shadow-warning"></div>
+<div class="shadow shadow-danger"></div>
+<div class="shadow shadow-important"></div>
+<div class="shadow shadow-special"></div>
+<h4>Grays</h4>
+<div class="shadow shadow-gray-50"></div>
+<div class="shadow shadow-gray-100"></div>
+<div class="shadow shadow-gray-200"></div>
+<div class="shadow shadow-gray-300"></div>
+<div class="shadow shadow-gray-400"></div>
+<div class="shadow shadow-gray-500"></div>
+<div class="shadow shadow-gray"></div>
+<div class="shadow shadow-gray-600"></div>
+<div class="shadow shadow-gray-700"></div>
+<div class="shadow shadow-gray-800"></div>
+<div class="shadow shadow-gray-900"></div>
+<div class="shadow shadow-gray-950"></div>
+<h4>Grays</h4>
+<div class="shadow shadow-canvas"></div>
+<div class="shadow shadow-surface"></div>
+<div class="shadow shadow-inverse"></div>
+<div class="shadow shadow-fore"></div>
+<div class="shadow shadow-focus"></div>
+<h4>Special</h4>
+<div class="shadow shadow-transparent"></div>
+<div class="shadow shadow-inherit"></div>
+<div class="shadow shadow-current"></div>
 ```
 
-## Text opacity
+### Opacity
 
 ```html:example: blocks
-<div class="text-opacity-0 text-primary">text-opacity-0</div>
-<div class="text-primary text-opacity-10">text-opacity-10</div>
-<div class="text-primary text-opacity-20">text-opacity-20</div>
-<div class="text-primary text-opacity-30">text-opacity-30</div>
-<div class="text-primary text-opacity-40">text-opacity-40</div>
-<div class="text-opacity-50 text-primary">text-opacity-50</div>
-<div class="text-primary text-opacity-60">text-opacity-60</div>
-<div class="text-primary text-opacity-70">text-opacity-70</div>
-<div class="text-primary text-opacity-80">text-opacity-80</div>
-<div class="text-primary text-opacity-90">text-opacity-90</div>
-<div class="text-primary text-opacity-95">text-opacity-95</div>
-<div class="text-opacity-100 text-primary">text-opacity-100</div>
+<div class="black muted"></div>
+<div class="black opacity-0"></div>
+<div class="black opacity-5"></div>
+<div class="black opacity-10"></div>
+<div class="black opacity-20"></div>
+<div class="black opacity-30"></div>
+<div class="black opacity-40"></div>
+<div class="black opacity-50"></div>
+<div class="black opacity-60"></div>
+<div class="black opacity-70"></div>
+<div class="black opacity-80"></div>
+<div class="black opacity-90"></div>
+<div class="black opacity-95"></div>
+<div class="black opacity-100"></div>
 ```
 
 <style>
@@ -494,6 +660,12 @@
 }
 .blocks > div::after {
   content: attr(class);
+  white-space: nowrap;
+  overflow: hidden;
+}
+.blocks.with-inverse-text > div::after {
+  mix-blend-mode: difference;
+  color: white;
 }
 .blocks > hr,
 .blocks > h4,

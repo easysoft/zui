@@ -6,14 +6,27 @@
 .shadow-important {@apply -shadow-important-500;}
 .shadow-special   {@apply -shadow-special-500;}
 
-.shadow-white   {@apply -shadow-white;}
-.shadow-lighter {@apply -shadow-gray-100;}
-.shadow-light   {@apply -shadow-gray-300;}
-.shadow-gray    {@apply -shadow-gray-500;}
-.shadow-dark    {@apply -shadow-gray-700;}
-.shadow-darker  {@apply -shadow-gray-900;}
-.shadow-black   {@apply -shadow-black;}
+.shadow-gray-50   {@apply -shadow-gray-50}
+.shadow-gray-100  {@apply -shadow-gray-100}
+.shadow-gray-200  {@apply -shadow-gray-200}
+.shadow-gray-300  {@apply -shadow-gray-300}
+.shadow-gray-400  {@apply -shadow-gray-400}
+.shadow-gray-500,
+.shadow-gray      {@apply -shadow-gray-500}
+.shadow-gray-600  {@apply -shadow-gray-600}
+.shadow-gray-700  {@apply -shadow-gray-700}
+.shadow-gray-800  {@apply -shadow-gray-800}
+.shadow-gray-900  {@apply -shadow-gray-900}
+.shadow-gray-950  {@apply -shadow-gray-950}
 
+.shadow-canvas            {@apply -shadow-canvas;}
+.shadow-surface           {@apply -shadow-surface;}
+.shadow-inverse           {@apply -shadow-inverse;}
+.shadow-fore              {@apply -shadow-fore;}
+.shadow-focus             {@apply -shadow-focus;}
+
+.shadow-white       {@apply -shadow-white;}
+.shadow-black       {@apply -shadow-black;}
 .shadow-transparent {@apply -shadow-transparent;}
 .shadow-current     {@apply -shadow-current;}
 .shadow-inherit     {@apply -shadow-inherit;}

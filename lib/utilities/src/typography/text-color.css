@@ -6,28 +6,8 @@
 .text-important   {@apply -text-important-500;}
 .text-special     {@apply -text-special-500;}
 
-.text-white       {@apply -text-white;}
-.text-lighter     {@apply -text-gray-300;}
-.text-light       {@apply -text-gray-400;}
-.text-gray        {@apply -text-gray-500;}
-.text-dark        {@apply -text-gray-600;}
-.text-darken      {@apply -text-gray-700;}
-.text-darker      {@apply -text-gray-900;}
-.text-black       {@apply -text-black;}
-
-.text-canvas      {@apply -text-canvas;}
-.text-surface     {@apply -text-surface;}
-.text-inverse     {@apply -text-inverse;}
-.text-fore        {@apply -text-fore;}
-.text-focus       {@apply -text-focus;}
-.text-link        {@apply -text-link;}
-.text-link-hover  {@apply -text-link-hover;}
-
-.text-transparent {color: transparent;}
-.text-current     {color: currentColor;}
-.text-inherit     {color: inherit;}
-
 .text-primary-50     {@apply -text-primary-50;}
+.text-primary-100    {@apply -text-primary-100;}
 .text-primary-200    {@apply -text-primary-200;}
 .text-primary-300    {@apply -text-primary-300;}
 .text-primary-400    {@apply -text-primary-400;}
@@ -36,8 +16,10 @@
 .text-primary-700    {@apply -text-primary-700;}
 .text-primary-800    {@apply -text-primary-800;}
 .text-primary-900    {@apply -text-primary-900;}
+.text-primary-950    {@apply -text-primary-950;}
 
 .text-secondary-50     {@apply -text-secondary-50;}
+.text-secondary-100    {@apply -text-secondary-100;}
 .text-secondary-200    {@apply -text-secondary-200;}
 .text-secondary-300    {@apply -text-secondary-300;}
 .text-secondary-400    {@apply -text-secondary-400;}
@@ -46,3 +28,35 @@
 .text-secondary-700    {@apply -text-secondary-700;}
 .text-secondary-800    {@apply -text-secondary-800;}
 .text-secondary-900    {@apply -text-secondary-900;}
+.text-secondary-950    {@apply -text-secondary-950;}
+
+.text-gray-50   {@apply -text-gray-50}
+.text-gray-100  {@apply -text-gray-100}
+.text-gray-200  {@apply -text-gray-200}
+.text-gray-300  {@apply -text-gray-300}
+.text-gray-400  {@apply -text-gray-400}
+.text-gray-500,
+.text-gray      {@apply -text-gray-500}
+.text-gray-600  {@apply -text-gray-600}
+.text-gray-700  {@apply -text-gray-700}
+.text-gray-800  {@apply -text-gray-800}
+.text-gray-900  {@apply -text-gray-900}
+.text-gray-950  {@apply -text-gray-950}
+
+.text-white             {@apply -text-white;}
+.text-black             {@apply -text-black;}
+.text-canvas            {@apply -text-canvas;}
+.text-surface-light     {@apply -text-surface-light;}
+.text-surface           {@apply -text-surface;}
+.text-surface-strong    {@apply -text-surface-strong;}
+.text-inverse           {@apply -text-inverse;}
+.text-fore-in-light     {@apply -text-fore-in-light;}
+.text-fore-in-dark      {@apply -text-fore-in-dark;}
+.text-fore              {@apply -text-fore;}
+.text-focus             {@apply -text-focus;}
+.text-link              {@apply -text-link;}
+.text-link-hover        {@apply -text-link-hover;}
+
+.text-transparent {@apply -text-transparent;}
+.text-current     {@apply -text-current;}
+.text-inherit     {@apply -text-inherit;}

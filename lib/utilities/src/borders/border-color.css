@@ -1,3 +1,6 @@
+.border-light   {@apply -border-border-light;}
+.border-strong  {@apply -border-border-strong;}
+
 .border-primary   {@apply -border-primary-500;}
 .border-secondary {@apply -border-secondary-500;}
 .border-success   {@apply -border-success-500;}
@@ -6,19 +9,32 @@
 .border-important {@apply -border-important-500;}
 .border-special   {@apply -border-special-500;}
 
-.border-strong  {@apply -border-border-strong;}
-.border-white   {@apply -border-white;}
-.border-lighter {@apply -border-gray-100;}
-.border-light   {@apply -border-gray-300;}
-.border-gray    {@apply -border-gray-500;}
-.border-darken  {@apply -border-gray-700;}
-.border-darker  {@apply -border-gray-900;}
-.border-black   {@apply -border-black;}
-.border-default {@apply -border-border;}
+.border-gray-50   {@apply -border-gray-50}
+.border-gray-100  {@apply -border-gray-100}
+.border-gray-200  {@apply -border-gray-200}
+.border-gray-300  {@apply -border-gray-300}
+.border-gray-400  {@apply -border-gray-400}
+.border-gray-500,
+.border-gray      {@apply -border-gray-500}
+.border-gray-600  {@apply -border-gray-600}
+.border-gray-700  {@apply -border-gray-700}
+.border-gray-800  {@apply -border-gray-800}
+.border-gray-900  {@apply -border-gray-900}
+.border-gray-950  {@apply -border-gray-950}
 
-.border-canvas  {@apply -border-canvas;}
-.border-surface {@apply -border-surface;}
-.border-inverse {@apply -border-fore;}
+.border-white             {@apply -border-white;}
+.border-black             {@apply -border-black;}
+.border-canvas            {@apply -border-canvas;}
+.border-surface-light     {@apply -border-surface-light;}
+.border-surface           {@apply -border-surface;}
+.border-surface-strong    {@apply -border-surface-strong;}
+.border-inverse           {@apply -border-inverse;}
+.border-fore-in-light     {@apply -border-fore-in-light;}
+.border-fore-in-dark      {@apply -border-fore-in-dark;}
+.border-fore              {@apply -border-fore;}
+.border-focus             {@apply -border-focus;}
+.border-link              {@apply -border-link;}
+.border-link-hover        {@apply -border-link-hover;}
 
 .border-transparent {border-color: transparent;}
 .border-current     {border-color: currentColor;}
