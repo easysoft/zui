@@ -43,6 +43,7 @@
 #### Accent
 
 ```html:example: blocks
+<div class="primary"></div>
 <div class="secondary"></div>
 <div class="success"></div>
 <div class="warning"></div>
@@ -62,25 +63,31 @@
 #### Grays
 
 ```html:example: blocks
-<div class="bright"></div>
-<div class="lightest"></div>
-<div class="lighter"></div>
-<div class="light-gray"></div>
+<div class="gray-50"></div>
+<div class="gray-100"></div>
+<div class="gray-200"></div>
+<div class="gray-300"></div>
+<div class="gray-400"></div>
 <div class="gray"></div>
-<div class="dark-gray"></div>
-<div class="darker"></div>
-<div class="darkest"></div>
-<div class="inky"></div>
+<div class="gray-500"></div>
+<div class="gray-600"></div>
+<div class="gray-700"></div>
+<div class="gray-800"></div>
+<div class="gray-900"></div>
+<div class="gray-950"></div>
 <hr>
-<div class="bright state"></div>
-<div class="lightest state"></div>
-<div class="lighter state"></div>
-<div class="light-gray state"></div>
+<div class="gray-50 state"></div>
+<div class="gray-100 state"></div>
+<div class="gray-200 state"></div>
+<div class="gray-300 state"></div>
+<div class="gray-400 state"></div>
 <div class="gray state"></div>
-<div class="dark-gray state"></div>
-<div class="darker state"></div>
-<div class="darkest state"></div>
-<div class="inky state"></div>
+<div class="gray-500 state"></div>
+<div class="gray-600 state"></div>
+<div class="gray-700 state"></div>
+<div class="gray-800 state"></div>
+<div class="gray-900 state"></div>
+<div class="gray-950 state"></div>
 ```
 
 ### Ghost
@@ -118,9 +125,7 @@
 <div class="important-outline"></div>
 <div class="special-outline"></div>
 <h4>Grays</h4>
-<div class="light-gray-outline"></div>
 <div class="gray-outline"></div>
-<div class="dark-gray-outline"></div>
 <hr>
 <h4>Accent State</h4>
 <div class="outline state"></div>
@@ -132,9 +137,7 @@
 <div class="important-outline state"></div>
 <div class="special-outline state"></div>
 <h4>Grays State</h4>
-<div class="light-gray-outline state"></div>
 <div class="gray-outline state"></div>
-<div class="dark-gray-outline state"></div>
 ```
 
 ### Pale
@@ -149,15 +152,18 @@
 <div class="important-pale"></div>
 <div class="special-pale"></div>
 <h4>Grays</h4>
-<div class="bright-pale"></div>
-<div class="lightest-pale"></div>
-<div class="lighter-pale"></div>
-<div class="light-gray-pale"></div>
+<div class="gray-50-pale"></div>
+<div class="gray-100-pale"></div>
+<div class="gray-200-pale"></div>
+<div class="gray-300-pale"></div>
+<div class="gray-400-pale"></div>
 <div class="gray-pale"></div>
-<div class="dark-gray-pale"></div>
-<div class="darker-pale"></div>
-<div class="darkest-pale"></div>
-<div class="inky-pale"></div>
+<div class="gray-500-pale"></div>
+<div class="gray-600-pale"></div>
+<div class="gray-700-pale"></div>
+<div class="gray-800-pale"></div>
+<div class="gray-900-pale"></div>
+<div class="gray-950-pale"></div>
 <hr>
 <h4>Accent State</h4>
 <div class="primary-pale state"></div>
@@ -168,20 +174,26 @@
 <div class="important-pale state"></div>
 <div class="special-pale state"></div>
 <h4>Grays State</h4>
-<div class="bright-pale state"></div>
-<div class="lightest-pale state"></div>
-<div class="lighter-pale state"></div>
-<div class="light-gray-pale state"></div>
+<div class="gray-50-pale state"></div>
+<div class="gray-100-pale state"></div>
+<div class="gray-200-pale state"></div>
+<div class="gray-300-pale state"></div>
+<div class="gray-400-pale state"></div>
 <div class="gray-pale state"></div>
-<div class="dark-gray-pale state"></div>
-<div class="darker-pale state"></div>
-<div class="darkest-pale state"></div>
-<div class="inky-pale state"></div>
+<div class="gray-500-pale state"></div>
+<div class="gray-600-pale state"></div>
+<div class="gray-700-pale state"></div>
+<div class="gray-800-pale state"></div>
+<div class="gray-900-pale state"></div>
+<div class="gray-950-pale state"></div>
 ```
 
-## Text Colors
+## Typography
+
+### Text Colors
 
 ```html:example: blocks
+<h4>Accent</h4>
 <div class="text-primary"></div>
 <div class="text-secondary"></div>
 <div class="text-success"></div>
@@ -189,19 +201,28 @@
 <div class="text-danger"></div>
 <div class="text-important"></div>
 <div class="text-special"></div>
-
-<div class="text-white"></div>
+<h4>Grays</h4>
+<div class="text-bright"></div>
+<div class="text-lightest"></div>
 <div class="text-lighter"></div>
-<div class="text-light"></div>
+<div class="text-light-gray"></div>
 <div class="text-gray"></div>
-<div class="text-dark"></div>
+<div class="text-dark-gray"></div>
 <div class="text-darker"></div>
+<div class="text-darkest"></div>
+<div class="text-inky"></div>
+<h4>Surface</h4>
 <div class="text-black"></div>
-
+<div class="text-white"></div>
+<div class="text-fore"></div>
+<div class="text-fore-in-light"></div>
+<div class="text-fore-in-dark"></div>
 <div class="text-canvas"></div>
+<div class="text-surface-light"></div>
 <div class="text-surface"></div>
-<div class="text-inverse"><span class="text-white"></span></div>
-<div class="text-current"><span class="text-white"></span></div>
+<div class="text-surface-strong"></div>
+<div class="text-inverse"></div>
+<div class="text-current"></div>
 <div class="text-inherit"></div>
 <div class="text-transparent"></div>
 ```

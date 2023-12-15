@@ -5,17 +5,17 @@
 .danger,
 .important,
 .special,
-.bright,
-.lightest,
-.lighter,
-.lighten,   /* .lighten is deprecated */
-.light-gray,
-.gray,
-.darken, /* .darken is deprecated */
-.dark-gray,
-.darker,
-.darkest,
-.inky {
+.gray-50,
+.gray-100,
+.gray-200,
+.gray-300,
+.gray-400, .lighten, /* .lighten is deprecated */
+.gray-500, .gray,
+.gray-600, .darken, /* .darken is deprecated */
+.gray-700,
+.gray-800,
+.gray-900,
+.gray-950 {
   @apply -skin;
   --skin-text: var(--color-fore-in-dark);
   --state-ring-color: var(--skin-color);
@@ -43,38 +43,41 @@
   --skin-color: var(--color-special-500);
 }
 
-.bright {
+.gray-50 {
+  --skin-bg: var(--color-gray-50);
+  --skin-text: var(--color-fore);
+}
+.gray-100 {
   --skin-color: var(--color-gray-100);
   --skin-text: var(--color-fore);
-  --state-ring-color: var(--skin-text);
 }
-.lightest {
+.gray-200 {
   --skin-color: var(--color-gray-200);
   --skin-text: var(--color-fore);
-  --state-ring-color: var(--skin-text);
 }
-.lighter {
+.gray-300 {
   --skin-color: var(--color-gray-300);
   --skin-text: var(--color-fore);
-  --state-ring-color: var(--skin-text);
 }
-.light-gray,
-.lighten /* .lighten is deprecated */ {
+.gray-400, .lighten {
   --skin-color: var(--color-gray-400);
+  --skin-text: var(--color-fore);
 }
-.gray {
+.gray-500, .gray {
   --skin-color: var(--color-gray-500);
 }
-.dark-gray,
-.darken /* .darken is deprecated */ {
+.gray-600, .darken {
   --skin-color: var(--color-gray-600);
 }
-.darker {
+.gray-700 {
   --skin-color: var(--color-gray-700);
 }
-.darkest {
+.gray-800 {
   --skin-color: var(--color-gray-800);
 }
-.inky {
+.gray-900 {
   --skin-color: var(--color-gray-900);
+}
+.gray-950 {
+  --skin-color: var(--color-gray-950);
 }

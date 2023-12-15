@@ -8,13 +8,13 @@
   @apply -bg-canvas;
 }
 .surface-light {
-  @apply -bg-surface-light;
+  @apply -bg-surface-light -ring-surface-light;
 }
 .surface {
-  @apply -bg-surface;
+  @apply -bg-surface -ring-surface;
 }
 .surface-strong {
-  @apply -bg-surface-strong;
+  @apply -bg-surface-strong -ring-surface-strong;
 }
 .inverse {
   @apply -bg-inverse -text-canvas;

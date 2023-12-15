@@ -6,15 +6,17 @@
 .danger-pale,
 .important-pale,
 .special-pale,
-.bright-pale,
-.lightest-pale,
-.lighter-pale,
-.light-gray-pale,
-.gray-pale,
-.dark-gray-pale,
-.darker-pale,
-.darkest-pale,
-.inky-pale {
+.gray-50-pale,
+.gray-100-pale,
+.gray-200-pale,
+.gray-300-pale,
+.gray-400-pale,
+.gray-500-pale, .gray-pale,
+.gray-600-pale,
+.gray-700-pale,
+.gray-800-pale,
+.gray-900-pale,
+.gray-950-pale {
   @apply -skin;
 
   --skin-color: rgba(var(--skin-pale-rgb), .1);
@@ -46,34 +48,41 @@
   --skin-pale-rgb: var(--color-special-500-rgb);
 }
 
-.bright-pale {
+.gray-50-pale {
+  --skin-pale-rgb: var(--color-gray-50-rgb);
+  --skin-text: var(--color-gray-400);
+}
+.gray-100-pale {
   --skin-pale-rgb: var(--color-gray-100-rgb);
-  --skin-text: var(--color-gray-400-rgb);
+  --skin-text: var(--color-gray-400);
 }
-.lightest-pale {
+.gray-200-pale {
   --skin-pale-rgb: var(--color-gray-200-rgb);
-  --skin-text: var(--color-gray-400-rgb);
+  --skin-text: var(--color-gray-400);
 }
-.lighter-pale {
+.gray-300-pale {
   --skin-pale-rgb: var(--color-gray-300-rgb);
-  --skin-text: var(--color-gray-500-rgb);
+  --skin-text: var(--color-gray-500);
 }
-.light-gray-pale {
+.gray-400-pale {
   --skin-pale-rgb: var(--color-gray-400-rgb);
-  --skin-text: var(--color-gray-500-rgb);
+  --skin-text: var(--color-gray-500);
 }
-.gray-pale {
+.gray-500-pale, .gray-pale {
   --skin-pale-rgb: var(--color-gray-500-rgb);
 }
-.dark-gray-pale {
+.gray-600-pale {
   --skin-pale-rgb: var(--color-gray-600-rgb);
 }
-.darker-pale {
+.gray-700-pale {
   --skin-pale-rgb: var(--color-gray-700-rgb);
 }
-.darkest-pale {
+.gray-800-pale {
   --skin-pale-rgb: var(--color-gray-800-rgb);
 }
-.inky-pale {
+.gray-900-pale {
   --skin-pale-rgb: var(--color-gray-900-rgb);
+}
+.gray-950-pale {
+  --skin-pale-rgb: var(--color-gray-950-rgb);
 }
