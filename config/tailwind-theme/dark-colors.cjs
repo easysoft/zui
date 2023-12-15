@@ -1,83 +1,83 @@
 const shades = require('tailwindcss/colors');
 const {reverseShade} = require('./reverse-shade.cjs');
 
-// 语义化调色板 - Semantic palettes
+// Semantic palettes.
 // ==================================
 
-/** 主要：主题的、可链接、正常 */
+/** Primary: Theme, Linkable, Normal. */
 const primary = reverseShade(shades.blue);
 
-/** 次要：次级、常态的 */
+/** Secondary: Subordinate, Normal. */
 const secondary = reverseShade(shades.sky);
 
-/** 成功：完成、积极 */
+/** Success: Completed, Positive. */
 const success = reverseShade(shades.green);
 
-/** 关注：提示、重点 */
+/** Warning: Prompt, Key Point. */
 const warning = reverseShade(shades.amber);
 
-/** 警告：提示、异常、警醒 */
+/** Danger: Prompt, Exception, Alert. */
 const danger = reverseShade(shades.red);
 
-/** 重要：优先 */
+/** Important: Priority. */
 const important = reverseShade(shades.pink);
 
-/** 特殊：触动、激情 */
+/** Special: Exciting, Passionate. */
 const special = reverseShade(shades.purple);
 
-/** 灰色：中立、背景、边框 */
+/** Gray: Neutral, Background, Border. */
 const gray = reverseShade(shades.slate);
 
 
-// 特殊颜色 - Special Colors
+// Special Colors.
 // ======================
 
-// UI 特殊颜色定义 - UI Special Colors
+// UI Special Colors.
 // ======================
 
-/** 画布（页面背景） */
+/** Canvas (Page Background). */
 const canvas = gray[50];
 
-/** 画布反色 */
+/** Inverse. */
 const inverse = shades.white;
 
-/** 控件背景 */
+/** Control Background. */
 const surfaceLight = gray[100];
 
-/** 控件背景 */
+/** Control Background. */
 const surface = gray[200];
 
-/** 控件背景 */
+/** Control Background. */
 const surfaceStrong = gray[300];
 
-/** 文本 */
+/** Text (Foreground Color). */
 const fore = gray[700];
 
-/** 焦点 */
+/** Focus. */
 const focus = primary[200];
 
-/** 链接 */
+/** Link (Normal). */
 const link = primary[500];
 
-/** 链接（hover） */
+/** Link (hover). */
 const linkHover = primary[600];
 
-/** 链接（visited） */
+/** Link (visited). */
 const linkVisited = primary[700];
 
-/** 链接（Active） */
+/** Link (Active). */
 const linkActive = primary[800];
 
-/* 占位文本颜色（placeholder） */
+/* Placeholder Text Color. */
 const placeholder = gray[400];
 
-/** Border */
+/** Border. */
 const border = gray[200];
 
-/** Strong border */
+/** Strong border. */
 const borderStrong = gray[300];
 
-/** Strong border */
+/** Strong border. */
 const borderLight = gray[100];
 
 module.exports = {
