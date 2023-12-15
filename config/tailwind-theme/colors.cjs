@@ -1,98 +1,98 @@
 const shades = require('tailwindcss/colors');
 
-// 语义化调色板 - Semantic palettes
+// Semantic palettes
 // ==================================
 
-/** 主要：主题的、可链接、正常 */
+/** Primary: Theme-related, linkable, normal. */
 const primary = shades.blue;
 
-/** 次要：次级、常态的 */
+/** Secondary: Subordinate, normal state. */
 const secondary = shades.sky;
 
-/** 成功：完成、积极 */
+/** Success: Completed, positive. */
 const success = shades.green;
 
-/** 关注：提示、重点 */
+/** Warning: Prompt, emphasis. */
 const warning = shades.amber;
 
-/** 警告：提示、异常、警醒 */
+/** Danger: Prompt, exception, alert. */
 const danger = shades.red;
 
-/** 重要：优先 */
+/** Important: Priority. */
 const important = shades.pink;
 
-/** 特殊：触动、激情 */
+/** Special: Exciting, passionate. */
 const special = shades.purple;
 
-/** 灰色：中立、背景、边框 */
+/** Gray: Neutral, background, border. */
 const gray = shades.slate;
 
 
-// 特殊颜色 - Special Colors
+// Special Colors
 // ======================
 
-/** 继承 */
+/** Inherit. */
 const inherit = shades.inherit;
 
-/** 当前 */
+/** Current. */
 const current = shades.current;
 
-/** 透明 */
+/** Transparent. */
 const transparent = shades.transparent;
 
-/** 纯黑 */
+/** Black. */
 const black = shades.black;
 
-/** 纯白 */
+/** White. */
 const white = shades.white;
 
 
-// UI 特殊颜色定义 - UI Special Colors
+// UI Special Colors
 // ======================
 
-/** 画布（页面背景） */
+/** Canvas (Page background). */
 const canvas = white;
 
-/** 画布反色 */
+/** Inverse. */
 const inverse = black;
 
-/** 控件背景 */
+/** Surface background. */
 const surfaceLight = gray[50];
 
-/** 控件背景 */
+/** Surface background. */
 const surface = gray[100];
 
-/** 控件背景 */
+/** Surface background. */
 const surfaceStrong = gray[200];
 
-/** 文本 */
+/** Text. */
 const fore = gray[700];
 
-/** 焦点 */
+/** Focus. */
 const focus = primary[200];
 
-/** 链接 */
+/** Link. */
 const link = primary[500];
 
-/** 链接（hover） */
+/** Link (hover). */
 const linkHover = primary[600];
 
-/** 链接（visited） */
+/** Link (visited). */
 const linkVisited = primary[700];
 
-/** 链接（Active） */
+/** Link (active). */
 const linkActive = primary[800];
 
-/* 占位文本颜色（placeholder） */
+/* Placeholder text color. */
 const placeholder = gray[400];
 
-/** Border */
+/** Border. */
 const border = gray[200];
 
-/** Strong border */
+/** Strong border. */
 const borderStrong = gray[300];
 
-/** Strong border */
+/** Strong border. */
 const borderLight = gray[100];
 
 module.exports = {
