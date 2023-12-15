@@ -2,9 +2,9 @@
 layout: home
 
 hero:
-  name: ZUI3
+  name: ZUI 3
   text: 开箱即用的组合式前端 UI 框架
-  tagline: 100+ 组件
+  tagline: v3.0.0
   actions:
     - theme: brand
       text: 快速开始
@@ -17,8 +17,8 @@ features:
     title: 开箱即用，按需加载
     details: 采用基础 + 组件库模式，按需使用
   - icon: 💎
-    title: 100+ 组件
-    details: 丰富组件库，实现你的创意
+    title: 丰富的组件库
+    details: 实用 CSS 工具类 + 强大的 JS 组件库
   - icon: 🛠️
     title: 丰富主题，灵活定制
     details: 深色模式，自定义主题，定制打包
@@ -33,7 +33,7 @@ features:
   backdrop-filter: blur(10px);
   border-color: rgba(var(--color-inverse-rgb), .1);
 }
-/* .dark .VPContent.is-home {
-  background: linear-gradient(125deg, var(--color-primary-900) 0%, var(--color-primary-900) 40%, var(--color-primary-800) calc(40% + 1px), var(--color-primary-800) 60%, var(--color-primary-700) calc(60% + 1px), var(--color-primary-700) 72%, var(--color-primary-400) calc(72% + 1px), var(--color-primary-400) 100%);
-} */
+.VPContent.is-home + .VPFooter {
+  background: var(--color-primary-50);
+}
 </style>
