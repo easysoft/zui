@@ -25,3 +25,6 @@
 .black {
   @apply -bg-black -text-fore-in-dark -ring-black;
 }
+.transparent {
+  @apply -bg-transparent -ring-transparent;
+}
