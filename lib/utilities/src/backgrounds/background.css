@@ -32,13 +32,19 @@
 
 .bg-gray-50   {@apply -bg-gray-50}
 .bg-gray-100  {@apply -bg-gray-100}
+.bg-lightest,
 .bg-gray-200  {@apply -bg-gray-200}
+.bg-lighter,
 .bg-gray-300  {@apply -bg-gray-300}
+.bg-light,
 .bg-gray-400  {@apply -bg-gray-400}
-.bg-gray-500,
-.bg-gray      {@apply -bg-gray-500}
+.bg-gray,
+.bg-gray-500  {@apply -bg-gray-500}
+.bg-darken,
 .bg-gray-600  {@apply -bg-gray-600}
+.bg-darker,
 .bg-gray-700  {@apply -bg-gray-700}
+.bg-darkest,
 .bg-gray-800  {@apply -bg-gray-800}
 .bg-gray-900  {@apply -bg-gray-900}
 .bg-gray-950  {@apply -bg-gray-950}

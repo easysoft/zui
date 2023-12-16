@@ -32,13 +32,19 @@
 
 .text-gray-50   {@apply -text-gray-50}
 .text-gray-100  {@apply -text-gray-100}
+.text-lightest,
 .text-gray-200  {@apply -text-gray-200}
+.text-lighter,
 .text-gray-300  {@apply -text-gray-300}
+.text-lighten,
 .text-gray-400  {@apply -text-gray-400}
-.text-gray-500,
-.text-gray      {@apply -text-gray-500}
+.text-gray,
+.text-gray-500  {@apply -text-gray-500}
+.text-darken,
 .text-gray-600  {@apply -text-gray-600}
+.text-darker,
 .text-gray-700  {@apply -text-gray-700}
+.text-darkest,
 .text-gray-800  {@apply -text-gray-800}
 .text-gray-900  {@apply -text-gray-900}
 .text-gray-950  {@apply -text-gray-950}

@@ -7,13 +7,13 @@
 .special,
 .gray-50,
 .gray-100,
-.gray-200,
-.gray-300,
+.gray-200, .lightest, /* .lightest is deprecated */
+.gray-300, .lighter, /* .lighter is deprecated */
 .gray-400, .lighten, /* .lighten is deprecated */
 .gray-500, .gray,
 .gray-600, .darken, /* .darken is deprecated */
-.gray-700,
-.gray-800,
+.gray-700, .darker, /* .darker is deprecated */
+.gray-800, .darkest, /* .darkest is deprecated */
 .gray-900,
 .gray-950 {
   @apply -skin;
@@ -51,11 +51,11 @@
   --skin-color: var(--color-gray-100);
   --skin-text: var(--color-fore);
 }
-.gray-200 {
+.gray-200, .lightest {
   --skin-color: var(--color-gray-200);
   --skin-text: var(--color-fore);
 }
-.gray-300 {
+.gray-300, .lighter {
   --skin-color: var(--color-gray-300);
   --skin-text: var(--color-fore);
 }
@@ -69,10 +69,10 @@
 .gray-600, .darken {
   --skin-color: var(--color-gray-600);
 }
-.gray-700 {
+.gray-700, .darker {
   --skin-color: var(--color-gray-700);
 }
-.gray-800 {
+.gray-800, .darkest {
   --skin-color: var(--color-gray-800);
 }
 .gray-900 {
