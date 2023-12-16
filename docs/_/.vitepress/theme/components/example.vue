@@ -9,7 +9,7 @@ import {computed} from 'vue';
 
 const props = defineProps<{
   className?: string,
-  background?: 'light-grid' | 'blue-circle',
+  background?: 'light-grid' | 'blue-circle' | 'light-circle',
   padding?: string | number,
   border?: string | number
 }>();
