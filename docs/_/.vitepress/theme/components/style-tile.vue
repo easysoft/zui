@@ -1,6 +1,6 @@
 <template>
-  <div class="style-tile-item" @click="onColorClick">
-    <div class="style-tile" :class="[name, tileClass, copied ? 'ring-4 ring-opacity-50' : '']">
+  <div :class="['style-tile-item', name ? 'cursor-pointer' : '']" @click="onClick">
+    <div class="style-tile" :class="[name, tileClass, copied ? 'ring-4 ring-opacity-50' : '']" :style="tileStyle">
       {{ titleText }}
       <slot />
     </div>
@@ -11,12 +11,13 @@
 </template>
 
 <script setup lang="ts">
-import {ref, computed, onUnmounted} from 'vue';
+import {ref, computed, onUnmounted, StyleValue} from 'vue';
 
 const props = defineProps<{
   name: string;
   title?: string | boolean;
   tileClass?: string;
+  tileStyle?: StyleValue;
   labelClass?: string;
   alias?: string;
   hint?: string | false;
@@ -53,7 +54,10 @@ const hintText = computed(() => {
   return `${props.name}${props.alias ? ` 别名: ${props.alias}` : ''}`;
 });
 
-const onColorClick = () => {
+const onClick = () => {
+  if (!props.name.length) {
+    return;
+  }
   navigator.clipboard.writeText(props.name);
   copied.value = true;
   tipTimer.value = window.setTimeout(() => {
@@ -71,12 +75,12 @@ onUnmounted(() => {
 
 <style>
 .style-tile-item {
-  @apply -relative -cursor-pointer;
+  @apply -relative;
 }
 .style-tile {
   @apply -flex -items-center -justify-center -transition-[transform,box-shadow] -scale-100 -duration-300;
 }
-.style-tile-item:hover > .style-tile {
+.style-tile-item.cursor-pointer:hover > .style-tile {
   @apply -scale-105 -shadow-lg;
 }
 .style-tile-label {
