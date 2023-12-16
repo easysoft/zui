@@ -1,19 +1,23 @@
-# 不透明度
+# 透明度
 
-使用`opacity-*`设置元素的不透明度
+使用 `opacity-*` 设置元素的透明度。
 
-<Example background="light-grid">
-  <div class="-grid -grid-cols-4 -gap-3">
-    <div :key="item" v-for ="item in opacityJson">
-      <div :class="item"  class="bg-primary h-10" ></div>
-      <div class="text-center">{{item}}</div>
-    </div>
+<Example class="flex flex-wrap gap-8 p-8">
+  <div v-for="item in opacityList" :key="item">
+    <StyleTile
+      :tileClass="['w-16 h-16', item]"
+      :name="item"
+      :labelClass="['text-center', item ? 'font-mono text-sm' : '']"
+      :label="item || '原始'"
+    >
+      <img src="/favicon.svg">
+    </StyleTile>
   </div>
 </Example>
 
 
 <script setup>
-  const opacityJson = [
+  const opacityList = [
     'opacity-0',
     'opacity-5',
     'opacity-10',
