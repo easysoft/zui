@@ -1,9 +1,22 @@
 # gap
 
-使用`gap-*`应用CSS属性`gap`设置Flex容器中元素间距。
+## 效果
+
+使用 `gap-*` 应用CSS属性 `gap` 设置 Flex 容器中元素间距。
+
+<template v-for="item in arrayGap">
+  <h3><code>{{item}}</code></h3>
+  <Example>
+    <div :class="item" class="inline-flex flex-wrap surface" >
+      <div v-for="index in 12" class="center primary w-32 h-8">
+        {{index}}
+      </div>
+    </div>
+  </Example>
+</template>
 
 <script setup>
-  const arrayGap = [
+const arrayGap = [
     'gap-0',
     'gap-x-0',
     'gap-y-0',
@@ -31,19 +44,5 @@
     'gap-8',
     'gap-x-8',
     'gap-y-8',
-  ];
+];
 </script>
-
-<Example v-for="item in arrayGap">
-  <h3>{{item}}</h3>
-  <div :class="item" class="inline-flex flex-wrap -bg-stripes-blue" >
-    <div v-for="index in 12" class="bg-primary w-48 h-16">
-      <div class="mt-5 text-canvas text-center">{{index}}</div>
-    </div>
-  </div>
-</Example>
-
-```html
-<div class="flex flex-wrap gap-* ...">
-</div>
-```

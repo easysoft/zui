@@ -1,31 +1,27 @@
 # justify-content
 
-使用`justify-*`应用CSS`justify-content`属性设置Flex容器中元素沿水平轴的对齐方式。
+## 效果
 
-  <script setup>
-    const arrayJustify = [
-      'justify-start',
-      'justify-end',
-      'justify-center',
-      'justify-between',
-      'justify-around',
-      'justify-evenly',
-    ];
-  </script>
+使用 `justify-*` 应用 CSS `justify-content` 属性设置Flex容器中元素沿水平轴的对齐方式。
 
-<Example v-for="item in arrayJustify" class="mb-3">
-  <h3>{{item}}</h3>
-  <div :class="item" class="flex flex-wrap gap-3 -bg-stripes-blue" >
-    <div v-for="index in 4" class="bg-primary w-16 h-16">
-      <div class="mt-5 text-canvas text-center">{{index}}</div>
+<template v-for="item in arrayJustify">
+  <h3><code>{{item}}</code></h3>
+  <Example class="p-0">
+    <div :class="item" class="flex flex-wrap gap-2 surface" >
+      <div v-for="index in 4" class="primary center w-16 h-8 flex-grow">
+        {{index}}
+      </div>
     </div>
-  </div>
-</Example>
+  </Example>
+</template>
 
- ```html
-   <div class="justify-start flex flex-wrap ...">
-     <div></div>
-     ...
-   </div>
- ```
-
+<script setup>
+const arrayJustify = [
+    'justify-start',
+    'justify-end',
+    'justify-center',
+    'justify-between',
+    'justify-around',
+    'justify-evenly',
+];
+</script>

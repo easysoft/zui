@@ -1,6 +1,15 @@
 # basis
 
+## 效果
+
 使用 `basis-*` 应用 CSS `flex-basis` 属性设置当前元素在 Grid 或 Flex 容器中弹性盒伸缩的基准值。
+
+<Example class="flex flex-wrap gap-3">
+  <div :class="'basis-' + item" v-for="(item,index) in basisJson" >
+    <div class="primary w-full h-8"></div>
+    <div class="mt-0.5 text-center">{{item}}</div>
+  </div>
+</Example>
 
 <script setup>
   const basisJson = [
@@ -35,19 +44,5 @@
     'full',
     'auto',
     'px',
-  ]
+  ];
 </script>
-
-<Example class="flex flex-wrap gap-3">
-  <div :class="'basis-' + item" v-for="(item,index) in basisJson" >
-    <div class="bg-primary w-full h-16"></div>
-    <div class="mt-5 text-center">{{item}}</div>
-  </div>
-</Example>
-
-```html
-  <div class="flex flex-wrap ...">
-    <div class="basis-* ..."></div>
-    ...
-  </div>
-```

@@ -1,9 +1,12 @@
 # flex
 
-使用`flex-*`应用CSS`flex`属性设置当前元素在Grid或Flex容器中的伸缩方式。
+## 效果
+
+使用 `flex-*` 应用CSS `flex` 属性设置当前元素在 Grid 或 Flex 容器中的伸缩方式。
 
 <script setup>
   const flexJson = [
+    'flex-auto',
     'flex-1',
     'flex-initial',
     'flex-none',
@@ -11,21 +14,23 @@
 </script>
 
 <template v-for="item in flexJson">
-  <h3>{{item}}</h3>
+  <h3><code>{{item}}</code></h3>
   <Example>
-    <div :class="item === 'flex-initial' ? 'w-48' : 'w-full' " class="flex gap-3 mt-3 mt-4 -bg-stripes-blue" >
-      <div :class="item" v-for="index in 3" class="bg-primary w-24 h-16">
-        <div class="mt-5 text-canvas text-center">24 * 16</div>
+    <div :class="item === 'flex-initial' ? 'w-48' : 'w-full' " class="flex gap-3 surface" >
+      <div :class="item" v-for="index in 3" class="primary center w-24 h-8">
+        24 &times; 8
       </div>
     </div>
     <div class="text-center">{{item.name}}</div>
   </Example>
 </template>
 
-```html
-  <div class="flex ...">
-    <div class="flex-1 ..."></div>
-    <div class="flex-1 ..."></div>
-    <div class="flex-1 ..."></div>
+## 混合使用
+
+<Example>
+  <div class="row gap-3 surface" >
+    <div v-for="item in flexJson" :key="item" :class="item" class="primary center w-24 h-8 font-mono">
+      {{item}}
+    </div>
   </div>
-```
+</Example>

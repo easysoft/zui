@@ -1,6 +1,19 @@
 # direction
 
-使用 self-* 应用 CSS flex-direction 属性设置 Flex 容器中主轴的展开方向。
+## 效果
+
+应用 CSS `flex-direction` 属性设置 Flex 容器中主轴的展开方向。
+
+<template v-for="item in directionJson">
+  <h3><code>{{item}}</code></h3>
+  <Example class="mb-4">
+    <div :class="item" class="flex gap-3" >
+      <div v-for="index in 3" class="primary w-full h-8 center">
+        {{index}}
+      </div>
+    </div>
+  </Example>
+</template>
 
 <script setup>
   const directionJson = [
@@ -10,21 +23,3 @@
     'col-reverse'
   ];
 </script>
-
-
-<template v-for="item in directionJson">
-  <Example class="mb-4">
-  <h3>{{item}}</h3>
-    <div :class="item" class="flex gap-3 mt-3" >
-      <div v-for="index in 3" class="bg-primary w-full h-16">
-        <div class="mt-5 text-canvas text-center">{{index}}</div>
-      </div>
-    </div>
-  </Example>
-</template>
-
-```html
-  <div class="flex row ...">
-    ...
-  </div>
-```

@@ -1,26 +1,22 @@
 # wrap
 
-添加`flex-*`应用CSS`flex-wrap`相关属性设置Flex容器中换行方式
+添加 `flex-*` 应用 CSS `flex-wrap` 相关属性设置 Flex 容器中换行方式。
+
+<template v-for="item in arrayWrap">
+  <h3><code>{{item}}</code></h3>
+  <Example>
+    <div :class="item" class="flex gap-3 surface">
+      <div v-for="index in 10" class="primary center w-24 h-8">
+        {{index}}
+      </div>
+    </div>
+  </Example>
+</template>
 
 <script setup>
-  const arrayWrap = [
+const arrayWrap = [
     'flex-wrap',
     'flex-wrap-reverse',
     'flex-nowrap'
-  ];
+];
 </script>
-
-<Example v-for="item in arrayWrap">
-  <h3>{{item}}</h3>
-  <div :class="item" class="flex gap-3 mt-3 -bg-stripes-blue">
-    <div v-for="index in 10" class="bg-primary w-24 h-16">
-      <div class="mt-5 text-canvas text-center">{{index}}</div>
-    </div>
-  </div>
-</Example>
-
-```html
-  <div class="flex flex-wrap ...">
-    ...
-  </div>
-```
