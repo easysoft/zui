@@ -1,0 +1,24 @@
+.bg-auto    {@apply -bg-auto;}
+.bg-cover   {@apply -bg-cover;}
+.bg-contain {@apply -bg-contain;}
+
+.bg-repeat       {@apply -bg-repeat;}
+.bg-no-repeat    {@apply -bg-no-repeat;}
+.bg-repeat-x     {@apply -bg-repeat-x;}
+.bg-repeat-y     {@apply -bg-repeat-y;}
+.bg-repeat-round {@apply -bg-repeat-round;}
+.bg-repeat-space {@apply -bg-repeat-space;}
+
+.bg-bottom          {@apply -bg-bottom;}
+.bg-center          {@apply -bg-center;}
+.bg-left            {@apply -bg-left;}
+.bg-left-bottom     {@apply -bg-left-bottom;}
+.bg-left-top        {@apply -bg-left-top;}
+.bg-right           {@apply -bg-right;}
+.bg-right-bottom    {@apply -bg-right-bottom;}
+.bg-right-top       {@apply -bg-right-top;}
+.bg-top             {@apply -bg-top;}
+
+.bg-fixed  {@apply -bg-fixed;}
+.bg-local  {@apply -bg-local;}
+.bg-scroll {@apply -bg-scroll;}
