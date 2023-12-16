@@ -36,6 +36,7 @@
 <div class="inverse"></div>
 <div class="white"></div>
 <div class="black"></div>
+<div class="transparent"></div>
 ```
 
 ### Solid
@@ -337,8 +338,8 @@
 <div class="bg-fore-in-dark"></div>
 <div class="bg-fore"></div>
 <div class="bg-focus"></div>
-<h4>Special</h4>
 <div class="bg-transparent"></div>
+<h4>Special</h4>
 <div class="bg-inherit"></div>
 <div class="bg-current"></div>
 <div class="bg-none"></div>
@@ -393,6 +394,19 @@
 <div class="ring ring-danger"></div>
 <div class="ring ring-important"></div>
 <div class="ring ring-special"></div>
+<h4>Grays</h4>
+<div class="ring ring-gray-50"></div>
+<div class="ring ring-gray-100"></div>
+<div class="ring ring-gray-200"></div>
+<div class="ring ring-gray-300"></div>
+<div class="ring ring-gray-400"></div>
+<div class="ring ring-gray-500"></div>
+<div class="ring ring-gray"></div>
+<div class="ring ring-gray-600"></div>
+<div class="ring ring-gray-700"></div>
+<div class="ring ring-gray-800"></div>
+<div class="ring ring-gray-900"></div>
+<div class="ring ring-gray-950"></div>
 <h4>Ring with Surface color</h4>
 <div class="ring ring-inverse"></div>
 <div class="ring ring-canvas"></div>
@@ -514,6 +528,7 @@
 <h4>Surface</h4>
 <div class="border border-white"></div>
 <div class="border border-black"></div>
+<div class="border border-transparent"></div>
 <div class="border border-canvas"></div>
 <div class="border border-surface-light"></div>
 <div class="border border-surface"></div>
@@ -527,7 +542,6 @@
 <div class="border border-link-hover"></div>
 <h4>Special</h4>
 <div class="border border-current"></div>
-<div class="border border-transparent"></div>
 <div class="border border-inherit"></div>
 ```
 
