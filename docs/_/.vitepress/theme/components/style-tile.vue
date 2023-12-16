@@ -1,6 +1,6 @@
 <template>
   <div :class="['style-tile-item', name ? 'cursor-pointer' : '']" @click="onClick">
-    <div class="style-tile" :class="[name, tileClass, copied ? 'ring-4 ring-opacity-50' : '']" :style="tileStyle">
+    <div class="style-tile" :class="[tileClass, noNameClass ? '' : name,  copied ? 'ring-4 ring-opacity-50' : '']" :style="tileStyle">
       {{ titleText }}
       <slot />
     </div>
@@ -17,6 +17,7 @@ const props = defineProps<{
   name: string;
   title?: string | boolean;
   tileClass?: string;
+  noNameClass?: boolean;
   tileStyle?: StyleValue;
   labelClass?: string;
   alias?: string;
