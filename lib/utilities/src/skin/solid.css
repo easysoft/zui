@@ -17,67 +17,69 @@
 .gray-900,
 .gray-950 {
   @apply -skin;
-  --skin-text: var(--color-fore-in-dark);
+  --skin-text: rgba(var(--color-fore-in-dark-rgb), var(--tw-text-opacity));
+  --skin-color: rgba(var(--skin-solid-rgb), 1);
+  --skin-ring: rgba(var(--skin-solid-rgb), var(--tw-ring-opacity));
   --state-ring-color: var(--skin-color);
 }
 
 .primary {
-  --skin-color: var(--color-primary-500);
+  --skin-solid-rgb: var(--color-primary-500-rgb);
 }
 .secondary {
-  --skin-color: var(--color-secondary-500);
+  --skin-solid-rgb: var(--color-secondary-500-rgb);
 }
 .success {
-  --skin-color: var(--color-success-500);
+  --skin-solid-rgb: var(--color-success-500-rgb);
 }
 .warning {
-  --skin-color: var(--color-warning-500);
+  --skin-solid-rgb: var(--color-warning-500-rgb);
 }
 .danger {
-  --skin-color: var(--color-danger-500);
+  --skin-solid-rgb: var(--color-danger-500-rgb);
 }
 .important {
-  --skin-color: var(--color-important-500);
+  --skin-solid-rgb: var(--color-important-500-rgb);
 }
 .special {
-  --skin-color: var(--color-special-500);
+  --skin-solid-rgb: var(--color-special-500-rgb);
 }
 
 .gray-50 {
-  --skin-bg: var(--color-gray-50);
-  --skin-text: var(--color-fore);
+  --skin-bg: rgba(var(--color-gray-50-rgb), var(--tw-bg-opacity));
+  --skin-text: rgba(var(--color-fore), var(--tw-text-opacity));
 }
 .gray-100 {
-  --skin-color: var(--color-gray-100);
-  --skin-text: var(--color-fore);
+  --skin-solid-rgb: var(--color-gray-100-rgb);
+  --skin-text: rgba(var(--color-fore), var(--tw-text-opacity));
 }
 .gray-200, .lightest {
-  --skin-color: var(--color-gray-200);
-  --skin-text: var(--color-fore);
+  --skin-solid-rgb: var(--color-gray-200-rgb);
+  --skin-text: rgba(var(--color-fore), var(--tw-text-opacity));
 }
 .gray-300, .lighter {
-  --skin-color: var(--color-gray-300);
-  --skin-text: var(--color-fore);
+  --skin-solid-rgb: var(--color-gray-300-rgb);
+  --skin-text: rgba(var(--color-fore), var(--tw-text-opacity));
 }
 .gray-400, .lighten {
-  --skin-color: var(--color-gray-400);
-  --skin-text: var(--color-fore);
+  --skin-solid-rgb: var(--color-gray-400-rgb);
+  --skin-text: rgba(var(--color-fore), var(--tw-text-opacity));
 }
 .gray-500, .gray {
-  --skin-color: var(--color-gray-500);
+  --skin-solid-rgb: var(--color-gray-500-rgb);
 }
 .gray-600, .darken {
-  --skin-color: var(--color-gray-600);
+  --skin-solid-rgb: var(--color-gray-600-rgb);
 }
 .gray-700, .darker {
-  --skin-color: var(--color-gray-700);
+  --skin-solid-rgb: var(--color-gray-700-rgb);
 }
 .gray-800, .darkest {
-  --skin-color: var(--color-gray-800);
+  --skin-solid-rgb: var(--color-gray-800-rgb);
 }
 .gray-900 {
-  --skin-color: var(--color-gray-900);
+  --skin-solid-rgb: var(--color-gray-900-rgb);
 }
 .gray-950 {
-  --skin-color: var(--color-gray-950);
+  --skin-solid-rgb: var(--color-gray-950-rgb);
 }
