@@ -51,8 +51,11 @@ button.DocSearch-Button {
   @apply -bg-surface/50 -backdrop-blur;
 }
 
+.custom-block.warning {
+  @apply -ring-0;
+}
 .custom-block.warning:hover {
-  @apply -text-[--vp-custom-block-warning-text];
+  @apply -text-[--vp-custom-block-warning-text] -bg-[--vp-custom-block-warning-bg];
 }
 
 .hover-scale {
@@ -66,11 +69,11 @@ button.DocSearch-Button {
   .VPNavBar {
     @apply -transition-colors;
   }
-  .VPNavBar:not(.top) {
+  .VPNavBar:not(.top,.has-sidebar) {
     background: rgba(var(--color-canvas-rgb), .05)!important;
     backdrop-filter: blur(10px)!important;
   }
-  .VPNavBar:not(.top) .content-body {
+  .VPNavBar:not(.top,.has-sidebar) .content-body {
     background: none!important;
   }
 }
