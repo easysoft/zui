@@ -20,8 +20,6 @@
         color: var(--skin-text);
         border-color: var(--skin-border);
         box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
-
-        @apply -transition-[color,background-color,border-color,text-decoration-color,box-shadow];
     }
 
     .-skin:hover {
