@@ -1,56 +1,68 @@
-# 线框
+# 轮廓
 
-使用 `*-outline` 来设置文字颜色和边框颜色一致。
+用于快速为元素或组件实现特定颜色的轮廓描边外观。
 
-<Example class="p-0">
-    <table class="table">
-	<thead>
-	    <tr>
-		<th>工具类</th>
-		<th>属性</th>
-	    </tr>
-	</thead>
-	<tbody>
-		<tr v-for="item in outlineJson">
-			<td>{{item.name}}-outline</td>
-			<td><code>border-color: {{item.color}}; color: {{item.color}};</code></td>
-		</tr>
-	</tbody>
-    </table>
+## 效果
+
+<Example class="col gap-6">
+  <div v-for="group in colors" :key="group.name || group.title">
+    <div class="mb-3 font-bold">{{group.title}}</div>
+    <div class="row flex-wrap gap-4">
+      <StyleTile
+          v-for="item in group.items"
+          :key="item.name"
+          tileClass="rounded h-8 w-32 font-mono text-sm"
+          :title="true"
+          v-bind="{...item}"
+      />
+    </div>
+  </div>
 </Example>
 
-## 效果展示
+::: tip 提示
+轮廓的描边效果使用 `box-shadow` 实现。
+:::
 
-### 语义化配色
+## 示例
 
-<Example background="light-circle">
-	<div class="-grid -grid-cols-3 -gap-4">
-		<div v-for="item in outlineJson.slice(0, 7)" class="-h-10 flex -justify-center -items-center" :class="`${item.name}-outline`">{{`${item.name}-outline`}}</div>
-	</div>
+<Example class="col items-start gap-3">
+  <button class="btn primary-outline">Primary Button</button>
+  <span class="label success-outline">Success Label</span>
+  <div class="gray-outline p-2">Gray Element</div>
 </Example>
 
-### 黑白配色
-
-<Example background="blue-circle">
-	<div class="-grid -grid-cols-3 -gap-4">
-		<div v-for="item in outlineJson.slice(7)" class="-h-10 flex -justify-center -items-center" :class="`${item.name}-outline`">{{`${item.name}-outline`}}</div>
-	</div>
-</Example>
+```html
+<button class="btn primary-outline">Primary Button</button>
+<span class="label success-outline">Success Label</span>
+<div class="gray-outline p-2">Gray Element</div>
+```
 
 <script setup>
-	const outlineJson = [
-		{name: 'primary', color: '#2b80ff'},
-		{name: 'secondary', color: '#37b2fe'},
-		{name: 'success', color: '#17ce97'},
-		{name: 'warning', color: '#ffa34d'},
-		{name: 'danger', color: '#ff5858'},
-		{name: 'important', color: '#ff4f9e'},
-		{name: 'special', color: '#9d5eff'},
-		{name: 'lighter', color: '#f5f5f5'},
-		{name: 'light', color: '#e3e4e9'},
-		{name: 'gray', color: '#9ea3b0'},
-		{name: 'darken', color: '#5e626d'},
-		{name: 'darker', color: '#1b1f28'},
-		{name: 'black', color:  '#2b80ff'},
-	];
+    const colors = [
+        {
+            name: 'default',
+            title: '默认',
+            items: [
+                {name: 'outline'}
+            ],
+        }, {
+            name: 'semantic',
+            title: '语义化',
+            items: [
+                {name: 'primary-outline'},
+                {name: 'secondary-outline'},
+                {name: 'success-outline'},
+                {name: 'warning-outline'},
+                {name: 'danger-outline'},
+                {name: 'important-outline'},
+                {name: 'special-outline'},
+            ],
+        }, {
+            name: 'gray',
+            title: '灰度',
+            items: [
+                {name: 'gray-outline'},
+            ],
+        }
+    ];
 </script>
