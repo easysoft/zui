@@ -15,7 +15,7 @@
 }
 
 .outline {
-  --skin-outline-rgb: var(--color-fore-500-rgb);
+  --skin-outline-rgb: var(--color-fore-rgb);
 }
 .primary-outline {
   --skin-outline-rgb: var(--color-primary-500-rgb);
