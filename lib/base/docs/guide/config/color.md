@@ -167,6 +167,8 @@ const uiColors = [
   {code: 'canvas', name: '画布颜色', meaning: '通常用于页面背景、组件背景等，在浅色主题中为白色，在深色主题中为深黑色。'},
   {code: 'inverse', name: '画布反色', meaning: '通常用于界面突出部分的背景或文字颜色，例如工具提示背景等，在浅色主题中为黑色，在深色主题中为白色。'},
   {code: 'surface', name: '控件背景', meaning: '用于控件的背景颜色，例如按钮背景、可交互面板背景等，在浅色主题中为浅灰色，在深色主题中为深黑色。'},
+  {code: 'surface-light', name: '加重的控件背景', meaning: '加重的控件的背景颜色'},
+  {code: 'surface-strong', name: '轻量的控件背景', meaning: '轻量的控件的背景颜色'},
   {code: 'fore', name: '文本颜色', meaning: '默认的文本颜色，在浅色主题中为深黑色，在深色主题中为浅灰色。'},
   {code: 'focus', name: '焦点颜色', meaning: '可聚焦控件的焦点状态指示颜色，例如按钮获得焦点的轮廓颜色。'},
   {code: 'link', name: '链接颜色', meaning: '链接的颜色，例如超链接、按钮链接等，通常与主题色保持一致。'},
