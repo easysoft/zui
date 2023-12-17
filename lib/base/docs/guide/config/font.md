@@ -23,19 +23,19 @@
 
 **无衬线字体 `font-sans`**
 
-<div class="px-2 py-1 rounded lighter">
+<div class="px-2 py-1 rounded surface">
   <CssPropValue class="font-mono text-sm pre-line" prop="font-family" target="#example-font-sans" />
 </div>
 
 **衬线字体 `font-serif`**
 
-<div class="px-2 py-1 rounded lighter">
+<div class="px-2 py-1 rounded surface">
   <CssPropValue class="font-mono text-sm pre-line" prop="font-family" target="#example-font-serif" />
 </div>
 
 **等宽字体 `font-mono`**
 
-<div class="px-2 py-1 rounded lighter">
+<div class="px-2 py-1 rounded surface">
   <CssPropValue class="font-mono text-sm pre-line" prop="font-family" target="#example-font-mono" />
 </div>
 
