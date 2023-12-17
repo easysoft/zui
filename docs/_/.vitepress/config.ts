@@ -22,7 +22,7 @@ export default defineConfig({
     ],
     lastUpdated: true,
     markdown: {
-        theme: 'github-dark',
+        theme: {light: 'github-light', dark: 'github-dark'},
         defaultHighlightLang: 'html',
         config(md) {
             md.use(tabsMarkdownPlugin);
