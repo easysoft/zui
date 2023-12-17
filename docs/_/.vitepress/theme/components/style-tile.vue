@@ -1,6 +1,6 @@
 <template>
-  <div :class="['style-tile-item', name ? 'cursor-pointer' : '']" @click="onClick">
-    <div class="style-tile" :class="[tileClass, noNameClass ? '' : name,  copied ? 'ring-4 ring-opacity-50' : '']" :style="tileStyle">
+  <div :class="['style-tile-item', (name && !noHover) ? 'cursor-pointer' : '', noHover ? 'no-hover' : '']" @click="onClick">
+    <div class="style-tile" :class="[tileClass, noNameClass ? '' : name,  copied ? (copiedClass ?? 'ring-4 ring-opacity-50') : '']" :style="tileStyle">
       {{ titleText }}
       <slot />
     </div>
@@ -23,6 +23,8 @@ const props = defineProps<{
   alias?: string;
   hint?: string | false;
   label?: string | boolean;
+  noHover?: boolean;
+  copiedClass?: string;
 }>();
 
 const copied = ref(false);
@@ -81,7 +83,7 @@ onUnmounted(() => {
 .style-tile {
   @apply -flex -items-center -justify-center -transition-[transform,box-shadow] -scale-100 -duration-300;
 }
-.style-tile-item.cursor-pointer:hover > .style-tile {
+.style-tile-item.cursor-pointer > .style-tile:hover {
   @apply -scale-105 -shadow-lg;
 }
 .style-tile-label {
