@@ -21,8 +21,8 @@
 .h-20     {@apply -h-20;}
 .h-24     {@apply -h-24;}
 .h-28     {@apply -h-28;}
-.h-32    {@apply -h-32;}
-.h-36    {@apply -h-36;}
+.h-32     {@apply -h-32;}
+.h-36     {@apply -h-36;}
 .h-40     {@apply -h-40;}
 .h-44     {@apply -h-44;}
 .h-48     {@apply -h-48;}
@@ -33,7 +33,6 @@
 .h-72     {@apply -h-72;}
 .h-80     {@apply -h-80;}
 .h-96     {@apply -h-96;}
-.h-auto   {@apply -h-auto;}
 .h-1\/2   {@apply -h-1/2;}
 .h-1\/3   {@apply -h-1/3;}
 .h-2\/3   {@apply -h-2/3;}
@@ -49,11 +48,18 @@
 .h-3\/6   {@apply -h-3/6;}
 .h-4\/6   {@apply -h-4/6;}
 .h-5\/6   {@apply -h-5/6;}
+
+.h-auto   {@apply -h-auto;}
 .h-full   {@apply -h-full;}
 .h-screen {@apply -h-screen;}
 .h-min    {@apply -h-min;}
 .h-max    {@apply -h-max;}
 .h-fit    {@apply -h-fit;}
 
-.max-h-full {@apply -max-h-full;}
-.min-h-0    {@apply -min-h-0;}
+.max-h-full   {@apply -max-h-full;}
+.min-h-0      {@apply -min-h-0;}
+.min-h-min    {@apply -min-h-min;}
+.min-h-max    {@apply -min-h-max;}
+.min-h-screen {@apply -min-h-screen;}
+.min-h-fit    {@apply -min-h-fit;}
+.min-h-none   {@apply -min-h-none;}
