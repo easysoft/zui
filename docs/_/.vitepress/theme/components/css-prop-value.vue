@@ -10,6 +10,7 @@ const props = defineProps<{
   placeholder?: string,
   target?: string,
   format?: string | ((value: string) => string),
+  fake?: string,
 }>();
 
 const value = ref(props.placeholder ?? props.prop);
@@ -28,7 +29,11 @@ const display = computed(() => {
 onMounted(() => {
   const updateValue = () => {
     let target: HTMLElement | null = null;
-    if (props.target) {
+    if (props.fake) {
+      target = document.createElement('div');
+      target.setAttribute('class', `fixed bottom-0 right-0 opacity-0 pointer-events-none ${props.fake}`);
+      document.body.appendChild(target);
+    } else if (props.target) {
       target = document.querySelector(props.target);
     } else {
       target = ele.value;
@@ -38,6 +43,9 @@ onMounted(() => {
     }
     const style = getComputedStyle(target);
     value.value = style.getPropertyValue(props.prop);
+    if (props.fake) {
+      target.remove();
+    }
   };
 
   updateValue();
