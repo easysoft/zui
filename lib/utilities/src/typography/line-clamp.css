@@ -1,3 +1,4 @@
+.line-1 {@apply -line-clamp-1;}
 .line-2 {@apply -line-clamp-2;}
 .line-3 {@apply -line-clamp-3;}
 .line-4 {@apply -line-clamp-4;}
