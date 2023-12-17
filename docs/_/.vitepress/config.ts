@@ -1,6 +1,7 @@
 import {defineConfig} from 'vitepress';
 import {whyframe} from '@whyframe/core';
 import {whyframeVue} from '@whyframe/vue';
+import {tabsMarkdownPlugin} from 'vitepress-plugin-tabs';
 import {themeConfig, extLibs} from './theme-config';
 import pkg from '../../../package.json';
 
@@ -23,6 +24,9 @@ export default defineConfig({
     markdown: {
         theme: 'github-dark',
         defaultHighlightLang: 'html',
+        config(md) {
+            md.use(tabsMarkdownPlugin);
+        }
     },
     vite: {
         plugins: [

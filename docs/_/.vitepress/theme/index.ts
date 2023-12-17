@@ -1,4 +1,5 @@
 import DefaultTheme from 'vitepress/theme';
+import { enhanceAppWithTabs } from 'vitepress-plugin-tabs/client';
 import Example from './components/example.vue';
 import CssPropValue from './components/css-prop-value.vue';
 import CopyCode from './components/copy-code.vue';
@@ -14,6 +15,7 @@ export default {
     extends: DefaultTheme,
 
     enhanceApp({app}) {
+        enhanceAppWithTabs(app);
         app.component('Example', Example);
         app.component('CssPropValue', CssPropValue);
         app.component('CopyCode', CopyCode);

@@ -77,3 +77,25 @@ button.DocSearch-Button {
     background: none!important;
   }
 }
+
+.plugin-tabs {
+  @apply -ring-1 -ring-stone-200 -w-full -rounded -shadow -bg-transparent;
+}
+.plugin-tabs--content {
+  @apply !-p-0;
+}
+.plugin-tabs--content .example {
+  @apply -shadow-none -rounded-t-none;
+}
+.plugin-tabs--content div[class*='language-'] {
+  @apply !-rounded-t-none !-bg-[--vp-code-block-bg];
+}
+.plugin-tabs--tab-list {
+  @apply  -bg-surface;
+}
+.plugin-tabs--tab-list::after {
+  @apply -bg-border -h-px;
+}
+.plugin-tabs--tab {
+  @apply -h-10 -leading-10;
+}
