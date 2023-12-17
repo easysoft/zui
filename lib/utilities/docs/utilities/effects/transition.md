@@ -39,15 +39,15 @@
 <Example class="flex flex-wrap gap-8 p-8" background="light-circle">
   <div v-for="item in fadeList" :key="item.name">
     <StyleTile
-      tileClass="w-40 h-16 text-gray"
-      labelClass="text-center font-mono text-sm "
+      tileClass="w-40 h-16 text-gray shadow-inner gray-50"
+      labelClass="text-center font-mono text-sm"
       :label="true"
       v-bind="item"
       noNameClass
     >
-        <div :class="['absolute center inset-0 primary fade-tile duration-500', item.name]">
-          {{item.title}}
-        </div>
+      <div :class="['absolute center inset-0 primary fade-tile duration-500', item.name]">
+        {{item.title}}
+      </div>
     </StyleTile>
   </div>
 </Example>
