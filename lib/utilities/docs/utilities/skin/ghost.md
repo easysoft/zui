@@ -21,15 +21,23 @@
 
 ## 示例
 
+:::tabs
+
+== 示例
+
 <Example class="col items-start gap-3">
   <button class="btn primary-ghost">Primary Button</button>
   <div class="ghost p-2 state">Ghost Element</div>
 </Example>
 
+== HTML
+
 ```html
 <button class="btn primary-ghost">Primary Button</button>
 <div class="ghost p-2 state">Ghost Element</div>
 ```
+
+:::
 
 <script setup>
     const colors = [

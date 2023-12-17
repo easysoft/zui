@@ -21,9 +21,9 @@
 使用 `animate-ping` 给元素添加水波纹动画。
 
 <Example>
-<button type="button" class="btn primary">
-  <i class="animate-ping icon icon-thumbs-up"></i> 赞！
-</button>
+  <button type="button" class="btn primary">
+    <i class="animate-ping icon icon-thumbs-up"></i> 赞！
+  </button>
 </Example>
 
 ```html
