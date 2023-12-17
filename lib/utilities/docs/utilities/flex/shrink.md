@@ -4,7 +4,7 @@
 
 <Example>
   <div class="w-64 flex gap-3 surface">
-    <div class="primary center w-48 h-8 shrink font-mono">shrink</div>
-    <div class="primary center w-48 h-8 shrink-0 font-mono">shrink-0</div>
+    <div class="secondary center w-48 h-8 shrink font-mono">shrink</div>
+    <div class="secondary center w-48 h-8 shrink-0 font-mono">shrink-0</div>
   </div>
 </Example>

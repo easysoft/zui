@@ -17,7 +17,7 @@
   <h3><code>{{item}}</code></h3>
   <Example>
     <div :class="item === 'flex-initial' ? 'w-48' : 'w-full' " class="flex gap-3 surface" >
-      <div :class="item" v-for="index in 3" class="primary center w-24 h-8">
+      <div :class="item" v-for="index in 3" class="secondary center w-24 h-8">
         24 &times; 8
       </div>
     </div>
@@ -29,7 +29,7 @@
 
 <Example>
   <div class="row gap-3 surface" >
-    <div v-for="item in flexJson" :key="item" :class="item" class="primary center w-24 h-8 font-mono">
+    <div v-for="item in flexJson" :key="item" :class="item" class="secondary center w-24 h-8 font-mono">
       {{item}}
     </div>
   </div>

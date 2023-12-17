@@ -11,7 +11,7 @@
       <StyleTile
           v-for="item in group.items"
           :key="item.name"
-          tileClass="border border ring ring-primary rounded h-8 w-32"
+          tileClass="border border ring ring-secondary rounded h-8 w-32"
           labelClass="font-mono text-sm"
           :title="false"
           :hint="false"

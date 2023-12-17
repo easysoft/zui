@@ -11,7 +11,7 @@
       <StyleTile
           v-for="item in group.items"
           :key="item.name"
-          tileClass="border border ring ring-primary rounded h-8 w-32"
+          tileClass="border border ring ring-secondary rounded h-8 w-32"
           labelClass="font-mono text-sm"
           :title="false"
           :hint="false"
@@ -29,14 +29,14 @@
 <Example class="col gap-6">
   <div class="row flex-wrap gap-4">
     <StyleTile
-        tileClass="border border ring ring-primary rounded h-8 w-28"
+        tileClass="border border ring ring-secondary rounded h-8 w-28"
         labelClass="font-mono text-sm"
         :title="false"
         name="ring"
         label="默认"
     />
     <StyleTile
-        tileClass="border border ring ring-primary ring-inset rounded h-8 w-28"
+        tileClass="border border ring ring-secondary ring-inset rounded h-8 w-28"
         labelClass="font-mono text-sm"
         :title="false"
         :hint="false"

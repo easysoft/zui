@@ -8,7 +8,7 @@
   <h3><code>{{item}}</code></h3>
   <Example>
     <div :class="item" class="inline-flex flex-wrap surface" >
-      <div v-for="index in 12" class="center primary w-32 h-8">
+      <div v-for="index in 12" class="center secondary w-32 h-8">
         {{index}}
       </div>
     </div>

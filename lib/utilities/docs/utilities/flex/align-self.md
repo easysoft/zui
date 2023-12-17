@@ -7,7 +7,7 @@
   <Example>
     <div class="flex items-center h-48 gap-2 surface">
       <template v-for="index in 5">
-        <div :class="index === 1 ? item : ''" class="primary grow center" :style="{'min-height': index * 20 + 'px'}">
+        <div :class="index === 1 ? item : ''" class="secondary grow center" :style="{'min-height': index * 20 + 'px'}">
           {{index === 1 ? item : 'default'}}
         </div>
       </template>

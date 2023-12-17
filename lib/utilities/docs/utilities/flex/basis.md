@@ -6,7 +6,7 @@
 
 <Example class="flex flex-wrap gap-3">
   <div :class="'basis-' + item" v-for="(item,index) in basisJson" >
-    <div class="primary w-full h-8"></div>
+    <div class="secondary w-full h-8"></div>
     <div class="mt-0.5 text-center">{{item}}</div>
   </div>
 </Example>

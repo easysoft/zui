@@ -6,7 +6,7 @@
 
 <Example class="flex flex-wrap gap-3">
   <div v-for="index in 12" :class="'order-' + (13 - index) ">
-    <div class="w-16 h-8 center primary">
+    <div class="w-16 h-8 center secondary">
         {{index}}
     </div>
     <div class="text-center text-gray font-mono">{{'order-' + (13-index)}}</div>
@@ -17,7 +17,7 @@
 
 <Example class="flex flex-wrap gap-3">
   <div v-for="(item, index) in arrayOrder" :class="'order-' + item">
-    <div class="w-16 h-8 center primary">
+    <div class="w-16 h-8 center secondary">
         {{index}}
     </div>
     <div class="text-center text-gray font-mono">{{'order-' + item}}</div>
