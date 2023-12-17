@@ -1,8 +1,10 @@
 # 内容适配
 
+## 定义
+
 元素的内容应该如何去适应指定容器的高度与宽度。
 
-<Example class="p-0">
+<Example padding="p-0">
   <table class="table">
     <thead>
       <tr>
@@ -12,7 +14,7 @@
     </thead>
     <tbody>
       <tr v-for="item in objectFitJson">
-        <td>{{item.name}}</td>
+        <td class="font-mono">{{item.name}}</td>
         <td><code>{{item.desc}}</code></td>
       </tr>
     </tbody>
@@ -25,81 +27,114 @@
 
 使用工具类 `object-contain` 调整元素内容的大小，使其保持在容器内。
 
-<Example class="p-0">
-  <div class="bg-surface">
+::: tabs
+== 示例
+
+<Example padding="p-0">
+  <div class="surface">
     <img src="/favicon.svg" class="object-contain h-48 w-full">
   </div>
 </Example>
 
+== HTML
+
 ```html
-<div class="bg-surface">
+<div class="surface">
   <img src="/favicon.svg" class="object-contain h-48 w-full">
 </div>
 ```
+
+:::
 
 ### 覆盖
 
 使用工具类 `object-cover` 调整元素内容的大小以覆盖其容器。
 
-<Example class="p-0">
-  <div class="bg-surface">
+::: tabs
+== 示例
+
+<Example padding="p-0">
+  <div class="surface">
     <img src="/favicon.svg" class="object-cover h-48 w-full">
   </div>
 </Example>
 
+== HTML
+
 ```html
-<div class="bg-surface">
+<div class="surface">
   <img src="/favicon.svg" class="object-cover h-48 w-full">
 </div>
 ```
+:::
 
 ### 充满
 
 使用工具类 `object-fill` 拉伸元素的内容以适应其容器。
 
-<Example class="p-0">
-  <div class="bg-surface">
+::: tabs
+== 示例
+
+<Example padding="p-0">
+  <div class="surface">
     <img src="/favicon.svg" class="object-fill h-48 w-full">
   </div>
 </Example>
 
+== HTML
+
 ```html
-<div class="bg-surface">
+<div class="surface">
   <img src="/favicon.svg" class="object-fill h-48 w-full">
 </div>
 ```
+
+:::
 
 ### 无
 
 使用工具类 `object-none` 以原始大小显示元素的内容，忽略容器大小。
 
-<Example class="p-0">
-  <div class="bg-surface">
+::: tabs
+== 示例
+
+<Example padding="p-0">
+  <div class="surface">
     <img src="/favicon.svg" class="object-none h-48 w-full">
   </div>
 </Example>
 
+== HTML
+
 ```html
-<div class="bg-surface">
+<div class="surface">
   <img src="/favicon.svg" class="object-none h-48 w-full">
 </div>
 ```
+
+:::
 
 ### 缩小
 
 以原始大小显示元素的内容，但必要时使用 `object-scale-down` 将其缩小以适应其容器。
 
-<Example class="p-0">
-  <div class="bg-surface">
+::: tabs
+== 示例
+
+<Example padding="p-0">
+  <div class="surface">
     <img src="/favicon.svg" class="object-scale-down h-48 w-full">
   </div>
 </Example>
 
+== HTML
+
 ```html
-<div class="bg-surface">
+<div class="surface">
   <img src="/favicon.svg" class="object-scale-down h-48 w-full">
 </div>
 ```
+:::
 
 <script setup>
   const objectFitJson = [

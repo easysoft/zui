@@ -1,8 +1,10 @@
 # 浮动
 
+## 定义
+
 用于设置元素浮动或清除浮动影响的工具类。
 
-<Example class="p-0">
+<Example padding="p-0">
   <table class="table">
     <thead>
       <tr>
@@ -11,8 +13,8 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="item in floatJson">
-        <td>{{item.name}}</td>
+      <tr v-for="item in floatList">
+        <td class="font-mono nowrap">{{item.name}}</td>
         <td><code>{{item.desc}}</code></td>
       </tr>
     </tbody>
@@ -20,7 +22,7 @@
 </Example>
 
 ::: tip 提示
-浮动应当仅适用于实现文字环绕效果，布局请使用 `flex` 等工具类。
+浮动应当仅适用于实现文字环绕效果，布局请使用 [Flex 工具类](/utilities/flex/utilities/flex.html)。
 :::
 
 ## 效果展示
@@ -29,42 +31,60 @@
 
 使用工具类 `pull-right` 将一个元素浮动到其容器的右边。
 
+::: tabs
+== 示例
+
 <Example background="light-grid">
   <div class="clearfix">
     <img class="pull-right ml-4 h-24" src="/favicon.svg">
-    <p>ZUI3 是一个开箱即用的组合式前端 UI 框架。ZUI3 组件库内置了大量组件，并支持集中开发、调试和打包，其中打包还支持只选择指定的组件进行个性化定制，同步输出组件库文档。但当需求扩展到组件库之外时，就需要用到扩展组件库了。ZUI3 支持扩展组件库模式，可以从其他位置引入一个或多个组件库目录，享受集中开发、调试和打包。下面介绍扩展组件库的使用方法。ZUI3 每个组件在一个独立的目录内，拥有自己的 package.json 文件，使得组件可以独立作为 npm 包来使用，也可以单独作为子项目进行开发维护。通常组件通过在 package.json 文件中设置属性 private: true 来让包仅在 zui3 工作空间内可用，但组件仍然拥有作为公开的包发布到 npm 上进行独立使用。</p>
+    <p>So I started to walk into the water. I won't lie to you boys, I was terrified. But I pressed on, and as I made my way past the breakers a strange calm came over me. I don't know if it was divine intervention or the kinship of all living things but I tell you Jerry at that moment, I was a marine biologist.</p>
+    <p>月光如流水一般，静静地泻在这一片叶子和花上。薄薄的青雾浮起在荷塘里。叶子和花仿佛在牛乳中洗过一样；又像笼着轻纱的梦。</p>
   </div>
 </Example>
+
+== HTML
 
 ```html
 <div class="clearfix">
   <img class="pull-right ml-2 h-24" src="/favicon.svg">
-  <p>ZUI3 是一个开箱即用的组合式前端 UI 框架。ZUI3 组件库内置了大量组件，并支持集中开发、调试和打包，其中打包还支持只选择指定的组件进行个性化定制，同步输出组件库文档。但当需求扩展到组件库之外时，就需要用到扩展组件库了。ZUI3 支持扩展组件库模式，可以从其他位置引入一个或多个组件库目录，享受集中开发、调试和打包。下面介绍扩展组件库的使用方法。ZUI3 每个组件在一个独立的目录内，拥有自己的 package.json 文件，使得组件可以独立作为 npm 包来使用，也可以单独作为子项目进行开发维护。通常组件通过在 package.json 文件中设置属性 private: true 来让包仅在 zui3 工作空间内可用，但组件仍然拥有作为公开的包发布到 npm 上进行独立使用。</p>
+  <p>So I started to walk into the water. I won't lie to you boys, I was terrified. But I pressed on, and as I made my way past the breakers a strange calm came over me. I don't know if it was divine intervention or the kinship of all living things but I tell you Jerry at that moment, I was a marine biologist.</p>
+    <p>月光如流水一般，静静地泻在这一片叶子和花上。薄薄的青雾浮起在荷塘里。叶子和花仿佛在牛乳中洗过一样；又像笼着轻纱的梦。</p>
 </div>
 ```
+
+:::
 
 ### 向左浮动
 
 使用工具类 `pull-left` 将一个元素浮动到其容器的左边。
 
+::: tabs
+== 示例
+
 <Example background="light-grid">
   <div class="clearfix">
     <img class="pull-left mr-4 h-24" src="/favicon.svg">
-    <p>ZUI3 是一个开箱即用的组合式前端 UI 框架。ZUI3 组件库内置了大量组件，并支持集中开发、调试和打包，其中打包还支持只选择指定的组件进行个性化定制，同步输出组件库文档。但当需求扩展到组件库之外时，就需要用到扩展组件库了。ZUI3 支持扩展组件库模式，可以从其他位置引入一个或多个组件库目录，享受集中开发、调试和打包。下面介绍扩展组件库的使用方法。ZUI3 每个组件在一个独立的目录内，拥有自己的 package.json 文件，使得组件可以独立作为 npm 包来使用，也可以单独作为子项目进行开发维护。通常组件通过在 package.json 文件中设置属性 private: true 来让包仅在 zui3 工作空间内可用，但组件仍然拥有作为公开的包发布到 npm 上进行独立使用。</p>
+    <p>So I started to walk into the water. I won't lie to you boys, I was terrified. But I pressed on, and as I made my way past the breakers a strange calm came over me. I don't know if it was divine intervention or the kinship of all living things but I tell you Jerry at that moment, I was a marine biologist.</p>
+    <p>月光如流水一般，静静地泻在这一片叶子和花上。薄薄的青雾浮起在荷塘里。叶子和花仿佛在牛乳中洗过一样；又像笼着轻纱的梦。</p>
   </div>
 </Example>
+
+== HTML
 
 ```html
 <div class="clearfix">
   <img class="pull-left mr-4 h-24" src="/favicon.svg">
-  <p>ZUI3 是一个开箱即用的组合式前端 UI 框架。ZUI3 组件库内置了大量组件，并支持集中开发、调试和打包，其中打包还支持只选择指定的组件进行个性化定制，同步输出组件库文档。但当需求扩展到组件库之外时，就需要用到扩展组件库了。ZUI3 支持扩展组件库模式，可以从其他位置引入一个或多个组件库目录，享受集中开发、调试和打包。下面介绍扩展组件库的使用方法。ZUI3 每个组件在一个独立的目录内，拥有自己的 package.json 文件，使得组件可以独立作为 npm 包来使用，也可以单独作为子项目进行开发维护。通常组件通过在 package.json 文件中设置属性 private: true 来让包仅在 zui3 工作空间内可用，但组件仍然拥有作为公开的包发布到 npm 上进行独立使用。</p>
+  <p>So I started to walk into the water. I won't lie to you boys, I was terrified. But I pressed on, and as I made my way past the breakers a strange calm came over me. I don't know if it was divine intervention or the kinship of all living things but I tell you Jerry at that moment, I was a marine biologist.</p>
+    <p>月光如流水一般，静静地泻在这一片叶子和花上。薄薄的青雾浮起在荷塘里。叶子和花仿佛在牛乳中洗过一样；又像笼着轻纱的梦。</p>
 </div>
 ```
 
+:::
+
 <script setup>
-  const floatJson = [
+const floatList = [
     {name: 'pull-right', desc: 'float: right;'},
     {name: 'pull-left', desc: 'float: left;'},
     {name: 'clearfix', desc: '.clearfix::after {content: ""; display: block; clear: both;}'},
-  ]
+];
 </script>

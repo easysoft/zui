@@ -1,45 +1,50 @@
 # 容器
 
-`container` 类设置一个元素的 `max-width` 来匹配当前断点的 `min-width`。如果您想为一组固定的屏幕尺寸设计，而不是试图适应一个完全流动的视窗，这很有用。
+## 定义
 
-<Example class="p-0">
+使用 `container` 类将元素宽度限制为当前[屏幕断点](/guide/config/base/screens.html)，具体规则如下：
+
+<Example padding="p-0">
   <table class="table">
     <thead>
       <tr>
-        <th>工具类</th>
-        <th>断点</th>
-        <th>属性</th>
+        <th>屏幕断点</th>
+        <th>CSS 属性</th>
       </tr>
     </thead>
     <tbody>
-      <tr v-for="item in containerJson">
-        <td>{{item.name}}</td>
-        <td>{{item.breakpoint}}</td>
-        <td><code>{{item.desc}}</code></td>
+      <tr>
+        <td>默认</td>
+        <td><code>width: 100%;</code></td>
+      </tr>
+      <tr v-for="item in ['sm', 'md', 'lg', 'xl', '2xl']" :key="item">
+        <td class="font-mono">@media (min-width: <CssPropValue :prop="`--screen-${item}`" target="body" />)</td>
+        <td><code>max-width: <CssPropValue prop="--screen-sm" target="body" />;</code></td>
       </tr>
     </tbody>
    </table>
 </Example>
 
-## 使用方法
+::: tip 提示
+`.container` 还会为元素添加 `margin-left: auto; margin-right: auto;`，使得元素默认居中显示。
+:::
+
+## 用法
+
+::: tabs
+== 示例
+
+<Example background="blue-circle">
+  <div class="container center canvas bg-opacity-50 backdrop-blur-lg h-56 font-mono">
+    .container
+  </div>
+</Example>
+
+== HTML
 
 ```html
 <div class="container">
-  <!-- ... -->
+  .container
 </div>
 ```
-
-::: tip 提示
-请注意，容器不会自动居中，也没有任何内置的水平方向的内边距。
 :::
-
-<script setup>
-  const containerJson = [
-    {name: 'container', desc: 'width: 100%;', breakpoint: '无'},
-    {name: 'container', desc: 'max-width: 640px;', breakpoint: 'sm (640px)'},
-    {name: 'container', desc: 'max-width: 768px;', breakpoint: 'sm (768px)'},
-    {name: 'container', desc: 'max-width: 1024px;', breakpoint: 'sm (1024px)'},
-    {name: 'container', desc: 'max-width: 1280px;', breakpoint: 'sm (1280px)'},
-    {name: 'container', desc: 'max-width: 1536px;', breakpoint: 'sm (1536px)'},
-  ]
-</script>

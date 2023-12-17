@@ -1,43 +1,42 @@
 # 宽高比
 
-为元素提供固定的宽高比，详细配置可参考 [Tailwind 官网](https://tailwindcss.com/docs/aspect-ratio)。
+## 效果
 
-<Example class="p-0">
-  <table class="table">
-    <thead>
-      <tr>
-        <th>工具类</th>
-        <th>属性</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for= "item in aspectJson">
-        <td>{{item.name}}</td>
-        <td><code>{{item.desc}}</code></td>
-      </tr>
-    </tbody>
-   </table>
+通过 `aspect-*` 类来控制元素显示的比例。
+
+::: tabs
+
+== 示例
+
+<Example background="light-circle">
+  <div class="row gap-4 items-end">
+    <StyleTile
+      v-for="item in aspectList"
+      :key="item.name"
+      :label="true"
+      tileClass="center secondary w-32"
+      title="w-32"
+      labelClass="font-mono text-sm text-center"
+      v-bind="item"
+    >
+    </StyleTile>
+  </div>
 </Example>
 
-## 效果展示
-
-<Example>
-  <div class="inline-block bg-secondary mr-3 w-16 h-2 aspect-auto"></div>
-  <div class="inline-block bg-secondary mr-3 w-16 aspect-square"></div>
-  <div class="inline-block bg-secondary mr-3 w-16 aspect-video"></div>
-</Example>
+== HTML
 
 ```html
-<div class="w-16 h-2 aspect-auto"></div>
-<div class="w-16 aspect-square"></div>
-<div class="w-16 aspect-video"></div>
+<div class="aspect-auto center secondary w-32"></div>
+<div class="aspect-square center secondary w-32"></div>
+<div class="aspect-video center secondary w-32"></div>
 ```
 
-<script setup>
-  const aspectJson = [
-    {name: 'aspect-auto', desc: 'aspect-ratio: auto;'},
-    {name: 'aspect-square', desc: 'aspect-ratio: 1 / 1;'},
-    {name: 'aspect-video', desc: 'aspect-ratio: 16 / 9;'},
-  ]
-</script>
+:::
 
+<script setup>
+const aspectList = [
+    {name: 'aspect-auto', hint: 'aspect-ratio: auto;'},
+    {name: 'aspect-square', hint: 'aspect-ratio: 1 / 1;'},
+    {name: 'aspect-video', hint: 'aspect-ratio: 16 / 9;'},
+];
+</script>
