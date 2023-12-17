@@ -56,10 +56,26 @@
 .w-max    {@apply -w-max;}
 .w-fit    {@apply -w-fit;}
 
-.max-w-full   {@apply -max-w-full;}
 .min-w-0      {@apply -min-w-0;}
+.min-w-full   {@apply -min-w-full;}
 .min-w-min    {@apply -min-w-min;}
 .min-w-max    {@apply -min-w-max;}
-.min-w-screen {@apply -min-w-screen;}
 .min-w-fit    {@apply -min-w-fit;}
-.min-w-none   {@apply -min-w-none;}
+
+.max-w-0     {@apply -max-w-0;}
+.max-w-none  {@apply -max-w-none;}
+.max-w-xs    {@apply -max-w-xs;}
+.max-w-sm    {@apply -max-w-sm;}
+.max-w-md    {@apply -max-w-md;}
+.max-w-lg    {@apply -max-w-lg;}
+.max-w-xl    {@apply -max-w-xl;}
+.max-w-2xl   {@apply -max-w-2xl;}
+.max-w-3xl   {@apply -max-w-3xl;}
+.max-w-4xl   {@apply -max-w-4xl;}
+.max-w-5xl   {@apply -max-w-5xl;}
+.max-w-6xl   {@apply -max-w-6xl;}
+.max-w-7xl   {@apply -max-w-7xl;}
+.max-w-full  {@apply -max-w-full;}
+.max-w-min   {@apply -max-w-min;}
+.max-w-max   {@apply -max-w-max;}
+.max-w-fit   {@apply -max-w-fit;}
