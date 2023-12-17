@@ -51,6 +51,7 @@
 
 .text-white             {@apply -text-white;}
 .text-black             {@apply -text-black;}
+.text-transparent {@apply -text-transparent;}
 .text-canvas            {@apply -text-canvas;}
 .text-surface-light     {@apply -text-surface-light;}
 .text-surface           {@apply -text-surface;}
@@ -63,6 +64,5 @@
 .text-link              {@apply -text-link;}
 .text-link-hover        {@apply -text-link-hover;}
 
-.text-transparent {@apply -text-transparent;}
 .text-current     {@apply -text-current;}
 .text-inherit     {@apply -text-inherit;}
