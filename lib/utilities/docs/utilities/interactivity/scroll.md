@@ -1,97 +1,41 @@
 # 滚动
 
-用于指定滚动框滚动行为的工具类。
+## 平滑滚动
 
-<Example class="p-0">
-  <table class="table">
-    <thead>
-      <tr>
-        <th>工具类</th>
-        <th>属性</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="item in scrollJson">
-        <td>{{item.name}}</td>
-        <td>{{item.desc}}</td>
-      </tr>
-    </tbody>
-   </table>
-</Example>
-
-## 效果展示
-
-### 立即滚动
-
-使用 `scroll-auto` 使得滚动条立即滚动。点击按钮查看滚动效果：
+使用 `scroll-smooth` 工具类来为元素应用 `scroll-behavior: smooth` 属性，指定其进行平滑滚动。
 
 <Example background="light-circle">
-  <div class="w-56 h-28 rounded leading-8 scroll-auto overflow-x-hidden overflow-y-scroll m-auto">
-    <div class="relative h-full text-center -bg-gray-200"><input readonly id="one" class="absolute t-0 h-full p-0 m-0 w-12" />1</div>
-    <div class="relative h-full text-center -bg-secondary-200"><input readonly id="two" class="absolute t-0 h-full p-0 m-0 w-12"/>2</div>
-    <div class="relative h-full text-center -bg-success-200"><input readonly id="three" class="absolute t-0 h-full p-0 m-0 w-12"/>3</div>
-    <div class="relative h-full text-center -bg-warning-200"><input readonly id="four" class="absolute t-0 h-full p-0 m-0 w-12"/>4</div>
+  <div class="scroll-smooth overflow-auto col h-32">
+    <div class="primary-pale center p-6 font-bold text-xl relative">1<input id="smoothContent1" class="opacity-0 absolute left-0 top-0"></div>
+    <div class="success-pale center p-6 font-bold text-xl relative">2<input id="smoothContent2" class="opacity-0 absolute left-0 top-0"></div>
+    <div class="danger-pale center p-6 font-bold text-xl relative">3<input id="smoothContent3" class="opacity-0 absolute left-0 top-0"></div>
+    <div class="warning-pale center p-6 font-bold text-xl relative">4<input id="smoothContent4" class="opacity-0 absolute left-0 top-0"></div>
   </div>
-  <div class="-flex -justify-center -mt-2">
-    <label class="w-12 bd primary rounded text-center m-1 inline-block -cursor-pointer" for="one">1</label>
-    <label class="w-12 bd primary rounded text-center m-1 inline-block -cursor-pointer" for="two">2</label>
-    <label class="w-12 bd primary rounded text-center m-1 inline-block -cursor-pointer" for="three">3</label>
-    <label class="w-12 bd primary rounded text-center m-1 inline-block -cursor-pointer" for="four">4</label>
+  <div class="row justify-center items-center mt-2 gap-4">
+    滚动到：
+    <label for="smoothContent1" class="btn btn-wide">1</label>
+    <label for="smoothContent2" class="btn btn-wide">2</label>
+    <label for="smoothContent3" class="btn btn-wide">3</label>
+    <label for="smoothContent4" class="btn btn-wide">4</label>
   </div>
 </Example>
 
-```html
-<div class="scroll-auto">
-  <div class="relative"><input readonly id="one" class="absolute" />1</div>
-  <div class="relative"><input readonly id="two" class="absolute"/>2</div>
-  <div class="relative"><input readonly id="three" class="absolute"/>3</div>
-  <div class="relative"><input readonly id="four" class="absolute"/>4</div>
-</div>
-<div>
-  <label for="one">1</label>
-  <label for="two">2</label>
-  <label for="three">3</label>
-  <label for="four">4</label>
-</div>
-```
+## 立即滚动
 
-### 平稳滚动
-
-使用 `scroll-smooth` 使得窗口平稳滚动。点击按钮查看滚动效果：
+使用 `scroll-auto` 工具类来为元素应用 `scroll-behavior: auto` 属性，指定其进行立即滚动。
 
 <Example background="light-circle">
-  <div class="w-56 h-28 rounded leading-8 scroll-smooth overflow-y-scroll m-auto">
-    <div class="relative h-full text-center -bg-gray-200"><input readonly id="smoothOne" class="absolute t-0 h-full p-0 m-0 w-12" />1</div>
-    <div class="relative h-full text-center -bg-secondary-200"><input readonly id="smoothTwo" class="absolute t-0 h-full p-0 m-0 w-12"/>2</div>
-    <div class="relative h-full text-center -bg-success-200"><input readonly id="smoothThree" class="absolute t-0 h-full p-0 m-0 w-12"/>3</div>
-    <div class="relative h-full text-center -bg-warning-200"><input readonly id="smoothFour" class="absolute t-0 h-full p-0 m-0 w-12"/>4</div>
+  <div class="scroll-auto overflow-auto col h-32">
+    <div class="primary-pale center p-6 font-bold text-xl relative">1<input id="autoContent1" class="opacity-0 absolute left-0 top-0"></div>
+    <div class="success-pale center p-6 font-bold text-xl relative">2<input id="autoContent2" class="opacity-0 absolute left-0 top-0"></div>
+    <div class="danger-pale center p-6 font-bold text-xl relative">3<input id="autoContent3" class="opacity-0 absolute left-0 top-0"></div>
+    <div class="warning-pale center p-6 font-bold text-xl relative">4<input id="autoContent4" class="opacity-0 absolute left-0 top-0"></div>
   </div>
-  <div class="-flex -justify-center -mt-2">
-    <label class="w-12 bd primary rounded text-center m-1 inline-block -cursor-pointer" for="smoothOne">1</label>
-    <label class="w-12 bd primary rounded text-center m-1 inline-block -cursor-pointer" for="smoothTwo">2</label>
-    <label class="w-12 bd primary rounded text-center m-1 inline-block -cursor-pointer" for="smoothThree">3</label>
-    <label class="w-12 bd primary rounded text-center m-1 inline-block -cursor-pointer" for="smoothFour">4</label>
+  <div class="row justify-center items-center mt-2 gap-4">
+    滚动到：
+    <label for="autoContent1" class="btn btn-wide">1</label>
+    <label for="autoContent2" class="btn btn-wide">2</label>
+    <label for="autoContent3" class="btn btn-wide">3</label>
+    <label for="autoContent4" class="btn btn-wide">4</label>
   </div>
 </Example>
-
-```html
-<div class="scroll-smooth">
-  <div class="relative"><input readonly id="smoothOne" class="absolute" />1</div>
-  <div class="relative"><input readonly id="smoothTwo" class="absolute"/>2</div>
-  <div class="relative"><input readonly id="smoothThree" class="absolute"/>3</div>
-  <div class="relative"><input readonly id="smoothFour" class="absolute"/>4</div>
-</div>
-<div>
-  <label for="smoothOne">1</label>
-  <label for="smoothTwo">2</label>
-  <label for="smoothThree">3</label>
-  <label for="smoothFour">4</label>
-</div>
-```
-
-<script setup>
-  const scrollJson = [
-    {name: 'scroll-auto', desc: 'scroll-behavior:auto;'},
-    {name: 'scroll-smooth', desc: 'scroll-behavior:smooth'},
-  ]
-</script>

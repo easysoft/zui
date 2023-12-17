@@ -1,32 +1,29 @@
-# 状态
+# 状态响应
 
-用于为元素设置类似于按钮或链接状态的工具类。
+## 效果
 
-<Example class="p-0">
-  <table class="table">
-    <thead>
-      <tr>
-        <th>工具类</th>
-        <th>属性</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>state</td>
-        <td><code>cursor: pointer; position: relative;</code></td>
-      </tr>
-    </tbody>
-   </table>
+通过为元素添加工具类 `state` 让按钮响应用户的鼠标交互，包括鼠标悬停、鼠标按下、获得焦点时拥有不同的样式。
+
+::: tabs
+== 示例
+
+<Example class="col gap-2 items-start">
+  <a>普通链接</a>
+  <a class="state">State 链接</a>
+  <div>普通 DIV</div>
+  <div class="state">State DIV</div>
 </Example>
 
-## 效果展示
-
-<Example class="flex gap-3">
-  <div class="w-28 h-8 leading-8 text-center rounded" style="border: 1px solid #eee;">未使用 state 类</div>
-  <div class="state w-28 h-8 leading-8 text-center rounded" style="border: 1px solid #eee;">使用 state 类</div>
-</Example>
+== HTML
 
 ```html
-<div class="...">未使用 state 类</div>
-<div class="state ...">使用 state 类</div>
+<a>普通链接</a>
+<a class="state">State 链接</a>
+<div>普通 DIV</div>
+<div class="state">State DIV</div>
 ```
+:::
+
+::: tip 提示
+在按钮（`.btn`）和导航中的链接（`.nav > li > a` ）已经默认应用了 `state` 工具类，无需再次添加。
+:::
