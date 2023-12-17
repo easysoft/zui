@@ -4,7 +4,6 @@ layout: home
 hero:
   name: ZUI 3
   text: 开箱即用的组合式前端 UI 框架
-  tagline: v3.0.0
   actions:
     - theme: brand
       text: 快速开始
