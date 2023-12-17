@@ -15,7 +15,7 @@
     <tbody>
       <tr v-for="h in fixedHeights" :key="h">
         <td class="font-mono">h-{{h}}</td>
-        <td><code>height: {{h === 'px' ? '1' : h * 16}}px;</code></td>
+        <td><code>height: {{h === 'px' ? '1' : h * 4}}px;</code></td>
       </tr>
     </tbody>
   </table>
