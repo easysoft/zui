@@ -4,7 +4,7 @@
 
 <template v-for="item in alignSelfJson">
   <h3><code>{{item}}</code></h3>
-  <Example class="p-0">
+  <Example>
     <div class="flex items-center h-48 gap-2 surface">
       <template v-for="index in 5">
         <div :class="index === 1 ? item : ''" class="primary grow center" :style="{'min-height': index * 20 + 'px'}">

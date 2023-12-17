@@ -7,7 +7,7 @@
 
 <template v-for="item in alignContentJson">
   <h3><code>{{item}}</code></h3>
-  <Example class="p-0">
+  <Example>
     <div :class="item" class="flex flex-wrap h-48 gap-2 surface" >
       <div v-for="index in 10" class="primary center basis-32 h-8 flex-grow">
         {{index}}

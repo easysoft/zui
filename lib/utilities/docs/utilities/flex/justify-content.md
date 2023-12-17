@@ -6,7 +6,7 @@
 
 <template v-for="item in arrayJustify">
   <h3><code>{{item}}</code></h3>
-  <Example class="p-0">
+  <Example>
     <div :class="item" class="flex flex-wrap gap-2 surface" >
       <div v-for="index in 4" class="primary center w-16 h-8 flex-grow">
         {{index}}
