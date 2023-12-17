@@ -11,12 +11,13 @@ const props = defineProps<{
   className?: string,
   background?: 'light-grid' | 'blue-circle' | 'light-circle',
   padding?: string | number,
-  border?: string | number
+  border?: string | number,
+  noRaw?: boolean,
 }>();
 
 const classList = computed(() => {
-  const {padding = 'p-4', className} = props;
-  const list = ['vp-raw example text-base'];
+  const {padding = 'p-4', className, noRaw} = props;
+  const list = [noRaw ? '' : 'vp-raw', 'example text-base'];
   if (typeof className === 'string' && className.length) {
     list.push(className);
   }
