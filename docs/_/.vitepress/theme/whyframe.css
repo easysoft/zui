@@ -1,9 +1,9 @@
 iframe[data-why],
 .example {
-  @apply -ring-1 -ring-stone-200 -w-full -rounded -shadow;
+  @apply -ring-1 -ring-border -w-full -rounded -shadow;
 }
 
 .dark iframe[data-why],
 .dark .example {
-  @apply -ring-stone-700;
+  @apply -ring-border;
 }

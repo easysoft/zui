@@ -79,7 +79,7 @@ button.DocSearch-Button {
 }
 
 .plugin-tabs {
-  @apply -ring-1 -ring-stone-200 -w-full -rounded -shadow -bg-transparent;
+  @apply -ring-1 -ring-border -w-full -rounded -shadow -bg-transparent;
 }
 .plugin-tabs--content {
   @apply !-p-0;
