@@ -1,8 +1,10 @@
 # 文本溢出
 
-用于控制元素中文本溢出的工具类。
+## 定义
 
-<Example class="p-0">
+文字溢出包括两种方式，分布为省略和裁剪，在 ZUI 中可以通过如下工具类实现：
+
+<Example padding="p-0">
   <table class="table">
     <thead>
       <tr>
@@ -11,43 +13,57 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="item in textOverflowJson">
-        <td>{{item.name}}</td>
+      <tr v-for="item in textOverflowList" :key="item.name">
+        <td class="font-mono">{{item.name}}</td>
         <td><code>{{item.desc}}</code></td>
       </tr>
     </tbody>
    </table>
 </Example>
 
-## 效果展示
+## 文字省略 `text-ellipsis`
 
-### 省略
+使用 `text-ellipsis` 用省略号（…）来截断溢出的文本。
 
-使用 `ellipsis` 用省略号(…)来截断溢出的文本。
+::: tabs
 
-<Example background="light-circle">
-  <p class="ellipsis">禅道是有保障的项目管理软件。禅道开发团队从04年从事开源，坚持到现在；已为数以万计的公司提供即时有力的支持；版本迭代快速，为您提供更好的功能</p>
-</Example>
-
-```html
-<p class="ellipsis">禅道是有保障的项目管理软件。禅道开发团队从04年从事开源，坚持到现在；已为数以万计的公司提供即时有力的支持；版本迭代快速，为您提供更好的功能</p>
-```
-
-### 裁剪
-
-使用 `clip` 在内容区域的极限处截断文本。
+== 示例
 
 <Example background="light-circle">
-  <p class="clip">禅道是有保障的项目管理软件。禅道开发团队从04年从事开源，坚持到现在；已为数以万计的公司提供即时有力的支持；版本迭代快速，为您提供更好的功能</p>
+  <p class="text-ellipsis">The quick brown fox jumps over the lazy dog.白日依山尽，黄河入海流。欲穷千里目，更上一层楼。The quick brown fox jumps over the lazy dog.白日依山尽，黄河入海流。欲穷千里目，更上一层楼。</p>
 </Example>
 
+== HTML
+
 ```html
-<p class="clip">禅道是有保障的项目管理软件。禅道开发团队从04年从事开源，坚持到现在；已为数以万计的公司提供即时有力的支持；版本迭代快速，为您提供更好的功能</p>
+<p class="text-ellipsis">The quick brown fox jumps over the lazy dog.白日依山尽，黄河入海流。欲穷千里目，更上一层楼。The quick brown fox jumps over the lazy dog.白日依山尽，黄河入海流。欲穷千里目，更上一层楼。</p>
 ```
+
+:::
+
+## 文字裁剪 `text-clip`
+
+使用 `text-clip` 在内容区域的极限处截断文本。
+
+::: tabs
+
+== 示例
+
+<Example background="light-circle">
+  <p class="text-clip">The quick brown fox jumps over the lazy dog.白日依山尽，黄河入海流。欲穷千里目，更上一层楼。The quick brown fox jumps over the lazy dog.白日依山尽，黄河入海流。欲穷千里目，更上一层楼。</p>
+</Example>
+
+== HTML
+
+```html
+<p class="text-clip">The quick brown fox jumps over the lazy dog.白日依山尽，黄河入海流。欲穷千里目，更上一层楼。The quick brown fox jumps over the lazy dog.白日依山尽，黄河入海流。欲穷千里目，更上一层楼。</p>
+```
+
+:::
 
 <script setup>
-  const textOverflowJson = [
-    {name: 'ellipsis', desc: 'overflow: hidden; text-overflow: ellipsis; white-space: nowrap;'},
-    {name: 'clip', desc: 'overflow: hidden; text-overflow: clip; white-space: nowrap;'},
-  ]
+const textOverflowList = [
+    {name: 'text-ellipsis', desc: 'overflow: hidden; text-overflow: ellipsis; white-space: nowrap;'},
+    {name: 'text-clip', desc: 'overflow: hidden; text-overflow: clip; white-space: nowrap;'},
+];
 </script>
