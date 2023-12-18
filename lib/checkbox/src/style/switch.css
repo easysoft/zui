@@ -17,16 +17,16 @@
 .switch > label::after {
   @apply -w-3 -h-3 -bg-canvas -top-1 -left-0.5 -border-canvas -shadow;
 }
-    @apply -bg-primary-500 -border-primary-600;
 .switch> input:checked + label::before {
+    @apply -bg-[--checkbox-color] -border-inverse/20;
   }
-  @apply -text-primary-500 -left-[18px];
 .switch> input:checked + label::after {
+  @apply -text-[--checkbox-color] -left-[18px];
 }
 
 .switch > input:focus + label::before,
 .switch.focus > label::before {
-  @apply -outline -outline-focus -outline-2 -border-primary-500;
+  @apply -outline -outline-focus -outline-2 -border-[--checkbox-color];
 }
 
 .switch > input:disabled + label::before,
