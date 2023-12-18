@@ -28,3 +28,8 @@
 .switch.focus > label::before {
   @apply -outline -outline-focus -outline-2 -border-primary-500;
 }
+
+.switch > input:disabled + label::before,
+.switch.disabled > label::before {
+  @apply -grayscale -opacity-70 -cursor-not-allowed -pointer-events-none;
+}

@@ -168,6 +168,10 @@
 </div>
 <div class="switch">
   <input type="checkbox" checked="checked" disabled="disabled" id="primaryCheckbox23">
+  <label for="primaryCheckbox23">禁用选中</label>
+</div>
+<div class="switch">
+  <input type="checkbox" disabled="disabled" id="primaryCheckbox23">
   <label for="primaryCheckbox23">禁用</label>
 </div>
 ```
