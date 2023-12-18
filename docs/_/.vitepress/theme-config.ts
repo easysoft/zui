@@ -33,8 +33,10 @@ export const themeConfig: DefaultTheme.Config = {
         {icon: 'github', link: 'https://github.com/easysoft/zui'}
     ],
     editLink: {
-        pattern: 'https://github.com/easysoft/zui/edit/main/docs/:path',
-        text: '在 Gitlab 上编辑',
+        pattern: (payload) => {
+            return `https://github.com/easysoft/zui/edit/main/lib/${payload.filePath.replace('/', '/docs/')}`;
+        },
+        text: '在 Github 上编辑',
     },
     footer: {
         message: 'MIT License (MIT)',
