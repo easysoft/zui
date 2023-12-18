@@ -41,15 +41,15 @@ ZUI 3 是一个全新的开源 UI 组件库，提供了丰富的实用组件，�
 <script>
 const tree = new zui.Tree('#tree', {
     items: [
-      {text: 'CSS 工具类'},
-      {
-        text: 'JS 组件',
-        items: [
-          {text: '下拉菜单'},
-          {text: '树形菜单'},
-        ]
-      }
-    ]
+       {text: 'CSS 工具类'},
+       {
+          text: 'JS 组件',
+          items: [
+              {text: '下拉菜单'},
+              {text: '树形菜单'},
+          ]
+       },
+    ],
 });
 </script>
 ```
