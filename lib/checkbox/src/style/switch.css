@@ -1,7 +1,7 @@
 .switch {
   @apply -flex -gap-1.5 -relative -min-h-[20px] -pl-10;
 }
-.switch > input[type="checkbox"] {
+.switch > input {
   @apply -opacity-0 -absolute -inset-0;
 }
 .switch > label::before,
@@ -17,14 +17,14 @@
 .switch > label::after {
   @apply -w-3 -h-3 -bg-canvas -top-1 -left-0.5 -border-canvas -shadow;
 }
-.switch> input[type="checkbox"]:checked + label::before {
     @apply -bg-primary-500 -border-primary-600;
+.switch> input:checked + label::before {
   }
-.switch> input[type="checkbox"]:checked + label::after {
   @apply -text-primary-500 -left-[18px];
+.switch> input:checked + label::after {
 }
 
-.switch > input[type="checkbox"]:focus + label::before,
+.switch > input:focus + label::before,
 .switch.focus > label::before {
   @apply -outline -outline-focus -outline-2 -border-primary-500;
 }
