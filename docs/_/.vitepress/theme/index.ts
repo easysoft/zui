@@ -1,4 +1,5 @@
 import DefaultTheme from 'vitepress/theme';
+import type { Theme } from 'vitepress';
 import { enhanceAppWithTabs } from 'vitepress-plugin-tabs/client';
 import Example from './components/example.vue';
 import CssPropValue from './components/css-prop-value.vue';
@@ -6,6 +7,7 @@ import CopyCode from './components/copy-code.vue';
 import ColorTile from './components/color-tile.vue';
 import StyleTile from './components/style-tile.vue';
 import ZUIReady from './components/zui-ready.vue';
+import zuiData from './zui-data';
 import './tailwind.css';
 import './vars.css';
 import './whyframe.css';
@@ -24,8 +26,10 @@ export default {
         if (!import.meta.env.SSR) {
             app.component('ZUIReady', ZUIReady);
         }
+
+        app.config.globalProperties.zui = zuiData;
     },
 
     // use our custom layout component that we'll create next
     // Layout: DynamicLayout
-};
+} satisfies Theme;
