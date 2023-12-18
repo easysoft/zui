@@ -8006,6 +8006,7 @@ class Nd extends Ea {
       const a = r || s.has(t.value);
       t = {
         selected: a,
+        hint: typeof t.text == "string" ? t.text : void 0,
         ...t,
         checked: this._hasCheckbox || typeof t.checked == "boolean" ? r ? !0 : o ? "indeterminate" : a : void 0,
         className: k(t.className, { hover: t.value !== void 0 && t.value === this.props.state.hoverItem }),
