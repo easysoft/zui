@@ -32,7 +32,7 @@
 
 ## 不包括文字内容的复选框和单选框
 
-```html:example:flex items-center gap-2
+```html:example
 <label class="checkbox">
   <input type="checkbox">
 </label>

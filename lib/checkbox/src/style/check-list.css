@@ -1,4 +1,4 @@
-.check-list {
+.check-list, .check-list {
   @apply -flex -flex-col -gap-2 -py-1.5;
 }
 .check-list-inline {

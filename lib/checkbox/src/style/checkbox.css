@@ -1,6 +1,6 @@
 .checkbox,
 .radio {
-  @apply -flex -items-center -gap-1.5 -cursor-pointer;
+  @apply -flex -items-center -gap-1.5 -cursor-pointer -min-h-[20px];
 }
 
 .checkbox > input[type="checkbox"],

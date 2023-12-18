@@ -49,8 +49,6 @@
   @apply -outline -outline-focus -outline-2 -border-[--checkbox-color];
 }
 .checkbox-primary > input[type="checkbox"]:checked + label::before,
-/* .checkbox-primary.indeterminate > label::before, */
-/* .checkbox-primary > input[type="checkbox"]:indeterminate + label::before, */
 .checkbox-primary.checked > label::before {
   @apply -border-[--checkbox-color] -bg-[--checkbox-color];
 }
