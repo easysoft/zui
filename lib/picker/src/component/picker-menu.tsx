@@ -98,6 +98,7 @@ export class PickerMenu extends PickPop<PickerState, PickerMenuProps> {
         const selected = isAllItemsChecked || valueSet.has(item.value as string);
         item = {
             selected,
+            hint: typeof item.text === 'string' ? item.text : undefined,
             ...item,
             checked: (this._hasCheckbox || typeof item.checked === 'boolean') ? (isAllItemsChecked ? true : (hasSomeItemsChecked ? 'indeterminate' : selected)) : undefined,
             className: classes(item.className, {hover: item.value !== undefined && item.value === this.props.state.hoverItem}),
