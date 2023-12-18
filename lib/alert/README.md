@@ -8,14 +8,29 @@
 
 ## With close button
 
-```html:example: gap-3
+```html:example: gap-3 col
 <div class="alert">
   <div class="alert-content">
     Hi! 这条消息可能需要你注意。
   </div>
+  <button type="button" class="alert-close btn ghost square text-inherit"><span class="close"></span></button>
+</div>
+<div class="alert warning">
+  <div class="alert-content">
+    Hi! 这条消息可能需要你注意。
+  </div>
   <div class="alert-actions">
-    <button type="button" class="btn primary-outline">确认</button>
-    <button type="button" class="btn">取消</button>
+    <button type="button" class="btn danger">确认</button>
+    <button type="button" class="btn ghost">取消</button>
+  </div>
+</div>
+<div class="alert gray">
+  <div class="alert-content">
+    Hi! 这条消息可能需要你注意。
+  </div>
+  <div class="alert-actions">
+    <button type="button" class="btn success">确认</button>
+    <button type="button" class="btn danger">取消</button>
   </div>
   <button type="button" class="alert-close btn ghost square text-inherit"><span class="close"></span></button>
 </div>
