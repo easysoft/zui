@@ -1,5 +1,5 @@
 .breadcrumb {
-  @apply -flex -gap-5;
+  @apply -flex -gap-5 -list-none -pl-0;
 }
 .breadcrumb > li {
   @apply -relative;
