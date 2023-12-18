@@ -61,6 +61,9 @@ function parentKeys(keyPath: string) {
 
 function reduceNestedItems<T>(items: Item[], itemKey: string | undefined, reducer: (previousValue: T, info: ItemInfo) => T, initialValue: T, level = 0, parent?: ItemInfo): T {
     return items.reduce((currentValue, item, index) => {
+        if (!item) {
+            return currentValue;
+        }
         const key = String((itemKey ? item[itemKey] : item.key) ?? (item.key ?? index));
         const keyPath = parent ? `${parent.keyPath}:${key}` : key;
         const itemInfo = {
