@@ -1,3 +1,6 @@
+.list {
+  @apply -list-none -pl-0;
+}
 .list-heading-inner .item-title {
   @apply -font-bold -text-gray-500;
 }
