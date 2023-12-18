@@ -3349,6 +3349,8 @@ function Kr(n) {
 }
 function Fi(n, t, e, s, i = 0, r) {
   return n.reduce((o, a, l) => {
+    if (!a)
+      return o;
     const c = String((t ? a[t] : a.key) ?? a.key ?? l), d = r ? `${r.keyPath}:${c}` : c, h = {
       key: c,
       level: i,
