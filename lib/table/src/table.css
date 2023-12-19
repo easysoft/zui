@@ -11,7 +11,7 @@
 }
 
 .table > * > tr > * {
-  @apply -px-4 -py-2 -text-left;
+  @apply -px-4 -py-2;
 }
 
 .table-striped > tbody > tr:nth-child(even) {
