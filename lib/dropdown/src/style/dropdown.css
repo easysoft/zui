@@ -38,7 +38,10 @@
   @apply -absolute -right-1 -top-1.5;
 }
 .is-contextmenu .menu-nested .menu-item > .item-inner {
-  @apply -pl-2;
+  @apply -pl-2 -pr-5;
+}
+.is-contextmenu .menu-nested .menu-item > .item-inner > .item-content {
+  @apply -overflow-hidden;
 }
 
 .dropdown > .arrow {
