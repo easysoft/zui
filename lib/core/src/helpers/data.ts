@@ -116,11 +116,11 @@ $.fn.dataset = $.fn.data;
 
 /* Extend as $.fn.data() */
 $.fn.data = function (this: Cash, ...args: (string | Record<string, unknown> | unknown)[]) {
-    if (!this.length) {
-        return;
-    }
     const [data, value] = args;
     if (!args.length || (args.length === 1 && typeof data === 'string')) {
+        if (!this.length) {
+            return;
+        }
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         return takeData(this[0]!, data as string) as any;
     }
