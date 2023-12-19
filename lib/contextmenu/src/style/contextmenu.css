@@ -4,6 +4,7 @@
 .contextmenu.show {
     @apply -block;
 }
-.contextmenu.popup {
+.contextmenu.popup,
+.contextmenu .popup {
     @apply -absolute;
 }
