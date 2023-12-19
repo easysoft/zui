@@ -1,5 +1,5 @@
 .i-calendar {
-  @apply -inline-block -relative -w-[1em] -h-[.79em] -rounded -mt-[.16em] -border-[.08em] -border-current;
+  @apply -inline-block -relative -w-[1em] -h-[.79em] -rounded-[2px] -mt-[.16em] -border-[.08em] -border-current;
 }
 .i-calendar::before,
 .i-calendar::after {
