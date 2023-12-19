@@ -106,10 +106,11 @@ function initSidebars(): Record<string, {text: string, section?: string, items?:
     }
 }
 
-function updateSections(files: string[], sidebars: ReturnType<typeof initSidebars>, docsPath: string, libName?: string, extsName?: string) {
+function updateSections(files: string[], sidebars: ReturnType<typeof initSidebars>, docsPath: string, lib?: typeof zuiLib[number]) {
     if (!files.length) {
         return;
     }
+    const {name: libName, extsName, notReady} = lib?.zui || {} as typeof zuiLib[number];
     files.forEach(file => {
         const [sidebarName, sectionName, ...restPath] = file.split(Path.sep);
         const sidebar = sidebars[`/${sidebarName}/`];
@@ -122,15 +123,23 @@ function updateSections(files: string[], sidebars: ReturnType<typeof initSidebar
             console.log(` ${red('ERROR')} cannot find section named ${yellow(sectionName)} in sidebar ${yellow(sidebarName)} by file ${underline(Path.join(docsPath, file))}.`);
             return;
         }
+        if (notReady && (process.env.NODE_ENV !== 'development' && !extsName)) {
+            return;
+        }
         if (!section.items) {
             section.items = [];
         }
+
         const link = `/${sidebarName}/${sectionName}/${libName ? `${libName}/` : ''}${restPath.join('/')}`;
         const markdown = fs.readFileSync(Path.join(docsPath, file), 'utf8');
         let title = markdown.match(/# (.*)/)?.[1];
         if (extsName) {
             title = `${title} <code>${extsName}</code>`;
         }
+        if (notReady) {
+            title = `${title} <code>DEV</code>`;
+        }
+
         if (libName && libName.startsWith('@') && libName.includes('/')) {
             const replaceLink = `/${sidebarName}/${sectionName}/${libName ? `${libName.split('/').pop()}/` : ''}${restPath.join('/')}`;
             const item = section.items.find(item => item.link === replaceLink);
@@ -155,7 +164,7 @@ function createSidebar() {
     zuiLib.forEach(lib => {
         const libDocsPath = Path.join(lib.zui.path, 'docs');
         const files = glob.sync(`*/*/**/*.md`, {onlyFiles: true, cwd: libDocsPath});
-        updateSections(files, sidebars, libDocsPath, lib.zui.name, lib.zui.extsName);
+        updateSections(files, sidebars, libDocsPath, lib);
     });
     Object.keys(sidebars).forEach(key => {
         sidebars[key] = sidebars[key].filter(section => {
