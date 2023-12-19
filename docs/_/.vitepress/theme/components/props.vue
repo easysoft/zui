@@ -45,7 +45,7 @@ const propList = computed(() => {
             return items;
         }
         if (text.startsWith('/*')) {
-            tempComment = text.slice(2, -2).trim();
+            tempComment = text.slice(text.startsWith('/**') ? 3 : 2, -2).trim();
             return items;
         }
         let comment = '';

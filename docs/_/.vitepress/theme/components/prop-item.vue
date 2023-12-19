@@ -2,7 +2,7 @@
   <tr>
     <td><code class="font-bold text-md">{{ name }}</code></td>
     <td class="text-center break-words">
-      <code v-for="t in type.split('|')" :key="t">{{ t }}</code>
+      <code v-for="t in type.split('|')" :key="t">{{ t.trim() }}</code>
     </td>
     <td class="text-center break-words">
       <template v-if="optional">
