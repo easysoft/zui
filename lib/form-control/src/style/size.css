@@ -5,5 +5,5 @@
   @apply -px-2 -h-7;
 }
 .form-control.size-lg {
-  @apply -text-lg -px-4 -h-10;
+  @apply -text-lg -px-3 -h-10;
 }
