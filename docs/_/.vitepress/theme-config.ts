@@ -129,18 +129,29 @@ function updateSections(files: string[], sidebars: ReturnType<typeof initSidebar
         if (notReady && (process.env.NODE_ENV !== 'development' && !argv.includeNotReady)) {
             return;
         }
-        if (!section.items) {
-            section.items = [];
-        }
 
         const link = `/${sidebarName}/${sectionName}/${libName ? `${libName}/` : ''}${restPath.join('/')}`;
         const markdown = fs.readFileSync(Path.join(docsPath, file), 'utf8');
         let title = markdown.match(/# (.*)/)?.[1];
+        if (typeof title !== 'string') {
+            return;
+        }
+        const wip = title.endsWith('[WIP]');
+        if (wip && (process.env.NODE_ENV !== 'development' && !argv.includeNotReady)) {
+            return;
+        }
         if (extsName) {
             title = `${title} <code>${extsName}</code>`;
         }
         if (notReady) {
             title = `${title} <code>DEV</code>`;
+        }
+        if (wip) {
+            title = `${title} <code>WIP</code>`;
+        }
+
+        if (!section.items) {
+            section.items = [];
         }
 
         if (libName && libName.startsWith('@') && libName.includes('/')) {
