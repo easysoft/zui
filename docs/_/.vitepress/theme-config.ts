@@ -1,9 +1,12 @@
 import glob from 'fast-glob';
 import fs from 'fs-extra';
 import Path from 'path';
+import minimist from 'minimist';
 import {red, yellow, underline} from 'colorette';
 import {DefaultTheme} from 'vitepress';
 import zuiLib from '../public/zui-libs';
+
+const argv = minimist(process.argv.slice(4).filter((x, i) => i || x !== '--'));
 
 export const themeConfig: DefaultTheme.Config = {
     logo: '/favicon.svg',
@@ -123,7 +126,7 @@ function updateSections(files: string[], sidebars: ReturnType<typeof initSidebar
             console.log(` ${red('ERROR')} cannot find section named ${yellow(sectionName)} in sidebar ${yellow(sidebarName)} by file ${underline(Path.join(docsPath, file))}.`);
             return;
         }
-        if (notReady && (process.env.NODE_ENV !== 'development' && !extsName)) {
+        if (notReady && (process.env.NODE_ENV !== 'development' && !argv.includeNotReady)) {
             return;
         }
         if (!section.items) {
