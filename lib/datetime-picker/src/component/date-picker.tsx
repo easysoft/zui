@@ -24,18 +24,6 @@ export class DatePicker extends Pick<PickState, DatePickerOptions> {
         }
     }
 
-    #handleInputFocus = () => {
-        this.toggle(true);
-    };
-
-    #handleInputChange = (event: Event) => {
-        this.setDate((event.target as HTMLInputElement).value);
-    };
-
-    #handleClearBtnClick = () => {
-        this.setDate('');
-    };
-
     setDate = (value: string) => {
         const {onInvalid, defaultValue = '', required, disabled, readonly, format} = this.props;
         if (disabled || readonly) {
@@ -51,13 +39,25 @@ export class DatePicker extends Pick<PickState, DatePickerOptions> {
         });
     };
 
+    _handleInputFocus = () => {
+        this.toggle(true);
+    };
+
+    _handleInputChange = (event: Event) => {
+        this.setDate((event.target as HTMLInputElement).value);
+    };
+
+    _handleClearBtnClick = () => {
+        this.setDate('');
+    };
+
     _renderTrigger(props: DatePickerOptions, state: PickState): ComponentChildren {
         const {placeholder, icon, required, disabled, readonly} = props;
         const {value = '', open} = state;
         const id = `date-picker-${this.id}`;
         let iconView: ComponentChildren;
         if (open && !required && value.length) {
-            iconView = <button type="button" className="btn size-sm square ghost" onClick={this.#handleClearBtnClick}><span className="close"></span></button>;
+            iconView = <button type="button" className="btn size-sm square ghost" onClick={this._handleClearBtnClick}><span className="close"></span></button>;
         } else if (icon) {
             if (icon === true) {
                 iconView = <i class="i-calendar"></i>;
@@ -66,7 +66,19 @@ export class DatePicker extends Pick<PickState, DatePickerOptions> {
             }
         }
         return [
-            <input key="input" id={id} type="text" className="form-control" placeholder={placeholder} value={value} disabled={disabled} readOnly={readonly} autoComplete="off" onFocus={this.#handleInputFocus} onChange={this.#handleInputChange} />,
+            <input
+                key="input"
+                id={id}
+                type="text"
+                className="form-control"
+                placeholder={placeholder}
+                value={value}
+                disabled={disabled}
+                readOnly={readonly}
+                autoComplete="off"
+                onFocus={this._handleInputFocus}
+                onChange={this._handleInputChange}
+            />,
             iconView ? <label key="icon" for={id} className="input-control-suffix">{iconView}</label> : null,
         ];
     }
