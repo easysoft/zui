@@ -8,6 +8,7 @@
 .dropdown-menu {
   @apply -hidden;
   --menu-min-width: 7rem;
+  --menu-max-width: 20rem;
 }
 .show > .dropdown-menu,
 .dropdown-menu.show,
