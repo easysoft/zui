@@ -12,6 +12,8 @@
   <a class="state">State 链接</a>
   <div>普通 DIV</div>
   <div class="state">State DIV</div>
+  <a class="state disabled">State Disabled</a>
+  <a class="state active">State Active</a>
 </Example>
 
 == HTML
@@ -21,6 +23,8 @@
 <a class="state">State 链接</a>
 <div>普通 DIV</div>
 <div class="state">State DIV</div>
+<a class="state disabled">State Disabled</a>
+<a class="state active">State Active</a>
 ```
 :::
 
