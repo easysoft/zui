@@ -91,7 +91,6 @@ const propList = computed(() => {
         items.push(item);
         return items;
     }, []);
-    console.log('> list', {list, children, statementLines});
     return {list, children};
 });
 </script>
