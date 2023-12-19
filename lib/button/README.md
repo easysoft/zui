@@ -6,6 +6,7 @@
 
 ```html:example: -flex -gap-3 -flex-wrap
 <button type="button" class="btn">Button</button>
+<button type="button" class="btn active">Button Active</button>
 <a class="btn">Button</a>
 <a class="btn btn-default">Button</a>
 <a class="btn btn-link">A Link</a>

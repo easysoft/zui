@@ -85,37 +85,37 @@
 == 实心
 
 <Example class="row flex-wrap gap-3" background="light-circle">
-  <div v-for="skin in zui.skin.accent" class="btn capitalize" :class="skin">{{skin}}</div>
+  <button v-for="skin in zui.skin.accent" class="btn capitalize" :class="skin">{{skin}}</button>
 </Example>
 
 == 灰度
 
 <Example class="row flex-wrap gap-3" background="light-circle">
-  <div v-for="skin in zui.skin.gray" class="btn capitalize" :class="skin">{{skin}}</div>
+  <button v-for="skin in zui.skin.gray" class="btn capitalize" :class="skin">{{skin}}</button>
 </Example>
 
 == 轮廓
 
 <Example class="row flex-wrap gap-3" background="light-circle">
-  <div v-for="skin in zui.skin.outline" class="btn capitalize" :class="skin">{{skin}}</div>
+  <button v-for="skin in zui.skin.outline" class="btn capitalize" :class="skin">{{skin}}</button>
 </Example>
 
 == 浅色
 
 <Example class="row flex-wrap gap-3" background="light-circle">
-  <div v-for="skin in zui.skin.pale" class="btn capitalize" :class="skin">{{skin}}</div>
+  <button v-for="skin in zui.skin.pale" class="btn capitalize" :class="skin">{{skin}}</button>
 </Example>
 
 == 透明
 
 <Example class="row flex-wrap gap-3" background="light-circle">
-  <div v-for="skin in zui.skin.ghost" class="btn capitalize" :class="skin">{{skin}}</div>
+  <button v-for="skin in zui.skin.ghost" class="btn capitalize" :class="skin">{{skin}}</button>
 </Example>
 
 == HTML
 
 ```html
-<div class="btn primary">...</div>
+<button class="btn primary">...</button>
 ```
 
 :::
@@ -296,6 +296,27 @@
 
 :::
 
+## 激活状态
+
+为按钮添加 `active` 类启用激活状态。
+
+::: tabs
+
+== 示例
+
+<Example class="flex gap-4 items-end">
+  <button type="button" class="btn active">激活</button>
+  <button type="button" class="btn">正常</button>
+</Example>
+
+== HTML
+
+```html
+<button type="button" class="btn active">激活</button>
+```
+
+:::
+
 ### 加载中状态
 
 为按钮提供动画图标实现加载中状态。
@@ -305,7 +326,7 @@
 == 示例
 
 <Example class="flex gap-4 items-end">
-  <button type="button" class="btn loading">
+  <button type="button" class="btn">
     <i class="animate-spin icon icon-spinner-snake"></i>
     加载中
   </button>
@@ -314,7 +335,7 @@
 == HTML
 
 ```html
-<button type="button" class="btn load-indicator loading">
+<button type="button" class="btn">
   <i class="animate-spin icon icon-spinner-snake"></i>
   加载中
 </button>
