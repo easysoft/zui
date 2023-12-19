@@ -45,5 +45,12 @@ export default defineConfig({
             __ZUI_VERSION__: JSON.stringify(pkg.version),
         }
     },
+    vue: {
+        template: {
+            compilerOptions: {
+                isPreTag: (tagName) => tagName === 'Props' || tagName === 'pre',
+            },
+        },
+    },
     themeConfig,
 });

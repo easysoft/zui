@@ -6,6 +6,8 @@ import CssPropValue from './components/css-prop-value.vue';
 import CopyCode from './components/copy-code.vue';
 import ColorTile from './components/color-tile.vue';
 import StyleTile from './components/style-tile.vue';
+import PropItem from './components/prop-item.vue';
+import Props from './components/props.vue';
 import ZUIReady from './components/zui-ready.vue';
 import zuiData from './zui-data';
 import './tailwind.css';
@@ -23,6 +25,8 @@ export default {
         app.component('CopyCode', CopyCode);
         app.component('StyleTile', StyleTile);
         app.component('ColorTile', ColorTile);
+        app.component('PropItem', PropItem);
+        app.component('Props', Props);
         if (!import.meta.env.SSR) {
             app.component('ZUIReady', ZUIReady);
         }
