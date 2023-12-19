@@ -36,6 +36,9 @@ export interface BuildConfigOptions {
 
     /** Ignored libs */
     ignoreLibs?: string | string[];
+
+    /** Whether to include not ready libs. */
+    ignoreNotReady?: boolean;
 }
 
 export interface BuildLibExportTarget {
@@ -68,6 +71,9 @@ export interface BuildConfig {
     libs: BuildLibInfo[];
 
     defaultExports?: BuildLibExport[];
+
+    /** Whether to include not ready libs. */
+    ignoreNotReady?: boolean;
 }
 
 /**
@@ -291,6 +297,7 @@ export async function createBuildConfig(options: BuildConfigOptions): Promise<Bu
         name = '',
         version,
         ignoreLibs,
+        ignoreNotReady,
     } = options;
 
     const exts = getBuildLibPaths(options.exts);
@@ -308,6 +315,7 @@ export async function createBuildConfig(options: BuildConfigOptions): Promise<Bu
         name,
         version,
         libs: [],
+        ignoreNotReady,
         defaultExports: options.exports ? parseLibExportList(options.exports) : undefined
     };
 
@@ -375,6 +383,9 @@ export async function prepareBuildFiles(config: BuildConfig, buildDir: string) {
     const publicPath = Path.join(buildDir, 'public');
 
     for (const lib of config.libs) {
+        if (lib.zui.notReady && config.ignoreNotReady) {
+            continue;
+        }
         dependencies[lib.name] = lib.zui.workspace ? `link:${Path.relative(buildDir, lib.zui.path)}` : lib.version;
         if (lib.exportList) {
             lib.exportList.forEach(item => {

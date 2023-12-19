@@ -154,6 +154,7 @@ export function createLibFromPackageJson(packageJson: Record<string, unknown>, o
             sourceType,
             name: defaultName,
             extsName,
+            notReady: false,
             ...(packageJson.zui as Record<string, unknown>),
             packageJsonPath,
             tailwindConfigPath,

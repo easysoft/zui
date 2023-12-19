@@ -25,6 +25,7 @@ export interface ZuiLibInfo {
     prebuild?: boolean | string,
     defaultExport?: string,
     replace?: string;
+    notReady?: boolean;         // current lib is not ready
     wip?: boolean;              // current lib is work in progress
     separately?: boolean;       // current lib is usually used separately
 }
