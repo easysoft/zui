@@ -18,18 +18,23 @@
     }
 }
 
+.size-xs > .btn,
 .btn.size-xs {
     @apply -btn-xs;
 }
+.size-sm > .btn,
 .btn.size-sm {
     @apply -btn-sm;
 }
+.size-md > .btn,
 .btn.size-md {
     @apply -btn-md;
 }
+.size-lg > .btn,
 .btn.size-lg {
     @apply -btn-lg;
 }
+.size-xl > .btn,
 .btn.size-xl {
     @apply -btn-xl;
 }
