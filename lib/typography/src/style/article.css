@@ -24,7 +24,7 @@
 .article table {
   @apply -border;
 }
-.article td, th {
+.article td, .article th {
   @apply -border-b -px-3 -py-1;
 }
 .article thead {
