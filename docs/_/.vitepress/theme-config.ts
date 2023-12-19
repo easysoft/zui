@@ -168,15 +168,13 @@ function createSidebar() {
     });
     Object.keys(sidebars).forEach(key => {
         sidebars[key] = sidebars[key].filter(section => {
-            if (section.hidden) {
+            if (section.hidden || !section.items?.length) {
                 return false;
             }
             if (section.items) {
                 section.items = section.items.sort((a, b) => {
                     return (b.link.endsWith('/index.md') ? 1 : 0) - (a.link.endsWith('/index.md') ? 1 : 0);
                 });
-            } else {
-                section.items = [];
             }
             delete section.section;
             return true;
