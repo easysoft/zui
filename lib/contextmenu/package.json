@@ -22,6 +22,7 @@
     },
     "zui": {
         "type": "js-ui",
+        "notReady": true,
         "displayName": "上下文菜单",
         "contributes": {
             "css": [
