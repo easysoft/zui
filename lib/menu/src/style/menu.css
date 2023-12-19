@@ -1,5 +1,6 @@
 .menu {
   @apply -p-2;
   min-width: var(--menu-min-width);
+  max-width: var(--menu-max-width);
   background: var(--menu-bg);
 }
