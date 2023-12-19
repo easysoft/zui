@@ -13,7 +13,7 @@ export class ColorPicker extends Pick<PickState, ColorPickerOptions> {
         colors: ['#ef4444', '#f97316', '#eab308', '#84cc16', '#22c55e', '#14b8a6', '#0ea5e9', '#6366f1', '#a855f7', '#d946ef', '#ec4899'],
         closeBtn: true,
         popWidth: 'auto',
-        popMinWidth: 176,
+        popMinWidth: 184,
     } as Partial<PickOptions>;
 
     constructor(props: ColorPickerOptions) {
@@ -69,7 +69,7 @@ export class ColorPicker extends Pick<PickState, ColorPickerOptions> {
         const {icon} = props;
         const {value} = state;
         return [
-            icon ? <Icon key="icon" icon={icon} /> : <span class="color-picker-item bg-current ring" style={{background: value}}></span>,
+            icon ? <Icon key="icon" icon={icon} /> : <span class="color-picker-item bg-current ring ring-gray ring-inset" style={{background: value}}></span>,
         ];
     }
 
