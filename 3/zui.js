@@ -1205,10 +1205,8 @@ function jo(n, t, e) {
 }
 u.fn.dataset = u.fn.data;
 u.fn.data = function(...n) {
-  if (!this.length)
-    return;
   const [t, e] = n;
-  return !n.length || n.length === 1 && typeof t == "string" ? jo(this[0], t) : this.each((s, i) => Bo(i, t, e));
+  return !n.length || n.length === 1 && typeof t == "string" ? this.length ? jo(this[0], t) : void 0 : this.each((s, i) => Bo(i, t, e));
 };
 u.fn.removeData = function(n = null) {
   return this.each((t, e) => Bo(e, n));
@@ -5931,7 +5929,7 @@ let Ia = class extends ct {
   _renderTrigger(t, e) {
     const { icon: s } = t, { value: i } = e;
     return [
-      s ? /* @__PURE__ */ p(K, { icon: s }, "icon") : /* @__PURE__ */ p("span", { class: "color-picker-item bg-current ring", style: { background: i } })
+      s ? /* @__PURE__ */ p(K, { icon: s }, "icon") : /* @__PURE__ */ p("span", { class: "color-picker-item bg-current ring ring-gray ring-inset", style: { background: i } })
     ];
   }
   _getTriggerProps(t, e) {
@@ -5962,7 +5960,7 @@ Ia.defaultProps = {
   colors: ["#ef4444", "#f97316", "#eab308", "#84cc16", "#22c55e", "#14b8a6", "#0ea5e9", "#6366f1", "#a855f7", "#d946ef", "#ec4899"],
   closeBtn: !0,
   popWidth: "auto",
-  popMinWidth: 176
+  popMinWidth: 184
 };
 class Aa extends L {
 }
