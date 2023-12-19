@@ -34,6 +34,12 @@
         opacity: var(--state-focus-opacity, 1);
         @apply -ring -ring-focus;
     }
+    .-state.active::before,
+    .-state.selected::before {
+        opacity: var(--state-selected-opacity, 1);
+        background: var(--state-selected-color, var(--state-color));
+        @apply -scale-100 -duration-700 -shadow-inner;
+    }
     .-state[disabled]::before,
     .-state.disabled::before {
         @apply -hidden;
