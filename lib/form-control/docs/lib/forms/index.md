@@ -370,6 +370,29 @@ Hello, world!
 
 :::
 
+
+## 只读
+
+通过为表单控件添加 `readonly` 属性来表单控件只读。
+
+::: tabs
+
+== 示例
+
+<Example class="col gap-4">
+  <input type="text" readonly class="form-control" placeholder="文本" />
+  <textarea class="form-control" readonly rows="5" placeholder="输入一些文本">Hello, world!</textarea>
+</Example>
+
+== HTML
+
+```html
+<input type="text" readonly class="form-control" placeholder="文本" />
+<textarea class="form-control" readonly rows="5" placeholder="输入一些文本">Hello, world!</textarea>
+```
+
+:::
+
 ## 特殊状态
 
 通过为表单控件或者其直接父级元素添加工具类 `has-error`、`has-warning` 和 `has-error` 来让其拥有特殊语义的状态。
@@ -405,3 +428,26 @@ Hello, world!
 ```
 
 :::
+
+
+## CSS 类
+
+表单控件提供了如下 CSS 类：
+
+| 类        | 类型           | 作用  |
+| ------------- |:-------------:| ----- |
+| `form-control`      | 实体类 | 元素作为表单控件组件 |
+| `size-sm`      | 工具类      |   表单控件使用小号尺寸 |
+| `size-lg`      | 工具类      |   表单控件使用大号尺寸 |
+
+## CSS 变量
+
+表单控件提供了如下 CSS 变量，可进行全局修改。
+
+| CSS 变量名        | 作用           |
+| ------------- |:------------- |
+| `--form-control-radius` | 圆角 |
+| `--form-control-border` | 边框颜色 |
+| `--form-control-focus` | 激活颜色 |
+| `--form-control-disabled` | 禁用颜色 |
+| `--form-control-readonly` | 只读颜色 |
