@@ -1901,7 +1901,7 @@ export default [
             "workspace": true,
             "sourceType": "build-in",
             "name": "contextmenu",
-            "notReady": false,
+            "notReady": true,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/contextmenu/package.json",
             "order": 5000000011010001000
         }
