@@ -8,5 +8,6 @@ export default {
         pale: ['primary-pale', 'secondary-pale', 'success-pale', 'warning-pale', 'danger-pale', 'important-pale', 'special-pale', 'gray-50-pale', 'gray-100-pale', 'gray-200-pale', 'gray-300-pale', 'gray-400-pale', 'gray-500-pale', 'gray-600-pale', 'gray-700-pale', 'gray-800-pale', 'gray-900-pale', 'gray-950-pale'],
         ghost: ['ghost', 'primary-ghost', 'secondary-ghost', 'success-ghost', 'warning-ghost', 'danger-ghost', 'important-ghost', 'special-ghost'],
         outline: ['outline', 'primary-outline', 'secondary-outline', 'success-outline', 'warning-outline', 'danger-outline', 'important-outline', 'special-outline'],
+        rounded: ['rounded-none', 'rounded-sm', 'rounded', 'rounded-md', 'rounded-lg', 'rounded-xl', 'rounded-2xl', 'rounded-3xl', 'rounded-full'],
     }
 };
