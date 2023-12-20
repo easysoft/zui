@@ -5,8 +5,8 @@
 你可以从如下地址下载 ZUI 的最新版本：
 
 <div class="vp-raw row gap-4">
-  <a class="btn primary size-lg rounded-full" href="/zui/zui.latest.zip" download><i class="icon icon-download-alt icon-lg"></i> 点击下载</a>
-  <a class="btn outline size-lg rounded-full" :href="`https://github.com/easysoft/zui/releases/tag/v${version}`" target="_blank"><i class="icon icon-github icon-lg"></i> 从 GitHub 下载</a>
+  <a class="btn primary size-lg rounded-full" :href="`/zui/zui-v${zui.version}.zip`" download><i class="icon icon-download-alt icon-lg"></i> 点击下载</a>
+  <a class="btn outline size-lg rounded-full" :href="`https://github.com/easysoft/zui/releases/tag/zui-v${zui.version}.zip`" target="_blank"><i class="icon icon-github icon-lg"></i> 从 GitHub 下载</a>
 </div>
 
 下载后将如下文件解压到你的项目中：
@@ -50,12 +50,12 @@ zui/
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>ZUI</title>
-    <link rel="stylesheet" href="///cdn.jsdelivr.net/npm/zui/dist/{{version}}/zui.css">
+    <link rel="stylesheet" href="///cdn.jsdelivr.net/npm/zui/dist/{{zui.version}}/zui.css">
   </head>
   <body>
     <h1>ZUI is awesome!</h1>
     <a class="btn" href="/">访问 ZUI 网站</a>
-    <script src="///cdn.jsdelivr.net/npm/zui/dist/{{version}}/zui.js" crossorigin="anonymous"></script>
+    <script src="///cdn.jsdelivr.net/npm/zui/dist/{{zui.version}}/zui.js" crossorigin="anonymous"></script>
   </body>
 </html>
 ```
@@ -67,12 +67,12 @@ zui/
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>ZUI</title>
-    <link rel="stylesheet" href="///cdn.bootcdn.net/ajax/libs/zui/{{version}}/zui.css">
+    <link rel="stylesheet" href="///cdn.bootcdn.net/ajax/libs/zui/{{zui.version}}/zui.css">
   </head>
   <body>
     <h1>ZUI is awesome!</h1>
     <a class="btn" href="/">访问 ZUI 网站</a>
-    <script src="///cdn.bootcdn.net/ajax/libs/zui/{{version}}/zui.js" crossorigin="anonymous"></script>
+    <script src="///cdn.bootcdn.net/ajax/libs/zui/{{zui.version}}/zui.js" crossorigin="anonymous"></script>
   </body>
 </html>
 ```
@@ -84,12 +84,12 @@ zui/
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>ZUI</title>
-    <link rel="stylesheet" href="///unpkg.com/zui@{{version}}/zui.css">
+    <link rel="stylesheet" href="///unpkg.com/zui@{{zui.version}}/zui.css">
   </head>
   <body>
     <h1>ZUI is awesome!</h1>
     <a class="btn" href="/">访问 ZUI 网站</a>
-    <script src="///unpkg.com/zui@{{version}}/zui.js" crossorigin="anonymous"></script>
+    <script src="///unpkg.com/zui@{{zui.version}}/zui.js" crossorigin="anonymous"></script>
   </body>
 </html>
 ```
@@ -151,7 +151,3 @@ zui.Messager.show('Hello!');
 import {DTable} from 'zui/lib/dtable';
 import 'zui/lib/dtable/css';
 ```
-
-<script setup>
-const version = __ZUI_VERSION__;
-</script>
