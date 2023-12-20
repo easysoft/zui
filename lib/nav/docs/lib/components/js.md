@@ -1,4 +1,4 @@
-# 导航生成器
+# 导航生成器 [WIP]
 
 ## 使用方法
 
@@ -208,4 +208,3 @@ new Nav('#nav', {
      beforeDestroy?: (info: {nav: nav}) => void;
  }
  ```
-
