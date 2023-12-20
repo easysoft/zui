@@ -7,6 +7,7 @@
 ```html:example: -flex -gap-3 -flex-wrap
 <button type="button" class="btn">Button</button>
 <button type="button" class="btn active">Button Active</button>
+<button type="button" class="btn selected">Button Selected</button>
 <a class="btn">Button</a>
 <a class="btn btn-default">Button</a>
 <a class="btn btn-link">A Link</a>
@@ -14,6 +15,8 @@
 <button type="button" class="btn">中文按钮</button>
 <button type="button" class="btn" disabled="disabled">禁用的按钮</button>
 <button type="button" class="btn text-primary ghost">Link</button>
+<button type="button" class="btn primary active">Button Active</button>
+<button type="button" class="btn primary selected">Button Selected</button>
 ```
 
 ## Button Square
