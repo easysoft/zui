@@ -12,6 +12,7 @@ export * from './share-data';
 export * from './merge-props';
 export * from './zui-creator';
 export * from './scroll';
+export * from './global-event';
 export * from './size';
 export * from './download-file';
 export * from './bus';
