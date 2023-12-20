@@ -67,7 +67,6 @@ function createNav() {
         {text: '指引',        link: '/guide/',     activeMatch: '/guide/'},
         {text: 'CSS 工具类',  link: '/utilities/', activeMatch: '/utilities/'},
         {text: '组件',        link: '/lib/',       activeMatch: '/lib/'},
-        {text: '主题',        link: '/themes/',    activeMatch: '/themes/'},
     ];
 }
 
