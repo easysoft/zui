@@ -6,7 +6,14 @@
 
 ```html:example: blocks
 <div class="state"></div>
+<div class="state active"></div>
+<div class="state selected"></div>
 <button class="btn">State Button</button>
+<button class="btn active">Active Button</button>
+<button class="btn selected">Selected Button</button>
+<button class="btn primary">State Button</button>
+<button class="btn primary active">Active Button</button>
+<button class="btn primary selected">Selected Button</button>
 ```
 
 ### Loading
@@ -689,8 +696,5 @@
 .blocks > .btn {
   padding: 0 0.75rem;
   height: 2rem;
-  background-color: var(--color-surface);
-  border: 1px solid var(--color-gray-300);
-  border-radius: var(--radius);
 }
 </style>

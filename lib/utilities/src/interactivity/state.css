@@ -10,7 +10,17 @@
         content: ' ';
         border-radius: inherit;
         transform: scale(var(--state-scale));
-        transition-property: opacity, transform, box-shadow;
+        transition-property: opacity, transform, box-shadow, background-color;
+    }
+    .-state.active:not(:hover,:focus-visible,:focus-within,:active):before {
+        opacity: var(--state-active-opacity, 0);
+        background: var(--state-active-color, var(--state-color));
+        @apply -scale-100 -duration-700 -shadow-inner;
+    }
+    .-state.selected:not(:hover,:focus-visible,:focus-within,:active):before {
+        opacity: var(--state-selected-opacity, .1);
+        background: var(--state-selected-color, var(--state-scale));
+        @apply -scale-100;
     }
     .-state:focus-visible {
         @apply -outline-none;
@@ -24,8 +34,8 @@
         opacity: var(--state-hover-opacity, 1);
     }
     .-state:active::before {
-        background: var(--state-active-color, var(--state-color));
-        opacity: var(--state-active-opacity, .6);
+        background: var(--state-pressed-color, var(--state-color));
+        opacity: var(--state-pressed-opacity, .6);
         --tw-ring-color: var(--state-ring-color, currentColor);
         @apply -ring -duration-700;
     }
@@ -34,12 +44,6 @@
         opacity: var(--state-focus-opacity, 1);
         @apply -ring -ring-focus;
     }
-    .-state.active::before,
-    .-state.selected::before {
-        opacity: var(--state-selected-opacity, 1);
-        background: var(--state-selected-color, var(--state-color));
-        @apply -scale-100 -duration-700 -shadow-inner;
-    }
     .-state[disabled]::before,
     .-state.disabled::before {
         @apply -hidden;
@@ -47,7 +51,7 @@
 }
 
 .btn,
-.nav-item > a,
+.item > a,
 .state {
     @apply -state;
 }
