@@ -63,7 +63,6 @@
 }
 .gray-400, .lighten {
   --skin-solid-rgb: var(--color-gray-400-rgb);
-  --skin-text: rgba(var(--color-fore), var(--tw-text-opacity));
 }
 .gray-500, .gray {
   --skin-solid-rgb: var(--color-gray-500-rgb);
