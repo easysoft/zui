@@ -5,6 +5,7 @@ import minimist from 'minimist';
 import {red, yellow, underline} from 'colorette';
 import {DefaultTheme} from 'vitepress';
 import zuiLib from '../public/zui-libs';
+import {libTypeOrders} from '../../../scripts/libs/lib-type';
 
 const argv = minimist(process.argv.slice(4).filter((x, i) => i || x !== '--'));
 
@@ -70,7 +71,7 @@ function createNav() {
     ];
 }
 
-function initSidebars(): Record<string, {text: string, section?: string, items?: {text?: string, link: string}[], collapsed?: boolean, hidden?: boolean}[]> {
+function initSidebars(): Record<string, {text: string, section?: string, items?: {text?: string, link: string, lib?: typeof zuiLib[number]}[], collapsed?: boolean, hidden?: boolean}[]> {
     return {
         '/guide/': [
             {text: '开始', section: 'start'},
@@ -164,7 +165,9 @@ function updateSections(files: string[], sidebars: ReturnType<typeof initSidebar
             }
         }
         section.items.push({
-            text: title, link
+            text: title,
+            link,
+            lib
         });
     });
 }
@@ -187,7 +190,24 @@ function createSidebar() {
             }
             if (section.items) {
                 section.items = section.items.sort((a, b) => {
-                    return (b.link.endsWith('/index.md') ? 1 : 0) - (a.link.endsWith('/index.md') ? 1 : 0);
+                    let result = (a.lib ? 1 : 0) - (b.lib ? 1 : 0);
+                    if (result !== 0) {
+                        return result;
+                    }
+                    if (!a.lib && !b.lib) {
+                        return a.text!.localeCompare(b.text!);
+                    }
+                    if (a.lib!.name === b.lib!.name) {
+                        return (b.link.endsWith('/index.md') ? 1 : 0) - (a.link.endsWith('/index.md') ? 1 : 0);
+                    }
+                    result = a.lib!.zui.order - b.lib!.zui.order;
+                    if (result !== 0) {
+                        return result;
+                    }
+                    return a.lib!.zui.name.localeCompare(b.lib!.zui.name);
+                });
+                section.items.forEach(item => {
+                    delete item.lib;
                 });
             }
             delete section.section;
