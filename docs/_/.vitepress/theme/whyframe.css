@@ -1,9 +1,0 @@
-iframe[data-why],
-.example {
-  @apply -ring-1 -ring-border -w-full -rounded -shadow;
-}
-
-.dark iframe[data-why],
-.dark .example {
-  @apply -ring-border;
-}

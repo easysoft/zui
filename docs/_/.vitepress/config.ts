@@ -1,6 +1,4 @@
 import {defineConfig} from 'vitepress';
-import {whyframe} from '@whyframe/core';
-import {whyframeVue} from '@whyframe/vue';
 import {tabsMarkdownPlugin} from 'vitepress-plugin-tabs';
 import {themeConfig, extLibs} from './theme-config';
 import pkg from '../../../package.json';
@@ -29,18 +27,6 @@ export default defineConfig({
         }
     },
     vite: {
-        plugins: [
-            // Initialize core plugin
-            whyframe({
-                defaultSrc: '/frames/zui', // provide our own html,
-                defaultShowSource: true,
-            }),
-
-            // Initialize Vue integration plugin
-            whyframeVue({
-                include: /\.(?:vue|md)$/, // also scan in markdown files
-            }),
-        ],
         define: {
             __ZUI_VERSION__: JSON.stringify(pkg.version),
         }

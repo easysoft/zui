@@ -56,3 +56,9 @@ const style = computed(() => {
     }
 });
 </script>
+
+<style>
+.example {
+  @apply -ring-1 -ring-border -w-full -rounded -shadow;
+}
+</style>

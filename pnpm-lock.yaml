@@ -156,12 +156,6 @@ importers:
         specifier: ^3.3.11
         version: 3.3.11(typescript@5.3.2)
     devDependencies:
-      '@whyframe/core':
-        specifier: ^0.1.10
-        version: 0.1.10(vite@4.5.1)
-      '@whyframe/vue':
-        specifier: ^0.1.6
-        version: 0.1.6(@whyframe/core@0.1.10)(vite@4.5.1)
       vitepress:
         specifier: 1.0.0-rc.31
         version: 1.0.0-rc.31(@algolia/client-search@4.20.0)(@types/node@20.10.3)(postcss@8.4.32)(search-insights@2.11.0)(typescript@5.3.2)
@@ -2880,32 +2874,6 @@ packages:
     transitivePeerDependencies:
       - '@vue/composition-api'
       - vue
-    dev: true
-
-  /@whyframe/core@0.1.10(vite@4.5.1):
-    resolution: {integrity: sha512-6MT3O3YGqk6rbp08cHGheYFh7mawFqz1OKcNXhsDJYi4/H9nIU7sBNijEdssmNyINThBt7UoS2PUj5Bxv8FInQ==}
-    peerDependencies:
-      vite: ^3.0.0 || ^4.0.0
-      webpack: ^5.0.0
-    peerDependenciesMeta:
-      vite:
-        optional: true
-      webpack:
-        optional: true
-    dependencies:
-      vite: 4.5.1(@types/node@20.10.3)
-    dev: true
-
-  /@whyframe/vue@0.1.6(@whyframe/core@0.1.10)(vite@4.5.1):
-    resolution: {integrity: sha512-YHr622VtCq0WRB3rqIuDRYewALdV/q7+Bxxwc7t/Anmeo6LQqWQDrlGjohW8eBI+gj5JqsI4uNW7n/b9mHBpFA==}
-    peerDependencies:
-      '@whyframe/core': ^0.1.0
-      vite: ^3.0.0 || ^4.0.0
-    dependencies:
-      '@vue/compiler-dom': 3.3.11
-      '@whyframe/core': 0.1.10(vite@4.5.1)
-      magic-string: 0.30.5
-      vite: 4.5.1(@types/node@20.10.3)
     dev: true
 
   /acorn-jsx@5.3.2(acorn@8.11.2):

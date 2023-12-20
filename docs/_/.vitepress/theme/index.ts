@@ -12,7 +12,6 @@ import ZUIReady from './components/zui-ready.vue';
 import zuiData from './zui-data';
 import './tailwind.css';
 import './vars.css';
-import './whyframe.css';
 import './style.css';
 
 export default {
