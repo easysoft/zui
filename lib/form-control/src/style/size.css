@@ -1,9 +1,12 @@
+.size-sm > .form-control,
 .form-control.size-sm {
   @apply -text-sm -px-2 -h-6;
 }
+.size-md > .form-control,
 .form-control.size-md {
   @apply -px-2 -h-7;
 }
+.size-lg > .form-control,
 .form-control.size-lg {
   @apply -text-lg -px-3 -h-10;
 }
