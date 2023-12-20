@@ -5,7 +5,6 @@ import minimist from 'minimist';
 import {red, yellow, underline} from 'colorette';
 import {DefaultTheme} from 'vitepress';
 import zuiLib from '../public/zui-libs';
-import {libTypeOrders} from '../../../scripts/libs/lib-type';
 
 const argv = minimist(process.argv.slice(4).filter((x, i) => i || x !== '--'));
 
