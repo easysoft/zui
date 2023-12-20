@@ -1,54 +1,98 @@
 # 对话框触发器
 
-对话框触发器允许你不需要书写静态对话框HTML，直接使用触发按钮或者一行Javascript代码即可让一个全新的对话框展现。支持使用Ajax从远程获取内容，或者通过iframe加载任何页面内容，当然不使用远程内容，直接使用本地内容也是很方便。
-
-## iframe 对话框
-
-<Example class="flex gap-2">
-  <button type="button" class="btn primary" data-toggle="modal" data-url="/lib/modal/dev/iframe-modal.html" data-title="iframe 对话框">点击打开 iframe 对话框</button>
-</Example>
-
-```html
-<button type="button" class="btn primary" data-toggle="modal" data-url="/lib/modal/dev/iframe-modal.html" data-title="iframe 对话框">点击打开 iframe 对话框</button>
-```
+对话框触发器允许你不需要书写静态对话框 HTML，直接使用触发按钮或者一行 JS 代码即可让一个全新的对话框展现。支持使用 Ajax 从远程获取内容，或者通过 iframe 加载任何页面内容，当然不使用远程内容，直接使用本地内容也是很方便。
 
 ## Ajax 对话框
 
+在对话框触发按钮上通过 `data-url` 属性指定远程内容的 URL 地址。
+
+::: tabs
+
+== 示例
+
 <Example class="flex gap-2">
-  <button type="button" class="btn primary" data-toggle="modal" data-type="ajax" data-url="/lib/modal/dev/ajax-modal.html" data-title="Ajax HTML 对话框" data-data-type="html">点击打开 Ajax HTML 对话框</button>
+  <button type="button" class="btn primary" data-toggle="modal" data-url="/assets/modal/ajax-modal.html">点击打开 Ajax HTML 对话框</button>
 </Example>
 
+== HTML
+
 ```html
-<button type="button" class="btn primary" data-toggle="modal" data-type="ajax" data-url="/lib/modal/dev/ajax-modal.html" data-title="Ajax HTML 对话框" data-data-type="html">点击打开 Ajax HTML 对话框</button>
+<button type="button" class="btn primary" data-toggle="modal" data-url="/assets/modal/ajax-modal.html">点击打开 Ajax HTML 对话框</button>
+```
+
+:::
+
+Ajax 对话框支持手动通过 `Modal.open` 方法按需打开：
+
+```js
+zui.Modal.open({
+    url: '/assets/modal/ajax-modal.html',
+});
+```
+
+## iframe 对话框
+
+在对话框触发按钮上通过 `data-type="iframe"` 属性指定对话框类型为 iframe 对话框，然后通过 `data-url` 属性指定对话框内容页面地址。
+
+::: tabs
+
+== 示例
+
+<Example class="flex gap-2">
+  <button type="button" class="btn primary" data-toggle="modal" data-type="iframe" data-url="/assets/modal/iframe-modal.html">点击打开 iframe 对话框</button>
+</Example>
+
+== HTML
+
+```html
+<button type="button" class="btn primary" data-toggle="modal" data-type="iframe" data-url="/assets/modal/iframe-modal.html">点击打开 iframe 对话框</button>
+```
+
+:::
+
+iframe 对话框支持手动通过 `Modal.open` 方法按需打开：
+
+```js
+zui.Modal.open({
+    type: 'iframe',
+    url: '/assets/modal/iframe-modal.html',
+});
 ```
 
 ## 自定义信息提示弹窗
+
+在对话框触发按钮上通过 `data-title` 属性指定对话框标题，通过 `data-content` 属性指定对话框内容。
+
+::: tabs
+
+== 示例
 
 <Example>
   <button type="button" class="btn primary" data-toggle="modal" data-title="自定义对话框" data-content="这里是对话框内容">点击打开自定义对话框</button>
 </Example>
 
+== HTML
+
 ```html
 <button type="button" class="btn primary" data-toggle="modal" data-title="自定义对话框" data-content="这里是对话框内容">点击打开自定义对话框</button>
 ```
 
-## 模态框
+:::
 
-通过 `data-backdrop="false"` 动态控制，设置后可以操作模态框之外的交互。
+iframe 对话框支持手动通过 `Modal.open` 方法按需打开：
 
-<Example>
-  <button type="button" class="btn primary" data-backdrop="false" data-toggle="modal" data-title="自定义对话框" data-content="这里是对话框内容">点击打开模态对话框</button>
-</Example>
-
-```html
-<button type="button" class="btn primary" data-backdrop="false" data-toggle="modal" data-title="自定义对话框" data-content="这里是对话框内容">点击打开模态对话框</button>
+```js
+zui.Modal.open({
+    title: '自定义对话框',
+    content: '这里是对话框内容',
+});
 ```
 
 ## 系统对话框
 
 ### 警告框
 
-通过 `Modal.alert()` 方法可以打开一个警告框，该方法定义如下：
+通过 `zui.Modal.alert()` 方法可以打开一个警告框，该方法定义如下：
 
 ```ts
 /* 直接指定要提示的消息文本 */
@@ -86,10 +130,16 @@ interface ModalAlertOptions extends ModalCustomOptions {
 
 下面为一个示例：
 
+::: tabs
+
+== 示例
+
 <Example class="row gap-4">
   <button type="button" class="btn primary" onclick="zui.Modal.alert('提示消息')">Modal.alert(message)</button>
   <button type="button" class="btn primary" onclick="zui.Modal.alert({title: '这是标题', message: '提示消息', icon: 'icon-flag'})">Modal.alert(options)</button>
 </Example>
+
+== HTML
 
 ```html
 <button
@@ -97,7 +147,7 @@ interface ModalAlertOptions extends ModalCustomOptions {
   class="btn primary"
   onclick="zui.Modal.alert('提示消息')"
 >
-    Modal.alert(message)
+  Modal.alert(message)
 </button>
 <button
   type="button"
@@ -107,6 +157,8 @@ interface ModalAlertOptions extends ModalCustomOptions {
   Modal.alert(options)
 </button>
 ```
+
+:::
 
 ### 确认框
 
@@ -125,20 +177,27 @@ Modal.confirm(options: ModalComfirmOptions): Promise<string | undefined>;
 * `message`：要提示的消息文本；
 * `options`：一个警告框选项对象 `ModalConfirmOptions`，定义如下：
 
-  ```ts
-  interface ModalConfirmOptions extends ModalAlertOptions {
-      /* 当用户点击确认或取消时的回调函数 */
-      onResult?: (confirmed: boolean, modal: Modal) => void;
-  }
-  ```
+```ts
+interface ModalConfirmOptions extends ModalAlertOptions {
+    /* 当用户点击确认或取消时的回调函数 */
+    onResult?: (confirmed: boolean, modal: Modal) => void;
+}
+```
+
 该方法会通过 `Promise` 异步返回用户点击的按钮名称。
 
 下面为一个示例：
+
+::: tabs
+
+== 示例
 
 <Example class="row gap-4">
   <button type="button" class="btn primary" onclick="zui.Modal.confirm('提示消息').then(console.log)">Modal.confirm(message)</button>
   <button type="button" class="btn primary" onclick="zui.Modal.confirm({title: '这是标题', message: '提示消息', icon: 'icon-flag'}).then(console.log)">Modal.confirm(options)</button>
 </Example>
+
+== HTML
 
 ```html
 <button
@@ -157,89 +216,4 @@ Modal.confirm(options: ModalComfirmOptions): Promise<string | undefined>;
 </button>
 ```
 
-## 选项
-
-### `className`
-
-类名。
-
-* 类型：`string`；
-* 必选：否。
-
-### `style`
-
-样式。
-
-* 类型：`JSX.CSSProperties`；
-* 必选：否。
-
-### `size`
-
-尺寸大小。
-
-* 类型：`'sm' | 'lg' | 'md' | 'full' | number | {width: number, height: number};`；
-* 必选：否。
-
-### `position`
-
-位置。
-
-* 类型：`'fit' | 'center' | 'bottom' | 'top' | number | {left: number, top: number, width: number, height: number}`；
-* 必选：否；
-* 默认：`fit`。
-
-### `backdrop`
-
-是否启用背景遮罩。
-
-* 类型：`'static' | boolean`；
-* 必选：否；
-* 默认：`true`。
-
-### `show`
-
-是否展示弹窗
-
-* 类型：`boolean`；
-* 必选：否；
-* 默认：`true`。
-
-### `keyboard`
-
-是否启用按键关闭对话框。
-
-* 类型：`boolean`；
-* 必选：否；
-* 默认：`true`。
-
-### `moveable`
-
-是否可移动。
-
-* 类型：`boolean`；
-* 必选：否；
-* 默认：`false`。
-
-### `animation`
-
-是否启用动画效果。
-
-* 类型：`boolean`；
-* 必选：否；
-* 默认：`true`。
-
-### `transTime`
-
-过渡时间。
-
-* 类型：`number`；
-* 必选：否；
-* 默认：`300`。
-
-### `responsive`
-
-是否自使用。
-
-* 类型：`boolean`；
-* 必选：否；
-* 默认：`true`。
+:::
