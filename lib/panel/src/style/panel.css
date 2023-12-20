@@ -3,7 +3,7 @@
 }
 
 .panel-heading {
-  @apply -px-4 -py-2 -flex -justify-between -items-center -flex-nowrap -gap-4;
+  @apply -px-4 -py-2 -flex -justify-between -items-center -flex-nowrap -gap-4 -bg-[--panel-heading-bg];
 }
 .panel-title {
   @apply -font-bold -m-0 -flex -items-center -gap-2;
@@ -17,5 +17,5 @@
 }
 
 .panel-footer {
-  @apply -px-4 -py-2 -flex -items-center -gap-2;
+  @apply -px-4 -py-2 -flex -items-center -gap-2 -bg-[--panel-footer-bg];
 }
