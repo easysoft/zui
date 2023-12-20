@@ -6,6 +6,10 @@
 
 为 `<table>` 元素添加 CSS 类 `.table` 来使用表格。
 
+::: tabs
+
+== 示例
+
 <Example>
   <table class="table">
     <thead>
@@ -40,6 +44,8 @@
     </tfoot>
   </table>
 </Example>
+
+== HTML
 
 ```html
 <table class="table">
@@ -76,9 +82,15 @@
 </table>
 ```
 
+:::
+
 ## 斑马纹表格
 
 在 `<table class="table">` 上使用工具类 `.table-striped` 斑马纹表格外观（隔行变色）效果。
+
+:: tabs
+
+== 示例
 
 <Example>
   <table class="table table-striped">
@@ -119,15 +131,23 @@
   </table>
 </Example>
 
+== HTML
+
 ```html
 <table class="table table-striped">
   ...
 </table>
 ```
 
+:::
+
 ## 鼠标悬停变色
 
 在 `<table class="table">` 上使用工具类 `.table-hover`，当鼠标悬停在行上时显示不一样的背景。
+
+::: tabs
+
+== 示例
 
 <Example>
   <table class="table table-hover">
@@ -168,15 +188,23 @@
   </table>
 </Example>
 
+== HTML
+
 ```html
 <table class="table table-hover">
   ...
 </table>
- ```
+```
+
+:::
 
 ## 完整边框
 
 在 `<table class="table">` 上使用工具类 `.bordered`，为表格添加所有边框。
+
+::: tabs
+
+== 示例
 
 <Example>
   <table class="table bordered">
@@ -217,15 +245,23 @@
   </table>
 </Example>
 
+== HTML
+
 ```html
 <table class="table bordered">
   ...
 </table>
- ```
+```
+
+:::
 
 ## 无边框
 
 在 `<table class="table">` 上使用工具类 `.borderless`，为表格移除所有边框。
+
+::: tabs
+
+== 示例
 
 <Example>
   <table class="table borderless">
@@ -266,15 +302,23 @@
   </table>
 </Example>
 
+== HTML
+
 ```html
 <table class="table borderless">
   ...
 </table>
- ```
+```
+
+:::
 
 ## 紧凑的表格
 
 在 `<table class="table">` 上使用工具类 `.condensed` 来获得更紧凑的表格。表格中的单元格拥有更小的间距，整体行高减少。
+
+::: tabs
+
+== 示例
 
 <Example>
   <table class="table condensed">
@@ -315,15 +359,23 @@
   </table>
 </Example>
 
+== HTML
+
 ```html
 <table class="table condensed">
   ...
 </table>
- ```
+```
+
+:::
 
 ## 固定布局的表格
 
 在 `<table class="table">` 上使用工具类 `.table-fixed` 来将表格布局方式设置为 `fixed`。
+
+::: tabs
+
+== 示例
 
 <Example>
   <table class="table table-fixed">
@@ -364,11 +416,15 @@
   </table>
 </Example>
 
+== HTML
+
 ```html
 <table class="table table-fixed">
   ...
 </table>
- ```
+```
+
+:::
 
 ::: info 关于表格的固定布局
 表格和列的宽度通过表格的宽度来设置，某一列的宽度仅由该列首行的单元格决定。在当前列中，该单元格所在行之后的行并不会影响整个列宽。
@@ -382,6 +438,10 @@
 ## 自动宽度
 
 通常表格宽度为 `100%`，与表格所属的父级元素宽度保持一致，但有时希望表格的宽度能够按照实际内容宽度展示。此时可以通过配合使用 CSS 工具类 `w-auto` 来设置表格宽度为自动，同时推荐使用工具类 `max-w-full` 来限制表格最大宽度不超过父级元素宽度（`100%`）。
+
+::: tabs
+
+== 示例
 
 <Example>
   <table class="table w-auto max-w-full">
@@ -422,17 +482,25 @@
   </table>
 </Example>
 
+== HTML
+
 ```html
 <table class="table w-auto max-w-full">
   ...
 </table>
- ```
+```
+
+:::
 
 ## 特殊外观
 
 为行元素 `<tr>` 或单元格 `<td>`、`<th>` 应用 [CSS 工具类](/utilities/) 来获得特殊外观。
 
- <Example>
+::: tabs
+
+== 示例
+
+<Example>
   <table class="table">
     <thead>
       <tr class="black">
@@ -469,7 +537,9 @@
       </tr>
     </tbody>
   </table>
- </Example>
+</Example>
+
+== HTML
 
 ```html
 <table class="table">
@@ -510,6 +580,8 @@
 </table>
 ```
 
+:::
+
 ## CSS 类
 
 按钮提供了如下 CSS 类：
@@ -528,7 +600,7 @@
 
 | 变量名称              | 变量含义                       |
 | --------------------- | ------------------------------ |
-| --table-head-bg       | 表头背景色                     |
-| --table-striped-color | 表格斑马纹行背景色             |
-| --table-hover-color   | 表格行响应鼠标悬停变化背景颜色 |
-| --table-border-color  | 表格边框颜色                   |
+| `--table-head-bg`       | 表头背景色                     |
+| `--table-striped-color` | 表格斑马纹行背景色             |
+| `--table-hover-color`   | 表格行响应鼠标悬停变化背景颜色 |
+| `--table-border-color`  | 表格边框颜色                   |

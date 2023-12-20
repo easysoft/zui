@@ -4,37 +4,41 @@
 
 使用组件类`.table`来获得外观 通常搭配`<table>`元素使用.
 
+```html:example
+<button data-@click="click" class="btn">Test</button>
+```
+
 ```html:example:
- <table class="table">
-     <thead>
-         <tr>
-             <th>项目名称</th>
-             <th>负责人</th>
-             <th>计划开始</th>
-             <th>计划完成</th>
-         </tr>
-     </thead>
-     <tbody>
-         <tr>
-             <td>禅道开源版</td>
-             <td>禅道研发</td>
-             <td>今天</td>
-             <td>今天</td>
-         </tr>
-         <tr>
-             <td>禅道旗舰版</td>
-             <td>禅道研发</td>
-             <td>明天</td>
-             <td>明天</td>
-         </tr>
-         <tr>
-             <td>禅道开源版</td>
-             <td>禅道研发</td>
-             <td>后天</td>
-             <td>后天</td>
-         </tr>
-     </tbody>
- </table>
+<table class="table">
+    <thead>
+        <tr>
+            <th>项目名称</th>
+            <th>负责人</th>
+            <th>计划开始</th>
+            <th>计划完成</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>禅道开源版</td>
+            <td>禅道研发</td>
+            <td>今天</td>
+            <td>今天</td>
+        </tr>
+        <tr>
+            <td>禅道旗舰版</td>
+            <td>禅道研发</td>
+            <td>明天</td>
+            <td>明天</td>
+        </tr>
+        <tr>
+            <td>禅道开源版</td>
+            <td>禅道研发</td>
+            <td>后天</td>
+            <td>后天</td>
+        </tr>
+    </tbody>
+</table>
  ```
 
 ## table-striped
