@@ -1,4 +1,9 @@
+declare global {
+    var __ZUI_VERSION__: string;
+}
+
 export default {
+    version: __ZUI_VERSION__,
     skin: {
         shades: [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950],
         accent: ['primary', 'secondary', 'success', 'warning', 'danger', 'important', 'special', 'gray'],
