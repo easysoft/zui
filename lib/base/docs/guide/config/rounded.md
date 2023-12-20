@@ -31,29 +31,46 @@
 
 在 ZUI 中可以通过 CSS 工具类来设置圆角，详细用法参加 [CSS 工具类 / 边框 / 边框圆角](/utilities/borders/utilities/border-radius) 文档。下面为一个简单的例子：
 
+::: tabs
+
+== 示例
+
 <Example class="gap-4 row">
   <div class="p-4 rounded-sm secondary">小圆角</div>
   <div class="p-4 rounded-lg secondary">大圆角</div>
 </Example>
+
+== HTML
 
 ```html
 <div class="p-4 rounded-sm secondary">小圆角</div>
 <div class="p-4 rounded-lg secondary">大圆角</div>
 ```
 
+:::
+
 ### 通过 CSS 变量
 
 你可以直接在 CSS 中引用圆角相关的 CSS 变量来使用圆角，例如：
+
+
+::: tabs
+
+== 示例
 
 <Example class="gap-4 row">
   <div class="p-4 secondary" style="border-radius: var(--radius-sm)">小圆角</div>
   <div class="p-4 secondary" style="border-radius: var(--radius-lg)">大圆角</div>
 </Example>
 
+== HTML
+
 ```html
 <div class="p-4 secondary" style="border-radius: var(--radius-sm)">小圆角</div>
 <div class="p-4 secondary" style="border-radius: var(--radius-lg)">大圆角</div>
 ```
+
+:::
 
 ## 自定义圆角
 
