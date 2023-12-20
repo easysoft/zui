@@ -21,15 +21,23 @@
 
 ## 示例
 
+::: tabs
+
+== 示例
+
 <Example class="col items-start gap-3">
   <button class="btn inverse">Inverse Button</button>
   <div class="surface p-2">Surface Element</div>
 </Example>
 
+== HTML
+
 ```html
 <button class="btn inverse">Inverse Button</button>
 <div class="surface p-2">Surface Element</div>
 ```
+
+:::
 
 <script setup>
     const colors = [

@@ -29,17 +29,25 @@
 
 ## 示例
 
+::: tabs
+
+== 示例
+
 <Example class="col items-start gap-2">
   <button class="btn primary">Primary Button</button>
   <span class="label success">Success Label</span>
   <div class="gray-200 p-2">Gray Element</div>
 </Example>
 
+== HTML
+
 ```html
 <button class="btn primary">Primary Button</button>
 <span class="label success">Success Label</span>
 <div class="gray-200">Gray-200 Element</div>
 ```
+
+:::
 
 <script setup>
     const colors = {
