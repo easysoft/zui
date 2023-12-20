@@ -105,7 +105,11 @@ const dropdown = new zui.Dropdown('#myDropdownBtn', {
 
 ## 显示箭头
 
-通过给下拉菜单菜单按钮添加 `data-arrow="true"` 来使下拉菜单展示箭头
+通过给下拉菜单菜单按钮添加 `data-arrow="true"` 来使下拉菜单展示箭头。
+
+::: tabs
+
+== 示例
 
 <Example>
   <button class="btn" type="button" data-toggle="dropdown" data-arrow="true">菜单按钮 <span class="caret"></span></button>
@@ -116,16 +120,24 @@ const dropdown = new zui.Dropdown('#myDropdownBtn', {
   </menu>
 </Example>
 
+== HTML
+
 ```html
-  <button data-arrow="true" ... >
-    ...
-  </button>
+<button data-toggle="dropdown" data-arrow="true">
   ...
+</button>
+...
 ```
+
+:::
 
 ### 改变箭头大小
 
-通过给下拉菜单按钮添加 `data-arrow={size}` 来控制下拉菜单的箭头的大小
+通过给下拉菜单按钮添加 `data-arrow={size}` 来控制下拉菜单的箭头的大小。
+
+::: tabs
+
+== 示例
 
 <Example class="flex">
   <div v-for="item in 3" class="flex-1">
@@ -141,10 +153,13 @@ const dropdown = new zui.Dropdown('#myDropdownBtn', {
   </div>
 </Example>
 
+== HTML
+
 ```html
-<button data-arrow = 4 ...>
+<button data-toggle="dropdown" data-arrow=4 ...>
 </button>
 ```
+
 :::
 
 ## 鼠标悬停展开菜单
@@ -211,9 +226,15 @@ const dropdown = new zui.Dropdown('#myDropdownBtn', {
 
 多级子菜单仅支持通过手动初始化的方式创建。
 
+::: tabs
+
+== 示例
+
 <Example>
   <button class="btn" type="button" data-zui="dropdown" :data-items="JSON.stringify(nestedMenuItems)">多级菜单按钮 <span class="caret"></span></button>
 </Example>
+
+== HTML
 
 ```html
 <button class="btn" type="button" data-toggle="dropdown" id="dropdownToggle" > 多级菜单按钮 </button>
@@ -236,12 +257,17 @@ const dropdown = new zui.Dropdown('#dropdownToggle', {
     },
 });
 </script>
-
 ```
+
+:::
 
 ## 自定义菜单
 
 通常情况下下拉菜单列表使用 `<menu>` 元素，你也可以替换为其他元素或内容
+
+::: tabs
+
+== 示例
 
 <Example class="flex gap-4">
   <button class="btn" type="button" data-toggle="dropdown">自定义下拉菜单 <span class="caret"></span></button>
@@ -261,6 +287,8 @@ const dropdown = new zui.Dropdown('#dropdownToggle', {
   </menu>
 </Example>
 
+== HTML
+
 ```html
 <button class="btn" type="button" data-toggle="dropdown">自定义下拉菜单 <span class="caret"></span></button>
 <menu class="dropdown-menu custom flex-1 flex-wrap bg-canvas">
@@ -279,9 +307,15 @@ const dropdown = new zui.Dropdown('#dropdownToggle', {
 </menu>
 ```
 
+:::
+
 ## 禁用的菜单项
 
 为菜单项 `<li>` 添加 `.disabled` 类即可获得禁用外观。
+
+::: tabs
+
+== 示例
 
 <Example class="flex gap-4">
   <button class="btn" type="button" data-toggle="dropdown">菜单按钮 <span class="caret"></span></button>
@@ -291,6 +325,8 @@ const dropdown = new zui.Dropdown('#dropdownToggle', {
   </menu>
 </Example>
 
+== HTML
+
 ```html
 <button class="btn" type="button" data-toggle="dropdown">菜单按钮 <span class="caret"></span></button>
 <menu class="dropdown-menu menu">
@@ -299,9 +335,15 @@ const dropdown = new zui.Dropdown('#dropdownToggle', {
 </menu>
 ```
 
+:::
+
 ## 标题和分割线
 
 在 `.dropdown-menu` 内 `li` 标签使用 `.dropdown-header`类 来显示标题，使用 `.divider` 来创建分割线。
+
+::: tabs
+
+== 示例
 
 <Example class="flex gap-4">
   <button class="btn" type="button" data-toggle="dropdown">菜单按钮 <span class="caret"></span></button>
@@ -315,6 +357,8 @@ const dropdown = new zui.Dropdown('#dropdownToggle', {
   </menu>
 </Example>
 
+== HTML
+
 ```html
 <button class="btn" type="button" data-toggle="dropdown">菜单按钮 <span class="caret"></span></button>
 <menu class="dropdown-menu menu">
@@ -326,6 +370,8 @@ const dropdown = new zui.Dropdown('#dropdownToggle', {
     <li class="menu-item"><a>修改</a></li>
 </menu>
 ```
+
+:::
 
 ## CSS 类
 
