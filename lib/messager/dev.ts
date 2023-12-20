@@ -1,5 +1,7 @@
-import '@zui/btn-group';
+import '@zui/button';
 import '@zui/icons';
+import '@zui/alert';
+import '@zui/toolbar';
 import './src/main';
 import 'zui-dev';
 import {$} from '@zui/core';
