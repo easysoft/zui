@@ -260,11 +260,17 @@
   --vp-code-block-bg: rgba(var(--color-inverse-rgb), 0.05);
 
   --vp-code-tab-divider: var(--vp-code-block-divider-color);
-  --vp-code-tab-text-color: var(--vp-c-text-dark-2);
+  --vp-code-tab-text-color: var(--vp-c-text-light-2);
   --vp-code-tab-bg: var(--vp-code-block-bg);
+  --vp-code-tab-hover-text-color: var(--vp-c-text-light-1);
+  --vp-code-tab-active-text-color: var(--vp-c-text-light-1);
+  --vp-code-tab-active-bar-color: var(--vp-c-brand);
+}
+
+.dark {
+  --vp-code-tab-text-color: var(--vp-c-text-dark-2);
   --vp-code-tab-hover-text-color: var(--vp-c-text-dark-1);
   --vp-code-tab-active-text-color: var(--vp-c-text-dark-1);
-  --vp-code-tab-active-bar-color: var(--vp-c-brand);
 }
 
 /**
@@ -303,7 +309,7 @@
   --vp-button-sponsor-active-bg: transparent;
 }
 
-  .dark {
+.dark {
   --vp-button-sponsor-border: var(--vp-c-gray-dark-1);
   --vp-button-sponsor-text: var(--vp-c-text-dark-2);
 }
