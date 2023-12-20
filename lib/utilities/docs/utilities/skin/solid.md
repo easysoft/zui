@@ -33,7 +33,7 @@
 
 == 示例
 
-<Example class="col items-start gap-2">
+<Example class="col items-start gap-4">
   <button class="btn primary">Primary Button</button>
   <span class="label success">Success Label</span>
   <div class="gray-200 p-2">Gray Element</div>
