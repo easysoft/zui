@@ -136,8 +136,11 @@ function updateSections(files: string[], sidebars: ReturnType<typeof initSidebar
             return;
         }
         const wip = title.endsWith('[WIP]');
-        if (wip && (process.env.NODE_ENV !== 'development' && !argv.includeNotReady)) {
-            return;
+        if (wip) {
+            if (process.env.NODE_ENV !== 'development' && !argv.includeNotReady) {
+                return;
+            }
+            title = title.replace('[WIP]', '').trim();
         }
         if (extsName) {
             title = `${title} <code>${extsName}</code>`;
