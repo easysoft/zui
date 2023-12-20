@@ -37,29 +37,46 @@
 
 在 ZUI 中可以通过 CSS 工具类来设置阴影，详细用法参加 [CSS 工具类 / 效果 / 盒阴影](/utilities/effects/utilities/shadow) 文档。下面为一个简单的例子：
 
+::: tabs
+
+== 示例
+
 <Example class="gap-4 row">
   <div class="p-4 shadow-sm canvas">小阴影</div>
   <div class="p-4 shadow-lg canvas">大阴影</div>
 </Example>
+
+== HTML
 
 ```html
 <div class="p-4 shadow-sm canvas">小阴影</div>
 <div class="p-4 shadow-lg canvas">大阴影</div>
 ```
 
+:::
+
 ### 通过 CSS 变量
 
 你可以直接在 CSS 中引用阴影相关的 CSS 变量来使用阴影，例如：
+
+
+::: tabs
+
+== 示例
 
 <Example class="gap-4 row">
   <div class="p-4 canvas" style="box-shadow: var(--shadow-sm)">小阴影</div>
   <div class="p-4 canvas" style="box-shadow: var(--shadow-lg)">大阴影</div>
 </Example>
 
+== HTML
+
 ```html
 <div class="p-4 canvas" style="box-shadow: var(--shadow-sm)">小阴影</div>
 <div class="p-4 canvas" style="box-shadow: var(--shadow-lg)">大阴影</div>
 ```
+
+:::
 
 ## 自定义阴影
 
