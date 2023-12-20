@@ -1,4 +1,4 @@
-# 菜单生成器
+# 菜单生成器 [WIP]
 
 菜单生成器允许通过 JS 动态创建一个[菜单](/lib/components/menu/index.html)。
 

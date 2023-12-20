@@ -2,25 +2,23 @@
 
 菜单用于展示一个操作列表，也可以用于构建更复杂的组件，例如右键菜单、下拉菜单等。如果需要通过 JS 动态创建菜单，可以使用[菜单生成器](/lib/components/menu/js.html)
 
-## 导入
-
-如果你使用的是非合并打包版本，可以通过如下方式单独引入菜单的 CSS 样式：
-
-```js
-import 'zui/menu/css';
-```
-
 ## 使用方法
 
 使用类 `.menu` 和 `.menu-item` 按照如下结构来构建一个静态菜单：
 
-<Example>
+::: tabs
+
+== 示例
+
+<Example background="light-grid">
   <menu class="menu w-32">
     <li class="menu-item"><a>剪切</a></li>
     <li class="menu-item"><a>复制</a></li>
     <li class="menu-item"><a>粘贴</a></li>
   </menu>
 </Example>
+
+== HTML
 
 ```html
 <menu class="menu w-32">
@@ -30,9 +28,15 @@ import 'zui/menu/css';
 </menu>
 ```
 
+:::
+
 ## 标题
 
 使用类 `.menu-heading` 来创建一个标题：
+
+::: tabs
+
+== 示例
 
 <Example>
   <menu class="menu w-32">
@@ -43,6 +47,8 @@ import 'zui/menu/css';
   </menu>
 </Example>
 
+== HTML
+
 ```html
 <menu class="menu w-32">
   <li class="menu-heading">更多操作</li>
@@ -52,51 +58,73 @@ import 'zui/menu/css';
 </menu>
 ```
 
+:::
+
 ## 分割线
 
-使用类 `.menu-divider` 来添加一个分割线：
+使用类 `.divider` 来添加一个分割线：
+
+::: tabs
+
+== 示例
 
 <Example>
   <menu class="menu w-32">
     <li class="menu-item"><a>剪切</a></li>
-    <li class="menu-divider"></li>
+    <li class="divider"></li>
     <li class="menu-item"><a>复制</a></li>
     <li class="menu-item"><a>粘贴</a></li>
   </menu>
 </Example>
 
+== HTML
+
 ```html
 <menu class="menu w-32">
   <li class="menu-item"><a>剪切</a></li>
-  <li class="menu-divider"></li>
+  <li class="divider"></li>
   <li class="menu-item"><a>复制</a></li>
   <li class="menu-item"><a>粘贴</a></li>
 </menu>
 ```
 
+:::
+
 ## 包含图标
 
 可以在菜单项内添加图标，但如果是部分菜单项拥有图标，可以通过为 `.menu` 添加工具类 `.has-icons` 来让图标以及文本进行对齐：
 
+::: tabs
+
+== 示例
+
 <Example>
   <menu class="menu has-icons w-32">
-    <li class="menu-item"><a><i class="icon icon-copy"></i> 复制</a></li>
-    <li class="menu-item"><a><i class="icon icon-paste"></i> 粘贴</a></li>
-    <li class="menu-item"><a>剪切</a></li>
+    <li class="menu-item"><a><i class="item-icon icon icon-copy"></i> <div class="item-content">复制</div></a></li>
+    <li class="menu-item"><a><i class="item-icon icon icon-paste"></i> <div class="item-content">粘贴</div></a></li>
+    <li class="menu-item"><a><i class="item-icon"></i><div class="item-content">粘贴</div></a></li>
   </menu>
 </Example>
 
+== HTML
+
 ```html
 <menu class="menu has-icons w-32">
-  <li class="menu-item"><a><i class="icon icon-copy"></i> 复制</a></li>
-  <li class="menu-item"><a><i class="icon icon-paste"></i> 粘贴</a></li>
-  <li class="menu-item"><a>剪切</a></li>
+  <li class="menu-item"><a><i class="item-icon icon icon-copy"></i> <div class="item-content">复制</div></a></li>
+  <li class="menu-item"><a><i class="item-icon icon icon-paste"></i> <div class="item-content">粘贴</div></a></li>
+  <li class="menu-item"><a><i class="item-icon"></i><div class="item-content">剪切</div></a></li>
 </menu>
 ```
+
+:::
 
 ## 禁用的菜单项
 
 为 `.menu-item` 添加工具类 `.disabled` 来将菜单项禁用：
+
+::: tabs
+
+== 示例
 
 <Example>
   <menu class="menu w-32">
@@ -106,6 +134,8 @@ import 'zui/menu/css';
   </menu>
 </Example>
 
+== HTML
+
 ```html
 <menu class="menu w-32">
   <li class="menu-item"><a>复制</a></li>
@@ -114,9 +144,15 @@ import 'zui/menu/css';
 </menu>
 ```
 
+:::
+
 ## 标记激活项
 
-为 `.menu-item` 添加工具类 `.active` 来将菜单项标记为激活状态：
+为 `.menu-item` 内的 `<a>` 元素添加工具类 `.active` 来将菜单项标记为激活状态：
+
+::: tabs
+
+== 示例
 
 <Example>
   <menu class="menu w-32">
@@ -126,6 +162,8 @@ import 'zui/menu/css';
   </menu>
 </Example>
 
+== HTML
+
 ```html
 <menu class="menu w-32">
   <li class="menu-item"><a>复制</a></li>
@@ -134,9 +172,43 @@ import 'zui/menu/css';
 </menu>
 ```
 
+:::
+
+## 标记选中项
+
+为 `.menu-item` 内的 `<a>` 元素添加工具类 `.active` 来将菜单项标记为选中项状态：
+
+::: tabs
+
+== 示例
+
+<Example>
+  <menu class="menu w-32">
+    <li class="menu-item"><a>复制</a></li>
+    <li class="menu-item"><a class="active">粘贴</a></li>
+    <li class="menu-item"><a>剪切</a></li>
+  </menu>
+</Example>
+
+== HTML
+
+```html
+<menu class="menu w-32">
+  <li class="menu-item"><a>复制</a></li>
+  <li class="menu-item"><a class="active">粘贴</a></li>
+  <li class="menu-item"><a>剪切</a></li>
+</menu>
+```
+
+:::
+
 ## 尾部图标
 
 直接将图标 `.icon` 元素添加到菜单项 `.menu-item` 内尾部，图标将自动靠右侧对齐：
+
+::: tabs
+
+== 示例
 
 <Example>
   <menu class="menu w-32">
@@ -147,6 +219,8 @@ import 'zui/menu/css';
   </menu>
 </Example>
 
+== HTML
+
 ```html
 <menu class="menu w-32">
   <li class="menu-item"><a class="active">已复制 <i class="icon icon-check text-success"></i></a></li>
@@ -156,29 +230,15 @@ import 'zui/menu/css';
 </menu>
 ```
 
-## 简单外观
-
-使用工具类 `shadow-none`、`border-none`、`rounded-none` 分别移除阴影、边框和圆角，从而获得一个简单外观：
-
-<Example>
-  <menu class="menu shadow-none border-none rounded-none w-32">
-    <li class="menu-item"><a>剪切</a></li>
-    <li class="menu-item"><a>复制</a></li>
-    <li class="menu-item"><a>粘贴</a></li>
-  </menu>
-</Example>
-
-```html
-<menu class="menu shadow-none border-none rounded-none w-32">
-  <li class="menu-item"><a>剪切</a></li>
-  <li class="menu-item"><a>复制</a></li>
-  <li class="menu-item"><a>粘贴</a></li>
-</menu>
-```
+:::
 
 ## 自定义菜单项
 
 在 `.menu` 内可以放置其他内容来自定义菜单项：
+
+::: tabs
+
+== 示例
 
 <Example>
   <menu class="menu -w-36">
@@ -189,7 +249,7 @@ import 'zui/menu/css';
         <div class="text-gray text-sm">zhangsan</div>
       </div>
     </li>
-    <li class="menu-divider"></li>
+    <li class="divider"></li>
     <li class="menu-item"><a href="#">个人资料</a></li>
     <li class="menu-item"><a href="#">修改密码</a></li>
     <li class="menu-item"><a href="#">主题</a></li>
@@ -197,6 +257,8 @@ import 'zui/menu/css';
     <li class="text-danger menu-item"><a href="#">退出</a></li>
   </menu>
 </Example>
+
+== HTML
 
 ```html
 <menu class="menu -w-36">
@@ -207,7 +269,7 @@ import 'zui/menu/css';
       <div class="text-gray text-sm">zhangsan</div>
     </div>
   </li>
-  <li class="menu-divider"></li>
+  <li class="divider"></li>
   <li class="menu-item"><a href="#">个人资料</a></li>
   <li class="menu-item"><a href="#">修改密码</a></li>
   <li class="menu-item"><a href="#">主题</a></li>
@@ -215,6 +277,8 @@ import 'zui/menu/css';
   <li class="text-danger menu-item"><a href="#">退出</a></li>
 </menu>
 ```
+
+:::
 
 ## CSS 类
 
@@ -225,10 +289,11 @@ import 'zui/menu/css';
 | `menu`      | 实体类 | 元素作为菜单 |
 | `menu-item`      | 实体类 | 元素作为菜单项 |
 | `menu-heading`      | 实体类      |   元素作为菜单标题 |
-| `menu-divider`      | 实体类      |   元素作为分割线 |
+| `divider`      | 实体类      |   元素作为分割线 |
 | `has-icons`      | 工具类      |   与 `menu` 一起使用，标记菜单内包含图标 |
-| `active`      | 工具类      |   与 `menu-item` 一起使用，标记菜单项为激活状态 |
-| `disabled`      | 工具类      |   与 `menu-item` 一起使用，标记菜单项为禁用状态 |
+| `active`      | 工具类      |   标记菜单项为激活状态 |
+| `selected`      | 工具类      |   标记菜单项为选中状态 |
+| `disabled`      | 工具类      |   标记菜单项为禁用状态 |
 
 ## CSS 变量
 
