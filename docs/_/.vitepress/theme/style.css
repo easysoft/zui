@@ -14,9 +14,6 @@ body {
 .vp-doc .example a:hover {
   @apply -no-underline;
 }
-.vp-doc .example li + li {
-  @apply -mt-0;
-}
 .VPDoc > .container {
   @apply -min-w-0;
 }
