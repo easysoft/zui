@@ -126,3 +126,22 @@
   <a class="btn" data-toggle="dropdown" data-placement="bottom-end" href="#dropdownMenuExample">选项 <span class="caret"></span></a>
 </div>
 ```
+
+## Sizes
+
+```html:example: col gap-4
+<div class="input-group size-lg">
+  <span class="input-group-addon">前</span>
+  <input type="text" class="form-control" placeholder="用户名">
+</div>
+
+<div class="input-group">
+  <span class="input-group-addon">前</span>
+  <input type="text" class="form-control" placeholder="用户名">
+</div>
+
+<div class="input-group size-sm">
+  <span class="input-group-addon">前</span>
+  <input type="text" class="form-control" placeholder="用户名">
+</div>
+```

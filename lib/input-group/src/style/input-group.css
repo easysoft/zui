@@ -10,6 +10,12 @@
 .input-group-addon {
   @apply -h-8 -ring-[--form-control-border] -ring-1 -px-2 -flex -items-center -flex-none -z-0 -rounded-[--form-control-radius] -bg-[--input-group-addon-bg];
 }
+.size-sm > .input-group-addon {
+  @apply -text-sm -px-2 -h-6;
+}
+.size-lg > .input-group-addon {
+  @apply -text-lg -px-3 -h-10;
+}
 
 .input-group-control {
   @apply -flex-auto;
