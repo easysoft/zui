@@ -63,9 +63,9 @@ export const extLibs = [...zuiLib.reduce((set, lib) => {
 
 function createNav() {
     return [
-        {text: '指引',        link: '/guide/',     activeMatch: '/guide/'},
-        {text: 'CSS 工具类',  link: '/utilities/', activeMatch: '/utilities/'},
-        {text: '组件',        link: '/lib/',       activeMatch: '/lib/'},
+        {text: '指引',        link: '/guide/start/',     activeMatch: '/guide/'},
+        {text: 'CSS 工具类',  link: '/utilities/skin/utilities/solid', activeMatch: '/utilities/'},
+        {text: '组件',        link: '/lib/components/button/',       activeMatch: '/lib/'},
     ];
 }
 
@@ -95,9 +95,9 @@ function initSidebars(): Record<string, {text: string, section?: string, items?:
             {text: '布局', section: 'layout', collapsed: false, hidden: true},
             {text: '内容', section: 'content', collapsed: false, hidden: true},
             {text: '图标', section: 'icons', collapsed: false},
+            {text: '组件', section: 'components', collapsed: false},
             {text: '表单', section: 'forms', collapsed: false},
             {text: '数据表格', section: 'dtable', collapsed: false},
-            {text: '组件', section: 'components', collapsed: false},
             {text: 'JS 工具', section: 'helpers', collapsed: false},
         ],
         '/themes/': [
