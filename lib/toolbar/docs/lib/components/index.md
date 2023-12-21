@@ -2,6 +2,10 @@
 
 ## 使用方法
 
+::: tabs
+
+== 示例
+
 <Example class="col gap-2">
   <nav class="toolbar">
     <button class="btn ghost" type="button"><span class="text">全部</span></button>
@@ -13,6 +17,8 @@
     <button class="btn ghost" type="button"><i class="icon icon-search"></i><span class="text">搜索</span></button>
   </nav>
 </Example>
+
+== HTML
 
 ```html
 <nav class="toolbar">
@@ -46,6 +52,8 @@
   <button class="btn ghost" type="button"><i class="icon icon-search"></i><span class="text">搜索</span></button>
 </nav>
 ```
+
+:::
 
 ## 图标工具栏
 
