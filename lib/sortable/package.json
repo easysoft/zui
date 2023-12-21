@@ -14,6 +14,7 @@
     "zui": {
         "type": "js-helpers",
         "displayName": "Sortable JS",
+        "notReady": true,
         "contributes": {
             "js": [
                 "module"

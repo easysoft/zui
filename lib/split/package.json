@@ -11,6 +11,7 @@
         "type": "js-helpers",
         "displayName": "Split.js",
         "wip": true,
+        "notReady": true,
         "contributes": {
             "js": [
                 "module"

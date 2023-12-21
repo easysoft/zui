@@ -19,6 +19,7 @@
         "type": "component",
         "displayName": "虚拟渲染网格",
         "wip": true,
+        "notReady": true,
         "contributes": {
             "css": [
                 "class",

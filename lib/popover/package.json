@@ -20,6 +20,7 @@
     "zui": {
         "type": "component",
         "displayName": "弹出面板",
+        "notReady": true,
         "contributes": {
             "css": ["class", "var"]
         }
