@@ -66,7 +66,7 @@ const surface = gray[100];
 const surfaceStrong = gray[200];
 
 /** Text. */
-const fore = gray[700];
+const fore = gray[800];
 
 /** Focus. */
 const focus = primary[200];
