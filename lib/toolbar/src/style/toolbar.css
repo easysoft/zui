@@ -2,7 +2,7 @@
   @apply -flex -items-center -relative;
 }
 
-.toolbar-divider {
+.toolbar > .divider {
   @apply -w-px -m-2 -bg-border;
 }
 
