@@ -31,7 +31,7 @@ export default defineConfig(async ({mode}) => {
                 output: {
                     assetFileNames: (chunkInfo) => {
                         if (chunkInfo.name == 'style.css' && viteConfig.build?.lib) {
-                            return `${(viteConfig.build?.lib as LibraryOptions)?.fileName ?? 'style'}.css`;
+                            return `${(viteConfig.build?.lib as LibraryOptions)?.name ?? 'style'}.css`;
                         }
                         return chunkInfo.name ?? 'noname';
                     },
@@ -95,6 +95,17 @@ export default defineConfig(async ({mode}) => {
         const configFromFile = Path.isAbsolute(configFile) ? configFile : Path.resolve(__dirname, configFile);
         const extraBuildConfig = await fs.readJSON(configFromFile);
         viteConfig = mergeConfig(viteConfig, extraBuildConfig);
+        const lib = viteConfig.build!.lib as LibraryOptions;
+        const libName = lib.fileName ?? lib.name ?? 'zui';
+        lib.fileName = (format) => {
+            if (format === 'umd') {
+                return `${libName}.js`;
+            }
+            if (format === 'es') {
+                return `${libName}.esm.js`;
+            }
+            return `${libName}.${format}.js`;
+        };
         console.log(blue('merged extra vite config file:'), '\n', Path.relative(__dirname, configFromFile) + '\n');
     }
 
