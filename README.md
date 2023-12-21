@@ -22,6 +22,7 @@ ZUI 3 是一个全新的开源 UI 组件库，提供了丰富的实用组件，�
 * [ ] 主题设计器
 * [ ] 设计规范指导文档
 * [ ] 可配置的定制打包机制，支持在线生成打包配置
+* [ ] 适用于 React 和 Preact 的组件库
 * [ ] 通用组件插件机制，允许对所有组件进行扩展
 
 ## 快速预览
@@ -36,20 +37,12 @@ ZUI 3 是一个全新的开源 UI 组件库，提供了丰富的实用组件，�
 ### 使用 JS 组件
 
 ```html
-<menu id="tree"></menu>
+<menu id="colorPicker"></menu>
 
 <script>
-const tree = new zui.Tree('#tree', {
-    items: [
-       {text: 'CSS 工具类'},
-       {
-          text: 'JS 组件',
-          items: [
-              {text: '下拉菜单'},
-              {text: '树形菜单'},
-          ]
-       },
-    ],
+const colorPicker = new ColorPicker('#colorPicker', {
+    heading: '选择颜色',
+    defaultValue: '#0ea5e9',
 });
 </script>
 ```
