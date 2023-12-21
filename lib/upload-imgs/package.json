@@ -23,6 +23,7 @@
     "zui": {
         "type": "component",
         "displayName": "上传图片",
+        "notReady": true,
         "contributes": {
             "css": [
                 "class",

@@ -28,6 +28,7 @@
     "zui": {
         "type": "control",
         "displayName": "列表",
+        "notReady": true,
         "contributes": {
             "css": [
                 "class",
