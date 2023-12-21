@@ -1,4 +1,4 @@
-# 分页生成器
+# 分页生成器 [WIP]
 
 当数据量过多时，使用分页生成器动态分解数据。
 
@@ -85,7 +85,7 @@
             info.event.target.classList.add(...classList);
         },
     });
-    
+
 </script>
 ```
 
@@ -314,7 +314,7 @@ const pager = $(element).data('zui.pager');
 * 含义：指定类型为 **nav** 的展示数量；
 * 类型：`number`。
 
-    
+
 #### `format`
 
 * 含义：指定类型为 **link | nav** 的显示格式；
@@ -426,7 +426,7 @@ export default {
                     });
                     info.event.target.classList.add('active');
                 },
-                
+
             };
             new zui.Pager('#pagerAllCount', {
                 ...basicPagerOptions,
@@ -469,7 +469,7 @@ export default {
                 recPerPage: 10,
                 linkCreator: '#?page={page}&recPerPage={recPerPage}',
             });
-            
+
             new zui.Pager('#pagerNav1', {
                 btnProps: {btnType: 'border'},
                 ...basicPagerOptions,
@@ -488,6 +488,6 @@ export default {
             });
         })
     },
-    
+
 }
 </script>
