@@ -76,6 +76,7 @@
     "tsx": "^3.14.0",
     "typescript": "^5.3.2",
     "vite": "^4.5.1",
-    "vite-plugin-eslint": "^1.8.1"
+    "vite-plugin-eslint": "^1.8.1",
+    "vite-plugin-zip-file": "^2.2.0"
   }
 }

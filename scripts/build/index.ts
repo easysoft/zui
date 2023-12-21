@@ -124,6 +124,8 @@ if (!argv.s && !argv.skipBuild) {
         env: {
             ...process.env,
             BUILD_LIBS: buildLibPaths.join(','),
+            ZIP: argv.zip,
+            ZIP_OUT: argv.zipOut,
             VITE_EXTRA_CONFIG: viteConfigFile,
             POSTCSS_CSSNANO: argv.cssnano,
             POSTCSS_REM2PX: argv.rem2px,

@@ -1,9 +1,10 @@
-import Path from 'path';
+import Path, {dirname} from 'path';
 import fs from 'fs-extra';
 import {defineConfig, mergeConfig, UserConfig} from 'vite';
 import {LibraryOptions} from 'vite';
 import {blue} from 'colorette';
 import eslint from 'vite-plugin-eslint';
+import {viteZip} from 'vite-plugin-zip-file';
 import preact from '@preact/preset-vite';
 import configDevServer from './scripts/dev/config-server';
 import {getLibs} from './scripts/libs/query';
@@ -116,6 +117,13 @@ export default defineConfig(async ({mode}) => {
                 preact(),
                 configDevServer({
                     rootPath: __dirname,
+                }),
+            ] : []),
+            ...(process.env.ZIP ? [
+                viteZip({
+                    folderPath: viteConfig.build!.outDir,
+                    outPath: process.env.ZIP_OUT ?? dirname(viteConfig.build!.outDir!),
+                    zipName: process.env.ZIP,
                 }),
             ] : []),
         ],
