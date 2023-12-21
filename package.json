@@ -1,6 +1,5 @@
 {
   "name": "zui",
-  "private": true,
   "version": "3.0.0-alpha.1",
   "type": "module",
   "engines": {
