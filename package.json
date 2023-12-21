@@ -7,6 +7,16 @@
     "node": ">=14",
     "pnpm": ">=8"
   },
+  "files": ["dist/zui"],
+  "main": "./dist/zui/zui.js",
+  "module": "./dist/zui/zui.esm.js",
+  "exports": {
+    ".": {
+      "import": "./dist/zui.esm.js",
+      "require": "./dist/zui.js"
+    },
+    "./css": "./dist/zui.css"
+  },
   "scripts": {
     "dev": "vite --host",
     "dev:exts": "tsx ./scripts/dev/index.ts",
