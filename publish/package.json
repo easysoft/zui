@@ -1,0 +1,23 @@
+{
+    "name": "zui",
+    "version": "3.0.0-alpha.1",
+    "type": "module",
+    "engines": {
+      "node": ">=14",
+      "pnpm": ">=8"
+    },
+    "files": ["dist"],
+    "main": "./dist/zui.js",
+    "module": "./dist/zui.esm.js",
+    "exports": {
+      ".": {
+        "import": "./dist/zui.esm.js",
+        "require": "./dist/zui.js"
+      },
+      "./css": "./dist/zui.css"
+    },
+    "dependencies": {
+    },
+    "devDependencies": {
+    }
+  }

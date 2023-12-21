@@ -7,3 +7,5 @@ build/
 exts/
 !scripts/build/
 .vscode/
+publish/LICENSE
+publish/README.md

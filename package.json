@@ -2,6 +2,7 @@
   "name": "zui",
   "version": "3.0.0-alpha.1",
   "type": "module",
+  "private": true,
   "engines": {
     "node": ">=14",
     "pnpm": ">=8"
@@ -32,7 +33,8 @@
     "docs:build:exts": "pnpm docs:prepare -- --copy --exts --lib=zui*exts && cd docs && pnpm build",
     "docs:serve": "cd docs && pnpm serve",
     "docs:prepare": "tsx ./scripts/docs/prepare.ts",
-    "extend-lib": "tsx ./scripts/libs/extend-lib.ts"
+    "extend-lib": "tsx ./scripts/libs/extend-lib.ts",
+    "publish:npm": "pnpm build -- --ignoreNotReady && tsx ./scripts/build/publish.ts && cd ./publish && npm publish"
   },
   "workspaces": [
     "./lib"
