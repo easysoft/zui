@@ -5,7 +5,7 @@
 你可以从如下地址下载 ZUI 的最新版本：
 
 <div class="vp-raw row gap-4">
-  <a class="btn primary size-lg rounded-full" :href="`/zui-${zui.version}.zip`" download><i class="icon icon-download-alt icon-lg"></i> 点击下载</a>
+  <a class="btn primary size-lg rounded-full" :href="withBase(`/zui-${zui.version}.zip`)" download><i class="icon icon-download-alt icon-lg"></i> 点击下载</a>
   <a class="btn outline size-lg rounded-full" :href="`https://github.com/easysoft/zui/releases/tag/v${zui.version}`" target="_blank"><i class="icon icon-github icon-lg"></i> 从 GitHub 下载</a>
 </div>
 
@@ -151,3 +151,7 @@ zui.Messager.show('Hello!');
 import {DTable} from 'zui/lib/dtable';
 import 'zui/lib/dtable/css';
 ```
+
+<script setup>
+import {withBase} from 'vitepress';
+</script>
