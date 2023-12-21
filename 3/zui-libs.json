@@ -783,7 +783,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "sortable",
-            "notReady": false,
+            "notReady": true,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/sortable/package.json",
             "order": 3000000043010000000
         },
@@ -821,7 +821,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "split",
-            "notReady": false,
+            "notReady": true,
             "wip": true,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/split/package.json",
             "order": 3000000044010000000
@@ -1413,7 +1413,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "popover",
-            "notReady": false,
+            "notReady": true,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/popover/package.json",
             "order": 4000000037010000000
         }
@@ -1491,7 +1491,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "sidebar",
-            "notReady": false,
+            "notReady": true,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/sidebar/package.json",
             "order": 4000000042010000000
         }
@@ -1776,7 +1776,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "virtual-grid",
-            "notReady": false,
+            "notReady": true,
             "wip": true,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/virtual-grid/package.json",
             "order": 4000000055010000000
