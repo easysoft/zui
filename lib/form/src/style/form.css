@@ -3,7 +3,7 @@
 }
 
 .form-label {
-  @apply -relative -h-8  -flex -flex-row -items-center -truncate;
+  @apply -relative -h-8 -flex -flex-row -items-center -truncate;
   color: var(--form-label-color);
 }
 .form-label.required::after {
@@ -12,9 +12,17 @@
 }
 
 .form-tip {
-  @apply -mt-1;
+  @apply -mt-1 -block;
   color: var(--form-tip-color);
 }
 .has-error .form-tip {@apply -text-danger-500;}
 .has-warning .form-tip {@apply -text-warning-500;}
 .has-success .form-tip {@apply -text-success-500;}
+
+.form-actions {
+  @apply -flex -flex-row -gap-4 -justify-center;
+}
+
+.form > *:not([hidden]) ~ .form-actions:not([hidden]) {
+  @apply -mt-4;
+}

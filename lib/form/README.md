@@ -21,7 +21,9 @@
     </div>
     <div class="form-tip">最低捐赠金额为 ￥10.00</div>
   </div>
-  <button type="submit" class="btn primary">提交</button>
+  <div class="form-actions">
+    <button type="submit" class="btn primary">提交</button>
+  </div>
 </form>
 ```
 
