@@ -122,9 +122,9 @@ ZUI 还提供了 ES Module 版本，你可以在 JS 代码中导入：
 
 ```html
 <script type="module">
-import zui from './zui/zui.esm.js';
+import {Messager} from './zui/zui.esm.js';
 
-zui.Messager.show('Hello!');
+Messager.show('Hello!');
 </script>
 ```
 
