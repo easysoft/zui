@@ -1494,7 +1494,7 @@ interface PluginColSetting {
 * 可编辑 `editable`
 * 历史记录 `history`
 * 自动滚动 `autoscroll`
-*
+
 <script>
 import index from './plugins.js';
 export default index;

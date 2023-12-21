@@ -273,7 +273,7 @@ $('#tabsExample').on('show shown', function(event, info) {
 </script>
 ```
 
-## CSS类
+## CSS 类
 
 标签页提供了如下 CSS 类：
 
