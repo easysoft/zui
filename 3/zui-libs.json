@@ -454,7 +454,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "list",
-            "notReady": false,
+            "notReady": true,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/list/package.json",
             "order": 2000000028010000000
         }
@@ -719,7 +719,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "dnd",
-            "notReady": false,
+            "notReady": true,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/dnd/package.json",
             "order": 3000000016010000000
         },
@@ -1662,7 +1662,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "tree",
-            "notReady": false,
+            "notReady": true,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/tree/package.json",
             "order": 4000000050010000000
         }
@@ -1701,7 +1701,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "upload",
-            "notReady": false,
+            "notReady": true,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/upload/package.json",
             "order": 4000000052010000000
         }
@@ -1741,7 +1741,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "upload-imgs",
-            "notReady": false,
+            "notReady": true,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/upload-imgs/package.json",
             "order": 4000000053010000000
         }
@@ -1858,7 +1858,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "cards",
-            "notReady": false,
+            "notReady": true,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/cards/package.json",
             "order": 5000000007010001000
         }
@@ -2115,7 +2115,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "kanban",
-            "notReady": false,
+            "notReady": true,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/kanban/package.json",
             "order": 5000000026010000000
         }
@@ -2152,7 +2152,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "tabs",
-            "notReady": false,
+            "notReady": true,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/tabs/package.json",
             "order": 5000000047010001000
         }
