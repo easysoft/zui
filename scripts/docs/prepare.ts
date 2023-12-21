@@ -5,6 +5,7 @@ import {exec} from '../utilities/exec';
 import {getLibs} from '../libs/query';
 import {syncLibDocs, emptySidebarLibDocs} from './sync';
 import {parseBuildLibs} from '../build/config';
+import {version} from '../../package.json';
 
 const argv = minimist(process.argv.slice(2).filter((x, i) => i || x !== '--'));
 const docsDir = path.resolve(process.cwd(), 'docs/_');
@@ -15,7 +16,7 @@ await fs.emptyDir(docsPublicDir);
 const exts = argv.exts === true ? 'buildIn,exts' : argv.exts;
 const libSetting = argv.lib;
 if (argv.build !== 'no') {
-    const params = ['build', '--', '--outDir=docs/_/public/zui', '--name=zui'];
+    const params = ['build', '--', '--outDir=docs/_/public/zui', '--name=zui', `--zip=zui-${version}.zip`];
     if (exts) {
         params.push(`--exts=${exts}`);
     }
