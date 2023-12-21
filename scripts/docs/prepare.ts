@@ -23,6 +23,9 @@ if (argv.build !== 'no') {
     if (libSetting) {
         params.push(`--lib=${libSetting}`);
     }
+    if (argv.ignoreNotReady) {
+        params.push('--ignoreNotReady');
+    }
     await exec('pnpm', params);
 }
 
