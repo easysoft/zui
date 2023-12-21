@@ -39,6 +39,13 @@ const propList = computed(() => {
         }
     });
     let tempComment = '';
+    const split2Parts = (str: string, splitter: string): [string, string] | [string] => {
+        const index = str.indexOf(splitter);
+        if (index === -1) {
+            return [str];
+        }
+        return [str.substring(0, index), str.substring(index + splitter.length)];
+    };
     const list = statementLines.join('\n').split('\n').reduce<{comment: string, type: string, name: string, optional: boolean, defaultValue?: unknown, override: string}[]>((items, line) => {
         let text = line.trim();
         if (!text.length) {
@@ -53,7 +60,7 @@ const propList = computed(() => {
         let name = '';
         let type = '';
         let defaultValue: unknown;
-        ([text, comment = tempComment] = text.split('//', 2));
+        ([text, comment = tempComment] = split2Parts(text, '//'));
         text = text.trim();
         tempComment = '';
         if (text.endsWith(';')) {
@@ -65,12 +72,13 @@ const propList = computed(() => {
             }
             text = text.slice(1, -1);
         }
-        ([name, text = ''] = text.split(':', 2));
+        ([name, text = ''] = split2Parts(text, ':'));
+
         if (name.endsWith('?')) {
             name = name.slice(0, -1);
             optional = true;
         }
-        ([type, text = ''] = text.split('=', 2));
+        ([type, text = ''] = split2Parts(text, ' = '));
         text = text.trim();
         if (text.length) {
             try {
