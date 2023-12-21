@@ -1480,56 +1480,21 @@ interface PluginColSetting {
 }
 ```
 
-## 拖放改变列宽 `resize`
+## 更多插件开发中
 
-<Badge text="WIP" type="danger" />
-
-
-## 上下文菜单 `contextmenu`
-
-<Badge text="WIP" type="danger" />
-
-## 快捷键 `hotkey`
-
-<Badge text="WIP" type="danger" />
-
-
-## 鼠标移动事件支持 `mousemove`
-
-<Badge text="WIP" type="danger" />
-
-## 拖放选择 `selectable`
-
-<Badge text="WIP" type="danger" />
-
-## 过滤 `filter`
-
-<Badge text="WIP" type="danger" />
-
-## 拖放移动 `moveable`
-
-<Badge text="WIP" type="danger" />
-
-## 数据网格 `datagrid`
-
-<Badge text="WIP" type="danger" />
-
-## 编辑状态 `draft`
-
-<Badge text="WIP" type="danger" />
-
-## 可编辑 `editable`
-
-<Badge text="WIP" type="danger" />
-
-## 历史记录 `history`
-
-<Badge text="WIP" type="danger" />
-
-## 自动滚动 `autoscroll`
-
-<Badge text="WIP" type="danger" />
-
+* 拖放改变列宽 `resize`
+* 上下文菜单 `contextmenu`
+* 快捷键 `hotkey`
+* 鼠标移动事件支持 `mousemove`
+* 拖放选择 `selectable`
+* 过滤 `filter`
+* 拖放移动 `moveable`
+* 数据网格 `datagrid`
+* 编辑状态 `draft`
+* 可编辑 `editable`
+* 历史记录 `history`
+* 自动滚动 `autoscroll`
+*
 <script>
 import index from './plugins.js';
 export default index;
