@@ -134,7 +134,7 @@ export const isTomorrow = (date: DateLike, now?: DateLike): boolean => isSameDay
  * @param date 要判断的日期时间表达值。
  * @returns 如果为 `true` 则表示是合法的日期时间表达值。
  */
-export const isValidDate = (date: DateLike): boolean => Number.isNaN(createDate(date).getTime());
+export const isValidDate = (date: DateLike): boolean => !Number.isNaN(createDate(date).getTime());
 
 /**
  * 格式化日期时间值为字符串，所有可用的格式化参数有：
