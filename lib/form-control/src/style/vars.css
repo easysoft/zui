@@ -5,3 +5,7 @@
   --form-control-disabled: var(--color-surface);
   --form-control-readonly: var(--color-surface);
 }
+
+.dark {
+  --form-control-border: var(--color-border-strong);
+}
