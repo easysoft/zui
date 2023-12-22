@@ -129,6 +129,14 @@ export const isYesterday = (date: DateLike, now?: DateLike): boolean => isSameDa
 export const isTomorrow = (date: DateLike, now?: DateLike): boolean => isSameDay(createDate(now).getTime() + TIME_DAY, date);
 
 /**
+ * 判断指定的日期是否合法。
+ *
+ * @param date 要判断的日期时间表达值。
+ * @returns 如果为 `true` 则表示是合法的日期时间表达值。
+ */
+export const isValidDate = (date: DateLike): boolean => Number.isNaN(createDate(date).getTime());
+
+/**
  * 格式化日期时间值为字符串，所有可用的格式化参数有：
  * - yyyy，例如：'2018'，表示四位数字表示的年份
  * - yy，例如：'18'，表示两位数字表示的年份
@@ -151,7 +159,7 @@ export const isTomorrow = (date: DateLike, now?: DateLike): boolean => isSameDay
  */
 export const formatDate = (date: DateLike, format = 'yyyy-MM-dd hh:mm', invalidDateValue = ''): string => {
     date = createDate(date);
-    if (Number.isNaN(date.getDay())) {
+    if (!isValidDate(date)) {
         return invalidDateValue;
     }
 
