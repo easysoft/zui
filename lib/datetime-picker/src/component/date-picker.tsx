@@ -1,13 +1,13 @@
 import {ComponentChildren, RenderableProps} from 'preact';
 import {Icon, classes, i18n} from '@zui/core';
-import {formatDate, createDate} from '@zui/helpers';
+import {formatDate, createDate, isValidDate} from '@zui/helpers';
 import {Pick} from '@zui/pick/src/components/pick';
 import {PickOptions, PickPopProps, PickState, PickTriggerProps} from '@zui/pick/src/types';
 import {DatePickerOptions} from '../types';
 import {DatePickerMenu} from './date-picker-menu';
 import '@zui/css-icons/src/icons/calendar.css';
 
-export class DatePicker extends Pick<PickState, DatePickerOptions> {
+export class DatePicker<T extends DatePickerOptions = DatePickerOptions> extends Pick<PickState, T> {
     static defaultProps = {
         ...Pick.defaultProps,
         popWidth: 'auto',
@@ -16,7 +16,7 @@ export class DatePicker extends Pick<PickState, DatePickerOptions> {
         icon: true,
     } as Partial<PickOptions>;
 
-    constructor(props: DatePickerOptions) {
+    constructor(props: T) {
         super(props);
         const {value} = this.state as PickState;
         if (value) {
@@ -24,20 +24,48 @@ export class DatePicker extends Pick<PickState, DatePickerOptions> {
         }
     }
 
+    getDate(): Date | null {
+        const {value} = this.state;
+        if (!value.length) {
+            return null;
+        }
+        const date = createDate(value);
+        if (!isValidDate(date)) {
+            return null;
+        }
+        return date;
+    }
+
     setDate = (value: string) => {
-        const {onInvalid, defaultValue = '', required, disabled, readonly, format} = this.props;
+        const {onInvalid, defaultValue = '', required, disabled, readonly, format, minDate, maxDate} = this.props;
         if (disabled || readonly) {
             return;
         }
-        const date = createDate(value);
+        let date = createDate(value);
+        if (minDate) {
+            const min = createDate(minDate);
+            if (date < min) {
+                date = min;
+            }
+        }
+        if (maxDate) {
+            const max = createDate(maxDate);
+            if (date > max) {
+                date = max;
+            }
+        }
         const isInvalid = !value || Number.isNaN(date.getDay());
         this.setState({value: isInvalid ? (required ? defaultValue : '') : formatDate(date, format)}, () => {
             if (!isInvalid && onInvalid) {
                 onInvalid(value);
             }
-            this.toggle(false);
+            this._afterSetDate();
         });
     };
+
+    _afterSetDate() {
+        this.toggle(false);
+    }
 
     _handleInputFocus = () => {
         this.toggle(true);
@@ -49,6 +77,10 @@ export class DatePicker extends Pick<PickState, DatePickerOptions> {
 
     _handleClearBtnClick = () => {
         this.setDate('');
+    };
+
+    _handleSetDate = (date: string) => {
+        this.setDate(date);
     };
 
     _renderTrigger(props: DatePickerOptions, state: PickState): ComponentChildren {
@@ -83,7 +115,7 @@ export class DatePicker extends Pick<PickState, DatePickerOptions> {
         ];
     }
 
-    protected _getTriggerProps(props: RenderableProps<DatePickerOptions>, state: Readonly<PickState>): PickTriggerProps<PickState> {
+    protected _getTriggerProps(props: RenderableProps<T>, state: Readonly<PickState>): PickTriggerProps<PickState> {
         const triggerProps = super._getTriggerProps(props, state);
         return {
             ...triggerProps,
@@ -91,7 +123,7 @@ export class DatePicker extends Pick<PickState, DatePickerOptions> {
         };
     }
 
-    protected _getPopProps(props: RenderableProps<DatePickerOptions>, state: Readonly<PickState>): PickPopProps<PickState> {
+    protected _getPopProps(props: RenderableProps<T>, state: Readonly<PickState>): PickPopProps<PickState> {
         const popProps = super._getPopProps(props, state);
         return {
             ...popProps,
@@ -99,11 +131,11 @@ export class DatePicker extends Pick<PickState, DatePickerOptions> {
         };
     }
 
-    _renderPop(props: DatePickerOptions, state: PickState): ComponentChildren {
+    _renderPop(props: T, state: PickState): ComponentChildren {
         const {weekNames, monthNames, weekStart, yearText, todayText = i18n.getLang('today'), clearText, menu, actions, minDate, maxDate, required} = props;
         return (
             <DatePickerMenu
-                onChange={this.setDate}
+                onChange={this._handleSetDate}
                 date={state.value}
                 weekNames={weekNames}
                 monthNames={monthNames}

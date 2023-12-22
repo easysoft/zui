@@ -93,6 +93,7 @@ export class DatePickerMenu extends Component<DatePickerMenuProps, DatePickerMen
             }
             date = formatDate(time, 'yyyy-MM-dd');
         }
+        
         this.props.onChange?.(date);
     };
 

@@ -38,19 +38,19 @@ export class TimePicker extends Pick<PickState, TimePickerOptions> {
         }
     }
 
-    #handleInputFocus = () => {
+    _handleInputFocus = () => {
         this.toggle(true);
     };
 
-    #handleInputChange = (event: Event) => {
+    _handleInputChange = (event: Event) => {
         this.setTime((event.target as HTMLInputElement).value);
     };
 
-    #handleChange = (type: 'hour' | 'minute', value: string) => {
-        this.setTime({[type]: value});
+    _handleSetTime = (type: 'hour' | 'minute', value: number) => {
+        this.setTime({[type]: String(value)});
     };
 
-    #handleClearBtnClick = () => {
+    _handleClearBtnClick = () => {
         this.setTime('');
     };
 
@@ -87,7 +87,7 @@ export class TimePicker extends Pick<PickState, TimePickerOptions> {
         const id = `time-picker-${this.id}`;
         let iconView: ComponentChildren;
         if (open && !required && value.length) {
-            iconView = <button type="button" className="btn size-sm square ghost" onClick={this.#handleClearBtnClick}><span className="close"></span></button>;
+            iconView = <button type="button" className="btn size-sm square ghost" onClick={this._handleClearBtnClick}><span className="close"></span></button>;
         } else if (icon) {
             if (icon === true) {
                 iconView = <i class="i-time"></i>;
@@ -96,7 +96,7 @@ export class TimePicker extends Pick<PickState, TimePickerOptions> {
             }
         }
         return [
-            <input key="input" id={id} type="text" className="form-control" placeholder={placeholder} value={value} disabled={disabled} readOnly={readonly} autoComplete="off" onFocus={this.#handleInputFocus} onChange={this.#handleInputChange} />,
+            <input key="input" id={id} type="text" className="form-control" placeholder={placeholder} value={value} disabled={disabled} readOnly={readonly} autoComplete="off" onFocus={this._handleInputFocus} onChange={this._handleInputChange} />,
             iconView ? <label key="icon" for={id} className="input-control-suffix">{iconView}</label> : null,
         ];
     }
@@ -111,6 +111,6 @@ export class TimePicker extends Pick<PickState, TimePickerOptions> {
 
     _renderPop(props: TimePickerOptions): ComponentChildren {
         const [hour, minute] = this.getTime() || [];
-        return <TimePickerMenu hour={hour} minute={minute} minuteStep={props.minuteStep} onChange={this.#handleChange} />;
+        return <TimePickerMenu hour={hour} minute={minute} minuteStep={props.minuteStep} onChange={this._handleSetTime} />;
     }
 }

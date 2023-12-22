@@ -24,7 +24,7 @@ const getCalendarInfo = (year: number, month: number, weekStart = 0): CalenderIn
 const createDateSet = (dates: DateLike | DateLike[], dateFormat: string): Set<string> => new Set((Array.isArray(dates) ? dates : [dates]).map((item) => formatDate(item, dateFormat)));
 
 export class MiniCalendar extends Component<MiniCalendarProps> {
-    #handleClickDate = (event: MouseEvent) => {
+    _handleClickDate = (event: MouseEvent) => {
         const {onClickDate} = this.props;
         if (!onClickDate) {
             return;
@@ -78,7 +78,7 @@ export class MiniCalendar extends Component<MiniCalendarProps> {
                 });
                 rowDays.push(
                     <div className={className} key={dateStr} data-date={dateStr}>
-                        <a className={btnClass} onClick={this.#handleClickDate}>{(date === 1 && monthNames) ? monthNames[day.getMonth()] : day.getDate()}</a>
+                        <a className={btnClass} onClick={this._handleClickDate}>{(date === 1 && monthNames) ? monthNames[day.getMonth()] : day.getDate()}</a>
                     </div>,
                 );
                 time += TIME_DAY;

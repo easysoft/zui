@@ -10,14 +10,17 @@ onPageUpdate(() => {
         clearText: '待定',
         menu: [{
             text: '上一个月',
-            'data-set-date': 'now-1month',
+            'data-set-date': 'today-1month',
         }, {
             text: '两个月',
-            'data-set-date': 'now+2month',
+            'data-set-date': 'today+2month',
         }],
         format: 'yyyy/MM/dd',
         name: 'date',
         required: true,
+        defaultValue: 'today',
+        maxDate: '2024-2-20',
+        minDate: '2023-12-1',
     });
     console.log('> datePicker', datePicker);
 
