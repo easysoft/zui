@@ -1,7 +1,6 @@
 import Path, {dirname} from 'path';
 import fs from 'fs-extra';
-import {defineConfig, mergeConfig, UserConfig} from 'vite';
-import {LibraryOptions} from 'vite';
+import {defineConfig, mergeConfig, type UserConfig, type LibraryOptions} from 'vite';
 import {blue} from 'colorette';
 import eslint from 'vite-plugin-eslint';
 import {viteZip} from 'vite-plugin-zip-file';
@@ -24,6 +23,19 @@ export default defineConfig(async ({mode}) => {
     const buildLibs = process.env.BUILD_LIBS ?? 'buildIn';
     const libsCache: Record<string, LibInfo> | undefined = await getLibs(buildLibs.split(','));
 
+    const configFile = process.env.VITE_EXTRA_CONFIG;
+    let extraBuildConfig: Partial<UserConfig> | undefined;
+    let libFileName = 'zui';
+    if (configFile) {
+        const configFromFile = Path.isAbsolute(configFile) ? configFile : Path.resolve(__dirname, configFile);
+        extraBuildConfig = await fs.readJSON(configFromFile);
+        const lib = extraBuildConfig?.build?.lib;
+        if (lib && typeof lib.fileName === 'string') {
+            libFileName = lib.fileName || libFileName;
+        }
+        console.log(blue('merged extra vite config file:'), '\n', Path.relative(__dirname, configFromFile) + '\n');
+    }
+
     let viteConfig: UserConfig = {
         base: './',
         build: {
@@ -32,7 +44,7 @@ export default defineConfig(async ({mode}) => {
                 output: {
                     assetFileNames: (chunkInfo) => {
                         if (chunkInfo.name == 'style.css' && viteConfig.build?.lib) {
-                            return `${(viteConfig.build?.lib as LibraryOptions)?.name ?? 'style'}.css`;
+                            return `${libFileName}.css`;
                         }
                         return chunkInfo.name ?? 'noname';
                     },
@@ -91,23 +103,18 @@ export default defineConfig(async ({mode}) => {
         },
     };
 
-    const configFile = process.env.VITE_EXTRA_CONFIG;
-    if (configFile) {
-        const configFromFile = Path.isAbsolute(configFile) ? configFile : Path.resolve(__dirname, configFile);
-        const extraBuildConfig = await fs.readJSON(configFromFile);
+    if (extraBuildConfig) {
         viteConfig = mergeConfig(viteConfig, extraBuildConfig);
         const lib = viteConfig.build!.lib as LibraryOptions;
-        const libName = lib.fileName ?? lib.name ?? 'zui';
         lib.fileName = (format) => {
             if (format === 'umd') {
-                return `${libName}.js`;
+                return `${libFileName}.js`;
             }
             if (format === 'es') {
-                return `${libName}.esm.js`;
+                return `${libFileName}.esm.js`;
             }
-            return `${libName}.${format}.js`;
+            return `${libFileName}.${format}.js`;
         };
-        console.log(blue('merged extra vite config file:'), '\n', Path.relative(__dirname, configFromFile) + '\n');
     }
 
     viteConfig = mergeConfig(viteConfig, {
