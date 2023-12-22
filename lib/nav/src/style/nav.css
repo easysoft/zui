@@ -6,7 +6,7 @@
 }
 
 .nav-item > a {
-  @apply -flex -items-center -justify-center -h-8 -px-4 -gap-1 -text-inherit;
+  @apply -flex -items-center -justify-center -h-8 -px-4 -gap-1 -text-inherit -cursor-pointer;
 }
 .nav-item > .active {
   @apply -font-bold;
