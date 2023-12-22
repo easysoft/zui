@@ -1,5 +1,5 @@
 import {Component, ComponentChild} from 'preact';
-import {TIME_DAY, formatDate, DateLike, isSameMonth, isSameDay} from '@zui/helpers';
+import {TIME_DAY, formatDate, DateLike, isSameMonth, isSameDay, createDate} from '@zui/helpers';
 import {classes, i18n, $} from '@zui/core';
 import {MiniCalendarProps} from '../types';
 import '../i18n';
@@ -45,6 +45,8 @@ export class MiniCalendar extends Component<MiniCalendarProps> {
             month = (now.getMonth() + 1),
             highlights = [],
             selections = [],
+            maxDate,
+            minDate,
         } = props;
         const weekNamesView: ComponentChild[] = [];
         const btnClass = 'btn ghost square rounded-full';
@@ -59,6 +61,8 @@ export class MiniCalendar extends Component<MiniCalendarProps> {
         const dateFormat = 'yyyy-MM-dd';
         const highlightSet = createDateSet(highlights, dateFormat);
         const selectionSet = createDateSet(selections, dateFormat);
+        const maxDateTime = (maxDate ? createDate(maxDate) : null)?.getTime() ?? Number.MAX_SAFE_INTEGER;
+        const minDateTime = (minDate ? createDate(minDate) : null)?.getTime() ?? 0;
         while (time <= endTime) {
             const rowDays: ComponentChild[] = [];
             for (let i = 0; i < 7; i++) {
@@ -75,6 +79,7 @@ export class MiniCalendar extends Component<MiniCalendarProps> {
                     'is-out-month': !isInMonth,
                     'is-today': isSameDay(day, now),
                     'is-weekend': weekDay === 0 || weekDay === 6,
+                    disabled: !isSameDay(day, maxDateTime) && !isSameDay(day, minDateTime) && (time > maxDateTime || time < minDateTime),
                 });
                 rowDays.push(
                     <div className={className} key={dateStr} data-date={dateStr}>

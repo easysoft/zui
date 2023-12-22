@@ -7,6 +7,9 @@
 .mini-calendar-day {
   @apply -h-8;
 }
+.mini-calendar-day.disabled {
+  @apply -pointer-events-none -opacity-50 -bg-gray-200;
+}
 .mini-calendar-day > a {
   @apply -w-8;
 }

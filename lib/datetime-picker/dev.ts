@@ -30,6 +30,9 @@ onPageUpdate(() => {
     });
     console.log('> timePicker', timePicker);
 
-    const datetimePicker = new DatetimePicker('#datetime-picker-example');
+    const datetimePicker = new DatetimePicker('#datetime-picker-example', {
+        maxDate: '2024-2-20 8:00',
+        minDate: '2023-12-1 12:00',
+    });
     console.log('> datetimePicker', datetimePicker);
 });

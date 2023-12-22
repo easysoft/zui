@@ -93,7 +93,7 @@ export class DatePickerMenu extends Component<DatePickerMenuProps, DatePickerMen
             }
             date = formatDate(time, 'yyyy-MM-dd');
         }
-        
+
         this.props.onChange?.(date);
     };
 
@@ -153,6 +153,8 @@ export class DatePickerMenu extends Component<DatePickerMenuProps, DatePickerMen
                                     weekStart={weekStart}
                                     weekNames={weekNames}
                                     monthNames={monthNames}
+                                    maxDate={maxDate}
+                                    minDate={minDate}
                                     year={year}
                                     month={month}
                                     selections={currentDate}
