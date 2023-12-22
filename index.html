@@ -5,12 +5,25 @@
     <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ZUI3 Development</title>
+    <script>
+      document.documentElement.classList.toggle('dark', localStorage.getItem('dark') === 'true');
+      window.$toggleDarkTheme = () => {
+        document.documentElement.classList.toggle('dark');
+        localStorage.setItem('dark', document.documentElement.classList.contains('dark'));
+      };
+      document.addEventListener('click', (event) => {
+        if (event.target.closest('[data-toggle="darkTheme"]')) {
+          $toggleDarkTheme();
+          event.preventDefault();
+        }
+      });
+    </script>
   </head>
   <body>
-    <aside class="-fixed -inset-y-0 -left-0 -z-10 -bg-primary-800">
+    <aside class="-fixed -inset-y-0 -left-0 -z-10 -bg-primary-800 dark:-bg-primary-900">
       <div class="-flex -flex-col -h-full">
         <a href="/" class="-flex -items-center -p-4 -flex-none">
-          <img src="./favicon.svg" class="-mr-3 -h-6 -sm:h-7" alt="ZUI Logo" />
+          <img src="./favicon.svg" class="-mr-3 -h-6 -sm:h-7" alt="ZUI Logo" data-toggle="darkTheme" />
           <span class="-self-center -text-xl -font-semibold -whitespace-nowrap -text-white">ZUI DEV</span><span class="-ml-2 -font-bold -text-sm -bg-white/50 -text-primary-900 -px-1 -rounded-full" id="libsCount"></span>
         </a>
         <div class="-flex-auto -overflow-y-auto -min-h-0 scrollbar-hover -p-3 -pt-0" style="overflow: overlay">
