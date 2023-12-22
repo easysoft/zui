@@ -22,6 +22,10 @@
     line-height: 1;
     text-transform: none;
     display: inline-block;
+
+    /* Better Font Rendering. */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
 
