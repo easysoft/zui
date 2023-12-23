@@ -79,6 +79,33 @@ const datePicker = new zui.DatePicker('#datePicker', {
 
 :::
 
+## 限制日期范围
+
+通过 `minDate` 和 `maxDate` 来限制可选的日期范围。
+
+::: tabs
+
+== 示例
+
+<Example>
+  <div data-zui="datetimePicker" :data-min-date="minDate" :data-max-date="maxDate"></div>
+</Example>
+
+== HTML
+
+```html-vue
+<div id="datetimePicker"></div>
+
+<script>
+const datetimePicker = new zui.datetimePicker('#datetimePicker', {
+    minDate: "{{new Date(minDate).toLocaleDateString()}}",
+    maxDate: "{{new Date(maxDate).toLocaleDateString()}}",
+});
+</script>
+```
+
+:::
+
 ## 自定义菜单
 
 通过 `menu` 选项可以在弹出面板侧面显示一个[自定义菜单](/lib/components/menu/js.html)，通过 `actions` 可以自定义[底部工具栏](/lib/components/toolbar/js.html)上的按钮。在菜单项和按钮上通过 `[data-set-date]` 属性指定点击按钮时要设定的日期。
@@ -176,3 +203,10 @@ menu?: object[] | object; // 左侧显示的菜单设置。
 actions?: object[] | object; // 底部工具栏设置。
 onInvalid?: function; // 日期值无效时的回调函数。
 </Props>
+
+<script setup>
+const now = Date.now();
+const oneWeek = 3600 * 1000 * 24 * 7;
+const minDate = now - 2 * oneWeek;
+const maxDate = now + oneWeek;
+</script>
