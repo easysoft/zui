@@ -137,7 +137,7 @@ export class Listitem<P extends ListitemProps = ListitemProps, S = {}> extends H
                 multiline: multiline ?? !!(title && subtitle),
                 state: asLink && !disabled,
             }),
-        }, asLink ? {href: url, target} : null, extraAttrs, innerAttrs);
+        }, asLink ? {href: url || 'javascript:;', target} : null, extraAttrs, innerAttrs);
         return (
             <ComponentName {...attrs}>
                 {this._renderLeading(props)}
