@@ -26,10 +26,6 @@ export class ValueSelector extends Component<ValueSelectorProps> {
         }
     };
 
-    componentDidMount() {
-        $(this.#ref.current).find('.active').scrollIntoView({block: 'center'});
-    }
-
     render(props: ValueSelectorProps) {
         const {className, max, min, value} = props;
         const valueView: ComponentChild[] = [];

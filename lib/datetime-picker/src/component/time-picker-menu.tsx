@@ -12,7 +12,7 @@ export class TimePickerMenu extends Component<TimePickerMenuProps> {
     };
 
     componentDidMount(): void {
-        $(this._ref.current).find('.menu-item>.active').scrollIntoView();
+        $(this._ref.current).find('.menu-item>.active').scrollIntoView({container: '.menu'});
     }
 
     render(props: TimePickerMenuProps) {

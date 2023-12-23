@@ -106,10 +106,6 @@ export class DatePickerMenu extends Component<DatePickerMenuProps, DatePickerMen
         });
     }
 
-    componentDidMount() {
-        $(this.#ref.current).find('.active').scrollIntoView();
-    }
-
     render(props: DatePickerMenuProps, state: DatePickerMenuState) {
         const {
             date,
