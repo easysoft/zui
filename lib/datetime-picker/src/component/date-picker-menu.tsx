@@ -1,14 +1,14 @@
-import {Component, RefObject, createRef} from 'preact';
+import {Component, type RefObject, createRef} from 'preact';
 import {addDate, createDate, formatDate, formatString} from '@zui/helpers';
 import {$, i18n} from '@zui/core';
 import {Menu} from '@zui/menu/src/component';
-import {Button} from '@zui/button/src/component/button';
-import {ToolbarItemProps} from '@zui/toolbar/src/types';
-import {DatePickerMenuProps, DatePickerMenuState} from '../types';
+import {Button} from '@zui/button/src/component';
+import {Toolbar} from '@zui/toolbar/src/component';
+import type {ToolbarItemOptions} from '@zui/toolbar';
+import type {DatePickerMenuProps, DatePickerMenuState} from '../types';
 import '@zui/css-icons/src/icons/chevron.css';
 import {MiniCalendar} from './mini-calendar';
 import {ValueSelector} from './value-selector';
-import {Toolbar} from '@zui/toolbar/src/component';
 
 export class DatePickerMenu extends Component<DatePickerMenuProps, DatePickerMenuState> {
     #ref: RefObject<HTMLDivElement> = createRef();
@@ -72,7 +72,7 @@ export class DatePickerMenu extends Component<DatePickerMenuProps, DatePickerMen
         let {actions} = props;
         const {todayText, clearText} = props;
         if (!actions) {
-            actions = [{text: todayText, 'data-set-date': formatDate(new Date(), 'yyyy-MM-dd')} as ToolbarItemProps];
+            actions = [{text: todayText, 'data-set-date': formatDate(new Date(), 'yyyy-MM-dd')} as ToolbarItemOptions];
         }
         if (Array.isArray(actions)) {
             actions = {items: actions};
