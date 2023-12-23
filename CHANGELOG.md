@@ -1,6 +1,6 @@
 # 更新日志
 
-## [3.0.0-alpha.2](https://github.com/vuejs/vitepress/compare/3.0.0-alpha.1...3.0.0-alpha.2) (2023-12-21)
+## [3.0.0-alpha.2](https://github.com/vuejs/vitepress/compare/3.0.0-alpha.1...3.0.0-alpha.2) (2023-12-23)
 
 * 日期时间选择器：新增日期时间选择器，支持同时选择日期和时间；
 * 日期选择器：优化日期选择器，新增对 `maxDate` 和 `minDate` 的支持，用于设置可选日期范围；
