@@ -10,17 +10,17 @@
 .mini-calendar-day.disabled {
   @apply -pointer-events-none -opacity-50 -bg-gray-200;
 }
-.mini-calendar-day > a {
+.mini-calendar-day > .btn {
   @apply -w-8;
 }
-.mini-calendar-day.is-weekend > a {
+.mini-calendar-day.is-weekend > .btn {
   @apply -text-gray-500;
 }
-.mini-calendar-day.active > a,
-.mini-calendar-day.is-today > a {
+.mini-calendar-day.active > .btn,
+.mini-calendar-day.is-today > .btn {
   @apply -bg-primary-100 -text-primary-500;
 }
-.mini-calendar-day.selected > a {
+.mini-calendar-day.selected > .btn {
   @apply -bg-primary-500 -text-canvas;
 }
 .mini-calendar-day.is-out-month {

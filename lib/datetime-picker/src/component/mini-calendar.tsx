@@ -83,7 +83,7 @@ export class MiniCalendar extends Component<MiniCalendarProps> {
                 });
                 rowDays.push(
                     <div className={className} key={dateStr} data-date={dateStr}>
-                        <a className={btnClass} onClick={this._handleClickDate}>{(date === 1 && monthNames) ? monthNames[day.getMonth()] : day.getDate()}</a>
+                        <button type="button" className={btnClass} onClick={this._handleClickDate}>{(date === 1 && monthNames) ? monthNames[day.getMonth()] : day.getDate()}</button>
                     </div>,
                 );
                 time += TIME_DAY;
