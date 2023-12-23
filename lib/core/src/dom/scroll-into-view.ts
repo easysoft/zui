@@ -1,4 +1,4 @@
-import {$, Cash, Selector} from '../cash';
+import {$, Cash, Selector, Comparator} from '../cash';
 import {isVisible} from './is-visible';
 
 /**
@@ -6,7 +6,24 @@ import {isVisible} from './is-visible';
  */
 type CashScrollIntoViewOptions = ScrollIntoViewOptions & {
     ifNeeded?: boolean;
+    container?: Comparator;
 };
+
+function hasScrollbar(element: HTMLElement, direction: 'vert' | 'horz' | 'both' = 'both') {
+    if (direction === 'vert' || direction === 'both') {
+        if (element.clientHeight < element.scrollHeight) {
+            return true;
+        }
+    }
+
+    if (direction === 'horz' || direction === 'both') {
+        if (element.clientWidth < element.scrollWidth) {
+            return true;
+        }
+    }
+
+    return false;
+}
 
 /**
  * Scroll into view.
@@ -18,8 +35,14 @@ type CashScrollIntoViewOptions = ScrollIntoViewOptions & {
  */
 export function scrollIntoView(selector: Selector, options?: CashScrollIntoViewOptions): Cash {
     const $element = $(selector);
-    const {ifNeeded = true, ...other} = options || {};
+    const {ifNeeded = true, container, ...other} = options || {};
     $element.each((_, ele) => {
+        if (container) {
+            const $container = $(ele).closest(container);
+            if (!$container.length || !hasScrollbar($container[0] as HTMLElement)) {
+                return;
+            }
+        }
         if (ifNeeded) {
             if ((ele as unknown as {scrollIntoViewIfNeeded?: (options: ScrollIntoViewOptions) => void}).scrollIntoViewIfNeeded) {
                 return (ele as unknown as {scrollIntoViewIfNeeded: (options: ScrollIntoViewOptions) => void}).scrollIntoViewIfNeeded(other);
