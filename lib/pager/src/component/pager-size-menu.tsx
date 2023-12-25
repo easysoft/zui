@@ -16,6 +16,7 @@ export function PagerSizeMenu({
         const info = {...pagerInfo, recPerPage};
         return {
             ...itemProps,
+            key: recPerPage,
             text: `${recPerPage}`,
             active: recPerPage === pagerInfo.recPerPage,
             url: typeof linkCreator === 'function' ? linkCreator(info)  : formatString(linkCreator, info),
