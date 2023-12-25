@@ -5,6 +5,6 @@
     @apply -block;
 }
 .contextmenu.popup,
-.contextmenu .popup {
+.contextmenu .popup .popup {
     @apply -absolute;
 }
