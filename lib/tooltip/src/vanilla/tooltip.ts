@@ -18,6 +18,8 @@ export class Tooltip extends Popover<TooltipOptions> {
         destroyOnHide: 5000,
     };
 
+    static hideOthersOnShow = true;
+
     protected _getRenderOptions(): PopoverPanelOptions {
         const {type, className, title: originTitle, content: originContent} = this.options;
         let title = originTitle;
