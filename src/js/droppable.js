@@ -100,7 +100,12 @@
                         position:   'absolute',
                         width:      $ele.outerWidth(),
                         transition: 'none'
-                    }).appendTo($container);
+                    });
+                    $shadow.find('input[type="radio"]').each(function(){
+                        var $radio = $(this);
+                        $radio.attr('name', $radio.attr('name') + '_shadow');
+                    });
+                    $shadow.appendTo($container);
                 }
 
                 $ele.addClass('dragging');
