@@ -27,6 +27,7 @@ export type PopoverOptions = Omit<PopoverPanelOptions, 'arrow' | 'arrowStyle' | 
     show?: boolean | number;
     animation?: boolean | string;
     destroyOnHide?: boolean | number;
+    hideOthersOnShow?: boolean;
 
     onShow?: () => void;
     onShown?: () => void;
