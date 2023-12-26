@@ -41,5 +41,7 @@
 }
 .tree-item > .selected {
   background: var(--menu-selected-bg);
-  color: var(--menu-selected-color);
+}
+.tree-item > .selected .item-content {
+  @apply -text-[--menu-selected-color] -font-bold;
 }
