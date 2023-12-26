@@ -33,6 +33,7 @@
   @apply -h-3/4;
 }
 
+.gutter-resize-handler,
 .gutter-toggle {
   @apply -absolute -h-7 -flex -items-center -justify-center -top-1/2 -border-border -border -w-3 --mt-3.5 -bg-canvas -text-fore -rounded-lg -transition-colors;
 }
@@ -73,4 +74,11 @@
 }
 .gutter-vert.is-last.is-next-collapsed {
   transform: translateY(calc(1px + var(--split-gutter-size) / 2));
+}
+
+.gutter-resize-handler {
+  @apply -border-0 -bg-transparent;
+}
+.gutter-resize-handler::before {
+  @apply -absolute -content-[''] -inset-y-0 -border-l -border-r -inset-x-1;
 }
