@@ -20,6 +20,10 @@
   --skin-text: rgba(var(--color-fore-in-dark-rgb), var(--tw-text-opacity));
   --skin-color: rgba(var(--skin-solid-rgb), 1);
   --state-ring-color: var(--skin-color);
+  --state-active-color: rgba(0,0,0,.1);
+  --state-pressed-color: rgba(0,0,0,.1);
+  --state-color: rgba(255,255,255,.1);
+  --state-focus-color: rgba(0,0,0,.1);
 }
 
 .primary {

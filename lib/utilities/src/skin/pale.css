@@ -21,6 +21,7 @@
 
   --skin-color: rgba(var(--skin-pale-rgb), .1);
   --skin-text: rgba(var(--skin-pale-rgb), 1);
+  --state-color: rgba(var(--skin-pale-rgb), .1);
 }
 
 .pale {
