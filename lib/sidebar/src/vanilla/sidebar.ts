@@ -106,6 +106,8 @@ export class Sidebar extends Component<SidebarOptions, {
         if (toggleBtn) {
             $gutter.append(`<button class="gutter-toggle" type="button"><span class="chevron-${side}"></span></button>`);
             $gutter.on('click', '.gutter-toggle', () => this.toggle());
+        } else {
+            $gutter.append('<div class="gutter-resize-handler"></div>');
         }
         if (dbclick) {
             $gutter.on('dblclick', () => {
@@ -175,12 +177,12 @@ export class Sidebar extends Component<SidebarOptions, {
             return;
         }
 
-        width = width < this._minWidth ? 0 : Math.min(this._maxWidth, width, this._container.clientWidth);
+        const {preserve, toggleBtn, onResize, onToggle} = this.options;
+        width = width < this._minWidth ? (toggleBtn ? 0 : this._minWidth) : Math.min(this._maxWidth, width, this._container.clientWidth);
         if (width === this._width) {
             return;
         }
 
-        const {preserve, onResize, onToggle} = this.options;
         const isOldCollapsed = !this._width;
         const isCollapsed = !width;
         this._width = width;
