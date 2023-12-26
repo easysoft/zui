@@ -218,7 +218,7 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
             return;
         }
         await this.changeState(prevState => {
-            const newNestedShow: Record<ItemKey, boolean> = {
+            let newNestedShow: Record<ItemKey, boolean> = {
                 ...prevState.nestedShow,
                 [keyPath]: toggle!,
             };
@@ -233,11 +233,22 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
                     }
                 });
             }
+            newNestedShow = toggle ? parentKeys(keyPath).reduce<Record<string, boolean>>((map, key) => {
+                map[key] = toggle!;
+                return map;
+            }, newNestedShow) : newNestedShow;
+            if (this.isHoverTrigger && !toggle) {
+                Object.keys(newNestedShow).forEach(key => {
+                    if (!newNestedShow[key] || !key.startsWith(`${keyPath}:`)) {
+                        return;
+                    }
+                    parentKeys(keyPath).forEach(k => {
+                        newNestedShow[k] = true;
+                    });
+                });
+            }
             return {
-                nestedShow: toggle ? parentKeys(keyPath).reduce<Record<string, boolean>>((map, key) => {
-                    map[key] = toggle!;
-                    return map;
-                }, newNestedShow) : newNestedShow,
+                nestedShow: newNestedShow,
             } as Partial<S>;
         }, this._preserveState);
     }
