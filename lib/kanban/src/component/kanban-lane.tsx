@@ -43,14 +43,17 @@ export class KanbanLane extends HElement<KanbanLaneProps> {
             actions,
             cols,
             items = {},
+            hideName,
             itemRender,
         } = props;
 
         return [
-            <div key="name" className="kanban-lane-name">
-                <div key="title" className={classes('kanban-lane-title', titleClass)}><CustomContent content={title} /></div>
-                {Toolbar.render(actions, [props], {key: 'actions', className: 'kanban-lane-actions', size: 'sm'}, this)}
-            </div>,
+            hideName ? null : (
+                <div key="name" className="kanban-lane-name">
+                    <div key="title" className={classes('kanban-lane-title', titleClass)}><CustomContent content={title} /></div>
+                    {Toolbar.render(actions, [props], {key: 'actions', className: 'kanban-lane-actions', size: 'sm'}, this)}
+                </div>
+            ),
             <div key="cols" className="kanban-lane-cols">
                 {cols.reduce<ComponentChild[]>((list, col) => {
                     if (col.subCols) {

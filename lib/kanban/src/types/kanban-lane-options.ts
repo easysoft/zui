@@ -14,4 +14,5 @@ export interface KanbanLaneOptions extends HElementProps {
     height?: SizeSetting;
     minHeight?: SizeSetting;
     maxHeight?: SizeSetting;
+    hideName?: boolean;
 }

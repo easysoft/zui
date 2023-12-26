@@ -9,6 +9,6 @@ export interface KanbanLaneProps extends KanbanLaneOptions {
     index: number;
     cols: KanbanColOptions[];
     items: Record<KanbanColName, KanbanItem[]>;
-    itemRender?: (info: KanbanItemInfo) => CustomContentType;
     height?: SizeSetting;
+    itemRender?: (info: KanbanItemInfo) => CustomContentType;
 }
