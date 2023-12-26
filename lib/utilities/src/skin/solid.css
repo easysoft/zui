@@ -19,7 +19,6 @@
   @apply -skin;
   --skin-text: rgba(var(--color-fore-in-dark-rgb), var(--tw-text-opacity));
   --skin-color: rgba(var(--skin-solid-rgb), 1);
-  --skin-ring: rgba(var(--skin-solid-rgb), var(--tw-ring-opacity));
   --state-ring-color: var(--skin-color);
 }
 
