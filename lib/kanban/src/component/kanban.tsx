@@ -650,7 +650,6 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
         const {editLinks} = props;
         const layoutCols = this._layoutCols(cols, props);
         const layoutLanes = this._layoutLanes(lanes, props);
-        console.log('> Kanban.render', props.key, {...data, layoutCols, layoutLanes, props, kanban: this});
         return [
             <KanbanHeader key="header" cols={layoutCols} />,
             <KanbanBody

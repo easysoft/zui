@@ -41,7 +41,6 @@ export class KanbanRegion extends HElement<KanbanRegionProps, KanbanRegionState>
     }
 
     update(state: Partial<KanbanRegionState>) {
-        console.log('> KanbanRegion.update', this.props.key, state, this);
         const {items} = state;
         if (items) {
             state = {...state};
