@@ -82,13 +82,13 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
             const $triggerElement = $(triggerElement);
             const {namespace} = this;
             if (trigger === 'hover') {
-                $triggerElement.on(`mouseenter${namespace}`, (event: MouseEvent) => {
+                $triggerElement.on(`pointerenter${namespace}`, (event: MouseEvent) => {
                     const target = $triggerElement.dataset('target');
                     if (target) {
                         this.setOptions({target} as Partial<O>);
                     }
                     this.show({delay: true, event});
-                }).on(`mouseleave${namespace}`, () => {
+                }).on(`pointerleave${namespace} pointercancel${namespace}`, () => {
                     this.delayHide();
                 });
             } else if (trigger) {
@@ -187,10 +187,10 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
             this._clearDelayHide();
             $target
                 .off(namespace)
-                .on(`mouseenter${namespace}`, () => {
+                .on(`pointerenter${namespace}`, () => {
                     this._clearDelayHide();
                 })
-                .on(`mouseleave${namespace}`, () => {
+                .on(`pointerleave${namespace}`, () => {
                     this.delayHide();
                 });
         }
@@ -507,11 +507,11 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
     }
 }
 
-$(document).on(`click${Popover.NAMESPACE} mouseenter${Popover.NAMESPACE}`, TOGGLE_SELECTOR, (event: MouseEvent) => {
+$(document).on(`click${Popover.NAMESPACE} pointerenter${Popover.NAMESPACE}`, TOGGLE_SELECTOR, (event: MouseEvent) => {
     const $toggleBtn = $(event.currentTarget as HTMLElement);
     if ($toggleBtn.length && !$toggleBtn.data(Popover.KEY)) {
         const trigger = $toggleBtn.data('trigger') || 'click';
-        const eventForTrigger = event.type === 'mouseover' ? 'hover' : 'click';
+        const eventForTrigger = (event.type === 'mouseover' || event.type === 'pointerenter') ? 'hover' : 'click';
         if (eventForTrigger !== trigger) {
             return;
         }
