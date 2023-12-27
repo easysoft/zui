@@ -132,7 +132,7 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
         const constructor = this.constructor as typeof ModalBase;
         if (constructor.hideOthersOnShow && this.options.hideOthersOnShow !== false) {
             constructor.getAll().forEach((modal) => {
-                if (modal !== this && modal.shown && !$modal.closest(modal.element).length) {
+                if (modal !== this && modal.shown && !$modal.closest(modal.modalElement).length) {
                     modal.hideForOther();
                 }
             });
