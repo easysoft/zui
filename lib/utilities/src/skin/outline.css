@@ -6,7 +6,10 @@
 .danger-outline,
 .important-outline,
 .special-outline,
-.gray-outline {
+.gray-300-outline,
+.gray-400-outline,
+.gray-outline,
+.gray-600-outline {
   @apply -skin;
   --skin-text: var(--skin-color, inherit);
   --skin-bg: transparent;
@@ -39,6 +42,17 @@
   --skin-outline-rgb: var(--color-special-500-rgb);
 }
 
+.gray-300-outline {
+  --skin-text: var(--color-gray-500);
+  --skin-outline-rgb: var(--color-gray-300-rgb);
+}
+.gray-400-outline {
+  --skin-text: var(--color-gray-500);
+  --skin-outline-rgb: var(--color-gray-400-rgb);
+}
 .gray-outline {
   --skin-outline-rgb: var(--color-gray-500-rgb);
+}
+.gray-600-outline {
+  --skin-outline-rgb: var(--color-gray-600-rgb);
 }
