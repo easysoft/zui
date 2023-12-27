@@ -234,7 +234,7 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
         }
 
         if (!this._virtual) {
-            $(this._triggerElement as HTMLElement).removeClass('with-popover-show').removeAttr('data-popover-placement');
+            $(this._triggerElement as HTMLElement).removeClass('with-popover-show').removeAttr('data-pop-placement');
         }
 
         $(document).off(this.namespace);
@@ -324,7 +324,7 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
                 }[popSide] as string;
                 const arrowPosition = middlewareData.arrow;
                 if (arrowPosition) {
-                    $target.find('.arrow').css({
+                    $target.attr('data-pop-placement', popSide).find('.arrow').css({
                         left: arrowPosition.x,
                         top: arrowPosition.y,
                     }).attr('class', `arrow ${name}-arrow arrow-${arrowSide}`);
@@ -333,7 +333,7 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
                     $target.attr('class', `${$target.attr('class')!.split(' ').filter(n => n !== 'fade' && !n.startsWith('fade-from')).join(' ')} fade-from-${arrowSide}`);
                 }
                 if (!this._virtual) {
-                    $(this._triggerElement as HTMLElement).attr('data-popover-placement', popSide);
+                    $(this._triggerElement as HTMLElement).attr('data-pop-placement', popSide);
                 }
             });
         });

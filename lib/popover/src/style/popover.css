@@ -28,12 +28,12 @@
 .btn.with-popover-show {
   @apply -shadow-inner;
 }
-.with-popover-show[data-popover-placement="top"] > .caret {
+.with-popover-show[data-pop-placement="top"] > .caret {
   @apply -rotate-180;
 }
-.with-popover-show[data-popover-placement="left"] > .caret {
+.with-popover-show[data-pop-placement="left"] > .caret {
   @apply -rotate-90;
 }
-.with-popover-show[data-popover-placement="right"] > .caret {
+.with-popover-show[data-pop-placement="right"] > .caret {
   @apply --rotate-90;
 }
