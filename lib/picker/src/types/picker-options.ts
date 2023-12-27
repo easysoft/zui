@@ -1,8 +1,9 @@
 import type {PickOptions} from '@zui/pick';
 import type {MenuOptions} from '@zui/menu';
+import type {ToolbarSetting} from '@zui/toolbar';
 import type {TreeOptions} from '@zui/tree';
+import type {HotkeysSettings} from '@zui/core';
 import type {PickerState} from './picker-state';
-import {HotkeysSettings} from '@zui/core/src/helpers';
 
 export interface PickerOptions<S extends PickerState = PickerState> extends PickOptions<S> {
     multiple?: boolean | number;
@@ -16,6 +17,7 @@ export interface PickerOptions<S extends PickerState = PickerState> extends Pick
     menu?: MenuOptions;
     checkbox?: MenuOptions['checkbox'];
     items: MenuOptions['items'];
+    toolbar?: ToolbarSetting | boolean;
     cache?: boolean;
     searchDelay?: number;
     search?: boolean | number;

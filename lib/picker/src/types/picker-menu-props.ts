@@ -1,6 +1,7 @@
 import type {MenuOptions} from '@zui/menu';
 import type {TreeOptions} from '@zui/tree';
 import type {PickPopProps} from '@zui/pick';
+import type {CustomContentType} from '@zui/core';
 import type {PickerState} from './picker-state';
 
 export interface PickerMenuProps<S extends PickerState = PickerState> extends PickPopProps<S> {
@@ -11,6 +12,8 @@ export interface PickerMenuProps<S extends PickerState = PickerState> extends Pi
     search?: boolean | number;
     searchHint?: string;
     valueList: string[];
+    header?: CustomContentType;
+    footer?: CustomContentType;
 
     onSelect: (values: string | string[]) => void;
     onDeselect: (values: string | string[]) => void;

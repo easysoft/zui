@@ -62,7 +62,7 @@ onPageUpdate(() => {
         multiple: true,
         items: '/lib/picker/dev/nested-items.json',
         tree: true,
-        readonly: true,
+        toolbar: true,
         menu: {
             itemProps: {
                 avatarClass: 'size-sm',
@@ -153,6 +153,7 @@ onPageUpdate(() => {
         items: items,
         defaultValue: 'banana,orange',
         placeholder: '请选择你的最爱',
+        toolbar: true,
     });
     console.log('> multiPicker', multiPicker);
 });

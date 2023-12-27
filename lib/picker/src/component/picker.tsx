@@ -1,5 +1,6 @@
-import {$, delay, fetchData} from '@zui/core';
+import {$, delay, fetchData, i18n} from '@zui/core';
 import {Pick} from '@zui/pick/src/components';
+import {Toolbar} from '@zui/toolbar/src/component';
 import {PickerMultiSelect} from './picker-multi-select';
 import {PickerSingleSelect} from './picker-single-select';
 import {PickerMenu} from './picker-menu';
@@ -99,12 +100,16 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
         return this.setValue(valueList);
     };
 
-    deselect = (values: string | string[]) => {
+    deselect = (values: string | string[] = []) => {
         const {valueList} = this;
         const deselectedSet = new Set(this.formatValueList(values));
         const newValueList = valueList.filter(x => !deselectedSet.has(x));
         this.setValue(newValueList);
     };
+
+    deselectAll() {
+        this.setValue([]);
+    }
 
     clear = () => {
         this.setValue();
@@ -116,9 +121,34 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
         return this.setValue(newValueList);
     };
 
+    selectAll() {
+        const {items} = this.state;
+        if (!Array.isArray(items)) {
+            return;
+        }
+        const valueMap = getValueMap(items);
+        const newValueList = [...valueMap.values()].reduce<string[]>((list, item) => {
+            if (!item.disabled) {
+                list.push(item.value as string);
+            }
+            return list;
+        }, []);
+        return this.select(newValueList);
+    }
+
     isSelected = (value: string) => {
         return this.valueList.includes(value);
     };
+
+    isSelectedAll() {
+        const {items} = this.state;
+        if (!Array.isArray(items)) {
+            return false;
+        }
+        const valueMap = getValueMap(items);
+        const valueSet = new Set(this.valueList);
+        return [...valueMap.values()].every(item => item.disabled || valueSet.has(item.value as string));
+    }
 
     /**
      * @todo Let SearchMenu to load items.
@@ -257,6 +287,7 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
             multiple: props.multiple,
             search: props.search,
             searchHint: props.searchHint,
+            footer: this._renderToolbar(),
             valueList: this.valueList,
             onDeselect: this.deselect,
             onSelect: this.select,
@@ -268,6 +299,34 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
 
     protected _getTrigger(props: RenderableProps<O>): ComponentType<PickTriggerProps<S>> {
         return props.Trigger || (props.multiple ? PickerMultiSelect : PickerSingleSelect) as unknown as ComponentType<PickTriggerProps<S>>;
+    }
+
+    protected _renderToolbar() {
+        let {toolbar} = this.props;
+        if (!toolbar) {
+            return null;
+        }
+        if (toolbar === true) {
+            toolbar = [{
+                key: 'selectAll',
+                text: i18n.getLang('selectAll'),
+            }, {
+                key: 'cancelSelect',
+                text: i18n.getLang('cancelSelect'),
+            }];
+        }
+        return Toolbar.render(toolbar, [], {size: 'sm', getItem: (item) => {
+            if (!item.onClick) {
+                if (item.key === 'selectAll') {
+                    item.onClick = this.selectAll.bind(this);
+                    item.disabled = this.isSelectedAll();
+                } else if (item.key === 'cancelSelect') {
+                    item.onClick = this.deselectAll.bind(this);
+                    item.disabled = !this.valueList.length;
+                }
+            }
+            return item;
+        }}, this);
     }
 
     formatValueList(value: unknown): string[] {
@@ -297,6 +356,7 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
     }
 
     setValue(value: unknown = [], silent?: boolean) {
+        console.log('> setValue1', value);
         let valueList = this.formatValueList(value);
         if (valueList.length) {
             const {items, limitValueInList} = this.props;
@@ -306,6 +366,7 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
             }
         }
         const stateValue = this.formatValue(valueList);
+        console.log('> setValue2', stateValue);
         return super.setValue(stateValue, silent);
     }
 }

@@ -7,3 +7,6 @@
 .picker-menu-list.tree {
   @apply -p-2;
 }
+.picker-menu .search-menu-footer {
+  @apply -border-t -py-1;
+}
