@@ -86,9 +86,9 @@ export class Sidebar extends Component<SidebarOptions, {
         const $parent = parent ? $(parent) : $container;
         this._storeID = preserve ? `SIDEBAR:${preserve}:width` : '';
         this._side = side;
-        this._defaultWidth = calcSize(width || $element.width(), containerWidth);
         this._minWidth = calcSize(minWidth, containerWidth);
         this._maxWidth = calcSize(maxWidth, containerWidth);
+        this._defaultWidth = Math.max(this._minWidth, Math.min(this._maxWidth, calcSize(width || $element.width(), containerWidth)));
         this._width = (preserve ? store.get(this._storeID) : null) || this._defaultWidth;
         this._parent = $parent[0]!;
         $parent.addClass(`has-sidebar-${side}`);
