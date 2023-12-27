@@ -172,7 +172,7 @@ onPageLoad(() => {
                 {title: '未完成', name: 'todo'},
                 {title: '进行中', name: 'doing'},
                 {title: '已指派', name: 'assigned', parentName: 'doing'},
-                {title: '实现中', name: 'wip', parentName: 'doing'},
+                {title: '实现中', name: 'wip', parentName: 'doing', gapLeft: 2},
                 {title: '已完成', name: 'done'},
                 {title: '其他', name: 'other', asParent: true},
             ],

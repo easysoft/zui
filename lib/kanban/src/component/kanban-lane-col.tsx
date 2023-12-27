@@ -51,10 +51,14 @@ export class KanbanLaneCol extends Component<KanbanLaneColProps> {
             name,
             lane,
             itemCountPerRow,
+            gapLeft,
+            gapRight,
         } = props;
         const style: JSX.CSSProperties = {
             '--kanban-col-color': color,
             '--kanban-col-width': toCssSize(width),
+            '--kanban-col-gap-left': toCssSize(gapLeft),
+            '--kanban-col-gap-right': toCssSize(gapRight),
         };
         return (
             <div className="kanban-lane-col" style={style} z-lane={lane} z-col={name}>

@@ -61,6 +61,11 @@
 .kanban-lane-col {
   @apply -w-[--kanban-col-width] -bg-inverse/5 -h-full -flex -flex-col;
 }
+.kanban-header-col,
+.kanban-lane-col {
+  margin-left: calc(var(--kanban-col-gap-left) - var(--kanban-cols-gap));
+  margin-right: calc(var(--kanban-col-gap-right) - var(--kanban-cols-gap));
+}
 .kanban-col-content {
   @apply -relative -z-[5];
 }

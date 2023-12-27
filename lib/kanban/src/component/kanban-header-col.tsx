@@ -15,11 +15,15 @@ export class KanbanHeaderCol extends HElement<KanbanColProps> {
             width,
             color,
             name,
+            gapLeft,
+            gapRight,
         } = props;
         return mergeProps(super._getProps(props), {
             style: {
                 '--kanban-col-color': color,
                 '--kanban-col-width': toCssSize(width),
+                '--kanban-col-gap-left': toCssSize(gapLeft),
+                '--kanban-col-gap-right': toCssSize(gapRight),
             },
             'z-col': name,
         });
