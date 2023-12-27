@@ -647,7 +647,7 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
     protected _getChildren(props: RenderableProps<P>): ComponentChildren {
         const data = this._data.value;
         const {cols, lanes, items, links = []} = data;
-        const {editLinks} = props;
+        const {editLinks, laneNameWidth} = props;
         const layoutCols = this._layoutCols(cols, props);
         const layoutLanes = this._layoutLanes(lanes, props);
         return [
@@ -658,6 +658,7 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
                 cols={layoutCols}
                 lanes={layoutLanes}
                 items={items}
+                hideLaneName={laneNameWidth === 0}
             />,
             links.length ? <KanbanLinks key="links" links={links} onDeleteLink={editLinks ? (this._onDeleteLink as (link: KanbanLinkOptions) => void) : undefined} /> : null,
             editLinks ? <KanbanLinkEditor key="linkEditor" onAddLink={this._onAddLink} /> : null,

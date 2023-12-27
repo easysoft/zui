@@ -8,5 +8,6 @@ export interface KanbanBodyProps {
     cols: KanbanColOptions[];
     lanes: KanbanLaneOptions[];
     items: KanbanItemsMap;
+    hideLaneName?: boolean;
     itemRender?: (info: KanbanItemInfo) => CustomContentType;
 }

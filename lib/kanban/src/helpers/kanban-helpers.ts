@@ -92,9 +92,6 @@ export function getLanes(this: unknown, lanes: KanbanLaneOptions[] | undefined, 
         if (typeof lane.name !== 'string') {
             lane.name = String(lane.name);
         }
-        if (lane.hideName === undefined) {
-            lane.hideName = laneNameWidth === 0;
-        }
         forEachLane?.call(this, lane);
         list.push(lane);
         return list;
