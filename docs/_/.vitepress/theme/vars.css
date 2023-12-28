@@ -255,7 +255,7 @@
   --vp-code-line-error-color: var(--vp-c-red-dimm-2);
 
   --vp-code-copy-code-hover-bg: rgba(var(--color-inverse-rgb), 0.05);
-  --vp-code-copy-code-active-text: var(--vp-c-text-dark-2);
+  --vp-code-copy-code-active-text: rgba(var(--color-fore-rgb), .7);
 
   --vp-code-block-bg: rgba(var(--color-inverse-rgb), 0.05);
 
