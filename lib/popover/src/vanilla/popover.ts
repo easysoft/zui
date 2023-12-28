@@ -13,7 +13,7 @@ const CLASS_SHOWN = 'in';
 export type PopoverShowOptions = {
     delay?: number | boolean;
     event?: Event;
-    hideOthersOnShow?: boolean;
+    hideOthers?: boolean;
 };
 
 export class Popover<O extends PopoverOptions = PopoverOptions, E extends ComponentEvents = {}> extends Component<O, [PopoverEvents, E], HTMLElement> {
@@ -37,7 +37,7 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
         popup: true,
     };
 
-    static hideOthersOnShow = false;
+    static hideOthers = false;
 
     protected declare _virtual: boolean;
 
@@ -135,7 +135,7 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
     }
 
     show(options?: PopoverShowOptions) {
-        const {delay, event, hideOthersOnShow} = options || {};
+        const {delay, event, hideOthers} = options || {};
         if (event) {
             this._triggerEvent = event;
         }
@@ -173,8 +173,8 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
 
         /* Hide other shown modals. */
         const constructor = this.constructor as typeof Popover;
-        const {hideOthersOnShow: hideOthersOnShowOption} = this.options;
-        if (hideOthersOnShow || (constructor.hideOthersOnShow && this.options.hideOthersOnShow !== false) || hideOthersOnShowOption) {
+        const {hideOthers: hideOthersOption} = this.options;
+        if (hideOthers || (constructor.hideOthers && this.options.hideOthers !== false) || hideOthersOption) {
             constructor.getAll().forEach((popover) => {
                 if (popover !== this && popover.shown && !$target.closest(popover.element).length) {
                     popover.hide();
