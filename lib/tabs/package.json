@@ -17,7 +17,6 @@
     "zui": {
         "type": "js-ui",
         "displayName": "标签页",
-        "notReady": true,
         "contributes": {
             "css": [
                 "class",
