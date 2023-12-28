@@ -25,7 +25,7 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
         transTime: 300,
     };
 
-    static hideOthersOnShow = true;
+    static hideOthers = true;
 
     static zIndex = 1500;
 
@@ -130,7 +130,7 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
 
         /* Hide other shown modals. */
         const constructor = this.constructor as typeof ModalBase;
-        if (constructor.hideOthersOnShow && this.options.hideOthersOnShow !== false) {
+        if (constructor.hideOthers && this.options.hideOthers !== false) {
             constructor.getAll().forEach((modal) => {
                 if (modal !== this && modal.shown && !$modal.closest(modal.modalElement).length) {
                     modal.hideForOther();
@@ -170,7 +170,7 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
 
         /* Show other hidden modals. */
         const constructor = this.constructor as typeof ModalBase;
-        if (constructor.hideOthersOnShow) {
+        if (constructor.hideOthers) {
             constructor.getAll().findLast(x => x.shown && x !== this)?.show();
         }
         return true;

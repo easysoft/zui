@@ -323,7 +323,7 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
             className: 'modal-alert',
             content,
             backdrop: 'static',
-            hideOthersOnShow: false,
+            hideOthers: false,
             custom: {footerActions, ...customOptions},
             ...otherOptions,
         });
