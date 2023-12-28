@@ -1,3 +1,4 @@
-.list-none    {@apply -list-none;}
-.list-disc    {@apply -list-disc;}
-.list-decimal {@apply -list-decimal;}
+.list-none     {@apply -list-none;}
+.list-disc     {@apply -list-disc;}
+.list-decimal  {@apply -list-decimal;}
+.list-unstyled {@apply -list-none -pl-0;}
