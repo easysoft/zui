@@ -138,6 +138,14 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
             });
         }
 
+        if (this.options.closeOthers) {
+            constructor.getAll().forEach((modal) => {
+                if (modal !== this && !$modal.closest(modal.modalElement).length) {
+                    modal.hide();
+                }
+            });
+        }
+
         this.layout();
         this.emit('show');
 
