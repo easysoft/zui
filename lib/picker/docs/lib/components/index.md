@@ -4,9 +4,15 @@
 
 ## 单选
 
+::: tabs
+
+== 示例
+
 <Example>
   <div id="singlePickerExample"></div>
 </Example>
+
+== HTML
 
 ```html
 <div id="singlePickerExample"></div>
@@ -36,11 +42,19 @@ const picker = new zui.Picker('#singlePickerExample', {
 </script>
 ```
 
+:::
+
 ## 多选
+
+::: tabs
+
+== 示例
 
 <Example>
   <div id="multiPickerExample"></div>
 </Example>
+
+== HTML
 
 ```html
 <div id="multiPickerExample"></div>
@@ -70,7 +84,13 @@ const picker = new zui.Picker('#multiPickerExample', {
 </script>
 ```
 
+:::
+
 ## 在输入组中使用
+
+::: tabs
+
+== 示例
 
 <Example>
   <div class="input-group">
@@ -80,6 +100,8 @@ const picker = new zui.Picker('#multiPickerExample', {
   </div>
 </Example>
 
+== HTML
+
 ```html
 <div class="input-group">
   <span class="input-group-addon">选择一种水果</span>
@@ -87,6 +109,8 @@ const picker = new zui.Picker('#multiPickerExample', {
   <button type="button" class="btn btn-default" tabindex="-1">刷新</button>
 </div>
 ```
+
+:::
 
 ## 初始化选项
 
