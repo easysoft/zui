@@ -2152,7 +2152,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "tabs",
-            "notReady": true,
+            "notReady": false,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/tabs/package.json",
             "order": 5000000047010001000
         }
