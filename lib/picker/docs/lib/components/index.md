@@ -94,9 +94,9 @@ const picker = new zui.Picker('#multiPickerExample', {
 /** 组件根元素的 ID。 */
 id?: string;
 /** 类名。 */
-className?: ClassNameLike;
+className?: string | array | object;
 /** 样式。 */
-style?: JSX.CSSProperties;
+style?: object;
 /** 组件根元素的标签名。 */
 tagName?: string;
 /** 附加到组件根元素上的属性。 */
@@ -104,7 +104,7 @@ attrs?: object;
 /** 点击类型，toggle 表示点击按钮时切换显示隐藏，open 表示点击按钮时只打开。 */
 clickType?: 'toggle' | 'open';
 /** 渲染完成后的回调函数。 */
-afterRender?: (info: {firstRender: boolean}) => void;
+afterRender?: function;
 /** 销毁前的回调函数。 */
 beforeDestroy?: () => void;
 /** 作为表单项的名称。 */
@@ -112,7 +112,7 @@ name?: string;
 /** 默认值。 */
 defaultValue?: string | string[];
 /** 值变更回调函数。 */
-onChange?: (value: string | string[]) => void;
+onChange?: function;
 /** 是否禁用。 */
 disabled?: boolean;
 /** 是否允许选择多个值，如果指定为数字，则限制多选的数目，默认 false。 */
@@ -124,7 +124,7 @@ placeholder?: string;
 /** 多个值的分隔字符串，默认为 ','。 */
 valueSplitter?: string;
 /** 列表项或列表项获取方法。 */
-items: object[] | (() => (Promise | object[]));
+items: object[] | function;
 /** 附加的菜单选项。 */
 menu?: MenuOptions;
 /** 是否启用快捷键。 */
@@ -136,9 +136,9 @@ searchDelay?: number;
 /** 搜索提示文本。 */
 searchHint?: string;
 /** 当取消选择值时的回调函数。 */
-onDeselect?: (value: string, item: PickerItemProps) => false | void;
+onDeselect?: function;
 /** 当选择值时的回调函数。 */
-onSelect?: (value: string, item: PickerItemProps) => false | void;
+onSelect?: function;
 /** 当清空值时的回调函数。 */
 onClear?: () => void;
 /** 下拉面板容器元素。 */
@@ -155,12 +155,12 @@ popMinHeight?: number;
 popMaxWidth?: number;
 /** 菜单最小宽度，当宽度设置为 `'auto'` 时生效，默认 50。 */
 popMinWidth?: number;
-/** 菜单方向，默认 `'auto'`。 */
-popPlacement?: PickerMenuDirection;
+/** 菜单方向，包括 `auto`、`top`、`right`、`bottom`、`left`、`bottom-start`、`bottom-end`、`left-start`、`left-end`、`right-start`、`right-end`、`top-start`、`top-end`，默认 `'auto'`。 */
+popPlacement?: string;
 /** 菜单类名。 */
-popClass?: ClassNameLike;
+popClass?: string | array | object;
 /** 菜单样式。 */
-popStyle?: JSX.CSSProperties;
+popStyle?: object;
 /** 菜单显示时的回调函数。 */
 onPopShow?: () => void;
 /** 菜单显示后的回调函数。 */
