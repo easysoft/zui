@@ -123,4 +123,5 @@ type?: string; // 外观类型，可选值包括：`'primary' | 'secondary' | 'w
 animation?: boolean; // 是否应用淡入淡出动画
 arrow?: number | number; // 箭头大小
 delay?: boolean | number; // 延迟显示，可选值包括：`true | false | number`
+hideOthers?: boolean; // 显示时隐藏其他已经显示的提示消息
 </Props>
