@@ -14,6 +14,10 @@
     </thead>
     <tbody>
       <tr>
+        <td class="font-mono">list-unstyled</td>
+        <td><code>list-style-type: none; padding-left: 0;</code></td>
+      </tr>
+      <tr>
         <td class="font-mono">list-none</td>
         <td><code>list-style-type: none;</code></td>
       </tr>
@@ -31,7 +35,49 @@
 
 ## 示例
 
-### 无样式 `list-none`
+### 无样式 `list-unstyled`
+
+::: tabs
+
+== 示例
+
+<Example>
+  <ul class="list-unstyled">
+    <li>这是一个列表</li>
+    <li>含四个列表项</li>
+    <li>作为示例</li>
+    <li>
+      最后一个列表有嵌套的子列表
+      <ul class="list-unstyled">
+        <li>子列表项 1</li>
+        <li>子列表项 2</li>
+        <li>子列表项 3</li>
+      </ul>
+    </li>
+  </ul>
+</Example>
+
+== HTML
+
+```html
+<ul class="list-unstyled">
+  <li>这是一个列表</li>
+  <li>含四个列表项</li>
+  <li>作为示例</li>
+  <li>
+    最后一个列表有嵌套的子列表
+    <ul class="list-unstyled">
+      <li>子列表项 1</li>
+      <li>子列表项 2</li>
+      <li>子列表项 3</li>
+    </ul>
+  </li>
+</ul>
+```
+
+:::
+
+### 空白样式 `list-none`
 
 ::: tabs
 
