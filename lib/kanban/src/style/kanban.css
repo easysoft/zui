@@ -28,6 +28,12 @@
 .kanban-header-col-wrapper {
   @apply -bg-surface -relative -px-14 -w-full -flex-1 -flex -flex-row -items-center;
 }
+.kanban-header-col-wrapper.is-align-left {
+  @apply -justify-start -pl-2;
+}
+.kanban-header-col-wrapper.is-align-left > .kanban-header-title {
+  @apply -justify-start;
+}
 .kanban-header-title {
   @apply -flex -flex-row -items-center -flex-auto -justify-center -overflow-hidden;
 }

@@ -35,6 +35,7 @@ export class KanbanHeaderCol extends HElement<KanbanColProps> {
             prefixClass,
             title,
             titleClass,
+            titleAlign = 'center',
             subtitle,
             subtitleClass,
             icon,
@@ -44,7 +45,7 @@ export class KanbanHeaderCol extends HElement<KanbanColProps> {
         } = props;
 
         return [
-            <div key="wrapper" className="kanban-header-col-wrapper">
+            <div key="wrapper" className={`kanban-header-col-wrapper is-align-${titleAlign}`}>
                 <div key="title" className="kanban-header-title">
                     {icon ? <Icon key="icon" className="as-leading-icon" icon={icon} /> : null}
                     {prefix ? <span key="prefix" className={classes('as-prefix', prefixClass)}><CustomContent content={prefix} /></span> : null}

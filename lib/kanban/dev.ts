@@ -27,6 +27,7 @@ onPageLoad(() => {
         },
         editLinks: true,
         colProps: {
+            titleAlign: 'left',
             /* 通过 actions 自定义列操作按钮（actions 还可以为一个回调函数动态返回操作按钮设置）。 */
             actions: () => {
                 return [{
