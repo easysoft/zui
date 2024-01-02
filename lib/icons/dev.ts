@@ -1,5 +1,5 @@
 import 'zui-dev';
-import icons from './public/icons.json';
+import icons from './assets/icons.json';
 import './src/main';
 
 onPageUpdate(() => {
