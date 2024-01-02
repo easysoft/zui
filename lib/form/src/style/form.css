@@ -1,9 +1,9 @@
 .form {
-  @apply -space-y-2;
+  @apply -flex -flex-col -gap-4;
 }
 
 .form-label {
-  @apply -relative -h-8 -flex -flex-row -items-center -truncate;
+  @apply -relative -h-8 -flex -flex-row -items-center -truncate -gap-1;
   color: var(--form-label-color);
 }
 .form-label.required::after {
@@ -21,8 +21,4 @@
 
 .form-actions {
   @apply -flex -flex-row -gap-4 -justify-center;
-}
-
-.form > *:not([hidden]) ~ .form-actions:not([hidden]) {
-  @apply -mt-4;
 }

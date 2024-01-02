@@ -1,0 +1,41 @@
+.form-horz .form-row {
+  @apply -flex -flex-row -items-start;
+}
+
+.form-horz .form-group {
+  @apply -flex -flex-row -items-start -relative -flex-auto -min-h-[32px] -flex-wrap -pl-[--form-horz-label-width] -min-w-0;
+}
+.form-horz .form-group > * {
+  @apply -min-w-0;
+}
+.form-horz .form-group.no-label {
+  @apply -pl-0;
+}
+.form-horz .form-group.no-label > .check-list-inline {
+  @apply -px-4;
+}
+.form-horz .form-label {
+  @apply -absolute -left-0 -top-0 -pr-2 -pl-4 -justify-end -w-[--form-horz-label-width];
+}
+.form-horz .form-label.required::after {
+  @apply -order-first -ml-0 -mr-1;
+}
+
+.form-horz .form-tip {
+  @apply -w-full;
+}
+
+.form-horz .input-group,
+.form-horz .input-control,
+.form-horz .form-tip {
+  @apply -flex-auto;
+}
+
+.form .form-group-wrapper,
+.form-horz .form-group-wrapper {
+  @apply -w-full -flex-auto -z-[1] -min-w-0;
+}
+.form .form-group-wrapper.flex-none,
+.form-horz .form-group-wrapper.flex-none {
+  @apply -flex-none;
+}

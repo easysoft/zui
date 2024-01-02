@@ -1,45 +1,29 @@
 .form-grid {
-  @apply -space-y-4;
+  --form-grid-gap-x-half: calc(var(--form-grid-gap-x) / 2);
+  --form-grid-gap-y-half: calc(var(--form-grid-gap-y) / 2);
+  @apply -flex-row -flex-wrap -items-start -gap-0;
 }
-
-.form-row {
-  @apply -flex -flex-row -items-start;
-}
-
 .form-grid .form-group {
-  @apply -flex -flex-row -items-start -relative -flex-auto -min-h-[32px] -flex-wrap -pl-[--form-grid-label-width] -min-w-0;
-}
-.form-grid .form-group > * {
-  @apply -min-w-0;
-}
-.form-grid .form-group.no-label {
-  @apply -pl-0;
-}
-.form-grid .form-group.no-label > .check-list-inline {
-  @apply -px-4;
-}
-.form-grid .form-label {
-  @apply -absolute -left-0 -top-0 -pr-2 -pl-4 -justify-end -w-[--form-grid-label-width];
+  @apply -px-[--form-grid-gap-x-half] -py-[--form-grid-gap-y-half];
 }
 .form-grid .form-label.required::after {
-  @apply -order-first -ml-0 -mr-1;
+  @apply -order-first -ml-0;
+}
+.form-grid .form-label .checkbox {
+  @apply -mx-3;
 }
 
-.form-grid .form-tip {
+.form-grid .has-wrap-after::after {
+  @apply -content-[''] -block -w-full;
+}
+
+.form-grid-wrap {
   @apply -w-full;
 }
 
-.form-grid .input-group,
-.form-grid .input-control,
-.form-grid .form-tip {
-  @apply -flex-auto;
+.form-grid-row {
+  @apply -w-full -flex -flex-row -py-[--form-grid-gap-y-half] -relative;
 }
-
-.form .form-group-wrapper,
-.form-grid .form-group-wrapper {
-  @apply -w-full -flex-auto -z-[1] -min-w-0;
-}
-.form .form-group-wrapper.flex-none,
-.form-grid .form-group-wrapper.flex-none {
-  @apply -flex-none;
+.form-grid-col {
+  @apply -px-[--form-grid-gap-x-half];
 }
