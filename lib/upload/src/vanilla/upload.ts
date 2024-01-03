@@ -215,17 +215,21 @@ export class Upload<T extends UploadOptions = UploadOptions> extends Component<T
 
     protected addFileItem(files: File[]) {
         files = this.filterFiles(files);
-        const {multiple, limitCount, exceededSizeHint, exceededCountHint, onAdd} = this.options;
+        const {multiple, limitCount, exceededSizeHint, onExceededSize, exceededCountHint, onExceededCount, onAdd} = this.options;
         if (multiple) {
             const validFiles: File[] = [];
             for (let file of files) {
                 if (limitCount && this.fileMap.size >= limitCount) {
                     onAdd?.(validFiles);
-                    return alert(exceededCountHint);
+                    onExceededCount?.(limitCount);
+                    if (exceededCountHint) alert(exceededCountHint);
+                    return;
                 }
                 if (this.currentBytes + file.size > this.limitBytes) {
                     onAdd?.(validFiles);
-                    return alert(exceededSizeHint);
+                    onExceededSize?.(this.limitBytes);
+                    if (exceededSizeHint) alert(exceededSizeHint);
+                    return;
                 }
                 file = this.renameDuplicatedFile(file);
                 const item = this.createFileItem(file);
@@ -393,7 +397,7 @@ export class Upload<T extends UploadOptions = UploadOptions> extends Component<T
     }
 
     protected createRenameContainer(file: File) {
-        const {confirmText, cancelText, duplicatedHint} = this.options;
+        const {confirmText, cancelText, duplicatedHint, onDuplicated} = this.options;
         const $renameContainer = $('<div class="input-group input-rename-container hidden"></div>');
         const $input = $('<input />')
             .addClass('form-control')
@@ -411,7 +415,9 @@ export class Upload<T extends UploadOptions = UploadOptions> extends Component<T
                     }
 
                     if (this.fileMap.has($input.val() as string)) {
-                        return alert(duplicatedHint);
+                        onDuplicated?.($input.val() as string);
+                        if (duplicatedHint) alert(duplicatedHint);
+                        return;
                     }
 
                     this.renameFileItem(file, $input.val() as string);
@@ -441,7 +447,9 @@ export class Upload<T extends UploadOptions = UploadOptions> extends Component<T
                 }
 
                 if (this.fileMap.has($input.val() as string)) {
-                    return alert(duplicatedHint);
+                    onDuplicated?.($input.val() as string);
+                    if (duplicatedHint) alert(duplicatedHint);
+                    return;
                 }
                 this.renameFileItem(file, $input.val() as string);
                 $renameContainer.addClass('hidden');

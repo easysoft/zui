@@ -151,7 +151,7 @@ export class UploadImgs extends Upload<UploadImgsOptions> {
     }
 
     protected createRenameContainer(file: File) {
-        const {duplicatedHint} = this.options;
+        const {duplicatedHint, onDuplicated} = this.options;
         const $input = $('<input />')
             .addClass('input-rename-container border-primary border hidden')
             .prop('type', 'text')
@@ -167,7 +167,9 @@ export class UploadImgs extends Upload<UploadImgsOptions> {
                         return;
                     }
                     if (this.fileMap.has($input.val() as string)) {
-                        return alert(duplicatedHint);
+                        onDuplicated?.($input.val() as string);
+                        if (duplicatedHint) alert(duplicatedHint);
+                        return;
                     }
                     this.renameFileItem(file, $input.val() as string);
                     $input.addClass('hidden');
@@ -188,7 +190,9 @@ export class UploadImgs extends Upload<UploadImgsOptions> {
                     return;
                 }
                 if (this.fileMap.has($input.val() as string)) {
-                    return alert(duplicatedHint);
+                    onDuplicated?.($input.val() as string);
+                    if (duplicatedHint) alert(duplicatedHint);
+                    return;
                 }
                 this.renameFileItem(file, $input.val() as string);
                 $input.addClass('hidden');

@@ -31,6 +31,9 @@ export type UploadOptions = {
     defaultFileList: File[];
     limitSize: `${number}${'B' | 'KB' | 'MB' | 'GB'}` | false;
     duplicatedHint: string;
+    onDuplicated: (name: string) => void;
     exceededSizeHint: string;
+    onExceededSize: (limit: number) => void;
     exceededCountHint: string;
+    onExceededCount: (limit: number) => void;
 }>;

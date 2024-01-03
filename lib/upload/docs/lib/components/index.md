@@ -374,6 +374,13 @@ const upload = new Upload('#example8', {
 + 类型：`string`
 + 必选：否
 
+### `onDuplicated`
+
+文件重复回调。
+
++ 类型：`(name: string) => void`
++ 必选：否
+
 ### `exceededSizeHint`
 
 超出大小限制提示。
@@ -381,11 +388,25 @@ const upload = new Upload('#example8', {
 + 类型：`string`
 + 必选：否
 
+### `onExceededSize`
+
+超出大小限制回调。
+
++ 类型：`(limit: number) => void`
++ 必选：否
+
 ### `exceededCountHint`
 
 超过数量限制提示。
 
 + 类型：`string`
++ 必选：否
+
+### `onExceededCount`
+
+超过数量限制回调
+
++ 类型：`(limit: number) => void`
 + 必选：否
 
 <script>
