@@ -134,6 +134,10 @@
 Hello, world!
 </textarea>
   </div>
+  <div class="form-actions">
+    <button type="submit" class="btn primary">提交</button>
+    <button type="submit" class="btn">取消</button>
+  </div>
 </form>
 ```
 

@@ -27,3 +27,7 @@
 .form-grid-col {
   @apply -px-[--form-grid-gap-x-half];
 }
+
+.form-grid .form-actions {
+  @apply -w-full -justify-center -gap-6 -px-[--form-grid-gap-x-half] -py-[--form-grid-gap-y];
+}
