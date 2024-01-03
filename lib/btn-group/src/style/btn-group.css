@@ -2,9 +2,12 @@
   @apply -flex -gap-px;
 }
 
+.btn-group > .btn.active {
+  @apply -z-[1];
+}
 .btn-group > .btn:focus-within,
 .btn-group > .btn:hover {
-  @apply -z-[1];
+  @apply -z-[2];
 }
 .btn-group > .btn.disabled,
 .btn-group > .btn:disabled {
