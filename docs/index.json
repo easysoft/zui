@@ -354,7 +354,7 @@
         {
           "id": "oschina",
           "name": "Gitee",
-          "icon": "OSC",
+          "icon": "GIT",
           "desc": "在 Gitee 上支持项目",
           "url": "https://gitee.com/wwccss/zui",
           "filter": "kaiyuanzhongguo kyzg"

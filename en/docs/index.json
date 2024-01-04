@@ -357,7 +357,7 @@
         },
         {
           "id": "oschina",
-          "name": "Open Source China",
+          "name": "Gitee",
           "icon": "GIT",
           "desc": "Support projects on gitee",
           "url": "https://gitee.com/wwccss/zui",
