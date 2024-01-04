@@ -349,19 +349,19 @@
         },
         {
           "id": "github",
-          "name": "Github",
+          "name": "GitHub",
           "icon": "icon-github",
-          "desc": "Staror fork to support the project",
+          "desc": "star fork to support the project",
           "url": "https://github.com/easysoft/zui",
           "filter": ""
         },
         {
           "id": "oschina",
           "name": "Open Source China",
-          "icon": "OSC",
-          "desc": "Support projects in open source China",
-          "url": "http://git.oschina.net/wwccss/zui",
-          "filter": "kaiyuanzhongguo kyzg"
+          "icon": "GIT",
+          "desc": "Support projects on gitee",
+          "url": "https://gitee.com/wwccss/zui",
+          "filter": "kaiyuanzhongguo kyzg gitee"
         }
       ],
       "filter": "jiaoliutansuo jlts"

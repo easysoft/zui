@@ -345,7 +345,7 @@
         },
         {
           "id": "github",
-          "name": "Github",
+          "name": "GitHub",
           "icon": "icon-github",
           "desc": "Star或Fork来支持项目",
           "url": "https://github.com/easysoft/zui",
@@ -353,10 +353,10 @@
         },
         {
           "id": "oschina",
-          "name": "开源中国",
+          "name": "Gitee",
           "icon": "OSC",
-          "desc": "在开源中国上支持项目",
-          "url": "http://git.oschina.net/wwccss/zui",
+          "desc": "在 Gitee 上支持项目",
+          "url": "https://gitee.com/wwccss/zui",
           "filter": "kaiyuanzhongguo kyzg"
         }
       ],
