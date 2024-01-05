@@ -18,7 +18,7 @@
   @apply -absolute -left-0 -top-0 -pr-2 -pl-4 -justify-end -w-[--form-horz-label-width];
 }
 .form-horz .form-label.required::after {
-  @apply -order-first -ml-0 -mr-1;
+  @apply -order-first -ml-0;
 }
 
 .form-horz .form-tip {
