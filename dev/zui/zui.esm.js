@@ -7821,7 +7821,6 @@ let Ni = class extends yt {
     return e.length ? e.join(this.props.valueSplitter ?? ",") : this.firstEmptyValue;
   }
   setValue(t = [], e) {
-    console.log("> setValue1", t);
     let s = this.formatValueList(t);
     if (s.length) {
       const { items: r, limitValueInList: o } = this.props;
@@ -7831,7 +7830,7 @@ let Ni = class extends yt {
       }
     }
     const i = this.formatValue(s);
-    return console.log("> setValue2", i), super.setValue(i, e);
+    return super.setValue(i, e);
   }
 };
 Ni.defaultProps = {
