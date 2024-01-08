@@ -356,7 +356,6 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
     }
 
     setValue(value: unknown = [], silent?: boolean) {
-        console.log('> setValue1', value);
         let valueList = this.formatValueList(value);
         if (valueList.length) {
             const {items, limitValueInList} = this.props;
@@ -366,7 +365,6 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
             }
         }
         const stateValue = this.formatValue(valueList);
-        console.log('> setValue2', stateValue);
         return super.setValue(stateValue, silent);
     }
 }
