@@ -97,7 +97,10 @@ const sortPlugin: DTablePlugin<DTableSortTypes> = {
             return 0;
         });
     },
-    onHeaderCellClick(_event, data) {
+    onHeaderCellClick(event, data) {
+        if (!(event.target as HTMLElement).closest('.dtable-sort-link')) {
+            return;
+        }
         const col = this.getColInfo(data.colName);
         if (!col || !col.setting.sort) {
             return;
@@ -132,9 +135,9 @@ const sortPlugin: DTablePlugin<DTableSortTypes> = {
         const order = sortBy?.find(x => x.name === col.name)?.order;
         const sortTypeName = order || 'none';
         const sortIcon = <div className={`dtable-sort dtable-sort-${sortTypeName}`} />;
+        result[0] = <a className="dtable-sort-link" href="javascript:;">{result[0]}{sortIcon}</a>;
         result.push(
             {outer: true, attrs: {'data-sort': sortTypeName}},
-            sortIcon,
         );
         return result;
     },
