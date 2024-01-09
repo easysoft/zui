@@ -12,6 +12,7 @@ export interface DTableCheckableTypes {
     options: Partial<{
         checkable: boolean | 'auto';
         checkOnClickRow: boolean;
+        checkedRows: string[];
         checkInfo: (this: DTableCheckable, checks: string[]) => ComponentChildren;
         canRowCheckable: (this: DTableCheckable, rowID: string) => boolean | 'disabled';
         beforeCheckRows: (this: DTableCheckable, ids: string[] | undefined, changes: Record<string, boolean>, checkedRows: Record<string, boolean>) => Record<string, boolean> | undefined;
@@ -201,6 +202,22 @@ const checkablePlugin: DTablePlugin<DTableCheckableTypes> = {
                 <div className="dtable-check-info">{texts.join(', ')}</div>,
             ];
         },
+    },
+    onCreate() {
+        const {checkedRows: defaultCheckedRows} = this.options;
+        if (defaultCheckedRows) {
+            this.setState(prevState => {
+                return {
+                    checkedRows: {
+                        ...(prevState.checkedRows as Record<string, true>),
+                        ...defaultCheckedRows.reduce<Record<string, true>>((map, key) => {
+                            map[key] = true;
+                            return map;
+                        }, {}),
+                    },
+                };
+            });
+        }
     },
     onRenderCell(result, {row, col}) {
         const {id: rowID} = row;
