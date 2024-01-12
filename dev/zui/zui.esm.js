@@ -1595,7 +1595,10 @@ d.fn.zuiInit = function() {
     let t = ys(n, "data-");
     const [e, s] = t.zui.split(":");
     n.zui(e) || (s ? t = d.share[s] : delete t.zui, requestAnimationFrame(() => Cl(e, this, t)));
-  }), this.find(".hide-before-init").removeClass("invisible hidden opacity-0"), this.find(".scroll-into-view").scrollIntoView(), this;
+  }), this.find(".hide-before-init").removeClass("invisible hidden opacity-0"), this.find(".scroll-into-view").scrollIntoView(), this.find('[data-on="inited"]').each((n, t) => {
+    const e = d(t);
+    e.zui() || e.trigger("inited");
+  }), this;
 };
 d.fn.zui = function(n, t) {
   const e = this[0];
@@ -1689,7 +1692,7 @@ function Sl(n) {
   }
   e.do && d.runJS(e.do, ...o);
 }
-d(document).on("click.helpers.zt change.helpers.zt", "[data-on]", Sl);
+d(document).on("click.global.zui change.global.zui inited.global.zui", "[data-on]", Sl);
 function xl(n) {
   if (typeof n == "number")
     return [n];
