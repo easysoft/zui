@@ -10,6 +10,15 @@
   content: '*';
   @apply -text-danger-500 -ml-1 -scale-125 -inline-block -translate-y-0.5;
 }
+.no-required .form-label.required::after {
+  @apply -hidden;
+}
+.form-label-actions {
+  @apply -flex-auto -justify-end;
+}
+.form-label > .checkbox-primary {
+  @apply -ml-3;
+}
 
 .form-tip {
   @apply -mt-1 -block;
