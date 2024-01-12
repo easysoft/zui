@@ -92,4 +92,4 @@ function handleGlobalEvent(this: Cash, event: Event) {
     }
 }
 
-$(document).on('click.helpers.zt change.helpers.zt', '[data-on]', handleGlobalEvent);
+$(document).on('click.global.zui change.global.zui inited.global.zui', '[data-on]', handleGlobalEvent);

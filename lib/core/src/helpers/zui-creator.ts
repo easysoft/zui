@@ -91,6 +91,12 @@ $.fn.zuiInit = function (this: Cash) {
     });
     this.find('.hide-before-init').removeClass('invisible hidden opacity-0');
     this.find('.scroll-into-view').scrollIntoView();
+    this.find('[data-on="inited"]').each((_, ele) => {
+        const $ele = $(ele);
+        if (!$ele.zui()) {
+            $ele.trigger('inited');
+        }
+    });
     return this;
 };
 
