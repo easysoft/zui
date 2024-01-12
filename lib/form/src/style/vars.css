@@ -1,5 +1,5 @@
 :root {
-  --form-tip-color:        var(--color-gray-600);
+  --form-tip-color:        var(--color-gray-400);
   --form-label-color:      var(--color-gray-700);
   --form-horz-label-width: 6rem;
   --form-grid-gap-x:        1.25rem;
