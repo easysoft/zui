@@ -4,7 +4,7 @@ import type {IconType, HElementProps} from '@zui/core';
 export interface ButtonProps extends HElementProps {
     type?: string; // primary, secondary ...
     btnType?: 'button' | 'submit' | 'reset' | (string & {});
-    size?: 'xs' | 'sm' | 'lg' | 'xl',
+    size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl',
     onClick?: JSX.MouseEventHandler<HTMLAnchorElement>;
     url?: string;
     target?: string;
