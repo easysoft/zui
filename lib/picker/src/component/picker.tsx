@@ -207,6 +207,7 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
             await this.changeState({loading: true} as Partial<S>);
             const loadItems = await this.load();
             newState.items = loadItems.filter(x => {
+                x.key = x.key ?? (x.value as string);
                 x.value = String(x.value);
                 if (this.isEmptyValue(x.value as string)) {
                     return false;
