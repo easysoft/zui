@@ -6789,11 +6789,15 @@ class ct extends Xt {
     if (i instanceof HTMLElement) {
       const o = d(i), { namespace: a } = this;
       t === "hover" ? o.on(`pointerenter${a}`, (l) => {
+        if (o.is("[disabled],.disabled"))
+          return;
         const c = o.dataset("target");
         c && this.setOptions({ target: c }), this.show({ delay: !0, event: l });
       }).on(`pointerleave${a} pointercancel${a}`, () => {
         this.delayHide();
       }) : t && o.on(`${t}${a}`, (l) => {
+        if (o.is("[disabled],.disabled"))
+          return;
         const c = o.dataset("target");
         !this.shown && c && this.setOptions({ target: c }), this.toggle({ event: l }), l.preventDefault();
       });
@@ -7057,7 +7061,7 @@ Ut.DEFAULT = {
 };
 d(document).on(`click${Ut.NAMESPACE} mouseenter${Ut.NAMESPACE}`, Xc, (n) => {
   const t = d(n.currentTarget);
-  if (t.length && !t.data(Ut.KEY)) {
+  if (t.length && !t.data(Ut.KEY) && !t.is("[disabled],.disabled")) {
     const e = t.data() || {}, s = e.trigger || "click";
     if ((n.type === "mouseover" ? "hover" : "click") !== s)
       return;
