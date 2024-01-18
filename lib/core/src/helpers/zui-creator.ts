@@ -75,7 +75,7 @@ declare module 'cash-dom' {
 
 /** Define the $.fn.zuiInit method. */
 $.fn.zuiInit = function (this: Cash) {
-    this.find('[data-zui]').each(function () {
+    this.find('[zui-create],[data-zui]').each(function () {
         const $element = $(this);
         let options = getZData($element, 'data-')!;
         const [name, optionsName] = (options.zui as string).split(':');
