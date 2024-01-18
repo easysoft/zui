@@ -89,6 +89,10 @@ $.fn.zuiInit = function (this: Cash) {
         }
         requestAnimationFrame(() => create(name, this, options));
     });
+    this.find('[zui-init]').each(function () {
+        const $element = $(this);
+        $.runJS($element.attr('zui-init') as string, ['$element', $element]);
+    });
     this.find('.hide-before-init').removeClass('invisible hidden opacity-0');
     this.find('.scroll-into-view').scrollIntoView();
     this.find('[data-on="inited"]').each((_, ele) => {
