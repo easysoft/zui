@@ -60,7 +60,7 @@ export class Dropdown<O extends DropdownOptions = DropdownOptions> extends Popov
 
 $(document).on(`click${Dropdown.NAMESPACE} mouseenter${Dropdown.NAMESPACE}`, TOGGLE_SELECTOR, (event: MouseEvent) => {
     const $toggleBtn = $(event.currentTarget as HTMLElement);
-    if ($toggleBtn.length && !$toggleBtn.data(Dropdown.KEY)) {
+    if ($toggleBtn.length && !$toggleBtn.data(Dropdown.KEY) && !$toggleBtn.is('[disabled],.disabled')) {
         const data = $toggleBtn.data() || {};
         const trigger = data.trigger || 'click';
         const eventForTrigger = event.type === 'mouseover' ? 'hover' : 'click';
