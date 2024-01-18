@@ -83,6 +83,9 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
             const {namespace} = this;
             if (trigger === 'hover') {
                 $triggerElement.on(`pointerenter${namespace}`, (event: MouseEvent) => {
+                    if ($triggerElement.is('[disabled],.disabled')) {
+                        return;
+                    }
                     const target = $triggerElement.dataset('target');
                     if (target) {
                         this.setOptions({target} as Partial<O>);
@@ -93,6 +96,9 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
                 });
             } else if (trigger) {
                 $triggerElement.on(`${trigger}${namespace}`, (event: Event) => {
+                    if ($triggerElement.is('[disabled],.disabled')) {
+                        return;
+                    }
                     const target = $triggerElement.dataset('target');
                     if (!this.shown && target) {
                         this.setOptions({target} as Partial<O>);
