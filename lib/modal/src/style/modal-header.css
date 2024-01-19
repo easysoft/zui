@@ -8,5 +8,5 @@
 }
 
 .modal-actions {
-    @apply -absolute -right-3 -top-3;
+    @apply -absolute -right-3 -top-3 -z-10;
 }
