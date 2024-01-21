@@ -41,7 +41,7 @@
   @apply -font-bold -overflow-hidden -whitespace-nowrap -text-[--kanban-col-color];
 }
 .kanban-header-col-actions {
-  @apply -absolute -top-1 -right-1;
+  @apply -absolute -top-1 -bottom-1 -right-1;
 }
 .kanban-header-col-actions > .btn {
   @apply -opacity-60 hover:-opacity-100;
