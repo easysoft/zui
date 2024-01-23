@@ -22,3 +22,13 @@
 .search-menu .is-match-keys {
   @apply -underline -font-bold;
 }
+
+.search-menu-no-match-hint {
+  @apply -text-gray-500 -text-sm -hidden -p-2;
+}
+.no-match-child .search-menu-no-match-hint {
+  @apply -block;
+}
+.no-match-child > .menu {
+  @apply -hidden;
+}

@@ -58,7 +58,9 @@ export class SearchMenu<T extends SearchMenuOptions = SearchMenuOptions> extends
         if (!this.isRoot) {
             return;
         }
-        $(this.element).find('.item.is-nested.is-not-match').filter((_, element) => this._matchedParents.has(element.getAttribute('z-key-path') || '')).addClass('has-match-child');
+        const $element = $(this.element);
+        $element.find('.item.is-nested.is-not-match').filter((_, element) => this._matchedParents.has(element.getAttribute('z-key-path') || '')).addClass('has-match-child');
+        $element.parent().toggleClass('no-match-child', !$element.children('.item').not('.is-not-match').length);
     }
 
     protected _handleSearchChange = (search: string) => {
@@ -142,15 +144,17 @@ export class SearchMenu<T extends SearchMenuOptions = SearchMenuOptions> extends
     protected _renderWrapperHeader(props: RenderableProps<T>): ComponentChildren {
         const hasHeader = props.header;
         const hasTopSearchBox = this.isRoot && props.searchBox && props.searchPlacement !== 'bottom';
-        if (!hasHeader && !hasTopSearchBox) {
+        const {noMatchHint} = props;
+        if (!hasHeader && !hasTopSearchBox && !noMatchHint) {
             return null;
         }
-        return (
-            <header key="header" className="search-menu-header">
+        return [
+            noMatchHint ? <div key="noMatchHint" className="search-menu-no-match-hint">{noMatchHint}</div> : null,
+            (hasHeader || hasTopSearchBox) ? (<header key="header" className="search-menu-header">
                 {hasHeader ? super._renderWrapperHeader(props) : null}
                 {hasTopSearchBox ? this._renderSearchBox(props) : null}
-            </header>
-        );
+            </header>) : null,
+        ];
     }
 
     protected _renderWrapperFooter(props: RenderableProps<T>): ComponentChildren {
