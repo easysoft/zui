@@ -276,8 +276,12 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
         }
     }
 
+    static last(target?: HTMLDivElement | string) {
+        return ModalBase.query(target, undefined, modal => modal.shown);
+    }
+
     static hide(target?: HTMLDivElement | string) {
-        ModalBase.query(target, undefined, modal => modal.shown)?.hide();
+        ModalBase.last(target)?.hide();
     }
 
     static show(target?: HTMLDivElement | string) {
