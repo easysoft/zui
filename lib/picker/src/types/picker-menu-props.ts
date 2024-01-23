@@ -10,10 +10,10 @@ export interface PickerMenuProps<S extends PickerState = PickerState> extends Pi
     menu?: MenuOptions;
     checkbox?: MenuOptions['checkbox'];
     search?: boolean | number;
-    searchHint?: string;
     valueList: string[];
     header?: CustomContentType;
     footer?: CustomContentType;
+    noMatchHint?: string;
 
     onSelect: (values: string | string[]) => void;
     onDeselect: (values: string | string[]) => void;

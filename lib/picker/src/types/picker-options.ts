@@ -20,6 +20,7 @@ export interface PickerOptions<S extends PickerState = PickerState> extends Pick
     toolbar?: ToolbarSetting | boolean;
     cache?: boolean;
     searchDelay?: number;
+    searchEmptyHint?: string;
     search?: boolean | number;
     searchHint?: string;
     hotkeys?: HotkeysSettings;

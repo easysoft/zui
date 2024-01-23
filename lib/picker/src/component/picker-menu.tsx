@@ -160,7 +160,7 @@ export class PickerMenu extends PickPop<PickerState, PickerMenuProps> {
     }
 
     protected _getMenuProps(props: RenderableProps<PickerMenuProps>): SearchMenuOptions {
-        const {menu, tree, state, checkbox, header, footer} = props;
+        const {menu, tree, state, checkbox, header, footer, noMatchHint} = props;
         const {items, search} = state;
 
         return mergeProps({
@@ -177,6 +177,7 @@ export class PickerMenu extends PickPop<PickerState, PickerMenuProps> {
             searchProps: ['keys', 'text', 'title', 'subtitle', 'value'],
             header,
             footer,
+            noMatchHint,
         }, menu, tree);
     }
 
