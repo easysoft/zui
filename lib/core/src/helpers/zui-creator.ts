@@ -91,7 +91,10 @@ $.fn.zuiInit = function (this: Cash) {
     });
     this.find('[zui-init]').each(function () {
         const $element = $(this);
-        $.runJS($element.attr('zui-init') as string, ['$element', $element]);
+        if ($element.z('zuiInited')) {
+            return;
+        }
+        $.runJS($element.z('zuiInited', true).attr('zui-init') as string, ['$element', $element]);
     });
     this.find('.hide-before-init').removeClass('invisible hidden opacity-0');
     this.find('.scroll-into-view').scrollIntoView();
