@@ -1603,7 +1603,7 @@ d.fn.zuiInit = function() {
     n.zui(e) || (s ? t = d.share[s] : delete t.zui, requestAnimationFrame(() => Cl(e, this, t)));
   }), this.find("[zui-init]").each(function() {
     const n = d(this);
-    d.runJS(n.attr("zui-init"), ["$element", n]);
+    n.z("zuiInited") || d.runJS(n.z("zuiInited", !0).attr("zui-init"), ["$element", n]);
   }), this.find(".hide-before-init").removeClass("invisible hidden opacity-0"), this.find(".scroll-into-view").scrollIntoView(), this.find('[data-on="inited"]').each((n, t) => {
     const e = d(t);
     e.zui() || e.trigger("inited");
