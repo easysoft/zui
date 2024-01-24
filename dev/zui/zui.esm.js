@@ -3901,10 +3901,11 @@ let _t = class extends q {
     return this.props.expandOnSearch && this._searchKeys.length ? !0 : super.isExpanded(t);
   }
   _updateMatchedParents() {
+    var e;
     if (!this.isRoot)
       return;
     const t = d(this.element);
-    t.find(".item.is-nested.is-not-match").filter((e, s) => this._matchedParents.has(s.getAttribute("z-key-path") || "")).addClass("has-match-child"), t.parent().toggleClass("no-match-child", !t.children(".item").not(".is-not-match").length);
+    t.find(".item.is-nested.is-not-match").filter((s, i) => this._matchedParents.has(i.getAttribute("z-key-path") || "")).addClass("has-match-child"), t.parent().toggleClass("no-match-child", !!((e = this._searchKeys) != null && e.length) && !t.children(".item").not(".is-not-match").length);
   }
   _isItemMatch(t, e, s, i) {
     const { isItemMatch: r } = t, o = r ? r.call(this, e, this._searchKeys, s, i) : this.constructor.isItemMatch(e, this._searchKeys, t.searchProps);
