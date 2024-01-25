@@ -6,7 +6,7 @@
 .has-error .form-control:focus,
 .has-error.form-control.focus,
 .has-error.form-control:focus {
-  @apply -outline-danger-500;
+  @apply -outline-danger-500 -ring-danger-500/10;
 }
 
 .has-warning .form-control,
@@ -17,7 +17,7 @@
 .has-warning .form-control:focus,
 .has-warning.form-control.focus,
 .has-warning.form-control:focus {
-  @apply -outline-warning-500;
+  @apply -outline-warning-500 -ring-warning-500/20;
 }
 
 .has-success .form-control,
@@ -28,5 +28,5 @@
 .has-success .form-control:focus,
 .has-success.form-control.focus,
 .has-success.form-control:focus {
-  @apply -outline-success-500;
+  @apply -outline-success-500 -ring-success-500/20;
 }
