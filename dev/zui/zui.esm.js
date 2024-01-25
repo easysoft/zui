@@ -7451,14 +7451,17 @@ class eh extends ui {
     );
   }
   _renderTrigger(t) {
-    const { state: { selections: e = [], open: s }, search: i, placeholder: r, children: o } = this.props, a = s && i;
-    return !a && !e.length ? /* @__PURE__ */ g("span", { className: "picker-select-placeholder", children: r }, "selections") : [
+    const { state: { selections: e = [], open: s }, search: i, placeholder: r, children: o } = this.props, a = s && i, l = /* @__PURE__ */ g("span", { class: "caret" }, "caret");
+    return !a && !e.length ? [
+      /* @__PURE__ */ g("span", { className: "picker-select-placeholder", children: r }, "selections"),
+      l
+    ] : [
       /* @__PURE__ */ g("div", { className: "picker-multi-selections", children: [
         e.map(this._renderSelection),
         a ? this._renderSearch(t) : null
       ] }, "selections"),
       o,
-      /* @__PURE__ */ g("span", { class: "caret" }, "caret")
+      l
     ];
   }
   _renderValue(t) {
