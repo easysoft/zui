@@ -66,8 +66,12 @@ export class PickerMultiSelect extends PickTrigger<PickerState, PickerSelectProp
     protected _renderTrigger(props: PickerSelectProps) {
         const {state: {selections = [], open}, search, placeholder, children} = this.props;
         const showSearch = open && search;
+        const caret = <span key="caret" class="caret"></span>;
         if (!showSearch && !selections.length) {
-            return <span key="selections" className="picker-select-placeholder">{placeholder}</span>;
+            return [
+                <span key="selections" className="picker-select-placeholder">{placeholder}</span>,
+                caret,
+            ];
         }
         return [
             <div key="selections" className="picker-multi-selections">
@@ -75,7 +79,7 @@ export class PickerMultiSelect extends PickTrigger<PickerState, PickerSelectProp
                 {showSearch ? this._renderSearch(props) : null}
             </div>,
             children,
-            <span key="caret" class="caret"></span>,
+            caret,
         ];
     }
 
