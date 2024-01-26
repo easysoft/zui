@@ -78,7 +78,7 @@ $.fn.zuiInit = function (this: Cash) {
     this.find('[zui-create],[data-zui]').each(function () {
         const $element = $(this);
         let options = getZData($element, 'data-')!;
-        const [name, optionsName] = (options.zui as string).split(':');
+        const [name, optionsName] = ((options.zui || $element.attr('zui-create')) as string).split(':');
         if ($element.zui(name)) {
             return;
         }
