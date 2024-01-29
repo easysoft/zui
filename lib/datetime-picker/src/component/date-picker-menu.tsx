@@ -112,6 +112,8 @@ export class DatePickerMenu extends Component<DatePickerMenuProps, DatePickerMen
             yearText = i18n.getLang('yearFormat') || '{0}',
             weekNames = i18n.getLang('weekNames'),
             monthNames = i18n.getLang('monthNames'),
+            minDate: minDateSetting = '1970-1-1',
+            maxDate: maxDateSetting = '2099-1-1',
             weekStart,
         } = props;
         const currentDate = date ? new Date(date) : undefined;
@@ -121,8 +123,8 @@ export class DatePickerMenu extends Component<DatePickerMenuProps, DatePickerMen
             select,
         } = state;
         const isSelectDay = select === 'day';
-        const minDate = createDate(props.minDate || '1970-1-1');
-        const maxDate = createDate(props.maxDate || '2099-12-1');
+        const minDate = createDate(typeof minDateSetting === 'function' ? minDateSetting(currentDate) : minDateSetting);
+        const maxDate = createDate(typeof maxDateSetting === 'function' ? maxDateSetting(currentDate) : maxDateSetting);
         return (
             <div className="date-picker-menu row" ref={this.#ref} onClick={this.#handleClick}>
                 {this.#renderMenu(props)}

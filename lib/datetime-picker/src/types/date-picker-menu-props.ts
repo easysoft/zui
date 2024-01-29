@@ -1,5 +1,6 @@
 import type {DateLike} from '@zui/helpers/src/date-helper';
-import type {NavItemOptions, NavOptions} from '@zui/nav';
+import type {ListitemProps} from '@zui/list';
+import type {NavOptions} from '@zui/nav';
 import type {ToolbarItemOptions, ToolbarOptions} from '@zui/toolbar';
 
 export type DatePickerMenuProps = {
@@ -11,8 +12,8 @@ export type DatePickerMenuProps = {
     todayText?: string;
     clearText?: string;
     weekStart?: number;
-    menu?: NavItemOptions[] | NavOptions;
+    menu?: ListitemProps[] | NavOptions;
     actions?: ToolbarItemOptions[] | ToolbarOptions;
-    minDate?: DateLike;
-    maxDate?: DateLike;
+    minDate?: DateLike | ((date?: Date) => DateLike);
+    maxDate?: DateLike | ((date?: Date) => DateLike);
 };

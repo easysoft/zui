@@ -43,13 +43,13 @@ export class DatePicker<T extends DatePickerOptions = DatePickerOptions> extends
         }
         let date = createDate(value);
         if (minDate) {
-            const min = createDate(minDate);
+            const min = createDate(typeof minDate === 'function' ? minDate(date) : minDate);
             if (date < min) {
                 date = min;
             }
         }
         if (maxDate) {
-            const max = createDate(maxDate);
+            const max = createDate(typeof maxDate === 'function' ? maxDate(date) : maxDate);
             if (date > max) {
                 date = max;
             }

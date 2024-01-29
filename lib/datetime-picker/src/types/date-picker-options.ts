@@ -17,8 +17,8 @@ export interface DatePickerOptions extends PickOptions {
     todayText?: string;
     clearText?: string;
     weekStart?: number;
-    minDate?: DateLike;
-    maxDate?: DateLike;
+    minDate?: DateLike | ((date?: Date) => DateLike);
+    maxDate?: DateLike | ((date?: Date) => DateLike);
     menu?: Item[] | NavOptions;
     actions?: ToolbarItemOptions[] | ToolbarOptions;
     onInvalid?: (value: string) => void;
