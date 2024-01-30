@@ -1,4 +1,4 @@
-import {i18n} from '../i18n';
+import {I18nLangMap, i18n} from '../i18n';
 import {$} from '../cash';
 import {nextGid} from '../helpers';
 import {isElementDetached} from '../dom/is-detached';
@@ -31,6 +31,12 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
      * Whether the component supports multiple instances.
      */
     static MULTI_INSTANCE = false;
+
+    /**
+     * The component i18n data.
+     * It will be merged with global i18n data.
+     */
+    static i18n: I18nLangMap | undefined;
 
     /**
      * ZUI name
@@ -211,6 +217,13 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
     }
 
     /**
+     * Get the component i18n data.
+     */
+    get i18nData(): (I18nLangMap | undefined)[] {
+        return [this.options.i18n, this.constructor.i18n];
+    }
+
+    /**
      * Initialize the component.
      */
     init() {}
@@ -334,7 +347,16 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
      * @param args         The i18n arguments.
      * @param defaultValue The default value if the key is not found.
      */
-    i18n(key: string, args?: (string | number)[] | Record<string, string | number>, defaultValue?: string): string;
+    i18n(key: string, args?: (string | number)[], defaultValue?: string): string;
+
+    /**
+     * Get the i18n text.
+     *
+     * @param key          The i18n key.
+     * @param args         The i18n arguments.
+     * @param defaultValue The default value if the key is not found.
+     */
+    i18n(key: string, args?: Record<string, string | number>, defaultValue?: string): string;
 
     /**
      * Get the i18n text.
@@ -345,8 +367,9 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
      * @returns            The i18n text.
      */
     i18n(key: string, args?: string | (string | number)[] | Record<string, string | number>, defaultValue?: string): string {
-        return i18n(this.options.i18n, key, args, defaultValue, this.options.lang, this.constructor.NAME)
-            ?? i18n<string>(this.options.i18n, key, args, defaultValue, this.options.lang)
+        const {i18nData} = this;
+        return i18n(i18nData, key, args, defaultValue, this.options.lang, this.constructor.NAME)
+            ?? i18n<string>(i18nData, key, args, defaultValue, this.options.lang)
             ?? `{i18n:${key}}`;
     }
 
