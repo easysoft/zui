@@ -2,10 +2,12 @@ import {h, Component} from 'preact';
 import {nextGid} from '../../helpers/gid';
 import {classes} from '../../helpers/classes';
 import {getReactComponent} from './components';
+import {i18n} from '../../i18n';
 
 import type {JSX, ComponentType, RenderableProps, ComponentChildren} from 'preact';
 import type {ClassNameLike} from '../../helpers/classes';
 import type {HElementProps} from '../types';
+import type {I18nLangMap} from '../../i18n';
 
 /**
  * The base HTML element.
@@ -15,6 +17,26 @@ export class HElement<P extends HElementProps, S = {}> extends Component<P, S> {
 
     static customProps: string[] = [];
 
+    /**
+     * The component name.
+     * It usually equals to the class name.
+     * The name must be provided in subclass.
+     */
+    static NAME: string;
+
+    /**
+     * The component i18n data.
+     * It will be merged with global i18n data.
+     */
+    static i18n: I18nLangMap | undefined;
+
+    /**
+     * Access to static properties via this.constructor.
+     *
+     * @see https://github.com/Microsoft/TypeScript/issues/3841#issuecomment-337560146
+     */
+    declare ['constructor']: typeof HElement<P, S>;
+
     protected _gid = nextGid();
 
     get gid() {
@@ -23,6 +45,54 @@ export class HElement<P extends HElementProps, S = {}> extends Component<P, S> {
 
     get element() {
         return document.querySelector(`[z-gid-${this._gid}]`);
+    }
+
+    /**
+     * Get the component i18n data.
+     */
+    get i18nData(): (I18nLangMap | undefined)[] {
+        return [this.props.i18n, this.constructor.i18n];
+    }
+
+    /**
+     * Get the i18n text.
+     *
+     * @param key           The i18n key.
+     * @param defaultValue  The default value if the key is not found.
+     */
+    i18n(key: string, defaultValue?: string): string;
+
+    /**
+     * Get the i18n text.
+     *
+     * @param key          The i18n key.
+     * @param args         The i18n arguments.
+     * @param defaultValue The default value if the key is not found.
+     */
+    i18n(key: string, args?: (string | number)[], defaultValue?: string): string;
+
+    /**
+     * Get the i18n text.
+     *
+     * @param key          The i18n key.
+     * @param args         The i18n arguments.
+     * @param defaultValue The default value if the key is not found.
+     */
+    i18n(key: string, args?: Record<string, string | number>, defaultValue?: string): string;
+
+    /**
+     * Get the i18n text.
+     *
+     * @param key          The i18n key.
+     * @param args         The i18n arguments or the default value.
+     * @param defaultValue The default value if the key is not found.
+     * @returns            The i18n text.
+     */
+    i18n(key: string, args?: string | (string | number)[] | Record<string, string | number>, defaultValue?: string): string {
+        const {i18nData} = this;
+        return i18n(i18nData, key, args, defaultValue, this.props.lang, this.constructor.NAME)
+            ?? i18n<string>(i18nData, key, args, defaultValue, this.props.lang)
+            ?? `{i18n:${key}}`;
     }
 
     changeState(state: Partial<S> | ((prevState: Readonly<S>) => Partial<S>), callback?: () => void): Promise<S> {

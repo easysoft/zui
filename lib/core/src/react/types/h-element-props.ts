@@ -1,5 +1,6 @@
 import type {PreactDOMAttributes, JSX, RefObject, ComponentType, Attributes} from 'preact';
 import type {ClassNameLike} from '../../helpers/classes';
+import type {I18nLangMap} from '../../i18n';
 
 /**
  * The HTML props that can be passed to a component which root not is a html element.
@@ -45,6 +46,16 @@ export interface HElementProps extends PreactDOMAttributes, Attributes {
      * The ref of the element.
      */
     forwardRef?: RefObject<ComponentType | HTMLElement>;
+
+    /**
+     * Current language code.
+     */
+    lang?: string;
+
+    /**
+     * The i18n data.
+     */
+    i18n?: I18nLangMap;
 
     /**
      * The other props of the element.
