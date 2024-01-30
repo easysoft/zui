@@ -3,7 +3,7 @@ export async function downloadFile(file: Blob | Response | string, fileName?: st
         const link = document.createElement('a');
         link.href = window.URL.createObjectURL(file);
         if (fileName) {
-            link.download = fileName;
+            link.download = decodeURIComponent(fileName);
         }
         link.click();
         link.remove();
