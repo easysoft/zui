@@ -4,6 +4,7 @@ import {mergeProps} from '../helpers';
 
 import type {ComponentEventsDefnition} from '../component';
 import type {Component as ComponentReact, ComponentClass} from 'preact';
+import {I18nLangMap} from '../i18n';
 
 export class ComponentFromReact<O extends {} = {}, C extends ComponentReact<O> = ComponentReact<O>, E extends ComponentEventsDefnition = {}, U extends HTMLElement = HTMLElement> extends ComponentBase<O & {$replace?: boolean}, E, U> {
     /**
@@ -33,6 +34,17 @@ export class ComponentFromReact<O extends {} = {}, C extends ComponentReact<O> =
      */
     get $(): C | null {
         return this._ref.current;
+    }
+
+    /**
+     * The i18n data.
+     */
+    get i18nData() {
+        const {i18n, i18nData} = this.constructor.Component as {i18n?: I18nLangMap, i18nData?: (I18nLangMap | undefined)[]};
+        if (i18nData) {
+            return [...i18nData, this.constructor.i18n];
+        }
+        return [i18n, ...super.i18nData];
     }
 
     /**
