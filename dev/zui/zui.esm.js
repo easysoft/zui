@@ -1718,7 +1718,7 @@ async function qi(n, t) {
   var s, i, r;
   if (n instanceof Blob) {
     const o = document.createElement("a");
-    return o.href = window.URL.createObjectURL(n), t && (o.download = t), o.click(), o.remove(), n;
+    return o.href = window.URL.createObjectURL(n), t && (o.download = decodeURIComponent(t)), o.click(), o.remove(), n;
   }
   if (n instanceof Response) {
     const o = await n.blob();
@@ -2255,7 +2255,7 @@ d.getLib = function(n, t, e) {
     const a = d.libMap && d.libMap[o];
     a && (r = d.extend({}, a, r), o = a.src || r.src);
     const { root: l = d.libRoot } = r;
-    l && (o = `${l}${l.endsWith("/") && o.startsWith("/") ? "" : "/"}${o}`);
+    l && (o = `${l}${l.endsWith("/") || o.startsWith("/") ? "" : "/"}${o}`);
     const { success: c, name: u } = r, h = () => u ? window[u] : void 0, p = () => {
       s(h()), c == null || c();
     };
