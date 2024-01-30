@@ -1,3 +1,6 @@
+.date-picker-menu {
+  --menu-bg: none;
+}
 .date-picker-menu .mini-calendar {
   @apply --mt-3;
 }
