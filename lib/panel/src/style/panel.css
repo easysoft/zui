@@ -9,7 +9,7 @@
   @apply -font-bold -m-0 -flex -items-center -gap-2;
 }
 .panel-actions {
-  @apply --mr-2
+  @apply --mr-2 -flex -items-center;
 }
 
 .panel-body {
