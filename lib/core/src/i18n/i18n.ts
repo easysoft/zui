@@ -47,7 +47,7 @@ export function i18n<T = string>(maps: I18nLangMap | (I18nLangMap | undefined)[]
         if (!map) {
             continue;
         }
-        const mapValues = map[lang];
+        const mapValues = map[lang] || map.default;
         if (!mapValues) {
             continue;
         }
