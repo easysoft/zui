@@ -92,7 +92,7 @@
   @apply -opacity-100;
 }
 .file-selector-grid-item .toolbar .btn[data-remove-file] {
-  @apply -absolute -top-0 -right-0 -bg-inverse/80 -text-canvas -p-1.5;
+  @apply -absolute -top-0 -right-0 -bg-inverse/50 -text-canvas -p-1.5;
 }
 .file-selector-grid-item .toolbar .btn[data-rename-file] {
   @apply -absolute --bottom-6 -right-0 -p-0;
