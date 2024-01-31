@@ -1,5 +1,10 @@
 # 文件选择器
 
+## 图片选择
+
+```html:example
+<div id="imageSelectorExample"></div>
+```
 
 ## 网格形式
 

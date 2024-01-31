@@ -7,7 +7,7 @@ import '@zui/toolbar';
 import '@zui/avatar';
 import '@zui/input-control';
 import '@zui/list';
-import {FileSelector} from './src/main';
+import {FileSelector, ImageSelector} from './src/main';
 
 onPageUpdate(() => {
     const fileSelector1 = new FileSelector('#fileSelectorExample1', {
@@ -34,4 +34,11 @@ onPageUpdate(() => {
         tip: '点击或拖拽上传',
     });
     console.log('> fileSelector3', fileSelector3);
+
+    const imageSelector = new ImageSelector('#imageSelectorExample', {
+        name: 'images[]',
+        removeConfirm: '确定移除图片 "{name}" 吗？',
+        tip: '点击或拖拽上传',
+    });
+    console.log('> imageSelector', imageSelector);
 });
