@@ -11,6 +11,7 @@ export interface FileSelectorProps extends HElementProps {
     accept?: string;
     mode?: 'button' | 'box';
     tip?: CustomContentType;
+    thumbnail?: boolean;
     defaultFiles?: (StaticFileInfo | FileInfo | File)[];
     multiple?: boolean | number;
     itemProps?: Partial<ListitemProps> | ((file: FileInfo) => Partial<ListitemProps>);

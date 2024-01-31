@@ -31,8 +31,8 @@
   @apply -mt-0;
 }
 
-.file-selector-item .item-icon {
-  @apply -text-gray-400;
+.file-selector-item .item-avatar {
+  @apply -text-gray-500 -bg-gray-50;
 }
 .file-selector-item .item-subtitle {
   @apply -text-gray-400;
@@ -43,8 +43,8 @@
 .file-selector-item > .listitem:hover {
   @apply -bg-gray-500/5;
 }
-.file-selector-item.is-renaming .item-icon + .item-content {
-  max-width: calc(100% - 20px);
+.file-selector-item.is-renaming .item-avatar + .item-content {
+  max-width: calc(100% - 32px);
 }
 .file-selector-rename-text {
   @apply -relative -max-w-full -min-w-[100px];

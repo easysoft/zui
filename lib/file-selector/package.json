@@ -16,6 +16,7 @@
         "@zui/helpers": "workspace:^0.0.1",
         "@zui/modal": "workspace:^0.0.1",
         "@zui/core": "workspace:^0.0.1",
+        "@zui/avatar": "workspace:^0.0.1",
         "@zui/form-control": "workspace:^0.0.1",
         "@zui/list": "workspace:^0.0.1"
     },

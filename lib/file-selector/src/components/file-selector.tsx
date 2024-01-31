@@ -13,6 +13,7 @@ import type {ModalAlertOptions, ModalConfirmOptions} from '@zui/modal';
 import type {FileInfo, FileSelectorProps, FileSelectorState, StaticFileInfo} from '../types';
 import type {Item} from '@zui/common-list';
 import type {ToolbarSetting} from '@zui/toolbar';
+import {AvatarOptions} from '@zui/avatar/src/types';
 
 /**
  * File selector component.
@@ -27,6 +28,7 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
         renameBtn: true,
         removeBtn: true,
         draggable: true,
+        thumbnail: true,
     };
 
     static i18n = i18nData;
@@ -447,7 +449,7 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
         return <input key="form" ref={this._file} type="file" name={name} multiple={this.multiple} accept={accept} style="display:none" />;
     }
 
-    protected _getFileIcon(file: FileInfo): IconType | undefined {
+    protected _getIcon(file: FileInfo): IconType | undefined {
         let {fileIcons} = this.props;
         if (!fileIcons) {
             return;
@@ -456,6 +458,32 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
             fileIcons = {default: fileIcons};
         }
         return fileIcons[file.ext] ?? fileIcons.default;
+    }
+
+    protected _getThumbnail(file: FileInfo) {
+        if ((file.file || file.url) && this.props.thumbnail && this.constructor.isImage(file)) {
+            return file.url || URL.createObjectURL(file.file!);
+        }
+    }
+
+    protected _getAvatar(file: FileInfo): AvatarOptions | undefined {
+        const thumbnail = this._getThumbnail(file);
+        let avatar: AvatarOptions | undefined;
+        if (thumbnail) {
+            avatar = {src: thumbnail};
+        } else {
+            const icon = this._getIcon(file);
+            if (icon) {
+                avatar = {icon};
+            }
+        }
+        if (avatar) {
+            return {
+                size: 'sm',
+                ...avatar,
+            };
+        }
+        return avatar;
     }
 
     protected _getFileActions(file: FileInfo): ToolbarSetting<[Item]> {
@@ -502,7 +530,7 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
                 multiline: false,
                 title: file.name,
                 subtitle: formatBytes(file.size, 1),
-                icon: this._getFileIcon(file),
+                avatar: this._getAvatar(file),
                 actions: this._getFileActions(file),
                 'z-id': file.id,
             }, itemProps);
@@ -527,7 +555,7 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
             itemProps = mergeProps({
                 className: 'file-selector-item is-renaming',
                 multiline: false,
-                icon: this._getFileIcon(file),
+                avatar: this._getAvatar(file),
                 'z-id': file.id,
                 contentClass: 'file-selector-rename',
                 content: [
@@ -610,6 +638,31 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
         };
     }
 
+    static imageAccepts = 'image/*,.png,.jpg,.jpeg,.gif';
+
+    static isAccept(file: File | FileInfo, accept: string | string[]) {
+        if (!accept || !accept.length) {
+            return true;
+        }
+        const acceptTypes = Array.isArray(accept) ? accept : accept.split(',');
+        return acceptTypes.some(acceptType => {
+            if (file.type && acceptType === file.type) {
+                return true;
+            }
+            if (acceptType.startsWith('.')) {
+                return file.name.endsWith(acceptType);
+            }
+            if (acceptType.endsWith('/*')) {
+                return file.type.startsWith(acceptType.slice(0, -1));
+            }
+            return false;
+        });
+    }
+
+    static isImage(file: File | FileInfo) {
+        return this.isAccept(file, this.imageAccepts);
+    }
+
     static filterFiles(files: FileList | File[], accept: string | undefined) {
         if (!accept || !accept.length) {
             return files;
@@ -619,19 +672,7 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
         }
         const acceptTypes = accept.split(',');
         return files.filter(file => {
-            const {type, name} = file;
-            return acceptTypes.some(acceptType => {
-                if (acceptType === type) {
-                    return true;
-                }
-                if (acceptType.startsWith('.')) {
-                    return name.endsWith(acceptType);
-                }
-                if (acceptType.endsWith('/*')) {
-                    return type.startsWith(acceptType.slice(0, -1));
-                }
-                return false;
-            });
+            return this.isAccept(file, acceptTypes);
         });
     }
 }
