@@ -872,14 +872,14 @@ function ul(n) {
 function Pr(n, t) {
   Ft || (Ft = {}), typeof n == "string" && (n = { [n]: t ?? {} }), d.extend(!0, Ft, n);
 }
-function j(n, t, e, s, i, r) {
+function F(n, t, e, s, i, r) {
   Array.isArray(n) ? Ft && n.unshift(Ft) : n = Ft ? [Ft, n] : [n], typeof e == "string" && (r = i, i = s, s = e, e = void 0);
   const o = i || Xs;
   let a;
   for (const l of n) {
     if (!l)
       continue;
-    const c = l[o];
+    const c = l[o] || l.default;
     if (!c)
       continue;
     const u = r && l === Ft ? `${r}.${t}` : t;
@@ -889,12 +889,12 @@ function j(n, t, e, s, i, r) {
   return a === void 0 ? s : e ? et(a, ...Array.isArray(e) ? e : [e]) : a;
 }
 function dl(n, t, e, s) {
-  return j(void 0, n, t, e, s);
+  return F(void 0, n, t, e, s);
 }
-j.addLang = Pr;
-j.getLang = dl;
-j.getCode = hl;
-j.setCode = ul;
+F.addLang = Pr;
+F.getLang = dl;
+F.getCode = hl;
+F.setCode = ul;
 Pr({
   zh_cn: {
     confirm: "确定",
@@ -1560,7 +1560,7 @@ zn = zr.slice, H = { __e: function(n, t, e, s) {
 }, z.prototype.render = we, ee = [], Or = typeof Promise == "function" ? Promise.prototype.then.bind(Promise.resolve()) : setTimeout, vs = function(n, t) {
   return n.__v.__b - t.__v.__b;
 }, vn.__r = 0;
-function F(n, ...t) {
+function j(n, ...t) {
   return t.forEach((e) => {
     !e || typeof e != "object" || Object.keys(e).forEach((s) => {
       let i = e[s];
@@ -1967,6 +1967,12 @@ class Wt {
     return this.$element;
   }
   /**
+   * Get the component i18n data.
+   */
+  get i18nData() {
+    return [this.options.i18n, this.constructor.i18n];
+  }
+  /**
    * Initialize the component.
    */
   init() {
@@ -2057,7 +2063,8 @@ class Wt {
    * @returns            The i18n text.
    */
   i18n(t, e, s) {
-    return j(this.options.i18n, t, e, s, this.options.lang, this.constructor.NAME) ?? j(this.options.i18n, t, e, s, this.options.lang) ?? `{i18n:${t}}`;
+    const { i18nData: i } = this;
+    return F(i, t, e, s, this.options.lang, this.constructor.NAME) ?? F(i, t, e, s, this.options.lang) ?? `{i18n:${t}}`;
   }
   /**
    * Get event namespace.
@@ -2307,6 +2314,24 @@ class J extends z {
   get element() {
     return document.querySelector(`[z-gid-${this._gid}]`);
   }
+  /**
+   * Get the component i18n data.
+   */
+  get i18nData() {
+    return [this.props.i18n, this.constructor.i18n];
+  }
+  /**
+   * Get the i18n text.
+   *
+   * @param key          The i18n key.
+   * @param args         The i18n arguments or the default value.
+   * @param defaultValue The default value if the key is not found.
+   * @returns            The i18n text.
+   */
+  i18n(t, e, s) {
+    const { i18nData: i } = this;
+    return F(i, t, e, s, this.props.lang, this.constructor.NAME) ?? F(i, t, e, s, this.props.lang) ?? `{i18n:${t}}`;
+  }
   changeState(t, e) {
     return new Promise((s) => {
       this.setState(t, () => {
@@ -2430,9 +2455,9 @@ function bs(n) {
     return Object.keys(i).length ? /* @__PURE__ */ g("div", { ...i, children: r }) : r;
   if (r && typeof r == "object" && (typeof r.html == "string" || r.component)) {
     if (r.html)
-      return /* @__PURE__ */ g(_e, { ...F(i, r) });
+      return /* @__PURE__ */ g(_e, { ...j(i, r) });
     let { children: o } = r;
-    return o && (o = Array.isArray(o) ? o : [o], r = F({ children: o.map((a) => bs({ ...i, content: a, generatorThis: s, generatorArgs: e })) }, r)), /* @__PURE__ */ g(J, { ...F(i, r) });
+    return o && (o = Array.isArray(o) ? o : [o], r = j({ children: o.map((a) => bs({ ...i, content: a, generatorThis: s, generatorArgs: e })) }, r)), /* @__PURE__ */ g(J, { ...j(i, r) });
   }
   return wt(r) ? r : (r && (console.groupCollapsed("[ZUI] CustomContent format error"), console.trace("content:", r), console.log("props:", n), console.groupEnd()), null);
 }
@@ -2507,6 +2532,13 @@ class B extends Wt {
     return this._ref.current;
   }
   /**
+   * The i18n data.
+   */
+  get i18nData() {
+    const { i18n: t, i18nData: e } = this.constructor.Component;
+    return e ? [...e, this.constructor.i18n] : [t, ...super.i18nData];
+  }
+  /**
    * Render after component init.
    */
   afterInit() {
@@ -2535,7 +2567,7 @@ class B extends Wt {
         return c[h === "class" ? "className" : h] = p, c;
       }, {});
       return Oe(
-        xt(s, F({ component: e.tagName.toLowerCase(), attrs: l }, a)),
+        xt(s, j({ component: e.tagName.toLowerCase(), attrs: l }, a)),
         e.parentElement,
         e
       );
@@ -2675,7 +2707,7 @@ let rt = class extends J {
     let l = a[r] || a.default || J;
     if (Array.isArray(l)) {
       let c = l[1];
-      typeof c == "function" && (c = c.call(this, e, t)), e = F({}, c, e), l = l[0];
+      typeof c == "function" && (c = c.call(this, e, t)), e = j({}, c, e), l = l[0];
     }
     return /* @__PURE__ */ g(l, { "z-key": e.key, "z-item": s, "z-type": r, ...e });
   }
@@ -2691,7 +2723,7 @@ let rt = class extends J {
     if (!e)
       return !1;
     const { itemProps: i, itemPropsMap: r = {}, getItem: o, itemKey: a = "id" } = t, { type: l = this.constructor.defaultItemType } = e, { name: c, itemName: u } = this, { defaultItemProps: h = {}, defaultItemPropsMap: p = {} } = this.constructor;
-    if (e = F(
+    if (e = j(
       { type: l },
       h,
       p[l],
@@ -2905,11 +2937,11 @@ let bt = class extends rt {
   _getItem(t, e, s) {
     e.type || (e = d.extend({ type: e.dropdown || e.items ? "dropdown" : "item" }, e));
     let i = super._getItem(t, e, s);
-    return i && (this._isBtnType(i) && (i = F({}, this._shareBtnProps, i)), i);
+    return i && (this._isBtnType(i) && (i = j({}, this._shareBtnProps, i)), i);
   }
   _beforeRender(t) {
     const { btnProps: e, btnType: s, size: i } = t;
-    this._shareBtnProps = F({}, e, Kr({ btnType: s, size: i }));
+    this._shareBtnProps = j({}, e, Kr({ btnType: s, size: i }));
   }
 };
 bt.NAME = "btn-group";
@@ -2931,14 +2963,14 @@ const Bn = class io extends bt {
     if (!i)
       return i;
     const { type: r } = i, o = r === "btn-group" || r === "btnGroup";
-    return o && (i.btnProps = F({}, this._shareBtnProps, i.btnProps)), (o || r === "dropdown") && !i.relativeTarget && (i.relativeTarget = t.relativeTarget), i;
+    return o && (i.btnProps = j({}, this._shareBtnProps, i.btnProps)), (o || r === "dropdown") && !i.relativeTarget && (i.relativeTarget = t.relativeTarget), i;
   }
   static render(t, e, s, i) {
     let r = typeof t == "function" ? t.call(i ?? this, ...e) : t;
     if (r)
       return Array.isArray(r) && (r = {
         items: r
-      }), s && (r = F(s, r)), /* @__PURE__ */ g(io, { ...r });
+      }), s && (r = j(s, r)), /* @__PURE__ */ g(io, { ...r });
   }
 };
 Bn.NAME = "toolbar";
@@ -3085,7 +3117,7 @@ class Cs extends J {
       subtitle: m,
       hint: y,
       selected: v
-    } = t, w = s || (o && !a ? "a" : "div"), b = w === "a", C = F({
+    } = t, w = s || (o && !a ? "a" : "div"), b = w === "a", C = j({
       key: "item",
       title: y,
       className: T("listitem", i, {
@@ -3248,7 +3280,7 @@ class Un extends rt {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   _getRenderedItem(t, e, s) {
     const { divider: i, multiline: r } = t;
-    e = F({}, Kr({
+    e = j({}, Kr({
       divider: i,
       multiline: r
     }), e);
@@ -3621,7 +3653,7 @@ class Ce extends Un {
       parentKey: r,
       level: o = 0
     } = t, { isRoot: a } = this;
-    return F(this.constructor.inheritNestedProps.reduce((l, c) => (l[c] = t[c], l), {}), {
+    return j(this.constructor.inheritNestedProps.reduce((l, c) => (l[c] = t[c], l), {}), {
       key: s.key,
       level: o + 1,
       className: `is-nested-${i ? "expanded" : "collapsed"}`,
@@ -3659,12 +3691,12 @@ class Ce extends Un {
     const { parentKey: r } = t, o = i.key, a = `${r !== void 0 ? `${r}:` : ""}${o}`;
     if (i.items) {
       const l = i.expanded ?? this.isExpanded(a);
-      F(i, {
+      j(i, {
         expanded: l,
         className: ["is-nested", `is-nested-${l ? "show" : "hide"}`]
       }), this._hasNestedItems = !0;
     }
-    return F(i, {
+    return j(i, {
       _level: t.level,
       _keyPath: a,
       parentKey: r
@@ -3676,7 +3708,7 @@ class Ce extends Un {
   _renderItem(t, e, s) {
     this._hasNestedItems && e.type === "item" && e.toggleIcon === void 0 && (e.toggleIcon = this._renderNestedToggle(t, e.expanded));
     const i = e.items ? this._renderNestedList(t, e.items, e, e.expanded) : null;
-    return e = F(e, {
+    return e = j(e, {
       "z-parent": e.parentKey,
       "z-key-path": e._keyPath
     }, this._needHandleHover ? {
@@ -3723,7 +3755,7 @@ class Ce extends Un {
     this.toggleChecked(t);
   }
   _getProps(t) {
-    const { level: e = 0, indent: s = 20, parentKey: i } = t, r = F(super._getProps(t), {
+    const { level: e = 0, indent: s = 20, parentKey: i } = t, r = j(super._getProps(t), {
       "z-level": e,
       "z-parent-key": i,
       style: { "--list-nested-indent": `${e * s}px`, "--list-indent": `${s}px` },
@@ -3749,7 +3781,7 @@ let q = class extends Ce {
     return ["menu-wrapper", t.wrapClass, { popup: t.popup, compact: t.compact }];
   }
   _getWrapperProps(t) {
-    const { wrapAttrs: e, height: s, maxHeight: i } = t, r = F({}, e, s || i ? { style: { height: s, maxHeight: i } } : null);
+    const { wrapAttrs: e, height: s, maxHeight: i } = t, r = j({}, e, s || i ? { style: { height: s, maxHeight: i } } : null);
     return r.className = T(this._getWrapClass(t), r.className), r;
   }
   _renderWrapperHeader(t) {
@@ -5784,7 +5816,7 @@ Eo.defaultProps = {
   format: "hh:mm",
   icon: !0
 };
-j.addLang({
+F.addLang({
   zh_cn: {
     today: "今天",
     yearFormat: "{0}年",
@@ -5826,8 +5858,8 @@ class zc extends z {
     var M, E;
     const e = /* @__PURE__ */ new Date(), {
       weekStart: s = 1,
-      weekNames: i = j.getLang("weekNames"),
-      monthNames: r = j.getLang("monthNames"),
+      weekNames: i = F.getLang("weekNames"),
+      monthNames: r = F.getLang("monthNames"),
       year: o = e.getFullYear(),
       month: a = e.getMonth() + 1,
       highlights: l = [],
@@ -5934,9 +5966,9 @@ class Fc extends z {
   render(e, s) {
     const {
       date: i,
-      yearText: r = j.getLang("yearFormat") || "{0}",
-      weekNames: o = j.getLang("weekNames"),
-      monthNames: a = j.getLang("monthNames"),
+      yearText: r = F.getLang("yearFormat") || "{0}",
+      weekNames: o = F.getLang("weekNames"),
+      monthNames: a = F.getLang("monthNames"),
       minDate: l = "1970-1-1",
       maxDate: c = "2099-1-1",
       weekStart: u
@@ -6085,7 +6117,7 @@ let Zn = class extends yt {
     };
   }
   _renderPop(t, e) {
-    const { weekNames: s, monthNames: i, weekStart: r, yearText: o, todayText: a = j.getLang("today"), clearText: l, menu: c, actions: u, minDate: h, maxDate: p, required: f } = t;
+    const { weekNames: s, monthNames: i, weekStart: r, yearText: o, todayText: a = F.getLang("today"), clearText: l, menu: c, actions: u, minDate: h, maxDate: p, required: f } = t;
     return /* @__PURE__ */ g(
       Fc,
       {
@@ -6545,7 +6577,7 @@ const Kc = {
     (Array.isArray(o) ? o : [o]).forEach((y) => {
       y = {
         ...typeof y == "string" ? { key: y } : y
-      }, typeof y.key == "string" && (y.text || (y.text = j.getLang(y.key, y.key)), y.btnType || (y.btnType = `btn-wide ${y.key === "confirm" ? "primary" : "btn-default"}`)), y && f.push(y);
+      }, typeof y.key == "string" && (y.text || (y.text = F.getLang(y.key, y.key)), y.btnType || (y.btnType = `btn-wide ${y.key === "confirm" ? "primary" : "btn-default"}`)), y && f.push(y);
     }, []);
     let _;
     const m = f.length ? {
@@ -7176,7 +7208,7 @@ class xi extends _t {
     super._afterRender(t), this.layout();
   }
   _getNestedProps(t, e, s, i) {
-    return F(this.isHoverTrigger ? {
+    return j(this.isHoverTrigger ? {
       "z-key": s.key,
       "z-hover": this.props.parentKey ?? "root",
       onMouseEnter: this._handleHover,
@@ -7674,7 +7706,7 @@ class ih extends Co {
   }
   _getMenuProps(t) {
     const { menu: e, tree: s, state: i, checkbox: r, header: o, footer: a, noMatchHint: l } = t, { items: c, search: u } = i;
-    return F({
+    return j({
       ref: this._menu,
       className: "picker-menu-list",
       underlineKeys: !0,
@@ -7836,7 +7868,7 @@ let Ni = class extends yt {
       search: t.search,
       footer: this._renderToolbar(),
       valueList: this.valueList,
-      noMatchHint: t.searchEmptyHint ?? j.getLang("searchEmptyHint"),
+      noMatchHint: t.searchEmptyHint ?? F.getLang("searchEmptyHint"),
       onDeselect: this.deselect,
       onSelect: this.select,
       onClear: this.clear,
@@ -7851,10 +7883,10 @@ let Ni = class extends yt {
     let { toolbar: t } = this.props;
     return t ? (t === !0 && (t = [{
       key: "selectAll",
-      text: j.getLang("selectAll")
+      text: F.getLang("selectAll")
     }, {
       key: "cancelSelect",
-      text: j.getLang("cancelSelect")
+      text: F.getLang("cancelSelect")
     }]), Ct.render(t, [], { size: "sm", getItem: (e) => (e.onClick || (e.key === "selectAll" ? (e.onClick = this.selectAll.bind(this), e.disabled = this.isSelectedAll()) : e.key === "cancelSelect" && (e.onClick = this.deselectAll.bind(this), e.disabled = !this.valueList.length)), e) }, this)) : null;
   }
   formatValueList(t) {
@@ -7893,7 +7925,7 @@ class Uo extends B {
 }
 Uo.NAME = "Picker";
 Uo.Component = Ni;
-j.addLang({
+F.addLang({
   zh_cn: {
     selectAll: "全选",
     cancelSelect: "取消选择",
@@ -8659,7 +8691,7 @@ let Ai = class extends z {
       };
   }
   i18n(t, e, s) {
-    return j(N(this, En), t, e, s, this.options.lang) ?? `{i18n:${t}}`;
+    return F(N(this, En), t, e, s, this.options.lang) ?? `{i18n:${t}}`;
   }
   getPlugin(t) {
     return this.plugins.find((e) => e.name === t);
@@ -10101,7 +10133,7 @@ export {
   ys as getZData,
   xt as h,
   nu as hotkeys,
-  j as i18n,
+  F as i18n,
   _s as isDiff,
   tu as isFetchSetting,
   se as isSameDay,
@@ -10113,7 +10145,7 @@ export {
   To as isValidDate,
   wt as isValidElement,
   mu as isYesterday,
-  F as mergeProps,
+  j as mergeProps,
   kt as nextGid,
   xl as parseSize,
   eo as reactComponents,
