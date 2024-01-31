@@ -3,11 +3,17 @@
   --state-color: rgba(var(--color-primary-500-rgb), .05);
 }
 .file-selector-box .text {
-  @apply -text-primary-500;
+  @apply -text-primary-500 -bg-primary-50;
+}
+.is-dragging .file-selector-box {
+  @apply -border-solid;
 }
 
 .file-selector-btn {
   @apply -relative -flex -gap-1 -items-center;
+}
+.is-dragging .file-selector-btn {
+  @apply -bg-primary-50;
 }
 
 .file-selector-input {

@@ -21,6 +21,8 @@ onPageUpdate(() => {
         mode: 'box',
         name: 'files[]',
         removeConfirm: '确定移除文件 "{name}" 吗？',
+        accept: '.png,.md',
+        tip: '点击或拖拽上传',
     });
     console.log('> fileSelector2', fileSelector2);
 });

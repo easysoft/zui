@@ -6,7 +6,7 @@ import {Modal} from '@zui/modal';
 import {Listitem} from '@zui/list/src/component';
 import i18nData from '../i18n';
 
-import type {ComponentChildren, RefObject, RenderableProps} from 'preact';
+import type {ComponentChildren, RefObject, RenderableProps, JSX} from 'preact';
 import type {ClassNameLike, CustomContentType} from '@zui/core';
 import type {ButtonProps} from '@zui/button';
 import type {ModalAlertOptions, ModalConfirmOptions} from '@zui/modal';
@@ -42,6 +42,31 @@ function createFileInfo(file: File | FileInfo | StaticFileInfo): FileInfo {
     };
 }
 
+function filterFilesWithAccept(files: FileList | File[], accept: string | undefined) {
+    if (!accept || !accept.length) {
+        return files;
+    }
+    if (files instanceof FileList) {
+        files = Array.from(files);
+    }
+    const acceptTypes = accept.split(',');
+    return files.filter(file => {
+        const {type, name} = file;
+        return acceptTypes.some(acceptType => {
+            if (acceptType === type) {
+                return true;
+            }
+            if (acceptType.startsWith('.')) {
+                return name.endsWith(acceptType);
+            }
+            if (acceptType.endsWith('/*')) {
+                return type.startsWith(acceptType.slice(0, -1));
+            }
+            return false;
+        });
+    });
+}
+
 /**
  * File selector component.
  */
@@ -54,6 +79,7 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
         },
         renameBtn: true,
         removeBtn: true,
+        draggable: true,
     };
 
     static i18n = i18nData;
@@ -403,8 +429,29 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
         return <input key={`input${this.state.inputKey}`} id={this._id} multiple={this.multiple} accept={props.accept} style="display:none" type="file" ref={this._input} onChange={this._handleChange} />;
     }
 
+    protected _handleDragOver = (event: DragEvent) => {
+        event.preventDefault();
+        if (!this.state.dragging) {
+            this.setState({dragging: true});
+        }
+    };
+
+    protected _handleDragLeave = (event: DragEvent) => {
+        event.preventDefault();
+        this.setState({dragging: false});
+    };
+
+    protected _handleDrop = (event: DragEvent) => {
+        event.preventDefault();
+        const files = filterFilesWithAccept(event.dataTransfer?.files || [], this.props.accept);
+        if (files.length) {
+            this.selectFiles(files);
+            this.setState({inputKey: nextGid()});
+        }
+    };
+
     protected _renderUpload(props: RenderableProps<P>) {
-        const {mode, tip = this.i18n('fileSelectTip'), uploadBtn} = props;
+        const {mode, draggable, tip = this.i18n('fileSelectTip'), uploadBtn} = props;
         const btnProps: ButtonProps = mergeProps({
             component: 'label',
             attrs: {
@@ -412,21 +459,26 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
             },
             text: this.i18n('selectFile'),
         }, typeof uploadBtn === 'object' ? uploadBtn : (typeof uploadBtn === 'string' ? {text: uploadBtn} : {}));
-        btnProps.className = classes('upload-btn', btnProps.className);
         const tipView = (
             <div className="file-selector-tip">
                 <CustomContent content={this._getTip(tip)} generatorThis={this} generatorArgs={[this.state]} />
             </div>
         );
+        const draggableProps: JSX.DOMAttributes<HTMLElement> = {};
+        if (draggable) {
+            draggableProps.onDragOver = this._handleDragOver;
+            draggableProps.onDragLeave = this._handleDragLeave;
+            draggableProps.onDrop = this._handleDrop;
+        }
         if (mode === 'box') {
             return (
-                <Button key="upload" {...btnProps} className={classes('file-selector-box', btnProps.className)}>
+                <Button key="upload" {...btnProps} {...draggableProps} className={classes('file-selector-box', btnProps.className)}>
                     {tipView}
                 </Button>
             );
         }
         return (
-            <div key="upload" className="file-selector-btn">
+            <div key="upload" className="file-selector-btn" {...draggableProps}>
                 <Button {...btnProps} />
                 {tipView}
             </div>
@@ -564,7 +616,7 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
     }
 
     protected _getClassName(props: RenderableProps<P>): ClassNameLike {
-        return ['file-selector', `is-mode-${props.mode}`, props.className];
+        return ['file-selector', `is-mode-${props.mode}`, props.className, this.state.dragging ? 'is-dragging' : ''];
     }
 
     protected _getChildren(props: RenderableProps<P>): ComponentChildren {
