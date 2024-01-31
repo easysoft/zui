@@ -3,7 +3,7 @@
   --state-color: rgba(var(--color-primary-500-rgb), .05);
 }
 .file-selector-box .text {
-  @apply -text-primary-500 -bg-primary-50;
+  @apply -text-primary-500;
 }
 .is-dragging .file-selector-box {
   @apply -border-solid;
@@ -54,4 +54,52 @@
 }
 .file-selector-rename-input {
   @apply -absolute -inset-0;
+}
+
+.file-selector-grid {
+  @apply -p-2 -bg-surface-light -flex -flex-row -flex-wrap -gap-[--file-selector-grid-gap] -items-start;
+}
+.file-selector-grid-item {
+  @apply -w-[--file-selector-grid-width] -h-[--file-selector-grid-height]
+}
+.file-selector-grid-btn {
+  @apply -p-2 -gap-0 -flex -flex-col -justify-center -bg-primary-50/30 -border -border-dashed -border-primary-400 -ring-transparent -aspect-square -w-[--file-selector-grid-width] -h-auto;
+  --state-color: rgba(var(--color-primary-500-rgb), .05);
+}
+.file-selector-grid-btn .text {
+  @apply -text-primary-500;
+}
+.file-selector-grid-item .listitem {
+  @apply -relative -w-full -h-full -flex-col -p-0;
+}
+.file-selector-grid-item .item-avatar {
+  @apply -w-full -rounded -text-gray-500 -border;
+}
+.file-selector-grid-item .item-avatar.has-icon > .icon {
+  font-size: calc(var(--file-selector-grid-width) / 2);
+}
+.file-selector-grid-item .item-content,
+.file-selector-grid-item .toolbar {
+  @apply -absolute -w-full -aspect-square -top-0 -right-0 -left-0
+}
+.file-selector-grid-item .item-title {
+  @apply -absolute --bottom-5 -text-sm -left-0 -right-6 -overflow-hidden -whitespace-nowrap;
+}
+.file-selector-grid-item .item-subtitle {
+  @apply -absolute -text-xs -bottom-1 -left-1 -bg-fore -text-canvas -px-1 -rounded-full -opacity-0 -transition-opacity;
+}
+.file-selector-grid-item:hover .item-subtitle {
+  @apply -opacity-100;
+}
+.file-selector-grid-item .toolbar .btn[data-remove-file] {
+  @apply -absolute -top-0 -right-0 -bg-inverse/80 -text-canvas -p-1.5;
+}
+.file-selector-grid-item .toolbar .btn[data-rename-file] {
+  @apply -absolute --bottom-6 -right-0 -p-0;
+}
+.file-selector-grid .file-selector-rename {
+  @apply -absolute -top-auto -bottom-0 -h-6;
+}
+.file-selector-grid  .file-selector-rename-text {
+  @apply -w-full;
 }

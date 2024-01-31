@@ -4,6 +4,7 @@ import '@zui/menu';
 import '@zentao/icons';
 import '@zui/form-control';
 import '@zui/toolbar';
+import '@zui/avatar';
 import '@zui/input-control';
 import '@zui/list';
 import {FileSelector} from './src/main';
@@ -25,4 +26,12 @@ onPageUpdate(() => {
         tip: '点击或拖拽上传',
     });
     console.log('> fileSelector2', fileSelector2);
+
+    const fileSelector3 = new FileSelector('#fileSelectorExample3', {
+        mode: 'grid',
+        name: 'files[]',
+        removeConfirm: '确定移除文件 "{name}" 吗？',
+        tip: '点击或拖拽上传',
+    });
+    console.log('> fileSelector3', fileSelector3);
 });

@@ -1,17 +1,21 @@
-import type {HElementProps, CustomContentType, IconType} from '@zui/core';
+import type {HElementProps, CustomContentType, IconType, SizeSetting} from '@zui/core';
 import type {ListitemProps} from '@zui/list';
 import type {ButtonProps} from '@zui/button';
 import type {ModalAlertOptions, ModalConfirmOptions} from '@zui/modal';
 import type {FileSize} from './file-size';
 import type {FileInfo} from './file-info';
 import type {StaticFileInfo} from './static-file-info';
+import type {FileSelectorMode} from './file-selector-mode';
 
 export interface FileSelectorProps extends HElementProps {
     name?: string;
     accept?: string;
-    mode?: 'button' | 'box';
+    mode?: FileSelectorMode;
     tip?: CustomContentType;
     thumbnail?: boolean;
+    gridWidth?: SizeSetting;
+    gridHeight?: SizeSetting;
+    gridGap?: SizeSetting;
     defaultFiles?: (StaticFileInfo | FileInfo | File)[];
     multiple?: boolean | number;
     itemProps?: Partial<ListitemProps> | ((file: FileInfo) => Partial<ListitemProps>);

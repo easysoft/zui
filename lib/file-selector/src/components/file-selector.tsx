@@ -1,5 +1,5 @@
 import {createRef} from 'preact';
-import {CustomContent, HElement, classes, mergeProps, nextGid, $} from '@zui/core';
+import {CustomContent, HElement, classes, mergeProps, nextGid, $, toCssSize} from '@zui/core';
 import {formatBytes, convertBytes, formatString} from '@zui/helpers';
 import {Button} from '@zui/button/src/component';
 import {Modal} from '@zui/modal';
@@ -297,10 +297,10 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
 
     stopRenameFile = () => {
         const {renaming, newName} = this.state;
+        this.cancelRenameFile();
         if (!renaming || !newName) {
             return;
         }
-        this.cancelRenameFile();
         this.renameFile(renaming, newName);
     };
 
@@ -406,8 +406,18 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
         }
     };
 
+    protected _getDraggableProps() {
+        const draggableProps: JSX.DOMAttributes<HTMLElement> = {};
+        if (this.props.draggable) {
+            draggableProps.onDragOver = this._handleDragOver;
+            draggableProps.onDragLeave = this._handleDragLeave;
+            draggableProps.onDrop = this._handleDrop;
+        }
+        return draggableProps;
+    }
+
     protected _renderUpload(props: RenderableProps<P>) {
-        const {mode, draggable, tip = this.i18n('fileSelectTip'), uploadBtn} = props;
+        const {mode, tip = this.i18n('fileSelectTip'), uploadBtn} = props;
         const btnProps: ButtonProps = mergeProps({
             component: 'label',
             attrs: {
@@ -420,15 +430,10 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
                 <CustomContent content={this._getTip(tip)} generatorThis={this} generatorArgs={[this.state]} />
             </div>
         );
-        const draggableProps: JSX.DOMAttributes<HTMLElement> = {};
-        if (draggable) {
-            draggableProps.onDragOver = this._handleDragOver;
-            draggableProps.onDragLeave = this._handleDragLeave;
-            draggableProps.onDrop = this._handleDrop;
-        }
-        if (mode === 'box') {
+        const draggableProps = this._getDraggableProps();
+        if (mode === 'box' || mode === 'grid') {
             return (
-                <Button key="upload" {...btnProps} {...draggableProps} className={classes('file-selector-box', btnProps.className)}>
+                <Button key="upload" {...btnProps} {...draggableProps} className={classes(mode === 'grid' ? 'file-selector-grid-btn' : 'file-selector-box', btnProps.className)}>
                     {tipView}
                 </Button>
             );
@@ -479,7 +484,7 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
         }
         if (avatar) {
             return {
-                size: 'sm',
+                size: this.props.mode === 'grid' ? undefined : 'sm',
                 ...avatar,
             };
         }
@@ -526,7 +531,7 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
             itemProps = itemProps.call(this, file);
         } else {
             itemProps = mergeProps({
-                className: 'file-selector-item',
+                className: this.props.mode === 'grid' ? 'file-selector-grid-item' : 'file-selector-item',
                 multiline: false,
                 title: file.name,
                 subtitle: formatBytes(file.size, 1),
@@ -552,17 +557,21 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
             itemProps = itemProps.call(this, file);
         } else {
             const {newName = file.name} = this.state;
+            const isGrid = this.props.mode === 'grid';
+            const renameText = (
+                <div className="file-selector-rename-text">
+                    <div className="form-control size-sm">{newName}</div>
+                    <input type="text" defaultValue={file.name} className="form-control size-sm select-all file-selector-rename-input" autofocus onBlur={isGrid ? this.stopRenameFile : undefined} onChange={this._handleRenameChange} onInput={this._handleRenameChange} />
+                </div>
+            );
             itemProps = mergeProps({
-                className: 'file-selector-item is-renaming',
+                className: `${isGrid ? 'file-selector-grid-item' : 'file-selector-item'} is-renaming`,
                 multiline: false,
                 avatar: this._getAvatar(file),
                 'z-id': file.id,
                 contentClass: 'file-selector-rename',
-                content: [
-                    <div className="file-selector-rename-text">
-                        <div className="form-control size-sm">{newName}</div>
-                        <input type="text" defaultValue={file.name} className="form-control size-sm select-all file-selector-rename-input" autofocus onChange={this._handleRenameChange} onInput={this._handleRenameChange} />
-                    </div>,
+                content: isGrid ? renameText : [
+                    renameText,
                     <Button icon="check" text={this.i18n('confirm')} type="primary-pale" size="sm" onClick={this.stopRenameFile} />,
                     <Button icon="close" text={this.i18n('cancel')} type="gray-pale" size="sm" onClick={this.cancelRenameFile} />,
                 ],
@@ -597,14 +606,32 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
         );
     }
 
+    protected _renderGrid(props: RenderableProps<P>) {
+        const draggableProps = this._getDraggableProps();
+        const {gridWidth = 120, gridHeight = 148, gridGap = 12} = props;
+        const style = {
+            '--file-selector-grid-width': toCssSize(gridWidth),
+            '--file-selector-grid-height': toCssSize(gridHeight),
+            '--file-selector-grid-gap': toCssSize(gridGap),
+        };
+        const {files, renaming} = this.state;
+        return (
+            <div key="grid" className="file-selector-grid" style={style as unknown as JSX.CSSProperties} onClick={this._handleClick} {...draggableProps}>
+                {files.map(file => file.id === renaming ? this._renderFileRename(file) : this._renderFile(file))}
+                {this._renderUpload(props)}
+            </div>
+        );
+    }
+
     protected _getClassName(props: RenderableProps<P>): ClassNameLike {
         return ['file-selector', `is-mode-${props.mode}`, props.className, this.state.dragging ? 'is-dragging' : ''];
     }
 
     protected _getChildren(props: RenderableProps<P>): ComponentChildren {
+        const isGrid = props.mode === 'grid';
         return [
-            this._renderUpload(props),
-            this._renderList(props),
+            isGrid ? null : this._renderUpload(props),
+            isGrid ? this._renderGrid(props) : this._renderList(props),
             this._renderInput(props),
             this._renderForForm(props),
         ];
