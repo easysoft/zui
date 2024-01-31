@@ -7,65 +7,12 @@ import {Listitem} from '@zui/list/src/component';
 import i18nData from '../i18n';
 
 import type {ComponentChildren, RefObject, RenderableProps, JSX} from 'preact';
-import type {ClassNameLike, CustomContentType} from '@zui/core';
+import type {ClassNameLike, CustomContentType, IconType} from '@zui/core';
 import type {ButtonProps} from '@zui/button';
 import type {ModalAlertOptions, ModalConfirmOptions} from '@zui/modal';
 import type {FileInfo, FileSelectorProps, FileSelectorState, StaticFileInfo} from '../types';
 import type {Item} from '@zui/common-list';
 import type {ToolbarSetting} from '@zui/toolbar';
-
-function getExt(name: string) {
-    return (name.split('.').pop() || '').toLowerCase();
-}
-
-function createFileInfo(file: File | FileInfo | StaticFileInfo): FileInfo {
-    const {name, size, type} = file;
-    if (file instanceof File) {
-        return {
-            name: name,
-            size: size as number,
-            type: type as string,
-            file,
-            id: [name, size].join(':'),
-            ext: getExt(name),
-        };
-    }
-    const sizeVal = typeof size === 'string' ? convertBytes(size) : size;
-    return {
-        name,
-        size: sizeVal,
-        id: file.id ?? [name, sizeVal].join(':'),
-        type: type ?? '',
-        ext: getExt(name),
-        file: (file as FileInfo).file,
-        url: file.url,
-    };
-}
-
-function filterFilesWithAccept(files: FileList | File[], accept: string | undefined) {
-    if (!accept || !accept.length) {
-        return files;
-    }
-    if (files instanceof FileList) {
-        files = Array.from(files);
-    }
-    const acceptTypes = accept.split(',');
-    return files.filter(file => {
-        const {type, name} = file;
-        return acceptTypes.some(acceptType => {
-            if (acceptType === type) {
-                return true;
-            }
-            if (acceptType.startsWith('.')) {
-                return name.endsWith(acceptType);
-            }
-            if (acceptType.endsWith('/*')) {
-                return type.startsWith(acceptType.slice(0, -1));
-            }
-            return false;
-        });
-    });
-}
 
 /**
  * File selector component.
@@ -84,6 +31,13 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
 
     static i18n = i18nData;
 
+    /**
+     * Access to static properties via this.constructor.
+     *
+     * @see https://github.com/Microsoft/TypeScript/issues/3841#issuecomment-337560146
+     */
+    declare ['constructor']: typeof FileSelector<P, S>;
+
     protected _input: RefObject<HTMLInputElement> = createRef();
 
     protected _file: RefObject<HTMLInputElement> = createRef();
@@ -95,7 +49,7 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
     constructor(props: P) {
         super(props);
         this.state = {
-            files: (props.defaultFiles || []).map(createFileInfo),
+            files: (props.defaultFiles || []).map(x => this.constructor.getInfo(x)),
             inputKey: 0,
         } as S;
     }
@@ -259,7 +213,7 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
 
     async addFile(file: File): Promise<boolean> {
         const {onAdd} = this.props;
-        const fileInfo = createFileInfo(file);
+        const fileInfo = this.constructor.getInfo(file);
 
         const hasExceededCount = await this._checkExceededCount(fileInfo);
         if (hasExceededCount) {
@@ -328,7 +282,7 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
             fileInfo.file = newFile;
         }
         fileInfo.name = newName;
-        fileInfo.ext = getExt(newName);
+        fileInfo.ext = this.constructor.getExt(newName);
         const {files} = this.state;
         const index = files.indexOf(fileInfo);
         if (index >= 0) {
@@ -443,7 +397,7 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
 
     protected _handleDrop = (event: DragEvent) => {
         event.preventDefault();
-        const files = filterFilesWithAccept(event.dataTransfer?.files || [], this.props.accept);
+        const files = this.constructor.filterFiles(event.dataTransfer?.files || [], this.props.accept);
         if (files.length) {
             this.selectFiles(files);
             this.setState({inputKey: nextGid()});
@@ -493,7 +447,7 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
         return <input key="form" ref={this._file} type="file" name={name} multiple={this.multiple} accept={accept} style="display:none" />;
     }
 
-    protected _getFileIcon(file: FileInfo) {
+    protected _getFileIcon(file: FileInfo): IconType | undefined {
         let {fileIcons} = this.props;
         if (!fileIcons) {
             return;
@@ -626,5 +580,58 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
             this._renderInput(props),
             this._renderForForm(props),
         ];
+    }
+
+    static getExt(name: string) {
+        return (name.split('.').pop() || '').toLowerCase();
+    }
+
+    static getInfo(file: File | FileInfo | StaticFileInfo): FileInfo {
+        const {name, size, type} = file;
+        if (file instanceof File) {
+            return {
+                name: name,
+                size: size as number,
+                type: type as string,
+                file,
+                id: [name, size].join(':'),
+                ext: this.getExt(name),
+            };
+        }
+        const sizeVal = typeof size === 'string' ? convertBytes(size) : size;
+        return {
+            name,
+            size: sizeVal,
+            id: file.id ?? [name, sizeVal].join(':'),
+            type: type ?? '',
+            ext: this.getExt(name),
+            file: (file as FileInfo).file,
+            url: file.url,
+        };
+    }
+
+    static filterFiles(files: FileList | File[], accept: string | undefined) {
+        if (!accept || !accept.length) {
+            return files;
+        }
+        if (files instanceof FileList) {
+            files = Array.from(files);
+        }
+        const acceptTypes = accept.split(',');
+        return files.filter(file => {
+            const {type, name} = file;
+            return acceptTypes.some(acceptType => {
+                if (acceptType === type) {
+                    return true;
+                }
+                if (acceptType.startsWith('.')) {
+                    return name.endsWith(acceptType);
+                }
+                if (acceptType.endsWith('/*')) {
+                    return type.startsWith(acceptType.slice(0, -1));
+                }
+                return false;
+            });
+        });
     }
 }
