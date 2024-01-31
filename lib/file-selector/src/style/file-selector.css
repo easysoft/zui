@@ -1,0 +1,51 @@
+.file-selector-box {
+  @apply -relative -px-3 -py-2 -gap-0 -flex -h-auto -flex-col -justify-center -bg-primary-50/30 -border -border-dashed -border-primary-400 -ring-transparent;
+  --state-color: rgba(var(--color-primary-500-rgb), .05);
+}
+.file-selector-box .text {
+  @apply -text-primary-500;
+}
+
+.file-selector-btn {
+  @apply -relative -flex -gap-1 -items-center;
+}
+
+.file-selector-input {
+  @apply -absolute -inset-0 -opacity-10 -cursor-pointer -appearance-none;
+}
+
+.file-selector-tip {
+  @apply -text-gray-400;
+}
+
+.file-selector-list {
+  @apply -mt-2;
+}
+.file-selector-list.is-empty {
+  @apply -mt-0;
+}
+
+.file-selector-item .item-icon {
+  @apply -text-gray-400;
+}
+.file-selector-item .item-subtitle {
+  @apply -text-gray-400;
+}
+.file-selector-item .item-content {
+  @apply -flex-none -mr-1 -max-w-full;
+}
+.file-selector-item > .listitem:hover {
+  @apply -bg-gray-500/5;
+}
+.file-selector-item.is-renaming .item-icon + .item-content {
+  max-width: calc(100% - 20px);
+}
+.file-selector-rename-text {
+  @apply -relative -max-w-full -min-w-[100px];
+}
+.file-selector-rename-text > div {
+  @apply -invisible -pointer-events-none -whitespace-nowrap -overflow-hidden;
+}
+.file-selector-rename-input {
+  @apply -absolute -inset-0;
+}

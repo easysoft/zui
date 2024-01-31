@@ -571,6 +571,31 @@ importers:
 
   lib/event-bus: {}
 
+  lib/file-selector:
+    dependencies:
+      '@zui/button':
+        specifier: workspace:^0.0.1
+        version: link:../button
+      '@zui/core':
+        specifier: workspace:^0.0.1
+        version: link:../core
+      '@zui/helpers':
+        specifier: workspace:^0.0.1
+        version: link:../helpers
+      '@zui/icons':
+        specifier: workspace:0.0.1
+        version: link:../icons
+      '@zui/list':
+        specifier: workspace:^0.0.1
+        version: link:../list
+      '@zui/modal':
+        specifier: workspace:^0.0.1
+        version: link:../modal
+    devDependencies:
+      zui-dev:
+        specifier: workspace:*
+        version: link:../../dev
+
   lib/form:
     dependencies:
       '@zui/checkbox':

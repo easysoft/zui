@@ -1,0 +1,36 @@
+{
+    "name": "@zui/file-selector",
+    "version": "0.0.1",
+    "main": "src/main.ts",
+    "browserslist": "",
+    "keywords": [
+        "css",
+        "zui:control"
+    ],
+    "files": [
+        "./src/**/*"
+    ],
+    "dependencies": {
+        "@zui/button": "workspace:^0.0.1",
+        "@zui/icons": "workspace:0.0.1",
+        "@zui/helpers": "workspace:^0.0.1",
+        "@zui/modal": "workspace:^0.0.1",
+        "@zui/core": "workspace:^0.0.1",
+        "@zui/form-control": "workspace:^0.0.1",
+        "@zui/list": "workspace:^0.0.1"
+    },
+    "devDependencies": {
+        "zui-dev": "workspace:*"
+    },
+    "zui": {
+        "type": "component",
+        "displayName": "文件选择器",
+        "notReady": true,
+        "contributes": {
+            "css": [
+                "class",
+                "var"
+            ]
+        }
+    }
+}
