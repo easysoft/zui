@@ -2,18 +2,18 @@ import {createRef} from 'preact';
 import {CustomContent, HElement, classes, mergeProps, nextGid, $, toCssSize} from '@zui/core';
 import {formatBytes, convertBytes, formatString} from '@zui/helpers';
 import {Button} from '@zui/button/src/component';
-import {Modal} from '@zui/modal';
 import {Listitem} from '@zui/list/src/component';
+import {Modal} from '@zui/modal';
 import i18nData from '../i18n';
 
 import type {ComponentChildren, RefObject, RenderableProps, JSX} from 'preact';
 import type {ClassNameLike, CustomContentType, IconType} from '@zui/core';
 import type {ButtonProps} from '@zui/button';
 import type {ModalAlertOptions, ModalConfirmOptions} from '@zui/modal';
-import type {FileInfo, FileSelectorProps, FileSelectorState, StaticFileInfo} from '../types';
 import type {Item} from '@zui/common-list';
 import type {ToolbarSetting} from '@zui/toolbar';
-import {AvatarOptions} from '@zui/avatar/src/types';
+import type {AvatarOptions} from '@zui/avatar';
+import type {FileInfo, FileSelectorProps, FileSelectorState, StaticFileInfo} from '../types';
 
 /**
  * File selector component.
