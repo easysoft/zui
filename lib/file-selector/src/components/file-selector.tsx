@@ -441,7 +441,7 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
         }
         return (
             <div key="upload" className="file-selector-btn" {...draggableProps}>
-                <Button {...btnProps} />
+                <Button rounded="full" size="sm" {...btnProps} />
                 {tipView}
             </div>
         );

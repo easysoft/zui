@@ -1,3 +1,6 @@
+.file-selector {
+  @apply -flex -flex-col -gap-2;
+}
 .file-selector-box {
   @apply -relative -px-3 -py-2 -gap-0 -flex -h-auto -flex-col -justify-center -bg-primary-50/30 -border -border-dashed -border-primary-400 -ring-transparent;
   --state-color: rgba(var(--color-primary-500-rgb), .05);
@@ -24,11 +27,12 @@
   @apply -text-gray-400;
 }
 
-.file-selector-list {
-  @apply -mt-2;
+.file-selector.is-mode-button {
+  @apply -flex-col-reverse;
 }
+
 .file-selector-list.is-empty {
-  @apply -mt-0;
+  @apply -hidden;
 }
 
 .file-selector-item .item-avatar {
@@ -92,7 +96,7 @@
   @apply -opacity-100;
 }
 .file-selector-grid-item .toolbar .btn[data-remove-file] {
-  @apply -absolute -top-0 -right-0 -bg-inverse/50 -text-canvas -p-1.5;
+  @apply -absolute -top-px -right-px -bg-inverse/50 -text-canvas -p-1.5;
 }
 .file-selector-grid-item .toolbar .btn[data-rename-file] {
   @apply -absolute --bottom-6 -right-0 -p-0;
