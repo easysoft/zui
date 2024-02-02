@@ -573,12 +573,18 @@ importers:
 
   lib/file-selector:
     dependencies:
+      '@zui/avatar':
+        specifier: workspace:^0.0.1
+        version: link:../avatar
       '@zui/button':
         specifier: workspace:^0.0.1
         version: link:../button
       '@zui/core':
         specifier: workspace:^0.0.1
         version: link:../core
+      '@zui/form-control':
+        specifier: workspace:^0.0.1
+        version: link:../form-control
       '@zui/helpers':
         specifier: workspace:^0.0.1
         version: link:../helpers
