@@ -398,7 +398,7 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
     };
 
     protected _handleDrop = (event: DragEvent) => {
-        event.preventDefault();
+        this._handleDragLeave(event);
         const files = this.constructor.filterFiles(event.dataTransfer?.files || [], this.props.accept);
         if (files.length) {
             this.selectFiles(files);
@@ -430,10 +430,11 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
                 <CustomContent content={this._getTip(tip)} generatorThis={this} generatorArgs={[this.state]} />
             </div>
         );
-        const draggableProps = this._getDraggableProps();
-        if (mode === 'box' || mode === 'grid') {
+        const isGrid = mode === 'grid';
+        const draggableProps = isGrid ? {} : this._getDraggableProps();
+        if (isGrid || mode === 'box') {
             return (
-                <Button key="upload" {...btnProps} {...draggableProps} className={classes(mode === 'grid' ? 'file-selector-grid-btn' : 'file-selector-box', btnProps.className)}>
+                <Button key="upload" {...btnProps} {...draggableProps} className={classes(isGrid ? 'file-selector-grid-btn' : 'file-selector-box', btnProps.className)}>
                     {tipView}
                 </Button>
             );

@@ -57,7 +57,7 @@
 }
 
 .file-selector-grid {
-  @apply -p-2 -bg-surface-light -flex -flex-row -flex-wrap -gap-[--file-selector-grid-gap] -items-start;
+  @apply -p-2 -bg-surface-light -flex -flex-row -flex-wrap -gap-[--file-selector-grid-gap] -items-start -border -border-transparent -rounded;
 }
 .file-selector-grid-item {
   @apply -w-[--file-selector-grid-width] -h-[--file-selector-grid-height]
@@ -102,4 +102,7 @@
 }
 .file-selector-grid  .file-selector-rename-text {
   @apply -w-full;
+}
+.is-dragging .file-selector-grid {
+  @apply -bg-primary-50 -border -border-primary-400;
 }
