@@ -223,6 +223,37 @@ const fileSelector = new zui.fileSelector({
 
 :::
 
+## 禁用
+
+通过设置 `disabled` 属性为 `true` 可以禁用文件选择器。
+
+::: tabs
+
+== 示例
+
+<Example>
+  <div zui-create="fileSelector" data-disabled="true" data-default-files='[{"name": "file1.txt", "size": 1024}, {"name": "file2.txt", "size": 2048}, {"name": "avatar.png", "size": 4096, "url": "../../../../assets/avatar/avatar.png"}]'></div>
+</Example>
+
+== HTML
+
+```html
+<div id="fileSelector"></div>
+
+<script>
+const fileSelector = new zui.fileSelector({
+    disabled: true,
+    defaultFiles: [
+        {name: 'file1.txt', size: 1024},
+        {name: 'file2.txt', size: 2048},
+        {name: 'avatar.png', size: 4096, url: '../../../../assets/avatar/avatar.png'}
+    ]
+});
+</script>
+```
+
+:::
+
 ## 个性化配置
 
 ### 文件图标
@@ -605,6 +636,7 @@ const fileSelector = new zui.fileSelector({
 <Props>
 name?: string; // 作为表单字段的名称。
 accept?: string; // 限制文件类型。
+disabled?: boolean; // 是否禁用。
 mode?: 'button' | 'box' | 'grid' = "button"; // 界面模式。
 tip?: string; // 提示信息。
 thumbnail?: boolean=true; // 是否显示缩略图。
