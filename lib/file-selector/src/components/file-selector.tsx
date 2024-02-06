@@ -428,13 +428,13 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
     }
 
     protected _renderUpload(props: RenderableProps<P>) {
-        const {mode, tip = this.i18n('fileSelectTip'), uploadBtn} = props;
+        const {mode, disabled, tip = this.i18n('fileSelectTip'), uploadBtn} = props;
         const btnProps: ButtonProps = mergeProps({
             component: 'label',
             attrs: {
-                for: this._id,
+                for: disabled ? undefined : this._id,
             },
-            disabled: props.disabled,
+            disabled: disabled,
             text: this.i18n('selectFile'),
         }, typeof uploadBtn === 'object' ? uploadBtn : (typeof uploadBtn === 'string' ? {text: uploadBtn} : {}));
         const tipView = (
