@@ -66,8 +66,8 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
     }
 
     get multiple() {
-        const {multiple, name = ''} = this.props;
-        return !!(multiple ?? name.endsWith('[]'));
+        const {multiple, maxFileCount, name = ''} = this.props;
+        return !!(maxFileCount !== 1 && (multiple ?? name.endsWith('[]')));
     }
 
     get info() {
