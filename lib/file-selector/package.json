@@ -26,7 +26,6 @@
     "zui": {
         "type": "component",
         "displayName": "文件选择器",
-        "notReady": true,
         "contributes": {
             "css": [
                 "class",
