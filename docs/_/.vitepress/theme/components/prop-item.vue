@@ -1,7 +1,7 @@
 <template>
   <tr>
     <td><code class="font-bold text-md">{{ name }}</code></td>
-    <td class="text-center break-words">
+    <td class="space-x-0.5">
       <code v-for="t in type.split('|')" :key="t">{{ t.trim() }}</code>
     </td>
     <td class="text-center break-words">

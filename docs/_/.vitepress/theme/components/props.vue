@@ -3,9 +3,9 @@
     <table class="table">
       <thead>
         <tr>
-          <th class="w-32">名称</th>
-          <th class="w-20 wtext-center">类型</th>
-          <th class="w-28 text-center">默认值</th>
+          <th class="">名称</th>
+          <th class="text-center">类型</th>
+          <th class="text-center">默认值</th>
           <th>说明</th>
         </tr>
       </thead>
@@ -104,7 +104,10 @@ const propList = computed(() => {
 </script>
 
 <style>
-.zui-component-props td, .zui-component-props th {
-  /* @apply -px-2 -py-1 -align-text-top; */
+.zui-component-props th, .zui-component-props td {
+  @apply -min-w-[80px]
+}
+.zui-component-props code {
+  @apply -inline-block -px-1 -my-0.5 -text-sm;
 }
 </style>
