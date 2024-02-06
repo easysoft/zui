@@ -1113,7 +1113,7 @@
             "workspace": true,
             "sourceType": "build-in",
             "name": "file-selector",
-            "notReady": true,
+            "notReady": false,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/file-selector/package.json",
             "order": 4000000020010000000
         }
