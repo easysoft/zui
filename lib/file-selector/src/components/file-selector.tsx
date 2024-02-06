@@ -22,9 +22,7 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
     static defaultProps: Partial<FileSelectorProps> = {
         mode: 'button',
         maxFileSize: '100MB',
-        fileIcons: {
-            default: 'file',
-        },
+        fileIcons: 'file',
         renameBtn: true,
         removeBtn: true,
         draggable: true,

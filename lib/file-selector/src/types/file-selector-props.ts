@@ -37,7 +37,7 @@ export interface FileSelectorProps extends HElementProps {
     onSelect?: (files: File[] | FileList) => void | false;
     onAdd?: (file: FileInfo) => void | false;
     onRemove?: (file: FileInfo) => void | Promise<void | false>;
-    onRename?: (newName: string, oldName: string, file: FileInfo) => void | Promise<void | false>;
+    onRename?: (newName: string, oldName: string, file: FileInfo) => void | false | Promise<void | false>;
     onDuplicated?: (name: string, currentFile: FileInfo, existFile: FileInfo) => void | true;
     onExceededSize?: (limit: number, file: FileInfo) => void | true;
     onExceededTotalSize?: (limit: number, file: FileInfo) => void | true;
