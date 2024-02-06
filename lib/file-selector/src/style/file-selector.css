@@ -1,5 +1,5 @@
 .file-selector {
-  @apply -flex -flex-col -gap-2;
+  @apply -flex -flex-col -gap-2 -w-full;
 }
 .file-selector-box {
   @apply -relative -px-3 -py-2 -gap-0 -flex -h-auto -flex-col -justify-center -bg-primary-50/30 -border -border-dashed -border-primary-400 -ring-transparent;
