@@ -7,9 +7,6 @@
 .modal-alert .modal-body {
   @apply -whitespace-pre-line;
 }
-.modal-alert .modal-footer {
-  @apply --mt-3;
-}
 .modal-alert .modal-actions + .modal-body {
   @apply -pr-12;
 }
