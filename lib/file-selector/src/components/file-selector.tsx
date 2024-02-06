@@ -458,9 +458,6 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
 
     protected _renderForForm(props: RenderableProps<P>) {
         const {name, accept} = props;
-        if (!name) {
-            return null;
-        }
         return <input key="form" ref={this._file} type="file" name={name} multiple={this.multiple} accept={accept} style="display:none" />;
     }
 
