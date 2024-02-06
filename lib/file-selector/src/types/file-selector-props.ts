@@ -9,6 +9,7 @@ import type {FileSelectorMode} from './file-selector-mode';
 
 export interface FileSelectorProps extends HElementProps {
     name?: string;
+    disabled?: boolean;
     accept?: string;
     mode?: FileSelectorMode;
     tip?: CustomContentType;

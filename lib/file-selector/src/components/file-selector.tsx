@@ -218,7 +218,11 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
     }
 
     async addFile(file: File): Promise<boolean> {
-        const {onAdd} = this.props;
+        const {onAdd, disabled} = this.props;
+        if (disabled) {
+            return false;
+        }
+
         const fileInfo = this.constructor.getInfo(file);
 
         const hasExceededCount = await this._checkExceededCount(fileInfo);
@@ -415,7 +419,7 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
 
     protected _getDraggableProps() {
         const draggableProps: JSX.DOMAttributes<HTMLElement> = {};
-        if (this.props.draggable) {
+        if (this.props.draggable && !this.props.disabled) {
             draggableProps.onDragOver = this._handleDragOver;
             draggableProps.onDragLeave = this._handleDragLeave;
             draggableProps.onDrop = this._handleDrop;
@@ -430,6 +434,7 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
             attrs: {
                 for: this._id,
             },
+            disabled: props.disabled,
             text: this.i18n('selectFile'),
         }, typeof uploadBtn === 'object' ? uploadBtn : (typeof uploadBtn === 'string' ? {text: uploadBtn} : {}));
         const tipView = (
@@ -496,7 +501,11 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
         return avatar;
     }
 
-    protected _getFileActions(file: FileInfo): ToolbarSetting<[Item]> {
+    protected _getFileActions(file: FileInfo): ToolbarSetting<[Item]> | undefined {
+        if (this.props.disabled) {
+            return;
+        }
+
         let {removeBtn, renameBtn} = this.props;
         if (typeof removeBtn === 'function') {
             removeBtn = removeBtn.call(this, file);
@@ -532,19 +541,15 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
 
     protected _renderFile(file: FileInfo) {
         let {itemProps} = this.props;
-        if (typeof itemProps === 'function') {
-            itemProps = itemProps.call(this, file);
-        } else {
-            itemProps = mergeProps({
-                className: this.props.mode === 'grid' ? 'file-selector-grid-item' : 'file-selector-item',
-                multiline: false,
-                title: file.name,
-                subtitle: formatBytes(file.size, 1),
-                avatar: this._getAvatar(file),
-                actions: this._getFileActions(file),
-                'z-id': file.id,
-            }, itemProps);
-        }
+        itemProps = mergeProps({
+            className: this.props.mode === 'grid' ? 'file-selector-grid-item' : 'file-selector-item',
+            multiline: false,
+            title: file.name,
+            subtitle: formatBytes(file.size, 1),
+            avatar: this._getAvatar(file),
+            actions: this._getFileActions(file),
+            'z-id': file.id,
+        }, typeof itemProps === 'function' ? itemProps.call(this, file) : itemProps);
         return (
             <Listitem key={file.id} {...itemProps} />
         );
@@ -588,6 +593,9 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
     }
 
     protected _handleClick = (event: MouseEvent) => {
+        if (this.props.disabled) {
+            return;
+        }
         const $target = $(event.target as HTMLElement);
         const $btn = $target.closest('[data-remove-file],[data-rename-file]');
         if (!$btn.length) {
