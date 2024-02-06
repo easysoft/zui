@@ -13,7 +13,7 @@
 }
 
 .file-selector-btn {
-  @apply -relative -flex -gap-1 -items-center;
+  @apply -relative -flex -gap-2 -items-center;
 }
 .is-dragging .file-selector-btn {
   @apply -bg-primary-50;
