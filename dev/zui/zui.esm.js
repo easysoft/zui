@@ -6761,6 +6761,8 @@ let Xt = class extends X {
         newName: e.target.value
       });
     }, this._handleClick = (e) => {
+      if (this.props.disabled)
+        return;
       const i = d(e.target).closest("[data-remove-file],[data-rename-file]");
       if (!i.length)
         return;
@@ -6857,8 +6859,11 @@ let Xt = class extends X {
     }), !0);
   }
   async addFile(t) {
-    const { onAdd: e } = this.props, s = this.constructor.getInfo(t);
-    return await this._checkExceededCount(s) ? (this._skipAddMore = !0, !1) : await this._checkDuplicated(s) ? !1 : await this._checkExceededSize(s) ? (this._skipAddMore = !0, !1) : await this._checkTotalSize(s) ? (this._skipAddMore = !0, !1) : e && e.call(this, s) === !1 ? !1 : (this._data.items.add(t), this._syncFiles(), await this.changeState((l) => ({ files: [...l.files, s] })), !0);
+    const { onAdd: e, disabled: s } = this.props;
+    if (s)
+      return !1;
+    const i = this.constructor.getInfo(t);
+    return await this._checkExceededCount(i) ? (this._skipAddMore = !0, !1) : await this._checkDuplicated(i) ? !1 : await this._checkExceededSize(i) ? (this._skipAddMore = !0, !1) : await this._checkTotalSize(i) ? (this._skipAddMore = !0, !1) : e && e.call(this, i) === !1 ? !1 : (this._data.items.add(t), this._syncFiles(), await this.changeState((c) => ({ files: [...c.files, i] })), !0);
   }
   startRenameFile(t) {
     this.setState({ renaming: t, newName: void 0 }, () => {
@@ -6918,19 +6923,20 @@ let Xt = class extends X {
   }
   _getDraggableProps() {
     const t = {};
-    return this.props.draggable && (t.onDragOver = this._handleDragOver, t.onDragLeave = this._handleDragLeave, t.onDrop = this._handleDrop), t;
+    return this.props.draggable && !this.props.disabled && (t.onDragOver = this._handleDragOver, t.onDragLeave = this._handleDragLeave, t.onDrop = this._handleDrop), t;
   }
   _renderUpload(t) {
-    const { mode: e, tip: s = this.i18n("fileSelectTip"), uploadBtn: i } = t, r = W({
+    const { mode: e, disabled: s, tip: i = this.i18n("fileSelectTip"), uploadBtn: r } = t, o = W({
       component: "label",
       attrs: {
-        for: this._id
+        for: s ? void 0 : this._id
       },
+      disabled: s,
       text: this.i18n("selectFile")
-    }, typeof i == "object" ? i : typeof i == "string" ? { text: i } : {}), o = /* @__PURE__ */ p("div", { className: "file-selector-tip", children: /* @__PURE__ */ p(V, { content: this._getTip(s), generatorThis: this, generatorArgs: [this.state] }) }), a = e === "grid", l = a ? {} : this._getDraggableProps();
-    return a || e === "box" ? /* @__PURE__ */ p(U, { ...r, ...l, className: T(a ? "file-selector-grid-btn" : "file-selector-box", r.className), children: o }, "upload") : /* @__PURE__ */ p("div", { className: "file-selector-btn", ...l, children: [
-      /* @__PURE__ */ p(U, { rounded: "full", size: "sm", ...r }),
-      o
+    }, typeof r == "object" ? r : typeof r == "string" ? { text: r } : {}), a = /* @__PURE__ */ p("div", { className: "file-selector-tip", children: /* @__PURE__ */ p(V, { content: this._getTip(i), generatorThis: this, generatorArgs: [this.state] }) }), l = e === "grid", c = l ? {} : this._getDraggableProps();
+    return l || e === "box" ? /* @__PURE__ */ p(U, { ...o, ...c, className: T(l ? "file-selector-grid-btn" : "file-selector-box", o.className), children: a }, "upload") : /* @__PURE__ */ p("div", { className: "file-selector-btn", ...c, children: [
+      /* @__PURE__ */ p(U, { rounded: "full", size: "sm", ...o }),
+      a
     ] }, "upload");
   }
   _renderForForm(t) {
@@ -6961,6 +6967,8 @@ let Xt = class extends X {
     };
   }
   _getFileActions(t) {
+    if (this.props.disabled)
+      return;
     let { removeBtn: e, renameBtn: s } = this.props;
     typeof e == "function" && (e = e.call(this, t)), typeof e == "string" ? e = { text: e } : e === !0 && (e = { hint: this.i18n("removeFile"), icon: "trash" }), typeof s == "function" && (s = s.call(this, t)), typeof s == "string" ? s = { text: s } : s === !0 && (s = { hint: this.i18n("renameFile"), icon: "edit" });
     const i = [];
@@ -6974,7 +6982,7 @@ let Xt = class extends X {
   }
   _renderFile(t) {
     let { itemProps: e } = this.props;
-    return typeof e == "function" ? e = e.call(this, t) : e = W({
+    return e = W({
       className: this.props.mode === "grid" ? "file-selector-grid-item" : "file-selector-item",
       multiline: !1,
       title: t.name,
@@ -6982,7 +6990,7 @@ let Xt = class extends X {
       avatar: this._getAvatar(t),
       actions: this._getFileActions(t),
       "z-id": t.id
-    }, e), /* @__PURE__ */ p(je, { ...e }, t.id);
+    }, typeof e == "function" ? e.call(this, t) : e), /* @__PURE__ */ p(je, { ...e }, t.id);
   }
   _renderFileRename(t) {
     let { itemProps: e } = this.props;
