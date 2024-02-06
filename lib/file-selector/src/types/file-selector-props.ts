@@ -17,7 +17,7 @@ export interface FileSelectorProps extends HElementProps {
     gridHeight?: SizeSetting;
     gridGap?: SizeSetting;
     defaultFiles?: (StaticFileInfo | FileInfo | File)[];
-    multiple?: boolean | number;
+    multiple?: boolean;
     itemProps?: Partial<ListitemProps> | ((file: FileInfo) => Partial<ListitemProps>);
     draggable?: boolean;
     fileIcons?: string | Record<'default' | (string & {}), IconType>;
@@ -25,6 +25,7 @@ export interface FileSelectorProps extends HElementProps {
     renameBtn?: boolean | string | ButtonProps | ((file: FileInfo) => (boolean | string | ButtonProps));
     removeBtn?: boolean | string | ButtonProps | ((file: FileInfo) => (boolean | string | ButtonProps));
     removeConfirm?: string | ModalConfirmOptions;
+    maxFileCount?: number;
     maxFileSize?: FileSize;
     totalFileSize?: FileSize;
     allowSameName?: boolean;

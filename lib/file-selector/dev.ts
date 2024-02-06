@@ -39,6 +39,7 @@ onPageUpdate(() => {
         name: 'images[]',
         removeConfirm: '确定移除图片 "{name}" 吗？',
         tip: '点击或拖拽上传',
+        maxFileCount: 8,
     });
     console.log('> imageSelector', imageSelector);
 });

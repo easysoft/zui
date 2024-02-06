@@ -29,6 +29,7 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
         removeBtn: true,
         draggable: true,
         thumbnail: true,
+        maxFileCount: 0,
     };
 
     static i18n = i18nData;
@@ -47,6 +48,8 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
     protected _id = `file-selector-input-${nextGid()}`;
 
     protected _data: DataTransfer = new DataTransfer();
+
+    protected _skipAddMore?: boolean;
 
     constructor(props: P) {
         super(props);
@@ -107,12 +110,16 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
         this._input.current?.click();
     }
 
-    selectFiles(files: FileList | File[]) {
+    async selectFiles(files: FileList | File[]) {
         if (this.props.onSelect?.call(this, files) === false) {
             return;
         }
+        this._skipAddMore = false;
         for (let i = 0; i < files.length; i++) {
-            this.addFile(files[i]);
+            await this.addFile(files[i]);
+            if (this._skipAddMore) {
+                break;
+            }
         }
     }
 
@@ -188,25 +195,24 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
     }
 
     protected async _checkExceededCount(fileInfo: FileInfo): Promise<boolean> {
-        const {multiple, onExceededCount, exceededCountTip = this.i18n('exceededCountTip')} = this.props;
-        const maxCount = multiple ? (typeof multiple === 'number' ? multiple : 1) : 0;
-        if (!maxCount) {
+        const {maxFileCount = 0, onExceededCount, exceededCountTip = this.i18n('exceededCountTip')} = this.props;
+        if (!maxFileCount) {
             return false;
         }
 
         const count = this.count + 1;
-        if (count <= maxCount) {
+        if (count <= maxFileCount) {
             return false;
         }
 
-        if (onExceededCount?.call(this, maxCount, fileInfo) === true) {
+        if (onExceededCount?.call(this, maxFileCount, fileInfo) === true) {
             return true;
         }
         if (exceededCountTip) {
             await this._showAlert(exceededCountTip, {
                 name: fileInfo.name,
                 size: formatBytes(fileInfo.size, 1),
-                maxCount,
+                maxCount: maxFileCount,
                 count,
             });
         }
@@ -219,6 +225,7 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
 
         const hasExceededCount = await this._checkExceededCount(fileInfo);
         if (hasExceededCount) {
+            this._skipAddMore = true;
             return false;
         }
 
@@ -229,11 +236,13 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
 
         const hasExceededSize = await this._checkExceededSize(fileInfo);
         if (hasExceededSize) {
+            this._skipAddMore = true;
             return false;
         }
 
         const hasExceededTotalSize = await this._checkTotalSize(fileInfo);
         if (hasExceededTotalSize) {
+            this._skipAddMore = true;
             return false;
         }
 
