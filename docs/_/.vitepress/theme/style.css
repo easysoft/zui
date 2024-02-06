@@ -8,8 +8,13 @@ body {
   font-size: 1rem;
 }
 
-.vp-doc > div > h3 {
-  @apply -mb-2;
+.vp-doc h3:not(:where(.vp-raw, .vp-raw *)) {
+  @apply -mb-4;
+}
+.vp-doc h4:not(:where(.vp-raw, .vp-raw *)),
+.vp-doc h5:not(:where(.vp-raw, .vp-raw *)),
+.vp-doc h6:not(:where(.vp-raw, .vp-raw *)) {
+  @apply -my-3;
 }
 .vp-doc .example a:hover {
   @apply -no-underline;
