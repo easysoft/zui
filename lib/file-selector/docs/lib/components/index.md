@@ -2,7 +2,7 @@
 
 ## 界面模式
 
-文件选择器支持多种界面模式，包括按钮模式、方框模式、网格模式和图片选择。
+文件选择器支持多种界面模式，包括按钮模式、方框模式和网格模式，另外还提供了单独的图片选择器用于选择图片文件。
 
 ### 按钮模式
 
@@ -80,7 +80,7 @@ const fileSelector = new zui.FileSelector({
 
 :::
 
-## 图片选择
+### 图片选择
 
 图片选择是基于网格模式的一种预设模式，通过 `ImageSelector` 可以快速创建一个图片选择器。
 
@@ -255,6 +255,37 @@ const fileSelector = new zui.fileSelector({
 :::
 
 ## 个性化配置
+
+### 提示信息
+
+通过 `tip` 属性可以设置提示信息，在提示信息中可以使用如下占位文本：
+
+- `{size}`：文件总大小；
+- `{count}`：文件数目；
+- `{maxFileSize}`：最大文件大小；
+- `{maxFileCount}`：最大文件数目。
+
+::: tabs
+
+== 示例
+
+<Example>
+  <div zui-create="fileSelector" data-tip="请选择文件，不超过 {maxFileSize}"></div>
+</Example>
+
+== HTML
+
+```html
+<div id="fileSelector"></div>
+
+<script>
+const fileSelector = new zui.fileSelector({
+    tip: '请选择文件，不超过 {maxFileSize}'
+});
+</script>
+```
+
+:::
 
 ### 文件图标
 
@@ -512,13 +543,22 @@ const fileSelector = new zui.fileSelector({
 
 通过设置 `removeConfirm`、`duplicatedTip`、`exceededSizeTip`、`exceededTotalSizeTip` 和 `exceededCountTip` 属性可以自定义操作提示信息。
 
+在提示信息中可以使用如下占位文本：
+
+- `{name}`：当前文件名；
+- `{size}`：当前文件大小；
+- `{count}`：当前已选择文件数目；
+- `{maxFileSize}`：最大文件大小；
+- `{maxFileCount}`：最大文件数目；
+- `{totalFileSize}`：最大文件数目，仅适用于 `exceededTotalSizeTip` 提示；
+- `{exceededCount}`：超出数量，仅适用于 `exceededCountTip` 提示。
+
 ::: tabs
 
 == 示例
 
 <Example>
   <div zui-create="fileSelector" data-remove-confirm='{"title": "删除文件", "content": "确定要删除文件吗？"}' data-duplicated-tip='{"title": "重名文件", "content": "文件名已存在，是否保留重名文件？"}' data-exceeded-size-tip='{"title": "超出大小", "content": "文件大小超出限制，是否保留超出大小文件？"}' data-exceeded-total-size-tip='{"title": "超出总大小", "content": "总文件大小超出限制，是否保留超出总大小文件？"}' data-exceeded-count-tip='{"title": "超出数量", "content": "文件数量超出限制，是否保留超出数量文件？"}'></div>
-
 </Example>
 
 == HTML

@@ -6,8 +6,8 @@ export default {
         renameFile: '重命名',
         duplicatedTip: '文件 “{name}”（{size}） 已存在。',
         exceededSizeTip: '文件 “{name}”（{size}） 超过了 {maxSize} 的限制。',
-        exceededTotalSizeTip: '文件 “{name}”（{size}） 超过了总大小 {totalSize} 的限制。',
-        exceededCountTip: '文件 “{name}”（{size}） 超过了数量 {maxCount} 的限制。',
+        exceededTotalSizeTip: '文件 “{name}”（{size}） 超过了总大小 {totalFileSize} 的限制。',
+        exceededCountTip: '文件 “{name}”（{size}） 超过了数量 {maxFileCount} 的限制。',
     },
     'zh_tw': {
         selectFile: '選擇文件',
@@ -16,8 +16,8 @@ export default {
         renameFile: '重命名',
         duplicatedTip: '文件 “{name}”（{size}） 已存在。',
         exceededSizeTip: '文件 “{name}”（{size}） 超過了 {maxFileSize} 的限制。',
-        exceededTotalSizeTip: '文件 “{name}”（{size}） 超過了總大小 {totalSize} 的限制。',
-        exceededCountTip: '文件 “{name}”（{size}） 超過了數量 {maxCount} 的限制。',
+        exceededTotalSizeTip: '文件 “{name}”（{size}） 超過了總大小 {totalFileSize} 的限制。',
+        exceededCountTip: '文件 “{name}”（{size}） 超過了數量 {maxFileCount} 的限制。',
     },
     en: {
         selectFile: 'Select File',
@@ -26,7 +26,7 @@ export default {
         renameFile: 'Rename',
         duplicatedTip: 'File “{name}” ({size}) already exists.',
         exceededSizeTip: 'File “{name}” ({size}) exceeds the limit of {maxFileSize}.',
-        exceededTotalSizeTip: 'File “{name}” ({size}) exceeds the total size limit of {totalSize}.',
-        exceededCountTip: 'File “{name}” ({size}) exceeds the limit of {maxCount}.',
+        exceededTotalSizeTip: 'File “{name}” ({size}) exceeds the total size limit of {totalFileSize}.',
+        exceededCountTip: 'File “{name}” ({size}) exceeds the limit of {maxFileCount}.',
     },
 };

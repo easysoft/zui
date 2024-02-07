@@ -71,10 +71,11 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
     }
 
     get info() {
-        const {maxFileSize = 0} = this.props;
+        const {maxFileSize = 0, maxFileCount = Number.MAX_SAFE_INTEGER} = this.props;
         return {
             size: formatBytes(this.size, 1),
             maxFileSize: formatBytes(typeof maxFileSize === 'string' ? convertBytes(maxFileSize) : maxFileSize, 1),
+            maxFileCount: maxFileCount,
             count: this.count,
         };
     }
@@ -160,7 +161,6 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
             await this._showAlert(exceededSizeTip, {
                 name: fileInfo.name,
                 size: formatBytes(fileInfo.size, 1),
-                maxSize: formatBytes(maxSize, 1),
             });
         }
         return true;
@@ -185,8 +185,7 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
             await this._showAlert(exceededTotalSizeTip, {
                 name: fileInfo.name,
                 size: formatBytes(fileInfo.size, 1),
-                maxSize: totalFileSize,
-                totalSize,
+                totalSize: formatBytes(totalSize, 1),
             });
         }
         return true;
@@ -210,8 +209,7 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
             await this._showAlert(exceededCountTip, {
                 name: fileInfo.name,
                 size: formatBytes(fileInfo.size, 1),
-                maxCount: maxFileCount,
-                count,
+                exceededCount: count,
             });
         }
         return true;
@@ -371,7 +369,7 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
             tip = {message: tip} as ModalAlertOptions;
         }
         if (typeof tip.message === 'string') {
-            tip.message = formatString(tip.message, formatData || this.info);
+            tip.message = formatString(tip.message, {...this.info, ...formatData});
         }
         return Modal.alert(tip);
     }
