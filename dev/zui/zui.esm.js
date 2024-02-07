@@ -6713,8 +6713,8 @@ const eh = {
     renameFile: "重命名",
     duplicatedTip: "文件 “{name}”（{size}） 已存在。",
     exceededSizeTip: "文件 “{name}”（{size}） 超过了 {maxSize} 的限制。",
-    exceededTotalSizeTip: "文件 “{name}”（{size}） 超过了总大小 {totalSize} 的限制。",
-    exceededCountTip: "文件 “{name}”（{size}） 超过了数量 {maxCount} 的限制。"
+    exceededTotalSizeTip: "文件 “{name}”（{size}） 超过了总大小 {totalFileSize} 的限制。",
+    exceededCountTip: "文件 “{name}”（{size}） 超过了数量 {maxFileCount} 的限制。"
   },
   zh_tw: {
     selectFile: "選擇文件",
@@ -6723,8 +6723,8 @@ const eh = {
     renameFile: "重命名",
     duplicatedTip: "文件 “{name}”（{size}） 已存在。",
     exceededSizeTip: "文件 “{name}”（{size}） 超過了 {maxFileSize} 的限制。",
-    exceededTotalSizeTip: "文件 “{name}”（{size}） 超過了總大小 {totalSize} 的限制。",
-    exceededCountTip: "文件 “{name}”（{size}） 超過了數量 {maxCount} 的限制。"
+    exceededTotalSizeTip: "文件 “{name}”（{size}） 超過了總大小 {totalFileSize} 的限制。",
+    exceededCountTip: "文件 “{name}”（{size}） 超過了數量 {maxFileCount} 的限制。"
   },
   en: {
     selectFile: "Select File",
@@ -6733,8 +6733,8 @@ const eh = {
     renameFile: "Rename",
     duplicatedTip: "File “{name}” ({size}) already exists.",
     exceededSizeTip: "File “{name}” ({size}) exceeds the limit of {maxFileSize}.",
-    exceededTotalSizeTip: "File “{name}” ({size}) exceeds the total size limit of {totalSize}.",
-    exceededCountTip: "File “{name}” ({size}) exceeds the limit of {maxCount}."
+    exceededTotalSizeTip: "File “{name}” ({size}) exceeds the total size limit of {totalFileSize}.",
+    exceededCountTip: "File “{name}” ({size}) exceeds the limit of {maxFileCount}."
   }
 };
 let Xt = class extends X {
@@ -6784,10 +6784,11 @@ let Xt = class extends X {
     return !!(e !== 1 && (t ?? s.endsWith("[]")));
   }
   get info() {
-    const { maxFileSize: t = 0 } = this.props;
+    const { maxFileSize: t = 0, maxFileCount: e = Number.MAX_SAFE_INTEGER } = this.props;
     return {
       size: Et(this.size, 1),
       maxFileSize: Et(typeof t == "string" ? an(t) : t, 1),
+      maxFileCount: e,
       count: this.count
     };
   }
@@ -6830,8 +6831,7 @@ let Xt = class extends X {
     const r = typeof e == "string" ? an(e) : e;
     return t.size <= r ? !1 : ((s == null ? void 0 : s.call(this, r, t)) === !0 || i && await this._showAlert(i, {
       name: t.name,
-      size: Et(t.size, 1),
-      maxSize: Et(r, 1)
+      size: Et(t.size, 1)
     }), !0);
   }
   async _checkTotalSize(t) {
@@ -6842,8 +6842,7 @@ let Xt = class extends X {
     return o <= r ? !1 : ((s == null ? void 0 : s.call(this, r, t)) === !0 || i && await this._showAlert(i, {
       name: t.name,
       size: Et(t.size, 1),
-      maxSize: e,
-      totalSize: o
+      totalSize: Et(o, 1)
     }), !0);
   }
   async _checkExceededCount(t) {
@@ -6854,8 +6853,7 @@ let Xt = class extends X {
     return r <= e ? !1 : ((s == null ? void 0 : s.call(this, e, t)) === !0 || i && await this._showAlert(i, {
       name: t.name,
       size: Et(t.size, 1),
-      maxCount: e,
-      count: r
+      exceededCount: r
     }), !0);
   }
   async addFile(t) {
@@ -6913,7 +6911,7 @@ let Xt = class extends X {
     this._file.current.files = this._data.files;
   }
   _showAlert(t, e) {
-    return typeof t == "string" && (t = { message: t }), typeof t.message == "string" && (t.message = G(t.message, e || this.info)), Ps.alert(t);
+    return typeof t == "string" && (t = { message: t }), typeof t.message == "string" && (t.message = G(t.message, { ...this.info, ...e })), Ps.alert(t);
   }
   _getTip(t) {
     return typeof t == "string" ? G(t, this.info) : t;
