@@ -10051,27 +10051,27 @@ const Oh = {
 }, Wh = nt(Oh, { buildIn: !0 }), Hh = {
   name: "sort-type",
   onRenderHeaderCell(n, t) {
-    const { col: e } = t;
-    if (e.setting.sort !== void 0)
+    const { col: e } = t, { setting: s } = e;
+    let { sortType: i } = s;
+    if (e.setting.sort !== void 0 || i === !1)
       return n;
-    let { sortType: s } = e.setting;
-    const { sortLink: i, orderBy: r } = this.options;
-    if (r && r[e.name] !== void 0 && (s = r[e.name]), s) {
-      const o = s === !0 ? "none" : s, a = /* @__PURE__ */ p("div", { className: `dtable-sort dtable-sort-${o}` });
+    const { sortLink: r, orderBy: o } = this.options;
+    if (o && o[e.name] !== void 0 && (i = o[e.name]), i) {
+      const a = i === !0 ? "none" : i, l = /* @__PURE__ */ p("div", { className: `dtable-sort dtable-sort-${a}` });
       n.push(
-        { outer: !0, attrs: { "data-sort": o } }
+        { outer: !0, attrs: { "data-sort": a } }
       );
-      let { sortLink: l = i } = e.setting;
-      if (l) {
-        const c = o === "asc" ? "desc" : "asc";
-        typeof l == "function" && (l = l.call(this, e, c, o)), typeof l == "string" && (l = { url: l });
-        const { url: u, ...h } = l;
-        n[0] = /* @__PURE__ */ p("a", { className: "dtable-sort-link", href: G(u, { ...e.setting, sortType: c }), ...h, children: [
+      let { sortLink: c = r } = s;
+      if (c) {
+        const u = a === "asc" ? "desc" : "asc";
+        typeof c == "function" && (c = c.call(this, e, u, a)), typeof c == "string" && (c = { url: c });
+        const { url: h, ...m } = c;
+        n[0] = /* @__PURE__ */ p("a", { className: "dtable-sort-link", href: G(h, { ...s, sortType: u }), ...m, children: [
           n[0],
-          a
+          l
         ] });
       } else
-        n.push(a);
+        n.push(l);
     }
     return n;
   }
