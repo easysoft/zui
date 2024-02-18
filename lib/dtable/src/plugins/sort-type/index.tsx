@@ -25,10 +25,11 @@ const sortTypePlugin: DTablePlugin<DTableSortTypeTypes, [DTableSortTypes]> = {
     name: 'sort-type',
     onRenderHeaderCell(result, info) {
         const {col} = info;
-        if (col.setting.sort !== undefined) {
+        const {setting} = col;
+        let {sortType: sortTypeSetting} = setting;
+        if (col.setting.sort !== undefined || sortTypeSetting === false) {
             return result;
         }
-        let {sortType: sortTypeSetting} = col.setting;
         const {sortLink: defaultSortLink, orderBy} = this.options;
         if (orderBy && orderBy[col.name] !== undefined) {
             sortTypeSetting = orderBy[col.name];
@@ -39,7 +40,7 @@ const sortTypePlugin: DTablePlugin<DTableSortTypeTypes, [DTableSortTypes]> = {
             result.push(
                 {outer: true, attrs: {'data-sort': sortTypeName}},
             );
-            let {sortLink = defaultSortLink} = col.setting;
+            let {sortLink = defaultSortLink} = setting;
             if (sortLink) {
                 const nextSortType = sortTypeName === 'asc' ? 'desc' : 'asc';
                 if (typeof sortLink === 'function') {
@@ -49,7 +50,7 @@ const sortTypePlugin: DTablePlugin<DTableSortTypeTypes, [DTableSortTypes]> = {
                     sortLink = {url: sortLink};
                 }
                 const {url, ...linkProps} = sortLink;
-                result[0] = <a className="dtable-sort-link" href={formatString(url, {...col.setting, sortType: nextSortType})} {...linkProps}>{result[0]}{sortIcon}</a>;
+                result[0] = <a className="dtable-sort-link" href={formatString(url, {...setting, sortType: nextSortType})} {...linkProps}>{result[0]}{sortIcon}</a>;
             } else {
                 result.push(sortIcon);
             }
