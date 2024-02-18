@@ -1,6 +1,9 @@
-export type SizeSetting = number | `${number}%` | `${number}px` | `${number}/${number}` | (string & {});
+export type SizeSetting = number | `${number}%` | `${number}px` | `${number}/${number}` | (string & {}) | (() => SizeSetting);
 
 export function parseSize(size: SizeSetting): [value: number, type?: 'px' | '%'] {
+    if (typeof size === 'function') {
+        return parseSize(size());
+    }
     if (typeof size === 'number') {
         return [size];
     }
