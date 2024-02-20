@@ -1932,6 +1932,9 @@ class Ot {
   static get DATA_KEY() {
     return `data-zui-${this.NAME}`;
   }
+  static get SELECTOR() {
+    return `[${this.DATA_KEY}]`;
+  }
   get inited() {
     return this._inited;
   }
@@ -2119,8 +2122,8 @@ class Ot {
    * @returns        All component instances.
    */
   static getAll(t) {
-    const { MULTI_INSTANCE: e, DATA_KEY: s } = this, i = [];
-    return d(t || document).find(`[${s}]`).each((r, o) => {
+    const { MULTI_INSTANCE: e, SELECTOR: s } = this, i = [];
+    return d(t || document).find(s).each((r, o) => {
       if (e) {
         const l = d(o).data(`${this.KEY}:ALL`);
         if (l) {
@@ -2144,7 +2147,7 @@ class Ot {
       let i = this.getAll();
       return s && (i = i.filter(s)), i.pop();
     }
-    return this.get(d(t).closest(`[${this.DATA_KEY}]`), e);
+    return this.get(d(t).closest(this.SELECTOR), e);
   }
   /**
    * Create cash fn.method for current component.
@@ -6204,6 +6207,9 @@ const dr = "show", fr = "in", Yc = '[data-dismiss="modal"]', gs = "modal-hide", 
       !s || s !== this.modalElement || (e.closest(Yc) || this.options.backdrop === !0 && e === s) && (t.preventDefault(), this.hide());
     };
   }
+  static get SELECTOR() {
+    return ".modal";
+  }
   get modalElement() {
     return this.element;
   }
@@ -6586,7 +6592,9 @@ const Qc = {
       gap: 4,
       items: f,
       onClickItem: ({ item: y, event: v }) => {
-        const w = de.query(v.target, c);
+        const w = de.query(v.target);
+        if (!w || w.key !== c)
+          return;
         _ = y.key, (a == null ? void 0 : a(y, w)) !== !1 && w && w.hide();
       }
     } : void 0;
