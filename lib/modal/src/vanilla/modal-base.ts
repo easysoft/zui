@@ -27,6 +27,10 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
 
     static hideOthers = true;
 
+    static get SELECTOR() {
+        return '.modal';
+    }
+
     static zIndex = 1500;
 
     protected _timer = 0;

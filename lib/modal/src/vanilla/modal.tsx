@@ -307,7 +307,10 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
             gap: 4,
             items: actionItems,
             onClickItem: ({item, event}) => {
-                const modal = Modal.query(event.target as HTMLDivElement, key) as Modal;
+                const modal = Modal.query(event.target as HTMLDivElement) as Modal;
+                if (!modal || modal.key !== key) {
+                    return;
+                }
                 result = item.key as string;
                 const actionResult = onClickAction?.(item, modal);
                 if (actionResult !== false && modal) {
