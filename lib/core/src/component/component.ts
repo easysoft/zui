@@ -63,6 +63,10 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
         return `data-zui-${this.NAME}`;
     }
 
+    static get SELECTOR() {
+        return `[${this.DATA_KEY}]`;
+    }
+
     /**
      * Access to static properties via this.constructor.
      *
@@ -157,7 +161,7 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
         $element.data(KEY, this).attr(DATA_KEY, `${gid}`);
         if (MULTI_INSTANCE) {
             const dataName = `${KEY}:ALL`;
-            let instanceMap = $element.data(dataName);
+            let instanceMap: Map<string | number, Component> | undefined = $element.data(dataName);
             if (!instanceMap) {
                 instanceMap = new Map();
                 $element.data(dataName, instanceMap);
@@ -437,10 +441,10 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
      * @returns        All component instances.
      */
     static getAll<O extends {}, E extends ComponentEvents, U extends HTMLElement, T extends typeof Component<O, E, U>>(this: T, selector?: Selector): InstanceType<T>[] {
-        const {MULTI_INSTANCE, DATA_KEY} = this;
+        const {MULTI_INSTANCE, SELECTOR} = this;
         const list: InstanceType<T>[] = [];
         $(selector || document)
-            .find(`[${DATA_KEY}]`)
+            .find(SELECTOR)
             .each((_, element) => {
                 if (MULTI_INSTANCE) {
                     const instanceMap = $(element).data(`${this.KEY}:ALL`);
@@ -472,7 +476,7 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
             }
             return all.pop();
         }
-        return this.get($(selector).closest(`[${this.DATA_KEY}]`), key);
+        return this.get($(selector).closest(this.SELECTOR), key);
     }
 
     /**
