@@ -3249,12 +3249,13 @@ class Jn extends ot {
     }));
   }
   getNextItem(t, e, s = 1, i = void 0) {
-    if (i = i || this._renderedItems, t === void 0)
-      return i.at(s ? 0 : -1);
+    i = i || this._renderedItems;
     const r = i.length;
+    if (t === void 0)
+      return i[s ? 0 : r - 1];
     let o = i.findIndex((l) => l.key === t);
     if (o < 0 || r < 2)
-      return i.at(s ? 0 : -1);
+      return i[s ? 0 : r - 1];
     let a = 0;
     for (e = e || ((l) => l.type === "item" && !l.disabled); a < r; ) {
       o = (o + s + r) % r;
