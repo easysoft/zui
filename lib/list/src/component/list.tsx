@@ -205,13 +205,13 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
 
     getNextItem(key: string | undefined, condition?: (item: Item, index: number) => boolean, step = 1, items: Item[] | undefined = undefined): Item | undefined {
         items = items || this._renderedItems;
-        if (key === undefined) {
-            return items.at(step ? 0 : -1);
-        }
         const count = items.length;
+        if (key === undefined) {
+            return items[step ? 0 : count - 1];
+        }
         let index = items.findIndex(x => x.key === key);
         if (index < 0 || count < 2) {
-            return items.at(step ? 0 : -1);
+            return items[step ? 0 : count - 1];
         }
         let checkCount = 0;
         condition = condition || ((x) => x.type === 'item' && !x.disabled);
