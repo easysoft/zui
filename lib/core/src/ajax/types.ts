@@ -27,6 +27,7 @@ export interface AjaxSetting extends RequestInit {
     dataType?: string;
     timeout?: number;
     processData?: boolean;
+    jsonParser?: (text: string) => unknown;
     // global?: boolean;
     crossDomain?: boolean;
     traditional?: boolean;

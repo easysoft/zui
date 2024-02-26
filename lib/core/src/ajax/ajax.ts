@@ -249,7 +249,7 @@ export class Ajax<T> {
         }
         this._init();
 
-        const {timeout, dataType: dataTypeSetting, accepts, dataFilter, throws} = this.setting;
+        const {timeout, dataType: dataTypeSetting, accepts, dataFilter, throws, jsonParser} = this.setting;
         if (timeout) {
             this._timeoutID = window.setTimeout(() => {
                 this.abort(new Error('timeout'));
@@ -269,7 +269,12 @@ export class Ajax<T> {
                 if (isAttachment || dataType === 'blob' || dataType === 'file') {
                     data = await response.blob();
                 } else if (dataType === 'json') {
-                    data = await response.json();
+                    if (typeof jsonParser === 'function') {
+                        data = await response.text();
+                        data = jsonParser(data as string);
+                    } else {
+                        data = await response.json();
+                    }
                 } else {
                     data = await response.text();
                 }
