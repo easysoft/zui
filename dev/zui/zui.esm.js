@@ -1033,33 +1033,33 @@ class jr {
     });
   }
   async send() {
-    var c;
+    var u;
     if (this.completed)
       return [];
     this._init();
-    const { timeout: t, dataType: e, accepts: s, dataFilter: i, throws: r } = this.setting;
+    const { timeout: t, dataType: e, accepts: s, dataFilter: i, throws: r, jsonParser: o } = this.setting;
     t && (this._timeoutID = window.setTimeout(() => {
       this.abort(new Error("timeout"));
     }, t));
-    let o, a, l;
+    let a, l, c;
     try {
-      o = await fetch(this.url, this.request), this.response = o;
-      const { statusText: u } = o;
-      if (o.ok) {
-        const h = (c = o.headers.get("Content-Disposition")) == null ? void 0 : c.startsWith("attachment"), m = h ? "blob" : e || Cl(o.headers.get("Content-Type"), s);
-        h || m === "blob" || m === "file" ? l = await o.blob() : m === "json" ? l = await o.json() : l = await o.text(), this.data = l;
-        const f = (i == null ? void 0 : i(l, m)) ?? l;
-        this._emit("success", f, u, o);
+      a = await fetch(this.url, this.request), this.response = a;
+      const { statusText: h } = a;
+      if (a.ok) {
+        const m = (u = a.headers.get("Content-Disposition")) == null ? void 0 : u.startsWith("attachment"), f = m ? "blob" : e || Cl(a.headers.get("Content-Type"), s);
+        m || f === "blob" || f === "file" ? c = await a.blob() : f === "json" ? typeof o == "function" ? (c = await a.text(), c = o(c)) : c = await a.json() : c = await a.text(), this.data = c;
+        const _ = (i == null ? void 0 : i(c, f)) ?? c;
+        this._emit("success", _, h, a);
       } else
-        throw new Error(u);
-    } catch (u) {
-      a = u;
-      let h = !1;
-      a.name === "AbortError" && (this._abortError ? a = this._abortError : h = !0), this.error = a, h || this._emit("error", a, o == null ? void 0 : o.statusText, a.message);
+        throw new Error(h);
+    } catch (h) {
+      l = h;
+      let m = !1;
+      l.name === "AbortError" && (this._abortError ? l = this._abortError : m = !0), this.error = l, m || this._emit("error", l, a == null ? void 0 : a.statusText, l.message);
     }
-    if (this._timeoutID && clearTimeout(this._timeoutID), this._emit("complete", o, o == null ? void 0 : o.statusText), a && r)
-      throw a;
-    return [l, a, o];
+    if (this._timeoutID && clearTimeout(this._timeoutID), this._emit("complete", a, a == null ? void 0 : a.statusText), l && r)
+      throw l;
+    return [c, l, a];
   }
 }
 d.ajax = (n, t) => {
