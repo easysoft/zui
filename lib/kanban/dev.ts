@@ -168,6 +168,11 @@ onPageLoad(() => {
         ],
     };
     const kanbanOptions: KanbanProps = {
+        laneProps: {
+            actions: [
+                {icon: 'ellipsis-v'},
+            ],
+        },
         data: {
             cols: [
                 {title: '未完成', name: 'todo'},

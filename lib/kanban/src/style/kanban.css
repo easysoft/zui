@@ -58,8 +58,20 @@
   @apply -bg-[--kanban-lane-color] -text-white -w-[--kanban-lane-name-width] -flex-none -flex -items-center -justify-center -relative;
   writing-mode: vertical-rl;
 }
+.kanban-lane-actions {
+  @apply -flex-none -relative;
+}
+.kanban-lane.is-first .kanban-lane-actions {
+  top: calc(4px - var(--kanban-header-height));
+}
+.has-sub-cols .kanban-lane.is-first .kanban-lane-actions {
+  top: calc(4px - (var(--kanban-header-height) * 2));
+}
+.kanban-lane-actions > .btn.square {
+  @apply -w-[--kanban-lane-name-width];
+}
 .kanban-lane-title {
-  @apply -max-h-32 -overflow-hidden -whitespace-nowrap;
+  @apply -flex-auto -max-h-32 -flex -justify-center -items-center -overflow-hidden -whitespace-nowrap;
 }
 .kanban-lane-cols {
   @apply -flex -flex-row -gap-[--kanban-cols-gap];
