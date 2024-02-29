@@ -93,14 +93,14 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
 
         this.on('hidden', () => {
             if (!ModalBase.getAll().some((modal) => modal.shown)) {
-                $('html').enableScroll();
+                $('html,body').enableScroll();
             }
         });
         this.on('show', () => {
-            $('html').disableScroll();
+            $('html,body').disableScroll();
         });
         if (this.shown) {
-            $('html').disableScroll();
+            $('html,body').disableScroll();
         }
     }
 
