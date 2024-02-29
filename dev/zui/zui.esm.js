@@ -1639,7 +1639,7 @@ function Il(n, t = !0) {
       e.data(i, { overflow: e.css("overflow") }).css("overflow", "hidden");
       return;
     }
-    const r = s === document.body ? window.innerWidth - document.body.clientWidth : s.offsetWidth - s.clientWidth;
+    const r = s === document.body || e.is("html") ? window.innerWidth - document.body.clientWidth : s.offsetWidth - s.clientWidth;
     if (!r)
       return;
     const o = e.css("paddingRight") || "0";
@@ -6241,10 +6241,10 @@ const dr = "show", fr = "in", Yc = '[data-dismiss="modal"]', gs = "modal-hide", 
   }
   afterInit() {
     this.on("click", this._handleClick), this.options.show && this.show(), this._observeResize(), this.on("hidden", () => {
-      ne.getAll().some((t) => t.shown) || d("html,body").enableScroll();
+      ne.getAll().some((t) => t.shown) || d("html").enableScroll();
     }), this.on("show", () => {
-      d("html,body").disableScroll();
-    }), this.shown && d("html,body").disableScroll();
+      d("html").disableScroll();
+    }), this.shown && d("html").disableScroll();
   }
   destroy() {
     super.destroy(), this._rob && (this._rob.disconnect(), this._rob = void 0);
