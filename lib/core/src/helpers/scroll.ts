@@ -20,7 +20,7 @@ export function disableScroll(selector: Selector, disable = true): void {
             $element.data(dataName, {overflow: $element.css('overflow')}).css('overflow', 'hidden');
             return;
         }
-        const scrollbarWidth = (element === document.body) ? (window.innerWidth - document.body.clientWidth) : (element.offsetWidth - element.clientWidth);
+        const scrollbarWidth = (element === document.body || $element.is('html')) ? (window.innerWidth - document.body.clientWidth) : (element.offsetWidth - element.clientWidth);
         if (!scrollbarWidth) {
             return;
         }
