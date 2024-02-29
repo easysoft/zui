@@ -6241,10 +6241,10 @@ const dr = "show", fr = "in", Yc = '[data-dismiss="modal"]', gs = "modal-hide", 
   }
   afterInit() {
     this.on("click", this._handleClick), this.options.show && this.show(), this._observeResize(), this.on("hidden", () => {
-      ne.getAll().some((t) => t.shown) || d("html").enableScroll();
+      ne.getAll().some((t) => t.shown) || d("html,body").enableScroll();
     }), this.on("show", () => {
-      d("html").disableScroll();
-    }), this.shown && d("html").disableScroll();
+      d("html,body").disableScroll();
+    }), this.shown && d("html,body").disableScroll();
   }
   destroy() {
     super.destroy(), this._rob && (this._rob.disconnect(), this._rob = void 0);
