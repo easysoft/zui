@@ -12,7 +12,7 @@ import {$} from '@zui/core';
 import {KanbanRegionProps, KanbanList, KanbanProps} from './src/main';
 import {createKanbanData} from './dev/create-kanban-data';
 
-onPageLoad(() => {
+onPageUpdate(() => {
     const kanban1Options: KanbanProps = {
         key: 'kanban1',
         data: {
@@ -256,6 +256,14 @@ onPageLoad(() => {
             if (dragInfo.col === 'todo') {
                 return dropInfo.col === 'assigned';
             }
+        },
+        draggable: {
+            // 指定可以从哪个元素内部监听拖拽事件，可以为看板的或看板列表的父级元素，这样就可以实现从看板外部拖拽新的卡片到看板内部。
+            dragContainer: '#kanbanExample',
+        },
+        onDropNewItem: (info) => {
+            // 返回需要创建的新的卡片数据
+            return {id: `new-${$.guid++}`, title: info.drag.element.innerText};
         },
     };
     const kanbanList = new KanbanList('#kanbanList', {

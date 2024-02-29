@@ -266,6 +266,10 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
                 return {type: 'item', element, item, lane: item.lane, col: item.col};
             }
         }
+        const $newItem = $element.closest('.kanban-new-item');
+        if ($newItem.length) {
+            return {type: 'newItem', element};
+        }
         const $col = $element.closest('.kanban-header-col,.kanban-lane-col');
         if ($col.length) {
             return {type: 'col', element, col: $col.attr('z-col') as string, lane: $col.attr('z-lane') as string};
@@ -366,6 +370,29 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
                     changeData.list.push(changeItem[itemKey] as string);
                 });
             }
+        } else if (drag.type === 'newItem') {
+            const {onDropNewItem} = this.props;
+            let newItem: Partial<KanbanItem> | undefined;
+            if (onDropNewItem) {
+                newItem = onDropNewItem.call(this, info);
+            } else {
+                newItem = $(drag.element).data();
+                if (newItem?.item) {
+                    newItem = newItem.item;
+                }
+            }
+            newItem = {
+                lane: drop.lane,
+                col: drop.col,
+                ...newItem,
+            };
+            if (newItem) {
+                const colItems = data.items[drop.lane!][drop.col!];
+                const newColItems = [...colItems];
+                newColItems.push(newItem);
+                changes.items = newColItems;
+                changeData.list.push(newItem[itemKey] as string);
+            }
         }
         return {changes, data: changeData};
     }
@@ -376,12 +403,13 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
         if (!draggable || !element) {
             return;
         }
-        const {dragTypes = 'item', onDragStart, onDrop, canDrop, dropRules} = this.props;
+        const {dragTypes = ['item', 'newItem'], onDragStart, onDrop, canDrop, dropRules} = this.props;
         const dragTypeList = typeof dragTypes === 'string' ? dragTypes.split(',') : dragTypes;
         const dragTypeSelectors: Record<string, string> = {
             item: '.kanban-item',
             lane: '.kanban-lane-name',
             col: '.kanban-header-col',
+            newItem: '.kanban-new-item',
         };
         const userOptions = typeof draggable === 'object' ? draggable : {};
         const updateDropElementAttr = (dropElement: HTMLElement, info?: KanbanDropInfo) => {
@@ -393,7 +421,7 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
         };
         const dragOptions: DraggableOptions = {
             ...userOptions,
-            selector: userOptions.selector || dragTypeList.map(x => dragTypeSelectors[x] || '').join(''),
+            selector: userOptions.selector || dragTypeList.map(x => dragTypeSelectors[x] || '').filter(Boolean).join(','),
             target: userOptions.target || ((dragElement: HTMLElement) => {
                 const info = this._getElementInfo(dragElement);
                 if (!info) {
@@ -403,6 +431,7 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
                     lane: '.kanban-lane',
                     col: '.kanban-header-col',
                     item: '.kanban-item,.kanban-items',
+                    newItem: '.kanban-item,.kanban-items',
                 })[info.type];
                 return $(element).find(selector);
             }),
