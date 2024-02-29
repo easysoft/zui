@@ -21,6 +21,10 @@ export class Draggable extends Component<DraggableOptions> {
 
     protected declare _needClean: boolean;
 
+    protected declare _$dragContainer: Cash;
+
+    protected declare _$dropContainer: Cash;
+
     get state() {
         return this._state;
     }
@@ -34,22 +38,29 @@ export class Draggable extends Component<DraggableOptions> {
     }
 
     async afterInit() {
-        this.on('mousedown', this._handleMouseDown);
-        this.on('dragstart', this._handleDragStart);
-        this.on('dragend', this._handleDragEnd);
-        if (this.options.onDrag) {
-            this.on('drag', this._handleDrag);
+        const {namespace} = this;
+        const {dragContainer, dropContainer, onDrag} = this.options;
+        this._$dragContainer = dragContainer ? $(dragContainer) : this.$element;
+        this._$dropContainer = dropContainer ? $(dropContainer) : this._$dragContainer;
+
+        this._$dragContainer.on('mousedown' + namespace, this._handleMouseDown)
+            .on('dragstart' + namespace, this._handleDragStart)
+            .on('dragend' + namespace, this._handleDragEnd);
+        if (onDrag) {
+            this._$dragContainer.on('drag' + namespace, this._handleDrag);
         }
-        this.on('dragover', this._handleDragOver);
-        this.on('dragenter', this._handleDragEnter);
-        this.on('dragleave', this._handleDragLeave);
-        this.on('drop', this._handleDrop);
+        this._$dropContainer.on('dragover' + namespace, this._handleDragOver)
+            .on('dragenter' + namespace, this._handleDragEnter)
+            .on('dragleave' + namespace, this._handleDragLeave)
+            .on('drop' + namespace, this._handleDrop);
         $(document).on(`mouseup${this.namespace}`, this._clean.bind(this));
     }
 
     destroy(): void {
         this._clean();
         $(document).off(this.namespace);
+        this._$dragContainer.off(this.namespace);
+        this._$dropContainer.off(this.namespace);
         super.destroy();
     }
 
