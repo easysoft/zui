@@ -286,7 +286,7 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
             return;
         }
         const dropInfo = this._getElementInfo(dropElement);
-        if (!dropInfo) {
+        if (!dropInfo || dropInfo.element.closest('.kanban') !== this.element) {
             return;
         }
         let side: KanbanDropSide;
@@ -386,7 +386,7 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
                 col: drop.col,
                 ...newItem,
             };
-            if (newItem) {
+            if (newItem?.[itemKey]) {
                 const colItems = data.items[drop.lane!][drop.col!];
                 const newColItems = [...colItems];
                 newColItems.push(newItem);
@@ -441,7 +441,7 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
                     return false;
                 }
                 const dropInfo = this._getElementInfo(dropElement);
-                if (!dropInfo) {
+                if (!dropInfo || dropInfo.element.closest('.kanban') !== this.element) {
                     return false;
                 }
                 if (dragInfo.type === 'item' && dropRules) {
