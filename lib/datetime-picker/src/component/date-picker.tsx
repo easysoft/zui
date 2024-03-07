@@ -84,7 +84,7 @@ export class DatePicker<T extends DatePickerOptions = DatePickerOptions> extends
     };
 
     _renderTrigger(props: DatePickerOptions, state: PickState): ComponentChildren {
-        const {placeholder, icon, required, disabled, readonly} = props;
+        const {placeholder, icon, required, disabled, readonly, display} = props;
         const {value = '', open} = state;
         const id = `date-picker-${this.id}`;
         let iconView: ComponentChildren;
@@ -97,6 +97,7 @@ export class DatePicker<T extends DatePickerOptions = DatePickerOptions> extends
                 iconView = <Icon icon={icon} />;
             }
         }
+        const displayValue = open ? value : (display ? display(value) : value);
         return [
             <input
                 key="input"
@@ -104,7 +105,7 @@ export class DatePicker<T extends DatePickerOptions = DatePickerOptions> extends
                 type="text"
                 className="form-control"
                 placeholder={placeholder}
-                value={value}
+                value={displayValue}
                 disabled={disabled}
                 readOnly={readonly}
                 autoComplete="off"

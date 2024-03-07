@@ -10,6 +10,7 @@ export interface DatePickerOptions extends PickOptions {
     readonly?: boolean;
     placeholder?: string;
     format?: string;
+    display?: ((value: string) => string);
     icon?: IconType | boolean;
     weekNames?: string[];
     monthNames?: string[];

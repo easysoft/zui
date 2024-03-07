@@ -16,6 +16,9 @@ onPageUpdate(() => {
             'data-set-date': 'today+2month',
         }],
         format: 'yyyy/MM/dd',
+        display: (value) => {
+            return value === '2024/02/20' ? '长期' : value.replace(/\//g, '-');
+        },
         name: 'date',
         required: true,
         defaultValue: 'today',
