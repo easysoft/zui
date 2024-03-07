@@ -108,18 +108,24 @@ export class PickPop<S extends PickState = PickState, P extends PickPopProps<S> 
         }
     };
 
-    protected _getWidth() {
-        const {width} = this.props;
-        if (width === '100%') {
-            return $(this.trigger).outerWidth();
-        }
+    protected _getWidthSetting() {
+        const {width, minWidth, maxWidth} = this.props;
+        const style: Record<string, null | string | number> = {};
+        const triggerWidth = $(this.trigger).outerWidth();
         if (typeof width === 'function') {
-            return width();
+            style.width = width();
+        } else if (width === '100%') {
+            style.width = triggerWidth;
+        } else if (width) {
+            style.width = toCssSize(width);
         }
-        if (width) {
-            return toCssSize(width);
+        if (minWidth === '100%') {
+            style.minWidth = triggerWidth;
         }
-        return undefined;
+        if (maxWidth === '100%') {
+            style.maxWidth = triggerWidth;
+        }
+        return style;
     }
 
     protected layout() {
@@ -149,12 +155,12 @@ export class PickPop<S extends PickState = PickState, P extends PickPopProps<S> 
                 $(element).css({
                     left: x,
                     top: y,
-                    width: this._getWidth(),
+                    ...this._getWidthSetting(),
                 });
                 this.props.onLayout?.(element);
             });
             if (width === '100%') {
-                $(element).css({width: this._getWidth()});
+                $(element).css(this._getWidthSetting());
             }
         });
     }
