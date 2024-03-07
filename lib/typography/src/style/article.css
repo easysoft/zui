@@ -1,5 +1,5 @@
 .article {
-  @apply -text-article;
+  @apply -text-[--font-size-article];
 }
 .article h1,
 .article h2,
@@ -14,18 +14,18 @@
 .article audio,
 .article table,
 .article img {
-  @apply -my-[0.5em];
+  @apply -my-[--article-p-space];
 }
 
 .article hr {
-  @apply -my-[1.5em];
+  @apply -my-[--article-hr-space];
 }
 
 .article table {
   @apply -border;
 }
 .article td, .article th {
-  @apply -border-b -px-3 -py-1;
+  @apply -border-b -p-[--article-cell-padding];
 }
 .article thead {
   background-color: var(--table-head-bg, var(--color-gray-100));
