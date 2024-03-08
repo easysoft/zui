@@ -4,7 +4,10 @@
 .article h1,
 .article h2,
 .article h3,
-.article h4,
+.article h4
+{
+  @apply -my-[--article-heading-space];
+}
 .article p,
 .article ul,
 .article ol,
