@@ -31,6 +31,7 @@ export type DTableRichTypes = {
         barWidth: number;
         barHeight: number;
         link: ColLinkSetting;
+        digits: number;
         format: ColFormatSetting;
         formatDate: ColDateFormatSetting;
         invalidDate: string;
@@ -103,11 +104,19 @@ export function renderLinkCell(result: CustomRenderResultList, info: {row: RowIn
     return result;
 }
 
-export function renderFormatCell(result: CustomRenderResultList, info: {row: RowInfo, col: ColInfo}) {
-    const {format} = info.col.setting;
-    if (format) {
-        result[0] = renderFormat(format as ColFormatSetting, info, result[0]);
+export function renderFormatCell(result: CustomRenderResultList, info: {row: RowInfo, col: ColInfo, value: unknown}) {
+    const {format, digits} = info.col.setting;
+    let value = result[0];
+    if (typeof digits === 'number') {
+        value = Number(value);
+        if (digits >= 0) {
+            value = (value as number).toFixed(digits);
+        }
     }
+    if (format) {
+        value = renderFormat(format as ColFormatSetting, info, value);
+    }
+    result[0] = value as string;
     return result;
 }
 
