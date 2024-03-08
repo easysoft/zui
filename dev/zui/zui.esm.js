@@ -9486,8 +9486,9 @@ function ga(n, t) {
   return s && (n[0] = s), n;
 }
 function _a(n, t) {
-  const { format: e } = t.col.setting;
-  return e && (n[0] = Wi(e, t, n[0])), n;
+  const { format: e, digits: s } = t.col.setting;
+  let i = n[0];
+  return typeof s == "number" && (i = Number(i), s >= 0 && (i = i.toFixed(s))), e && (i = Wi(e, t, i)), n[0] = i, n;
 }
 function ya(n, t) {
   const { map: e } = t.col.setting;
