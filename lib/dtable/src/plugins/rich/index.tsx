@@ -107,7 +107,7 @@ export function renderLinkCell(result: CustomRenderResultList, info: {row: RowIn
 export function renderFormatCell(result: CustomRenderResultList, info: {row: RowInfo, col: ColInfo, value: unknown}) {
     const {format, digits} = info.col.setting;
     let value = result[0];
-    if (typeof digits === 'number') {
+    if (typeof digits === 'number' && !Number.isNaN(Number(value))) {
         value = Number(value);
         if (digits >= 0) {
             value = (value as number).toFixed(digits);
