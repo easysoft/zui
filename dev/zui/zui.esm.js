@@ -6869,7 +6869,7 @@ let Xt = class extends X {
     if (s)
       return !1;
     const i = this.constructor.getInfo(t);
-    return await this._checkExceededCount(i) ? (this._skipAddMore = !0, !1) : await this._checkDuplicated(i) ? !1 : await this._checkExceededSize(i) ? (this._skipAddMore = !0, !1) : await this._checkTotalSize(i) ? (this._skipAddMore = !0, !1) : e && e.call(this, i) === !1 ? !1 : (this._data.items.add(t), this._syncFiles(), await this.changeState((c) => ({ files: [...c.files, i] })), !0);
+    return await this._checkExceededCount(i) ? (this._skipAddMore = !0, !1) : await this._checkDuplicated(i) ? !1 : await this._checkExceededSize(i) ? (this._skipAddMore = !0, !1) : await this._checkTotalSize(i) ? (this._skipAddMore = !0, !1) : e && e.call(this, i) === !1 ? !1 : (this._data.items.add(t), this._syncFiles(!0), await this.changeState((c) => ({ files: [...c.files, i] })), !0);
   }
   startRenameFile(t) {
     this.setState({ renaming: t, newName: void 0 }, () => {
@@ -6887,7 +6887,7 @@ let Xt = class extends X {
     const r = s.file;
     if (r) {
       const l = new File([r], e, { type: r.type, lastModified: r.lastModified }), c = Array.from(this._data.files).indexOf(r);
-      c >= 0 && this._data.items.remove(c), this._data.items.add(l), this._syncFiles(), s.file = l;
+      c >= 0 && this._data.items.remove(c), this._data.items.add(l), this._syncFiles(!0), s.file = l;
     }
     s.name = e, s.ext = this.constructor.getExt(e);
     const { files: o } = this.state, a = o.indexOf(s);
@@ -6913,10 +6913,11 @@ let Xt = class extends X {
       o >= 0 && this._data.items.remove(o);
     }
     const r = this.state.files.indexOf(e);
-    r >= 0 && (this.state.files.splice(r, 1), this.setState({ files: this.state.files }));
+    r >= 0 && (this.state.files.splice(r, 1), this.setState({ files: this.state.files }), this._syncFiles(!0));
   }
-  _syncFiles() {
-    this._file.current.files = this._data.files;
+  _syncFiles(t = !1) {
+    const e = this._data.files, s = this._file.current;
+    s.files = e, t && d(s).trigger("change", { files: e });
   }
   _showAlert(t, e) {
     return typeof t == "string" && (t = { message: t }), typeof t.message == "string" && (t.message = G(t.message, { ...this.info, ...e })), Ps.alert(t);
@@ -6946,8 +6947,8 @@ let Xt = class extends X {
     ] }, "upload");
   }
   _renderForForm(t) {
-    const { name: e, accept: s } = t;
-    return /* @__PURE__ */ m("input", { ref: this._file, type: "file", name: e, multiple: this.multiple, accept: s, style: "display:none" }, "form");
+    const { name: e, accept: s, onChange: i } = t;
+    return /* @__PURE__ */ m("input", { ref: this._file, type: "file", name: e, multiple: this.multiple, accept: s, style: "display:none", onChange: i }, "form");
   }
   _getIcon(t) {
     let { fileIcons: e } = this.props;
