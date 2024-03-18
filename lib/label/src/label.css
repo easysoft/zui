@@ -1,6 +1,6 @@
 
 .label{
-  @apply -h-5 -px-1 -inline-flex -items-center -whitespace-pre-line -text-sm -bg-[--label-bg] -rounded-[--label-radius] -ring-[--label-border-color] -ring-1 -text-[--label-color] -min-w-[1.25rem];
+  @apply -h-5 -px-1 -inline-flex -items-center -justify-center -whitespace-pre-line -text-sm -bg-[--label-bg] -rounded-[--label-radius] -ring-[--label-border-color] -ring-1 -text-[--label-color] -min-w-[1.25rem];
 }
 .label.size-lg {
   @apply -text-base -px-2 -h-6 -min-w-[1.5rem];
