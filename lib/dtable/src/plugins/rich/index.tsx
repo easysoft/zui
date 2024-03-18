@@ -83,6 +83,9 @@ export function renderDatetime(format: ColDateFormatSetting, info: {row: RowInfo
         return invalidDate ?? value as string;
     }
     value = value ?? info.row.data?.[info.col.name];
+    if (value === '0000-00-00 00:00:00' || value === '0000-00-00') {
+        return invalidDate ?? '';
+    }
     if (format === false) {
         return value as string;
     }
