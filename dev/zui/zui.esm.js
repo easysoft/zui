@@ -6237,10 +6237,16 @@ const dr = "show", fr = "in", Yc = '[data-dismiss="modal"]', gs = "modal-hide", 
     }
   }
   afterInit() {
-    this.on("click", this._handleClick), this.options.show && this.show(), this._observeResize(), this.on("hidden", () => {
-      ne.getAll().some((t) => t.shown) || d("html").enableScroll();
-    }), this.on("show", () => {
-      d("html").disableScroll();
+    this.on("click", this._handleClick), this.options.show && this.show(), this._observeResize(), this.on("hidden", (t) => {
+      const { modalElement: e } = this;
+      if (!e.parentNode)
+        return this.destroy();
+      t.target.closest(".modal") === e && !ne.getAll().some((s) => s.shown) && d("html").enableScroll();
+    }), this.on("show", (t) => {
+      const { modalElement: e } = this;
+      if (!e.parentNode)
+        return this.destroy();
+      t.target.closest(".modal") === e && d("html").disableScroll();
     }), this.shown && d("html").disableScroll();
   }
   destroy() {
@@ -6533,8 +6539,8 @@ const Qc = {
     return t ? d(t) : this.$element;
   }
   afterInit() {
-    super.afterInit(), this.options.destoryOnHide && this.on("hidden", () => {
-      this.destroy();
+    super.afterInit(), this.options.destoryOnHide && this.on("hidden", (t) => {
+      t.target.closest(".modal") === this.modalElement && this.destroy();
     });
   }
   show(t) {
