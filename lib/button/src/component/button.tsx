@@ -47,6 +47,7 @@ export class Button<P extends ButtonProps = ButtonProps> extends HElement<P> {
         const asLink = component === 'a';
         const componentProps: Record<string, unknown> = {
             ...super._getProps(props),
+            type: asLink ? undefined : 'button',
             disabled: (!asLink && disabled) ? '' : undefined,
             title: hint,
         };
