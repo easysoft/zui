@@ -8,6 +8,9 @@
 .nav-item > a {
   @apply -flex -items-center -justify-center -h-8 -px-4 -gap-1 -text-inherit -cursor-pointer;
 }
+.nav-item > a > .text {
+  @apply -whitespace-nowrap;
+}
 .nav-item > .active {
   @apply -font-bold;
   color: var(--nav-active-color);
