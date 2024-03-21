@@ -2615,6 +2615,7 @@ class U extends X {
   _getProps(t) {
     const e = this._getComponent(t), { url: s, target: i, disabled: r, btnType: o = "button", hint: a } = t, l = e === "a", c = {
       ...super._getProps(t),
+      type: l ? void 0 : "button",
       disabled: !l && r ? "" : void 0,
       title: a
     };
