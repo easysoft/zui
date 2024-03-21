@@ -2,8 +2,9 @@ import type {PickOptions} from '@zui/pick';
 import type {MenuOptions} from '@zui/menu';
 import type {ToolbarSetting} from '@zui/toolbar';
 import type {TreeOptions} from '@zui/tree';
-import type {HotkeysSettings} from '@zui/core';
+import type {CustomContentType, HotkeysSettings} from '@zui/core';
 import type {PickerState} from './picker-state';
+import type {PickerItemBasic} from './picker-item-options';
 
 export interface PickerOptions<S extends PickerState = PickerState> extends PickOptions<S> {
     multiple?: boolean | number;
@@ -21,6 +22,7 @@ export interface PickerOptions<S extends PickerState = PickerState> extends Pick
     cache?: boolean;
     searchDelay?: number;
     searchEmptyHint?: string;
+    display?: string | ((values: string | string[], selections: PickerItemBasic | PickerItemBasic[]) => CustomContentType);
     search?: boolean | number;
     searchHint?: string;
     hotkeys?: HotkeysSettings;

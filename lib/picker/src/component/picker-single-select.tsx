@@ -1,6 +1,7 @@
 import {ComponentChildren, createRef} from 'preact';
 import {CustomContent, classes} from '@zui/core';
 import {PickTrigger} from '@zui/pick/src/components';
+import {formatString} from '@zui/helpers';
 import {PickerSearch} from './picker-search';
 import {PickerSelectProps, PickerState} from '../types';
 import '@zui/css-icons/src/icons/caret.css';
@@ -65,18 +66,27 @@ export class PickerSingleSelect extends PickTrigger<PickerState, PickerSelectPro
     }
 
     protected _renderTrigger(props: PickerSelectProps) {
-        const {children, state: {selections = [], open}, placeholder, search, disabled, readonly, clearable} = props;
+        const {children, state: {selections = [], value, open}, placeholder, search, disabled, readonly, clearable, display} = props;
 
         const [selection] = selections;
         const showSearch = open && search;
         let view: ComponentChildren;
         if (showSearch) {
             view = this._renderSearch(props);
-        } else if (selection) {
+        } else if (selection || (placeholder === undefined && display)) {
             const {text} = selection;
+            if (typeof display === 'function') {
+                view = display.call(this, value, selection);
+            } else if (typeof display === 'string') {
+                view = formatString(display, selection);
+            } else {
+                view = (
+                    <CustomContent content={text} />
+                );
+            }
             view = (
                 <span key="main" className="picker-single-selection" title={typeof text === 'string' ? text : undefined}>
-                    <CustomContent content={text} />
+                    {view}
                 </span>
             );
         } else {
@@ -86,7 +96,6 @@ export class PickerSingleSelect extends PickTrigger<PickerState, PickerSelectPro
             <button key="deselect" type="button" className="btn picker-deselect-btn size-sm square ghost" disabled={disabled} readonly={readonly} onClick={this._handleDeselectClick}><span className="close"></span></button>
         ) : null;
         const caret = showSearch ? null : <span key="caret" className="caret"></span>;
-
         return [
             view,
             children,

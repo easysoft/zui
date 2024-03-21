@@ -267,6 +267,7 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
             hotkeys: props.hotkeys,
             placeholder: props.placeholder,
             search: props.search,
+            display: props.display,
             searchHint: props.searchHint,
             clearable: !!this.valueList.length && !props.required,
             valueList: this.valueList,

@@ -156,4 +156,19 @@ onPageUpdate(() => {
         toolbar: true,
     });
     console.log('> multiPicker', multiPicker);
+
+    const noSearchPicker = new Picker('#noSearchPicker', {
+        items,
+        search: false,
+        display: '已选择 {text}',
+    });
+    console.log('> noSearchPicker', noSearchPicker);
+
+    const noSearchMultiPicker = new Picker('#noSearchMultiPicker', {
+        items,
+        search: false,
+        multiple: true,
+        display: '已选择 {count} 项',
+    });
+    console.log('> noSearchMultiPicker', noSearchMultiPicker);
 });
