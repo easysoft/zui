@@ -5555,7 +5555,7 @@ let vt = class extends H {
   }
   _handlePopToggle(t) {
     const { onPopShown: e, onPopHidden: n } = this.props;
-    t && e ? e() : !t && n && n();
+    t && e ? e.call(this) : !t && n && n.call(this);
   }
   setValue(t, e) {
     if (e) {
@@ -5572,7 +5572,7 @@ let vt = class extends H {
     if (n === i)
       return;
     const { onPopShow: r, onPopHide: o } = this.props;
-    i && r ? r() : !i && o && o();
+    i && r ? r.call(this) : !i && o && o.call(this);
   }
   componentDidUpdate(t, e) {
     const { open: n, value: i } = this.state, { open: r, value: o } = e;
@@ -8006,13 +8006,13 @@ class uh extends gi {
     );
   }
   _renderTrigger(t) {
-    const { children: e, state: { selections: n = [], value: i, open: r }, placeholder: o, search: a, disabled: l, readonly: c, clearable: u, display: h } = t, [p] = n, f = r && a;
+    const { children: e, state: { selections: n = [], value: i, open: r }, placeholder: o, search: a, disabled: l, readonly: c, clearable: u, display: h } = t, [p = { text: "", value: "" }] = n, f = r && a;
     let g;
     if (f)
       g = this._renderSearch(t);
     else if (p || o === void 0 && h) {
-      const { text: v } = p;
-      typeof h == "function" ? g = h.call(this, i, p) : typeof h == "string" ? g = U(h, p) : g = /* @__PURE__ */ m(V, { content: v }), g = /* @__PURE__ */ m("span", { className: "picker-single-selection", title: typeof v == "string" ? v : void 0, children: g }, "main");
+      const { text: v = "" } = p;
+      typeof h == "function" ? g = h.call(this, i, n) : typeof h == "string" ? g = U(h, p) : g = /* @__PURE__ */ m(V, { content: v }), g = /* @__PURE__ */ m("span", { className: "picker-single-selection", title: typeof v == "string" ? v : void 0, children: g }, "main");
     } else
       g = /* @__PURE__ */ m("span", { className: "picker-select-placeholder", children: o }, "main");
     const _ = u && !f ? /* @__PURE__ */ m("button", { type: "button", className: "btn picker-deselect-btn size-sm square ghost", disabled: l, readonly: c, onClick: this._handleDeselectClick, children: /* @__PURE__ */ m("span", { className: "close" }) }, "deselect") : null;
