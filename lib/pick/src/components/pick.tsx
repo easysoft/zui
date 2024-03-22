@@ -194,9 +194,9 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
     protected _handlePopToggle(opened: boolean) {
         const {onPopShown, onPopHidden} = this.props;
         if (opened && onPopShown) {
-            onPopShown();
+            onPopShown.call(this);
         } else if (!opened && onPopHidden) {
-            onPopHidden();
+            onPopHidden.call(this);
         }
     }
 
@@ -222,9 +222,9 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
         }
         const {onPopShow, onPopHide} = this.props;
         if (nextOpened && onPopShow) {
-            onPopShow();
+            onPopShow.call(this);
         } else if (!nextOpened && onPopHide) {
-            onPopHide();
+            onPopHide.call(this);
         }
     }
 
