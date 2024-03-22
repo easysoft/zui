@@ -22,7 +22,7 @@ export interface PickerOptions<S extends PickerState = PickerState> extends Pick
     cache?: boolean;
     searchDelay?: number;
     searchEmptyHint?: string;
-    display?: string | ((values: string | string[], selections: PickerItemBasic | PickerItemBasic[]) => CustomContentType);
+    display?: string | ((values: string | string[], selections: PickerItemBasic[]) => CustomContentType);
     search?: boolean | number;
     searchHint?: string;
     hotkeys?: HotkeysSettings;

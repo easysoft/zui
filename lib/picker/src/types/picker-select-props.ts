@@ -13,7 +13,7 @@ export interface PickerSelectProps<S extends PickerState = PickerState> extends 
     valueList: string[];
     emptyValue: string;
     hotkeys?: HotkeysSettings;
-    display?: string | ((values: string | string[], selections: PickerItemBasic | PickerItemBasic[]) => CustomContentType);
+    display?: string | ((values: string | string[], selections: PickerItemBasic[]) => CustomContentType);
 
     onSelect: (values: string | string[]) => void;
     onDeselect: (values: string | string[]) => void;

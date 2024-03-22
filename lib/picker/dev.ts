@@ -158,9 +158,17 @@ onPageUpdate(() => {
     console.log('> multiPicker', multiPicker);
 
     const noSearchPicker = new Picker('#noSearchPicker', {
-        items,
-        search: false,
-        display: '已选择 {text}',
+        'multiple': true,
+        'items': [
+            {'text': '查看研发需求', 'value': 'story', 'items': [{'text': 'SR1', 'value': '1'}, {'text': 'SR2', 'value': '2'}, {'text': 'SR3', 'value': '3'}, {'text': 'SR4', 'value': '4'}]},
+        ],
+        'search': false,
+        'display': 'test {value}',
+        'emptyValue': '',
+        'defaultValue': '',
+        menu: {
+            checkbox: true,
+        },
     });
     console.log('> noSearchPicker', noSearchPicker);
 
