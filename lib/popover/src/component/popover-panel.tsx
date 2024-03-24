@@ -47,7 +47,7 @@ export class PopoverPanel extends Component<PopoverPanelOptions> {
         }
 
         return (
-            <div id={id} className={classes('popover', className, {popup})} style={style}>
+            <div id={id} className={classes('popover', className, {popup, 'has-heading': title})} style={style}>
                 {views}
             </div>
         );
