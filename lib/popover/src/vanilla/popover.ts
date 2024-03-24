@@ -513,11 +513,11 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
     }
 }
 
-$(document).on(`click${Popover.NAMESPACE} pointerenter${Popover.NAMESPACE}`, TOGGLE_SELECTOR, (event: MouseEvent) => {
+$(document).on(`click${Popover.NAMESPACE} mouseenter${Popover.NAMESPACE}`, TOGGLE_SELECTOR, (event: MouseEvent) => {
     const $toggleBtn = $(event.currentTarget as HTMLElement);
     if ($toggleBtn.length && !$toggleBtn.data(Popover.KEY)) {
         const trigger = $toggleBtn.data('trigger') || 'click';
-        const eventForTrigger = (event.type === 'mouseover' || event.type === 'pointerenter') ? 'hover' : 'click';
+        const eventForTrigger = event.type === 'mouseover' ? 'hover' : 'click';
         if (eventForTrigger !== trigger) {
             return;
         }
