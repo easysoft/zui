@@ -37,6 +37,8 @@ export type DTableRichTypes = {
         invalidDate: string;
         html: ColHTMLSetting;
         map: ColMapSetting;
+        mapSplitter: string;
+        mapJoiner: string;
         hint: boolean | string | ((info: {row: RowInfo, col: ColInfo}) => string);
         styleMap: Record<string, string> | ((info: {row: RowInfo, col: ColInfo}) => Record<string, string>);
     }>,
@@ -124,11 +126,20 @@ export function renderFormatCell(result: CustomRenderResultList, info: {row: Row
 }
 
 export function renderMapCell(result: CustomRenderResultList, info: {row: RowInfo, col: ColInfo}) {
-    const {map} = info.col.setting as DTableRichTypes['col'];
-    if (typeof map === 'function') {
-        result[0] = map(result[0], info);
-    } else if (typeof map === 'object' && map) {
-        result[0] = map[result[0] as string] ?? result[0];
+    const {map, mapSplitter = ',', mapJoiner} = info.col.setting as DTableRichTypes['col'];
+    if (map) {
+        let value: string | string[] = result[0] as string;
+        if (typeof value === 'string' && mapSplitter) {
+            value = value.split(mapSplitter);
+        }
+        if (typeof map === 'function') {
+            result[0] = map(value, info);
+        } else if (typeof map === 'object') {
+            if (!Array.isArray(value)) {
+                value = [value];
+            }
+            result[0] = value.map(v => map[v] ?? v).join(mapJoiner ?? mapSplitter);
+        }
     }
     return result;
 }
