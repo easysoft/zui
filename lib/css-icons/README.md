@@ -3,11 +3,13 @@
 ## 下拉图标
 
 ```html:example
-<span class="caret"></span>
-<span class="caret-up"></span>
-<span class="caret-right"></span>
-<span class="caret-down"></span>
-<span class="caret-left"></span>
+<div class="row items-center bg-warning">
+  <span class="caret"></span>
+  <span class="caret-up"></span>
+  <span class="caret-right"></span>
+  <span class="caret-down"></span>
+  <span class="caret-left"></span>
+</div>
 ```
 
 ## 切换图标

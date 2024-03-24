@@ -1,12 +1,27 @@
 .caret,
-.caret-down,
 .caret-left,
 .caret-right,
+.caret-down,
 .caret-up {
-    @apply -w-0 -h-0 -inline-block;
-    border: var(--caret-size, 4px) solid transparent;
-    opacity: var(--caret-opacity, .5);
+  @apply -w-[0.75rem] -h-[0.75rem] -relative -inline-flex -items-center -justify-center;
 }
+.caret::before,
+.caret-left::before,
+.caret-right::before,
+.caret-down::before,
+.caret-up::before {
+  @apply -content-[''] -block -w-[0.35rem] -h-[0.35rem] -rotate-45 -border-current -border -border-t-0 -border-l-0 -origin-center --translate-y-px ;
+}
+.caret-left::before {
+  @apply -rotate-[135deg] -translate-x-0.5 -translate-y-0;
+}
+.caret-right::before {
+  @apply --rotate-45 --translate-x-0.5 -translate-y-0;
+}
+.caret-up::before {
+  @apply -rotate-[225deg] -translate-y-0.5;
+}
+
 :hover > .caret,
 :focus > .caret {
     opacity: inherit;
@@ -14,22 +29,4 @@
 .disabled .caret,
 .readonly .caret {
     opacity: var(--caret-opacity, .5);
-}
-
-.caret,
-.caret-down {
-    border-bottom-width: 0;
-    border-top-color: currentColor;
-}
-.caret-up {
-    border-top-width: 0;
-    border-bottom-color: currentColor;
-}
-.caret-right {
-    border-right-width: 0;
-    border-left-color: currentColor;
-}
-.caret-left {
-    border-left-width: 0;
-    border-right-color: currentColor;
 }
