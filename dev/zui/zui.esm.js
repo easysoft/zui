@@ -7233,7 +7233,7 @@ let rh = class extends H {
     return i ? y.push(/* @__PURE__ */ m("div", { className: u, children: [
       i ? /* @__PURE__ */ m("div", { className: h, children: i }) : null,
       v
-    ] }, "heading")) : y.push(v), y.push(_), c && y.push(/* @__PURE__ */ m("div", { className: typeof c == "string" ? c : "arrow", style: f }, "arrow")), g ? y : /* @__PURE__ */ m("div", { id: e, className: T("popover", a, { popup: n }), style: o, children: y });
+    ] }, "heading")) : y.push(v), y.push(_), c && y.push(/* @__PURE__ */ m("div", { className: typeof c == "string" ? c : "arrow", style: f }, "arrow")), g ? y : /* @__PURE__ */ m("div", { id: e, className: T("popover", a, { popup: n, "has-heading": i }), style: o, children: y });
   }
 };
 class Ii extends B {
@@ -7492,11 +7492,11 @@ ht.DEFAULT = {
   popup: !0
 };
 ht.hideOthers = !1;
-d(document).on(`click${ht.NAMESPACE} pointerenter${ht.NAMESPACE}`, oh, (s) => {
+d(document).on(`click${ht.NAMESPACE} mouseenter${ht.NAMESPACE}`, oh, (s) => {
   const t = d(s.currentTarget);
   if (t.length && !t.data(ht.KEY)) {
     const e = t.data("trigger") || "click";
-    if ((s.type === "mouseover" || s.type === "pointerenter" ? "hover" : "click") !== e)
+    if ((s.type === "mouseover" ? "hover" : "click") !== e)
       return;
     ht.ensure(t, { show: !0, triggerEvent: s }), s.preventDefault();
   }
@@ -9499,8 +9499,12 @@ function _a(s, t) {
   return typeof n == "number" && !Number.isNaN(Number(i)) && (i = Number(i), n >= 0 && (i = i.toFixed(n))), e && (i = Wi(e, t, i)), s[0] = i, s;
 }
 function ya(s, t) {
-  const { map: e } = t.col.setting;
-  return typeof e == "function" ? s[0] = e(s[0], t) : typeof e == "object" && e && (s[0] = e[s[0]] ?? s[0]), s;
+  const { map: e, mapSplitter: n = ",", mapJoiner: i } = t.col.setting;
+  if (e) {
+    let r = s[0];
+    typeof r == "string" && n && (r = r.split(n)), typeof e == "function" ? s[0] = e(r, t) : typeof e == "object" && (Array.isArray(r) || (r = [r]), s[0] = r.map((o) => e[o] ?? o).join(i ?? n));
+  }
+  return s;
 }
 function va(s, t, e) {
   const n = {};
