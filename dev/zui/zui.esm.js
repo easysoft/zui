@@ -3906,7 +3906,7 @@ let Js = class extends H {
           ref: this._input,
           id: C,
           type: "text",
-          class: T("form-control", i, { "rounded-full": c, "size-sm": _ }),
+          class: T("form-control", { "rounded-full": c, "size-sm": _ }, i),
           style: n,
           placeholder: u,
           disabled: l,
