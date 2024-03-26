@@ -9148,6 +9148,7 @@ let Oi = class extends H {
         t.className,
         g ? "dtable-is-empty" : "",
         {
+          "dtable-has-scroll-y": t.rowsHeightTotal > t.rowsHeight,
           "dtable-scrolled-down": t.scrollTop > 0,
           "dtable-scrolled-bottom": t.scrollTop >= t.rowsHeightTotal - t.rowsHeight,
           "dtable-scrolled-right": t.scrollLeft > 0,
