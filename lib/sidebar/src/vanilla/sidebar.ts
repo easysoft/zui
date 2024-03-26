@@ -200,7 +200,7 @@ export class Sidebar extends Component<SidebarOptions, {
     render() {
         const {side, width} = this;
         const isCollapsed = !width;
-        this.$element.toggleClass('is-collapsed', isCollapsed);
+        this.$element.toggleClass('is-collapsed', isCollapsed).toggleClass('is-expanded', !isCollapsed);
         $(this._parent)
             .css(`--sidebar-${side}-width`, `${width}px`)
             .toggleClass('is-sidebar-left-collapsed', isCollapsed);
