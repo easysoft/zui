@@ -20,7 +20,7 @@
   @apply -opacity-100;
 }
 .nav-item > .disabled > * {
-  opacity: var(--disabled-opacity);
+  opacity: var(--opacity-disabled);
 }
 
 .nav > .divider,
