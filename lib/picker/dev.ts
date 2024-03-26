@@ -176,6 +176,7 @@ onPageUpdate(() => {
         items,
         search: false,
         multiple: true,
+        placeholder: '请选择你的最爱',
         display: '已选择 {count} 项',
     });
     console.log('> noSearchMultiPicker', noSearchMultiPicker);

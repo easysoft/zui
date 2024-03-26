@@ -68,13 +68,13 @@ export class PickerSingleSelect extends PickTrigger<PickerState, PickerSelectPro
     protected _renderTrigger(props: PickerSelectProps) {
         const {children, state: {selections = [], value, open}, placeholder, search, disabled, readonly, clearable, display} = props;
 
-        const [selection = {text: '', value: ''}] = selections;
+        const [selection] = selections;
         const showSearch = open && search;
         let view: ComponentChildren;
         if (showSearch) {
             view = this._renderSearch(props);
         } else if (selection || (placeholder === undefined && display)) {
-            const {text = ''} = selection;
+            const {text} = selection || {text: '', value: ''};
             if (typeof display === 'function') {
                 view = display.call(this, value, selections);
             } else if (typeof display === 'string') {

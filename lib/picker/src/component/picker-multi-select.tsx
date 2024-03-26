@@ -69,7 +69,7 @@ export class PickerMultiSelect extends PickTrigger<PickerState, PickerSelectProp
         const showSearch = open && search;
         let view: ComponentChildren;
         const noSelections = !showSearch && !selections.length;
-        if (display && (noSelections || placeholder === undefined)) {
+        if (display && (!noSelections || placeholder === undefined)) {
             if (typeof display === 'function') {
                 view = display.call(this, valueList, selections);
             } else if (typeof display === 'string') {
