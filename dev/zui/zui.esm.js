@@ -7928,7 +7928,7 @@ class hh extends gi {
     const { state: { selections: e = [], open: n, value: i }, search: r, placeholder: o, display: a, valueList: l, children: c } = this.props, u = n && r;
     let h;
     const p = !u && !e.length;
-    return a && (p || o === void 0) ? (typeof a == "function" ? h = a.call(this, l, e) : typeof a == "string" && (h = U(a, { value: i, values: l, count: l.length })), h = /* @__PURE__ */ m("div", { className: "picker-multi-selections", children: h }, "selections")) : p ? h = /* @__PURE__ */ m("span", { className: "picker-select-placeholder", children: o }, "selections") : h = /* @__PURE__ */ m("div", { className: "picker-multi-selections", children: [
+    return a && (!p || o === void 0) ? (typeof a == "function" ? h = a.call(this, l, e) : typeof a == "string" && (h = U(a, { value: i, values: l, count: l.length })), h = /* @__PURE__ */ m("div", { className: "picker-multi-selections", children: h }, "selections")) : p ? h = /* @__PURE__ */ m("span", { className: "picker-select-placeholder", children: o }, "selections") : h = /* @__PURE__ */ m("div", { className: "picker-multi-selections", children: [
       e.map(this._renderSelection),
       u ? this._renderSearch(t) : null
     ] }, "selections"), [
@@ -8006,12 +8006,12 @@ class uh extends gi {
     );
   }
   _renderTrigger(t) {
-    const { children: e, state: { selections: n = [], value: i, open: r }, placeholder: o, search: a, disabled: l, readonly: c, clearable: u, display: h } = t, [p = { text: "", value: "" }] = n, f = r && a;
+    const { children: e, state: { selections: n = [], value: i, open: r }, placeholder: o, search: a, disabled: l, readonly: c, clearable: u, display: h } = t, [p] = n, f = r && a;
     let g;
     if (f)
       g = this._renderSearch(t);
     else if (p || o === void 0 && h) {
-      const { text: v = "" } = p;
+      const { text: v } = p || { text: "", value: "" };
       typeof h == "function" ? g = h.call(this, i, n) : typeof h == "string" ? g = U(h, p) : g = /* @__PURE__ */ m(V, { content: v }), g = /* @__PURE__ */ m("span", { className: "picker-single-selection", title: typeof v == "string" ? v : void 0, children: g }, "main");
     } else
       g = /* @__PURE__ */ m("span", { className: "picker-select-placeholder", children: o }, "main");
