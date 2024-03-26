@@ -29,12 +29,12 @@ console.log('> nav', nav);
  
 ```html:example
 <menu class="nav">
-  <li class="nav-item"><a class="active"><i class="icon icon-home"></i><span class="text">首页</span></a></li>
-  <li class="nav-item"><a><span class="text">产品</span></a></li>
-  <li class="nav-item"><a><span class="text">价格</span></a></li>
-  <li class="nav-item"><a class="disabled"><span class="text">动态</span></a></li>
+  <li class="nav-item item"><a class="active"><i class="icon icon-home"></i><span class="text">首页</span></a></li>
+  <li class="nav-item item"><a><span class="text">产品</span></a></li>
+  <li class="nav-item item"><a><span class="text">价格</span></a></li>
+  <li class="nav-item item"><a class="disabled"><span class="text">动态</span></a></li>
   <li class="nav-divider divider"></li>
-  <li class="nav-item">
+  <li class="nav-item item">
     <a data-toggle="dropdown" href="#navDropdown1">
       <span class="text">更多</span><span class="caret"></span>
     </a>
@@ -56,6 +56,35 @@ console.log('> nav', nav);
   <li class="menu-item"><a><span class="text">博客</span></a></li>
   <li class="menu-item"><a><span class="text">项目</span></a></li>
   <li class="menu-item"><a><span class="text">关于我们</span></a></li>
+</menu>
+```
+
+## 紧凑模式
+
+```html:example
+<menu class="nav nav-compact">
+  <li class="nav-item item"><a class="active"><i class="icon icon-home"></i><span class="text">首页</span></a></li>
+  <li class="nav-item item"><a><span class="text">产品</span></a></li>
+  <li class="nav-item item"><a><span class="text">价格</span></a></li>
+  <li class="nav-item item"><a class="disabled"><span class="text">动态</span></a></li>
+  <li class="nav-divider divider"></li>
+  <li class="nav-item item">
+    <a data-toggle="dropdown" href="#navDropdown1">
+      <span class="text">更多</span><span class="caret"></span>
+    </a>
+  </li>
+  <li class="nav-space"></li>
+  <li class="nav-btn-group">
+    <div class="btn-group size-sm">
+      <button type="button" class="btn">预定</button>
+      <button type="button" class="btn">在线咨询</button>
+    </div>
+  </li>
+  <li class="nav-space w-4 flex-none"></li>
+  <li>
+    <button type="button" class="btn size-sm primary-outline bg-none">登录</button>
+    <button type="button" class="btn size-sm primary">注册</button>
+  </li>
 </menu>
 ```
 

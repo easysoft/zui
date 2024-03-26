@@ -36,3 +36,13 @@
 .nav-space {
   @apply -w-4 -flex-auto;
 }
+
+.nav-compact {
+  @apply -gap-1;
+}
+.nav-compact .nav-item {
+  @apply -gap-2;
+}
+.nav-compact .nav-item > a {
+  @apply -h-7 -px-2;
+}
