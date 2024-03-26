@@ -5,7 +5,10 @@
   @apply -transition-colors -duration-1000;
 }
 .dtable-scrolled-down .dtable-header {
-  @apply -border-b -border-b-inverse/20;
+  @apply -border-b -border-b-inverse/10;
+}
+.dtable-has-scroll-y:not(.dtable-scrolled-bottom) .dtable-footer {
+  @apply -border-t -border-t-inverse/10;
 }
 
 .dtable-scroll-shadow {

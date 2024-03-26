@@ -976,6 +976,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
                 layout.className,
                 isEmpty ? 'dtable-is-empty' : '',
                 {
+                    'dtable-has-scroll-y': layout.rowsHeightTotal > layout.rowsHeight,
                     'dtable-scrolled-down': layout.scrollTop > 0,
                     'dtable-scrolled-bottom': layout.scrollTop >= (layout.rowsHeightTotal - layout.rowsHeight),
                     'dtable-scrolled-right': layout.scrollLeft > 0,
