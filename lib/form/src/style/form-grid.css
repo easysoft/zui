@@ -7,7 +7,7 @@
   @apply -px-[--form-grid-gap-x-half] -py-[--form-grid-gap-y-half];
 }
 .form-grid .form-label.required::after {
-  @apply -order-first -ml-0;
+  @apply -order-first -ml-1;
 }
 .form-grid .form-label .checkbox {
   @apply -mx-3;
