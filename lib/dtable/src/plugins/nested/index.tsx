@@ -9,7 +9,7 @@ import type {DTableStoreTypes} from '../store';
 import type {ColInfo} from '../../types/col';
 import type {CustomRenderResult} from '../../types/common';
 import type {DTableWithPlugin, DTablePlugin} from '../../types/plugin';
-import type {RowData, RowID} from '../../types/row';
+import type {RowData, RowID, RowInfo} from '../../types/row';
 
 export const enum NestedRowState {
     unknown = '',
@@ -48,6 +48,7 @@ export type DTableNestedTypes = {
     }>,
     data: {
         nestedMap: Map<RowID, NestedRowInfo>,
+        nestedRowMap: Map<RowID, RowInfo>,
     },
     methods: {
         getNestedInfo: typeof getNestedInfo;
@@ -232,7 +233,7 @@ const nestedPlugin: DTablePlugin<DTableNestedTypes, DTableNestedDependencies> = 
     },
     when: options => !!options.nested,
     data() {
-        return {nestedMap: new Map()};
+        return {nestedMap: new Map(), nestedRowMap: new Map()};
     },
     state() {
         return {nestedState: {}};
@@ -255,36 +256,59 @@ const nestedPlugin: DTablePlugin<DTableNestedTypes, DTableNestedDependencies> = 
     },
     beforeLayout() {
         this.data.nestedMap.clear();
+        this.data.nestedRowMap.clear();
     },
     onAddRow(row) {
-        const {nestedMap} = this.data;
-        const parent = String(row.data?.[this.options.nestedParentKey ?? 'parent']);
-        const info: NestedRowInfo = nestedMap.get(row.id) ?? {
-            state: NestedRowState.unknown,
-            level: 0,
-        };
-        info.parent = parent === '0' ? undefined : parent;
-        if (row.data?.[this.options.asParentKey ?? 'asParent']) {
-            info.children = [];
-        }
-        nestedMap.set(row.id, info);
-
-        if (parent) {
-            let parentInfo = nestedMap.get(parent);
-            if (!parentInfo) {
-                parentInfo = {
-                    state: NestedRowState.unknown,
-                    level: 0,
-                };
-                nestedMap.set(parent, parentInfo);
-            }
-            if (!parentInfo.children) {
-                parentInfo.children = [];
-            }
-            parentInfo.children.push(row.id);
-        }
+        this.data.nestedRowMap.set(row.id, row);
     },
     onAddRows(rows) {
+        const {nestedMap, nestedRowMap} = this.data;
+        rows.forEach(row => {
+            const info: NestedRowInfo = nestedMap.get(row.id) ?? {
+                state: NestedRowState.unknown,
+                level: 0,
+            };
+            let parentPath = (row.data?.[this.options.nestedParentKey ?? 'parent'] as undefined | (string | number) | (string | number)[]) ?? [];
+            if (!Array.isArray(parentPath)) {
+                parentPath = [parentPath];
+            }
+            let parentID: string | undefined;
+            while (parentPath.length) {
+                let lastParentID = parentPath.pop();
+                if (lastParentID === undefined) {
+                    continue;
+                }
+                lastParentID = String(lastParentID);
+                const parent = nestedRowMap.get(lastParentID);
+                if (parent) {
+                    parentID = lastParentID;
+                    break;
+                }
+            }
+
+            info.parent = parentID === '0' ? undefined : parentID;
+            if (row.data?.[this.options.asParentKey ?? 'asParent']) {
+                info.children = [];
+            }
+            nestedMap.set(row.id, info);
+
+            if (parentID) {
+                let parentInfo = nestedMap.get(parentID);
+                if (!parentInfo) {
+                    parentInfo = {
+                        state: NestedRowState.unknown,
+                        level: 0,
+                    };
+                    nestedMap.set(parentID, parentInfo);
+                }
+                if (!parentInfo.children) {
+                    parentInfo.children = [];
+                }
+                parentInfo.children.push(row.id);
+            }
+        });
+        nestedRowMap.clear();
+
         rows = rows.filter(row => this.getNestedRowInfo(row.id).state !== NestedRowState.hidden);
         updateNestedMapOrders(this.data.nestedMap);
         rows.sort((rowA, rowB) => {
