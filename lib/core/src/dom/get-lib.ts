@@ -196,7 +196,7 @@ $.getLib = async function<T = unknown> (optionsOrSrc: string | string[] | GetLib
     }
 
     const {root = $.libRoot} = options;
-    await Promise.all(srcList.map(srcOptions => {
+    for (let srcOptions of srcList) {
         if (typeof srcOptions === 'string') {
             srcOptions = {src: srcOptions};
         }
@@ -210,10 +210,11 @@ $.getLib = async function<T = unknown> (optionsOrSrc: string | string[] | GetLib
             src,
         };
         if (srcOptions.type === 'css' || (!srcOptions.type && src.endsWith('.css'))) {
-            return loadCSS(loadOptions as LoadCSSOptions);
+            await loadCSS(loadOptions as LoadCSSOptions);
+            return;
         }
-        return loadJS(loadOptions as LoadJSOptions);
-    }));
+        await loadJS(loadOptions as LoadJSOptions);
+    }
     return onSuccess();
 };
 
