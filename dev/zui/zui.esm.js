@@ -9984,7 +9984,7 @@ const cs = "dtable-nested-toggle", Oh = {
   },
   when: (s) => !!s.nested,
   data() {
-    return { nestedMap: /* @__PURE__ */ new Map() };
+    return { nestedMap: /* @__PURE__ */ new Map(), nestedRowMap: /* @__PURE__ */ new Map() };
   },
   state() {
     return { nestedState: {} };
@@ -10004,29 +10004,44 @@ const cs = "dtable-nested-toggle", Oh = {
     this.state.nestedState = s || {};
   },
   beforeLayout() {
-    this.data.nestedMap.clear();
+    this.data.nestedMap.clear(), this.data.nestedRowMap.clear();
   },
   onAddRow(s) {
-    var i, r;
-    const { nestedMap: t } = this.data, e = String((i = s.data) == null ? void 0 : i[this.options.nestedParentKey ?? "parent"]), n = t.get(s.id) ?? {
-      state: "",
-      level: 0
-    };
-    if (n.parent = e === "0" ? void 0 : e, (r = s.data) != null && r[this.options.asParentKey ?? "asParent"] && (n.children = []), t.set(s.id, n), e) {
-      let o = t.get(e);
-      o || (o = {
-        state: "",
-        level: 0
-      }, t.set(e, o)), o.children || (o.children = []), o.children.push(s.id);
-    }
+    this.data.nestedRowMap.set(s.id, s);
   },
   onAddRows(s) {
-    return s = s.filter(
-      (t) => this.getNestedRowInfo(t.id).state !== "hidden"
+    const { nestedMap: t, nestedRowMap: e } = this.data;
+    return s.forEach((n) => {
+      var a, l;
+      const i = t.get(n.id) ?? {
+        state: "",
+        level: 0
+      };
+      let r = ((a = n.data) == null ? void 0 : a[this.options.nestedParentKey ?? "parent"]) ?? [];
+      Array.isArray(r) || (r = [r]);
+      let o;
+      for (; r.length; ) {
+        let c = r.pop();
+        if (c === void 0)
+          continue;
+        if (c = String(c), e.get(c)) {
+          o = c;
+          break;
+        }
+      }
+      if (i.parent = o === "0" ? void 0 : o, (l = n.data) != null && l[this.options.asParentKey ?? "asParent"] && (i.children = []), t.set(n.id, i), o) {
+        let c = t.get(o);
+        c || (c = {
+          state: "",
+          level: 0
+        }, t.set(o, c)), c.children || (c.children = []), c.children.push(n.id);
+      }
+    }), e.clear(), s = s.filter(
+      (n) => this.getNestedRowInfo(n.id).state !== "hidden"
       /* hidden */
-    ), ka(this.data.nestedMap), s.sort((t, e) => {
-      const n = this.getNestedRowInfo(t.id), i = this.getNestedRowInfo(e.id), r = (n.order ?? 0) - (i.order ?? 0);
-      return r === 0 ? t.index - e.index : r;
+    ), ka(this.data.nestedMap), s.sort((n, i) => {
+      const r = this.getNestedRowInfo(n.id), o = this.getNestedRowInfo(i.id), a = (r.order ?? 0) - (o.order ?? 0);
+      return a === 0 ? n.index - i.index : a;
     }), s;
   },
   onRenderCell(s, { col: t, row: e }) {
