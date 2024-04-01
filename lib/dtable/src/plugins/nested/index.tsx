@@ -273,6 +273,7 @@ const nestedPlugin: DTablePlugin<DTableNestedTypes, DTableNestedDependencies> = 
                 parentPath = [parentPath];
             }
             let parentID: string | undefined;
+            parentPath = [...parentPath];
             while (parentPath.length) {
                 let lastParentID = parentPath.pop();
                 if (lastParentID === undefined) {
@@ -307,7 +308,6 @@ const nestedPlugin: DTablePlugin<DTableNestedTypes, DTableNestedDependencies> = 
                 parentInfo.children.push(row.id);
             }
         });
-        nestedRowMap.clear();
 
         rows = rows.filter(row => this.getNestedRowInfo(row.id).state !== NestedRowState.hidden);
         updateNestedMapOrders(this.data.nestedMap);
