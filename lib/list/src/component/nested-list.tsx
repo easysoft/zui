@@ -126,9 +126,9 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
         );
         if (preserve && nestedShow === undefined) {
             this._storeID = `${this.constructor.NAME}:${preserve}:state`;
-            const storeState = store.get(this._storeID);
+            const storeState = store.get(this._storeID) as NestedListState;
             if (storeState) {
-                $.extend(this.state, storeState);
+                (this.state as NestedListState).nestedShow = storeState.nestedShow;
             }
         }
 
@@ -432,7 +432,7 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
 
     protected _preserveState() {
         if (this._storeID) {
-            store.set(this._storeID, this.state);
+            store.set(this._storeID, {nestedShow: this.state.nestedShow});
         }
     }
 
