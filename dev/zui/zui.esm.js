@@ -3517,7 +3517,7 @@ class ke extends Ys {
     ), n && i === void 0) {
       this._storeID = `${this.constructor.NAME}:${n}:state`;
       const r = Nn.get(this._storeID);
-      r && d.extend(this.state, r);
+      r && (this.state.nestedShow = r.nestedShow);
     }
     if (!t.level) {
       const r = this.state.nestedShow;
@@ -3683,7 +3683,7 @@ class ke extends Ys {
     }
   }
   _preserveState() {
-    this._storeID && Nn.set(this._storeID, this.state);
+    this._storeID && Nn.set(this._storeID, { nestedShow: this.state.nestedShow });
   }
   _getClassName(t) {
     return [super._getClassName(t), "is-nested", t.level ? "is-nested-sub" : "is-nested-root"];
@@ -10020,7 +10020,7 @@ const cs = "dtable-nested-toggle", Oh = {
       let r = ((a = n.data) == null ? void 0 : a[this.options.nestedParentKey ?? "parent"]) ?? [];
       Array.isArray(r) || (r = [r]);
       let o;
-      for (; r.length; ) {
+      for (r = [...r]; r.length; ) {
         let c = r.pop();
         if (c === void 0)
           continue;
@@ -10036,7 +10036,7 @@ const cs = "dtable-nested-toggle", Oh = {
           level: 0
         }, t.set(o, c)), c.children || (c.children = []), c.children.push(n.id);
       }
-    }), e.clear(), s = s.filter(
+    }), s = s.filter(
       (n) => this.getNestedRowInfo(n.id).state !== "hidden"
       /* hidden */
     ), ka(this.data.nestedMap), s.sort((n, i) => {
