@@ -9158,7 +9158,7 @@ let Oi = class extends H {
   }
   render() {
     let t = lt(this, Vn, fa).call(this);
-    const { className: e, rowHover: n, colHover: i, cellHover: r, bordered: o, striped: a, scrollbarHover: l, beforeRender: c, emptyTip: u } = this.options, h = {}, p = ["dtable", e, {
+    const { className: e, rowHover: n, colHover: i, cellHover: r, bordered: o, striped: a, scrollbarHover: l, beforeRender: c, emptyTip: u, style: h = {} } = this.options, p = ["dtable", e, {
       "dtable-hover-row": n,
       "dtable-hover-col": i,
       "dtable-hover-cell": r,
