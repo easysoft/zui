@@ -9,6 +9,7 @@ import type {ComponentType, RenderableProps} from 'preact';
 import type {ListItem, ListItemsFetcher} from '@zui/list';
 import type {PickTriggerProps} from '@zui/pick';
 import type {PickerItemBasic, PickerItemOptions, PickerMenuProps, PickerOptions, PickerSelectProps, PickerState} from '../types';
+import {formatString} from '@zui/helpers/src/format-string';
 
 function getValueMap(items: PickerItemOptions[], userMap?: Map<string, PickerItemOptions>): Map<string, PickerItemOptions> {
     return items.reduce<Map<string, PickerItemOptions>>((map, item) => {
@@ -169,7 +170,11 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
             if (this._abort !== abort) {
                 return items;
             }
-            items = await fetchData(itemsSetting as ListItemsFetcher, [this, search], {signal: abort.signal});
+            let ajaxSetting = itemsSetting;
+            if (typeof ajaxSetting === 'string') {
+                ajaxSetting = formatString(ajaxSetting, {search: encodeURIComponent(search)});
+            }
+            items = await fetchData(ajaxSetting as ListItemsFetcher, [this, search], {signal: abort.signal});
             if (this._abort !== abort) {
                 return items;
             }
