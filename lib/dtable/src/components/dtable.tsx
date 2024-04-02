@@ -940,8 +940,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
 
     render() {
         let layout = this.#getLayout();
-        const {className, rowHover, colHover, cellHover, bordered, striped, scrollbarHover, beforeRender, emptyTip} = this.options;
-        const style: JSX.CSSProperties = {};
+        const {className, rowHover, colHover, cellHover, bordered, striped, scrollbarHover, beforeRender, emptyTip, style = {}} = this.options;
         const classNames: ClassNameLike = ['dtable', className, {
             'dtable-hover-row': rowHover,
             'dtable-hover-col': colHover,

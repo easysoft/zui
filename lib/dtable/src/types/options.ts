@@ -61,6 +61,7 @@ export interface DTableOptions<C = ColSetting> extends DTableDataOptions<C>, DTa
     lang?: string;
     i18n?: Record<string, Record<string, string | object>>;
     className?: ClassNameLike,
+    style?: Record<string, string | number>,
     parent?: HTMLElement,
     plugins?: DTablePluginLike[];
     [prop: string]: unknown
