@@ -41,8 +41,6 @@ export class PickTrigger<S extends PickState = PickState, P extends PickTriggerP
         requestAnimationFrame(() => togglePop(toggle));
     }
 
-
-
     protected _getClass(props: RenderableProps<P>) {
         const {state, className, disabled, readonly, pickerName, empty} = props;
         const {open: opened} = state;
