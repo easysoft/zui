@@ -51,7 +51,7 @@ export class KanbanLane extends HElement<KanbanLaneProps> {
             hideName ? null : (
                 <div key="name" className="kanban-lane-name">
                     {Toolbar.render(actions, [props], {key: 'actions', className: 'kanban-lane-actions', size: 'sm'}, this)}
-                    <div key="title" className={classes('kanban-lane-title', titleClass)}><CustomContent content={title} /></div>
+                    <div key="title" className={classes('kanban-lane-title', titleClass)} title={typeof title === 'string' ? title : undefined}><CustomContent content={title} /></div>
                 </div>
             ),
             <div key="cols" className="kanban-lane-cols">
