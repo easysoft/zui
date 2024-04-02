@@ -93,7 +93,7 @@ export class PickerSingleSelect extends PickTrigger<PickerState, PickerSelectPro
             view = <span key="main" className="picker-select-placeholder">{placeholder}</span>;
         }
         const deselectBtnView = (clearable && !showSearch) ? (
-            <button key="deselect" type="button" className="btn picker-deselect-btn size-sm square ghost" disabled={disabled} readonly={readonly} onClick={this._handleDeselectClick}><span className="close"></span></button>
+            <button key="deselect" type="button" className="btn picker-deselect-btn size-xs square ghost" disabled={disabled} readonly={readonly} onClick={this._handleDeselectClick}><span className="close"></span></button>
         ) : null;
         const caret = showSearch ? null : <span key="caret" className="caret"></span>;
         return [
