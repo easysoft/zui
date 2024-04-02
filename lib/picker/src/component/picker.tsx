@@ -210,17 +210,21 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
         this._itemsCacheInfo = cache;
         if (!state.loading && (force || cache.search !== state.search || props.items !== cache.items)) {
             await this.changeState({loading: true} as Partial<S>);
-            const loadItems = await this.load();
-            newState.items = loadItems.filter(x => {
+            let loadItems = await this.load();
+            loadItems = loadItems.filter(x => {
                 x.key = x.key ?? (x.value as string);
                 x.value = String(x.value);
                 if (this.isEmptyValue(x.value as string)) {
                     return false;
                 }
                 return true;
-            }) as PickerItemOptions[];
+            });
+            if (props.maxItemsCount) {
+                loadItems = loadItems.slice(0, props.maxItemsCount);
+            }
             newState.loading = false;
-            cache.items = props.items;
+            newState.items = loadItems as PickerItemOptions[];
+            cache.items = loadItems;
             cache.search = state.search;
         } else if (cache.items && !state.open && props.cache === false && !Array.isArray(props.items)) {
             cache.items = undefined;
