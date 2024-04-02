@@ -8281,8 +8281,8 @@ let Ri = class extends vt {
     const { state: e, props: n } = this, i = this._itemsCacheInfo || {}, r = {};
     if (this._itemsCacheInfo = i, !e.loading && (t || i.search !== e.search || n.items !== i.items)) {
       await this.changeState({ loading: !0 });
-      const a = await this.load();
-      r.items = a.filter((l) => (l.key = l.key ?? l.value, l.value = String(l.value), !this.isEmptyValue(l.value))), r.loading = !1, i.items = n.items, i.search = e.search;
+      let a = await this.load();
+      a = a.filter((l) => (l.key = l.key ?? l.value, l.value = String(l.value), !this.isEmptyValue(l.value))), n.maxItemsCount && (a = a.slice(0, n.maxItemsCount)), r.loading = !1, r.items = a, i.items = a, i.search = e.search;
     } else
       i.items && !e.open && n.cache === !1 && !Array.isArray(n.items) && (i.items = void 0);
     (t || i.value !== e.value) && (i.value = e.value);
