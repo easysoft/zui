@@ -79,10 +79,12 @@ function handleGlobalEvent(this: Cash, event: Event) {
                     if (x === '$element') return $this;
                     if (x === 'event') return event;
                     if (x === 'options') return options;
-                    if (x.startsWith('$element.') || x.startsWith('$event.') || x.startsWith('$options.')) return $.runJS(x, ...runParams);
+                    if (x.startsWith('$element.') || x.startsWith('event.') || x.startsWith('options.')) return $.runJS(x, ...runParams);
                     return parseVal(x);
                 }));
             }
+        } else {
+            params.push(paramsOption);
         }
         callback(...params);
     }
