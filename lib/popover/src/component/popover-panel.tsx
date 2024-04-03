@@ -31,7 +31,7 @@ export class PopoverPanel extends Component<PopoverPanelOptions> {
         const closeBtnView = closeBtn ? <button className="btn ghost square size-sm btn-close" data-dismiss="popover"><span className="close"></span></button> : null;
         if (title) {
             views.push(<div className={headingClass} key="heading">
-                {title ? <div className={titleClass}>{title}</div> : null}
+                {title ? <CustomContent className={titleClass} content={title} /> : null}
                 {closeBtnView}
             </div>);
         } else {

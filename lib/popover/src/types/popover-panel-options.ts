@@ -1,11 +1,11 @@
-import type {ComponentChildren, JSX} from 'preact';
+import type {JSX} from 'preact';
 import type {ClassNameLike, CustomContentType} from '@zui/core';
 
 export type PopoverPanelOptions = {
     id?: string;
     popup?: boolean;
     onlyInner?: boolean;
-    title?: ComponentChildren;
+    title?: CustomContentType;
     titleClass?: string;
     headingClass?: string;
     content?: CustomContentType;
