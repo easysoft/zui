@@ -25,6 +25,9 @@ export function isVisible(selector: Selector, options?: ISVisibleOptions): boole
 
     let {viewport} = options || {};
     const {left, top, width, height} = element.getBoundingClientRect();
+    if (!(width * height)) {
+        return false;
+    }
     if (!viewport) {
         const {innerHeight, innerWidth} = window;
         const {clientHeight, clientWidth} = document.documentElement;
