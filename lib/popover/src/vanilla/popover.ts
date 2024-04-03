@@ -256,7 +256,7 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
                 }, (!destroy && typeof destroyOnHide === 'number') ? destroyOnHide : 0);
             }
             this._destoryTarget();
-        }, animation ? 200 : 0);
+        }, (animation && !destroy) ? 200 : 0);
     }
 
     toggle(options?: PopoverShowOptions) {
