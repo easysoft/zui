@@ -1,6 +1,7 @@
 import {Component, ComponentChildren, JSX, RefObject, RenderableProps, VNode, createRef} from 'preact';
 import {computePosition, flip, offset, shift, autoUpdate} from '@floating-ui/dom';
 import {$, classes, createPortal, toCssSize} from '@zui/core';
+import {isElementDetached, isVisible} from '@zui/core/src/dom';
 
 import type {PickState, PickPopProps} from '../types';
 
@@ -149,7 +150,8 @@ export class PickPop<S extends PickState = PickState, P extends PickPopProps<S> 
                 placement: (!placement || placement === 'auto') ? 'bottom-start' : placement,
                 middleware: [placement === 'auto' ? flip() : null, shift(), offset(1)].filter(Boolean),
             }).then(({x, y}) => {
-                if ($.isDetached(trigger)) {
+                if (isElementDetached(trigger) || !isVisible(trigger)) {
+                    $(element).css({display: 'none'});
                     return;
                 }
                 $(element).css({
