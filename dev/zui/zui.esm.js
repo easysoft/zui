@@ -8,7 +8,7 @@ var nt = (s, t, e) => (cn(s, t, "read from private field"), e ? e.call(s) : t.ge
   t instanceof WeakSet ? t.add(s) : t.set(s, e);
 }, gt = (s, t, e, n) => (cn(s, t, "write to private field"), n ? n.call(s, e) : t.set(s, e), e);
 var hn = (s, t, e) => (cn(s, t, "access private method"), e);
-const Rt = document, ys = window, Cr = Rt.documentElement, le = Rt.createElement.bind(Rt), Sr = le("div"), un = le("table"), Ma = le("tbody"), Wi = le("tr"), { isArray: Ws, prototype: kr } = Array, { concat: Aa, filter: Kn, indexOf: xr, map: Tr, push: Ia, slice: Nr, some: qn, splice: Pa } = kr, Ra = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, Da = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, La = /<.+>/, Fa = /^\w+$/;
+const lu = "3.0.0-alpha.4", cu = 1712461121214, Rt = document, ys = window, Cr = Rt.documentElement, le = Rt.createElement.bind(Rt), Sr = le("div"), un = le("table"), Ma = le("tbody"), Wi = le("tr"), { isArray: Ws, prototype: kr } = Array, { concat: Aa, filter: Kn, indexOf: xr, map: Tr, push: Ia, slice: Nr, some: qn, splice: Pa } = kr, Ra = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, Da = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, La = /<.+>/, Fa = /^\w+$/;
 function Gn(s, t) {
   const e = za(t);
   return !s || !e && !oe(t) && !Y(t) ? [] : !e && Da.test(s) ? t.getElementsByClassName(s.slice(1).replace(/\\/g, "")) : !e && Fa.test(s) ? t.getElementsByTagName(s) : t.querySelectorAll(s);
@@ -1105,7 +1105,7 @@ async function ii(s, t = [], e) {
   const i = new Hr(n), [r] = await i.send();
   return r;
 }
-function lu(s) {
+function hu(s) {
   return !!(s && (typeof s == "string" || typeof s == "object" && s.url || typeof s == "function"));
 }
 d.fetch = ii;
@@ -1586,7 +1586,7 @@ function Al(s, t, e) {
   const n = xs(s);
   return n ? !n.MULTI_INSTANCE && n.get(t) ? (console.error(`[ZUI] cannot create component "${s}" on element which already has a component instance.`, { element: t, options: e }), null) : new n(t, e) : null;
 }
-function cu(s) {
+function uu(s) {
   if (s) {
     const t = xs(s);
     t && t.defineFn();
@@ -1818,7 +1818,7 @@ function ro(s, t, e) {
 function oo(s, t) {
   return d(s).off(`.zui.hotkeys${t ? `.${t}` : ""}`);
 }
-const hu = Ol;
+const du = Ol;
 d.fn.hotkeys = function(s, t) {
   return ro(this, s, t);
 };
@@ -2329,7 +2329,7 @@ d.getLib = async function(s, t, e) {
   return h();
 };
 d.getScript = d.getLib;
-const uu = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+const fu = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
   isElementDetached: he,
   isVisible: Ks,
@@ -4273,7 +4273,7 @@ Xs.DEFAULT = {
   time: 5e3
 };
 Xs.MULTI_INSTANCE = !0;
-let yu = Xs;
+let wu = Xs;
 class pi extends H {
   render(t) {
     const { percent: e = 50, color: n, background: i = null, height: r, width: o, children: a, className: l, style: c } = t;
@@ -5715,11 +5715,11 @@ const Ve = 24 * 60 * 60 * 1e3, z = (s) => s ? (s instanceof Date || (typeof s ==
     e = t.replace(n.toString(), ""), t = n;
   }
   return s = new Date(z(s).getTime()), e === "month" ? s.setMonth(s.getMonth() + t) : e === "year" ? s.setFullYear(s.getFullYear() + t) : e === "week" ? s.setDate(s.getDate() + t * 7) : e === "hour" ? s.setHours(s.getHours() + t) : e === "minute" ? s.setMinutes(s.getMinutes() + t) : e === "second" ? s.setSeconds(s.getSeconds() + t) : s.setDate(s.getDate() + t), s;
-}, re = (s, t = /* @__PURE__ */ new Date()) => z(s).toDateString() === z(t).toDateString(), An = (s, t = /* @__PURE__ */ new Date()) => z(s).getFullYear() === z(t).getFullYear(), Ro = (s, t = /* @__PURE__ */ new Date()) => (s = z(s), t = z(t), s.getFullYear() === t.getFullYear() && s.getMonth() === t.getMonth()), Cu = (s, t = /* @__PURE__ */ new Date()) => {
+}, re = (s, t = /* @__PURE__ */ new Date()) => z(s).toDateString() === z(t).toDateString(), An = (s, t = /* @__PURE__ */ new Date()) => z(s).getFullYear() === z(t).getFullYear(), Ro = (s, t = /* @__PURE__ */ new Date()) => (s = z(s), t = z(t), s.getFullYear() === t.getFullYear() && s.getMonth() === t.getMonth()), ku = (s, t = /* @__PURE__ */ new Date()) => {
   s = z(s), t = z(t);
   const e = 1e3 * 60 * 60 * 24, n = Math.floor(s.getTime() / e), i = Math.floor(t.getTime() / e);
   return Math.floor((n + 4) / 7) === Math.floor((i + 4) / 7);
-}, Su = (s, t) => re(z(t), s), ku = (s, t) => re(z(t).getTime() - Ve, s), xu = (s, t) => re(z(t).getTime() + Ve, s), Do = (s) => !Number.isNaN(z(s).getTime()), pt = (s, t = "yyyy-MM-dd hh:mm", e = "") => {
+}, xu = (s, t) => re(z(t), s), Tu = (s, t) => re(z(t).getTime() - Ve, s), Nu = (s, t) => re(z(t).getTime() + Ve, s), Do = (s) => !Number.isNaN(z(s).getTime()), pt = (s, t = "yyyy-MM-dd hh:mm", e = "") => {
   if (s = z(s), !Do(s))
     return e;
   const n = {
@@ -5737,7 +5737,7 @@ const Ve = 24 * 60 * 60 * 1e3, z = (s) => s ? (s instanceof Date || (typeof s ==
       t = t.replace(RegExp.$1, RegExp.$1.length === 1 ? r : `00${r}`.substring(r.length));
     }
   }), t;
-}, Tu = (s, t, e) => {
+}, Eu = (s, t, e) => {
   const n = {
     full: "yyyy-M-d",
     month: "M-d",
@@ -10556,6 +10556,7 @@ export {
   d as $,
   Hr as Ajax,
   _o as Avatar,
+  cu as BUILD,
   yo as BtnGroup,
   Rl as Bus,
   Po as ColorPicker,
@@ -10575,7 +10576,7 @@ export {
   Q as Icon,
   Mi as ImageSelector,
   ui as Menu,
-  yu as Messager,
+  wu as Messager,
   Pn as Modal,
   Ue as ModalBase,
   Rn as ModalTrigger,
@@ -10594,6 +10595,7 @@ export {
   Ho as TimePicker,
   sa as Toolbar,
   Bt as Tooltip,
+  lu as VERSION,
   qc as addDate,
   ro as bindHotkeys,
   Lt as bus,
@@ -10608,16 +10610,16 @@ export {
   q as createRef,
   yl as deepGet,
   _l as deepGetPath,
-  cu as defineFn,
+  uu as defineFn,
   Cs as delay,
   Il as disableScroll,
-  uu as dom,
+  fu as dom,
   tr as downloadFile,
   Wl as enterFullscreen,
   ii as fetchData,
   Et as formatBytes,
   pt as formatDate,
-  Tu as formatDateSpan,
+  Eu as formatDateSpan,
   U as formatString,
   jr as getClassList,
   xs as getComponent,
@@ -10626,19 +10628,19 @@ export {
   Ul as getReactComponent,
   kn as getZData,
   xt as h,
-  hu as hotkeys,
+  du as hotkeys,
   j as i18n,
   Sn as isDiff,
-  lu as isFetchSetting,
+  hu as isFetchSetting,
   re as isSameDay,
   Ro as isSameMonth,
-  Cu as isSameWeek,
+  ku as isSameWeek,
   An as isSameYear,
-  Su as isToday,
-  xu as isTomorrow,
+  xu as isToday,
+  Nu as isTomorrow,
   Do as isValidDate,
   bt as isValidElement,
-  ku as isYesterday,
+  Tu as isYesterday,
   W as mergeProps,
   ut as nextGid,
   to as parseSize,
