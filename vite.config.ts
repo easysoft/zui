@@ -8,6 +8,7 @@ import preact from '@preact/preset-vite';
 import configDevServer from './scripts/dev/config-server';
 import {getLibs} from './scripts/libs/query';
 import {LibInfo} from './scripts/libs/lib-info';
+import packageJson from './package.json';
 
 function getLibByPath(path: string, libsCache: Record<string, LibInfo>): LibInfo | undefined {
     const nodeModulesFlag = `${Path.sep}node_modules${Path.sep}`;
@@ -92,6 +93,8 @@ export default defineConfig(async ({mode}) => {
         },
         define: {
             'process.env.NODE_ENV': JSON.stringify(mode),
+            __BUILD_TIME__: Date.now(),
+            __APP_VERSION__: JSON.stringify(packageJson.version),
         },
         experimental: {
             renderBuiltUrl(filename: string, {type}: {hostId: string, hostType: 'js' | 'css' | 'html', type: 'public' | 'asset'}) {
