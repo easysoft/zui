@@ -8,7 +8,7 @@ var nt = (s, t, e) => (cn(s, t, "read from private field"), e ? e.call(s) : t.ge
   t instanceof WeakSet ? t.add(s) : t.set(s, e);
 }, gt = (s, t, e, n) => (cn(s, t, "write to private field"), n ? n.call(s, e) : t.set(s, e), e);
 var hn = (s, t, e) => (cn(s, t, "access private method"), e);
-const lu = "3.0.0-alpha.4", cu = 1712560998709, Rt = document, ys = window, Cr = Rt.documentElement, le = Rt.createElement.bind(Rt), Sr = le("div"), un = le("table"), Ma = le("tbody"), Wi = le("tr"), { isArray: Ws, prototype: kr } = Array, { concat: Aa, filter: Kn, indexOf: xr, map: Tr, push: Ia, slice: Nr, some: qn, splice: Pa } = kr, Ra = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, Da = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, La = /<.+>/, Fa = /^\w+$/;
+const lu = "3.0.0-alpha.4", cu = 1712571256636, Rt = document, ys = window, Cr = Rt.documentElement, le = Rt.createElement.bind(Rt), Sr = le("div"), un = le("table"), Ma = le("tbody"), Wi = le("tr"), { isArray: Ws, prototype: kr } = Array, { concat: Aa, filter: Kn, indexOf: xr, map: Tr, push: Ia, slice: Nr, some: qn, splice: Pa } = kr, Ra = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, Da = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, La = /<.+>/, Fa = /^\w+$/;
 function Gn(s, t) {
   const e = za(t);
   return !s || !e && !oe(t) && !Y(t) ? [] : !e && Da.test(s) ? t.getElementsByClassName(s.slice(1).replace(/\\/g, "")) : !e && Fa.test(s) ? t.getElementsByTagName(s) : t.querySelectorAll(s);
@@ -8309,6 +8309,19 @@ let Ri = class extends vt {
   componentWillUnmount() {
     var t;
     (t = this._abort) == null || t.abort(), this._abort = void 0, this._itemsCacheInfo = void 0, clearTimeout(this._updateTimer), super.componentWillUnmount();
+  }
+  _handleChange(t, e) {
+    if (super._handleChange(t, e), t !== e) {
+      const { onDeselect: n, onSelect: i, onClear: r, multiple: o } = this.props, a = this.formatValueList(e), l = this.valueList;
+      if (r && !l.length && a.length && r.call(this), n) {
+        const c = a.filter((u) => !l.includes(u));
+        c.length && n.call(this, o ? c : c[0]);
+      }
+      if (i) {
+        const c = l.filter((u) => !a.includes(u));
+        c.length && i.call(this, o ? c : c[0]);
+      }
+    }
   }
   _getTriggerProps(t, e) {
     return {
