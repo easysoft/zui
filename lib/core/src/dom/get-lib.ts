@@ -149,7 +149,7 @@ function loadJS(options: string | LoadJSOptions): Promise<void> {
 
 /** Define the $.getLib method. */
 $.getLib = async function<T = unknown> (optionsOrSrc: string | string[] | GetLibOptions, optionsOrCallback?: Omit<GetLibOptions, 'src'> | GetLibCallback, callback?: GetLibCallback): Promise<T | undefined> {
-    let options: GetLibOptions = typeof optionsOrSrc === 'string' ? {src: optionsOrSrc} : $.extend({}, optionsOrSrc);
+    let options: GetLibOptions = (typeof optionsOrSrc === 'string' || Array.isArray(optionsOrSrc)) ? {src: optionsOrSrc} : $.extend({}, optionsOrSrc);
     if (typeof optionsOrCallback === 'function') {
         options.success = optionsOrCallback;
     } else if (optionsOrCallback) {
@@ -211,7 +211,7 @@ $.getLib = async function<T = unknown> (optionsOrSrc: string | string[] | GetLib
         };
         if (srcOptions.type === 'css' || (!srcOptions.type && src.endsWith('.css'))) {
             await loadCSS(loadOptions as LoadCSSOptions);
-            return;
+            continue;
         }
         await loadJS(loadOptions as LoadJSOptions);
     }
