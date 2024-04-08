@@ -13,6 +13,8 @@ export interface DTableCheckableTypes {
         checkable: boolean | 'auto';
         checkOnClickRow: boolean;
         checkedRows: string[];
+        checkboxLabel?: string;
+
         checkInfo: (this: DTableCheckable, checks: string[]) => ComponentChildren;
         canRowCheckable: (this: DTableCheckable, rowID: string) => boolean | 'disabled';
         beforeCheckRows: (this: DTableCheckable, ids: string[] | undefined, changes: Record<string, boolean>, checkedRows: Record<string, boolean>) => Record<string, boolean> | undefined;
@@ -133,8 +135,8 @@ function toggleCheckable(this: DTableCheckable, toggle?: boolean) {
     this.setState({forceCheckable: toggle});
 }
 
-function renderCheckbox(checked: boolean, _rowID?: RowID, disabled = false) {
-    return <Checkbox className="dtable-checkbox" checked={checked} disabled={disabled} />;
+function renderCheckbox(checked: boolean, _rowID?: RowID, disabled = false, label: string | undefined = undefined) {
+    return <Checkbox className="dtable-checkbox" checked={checked} disabled={disabled} label={label} />;
 }
 
 const checkboxSelector = 'input[type="checkbox"],.dtable-checkbox';
@@ -183,7 +185,7 @@ const checkablePlugin: DTablePlugin<DTableCheckableTypes> = {
         checkbox() {
             const checked = this.isAllRowChecked();
             return [
-                <div style={{paddingRight: 'calc(3*var(--space))', display: 'flex', alignItems: 'center'}} onClick={() => this.toggleCheckRows()}>{renderCheckbox(checked)}</div>,
+                <div style={{paddingRight: 'calc(3*var(--space))', display: 'flex', alignItems: 'center'}} onClick={() => this.toggleCheckRows()}>{renderCheckbox(checked, undefined, false, this.options.checkboxLabel)}</div>,
             ];
         },
         checkedInfo(_, layout) {
