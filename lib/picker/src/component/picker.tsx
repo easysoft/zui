@@ -269,6 +269,31 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
         super.componentWillUnmount();
     }
 
+    protected _handleChange(value: string, oldValue: string) {
+        super._handleChange(value, oldValue);
+        if (value !== oldValue) {
+            const {onDeselect, onSelect, onClear, multiple} = this.props;
+            const oldValueList = this.formatValueList(oldValue);
+            const valueList = this.valueList;
+            if (onClear && !valueList.length && oldValueList.length) {
+                onClear.call(this);
+            }
+            if (onDeselect) {
+                const deselectedList = oldValueList.filter(x => !valueList.includes(x));
+                if (deselectedList.length) {
+                    onDeselect.call(this, multiple ? deselectedList : deselectedList[0]);
+                }
+            }
+            if (onSelect) {
+                const selectedList = valueList.filter(x => !oldValueList.includes(x));
+                if (selectedList.length) {
+                    onSelect.call(this, multiple ? selectedList : selectedList[0]);
+                }
+            }
+        }
+
+    }
+
     protected _getTriggerProps(props: RenderableProps<O>, state: Readonly<S>): PickerSelectProps<S> {
         return {
             ...super._getTriggerProps(props, state),

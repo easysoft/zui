@@ -144,6 +144,8 @@ onPageUpdate(() => {
         defaultValue: 'banana',
         placeholder: '请选择你的最爱',
         searchHint: '搜索选项',
+        onSelect: (values) => console.log('onSelect', values),
+        onDeselect: (values) => console.log('onDeselect', values),
     });
     console.log('> singlePicker', singlePicker);
 
@@ -154,6 +156,8 @@ onPageUpdate(() => {
         defaultValue: 'banana,orange',
         placeholder: '请选择你的最爱',
         toolbar: true,
+        onSelect: (values) => console.log('onSelect', values),
+        onDeselect: (values) => console.log('onDeselect', values),
     });
     console.log('> multiPicker', multiPicker);
 
