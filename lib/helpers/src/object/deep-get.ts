@@ -8,7 +8,7 @@
  *     a: [{b: {c: 1}, d: 2}]
  * };
  *
- * deepGetPath('a[0].b.c'); // Output [[{b: {c: 1}, d: 2}], {b: {c: 1}, {c: 1}, 1]
+ * deepGetPath(object, 'a[0].b.c'); // Output [[{b: {c: 1}, d: 2}], {b: {c: 1}, {c: 1}, 1]
  */
 export function deepGetPath(object: object, pathName: string | string[]): (object | undefined)[] {
     if (object === null || object === undefined) {
@@ -65,9 +65,9 @@ export function deepGetPath(object: object, pathName: string | string[]): (objec
  *     a: [{b: {c: 1}, d: 2}]
  * };
  *
- * deepGetPath('a[0].b.c'); // Output 1
- * deepGetPath('a[0].d');   // Output 2
- * deepGetPath('a');        // Output [{b: {c: 1}, d: 2}]
+ * deepGetPath(object, 'a[0].b.c'); // Output 1
+ * deepGetPath(object, 'a[0].d');   // Output 2
+ * deepGetPath(object, 'a');        // Output [{b: {c: 1}, d: 2}]
  */
 export function deepGet<T>(object: object, pathName: string | string[], defaultValue?: T): T | undefined {
     try {
