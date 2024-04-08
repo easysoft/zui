@@ -8,7 +8,7 @@ var nt = (s, t, e) => (cn(s, t, "read from private field"), e ? e.call(s) : t.ge
   t instanceof WeakSet ? t.add(s) : t.set(s, e);
 }, gt = (s, t, e, n) => (cn(s, t, "write to private field"), n ? n.call(s, e) : t.set(s, e), e);
 var hn = (s, t, e) => (cn(s, t, "access private method"), e);
-const lu = "3.0.0-alpha.4", cu = 1712461121214, Rt = document, ys = window, Cr = Rt.documentElement, le = Rt.createElement.bind(Rt), Sr = le("div"), un = le("table"), Ma = le("tbody"), Wi = le("tr"), { isArray: Ws, prototype: kr } = Array, { concat: Aa, filter: Kn, indexOf: xr, map: Tr, push: Ia, slice: Nr, some: qn, splice: Pa } = kr, Ra = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, Da = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, La = /<.+>/, Fa = /^\w+$/;
+const lu = "3.0.0-alpha.4", cu = 1712537718051, Rt = document, ys = window, Cr = Rt.documentElement, le = Rt.createElement.bind(Rt), Sr = le("div"), un = le("table"), Ma = le("tbody"), Wi = le("tr"), { isArray: Ws, prototype: kr } = Array, { concat: Aa, filter: Kn, indexOf: xr, map: Tr, push: Ia, slice: Nr, some: qn, splice: Pa } = kr, Ra = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, Da = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, La = /<.+>/, Fa = /^\w+$/;
 function Gn(s, t) {
   const e = za(t);
   return !s || !e && !oe(t) && !Y(t) ? [] : !e && Da.test(s) ? t.getElementsByClassName(s.slice(1).replace(/\\/g, "")) : !e && Fa.test(s) ? t.getElementsByTagName(s) : t.querySelectorAll(s);
@@ -9774,8 +9774,8 @@ function Ih(s) {
   const { checkable: t } = this.options;
   s === void 0 && (s = !t), t !== s && this.setState({ forceCheckable: s });
 }
-function yr(s, t, e = !1) {
-  return /* @__PURE__ */ m(Ys, { className: "dtable-checkbox", checked: s, disabled: e });
+function yr(s, t, e = !1, n = void 0) {
+  return /* @__PURE__ */ m(Ys, { className: "dtable-checkbox", checked: s, disabled: e, label: n });
 }
 const vr = 'input[type="checkbox"],.dtable-checkbox', Ph = {
   name: "checkable",
@@ -9816,7 +9816,7 @@ const vr = 'input[type="checkbox"],.dtable-checkbox', Ph = {
     checkbox() {
       const s = this.isAllRowChecked();
       return [
-        /* @__PURE__ */ m("div", { style: { paddingRight: "calc(3*var(--space))", display: "flex", alignItems: "center" }, onClick: () => this.toggleCheckRows(), children: yr(s) })
+        /* @__PURE__ */ m("div", { style: { paddingRight: "calc(3*var(--space))", display: "flex", alignItems: "center" }, onClick: () => this.toggleCheckRows(), children: yr(s, void 0, !1, this.options.checkboxLabel) })
       ];
     },
     checkedInfo(s, t) {
@@ -10399,15 +10399,13 @@ const eu = {
       this.stopScrollToMouse();
       const t = this.getSortingState(s);
       if (t) {
-        let n;
-        const { sortingFrom: i, sortingTo: r, sortingSide: o } = t;
-        if (r && o) {
-          const a = [...this.layout.rows], l = i.index, c = r.index, u = a.splice(l, 1);
-          a.splice(c, 0, u[0]), n = {};
-          const h = [];
-          a.forEach(({ id: p }, f) => {
-            n[p] = f, h.push(p);
-          }), ((e = this.options.onSort) == null ? void 0 : e.call(this, i, r, o, h)) === !1 && (n = void 0);
+        let n, i;
+        const { sortingFrom: r, sortingTo: o, sortingSide: a } = t;
+        if (o && a) {
+          const l = [...this.layout.rows], c = r.index, u = o.index, h = l.splice(c, 1);
+          l.splice(u, 0, h[0]), n = {}, i = [], l.forEach(({ id: p }, f) => {
+            n[p] = f, i.push(p);
+          }), ((e = this.options.onSort) == null ? void 0 : e.call(this, r, o, a, i)) === !1 && (n = void 0, i = void 0);
         }
         this.disableAnimation(), this.update({
           dirtyType: "layout",
@@ -10418,8 +10416,8 @@ const eu = {
             sortingSide: void 0
           }, n ? { rowOrders: n } : null)
         }, () => {
-          var a;
-          (a = this.options.onSortEnd) == null || a.call(this, i, r, o), setTimeout(() => {
+          var l;
+          (l = this.options.onSortEnd) == null || l.call(this, r, o, a, i), setTimeout(() => {
             this.data.disableCheckable = void 0;
           }, 50);
         });
