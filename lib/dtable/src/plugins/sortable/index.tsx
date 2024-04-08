@@ -25,7 +25,7 @@ export type DTableSortableTypes = {
         sortHandler: string;
         canSortTo: (this: DTableSortable, from: RowInfo, to: RowInfo, sortingSide: SortingSide) => boolean;
         onSortStart: (this: DTableSortable, row: RowInfo, event: MouseEvent) => false | void;
-        onSortEnd: (this: DTableSortable, from: RowInfo, to: RowInfo | undefined, sortingSide: SortingSide | undefined) => void;
+        onSortEnd: (this: DTableSortable, from: RowInfo, to: RowInfo | undefined, sortingSide: SortingSide | undefined, orders: string[] | undefined) => void;
         onSort: (this: DTableSortable, from: RowInfo, to: RowInfo, sortingSide: SortingSide, orders: string[]) => void | false;
     }>;
     state: Partial<{
@@ -89,6 +89,7 @@ const sortablePlugin: DTablePlugin<DTableSortableTypes, [DTableMousemoveTypes, D
             const sortingState = this.getSortingState(event);
             if (sortingState) {
                 let rowOrders: Record<string, number> | undefined;
+                let orders: string[] | undefined;
                 const {sortingFrom, sortingTo, sortingSide} = sortingState;
                 if (sortingTo && sortingSide) {
                     const rows = [...this.layout.rows];
@@ -97,14 +98,15 @@ const sortablePlugin: DTablePlugin<DTableSortableTypes, [DTableMousemoveTypes, D
                     const row = rows.splice(fromIndex, 1);
                     rows.splice(toIndex, 0, row[0]);
                     rowOrders = {};
-                    const orders: string[] = [];
+                    orders = [];
                     rows.forEach(({id}, index) => {
                         rowOrders![id] = index;
-                        orders.push(id);
+                        orders!.push(id);
                     });
 
                     if (this.options.onSort?.call(this, sortingFrom, sortingTo, sortingSide, orders) === false) {
                         rowOrders = undefined;
+                        orders = undefined;
                     }
                 }
 
@@ -118,7 +120,7 @@ const sortablePlugin: DTablePlugin<DTableSortableTypes, [DTableMousemoveTypes, D
                         sortingSide: undefined,
                     }, rowOrders ? {rowOrders} : null),
                 }, () => {
-                    this.options.onSortEnd?.call(this, sortingFrom, sortingTo, sortingSide);
+                    this.options.onSortEnd?.call(this, sortingFrom, sortingTo, sortingSide, orders);
                     setTimeout(() => {
                         this.data.disableCheckable = undefined;
                     }, 50);
