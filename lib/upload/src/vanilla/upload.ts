@@ -245,6 +245,10 @@ export class Upload<T extends UploadOptions = UploadOptions> extends Component<T
             return;
         }
 
+
+        if (files.length === 0) {
+            return;
+        }
         if (files[0].size > this.limitBytes) {
             return;
         }
