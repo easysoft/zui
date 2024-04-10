@@ -10,7 +10,8 @@ onPageUpdate(() => {
         minWidth: 200,
         parent: 'body',
         side: 'right',
-        toggleBtn: false,
+        animation: 1000,
+        // toggleBtn: false,
     });
     console.log('> sidebarRight', sidebarRight);
 });

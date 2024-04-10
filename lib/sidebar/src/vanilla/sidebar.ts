@@ -16,6 +16,8 @@ const RESIZING_CLASS = 'is-sidebar-resizing';
 
 const ANIMATION_CLASS = 'has-sidebar-animation';
 
+const TRANSITION_CLASS = 'is-animating';
+
 export class Sidebar extends Component<SidebarOptions, {
     sidebarResize: [number];
 }> {
@@ -101,7 +103,7 @@ export class Sidebar extends Component<SidebarOptions, {
         this._$gutter = $gutter;
 
         this.render();
-        $element.css({'--gutter-width': `${gutterWidth}px`, width: `var(--sidebar-${side}-width)`});
+        $element.css({'--gutter-width': `${gutterWidth}px`, width: `var(--sidebar-${side}-width)`, '--sidebar-duration': typeof animation === 'number' ? `${animation}ms` : undefined});
 
         if (toggleBtn) {
             $gutter.append(`<button class="gutter-toggle" type="button"><span class="chevron-${side}"></span></button>`);
@@ -142,6 +144,7 @@ export class Sidebar extends Component<SidebarOptions, {
             });
         }
         if (animation) {
+            this.on('transitionend', (e) => {if (e.target === $element[0] && e.propertyName === 'width') $element.removeClass(TRANSITION_CLASS);});
             this._raf = requestAnimationFrame(() => {
                 $parent.addClass(ANIMATION_CLASS);
             });
@@ -177,7 +180,7 @@ export class Sidebar extends Component<SidebarOptions, {
             return;
         }
 
-        const {preserve, toggleBtn, onResize, onToggle} = this.options;
+        const {preserve, toggleBtn, onResize, onToggle, animation} = this.options;
         width = width < this._minWidth ? (toggleBtn ? 0 : this._minWidth) : Math.min(this._maxWidth, width, this._container.clientWidth);
         if (width === this._width) {
             return;
@@ -191,8 +194,11 @@ export class Sidebar extends Component<SidebarOptions, {
         }
         this.render();
         onResize?.(width);
-        if (onToggle && isOldCollapsed !== isCollapsed) {
-            onToggle(isCollapsed);
+        if (isOldCollapsed !== isCollapsed) {
+            if (isOldCollapsed && animation) {
+                this.$element.addClass(TRANSITION_CLASS);
+            }
+            onToggle?.(isCollapsed);
         }
         this.emit('sidebarResize', width);
     }
@@ -203,6 +209,6 @@ export class Sidebar extends Component<SidebarOptions, {
         this.$element.toggleClass('is-collapsed', isCollapsed).toggleClass('is-expanded', !isCollapsed);
         $(this._parent)
             .css(`--sidebar-${side}-width`, `${width}px`)
-            .toggleClass('is-sidebar-left-collapsed', isCollapsed);
+            .toggleClass(`is-sidebar-${side}-collapsed`, isCollapsed);
     }
 }
