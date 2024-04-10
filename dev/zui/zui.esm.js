@@ -8,7 +8,7 @@ var nt = (s, t, e) => (cn(s, t, "read from private field"), e ? e.call(s) : t.ge
   t instanceof WeakSet ? t.add(s) : t.set(s, e);
 }, gt = (s, t, e, n) => (cn(s, t, "write to private field"), n ? n.call(s, e) : t.set(s, e), e);
 var hn = (s, t, e) => (cn(s, t, "access private method"), e);
-const lu = "3.0.0-alpha.4", cu = 1712719266806, Dt = document, ys = window, Cr = Dt.documentElement, le = Dt.createElement.bind(Dt), Sr = le("div"), un = le("table"), Ma = le("tbody"), Wi = le("tr"), { isArray: Ws, prototype: kr } = Array, { concat: Aa, filter: Kn, indexOf: xr, map: Tr, push: Ia, slice: Nr, some: qn, splice: Pa } = kr, Ra = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, Da = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, La = /<.+>/, Fa = /^\w+$/;
+const lu = "3.0.0-alpha.4", cu = 1712728831266, Dt = document, ys = window, Cr = Dt.documentElement, le = Dt.createElement.bind(Dt), Sr = le("div"), un = le("table"), Ma = le("tbody"), Wi = le("tr"), { isArray: Ws, prototype: kr } = Array, { concat: Aa, filter: Kn, indexOf: xr, map: Tr, push: Ia, slice: Nr, some: qn, splice: Pa } = kr, Ra = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, Da = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, La = /<.+>/, Fa = /^\w+$/;
 function Gn(s, t) {
   const e = za(t);
   return !s || !e && !oe(t) && !Y(t) ? [] : !e && Da.test(s) ? t.getElementsByClassName(s.slice(1).replace(/\\/g, "")) : !e && Fa.test(s) ? t.getElementsByTagName(s) : t.querySelectorAll(s);
