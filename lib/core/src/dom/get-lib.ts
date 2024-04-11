@@ -149,7 +149,10 @@ function loadJS(options: string | LoadJSOptions): Promise<void> {
 
 /** Define the $.getLib method. */
 $.getLib = async function<T = unknown> (optionsOrSrc: string | string[] | GetLibOptions, optionsOrCallback?: Omit<GetLibOptions, 'src'> | GetLibCallback, callback?: GetLibCallback): Promise<T | undefined> {
-    let options: GetLibOptions = (typeof optionsOrSrc === 'string' || Array.isArray(optionsOrSrc)) ? {src: optionsOrSrc} : $.extend({}, optionsOrSrc);
+    if (typeof optionsOrSrc === 'string') {
+        optionsOrSrc = ($.libMap?.[optionsOrSrc] || {src: optionsOrSrc}) as GetLibOptions;
+    }
+    let options: GetLibOptions = Array.isArray(optionsOrSrc) ? {src: optionsOrSrc} : $.extend({}, optionsOrSrc);
     if (typeof optionsOrCallback === 'function') {
         options.success = optionsOrCallback;
     } else if (optionsOrCallback) {
@@ -161,7 +164,7 @@ $.getLib = async function<T = unknown> (optionsOrSrc: string | string[] | GetLib
 
     let {src: srcList} = options;
     const {name, success} = options;
-    const lib = $.libMap && name && $.libMap[name];
+    const lib = ($.libMap && name) ? $.libMap[name] : null;
     if (lib) {
         options = $.extend({}, lib, options);
         srcList = lib.src || options.src;
