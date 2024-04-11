@@ -8,7 +8,7 @@ var nt = (s, t, e) => (cn(s, t, "read from private field"), e ? e.call(s) : t.ge
   t instanceof WeakSet ? t.add(s) : t.set(s, e);
 }, gt = (s, t, e, n) => (cn(s, t, "write to private field"), n ? n.call(s, e) : t.set(s, e), e);
 var hn = (s, t, e) => (cn(s, t, "access private method"), e);
-const lu = "3.0.0-alpha.4", cu = 1712728831266, Dt = document, ys = window, Cr = Dt.documentElement, le = Dt.createElement.bind(Dt), Sr = le("div"), un = le("table"), Ma = le("tbody"), Wi = le("tr"), { isArray: Ws, prototype: kr } = Array, { concat: Aa, filter: Kn, indexOf: xr, map: Tr, push: Ia, slice: Nr, some: qn, splice: Pa } = kr, Ra = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, Da = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, La = /<.+>/, Fa = /^\w+$/;
+const lu = "3.0.0-alpha.4", cu = 1712796850436, Dt = document, ys = window, Cr = Dt.documentElement, le = Dt.createElement.bind(Dt), Sr = le("div"), un = le("table"), Ma = le("tbody"), Wi = le("tr"), { isArray: Ws, prototype: kr } = Array, { concat: Aa, filter: Kn, indexOf: xr, map: Tr, push: Ia, slice: Nr, some: qn, splice: Pa } = kr, Ra = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, Da = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, La = /<.+>/, Fa = /^\w+$/;
 function Gn(s, t) {
   const e = za(t);
   return !s || !e && !oe(t) && !Y(t) ? [] : !e && Da.test(s) ? t.getElementsByClassName(s.slice(1).replace(/\\/g, "")) : !e && Fa.test(s) ? t.getElementsByTagName(s) : t.querySelectorAll(s);
@@ -2298,10 +2298,12 @@ function Vl(s) {
   });
 }
 d.getLib = async function(s, t, e) {
-  let n = typeof s == "string" || Array.isArray(s) ? { src: s } : d.extend({}, s);
+  var f;
+  typeof s == "string" && (s = ((f = d.libMap) == null ? void 0 : f[s]) || { src: s });
+  let n = Array.isArray(s) ? { src: s } : d.extend({}, s);
   typeof t == "function" ? n.success = t : t && d.extend(n, t), e && (n.success = e);
   let { src: i } = n;
-  const { name: r, success: o } = n, a = d.libMap && r && d.libMap[r];
+  const { name: r, success: o } = n, a = d.libMap && r ? d.libMap[r] : null;
   if (a && (n = d.extend({}, a, n), i = a.src || n.src), typeof i == "string" && (i = [i]), !i || !i.length)
     throw new Error("[ZUI] No src provided for $.getLib.");
   let { check: l = !0 } = n;
@@ -2312,20 +2314,20 @@ d.getLib = async function(s, t, e) {
   if (typeof l == "function" && await l())
     return h();
   const { root: p = d.libRoot } = n;
-  for (let f of i) {
-    typeof f == "string" && (f = { src: f });
-    let { src: g } = f;
-    p && (g = `${p}${p.endsWith("/") || g.startsWith("/") ? "" : "/"}${g}`);
-    const _ = {
+  for (let g of i) {
+    typeof g == "string" && (g = { src: g });
+    let { src: _ } = g;
+    p && (_ = `${p}${p.endsWith("/") || _.startsWith("/") ? "" : "/"}${_}`);
+    const y = {
       ...n,
-      ...f,
-      src: g
+      ...g,
+      src: _
     };
-    if (f.type === "css" || !f.type && g.endsWith(".css")) {
-      await Bl(_);
+    if (g.type === "css" || !g.type && _.endsWith(".css")) {
+      await Bl(y);
       continue;
     }
-    await Vl(_);
+    await Vl(y);
   }
   return h();
 };
