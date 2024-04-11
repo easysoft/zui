@@ -18,7 +18,7 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
         popMinWidth: 50,
         popMinHeight: 32,
         popMaxHeight: 300,
-
+        limitPopInScreen: true,
         clickType: 'open',
     };
 

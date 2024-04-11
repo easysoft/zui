@@ -29,6 +29,7 @@ export interface PickOptions<S extends PickState = PickState> {
     onClick?: (event: MouseEvent) => void | boolean;
 
     hidePopWhenEmpty?: boolean;
+    limitPopInScreen?: boolean;
     popClass?: ClassNameLike;
     popStyle?: JSX.CSSProperties;
     popContainer?: string | HTMLElement;

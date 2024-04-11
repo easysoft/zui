@@ -1,5 +1,5 @@
 import {Component, ComponentChildren, JSX, RefObject, RenderableProps, VNode, createRef} from 'preact';
-import {computePosition, flip, offset, shift, autoUpdate} from '@floating-ui/dom';
+import {computePosition, flip, offset, shift, autoUpdate, Placement} from '@floating-ui/dom';
 import {$, classes, createPortal, toCssSize} from '@zui/core';
 import {isElementDetached, isVisible} from '@zui/core/src/dom';
 
@@ -109,10 +109,13 @@ export class PickPop<S extends PickState = PickState, P extends PickPopProps<S> 
         }
     };
 
-    protected _getWidthSetting() {
-        const {width, minWidth, maxWidth} = this.props;
-        const style: Record<string, null | string | number> = {};
-        const triggerWidth = $(this.trigger).outerWidth();
+    protected _getStyle(style: Record<string, null | string | number> = {}, placement?: Placement): Record<string, null | string | number> {
+        const triggerBounding = this.trigger?.getBoundingClientRect();
+        if (!triggerBounding) {
+            return {};
+        }
+        const {width, minWidth, maxWidth, maxHeight} = this.props;
+        const triggerWidth = triggerBounding.width;
         if (typeof width === 'function') {
             style.width = width();
         } else if (width === '100%') {
@@ -125,6 +128,23 @@ export class PickPop<S extends PickState = PickState, P extends PickPopProps<S> 
         }
         if (maxWidth === '100%') {
             style.maxWidth = triggerWidth;
+        }
+        if (this.props.limitInScreen && placement && (!maxHeight || typeof maxHeight === 'number')) {
+            let maxHeightInScreen: number | undefined;
+            if (placement.includes('bottom')) {
+                maxHeightInScreen = window.innerHeight - triggerBounding.bottom;
+            } else {
+                const height = this.element!.getBoundingClientRect().height;
+                maxHeightInScreen = triggerBounding.top;
+                if (height > maxHeightInScreen && typeof style.top === 'number') {
+                    style.top += height - maxHeightInScreen;
+                }
+            }
+            if (maxHeightInScreen) {
+                style.maxHeight = typeof maxHeight === 'number' ? Math.min(maxHeightInScreen, maxHeight) : maxHeightInScreen;
+            }
+        } else if (maxHeight) {
+            style.maxHeight = maxHeight;
         }
         return style;
     }
@@ -149,20 +169,19 @@ export class PickPop<S extends PickState = PickState, P extends PickPopProps<S> 
             computePosition(trigger, element, {
                 placement: (!placement || placement === 'auto') ? 'bottom-start' : placement,
                 middleware: [placement === 'auto' ? flip() : null, shift(), offset(1)].filter(Boolean),
-            }).then(({x, y}) => {
+            }).then(({x, y, placement: actualPlacement}) => {
                 if (isElementDetached(trigger) || !isVisible(trigger)) {
                     $(element).css({display: 'none'});
                     return;
                 }
-                $(element).css({
+                $(element).css(this._getStyle({
                     left: x,
                     top: y,
-                    ...this._getWidthSetting(),
-                });
+                }, actualPlacement));
                 this.props.onLayout?.(element);
             });
             if (width === '100%') {
-                $(element).css(this._getWidthSetting());
+                $(element).css(this._getStyle());
             }
         });
     }
