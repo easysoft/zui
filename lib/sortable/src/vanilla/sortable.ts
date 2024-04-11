@@ -81,5 +81,5 @@ export class Sortable extends Component<SortableOptions> {
 
 $.registerLib('sortablejs', {
     src: 'sortable/sortable.min.js',
-    name: 'Sortable',
+    check: 'Sortable',
 });
