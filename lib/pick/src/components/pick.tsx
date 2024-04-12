@@ -154,6 +154,7 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
             maxHeight: props.popMaxHeight,
             maxWidth: props.popMaxWidth,
             minWidth: props.popMinWidth,
+            limitInScreen: props.limitPopInScreen,
         };
     }
 

@@ -129,7 +129,7 @@ export class PickPop<S extends PickState = PickState, P extends PickPopProps<S> 
         if (maxWidth === '100%') {
             style.maxWidth = triggerWidth;
         }
-        if (this.props.limitInScreen && placement && (!maxHeight || typeof maxHeight === 'number')) {
+        if (this.props.limitInScreen && placement && (!maxHeight || maxHeight === 'auto' || typeof maxHeight === 'number')) {
             let maxHeightInScreen: number | undefined;
             if (placement.includes('bottom')) {
                 maxHeightInScreen = window.innerHeight - triggerBounding.bottom;
