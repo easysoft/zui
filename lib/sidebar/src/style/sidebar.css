@@ -17,7 +17,7 @@
   @apply -hidden;
 }
 .sidebar.is-collapsed > .sidebar-gutter {
-  @apply -flex;
+  @apply !-flex;
 }
 
 .sidebar-gutter {

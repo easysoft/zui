@@ -103,7 +103,7 @@ export class Sidebar extends Component<SidebarOptions, {
         this._$gutter = $gutter;
 
         this.render();
-        $element.css({'--gutter-width': `${gutterWidth}px`, width: `var(--sidebar-${side}-width)`, '--sidebar-duration': typeof animation === 'number' ? `${animation}ms` : undefined});
+        $element.css({'--gutter-width': `${gutterWidth}px`, width: `var(--sidebar-${side}-width)`, '--sidebar-duration': typeof animation === 'number' ? `${animation}ms` : null});
 
         if (toggleBtn) {
             $gutter.append(`<button class="gutter-toggle" type="button"><span class="chevron-${side}"></span></button>`);
@@ -144,7 +144,11 @@ export class Sidebar extends Component<SidebarOptions, {
             });
         }
         if (animation) {
-            this.on('transitionend', (e) => {if (e.target === $element[0] && e.propertyName === 'width') $element.removeClass(TRANSITION_CLASS);});
+            this.on('transitionend', (e) => {
+                if (e.target === $element[0] && e.propertyName === 'width') {
+                    $element.removeClass(TRANSITION_CLASS);
+                }
+            });
             this._raf = requestAnimationFrame(() => {
                 $parent.addClass(ANIMATION_CLASS);
             });
