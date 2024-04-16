@@ -38,7 +38,6 @@ const mousemovePlugin: DTablePlugin<DTableMousemoveTypes> = {
             this.data.dmmRafID = requestAnimationFrame(() => {
                 this.emitCustomEvent('document_mousemovesmooth', event);
             });
-            event.preventDefault();
         },
     },
 };
