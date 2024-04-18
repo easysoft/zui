@@ -142,8 +142,8 @@ function loadJS(options: string | LoadJSOptions): Promise<void> {
         script.onerror = () => {
             reject(new Error(`[ZUI] Failed to load JS from: ${src}`));
         };
-        script.src = src;
         $('head').append(script);
+        script.src = src;
     });
 }
 
