@@ -8,7 +8,7 @@ var st = (n, t, e) => (cs(n, t, "read from private field"), e ? e.call(n) : t.ge
   t instanceof WeakSet ? t.add(n) : t.set(n, e);
 }, gt = (n, t, e, s) => (cs(n, t, "write to private field"), s ? s.call(n, e) : t.set(n, e), e);
 var hs = (n, t, e) => (cs(n, t, "access private method"), e);
-const lu = "3.0.0-alpha.4", cu = 1713256193251, Dt = document, vn = window, Cr = Dt.documentElement, le = Dt.createElement.bind(Dt), Sr = le("div"), us = le("table"), Ma = le("tbody"), Hi = le("tr"), { isArray: Wn, prototype: kr } = Array, { concat: Aa, filter: Ks, indexOf: xr, map: Tr, push: Ia, slice: Nr, some: qs, splice: Pa } = kr, Ra = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, Da = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, La = /<.+>/, Fa = /^\w+$/;
+const lu = "3.0.0-alpha.4", cu = 1713404173963, Dt = document, vn = window, Cr = Dt.documentElement, le = Dt.createElement.bind(Dt), Sr = le("div"), us = le("table"), Ma = le("tbody"), Hi = le("tr"), { isArray: Wn, prototype: kr } = Array, { concat: Aa, filter: Ks, indexOf: xr, map: Tr, push: Ia, slice: Nr, some: qs, splice: Pa } = kr, Ra = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, Da = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, La = /<.+>/, Fa = /^\w+$/;
 function Gs(n, t) {
   const e = za(t);
   return !n || !e && !oe(t) && !Y(t) ? [] : !e && Da.test(n) ? t.getElementsByClassName(n.slice(1).replace(/\\/g, "")) : !e && Fa.test(n) ? t.getElementsByTagName(n) : t.querySelectorAll(n);
@@ -2294,7 +2294,7 @@ function Vl(n) {
       t(), (d(h).dataset("loaded", !0).data("loadCalls") || []).forEach((f) => f()), d(h).removeData("loadCalls");
     }, h.onerror = () => {
       e(new Error(`[ZUI] Failed to load JS from: ${s}`));
-    }, h.src = s, d("head").append(h);
+    }, d("head").append(h), h.src = s;
   });
 }
 d.getLib = async function(n, t, e) {
