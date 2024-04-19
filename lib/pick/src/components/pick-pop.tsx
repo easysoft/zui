@@ -132,7 +132,7 @@ export class PickPop<S extends PickState = PickState, P extends PickPopProps<S> 
         if (this.props.limitInScreen && placement && (!maxHeight || maxHeight === 'auto' || typeof maxHeight === 'number')) {
             let maxHeightInScreen: number | undefined;
             if (placement.includes('bottom')) {
-                maxHeightInScreen = window.innerHeight - triggerBounding.bottom;
+                maxHeightInScreen = window.innerHeight - triggerBounding.bottom - 2;
             } else {
                 const height = this.element!.getBoundingClientRect().height;
                 maxHeightInScreen = triggerBounding.top;
