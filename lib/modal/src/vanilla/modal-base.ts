@@ -192,8 +192,12 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
 
         /* Show other hidden modals. */
         const constructor = this.constructor as typeof ModalBase;
-        if (constructor.hideOthers) {
-            constructor.getAll().findLast(x => x.shown && x !== this)?.show();
+        if (constructor.hideOthers && this.options.hideOthers !== false) {
+            constructor.getAll().forEach(x => {
+                if (x.shown && x !== this) {
+                    x.show();
+                }
+            });
         }
         return true;
     }
