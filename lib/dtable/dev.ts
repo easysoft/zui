@@ -28,6 +28,143 @@ import {custom} from './src/plugins/custom';
 const faker = new Faker({locale: [zh_CN, en]});
 
 onPageLoad(() => {
+    const dataTableElement = document.getElementById('dataTable');
+    if (dataTableElement) {
+        const dataTable = new DTable(dataTableElement, {
+            datasource: {
+                cols: [
+                    {name: 'C1', title: '名称', width: 150},
+                    {
+                        name: 'C2',
+                        title: '类型',
+                        width: 100,
+                    },
+                    {
+                        name: 'C3',
+                        title: '重量',
+                        width: 60,
+                        align: 'right',
+                        custom: '<strong>{value}</strong>',
+                    },
+                    {
+                        name: 'C4',
+                        title: '自定义',
+                        width: 60,
+                        align: 'right',
+                        custom: {
+                            component: 'input',
+                            props: ({value}) => {
+                                return {
+                                    className: 'form-control flex-auto',
+                                    value,
+                                    onChange: (event) => {
+                                        console.log('> onChange', event.target.value);
+                                    },
+                                };
+                            },
+                        },
+                    },
+                ],
+                data: Array(100).fill(0).map(() => ([
+                    faker.animal.cetacean(),
+                    faker.lorem.word(),
+                    faker.number.int(1000),
+                    faker.number.int(1000),
+                    faker.number.int(1000),
+                    faker.number.int(1000),
+                    faker.number.int(1000),
+                    faker.number.int(1000),
+                    faker.number.int(1000),
+                    faker.number.int(1000),
+                ])),
+            },
+            height: 400,
+            colHover: 'header',
+            cellHover: true,
+            rowHover: true,
+            responsive: true,
+            plugins: [datagrid, cellspan, custom],
+            getCellSpan({row, col}) {
+                if (col.index === 1 && row.index === 0) {
+                    return {
+                        colSpan: 2,
+                        rowSpan: 2,
+                    };
+                }
+                if (col.index === 3 && row.index % 3 === 1) {
+                    return {
+                        colSpan: 3,
+                        rowSpan: 2,
+                    };
+                }
+            },
+        });
+        console.log('dataTable', dataTable);
+    }
+
+    const productElement = document.getElementById('productTable');
+    if (productElement) {
+        const productTable = new DTable(productElement, {
+            cols: [
+                {name: 'id', title: 'ID', width: 80, fixed: 'left'},
+                {name: 'name', title: '产品名称2', type: 'link', width: 280, fixed: 'left', sortType: 'asc', linkTemplate: '#/product/{id}', sortLink: '#?sortby={name}&order={sortType}'},
+                {name: 'productLine', title: '所属产品线', minWidth: 110, sortType: true, flex: 1, sortLink: (col, sortType) => `#?sortby=${col.name}&order=${sortType}`},
+                {name: 'manager', title: '负责人', type: 'avatarName', width: 110, sortType: true, avatarKey: 'managerAvatar', avatarWithName: true},
+                {name: 'feedback', title: '反馈', width: 65, sortType: true, align: 'center'},
+                {name: 'storyDraft', title: '需求草稿', width: 90, sortType: true, align: 'center', headerGroup: '需求情况'},
+                {name: 'storyActive', title: '激活', width: 80, sortType: true, align: 'center', headerGroup: '需求情况'},
+                {name: 'storyChanged', title: '变更', width: 80, sortType: true, align: 'center', headerGroup: '需求情况'},
+                {name: 'completion', title: '完成率', type: 'progress', width: 80, sortType: true, align: 'center', headerGroup: '需求情况'},
+                {name: 'plan', title: '计划', width: 80, sortType: true, align: 'center'},
+                {name: 'caseCoverage', title: '用例覆盖率', type: 'progress', width: 90, sortType: true, align: 'center'},
+                {name: 'bugActive', title: 'Bug激活', headerGroup: 'Bug情况', width: 80, sortType: true, align: 'center'},
+                {name: 'fixRate', title: '修复率', headerGroup: 'Bug情况', type: 'progress', width: 80, sortType: true, align: 'center'},
+                {name: 'release', title: '发布', width: 90, sortType: true, fixed: 'right', onRenderCell(result, {row}) {
+                    const releaseIncrease = Number(row.data?.releaseIncrease);
+                    result[0] = {
+                        html: `<strong>${result[0]}</strong>`,
+                    };
+                    if (releaseIncrease > 6) {
+                        result.push({
+                            html: `<span class="label size-sm ${row.data?.milestone ? 'important' : 'secondary'}-pale circle">+${releaseIncrease - 6}</span>`,
+                        });
+                    }
+                    result.push({attrs: {'data-toggle': 'popover', 'data-content': '发布说明'}});
+                    return result;
+                }},
+            ],
+            data: Array(2000).fill(0).map((_, index) => ({
+                id: `${index}`,
+                name: faker.animal.cetacean(),
+                productLine: faker.lorem.word(),
+                manager: `${faker.person.lastName()}${faker.person.firstName()}`,
+                feedback: faker.number.int(150),
+                storyDraft: faker.number.int(150),
+                storyActive: faker.number.int(150),
+                storyChanged: faker.number.int(150),
+                completion: faker.number.int(100),
+                plan: faker.number.int(10),
+                execution: faker.number.int(20),
+                caseCoverage: faker.number.int(100),
+                bugActive: faker.number.int(100),
+                fixRate: faker.number.int(100),
+                release: faker.number.int(200),
+                releaseIncrease: faker.number.int(10),
+                milestone: faker.datatype.boolean(),
+                managerAvatar: `/lib/avatar/assets/avatar-${faker.number.int({min: 1, max: 10})}.png`,
+            })),
+            emptyTip: '暂无',
+            height: 400,
+            striped: false,
+            bordered: true,
+            plugins: [rich, headerGroup, sortable],
+            responsive: true,
+        });
+        console.log('productTable', productTable);
+    } else {
+        console.log('DataTable element not found #productElement');
+    }
+
     const element = document.getElementById('datatableExample');
     if (element) {
         const datatable = new DTable(element, {
@@ -47,11 +184,9 @@ onPageLoad(() => {
                     edit: {icon: 'icon-edit', hint: '编辑'},
                 }},
             ],
-            data: Array(10).fill(0).map((_, index) => ({
-                // id: `${index}`,
-                id: `${index === 7 ? 700 : index}`,
-                // name: `${index}: ` + faker.animal.cetacean(),
-                name: `${index}: ` + `${[100, '', '', index - 1, index - 2, index - 3, index - 3, index - 4, index - 1, index - 1][index % 10]}`,
+            data: Array(20).fill(0).map((_, index) => ({
+                id: `${index}`,
+                name: faker.animal.cetacean(),
                 manager: '张三',
                 storyScale: 451,
                 executionCount: 451,
@@ -59,10 +194,10 @@ onPageLoad(() => {
                 startDate: '2020-01-01',
                 endDate: '2020-01-01',
                 progress: '50%',
-                parent: `${[100, '', '', index - 1, index - 2, index - 3, index - 3, index - 4, index - 1, index - 1][index % 10]}`,
+                parent: `${['', '', '', index - 1, index - 2, index - 3, index - 3, index - 4, index - 1, index - 1][index % 10]}`,
                 actions: ['add', 'delete', {name: 'edit', disabled: faker.datatype.boolean()}],
             })).reverse(),
-            height: 'auto',
+            height: 400,
             cellHover: true,
             colHover: 'header',
             moveable: 'header',
