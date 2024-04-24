@@ -15,6 +15,7 @@ export type ModalOptions = ModalBaseOptions & {
     timeoutTip?: string;
     title?: string;
     destoryOnHide?: boolean;
+    modal?: boolean;
     [prop: string]: unknown;
 };
 
