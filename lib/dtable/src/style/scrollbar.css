@@ -29,3 +29,10 @@
 .dtable-scroll-shadow.is-right {
   @apply -visible;
 }
+
+.scrollbar-hover:hover .scrollbar {
+  @apply -opacity-0;
+}
+.scrollbar-hover.dtable-hover .scrollbar {
+  @apply -opacity-[--scrollbar-opacity];
+}
