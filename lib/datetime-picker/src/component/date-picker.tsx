@@ -14,6 +14,7 @@ export class DatePicker<T extends DatePickerOptions = DatePickerOptions> extends
         popMaxHeight: 320,
         format: 'yyyy-MM-dd',
         icon: true,
+        limitPopInScreen: false,
     } as Partial<PickOptions>;
 
     constructor(props: T) {
