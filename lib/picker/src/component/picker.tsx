@@ -219,9 +219,6 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
                 }
                 return true;
             });
-            if (props.maxItemsCount) {
-                loadItems = loadItems.slice(0, props.maxItemsCount);
-            }
             newState.loading = false;
             newState.items = loadItems as PickerItemOptions[];
             cache.items = loadItems;
@@ -322,6 +319,7 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
             checkbox: props.checkbox,
             multiple: props.multiple,
             search: props.search,
+            maxItemsCount: props.maxItemsCount,
             footer: this._renderToolbar(),
             valueList: this.valueList,
             noMatchHint: props.searchEmptyHint ?? i18n.getLang('searchEmptyHint'),
