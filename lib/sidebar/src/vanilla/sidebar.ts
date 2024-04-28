@@ -118,6 +118,8 @@ export class Sidebar extends Component<SidebarOptions, {
                 } else {
                     this.toggle();
                 }
+            }).on('mousedown', (event: Event) => {
+                event.preventDefault();
             });
         }
         if (dragToResize) {
@@ -214,5 +216,8 @@ export class Sidebar extends Component<SidebarOptions, {
         $(this._parent)
             .css(`--sidebar-${side}-width`, `${width}px`)
             .toggleClass(`is-sidebar-${side}-collapsed`, isCollapsed);
+        if (this._moveable?.state) {
+            this.$element.removeClass(TRANSITION_CLASS);
+        }
     }
 }
