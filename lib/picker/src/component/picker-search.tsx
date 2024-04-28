@@ -54,6 +54,7 @@ export class PickerSearch extends Component<PickerSearchProps, PickerSearchState
                     keys: 'Enter',
                     handler: () => {
                         this.$pop.trigger('selectActive');
+                        this.clear();
                     },
                 },
                 activeNext: {
