@@ -5,7 +5,7 @@
   @apply --mb-4;
 }
 .modal-alert .modal-body {
-  @apply -whitespace-pre-line;
+  @apply -whitespace-pre-line -break-words;
 }
 .modal-alert .modal-actions + .modal-body {
   @apply -pr-12;
