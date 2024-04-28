@@ -8,7 +8,7 @@ var st = (n, t, e) => (cs(n, t, "read from private field"), e ? e.call(n) : t.ge
   t instanceof WeakSet ? t.add(n) : t.set(n, e);
 }, gt = (n, t, e, s) => (cs(n, t, "write to private field"), s ? s.call(n, e) : t.set(n, e), e);
 var hs = (n, t, e) => (cs(n, t, "access private method"), e);
-const lu = "3.0.0-alpha.4", cu = 1714109265195, Dt = document, vn = window, Cr = Dt.documentElement, le = Dt.createElement.bind(Dt), Sr = le("div"), us = le("table"), Ma = le("tbody"), Hi = le("tr"), { isArray: Wn, prototype: kr } = Array, { concat: Aa, filter: Ks, indexOf: xr, map: Tr, push: Ia, slice: Nr, some: qs, splice: Pa } = kr, Ra = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, Da = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, La = /<.+>/, Fa = /^\w+$/;
+const lu = "3.0.0-alpha.4", cu = 1714293873954, Dt = document, vn = window, Cr = Dt.documentElement, le = Dt.createElement.bind(Dt), Sr = le("div"), us = le("table"), Ma = le("tbody"), Hi = le("tr"), { isArray: Wn, prototype: kr } = Array, { concat: Aa, filter: Ks, indexOf: xr, map: Tr, push: Ia, slice: Nr, some: qs, splice: Pa } = kr, Ra = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, Da = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, La = /<.+>/, Fa = /^\w+$/;
 function Gs(n, t) {
   const e = za(t);
   return !n || !e && !oe(t) && !Y(t) ? [] : !e && Da.test(n) ? t.getElementsByClassName(n.slice(1).replace(/\\/g, "")) : !e && Fa.test(n) ? t.getElementsByTagName(n) : t.querySelectorAll(n);
@@ -1811,9 +1811,13 @@ function io(n, t = {}) {
   }, {});
 }
 function ro(n, t, e) {
-  const { timeout: s, event: i = "keydown", scope: r, when: o } = e || {}, a = so(t, { timeout: s });
-  return d(n).on(`${i}.zui.hotkeys${r ? `.${r}` : ""}`, function(l) {
-    o && o(l) === !1 || a(l);
+  const { timeout: s, event: i = "keydown", scope: r, when: o } = e || {}, a = so(t, { timeout: s }), l = `.zui.hotkeys${r ? `.${r}` : ""}`, c = "zui-hotkeys-composing";
+  return d(n).on(`${i}${l}`, function(u) {
+    o && o(u) === !1 || d(u.target).data(c) || a(u);
+  }).on(`compositionstart${l}`, (u) => {
+    d(u.target).data(c, !0);
+  }).on(`compositionend${l}`, (u) => {
+    d(u.target).removeData(c);
   });
 }
 function oo(n, t) {
@@ -7885,8 +7889,8 @@ class Xo extends j {
         },
         enter: {
           keys: "Enter",
-          handler: () => {
-            this.$pop.trigger("selectActive");
+          handler: (s) => {
+            s.preventDefault(), this.$pop.trigger("selectActive"), this.clear();
           }
         },
         activeNext: {
@@ -8192,15 +8196,15 @@ class ph extends Ao {
     );
   }
   _getMenuProps(t) {
-    const { menu: e, tree: s, state: i, checkbox: r, header: o, footer: a, noMatchHint: l } = t, { items: c, search: u } = i;
+    const { menu: e, tree: s, state: i, checkbox: r, header: o, footer: a, noMatchHint: l, maxItemsCount: c } = t, { items: u, search: h } = i;
     return H({
       ref: this._menu,
       className: "picker-menu-list",
       underlineKeys: !0,
-      items: c,
+      items: c ? u.slice(0, c) : u,
       defaultNestedShow: !0,
       activeOnHover: !0,
-      search: u,
+      search: h,
       onClickItem: this._handleItemClick,
       nestedToggle: ".nested-toggle-icon,.item-icon",
       checkbox: r,
@@ -8310,7 +8314,7 @@ let Ri = class extends vt {
     if (this._itemsCacheInfo = i, !e.loading && (t || i.search !== e.search || s.items !== i.items)) {
       await this.changeState({ loading: !0 });
       let a = await this.load();
-      a = a.filter((l) => (l.key = l.key ?? l.value, l.value = String(l.value), !this.isEmptyValue(l.value))), s.maxItemsCount && (a = a.slice(0, s.maxItemsCount)), r.loading = !1, r.items = a, i.items = a, i.search = e.search;
+      a = a.filter((l) => (l.key = l.key ?? l.value, l.value = String(l.value), !this.isEmptyValue(l.value))), r.loading = !1, r.items = a, i.items = a, i.search = e.search;
     } else
       i.items && !e.open && s.cache === !1 && !Array.isArray(s.items) && (i.items = void 0);
     (t || i.value !== e.value) && (i.value = e.value);
@@ -8372,6 +8376,7 @@ let Ri = class extends vt {
       checkbox: t.checkbox,
       multiple: t.multiple,
       search: t.search,
+      maxItemsCount: t.maxItemsCount,
       footer: this._renderToolbar(),
       valueList: this.valueList,
       noMatchHint: t.searchEmptyHint ?? W.getLang("searchEmptyHint"),
@@ -9223,7 +9228,7 @@ let zi = class extends j {
         var v;
         const y = (v = _.beforeRender) == null ? void 0 : v.call(this, t);
         y && (t = y);
-      }), h.width = t.width, h.height = t.height, h["--dtable-row-height"] = `${t.rowHeight}px`, p.push(
+      }), h.width = t.width, h.height = t.height, h["--dtable-row-height"] = `${t.rowHeight}px`, h["--dtable-header-height"] = `${t.headerHeight}px`, p.push(
         t.className,
         g ? "dtable-is-empty" : "",
         {
