@@ -971,6 +971,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
             style.width = layout.width;
             style.height = layout.height;
             style['--dtable-row-height'] = `${layout.rowHeight}px`;
+            style['--dtable-header-height'] = `${layout.headerHeight}px`;
             classNames.push(
                 layout.className,
                 isEmpty ? 'dtable-is-empty' : '',
