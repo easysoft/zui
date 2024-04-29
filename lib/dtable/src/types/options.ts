@@ -32,6 +32,7 @@ export interface DTableLayoutOptions {
     scrollbarHover: boolean;
     scrollbarSize?: number;
     horzScrollbarPos?: 'inside' | 'outside';
+    vertScrollbarPos?: 'inside' | 'outside';
     emptyTip?: CustomContentType;
 }
 

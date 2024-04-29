@@ -547,7 +547,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
     #renderScrollBars(layout: DTableLayout) {
         const scrollbars = [];
         const {scrollLeft, cols: {left: {width: fixedLeftWidth}, center: {width: centerWidth, totalWidth: centerScrollWidth}}, scrollTop, rowsHeight, rowsHeightTotal, footerHeight, headerHeight} = layout;
-        const {scrollbarSize = 12, horzScrollbarPos} = this.options;
+        const {scrollbarSize = 12, horzScrollbarPos, vertScrollbarPos} = this.options;
         if (centerScrollWidth > centerWidth) {
             scrollbars.push(
                 <Scrollbar
@@ -575,7 +575,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
                     scrollSize={rowsHeightTotal}
                     clientSize={rowsHeight}
                     onScroll={this.#handleScroll}
-                    right={0}
+                    right={vertScrollbarPos === 'outside' ? (-scrollbarSize) : 0}
                     size={scrollbarSize}
                     top={headerHeight}
                     wheelContainer={this.ref}
