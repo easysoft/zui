@@ -33,6 +33,6 @@
 .scrollbar-hover:hover .scrollbar {
   @apply -opacity-0;
 }
-.scrollbar-hover.dtable-hover .scrollbar {
+.scrollbar-hover .dtable-body:hover ~ .scrollbar {
   @apply -opacity-[--scrollbar-opacity];
 }
