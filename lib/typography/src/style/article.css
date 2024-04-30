@@ -20,6 +20,14 @@
   @apply -my-[--article-p-space];
 }
 
+.article p {
+  min-height: 1em;
+}
+.article p:empty::before {
+  content: ' ';
+  display: inline-block
+}
+
 .article hr {
   @apply -my-[--article-hr-space];
 }
