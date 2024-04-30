@@ -8,7 +8,7 @@ var st = (n, t, e) => (cs(n, t, "read from private field"), e ? e.call(n) : t.ge
   t instanceof WeakSet ? t.add(n) : t.set(n, e);
 }, gt = (n, t, e, s) => (cs(n, t, "write to private field"), s ? s.call(n, e) : t.set(n, e), e);
 var hs = (n, t, e) => (cs(n, t, "access private method"), e);
-const lu = "3.0.0-alpha.4", cu = 1714454045408, Dt = document, vn = window, Cr = Dt.documentElement, le = Dt.createElement.bind(Dt), Sr = le("div"), us = le("table"), Ma = le("tbody"), Hi = le("tr"), { isArray: Wn, prototype: kr } = Array, { concat: Aa, filter: Ks, indexOf: xr, map: Tr, push: Ia, slice: Nr, some: qs, splice: Pa } = kr, Ra = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, Da = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, La = /<.+>/, Fa = /^\w+$/;
+const lu = "3.0.0-alpha.4", cu = 1714464035670, Dt = document, vn = window, Cr = Dt.documentElement, le = Dt.createElement.bind(Dt), Sr = le("div"), us = le("table"), Ma = le("tbody"), Hi = le("tr"), { isArray: Wn, prototype: kr } = Array, { concat: Aa, filter: Ks, indexOf: xr, map: Tr, push: Ia, slice: Nr, some: qs, splice: Pa } = kr, Ra = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, Da = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, La = /<.+>/, Fa = /^\w+$/;
 function Gs(n, t) {
   const e = za(t);
   return !n || !e && !oe(t) && !Y(t) ? [] : !e && Da.test(n) ? t.getElementsByClassName(n.slice(1).replace(/\\/g, "")) : !e && Fa.test(n) ? t.getElementsByTagName(n) : t.querySelectorAll(n);
@@ -3824,7 +3824,7 @@ ke.defaultProps = {
 ke.inheritNestedProps = ["component", "name", "itemName", "itemKey", "indent", "hover", "divider", "multiline", "toggleIcons", "nestedToggle", "accordion", "itemRender", "itemProps", "beforeRenderItem", "onToggle", "checkbox", "getItem", "checkOnClick", "selectOnChecked", "checkedState", "onClickItem", "activeOnHover", "multipleActive", "onActive"];
 let J = class extends ke {
   _getClassName(t) {
-    return x(super._getClassName(t), this._hasNestedItems ? "menu-nested" : "", t.className, t.wrap ? { "scrollbar-thin": t.scrollbarThin, "scrollbar-hover": t.scrollbarHover } : { popup: t.popup, compact: t.compact });
+    return [super._getClassName(t), this._hasNestedItems ? "menu-nested" : "", t.className, t.wrap ? { "scrollbar-thin": t.scrollbarThin, "scrollbar-hover": t.scrollbarHover } : { popup: t.popup, compact: t.compact }];
   }
   _getWrapClass(t) {
     return ["menu-wrapper", t.wrapClass, { popup: t.popup, compact: t.compact }];
@@ -8090,6 +8090,9 @@ class fh extends mi {
   }
 }
 class rn extends J {
+  _getClassName(t) {
+    return [super._getClassName(t), t.lines ? "tree-lines" : ""];
+  }
   _getItem(t, e, s) {
     return this.constructor.getTreeItem(t, super._getItem(t, e, s));
   }
@@ -8108,6 +8111,9 @@ rn.defaultItemProps = {
 };
 rn.inheritNestedProps = [...J.inheritNestedProps, "itemActions", "expandedIcon", "collapsedIcon", "normalIcon"];
 class os extends yt {
+  _getClassName(t) {
+    return [super._getClassName(t), t.lines ? "tree-lines" : ""];
+  }
   _getItem(t, e, s) {
     return rn.getTreeItem(t, super._getItem(t, e, s));
   }
