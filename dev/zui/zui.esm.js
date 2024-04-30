@@ -8,7 +8,7 @@ var st = (n, t, e) => (cs(n, t, "read from private field"), e ? e.call(n) : t.ge
   t instanceof WeakSet ? t.add(n) : t.set(n, e);
 }, gt = (n, t, e, s) => (cs(n, t, "write to private field"), s ? s.call(n, e) : t.set(n, e), e);
 var hs = (n, t, e) => (cs(n, t, "access private method"), e);
-const lu = "3.0.0-alpha.4", cu = 1714293873954, Dt = document, vn = window, Cr = Dt.documentElement, le = Dt.createElement.bind(Dt), Sr = le("div"), us = le("table"), Ma = le("tbody"), Hi = le("tr"), { isArray: Wn, prototype: kr } = Array, { concat: Aa, filter: Ks, indexOf: xr, map: Tr, push: Ia, slice: Nr, some: qs, splice: Pa } = kr, Ra = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, Da = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, La = /<.+>/, Fa = /^\w+$/;
+const lu = "3.0.0-alpha.4", cu = 1714454045408, Dt = document, vn = window, Cr = Dt.documentElement, le = Dt.createElement.bind(Dt), Sr = le("div"), us = le("table"), Ma = le("tbody"), Hi = le("tr"), { isArray: Wn, prototype: kr } = Array, { concat: Aa, filter: Ks, indexOf: xr, map: Tr, push: Ia, slice: Nr, some: qs, splice: Pa } = kr, Ra = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, Da = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, La = /<.+>/, Fa = /^\w+$/;
 function Gs(n, t) {
   const e = za(t);
   return !n || !e && !oe(t) && !Y(t) ? [] : !e && Da.test(n) ? t.getElementsByClassName(n.slice(1).replace(/\\/g, "")) : !e && Fa.test(n) ? t.getElementsByTagName(n) : t.querySelectorAll(n);
@@ -9356,7 +9356,7 @@ ha = function(n) {
 };
 zs = /* @__PURE__ */ new WeakSet();
 ua = function(n) {
-  const t = [], { scrollLeft: e, cols: { left: { width: s }, center: { width: i, totalWidth: r } }, scrollTop: o, rowsHeight: a, rowsHeightTotal: l, footerHeight: c, headerHeight: u } = n, { scrollbarSize: h = 12, horzScrollbarPos: p } = this.options;
+  const t = [], { scrollLeft: e, cols: { left: { width: s }, center: { width: i, totalWidth: r } }, scrollTop: o, rowsHeight: a, rowsHeightTotal: l, footerHeight: c, headerHeight: u } = n, { scrollbarSize: h = 12, horzScrollbarPos: p, vertScrollbarPos: f } = this.options;
   return r > i && t.push(
     /* @__PURE__ */ m(
       gr,
@@ -9384,7 +9384,7 @@ ua = function(n) {
         scrollSize: l,
         clientSize: a,
         onScroll: N(this, Rn),
-        right: 0,
+        right: f === "outside" ? -h : 0,
         size: h,
         top: u,
         wheelContainer: this.ref
