@@ -27,7 +27,11 @@
 ::-webkit-scrollbar-thumb:active {
     background: var(--scrollbar-drag-bg);
 }
-
+@-moz-document url-prefix() {
+    .scrollbar-thin {
+        scrollbar-width: thin;
+    }
+}
 .scrollbar-thin::-webkit-scrollbar {
     height: calc(var(--scrollbar-size) / 2);
     width: calc(var(--scrollbar-size) / 2);
