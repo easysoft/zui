@@ -24,7 +24,7 @@ export class Menu<T extends MenuOptions = MenuOptions, S extends NestedListState
     };
 
     protected _getClassName(props: RenderableProps<T>): ClassNameLike {
-        return classes(super._getClassName(props), this._hasNestedItems ? 'menu-nested' : '', props.className, props.wrap ? {'scrollbar-thin': props.scrollbarThin, 'scrollbar-hover': props.scrollbarHover} : {popup: props.popup, compact: props.compact});
+        return [super._getClassName(props), this._hasNestedItems ? 'menu-nested' : '', props.className, props.wrap ? {'scrollbar-thin': props.scrollbarThin, 'scrollbar-hover': props.scrollbarHover} : {popup: props.popup, compact: props.compact}];
     }
 
     protected _getWrapClass(props: RenderableProps<T>): ClassNameLike {
