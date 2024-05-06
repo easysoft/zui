@@ -1,6 +1,6 @@
 import {Component, RefObject, createRef} from 'preact';
 import {store} from '@zui/store';
-import {$} from '@zui/core';
+import {$, classes} from '@zui/core';
 import {Draggable} from '@zui/dnd';
 import {formatString} from '@zui/helpers';
 import {Block} from './block';
@@ -192,7 +192,7 @@ export class Dashboard extends Component<Required<DashboardOptions>, DashboardSt
                 store.session.set(`${CACHE_PREFIX}${id}`, html);
             }
         } catch (error) {
-            console.warn('ZUI: Failed to cache block content.', {id, html});
+            console.warn('ZUI: Failed to cache block content.', {id, html, error});
         }
     }
 
@@ -500,7 +500,7 @@ export class Dashboard extends Component<Required<DashboardOptions>, DashboardSt
 
     render() {
         const {blocks, height: dashboardHeight} = this._layout();
-        const {cellHeight, grid} = this.props;
+        const {cellHeight, grid, emptyBlockContent} = this.props;
         const {dropping, dragging} = this.state;
         const map = this._map;
         return (
@@ -529,8 +529,9 @@ export class Dashboard extends Component<Required<DashboardOptions>, DashboardSt
                                 top={cellHeight * top}
                                 width={`${100 * width / grid}%`}
                                 height={cellHeight * height}
-                                content={content}
+                                content={content ?? emptyBlockContent}
                                 title={title}
+                                className={classes(block.needLoad ? 'need-load' : '', content ? 'has-content' : '')}
                                 onMenuBtnClick={menu ? this._handleMenuClick : undefined}
                             />
                         );

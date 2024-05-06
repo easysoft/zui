@@ -1,4 +1,4 @@
-import {$, HtmlContent} from '@zui/core';
+import {$, HtmlContent, classes} from '@zui/core';
 import '@zui/css-icons/src/icons/more.css';
 import type {BlockProps} from '../types';
 
@@ -7,11 +7,11 @@ export type BlockState = {
 };
 
 export function Block(props: BlockProps) {
-    const {left, top, id, onMenuBtnClick, title, width, height, content, loading, draggable = true} = props;
+    const {left, className, top, id, onMenuBtnClick, title, width, height, content, loading, draggable = true} = props;
     return (
         <div class="dashboard-block-cell" style={{left, top, width, height}}>
             <div
-                class={`dashboard-block load-indicator${(loading && !content) ? ' loading'  : ''}${onMenuBtnClick ? ' has-more-menu' : ''}`}
+                className={classes('dashboard-block load-indicator', (loading && !content) ? 'loading'  : '', onMenuBtnClick ? 'has-more-menu' : '', className)}
                 draggable={draggable}
                 data-id={id}
             >
