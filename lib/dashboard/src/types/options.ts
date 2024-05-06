@@ -17,6 +17,7 @@ export type DashboardOptions =  {
     blockSizeMap: Record<string, [width: number, height: number] | {width: number, height: number}>;
     blockMenu?: ContextMenuOptions;
     emptyBlockContent?: ComponentChildren | {html: string};
+    onlyLoadVisible?: boolean;
     onClickMenu?: (info: {item: MenuItemOptions, event: MouseEvent}, block: BlockInfo) => void;
     onLayoutChange?: (layout: Record<string, {top: number, left: number, width: number, height: number}>) => void;
     onLoad?: (info: BlockInfo) => void;

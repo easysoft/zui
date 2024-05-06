@@ -47,6 +47,7 @@ export class Dashboard extends Component<Required<DashboardOptions>, DashboardSt
         cellHeight: 64,
         blockDefaultSize: [1, 3],
         blockMenu: {items: [{text: 'Refresh', data: {type: 'refresh'}}]},
+        onlyLoadVisible: true,
         blockSizeMap: {
             xs: [1, 3],
             sm: [1, 4],
@@ -177,7 +178,7 @@ export class Dashboard extends Component<Required<DashboardOptions>, DashboardSt
     };
 
     protected _isVisible(id: string) {
-        return !!$(this._ref.current).find(`.dashboard-block[data-id="${id}"]`).isVisible();
+        return !this.props.onlyLoadVisible || !!$(this._ref.current).find(`.dashboard-block[data-id="${id}"]`).isVisible();
     }
 
     protected _setCache(id: string, html: string) {
