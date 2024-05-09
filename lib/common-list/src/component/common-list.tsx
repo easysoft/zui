@@ -186,7 +186,11 @@ export class CommonList<P extends CommonListProps = CommonListProps, S = {}> ext
         }
 
         const {ItemComponents} = this.constructor;
-        let ItemComponent = (item.component as ComponentType) || ItemComponents[type!] || ItemComponents.default || HElement;
+        let ItemComponent = ItemComponents[type!];
+        if (!ItemComponent && item.component) {
+            return <CustomContent z-key={item.key} z-item={index} z-type={type} content={{...item}}/>;
+        }
+        ItemComponent = ItemComponent || ItemComponents.default || HElement;
         if (Array.isArray(ItemComponent)) {
             let defaultItemProps = ItemComponent[1];
             if (typeof defaultItemProps === 'function') {
@@ -194,9 +198,6 @@ export class CommonList<P extends CommonListProps = CommonListProps, S = {}> ext
             }
             item = mergeProps({}, defaultItemProps, item);
             ItemComponent = ItemComponent[0];
-        }
-        if (typeof ItemComponent === 'string') {
-            return <CustomContent z-key={item.key} z-item={index} z-type={type} content={{...item, component: ItemComponent}}/>;
         }
         return <ItemComponent z-key={item.key} z-item={index} z-type={type} {...item} />;
     }
