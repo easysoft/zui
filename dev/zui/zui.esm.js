@@ -8,7 +8,7 @@ var st = (n, t, e) => (cs(n, t, "read from private field"), e ? e.call(n) : t.ge
   t instanceof WeakSet ? t.add(n) : t.set(n, e);
 }, gt = (n, t, e, s) => (cs(n, t, "write to private field"), s ? s.call(n, e) : t.set(n, e), e);
 var hs = (n, t, e) => (cs(n, t, "access private method"), e);
-const yu = "3.0.0-alpha.4", vu = 1715235926739, Lt = document, wn = window, Tr = Lt.documentElement, ce = Lt.createElement.bind(Lt), Nr = ce("div"), us = ce("table"), Ra = ce("tbody"), Ui = ce("tr"), { isArray: jn, prototype: Er } = Array, { concat: Da, filter: Ys, indexOf: $r, map: Mr, push: La, slice: Ar, some: Js, splice: Fa } = Er, za = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, Oa = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, Ha = /<.+>/, Wa = /^\w+$/;
+const yu = "3.0.0-alpha.4", vu = 1715246680687, Lt = document, wn = window, Tr = Lt.documentElement, ce = Lt.createElement.bind(Lt), Nr = ce("div"), us = ce("table"), Ra = ce("tbody"), Ui = ce("tr"), { isArray: jn, prototype: Er } = Array, { concat: Da, filter: Ys, indexOf: $r, map: Mr, push: La, slice: Ar, some: Js, splice: Fa } = Er, za = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, Oa = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, Ha = /<.+>/, Wa = /^\w+$/;
 function Zs(n, t) {
   const e = ja(t);
   return !n || !e && !oe(t) && !Y(t) ? [] : !e && Oa.test(n) ? t.getElementsByClassName(n.slice(1).replace(/\\/g, "")) : !e && Wa.test(n) ? t.getElementsByTagName(n) : t.querySelectorAll(n);
@@ -2766,12 +2766,14 @@ let ot = class extends X {
         return /* @__PURE__ */ m(B, { "z-key": e.key, "z-item": s, "z-type": r, content: c });
     }
     const { ItemComponents: a } = this.constructor;
-    let l = e.component || a[r] || a.default || X;
-    if (Array.isArray(l)) {
+    let l = a[r];
+    if (!l && e.component)
+      return /* @__PURE__ */ m(B, { "z-key": e.key, "z-item": s, "z-type": r, content: { ...e } });
+    if (l = l || a.default || X, Array.isArray(l)) {
       let c = l[1];
       typeof c == "function" && (c = c.call(this, e, t)), e = H({}, c, e), l = l[0];
     }
-    return typeof l == "string" ? /* @__PURE__ */ m(B, { "z-key": e.key, "z-item": s, "z-type": r, content: { ...e, component: l } }) : /* @__PURE__ */ m(l, { "z-key": e.key, "z-item": s, "z-type": r, ...e });
+    return /* @__PURE__ */ m(l, { "z-key": e.key, "z-item": s, "z-type": r, ...e });
   }
   /**
    * Get the rendered item final properties.
