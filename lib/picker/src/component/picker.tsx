@@ -227,7 +227,7 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
             });
             newState.loading = false;
             newState.items = loadItems as PickerItemOptions[];
-            cache.items = loadItems;
+            cache.items = props.items;
             cache.search = state.search;
         } else if (cache.items && !state.open && props.cache === false && !Array.isArray(props.items)) {
             cache.items = undefined;
