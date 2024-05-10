@@ -8,7 +8,7 @@ var st = (n, t, e) => (cs(n, t, "read from private field"), e ? e.call(n) : t.ge
   t instanceof WeakSet ? t.add(n) : t.set(n, e);
 }, gt = (n, t, e, s) => (cs(n, t, "write to private field"), s ? s.call(n, e) : t.set(n, e), e);
 var hs = (n, t, e) => (cs(n, t, "access private method"), e);
-const yu = "3.0.0-alpha.4", vu = 1715246680687, Lt = document, wn = window, Tr = Lt.documentElement, ce = Lt.createElement.bind(Lt), Nr = ce("div"), us = ce("table"), Ra = ce("tbody"), Ui = ce("tr"), { isArray: jn, prototype: Er } = Array, { concat: Da, filter: Ys, indexOf: $r, map: Mr, push: La, slice: Ar, some: Js, splice: Fa } = Er, za = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, Oa = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, Ha = /<.+>/, Wa = /^\w+$/;
+const yu = "3.0.0-alpha.4", vu = 1715333747742, Lt = document, wn = window, Tr = Lt.documentElement, ce = Lt.createElement.bind(Lt), Nr = ce("div"), us = ce("table"), Ra = ce("tbody"), Ui = ce("tr"), { isArray: jn, prototype: Er } = Array, { concat: Da, filter: Ys, indexOf: $r, map: Mr, push: La, slice: Ar, some: Js, splice: Fa } = Er, za = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, Oa = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, Ha = /<.+>/, Wa = /^\w+$/;
 function Zs(n, t) {
   const e = ja(t);
   return !n || !e && !oe(t) && !Y(t) ? [] : !e && Oa.test(n) ? t.getElementsByClassName(n.slice(1).replace(/\\/g, "")) : !e && Wa.test(n) ? t.getElementsByTagName(n) : t.querySelectorAll(n);
@@ -3319,7 +3319,7 @@ class Xn extends ot {
     for (e = e || ((l) => l.type === "item" && !l.disabled); a < r; ) {
       o = (o + s + r) % r;
       const l = i[o];
-      if (l && e.call(this, l, o))
+      if (l && !l.disabled && e.call(this, l, o))
         return l;
       a++;
     }
@@ -3691,7 +3691,7 @@ class ke extends Xn {
     s && this.toggleActive(s._keyPath);
   }
   getNextItem(t, e, s = 1, i = void 0) {
-    return i = i || pi(this._items, this.props.itemKey, (r, o) => (r.push({
+    return i = i || pi(this._items, this.props.itemKey, (r, o) => (o.data.disabled || r.push({
       _keyPath: o.keyPath,
       type: "item",
       ...o.data,
@@ -3791,7 +3791,7 @@ class ke extends Xn {
   }
   _toggleFromEvent(t) {
     const { item: e, hover: s, event: i, keyPath: r, target: o } = t, { nestedToggle: a } = this.props, { isHoverTrigger: l } = this;
-    if (!e.items || i.defaultPrevented || l && s === void 0 || !l && i.type !== "click" || o.closest(".not-nested-toggle") || a && !o.closest(a) || !a && o.closest("a,.btn,.item-checkbox,.open-url") && !o.closest(".nested-toggle-icon,.item-icon"))
+    if (!e.items || i.defaultPrevented || l && s === void 0 || !l && i.type !== "click" || o.closest(".not-nested-toggle") || a && !e.disabled && !o.closest(a) || !a && !e.disabled && o.closest("a,.btn,.item-checkbox,.open-url") && !o.closest(".nested-toggle-icon,.item-icon"))
       return t;
     const c = typeof s == "boolean" ? s : void 0;
     this.toggle(r, c), i.preventDefault();
@@ -8273,7 +8273,7 @@ class kh extends Do {
   }
 }
 function me(n, t) {
-  return n.reduce((e, s) => (Array.isArray(s.items) && me(s.items, e), e.set(String(s.value), s), e), t || /* @__PURE__ */ new Map());
+  return n.reduce((e, s) => (Array.isArray(s.items) && me(s.items, e), e.set(s.value === void 0 ? "" : String(s.value), s), e), t || /* @__PURE__ */ new Map());
 }
 let Oi = class extends yt {
   constructor(t) {
@@ -8301,7 +8301,9 @@ let Oi = class extends yt {
     this._emptyValueSet = new Set(s.split(e)), this.setValue = this.setValue.bind(this);
     const { items: i } = this.state;
     if (Array.isArray(i) && i.length) {
-      if (i.forEach((r) => r.value = String(r.value)), t.limitValueInList) {
+      if (i.forEach((r) => {
+        typeof r.value == "number" && (r.value = String(r.value));
+      }), t.limitValueInList) {
         const r = me(i);
         this.state.value = this.valueList.filter((o) => r.has(o)).join(t.valueSplitter);
       }
@@ -8365,7 +8367,7 @@ let Oi = class extends yt {
     if (this._itemsCacheInfo = i, !e.loading && (t || i.search !== e.search || s.items !== i.items)) {
       await this.changeState({ loading: !0 });
       let a = await this.load();
-      a = a.filter((l) => (l.key = l.key ?? l.value, l.value = String(l.value), !this.isEmptyValue(l.value))), r.loading = !1, r.items = a, i.items = a, i.search = e.search;
+      a = a.filter((l) => (l.key = l.key ?? l.value, typeof l.value == "number" && (l.value = String(l.value)), !this.isEmptyValue(l.value))), r.loading = !1, r.items = a, i.items = s.items, i.search = e.search;
     } else
       i.items && !e.open && s.cache === !1 && !Array.isArray(s.items) && (i.items = void 0);
     (t || i.value !== e.value) && (i.value = e.value);
