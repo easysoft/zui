@@ -403,6 +403,9 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
 
     getNextItem(key: string | undefined, condition?: (item: Item, index: number) => boolean, step = 1, items: Item[] | undefined = undefined): Item | undefined {
         items = items || reduceNestedItems<Item[]>(this._items, this.props.itemKey, (list, info) => {
+            if (info.data.disabled) {
+                return list;
+            }
             list.push({
                 _keyPath: info.keyPath,
                 type: 'item',
