@@ -560,7 +560,7 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
         const {item, hover, event, keyPath, target} = info;
         const {nestedToggle} = this.props;
         const {isHoverTrigger} = this;
-        if (!item.items || event.defaultPrevented || (isHoverTrigger && hover === undefined) || (!isHoverTrigger && event.type !== 'click') || target.closest('.not-nested-toggle') || (nestedToggle && !target.closest(nestedToggle)) || (!nestedToggle && target.closest('a,.btn,.item-checkbox,.open-url') && !target.closest('.nested-toggle-icon,.item-icon'))) {
+        if (!item.items || event.defaultPrevented || (isHoverTrigger && hover === undefined) || (!isHoverTrigger && event.type !== 'click') || target.closest('.not-nested-toggle') || (nestedToggle && !item.disabled && !target.closest(nestedToggle)) || (!nestedToggle && !item.disabled && target.closest('a,.btn,.item-checkbox,.open-url') && !target.closest('.nested-toggle-icon,.item-icon'))) {
             return info;
         }
         const toggle = typeof hover === 'boolean' ? hover : undefined;
