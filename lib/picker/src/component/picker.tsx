@@ -16,7 +16,7 @@ function getValueMap(items: PickerItemOptions[], userMap?: Map<string, PickerIte
         if (Array.isArray(item.items)) {
             getValueMap(item.items as PickerItemOptions[], map);
         }
-        map.set(String(item.value), item);
+        map.set(item.value === undefined ? '' : String(item.value), item);
         return map;
     }, userMap || new Map());
 }
@@ -58,7 +58,11 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
 
         const {items} = this.state;
         if (Array.isArray(items) && items.length) {
-            items.forEach(item => item.value = String(item.value)); // Fix item value could be non-string.
+            items.forEach(item => {
+                if (typeof item.value === 'number') {
+                    item.value = String(item.value);
+                }
+            }); // Fix item value could be non-string.
             if (props.limitValueInList) {
                 const valueMap = getValueMap(items);
                 (this.state as PickerState).value = this.valueList.filter(x => valueMap.has(x)).join(props.valueSplitter);
@@ -213,7 +217,9 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
             let loadItems = await this.load();
             loadItems = loadItems.filter(x => {
                 x.key = x.key ?? (x.value as string);
-                x.value = String(x.value);
+                if (typeof x.value === 'number') {
+                    x.value = String(x.value);
+                }
                 if (this.isEmptyValue(x.value as string)) {
                     return false;
                 }
