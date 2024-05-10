@@ -150,6 +150,7 @@ export class Scrollbar extends Component<ScrollbarProps, ScrollbarState> {
         if (!this.state.dragStart) {
             this.setState({dragStart: {x: event.clientX, y: event.clientY, offset: this.scrollPos}});
         }
+        event.preventDefault();
         event.stopPropagation();
     };
 
