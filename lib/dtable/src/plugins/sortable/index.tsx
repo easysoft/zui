@@ -38,7 +38,8 @@ export type DTableSortableTypes = {
     data: {
         disableCheckable?: boolean,
         disableSortable?: boolean,
-        sortableInfo?: {from: RowInfo, offset: number, state?: SortingState};
+        sortableInfo?: {from: RowInfo, offset: number, state?: SortingState, startMouseY: number, lastMouseY: number};
+        ignoreNextClick?: number;
     },
     methods: {
         getSortingState(this: DTableSortable, event: MouseEvent): SortingState | undefined;
@@ -61,7 +62,16 @@ const sortablePlugin: DTablePlugin<DTableSortableTypes, [DTableMousemoveTypes, D
     when: options => !!options.sortable,
     plugins: [mousemove, autoscroll],
     events: {
+        click(event) {
+            if (this.data.ignoreNextClick) {
+                event.preventDefault();
+                this.data.ignoreNextClick = undefined;
+            }
+        },
         mousedown(event) {
+            if (this.data.ignoreNextClick) {
+                clearTimeout(this.data.ignoreNextClick);
+            }
             if (this.data.disableSortable) {
                 return;
             }
@@ -78,10 +88,12 @@ const sortablePlugin: DTablePlugin<DTableSortableTypes, [DTableMousemoveTypes, D
             if (!row || this.options.onSortStart?.call(this, row, event) === false) {
                 return;
             }
-            this.data.sortableInfo = {from: row, offset: event.clientY - info.cellElement.getBoundingClientRect().top};
+            const startMouseY = event.clientY;
+            this.data.sortableInfo = {from: row, offset: startMouseY - info.cellElement.getBoundingClientRect().top, startMouseY, lastMouseY: startMouseY};
         },
         document_mouseup(event) {
-            if (!this.data.sortableInfo) {
+            const {sortableInfo} = this.data;
+            if (!sortableInfo) {
                 return;
             }
             this.stopScrollToMouse();
@@ -108,6 +120,12 @@ const sortablePlugin: DTablePlugin<DTableSortableTypes, [DTableMousemoveTypes, D
                         rowOrders = undefined;
                         orders = undefined;
                     }
+                }
+
+                if (sortingTo || Math.abs(sortableInfo.lastMouseY - sortableInfo.startMouseY) > 4) {
+                    this.data.ignoreNextClick = window.setTimeout(() => {
+                        this.data.ignoreNextClick = undefined;
+                    });
                 }
 
                 this.disableAnimation();
@@ -143,6 +161,7 @@ const sortablePlugin: DTablePlugin<DTableSortableTypes, [DTableMousemoveTypes, D
                 this.startScrollToMouse({side: 'y'});
                 this.data.disableCheckable = true;
             }
+            sortableInfo.lastMouseY = event.clientY;
             sortableInfo.state = sortingState;
             this.setState(sortingState);
         },
