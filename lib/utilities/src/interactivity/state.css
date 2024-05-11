@@ -55,3 +55,14 @@
 .state {
     @apply -state;
 }
+
+.btn {
+  --state-active-opacity: 1;
+}
+
+@-moz-document url-prefix() {
+    :root, .btn {
+        --state-active-opacity: 0;
+        --state-focus-opacity: 0;
+    }
+}
