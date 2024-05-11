@@ -8,4 +8,8 @@
   ::after {
     @apply -border-border;
   }
+
+  :focus-visible {
+    @apply -outline-none;
+  }
 }
