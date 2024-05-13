@@ -73,11 +73,12 @@ export function renderFormat(format: ColFormatSetting | undefined, info: {row: R
     if (format === undefined || format === null) {
         return;
     }
-    value = value ?? info.row.data?.[info.col.name];
+    const rowData = info.row.data;
+    value = value ?? rowData?.[info.col.name];
     if (typeof format === 'function') {
         return format(value, info);
     }
-    return formatString(format, value);
+    return formatString(format, {...rowData, '0': value});
 }
 
 export function renderDatetime(format: ColDateFormatSetting, info: {row: RowInfo, col: ColInfo}, value?: unknown, invalidDate?: string) {
