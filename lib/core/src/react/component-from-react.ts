@@ -95,4 +95,10 @@ export class ComponentFromReact<O extends {} = {}, C extends ComponentReact<O> =
             element,
         );
     }
+
+    static renderHTML(options: Record<string, unknown>): string {
+        const tmpNode = document.createElement('div');
+        render(h(this.Component as ComponentClass, options), tmpNode);
+        return tmpNode.innerHTML;
+    }
 }
