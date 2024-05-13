@@ -1,8 +1,10 @@
+import {formatString} from '@zui/helpers';
 import {definePlugin} from '../../helpers/shared-plugins';
 import {store} from '../store';
 import '@zui/css-icons/src/icons/toggle.css';
 import './style.css';
 
+import {ComponentChildren, CustomContent, type CustomContentType} from '@zui/core';
 import type {DTableSortableTypes} from '../sortable';
 import type {DTableCheckableTypes} from '../checkable';
 import type {DTableStoreTypes} from '../store';
@@ -45,6 +47,7 @@ export type DTableNestedTypes = {
     col: Partial<{
         nestedToggle: boolean;
         nestedIndent: number | boolean;
+        childLabel?: CustomContentType,
     }>,
     data: {
         nestedMap: Map<RowID, NestedRowInfo>,
@@ -319,10 +322,20 @@ const nestedPlugin: DTablePlugin<DTableNestedTypes, DTableNestedDependencies> = 
         });
         return rows;
     },
-    onRenderCell(result, {col, row}) {
+    onRenderCell(result, cellInfo) {
+        const {row, col} = cellInfo;
         const {id: rowID, data: rowData} = row;
-        const {nestedToggle} = col.setting;
+        const {nestedToggle, childLabel} = col.setting;
         const info = this.getNestedRowInfo(rowID);
+        if (info.parent && childLabel) {
+            let labelView: ComponentChildren;
+            if (typeof childLabel === 'string') {
+                labelView = <span className="dtable-child-label label rounded-full size-sm gray-pale">{formatString(childLabel, rowData)}</span>;
+            } else {
+                labelView = <CustomContent className="dtable-child-label" content={childLabel} generatorThis={cellInfo} />;
+            }
+            result.unshift(labelView);
+        }
         if (nestedToggle && (info.children || info.parent)) {
             result.push(
                 this.options.onRenderNestedToggle?.call(this, info, rowID, col, rowData) ?? (<a className={`${nestedToggleClass} state${info.children ? '' : ' is-no-child'}`}><span className="toggle-icon"></span></a>),

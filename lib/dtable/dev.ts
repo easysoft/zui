@@ -170,7 +170,7 @@ onPageLoad(() => {
         const datatable = new DTable(element, {
             cols: [
                 {name: 'id', title: 'ID', width: 80, fixed: 'left', sortType: 'desc', checkbox: true},
-                {name: 'name', title: '项目名称', minWidth: 200, flex: 1, sortType: true, nestedToggle: true},
+                {name: 'name', title: '项目名称', minWidth: 200, flex: 1, sortType: true, nestedToggle: true, childLabel: '子'},
                 {name: 'manager', title: '负责人', sortType: true, border: true, width: 200},
                 {name: 'storyScale', title: '需求规模', sortType: true},
                 {name: 'executionCount', title: '执行数', sortType: true},
