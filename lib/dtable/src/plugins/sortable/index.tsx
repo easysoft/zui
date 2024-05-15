@@ -67,6 +67,9 @@ const sortablePlugin: DTablePlugin<DTableSortableTypes, [DTableMousemoveTypes, D
                 event.preventDefault();
                 this.data.ignoreNextClick = undefined;
             }
+            if ((event.target as HTMLElement).closest('.dtable-sort-link')) {
+                this.state.rowOrders = undefined;
+            }
         },
         mousedown(event) {
             if (this.data.ignoreNextClick) {
