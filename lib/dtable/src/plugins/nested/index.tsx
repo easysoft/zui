@@ -327,7 +327,7 @@ const nestedPlugin: DTablePlugin<DTableNestedTypes, DTableNestedDependencies> = 
         const {id: rowID, data: rowData} = row;
         const {nestedToggle, childLabel} = col.setting;
         const info = this.getNestedRowInfo(rowID);
-        if (info.parent && childLabel) {
+        if (rowData![this.options.nestedParentKey || 'parent'] && childLabel) {
             let labelView: ComponentChildren;
             if (typeof childLabel === 'string') {
                 labelView = <span className="dtable-child-label label rounded-full size-sm gray-pale">{formatString(childLabel, rowData)}</span>;
