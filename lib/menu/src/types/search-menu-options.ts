@@ -12,5 +12,6 @@ export interface SearchMenuOptions<T extends NestedItem = NestedListItem> extend
     underlineKeys?: boolean;
     searchProps?: string[];
     noMatchHint?: string;
+    limit?: number;
     isItemMatch?: (item: NestedItem, searchKeys: string[], index: number, parentKey: ItemKey | undefined) => boolean;
 }

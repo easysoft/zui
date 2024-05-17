@@ -22,6 +22,8 @@ export class SearchMenu<T extends SearchMenuOptions = SearchMenuOptions> extends
 
     protected declare _matchedParents: Set<string>;
 
+    protected declare _showCount: number;
+
     constructor(props: T) {
         super(props);
         (this.state as SearchMenuState).search = props.search ?? props.defaultSearch;
@@ -100,10 +102,15 @@ export class SearchMenu<T extends SearchMenuOptions = SearchMenuOptions> extends
         if (!finalItem) {
             return finalItem;
         }
+        if (this.isRoot && this.props.limit && this._showCount >= this.props.limit) {
+            return false;
+        }
         finalItem.hidden = !this._isItemMatch(props, item, index, props.parentKey);
+        if (!finalItem.hidden) {
+            this._showCount++;
+        }
         return finalItem;
     }
-
 
     protected _renderItem(props: RenderableProps<T>, item: Item, index: number): ComponentChildren {
         item.className = [item.className, item.hidden ? 'is-not-match' : ''];
@@ -174,6 +181,7 @@ export class SearchMenu<T extends SearchMenuOptions = SearchMenuOptions> extends
     protected _beforeRender(props: RenderableProps<T>): void | RenderableProps<T> | undefined {
         if (this.isRoot) {
             this._matchedParents = new Set();
+            this._showCount = 0;
         }
         return super._beforeRender(props);
     }
