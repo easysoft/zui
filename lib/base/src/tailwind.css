@@ -10,6 +10,6 @@
   }
 
   :focus-visible {
-    @apply -outline-none;
+    @apply -outline-transparent;
   }
 }
