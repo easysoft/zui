@@ -7,7 +7,7 @@
     {"text": "Dog", "value": "dog", "keys": "animals pet"},
     {"text": "Fish", "value": "fish", "keys": "animals food"},
     {"text": "Pig", "value": "pig", "keys": "animals food"},
-    {"text": "梨子", "value": "pear", "keys": "fruit food"},
+    {"text": "梨子", "value": "pear", "keys": "fruit food lizi"},
     {"text": "Anna", "value": "anna", "keys": "human animals"},
     {"text": "Ben", "value": "ben", "keys": "human animals"},
     {"text": "Cake", "value": "cake", "keys": "food"}

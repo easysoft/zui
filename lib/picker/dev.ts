@@ -54,6 +54,7 @@ onPageUpdate(() => {
         placeholder: '请选择你的最爱',
         searchHint: '搜索选项',
         cache: false,
+        maxItemsCount: 4,
     });
     console.log('> singlePickerRemote', singlePickerRemote);
 
