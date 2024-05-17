@@ -61,8 +61,8 @@ export class SearchMenu<T extends SearchMenuOptions = SearchMenuOptions> extends
             return;
         }
         const $element = $(this.element);
-        $element.find('.item.is-nested.is-not-match').filter((_, element) => this._matchedParents.has(element.getAttribute('z-key-path') || '')).addClass('has-match-child');
-        $element.parent().toggleClass('no-match-child', !!this._searchKeys?.length && !$element.children('.item').not('.is-not-match').length);
+        const $matchedChildren = $element.find('.item.is-nested.is-not-match').filter((_, element) => this._matchedParents.has(element.getAttribute('z-key-path') || '')).addClass('has-match-child');
+        $element.parent().toggleClass('no-match-child', !!this._searchKeys?.length && !$matchedChildren.length && !$element.children('.item').not('.is-not-match').length);
     }
 
     protected _handleSearchChange = (search: string) => {
