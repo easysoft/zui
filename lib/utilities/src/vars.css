@@ -3,4 +3,7 @@
   --state-scale: .9;
   --opacity-disabled: .7;
   --opacity-muted: .5;
+
+  --load-indicator-duration: 300ms;
+  --load-indicator-delay: .5s;
 }
