@@ -327,14 +327,17 @@ const nestedPlugin: DTablePlugin<DTableNestedTypes, DTableNestedDependencies> = 
         const {id: rowID, data: rowData} = row;
         const {nestedToggle, childLabel} = col.setting;
         const info = this.getNestedRowInfo(rowID);
-        if (rowData![this.options.nestedParentKey || 'parent'] && childLabel) {
-            let labelView: ComponentChildren;
-            if (typeof childLabel === 'string') {
-                labelView = <span className="dtable-child-label label rounded-full size-sm gray-pale">{formatString(childLabel, rowData)}</span>;
-            } else {
-                labelView = <CustomContent className="dtable-child-label" content={childLabel} generatorThis={cellInfo} />;
+        if (childLabel) {
+            const parent = Number(rowData![this.options.nestedParentKey || 'parent']);
+            if (!Number.isNaN(parent) && parent > 0) {
+                let labelView: ComponentChildren;
+                if (typeof childLabel === 'string') {
+                    labelView = <span className="dtable-child-label label rounded-full size-sm gray-pale">{formatString(childLabel, rowData)}</span>;
+                } else {
+                    labelView = <CustomContent className="dtable-child-label" content={childLabel} generatorThis={cellInfo} />;
+                }
+                result.unshift(labelView);
             }
-            result.unshift(labelView);
         }
         if (nestedToggle && (info.children || info.parent)) {
             result.push(
