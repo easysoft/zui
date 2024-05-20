@@ -8,7 +8,7 @@ var st = (n, t, e) => (cs(n, t, "read from private field"), e ? e.call(n) : t.ge
   t instanceof WeakSet ? t.add(n) : t.set(n, e);
 }, gt = (n, t, e, s) => (cs(n, t, "write to private field"), s ? s.call(n, e) : t.set(n, e), e);
 var hs = (n, t, e) => (cs(n, t, "access private method"), e);
-const yu = "3.0.0-alpha.4", vu = 1715924266762, Lt = document, wn = window, Tr = Lt.documentElement, ce = Lt.createElement.bind(Lt), Nr = ce("div"), us = ce("table"), Ra = ce("tbody"), Ui = ce("tr"), { isArray: jn, prototype: Er } = Array, { concat: Da, filter: Ys, indexOf: $r, map: Mr, push: La, slice: Ar, some: Js, splice: za } = Er, Fa = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, Oa = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, Ha = /<.+>/, Wa = /^\w+$/;
+const yu = "3.0.0-alpha.4", vu = 1716193701001, Lt = document, wn = window, Tr = Lt.documentElement, ce = Lt.createElement.bind(Lt), Nr = ce("div"), us = ce("table"), Ra = ce("tbody"), Ui = ce("tr"), { isArray: jn, prototype: Er } = Array, { concat: Da, filter: Ys, indexOf: $r, map: Mr, push: La, slice: Ar, some: Js, splice: za } = Er, Fa = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, Oa = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, Ha = /<.+>/, Wa = /^\w+$/;
 function Zs(n, t) {
   const e = ja(t);
   return !n || !e && !oe(t) && !Y(t) ? [] : !e && Oa.test(n) ? t.getElementsByClassName(n.slice(1).replace(/\\/g, "")) : !e && Wa.test(n) ? t.getElementsByTagName(n) : t.querySelectorAll(n);
@@ -4015,11 +4015,11 @@ let _t = class extends J {
     return this.props.expandOnSearch && this._searchKeys.length ? !0 : super.isExpanded(t);
   }
   _updateMatchedParents() {
-    var e;
+    var s;
     if (!this.isRoot)
       return;
-    const t = d(this.element);
-    t.find(".item.is-nested.is-not-match").filter((s, i) => this._matchedParents.has(i.getAttribute("z-key-path") || "")).addClass("has-match-child"), t.parent().toggleClass("no-match-child", !!((e = this._searchKeys) != null && e.length) && !t.children(".item").not(".is-not-match").length);
+    const t = d(this.element), e = t.find(".item.is-nested.is-not-match").filter((i, r) => this._matchedParents.has(r.getAttribute("z-key-path") || "")).addClass("has-match-child");
+    t.parent().toggleClass("no-match-child", !!((s = this._searchKeys) != null && s.length) && !e.length && !t.children(".item").not(".is-not-match").length);
   }
   _isItemMatch(t, e, s, i) {
     const { isItemMatch: r } = t, o = r ? r.call(this, e, this._searchKeys, s, i) : this.constructor.isItemMatch(e, this._searchKeys, t.searchProps);
@@ -10157,9 +10157,12 @@ const un = "dtable-nested-toggle", Yh = {
   onRenderCell(n, t) {
     var c;
     const { row: e, col: s } = t, { id: i, data: r } = e, { nestedToggle: o, childLabel: a } = s.setting, l = this.getNestedRowInfo(i);
-    if (r[this.options.nestedParentKey || "parent"] && a) {
-      let u;
-      typeof a == "string" ? u = /* @__PURE__ */ m("span", { className: "dtable-child-label label rounded-full size-sm gray-pale", children: V(a, r) }) : u = /* @__PURE__ */ m(H, { className: "dtable-child-label", content: a, generatorThis: t }), n.unshift(u);
+    if (a) {
+      const u = Number(r[this.options.nestedParentKey || "parent"]);
+      if (!Number.isNaN(u) && u > 0) {
+        let h;
+        typeof a == "string" ? h = /* @__PURE__ */ m("span", { className: "dtable-child-label label rounded-full size-sm gray-pale", children: V(a, r) }) : h = /* @__PURE__ */ m(H, { className: "dtable-child-label", content: a, generatorThis: t }), n.unshift(h);
+      }
     }
     if (o && (l.children || l.parent) && n.push(
       ((c = this.options.onRenderNestedToggle) == null ? void 0 : c.call(this, l, i, s, r)) ?? /* @__PURE__ */ m("a", { className: `${un} state${l.children ? "" : " is-no-child"}`, children: /* @__PURE__ */ m("span", { className: "toggle-icon" }) }),
