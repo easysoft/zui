@@ -45,6 +45,11 @@ onPageUpdate(() => {
         sortable: {
             handle: '.icon-move',
         },
+        canSortTo: function (event, from, to, parentKey) {
+            if (to.text === '技术支持') {
+                return false;
+            }
+        },
         onSort: function (event, orders, parentKey) {
             console.log('> onSort', event, orders, parentKey);
         },

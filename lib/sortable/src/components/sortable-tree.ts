@@ -2,7 +2,7 @@ import {Tree} from '@zui/tree/src/components';
 import {Sortable} from '../vanilla/sortable';
 
 import type {RenderableProps} from 'preact';
-import type {SortableEvent} from 'sortablejs';
+import type {MoveEvent, SortableEvent} from 'sortablejs';
 import type {ClassNameLike} from '@zui/core';
 import type {Item} from '@zui/common-list';
 import type {SortableTreeProps, SortableTreeState, SortableOptions} from '../types';
@@ -62,6 +62,7 @@ export class SortableTree<P extends SortableTreeProps = SortableTreeProps, S ext
             return;
         }
         const userOptions = typeof sortable === 'object' ? sortable : {};
+        const {onSort, canSortTo, parentKey} = this.props;
         return {
             group: `SortableTree.${this.gid}`,
             dataIdAttr: 'z-key',
@@ -70,8 +71,21 @@ export class SortableTree<P extends SortableTreeProps = SortableTreeProps, S ext
             onSort: (event: SortableEvent) => {
                 const orders = this.getOrders();
                 this.setState({orders});
-                this.props.onSort?.call(this, event, orders, this.props.parentKey);
+                onSort?.call(this, event, orders, parentKey);
                 userOptions.onSort?.call(this, event);
+            },
+            onMove: (event: MoveEvent, originEvent: Event) => {
+                if (canSortTo) {
+                    const fromKey = event.dragged.getAttribute('z-key-path');
+                    const toKey = event.related.getAttribute('z-key-path');
+                    const fromItem = this.getItem(fromKey!);
+                    const toItem = this.getItem(toKey!);
+                    const result = canSortTo.call(this, event, fromItem!, toItem!, parentKey);
+                    if (result !== undefined) {
+                        return result;
+                    }
+                }
+                return userOptions.onMove?.call(this, event, originEvent);
             },
         };
     }
