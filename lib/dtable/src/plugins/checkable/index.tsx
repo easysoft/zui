@@ -14,7 +14,7 @@ export interface DTableCheckableTypes {
         checkOnClickRow: boolean;
         checkedRows: string[];
         checkboxLabel?: string;
-
+        allowCheckDisabled: boolean;
         checkInfo: (this: DTableCheckable, checks: string[]) => ComponentChildren;
         canRowCheckable: (this: DTableCheckable, rowID: string) => boolean | 'disabled';
         beforeCheckRows: (this: DTableCheckable, ids: string[] | undefined, changes: Record<string, boolean>, checkedRows: Record<string, boolean>) => Record<string, boolean> | undefined;
@@ -42,17 +42,17 @@ export interface DTableCheckableTypes {
 
 export type DTableCheckable = DTableWithPlugin<DTableCheckableTypes>;
 
-function toggleCheckRows(this: DTableCheckable, ids?: string | string[] | boolean, checked?: boolean, preventDisabled = false): Record<string, boolean> {
+function toggleCheckRows(this: DTableCheckable, ids?: string | string[] | boolean, checked?: boolean): Record<string, boolean> {
     if (typeof ids === 'boolean') {
         checked = ids;
         ids = undefined;
     }
     const checkedRows = this.state.checkedRows;
     const changes: Record<string, boolean> = {};
-    const {canRowCheckable} = this.options;
+    const {canRowCheckable, allowCheckDisabled} = this.options;
     const toggleRow = (id: string, toggle: boolean) => {
         const checkable = canRowCheckable ? canRowCheckable.call(this, id) : true;
-        if (!checkable || (preventDisabled && checkable === 'disabled')) {
+        if (!checkable || (!allowCheckDisabled && checkable === 'disabled')) {
             return;
         }
         const oldChecked = !!checkedRows[id];
@@ -85,6 +85,10 @@ function toggleCheckRows(this: DTableCheckable, ids?: string | string[] | boolea
         const beforeCheckResults = this.options.beforeCheckRows?.call(this, ids, changes, checkedRows);
         if (beforeCheckResults) {
             Object.keys(beforeCheckResults).forEach(key => {
+                const checkable = canRowCheckable ? canRowCheckable.call(this, key) : true;
+                if (!checkable || (!allowCheckDisabled && checkable === 'disabled')) {
+                    return;
+                }
                 if (beforeCheckResults[key]) {
                     checkedRows[key] = true;
                 } else {
@@ -110,10 +114,11 @@ function isAllRowChecked(this: DTableCheckable): boolean {
         return false;
     }
     const checkedLength = this.getChecks().length;
-    const {canRowCheckable} = this.options;
+    const {canRowCheckable, allowCheckDisabled} = this.options;
     if (canRowCheckable) {
         return checkedLength === this.layout?.allRows.reduce((length, row) => {
-            return length + (canRowCheckable.call(this, row.id) ? 1 : 0);
+            const checkable = canRowCheckable ? canRowCheckable.call(this, row.id) : true;
+            return length + ((!checkable || (!allowCheckDisabled && checkable === 'disabled')) ? 0 : 1);
         }, 0);
     }
     return checkedLength === allRowLength;
@@ -277,7 +282,7 @@ const checkablePlugin: DTablePlugin<DTableCheckableTypes> = {
         }
         const $checkbox = $target.closest(checkboxSelector).not('.disabled');
         if ($checkbox.length || this.options.checkOnClickRow) {
-            this.toggleCheckRows(rowID, undefined, true);
+            this.toggleCheckRows(rowID);
         }
     },
 };

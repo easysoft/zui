@@ -205,6 +205,9 @@ onPageLoad(() => {
             plugins: [checkable, nested, moveable, actions, pager, sortable],
             striped: true,
             responsive: true,
+            canRowCheckable(rowID) {
+                return rowID == '3' ? 'disabled' : true;
+            },
             footPager: {
                 items: [
                     {type: 'info', text: '共 {recTotal} 项'},
