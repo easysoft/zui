@@ -40,3 +40,7 @@
 .picker-multi-selection > .text {
   @apply -max-w-[180px] -whitespace-nowrap -overflow-clip -min-w-0;
 }
+
+.picker-no-search {
+  @apply -cursor-default;
+}

@@ -34,6 +34,7 @@ export class PickerMultiSelect extends PickTrigger<PickerState, PickerSelectProp
     protected _getClass(props: PickerSelectProps) {
         return classes(
             super._getClass(props),
+            props.search ? '' : 'picker-no-search',
             'picker-select picker-select-multi form-control',
         );
     }

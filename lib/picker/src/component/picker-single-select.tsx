@@ -46,6 +46,7 @@ export class PickerSingleSelect extends PickTrigger<PickerState, PickerSelectPro
     protected _getClass(props: PickerSelectProps) {
         return classes(
             super._getClass(props),
+            props.search ? '' : 'picker-no-search',
             'picker-select picker-select-single form-control',
         );
     }
