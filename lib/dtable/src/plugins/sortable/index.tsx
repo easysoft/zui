@@ -79,7 +79,8 @@ const sortablePlugin: DTablePlugin<DTableSortableTypes, [DTableMousemoveTypes, D
                 return;
             }
             const {sortHandler = '.dtable-cell'} = this.options;
-            const $handler = $(event.target as HTMLElement).closest(sortHandler);
+            const $target = $(event.target as HTMLElement);
+            const $handler = $target.closest(sortHandler);
             if (!$handler.length) {
                 return;
             }
@@ -90,6 +91,9 @@ const sortablePlugin: DTablePlugin<DTableSortableTypes, [DTableMousemoveTypes, D
             const row = this.getRowInfo(info.rowID);
             if (!row || this.options.onSortStart?.call(this, row, event) === false) {
                 return;
+            }
+            if ($target.closest('a,button,img').attr('draggable', 'false').length) {
+                event.preventDefault();
             }
             const startMouseY = event.clientY;
             this.data.sortableInfo = {from: row, offset: startMouseY - info.cellElement.getBoundingClientRect().top, startMouseY, lastMouseY: startMouseY};
