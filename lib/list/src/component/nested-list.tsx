@@ -95,10 +95,11 @@ function initItemMap(items: Item[], itemKey: string | undefined, map: Map<string
 
 export class NestedList<P extends NestedListProps = NestedListProps, S extends NestedListState = NestedListState> extends List<P, S> {
     static defaultProps: Partial<NestedListProps> = {
+        ...List.defaultProps,
         defaultNestedShow: false,
         level: 0,
         indent: 20,
-    };
+    } as Partial<NestedListProps>;
 
     static inheritNestedProps = ['component', 'name', 'itemName', 'itemKey', 'indent', 'hover', 'divider', 'multiline', 'toggleIcons', 'nestedToggle', 'accordion', 'itemRender', 'itemProps', 'beforeRenderItem', 'onToggle', 'checkbox', 'getItem', 'checkOnClick', 'selectOnChecked', 'checkedState', 'onClickItem', 'activeOnHover', 'multipleActive', 'onActive'];
 
