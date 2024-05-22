@@ -414,6 +414,11 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
         return $element.data(this.KEY);
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    static isValid<O extends {}, E extends ComponentEvents, U extends HTMLElement, T extends typeof Component<O, E, U>>(instance: InstanceType<T>): boolean {
+        return true;
+    }
+
     /**
      * Ensure the component instance of the given element.
      *
@@ -425,10 +430,14 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
     static ensure<O extends {}, E extends ComponentEvents, U extends HTMLElement, T extends typeof Component<O, E, U>>(this: T, selector: Selector, options?: Partial<ComponentOptions<O>>): InstanceType<T> {
         const instance = this.get(selector, options?.key);
         if (instance) {
-            if (options) {
-                instance.setOptions(options);
+            if (this.isValid(instance)) {
+                if (options) {
+                    instance.setOptions(options);
+                }
+                return instance;
+            } else {
+                instance.destroy();
             }
-            return instance;
         }
         return new this(selector, options) as InstanceType<T>;
     }
