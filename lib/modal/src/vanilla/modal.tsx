@@ -253,6 +253,10 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
         return true;
     }
 
+    static isValid(modal: Modal) {
+        return !$.isDetached(modal.modalElement);
+    }
+
     static open(options: ModalTypedOptions & {container?: string | HTMLElement}): Promise<Modal> {
         return new Promise((resolve) => {
             const {container = document.body, ...others} = options;
