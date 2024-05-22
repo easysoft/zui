@@ -1,3 +1,4 @@
+export * from './sortablejs';
 export * from './sortable-options';
 export * from './sortable-module';
 export * from './sortable-list-props';

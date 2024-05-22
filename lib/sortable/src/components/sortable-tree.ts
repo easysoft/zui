@@ -9,6 +9,7 @@ import type {SortableTreeProps, SortableTreeState, SortableOptions} from '../typ
 
 export class SortableTree<P extends SortableTreeProps = SortableTreeProps, S extends SortableTreeState = SortableTreeState> extends Tree<P, S> {
     static defaultProps: Partial<SortableTreeProps> = {
+        ...Tree.defaultProps,
         sortable: true,
     };
 

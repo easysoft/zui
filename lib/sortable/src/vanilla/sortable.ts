@@ -1,5 +1,5 @@
 import {Component, $} from '@zui/core';
-import {SortableModule, SortableClass, SortableOptions} from '../types';
+import {SortableModule, SortableClass, SortableJSOptions, SortableOptions} from '../types';
 
 export class Sortable extends Component<SortableOptions> {
     static NAME = 'Sortable';
@@ -10,9 +10,30 @@ export class Sortable extends Component<SortableOptions> {
 
     declare module: SortableModule;
 
+    protected _emptyShadow?: HTMLElement;
+
     async afterInit() {
         const SortableModuleClass = await Sortable.loadModule();
-        this.module = new SortableModuleClass(this.element, this.options);
+        const {options} = this;
+        if (options.dragShadow !== undefined && options.dragShadow !== true) {
+            const {dragShadow, onEnd, setData} = options;
+            options.setData = ((dataTransfer, dragEl) => {
+                if (dragShadow === false && !this._emptyShadow) {
+                    this._emptyShadow = dragEl.cloneNode(true) as HTMLElement;
+                    this._emptyShadow.style.opacity = '0!important';
+                    document.body.appendChild(this._emptyShadow);
+                }
+                dataTransfer.setDragImage(dragShadow === false ? this._emptyShadow! : dragShadow, 0, 0);
+                setData?.(dataTransfer, dragEl);
+            });
+            options.onEnd = (event) => {
+                onEnd?.(event);
+                this._emptyShadow?.remove();
+                this._emptyShadow = undefined;
+            };
+            delete options.dragShadow;
+        }
+        this.module = new SortableModuleClass(this.element, options);
     }
 
     /**
@@ -20,9 +41,9 @@ export class Sortable extends Component<SortableOptions> {
      * @param name a SortableOptions property.
      * @param value a value.
      */
-    option<K extends keyof SortableOptions>(name: K, value: SortableOptions[K]): void;
-    option<K extends keyof SortableOptions>(name: K): SortableOptions[K];
-    option<K extends keyof SortableOptions>(name: K, value?: SortableOptions[K]): void | SortableOptions[K] {
+    option<K extends keyof SortableJSOptions>(name: K, value: SortableJSOptions[K]): void;
+    option<K extends keyof SortableJSOptions>(name: K): SortableJSOptions[K];
+    option<K extends keyof SortableJSOptions>(name: K, value?: SortableJSOptions[K]): void | SortableJSOptions[K] {
         if (value === undefined) {
             return this.module.option(name);
         }
