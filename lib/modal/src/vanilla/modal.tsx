@@ -130,7 +130,7 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
 
     afterInit() {
         super.afterInit();
-        if (this.options.destoryOnHide) {
+        if (this.options.destoryOnHide && this.options.type !== 'static') {
             this.on('hidden', (event) => {
                 if ((event.target as HTMLElement).closest('.modal') === this.modalElement) {
                     this.destroy();
@@ -212,6 +212,10 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
         const {modalElement, options} = this;
         const $modal = $(modalElement);
         const {type, loadTimeout, loadingClass = LOADING_CLASS, loadingText = null} = options;
+        if (!type || type === 'static') {
+            return true;
+        }
+
         const build = builders[type];
 
         if (!build) {
@@ -255,6 +259,9 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
             const modalOptions = {show: true, ...others} as ModalOptions;
             if (!modalOptions.type && modalOptions.url) {
                 modalOptions.type = 'ajax';
+            }
+            if (!modalOptions.type && options.id) {
+                modalOptions.type = 'static';
             }
             if (modalOptions.key === undefined) {
                 modalOptions.key = modalOptions.id;
