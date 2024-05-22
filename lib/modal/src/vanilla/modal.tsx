@@ -204,7 +204,6 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
             return false;
         }
 
-
         if (this.#loadingTimer) {
             clearTimeout(this.#loadingTimer);
         }
