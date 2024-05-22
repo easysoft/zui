@@ -54,6 +54,10 @@ export class CommonList<P extends CommonListProps = CommonListProps, S = {}> ext
      */
     static defaultItemType = 'item';
 
+    static defaultProps: Partial<CommonListProps> = {
+        itemKey: 'id',
+    };
+
     /**
      * Access to static properties via this.constructor.
      *
@@ -214,7 +218,7 @@ export class CommonList<P extends CommonListProps = CommonListProps, S = {}> ext
         if (!item) {
             return false;
         }
-        const {itemProps, itemPropsMap = {}, getItem, itemKey = 'id'} = props;
+        const {itemProps, itemPropsMap = {}, getItem, itemKey} = props;
         const {type = this.constructor.defaultItemType} = item;
         const {name, itemName} = this;
         const {defaultItemProps = {}, defaultItemPropsMap = {}} = this.constructor;
