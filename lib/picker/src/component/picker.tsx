@@ -195,7 +195,11 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
             const newState = typeof state === 'function' ? state(prevState) : state;
             if ((newState.value !== undefined && newState.value !== prevState.value) || (newState.items && newState.items !== prevState.items)) {
                 const items = newState.items || prevState.items;
-                const map = getValueMap(items);
+                const map: Map<string, PickerItemOptions> = new Map();
+                if (Array.isArray(prevState.items) && prevState.items !== newState.items) {
+                    getValueMap(prevState.items as PickerItemOptions[], map);
+                }
+                getValueMap(items, map);
                 newState.selections = this.formatValueList(newState.value ?? prevState.value).reduce<PickerItemBasic[]>((list, value) => {
                     if (!this.isEmptyValue(value)) {
                         list.push(map.get(value) || {value, text: value});
