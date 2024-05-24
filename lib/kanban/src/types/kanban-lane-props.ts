@@ -12,4 +12,5 @@ export interface KanbanLaneProps extends KanbanLaneOptions {
     height?: SizeSetting;
     hideName?: boolean;
     itemRender?: (info: KanbanItemInfo) => CustomContentType;
+    getLaneCol?: (lane: KanbanLaneOptions, col: KanbanColOptions) => KanbanColOptions | void;
 }

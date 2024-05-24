@@ -35,8 +35,14 @@ export class KanbanLane extends HElement<KanbanLaneProps> {
         });
     }
 
-    protected _renderCol(laneName: KanbanLaneName, col: KanbanColOptions, itemRender: KanbanLaneProps['itemRender'], items: KanbanLaneProps['items']) {
-        return <KanbanLaneCol key={col.name} itemRender={itemRender} lane={laneName} items={items[col.name]} {...(col as KanbanColProps)} />;
+    protected _renderCol(lane: KanbanLaneProps, col: KanbanColOptions, itemRender: KanbanLaneProps['itemRender'], items: KanbanLaneProps['items'], getLaneCol: KanbanLaneProps['getLaneCol'] ) {
+        if (getLaneCol) {
+            const newCol = getLaneCol(lane, col);
+            if (newCol) {
+                col = {...col, ...newCol};
+            }
+        }
+        return <KanbanLaneCol key={col.name} itemRender={itemRender} lane={lane.name} items={items[col.name]} {...(col as KanbanColProps)} />;
     }
 
     protected _getChildren(props: RenderableProps<KanbanLaneProps>): ComponentChildren {
@@ -49,6 +55,7 @@ export class KanbanLane extends HElement<KanbanLaneProps> {
             items = {},
             hideName,
             itemRender,
+            getLaneCol,
         } = props;
 
         return [
@@ -62,10 +69,10 @@ export class KanbanLane extends HElement<KanbanLaneProps> {
                 {cols.reduce<ComponentChild[]>((list, col) => {
                     if (col.subCols) {
                         col.subCols.forEach(subCol => {
-                            list.push(this._renderCol(name, subCol, itemRender, items));
+                            list.push(this._renderCol(props, subCol, itemRender, items, getLaneCol));
                         });
                     } else {
-                        list.push(this._renderCol(name, col, itemRender, items));
+                        list.push(this._renderCol(props, col, itemRender, items, getLaneCol));
                     }
                     return list;
                 }, [])}

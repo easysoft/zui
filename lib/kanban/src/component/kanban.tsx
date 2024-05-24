@@ -684,6 +684,7 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
             <KanbanBody
                 key="body"
                 itemRender={props.itemRender}
+                getLaneCol={props.getLaneCol}
                 cols={layoutCols}
                 lanes={layoutLanes}
                 items={items}
