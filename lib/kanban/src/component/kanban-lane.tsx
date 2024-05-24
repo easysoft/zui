@@ -19,6 +19,8 @@ export class KanbanLane extends HElement<KanbanLaneProps> {
             maxHeight,
             color,
             name,
+            gapTop,
+            gapBottom,
         } = props;
         return mergeProps(super._getProps(props), {
             style: {
@@ -26,6 +28,8 @@ export class KanbanLane extends HElement<KanbanLaneProps> {
                 height: toCssSize(height),
                 minHeight: toCssSize(minHeight),
                 maxHeight: toCssSize(maxHeight),
+                '--kanban-col-gap-top': toCssSize(gapTop),
+                '--kanban-col-gap-bottom': toCssSize(gapBottom),
             },
             'z-lane': name,
         });

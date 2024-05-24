@@ -93,6 +93,10 @@
 .kanban.has-sub-cols .kanban-lane.is-first > .kanban-lane-name::before {
   height: calc(var(--kanban-header-height) * 2);
 }
+.kanban-lane {
+  margin-top: calc(var(--kanban-col-gap-top) - var(--kanban-lanes-gap));
+  margin-bottom: calc(var(--kanban-col-gap-bottom) - var(--kanban-lanes-gap));
+}
 
 /* Kanban items. */
 .kanban-items {
