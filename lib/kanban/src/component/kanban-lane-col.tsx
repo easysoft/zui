@@ -53,6 +53,7 @@ export class KanbanLaneCol extends Component<KanbanLaneColProps> {
             itemCountPerRow,
             gapLeft,
             gapRight,
+            laneColClass,
         } = props;
         const style: JSX.CSSProperties = {
             '--kanban-col-color': color,
@@ -61,7 +62,7 @@ export class KanbanLaneCol extends Component<KanbanLaneColProps> {
             '--kanban-col-gap-right': toCssSize(gapRight),
         };
         return (
-            <div className="kanban-lane-col" style={style} z-lane={lane} z-col={name}>
+            <div className={classes('kanban-lane-col', laneColClass)} style={style} z-lane={lane} z-col={name}>
                 {content ? (
                     <div className={classes('kanban-col-content', contentClass)}>
                         <CustomContent content={content} generatorThis={this} generatorArgs={[props]} />
