@@ -95,7 +95,7 @@ export function getCenterPos(from: ElementPos, to: ElementPos): ElementPos {
     return {x: (from.x + to.x) / 2, y: (from.y + to.y) / 2};
 }
 
-export function getRectOfTowPos(from: ElementPos, to: ElementPos): ElementReact {
+export function getRectOfTwoPos(from: ElementPos, to: ElementPos): ElementReact {
     return {
         x: Math.min(from.x, to.x), y: Math.min(from.y, to.y), width: Math.abs(from.x - to.x), height: Math.abs(from.y - to.y),
     };
@@ -134,7 +134,7 @@ export function getPointMarker(type: KanbanLinkPointType, side: 'start' | 'end',
 export function getLinkPath(fromPos: ElementPos, toPos: ElementPos, fromSide: KanbanLinkSide, toSide: KanbanLinkSide, shape: KanbanLinkShape = 'curve', strokeWidth: number = 2): string {
     const {
         x, y, width, height,
-    } = getRectOfTowPos(fromPos, toPos);
+    } = getRectOfTwoPos(fromPos, toPos);
     const deltaX = SVG_PADDING - x;
     const deltaY = SVG_PADDING - y;
     if (shape === 'curve') {
@@ -175,7 +175,7 @@ export function layoutLink(link: KanbanLinkProps): LinkLayout {
     const toRect = {x: toBounding.left, y: toBounding.top, width: toBounding.right - toBounding.left, height: toBounding.bottom - toBounding.top};
     const {fromSide, toSide, fromPos, toPos} = getBestLinkSides(fromRect, toRect);
 
-    const bounding = getRectOfTowPos(fromPos, toPos);
+    const bounding = getRectOfTwoPos(fromPos, toPos);
     const {x, y, width, height} = bounding;
 
     fromPos.x += SVG_PADDING - x;
