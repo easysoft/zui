@@ -9,5 +9,5 @@
   @apply -h-4 -min-w-[1rem];
 }
 .label-dot {
-  @apply -rounded-full -h-2 -px-0 -aspect-square;
+  @apply -rounded-full -h-2 -px-0 -aspect-square -min-w-0;
 }
