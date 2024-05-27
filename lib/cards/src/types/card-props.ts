@@ -28,4 +28,5 @@ export interface CardProps extends Item {
     items?: ListItemsSetting | ListProps;
     footer?: CustomContentType;
     footerClass?: ClassNameLike;
+    selected?: boolean;
 }

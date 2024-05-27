@@ -1,5 +1,5 @@
 .card {
-  @apply -shadow-sm -rounded -ring-1 -ring-border -ring-opacity-5 hover:-shadow -transition-[shadow,border,color,background-color] -bg-canvas -relative -min-h-[28px];
+  @apply -shadow-sm -rounded -ring-1 -ring-border -ring-opacity-5 hover:-shadow-md -transition-[box-shadow,border,color,background-color] -bg-canvas -relative -min-h-[28px];
 }
 
 .card-heading,
@@ -28,4 +28,8 @@
 }
 .card-subtitle {
   @apply -text-sm -text-gray-500;
+}
+
+.card.selected {
+  @apply -ring-primary-400 -ring-1 -bg-primary-50;
 }

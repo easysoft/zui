@@ -10,8 +10,8 @@ export class CardItem<P extends CardItemProps = CardItemProps, S = {}> extends C
     }
 
     protected _getChildren(props: RenderableProps<P>): ComponentChildren {
-        const {innerAttrs, innerClass, innerComponent: InnerComponent = 'div'} = props;
-        const innerProps = mergeProps({className: classes('card', innerClass)}, innerAttrs);
+        const {innerAttrs, innerClass, selected, innerComponent: InnerComponent = 'div'} = props;
+        const innerProps = mergeProps({className: classes('card', innerClass, selected ? 'selected' : '')}, innerAttrs);
         return <InnerComponent {...innerProps}>
             {super._getChildren(props)}
         </InnerComponent>;
