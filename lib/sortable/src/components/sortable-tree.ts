@@ -43,7 +43,6 @@ export class SortableTree<P extends SortableTreeProps = SortableTreeProps, S ext
             group: `SortableTree.${this.gid}`,
             dataIdAttr: 'z-key',
             draggable: '.tree-item',
-            delay: 50,
             ...userOptions,
             onSort: (event: SortableEvent) => {
                 const orders = this.getOrders();
