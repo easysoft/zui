@@ -1,5 +1,5 @@
 .kanban.is-adding-link {
-  @apply -cursor-crosshair;
+  @apply -cursor-crosshair -select-none;
 }
 .kanban-link-editor {
   @apply -absolute -inset-0 -pointer-events-none -z-20;
