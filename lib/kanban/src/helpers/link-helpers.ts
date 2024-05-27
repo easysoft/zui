@@ -131,16 +131,16 @@ export function getPointMarker(type: KanbanLinkPointType, side: 'start' | 'end',
     return marker;
 }
 
-export function getLinkPath(fromPos: ElementPos, toPos: ElementPos, fromSide: KanbanLinkSide, toSide: KanbanLinkSide, shape: KanbanLinkShape = 'curve', strokeWidth: number = 2): string {
+export function getLinkPath(fromPos: ElementPos, toPos: ElementPos, fromSide: KanbanLinkSide, toSide: KanbanLinkSide, shape: KanbanLinkShape = 'curve', strokeWidth: number = 2, curveRate = 1): string {
     const {
         x, y, width, height,
     } = getRectOfTwoPos(fromPos, toPos);
     const deltaX = SVG_PADDING - x;
     const deltaY = SVG_PADDING - y;
     if (shape === 'curve') {
-        const ctrlWidth = width * 0.7;
-        const ctrlHeight = height * 0.7;
-        const startLength = strokeWidth * 2; // default is 8;
+        const ctrlWidth = width * (1 + Math.max(-0.3, Math.min(0.3, (1 - (width / 50))))) * curveRate;
+        const ctrlHeight = height * (1 + Math.max(-0.3, Math.min(0.3, (1 - (height / 50))))) * curveRate;
+        const startLength = strokeWidth * 5; // default is 8;
         const ctrlPos = {
             a1x: fromPos.x + (fromSide === 'left' ? -startLength : (fromSide === 'right' ? startLength : 0)),
             a1y: fromPos.y + (fromSide === 'top' ? -startLength : (fromSide === 'bottom' ? startLength : 0)),
