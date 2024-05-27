@@ -55,7 +55,7 @@ export class SortableList<P extends SortableListProps = SortableListProps, S ext
     }
 
     protected _getSortableOptions(): SortableOptions | undefined {
-        const {sortable} = this.props;
+        const {sortable, canSortTo} = this.props;
         if (!sortable) {
             return;
         }
@@ -70,6 +70,19 @@ export class SortableList<P extends SortableListProps = SortableListProps, S ext
                 this.setState({orders});
                 this.props.onSort?.call(this, event, orders);
                 userOptions.onSort?.call(this, event);
+            },
+            onMove: (event: MoveEvent, originEvent: Event) => {
+                if (canSortTo) {
+                    const fromKey = event.dragged.getAttribute('z-key-path');
+                    const toKey = event.related.getAttribute('z-key-path');
+                    const fromItem = this.getItem(fromKey!);
+                    const toItem = this.getItem(toKey!);
+                    const result = canSortTo.call(this, event, fromItem!, toItem!);
+                    if (result !== undefined) {
+                        return result;
+                    }
+                }
+                return userOptions.onMove?.call(this, event, originEvent);
             },
         };
     }
