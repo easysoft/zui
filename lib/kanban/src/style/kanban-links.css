@@ -1,5 +1,5 @@
 .kanban-links {
-  @apply -absolute -inset-0 -pointer-events-none -z-20;
+  @apply -absolute -inset-0 -pointer-events-none -z-[5];
 }
 .kanban-link {
   @apply -absolute -flex -items-center -justify-center -text-[--kanban-link-color];
