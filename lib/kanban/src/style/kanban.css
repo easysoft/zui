@@ -106,6 +106,9 @@
 .kanban-lane.is-auto-height .kanban-items {
   scrollbar-gutter: initial;
 }
+.kanban-item {
+  @apply -cursor-default;
+}
 .kanban-item .card-actions {
   @apply -z-[5];
 }
