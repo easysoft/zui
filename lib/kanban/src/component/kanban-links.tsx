@@ -1,6 +1,7 @@
 import {Component, createRef} from 'preact';
 import {$} from '@zui/core';
 import {KanbanLink} from './kanban-link';
+import {KanbanLinkEditor} from './kanban-link-editor';
 
 import type {ComponentChild, RenderableProps} from 'preact';
 import type {KanbanLinkOptions, KanbanLinksProps, KanbanLinksState} from '../types';
@@ -95,11 +96,20 @@ export class KanbanLinks extends Component<KanbanLinksProps, KanbanLinksState> {
         }, [] as ComponentChild[]);
     }
 
+    _renderEditor(props: RenderableProps<KanbanLinksProps>) {
+        const {editLinks, onAddLink} = props;
+        if (editLinks) {
+            return <KanbanLinkEditor key="editor" onAddLink={onAddLink} />;
+        }
+        return null;
+    }
+
     render(props: RenderableProps<KanbanLinksProps>) {
         this._idSet.clear();
         return (
             <div className="kanban-links" ref={this._ref}>
                 {this._renderLinks(props)}
+                {this._renderEditor(props)}
             </div>
         );
     }

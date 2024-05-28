@@ -3,7 +3,6 @@ import {Draggable, DraggableOptions} from '@zui/dnd';
 import {KanbanHeader} from './kanban-header';
 import {KanbanBody} from './kanban-body';
 import {KanbanLinks} from './kanban-links';
-import {KanbanLinkEditor} from './kanban-link-editor';
 import {getCols, mergeData, getLanes, getColItems, normalizeData} from '../helpers/kanban-helpers';
 
 import type {ComponentChildren, RenderableProps} from 'preact';
@@ -758,14 +757,14 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
         }
 
         return (
-            <KanbanLinks key="links" links={links} filters={filters} onDeleteLink={editLinks ? (this._onDeleteLink as (link: KanbanLinkOptions) => void) : undefined} />
+            <KanbanLinks key="links" links={links} filters={filters} editLinks={editLinks} onDeleteLink={editLinks ? (this._onDeleteLink as (link: KanbanLinkOptions) => void) : undefined} onAddLink={editLinks ? this._onAddLink : undefined} />
         );
     }
 
     protected _getChildren(props: RenderableProps<P>): ComponentChildren {
         const data = this._data.value;
         const {cols, lanes, items} = data;
-        const {editLinks, laneNameWidth} = props;
+        const {laneNameWidth} = props;
         const layoutCols = this._layoutCols(cols, props);
         const layoutLanes = this._layoutLanes(lanes, props);
         return [
@@ -780,7 +779,6 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
                 hideLaneName={laneNameWidth === 0}
             />,
             this._renderLinks(props),
-            editLinks ? <KanbanLinkEditor key="linkEditor" onAddLink={this._onAddLink} /> : null,
             props.children,
         ];
     }
