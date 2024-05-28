@@ -708,13 +708,14 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
         if (this._hoverTimer) {
             clearTimeout(this._hoverTimer);
         }
+        const info = this._getElementInfo(event.target as HTMLElement);
+        const hover = info?.type === 'item' ? info.key : undefined;
         this._hoverTimer = window.setTimeout(() => {
-            const info = this._getElementInfo(event.target as HTMLElement);
-            const itemKey = info?.type === 'item' ? info.key : undefined;
-            if (itemKey !== this.state.hover) {
-                this.setState({hover: itemKey});
+            if (hover !== this.state.hover) {
+                this.setState({hover});
             }
-        }, 20);
+            this._hoverTimer = 0;
+        }, !hover && this.state.hover ? 0 : 20);
     };
 
     protected _handleClick = (event: MouseEvent) => {
