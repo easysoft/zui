@@ -7,4 +7,5 @@ export interface KanbanItem extends Item {
     col?: KanbanColName;
     order?: number;
     deleted?: boolean;
+    selected?: boolean;
 }

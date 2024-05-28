@@ -41,6 +41,8 @@ export interface KanbanProps extends HElementProps {
     colsGap?: number;
 
     /* UI. */
+    selectable?: boolean;
+    defaultSelected?: string | string[];
     onClickItem?: (event: MouseEvent, item: KanbanItemInfo) => false | void;
 
     /* Async load. */

@@ -68,13 +68,22 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
         }
         return kanbanData;
     }, () => {
-        const {data: stateData, changes} = this.state;
+        const {data: stateData, changes, selected} = this.state;
         return [
             stateData,
             changes,
+            selected,
             this.props.data,
         ];
     });
+
+    constructor(props: P) {
+        super(props);
+        this.state = {
+            loading: false,
+            selected: props.defaultSelected,
+        } as S;
+    }
 
     get data() {
         return this._data.cache;
@@ -568,15 +577,20 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
             }
             return map;
         }, new Map());
+        const {selected = []} = this.state;
+        const selectedSet = new Set(Array.isArray(selected) ? selected : [selected]);
+        const forEachItem = (item: KanbanItem) => {
+            item.selected = selectedSet.has(item[itemKey] as string);
+        };
         lanes.forEach(lane => {
             const laneItems = itemsMap[lane.name];
             if (!laneItems) {
                 return;
             }
             cols.forEach(col => {
-                laneItems[col.name] = getColItems.call(this, laneItems[col.name], lane, col, props);
+                laneItems[col.name] = getColItems.call(this, laneItems[col.name], lane, col, props, forEachItem);
                 col.subCols?.forEach(subCol => {
-                    laneItems[subCol.name] = getColItems.call(this, laneItems[subCol.name], lane, subCol, props);
+                    laneItems[subCol.name] = getColItems.call(this, laneItems[subCol.name], lane, subCol, props, forEachItem);
                 });
             });
         });
@@ -665,7 +679,7 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
     }
 
     protected _getProps(props: RenderableProps<P>): Record<string, unknown> {
-        const {laneNameWidth, colsGap, lanesGap, onClickItem} = props;
+        const {laneNameWidth, colsGap, lanesGap, selectable, onClickItem} = props;
         return mergeProps(super._getProps(props), {
             ref: this._ref,
             style: {
@@ -673,7 +687,7 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
                 '--kanban-cols-gap': toCssSize(colsGap),
                 '--kanban-lanes-gap': toCssSize(lanesGap),
             },
-            onClick: onClickItem ? this._handleClick : undefined,
+            onClick: (onClickItem || selectable) ? this._handleClick : undefined,
         });
     }
 
@@ -684,6 +698,14 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
             const result = onClickItem.call(this, event, info as KanbanItemInfo);
             if (result === false) {
                 return;
+            }
+        }
+
+        if (selectable) {
+            if (info?.type === 'item') {
+                this.changeState({selected: info.key!} as S);
+            } else {
+                this.changeState({selected: undefined} as S);
             }
         }
     };
