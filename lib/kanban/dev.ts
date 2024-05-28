@@ -187,8 +187,8 @@ onPageUpdate(() => {
                 {title: '其他', name: 'other', asParent: true},
             ],
             lanes: [
-                {title: '需求', name: 'story', maxHeight: 100},
-                {title: '任务', name: 'task'},
+                {title: '需求', name: 'story'},
+                {title: '任务', name: 'task', maxHeight: 100},
             ],
             items: {
                 story: {
@@ -220,7 +220,11 @@ onPageUpdate(() => {
                     done: [
                         {id: '9', title: '任务3'},
                         {id: '10', title: '任务4'},
-                        {id: '11', title: '任务5'},
+                        {id: '11', title: '任务11'},
+                        {id: '12', title: '任务12'},
+                        {id: '13', title: '任务13'},
+                        {id: '14', title: '任务14'},
+                        {id: '15', title: '任务15'},
                     ],
                 },
             },

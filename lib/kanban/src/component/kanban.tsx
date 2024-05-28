@@ -1,4 +1,4 @@
-import {$, Computed, HElement, createRef, fetchData, isFetchSetting, mergeProps, parseSize, toCssSize} from '@zui/core';
+import {$, Computed, HElement, createRef, fetchData, isFetchSetting, mergeProps, parseSize, toCssSize, Sticky} from '@zui/core';
 import {Draggable, DraggableOptions} from '@zui/dnd';
 import {KanbanHeader} from './kanban-header';
 import {KanbanBody} from './kanban-body';
