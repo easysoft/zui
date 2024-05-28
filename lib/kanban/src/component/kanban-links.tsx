@@ -2,7 +2,7 @@ import {Component, createRef} from 'preact';
 import {$} from '@zui/core';
 import {KanbanLink} from './kanban-link';
 
-import type {RenderableProps} from 'preact';
+import type {ComponentChild, RenderableProps} from 'preact';
 import type {KanbanLinkOptions, KanbanLinksProps, KanbanLinksState} from '../types';
 
 export class KanbanLinks extends Component<KanbanLinksProps, KanbanLinksState> {
@@ -81,12 +81,26 @@ export class KanbanLinks extends Component<KanbanLinksProps, KanbanLinksState> {
         );
     }
 
+    _renderLinks(props: RenderableProps<KanbanLinksProps>) {
+        const {links, filters} = props;
+        const excludeSet = new Set(filters);
+        return links.reduce((list, link) => {
+            if (filters && (!excludeSet.has(link.from) && !excludeSet.has(link.to) && !excludeSet.has(`${link.from}-${link.to}`))) {
+                return list;
+            }
+            const result = this._renderLink(link);
+            if (result) {
+                list.push(result);
+            }
+            return list;
+        }, [] as ComponentChild[]);
+    }
+
     render(props: RenderableProps<KanbanLinksProps>) {
-        const {links} = props;
         this._idSet.clear();
         return (
             <div className="kanban-links" ref={this._ref}>
-                {links.map(link => this._renderLink(link))}
+                {this._renderLinks(props)}
             </div>
         );
     }
