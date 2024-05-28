@@ -44,6 +44,7 @@ export interface KanbanProps extends HElementProps {
     selectable?: boolean;
     defaultSelected?: string | string[];
     onClickItem?: (event: MouseEvent, item: KanbanItemInfo) => false | void;
+    onSelect?: (newSelected: string[], oldSelected: string[]) => void;
 
     /* Async load. */
     onLoad?: (data: KanbanData) => void | KanbanData;

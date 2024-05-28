@@ -266,6 +266,16 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
         return this.updateLink(link, {deleted: true});
     }
 
+    select(selected: ItemKey | ItemKey[]) {
+        const newSelected = Array.isArray(selected) ? selected : (selected ? [selected] : []);
+        let oldSelected = this.state.selected || [];
+        const {onSelect} = this.props;
+        return this.changeState((prevState) => {
+            oldSelected = prevState.selected || [];
+            return {selected: newSelected} as S;
+        }, onSelect ? () => onSelect(newSelected, oldSelected) : undefined);
+    }
+
     protected _getElementInfo(element: HTMLElement): KanbanElementInfo | undefined {
         const $element = $(element);
         const $item = $element.closest('.kanban-item');
@@ -703,9 +713,9 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
 
         if (selectable) {
             if (info?.type === 'item') {
-                this.changeState({selected: info.key!} as S);
+                this.select(info.key);
             } else {
-                this.changeState({selected: undefined} as S);
+                this.select([]);
             }
         }
     };
