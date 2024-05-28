@@ -171,6 +171,7 @@ onPageUpdate(() => {
         ],
     };
     const kanbanOptions: KanbanProps = {
+        key: 'kanban0',
         laneProps: {
             actions: [
                 {icon: 'ellipsis-v'},
@@ -272,6 +273,14 @@ onPageUpdate(() => {
     const kanbanList = new KanbanList('#kanbanList', {
         items: [kanbanOptions, kanbanRegionOptions],
         height: 'calc(100vh - 160px)',
+        links: [
+            {fromKanban: 'kanban0', toKanban: 'kanban1', from: '1', to: '6'},
+            {fromKanban: 'kanban0', toKanban: 'kanban1', from: '3', to: '11'},
+            {fromKanban: 'kanban0', toKanban: 'kanban1', from: '5', to: '11'},
+        ],
+        selectable: true,
+        showLinkOnSelected: true,
+        showLinkOnHover: true,
     });
     console.log('> kanbanList', kanbanList);
 });

@@ -275,7 +275,10 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
         return this.changeState((prevState) => {
             oldSelected = prevState.selected || [];
             return {selected: newSelected} as S;
-        }, onSelect ? () => onSelect(newSelected, oldSelected) : undefined);
+        }, () => {
+            onSelect?.(newSelected, oldSelected);
+            $(this._ref.current).trigger('kanbanItemSelected', {kanban: this.props.key, selected: newSelected, oldSelected});
+        });
     }
 
     protected _getElementInfo(element: HTMLElement): KanbanElementInfo | undefined {
@@ -712,7 +715,9 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
         const hover = info?.type === 'item' ? info.key : undefined;
         this._hoverTimer = window.setTimeout(() => {
             if (hover !== this.state.hover) {
-                this.setState({hover});
+                this.setState({hover}, () => {
+                    $(this._ref.current).trigger('kanbanItemHover', {kanban: this.props.key, hover});
+                });
             }
             this._hoverTimer = 0;
         }, !hover && this.state.hover ? 0 : 20);

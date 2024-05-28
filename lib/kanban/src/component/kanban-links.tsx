@@ -5,31 +5,36 @@ import {KanbanLinkEditor} from './kanban-link-editor';
 
 import type {ComponentChild, RenderableProps} from 'preact';
 import type {KanbanLinkOptions, KanbanLinksProps, KanbanLinksState} from '../types';
+import {createLinkID} from '../helpers/link-helpers';
 
 export class KanbanLinks extends Component<KanbanLinksProps, KanbanLinksState> {
     protected _ref = createRef<HTMLDivElement>();
 
-    protected declare _kanban: HTMLElement;
+    protected declare _container: HTMLElement;
 
-    protected _idSet = new Set<string>();
+    protected declare _multiKanban: boolean;
+
+    protected _watchSet = new Set<string>();
 
     protected _raf?: number;
 
     state: KanbanLinksState = {layout: {}};
 
     componentDidMount(): void {
-        const kanbanElement = this._ref.current?.closest('.kanban') as HTMLElement;
-        $(kanbanElement).on('laneColResize.kanban', () => {
+        const {container = '.kanban'} = this.props;
+        const containerElement = this._ref.current?.closest(container) as HTMLElement;
+        $(containerElement).on('laneColResize.kanban', () => {
             this._tryUpdateLayout();
         });
-        this._kanban = kanbanElement;
+        this._container = containerElement;
         this._tryUpdateLayout();
+        this._multiKanban = $(containerElement).find('.kanban').length > 1;
     }
 
     componentWillUnmount(): void {
-        const kanbanElement = this._ref.current?.closest('.kanban');
-        if (kanbanElement) {
-            $(kanbanElement).off('.kanban');
+        const containerElement = this._container;
+        if (containerElement) {
+            $(containerElement).off('.kanban');
         }
         if (this._raf) {
             cancelAnimationFrame(this._raf);
@@ -53,15 +58,16 @@ export class KanbanLinks extends Component<KanbanLinksProps, KanbanLinksState> {
     }
 
     _updateLayout() {
-        const idSet = [...this._idSet];
-        const $kanban = $(this._kanban).find('.kanban-body');
-        const {top: offsetTop, left: offsetLeft} = this._kanban.getBoundingClientRect();
+        const watchSet = [...this._watchSet];
+        const $container = $(this._container);
+        const {top: offsetTop, left: offsetLeft} = this._container.getBoundingClientRect();
         const layout: KanbanLinksState['layout'] = {};
-        idSet.forEach(id => {
-            const element = $kanban.find(`.kanban-item[z-key="${id}"]`).children()[0];
+        watchSet.forEach(key => {
+            const [kanban, id] = key.split('_');
+            const element = $container.find(`${this._multiKanban ? `.kanban[z-key="${kanban}"] ` : ''}.kanban-item[z-key="${id}"]`).children()[0];
             if (element) {
                 const {top, left, bottom, right} = element.getBoundingClientRect();
-                layout[id] = {top: top - offsetTop, left: left - offsetLeft, bottom: bottom - offsetTop, right: right - offsetLeft};
+                layout[key] = {top: top - offsetTop, left: left - offsetLeft, bottom: bottom - offsetTop, right: right - offsetLeft};
             }
         });
         this.setState({layout});
@@ -69,11 +75,13 @@ export class KanbanLinks extends Component<KanbanLinksProps, KanbanLinksState> {
 
     _renderLink(link: KanbanLinkOptions) {
         const {layout} = this.state;
-        const {from, to} = link;
-        const fromReact = layout[from];
-        const toRect = layout[to];
-        this._idSet.add(from);
-        this._idSet.add(to);
+        const {from, fromKanban = '', to, toKanban = ''} = link;
+        const fromKey = `${fromKanban}_${from}`;
+        const toKey = `${toKanban}_${to}`;
+        const fromReact = layout[fromKey];
+        const toRect = layout[toKey];
+        this._watchSet.add(fromKey);
+        this._watchSet.add(toKey);
         if (!fromReact || !toRect) {
             return null;
         }
@@ -84,9 +92,16 @@ export class KanbanLinks extends Component<KanbanLinksProps, KanbanLinksState> {
 
     _renderLinks(props: RenderableProps<KanbanLinksProps>) {
         const {links, filters} = props;
-        const excludeSet = new Set(filters);
+        const includeSet = new Set(filters);
+        const isLinkMatch = (link: KanbanLinkOptions) => {
+            const {from, to, fromKanban = '', toKanban = ''} = link;
+            if (this._multiKanban) {
+                return includeSet.has(`${fromKanban}_${from}`) || includeSet.has(`${toKanban}_${to}`) || includeSet.has(fromKanban) || includeSet.has(toKanban) || includeSet.has(createLinkID(link));
+            }
+            return includeSet.has(from) || includeSet.has(to) || includeSet.has(`${from}-${to}`);
+        };
         return  links.reduce((list, link) => {
-            if (!filters || excludeSet.has(link.from) || excludeSet.has(link.to) || excludeSet.has(`${link.from}-${link.to}`) || excludeSet.has(`${link.from}-`) || excludeSet.has(`-${link.to}`)) {
+            if (!filters || isLinkMatch(link)) {
                 const result = this._renderLink(link);
                 if (result) {
                     list.push(result);
@@ -105,7 +120,7 @@ export class KanbanLinks extends Component<KanbanLinksProps, KanbanLinksState> {
     }
 
     render(props: RenderableProps<KanbanLinksProps>) {
-        this._idSet.clear();
+        this._watchSet.clear();
         return (
             <div className="kanban-links" ref={this._ref}>
                 {this._renderLinks(props)}

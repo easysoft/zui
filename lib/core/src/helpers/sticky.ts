@@ -1,27 +1,29 @@
 import {Component} from '../component';
 
-export type StickyOptios = {
+export type StickyOptions = {
     side?: 'top' | 'bottom';
     offset?: number;
     zIndex?: number;
     pinnedClass?: string;
+    watch?: string;
 };
 
-export class Sticky extends Component<StickyOptios> {
+export class Sticky extends Component<StickyOptions> {
     static NAME = 'Sticky';
 
     protected declare _ob: IntersectionObserver;
 
     init() {
-        const {offset = 1, side, zIndex, pinnedClass = 'is-pinned'} = this.options;
+        const {offset = 1, side, zIndex, pinnedClass = 'is-pinned', watch} = this.options;
         const {$element} = this;
-        $element.css({position: 'sticky', zIndex});
-        if (side) $element.css(side, -offset);
+        const $watch = watch ? $element.find(watch) : $element;
+        $watch.css({position: 'sticky', zIndex});
+        if (side) $watch.css(side, -offset);
         this._ob = new IntersectionObserver(
             ([e]) => e.target.classList.toggle(pinnedClass, e.intersectionRatio < offset),
             {threshold: [1]},
         );
-        this._ob.observe($element[0] as HTMLElement);
+        $watch.each((_, e) => this._ob.observe(e));
     }
 
     destroy() {
