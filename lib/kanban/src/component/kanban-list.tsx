@@ -158,14 +158,6 @@ export class KanbanList extends HElement<KanbanListProps, KanbanListState> {
         });
     }
 
-    protected _handleScroll = () => {
-        const element = this._ref.current;
-        if (!element) {
-            return;
-        }
-        $(element).trigger('kanbanListScroll');
-    };
-
     protected _getClassName(props: RenderableProps<KanbanListProps>): ClassNameLike {
         return ['kanban-list', props.className, props.sticky ? 'has-sticky' : '', props.moveable ? 'is-moveable' : '', props.scrollbarHover ? 'scrollbar-hover' : ''];
     }
@@ -183,7 +175,6 @@ export class KanbanList extends HElement<KanbanListProps, KanbanListState> {
                 '--kanban-list-width': `${actualWidth || width}px`,
                 '--kanban-list-height': `${actualHeight || height}px`,
             },
-            onScroll: this._handleScroll,
         });
     }
 

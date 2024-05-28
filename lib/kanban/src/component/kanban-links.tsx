@@ -29,9 +29,6 @@ export class KanbanLinks extends Component<KanbanLinksProps, KanbanLinksState> {
         this._multiKanban = $container.find('.kanban').length > 1;
         $container.on(`laneColResize${EVENT_NAMESPACE} laneColScroll${EVENT_NAMESPACE}`, () => {
             this._tryUpdateLayout();
-        }).on(`scroll${EVENT_NAMESPACE}`, () => {
-            // this._tryUpdateLayout();
-            // this.setState({scrollTop: containerElement.scrollTop, scrollLeft: containerElement.scrollLeft});
         });
         this._container = containerElement;
         this._tryUpdateLayout();
