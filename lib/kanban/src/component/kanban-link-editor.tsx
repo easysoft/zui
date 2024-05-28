@@ -27,11 +27,11 @@ export class KanbanLinkEditor extends Component<KanbanLinkEditorProps, KanbanLin
         const element = this._ref.current!;
         const {container = '.kanban'} = this.props;
         const containerElement = element.closest(container) as HTMLElement;
+        const $container = $(containerElement);
         this._container = containerElement;
-        this._multiKanban = $(containerElement).find('.kanban').length > 1;
-
+        this._multiKanban = $container.find('.kanban').length > 1;
         const eventSelector = '.kanban-item,.kanban-link-editor-from';
-        $(containerElement).on(`mouseenter${EVENT_NAMESPACE}`, eventSelector, (event: MouseEvent) => {
+        $container.on(`mouseenter${EVENT_NAMESPACE}`, eventSelector, (event: MouseEvent) => {
             if (this.state.dragPos) {
                 return;
             }
@@ -62,6 +62,11 @@ export class KanbanLinkEditor extends Component<KanbanLinkEditorProps, KanbanLin
                 return;
             }
             this._cancelHover();
+        }).on(`laneColScroll${EVENT_NAMESPACE}`, (event: Event) => {
+            const {from} = this.state;
+            if (from) {
+                this.setState({fromRect: this._getRect($(event.target as HTMLElement).find(`.kanban-item[z-key="${from}"]`).children()[0]!)});
+            }
         });
 
         this._moveable = new Moveable(element, {
@@ -71,7 +76,7 @@ export class KanbanLinkEditor extends Component<KanbanLinkEditorProps, KanbanLin
                 if (!this.state.from) {
                     return false;
                 }
-                $(containerElement).addClass('is-adding-link');
+                $container.addClass('is-adding-link');
             },
             onMove: (event) => {
                 const {top: offsetTop, left: offsetLeft} = this._container.getBoundingClientRect();
@@ -94,7 +99,7 @@ export class KanbanLinkEditor extends Component<KanbanLinkEditorProps, KanbanLin
                     onAddLink?.call(this, {from, fromKanban, to, toKanban});
                 }
                 this._cancelHover();
-                $(containerElement).removeClass('is-adding-link');
+                $container.removeClass('is-adding-link');
             },
         });
     }

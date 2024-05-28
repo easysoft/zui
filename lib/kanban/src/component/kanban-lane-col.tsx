@@ -33,6 +33,14 @@ export class KanbanLaneCol extends Component<KanbanLaneColProps> {
         return itemRender!.call(this, {item, lane, col: name});
     };
 
+    protected _handleScroll = (event: Event): void => {
+        const {current} = this._listRef;
+        if (!current) {
+            return;
+        }
+        $(current).trigger('laneColScroll', event);
+    };
+
     render(props: KanbanLaneColProps) {
         const {items} = props;
         const {
@@ -63,7 +71,7 @@ export class KanbanLaneCol extends Component<KanbanLaneColProps> {
                         <CustomContent content={content} generatorThis={this} generatorArgs={[props]} />
                     </div>
                 ) : null}
-                <div className="kanban-items scrollbar-thin scrollbar-hover">
+                <div className="kanban-items scrollbar-thin scrollbar-hover" onScroll={this._handleScroll}>
                     <CardList
                         key="list"
                         forwardRef={watchSize ? this._listRef : undefined}
