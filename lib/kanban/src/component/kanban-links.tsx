@@ -36,7 +36,7 @@ export class KanbanLinks extends Component<KanbanLinksProps, KanbanLinksState> {
     }
 
     componentDidUpdate(previousProps: Readonly<KanbanLinksProps>): void {
-        if (previousProps.links !== this.props.links) {
+        if (previousProps.links !== this.props.links || previousProps.filters !== this.props.filters) {
             this._tryUpdateLayout();
         }
     }
