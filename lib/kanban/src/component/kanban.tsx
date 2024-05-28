@@ -588,7 +588,7 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
             return map;
         }, new Map());
         const {selected = []} = this.state;
-        const selectedSet = new Set(Array.isArray(selected) ? selected : [selected]);
+        const selectedSet = new Set(selected);
         const forEachItem = (item: KanbanItem) => {
             item.selected = selectedSet.has(item[itemKey] as string);
         };
@@ -713,7 +713,7 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
 
         if (selectable) {
             if (info?.type === 'item') {
-                this.select(info.key);
+                this.select(info.key!);
             } else {
                 this.select([]);
             }
@@ -732,7 +732,7 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
             filters = [];
             const {selected} = this.state;
             if (showLinkOnSelected && selected) {
-                filters.push(...(Array.isArray(selected) ? selected : [selected]));
+                filters.push(...selected);
             }
         }
         return (
