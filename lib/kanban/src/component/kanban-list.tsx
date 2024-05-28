@@ -31,11 +31,6 @@ export class KanbanList extends HElement<KanbanListProps, KanbanListState> {
 
     protected _kanbanRefs = new Map<string, RefObject<Kanban | KanbanRegion>>();
 
-    constructor(props: KanbanListProps) {
-        super(props);
-        console.time('kanbanList.init');
-    }
-
     componentDidMount() {
         const {moveable, responsive} = this.props;
         if (moveable && this._ref.current) {
