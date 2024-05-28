@@ -9,6 +9,7 @@ import type {ComponentChildren, RenderableProps} from 'preact';
 import type {ClassNameLike, CustomContentType} from '@zui/core';
 import type {ItemKey} from '@zui/common-list';
 import type {KanbanColName, KanbanColOptions, KanbanData, KanbanDataset, KanbanDataFetcher, KanbanDataSetting, KanbanItem, KanbanLaneName, KanbanLaneOptions, KanbanLinkOptions, KanbanProps, KanbanState, KanbanDataMap, KanbanItemsMap, KanbanElementInfo, KanbanDropInfo, KanbanDropSide, KanbanItemInfo} from '../types';
+import {createLinkID} from '../helpers/link-helpers';
 
 export type KanbanSnap = {
     date: number;
@@ -254,7 +255,7 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
                 deleted: false,
                 ...x,
                 ...change,
-                [this.itemKey]: `${x.from}:${x.to}`,
+                [this.itemKey]: createLinkID(x),
             })),
         });
     }
@@ -609,7 +610,7 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
         links = links.reduce<KanbanLinkOptions[]>((list, link) => {
             if (!link.deleted && itemMap.has(link.from) && itemMap.has(link.to) && !deletedItemSet.has(link.from) && !deletedItemSet.has(link.to)) {
                 if (link[itemKey] === undefined) {
-                    link[itemKey] = `${link.from}:${link.to}`;
+                    link[itemKey] = createLinkID(link);
                 }
                 const finalLink = props.getLink?.call(this, link) ?? link;
                 if (finalLink !== false && !finalLink.deleted) {

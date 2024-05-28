@@ -1,4 +1,4 @@
-import type {KanbanLinkPointType, KanbanLinkProps, KanbanLinkShape, KanbanLinkSide} from '../types';
+import type {KanbanLinkPointType, KanbanLinkOptions, KanbanLinkProps, KanbanLinkShape, KanbanLinkSide} from '../types';
 
 export const SVG_PADDING = 12;
 export const CURVE_FACTOR = 0.5;
@@ -47,6 +47,10 @@ export const oppositeSideMap: Record<KanbanLinkSide, KanbanLinkSide> = {
     top: 'bottom',
     bottom: 'top',
     '': '',
+};
+
+export const createLinkID = ({from, to, fromKanban, toKanban}: KanbanLinkOptions): string => {
+    return `${fromKanban ? `${fromKanban}_` : ''}${from}-${toKanban ? `${toKanban}_` : ''}${to}`;
 };
 
 export function getRectAnchorPos(rect: ElementReact, side: KanbanLinkSide): ElementPos {
@@ -170,7 +174,7 @@ export function getLinkPath(fromPos: ElementPos, toPos: ElementPos, fromSide: Ka
 
 export function layoutLink(link: KanbanLinkProps): LinkLayout {
     const {fromRect: fromBounding, toRect: toBounding} = link;
-    const id = `${link.from}-${link.to}`;
+    const id = createLinkID(link);
     const fromRect = {x: fromBounding.left, y: fromBounding.top, width: fromBounding.right - fromBounding.left, height: fromBounding.bottom - fromBounding.top};
     const toRect = {x: toBounding.left, y: toBounding.top, width: toBounding.right - toBounding.left, height: toBounding.bottom - toBounding.top};
     const {fromSide, toSide, fromPos, toPos} = getBestLinkSides(fromRect, toRect);

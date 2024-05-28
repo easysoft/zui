@@ -15,6 +15,12 @@ export interface KanbanLinkOptions extends Item {
     /** 连线结束元素 ID。 */
     to: string;
 
+    /** 连线起始元素所属看板 ID（适用于跨看板连接线）。 */
+    fromKanban?: string;
+
+    /** 连线结束元素所属看板 ID（适用于跨看板连接线）。 */
+    toKanban?: string;
+
     /** 起始指向的元素侧面位置。 */
     fromSide?: KanbanLinkSide; // "top" | "right" | "left" | "bottom"
 

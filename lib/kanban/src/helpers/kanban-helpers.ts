@@ -2,6 +2,7 @@ import {mergeProps} from '@zui/core';
 import {getUniqueCode} from '@zui/helpers/src/string-code';
 
 import type {KanbanLaneOptions, KanbanColOptions, KanbanItem, KanbanData, KanbanProps, KanbanDataset} from '../types';
+import {createLinkID} from './link-helpers';
 
 export function getCols(this: unknown, cols: KanbanColOptions[] | undefined, options: Pick<KanbanProps, 'getCol' | 'colProps' | 'itemCountPerRow' | 'itemGap'>, forEachCol?: (col: KanbanColOptions) => void) {
     if (!cols || !cols.length) {
@@ -202,7 +203,7 @@ export function mergeData(data: Partial<KanbanData>, extraData: Partial<KanbanDa
     const cols = mergeList(data.cols, extraData.cols, 'name');
     const links = mergeList(data.links, extraData.links?.map(link => {
         if (link[itemKey] === undefined) {
-            link[itemKey] = `${link.from}:${link.to}`;
+            link[itemKey] = createLinkID(link);
         }
         return link;
     }), itemKey);
