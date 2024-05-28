@@ -710,9 +710,29 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
         }
     };
 
+    protected _renderLinks(props: RenderableProps<P>) {
+        const {links = []} = this.data;
+        if (!links.length) {
+            return;
+        }
+
+        const {editLinks, showLinkOnSelected} = props;
+        let filters: string[] | undefined;
+        if (showLinkOnSelected) {
+            filters = [];
+            const {selected} = this.state;
+            if (showLinkOnSelected && selected) {
+                filters.push(...(Array.isArray(selected) ? selected : [selected]));
+            }
+        }
+        return (
+            <KanbanLinks key="links" links={links} filters={filters} onDeleteLink={editLinks ? (this._onDeleteLink as (link: KanbanLinkOptions) => void) : undefined} />
+        );
+    }
+
     protected _getChildren(props: RenderableProps<P>): ComponentChildren {
         const data = this._data.value;
-        const {cols, lanes, items, links = []} = data;
+        const {cols, lanes, items} = data;
         const {editLinks, laneNameWidth} = props;
         const layoutCols = this._layoutCols(cols, props);
         const layoutLanes = this._layoutLanes(lanes, props);
@@ -727,7 +747,7 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
                 items={items}
                 hideLaneName={laneNameWidth === 0}
             />,
-            links.length ? <KanbanLinks key="links" links={links} onDeleteLink={editLinks ? (this._onDeleteLink as (link: KanbanLinkOptions) => void) : undefined} /> : null,
+            this._renderLinks(props),
             editLinks ? <KanbanLinkEditor key="linkEditor" onAddLink={this._onAddLink} /> : null,
             props.children,
         ];

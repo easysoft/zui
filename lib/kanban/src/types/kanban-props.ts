@@ -52,6 +52,7 @@ export interface KanbanProps extends HElementProps {
     /* Link options.  */
     linkProps?: Partial<KanbanLinkOptions>;
     editLinks?: boolean;
+    showLinkOnSelected?: boolean;
     getLink?: (link: KanbanLinkOptions) => KanbanLinkOptions | false;
     onAddLink?: (newLink: KanbanLinkOptions) => void | false | Promise<void | false>;
     onDeleteLink?: (link: KanbanLinkOptions) => void | false | Promise<void | false>;
