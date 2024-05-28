@@ -3,7 +3,6 @@ import {classes, $, CustomContent, toCssSize} from '@zui/core';
 import {CardList} from '@zui/cards/src/component';
 
 import type {ComponentChildren, JSX, RefObject} from 'preact';
-import type {HtmlContentProps} from '@zui/core';
 import type {KanbanItem, KanbanLaneColProps} from '../types';
 
 export class KanbanLaneCol extends Component<KanbanLaneColProps> {

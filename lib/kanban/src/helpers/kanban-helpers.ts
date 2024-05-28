@@ -62,11 +62,11 @@ export function getCols(this: unknown, cols: KanbanColOptions[] | undefined, opt
     return cols;
 }
 
-export function getLanes(this: unknown, lanes: KanbanLaneOptions[] | undefined, options: Pick<KanbanProps, 'getLane' | 'laneProps' | 'laneNameWidth'>, forEachLane?: (lane: KanbanLaneOptions) => void) {
+export function getLanes(this: unknown, lanes: KanbanLaneOptions[] | undefined, options: Pick<KanbanProps, 'getLane' | 'laneProps'>, forEachLane?: (lane: KanbanLaneOptions) => void) {
     if (!lanes || !lanes.length) {
         return [];
     }
-    const {getLane, laneProps, laneNameWidth} = options;
+    const {getLane, laneProps} = options;
     let needSort = false;
     lanes = lanes.reduce<KanbanLaneOptions[]>((list, lane, index) => {
         if (laneProps) {
