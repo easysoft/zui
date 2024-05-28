@@ -9,7 +9,7 @@ import {getCols, mergeData, getLanes, getColItems, normalizeData} from '../helpe
 import type {ComponentChildren, RenderableProps} from 'preact';
 import type {ClassNameLike, CustomContentType} from '@zui/core';
 import type {ItemKey} from '@zui/common-list';
-import type {KanbanColName, KanbanColOptions, KanbanData, KanbanDataset, KanbanDataFetcher, KanbanDataSetting, KanbanItem, KanbanLaneName, KanbanLaneOptions, KanbanLinkOptions, KanbanProps, KanbanState, KanbanDataMap, KanbanItemsMap, KanbanElementInfo, KanbanDropInfo, KanbanDropSide} from '../types';
+import type {KanbanColName, KanbanColOptions, KanbanData, KanbanDataset, KanbanDataFetcher, KanbanDataSetting, KanbanItem, KanbanLaneName, KanbanLaneOptions, KanbanLinkOptions, KanbanProps, KanbanState, KanbanDataMap, KanbanItemsMap, KanbanElementInfo, KanbanDropInfo, KanbanDropSide, KanbanItemInfo} from '../types';
 
 export type KanbanSnap = {
     date: number;
@@ -261,9 +261,12 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
         const $element = $(element);
         const $item = $element.closest('.kanban-item');
         if ($item.length) {
-            const item = this.getItem($item.attr('z-key'));
-            if (item) {
-                return {type: 'item', element, item, lane: item.lane, col: item.col};
+            const key = $item.attr('z-key');
+            if (key) {
+                const item = this.getItem(key);
+                if (item) {
+                    return {type: 'item', key, element, item, lane: item.lane, col: item.col};
+                }
             }
         }
         const $newItem = $element.closest('.kanban-new-item');
@@ -662,7 +665,7 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
     }
 
     protected _getProps(props: RenderableProps<P>): Record<string, unknown> {
-        const {laneNameWidth, colsGap, lanesGap} = props;
+        const {laneNameWidth, colsGap, lanesGap, onClickItem} = props;
         return mergeProps(super._getProps(props), {
             ref: this._ref,
             style: {
@@ -670,8 +673,20 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
                 '--kanban-cols-gap': toCssSize(colsGap),
                 '--kanban-lanes-gap': toCssSize(lanesGap),
             },
+            onClick: onClickItem ? this._handleClick : undefined,
         });
     }
+
+    protected _handleClick = (event: MouseEvent) => {
+        const {onClickItem, selectable} = this.props;
+        const info = this._getElementInfo(event.target as HTMLElement);
+        if (onClickItem && info?.type === 'item') {
+            const result = onClickItem.call(this, event, info as KanbanItemInfo);
+            if (result === false) {
+                return;
+            }
+        }
+    };
 
     protected _getChildren(props: RenderableProps<P>): ComponentChildren {
         const data = this._data.value;

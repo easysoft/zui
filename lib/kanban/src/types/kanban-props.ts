@@ -40,6 +40,9 @@ export interface KanbanProps extends HElementProps {
     lanesGap?: SizeSetting;
     colsGap?: number;
 
+    /* UI. */
+    onClickItem?: (event: MouseEvent, item: KanbanItemInfo) => false | void;
+
     /* Async load. */
     onLoad?: (data: KanbanData) => void | KanbanData;
     onLoadFail?: CustomContentType | ((error: Error) => CustomContentType | void);

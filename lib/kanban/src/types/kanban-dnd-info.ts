@@ -7,6 +7,7 @@ export type KanbanDropSide = 'before' | 'after' | 'inside';
 export type KanbanElementInfo = Partial<KanbanItemInfo> & {
     type: KanbanDnDType,
     element: HTMLElement,
+    key?: string,
 };
 
 export type KanbanDragInfo = {
