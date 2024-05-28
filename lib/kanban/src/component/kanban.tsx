@@ -529,9 +529,9 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
         this.props.afterRender?.call(this, firstRender);
     }
 
-    protected _onAddLink = async (from: string, to: string) => {
+    protected _onAddLink = async (newLink: KanbanLinkOptions) => {
         const {onAddLink} = this.props;
-        const newLink = {from, to, [this.itemKey]: `${from}:${to}`};
+        newLink[this.itemKey] = createLinkID(newLink);
         const result = await onAddLink?.call(this, newLink);
         if (result === false) {
             return;
@@ -758,7 +758,14 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
         }
 
         return (
-            <KanbanLinks key="links" links={links} filters={filters} editLinks={editLinks} onDeleteLink={editLinks ? (this._onDeleteLink as (link: KanbanLinkOptions) => void) : undefined} onAddLink={editLinks ? this._onAddLink : undefined} />
+            <KanbanLinks
+                key="links"
+                links={links}
+                filters={filters}
+                editLinks={editLinks}
+                onDeleteLink={editLinks ? (this._onDeleteLink as (link: KanbanLinkOptions) => void) : undefined}
+                onAddLink={editLinks ? this._onAddLink : undefined}
+            />
         );
     }
 

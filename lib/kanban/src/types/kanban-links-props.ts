@@ -5,5 +5,5 @@ export interface KanbanLinksProps {
     filters?: string[];
     editLinks?: boolean;
     onDeleteLink?: (link: KanbanLinkOptions) => void;
-    onAddLink?: (from: string, to: string) => void;
+    onAddLink?: (newLink: KanbanLinkOptions) => void;
 }
