@@ -6,5 +6,5 @@
   --kanban-header-height: 32px;
   --kanban-lane-height: auto;
   --kanban-lane-color: var(--color-primary-500);
-  --kanban-link-color: var(--color-secondary-500);
+  --kanban-link-color: var(--color-secondary-600);
 }

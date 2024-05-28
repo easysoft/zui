@@ -184,7 +184,7 @@ export function layoutLink(link: KanbanLinkProps): LinkLayout {
     toPos.y += SVG_PADDING - y;
 
     const {
-        weight: strokeWidth = 1,
+        weight: strokeWidth = 1.5,
         fromPoint,
         toPoint = 'arrow',
     } = link;
