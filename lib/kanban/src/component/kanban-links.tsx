@@ -84,13 +84,12 @@ export class KanbanLinks extends Component<KanbanLinksProps, KanbanLinksState> {
     _renderLinks(props: RenderableProps<KanbanLinksProps>) {
         const {links, filters} = props;
         const excludeSet = new Set(filters);
-        return links.reduce((list, link) => {
-            if (filters && (!excludeSet.has(link.from) && !excludeSet.has(link.to) && !excludeSet.has(`${link.from}-${link.to}`))) {
-                return list;
-            }
-            const result = this._renderLink(link);
-            if (result) {
-                list.push(result);
+        return  links.reduce((list, link) => {
+            if (!filters || excludeSet.has(link.from) || excludeSet.has(link.to) || excludeSet.has(`${link.from}:${link.to}`) || excludeSet.has(`${link.from}:`) || excludeSet.has(`:${link.to}`)) {
+                const result = this._renderLink(link);
+                if (result) {
+                    list.push(result);
+                }
             }
             return list;
         }, [] as ComponentChild[]);
