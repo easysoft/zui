@@ -31,11 +31,7 @@ export class KanbanLaneCol extends Component<KanbanLaneColProps> {
 
     protected _renderItem = (item: KanbanItem): ComponentChildren => {
         const {itemRender, lane, name} = this.props;
-        const result = itemRender!.call(this, {item, lane, col: name});
-        if (typeof result === 'object' && (result as HtmlContentProps).html) {
-            $.extend(result, {});
-        }
-        return result;
+        return itemRender!.call(this, {item, lane, col: name});
     };
 
     render(props: KanbanLaneColProps) {
