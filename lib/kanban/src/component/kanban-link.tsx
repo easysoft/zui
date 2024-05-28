@@ -18,11 +18,11 @@ export class KanbanLink extends Component<KanbanLinkProps, KanbanLinkState> {
     };
 
     render(props: RenderableProps<KanbanLinkProps>, state: Readonly<KanbanLinkState>): ComponentChild {
-        const {text, textSize, color, onDelete, weight = 1.5} = props;
+        const {text, textSize, color, onDelete, weight = 1.5, from, to} = props;
         const {hover} = state;
         const {x, y, padding, width, height, svgProps, markers, svgPathProps, svgPathBackProps, fromPos} = layoutLink(props);
         return (
-            <div className={classes('kanban-link', hover ? 'is-hover' : '')} style={{left: x, top: y, width, height, color, '--kanban-link-weight': weight}} onMouseEnter={onDelete ? this._handleMouseHover : undefined} onMouseLeave={onDelete ? this._handleMouseHover : undefined}>
+            <div className={classes('kanban-link', hover ? 'is-hover' : '')} style={{left: x, top: y, width, height, color, '--kanban-link-weight': weight}} z-from={from} z-to={to} onMouseEnter={onDelete ? this._handleMouseHover : undefined} onMouseLeave={onDelete ? this._handleMouseHover : undefined}>
                 <svg {...svgProps} xmlns="http://www.w3.org/2000/svg" version="1.1">
                     {markers.length ? (
                         <defs>
