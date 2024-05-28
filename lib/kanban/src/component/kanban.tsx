@@ -40,6 +40,8 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
 
     protected _rob?: ResizeObserver;
 
+    protected declare _hoverTimer: number;
+
     protected _data = new Computed(this._getData.bind(this), () => {
         const {getCol, colProps, itemCountPerRow, itemGap, getLane, laneProps, itemProps, getItem, getLink, linkProps, responsive} = this.props;
         return [
@@ -689,7 +691,7 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
     }
 
     protected _getProps(props: RenderableProps<P>): Record<string, unknown> {
-        const {laneNameWidth, colsGap, lanesGap, selectable, onClickItem} = props;
+        const {laneNameWidth, colsGap, lanesGap, selectable, onClickItem, showLinkOnHover} = props;
         return mergeProps(super._getProps(props), {
             ref: this._ref,
             style: {
@@ -698,8 +700,22 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
                 '--kanban-lanes-gap': toCssSize(lanesGap),
             },
             onClick: (onClickItem || selectable) ? this._handleClick : undefined,
+            onMouseMove: showLinkOnHover ? this._handleMouseMove : undefined,
         });
     }
+
+    protected _handleMouseMove = (event: MouseEvent) => {
+        if (this._hoverTimer) {
+            clearTimeout(this._hoverTimer);
+        }
+        this._hoverTimer = window.setTimeout(() => {
+            const info = this._getElementInfo(event.target as HTMLElement);
+            const itemKey = info?.type === 'item' ? info.key : undefined;
+            if (itemKey !== this.state.hover) {
+                this.setState({hover: itemKey});
+            }
+        }, 20);
+    };
 
     protected _handleClick = (event: MouseEvent) => {
         const {onClickItem, selectable} = this.props;
@@ -726,15 +742,20 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
             return;
         }
 
-        const {editLinks, showLinkOnSelected} = props;
+        const {editLinks, showLinkOnHover, showLinkOnSelected} = props;
         let filters: string[] | undefined;
-        if (showLinkOnSelected) {
+        if (showLinkOnSelected || showLinkOnHover) {
             filters = [];
-            const {selected} = this.state;
+            const {selected, hover} = this.state;
             if (showLinkOnSelected && selected) {
                 filters.push(...selected);
             }
+            if (showLinkOnHover && hover) {
+                filters.push(hover);
+            }
+            filters = [...new Set(filters)];
         }
+
         return (
             <KanbanLinks key="links" links={links} filters={filters} onDeleteLink={editLinks ? (this._onDeleteLink as (link: KanbanLinkOptions) => void) : undefined} />
         );

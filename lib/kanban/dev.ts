@@ -132,6 +132,9 @@ onPageUpdate(() => {
             console.log('> onDrop', changes, info);
         },
         maxColWidth: 300,
+        selectable: true,
+        showLinkOnHover: true,
+        showLinkOnSelected: true,
     };
     const kanban2Options: KanbanProps = {
         key: 'kanban2',
