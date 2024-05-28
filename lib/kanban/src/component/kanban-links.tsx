@@ -7,6 +7,8 @@ import type {ComponentChild, RenderableProps} from 'preact';
 import type {KanbanLinkOptions, KanbanLinksProps, KanbanLinksState} from '../types';
 import {createLinkID} from '../helpers/link-helpers';
 
+const EVENT_NAMESPACE = '.kanban';
+
 export class KanbanLinks extends Component<KanbanLinksProps, KanbanLinksState> {
     protected _ref = createRef<HTMLDivElement>();
 
@@ -18,23 +20,27 @@ export class KanbanLinks extends Component<KanbanLinksProps, KanbanLinksState> {
 
     protected _raf?: number;
 
-    state: KanbanLinksState = {layout: {}};
+    state: KanbanLinksState = {layout: {}, scrollTop: 0, scrollLeft: 0};
 
     componentDidMount(): void {
         const {container = '.kanban'} = this.props;
         const containerElement = this._ref.current?.closest(container) as HTMLElement;
-        $(containerElement).on('laneColResize.kanban', () => {
+        const $container = $(containerElement);
+        this._multiKanban = $container.find('.kanban').length > 1;
+        $container.on(`laneColResize${EVENT_NAMESPACE} laneColScroll${EVENT_NAMESPACE}`, () => {
             this._tryUpdateLayout();
+        }).on(`scroll${EVENT_NAMESPACE}`, () => {
+            // this._tryUpdateLayout();
+            // this.setState({scrollTop: containerElement.scrollTop, scrollLeft: containerElement.scrollLeft});
         });
         this._container = containerElement;
         this._tryUpdateLayout();
-        this._multiKanban = $(containerElement).find('.kanban').length > 1;
     }
 
     componentWillUnmount(): void {
         const containerElement = this._container;
         if (containerElement) {
-            $(containerElement).off('.kanban');
+            $(containerElement).off(EVENT_NAMESPACE);
         }
         if (this._raf) {
             cancelAnimationFrame(this._raf);
@@ -59,15 +65,18 @@ export class KanbanLinks extends Component<KanbanLinksProps, KanbanLinksState> {
 
     _updateLayout() {
         const watchSet = [...this._watchSet];
-        const $container = $(this._container);
-        const {top: offsetTop, left: offsetLeft} = this._container.getBoundingClientRect();
+        const container = this._container;
+        const $container = $(container);
+        const {top: containerTop, left: containerLeft} = container.getBoundingClientRect();
+        const offsetTop = container.scrollTop - containerTop;
+        const offsetLeft = container.scrollLeft - containerLeft;
         const layout: KanbanLinksState['layout'] = {};
         watchSet.forEach(key => {
             const [kanban, id] = key.split('_');
             const element = $container.find(`${this._multiKanban ? `.kanban[z-key="${kanban}"] ` : ''}.kanban-item[z-key="${id}"]`).children()[0];
             if (element) {
                 const {top, left, bottom, right} = element.getBoundingClientRect();
-                layout[key] = {top: top - offsetTop, left: left - offsetLeft, bottom: bottom - offsetTop, right: right - offsetLeft};
+                layout[key] = {top: top + offsetTop, left: left + offsetLeft, bottom: bottom + offsetTop, right: right + offsetLeft};
             }
         });
         this.setState({layout});
@@ -112,9 +121,9 @@ export class KanbanLinks extends Component<KanbanLinksProps, KanbanLinksState> {
     }
 
     _renderEditor(props: RenderableProps<KanbanLinksProps>) {
-        const {editLinks, onAddLink} = props;
+        const {editLinks, onAddLink, container} = props;
         if (editLinks) {
-            return <KanbanLinkEditor key="editor" onAddLink={onAddLink} />;
+            return <KanbanLinkEditor key="editor" container={container} onAddLink={onAddLink} />;
         }
         return null;
     }

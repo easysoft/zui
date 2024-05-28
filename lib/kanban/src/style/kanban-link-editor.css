@@ -1,4 +1,4 @@
-.kanban.is-adding-link {
+.is-adding-link {
   @apply -cursor-crosshair -select-none;
 }
 .kanban-link-editor {

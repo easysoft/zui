@@ -2,7 +2,7 @@
   @apply -absolute -inset-0 -pointer-events-none -z-[5];
 }
 .kanban-list > .kanban-links {
-  @apply -z-[11];
+  @apply -z-[11] -overflow-visible;
 }
 .kanban-link {
   @apply -absolute -flex -items-center -justify-center -text-[--kanban-link-color];

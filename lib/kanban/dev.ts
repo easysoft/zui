@@ -279,8 +279,9 @@ onPageUpdate(() => {
             {fromKanban: 'kanban0', toKanban: 'kanban1', from: '5', to: '11'},
         ],
         selectable: true,
-        showLinkOnSelected: true,
-        showLinkOnHover: true,
+        editLinks: true,
+        // showLinkOnSelected: true,
+        // showLinkOnHover: true,
     });
     console.log('> kanbanList', kanbanList);
 });

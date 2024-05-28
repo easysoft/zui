@@ -158,6 +158,14 @@ export class KanbanList extends HElement<KanbanListProps, KanbanListState> {
         });
     }
 
+    protected _handleScroll = () => {
+        const element = this._ref.current;
+        if (!element) {
+            return;
+        }
+        $(element).trigger('kanbanListScroll');
+    };
+
     protected _getClassName(props: RenderableProps<KanbanListProps>): ClassNameLike {
         return ['kanban-list', props.className, props.sticky ? 'has-sticky' : '', props.moveable ? 'is-moveable' : '', props.scrollbarHover ? 'scrollbar-hover' : ''];
     }
@@ -175,6 +183,7 @@ export class KanbanList extends HElement<KanbanListProps, KanbanListState> {
                 '--kanban-list-width': `${actualWidth || width}px`,
                 '--kanban-list-height': `${actualHeight || height}px`,
             },
+            onScroll: this._handleScroll,
         });
     }
 
@@ -224,7 +233,7 @@ export class KanbanList extends HElement<KanbanListProps, KanbanListState> {
 
         const {showLinkOnHover, showLinkOnSelected} = props;
         let filters: string[] | undefined;
-        if (showLinkOnSelected || showLinkOnHover) {
+        if (links.length && (showLinkOnSelected || showLinkOnHover)) {
             filters = [];
             const {selected = {}, hover} = this.state;
             if (showLinkOnSelected && selected) {
@@ -255,7 +264,7 @@ export class KanbanList extends HElement<KanbanListProps, KanbanListState> {
     }
 
     protected _getChildren(props: RenderableProps<KanbanListProps>): ComponentChildren {
-        const {items = [], kanbanProps: kanbanPropsSetting, showLinkOnSelected, showLinkOnHover, selectable} = props;
+        const {items = [], kanbanProps: kanbanPropsSetting, showLinkOnSelected, showLinkOnHover, selectable, editLinks} = props;
         const kanbanRefs = this._kanbanRefs;
         const refKeys = new Set<string>(kanbanRefs.keys());
         const children = [
@@ -278,7 +287,13 @@ export class KanbanList extends HElement<KanbanListProps, KanbanListState> {
                         kanbanProps = {showLinkOnSelected, showLinkOnHover, selectable, ...kanbanProps};
                     }
                 }
-                kanbanProps = {showLinkOnSelected, showLinkOnHover, ...kanbanProps};
+                if (editLinks) {
+                    if (isRegion) {
+                        (kanbanProps as KanbanRegionProps).items = ((kanbanProps as KanbanRegionProps).items || []).map(x => ({...x, editLinks: false}));
+                    } else {
+                        kanbanProps = {...kanbanProps, editLinks: false};
+                    }
+                }
                 const KanbanComponent = isRegion ? KanbanRegion : Kanban;
                 return <KanbanComponent key={key} ref={ref} sticky={props.sticky} {...(kanbanProps as KanbanProps)} z-key={key} />;
             }),

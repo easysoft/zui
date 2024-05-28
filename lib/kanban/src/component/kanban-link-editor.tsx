@@ -11,7 +11,7 @@ const EVENT_NAMESPACE = '.kanban';
 export class KanbanLinkEditor extends Component<KanbanLinkEditorProps, KanbanLinkEditorState> {
     protected _ref = createRef<HTMLDivElement>();
 
-    protected declare _kanban: HTMLElement;
+    protected declare _container: HTMLElement;
 
     protected _raf?: number;
 
@@ -27,7 +27,7 @@ export class KanbanLinkEditor extends Component<KanbanLinkEditorProps, KanbanLin
         const element = this._ref.current!;
         const {container = '.kanban'} = this.props;
         const containerElement = element.closest(container) as HTMLElement;
-        this._kanban = containerElement;
+        this._container = containerElement;
         this._multiKanban = $(containerElement).find('.kanban').length > 1;
 
         const eventSelector = '.kanban-item,.kanban-link-editor-from';
@@ -74,7 +74,7 @@ export class KanbanLinkEditor extends Component<KanbanLinkEditorProps, KanbanLin
                 $(containerElement).addClass('is-adding-link');
             },
             onMove: (event) => {
-                const {top: offsetTop, left: offsetLeft} = this._kanban.getBoundingClientRect();
+                const {top: offsetTop, left: offsetLeft} = this._container.getBoundingClientRect();
                 const dragPos = {left: event.clientX - offsetLeft, top: event.clientY - offsetTop};
                 let to: string | undefined;
                 let toRect: KanbanLinkEditorState['toRect'] | undefined;
@@ -111,10 +111,11 @@ export class KanbanLinkEditor extends Component<KanbanLinkEditorProps, KanbanLin
 
     protected _getRect(element: HTMLElement) {
         const rect = element.getBoundingClientRect();
-        const {top: offsetTop, left: offsetLeft} = this._kanban.getBoundingClientRect();
+        const container = this._container;
+        const {top: offsetTop, left: offsetLeft} = container.getBoundingClientRect();
         return {
-            left: rect.left - offsetLeft,
-            top: rect.top - offsetTop,
+            left: rect.left - offsetLeft + container.scrollLeft,
+            top: rect.top - offsetTop + container.scrollTop,
             width: rect.width,
             height: rect.height,
         };
