@@ -100,7 +100,7 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
         this.tryLoad();
         this._initDraggable();
 
-        const {responsive} = this.props;
+        const {responsive, selectable} = this.props;
         const element = this._ref.current;
         if (element && responsive) {
             const rob = new ResizeObserver(this.updateLayout.bind(this));
@@ -114,6 +114,10 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
                 this.updateLayout();
             }
         }
+
+        if (selectable) {
+            $(document).on('click.kanban', this._handleGlobalClick);
+        }
     }
 
     componentDidUpdate(): void {
@@ -125,6 +129,10 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
         this.props.beforeDestroy?.call(this);
         this._draggable?.destroy();
         this._rob?.disconnect();
+
+        if (this.props.selectable) {
+            $(document).off('click.kanban', this._handleGlobalClick);
+        }
     }
 
     load(): void {
@@ -268,18 +276,39 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
         return this.updateLink(link, {deleted: true});
     }
 
-    select(selected: ItemKey | ItemKey[]) {
-        const newSelected = Array.isArray(selected) ? selected : (selected ? [selected] : []);
+    select(selected: ItemKey | ItemKey[], toggle?: boolean) {
+        let newSelected = Array.isArray(selected) ? selected : (selected ? [selected] : []);
         let oldSelected = this.state.selected || [];
         const {onSelect} = this.props;
         return this.changeState((prevState) => {
             oldSelected = prevState.selected || [];
+            if (toggle) {
+                const oldSelectedSet = new Set(oldSelected);
+                const toggleNewSelected = new Set<string>();
+                newSelected.forEach(key => {
+                    if (oldSelectedSet.has(key)) {
+                        oldSelectedSet.delete(key);
+                    } else {
+                        toggleNewSelected.add(key);
+                    }
+                });
+                newSelected = [...oldSelectedSet, ...toggleNewSelected];
+                return {selected: newSelected} as S;
+            }
             return {selected: newSelected} as S;
         }, () => {
             onSelect?.(newSelected, oldSelected);
             $(this._ref.current).trigger('kanbanItemSelected', {kanban: this.props.key, selected: newSelected, oldSelected});
         });
     }
+
+    protected _handleGlobalClick = (event: MouseEvent) => {
+        const $target = $(event.target as HTMLElement);
+        if ($target.closest('.kanban-item').length) {
+            return;
+        }
+        this.select([]);
+    };
 
     protected _getElementInfo(element: HTMLElement): KanbanElementInfo | undefined {
         const $element = $(element);
@@ -733,12 +762,8 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
             }
         }
 
-        if (selectable) {
-            if (info?.type === 'item') {
-                this.select(info.key!);
-            } else {
-                this.select([]);
-            }
+        if (selectable && info?.type === 'item') {
+            this.select(info.key!, true);
         }
     };
 

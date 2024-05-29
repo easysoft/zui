@@ -293,8 +293,8 @@ onPageUpdate(() => {
         ],
         selectable: true,
         editLinks: true,
-        // showLinkOnSelected: true,
-        // showLinkOnHover: true,
+        showLinkOnSelected: true,
+        showLinkOnHover: true,
     });
     console.log('> kanbanList', kanbanList);
 });
