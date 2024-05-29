@@ -2,10 +2,10 @@ import {Component, createRef} from 'preact';
 import {$, dom} from '@zui/core';
 import {KanbanLink} from './kanban-link';
 import {KanbanLinkEditor} from './kanban-link-editor';
+import {createLinkID} from '../helpers/link-helpers';
 
 import type {ComponentChild, RenderableProps} from 'preact';
 import type {KanbanLinkOptions, KanbanLinksProps, KanbanLinksState} from '../types';
-import {createLinkID} from '../helpers/link-helpers';
 
 const EVENT_NAMESPACE = '.kanban';
 
