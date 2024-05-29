@@ -2,8 +2,8 @@
   @apply -sticky -top-0 -bg-canvas -z-10;
 }
 .kanban-sticky .kanban-header.is-pinned {
-  @apply -z-20;
+  @apply -z-20 -shadow-sm -border-b-inverse/15 -border-b;
 }
 .kanban-sticky .kanban-lane-name {
-  @apply -sticky -left-0 -z-10;
+  @apply -sticky -left-0 -z-[21];
 }
