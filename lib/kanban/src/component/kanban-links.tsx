@@ -1,5 +1,5 @@
 import {Component, createRef} from 'preact';
-import {$} from '@zui/core';
+import {$, dom} from '@zui/core';
 import {KanbanLink} from './kanban-link';
 import {KanbanLinkEditor} from './kanban-link-editor';
 
@@ -71,7 +71,7 @@ export class KanbanLinks extends Component<KanbanLinksProps, KanbanLinksState> {
         watchSet.forEach(key => {
             const [kanban, id] = key.split('_');
             const element = $container.find(`${this._multiKanban ? `.kanban[z-key="${kanban}"] ` : ''}.kanban-item[z-key="${id}"]`).children()[0];
-            if (element) {
+            if (element && dom.isVisible(element, {container: '.kanban-lane-col'})) {
                 const {top, left, bottom, right} = element.getBoundingClientRect();
                 layout[key] = {top: top + offsetTop, left: left + offsetLeft, bottom: bottom + offsetTop, right: right + offsetLeft};
             }
