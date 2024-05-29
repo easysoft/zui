@@ -8,9 +8,11 @@ import '@zui/toolbar';
 import '@zui/checkbox';
 import '@zui/cards';
 import '@zui/menu';
-import {$} from '@zui/core';
+import {$, dom} from '@zui/core';
 import {KanbanRegionProps, KanbanList, KanbanProps} from './src/main';
 import {createKanbanData} from './dev/create-kanban-data';
+
+console.log('> dom', dom);
 
 onPageUpdate(() => {
     const kanban1Options: KanbanProps = {
@@ -278,6 +280,13 @@ onPageUpdate(() => {
         items: [kanbanOptions, kanbanRegionOptions],
         height: 'calc(100vh - 160px)',
         links: [
+            {fromKanban: 'kanban0', toKanban: 'kanban0', from: '1', to: '9'},
+            {fromKanban: 'kanban0', toKanban: 'kanban0', from: '1', to: '10'},
+            {fromKanban: 'kanban0', toKanban: 'kanban0', from: '1', to: '11'},
+            {fromKanban: 'kanban0', toKanban: 'kanban0', from: '1', to: '12'},
+            {fromKanban: 'kanban0', toKanban: 'kanban0', from: '1', to: '13'},
+            {fromKanban: 'kanban0', toKanban: 'kanban0', from: '1', to: '14'},
+            {fromKanban: 'kanban0', toKanban: 'kanban0', from: '1', to: '15'},
             {fromKanban: 'kanban0', toKanban: 'kanban1', from: '1', to: '6'},
             {fromKanban: 'kanban0', toKanban: 'kanban1', from: '3', to: '11'},
             {fromKanban: 'kanban0', toKanban: 'kanban1', from: '5', to: '11'},
