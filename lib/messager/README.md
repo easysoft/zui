@@ -99,7 +99,7 @@ document.querySelector('.messager-toggle').addEventListener('click', (event) => 
 
 通过 `type` 设置 CSS 工具类来改变颜色主题和样式。
 
-```html:example
+```html:example: flex gap-2 flex-wrap
 <button type="button" class="btn messager-toggle" data-type="primary">primary</button>
 <button type="button" class="btn messager-toggle" data-type="secondary">secondary</button>
 <button type="button" class="btn messager-toggle" data-type="success">success</button>
@@ -107,6 +107,20 @@ document.querySelector('.messager-toggle').addEventListener('click', (event) => 
 <button type="button" class="btn messager-toggle" data-type="special">special</button>
 <button type="button" class="btn messager-toggle" data-type="important">important</button>
 <button type="button" class="btn messager-toggle" data-type="primary circle">primary circle</button>
+<button type="button" class="btn messager-toggle" data-type="primary-pale">primary-pale</button>
+<button type="button" class="btn messager-toggle" data-type="secondary-pale">secondary-pale</button>
+<button type="button" class="btn messager-toggle" data-type="success-pale">success-pale</button>
+<button type="button" class="btn messager-toggle" data-type="danger-pale">danger-pale</button>
+<button type="button" class="btn messager-toggle" data-type="special-pale">special-pale</button>
+<button type="button" class="btn messager-toggle" data-type="important-pale">important-pale</button>
+<button type="button" class="btn messager-toggle" data-type="primary-pale circle">primary-pale circle</button>
+<button type="button" class="btn messager-toggle" data-type="primary-outline">primary-outline</button>
+<button type="button" class="btn messager-toggle" data-type="secondary-outline">secondary-outline</button>
+<button type="button" class="btn messager-toggle" data-type="success-outline">success-outline</button>
+<button type="button" class="btn messager-toggle" data-type="danger-outline">danger-outline</button>
+<button type="button" class="btn messager-toggle" data-type="special-outline">special-outline</button>
+<button type="button" class="btn messager-toggle" data-type="important-outline">important-outline</button>
+<button type="button" class="btn messager-toggle" data-type="primary-outline circle">primary-outline circle</button>
 ```
 
 ```js
