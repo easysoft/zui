@@ -79,8 +79,8 @@ export class KanbanLinkEditor extends Component<KanbanLinkEditorProps, KanbanLin
                 $container.addClass('is-adding-link');
             },
             onMove: (event) => {
-                const {top: offsetTop, left: offsetLeft} = this._container.getBoundingClientRect();
-                const dragPos = {left: event.clientX - offsetLeft, top: event.clientY - offsetTop};
+                const {top: offsetTop, left: offsetLeft} = containerElement.getBoundingClientRect();
+                const dragPos = {left: event.clientX - offsetLeft + containerElement.scrollLeft, top: event.clientY - offsetTop + containerElement.scrollTop};
                 let to: string | undefined;
                 let toRect: KanbanLinkEditorState['toRect'] | undefined;
                 let toKanban: string | undefined;
