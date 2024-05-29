@@ -35,13 +35,17 @@ export class Sticky extends Component<StickyOptions> {
                         cancelAnimationFrame(this._raf);
                     }
                     this._raf = requestAnimationFrame(() => {
+                        this._raf = 0;
+                        if (container.scrollTop === 0 && (!side || side === 'top')) {
+                            $targets.toggleClass(pinnedClass, false);
+                            return;
+                        }
                         const containerRect = container.getBoundingClientRect();
                         $targets.each((_, target) => {
                             const rect = target.getBoundingClientRect();
-                            const pinned = rect.top === containerRect.top;
+                            const pinned = rect[side || 'top'] === containerRect[side || 'top'];
                             target.classList.toggle(pinnedClass, pinned);
                         });
-                        this._raf = 0;
                     });
                 };
                 this._scrollListener = listener;
