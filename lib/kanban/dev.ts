@@ -141,6 +141,7 @@ onPageUpdate(() => {
     const kanban2Options: KanbanProps = {
         key: 'kanban2',
         itemCountPerRow: 3,
+        colWidth: 400,
         data: createKanbanData(),
         onDrop: (changes, info) => {
             console.log('> onDrop', changes, info);
