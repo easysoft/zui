@@ -129,6 +129,9 @@ importers:
       postcss-import:
         specifier: ^15.1.0
         version: 15.1.0(postcss@8.4.38)
+      postcss-inset:
+        specifier: ^1.0.0
+        version: 1.0.0
       postcss-rem-to-pixel:
         specifier: ^4.1.2
         version: 4.1.2
@@ -5284,6 +5287,13 @@ packages:
       resolve: 1.22.8
     dev: true
 
+  /postcss-inset@1.0.0:
+    resolution: {integrity: sha512-GAGG8dCDL8zq3BLo2spfcY7YxVQzIZscHDklcJVy/VI2V5lO8V5N9b/p96411w8nf40v7lx3VOiAzBNJlmrI4Q==}
+    engines: {node: '>=4.0.0'}
+    dependencies:
+      postcss: 6.0.23
+    dev: true
+
   /postcss-js@4.0.1(postcss@8.4.38):
     resolution: {integrity: sha512-dDLF8pEO191hJMtlHFPRa8xsizHaM82MLfNkUHdUtVEV3tgTp5oj+8qbEqYM57SLfc74KSbw//4SeJma2LRVIw==}
     engines: {node: ^12 || ^14 || >= 16}
@@ -5559,6 +5569,15 @@ packages:
       js-base64: 2.6.4
       source-map: 0.5.7
       supports-color: 3.2.3
+    dev: true
+
+  /postcss@6.0.23:
+    resolution: {integrity: sha512-soOk1h6J3VMTZtVeVpv15/Hpdl2cBLX3CAw4TAbkpTJiNPk9YP/zWcD1ND+xEtvyuuvKzbxliTOIyvkSeSJ6ag==}
+    engines: {node: '>=4.0.0'}
+    dependencies:
+      chalk: 2.4.2
+      source-map: 0.6.1
+      supports-color: 5.5.0
     dev: true
 
   /postcss@8.4.38:

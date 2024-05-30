@@ -14,6 +14,7 @@ module.exports = {
     plugins: [
         require('postcss-import'),
         require('tailwindcss'),
+        require('postcss-inset')(),
         require('autoprefixer'),
         ...extraPlugins,
     ],
