@@ -49,6 +49,10 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
         return this._pop.current;
     }
 
+    get trigger() {
+        return this._trigger.current;
+    }
+
     get value() {
         return this.state.value;
     }
