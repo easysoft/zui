@@ -218,7 +218,7 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
         while (checkCount < count) {
             index = (index + step + count) % count;
             const nextItem = items[index];
-            if (nextItem && !nextItem.disabled && condition.call(this, nextItem, index)) {
+            if (nextItem && !nextItem.disabled && !nextItem.hidden && condition.call(this, nextItem, index)) {
                 return nextItem;
             }
             checkCount++;
