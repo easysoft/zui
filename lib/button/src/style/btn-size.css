@@ -45,7 +45,12 @@
 }
 
 .btn.square {
-    @apply -px-0 -w-[--btn-height] -gap-0.5;
+    @apply -px-0 -gap-0.5 -aspect-square;
+}
+@supports not (aspect-ratio: 1 / 1){
+    .btn.square {
+        @apply -w-[--btn-height];
+    }
 }
 .btn.btn-caret {
     @apply -px-1;
