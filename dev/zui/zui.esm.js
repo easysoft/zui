@@ -8,7 +8,7 @@ var it = (n, t, e) => (cs(n, t, "read from private field"), e ? e.call(n) : t.ge
   t instanceof WeakSet ? t.add(n) : t.set(n, e);
 }, mt = (n, t, e, s) => (cs(n, t, "write to private field"), s ? s.call(n, e) : t.set(n, e), e);
 var hs = (n, t, e) => (cs(n, t, "access private method"), e);
-const yu = "3.0.0-alpha.4", vu = 1717052454973, Lt = document, Cn = window, Tr = Lt.documentElement, he = Lt.createElement.bind(Lt), Nr = he("div"), us = he("table"), Ra = he("tbody"), Ui = he("tr"), { isArray: Vn, prototype: Er } = Array, { concat: Da, filter: Ys, indexOf: $r, map: Mr, push: La, slice: Ar, some: Js, splice: Fa } = Er, za = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, Oa = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, Ha = /<.+>/, Wa = /^\w+$/;
+const yu = "3.0.0-alpha.4", vu = 1717566900335, Lt = document, Cn = window, Tr = Lt.documentElement, he = Lt.createElement.bind(Lt), Nr = he("div"), us = he("table"), Ra = he("tbody"), Ui = he("tr"), { isArray: Vn, prototype: Er } = Array, { concat: Da, filter: Ys, indexOf: $r, map: Mr, push: La, slice: Ar, some: Js, splice: Fa } = Er, za = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, Oa = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, Ha = /<.+>/, Wa = /^\w+$/;
 function Zs(n, t) {
   const e = ja(t);
   return !n || !e && !ae(t) && !Y(t) ? [] : !e && Oa.test(n) ? t.getElementsByClassName(n.slice(1).replace(/\\/g, "")) : !e && Wa.test(n) ? t.getElementsByTagName(n) : t.querySelectorAll(n);
@@ -3008,17 +3008,17 @@ let Zn = class extends B {
     else if (l)
       b.push("has-icon"), k = /* @__PURE__ */ g(Q, { icon: l });
     else if (c != null && c.length) {
-      const T = oc(c, h);
-      if (b.push("has-text", `has-text-${T.length}`), o === void 0) {
-        const I = u ?? c, M = (typeof I == "number" ? I : rc(I)) * f % 360;
-        if (w.background = `hsl(${M},${m * 100}%,${_ * 100}%)`, !a) {
-          const E = ic(M, m, _);
-          w.color = or(E);
+      const T = oc(c, h), A = T.length;
+      if (b.push("has-text", `has-text-${A}`), o === void 0) {
+        const M = u ?? c, E = (typeof M == "number" ? M : rc(M)) * f % 360;
+        if (w.background = `hsl(${E},${m * 100}%,${_ * 100}%)`, !a) {
+          const P = ic(E, m, _);
+          w.color = or(P);
         }
       } else
         !a && o && (w.color = or(o));
-      let A;
-      S && S < 14 * T.length && (A = { transform: `scale(${S / (14 * T.length)})`, whiteSpace: "nowrap" }), k = /* @__PURE__ */ g("div", { "data-actualSize": S, className: "avatar-text", style: A, children: T });
+      let I;
+      S && S < 16 * A && (I = { transform: `scale(${S / (16 * A)})`, whiteSpace: "nowrap" }), k = /* @__PURE__ */ g("div", { "data-actualSize": S, className: "avatar-text", style: I, children: T });
     }
     return /* @__PURE__ */ g(
       "div",
@@ -3363,7 +3363,7 @@ class en extends nt {
     for (e = e || ((l) => l.type === "item" && !l.disabled); a < r; ) {
       o = (o + s + r) % r;
       const l = i[o];
-      if (l && !l.disabled && e.call(this, l, o))
+      if (l && !l.disabled && !l.hidden && e.call(this, l, o))
         return l;
       a++;
     }
@@ -5623,6 +5623,9 @@ let yt = class extends B {
   }
   get pop() {
     return this._pop.current;
+  }
+  get trigger() {
+    return this._trigger.current;
   }
   get value() {
     return this.state.value;
