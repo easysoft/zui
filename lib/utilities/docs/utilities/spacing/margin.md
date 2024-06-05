@@ -58,19 +58,19 @@
 :::
 
 <script setup>
-const marginList = 'p-0,p-px,p-0.5,p-1,p-1.5,p-2,p-2.5,p-3,p-3.5,p-4,p-5,p-6,p-7,p-8,p-9,p-10,px-0,py-0,pt-0,pr-0,pb-0,pl-0,px-px,py-px,pt-px,pr-px,pb-px,pl-px,px-0.5,py-0.5,pt-0.5,pr-0.5,pb-0.5,pl-0.5,px-1,py-1,pt-1,pr-1,pb-1,pl-1,px-1.5,py-1.5,pt-1.5,pr-1.5,pb-1.5,pl-1.5,px-2,py-2,pt-2,pr-2,pb-2,pl-2,px-2.5,py-2.5,pt-2.5,pr-2.5,pb-2.5,pl-2.5,px-3,py-3,pt-3,pr-3,pb-3,pl-3,px-3.5,py-3.5,pt-3.5,pr-3.5,pb-3.5,pl-3.5,px-4,py-4,pt-4,pr-4,pb-4,pl-4,px-5,py-5,pt-5,pr-5,pb-5,pl-5,px-6,py-6,pt-6,pr-6,pb-6,pl-6,px-7,py-7,pt-7,pr-7,pb-7,pl-7,px-8,py-8,pt-8,pr-8,pb-8,pl-8,px-9,py-9,pt-9,pr-9,pb-9,pl-9,px-10,py-10,pt-10,pr-10,pb-10,pl-10'.split(',');
+const marginList = 'm-auto,mx-auto,my-auto,mt-auto,mr-auto,mb-auto,ml-auto,m-0,m-px,m-0.5,m-1,m-1.5,m-2,m-2.5,m-3,m-3.5,m-4,m-5,m-6,m-7,m-8,m-9,m-10,mx-0,my-0,mt-0,mr-0,mb-0,ml-0,mx-px,my-px,mt-px,mr-px,mb-px,ml-px,mx-0.5,my-0.5,mt-0.5,mr-0.5,mb-0.5,ml-0.5,mx-1,my-1,mt-1,mr-1,mb-1,ml-1,mx-1.5,my-1.5,mt-1.5,mr-1.5,mb-1.5,ml-1.5,mx-2,my-2,mt-2,mr-2,mb-2,ml-2,mx-2.5,my-2.5,mt-2.5,mr-2.5,mb-2.5,ml-2.5,mx-3,my-3,mt-3,mr-3,mb-3,ml-3,mx-3.5,my-3.5,mt-3.5,mr-3.5,mb-3.5,ml-3.5,mx-4,my-4,mt-4,mr-4,mb-4,ml-4,mx-5,my-5,mt-5,mr-5,mb-5,ml-5,mx-6,my-6,mt-6,mr-6,mb-6,ml-6,mx-7,my-7,mt-7,mr-7,mb-7,ml-7,mx-8,my-8,mt-8,mr-8,mb-8,ml-8,mx-9,my-9,mt-9,mr-9,mb-9,ml-9,mx-10,my-10,mt-10,mr-10,mb-10,ml-10'.split(',');
 const marginTypes = {
-    pt: 'margin-top: {0};',
-    pr: 'margin-right: {0};',
-    pb: 'margin-bottom: {0};',
-    pl: 'margin-left: {0};',
-    p: 'margin: {0};',
-    px: 'margin-left: {0}; margin-right: {0};',
-    py: 'margin-top: {0}; margin-bottom: {0};',
+    mt: 'margin-top: {0};',
+    mr: 'margin-right: {0};',
+    mb: 'margin-bottom: {0};',
+    ml: 'margin-left: {0};',
+    m: 'margin: {0};',
+    mx: 'margin-left: {0}; margin-right: {0};',
+    my: 'margin-top: {0}; margin-bottom: {0};',
 };
 const getPadding = (margin) => {
     const [type, value] = margin.split('-');
-    const cssValue = `${value === 'px' ? 1 : (4 * value)}px`;
+    const cssValue = value === 'auto' ? 'auto' : (`${value === 'px' ? 1 : (4 * value)}px`);
     return marginTypes[type].replaceAll('{0}', cssValue);
 };
 </script>
