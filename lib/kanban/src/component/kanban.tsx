@@ -753,6 +753,9 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
     };
 
     protected _handleClick = (event: MouseEvent) => {
+        if ((event.target as HTMLElement).closest('a,button')) {
+            return;
+        }
         const {onClickItem, selectable} = this.props;
         const info = this._getElementInfo(event.target as HTMLElement);
         if (onClickItem && info?.type === 'item') {
