@@ -165,7 +165,7 @@ console.log('> nav', nav);
 
 ## 圆点导航
 
- ```html:example
+```html:example
 <menu class="nav nav-pills">
   <li class="nav-item"><a class="active"><i class="icon icon-home"></i><span class="text">首页</span></a></li>
   <li class="nav-item"><a><span class="text">产品</span></a></li>
@@ -188,7 +188,21 @@ console.log('> nav', nav);
   <li class="menu-item"><a><span class="text">项目</span></a></li>
   <li class="menu-item"><a><span class="text">关于我们</span></a></li>
 </menu>
- ```
+```
+
+## 步骤条
+
+```html:example: flex justify-start p-4 surface
+<menu class="nav nav-steps canvas">
+  <li class="nav-item item"><a class="selected"><span class="text">已激活步骤1</span></a></li>
+  <li class="nav-item item"><a class="selected"><span class="text">已激活步骤2</span></a></li>
+  <li class="nav-item item"><a class="active"><span class="text">当前步骤</span></a></li>
+  <li class="nav-item item"><a class="selected"><span class="text">已激活步骤3</span></a></li>
+  <li class="nav-item item"><a><span class="text">可点击步骤1</span></a></li>
+  <li class="nav-item item"><a><span class="text">可点击步骤2</span></a></li>
+  <li class="nav-item item"><a class="disabled"><span class="text">不可点击步骤</span></a></li>
+</menu>
+```
 
 ## 垂直排列
 

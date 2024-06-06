@@ -1,4 +1,4 @@
-import {List} from '@zui/list/src/component';
+import {List} from '@zui/list/src/component/list';
 
 import type {Item} from '@zui/common-list';
 import type {RenderableProps} from 'preact';

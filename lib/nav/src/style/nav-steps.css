@@ -1,0 +1,43 @@
+.nav-steps {
+  --nav-item-bg: var(--color-canvas);
+  --nav-active-bg: var(--color-primary-500);
+  --nav-active-color: var(--color-canvas);
+  --nav-selected-bg: var(--color-secondary-500);
+  --nav-selected-color: var(--color-canvas);
+}
+.nav-steps > .nav-item + .nav-item > a {
+  padding-left: calc(var(--nav-item-padding) + var(--nav-item-height) / 3);
+}
+.nav-steps > .nav-item > a::before,
+.nav-steps > .nav-item > a::after {
+  @apply -content-[''] -absolute -w-0 -h-0 -border-solid -left-full -z-[2];
+  border-width: calc(var(--nav-item-height) / 2);
+  border-right-width: 0;
+  border-left-width: calc(var(--nav-item-height) / 3);
+  border-color: transparent;
+  border-left-color: var(--nav-item-bg, var(--color-canvas));
+}
+
+.nav-steps > .nav-item > a::before {
+  @apply -z-[1] !-opacity-100 -right-auto -bottom-auto !-bg-transparent -transform-none;
+  border-left-color: var(--color-border);
+  left: calc(100% + 5.5px);
+  top: 0.4rem;
+  --nav-item-height: 1.2rem;
+}
+.nav-steps > .nav-item:last-child > a::before,
+.nav-steps > .nav-item:last-child > a::after,
+.nav-steps > .nav-item:has(+ .nav-item > .active) > .selected::before,
+.nav-steps > .nav-item:has(+ .nav-item > .selected) > .active::before {
+  @apply -hidden;
+}
+
+.nav-steps > .nav-item > a:hover {
+  --nav-item-bg: var(--color-gray-100);
+}
+.nav-steps > .nav-item > .active:hover {
+  --nav-item-bg: var(--color-primary-600);
+}
+.nav-steps > .nav-item > .selected:hover {
+  --nav-item-bg: var(--color-secondary-600);
+}
