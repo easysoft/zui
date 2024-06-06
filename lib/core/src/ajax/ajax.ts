@@ -12,12 +12,16 @@ function setHeader(headers: HeadersInit, name: string, value: string) {
     }
 }
 
-function setFormItem(formData: FormData, name: string, value: AjaxFormItemValue | AjaxFormItemValue[]) {
+function setFormItem(formData: FormData, name: string, value: AjaxFormItemValue | AjaxFormItemValue[] | Record<string, AjaxFormItemValue>) {
     if (value === undefined || value === null) {
         return;
     }
     if (Array.isArray(value)) {
         value.forEach((v) => setFormItem(formData, name, v));
+    } else if (!(value instanceof Blob) && $.isPlainObject(value)) {
+        Object.entries(value).forEach(([key, v]) => {
+            setFormItem(formData, `${name}[${key}]`, v);
+        });
     } else {
         formData.append(name, value instanceof Blob ? value : String(value));
     }
