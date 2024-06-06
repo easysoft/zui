@@ -3,4 +3,12 @@
   --nav-active-color: var(--color-primary-500);
   --nav-active-bg: var(--color-inherit);
   --nav-heading-color: var(--color-gray-500);
+  --nav-gap: 0.25rem;
+  --nav-item-color: inherit;
+  --nav-item-bg: transparent;
+  --nav-item-padding: 1rem;
+  --nav-item-height: 2rem;
+  --nav-item-gap: 0.75rem;
+  --nav-divider-height: calc(var(--nav-item-height) / 2);
+  --nav-divider-margin: 0.5rem;
 }
