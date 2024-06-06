@@ -27,6 +27,10 @@ export function MessagerItem({
     time,
     ...alertOptions
 }: MessagerItemOptions) {
+    if (typeof alertOptions.html === 'string') {
+        alertOptions.content = {html: alertOptions.html};
+        delete alertOptions.html;
+    }
     return (
         <Alert
             className={classes('messager', className, type, animation === true ? getAnimationFromPlacement(placement) : animation, show ? 'in' : '')}

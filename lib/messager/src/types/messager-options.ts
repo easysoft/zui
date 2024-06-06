@@ -7,4 +7,5 @@ export interface MessagerOptions extends AlertOptions {
     placement?: MessagerPlacement;
     animation?: boolean | string;
     time?: number;
+    html?: string;
 }
