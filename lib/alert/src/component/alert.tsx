@@ -32,9 +32,9 @@ export function Alert({
     return (
         <div className={classes('alert', className)} style={style} {...others}>
             <Icon icon={icon} className={classes('alert-icon', iconClass)} />
-            {typeof content !== 'string' ? <CustomContent className="alert-content" content={content} /> : (
+            {typeof content !== 'string' ? <CustomContent content={content} /> : (
                 <div className={classes('alert-content', contentClass)}>
-                    {typeof heading !== 'string' ? <CustomContent className="alert-heading" content={heading} /> : (heading && <div className="alert-heading">{heading}</div>)}
+                    {typeof heading !== 'string' ? <CustomContent content={heading} /> : (heading && <div className="alert-heading">{heading}</div>)}
                     <div className="alert-text">{content}</div>
                     {heading ? actionsToolbar : null}
                 </div>
