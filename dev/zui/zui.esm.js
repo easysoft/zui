@@ -8,7 +8,7 @@ var it = (n, t, e) => (cs(n, t, "read from private field"), e ? e.call(n) : t.ge
   t instanceof WeakSet ? t.add(n) : t.set(n, e);
 }, mt = (n, t, e, s) => (cs(n, t, "write to private field"), s ? s.call(n, e) : t.set(n, e), e);
 var hs = (n, t, e) => (cs(n, t, "access private method"), e);
-const yu = "3.0.0-alpha.4", vu = 1717637844386, Lt = document, Cn = window, Tr = Lt.documentElement, he = Lt.createElement.bind(Lt), Nr = he("div"), us = he("table"), Ra = he("tbody"), Ui = he("tr"), { isArray: Vn, prototype: Er } = Array, { concat: Da, filter: Ys, indexOf: $r, map: Mr, push: La, slice: Ar, some: Js, splice: Fa } = Er, za = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, Oa = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, Ha = /<.+>/, Wa = /^\w+$/;
+const yu = "3.0.0-alpha.4", vu = 1718244814946, Lt = document, Cn = window, Tr = Lt.documentElement, he = Lt.createElement.bind(Lt), Nr = he("div"), us = he("table"), Ra = he("tbody"), Ui = he("tr"), { isArray: Vn, prototype: Er } = Array, { concat: Da, filter: Ys, indexOf: $r, map: Mr, push: La, slice: Ar, some: Js, splice: Fa } = Er, za = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, Oa = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, Ha = /<.+>/, Wa = /^\w+$/;
 function Zs(n, t) {
   const e = ja(t);
   return !n || !e && !ae(t) && !Y(t) ? [] : !e && Oa.test(n) ? t.getElementsByClassName(n.slice(1).replace(/\\/g, "")) : !e && Wa.test(n) ? t.getElementsByTagName(n) : t.querySelectorAll(n);
@@ -3412,7 +3412,7 @@ class en extends nt {
   _handleClick(t) {
     const e = super._handleClick(t);
     let { checkOnClick: s } = this.props;
-    if (s === "any" ? s = ".item-checkbox,.item-content,.item-icon" : s === !0 && (s = ".item-checkbox"), s && e && t.target.closest(s)) {
+    if (s === "any" ? s = ".item-checkbox,.item-content,.item-icon" : s === !0 && (s = ".item-checkbox"), s && !(e != null && e.renderedItem.disabled) && e && t.target.closest(s)) {
       this.toggleChecked(e.key), t.stopPropagation();
       return;
     }
@@ -3897,10 +3897,10 @@ let J = class extends Te {
     return r.className = x(this._getWrapClass(t), r.className), r;
   }
   _renderWrapperHeader(t) {
-    return /* @__PURE__ */ g(W, { content: t.header }, "header");
+    return /* @__PURE__ */ g(W, { content: t.header, generatorThis: this }, "header");
   }
   _renderWrapperFooter(t) {
-    return /* @__PURE__ */ g(W, { content: t.footer }, "footer");
+    return /* @__PURE__ */ g(W, { content: t.footer, generatorThis: this }, "footer");
   }
   render(t) {
     const e = super.render(t);
@@ -4232,7 +4232,7 @@ function yc({
   time: o,
   ...a
 }) {
-  return /* @__PURE__ */ g(
+  return typeof a.html == "string" && (a.content = { html: a.html }, delete a.html), /* @__PURE__ */ g(
     mc,
     {
       className: x("messager", r, t, s === !0 ? _c(e) : s, i ? "in" : ""),
