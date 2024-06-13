@@ -310,7 +310,7 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
         } else if (checkOnClick === true) {
             checkOnClick = '.item-checkbox';
         }
-        if (checkOnClick && info && (event.target as HTMLElement).closest(checkOnClick)) {
+        if (checkOnClick && !info?.renderedItem.disabled && info && (event.target as HTMLElement).closest(checkOnClick)) {
             this.toggleChecked(info.key);
             event.stopPropagation();
             return;
