@@ -39,11 +39,11 @@ export class Menu<T extends MenuOptions = MenuOptions, S extends NestedListState
     }
 
     protected _renderWrapperHeader(props: RenderableProps<T>): ComponentChildren {
-        return <CustomContent key="header" content={props.header} />;
+        return <CustomContent key="header" content={props.header} generatorThis={this} />;
     }
 
     protected _renderWrapperFooter(props: RenderableProps<T>): ComponentChildren {
-        return <CustomContent key="footer" content={props.footer} />;
+        return <CustomContent key="footer" content={props.footer} generatorThis={this} />;
     }
 
     render(props: RenderableProps<T>) {
