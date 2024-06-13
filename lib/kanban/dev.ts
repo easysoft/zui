@@ -8,11 +8,9 @@ import '@zui/toolbar';
 import '@zui/checkbox';
 import '@zui/cards';
 import '@zui/menu';
-import {$, dom} from '@zui/core';
+import {$} from '@zui/core';
 import {KanbanRegionProps, KanbanList, KanbanProps} from './src/main';
 import {createKanbanData} from './dev/create-kanban-data';
-
-console.log('> dom', dom);
 
 onPageUpdate(() => {
     const kanban1Options: KanbanProps = {
