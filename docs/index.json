@@ -278,32 +278,6 @@
           ]
         },
         {
-          "id": "project",
-          "name": "项目和计划",
-          "desc": "了解项目和开发计划",
-          "icon": "icon-lightbulb",
-          "url": "http://zui.5upm.com/product-browse-2.html",
-          "filter": "zentao xiangmuhejihua xmhjh",
-          "topics": [
-            {
-              "name": "需求",
-              "url": "http://zui.5upm.com/product-browse-2.html"
-            },
-            {
-              "name": "计划",
-              "url": "http://zui.5upm.com/productplan-browse-2.html"
-            },
-            {
-              "name": "路线图",
-              "url": "http://zui.5upm.com/product-roadmap-2.html"
-            },
-            {
-              "name": "路线图",
-              "url": "http://zui.5upm.com/product-roadmap-2.html"
-            }
-          ]
-        },
-        {
           "id": "qqgroup",
           "name": "QQ讨论",
           "desc": "官方QQ群：127535859",

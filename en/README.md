@@ -13,7 +13,6 @@ Learn more from the official website  https://openzui.com/en/
 💎 &nbsp;Designed for mobile and based on Flex UI framework: [MZUI](https://openzui.com/m/)。
 
 Official QQ group：**Group 2: 127535859**, Group 1: 384135104(Full)
-Projects and plans: http://zui.5upm.com/product-browse-2.html
 
 ## Characteristics
 

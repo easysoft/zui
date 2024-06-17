@@ -282,32 +282,6 @@
           ]
         },
         {
-          "id": "project",
-          "name": "Projects & Plans",
-          "desc": "Understand the project and development plans",
-          "icon": "icon-lightbulb",
-          "url": "http://zui.5upm.com/product-browse-2.html",
-          "filter": "zentao xiangmuhejihua xmhjh",
-          "topics": [
-            {
-              "name": "Requirement",
-              "url": "http://zui.5upm.com/product-browse-2.html"
-            },
-            {
-              "name": "Plan",
-              "url": "http://zui.5upm.com/productplan-browse-2.html"
-            },
-            {
-              "name": "Roadmap",
-              "url": "http://zui.5upm.com/product-roadmap-2.html"
-            },
-            {
-              "name": "Roadmap",
-              "url": "http://zui.5upm.com/product-roadmap-2.html"
-            }
-          ]
-        },
-        {
           "id": "qqgroup",
           "name": "QQ Group",
           "desc": "Official QQ Group:127535859",
