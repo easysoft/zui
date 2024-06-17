@@ -1,6 +1,6 @@
 ﻿section: javascript
 id: kindeditor
-description: use Kineditor to edit rich text
+description: use KindEditor to edit rich text
 icon: icon-edit
 filter: fuwenbenbianjiqi fwbbjq
 ---

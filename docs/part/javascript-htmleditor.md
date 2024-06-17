@@ -1,38 +1,38 @@
 ﻿section: javascript
 id: kindeditor
-description: 使用Kineditor来编辑富文本
+description: 使用Kindeditor来编辑富文本
 icon: icon-edit
 filter: fuwenbenbianjiqi fwbbjq
 ---
 
 # 富文本编辑器
 
-ZUI 推荐两种富文本编辑器解决方案：Kindeitor 和 UEditor。
+ZUI 推荐两种富文本编辑器解决方案：Kindeditor 和 UEditor。
 
-ZUI 专为 Kindeitor 和 UEditor 定制了与 ZUI 风格一致的主题。
+ZUI 专为 Kindeditor 和 UEditor 定制了与 ZUI 风格一致的主题。
 
-## Kindeitor
+## Kindeditor
 
 <div class="alert alert-danger">
   <h4>兼容性问题</h4>
   <p>在触摸屏或小屏幕上无法获取最佳体验。</p>
 </div>
 
-详细用法请访问 Kindeitor 官方网站：<a target="_blank" href="http://kindeditor.org/">http://kindeditor.net/</a>，项目地址：<a target="_blank" href="https://github.com/kindsoft/kindeditor">https://github.com/kindsoft/kindeditor</a>。
+详细用法请访问 Kindeditor 官方网站：<a target="_blank" href="http://kindeditor.org/">http://kindeditor.net/</a>，项目地址：<a target="_blank" href="https://github.com/kindsoft/kindeditor">https://github.com/kindsoft/kindeditor</a>。
 
-### 使用 Kindeitor
+### 使用 Kindeditor
 
-Kindeitor 是作为独立组件，你手动引入 JavaScript 文件到你的页面。
+Kindeditor 是作为独立组件，你手动引入 JavaScript 文件到你的页面。
 
 ```html
 <script src="dist/lib/kindeditor/kindeditor.min.js"></script>
 ```
 
-你不需要额外引入 CSS 文件，因为 Kindeitor 的主题样式文件是通过 JavaScript 加载的。
+你不需要额外引入 CSS 文件，因为 Kindeditor 的主题样式文件是通过 JavaScript 加载的。
 
 <div class="alert alert-primary">
   <h4>重要提示</h4>
-  <p>如果你需要使用 Kindeitor 的高级功能（例如表情、地图、图片上传等），你还需要将 `lib/kindeditor/plugins.zip` 文件在你的服务器上进行解压缩，确保 `kindeditor.min.js` 文件所在的目录下有 `plugins` 文件夹。</p>
+  <p>如果你需要使用 Kindeditor 的高级功能（例如表情、地图、图片上传等），你还需要将 `lib/kindeditor/plugins.zip` 文件在你的服务器上进行解压缩，确保 `kindeditor.min.js` 文件所在的目录下有 `plugins` 文件夹。</p>
 </div>
 
 ### 默认模式
