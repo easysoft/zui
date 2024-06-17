@@ -1,8 +1,8 @@
 /*!
- * ZUI: 下拉选择器 - v1.10.0 - 2022-08-23
+ * ZUI: 下拉选择器 - v1.10.0 - 2024-06-17
  * http://openzui.com
  * GitHub: https://github.com/easysoft/zui.git 
- * Copyright (c) 2022 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2024 cnezsoft.com; Licensed MIT
  */
 
 /* ========================================================================
@@ -26,6 +26,7 @@
     var SHOWS = {};
 
     var DEFAULTS = {
+        width: null,
         lang: null,
         remote: null, // {url: '/picker/fetch?search={search}', method: 'GET'} or '/picker/fetch?search={search}&limit={limit}' or function({search, limit}, callback),
         remoteConverter: null, // function(responseData, textStatus, jqXHR, picker)
@@ -189,6 +190,8 @@
             $container = $('<div class="picker" />').insertAfter(that.$);
         }
         $container.addClass('picker').toggleClass('picker-multi', multi).toggleClass('picker-single', !multi);
+        if (options.width) $container.width(options.width);
+
         var $selections = $container.children('.picker-selections');
         if ($selections.length) {
             $selections.empty();
@@ -249,6 +252,9 @@
                 that._blurTimer = 0;
             }
             $container.addClass('picker-focus');
+            if (that.options.disableEmptySearch && typeof that.search === 'string' && !that.search.length) {
+                return
+            }
             that.showDropList();
         }).on('blur', function() {
             if (that.disabled) {
@@ -273,6 +279,14 @@
             }
             $container.toggleClass('picker-input-empty', !searchValue.length);
             that.tryUpdateList(searchValue);
+            if (options.disableEmptySearch) {
+                const isEmptySearch = typeof searchValue !== 'string' || searchValue.length;
+                if (!that.dropListShowed && isEmptySearch) {
+                    that.showDropList()
+                } else if (that.dropListShowed && !isEmptySearch) {
+                    that.hideDropList()
+                }
+            }
         });
 
         if (options.hotkey) {
@@ -1060,11 +1074,6 @@
 
     Picker.prototype.showDropList = function() {
         var that = this;
-        var search = that.search;
-        var options = that.options;
-        if (typeof search === 'string' && !search.length && options.disableEmptySearch) {
-            return
-        }
 
         if (that.triggerEvent('showingDrop', {picker: that}) === false) {
             return;

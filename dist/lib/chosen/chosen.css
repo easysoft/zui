@@ -127,7 +127,7 @@
   }
 .chosen-container-single .chosen-single abbr:before {
   display: block;
-  content: '×';
+  content: '\00D7';
   }
 .chosen-container-single .chosen-single abbr:hover,
 .chosen-container-single .chosen-single abbr:focus {

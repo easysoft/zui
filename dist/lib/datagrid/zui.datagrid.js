@@ -1,8 +1,8 @@
 /*!
- * ZUI: 数据表格② - v1.10.0 - 2022-08-23
+ * ZUI: 数据表格② - v1.10.0 - 2024-06-17
  * http://openzui.com
  * GitHub: https://github.com/easysoft/zui.git 
- * Copyright (c) 2022 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2024 cnezsoft.com; Licensed MIT
  */
 
 /*!
@@ -742,7 +742,9 @@
         that.pager = pager;
 
         if (oldPager.page !== pager.page || oldPager.recTotal !== pager.recTotal || oldPager.recPerPage !== pager.recPerPage) {
-            that.scroll(0, 0);
+            setTimeout(function(){
+                that.scroll(0, 0);
+            }, 200);
             that.layout.cols = null;
         }
         return that;

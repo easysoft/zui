@@ -1023,7 +1023,7 @@ div.edui-box {
   opacity: .2;
   }
 .edui-default .edui-dialog-closebutton .edui-button-body:before {
-  content: '×';
+  content: '\00D7';
   }
 .edui-default .edui-dialog-closebutton .edui-button-body:hover {
   filter: alpha(opacity=70);

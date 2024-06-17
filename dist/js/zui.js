@@ -1,8 +1,8 @@
 /*!
- * ZUI: Standard edition - v1.10.0 - 2022-08-23
+ * ZUI: Standard edition - v1.10.0 - 2024-06-17
  * http://openzui.com
  * GitHub: https://github.com/easysoft/zui.git 
- * Copyright (c) 2022 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2024 cnezsoft.com; Licensed MIT
  */
 
 /*! Some code copy from Bootstrap v3.0.0 by @fat and @mdo. (Copyright 2013 Twitter, Inc. Licensed under http://www.apache.org/licenses/)*/
@@ -3110,7 +3110,12 @@
                         position:   'absolute',
                         width:      $ele.outerWidth(),
                         transition: 'none'
-                    }).appendTo($container);
+                    });
+                    $shadow.find('input[type="radio"]').each(function(){
+                        var $radio = $(this);
+                        $radio.attr('name', $radio.attr('name') + '_shadow');
+                    });
+                    $shadow.appendTo($container);
                 }
 
                 $ele.addClass('dragging');
@@ -4149,7 +4154,7 @@
 
                             $framebody.off('resize.' + NAME).on('resize.' + NAME, ajustFrameSize);
                             if (scrollInside) {
-                                $(window).off('resize.' + NAME).on('resize.' + NAME, ajustFrameSize);
+                                $(frameWindow).off('resize.' + NAME).on('resize.' + NAME, ajustFrameSize);
                             }
                         } else {
                             readyToShow();
@@ -4284,14 +4289,7 @@
     $.fn.modal.bs = old;
 
     var getModal = function(modal) {
-        if (!modal) {
-            modal = $('.modal.modal-trigger');
-            if (!modal.length) {
-
-            }
-        } else {
-            modal = $(modal);
-        }
+        modal = $(modal || '.modal.modal-trigger.in');
         if(modal && (modal instanceof $)) return modal;
         return null;
     };
@@ -6982,14 +6980,20 @@
     var name = 'zui.tree'; // modal name
     var globalId = 0;
 
+    function escape(unsafe) {
+        return unsafe.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;').replaceAll("'", '&#039;');
+    }
+
     // The tree modal class
     var Tree = function(element, options) {
         this.name = name;
         this.$ = $(element);
-
+        this.$ulTmp = $('<ul/>');
         this.getOptions(options);
         this._init();
     };
+
+    Tree.escape = escape;
 
     var DETAULT_ACTIONS = {
         sort: {
@@ -7053,50 +7057,71 @@
         toggleTemplate: '<i class="list-toggle icon"></i>',
 
         // sortable: false, //
+        itemConverter: null, // function(item) {}
     };
 
-    Tree.prototype.add = function(rootEle, items, expand, disabledAnimate, notStore) {
-        var $e = $(rootEle), $ul, options = this.options;
-        if($e.is('li')) {
-            $ul = $e.children('ul');
-            if(!$ul.length) {
-                $ul = $('<ul/>');
-                $e.append($ul);
-                this._initList($ul, $e);
+    Tree.prototype.add = function(ele, items, parent, $ul, $parent, isRoot) {
+        var gid = $.guid++;
+        var that = this;
+        var $e = $(ele), options = that.options, needAppendUl;
+        if(!$ul) {
+            if($e.prop('tagName') === 'UL') {
+                $ul = $e;
+            } else {
+                $ul = $e.children('ul');
+                if(!$ul.length) {
+                    needAppendUl = true;
+                    $ul = that.$ulTmp.clone();
+                }
+                $parent = $e;
             }
-        } else {
-            $ul = $e;
+        }
+        if(!$parent && !isRoot) {
+            $parent = $ul.parent('li');
         }
 
-        if($ul) {
-            var that = this;
-            if(!Array.isArray(items)) {
-                items = [items];
-            }
-            $.each(items, function(idx, item) {
-                var $li = $('<li/>').data(item).appendTo($ul);
-                if(item.id !== undefined) $li.attr('data-id', item.id);
-                var $wrapper = options.itemWrapper ? $(options.itemWrapper === true ? '<div class="tree-item-wrapper"/>' : options.itemWrapper).appendTo($li) : $li;
-                if(item.html) {
-                    $wrapper.html(item.html)
-                } else if(typeof that.options.itemCreator === 'function') {
-                    var itemContent = that.options.itemCreator($li, item);
-                    if(itemContent !== true && itemContent !== false) $wrapper.html(itemContent);
-                } else if(item.url) {
-                    $wrapper.append($('<a/>', {href: item.url}).text(item.title || item.name));
-                } else {
-                    $wrapper.append($('<span/>').text(item.title || item.name));
-                }
-                that._initItem($li, item.idx || idx, $ul, item);
-                if(item.children && item.children.length) {
-                    that.add($li, item.children);
-                }
-            });
-            this._initList($ul);
-            if(expand && !$ul.hasClass('tree')) {
-                that.expand($ul.parent('li'), disabledAnimate, notStore);
-            }
+        if(!Array.isArray(items)) {
+            items = [items];
         }
+        var itemConverter = options.itemConverter;
+        var itemCreator = options.itemCreator;
+        var itemRender = options.itemRender;
+        var itemWrapper = options.itemWrapper;
+        var $itemWrapper = itemWrapper ? $(itemWrapper === true ? '<div class="tree-item-wrapper"/>' : itemWrapper) : null;
+        items.forEach(function(item, idx) {
+            if(itemConverter) item = itemConverter(item);
+            if(item.id === undefined) item.id = (parent ? (parent.id + '_') : '') + idx;
+            var $li = $('<li/>', {'data-id': item.id}).data(item);
+            var $wrapper = $itemWrapper ? $itemWrapper.clone().appendTo($li) : $li;
+            var html = null;
+            if(item.html) {
+                html = item.html;
+            } else if(itemCreator) {
+                var itemContent = itemCreator($li, item);
+                if(typeof itemContent === 'string') html = itemContent;
+            } else if(item.url) {
+                html = '<a href="' + item.url + '">' + escape(item.title || item.name) + '</a>';
+            } else {
+                html = '<span>' + escape(item.title || item.name) + '</span>';
+            }
+            if (typeof html === 'string') {
+                $wrapper.html(html);
+            }
+            that._initItem($li, $ul, item, null, true);
+            if(item.children && item.children.length) {
+                var $childUl = that.$ulTmp.clone().appendTo($li);
+                that.add($li, item.children, item, $childUl, $li);
+            }
+            if(itemRender) {
+                itemRender($li, item);
+            }
+            if(item.open) $li.addClass('open in');
+            $ul.append($li);
+        });
+        if(needAppendUl) {
+            $e.append($ul);
+        }
+        this._initList($ul, $parent, parent, isRoot, true);
     };
 
     Tree.prototype.reload = function(data) {
@@ -7104,42 +7129,42 @@
 
         if(data) {
             that.$.empty();
-            that.add(that.$, data);
-        }
-
-        if(that.isPreserve)
-        {
+            that.add(that.$, data, null, that.$, null, true);
+        } else if(that.isPreserve) {
             if(that.store.time) {
                 that.$.find('li:not(.tree-action-item)').each(function() {
                     var $li= $(this);
-                    that[that.store[$li.data('id')] ? 'expand' : 'collapse']($li, true, true);
+                    that[that.store[$li.attr('data-id')] ? 'expand' : 'collapse']($li, true, true);
                 });
             }
         }
     };
 
-    Tree.prototype._initList = function($list, $parentItem, idx, data) {
+    Tree.prototype._initList = function($list, $parentItem, data, isRoot, skipCheckExists) {
         var that = this;
-        if(!$list.hasClass('tree')) {
+        if(isRoot === undefined) isRoot = $list.hasClass('tree');
+        if(!isRoot) {
             $parentItem = ($parentItem || $list.closest('li')).addClass('has-list');
-            if(!$parentItem.find('.list-toggle').length) {
-                $parentItem.prepend(this.options.toggleTemplate);
+            if(skipCheckExists || !$parentItem.find('.list-toggle').length) {
+                $parentItem.prepend(that.options.toggleTemplate);
             }
-            idx = idx || $parentItem.data('idx');
-        } else {
-            idx = 0;
-            $parentItem = null;
-        }
-        $list.removeClass('has-active-item');
-        var $children = $list.attr('data-idx', idx || 0).children('li:not(.tree-action-item)').each(function(index) {
-            that._initItem($(this), index + 1, $list);
-        });
-        if($children.length === 1 && !$children.find('ul').length)
-        {
-            $children.addClass('tree-single-item');
         }
         data = data || ($parentItem ? $parentItem.data() : null);
-        var actions = formatActions(data ? data.actions : null, this.actions);
+        if(!skipCheckExists) {
+            $list.removeClass('has-active-item');
+            var id = data ? data.id : 0;
+            var $children = $list.attr('data-id', id).children('li:not(.tree-action-item)').each(function(index) {
+                var $item = $(this);
+                var item = $item.data();
+                if (item.id === undefined) item.id = id + '_' + index;
+                that._initItem($item, $list, item);
+            });
+            if($children.length === 1 && !$children.find('ul').length)
+            {
+                $children.addClass('tree-single-item');
+            }
+        }
+        var actions = formatActions(data ? data.actions : null, that.actions);
         if(actions) {
             if(actions.add && actions.add.templateInList !== false) {
                 var $actionItem = $list.children('li.tree-action-item');
@@ -7154,49 +7179,44 @@
                     dragCssClass: 'tree-drag-holder',
                     trigger: '.sort-handler',
                     selector: 'li:not(.tree-action-item)',
+                    stopPropagation: true,
                     finish: function(e) {
                         that.callEvent('action', {action: actions.sort, $list: $list, target: e.target, item: data});
                     }
                 }, actions.sort.options, $.isPlainObject(this.options.sortable) ? this.options.sortable : null));
             }
         }
-        if($parentItem && ($parentItem.hasClass('open') || (data && data.open))) {
+        if(!skipCheckExists && $parentItem && ($parentItem.hasClass('open') || (data && data.open))) {
             $parentItem.addClass('open in');
         }
     };
 
-    Tree.prototype._initItem = function($item, idx, $parentList, data) {
-        if(idx === undefined) {
-            var $pre = $item.prev('li');
-            idx = $pre.length ? ($pre.data('idx') + 1) : 1;
-        }
-        $parentList = $parentList || $item.closest('ul');
-        $item.attr('data-idx', idx).removeClass('tree-single-item');
-        if(!$item.data('id')) {
-            var id = idx;
-            if(!$parentList.hasClass('tree')) {
-                id = $parentList.parent('li').data('id') + '-' + id;
-            }
-            $item.attr('data-id', id);
-        }
-        if ($item.hasClass('active')) {
-            $parentList.parent('li').addClass('has-active-item');
-        }
+    Tree.prototype._initItem = function($item, $parentUl, data, $childrenUl, skipCheckExists) {
+        var that = this;
         data = data || $item.data();
-        var actions = formatActions(data.actions, this.actions);
+        if (!skipCheckExists) {
+            $parentUl = $parentUl || $item.closest('ul');
+            $item.attr('data-id', data.id).removeClass('tree-single-item');
+            if ($item.hasClass('active')) {
+                $parentUl.parent('li').addClass('has-active-item');
+            }
+        }
+        var actions = formatActions(data.actions, that.actions);
         if(actions) {
             var $actions = $item.find('.tree-actions');
             if(!$actions.length) {
-                $actions = $('<div class="tree-actions"/>').appendTo(this.options.itemWrapper ? $item.find('.tree-item-wrapper') : $item);
+                $actions = $('<div class="tree-actions"/>').appendTo(that.options.itemWrapper ? $item.find('.tree-item-wrapper') : $item);
                 $.each(actions, function(actionName, action) {
                     if(action) $actions.append(createActionEle(action, actionName));
                 });
             }
         }
 
-        var $children = $item.children('ul');
-        if($children.length) {
-            this._initList($children, $item, idx, data);
+        if(!skipCheckExists) {
+            $childrenUl = $childrenUl || $item.children('ul');
+            if($childrenUl.length) {
+                that._initList($childrenUl, $item, data, false, skipCheckExists);
+            }
         }
     };
 
@@ -7207,10 +7227,10 @@
         this.$.addClass('tree');
         if(options.animate) this.$.addClass('tree-animate');
 
-        this._initList(this.$);
+        this._initList(this.$, null, null, true);
 
         var initialState = options.initialState;
-        var isPreserveEnable = $.zui && $.zui.store && $.zui.store.enable;
+        var isPreserveEnable = options.preserve !== false && $.zui && $.zui.store && $.zui.store.enable;
         if(isPreserveEnable) {
             this.selector = name + '::' + (options.name || '') + '#' + (this.$.attr('id') || globalId++);
             this.store = $.zui.store[options.name ? 'get' : 'pageGet'](this.selector, {});
@@ -7252,7 +7272,7 @@
     Tree.prototype.preserve = function($li, id, expand) {
         if(!this.isPreserve) return;
         if($li) {
-            id = id || $li.data('id');
+            id = id || $li.attr('data-id');
             expand = expand === undefined ? $li.hasClass('open') : false;
             if(expand) this.store[id] = expand;
             else delete this.store[id];

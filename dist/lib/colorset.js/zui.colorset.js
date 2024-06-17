@@ -1,15 +1,15 @@
 /*!
- * ZUI: JS配色表 - v1.10.0 - 2022-08-23
+ * ZUI: JS配色表 - v1.10.0 - 2024-06-17
  * http://openzui.com
  * GitHub: https://github.com/easysoft/zui.git 
- * Copyright (c) 2022 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2024 cnezsoft.com; Licensed MIT
  */
 
 /*!
- * ZUI: Generated from less code - v1.10.0 - 2022-08-23
+ * ZUI: Generated from less code - v1.10.0 - 2024-06-17
  * http://openzui.com
  * GitHub: https://github.com/easysoft/zui.git 
- * Copyright (c) 2022 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2024 cnezsoft.com; Licensed MIT
  */
 
 (function($) {

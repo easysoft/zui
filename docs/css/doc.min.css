@@ -1,5 +1,5 @@
 /*!
- * ZUI: Document - v1.10.0 - 2024-01-04
+ * ZUI: Document - v1.10.0 - 2024-06-17
  * http://openzui.com
  * GitHub: https://github.com/easysoft/zui.git 
  * Copyright (c) 2024 cnezsoft.com; Licensed MIT

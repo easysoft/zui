@@ -297,7 +297,7 @@
         ],
         fontSizeTable: ['9px', '10px', '12px', '14px', '16px', '18px', '24px', '32px'],
         htmlTags: {
-            font: ['id', 'class', 'color', 'size', 'face', '.background-color'],
+            font: ['id', 'class', 'color', 'size', 'face', '.background-color', '.color', '.font-size', '.font-family'],
             span: [
                 'id', 'class', '.color', '.background-color', '.font-size', '.font-family', '.background',
                 '.font-weight', '.font-style', '.text-decoration', '.vertical-align', '.line-height'
@@ -945,7 +945,7 @@
                         _each(styleMap, function(k, v) {
                             style += k + ':' + v + ';';
                         });
-                        attrMap.style = style;
+                        attrMap.style += style;
                     }
                 });
                 attr = '';
@@ -10351,48 +10351,122 @@ KindEditor.plugin('pasteimage', function(K) {
                 /* Code reference from http://www.foliotek.com/devblog/copy-images-from-clipboard-in-javascript/. */
                 var original = ev.originalEvent;
                 var clipboardItems = original.clipboardData && original.clipboardData.items;
-                var clipboardItem = null;
-                if(clipboardItems) {
-                    var IMAGE_MIME_REGEX = /^image\/(p?jpeg|gif|png)$/i;
-                    for (var i = 0; i < clipboardItems.length; i++)
+                var dataMap = {text: null, image: null, html: null};
+                if(clipboardItems)
+                {
+                    for(var i = 0; i < clipboardItems.length; i++)
                     {
-                        if (IMAGE_MIME_REGEX.test(clipboardItems[i].type))
+                        var clipboardItem = clipboardItems[i];
+                        var dataType = clipboardItem.type;
+                        if(dataType === 'text/html')
                         {
-                            clipboardItem = clipboardItems[i];
-                            break;
+                            dataMap.html = clipboardItem;
+                        }
+                        else if(dataType.startsWith('text/'))
+                        {
+                            dataMap.text = clipboardItem;
+                        }
+                        else if(dataType.startsWith('image/'))
+                        {
+                            dataMap.image = clipboardItem;
                         }
                     }
                 }
-                var file = clipboardItem && clipboardItem.getAsFile();
-                if (!file) return findBase64OnPaste();
-                original.preventDefault();
-                pasteBegin();
-
-                var reader = new FileReader();
-                reader.onload = function(evt) {
-                    var result = evt.target.result;
-                    // var arr    = result.split(",");
-                    // var data   = arr[1]; // raw base64
-                    // var contentType = arr[0].split(";")[0].split(":")[1];
-
-                    var html = '<img src="' + result + '" alt="" />';
-                    $.post(pasteUrl, {editor: html}, function(data)
+                if(!dataMap.image || (options.pasteTextFirst && (dataMap.text !== null || dataMap.html !== null)))
+                {
+                    if(dataMap.html && typeof getComputedStyle === 'function' && options.keepOfficeFormats)
                     {
-                        self.undo();
-                        self._redoStack.pop();
-                        if (data) {
-                            var $img = $(data);
-                            edit.cmd.insertimage($img.attr('src'), $img.attr('title'), $img.attr('width'), $img.attr('height'));
-                        } else {
-                            edit.cmd.insertimage(result);
+                        var html = original.clipboardData.getData('text/html');
+                        if(html)
+                        {
+                            /* Create iframe to render html content from clipboard */
+                            var frame = document.getElementById('kePasteFrame');
+                            if(!frame)
+                            {
+                                frame = document.createElement('iframe');
+                                frame.setAttribute('id', 'kePasteFrame');
+                            }
+                            frame.style.width = edit.iframe.width() + 'px';
+                            frame.style.height = '300px';
+                            frame.style.position = 'absolute';
+                            frame.style.right = '0px';
+                            frame.style.bottom = '0px';
+                            frame.style.visible = 'hidden';
+                            document.body.appendChild(frame);
+                            frame.contentWindow.document.documentElement.innerHTML = html;
+                            original.preventDefault();
+
+                            /* Get html back from iframe */
+                            var body = frame.contentWindow.document.body;
+                            var filterStyles = {
+                                color: [],
+                                background: [],
+                                borderColor: [],
+                                borderStyle: ['none'],
+                                borderWidth: [],
+                                fontSize: [],
+                                lineHeight: ['normal'],
+                                verticalAlign: ['baseline'],
+                                textAlign: ['left'],
+                                textDecoration: ['none'],
+                                fontStyle: ['normal'],
+                                fontFamily: [],
+                                fontWeight: ['normal', '400'],
+                            };
+                            $(body).find('*').each(function()
+                            {
+                                var fullStyle = getComputedStyle(this);
+                                var $ele = $(this);
+                                var style = {};
+                                var parentStyle = getComputedStyle($ele.parent()[0]);
+                                $.each(filterStyles, function(name, ignores)
+                                {
+                                    var value = fullStyle[name];
+                                    if(value === 'inherit' || value === 'initial' || parentStyle[name] === value || ignores.includes(value)) return;
+                                    style[name] = value;
+                                });
+                                $ele.css(style);
+                            });
+                            var output = body.innerHTML;
+                            frame.remove();
+                            edit.cmd.inserthtml(output);
                         }
-                        pasteEnd();
-                    }).error(function()
-                    {
-                        pasteEnd(true);
-                    });
-                };
-                reader.readAsDataURL(file);
+                    }
+                    return;
+                }
+
+                if(dataMap.image) {
+                    var file = dataMap.image.getAsFile();
+                    if(!file) return findBase64OnPaste();
+                    original.preventDefault();
+                    pasteBegin();
+
+                    var reader = new FileReader();
+                    reader.onload = function(evt) {
+                        var result = evt.target.result;
+                        // var arr    = result.split(",");
+                        // var data   = arr[1]; // raw base64
+                        // var contentType = arr[0].split(";")[0].split(":")[1];
+
+                        var html = '<img src="' + result + '" alt="" />';
+                        $.post(pasteUrl, {editor: html}, function(data)
+                        {
+                            self.undo();
+                            self._redoStack.pop();
+                            if (data) {
+                                var $img = $(data);
+                                edit.cmd.insertimage($img.attr('src'), $img.attr('title'), $img.attr('width'), $img.attr('height'));
+                            } else {
+                                edit.cmd.insertimage(result);
+                            }
+                            pasteEnd();
+                        }).error(function()
+                        {
+                            pasteEnd(true);
+                        });
+                    };
+                    reader.readAsDataURL(file);
+                }
             } else {
                 /* Paste in firefox and other browsers. */
                 findBase64OnPaste();

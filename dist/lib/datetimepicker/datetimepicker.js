@@ -155,15 +155,11 @@
 
         this.picker = $(DPGlobal.template)
             .appendTo(this.isInline ? this.element : 'body')
-            .on({
-                click: this.click.bind(this)
-            });
+            .on('click', this.click.bind(this));
 
         if(this.wheelViewModeNavigation) {
             if($.fn.mousewheel) {
-                this.picker.on({
-                    mousewheel: this.mousewheel.bind(this)
-                });
+                this.picker.on('mousewheel', this.mousewheel.bind(this));
             } else {
                 console.log("Mouse Wheel event is not supported. Please include the jQuery Mouse Wheel plugin before enabling this option");
             }
@@ -1271,11 +1267,12 @@
             var $this = $(this),
                 data = $this.data('datetimepicker'),
                 options = typeof option == 'object' && option;
-            if(!data) {
+            if(data) {
+                if(typeof option == 'string' && typeof data[option] == 'function') {
+                    data[option].apply(data, args);
+                }
+            } else if (typeof option !== 'string') {
                 $this.data('datetimepicker', (data = new Datetimepicker(this, $.extend({}, $.fn.datetimepicker.defaults, $this.data(), options))));
-            }
-            if(typeof option == 'string' && typeof data[option] == 'function') {
-                data[option].apply(data, args);
             }
         });
     };

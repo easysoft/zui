@@ -1,8 +1,8 @@
 /*!
- * ZUI: Lite edition - v1.10.0 - 2022-08-23
+ * ZUI: Lite edition - v1.10.0 - 2024-06-17
  * http://openzui.com
  * GitHub: https://github.com/easysoft/zui.git 
- * Copyright (c) 2022 cnezsoft.com; Licensed MIT
+ * Copyright (c) 2024 cnezsoft.com; Licensed MIT
  */
 
 /*! Some code copy from Bootstrap v3.0.0 by @fat and @mdo. (Copyright 2013 Twitter, Inc. Licensed under http://www.apache.org/licenses/)*/
@@ -2760,7 +2760,7 @@
 
                             $framebody.off('resize.' + NAME).on('resize.' + NAME, ajustFrameSize);
                             if (scrollInside) {
-                                $(window).off('resize.' + NAME).on('resize.' + NAME, ajustFrameSize);
+                                $(frameWindow).off('resize.' + NAME).on('resize.' + NAME, ajustFrameSize);
                             }
                         } else {
                             readyToShow();
@@ -2895,14 +2895,7 @@
     $.fn.modal.bs = old;
 
     var getModal = function(modal) {
-        if (!modal) {
-            modal = $('.modal.modal-trigger');
-            if (!modal.length) {
-
-            }
-        } else {
-            modal = $(modal);
-        }
+        modal = $(modal || '.modal.modal-trigger.in');
         if(modal && (modal instanceof $)) return modal;
         return null;
     };
