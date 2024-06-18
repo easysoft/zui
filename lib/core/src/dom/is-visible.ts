@@ -8,6 +8,7 @@ type ISVisibleOptions = {
     fullyCheck?: boolean;
     viewport?: {left: number, top: number, width: number, height: number} | DOMRectReadOnly;
     container?: Comparator;
+    checkZeroSize?: boolean;
 };
 
 /**
@@ -26,7 +27,7 @@ export function isVisible(selector: Selector, options: ISVisibleOptions = {}): b
 
     let {viewport} = options;
     const {left, top, width, height} = element.getBoundingClientRect();
-    if (!(width * height)) {
+    if (options.checkZeroSize && !(width * height)) {
         return false;
     }
     if (!viewport) {
