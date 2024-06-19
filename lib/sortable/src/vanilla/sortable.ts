@@ -20,7 +20,7 @@ export class Sortable extends Component<SortableOptions> {
             options.setData = ((dataTransfer, dragEl) => {
                 if (dragShadow === false && !this._emptyShadow) {
                     this._emptyShadow = dragEl.cloneNode(true) as HTMLElement;
-                    this._emptyShadow.style.opacity = '0!important';
+                    this._emptyShadow.classList.add('sortable-empty-shadow');
                     document.body.appendChild(this._emptyShadow);
                 }
                 dataTransfer.setDragImage(dragShadow === false ? this._emptyShadow! : dragShadow, 0, 0);
