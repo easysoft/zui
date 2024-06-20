@@ -249,6 +249,10 @@
                     height = elem.height(),
                     data = $.data(this, str_data);
 
+                if (!data) {
+                    return;
+                }
+
                 // If element size has changed since the last time, update the element
                 // data store and trigger the 'resize' event.
                 if(width !== data.w || height !== data.h) {
