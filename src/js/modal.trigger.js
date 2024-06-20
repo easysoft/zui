@@ -464,7 +464,13 @@
         } else if(!$('body').hasClass('modal-open') && !$('.modal.in').length) {
             // check if current page is as modal iframe
             if ($('body').hasClass('body-modal')) {
-                window.parent.$.zui.closeModal(originModal, callback, redirect);
+                // Support for closing zui3 modal.
+                var parent = window.parent;
+                if (parent.zui && parent.zui.Modal) {
+                    parent.zui.Modal.hide(window.frameElement);
+                } else {
+                    parent.$.zui.closeModal(originModal, callback, redirect);
+                }
             }
         }
     };
