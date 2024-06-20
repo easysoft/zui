@@ -8,7 +8,7 @@ var it = (n, t, e) => (cs(n, t, "read from private field"), e ? e.call(n) : t.ge
   t instanceof WeakSet ? t.add(n) : t.set(n, e);
 }, mt = (n, t, e, s) => (cs(n, t, "write to private field"), s ? s.call(n, e) : t.set(n, e), e);
 var hs = (n, t, e) => (cs(n, t, "access private method"), e);
-const vu = "3.0.0-alpha.4", bu = 1718779861253, Lt = document, Cn = window, Tr = Lt.documentElement, he = Lt.createElement.bind(Lt), Nr = he("div"), us = he("table"), Da = he("tbody"), Ui = he("tr"), { isArray: Vn, prototype: Er } = Array, { concat: La, filter: Ys, indexOf: $r, map: Mr, push: za, slice: Ar, some: Js, splice: Fa } = Er, Oa = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, Ha = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, Wa = /<.+>/, ja = /^\w+$/;
+const vu = "3.0.0-alpha.4", bu = 1718881339643, Lt = document, Cn = window, Tr = Lt.documentElement, he = Lt.createElement.bind(Lt), Nr = he("div"), us = he("table"), Da = he("tbody"), Ui = he("tr"), { isArray: Vn, prototype: Er } = Array, { concat: La, filter: Ys, indexOf: $r, map: Mr, push: za, slice: Ar, some: Js, splice: Fa } = Er, Oa = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, Ha = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, Wa = /<.+>/, ja = /^\w+$/;
 function Zs(n, t) {
   const e = Ba(t);
   return !n || !e && !ae(t) && !Y(t) ? [] : !e && Ha.test(n) ? t.getElementsByClassName(n.slice(1).replace(/\\/g, "")) : !e && ja.test(n) ? t.getElementsByTagName(n) : t.querySelectorAll(n);
@@ -6586,17 +6586,17 @@ class Yo extends B {
 Yo.defaultProps = { closeBtn: !0 };
 class Jo extends B {
   constructor() {
-    super(...arguments), this._ref = q(), this.state = {}, this._watchIframeHeight = () => {
-      var s, i;
-      const t = (i = (s = this._ref.current) == null ? void 0 : s.contentWindow) == null ? void 0 : i.document;
+    super(...arguments), this._ref = q(), this.state = {}, this._handleIframeLoad = () => {
+      const t = this.iframeDoc;
       if (!t)
         return;
-      let e = this._rob;
-      e == null || e.disconnect(), e = new ResizeObserver(() => {
-        const r = t.body, o = t.documentElement, a = Math.ceil(Math.max(r.scrollHeight, r.offsetHeight, o.offsetHeight)) + 1;
-        this.setState({ height: a });
-      }), e.observe(t.body), e.observe(t.documentElement), this._rob = e;
+      const { iframeBodyClass: e, watchHeight: s } = this.props;
+      s && this._watchIframeHeight(), e && t.body.classList.add(e);
     };
+  }
+  get iframeDoc() {
+    var t, e;
+    return (e = (t = this._ref.current) == null ? void 0 : t.contentWindow) == null ? void 0 : e.document;
   }
   componentDidMount() {
     this.props.watchHeight && this._watchIframeHeight();
@@ -6605,16 +6605,25 @@ class Jo extends B {
     var t;
     (t = this._rob) == null || t.disconnect();
   }
+  _watchIframeHeight() {
+    const t = this.iframeDoc;
+    if (!t)
+      return;
+    let e = this._rob;
+    e == null || e.disconnect(), e = new ResizeObserver(() => {
+      const s = t.body, i = t.documentElement, r = Math.ceil(Math.max(s.scrollHeight, s.offsetHeight, i.offsetHeight)) + 1;
+      this.setState({ height: r });
+    }), e.observe(t.body), e.observe(t.documentElement), this._rob = e;
+  }
   render() {
-    const { url: t, watchHeight: e } = this.props;
     return /* @__PURE__ */ g(
       "iframe",
       {
         className: "modal-iframe",
         style: this.state,
-        src: t,
+        src: this.props.url,
         ref: this._ref,
-        onLoad: e ? this._watchIframeHeight : void 0
+        onLoad: this._handleIframeLoad
       }
     );
   }
