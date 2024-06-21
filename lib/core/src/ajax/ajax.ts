@@ -286,6 +286,7 @@ export class Ajax<T> {
                 const filteredData = dataFilter?.(data, dataType) ?? data;
                 this._emit('success', filteredData, statusText, response);
             } else {
+                this.data = await response.text() as T;
                 throw new Error(statusText);
             }
         } catch (err) {
