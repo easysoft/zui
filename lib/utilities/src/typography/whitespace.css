@@ -1,3 +1,4 @@
+.whitespace-normal              {@apply -whitespace-normal}
 .whitespace-nowrap, .nowrap     {@apply -whitespace-nowrap}
 .whitespace-pre, .pre           {@apply -whitespace-pre}
 .whitespace-pre-line, .pre-line {@apply -whitespace-pre-line}
