@@ -8,6 +8,8 @@ addI18nMap({
         delete: '删除',
         reset: '重置',
         add: '添加',
+        copy: '复制',
+        close: '关闭',
     },
     'zh_tw': {
         confirm: '確定',
@@ -16,6 +18,8 @@ addI18nMap({
         delete: '刪除',
         reset: '重置',
         add: '添加',
+        Copy: '複製',
+        close: '關閉',
     },
     en: {
         confirm: 'Confirm',
@@ -24,5 +28,7 @@ addI18nMap({
         delete: 'Delete',
         reset: 'Reset',
         add: 'Add',
+        copy: 'Copy',
+        close: 'Close',
     },
 });
