@@ -111,6 +111,7 @@ export class Moveable extends Component<MoveableOptions> {
             this.$element.addClass(hasMovingClass);
         }
 
+        event.preventDefault();
         this._setState(event, moveElement);
         $(document).off('mousemove mouseup').on(`mousemove${this.namespace}`, this._handleMouseMove.bind(this)).on(`mouseup${this.namespace}`, this._handleMouseUp.bind(this));
     };
