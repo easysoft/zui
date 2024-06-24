@@ -1,5 +1,5 @@
 import {Component, $} from '@zui/core';
-import {MoveableOptions, MoveableState} from '../types';
+import {MoveableOptions, MoveableState, MoveableStrategy} from '../types';
 
 const MOVEABLE_SELECTOR = '[moveable="true"]';
 
@@ -43,14 +43,16 @@ export class Moveable extends Component<MoveableOptions> {
         const oldState = this._state;
         if (target) {
             const $target = $(target);
+            let strategy: MoveableStrategy;
             if (this.options.move === true) {
                 const position = $target.css('position');
-                newState.strategy = (position === 'fixed' || position === 'absolute') ? 'position' : 'transform';
+                strategy = (position === 'fixed' || position === 'absolute') ? 'position' : 'transform';
             } else {
-                newState.strategy = this.options.move || 'none';
+                strategy = this.options.move || 'none';
             }
-            const position = $target.position()!;
+            const position = strategy === 'transform' ? Moveable.getTranslate(target) : (strategy === 'scroll' ? {left: target.scrollLeft, top: target.scrollTop} : $target.position()!);
             newState = $.extend(newState, {
+                strategy,
                 target,
                 startX: newState.x,
                 startY: newState.y,
@@ -79,7 +81,7 @@ export class Moveable extends Component<MoveableOptions> {
         if (strategy === 'position') {
             $target.css({left: newState.left, top: newState.top});
         } else if (strategy === 'transform') {
-            $target.css('transform', `translate(${newState.deltaX}px, ${newState.deltaY}px)`);
+            $target.css('transform', `translate(${newState.left}px, ${newState.top}px)`);
         } else if (strategy === 'scroll') {
             currentTarget.scrollLeft = newState.scrollLeft - newState.deltaX;
             currentTarget.scrollTop = newState.scrollTop - newState.deltaY;
@@ -159,5 +161,22 @@ export class Moveable extends Component<MoveableOptions> {
             }
         }
         this._state = undefined;
+    }
+
+    static getTranslate(element: HTMLElement): {left: number, top: number} {
+        const style = window.getComputedStyle(element);
+        const transform = style.getPropertyValue('transform');
+        if (transform === 'none') {
+            return {left: 0, top: 0};
+        }
+        const matrix = transform.match(/^matrix\((.+)\)$/);
+        if (!matrix) {
+            return {left: 0, top: 0};
+        }
+        const values = matrix[1].split(', ');
+        return {
+            left: parseFloat(values[4]),
+            top: parseFloat(values[5]),
+        };
     }
 }
