@@ -46,7 +46,7 @@ export class Moveable extends Component<MoveableOptions> {
             let strategy: MoveableStrategy;
             if (this.options.move === true) {
                 const position = $target.css('position');
-                strategy = (position === 'fixed' || position === 'absolute') ? 'position' : 'transform';
+                strategy = (position === 'fixed' || position === 'absolute' || position === 'relative') ? 'position' : 'transform';
             } else {
                 strategy = this.options.move || 'none';
             }
