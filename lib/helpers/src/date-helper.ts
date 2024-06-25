@@ -15,7 +15,7 @@ export const TIME_DAY = 24 * 60 * 60 * 1000;
  * @returns 日期时间对象
  */
 export const createDate = (date?: DateLike): Date => {
-    if (!date) {
+    if (date === undefined) {
         return new Date();
     }
     if (date instanceof Date) {
@@ -136,7 +136,7 @@ export const isTomorrow = (date: DateLike, now?: DateLike): boolean => isSameDay
  * @param date 要判断的日期时间表达值。
  * @returns 如果为 `true` 则表示是合法的日期时间表达值。
  */
-export const isValidDate = (date: DateLike): boolean => !Number.isNaN(createDate(date).getTime());
+export const isValidDate = (date: DateLike): boolean => date !== undefined && date !== null && !isNaN(createDate(date).getTime());
 
 /**
  * 格式化日期时间值为字符串，所有可用的格式化参数有：
@@ -185,9 +185,9 @@ export const formatDate = (date: DateLike, format: string | DateFormatter = 'yyy
         format = format.replace(RegExp.$1, (`${date.getFullYear()}`).substring(4 - RegExp.$1.length));
     }
     Object.keys(dateInfo).forEach((k) => {
-        if (new RegExp(`(${k})`).test(format)) {
+        if (new RegExp(`(${k})`).test(format as string)) {
             const str = `${dateInfo[k as keyof typeof dateInfo]}`;
-            format = format.replace(RegExp.$1, RegExp.$1.length === 1 ? str : (`00${str}`).substring(str.length));
+            format = (format as string).replace(RegExp.$1, RegExp.$1.length === 1 ? str : (`00${str}`).substring(str.length));
         }
     });
     return format;
