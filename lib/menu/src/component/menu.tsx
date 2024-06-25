@@ -1,10 +1,10 @@
 import {CustomContent, classes, mergeProps} from '@zui/core';
 import {NestedList, Listitem} from '@zui/list/src/component';
 
-import type {ComponentChildren, RenderableProps} from 'preact';
+import type {Attributes, ComponentChildren, RenderableProps} from 'preact';
 import type {ClassNameLike} from '@zui/core';
 import type {NestedListState} from '@zui/list';
-import type {MenuOptions} from '../types';
+import type {MenuOptions, MenuSetting} from '../types';
 
 export class Menu<T extends MenuOptions = MenuOptions, S extends NestedListState = NestedListState> extends NestedList<T, S> {
     static NAME = 'menu';
@@ -58,5 +58,21 @@ export class Menu<T extends MenuOptions = MenuOptions, S extends NestedListState
             );
         }
         return super.render(props);
+    }
+
+    static render<T extends unknown[] = []>(this: unknown, setting: MenuSetting<T> | undefined, args: T, defaultProps?: Partial<MenuOptions> & Attributes, thisObject?: unknown) {
+        let menuOptions = typeof setting === 'function' ? setting.call(thisObject ?? this, ...args) : setting;
+        if (!menuOptions) {
+            return;
+        }
+        if (Array.isArray(menuOptions)) {
+            menuOptions = {
+                items: menuOptions,
+            };
+        }
+        if (defaultProps) {
+            menuOptions = mergeProps(defaultProps as Record<string, unknown>, menuOptions);
+        }
+        return <Menu {...menuOptions} />;
     }
 }
