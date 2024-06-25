@@ -132,7 +132,20 @@ function parseLibExport(statement: string, lib?: LibInfo): BuildLibExport {
         info.path = path.startsWith('./') ? path.substring(2) : path;
 
     } else {
-        info.path = statement.startsWith('./') ? statement.substring(2) : statement;
+
+        if (statement.startsWith('./')) {
+            if (lib && lib.exports && lib.exports[statement]) {
+                info.path = lib.exports[statement];
+            } else {
+                info.path = statement.substring(2);
+            }
+        } else {
+            if (lib && lib.exports && lib.exports[`./${statement}`]) {
+                info.path = lib.exports[`./${statement}`];
+            } else {
+                info.path = statement;
+            }
+        }
         info.targets.push({
             name: '*',
         });
@@ -147,7 +160,7 @@ function parseLibExport(statement: string, lib?: LibInfo): BuildLibExport {
 
 function parseLibExportList(statement: string | string[], lib?: LibInfo): BuildLibExport[] {
     const statements = Array.isArray(statement) ? [...statement] : [statement];
-    return statements.map(x =>parseLibExport(x, lib));
+    return statements.map(x => parseLibExport(x, lib));
 }
 
 function createLibExportStatement(exportInfo: BuildLibExport, libName: string): string {
@@ -293,7 +306,7 @@ export function getBuildLibPaths(exts?: string | string[] | boolean): string[] {
  */
 export async function createBuildConfig(options: BuildConfigOptions): Promise<BuildConfig> {
     const {
-        libs: configFileOrLibs,
+        libs: configFileOrLibs = 'zui',
         name = '',
         version,
         ignoreLibs,
@@ -304,9 +317,10 @@ export async function createBuildConfig(options: BuildConfigOptions): Promise<Bu
     const libsMap = await getLibs(exts, {cache: false});
 
     // Skip wip and separately libs
+    const libsSetting = configFileOrLibs.split(' ');
     Object.keys(libsMap).forEach(libName => {
         const lib = libsMap[libName];
-        if ((lib.zui.wip || lib.zui.separately) && !exts.includes(libName) && !exts.includes(lib.zui.name)) {
+        if ((lib.zui.wip || lib.zui.separately) && !exts.includes(libName) && !exts.includes(lib.zui.name) && libsSetting.every(x => x !== libName && !x.startsWith(`${libName}~`))) {
             delete libsMap[libName];
         }
     });
