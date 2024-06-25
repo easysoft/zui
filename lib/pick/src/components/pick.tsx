@@ -22,11 +22,11 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
         clickType: 'open',
     };
 
-    _id: string;
+    protected _id: string;
 
-    _toggleTimer = 0;
+    protected _toggleTimer = 0;
 
-    _pop: RefObject<PickPop<S, PickPopProps<S>>> = createRef();
+    protected _pop: RefObject<PickPop<S, PickPopProps<S>>> = createRef();
 
     protected _trigger = createRef<PickTrigger>();
 
