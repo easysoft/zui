@@ -2,6 +2,8 @@ export type DateLike = Date | number | string;
 
 export type DurationType = 'day' | 'month' | 'year' | 'week' | 'hour' | 'minute' | 'second';
 
+export type DateFormatter = (date: Date) => string;
+
 /**
  * 一天的总毫秒数
  */
@@ -157,10 +159,14 @@ export const isValidDate = (date: DateLike): boolean => !Number.isNaN(createDate
  * @param format 格式化字符串
  * @returns 日期时间格式化文本
  */
-export const formatDate = (date: DateLike, format = 'yyyy-MM-dd hh:mm', invalidDateValue = ''): string => {
+export const formatDate = (date: DateLike, format: string | DateFormatter = 'yyyy-MM-dd hh:mm', invalidDateValue = ''): string => {
     date = createDate(date);
     if (!isValidDate(date)) {
         return invalidDateValue;
+    }
+
+    if (typeof format === 'function') {
+        return format(date);
     }
 
     const dateInfo = {
