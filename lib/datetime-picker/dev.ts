@@ -10,17 +10,20 @@ onPageUpdate(() => {
     const datePicker = new DatePicker('#date-picker-example', {
         clearText: '待定',
         menu: [{
+            text: '选择特殊日期',
+            type: 'heading',
+        }, {
             text: '上一个月',
-            'data-set-date': 'today-1month',
+            value: 'today-1month',
         }, {
             text: '两个月',
-            'data-set-date': 'today+2month',
+            value: 'today+2month',
         }, {
             text: '长期',
-            'data-set-date': '1970-01-01',
+            value: '1970-01-01',
         }, {
             text: '最近一周',
-            'data-set-date': 'WEEK',
+            value: 'WEEK',
         }],
         format: 'yyyy/MM/dd',
         display: (value, date) => {

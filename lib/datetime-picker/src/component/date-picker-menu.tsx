@@ -59,14 +59,14 @@ export class DatePickerMenu extends Component<DatePickerMenuProps, DatePickerMen
     };
 
     #renderMenu(props: DatePickerMenuProps) {
-        let {menu} = props;
-        if (!menu) {
-            return null;
-        }
-        if (Array.isArray(menu)) {
-            menu = {items: menu};
-        }
-        return <Menu {...menu} />;
+        return Menu.render(props.menu, [], {
+            onClickItem: (item) => {
+                const value = item.item.value;
+                if (typeof value === 'string') {
+                    this.changeDate(value);
+                }
+            },
+        }, this);
     }
 
     #renderFooter(props: DatePickerMenuProps) {

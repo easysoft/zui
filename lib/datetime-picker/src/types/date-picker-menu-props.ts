@@ -1,4 +1,4 @@
-import type {NavSetting} from '@zui/nav';
+import type {MenuSetting} from '@zui/menu';
 import type {ToolbarSetting} from '@zui/toolbar';
 
 export type DatePickerMenuProps = {
@@ -10,7 +10,7 @@ export type DatePickerMenuProps = {
     todayText?: string;
     clearText?: string;
     weekStart?: number;
-    menu?: NavSetting;
+    menu?: MenuSetting;
     actions?: ToolbarSetting;
     minDate?: Date | null;
     maxDate?: Date | null;
