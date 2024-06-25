@@ -3,6 +3,7 @@ import '@zui/button';
 import '@zui/menu';
 import '@zui/input-control';
 import '@zui/checkbox';
+import '@zui/toolbar';
 import {TimePicker, DatePicker, DatetimePicker} from './src/main';
 
 onPageUpdate(() => {
@@ -14,16 +15,25 @@ onPageUpdate(() => {
         }, {
             text: '两个月',
             'data-set-date': 'today+2month',
+        }, {
+            text: '长期',
+            'data-set-date': '1970-01-01',
+        }, {
+            text: '最近一周',
+            'data-set-date': 'WEEK',
         }],
         format: 'yyyy/MM/dd',
-        display: (value) => {
-            return value === '2024/02/20' ? '长期' : value.replace(/\//g, '-');
+        display: (value, date) => {
+            return value === '1970-01-01' ? '长期' : (date ? value.replace(/\//g, '-') : (value === 'WEEK' ? '最近一周' : '选择日期'));
         },
         name: 'date',
-        required: true,
         defaultValue: 'today',
-        maxDate: '2024-2-20',
+        maxDate: '2024-12-20',
         minDate: '2023-12-1',
+        onChange: (value) => {
+            console.log('datePicker.onChange', value);
+        },
+        allowInvalid: true,
     });
     console.log('> datePicker', datePicker);
 

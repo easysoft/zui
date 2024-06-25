@@ -1,8 +1,9 @@
 import {ComponentChildren, RenderableProps} from 'preact';
-import {Icon, classes, i18n} from '@zui/core';
-import {formatDate, createDate, isValidDate} from '@zui/helpers';
+import {Icon, classes} from '@zui/core';
+import {formatDate} from '@zui/helpers';
 import {Pick} from '@zui/pick/src/components/pick';
 import {PickOptions, PickPopProps, PickState, PickTriggerProps} from '@zui/pick/src/types';
+import {getDate, campDate} from '../helpers';
 import {DatePickerOptions} from '../types';
 import {DatePickerMenu} from './date-picker-menu';
 import '@zui/css-icons/src/icons/calendar.css';
@@ -17,52 +18,53 @@ export class DatePicker<T extends DatePickerOptions = DatePickerOptions> extends
         limitPopInScreen: false,
     } as Partial<PickOptions>;
 
+    protected _date: Date | null = null;
+
     constructor(props: T) {
         super(props);
         const {value} = this.state as PickState;
-        if (value) {
-            (this.state as PickState).value = formatDate(value === 'today' ? new Date() : value, props.format);
-        }
+        (this.state as PickState).value = this._calcValue(value);
     }
 
-    getDate(): Date | null {
-        const {value} = this.state;
-        if (!value.length) {
-            return null;
-        }
-        const date = createDate(value);
-        if (!isValidDate(date)) {
-            return null;
-        }
-        return date;
+    getDate() {
+        return this._date;
     }
 
     setDate = (value: string) => {
-        const {onInvalid, defaultValue = '', required, disabled, readonly, format, minDate, maxDate} = this.props;
+        const {disabled, readonly} = this.props;
         if (disabled || readonly) {
             return;
         }
-        let date = createDate(value);
-        if (minDate) {
-            const min = createDate(typeof minDate === 'function' ? minDate(date) : minDate);
-            if (date < min) {
-                date = min;
-            }
-        }
-        if (maxDate) {
-            const max = createDate(typeof maxDate === 'function' ? maxDate(date) : maxDate);
-            if (date > max) {
-                date = max;
-            }
-        }
-        const isInvalid = !value || Number.isNaN(date.getDay());
-        this.setState({value: isInvalid ? (required ? defaultValue : '') : formatDate(date, format)}, () => {
-            if (!isInvalid && onInvalid) {
-                onInvalid(value);
-            }
+
+        const newValue = this._calcValue(value);
+        this.setState({value: newValue}, () => {
             this._afterSetDate();
         });
     };
+
+    _calcValue(value: string): string {
+        const {onInvalid, defaultValue = '', required, allowInvalid, format} = this.props;
+        let date = this._parseDate(value);
+        if (!date && onInvalid) {
+            const invalidResult = onInvalid(value);
+            if (invalidResult) {
+                date = this._parseDate(invalidResult);
+            }
+        }
+
+        this._date = date;
+        return date ? formatDate(date, format) : (allowInvalid ? value : (required ? defaultValue : ''));
+    }
+
+    _getDateRange(value: string): [min: Date | null, max: Date | null] {
+        const {minDate, maxDate} = this.props;
+        return [getDate(typeof minDate === 'function' ? minDate(value) : minDate), getDate(typeof maxDate === 'function' ? maxDate(value) : maxDate)];
+    }
+
+    _parseDate(value: string): Date | null {
+        const date = getDate(value);
+        return date ? campDate(date, ...this._getDateRange(value)) : null;
+    }
 
     _afterSetDate() {
         this.toggle(false);
@@ -98,7 +100,7 @@ export class DatePicker<T extends DatePickerOptions = DatePickerOptions> extends
                 iconView = <Icon icon={icon} />;
             }
         }
-        const displayValue = open ? value : (display ? display(value) : value);
+        const displayValue = open ? value : (display ? display(value, this._date) : value);
         return [
             <input
                 key="input"
@@ -134,11 +136,12 @@ export class DatePicker<T extends DatePickerOptions = DatePickerOptions> extends
     }
 
     _renderPop(props: T, state: PickState): ComponentChildren {
-        const {weekNames, monthNames, weekStart, yearText, todayText = i18n.getLang('today'), clearText, menu, actions, minDate, maxDate, required} = props;
+        const {weekNames, monthNames, weekStart, yearText, todayText, clearText, menu, actions, required} = props;
+        const [minDate, maxDate] = this._getDateRange(state.value);
         return (
             <DatePickerMenu
                 onChange={this._handleSetDate}
-                date={state.value}
+                date={this._date}
                 weekNames={weekNames}
                 monthNames={monthNames}
                 weekStart={weekStart}

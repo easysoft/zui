@@ -1,5 +1,5 @@
 import {Component, type RefObject, createRef} from 'preact';
-import {addDate, createDate, formatDate, formatString} from '@zui/helpers';
+import {createDate, formatDate, formatString} from '@zui/helpers';
 import {$, i18n} from '@zui/core';
 import {Menu} from '@zui/menu/src/component';
 import {Button} from '@zui/button/src/component';
@@ -9,6 +9,7 @@ import type {DatePickerMenuProps, DatePickerMenuState} from '../types';
 import '@zui/css-icons/src/icons/chevron.css';
 import {MiniCalendar} from './mini-calendar';
 import {ValueSelector} from './value-selector';
+import {getDate} from '../helpers';
 
 export class DatePickerMenu extends Component<DatePickerMenuProps, DatePickerMenuState> {
     #ref: RefObject<HTMLDivElement> = createRef();
@@ -16,7 +17,7 @@ export class DatePickerMenu extends Component<DatePickerMenuProps, DatePickerMen
     constructor(props: DatePickerMenuProps) {
         super(props);
         const {date} = props;
-        const currentDate = date ? new Date(date) : new Date();
+        const currentDate = getDate(date) || new Date();
         this.state = {
             select: 'day',
             year: currentDate.getFullYear(),
@@ -86,14 +87,6 @@ export class DatePickerMenu extends Component<DatePickerMenuProps, DatePickerMen
     }
 
     changeDate = (date: string) => {
-        if (date.startsWith('today')) {
-            let time = new Date();
-            if (date.length > 3) {
-                time = addDate(time, date.substring(5).replace('+', ''));
-            }
-            date = formatDate(time, 'yyyy-MM-dd');
-        }
-
         this.props.onChange?.(date);
     };
 
@@ -112,19 +105,19 @@ export class DatePickerMenu extends Component<DatePickerMenuProps, DatePickerMen
             yearText = i18n.getLang('yearFormat') || '{0}',
             weekNames = i18n.getLang('weekNames'),
             monthNames = i18n.getLang('monthNames'),
-            minDate: minDateSetting = '1970-1-1',
-            maxDate: maxDateSetting = '2099-1-1',
+            minDate: minDateSetting,
+            maxDate: maxDateSetting,
             weekStart,
         } = props;
-        const currentDate = date ? new Date(date) : undefined;
+        const currentDate = getDate(date);
         const {
             year,
             month,
             select,
         } = state;
         const isSelectDay = select === 'day';
-        const minDate = createDate(typeof minDateSetting === 'function' ? minDateSetting(currentDate) : minDateSetting);
-        const maxDate = createDate(typeof maxDateSetting === 'function' ? maxDateSetting(currentDate) : maxDateSetting);
+        const minDate = minDateSetting ? minDateSetting : createDate('1970-1-1');
+        const maxDate = maxDateSetting ? maxDateSetting : createDate('2099-12-31');
         return (
             <div className="date-picker-menu row" ref={this.#ref} onClick={this.#handleClick}>
                 {this.#renderMenu(props)}
@@ -155,7 +148,7 @@ export class DatePickerMenu extends Component<DatePickerMenuProps, DatePickerMen
                                     minDate={minDate}
                                     year={year}
                                     month={month}
-                                    selections={currentDate}
+                                    selections={currentDate || []}
                                     onClickDate={this.changeDate}
                                 />
                             )
