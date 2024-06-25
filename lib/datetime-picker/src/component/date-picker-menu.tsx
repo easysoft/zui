@@ -70,8 +70,8 @@ export class DatePickerMenu extends Component<DatePickerMenuProps, DatePickerMen
 
     #renderFooter(props: DatePickerMenuProps) {
         let {actions} = props;
-        const {todayText, clearText} = props;
-        if (!actions) {
+        const {todayText = i18n.getLang('today'), clearText = i18n.getLang('clear')} = props;
+        if (actions === undefined) {
             actions = [{text: todayText, 'data-set-date': formatDate(new Date(), 'yyyy-MM-dd')} as ToolbarItemOptions];
         }
         if (Array.isArray(actions)) {
