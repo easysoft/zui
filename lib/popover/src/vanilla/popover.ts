@@ -301,7 +301,7 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
                 const style: JSX.CSSProperties = {};
                 const {width, height} = this.options;
                 if (width) {
-                    style.width = typeof width === 'function' ? width() : (width === '100%' ? $(trigger as HTMLElement).width() : width);
+                    style.width = typeof width === 'function' ? width() : (width === '100%' ? $(trigger as HTMLElement).outerWidth() : width);
                 }
                 if (height) {
                     style.height = typeof height === 'function' ? height() : height;
