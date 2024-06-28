@@ -119,7 +119,7 @@ export class Moveable extends Component<MoveableOptions> {
     };
 
     protected _handleMouseMove = (event: MouseEvent) => {
-        if (!this._state) {
+        if (!this._state || !event.buttons) {
             return;
         }
         event.preventDefault();
