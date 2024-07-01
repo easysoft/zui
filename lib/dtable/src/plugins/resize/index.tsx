@@ -4,7 +4,7 @@ import {mousemove} from '../mousemove';
 import './style.css';
 
 import type {DTableMousemoveTypes} from '../mousemove';
-import type {ColName} from '../../types/col';
+import type {ColInfo, ColName} from '../../types/col';
 import type {DTableWithPlugin, DTablePlugin} from '../../types/plugin';
 
 export interface DTableResizeTypes {
@@ -16,6 +16,9 @@ export interface DTableResizeTypes {
         colResizing?: {colName: ColName, startX: number, startSize: number}
         colsSizes: Record<ColName, number>;
     },
+    methods: {
+        isColResizable(this: DTableResize, col: ColName | ColInfo): boolean;
+    }
 }
 
 export type DTableResize = DTableWithPlugin<DTableResizeTypes, [DTableMousemoveTypes]>;
@@ -112,9 +115,23 @@ const resizePlugin: DTablePlugin<DTableResizeTypes, [DTableMousemoveTypes]> = {
             return false;
         },
     },
+    methods: {
+        isColResizable(col?: ColName | ColInfo): boolean {
+            if (typeof col === 'string') {
+                col = this.getColInfo(col);
+            }
+            if (!col) {
+                return false;
+            }
+            let colResize = col.setting.colResize ?? this.options.colResize;
+            if (typeof colResize === 'function') {
+                colResize = colResize.call(this, col.name);
+            }
+            return !!colResize;
+        },
+    },
     onRenderHeaderCell(result, {col}) {
-        const {colResize: colResizeCallback} = this.options;
-        if (!col.flex && (typeof colResizeCallback !== 'function' || colResizeCallback.call(this, col.name) !== false)) {
+        if (this.isColResizable(col)) {
             result.push({
                 className: 'has-col-splitter',
                 children: <div className="dtable-col-splitter no-cell-event"></div>,
