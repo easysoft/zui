@@ -10,11 +10,17 @@ import type {DTableWithPlugin, DTablePlugin} from '../../types/plugin';
 export interface DTableResizeTypes {
     options: Partial<{
         colResize: boolean | ((this: DTableResize, colName: ColName) => boolean);
-        onColResize: (this: DTableResize, colName: ColName, width: number) => void;
+        onColResize: (this: DTableResize, colName: ColName, sizeChange: number, col: ColInfo) => void;
     }>,
+    col: {
+        colResize?: boolean | ((this: DTableResize, colName: ColName) => boolean);
+    },
     state: {
         colResizing?: {colName: ColName, startX: number, startSize: number}
         colsSizes: Record<ColName, number>;
+    },
+    data: {
+        colOriginSize: Map<ColName, number>;
     },
     methods: {
         isColResizable(this: DTableResize, col: ColName | ColInfo): boolean;
@@ -36,14 +42,20 @@ function updateColSize(table: DTableResize, event: MouseEvent, finish?: boolean)
     if (finish) {
         state.colResizing = undefined;
     }
-    const {colsSizes} = table.state;
     const {colName} = colResizing;
-    colsSizes[colResizing.colName] = colResizing.startSize + delta;
-    state.colsSizes = {...colsSizes};
+    let col = table.getColInfo(colName);
+    if (!col) {
+        return table.update({dirtyType: 'layout', state});
+    }
+    state.colsSizes = {
+        ...state.colsSizes,
+        [colName]: colResizing.startSize + delta,
+    };
     table.update({dirtyType: 'layout', state}, finish ? () => {
-        const col = table.getColInfo(colName);
+        col = table.getColInfo(colName);
         if (col) {
-            table.options.onColResize?.call(table, colName, col.realWidth);
+            const originWidth = table.data.colOriginSize.get(colName)!;
+            table.options.onColResize?.call(table, colName, col.width - originWidth, col);
         }
     } : undefined);
     event.stopPropagation();
@@ -59,6 +71,9 @@ const resizePlugin: DTablePlugin<DTableResizeTypes, [DTableMousemoveTypes]> = {
     plugins: [mousemove],
     state() {
         return {colsSizes: {}};
+    },
+    data() {
+        return {colOriginSize: new Map()};
     },
     events: {
         mousedown(event) {
@@ -96,7 +111,7 @@ const resizePlugin: DTablePlugin<DTableResizeTypes, [DTableMousemoveTypes]> = {
                     colResizing: undefined,
                     colsSizes: {...colsSizes},
                 }}, () => {
-                    this.options.onColResize?.call(this, colName, 0);
+                    this.options.onColResize?.call(this, colName, 0, this.getColInfo(colName)!);
                 });
             }
         },
@@ -158,7 +173,8 @@ const resizePlugin: DTablePlugin<DTableResizeTypes, [DTableMousemoveTypes]> = {
     onAddCol(col) {
         const sizeChange = this.state.colsSizes[col.name];
         if (typeof sizeChange === 'number') {
-            col.realWidth = clamp(col.width + sizeChange, col.setting.minWidth, col.setting.maxWidth);
+            this.data.colOriginSize.set(col.name, col.width);
+            col.width = clamp(col.width + sizeChange, col.setting.minWidth, col.setting.maxWidth);
         }
     },
     onRender() {
