@@ -49,3 +49,6 @@
 .has-col-resizing {
     --dtable-hover-bg: transparent;
 }
+.has-col-resizing .scrollbar.is-horz {
+    @apply !-opacity-[--scrollbar-opacity];
+}
