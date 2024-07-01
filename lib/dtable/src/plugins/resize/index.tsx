@@ -23,7 +23,7 @@ export interface DTableResizeTypes {
         colOriginSize: Map<ColName, number>;
     },
     methods: {
-        isColResizable(this: DTableResize, col: ColName | ColInfo): boolean;
+        isColResizable(this: DTableResize, col: ColName | ColInfo): boolean | void;
     }
 }
 
@@ -131,12 +131,15 @@ const resizePlugin: DTablePlugin<DTableResizeTypes, [DTableMousemoveTypes]> = {
         },
     },
     methods: {
-        isColResizable(col?: ColName | ColInfo): boolean {
+        isColResizable(col?: ColName | ColInfo): boolean | void {
             if (typeof col === 'string') {
                 col = this.getColInfo(col);
             }
             if (!col) {
-                return false;
+                return;
+            }
+            if (col.sideIndex === this.layout.cols[col.side].list.length - 1) {
+                return;
             }
             let colResize = col.setting.colResize ?? this.options.colResize;
             if (typeof colResize === 'function') {
