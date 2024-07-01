@@ -129,6 +129,15 @@ const resizePlugin: DTablePlugin<DTableResizeTypes, [DTableMousemoveTypes]> = {
         }
         return result;
     },
+    onRenderCell(result, {col}) {
+        if (this.state.colResizing?.colName === col.name) {
+            result.push({
+                className: 'is-col-resizing',
+                outer: true,
+            });
+        }
+        return result;
+    },
     onAddCol(col) {
         const sizeChange = this.state.colsSizes[col.name];
         if (typeof sizeChange === 'number') {
