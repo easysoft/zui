@@ -42,6 +42,7 @@ const moveablePlugin: DTablePlugin<DTableMoveableTypes, [DTableMousemoveTypes]> 
                 scrollLeft,
                 scrollTop,
             };
+            event.preventDefault();
         },
         document_mouseup() {
             this.data.moveableStartInfo = undefined;
