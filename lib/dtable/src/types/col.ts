@@ -9,6 +9,8 @@ export type ColFlex = ColFlexGrow | boolean;
 
 export type ColFixedSide = 'left' | 'right' | false;
 
+export type ColSide = 'left' | 'right' | 'center';
+
 export type ColInfoLike = string | number | ColInfo;
 
 export type ColInfo<S = ColSetting> = {
@@ -21,6 +23,8 @@ export type ColInfo<S = ColSetting> = {
     setting: S & {onRenderCell?: CellRenderCallback<S>};
     visible: boolean;
     index: number;
+    side: ColSide;
+    sideIndex: number;
 };
 
 export type ColSetting<S = {}> = S & {
