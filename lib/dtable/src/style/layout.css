@@ -39,11 +39,11 @@
   @apply -border-b -opacity-100 -border-[--dtable-border-color];
 }
 
-.dtable-header .dtable-cell {
+.dtable-header-cell {
   @apply -font-bold -flex -items-center;
 }
-.dtable-header .dtable-cell::before,
-.dtable-header .dtable-cell::after {
+.dtable-header-cell::before,
+.dtable-header-cell::after {
   @apply -top-0;
 }
 
