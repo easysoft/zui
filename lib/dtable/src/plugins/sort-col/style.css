@@ -1,9 +1,9 @@
-.dtable-sorting-col {
+.has-sorting-col {
   @apply -cursor-move;
   --dtable-sorting-col-color: var(--color-primary-300);
   --dtable-hover-bg: transparent;
 }
-.dtable-sorting-col .dtable-col-splitter {
+.has-sorting-col .dtable-col-splitter {
   @apply -hidden;
 }
 .dtable-cell.is-sorting-from-col::after {
@@ -18,4 +18,7 @@
 }
 .dtable-header-cell.is-sortable-col {
   @apply -cursor-move;
+}
+.has-sorting-col .scrollbar.is-horz {
+  @apply !-opacity-[--scrollbar-opacity];
 }

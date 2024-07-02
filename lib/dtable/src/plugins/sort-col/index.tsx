@@ -45,7 +45,7 @@ export type DTableSortCol = DTableWithPlugin<DTableSortColTypes, [DTableMousemov
 
 export type DTableSorColPlugin = DTablePlugin<DTableSortColTypes, [DTableMousemoveTypes, DTableAutoscrollTypes]>;
 
-const renderCell: DTableSorColPlugin['onRenderCell'] = function (result, info, props) {
+const renderCell: DTableSorColPlugin['onRenderCell'] = function (result, info) {
     const {col} = info;
     const {sortColFrom} = this.state;
     if (sortColFrom) {
@@ -212,7 +212,7 @@ const sortColPlugin: DTableSorColPlugin = {
     beforeRender(layout) {
         const {sortColFrom, sortingColTo, sortingColSide} = this.state;
         if (sortColFrom && sortingColTo) {
-            layout.className = classes(layout.className, 'dtable-sorting-col');
+            layout.className = classes(layout.className, 'has-sorting-col');
             const sideCols = [...layout.cols[sortColFrom.side].list];
             const fromIndex = sortColFrom.sideIndex;
             const toIndex = sortingColTo.sideIndex;
