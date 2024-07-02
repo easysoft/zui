@@ -92,7 +92,7 @@ export function initColsLayout(dtable: DTable, options: DTableOptions, plugins: 
             onAddColCallbacks.push(onAddCol);
         }
     });
-    options.cols.forEach((userColSetting) => {
+    options.cols.forEach((userColSetting, colIndex) => {
         if (userColSetting.hidden) {
             return;
         }
@@ -115,9 +115,10 @@ export function initColsLayout(dtable: DTable, options: DTableOptions, plugins: 
             width: 0,
             realWidth: 0,
             visible: true,
-            index: colsList.length,
+            index: colIndex,
             side: getColSide(colSetting.fixed),
             sideIndex: 0,
+            order: colSetting.order,
         };
 
         const colTypeModifier = colTypesModifiers[type];
@@ -147,14 +148,14 @@ export function initColsLayout(dtable: DTable, options: DTableOptions, plugins: 
         if (colInfo.flex) {
             sectionCols.flexList.push(colInfo);
         }
-        if (typeof colSetting.order === 'number') {
+        if (typeof colInfo.order === 'number') {
             needSortCols = true;
         }
     });
 
     /* Sort columns. */
     if (needSortCols) {
-        const colsSorter = (a: ColInfo, b: ColInfo) => (a.setting.order ?? 0) - (b.setting.order ?? 0);
+        const colsSorter = (a: ColInfo, b: ColInfo) => (a.order ?? a.index) - (b.order ?? b.index);
         colsList.sort(colsSorter);
         leftCols.list.sort(colsSorter);
         centerCols.list.sort(colsSorter);

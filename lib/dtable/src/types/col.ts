@@ -25,6 +25,7 @@ export type ColInfo<S = ColSetting> = {
     index: number;
     side: ColSide;
     sideIndex: number;
+    order?: number;
 };
 
 export type ColSetting<S = {}> = S & {
