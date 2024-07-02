@@ -37,6 +37,7 @@ export type DTableNestedTypes = {
         asParentKey: string;
         nestedIndent: number;
         preserveNested: boolean;
+        noNestedCheck: boolean;
         defaultNestedState: Record<RowID, boolean>;
         onNestedChange: () => void;
         onRenderNestedToggle: (this: DTableNested, info: NestedRowInfo | undefined, rowID: string, col: ColInfo, rowData: RowData | undefined) => CustomRenderResult;
@@ -215,7 +216,7 @@ const nestedPlugin: DTablePlugin<DTableNestedTypes, DTableNestedDependencies> = 
             return fromInfo?.parent === toInfo?.parent;
         },
         beforeCheckRows(ids: string[] | undefined, changes: Record<string, boolean>, checkedRows: Record<string, boolean>) {
-            if (!this.options.checkable || !ids?.length) {
+            if (!this.options.checkable || !ids?.length || this.options.noNestedCheck) {
                 return;
             }
             const result: Record<string, boolean> = {};
