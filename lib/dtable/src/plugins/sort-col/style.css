@@ -1,0 +1,21 @@
+.dtable-sorting-col {
+  @apply -cursor-move;
+  --dtable-sorting-col-color: var(--color-primary-300);
+  --dtable-hover-bg: transparent;
+}
+.dtable-sorting-col .dtable-col-splitter {
+  @apply -hidden;
+}
+.dtable-cell.is-sorting-from-col::after {
+  @apply !-bg-[--dtable-sorting-col-color] !-opacity-10;
+}
+.dtable-cell.is-sorting-from-col::before {
+  border-left: 1px solid var(--dtable-sorting-col-color);
+  border-right: 1px solid var(--dtable-sorting-col-color);
+}
+.dtable-cell.is-sorting-col-move {
+  @apply -transition-[left];
+}
+.dtable-header-cell.is-sortable-col {
+  @apply -cursor-move;
+}
