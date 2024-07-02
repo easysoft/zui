@@ -11,6 +11,7 @@ export function Block({
     scrollLeft,
     scrollTop,
     className,
+    cellClass,
     style,
     onRenderCell,
     children,
@@ -26,6 +27,7 @@ export function Block({
                 cols={left.list}
                 width={left.width}
                 rowHeight={rowHeight}
+                cellClass={cellClass}
                 onRenderCell={onRenderCell}
             />
         );
@@ -43,6 +45,7 @@ export function Block({
                 left={left.width}
                 width={center.width}
                 rowHeight={rowHeight}
+                cellClass={cellClass}
                 onRenderCell={onRenderCell}
             />
         );
@@ -59,6 +62,7 @@ export function Block({
                 left={left.width + center.width}
                 width={right.width}
                 rowHeight={rowHeight}
+                cellClass={cellClass}
                 onRenderCell={onRenderCell}
             />
         );

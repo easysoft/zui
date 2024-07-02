@@ -41,6 +41,7 @@ export type CellsProps = {
     width?: number;
     height?: number | '100%';
     className?: ClassNameLike;
+    cellClass?: ClassNameLike;
     CellComponent?: preact.ComponentType<CellProps>;
     onRenderCell?: CellRenderCallback;
 };

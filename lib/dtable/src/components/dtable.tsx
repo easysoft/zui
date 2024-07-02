@@ -484,6 +484,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
                     scrollLeft={scrollLeft}
                     rowHeight={headerHeight}
                     scrollTop={0}
+                    cellClass="dtable-header-cell"
                     rows={{id: 'HEADER', index: -1, top: 0}}
                     top={0}
                     onRenderCell={this.#handleRenderCell}
