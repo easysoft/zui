@@ -64,9 +64,6 @@ function updateColSize(table: DTableResize, event: MouseEvent, finish?: boolean)
 
 const resizePlugin: DTablePlugin<DTableResizeTypes, [DTableMousemoveTypes]> = {
     name: 'resize',
-    defaultOptions: {
-        colResize: true,
-    },
     when: options => !!options.colResize,
     plugins: [mousemove],
     state() {
