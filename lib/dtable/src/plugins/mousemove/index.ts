@@ -6,10 +6,14 @@ export interface DTableMousemoveTypes {
     data: {
         mmRafID?: number;
         dmmRafID?: number;
+        ignoreNextClick?: number;
     },
     events: {
         mousemovesmooth: MouseEvent;
         document_mousemovesmooth: MouseEvent;
+    },
+    methods: {
+        ignoreNextClick(this: DTableMousemove, timeout?: number): void;
     }
 }
 
@@ -18,6 +22,17 @@ export type DTableMousemove = DTableWithPlugin<DTableMousemoveTypes>;
 const mousemovePlugin: DTablePlugin<DTableMousemoveTypes> = {
     name: 'mousemove',
     events: {
+        click(event) {
+            if (this.data.ignoreNextClick) {
+                event.preventDefault();
+                this.data.ignoreNextClick = undefined;
+            }
+        },
+        mousedown() {
+            if (this.data.ignoreNextClick) {
+                clearTimeout(this.data.ignoreNextClick);
+            }
+        },
         mousemove(event) {
             if (this.data.mmRafID) {
                 cancelAnimationFrame(this.data.mmRafID);
@@ -38,6 +53,13 @@ const mousemovePlugin: DTablePlugin<DTableMousemoveTypes> = {
             this.data.dmmRafID = requestAnimationFrame(() => {
                 this.emitCustomEvent('document_mousemovesmooth', event);
             });
+        },
+    },
+    methods: {
+        ignoreNextClick(timeout = 10) {
+            window.setTimeout(() => {
+                this.data.ignoreNextClick = undefined;
+            }, timeout);
         },
     },
 };
