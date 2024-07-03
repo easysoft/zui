@@ -68,7 +68,12 @@ const resizePlugin: DTablePlugin<DTableResizeTypes, [DTableMousemoveTypes]> = {
     when: options => !!options.colResize,
     plugins: [mousemove],
     state() {
-        return {colsSizes: {}};
+        return {colsSizes: this.props.cols.reduce((sizes, col) => {
+            if (col.extraWidth !== undefined) {
+                sizes[col.name] = col.extraWidth as number;
+            }
+            return sizes;
+        }, {} as Record<string, number>)};
     },
     data() {
         return {colOriginSize: new Map()};
