@@ -14,6 +14,7 @@ export interface DTableResizeTypes {
     }>,
     col: {
         colResize?: boolean | ((this: DTableResize, colName: ColName) => boolean);
+        extraWidth?: number;
     },
     state: {
         colResizing?: {colName: ColName, startX: number, startSize: number}
@@ -171,7 +172,7 @@ const resizePlugin: DTablePlugin<DTableResizeTypes, [DTableMousemoveTypes]> = {
         return result;
     },
     onAddCol(col) {
-        const sizeChange = this.state.colsSizes[col.name];
+        const sizeChange = this.state.colsSizes[col.name] ?? col.setting.extraWidth;
         if (typeof sizeChange === 'number') {
             this.data.colOriginSize.set(col.name, col.width);
             col.width = clamp(col.width + sizeChange, col.setting.minWidth, col.setting.maxWidth);
