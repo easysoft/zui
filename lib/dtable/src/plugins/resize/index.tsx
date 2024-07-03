@@ -68,7 +68,7 @@ const resizePlugin: DTablePlugin<DTableResizeTypes, [DTableMousemoveTypes]> = {
     when: options => !!options.colResize,
     plugins: [mousemove],
     state() {
-        return {colsSizes: this.props.cols.reduce((sizes, col) => {
+        return {colsSizes: this.props.cols?.reduce((sizes, col) => {
             if (col.extraWidth !== undefined) {
                 sizes[col.name] = col.extraWidth as number;
             }
