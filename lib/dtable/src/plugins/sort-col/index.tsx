@@ -108,7 +108,7 @@ const sortColPlugin: DTableSorColPlugin = {
                     colOrders = {};
                     orders = [];
                     sideCols.forEach(({name}, index) => {
-                        colOrders![name] = index;
+                        colOrders![name] = index + 1;
                         orders!.push(name);
                     });
 
