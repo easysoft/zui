@@ -711,19 +711,20 @@ export class DTable extends Component<DTableOptions, DTableState> {
         this.#options = options;
 
         this.#plugins = this.#allPlugins.reduce<DTablePlugin[]>((list, plugin) => {
-            const {when, options: optionsModifier} = plugin;
+            const {options: optionsModifier} = plugin;
             let pluginModifyOptions = options;
             if (optionsModifier) {
                 pluginModifyOptions = Object.assign({...pluginModifyOptions}, typeof optionsModifier === 'function' ? optionsModifier.call(this, options) : optionsModifier);
             }
-            if (!when || when(pluginModifyOptions)) {
-                if (pluginModifyOptions !== options) {
-                    Object.assign(options, pluginModifyOptions);
-                }
-                list.push(plugin);
+            if (pluginModifyOptions !== options) {
+                Object.assign(options, pluginModifyOptions);
             }
+            list.push(plugin);
             return list;
-        }, []);
+        }, []).filter(plugin => {
+            const {when} = plugin;
+            return !when || when.call(this, options);
+        });
 
         this.#i18nMaps = [this.options.i18n, ...this.plugins.map(x => x.i18n)].filter(Boolean) as Record<string, Record<string, string | object>>[];
 
