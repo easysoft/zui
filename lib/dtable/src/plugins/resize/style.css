@@ -36,7 +36,11 @@
     @apply -ml-px;
 }
 .dtable.has-col-resizing {
-    @apply -cursor-ew-resize;
+    --dtable-hover-bg: transparent;
+}
+.dtable.has-col-resizing,
+.has-col-resizing .dtable-header-cell {
+    @apply !-cursor-ew-resize;
 }
 
 .dtable-cell.is-col-resizing::before {
@@ -45,9 +49,6 @@
 .dtable-cell.is-col-resizing::after {
     background: var(--dtable-col-splitter-color);
     @apply -opacity-5
-}
-.has-col-resizing {
-    --dtable-hover-bg: transparent;
 }
 .has-col-resizing .scrollbar.is-horz {
     @apply !-opacity-[--scrollbar-opacity];
