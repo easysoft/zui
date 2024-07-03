@@ -49,7 +49,7 @@ function updateColSize(table: DTableResize, event: MouseEvent, finish?: boolean)
         return table.update({dirtyType: 'layout', state});
     }
     state.colsSizes = {
-        ...state.colsSizes,
+        ...table.state.colsSizes,
         [colName]: colResizing.startSize + delta,
     };
     table.update({dirtyType: 'layout', state}, finish ? () => {
