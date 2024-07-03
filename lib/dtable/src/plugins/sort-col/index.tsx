@@ -65,9 +65,6 @@ const renderCell: DTableSorColPlugin['onRenderCell'] = function (result, info) {
 
 const sortColPlugin: DTableSorColPlugin = {
     name: 'sort-col',
-    defaultOptions: {
-        sortCol: true,
-    },
     when: options => !!options.sortCol,
     plugins: [mousemove, autoscroll],
     events: {
