@@ -39,7 +39,6 @@ export type DTableSortableTypes = {
         disableCheckable?: boolean,
         disableSortable?: boolean,
         sortableInfo?: {from: RowInfo, offset: number, state?: SortingState, startMouseY: number, lastMouseY: number};
-        ignoreNextClick?: number;
     },
     methods: {
         getSortingState(this: DTableSortable, event: MouseEvent): SortingState | undefined;
@@ -63,18 +62,11 @@ const sortablePlugin: DTablePlugin<DTableSortableTypes, [DTableMousemoveTypes, D
     plugins: [mousemove, autoscroll],
     events: {
         click(event) {
-            if (this.data.ignoreNextClick) {
-                event.preventDefault();
-                this.data.ignoreNextClick = undefined;
-            }
             if ((event.target as HTMLElement).closest('.dtable-sort-link')) {
                 this.state.rowOrders = undefined;
             }
         },
         mousedown(event) {
-            if (this.data.ignoreNextClick) {
-                clearTimeout(this.data.ignoreNextClick);
-            }
             if (this.data.disableSortable) {
                 return;
             }
@@ -130,9 +122,7 @@ const sortablePlugin: DTablePlugin<DTableSortableTypes, [DTableMousemoveTypes, D
                 }
 
                 if (sortingTo || Math.abs(sortableInfo.lastMouseY - sortableInfo.startMouseY) > 4) {
-                    this.data.ignoreNextClick = window.setTimeout(() => {
-                        this.data.ignoreNextClick = undefined;
-                    });
+                    this.ignoreNextClick();
                 }
 
                 this.disableAnimation();
