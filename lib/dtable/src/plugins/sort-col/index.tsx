@@ -118,6 +118,10 @@ const sortColPlugin: DTableSorColPlugin = {
                     }
                 }
 
+                if (to || Math.abs(sortColInfo.lastMouseX - sortColInfo.startMouseX) > 4) {
+                    this.ignoreNextClick();
+                }
+
                 this.disableAnimation();
                 this.update({
                     dirtyType: 'layout',
