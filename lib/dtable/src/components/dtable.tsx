@@ -382,7 +382,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
         return this.layout.rows[index];
     }
 
-    update(options: {dirtyType?: 'options' | 'layout', state?: Partial<DTableState>} | (() => void) = {}, callback?: () => void) {
+    update(options: {dirtyType?: 'options' | 'layout', state?: Partial<DTableState> | ((prevState: Readonly<DTableState>) => void)} | (() => void) = {}, callback?: () => void) {
         if (!this.#options) {
             return;
         }
