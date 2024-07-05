@@ -95,7 +95,6 @@ const resizePlugin: DTablePlugin<DTableResizeTypes, [DTableMousemoveTypes]> = {
                     startX: event.clientX,
                 },
             });
-            event.stopPropagation();
             return false;
         },
         dblclick(event) {
