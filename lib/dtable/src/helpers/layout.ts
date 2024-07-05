@@ -119,6 +119,7 @@ export function initColsLayout(dtable: DTable, options: DTableOptions, plugins: 
             side: getColSide(colSetting.fixed),
             sideIndex: 0,
             order: colSetting.order,
+            border: colSetting.border,
         };
 
         const colTypeModifier = colTypesModifiers[type];

@@ -13,6 +13,8 @@ export type ColSide = 'left' | 'right' | 'center';
 
 export type ColInfoLike = string | number | ColInfo;
 
+export type ColBorderType = 'left' | 'right' | boolean;
+
 export type ColInfo<S = ColSetting> = {
     name: ColName;
     type: string;
@@ -26,6 +28,7 @@ export type ColInfo<S = ColSetting> = {
     side: ColSide;
     sideIndex: number;
     order?: number;
+    border?: ColBorderType;
 };
 
 export type ColSetting<S = {}> = S & {
@@ -38,7 +41,7 @@ export type ColSetting<S = {}> = S & {
     order: number;
     flex: ColFlex;
     fixed: ColFixedSide;
-    border: 'left' | 'right' | boolean;
+    border: ColBorderType;
     align: 'left' | 'center' | 'right';
     data: Record<string, unknown>;
     style: preact.JSX.CSSProperties;

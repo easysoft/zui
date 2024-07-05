@@ -16,19 +16,20 @@ export function Cell(props: CellProps) {
         height: height,
         ...outerStyleFromParent,
     };
-    const {align, border} = col.setting;
+    const {align, cellStyle, cellClass, className: colClassName} = col.setting;
     const contentStyle = {
         justifyContent: align ? (align === 'left' ? 'start' : (align === 'right' ? 'end' : align)) : undefined,
-        ...col.setting.cellStyle,
+        ...cellStyle,
         ...styleFromParent,
     };
-    const outerClassName: ClassNameLike[] = ['dtable-cell', outerClass, className, col.setting.className, {
+    const {name, border} = col;
+    const outerClassName: ClassNameLike[] = ['dtable-cell', outerClass, className, colClassName, {
         'has-border-left': border === true || border === 'left',
         'has-border-right': border === true || border === 'right',
     }];
-    const contentClassName: ClassNameLike[] = ['dtable-cell-content', col.setting.cellClass];
+    const contentClassName: ClassNameLike[] = ['dtable-cell-content', cellClass];
 
-    const value = row.data?.[col.name];
+    const value = row.data?.[name];
     const defaultResult: CustomRenderResultList = [childrenFromParent ?? value ?? ''];
     const result: CustomRenderResultList = onRenderCell ? onRenderCell(defaultResult, {row, col, value}, props, _h) : defaultResult;
 
@@ -72,7 +73,7 @@ export function Cell(props: CellProps) {
         <div
             className={classes(outerClassName)}
             style={outerStyle}
-            data-col={col.name}
+            data-col={name}
             data-row={row.id}
             data-type={col.type || null}
             {...others}
