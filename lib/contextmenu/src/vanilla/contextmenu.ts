@@ -1,6 +1,8 @@
+import {$} from '@zui/core';
+import {Dropdown} from '@zui/dropdown';
+
 import type {ContextMenuOptions} from '../types/contextmenu-options';
 import type {ComputePositionConfig, ReferenceElement} from '@floating-ui/dom';
-import {Dropdown} from '@zui/dropdown';
 
 export class ContextMenu extends Dropdown<ContextMenuOptions> {
     static NAME = 'ContextMenu';
@@ -20,4 +22,11 @@ export class ContextMenu extends Dropdown<ContextMenuOptions> {
         }
         return options;
     }
+
+    protected _onClickDoc = (event: MouseEvent) => {
+        const $target = $(event.target as HTMLElement);
+        if (!$target.closest('.not-hide-menu,.form-control,input,label,.nested-toggle-icon').length) {
+            this.hide();
+        }
+    };
 }
