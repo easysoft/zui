@@ -130,7 +130,10 @@ const sortColPlugin: DTableSorColPlugin = {
                         sortingColPos: undefined,
                         sortingColTo: undefined,
                         sortingColSide: undefined,
-                    }, colOrders ? {colOrders} : null),
+                    }, colOrders ? {colOrders: {
+                        ...this.state.colOrders,
+                        ...colOrders,
+                    }} : null),
                 }, () => {
                     this.options.onSortColEnd?.call(this, from, to, side, orders);
                 });
