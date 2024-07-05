@@ -26,3 +26,6 @@
 .has-sorting-col .scrollbar.is-horz {
   @apply !-opacity-[--scrollbar-opacity];
 }
+.has-sorting-col .dtable-scroll-shadow {
+  @apply -visible;
+}
