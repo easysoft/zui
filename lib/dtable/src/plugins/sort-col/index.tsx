@@ -85,7 +85,9 @@ const sortColPlugin: DTableSorColPlugin = {
             }
             event.preventDefault();
             const startMouseX = event.clientX;
-            this.data.sortColInfo = {from: col, element: info.cellElement, offset: startMouseX - info.cellElement.getBoundingClientRect().left, startMouseX, lastMouseX: startMouseX};
+            const {cellElement} = info;
+            this.data.sortColInfo = {from: col, element: cellElement, offset: startMouseX - cellElement.getBoundingClientRect().left, startMouseX, lastMouseX: startMouseX};
+            $(cellElement!).zuiCall('ContextMenu.hide');
         },
         document_mouseup(event) {
             const {sortColInfo} = this.data;
