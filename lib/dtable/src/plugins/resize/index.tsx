@@ -1,3 +1,4 @@
+import {$} from '@zui/core';
 import {clamp} from '../../helpers/number';
 import {definePlugin} from '../../helpers/shared-plugins';
 import {mousemove} from '../mousemove';
@@ -84,7 +85,8 @@ const resizePlugin: DTablePlugin<DTableResizeTypes, [DTableMousemoveTypes]> = {
             if (!splitter) {
                 return;
             }
-            const colName = splitter.closest<HTMLElement>('.dtable-cell')?.dataset.col;
+            const cellElement = splitter.closest<HTMLElement>('.dtable-cell');
+            const colName = cellElement?.dataset.col;
             if (!colName) {
                 return;
             }
@@ -94,7 +96,10 @@ const resizePlugin: DTablePlugin<DTableResizeTypes, [DTableMousemoveTypes]> = {
                     startSize: this.state.colsSizes[colName] ?? 0,
                     startX: event.clientX,
                 },
+            }, () => {
+                $(cellElement!).zuiCall('ContextMenu.hide');
             });
+
             return false;
         },
         dblclick(event) {
