@@ -70,6 +70,7 @@ declare module 'cash-dom' {
     interface Cash {
         zuiInit(this: Cash): Cash;
         zui(this: Cash, name?: string, key?: string | number | true): ZUIComponentClass | ZUIComponentClass[] | Record<string, ZUIComponentClass> | undefined;
+        zuiCall(this: Cash, method: string, args?: unknown[]): Cash;
     }
 }
 
@@ -130,12 +131,26 @@ $.fn.zui = function (this: Cash, name?: string | true, key?: string | number | t
     }
     const Component = getComponent(name);
     if (!Component) {
-        return;
+        return $(element).data(`zui.${name}`);
     }
     if (key === true) {
         return Component.getAll(element);
     }
     return Component.query(element, key);
+};
+
+$.fn.zuiCall = function (this: Cash, componentMethod: string, args: unknown[] = []) {
+    this.each(function () {
+        const parts = componentMethod.split('.');
+        const name = parts.length > 1 ? parts[0] : undefined;
+        const method = parts[parts.length > 1 ? 1 : 0];
+        const component = $(this).zui(name) as (ZUIComponent | undefined);
+        const methodFunc = component?.[method as keyof ZUIComponent];
+        if (typeof methodFunc === 'function') {
+            (methodFunc as ((...args: unknown[]) => void)).apply(component, args);
+        }
+    });
+    return this;
 };
 
 /** Auto call creator on elements match [data-zui]. */
