@@ -1,5 +1,9 @@
 # 数据表格
 
+## 自定义列
+
+<div id="customColsTable"></div>
+
 ## 数据表
 
 <div id="dataTable"></div>
