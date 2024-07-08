@@ -3,6 +3,7 @@ export * from './is-diff';
 export * from './computed';
 export * from './classes';
 export * from './data';
+export * from './raw-data';
 export * from './z';
 export * from './css';
 export * from './attr';
