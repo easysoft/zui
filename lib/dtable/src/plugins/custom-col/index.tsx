@@ -14,6 +14,9 @@ export interface DTableCustomColTypes {
         onSetColBorder?: (this: DTableCustomCol, colName: ColName, border: ColBorderType, colBorders: Record<ColName, ColBorderType>) => void;
         onSetColVisibility?: (this: DTableCustomCol, colName: ColName, visible: boolean) => void;
     },
+    col: {
+        required?: boolean;
+    },
     state: {
         colBorders: Record<ColName, ColBorderType>;
         colVisibility: Record<ColName, boolean>;
@@ -87,7 +90,7 @@ const customColPlugin: DTablePlugin<DTableCustomColTypes, [DTableContextMenuType
                         {
                             text: this.i18n('hideCol'),
                             icon: 'eye-off',
-                            disabled: !this.options.canSetColVisibility?.call(this, info.colName, false),
+                            disabled: (this.getColInfo(info.colName)?.setting.required as boolean) || !this.options.canSetColVisibility?.call(this, info.colName, false),
                             onClick: () => this.setColVisibility(info.colName, false),
                         },
                     ];
