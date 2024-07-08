@@ -154,7 +154,7 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
             this._mobs.observe($parent[0]!, {childList: true, subtree: false});
         }
 
-        this._options = {...DEFAULT, ...$element.dataset()} as ComponentOptions<O>;
+        this._options = {...DEFAULT, ...(options?.$optionsFromDataset !== false ? $element.dataset() : {})} as ComponentOptions<O>;
         this.setOptions(options);
         this._key = this.options.key ?? `__${gid}`;
 

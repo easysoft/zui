@@ -7,6 +7,7 @@ export type ComponentBaseOptions = {
     key?: string | number;
     lang?: string;
     i18n?: I18nLangMap;
+    $optionsFromDataset?: boolean;
 };
 
 /**
