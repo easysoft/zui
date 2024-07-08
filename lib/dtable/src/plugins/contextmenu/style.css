@@ -1,0 +1,3 @@
+.dtable-cell.has-contextmenu-show::after {
+  @apply -bg-primary-500 -opacity-10;
+}

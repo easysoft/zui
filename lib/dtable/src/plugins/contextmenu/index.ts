@@ -1,5 +1,8 @@
+import {$} from '@zui/core';
 import {ContextMenu} from '@zui/contextmenu';
 import {definePlugin} from '../../helpers/shared-plugins';
+import './style.css';
+
 import type {ListitemProps} from '@zui/list';
 import type {DTablePointerInfo} from '../../types/dtable';
 import type {DTableWithPlugin, DTablePlugin} from '../../types/plugin';
@@ -37,7 +40,11 @@ const contextmenuPlugin: DTablePlugin<DTableContextMenuTypes> = {
                 return;
             }
             event.preventDefault();
-            ContextMenu.show({items, key: `dtable-ctx-${this.id}`, event, element: info.cellElement} as Parameters<typeof ContextMenu.show>[0]);
+            const $cell = $(info.cellElement).addClass('has-contextmenu-show');
+            info.cellElement.classList.add('active');
+            ContextMenu.show({items, key: `dtable-ctx-${this.id}`, triggerEvent: event, hideOthers: true, onHide() {
+                $cell.removeClass('has-contextmenu-show');
+            }} as Parameters<typeof ContextMenu.show>[0]);
         },
     },
     methods: {
