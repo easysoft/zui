@@ -13,7 +13,7 @@ declare module 'cash-dom' {
 
 type ZDataGetterOptions = {
     prefix?: string;
-    evalValue?: boolean;
+    evalValue?: boolean | string[];
     evalArgs?: unknown[];
     json?: boolean;
     getter?: (name: string, value: unknown) => unknown;
@@ -28,6 +28,7 @@ export function getZData(selector: Selector, prefixOrOptions?: ZDataGetterOption
         prefix: 'z-',
         ...(typeof prefixOrOptions === 'string' ? {prefix: prefixOrOptions} : prefixOrOptions),
     };
+    const evalValueSet = Array.isArray(evalValueSetting) ? new Set(evalValueSetting) : undefined;
     return Array.from(element.attributes).reduce<Record<string, unknown>>((data, attribute) => {
         let {name} = attribute;
         const {value} = attribute;
@@ -38,7 +39,7 @@ export function getZData(selector: Selector, prefixOrOptions?: ZDataGetterOption
                 finalValue = getter(name, value);
             } else {
                 try {
-                    if (evalValueSetting || (evalValueSetting === undefined && value.includes('RAWJS'))) {
+                    if ((evalValueSetting && (!evalValueSet || evalValueSet.has(name))) || (evalValueSetting === undefined && value.includes('RAWJS'))) {
                         finalValue = evalValue(value, ...evalArgs);
                     } else if (json) {
                         finalValue = JSON.parse(value);
