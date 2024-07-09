@@ -9,3 +9,5 @@ export class List extends ComponentFromReact<ListProps, ListReact> {
 
     static replace = ListReact.TAG;
 }
+
+List.register();

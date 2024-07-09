@@ -9,3 +9,5 @@ export class NestedList extends ComponentFromReact<NestedListProps, NestedListRe
 
     static replace = NestedListReact.TAG;
 }
+
+NestedList.register();
