@@ -1,5 +1,6 @@
 .article {
-  @apply -text-[--font-size-article];
+  @apply -text-[--font-size-article] -break-words;
+  hyphens: auto;
 }
 .article h1,
 .article h2,
