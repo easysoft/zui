@@ -7,6 +7,9 @@
 .picker-menu-list.tree {
   @apply -p-2;
 }
+.picker-menu-list .tree-item > .selected .item-content {
+  @apply -font-normal;
+}
 .picker-menu .search-menu-footer {
   @apply -border-t -py-1;
 }
