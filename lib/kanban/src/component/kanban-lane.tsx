@@ -3,7 +3,7 @@ import {Toolbar} from '@zui/toolbar/src/component';
 
 import type {ComponentChild, ComponentChildren, RenderableProps} from 'preact';
 import type {ClassNameLike} from '@zui/core';
-import type {KanbanColOptions, KanbanColProps, KanbanLaneName, KanbanLaneProps} from '../types';
+import type {KanbanColOptions, KanbanColProps, KanbanLaneProps} from '../types';
 import {KanbanLaneCol} from './kanban-lane-col';
 
 export class KanbanLane extends HElement<KanbanLaneProps> {
@@ -47,7 +47,6 @@ export class KanbanLane extends HElement<KanbanLaneProps> {
 
     protected _getChildren(props: RenderableProps<KanbanLaneProps>): ComponentChildren {
         const {
-            name,
             title,
             titleClass,
             actions,
