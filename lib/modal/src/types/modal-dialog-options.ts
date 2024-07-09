@@ -1,5 +1,5 @@
 import type {ComponentChildren, JSX} from 'preact';
-import type {ClassNameLike} from '@zui/core';
+import type {ClassNameLike, CustomContentType} from '@zui/core';
 import type {ToolbarOptions} from '@zui/toolbar';
 
 export type ModalDialogOptions = {
@@ -8,13 +8,13 @@ export type ModalDialogOptions = {
     bodyClass?: ClassNameLike;
     style?: JSX.CSSProperties;
     title?: ComponentChildren;
-    header?: ComponentChildren;
+    header?: CustomContentType;
     headerClass?: ClassNameLike;
-    body?: ComponentChildren;
+    body?: CustomContentType;
     actions?: ToolbarOptions;
     closeBtn?: boolean;
     children?: ComponentChildren;
-    footer?: ComponentChildren;
+    footer?: CustomContentType;
     footerClass?: ClassNameLike;
     footerActions?: ToolbarOptions;
     afterRender?: (info: {firstRender: boolean}) => void;

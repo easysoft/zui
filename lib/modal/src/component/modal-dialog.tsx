@@ -1,4 +1,4 @@
-import {classes} from '@zui/core';
+import {classes, CustomContent} from '@zui/core';
 import {Toolbar} from '@zui/toolbar/src/component/toolbar';
 import {Component, isValidElement} from 'preact';
 import {ModalDialogOptions} from '../types';
@@ -29,6 +29,9 @@ export class ModalDialog extends Component<ModalDialogOptions> {
         }
         if (header === false || !title) {
             return null;
+        }
+        if (header) {
+            return <CustomContent className={classes('modal-header', headerClass)} content={header} />;
         }
         return (
             <div className={classes('modal-header', headerClass)}>
@@ -69,11 +72,7 @@ export class ModalDialog extends Component<ModalDialogOptions> {
         if (isValidElement(body)) {
             return body;
         }
-        return (
-            <div className={classes('modal-body', bodyClass)}>
-                {body}
-            </div>
-        );
+        return <CustomContent className={classes('modal-body', bodyClass)} content={body} />;
     }
 
     renderFooter() {
@@ -87,6 +86,9 @@ export class ModalDialog extends Component<ModalDialogOptions> {
         }
         if (footer === false || !footerActions) {
             return null;
+        }
+        if (footer) {
+            return <CustomContent className={classes('modal-footer', footerClass)} content={footer} />;
         }
         return (
             <div className={classes('modal-footer', footerClass)}>
