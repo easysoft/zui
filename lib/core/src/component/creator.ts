@@ -1,54 +1,27 @@
-import {$, Cash, Selector} from '../cash';
-import {takeData} from './data';
-import {getZData} from './z';
+import {$, Cash} from '../cash';
+import {takeData} from '../helpers/data';
+import {getZData} from '../helpers/z';
+import {Component} from './component';
 
-type ZUIComponentOptions = {
+import type {ComponentOptions} from './types';
+
+export type ComponentClass = typeof Component;
+
+export type ComponentCreateOptions = ComponentOptions & {
     $update?: boolean;
-    [x: string]: unknown;
 };
 
-declare class ZUIComponentClass {
-    gid: number;
-    constructor(element: HTMLElement, options: ZUIComponentOptions);
-    setOptions(options: ZUIComponentOptions): void;
-    render(options?: ZUIComponentOptions): void;
-    destroy(): void;
+export function getComponent(name: string): ComponentClass | undefined {
+    return Component.map.get(name.toLowerCase());
 }
 
-interface ZUIComponent {
-    ZUI: string;
-    NAME: string;
-    MULTI_INSTANCE: boolean;
-    defineFn(): void;
-    get(selector?: Selector): ZUIComponentClass;
-    getAll(selector?: Selector): ZUIComponentClass[];
-    query(selector?: Selector, key?: string | number): ZUIComponentClass | undefined;
-    new (element: HTMLElement, options: ZUIComponentOptions): ZUIComponentClass;
-}
-
-export const componentsMap = new Map<string, ZUIComponent>();
-
-export function getComponent(name?: string): ZUIComponent | undefined {
-    const {zui = {}} = window as unknown as {zui: Record<string, ZUIComponent>};
-    if (!componentsMap.size || (name && !componentsMap.has(name.toUpperCase()))) {
-        Object.keys(zui).forEach((n) => {
-            const Component = zui[n];
-            if (!Component.NAME || !Component.ZUI) {
-                return;
-            }
-            componentsMap.set(n.toLowerCase(), Component);
-        });
-    }
-    return name ? componentsMap.get(name.toLowerCase()) : undefined;
-}
-
-export function create(name: string, element: HTMLElement, options: ZUIComponentOptions = {}) {
-    const Component = getComponent(name);
-    if (!Component) {
+export function create(name: string, element: HTMLElement, options: ComponentCreateOptions = {}) {
+    const TheComponent = getComponent(name);
+    if (!TheComponent) {
         return null;
     }
-    if (!Component.MULTI_INSTANCE) {
-        const component = Component.get(element);
+    if (!TheComponent.MULTI_INSTANCE) {
+        const component = TheComponent.get(element);
         if (component) {
             if (options.$update) {
                 delete options.$update;
@@ -59,23 +32,37 @@ export function create(name: string, element: HTMLElement, options: ZUIComponent
             return component;
         }
     }
-    return new Component(element, options);
+    return new TheComponent(element, options);
 }
 
-function createInAnimationFrame(name: string, element: HTMLElement, options: ZUIComponentOptions = {}) {
+function createInAnimationFrame(name: string, element: HTMLElement, options: ComponentCreateOptions = {}) {
     requestAnimationFrame(() => create(name, element, options));
+}
+
+export function registerComponent(component: ComponentClass, name?: string) {
+    Component.register(component, name);
+}
+
+export function initGlobalComponents() {
+    const {zui} = window as unknown as {zui: Record<string, ComponentClass>};
+    if (zui) {
+        Object.keys(zui).forEach((n) => {
+            const TheComponent = zui[n];
+            if (!TheComponent.NAME || !TheComponent.ZUI) {
+                return;
+            }
+            registerComponent(TheComponent);
+        });
+    }
 }
 
 export function defineFn(name?: string) {
     if (name) {
-        const Component = getComponent(name);
-        if (Component) {
-            Component.defineFn();
-        }
+        getComponent(name)?.defineFn();
     } else {
-        getComponent();
-        componentsMap.forEach((Component) => {
-            Component.defineFn();
+        initGlobalComponents();
+        Component.map.forEach((TheComponent) => {
+            TheComponent.defineFn();
         });
     }
 }
@@ -83,8 +70,8 @@ export function defineFn(name?: string) {
 /* Declare types. */
 declare module 'cash-dom' {
     interface Cash {
-        zuiInit(this: Cash): Cash;
-        zui(this: Cash, name?: string, key?: string | number | true): ZUIComponentClass | ZUIComponentClass[] | Record<string, ZUIComponentClass> | undefined;
+        zuiInit(this: Cash, options?: {update?: boolean}): Cash;
+        zui(this: Cash, name?: string, key?: string | number | true): ComponentClass | ComponentClass[] | Record<string, ComponentClass> | undefined;
         zuiCall(this: Cash, method: string, args?: unknown[]): Cash;
     }
 }
@@ -129,7 +116,7 @@ function initCreators(element: HTMLElement, options: {update?: boolean} = {}): v
                 if (initedNames.has(name)) {
                     return;
                 }
-                const createOptions = createOptionsMap[name] as ZUIComponentOptions | undefined;
+                const createOptions = createOptionsMap[name] as ComponentCreateOptions | undefined;
                 createInAnimationFrame(name, element, {
                     ...defaultCreateOptions,
                     ...createOptions,
@@ -154,9 +141,9 @@ function initCreators(element: HTMLElement, options: {update?: boolean} = {}): v
 }
 
 /** Define the $.fn.zuiInit method. */
-$.fn.zuiInit = function (this: Cash) {
+$.fn.zuiInit = function (this: Cash, options?: {update?: boolean}) {
     this.find('[zui-create],[data-zui]').each(function () {
-        initCreators(this);
+        initCreators(this, options);
     });
     this.find('[zui-init]').each(function () {
         const $element = $(this);
@@ -183,12 +170,12 @@ $.fn.zui = function (this: Cash, name?: string | true, key?: string | number | t
         return;
     }
     if (typeof name !== 'string') {
-        const data = takeData(element, undefined, true) as Record<string, ZUIComponentClass>;
-        const result: Record<string, ZUIComponentClass> = {};
-        let lastComponent: ZUIComponentClass | undefined;
+        const data = takeData(element, undefined, true) as Record<string, Component>;
+        const result: Record<string, Component> = {};
+        let lastComponent: Component | undefined;
         Object.keys(data).forEach((dataKey) => {
             if (dataKey.startsWith('zui.')) {
-                const component = data[dataKey] as ZUIComponentClass;
+                const component = data[dataKey] as Component;
                 result[dataKey] = component;
                 if (!lastComponent || lastComponent.gid < component.gid) {
                     lastComponent = result[dataKey];
@@ -197,14 +184,14 @@ $.fn.zui = function (this: Cash, name?: string | true, key?: string | number | t
         });
         return name === true ? result : lastComponent;
     }
-    const Component = getComponent(name);
-    if (!Component) {
+    const TheComponent = getComponent(name);
+    if (!TheComponent) {
         return $(element).data(`zui.${name}`);
     }
     if (key === true) {
-        return Component.getAll(element);
+        return TheComponent.getAll(element);
     }
-    return Component.query(element, key);
+    return TheComponent.query(element, key);
 };
 
 $.fn.zuiCall = function (this: Cash, componentMethod: string, args: unknown[] = []) {
@@ -212,8 +199,8 @@ $.fn.zuiCall = function (this: Cash, componentMethod: string, args: unknown[] = 
         const parts = componentMethod.split('.');
         const name = parts.length > 1 ? parts[0] : undefined;
         const method = parts[parts.length > 1 ? 1 : 0];
-        const component = $(this).zui(name) as (ZUIComponent | undefined);
-        const methodFunc = component?.[method as keyof ZUIComponent];
+        const component = $(this).zui(name) as (Component | undefined);
+        const methodFunc = component?.[method as keyof Component];
         if (typeof methodFunc === 'function') {
             (methodFunc as ((...args: unknown[]) => void)).apply(component, args);
         }
@@ -223,5 +210,5 @@ $.fn.zuiCall = function (this: Cash, componentMethod: string, args: unknown[] = 
 
 /** Auto call creator on elements match [data-zui]. */
 $(() => {
-    $('body').zuiInit();
+    $('body').zuiInit({update: true});
 });

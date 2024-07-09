@@ -11,7 +11,6 @@ export * from './event';
 export * from './delay';
 export * from './share-data';
 export * from './merge-props';
-export * from './zui-creator';
 export * from './scroll';
 export * from './global-event';
 export * from './size';

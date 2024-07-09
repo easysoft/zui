@@ -63,6 +63,10 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
         return `data-zui-${this.NAME}`;
     }
 
+    static get ATTR_KEY(): `z-use-${string}` {
+        return `z-use-${this.NAME}`;
+    }
+
     static get SELECTOR() {
         return `[${this.DATA_KEY}]`;
     }
@@ -115,7 +119,7 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
      * @param options The component initial options.
      */
     constructor(selector: Selector, options?: Partial<ComponentOptions<O>>) {
-        const {KEY, DATA_KEY, DEFAULT, MULTI_INSTANCE, NAME} = this.constructor;
+        const {KEY, DATA_KEY, DEFAULT, MULTI_INSTANCE, NAME, ATTR_KEY} = this.constructor;
 
         if (!NAME) {
             throw new Error('[ZUI] The component must have a "NAME" static property.');
@@ -158,7 +162,7 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
         this.setOptions(options);
         this._key = this.options.key ?? `__${gid}`;
 
-        $element.data(KEY, this).attr(DATA_KEY, `${gid}`);
+        $element.data(KEY, this).attr(DATA_KEY, `${gid}`).attr(ATTR_KEY, '');
         if (MULTI_INSTANCE) {
             const dataName = `${KEY}:ALL`;
             let instanceMap: Map<string | number, Component> | undefined = $element.data(dataName);
@@ -250,7 +254,7 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
      * Destroy the component.
      */
     destroy() {
-        const {KEY, DATA_KEY, MULTI_INSTANCE} = this.constructor;
+        const {KEY, DATA_KEY, MULTI_INSTANCE, ATTR_KEY} = this.constructor;
         const {$element} = this;
 
         (this.emit as ((event: string, ...args: unknown[]) => void))('destroyed');
@@ -260,7 +264,8 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
         $element
             .off(this.namespace)
             .removeData(KEY)
-            .attr(DATA_KEY, null);
+            .removeAttr(ATTR_KEY)
+            .removeAttr(DATA_KEY);
 
         if (MULTI_INSTANCE) {
             const map = this.$element.data(`${KEY}:ALL`) as Map<string | number, Component<O, E>>;
@@ -531,5 +536,12 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
                 return callResult !== undefined ? callResult : this;
             },
         });
+    }
+
+    static map = new Map<string, typeof Component>();
+
+    static register(ComponentClass?: typeof Component, name?: string) {
+        ComponentClass = ComponentClass || this;
+        this.map.set((name ?? ComponentClass.NAME).toLowerCase(), ComponentClass);
     }
 }
