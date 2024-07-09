@@ -1,5 +1,5 @@
-import type {ComponentChild} from 'preact';
-import type {ToolbarItemOptions} from '@zui/toolbar/src/types';
+import type {CustomContentType} from '@zui/core';
+import type {ToolbarItemOptions} from '@zui/toolbar';
 import type {ModalDialogOptions} from './modal-dialog-options';
 import type {ModalBaseOptions} from './modal-base-options';
 import type {Modal} from '../vanilla/modal';
@@ -21,7 +21,7 @@ export type ModalOptions = ModalBaseOptions & {
 
 export interface ModalCustomOptions extends ModalOptions {
     type: 'custom',
-    content?: ComponentChild;
+    content?: CustomContentType;
     custom: ModalDialogOptions | (() => ModalDialogOptions);
 }
 
