@@ -231,6 +231,9 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
         }
 
         const result = await build.call(this, modalElement, options);
+        if (this._destroyed) {
+            return false;
+        }
 
         if (result === false) {
             await this.#renderLoadFail(this.options.failedTip);
