@@ -109,6 +109,11 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
     private _autoDestory = 0;
 
     /**
+     * The component destroyed flag.
+     */
+    protected _destroyed = false;
+
+    /**
      * Element removed observer.
      */
     private _mobs?: MutationObserver;
@@ -181,8 +186,18 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
         });
     }
 
+    /**
+     * Get the component initialized flag.
+     */
     get inited() {
         return this._inited;
+    }
+
+    /**
+     * Get the component destroyed flag.
+     */
+    get destroyed() {
+        return this._destroyed;
     }
 
     /**
@@ -259,6 +274,7 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
 
         (this.emit as ((event: string, ...args: unknown[]) => void))('destroyed');
 
+        this._destroyed = true;
         this._mobs?.disconnect();
 
         $element
