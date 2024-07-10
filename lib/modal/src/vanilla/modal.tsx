@@ -74,7 +74,7 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
     static DEFAULT = {
         ...ModalBase.DEFAULT,
         loadTimeout: 10000,
-        destoryOnHide: true,
+        destroyOnHide: true,
     } as Partial<ModalOptions>;
 
     #modal?: HTMLElement;
@@ -132,7 +132,7 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
 
     afterInit() {
         super.afterInit();
-        if (this.options.destoryOnHide && this.options.type !== 'static') {
+        if (this.options.destroyOnHide && this.options.type !== 'static') {
             this.on('hidden', (event) => {
                 const $modal = $(event.target as HTMLElement);
                 if ($modal.data('key') === this.key) {
