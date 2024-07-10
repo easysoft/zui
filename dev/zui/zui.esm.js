@@ -8,7 +8,7 @@ var rt = (n, t, e) => (ps(n, t, "read from private field"), e ? e.call(n) : t.ge
   t instanceof WeakSet ? t.add(n) : t.set(n, e);
 }, _t = (n, t, e, s) => (ps(n, t, "write to private field"), s ? s.call(n, e) : t.set(n, e), e);
 var gs = (n, t, e) => (ps(n, t, "access private method"), e);
-const Ru = "3.0.0-alpha.4", Du = 1720534176849, Ht = document, xn = window, Rr = Ht.documentElement, fe = Ht.createElement.bind(Ht), Dr = fe("div"), ms = fe("table"), qa = fe("tbody"), Xi = fe("tr"), { isArray: Gn, prototype: Lr } = Array, { concat: Ga, filter: ei, indexOf: zr, map: Fr, push: Ya, slice: Or, some: ni, splice: Ja } = Lr, Za = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, Xa = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, Qa = /<.+>/, tl = /^\w+$/;
+const Ru = "3.0.0-alpha.4", Du = 1720589577844, Ht = document, xn = window, Rr = Ht.documentElement, fe = Ht.createElement.bind(Ht), Dr = fe("div"), ms = fe("table"), qa = fe("tbody"), Xi = fe("tr"), { isArray: Gn, prototype: Lr } = Array, { concat: Ga, filter: ei, indexOf: zr, map: Fr, push: Ya, slice: Or, some: ni, splice: Ja } = Lr, Za = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, Xa = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, Qa = /<.+>/, tl = /^\w+$/;
 function si(n, t) {
   const e = el(t);
   return !n || !e && !ce(t) && !Z(t) ? [] : !e && Xa.test(n) ? t.getElementsByClassName(n.slice(1).replace(/\\/g, "")) : !e && tl.test(n) ? t.getElementsByTagName(n) : t.querySelectorAll(n);
@@ -10999,6 +10999,7 @@ export {
   _i as getFullscreenElement,
   yo as getHotkeysMap,
   uc as getReactComponent,
+  bc as getUniqueCode,
   An as getZData,
   yt as h,
   Fu as hotkeys,
