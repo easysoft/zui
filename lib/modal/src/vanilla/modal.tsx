@@ -117,6 +117,8 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
                     .css(options.style || {})
                     .setClass('modal modal-async load-indicator', options.className)
                     .appendTo($element)[0];
+            } else {
+                $(modal).data(this.constructor.KEY, this);
             }
             this.#modal = modal!;
         }
