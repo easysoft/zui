@@ -134,7 +134,8 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
         super.afterInit();
         if (this.options.destoryOnHide && this.options.type !== 'static') {
             this.on('hidden', (event) => {
-                if ((event.target as HTMLElement).closest('.modal') === this.modalElement) {
+                const $modal = $(event.target as HTMLElement);
+                if ($modal.data('key') === this.key) {
                     this.destroy();
                 }
             });
