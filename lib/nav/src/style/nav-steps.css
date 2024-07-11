@@ -27,6 +27,7 @@
 }
 .nav-steps > .nav-item:last-child > a::before,
 .nav-steps > .nav-item:last-child > a::after,
+.nav-steps > .nav-item:has(+ .nav-item > .active, + .nav-item > .selected) > a:not(.active, .selected)::before,
 .nav-steps > .nav-item:has(+ .nav-item > .active) > .selected::before,
 .nav-steps > .nav-item:has(+ .nav-item > .selected) > .active::before {
   @apply -hidden;

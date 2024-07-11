@@ -194,6 +194,7 @@ console.log('> nav', nav);
 
 ```html:example: flex justify-start p-4 surface
 <menu class="nav nav-steps canvas">
+  <li class="nav-item item"><a><span class="text">普通步骤1</span></a></li>
   <li class="nav-item item"><a class="selected"><span class="text">已激活步骤1</span></a></li>
   <li class="nav-item item"><a class="selected"><span class="text">已激活步骤2</span></a></li>
   <li class="nav-item item"><a class="active"><span class="text">当前步骤</span></a></li>
