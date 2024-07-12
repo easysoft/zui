@@ -24,11 +24,10 @@ export const enum NestedRowState {
 export type NestedRowInfo = {
     state: NestedRowState;
     level: number;
-} & Partial<{
-    children: string[];
-    parent: string;
-    order: number;
-}>;
+    children?: string[];
+    parent?: string;
+    order?: number;
+};
 
 export type DTableNestedTypes = {
     options: Partial<{
