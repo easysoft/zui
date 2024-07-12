@@ -8,6 +8,7 @@ export type ComponentBaseOptions = {
     lang?: string;
     i18n?: I18nLangMap;
     $optionsFromDataset?: boolean;
+    $reset?: boolean;
 };
 
 /**

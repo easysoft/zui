@@ -261,8 +261,8 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
      *
      * @param options The component options to override before render.
      */
-    render(options?: Partial<ComponentOptions<O>>) {
-        this.setOptions(options);
+    render(options?: Partial<ComponentOptions<O>>, reset?: boolean) {
+        this.setOptions(options, reset);
     }
 
     /**
@@ -303,7 +303,7 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
      * @param options  The component options to set.
      * @returns The component options.
      */
-    setOptions(options?: Partial<ComponentOptions<O>>): ComponentOptions<O> {
+    setOptions(options?: Partial<ComponentOptions<O>>, reset?: boolean): ComponentOptions<O> {
         if (options) {
             $.extend(this._options, options);
         }
