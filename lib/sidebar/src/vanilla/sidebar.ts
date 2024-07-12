@@ -141,9 +141,6 @@ export class Sidebar extends Component<SidebarOptions, {
                     $element.removeClass(TRANSITION_CLASS);
                 }
             });
-            this._raf = requestAnimationFrame(() => {
-                this.$parent.addClass(ANIMATION_CLASS);
-            });
         }
     }
 
@@ -223,8 +220,15 @@ export class Sidebar extends Component<SidebarOptions, {
             .addClass(`has-sidebar-${side}`)
             .css(`--sidebar-${side}-width`, `${width}px`)
             .toggleClass(`is-sidebar-${side}-collapsed`, isCollapsed);
+
         if (this._moveable?.state) {
             $element.removeClass(TRANSITION_CLASS);
+        }
+
+        if (animation) {
+            this._raf = requestAnimationFrame(() => {
+                this.$parent.addClass(ANIMATION_CLASS);
+            });
         }
     }
 }
