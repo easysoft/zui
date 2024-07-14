@@ -144,27 +144,30 @@ function initCreators(element: HTMLElement, options: {update?: boolean} = {}): v
  * Bind toggle events.
  */
 function bindToggleEvents() {
-    $(document).on('click.zui.toggle mouseenter', '[data-toggle],[z-toggle]', function (this: HTMLElement, event) {
+    $(document).on('click.zui.toggle mouseenter', '[data-toggle],[zui-toggle]', function (this: HTMLElement, event) {
         const $this = $(this);
-        const toggle = ($this.dataset('toggle') || $this.attr('z-toggle')) as string;
-        if (!toggle) {
+        const toggleName = ($this.dataset('toggle') || $this.attr('zui-toggle')) as string;
+        if (!toggleName) {
             return;
         }
-        const TheComponentClass = Component.toggleMap.get(toggle) || getComponent(toggle);
-        const toggleSetting = TheComponentClass?.toggle;
-        if (!toggleSetting) {
+        const TheComponentClass = Component.toggleMap.get(toggleName) || getComponent(toggleName);
+        const toggleConfig = TheComponentClass?.toggle;
+        if (!toggleConfig) {
             return;
         }
 
-        const {trigger = 'click', skip = '[disabled],.disabled', check} = toggleSetting;
+        const {trigger = 'click', skip = '[disabled],.disabled', check} = toggleConfig;
         const eventTriggerType = event.type === 'mouseover' ? 'hover' : 'click';
         if (!trigger.includes(eventTriggerType) || (check && !check.call(TheComponentClass, this, eventTriggerType, event)) || (skip && $this.is(skip))) {
             return;
         }
 
-        const {onGet, onCreate, setOptions = true, getOptions, prevent = true, handler, onToggle} = toggleSetting;
+        const {onGet, onCreate, setOptions = true, getOptions, prevent = true, handler, onToggle} = toggleConfig;
+        const options = getOptions ? getOptions.call(TheComponentClass, this, event) : $this.dataset() as ComponentOptions;
+
+
         if (handler) {
-            handler.call(TheComponentClass, this, eventTriggerType, event);
+            handler.call(TheComponentClass, this, options, eventTriggerType, event);
             if (prevent) {
                 event.preventDefault();
             }
@@ -172,7 +175,6 @@ function bindToggleEvents() {
         }
 
         let component = onGet ? onGet.call(TheComponentClass, this) : TheComponentClass.get(this);
-        const options = getOptions ? getOptions.call(TheComponentClass, this, event) : $this.dataset() as ComponentOptions;
         if (!component) {
             const newComponent = onCreate ? onCreate.call(TheComponentClass, this, event, options) : (new TheComponentClass(this, options));
             if (!newComponent) {

@@ -9,7 +9,7 @@ export type ComponentToggleConfig = {
     trigger?: ComponentToggleTrigger | ComponentToggleTrigger[];
     skip?: Comparator;
     check?: (this: typeof Component, element: HTMLElement, type: ComponentToggleTrigger, event: Event) => boolean;
-    handler?: (this: typeof Component, element: HTMLElement, type: ComponentToggleTrigger, event: Event) => void;
+    handler?: (this: typeof Component, element: HTMLElement, options: ComponentOptions, type: ComponentToggleTrigger, event: Event) => void;
     getOptions?: (this: typeof Component, element: HTMLElement, event: Event) => Record<string, unknown>;
     setOptions?: boolean;
     prevent?: boolean;
