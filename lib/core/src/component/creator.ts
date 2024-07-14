@@ -213,16 +213,19 @@ function bindToggleEvents() {
 }
 
 /** Define the $.fn.zuiInit method. */
-$.fn.zuiInit = function (this: Cash, options?: {update?: boolean}) {
+$.fn.zuiInit = function (this: Cash, options?: {update?: boolean, beforeCreate?: (element: HTMLElement) => boolean | void}) {
     this.find('[zui-create],[data-zui]').each(function () {
+        if (options?.beforeCreate?.(this) === false) {
+            return;
+        }
         initCreators(this, options);
     });
     this.find('[zui-init]').each(function () {
-        const $element = $(this);
-        if ($element.z('zuiInited')) {
+        if (this.hasAttribute('z-zui-inited')) {
             return;
         }
-        $.runJS($element.z('zuiInited', true).attr('zui-init') as string, ['$element', $element]);
+        this.setAttribute('z-zui-inited', '');
+        $.runJS(this.getAttribute('zui-init')!, ['$element', $(this)]);
     });
     this.find('.hide-before-init').removeClass('invisible hidden opacity-0');
     this.find('.scroll-into-view').scrollIntoView();
