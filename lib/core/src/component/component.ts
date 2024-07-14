@@ -4,7 +4,7 @@ import {nextGid} from '../helpers';
 import {isElementDetached} from '../dom/is-detached';
 
 import type {Cash, Element, Selector} from '../cash';
-import type {ComponentEventArgs, ComponentEventName, ComponentOptions, ComponentEvents, ComponentEventsDefnition} from './types';
+import type {ComponentEventArgs, ComponentEventName, ComponentOptions, ComponentEvents, ComponentEventsDefnition, ComponentToggleConfig} from './types';
 
 /**
  * The event callback for component.
@@ -37,6 +37,11 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
      * It will be merged with global i18n data.
      */
     static i18n: I18nLangMap | undefined;
+
+    /**
+     * The component toggle config.
+     */
+    static toggle: ComponentToggleConfig | undefined;
 
     /**
      * ZUI name

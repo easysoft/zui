@@ -140,6 +140,78 @@ function initCreators(element: HTMLElement, options: {update?: boolean} = {}): v
     }
 }
 
+/**
+ * Bind toggle events.
+ */
+function bindToggleEvents() {
+    $(document).on('click.zui.toggle pointerenter.zui.toggle', '[data-toggle],[z-toggle]', function (this: HTMLElement, event) {
+        const $this = $(this);
+        const toggle = ($this.dataset('toggle') || $this.attr('z-toggle')) as string;
+        if (!toggle) {
+            return;
+        }
+        const TheComponentClass = getComponent(toggle);
+        const toggleSetting = TheComponentClass?.toggle;
+        if (!toggleSetting) {
+            return;
+        }
+
+        const {trigger = 'click', skip = '[disabled],.disabled', check} = toggleSetting;
+        const eventTriggerType = event.type === 'pointerenter' ? 'hover' : 'click';
+        if (!trigger.includes(eventTriggerType) || (check && !check.call(TheComponentClass, this, eventTriggerType, event)) || (skip && $this.is(skip))) {
+            return;
+        }
+
+        const {onGet, onCreate, setOptions = true, prevent = true, onToggle} = toggleSetting;
+        let component = onGet ? onGet.call(TheComponentClass, this) : TheComponentClass.get(this);
+        const options = $this.dataset() as ComponentOptions;
+        if (!component) {
+            const newComponent = onCreate ? onCreate.call(TheComponentClass, this, event, options) : (new TheComponentClass(this, options));
+            if (!newComponent) {
+                return;
+            }
+            component = newComponent;
+        } else if (setOptions) {
+            component.setOptions(options);
+        }
+
+        if (onToggle) {
+            if (onToggle.call(TheComponentClass, component, event) === false) {
+                return;
+            }
+        } else {
+            const {shown, show, hide, toggle: toggleFunc} = component as unknown as {
+                shown?: boolean,
+                show?: () => void,
+                hide?: () => void,
+                toggle?: () => void,
+            };
+
+            let func: (() => void) | undefined;
+            if (toggleFunc) {
+                func = toggleFunc;
+            } else if (show && hide) {
+                if (shown) {
+                    func = hide;
+                } else {
+                    func = show;
+                }
+            } else if (show) {
+                func = show;
+            }
+            if (func) {
+                func.call(component);
+            } else {
+                return;
+            }
+        }
+
+        if (prevent) {
+            event.preventDefault();
+        }
+    });
+}
+
 /** Define the $.fn.zuiInit method. */
 $.fn.zuiInit = function (this: Cash, options?: {update?: boolean}) {
     this.find('[zui-create],[data-zui]').each(function () {
@@ -208,7 +280,10 @@ $.fn.zuiCall = function (this: Cash, componentMethod: string, args: unknown[] = 
     return this;
 };
 
-/** Auto call creator on elements match [data-zui]. */
 $(() => {
+    // Init zui creators and call [zui-init] code.
     $('body').zuiInit({update: true});
+
+    // Bind toggle events.
+    bindToggleEvents();
 });
