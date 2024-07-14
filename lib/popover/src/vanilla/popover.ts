@@ -513,15 +513,24 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
     }
 }
 
-$(document).on(`click${Popover.NAMESPACE} mouseenter${Popover.NAMESPACE}`, TOGGLE_SELECTOR, (event: MouseEvent) => {
-    const $toggleBtn = $(event.currentTarget as HTMLElement);
-    if ($toggleBtn.length && !$toggleBtn.data(Popover.KEY)) {
-        const trigger = $toggleBtn.data('trigger') || 'click';
-        const eventForTrigger = event.type === 'mouseover' ? 'hover' : 'click';
-        if (eventForTrigger !== trigger) {
-            return;
+Popover.toggle = {
+    trigger: ['click', 'hover'],
+    check(element, type) {
+        const $element = $(element);
+        if ($element.data(this.KEY)) {
+            return false;
         }
-        Popover.ensure($toggleBtn, {show: true, triggerEvent: event});
-        event.preventDefault();
-    }
-});
+        if (type === 'hover') {
+            return $element.dataset('trigger') === 'hover';
+        }
+        return true;
+    },
+    onCreate(element, event, options) {
+        return new this(element, {triggerEvent: event, ...options});
+    },
+    onToggle(component, event) {
+        (component as Popover).toggle({event});
+    },
+};
+
+Popover.register();
