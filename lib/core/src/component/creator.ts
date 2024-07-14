@@ -144,7 +144,7 @@ function initCreators(element: HTMLElement, options: {update?: boolean} = {}): v
  * Bind toggle events.
  */
 function bindToggleEvents() {
-    $(document).on('click.zui.toggle pointerenter.zui.toggle', '[data-toggle],[z-toggle]', function (this: HTMLElement, event) {
+    $(document).on('click.zui.toggle mouseenter', '[data-toggle],[z-toggle]', function (this: HTMLElement, event) {
         const $this = $(this);
         const toggle = ($this.dataset('toggle') || $this.attr('z-toggle')) as string;
         if (!toggle) {
@@ -157,7 +157,7 @@ function bindToggleEvents() {
         }
 
         const {trigger = 'click', skip = '[disabled],.disabled', check} = toggleSetting;
-        const eventTriggerType = event.type === 'pointerenter' ? 'hover' : 'click';
+        const eventTriggerType = event.type === 'mouseenter' ? 'hover' : 'click';
         if (!trigger.includes(eventTriggerType) || (check && !check.call(TheComponentClass, this, eventTriggerType, event)) || (skip && $this.is(skip))) {
             return;
         }
