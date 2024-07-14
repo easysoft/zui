@@ -521,7 +521,7 @@ Popover.toggle = {
             return false;
         }
         if (type === 'hover') {
-            return $element.dataset('trigger') === 'hover';
+            return ($element.dataset('trigger') || (this as typeof Popover).DEFAULT.trigger) === 'hover';
         }
         return true;
     },
