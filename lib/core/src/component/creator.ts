@@ -162,7 +162,15 @@ function bindToggleEvents() {
             return;
         }
 
-        const {onGet, onCreate, setOptions = true, prevent = true, onToggle} = toggleSetting;
+        const {onGet, onCreate, setOptions = true, prevent = true, handler, onToggle} = toggleSetting;
+        if (handler) {
+            handler.call(TheComponentClass, this, eventTriggerType, event);
+            if (prevent) {
+                event.preventDefault();
+            }
+            return;
+        }
+
         let component = onGet ? onGet.call(TheComponentClass, this) : TheComponentClass.get(this);
         const options = $this.dataset() as ComponentOptions;
         if (!component) {
