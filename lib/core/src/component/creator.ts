@@ -16,12 +16,12 @@ export function getComponent(name: string): ComponentClass | undefined {
 }
 
 export function create(name: string, element: HTMLElement, options: ComponentCreateOptions = {}) {
-    const TheComponent = getComponent(name);
-    if (!TheComponent) {
+    const TheComponentClass = getComponent(name);
+    if (!TheComponentClass) {
         return null;
     }
-    if (!TheComponent.MULTI_INSTANCE) {
-        const component = TheComponent.get(element);
+    if (!TheComponentClass.MULTI_INSTANCE) {
+        const component = TheComponentClass.get(element);
         if (component) {
             if (options.$update) {
                 delete options.$update;
@@ -32,7 +32,7 @@ export function create(name: string, element: HTMLElement, options: ComponentCre
             return component;
         }
     }
-    return new TheComponent(element, options);
+    return new TheComponentClass(element, options);
 }
 
 function createInAnimationFrame(name: string, element: HTMLElement, options: ComponentCreateOptions = {}) {
@@ -47,11 +47,11 @@ export function initGlobalComponents() {
     const {zui} = window as unknown as {zui: Record<string, ComponentClass>};
     if (zui) {
         Object.keys(zui).forEach((n) => {
-            const TheComponent = zui[n];
-            if (!TheComponent.NAME || !TheComponent.ZUI) {
+            const TheComponentClass = zui[n];
+            if (!TheComponentClass.NAME || !TheComponentClass.ZUI) {
                 return;
             }
-            registerComponent(TheComponent);
+            registerComponent(TheComponentClass);
         });
     }
 }
@@ -61,8 +61,8 @@ export function defineFn(name?: string) {
         getComponent(name)?.defineFn();
     } else {
         initGlobalComponents();
-        Component.map.forEach((TheComponent) => {
-            TheComponent.defineFn();
+        Component.map.forEach((TheComponentClass) => {
+            TheComponentClass.defineFn();
         });
     }
 }
@@ -184,14 +184,14 @@ $.fn.zui = function (this: Cash, name?: string | true, key?: string | number | t
         });
         return name === true ? result : lastComponent;
     }
-    const TheComponent = getComponent(name);
-    if (!TheComponent) {
+    const TheComponentClass = getComponent(name);
+    if (!TheComponentClass) {
         return $(element).data(`zui.${name}`);
     }
     if (key === true) {
-        return TheComponent.getAll(element);
+        return TheComponentClass.getAll(element);
     }
-    return TheComponent.query(element, key);
+    return TheComponentClass.query(element, key);
 };
 
 $.fn.zuiCall = function (this: Cash, componentMethod: string, args: unknown[] = []) {

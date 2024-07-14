@@ -59,14 +59,23 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
         return `.zui.${this.ZUI}`;
     }
 
+    /**
+     * @deprecated Use ATTR_KEY instead.
+     */
     static get DATA_KEY(): `data-zui-${string}` {
         return `data-zui-${this.NAME}`;
     }
 
+    /**
+     * Component attribute key, like "z-use-menu"
+     */
     static get ATTR_KEY(): `z-use-${string}` {
         return `z-use-${this.NAME}`;
     }
 
+    /**
+     * The component default selector.
+     */
     static get SELECTOR() {
         return `[${this.DATA_KEY}]`;
     }
@@ -436,7 +445,7 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    static isValid<O extends {}, E extends ComponentEvents, U extends HTMLElement, T extends typeof Component<O, E, U>>(instance: InstanceType<T>): boolean {
+    static isValid<O extends {}, E extends ComponentEvents, U extends HTMLElement, T extends typeof Component<O, E, U>>(this: T, _instance: InstanceType<T>): boolean {
         return true;
     }
 
