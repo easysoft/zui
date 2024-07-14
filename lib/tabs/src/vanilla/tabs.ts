@@ -50,11 +50,15 @@ export class Tabs extends Component<{}, {show: [target: string], shown: [target:
     }
 }
 
-$(document).on('click.tabs.zui', NAV_ITEM_SELECTOR, (event: MouseEvent) => {
-    event.preventDefault();
-    const $target = $(event.target as HTMLElement);
-    const $nav = $target.closest(`.${NAV_CLASS}`);
-    if ($nav.length) {
-        Tabs.ensure($nav).active($target);
-    }
-});
+Tabs.toggle = {
+    name: 'tab',
+    handler(element) {
+        const $target = $(element);
+        const $nav = $target.closest(`.${NAV_CLASS}`);
+        if ($nav.length) {
+            Tabs.ensure($nav).active($target);
+        }
+    },
+};
+
+Tabs.register();
