@@ -162,7 +162,7 @@ function bindToggleEvents() {
             return;
         }
 
-        const {onGet, onCreate, setOptions = true, prevent = true, handler, onToggle} = toggleSetting;
+        const {onGet, onCreate, setOptions = true, getOptions, prevent = true, handler, onToggle} = toggleSetting;
         if (handler) {
             handler.call(TheComponentClass, this, eventTriggerType, event);
             if (prevent) {
@@ -172,7 +172,7 @@ function bindToggleEvents() {
         }
 
         let component = onGet ? onGet.call(TheComponentClass, this) : TheComponentClass.get(this);
-        const options = $this.dataset() as ComponentOptions;
+        const options = getOptions ? getOptions.call(TheComponentClass, this, event) : $this.dataset() as ComponentOptions;
         if (!component) {
             const newComponent = onCreate ? onCreate.call(TheComponentClass, this, event, options) : (new TheComponentClass(this, options));
             if (!newComponent) {
