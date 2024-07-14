@@ -157,7 +157,7 @@ function bindToggleEvents() {
         }
 
         const {trigger = 'click', skip = '[disabled],.disabled', check} = toggleSetting;
-        const eventTriggerType = event.type === 'mouseenter' ? 'hover' : 'click';
+        const eventTriggerType = event.type === 'mouseover' ? 'hover' : 'click';
         if (!trigger.includes(eventTriggerType) || (check && !check.call(TheComponentClass, this, eventTriggerType, event)) || (skip && $this.is(skip))) {
             return;
         }
