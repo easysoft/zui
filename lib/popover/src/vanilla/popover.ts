@@ -528,7 +528,7 @@ Popover.toggle = {
     onCreate(element, event, options) {
         return new this(element, {triggerEvent: event, ...options});
     },
-    onToggle(component, event) {
+    onToggle(component, _element, event) {
         (component as Popover).toggle({event});
     },
 };
