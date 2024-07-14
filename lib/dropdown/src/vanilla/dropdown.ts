@@ -6,8 +6,6 @@ import type {ComponentType} from 'preact';
 import type {PopoverPanelOptions} from '@zui/popover';
 import type {DropdownOptions, DropdownMenuOptions} from '../types';
 
-const TOGGLE_SELECTOR = '[data-toggle="dropdown"]';
-
 export class Dropdown<O extends DropdownOptions = DropdownOptions> extends Popover<O> {
     static NAME = 'Dropdown';
 
@@ -57,31 +55,15 @@ export class Dropdown<O extends DropdownOptions = DropdownOptions> extends Popov
     };
 }
 
-
-$(document).on(`click${Dropdown.NAMESPACE} mouseenter${Dropdown.NAMESPACE}`, TOGGLE_SELECTOR, (event: MouseEvent) => {
-    const $toggleBtn = $(event.currentTarget as HTMLElement);
-    if ($toggleBtn.length && !$toggleBtn.data(Dropdown.KEY) && !$toggleBtn.is('[disabled],.disabled')) {
-        const data = $toggleBtn.data() || {};
-        const trigger = data.trigger || 'click';
-        const eventForTrigger = event.type === 'mouseover' ? 'hover' : 'click';
-        if (eventForTrigger !== trigger) {
-            return;
-        }
-        const options: DropdownOptions = {
-            ...data,
-            show: true,
-            triggerEvent: event,
-        };
-        if (!options.target && $toggleBtn.is('a')) {
-            const href = $toggleBtn.attr('href') as string;
-            if (href && '#.'.includes(href[0])) {
-                options.target = href;
-            }
-        }
+Dropdown.toggle = {
+    ...Popover.toggle,
+    getOptions(element, event) {
+        const options = Popover.toggle!.getOptions!.call(this, element, event);
         if (!options.target && !options.items && !options.menu) {
-            options.target = $toggleBtn.next('.dropdown-menu');
+            options.target = $(element).next('.dropdown-menu');
         }
-        Dropdown.ensure($toggleBtn, options);
-        event.preventDefault();
-    }
-});
+        return options;
+    },
+};
+
+Dropdown.register();
