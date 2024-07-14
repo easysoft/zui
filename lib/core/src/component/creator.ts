@@ -176,7 +176,7 @@ function bindToggleEvents() {
         }
 
         if (onToggle) {
-            if (onToggle.call(TheComponentClass, component, event) === false) {
+            if (onToggle.call(TheComponentClass, component, this, event) === false) {
                 return;
             }
         } else {
