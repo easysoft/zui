@@ -5,6 +5,7 @@ import type {ComponentOptions} from './component-options';
 export type ComponentToggleTrigger = 'click' | 'hover';
 
 export type ComponentToggleConfig = {
+    name?: string;
     trigger?: ComponentToggleTrigger | ComponentToggleTrigger[];
     skip?: Comparator;
     check?: (this: typeof Component, element: HTMLElement, type: ComponentToggleTrigger, event: Event) => boolean;

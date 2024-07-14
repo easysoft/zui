@@ -150,7 +150,7 @@ function bindToggleEvents() {
         if (!toggle) {
             return;
         }
-        const TheComponentClass = getComponent(toggle);
+        const TheComponentClass = Component.toggleMap.get(toggle) || getComponent(toggle);
         const toggleSetting = TheComponentClass?.toggle;
         if (!toggleSetting) {
             return;

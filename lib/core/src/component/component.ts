@@ -570,8 +570,16 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
 
     static map = new Map<string, typeof Component>();
 
+    static toggleMap = new Map<string, typeof Component>();
+
     static register(ComponentClass?: typeof Component, name?: string) {
         ComponentClass = ComponentClass || this;
-        this.map.set((name ?? ComponentClass.NAME).toLowerCase(), ComponentClass);
+        name = (name ?? ComponentClass.NAME).toLowerCase();
+        this.map.set(name, ComponentClass);
+
+        const toggleName = ComponentClass.toggle?.name?.toLowerCase();
+        if (toggleName && toggleName !== name) {
+            this.toggleMap.set(toggleName, ComponentClass);
+        }
     }
 }
