@@ -52,11 +52,11 @@ export class Tabs extends Component<{}, {show: [target: string], shown: [target:
 
 Tabs.toggle = {
     name: 'tab',
-    handler(element) {
+    handler(element, options) {
         const $target = $(element);
         const $nav = $target.closest(`.${NAV_CLASS}`);
         if ($nav.length) {
-            Tabs.ensure($nav).active($target);
+            Tabs.ensure($nav, options as {}).active($target);
         }
     },
 };
