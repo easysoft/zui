@@ -4,8 +4,6 @@ import {PopoverEvents, PopoverOptions, PopoverPanelOptions} from '../types';
 import {PopoverPanel} from './popover-panel';
 import {isElementDetached} from '@zui/core/src/dom';
 
-const TOGGLE_SELECTOR = '[data-toggle="popover"]';
-
 const CLASS_SHOW = 'show';
 
 const CLASS_SHOWN = 'in';
@@ -525,8 +523,19 @@ Popover.toggle = {
         }
         return true;
     },
-    onCreate(element, event, options) {
-        return new this(element, {triggerEvent: event, ...options});
+    getOptions(element, event) {
+        const $element = $(element);
+        const options: Record<string, unknown> = {
+            triggerEvent: event,
+            ...$element.dataset(),
+        };
+        if (!options.target && $element.is('a')) {
+            const href = $element.attr('href') as string;
+            if (href && '#.'.includes(href[0])) {
+                options.target = href;
+            }
+        }
+        return options;
     },
     onToggle(component, _element, event) {
         (component as Popover).toggle({event});
