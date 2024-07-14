@@ -9,7 +9,7 @@ const ACTIVE_CLASS = 'active';
 export class Tabs extends Component<{}, {show: [target: string], shown: [target: string]}> {
     static NAME = 'Tabs';
 
-    #timer = 0;
+    _timer = 0;
 
     active(selector?: Selector) {
         const $nav = this.$element;
@@ -39,13 +39,13 @@ export class Tabs extends Component<{}, {show: [target: string], shown: [target:
         $activePane.addClass('active').trigger('show', [name]);
 
         this.emit('show', name);
-        if (this.#timer) {
-            clearTimeout(this.#timer);
+        if (this._timer) {
+            clearTimeout(this._timer);
         }
-        this.#timer = setTimeout(() => {
+        this._timer = setTimeout(() => {
             $activePane.addClass('in').trigger('shown', [name]);
             this.emit('shown', name);
-            this.#timer = 0;
+            this._timer = 0;
         }, 10) as unknown as number;
     }
 }
