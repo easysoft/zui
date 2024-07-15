@@ -513,6 +513,7 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
 
 Popover.toggle = {
     trigger: ['click', 'hover'],
+    convertHref: {selector: 'target'},
     check(element, type) {
         const $element = $(element);
         if ($element.data(this.KEY)) {
@@ -523,19 +524,11 @@ Popover.toggle = {
         }
         return true;
     },
-    getOptions(element, event) {
-        const $element = $(element);
-        const options: Record<string, unknown> = {
+    getOptions(_element, options, event) {
+        return {
             triggerEvent: event,
-            ...$element.dataset(),
+            ...options,
         };
-        if (!options.target && $element.is('a')) {
-            const href = $element.attr('href') as string;
-            if (href && '#.'.includes(href[0])) {
-                options.target = href;
-            }
-        }
-        return options;
     },
     onToggle(component, _element, event) {
         (component as Popover).toggle({event});
