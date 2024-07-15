@@ -57,8 +57,8 @@ export class Dropdown<O extends DropdownOptions = DropdownOptions> extends Popov
 
 Dropdown.toggle = {
     ...Popover.toggle,
-    getOptions(element, event) {
-        const options = Popover.toggle!.getOptions!.call(this, element, event);
+    getOptions(element, options, event) {
+        options = Popover.toggle!.getOptions!.call(this, element, options, event);
         if (!options.target && !options.items && !options.menu) {
             options.target = $(element).next('.dropdown-menu');
         }
