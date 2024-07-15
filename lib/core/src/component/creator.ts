@@ -1,4 +1,5 @@
 import {$, Cash} from '../cash';
+import {evalValue} from '../helpers';
 import {takeData} from '../helpers/data';
 import {getZData} from '../helpers/z';
 import {Component} from './component';
@@ -59,11 +60,12 @@ export function initGlobalComponents() {
 export function defineFn(name?: string) {
     if (name) {
         getComponent(name)?.defineFn();
-    } else {
+    } else if (!(window as unknown as {_zuiDefined: Record<string, ComponentClass>})._zuiDefined) {
         initGlobalComponents();
         Component.map.forEach((TheComponentClass) => {
             TheComponentClass.defineFn();
         });
+        Object.assign(window, {_zuiDefined: true});
     }
 }
 
