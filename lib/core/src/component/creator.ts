@@ -162,9 +162,28 @@ function bindToggleEvents() {
             return;
         }
 
-        const {onGet, onCreate, setOptions = true, getOptions, prevent = true, handler, onToggle} = toggleConfig;
-        const options = getOptions ? getOptions.call(TheComponentClass, this, event) : $this.dataset() as ComponentOptions;
-
+        const {onGet, onCreate, setOptions = true, getOptions, prevent = true, handler, onToggle, convertHref} = toggleConfig;
+        let options = $this.dataset() as Record<string, unknown>;
+        const toggleOptions = $this.attr(`zui-toggle-${toggleName}`);
+        if (toggleOptions) {
+            options = $.extend(options, evalValue(toggleOptions));
+        }
+        if (convertHref && $this.is('a')) {
+            const href = $this.attr('href');
+            if (href) {
+                const hrefMap = convertHref === true ? {selector: 'target', url: 'url'} : convertHref;
+                if ('#.'.includes(href[0])) {
+                    if (hrefMap.selector && options[hrefMap.selector] === undefined) {
+                        options[hrefMap.selector] = href;
+                    }
+                } else if (hrefMap.url && options[hrefMap.url] === undefined) {
+                    options[hrefMap.url] = href;
+                }
+            }
+        }
+        if (getOptions) {
+            options = getOptions.call(TheComponentClass, this, options, event);
+        }
 
         if (handler) {
             handler.call(TheComponentClass, this, options, eventTriggerType, event);

@@ -10,8 +10,9 @@ export type ComponentToggleConfig = {
     skip?: Comparator;
     check?: (this: typeof Component, element: HTMLElement, type: ComponentToggleTrigger, event: Event) => boolean;
     handler?: (this: typeof Component, element: HTMLElement, options: ComponentOptions, type: ComponentToggleTrigger, event: Event) => void;
-    getOptions?: (this: typeof Component, element: HTMLElement, event: Event) => Record<string, unknown>;
+    getOptions?: (this: typeof Component, element: HTMLElement, options: Record<string, unknown>, event: Event) => Record<string, unknown>;
     setOptions?: boolean;
+    convertHref?: boolean | {selector?: string; url?: string};
     prevent?: boolean;
     onGet?: (this: typeof Component, element: HTMLElement) => Component | void;
     onCreate?: (this: typeof Component, element: HTMLElement, event: Event, options: ComponentOptions) => Component | false;
