@@ -94,8 +94,10 @@ export class ModalTrigger extends Component<ModalTriggerOptions> {
     }
 }
 
-Modal.toggle = {
+ModalTrigger.toggle = {
+    name: 'modal',
     skip: '[disabled],.disabled,.open-in-parent',
+    convertHref: true,
     onGet(element: HTMLElement) {
         return ModalTrigger.get(element);
     },
@@ -103,3 +105,5 @@ Modal.toggle = {
         return new ModalTrigger(element, options);
     },
 };
+
+ModalTrigger.register();
