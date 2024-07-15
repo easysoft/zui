@@ -181,7 +181,7 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
         this.setOptions(options);
         this._key = this.options.key ?? `__${gid}`;
 
-        $element.data(KEY, this).attr(DATA_KEY, `${gid}`).attr(ATTR_KEY, '');
+        $element.data(KEY, this).attr(ATTR_KEY, '').attr(DATA_KEY, `${gid}`);
         if (MULTI_INSTANCE) {
             const dataName = `${KEY}:ALL`;
             let instanceMap: Map<string | number, Component> | undefined = $element.data(dataName);
