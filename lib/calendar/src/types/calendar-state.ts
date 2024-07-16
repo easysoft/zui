@@ -1,7 +1,4 @@
 export interface CalendarState {
-    state: {};
-    props: {};
-    context: {};
-    setState: {};
-    selectedDate?: Date;
+    month: number;
+    year: number;
 }

@@ -1,7 +1,8 @@
 import type {HElementProps} from '@zui/core';
 export interface CalendarHeaderProps extends HElementProps {
-    selectDate?: Array<string>;
-    onTodayClick?: () => void;
+    month?:number;
+    year?:number;
+    onDateClick?: (month: number, year: number) => void;
     onMonthChange?: (direction: 'prev' | 'next') => void;
     locale?: 'zh-CN' | 'zh-TW' | 'en';
 }
