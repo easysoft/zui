@@ -7,3 +7,5 @@ export class Picker extends ComponentFromReact<PickerOptions, PickerReact> {
 
     static Component = PickerReact;
 }
+
+Picker.register();
