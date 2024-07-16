@@ -4,14 +4,14 @@
 
 ## 效果
 
-<Example class="col gap-6" background="light-grid">
+<Example class="gap-6 col" background="light-grid">
   <div v-for="group in colors" :key="group.name || group.title">
     <div class="mb-3 font-bold">{{group.title}}</div>
-    <div class="row flex-wrap gap-4">
+    <div class="flex-wrap gap-4 row">
       <StyleTile
           v-for="item in group.items"
           :key="item.name"
-          tileClass="rounded h-8 w-28 font-mono text-sm"
+          tileClass="state rounded h-8 w-28 font-mono text-sm"
           :title="true"
           v-bind="{...item}"
       />
@@ -25,16 +25,16 @@
 
 == 示例
 
-<Example class="col items-start gap-3">
+<Example class="items-start gap-3 col">
   <button class="btn primary-ghost">Primary Button</button>
-  <div class="ghost p-2 state">Ghost Element</div>
+  <div class="p-2 ghost state">Ghost Element</div>
 </Example>
 
 == HTML
 
 ```html
 <button class="btn primary-ghost">Primary Button</button>
-<div class="ghost p-2 state">Ghost Element</div>
+<div class="p-2 ghost state">Ghost Element</div>
 ```
 
 :::
