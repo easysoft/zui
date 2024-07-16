@@ -78,6 +78,10 @@ declare module 'cash-dom' {
     }
 }
 
+export type BeforeCreateCallback = (element: HTMLElement) => boolean | void;
+
+export type OnCreateCallback = (name: string, options: Record<string, unknown>) => false | Record<string, unknown> | void;
+
 /**
  * Create zui component instance from elements which match [zui-create], [data-zui], [data-zui] is deprecated, use [zui-create] instead.
  * 为匹配 [zui-create], [data-zui] 的元素创建 zui 组件实例，[data-zui] 被弃用，优先使用 [zui-create]。
@@ -94,13 +98,26 @@ declare module 'cash-dom' {
  * <div data-zui="list" data-items='[{"text": "item1"}, {"text": "item2"}]'>Deprecated usage</div>
  * ```
  */
-function initCreators(element: HTMLElement, options: {update?: boolean} = {}): void {
+function initCreators(element: HTMLElement, options: {update?: boolean, onCreate?: OnCreateCallback} = {}): void {
     const $element = $(element);
     let createNames = $element.attr('zui-create');
-    const $update = options.update;
-    const defaultCreateOptions = {
-        $update,
-        $optionsFromDataset: false,
+    const {update: $update, onCreate} = options;
+    const createInstance = (name: string, createOptions?: Record<string, unknown>) => {
+        createOptions = {
+            $update,
+            $optionsFromDataset: false,
+            ...createOptions,
+        };
+        if (onCreate) {
+            const newCreateOptions = onCreate(name, createOptions);
+            if (newCreateOptions === false) {
+                return;
+            }
+            if (newCreateOptions) {
+                createOptions = newCreateOptions;
+            }
+        }
+        createInAnimationFrame(name, element, createOptions);
     };
     if (typeof createNames === 'string') {
         createNames = createNames.trim();
@@ -108,10 +125,7 @@ function initCreators(element: HTMLElement, options: {update?: boolean} = {}): v
         const createOptionsMap = getZData(element, {prefix: 'zui-create-', evalValue: true})!;
         const createOptionsNames = Object.keys(createOptionsMap);
         if (!createOptionsNames.length && names.length === 1) {
-            createInAnimationFrame(names[0], element, {
-                ...defaultCreateOptions,
-                ...$element.dataset(),
-            });
+            createInstance(names[0], $element.dataset());
         } else {
             const initedNames = new Set<string>();
             [...names, ...createOptionsNames].forEach(name => {
@@ -119,10 +133,7 @@ function initCreators(element: HTMLElement, options: {update?: boolean} = {}): v
                     return;
                 }
                 const createOptions = createOptionsMap[name] as ComponentCreateOptions | undefined;
-                createInAnimationFrame(name, element, {
-                    ...defaultCreateOptions,
-                    ...createOptions,
-                });
+                createInstance(name, createOptions);
                 delete createOptionsMap[name];
                 initedNames.add(name);
             });
@@ -135,10 +146,7 @@ function initCreators(element: HTMLElement, options: {update?: boolean} = {}): v
         }
         console.warn('[ZUI] create component instance with [data-zui] is deprecated, use [zui-create] instead.', {element, options});
         delete initOptions!.zui;
-        createInAnimationFrame(name, element, {
-            ...defaultCreateOptions,
-            ...initOptions,
-        });
+        createInstance(name, initOptions);
     }
 }
 
@@ -244,7 +252,7 @@ function bindToggleEvents() {
 }
 
 /** Define the $.fn.zuiInit method. */
-$.fn.zuiInit = function (this: Cash, options?: {update?: boolean, beforeCreate?: (element: HTMLElement) => boolean | void}) {
+$.fn.zuiInit = function (this: Cash, options?: {update?: boolean, beforeCreate?: BeforeCreateCallback, onCreate?: OnCreateCallback}) {
     this.find('[zui-create],[data-zui]').each(function () {
         if (options?.beforeCreate?.(this) === false) {
             return;
