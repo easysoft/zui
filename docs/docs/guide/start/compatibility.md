@@ -17,3 +17,14 @@
 * [cash-dom](https://hmble.github.io/cash/) - 提供了大量辅助方法方便操作 DOM，同时提供了对 jQuery 的兼容实用方式
 * [floating UI](https://floating-ui.com/) - 实现浮动交互定位，例如下拉菜单、工具提示等
 * [tinykeys](https://github.com/jamiebuilds/tinykeys/) - 实现快捷键功能
+
+## 技术栈
+
+* Node.js 18+
+* 包管理器：[pnpm](https://pnpm.io/zh/)
+* 构建工具：[Vite](https://cn.vitejs.dev/)
+* CSS 工具库：[TailwindCSS](https://tailwindcss.com/)
+* 静态文档网站生成：[VitePress](https://vitepress.dev/)
+* TypeScript 4.5+
+* 字体图标生成：[Fantasticon](https://github.com/tancredi/fantasticon)
+* JS 组件开发 [preact.js](https://preactjs.com/)
