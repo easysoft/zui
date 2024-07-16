@@ -1,5 +1,4 @@
 import {createRef} from 'preact';
-import {$} from '@zui/core';
 import {Button} from '@zui/button/src/component/button';
 import {BtnGroup} from '@zui/btn-group/src/component';
 import {Toolbar} from '@zui/toolbar/src/component';
@@ -20,7 +19,6 @@ export class DropdownButton extends Button<DropdownButtonOptions> {
 
     _updateData() {
         const {dropdown, menu, items, onClickItem, relativeTarget = this.triggerElement} = this.props;
-        const $trigger = $(this.triggerElement);
         const instance = Dropdown.get(this.triggerElement);
         const options = {
             items,
@@ -32,7 +30,7 @@ export class DropdownButton extends Button<DropdownButtonOptions> {
         if (instance) {
             instance.setOptions(options);
         } else {
-            $trigger.data(options);
+            new Dropdown(this.triggerElement, options);
         }
     }
 
