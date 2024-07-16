@@ -7,3 +7,5 @@ export class TimePicker extends ComponentFromReact<TimePickerOptions, TimePicker
 
     static Component = TimePickerReact;
 }
+
+TimePicker.register();

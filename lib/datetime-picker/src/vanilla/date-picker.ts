@@ -7,3 +7,5 @@ export class DatePicker extends ComponentFromReact<DatePickerOptions, DatePicker
 
     static Component = DatePickerReact;
 }
+
+DatePicker.register();
