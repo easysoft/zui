@@ -184,6 +184,14 @@ function createSidebar() {
         const files = glob.sync(`*/*/**/*.md`, {onlyFiles: true, cwd: libDocsPath});
         updateSections(files, sidebars, libDocsPath, lib);
     });
+
+    const orders = {
+        '介绍': 1,
+        '快速上手': 2,
+        '教程': 3,
+        '兼容性': 4,
+    };
+
     Object.keys(sidebars).forEach(key => {
         sidebars[key] = sidebars[key].filter(section => {
             if (section.hidden || !section.items?.length) {
@@ -191,6 +199,11 @@ function createSidebar() {
             }
             if (section.items) {
                 section.items = section.items.sort((a, b) => {
+                    const order1 = orders[a.text!];
+                    const order2 = orders[b.text!];
+                    if (typeof order1 === 'number' && typeof order2 === 'number') {
+                        return order1 - order2;
+                    }
                     let result = (a.lib ? 1 : 0) - (b.lib ? 1 : 0);
                     if (result !== 0) {
                         return result;
