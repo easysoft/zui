@@ -7,7 +7,7 @@
 == 示例
 
 <Example>
-  <div data-zui="timePicker"></div>
+  <div zui-create="timePicker"></div>
 </Example>
 
 == HTML
@@ -31,8 +31,8 @@ const timePicker = new zui.TimePicker('#timePicker');
 == 示例
 
 <Example className="row gap-3">
-  <div data-zui="timePicker" data-default-value="9:42"></div>
-  <div data-zui="timePicker" data-default-value="now"></div>
+  <div zui-create="timePicker" data-default-value="9:42"></div>
+  <div zui-create="timePicker" data-default-value="now"></div>
 </Example>
 
 == HTML
@@ -62,7 +62,7 @@ const timePicker2 = new zui.DatePicker('#timePicker2', {
 == 示例
 
 <Example>
-  <div data-zui="timePicker" data-format="hh:mm"></div>
+  <div zui-create="timePicker" data-format="hh:mm"></div>
 </Example>
 
 == HTML
