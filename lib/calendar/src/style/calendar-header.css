@@ -1,0 +1,27 @@
+.calendar-header {
+    @apply -flex -items-center -justify-between -p-4 -border-b -border-gray-200;
+}
+
+.calendar-header-left {
+    @apply -flex -items-center;
+}
+
+.calendar-content {
+    @apply -text-lg;
+}
+
+.calendar-header-left .btn-first {
+    @apply -mr-4 -px-4 -py-2 -rounded-md -text-sm -font-medium -text-center;
+}
+
+.btn-left {
+    background: #f2f2f2;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.btn-right {
+    background: #f2f2f2;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
