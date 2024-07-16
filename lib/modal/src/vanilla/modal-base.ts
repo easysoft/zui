@@ -195,7 +195,7 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
         if (constructor.hideOthers && this.options.hideOthers !== false) {
             constructor.getAll().forEach(x => {
                 if (x.shown && x !== this) {
-                    x.show();
+                    $(x.modalElement).removeClass(HIDE_CLASS);
                 }
             });
         }
