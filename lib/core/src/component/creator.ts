@@ -73,7 +73,7 @@ export function defineFn(name?: string) {
 /* Declare types. */
 declare module 'cash-dom' {
     interface Cash {
-        zuiInit(this: Cash, options?: {update?: boolean}): Cash;
+        zuiInit(this: Cash, options?: {update?: boolean, beforeCreate?: BeforeCreateCallback, onCreate?: OnCreateCallback}): Cash;
         zui(this: Cash, name?: string, key?: string | number | true): ComponentClass | ComponentClass[] | Record<string, ComponentClass> | undefined;
         zuiCall(this: Cash, method: string, args?: unknown[]): Cash;
     }
