@@ -1,4 +1,5 @@
 import {$, Cash} from '../cash';
+import {type GetLibOptions} from '../dom';
 import {evalValue} from '../helpers';
 import {takeData} from '../helpers/data';
 import {getZData} from '../helpers/z';
@@ -116,6 +117,12 @@ function initCreators(element: HTMLElement, options: {update?: boolean, onCreate
             if (newCreateOptions) {
                 createOptions = newCreateOptions;
             }
+        }
+        const $lib = createOptions.$lib as (GetLibOptions | undefined);
+        if ($lib) {
+            delete createOptions.$lib;
+            $.getLib($lib).then(() => create(name, element, createOptions));
+            return;
         }
         createInAnimationFrame(name, element, createOptions);
     };
@@ -268,7 +275,7 @@ $.fn.zuiInit = function (this: Cash, options?: {update?: boolean, beforeCreate?:
     });
     this.find('.hide-before-init').removeClass('invisible hidden opacity-0');
     this.find('.scroll-into-view').scrollIntoView();
-    this.find('[data-on="inited"]').each((_, ele) => {
+    this.find('[data-on="inited"],[zui-on-inited]').each((_, ele) => {
         const $ele = $(ele);
         if (!$ele.zui()) {
             $ele.trigger('inited');
