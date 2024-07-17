@@ -41,36 +41,13 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
 
     protected _updateTimer = 0;
 
-    protected _emptyValueSet: Set<string>;
+    protected declare _emptyValueSet: Set<string>;
 
     constructor(props: O) {
         super(props);
-        $.extend(this.state, {
-            loading: false,
-            search: '',
-            items: props.items,
-            selections: [],
-        });
 
-        const {valueSplitter = ',', emptyValue = ''} = this.props;
-        this._emptyValueSet = new Set(emptyValue.split(valueSplitter));
         this.setValue = this.setValue.bind(this);
-
-        const {items} = this.state;
-        if (Array.isArray(items) && items.length) {
-            items.forEach(item => {
-                if (typeof item.value === 'number') {
-                    item.value = String(item.value);
-                }
-            }); // Fix item value could be non-string.
-            if (props.limitValueInList) {
-                const valueMap = getValueMap(items);
-                (this.state as PickerState).value = this.valueList.filter(x => valueMap.has(x)).join(props.valueSplitter);
-            }
-            if (!this.valueList.length && props.required && !props.multiple) {
-                (this.state as PickerState).value = items[0].value ?? '';
-            }
-        }
+        this.isEmptyValue = this.isEmptyValue.bind(this);
     }
 
     get valueList(): string[] {
@@ -81,9 +58,39 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
         return this._emptyValueSet.values().next().value as string;
     }
 
-    isEmptyValue = (value: string) => {
+    getDefaultState(props?: RenderableProps<O>) {
+        const {items, valueSplitter = ',', emptyValue = ''} = props || this.props;
+        const state = {
+            ...super.getDefaultState(props),
+            loading: false,
+            search: '',
+            items: items,
+            selections: [],
+        };
+        this._emptyValueSet = new Set(emptyValue.split(valueSplitter));
+
+        if (Array.isArray(items) && items.length) {
+            const {limitValueInList, required, multiple} = this.props;
+            items.forEach(item => {
+                if (typeof item.value === 'number') {
+                    item.value = String(item.value);
+                }
+            }); // Fix item value could be non-string.
+            if (limitValueInList) {
+                const valueMap = getValueMap(items as PickerItemOptions[]);
+                state.value = this.formatValueList(state.value, valueSplitter).filter(x => valueMap.has(x)).join(valueSplitter);
+            }
+            if (!this.formatValueList(state.value, valueSplitter).length && required && !multiple) {
+                state.value = (items[0].value ?? '') as string;
+            }
+        }
+
+        return state;
+    }
+
+    isEmptyValue(value: string) {
         return this._emptyValueSet.has(value);
-    };
+    }
 
     toggleValue = (value: string, toggle?: boolean) => {
         if (!this.props.multiple) {
@@ -373,10 +380,10 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
         }}, this);
     }
 
-    formatValueList(value: unknown): string[] {
+    formatValueList(value: unknown, valueSplitter?: string): string[] {
         let list: unknown[];
         if (typeof value === 'string' && value.length) {
-            list = value.split(this.props.valueSplitter ?? ',');
+            list = value.split(valueSplitter ?? this.props.valueSplitter ?? ',');
         } else if (Array.isArray(value)) {
             list = value;
         } else {
