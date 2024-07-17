@@ -30,12 +30,12 @@ export class TimePicker extends Pick<PickState, TimePickerOptions> {
         icon: true,
     } as Partial<PickOptions>;
 
-    constructor(props: TimePickerOptions) {
-        super(props);
-        const state = this.state as PickState;
+    getDefaultState(props?: RenderableProps<TimePickerOptions> | undefined): PickState {
+        const state = super.getDefaultState(props);
         if (state.value === 'now') {
-            state.value = formatDate(new Date(), props.format);
+            state.value = formatDate(new Date(), (props || this.props).format);
         }
+        return state;
     }
 
     _handleInputFocus = () => {
