@@ -32,13 +32,10 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
 
     constructor(props: O) {
         super(props);
-        this.state = {
-            value: String(props.defaultValue ?? ''),
-            open: false,
-        } as S;
 
         this._id = props.id ?? `_pick${nextGid()}`;
         this.changeState = this.changeState.bind(this);
+        this.state = this.getDefaultState(props);
     }
 
     get id() {
@@ -55,6 +52,22 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
 
     get value() {
         return this.state.value;
+    }
+
+    getDefaultState(props?: RenderableProps<O>): S {
+        return {
+            value: String((props || this.props).defaultValue ?? ''),
+            open: false,
+        } as S;
+    }
+
+    resetState(props?: RenderableProps<O>, init?: boolean) {
+        const defaultState = this.getDefaultState(props);
+        if (init) {
+            this.state = defaultState;
+        } else {
+            this.changeState(defaultState);
+        }
     }
 
     changeState(state: Partial<S> | ((prevState: Readonly<S>) => Partial<S>), callback?: () => void): Promise<S> {
