@@ -29,10 +29,10 @@ export function create(name: string, element: HTMLElement, options: ComponentCre
     if (!TheComponentClass) {
         return null;
     }
+    const {$update, ...componentOptions} = options;
     if (!TheComponentClass.MULTI_INSTANCE) {
         const component = TheComponentClass.get(element);
         if (component) {
-            const {$update, ...componentOptions} = options;
             if ($update) {
                 component.render(componentOptions, $update === 'reset');
             } else {
@@ -41,7 +41,7 @@ export function create(name: string, element: HTMLElement, options: ComponentCre
             return component;
         }
     }
-    return new TheComponentClass(element, options);
+    return new TheComponentClass(element, componentOptions);
 }
 
 function createInAnimationFrame(name: string, element: HTMLElement, options: ComponentCreateOptions = {}) {
