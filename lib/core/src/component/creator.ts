@@ -10,7 +10,14 @@ import type {ComponentOptions} from './types';
 export type ComponentClass = typeof Component;
 
 export type ComponentCreateOptions = ComponentOptions & {
-    $update?: boolean;
+    $update?: boolean | 'reset';
+    $reset?: boolean;
+};
+
+export type ZUIInitOptions = {
+    update?: boolean | 'reset';
+    beforeCreate?: BeforeCreateCallback;
+    onCreate?: OnCreateCallback;
 };
 
 export function getComponent(name: string): ComponentClass | undefined {
@@ -25,9 +32,9 @@ export function create(name: string, element: HTMLElement, options: ComponentCre
     if (!TheComponentClass.MULTI_INSTANCE) {
         const component = TheComponentClass.get(element);
         if (component) {
-            if (options.$update) {
-                delete options.$update;
-                component.render(options);
+            const {$update, ...componentOptions} = options;
+            if ($update) {
+                component.render(componentOptions, $update === 'reset');
             } else {
                 console.warn(`[ZUI] cannot create component "${name}" on element which already has a component instance.`, {element, options});
             }
@@ -73,7 +80,7 @@ export function defineFn(name?: string) {
 /* Declare types. */
 declare module 'cash-dom' {
     interface Cash {
-        zuiInit(this: Cash, options?: {update?: boolean, beforeCreate?: BeforeCreateCallback, onCreate?: OnCreateCallback}): Cash;
+        zuiInit(this: Cash, options?: ZUIInitOptions): Cash;
         zui(this: Cash, name?: string, key?: string | number | true): ComponentClass | ComponentClass[] | Record<string, ComponentClass> | undefined;
         zuiCall(this: Cash, method: string, args?: unknown[]): Cash;
     }
@@ -99,7 +106,7 @@ export type OnCreateCallback = (name: string, options: Record<string, unknown>) 
  * <div data-zui="list" data-items='[{"text": "item1"}, {"text": "item2"}]'>Deprecated usage</div>
  * ```
  */
-function initCreators(element: HTMLElement, options: {update?: boolean, onCreate?: OnCreateCallback} = {}): void {
+function initCreators(element: HTMLElement, options: ZUIInitOptions = {}): void {
     const $element = $(element);
     let createNames = $element.attr('zui-create');
     const {update: $update, onCreate} = options;
@@ -259,7 +266,7 @@ function bindToggleEvents() {
 }
 
 /** Define the $.fn.zuiInit method. */
-$.fn.zuiInit = function (this: Cash, options?: {update?: boolean, beforeCreate?: BeforeCreateCallback, onCreate?: OnCreateCallback}) {
+$.fn.zuiInit = function (this: Cash, options?: ZUIInitOptions) {
     this.find('[zui-create],[data-zui]').each(function () {
         if (options?.beforeCreate?.(this) === false) {
             return;
