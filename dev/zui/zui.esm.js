@@ -8,7 +8,7 @@ var ot = (s, t, e) => (_n(s, t, "read from private field"), e ? e.call(s) : t.ge
   t instanceof WeakSet ? t.add(s) : t.set(s, e);
 }, _t = (s, t, e, n) => (_n(s, t, "write to private field"), n ? n.call(s, e) : t.set(s, e), e);
 var yn = (s, t, e) => (_n(s, t, "access private method"), e);
-const Tu = "3.0.0-alpha.4", Nu = 1721213509951, Ht = document, ks = window, Dr = Ht.documentElement, de = Ht.createElement.bind(Ht), Lr = de("div"), vn = de("table"), Ba = de("tbody"), sr = de("tr"), { isArray: Gs, prototype: zr } = Array, { concat: Va, filter: si, indexOf: Fr, map: Or, push: Ua, slice: Hr, some: ni, splice: Ka } = zr, qa = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, Ga = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, Ya = /<.+>/, Ja = /^\w+$/;
+const Tu = "3.0.0-alpha.4", Nu = 1721214995520, Ht = document, ks = window, Dr = Ht.documentElement, de = Ht.createElement.bind(Ht), Lr = de("div"), vn = de("table"), Ba = de("tbody"), sr = de("tr"), { isArray: Gs, prototype: zr } = Array, { concat: Va, filter: si, indexOf: Fr, map: Or, push: Ua, slice: Hr, some: ni, splice: Ka } = zr, qa = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, Ga = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, Ya = /<.+>/, Ja = /^\w+$/;
 function ii(s, t) {
   const e = Za(t);
   return !s || !e && !le(t) && !Z(t) ? [] : !e && Ga.test(s) ? t.getElementsByClassName(s.slice(1).replace(/\\/g, "")) : !e && Ja.test(s) ? t.getElementsByTagName(s) : t.querySelectorAll(s);
@@ -6146,18 +6146,20 @@ const Sr = (s) => {
     return t;
 };
 let Qo = class extends bt {
-  constructor(t) {
-    super(t), this._handleInputFocus = () => {
+  constructor() {
+    super(...arguments), this._handleInputFocus = () => {
       this.toggle(!0);
-    }, this._handleInputChange = (n) => {
-      this.setTime(n.target.value);
-    }, this._handleSetTime = (n, i) => {
-      this.setTime({ [n]: String(i) });
+    }, this._handleInputChange = (t) => {
+      this.setTime(t.target.value);
+    }, this._handleSetTime = (t, e) => {
+      this.setTime({ [t]: String(e) });
     }, this._handleClearBtnClick = () => {
       this.setTime("");
     };
-    const e = this.state;
-    e.value === "now" && (e.value = Nt(/* @__PURE__ */ new Date(), t.format));
+  }
+  getDefaultState(t) {
+    const e = super.getDefaultState(t);
+    return e.value === "now" && (e.value = Nt(/* @__PURE__ */ new Date(), (t || this.props).format)), e;
   }
   setTime(t) {
     if (this.props.disabled || this.props.readonly)
