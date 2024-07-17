@@ -318,7 +318,13 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
      * @returns The component options.
      */
     setOptions(options?: Partial<ComponentOptions<O>>, reset?: boolean): ComponentOptions<O> {
-        if (options) {
+        if (reset) {
+            this._options = {
+                ...this.constructor.DEFAULT,
+                ...(options?.$optionsFromDataset !== false ? this.$element.dataset() : {}),
+                ...options,
+            } as ComponentOptions<O>;
+        } else if (options) {
             $.extend(this._options, options);
         }
         return this._options!;
