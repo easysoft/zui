@@ -18,12 +18,14 @@ export class DatePicker<T extends DatePickerOptions = DatePickerOptions> extends
         limitPopInScreen: false,
     } as Partial<PickOptions>;
 
-    protected _date: Date | null = null;
+    protected _date: Date | null | undefined;
 
-    constructor(props: T) {
-        super(props);
-        const {value} = this.state as PickState;
-        (this.state as PickState).value = this._calcValue(value);
+    getDefaultState(props?: RenderableProps<T> | undefined): PickState {
+        const state = super.getDefaultState(props);
+        return {
+            ...state,
+            value: this._calcValue(state.value),
+        };
     }
 
     getDate() {
