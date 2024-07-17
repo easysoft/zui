@@ -70,30 +70,34 @@ export class ComponentFromReact<O extends {} = {}, C extends ComponentReact<O> =
      *
      * @param options new options.
      */
-    render(options?: Partial<O>) {
+    render(options?: Partial<O>, reset?: boolean) {
         const {element} = this;
         const {Component, replace} = this.constructor;
-        const {$replace = replace, ...userOptions} = this.setOptions(options);
+        const {$replace = replace, $optionsFromDataset, ...userOptions} = this.setOptions(options, reset);
         const props = {
             ref: this._ref,
             ...userOptions,
         };
+        if (reset) {
+            (this.$ as {resetState?: (props?: Record<string, unknown>, init?: boolean) => void})?.resetState?.(userOptions);
+        }
         if ($replace && (Component as {HElement?: boolean}).HElement && (element.tagName.toLowerCase() === $replace || $replace === true)) {
             const attrs = Array.from(element.attributes).reduce<Record<string, unknown>>((data, attribute) => {
                 const {name, value} = attribute;
                 data[name === 'class' ? 'className' : name] = value;
                 return data;
             }, {});
-            return render(
+            render(
                 h(Component as ComponentClass, mergeProps({component: element.tagName.toLowerCase(), attrs}, props)),
                 element.parentElement!,
                 element,
             );
+        } else {
+            render(
+                h(Component as ComponentClass, props),
+                element,
+            );
         }
-        render(
-            h(Component as ComponentClass, props),
-            element,
-        );
     }
 
     static renderHTML(options: Record<string, unknown>): string {
