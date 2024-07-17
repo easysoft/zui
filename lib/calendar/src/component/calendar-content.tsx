@@ -1,13 +1,38 @@
 import {HElement} from '@zui/core';
 import '@zui/label';
+import {CalendarEventDom} from './calendar-event';
 
-import type {CalendarProps} from '../types';
-import type {Attributes, ComponentChildren, RenderableProps, VNode} from 'preact';
+import type {CalendarProps, CalendarEvent, CalendarContentState} from '../types';
+import type {Attributes, RenderableProps, VNode} from 'preact';
 
-export class CalendarContent<P extends CalendarProps = CalendarProps, S = {}> extends HElement<P, S> {
+export class CalendarContent<P extends CalendarProps = CalendarProps> extends HElement<P, CalendarContentState> {
+    constructor(props: P) {
+        super(props);
+        this.state = {'dateList': this.getPropsDateIndex(props)};
+    }
+
+    //传递日期，计算从props中计算出属于当前日期的事件
+    getEventsForCurrentDate(month: number, day: number, events: CalendarEvent[]): CalendarEvent[] {
+        const eventSet = events.filter(event => {
+            return event.day === day && event.month === month;
+        });
+        return eventSet;
+    }
+
+    //生成适于当前页面渲染的日期事件列表
+    generateEventList(events: CalendarEvent[]) { 
+        const currentDateList = this.state.dateList.map((line) => {
+            line.map((item) => {
+                const eventSet = this.getEventsForCurrentDate(item.month, item.day, events);
+                return item.events = eventSet;
+            });
+        });
+        console.log(currentDateList);
+        // this.setState({'dateList': currentDateList});
+    }
         
     //通用方法：通过月份计算出当前月份开头的日期
-    generateCalendarPagesByYear(year: number): {month: number, day: number}[][][] {
+    generateCalendarPagesByYear(year: number): {month: number, day: number, events?: CalendarEvent[]}[][][] {
         const pages:  {month: number, day: number}[][][] = [];
       
         // 创建日期对象，设置为当前年份的1月1日
@@ -63,7 +88,7 @@ export class CalendarContent<P extends CalendarProps = CalendarProps, S = {}> ex
                     </tr>
                 </thead>
                 <tbody className="calendar-body">
-                    {this.getPropsDateIndex(props).map((line) => {
+                    {this.state.dateList.map((line) => {
                         return (<tr>{   line.map((item) => {
                             return <td key={`${item.month}-${item.day}`} className={(props.year === new Date().getFullYear() && item.month === new Date().getMonth() + 1 ? 'active' : '') + (item.day === props.day ? '-today' : '')}>
                                 <div className={'calendar-body-part'}>
@@ -72,7 +97,7 @@ export class CalendarContent<P extends CalendarProps = CalendarProps, S = {}> ex
                                         <div className='calendar-body-header-day'>{item.day}</div>
                                     </div>
                                 </div>
-                                <div className='calendar-body-content'></div></td>;
+                                {item.events ? <CalendarEventDom {...item.events}></CalendarEventDom> : ''}</td>;
                         })}</tr>);
                     })}
                 </tbody>
