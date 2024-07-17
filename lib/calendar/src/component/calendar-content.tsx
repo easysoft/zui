@@ -1,4 +1,5 @@
 import {HElement} from '@zui/core';
+import '@zui/label';
 
 import type {CalendarProps} from '../types';
 import type {Attributes, ComponentChildren, RenderableProps, VNode} from 'preact';
@@ -44,7 +45,6 @@ export class CalendarContent<P extends CalendarProps = CalendarProps, S = {}> ex
     getPropsDateIndex(props: CalendarProps) {
         const {year, month, day} = props;
         const pages = this.generateCalendarPagesByYear(year);
-        // console.log(this.getDateIndex(pages, month, day));
         return pages[this.getDateIndex(pages, month, day)];
     }
 
@@ -52,7 +52,7 @@ export class CalendarContent<P extends CalendarProps = CalendarProps, S = {}> ex
         const headerList = ['周一', '周二', '周三', '周四', '周五', '周六', '周日'];
         // const { events, calendarEventSet, onDateClick, onEventClick, onEventDrop, maxVisibleEvents} = props;
         return (<div className="calendar">
-            <table className="calendar-content">
+            <table className="calendar-table">
                 <thead className="calendar-content-header">
                     <tr >
                         {
@@ -63,9 +63,16 @@ export class CalendarContent<P extends CalendarProps = CalendarProps, S = {}> ex
                     </tr>
                 </thead>
                 <tbody className="calendar-body">
-                    {this.getPropsDateIndex(props).map((line, index) => {
+                    {this.getPropsDateIndex(props).map((line) => {
                         return (<tr>{   line.map((item) => {
-                            return <td key={index} className="calendar-body-part">{item.month}.{item.day}</td>;
+                            return <td key={`${item.month}-${item.day}`} className={(props.year === new Date().getFullYear() && item.month === new Date().getMonth() + 1 ? 'active' : '') + (item.day === props.day ? '-today' : '')}>
+                                <div className={'calendar-body-part'}>
+                                    <div className='calendar-body-header'>
+                                        {item.day == 1 ? <label className='label gray calendar-body-header-month'>{item.month}月</label> : ''}
+                                        <div className='calendar-body-header-day'>{item.day}</div>
+                                    </div>
+                                </div>
+                                <div className='calendar-body-content'></div></td>;
                         })}</tr>);
                     })}
                 </tbody>

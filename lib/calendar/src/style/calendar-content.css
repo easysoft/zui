@@ -1,0 +1,45 @@
+td{
+    @apply -border -border-gray-300;
+    @apply -bg-gray-200;
+    @apply -text-center -text-gray-700;
+    padding: 0;
+}
+
+.calendar{
+    width: 100%;
+}
+.calendar-table{
+    width: 100%;
+    @apply -w-full;
+}
+
+.calendar-body-header{
+    @apply -px-2 -py-1 -flex -justify-end -items-center;
+}
+
+.calendar-content-header {
+    @apply -px-2 -border -border-gray-300;
+}
+
+.calendar-header-part{
+    @apply  -px-4 -py-2 -text-center -text-gray-700;
+}
+
+.calendar-body-header-month{
+    @apply -mr-1;
+}
+.calendar-body-part{
+    height: 100px;
+    @apply -flex -flex-col;
+}
+.active{
+    @apply -bg-white;
+}
+
+.active-today{
+    @apply -bg-yellow-100;
+}
+
+.active-today .calendar-body-header{
+    @apply -bg-gray-300;
+}
