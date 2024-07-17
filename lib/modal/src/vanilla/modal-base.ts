@@ -125,7 +125,7 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
     show(options?: Partial<T>) {
         const {modalElement} = this;
         const $modal = $(modalElement);
-        if (this._shown) {
+        if (this._shown && $modal.hasClass(CLASS_SHOWN)) {
             $modal.removeClass(HIDE_CLASS).css('z-index', `${ModalBase.zIndex++}`);
             return false;
         }
