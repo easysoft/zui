@@ -58,6 +58,7 @@ const customColPlugin: DTablePlugin<DTableCustomColTypes, [DTableContextMenuType
     name: 'custom-col',
     when: options => !!options.customCol,
     plugins: [contextmenu],
+    resetState: true,
     options(options) {
         if (options.customCol && !options.contextmenu) {
             options.contextmenu = {
