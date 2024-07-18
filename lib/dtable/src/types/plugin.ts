@@ -66,6 +66,7 @@ export type DTablePlugin<T extends DTablePluginTypes = {}, D extends DTablePlugi
     i18n?: Record<string, Record<string, string | object>>;
     data: (this: PluginTable) => {} & T['data'],
     state: (this: PluginTable) => {} & T['state'],
+    resetState: boolean | ((this: PluginTable, options: Options) => {} & T['state']);
     options: (this: PluginTable, options: Options) => Partial<Options>;
     footer: Record<string, CustomRenderResultGenerator<[layout: DTableLayout], PluginTable> | CustomRenderResultItem>;
     onCreate: (this: PluginTable, plugin: DTablePlugin<T, D>) => void;

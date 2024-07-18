@@ -223,6 +223,22 @@ export class DTable extends Component<DTableOptions, DTableState> {
     resetState(props?: DTableOptions, init?: boolean) {
         this.#options = undefined;
         this.#layout = undefined;
+
+        props = props || this.props;
+        const newState: Partial<DTableState> = {};
+        this.#plugins.forEach(plugin => {
+            const {resetState, state: pluginState} = plugin;
+            if (resetState) {
+                if (typeof resetState === 'function') {
+                    Object.assign(newState, resetState.call(this, props));
+                } else if (pluginState) {
+                    Object.assign(newState, pluginState.call(this));
+                }
+            }
+        });
+        if (Object.keys(newState).length) {
+            this.setState(newState);
+        }
     }
 
     on(event: string, callback: DTableEventListener, target?: DTableEventTarget) {
