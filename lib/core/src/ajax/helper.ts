@@ -87,7 +87,7 @@ $.fn.load = function (this: Cash, url: string, dataOrSuccess?: AjaxFormData | Aj
         if (selector) {
             data = $(data as string).find(selector).html();
         }
-        $(this).html(data as string);
+        $(this).html(data as string).zuiInit();
         success?.call(this, data, statusText, response);
     }, 'html');
     return this;
