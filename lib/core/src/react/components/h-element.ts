@@ -39,6 +39,12 @@ export class HElement<P extends HElementProps, S = {}> extends Component<P, S> {
 
     protected _gid = nextGid();
 
+    constructor(props: P) {
+        super(props);
+
+        this.state = this.getDefaultState(props);
+    }
+
     get gid() {
         return this._gid;
     }
@@ -52,6 +58,20 @@ export class HElement<P extends HElementProps, S = {}> extends Component<P, S> {
      */
     get i18nData(): (I18nLangMap | undefined)[] {
         return [this.props.i18n, this.constructor.i18n];
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    getDefaultState(_props?: RenderableProps<P>): S {
+        return {} as S;
+    }
+
+    resetState(props?: RenderableProps<P>, init?: boolean) {
+        const defaultState = this.getDefaultState(props);
+        if (init) {
+            this.state = defaultState;
+        } else {
+            this.changeState(defaultState);
+        }
     }
 
     /**
