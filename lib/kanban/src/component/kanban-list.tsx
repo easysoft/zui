@@ -91,6 +91,17 @@ export class KanbanList extends HElement<KanbanListProps, KanbanListState> {
         }
     }
 
+    getDefaultState(_props?: RenderableProps<KanbanListProps> | undefined): KanbanListState {
+        return {linkChanges: undefined};
+    }
+
+    resetState(props?: RenderableProps<KanbanListProps>, init?: boolean): void {
+        this._kanbanRefs.forEach(ref => {
+            ref.current?.resetState();
+        });
+        super.resetState(props, init);
+    }
+
     getKanban(key: unknown): Kanban | KanbanRegion | null {
         const keyStr = String(key);
         const refs = this._kanbanRefs;

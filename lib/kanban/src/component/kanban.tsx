@@ -79,14 +79,6 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
         ];
     });
 
-    constructor(props: P) {
-        super(props);
-        this.state = {
-            loading: false,
-            selected: props.defaultSelected,
-        } as S;
-    }
-
     get data() {
         return this._data.cache;
     }
@@ -133,6 +125,16 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
         if (this.props.selectable) {
             $(document).off('click.kanban', this._handleGlobalClick);
         }
+    }
+
+    getDefaultState(props?: RenderableProps<P>): S {
+        return {
+            loading: false,
+            selected: (props || this.props).defaultSelected,
+            data: undefined,
+            changes: undefined,
+            loadFailed: undefined,
+        } as S;
     }
 
     load(): void {

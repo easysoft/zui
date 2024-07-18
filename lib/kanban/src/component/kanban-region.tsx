@@ -10,14 +10,6 @@ export class KanbanRegion extends HElement<KanbanRegionProps, KanbanRegionState>
 
     protected _needUpdateData = new Map<string, Partial<KanbanData>>();
 
-    constructor(props: KanbanRegionProps) {
-        super(props);
-        this.state = {
-            ...this.state,
-            collapsed: props.collapsed,
-        };
-    }
-
     componentDidUpdate(): void {
         if (this.state.collapsed) {
             return;
@@ -30,6 +22,19 @@ export class KanbanRegion extends HElement<KanbanRegionProps, KanbanRegionState>
                 needUpdateData.delete(key);
             }
         });
+    }
+
+    getDefaultState(props?: RenderableProps<KanbanRegionProps> | undefined): KanbanRegionState {
+        return {
+            collapsed: (props || this.props).collapsed,
+            heading: undefined,
+            items: undefined,
+        };
+    }
+
+    resetState(props?: RenderableProps<KanbanRegionProps> | undefined, init?: boolean): void {
+        this._kanbanRefs.forEach(ref => ref.current?.resetState());
+        super.resetState(props, init);
     }
 
     getKanban(key: unknown) {
