@@ -220,6 +220,11 @@ export class DTable extends Component<DTableOptions, DTableState> {
         }
     }
 
+    resetState(props?: DTableOptions, init?: boolean) {
+        this.#options = undefined;
+        this.#layout = undefined;
+    }
+
     on(event: string, callback: DTableEventListener, target?: DTableEventTarget) {
         if (target) {
             event = `${target}_${event}`;
