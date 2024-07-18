@@ -146,7 +146,7 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
 
         const $element = $(selector);
         if ($element.data(KEY) && !MULTI_INSTANCE) {
-            throw new Error('[ZUI] The component has been initialized on element.');
+            throw new Error(`[ZUI] The component "${NAME}" has been initialized on element.`);
         }
 
         const element = $element[0] as U;
