@@ -2,9 +2,9 @@ import {createRef, render, h} from 'preact';
 import {Component as ComponentBase} from '../component';
 import {mergeProps} from '../helpers';
 
-import type {ComponentEventsDefnition} from '../component';
 import type {Component as ComponentReact, ComponentClass} from 'preact';
-import {I18nLangMap} from '../i18n';
+import {type I18nLangMap} from '../i18n';
+import type {ComponentEventsDefnition} from '../component';
 
 export class ComponentFromReact<O extends {} = {}, C extends ComponentReact<O> = ComponentReact<O>, E extends ComponentEventsDefnition = {}, U extends HTMLElement = HTMLElement> extends ComponentBase<O & {$replace?: boolean}, E, U> {
     /**
@@ -71,7 +71,7 @@ export class ComponentFromReact<O extends {} = {}, C extends ComponentReact<O> =
      * @param options new options.
      */
     render(options?: Partial<O>, reset?: boolean) {
-        const {element} = this;
+        const {element, $: instance} = this;
         const {Component, replace} = this.constructor;
         const {$replace = replace, $optionsFromDataset, ...userOptions} = this.setOptions(options, reset);
         const props = {
@@ -79,8 +79,9 @@ export class ComponentFromReact<O extends {} = {}, C extends ComponentReact<O> =
             ...userOptions,
         };
         if (reset) {
-            (this.$ as {resetState?: (props?: Record<string, unknown>, init?: boolean) => void})?.resetState?.(userOptions);
+            (instance as {resetState?: (props?: Record<string, unknown>, init?: boolean) => void})?.resetState?.(userOptions);
         }
+
         if ($replace && (Component as {HElement?: boolean}).HElement && (element.tagName.toLowerCase() === $replace || $replace === true)) {
             const attrs = Array.from(element.attributes).reduce<Record<string, unknown>>((data, attribute) => {
                 const {name, value} = attribute;
