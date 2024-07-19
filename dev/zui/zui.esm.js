@@ -8,7 +8,7 @@ var at = (s, t, e) => (_n(s, t, "read from private field"), e ? e.call(s) : t.ge
   t instanceof WeakSet ? t.add(s) : t.set(s, e);
 }, _t = (s, t, e, n) => (_n(s, t, "write to private field"), n ? n.call(s, e) : t.set(s, e), e);
 var yn = (s, t, e) => (_n(s, t, "access private method"), e);
-const Tu = "3.0.0-alpha.4", Nu = 1721313723401, Ht = document, ks = window, Dr = Ht.documentElement, de = Ht.createElement.bind(Ht), Lr = de("div"), vn = de("table"), Ba = de("tbody"), sr = de("tr"), { isArray: Gs, prototype: zr } = Array, { concat: Va, filter: si, indexOf: Fr, map: Or, push: Ua, slice: Hr, some: ni, splice: Ka } = zr, qa = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, Ga = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, Ya = /<.+>/, Ja = /^\w+$/;
+const Tu = "3.0.0-alpha.4", Nu = 1721397515372, Ht = document, ks = window, Dr = Ht.documentElement, de = Ht.createElement.bind(Ht), Lr = de("div"), vn = de("table"), Ba = de("tbody"), sr = de("tr"), { isArray: Gs, prototype: zr } = Array, { concat: Va, filter: si, indexOf: Fr, map: Or, push: Ua, slice: Hr, some: ni, splice: Ka } = zr, qa = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, Ga = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, Ya = /<.+>/, Ja = /^\w+$/;
 function ii(s, t) {
   const e = Za(t);
   return !s || !e && !le(t) && !Z(t) ? [] : !e && Ga.test(s) ? t.getElementsByClassName(s.slice(1).replace(/\\/g, "")) : !e && Ja.test(s) ? t.getElementsByTagName(s) : t.querySelectorAll(s);
@@ -1698,7 +1698,7 @@ function Vl(s) {
   const i = t.attr(`zui-on-${e}`);
   i && Cn(t, s, d.extend({
     on: e
-  }, i.startsWith("{") ? Ue(i) : { do: i })), t.attr("data-on") && (Cn(t, s, Es(t, { prefix: "data-", evalValue: ["call", "if", "do"] })), console.warn(`[ZUI] Use [zui-on-${e}] instead of [data-on="${e}"] on element: `, t[0]));
+  }, i.startsWith("{") ? Ue(i) : { do: i })), t.attr("data-on") && Cn(t, s, Es(t, { prefix: "data-", evalValue: ["call", "if", "do"] }));
 }
 function Ul(s) {
   d(document).off(".zui.global").on(s.map((t) => `${t}.zui.global`).join(" "), `[zui-on],${s.map((t) => `[zui-on-${t}]`)},[data-on]`, Vl);
@@ -2234,7 +2234,7 @@ function So(s, t, e = {}) {
   if (!n.MULTI_INSTANCE) {
     const o = n.get(t);
     if (o)
-      return i ? o.render(r, i === "reset") : console.warn(`[ZUI] cannot create component "${s}" on element which already has a component instance.`, { element: t, options: e }), o;
+      return i && o.render(r, i === "reset"), o;
   }
   return new n(t, r);
 }
@@ -2856,24 +2856,24 @@ class U extends it {
    * @param options new options.
    */
   render(t, e) {
-    var u, h;
-    const { element: n } = this, { Component: i, replace: r } = this.constructor, { $replace: o = r, $optionsFromDataset: a, ...l } = this.setOptions(t, e), c = {
+    var h;
+    const { element: n, $: i } = this, { Component: r, replace: o } = this.constructor, { $replace: a = o, $optionsFromDataset: l, ...c } = this.setOptions(t, e), u = {
       ref: this._ref,
-      ...l
+      ...c
     };
-    if (e && ((h = (u = this.$) == null ? void 0 : u.resetState) == null || h.call(u, l)), o && i.HElement && (n.tagName.toLowerCase() === o || o === !0)) {
+    if (e && ((h = i == null ? void 0 : i.resetState) == null || h.call(i, c)), a && r.HElement && (n.tagName.toLowerCase() === a || a === !0)) {
       const p = Array.from(n.attributes).reduce((f, m) => {
         const { name: _, value: y } = m;
         return f[_ === "class" ? "className" : _] = y, f;
       }, {});
       be(
-        yt(i, O({ component: n.tagName.toLowerCase(), attrs: p }, c)),
+        yt(r, O({ component: n.tagName.toLowerCase(), attrs: p }, u)),
         n.parentElement,
         n
       );
     } else
       be(
-        yt(i, c),
+        yt(r, u),
         n
       );
   }
@@ -8028,6 +8028,7 @@ class fn extends Y {
       onClickItem: i,
       menu: e,
       relativeTarget: r,
+      ...d(this.triggerElement).dataset(),
       ...t
     };
     o ? o.setOptions(a) : new ae(this.triggerElement, a);
