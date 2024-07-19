@@ -35,8 +35,6 @@ export function create(name: string, element: HTMLElement, options: ComponentCre
         if (component) {
             if ($update) {
                 component.render(componentOptions, $update === 'reset');
-            } else {
-                console.warn(`[ZUI] cannot create component "${name}" on element which already has a component instance.`, {element, options});
             }
             return component;
         }
