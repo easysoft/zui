@@ -140,7 +140,6 @@ function handleGlobalEvent(this: Cash, event: Event) {
     const dataOn = $element.attr('data-on');
     if (dataOn) {
         processGlobalEvent($element, event, getZData($element, {prefix: 'data-', evalValue: ['call', 'if', 'do']}) as GlobalEventOptions);
-        console.warn(`[ZUI] Use [zui-on-${type}] instead of [data-on="${type}"] on element: `, $element[0]);
     }
 }
 
