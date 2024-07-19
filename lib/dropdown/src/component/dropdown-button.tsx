@@ -5,6 +5,7 @@ import {Toolbar} from '@zui/toolbar/src/component';
 import {Dropdown} from '../vanilla';
 
 import type {DropdownButtonOptions} from '../types';
+import {$} from '@zui/core/src/cash';
 
 export class DropdownButton extends Button<DropdownButtonOptions> {
     static defaultProps: Partial<DropdownButtonOptions> = {
@@ -25,6 +26,7 @@ export class DropdownButton extends Button<DropdownButtonOptions> {
             onClickItem,
             menu,
             relativeTarget,
+            ...$(this.triggerElement).dataset(),
             ...dropdown,
         };
         if (instance) {
