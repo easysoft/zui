@@ -99,6 +99,13 @@ export function takeData(target: object, key?: string, skipElementData?: boolean
     return data[key];
 }
 
+/**
+ * Clear data associated with the target object from the cache.
+ */
+export function clearData(target: object): void {
+    cache.delete(target);
+}
+
 /* Declare types. */
 declare module 'cash-dom' {
     interface Cash {
