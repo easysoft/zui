@@ -2,9 +2,13 @@
 
 ## 远程数据
 
+#### 根节点和子节点
+
 ```html:example
-<div id="remoteNestedList"></div>
+<div id="remoteNestedList2"></div>
 ```
+
+### 远程数据
 
 ```html:example
 <div id="remoteSimpleList"></div>

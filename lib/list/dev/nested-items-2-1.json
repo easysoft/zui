@@ -1,0 +1,9 @@
+[
+    {
+        "text": "水果/西瓜",
+        "value": "fruit/watermelon",
+        "keys": "fruit food xigua",
+        "items": "/lib/list/dev/nested-items-2-1-1.json"
+    },
+    {"text": "水果/苹果", "value": "fruit/apple", "keys": "fruit food pingguo"}
+]

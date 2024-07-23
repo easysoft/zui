@@ -14,13 +14,29 @@ onPageUpdate(() => {
         defaultNestedShow: {'0:0:1': true},
         activeOnHover: true,
         onCheck: function (changes, checks) {
-            console.log('> onCheck', {changes, checks, allChecks: this.getChecks(), table: this});
+            console.log('> onCheck', {changes, checks, allChecks: this.getChecks(), list: this});
         },
         onClickItem: (...args) => {
             console.log('>> onClickItem', args);
         },
     });
     console.log('> remoteNestedList', remoteNestedList);
+
+    const remoteNestedList2 = new NestedList('#remoteNestedList2', {
+        items: '/lib/list/dev/nested-items-2.json',
+        checkbox: true,
+        checkOnClick: 'any',
+        selectOnChecked: true,
+        defaultNestedShow: false,
+        activeOnHover: true,
+        onCheck: function (changes, checks) {
+            console.log('> onCheck', {changes, checks, allChecks: this.getChecks(), list: this});
+        },
+        onClickItem: (...args) => {
+            console.log('>> onClickItem', args);
+        },
+    });
+    console.log('> remoteNestedList2', remoteNestedList2);
 
     const remoteSimpleList = new List('#remoteSimpleList', {
         checkbox: true,
