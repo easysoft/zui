@@ -51,6 +51,11 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
         return `.zui.${this.constructor.NAME}.list_${this.gid}`;
     }
 
+    get isLazyItems() {
+        const {items} = this.props;
+        return items && !Array.isArray(items);
+    }
+
     componentDidMount() {
         this._afterRender(true);
         this.tryLoad();
@@ -77,11 +82,11 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
 
     setItems(items?: Item[], error?: Error) {
         const {onLoadFail} = this.props;
-        this.setState({
+        return this.changeState({
             loading: false,
             items: items || [],
             loadFailed: error ? (typeof onLoadFail === 'function' ? (onLoadFail as (error: Error) => CustomContentType | undefined).call(this, error as Error) : onLoadFail) || String(error) : undefined,
-        });
+        } as S);
     }
 
     load(): void {

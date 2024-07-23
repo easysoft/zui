@@ -162,11 +162,15 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
         return this.props.nestedTrigger === 'hover';
     }
 
-    setItems(items?: Item[] | undefined, error?: Error | undefined): void {
+    async setItems(items?: Item[] | undefined, error?: Error | undefined) {
         if (this.isRoot) {
             this._needInitChecks = true;
         }
-        super.setItems(items, error);
+        const state = await super.setItems(items, error);
+        if (items && this.props.parent?.checked === true) {
+            this.toggleChecked(this._renderedItems.map(x => x.key!),  true);
+        }
+        return state;
     }
 
     getItemMap() {
