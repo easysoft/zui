@@ -1,11 +1,11 @@
 import {createRef} from 'preact';
-import {Button} from '@zui/button/src/component/button';
+import {$} from '@zui/core';
+import {Button} from '@zui/button/src/component';
 import {BtnGroup} from '@zui/btn-group/src/component';
 import {Toolbar} from '@zui/toolbar/src/component';
 import {Dropdown} from '../vanilla';
 
 import type {DropdownButtonOptions} from '../types';
-import {$} from '@zui/core/src/cash';
 
 export class DropdownButton extends Button<DropdownButtonOptions> {
     static defaultProps: Partial<DropdownButtonOptions> = {
