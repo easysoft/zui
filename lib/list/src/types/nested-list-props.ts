@@ -6,6 +6,7 @@ import type {NestedListItem} from './nested-list-item';
 
 export interface NestedListProps<T extends NestedItem = NestedListItem> extends ListProps<T> {
     parentKey?: ItemKey;
+    parent?: NestedItem;
     indent?: number;
     level?: number;
     preserve?: string;

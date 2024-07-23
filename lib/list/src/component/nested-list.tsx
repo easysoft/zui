@@ -86,13 +86,6 @@ function reduceNestedItems<T>(items: Item[], itemKey: string | undefined, reduce
     }, initialValue);
 }
 
-function initItemMap(items: Item[], itemKey: string | undefined, map: Map<string, ItemInfo> = new Map()) {
-    return reduceNestedItems(items, itemKey, (currentMap, info) => {
-        currentMap.set(info.keyPath, info);
-        return currentMap;
-    }, map);
-}
-
 export class NestedList<P extends NestedListProps = NestedListProps, S extends NestedListState = NestedListState> extends List<P, S> {
     static defaultProps: Partial<NestedListProps> = {
         ...List.defaultProps,
@@ -178,7 +171,42 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
 
     getItemMap() {
         if (!this._itemMap) {
-            this._itemMap = initItemMap(this._items, this.props.itemKey);
+            let needCheckRenderItems = false;
+            const map: Map<string, ItemInfo> = reduceNestedItems(this._items, this.props.itemKey, (currentMap, info) => {
+                currentMap.set(info.keyPath, info);
+                if (info.data.items && !Array.isArray(info.data.items)) {
+                    needCheckRenderItems = true;
+                }
+                return currentMap;
+            }, new Map());
+            if (needCheckRenderItems) {
+                this._renderedItemMap.forEach((item, keyPath) => {
+                    if (map.has(keyPath)) {
+                        return;
+                    }
+                    map.set(keyPath, {
+                        key: item.key,
+                        level: item._level,
+                        keyPath,
+                        parentKey: `${keyPath.split(':').slice(0, -1).join(':')}`,
+                        children: [],
+                        data: item,
+                    } as ItemInfo);
+                });
+                map.forEach((info) => {
+                    const {parentKey} = info;
+                    if (!parentKey) {
+                        return;
+                    }
+                    const parent = map.get(parentKey);
+                    if (parent) {
+                        parent.children.push(info);
+                        info.parent = parent;
+                    }
+                });
+                return map;
+            }
+            this._itemMap = map;
         }
         return this._itemMap;
     }
@@ -458,6 +486,7 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
             level: level + 1,
             className: `is-nested-${expanded ? 'expanded' : 'collapsed'}`,
             items,
+            parent: item,
             parentKey: parentKey ? `${parentKey}:${item.key}` : item.key,
             nestedShow: this.nestedShow,
             defaultNestedShow: this.state.defaultShow,
