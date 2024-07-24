@@ -25,7 +25,10 @@ export function getComponent(name: string): ComponentClass | undefined {
 }
 
 export function create(name: string, element: HTMLElement, options: ComponentCreateOptions = {}) {
-    const TheComponentClass = getComponent(name);
+    let TheComponentClass = getComponent(name);
+    if (!TheComponentClass) {
+        TheComponentClass = initGlobalComponents(name);
+    }
     if (!TheComponentClass) {
         return null;
     }
@@ -50,16 +53,27 @@ export function registerComponent(component: ComponentClass, name?: string) {
     Component.register(component, name);
 }
 
-export function initGlobalComponents() {
+export function initGlobalComponents(name?: string): ComponentClass | undefined {
     const {zui} = window as unknown as {zui: Record<string, ComponentClass>};
-    if (zui) {
-        Object.keys(zui).forEach((n) => {
-            const TheComponentClass = zui[n];
-            if (!TheComponentClass.NAME || !TheComponentClass.ZUI) {
-                return;
-            }
+    if (!zui) {
+        return;
+    }
+    name = name?.toLowerCase();
+    for (const n in zui) {
+        const isMatch = n.toLowerCase() === name;
+        if (name && !isMatch) {
+            continue;
+        }
+        const TheComponentClass = zui[n];
+        if (typeof TheComponentClass !== 'function' || !TheComponentClass.NAME || !TheComponentClass.ZUI) {
+            continue;
+        }
+        if (!Component.map.has(n.toLowerCase())) {
             registerComponent(TheComponentClass);
-        });
+        }
+        if (isMatch) {
+            return TheComponentClass;
+        }
     }
 }
 
