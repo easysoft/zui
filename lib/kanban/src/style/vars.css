@@ -1,4 +1,4 @@
-:root {
+.kanban {
   --kanban-lane-name-width: 20px;
   --kanban-col-width: 280px;
   --kanban-cols-gap: 8px;
