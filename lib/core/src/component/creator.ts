@@ -1,7 +1,7 @@
 import {$, Cash} from '../cash';
 import {type GetLibOptions} from '../dom';
 import {evalValue} from '../helpers';
-import {takeData} from '../helpers/data';
+import {storeData, takeData} from '../helpers/data';
 import {getZData} from '../helpers/z';
 import {Component} from './component';
 
@@ -277,6 +277,59 @@ function bindToggleEvents() {
     });
 }
 
+function getComponentsOnElement(element: HTMLElement, forEach?: (component: Component, dataKey: string) => void | boolean): Component[] {
+    const data = takeData(element) as Record<string, Component>;
+    const components: Component[] = [];
+    Object.keys(data).forEach((dataKey) => {
+        if (!dataKey.startsWith('zui.')) {
+            return;
+        }
+        const component = data[dataKey] as Component;
+        if (forEach?.(component, dataKey) === false) {
+            return;
+        }
+        components.push(data[dataKey] as Component);
+    });
+    return components;
+}
+
+let checkComponentsTimer = 0;
+
+function checkComponents(delay = 100) {
+    if (checkComponentsTimer) {
+        clearTimeout(checkComponentsTimer);
+    }
+    if (delay) {
+        checkComponentsTimer = window.setTimeout(() => checkComponents(0), delay);
+        return;
+    }
+    checkComponentsTimer = 0;
+    Component.ALL.forEach((components) => {
+        components.forEach((component) => component.autoDestroy());
+    });
+}
+
+function autoDestroyComponents() {
+    if (takeData(document.body, '_autoDestoryMob')) {
+        return;
+    }
+    const mob = new MutationObserver((mutations) => {
+        let hasRemovedNodes = false;
+        for (const mutation of mutations) {
+            if (mutation.removedNodes.length) {
+                hasRemovedNodes = true;
+                break;
+            }
+        }
+
+        if (hasRemovedNodes) {
+            checkComponents();
+        }
+    });
+    mob.observe(document.body, {childList: true, subtree: true});
+    storeData(document.body, '_autoDestoryMob', mob);
+}
+
 /** Define the $.fn.zuiInit method. */
 $.fn.zuiInit = function (this: Cash, options?: ZUIInitOptions) {
     this.find('[zui-create],[data-zui]').each(function () {
@@ -310,16 +363,12 @@ $.fn.zui = function (this: Cash, name?: string | true, key?: string | number | t
         return;
     }
     if (typeof name !== 'string') {
-        const data = takeData(element, undefined, true) as Record<string, Component>;
         const result: Record<string, Component> = {};
         let lastComponent: Component | undefined;
-        Object.keys(data).forEach((dataKey) => {
-            if (dataKey.startsWith('zui.')) {
-                const component = data[dataKey] as Component;
-                result[dataKey] = component;
-                if (!lastComponent || lastComponent.gid < component.gid) {
-                    lastComponent = result[dataKey];
-                }
+        getComponentsOnElement(element, (component, dataKey) => {
+            result[dataKey] = component;
+            if (!lastComponent || lastComponent.gid < component.gid) {
+                lastComponent = result[dataKey];
             }
         });
         return name === true ? result : lastComponent;
@@ -354,4 +403,7 @@ $(() => {
 
     // Bind toggle events.
     bindToggleEvents();
+
+    // Auto destroy components when detached.
+    autoDestroyComponents();
 });

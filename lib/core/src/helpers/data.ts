@@ -76,21 +76,23 @@ export function takeData(target: object, key: string): unknown;
 /**
  * Take data associated by key with the target object from the cache.
  *
- * @param target  Target object to take data.
- * @param key     Key to take.
+ * @param target           Target object to take data.
+ * @param key              Key to take.
+ * @param mergeElementData Whether to merge element dataset.
  */
-export function takeData(target: object, key: string | undefined, skipElementData: boolean): unknown;
+export function takeData(target: object, key: string | undefined, mergeElementData: boolean): unknown;
 
 /**
  * Take data associated with the target object from the cache.
  *
- * @param target Target object to take data.
- * @param key    Key to take.
+ * @param target           Target object to take data.
+ * @param key              Key to take.
+ * @param mergeElementData Whether to merge element dataset.
  * @returns      Data associated with the target object.
  */
-export function takeData(target: object, key?: string, skipElementData?: boolean): unknown {
+export function takeData(target: object, key?: string, mergeElementData?: boolean): unknown {
     let data = cache.get(target) || {};
-    if (!skipElementData && target instanceof Element) {
+    if (mergeElementData && target instanceof Element) {
         data = Object.assign({}, $(target).dataset(), data);
     }
     if (key === undefined) {
@@ -129,7 +131,7 @@ $.fn.data = function (this: Cash, ...args: (string | Record<string, unknown> | u
             return;
         }
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        return takeData(this[0]!, data as string) as any;
+        return takeData(this[0]!, data as string, true) as any;
     }
     return this.each((_, ele) => {
         return storeData(ele, data as string, value);

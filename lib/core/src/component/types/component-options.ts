@@ -9,6 +9,7 @@ export type ComponentBaseOptions = {
     i18n?: I18nLangMap;
     $optionsFromDataset?: boolean;
     $reset?: boolean;
+    $notDestroyOnDetach?: boolean;
 };
 
 /**
