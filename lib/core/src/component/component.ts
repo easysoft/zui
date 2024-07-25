@@ -128,17 +128,12 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
     protected _destroyed = false;
 
     /**
-     * Element removed observer.
-     */
-    private _mobs?: MutationObserver;
-
-    /**
      * The component constructor.
      *
      * @param options The component initial options.
      */
     constructor(selector: Selector, options?: Partial<ComponentOptions<O>>) {
-        const {KEY, DATA_KEY, DEFAULT, MULTI_INSTANCE, NAME, ATTR_KEY} = this.constructor;
+        const {KEY, DATA_KEY, DEFAULT, MULTI_INSTANCE, NAME, ATTR_KEY, ALL} = this.constructor;
 
         if (!NAME) {
             throw new Error('[ZUI] The component must have a "NAME" static property.');
@@ -154,32 +149,15 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
         this._gid = gid;
         this._element = element;
 
-        const $parent = $element.parent();
-        if ($parent.length) {
-            this._mobs = new MutationObserver((mutations) => {
-                mutations.forEach((mutation) => {
-                    mutation.removedNodes.forEach(ele => {
-                        if (ele !== element) {
-                            return;
-                        }
-                        if (this._autoDestory) {
-                            clearTimeout(this._autoDestory);
-                        }
-                        this._autoDestory = window.setTimeout(() => {
-                            this._autoDestory = 0;
-                            if (isElementDetached(element)) {
-                                this.destroy();
-                            }
-                        }, 100);
-                    });
-                });
-            });
-            this._mobs.observe($parent[0]!, {childList: true, subtree: false});
-        }
-
         this._options = {...DEFAULT, ...(options?.$optionsFromDataset !== false ? $element.dataset() : {})} as ComponentOptions<O>;
         this.setOptions(options);
         this._key = this.options.key ?? `__${gid}`;
+
+        if (ALL.has(element)) {
+            ALL.get(element)!.add(this);
+        } else {
+            ALL.set(element, new Set([this]));
+        }
 
         $element.data(KEY, this).attr(ATTR_KEY, '').attr(DATA_KEY, `${gid}`);
         if (MULTI_INSTANCE) {
@@ -283,13 +261,12 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
      * Destroy the component.
      */
     destroy() {
-        const {KEY, DATA_KEY, MULTI_INSTANCE, ATTR_KEY} = this.constructor;
-        const {$element} = this;
+        const {KEY, DATA_KEY, ALL, MULTI_INSTANCE, ATTR_KEY} = this.constructor;
+        const {$element, element} = this;
 
         (this.emit as ((event: string, ...args: unknown[]) => void))('destroyed');
 
         this._destroyed = true;
-        this._mobs?.disconnect();
 
         $element
             .off(this.namespace)
@@ -309,6 +286,29 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
                 }
             }
         }
+
+        const map = ALL.get(element);
+        if (map) {
+            map.delete(this);
+            if (map.size === 0) {
+                ALL.delete(element);
+            }
+        }
+    }
+
+    /**
+     * Auto destroy the component when detached.
+     */
+    autoDestroy(delay = 100) {
+        if (this._autoDestory) {
+            clearTimeout(this._autoDestory);
+        }
+        this._autoDestory = window.setTimeout(() => {
+            this._autoDestory = 0;
+            if (isElementDetached(this.element)) {
+                this.destroy();
+            }
+        }, delay);
     }
 
     /**
@@ -436,6 +436,8 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
         return names.split(' ').map(name => name.includes('.') ? name : `${name}${this.namespace}`).join(' ');
     }
 
+    static ALL = new Map<HTMLElement, Set<Component>>();
+
     /**
      * Get the component instance of the given element.
      *
@@ -491,22 +493,16 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
      * @returns        All component instances.
      */
     static getAll<O extends {}, E extends ComponentEvents, U extends HTMLElement, T extends typeof Component<O, E, U>>(this: T, selector?: Selector): InstanceType<T>[] {
-        const {MULTI_INSTANCE, SELECTOR} = this;
+        const {SELECTOR, ALL} = this;
         const list: InstanceType<T>[] = [];
         $(selector || document)
             .find(SELECTOR)
             .each((_, element) => {
-                if (MULTI_INSTANCE) {
-                    const instanceMap = $(element).data(`${this.KEY}:ALL`);
-                    if (instanceMap) {
-                        list.push(...instanceMap.values());
-                        return;
+                ALL.get(element)?.forEach(instance => {
+                    if (instance instanceof this) {
+                        list.push(instance as InstanceType<T>);
                     }
-                }
-                const instance = $(element).data(this.KEY);
-                if (instance) {
-                    list.push(instance);
-                }
+                });
             });
         return list.sort((a, b) => a.gid - b.gid);
     }
