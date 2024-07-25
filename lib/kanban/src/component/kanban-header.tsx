@@ -12,7 +12,7 @@ export class KanbanHeader extends Component<KanbanHeaderProps> {
 
     componentDidMount() {
         if (this._ref.current) {
-            this._sticky = new Sticky(this._ref.current!, {scrollContainer: '.kanban-list'});
+            this._sticky = Sticky.ensure(this._ref.current!, {scrollContainer: '.kanban-list'}) as Sticky;
         }
     }
 
