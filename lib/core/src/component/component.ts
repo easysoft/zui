@@ -133,7 +133,7 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
      * @param options The component initial options.
      */
     constructor(selector: Selector, options?: Partial<ComponentOptions<O>>) {
-        const {KEY, DATA_KEY, DEFAULT, MULTI_INSTANCE, NAME, ATTR_KEY, ALL} = this.constructor;
+        const {KEY, DATA_KEY, DEFAULT, MULTI_INSTANCE, NAME, ATTR_KEY, ALL, TYPED_ALL} = this.constructor;
 
         if (!NAME) {
             throw new Error('[ZUI] The component must have a "NAME" static property.');
@@ -157,6 +157,12 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
             ALL.get(element)!.add(this);
         } else {
             ALL.set(element, new Set([this]));
+        }
+
+        if (TYPED_ALL.has(NAME)) {
+            TYPED_ALL.get(NAME)!.add(this);
+        } else {
+            TYPED_ALL.set(NAME, new Set([this]));
         }
 
         $element.data(KEY, this).attr(ATTR_KEY, '').attr(DATA_KEY, `${gid}`);
@@ -261,7 +267,7 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
      * Destroy the component.
      */
     destroy() {
-        const {KEY, DATA_KEY, ALL, MULTI_INSTANCE, ATTR_KEY} = this.constructor;
+        const {KEY, DATA_KEY, ALL, TYPED_ALL, NAME, MULTI_INSTANCE, ATTR_KEY} = this.constructor;
         const {$element, element} = this;
 
         (this.emit as ((event: string, ...args: unknown[]) => void))('destroyed');
@@ -292,6 +298,14 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
             map.delete(this);
             if (map.size === 0) {
                 ALL.delete(element);
+            }
+        }
+
+        const typedMap = TYPED_ALL.get(NAME);
+        if (typedMap) {
+            typedMap.delete(this);
+            if (typedMap.size === 0) {
+                TYPED_ALL.delete(NAME);
             }
         }
     }
@@ -438,6 +452,8 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
 
     static ALL = new Map<HTMLElement, Set<Component>>();
 
+    static TYPED_ALL = new Map<string, Set<Component>>();
+
     /**
      * Get the component instance of the given element.
      *
@@ -492,18 +508,23 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
      * @param selector The component element selector.
      * @returns        All component instances.
      */
-    static getAll<O extends {}, E extends ComponentEvents, U extends HTMLElement, T extends typeof Component<O, E, U>>(this: T, selector?: Selector): InstanceType<T>[] {
-        const {SELECTOR, ALL} = this;
+    static getAll<O extends {}, E extends ComponentEvents, U extends HTMLElement, T extends typeof Component<O, E, U>>(this: T, selector?: Selector, filter?: (instance: InstanceType<T>) => boolean): InstanceType<T>[] {
+        const {SELECTOR, ALL, TYPED_ALL} = this;
         const list: InstanceType<T>[] = [];
-        $(selector || document)
-            .find(SELECTOR)
-            .each((_, element) => {
-                ALL.get(element)?.forEach(instance => {
-                    if (instance instanceof this) {
-                        list.push(instance as InstanceType<T>);
-                    }
+        const checkInstance = (instance: Component) => {
+            if (instance instanceof this && (!filter || filter(instance as InstanceType<T>) !== false)) {
+                list.push(instance as InstanceType<T>);
+            }
+        };
+        if (selector) {
+            $(selector)
+                .find(SELECTOR)
+                .each((_, element) => {
+                    ALL.get(element)?.forEach(checkInstance);
                 });
-            });
+        } else {
+            TYPED_ALL.get(this.NAME)?.forEach(checkInstance);
+        }
         return list.sort((a, b) => a.gid - b.gid);
     }
 
@@ -514,13 +535,9 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
      * @param selector The component element selector.
      * @returns        The component instance.
      */
-    static query<O extends {}, E extends ComponentEvents, U extends HTMLElement, T extends typeof Component<O, E, U>>(this: T, selector?: Selector, key?: string | number, filter?: (instance: InstanceType<T>, index: number) => boolean): InstanceType<T> | undefined {
+    static query<O extends {}, E extends ComponentEvents, U extends HTMLElement, T extends typeof Component<O, E, U>>(this: T, selector?: Selector, key?: string | number, filter?: (instance: InstanceType<T>) => boolean): InstanceType<T> | undefined {
         if (selector === undefined) {
-            let all = this.getAll();
-            if (filter) {
-                all = all.filter(filter);
-            }
-            return all.pop();
+            return this.getAll(undefined, filter).pop();
         }
         return this.get($(selector).closest(this.SELECTOR), key);
     }
