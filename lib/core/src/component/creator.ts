@@ -180,7 +180,7 @@ function initCreators(element: HTMLElement, options: ZUIInitOptions = {}): void 
  * Bind toggle events.
  */
 function bindToggleEvents() {
-    $(document).on('click.zui.toggle mouseenter', '[data-toggle],[zui-toggle]', function (this: HTMLElement, event) {
+    $(document).on('click.zui.toggle mouseenter.zui.toggle', '[data-toggle],[zui-toggle]', function (this: HTMLElement, event) {
         const $this = $(this);
         const toggleName = ($this.dataset('toggle') || $this.attr('zui-toggle')) as string;
         if (!toggleName) {
