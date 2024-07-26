@@ -30,3 +30,5 @@ export class ContextMenu extends Dropdown<ContextMenuOptions> {
         }
     };
 }
+
+ContextMenu.register();
