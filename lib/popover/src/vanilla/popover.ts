@@ -135,6 +135,13 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
         if (typeof target === 'function') {
             target = target();
         }
+        if (typeof target === 'string') {
+            if (target === '$next') {
+                target = $(this._triggerElement as HTMLElement).next();
+            } else if (target.startsWith('$target:')) {
+                target = $(this._triggerElement as HTMLElement).closest(target.slice(8));
+            }
+        }
         return $(target)[0];
     }
 
