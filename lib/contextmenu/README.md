@@ -3,10 +3,10 @@
 ## 被动打开目标菜单
 
 ```html:example
-<div class="items-center justify-center h-32 primary-pale row" id="contextMenuToggle1" data-target="#contextMenu1">
+<div class="items-center justify-center h-32 primary-pale row" zui-create="contextMenu" data-target="$next">
     在此区域使用右键菜单
 </div>
-<menu class="contextmenu menu popup" id="contextMenu1">
+<menu class="contextmenu menu popup">
   <li class="menu-item"><a>操作</a></li>
   <li class="menu-item"><a>另一个操作</a></li>
   <li class="menu-item"><a>更多操作</a></li>
