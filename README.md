@@ -5,6 +5,7 @@ ZUI 3 是一个全新的开源 UI 组件库，提供了丰富的实用组件，�
 访问 https://openzui.com/ 来提前预览组件库。
 
 👉 如果你需要访问 ZUI 1，请访问 https://openzui.com/1/ ，ZUI 1 源码已经转移到 `zui1` 分支。
+如需了解开发中的文档，请访问：https://easysoft.github.io/zui/dev/ 。
 
 ## 特性
 
