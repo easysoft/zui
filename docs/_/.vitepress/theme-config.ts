@@ -66,6 +66,8 @@ function createNav() {
         {text: '指引',        link: '/guide/start/',     activeMatch: '/guide/'},
         {text: 'CSS 工具类',  link: '/utilities/skin/utilities/solid', activeMatch: '/utilities/'},
         {text: '组件',        link: '/lib/components/button/',       activeMatch: '/lib/'},
+        {text: 'ZUI1',        link: 'https://openzui.com/1/'},
+        {text: 'ZIN',        link: 'https://openzui.com/zin/'},
     ];
 }
 
