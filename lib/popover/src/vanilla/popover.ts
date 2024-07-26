@@ -408,13 +408,25 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
         const {placement: placementSetting, flip: isFlip, limitSize, shift: shiftSetting, offset: offsetSetting, arrow: arrowSetting, strategy} = this.options;
         const arrowElement = arrowSetting ? element.querySelector('.arrow') : null;
         const arrowSize = arrowElement ? (typeof arrowSetting === 'number' ? arrowSetting : 5) : 0;
+        const getOffsetSetting = () => {
+            if (typeof offsetSetting === 'function') {
+                return offsetSetting;
+            }
+            if (typeof offsetSetting === 'object') {
+                return {
+                    mainAxis: (offsetSetting.mainAxis || 0) + arrowSize,
+                    ...offsetSetting,
+                };
+            }
+            return (offsetSetting || 0) + arrowSize;
+        };
         return [trigger, element, {
             placement: placementSetting,
             strategy,
             middleware: [
                 isFlip ? flip() : null,
                 shiftSetting ? shift(typeof shiftSetting === 'object' ? shiftSetting : undefined) : null,
-                (offsetSetting || arrowSize) ? offset((offsetSetting || 0) + arrowSize) : null,
+                (offsetSetting || arrowSize) ? offset(getOffsetSetting()) : null,
                 arrowSetting ? arrow({element: arrowElement!}) : null,
                 limitSize ? size({
                     apply({availableWidth, availableHeight, placement}) {
