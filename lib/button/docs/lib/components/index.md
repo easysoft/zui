@@ -120,6 +120,28 @@
 
 :::
 
+### 链接按钮
+
+使用 `.btn-link` 类来获得链接按钮的外观。
+
+::: tabs
+
+== 示例
+
+<Example class="flex gap-4 flex-wrap items-end">
+  <button type="button" class="btn btn-link">链接按钮</button>
+  <button type="button" class="btn btn-link text-fore">普通颜色文字链接</button>
+</Example>
+
+== HTML
+
+```html
+<button type="button" class="btn btn-link">链接按钮</button>
+<button type="button" class="btn btn-link text-fore">普通颜色文字链接</button>
+```
+
+:::
+
 ### 按钮圆角
 
 搭配 CSS 工具类 `rounded-*` 为按钮应用不同的圆角样式。
@@ -350,6 +372,7 @@
 | 类        | 类型           | 作用  |
 | ------------- |:-------------:| ----- |
 | `btn`      | 实体类 | 元素作为按钮组件 |
+| `btn-link`      | 修饰类 | 使用链接按钮外观 |
 | `square`      | 工具类 | 按钮使用正方形外观 |
 | `size-xs`      | 工具类      |   按钮使用超小号尺寸 |
 | `size-sm`      | 工具类      |   按钮使用小号尺寸 |
@@ -364,3 +387,4 @@
 | `--btn-radius`       | 按钮圆角     |
 | `--btn-bg`   | 按钮背景颜色 |
 | `--btn-border-color` | 按钮边框颜色 |
+| `--btn-height` | 按钮高度 |
