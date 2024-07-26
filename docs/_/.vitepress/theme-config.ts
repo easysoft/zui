@@ -92,6 +92,7 @@ function initSidebars(): Record<string, {text: string, section?: string, items?:
             {text: '交互', section: 'interactivity', collapsed: true},
         ],
         '/lib/': [
+            {text: '基础', section: 'basic', collapsed: false},
             {text: '布局', section: 'layout', collapsed: false, hidden: true},
             {text: '内容', section: 'content', collapsed: false, hidden: true},
             {text: '图标', section: 'icons', collapsed: false},
@@ -190,6 +191,13 @@ function createSidebar() {
         '快速上手': 2,
         '教程': 3,
         '兼容性': 4,
+        'CSS 组件': 1,
+        '组件基类': 2,
+        'React 组件': 3,
+        'Cash（jQuery）扩展': 4,
+        '便捷组件调用': 5,
+        '便捷事件绑定': 6,
+        '全局触发调用': 7,
     };
 
     Object.keys(sidebars).forEach(key => {
