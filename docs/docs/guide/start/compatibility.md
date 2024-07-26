@@ -2,12 +2,12 @@
 
 ## 支持的浏览器
 
-* Chrome：49+
-* Firefox：45+
-* Safari：10+
-* Edge：13+
-* Chrome for Android：112+
-* iOS Safari：10+
+* Chrome：84+
+* Firefox：63+
+* Safari：14.1+
+* Edge：84+
+* Chrome for Android：126+
+* iOS Safari：14.5+
 
 ## 用到的第三方库
 

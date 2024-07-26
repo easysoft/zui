@@ -226,7 +226,7 @@ new zui.Nav('#myNav', {
     ]
 });
 
-const nav = zui.Nav.query('#myNav');
+const nav = zui.Nav.get('#myNav');
 </script>
 ```
 
@@ -312,7 +312,6 @@ $(function() {
 在 ZUI3 中提供了大量 JS 辅助工具，包括：
 
 * [本地存储](/lib/helpers/store/)
-* [js-cookie](/lib/helpers/@zentao/cookie/)
 * [日期辅助方法](/lib/helpers/helpers/date-helper.html)
 * [字符串辅助方法](/lib/helpers/helpers/string-helper.html)
 
