@@ -124,10 +124,10 @@ function handleGlobalEvent(this: Cash, event: Event) {
     const zuiOn = $element.attr('zui-on');
     if (zuiOn) {
         const [events, code] = zuiOn.split('~').map(x => x.trim());
-        if (events && code) {
+        if (events) {
             processGlobalEvent($element, event, $.extend({
                 on: events,
-            }, code.startsWith('{') ? evalValue(code) : {do: code}));
+            }, code ? (code.startsWith('{') ? evalValue(code) : {do: code}) : getZData($element, {prefix: 'data-', evalValue: ['call', 'if', 'do']})));
         }
     }
     const zuiOnEvent = $element.attr(`zui-on-${type}`);
