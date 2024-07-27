@@ -1,4 +1,4 @@
-:root {
+:root, .scrollbar {
     --scrollbar-size:      10px;
     --scrollbar-opacity:   .6;
     --scrollbar-bg:        rgba(var(--color-inverse-rgb), .15);
