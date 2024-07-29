@@ -62,12 +62,18 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
 
     protected declare _hideTimer?: number;
 
+    protected declare _zIndex: number;
+
     get shown() {
         return this._shown;
     }
 
     get id() {
         return this._id;
+    }
+
+    get zIndex() {
+        return this._zIndex;
     }
 
     afterInit() {
@@ -179,6 +185,7 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
         if (animation) {
             $target.addClass(animation === true ? 'fade' : animation);
         }
+        this._zIndex = Popover.Z_INDEX++;
         this._shown = true;
         this.render();
         SHOWN_POPOVERS.set(this.gid, this);
@@ -463,7 +470,7 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
             headingClass,
             contentClass,
             content,
-            style: {zIndex: (this.constructor as typeof Popover).Z_INDEX++, ...style},
+            style: {zIndex: this._zIndex, ...style},
             className,
             closeBtn,
             arrow: arrowSetting ? `arrow ${name}-arrow` : false,
