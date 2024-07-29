@@ -173,21 +173,17 @@ const sortColPlugin: DTableSorColPlugin = {
                 return;
             }
 
-            const {from, element, offset} = sortColInfo;
+            const {from, element} = sortColInfo;
             const $cells = $(element).closest('.dtable-cells');
             const bounding = $cells[0]!.getBoundingClientRect();
-            const width = bounding.width;
-            const pos = event.clientX - bounding.left - offset;
-            if ((pos + from.width) < 0 || (pos - from.width) > width) {
-                return sortColInfo.state;
-            }
+            const pos = event.clientX - bounding.left;
             const {cols, scrollLeft} = this.layout;
             const sideCols = cols[from.side].list;
             if (sideCols.length <= 1) {
                 return sortColInfo.state;
             }
             const left = scrollLeft + pos;
-            const to = sideCols.find(col => col.name !== from.name && col.visible && col.left <= left && (col.left + col.width) > left);
+            const to = sideCols.find(col => col.visible && col.left <= left && (col.left + col.width) > left);
             if (!to) {
                 return sortColInfo.state;
             }
