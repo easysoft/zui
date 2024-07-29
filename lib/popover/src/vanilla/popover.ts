@@ -180,7 +180,7 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
         }
         this._targetElement = target;
         const $target = $(target);
-        const {animation, mask, onShow, onShown, trigger} = this.options;
+        const {animation, onShow, onShown, trigger} = this.options;
         const {SHOWN_POPOVERS} = this.constructor as typeof Popover;
         $target.addClass(CLASS_SHOW);
         if (animation) {
@@ -216,9 +216,6 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
                     this.delayHide();
                 });
         }
-        $target.on(`click${namespace}`, '[data-dismiss="popover"]', () => {
-            this.hide();
-        });
 
         if (!this._virtual) {
             $(this._triggerElement as HTMLElement).addClass('with-popover-show');
@@ -231,10 +228,6 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
                 onShown?.call(this);
                 this.emit('shown');
             }, 200);
-
-            if (mask) {
-                $(document).off(`click${this.namespace}`, this._onClickDoc).on(`click${this.namespace}`, this._onClickDoc);
-            }
         }, 50);
     }
 
@@ -261,7 +254,6 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
             $(this._triggerElement as HTMLElement).removeClass('with-popover-show').removeAttr('data-pop-placement');
         }
 
-        $(document).off(this.namespace);
         if (hideNewOnHide) {
             SHOWN_POPOVERS.forEach((popover) => {
                 if (popover !== this && popover.zIndex > this.zIndex) {
@@ -294,7 +286,6 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
 
     destroy(): void {
         super.destroy();
-        $(document).off(this.namespace);
         if (!this._virtual) {
             const {namespace} = this;
             $(this._triggerElement as HTMLElement).off(namespace);
@@ -378,7 +369,7 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
         }
         const panelOptions = this._getRenderOptions();
         const $targetElement = $(targetElement);
-        $targetElement.toggleClass('popup', panelOptions.popup).css(panelOptions.style!);
+        $targetElement.z('popover', this.gid).toggleClass('popup', panelOptions.popup).css(panelOptions.style!);
         if (panelOptions.className) {
             $targetElement.setClass(panelOptions.className);
         }
@@ -406,7 +397,20 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
         }
     }
 
-    protected delayHide(delay = 100) {
+    handleClickOutside(event: MouseEvent): void | boolean {
+        if (this.options.mask) {
+            const triggerElement = this._triggerElement;
+            if (!(triggerElement instanceof HTMLElement && $(event.target as  HTMLElement).closest(triggerElement).length)) {
+                this.hide();
+            }
+        }
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    handleClickTarget(_event: MouseEvent): void | boolean {
+    }
+
+    delayHide(delay = 100) {
         this._resetTimer();
         this._clearDelayHide();
         this._hideTimer = window.setTimeout(() => {
@@ -536,13 +540,6 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
         };
     };
 
-    protected _onClickDoc = (event: MouseEvent) => {
-        const $target = $(event.target as HTMLElement);
-        if ((!$target.closest(`#${this._id}`).length && (this._virtual || !$target.closest(this._triggerElement as HTMLElement).length) && this._targetElement !== $target.closest('.popover')[0])) {
-            this.hide();
-        }
-    };
-
     static show<O extends PopoverOptions, E extends ComponentEvents, T extends typeof Popover<O, E>>(this: T, options: O & {event?: Event}): InstanceType<T> {
         const {element: elementSetting, event, ...otherOptions} = options;
         const element = elementSetting || (event?.currentTarget as HTMLElement);
@@ -575,3 +572,35 @@ Popover.toggle = {
 };
 
 Popover.register();
+
+$(() => {
+    $(document).on(`click.${Popover.NAMESPACE}`, (event: MouseEvent) => {
+        const {SHOWN_POPOVERS} = Popover;
+        if (!SHOWN_POPOVERS.size) {
+            return;
+        }
+        const $target = $(event.target as HTMLElement);
+        const $popoverTarget = $target.closest('[z-popover]');
+        const gid = $popoverTarget.length ? $popoverTarget.z('popover') as number : 0;
+        const clickedPopover = gid ? SHOWN_POPOVERS.get(gid) : null;
+        if (clickedPopover) {
+            const name = clickedPopover.options.name ?? clickedPopover.constructor.ZUI;
+            if ($target.closest(`[data-dismiss="${name}"]`).length) {
+                clickedPopover.hide();
+                return;
+            }
+
+            if (clickedPopover.handleClickTarget(event)) {
+                return;
+            }
+        }
+        const popovers = [...SHOWN_POPOVERS.values()].sort((a, b) => b.zIndex - a.zIndex);
+        for (const popover of popovers) {
+            if (popover !== clickedPopover && popover.handleClickOutside(event)) {
+                return;
+            }
+        }
+    });
+});
+
+Object.assign(window, {Popover});
