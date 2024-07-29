@@ -2,9 +2,13 @@ import {parseNumber, clamp} from './number';
 import type {ColInfo, ColSetting, DTableColsLayout, DTableColsSectionLayout, DTableOptions, DTablePlugin} from '../types';
 import type {DTable} from '../components';
 
-function initSectionColsLayout(cols: DTableColsSectionLayout, fixed = false) {
+function initSectionColsLayout(cols: DTableColsSectionLayout, fixed = false, maxWidth = 0) {
     if (!cols.list.length) {
         return;
+    }
+
+    if (maxWidth && !cols.widthSetting && cols.width > maxWidth) {
+        cols.widthSetting = maxWidth;
     }
 
     if (cols.widthSetting && cols.width !== cols.widthSetting) {
@@ -164,8 +168,9 @@ export function initColsLayout(dtable: DTable, options: DTableOptions, plugins: 
     }
 
     /* Layout columns. */
-    initSectionColsLayout(leftCols, true);
     initSectionColsLayout(rightCols, true);
+    const maxLeftWidth = width - rightCols.width - Math.max(40, minColWidth);
+    initSectionColsLayout(leftCols, true, maxLeftWidth);
     centerCols.widthSetting = width - leftCols.width - rightCols.width;
     initSectionColsLayout(centerCols);
 
