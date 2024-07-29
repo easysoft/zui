@@ -145,7 +145,7 @@ const resizePlugin: DTablePlugin<DTableResizeTypes, [DTableMousemoveTypes]> = {
             if (!col) {
                 return;
             }
-            if (col.sideIndex === this.layout.cols[col.side].list.length - 1) {
+            if (col.side !== 'left' && col.sideIndex === this.layout.cols[col.side].list.length - 1) {
                 return;
             }
             let colResize = col.setting.colResize ?? this.options.colResize;
