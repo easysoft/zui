@@ -169,6 +169,9 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
         const state = await super.setItems(items, error);
         if (items && this.props.parent?.checked === true) {
             this.toggleChecked(this._renderedItems.map(x => x.key!),  true);
+        } else if (items?.some((x) => x.checked)) {
+            this._needInitChecks = true;
+            this.forceUpdate();
         }
         return state;
     }
