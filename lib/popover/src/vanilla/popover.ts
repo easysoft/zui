@@ -108,7 +108,7 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
                     if (!this.shown && target) {
                         this.setOptions({target} as Partial<O>);
                     }
-                    this.toggle({event});
+                    this.toggle({event, delay: true});
                     event.preventDefault();
                 });
             }
