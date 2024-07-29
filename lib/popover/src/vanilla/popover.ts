@@ -36,6 +36,7 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
     };
 
     static hideOthers = false;
+    static SHOWN_POPOVERS = new Map<number, Popover>();
 
     protected declare _virtual: boolean;
 
@@ -173,12 +174,14 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
         this._targetElement = target;
         const $target = $(target);
         const {animation, mask, onShow, onShown, trigger} = this.options;
+        const {SHOWN_POPOVERS} = this.constructor as typeof Popover;
         $target.addClass(CLASS_SHOW);
         if (animation) {
             $target.addClass(animation === true ? 'fade' : animation);
         }
         this._shown = true;
         this.render();
+        SHOWN_POPOVERS.set(this.gid, this);
         onShow?.call(this);
         this.emit('show');
 
@@ -234,7 +237,9 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
 
         const {destroyOnHide, animation, onHide, onHidden, trigger} = this.options;
         const $target = $(this._targetElement as HTMLElement);
+        const {SHOWN_POPOVERS} = this.constructor as typeof Popover;
         this._shown = false;
+        SHOWN_POPOVERS.delete(this.gid);
         onHide?.call(this);
         this.emit('hide');
         $target.removeClass(CLASS_SHOWN);
