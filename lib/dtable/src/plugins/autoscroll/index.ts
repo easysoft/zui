@@ -137,7 +137,7 @@ const autoscrollPlugin: DTablePlugin<DTableAutoscrollTypes, [DTableMousemoveType
         startScrollToMouse(options) {
             const setting = {
                 interval: 60,
-                speed: 0.2,
+                speed: 0.5,
                 delay: 200,
                 maxStep: this.options.rowHeight,
                 onlyInside: false,
