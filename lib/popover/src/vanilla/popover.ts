@@ -33,6 +33,7 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
         animation: true,
         closeBtn: true,
         popup: true,
+        hideNewOnHide: true,
     };
 
     static hideOthers = false;
@@ -242,7 +243,7 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
             this._resetTimer();
         }
 
-        const {destroyOnHide, animation, onHide, onHidden, trigger} = this.options;
+        const {destroyOnHide, animation, onHide, onHidden, trigger, hideNewOnHide} = this.options;
         const $target = $(this._targetElement as HTMLElement);
         const {SHOWN_POPOVERS} = this.constructor as typeof Popover;
         this._shown = false;
@@ -261,6 +262,13 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
         }
 
         $(document).off(this.namespace);
+        if (hideNewOnHide) {
+            SHOWN_POPOVERS.forEach((popover) => {
+                if (popover !== this && popover.zIndex > this.zIndex) {
+                    popover.hide();
+                }
+            });
+        }
 
         this._resetTimer(() => {
             onHidden?.call(this);
