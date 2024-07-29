@@ -522,8 +522,12 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
                 .each((_, element) => {
                     ALL.get(element)?.forEach(checkInstance);
                 });
-        } else {
+        } else if (this !== Component) {
             TYPED_ALL.get(this.NAME)?.forEach(checkInstance);
+        } else {
+            ALL.forEach((components) => {
+                components.forEach(checkInstance);
+            });
         }
         return list.sort((a, b) => a.gid - b.gid);
     }
