@@ -36,7 +36,6 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
         hideNewOnHide: true,
     };
 
-    static hideOthers = false;
     static SHOWN_POPOVERS = new Map<number, Popover>();
 
     protected declare _virtual: boolean;
@@ -154,7 +153,7 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
     }
 
     show(options?: PopoverShowOptions) {
-        const {delay, event, hideOthers} = options || {};
+        const {delay, event, hideOthers = this.options.hideOthers} = options || {};
         if (event) {
             this._triggerEvent = event;
         }
@@ -193,12 +192,10 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
         onShow?.call(this);
         this.emit('show');
 
-        /* Hide other shown modals. */
-        const constructor = this.constructor as typeof Popover;
-        const {hideOthers: hideOthersOption} = this.options;
-        if (hideOthers || (constructor.hideOthers && this.options.hideOthers !== false) || hideOthersOption) {
-            constructor.getAll().forEach((popover) => {
-                if (popover !== this && popover.shown && !$target.closest(popover.element).length) {
+        /* Hide other shown popovers. */
+        if (hideOthers) {
+            SHOWN_POPOVERS.forEach((popover) => {
+                if (popover !== this) {
                     popover.hide();
                 }
             });
