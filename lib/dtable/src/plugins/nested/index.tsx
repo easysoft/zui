@@ -203,6 +203,7 @@ const nestedToggleClass = 'dtable-nested-toggle';
 const nestedPlugin: DTablePlugin<DTableNestedTypes, DTableNestedDependencies> = {
     name: 'nested',
     plugins: [store],
+    requireAfter: ['sortable'],
     defaultOptions: {
         nested: 'auto',
         nestedParentKey: 'parent',
