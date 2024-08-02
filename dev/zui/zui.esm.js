@@ -8,7 +8,7 @@ var ot = (s, t, e) => (bn(s, t, "read from private field"), e ? e.call(s) : t.ge
   t instanceof WeakSet ? t.add(s) : t.set(s, e);
 }, mt = (s, t, e, n) => (bn(s, t, "write to private field"), n ? n.call(s, e) : t.set(s, e), e);
 var wn = (s, t, e) => (bn(s, t, "access private method"), e);
-const Pu = "3.0.0", Ru = 1722568029152, Ht = document, Es = window, Hr = Ht.documentElement, de = Ht.createElement.bind(Ht), Wr = de("div"), Cn = de("table"), Ja = de("tbody"), ar = de("tr"), { isArray: Xs, prototype: jr } = Array, { concat: Za, filter: oi, indexOf: Br, map: Vr, push: Xa, slice: Ur, some: ai, splice: Qa } = jr, tl = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, el = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, sl = /<.+>/, nl = /^\w+$/;
+const Pu = "3.0.0", Ru = 1722577250753, Ht = document, Es = window, Hr = Ht.documentElement, de = Ht.createElement.bind(Ht), Wr = de("div"), Cn = de("table"), Ja = de("tbody"), ar = de("tr"), { isArray: Xs, prototype: jr } = Array, { concat: Za, filter: oi, indexOf: Br, map: Vr, push: Xa, slice: Ur, some: ai, splice: Qa } = jr, tl = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, el = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, sl = /<.+>/, nl = /^\w+$/;
 function li(s, t) {
   const e = il(t);
   return !s || !e && !le(t) && !X(t) ? [] : !e && el.test(s) ? t.getElementsByClassName(s.slice(1).replace(/\\/g, "")) : !e && nl.test(s) ? t.getElementsByTagName(s) : t.querySelectorAll(s);
@@ -10904,7 +10904,7 @@ const vu = {
   },
   methods: {
     ignoreNextClick(s = 10) {
-      window.setTimeout(() => {
+      this.data.ignoreNextClick = window.setTimeout(() => {
         this.data.ignoreNextClick = void 0;
       }, s);
     }
