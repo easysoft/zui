@@ -26,13 +26,13 @@ export type DTableSortColTypes = {
         onSortColEnd: (this: DTableSortCol, from: ColInfo, to: ColInfo | undefined, sortingSide: SortingColSide | undefined, orders: string[] | undefined) => void;
         onSortCol: (this: DTableSortCol, from: ColInfo, to: ColInfo, sortingSide: SortingColSide, orders: string[]) => void | false;
     }>;
-    state: Partial<{
-        colOrders: Record<string, number>;
-        sortColFrom: ColInfo;
-        sortingColPos: number;
+    state: {
+        colOrders?: Record<string, number>;
+        sortColFrom?: ColInfo;
+        sortingColPos?: number;
         sortingColTo?: ColInfo;
         sortingColSide?: SortingColSide;
-    }>;
+    };
     data: {
         sortColInfo?: {from: ColInfo, element: HTMLElement, offset: number, state?: SortingColState, startMouseX: number, lastMouseX: number, colOffsetMap?: Record<string, number>};
     },
@@ -205,8 +205,8 @@ const sortColPlugin: DTableSorColPlugin = {
         },
     },
     onAddCol(col) {
-        const {colOrders} = this.state;
-        const order = colOrders?.[col.name];
+        const {colOrders = {}} = this.state;
+        const order = colOrders[col.name];
         if (order !== undefined) {
             col.order = order;
         }

@@ -421,7 +421,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
             }
             this.#layout = undefined;
         }
-        this.setState(state ?? ((preState) => ({renderCount: preState.renderCount + 1})), callback);
+        this.setState(state || ((preState) => ({renderCount: preState.renderCount + 1})), callback);
     }
 
     getPointerInfo(event: Event): DTablePointerInfo | undefined {
