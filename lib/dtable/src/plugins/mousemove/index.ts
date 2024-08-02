@@ -57,7 +57,7 @@ const mousemovePlugin: DTablePlugin<DTableMousemoveTypes> = {
     },
     methods: {
         ignoreNextClick(timeout = 10) {
-            window.setTimeout(() => {
+            this.data.ignoreNextClick = window.setTimeout(() => {
                 this.data.ignoreNextClick = undefined;
             }, timeout);
         },
