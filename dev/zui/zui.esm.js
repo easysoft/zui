@@ -8,7 +8,7 @@ var ot = (s, t, e) => (bn(s, t, "read from private field"), e ? e.call(s) : t.ge
   t instanceof WeakSet ? t.add(s) : t.set(s, e);
 }, mt = (s, t, e, n) => (bn(s, t, "write to private field"), n ? n.call(s, e) : t.set(s, e), e);
 var wn = (s, t, e) => (bn(s, t, "access private method"), e);
-const Pu = "3.0.0", Ru = 1722237295398, Ht = document, Es = window, Hr = Ht.documentElement, de = Ht.createElement.bind(Ht), Wr = de("div"), Cn = de("table"), Ja = de("tbody"), ar = de("tr"), { isArray: Xs, prototype: jr } = Array, { concat: Za, filter: oi, indexOf: Br, map: Vr, push: Xa, slice: Ur, some: ai, splice: Qa } = jr, tl = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, el = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, sl = /<.+>/, nl = /^\w+$/;
+const Pu = "3.0.0", Ru = 1722568029152, Ht = document, Es = window, Hr = Ht.documentElement, de = Ht.createElement.bind(Ht), Wr = de("div"), Cn = de("table"), Ja = de("tbody"), ar = de("tr"), { isArray: Xs, prototype: jr } = Array, { concat: Za, filter: oi, indexOf: Br, map: Vr, push: Xa, slice: Ur, some: ai, splice: Qa } = jr, tl = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, el = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, sl = /<.+>/, nl = /^\w+$/;
 function li(s, t) {
   const e = il(t);
   return !s || !e && !le(t) && !X(t) ? [] : !e && el.test(s) ? t.getElementsByClassName(s.slice(1).replace(/\\/g, "")) : !e && nl.test(s) ? t.getElementsByTagName(s) : t.querySelectorAll(s);
@@ -9158,7 +9158,16 @@ function Ta(s, t, e) {
   }), s;
 }
 function Bh(s = [], t = !0) {
-  return t && js.length && s.unshift(...js), s != null && s.length ? Ta([], s, /* @__PURE__ */ new Set()) : [];
+  if (t && js.length && s.unshift(...js), !(s != null && s.length))
+    return [];
+  const e = Ta([], s, /* @__PURE__ */ new Set()), n = [], i = e.reduce((r, o, a) => {
+    var l;
+    return r.set(o.name, a * 1e3), (l = o.requireAfter) != null && l.length && n.push(o), r;
+  }, /* @__PURE__ */ new Map());
+  return n.length && (n.forEach((r) => {
+    const o = r.requireAfter.reduce((a, l) => (i.has(l) && a.push(i.get(l)), a), []);
+    o.length && i.set(r.name, Math.max(...o) + 1);
+  }), e.sort((r, o) => i.get(r.name) - i.get(o.name))), e;
 }
 function Na() {
   return {
@@ -9714,7 +9723,7 @@ let rr = class extends B {
         return;
       G(this, Et, void 0);
     }
-    this.setState(i ?? ((r) => ({ renderCount: r.renderCount + 1 })), e);
+    this.setState(i || ((r) => ({ renderCount: r.renderCount + 1 })), e);
   }
   getPointerInfo(t) {
     const e = t.target;
@@ -10551,6 +10560,7 @@ function qa(s, t, e, n, i) {
 const bs = "dtable-nested-toggle", uu = {
   name: "nested",
   plugins: [lu],
+  requireAfter: ["sortable"],
   defaultOptions: {
     nested: "auto",
     nestedParentKey: "parent",
@@ -10602,37 +10612,39 @@ const bs = "dtable-nested-toggle", uu = {
   },
   onAddRows(s) {
     const { nestedMap: t, nestedRowMap: e } = this.data;
-    return s.forEach((n) => {
-      var a, l;
-      const i = t.get(n.id) ?? {
+    s.forEach((i) => {
+      var l, c;
+      const r = t.get(i.id) ?? {
         state: "",
         level: 0
       };
-      let r = ((a = n.data) == null ? void 0 : a[this.options.nestedParentKey ?? "parent"]) ?? [];
-      Array.isArray(r) || (r = [r]);
-      let o;
-      for (r = [...r]; r.length; ) {
-        let c = r.pop();
-        if (c === void 0)
+      let o = ((l = i.data) == null ? void 0 : l[this.options.nestedParentKey ?? "parent"]) ?? [];
+      Array.isArray(o) || (o = [o]);
+      let a;
+      for (o = [...o]; o.length; ) {
+        let u = o.pop();
+        if (u === void 0)
           continue;
-        if (c = String(c), e.get(c)) {
-          o = c;
+        if (u = String(u), e.get(u)) {
+          a = u;
           break;
         }
       }
-      if (i.parent = o === "0" ? void 0 : o, (l = n.data) != null && l[this.options.asParentKey ?? "asParent"] && (i.children = []), t.set(n.id, i), o) {
-        let c = t.get(o);
-        c || (c = {
+      if (r.parent = a === "0" ? void 0 : a, (c = i.data) != null && c[this.options.asParentKey ?? "asParent"] && (r.children = []), t.set(i.id, r), a) {
+        let u = t.get(a);
+        u || (u = {
           state: "",
           level: 0
-        }, t.set(o, c)), c.children || (c.children = []), c.children.push(n.id);
+        }, t.set(a, u)), u.children || (u.children = []), u.children.push(i.id);
       }
-    }), s = s.filter(
-      (n) => this.getNestedRowInfo(n.id).state !== "hidden"
-      /* hidden */
-    ), Ua(this.data.nestedMap), s.sort((n, i) => {
-      const r = this.getNestedRowInfo(n.id), o = this.getNestedRowInfo(i.id), a = (r.order ?? 0) - (o.order ?? 0);
-      return a === 0 ? n.index - i.index : a;
+    });
+    const n = /* @__PURE__ */ new Map();
+    return s = s.filter((i) => {
+      const r = this.getNestedRowInfo(i.id);
+      return n.set(i.id, r), r.state !== "hidden";
+    }), Ua(n), s.sort((i, r) => {
+      const o = n.get(i.id), a = n.get(r.id), l = (o.order ?? 0) - (a.order ?? 0);
+      return l === 0 ? i.index - r.index : l;
     }), s;
   },
   onRenderCell(s, t) {
@@ -10971,10 +10983,7 @@ const xu = {
 const Nu = {
   name: "sortable",
   defaultOptions: {
-    sortable: !0,
-    canSortTo(s, t) {
-      return this.options.nested ? this.getNestedRowInfo(s.id).parent === this.getNestedRowInfo(t.id).parent : !0;
-    }
+    sortable: !0
   },
   when: (s) => !!s.sortable,
   plugins: [Ga, Tu],
