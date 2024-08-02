@@ -313,11 +313,16 @@ const nestedPlugin: DTablePlugin<DTableNestedTypes, DTableNestedDependencies> = 
             }
         });
 
-        rows = rows.filter(row => this.getNestedRowInfo(row.id).state !== NestedRowState.hidden);
-        updateNestedMapOrders(this.data.nestedMap);
+        const nestedStateMap = new Map<string, NestedRowInfo>();
+        rows = rows.filter(row => {
+            const info = this.getNestedRowInfo(row.id)!;
+            nestedStateMap.set(row.id, info);
+            return info.state !== NestedRowState.hidden;
+        });
+        updateNestedMapOrders(nestedStateMap);
         rows.sort((rowA, rowB) => {
-            const infoA = this.getNestedRowInfo(rowA.id);
-            const infoB = this.getNestedRowInfo(rowB.id);
+            const infoA = nestedStateMap.get(rowA.id)!;
+            const infoB = nestedStateMap.get(rowB.id)!;
             const result = (infoA.order ?? 0) - (infoB.order ?? 0);
             return result === 0 ? (rowA.index - rowB.index) : result;
         });
@@ -355,6 +360,7 @@ const nestedPlugin: DTablePlugin<DTableNestedTypes, DTableNestedDependencies> = 
                 result.push(<div className="dtable-nested-indent" style={{width: nestedIndent * info.level + 'px'}} />);
             }
         }
+
         return result;
     },
     onRenderHeaderCell(result, {row, col}) {
