@@ -82,5 +82,28 @@ export function initPlugins(pluginsLike: DTablePluginLike[] = [], includeBuildIn
         return [];
     }
 
-    return initPluginsInner([], pluginsLike, new Set<string>());
+    const plugins = initPluginsInner([], pluginsLike, new Set<string>());
+    const pluginRequireList: DTablePlugin[]  = [];
+    const pluginOrder = plugins.reduce((order, plugin, index) => {
+        order.set(plugin.name, index * 1000);
+        if (plugin.requireAfter?.length) {
+            pluginRequireList.push(plugin);
+        }
+        return order;
+    }, new Map<string, number>());
+    if (pluginRequireList.length) {
+        pluginRequireList.forEach(plugin => {
+            const requireAfterOrders = plugin.requireAfter!.reduce((orders, name) => {
+                if (pluginOrder.has(name)) {
+                    orders.push(pluginOrder.get(name)!);
+                }
+                return orders;
+            }, [] as number[]);
+            if (requireAfterOrders.length) {
+                pluginOrder.set(plugin.name, Math.max(...requireAfterOrders) + 1);
+            }
+        });
+        plugins.sort((a, b) => pluginOrder.get(a.name)! - pluginOrder.get(b.name)!);
+    }
+    return plugins;
 }
