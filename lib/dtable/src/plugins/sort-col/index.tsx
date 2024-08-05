@@ -67,6 +67,16 @@ const sortColPlugin: DTableSorColPlugin = {
     name: 'sort-col',
     when: options => !!options.sortCol,
     plugins: [mousemove, autoscroll],
+    resetState: true,
+    state() {
+        return {
+            colOrders: {},
+            sortColFrom: undefined,
+            sortingColPos: undefined,
+            sortingColTo: undefined,
+            sortingColSide: undefined,
+        };
+    },
     events: {
         mousedown(event) {
             if (this.data.disableSortCol) {
@@ -101,27 +111,30 @@ const sortColPlugin: DTableSorColPlugin = {
                 let colOrders: Record<string, number> | undefined;
                 let orders: string[] | undefined;
                 const {from, to, side} = sortingState;
-                if (to && side) {
-                    const sideCols = this.layout.cols[from.side].list;
-                    const fromIndex = from.sideIndex;
-                    const toIndex = to.sideIndex;
-                    const col = sideCols.splice(fromIndex, 1);
-                    sideCols.splice(toIndex + (side === 'after' ? 1 : 0), 0, col[0]);
-                    colOrders = {};
-                    orders = [];
-                    sideCols.forEach(({name}, index) => {
-                        colOrders![name] = index + 1;
-                        orders!.push(name);
-                    });
+                if (to) {
+                    if (from.name === to.name) {
+                        colOrders = {};
+                    } else if (side) {
+                        const sideCols = this.layout.cols[from.side].list;
+                        const fromIndex = from.sideIndex;
+                        const toIndex = to.sideIndex;
+                        const col = sideCols.splice(fromIndex, 1);
+                        sideCols.splice(toIndex + (side === 'after' ? 1 : 0), 0, col[0]);
+                        colOrders = {};
+                        orders = [];
+                        sideCols.forEach(({name}, index) => {
+                            colOrders![name] = index + 1;
+                            orders!.push(name);
+                        });
 
-                    if (this.options.onSortCol?.call(this, from, to, side, orders) === false) {
-                        colOrders = undefined;
-                        orders = undefined;
+                        if (this.options.onSortCol?.call(this, from, to, side, orders) === false) {
+                            colOrders = undefined;
+                            orders = undefined;
+                        }
                     }
-                }
-
-                if (to || Math.abs(sortColInfo.lastMouseX - sortColInfo.startMouseX) > 4) {
-                    this.ignoreNextClick();
+                    if (Math.abs(sortColInfo.lastMouseX - sortColInfo.startMouseX) > 4) {
+                        this.ignoreNextClick();
+                    }
                 }
 
                 this.disableAnimation();
@@ -194,7 +207,7 @@ const sortColPlugin: DTableSorColPlugin = {
                 from,
                 pos: pos + scrollLeft,
                 to,
-                side,
+                side: from.name !== to.name ? side : undefined,
             } : {
                 from,
                 pos,
