@@ -11,6 +11,8 @@ export type PopoverOptions = Omit<PopoverPanelOptions, 'arrow' | 'arrowStyle' | 
     /* The trigger element. */
     element?: HTMLElement | VirtualElement;
     width?: number | 'auto' | '100%' | (() => number | 'auto');
+    minWidth?: string;
+    minHeight?: string;
     height?: number | (() => number | 'auto');
     limitSize?: boolean;
     container?: Selector;
