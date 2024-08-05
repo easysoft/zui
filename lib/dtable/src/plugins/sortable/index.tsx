@@ -53,6 +53,16 @@ const sortablePlugin: DTablePlugin<DTableSortableTypes, [DTableMousemoveTypes, D
     },
     when: options => !!options.sortable,
     plugins: [mousemove, autoscroll],
+    resetState: true,
+    state() {
+        return {
+            rowOrders: undefined,
+            sortingFrom: undefined,
+            sortingPos: undefined,
+            sortingTo: undefined,
+            sortingSide: undefined,
+        };
+    },
     events: {
         click(event) {
             if ((event.target as HTMLElement).closest('.dtable-sort-link')) {
