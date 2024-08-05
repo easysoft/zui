@@ -33,6 +33,7 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
         animation: true,
         closeBtn: true,
         popup: true,
+        elementShowClass: 'with-popover-show',
         hideNewOnHide: true,
     };
 
@@ -179,7 +180,7 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
         }
         this._targetElement = target;
         const $target = $(target);
-        const {animation, onShow, onShown, trigger} = this.options;
+        const {animation, onShow, onShown, trigger, elementShowClass} = this.options;
         const {SHOWN_POPOVERS} = this.constructor as typeof Popover;
         $target.addClass(CLASS_SHOW);
         if (animation) {
@@ -214,8 +215,8 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
                 });
         }
 
-        if (!this._virtual) {
-            $(this._triggerElement as HTMLElement).addClass('with-popover-show');
+        if (!this._virtual && elementShowClass) {
+            $(this._triggerElement as HTMLElement).addClass(elementShowClass);
         }
 
         this._resetTimer(() => {
@@ -233,7 +234,7 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
             this._resetTimer();
         }
 
-        const {destroyOnHide, animation, onHide, onHidden, trigger, hideNewOnHide} = this.options;
+        const {destroyOnHide, animation, onHide, onHidden, trigger, hideNewOnHide, elementShowClass} = this.options;
         const $target = $(this._targetElement as HTMLElement);
         const {SHOWN_POPOVERS} = this.constructor as typeof Popover;
         this._shown = false;
@@ -247,8 +248,8 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
             $target.off(this.namespace);
         }
 
-        if (!this._virtual) {
-            $(this._triggerElement as HTMLElement).removeClass('with-popover-show').removeAttr('data-pop-placement');
+        if (!this._virtual && elementShowClass) {
+            $(this._triggerElement as HTMLElement).removeClass(elementShowClass).removeAttr('data-pop-placement');
         }
 
         if (hideNewOnHide) {
