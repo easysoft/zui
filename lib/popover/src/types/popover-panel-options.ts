@@ -15,4 +15,6 @@ export type PopoverPanelOptions = {
     closeBtn?: boolean;
     arrow?: boolean | string;
     arrowStyle?: JSX.CSSProperties;
+    footer?: CustomContentType;
+    footerClass?: string;
 };

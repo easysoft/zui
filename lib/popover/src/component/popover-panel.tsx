@@ -20,11 +20,18 @@ export class PopoverPanel extends Component<PopoverPanelOptions> {
             contentClass,
             arrowStyle,
             onlyInner,
+            footer,
+            footerClass,
         } = props;
 
         let contentView = <CustomContent key="content" content={content} />;
         if (contentClass || title) {
             contentView = <div key="content" className={contentClass}>{contentView}</div>;
+        }
+
+        let footerView = <CustomContent key="footer" content={footer} />;
+        if (footerClass || title) {
+            footerView = <div key="footer" className={footerClass}>{footerView}</div>;
         }
 
         const views: ComponentChild[] = [];
@@ -37,7 +44,7 @@ export class PopoverPanel extends Component<PopoverPanelOptions> {
         } else {
             views.push(closeBtnView);
         }
-        views.push(contentView);
+        views.push(contentView, footerView);
         if (arrow) {
             views.push(<div key="arrow" className={typeof arrow === 'string' ? arrow : 'arrow'} style={arrowStyle}></div>);
         }

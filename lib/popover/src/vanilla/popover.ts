@@ -471,6 +471,8 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
             className = name,
             closeBtn,
             arrow: arrowSetting,
+            footer,
+            footerClass = `${name}-footer`,
         } = this.options;
         return {
             popup,
@@ -485,6 +487,8 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
             arrow: arrowSetting ? `arrow ${name}-arrow` : false,
             arrowStyle: {'--arrow-size': `${typeof arrowSetting === 'number' ? arrowSetting : 5}px`},
             onlyInner: true,
+            footer,
+            footerClass,
         };
     }
 
