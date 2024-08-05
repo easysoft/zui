@@ -236,16 +236,16 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
         return !!(nestedShow[keyPath] ?? this.state.defaultShow);
     }
 
-    async toggle(keyPath: string, toggle?: boolean) {
+    async toggle(keyPath: string, toggle?: boolean, reset?: boolean) {
         const isExpanded = this.isExpanded(keyPath);
-        if (toggle === isExpanded) {
+        if (!reset && toggle === isExpanded) {
             return;
         }
         if (toggle === undefined) {
             toggle = !isExpanded;
         }
         const {nestedShow, onToggle, accordion} = this.props;
-        if (onToggle && onToggle.call(this, keyPath, toggle) === false) {
+        if (onToggle && onToggle.call(this, keyPath, toggle, reset) === false) {
             return;
         }
         if (nestedShow !== undefined) {
@@ -253,7 +253,7 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
         }
         await this.changeState(prevState => {
             let newNestedShow: Record<ItemKey, boolean> = {
-                ...prevState.nestedShow,
+                ...(reset ? {} : prevState.nestedShow),
                 [keyPath]: toggle!,
             };
             if (toggle && accordion) {

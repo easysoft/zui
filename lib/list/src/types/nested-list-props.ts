@@ -19,5 +19,5 @@ export interface NestedListProps<T extends NestedItem = NestedListItem> extends 
     checkedState?: Record<ItemKey, boolean>;
     expandChildrenOnCheck?: boolean;
     toggleOnActive?: boolean;
-    onToggle?: (key: ItemKey, toggle: boolean) => false | void;
+    onToggle?: (key: ItemKey, toggle: boolean, reset?: boolean) => false | void;
 }
