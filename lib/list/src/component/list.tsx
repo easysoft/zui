@@ -268,9 +268,11 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
 
         if (renderedItem.type === 'item') {
             const {checkbox} = props;
-            if (checkbox) {
+            if (renderedItem.checkbox === false) {
+                renderedItem.checked = undefined;
+            } else if (checkbox || renderedItem.checkbox) {
                 renderedItem.checked = this.isChecked(renderedItem.key!, index, renderedItem.checked as CheckedType);
-                if (typeof checkbox === 'object') {
+                if (typeof checkbox === 'object' && renderedItem.checkbox !== false) {
                     renderedItem.checkbox = renderedItem.checkbox ? $.extend({}, checkbox, renderedItem.checkbox) : checkbox;
                 }
                 if (props.selectOnChecked && renderedItem.checked === true) {
@@ -315,7 +317,9 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
         } else if (checkOnClick === true) {
             checkOnClick = '.item-checkbox';
         }
-        if (checkOnClick && !info?.renderedItem.disabled && info && (event.target as HTMLElement).closest(checkOnClick)) {
+        const itemCheckbox = info?.renderedItem?.checkbox;
+        const hasCheckbox = itemCheckbox !== false && (this.props.checkbox || itemCheckbox);
+        if (hasCheckbox && checkOnClick && !info?.renderedItem.disabled && info && (event.target as HTMLElement).closest(checkOnClick)) {
             this.toggleChecked(info.key);
             event.stopPropagation();
             return;
