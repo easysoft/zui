@@ -10,7 +10,6 @@ export interface NestedListProps<T extends NestedItem = NestedListItem> extends 
     indent?: number;
     level?: number;
     preserve?: string;
-    nestedTrigger?: 'click' | 'hover',
     accordion?: boolean;
     nestedShow?: boolean | Record<ItemKey, boolean>;
     defaultNestedShow?: boolean | Record<ItemKey, boolean>;
@@ -20,5 +19,4 @@ export interface NestedListProps<T extends NestedItem = NestedListItem> extends 
     checkedState?: Record<ItemKey, boolean>;
     toggleOnActive?: boolean;
     onToggle?: (key: ItemKey, toggle: boolean) => false | void;
-    onHoverItem?: (info: {hover: boolean, item: T, index: number, event: MouseEvent}) => void;
 }

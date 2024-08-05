@@ -98,8 +98,6 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
 
     protected declare _hasNestedItems: boolean;
 
-    protected declare _needHandleHover: boolean;
-
     protected declare _storeID: string;
 
     protected declare _renderedItemMap: Map<string, Item>;
@@ -142,7 +140,6 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
         }
 
         this._renderedItemMap = new Map();
-        this._handleHover = this._handleHover.bind(this);
         this._handleClick = this._handleClick.bind(this);
         this._beforeRenderNestedItem = this._beforeRenderNestedItem.bind(this);
         this._handleNestedToggle = this._handleNestedToggle.bind(this);
@@ -156,10 +153,6 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
 
     get nestedShow() {
         return this.props.nestedShow ?? this.state.nestedShow ?? false;
-    }
-
-    get isHoverTrigger() {
-        return this.props.nestedTrigger === 'hover';
     }
 
     async setItems(items?: Item[] | undefined, error?: Error | undefined) {
@@ -273,16 +266,6 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
                 map[key] = toggle!;
                 return map;
             }, newNestedShow) : newNestedShow;
-            if (this.isHoverTrigger && !toggle) {
-                Object.keys(newNestedShow).forEach(key => {
-                    if (!newNestedShow[key] || !key.startsWith(`${keyPath}:`)) {
-                        return;
-                    }
-                    parentKeys(keyPath).forEach(k => {
-                        newNestedShow[k] = true;
-                    });
-                });
-            }
             return {
                 nestedShow: newNestedShow,
             } as Partial<S>;
@@ -573,74 +556,59 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
         renderedItem = mergeProps(renderedItem, {
             'z-parent': renderedItem.parentKey,
             'z-key-path': renderedItem._keyPath,
-        }, this._needHandleHover ? {
-            onMouseEnter: this._handleHover,
-            onMouseLeave: this._handleHover,
-        } : null, nestedListContent ? {children: nestedListContent} : null);
+        }, nestedListContent ? {children: nestedListContent} : null);
         this._renderedItemMap.set(renderedItem._keyPath as string, renderedItem);
         return super._renderItem(props, renderedItem, index);
     }
 
     protected _getItemFromEvent(event: MouseEvent, target?: HTMLElement): MouseEventInfo | undefined {
-        const info = super._getItemFromEvent(event, target) as MouseEventInfo;
+        target = target || event.target as HTMLElement;
+        let info = super._getItemFromEvent(event, target) as MouseEventInfo;
         if (!info) {
+            const listEle = target.closest('[z-list]') as HTMLElement;
+            if (listEle) {
+                const listKey = listEle.getAttribute('z-list')!;
+                const item = this.getItem(listKey);
+                const renderedItem = this.getRenderedItem(listKey);
+                if (!item || !renderedItem) {
+                    return;
+                }
+                info = {
+                    target,
+                    index: renderedItem._index as number,
+                    item,
+                    element: listEle,
+                    event,
+                    key: listKey,
+                    keyPath: listKey,
+                    renderedItem,
+                };
+            }
             return;
         }
-        if (event.type === 'mouseenter' || event.type === 'mouseleave') {
-            info.hover = event.type === 'mouseenter';
+        if (event.type === 'mouseenter' || event.type === 'mouseleave' || event.type === 'mouseover') {
+            info.hover = event.type !== 'mouseleave';
         }
         const {parentKey} = this.props;
-        return {...info, parentKey, keyPath: `${parentKey !== undefined ? `${parentKey}:` : ''}${info.key}`, target: target || event.target as HTMLElement};
+        return {...info, parentKey, keyPath: `${parentKey !== undefined ? `${parentKey}:` : ''}${info.key}`, target};
     }
 
-    protected _toggleFromEvent(info: MouseEventInfo) {
-        const {item, hover, event, keyPath, target} = info;
-        const {nestedToggle} = this.props;
-        const {isHoverTrigger} = this;
-        if (!item.items || event.defaultPrevented || (isHoverTrigger && hover === undefined) || (!isHoverTrigger && event.type !== 'click') || target.closest('.not-nested-toggle') || (nestedToggle && !item.disabled && !target.closest(nestedToggle)) || (!nestedToggle && !item.disabled && target.closest('a,.btn,.item-checkbox,.open-url') && !target.closest('.nested-toggle-icon,.item-icon'))) {
-            return info;
-        }
-        const toggle = typeof hover === 'boolean' ? hover : undefined;
-        this.toggle(keyPath, toggle);
-        event.preventDefault();
-    }
-
-    protected _handleNestedToggle(key: ItemKey, toggle: boolean) {
-        this.toggle(key, toggle);
+    protected _handleNestedToggle(key: ItemKey, toggle: boolean, reset?: boolean) {
+        this.toggle(key, toggle, reset);
     }
 
     protected _handleClick(event: MouseEvent) {
         const info = super._handleClick(event);
         if (info) {
-            return this._toggleFromEvent(info as MouseEventInfo);
+            const {item, keyPath, target} = info as MouseEventInfo;
+            const {nestedToggle} = this.props;
+            if (!item.items || event.defaultPrevented || target.closest('.not-nested-toggle') || (nestedToggle && !item.disabled && !target.closest(nestedToggle)) || (!nestedToggle && !item.disabled && target.closest('a,.btn,.item-checkbox,.open-url') && !target.closest('.nested-toggle-icon,.item-icon'))) {
+                return info;
+            }
+            this.toggle(keyPath);
+            event.preventDefault();
         }
         return info;
-    }
-
-    protected _handleHover(event: MouseEvent) {
-        const info = this._getItemFromEvent(event);
-        if (!info) {
-            return;
-        }
-        this.props.onHoverItem?.call(this, info as {hover: boolean, item: NestedItem, index: number, event: MouseEvent});
-        if (!this.isHoverTrigger) {
-            return;
-        }
-        const lastHover = this._hoverInfo;
-        if (lastHover) {
-            if (lastHover.info.keyPath === info.keyPath) {
-                clearTimeout(lastHover.timer);
-            } else {
-                this._toggleFromEvent(lastHover.info);
-            }
-        }
-        this._hoverInfo = {
-            info,
-            timer: window.setTimeout(() => {
-                this._hoverInfo = undefined;
-                this._toggleFromEvent(info);
-            }, info.hover ? 0 : 200),
-        };
     }
 
     protected _handleNestedCheck(change: Record<ItemKey, CheckedType>) {
@@ -651,7 +619,7 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
         const {level = 0, indent = 20, parentKey} = props;
         const finalProps = mergeProps(super._getProps(props), {
             'z-level': level,
-            'z-parent-key': parentKey,
+            'z-list': parentKey,
             style: {'--list-nested-indent': `${level * indent}px`, '--list-indent': `${indent}px`},
             className: this._hasNestedItems ? 'has-nested-items' : 'no-nested-items',
         });
@@ -663,7 +631,6 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
         this._renderedItemMap.clear();
         this._hasIcons = false;
         this._hasNestedItems = !this.isRoot;
-        this._needHandleHover = !!(props.onHoverItem || this.isHoverTrigger);
         return super._beforeRender(props);
     }
 }
