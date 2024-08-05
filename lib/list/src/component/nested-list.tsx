@@ -104,9 +104,9 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
 
     protected declare _itemMap?: Map<string, ItemInfo>;
 
-    protected declare _needInitChecks?: boolean;
+    protected declare _itemMapCache: Map<string, ItemInfo>;
 
-    protected declare _hoverInfo?: {timer: number, info: MouseEventInfo};
+    protected declare _needInitChecks?: boolean;
 
     constructor(props: P) {
         super(props);
@@ -169,7 +169,10 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
         return state;
     }
 
-    getItemMap() {
+    getItemMap(useCache?: boolean) {
+        if (useCache && (this._itemMap || this._itemMapCache)) {
+            return this._itemMap || this._itemMapCache;
+        }
         if (!this._itemMap) {
             let needCheckRenderItems = false;
             const map: Map<string, ItemInfo> = reduceNestedItems(this._items, this.props.itemKey, (currentMap, info) => {
@@ -204,6 +207,7 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
                         info.parent = parent;
                     }
                 });
+                this._itemMapCache = map;
                 return map;
             }
             this._itemMap = map;
@@ -216,8 +220,9 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
     }
 
     getItem(keyPath: string) {
-        if (this._itemMap) {
-            return this._itemMap.get(keyPath)?.data;
+        const itemMap = this._itemMap || this._itemMapCache;
+        if (itemMap) {
+            return itemMap.get(keyPath)?.data;
         }
         const renderedItem = this.getRenderedItem(keyPath);
         return renderedItem ? (renderedItem._item as Item) : super.getItem(keyPath);
@@ -280,7 +285,7 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
     }
 
     getChecks() {
-        return Array.from(this.getItemMap().values()).reduce<ItemKey[]>((checks, {keyPath, data}) => {
+        return Array.from(this.getItemMap(true).values()).reduce<ItemKey[]>((checks, {keyPath, data}) => {
             const checkState = this.state.checked[keyPath];
             if ((checkState === true || (data.checked && checkState !== false)) === true) {
                 checks.push(keyPath);
@@ -322,11 +327,13 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
             return;
         }
         if (this.isRoot) {
-            const map = this.getItemMap();
-            await this.changeState(({checked: prevChecked}) => {
+            await this.changeState(({checked: prevChecked, nestedShow: preNestedShow}) => {
                 const isChecked = (item: ItemInfo) => {
                     return change[item.keyPath] ?? prevChecked[item.keyPath] ?? item.data.checked ?? false;
                 };
+                const map = this.getItemMap();
+                const nestedShow: Record<string, boolean> = {};
+                const {expandChildrenOnCheck} = this.props;
                 Object.keys(change).forEach(key => {
                     checked = change[key];
                     const item = map.get(key);
@@ -349,11 +356,18 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
 
                         change[parent.keyPath] = checkedCount === children.length ? true : (checkedCount ? 'indeterminate' : false);
                     });
+                    if (expandChildrenOnCheck && checked && item.data.items) {
+                        nestedShow[key] = true;
+                    }
                 });
                 return {
                     checked: {
                         ...prevChecked,
                         ...change,
+                    },
+                    nestedShow: {
+                        ...preNestedShow,
+                        ...nestedShow,
                     },
                 } as Partial<S>;
             }, () => {
