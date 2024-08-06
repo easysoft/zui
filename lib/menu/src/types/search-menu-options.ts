@@ -7,6 +7,7 @@ export interface SearchMenuOptions<T extends NestedItem = NestedListItem> extend
     searchBox?: SearchBoxOptions | boolean;
     searchPlacement?: 'bottom' | 'top';
     search?: string;
+    nestedSearch?: boolean;
     defaultSearch?: string;
     expandOnSearch?: boolean;
     underlineKeys?: boolean;

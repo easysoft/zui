@@ -1,4 +1,4 @@
-import {$, classes} from '@zui/core';
+import {$, classes, mergeProps} from '@zui/core';
 import {SearchBox} from '@zui/search-box/src/components';
 import {Menu} from './menu';
 
@@ -10,12 +10,14 @@ import type {SearchBoxOptions} from '@zui/search-box';
 import type {SearchMenuOptions, SearchMenuState} from '../types';
 
 export class SearchMenu<T extends SearchMenuOptions = SearchMenuOptions> extends Menu<T, SearchMenuState> {
-    static inheritNestedProps = [...Menu.inheritNestedProps, 'isItemMatch', 'search', 'underlineKeys'];
+    static inheritNestedProps = [...Menu.inheritNestedProps, 'isItemMatch', 'search', 'underlineKeys', 'nestedSearch'];
 
     static defaultProps: Partial<SearchMenuOptions> = {
         ...Menu.defaultProps,
         defaultNestedShow: true,
         wrap: true,
+        nestedSearch: true,
+        underlineKeys: true,
     };
 
     protected declare _searchKeys: string[];
@@ -72,9 +74,9 @@ export class SearchMenu<T extends SearchMenuOptions = SearchMenuOptions> extends
     };
 
     protected _isItemMatch(props: RenderableProps<T>, item: NestedItem, index: number, parentKey: ItemKey | undefined) {
-        const {isItemMatch} = props;
+        const {isItemMatch, nestedSearch} = props;
         const isMatch = isItemMatch ? isItemMatch.call(this, item, this._searchKeys, index, parentKey) : (this.constructor as typeof SearchMenu).isItemMatch(item, this._searchKeys, props.searchProps);
-        if (this.isRoot && isMatch && parentKey !== undefined) {
+        if ((nestedSearch && this.isRoot) && isMatch && parentKey !== undefined) {
             let key = '';
             String(parentKey).split(':').forEach(x => {
                 key += `${key.length ? ':' : ''}${x}`;
@@ -90,9 +92,11 @@ export class SearchMenu<T extends SearchMenuOptions = SearchMenuOptions> extends
 
     protected _getNestedProps(props: RenderableProps<T>, items: ListItemsSetting, item: NestedItem, expanded: boolean): NestedListProps<NestedListItem> {
         const nestedProps = super._getNestedProps(props, items, item, expanded) as SearchMenuOptions;
-        if (this.isRoot) {
+        if (this.isRoot && props.nestedSearch) {
             nestedProps.isItemMatch = this._isNestedItemMatch;
             nestedProps.search = this._searchKeys.join(' ');
+        } else if (!props.nestedSearch) {
+            mergeProps(nestedProps as Record<string, unknown>, {search: undefined, defaultSearch: undefined}, item.listProps);
         }
         return nestedProps;
     }
@@ -129,29 +133,32 @@ export class SearchMenu<T extends SearchMenuOptions = SearchMenuOptions> extends
         return classes(super._getWrapClass(props), 'search-menu', props.searchBox ? `search-menu-on-${props.searchPlacement || 'top'}` : '', isSearchMode ? 'is-search-mode' : '', isSearchMode && props.expandOnSearch ? 'no-toggle-on-search' : '');
     }
 
-    protected _renderSearchBox(props: RenderableProps<T>): ComponentChildren {
+    protected _getSearchBoxProps(props: RenderableProps<T>): SearchBoxOptions {
         const {searchBox} = props;
-        if (!searchBox || !this.isRoot) {
-            return null;
-        }
         const searchOptions: SearchBoxOptions = {
             compact: true,
+            className: 'not-nested-toggle',
             onChange: this._handleSearchChange,
         };
         if (typeof searchBox === 'object') {
-            $.extend(searchOptions, searchBox);
+            mergeProps(searchOptions, searchBox);
         }
         if (props.search !== undefined) {
             searchOptions.value = this._searchKeys.join(' ');
             searchOptions.disabled = true;
         }
-        return <SearchBox key="search" {...searchOptions} />;
+        return searchOptions;
+    }
+
+    protected _renderSearchBox(props: RenderableProps<T>): ComponentChildren {
+        const searchBoxOptions = this._getSearchBoxProps(props);
+        return <SearchBox key="search" {...searchBoxOptions} />;
     }
 
     protected _renderWrapperHeader(props: RenderableProps<T>): ComponentChildren {
         const hasHeader = props.header;
-        const hasTopSearchBox = this.isRoot && props.searchBox && props.searchPlacement !== 'bottom';
-        const {noMatchHint} = props;
+        const {noMatchHint, searchBox, searchPlacement, nestedSearch} = props;
+        const hasTopSearchBox = (!nestedSearch || this.isRoot) && searchBox && searchPlacement !== 'bottom';
         if (!hasHeader && !hasTopSearchBox && !noMatchHint) {
             return null;
         }
@@ -166,14 +173,15 @@ export class SearchMenu<T extends SearchMenuOptions = SearchMenuOptions> extends
 
     protected _renderWrapperFooter(props: RenderableProps<T>): ComponentChildren {
         const hasFooter = props.footer;
-        const hasBottomSearchBox = this.isRoot && props.searchBox && props.searchPlacement === 'bottom';
+        const {searchBox, searchPlacement, nestedSearch} = props;
+        const hasBottomSearchBox = (!nestedSearch || this.isRoot) && searchBox && searchPlacement === 'bottom';
         if (!hasFooter && !hasBottomSearchBox) {
             return null;
         }
         return (
             <footer key="footer" className="search-menu-footer">
                 {hasFooter ? super._renderWrapperFooter(props) : null}
-                {this._renderSearchBox(props)}
+                {hasBottomSearchBox ? this._renderSearchBox(props) : null}
             </footer>
         );
     }
