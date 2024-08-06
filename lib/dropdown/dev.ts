@@ -22,6 +22,9 @@ onPageUpdate(() => {
                 {
                     text: '导出',
                     icon: 'icon-download-alt',
+                    listProps: {
+                        searchBox: true,
+                    },
                     items: [
                         {text: '导出为 PDF'},
                         {text: '导出为 PNG'},

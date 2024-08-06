@@ -1,12 +1,12 @@
-import {$, mergeProps} from '@zui/core';
+import {$, mergeProps, parseSize} from '@zui/core';
 import {flip, computePosition, shift, size, offset} from '@floating-ui/dom';
 import {SearchMenu} from '@zui/menu/src/component';
 
 import type {ClassNameLike} from '@zui/core';
 import type {ListItemsSetting, NestedItem, NestedListProps} from '@zui/list';
 import {type ComponentChildren, type RenderableProps, type ComponentChild} from 'preact';
-import type {DropdownMenuOptions} from '../types/dropdown-menu-options';
 import type {MouseEventInfo} from '@zui/list/src/component';
+import type {DropdownMenuOptions} from '../types/dropdown-menu-options';
 
 export class DropdownMenu<T extends DropdownMenuOptions = DropdownMenuOptions> extends SearchMenu<T> {
     static defaultProps: Partial<DropdownMenuOptions> = {
@@ -15,6 +15,7 @@ export class DropdownMenu<T extends DropdownMenuOptions = DropdownMenuOptions> e
         placement: 'right-start',
         defaultNestedShow: false,
         expandOnSearch: false,
+        nestedSearch: false,
     };
 
     static inheritNestedProps = [...SearchMenu.inheritNestedProps, 'container', 'tree'];
@@ -47,7 +48,7 @@ export class DropdownMenu<T extends DropdownMenuOptions = DropdownMenuOptions> e
                 },
             })],
         }).then(({x, y}) => {
-            $(element).css({
+            $element.css({
                 left: x,
                 top: y,
             });
