@@ -87,9 +87,7 @@ const sortablePlugin: DTablePlugin<DTableSortableTypes, [DTableMousemoveTypes, D
             if (!row || this.options.onSortStart?.call(this, row, event) === false) {
                 return;
             }
-            if ($target.closest('a,button,img').attr('draggable', 'false').length) {
-                event.preventDefault();
-            }
+            event.preventDefault();
             const startMouseY = event.clientY;
             this.data.sortableInfo = {from: row, offset: startMouseY - info.cellElement.getBoundingClientRect().top, startMouseY, lastMouseY: startMouseY};
         },
