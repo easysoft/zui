@@ -1,5 +1,5 @@
 import {arrow, computePosition, flip, shift, size, autoUpdate, offset, VirtualElement, ReferenceElement, ComputePositionConfig} from '@floating-ui/dom';
-import {Component, $, ComponentEvents, JSX} from '@zui/core';
+import {Component, $, ComponentEvents, JSX, evalValue} from '@zui/core';
 import {PopoverEvents, PopoverOptions, PopoverPanelOptions} from '../types';
 import {PopoverPanel} from './popover-panel';
 import {isElementDetached} from '@zui/core/src/dom';
@@ -105,9 +105,13 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
                     if ($triggerElement.is('[disabled],.disabled')) {
                         return;
                     }
-                    const target = $triggerElement.dataset('target');
-                    if (!this.shown && target) {
-                        this.setOptions({target} as Partial<O>);
+                    if (!this.shown) {
+                        let options = $triggerElement.dataset();
+                        const toggleOptions = $triggerElement.attr(`zui-toggle-${this.constructor.ZUI}`);
+                        if (toggleOptions) {
+                            options = $.extend(options, evalValue(toggleOptions));
+                        }
+                        this.setOptions(options as Partial<O>);
                     }
                     this.toggle({event, delay: true});
                     event.preventDefault();
