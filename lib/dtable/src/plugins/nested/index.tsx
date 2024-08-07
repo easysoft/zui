@@ -150,7 +150,7 @@ function isAllCollapsed(this: DTableNested): boolean {
     return true;
 }
 
-function updateNestedMapOrders(map: Map<string, NestedRowInfo>, lastOrder = 0, ids?: string[], level = 0): number {
+function updateNestedMapOrders(map: Map<string, NestedRowInfo>, lastOrder = 1, ids?: string[], level = 0): number {
     if (!ids) {
         ids = [...map.keys()];
     }
@@ -314,17 +314,17 @@ const nestedPlugin: DTablePlugin<DTableNestedTypes, DTableNestedDependencies> = 
         });
 
         const nestedStateMap = new Map<string, NestedRowInfo>();
-        rows = rows.filter(row => {
+        const undefinedOrder = rows.length * 100;
+        rows = rows.filter((row) => {
             const info = this.getNestedRowInfo(row.id)!;
             nestedStateMap.set(row.id, info);
             return info.state !== NestedRowState.hidden;
         });
         updateNestedMapOrders(nestedStateMap);
         rows.sort((rowA, rowB) => {
-            const infoA = nestedStateMap.get(rowA.id)!;
-            const infoB = nestedStateMap.get(rowB.id)!;
-            const result = (infoA.order ?? 0) - (infoB.order ?? 0);
-            return result === 0 ? (rowA.index - rowB.index) : result;
+            const infoA = nestedStateMap.get(rowA.id);
+            const infoB = nestedStateMap.get(rowB.id);
+            return (infoA?.order ?? (undefinedOrder + rowA.index)) - (infoB?.order ?? (undefinedOrder + rowB.index));
         });
         return rows;
     },
