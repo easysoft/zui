@@ -129,12 +129,17 @@ const sortablePlugin: DTablePlugin<DTableSortableTypes, [DTableMousemoveTypes, D
                 this.disableAnimation();
                 this.update({
                     dirtyType: 'layout',
-                    state: $.extend({
-                        sortingFrom: undefined,
-                        sortingPos: undefined,
-                        sortingTo: undefined,
-                        sortingSide: undefined,
-                    }, rowOrders ? {rowOrders} : null),
+                    state: preState => {
+                        return $.extend({
+                            sortingFrom: undefined,
+                            sortingPos: undefined,
+                            sortingTo: undefined,
+                            sortingSide: undefined,
+                        }, rowOrders ? {rowOrders: {
+                            ...(preState.rowOrders as Record<string, number>),
+                            ...rowOrders,
+                        }} : null);
+                    },
                 }, () => {
                     this.options.onSortEnd?.call(this, sortingFrom, sortingTo, sortingSide, orders);
                     setTimeout(() => {
@@ -211,8 +216,11 @@ const sortablePlugin: DTablePlugin<DTableSortableTypes, [DTableMousemoveTypes, D
         if (!rowOrders) {
             return;
         }
+        const undefinedOrder = rows.length * 100;
         rows = rows.sort((row1, row2) => {
-            return rowOrders[row1.id] - rowOrders[row2.id];
+            const order1 = rowOrders[row1.id] ?? (undefinedOrder + row1.index);
+            const order2 = rowOrders[row2.id] ?? (undefinedOrder + row2.index);
+            return order1 - order2;
         });
         return rows;
     },
