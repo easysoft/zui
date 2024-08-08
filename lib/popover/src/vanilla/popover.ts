@@ -87,35 +87,37 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
         if (triggerElement instanceof HTMLElement) {
             const $triggerElement = $(triggerElement);
             const {namespace} = this;
-            if (trigger === 'hover') {
-                $triggerElement.on(`pointerenter${namespace}`, (event: MouseEvent) => {
-                    if ($triggerElement.is('[disabled],.disabled')) {
-                        return;
+            if (trigger) {
+                const setOptionsFromTrigger = () => {
+                    let options = $triggerElement.dataset();
+                    const toggleOptions = $triggerElement.attr(`zui-toggle-${this.constructor.ZUI}`);
+                    if (toggleOptions) {
+                        options = $.extend(options, evalValue(toggleOptions));
                     }
-                    const target = $triggerElement.dataset('target');
-                    if (target) {
-                        this.setOptions({target} as Partial<O>);
-                    }
-                    this.show({delay: true, event});
-                }).on(`pointerleave${namespace} pointercancel${namespace}`, () => {
-                    this.delayHide();
-                });
-            } else if (trigger) {
-                $triggerElement.on(`${trigger}${namespace}`, (event: Event) => {
-                    if ($triggerElement.is('[disabled],.disabled')) {
-                        return;
-                    }
-                    if (!this.shown) {
-                        let options = $triggerElement.dataset();
-                        const toggleOptions = $triggerElement.attr(`zui-toggle-${this.constructor.ZUI}`);
-                        if (toggleOptions) {
-                            options = $.extend(options, evalValue(toggleOptions));
+                    this.setOptions(options as Partial<O>);
+                };
+                if (trigger === 'hover') {
+                    $triggerElement.on(`pointerenter${namespace}`, (event: MouseEvent) => {
+                        if ($triggerElement.is('[disabled],.disabled')) {
+                            return;
                         }
-                        this.setOptions(options as Partial<O>);
-                    }
-                    this.toggle({event, delay: true});
-                    event.preventDefault();
-                });
+                        setOptionsFromTrigger();
+                        this.show({delay: true, event});
+                    }).on(`pointerleave${namespace} pointercancel${namespace}`, () => {
+                        this.delayHide();
+                    });
+                } else {
+                    $triggerElement.on(`${trigger}${namespace}`, (event: Event) => {
+                        if ($triggerElement.is('[disabled],.disabled')) {
+                            return;
+                        }
+                        if (!this.shown) {
+                            setOptionsFromTrigger();
+                        }
+                        this.toggle({event, delay: true});
+                        event.preventDefault();
+                    });
+                }
             }
         }
         const {show} = this.options;
