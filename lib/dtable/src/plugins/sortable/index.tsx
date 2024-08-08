@@ -104,21 +104,24 @@ const sortablePlugin: DTablePlugin<DTableSortableTypes, [DTableMousemoveTypes, D
                 let orders: string[] | undefined;
                 const {sortingFrom, sortingTo, sortingSide} = sortingState;
                 if (sortingTo && sortingSide) {
-                    const rows = [...this.layout.rows];
+                    const ids = this.layout.rows.map(row => row.id);
+                    const oldOrders = [...ids];
                     const fromIndex = sortingFrom.index;
                     const toIndex = sortingTo.index;
-                    const row = rows.splice(fromIndex, 1);
-                    rows.splice(toIndex, 0, row[0]);
-                    rowOrders = {};
-                    orders = [];
-                    rows.forEach(({id}, index) => {
-                        rowOrders![id] = index;
-                        orders!.push(id);
-                    });
+                    if (!(fromIndex === (toIndex + 1) && sortingSide === 'after') && !(fromIndex === (toIndex - 1) && sortingSide === 'before')) {
+                        const row = ids.splice(fromIndex, 1);
+                        ids.splice(toIndex, 0, row[0]);
+                        rowOrders = {};
+                        orders = [];
+                        ids.forEach((id, index) => {
+                            rowOrders![id] = index;
+                            orders!.push(id);
+                        });
 
-                    if (this.options.onSort?.call(this, sortingFrom, sortingTo, sortingSide, orders) === false) {
-                        rowOrders = undefined;
-                        orders = undefined;
+                        if (oldOrders.join() === orders.join() || this.options.onSort?.call(this, sortingFrom, sortingTo, sortingSide, orders) === false) {
+                            rowOrders = undefined;
+                            orders = undefined;
+                        }
                     }
                 }
 
