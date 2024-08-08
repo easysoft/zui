@@ -290,6 +290,9 @@ export class Ajax<T> {
                 throw new Error(statusText);
             }
         } catch (err) {
+            if (this.data === undefined && data !== undefined) {
+                this.data = data as T;
+            }
             error = err as Error;
             let skipTriggerError = false;
             if (error.name === 'AbortError') {
