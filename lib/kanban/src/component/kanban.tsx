@@ -774,11 +774,12 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
 
     protected _renderLinks(props: RenderableProps<P>) {
         const {links = []} = this.data;
-        if (!links.length) {
+        const {editLinks} = props;
+        if (!editLinks && !links.length) {
             return;
         }
 
-        const {editLinks, showLinkOnHover, showLinkOnSelected} = props;
+        const {showLinkOnHover, showLinkOnSelected} = props;
         let filters: string[] | undefined;
         if (showLinkOnSelected || showLinkOnHover) {
             filters = [];
