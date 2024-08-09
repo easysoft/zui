@@ -7,7 +7,11 @@ function initSectionColsLayout(cols: DTableColsSectionLayout, fixed = false, max
         return;
     }
 
-    if (maxWidth && !cols.widthSetting && cols.width > maxWidth) {
+    if (fixed && cols.widthSetting) {
+        cols.widthSetting = Math.min(cols.widthSetting, cols.width);
+    }
+
+    if (maxWidth && (!cols.widthSetting || cols.widthSetting > maxWidth) && cols.width > maxWidth) {
         cols.widthSetting = maxWidth;
     }
 
