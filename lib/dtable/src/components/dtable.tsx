@@ -34,6 +34,8 @@ export class DTable extends Component<DTableOptions, DTableState> {
 
     _plugins: DTablePlugin[] = [];
 
+    _lastUsedPlugins: Map<string, DTablePlugin> = new Map();
+
     _layout?: DTableLayout;
 
     _events: Map<string, DTableEventListener[]> = new Map();
@@ -164,25 +166,12 @@ export class DTable extends Component<DTableOptions, DTableState> {
             }
         }
 
-        this._plugins.forEach(plugin => {
-            let {events} = plugin;
-            if (events) {
-                if (typeof events === 'function') {
-                    events = events.call(this);
-                }
-                Object.entries(events).forEach(([eventType, callback]) => {
-                    if (callback) {
-                        this.on(eventType, callback as DTableEventListener);
-                    }
-                });
-            }
-
-            plugin.onMounted?.call(this);
-        });
+        this._checkPluginsState();
     }
 
     componentDidUpdate() {
         this.#afterRender();
+        this._checkPluginsState();
         this._plugins.forEach(plugin => {
             plugin.onUpdated?.call(this);
         });
@@ -464,6 +453,39 @@ export class DTable extends Component<DTableOptions, DTableState> {
 
     getPlugin(pluginName: string): DTablePlugin | undefined {
         return this.plugins.find(x => x.name === pluginName);
+    }
+
+    _checkPluginsState() {
+        const lastUsedPluginsNames = new Set(this._lastUsedPlugins.keys());
+        this._plugins.forEach(plugin => {
+            if (lastUsedPluginsNames.has(plugin.name)) {
+                lastUsedPluginsNames.delete(plugin.name);
+                return;
+            }
+
+            let {events} = plugin;
+            if (events) {
+                if (typeof events === 'function') {
+                    events = events.call(this);
+                }
+                Object.entries(events).forEach(([eventType, callback]) => {
+                    if (callback) {
+                        this.on(eventType, callback as DTableEventListener);
+                    }
+                });
+            }
+
+            plugin.onMounted?.call(this);
+            this._lastUsedPlugins.set(plugin.name, plugin);
+        });
+
+        if (lastUsedPluginsNames.size) {
+            lastUsedPluginsNames.forEach(name => {
+                const plugin = this._lastUsedPlugins.get(name);
+                plugin?.onUnmounted?.call(this);
+                this._lastUsedPlugins.delete(name);
+            });
+        }
     }
 
     #handleEvent = (event: Event, type?: string) => {
