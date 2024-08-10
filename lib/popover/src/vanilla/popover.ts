@@ -595,7 +595,7 @@ $(() => {
         const clickedPopover = gid ? SHOWN_POPOVERS.get(gid) : null;
         if (clickedPopover) {
             const name = clickedPopover.options.name ?? clickedPopover.constructor.ZUI;
-            if ($target.closest(`[data-dismiss="${name}"]`).length) {
+            if ($target.closest(`[data-dismiss="popover"],[data-dismiss="${name}"]`).length) {
                 clickedPopover.hide();
                 return;
             }
