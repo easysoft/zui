@@ -16,10 +16,10 @@ const applyGroupDivider = (cols: ColInfo[]) => {
         return;
     }
     cols.forEach((col, index) => {
-        if (!index || col.setting.border || col.setting.group === cols[index - 1].setting.group) {
+        if (!index || col.border !== undefined || col.setting.group === cols[index - 1].setting.group) {
             return;
         }
-        col.setting.border = 'left';
+        col.border = 'left';
     });
 };
 
