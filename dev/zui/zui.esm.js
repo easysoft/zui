@@ -8,7 +8,7 @@ var it = (s, t, e) => (an(s, t, "read from private field"), e ? e.call(s) : t.ge
   t instanceof WeakSet ? t.add(s) : t.set(s, e);
 }, pt = (s, t, e, n) => (an(s, t, "write to private field"), n ? n.call(s, e) : t.set(s, e), e);
 var ln = (s, t, e) => (an(s, t, "access private method"), e);
-const bu = "3.0.0", wu = 1723469127272, Dt = document, ms = window, Er = Dt.documentElement, oe = Dt.createElement.bind(Dt), $r = oe("div"), cn = oe("table"), za = oe("tbody"), Gi = oe("tr"), { isArray: Fs, prototype: Ar } = Array, { concat: Oa, filter: Kn, indexOf: Mr, map: Pr, push: Fa, slice: Ir, some: qn, splice: Ha } = Ar, Wa = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, ja = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, Ba = /<.+>/, Va = /^\w+$/;
+const bu = "3.0.0", wu = 1723526876693, Dt = document, ms = window, Er = Dt.documentElement, oe = Dt.createElement.bind(Dt), $r = oe("div"), cn = oe("table"), za = oe("tbody"), Gi = oe("tr"), { isArray: Fs, prototype: Ar } = Array, { concat: Oa, filter: Kn, indexOf: Mr, map: Pr, push: Fa, slice: Ir, some: qn, splice: Ha } = Ar, Wa = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, ja = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, Ba = /<.+>/, Va = /^\w+$/;
 function Gn(s, t) {
   const e = Ua(t);
   return !s || !e && !se(t) && !Z(t) ? [] : !e && ja.test(s) ? t.getElementsByClassName(s.slice(1).replace(/\\/g, "")) : !e && Va.test(s) ? t.getElementsByTagName(s) : t.querySelectorAll(s);
@@ -4133,7 +4133,7 @@ class Ce extends Ze {
     const e = super._handleClick(t);
     if (e) {
       const { item: n, keyPath: i, target: r } = e, { nestedToggle: o } = this.props;
-      if (!n.items || t.defaultPrevented || r.closest(".not-nested-toggle") || o && !n.disabled && !r.closest(o) || !o && !n.disabled && r.closest("a,.btn,.item-checkbox,.open-url") && !r.closest(".nested-toggle-icon,.item-icon"))
+      if (!n.items || t.defaultPrevented || r.closest(".not-nested-toggle") || o && !n.disabled && !r.closest(o) || !o && !n.disabled && r.closest("a,.btn,.item-checkbox,.open-url,input,select,textarea") && !r.closest(".nested-toggle-icon,.item-icon"))
         return e;
       this.toggle(i), t.preventDefault();
     }
