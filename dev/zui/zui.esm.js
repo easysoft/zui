@@ -8,7 +8,7 @@ var it = (s, t, e) => (an(s, t, "read from private field"), e ? e.call(s) : t.ge
   t instanceof WeakSet ? t.add(s) : t.set(s, e);
 }, pt = (s, t, e, n) => (an(s, t, "write to private field"), n ? n.call(s, e) : t.set(s, e), e);
 var ln = (s, t, e) => (an(s, t, "access private method"), e);
-const bu = "3.0.0", wu = 1723526876693, Dt = document, ms = window, Er = Dt.documentElement, oe = Dt.createElement.bind(Dt), $r = oe("div"), cn = oe("table"), za = oe("tbody"), Gi = oe("tr"), { isArray: Fs, prototype: Ar } = Array, { concat: Oa, filter: Kn, indexOf: Mr, map: Pr, push: Fa, slice: Ir, some: qn, splice: Ha } = Ar, Wa = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, ja = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, Ba = /<.+>/, Va = /^\w+$/;
+const bu = "3.0.0", wu = 1723627985811, Dt = document, ms = window, Er = Dt.documentElement, oe = Dt.createElement.bind(Dt), $r = oe("div"), cn = oe("table"), za = oe("tbody"), Gi = oe("tr"), { isArray: Fs, prototype: Ar } = Array, { concat: Oa, filter: Kn, indexOf: Mr, map: Pr, push: Fa, slice: Ir, some: qn, splice: Ha } = Ar, Wa = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, ja = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, Ba = /<.+>/, Va = /^\w+$/;
 function Gn(s, t) {
   const e = Ua(t);
   return !s || !e && !se(t) && !Z(t) ? [] : !e && ja.test(s) ? t.getElementsByClassName(s.slice(1).replace(/\\/g, "")) : !e && Va.test(s) ? t.getElementsByTagName(s) : t.querySelectorAll(s);
@@ -4093,7 +4093,7 @@ class Ce extends Ze {
     return this._renderedItemMap.set(t._keyPath, t), t;
   }
   _renderItem(t, e, n) {
-    this._hasNestedItems && e.type === "item" && e.toggleIcon === void 0 && (e.toggleIcon = this._renderNestedToggle(t, e.expanded));
+    (this._hasNestedItems || !this.isRoot) && e.type === "item" && e.toggleIcon === void 0 && (e.toggleIcon = this._renderNestedToggle(t, e.expanded));
     const i = e.items ? this._renderNestedList(t, e.items, e, e.expanded) : null;
     return e = L(e, {
       "z-parent": e.parentKey,
@@ -4152,7 +4152,7 @@ class Ce extends Ze {
     return r.className = T(r.className), r;
   }
   _beforeRender(t) {
-    return this._renderedItemMap.clear(), this._hasIcons = !1, this._hasNestedItems = !this.isRoot, super._beforeRender(t);
+    return this._renderedItemMap.clear(), this._hasIcons = !1, this._hasNestedItems = !1, super._beforeRender(t);
   }
 }
 Ce.defaultProps = {
