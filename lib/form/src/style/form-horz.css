@@ -3,7 +3,10 @@
 }
 
 .form-horz .form-group {
-  @apply -flex -flex-row -items-start -relative -min-h-[32px] -flex-wrap -pl-[--form-horz-label-width] -min-w-0 -flex-grow;
+  @apply -flex -flex-row -items-start -relative -min-h-[32px] -flex-wrap -pl-[--form-horz-label-width] -min-w-0 -flex-none;
+}
+.form-horz .form-row .form-group {
+  @apply -flex-grow;
 }
 .form-horz .form-group[class^="w-"],
 .form-horz .form-group[class*=" w-"] {
