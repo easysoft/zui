@@ -563,7 +563,7 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
     }
 
     protected _renderItem(props: RenderableProps<P>, renderedItem: NestedItem, index: number): ComponentChildren {
-        if (this._hasNestedItems && renderedItem.type === 'item' && renderedItem.toggleIcon === undefined) {
+        if ((this._hasNestedItems || !this.isRoot) && renderedItem.type === 'item' && renderedItem.toggleIcon === undefined) {
             renderedItem.toggleIcon = this._renderNestedToggle(props, renderedItem.expanded as boolean | undefined);
         }
         const nestedListContent = renderedItem.items ? this._renderNestedList(props, renderedItem.items, renderedItem, renderedItem.expanded as boolean) : null;
@@ -644,7 +644,7 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
     protected _beforeRender(props: RenderableProps<P>): void | RenderableProps<P> | undefined {
         this._renderedItemMap.clear();
         this._hasIcons = false;
-        this._hasNestedItems = !this.isRoot;
+        this._hasNestedItems = false;
         return super._beforeRender(props);
     }
 }
