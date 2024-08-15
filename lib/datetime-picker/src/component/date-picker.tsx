@@ -39,10 +39,20 @@ export class DatePicker<T extends DatePickerOptions = DatePickerOptions> extends
         }
 
         const newValue = this._calcValue(value);
-        this.setState({value: newValue}, () => {
+        return this.changeState({value: newValue}, () => {
             this._afterSetDate();
         });
     };
+
+    setValue(value: string, silent?: boolean) {
+        if (silent) {
+            const trigger = this._trigger.current;
+            if (trigger) {
+                trigger._skipTriggerChange = value;
+            }
+        }
+        return this.setDate(value) as Promise<PickState>;
+    }
 
     _calcValue(value: string): string {
         const {onInvalid, defaultValue = '', required, allowInvalid, format} = this.props;
