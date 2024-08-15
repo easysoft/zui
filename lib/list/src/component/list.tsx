@@ -317,9 +317,13 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
         } else if (checkOnClick === true) {
             checkOnClick = '.item-checkbox';
         }
-        const itemCheckbox = info?.renderedItem?.checkbox;
-        const hasCheckbox = itemCheckbox !== false && (this.props.checkbox || itemCheckbox);
-        if (hasCheckbox && checkOnClick && !info?.renderedItem.disabled && info && (event.target as HTMLElement).closest(checkOnClick)) {
+        if (!checkOnClick || !info || !info.renderedItem) {
+            return info;
+        }
+        const renderedItem = info.renderedItem;
+        const itemCheckbox = renderedItem.checkbox;
+        const hasCheckbox = itemCheckbox !== false && (this.props.checkbox || itemCheckbox || renderedItem.checked !== undefined);
+        if (hasCheckbox && !renderedItem.disabled && info && (event.target as HTMLElement).closest(checkOnClick)) {
             this.toggleChecked(info.key);
             event.stopPropagation();
             return;
