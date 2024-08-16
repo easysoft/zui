@@ -1,4 +1,4 @@
-import {Icon, classes, mergeProps, $} from '@zui/core';
+import {Icon, classes, mergeProps, $, isValidElement} from '@zui/core';
 import {store} from '@zui/store';
 import {List} from './list';
 import '@zui/css-icons/src/icons/caret.css';
@@ -519,6 +519,9 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
         if (typeof isExpanded === 'boolean') {
             toggleIcon = isExpanded ? (toggleIcons.expanded || <span className="caret-down"></span>) : (toggleIcons.collapsed || <span className="caret-right"></span>);
             toggleClass = `state is-${isExpanded ? 'expanded' : 'collapsed'}`;
+            if (!isValidElement(toggleIcon)) {
+                toggleIcon = <Icon icon={toggleIcon} />;
+            }
         } else {
             toggleIcon = <Icon icon={toggleIcons.normal} />;
             toggleClass = 'is-empty';
