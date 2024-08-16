@@ -174,7 +174,7 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
         this._abort = abort;
 
         const {items: itemsSetting = [], searchDelay} = this.props;
-        const {search} = this.state;
+        const {search = ''} = this.state;
         let items: ListItem[] = [];
         if (!Array.isArray(itemsSetting)) {
             await delay(searchDelay || 500);
