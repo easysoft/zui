@@ -157,14 +157,14 @@ export class SearchMenu<T extends SearchMenuOptions = SearchMenuOptions> extends
 
     protected _renderWrapperHeader(props: RenderableProps<T>): ComponentChildren {
         const hasHeader = props.header;
-        const {noMatchHint, searchBox, searchPlacement, nestedSearch} = props;
+        const {noMatchHint, searchBox, searchPlacement, nestedSearch, headerClass} = props;
         const hasTopSearchBox = (!nestedSearch || this.isRoot) && searchBox && searchPlacement !== 'bottom';
         if (!hasHeader && !hasTopSearchBox && !noMatchHint) {
             return null;
         }
         return [
             noMatchHint ? <div key="noMatchHint" className="search-menu-no-match-hint">{noMatchHint}</div> : null,
-            (hasHeader || hasTopSearchBox) ? (<header key="header" className="search-menu-header">
+            (hasHeader || hasTopSearchBox) ? (<header key="header" className={classes('search-menu-header', headerClass)}>
                 {hasHeader ? super._renderWrapperHeader(props) : null}
                 {hasTopSearchBox ? this._renderSearchBox(props) : null}
             </header>) : null,
@@ -173,13 +173,13 @@ export class SearchMenu<T extends SearchMenuOptions = SearchMenuOptions> extends
 
     protected _renderWrapperFooter(props: RenderableProps<T>): ComponentChildren {
         const hasFooter = props.footer;
-        const {searchBox, searchPlacement, nestedSearch} = props;
+        const {searchBox, searchPlacement, nestedSearch, footerClass} = props;
         const hasBottomSearchBox = (!nestedSearch || this.isRoot) && searchBox && searchPlacement === 'bottom';
         if (!hasFooter && !hasBottomSearchBox) {
             return null;
         }
         return (
-            <footer key="footer" className="search-menu-footer">
+            <footer key="footer" className={classes('search-menu-footer', footerClass)}>
                 {hasFooter ? super._renderWrapperFooter(props) : null}
                 {hasBottomSearchBox ? this._renderSearchBox(props) : null}
             </footer>
