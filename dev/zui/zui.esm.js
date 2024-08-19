@@ -8,7 +8,7 @@ var it = (n, t, e) => (an(n, t, "read from private field"), e ? e.call(n) : t.ge
   t instanceof WeakSet ? t.add(n) : t.set(n, e);
 }, pt = (n, t, e, s) => (an(n, t, "write to private field"), s ? s.call(n, e) : t.set(n, e), e);
 var ln = (n, t, e) => (an(n, t, "access private method"), e);
-const bu = "3.0.0", wu = 1723797325917, Dt = document, ms = window, Er = Dt.documentElement, oe = Dt.createElement.bind(Dt), $r = oe("div"), cn = oe("table"), za = oe("tbody"), Gi = oe("tr"), { isArray: Fs, prototype: Ar } = Array, { concat: Oa, filter: Kn, indexOf: Mr, map: Pr, push: Fa, slice: Ir, some: qn, splice: Ha } = Ar, Wa = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, ja = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, Ba = /<.+>/, Va = /^\w+$/;
+const bu = "3.0.0", wu = 1724043397770, Dt = document, ms = window, Er = Dt.documentElement, oe = Dt.createElement.bind(Dt), $r = oe("div"), cn = oe("table"), za = oe("tbody"), Gi = oe("tr"), { isArray: Fs, prototype: Ar } = Array, { concat: Oa, filter: Kn, indexOf: Mr, map: Pr, push: Fa, slice: Ir, some: qn, splice: Ha } = Ar, Wa = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, ja = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, Ba = /<.+>/, Va = /^\w+$/;
 function Gn(n, t) {
   const e = Ua(t);
   return !n || !e && !se(t) && !Z(t) ? [] : !e && ja.test(n) ? t.getElementsByClassName(n.slice(1).replace(/\\/g, "")) : !e && Va.test(n) ? t.getElementsByTagName(n) : t.querySelectorAll(n);
@@ -1879,7 +1879,7 @@ f.fn.fullscreen = function(n) {
 f.getFullscreenElement = ui;
 f.toggleFullscreen = uo;
 function le(n) {
-  return n.parentNode === document ? !1 : n.parentNode ? le(n.parentNode) : !0;
+  return !n || n.parentNode === document ? !1 : n.parentNode ? le(n.parentNode) : !0;
 }
 f.isDetached = le;
 f.fn.isDetached = function() {
@@ -8166,6 +8166,7 @@ class ee extends kt {
       nestedToggle: ".item",
       accordion: !0,
       relativeTarget: { target: o, event: this.options.triggerEvent, dropdown: this },
+      dropdown: this,
       popup: !0,
       ...s
     };
@@ -8253,6 +8254,9 @@ class Oi extends _t {
   get isHoverTrigger() {
     const { nestedTrigger: t, tree: e } = this.props;
     return t ? t === "hover" : !e;
+  }
+  get dropdown() {
+    return this.props.dropdown;
   }
   layout() {
     var a;
