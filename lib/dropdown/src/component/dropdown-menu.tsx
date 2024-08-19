@@ -8,6 +8,7 @@ import type {ListItemsSetting, NestedItem, NestedListProps} from '@zui/list';
 import {type ComponentChildren, type RenderableProps, type ComponentChild} from 'preact';
 import type {MouseEventInfo} from '@zui/list/src/component';
 import type {DropdownMenuOptions} from '../types/dropdown-menu-options';
+import type {Dropdown} from '../vanilla';
 
 export class DropdownMenu<T extends DropdownMenuOptions = DropdownMenuOptions> extends SearchMenu<T> {
     static defaultProps: Partial<DropdownMenuOptions> = {
@@ -30,6 +31,10 @@ export class DropdownMenu<T extends DropdownMenuOptions = DropdownMenuOptions> e
     get isHoverTrigger(): boolean {
         const {nestedTrigger, tree} = this.props;
         return nestedTrigger ? nestedTrigger === 'hover' : !tree;
+    }
+
+    get dropdown(): Dropdown | undefined {
+        return this.props.dropdown;
     }
 
     protected layout() {
