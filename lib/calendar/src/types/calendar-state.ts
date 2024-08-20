@@ -1,11 +1,15 @@
 import {CalendarEvent} from './calendar-event-props';
-
 export interface CalendarState {
-    month: number;
-    year: number;
-    day: number;
+    date: Date;
 }
 
 export interface CalendarContentState {
-    dateList:{month: number, day: number, events: CalendarEvent[]} [][];
+    isExtended: boolean;
+    dateList:{date:Date} [][];
+    eventMap: Map<string, CalendarEvent[]>;
+    eventSetMap?: Map<string, CalendarEvent[]>;
+}
+
+export interface EventState {
+    date: Date;
 }

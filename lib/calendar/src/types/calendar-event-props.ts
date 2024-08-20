@@ -1,19 +1,22 @@
-import type {Item} from '@zui/common-list';
-export interface CalendarEvent extends Item {
-    id: string;
+import type {HElementProps} from '@zui/core';
+export interface CalendarEvent {
     title: string;
-    calendarEventSet: string;
-    month: number;
-    year: number;
-    hour?: number;
+    calendarEventGroup: string;
+    date: Date;
     startDate?: Date;
     endDate?: Date;
     description?: string;
 }
+
+export interface CalendarEventProps extends HElementProps  {
+    color?: string;
+    calendarEvents?: CalendarEvent[];
+    isExtended?: boolean;
+    maxVisibleEvents?: number;
+}
 //事件集
-export interface CalendarEventSet extends Item {
-    id?: string;
+export interface CalendarEventGroup {
+    id: string;
     title?: string;
     color?: string;
-    CalendarEvent: CalendarEvent[];
 }

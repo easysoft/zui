@@ -1,4 +1,4 @@
-import {HElement} from '@zui/core';
+import {HElement, classes, i18n, $} from '@zui/core';
 import {CalendarHeader} from './calendar-header';
 import {CalendarContent} from './calendar-content';
 
@@ -7,25 +7,40 @@ import type {Attributes, ComponentChildren, RenderableProps, VNode} from 'preact
 import type {CalendarState} from '../types/calendar-state';
 import type {CalendarHeaderProps} from '../types/calendar-header-props';
 
+import '../i18n';
+
 export class Calendar<P extends CalendarProps=CalendarProps> extends HElement<P, CalendarState> {
     
     constructor(props: P) {
         super(props);
-        this.state = {'month': new Date().getMonth() + 1, 'year':new Date().getFullYear(), 'day':new Date().getDate()};
+        this.state = {'date': new Date()};
     }
 
     protected _renderHeader(props: RenderableProps<P>): ComponentChildren {
         const CalendarHeaderOptions: CalendarHeaderProps = {
-            month: this.state.month,
-            year: this.state.year,
-            onDateChange: (year: number, month: number) => { this.setState({'year':year, 'month':month});},
+            date: this.state.date,
+            onDateChange: (newDate: Date) => { this.setState({'date':newDate});},
             onMonthChange: (type: string) => {
+                const currentMonth = this.state.date.getMonth();
+                const newDate = new Date(this.state.date);
                 if (type === 'prev') {
-                    this.setState(this.state.month === 1 ? {'month': 12, 'year': this.state.year - 1} : {'month': this.state.month - 1});
+                    if (currentMonth === 0) {
+                        newDate.setFullYear(this.state.date.getFullYear() - 1);
+                        newDate.setMonth(11);
+                    } else {
+                        newDate.setMonth(currentMonth - 1);
+                    }
                 } else if (type === 'next') {
-                    this.setState(this.state.month === 12 ? {'month': 1, 'year': this.state.year + 1} : {'month': this.state.month + 1});
+                    if (currentMonth === 11) {
+                        newDate.setFullYear(this.state.date.getFullYear() + 1);
+                        newDate.setMonth(0);
+                    } else {
+                        newDate.setMonth(currentMonth + 1);
+                    }
                 }
+                this.setState({date: newDate});
             },
+            
         };
         return (<CalendarHeader {...CalendarHeaderOptions} ></CalendarHeader>);
     }
@@ -33,10 +48,8 @@ export class Calendar<P extends CalendarProps=CalendarProps> extends HElement<P,
 
     protected _renderContent(props: RenderableProps<P>): ComponentChildren {
         const CalendarOptions: CalendarProps = {
-            month: this.state.month,
-            year: this.state.year,
-            day: this.state.day,
-            calendarEventSet: this.props.calendarEventSet,
+            date: this.state.date,
+            calendarEvents: this.props.calendarEvents,
             onDateClick: (date: Date) => { console.log(date); },
             onEventClick(event) {
                 console.log(event);
