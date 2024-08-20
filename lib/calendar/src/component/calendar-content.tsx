@@ -1,81 +1,183 @@
 import {HElement} from '@zui/core';
 import '@zui/label';
 import {CalendarEventDom} from './calendar-event';
+import {Draggable} from '@zui/dnd';
 
-import type {CalendarProps, CalendarEvent, CalendarContentState} from '../types';
+import type {CalendarProps,  CalendarEvent, CalendarContentState, EventState} from '../types';
+import {getUniqueCode} from '@zui/helpers/src/string-code';
 import type {Attributes, RenderableProps, VNode} from 'preact';
 
 export class CalendarContent<P extends CalendarProps = CalendarProps> extends HElement<P, CalendarContentState> {
     constructor(props: P) {
         super(props);
-        this.state = {'dateList': this.getPropsDateIndex(props)};
+        this.state = {'isExtended':false, 'dateList': this.generateCalendarPageByDate(props.date), 'eventMap': this.generateCalendarEvents(), 'eventSetMap': this.generateCalendarSetEvents()};
     }
 
-    //传递日期，计算从props中计算出属于当前日期的事件
-    getEventsForCurrentDate(month: number, day: number, events: CalendarEvent[]): CalendarEvent[] {
-        const eventSet = events.filter(event => {
-            return event.day === day && event.month === month;
+    // 获取年、月、日
+    getYearMonthDay(date:Date) {
+        return {
+            year: date.getFullYear(),
+            month: date.getMonth() + 1, // 月份从0开始，需要加1
+            day: date.getDate(),
+        };
+    }
+
+    generateCalendarEvents() {
+        const map = new Map<string, CalendarEvent[]>();
+        this.props.calendarEvents?.forEach((item) => {
+            if (item.date !== undefined) {
+                const dateKey = new Date(item.date).toISOString().split('T')[0]; // 将日期转换为 'YYYY-MM-DD' 格式
+                if (!map.has(dateKey)) {
+                    map.set(dateKey, [item]);
+                } else {
+                    const currentEvents = map.get(dateKey);
+                    if (currentEvents) {
+                        map.set(dateKey, currentEvents.concat(item));
+                    } else {
+                        map.set(dateKey, [item]);
+                    }
+                }
+            }
         });
-        return eventSet;
+        return map;
     }
 
-    //生成适于当前页面渲染的日期事件列表
-    generateEventList(events: CalendarEvent[]) { 
-        const currentDateList = this.state.dateList.map((line) => {
-            line.map((item) => {
-                const eventSet = this.getEventsForCurrentDate(item.month, item.day, events);
-                return item.events = eventSet;
+    componentDidMount() {
+        new Draggable('#calendar-body', {
+            target:'[target="true"]',
+            onDragStart: (event, dragElement) => {
+                console.log('onDragStart', event, dragElement);
+            },
+            onDragEnd: (event, dragElement) => {
+                console.log('onDragEnd', {event, dragElement});
+            },
+            onDragEnter: (event, dragElement, dropElement) => {
+                console.log('onDragEnter', {event, dragElement, dropElement});
+            },
+            onDragLeave: (event, dragElement, dropElement) => {
+                console.log('onDragLeave', {event, dragElement, dropElement});
+            },
+            onDrop: (event, dragElement, dropElement) => {
+                console.log('onDrop', {event, dragElement, dropElement});
+                if (dragElement && dropElement) {
+                    const prevDate = dragElement.dataset.date;
+                    const changeDate:string = dropElement.dataset.date || '';
+                    const index: number = Number(dragElement.dataset.index);
+                    const prevDateEvents = prevDate && this.state.eventMap.get(prevDate);
+                    const currentDateEvents = this.state.eventMap.get(changeDate) ? this.state.eventMap.get(changeDate) : [];
+                    if (prevDateEvents) {
+                        const emptyAry: CalendarEvent[] = [];
+                        const eventToMove = index !== undefined && index >= 0 && index < prevDateEvents.length ? [prevDateEvents[index]] : emptyAry;
+                        eventToMove[0].date = new Date(changeDate);
+                        if (eventToMove && Array.isArray(currentDateEvents)) {
+                            currentDateEvents.push(...eventToMove);
+                            const newEventMap = new Map(this.state.eventMap);
+                            newEventMap.set(changeDate, currentDateEvents);
+                            if (index !== undefined && index >= 0 && index < prevDateEvents.length) {
+                                prevDateEvents.splice(index, 1);
+                                if (prevDateEvents.length === 0) {
+                                    newEventMap.delete(prevDate);
+                                } else {
+                                    newEventMap.set(prevDate, [...prevDateEvents]);
+                                }
+                            }
+                            console.log('newEventMap', newEventMap);   
+                            this.setState({eventMap: newEventMap});
+                        }
+                    }
+                }
+            },
+            onChange(newState, oldState) {
+                console.log('onChange', {newState, oldState});
+            },
+        });
+    }
+
+    componentDidUpdate(prevProps: P) {
+        if (prevProps.date.getFullYear() !== this.props.date.getFullYear() || prevProps.date.getMonth() !== this.props.date.getMonth()  || prevProps.date.getDate() !== this.props.date.getDate()) {
+            this.setState({'dateList':  this.generateCalendarPageByDate(this.props.date)});
+        }
+    }  
+
+    generateCalendarPageByDate(date: Date): EventState[][] {
+        const year = date.getFullYear();
+        const month = date.getMonth();
+    
+        // 获取该月第一天的日期对象
+        const firstDayOfMonth = new Date(year, month, 1);
+        let firstDayOfWeek = firstDayOfMonth.getDay() - 1;
+        if (firstDayOfWeek === -1) {
+            firstDayOfWeek = 6;
+        }
+    
+        // 初始化日期格子
+        const page: EventState[][] = [];
+        const currentDate = new Date(firstDayOfMonth);
+    
+        // 填充前导空白天数
+        let week: EventState[] = new Array(firstDayOfWeek).fill({date: null});
+    
+        // 填充该月的日期
+        for (let i = 0; i < 6; i++) {
+            for (let j = week.length; j < 7; j++) {
+                week.push({date: new Date(currentDate)});
+                currentDate.setDate(currentDate.getDate() + 1);
+            }
+            page.push(week);
+            week = [];
+        }
+        const firstWeek = page[0];
+    
+        // 填充第一周的前导日期
+        for (let i = firstDayOfWeek; i >= 0; i--) {
+            const prevDate = new Date(firstDayOfMonth);
+            prevDate.setDate(prevDate.getDate() - (firstDayOfWeek - i));
+            firstWeek[i] = {date: prevDate};
+        }
+
+        return page;
+    }
+
+    //生成事件集与事件的对应关系
+    generateCalendarSetEvents(): Map<string, CalendarEvent[]> {
+        const map = new Map<string, CalendarEvent[]>();
+        this.props.calendarEvents?.forEach((item) => {
+            if (item.calendarEventGroup !== undefined) {
+                this.props.calendarEventSet?.forEach(element => {
+                    if (element.id === item.calendarEventGroup) {
+                        map.set(element.id, map.get(element.id)?.concat(item) || [item]);
+                    }
+                });
+            }
+        });
+        return map;
+    }
+
+    //生成事件自定义颜色
+    getColor(event?: CalendarEvent) {
+        if (this.state.eventSetMap && this.state.eventSetMap?.get(event?.calendarEventGroup || '' )) {
+            this.props.calendarEventSet?.forEach(element => {
+                if (element.id === event?.calendarEventGroup) {
+                    return element.color;
+                }
             });
-        });
-        console.log(currentDateList);
-        // this.setState({'dateList': currentDateList});
-    }
-        
-    //通用方法：通过月份计算出当前月份开头的日期
-    generateCalendarPagesByYear(year: number): {month: number, day: number, events?: CalendarEvent[]}[][][] {
-        const pages:  {month: number, day: number}[][][] = [];
-      
-        // 创建日期对象，设置为当前年份的1月1日
-        const currentDate = new Date(year, 0, 1);
-      
-        while (currentDate.getFullYear() === year) {
-            const page:  {month: number, day: number}[][] = [];
-            for (let i = 0; i < 6; i++) {
-                const week:  {month: number, day: number}[] = [];
-                for (let j = 0; j < 7; j++) {
-                    week.push({'month':currentDate.getMonth() + 1, 'day':currentDate.getDate()});
-                    currentDate.setDate(currentDate.getDate() + 1);
-                }
-                page.push(week);
-            }
-            pages.push(page);
+        } else {
+            const hueDistance = 43;
+            const saturation = 0.4;
+            const lightness = 0.6;
+            const colorCode = event?.description ?? event?.date.toString() ?? '';
+            const hue = (typeof colorCode === 'number' ? colorCode : getUniqueCode(colorCode)) * hueDistance % 360;
+            const background = `hsl(${hue},${saturation * 100}%,${lightness * 100}%)`;
+            return  background;
         }
-        return pages;
-    }
-
-    // 通用方法：通过月份计算出当前日期在生成的日期的索引
-    getDateIndex(pages: {month: number, day: number}[][][], month: number, day: number): number {
-        for (let i = 0; i < pages.length; i++) {
-            const page = pages[i];
-            for (let j = 0; j < page.length; j++) {
-                if (page[j][0]?.month === month && (page[j][0]?.day <= day && page[j][0]?.day >= day - 7)) {
-                    return Number(i);
-                }
-            }
-        }
-        return NaN;
-    }
-
-    // 通用方法：获取当前props的日期索引
-    getPropsDateIndex(props: CalendarProps) {
-        const {year, month, day} = props;
-        const pages = this.generateCalendarPagesByYear(year);
-        return pages[this.getDateIndex(pages, month, day)];
     }
 
     render(props: RenderableProps<P>): VNode<Attributes> {
-        const headerList = ['周一', '周二', '周三', '周四', '周五', '周六', '周日'];
-        // const { events, calendarEventSet, onDateClick, onEventClick, onEventDrop, maxVisibleEvents} = props;
+        const headerList = ['周一', '周二', '周三', '周四', '周 五', '周六', '周日'];
+        const {maxVisibleEvents} = props;
+        // 处理事件map
+        const tdStyle = {position:'relative', verticalAlign:'top'};
+
         return (<div className="calendar">
             <table className="calendar-table">
                 <thead className="calendar-content-header">
@@ -87,18 +189,27 @@ export class CalendarContent<P extends CalendarProps = CalendarProps> extends HE
                         }
                     </tr>
                 </thead>
-                <tbody className="calendar-body">
-                    {this.state.dateList.map((line) => {
+                <tbody id="calendar-body">
+                    {this.state.dateList?.map((line) => {
                         return (<tr>{   line.map((item) => {
-                            return <td key={`${item.month}-${item.day}`} className={(props.year === new Date().getFullYear() && item.month === new Date().getMonth() + 1 ? 'active' : '') + (item.day === props.day ? '-today' : '')}>
+                            return <td style={tdStyle} data-date = {item.date.toISOString().split('T')[0]}  key={`${item.date.getMonth() + 1}-${item.date.getDate()}`} target='true' className={'calendar-td' + ' ' + (props.date.getFullYear() === item.date.getFullYear() && item.date.getMonth() + 1 === props.date.getMonth() + 1 ? 'active' : '') + (new Date().getFullYear() === item.date.getFullYear() && item.date.getMonth() + 1 === new Date().getMonth() + 1 && item.date.getDate() === new Date().getDate() ? '-today' : '')} >
                                 <div className={'calendar-body-part'}>
                                     <div className='calendar-body-header'>
-                                        {item.day == 1 ? <label className='label gray calendar-body-header-month'>{item.month}月</label> : ''}
-                                        <div className='calendar-body-header-day'>{item.day}</div>
+                                        {item.date.getDate() == 1 ? <label className='label gray calendar-body-header-month'>{item.date.getMonth() + 1}月</label> : ''}
+                                        <div className='calendar-body-header-day'>{item.date.getDate()}</div>
                                     </div>
+                                    {this.state.eventMap ? (
+                                        <CalendarEventDom
+                                            isExtended={this.state.isExtended}
+                                            maxVisibleEvents={maxVisibleEvents}
+                                            color={this.getColor(this.state.eventMap.get(item.date?.toISOString().split('T')[0])?.[0]) || ''}
+                                            calendarEvents={this.state.eventMap.get(item.date.toISOString().split('T')[0]) || []}
+                                        ></CalendarEventDom>) : null}
+                                        
                                 </div>
-                                {item.events ? <CalendarEventDom {...item.events}></CalendarEventDom> : ''}</td>;
-                        })}</tr>);
+                                <div className={'calendar-body-bottom'}>{item.date && !this.state.isExtended && maxVisibleEvents && maxVisibleEvents < (this.state.eventMap.get(item.date.toISOString().split('T')[0]) ?.length || 0) && (<span class="calendar-body-bottom label ghost" onClick={() => {this.setState({'isExtended':true});}} >展开</span>)}{this.state.isExtended && maxVisibleEvents && maxVisibleEvents < (this.state.eventMap.get(item.date.toISOString().split('T')[0]) ?.length || 0) && (<span class="calendar-body-bottom label ghost" onClick={() => {this.setState({'isExtended':false});}} >收起</span>)}</div></td>;
+                        })}
+                        </tr>);
                     })}
                 </tbody>
             </table></div>);

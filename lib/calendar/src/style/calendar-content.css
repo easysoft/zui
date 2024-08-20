@@ -21,6 +21,11 @@ td{
     @apply -px-2 -border -border-gray-300;
 }
 
+.calendar-td{
+    @apply -text-start -border;
+    width: 14.2857%;
+}
+
 .calendar-header-part{
     @apply  -px-4 -py-2 -text-center -text-gray-700;
 }
@@ -29,8 +34,11 @@ td{
     @apply -mr-1;
 }
 .calendar-body-part{
-    height: 100px;
-    @apply -flex -flex-col;
+    @apply -flex -flex-col -justify-start;
+}
+
+.calendar-body-bottom{
+   @apply -absolute -right-1 -bottom-1 -cursor-pointer -w-8;
 }
 .active{
     @apply -bg-white;
