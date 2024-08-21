@@ -8,7 +8,7 @@ var it = (n, t, e) => (an(n, t, "read from private field"), e ? e.call(n) : t.ge
   t instanceof WeakSet ? t.add(n) : t.set(n, e);
 }, pt = (n, t, e, s) => (an(n, t, "write to private field"), s ? s.call(n, e) : t.set(n, e), e);
 var ln = (n, t, e) => (an(n, t, "access private method"), e);
-const bu = "3.0.0", wu = 1724043397770, Dt = document, ms = window, Er = Dt.documentElement, oe = Dt.createElement.bind(Dt), $r = oe("div"), cn = oe("table"), za = oe("tbody"), Gi = oe("tr"), { isArray: Fs, prototype: Ar } = Array, { concat: Oa, filter: Kn, indexOf: Mr, map: Pr, push: Fa, slice: Ir, some: qn, splice: Ha } = Ar, Wa = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, ja = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, Ba = /<.+>/, Va = /^\w+$/;
+const bu = "3.0.0", wu = 1724216357090, Dt = document, ms = window, Er = Dt.documentElement, oe = Dt.createElement.bind(Dt), $r = oe("div"), cn = oe("table"), za = oe("tbody"), Gi = oe("tr"), { isArray: Fs, prototype: Ar } = Array, { concat: Oa, filter: Kn, indexOf: Mr, map: Pr, push: Fa, slice: Ir, some: qn, splice: Ha } = Ar, Wa = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, ja = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, Ba = /<.+>/, Va = /^\w+$/;
 function Gn(n, t) {
   const e = Ua(t);
   return !n || !e && !se(t) && !Z(t) ? [] : !e && ja.test(n) ? t.getElementsByClassName(n.slice(1).replace(/\\/g, "")) : !e && Va.test(n) ? t.getElementsByTagName(n) : t.querySelectorAll(n);
@@ -2597,7 +2597,7 @@ f.getLib = async function(n, t, e) {
   for (let m of i) {
     typeof m == "string" && (m = { src: m });
     let { src: _ } = m;
-    p && (_ = `${p}${p.endsWith("/") || _.startsWith("/") ? "" : "/"}${_}`);
+    p && !/https?:\/\//.test(_) && (_ = `${p}${p.endsWith("/") || _.startsWith("/") ? "" : "/"}${_}`);
     const v = {
       ...s,
       ...m,
@@ -7865,6 +7865,12 @@ const wr = "show", Cr = "in", Ee = class ia extends ft {
   get zIndex() {
     return this._zIndex;
   }
+  get trigger() {
+    return this._triggerElement;
+  }
+  get target() {
+    return this._targetElement;
+  }
   afterInit() {
     const { trigger: t, id: e, triggerEvent: s } = this.options;
     this._triggerEvent = s, this._id = e || `popover_${this.gid}`;
@@ -7961,32 +7967,39 @@ const wr = "show", Cr = "in", Ee = class ia extends ft {
       return;
     }
     s || (this._layoutWatcher = Oo(t, e, () => {
-      const { animation: i, name: r = "popover", minWidth: o, minHeight: a } = this.options;
+      if (this.destroyed || !this._shown)
+        return;
+      const { animation: i, name: r = "popover", minWidth: o, minHeight: a, limitInScreen: l, onLayout: c } = this.options;
       if (!this._virtual) {
-        const l = {}, { width: c, height: u } = this.options;
-        c && (l.width = typeof c == "function" ? c() : c === "100%" ? f(t).outerWidth() : c), u && (l.height = typeof u == "function" ? u() : u), Object.keys(l).length && f(e).css(l);
+        const u = {}, { width: h, height: p } = this.options;
+        h && (u.width = typeof h == "function" ? h() : h === "100%" ? f(t).outerWidth() : h), p && (u.height = typeof p == "function" ? p() : p), Object.keys(u).length && f(e).css(u);
       }
-      Ni(...this._getLayoutOptions()).then(({ x: l, y: c, middlewareData: u, placement: h, strategy: p }) => {
+      Ni(...this._getLayoutOptions()).then(({ x: u, y: h, middlewareData: p, placement: d, strategy: m }) => {
         if (t instanceof HTMLElement && le(t)) {
           this.hide(!0);
           return;
         }
-        const d = {
-          position: p,
-          left: l,
-          top: c,
+        const _ = {
+          position: m,
+          left: u,
+          top: h,
           minWidth: o,
           minHeight: a
-        }, m = f(e).css(d), _ = h.split("-")[0], v = {
+        }, v = f(e).css(_), y = d.split("-")[0];
+        l && v.css({
+          top: Math.max(0, Math.min(window.innerHeight - v.outerHeight(), h)),
+          left: Math.max(0, Math.min(window.innerWidth - v.outerWidth(), u))
+        });
+        const b = {
           top: "bottom",
           right: "left",
           bottom: "top",
           left: "right"
-        }[_], y = u.arrow;
-        y && m.attr("data-pop-placement", _).find(".arrow").css({
-          left: y.x,
-          top: y.y
-        }).attr("class", `arrow ${r}-arrow arrow-${v}`), i === !0 && m.attr("class", `${m.attr("class").split(" ").filter((b) => b !== "fade" && !b.startsWith("fade-from")).join(" ")} fade-from-${v}`), this._virtual || f(this._triggerElement).attr("data-pop-placement", _);
+        }[y], C = p.arrow;
+        C && v.attr("data-pop-placement", y).find(".arrow").css({
+          left: C.x,
+          top: C.y
+        }).attr("class", `arrow ${r}-arrow arrow-${b}`), i === !0 && v.attr("class", `${v.attr("class").split(" ").filter((w) => w !== "fade" && !w.startsWith("fade-from")).join(" ")} fade-from-${b}`), this._virtual || f(this._triggerElement).attr("data-pop-placement", y);
       });
     }));
   }
