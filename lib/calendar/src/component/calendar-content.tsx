@@ -4,8 +4,9 @@ import {CalendarEventDom} from './calendar-event';
 import {Draggable} from '@zui/dnd';
 
 import type {CalendarProps,  CalendarEvent, CalendarContentState, EventState} from '../types';
-import {getUniqueCode} from '@zui/helpers/src/string-code';
 import type {Attributes, RenderableProps, VNode} from 'preact';
+import {i18n} from '@zui/core';
+import '../i18n';
 
 export class CalendarContent<P extends CalendarProps = CalendarProps> extends HElement<P, CalendarContentState> {
     constructor(props: P) {
@@ -143,7 +144,7 @@ export class CalendarContent<P extends CalendarProps = CalendarProps> extends HE
         const map = new Map<string, CalendarEvent[]>();
         this.props.calendarEvents?.forEach((item) => {
             if (item.calendarEventGroup !== undefined) {
-                this.props.calendarEventSet?.forEach(element => {
+                this.props.calendarEventGroups?.forEach(element => {
                     if (element.id === item.calendarEventGroup) {
                         map.set(element.id, map.get(element.id)?.concat(item) || [item]);
                     }
@@ -153,28 +154,10 @@ export class CalendarContent<P extends CalendarProps = CalendarProps> extends HE
         return map;
     }
 
-    //生成事件自定义颜色
-    getColor(event?: CalendarEvent) {
-        if (this.state.eventSetMap && this.state.eventSetMap?.get(event?.calendarEventGroup || '' )) {
-            this.props.calendarEventSet?.forEach(element => {
-                if (element.id === event?.calendarEventGroup) {
-                    return element.color;
-                }
-            });
-        } else {
-            const hueDistance = 43;
-            const saturation = 0.4;
-            const lightness = 0.6;
-            const colorCode = event?.description ?? event?.date.toString() ?? '';
-            const hue = (typeof colorCode === 'number' ? colorCode : getUniqueCode(colorCode)) * hueDistance % 360;
-            const background = `hsl(${hue},${saturation * 100}%,${lightness * 100}%)`;
-            return  background;
-        }
-    }
-
     render(props: RenderableProps<P>): VNode<Attributes> {
-        const headerList = ['周一', '周二', '周三', '周四', '周 五', '周六', '周日'];
-        const {maxVisibleEvents} = props;
+        const headerList: string[] = i18n.getLang('weekNames') || [];
+        const monthFormat = i18n.getLang('monthFormat');
+        const {maxVisibleEvents, onEventClick} = props;
         // 处理事件map
         const tdStyle = {position:'relative', verticalAlign:'top'};
 
@@ -183,7 +166,7 @@ export class CalendarContent<P extends CalendarProps = CalendarProps> extends HE
                 <thead className="calendar-content-header">
                     <tr >
                         {
-                            headerList.map((item, index) => {
+                            headerList?.map((item, index) => {
                                 return <th key={index} className="calendar-header-part">{item}</th>;
                             })
                         }
@@ -195,19 +178,21 @@ export class CalendarContent<P extends CalendarProps = CalendarProps> extends HE
                             return <td style={tdStyle} data-date = {item.date.toISOString().split('T')[0]}  key={`${item.date.getMonth() + 1}-${item.date.getDate()}`} target='true' className={'calendar-td' + ' ' + (props.date.getFullYear() === item.date.getFullYear() && item.date.getMonth() + 1 === props.date.getMonth() + 1 ? 'active' : '') + (new Date().getFullYear() === item.date.getFullYear() && item.date.getMonth() + 1 === new Date().getMonth() + 1 && item.date.getDate() === new Date().getDate() ? '-today' : '')} >
                                 <div className={'calendar-body-part'}>
                                     <div className='calendar-body-header'>
-                                        {item.date.getDate() == 1 ? <label className='label gray calendar-body-header-month'>{item.date.getMonth() + 1}月</label> : ''}
+                                        {item.date.getDate() == 1 ? <label className='label gray calendar-body-header-month'>{item.date.getMonth() + 1}{monthFormat}</label> : ''}
                                         <div className='calendar-body-header-day'>{item.date.getDate()}</div>
                                     </div>
                                     {this.state.eventMap ? (
                                         <CalendarEventDom
                                             isExtended={this.state.isExtended}
                                             maxVisibleEvents={maxVisibleEvents}
-                                            color={this.getColor(this.state.eventMap.get(item.date?.toISOString().split('T')[0])?.[0]) || ''}
+                                            eventSetMap = {this.state.eventSetMap}
+                                            onEventClick={onEventClick}
+                                            calendarEventGroups = {this.props.calendarEventGroups}
                                             calendarEvents={this.state.eventMap.get(item.date.toISOString().split('T')[0]) || []}
                                         ></CalendarEventDom>) : null}
                                         
                                 </div>
-                                <div className={'calendar-body-bottom'}>{item.date && !this.state.isExtended && maxVisibleEvents && maxVisibleEvents < (this.state.eventMap.get(item.date.toISOString().split('T')[0]) ?.length || 0) && (<span class="calendar-body-bottom label ghost" onClick={() => {this.setState({'isExtended':true});}} >展开</span>)}{this.state.isExtended && maxVisibleEvents && maxVisibleEvents < (this.state.eventMap.get(item.date.toISOString().split('T')[0]) ?.length || 0) && (<span class="calendar-body-bottom label ghost" onClick={() => {this.setState({'isExtended':false});}} >收起</span>)}</div></td>;
+                                <div className={'calendar-body-bottom'}>{item.date && !this.state.isExtended && maxVisibleEvents && maxVisibleEvents < (this.state.eventMap.get(item.date.toISOString().split('T')[0]) ?.length || 0) && (<span class="calendar-body-bottom label ghost" onClick={() => {this.setState({'isExtended':true});}} ><span class="chevron-down"></span></span>)}{this.state.isExtended && maxVisibleEvents && maxVisibleEvents < (this.state.eventMap.get(item.date.toISOString().split('T')[0]) ?.length || 0) && (<span class="calendar-body-bottom label ghost" onClick={() => {this.setState({'isExtended':false});}} ><span class="chevron-up"></span></span>)}</div></td>;
                         })}
                         </tr>);
                     })}

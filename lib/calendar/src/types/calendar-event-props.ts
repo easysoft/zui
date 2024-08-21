@@ -3,6 +3,7 @@ export interface CalendarEvent {
     title: string;
     calendarEventGroup: string;
     date: Date;
+    color?: string;
     startDate?: Date;
     endDate?: Date;
     description?: string;
@@ -11,6 +12,9 @@ export interface CalendarEvent {
 export interface CalendarEventProps extends HElementProps  {
     color?: string;
     calendarEvents?: CalendarEvent[];
+    eventSetMap?:Map<string, CalendarEvent[]>;
+    onEventClick?: () => void;
+    calendarEventGroups?: CalendarEventGroup[];
     isExtended?: boolean;
     maxVisibleEvents?: number;
 }
