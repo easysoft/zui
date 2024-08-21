@@ -204,7 +204,7 @@ $.getLib = async function<T = unknown> (optionsOrSrc: string | string[] | GetLib
             srcOptions = {src: srcOptions};
         }
         let {src} = srcOptions;
-        if (root) {
+        if (root && !/https?:\/\//.test(src)) {
             src = `${root}${(root.endsWith('/') || src.startsWith('/')) ? '' : '/'}${src}`;
         }
         const loadOptions = {
