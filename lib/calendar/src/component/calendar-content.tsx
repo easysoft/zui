@@ -44,19 +44,24 @@ export class CalendarContent<P extends CalendarProps = CalendarProps> extends HE
     }
 
     componentDidMount() {
+        const {onEventClick, onEventDragStart, onEventDragEnd, onEventDrop, onEventDragEnter, onEventDragLeave} = this.props;
         new Draggable('#calendar-body', {
             target:'[target="true"]',
             onDragStart: (event, dragElement) => {
-                console.log('onDragStart', event, dragElement);
+                console.log('onDragStart', event, dragElement); 
+                if (onEventDragStart) onEventDragStart(event, dragElement);
             },
             onDragEnd: (event, dragElement) => {
                 console.log('onDragEnd', {event, dragElement});
+                if (onEventDragEnd) onEventDragEnd(event, dragElement);
             },
             onDragEnter: (event, dragElement, dropElement) => {
                 console.log('onDragEnter', {event, dragElement, dropElement});
+                if (onEventDragEnter) onEventDragEnter(event, dragElement, dropElement);
             },
             onDragLeave: (event, dragElement, dropElement) => {
                 console.log('onDragLeave', {event, dragElement, dropElement});
+                if (onEventDragLeave) onEventDragLeave(event, dragElement, dropElement);
             },
             onDrop: (event, dragElement, dropElement) => {
                 console.log('onDrop', {event, dragElement, dropElement});
@@ -87,9 +92,7 @@ export class CalendarContent<P extends CalendarProps = CalendarProps> extends HE
                         }
                     }
                 }
-            },
-            onChange(newState, oldState) {
-                console.log('onChange', {newState, oldState});
+                if (onEventDrop) onEventDrop(event, dragElement, dropElement);
             },
         });
     }
