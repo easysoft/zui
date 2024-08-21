@@ -316,7 +316,7 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
         }
 
         this._layoutWatcher = autoUpdate(trigger, target, () => {
-            const {animation, name = 'popover', minWidth, minHeight} = this.options;
+            const {animation, name = 'popover', minWidth, minHeight, limitInScreen, onLayout} = this.options;
             if (!this._virtual) {
                 const style: JSX.CSSProperties = {};
                 const {width, height} = this.options;
@@ -344,6 +344,12 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
                 };
                 const $target = $(target).css(style);
                 const popSide = placement.split('-')[0] as string;
+                if (limitInScreen) {
+                    $target.css({
+                        top: Math.max(0, Math.min(window.innerHeight - $target.outerHeight(), y)),
+                        left: Math.max(0, Math.min(window.innerWidth - $target.outerWidth(), x)),
+                    });
+                }
                 const arrowSide = {
                     top: 'bottom',
                     right: 'left',

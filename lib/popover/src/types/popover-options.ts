@@ -16,6 +16,7 @@ export type PopoverOptions = Omit<PopoverPanelOptions, 'arrow' | 'arrowStyle' | 
     minHeight?: string;
     height?: number | (() => number | 'auto');
     limitSize?: boolean;
+    limitInScreen?: boolean;
     container?: Selector;
     trigger?: 'click' | 'hover' | 'manual' | (string & {});
     triggerEvent?: Event;
