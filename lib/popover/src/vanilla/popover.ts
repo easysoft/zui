@@ -324,6 +324,9 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
         }
 
         this._layoutWatcher = autoUpdate(trigger, target, () => {
+            if (this.destroyed || !this._shown) {
+                return;
+            }
             const {animation, name = 'popover', minWidth, minHeight, limitInScreen, onLayout} = this.options;
             if (!this._virtual) {
                 const style: JSX.CSSProperties = {};
