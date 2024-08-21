@@ -77,6 +77,14 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
         return this._zIndex;
     }
 
+    get trigger() {
+        return this._triggerElement;
+    }
+
+    get target() {
+        return this._targetElement;
+    }
+
     afterInit() {
         const {trigger, id, triggerEvent} = this.options;
 
