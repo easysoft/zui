@@ -5,10 +5,10 @@ export interface CalendarProps extends HElementProps {
     headerClass?: ClassNameLike;
     date: Date;
     calendarEvents?: CalendarEvent[];
-    calendarEventSet?: CalendarEventGroup[];
+    calendarEventGroups?: CalendarEventGroup[];
     locale?: 'zh-CN' | 'zh-TW' | 'en';
     onDateClick?: (date: Date) => void;
-    onEventClick?: (event: CalendarEvent) => void;
+    onEventClick?: () => void;
     onEventDrop?: (event: CalendarEvent, oldDate: Date, newDate: Date) => void;
     maxVisibleEvents?: number;
 }

@@ -38,7 +38,7 @@ td{
 }
 
 .calendar-body-bottom{
-   @apply -absolute -right-1 -bottom-1 -cursor-pointer -w-8;
+   @apply -absolute -right-0.5 -bottom-0.5 -cursor-pointer;
 }
 .active{
     @apply -bg-white;

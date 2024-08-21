@@ -1,8 +1,8 @@
-import type {CalendarEvent, CalendarEventProps} from '../types';
-import {Draggable} from '@zui/dnd';
+import type {CalendarEventProps, CalendarEvent} from '../types';
 import {HElement} from '@zui/core';
 import type {Attributes, RenderableProps, VNode} from 'preact';
-import {createRef, Component} from 'preact';
+import {getUniqueCode} from '@zui/helpers/src/string-code';
+import {createRef} from 'preact';
 
 export class CalendarEventDom<P extends CalendarEventProps = CalendarEventProps, S = {}> extends HElement<P, S> {
     calendarContentRef: preact.RefObject<HTMLDivElement>;
@@ -37,16 +37,36 @@ export class CalendarEventDom<P extends CalendarEventProps = CalendarEventProps,
         }
     }
 
+    getColor(event: CalendarEvent) {
+        const {eventSetMap, calendarEventGroups} = this.props;
+        if (eventSetMap && eventSetMap.has(event.calendarEventGroup)) {
+            let color  = '';
+            calendarEventGroups?.forEach(element => {
+                if (element.id == event.calendarEventGroup) {
+                    color = element.color || '';
+                }
+            });
+            return color;
+        } else {
+            const hueDistance = 43;
+            const saturation = 0.4;
+            const lightness = 0.6;
+            const colorCode = event?.description ?? event?.date.toString() ?? '';
+            const hue = (typeof colorCode === 'number' ? colorCode : getUniqueCode(colorCode)) * hueDistance % 360;
+            const background = `hsl(${hue},${saturation * 100}%,${lightness * 100}%)`;
+            return background;
+        }
+    }
+
     render(props: RenderableProps<P>): VNode<Attributes> {
-        let {calendarEvents} = props;
-        const {color, maxVisibleEvents, isExtended} = props;
+        let {calendarEvents} = props;        const {maxVisibleEvents, isExtended, onEventClick} = props;
         if (maxVisibleEvents && !isExtended && calendarEvents && calendarEvents?.length > maxVisibleEvents) {
             calendarEvents = calendarEvents.slice(0, maxVisibleEvents);
         }
         return (<div ref={this.calendarContentRef} class="calendar-event">
             {
                 calendarEvents?.map((event, index) => {
-                    return <div data-index={index}  data-date ={event.date.toISOString().split('T')[0]}  draggable={true} class="calendar-event-item" key={index} style={{background:`${color}`}}>{event.date.getHours() + ':' + event.date.getMinutes()}&nbsp;{event.description}</div>;
+                    return <div style={{backgroundColor: this.getColor(event)}} onClick = {() =>onEventClick && onEventClick()} data-index={index}  data-date ={event.date.toISOString().split('T')[0]}  draggable={true} class="calendar-event-item" key={index}>{event.date.getHours() + ':' + event.date.getMinutes()}&nbsp;{event.description}</div>;
                 })}
         </div>);
     }   

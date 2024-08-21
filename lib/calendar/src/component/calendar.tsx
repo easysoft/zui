@@ -50,10 +50,9 @@ export class Calendar<P extends CalendarProps=CalendarProps> extends HElement<P,
         const CalendarOptions: CalendarProps = {
             date: this.state.date,
             calendarEvents: this.props.calendarEvents,
+            calendarEventGroups: this.props.calendarEventGroups,
             onDateClick: (date: Date) => { console.log(date); },
-            onEventClick(event) {
-                console.log(event);
-            },
+            onEventClick() {},
             onEventDrop(event, oldDate, newDate) {
                 console.log(event, oldDate, newDate);
             },
