@@ -8,7 +8,7 @@ var it = (n, t, e) => (an(n, t, "read from private field"), e ? e.call(n) : t.ge
   t instanceof WeakSet ? t.add(n) : t.set(n, e);
 }, pt = (n, t, e, s) => (an(n, t, "write to private field"), s ? s.call(n, e) : t.set(n, e), e);
 var ln = (n, t, e) => (an(n, t, "access private method"), e);
-const bu = "3.0.0", wu = 1724323804832, Dt = document, ms = window, Er = Dt.documentElement, ae = Dt.createElement.bind(Dt), $r = ae("div"), cn = ae("table"), za = ae("tbody"), Gi = ae("tr"), { isArray: Fs, prototype: Ar } = Array, { concat: Oa, filter: Kn, indexOf: Mr, map: Pr, push: Fa, slice: Ir, some: qn, splice: Ha } = Ar, Wa = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, ja = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, Ba = /<.+>/, Va = /^\w+$/;
+const bu = "3.0.0", wu = 1724324037527, Dt = document, ms = window, Er = Dt.documentElement, ae = Dt.createElement.bind(Dt), $r = ae("div"), cn = ae("table"), za = ae("tbody"), Gi = ae("tr"), { isArray: Fs, prototype: Ar } = Array, { concat: Oa, filter: Kn, indexOf: Mr, map: Pr, push: Fa, slice: Ir, some: qn, splice: Ha } = Ar, Wa = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, ja = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, Ba = /<.+>/, Va = /^\w+$/;
 function Gn(n, t) {
   const e = Ua(t);
   return !n || !e && !ne(t) && !Z(t) ? [] : !e && ja.test(n) ? t.getElementsByClassName(n.slice(1).replace(/\\/g, "")) : !e && Va.test(n) ? t.getElementsByTagName(n) : t.querySelectorAll(n);
@@ -6295,19 +6295,19 @@ let Ko = class extends yt {
     const e = super.getDefaultState(t);
     return e.value === "now" && (e.value = xt(/* @__PURE__ */ new Date(), (t || this.props).format)), e;
   }
-  setTime(t) {
-    if (this.props.disabled || this.props.readonly)
+  setTime(t, e) {
+    if (!e && (this.props.disabled || this.props.readonly))
       return;
-    let e = "";
+    let s = "";
     if (typeof t == "string")
-      e = t;
+      s = t;
     else {
-      const [a, l] = (this.state.value || "00:00").split(":"), { hour: c = +a, minute: u = +l } = t;
-      e = `${c}:${u}`;
+      const [c, u] = (this.state.value || "00:00").split(":"), { hour: h = +c, minute: p = +u } = t;
+      s = `${h}:${p}`;
     }
-    const s = mr(e), { onInvalid: i, required: r, defaultValue: o } = this.props;
-    return this.changeState({ value: s ? xt(s, this.props.format) : r ? o : "" }, () => {
-      !s && i && i(e);
+    const i = mr(s), { onInvalid: r, required: o, defaultValue: a, format: l } = this.props;
+    return this.changeState({ value: i ? xt(i, l) : o ? a : "" }, () => {
+      !i && r && r(s);
     });
   }
   setValue(t, e) {
@@ -6315,7 +6315,7 @@ let Ko = class extends yt {
       const s = this._trigger.current;
       s && (s._skipTriggerChange = t);
     }
-    return this.setTime(t);
+    return this.setTime(t, !0);
   }
   getTime() {
     const t = mr(this.state.value);
@@ -6586,12 +6586,12 @@ Ke = new WeakMap(), qe = new WeakMap(), Ge = new WeakMap(), Ye = new WeakMap(), 
 };
 let sn = class extends yt {
   constructor() {
-    super(...arguments), this.setDate = (t) => {
-      const { disabled: e, readonly: s } = this.props;
-      if (e || s)
+    super(...arguments), this.setDate = (t, e) => {
+      const { disabled: s, readonly: i } = this.props;
+      if (!e && (s || i))
         return;
-      const i = this._calcValue(t);
-      return this.changeState({ value: i }, () => {
+      const r = this._calcValue(t);
+      return this.changeState({ value: r }, () => {
         this._afterSetDate();
       });
     }, this._handleInputFocus = () => {
@@ -6619,7 +6619,7 @@ let sn = class extends yt {
       const s = this._trigger.current;
       s && (s._skipTriggerChange = t);
     }
-    return this.setDate(t);
+    return this.setDate(t, !0);
   }
   _calcValue(t) {
     const { onInvalid: e, defaultValue: s = "", required: i, allowInvalid: r, format: o } = this.props;
