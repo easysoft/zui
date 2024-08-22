@@ -1,5 +1,5 @@
 import {arrow, computePosition, flip, shift, size, autoUpdate, offset, VirtualElement, ReferenceElement, ComputePositionConfig} from '@floating-ui/dom';
-import {Component, $, ComponentEvents, JSX, evalValue} from '@zui/core';
+import {Component, $, ComponentEvents, JSX, evalValue, toCssSize} from '@zui/core';
 import {PopoverEvents, PopoverOptions, PopoverPanelOptions, PopoverSide} from '../types';
 import {PopoverPanel} from './popover-panel';
 import {isElementDetached} from '@zui/core/src/dom';
@@ -329,7 +329,12 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
             }
             const {animation, name = 'popover', minWidth, minHeight, maxWidth, maxHeight, limitInScreen, onLayout} = this.options;
             if (!this._virtual) {
-                const style: JSX.CSSProperties = {};
+                const style: JSX.CSSProperties = {
+                    minWidth: toCssSize(minWidth),
+                    minHeight: toCssSize(minHeight),
+                    maxWidth: toCssSize(maxWidth),
+                    maxHeight: toCssSize(maxHeight),
+                };
                 const {width, height} = this.options;
                 if (width) {
                     style.width = typeof width === 'function' ? width() : (width === '100%' ? $(trigger as HTMLElement).outerWidth() : width);
@@ -350,8 +355,6 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
                     position: strategy,
                     left: x,
                     top: y,
-                    minWidth,
-                    minHeight,
                 };
                 const $target = $(target).css(style);
                 if (limitInScreen) {

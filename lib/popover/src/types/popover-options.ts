@@ -1,6 +1,19 @@
 import type {Placement, Strategy, ShiftOptions, Derivable, VirtualElement, OffsetOptions} from '@floating-ui/dom';
-import type {Selector} from '@zui/core';
+import type {Selector, SizeSetting} from '@zui/core';
 import type {PopoverPanelOptions} from './popover-panel-options';
+
+export type PopoverSide = 'top' | 'right' | 'bottom' | 'left';
+
+export type PopoverLayoutInfo = {
+    popSide: PopoverSide,
+    arrowSide: PopoverSide,
+    x: number,
+    y: number,
+    placement: Placement,
+    strategy: Strategy,
+    trigger: HTMLElement | VirtualElement,
+    target: HTMLElement,
+};
 
 export type PopoverOptions = Omit<PopoverPanelOptions, 'arrow' | 'arrowStyle' | 'onlyInner'> & {
     name?: string;
@@ -12,8 +25,10 @@ export type PopoverOptions = Omit<PopoverPanelOptions, 'arrow' | 'arrowStyle' | 
     element?: HTMLElement | VirtualElement;
     elementShowClass?: string;
     width?: number | 'auto' | '100%' | (() => number | 'auto');
-    minWidth?: string;
-    minHeight?: string;
+    minWidth?: SizeSetting;
+    minHeight?: SizeSetting;
+    maxWidth?: SizeSetting;
+    maxHeight?: SizeSetting;
     height?: number | (() => number | 'auto');
     limitSize?: boolean;
     limitInScreen?: boolean;
