@@ -32,9 +32,9 @@ export class DatePicker<T extends DatePickerOptions = DatePickerOptions> extends
         return this._date;
     }
 
-    setDate = (value: string) => {
+    setDate = (value: string, force?: boolean) => {
         const {disabled, readonly} = this.props;
-        if (disabled || readonly) {
+        if (!force && (disabled || readonly)) {
             return;
         }
 
@@ -51,7 +51,7 @@ export class DatePicker<T extends DatePickerOptions = DatePickerOptions> extends
                 trigger._skipTriggerChange = value;
             }
         }
-        return this.setDate(value) as Promise<PickState>;
+        return this.setDate(value, true) as Promise<PickState>;
     }
 
     _calcValue(value: string): string {
