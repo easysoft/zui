@@ -53,8 +53,8 @@ export class TimePicker extends Pick<PickState, TimePickerOptions> {
         this.setTime('');
     };
 
-    setTime(value: string | {hour?: number, minute?: number}) {
-        if (this.props.disabled || this.props.readonly) {
+    setTime(value: string | {hour?: number, minute?: number}, force?: boolean) {
+        if (!force && (this.props.disabled || this.props.readonly)) {
             return;
         }
         let valueString = '';
@@ -67,8 +67,8 @@ export class TimePicker extends Pick<PickState, TimePickerOptions> {
         }
 
         const date = parseTime(valueString);
-        const {onInvalid, required, defaultValue} = this.props;
-        return this.changeState({value: date ? formatDate(date, this.props.format) : (required ? defaultValue : '')}, () => {
+        const {onInvalid, required, defaultValue, format} = this.props;
+        return this.changeState({value: date ? formatDate(date, format) : (required ? defaultValue : '')}, () => {
             if (!date && onInvalid) {
                 onInvalid(valueString);
             }
@@ -82,7 +82,7 @@ export class TimePicker extends Pick<PickState, TimePickerOptions> {
                 trigger._skipTriggerChange = value;
             }
         }
-        return this.setTime(value) as Promise<PickState>;
+        return this.setTime(value, true) as Promise<PickState>;
     }
 
     getTime(): [hour: number, minute: number] | null {
