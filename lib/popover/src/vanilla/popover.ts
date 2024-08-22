@@ -1,6 +1,6 @@
 import {arrow, computePosition, flip, shift, size, autoUpdate, offset, VirtualElement, ReferenceElement, ComputePositionConfig} from '@floating-ui/dom';
 import {Component, $, ComponentEvents, JSX, evalValue} from '@zui/core';
-import {PopoverEvents, PopoverOptions, PopoverPanelOptions} from '../types';
+import {PopoverEvents, PopoverOptions, PopoverPanelOptions, PopoverSide} from '../types';
 import {PopoverPanel} from './popover-panel';
 import {isElementDetached} from '@zui/core/src/dom';
 
@@ -327,7 +327,7 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
             if (this.destroyed || !this._shown) {
                 return;
             }
-            const {animation, name = 'popover', minWidth, minHeight, limitInScreen, onLayout} = this.options;
+            const {animation, name = 'popover', minWidth, minHeight, maxWidth, maxHeight, limitInScreen, onLayout} = this.options;
             if (!this._virtual) {
                 const style: JSX.CSSProperties = {};
                 const {width, height} = this.options;
@@ -354,19 +354,19 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
                     minHeight,
                 };
                 const $target = $(target).css(style);
-                const popSide = placement.split('-')[0] as string;
                 if (limitInScreen) {
                     $target.css({
                         top: Math.max(0, Math.min(window.innerHeight - $target.outerHeight(), y)),
                         left: Math.max(0, Math.min(window.innerWidth - $target.outerWidth(), x)),
                     });
                 }
+                const popSide = placement.split('-')[0] as PopoverSide;
                 const arrowSide = {
                     top: 'bottom',
                     right: 'left',
                     bottom: 'top',
                     left: 'right',
-                }[popSide] as string;
+                }[popSide] as PopoverSide;
                 const arrowPosition = middlewareData.arrow;
                 if (arrowPosition) {
                     $target.attr('data-pop-placement', popSide).find('.arrow').css({
@@ -379,6 +379,18 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
                 }
                 if (!this._virtual) {
                     $(this._triggerElement as HTMLElement).attr('data-pop-placement', popSide);
+                }
+                if (onLayout) {
+                    onLayout.call(this, {
+                        target,
+                        trigger,
+                        popSide: popSide,
+                        arrowSide: arrowSide,
+                        x,
+                        y,
+                        placement,
+                        strategy,
+                    });
                 }
             });
         });
