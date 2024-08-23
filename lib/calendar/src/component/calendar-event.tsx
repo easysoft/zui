@@ -66,7 +66,7 @@ export class CalendarEventDom<P extends CalendarEventProps = CalendarEventProps,
         return (<div ref={this.calendarContentRef} class="calendar-event">
             {
                 calendarEvents?.map((event, index) => {
-                    return <div style={{backgroundColor: this.getColor(event)}} onClick = {(e: MouseEvent) =>onEventClick && onEventClick(e)} data-index={index}  data-date ={event.date}  draggable={true} class="calendar-event-item" key={index}>{event.date.getHours() + ':' + event.date.getMinutes()}&nbsp;{event.description}</div>;
+                    return <div style={{backgroundColor: this.getColor(event)}} onClick = {(e: MouseEvent) =>onEventClick && onEventClick(e)} data-index={index}  data-date ={new Date(event.date)}  draggable={true} class="calendar-event-item" key={index}>{event.date.getHours() + ':' + event.date.getMinutes()}&nbsp;{event.description}</div>;
                 })}
         </div>);
     }   

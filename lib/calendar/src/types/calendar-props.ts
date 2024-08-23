@@ -6,7 +6,8 @@ export interface CalendarProps extends HElementProps {
     date: Date;
     calendarEvents?: CalendarEvent[];
     calendarEventGroups?: CalendarEventGroup[];
-    locale?: 'zh-CN' | 'zh-TW' | 'en';
+    viewMode?: 'day' | 'week' | 'year';
+    weekendShrink?: boolean;
     onDateClick?: (date: Date) => void;
     onEventClick?: (e: MouseEvent) => void;
     onEventDragStart?: (event: DragEvent, dragElement: HTMLElement) => void;

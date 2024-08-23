@@ -16,15 +16,11 @@
 }
 
 .btn-left {
-    background: #f2f2f2;
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
+    @apply -bg-gray-100  -rounded-l-none;
 }
 
 .btn-right {
-    background: #f2f2f2;
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
+    @apply -bg-gray-100 -rounded-r-none;
 }
 
 .chevron-left,
