@@ -38,6 +38,10 @@ export class PickerMenu extends PickPop<PickerState, PickerMenuProps> {
         return this._menu.current;
     }
 
+    get picker() {
+        return this.props.picker;
+    }
+
     componentDidMount(): void {
         super.componentDidMount();
         if (this._firstSelected === undefined) {

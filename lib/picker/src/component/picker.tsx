@@ -331,6 +331,7 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
     protected _getPopProps(props: RenderableProps<O>, state: Readonly<S>): PickerMenuProps<S> {
         return {
             ...super._getPopProps(props, state),
+            picker: this as unknown as Picker,
             menu: props.menu,
             tree: props.tree,
             checkbox: props.checkbox,
