@@ -367,7 +367,7 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
                 text: i18n.getLang('cancelSelect'),
             }];
         }
-        return Toolbar.render(toolbar, [], {size: 'sm', getItem: (item) => {
+        return Toolbar.render(toolbar, [], {size: 'sm', relativeTarget: this, getItem: (item) => {
             if (!item.onClick) {
                 if (item.key === 'selectAll') {
                     item.onClick = this.selectAll.bind(this);
