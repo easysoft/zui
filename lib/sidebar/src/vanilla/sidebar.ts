@@ -91,8 +91,7 @@ export class Sidebar extends Component<SidebarOptions, {
         this._minWidth = calcSize(minWidth, containerWidth);
         this._maxWidth = calcSize(maxWidth, containerWidth);
         this._defaultWidth = Math.max(this._minWidth, Math.min(this._maxWidth, calcSize(width || $element.width(), containerWidth)));
-        this._width = (preserve ? store.get(this._storeID) : null) || this._defaultWidth;
-
+        this._width = (preserve ? store.get(this._storeID) : null) ?? this._defaultWidth;
 
         this.render();
 
