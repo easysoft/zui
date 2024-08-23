@@ -6,7 +6,7 @@ export interface CalendarState {
 export interface CalendarContentState {
     isExtended: boolean;
     dateList:{date:Date} [][];
-    eventMap: Map<string, CalendarEvent[]>;
+    eventMap: Map<number, CalendarEvent[]>;
     eventSetMap?: Map<string, CalendarEvent[]>;
 }
 

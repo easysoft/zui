@@ -24,18 +24,18 @@ export class CalendarContent<P extends CalendarProps = CalendarProps> extends HE
     }
 
     generateCalendarEvents() {
-        const map = new Map<string, CalendarEvent[]>();
+        const map = new Map<number, CalendarEvent[]>();
         this.props.calendarEvents?.forEach((item) => {
             if (item.date !== undefined) {
-                const dateKey = new Date(item.date).toISOString().split('T')[0]; // 将日期转换为 'YYYY-MM-DD' 格式
-                if (!map.has(dateKey)) {
-                    map.set(dateKey, [item]);
+                const dateKey = item.date; // 将日期转换为 'YYYY-MM-DD' 格式
+                if (!map.has(dateKey.getTime())) {
+                    map.set(dateKey.getTime(), [item]);
                 } else {
-                    const currentEvents = map.get(dateKey);
+                    const currentEvents = map.get(dateKey.getTime());
                     if (currentEvents) {
-                        map.set(dateKey, currentEvents.concat(item));
+                        map.set(dateKey.getTime(), currentEvents.concat(item));
                     } else {
-                        map.set(dateKey, [item]);
+                        map.set(dateKey.getTime(), [item]);
                     }
                 }
             }
@@ -44,7 +44,7 @@ export class CalendarContent<P extends CalendarProps = CalendarProps> extends HE
     }
 
     componentDidMount() {
-        const {onEventClick, onEventDragStart, onEventDragEnd, onEventDrop, onEventDragEnter, onEventDragLeave} = this.props;
+        const {onEventDragStart, onEventDragEnd, onEventDrop, onEventDragEnter, onEventDragLeave} = this.props;
         new Draggable('#calendar-body', {
             target:'[target="true"]',
             onDragStart: (event, dragElement) => {
@@ -67,10 +67,10 @@ export class CalendarContent<P extends CalendarProps = CalendarProps> extends HE
                 console.log('onDrop', {event, dragElement, dropElement});
                 if (dragElement && dropElement) {
                     const prevDate = dragElement.dataset.date;
-                    const changeDate:string = dropElement.dataset.date || '';
+                    const changeDate: Date = new Date(dropElement.dataset.date || '');
                     const index: number = Number(dragElement.dataset.index);
-                    const prevDateEvents = prevDate && this.state.eventMap.get(prevDate);
-                    const currentDateEvents = this.state.eventMap.get(changeDate) ? this.state.eventMap.get(changeDate) : [];
+                    const prevDateEvents = prevDate && this.state.eventMap.get(new Date(prevDate).getTime());
+                    const currentDateEvents = this.state.eventMap.get(changeDate.getTime()) ? this.state.eventMap.get(changeDate.getTime()) : [];
                     if (prevDateEvents) {
                         const emptyAry: CalendarEvent[] = [];
                         const eventToMove = index !== undefined && index >= 0 && index < prevDateEvents.length ? [prevDateEvents[index]] : emptyAry;
@@ -78,13 +78,13 @@ export class CalendarContent<P extends CalendarProps = CalendarProps> extends HE
                         if (eventToMove && Array.isArray(currentDateEvents)) {
                             currentDateEvents.push(...eventToMove);
                             const newEventMap = new Map(this.state.eventMap);
-                            newEventMap.set(changeDate, currentDateEvents);
+                            newEventMap.set(changeDate.getTime(), currentDateEvents);
                             if (index !== undefined && index >= 0 && index < prevDateEvents.length) {
                                 prevDateEvents.splice(index, 1);
                                 if (prevDateEvents.length === 0) {
-                                    newEventMap.delete(prevDate);
+                                    newEventMap.delete(new Date(prevDate).getTime());
                                 } else {
-                                    newEventMap.set(prevDate, [...prevDateEvents]);
+                                    newEventMap.set(new Date(prevDate).getTime(), [...prevDateEvents]);
                                 }
                             }
                             console.log('newEventMap', newEventMap);   
@@ -178,7 +178,7 @@ export class CalendarContent<P extends CalendarProps = CalendarProps> extends HE
                 <tbody id="calendar-body">
                     {this.state.dateList?.map((line) => {
                         return (<tr>{   line.map((item) => {
-                            return <td style={tdStyle} data-date = {item.date.toISOString().split('T')[0]}  key={`${item.date.getMonth() + 1}-${item.date.getDate()}`} target='true' className={'calendar-td' + ' ' + (props.date.getFullYear() === item.date.getFullYear() && item.date.getMonth() + 1 === props.date.getMonth() + 1 ? 'active' : '') + (new Date().getFullYear() === item.date.getFullYear() && item.date.getMonth() + 1 === new Date().getMonth() + 1 && item.date.getDate() === new Date().getDate() ? '-today' : '')} >
+                            return <td style={tdStyle} data-date = {item.date}  key={`${item.date.getMonth() + 1}-${item.date.getDate()}`} target='true' className={'calendar-td' + ' ' + (props.date.getFullYear() === item.date.getFullYear() && item.date.getMonth() + 1 === props.date.getMonth() + 1 ? 'active' : '') + (new Date().getFullYear() === item.date.getFullYear() && item.date.getMonth() + 1 === new Date().getMonth() + 1 && item.date.getDate() === new Date().getDate() ? '-today' : '')} >
                                 <div className={'calendar-body-part'}>
                                     <div className='calendar-body-header'>
                                         {item.date.getDate() == 1 ? <label className='label gray calendar-body-header-month'>{item.date.getMonth() + 1}{monthFormat}</label> : ''}
@@ -191,11 +191,11 @@ export class CalendarContent<P extends CalendarProps = CalendarProps> extends HE
                                             eventSetMap = {this.state.eventSetMap}
                                             onEventClick={onEventClick}
                                             calendarEventGroups = {this.props.calendarEventGroups}
-                                            calendarEvents={this.state.eventMap.get(item.date.toISOString().split('T')[0]) || []}
+                                            calendarEvents={this.state.eventMap.get(new Date(item.date).getTime()) || []}
                                         ></CalendarEventDom>) : null}
                                         
                                 </div>
-                                <div className={'calendar-body-bottom'}>{item.date && !this.state.isExtended && maxVisibleEvents && maxVisibleEvents < (this.state.eventMap.get(item.date.toISOString().split('T')[0]) ?.length || 0) && (<span class="calendar-body-bottom label ghost" onClick={() => {this.setState({'isExtended':true});}} ><span class="chevron-down"></span></span>)}{this.state.isExtended && maxVisibleEvents && maxVisibleEvents < (this.state.eventMap.get(item.date.toISOString().split('T')[0]) ?.length || 0) && (<span class="calendar-body-bottom label ghost" onClick={() => {this.setState({'isExtended':false});}} ><span class="chevron-up"></span></span>)}</div></td>;
+                                <div className={'calendar-body-bottom'}>{item.date && !this.state.isExtended && maxVisibleEvents && maxVisibleEvents < (this.state.eventMap.get(item.date.getTime()) ?.length || 0) && (<span class="calendar-body-bottom label ghost" onClick={() => {this.setState({'isExtended':true});}} ><span class="chevron-down"></span></span>)}{this.state.isExtended && maxVisibleEvents && maxVisibleEvents < (this.state.eventMap.get(new Date(item.date).getTime()) ?.length || 0) && (<span class="calendar-body-bottom label ghost" onClick={() => {this.setState({'isExtended':false});}} ><span class="chevron-up"></span></span>)}</div></td>;
                         })}
                         </tr>);
                     })}
