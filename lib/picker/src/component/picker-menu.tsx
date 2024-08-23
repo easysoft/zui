@@ -183,6 +183,7 @@ export class PickerMenu extends PickPop<PickerState, PickerMenuProps> {
             header,
             footer,
             noMatchHint,
+            relativeTarget: this,
         }, menu, tree);
     }
 
