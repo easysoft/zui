@@ -4,7 +4,7 @@ import {Moveable} from '@zui/dnd';
 import '@zui/css-icons/src/icons/chevron.css';
 import '@zui/split/src/style/index';
 
-import type {SizeSetting, Cash} from '@zui/core';
+import type {SizeSetting} from '@zui/core';
 import type {SidebarOptions} from '../types';
 
 function calcSize(size: SizeSetting, totalSize: number) {
@@ -222,12 +222,6 @@ export class Sidebar extends Component<SidebarOptions, {
 
         if (this._moveable?.state) {
             $element.removeClass(TRANSITION_CLASS);
-        }
-
-        if (animation) {
-            this._raf = requestAnimationFrame(() => {
-                this.$parent.addClass(ANIMATION_CLASS);
-            });
         }
     }
 }
