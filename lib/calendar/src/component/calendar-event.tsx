@@ -23,14 +23,17 @@ export class CalendarEventDom<P extends CalendarEventProps = CalendarEventProps,
     }
 
     updateHeight() {
+        const maxHeight = 310;
         const {calendarEvents, isExtended, maxVisibleEvents} = this.props;
-        if (this.calendarContentRef.current && isExtended  && calendarEvents) {
+        if (this.calendarContentRef.current && isExtended  && calendarEvents && calendarEvents.length < 10) {
             // 假设每个事件占用 32px 高度
             const eventHeight = 20;
             const totalHeight = 110 + (calendarEvents.length - 4) * eventHeight;
             this.calendarContentRef.current.style.height = `${totalHeight}px`;
         } else if (this.calendarContentRef.current && !isExtended && maxVisibleEvents) {
             this.calendarContentRef.current.style.height = '110px';
+        } else if (this.calendarContentRef.current && !isExtended && calendarEvents && calendarEvents.length > 10) {
+            this.calendarContentRef.current.style.height = `${maxHeight}px`;
         }
         if (this.calendarContentRef.current && (!calendarEvents || calendarEvents.length < 4)) {
             this.calendarContentRef.current.style.height = '110px';
@@ -51,7 +54,7 @@ export class CalendarEventDom<P extends CalendarEventProps = CalendarEventProps,
             const hueDistance = 43;
             const saturation = 0.4;
             const lightness = 0.6;
-            const colorCode = event?.description ?? event?.date.toString() ?? '';
+            const colorCode = event?.calendarEventGroup ?? event?.calendarEventGroup.toString() ?? event.description;
             const hue = (typeof colorCode === 'number' ? colorCode : getUniqueCode(colorCode)) * hueDistance % 360;
             const background = `hsl(${hue},${saturation * 100}%,${lightness * 100}%)`;
             return background;
@@ -66,7 +69,7 @@ export class CalendarEventDom<P extends CalendarEventProps = CalendarEventProps,
         return (<div ref={this.calendarContentRef} class="calendar-event">
             {
                 calendarEvents?.map((event, index) => {
-                    return <div style={{backgroundColor: this.getColor(event)}} onClick = {(e: MouseEvent) =>onEventClick && onEventClick(e)} data-index={index}  data-date ={new Date(event.date)}  draggable={true} class="calendar-event-item" key={index}>{event.date.getHours() + ':' + event.date.getMinutes()}&nbsp;{event.description}</div>;
+                    return <div style={{backgroundColor: this.getColor(event)}} onClick = {(e: MouseEvent) =>onEventClick && onEventClick(e)} data-index={index}  data-date ={new Date(event.date)}  draggable={true} class="calendar-event-item" key={event.id}><div class="calendar-event-item-time">{event.date.getHours() + ':' + event.date.getMinutes()}</div><div>{event.description}</div></div>;
                 })}
         </div>);
     }   

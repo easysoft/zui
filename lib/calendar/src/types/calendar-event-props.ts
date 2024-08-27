@@ -1,5 +1,6 @@
 import type {HElementProps} from '@zui/core';
 export interface CalendarEvent {
+    id:string;
     title: string;
     calendarEventGroup: string;
     date: Date;
