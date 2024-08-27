@@ -8,7 +8,7 @@ var it = (n, t, e) => (an(n, t, "read from private field"), e ? e.call(n) : t.ge
   t instanceof WeakSet ? t.add(n) : t.set(n, e);
 }, pt = (n, t, e, s) => (an(n, t, "write to private field"), s ? s.call(n, e) : t.set(n, e), e);
 var ln = (n, t, e) => (an(n, t, "access private method"), e);
-const bu = "3.0.0", wu = 1724405993696, Dt = document, ms = window, Er = Dt.documentElement, ae = Dt.createElement.bind(Dt), $r = ae("div"), cn = ae("table"), za = ae("tbody"), Gi = ae("tr"), { isArray: Fs, prototype: Ar } = Array, { concat: Oa, filter: Kn, indexOf: Mr, map: Pr, push: Fa, slice: Ir, some: qn, splice: Ha } = Ar, Wa = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, ja = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, Ba = /<.+>/, Va = /^\w+$/;
+const bu = "3.0.0", wu = 1724728947902, Dt = document, ms = window, Er = Dt.documentElement, ae = Dt.createElement.bind(Dt), $r = ae("div"), cn = ae("table"), za = ae("tbody"), Gi = ae("tr"), { isArray: Fs, prototype: Ar } = Array, { concat: Oa, filter: Kn, indexOf: Mr, map: Pr, push: Fa, slice: Ir, some: qn, splice: Ha } = Ar, Wa = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, ja = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, Ba = /<.+>/, Va = /^\w+$/;
 function Gn(n, t) {
   const e = Ua(t);
   return !n || !e && !ne(t) && !Z(t) ? [] : !e && ja.test(n) ? t.getElementsByClassName(n.slice(1).replace(/\\/g, "")) : !e && Va.test(n) ? t.getElementsByTagName(n) : t.querySelectorAll(n);
@@ -4232,7 +4232,7 @@ const xe = class xo extends Se {
       this._renderWrapperHeader(t),
       e,
       this._renderWrapperFooter(t)
-    ] }) : super.render(t);
+    ] }) : e;
   }
   static render(t, e, s, i) {
     let r = typeof t == "function" ? t.call(i ?? this, ...e) : t;
