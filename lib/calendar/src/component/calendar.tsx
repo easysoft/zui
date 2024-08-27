@@ -51,12 +51,12 @@ export class Calendar<P extends CalendarProps=CalendarProps> extends HElement<P,
             date: this.state.date,
             calendarEvents: this.props.calendarEvents,
             calendarEventGroups: this.props.calendarEventGroups,
-            onDateClick: () => {},
-            onEventClick() {},
-            onDragChange(event, oldDate, newDate) {
-                console.log(event, oldDate, newDate);
-            }, 
+            onDateClick: this.props.onDateClick,
+            onEventClick: this.props.onEventClick,
+            onDragChange: this.props.onDragChange, 
+            shrinkFreeWeekend: this.props.shrinkFreeWeekend,
             maxVisibleEvents: this.props.maxVisibleEvents,
+            mode: this.props.mode,
         };
         return (<CalendarContent {...CalendarOptions} ></CalendarContent>);
     }
