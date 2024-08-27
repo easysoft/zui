@@ -130,7 +130,7 @@ export class Menu<T extends MenuOptions = MenuOptions, S extends NestedListState
                 </menu>
             );
         }
-        return super.render(props);
+        return menuView;
     }
 
     static render<T extends unknown[] = []>(this: unknown, setting: MenuSetting<T> | undefined, args: T, defaultProps?: Partial<MenuOptions> & Attributes, thisObject?: unknown) {
