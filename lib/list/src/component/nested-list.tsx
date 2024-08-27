@@ -94,7 +94,7 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
         indent: 20,
     } as Partial<NestedListProps>;
 
-    static inheritNestedProps = ['component', 'name', 'itemName', 'itemKey', 'indent', 'hover', 'divider', 'multiline', 'toggleIcons', 'nestedToggle', 'accordion', 'itemRender', 'itemProps', 'onToggle', 'checkbox', 'getItem', 'checkOnClick', 'selectOnChecked', 'checkedState', 'onClickItem', 'activeOnHover', 'multipleActive', 'onActive'];
+    static inheritNestedProps = ['component', 'name', 'itemName', 'itemKey', 'indent', 'hover', 'divider', 'multiline', 'toggleIcons', 'nestedToggle', 'accordion', 'itemRender', 'itemProps', 'onToggle', 'checkbox', 'getItem', 'getItems', 'checkOnClick', 'selectOnChecked', 'checkedState', 'onClickItem', 'activeOnHover', 'multipleActive', 'onActive'];
 
     protected declare _hasNestedItems: boolean;
 
