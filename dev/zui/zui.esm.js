@@ -8,7 +8,7 @@ var it = (n, t, e) => (an(n, t, "read from private field"), e ? e.call(n) : t.ge
   t instanceof WeakSet ? t.add(n) : t.set(n, e);
 }, pt = (n, t, e, s) => (an(n, t, "write to private field"), s ? s.call(n, e) : t.set(n, e), e);
 var ln = (n, t, e) => (an(n, t, "access private method"), e);
-const bu = "3.0.0", wu = 1724732176903, Dt = document, ms = window, Er = Dt.documentElement, ae = Dt.createElement.bind(Dt), $r = ae("div"), cn = ae("table"), za = ae("tbody"), Gi = ae("tr"), { isArray: Fs, prototype: Ar } = Array, { concat: Oa, filter: Kn, indexOf: Mr, map: Pr, push: Fa, slice: Ir, some: qn, splice: Ha } = Ar, Wa = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, ja = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, Ba = /<.+>/, Va = /^\w+$/;
+const bu = "3.0.0", wu = 1724748048263, Dt = document, ms = window, Er = Dt.documentElement, ae = Dt.createElement.bind(Dt), $r = ae("div"), cn = ae("table"), za = ae("tbody"), Gi = ae("tr"), { isArray: Fs, prototype: Ar } = Array, { concat: Oa, filter: Kn, indexOf: Mr, map: Pr, push: Fa, slice: Ir, some: qn, splice: Ha } = Ar, Wa = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, ja = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, Ba = /<.+>/, Va = /^\w+$/;
 function Gn(n, t) {
   const e = Ua(t);
   return !n || !e && !ne(t) && !Z(t) ? [] : !e && ja.test(n) ? t.getElementsByClassName(n.slice(1).replace(/\\/g, "")) : !e && Va.test(n) ? t.getElementsByTagName(n) : t.querySelectorAll(n);
@@ -3116,7 +3116,14 @@ let st = class extends Q {
    */
   _getItems(t) {
     let { items: e = [] } = t;
-    return typeof e == "function" ? e = e.call(this) : Array.isArray(e) || (e = []), e;
+    typeof e == "function" ? e = e.call(this) : Array.isArray(e) || (e = []);
+    const { getItems: s } = t;
+    if (s) {
+      const i = s.call(this, e);
+      if (i !== void 0)
+        return i;
+    }
+    return e;
   }
   /**
    * Render items.
@@ -4170,7 +4177,7 @@ Se.defaultProps = {
   level: 0,
   indent: 20
 };
-Se.inheritNestedProps = ["component", "name", "itemName", "itemKey", "indent", "hover", "divider", "multiline", "toggleIcons", "nestedToggle", "accordion", "itemRender", "itemProps", "onToggle", "checkbox", "getItem", "checkOnClick", "selectOnChecked", "checkedState", "onClickItem", "activeOnHover", "multipleActive", "onActive"];
+Se.inheritNestedProps = ["component", "name", "itemName", "itemKey", "indent", "hover", "divider", "multiline", "toggleIcons", "nestedToggle", "accordion", "itemRender", "itemProps", "onToggle", "checkbox", "getItem", "getItems", "checkOnClick", "selectOnChecked", "checkedState", "onClickItem", "activeOnHover", "multipleActive", "onActive"];
 const xe = class xo extends Se {
   constructor(t) {
     super(t), this._handleHover = this._handleHover.bind(this);
@@ -9910,7 +9917,7 @@ let Ki = class extends W {
   }
   render() {
     let t = at(this, Vn, wa).call(this);
-    const { className: e, rowHover: s, colHover: i, cellHover: r, bordered: o, striped: a, scrollbarHover: l, beforeRender: c, emptyTip: u, style: h = {} } = this.options, p = ["dtable", e, {
+    const { className: e, rowHover: s, colHover: i, cellHover: r, bordered: o, striped: a, scrollbarHover: l, beforeRender: c, emptyTip: u, style: h } = this.options, p = { ...h }, d = ["dtable", e, {
       "dtable-hover-row": s,
       "dtable-hover-col": i,
       "dtable-hover-cell": r,
@@ -9918,20 +9925,20 @@ let Ki = class extends W {
       "dtable-striped": a,
       "scrollbar-hover": l,
       "no-animation": this._noAnimation
-    }], d = [];
+    }], m = [];
     if (t) {
-      const m = !t.rows.length;
+      const _ = !t.rows.length;
       if (c) {
-        const _ = c.call(this, t);
-        _ && (t = _);
-      }
-      this._plugins.forEach((_) => {
-        var y;
-        const v = (y = _.beforeRender) == null ? void 0 : y.call(this, t);
+        const v = c.call(this, t);
         v && (t = v);
-      }), h.width = t.width, h.height = t.height, h["--dtable-row-height"] = `${t.rowHeight}px`, h["--dtable-header-height"] = `${t.headerHeight}px`, p.push(
+      }
+      this._plugins.forEach((v) => {
+        var b;
+        const y = (b = v.beforeRender) == null ? void 0 : b.call(this, t);
+        y && (t = y);
+      }), p.width = t.width, p.height = t.height, p["--dtable-row-height"] = `${t.rowHeight}px`, p["--dtable-header-height"] = `${t.headerHeight}px`, d.push(
         t.className,
-        m ? "dtable-is-empty" : "",
+        _ ? "dtable-is-empty" : "",
         {
           "dtable-has-scroll-y": t.rowsHeightTotal > t.rowsHeight,
           "dtable-scrolled-down": t.scrollTop > 0,
@@ -9939,27 +9946,27 @@ let Ki = class extends W {
           "dtable-scrolled-right": t.scrollLeft > 0,
           "dtable-scrolled-end": t.scrollLeft >= t.cols.center.totalWidth - t.cols.center.width
         }
-      ), t.children && d.push(...t.children), m && u ? (delete h.height, d.push(
+      ), t.children && m.push(...t.children), _ && u ? (delete p.height, m.push(
         /* @__PURE__ */ g("div", { className: "dtable-empty-tip", children: /* @__PURE__ */ g(D, { content: u, generatorThis: this, generatorArgs: [t] }) }, "empty-tip")
-      )) : (d.push(
+      )) : (m.push(
         at(this, Dn, ma).call(this, t),
         at(this, Ln, _a).call(this, t),
         at(this, zn, ya).call(this, t)
-      ), t.scrollable && d.push(at(this, On, va).call(this, t))), this._plugins.forEach((_) => {
-        var y;
-        const v = (y = _.onRender) == null ? void 0 : y.call(this, t);
-        v && (v.style && Object.assign(h, v.style), v.className && p.push(v.className), v.children && d.push(v.children));
+      ), t.scrollable && m.push(at(this, On, va).call(this, t))), this._plugins.forEach((v) => {
+        var b;
+        const y = (b = v.onRender) == null ? void 0 : b.call(this, t);
+        y && (y.style && Object.assign(p, y.style), y.className && d.push(y.className), y.children && m.push(y.children));
       });
     }
     return /* @__PURE__ */ g(
       "div",
       {
         id: this._id,
-        className: T(p),
-        style: h,
+        className: T(d),
+        style: p,
         ref: this.ref,
         tabIndex: -1,
-        children: d
+        children: m
       }
     );
   }
