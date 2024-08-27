@@ -249,6 +249,10 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
         this.props.afterRender?.call(this, firstRender);
     }
 
+    protected _beforeRender(props: RenderableProps<P>): void | RenderableProps<P> | undefined {
+        return this.props.beforeRender?.call(this, props);
+    }
+
     protected _getItems(props: RenderableProps<P>): Item[] {
         const {items} = props;
         const {items: stateItems} = this.state;
