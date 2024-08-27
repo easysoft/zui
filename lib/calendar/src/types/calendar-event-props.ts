@@ -14,7 +14,7 @@ export interface CalendarEventProps extends HElementProps  {
     color?: string;
     calendarEvents?: CalendarEvent[];
     eventSetMap?:Map<string, CalendarEvent[]>;
-    onEventClick?: (e: MouseEvent) => void;
+    onEventClick?: (e: CalendarEvent) => void;
     calendarEventGroups?: CalendarEventGroup[];
     isExtended?: boolean;
     maxVisibleEvents?: number;
