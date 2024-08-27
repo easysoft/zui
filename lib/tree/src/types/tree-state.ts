@@ -1,4 +1,4 @@
-import type {ListState} from '@zui/list';
+import type {NestedListState} from '@zui/list';
 
-export interface TreeState extends ListState {
+export interface TreeState extends NestedListState {
 }
