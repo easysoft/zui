@@ -1,5 +1,4 @@
 td{
-    @apply -border -border-gray-300;
     @apply -bg-gray-200;
     @apply -text-center -text-gray-700;
     padding: 0;
@@ -40,14 +39,15 @@ td{
 .calendar-body-bottom{
    @apply -absolute -right-0.5 -bottom-0.5 -cursor-pointer;
 }
+
 .active{
     @apply -bg-white;
 }
 
 .active-today{
-    @apply -bg-yellow-100;
+    @apply -bg-yellow-50;
 }
 
 .active-today .calendar-body-header{
-    @apply -bg-gray-300;
+    @apply -bg-gray-200;
 }

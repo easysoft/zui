@@ -44,24 +44,14 @@ export class CalendarContent<P extends CalendarProps = CalendarProps> extends HE
     }
 
     componentDidMount() {
-        const {onEventDragStart, onEventDragEnd, onEventDrop, onEventDragEnter, onEventDragLeave} = this.props;
-        new Draggable('#calendar-body', {
+        const {onDragChange} = this.props;
+        new Draggable('#calendar-body', {           
             target:'[target="true"]',
-            onDragStart: (event, dragElement) => {
-                console.log('onDragStart', event, dragElement); 
-                if (onEventDragStart) onEventDragStart(event, dragElement);
-            },
-            onDragEnd: (event, dragElement) => {
-                console.log('onDragEnd', {event, dragElement});
-                if (onEventDragEnd) onEventDragEnd(event, dragElement);
-            },
-            onDragEnter: (event, dragElement, dropElement) => {
-                console.log('onDragEnter', {event, dragElement, dropElement});
-                if (onEventDragEnter) onEventDragEnter(event, dragElement, dropElement);
-            },
-            onDragLeave: (event, dragElement, dropElement) => {
-                console.log('onDragLeave', {event, dragElement, dropElement});
-                if (onEventDragLeave) onEventDragLeave(event, dragElement, dropElement);
+            onChange(newState, oldState) {
+                if (onDragChange) {
+                    onDragChange(newState, oldState);
+                }
+                console.log('onChange', {newState, oldState});
             },
             onDrop: (event, dragElement, dropElement) => {
                 console.log('onDrop', {event, dragElement, dropElement});
@@ -92,7 +82,6 @@ export class CalendarContent<P extends CalendarProps = CalendarProps> extends HE
                         }
                     }
                 }
-                if (onEventDrop) onEventDrop(event, dragElement, dropElement);
             },
         });
     }
@@ -102,6 +91,10 @@ export class CalendarContent<P extends CalendarProps = CalendarProps> extends HE
             this.setState({'dateList':  this.generateCalendarPageByDate(this.props.date)});
         }
     }  
+    
+    componentWillUnmount() {
+
+    }
 
     generateCalendarPageByDate(date: Date): EventState[][] {
         const year = date.getFullYear();
@@ -146,7 +139,7 @@ export class CalendarContent<P extends CalendarProps = CalendarProps> extends HE
     generateCalendarSetEvents(): Map<string, CalendarEvent[]> {
         const map = new Map<string, CalendarEvent[]>();
         this.props.calendarEvents?.forEach((item) => {
-            if (item.calendarEventGroup !== undefined) {
+            if (item.calendarEventGroup !== undefined && !map.has(item.calendarEventGroup)) {
                 this.props.calendarEventGroups?.forEach(element => {
                     if (element.id === item.calendarEventGroup) {
                         map.set(element.id, map.get(element.id)?.concat(item) || [item]);

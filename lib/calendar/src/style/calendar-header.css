@@ -1,6 +1,6 @@
 
 .calendar-header {
-    @apply -flex -items-center -justify-between -p-4 -border-b -border-gray-200;
+    @apply -flex -items-center -justify-between -py-2 -border-b -border-gray-200;
 }
 
 .calendar-header-left {
@@ -16,11 +16,11 @@
 }
 
 .btn-left {
-    @apply -bg-gray-100  -rounded-l-none;
+    @apply -bg-gray-100 -rounded-r-none;
 }
 
 .btn-right {
-    @apply -bg-gray-100 -rounded-r-none;
+    @apply -bg-gray-100 -rounded-l-none;
 }
 
 .chevron-left,
