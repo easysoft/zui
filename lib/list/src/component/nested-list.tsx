@@ -94,7 +94,7 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
         indent: 20,
     } as Partial<NestedListProps>;
 
-    static inheritNestedProps = ['component', 'name', 'itemName', 'itemKey', 'indent', 'hover', 'divider', 'multiline', 'toggleIcons', 'nestedToggle', 'accordion', 'itemRender', 'itemProps', 'beforeRenderItem', 'onToggle', 'checkbox', 'getItem', 'checkOnClick', 'selectOnChecked', 'checkedState', 'onClickItem', 'activeOnHover', 'multipleActive', 'onActive'];
+    static inheritNestedProps = ['component', 'name', 'itemName', 'itemKey', 'indent', 'hover', 'divider', 'multiline', 'toggleIcons', 'nestedToggle', 'accordion', 'itemRender', 'itemProps', 'onToggle', 'checkbox', 'getItem', 'checkOnClick', 'selectOnChecked', 'checkedState', 'onClickItem', 'activeOnHover', 'multipleActive', 'onActive'];
 
     protected declare _hasNestedItems: boolean;
 
@@ -560,7 +560,14 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
         });
     }
 
-    protected _beforeRenderNestedItem(item: NestedItem): NestedItem | false {
+    protected _beforeRenderNestedItem(item: NestedItem, index: number): NestedItem | false {
+        const {beforeRenderItem} = this.props;
+        if (beforeRenderItem) {
+            const result = beforeRenderItem.call(this, item, index);
+            if (result !== undefined) {
+                item = result;
+            }
+        }
         this._renderedItemMap.set(item._keyPath as string, item);
         return item;
     }
