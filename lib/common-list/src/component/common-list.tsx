@@ -276,6 +276,13 @@ export class CommonList<P extends CommonListProps = CommonListProps, S = {}> ext
         } else if (!Array.isArray(items)) {
             items = [];
         }
+        const {getItems} = props;
+        if (getItems) {
+            const result = getItems.call(this, items as Item[]);
+            if (result !== undefined) {
+                return result;
+            }
+        }
         return items as Item[];
     }
 
