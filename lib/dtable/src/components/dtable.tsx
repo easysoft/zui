@@ -985,7 +985,8 @@ export class DTable extends Component<DTableOptions, DTableState> {
 
     render() {
         let layout = this.#getLayout();
-        const {className, rowHover, colHover, cellHover, bordered, striped, scrollbarHover, beforeRender, emptyTip, style = {}} = this.options;
+        const {className, rowHover, colHover, cellHover, bordered, striped, scrollbarHover, beforeRender, emptyTip, style} = this.options;
+        const finalStyle = {...style};
         const classNames: ClassNameLike = ['dtable', className, {
             'dtable-hover-row': rowHover,
             'dtable-hover-col': colHover,
@@ -1013,10 +1014,10 @@ export class DTable extends Component<DTableOptions, DTableState> {
                 }
             });
 
-            style.width = layout.width;
-            style.height = layout.height;
-            style['--dtable-row-height'] = `${layout.rowHeight}px`;
-            style['--dtable-header-height'] = `${layout.headerHeight}px`;
+            finalStyle.width = layout.width;
+            finalStyle.height = layout.height;
+            finalStyle['--dtable-row-height'] = `${layout.rowHeight}px`;
+            finalStyle['--dtable-header-height'] = `${layout.headerHeight}px`;
             classNames.push(
                 layout.className,
                 isEmpty ? 'dtable-is-empty' : '',
@@ -1033,7 +1034,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
                 children.push(...layout.children);
             }
             if (isEmpty && emptyTip) {
-                delete style.height;
+                delete finalStyle.height;
                 children.push(
                     <div key="empty-tip" className="dtable-empty-tip">
                         <CustomContent content={emptyTip} generatorThis={this} generatorArgs={[layout]} />
@@ -1056,7 +1057,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
                     return;
                 }
                 if (result.style) {
-                    Object.assign(style, result.style);
+                    Object.assign(finalStyle, result.style);
                 }
                 if (result.className) {
                     classNames.push(result.className);
@@ -1071,7 +1072,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
             <div
                 id={this._id}
                 className={classes(classNames)}
-                style={style}
+                style={finalStyle}
                 ref={this.ref}
                 tabIndex={-1}
             >
