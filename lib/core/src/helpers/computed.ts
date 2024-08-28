@@ -51,6 +51,17 @@ export class Computed<T = unknown, D extends unknown[] = unknown[]> {
     }
 
     /**
+     * Set the dependencies of the computed value.
+     *
+     * @param dependencies The dependencies of the computed value.
+     * @returns The computed value.
+     */
+    depends(dependencies: D | (() => D)) {
+        this._dependencies = dependencies;
+        return this;
+    }
+
+    /**
      * Forces the computed value to be recomputed.
      * @param dependencies The new dependencies to use for recomputing the value.
      * @returns The recomputed value.
