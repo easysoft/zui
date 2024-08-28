@@ -87,3 +87,7 @@ export class Computed<T = unknown, D extends unknown[] = unknown[]> {
         return this._value as T;
     }
 }
+
+export function computed<T = unknown, D extends unknown[] = unknown[]>(compute: () => T, dependencies: D | (() => D)) {
+    return new Computed(compute, dependencies);
+}
