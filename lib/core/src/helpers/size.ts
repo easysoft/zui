@@ -1,8 +1,8 @@
-export type SizeSetting = number | `${number}%` | `${number}px` | `${number}/${number}` | (string & {}) | ((...args: unknown[]) => SizeSetting);
+export type SizeSetting<A extends unknown[] = unknown[]> = number | `${number}%` | `${number}px` | `${number}/${number}` | (string & {}) | ((...args: A) => SizeSetting);
 
-export function parseSize(size: SizeSetting, callbackArgs: unknown[] = []): [value: number, type?: 'px' | '%'] {
+export function parseSize<A extends unknown[] = unknown[]>(size: SizeSetting, callbackArgs?: A): [value: number, type?: 'px' | '%'] {
     if (typeof size === 'function') {
-        return parseSize(size(...callbackArgs));
+        return parseSize(size(...(callbackArgs || [])));
     }
     if (typeof size === 'number') {
         return [size];
@@ -18,7 +18,7 @@ export function parseSize(size: SizeSetting, callbackArgs: unknown[] = []): [val
     return [NaN];
 }
 
-export function toCssSize(size: SizeSetting | undefined | null, callbackArgs?: unknown[]): string | null {
+export function toCssSize<A extends unknown[] = unknown[]>(size: SizeSetting | undefined | null, callbackArgs?: A): string | null {
     if (size === undefined || size === null) {
         return null;
     }
