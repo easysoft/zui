@@ -5,9 +5,9 @@ import type {RenderableProps} from 'preact';
 import type {ClassNameLike} from '@zui/core';
 import type {Item} from '@zui/common-list';
 import type {NestedItem} from '@zui/list';
-import type {TreeOptions} from '../types';
+import type {SearchTreeOptions} from '../types';
 
-export class SearchTree<T extends TreeOptions = TreeOptions> extends SearchMenu<T> {
+export class SearchTree<T extends SearchTreeOptions = SearchTreeOptions> extends SearchMenu<T> {
     static NAME = 'tree';
 
     static inheritNestedProps = [...SearchMenu.inheritNestedProps, 'itemActions', 'expandedIcon', 'collapsedIcon', 'normalIcon'];
