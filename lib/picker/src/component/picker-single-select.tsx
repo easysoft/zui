@@ -67,7 +67,7 @@ export class PickerSingleSelect extends PickTrigger<PickerState, PickerSelectPro
     }
 
     protected _renderTrigger(props: PickerSelectProps) {
-        const {children, state: {selections = [], value, open}, placeholder, search, disabled, readonly, clearable, display} = props;
+        const {children, state: {selections = [], value, open}, placeholder, search, disabled, readonly, clearable, display, caretClass} = props;
 
         const [selection] = selections;
         const showSearch = open && search;
@@ -96,7 +96,7 @@ export class PickerSingleSelect extends PickTrigger<PickerState, PickerSelectPro
         const deselectBtnView = (clearable && !showSearch) ? (
             <button key="deselect" type="button" className="btn picker-deselect-btn size-xs square ghost" disabled={disabled} readonly={readonly} onClick={this._handleDeselectClick}><span className="close"></span></button>
         ) : null;
-        const caret = showSearch ? null : <span key="caret" className="caret"></span>;
+        const caret = showSearch ? null : <span key="caret" className={classes('caret flex-none', caretClass)}></span>;
         return [
             view,
             children,

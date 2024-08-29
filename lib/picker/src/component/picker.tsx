@@ -317,6 +317,7 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
             search: props.search,
             display: props.display,
             searchHint: props.searchHint,
+            caretClass: props.caretClass,
             clearable: !!this.valueList.length && !props.required,
             valueList: this.valueList,
             emptyValue: this.firstEmptyValue,
