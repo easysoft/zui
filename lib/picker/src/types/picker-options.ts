@@ -1,7 +1,7 @@
 import type {PickOptions} from '@zui/pick';
 import type {MenuOptions} from '@zui/menu';
 import type {ToolbarSetting} from '@zui/toolbar';
-import type {TreeOptions} from '@zui/tree';
+import type {SearchTreeOptions, TreeOptions} from '@zui/tree';
 import type {CustomContentType, HotkeysSettings} from '@zui/core';
 import type {PickerState} from './picker-state';
 import type {PickerItemBasic} from './picker-item-options';
@@ -15,7 +15,7 @@ export interface PickerOptions<S extends PickerState = PickerState> extends Pick
     emptyValue?: string;
     limitValueInList?: boolean;
     tree?: TreeOptions | boolean;
-    menu?: MenuOptions;
+    menu?: SearchTreeOptions;
     checkbox?: MenuOptions['checkbox'];
     items: MenuOptions['items'];
     maxItemsCount?: number;
