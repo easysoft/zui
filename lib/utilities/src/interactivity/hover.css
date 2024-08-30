@@ -53,3 +53,12 @@
 .active\:shadow:active,
 .group.active .group-active\:shadow,
 .active\:shadow.active {@apply -shadow;}
+
+.group:hover .group-hover\:block,
+.hover\:block:hover {@apply !-block;}
+
+.group:hover .group-hover\:flex,
+.hover\:flex:hover {@apply !-flex;}
+
+.group:hover .group-hover\:inline-flex,
+.hover\:inline-flex:hover {@apply !-inline-flex;}
