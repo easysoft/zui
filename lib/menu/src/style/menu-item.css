@@ -19,6 +19,6 @@
 .menu-item.disabled > a:hover {
     @apply -bg-inherit -text-inherit;
 }
-.menu-item > a > .item-title {
-    @apply -flex-auto;
+.menu-item .item-title {
+    @apply -flex-auto -min-w-0 -whitespace-nowrap -overflow-hidden -text-clip;
 }
