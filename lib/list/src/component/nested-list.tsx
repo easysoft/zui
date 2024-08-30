@@ -624,7 +624,7 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
     protected _handleClick(event: MouseEvent) {
         const info = super._handleClick(event);
         if (info) {
-            const {item, keyPath, target} = info as MouseEventInfo;
+            const {renderedItem: item, keyPath, target} = info as MouseEventInfo;
             const {nestedToggle} = this.props;
             if (!item.items || event.defaultPrevented || target.closest('.not-nested-toggle') || (nestedToggle && !item.disabled && !target.closest(nestedToggle)) || (!nestedToggle && !item.disabled && target.closest('a,.btn,.item-checkbox,.open-url,input,select,textarea') && !target.closest('.nested-toggle-icon,.item-icon'))) {
                 return info;
