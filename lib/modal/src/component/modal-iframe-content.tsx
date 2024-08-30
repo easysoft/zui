@@ -1,9 +1,11 @@
+import {$} from '@zui/core';
 import {Component, createRef} from 'preact';
 
 export type ModalIframeContentProps = {
     url: string;
     watchHeight?: boolean;
     iframeBodyClass?: string;
+    onLoad?: (this: ModalIframeContent) => void;
 };
 
 export type ModalIframeContentState = {
@@ -45,7 +47,7 @@ export class ModalIframeContent extends Component<ModalIframeContentProps> {
         rob = new ResizeObserver(() => {
             const body = iframeDoc.body;
             const html = iframeDoc.documentElement;
-            const height = Math.ceil(Math.max(body.scrollHeight, body.offsetHeight, html.offsetHeight)) + 1;
+            const height = Math.ceil(Math.max(body.scrollHeight, body.offsetHeight, html.offsetHeight));
             this.setState({height});
         });
         rob.observe(iframeDoc.body);
@@ -68,6 +70,8 @@ export class ModalIframeContent extends Component<ModalIframeContentProps> {
         if (iframeBodyClass) {
             iframeDoc.body.classList.add(iframeBodyClass);
         }
+
+        $(this._ref.current).trigger('modal-iframe-loaded');
     };
 
     render() {

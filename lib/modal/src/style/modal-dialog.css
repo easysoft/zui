@@ -10,3 +10,10 @@
 .loading > .modal-dialog > .modal-content {
   @apply -opacity-0 -invisible;
 }
+
+.modal-dialog.loading {
+  @apply -bg-transparent;
+}
+.modal-dialog.loading > .modal-content {
+  @apply -hidden;
+}

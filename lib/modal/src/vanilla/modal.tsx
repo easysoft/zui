@@ -58,6 +58,7 @@ async function buildIframeModal(this: Modal, _element: HTMLElement, options: Mod
     return {
         title,
         ...custom,
+        waitShowEvent: 'modal-iframe-loaded',
         body: <ModalIframeContent url={url} watchHeight={!hasHeight} />,
     };
 }

@@ -5,4 +5,5 @@ export * from './modal-base-options';
 export * from './modal-events';
 export * from './modal-trigger-options';
 export * from './modal-dialog-options';
+export * from './modal-dialog-state';
 export * from './modal-options';
