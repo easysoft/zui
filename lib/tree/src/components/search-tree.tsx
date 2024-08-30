@@ -1,9 +1,9 @@
 import {SearchMenu} from '@zui/menu/src/component';
+import {Listitem} from '@zui/list/src/component';
 import {Tree} from './tree';
 
 import type {RenderableProps} from 'preact';
 import type {ClassNameLike} from '@zui/core';
-import type {Item} from '@zui/common-list';
 import type {NestedItem} from '@zui/list';
 import type {SearchTreeOptions} from '../types';
 
@@ -12,9 +12,9 @@ export class SearchTree<T extends SearchTreeOptions = SearchTreeOptions> extends
 
     static inheritNestedProps = [...SearchMenu.inheritNestedProps, 'itemActions', 'expandedIcon', 'collapsedIcon', 'normalIcon'];
 
-    static defaultItemProps: Partial<Item> = {
-        ...SearchMenu.defaultProps,
-        innerComponent: 'div',
+    static ItemComponents: typeof SearchMenu.ItemComponents = {
+        ...SearchMenu.ItemComponents,
+        item: [Listitem, {innerComponent: 'div'}],
     };
 
     protected _getClassName(props: RenderableProps<T>): ClassNameLike {
