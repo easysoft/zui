@@ -1,3 +1,4 @@
+import {formatString} from '@zui/helpers/src/format-string';
 import {$} from '../cash';
 import {Ajax} from './ajax';
 import type {AjaxSetting, FetcherSetting} from './types';
@@ -5,7 +6,7 @@ import type {AjaxSetting, FetcherSetting} from './types';
 export async function fetchData<T = {}, A extends unknown[] = unknown[]>(setting: FetcherSetting<T, A>, args: A = ([] as unknown as A), extraAjaxSetting?: Partial<AjaxSetting> | ((ajaxSetting: AjaxSetting) => Partial<AjaxSetting>)): Promise<T> {
     const ajaxSetting = {throws: true, dataType: 'json'} as AjaxSetting;
     if (typeof setting === 'string') {
-        ajaxSetting.url = setting;
+        ajaxSetting.url = formatString(setting, ...args);
     } else if (typeof setting === 'object') {
         $.extend(ajaxSetting, setting);
     } else if (typeof setting === 'function') {
