@@ -3,14 +3,14 @@ import {$} from '../cash';
 import {Ajax} from './ajax';
 import type {AjaxSetting, FetcherSetting} from './types';
 
-export async function fetchData<T = {}, A extends unknown[] = unknown[]>(setting: FetcherSetting<T, A>, args: A = ([] as unknown as A), extraAjaxSetting?: Partial<AjaxSetting> | ((ajaxSetting: AjaxSetting) => Partial<AjaxSetting>)): Promise<T> {
+export async function fetchData<T = {}, A extends unknown[] = unknown[], THIS = unknown>(setting: FetcherSetting<T, A, THIS>, args: A = ([] as unknown as A), extraAjaxSetting?: Partial<AjaxSetting> | ((ajaxSetting: AjaxSetting) => Partial<AjaxSetting>), thisObj?: THIS): Promise<T> {
     const ajaxSetting = {throws: true, dataType: 'json'} as AjaxSetting;
     if (typeof setting === 'string') {
         ajaxSetting.url = formatString(setting, ...args);
     } else if (typeof setting === 'object') {
         $.extend(ajaxSetting, setting);
     } else if (typeof setting === 'function') {
-        const result = setting(...args);
+        const result = setting.call(thisObj as THIS, ...args);
         if (result instanceof Promise) {
             const data = await result;
             return data;
