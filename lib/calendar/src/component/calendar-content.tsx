@@ -23,6 +23,16 @@ export class CalendarContent<P extends CalendarProps = CalendarProps> extends HE
         };
     }
 
+    //判断周末是否需要收缩
+    judgeWeekendShouldShrink() {
+        let flag = true;
+        for (let i = 0; i < 6; i++) {
+            flag = flag && this.state.eventMap.has(this.state.dateList[i][5].date.toISOString().split('T')[0]);
+            flag = flag && this.state.eventMap.has(this.state.dateList[i][6].date.toISOString().split('T')[0]);
+        }
+        return flag;
+    }
+
     generateCalendarEvents() {
         const map = new Map<string, CalendarEvent[]>();
         this.props.calendarEvents?.forEach((item) => {
@@ -45,7 +55,7 @@ export class CalendarContent<P extends CalendarProps = CalendarProps> extends HE
 
     componentDidMount() {
         const {onDragChange} = this.props;
-        new Draggable('#calendar-body', {           
+        this.setState({'dragEvent':new Draggable('#calendar-body', {           
             target:'[target="true"]',
             onChange(newState, oldState) {
                 if (onDragChange) {
@@ -83,7 +93,7 @@ export class CalendarContent<P extends CalendarProps = CalendarProps> extends HE
                     }
                 }
             },
-        });
+        })});
     }
 
     componentDidUpdate(prevProps: P) {
@@ -93,7 +103,8 @@ export class CalendarContent<P extends CalendarProps = CalendarProps> extends HE
     }  
     
     componentWillUnmount() {
-
+        // this.destroy();
+        this.state.dragEvent?.destroy();
     }
 
     generateCalendarPageByDate(date: Date): EventState[][] {
@@ -150,12 +161,23 @@ export class CalendarContent<P extends CalendarProps = CalendarProps> extends HE
         return map;
     }
 
+    //返回对应的样式
+    getStyle(index: number, isShrinkWeekend?: boolean) {
+        if (isShrinkWeekend && (index === 5 || index === 6)) {
+            return {width:'10%'};
+        }
+        if (isShrinkWeekend) {
+            return {width:'20%'};
+        }
+    }
+
     render(props: RenderableProps<P>): VNode<Attributes> {
         const headerList: string[] = i18n.getLang('weekNames') || [];
         const monthFormat = i18n.getLang('monthFormat');
-        const {maxVisibleEvents, onEventClick} = props;
+        const {shrinkFreeWeekend, maxVisibleEvents, onEventClick} = props;
         // 处理事件map
         const tdStyle = {position:'relative', verticalAlign:'top'};
+        const isShrinkWeekend = shrinkFreeWeekend && this.judgeWeekendShouldShrink();
 
         return (<div className="calendar">
             <table className="calendar-table">
@@ -163,15 +185,15 @@ export class CalendarContent<P extends CalendarProps = CalendarProps> extends HE
                     <tr >
                         {
                             headerList?.map((item, index) => {
-                                return <th key={index} className="calendar-header-part">{item}</th>;
+                                return <th key={index} className="calendar-header-part" style={this.getStyle(index, isShrinkWeekend)} >{item}</th>;
                             })
                         }
                     </tr>
                 </thead>
                 <tbody id="calendar-body">
                     {this.state.dateList?.map((line) => {
-                        return (<tr>{   line.map((item) => {
-                            return <td style={tdStyle} data-date = {new Date(item.date)}  key={`${item.date.getMonth() + 1}-${item.date.getDate()}`} target='true' className={'calendar-td' + ' ' + (props.date.getFullYear() === item.date.getFullYear() && item.date.getMonth() + 1 === props.date.getMonth() + 1 ? 'active' : '') + (new Date().getFullYear() === item.date.getFullYear() && item.date.getMonth() + 1 === new Date().getMonth() + 1 && item.date.getDate() === new Date().getDate() ? '-today' : '')} >
+                        return (<tr>{   line.map((item, index) => {
+                            return <td style={{...tdStyle, ...this.getStyle(index, isShrinkWeekend)}} data-date = {new Date(item.date)}  key={`${item.date.getMonth() + 1}-${item.date.getDate()}`} target='true' className={'calendar-td' + ' ' + (props.date.getFullYear() === item.date.getFullYear() && item.date.getMonth() + 1 === props.date.getMonth() + 1 ? 'active' : '') + (new Date().getFullYear() === item.date.getFullYear() && item.date.getMonth() + 1 === new Date().getMonth() + 1 && item.date.getDate() === new Date().getDate() ? '-today' : '')} >
                                 <div className={'calendar-body-part'}>
                                     <div className='calendar-body-header'>
                                         {item.date.getDate() == 1 ? <label className='label gray calendar-body-header-month'>{item.date.getMonth() + 1}{monthFormat}</label> : ''}

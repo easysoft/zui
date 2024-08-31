@@ -2,6 +2,7 @@ import {i18n} from '@zui/core';
 
 i18n.addLang({
     'zh_cn': {
+        calendarSet:'日历集',
         today: '今天',
         yearFormat: '年',
         monthFormat: '月',
@@ -9,6 +10,7 @@ i18n.addLang({
         monthNames: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
     },
     'zh_tw': {
+        calendarSet:'日历集',
         today: '今天',
         yearFormat: '年',
         monthFormat: '月',
@@ -16,6 +18,7 @@ i18n.addLang({
         monthNames: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
     },
     en: {
+        calendarSet:'CalendarGroup',
         today: 'today',
         yearFormat: '',
         monthFormat: '',
