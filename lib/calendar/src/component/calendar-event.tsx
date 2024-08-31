@@ -62,14 +62,15 @@ export class CalendarEventDom<P extends CalendarEventProps = CalendarEventProps,
     }
 
     render(props: RenderableProps<P>): VNode<Attributes> {
-        let {calendarEvents} = props;        const {maxVisibleEvents, isExtended, onEventClick} = props;
+        let {calendarEvents} = props;        
+        const {maxVisibleEvents, isExtended, onEventClick} = props;
         if (maxVisibleEvents && !isExtended && calendarEvents && calendarEvents?.length > maxVisibleEvents) {
             calendarEvents = calendarEvents.slice(0, maxVisibleEvents);
         }
         return (<div ref={this.calendarContentRef} class="calendar-event">
             {
                 calendarEvents?.map((event, index) => {
-                    return <div style={{backgroundColor: this.getColor(event)}} onClick = {(e: MouseEvent) =>onEventClick && onEventClick(e)} data-index={index}  data-date ={new Date(event.date)}  draggable={true} class="calendar-event-item" key={event.id}><div class="calendar-event-item-time">{event.date.getHours() + ':' + event.date.getMinutes()}</div><div>{event.description}</div></div>;
+                    return <div style={{backgroundColor: this.getColor(event)}} onClick = {() =>onEventClick && onEventClick(event)} data-index={index}  data-date ={new Date(event.date)}  draggable={true} class="calendar-event-item" key={index}><div class="calendar-event-item-time">{event.date.getHours() + ':' + event.date.getMinutes()}</div><div>{event.description}</div></div>;
                 })}
         </div>);
     }   

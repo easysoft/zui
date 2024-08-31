@@ -1,0 +1,11 @@
+.component{
+    @apply -flex -flex-row -w-full;
+}
+.component-calendar{
+    @apply -w-full;
+}
+
+.calendar-sidebar{
+    @apply -w-1/6 -flex-row;
+    writing-mode: horizontal-tb;
+}

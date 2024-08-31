@@ -8,6 +8,7 @@ export interface CalendarProps extends HElementProps {
     calendarEvents?: CalendarEvent[];
     calendarEventGroups?: CalendarEventGroup[];
     mode?: 'day' | 'week' | 'year';
+    showCalendarGroup?: boolean;
     shrinkFreeWeekend?: boolean;
     onDateClick?: (date: Date) => void;
     onDragChange?:( newState: DraggableState, oldState: DraggableState) => void;

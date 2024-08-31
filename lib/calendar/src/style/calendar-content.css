@@ -5,6 +5,7 @@ td{
 }
 
 .calendar{
+    display: flex;
     width: 100%;
 }
 .calendar-table{

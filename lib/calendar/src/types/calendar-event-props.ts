@@ -10,6 +10,11 @@ export interface CalendarEvent {
     description?: string;
 }
 
+export interface  EventItemProps extends HElementProps {
+    calendarEvent?: CalendarEvent[];
+    isExtended?: boolean;    
+}
+
 export interface CalendarEventProps extends HElementProps  {
     color?: string;
     calendarEvents?: CalendarEvent[];
