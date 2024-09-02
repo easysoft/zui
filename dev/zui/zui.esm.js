@@ -8,7 +8,7 @@ var it = (n, t, e) => (an(n, t, "read from private field"), e ? e.call(n) : t.ge
   t instanceof WeakSet ? t.add(n) : t.set(n, e);
 }, pt = (n, t, e, s) => (an(n, t, "write to private field"), s ? s.call(n, e) : t.set(n, e), e);
 var ln = (n, t, e) => (an(n, t, "access private method"), e);
-const wu = "3.0.0", bu = 1725093874669, Dt = document, _s = window, Er = Dt.documentElement, ae = Dt.createElement.bind(Dt), $r = ae("div"), cn = ae("table"), za = ae("tbody"), Gi = ae("tr"), { isArray: Fs, prototype: Ar } = Array, { concat: Oa, filter: Kn, indexOf: Mr, map: Pr, push: Fa, slice: Ir, some: qn, splice: Ha } = Ar, Wa = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, ja = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, Ba = /<.+>/, Va = /^\w+$/;
+const wu = "3.0.0", bu = 1725265099881, Dt = document, _s = window, Er = Dt.documentElement, ae = Dt.createElement.bind(Dt), $r = ae("div"), cn = ae("table"), za = ae("tbody"), Gi = ae("tr"), { isArray: Fs, prototype: Ar } = Array, { concat: Oa, filter: Kn, indexOf: Mr, map: Pr, push: Fa, slice: Ir, some: qn, splice: Ha } = Ar, Wa = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, ja = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, Ba = /<.+>/, Va = /^\w+$/;
 function Gn(n, t) {
   const e = Ua(t);
   return !n || !e && !ne(t) && !Z(t) ? [] : !e && ja.test(n) ? t.getElementsByClassName(n.slice(1).replace(/\\/g, "")) : !e && Va.test(n) ? t.getElementsByTagName(n) : t.querySelectorAll(n);
@@ -1100,19 +1100,21 @@ f.fn.load = function(n, t, e) {
     i && (r = f(r).find(i).html()), f(this).html(r).zuiInit(), e == null || e.call(this, r, o, a);
   }, "html"), this;
 };
-async function ii(n, t = [], e, s) {
-  const i = { throws: !0, dataType: "json" };
+async function ii(n, t = [], e, s, i) {
+  const r = { throws: !0, dataType: "json" };
   if (typeof n == "string")
-    i.url = W(n, ...t);
+    r.url = W(n, ...t);
   else if (typeof n == "object")
-    f.extend(i, n);
+    f.extend(r, n);
   else if (typeof n == "function") {
-    const a = n.call(s, ...t);
-    return a instanceof Promise ? await a : a;
+    const l = n.call(s, ...t);
+    return l instanceof Promise ? await l : l;
   }
-  e && f.extend(i, typeof e == "function" ? e(i) : e);
-  const r = new Gr(i), [o] = await r.send();
-  return o;
+  e && f.extend(r, typeof e == "function" ? e(r) : e);
+  const o = new Gr(r);
+  i == null || i(o);
+  const [a] = await o.send();
+  return a;
 }
 function Cu(n) {
   return !!(n && (typeof n == "string" || typeof n == "object" && n.url || typeof n == "function"));
@@ -1138,7 +1140,7 @@ function Sn(n, t) {
         for (let l = 0; l < n.length; l++)
           if (Sn(n[l], t[l]))
             return !0;
-        return !0;
+        return !1;
       }
       const o = Object.keys(n), a = Object.keys(t);
       if (o.length !== a.length)
@@ -1146,7 +1148,7 @@ function Sn(n, t) {
       for (const l of o)
         if (Sn(n[l], t[l]))
           return !0;
-      return !0;
+      return !1;
     }
     if (e === "function" && s === "function")
       return n.toString() !== t.toString();
@@ -1199,7 +1201,7 @@ class He {
   compute(t) {
     t !== void 0 && (this._dependencies = t), t = this._dependencies, typeof t == "function" && (t = t());
     const e = this._lastDependencies;
-    return (!e || t.some((s, i) => Sn(s instanceof He ? s.value : s, e[i]))) && (this._value = this._compute(), this._lastDependencies = t.map((s) => s instanceof He ? s.cache : s)), this._value;
+    return (!e || t.some((s, i) => s instanceof He ? s.value !== e[i] : Sn(s, e[i]))) && (this._value = this._compute(), this._lastDependencies = t.map((s) => s instanceof He ? s.cache : s)), this._value;
   }
 }
 function Su(n, t) {
