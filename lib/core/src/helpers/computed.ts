@@ -89,7 +89,10 @@ export class Computed<T = unknown, D extends unknown[] = unknown[]> {
         // Check if dependencies changed.
         const lastDependencies = this._lastDependencies;
         if (!lastDependencies || dependencies.some((dept, index) => {
-            return isDiff(dept instanceof Computed ? dept.value : dept, lastDependencies[index]);
+            if (dept instanceof Computed) {
+                return dept.value !== lastDependencies[index];
+            }
+            return isDiff(dept, lastDependencies[index]);
         })) {
             this._value = this._compute();
             this._lastDependencies = dependencies.map(x => x instanceof Computed ? x.cache : x) as D;
