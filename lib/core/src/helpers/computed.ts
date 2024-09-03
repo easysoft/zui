@@ -101,14 +101,3 @@ export class Computed<T = unknown, D extends unknown[] = unknown[]> {
         return this._value as T;
     }
 }
-
-/**
- * Creates a new computed value.
- *
- * @param compute       The function that computes the value.
- * @param dependencies  The dependencies of the computed value.
- * @returns
- */
-export function computed<T = unknown, D extends unknown[] = unknown[]>(compute: () => T, dependencies?: D | (() => D)) {
-    return new Computed(compute, dependencies || []);
-}
