@@ -8,7 +8,7 @@ var at = (n, t, e) => (ws(n, t, "read from private field"), e ? e.call(n) : t.ge
   t instanceof WeakSet ? t.add(n) : t.set(n, e);
 }, vt = (n, t, e, s) => (ws(n, t, "write to private field"), s ? s.call(n, e) : t.set(n, e), e);
 var Cs = (n, t, e) => (ws(n, t, "access private method"), e);
-const bd = "3.0.0", wd = 1725437688774, Ht = document, $n = window, oo = Ht.documentElement, de = Ht.createElement.bind(Ht), ao = de("div"), Ss = de("table"), xl = de("tbody"), _r = de("tr"), { isArray: Qn, prototype: lo } = Array, { concat: kl, filter: di, indexOf: co, map: ho, push: Tl, slice: uo, some: fi, splice: Nl } = lo, $l = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, El = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, Al = /<.+>/, Ml = /^\w+$/;
+const bd = "3.0.0", wd = 1725438100829, Ht = document, $n = window, oo = Ht.documentElement, de = Ht.createElement.bind(Ht), ao = de("div"), Ss = de("table"), xl = de("tbody"), _r = de("tr"), { isArray: Qn, prototype: lo } = Array, { concat: kl, filter: di, indexOf: co, map: ho, push: Tl, slice: uo, some: fi, splice: Nl } = lo, $l = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, El = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, Al = /<.+>/, Ml = /^\w+$/;
 function pi(n, t) {
   const e = Pl(t);
   return !n || !e && !le(t) && !tt(t) ? [] : !e && El.test(n) ? t.getElementsByClassName(n.slice(1).replace(/\\/g, "")) : !e && Ml.test(n) ? t.getElementsByTagName(n) : t.querySelectorAll(n);
@@ -2542,24 +2542,26 @@ function Vs(n, t) {
 }
 function Yo(n, t) {
   typeof t == "string" ? t = { scope: t } : typeof t == "function" && (t = { execute: t });
-  const { scope: e = "", events: s = "click", execute: i } = t ?? {}, r = f(n), o = `zui.commands.${e}`;
-  if (r.z(o))
+  const { scope: e = "", events: s = "click", execute: i, commands: r } = t ?? {}, o = f(n), a = `zui.commands.${e}`;
+  if (o.z(a))
     return;
-  const a = e ? `zui-command-${e}` : "zui-command";
-  r.z(o, !0).on(s.split(" ").map((l) => `${l}.zui.command.${e}`).join(" "), `[${a}]${e ? "" : ',a[href^="#!"]'}`, (l) => {
-    if (l.commandHandled)
+  const l = e ? `zui-command-${e}` : "zui-command";
+  o.z(a, !0).on(s.split(" ").map((c) => `${c}.zui.command.${e}`).join(" "), `[${l}]${e ? "" : ',a[href^="#!"]'}`, (c) => {
+    if (c.commandHandled)
       return;
-    const c = f(l.currentTarget);
-    if (c.is(".disabled,[disabled]"))
+    const u = f(c.currentTarget);
+    if (u.is(".disabled,[disabled]"))
       return;
-    const u = c.attr(a) || (c.is('a[href^="#!"]') ? c.attr("href") : "");
-    u && (l.commandHandled = !0, (u.startsWith("#!!") || u.startsWith("!!")) && l.stopPropagation(), Vs(u, {
-      execute: function(...h) {
-        i == null || i.call(this, ...h);
-        const { name: p } = this;
-        c.trigger("command", [p, h, this]).trigger(`command:${e ? `${p}.${e}` : p}`, [h, this]), e && c.trigger(`command:.${e}`, [h, this]);
+    const h = u.attr(l) || (u.is('a[href^="#!"]') ? u.attr("href") : "");
+    h && (c.commandHandled = !0, (h.startsWith("#!!") || h.startsWith("!!")) && c.stopPropagation(), Vs(h, {
+      execute: function(...p) {
+        i == null || i.call(this, ...p);
+        const d = r == null ? void 0 : r[this.name];
+        d == null || d.call(this, ...p);
+        const { name: m } = this;
+        u.trigger("command", [m, p, this]).trigger(`command:${e ? `${m}.${e}` : m}`, [p, this]), e && u.trigger(`command:.${e}`, [p, this]);
       },
-      event: l,
+      event: c,
       scope: e
     }));
   });
