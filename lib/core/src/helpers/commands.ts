@@ -132,13 +132,13 @@ function executeCommandLine(commandLine: string, options: CommandExecutionOption
     return executeSingleCommandLine(commandLine, options);
 }
 
-export function bindCommands(element?: Selector, options?: {scope?: string, events?: string, execute?: CommandCallback} | CommandCallback | string): void {
+export function bindCommands(element?: Selector, options?: {scope?: string, events?: string, execute?: CommandCallback, commands?: Record<string, CommandCallback>} | CommandCallback | string): void {
     if (typeof options === 'string') {
         options = {scope: options};
     } else if (typeof options === 'function') {
         options = {execute: options};
     }
-    const {scope = '', events = 'click', execute: initialExecute} = options ?? {};
+    const {scope = '', events = 'click', execute: initialExecute, commands} = options ?? {};
     const $element = $(element);
     const dataAttr = `zui.commands.${scope}`;
     if ($element.z(dataAttr)) {
@@ -165,6 +165,8 @@ export function bindCommands(element?: Selector, options?: {scope?: string, even
         executeCommandLine(commandLine, {
             execute: function (...params) {
                 initialExecute?.call(this, ...params);
+                const commandExecute = commands?.[this.name];
+                commandExecute?.call(this, ...params);
                 const {name} = this;
                 $target.trigger('command', [name, params, this]).trigger(`command:${scope ? `${name}.${scope}` : name}`, [params, this]);
                 if (scope) {
