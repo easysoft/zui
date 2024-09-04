@@ -147,4 +147,6 @@ export function registerGlobalListener(events: string[]) {
     $(document).off('.zui.global').on(events.map(event => `${event}.zui.global`).join(' '), `[zui-on],${events.map(x => `[zui-on-${x}]`)},[data-on]`, handleGlobalEvent);
 }
 
-registerGlobalListener(['click', 'change', 'inited']);
+$(() => {
+    registerGlobalListener(['click', 'change', 'inited']);
+});
