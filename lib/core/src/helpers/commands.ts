@@ -132,7 +132,9 @@ function executeCommandLine(commandLine: string, options: CommandExecutionOption
     return executeSingleCommandLine(commandLine, options);
 }
 
-export function bindCommands(element?: Selector, options?: {scope?: string, events?: string, execute?: CommandCallback, commands?: Record<string, CommandCallback>} | CommandCallback | string): void {
+export type CommandsBindOptions = {scope?: string, events?: string, execute?: CommandCallback, commands?: Record<string, CommandCallback>};
+
+export function bindCommands(element?: Selector, options?: CommandsBindOptions | CommandCallback | string): void {
     if (typeof options === 'string') {
         options = {scope: options};
     } else if (typeof options === 'function') {
@@ -189,7 +191,7 @@ declare module 'cash-dom' {
         command(scopedName: string, callback: CommandCallback): Cash;
         offCommand(scopedName: string, callback?: CommandCallback): Cash;
 
-        commands(options?: {scope?: string, events?: string, execute?: CommandCallback} | CommandCallback | string): Cash;
+        commands(options?: CommandsBindOptions | CommandCallback | string): Cash;
         unbindCommands(scope?: string): Cash;
     }
 }
@@ -204,7 +206,7 @@ $.fn.offCommand = function (this: Cash, scopedName: string, callback?: CommandEv
     return this.off(`command:${scopedName}`, callback as CommandEventCallback);
 };
 
-$.fn.commands = function (this: Cash, options?: {scope?: string, events?: string, execute?: CommandCallback} | CommandCallback | string): Cash {
+$.fn.commands = function (this: Cash, options?: CommandsBindOptions | CommandCallback | string): Cash {
     bindCommands(this, options);
     return this;
 };
