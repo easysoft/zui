@@ -12,13 +12,9 @@ export class HElementSignals<P extends HElementProps, S = {}, SIGNALS = {readonl
         super(props);
 
         this.singals = {} as SIGNALS;
-        this.changeState(this.state);
-        this.state = new Proxy(this.singals as object, {
-            get(target, prop, receiver) {
-                console.warn(`[ZUI] The "this.state.${prop as string}" should not be accessed directly. Use "this.signals.${prop as string}.value" instead.`);
-                return Reflect.get(target, prop, receiver)?.value;
-            },
-        }) as S;
+        const {state} = this;
+        this.changeState(state);
+        this.state = {} as S;
     }
 
     changeState(state: Partial<S> | ((prevState: Readonly<S>) => Partial<S>), callback?: () => void): Promise<S> {
