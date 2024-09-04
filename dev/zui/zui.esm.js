@@ -8,7 +8,7 @@ var at = (n, t, e) => (ws(n, t, "read from private field"), e ? e.call(n) : t.ge
   t instanceof WeakSet ? t.add(n) : t.set(n, e);
 }, vt = (n, t, e, s) => (ws(n, t, "write to private field"), s ? s.call(n, e) : t.set(n, e), e);
 var Cs = (n, t, e) => (ws(n, t, "access private method"), e);
-const bd = "3.0.0", wd = 1725438406703, Ht = document, $n = window, oo = Ht.documentElement, de = Ht.createElement.bind(Ht), ao = de("div"), Ss = de("table"), xl = de("tbody"), _r = de("tr"), { isArray: Qn, prototype: lo } = Array, { concat: kl, filter: di, indexOf: co, map: ho, push: Tl, slice: uo, some: fi, splice: Nl } = lo, $l = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, El = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, Al = /<.+>/, Ml = /^\w+$/;
+const bd = "3.0.0", wd = 1725440123633, Ht = document, $n = window, oo = Ht.documentElement, de = Ht.createElement.bind(Ht), ao = de("div"), Ss = de("table"), xl = de("tbody"), _r = de("tr"), { isArray: Qn, prototype: lo } = Array, { concat: kl, filter: di, indexOf: co, map: ho, push: Tl, slice: uo, some: fi, splice: Nl } = lo, $l = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, El = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, Al = /<.+>/, Ml = /^\w+$/;
 function pi(n, t) {
   const e = Pl(t);
   return !n || !e && !le(t) && !tt(t) ? [] : !e && El.test(n) ? t.getElementsByClassName(n.slice(1).replace(/\\/g, "")) : !e && Ml.test(n) ? t.getElementsByTagName(n) : t.querySelectorAll(n);
@@ -2488,7 +2488,7 @@ Fc.NAME = "Sticky";
 function Cn(n, t) {
   n = n.replace(/^#?!?!?>?/, ""), n.startsWith("/") || (n = `/${n}`);
   const e = new URL(window.location.origin + n), [, s = "", ...i] = e.pathname.split("/"), { execute: r, event: o, scope: a } = t;
-  let { context: l } = t;
+  let { options: l } = t;
   return l = {
     ...Object.fromEntries([...e.searchParams.entries()].map(([c, u]) => {
       try {
@@ -2498,7 +2498,7 @@ function Cn(n, t) {
       return [c, u];
     })),
     ...l
-  }, r.call({ name: s, context: l, event: o, scope: a }, ...i.map((c) => {
+  }, r({ name: s, options: l, event: o, scope: a }, ...i.map((c) => {
     try {
       return c.includes("%") && (c = decodeURIComponent(c)), JSON.parse(c);
     } catch {
@@ -2542,11 +2542,11 @@ function Vs(n, t) {
 }
 function Yo(n, t) {
   typeof t == "string" ? t = { scope: t } : typeof t == "function" && (t = { execute: t });
-  const { scope: e = "", events: s = "click", execute: i, commands: r } = t ?? {}, o = f(n), a = `zui.commands.${e}`;
-  if (o.z(a))
+  const { scope: e = "", events: s = "click", execute: i, commands: r } = t ?? {}, o = f(n), a = `z-commands${e ? `-${e}` : ""}`;
+  if (o.attr(a))
     return;
   const l = e ? `zui-command-${e}` : "zui-command";
-  o.z(a, !0).on(s.split(" ").map((c) => `${c}.zui.command.${e}`).join(" "), `[${l}]${e ? "" : ',a[href^="#!"]'}`, (c) => {
+  o.attr(a, "").on(s.split(" ").map((c) => `${c}.zui.command.${e}`).join(" "), `[${l}]${e ? "" : ',a[href^="#!"]'}`, (c) => {
     if (c.commandHandled)
       return;
     const u = f(c.currentTarget);
@@ -2554,15 +2554,16 @@ function Yo(n, t) {
       return;
     const h = u.attr(l) || (u.is('a[href^="#!"]') ? u.attr("href") : "");
     h && (c.commandHandled = !0, (h.startsWith("#!!") || h.startsWith("!!")) && c.stopPropagation(), Vs(h, {
-      execute: function(...p) {
-        i == null || i.call(this, ...p);
-        const d = r == null ? void 0 : r[this.name];
-        d == null || d.call(this, ...p);
-        const { name: m } = this;
-        u.trigger("command", [m, p, this]).trigger(`command:${e ? `${m}.${e}` : m}`, [p, this]), e && u.trigger(`command:.${e}`, [p, this]);
+      execute: (p, ...d) => {
+        i == null || i(p, ...d);
+        const m = r == null ? void 0 : r[p.name];
+        m == null || m(p, ...d);
+        const { name: _ } = p, v = [p, d];
+        u.trigger("command", v).trigger(`command:${e ? `${_}.${e}` : _}`, v), e && u.trigger(`command:.${e}`, v);
       },
       event: c,
-      scope: e
+      scope: e,
+      options: {}
     }));
   });
 }
