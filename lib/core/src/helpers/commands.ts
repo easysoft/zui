@@ -1,10 +1,10 @@
 import {$, Cash, type Selector} from '../cash';
 
-interface CommandExecutionThis {
+export interface CommandContext {
     name: string,
-    context?: Record<string, unknown>,
-    event?: Event,
-    scope?: string,
+    options: Record<string, unknown>,
+    event: Event,
+    scope: string,
 }
 
 /**
@@ -15,14 +15,16 @@ interface CommandExecutionThis {
  * @param params  命令参数 Command parameters.
  */
 export interface CommandCallback<P extends unknown[] = unknown[], R = unknown> {
-    (this:CommandExecutionThis, ...params: P): R;
+    (context: CommandContext, ...params: P): R;
 }
 
+export type CommandEventCallback = (event: Event, data: [context: CommandContext, params: unknown[]]) => void;
+
 interface CommandExecutionOptions {
-    execute: (this: CommandExecutionThis, ...params: unknown[]) => unknown;
-    event?: Event;
-    scope?: string;
-    context?: Record<string, unknown>;
+    execute: (context: CommandContext, ...params: unknown[]) => unknown;
+    event: Event;
+    scope: string;
+    options: Record<string, unknown>;
 }
 
 /**
@@ -41,8 +43,8 @@ function executeSingleCommandLine(commandLine: string, options: CommandExecution
     const url = new URL(window.location.origin + commandLine);
     const [, name = '', ...params] = url.pathname.split('/');
     const {execute, event, scope} = options;
-    let {context} = options;
-    context = {
+    let {options: executeOptions} = options;
+    executeOptions = {
         ...Object.fromEntries([...url.searchParams.entries()].map(([key, value]) => {
             try {
                 if (value.includes('%')) {
@@ -53,9 +55,9 @@ function executeSingleCommandLine(commandLine: string, options: CommandExecution
             } catch (_) {}
             return [key, value];
         })),
-        ...context,
+        ...executeOptions,
     };
-    return execute.call({name, context, event, scope}, ...params.map((param) => {
+    return execute({name, options: executeOptions, event, scope}, ...params.map((param) => {
         try {
             if (param.includes('%')) {
                 param = decodeURIComponent(param);
@@ -142,13 +144,13 @@ export function bindCommands(element?: Selector, options?: CommandsBindOptions |
     }
     const {scope = '', events = 'click', execute: initialExecute, commands} = options ?? {};
     const $element = $(element);
-    const dataAttr = `zui.commands.${scope}`;
-    if ($element.z(dataAttr)) {
+    const dataAttr = `z-commands${scope ? `-${scope}` : ''}`;
+    if ($element.attr(dataAttr)) {
         return;
     }
 
     const cmdAttr = scope ? `zui-command-${scope}` : 'zui-command';
-    $element.z(dataAttr, true).on(events.split(' ').map(x => `${x}.zui.command.${scope}`).join(' '), `[${cmdAttr}]${scope ? '' : ',a[href^="#!"]'}`, (event) => {
+    $element.attr(dataAttr, '').on(events.split(' ').map(x => `${x}.zui.command.${scope}`).join(' '), `[${cmdAttr}]${scope ? '' : ',a[href^="#!"]'}`, (event) => {
         if (event.commandHandled) {
             return;
         }
@@ -165,18 +167,20 @@ export function bindCommands(element?: Selector, options?: CommandsBindOptions |
             event.stopPropagation();
         }
         executeCommandLine(commandLine, {
-            execute: function (...params) {
-                initialExecute?.call(this, ...params);
-                const commandExecute = commands?.[this.name];
-                commandExecute?.call(this, ...params);
-                const {name} = this;
-                $target.trigger('command', [name, params, this]).trigger(`command:${scope ? `${name}.${scope}` : name}`, [params, this]);
+            execute: (context, ...params) => {
+                initialExecute?.(context, ...params);
+                const commandExecute = commands?.[context.name];
+                commandExecute?.(context, ...params);
+                const {name} = context;
+                const eventData = [context, params];
+                $target.trigger('command', eventData).trigger(`command:${scope ? `${name}.${scope}` : name}`, eventData);
                 if (scope) {
-                    $target.trigger(`command:.${scope}`, [params, this]);
+                    $target.trigger(`command:.${scope}`, eventData);
                 }
             },
             event,
             scope,
+            options: {},
         });
     });
 }
@@ -188,15 +192,13 @@ export function unbindCommands(element: Selector, scope?: string) {
 
 declare module 'cash-dom' {
     interface Cash {
-        command(scopedName: string, callback: CommandCallback): Cash;
-        offCommand(scopedName: string, callback?: CommandCallback): Cash;
+        command(this: Cash, scopedName: string, callback: CommandEventCallback): Cash;
+        offCommand(this: Cash, scopedName: string, callback?: CommandEventCallback): Cash;
 
-        commands(options?: CommandsBindOptions | CommandCallback | string): Cash;
-        unbindCommands(scope?: string): Cash;
+        commands(this: Cash, options?: CommandsBindOptions | CommandCallback | string): Cash;
+        unbindCommands(this: Cash, scope?: string): Cash;
     }
 }
-
-export type CommandEventCallback = (event: Event, data: [params: unknown[], context: CommandExecutionThis]) => void;
 
 $.fn.command = function (this: Cash, scopedName: string, callback: CommandEventCallback): Cash {
     return this.on(`command:${scopedName}`, callback);
