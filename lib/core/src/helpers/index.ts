@@ -19,3 +19,4 @@ export * from './bus';
 export * from './hotkeys';
 export * from './fullscreen';
 export * from './sticky';
+export * from './commands';
