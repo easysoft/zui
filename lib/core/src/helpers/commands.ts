@@ -14,7 +14,7 @@ interface CommandExecutionThis {
  * @param context 命令上下文信息 Command context information.
  * @param params  命令参数 Command parameters.
  */
-interface CommandCallback<P extends unknown[] = unknown[], R = unknown> {
+export interface CommandCallback<P extends unknown[] = unknown[], R = unknown> {
     (this:CommandExecutionThis, ...params: P): R;
 }
 
