@@ -12,6 +12,14 @@ export interface LoadJSOptions {
     integrity?: string;
 }
 
+export interface LoadJSModuleOptions<T = unknown> extends LoadJSOptions {
+    type: 'module',
+    imports?: string | Record<string, string>;
+    srcList?: {src: string, imports?: string | Record<string, string>}[];
+    globalVar?: boolean | string;
+    resolve?: (result: T) => void;
+}
+
 export interface LoadCSSOptions {
     src: string;
     id?: string;
@@ -77,7 +85,7 @@ $.registerLib = function (name: string, options: GetLibOptions): void {
 /**
  * Load a CSS file by append a link tag to the head.
  */
-function loadCSS(options: string | LoadCSSOptions): Promise<void> {
+export function loadCSS(options: string | LoadCSSOptions): Promise<void> {
     return new Promise((resolve, reject) => {
         if (typeof options === 'string') {
             options = {src: options};
@@ -104,7 +112,7 @@ function loadCSS(options: string | LoadCSSOptions): Promise<void> {
     });
 }
 
-function loadJS(options: string | LoadJSOptions): Promise<void> {
+export function loadJS(options: string | LoadJSOptions): Promise<void> {
     return new Promise((resolve, reject) => {
         if (typeof options === 'string') {
             options = {src: options};
@@ -147,6 +155,71 @@ function loadJS(options: string | LoadJSOptions): Promise<void> {
     });
 }
 
+export function loadModule<T = unknown>(options: string | LoadJSModuleOptions): Promise<T> {
+    return new Promise((resolve) => {
+        if (typeof options === 'string') {
+            options = {type: 'module', src: options};
+        }
+        const {src, imports, srcList = [], id} = options;
+        if (src) {
+            srcList.unshift({src, imports});
+        }
+
+        const srcListID = srcList.map(x => x.src).join(',');
+        const $oldScripts = $(id ? `#${id}` : `script[data-src-list="${srcListID}"]`);
+        if ($oldScripts.length) {
+            const moduleResult = $oldScripts.data('module');
+            if (moduleResult) {
+                resolve(moduleResult);
+            } else {
+                const callbacks = $oldScripts.data('resolves') || [];
+                callbacks.push(resolve);
+                $oldScripts.data('resolves', callbacks);
+            }
+            return;
+        }
+        const {async = true, defer = false, integrity, globalVar, resolve: resolveCallback} = options;
+        const script = document.createElement('script');
+        const resolveID = `zui-module-resolve-${$.guid++}`;
+        const $script = $(script);
+        Object.assign(window, {[resolveID]: (result: T) => {
+            const scriptResolves: ((result: T) => void)[] = $script.data('module', result).data('resolves') || [];
+            scriptResolves.forEach(x => x(result));
+            $script.removeData('resolves').removeData('module');
+            resolveCallback?.(result);
+            resolve(result);
+            delete (window as unknown as Record<string, unknown>)[resolveID];
+        }});
+        script.async = async;
+        script.defer = defer;
+        script.type = 'module';
+        $script.attr('data-src-list', srcListID).attr('data-resolve-id', resolveID);
+        const importNames: string[] = [];
+        script.text = [
+            ...srcList.map(({src: importSrc, imports: importMap}) => {
+                if (imports) {
+                    if (typeof importMap === 'string') {
+                        importNames.push(importMap);
+                        return `import * as ${importMap} from '${importSrc}';`;
+                    }
+                    if (importMap) {
+                        importNames.push(...Object.values(importMap));
+                        return `import {${Object.entries(importMap).map(([key, value]) => `${key} as ${value}`).join(',')}} from '${importSrc}';`;
+                    }
+                }
+                return `import '${importSrc}';`;
+            }),
+            `const zuiImportResult = {${importNames.map(x => `${x}: ${x},`)}};`,
+            globalVar ? `Object.assign(window, ${globalVar === true ? 'zuiImportResult' : `{${globalVar}: zuiImportResult}`});` : '',
+            `if(window['${resolveID}']) window['${resolveID}'](zuiImportResult);`,
+        ].join('\n');
+        if (integrity) {
+            script.integrity = integrity;
+        }
+        $('head').append(script);
+    });
+}
+
 /** Define the $.getLib method. */
 $.getLib = async function<T = unknown> (optionsOrSrc: string | string[] | GetLibOptions, optionsOrCallback?: Omit<GetLibOptions, 'src'> | GetLibCallback, callback?: GetLibCallback): Promise<T | undefined> {
     if (typeof optionsOrSrc === 'string') {
@@ -181,8 +254,9 @@ $.getLib = async function<T = unknown> (optionsOrSrc: string | string[] | GetLib
         check = name;
     }
     const libVarName = typeof check === 'string' ? check : name;
+    let moduleResult: T | undefined;
     const getLibVar = (): T | undefined => {
-        return libVarName ? ((window as unknown as Record<string, unknown>)[libVarName] as T) : undefined;
+        return libVarName ? ((window as unknown as Record<string, unknown>)[libVarName] as T || moduleResult) : undefined;
     };
     if (typeof check === 'string') {
         check = () => !!getLibVar();
@@ -214,6 +288,10 @@ $.getLib = async function<T = unknown> (optionsOrSrc: string | string[] | GetLib
         };
         if (srcOptions.type === 'css' || (!srcOptions.type && src.endsWith('.css'))) {
             await loadCSS(loadOptions as LoadCSSOptions);
+            continue;
+        }
+        if (loadOptions.type === 'module') {
+            moduleResult = await loadModule(loadOptions as LoadJSModuleOptions);
             continue;
         }
         await loadJS(loadOptions as LoadJSOptions);
