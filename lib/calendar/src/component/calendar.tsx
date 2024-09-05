@@ -3,11 +3,8 @@ import {CalendarSidebar} from './calendar-sidebar';
 import {CalendarHeader} from './calendar-header';
 import {CalendarContent} from './calendar-content';
 
-import type {CalendarProps, CalendarSidebarProps} from '../types';
-import type {Attributes, ComponentChildren, RenderableProps, VNode} from 'preact';
-import type {CalendarEvent} from '../types';
-import type {CalendarState} from '../types/calendar-state';
-import type {CalendarHeaderProps} from '../types/calendar-header-props';
+import type {CalendarEventGroup, CalendarProps, CalendarSidebarProps, CalendarEvent, CalendarState, CalendarHeaderProps} from '../types';
+import type {Attributes, ComponentChildren, VNode} from 'preact';
 
 import '../i18n';
 
@@ -15,18 +12,44 @@ export class Calendar<P extends CalendarProps=CalendarProps> extends HElement<P,
     
     constructor(props: P) {
         super(props);
-        this.state = {'date': new Date(), 'showCalendarGroup': true, 'eventSetMap': this.generateCalendarSetEvents()};
+        //初始化日历集与日历状态
+        this.state = {'date': new Date(), 'showCalendarGroup': false, 'eventSetMap': this.generateCalendarSetEvents(), 'calendarEventMap':this.generateEventMap(this.props.calendarEvents), 'calendarGroupMap': this.generateCalendarGroupMap(this.props.calendarEventGroups)};
     }
 
+    //生成事件的唯一Map
+    generateEventMap(calendarEvents?: CalendarEvent[]): Map<string, CalendarEvent> {
+        const map = new Map<string, CalendarEvent>();
+        calendarEvents?.map((item) => {
+            if (item.id !== undefined && !map.has(item.id)) {
+                map.set(item.id, item);
+            } else {
+                throw new Error('[ZUI] CalendarEvent id must be unique');
+            }
+        });
+        return map;
+    }
+
+    //生成日历集的唯一Map
+    generateCalendarGroupMap(calendarEventGroups?: CalendarEventGroup[]): Map<string, CalendarEventGroup> {
+        const map = new Map<string, CalendarEventGroup>();
+        calendarEventGroups?.map((item) => {
+            if (item.id !== undefined && !map.has(item.id)) {
+                map.set(item.id, item);
+            } else {
+                throw new Error('[ZUI] CalendarEventGroup id must be unique');
+            }
+        });
+        return map;
+    }
     
     //生成事件集与事件的对应关系
     generateCalendarSetEvents(): Map<string, CalendarEvent[]> {
         const map = new Map<string, CalendarEvent[]>();
-        this.props.calendarEvents?.forEach((item) => {
-            if (item.calendarEventGroup !== undefined && !map.has(item.calendarEventGroup)) {
-                this.props.calendarEventGroups?.forEach(element => {
-                    if (element.id === item.calendarEventGroup) {
-                        map.set(element.id, map.get(element.id)?.concat(item) || [item]);
+        this.props.calendarEventGroups?.forEach((item) => {
+            if (item.id !== undefined) {
+                this.props.calendarEvents?.forEach(element => {
+                    if (element.calendarEventGroup == item.id) {
+                        map.set(item.id, map.get(item.id)?.concat(element) || [element]);
                     }
                 });
             }
@@ -37,9 +60,10 @@ export class Calendar<P extends CalendarProps=CalendarProps> extends HElement<P,
 
     protected _renderSidebar():ComponentChildren {
         const CalendarSidebarOptions: CalendarSidebarProps = {
-            calendarEvents: this.props.calendarEvents,
+            calendarEventMap: this.state.calendarEventMap || new Map<string, CalendarEvent>(),
             eventSetMap:this.state.eventSetMap,
-            calendarEventGroups: this.props.calendarEventGroups,
+            maxVisibleEvents: this.props.maxVisibleEvents,
+            calendarGroupMap: this.state.calendarGroupMap || new Map<string, CalendarEventGroup>(),
             showCalendarGroup: this.state.showCalendarGroup,
             onShowCalendarGroup:()=>{this.setState({'showCalendarGroup':!this.state.showCalendarGroup});},
         };
@@ -47,7 +71,7 @@ export class Calendar<P extends CalendarProps=CalendarProps> extends HElement<P,
     }
     
 
-    protected _renderHeader(props: RenderableProps<P>): ComponentChildren {
+    protected _renderHeader(): ComponentChildren {
         const CalendarHeaderOptions: CalendarHeaderProps = {
             date: this.state.date,
             onShowCalendarGroup:()=>{this.setState({'showCalendarGroup':!this.state.showCalendarGroup});},
@@ -78,12 +102,13 @@ export class Calendar<P extends CalendarProps=CalendarProps> extends HElement<P,
     }
     
 
-    protected _renderContent(props: RenderableProps<P>): ComponentChildren {
+    protected _renderContent(): ComponentChildren {
         const CalendarOptions: CalendarProps = {
             date: this.state.date,
             showCalendarGroup: this.state.showCalendarGroup,
-            calendarEvents: this.props.calendarEvents,
-            calendarEventGroups: this.props.calendarEventGroups,
+            calendarEventMap: this.state.calendarEventMap,
+            calendarEventGroupMap: this.state.calendarGroupMap,
+            eventSetMap: this.state.eventSetMap || new Map<string, CalendarEvent[]>(),
             onDateClick: this.props.onDateClick,
             onEventClick: this.props.onEventClick,
             onDragChange: this.props.onDragChange, 
@@ -94,7 +119,7 @@ export class Calendar<P extends CalendarProps=CalendarProps> extends HElement<P,
         return (<CalendarContent {...CalendarOptions} ></CalendarContent>);
     }
 
-    render(props: RenderableProps<P>): VNode<Attributes> {
-        return (<div className="component">{this.state.showCalendarGroup && <div className="calendar-sidebar">{this._renderSidebar()}</div>}<div className="component-calendar">{this._renderHeader({...props})}{ this._renderContent({...props})}</div></div>);
+    render(): VNode<Attributes> {
+        return (<div className="component">{this.state.showCalendarGroup && <div className="calendar-sidebar">{this._renderSidebar()}</div>}<div className="component-calendar">{this._renderHeader()}{ this._renderContent()}</div></div>);
     }
 } 

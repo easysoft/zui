@@ -4,48 +4,39 @@ import {CalendarEventDom} from './calendar-event';
 import {Draggable} from '@zui/dnd';
 
 import type {CalendarProps,  CalendarEvent, CalendarContentState, EventState} from '../types';
-import type {Attributes, RenderableProps, VNode} from 'preact';
+import type {Attributes, VNode} from 'preact';
 import {i18n} from '@zui/core';
 import '../i18n';
 
 export class CalendarContent<P extends CalendarProps = CalendarProps> extends HElement<P, CalendarContentState> {
     constructor(props: P) {
         super(props);
-        this.state = {'isExtended':false, 'dateList': this.generateCalendarPageByDate(props.date), 'eventMap': this.generateCalendarEvents(), 'eventSetMap': this.generateCalendarSetEvents()};
-    }
-
-    // 获取年、月、日
-    getYearMonthDay(date:Date) {
-        return {
-            year: date.getFullYear(),
-            month: date.getMonth() + 1, // 月份从0开始，需要加1
-            day: date.getDate(),
-        };
+        this.state = {'isExtended':false, 'dateList': this.generateCalendarPageByDate(props.date), 'eventMap': this.generateCalendarEvents(), 'eventSetMap': this.props.eventSetMap};
     }
 
     //判断周末是否需要收缩
     judgeWeekendShouldShrink() {
-        let flag = true;
+        let flag = false;
         for (let i = 0; i < 6; i++) {
             flag = flag && this.state.eventMap.has(this.state.dateList[i][5].date.toISOString().split('T')[0]);
             flag = flag && this.state.eventMap.has(this.state.dateList[i][6].date.toISOString().split('T')[0]);
         }
-        return flag;
+        return !flag;
     }
 
     generateCalendarEvents() {
         const map = new Map<string, CalendarEvent[]>();
-        this.props.calendarEvents?.forEach((item) => {
-            if (item.date !== undefined) {
-                const dateKey = new Date(item.date).toISOString().split('T')[0]; // 将日期转换为 'YYYY-MM-DD' 格式
+        this.props.calendarEventMap?.forEach((value) => {
+            if (value.date !== undefined) {
+                const dateKey = new Date(value.date).toISOString().split('T')[0]; // 将日期转换为 'YYYY-MM-DD' 格式
                 if (!map.has(dateKey)) {
-                    map.set(dateKey, [item]);
+                    map.set(dateKey, [value]);
                 } else {
                     const currentEvents = map.get(dateKey);
                     if (currentEvents) {
-                        map.set(dateKey, currentEvents.concat(item));
+                        map.set(dateKey, currentEvents.concat(value));
                     } else {
-                        map.set(dateKey, [item]);
+                        map.set(dateKey, [value]);
                     }
                 }
             }
@@ -65,20 +56,20 @@ export class CalendarContent<P extends CalendarProps = CalendarProps> extends HE
             },
             onDrop: (event, dragElement, dropElement) => {
                 console.log('onDrop', {event, dragElement, dropElement});
-                if (dragElement && dropElement) {
+                if (dragElement && dropElement) { 
                     const prevDate = new Date( dragElement.dataset.date || '');
-                    const changeDate: Date = new Date( dropElement.dataset.date || '');
+                    const moveToDate: Date = new Date( dropElement.dataset.date || '');
                     const index: number = Number(dragElement.dataset.index);
                     const prevDateEvents = prevDate && this.state.eventMap.get(prevDate?.toISOString().split('T')[0]);
-                    const currentDateEvents = this.state.eventMap.get(changeDate?.toISOString().split('T')[0]) ? this.state.eventMap.get(changeDate?.toISOString().split('T')[0]) : [];
+                    const moveToDateEvents = this.state.eventMap.get(moveToDate?.toISOString().split('T')[0]) ? this.state.eventMap.get(moveToDate?.toISOString().split('T')[0]) : [];
                     if (prevDateEvents) {
                         const emptyAry: CalendarEvent[] = [];
                         const eventToMove = index !== undefined && index >= 0 && index < prevDateEvents.length ? [prevDateEvents[index]] : emptyAry;
-                        eventToMove[0].date = new Date(changeDate.getFullYear(), changeDate.getMonth(), changeDate.getDate(), prevDate.getHours(), prevDate.getMinutes(), prevDate.getSeconds());
-                        if (eventToMove && Array.isArray(currentDateEvents)) {
-                            currentDateEvents.push(...eventToMove);
+                        eventToMove[0].date = new Date(moveToDate.getFullYear(), moveToDate.getMonth(), moveToDate.getDate(), prevDate.getHours(), prevDate.getMinutes(), prevDate.getSeconds());
+                        if (eventToMove && Array.isArray(moveToDateEvents)) {
+                            moveToDateEvents.push(...eventToMove);
                             const newEventMap = new Map(this.state.eventMap);
-                            newEventMap.set(changeDate?.toISOString().split('T')[0], currentDateEvents);
+                            newEventMap.set(moveToDate?.toISOString().split('T')[0], moveToDateEvents);
                             if (index !== undefined && index >= 0 && index < prevDateEvents.length) {
                                 prevDateEvents.splice(index, 1);
                                 if (prevDateEvents.length === 0) {
@@ -146,35 +137,20 @@ export class CalendarContent<P extends CalendarProps = CalendarProps> extends HE
         return page;
     }
 
-    //生成事件集与事件的对应关系
-    generateCalendarSetEvents(): Map<string, CalendarEvent[]> {
-        const map = new Map<string, CalendarEvent[]>();
-        this.props.calendarEvents?.forEach((item) => {
-            if (item.calendarEventGroup !== undefined && !map.has(item.calendarEventGroup)) {
-                this.props.calendarEventGroups?.forEach(element => {
-                    if (element.id === item.calendarEventGroup) {
-                        map.set(element.id, map.get(element.id)?.concat(item) || [item]);
-                    }
-                });
-            }
-        });
-        return map;
-    }
-
     //返回对应的样式
     getStyle(index: number, isShrinkWeekend?: boolean) {
         if (isShrinkWeekend && (index === 5 || index === 6)) {
             return {width:'10%'};
         }
         if (isShrinkWeekend) {
-            return {width:'20%'};
+            return {width:'16%'};
         }
     }
 
-    render(props: RenderableProps<P>): VNode<Attributes> {
+    render(): VNode<Attributes> {
         const headerList: string[] = i18n.getLang('weekNames') || [];
         const monthFormat = i18n.getLang('monthFormat');
-        const {shrinkFreeWeekend, maxVisibleEvents, onEventClick} = props;
+        const {shrinkFreeWeekend, maxVisibleEvents, onEventClick} = this.props;
         // 处理事件map
         const tdStyle = {position:'relative', verticalAlign:'top'};
         const isShrinkWeekend = shrinkFreeWeekend && this.judgeWeekendShouldShrink();
@@ -193,7 +169,7 @@ export class CalendarContent<P extends CalendarProps = CalendarProps> extends HE
                 <tbody id="calendar-body">
                     {this.state.dateList?.map((line) => {
                         return (<tr>{   line.map((item, index) => {
-                            return <td style={{...tdStyle, ...this.getStyle(index, isShrinkWeekend)}} data-date = {new Date(item.date)}  key={`${item.date.getMonth() + 1}-${item.date.getDate()}`} target='true' className={'calendar-td' + ' ' + (props.date.getFullYear() === item.date.getFullYear() && item.date.getMonth() + 1 === props.date.getMonth() + 1 ? 'active' : '') + (new Date().getFullYear() === item.date.getFullYear() && item.date.getMonth() + 1 === new Date().getMonth() + 1 && item.date.getDate() === new Date().getDate() ? '-today' : '')} >
+                            return <td style={{...tdStyle, ...this.getStyle(index, isShrinkWeekend)}} data-date = {new Date(item.date)}  key={`${item.date.getMonth() + 1}-${item.date.getDate()}`} target='true' className={'calendar-td' + ' ' + (this.props.date.getFullYear() === item.date.getFullYear() && item.date.getMonth() + 1 === this.props.date.getMonth() + 1 ? 'active' : '') + (new Date().getFullYear() === item.date.getFullYear() && item.date.getMonth() + 1 === new Date().getMonth() + 1 && item.date.getDate() === new Date().getDate() ? '-today' : '')} >
                                 <div className={'calendar-body-part'}>
                                     <div className='calendar-body-header'>
                                         {item.date.getDate() == 1 ? <label className='label gray calendar-body-header-month'>{item.date.getMonth() + 1}{monthFormat}</label> : ''}
@@ -201,16 +177,14 @@ export class CalendarContent<P extends CalendarProps = CalendarProps> extends HE
                                     </div>
                                     {this.state.eventMap ? (
                                         <CalendarEventDom
-                                            isExtended={this.state.isExtended}
                                             maxVisibleEvents={maxVisibleEvents}
                                             eventSetMap = {this.state.eventSetMap}
                                             onEventClick={onEventClick}
-                                            calendarEventGroups = {this.props.calendarEventGroups}
+                                            calendarEventGroups = {this.props.calendarEventGroupMap}
                                             calendarEvents={this.state.eventMap.get(item.date.toISOString().split('T')[0]) || []}
+                                            date={item.date.toISOString().split('T')[0]}
                                         ></CalendarEventDom>) : null}
-                                        
-                                </div>
-                                <div className={'calendar-body-bottom'}>{item.date && !this.state.isExtended && maxVisibleEvents && maxVisibleEvents < (this.state.eventMap.get(item.date.toISOString().split('T')[0]) ?.length || 0) && (<span class="calendar-body-bottom label ghost" onClick={() => {this.setState({'isExtended':true});}} ><span class="chevron-down"></span></span>)}{this.state.isExtended && maxVisibleEvents && maxVisibleEvents < (this.state.eventMap.get(item.date.toISOString().split('T')[0]) ?.length || 0) && (<span class="calendar-body-bottom label ghost" onClick={() => {this.setState({'isExtended':false});}} ><span class="chevron-up"></span></span>)}</div></td>;
+                                </div></td>;
                         })}
                         </tr>);
                     })}

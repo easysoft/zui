@@ -11,7 +11,7 @@
     @apply -text-lg;
 }
 
-.calendar-header-left .btn-first {
+.calendar-header-left .btn-front {
     @apply -mr-4 -px-4 -py-2 -rounded-md -text-sm -font-medium -text-center;
 }
 
@@ -23,24 +23,3 @@
     @apply -bg-gray-100 -rounded-l-none;
 }
 
-.chevron-left,
-.chevron-right,
-.chevron-down,
-.chevron-up {
-  @apply -w-[1em] -h-[1em] -relative -inline-flex -items-center -justify-center;
-}
-.chevron-left::before,
-.chevron-right::before,
-.chevron-down::before,
-.chevron-up::before {
-  @apply -content-[''] -block -w-[0.6923077em] -h-[0.6923077em] -rotate-45 -border-current -border -border-t-0 -border-l-0 -origin-center --translate-y-0.5;
-}
-.chevron-left::before {
-  @apply -rotate-[135deg] -translate-y-0 -translate-x-0.5;
-}
-.chevron-right::before {
-  @apply --rotate-45 -translate-y-0 --translate-x-0.5;
-}
-.chevron-up::before {
-  @apply -rotate-[225deg] -translate-y-0.5;
-}

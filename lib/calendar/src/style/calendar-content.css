@@ -37,9 +37,6 @@ td{
     @apply -flex -flex-col -justify-start;
 }
 
-.calendar-body-bottom{
-   @apply -absolute -right-0.5 -bottom-0.5 -cursor-pointer;
-}
 
 .active{
     @apply -bg-white;
