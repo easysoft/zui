@@ -4,8 +4,11 @@
 .component-calendar{
     @apply -w-full;
 }
+.calendar-eventGroup{
+    position: relative;
+}
 
 .calendar-sidebar{
-    @apply -w-1/6 -flex-row;
+    @apply -w-1/6 -flex-row -pr-2;
     writing-mode: horizontal-tb;
 }

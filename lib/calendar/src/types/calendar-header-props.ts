@@ -4,5 +4,4 @@ export interface CalendarHeaderProps extends HElementProps {
     onShowCalendarGroup: () => void;
     onDateChange: (date: Date) => void;
     onMonthChange: (direction: 'prev' | 'next') => void;
-    locale?: 'zh-CN' | 'zh-TW' | 'en';
 }

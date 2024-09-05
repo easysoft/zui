@@ -4,7 +4,6 @@ export interface CalendarEvent {
     title: string;
     calendarEventGroup: string;
     date: Date;
-    color?: string;
     startDate?: Date;
     endDate?: Date;
     description?: string;
@@ -12,16 +11,17 @@ export interface CalendarEvent {
 
 export interface  EventItemProps extends HElementProps {
     calendarEvent?: CalendarEvent[];
-    isExtended?: boolean;    
+    calendarEventGroup?: CalendarEventGroup;
+    maxVisibleEvents?: number;
 }
 
 export interface CalendarEventProps extends HElementProps  {
-    color?: string;
+    date?: string;
     calendarEvents?: CalendarEvent[];
     eventSetMap?:Map<string, CalendarEvent[]>;
     onEventClick?: (e: CalendarEvent) => void;
-    calendarEventGroups?: CalendarEventGroup[];
-    isExtended?: boolean;
+    calendarEventGroups?: Map<string, CalendarEventGroup>;
+    calendarEventGroup?: CalendarEventGroup;
     maxVisibleEvents?: number;
 }
 //事件集
