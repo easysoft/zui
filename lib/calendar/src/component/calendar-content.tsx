@@ -18,8 +18,8 @@ export class CalendarContent<P extends CalendarProps = CalendarProps> extends HE
     judgeWeekendShouldShrink() {
         let flag = false;
         for (let i = 0; i < 6; i++) {
-            flag = flag && this.state.eventMap.has(this.state.dateList[i][5].date.toISOString().split('T')[0]);
-            flag = flag && this.state.eventMap.has(this.state.dateList[i][6].date.toISOString().split('T')[0]);
+            flag = flag || this.state.eventMap.has(this.state.dateList[i][5].date.toISOString().split('T')[0]);
+            flag = flag || this.state.eventMap.has(this.state.dateList[i][6].date.toISOString().split('T')[0]);
         }
         return !flag;
     }
@@ -78,7 +78,6 @@ export class CalendarContent<P extends CalendarProps = CalendarProps> extends HE
                                     newEventMap.set(prevDate?.toISOString().split('T')[0], [...prevDateEvents]);
                                 }
                             }
-                            console.log('newEventMap', newEventMap);   
                             this.setState({eventMap: newEventMap});
                         }
                     }
@@ -94,7 +93,6 @@ export class CalendarContent<P extends CalendarProps = CalendarProps> extends HE
     }  
     
     componentWillUnmount() {
-        // this.destroy();
         this.state.dragEvent?.destroy();
     }
 
@@ -169,7 +167,7 @@ export class CalendarContent<P extends CalendarProps = CalendarProps> extends HE
                 <tbody id="calendar-body">
                     {this.state.dateList?.map((line) => {
                         return (<tr>{   line.map((item, index) => {
-                            return <td style={{...tdStyle, ...this.getStyle(index, isShrinkWeekend)}} data-date = {new Date(item.date)}  key={`${item.date.getMonth() + 1}-${item.date.getDate()}`} target='true' className={'calendar-td' + ' ' + (this.props.date.getFullYear() === item.date.getFullYear() && item.date.getMonth() + 1 === this.props.date.getMonth() + 1 ? 'active' : '') + (new Date().getFullYear() === item.date.getFullYear() && item.date.getMonth() + 1 === new Date().getMonth() + 1 && item.date.getDate() === new Date().getDate() ? '-today' : '')} >
+                            return <td style={{...tdStyle, ...this.getStyle(index, isShrinkWeekend)}} data-date = {new Date(item.date)}  key={`${item.date.getMonth() + 1}-${item.date.getDate()}`} target='true' className={'calendar-td' + ' ' + (this.props.date.getFullYear() === item.date.getFullYear() && item.date.getMonth() + 1 === this.props.date.getMonth() + 1 ? 'is-current-month' : '') + (new Date().getFullYear() === item.date.getFullYear() && item.date.getMonth() + 1 === new Date().getMonth() + 1 && item.date.getDate() === new Date().getDate() ? '-today' : '')} >
                                 <div className={'calendar-body-part'}>
                                     <div className='calendar-body-header'>
                                         {item.date.getDate() == 1 ? <label className='label gray calendar-body-header-month'>{item.date.getMonth() + 1}{monthFormat}</label> : ''}

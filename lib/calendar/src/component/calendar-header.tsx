@@ -18,8 +18,8 @@ export class CalendarHeader<P extends CalendarHeaderProps = CalendarHeaderProps,
                 <div class="calendar-header-left">
                     <Button className = 'btn-front' onClick={() => onShowCalendarGroup()}>{calendarSet}</Button >              
                     <Button className = 'btn-front' onClick={() => onDateChange(new Date())}>{today}</Button > 
-                    <span class = 'btn btn-left '><span class='chevron-left' onClick={() => onMonthChange?.('prev')}></span></span> 
-                    <span class = 'btn btn-right '><span class='chevron-right' onClick={() => onMonthChange?.('next')}></span></span> </div>
+                    <span class = 'btn btn-left ' onClick={() => onMonthChange?.('prev')}><span class='chevron-left'></span></span> 
+                    <span class = 'btn btn-right 'onClick={() => onMonthChange?.('next')} ><span class='chevron-right'></span></span> </div>
                 <div className="calendar-content">{formattedDate}</div></div>
         );
     }

@@ -1,15 +1,12 @@
 td{
     @apply -bg-gray-200;
-    @apply -text-center -text-gray-700;
-    padding: 0;
+    @apply -text-center -text-gray-700 -p-0;
 }
 
 .calendar{
-    display: flex;
-    width: 100%;
+    @apply -flex -w-full;
 }
 .calendar-table{
-    width: 100%;
     @apply -w-full;
 }
 
@@ -38,14 +35,14 @@ td{
 }
 
 
-.active{
+.is-current-month{
     @apply -bg-white;
 }
 
-.active-today{
-    @apply -bg-yellow-50;
+.is-today{
+    @apply -bg-gray-50;
 }
 
-.active-today .calendar-body-header{
+.is-today .calendar-body-header{
     @apply -bg-gray-200;
 }

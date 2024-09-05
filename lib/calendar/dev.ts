@@ -10,8 +10,8 @@ onPageLoad(() => {
             id: '1',
             title: '有小时分钟的',
             calendarEventGroup: '1',
-            date:new Date(2024, 7, 8, 1, 0),
-            description: '不会开发，只会写文档',
+            date:new Date(2024, 9, 5, 1, 0),
+            description: '不会开发，只会写文档,我的时间很大,你忍一下,我就不客气了',
         },
         {
             id: '5',

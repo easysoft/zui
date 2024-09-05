@@ -25,14 +25,22 @@ export class CalendarEventDom<P extends CalendarEventProps = CalendarEventProps>
         }
     }
 
+    calculateHeight(calendarEvents: CalendarEvent[]) {
+        let height = 0;
+        calendarEvents?.map((event) => {
+            height += Math.trunc((event.description?.length || 0) / 14) * 28;
+        });
+        return height;
+    }
+
     updateHeight() {
         const maxHeight = 310;
         const {calendarEvents, maxVisibleEvents, calendarEventGroups} = this.props;
         const isExtended = this.state.isExtend;
         if (this.calendarContentRef.current && isExtended  && calendarEvents && calendarEvents.length < 10) {
             // 假设每个事件占用 32px 高度
-            const eventHeight = 20;
-            const totalHeight = 110 + (calendarEvents.length - 4) * eventHeight;
+            // const eventHeight = 20;
+            const totalHeight = this.calculateHeight(calendarEvents);
             this.calendarContentRef.current.style.height = `${totalHeight}px`;
         } else if (this.calendarContentRef.current && !isExtended && maxVisibleEvents) {
             this.calendarContentRef.current.style.height = '110px';
@@ -43,9 +51,9 @@ export class CalendarEventDom<P extends CalendarEventProps = CalendarEventProps>
             this.calendarContentRef.current.style.height = '110px';
         }
         if (!calendarEventGroups && this.calendarContentRef.current && calendarEvents && isExtended) {
-            this.calendarContentRef.current.style.height = `${calendarEvents?.length * 25 + 15}px`;
+            this.calendarContentRef.current.style.height = `${this.calculateHeight(calendarEvents) + 20}px`;
         } else if (!calendarEventGroups && this.calendarContentRef.current && calendarEvents && !isExtended && maxVisibleEvents) {
-            this.calendarContentRef.current.style.height = `${maxVisibleEvents * 25 + 15}px`;
+            this.calendarContentRef.current.style.height = `${this.calculateHeight(calendarEvents.slice(0, maxVisibleEvents)) + 25}px`;
         }
     }
 
@@ -87,7 +95,7 @@ export class CalendarEventDom<P extends CalendarEventProps = CalendarEventProps>
         return (<div ref={this.calendarContentRef} class="calendar-event">
             {
                 calendarEvents?.map((event, index) => {
-                    return <div style={{backgroundColor: this.getColor(event)}} onClick = {() =>onEventClick && onEventClick(event)} data-event={event.id} data-index={index}  data-date ={new Date(event.date)}  draggable={true} class="calendar-event-item" key={event.id}><div class="calendar-event-item-time">{event.date.getHours() + ':' + event.date.getMinutes()}</div><div>{event.description}</div></div>;
+                    return <div style={{backgroundColor: this.getColor(event)}} onClick = {() =>onEventClick && onEventClick(event)} data-event={event.id} data-index={index}  data-date ={new Date(event.date)}  draggable={true} class="calendar-event-item" key={event.id}><span class="calendar-event-item-time">{event.date.getHours() + ':' + event.date.getMinutes()}</span><span>{event.description}</span></div>;
                 })} 
             <div className={'calendar-body-bottom'}>
                 {maxVisibleEvents && Number(prevLen) > maxVisibleEvents && (this.state.isExtend ? <span onClick={() => {this.setState({isExtend:false});}} ><span class="chevron-up"></span></span> : <span onClick={() => {this.setState({isExtend:true});}} ><span class="chevron-down"></span></span>)}</div>
