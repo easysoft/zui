@@ -7,16 +7,8 @@ export interface CommandContext {
     scope: string,
 }
 
-/**
- * 命令回调函数。
- * Command callback function.
- *
- * @param context 命令上下文信息 Command context information.
- * @param params  命令参数 Command parameters.
- */
-export interface CommandCallback<P extends unknown[] = unknown[], R = unknown> {
-    (context: CommandContext, ...params: P): R;
-}
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type CommandCallback = (context: CommandContext, ...params: any[]) => any;
 
 export type CommandEventCallback = (event: Event, data: [context: CommandContext, params: unknown[]]) => void;
 
@@ -145,7 +137,7 @@ export function bindCommands(element?: Selector, options?: CommandsBindOptions |
     const {scope = '', events = 'click', execute: initialExecute, commands} = options ?? {};
     const $element = $(element);
     const dataAttr = `z-commands${scope ? `-${scope}` : ''}`;
-    if ($element.attr(dataAttr)) {
+    if (typeof $element.attr(dataAttr) === 'string') {
         return;
     }
 
@@ -186,8 +178,8 @@ export function bindCommands(element?: Selector, options?: CommandsBindOptions |
 }
 
 export function unbindCommands(element: Selector, scope?: string) {
-    const dataAttr = `zui.commands.${scope || ''}`;
-    $(element).z(dataAttr, null).off(`.zui.command${scope ? `.${scope}` : ''}`);
+    const dataAttr = `z-commands${scope ? `-${scope}` : ''}`;
+    $(element).removeAttr(dataAttr).off(`.zui.command${scope ? `.${scope}` : ''}`);
 }
 
 declare module 'cash-dom' {
@@ -209,12 +201,12 @@ $.fn.offCommand = function (this: Cash, scopedName: string, callback?: CommandEv
 };
 
 $.fn.commands = function (this: Cash, options?: CommandsBindOptions | CommandCallback | string): Cash {
-    bindCommands(this, options);
+    this.each((_, element) => bindCommands(element, options));
     return this;
 };
 
 $.fn.unbindCommands = function (this: Cash, scope?: string): Cash {
-    unbindCommands(this, scope);
+    this.each((_, element) => unbindCommands(element, scope));
     return this;
 };
 
