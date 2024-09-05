@@ -5,7 +5,7 @@
     @apply -w-full;
 }
 .calendar-eventGroup{
-    position: relative;
+    @apply -relative;
 }
 
 .calendar-sidebar{

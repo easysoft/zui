@@ -10,6 +10,8 @@ import '../i18n';
 
 export class Calendar<P extends CalendarProps=CalendarProps> extends HElement<P, CalendarState> {
     
+    protected _abort?: AbortController;
+
     constructor(props: P) {
         super(props);
         //初始化日历集与日历状态

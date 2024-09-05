@@ -1,11 +1,10 @@
 .calendar-event-item {
     @apply -relative -px-1 -border -outline-2 -outline-gray-200/50 -text-white;
-    @apply -flex-row;
-    display: flex;
 }
 .calendar-event-item-time {
-    @apply -w-8;
-}
+    @apply -w-7 -inline-block;
+    /* display: inline-block; */
+} 
 .calendar-body-bottom{
     @apply -absolute -right-0.5 -bottom-0.5 -cursor-pointer;
  }

@@ -5,7 +5,7 @@ import {EventItem} from './event-item';
 import '../i18n';
 import {Draggable} from '@zui/dnd/src/vanilla';
 
-export class CalendarSidebar<P extends CalendarSidebarProps = CalendarSidebarProps> extends HElement<P, {eventMap: Map<string, CalendarEvent[]>}> {
+export class CalendarSidebar<P extends CalendarSidebarProps = CalendarSidebarProps> extends HElement<P, {eventMap: Map<string, CalendarEvent[]>, dragEvent?: Draggable}> {
     constructor(props: P) {
         super(props);
         this.state = {
@@ -16,8 +16,7 @@ export class CalendarSidebar<P extends CalendarSidebarProps = CalendarSidebarPro
     componentDidMount(): void {
         const {calendarEventMap} = this.props;
         const eventMap = new Map(this.state.eventMap);
-        new Draggable('.sidebar', {target:'[target="true"]', onDrop: (event, dragElement, dropElement) => {
-            console.log(event, dragElement, dropElement);
+        const dragEventInstance = new Draggable('.sidebar', {target:'[target="true"]', onDrop: (event, dragElement, dropElement) => {
             if (dragElement && dropElement) {
                 const dragEvent = calendarEventMap?.get(dragElement.dataset.event || '');
                 const changeGroup = dropElement.dataset.group || '';
@@ -40,6 +39,11 @@ export class CalendarSidebar<P extends CalendarSidebarProps = CalendarSidebarPro
                 }
             }
         }});
+        this.setState({'dragEvent':dragEventInstance});
+    }
+
+    componentWillUnmount() {
+        this.state.dragEvent?.destroy();
     }
 
     renderEvent(calendarEventGroups: Map<string, CalendarEventGroup>, eventSetMap: Map<string, CalendarEvent[]>, maxVisibleEvents?: number): VNode<Attributes> | VNode<Attributes>[] | null {
