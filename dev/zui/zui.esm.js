@@ -8,7 +8,7 @@ var at = (s, t, e) => (bn(s, t, "read from private field"), e ? e.call(s) : t.ge
   t instanceof WeakSet ? t.add(s) : t.set(s, e);
 }, vt = (s, t, e, n) => (bn(s, t, "write to private field"), n ? n.call(s, e) : t.set(s, e), e);
 var Cn = (s, t, e) => (bn(s, t, "access private method"), e);
-const bd = "3.0.0", Cd = 1725612294191, Ht = document, $s = window, oo = Ht.documentElement, de = Ht.createElement.bind(Ht), ao = de("div"), Sn = de("table"), $l = de("tbody"), _r = de("tr"), { isArray: Xs, prototype: lo } = Array, { concat: Nl, filter: di, indexOf: co, map: ho, push: El, slice: uo, some: fi, splice: Al } = lo, Ml = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, Pl = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, Il = /<.+>/, Rl = /^\w+$/;
+const bd = "3.0.0", Cd = 1725862097127, Ht = document, $s = window, oo = Ht.documentElement, de = Ht.createElement.bind(Ht), ao = de("div"), Sn = de("table"), $l = de("tbody"), _r = de("tr"), { isArray: Xs, prototype: lo } = Array, { concat: Nl, filter: di, indexOf: co, map: ho, push: El, slice: uo, some: fi, splice: Al } = lo, Ml = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, Pl = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, Il = /<.+>/, Rl = /^\w+$/;
 function pi(s, t) {
   const e = Dl(t);
   return !s || !e && !le(t) && !tt(t) ? [] : !e && Pl.test(s) ? t.getElementsByClassName(s.slice(1).replace(/\\/g, "")) : !e && Rl.test(s) ? t.getElementsByTagName(s) : t.querySelectorAll(s);
@@ -2719,7 +2719,7 @@ function Qo(s) {
     }
     const { async: l = !0, defer: c = !1, integrity: u, globalVar: h, resolve: p } = s, d = document.createElement("script"), _ = `zui-module-resolve-${f.guid++}`, m = f(d);
     Object.assign(window, { [_]: (y) => {
-      (m.data("module", y).data("resolves") || []).forEach((C) => C(y)), m.removeData("resolves").removeData("module"), p == null || p(y), t(y), delete window[_];
+      (m.data("module", y).data("resolves") || []).forEach((C) => C(y)), m.removeData("resolves"), p == null || p(y), t(y), delete window[_];
     } }), d.async = l, d.defer = c, d.type = "module", m.attr("data-src-list", o).attr("data-resolve-id", _);
     const v = [];
     d.text = [
