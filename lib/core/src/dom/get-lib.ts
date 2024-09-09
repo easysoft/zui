@@ -185,7 +185,7 @@ export function loadModule<T = unknown>(options: string | LoadJSModuleOptions): 
         Object.assign(window, {[resolveID]: (result: T) => {
             const scriptResolves: ((result: T) => void)[] = $script.data('module', result).data('resolves') || [];
             scriptResolves.forEach(x => x(result));
-            $script.removeData('resolves').removeData('module');
+            $script.removeData('resolves');
             resolveCallback?.(result);
             resolve(result);
             delete (window as unknown as Record<string, unknown>)[resolveID];
