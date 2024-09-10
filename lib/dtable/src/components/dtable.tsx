@@ -207,6 +207,10 @@ export class DTable extends Component<DTableOptions, DTableState> {
         if (this._noAnimation) {
             clearTimeout(this._noAnimation);
         }
+
+        if (this._rafId) {
+            cancelAnimationFrame(this._rafId);
+        }
     }
 
     resetState(props?: DTableOptions, init?: boolean) {
