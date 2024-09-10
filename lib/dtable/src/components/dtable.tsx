@@ -813,7 +813,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
         /* Init columns. */
         const cols = initColsLayout(this, options, plugins, width);
 
-        const {data, rowKey = 'id', rowHeight} = options;
+        const {data, rowKey = 'id', rowHeight = 35} = options;
         const allRows: RowInfo[] = [];
         const addRowItem = (id: string, index: number, item?: RowData) => {
             const row: RowInfo = {data: item ?? {[rowKey]: id}, id, index: allRows.length, top: 0};
