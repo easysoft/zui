@@ -8,7 +8,7 @@ var at = (s, t, e) => (bn(s, t, "read from private field"), e ? e.call(s) : t.ge
   t instanceof WeakSet ? t.add(s) : t.set(s, e);
 }, vt = (s, t, e, n) => (bn(s, t, "write to private field"), n ? n.call(s, e) : t.set(s, e), e);
 var Cn = (s, t, e) => (bn(s, t, "access private method"), e);
-const bd = "3.0.0", Cd = 1725937906810, Ht = document, $s = window, oo = Ht.documentElement, de = Ht.createElement.bind(Ht), ao = de("div"), Sn = de("table"), $l = de("tbody"), _r = de("tr"), { isArray: Xs, prototype: lo } = Array, { concat: Nl, filter: di, indexOf: co, map: ho, push: El, slice: uo, some: fi, splice: Al } = lo, Ml = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, Pl = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, Il = /<.+>/, Rl = /^\w+$/;
+const bd = "3.0.0", Cd = 1725960487320, Ht = document, $s = window, oo = Ht.documentElement, de = Ht.createElement.bind(Ht), ao = de("div"), Sn = de("table"), $l = de("tbody"), _r = de("tr"), { isArray: Xs, prototype: lo } = Array, { concat: Nl, filter: di, indexOf: co, map: ho, push: El, slice: uo, some: fi, splice: Al } = lo, Ml = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, Pl = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, Il = /<.+>/, Rl = /^\w+$/;
 function pi(s, t) {
   const e = Dl(t);
   return !s || !e && !le(t) && !tt(t) ? [] : !e && Pl.test(s) ? t.getElementsByClassName(s.slice(1).replace(/\\/g, "")) : !e && Rl.test(s) ? t.getElementsByTagName(s) : t.querySelectorAll(s);
@@ -1926,7 +1926,7 @@ const ge = class Uo {
     if (h.data(n) && !o)
       throw new Error(`[ZUI] The component "${a}" has been initialized on element.`);
     const p = h[0], d = pt();
-    if (this._gid = d, this._element = p, this._options = { ...r, ...(e == null ? void 0 : e.$optionsFromDataset) !== !1 ? h.dataset() : {} }, this.setOptions(e), this._key = this.options.key ?? `__${d}`, c.has(p) ? c.get(p).add(this) : c.set(p, /* @__PURE__ */ new Set([this])), u.has(a) ? u.get(a).add(this) : u.set(a, /* @__PURE__ */ new Set([this])), h.data(n, this).attr(l, "").attr(i, `${d}`), o) {
+    if (this._gid = d, this._element = p, this.resetOptions(e), this._key = this.options.key ?? `__${d}`, c.has(p) ? c.get(p).add(this) : c.set(p, /* @__PURE__ */ new Set([this])), u.has(a) ? u.get(a).add(this) : u.set(a, /* @__PURE__ */ new Set([this])), h.data(n, this).attr(l, "").attr(i, `${d}`), o) {
       const _ = `${n}:ALL`;
       let m = h.data(_);
       m || (m = /* @__PURE__ */ new Map(), h.data(_, m)), m.set(this._key, this);
@@ -2075,11 +2075,23 @@ const ge = class Uo {
    * @returns The component options.
    */
   setOptions(t, e) {
-    return e ? this._options = {
-      ...this.constructor.DEFAULT,
-      ...(t == null ? void 0 : t.$optionsFromDataset) !== !1 ? this.$element.dataset() : {},
-      ...t
-    } : t && f.extend(this._options, t), this._options;
+    if (e) {
+      const n = {
+        ...this.constructor.DEFAULT,
+        ...(t == null ? void 0 : t.$optionsFromDataset) !== !1 ? this.$element.dataset() : {},
+        ...t
+      }, { $options: i } = n;
+      if (i) {
+        const r = typeof i == "function" ? i(this.element, n) : i;
+        r && f.extend(n, r), delete n.$options;
+      }
+      this._options = n;
+    } else
+      t && f.extend(this._options, t);
+    return this._options;
+  }
+  resetOptions(t) {
+    return this.setOptions(t, !0);
   }
   /**
    * Emit a component event.
