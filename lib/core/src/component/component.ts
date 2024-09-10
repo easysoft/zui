@@ -149,8 +149,7 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
         this._gid = gid;
         this._element = element;
 
-        this._options = {...DEFAULT, ...(options?.$optionsFromDataset !== false ? $element.dataset() : {})} as ComponentOptions<O>;
-        this.setOptions(options);
+        this.resetOptions(options);
         this._key = this.options.key ?? `__${gid}`;
 
         if (ALL.has(element)) {
@@ -333,15 +332,28 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
      */
     setOptions(options?: Partial<ComponentOptions<O>>, reset?: boolean): ComponentOptions<O> {
         if (reset) {
-            this._options = {
+            const finalOptions = {
                 ...this.constructor.DEFAULT,
                 ...(options?.$optionsFromDataset !== false ? this.$element.dataset() : {}),
                 ...options,
             } as ComponentOptions<O>;
+            const {$options} = finalOptions;
+            if ($options) {
+                const extraOptions = typeof $options === 'function' ? $options(this.element, finalOptions) : $options;
+                if (extraOptions) {
+                    $.extend(finalOptions, extraOptions);
+                }
+                delete finalOptions.$options;
+            }
+            this._options = finalOptions;
         } else if (options) {
             $.extend(this._options, options);
         }
         return this._options!;
+    }
+
+    resetOptions(options?: Partial<ComponentOptions<O>>) {
+        return this.setOptions(options, true);
     }
 
     /**
