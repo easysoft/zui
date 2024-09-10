@@ -12,7 +12,7 @@ export interface PickerOptions<S extends PickerState = PickerState> extends Pick
     required?: boolean;
 
     valueSplitter?: string;
-    emptyValue?: string;
+    emptyValue?: string | false;
     limitValueInList?: boolean;
     tree?: TreeOptions | boolean;
     menu?: SearchTreeOptions;

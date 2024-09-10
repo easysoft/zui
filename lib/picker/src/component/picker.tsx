@@ -67,7 +67,7 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
             items: items,
             selections: [],
         };
-        this._emptyValueSet = new Set(emptyValue.split(valueSplitter));
+        this._emptyValueSet = new Set(typeof emptyValue === 'string' ? emptyValue.split(valueSplitter) : []);
 
         if (Array.isArray(items) && items.length) {
             const {limitValueInList, required, multiple} = this.props;
