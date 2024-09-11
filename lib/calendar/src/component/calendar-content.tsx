@@ -167,7 +167,7 @@ export class CalendarContent<P extends CalendarProps = CalendarProps> extends HE
                 <tbody id="calendar-body">
                     {this.state.dateList?.map((line) => {
                         return (<tr>{   line.map((item, index) => {
-                            return <td style={{...tdStyle, ...this.getStyle(index, isShrinkWeekend)}} data-date = {new Date(item.date)}  key={`${item.date.getMonth() + 1}-${item.date.getDate()}`} target='true' className={'calendar-td' + ' ' + (this.props.date.getFullYear() === item.date.getFullYear() && item.date.getMonth() + 1 === this.props.date.getMonth() + 1 ? 'is-current-month' : '') + (new Date().getFullYear() === item.date.getFullYear() && item.date.getMonth() + 1 === new Date().getMonth() + 1 && item.date.getDate() === new Date().getDate() ? '-today' : '')} >
+                            return <td onClick={()=>{}}  style={{...tdStyle, ...this.getStyle(index, isShrinkWeekend)}} data-date = {new Date(item.date)}  key={`${item.date.getMonth() + 1}-${item.date.getDate()}`} target='true' className={'calendar-td' + ' ' + (this.props.date.getFullYear() === item.date.getFullYear() && item.date.getMonth() + 1 === this.props.date.getMonth() + 1 ? 'is-current-month' : '') + (new Date().getFullYear() === item.date.getFullYear() && item.date.getMonth() + 1 === new Date().getMonth() + 1 && item.date.getDate() === new Date().getDate() ? '-today' : '')} >
                                 <div className={'calendar-body-part'}>
                                     <div className='calendar-body-header'>
                                         {item.date.getDate() == 1 ? <label className='label gray calendar-body-header-month'>{item.date.getMonth() + 1}{monthFormat}</label> : ''}
