@@ -3,6 +3,11 @@ td{
     @apply -text-center -text-gray-700 -p-0;
 }
 
+td:hover{
+    border: 2px solid #333;
+    cursor: pointer;
+}
+
 .calendar{
     @apply -flex -w-full;
 }
@@ -19,7 +24,7 @@ td{
 }
 
 .calendar-td{
-    @apply -text-start -border;
+    @apply -text-start -border -w-1/7;
     width: 14.2857%;
 }
 
@@ -39,8 +44,13 @@ td{
     @apply -bg-white;
 }
 
-.is-today{
-    @apply -bg-gray-50;
+.is-current-month-today{
+    /* @apply -bg-gray-50; */
+    border: 2px solid #333;
+    border-image: linear-gradient(to right, #367df1, #f1367d);
+    border-image-slice: 1;
+    background: #367df1;
+    color: white;
 }
 
 .is-today .calendar-body-header{
