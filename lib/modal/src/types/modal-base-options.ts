@@ -1,8 +1,8 @@
-import {JSX} from 'preact';
-import {ClassNameLike} from '@zui/core';
-import {ModalBackdropType} from './modal-backdrop-type';
-import {ModalPositionSetting} from './modal-position-setting';
-import {ModalSizeSetting} from './modal-size-setting';
+import type {JSX} from 'preact';
+import type {ClassNameLike} from '@zui/core';
+import type {ModalBackdropType} from './modal-backdrop-type';
+import type {ModalPositionSetting} from './modal-position-setting';
+import type {ModalSizeSetting} from './modal-size-setting';
 import type {ModalBase} from '../vanilla';
 
 export type ModalBaseOptions = {
