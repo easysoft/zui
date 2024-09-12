@@ -167,6 +167,7 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
         this._setTimer(() => {
             $modal.addClass(CLASS_SHOWN);
             this._setTimer(() => {
+                $modal.find('[autofocus]')[0]?.focus();
                 this.options.onShown?.call(this);
                 this.emit('shown');
             });
