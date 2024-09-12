@@ -1,5 +1,5 @@
-import {render} from 'preact';
 import {delay, i18n, $, nextGid, HtmlContent, classes} from '@zui/core';
+import {createRef, RefObject, render} from 'preact';
 import {ModalBase} from './modal-base';
 import {ModalOptions, ModalDialogOptions, ModalCustomOptions, ModalAjaxOptions, ModalAlertOptions, ModalTypedOptions, ModalConfirmOptions} from '../types';
 import {ModalDialog} from '../component';
@@ -263,9 +263,9 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
         return !$.isDetached(modal.modalElement);
     }
 
-    static open(options: ModalTypedOptions & {container?: string | HTMLElement}): Promise<Modal> {
+    static open(options: ModalTypedOptions & {container?: string | HTMLElement, ref?: RefObject<Modal>}): Promise<Modal> {
         return new Promise((resolve) => {
-            const {container = document.body, ...others} = options;
+            const {container = document.body, ref, ...others} = options;
             const modalOptions = {show: true, ...others} as ModalOptions;
             if (!modalOptions.type && modalOptions.url) {
                 modalOptions.type = 'ajax';
@@ -277,6 +277,9 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
                 modalOptions.key = modalOptions.id;
             }
             const modal = Modal.ensure(container, modalOptions) as Modal;
+            if (ref) {
+                ref.current = modal;
+            }
             const namespace = `${Modal.NAMESPACE}.open${nextGid()}`;
             modal.on(`hidden${namespace}`, () => {
                 modal.off(namespace);
