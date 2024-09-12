@@ -8,7 +8,7 @@ var at = (s, t, e) => (yn(s, t, "read from private field"), e ? e.call(s) : t.ge
   t instanceof WeakSet ? t.add(s) : t.set(s, e);
 }, vt = (s, t, e, n) => (yn(s, t, "write to private field"), n ? n.call(s, e) : t.set(s, e), e);
 var vn = (s, t, e) => (yn(s, t, "access private method"), e);
-const md = "3.0.0", _d = 1726103043264, Ht = document, xs = window, io = Ht.documentElement, de = Ht.createElement.bind(Ht), ro = de("div"), bn = de("table"), xl = de("tbody"), gr = de("tr"), { isArray: Ys, prototype: oo } = Array, { concat: kl, filter: ci, indexOf: ao, map: lo, push: Tl, slice: co, some: hi, splice: $l } = oo, Nl = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, El = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, Al = /<.+>/, Ml = /^\w+$/;
+const md = "3.0.0", _d = 1726126604579, Ht = document, xs = window, io = Ht.documentElement, de = Ht.createElement.bind(Ht), ro = de("div"), bn = de("table"), xl = de("tbody"), gr = de("tr"), { isArray: Ys, prototype: oo } = Array, { concat: kl, filter: ci, indexOf: ao, map: lo, push: Tl, slice: co, some: hi, splice: $l } = oo, Nl = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, El = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, Al = /<.+>/, Ml = /^\w+$/;
 function ui(s, t) {
   const e = Pl(t);
   return !s || !e && !le(t) && !tt(t) ? [] : !e && El.test(s) ? t.getElementsByClassName(s.slice(1).replace(/\\/g, "")) : !e && Ml.test(s) ? t.getElementsByTagName(s) : t.querySelectorAll(s);
@@ -3610,13 +3610,13 @@ class Z extends Q {
     this._isEmptyText = e == null || typeof e == "string" && !e.length || n && !i, this._onlyCaret = r && this._isEmptyText && !o && !a && !l && !n;
   }
   _getChildren(t) {
-    const { loading: e, loadingIcon: n, loadingText: i, icon: r, text: o, children: a, trailingIcon: l, caret: c } = t;
+    const { loading: e, loadingIcon: n, loadingText: i, icon: r, iconClass: o, text: a, children: l, trailingIcon: c, trailingIconClass: u, caret: h } = t;
     return [
-      e ? /* @__PURE__ */ g(st, { icon: n || "icon-spinner-snake", className: "spin" }) : /* @__PURE__ */ g(st, { icon: r }),
-      this._isEmptyText ? null : /* @__PURE__ */ g("span", { className: "text", children: e ? i : o }),
-      e ? null : a,
-      e ? null : /* @__PURE__ */ g(st, { icon: l }),
-      e ? null : c ? /* @__PURE__ */ g("span", { className: typeof c == "string" ? `caret-${c}` : "caret" }) : null
+      e ? /* @__PURE__ */ g(st, { icon: n || "icon-spinner-snake", className: "spin" }) : /* @__PURE__ */ g(st, { icon: r, className: o }),
+      this._isEmptyText ? null : /* @__PURE__ */ g("span", { className: "text", children: e ? i : a }),
+      e ? null : l,
+      e ? null : /* @__PURE__ */ g(st, { icon: c, className: u }),
+      e ? null : h ? /* @__PURE__ */ g("span", { className: typeof h == "string" ? `caret-${h}` : "caret" }) : null
     ];
   }
   _getClassName(t) {
@@ -4084,22 +4084,23 @@ class xe extends Q {
   _renderLeading(t) {
     const {
       icon: e,
-      avatar: n,
-      toggleIcon: i,
-      leading: r,
-      leadingClass: o,
-      checked: a,
-      checkbox: l,
-      multiline: c
-    } = t, u = [];
-    if (i && u.push(/* @__PURE__ */ g(L, { content: i }, "toggleIcon")), a !== void 0 && u.push(/* @__PURE__ */ g(ln, { className: "item-checkbox", checked: a, ...l }, "checkbox")), e && u.push(/* @__PURE__ */ g(st, { className: "item-icon", icon: e }, "icon")), n) {
-      const p = typeof n == "function" ? n.call(this, t) : n;
-      p && (p.className = k("item-avatar", p.className), u.push(/* @__PURE__ */ g(on, { ...p }, "avatar")));
+      iconClass: n,
+      avatar: i,
+      toggleIcon: r,
+      leading: o,
+      leadingClass: a,
+      checked: l,
+      checkbox: c,
+      multiline: u
+    } = t, h = [];
+    if (r && h.push(/* @__PURE__ */ g(L, { content: r }, "toggleIcon")), l !== void 0 && h.push(/* @__PURE__ */ g(ln, { className: "item-checkbox", checked: l, ...c }, "checkbox")), e && h.push(/* @__PURE__ */ g(st, { className: k("item-icon", n), icon: e }, "icon")), i) {
+      const d = typeof i == "function" ? i.call(this, t) : i;
+      d && (d.className = k("item-avatar", d.className), h.push(/* @__PURE__ */ g(on, { ...d }, "avatar")));
     }
-    const h = r ? /* @__PURE__ */ g(L, { content: r }, "leading") : null;
-    return h && u.push(h), c ? u.length ? [
-      /* @__PURE__ */ g("div", { className: k("item-leading", o), children: u }, "leading")
-    ] : [] : u;
+    const p = o ? /* @__PURE__ */ g(L, { content: o }, "leading") : null;
+    return p && h.push(p), u ? h.length ? [
+      /* @__PURE__ */ g("div", { className: k("item-leading", a), children: h }, "leading")
+    ] : [] : h;
   }
   _renderContent(t, e) {
     const {
@@ -4130,16 +4131,17 @@ class xe extends Q {
       trailing: n,
       trailingClass: i,
       trailingIcon: r,
-      actions: o
-    } = t, a = [];
-    r && a.push(/* @__PURE__ */ g(st, { className: "item-trailing-icon", icon: r }, "trailing-icon")), o && a.push(Tt.render(o, [t], { key: "actions", relativeTarget: t, size: "sm" }, this));
-    const l = n ? /* @__PURE__ */ g(L, { content: n }, "trailing") : null;
-    return l && a.push(l), e ? a.length ? [
+      trailingIconClass: o,
+      actions: a
+    } = t, l = [];
+    r && l.push(/* @__PURE__ */ g(st, { className: k("item-trailing-icon", o), icon: r }, "trailing-icon")), a && l.push(Tt.render(a, [t], { key: "actions", relativeTarget: t, size: "sm" }, this));
+    const c = n ? /* @__PURE__ */ g(L, { content: n }, "trailing") : null;
+    return c && l.push(c), e ? l.length ? [
       /* @__PURE__ */ g("div", { className: k("item-trailing", i), children: [
-        a,
-        l
+        l,
+        c
       ] }, "trailing")
-    ] : [] : a;
+    ] : [] : l;
   }
   _render(t, e) {
     const {
