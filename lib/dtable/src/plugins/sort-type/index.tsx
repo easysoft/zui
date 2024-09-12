@@ -14,6 +14,7 @@ export type DTableSortTypeTypes = {
         sortLink?: string | ({url: string} & JSX.HTMLAttributes<HTMLAnchorElement>) | ((this: DTableSortType, col: ColInfo, sortType: string, currentSortType: string) => (string | ({url: string} & JSX.HTMLAttributes<HTMLAnchorElement>))),
     },
     options: {
+        sortType?: boolean;
         sortLink?: string | ({url: string} & JSX.HTMLAttributes<HTMLAnchorElement>) | ((this: DTableSortType, col: ColInfo, sortType: string, currentSortType: string) => (string | ({url: string} & JSX.HTMLAttributes<HTMLAnchorElement>))),
         orderBy?: Record<string, ColSortType>
     }
@@ -23,6 +24,8 @@ export type DTableSortType = DTableWithPlugin<DTableSortTypeTypes, [DTableSortTy
 
 const sortTypePlugin: DTablePlugin<DTableSortTypeTypes, [DTableSortTypes]> = {
     name: 'sort-type',
+    defaultOptions: {sortType: true},
+    when: options => !!options.sortType && !options.sort,
     onRenderHeaderCell(result, info) {
         const {col} = info;
         const {setting} = col;
