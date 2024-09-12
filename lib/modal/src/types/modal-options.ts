@@ -53,4 +53,9 @@ export interface ModalConfirmOptions extends ModalAlertOptions {
     onResult?: (confirmed: boolean, modal: Modal) => void;
 }
 
+export interface ModalPromptOptions extends ModalAlertOptions {
+    defaultValue?: string;
+    onResult?: (value: string, modal: Modal) => void;
+}
+
 export type ModalTypedOptions = ModalCustomOptions | ModalAjaxOptions | ModalIframeOptions;
