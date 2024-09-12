@@ -3,6 +3,7 @@ import {ClassNameLike} from '@zui/core';
 import {ModalBackdropType} from './modal-backdrop-type';
 import {ModalPositionSetting} from './modal-position-setting';
 import {ModalSizeSetting} from './modal-size-setting';
+import type {ModalBase} from '../vanilla';
 
 export type ModalBaseOptions = {
     className?: ClassNameLike;
@@ -18,4 +19,8 @@ export type ModalBaseOptions = {
     animation?: boolean;
     transTime?: number;
     responsive?: boolean;
+    onShown?: (this: ModalBase) => void;
+    onHidden?: (this: ModalBase) => void;
+    onShow?: (this: ModalBase) => void;
+    onHide?: (this: ModalBase) => void;
 };
