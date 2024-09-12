@@ -133,7 +133,7 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
      * @param options The component initial options.
      */
     constructor(selector: Selector, options?: Partial<ComponentOptions<O>>) {
-        const {KEY, DATA_KEY, DEFAULT, MULTI_INSTANCE, NAME, ATTR_KEY, ALL, TYPED_ALL} = this.constructor;
+        const {KEY, DATA_KEY, MULTI_INSTANCE, NAME, ATTR_KEY, ALL, TYPED_ALL} = this.constructor;
 
         if (!NAME) {
             throw new Error('[ZUI] The component must have a "NAME" static property.');
