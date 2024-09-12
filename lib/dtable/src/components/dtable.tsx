@@ -1,5 +1,5 @@
 import {Component, createRef, h as _h} from 'preact';
-import {classes, $, i18n, CustomContent, nextGid, CustomRender} from '@zui/core';
+import {classes, $, i18n, CustomContent, nextGid, CustomRender, dom} from '@zui/core';
 import {Scrollbar} from '@zui/scrollbar/src/component/scrollbar';
 import {addPlugin, initPlugins, removePlugin} from '../helpers/shared-plugins';
 import {getDefaultOptions} from '../helpers/default-options';
@@ -444,7 +444,10 @@ export class DTable extends Component<DTableOptions, DTableState> {
             cancelAnimationFrame(this._rafId);
         }
         this._rafId = requestAnimationFrame(() => {
-            this.update({dirtyType: 'layout'});
+            const {element} = this;
+            if (element && !dom.isElementDetached(element)) {
+                this.update({dirtyType: 'layout'});
+            }
             this._rafId = 0;
         });
     };
