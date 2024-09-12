@@ -33,11 +33,12 @@ export class Messager extends Component<MessagerOptions> {
     }
 
     protected _getItem() {
+        const options = {...this.options};
         if (this._item) {
-            this._item.setOptions(this.options);
+            this._item.setOptions(options);
         } else {
             const holder = this._getHolder();
-            const item = new MessagerItem(holder, this.options);
+            const item = new MessagerItem(holder, options);
             item.on('hidden', () => {
                 item.destroy();
                 holder?.remove();
