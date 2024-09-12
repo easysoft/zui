@@ -27,8 +27,8 @@ export class MessagerItem extends ComponentFromReact<MessagerOptions, MessagerIt
         });
     }
 
-    setOptions(options?: MessagerOptions) {
-        options = super.setOptions(options);
+    setOptions(options?: MessagerOptions, reset?: boolean) {
+        options = super.setOptions(options, reset);
         return {
             ...options,
             show: this._show,
