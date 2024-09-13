@@ -1,5 +1,6 @@
 import 'zui-dev';
 import '@zui/button';
+import '@zui/list';
 import '@zui/menu';
 import '@zui/input-control';
 import '@zui/checkbox';
