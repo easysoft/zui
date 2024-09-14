@@ -1,7 +1,7 @@
 import {formatString} from '@zui/helpers';
 import {definePlugin} from '../../helpers/shared-plugins';
 
-import type {JSX} from 'preact';
+import {isValidElement, type JSX} from 'preact';
 import type {ColInfo} from '../../types/col';
 import type {DTableWithPlugin, DTablePlugin} from '../../types/plugin';
 import type {DTableSortTypes} from '../sort';
@@ -53,7 +53,7 @@ const sortTypePlugin: DTablePlugin<DTableSortTypeTypes, [DTableSortTypes]> = {
                     sortLink = {url: sortLink};
                 }
                 const {url, ...linkProps} = sortLink;
-                result[0] = <a className="dtable-sort-link" href={formatString(url, {...setting, sortType: nextSortType})} {...linkProps}>{result[0]}{sortIcon}</a>;
+                result[0] = <a className="dtable-sort-link" href={formatString(url, {...setting, sortType: nextSortType})} {...linkProps}>{(typeof result[0] !== 'object' || isValidElement(result[0])) ? result[0] : col.name}{sortIcon}</a>;
             } else {
                 result.push(sortIcon);
             }
