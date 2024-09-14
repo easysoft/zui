@@ -6,7 +6,7 @@ import {getDefaultOptions} from '../helpers/default-options';
 import {initColsLayout} from '../helpers/layout';
 import {Block} from './block';
 
-import type {ComponentChildren} from 'preact';
+import type {ComponentChildren, ErrorInfo} from 'preact';
 import type {ClassNameLike, CustomRenderResult, CustomRenderResultList} from '@zui/core';
 import type {CellProps, CellRenderCallback} from '../types/cell';
 import type {ColInfoLike, ColInfo, ColName} from '../types/col';
@@ -437,6 +437,10 @@ export class DTable extends Component<DTableOptions, DTableState> {
             rowID,
             target,
         };
+    }
+
+    componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
+        console.error(`[ZUI] DTable ${this.id} Error:`, error, errorInfo);
     }
 
     updateLayout = () => {
