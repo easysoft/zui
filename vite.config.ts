@@ -93,6 +93,7 @@ export default defineConfig(async ({mode}) => {
         },
         define: {
             'process.env.NODE_ENV': JSON.stringify(mode),
+            __BUILD_MODE__: JSON.stringify(mode),
             __BUILD_TIME__: Date.now(),
             __APP_VERSION__: JSON.stringify(packageJson.version),
         },
