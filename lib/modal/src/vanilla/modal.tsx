@@ -376,7 +376,7 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
         if (typeof options === 'string') {
             options = {message: options} as ModalPromptOptions;
         }
-        const {defaultValue = '', onResult, onShown, message, content, bodyClass, custom, ...otherOptions} = options;
+        const {defaultValue = '', placeholder, onResult, onShown, message, content, bodyClass, custom, ...otherOptions} = options;
         let result = defaultValue;
         let enterKeyPressed = false;
         const modal = createRef<Modal>();
@@ -388,7 +388,7 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
             content: (
                 <div className={classes('modal-body', bodyClass as string)}>
                     <CustomContent content={message} />
-                    <input type="text" className="modal-prompt-input form-control mt-3" autoFocus defaultValue={defaultValue} onChange={e => {result = (e.target as HTMLInputElement).value;}} onKeyDown={e => {
+                    <input type="text" className="modal-prompt-input form-control mt-3" autoFocus placeholder={placeholder} defaultValue={defaultValue} onChange={e => {result = (e.target as HTMLInputElement).value;}} onKeyDown={e => {
                         if (e.key === 'Enter') {
                             enterKeyPressed = true;
                             e.preventDefault();
