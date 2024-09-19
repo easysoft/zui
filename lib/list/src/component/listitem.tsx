@@ -93,7 +93,7 @@ export class Listitem<P extends ListitemProps = ListitemProps, S = {}> extends H
             contents.push(<Icon key="trailing-icon" className={classes('item-trailing-icon', trailingIconClass)} icon={trailingIcon} />);
         }
         if (actions) {
-            contents.push(Toolbar.render(actions, [props], {key: 'actions', relativeTarget: props, size: 'sm'}, this));
+            contents.push(Toolbar.render(actions, [props], {key: 'actions', className: 'item-actions', relativeTarget: props, size: 'sm'}, this));
         }
         const customTrailing = trailing ? <CustomContent key="trailing" content={trailing} /> : null;
         if (customTrailing) {
