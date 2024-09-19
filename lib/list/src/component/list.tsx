@@ -337,7 +337,7 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
 
     protected _getClassName(props: RenderableProps<P>): ClassNameLike {
         const {loading, loadFailed} = this.state;
-        return [super._getClassName(props), loading ? 'loading' : (loadFailed ? 'is-load-failed' : '')];
+        return [super._getClassName(props), loading ? 'loading' : (loadFailed ? 'is-load-failed' : ''), props.hoverItemActions ? 'with-hover-actions' : ''];
     }
 
     protected _getProps(props: RenderableProps<P>): Record<string, unknown> {
