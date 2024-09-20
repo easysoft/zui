@@ -14,6 +14,7 @@ export interface ButtonProps extends HElementProps {
     icon?: IconType;
     iconClass?: ClassNameLike;
     text?: ComponentChildren;
+    textClass?: ClassNameLike;
     square?: boolean;
     trailingIcon?: IconType;
     trailingIconClass?: ClassNameLike;
