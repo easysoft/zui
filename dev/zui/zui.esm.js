@@ -8,7 +8,7 @@ var lt = (s, t, e) => (yn(s, t, "read from private field"), e ? e.call(s) : t.ge
   t instanceof WeakSet ? t.add(s) : t.set(s, e);
 }, vt = (s, t, e, n) => (yn(s, t, "write to private field"), n ? n.call(s, e) : t.set(s, e), e);
 var vn = (s, t, e) => (yn(s, t, "access private method"), e);
-const md = "3.0.0", _d = 1726713426941, yd = "production", Ht = document, xs = window, io = Ht.documentElement, fe = Ht.createElement.bind(Ht), ro = fe("div"), bn = fe("table"), xl = fe("tbody"), gr = fe("tr"), { isArray: Ys, prototype: oo } = Array, { concat: kl, filter: ci, indexOf: ao, map: lo, push: Tl, slice: co, some: hi, splice: $l } = oo, Nl = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, El = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, Al = /<.+>/, Ml = /^\w+$/;
+const md = "3.0.0", _d = 1726818126620, yd = "production", Ht = document, xs = window, io = Ht.documentElement, fe = Ht.createElement.bind(Ht), ro = fe("div"), bn = fe("table"), xl = fe("tbody"), gr = fe("tr"), { isArray: Ys, prototype: oo } = Array, { concat: kl, filter: ci, indexOf: ao, map: lo, push: Tl, slice: co, some: hi, splice: $l } = oo, Nl = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, El = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, Al = /<.+>/, Ml = /^\w+$/;
 function ui(s, t) {
   const e = Il(t);
   return !s || !e && !ce(t) && !tt(t) ? [] : !e && El.test(s) ? t.getElementsByClassName(s.slice(1).replace(/\\/g, "")) : !e && Ml.test(s) ? t.getElementsByTagName(s) : t.querySelectorAll(s);
@@ -3610,13 +3610,13 @@ class Z extends Q {
     this._isEmptyText = e == null || typeof e == "string" && !e.length || n && !i, this._onlyCaret = r && this._isEmptyText && !o && !a && !l && !n;
   }
   _getChildren(t) {
-    const { loading: e, loadingIcon: n, loadingText: i, icon: r, iconClass: o, text: a, children: l, trailingIcon: c, trailingIconClass: u, caret: h } = t;
+    const { loading: e, loadingIcon: n, loadingText: i, icon: r, iconClass: o, text: a, textClass: l, children: c, trailingIcon: u, trailingIconClass: h, caret: p } = t;
     return [
       e ? /* @__PURE__ */ g(st, { icon: n || "icon-spinner-snake", className: "spin" }) : /* @__PURE__ */ g(st, { icon: r, className: o }),
-      this._isEmptyText ? null : /* @__PURE__ */ g("span", { className: "text", children: e ? i : a }),
-      e ? null : l,
-      e ? null : /* @__PURE__ */ g(st, { icon: c, className: u }),
-      e ? null : h ? /* @__PURE__ */ g("span", { className: typeof h == "string" ? `caret-${h}` : "caret" }) : null
+      this._isEmptyText ? null : /* @__PURE__ */ g("span", { className: k("text", l), children: e ? i : a }),
+      e ? null : c,
+      e ? null : /* @__PURE__ */ g(st, { icon: u, className: h }),
+      e ? null : p ? /* @__PURE__ */ g("span", { className: typeof p == "string" ? `caret-${p}` : "caret" }) : null
     ];
   }
   _getClassName(t) {
