@@ -201,12 +201,12 @@ export class SearchMenu<T extends SearchMenuOptions = SearchMenuOptions> extends
      * @param searchKeys    Search keys.
      * @returns Whether item is matched.
      */
-    static isItemMatch(item: Item, searchKeys: string[], searchProps = ['keys', 'text', 'title', 'subtitle']) {
+    static isItemMatch(item: Item, searchKeys: string[], searchProps: (string | ((item: Item) => string | undefined))[] = ['keys', 'text', 'title', 'subtitle']) {
         if (!searchKeys.length) {
             return true;
         }
-        return searchKeys.every(searchKey => searchProps.some(propName => {
-            const propValue = item[propName];
+        return searchKeys.every(searchKey => searchProps.some(propSetting => {
+            const propValue = typeof propSetting === 'function' ? propSetting(item) : item[propSetting];
             return typeof propValue === 'string' && propValue.length && propValue.toLowerCase().includes(searchKey);
         }));
     }
