@@ -8,7 +8,7 @@ var lt = (s, t, e) => (yn(s, t, "read from private field"), e ? e.call(s) : t.ge
   t instanceof WeakSet ? t.add(s) : t.set(s, e);
 }, vt = (s, t, e, n) => (yn(s, t, "write to private field"), n ? n.call(s, e) : t.set(s, e), e);
 var vn = (s, t, e) => (yn(s, t, "access private method"), e);
-const md = "3.0.0", _d = 1726818126620, yd = "production", Ht = document, xs = window, io = Ht.documentElement, fe = Ht.createElement.bind(Ht), ro = fe("div"), bn = fe("table"), xl = fe("tbody"), gr = fe("tr"), { isArray: Ys, prototype: oo } = Array, { concat: kl, filter: ci, indexOf: ao, map: lo, push: Tl, slice: co, some: hi, splice: $l } = oo, Nl = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, El = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, Al = /<.+>/, Ml = /^\w+$/;
+const md = "3.0.0", _d = 1727156884287, yd = "production", Ht = document, xs = window, io = Ht.documentElement, fe = Ht.createElement.bind(Ht), ro = fe("div"), bn = fe("table"), xl = fe("tbody"), gr = fe("tr"), { isArray: Ys, prototype: oo } = Array, { concat: kl, filter: ci, indexOf: ao, map: lo, push: Tl, slice: co, some: hi, splice: $l } = oo, Nl = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, El = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, Al = /<.+>/, Ml = /^\w+$/;
 function ui(s, t) {
   const e = Il(t);
   return !s || !e && !ce(t) && !tt(t) ? [] : !e && El.test(s) ? t.getElementsByClassName(s.slice(1).replace(/\\/g, "")) : !e && Ml.test(s) ? t.getElementsByTagName(s) : t.querySelectorAll(s);
@@ -5162,7 +5162,7 @@ let wt = class extends _t {
    */
   static isItemMatch(t, e, n = ["keys", "text", "title", "subtitle"]) {
     return e.length ? e.every((i) => n.some((r) => {
-      const o = t[r];
+      const o = typeof r == "function" ? r(t) : t[r];
       return typeof o == "string" && o.length && o.toLowerCase().includes(i);
     })) : !0;
   }
