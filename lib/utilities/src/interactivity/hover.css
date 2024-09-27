@@ -69,3 +69,8 @@
 
 .group:hover .group-hover\:inline-flex,
 .hover\:inline-flex:hover {@apply !-inline-flex;}
+
+.group:hover .group-hover\:scale-110,
+.hover\:scale-110:hover {@apply !-scale-110;}
+.group:hover .group-hover\:scale-125,
+.hover\:scale-125:hover {@apply !-scale-125;}
