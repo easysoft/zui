@@ -38,9 +38,6 @@
     "extend-lib": "tsx ./scripts/libs/extend-lib.ts",
     "publish:npm": "pnpm build -- --ignoreNotReady && tsx ./scripts/build/publish.ts && cd ./publish && npm publish"
   },
-  "workspaces": [
-    "./lib"
-  ],
   "dependencies": {
     "@floating-ui/core": "^1.6.4",
     "@floating-ui/dom": "^1.6.7",
