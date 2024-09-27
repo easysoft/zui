@@ -36,3 +36,6 @@
 .no-match-child > .menu {
   @apply -hidden;
 }
+.search-menu-exceed-limit-hint {
+  @apply -text-gray-500 -text-sm -p-2;
+}

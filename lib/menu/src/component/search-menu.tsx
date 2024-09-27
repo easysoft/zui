@@ -1,4 +1,5 @@
 import {$, classes, mergeProps} from '@zui/core';
+import {formatString} from '@zui/helpers';
 import {SearchBox} from '@zui/search-box/src/components';
 import {Menu} from './menu';
 
@@ -173,13 +174,15 @@ export class SearchMenu<T extends SearchMenuOptions = SearchMenuOptions> extends
 
     protected _renderWrapperFooter(props: RenderableProps<T>): ComponentChildren {
         const hasFooter = props.footer;
-        const {searchBox, searchPlacement, nestedSearch, footerClass} = props;
+        const {searchBox, searchPlacement, nestedSearch, footerClass, exceedLimitHint, limit} = props;
         const hasBottomSearchBox = (!nestedSearch || this.isRoot) && searchBox && searchPlacement === 'bottom';
-        if (!hasFooter && !hasBottomSearchBox) {
+        const hasExceedLimitHint = exceedLimitHint && limit && this._items.length > limit;
+        if (!hasFooter && !hasBottomSearchBox && !hasExceedLimitHint) {
             return null;
         }
         return (
             <footer key="footer" className={classes('search-menu-footer', footerClass)}>
+                {hasExceedLimitHint ? <div className="search-menu-exceed-limit-hint">{formatString(exceedLimitHint, this._items.length - limit)}</div> : null}
                 {hasFooter ? super._renderWrapperFooter(props) : null}
                 {hasBottomSearchBox ? this._renderSearchBox(props) : null}
             </footer>
