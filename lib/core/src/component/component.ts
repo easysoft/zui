@@ -581,6 +581,8 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
                         if (initOptions) {
                             instance.render(initOptions);
                         }
+                    } else if (callMethod) {
+                        return;
                     } else {
                         instance = new ZUIComponent(element, initOptions);
                     }
