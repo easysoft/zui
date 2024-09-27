@@ -164,7 +164,7 @@ export class PickerMenu extends PickPop<PickerState, PickerMenuProps> {
     }
 
     protected _getMenuProps(props: RenderableProps<PickerMenuProps>): SearchMenuOptions {
-        const {menu, tree, state, checkbox, header, footer, noMatchHint, maxItemsCount} = props;
+        const {menu, tree, state, checkbox, header, footer, noMatchHint, maxItemsCount, exceedLimitHint} = props;
         const {items, search} = state;
 
         return mergeProps({
@@ -176,6 +176,7 @@ export class PickerMenu extends PickPop<PickerState, PickerMenuProps> {
             defaultNestedShow: true,
             activeOnHover: true,
             search: search,
+            exceedLimitHint,
             onClickItem: this._handleItemClick,
             nestedToggle: '.nested-toggle-icon,.item-icon',
             checkbox,

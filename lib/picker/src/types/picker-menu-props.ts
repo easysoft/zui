@@ -16,6 +16,7 @@ export interface PickerMenuProps<S extends PickerState = PickerState> extends Pi
     footer?: CustomContentType;
     noMatchHint?: string;
     maxItemsCount?: number;
+    exceedLimitHint?: string;
     picker?: Picker;
 
     onSelect: (values: string | string[]) => void;
