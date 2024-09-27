@@ -5,12 +5,12 @@
   @apply -font-bold -text-gray-500;
 }
 
-.with-hover-actions .item {
+.with-hover-actions > .item {
   @apply -relative
 }
-.with-hover-actions .item-actions {
+.with-hover-actions > .item > .item-inner .item-actions {
   @apply -absolute -pointer-events-none -right-1 -top-0 -opacity-0 -transition-opacity;
 }
-.with-hover-actions .item:hover .item-actions {
+.with-hover-actions > .item:hover > .item-inner .item-actions {
   @apply -static -pointer-events-auto -flex --mt-1 -opacity-100;
 }
