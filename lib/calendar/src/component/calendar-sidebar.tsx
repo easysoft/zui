@@ -1,64 +1,44 @@
 import {Attributes} from 'preact';
-import type {CalendarEvent, CalendarSidebarProps, CalendarEventGroup} from '../types';
+import type {CalendarSidebarProps, CalendarEventGroup} from '../types';
 import {HElement, VNode} from '@zui/core';
-import {EventItem} from './event-item';
+import '../../../checkbox/src/component/index';
 import '../i18n';
-import {Draggable} from '@zui/dnd/src/vanilla';
+import '../../../checkbox/src/style/index.css';
 
-export class CalendarSidebar<P extends CalendarSidebarProps = CalendarSidebarProps> extends HElement<P, {eventMap: Map<string, CalendarEvent[]>, dragEvent?: Draggable}> {
-    constructor(props: P) {
-        super(props);
-        this.state = {
-            eventMap: props.eventSetMap || new Map<string, CalendarEvent[]>(),
-        };
+
+//这个组件只需要渲染事件集，勾选后是否显示事件就行了
+
+export class CalendarSidebar<P extends CalendarSidebarProps = CalendarSidebarProps> extends HElement<P, {}> {
+
+    groupSetManege(groupId: string, isChecked: boolean) {
+        const {calendarGroupMap, setCalendarGroupMap} = this.props;
+        const group = calendarGroupMap?.get(groupId);
+        const newMap = new Map(calendarGroupMap);
+        if (group && newMap && setCalendarGroupMap) {
+            group.checked = isChecked;
+            newMap?.set(groupId, group);
+            console.log(newMap);
+            setCalendarGroupMap(newMap);
+        }
     }
 
-    componentDidMount(): void {
-        const {calendarEventMap} = this.props;
-        const eventMap = new Map(this.state.eventMap);
-        const dragEventInstance = new Draggable('.sidebar', {target:'[target="true"]', onDrop: (event, dragElement, dropElement) => {
-            if (dragElement && dropElement) {
-                const dragEvent = calendarEventMap?.get(dragElement.dataset.event || '');
-                const changeGroup = dropElement.dataset.group || '';
-                const prevEvents = eventMap?.get(dragEvent?.calendarEventGroup || '') || [];
-                const moveToEvents  = eventMap?.get(changeGroup) || [];
-                if (dragEvent) {
-                    dragEvent.calendarEventGroup = changeGroup;
-                    moveToEvents.push(dragEvent);
-                    const index = prevEvents.indexOf(dragEvent);
-                    if (index !== -1) {
-                        prevEvents.splice(index, 1);
-                    }
-                    if (prevEvents.length === 0) {
-                        eventMap?.delete(dragEvent.id);
-                    } else {
-                        eventMap?.set(dragEvent.id, [...prevEvents]);   
-                    }
-                    eventMap?.set(changeGroup, [...moveToEvents]);
-                    this.setState({eventMap: eventMap});
-                }
-            }
-        }});
-        this.setState({'dragEvent':dragEventInstance});
-    }
-
-    componentWillUnmount() {
-        this.state.dragEvent?.destroy();
-    }
-
-    renderEvent(calendarEventGroups: Map<string, CalendarEventGroup>, eventSetMap: Map<string, CalendarEvent[]>, maxVisibleEvents?: number): VNode<Attributes> | VNode<Attributes>[] | null {
+    renderEvent(calendarEventGroups: Map<string, CalendarEventGroup>): VNode<Attributes> | VNode<Attributes>[] | null {
         const result = [];
         for (const [key, value] of calendarEventGroups.entries()) {
             if (value && key) {
-                const events = eventSetMap?.get(key || '');
-                result.push(<EventItem calendarEventGroup={value} calendarEvent={events || []} maxVisibleEvents={maxVisibleEvents} > </EventItem>);
+                result.push(<label class="checkbox" onChange={(event)=>{
+                    const target = event.target as HTMLInputElement;
+                    this.groupSetManege(target?.dataset.group || '', target?.checked || false);
+                }}>
+                    <input type="checkbox" data-group ={key} defaultChecked={true}></input>{value.title}
+                </label>);
             }
         }
         return result;
     }
 
     render(): VNode<Attributes> {
-        const {calendarGroupMap, maxVisibleEvents} = this.props;
-        return (<div className='sidebar'>{this.renderEvent(calendarGroupMap || new Map<string, CalendarEventGroup>(), this.state.eventMap || new Map<string, CalendarEvent[]>(), maxVisibleEvents)} </div>);
+        const {calendarGroupMap} = this.props;
+        return (<div className='sidebar'>{this.renderEvent(calendarGroupMap || new Map<string, CalendarEventGroup>())} </div>);
     }
 }  

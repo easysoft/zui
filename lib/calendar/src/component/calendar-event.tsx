@@ -38,8 +38,6 @@ export class CalendarEventDom<P extends CalendarEventProps = CalendarEventProps>
         const {calendarEvents, maxVisibleEvents, calendarEventGroups} = this.props;
         const isExtended = this.state.isExtend;
         if (this.calendarContentRef.current && isExtended  && calendarEvents && calendarEvents.length < 10) {
-            // 假设每个事件占用 32px 高度
-            // const eventHeight = 20;
             const totalHeight = this.calculateHeight(calendarEvents);
             this.calendarContentRef.current.style.height = `${totalHeight}px`;
         } else if (this.calendarContentRef.current && !isExtended && maxVisibleEvents) {
@@ -95,6 +93,7 @@ export class CalendarEventDom<P extends CalendarEventProps = CalendarEventProps>
         return (<div ref={this.calendarContentRef} class="calendar-event">
             {
                 calendarEvents?.map((event, index) => {
+                    //判断它的groupId是否存在于eventSetMap中，如果存在，则取出对应的颜色，否则取出默认颜色
                     return <div style={{backgroundColor: this.getColor(event)}} onClick = {() =>onEventClick && onEventClick(event)} data-event={event.id} data-index={index}  data-date ={new Date(event.date)}  draggable={true} class="calendar-event-item" key={event.id}><span class="calendar-event-item-time">{event.date.getHours() + ':' + event.date.getMinutes()}</span><span>{event.description}</span></div>;
                 })} 
             <div className={'calendar-body-bottom'}>

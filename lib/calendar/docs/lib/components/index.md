@@ -1,170 +1,59 @@
-# 日历
+# Calendar 日历
 
-头像是用图片、图标或者文字的形式展示用户及具有特殊标识的其他对象。
+用于展示和管理事件的日历组件。它允许用户查看日期、添加特定日期的事件来安排日程。提供可配置的事件与日历集。
 
 ## 基本使用
 
-为元素并添加类 `.avatar`，然后将作为图像的图片、文字或图标放置在此元素内。
+使用HTML标签 `<div>` 作为容器来实现日历组件，可使用zui-create-calendar、new zui.Calendar()等指令来配置日历组件。
 
-::: tabs
+## 默认样式
 
-== 示例
+<div class="calendar-normal"></div>
 
-<Example class="flex gap-4">
-  <div class="avatar"><img src="/assets/avatar/avatar.png"></div>
-  <div class="avatar"><i class="icon icon-user"></i></div>
-  <div class="avatar">Z</div>
-</Example>
+## 自定义事件与事件集
 
-== HTML
+ <!-- 日历集和事件在日历中都可以进行自定义配置, 日历集和事件id都需要唯一，否则会导致日历显示异常。
+ 事件与事件集的配置项如下： -->
+ 事件是在日历中添加的具体事件，可自定义事件的颜色、文字、日期、拖拽回调函数、点击回调函数等。事件集是一组事件的集合与事件唯一关联。事件、事件集id都需要唯一。任意一个事件可进行拖拽来修改事件时间,并会触发回调函数。左侧日历集可决定属于该日日历集的事件是否显示。
+<div class='calendar-event'></div>
 
-```html
-<div class="avatar"><img src="/assets/avatar/avatar.png"></div>
-<div class="avatar"><i class="icon icon-user"></i></div>
-<div class="avatar">Z</div>
-```
+## 可配置项
 
-:::
-
-::: tip 提示
-当使用文字作为头像时，建议文字数目不要超过 2 个，如果需要显示更多文字进行个性化排版，推荐使用 JavaScript 增强的头像插件。
-:::
-
-## 头像形状
-
-搭配 CSS 工具类 `rounded-*` 为头像应用不同的圆角样式。
-
-::: tabs
-
-== 示例
-
-<Example class="flex flex-wrap gap-4">
-  <div class="rounded-none avatar"><img src="/assets/avatar/avatar-1.png"></div>
-  <div class="rounded-xs avatar"><img src="/assets/avatar/avatar-2.png"></div>
-  <div class="rounded-sm avatar"><img src="/assets/avatar/avatar-3.png"></div>
-  <div class="rounded avatar"><img src="/assets/avatar/avatar-4.png"></div>
-  <div class="rounded-lg avatar"><img src="/assets/avatar/avatar-5.png"></div>
-  <div class="rounded-xl avatar"><img src="/assets/avatar/avatar-6.png"></div>
-  <div class="rounded-full avatar"><img src="/assets/avatar/avatar-7.png"></div>
-</Example>
-
-== HTML
-
-```html
-<div class="rounded-none avatar"><img src="/assets/avatar/avatar-1.png"></div>
-<div class="rounded-xs avatar"><img src="/assets/avatar/avatar-2.png"></div>
-<div class="rounded-sm avatar"><img src="/assets/avatar/avatar-3.png"></div>
-<div class="rounded avatar"><img src="/assets/avatar/avatar-4.png"></div>
-<div class="rounded-lg avatar"><img src="/assets/avatar/avatar-5.png"></div>
-<div class="rounded-xl avatar"><img src="/assets/avatar/avatar-6.png"></div>
-<div class="rounded-full avatar"><img src="/assets/avatar/avatar-7.png"></div>
-```
-
-:::
-
-## 外观类型
-
-当使用文字或图标作为头像时，配合使用[CSS 工具类](/utilities/)来实现不同头像的外观。下面展示各种工具类的外观效果。
+### 日历:
+| 参数                   | 类型                                                     | 作用                                       |
+|----------------------|:------------------------------------------------------:|------------------------------------------|
+| `date`               | Date                                                   | 当前日期                                   |
+| `calendarEvents`     | CalendarEvent[]                                        | 当前的日历事件数组                        |
+| `calendarEventGroups`| CalendarEventGroup[]                                   | 当前的事件组数组                          |
+| `mode`               | 'day' \| 'week' \| 'year'                             | 日历的显示模式                            |
+| `showCalendarGroup`  | boolean                                               | 是否显示日历事件组                       |
+| `shrinkFreeWeekend`  | boolean                                               | 是否压缩空闲周末                          |
+| `onDateClick`        | (date: Date) => void                                  | 日期点击时的回调函数                      |
+| `onDragChange`       | (newState: DraggableState, oldState: DraggableState) => void | 拖动状态变化时的回调函数          |
+| `onEventClick`       | (e: CalendarEvent) => void                            | 事件点击时的回调函数                     |
+| `maxVisibleEvents`   | number                                                | 每个日期最大可见事件数量                  |
+                   |
 
 
-::: tabs
+### 事件属性:
+calendarEvent:
 
-== 常用
-
-<Example class="space-x-4">
-  <div class="avatar primary">Z</div>
-  <div class="avatar primary-pale rounded-xl">Z</div>
-  <div class="avatar primary-outline rounded-full">Z</div>
-  <div class="avatar inverse rounded-none">Z</div>
-</Example>
-
-== 实心
-
-<Example class="space-x-4">
-  <div v-for="skin in skinList" class="avatar" :class="skin">Z</div>
-</Example>
-
-== 轮廓
-
-<Example class="space-x-4">
-  <div v-for="skin in skinList" class="avatar" :class="`${skin}-outline`">Z</div>
-</Example>
-
-== 浅色
-
-<Example class="space-x-4">
-  <div v-for="skin in skinList" class="avatar" :class="`${skin}-pale`">Z</div>
-</Example>
-
-== HTML
-
-```html
-<div class="avatar primary">...</div>
-```
-
-:::
-
-## 尺寸
-
-除了默认大小，还提供了额外的 4 种预设尺寸，通过 `size-*` 来为头像设置尺寸。
-
-::: tabs
-
-== 示例
-
-<Example class="space-y-4">
-  <div class="flex flex-wrap items-end gap-4">
-    <div class="avatar size-xs"><img src="/assets/avatar/avatar-1.png"></div>
-    <div class="avatar size-sm"><img src="/assets/avatar/avatar-2.png"></div>
-    <div class="avatar"><img src="/assets/avatar/avatar-3.png"></div>
-    <div class="avatar size-lg"><img src="/assets/avatar/avatar-4.png"></div>
-    <div class="avatar size-xl"><img src="/assets/avatar/avatar-5.png"></div>
-  </div>
-  <div class="flex flex-wrap items-end gap-4">
-    <div class="avatar size-xs">X</div>
-    <div class="avatar size-sm">S</div>
-    <div class="avatar">Z</div>
-    <div class="avatar size-lg">LG</div>
-    <div class="avatar size-xl">XL</div>
-  </div>
-</Example>
-
-== HTML
-
-```html
-<div class="avatar size-xs"><img src="/assets/avatar/avatar-1.png"></div>
-<div class="avatar size-sm"><img src="/assets/avatar/avatar-2.png"></div>
-<div class="avatar"><img src="/assets/avatar/avatar-3.png"></div>
-<div class="avatar size-lg"><img src="/assets/avatar/avatar-4.png"></div>
-<div class="avatar size-xl"><img src="/assets/avatar/avatar-5.png"></div>
-```
-:::
-
-## CSS 类
-
-头像提供了如下 CSS 类：
-
-| 类        | 类型           | 作用  |
+| 参数       | 类型           | 作用  |
 | ------------- |:-------------:| ----- |
-| `avatar`      | 实体类 | 元素作为头像组件 |
-| `size-xs`      | 工具类      |   头像使用超小号尺寸 |
-| `size-sm`      | 工具类      |   头像使用小号尺寸 |
-| `size-lg`      | 工具类      |   头像使用大号尺寸 |
-| `size-xl`      | 工具类      |   头像使用超大号尺寸 |
+| `id`              | string | 事件的唯一标识符 |
+| `title`         | string | 事件的标题 |
+| `calendarEventGroup`      | string | 事件所属的事件组ID |
+| `date`      | Date | 事件的日期 |
+| `description`           | string | 事件的描述（可选）  |
 
-## CSS 变量
+### 事件集:
+CalendarEventGroups:
 
-头像提供了如下 CSS 变量，可进行全局修改：
+| 参数       | 类型           | 作用  |
+| ------------- |:-------------:| ----- |
+| `id`              | string | 事件组的唯一标识符 |
+| `title`         | string | 事件组的标题（可选） |
+| `color`         | string | 事件组的颜色（可选） |
+| `checked`       | boolean | 事件组是否被选中（可选） |
 
-| CSS 变量名        | 作用           |
-| ------------- |:------------- |
-| `--avatar-radius`      | 头像默认圆角大小 |
-| `--avatar-bg`      | 头像默认背景颜色 |
 
-## 参考
-
-- [头像组](/lib/components/avatar-group/index.html)
-
-<script setup>
-const skinList = 'primary,secondary,success,warning,danger,important,special,gray'.split(',');
-</script>

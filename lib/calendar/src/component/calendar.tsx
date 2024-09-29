@@ -15,9 +15,15 @@ export class Calendar<P extends CalendarProps=CalendarProps> extends HElement<P,
     constructor(props: P) {
         super(props);
         //初始化日历集与日历状态
-        this.state = {'date': new Date(), 'showCalendarGroup': false, 'eventSetMap': this.generateCalendarSetEvents(), 'calendarEventMap':this.generateEventMap(this.props.calendarEvents), 'calendarGroupMap': this.generateCalendarGroupMap(this.props.calendarEventGroups)};
+        this.state = {'date': new Date(), 'showCalendarGroup': false, 'calendarEventMap':this.generateEventMap(this.props.calendarEvents), 'calendarGroupMap': this.generateCalendarGroupMap(this.props.calendarEventGroups), 'eventSetMap': this.generateCalendarSetEvents()};
     }
 
+    //给予Sidebar的事件集与事件的对应关系更新
+    protected setCalendarGroupMap(eventSetMap: Map<string, CalendarEventGroup>): void {
+        this.setState({'calendarGroupMap': eventSetMap});
+        this.setState({'eventSetMap': this.generateCalendarSetEvents()});
+    }
+    
     //生成事件的唯一Map
     generateEventMap(calendarEvents?: CalendarEvent[]): Map<string, CalendarEvent> {
         const map = new Map<string, CalendarEvent>();
@@ -36,6 +42,7 @@ export class Calendar<P extends CalendarProps=CalendarProps> extends HElement<P,
         const map = new Map<string, CalendarEventGroup>();
         calendarEventGroups?.map((item) => {
             if (item.id !== undefined && !map.has(item.id)) {
+                item.checked = item.checked || true;
                 map.set(item.id, item);
             } else {
                 throw new Error('[ZUI] CalendarEventGroup id must be unique');
@@ -47,26 +54,42 @@ export class Calendar<P extends CalendarProps=CalendarProps> extends HElement<P,
     //生成事件集与事件的对应关系
     generateCalendarSetEvents(): Map<string, CalendarEvent[]> {
         const map = new Map<string, CalendarEvent[]>();
-        this.props.calendarEventGroups?.forEach((item) => {
-            if (item.id !== undefined) {
-                this.props.calendarEvents?.forEach(element => {
-                    if (element.calendarEventGroup == item.id) {
-                        map.set(item.id, map.get(item.id)?.concat(element) || [element]);
+        if (this.state?.calendarEventMap && this.state?.calendarGroupMap) {
+            this.state.calendarGroupMap?.forEach((item) => {
+                if (item.id !== undefined && item.checked) {
+                    this.state.calendarEventMap?.forEach(element => {
+                        if (element.calendarEventGroup == item.id) {
+                            map.set(item.id, map.get(item.id)?.concat(element) || [element]);
+                        }
+                    });
+                }
+            });
+        } else {
+            this.props.calendarEventMap?.forEach((value) => {
+                if (value.date !== undefined) {
+                    const dateKey = new Date(value.date).toISOString().split('T')[0]; // 将日期转换为 'YYYY-MM-DD' 格式
+                    if (!map.has(dateKey)) {
+                        map.set(dateKey, [value]);
+                    } else {
+                        const currentEvents = map.get(dateKey);
+                        if (currentEvents) {
+                            map.set(dateKey, currentEvents.concat(value));
+                        } else {
+                            map.set(dateKey, [value]);
+                        }
                     }
-                });
-            }
-        });
+                }
+            });
+        }
         return map;
     }
 
 
     protected _renderSidebar():ComponentChildren {
         const CalendarSidebarOptions: CalendarSidebarProps = {
-            calendarEventMap: this.state.calendarEventMap || new Map<string, CalendarEvent>(),
             eventSetMap:this.state.eventSetMap,
-            maxVisibleEvents: this.props.maxVisibleEvents,
             calendarGroupMap: this.state.calendarGroupMap || new Map<string, CalendarEventGroup>(),
-            showCalendarGroup: this.state.showCalendarGroup,
+            setCalendarGroupMap:this.setCalendarGroupMap.bind(this),
             onShowCalendarGroup:()=>{this.setState({'showCalendarGroup':!this.state.showCalendarGroup});},
         };
         return (<CalendarSidebar {...CalendarSidebarOptions}></CalendarSidebar>);
