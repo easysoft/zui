@@ -5,10 +5,16 @@ import {Draggable} from '@zui/dnd';
 
 import type {CalendarProps,  CalendarEvent, CalendarContentState, EventState} from '../types';
 import type {Attributes, VNode} from 'preact';
+import {createRef} from 'preact';
 import {i18n} from '@zui/core';
 import '../i18n';
 
 export class CalendarContent<P extends CalendarProps = CalendarProps> extends HElement<P, CalendarContentState> {
+
+    dragEvent: Draggable | null = null;
+
+    ref = createRef();
+
     constructor(props: P) {
         super(props);
         this.state = {'isExtended':false, 'dateList': this.generateCalendarPageByDate(props.date), 'eventMap': this.generateCalendarEvents(), 'eventSetMap': this.props.eventSetMap};
@@ -24,10 +30,16 @@ export class CalendarContent<P extends CalendarProps = CalendarProps> extends HE
         return !flag;
     }
 
+    componentWillUpdate(nextProps: Readonly<P>): void {
+        if (nextProps.eventSetMap !== this.props.eventSetMap) {
+            this.setState({'eventMap': this.generateCalendarEvents()});
+        }
+    }
+
     generateCalendarEvents() {
         const map = new Map<string, CalendarEvent[]>();
         this.props.calendarEventMap?.forEach((value) => {
-            if (value.date !== undefined) {
+            if (value.date !== undefined && this.props.calendarEventGroupMap?.get(value?.calendarEventGroup)?.checked) {
                 const dateKey = new Date(value.date).toISOString().split('T')[0]; // 将日期转换为 'YYYY-MM-DD' 格式
                 if (!map.has(dateKey)) {
                     map.set(dateKey, [value]);
@@ -43,16 +55,15 @@ export class CalendarContent<P extends CalendarProps = CalendarProps> extends HE
         });
         return map;
     }
-
+    
     componentDidMount() {
         const {onDragChange} = this.props;
-        this.setState({'dragEvent':new Draggable('#calendar-body', {           
+        this.dragEvent = new Draggable(this.ref.current, {           
             target:'[target="true"]',
             onChange(newState, oldState) {
                 if (onDragChange) {
                     onDragChange(newState, oldState);
                 }
-                console.log('onChange', {newState, oldState});
             },
             onDrop: (event, dragElement, dropElement) => {
                 console.log('onDrop', {event, dragElement, dropElement});
@@ -61,7 +72,7 @@ export class CalendarContent<P extends CalendarProps = CalendarProps> extends HE
                     const moveToDate: Date = new Date( dropElement.dataset.date || '');
                     const index: number = Number(dragElement.dataset.index);
                     const prevDateEvents = prevDate && this.state.eventMap.get(prevDate?.toISOString().split('T')[0]);
-                    const moveToDateEvents = this.state.eventMap.get(moveToDate?.toISOString().split('T')[0]) ? this.state.eventMap.get(moveToDate?.toISOString().split('T')[0]) : [];
+                    const moveToDateEvents = this.state.eventMap.has(moveToDate?.toISOString().split('T')[0]) ? this.state.eventMap.get(moveToDate?.toISOString().split('T')[0]) : [];
                     if (prevDateEvents) {
                         const emptyAry: CalendarEvent[] = [];
                         const eventToMove = index !== undefined && index >= 0 && index < prevDateEvents.length ? [prevDateEvents[index]] : emptyAry;
@@ -83,7 +94,7 @@ export class CalendarContent<P extends CalendarProps = CalendarProps> extends HE
                     }
                 }
             },
-        })});
+        });
     }
 
     componentDidUpdate(prevProps: P) {
@@ -93,7 +104,7 @@ export class CalendarContent<P extends CalendarProps = CalendarProps> extends HE
     }  
     
     componentWillUnmount() {
-        this.state.dragEvent?.destroy();
+        this.dragEvent?.destroy();
     }
 
     generateCalendarPageByDate(date: Date): EventState[][] {
@@ -164,7 +175,7 @@ export class CalendarContent<P extends CalendarProps = CalendarProps> extends HE
                         }
                     </tr>
                 </thead>
-                <tbody id="calendar-body">
+                <tbody id="calendar-body" ref={this.ref}>
                     {this.state.dateList?.map((line) => {
                         return (<tr>{   line.map((item, index) => {
                             return <td onClick={()=>{}}  style={{...tdStyle, ...this.getStyle(index, isShrinkWeekend)}} data-date = {new Date(item.date)}  key={`${item.date.getMonth() + 1}-${item.date.getDate()}`} target='true' className={'calendar-td' + ' ' + (this.props.date.getFullYear() === item.date.getFullYear() && item.date.getMonth() + 1 === this.props.date.getMonth() + 1 ? 'is-current-month' : '') + (new Date().getFullYear() === item.date.getFullYear() && item.date.getMonth() + 1 === new Date().getMonth() + 1 && item.date.getDate() === new Date().getDate() ? '-today' : '')} >

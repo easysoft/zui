@@ -24,7 +24,7 @@ td:hover{
 }
 
 .calendar-td{
-    @apply -text-start -border -w-1/7;
+    @apply -text-start -border;
     width: 14.2857%;
 }
 
@@ -49,8 +49,8 @@ td:hover{
     border: 2px solid #333;
     border-image: linear-gradient(to right, #367df1, #f1367d);
     border-image-slice: 1;
-    background: #367df1;
-    color: white;
+    background: none;
+    /* color: white; */
 }
 
 .is-today .calendar-body-header{

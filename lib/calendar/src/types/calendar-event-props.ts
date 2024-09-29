@@ -4,8 +4,6 @@ export interface CalendarEvent {
     title: string;
     calendarEventGroup: string;
     date: Date;
-    startDate?: Date;
-    endDate?: Date;
     description?: string;
 }
 
@@ -29,4 +27,5 @@ export interface CalendarEventGroup {
     id: string;
     title?: string;
     color?: string;
+    checked?: boolean;
 }

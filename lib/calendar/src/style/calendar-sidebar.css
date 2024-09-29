@@ -10,5 +10,6 @@
 
 .calendar-sidebar{
     @apply -w-1/6 -flex-row -pr-2;
+    @apply -py-2;
     writing-mode: horizontal-tb;
 }
