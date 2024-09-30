@@ -1,6 +1,7 @@
 import {Menu} from '@zui/menu/src/component';
 
 import type {RenderableProps} from 'preact';
+import type {ClassNameLike} from '@zui/core';
 import type {Item} from '@zui/common-list';
 import type {NestedItem} from '@zui/list';
 import type {TreeOptions, TreeState} from '../types';
@@ -19,6 +20,10 @@ export class Tree<T extends TreeOptions = TreeOptions, S extends TreeState = Tre
     };
 
     static inheritNestedProps = [...Menu.inheritNestedProps, 'itemActions', 'expandedIcon', 'collapsedIcon', 'normalIcon'];
+
+    protected _getClassName(props: RenderableProps<T>): ClassNameLike {
+        return [super._getClassName(props), props.lines ? 'tree-lines' : ''];
+    }
 
     protected _getItem(props: RenderableProps<T>, item: NestedItem, index: number): false | NestedItem {
         return (this.constructor as typeof Tree).getTreeItem(props, super._getItem(props, item, index));

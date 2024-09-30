@@ -1,5 +1,5 @@
-import type {ComponentChild} from 'preact';
-import type {ToolbarItemOptions} from '@zui/toolbar/src/types';
+import type {CustomContentType} from '@zui/core';
+import type {ToolbarItemOptions} from '@zui/toolbar';
 import type {ModalDialogOptions} from './modal-dialog-options';
 import type {ModalBaseOptions} from './modal-base-options';
 import type {Modal} from '../vanilla/modal';
@@ -14,13 +14,14 @@ export type ModalOptions = ModalBaseOptions & {
     failedTip?: string;
     timeoutTip?: string;
     title?: string;
-    destoryOnHide?: boolean;
+    destroyOnHide?: boolean;
+    modal?: boolean;
     [prop: string]: unknown;
 };
 
 export interface ModalCustomOptions extends ModalOptions {
     type: 'custom',
-    content?: ComponentChild;
+    content?: CustomContentType;
     custom: ModalDialogOptions | (() => ModalDialogOptions);
 }
 
@@ -50,6 +51,12 @@ export interface ModalAlertOptions extends ModalCustomOptions {
 
 export interface ModalConfirmOptions extends ModalAlertOptions {
     onResult?: (confirmed: boolean, modal: Modal) => void;
+}
+
+export interface ModalPromptOptions extends ModalAlertOptions {
+    defaultValue?: string;
+    placeholder?: string;
+    onResult?: (value: string, modal: Modal) => void;
 }
 
 export type ModalTypedOptions = ModalCustomOptions | ModalAjaxOptions | ModalIframeOptions;

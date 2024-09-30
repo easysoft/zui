@@ -133,7 +133,12 @@
 <div class="important-outline"></div>
 <div class="special-outline"></div>
 <h4>Grays</h4>
+<div class="gray-300-outline"></div>
+<div class="gray-400-outline"></div>
 <div class="gray-outline"></div>
+<div class="gray-600-outline"></div>
+<div class="dark-outline"></div>
+<div class="light-outline"></div>
 <hr>
 <h4>Accent State</h4>
 <div class="outline state"></div>

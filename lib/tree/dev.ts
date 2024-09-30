@@ -35,12 +35,12 @@ onPageUpdate(() => {
     const tree = new Tree('#tree', {
         checkbox: true,
         indent: 20,
+        lines: true,
         collapsedIcon: 'folder-close',
         expandedIcon: 'folder-open',
         normalIcon: 'file-o',
         defaultNestedShow: true,
         checkOnClick: true,
-        activeOnHover: true,
         preserve: 'myTree',
         itemActions: {
             items: [

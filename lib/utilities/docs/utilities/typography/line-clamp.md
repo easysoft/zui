@@ -2,7 +2,7 @@
 
 ## 定义
 
-使用 `line-*` 工具类限制显示多少行文本，在文本超出时进行截断：
+使用 `line-clamp-*` 工具类限制显示多少行文本，在文本超出时进行截断：
 
 <Example padding="p-0">
   <table class="table">
@@ -37,21 +37,21 @@
 == HTML
 
 ```html
-<div class="line-1 ...">...</div>
-<div class="line-2 ...">...</div>
-<div class="line-3 ...">...</div>
-<div class="line-4 ...">...</div>
-<div class="line-5 ...">...</div>
-<div class="line-6 ...">...</div>
+<div class="line-clamp-1 ...">...</div>
+<div class="line-clamp-2 ...">...</div>
+<div class="line-clamp-3 ...">...</div>
+<div class="line-clamp-4 ...">...</div>
+<div class="line-clamp-5 ...">...</div>
+<div class="line-clamp-6 ...">...</div>
 ```
 
 <script setup>
 const lineClampList = [
-    {name: 'line-1', desc: 'overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 1;'},
-    {name: 'line-2', desc: 'overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2;'},
-    {name: 'line-3', desc: 'overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3;'},
-    {name: 'line-4', desc: 'overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 4;'},
-    {name: 'line-5', desc: 'overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 5;'},
-    {name: 'line-6', desc: 'overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 6;'},
+    {name: 'line-clamp-1', desc: 'overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 1;'},
+    {name: 'line-clamp-2', desc: 'overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2;'},
+    {name: 'line-clamp-3', desc: 'overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3;'},
+    {name: 'line-clamp-4', desc: 'overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 4;'},
+    {name: 'line-clamp-5', desc: 'overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 5;'},
+    {name: 'line-clamp-6', desc: 'overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 6;'},
 ];
 </script>

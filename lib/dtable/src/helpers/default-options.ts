@@ -7,7 +7,7 @@ export function getDefaultOptions() {
         height: 'auto',
         rowHeight: 35,
         defaultColWidth: 80,
-        minColWidth: 20,
+        minColWidth: 24,
         maxColWidth: 9999,
         header: true,
         footer: undefined,

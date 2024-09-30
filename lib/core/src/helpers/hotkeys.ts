@@ -67,11 +67,20 @@ export function getHotkeysMap(settings: HotkeysSettings, defaultMap: HotkeysMap 
 export function bindHotkeys(selector: Selector, bindingMap: HotkeysBindingMap, options?: HotkeysBindingOptions) {
     const {timeout, event = 'keydown', scope, when} = options || {};
     const handler = createKeybindingsHandler(bindingMap, {timeout});
-    return $(selector).on(`${event}.zui.hotkeys${scope ? `.${scope}` : ''}`, function (e: KeyboardEvent) {
+    const namespace = `.zui.hotkeys${scope ? `.${scope}` : ''}`;
+    const composingDataKey = 'zui-hotkeys-composing';
+    return $(selector).on(`${event}${namespace}`, function (e: KeyboardEvent) {
         if (when && when(e) === false) {
             return;
         }
+        if ($(e.target as HTMLElement).data(composingDataKey)) {
+            return;
+        }
         handler(e);
+    }).on(`compositionstart${namespace}`, (e: Event) => {
+        $(e.target as HTMLElement).data(composingDataKey, true);
+    }).on(`compositionend${namespace}`, (e: Event) => {
+        $(e.target as HTMLElement).removeData(composingDataKey);
     });
 }
 

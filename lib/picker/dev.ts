@@ -54,6 +54,7 @@ onPageUpdate(() => {
         placeholder: '请选择你的最爱',
         searchHint: '搜索选项',
         cache: false,
+        maxItemsCount: 4,
     });
     console.log('> singlePickerRemote', singlePickerRemote);
 
@@ -144,6 +145,8 @@ onPageUpdate(() => {
         defaultValue: 'banana',
         placeholder: '请选择你的最爱',
         searchHint: '搜索选项',
+        onSelect: (values) => console.log('onSelect', values),
+        onDeselect: (values) => console.log('onDeselect', values),
     });
     console.log('> singlePicker', singlePicker);
 
@@ -154,6 +157,32 @@ onPageUpdate(() => {
         defaultValue: 'banana,orange',
         placeholder: '请选择你的最爱',
         toolbar: true,
+        onSelect: (values) => console.log('onSelect', values),
+        onDeselect: (values) => console.log('onDeselect', values),
     });
     console.log('> multiPicker', multiPicker);
+
+    const noSearchPicker = new Picker('#noSearchPicker', {
+        'multiple': true,
+        'items': [
+            {'text': '查看研发需求', 'value': 'story', 'items': [{'text': 'SR1', 'value': '1'}, {'text': 'SR2', 'value': '2'}, {'text': 'SR3', 'value': '3'}, {'text': 'SR4', 'value': '4'}]},
+        ],
+        'search': false,
+        'display': 'test {value}',
+        'emptyValue': '',
+        'defaultValue': '',
+        menu: {
+            checkbox: true,
+        },
+    });
+    console.log('> noSearchPicker', noSearchPicker);
+
+    const noSearchMultiPicker = new Picker('#noSearchMultiPicker', {
+        items,
+        search: false,
+        multiple: true,
+        placeholder: '请选择你的最爱',
+        display: '已选择 {count} 项',
+    });
+    console.log('> noSearchMultiPicker', noSearchMultiPicker);
 });

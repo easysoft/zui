@@ -1,55 +1,73 @@
+import {$} from '@zui/core';
 import {ContextMenu} from '@zui/contextmenu';
 import {definePlugin} from '../../helpers/shared-plugins';
+import './style.css';
+
 import type {ListitemProps} from '@zui/list';
 import type {DTablePointerInfo} from '../../types/dtable';
 import type {DTableWithPlugin, DTablePlugin} from '../../types/plugin';
 
+type DTableContextMenuCreator = (this: DTableContextMenu, event: MouseEvent, info: DTablePointerInfo) => ListitemProps[] | undefined;
+
 export interface DTableContextMenuTypes {
-    options: Partial<{
-        contextmenu: Partial<{
-            cell: ListitemProps[] | ((event: MouseEvent, info: DTablePointerInfo, menu: ContextMenu) => ListitemProps[] | undefined),
-            header: ListitemProps[] | ((event: MouseEvent, info: DTablePointerInfo, menu: ContextMenu) => ListitemProps[] | undefined),
-        }>;
-    }>;
+    options: {
+        contextmenu?: ListitemProps[] | DTableContextMenuCreator | {
+            cell?: ListitemProps[] | DTableContextMenuCreator,
+            header?: ListitemProps[] | DTableContextMenuCreator,
+        };
+    };
     data: {
         contextmenu: ContextMenu
     },
+    methods: {
+        getContextMenuItems: (this: DTableContextMenu, event: MouseEvent, info: DTablePointerInfo) => ListitemProps[] | undefined,
+    }
 }
 
 export type DTableContextMenu = DTableWithPlugin<DTableContextMenuTypes>;
 
 const contextmenuPlugin: DTablePlugin<DTableContextMenuTypes> = {
     name: 'contextmenu',
-    defaultOptions: {
-        contextmenu: {},
-    },
     when: options => !!options.contextmenu,
-    onMounted() {
-        const {current} = this.ref;
-        if (current) {
-            this.data.contextmenu = new ContextMenu(current, {
-                items: (menu, event) => {
-                    const info = this.getPointerInfo(event);
-                    if (!info) {
-                        return;
-                    }
-                    const {contextmenu: {header, cell} = {}} = this.options;
-                    if (info.rowID === 'HEADER') {
-                        if (typeof header === 'function') {
-                            return header(event, info, menu);
-                        }
-                        return header;
-                    }
-                    if (typeof cell === 'function') {
-                        return cell(event, info, menu);
-                    }
-                    return cell;
-                },
-            });
-        }
+    events: {
+        contextmenu(event) {
+            const info = this.getPointerInfo(event);
+            if (!info) {
+                return;
+            }
+            const items = this.getContextMenuItems(event, info);
+            if (!items || !items.length) {
+                return;
+            }
+            event.preventDefault();
+            const $cell = $(info.cellElement).addClass('has-contextmenu-show');
+            info.cellElement.classList.add('active');
+            ContextMenu.show({items, key: `dtable-ctx-${this.id}`, triggerEvent: event, hideOthers: true, onHide() {
+                $cell.removeClass('has-contextmenu-show');
+            }} as Parameters<typeof ContextMenu.show>[0]);
+        },
     },
-    onUnmounted() {
-        this.data.contextmenu?.destroy();
+    methods: {
+        getContextMenuItems(event: MouseEvent, info: DTablePointerInfo) {
+            const {contextmenu} = this.options;
+            if (typeof contextmenu === 'function') {
+                return contextmenu.call(this, event, info);
+            }
+            if (!contextmenu || Array.isArray(contextmenu)) {
+                return contextmenu;
+            }
+            const {header, cell} = contextmenu;
+            if (info.rowID === 'HEADER') {
+                if (typeof header === 'function') {
+                    return header.call(this, event, info);
+                }
+                return header;
+            }
+            if (typeof cell === 'function') {
+                return cell.call(this, event, info);
+            }
+            return cell;
+        },
     },
 };
 

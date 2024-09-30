@@ -2,13 +2,13 @@ import {Tree} from '@zui/tree/src/components';
 import {Sortable} from '../vanilla/sortable';
 
 import type {RenderableProps} from 'preact';
-import type {SortableEvent} from 'sortablejs';
+import type {MoveEvent, SortableEvent} from 'sortablejs';
 import type {ClassNameLike} from '@zui/core';
-import type {Item} from '@zui/common-list';
 import type {SortableTreeProps, SortableTreeState, SortableOptions} from '../types';
 
 export class SortableTree<P extends SortableTreeProps = SortableTreeProps, S extends SortableTreeState = SortableTreeState> extends Tree<P, S> {
     static defaultProps: Partial<SortableTreeProps> = {
+        ...Tree.defaultProps,
         sortable: true,
     };
 
@@ -28,30 +28,6 @@ export class SortableTree<P extends SortableTreeProps = SortableTreeProps, S ext
         return this._sortable?.toArray() || [];
     }
 
-    protected _getItems(props: RenderableProps<P>): Item[] {
-        const items = super._getItems(props);
-        const {orders} = this.state;
-        if (orders) {
-            const newItems: Item[] = [...items];
-            const orderMap = orders.reduce<Map<string, number>>((map, order, index) => {
-                map.set(order, index);
-                return map;
-            }, new Map());
-            return newItems.sort((a, b) => {
-                const aOrder = orderMap.get(a.key!);
-                const bOrder = orderMap.get(b.key!);
-                if (aOrder === undefined) {
-                    return bOrder === undefined ? 0 : 1;
-                }
-                if (bOrder === undefined) {
-                    return -1;
-                }
-                return aOrder - bOrder;
-            });
-        }
-        return items;
-    }
-
     protected _getClassName(props: RenderableProps<P>): ClassNameLike {
         return [super._getClassName(props), 'sortable-tree'];
     }
@@ -62,6 +38,7 @@ export class SortableTree<P extends SortableTreeProps = SortableTreeProps, S ext
             return;
         }
         const userOptions = typeof sortable === 'object' ? sortable : {};
+        const {onSort, canSortTo, parentKey} = this.props;
         return {
             group: `SortableTree.${this.gid}`,
             dataIdAttr: 'z-key',
@@ -69,9 +46,21 @@ export class SortableTree<P extends SortableTreeProps = SortableTreeProps, S ext
             ...userOptions,
             onSort: (event: SortableEvent) => {
                 const orders = this.getOrders();
-                this.setState({orders});
-                this.props.onSort?.call(this, event, orders, this.props.parentKey);
+                onSort?.call(this, event, orders, parentKey);
                 userOptions.onSort?.call(this, event);
+            },
+            onMove: (event: MoveEvent, originEvent: Event) => {
+                if (canSortTo) {
+                    const fromKey = event.dragged.getAttribute('z-key-path');
+                    const toKey = event.related.getAttribute('z-key-path');
+                    const fromItem = this.getItem(fromKey!);
+                    const toItem = this.getItem(toKey!);
+                    const result = canSortTo.call(this, event, fromItem!, toItem!, parentKey);
+                    if (result !== undefined) {
+                        return result;
+                    }
+                }
+                return userOptions.onMove?.call(this, event, originEvent);
             },
         };
     }

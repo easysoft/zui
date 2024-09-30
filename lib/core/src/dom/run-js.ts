@@ -9,10 +9,10 @@ import type {Selector} from '../cash';
  * @param selector  Element selector to run.
  * @param jsCode    If not set, run all scripts in the element.
  */
-export function runJS(selector: Selector, jsCode?: string, removeAfterRun = false) {
+export function runJS(selector: Selector, jsCode?: string | null, removeAfterRun = false) {
     const $element = $(selector);
     if (jsCode !== undefined) {
-        if (jsCode.length) {
+        if (typeof jsCode === 'string' && jsCode.length) {
             const id = `zui-runjs-${nextGid()}`;
             $element.append(`<script id="${id}">${jsCode}</script>`);
             if (removeAfterRun) {
@@ -21,8 +21,15 @@ export function runJS(selector: Selector, jsCode?: string, removeAfterRun = fals
         }
         return;
     }
+    if ($element.is('script')) {
+        const code = $element[0]?.textContent;
+        if (code) {
+            runJS($element.parent(), code);
+        }
+        return;
+    }
     $element.find('script').each((_, script) => {
-        runJS($element, (script as HTMLScriptElement).innerHTML);
+        runJS($element, (script as HTMLScriptElement).textContent);
         script.remove();
     });
 }

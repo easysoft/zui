@@ -5,6 +5,10 @@
 .search-menu-footer {
   @apply -px-2 -pb-2 -pt-0.5;
 }
+.search-menu-header:empty,
+.search-menu-footer:empty {
+  @apply -hidden;
+}
 
 .search-menu .item.is-not-match {
   @apply -hidden;
@@ -31,4 +35,7 @@
 }
 .no-match-child > .menu {
   @apply -hidden;
+}
+.search-menu-exceed-limit-hint {
+  @apply -text-gray-500 -text-sm -p-2;
 }

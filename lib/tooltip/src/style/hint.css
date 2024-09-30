@@ -1,0 +1,96 @@
+.hint,
+[class^="hint-"],
+[class*=" hint-"] {
+  @apply -relative;
+}
+.hint::before,
+[class^="hint-"]::before,
+[class*=" hint-"]::before {
+  @apply -content-[''] -absolute -w-0 -h-0 -border-solid;
+
+  /* Top */
+  margin-bottom: calc(0px - var(--tooltip-arrow));
+  border-width: var(--tooltip-arrow) var(--tooltip-arrow) 0 var(--tooltip-arrow);
+  border-color: var(--tooltip-bg) transparent transparent transparent;
+}
+.hint::after,
+[class^="hint-"]::after,
+[class*=" hint-"]::after {
+  @apply -content-[attr(data-hint)] -absolute -bg-[--tooltip-bg] -border-[--tooltip-color] -text-[--tooltip-text] -py-1 -px-2 -text-xs -max-w-md -rounded -shadow -whitespace-nowrap -overflow-hidden;
+  text-shadow: 0 1px 0 var(--tooltip-bg);
+}
+.hint::before,
+[class^="hint-"]::before,
+[class*=" hint-"]::before,
+.hint::after,
+[class^="hint-"]::after,
+[class*=" hint-"]::after {
+  @apply -z-tooltip -invisible -opacity-0 -transition-[opacity,visibility] -ease-in -pointer-events-none -delay-0;
+
+  /* Top */
+  @apply --translate-x-1/2 --translate-y-[--tooltip-arrow] -bottom-full -left-1/2;
+}
+.hint:hover::before,
+[class^="hint-"]:hover::before,
+[class*=" hint-"]:hover::before,
+.hint:hover::after,
+[class^="hint-"]:hover::after,
+[class*=" hint-"]:hover::after {
+  @apply -visible -opacity-100 -delay-[--tooltip-delay];
+}
+
+/* Bottom. */
+.hint-bottom::before {
+  margin-bottom: auto;
+  margin-top: calc(0px - var(--tooltip-arrow));
+  border-width: 0 var(--tooltip-arrow) var(--tooltip-arrow) var(--tooltip-arrow);
+  border-color: transparent transparent var(--tooltip-bg) transparent;
+}
+.hint-bottom::before,
+.hint-bottom::after {
+ @apply -translate-y-[--tooltip-arrow] -bottom-auto -top-full;
+}
+
+/* Left. */
+.hint-left::before {
+  margin-bottom: auto;
+  margin-right: calc(0px - var(--tooltip-arrow));
+  border-width: var(--tooltip-arrow) 0 var(--tooltip-arrow) var(--tooltip-arrow);
+  border-color: transparent transparent transparent var(--tooltip-bg);
+}
+.hint-left::before,
+.hint-left::after {
+  @apply --translate-x-[--tooltip-arrow] -translate-y-1/2 -bottom-1/2 -right-full -left-auto;
+}
+
+/* Right. */
+.hint-right::before {
+  margin-bottom: auto;
+  margin-left: calc(0px - var(--tooltip-arrow));
+  border-width: var(--tooltip-arrow) var(--tooltip-arrow) var(--tooltip-arrow) 0;
+  border-color: transparent var(--tooltip-bg) transparent;
+}
+.hint-right::before,
+.hint-right::after {
+  @apply -translate-x-[--tooltip-arrow] -translate-y-1/2 -bottom-1/2 -left-full;
+}
+
+/* Size. */
+.hint-sm::after
+.hint-md::after,
+.hint-lg::after,
+.hint-xl::after {
+  @apply -whitespace-normal -break-all;
+}
+.hint-sm::after {@apply -w-16;}
+.hint-md::after {@apply -w-32;}
+.hint-lg::after {@apply -w-64;}
+.hint-xl::after {@apply -w-96;}
+
+/* Colors. */
+.hint-primary {--tooltip-bg: var(--color-primary-500)}
+.hint-success {--tooltip-bg: var(--color-success-500)}
+.hint-danger {--tooltip-bg: var(--color-danger-500)}
+.hint-warning {--tooltip-bg: var(--color-warning-500)}
+.hint-important {--tooltip-bg: var(--color-important-500)}
+.hint-special {--tooltip-bg: var(--color-special-500)}

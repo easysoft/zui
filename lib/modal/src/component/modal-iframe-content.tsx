@@ -1,8 +1,11 @@
+import {$} from '@zui/core';
 import {Component, createRef} from 'preact';
 
 export type ModalIframeContentProps = {
     url: string;
     watchHeight?: boolean;
+    iframeBodyClass?: string;
+    onLoad?: (this: ModalIframeContent) => void;
 };
 
 export type ModalIframeContentState = {
@@ -20,6 +23,10 @@ export class ModalIframeContent extends Component<ModalIframeContentProps> {
 
     state: ModalIframeContentState = {};
 
+    get iframeDoc() {
+        return this._ref.current?.contentWindow?.document;
+    }
+
     componentDidMount() {
         if (this.props.watchHeight) {
             this._watchIframeHeight();
@@ -30,34 +37,51 @@ export class ModalIframeContent extends Component<ModalIframeContentProps> {
         this._rob?.disconnect();
     }
 
-    _watchIframeHeight = () => {
-        const iframeDoc = this._ref.current?.contentWindow?.document;
+    _watchIframeHeight() {
+        const iframeDoc = this.iframeDoc;
         if (!iframeDoc) {
             return;
         }
-
         let rob = this._rob;
         rob?.disconnect();
         rob = new ResizeObserver(() => {
             const body = iframeDoc.body;
             const html = iframeDoc.documentElement;
-            const height = Math.ceil(Math.max(body.scrollHeight, body.offsetHeight, html.offsetHeight)) + 1;
+            const height = Math.ceil(Math.max(body.scrollHeight, body.offsetHeight, html.offsetHeight));
             this.setState({height});
         });
         rob.observe(iframeDoc.body);
         rob.observe(iframeDoc.documentElement);
         this._rob = rob;
+    }
+
+    _handleIframeLoad = () => {
+        const iframeDoc = this.iframeDoc;
+        if (!iframeDoc) {
+            return;
+        }
+
+        const {iframeBodyClass, watchHeight} = this.props;
+
+        if (watchHeight) {
+            this._watchIframeHeight();
+        }
+
+        if (iframeBodyClass) {
+            iframeDoc.body.classList.add(iframeBodyClass);
+        }
+
+        $(this._ref.current).trigger('modal-iframe-loaded');
     };
 
     render() {
-        const {url, watchHeight} = this.props;
         return (
             <iframe
                 className="modal-iframe"
                 style={this.state}
-                src={url}
+                src={this.props.url}
                 ref={this._ref}
-                onLoad={watchHeight ? this._watchIframeHeight : undefined}
+                onLoad={this._handleIframeLoad}
             />
         );
     }

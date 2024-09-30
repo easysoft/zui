@@ -12,7 +12,7 @@ import {$} from '@zui/core';
 import {KanbanRegionProps, KanbanList, KanbanProps} from './src/main';
 import {createKanbanData} from './dev/create-kanban-data';
 
-onPageLoad(() => {
+onPageUpdate(() => {
     const kanban1Options: KanbanProps = {
         key: 'kanban1',
         data: {
@@ -132,10 +132,14 @@ onPageLoad(() => {
             console.log('> onDrop', changes, info);
         },
         maxColWidth: 300,
+        selectable: true,
+        showLinkOnHover: true,
+        showLinkOnSelected: true,
     };
     const kanban2Options: KanbanProps = {
         key: 'kanban2',
         itemCountPerRow: 3,
+        colWidth: 400,
         data: createKanbanData(),
         onDrop: (changes, info) => {
             console.log('> onDrop', changes, info);
@@ -168,6 +172,12 @@ onPageLoad(() => {
         ],
     };
     const kanbanOptions: KanbanProps = {
+        key: 'kanban0',
+        laneProps: {
+            actions: [
+                {icon: 'ellipsis-v'},
+            ],
+        },
         data: {
             cols: [
                 {title: '未完成', name: 'todo'},
@@ -178,8 +188,8 @@ onPageLoad(() => {
                 {title: '其他', name: 'other', asParent: true},
             ],
             lanes: [
-                {title: '需求', name: 'story', maxHeight: 100},
-                {title: '任务', name: 'task'},
+                {title: '需求', name: 'story'},
+                {title: '任务', name: 'task', maxHeight: 100},
             ],
             items: {
                 story: {
@@ -211,7 +221,11 @@ onPageLoad(() => {
                     done: [
                         {id: '9', title: '任务3'},
                         {id: '10', title: '任务4'},
-                        {id: '11', title: '任务5'},
+                        {id: '11', title: '任务11'},
+                        {id: '12', title: '任务12'},
+                        {id: '13', title: '任务13'},
+                        {id: '14', title: '任务14'},
+                        {id: '15', title: '任务15'},
                     ],
                 },
             },
@@ -252,10 +266,34 @@ onPageLoad(() => {
                 return dropInfo.col === 'assigned';
             }
         },
+        draggable: {
+            // 指定可以从哪个元素内部监听拖拽事件，可以为看板的或看板列表的父级元素，这样就可以实现从看板外部拖拽新的卡片到看板内部。
+            dragContainer: '#kanbanExample',
+        },
+        onDropNewItem: (info) => {
+            // 返回需要创建的新的卡片数据
+            return {id: `new-${$.guid++}`, title: info.drag.element.innerText};
+        },
     };
     const kanbanList = new KanbanList('#kanbanList', {
         items: [kanbanOptions, kanbanRegionOptions],
         height: 'calc(100vh - 160px)',
+        links: [
+            {fromKanban: 'kanban0', toKanban: 'kanban0', from: '1', to: '9'},
+            {fromKanban: 'kanban0', toKanban: 'kanban0', from: '1', to: '10'},
+            {fromKanban: 'kanban0', toKanban: 'kanban0', from: '1', to: '11'},
+            {fromKanban: 'kanban0', toKanban: 'kanban0', from: '1', to: '12'},
+            {fromKanban: 'kanban0', toKanban: 'kanban0', from: '1', to: '13'},
+            {fromKanban: 'kanban0', toKanban: 'kanban0', from: '1', to: '14'},
+            {fromKanban: 'kanban0', toKanban: 'kanban0', from: '1', to: '15'},
+            {fromKanban: 'kanban0', toKanban: 'kanban1', from: '1', to: '6'},
+            {fromKanban: 'kanban0', toKanban: 'kanban1', from: '3', to: '11'},
+            {fromKanban: 'kanban0', toKanban: 'kanban1', from: '5', to: '11'},
+        ],
+        selectable: true,
+        editLinks: true,
+        showLinkOnSelected: true,
+        showLinkOnHover: true,
     });
     console.log('> kanbanList', kanbanList);
 });

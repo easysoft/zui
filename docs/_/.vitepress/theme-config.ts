@@ -63,9 +63,11 @@ export const extLibs = [...zuiLib.reduce((set, lib) => {
 
 function createNav() {
     return [
-        {text: '指引',        link: '/guide/start/',     activeMatch: '/guide/'},
+        {text: '文档',        link: '/guide/start/',     activeMatch: '/guide/'},
         {text: 'CSS 工具类',  link: '/utilities/skin/utilities/solid', activeMatch: '/utilities/'},
         {text: '组件',        link: '/lib/components/button/',       activeMatch: '/lib/'},
+        {text: 'ZUI1',        link: 'https://openzui.com/1/'},
+        {text: 'ZIN',        link: 'https://openzui.com/zin/'},
     ];
 }
 
@@ -92,6 +94,7 @@ function initSidebars(): Record<string, {text: string, section?: string, items?:
             {text: '交互', section: 'interactivity', collapsed: true},
         ],
         '/lib/': [
+            {text: '基础', section: 'basic', collapsed: false},
             {text: '布局', section: 'layout', collapsed: false, hidden: true},
             {text: '内容', section: 'content', collapsed: false, hidden: true},
             {text: '图标', section: 'icons', collapsed: false},
@@ -184,6 +187,21 @@ function createSidebar() {
         const files = glob.sync(`*/*/**/*.md`, {onlyFiles: true, cwd: libDocsPath});
         updateSections(files, sidebars, libDocsPath, lib);
     });
+
+    const orders = {
+        '介绍': 1,
+        '快速上手': 2,
+        '教程': 3,
+        '兼容性': 4,
+        'CSS 组件': 1,
+        '组件基类': 2,
+        'React 组件': 3,
+        'Cash（jQuery）扩展': 4,
+        '便捷组件调用': 5,
+        '便捷事件绑定': 6,
+        '全局触发调用': 7,
+    };
+
     Object.keys(sidebars).forEach(key => {
         sidebars[key] = sidebars[key].filter(section => {
             if (section.hidden || !section.items?.length) {
@@ -191,6 +209,11 @@ function createSidebar() {
             }
             if (section.items) {
                 section.items = section.items.sort((a, b) => {
+                    const order1 = orders[a.text!];
+                    const order2 = orders[b.text!];
+                    if (typeof order1 === 'number' && typeof order2 === 'number') {
+                        return order1 - order2;
+                    }
                     let result = (a.lib ? 1 : 0) - (b.lib ? 1 : 0);
                     if (result !== 0) {
                         return result;

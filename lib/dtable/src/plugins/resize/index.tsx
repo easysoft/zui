@@ -1,21 +1,32 @@
+import {$} from '@zui/core';
 import {clamp} from '../../helpers/number';
 import {definePlugin} from '../../helpers/shared-plugins';
 import {mousemove} from '../mousemove';
 import './style.css';
 
 import type {DTableMousemoveTypes} from '../mousemove';
-import type {ColName} from '../../types/col';
+import type {ColInfo, ColName} from '../../types/col';
 import type {DTableWithPlugin, DTablePlugin} from '../../types/plugin';
 
 export interface DTableResizeTypes {
     options: Partial<{
         colResize: boolean | ((this: DTableResize, colName: ColName) => boolean);
-        onColResize: (this: DTableResize, colName: ColName, width: number) => void;
+        onColResize: (this: DTableResize, colName: ColName, sizeChange: number, col: ColInfo) => void;
     }>,
+    col: {
+        colResize?: boolean | ((this: DTableResize, colName: ColName) => boolean);
+        extraWidth?: number;
+    },
     state: {
         colResizing?: {colName: ColName, startX: number, startSize: number}
         colsSizes: Record<ColName, number>;
     },
+    data: {
+        colOriginSize: Map<ColName, number>;
+    },
+    methods: {
+        isColResizable(this: DTableResize, col: ColName | ColInfo): boolean | void;
+    }
 }
 
 export type DTableResize = DTableWithPlugin<DTableResizeTypes, [DTableMousemoveTypes]>;
@@ -33,14 +44,20 @@ function updateColSize(table: DTableResize, event: MouseEvent, finish?: boolean)
     if (finish) {
         state.colResizing = undefined;
     }
-    const {colsSizes} = table.state;
     const {colName} = colResizing;
-    colsSizes[colResizing.colName] = colResizing.startSize + delta;
-    state.colsSizes = {...colsSizes};
+    let col = table.getColInfo(colName);
+    if (!col) {
+        return table.update({dirtyType: 'layout', state});
+    }
+    state.colsSizes = {
+        ...table.state.colsSizes,
+        [colName]: colResizing.startSize + delta,
+    };
     table.update({dirtyType: 'layout', state}, finish ? () => {
-        const col = table.getColInfo(colName);
+        col = table.getColInfo(colName);
         if (col) {
-            table.options.onColResize?.call(table, colName, col.realWidth);
+            const originWidth = table.data.colOriginSize.get(colName)!;
+            table.options.onColResize?.call(table, colName, col.width - originWidth, col);
         }
     } : undefined);
     event.stopPropagation();
@@ -49,13 +66,26 @@ function updateColSize(table: DTableResize, event: MouseEvent, finish?: boolean)
 
 const resizePlugin: DTablePlugin<DTableResizeTypes, [DTableMousemoveTypes]> = {
     name: 'resize',
-    defaultOptions: {
-        colResize: true,
-    },
     when: options => !!options.colResize,
     plugins: [mousemove],
+    resetState(props) {
+        return {colsSizes: props.cols?.reduce((sizes, col) => {
+            if (col.extraWidth !== undefined) {
+                sizes[col.name] = col.extraWidth as number;
+            }
+            return sizes;
+        }, {} as Record<string, number>)};
+    },
     state() {
-        return {colsSizes: {}};
+        return {colsSizes: this.props.cols?.reduce((sizes, col) => {
+            if (col.extraWidth !== undefined) {
+                sizes[col.name] = col.extraWidth as number;
+            }
+            return sizes;
+        }, {} as Record<string, number>)};
+    },
+    data() {
+        return {colOriginSize: new Map()};
     },
     events: {
         mousedown(event) {
@@ -63,7 +93,8 @@ const resizePlugin: DTablePlugin<DTableResizeTypes, [DTableMousemoveTypes]> = {
             if (!splitter) {
                 return;
             }
-            const colName = splitter.closest<HTMLElement>('.dtable-cell')?.dataset.col;
+            const cellElement = splitter.closest<HTMLElement>('.dtable-cell');
+            const colName = cellElement?.dataset.col;
             if (!colName) {
                 return;
             }
@@ -73,8 +104,10 @@ const resizePlugin: DTablePlugin<DTableResizeTypes, [DTableMousemoveTypes]> = {
                     startSize: this.state.colsSizes[colName] ?? 0,
                     startX: event.clientX,
                 },
+            }, () => {
+                $(cellElement!).zuiCall('ContextMenu.hide');
             });
-            event.stopPropagation();
+
             return false;
         },
         dblclick(event) {
@@ -93,7 +126,7 @@ const resizePlugin: DTablePlugin<DTableResizeTypes, [DTableMousemoveTypes]> = {
                     colResizing: undefined,
                     colsSizes: {...colsSizes},
                 }}, () => {
-                    this.options.onColResize?.call(this, colName, 0);
+                    this.options.onColResize?.call(this, colName, 0, this.getColInfo(colName)!);
                 });
             }
         },
@@ -112,9 +145,26 @@ const resizePlugin: DTablePlugin<DTableResizeTypes, [DTableMousemoveTypes]> = {
             return false;
         },
     },
+    methods: {
+        isColResizable(col?: ColName | ColInfo): boolean | void {
+            if (typeof col === 'string') {
+                col = this.getColInfo(col);
+            }
+            if (!col) {
+                return;
+            }
+            if (col.side !== 'left' && col.sideIndex === this.layout.cols[col.side].list.length - 1) {
+                return;
+            }
+            let colResize = col.setting.colResize ?? this.options.colResize;
+            if (typeof colResize === 'function') {
+                colResize = colResize.call(this, col.name);
+            }
+            return !!colResize;
+        },
+    },
     onRenderHeaderCell(result, {col}) {
-        const {colResize: colResizeCallback} = this.options;
-        if (!col.flex && (typeof colResizeCallback !== 'function' || colResizeCallback.call(this, col.name) !== false)) {
+        if (this.isColResizable(col)) {
             result.push({
                 className: 'has-col-splitter',
                 children: <div className="dtable-col-splitter no-cell-event"></div>,
@@ -129,10 +179,20 @@ const resizePlugin: DTablePlugin<DTableResizeTypes, [DTableMousemoveTypes]> = {
         }
         return result;
     },
+    onRenderCell(result, {col}) {
+        if (this.state.colResizing?.colName === col.name) {
+            result.push({
+                className: 'is-col-resizing',
+                outer: true,
+            });
+        }
+        return result;
+    },
     onAddCol(col) {
-        const sizeChange = this.state.colsSizes[col.name];
+        const sizeChange = this.state.colsSizes[col.name] ?? col.setting.extraWidth;
         if (typeof sizeChange === 'number') {
-            col.realWidth = clamp(col.width + sizeChange, col.setting.minWidth, col.setting.maxWidth);
+            this.data.colOriginSize.set(col.name, col.width);
+            col.width = clamp(col.width + sizeChange, col.setting.minWidth, col.setting.maxWidth);
         }
     },
     onRender() {

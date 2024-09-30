@@ -10,3 +10,6 @@
 .dtable-nested-toggle.is-no-child {
     @apply --mr-1 -opacity-0 -pointer-events-none;
 }
+.dtable-child-label {
+    @apply --order-5;
+}

@@ -14,6 +14,7 @@ export interface ListProps<T extends Item = ListItem> extends CommonListProps<T>
     active?: string | string[] | Record<string, boolean>;
     multipleActive?: boolean;
     activeOnHover?: boolean;
+    hoverItemActions?: boolean;
     onActive?: (keys: string[], active: boolean) => void;
     onCheck?: (change: Record<ItemKey, CheckedType>, checks: ItemKey[]) => void;
     onLoad?: (items: T[]) => void | T[];

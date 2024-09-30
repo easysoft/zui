@@ -6,7 +6,7 @@
 
 <Example>
   <div class="mb-3"><strong>语义化</strong></div>
-  <div class="row flex-wrap gap-4">
+  <div class="flex-wrap gap-4 row">
     <StyleTile
         v-for="color in colors.semantic"
         :key="color.name"
@@ -16,7 +16,7 @@
     />
   </div>
   <div class="mt-6 mb-3"><strong>灰度</strong></div>
-  <div class="row flex-wrap gap-4">
+  <div class="flex-wrap gap-4 row">
     <StyleTile
         v-for="color in colors.gray"
         :key="color.name"
@@ -33,10 +33,10 @@
 
 == 示例
 
-<Example class="col items-start gap-4">
+<Example class="items-start gap-4 col">
   <button class="btn primary">Primary Button</button>
   <span class="label success">Success Label</span>
-  <div class="gray-200 p-2">Gray Element</div>
+  <div class="p-2 gray-200">Gray Element</div>
 </Example>
 
 == HTML
@@ -44,7 +44,7 @@
 ```html
 <button class="btn primary">Primary Button</button>
 <span class="label success">Success Label</span>
-<div class="gray-200">Gray-200 Element</div>
+<div class="gray-200">Gray-200 Element2</div>
 ```
 
 :::

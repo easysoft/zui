@@ -2,34 +2,49 @@
   @apply -flex -items-center -relative -list-none -pl-0;
 }
 .nav-item {
-  @apply -flex -items-center -relative -gap-3;
+  @apply -flex -items-center -relative -gap-[--nav-item-gap];
 }
 
 .nav-item > a {
-  @apply -flex -items-center -justify-center -h-8 -px-4 -gap-1 -text-inherit -cursor-pointer;
+  @apply -flex -items-center -justify-center -h-[--nav-item-height] -px-[--nav-item-padding] -gap-[--nav-gap] -cursor-pointer -text-[--nav-item-color] -bg-[--nav-item-bg];
+}
+.nav-item > a > .text {
+  @apply -whitespace-nowrap;
 }
 .nav-item > .active {
   @apply -font-bold;
-  color: var(--nav-active-color);
-  background: var(--nav-active-bg);
+  --nav-item-color: var(--nav-active-color);
+  --nav-item-bg: var(--nav-active-bg);
+}
+.nav-item > .selected {
+  --nav-item-color: var(--nav-selected-color);
+  --nav-item-bg: var(--nav-selected-bg);
 }
 .nav-item > .disabled {
-  @apply -opacity-100;
+  --nav-item-color: var(--nav-disabled-color);
+  --nav-item-bg: var(--nav-disabled-bg);
 }
 .nav-item > .disabled > * {
-  opacity: var(--disabled-opacity);
+  @apply -opacity-[--opacity-disabled];
 }
 
 .nav > .divider,
 .nav-divider {
-  @apply -my-2 -mx-2;
+  @apply -h-[--nav-divider-height] -self-center -mx-[--nav-divider-margin];
 }
 
 .nav-heading {
-  @apply -flex -items-center -justify-center -h-8 -px-4 -gap-1 -font-bold;
-  color: var(--nav-heading-color);
+  @apply -flex -items-center -justify-center -h-8 -px-4 -gap-1 -font-bold -text-[--nav-heading-color];
 }
 
 .nav-space {
   @apply -w-4 -flex-auto;
+}
+
+.nav-compact {
+  --nav-gap: 0.25rem;
+  --nav-item-gap: 0.5rem;
+  --nav-item-height: 1.75rem;
+  --nav-item-padding: 0.5rem;
+  --nav-divider-margin: 0.25rem;
 }

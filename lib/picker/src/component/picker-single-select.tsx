@@ -1,6 +1,7 @@
 import {ComponentChildren, createRef} from 'preact';
 import {CustomContent, classes} from '@zui/core';
 import {PickTrigger} from '@zui/pick/src/components';
+import {formatString} from '@zui/helpers';
 import {PickerSearch} from './picker-search';
 import {PickerSelectProps, PickerState} from '../types';
 import '@zui/css-icons/src/icons/caret.css';
@@ -45,6 +46,7 @@ export class PickerSingleSelect extends PickTrigger<PickerState, PickerSelectPro
     protected _getClass(props: PickerSelectProps) {
         return classes(
             super._getClass(props),
+            props.search ? '' : 'picker-no-search',
             'picker-select picker-select-single form-control',
         );
     }
@@ -65,28 +67,36 @@ export class PickerSingleSelect extends PickTrigger<PickerState, PickerSelectPro
     }
 
     protected _renderTrigger(props: PickerSelectProps) {
-        const {children, state: {selections = [], open}, placeholder, search, disabled, readonly, clearable} = props;
+        const {children, state: {selections = [], value, open}, placeholder, search, disabled, readonly, clearable, display, caretClass} = props;
 
         const [selection] = selections;
         const showSearch = open && search;
         let view: ComponentChildren;
         if (showSearch) {
             view = this._renderSearch(props);
-        } else if (selection) {
-            const {text} = selection;
+        } else if (selection || (placeholder === undefined && display)) {
+            const {text} = selection || {text: '', value: ''};
+            if (typeof display === 'function') {
+                view = display.call(this, value, selections);
+            } else if (typeof display === 'string') {
+                view = formatString(display, selection);
+            } else {
+                view = (
+                    <CustomContent content={text} />
+                );
+            }
             view = (
                 <span key="main" className="picker-single-selection" title={typeof text === 'string' ? text : undefined}>
-                    <CustomContent content={text} />
+                    {view}
                 </span>
             );
         } else {
             view = <span key="main" className="picker-select-placeholder">{placeholder}</span>;
         }
         const deselectBtnView = (clearable && !showSearch) ? (
-            <button key="deselect" type="button" className="btn picker-deselect-btn size-sm square ghost" disabled={disabled} readonly={readonly} onClick={this._handleDeselectClick}><span className="close"></span></button>
+            <button key="deselect" type="button" className="btn picker-deselect-btn size-xs square ghost" disabled={disabled} readonly={readonly} onClick={this._handleDeselectClick}><span className="close"></span></button>
         ) : null;
-        const caret = showSearch ? null : <span key="caret" className="caret"></span>;
-
+        const caret = showSearch ? null : <span key="caret" className={classes('caret flex-none', caretClass)}></span>;
         return [
             view,
             children,

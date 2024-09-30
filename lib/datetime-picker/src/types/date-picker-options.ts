@@ -1,15 +1,15 @@
 import type {IconType} from '@zui/core';
 import type {PickOptions} from '@zui/pick';
-import type {NavOptions} from '@zui/nav';
-import type {Item} from '@zui/common-list';
-import type {ToolbarItemOptions, ToolbarOptions} from '@zui/toolbar';
+import type {NavSetting} from '@zui/nav';
+import type {ToolbarSetting} from '@zui/toolbar';
 import type {DateLike} from '@zui/helpers/src/date-helper';
 
 export interface DatePickerOptions extends PickOptions {
     required?: boolean;
     readonly?: boolean;
     placeholder?: string;
-    format?: string;
+    format?: string | ((date: Date) => string);
+    display?: (value: string, date: Date | null) => string;
     icon?: IconType | boolean;
     weekNames?: string[];
     monthNames?: string[];
@@ -17,9 +17,10 @@ export interface DatePickerOptions extends PickOptions {
     todayText?: string;
     clearText?: string;
     weekStart?: number;
-    minDate?: DateLike | ((date?: Date) => DateLike);
-    maxDate?: DateLike | ((date?: Date) => DateLike);
-    menu?: Item[] | NavOptions;
-    actions?: ToolbarItemOptions[] | ToolbarOptions;
-    onInvalid?: (value: string) => void;
+    minDate?: DateLike | ((value?: string) => DateLike);
+    maxDate?: DateLike | ((value?: string) => DateLike);
+    menu?: NavSetting;
+    actions?: ToolbarSetting;
+    allowInvalid?: boolean;
+    onInvalid?: (value: string) => void | string;
 }

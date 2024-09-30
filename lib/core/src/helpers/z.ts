@@ -1,4 +1,5 @@
 import {$, Cash, Selector} from '../cash';
+import {evalValue} from './raw-data';
 
 /* Declare types. */
 declare module 'cash-dom' {
@@ -10,27 +11,44 @@ declare module 'cash-dom' {
     }
 }
 
-export function getZData(selector: Selector, prefix = 'z-'): Record<string, unknown> | undefined {
+type ZDataGetterOptions = {
+    prefix?: string;
+    evalValue?: boolean | string[];
+    evalArgs?: unknown[];
+    json?: boolean;
+    getter?: (name: string, value: unknown) => unknown;
+};
+
+export function getZData(selector: Selector, prefixOrOptions?: ZDataGetterOptions | string): Record<string, unknown> | undefined {
     const element = $(selector)[0];
     if (!element) {
         return;
     }
+    const {prefix, getter, evalValue: evalValueSetting, json = true, evalArgs = []} = {
+        prefix: 'z-',
+        ...(typeof prefixOrOptions === 'string' ? {prefix: prefixOrOptions} : prefixOrOptions),
+    };
+    const evalValueSet = Array.isArray(evalValueSetting) ? new Set(evalValueSetting) : undefined;
     return Array.from(element.attributes).reduce<Record<string, unknown>>((data, attribute) => {
-        let {name, value} = attribute;
+        let {name} = attribute;
+        const {value} = attribute;
+        let finalValue: unknown = value;
         if (name.startsWith(prefix)) {
             name = name.slice(prefix.length).replace(/-([a-z])/g, (g) => g[1].toUpperCase());
-            try {
-                if (value.startsWith('RAWJS<') && value.endsWith('>RAWJS')) {
-                    // eslint-disable-next-line @typescript-eslint/no-implied-eval
-                    const func = new Function(`return ${value.substring(6, value.length - 6)}`);
-                    value = func();
-                } else {
-                    value = JSON.parse(value);
+            if (getter) {
+                finalValue = getter(name, value);
+            } else {
+                try {
+                    if ((evalValueSetting && (!evalValueSet || evalValueSet.has(name))) || (evalValueSetting === undefined && value.includes('RAWJS'))) {
+                        finalValue = evalValue(value, ...evalArgs);
+                    } else if (json) {
+                        finalValue = JSON.parse(value);
+                    }
+                } catch (error) {
+                    // Ignore.
                 }
-            } catch (error) {
-                // Ignore.
             }
-            data[name] = value;
+            data[name] = finalValue;
         }
         return data;
     }, {});

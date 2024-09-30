@@ -1,4 +1,5 @@
-import {classes, $, createRef, CustomContent} from '@zui/core';
+import {classes, $, createRef, CustomContent, ComponentChildren} from '@zui/core';
+import {formatString} from '@zui/helpers';
 import '@zui/css-icons/src/icons/caret.css';
 import '@zui/css-icons/src/icons/close.css';
 import {PickTrigger, EVENT_PICK} from '@zui/pick/src/components';
@@ -33,6 +34,7 @@ export class PickerMultiSelect extends PickTrigger<PickerState, PickerSelectProp
     protected _getClass(props: PickerSelectProps) {
         return classes(
             super._getClass(props),
+            props.search ? '' : 'picker-no-search',
             'picker-select picker-select-multi form-control',
         );
     }
@@ -64,22 +66,30 @@ export class PickerMultiSelect extends PickTrigger<PickerState, PickerSelectProp
     }
 
     protected _renderTrigger(props: PickerSelectProps) {
-        const {state: {selections = [], open}, search, placeholder, children} = this.props;
+        const {state: {selections = [], open, value}, search, placeholder, display, valueList, children, caretClass} = this.props;
         const showSearch = open && search;
-        const caret = <span key="caret" class="caret"></span>;
-        if (!showSearch && !selections.length) {
-            return [
-                <span key="selections" className="picker-select-placeholder">{placeholder}</span>,
-                caret,
-            ];
-        }
-        return [
-            <div key="selections" className="picker-multi-selections">
+        let view: ComponentChildren;
+        const noSelections = !showSearch && !selections.length;
+        if (display && (!noSelections || placeholder === undefined)) {
+            if (typeof display === 'function') {
+                view = display.call(this, valueList, selections);
+            } else if (typeof display === 'string') {
+                view = formatString(display, {value, values: valueList, count: valueList.length});
+            }
+            view = <div key="selections" className="picker-multi-selections">{view}</div>;
+        } else if (noSelections) {
+            view = <span key="selections" className="picker-select-placeholder">{placeholder}</span>;
+
+        } else {
+            view = (<div key="selections" className="picker-multi-selections">
                 {selections.map(this._renderSelection)}
                 {showSearch ? this._renderSearch(props) : null}
-            </div>,
+            </div>);
+        }
+        return [
+            view,
             children,
-            caret,
+            <span key="caret" class={classes('caret', caretClass)}></span>,
         ];
     }
 

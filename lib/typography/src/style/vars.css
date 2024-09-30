@@ -1,3 +1,7 @@
 :root {
     --font-h1-size: 2.25rem;
+    --article-p-space: 0.5em;
+    --article-heading-space: 0.5em;
+    --article-hr-space: 1.5em;
+    --article-cell-padding: 0.25rem 0.75rem;
 }

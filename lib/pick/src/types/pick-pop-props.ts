@@ -20,6 +20,7 @@ export interface PickPopProps<S extends PickState = PickState> {
     beforeDestroy?: () => void;
     onLayout?: (element: HTMLElement) => void;
 
+    limitInScreen?: boolean;
     placement?: PickPopPlacement;
     container?: string | HTMLElement;
     width?: number | 'auto' | '100%' | (() => number | 'auto');

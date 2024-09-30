@@ -70,7 +70,8 @@ export class Avatar extends Component<AvatarOptions> {
             content = <Icon icon={icon} />;
         } else if (text?.length) {
             const displayText = getAvatarText(text, maxTextLength);
-            finalClass.push('has-text', `has-text-${displayText.length}`);
+            const displayTextLength = displayText.length;
+            finalClass.push('has-text', `has-text-${displayTextLength}`);
 
             if (background === undefined) {
                 const avatarCode = code ?? text;
@@ -84,8 +85,8 @@ export class Avatar extends Component<AvatarOptions> {
                 finalStyle.color = contrastColor(background);
             }
             let textStyle: JSX.CSSProperties | undefined;
-            if (actualSize && actualSize < (14 * displayText.length)) {
-                textStyle = {transform: `scale(${actualSize / (14 * displayText.length)})`, whiteSpace: 'nowrap'};
+            if (actualSize && actualSize < (16 * displayTextLength)) {
+                textStyle = {transform: `scale(${actualSize / (16 * displayTextLength)})`, whiteSpace: 'nowrap'};
             }
 
             content = <div data-actualSize={actualSize} className="avatar-text" style={textStyle}>{displayText}</div>;

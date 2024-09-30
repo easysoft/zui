@@ -1,5 +1,5 @@
-import type {ComponentChildren, JSX} from 'preact';
-import type {IconType, HElementProps} from '@zui/core';
+import type {JSX, ComponentChildren} from 'preact';
+import type {IconType, HElementProps, ClassNameLike} from '@zui/core';
 
 export interface ButtonProps extends HElementProps {
     type?: string; // primary, secondary ...
@@ -12,9 +12,12 @@ export interface ButtonProps extends HElementProps {
     rounded?: boolean | string;
     active?: boolean;
     icon?: IconType;
+    iconClass?: ClassNameLike;
     text?: ComponentChildren;
+    textClass?: ClassNameLike;
     square?: boolean;
     trailingIcon?: IconType;
+    trailingIconClass?: ClassNameLike;
     caret?: 'up' | 'down' | 'left' | 'right' | boolean;
     hint?: string;
     loading?: boolean;

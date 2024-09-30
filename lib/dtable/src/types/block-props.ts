@@ -13,6 +13,7 @@ export type BlockProps = {
     scrollLeft: number;
     scrollTop: number;
     className?: ClassNameLike;
+    cellClass?: ClassNameLike;
     style?: JSX.CSSProperties;
     onRenderCell?: CellRenderCallback;
     children?: ComponentChildren;

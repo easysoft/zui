@@ -51,6 +51,14 @@ export interface CommonListProps<T extends Item = Item> extends HElementProps {
     getItem?: (item: T, index: number) => T | false | undefined;
 
     /**
+     * Get items, can convert original items.
+     *
+     * @param items - The list items.
+     * @returns The modified list items.
+     */
+    getItems?: (items: Item[]) => Item[] | undefined;
+
+    /**
      * Item render functions.
      */
     itemRender?: ItemRender<T> | Record<ItemType, ItemRender<T>>;

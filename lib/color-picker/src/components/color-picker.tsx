@@ -1,4 +1,4 @@
-import {ComponentChildren} from 'preact';
+import {ComponentChildren, RenderableProps} from 'preact';
 import {Icon, $, classes} from '@zui/core';
 import '@zui/css-icons/src/icons/close.css';
 import {Pick} from '@zui/pick/src/components/pick';
@@ -16,11 +16,12 @@ export class ColorPicker extends Pick<PickState, ColorPickerOptions> {
         popMinWidth: 184,
     } as Partial<PickOptions>;
 
-    constructor(props: ColorPickerOptions) {
-        super(props);
-        if (this.state.value === undefined && props.required) {
-            (this.state as PickState).value = this.getColors()[0];
+    getDefaultState(props?: RenderableProps<ColorPickerOptions> | undefined): PickState {
+        const state = super.getDefaultState(props);
+        if (state.value === undefined && (props || this.props).required) {
+            state.value = this.getColors()[0];
         }
+        return state;
     }
 
     getColors() {

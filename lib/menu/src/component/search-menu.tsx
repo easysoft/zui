@@ -1,4 +1,5 @@
-import {$, classes} from '@zui/core';
+import {$, classes, mergeProps} from '@zui/core';
+import {formatString} from '@zui/helpers';
 import {SearchBox} from '@zui/search-box/src/components';
 import {Menu} from './menu';
 
@@ -10,17 +11,21 @@ import type {SearchBoxOptions} from '@zui/search-box';
 import type {SearchMenuOptions, SearchMenuState} from '../types';
 
 export class SearchMenu<T extends SearchMenuOptions = SearchMenuOptions> extends Menu<T, SearchMenuState> {
-    static inheritNestedProps = [...Menu.inheritNestedProps, 'isItemMatch', 'search', 'underlineKeys'];
+    static inheritNestedProps = [...Menu.inheritNestedProps, 'isItemMatch', 'search', 'underlineKeys', 'nestedSearch'];
 
     static defaultProps: Partial<SearchMenuOptions> = {
         ...Menu.defaultProps,
         defaultNestedShow: true,
         wrap: true,
+        nestedSearch: true,
+        underlineKeys: true,
     };
 
     protected declare _searchKeys: string[];
 
     protected declare _matchedParents: Set<string>;
+
+    protected declare _showCount: number;
 
     constructor(props: T) {
         super(props);
@@ -59,8 +64,8 @@ export class SearchMenu<T extends SearchMenuOptions = SearchMenuOptions> extends
             return;
         }
         const $element = $(this.element);
-        $element.find('.item.is-nested.is-not-match').filter((_, element) => this._matchedParents.has(element.getAttribute('z-key-path') || '')).addClass('has-match-child');
-        $element.parent().toggleClass('no-match-child', !!this._searchKeys?.length && !$element.children('.item').not('.is-not-match').length);
+        const $matchedChildren = $element.find('.item.is-nested.is-not-match').filter((_, element) => this._matchedParents.has(element.getAttribute('z-key-path') || '')).addClass('has-match-child');
+        $element.parent().toggleClass('no-match-child', !!this._searchKeys?.length && !$matchedChildren.length && !$element.children('.item').not('.is-not-match').length);
     }
 
     protected _handleSearchChange = (search: string) => {
@@ -70,9 +75,9 @@ export class SearchMenu<T extends SearchMenuOptions = SearchMenuOptions> extends
     };
 
     protected _isItemMatch(props: RenderableProps<T>, item: NestedItem, index: number, parentKey: ItemKey | undefined) {
-        const {isItemMatch} = props;
+        const {isItemMatch, nestedSearch} = props;
         const isMatch = isItemMatch ? isItemMatch.call(this, item, this._searchKeys, index, parentKey) : (this.constructor as typeof SearchMenu).isItemMatch(item, this._searchKeys, props.searchProps);
-        if (this.isRoot && isMatch && parentKey !== undefined) {
+        if ((nestedSearch && this.isRoot) && isMatch && parentKey !== undefined) {
             let key = '';
             String(parentKey).split(':').forEach(x => {
                 key += `${key.length ? ':' : ''}${x}`;
@@ -88,9 +93,11 @@ export class SearchMenu<T extends SearchMenuOptions = SearchMenuOptions> extends
 
     protected _getNestedProps(props: RenderableProps<T>, items: ListItemsSetting, item: NestedItem, expanded: boolean): NestedListProps<NestedListItem> {
         const nestedProps = super._getNestedProps(props, items, item, expanded) as SearchMenuOptions;
-        if (this.isRoot) {
+        if (this.isRoot && props.nestedSearch) {
             nestedProps.isItemMatch = this._isNestedItemMatch;
             nestedProps.search = this._searchKeys.join(' ');
+        } else if (!props.nestedSearch) {
+            mergeProps(nestedProps as Record<string, unknown>, {search: undefined, defaultSearch: undefined}, item.listProps);
         }
         return nestedProps;
     }
@@ -100,10 +107,15 @@ export class SearchMenu<T extends SearchMenuOptions = SearchMenuOptions> extends
         if (!finalItem) {
             return finalItem;
         }
+        if (this.isRoot && this.props.limit && this._showCount >= this.props.limit) {
+            return false;
+        }
         finalItem.hidden = !this._isItemMatch(props, item, index, props.parentKey);
+        if (!finalItem.hidden) {
+            this._showCount++;
+        }
         return finalItem;
     }
-
 
     protected _renderItem(props: RenderableProps<T>, item: Item, index: number): ComponentChildren {
         item.className = [item.className, item.hidden ? 'is-not-match' : ''];
@@ -122,35 +134,38 @@ export class SearchMenu<T extends SearchMenuOptions = SearchMenuOptions> extends
         return classes(super._getWrapClass(props), 'search-menu', props.searchBox ? `search-menu-on-${props.searchPlacement || 'top'}` : '', isSearchMode ? 'is-search-mode' : '', isSearchMode && props.expandOnSearch ? 'no-toggle-on-search' : '');
     }
 
-    protected _renderSearchBox(props: RenderableProps<T>): ComponentChildren {
+    protected _getSearchBoxProps(props: RenderableProps<T>): SearchBoxOptions {
         const {searchBox} = props;
-        if (!searchBox || !this.isRoot) {
-            return null;
-        }
         const searchOptions: SearchBoxOptions = {
             compact: true,
+            className: 'not-nested-toggle',
             onChange: this._handleSearchChange,
         };
         if (typeof searchBox === 'object') {
-            $.extend(searchOptions, searchBox);
+            mergeProps(searchOptions, searchBox);
         }
         if (props.search !== undefined) {
             searchOptions.value = this._searchKeys.join(' ');
             searchOptions.disabled = true;
         }
-        return <SearchBox key="search" {...searchOptions} />;
+        return searchOptions;
+    }
+
+    protected _renderSearchBox(props: RenderableProps<T>): ComponentChildren {
+        const searchBoxOptions = this._getSearchBoxProps(props);
+        return <SearchBox key="search" {...searchBoxOptions} />;
     }
 
     protected _renderWrapperHeader(props: RenderableProps<T>): ComponentChildren {
         const hasHeader = props.header;
-        const hasTopSearchBox = this.isRoot && props.searchBox && props.searchPlacement !== 'bottom';
-        const {noMatchHint} = props;
+        const {noMatchHint, searchBox, searchPlacement, nestedSearch, headerClass} = props;
+        const hasTopSearchBox = (!nestedSearch || this.isRoot) && searchBox && searchPlacement !== 'bottom';
         if (!hasHeader && !hasTopSearchBox && !noMatchHint) {
             return null;
         }
         return [
             noMatchHint ? <div key="noMatchHint" className="search-menu-no-match-hint">{noMatchHint}</div> : null,
-            (hasHeader || hasTopSearchBox) ? (<header key="header" className="search-menu-header">
+            (hasHeader || hasTopSearchBox) ? (<header key="header" className={classes('search-menu-header', headerClass)}>
                 {hasHeader ? super._renderWrapperHeader(props) : null}
                 {hasTopSearchBox ? this._renderSearchBox(props) : null}
             </header>) : null,
@@ -159,14 +174,17 @@ export class SearchMenu<T extends SearchMenuOptions = SearchMenuOptions> extends
 
     protected _renderWrapperFooter(props: RenderableProps<T>): ComponentChildren {
         const hasFooter = props.footer;
-        const hasBottomSearchBox = this.isRoot && props.searchBox && props.searchPlacement === 'bottom';
-        if (!hasFooter && !hasBottomSearchBox) {
+        const {searchBox, searchPlacement, nestedSearch, footerClass, exceedLimitHint, limit} = props;
+        const hasBottomSearchBox = (!nestedSearch || this.isRoot) && searchBox && searchPlacement === 'bottom';
+        const hasExceedLimitHint = exceedLimitHint && limit && this._items.length > limit;
+        if (!hasFooter && !hasBottomSearchBox && !hasExceedLimitHint) {
             return null;
         }
         return (
-            <footer key="footer" className="search-menu-footer">
+            <footer key="footer" className={classes('search-menu-footer', footerClass)}>
+                {hasExceedLimitHint ? <div className="search-menu-exceed-limit-hint">{formatString(exceedLimitHint, this._items.length - limit)}</div> : null}
                 {hasFooter ? super._renderWrapperFooter(props) : null}
-                {this._renderSearchBox(props)}
+                {hasBottomSearchBox ? this._renderSearchBox(props) : null}
             </footer>
         );
     }
@@ -174,6 +192,7 @@ export class SearchMenu<T extends SearchMenuOptions = SearchMenuOptions> extends
     protected _beforeRender(props: RenderableProps<T>): void | RenderableProps<T> | undefined {
         if (this.isRoot) {
             this._matchedParents = new Set();
+            this._showCount = 0;
         }
         return super._beforeRender(props);
     }
@@ -185,12 +204,12 @@ export class SearchMenu<T extends SearchMenuOptions = SearchMenuOptions> extends
      * @param searchKeys    Search keys.
      * @returns Whether item is matched.
      */
-    static isItemMatch(item: Item, searchKeys: string[], searchProps = ['keys', 'text', 'title', 'subtitle']) {
+    static isItemMatch(item: Item, searchKeys: string[], searchProps: (string | ((item: Item) => string | undefined))[] = ['keys', 'text', 'title', 'subtitle']) {
         if (!searchKeys.length) {
             return true;
         }
-        return searchKeys.every(searchKey => searchProps.some(propName => {
-            const propValue = item[propName];
+        return searchKeys.every(searchKey => searchProps.some(propSetting => {
+            const propValue = typeof propSetting === 'function' ? propSetting(item) : item[propSetting];
             return typeof propValue === 'string' && propValue.length && propValue.toLowerCase().includes(searchKey);
         }));
     }

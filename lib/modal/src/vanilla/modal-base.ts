@@ -27,6 +27,10 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
 
     static hideOthers = true;
 
+    static get SELECTOR() {
+        return '.modal';
+    }
+
     static zIndex = 1500;
 
     protected _timer = 0;
@@ -87,13 +91,23 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
 
         this._observeResize();
 
-        this.on('hidden', () => {
-            if (!ModalBase.getAll().some((modal) => modal.shown)) {
+        this.on('hidden', (event) => {
+            const {modalElement} = this;
+            if (!modalElement.parentNode) {
+                return this.destroy();
+            }
+            if ((event.target as HTMLElement).closest('.modal') === modalElement && !ModalBase.getAll().some((modal) => modal.shown)) {
                 $('html').enableScroll();
             }
         });
-        this.on('show', () => {
-            $('html').disableScroll();
+        this.on('show', (event) => {
+            const {modalElement} = this;
+            if (!modalElement.parentNode) {
+                return this.destroy();
+            }
+            if ((event.target as HTMLElement).closest('.modal') === modalElement) {
+                $('html').disableScroll();
+            }
         });
         if (this.shown) {
             $('html').disableScroll();
@@ -111,7 +125,7 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
     show(options?: Partial<T>) {
         const {modalElement} = this;
         const $modal = $(modalElement);
-        if (this._shown) {
+        if (this._shown && $modal.hasClass(CLASS_SHOWN)) {
             $modal.removeClass(HIDE_CLASS).css('z-index', `${ModalBase.zIndex++}`);
             return false;
         }
@@ -147,11 +161,14 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
         }
 
         this.layout();
+        this.options.onShow?.call(this);
         this.emit('show');
 
         this._setTimer(() => {
             $modal.addClass(CLASS_SHOWN);
             this._setTimer(() => {
+                $modal.find('[autofocus]')[0]?.focus();
+                this.options.onShown?.call(this);
                 this.emit('shown');
             });
         }, 50);
@@ -169,17 +186,23 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
 
         this._shown = false;
         $(this.modalElement).removeClass(CLASS_SHOWN);
+        this.options.onHide?.call(this);
         this.emit('hide');
 
         this._setTimer(() => {
             $(this.modalElement).removeClass(CLASS_SHOW);
+            this.options.onHidden?.call(this);
             this.emit('hidden');
         });
 
         /* Show other hidden modals. */
         const constructor = this.constructor as typeof ModalBase;
-        if (constructor.hideOthers) {
-            constructor.getAll().findLast(x => x.shown && x !== this)?.show();
+        if (constructor.hideOthers && this.options.hideOthers !== false) {
+            constructor.getAll().forEach(x => {
+                if (x.shown && x !== this) {
+                    $(x.modalElement).removeClass(HIDE_CLASS);
+                }
+            });
         }
         return true;
     }

@@ -2,6 +2,18 @@
 
 用于方便用户从多个选项列表中进行选择。
 
+## 特殊选项
+
+### 禁用搜索
+
+```html:example
+<div id="noSearchPicker"></div>
+```
+
+```html:example
+<div id="noSearchMultiPicker"></div>
+```
+
 ## 远程数据
 
 ### 单选

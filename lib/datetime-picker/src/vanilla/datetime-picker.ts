@@ -7,3 +7,5 @@ export class DatetimePicker extends ComponentFromReact<DatetimePickerOptions, Da
 
     static Component = DatetimePickerReact;
 }
+
+DatetimePicker.register();

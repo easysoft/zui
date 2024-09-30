@@ -14,6 +14,22 @@
 
 ## 动态下拉菜单
 
+通过 `zui-toggle-dropdown` 初始化：
+
+```html:example: -flex -gap-3 overflow-visible
+<button class="ghost btn btn-default" data-toggle="dropdown" zui-toggle-dropdown='{
+  "placement":"bottom-end",
+  "menu":{
+    "items":[
+      {"text":"转入任务","url":"\/index.php?m=execution&f=importTask&execution=2064"},
+      {"text":"导入Bug","url":"\/index.php?m=execution&f=importBug&execution=2064","className":"importBug","data-app":""}
+    ]
+  }
+}' type="button">
+  <i class="icon icon-import"></i><span class="text">导入</span><span class="caret"></span>
+</button>
+```
+
 通过 JS 动态弹出下拉菜单
 
 ```html:example: -flex -gap-3 overflow-visible

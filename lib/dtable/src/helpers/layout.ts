@@ -2,9 +2,17 @@ import {parseNumber, clamp} from './number';
 import type {ColInfo, ColSetting, DTableColsLayout, DTableColsSectionLayout, DTableOptions, DTablePlugin} from '../types';
 import type {DTable} from '../components';
 
-function initSectionColsLayout(cols: DTableColsSectionLayout, fixed = false) {
+function initSectionColsLayout(cols: DTableColsSectionLayout, fixed = false, maxWidth = 0) {
     if (!cols.list.length) {
         return;
+    }
+
+    if (fixed && cols.widthSetting) {
+        cols.widthSetting = Math.min(cols.widthSetting, cols.width);
+    }
+
+    if (maxWidth && (!cols.widthSetting || cols.widthSetting > maxWidth) && cols.width > maxWidth) {
+        cols.widthSetting = maxWidth;
     }
 
     if (cols.widthSetting && cols.width !== cols.widthSetting) {
@@ -21,13 +29,18 @@ function initSectionColsLayout(cols: DTableColsSectionLayout, fixed = false) {
     }
 
     let left = 0;
-    cols.list.forEach(col => {
+    cols.list.forEach((col, sideIndex) => {
         if (!col.realWidth) {
             col.realWidth = col.width;
         }
         col.left = left;
+        col.sideIndex = sideIndex;
         left += col.realWidth;
     });
+}
+
+function getColSide(fixed?: boolean | 'left' | 'right'): 'left' | 'right' | 'center' {
+    return fixed ? (fixed === 'left' ? 'left' : 'right') : 'center';
 }
 
 export function initColsLayout(dtable: DTable, options: DTableOptions, plugins: DTablePlugin[], width: number): DTableColsLayout {
@@ -45,22 +58,27 @@ export function initColsLayout(dtable: DTable, options: DTableOptions, plugins: 
     };
     const centerCols: DTableColsSectionLayout = {
         width: 0,
-        list: [],
-        flexList: [],
+        list: [] as ColInfo[],
+        flexList: [] as ColInfo[],
         widthSetting: 0,
         totalWidth: 0,
     };
     const leftCols = {
         ...centerCols,
-        list: [],
-        flexList: [],
+        list: [] as ColInfo[],
+        flexList: [] as ColInfo[],
         widthSetting: calcFixedWidth(fixedLeftWidth),
     };
     const rightCols = {
         ...centerCols,
-        list: [],
-        flexList: [],
+        list: [] as ColInfo[],
+        flexList: [] as ColInfo[],
         widthSetting: calcFixedWidth(fixedRightWidth),
+    };
+    const sideCols = {
+        left: leftCols,
+        center: centerCols,
+        right: rightCols,
     };
     const colsList: ColInfo[] = [];
     const colsMap: Record<string, ColInfo> = {};
@@ -82,7 +100,7 @@ export function initColsLayout(dtable: DTable, options: DTableOptions, plugins: 
             onAddColCallbacks.push(onAddCol);
         }
     });
-    options.cols.forEach((userColSetting) => {
+    options.cols.forEach((userColSetting, colIndex) => {
         if (userColSetting.hidden) {
             return;
         }
@@ -105,7 +123,11 @@ export function initColsLayout(dtable: DTable, options: DTableOptions, plugins: 
             width: 0,
             realWidth: 0,
             visible: true,
-            index: colsList.length,
+            index: colIndex,
+            side: getColSide(colSetting.fixed),
+            sideIndex: 0,
+            order: colSetting.order,
+            border: colSetting.border,
         };
 
         const colTypeModifier = colTypesModifiers[type];
@@ -118,30 +140,31 @@ export function initColsLayout(dtable: DTable, options: DTableOptions, plugins: 
             });
         }
 
-        const {fixed, flex, minWidth = minColWidth, maxWidth = maxColWidth} = colSetting;
+        const {flex, minWidth = minColWidth, maxWidth = maxColWidth} = colSetting;
         const colWidth = parseNumber(colSetting.width || defaultColWidth, defaultColWidth);
         colInfo.flex = flex === true ? 1 : (typeof flex === 'number' ? flex : 0);
         colInfo.width = clamp(colWidth < 1 ? Math.round(colWidth * width) : colWidth, minWidth, maxWidth);
+        colInfo.side = getColSide(colSetting.fixed);
 
         onAddColCallbacks.forEach(callback => callback.call(dtable, colInfo));
 
         colsList.push(colInfo);
         colsMap[colInfo.name] = colInfo;
-        const sectionCols = fixed ? (fixed === 'left' ? leftCols : rightCols) : centerCols;
+        const sectionCols = sideCols[colInfo.side];
         sectionCols.list.push(colInfo);
         sectionCols.totalWidth += colInfo.width;
         sectionCols.width = sectionCols.totalWidth;
         if (colInfo.flex) {
             sectionCols.flexList.push(colInfo);
         }
-        if (typeof colSetting.order === 'number') {
+        if (typeof colInfo.order === 'number') {
             needSortCols = true;
         }
     });
 
     /* Sort columns. */
     if (needSortCols) {
-        const colsSorter = (a: ColInfo, b: ColInfo) => (a.setting.order ?? 0) - (b.setting.order ?? 0);
+        const colsSorter = (a: ColInfo, b: ColInfo) => (a.order ?? a.index) - (b.order ?? b.index);
         colsList.sort(colsSorter);
         leftCols.list.sort(colsSorter);
         centerCols.list.sort(colsSorter);
@@ -149,16 +172,15 @@ export function initColsLayout(dtable: DTable, options: DTableOptions, plugins: 
     }
 
     /* Layout columns. */
-    initSectionColsLayout(leftCols, true);
     initSectionColsLayout(rightCols, true);
+    const maxLeftWidth = width - rightCols.width - Math.max(40, minColWidth);
+    initSectionColsLayout(leftCols, true, maxLeftWidth);
     centerCols.widthSetting = width - leftCols.width - rightCols.width;
     initSectionColsLayout(centerCols);
 
     return {
         list: colsList,
         map: colsMap,
-        left: leftCols,
-        center: centerCols,
-        right: rightCols,
+        ...sideCols,
     };
 }

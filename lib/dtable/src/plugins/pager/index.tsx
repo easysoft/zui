@@ -17,7 +17,17 @@ const pagerPlugin: DTablePlugin<DTablePagerTypes> = {
     footer: {
         pager() {
             const {footPager} = this.options;
-            return [footPager ? <Pager {...footPager} /> : null];
+            if (footPager) {
+                if (Array.isArray(footPager.items)) {
+                    footPager.items.forEach(item => {
+                        if (item.type === 'size-menu' && item.caret === undefined) {
+                            item.caret = 'up';
+                        }
+                    });
+                }
+                return [<Pager {...footPager} />];
+            }
+            return [];
         },
     },
 };

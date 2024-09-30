@@ -15,8 +15,8 @@ export class DTable extends ComponentFromReact<DTableOptions, DTableReact> {
 
     static plugins = plugins;
 
-    setOptions(options?: Partial<ComponentOptions<DTableOptions>>): ComponentOptions<DTableOptions> {
-        options = super.setOptions(options);
+    setOptions(options?: Partial<ComponentOptions<DTableOptions>>, reset?: boolean): ComponentOptions<DTableOptions> {
+        options = super.setOptions(options, reset);
         if (!options.parent) {
             options.parent = this.element;
         }

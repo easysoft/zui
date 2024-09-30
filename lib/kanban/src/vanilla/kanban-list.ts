@@ -29,3 +29,5 @@ export class KanbanList extends ComponentFromReact<KanbanListProps, KanbanListRe
         return this.render({items: newItems.filter(x => !(x as {deleted?: boolean}).deleted)});
     }
 }
+
+KanbanList.register();

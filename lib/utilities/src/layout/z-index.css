@@ -1,7 +1,20 @@
-.z-0    {@apply -z-0;}
-.z-10   {@apply -z-10;}
-.z-20   {@apply -z-20;}
-.z-30   {@apply -z-30;}
-.z-40   {@apply -z-40;}
-.z-50   {@apply -z-50;}
-.z-auto {@apply -z-auto;}
+.z-0        {@apply -z-0;}
+.z-1        {@apply -z-[1];}
+.z-5        {@apply -z-[5];}
+.z-10       {@apply -z-10;}
+.z-20       {@apply -z-20;}
+.z-30       {@apply -z-30;}
+.z-40       {@apply -z-40;}
+.z-50       {@apply -z-50;}
+.z-auto     {@apply -z-auto;}
+.z-base     {@apply -z-base }
+.z-above    {@apply -z-above }
+.z-below    {@apply -z-below }
+.z-dropdown {@apply -z-dropdown }
+.z-sticky   {@apply -z-sticky }
+.z-fixed    {@apply -z-fixed }
+.z-modal    {@apply -z-modal }
+.z-overlay  {@apply -z-overlay }
+.z-popover  {@apply -z-popover }
+.z-tooltip  {@apply -z-tooltip }
+.z-messager {@apply -z-messager }

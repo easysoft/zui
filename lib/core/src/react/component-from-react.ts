@@ -2,9 +2,9 @@ import {createRef, render, h} from 'preact';
 import {Component as ComponentBase} from '../component';
 import {mergeProps} from '../helpers';
 
-import type {ComponentEventsDefnition} from '../component';
 import type {Component as ComponentReact, ComponentClass} from 'preact';
-import {I18nLangMap} from '../i18n';
+import {type I18nLangMap} from '../i18n';
+import type {ComponentEventsDefnition} from '../component';
 
 export class ComponentFromReact<O extends {} = {}, C extends ComponentReact<O> = ComponentReact<O>, E extends ComponentEventsDefnition = {}, U extends HTMLElement = HTMLElement> extends ComponentBase<O & {$replace?: boolean}, E, U> {
     /**
@@ -70,29 +70,40 @@ export class ComponentFromReact<O extends {} = {}, C extends ComponentReact<O> =
      *
      * @param options new options.
      */
-    render(options?: Partial<O>) {
-        const {element} = this;
+    render(options?: Partial<O>, reset?: boolean) {
+        const {element, $: instance} = this;
         const {Component, replace} = this.constructor;
-        const {$replace = replace, ...userOptions} = this.setOptions(options);
+        const {$replace = replace, $optionsFromDataset, ...userOptions} = this.setOptions(options, reset);
         const props = {
             ref: this._ref,
             ...userOptions,
         };
+        if (reset) {
+            (instance as {resetState?: (props?: Record<string, unknown>, init?: boolean) => void})?.resetState?.(userOptions);
+        }
+
         if ($replace && (Component as {HElement?: boolean}).HElement && (element.tagName.toLowerCase() === $replace || $replace === true)) {
             const attrs = Array.from(element.attributes).reduce<Record<string, unknown>>((data, attribute) => {
                 const {name, value} = attribute;
                 data[name === 'class' ? 'className' : name] = value;
                 return data;
             }, {});
-            return render(
+            render(
                 h(Component as ComponentClass, mergeProps({component: element.tagName.toLowerCase(), attrs}, props)),
                 element.parentElement!,
                 element,
             );
+        } else {
+            render(
+                h(Component as ComponentClass, props),
+                element,
+            );
         }
-        render(
-            h(Component as ComponentClass, props),
-            element,
-        );
+    }
+
+    static renderHTML(options: Record<string, unknown>): string {
+        const tmpNode = document.createElement('div');
+        render(h(this.Component as ComponentClass, options), tmpNode);
+        return tmpNode.innerHTML;
     }
 }

@@ -1,13 +1,13 @@
 
 .label{
-  @apply -h-5 -px-1 -inline-flex -items-center -whitespace-pre-line -text-sm -bg-[--label-bg] -rounded-[--label-radius] -ring-[--label-border-color] -ring-1 -text-[--label-color];
+  @apply -h-5 -px-1 -inline-flex -items-center -justify-center -whitespace-pre-line -text-sm -bg-[--label-bg] -rounded-[--label-radius] -ring-[--label-border-color] -ring-1 -text-[--label-color] -min-w-[1.25rem];
 }
 .label.size-lg {
-  @apply -text-base -px-2 -h-6;
+  @apply -text-base -px-2 -h-6 -min-w-[1.5rem];
 }
 .label.size-sm {
-  @apply -h-4;
+  @apply -h-4 -min-w-[1rem];
 }
 .label-dot {
-  @apply -rounded-full -h-2 -px-0 -aspect-square;
+  @apply -rounded-full -h-2 -px-0 -aspect-square -min-w-0;
 }

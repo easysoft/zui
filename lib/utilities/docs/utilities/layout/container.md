@@ -19,7 +19,7 @@
       </tr>
       <tr v-for="item in ['sm', 'md', 'lg', 'xl', '2xl']" :key="item">
         <td class="font-mono">@media (min-width: <CssPropValue :prop="`--screen-${item}`" target="body" />)</td>
-        <td><code>max-width: <CssPropValue prop="--screen-sm" target="body" />;</code></td>
+        <td><code>max-width: <CssPropValue :prop="`--screen-${item}`" target="body" />;</code></td>
       </tr>
     </tbody>
    </table>
@@ -35,7 +35,7 @@
 == 示例
 
 <Example background="blue-circle">
-  <div class="container center canvas bg-opacity-50 backdrop-blur-lg h-56 font-mono">
+  <div class="container h-56 font-mono bg-opacity-50 center canvas backdrop-blur-lg">
     .container
   </div>
 </Example>

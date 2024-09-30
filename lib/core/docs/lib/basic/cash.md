@@ -1,6 +1,8 @@
-# 组件基础
+# Cash（jQuery）扩展
 
-## Cash 辅助方法
+在 ZUI3 一些 JS 组件依赖了 [Cash](https://github.com/fabiospampinato/cash)，这是一个轻量级的 jQuery 替代品，它的 API 与 jQuery 保持一致，但体积更小，性能更好。需要注意的是 Cash 与 jQuery 存在一些差异，详情参考 [Migration Guide](https://github.com/fabiospampinato/cash/blob/master/docs/migration_guide.md)。
+
+## Cash 组件调用方式
 
 为了方便手动构造、调用组件，增加了一系列 jQuery 风格的方法。
 
@@ -92,3 +94,21 @@ datePicker.$.setValue('2023-07-13');
 /* 销毁。 */
 datePicker.destroy();
 ```
+
+## 辅助方法
+
+### `$.fn.resize()` 监听元素尺寸变化
+
+::: info 定义：
+
+```ts
+$.fn.resize(callback: ResizeObserverCallback): ResizeObserver;
+```
+
+**参数**：
+
+* `callback`：回调函数，定义为 `(entries: ResizeObserverEntry[], observer: ResizeObserver): void;`。
+
+**返回值**：`ResizeObserver`：[ResizeObserver](https://developer.mozilla.org/en-US/docs/Web/API/ResizeObserver) 对象。
+
+:::

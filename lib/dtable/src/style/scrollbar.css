@@ -5,7 +5,10 @@
   @apply -transition-colors -duration-1000;
 }
 .dtable-scrolled-down .dtable-header {
-  @apply -border-b -border-b-inverse/20;
+  @apply -border-b -border-b-inverse/15;
+}
+.dtable-has-scroll-y:not(.dtable-scrolled-bottom) .dtable-footer {
+  @apply -border-t -border-t-inverse/15;
 }
 
 .dtable-scroll-shadow {
@@ -25,4 +28,11 @@
 .dtable-scrolled-right .dtable-scroll-shadow.is-left,
 .dtable-scroll-shadow.is-right {
   @apply -visible;
+}
+
+.scrollbar-hover:hover .scrollbar {
+  @apply -opacity-0;
+}
+.scrollbar-hover .dtable-body:hover ~ .scrollbar {
+  @apply -opacity-[--scrollbar-opacity];
 }

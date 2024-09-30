@@ -31,11 +31,14 @@ export type DTableRichTypes = {
         barWidth: number;
         barHeight: number;
         link: ColLinkSetting;
+        digits: number;
         format: ColFormatSetting;
         formatDate: ColDateFormatSetting;
         invalidDate: string;
         html: ColHTMLSetting;
         map: ColMapSetting;
+        mapSplitter: string;
+        mapJoiner: string;
         hint: boolean | string | ((info: {row: RowInfo, col: ColInfo}) => string);
         styleMap: Record<string, string> | ((info: {row: RowInfo, col: ColInfo}) => Record<string, string>);
     }>,
@@ -70,11 +73,12 @@ export function renderFormat(format: ColFormatSetting | undefined, info: {row: R
     if (format === undefined || format === null) {
         return;
     }
-    value = value ?? info.row.data?.[info.col.name];
+    const rowData = info.row.data;
+    value = value ?? rowData?.[info.col.name];
     if (typeof format === 'function') {
         return format(value, info);
     }
-    return formatString(format, value);
+    return formatString(format, {...rowData, '0': value});
 }
 
 export function renderDatetime(format: ColDateFormatSetting, info: {row: RowInfo, col: ColInfo}, value?: unknown, invalidDate?: string) {
@@ -82,6 +86,9 @@ export function renderDatetime(format: ColDateFormatSetting, info: {row: RowInfo
         return invalidDate ?? value as string;
     }
     value = value ?? info.row.data?.[info.col.name];
+    if (value === '0000-00-00 00:00:00' || value === '0000-00-00') {
+        return invalidDate ?? '';
+    }
     if (format === false) {
         return value as string;
     }
@@ -103,20 +110,37 @@ export function renderLinkCell(result: CustomRenderResultList, info: {row: RowIn
     return result;
 }
 
-export function renderFormatCell(result: CustomRenderResultList, info: {row: RowInfo, col: ColInfo}) {
-    const {format} = info.col.setting;
-    if (format) {
-        result[0] = renderFormat(format as ColFormatSetting, info, result[0]);
+export function renderFormatCell(result: CustomRenderResultList, info: {row: RowInfo, col: ColInfo, value: unknown}) {
+    const {format, digits} = info.col.setting;
+    let value = result[0];
+    if (typeof digits === 'number' && !Number.isNaN(Number(value))) {
+        value = Number(value);
+        if (digits >= 0) {
+            value = (value as number).toFixed(digits);
+        }
     }
+    if (format) {
+        value = renderFormat(format as ColFormatSetting, info, value);
+    }
+    result[0] = value as string;
     return result;
 }
 
 export function renderMapCell(result: CustomRenderResultList, info: {row: RowInfo, col: ColInfo}) {
-    const {map} = info.col.setting as DTableRichTypes['col'];
-    if (typeof map === 'function') {
-        result[0] = map(result[0], info);
-    } else if (typeof map === 'object' && map) {
-        result[0] = map[result[0] as string] ?? result[0];
+    const {map, mapSplitter = ',', mapJoiner} = info.col.setting as DTableRichTypes['col'];
+    if (map) {
+        let value: string | string[] = result[0] as string;
+        if (typeof value === 'string' && mapSplitter) {
+            value = value.split(mapSplitter);
+        }
+        if (typeof map === 'function') {
+            result[0] = map(value, info);
+        } else if (typeof map === 'object') {
+            if (!Array.isArray(value)) {
+                value = [value];
+            }
+            result[0] = value.map(v => map[v] ?? v).join(mapJoiner ?? mapSplitter);
+        }
     }
     return result;
 }

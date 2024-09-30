@@ -6,12 +6,12 @@ import {KanbanLink} from './kanban-link';
 import type {ComponentChildren, RenderableProps} from 'preact';
 import type {KanbanLinkEditorProps, KanbanLinkEditorState} from '../types';
 
-const EVENT_NAMESPACE = '.kanbanLinkEditor';
+const EVENT_NAMESPACE = '.kanban';
 
 export class KanbanLinkEditor extends Component<KanbanLinkEditorProps, KanbanLinkEditorState> {
     protected _ref = createRef<HTMLDivElement>();
 
-    protected declare _kanban: HTMLElement;
+    protected declare _container: HTMLElement;
 
     protected _raf?: number;
 
@@ -19,26 +19,31 @@ export class KanbanLinkEditor extends Component<KanbanLinkEditorProps, KanbanLin
 
     protected declare _moveable: Moveable;
 
+    protected declare _multiKanban: boolean;
+
     state: KanbanLinkEditorState = {};
 
     componentDidMount(): void {
         const element = this._ref.current!;
-        const kanbanElement = element.closest('.kanban') as HTMLElement;
-        this._kanban = kanbanElement;
-
+        const {container = '.kanban'} = this.props;
+        const containerElement = element.closest(container) as HTMLElement;
+        const $container = $(containerElement);
+        this._container = containerElement;
+        this._multiKanban = $container.find('.kanban').length > 1;
         const eventSelector = '.kanban-item,.kanban-link-editor-from';
-        $(kanbanElement).on(`mouseenter${EVENT_NAMESPACE}`, eventSelector, (event: MouseEvent) => {
+        $container.on(`mouseenter${EVENT_NAMESPACE}`, eventSelector, (event: MouseEvent) => {
             if (this.state.dragPos) {
                 return;
             }
             clearTimeout(this._leaveTimer);
             const $item = $(event.target as HTMLElement).closest(eventSelector);
-            const id = $item.attr('z-key') as string;
+            const id = $item.z('key') as string;
             if (this.state.from === id || $item.hasClass('is-dragging')) {
                 return;
             }
             this.setState({
                 from: id,
+                fromKanban: this._multiKanban ? $item.closest('.kanban').z('key') as string : undefined,
                 to: undefined,
                 fromRect: this._getRect($item.children()[0]!),
                 dragPos: undefined,
@@ -57,6 +62,11 @@ export class KanbanLinkEditor extends Component<KanbanLinkEditorProps, KanbanLin
                 return;
             }
             this._cancelHover();
+        }).on(`laneColScroll${EVENT_NAMESPACE}`, (event: Event) => {
+            const {from} = this.state;
+            if (from) {
+                this.setState({fromRect: this._getRect($(event.target as HTMLElement).find(`.kanban-item[z-key="${from}"]`).children()[0]!)});
+            }
         });
 
         this._moveable = new Moveable(element, {
@@ -66,28 +76,30 @@ export class KanbanLinkEditor extends Component<KanbanLinkEditorProps, KanbanLin
                 if (!this.state.from) {
                     return false;
                 }
-                $(kanbanElement).addClass('is-adding-link');
+                $container.addClass('is-adding-link');
             },
             onMove: (event) => {
-                const {top: offsetTop, left: offsetLeft} = this._kanban.getBoundingClientRect();
-                const dragPos = {left: event.clientX - offsetLeft, top: event.clientY - offsetTop};
+                const {top: offsetTop, left: offsetLeft} = containerElement.getBoundingClientRect();
+                const dragPos = {left: event.clientX - offsetLeft + containerElement.scrollLeft, top: event.clientY - offsetTop + containerElement.scrollTop};
                 let to: string | undefined;
                 let toRect: KanbanLinkEditorState['toRect'] | undefined;
+                let toKanban: string | undefined;
                 const $item = $(event.target as HTMLElement).closest(eventSelector);
                 if ($item.length && to !== this.state.from) {
                     to = $item.attr('z-key') as string;
+                    toKanban = this._multiKanban ? $item.closest('.kanban').z('key') as string : undefined;
                     toRect = this._getRect($item.children()[0]!);
                 }
-                this.setState({dragPos, to, toRect});
+                this.setState({dragPos, to, toKanban, toRect});
             },
             onMoveEnd: () => {
-                const {from, to} = this.state;
+                const {from, fromKanban, to, toKanban} = this.state;
                 const {onAddLink} = this.props;
-                if (from !== to && onAddLink && from !== undefined && to !== undefined) {
-                    onAddLink?.call(this, from, to);
+                if ((from !== to || fromKanban !== toKanban) && onAddLink && from !== undefined && to !== undefined) {
+                    onAddLink?.call(this, {from, fromKanban, to, toKanban});
                 }
                 this._cancelHover();
-                $(kanbanElement).removeClass('is-adding-link');
+                $container.removeClass('is-adding-link');
             },
         });
     }
@@ -104,10 +116,11 @@ export class KanbanLinkEditor extends Component<KanbanLinkEditorProps, KanbanLin
 
     protected _getRect(element: HTMLElement) {
         const rect = element.getBoundingClientRect();
-        const {top: offsetTop, left: offsetLeft} = this._kanban.getBoundingClientRect();
+        const container = this._container;
+        const {top: offsetTop, left: offsetLeft} = container.getBoundingClientRect();
         return {
-            left: rect.left - offsetLeft,
-            top: rect.top - offsetTop,
+            left: rect.left - offsetLeft + container.scrollLeft,
+            top: rect.top - offsetTop + container.scrollTop,
             width: rect.width,
             height: rect.height,
         };

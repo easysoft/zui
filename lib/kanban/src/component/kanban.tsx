@@ -3,13 +3,13 @@ import {Draggable, DraggableOptions} from '@zui/dnd';
 import {KanbanHeader} from './kanban-header';
 import {KanbanBody} from './kanban-body';
 import {KanbanLinks} from './kanban-links';
-import {KanbanLinkEditor} from './kanban-link-editor';
 import {getCols, mergeData, getLanes, getColItems, normalizeData} from '../helpers/kanban-helpers';
 
 import type {ComponentChildren, RenderableProps} from 'preact';
 import type {ClassNameLike, CustomContentType} from '@zui/core';
 import type {ItemKey} from '@zui/common-list';
-import type {KanbanColName, KanbanColOptions, KanbanData, KanbanDataset, KanbanDataFetcher, KanbanDataSetting, KanbanItem, KanbanLaneName, KanbanLaneOptions, KanbanLinkOptions, KanbanProps, KanbanState, KanbanDataMap, KanbanItemsMap, KanbanElementInfo, KanbanDropInfo, KanbanDropSide} from '../types';
+import type {KanbanColName, KanbanColOptions, KanbanData, KanbanDataset, KanbanDataFetcher, KanbanDataSetting, KanbanItem, KanbanLaneName, KanbanLaneOptions, KanbanLinkOptions, KanbanProps, KanbanState, KanbanDataMap, KanbanItemsMap, KanbanElementInfo, KanbanDropInfo, KanbanDropSide, KanbanItemInfo} from '../types';
+import {createLinkID} from '../helpers/link-helpers';
 
 export type KanbanSnap = {
     date: number;
@@ -40,6 +40,8 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
 
     protected _rob?: ResizeObserver;
 
+    protected declare _hoverTimer: number;
+
     protected _data = new Computed(this._getData.bind(this), () => {
         const {getCol, colProps, itemCountPerRow, itemGap, getLane, laneProps, itemProps, getItem, getLink, linkProps, responsive} = this.props;
         return [
@@ -68,10 +70,11 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
         }
         return kanbanData;
     }, () => {
-        const {data: stateData, changes} = this.state;
+        const {data: stateData, changes, selected} = this.state;
         return [
             stateData,
             changes,
+            selected,
             this.props.data,
         ];
     });
@@ -89,7 +92,7 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
         this.tryLoad();
         this._initDraggable();
 
-        const {responsive} = this.props;
+        const {responsive, selectable} = this.props;
         const element = this._ref.current;
         if (element && responsive) {
             const rob = new ResizeObserver(this.updateLayout.bind(this));
@@ -103,6 +106,10 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
                 this.updateLayout();
             }
         }
+
+        if (selectable) {
+            $(document).on('click.kanban', this._handleGlobalClick);
+        }
     }
 
     componentDidUpdate(): void {
@@ -114,6 +121,20 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
         this.props.beforeDestroy?.call(this);
         this._draggable?.destroy();
         this._rob?.disconnect();
+
+        if (this.props.selectable) {
+            $(document).off('click.kanban', this._handleGlobalClick);
+        }
+    }
+
+    getDefaultState(props?: RenderableProps<P>): S {
+        return {
+            loading: false,
+            selected: (props || this.props).defaultSelected,
+            data: undefined,
+            changes: undefined,
+            loadFailed: undefined,
+        } as S;
     }
 
     load(): void {
@@ -244,7 +265,7 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
                 deleted: false,
                 ...x,
                 ...change,
-                [this.itemKey]: `${x.from}:${x.to}`,
+                [this.itemKey]: createLinkID(x),
             })),
         });
     }
@@ -257,14 +278,55 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
         return this.updateLink(link, {deleted: true});
     }
 
+    select(selected: ItemKey | ItemKey[], toggle?: boolean) {
+        let newSelected = Array.isArray(selected) ? selected : (selected ? [selected] : []);
+        let oldSelected = this.state.selected || [];
+        const {onSelect} = this.props;
+        return this.changeState((prevState) => {
+            oldSelected = prevState.selected || [];
+            if (toggle) {
+                const oldSelectedSet = new Set(oldSelected);
+                const toggleNewSelected = new Set<string>();
+                newSelected.forEach(key => {
+                    if (oldSelectedSet.has(key)) {
+                        oldSelectedSet.delete(key);
+                    } else {
+                        toggleNewSelected.add(key);
+                    }
+                });
+                newSelected = [...oldSelectedSet, ...toggleNewSelected];
+                return {selected: newSelected} as S;
+            }
+            return {selected: newSelected} as S;
+        }, () => {
+            onSelect?.(newSelected, oldSelected);
+            $(this._ref.current).trigger('kanbanItemSelected', {kanban: this.props.key, selected: newSelected, oldSelected});
+        });
+    }
+
+    protected _handleGlobalClick = (event: MouseEvent) => {
+        const $target = $(event.target as HTMLElement);
+        if ($target.closest('.kanban-item').length) {
+            return;
+        }
+        this.select([]);
+    };
+
     protected _getElementInfo(element: HTMLElement): KanbanElementInfo | undefined {
         const $element = $(element);
         const $item = $element.closest('.kanban-item');
         if ($item.length) {
-            const item = this.getItem($item.attr('z-key'));
-            if (item) {
-                return {type: 'item', element, item, lane: item.lane, col: item.col};
+            const key = $item.attr('z-key');
+            if (key) {
+                const item = this.getItem(key);
+                if (item) {
+                    return {type: 'item', key, element, item, lane: item.lane, col: item.col};
+                }
             }
+        }
+        const $newItem = $element.closest('.kanban-new-item');
+        if ($newItem.length) {
+            return {type: 'newItem', element};
         }
         const $col = $element.closest('.kanban-header-col,.kanban-lane-col');
         if ($col.length) {
@@ -282,7 +344,7 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
             return;
         }
         const dropInfo = this._getElementInfo(dropElement);
-        if (!dropInfo) {
+        if (!dropInfo || dropInfo.element.closest('.kanban') !== this.element) {
             return;
         }
         let side: KanbanDropSide;
@@ -366,6 +428,29 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
                     changeData.list.push(changeItem[itemKey] as string);
                 });
             }
+        } else if (drag.type === 'newItem') {
+            const {onDropNewItem} = this.props;
+            let newItem: Partial<KanbanItem> | undefined;
+            if (onDropNewItem) {
+                newItem = onDropNewItem.call(this, info);
+            } else {
+                newItem = $(drag.element).data();
+                if (newItem?.item) {
+                    newItem = newItem.item;
+                }
+            }
+            newItem = {
+                lane: drop.lane,
+                col: drop.col,
+                ...newItem,
+            };
+            if (newItem?.[itemKey]) {
+                const colItems = data.items[drop.lane!][drop.col!];
+                const newColItems = [...colItems];
+                newColItems.push(newItem);
+                changes.items = newColItems;
+                changeData.list.push(newItem[itemKey] as string);
+            }
         }
         return {changes, data: changeData};
     }
@@ -376,12 +461,13 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
         if (!draggable || !element) {
             return;
         }
-        const {dragTypes = 'item', onDragStart, onDrop, canDrop, dropRules} = this.props;
+        const {dragTypes = ['item', 'newItem'], onDragStart, onDrop, canDrop, dropRules} = this.props;
         const dragTypeList = typeof dragTypes === 'string' ? dragTypes.split(',') : dragTypes;
         const dragTypeSelectors: Record<string, string> = {
             item: '.kanban-item',
             lane: '.kanban-lane-name',
             col: '.kanban-header-col',
+            newItem: '.kanban-new-item',
         };
         const userOptions = typeof draggable === 'object' ? draggable : {};
         const updateDropElementAttr = (dropElement: HTMLElement, info?: KanbanDropInfo) => {
@@ -393,7 +479,7 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
         };
         const dragOptions: DraggableOptions = {
             ...userOptions,
-            selector: userOptions.selector || dragTypeList.map(x => dragTypeSelectors[x] || '').join(''),
+            selector: userOptions.selector || dragTypeList.map(x => dragTypeSelectors[x] || '').filter(Boolean).join(','),
             target: userOptions.target || ((dragElement: HTMLElement) => {
                 const info = this._getElementInfo(dragElement);
                 if (!info) {
@@ -403,6 +489,7 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
                     lane: '.kanban-lane',
                     col: '.kanban-header-col',
                     item: '.kanban-item,.kanban-items',
+                    newItem: '.kanban-item,.kanban-items',
                 })[info.type];
                 return $(element).find(selector);
             }),
@@ -412,7 +499,7 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
                     return false;
                 }
                 const dropInfo = this._getElementInfo(dropElement);
-                if (!dropInfo) {
+                if (!dropInfo || dropInfo.element.closest('.kanban') !== this.element) {
                     return false;
                 }
                 if (dragInfo.type === 'item' && dropRules) {
@@ -476,9 +563,9 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
         this.props.afterRender?.call(this, firstRender);
     }
 
-    protected _onAddLink = async (from: string, to: string) => {
+    protected _onAddLink = async (newLink: KanbanLinkOptions) => {
         const {onAddLink} = this.props;
-        const newLink = {from, to, [this.itemKey]: `${from}:${to}`};
+        newLink[this.itemKey] = createLinkID(newLink);
         const result = await onAddLink?.call(this, newLink);
         if (result === false) {
             return;
@@ -536,15 +623,20 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
             }
             return map;
         }, new Map());
+        const {selected = []} = this.state;
+        const selectedSet = new Set(selected);
+        const forEachItem = (item: KanbanItem) => {
+            item.selected = selectedSet.has(item[itemKey] as string);
+        };
         lanes.forEach(lane => {
             const laneItems = itemsMap[lane.name];
             if (!laneItems) {
                 return;
             }
             cols.forEach(col => {
-                laneItems[col.name] = getColItems.call(this, laneItems[col.name], lane, col, props);
+                laneItems[col.name] = getColItems.call(this, laneItems[col.name], lane, col, props, forEachItem);
                 col.subCols?.forEach(subCol => {
-                    laneItems[subCol.name] = getColItems.call(this, laneItems[subCol.name], lane, subCol, props);
+                    laneItems[subCol.name] = getColItems.call(this, laneItems[subCol.name], lane, subCol, props, forEachItem);
                 });
             });
         });
@@ -552,7 +644,7 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
         links = links.reduce<KanbanLinkOptions[]>((list, link) => {
             if (!link.deleted && itemMap.has(link.from) && itemMap.has(link.to) && !deletedItemSet.has(link.from) && !deletedItemSet.has(link.to)) {
                 if (link[itemKey] === undefined) {
-                    link[itemKey] = `${link.from}:${link.to}`;
+                    link[itemKey] = createLinkID(link);
                 }
                 const finalLink = props.getLink?.call(this, link) ?? link;
                 if (finalLink !== false && !finalLink.deleted) {
@@ -633,7 +725,7 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
     }
 
     protected _getProps(props: RenderableProps<P>): Record<string, unknown> {
-        const {laneNameWidth, colsGap, lanesGap} = props;
+        const {laneNameWidth, colsGap, lanesGap, selectable, onClickItem, showLinkOnHover} = props;
         return mergeProps(super._getProps(props), {
             ref: this._ref,
             style: {
@@ -641,13 +733,82 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
                 '--kanban-cols-gap': toCssSize(colsGap),
                 '--kanban-lanes-gap': toCssSize(lanesGap),
             },
+            onClick: (onClickItem || selectable) ? this._handleClick : undefined,
+            onMouseMove: showLinkOnHover ? this._handleMouseMove : undefined,
         });
+    }
+
+    protected _handleMouseMove = (event: MouseEvent) => {
+        if (this._hoverTimer) {
+            clearTimeout(this._hoverTimer);
+        }
+        const info = this._getElementInfo(event.target as HTMLElement);
+        const hover = info?.type === 'item' ? info.key : undefined;
+        this._hoverTimer = window.setTimeout(() => {
+            if (hover !== this.state.hover) {
+                this.setState({hover}, () => {
+                    $(this._ref.current).trigger('kanbanItemHover', {kanban: this.props.key, hover});
+                });
+            }
+            this._hoverTimer = 0;
+        }, !hover && this.state.hover ? 0 : 20);
+    };
+
+    protected _handleClick = (event: MouseEvent) => {
+        if ((event.target as HTMLElement).closest('a,button')) {
+            return;
+        }
+        const {onClickItem, selectable} = this.props;
+        const info = this._getElementInfo(event.target as HTMLElement);
+        if (onClickItem && info?.type === 'item') {
+            const result = onClickItem.call(this, event, info as KanbanItemInfo);
+            if (result === false) {
+                return;
+            }
+        }
+
+        if (selectable && info?.type === 'item') {
+            this.select(info.key!, true);
+        }
+    };
+
+    protected _renderLinks(props: RenderableProps<P>) {
+        const {links = []} = this.data;
+        const {editLinks} = props;
+        if (!editLinks && !links.length) {
+            return;
+        }
+
+        const {showLinkOnHover, showLinkOnSelected} = props;
+        let filters: string[] | undefined;
+        if (showLinkOnSelected || showLinkOnHover) {
+            filters = [];
+            const {selected, hover} = this.state;
+            if (showLinkOnSelected && selected) {
+                filters.push(...selected);
+            }
+            if (showLinkOnHover && hover) {
+                filters.push(hover);
+            }
+            filters = [...new Set(filters)];
+        }
+
+        return (
+            <KanbanLinks
+                key="links"
+                links={links}
+                filters={filters}
+                editLinks={editLinks}
+                onDeleteLink={editLinks ? (this._onDeleteLink as (link: KanbanLinkOptions) => void) : undefined}
+                onAddLink={editLinks ? this._onAddLink : undefined}
+            />
+        );
     }
 
     protected _getChildren(props: RenderableProps<P>): ComponentChildren {
         const data = this._data.value;
-        const {cols, lanes, items, links = []} = data;
-        const {editLinks, laneNameWidth} = props;
+        const {cols, lanes, items} = data;
+        const {laneNameWidth} = props;
         const layoutCols = this._layoutCols(cols, props);
         const layoutLanes = this._layoutLanes(lanes, props);
         return [
@@ -655,13 +816,13 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
             <KanbanBody
                 key="body"
                 itemRender={props.itemRender}
+                getLaneCol={props.getLaneCol}
                 cols={layoutCols}
                 lanes={layoutLanes}
                 items={items}
                 hideLaneName={laneNameWidth === 0}
             />,
-            links.length ? <KanbanLinks key="links" links={links} onDeleteLink={editLinks ? (this._onDeleteLink as (link: KanbanLinkOptions) => void) : undefined} /> : null,
-            editLinks ? <KanbanLinkEditor key="linkEditor" onAddLink={this._onAddLink} /> : null,
+            this._renderLinks(props),
             props.children,
         ];
     }

@@ -33,10 +33,9 @@ export function renderCustomContent(props: CustomContentProps): ComponentChildre
         if ((content as HtmlContentProps).html) {
             return <HtmlContent {...(mergeProps(others, content) as unknown as HtmlContentProps)} />;
         }
-        let {children} = content as HElementProps;
+        const {children, ...contentOthers} = content as HElementProps;
         if (children) {
-            children = Array.isArray(children) ? children : [children];
-            content = mergeProps({children: (children as CustomContentType[]).map((x) => renderCustomContent({...others, content: x, generatorThis, generatorArgs}))}, content);
+            content = mergeProps({children: ((Array.isArray(children) ? children : [children]) as CustomContentType[]).map((x) => renderCustomContent({...others, content: x, generatorThis, generatorArgs}))}, contentOthers);
         }
         return <HElement {...(mergeProps(others, content) as unknown as HElementProps)} />;
     }

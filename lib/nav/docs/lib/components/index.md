@@ -263,6 +263,40 @@
 
 :::
 
+### 步骤条 `.nav-steps`
+
+::: tabs
+
+== 示例
+
+<Example background="light-circle" class="overflow-auto">
+  <menu class="nav nav-steps canvas">
+    <li class="nav-item item"><a class="selected"><span class="text">已激活步骤1</span></a></li>
+    <li class="nav-item item"><a class="selected"><span class="text">已激活步骤2</span></a></li>
+    <li class="nav-item item"><a class="active"><span class="text">当前步骤</span></a></li>
+    <li class="nav-item item"><a class="selected"><span class="text">已激活步骤3</span></a></li>
+    <li class="nav-item item"><a><span class="text">可点击步骤1</span></a></li>
+    <li class="nav-item item"><a><span class="text">可点击步骤2</span></a></li>
+    <li class="nav-item item"><a class="disabled"><span class="text">不可点击步骤</span></a></li>
+  </menu>
+</Example>
+
+== HTML
+
+```html
+<menu class="nav nav-steps">
+  <li class="nav-item item"><a class="selected"><span class="text">已激活步骤1</span></a></li>
+  <li class="nav-item item"><a class="selected"><span class="text">已激活步骤2</span></a></li>
+  <li class="nav-item item"><a class="active"><span class="text">当前步骤</span></a></li>
+  <li class="nav-item item"><a class="selected"><span class="text">已激活步骤3</span></a></li>
+  <li class="nav-item item"><a><span class="text">可点击步骤1</span></a></li>
+  <li class="nav-item item"><a><span class="text">可点击步骤2</span></a></li>
+  <li class="nav-item item"><a class="disabled"><span class="text">不可点击步骤</span></a></li>
+</menu>
+```
+
+:::
+
 ## 垂直排列
 
 使用修饰类 `nav-stacked` 使导航获得垂直排列样式，可搭配其他各种样式的导航使用。

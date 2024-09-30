@@ -14,6 +14,7 @@ module.exports = {
             radius: borderRadius,
             shadow: boxShadow,
             space: '0.25rem',
+            'font-size-article': fontSize.article[0],
             'font-size-root': fontSize.root,
             'font-size-page': fontSize.page[1],
         },

@@ -21,6 +21,7 @@ export interface KanbanProps extends HElementProps {
     itemProps?: Partial<KanbanItem>;
     getCol?: (col: KanbanColOptions) => KanbanColOptions | false;
     getLane?: (lane: KanbanLaneOptions) => KanbanLaneOptions | false;
+    getLaneCol?: (lane: KanbanLaneOptions, col: KanbanColOptions) => KanbanColOptions | void;
     getItem?: (info: KanbanItemInfo & {laneInfo: KanbanLaneOptions, colInfo: KanbanColOptions}) => KanbanItem | false;
     itemRender?: (info: KanbanItemInfo) => CustomContentType;
 
@@ -39,6 +40,12 @@ export interface KanbanProps extends HElementProps {
     lanesGap?: SizeSetting;
     colsGap?: number;
 
+    /* UI. */
+    selectable?: boolean;
+    defaultSelected?: string | string[];
+    onClickItem?: (event: MouseEvent, item: KanbanItemInfo) => false | void;
+    onSelect?: (newSelected: string[], oldSelected: string[]) => void;
+
     /* Async load. */
     onLoad?: (data: KanbanData) => void | KanbanData;
     onLoadFail?: CustomContentType | ((error: Error) => CustomContentType | void);
@@ -46,6 +53,8 @@ export interface KanbanProps extends HElementProps {
     /* Link options.  */
     linkProps?: Partial<KanbanLinkOptions>;
     editLinks?: boolean;
+    showLinkOnHover?: boolean;
+    showLinkOnSelected?: boolean;
     getLink?: (link: KanbanLinkOptions) => KanbanLinkOptions | false;
     onAddLink?: (newLink: KanbanLinkOptions) => void | false | Promise<void | false>;
     onDeleteLink?: (link: KanbanLinkOptions) => void | false | Promise<void | false>;
@@ -57,6 +66,7 @@ export interface KanbanProps extends HElementProps {
     canDrop?: (dragInfo: KanbanElementInfo, dropInfo: KanbanElementInfo) => boolean | void;
     onDragStart?: (info: KanbanDragInfo) => void | boolean;
     onDrop?: (changes: Partial<KanbanData>, info: KanbanDropInfo, restore: () => void) => void | false;
+    onDropNewItem?: (info: KanbanDropInfo) => KanbanItem | undefined;
 
     /* Component lifecycle. */
     beforeRender?: (options: KanbanProps) => void;

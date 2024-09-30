@@ -28,6 +28,12 @@ const moveablePlugin: DTablePlugin<DTableMoveableTypes, [DTableMousemoveTypes]> 
                 return;
             }
             const target = event.target as HTMLElement;
+
+            /* 兼容 resize 插件。Compatible with the resize plugin. */
+            if (target.closest('.dtable-col-splitter')) {
+                return;
+            }
+
             const flexableDiv = target.closest('.dtable-scroll-center');
             if (!flexableDiv) {
                 return;
@@ -42,6 +48,7 @@ const moveablePlugin: DTablePlugin<DTableMoveableTypes, [DTableMousemoveTypes]> 
                 scrollLeft,
                 scrollTop,
             };
+            event.preventDefault();
         },
         document_mouseup() {
             this.data.moveableStartInfo = undefined;

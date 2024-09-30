@@ -7,5 +7,5 @@ export interface TimePickerOptions extends PickOptions {
     format?: string;
     icon?: IconType | boolean;
     required?: boolean;
-    onInvalid?: (value: string) => void;
+    onInvalid?: (value: string) => void | string;
 }

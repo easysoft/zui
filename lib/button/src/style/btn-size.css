@@ -2,19 +2,24 @@
 
 @layer utilities {
     .-btn-xs {
-        @apply -text-xs -px-1 -h-5;
+        @apply -text-xs -px-1;
+        --btn-height: 1.25rem;
     }
     .-btn-sm {
-        @apply -text-sm -px-2 -h-6;
+        @apply -text-sm -px-2;
+        --btn-height: 1.5rem;
     }
     .-btn-md {
-        @apply -px-2 -h-7;
+        @apply -px-2;
+        --btn-height: 1.75rem;
     }
     .-btn-lg {
-        @apply -text-lg -px-4 -h-10;
+        @apply -text-lg -px-4;
+        --btn-height: 2.5rem;
     }
     .-btn-xl {
-        @apply -text-xl -px-5 -h-12;
+        @apply -text-xl -px-5;
+        --btn-height: 3rem;
     }
 }
 
@@ -40,7 +45,12 @@
 }
 
 .btn.square {
-    @apply -px-0 -aspect-square -gap-0.5;
+    @apply -px-0 -gap-0.5 -aspect-square;
+}
+@supports not (aspect-ratio: 1 / 1){
+    .btn.square {
+        @apply -w-[--btn-height];
+    }
 }
 .btn.btn-caret {
     @apply -px-1;

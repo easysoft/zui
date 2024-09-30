@@ -11,7 +11,7 @@
 }
 .btn-group > .btn.disabled,
 .btn-group > .btn:disabled {
-  @apply -z-[-1];
+  @apply -z-0;
 }
 
 .btn-group > .btn:not(:first-child) {

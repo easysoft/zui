@@ -1,12 +1,5 @@
-html,
 body {
-  @apply -w-full -h-full;
-}
-html {
-  @apply -overflow-hidden;
-}
-body {
-  @apply -overflow-auto -pl-48;
+  @apply -pl-48 -relative;
 }
 
 aside {
@@ -68,14 +61,17 @@ pre[data-lang]::after {
     @apply -mt-[-0.5rem] !-border-t-0;
 }
 
+.table-of-contents {
+    @apply -sticky -top-0;
+}
+.table-of-contents > ol {
+    @apply -absolute -leading-6 -w-36 --right-40 -top-8 -border-l-4 -border-l-primary-200 -px-5 -list-none;
+}
 .table-of-contents ul,
 .table-of-contents ol {
     @apply -list-disc -pl-5;
 }
-.table-of-contents {
-    @apply -fixed -right-4 -top-10 -w-36 -border-l-4 -border-l-primary-200 -px-5 -leading-6;
-}
-.table-of-contents > ol,
+.table-of-contents > ol > li,
 .table-of-contents > ol > li > ol {
     @apply -list-none -pl-0;
 }

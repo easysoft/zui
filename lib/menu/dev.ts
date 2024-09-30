@@ -17,6 +17,7 @@ onPageUpdate(() => {
         {
             text: '导入',
             icon: 'icon-upload-alt',
+            listProps: {compact: true, searchBox: true},
             items: [
                 {text: '从本地导入'},
                 {text: '从网络导入'},
@@ -29,6 +30,7 @@ onPageUpdate(() => {
             items: [
                 {text: '保存到云端'},
                 {
+                    listProps: {searchBox: true},
                     text: '下载到本地',
                     items: [
                         {text: '下载为 PDF'},
@@ -45,12 +47,14 @@ onPageUpdate(() => {
         searchPlacement: 'bottom',
         underlineKeys: true,
         items: searchMenuItems,
+        nestedSearch: false,
         maxHeight: 200,
         onClickItem: (info) => {
             console.log('> menu.onClickItem', info);
         },
     });
     console.log('> searchMenu1', searchMenu1);
+
     const searchMenu2 = new SearchMenu('#searchMenu2', {
         popup: true,
         searchBox: true,

@@ -33,6 +33,7 @@ function onZUIReady(callback?: () => void) {
     if (typeof window === 'object' && 'zui' in window) {
         callbacks.forEach(x => x());
         callbacks.length = 0;
+        (window as unknown as {zui: {defineFn: () => void}}).zui.defineFn();
         return;
     }
 
@@ -42,4 +43,5 @@ function onZUIReady(callback?: () => void) {
 if (!import.meta.env.SSR) {
     Object.assign(window, {onZUIReady});
 }
+onZUIReady();
 </script>

@@ -1,4 +1,21 @@
 .m-0  {@apply -m-0;}
+.m-auto  {@apply -m-auto;}
+.m-px  {@apply -m-px;}
+.m-0\.5  {@apply -m-0.5;}
+.m-1  {@apply -m-1;}
+.m-1\.5  {@apply -m-1.5;}
+.m-2  {@apply -m-2;}
+.m-2\.5  {@apply -m-2.5;}
+.m-3  {@apply -m-3;}
+.m-3\.5  {@apply -m-3.5;}
+.m-4  {@apply -m-4;}
+.m-5  {@apply -m-5;}
+.m-6  {@apply -m-6;}
+.m-7  {@apply -m-7;}
+.m-8  {@apply -m-8;}
+.m-9  {@apply -m-9;}
+.m-10  {@apply -m-10;}
+
 .mx-0 {@apply -mx-0;}
 .my-0 {@apply -my-0;}
 .mt-0 {@apply -mt-0;}
@@ -6,7 +23,6 @@
 .mb-0 {@apply -mb-0;}
 .ml-0 {@apply -ml-0;}
 
-.m-auto  {@apply -m-auto;}
 .mx-auto {@apply -mx-auto;}
 .my-auto {@apply -my-auto;}
 .mt-auto {@apply -mt-auto;}
@@ -14,7 +30,6 @@
 .mb-auto {@apply -mb-auto;}
 .ml-auto {@apply -ml-auto;}
 
-.m-px  {@apply -m-px;}
 .mx-px {@apply -mx-px;}
 .my-px {@apply -my-px;}
 .mt-px {@apply -mt-px;}
@@ -22,7 +37,6 @@
 .mb-px {@apply -mb-px;}
 .ml-px {@apply -ml-px;}
 
-.m-0\.5  {@apply -m-0.5;}
 .mx-0\.5 {@apply -mx-0.5;}
 .my-0\.5 {@apply -my-0.5;}
 .mt-0\.5 {@apply -mt-0.5;}
@@ -30,7 +44,6 @@
 .mb-0\.5 {@apply -mb-0.5;}
 .ml-0\.5 {@apply -ml-0.5;}
 
-.m-1  {@apply -m-1;}
 .mx-1 {@apply -mx-1;}
 .my-1 {@apply -my-1;}
 .mt-1 {@apply -mt-1;}
@@ -38,7 +51,6 @@
 .mb-1 {@apply -mb-1;}
 .ml-1 {@apply -ml-1;}
 
-.m-1\.5  {@apply -m-1.5;}
 .mx-1\.5 {@apply -mx-1.5;}
 .my-1\.5 {@apply -my-1.5;}
 .mt-1\.5 {@apply -mt-1.5;}
@@ -46,7 +58,6 @@
 .mb-1\.5 {@apply -mb-1.5;}
 .ml-1\.5 {@apply -ml-1.5;}
 
-.m-2  {@apply -m-2;}
 .mx-2 {@apply -mx-2;}
 .my-2 {@apply -my-2;}
 .mt-2 {@apply -mt-2;}
@@ -54,7 +65,6 @@
 .mb-2 {@apply -mb-2;}
 .ml-2 {@apply -ml-2;}
 
-.m-2\.5  {@apply -m-2.5;}
 .mx-2\.5 {@apply -mx-2.5;}
 .my-2\.5 {@apply -my-2.5;}
 .mt-2\.5 {@apply -mt-2.5;}
@@ -62,7 +72,6 @@
 .mb-2\.5 {@apply -mb-2.5;}
 .ml-2\.5 {@apply -ml-2.5;}
 
-.m-3  {@apply -m-3;}
 .mx-3 {@apply -mx-3;}
 .my-3 {@apply -my-3;}
 .mt-3 {@apply -mt-3;}
@@ -70,7 +79,6 @@
 .mb-3 {@apply -mb-3;}
 .ml-3 {@apply -ml-3;}
 
-.m-3\.5  {@apply -m-3.5;}
 .mx-3\.5 {@apply -mx-3.5;}
 .my-3\.5 {@apply -my-3.5;}
 .mt-3\.5 {@apply -mt-3.5;}
@@ -78,7 +86,6 @@
 .mb-3\.5 {@apply -mb-3.5;}
 .ml-3\.5 {@apply -ml-3.5;}
 
-.m-4  {@apply -m-4;}
 .mx-4 {@apply -mx-4;}
 .my-4 {@apply -my-4;}
 .mt-4 {@apply -mt-4;}
@@ -86,7 +93,6 @@
 .mb-4 {@apply -mb-4;}
 .ml-4 {@apply -ml-4;}
 
-.m-5  {@apply -m-5;}
 .mx-5 {@apply -mx-5;}
 .my-5 {@apply -my-5;}
 .mt-5 {@apply -mt-5;}
@@ -94,7 +100,6 @@
 .mb-5 {@apply -mb-5;}
 .ml-5 {@apply -ml-5;}
 
-.m-6  {@apply -m-6;}
 .mx-6 {@apply -mx-6;}
 .my-6 {@apply -my-6;}
 .mt-6 {@apply -mt-6;}
@@ -102,7 +107,6 @@
 .mb-6 {@apply -mb-6;}
 .ml-6 {@apply -ml-6;}
 
-.m-7  {@apply -m-7;}
 .mx-7 {@apply -mx-7;}
 .my-7 {@apply -my-7;}
 .mt-7 {@apply -mt-7;}
@@ -110,7 +114,6 @@
 .mb-7 {@apply -mb-7;}
 .ml-7 {@apply -ml-7;}
 
-.m-8  {@apply -m-8;}
 .mx-8 {@apply -mx-8;}
 .my-8 {@apply -my-8;}
 .mt-8 {@apply -mt-8;}
@@ -118,7 +121,6 @@
 .mb-8 {@apply -mb-8;}
 .ml-8 {@apply -ml-8;}
 
-.m-9  {@apply -m-9;}
 .mx-9 {@apply -mx-9;}
 .my-9 {@apply -my-9;}
 .mt-9 {@apply -mt-9;}
@@ -126,7 +128,6 @@
 .mb-9 {@apply -mb-9;}
 .ml-9 {@apply -ml-9;}
 
-.m-10  {@apply -m-10;}
 .mx-10 {@apply -mx-10;}
 .my-10 {@apply -my-10;}
 .mt-10 {@apply -mt-10;}

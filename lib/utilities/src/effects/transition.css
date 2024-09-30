@@ -4,6 +4,7 @@
 .transition-opacity   {@apply -transition-opacity;}
 .transition-shadow    {@apply -transition-shadow;}
 .transition-transform {@apply -transition-transform;}
+.transition-none      {@apply -transition-none;}
 
 .fade,
 .fade-from-center,

@@ -1,6 +1,6 @@
 :root {
-  --label-bg: var(--color-gray-50);
-  --label-border-color: var(--color-gray-500);
+  --label-bg: rgba(var(--color-canvas-rgb), .1);
+  --label-border-color: var(--color-gray-300);
   --label-color: var(--color-gray-500);
   --label-radius: var(--radius);
 }

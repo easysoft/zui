@@ -1,9 +1,10 @@
 .sidebar {
   @apply !-flex-none -relative;
   --gutter-width: 1px;
+  --sidebar-duration: 200ms;
 }
 .has-sidebar-animation .sidebar {
-  @apply -transition-[width,margin];
+  @apply -transition-[width,margin] -duration-[--sidebar-duration];
 }
 .sidebar-left.is-collapsed {
   @apply --ml-[--gutter-width];
@@ -11,11 +12,12 @@
 .sidebar-right.is-collapsed {
   @apply --mr-[--gutter-width];
 }
+.sidebar.is-expanded.is-animating > *,
 .sidebar.is-collapsed > * {
   @apply -hidden;
 }
 .sidebar.is-collapsed > .sidebar-gutter {
-  @apply -flex;
+  @apply !-flex;
 }
 
 .sidebar-gutter {
