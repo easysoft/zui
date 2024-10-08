@@ -1,43 +1,87 @@
+import {deepCall} from '@zui/helpers';
 import {$, Cash, type Selector} from '../cash';
+import {nextGid} from './gid';
 
 export interface CommandContext {
     name: string,
     options: Record<string, unknown>,
     event: Event,
     scope: string,
+    prevResult?: unknown,
+    element?: HTMLElement,
+    abort?: () => void,
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type CommandCallback = (context: CommandContext, ...params: any[]) => any;
+export type CommandCallback = (context: CommandContext, params: any[]) => any;
 
 export type CommandEventCallback = (event: Event, data: [context: CommandContext, params: unknown[]]) => void;
 
-interface CommandExecutionOptions {
-    execute: (context: CommandContext, ...params: unknown[]) => unknown;
+export type CommandsBindOptions = {
+    scope?: string,
+    events?: string,
+    onCommand?: CommandCallback,
+    commands?: Record<string, CommandCallback>,
+    scoped?: boolean,
+};
+
+export type CommandsBindInfo = CommandsBindOptions & {
+    element: HTMLElement,
+    gid: number,
+};
+
+export interface CommandExecutionOptions {
+    execute: (context: CommandContext, params: unknown[]) => unknown;
     event: Event;
-    scope: string;
-    options: Record<string, unknown>;
+    scope?: string;
+    options?: Record<string, unknown>;
+    signal?: AbortSignal;
 }
 
-/**
- * 执行单个命令行。
- * Execute single command line.
- *
- * @param commandLine 命令行。 Command line.
- * @param options 选项。 Options.
- * @returns 命令执行结果。 Command execution result.
- */
-function executeSingleCommandLine(commandLine: string, options: CommandExecutionOptions): unknown {
-    commandLine = commandLine.replace(/^#?!?!?>?/, '');
-    if (!commandLine.startsWith('/')) {
-        commandLine = `/${commandLine}`;
+export interface CommandExecuteInfo {
+    name: string;
+    scope: string;
+    options: Record<string, unknown>;
+    params: unknown[];
+}
+
+export interface CommandsExecuteInfo {
+    async?: boolean;
+    commands: CommandExecuteInfo[];
+}
+
+export type CommandLike = string | CommandExecuteInfo | undefined;
+
+export type CommandsLike = string | CommandsExecuteInfo | (string | CommandExecuteInfo)[];
+
+export function parseCommand(commandLike: CommandLike): CommandExecuteInfo | undefined {
+    if (!commandLike) {
+        return;
     }
-    const url = new URL(window.location.origin + commandLine);
+    if (typeof commandLike === 'object') {
+        return commandLike;
+    }
+    commandLike = commandLike.replace(/^#/, '');
+    if (!commandLike.length) {
+        return;
+    }
+    if (!commandLike.startsWith('/')) {
+        commandLike = `/${commandLike}`;
+    }
+    const url = new URL(window.location.origin + commandLike);
     const [, name = '', ...params] = url.pathname.split('/');
-    const {execute, event, scope} = options;
-    let {options: executeOptions} = options;
-    executeOptions = {
-        ...Object.fromEntries([...url.searchParams.entries()].map(([key, value]) => {
+    let finalName = name.trim();
+    if (!finalName.length) {
+        return;
+    }
+    let scope = '';
+    if (finalName.includes('~')) {
+        [finalName, scope] = finalName.split('~');
+    }
+    return {
+        name: finalName,
+        scope,
+        options: Object.fromEntries([...url.searchParams.entries()].map(([key, value]) => {
             try {
                 if (value.includes('%')) {
                     value = decodeURIComponent(value);
@@ -47,139 +91,252 @@ function executeSingleCommandLine(commandLine: string, options: CommandExecution
             } catch (_) {}
             return [key, value];
         })),
-        ...executeOptions,
-    };
-    return execute({name, options: executeOptions, event, scope}, ...params.map((param) => {
-        try {
-            if (param.includes('%')) {
-                param = decodeURIComponent(param);
+        params: params.map((param) => {
+            try {
+                if (param.includes('%')) {
+                    param = decodeURIComponent(param);
+                }
+                return JSON.parse(param);
+            } catch (_) {
+                return param;
             }
-            return JSON.parse(param);
-        } catch (_) {
-            return param;
-        }
-    }));
+        }),
+    };
+}
+
+export function parseCommands(commandsLike: CommandsLike): CommandsExecuteInfo {
+    if (Array.isArray(commandsLike)) {
+        return {commands: commandsLike.map(parseCommand).filter(Boolean) as CommandExecuteInfo[]};
+    }
+    if (typeof commandsLike === 'object') {
+        return commandsLike;
+    }
+    commandsLike = commandsLike.replace(/^#!?/, '');
+    const async = commandsLike.includes('>');
+    const commands = commandsLike.split(async ? '>' : '|').map(parseCommand);
+    return {
+        async,
+        commands: commands.filter(Boolean) as CommandExecuteInfo[],
+    };
 }
 
 /**
- * 异步方式执行命令行。
- * Execute command line asynchronously.
+ * 执行单个命令。
+ * Execute single command.
  *
- * @param commandLine 命令行。 Command line.
- * @param context 上下文信息。 Context information.
+ * @param command 命令。 Command.
+ * @param options 选项。 Options.
  * @returns 命令执行结果。 Command execution result.
  */
-async function executeCommandLineAsync(commandLine: string, options: CommandExecutionOptions) : Promise<unknown> {
-    if (commandLine.includes('>')) {
-        const subCommandLines = commandLine.split('>');
-        const results = [];
-        for (const subCommandLine of subCommandLines) {
-            if (!subCommandLine.length) {
-                continue;
-            }
-            const result = await executeSingleCommandLine(subCommandLine, options);
-            results.push(result);
-        }
-        return results;
+export function executeCommand(command: CommandLike, options: CommandExecutionOptions, prevResult?: unknown): unknown {
+    if (typeof command === 'string') {
+        command = parseCommand(command);
     }
-
-    if (commandLine.includes('|')) {
-        return Promise.all(commandLine.split('|').map((line) => executeSingleCommandLine(line, options)));
+    if (!command) {
+        return;
     }
-
-    return executeSingleCommandLine(commandLine, options);
+    const {execute, event, scope} = options;
+    if (scope && command.scope && command.scope !== scope) {
+        return;
+    }
+    return execute({
+        name: command.name,
+        options: {
+            ...options.options,
+            ...command.options,
+        },
+        event,
+        scope: command.scope,
+        prevResult,
+    }, command.params);
 }
 
 /**
  * 执行命令行。
  * Execute command line.
  *
- * @param commandLine 命令行。 Command line.
+ * @param commands 命令行。 Command line.
  * @param context 上下文信息。 Context information.
  * @returns 命令执行结果。 Command execution result.
  */
-function executeCommandLine(commandLine: string, options: CommandExecutionOptions): unknown {
-    if (/^#?!?!?>/.test(commandLine)) {
-        return executeCommandLineAsync(commandLine, options);
+export async function executeCommands(commands: CommandsLike, options: CommandExecutionOptions): Promise<unknown[]> {
+    const {async, commands: commandList} = parseCommands(commands);
+    if (!commandList.length) {
+        return [];
     }
-
-    if (commandLine.includes('>')) {
-        const subCommandLines = commandLine.split('>');
-        const results = [];
-        for (const subCommandLine of subCommandLines) {
-            const result = executeCommandLine(subCommandLine, options);
-            results.push(result);
-        }
+    const {signal} = options;
+    if (async) {
+        const results = await Promise.all(commandList.map(command => {
+            if (signal?.aborted) {
+                return;
+            }
+            return executeCommand(command, options);
+        }));
         return results;
     }
-
-    if (commandLine.includes('|')) {
-        const subCommandLines = commandLine.split('|');
-        const results = [];
-        for (const subCommandLine of subCommandLines) {
-            const result = executeCommandLine(subCommandLine, options);
-            results.push(result);
+    const results = [];
+    let result;
+    for (const command of commandList) {
+        if (!signal?.aborted) {
+            break;
         }
-        return results;
+        result = await executeCommand(command, options, result);
+        if (signal?.aborted) {
+            result = undefined;
+        }
+        results.push(result);
     }
-
-    return executeSingleCommandLine(commandLine, options);
+    return results;
 }
 
-export type CommandsBindOptions = {scope?: string, events?: string, execute?: CommandCallback, commands?: Record<string, CommandCallback>};
+const COMMAND_DATA_NAME = 'zui.commands';
+const COMMANDS_ATTR = 'z-commands';
 
 export function bindCommands(element?: Selector, options?: CommandsBindOptions | CommandCallback | string): void {
     if (typeof options === 'string') {
         options = {scope: options};
     } else if (typeof options === 'function') {
-        options = {execute: options};
+        options = {onCommand: options};
     }
-    const {scope = '', events = 'click', execute: initialExecute, commands} = options ?? {};
+    const {scope = '', events = 'click'} = options ?? {};
     const $element = $(element);
-    const dataAttr = `z-commands${scope ? `-${scope}` : ''}`;
-    if (typeof $element.attr(dataAttr) === 'string') {
-        return;
+    const zCommands = ($element.attr(COMMANDS_ATTR) || '').split(',');
+    if (scope && !zCommands.includes(scope)) {
+        zCommands.push(scope);
     }
-
-    const cmdAttr = scope ? `zui-command-${scope}` : 'zui-command';
-    $element.attr(dataAttr, '').on(events.split(' ').map(x => `${x}.zui.command.${scope}`).join(' '), `[${cmdAttr}]${scope ? '' : ',a[href^="#!"]'}`, (event) => {
-        if (event.commandHandled) {
-            return;
-        }
-        const $target = $(event.currentTarget);
-        if ($target.is('.disabled,[disabled]')) {
-            return;
-        }
-        const commandLine = $target.attr(cmdAttr) || ($target.is('a[href^="#!"]') ? $target.attr('href') : '');
-        if (!commandLine) {
-            return;
-        }
-        event.commandHandled = true;
-        if (commandLine.startsWith('#!!') || commandLine.startsWith('!!')) {
-            event.stopPropagation();
-        }
-        executeCommandLine(commandLine, {
-            execute: (context, ...params) => {
-                initialExecute?.(context, ...params);
-                const commandExecute = commands?.[context.name];
-                commandExecute?.(context, ...params);
-                const {name} = context;
-                const eventData = [context, params];
-                $target.trigger('command', eventData).trigger(`command:${scope ? `${name}.${scope}` : name}`, eventData);
-                if (scope) {
-                    $target.trigger(`command:.${scope}`, eventData);
-                }
-            },
-            event,
+    $element.attr(COMMANDS_ATTR, zCommands.join(',')).data(COMMAND_DATA_NAME, {
+        [scope]: {
+            ...options,
             scope,
-            options: {},
-        });
+            events,
+            gid: nextGid(),
+        },
+        ...$element.data(COMMAND_DATA_NAME),
     });
 }
 
-export function unbindCommands(element: Selector, scope?: string) {
-    const dataAttr = `z-commands${scope ? `-${scope}` : ''}`;
-    $(element).removeAttr(dataAttr).off(`.zui.command${scope ? `.${scope}` : ''}`);
+export function unbindCommands(element: Selector, scopes: string | true = true): void {
+    const $element = $(element);
+    if (scopes === true) {
+        $element.removeAttr(COMMANDS_ATTR);
+        $element.removeData(COMMAND_DATA_NAME);
+    } else if (scopes.length) {
+        const boundCommands = $element.data(COMMAND_DATA_NAME) || {};
+        scopes.split(',').forEach(scope => {
+            delete boundCommands[scope];
+        });
+        const boundScopes = Object.keys(boundCommands);
+        if (boundScopes.length) {
+            $element.attr(COMMANDS_ATTR, boundScopes.join(',')).data(COMMAND_DATA_NAME, bindCommands);
+        } else {
+            unbindCommands($element, true);
+        }
+    }
+}
+
+function getCommandBindInfo($target: Cash, scope: string): CommandsBindInfo | undefined {
+    const $element = $target.closest(`[${COMMANDS_ATTR}]`);
+    if (!$element.length) {
+        return;
+    }
+    const commandsData = $element.data(COMMAND_DATA_NAME) || {};
+    const boundCommands = Object.values<CommandsBindInfo>(commandsData).sort((a, b) => (b.gid - a.gid));
+    let commandInfo: CommandsBindInfo | undefined;
+    if (scope?.length) {
+        commandInfo = boundCommands.find(x => x.scope === scope);
+        if (!commandInfo) {
+            commandInfo = boundCommands.find(x => !x.scope?.length && !x.scoped);
+        }
+        return commandInfo;
+    } else {
+        commandInfo = boundCommands.find(x => !x.scope?.length && !x.scoped);
+        if (!commandInfo) {
+            commandInfo = boundCommands.find(x => !x.scoped);
+        }
+    }
+    if (commandInfo) {
+        commandInfo.element = $element[0] as HTMLElement;
+    } else {
+        commandInfo = getCommandBindInfo($target.parent(), scope);
+    }
+    return commandInfo;
+}
+
+function handleGlobalCommand(event: Event & {commandHandled?: boolean}) {
+    if (!event.currentTarget) {
+        return;
+    }
+    const $target = $(event.target as HTMLElement);
+    if ($target.closest('.disabled,[disabled]').length) {
+        return;
+    }
+    const commandLine = $target.attr('zui-command') || ($target.is('a[href^="#!"]') ? $target.attr('href') : '');
+    if (!commandLine) {
+        return;
+    }
+    const abortController = new AbortController();
+    const abort = () => abortController.abort();
+    executeCommands(commandLine, {
+        signal: abortController.signal,
+        execute: (context, params) => {
+            const {scope, name} = context;
+            const finalContext = {
+                ...context,
+                abort,
+            };
+            let result;
+            const bindInfo = getCommandBindInfo($target, scope);
+            if (bindInfo) {
+                finalContext.element = bindInfo.element;
+                const onCommand = (bindInfo.commands ? bindInfo.commands[name] : null) || bindInfo.onCommand;
+                if (onCommand) {
+                    result = onCommand(finalContext, params);
+                    if (event.commandHandled) {
+                        return result;
+                    }
+                }
+            }
+
+            const eventData = [finalContext, params];
+            $target.trigger('command', eventData).trigger(`command:${scope ? `${name}.${scope}` : name}`, eventData);
+            if (scope) {
+                $target.trigger(`command:.${scope}`, eventData);
+            }
+
+            if (event.commandHandled) {
+                return result;
+            }
+
+            if (scope === 'event') {
+                if (name === 'stop') {
+                    event.stopPropagation();
+                } else if (name === 'prevent') {
+                    event.preventDefault();
+                } else {
+                    deepCall(event, name, params);
+                }
+                return;
+            }
+            if (scope === 'window') {
+                return deepCall(window, name, params);
+            }
+            if (scope === 'zui') {
+                return deepCall((window as unknown as {zui: object}).zui, name, params);
+            }
+            if (scope === 'target') {
+                return deepCall($target[0] as HTMLElement, name, params);
+            }
+            if (scope === '$target') {
+                return deepCall($target, name, params);
+            }
+            if (scope === '$') {
+                return deepCall($, name, params);
+            }
+
+            return result;
+        },
+        event,
+    });
 }
 
 declare module 'cash-dom' {
@@ -210,4 +367,6 @@ $.fn.unbindCommands = function (this: Cash, scope?: string): Cash {
     return this;
 };
 
-$(() => bindCommands(document.body));
+$(() => {
+    $(document).on('click.zui.command', '[zui-command],a[href^="#!"]', handleGlobalCommand);
+});
