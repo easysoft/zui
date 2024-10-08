@@ -296,7 +296,7 @@ function handleGlobalCommand(event: Event & {commandHandled?: boolean}) {
             const bindInfo = getCommandBindInfo($target, scope);
             if (bindInfo) {
                 finalContext.element = bindInfo.element;
-                const onCommand = (bindInfo.commands ? bindInfo.commands[name] : null) || bindInfo.onCommand;
+                const onCommand = (bindInfo.commands ? (bindInfo.commands[`${scope}~${name}`] || bindInfo.commands[name]) : null) || bindInfo.onCommand;
                 if (onCommand) {
                     result = onCommand(finalContext, params);
                     if (event.commandHandled) {
