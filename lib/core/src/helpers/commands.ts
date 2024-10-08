@@ -189,8 +189,10 @@ export async function executeCommands(commands: CommandsLike, options: CommandEx
     return results;
 }
 
-const COMMAND_DATA_NAME = 'zui.commands';
-const COMMANDS_ATTR = 'z-commands';
+const COMMAND_DATA_NAME  = 'zui.commands';
+const COMMANDS_ATTR      = 'z-commands';
+const COMMAND_PROXY_ATTR = 'zui-commands-proxy';
+const COMMAND_ATTR       = 'zui-command';
 
 export function bindCommands(element?: Selector, options?: CommandsBindOptions | CommandCallback | string): void {
     if (typeof options === 'string') {
@@ -235,7 +237,13 @@ export function unbindCommands(element: Selector, scopes: string | true = true):
 }
 
 function getCommandBindInfo($target: Cash, scope: string): CommandsBindInfo | undefined {
-    const $element = $target.closest(`[${COMMANDS_ATTR}]`);
+    let $element = $target.closest(`[${COMMANDS_ATTR}]`);
+    if (!$element.length) {
+        const $proxy = $target.closest(`[${COMMAND_PROXY_ATTR}]`);
+        if ($proxy.length) {
+            $element = $($proxy.data('zui.commandProxy') || $proxy.attr('COMMAND_PROXY_ATTR'));
+        }
+    }
     if (!$element.length) {
         return;
     }
@@ -270,7 +278,7 @@ function handleGlobalCommand(event: Event & {commandHandled?: boolean}) {
     if ($target.closest('.disabled,[disabled]').length) {
         return;
     }
-    const commandLine = $target.attr('zui-command') || ($target.is('a[href^="#!"]') ? $target.attr('href') : '');
+    const commandLine = $target.attr(COMMAND_ATTR) || ($target.is('a[href^="#!"]') ? $target.attr('href') : '');
     if (!commandLine) {
         return;
     }
@@ -368,5 +376,5 @@ $.fn.unbindCommands = function (this: Cash, scope?: string): Cash {
 };
 
 $(() => {
-    $(document).on('click.zui.command', '[zui-command],a[href^="#!"]', handleGlobalCommand);
+    $(document).on('click.zui.command', `[${COMMAND_ATTR}],a[href^="#!"]`, handleGlobalCommand);
 });
