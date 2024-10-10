@@ -4,9 +4,9 @@ import {nextGid} from './gid';
 
 export interface CommandContext {
     name: string,
-    options: Record<string, unknown>,
-    event: Event,
-    scope: string,
+    options?: Record<string, unknown>,
+    event?: Event,
+    scope?: string,
     prevResult?: unknown,
     element?: HTMLElement,
     abort?: () => void,
@@ -236,7 +236,7 @@ export function unbindCommands(element: Selector, scopes: string | true = true):
     }
 }
 
-function getCommandBindInfo($target: Cash, scope: string): CommandsBindInfo | undefined {
+function getCommandBindInfo($target: Cash, scope?: string): CommandsBindInfo | undefined {
     let $element = $target.closest(`[${COMMANDS_ATTR}]`);
     if (!$element.length) {
         const $proxy = $target.closest(`[${COMMAND_PROXY_ATTR}]`);
