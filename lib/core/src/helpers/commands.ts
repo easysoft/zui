@@ -166,26 +166,26 @@ export async function executeCommands(commands: CommandsLike, options: CommandEx
     }
     const {signal} = options;
     if (async) {
-        const results = await Promise.all(commandList.map(command => {
-            if (signal?.aborted) {
-                return;
+        const results = [];
+        let result;
+        for (const command of commandList) {
+            if (!signal?.aborted) {
+                break;
             }
-            return executeCommand(command, options);
-        }));
+            result = await executeCommand(command, options, result);
+            if (signal?.aborted) {
+                result = undefined;
+            }
+            results.push(result);
+        }
         return results;
     }
-    const results = [];
-    let result;
-    for (const command of commandList) {
-        if (!signal?.aborted) {
-            break;
-        }
-        result = await executeCommand(command, options, result);
+    const results = await Promise.all(commandList.map(command => {
         if (signal?.aborted) {
-            result = undefined;
+            return;
         }
-        results.push(result);
-    }
+        return executeCommand(command, options);
+    }));
     return results;
 }
 
@@ -274,7 +274,7 @@ function handleGlobalCommand(event: Event & {commandHandled?: boolean}) {
     if (!event.currentTarget) {
         return;
     }
-    const $target = $(event.target as HTMLElement);
+    const $target = $(event.currentTarget as HTMLElement);
     if ($target.closest('.disabled,[disabled]').length) {
         return;
     }
