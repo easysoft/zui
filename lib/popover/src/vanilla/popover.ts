@@ -266,9 +266,10 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
         }
 
         if (!this._virtual) {
-            $target.removeAttr('zui-command-proxy').removeData('zui.commandProxy');
+            const $trigger = $(this._triggerElement as HTMLElement);
+            $trigger.removeAttr('zui-command-proxy').removeData('zui.commandProxy');
             if (elementShowClass) {
-                $target.removeClass(elementShowClass).removeAttr('data-pop-placement');
+                $trigger.removeClass(elementShowClass).removeAttr('data-pop-placement');
             }
         }
 
