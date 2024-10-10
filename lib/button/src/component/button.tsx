@@ -43,7 +43,7 @@ export class Button<P extends ButtonProps = ButtonProps> extends HElement<P> {
 
     protected _getProps(props: RenderableProps<P>) {
         const component = this._getComponent(props);
-        const {url, target, disabled, btnType = 'button', hint} = props;
+        const {url, target, disabled, btnType = 'button', hint, command} = props;
         const asLink = component === 'a';
         const componentProps: Record<string, unknown> = {
             ...super._getProps(props),
@@ -66,6 +66,9 @@ export class Button<P extends ButtonProps = ButtonProps> extends HElement<P> {
             }
             if (target !== undefined) {
                 componentProps[asLink ? 'target' : 'data-target'] = target;
+            }
+            if (command) {
+                componentProps['zui-command'] = command;
             }
         }
         return componentProps;
