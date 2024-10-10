@@ -1,4 +1,5 @@
 import {h, Component} from 'preact';
+import {deepCall} from '@zui/helpers';
 import {nextGid} from '../../helpers/gid';
 import {classes} from '../../helpers/classes';
 import {getReactComponent} from './components';
@@ -9,7 +10,6 @@ import type {JSX, ComponentType, RenderableProps, ComponentChildren} from 'preac
 import type {ClassNameLike} from '../../helpers/classes';
 import type {HElementProps} from '../types';
 import type {I18nLangMap} from '../../i18n';
-import {deepCall} from '@zui/helpers/src/object';
 
 /**
  * The base HTML element.
@@ -133,10 +133,13 @@ export class HElement<P extends HElementProps, S = {}> extends Component<P, S> {
         });
     }
 
-    executeCommand(context: CommandContext, params: unknown[]) {
+    executeCommand(context: CommandContext | string, params: unknown[]) {
         const {onCommand} = this.props;
         let result;
-        if (context.scope === this.commandScope) {
+        if (typeof context === 'string') {
+            context = {name: context};
+        }
+        if (!context.scope || context.scope === this.commandScope) {
             result = deepCall(this, context.name, params);
         }
         if (onCommand) {
@@ -183,7 +186,7 @@ export class HElement<P extends HElementProps, S = {}> extends Component<P, S> {
 
     componentDidMount(): void {
         const {commands, onCommand} = this.props;
-        if (commands && onCommand) {
+        if (commands || onCommand) {
             bindCommands(this.element, {
                 commands,
                 scope: this.commandScope,
