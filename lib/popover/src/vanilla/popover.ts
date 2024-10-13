@@ -230,7 +230,7 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
         }
 
         if (!this._virtual) {
-            $target.attr('zui-command-proxy', '').data('zui.commandProxy', this._triggerElement);
+            $target.attr('zui-commands-proxy', '').data('zui.commandProxy', this._triggerElement);
             if (elementShowClass) {
                 $(this._triggerElement as HTMLElement).addClass(elementShowClass);
             }
@@ -267,7 +267,7 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
 
         if (!this._virtual) {
             const $trigger = $(this._triggerElement as HTMLElement);
-            $trigger.removeAttr('zui-command-proxy').removeData('zui.commandProxy');
+            $trigger.removeAttr('zui-commands-proxy').removeData('zui.commandProxy');
             if (elementShowClass) {
                 $trigger.removeClass(elementShowClass).removeAttr('data-pop-placement');
             }
