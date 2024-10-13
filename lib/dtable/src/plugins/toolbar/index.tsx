@@ -1,15 +1,17 @@
 import {Toolbar} from '@zui/toolbar/src/component/toolbar';
 import {definePlugin} from '../../helpers/shared-plugins';
-import type {ToolbarOptions, ToolbarItemOptions} from '@zui/toolbar/src/types';
-import type {DTablePlugin} from '../../types/plugin';
+import type {ToolbarSetting} from '@zui/toolbar/src/types';
+import type {DTablePlugin, DTableWithPlugin} from '../../types/plugin';
 import type {DTableCheckable, DTableCheckableTypes} from '../checkable';
 
 export type DTableToolbarTypes = {
     options: Partial<{
-        footToolbar: ToolbarOptions | ToolbarItemOptions[],
+        footToolbar: ToolbarSetting<[DTableWithToolbar]>;
         showToolbarOnChecked: boolean,
     }>
 };
+
+export type DTableWithToolbar = DTableWithPlugin<DTableToolbarTypes>;
 
 /**
  * @todo auto calculate column width by toolbar setting
@@ -22,7 +24,9 @@ const toolbarPlugin: DTablePlugin<DTableToolbarTypes, [DTableCheckableTypes]> = 
             if (showToolbarOnChecked && !(this as DTableCheckable).getChecks().length) {
                 return [];
             }
-            return [footToolbar ? <Toolbar gap={2} {...(Array.isArray(footToolbar) ? {items: footToolbar} : footToolbar)} /> : null];
+            return [footToolbar ? Toolbar.render(footToolbar, [this], {
+                gap: 2,
+            }) : null];
         },
     },
 };
