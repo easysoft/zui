@@ -75,7 +75,7 @@ export class DatePicker<T extends DatePickerOptions = DatePickerOptions> extends
 
     _parseDate(value: string): Date | null {
         const date = getDate(value);
-        return (date && this._isDateAllowed(date)) ? campDate(date, ...this._getDateRange(value)) : null;
+        return (date && this._isAllowDate(date)) ? campDate(date, ...this._getDateRange(value)) : null;
     }
 
     _afterSetDate() {
@@ -147,12 +147,12 @@ export class DatePicker<T extends DatePickerOptions = DatePickerOptions> extends
         };
     }
 
-    protected _isDateAllowed = (date: Date): boolean => {
-        return this.props.isDateAllowed?.call(this, date) ?? true;
-    };
+    protected _isAllowDate(date: Date): boolean {
+        return this.props.isAllowDate?.call(this, date) ?? true;
+    }
 
     _renderPop(props: T, state: PickState): ComponentChildren {
-        const {weekNames, monthNames, weekStart, yearText, todayText, clearText, menu, actions, required, isDateAllowed} = props;
+        const {weekNames, monthNames, weekStart, yearText, todayText, clearText, menu, actions, required, isAllowDate} = props;
         const [minDate, maxDate] = this._getDateRange(state.value);
         return (
             <DatePickerMenu
@@ -168,7 +168,7 @@ export class DatePicker<T extends DatePickerOptions = DatePickerOptions> extends
                 actions={actions}
                 minDate={minDate}
                 maxDate={maxDate}
-                isDateAllowed={isDateAllowed ? this._isDateAllowed : undefined}
+                isAllowDate={isAllowDate ? this._isAllowDate.bind(this) : undefined}
             />
         );
     }
