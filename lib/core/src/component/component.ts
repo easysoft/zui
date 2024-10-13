@@ -287,7 +287,7 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
                     this.$element.removeData(`${KEY}:ALL`);
                 } else {
                     const nextInstance =  map.values().next().value;
-                    $element.data(KEY, nextInstance).attr(DATA_KEY, nextInstance.gid);
+                    $element.data(KEY, nextInstance).attr(DATA_KEY, String(nextInstance?.gid));
                 }
             }
         }
