@@ -241,7 +241,7 @@ function getCommandBindInfo($target: Cash, scope?: string): CommandsBindInfo | u
     if (!$element.length) {
         const $proxy = $target.closest(`[${COMMAND_PROXY_ATTR}]`);
         if ($proxy.length) {
-            $element = $($proxy.data('zui.commandProxy') || $proxy.attr('COMMAND_PROXY_ATTR'));
+            $element = $($proxy.data('zui.commandProxy') || $proxy.attr('COMMAND_PROXY_ATTR')).closest(`[${COMMANDS_ATTR}]`);
         }
     }
     if (!$element.length) {
