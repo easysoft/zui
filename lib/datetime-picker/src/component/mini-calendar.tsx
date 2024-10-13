@@ -47,6 +47,7 @@ export class MiniCalendar extends Component<MiniCalendarProps> {
             selections = [],
             maxDate,
             minDate,
+            isDateAllowed,
         } = props;
         const weekNamesView: ComponentChild[] = [];
         const btnClass = 'btn ghost square rounded-full';
@@ -79,7 +80,7 @@ export class MiniCalendar extends Component<MiniCalendarProps> {
                     'is-out-month': !isInMonth,
                     'is-today': isSameDay(day, now),
                     'is-weekend': weekDay === 0 || weekDay === 6,
-                    disabled: !isSameDay(day, maxDateTime) && !isSameDay(day, minDateTime) && (time > maxDateTime || time < minDateTime),
+                    disabled: (isDateAllowed && !isDateAllowed(day)) || ((time > maxDateTime || time < minDateTime) && !isSameDay(day, maxDateTime) && !isSameDay(day, minDateTime)),
                 });
                 rowDays.push(
                     <div className={className} key={dateStr} data-date={dateStr}>

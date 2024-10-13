@@ -150,6 +150,7 @@ export class DatePickerMenu extends Component<DatePickerMenuProps, DatePickerMen
                                     month={month}
                                     selections={currentDate || []}
                                     onClickDate={this.changeDate}
+                                    isDateAllowed={props.isDateAllowed}
                                 />
                             )
                             : null

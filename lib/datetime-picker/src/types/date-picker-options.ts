@@ -9,7 +9,7 @@ export interface DatePickerOptions extends PickOptions {
     readonly?: boolean;
     placeholder?: string;
     format?: string | ((date: Date) => string);
-    display?: (value: string, date: Date | null) => string;
+    display?: (value: string, date: Date | undefined | null) => string;
     icon?: IconType | boolean;
     weekNames?: string[];
     monthNames?: string[];
@@ -19,6 +19,7 @@ export interface DatePickerOptions extends PickOptions {
     weekStart?: number;
     minDate?: DateLike | ((value?: string) => DateLike);
     maxDate?: DateLike | ((value?: string) => DateLike);
+    isDateAllowed?: (date: Date) => boolean;
     menu?: NavSetting;
     actions?: ToolbarSetting;
     allowInvalid?: boolean;

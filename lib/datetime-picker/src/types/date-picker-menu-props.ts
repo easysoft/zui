@@ -14,4 +14,5 @@ export type DatePickerMenuProps = {
     actions?: ToolbarSetting;
     minDate?: Date | null;
     maxDate?: Date | null;
+    isDateAllowed?: (date: Date) => boolean;
 };
