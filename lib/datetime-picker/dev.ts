@@ -6,7 +6,6 @@ import '@zui/input-control';
 import '@zui/checkbox';
 import '@zui/toolbar';
 import {TimePicker, DatePicker, DatetimePicker} from './src/main';
-import {formatDate} from '@zui/helpers';
 
 onPageUpdate(() => {
     const datePicker = new DatePicker('#date-picker-example', {
