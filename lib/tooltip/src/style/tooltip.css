@@ -1,5 +1,5 @@
 .tooltip {
-  @apply -z-tooltip -rounded -bg-[--tooltip-bg] -border-[--tooltip-color] -text-[--tooltip-text] -py-1 -px-2 -text-xs -max-w-md;
+  @apply -z-tooltip -rounded -bg-[--tooltip-bg] -border-[--tooltip-color] -text-[--tooltip-text] -py-1 -px-2 -text-xs -max-w-md -whitespace-pre-wrap;
 }
 .tooltip:not(.white) > .arrow {
   @apply -border-0;
@@ -20,5 +20,5 @@
   @apply --mr-1;
 }
 .tooltip-content {
-  @apply -p-1 -whitespace-pre-wrap;
+  @apply -p-1;
 }
