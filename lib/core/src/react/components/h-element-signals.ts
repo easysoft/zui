@@ -6,7 +6,7 @@ import type {HElementProps} from '../types';
 export class HElementSignals<P extends HElementProps, S = {}, SIGNALS = {readonly [K in keyof S]-?: Signal<S[K]>}> extends HElement<P, S> {
     static HElementSignals = true;
 
-    protected declare signals: SIGNALS;
+    declare signals: SIGNALS;
 
     constructor(props: P) {
         super(props);
