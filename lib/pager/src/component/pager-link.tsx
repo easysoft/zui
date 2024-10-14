@@ -23,5 +23,5 @@ export function PagerLink({
     if (btnProps.disabled === undefined) {
         btnProps.disabled = page !== undefined && info.page === pagerInfo.page;
     }
-    return <Button type={type} {...btnProps} />;
+    return <Button type={type} z-go-to-page={info.page} {...btnProps} />;
 }

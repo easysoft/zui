@@ -44,6 +44,33 @@ export class Pager<T extends PagerOptions = PagerOptions> extends Toolbar<T> {
         return super._beforeRender(props);
     }
 
+    protected _handleClickLink = (event: MouseEvent) => {
+        const {onGoToPage} = this.props;
+        if (!onGoToPage) {
+            return;
+        }
+        const $target = $(event.currentTarget as HTMLElement);
+        if ($target.is('.disabled')) {
+            return;
+        }
+        const page = $target.z('goToPage');
+        if (typeof page === 'number') {
+            onGoToPage.call(this, {page, event});
+        }
+    };
+
+    protected _handleClickSizeMenu = (info: {event: Event, item: Item}) => {
+        const {onChangePageSize} = this.props;
+        if (!onChangePageSize) {
+            return;
+        }
+        const {item} = info;
+        const recPerPage = item['z-change-page-size'];
+        if (typeof recPerPage === 'number' && !item.disabled) {
+            onChangePageSize.call(this, {recPerPage, event: info.event});
+        }
+    };
+
     protected _getItem(props: RenderableProps<T>, item: Item, index: number): false | Item {
         const propsMap = super._getItem(props, item, index);
         if (!propsMap) {
@@ -55,6 +82,15 @@ export class Pager<T extends PagerOptions = PagerOptions> extends Toolbar<T> {
             $.extend(propsMap, {pagerInfo});
         } else if (type === 'link' || type === 'size-menu' || type === 'nav' || type === 'goto') {
             $.extend(propsMap, {pagerInfo, linkCreator: props.linkCreator});
+        }
+        if (type === 'size-menu' && props.onChangePageSize) {
+            propsMap.menu = {
+                onClickItem: this._handleClickSizeMenu,
+                ...(propsMap.menu as {}),
+            };
+        }
+        if (type === 'link' && props.onGoToPage) {
+            propsMap.onClick = this._handleClickLink;
         }
         return propsMap;
     }
