@@ -148,7 +148,8 @@ export class DatePicker<T extends DatePickerOptions = DatePickerOptions> extends
     }
 
     protected _isAllowDate(date: Date): boolean {
-        return this.props.isAllowDate?.call(this, date) ?? true;
+        const result = this.props.isAllowDate?.call(this, date) ?? true;
+        return result === true || (typeof result === 'object' && result && result.allow);
     }
 
     _renderPop(props: T, state: PickState): ComponentChildren {

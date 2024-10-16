@@ -6,7 +6,7 @@ export type MiniCalendarProps = {
     monthNames?: string[];
     minDate?: DateLike;
     maxDate?: DateLike;
-    isAllowDate?: (date: Date) => boolean;
+    isAllowDate?: (date: Date) => boolean | {allow: boolean, hint?: string};
     year?: number;
     month?: number;
     selections?: DateLike | DateLike[];

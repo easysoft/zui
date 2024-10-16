@@ -68,6 +68,10 @@ export class MiniCalendar extends Component<MiniCalendarProps> {
             const rowDays: ComponentChild[] = [];
             for (let i = 0; i < 7; i++) {
                 const day = new Date(time);
+                let allowInfo = isAllowDate?.(day) ?? true;
+                if (typeof allowInfo === 'boolean') {
+                    allowInfo = {allow: allowInfo};
+                }
                 const date = day.getDate();
                 const dateStr = formatDate(day, dateFormat);
                 const weekDay = day.getDay();
@@ -80,11 +84,11 @@ export class MiniCalendar extends Component<MiniCalendarProps> {
                     'is-out-month': !isInMonth,
                     'is-today': isSameDay(day, now),
                     'is-weekend': weekDay === 0 || weekDay === 6,
-                    disabled: (isAllowDate && !isAllowDate(day)) || ((time > maxDateTime || time < minDateTime) && !isSameDay(day, maxDateTime) && !isSameDay(day, minDateTime)),
+                    disabled: !allowInfo.allow || ((time > maxDateTime || time < minDateTime) && !isSameDay(day, maxDateTime) && !isSameDay(day, minDateTime)),
                 });
                 rowDays.push(
                     <div className={className} key={dateStr} data-date={dateStr}>
-                        <button type="button" className={btnClass} onClick={this._handleClickDate}>{(date === 1 && monthNames) ? monthNames[day.getMonth()] : day.getDate()}</button>
+                        <button type="button" className={btnClass} onClick={this._handleClickDate} title={allowInfo.hint}>{(date === 1 && monthNames) ? monthNames[day.getMonth()] : day.getDate()}</button>
                     </div>,
                 );
                 time += TIME_DAY;

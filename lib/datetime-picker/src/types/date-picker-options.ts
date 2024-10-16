@@ -19,7 +19,7 @@ export interface DatePickerOptions extends PickOptions {
     weekStart?: number;
     minDate?: DateLike | ((value?: string) => DateLike);
     maxDate?: DateLike | ((value?: string) => DateLike);
-    isAllowDate?: (date: Date) => boolean;
+    isAllowDate?: (date: Date) => boolean | {allow: boolean, hint?: string};
     menu?: NavSetting;
     actions?: ToolbarSetting;
     allowInvalid?: boolean;
