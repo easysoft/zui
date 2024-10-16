@@ -1,4 +1,4 @@
-import {$} from '@zui/core';
+import {$, computed, effect, signal} from '@zui/core';
 import {Toolbar} from '@zui/toolbar/src/component';
 import {PagerLink} from './pager-link';
 import {PagerInfoItem} from './pager-info';
@@ -27,7 +27,33 @@ export class Pager<T extends PagerOptions = PagerOptions> extends Toolbar<T> {
         size: 'sm',
     };
 
-    protected _pagerInfo?: PagerInfo;
+    protected _pagerChanges = signal<Partial<PagerInfo>>({});
+
+    protected _changeEvent?: Event;
+
+    protected _pagerInfo = computed(() => {
+        const {page = 1, recTotal = 0, recPerPage = 10} = {
+            ...this.props,
+            ...this._pagerChanges.value,
+        };
+        const finalRecTotal = Math.max(0, +recTotal);
+        const finalRecPerPage = Math.max(1, +recPerPage);
+        const pageTotal = finalRecPerPage ? Math.ceil(finalRecTotal / finalRecPerPage) : 0;
+        return {
+            page: Math.min(Math.max(1, +page), pageTotal),
+            recTotal: finalRecTotal,
+            recPerPage: finalRecPerPage,
+            pageTotal,
+        };
+    });
+
+    protected _changeEffect = effect(() => {
+        const {onChangePageInfo} = this.props;
+        if (onChangePageInfo && this._changeEvent) {
+            onChangePageInfo(this._pagerInfo.value, this._changeEvent!);
+            this._changeEvent = undefined;
+        }
+    });
 
     get pagerInfo() {
         return this._pagerInfo!;
@@ -36,12 +62,6 @@ export class Pager<T extends PagerOptions = PagerOptions> extends Toolbar<T> {
     protected _isBtnType(item: Item): boolean {
         const {type} = item;
         return super._isBtnType(item) || ['link', 'nav', 'size-menu', 'goto'].includes(type!);
-    }
-
-    protected _beforeRender(props: RenderableProps<T>): void | RenderableProps<T> | undefined {
-        const {page = 1, recTotal = 0, recPerPage = 10} = this.props;
-        this._pagerInfo = {page: +page, recTotal: +recTotal, recPerPage: +recPerPage, pageTotal: recPerPage ? Math.ceil(recTotal / recPerPage) : 0};
-        return super._beforeRender(props);
     }
 
     protected _handleClickLink = (event: MouseEvent) => {
@@ -55,19 +75,25 @@ export class Pager<T extends PagerOptions = PagerOptions> extends Toolbar<T> {
         }
         const page = $target.z('goToPage');
         if (typeof page === 'number') {
-            onGoToPage.call(this, {page, event});
+            this._pagerChanges.value = {
+                ...this._pagerChanges.value,
+                page,
+            };
         }
     };
 
     protected _handleClickSizeMenu = (info: {event: Event, item: Item}) => {
-        const {onChangePageSize} = this.props;
-        if (!onChangePageSize) {
+        const {onChangePageInfo} = this.props;
+        if (!onChangePageInfo) {
             return;
         }
         const {item} = info;
         const recPerPage = item['z-change-page-size'];
         if (typeof recPerPage === 'number' && !item.disabled) {
-            onChangePageSize.call(this, {recPerPage, event: info.event});
+            this._pagerChanges.value = {
+                ...this._pagerChanges.value,
+                recPerPage,
+            };
         }
     };
 
@@ -83,7 +109,7 @@ export class Pager<T extends PagerOptions = PagerOptions> extends Toolbar<T> {
         } else if (type === 'link' || type === 'size-menu' || type === 'nav' || type === 'goto') {
             $.extend(propsMap, {pagerInfo, linkCreator: props.linkCreator});
         }
-        if (type === 'size-menu' && props.onChangePageSize) {
+        if (type === 'size-menu' && props.onChangePageInfo) {
             propsMap.menu = {
                 onClickItem: this._handleClickSizeMenu,
                 ...(propsMap.menu as {}),
