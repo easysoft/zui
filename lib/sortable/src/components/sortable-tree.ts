@@ -12,7 +12,7 @@ export class SortableTree<P extends SortableTreeProps = SortableTreeProps, S ext
         sortable: true,
     };
 
-    static inheritNestedProps = [...Tree.inheritNestedProps, 'onSort', 'sortable'];
+    static inheritNestedProps = [...Tree.inheritNestedProps, 'onSort', 'sortable', 'canSortTo'];
 
     declare _sortable: Sortable;
 
