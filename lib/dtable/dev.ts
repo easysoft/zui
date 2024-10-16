@@ -260,6 +260,7 @@ onPageUpdate(() => {
             recPerPage: 10,
             linkCreator: '#?page={page}&recPerPage={recPerPage}',
         },
+        localPager: true,
         footer: ['checkbox', 'divider', 'checkedInfo', 'divider', 'flex', 'pager'],
     });
     console.log('DataTable', datatable);

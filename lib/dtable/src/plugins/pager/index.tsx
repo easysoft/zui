@@ -79,20 +79,11 @@ const pagerPlugin: DTablePlugin<DTablePagerTypes> = {
                     });
                 }
                 if (this.options.localPager) {
-                    footPager.onChangePageSize = (info) => {
+                    footPager.onChangePageInfo = (newPager) => {
                         this.update({
                             dirtyType: 'layout',
                             state: (prevState) => {
-                                const pager = {...(prevState as unknown as DTablePagerTypes['state']).pager, recPerPage: info.recPerPage};
-                                return {pager};
-                            },
-                        });
-                    };
-                    footPager.onGoToPage = (info) => {
-                        this.update({
-                            dirtyType: 'layout',
-                            state: (prevState) => {
-                                const pager = {...(prevState as unknown as DTablePagerTypes['state']).pager, page: info.page};
+                                const pager = {...(prevState as unknown as DTablePagerTypes['state']).pager, ...newPager};
                                 return {pager};
                             },
                         });
