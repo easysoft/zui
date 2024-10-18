@@ -69,6 +69,10 @@ export class PickerMenu extends PickPop<PickerState, PickerMenuProps> {
         }).on('hidePop.zui.Picker', () => {
             this.props.togglePop(false);
         });
+
+        setTimeout(() => {
+            $(this.menu?.element).find('.menu-item>.active').scrollIntoView({container: '.menu'});
+        }, 100);
     }
 
     componentWillUnmount(): void {
