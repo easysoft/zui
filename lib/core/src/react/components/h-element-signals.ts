@@ -18,21 +18,23 @@ export class HElementSignals<P extends HElementProps, S = {}, SIGNALS = {readonl
     }
 
     changeState(state: Partial<S> | ((prevState: Readonly<S>) => Partial<S>), callback?: () => void): Promise<S> {
-        batch(() => {
-            if (typeof state === 'function') {
-                state = state(this.state);
-            }
-            for (const key in state) {
-                const sg = this.signals[key as unknown as keyof SIGNALS] as Signal;
-                if (sg) {
-                    sg.value = state[key as keyof S];
-                } else {
-                    this.signals[key as unknown as keyof SIGNALS] = signal(state[key as keyof S]) as SIGNALS[keyof SIGNALS];
+        return new Promise(resolve => {
+            batch(() => {
+                if (typeof state === 'function') {
+                    state = state(this.state);
                 }
-            }
-            callback?.();
+                for (const key in state) {
+                    const sg = this.signals[key as unknown as keyof SIGNALS] as Signal;
+                    if (sg) {
+                        sg.value = state[key as keyof S];
+                    } else {
+                        this.signals[key as unknown as keyof SIGNALS] = signal(state[key as keyof S]) as SIGNALS[keyof SIGNALS];
+                    }
+                }
+                resolve(this.state);
+                callback?.();
+            });
         });
-        return Promise.resolve({} as S);
     }
 
     resetState(props?: RenderableProps<P>) {
