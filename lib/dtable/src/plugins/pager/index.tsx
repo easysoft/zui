@@ -67,9 +67,6 @@ const pagerPlugin: DTablePlugin<DTablePagerTypes> = {
                         },
                     ],
                     ...footPager,
-                    ...(typeof localPager === 'object' ? localPager : null),
-                    ...this.state.pager,
-                    recTotal: this.layout.allRows.length,
                 };
                 if (Array.isArray(footPager.items)) {
                     footPager.items.forEach(item => {
@@ -79,6 +76,12 @@ const pagerPlugin: DTablePlugin<DTablePagerTypes> = {
                     });
                 }
                 if (this.options.localPager) {
+                    Object.assign(footPager, {
+                        ...(typeof localPager === 'object' ? localPager : null),
+                        ...this.state.pager,
+                        recTotal: this.layout.allRows.length,
+                        useState: true,
+                    });
                     footPager.onChangePageInfo = (newPager) => {
                         this.update({
                             dirtyType: 'layout',
