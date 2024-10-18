@@ -134,10 +134,15 @@ export class HElement<P extends HElementProps, S = {}> extends Component<P, S> {
     }
 
     executeCommand(context: CommandContext | string, params: unknown[]) {
-        const {onCommand} = this.props;
+        const {onCommand, commands} = this.props;
         let result;
         if (typeof context === 'string') {
             context = {name: context};
+        }
+        const {scope, name} = context;
+        const onCommandFromProps = commands ? (commands[`${scope}~${name}`] || commands[name]) : null;
+        if (onCommandFromProps) {
+            return onCommandFromProps.call(this, context, params);
         }
         if (!context.scope || context.scope === this.commandScope) {
             result = deepCall(this, context.name, params);
