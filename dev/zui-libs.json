@@ -484,6 +484,7 @@
         },
         "dependencies": {
             "@zui/core": "workspace:^0.0.1",
+            "@zui/helpers": "workspace:^0.0.1",
             "@zui/search-box": "workspace:^0.0.1",
             "@zui/css-icons": "workspace:^0.0.1",
             "@zui/common-list": "workspace:^0.0.1",
