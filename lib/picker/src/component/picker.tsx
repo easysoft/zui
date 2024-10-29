@@ -183,7 +183,13 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
             }
             let ajaxSetting = itemsSetting;
             if (typeof ajaxSetting === 'string') {
-                ajaxSetting = formatString(ajaxSetting, {search: encodeURIComponent(search)});
+                ajaxSetting = {url: ajaxSetting};
+            }
+            if (typeof ajaxSetting === 'object' && ajaxSetting.url) {
+                ajaxSetting = {
+                    ...ajaxSetting,
+                    url: formatString(ajaxSetting.url, {search: encodeURIComponent(search)}),
+                };
             }
             items = await fetchData(ajaxSetting as ListItemsFetcher, [this, search], {signal: abort.signal});
             if (this._abort !== abort) {
