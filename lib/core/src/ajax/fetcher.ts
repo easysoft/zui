@@ -6,7 +6,7 @@ import type {AjaxSetting, FetcherSetting} from './types';
 export async function fetchData<T = {}, A extends unknown[] = unknown[], THIS = unknown>(setting: FetcherSetting<T, A, THIS>, args: A = ([] as unknown as A), extraAjaxSetting?: Partial<AjaxSetting> | ((ajaxSetting: AjaxSetting) => Partial<AjaxSetting>), thisObj?: THIS, ajaxGetter?: (ajax: Ajax<T>) => void): Promise<T> {
     const ajaxSetting = {throws: true, dataType: 'json'} as AjaxSetting;
     if (typeof setting === 'string') {
-        ajaxSetting.url = formatString(setting, ...args);
+        ajaxSetting.url = setting;
     } else if (typeof setting === 'object') {
         $.extend(ajaxSetting, setting);
     } else if (typeof setting === 'function') {
@@ -19,6 +19,9 @@ export async function fetchData<T = {}, A extends unknown[] = unknown[], THIS = 
     }
     if (extraAjaxSetting) {
         $.extend(ajaxSetting, typeof extraAjaxSetting === 'function' ? extraAjaxSetting(ajaxSetting) : extraAjaxSetting);
+    }
+    if (ajaxSetting.url) {
+        ajaxSetting.url = formatString(ajaxSetting.url, ...args);
     }
     const ajax = new Ajax<T>(ajaxSetting);
     ajaxGetter?.(ajax);
