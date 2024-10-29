@@ -82,7 +82,14 @@ export class Pager<T extends PagerOptions = PagerOptions> extends Toolbar<T> {
     };
 
     componentDidUpdate(previousProps: Readonly<T>): void {
-        if (!this.props.useState) {
+        if (this.props.useState) {
+            if (this.props.recTotal !== previousProps.recTotal) {
+                this._pagerChanges.value = {
+                    ...this._pagerChanges.value,
+                    recTotal: this.props.recTotal,
+                };
+            }
+        } else {
             const {page, recTotal, recPerPage} = this.props;
             if (page !== previousProps.page || recTotal !== previousProps.recTotal || recPerPage !== previousProps.recPerPage) {
                 this._pagerChanges.value = {};
