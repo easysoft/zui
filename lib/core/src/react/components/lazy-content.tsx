@@ -21,10 +21,10 @@ export class LazyContent extends Component<LazyContentProps, LazyContentState> {
 
     async load() {
         const {props} = this;
-        const {fetcher, type} = props;
+        const {fetcher, type, fetcherArgs, fetcherThis = this} = props;
         this.setState({loading: true, error: undefined, content: undefined});
         try {
-            const content = await fetchData(fetcher, [props], {throws: true, dataType: type === 'custom' ? 'json' : 'text'}, this, (ajax) => {
+            const content = await fetchData(fetcher, fetcherArgs, {throws: true, dataType: type === 'custom' ? 'json' : 'text'}, fetcherThis, (ajax) => {
                 this._ajax = ajax;
             });
             this.setState({content, loading: false});
