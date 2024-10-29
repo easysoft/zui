@@ -1,5 +1,5 @@
 import {Component, createRef, h as _h} from 'preact';
-import {classes, $, i18n, CustomContent, nextGid, CustomRender, dom, isShallowDiff} from '@zui/core';
+import {classes, $, i18n, CustomContent, nextGid, CustomRender, dom} from '@zui/core';
 import {Scrollbar} from '@zui/scrollbar/src/component/scrollbar';
 import {addPlugin, initPlugins, removePlugin} from '../helpers/shared-plugins';
 import {getDefaultOptions} from '../helpers/default-options';
@@ -9,7 +9,7 @@ import {Block} from './block';
 import type {ComponentChildren, ErrorInfo} from 'preact';
 import type {ClassNameLike, CustomRenderResult, CustomRenderResultList} from '@zui/core';
 import type {CellProps, CellRenderCallback} from '../types/cell';
-import type {ColInfoLike, ColInfo, ColName, ColSetting} from '../types/col';
+import type {ColInfoLike, ColInfo, ColName} from '../types/col';
 import type {DTableState, DTableLayout, DTableEventListener, DTableEventTarget, DTablePointerInfo} from '../types';
 import type {DTableOptions} from '../types/options';
 import type {DTablePlugin} from '../types/plugin';
@@ -116,8 +116,8 @@ export class DTable extends Component<DTableOptions, DTableState> {
         this._options = undefined;
     }
 
-    shouldComponentUpdate(nextProps: Readonly<DTableOptions<ColSetting>>, nextState: Readonly<DTableState>): boolean {
-        return isShallowDiff(this.state, nextState) || isShallowDiff(this.props, nextProps);
+    shouldComponentUpdate() {
+        return true;
     }
 
     componentDidMount() {
