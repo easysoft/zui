@@ -1,17 +1,3 @@
-export function isShallowDiff(value1: object, value2: object) {
-    const keys1 = Object.keys(value1);
-    const keys2 = Object.keys(value2);
-    if (keys1.length !== keys2.length) {
-        return true;
-    }
-    for (const key of keys1) {
-        if (value1[key] !== value2[key]) {
-            return true;
-        }
-    }
-    return false;
-}
-
 export function isDiff(value1: unknown, value2: unknown) {
     if (value1 === value2) {
         return false;
