@@ -8,7 +8,7 @@ var ct = (n, t, e) => (ks(n, t, "read from private field"), e ? e.call(n) : t.ge
   t instanceof WeakSet ? t.add(n) : t.set(n, e);
 }, bt = (n, t, e, s) => (ks(n, t, "write to private field"), s ? s.call(n, e) : t.set(n, e), e);
 var Ts = (n, t, e) => (ks(n, t, "access private method"), e);
-const Ed = "3.0.0", Ad = 1730167615105, Md = "production", Ht = document, Tn = window, po = Ht.documentElement, pe = Ht.createElement.bind(Ht), go = pe("div"), $s = pe("table"), Rl = pe("tbody"), Sr = pe("tr"), { isArray: Xn, prototype: mo } = Array, { concat: Dl, filter: mi, indexOf: _o, map: yo, push: Ll, slice: vo, some: _i, splice: zl } = mo, Ol = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, Hl = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, Fl = /<.+>/, Wl = /^\w+$/;
+const Ed = "3.0.0", Ad = 1730171329967, Md = "production", Ht = document, Tn = window, po = Ht.documentElement, pe = Ht.createElement.bind(Ht), go = pe("div"), $s = pe("table"), Rl = pe("tbody"), Sr = pe("tr"), { isArray: Xn, prototype: mo } = Array, { concat: Dl, filter: mi, indexOf: _o, map: yo, push: Ll, slice: vo, some: _i, splice: zl } = mo, Ol = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, Hl = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, Fl = /<.+>/, Wl = /^\w+$/;
 function yi(n, t) {
   const e = jl(t);
   return !n || !e && !he(t) && !tt(t) ? [] : !e && Hl.test(n) ? t.getElementsByClassName(n.slice(1).replace(/\\/g, "")) : !e && Wl.test(n) ? t.getElementsByTagName(n) : t.querySelectorAll(n);
@@ -3634,15 +3634,15 @@ class Ln extends F {
     super(...arguments), this.state = {};
   }
   async load() {
-    const { props: t } = this, { fetcher: e, type: s } = t;
+    const { props: t } = this, { fetcher: e, type: s, fetcherArgs: i, fetcherThis: r = this } = t;
     this.setState({ loading: !0, error: void 0, content: void 0 });
     try {
-      const i = await ns(e, [t], { throws: !0, dataType: s === "custom" ? "json" : "text" }, this, (r) => {
-        this._ajax = r;
+      const o = await ns(e, i, { throws: !0, dataType: s === "custom" ? "json" : "text" }, r, (a) => {
+        this._ajax = a;
       });
-      this.setState({ content: i, loading: !1 });
-    } catch (i) {
-      this.setState({ error: i, loading: !1 });
+      this.setState({ content: o, loading: !1 });
+    } catch (o) {
+      this.setState({ error: o, loading: !1 });
     }
     this._ajax = void 0;
   }
