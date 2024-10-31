@@ -38,6 +38,11 @@ onPageUpdate(() => {
             console.log('datePicker.onChange', value);
         },
         allowInvalid: true,
+        isAllowDate: (date) => {
+            const day = date.getDate();
+            const week = date.getDay();
+            return day !== 20 && week !== 2;
+        },
     });
     console.log('> datePicker', datePicker);
 

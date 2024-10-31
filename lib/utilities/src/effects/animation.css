@@ -1,4 +1,15 @@
-.animate-spin, .spin     {@apply -animate-spin;}
-.animate-ping, .ping     {@apply -animate-ping;}
-.animate-pulse, .pulse   {@apply -animate-pulse;}
-.animate-bounce, .bounce {@apply -animate-bounce;}
+.animate-spin, .spin           {@apply -animate-spin;}
+.animate-ping, .ping           {@apply -animate-ping;}
+.animate-pulse, .pulse         {@apply -animate-pulse;}
+.animate-bounce, .bounce       {@apply -animate-bounce;}
+
+.animate-highlight, .highlight {
+    animation: -highlight 2s ease-in-out infinite;
+    @apply -outline-yellow-300 -outline --outline-offset-1 -outline-1;
+}
+
+@keyframes -highlight {
+    50% {
+        @apply -outline-4 --outline-offset-4 -bg-yellow-50;
+    }
+}

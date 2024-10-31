@@ -52,8 +52,9 @@
     "cash-dom": "^8.1.5",
     "dayjs": "^1.11.13",
     "htm": "^3.1.1",
-    "preact": "^10.23.2",
-    "tinykeys": "^3.0.0"
+    "nanoid": "^5.0.7",
+    "preact": "^10.24.3",
+    "tinykeys": "^2.1.0"
   },
   "devDependencies": {
     "@faker-js/faker": "^9.0.0",

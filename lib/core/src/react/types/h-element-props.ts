@@ -1,6 +1,7 @@
 import type {PreactDOMAttributes, JSX, RefObject, ComponentType, Attributes} from 'preact';
 import type {ClassNameLike} from '../../helpers/classes';
 import type {I18nLangMap} from '../../i18n';
+import type {CommandCallback} from '../../helpers';
 
 /**
  * The HTML props that can be passed to a component which root not is a html element.
@@ -61,4 +62,14 @@ export interface HElementProps extends PreactDOMAttributes, Attributes {
      * The other props of the element.
      */
     [dataKey: `data-${string}` | `on${string}` | `zui-${string}`]: unknown;
+
+    /**
+     * The command callback.
+     */
+    onCommand?: CommandCallback,
+
+    /**
+     * The commands callback map.
+     */
+    commands?: Record<string, CommandCallback>,
 }

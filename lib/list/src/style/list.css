@@ -11,6 +11,6 @@
 .with-hover-actions > .item > .item-inner .item-actions {
   @apply -absolute -pointer-events-none -right-1 -top-0 -opacity-0 -transition-opacity;
 }
-.with-hover-actions > .item:hover > .item-inner .item-actions {
+.with-hover-actions > .item > .item-inner:hover .item-actions {
   @apply -static -pointer-events-auto -flex --mt-1 -opacity-100;
 }

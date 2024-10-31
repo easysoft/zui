@@ -23,4 +23,5 @@ export interface ButtonProps extends HElementProps {
     loading?: boolean;
     loadingIcon?: IconType;
     loadingText?: string;
+    command?: string;
 }

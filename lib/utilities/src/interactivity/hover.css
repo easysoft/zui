@@ -61,6 +61,13 @@
 .group.active .group-active\:shadow,
 .active\:shadow.active {@apply -shadow;}
 
+.group:hover .group-hover\:shadow-lg,
+.hover\:shadow-lg:hover,
+.group:active .group-active\:shadow-lg,
+.active\:shadow-lg:active,
+.group.active .group-active\:shadow-lg,
+.active\:shadow-lg.active {@apply -shadow-lg;}
+
 .group:hover .group-hover\:block,
 .hover\:block:hover {@apply !-block;}
 

@@ -40,4 +40,5 @@ export interface ListitemProps extends Item {
     content?: CustomContentType;
     contentAttrs?: Record<string, unknown>;
     hint?: string;
+    command?: string;
 }

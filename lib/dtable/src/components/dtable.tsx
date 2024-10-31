@@ -116,6 +116,10 @@ export class DTable extends Component<DTableOptions, DTableState> {
         this._options = undefined;
     }
 
+    shouldComponentUpdate() {
+        return true;
+    }
+
     componentDidMount() {
         if (this._needRender) {
             this.forceUpdate();
@@ -820,10 +824,11 @@ export class DTable extends Component<DTableOptions, DTableState> {
         /* Init columns. */
         const cols = initColsLayout(this, options, plugins, width);
 
-        const {data, rowKey = 'id', rowHeight = 35} = options;
+        const {data, rowKey = 'id', rowHeight = 35, rowConverter} = options;
         const allRows: RowInfo[] = [];
         const addRowItem = (id: string, index: number, item?: RowData) => {
-            const row: RowInfo = {data: item ?? {[rowKey]: id}, id, index: allRows.length, top: 0};
+            const rowData = item ?? {[rowKey]: id};
+            const row: RowInfo = {data: rowConverter ? rowConverter.call(this, rowData, index) : rowData, id, index: allRows.length, top: 0};
             if (!item) {
                 row.lazy = true;
             }
