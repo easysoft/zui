@@ -28,7 +28,7 @@
     "preinstall": "npx only-allow pnpm",
     "lint": "eslint .",
     "docs:dev-fast": "cd docs && pnpm dev",
-    "docs:dev": "pnpm docs:prepare && pnpm docs:dev-fast & pnpm docs:watch",
+    "docs:dev": "pnpm docs:prepare -- --copy && pnpm docs:dev-fast & pnpm docs:watch",
     "docs:dev:exts": "pnpm docs:prepare -- --copy --exts --lib=zui*exts && pnpm docs:dev-fast & pnpm docs:watch -- --exts",
     "docs:watch": "tsx ./scripts/docs/watch.ts",
     "docs:build": "pnpm docs:prepare -- --copy --ignoreNotReady && cd docs && pnpm build",
