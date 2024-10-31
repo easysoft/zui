@@ -92,6 +92,8 @@ export function parseCommand(commandLike: CommandLike): CommandExecuteInfo | und
             return [key, value];
         })),
         params: params.map((param) => {
+            if (param === 'undefined') return undefined;
+            if (param === 'null') return null;
             try {
                 if (param.includes('%')) {
                     param = decodeURIComponent(param);
