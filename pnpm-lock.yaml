@@ -7247,9 +7247,4 @@ snapshots:
 
   yocto-queue@0.1.0: {}
 
-<<<<<<< HEAD
   zwitch@2.0.4: {}
-
-=======
-  zwitch@2.0.4: {}
->>>>>>> parent of c6f27138 (feat:calendar styles Fix)
