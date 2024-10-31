@@ -1,6 +1,6 @@
 .modal-dialog.size-full,
 .modal-dialog[data-size="full"] {
-  @apply -w-screen -h-screen;
+  @apply -w-screen -h-screen -rounded-none;
 }
 .modal-dialog.size-sm,
 .modal-dialog[data-size="sm"] {

@@ -251,7 +251,7 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
         }
 
         this._data.items.add(file);
-        this._syncFiles();
+        this._syncFiles(true);
 
         await this.changeState((prevState) => ({files: [...prevState.files, fileInfo]} as S));
 
@@ -289,7 +289,7 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
                 this._data.items.remove(dataIndex);
             }
             this._data.items.add(newFile);
-            this._syncFiles();
+            this._syncFiles(true);
             fileInfo.file = newFile;
         }
         fileInfo.name = newName;
@@ -357,11 +357,17 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
         if (index >= 0) {
             this.state.files.splice(index, 1);
             this.setState({files: this.state.files});
+            this._syncFiles(true);
         }
     }
 
-    protected _syncFiles() {
-        this._file.current!.files = this._data.files;
+    protected _syncFiles(triggerChange = false) {
+        const files = this._data.files;
+        const element = this._file.current!;
+        element!.files = files;
+        if (triggerChange) {
+            $(element!).trigger('change', {files});
+        }
     }
 
     protected _showAlert(tip: string | ModalAlertOptions, formatData?: Record<string, unknown>) {
@@ -458,8 +464,8 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
     }
 
     protected _renderForForm(props: RenderableProps<P>) {
-        const {name, accept} = props;
-        return <input key="form" ref={this._file} type="file" name={name} multiple={this.multiple} accept={accept} style="display:none" />;
+        const {name, accept, onChange} = props;
+        return <input key="form" ref={this._file} type="file" name={name} multiple={this.multiple} accept={accept} style="display:none" onChange={onChange} />;
     }
 
     protected _getIcon(file: FileInfo): IconType | undefined {

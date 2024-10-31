@@ -1,11 +1,9 @@
-.tree {
-    @apply -relative;
+.tree-lines .tree {
+  @apply -relative;
 }
-
-.directory-outline .has-nested-menu > .tree::before {
-    @apply -absolute -z-50 -bottom-0;
-    content: '';
-    left: calc(var(--level) * 20px - 12px);
-    top: -9px;
-    border-left: 1px solid var(--color-gray-300);
+.tree-lines .tree-item {
+  --tree-line-indent: calc(var(--list-nested-indent) + 8px);
+}
+.tree-lines .tree::before {
+  @apply -content-[''] -block -absolute --top-2 -left-[--tree-line-indent] -bottom-2 -border-l;
 }

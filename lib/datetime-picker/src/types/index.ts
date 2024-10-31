@@ -1,3 +1,4 @@
+export * from './date-setting';
 export * from './time-picker-options';
 export * from './time-picker-menu-props';
 export * from './date-picker-options';

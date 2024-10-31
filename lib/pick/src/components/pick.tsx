@@ -18,27 +18,24 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
         popMinWidth: 50,
         popMinHeight: 32,
         popMaxHeight: 300,
-
+        limitPopInScreen: true,
         clickType: 'open',
     };
 
-    _id: string;
+    protected _id: string;
 
-    _toggleTimer = 0;
+    protected _toggleTimer = 0;
 
-    _pop: RefObject<PickPop<S, PickPopProps<S>>> = createRef();
+    protected _pop: RefObject<PickPop<S, PickPopProps<S>>> = createRef();
 
     protected _trigger = createRef<PickTrigger>();
 
     constructor(props: O) {
         super(props);
-        this.state = {
-            value: String(props.defaultValue ?? ''),
-            open: false,
-        } as S;
 
         this._id = props.id ?? `_pick${nextGid()}`;
         this.changeState = this.changeState.bind(this);
+        this.state = this.getDefaultState(props);
     }
 
     get id() {
@@ -49,8 +46,28 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
         return this._pop.current;
     }
 
+    get trigger() {
+        return this._trigger.current;
+    }
+
     get value() {
         return this.state.value;
+    }
+
+    getDefaultState(props?: RenderableProps<O>): S {
+        return {
+            value: String((props || this.props).defaultValue ?? ''),
+            open: false,
+        } as S;
+    }
+
+    resetState(props?: RenderableProps<O>, init?: boolean) {
+        const defaultState = this.getDefaultState(props);
+        if (init) {
+            this.state = defaultState;
+        } else {
+            this.changeState(defaultState);
+        }
     }
 
     changeState(state: Partial<S> | ((prevState: Readonly<S>) => Partial<S>), callback?: () => void): Promise<S> {
@@ -154,6 +171,7 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
             maxHeight: props.popMaxHeight,
             maxWidth: props.popMaxWidth,
             minWidth: props.popMinWidth,
+            limitInScreen: props.limitPopInScreen,
         };
     }
 
@@ -193,10 +211,10 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
 
     protected _handlePopToggle(opened: boolean) {
         const {onPopShown, onPopHidden} = this.props;
-        if (opened && onPopShown) {
-            onPopShown();
+        if (opened === true && onPopShown) {
+            onPopShown.call(this);
         } else if (!opened && onPopHidden) {
-            onPopHidden();
+            onPopHidden.call(this);
         }
     }
 
@@ -217,14 +235,14 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
     componentWillUpdate(_nextProps: Readonly<O>, nextState: Readonly<S>): void {
         const {open: opened} = this.state;
         const {open: nextOpened} = nextState;
-        if (opened === nextOpened) {
+        if (!opened === !nextOpened) {
             return;
         }
         const {onPopShow, onPopHide} = this.props;
         if (nextOpened && onPopShow) {
-            onPopShow();
+            onPopShow.call(this);
         } else if (!nextOpened && onPopHide) {
-            onPopHide();
+            onPopHide.call(this);
         }
     }
 

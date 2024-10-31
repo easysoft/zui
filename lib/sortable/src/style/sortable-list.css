@@ -4,3 +4,6 @@
 .sortable-list .sortable-ghost > .listitem {
   @apply -bg-warning-50;
 }
+.sortable-empty-shadow {
+  @apply !-opacity-0 !-absolute !-pointer-events-none !-left-0 !-top-0 !-w-px !-h-px;
+}

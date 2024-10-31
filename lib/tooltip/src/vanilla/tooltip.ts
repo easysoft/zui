@@ -1,8 +1,6 @@
 import {Popover, PopoverPanelOptions} from '@zui/popover';
-import {$, classes} from '@zui/core';
+import {classes} from '@zui/core';
 import type {TooltipOptions} from '../types';
-
-const TOGGLE_SELECTOR = '[data-toggle="tooltip"]';
 
 export class Tooltip extends Popover<TooltipOptions> {
     static readonly NAME = 'Tooltip';
@@ -16,9 +14,9 @@ export class Tooltip extends Popover<TooltipOptions> {
         name: 'tooltip',
         animation: 'fade',
         destroyOnHide: 5000,
+        hideOthers: true,
+        hideNewOnHide: false,
     };
-
-    static hideOthers = true;
 
     protected _getRenderOptions(): PopoverPanelOptions {
         const {type, className, title: originTitle, content: originContent} = this.options;
@@ -38,15 +36,4 @@ export class Tooltip extends Popover<TooltipOptions> {
     }
 }
 
-$(document).on(`click${Tooltip.NAMESPACE} mouseenter${Tooltip.NAMESPACE}`, TOGGLE_SELECTOR, (event: MouseEvent) => {
-    const $toggleBtn = $(event.currentTarget as HTMLElement);
-    if ($toggleBtn.length && !$toggleBtn.data(Tooltip.KEY)) {
-        const trigger = $toggleBtn.data('trigger') || 'hover';
-        const eventForTrigger = event.type === 'mouseover' ? 'hover' : 'click';
-        if (eventForTrigger !== trigger) {
-            return;
-        }
-        (Tooltip as typeof Popover).ensure($toggleBtn, {show: Tooltip.DEFAULT.delay || true});
-        event.preventDefault();
-    }
-});
+Tooltip.register();

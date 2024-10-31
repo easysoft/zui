@@ -1,12 +1,34 @@
 # 右键菜单
 
+## 弹出面板中的右键菜单
+
+```html:example
+<button type="button" class="btn" data-toggle="popover" data-target="$next">显示 Popover</button>
+<div class="popover popup">
+  <div class="arrow"></div>
+  <div class="popover-heading">
+    <div class="popover-title">标题</div>
+    <button class="btn ghost square size-sm" data-dismiss="popover"><span class="close"></span></button>
+  </div>
+  <div class="popover-content">
+    <div class="p-10 primary-pale" zui-create="contextMenu" data-target="#commonMenu">在此区域使用右键菜单</div>
+  </div>
+</div>
+<menu class="contextmenu menu popup" id="commonMenu">
+  <li class="menu-item"><a>操作</a></li>
+  <li class="menu-item"><a>另一个操作</a></li>
+  <li class="menu-item"><a>更多操作</a></li>
+</menu>
+```
+
+
 ## 被动打开目标菜单
 
 ```html:example
-<div class="items-center justify-center h-32 primary-pale row" id="contextMenuToggle1" data-target="#contextMenu1">
+<div class="items-center justify-center h-32 primary-pale row" zui-create="contextMenu" data-target="$next">
     在此区域使用右键菜单
 </div>
-<menu class="contextmenu menu popup" id="contextMenu1">
+<menu class="contextmenu menu popup">
   <li class="menu-item"><a>操作</a></li>
   <li class="menu-item"><a>另一个操作</a></li>
   <li class="menu-item"><a>更多操作</a></li>

@@ -1,7 +1,7 @@
-import {render} from 'preact';
-import {delay, i18n, $, nextGid, HtmlContent, classes} from '@zui/core';
+import {createRef, RefObject, render} from 'preact';
+import {delay, i18n, $, nextGid, HtmlContent, classes, CustomContent} from '@zui/core';
 import {ModalBase} from './modal-base';
-import {ModalOptions, ModalDialogOptions, ModalCustomOptions, ModalAjaxOptions, ModalAlertOptions, ModalTypedOptions, ModalConfirmOptions} from '../types';
+import {ModalOptions, ModalDialogOptions, ModalCustomOptions, ModalAjaxOptions, ModalAlertOptions, ModalTypedOptions, ModalConfirmOptions, ModalPromptOptions} from '../types';
 import {ModalDialog} from '../component';
 import {ModalIframeContent} from '../component/modal-iframe-content';
 
@@ -58,6 +58,7 @@ async function buildIframeModal(this: Modal, _element: HTMLElement, options: Mod
     return {
         title,
         ...custom,
+        waitShowEvent: 'modal-iframe-loaded',
         body: <ModalIframeContent url={url} watchHeight={!hasHeight} />,
     };
 }
@@ -74,7 +75,7 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
     static DEFAULT = {
         ...ModalBase.DEFAULT,
         loadTimeout: 10000,
-        destoryOnHide: true,
+        destroyOnHide: true,
     } as Partial<ModalOptions>;
 
     #modal?: HTMLElement;
@@ -117,6 +118,8 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
                     .css(options.style || {})
                     .setClass('modal modal-async load-indicator', options.className)
                     .appendTo($element)[0];
+            } else {
+                $(modal).data(this.constructor.KEY, this);
             }
             this.#modal = modal!;
         }
@@ -130,9 +133,12 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
 
     afterInit() {
         super.afterInit();
-        if (this.options.destoryOnHide) {
-            this.on('hidden', () => {
-                this.destroy();
+        if (this.options.destroyOnHide && this.options.type !== 'static') {
+            this.on('hidden', (event) => {
+                const $modal = $(event.target as HTMLElement);
+                if ($modal.data('key') === this.key) {
+                    this.destroy();
+                }
             });
         }
     }
@@ -202,7 +208,6 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
             return false;
         }
 
-
         if (this.#loadingTimer) {
             clearTimeout(this.#loadingTimer);
         }
@@ -210,6 +215,10 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
         const {modalElement, options} = this;
         const $modal = $(modalElement);
         const {type, loadTimeout, loadingClass = LOADING_CLASS, loadingText = null} = options;
+        if (!type || type === 'static') {
+            return true;
+        }
+
         const build = builders[type];
 
         if (!build) {
@@ -226,6 +235,9 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
         }
 
         const result = await build.call(this, modalElement, options);
+        if (this._destroyed) {
+            return false;
+        }
 
         if (result === false) {
             await this.#renderLoadFail(this.options.failedTip);
@@ -247,17 +259,27 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
         return true;
     }
 
-    static open(options: ModalTypedOptions & {container?: string | HTMLElement}): Promise<Modal> {
+    static isValid(modal: Modal) {
+        return !$.isDetached(modal.modalElement);
+    }
+
+    static open(options: ModalTypedOptions & {container?: string | HTMLElement, ref?: RefObject<Modal>}): Promise<Modal> {
         return new Promise((resolve) => {
-            const {container = document.body, ...others} = options;
+            const {container = document.body, ref, ...others} = options;
             const modalOptions = {show: true, ...others} as ModalOptions;
             if (!modalOptions.type && modalOptions.url) {
                 modalOptions.type = 'ajax';
             }
+            if (!modalOptions.type && options.id) {
+                modalOptions.type = 'static';
+            }
             if (modalOptions.key === undefined) {
                 modalOptions.key = modalOptions.id;
             }
-            const modal = Modal.ensure(container, modalOptions);
+            const modal = Modal.ensure(container, modalOptions) as Modal;
+            if (ref) {
+                ref.current = modal;
+            }
             const namespace = `${Modal.NAMESPACE}.open${nextGid()}`;
             modal.on(`hidden${namespace}`, () => {
                 modal.off(namespace);
@@ -307,7 +329,10 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
             gap: 4,
             items: actionItems,
             onClickItem: ({item, event}) => {
-                const modal = Modal.query(event.target as HTMLDivElement, key) as Modal;
+                const modal = Modal.query(event.target as HTMLDivElement) as Modal;
+                if (!modal || modal.key !== key) {
+                    return;
+                }
                 result = item.key as string;
                 const actionResult = onClickAction?.(item, modal);
                 if (actionResult !== false && modal) {
@@ -322,6 +347,7 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
             size: 400,
             className: 'modal-alert',
             content,
+            modal: true,
             backdrop: 'static',
             hideOthers: false,
             custom: {footerActions, ...customOptions},
@@ -345,4 +371,38 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
         });
         return result === 'confirm';
     }
+
+    static async prompt(options: string | ModalPromptOptions): Promise<string | null> {
+        if (typeof options === 'string') {
+            options = {message: options} as ModalPromptOptions;
+        }
+        const {defaultValue = '', placeholder, onResult, onShown, message, content, bodyClass, custom, ...otherOptions} = options;
+        let result = defaultValue;
+        let enterKeyPressed = false;
+        const modal = createRef<Modal>();
+        const confirmed = await Modal.confirm({
+            ...otherOptions,
+            custom: {closeBtn: false, ...custom},
+            message,
+            ref: modal,
+            content: (
+                <div className={classes('modal-body', bodyClass as string)}>
+                    <CustomContent content={message} />
+                    <input type="text" className="modal-prompt-input form-control mt-3" autoFocus placeholder={placeholder} defaultValue={defaultValue} onChange={e => {result = (e.target as HTMLInputElement).value;}} onKeyDown={e => {
+                        if (e.key === 'Enter') {
+                            enterKeyPressed = true;
+                            e.preventDefault();
+                            modal.current?.hide();
+                        } else if (e.key === 'Escape') {
+                            modal.current?.hide();
+                        }
+                    }} />
+                    {content}
+                </div>
+            ),
+        });
+        return (confirmed || enterKeyPressed) ? result : null;
+    }
 }
+
+Modal.register();

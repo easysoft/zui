@@ -10,7 +10,7 @@ onPageLoad(() => {
     const btnGroup = new BtnGroup('#btnGroup', {
         items: [
             {text: '复制', icon: 'icon-copy'},
-            {text: '粘贴', icon: 'icon-paste'},
+            {text: '粘贴', icon: 'icon-paste', disabled: true},
             {text: '剪切'},
             {type: 'dropdown', text: '导入', icon: 'icon-upload-alt', items: [
                 {text: '导入文件'},

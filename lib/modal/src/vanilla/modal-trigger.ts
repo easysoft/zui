@@ -1,9 +1,7 @@
-import {Component, $} from '@zui/core';
+import {Component, ComponentBaseOptions} from '@zui/core';
 import type {ModalOptions, ModalTriggerOptions} from '../types';
 import {Modal} from './modal';
 import {ModalBase} from './modal-base';
-
-const TOGGLE_SELECTOR = '[data-toggle="modal"]';
 
 export class ModalTrigger extends Component<ModalTriggerOptions> {
     static NAME = 'ModalTrigger';
@@ -96,13 +94,16 @@ export class ModalTrigger extends Component<ModalTriggerOptions> {
     }
 }
 
-$(document).on(`click${ModalTrigger.NAMESPACE}`, TOGGLE_SELECTOR, (event: MouseEvent) => {
-    const $toggleBtn = $(event.currentTarget as HTMLElement);
-    if ($toggleBtn.length && !$toggleBtn.is('[disabled],.disabled,.open-in-parent,no-global-listener')) { // .open-in-parent for compatibility with zentao 18 version
-        const modalTrigger = ModalTrigger.ensure($toggleBtn);
-        if (modalTrigger) {
-            modalTrigger.show();
-            event.preventDefault();
-        }
-    }
-});
+ModalTrigger.toggle = {
+    name: 'modal',
+    skip: '[disabled],.disabled,.open-in-parent',
+    convertHref: true,
+    onGet(element: HTMLElement) {
+        return ModalTrigger.get(element);
+    },
+    onCreate(element: HTMLElement, _event: Event, options: ComponentBaseOptions) {
+        return new ModalTrigger(element, options);
+    },
+};
+
+ModalTrigger.register();

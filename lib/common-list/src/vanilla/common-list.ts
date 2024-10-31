@@ -10,3 +10,5 @@ export class CommonList extends ComponentFromReact<CommonListProps, CommonListRe
 
     static replace = CommonListReact.TAG;
 }
+
+CommonList.register();

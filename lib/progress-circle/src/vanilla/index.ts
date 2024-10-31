@@ -7,3 +7,5 @@ export class ProgressCircle extends ComponentFromReact<ProgressCircleOptions, Pr
 
     static Component = ProgressCircleReact;
 }
+
+ProgressCircle.register();

@@ -49,7 +49,7 @@ export class KanbanHeaderCol extends HElement<KanbanColProps> {
                 <div key="title" className="kanban-header-title">
                     {icon ? <Icon key="icon" className="as-leading-icon" icon={icon} /> : null}
                     {prefix ? <span key="prefix" className={classes('as-prefix', prefixClass)}><CustomContent content={prefix} /></span> : null}
-                    {title ? <span key="title" className={classes('as-title', titleClass)}><CustomContent content={title} /></span> : null}
+                    {title ? <span key="title" className={classes('as-title', titleClass)} title={typeof title === 'string' ? title : undefined}><CustomContent content={title} /></span> : null}
                     {subtitle ? <span key="subtitle" className={classes('as-subtitle', subtitleClass)}><CustomContent content={subtitle} /></span> : null}
                     {trailingIcon ? <Icon key="trailingIcon" className="as-trailing-icon" icon={trailingIcon} /> : null}
                 </div>

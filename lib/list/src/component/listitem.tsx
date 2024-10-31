@@ -11,6 +11,7 @@ export class Listitem<P extends ListitemProps = ListitemProps, S = {}> extends H
     protected _renderLeading(props: RenderableProps<P>): ComponentChild[] {
         const {
             icon,
+            iconClass,
             avatar,
             toggleIcon,
             leading,
@@ -27,7 +28,7 @@ export class Listitem<P extends ListitemProps = ListitemProps, S = {}> extends H
             contents.push(<Checkbox key="checkbox" className="item-checkbox" checked={checked} {...checkbox} />);
         }
         if (icon) {
-            contents.push(<Icon key="icon" className="item-icon" icon={icon} />);
+            contents.push(<Icon key="icon" className={classes('item-icon', iconClass)} icon={icon} />);
         }
         if (avatar) {
             const avatarProps = typeof avatar === 'function' ? avatar.call(this, props) : avatar;
@@ -84,14 +85,15 @@ export class Listitem<P extends ListitemProps = ListitemProps, S = {}> extends H
             trailing,
             trailingClass,
             trailingIcon,
+            trailingIconClass,
             actions,
         } = props;
         const contents: ComponentChild[] = [];
         if (trailingIcon) {
-            contents.push(<Icon key="trailing-icon" className="item-trailing-icon" icon={trailingIcon} />);
+            contents.push(<Icon key="trailing-icon" className={classes('item-trailing-icon', trailingIconClass)} icon={trailingIcon} />);
         }
         if (actions) {
-            contents.push(Toolbar.render(actions, [props], {key: 'actions', relativeTarget: props, size: 'sm'}, this));
+            contents.push(Toolbar.render(actions, [props], {key: 'actions', className: 'item-actions', relativeTarget: props, size: 'sm'}, this));
         }
         const customTrailing = trailing ? <CustomContent key="trailing" content={trailing} /> : null;
         if (customTrailing) {

@@ -1,0 +1,6 @@
+:root {
+  --tooltip-bg: var(--skin-color, var(--color-inverse));
+  --tooltip-text: var(--skin-text, var(--color-canvas));
+  --tooltip-arrow: 6px;
+  --tooltip-delay: 0.5s;
+}

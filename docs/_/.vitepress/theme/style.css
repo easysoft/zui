@@ -35,6 +35,9 @@ input:focus, textarea:focus, select:focus {
 .VPSidebarItem .caret {
   @apply -border-none;
 }
+.VPSidebarItem .caret > .caret-icon {
+  @apply -hidden;
+}
 .VPNavBarMenu.menu {
   @apply -shadow-none -border-none -bg-transparent;
 }

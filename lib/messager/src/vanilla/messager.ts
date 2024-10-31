@@ -33,11 +33,12 @@ export class Messager extends Component<MessagerOptions> {
     }
 
     protected _getItem() {
+        const options = {...this.options};
         if (this._item) {
-            this._item.setOptions(this.options);
+            this._item.setOptions(options);
         } else {
             const holder = this._getHolder();
-            const item = new MessagerItem(holder, this.options);
+            const item = new MessagerItem(holder, options);
             item.on('hidden', () => {
                 item.destroy();
                 holder?.remove();
@@ -66,12 +67,18 @@ export class Messager extends Component<MessagerOptions> {
         return $holder[0];
     }
 
-    static show(options: (MessagerOptions & {container?: string | HTMLElement}) | string) {
+    static TypeOptions: Record<string, Partial<MessagerOptions>> = {};
+
+    static show(options: (MessagerOptions & {container?: string | HTMLElement}) | string, type?: string) {
         if (typeof options === 'string') {
             options = {content: options};
         }
         const {container, ...others} = options;
-        const messager = Messager.ensure(container || 'body', {key: `messager_${nextGid()}`, ...others} as Partial<MessagerOptions>);
+        const finalOptions = {type, key: `messager_${nextGid()}`, ...others};
+        if (finalOptions.type) {
+            $.extend(finalOptions, this.TypeOptions[finalOptions.type]);
+        }
+        const messager = Messager.ensure(container || 'body', finalOptions as Partial<MessagerOptions>);
         messager.hide();
         messager.show();
         return messager;

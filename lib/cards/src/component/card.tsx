@@ -105,7 +105,7 @@ export class Card<P extends CardProps = CardProps, S = {}> extends HElement<P, S
     }
 
     protected _getClassName(props: RenderableProps<P>): ClassNameLike {
-        return ['card', props.className];
+        return ['card', props.className, props.selected ? 'selected' : ''];
     }
 
     protected _getChildren(props: RenderableProps<P>): ComponentChildren {

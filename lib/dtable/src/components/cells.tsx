@@ -17,6 +17,7 @@ export function Cells({
     height = '100%',
     className,
     CellComponent = Cell,
+    cellClass,
     onRenderCell,
 }: CellsProps) {
     const rowsList = Array.isArray(rows) ? rows : [rows];
@@ -40,6 +41,7 @@ export function Cells({
                                     colIndex === colsCount - 1 ? 'is-last-in-row' : '',
                                     rowIndex ? '' : 'is-first-row',
                                     rowIndex === rowsCount - 1 ? 'is-last-row' : '',
+                                    cellClass,
                                 )}
                                 col={col}
                                 row={row}

@@ -2,4 +2,5 @@
   --btn-radius: var(--radius);
   --btn-bg: var(--color-surface);
   --btn-border-color: var(--color-gray-300);
+  --btn-height: 2rem;
 }

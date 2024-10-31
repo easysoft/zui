@@ -9,7 +9,9 @@
 .gray-300-outline,
 .gray-400-outline,
 .gray-outline,
-.gray-600-outline {
+.gray-600-outline,
+.dark-outline,
+.light-outline {
   @apply -skin;
   --skin-text: var(--skin-color, inherit);
   --skin-bg: transparent;
@@ -55,4 +57,10 @@
 }
 .gray-600-outline {
   --skin-outline-rgb: var(--color-gray-600-rgb);
+}
+.dark-outline {
+  --skin-outline-rgb: var(--color-inverse-rgb);
+}
+.light-outline {
+  --skin-outline-rgb: var(--color-canvas-rgb);
 }

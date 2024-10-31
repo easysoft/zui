@@ -10,7 +10,7 @@
 const btnGroup = new BtnGroup('#btnGroup', {
     items: [
         {text: '复制', icon: 'icon-copy'},
-        {text: '粘贴', icon: 'icon-paste'},
+        {text: '粘贴', icon: 'icon-paste', disabled: true},
         {text: '剪切'},
         {type: 'heading', text: '更多操作', caret: true},
         {text: '导入', icon: 'icon-upload-alt'},
@@ -69,23 +69,23 @@ console.log('> btnGroup', btnGroup);
 <div class="btn-group">
   <button type="button" class="btn primary">Primary</button>
   <button type="button" class="btn primary">左</button>
-  <button type="button" class="btn primary">中</button>
+  <button type="button" class="btn disabled primary">中</button>
   <button type="button" class="btn primary">右</button>
 </div>
 <div class="btn-group">
   <button type="button" class="btn primary-outline">Outline</button>
   <button type="button" class="btn primary-outline">左</button>
   <button type="button" class="btn primary-outline">中</button>
-  <button type="button" class="btn primary-outline">右</button>
+  <button type="button" class="btn disabled primary-outline">右</button>
 </div>
 <div class="btn-group">
-  <button type="button" class="btn primary-pale">Pale</button>
+  <button type="button" class="btn primary-pale disabled">Pale</button>
   <button type="button" class="btn primary-pale">左</button>
   <button type="button" class="btn primary-pale">中</button>
   <button type="button" class="btn primary-pale">右</button>
 </div>
 <div class="btn-group">
-  <button type="button" class="btn text-primary">Text Primary</button>
+  <button type="button" class="btn text-primary disabled">Text Primary</button>
   <button type="button" class="btn text-primary">左</button>
   <button type="button" class="btn text-primary">中</button>
   <button type="button" class="btn text-primary">右</button>
@@ -94,7 +94,7 @@ console.log('> btnGroup', btnGroup);
   <button type="button" class="btn bd-primary">Border Primary</button>
   <button type="button" class="btn bd-primary">左</button>
   <button type="button" class="btn bd-primary">中</button>
-  <button type="button" class="btn bd-primary">右</button>
+  <button type="button" class="btn bd-primary disabled">右</button>
 </div>
 ```
 
@@ -103,49 +103,26 @@ console.log('> btnGroup', btnGroup);
 ```html:example: -flex -gap-3
 <div class="btn-group">
   <button type="button" class="btn">春天</button>
-  <div class="dropdown">
-    <button type="button" class="btn" data-toggle="dropdown">未来 <span class="caret"></span></button>
-    <ul class="dropdown-menu">
-      <li><a href="###">秋天</a></li>
-      <li><a href="###">冬天</a></li>
-    </ul>
-  </div>
+  <button type="button" class="btn" data-toggle="dropdown"  data-target="#dropdownMenu">未来 <span class="caret"></span></button>
   <button type="button" class="btn">夏天</button>
 </div>
 
 <div class="btn-group">
   <button type="button" class="btn">操作</button>
-  <div class="dropdown dropup">
-    <button type="button" class="btn" data-toggle="dropdown"><span class="caret"></span></button>
-    <ul class="dropdown-menu">
-      <li><a href="###">编辑</a></li>
-      <li><a href="###">删除</a></li>
-      <li class="divider"></li>
-      <li><a href="###">撤销</a></li>
-    </ul>
-  </div>
+  <button type="button" class="btn" data-toggle="dropdown" data-target="#dropdownMenu"><span class="caret"></span></button>
 </div>
 
 <div class="btn-group">
   <button type="button" class="btn">操作</button>
-  <div class="dropdown dropup">
-    <button type="button" class="btn" data-toggle="dropdown"><span class="caret"></span></button>
-    <ul class="dropdown-menu">
-      <li><a href="###">编辑</a></li>
-      <li><a href="###">删除</a></li>
-      <li class="divider"></li>
-      <li><a href="###">撤销</a></li>
-    </ul>
-  </div>
-  <div class="dropdown dropup">
-    <button type="button" class="btn" data-toggle="dropdown"><span class="caret"></span></button>
-    <ul class="dropdown-menu">
-      <li><a href="###">编辑</a></li>
-      <li><a href="###">删除</a></li>
-      <li class="divider"></li>
-      <li><a href="###">撤销</a></li>
-    </ul>
-  </div>
+  <button type="button" class="btn" data-toggle="dropdown" data-target="#dropdownMenu"><span class="caret"></span></button>
+  <button type="button" class="btn" data-toggle="dropdown" data-target="#dropdownMenu"><span class="caret"></span></button>
   <button type="button" class="btn">操作</button>
 </div>
+
+<ul class="dropdown-menu" id="dropdownMenu">
+  <li><a href="###">编辑</a></li>
+  <li><a href="###">删除</a></li>
+  <li class="divider"></li>
+  <li><a href="###">撤销</a></li>
+</ul>
 ```

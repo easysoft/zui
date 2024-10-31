@@ -10,3 +10,5 @@ export class KanbanRegion extends ComponentFromReact<KanbanRegionProps, KanbanRe
 
     static Component = KanbanRegionReact;
 }
+
+KanbanRegion.register();

@@ -47,7 +47,7 @@ export class Pager<T extends PagerOptions = PagerOptions> extends Toolbar<T> {
     protected _getItem(props: RenderableProps<T>, item: Item, index: number): false | Item {
         const propsMap = super._getItem(props, item, index);
         if (!propsMap) {
-            return propsMap;
+            return false;
         }
         const {type = 'item'} = item;
         const pagerInfo = this._pagerInfo!;

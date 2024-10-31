@@ -8,7 +8,7 @@ export interface SidebarOptions {
     minWidth?: SizeSetting;
     gutterWidth?: number;
     toggleBtn?: boolean;
-    animation?: boolean;
+    animation?: boolean | number;
     dragToResize?: boolean;
     dbclick?: 'toggle' | 'reset';
     preserve?: string;

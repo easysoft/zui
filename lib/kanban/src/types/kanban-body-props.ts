@@ -10,4 +10,5 @@ export interface KanbanBodyProps {
     items: KanbanItemsMap;
     hideLaneName?: boolean;
     itemRender?: (info: KanbanItemInfo) => CustomContentType;
+    getLaneCol?: (lane: KanbanLaneOptions, col: KanbanColOptions) => KanbanColOptions | void;
 }

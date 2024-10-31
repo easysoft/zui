@@ -1,12 +1,12 @@
-# 快速开始
+# 快速上手
 
 ## 下载使用
 
 你可以从如下地址下载 ZUI 的最新版本：
 
-<div class="vp-raw row gap-4">
-  <a class="btn primary size-lg rounded-full" :href="withBase(`/zui-${zui.version}.zip`)" download><i class="icon icon-download-alt icon-lg"></i> 点击下载</a>
-  <a class="btn outline size-lg rounded-full" :href="`https://github.com/easysoft/zui/releases/tag/v${zui.version}`" target="_blank"><i class="icon icon-github icon-lg"></i> 从 GitHub 下载</a>
+<div class="gap-4 vp-raw row">
+  <a class="rounded-full btn primary size-lg" :href="withBase(`/zui-${zui.version}.zip`)" download><i class="icon icon-download-alt icon-lg"></i> 点击下载</a>
+  <a class="rounded-full btn outline size-lg" :href="`https://github.com/easysoft/zui/releases/tag/v${zui.version}`" target="_blank"><i class="icon icon-github icon-lg"></i> 从 GitHub 下载</a>
 </div>
 
 下载后将如下文件解压到你的项目中：
@@ -100,11 +100,12 @@ zui/
 
 无论是下载还是使用 CDN，导入 `zui.js` 之后，你就可以使用 ZUI 中的 JS 组件了，ZUI 提供的所有 JS 辅助方法和组件类都在全局对象 `zui` 上进行访问，例如：
 
-```html
-<nav id="nav"></nav>
+```html [全局对象]
+<nav id="myNav"></nav>
 
 <script>
-const {Nav} = zui;
+const {Nav, Messager} = zui;
+
 const nav = new Nav('#myNav', {
   items: [
     {text: 'Home'},
@@ -112,21 +113,77 @@ const nav = new Nav('#myNav', {
   ]
 });
 
-zui.Messager.show('Hello!');
+Messager.show('你好，今天是：' + zui.formatDate(new Date(), 'yyyy年M月d日'));
 </script>
 ```
 
 ## 使用 ES Module
 
-ZUI 还提供了 ES Module 版本，你可以在 JS 代码中导入：
+ZUI 还提供了 ES Module 版本，上例中的 JS 代码可以改为：
 
 ```html
-<script type="module">
-import {Messager} from './zui/zui.esm.js';
+<nav id="myNav"></nav>
 
-Messager.show('Hello!');
+<script>
+import {Nav, Messager, formatDate} from './zui/zui.esm.js';
+
+const nav = new Nav('#myNav', {
+  items: [
+    {text: 'Home'},
+    {text: 'Blog'},
+  ]
+});
+
+Messager.show('你好，今天是：' + formatDate(new Date(), 'yyyy年M月d日'));
 </script>
 ```
+
+## 使用 `zui-create` 声明组件
+
+在 ZUI 中，所有 JS 组件支持通过声明 `zui-create` 属性来自动创建，例如：
+
+::: tabs
+
+== 示例
+
+<Example>
+  <div zui-create="datePicker"></div>
+</Example>
+
+== HTML
+
+```html
+<div zui-create="datePicker"></div>
+```
+
+:::
+
+使用 `zui-create-<component>` 来定义组件选项，例如：
+
+::: tabs
+
+== 示例
+
+<Example>
+  <div zui-create zui-create-list="{items: [{text: 'item1'}, {text: 'item2'}], onClickItem: (e) => console.log('You clicked', e)}"></div>
+</Example>
+
+== HTML
+
+```html
+<div zui-create zui-create-list="
+  {
+    items: [{text: 'item1'}, {text: 'item2'}],
+    onClickItem: (e) => console.log('You clicked', e)
+  }
+"></div>
+```
+
+:::
+
+::: warning 注意
+通过 `zui-create` 创建的组件，只会在页面加载完成后自动扫描一次，如果需要在动态添加的元素上利用 `zui-create` 创建组件，需要手动执行 `$(element).zuiInit()` 初始化。
+:::
 
 ## 使用 npm
 
@@ -150,6 +207,8 @@ zui.Messager.show('Hello!');
 ```js
 import {DTable} from 'zui/lib/dtable';
 import 'zui/lib/dtable/css';
+
+const myTable = new DTable('#myTable', {...});
 ```
 
 <script setup>

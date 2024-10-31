@@ -59,6 +59,7 @@ export type DTablePlugin<T extends DTablePluginTypes = {}, D extends DTablePlugi
     name: DTablePluginName;
 } & Partial<{
     when: (options: Options) => boolean,
+    requireAfter: DTablePluginName[],
     defaultOptions: Partial<Options>;
     colTypes: Record<string, Partial<PluginColSetting> | PluginColSettingModifier<T, D>>;
     events: DTablePluginEvents<T, D> | ((this: PluginTable) => DTablePluginEvents<T, D>);
@@ -66,6 +67,7 @@ export type DTablePlugin<T extends DTablePluginTypes = {}, D extends DTablePlugi
     i18n?: Record<string, Record<string, string | object>>;
     data: (this: PluginTable) => {} & T['data'],
     state: (this: PluginTable) => {} & T['state'],
+    resetState: boolean | ((this: PluginTable, options: Options) => {} & T['state']);
     options: (this: PluginTable, options: Options) => Partial<Options>;
     footer: Record<string, CustomRenderResultGenerator<[layout: DTableLayout], PluginTable> | CustomRenderResultItem>;
     onCreate: (this: PluginTable, plugin: DTablePlugin<T, D>) => void;

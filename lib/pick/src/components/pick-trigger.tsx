@@ -41,8 +41,6 @@ export class PickTrigger<S extends PickState = PickState, P extends PickTriggerP
         requestAnimationFrame(() => togglePop(toggle));
     }
 
-
-
     protected _getClass(props: RenderableProps<P>) {
         const {state, className, disabled, readonly, pickerName, empty} = props;
         const {open: opened} = state;
@@ -89,7 +87,7 @@ export class PickTrigger<S extends PickState = PickState, P extends PickTriggerP
     componentDidMount(): void {
         const {id} = this.props;
         $(`#${id}`).on(`change.zui.pick.${id} syncValue.zui.pick.${id}`, (event: Event, from: symbol) => {
-            if (from === EVENT_PICK) {
+            if (typeof from === 'symbol') {
                 return;
             }
             const value = (event.target as HTMLInputElement).value;

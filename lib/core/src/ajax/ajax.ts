@@ -1,6 +1,6 @@
 import {$} from '@zui/core';
 
-import type {AjaxCallbackMap, AjaxCompleteCallback, AjaxErrorCallback, AjaxFormItemValue, AjaxSetting, AjaxSuccessCallback} from './types';
+import type {AjaxBeforeSendCallback, AjaxCallbackMap, AjaxCompleteCallback, AjaxErrorCallback, AjaxFormItemValue, AjaxOptionsModifier, AjaxSetting, AjaxSuccessCallback} from './types';
 
 function setHeader(headers: HeadersInit, name: string, value: string) {
     if (headers instanceof Headers) {
@@ -12,12 +12,16 @@ function setHeader(headers: HeadersInit, name: string, value: string) {
     }
 }
 
-function setFormItem(formData: FormData, name: string, value: AjaxFormItemValue | AjaxFormItemValue[]) {
+function setFormItem(formData: FormData, name: string, value: AjaxFormItemValue | AjaxFormItemValue[] | Record<string, AjaxFormItemValue>) {
     if (value === undefined || value === null) {
         return;
     }
     if (Array.isArray(value)) {
         value.forEach((v) => setFormItem(formData, name, v));
+    } else if (!(value instanceof Blob) && $.isPlainObject(value)) {
+        Object.entries(value).forEach(([key, v]) => {
+            setFormItem(formData, `${name}[${key}]`, v);
+        });
     } else {
         formData.append(name, value instanceof Blob ? value : String(value));
     }
@@ -68,7 +72,9 @@ export function createFormData(data: string | FormData | URLSearchParams | Recor
     return formData;
 }
 
-export class Ajax<T> {
+export class Ajax<T = unknown> {
+    static globalBeforeSends: AjaxBeforeSendCallback[] = [];
+
     private declare _timeoutID: number;
 
     private _controller: AbortController;
@@ -195,9 +201,6 @@ export class Ajax<T> {
             ...initOptions
         } = this.setting;
 
-        if (beforeSend?.(initOptions) === false) {
-            return;
-        }
         if (type) {
             initOptions.method = type;
         }
@@ -223,6 +226,21 @@ export class Ajax<T> {
                 this.abort();
             });
         }
+
+        const beforeSends = [...(this.constructor as typeof Ajax).globalBeforeSends, beforeSend];
+        for (const callback of beforeSends) {
+            if (!callback) {
+                continue;
+            }
+            const result = callback.call(this, initOptions);
+            if (result === false) {
+                return;
+            }
+            if (result) {
+                Object.assign(initOptions, result);
+            }
+        }
+
         if (success) {
             this.success(success);
         }
@@ -249,7 +267,7 @@ export class Ajax<T> {
         }
         this._init();
 
-        const {timeout, dataType: dataTypeSetting, accepts, dataFilter, throws} = this.setting;
+        const {timeout, dataType: dataTypeSetting, accepts, dataFilter, throws, jsonParser} = this.setting;
         if (timeout) {
             this._timeoutID = window.setTimeout(() => {
                 this.abort(new Error('timeout'));
@@ -269,7 +287,12 @@ export class Ajax<T> {
                 if (isAttachment || dataType === 'blob' || dataType === 'file') {
                     data = await response.blob();
                 } else if (dataType === 'json') {
-                    data = await response.json();
+                    if (typeof jsonParser === 'function') {
+                        data = await response.text();
+                        data = jsonParser(data as string);
+                    } else {
+                        data = await response.json();
+                    }
                 } else {
                     data = await response.text();
                 }
@@ -277,9 +300,13 @@ export class Ajax<T> {
                 const filteredData = dataFilter?.(data, dataType) ?? data;
                 this._emit('success', filteredData, statusText, response);
             } else {
+                this.data = await response.text() as T;
                 throw new Error(statusText);
             }
         } catch (err) {
+            if (this.data === undefined && data !== undefined) {
+                this.data = data as T;
+            }
             error = err as Error;
             let skipTriggerError = false;
             if (error.name === 'AbortError') {

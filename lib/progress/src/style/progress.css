@@ -5,7 +5,7 @@
 }
 
 .progress-bar {
-  @apply -h-full;
+  @apply -h-full -transition-[width] -duration-500;
   background: var(--progress-bar-color);
 }
 

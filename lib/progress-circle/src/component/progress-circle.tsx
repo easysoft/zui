@@ -20,7 +20,7 @@ export class ProgressCircle extends Component<ProgressCircleOptions> {
             <svg className={className} width={size} height={size}>
                 <circle cx={center} cy={center} r={radius} stroke-width={circleWidth} stroke={circleBg} fill="transparent" />
                 <circle cx={center} cy={center} r={radius} stroke-width={circleWidth} stroke={circleColor} fill="transparent" stroke-linecap="round" stroke-dasharray={Math.PI * radius * 2} stroke-dashoffset={Math.PI * radius * 2 * (100 - percent) / 100} style={{transformOrigin: 'center', transform: 'rotate(-90deg)'}} />
-                {text ? <text x={textX ?? center} y={textY ?? (center + (circleWidth / 2))} dominant-baseline="middle" text-anchor="middle" style={textStyle || {fontSize: `${radius}px`}}>{text === true ? Math.round(percent) : text}</text> : null}
+                {text ? <text x={textX ?? center} y={textY ?? (center + (circleWidth / 2))} dominant-baseline="middle" text-anchor="middle" style={textStyle || {fontSize: `${radius}px`, stroke: 'currentColor'}}>{text === true ? Math.round(percent) : text}</text> : null}
                 {children}
             </svg>
         );

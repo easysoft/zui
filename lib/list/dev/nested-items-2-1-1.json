@@ -1,0 +1,4 @@
+[
+    {"text": "水果/西瓜/黄皮", "value": "fruit/watermelon/yellow", "keys": "fruit food xigua huangpi"},
+    {"checked": true, "text": "水果/西瓜/红皮", "value": "fruit/watermelon/red", "keys": "fruit food xigua hongpi"}
+]

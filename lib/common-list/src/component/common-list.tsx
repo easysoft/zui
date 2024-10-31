@@ -54,6 +54,10 @@ export class CommonList<P extends CommonListProps = CommonListProps, S = {}> ext
      */
     static defaultItemType = 'item';
 
+    static defaultProps: Partial<CommonListProps> = {
+        itemKey: 'id',
+    };
+
     /**
      * Access to static properties via this.constructor.
      *
@@ -186,7 +190,11 @@ export class CommonList<P extends CommonListProps = CommonListProps, S = {}> ext
         }
 
         const {ItemComponents} = this.constructor;
-        let ItemComponent = ItemComponents[type!] || ItemComponents.default || HElement;
+        let ItemComponent = ItemComponents[type!];
+        if (!ItemComponent && item.component) {
+            return <CustomContent z-key={item.key} z-item={index} z-type={type} content={{...item}}/>;
+        }
+        ItemComponent = ItemComponent || ItemComponents.default || HElement;
         if (Array.isArray(ItemComponent)) {
             let defaultItemProps = ItemComponent[1];
             if (typeof defaultItemProps === 'function') {
@@ -210,7 +218,7 @@ export class CommonList<P extends CommonListProps = CommonListProps, S = {}> ext
         if (!item) {
             return false;
         }
-        const {itemProps, itemPropsMap = {}, getItem, itemKey = 'id'} = props;
+        const {itemProps, itemPropsMap = {}, getItem, itemKey} = props;
         const {type = this.constructor.defaultItemType} = item;
         const {name, itemName} = this;
         const {defaultItemProps = {}, defaultItemPropsMap = {}} = this.constructor;
@@ -267,6 +275,13 @@ export class CommonList<P extends CommonListProps = CommonListProps, S = {}> ext
             items = items.call(this);
         } else if (!Array.isArray(items)) {
             items = [];
+        }
+        const {getItems} = props;
+        if (getItems) {
+            const result = getItems.call(this, items as Item[]);
+            if (result !== undefined) {
+                return result;
+            }
         }
         return items as Item[];
     }

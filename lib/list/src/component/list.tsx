@@ -51,6 +51,11 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
         return `.zui.${this.constructor.NAME}.list_${this.gid}`;
     }
 
+    get isLazyItems() {
+        const {items} = this.props;
+        return items && !Array.isArray(items);
+    }
+
     componentDidMount() {
         this._afterRender(true);
         this.tryLoad();
@@ -77,11 +82,11 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
 
     setItems(items?: Item[], error?: Error) {
         const {onLoadFail} = this.props;
-        this.setState({
+        return this.changeState({
             loading: false,
             items: items || [],
             loadFailed: error ? (typeof onLoadFail === 'function' ? (onLoadFail as (error: Error) => CustomContentType | undefined).call(this, error as Error) : onLoadFail) || String(error) : undefined,
-        });
+        } as S);
     }
 
     load(): void {
@@ -205,20 +210,20 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
 
     getNextItem(key: string | undefined, condition?: (item: Item, index: number) => boolean, step = 1, items: Item[] | undefined = undefined): Item | undefined {
         items = items || this._renderedItems;
-        if (key === undefined) {
-            return items.at(step ? 0 : -1);
-        }
         const count = items.length;
+        if (key === undefined) {
+            return items[step ? 0 : count - 1];
+        }
         let index = items.findIndex(x => x.key === key);
         if (index < 0 || count < 2) {
-            return items.at(step ? 0 : -1);
+            return items[step ? 0 : count - 1];
         }
         let checkCount = 0;
         condition = condition || ((x) => x.type === 'item' && !x.disabled);
         while (checkCount < count) {
             index = (index + step + count) % count;
             const nextItem = items[index];
-            if (nextItem && condition.call(this, nextItem, index)) {
+            if (nextItem && !nextItem.disabled && !nextItem.hidden && condition.call(this, nextItem, index)) {
                 return nextItem;
             }
             checkCount++;
@@ -244,6 +249,10 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
         this.props.afterRender?.call(this, firstRender);
     }
 
+    protected _beforeRender(props: RenderableProps<P>): void | RenderableProps<P> | undefined {
+        return this.props.beforeRender?.call(this, props);
+    }
+
     protected _getItems(props: RenderableProps<P>): Item[] {
         const {items} = props;
         const {items: stateItems} = this.state;
@@ -263,9 +272,11 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
 
         if (renderedItem.type === 'item') {
             const {checkbox} = props;
-            if (checkbox) {
+            if (renderedItem.checkbox === false) {
+                renderedItem.checked = undefined;
+            } else if (checkbox || renderedItem.checkbox) {
                 renderedItem.checked = this.isChecked(renderedItem.key!, index, renderedItem.checked as CheckedType);
-                if (typeof checkbox === 'object') {
+                if (typeof checkbox === 'object' && renderedItem.checkbox !== false) {
                     renderedItem.checkbox = renderedItem.checkbox ? $.extend({}, checkbox, renderedItem.checkbox) : checkbox;
                 }
                 if (props.selectOnChecked && renderedItem.checked === true) {
@@ -310,7 +321,13 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
         } else if (checkOnClick === true) {
             checkOnClick = '.item-checkbox';
         }
-        if (checkOnClick && info && (event.target as HTMLElement).closest(checkOnClick)) {
+        if (!checkOnClick || !info || !info.renderedItem) {
+            return info;
+        }
+        const renderedItem = info.renderedItem;
+        const itemCheckbox = renderedItem.checkbox;
+        const hasCheckbox = itemCheckbox !== false && (this.props.checkbox || itemCheckbox || renderedItem.checked !== undefined);
+        if (hasCheckbox && !renderedItem.disabled && info && (event.target as HTMLElement).closest(checkOnClick)) {
             this.toggleChecked(info.key);
             event.stopPropagation();
             return;
@@ -320,7 +337,7 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
 
     protected _getClassName(props: RenderableProps<P>): ClassNameLike {
         const {loading, loadFailed} = this.state;
-        return [super._getClassName(props), loading ? 'loading' : (loadFailed ? 'is-load-failed' : '')];
+        return [super._getClassName(props), loading ? 'loading' : (loadFailed ? 'is-load-failed' : ''), props.hoverItemActions ? 'with-hover-actions' : ''];
     }
 
     protected _getProps(props: RenderableProps<P>): Record<string, unknown> {

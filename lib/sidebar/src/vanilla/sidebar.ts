@@ -4,7 +4,7 @@ import {Moveable} from '@zui/dnd';
 import '@zui/css-icons/src/icons/chevron.css';
 import '@zui/split/src/style/index';
 
-import type {SizeSetting, Cash} from '@zui/core';
+import type {SizeSetting} from '@zui/core';
 import type {SidebarOptions} from '../types';
 
 function calcSize(size: SizeSetting, totalSize: number) {
@@ -15,6 +15,10 @@ function calcSize(size: SizeSetting, totalSize: number) {
 const RESIZING_CLASS = 'is-sidebar-resizing';
 
 const ANIMATION_CLASS = 'has-sidebar-animation';
+
+const TRANSITION_CLASS = 'is-animating';
+
+const GUTTER_SELECTOR = '.sidebar-gutter';
 
 export class Sidebar extends Component<SidebarOptions, {
     sidebarResize: [number];
@@ -31,8 +35,6 @@ export class Sidebar extends Component<SidebarOptions, {
 
     declare _container: HTMLElement;
 
-    declare _parent: HTMLElement;
-
     declare _width: number;
 
     declare _side: 'left' | 'right';
@@ -40,8 +42,6 @@ export class Sidebar extends Component<SidebarOptions, {
     declare _storeID: string;
 
     declare _raf: number;
-
-    declare _$gutter: Cash;
 
     declare _widthBack: number;
 
@@ -63,6 +63,11 @@ export class Sidebar extends Component<SidebarOptions, {
         return this._width;
     }
 
+    get $parent() {
+        const {parent} = this.options;
+        return parent ? $(parent) : this.$element.parent();
+    }
+
     afterInit() {
         const {$element} = this;
         const $container = $element.parent();
@@ -73,58 +78,46 @@ export class Sidebar extends Component<SidebarOptions, {
         const {
             preserve,
             side = $element.hasClass('sidebar-right') ? 'right' : 'left',
-            gutterWidth = parseSize($container.css('gap')!)[0] || 1,
-            toggleBtn,
-            dbclick,
             animation,
             dragToResize,
             width,
             minWidth = 0,
             maxWidth = Number.MAX_SAFE_INTEGER,
-            parent,
+            toggleBtn,
+            dbclick,
         } = this.options;
-        const $parent = parent ? $(parent) : $container;
         this._storeID = preserve ? `SIDEBAR:${preserve}:width` : '';
         this._side = side;
         this._minWidth = calcSize(minWidth, containerWidth);
         this._maxWidth = calcSize(maxWidth, containerWidth);
         this._defaultWidth = Math.max(this._minWidth, Math.min(this._maxWidth, calcSize(width || $element.width(), containerWidth)));
-        this._width = (preserve ? store.get(this._storeID) : null) || this._defaultWidth;
-        this._parent = $parent[0]!;
-        $parent.addClass(`has-sidebar-${side}`);
-        $element.addClass(`sidebar-${side}`);
-
-        let $gutter = $element.find('.sidebar-gutter');
-        if (!$gutter.length) {
-            $gutter = $('<div class="sidebar-gutter gutter gutter-horz"></div>').appendTo($element);
-        }
-        this._$gutter = $gutter;
+        this._width = (preserve ? store.get(this._storeID) : null) ?? this._defaultWidth;
 
         this.render();
-        $element.css({'--gutter-width': `${gutterWidth}px`, width: `var(--sidebar-${side}-width)`});
 
         if (toggleBtn) {
-            $gutter.append(`<button class="gutter-toggle" type="button"><span class="chevron-${side}"></span></button>`);
-            $gutter.on('click', '.gutter-toggle', () => this.toggle());
-        } else {
-            $gutter.append('<div class="gutter-resize-handler"></div>');
+            $element.on(`click${this.namespace}`, '.gutter-toggle', () => this.toggle());
         }
+
         if (dbclick) {
-            $gutter.on('dblclick', () => {
+            $element.on(`dblclick${this.namespace}`, GUTTER_SELECTOR, () => {
                 if (dbclick === 'reset') {
                     this.update(this._defaultWidth);
                 } else {
                     this.toggle();
                 }
+            }).on('mousedown', GUTTER_SELECTOR, (event: Event) => {
+                event.preventDefault();
             });
         }
+
         if (dragToResize) {
-            this._moveable = new Moveable($gutter, {
-                selector: 'self',
+            this._moveable = new Moveable($element, {
+                selector: GUTTER_SELECTOR,
                 move: false,
                 onMoveStart: () => {
                     this._startWidth = this._width;
-                    $parent.addClass(RESIZING_CLASS).removeClass(ANIMATION_CLASS);
+                    this.$parent.addClass(RESIZING_CLASS).removeClass(ANIMATION_CLASS);
                 },
                 onMove: (_event, info) => {
                     const {deltaX} = info;
@@ -135,15 +128,17 @@ export class Sidebar extends Component<SidebarOptions, {
                 },
                 onMoveEnd: () => {
                     if (animation) {
-                        $parent.addClass(ANIMATION_CLASS);
+                        this.$parent.addClass(ANIMATION_CLASS);
                     }
-                    $parent.removeClass(RESIZING_CLASS);
+                    this.$parent.removeClass(RESIZING_CLASS);
                 },
             });
         }
         if (animation) {
-            this._raf = requestAnimationFrame(() => {
-                $parent.addClass(ANIMATION_CLASS);
+            this.on('transitionend', (e) => {
+                if (e.target === $element[0] && e.propertyName === 'width') {
+                    $element.removeClass(TRANSITION_CLASS);
+                }
             });
         }
     }
@@ -153,7 +148,6 @@ export class Sidebar extends Component<SidebarOptions, {
         if (this._raf) {
             cancelAnimationFrame(this._raf);
         }
-        this._$gutter.off('click dbclick');
         this._moveable?.destroy();
     }
 
@@ -177,7 +171,7 @@ export class Sidebar extends Component<SidebarOptions, {
             return;
         }
 
-        const {preserve, toggleBtn, onResize, onToggle} = this.options;
+        const {preserve, toggleBtn, onResize, onToggle, animation} = this.options;
         width = width < this._minWidth ? (toggleBtn ? 0 : this._minWidth) : Math.min(this._maxWidth, width, this._container.clientWidth);
         if (width === this._width) {
             return;
@@ -191,18 +185,43 @@ export class Sidebar extends Component<SidebarOptions, {
         }
         this.render();
         onResize?.(width);
-        if (onToggle && isOldCollapsed !== isCollapsed) {
-            onToggle(isCollapsed);
+        if (isOldCollapsed !== isCollapsed) {
+            if (isOldCollapsed && animation) {
+                this.$element.addClass(TRANSITION_CLASS);
+            }
+            onToggle?.(isCollapsed);
         }
         this.emit('sidebarResize', width);
     }
 
     render() {
-        const {side, width} = this;
+        const {side, width, $element, $parent} = this;
         const isCollapsed = !width;
-        this.$element.toggleClass('is-collapsed', isCollapsed);
-        $(this._parent)
+        const {toggleBtn, gutterWidth = parseSize($element.parent().css('gap')!)[0] || 1, animation} = this.options;
+        $element.addClass(`sidebar-${side}`).toggleClass('is-collapsed', isCollapsed).toggleClass('is-expanded', !isCollapsed).css({'--gutter-width': `${gutterWidth}px`, width: `var(--sidebar-${side}-width)`, '--sidebar-duration': typeof animation === 'number' ? `${animation}ms` : null});
+
+        let $gutter = $element.find(GUTTER_SELECTOR);
+        if (!$gutter.length) {
+            $gutter = $('<div class="sidebar-gutter gutter gutter-horz"></div>').appendTo($element);
+        }
+
+        if (toggleBtn) {
+            if (!$gutter.children('.gutter-toggle').length) {
+                $gutter.append(`<button class="gutter-toggle" type="button"><span class="chevron-${side}"></span></button>`);
+            }
+        } else {
+            if (!$gutter.children('.gutter-resize-handler').length) {
+                $gutter.append('<div class="gutter-resize-handler"></div>');
+            }
+        }
+
+        $parent
+            .addClass(`has-sidebar-${side}`)
             .css(`--sidebar-${side}-width`, `${width}px`)
-            .toggleClass('is-sidebar-left-collapsed', isCollapsed);
+            .toggleClass(`is-sidebar-${side}-collapsed`, isCollapsed);
+
+        if (this._moveable?.state) {
+            $element.removeClass(TRANSITION_CLASS);
+        }
     }
 }

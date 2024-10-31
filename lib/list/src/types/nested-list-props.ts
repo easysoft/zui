@@ -6,10 +6,10 @@ import type {NestedListItem} from './nested-list-item';
 
 export interface NestedListProps<T extends NestedItem = NestedListItem> extends ListProps<T> {
     parentKey?: ItemKey;
+    parent?: NestedItem;
     indent?: number;
     level?: number;
     preserve?: string;
-    nestedTrigger?: 'click' | 'hover',
     accordion?: boolean;
     nestedShow?: boolean | Record<ItemKey, boolean>;
     defaultNestedShow?: boolean | Record<ItemKey, boolean>;
@@ -17,7 +17,7 @@ export interface NestedListProps<T extends NestedItem = NestedListItem> extends 
     nestedToggle?: string;
     renderCollapsedList?: boolean;
     checkedState?: Record<ItemKey, boolean>;
+    expandChildrenOnCheck?: boolean;
     toggleOnActive?: boolean;
-    onToggle?: (key: ItemKey, toggle: boolean) => false | void;
-    onHoverItem?: (info: {hover: boolean, item: T, index: number, event: MouseEvent}) => void;
+    onToggle?: (key: ItemKey, toggle: boolean, reset?: boolean) => false | void;
 }

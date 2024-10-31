@@ -62,10 +62,11 @@
 .min-h-max    {@apply -min-h-max;}
 .min-h-fit    {@apply -min-h-fit;}
 
-.max-h-0     {@apply -max-h-0;}
-.max-h-px    {@apply -max-h-px;}
-.max-h-none  {@apply -max-h-none;}
-.max-h-full  {@apply -max-h-full;}
-.max-h-min   {@apply -max-h-min;}
-.max-h-max   {@apply -max-h-max;}
-.max-h-fit   {@apply -max-h-fit;}
+.max-h-0      {@apply -max-h-0;}
+.max-h-px     {@apply -max-h-px;}
+.max-h-none   {@apply -max-h-none;}
+.max-h-full   {@apply -max-h-full;}
+.max-h-min    {@apply -max-h-min;}
+.max-h-screen {@apply -max-h-screen;}
+.max-h-max    {@apply -max-h-max;}
+.max-h-fit    {@apply -max-h-fit;}

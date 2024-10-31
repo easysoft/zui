@@ -1,3 +1,4 @@
+import type {ClassNameLike} from '@zui/core';
 import type {SearchBoxOptions} from '@zui/search-box';
 import type {MenuOptions} from './menu-options';
 import type {ItemKey} from '@zui/common-list';
@@ -7,10 +8,15 @@ export interface SearchMenuOptions<T extends NestedItem = NestedListItem> extend
     searchBox?: SearchBoxOptions | boolean;
     searchPlacement?: 'bottom' | 'top';
     search?: string;
+    nestedSearch?: boolean;
     defaultSearch?: string;
     expandOnSearch?: boolean;
     underlineKeys?: boolean;
     searchProps?: string[];
     noMatchHint?: string;
+    headerClass?: ClassNameLike;
+    footerClass?: ClassNameLike;
+    limit?: number;
+    exceedLimitHint?: string;
     isItemMatch?: (item: NestedItem, searchKeys: string[], index: number, parentKey: ItemKey | undefined) => boolean;
 }

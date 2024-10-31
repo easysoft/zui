@@ -1,3 +1,4 @@
+import type {Comparator} from '@zui/core';
 import type {PopoverOptions} from '@zui/popover';
 import type {DropdownMenuOptions} from './dropdown-menu-options';
 
@@ -7,4 +8,5 @@ export type DropdownOptions = PopoverOptions & {
     items?: DropdownMenuOptions['items'],
     relativeTarget?: DropdownMenuOptions['relativeTarget'],
     onClickItem?: DropdownMenuOptions['onClickItem'],
+    notHideOnClick?: Comparator;
 };

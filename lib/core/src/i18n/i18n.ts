@@ -12,7 +12,7 @@ export function getLangCode() {
 }
 
 export function setLangCode(langCode: I18nLangCode) {
-    globalLangCode = langCode.toLowerCase();
+    globalLangCode = langCode.toLowerCase().replace('-', '_');
 }
 
 export function addI18nMap(map: I18nLangMap): void;
@@ -74,3 +74,4 @@ i18n.addLang = addI18nMap;
 i18n.getLang = getLang;
 i18n.getCode = getLangCode;
 i18n.setCode = setLangCode;
+i18n.map = globalLangMap;

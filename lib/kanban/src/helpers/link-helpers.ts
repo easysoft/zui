@@ -1,4 +1,4 @@
-import type {KanbanLinkPointType, KanbanLinkProps, KanbanLinkShape, KanbanLinkSide} from '../types';
+import type {KanbanLinkPointType, KanbanLinkOptions, KanbanLinkProps, KanbanLinkShape, KanbanLinkSide} from '../types';
 
 export const SVG_PADDING = 12;
 export const CURVE_FACTOR = 0.5;
@@ -49,6 +49,10 @@ export const oppositeSideMap: Record<KanbanLinkSide, KanbanLinkSide> = {
     '': '',
 };
 
+export const createLinkID = ({from, to, fromKanban, toKanban}: KanbanLinkOptions): string => {
+    return `${fromKanban ? `${fromKanban}_` : ''}${from}-${toKanban ? `${toKanban}_` : ''}${to}`;
+};
+
 export function getRectAnchorPos(rect: ElementReact, side: KanbanLinkSide): ElementPos {
     if (side === 'top') {
         return {x: rect.x + (rect.width / 2), y: rect.y};
@@ -95,7 +99,7 @@ export function getCenterPos(from: ElementPos, to: ElementPos): ElementPos {
     return {x: (from.x + to.x) / 2, y: (from.y + to.y) / 2};
 }
 
-export function getRectOfTowPos(from: ElementPos, to: ElementPos): ElementReact {
+export function getRectOfTwoPos(from: ElementPos, to: ElementPos): ElementReact {
     return {
         x: Math.min(from.x, to.x), y: Math.min(from.y, to.y), width: Math.abs(from.x - to.x), height: Math.abs(from.y - to.y),
     };
@@ -131,16 +135,16 @@ export function getPointMarker(type: KanbanLinkPointType, side: 'start' | 'end',
     return marker;
 }
 
-export function getLinkPath(fromPos: ElementPos, toPos: ElementPos, fromSide: KanbanLinkSide, toSide: KanbanLinkSide, shape: KanbanLinkShape = 'curve', strokeWidth: number = 2): string {
+export function getLinkPath(fromPos: ElementPos, toPos: ElementPos, fromSide: KanbanLinkSide, toSide: KanbanLinkSide, shape: KanbanLinkShape = 'curve', strokeWidth: number = 2, curveRate = 1): string {
     const {
         x, y, width, height,
-    } = getRectOfTowPos(fromPos, toPos);
+    } = getRectOfTwoPos(fromPos, toPos);
     const deltaX = SVG_PADDING - x;
     const deltaY = SVG_PADDING - y;
     if (shape === 'curve') {
-        const ctrlWidth = width * 0.7;
-        const ctrlHeight = height * 0.7;
-        const startLength = strokeWidth * 2; // default is 8;
+        const ctrlWidth = width * (1 + Math.max(-0.3, Math.min(0.3, (1 - (width / 50))))) * curveRate;
+        const ctrlHeight = height * (1 + Math.max(-0.3, Math.min(0.3, (1 - (height / 50))))) * curveRate;
+        const startLength = strokeWidth * 5; // default is 8;
         const ctrlPos = {
             a1x: fromPos.x + (fromSide === 'left' ? -startLength : (fromSide === 'right' ? startLength : 0)),
             a1y: fromPos.y + (fromSide === 'top' ? -startLength : (fromSide === 'bottom' ? startLength : 0)),
@@ -170,12 +174,12 @@ export function getLinkPath(fromPos: ElementPos, toPos: ElementPos, fromSide: Ka
 
 export function layoutLink(link: KanbanLinkProps): LinkLayout {
     const {fromRect: fromBounding, toRect: toBounding} = link;
-    const id = `${link.from}-${link.to}`;
+    const id = createLinkID(link);
     const fromRect = {x: fromBounding.left, y: fromBounding.top, width: fromBounding.right - fromBounding.left, height: fromBounding.bottom - fromBounding.top};
     const toRect = {x: toBounding.left, y: toBounding.top, width: toBounding.right - toBounding.left, height: toBounding.bottom - toBounding.top};
     const {fromSide, toSide, fromPos, toPos} = getBestLinkSides(fromRect, toRect);
 
-    const bounding = getRectOfTowPos(fromPos, toPos);
+    const bounding = getRectOfTwoPos(fromPos, toPos);
     const {x, y, width, height} = bounding;
 
     fromPos.x += SVG_PADDING - x;
@@ -184,7 +188,7 @@ export function layoutLink(link: KanbanLinkProps): LinkLayout {
     toPos.y += SVG_PADDING - y;
 
     const {
-        weight: strokeWidth = 1,
+        weight: strokeWidth = 1.5,
         fromPoint,
         toPoint = 'arrow',
     } = link;

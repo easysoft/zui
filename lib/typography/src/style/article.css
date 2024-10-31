@@ -1,10 +1,14 @@
 .article {
-  @apply -text-article;
+  @apply -text-[--font-size-article] -break-words;
+  hyphens: auto;
 }
 .article h1,
 .article h2,
 .article h3,
-.article h4,
+.article h4
+{
+  @apply -my-[--article-heading-space];
+}
 .article p,
 .article ul,
 .article ol,
@@ -14,18 +18,26 @@
 .article audio,
 .article table,
 .article img {
-  @apply -my-[0.5em];
+  @apply -my-[--article-p-space];
+}
+
+.article p {
+  min-height: 1em;
+}
+.article p:empty::before {
+  content: ' ';
+  display: inline-block
 }
 
 .article hr {
-  @apply -my-[1.5em];
+  @apply -my-[--article-hr-space];
 }
 
 .article table {
   @apply -border;
 }
 .article td, .article th {
-  @apply -border-b -px-3 -py-1;
+  @apply -border-b -p-[--article-cell-padding];
 }
 .article thead {
   background-color: var(--table-head-bg, var(--color-gray-100));

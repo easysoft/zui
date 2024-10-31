@@ -1,0 +1,31 @@
+.has-sorting-col {
+  @apply -cursor-move;
+  --dtable-sorting-col-color: var(--color-primary-300);
+  --dtable-hover-bg: transparent;
+}
+.has-sorting-col .dtable-col-splitter {
+  @apply -hidden;
+}
+.dtable-cell.is-sorting-col-move {
+  @apply -transition-[left];
+}
+.dtable-cell.is-sorting-from-col {
+  @apply -duration-100;
+}
+.dtable-cell.is-sorting-from-col::after {
+  @apply !-bg-[--dtable-sorting-col-color] !-opacity-10;
+}
+.dtable-cell.is-sorting-from-col::before {
+  border-left: 1px solid var(--dtable-sorting-col-color);
+  border-right: 1px solid var(--dtable-sorting-col-color);
+}
+
+.dtable-header-cell.is-sortable-col {
+  @apply -cursor-move;
+}
+.has-sorting-col .scrollbar.is-horz {
+  @apply !-opacity-[--scrollbar-opacity];
+}
+.has-sorting-col .dtable-scroll-shadow {
+  @apply -visible;
+}

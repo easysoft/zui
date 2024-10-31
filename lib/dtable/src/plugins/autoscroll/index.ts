@@ -46,9 +46,11 @@ function tryScrollToMouse(this: DTableAutoscroll) {
     if (!rowsBounding) {
         return;
     }
+    const centerBounding = this.ref.current?.querySelector('.dtable-scroll-center')?.getBoundingClientRect();
     const {maxStep, detectPadding, speed, side} = scrollToMouse;
     const {x, y} = position;
-    const {left, top, right, bottom} = rowsBounding;
+    const {top, bottom} = rowsBounding;
+    const {left, right} = centerBounding || rowsBounding;
     let deltaLeft = 0;
     if (x < (left - detectPadding)) {
         deltaLeft = -Math.max(maxStep, (left - detectPadding) - x);
@@ -135,7 +137,7 @@ const autoscrollPlugin: DTablePlugin<DTableAutoscrollTypes, [DTableMousemoveType
         startScrollToMouse(options) {
             const setting = {
                 interval: 60,
-                speed: 0.2,
+                speed: 0.5,
                 delay: 200,
                 maxStep: this.options.rowHeight,
                 onlyInside: false,

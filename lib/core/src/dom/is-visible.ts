@@ -1,4 +1,4 @@
-import {$, Cash, Selector} from '../cash';
+import {$, Cash, Selector, Comparator} from '../cash';
 
 /**
  * Options for {@link isVisible}.
@@ -6,7 +6,9 @@ import {$, Cash, Selector} from '../cash';
 type ISVisibleOptions = {
     /** Whether to check if the element is fully visible. */
     fullyCheck?: boolean;
-    viewport?: {left: number, top: number, width: number, height: number} | DOMRectReadOnly
+    viewport?: {left: number, top: number, width: number, height: number} | DOMRectReadOnly;
+    container?: Comparator;
+    checkZeroSize?: boolean;
 };
 
 /**
@@ -17,31 +19,38 @@ type ISVisibleOptions = {
  * @returns True if the element is visible.
  * @see https://stackoverflow.com/a/26039199
  */
-export function isVisible(selector: Selector, options?: ISVisibleOptions): boolean {
+export function isVisible(selector: Selector, options: ISVisibleOptions = {}): boolean {
     const element = $(selector)[0];
     if (!element) {
         return false;
     }
 
-    let {viewport} = options || {};
+    let {viewport} = options;
     const {left, top, width, height} = element.getBoundingClientRect();
+    if (options.checkZeroSize && !(width * height)) {
+        return false;
+    }
     if (!viewport) {
-        const {innerHeight, innerWidth} = window;
-        const {clientHeight, clientWidth} = document.documentElement;
-        viewport = {left: 0, top: 0, width: innerWidth || clientWidth, height: innerHeight || clientHeight};
+        if (options.container) {
+            viewport = $(element).closest(options.container)[0]!.getBoundingClientRect();
+        } else {
+            const {innerHeight, innerWidth} = window;
+            const {clientHeight, clientWidth} = document.documentElement;
+            viewport = {left: 0, top: 0, width: innerWidth || clientWidth, height: innerHeight || clientHeight};
+        }
     }
     const {left: viewportLeft, top: viewportTop, width: viewportWidth, height: viewportHeight} = viewport;
-    if (options?.fullyCheck) {
+    if (options.fullyCheck) {
         return (
             (left >= viewportLeft)
                 && (top >= viewportTop)
-                && ((left + width) <= viewportWidth)
-                && ((top + height) <= viewportHeight)
+                && ((left + width) <= (viewportWidth + viewportLeft))
+                && ((top + height) <= (viewportHeight + viewportTop))
         );
     }
     // http://stackoverflow.com/questions/325933/determine-whether-two-date-ranges-overlap
-    const horInView = (left <= viewportWidth) && ((left + width) >= viewportLeft);
-    const vertInView = (top <= viewportHeight) && ((top + height) >= viewportTop);
+    const horInView = (left <= (viewportLeft + viewportWidth)) && ((left + width) >= viewportLeft);
+    const vertInView = (top <= (viewportTop + viewportHeight)) && ((top + height) >= viewportTop);
 
     return vertInView && horInView;
 }

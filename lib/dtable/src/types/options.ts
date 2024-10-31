@@ -16,22 +16,23 @@ export interface DTableDataOptions<C = ColSetting> {
 }
 
 export interface DTableLayoutOptions {
-    width: number | '100%' | ((this: DTable) => number | '100%');
-    height: number | '100%' | 'auto' | {min: number, max: number} | ((this: DTable, actualHeight: number) => number | 'auto' | {min: number, max: number});
+    width?: number | '100%' | ((this: DTable) => number | '100%');
+    height?: number | '100%' | 'auto' | {min: number, max: number} | ((this: DTable, actualHeight: number) => number | 'auto' | {min: number, max: number});
     fixedLeftWidth?: number | 'auto' | `${number}%` | ((this: DTable) => number);
     fixedRightWidth?: number | 'auto' | `${number}%` | ((this: DTable) => number);
-    rowHeight: number;
-    defaultColWidth: number;
-    minColWidth: number;
-    maxColWidth: number;
+    rowHeight?: number;
+    defaultColWidth?: number;
+    minColWidth?: number;
+    maxColWidth?: number;
     header?: boolean | CustomRenderResultList<[layout: DTableLayout], DTable> | CustomRenderResultGenerator<[layout: DTableLayout], DTable> | CustomRenderResultItem;
     footer?: boolean | CustomRenderResultList<[layout: DTableLayout], DTable> | ((this: DTable, layout: DTableLayout) => CustomRenderResultList<[layout: DTableLayout], DTable>);
-    headerHeight: number;
-    footerHeight: number;
-    responsive: boolean | string;
-    scrollbarHover: boolean;
+    headerHeight?: number;
+    footerHeight?: number;
+    responsive?: boolean | string;
+    scrollbarHover?: boolean;
     scrollbarSize?: number;
     horzScrollbarPos?: 'inside' | 'outside';
+    vertScrollbarPos?: 'inside' | 'outside';
     emptyTip?: CustomContentType;
 }
 
@@ -61,6 +62,7 @@ export interface DTableOptions<C = ColSetting> extends DTableDataOptions<C>, DTa
     lang?: string;
     i18n?: Record<string, Record<string, string | object>>;
     className?: ClassNameLike,
+    style?: Record<string, string | number>,
     parent?: HTMLElement,
     plugins?: DTablePluginLike[];
     [prop: string]: unknown

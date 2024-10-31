@@ -172,7 +172,7 @@ export class SearchBox extends Component<SearchBoxOptions, SearchBoxState> {
                     ref={this._input}
                     id={id}
                     type="text"
-                    class={classes('form-control', className, {'rounded-full': circle, 'size-sm': compact})}
+                    class={classes('form-control', {'rounded-full': circle, 'size-sm': compact}, className)}
                     style={style}
                     placeholder={placeholder}
                     disabled={disabled}

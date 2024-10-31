@@ -3,7 +3,6 @@ import {classes, $, CustomContent, toCssSize} from '@zui/core';
 import {CardList} from '@zui/cards/src/component';
 
 import type {ComponentChildren, JSX, RefObject} from 'preact';
-import type {HtmlContentProps} from '@zui/core';
 import type {KanbanItem, KanbanLaneColProps} from '../types';
 
 export class KanbanLaneCol extends Component<KanbanLaneColProps> {
@@ -31,11 +30,15 @@ export class KanbanLaneCol extends Component<KanbanLaneColProps> {
 
     protected _renderItem = (item: KanbanItem): ComponentChildren => {
         const {itemRender, lane, name} = this.props;
-        const result = itemRender!.call(this, {item, lane, col: name});
-        if (typeof result === 'object' && (result as HtmlContentProps).html) {
-            $.extend(result, {});
+        return itemRender!.call(this, {item, lane, col: name});
+    };
+
+    protected _handleScroll = (event: Event): void => {
+        const {current} = this._listRef;
+        if (!current) {
+            return;
         }
-        return result;
+        $(current).trigger('laneColScroll', event);
     };
 
     render(props: KanbanLaneColProps) {
@@ -53,6 +56,7 @@ export class KanbanLaneCol extends Component<KanbanLaneColProps> {
             itemCountPerRow,
             gapLeft,
             gapRight,
+            laneColClass,
         } = props;
         const style: JSX.CSSProperties = {
             '--kanban-col-color': color,
@@ -61,13 +65,13 @@ export class KanbanLaneCol extends Component<KanbanLaneColProps> {
             '--kanban-col-gap-right': toCssSize(gapRight),
         };
         return (
-            <div className="kanban-lane-col" style={style} z-lane={lane} z-col={name}>
+            <div className={classes('kanban-lane-col', laneColClass)} style={style} z-lane={lane} z-col={name}>
                 {content ? (
                     <div className={classes('kanban-col-content', contentClass)}>
                         <CustomContent content={content} generatorThis={this} generatorArgs={[props]} />
                     </div>
                 ) : null}
-                <div className="kanban-items scrollbar-thin scrollbar-hover">
+                <div className="kanban-items scrollbar-thin scrollbar-hover" onScroll={this._handleScroll}>
                     <CardList
                         key="list"
                         forwardRef={watchSize ? this._listRef : undefined}

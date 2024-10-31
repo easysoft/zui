@@ -3,6 +3,8 @@ import {DraggableState} from './draggable-state';
 
 export type DraggableOptions = {
     selector?: string;
+    dragContainer?: Selector;
+    dropContainer?: Selector;
     handle?: string;
     hasDraggingClass?: string;
     draggingClass?: string;

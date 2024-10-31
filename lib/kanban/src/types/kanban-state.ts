@@ -7,4 +7,6 @@ export type KanbanState = {
     changes?: Partial<KanbanData>;
     loadFailed?: CustomContentType;
     containerWidth?: number;
+    selected?: string[];
+    hover?: string;
 };

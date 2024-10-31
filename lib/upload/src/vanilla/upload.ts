@@ -46,6 +46,7 @@ export class Upload<T extends UploadOptions = UploadOptions> extends Component<T
         tip: '',
         draggable: false,
         showSize: true,
+        onAdd: (file) => file,
     };
 
     init() {
@@ -125,7 +126,7 @@ export class Upload<T extends UploadOptions = UploadOptions> extends Component<T
                 this.$label.removeClass('border-primary');
                 this.$label.addClass('border-gray');
                 this.$label.removeClass('dragover');
-                const files = Array.from(e.dataTransfer?.files ?? []) as File[];
+                const files: File[] = Array.from(e.dataTransfer?.files ?? []);
                 console.log(e.dataTransfer.files);
                 this.addFileItem(files);
             });
@@ -172,7 +173,7 @@ export class Upload<T extends UploadOptions = UploadOptions> extends Component<T
         onSizeChange?.(this.currentBytes);
     }
 
-    private renameDuplicatedFile(file: File) {
+    private renameDuplicatedFile(file: File): File {
         if (!this.fileMap.has(file.name)) {
             return file;
         }
@@ -219,38 +220,48 @@ export class Upload<T extends UploadOptions = UploadOptions> extends Component<T
         if (multiple) {
             const validFiles: File[] = [];
             for (let file of files) {
+                // 超出数量限制
                 if (limitCount && this.fileMap.size >= limitCount) {
-                    onAdd?.(validFiles);
                     onExceededCount?.(limitCount);
                     if (exceededCountHint) alert(exceededCountHint);
                     return;
                 }
+                // 超出字节限制
                 if (this.currentBytes + file.size > this.limitBytes) {
-                    onAdd?.(validFiles);
                     onExceededSize?.(this.limitBytes);
                     if (exceededSizeHint) alert(exceededSizeHint);
                     return;
                 }
                 file = this.renameDuplicatedFile(file);
+                const f = onAdd?.(file);
+                if (!f) continue;
+
+                file = f;
                 const item = this.createFileItem(file);
                 this.itemMap.set(file.name, item);
                 this.$list.append(item);
                 validFiles.push(file);
             }
-            onAdd?.(validFiles);
             return;
         }
 
+
+        if (files.length === 0) {
+            return;
+        }
         if (files[0].size > this.limitBytes) {
             return;
         }
 
-        const file = this.renameDuplicatedFile(files[0]);
+        let file = this.renameDuplicatedFile(files[0]);
+        const f = onAdd?.(file);
+        if (!f) return;
+
+        file = f;
         const item = this.createFileItem(file);
         this.itemMap.clear();
         this.itemMap.set(file.name, item);
         this.$list.empty().append(item);
-        onAdd?.(file);
     }
 
     protected deleteFileItem(name: string) {

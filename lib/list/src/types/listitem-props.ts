@@ -17,6 +17,7 @@ export interface ListitemProps extends Item {
     divider?: boolean;
     toggleIcon?: CustomContentType;
     icon?: IconType;
+    iconClass?: ClassNameLike;
     selected?: boolean;
     avatar?: AvatarOptions | ((item: Item) => AvatarOptions);
     leading?: CustomContentType;
@@ -33,6 +34,7 @@ export interface ListitemProps extends Item {
     trailing?: CustomContentType;
     trailingClass?: ClassNameLike;
     trailingIcon?: IconType;
+    trailingIconClass?: ClassNameLike;
     actions?: ToolbarSetting<[Item]>;
     contentClass?: ClassNameLike;
     content?: CustomContentType;

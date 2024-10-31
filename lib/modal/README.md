@@ -131,7 +131,7 @@
 ```html:example: flex gap-3
 <button type="button" class="btn primary" data-toggle="modal" data-type="ajax" data-url="/lib/modal/assets/ajax-modal.txt" data-title="Ajax 纯文本对话框"data-data-type="text">点击打开 Ajax 纯文本对话框</button>
 <button type="button" class="btn primary" data-toggle="modal" data-type="ajax" data-url="/lib/modal/assets/ajax-modal.html" data-title="Ajax HTML 对话框" data-data-type="html" data-size="lg">点击打开 Ajax HTML 对话框</button>
-<a class="btn primary" data-toggle="modal" data-url="/lib/modal/assets/ajax-modal.html">点击打开 Ajax 链接对话框</a>
+<a class="btn primary" data-toggle="modal" href="/lib/modal/assets/ajax-modal.html">点击打开 Ajax 链接对话框</a>
 ```
 
 ## 方法

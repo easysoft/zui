@@ -20,6 +20,9 @@
 .dropdown > .dropdown-menu {
   @apply -relative;
 }
+.popup .popup.search-menu {
+  @apply -bg-[--menu-bg];
+}
 
 .show > .menu-wrapper {
   @apply -flex;
@@ -29,6 +32,9 @@
 }
 .dropdown > .menu-wrapper .menu-wrapper {
   @apply -absolute;
+}
+.dropdown > .menu-wrapper.is-tree .menu-wrapper {
+  @apply -relative;
 }
 
 .is-contextmenu .is-nested-show > a:not(:hover) {

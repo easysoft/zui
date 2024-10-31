@@ -1,0 +1,21 @@
+[
+    {
+        "text": "水果",
+        "value": "fruit",
+        "items": {"url": "/lib/list/dev/nested-items-2-1.json"}
+    },
+    {
+        "text": "蔬菜",
+        "value": "vegetable",
+        "items": "/lib/list/dev/nested-items-2-2.json"
+    },
+    {
+        "checked": true,
+        "text": "肉类",
+        "value": "meat"
+    },
+    {
+        "text": "饮料",
+        "value": "drink"
+    }
+]

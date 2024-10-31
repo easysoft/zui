@@ -1,4 +1,3 @@
-import {ComponentChildren, RenderableProps} from 'preact';
 import {Icon, classes} from '@zui/core';
 import {formatDate, createDate} from '@zui/helpers';
 import {Pick} from '@zui/pick/src/components/pick';
@@ -30,12 +29,12 @@ export class TimePicker extends Pick<PickState, TimePickerOptions> {
         icon: true,
     } as Partial<PickOptions>;
 
-    constructor(props: TimePickerOptions) {
-        super(props);
-        const state = this.state as PickState;
+    getDefaultState(props?: RenderableProps<TimePickerOptions> | undefined): PickState {
+        const state = super.getDefaultState(props);
         if (state.value === 'now') {
-            state.value = formatDate(new Date(), props.format);
+            state.value = formatDate(new Date(), (props || this.props).format);
         }
+        return state;
     }
 
     _handleInputFocus = () => {
@@ -54,8 +53,8 @@ export class TimePicker extends Pick<PickState, TimePickerOptions> {
         this.setTime('');
     };
 
-    setTime(value: string | {hour?: number, minute?: number}) {
-        if (this.props.disabled || this.props.readonly) {
+    setTime(value: string | {hour?: number, minute?: number}, force?: boolean) {
+        if (!force && (this.props.disabled || this.props.readonly)) {
             return;
         }
         let valueString = '';
@@ -68,12 +67,22 @@ export class TimePicker extends Pick<PickState, TimePickerOptions> {
         }
 
         const date = parseTime(valueString);
-        const {onInvalid, required, defaultValue} = this.props;
-        this.setState({value: date ? formatDate(date, this.props.format) : (required ? defaultValue : '')}, () => {
+        const {onInvalid, required, defaultValue, format} = this.props;
+        return this.changeState({value: date ? formatDate(date, format) : (required ? defaultValue : '')}, () => {
             if (!date && onInvalid) {
                 onInvalid(valueString);
             }
         });
+    }
+
+    setValue(value: string, silent?: boolean) {
+        if (silent) {
+            const trigger = this._trigger.current;
+            if (trigger) {
+                trigger._skipTriggerChange = value;
+            }
+        }
+        return this.setTime(value, true) as Promise<PickState>;
     }
 
     getTime(): [hour: number, minute: number] | null {

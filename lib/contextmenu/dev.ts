@@ -6,10 +6,7 @@ import 'zui-dev';
 import 'preact/debug';
 import {ContextMenu} from './src/main';
 
-onPageLoad(() => {
-    const contextMenu1 = new ContextMenu('#contextMenuToggle1');
-    console.log('> contextMenu1', contextMenu1);
-
+onPageUpdate(() => {
     const contextMenu = new ContextMenu('#menuToggle1', {
         menu: {
             items: [

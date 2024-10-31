@@ -1,15 +1,17 @@
+import {formatString} from '@zui/helpers';
 import {definePlugin} from '../../helpers/shared-plugins';
 import {store} from '../store';
 import '@zui/css-icons/src/icons/toggle.css';
 import './style.css';
 
+import {ComponentChildren, CustomContent, type CustomContentType} from '@zui/core';
 import type {DTableSortableTypes} from '../sortable';
 import type {DTableCheckableTypes} from '../checkable';
 import type {DTableStoreTypes} from '../store';
 import type {ColInfo} from '../../types/col';
 import type {CustomRenderResult} from '../../types/common';
 import type {DTableWithPlugin, DTablePlugin} from '../../types/plugin';
-import type {RowData, RowID} from '../../types/row';
+import type {RowData, RowID, RowInfo} from '../../types/row';
 
 export const enum NestedRowState {
     unknown = '',
@@ -22,11 +24,10 @@ export const enum NestedRowState {
 export type NestedRowInfo = {
     state: NestedRowState;
     level: number;
-} & Partial<{
-    children: string[];
-    parent: string;
-    order: number;
-}>;
+    children?: string[];
+    parent?: string;
+    order?: number;
+};
 
 export type DTableNestedTypes = {
     options: Partial<{
@@ -35,6 +36,7 @@ export type DTableNestedTypes = {
         asParentKey: string;
         nestedIndent: number;
         preserveNested: boolean;
+        noNestedCheck: boolean;
         defaultNestedState: Record<RowID, boolean>;
         onNestedChange: () => void;
         onRenderNestedToggle: (this: DTableNested, info: NestedRowInfo | undefined, rowID: string, col: ColInfo, rowData: RowData | undefined) => CustomRenderResult;
@@ -45,9 +47,11 @@ export type DTableNestedTypes = {
     col: Partial<{
         nestedToggle: boolean;
         nestedIndent: number | boolean;
+        childLabel?: CustomContentType,
     }>,
     data: {
         nestedMap: Map<RowID, NestedRowInfo>,
+        nestedRowMap: Map<RowID, RowInfo>,
     },
     methods: {
         getNestedInfo: typeof getNestedInfo;
@@ -146,7 +150,7 @@ function isAllCollapsed(this: DTableNested): boolean {
     return true;
 }
 
-function updateNestedMapOrders(map: Map<string, NestedRowInfo>, lastOrder = 0, ids?: string[], level = 0): number {
+function updateNestedMapOrders(map: Map<string, NestedRowInfo>, lastOrder = 1, ids?: string[], level = 0): number {
     if (!ids) {
         ids = [...map.keys()];
     }
@@ -199,19 +203,20 @@ const nestedToggleClass = 'dtable-nested-toggle';
 const nestedPlugin: DTablePlugin<DTableNestedTypes, DTableNestedDependencies> = {
     name: 'nested',
     plugins: [store],
+    requireAfter: ['sortable'],
     defaultOptions: {
         nested: 'auto',
         nestedParentKey: 'parent',
         asParentKey: 'asParent',
         nestedIndent: 20,
         canSortTo(from, to) {
-            const {nestedMap} = this.data;
+            const {nestedMap} = (this as unknown as DTableNested).data;
             const fromInfo = nestedMap.get(from.id);
             const toInfo = nestedMap.get(to.id);
             return fromInfo?.parent === toInfo?.parent;
         },
         beforeCheckRows(ids: string[] | undefined, changes: Record<string, boolean>, checkedRows: Record<string, boolean>) {
-            if (!this.options.checkable || !ids?.length) {
+            if (!this.options.checkable || !ids?.length || this.options.noNestedCheck) {
                 return;
             }
             const result: Record<string, boolean> = {};
@@ -232,7 +237,7 @@ const nestedPlugin: DTablePlugin<DTableNestedTypes, DTableNestedDependencies> = 
     },
     when: options => !!options.nested,
     data() {
-        return {nestedMap: new Map()};
+        return {nestedMap: new Map(), nestedRowMap: new Map()};
     },
     state() {
         return {nestedState: {}};
@@ -255,50 +260,91 @@ const nestedPlugin: DTablePlugin<DTableNestedTypes, DTableNestedDependencies> = 
     },
     beforeLayout() {
         this.data.nestedMap.clear();
+        this.data.nestedRowMap.clear();
     },
     onAddRow(row) {
-        const {nestedMap} = this.data;
-        const parent = String(row.data?.[this.options.nestedParentKey ?? 'parent']);
-        const info: NestedRowInfo = nestedMap.get(row.id) ?? {
-            state: NestedRowState.unknown,
-            level: 0,
-        };
-        info.parent = parent === '0' ? undefined : parent;
-        if (row.data?.[this.options.asParentKey ?? 'asParent']) {
-            info.children = [];
-        }
-        nestedMap.set(row.id, info);
-
-        if (parent) {
-            let parentInfo = nestedMap.get(parent);
-            if (!parentInfo) {
-                parentInfo = {
-                    state: NestedRowState.unknown,
-                    level: 0,
-                };
-                nestedMap.set(parent, parentInfo);
-            }
-            if (!parentInfo.children) {
-                parentInfo.children = [];
-            }
-            parentInfo.children.push(row.id);
-        }
+        this.data.nestedRowMap.set(row.id, row);
     },
     onAddRows(rows) {
-        rows = rows.filter(row => this.getNestedRowInfo(row.id).state !== NestedRowState.hidden);
-        updateNestedMapOrders(this.data.nestedMap);
+        const {nestedMap, nestedRowMap} = this.data;
+        rows.forEach(row => {
+            const info: NestedRowInfo = nestedMap.get(row.id) ?? {
+                state: NestedRowState.unknown,
+                level: 0,
+            };
+            let parentPath = (row.data?.[this.options.nestedParentKey ?? 'parent'] as undefined | (string | number) | (string | number)[]) ?? [];
+            if (!Array.isArray(parentPath)) {
+                parentPath = [parentPath];
+            }
+            let parentID: string | undefined;
+            parentPath = [...parentPath];
+            while (parentPath.length) {
+                let lastParentID = parentPath.pop();
+                if (lastParentID === undefined) {
+                    continue;
+                }
+                lastParentID = String(lastParentID);
+                const parent = nestedRowMap.get(lastParentID);
+                if (parent) {
+                    parentID = lastParentID;
+                    break;
+                }
+            }
+
+            info.parent = parentID === '0' ? undefined : parentID;
+            if (row.data?.[this.options.asParentKey ?? 'asParent']) {
+                info.children = [];
+            }
+            nestedMap.set(row.id, info);
+
+            if (parentID) {
+                let parentInfo = nestedMap.get(parentID);
+                if (!parentInfo) {
+                    parentInfo = {
+                        state: NestedRowState.unknown,
+                        level: 0,
+                    };
+                    nestedMap.set(parentID, parentInfo);
+                }
+                if (!parentInfo.children) {
+                    parentInfo.children = [];
+                }
+                parentInfo.children.push(row.id);
+            }
+        });
+
+        const nestedStateMap = new Map<string, NestedRowInfo>();
+        const undefinedOrder = rows.length * 100;
+        rows = rows.filter((row) => {
+            const info = this.getNestedRowInfo(row.id)!;
+            nestedStateMap.set(row.id, info);
+            return info.state !== NestedRowState.hidden;
+        });
+        updateNestedMapOrders(nestedStateMap);
         rows.sort((rowA, rowB) => {
-            const infoA = this.getNestedRowInfo(rowA.id);
-            const infoB = this.getNestedRowInfo(rowB.id);
-            const result = (infoA.order ?? 0) - (infoB.order ?? 0);
-            return result === 0 ? (rowA.index - rowB.index) : result;
+            const infoA = nestedStateMap.get(rowA.id);
+            const infoB = nestedStateMap.get(rowB.id);
+            return (infoA?.order ?? (undefinedOrder + rowA.index)) - (infoB?.order ?? (undefinedOrder + rowB.index));
         });
         return rows;
     },
-    onRenderCell(result, {col, row}) {
+    onRenderCell(result, cellInfo) {
+        const {row, col} = cellInfo;
         const {id: rowID, data: rowData} = row;
-        const {nestedToggle} = col.setting;
+        const {nestedToggle, childLabel} = col.setting;
         const info = this.getNestedRowInfo(rowID);
+        if (childLabel) {
+            const parent = Number(rowData![this.options.nestedParentKey || 'parent']);
+            if (!Number.isNaN(parent) && parent > 0) {
+                let labelView: ComponentChildren;
+                if (typeof childLabel === 'string') {
+                    labelView = <span className="dtable-child-label label rounded-full size-sm gray-pale">{formatString(childLabel, rowData)}</span>;
+                } else {
+                    labelView = <CustomContent className="dtable-child-label" content={childLabel} generatorThis={cellInfo} />;
+                }
+                result.unshift(labelView);
+            }
+        }
         if (nestedToggle && (info.children || info.parent)) {
             result.push(
                 this.options.onRenderNestedToggle?.call(this, info, rowID, col, rowData) ?? (<a className={`${nestedToggleClass} state${info.children ? '' : ' is-no-child'}`}><span className="toggle-icon"></span></a>),
@@ -314,6 +360,7 @@ const nestedPlugin: DTablePlugin<DTableNestedTypes, DTableNestedDependencies> = 
                 result.push(<div className="dtable-nested-indent" style={{width: nestedIndent * info.level + 'px'}} />);
             }
         }
+
         return result;
     },
     onRenderHeaderCell(result, {row, col}) {

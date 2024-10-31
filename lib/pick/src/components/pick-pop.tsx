@@ -1,6 +1,7 @@
 import {Component, ComponentChildren, JSX, RefObject, RenderableProps, VNode, createRef} from 'preact';
-import {computePosition, flip, offset, shift, autoUpdate} from '@floating-ui/dom';
+import {computePosition, flip, offset, shift, autoUpdate, Placement} from '@floating-ui/dom';
 import {$, classes, createPortal, toCssSize} from '@zui/core';
+import {isElementDetached, isVisible} from '@zui/core/src/dom';
 
 import type {PickState, PickPopProps} from '../types';
 
@@ -108,18 +109,44 @@ export class PickPop<S extends PickState = PickState, P extends PickPopProps<S> 
         }
     };
 
-    protected _getWidth() {
-        const {width} = this.props;
-        if (width === '100%') {
-            return $(this.trigger).outerWidth();
+    protected _getStyle(style: Record<string, null | string | number> = {}, placement?: Placement): Record<string, null | string | number> {
+        const triggerBounding = this.trigger?.getBoundingClientRect();
+        if (!triggerBounding) {
+            return {};
         }
+        const {width, minWidth, maxWidth, maxHeight} = this.props;
+        const triggerWidth = triggerBounding.width;
         if (typeof width === 'function') {
-            return width();
+            style.width = width();
+        } else if (width === '100%') {
+            style.width = triggerWidth;
+        } else if (width) {
+            style.width = toCssSize(width);
         }
-        if (width) {
-            return toCssSize(width);
+        if (minWidth === '100%') {
+            style.minWidth = triggerWidth;
         }
-        return undefined;
+        if (maxWidth === '100%') {
+            style.maxWidth = triggerWidth;
+        }
+        if (this.props.limitInScreen && placement && (!maxHeight || maxHeight === 'auto' || typeof maxHeight === 'number')) {
+            let maxHeightInScreen: number | undefined;
+            if (placement.includes('bottom')) {
+                maxHeightInScreen = window.innerHeight - triggerBounding.bottom - 2;
+            } else {
+                const height = this.element!.getBoundingClientRect().height;
+                maxHeightInScreen = triggerBounding.top;
+                if (height > maxHeightInScreen && typeof style.top === 'number') {
+                    style.top += height - maxHeightInScreen;
+                }
+            }
+            if (maxHeightInScreen) {
+                style.maxHeight = typeof maxHeight === 'number' ? Math.min(maxHeightInScreen, maxHeight) : maxHeightInScreen;
+            }
+        } else if (maxHeight) {
+            style.maxHeight = maxHeight;
+        }
+        return style;
     }
 
     protected layout() {
@@ -142,19 +169,19 @@ export class PickPop<S extends PickState = PickState, P extends PickPopProps<S> 
             computePosition(trigger, element, {
                 placement: (!placement || placement === 'auto') ? 'bottom-start' : placement,
                 middleware: [placement === 'auto' ? flip() : null, shift(), offset(1)].filter(Boolean),
-            }).then(({x, y}) => {
-                if ($.isDetached(trigger)) {
+            }).then(({x, y, placement: actualPlacement}) => {
+                if (isElementDetached(trigger) || !isVisible(trigger)) {
+                    $(element).css({display: 'none'});
                     return;
                 }
-                $(element).css({
+                $(element).css(this._getStyle({
                     left: x,
                     top: y,
-                    width: this._getWidth(),
-                });
+                }, actualPlacement));
                 this.props.onLayout?.(element);
             });
             if (width === '100%') {
-                $(element).css({width: this._getWidth()});
+                $(element).css(this._getStyle());
             }
         });
     }
