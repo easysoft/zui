@@ -54,7 +54,7 @@ td:hover{
     @apply: -bg-primary;
     border-image: linear-gradient(to right, #367df1, #f1367d);
     border-image-slice: 1;
-    border:solid 2px #3b82f6;
+    border:solid 3px #3b82f6;
     background: none;
     /* color: white; */
 }
