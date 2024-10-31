@@ -5,7 +5,7 @@ export function exec(command: string, args?: ReadonlyArray<string>, options?: Sp
         const spawnObj = spawn(command, args ?? [], {stdio: 'inherit', shell: true, ...options});
         spawnObj.on('close', (code) => {
             resolve(code);
-        }); 
+        });
     });
 }
 
