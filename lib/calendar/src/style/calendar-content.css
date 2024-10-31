@@ -1,11 +1,14 @@
 td{
-    @apply -bg-gray-200;
+    @apply -bg-surface-light;
     @apply -text-center -text-gray-700 -p-0;
 }
 
 td:hover{
-    border: 2px solid #333;
-    cursor: pointer;
+    @apply -bg-primary-50;
+}
+.calendar-body-part:hover{
+    /* @apply -border-2 -primary; */
+    @apply -flex -flex-col -justify-start;
 }
 
 .calendar{
@@ -20,7 +23,8 @@ td:hover{
 }
 
 .calendar-content-header {
-    @apply -px-2 -border -border-gray-300;
+    @apply -px-1 -py-1 -border -border-gray-300;
+    border-width:0 1px;
 }
 
 .calendar-td{
@@ -36,6 +40,7 @@ td:hover{
     @apply -mr-1;
 }
 .calendar-body-part{
+  
     @apply -flex -flex-col -justify-start;
 }
 
@@ -46,9 +51,10 @@ td:hover{
 
 .is-current-month-today{
     /* @apply -bg-gray-50; */
-    border: 2px solid #333;
+    @apply: -bg-primary;
     border-image: linear-gradient(to right, #367df1, #f1367d);
     border-image-slice: 1;
+    border:solid 2px #3b82f6;
     background: none;
     /* color: white; */
 }

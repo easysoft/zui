@@ -5,7 +5,6 @@ import '../../../checkbox/src/component/index';
 import '../i18n';
 import '../../../checkbox/src/style/index.css';
 
-
 //这个组件只需要渲染事件集，勾选后是否显示事件就行了
 
 export class CalendarSidebar<P extends CalendarSidebarProps = CalendarSidebarProps> extends HElement<P, {}> {
