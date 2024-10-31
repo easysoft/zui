@@ -8,7 +8,7 @@ var ct = (n, t, e) => (ks(n, t, "read from private field"), e ? e.call(n) : t.ge
   t instanceof WeakSet ? t.add(n) : t.set(n, e);
 }, bt = (n, t, e, s) => (ks(n, t, "write to private field"), s ? s.call(n, e) : t.set(n, e), e);
 var Ts = (n, t, e) => (ks(n, t, "access private method"), e);
-const Ed = "3.0.0", Ad = 1730249859179, Md = "production", Ht = document, Tn = window, po = Ht.documentElement, pe = Ht.createElement.bind(Ht), go = pe("div"), $s = pe("table"), Rl = pe("tbody"), Sr = pe("tr"), { isArray: Xn, prototype: mo } = Array, { concat: Dl, filter: mi, indexOf: _o, map: yo, push: Ll, slice: vo, some: _i, splice: zl } = mo, Ol = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, Hl = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, Fl = /<.+>/, Wl = /^\w+$/;
+const Ed = "3.0.0", Ad = 1730360368700, Md = "production", Ht = document, Tn = window, po = Ht.documentElement, pe = Ht.createElement.bind(Ht), go = pe("div"), $s = pe("table"), Rl = pe("tbody"), Sr = pe("tr"), { isArray: Xn, prototype: mo } = Array, { concat: Dl, filter: mi, indexOf: _o, map: yo, push: Ll, slice: vo, some: _i, splice: zl } = mo, Ol = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, Hl = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, Fl = /<.+>/, Wl = /^\w+$/;
 function yi(n, t) {
   const e = jl(t);
   return !n || !e && !he(t) && !tt(t) ? [] : !e && Hl.test(n) ? t.getElementsByClassName(n.slice(1).replace(/\\/g, "")) : !e && Wl.test(n) ? t.getElementsByTagName(n) : t.querySelectorAll(n);
@@ -2590,10 +2590,14 @@ function Gs(n) {
       return [o, a];
     })),
     params: s.map((o) => {
-      try {
-        return o.includes("%") && (o = decodeURIComponent(o)), JSON.parse(o);
-      } catch {
-        return o;
+      if (o !== "undefined") {
+        if (o === "null")
+          return null;
+        try {
+          return o.includes("%") && (o = decodeURIComponent(o)), JSON.parse(o);
+        } catch {
+          return o;
+        }
       }
     })
   };
