@@ -1,6 +1,7 @@
-import {Component} from 'preact';
+import {Component, createRef} from 'preact';
 import type {LazyContentProps, CustomContentType} from '../types';
-import {fetchData, type Ajax} from '../../ajax';
+import {$} from '../../cash';
+import {fetchData, FetcherSetting, type Ajax} from '../../ajax';
 import {HtmlContent} from './html-content';
 import {CustomContent} from './custom-content';
 import {classes} from '../../helpers';
@@ -20,14 +21,16 @@ export class LazyContent extends Component<LazyContentProps, LazyContentState> {
 
     state: LazyContentState = {};
 
+    protected _ref = createRef<HTMLDivElement>();
+
     protected _ajax?: Ajax;
 
-    async load() {
+    async load(newFetcher?: FetcherSetting) {
         const {props} = this;
         const {fetcher, type, fetcherArgs, fetcherThis = this} = props;
         this.setState({loading: true, error: undefined, content: undefined});
         try {
-            const content = await fetchData(fetcher, fetcherArgs, {throws: true, dataType: type === 'custom' ? 'json' : 'text'}, fetcherThis, (ajax) => {
+            const content = await fetchData(newFetcher || fetcher, fetcherArgs, {throws: true, dataType: type === 'custom' ? 'json' : 'text'}, fetcherThis, (ajax) => {
                 this._ajax = ajax;
             });
             this.setState({content: content as CustomContentType, loading: false});
@@ -39,6 +42,10 @@ export class LazyContent extends Component<LazyContentProps, LazyContentState> {
 
     componentDidMount(): void {
         this.load();
+        $(this._ref.current).on('loadContent.zui', (event: Event, fetcher?: FetcherSetting) => {
+            event.stopPropagation();
+            this.load(fetcher);
+        });
     }
 
     componentDidUpdate(previousProps: Readonly<LazyContentProps>): void {
@@ -49,11 +56,12 @@ export class LazyContent extends Component<LazyContentProps, LazyContentState> {
 
     componentWillUnmount(): void {
         this._ajax?.abort();
+        $(this._ref.current).off('.zui');
     }
 
-    protected _renderContent(props: LazyContentProps) {
+    protected _renderContent(_props: LazyContentProps, others: Partial<LazyContentProps>) {
         const {loading, error, content = ''} = this.state;
-        const {loadingContent, errorText, type} = props;
+        const {loadingContent, errorText, type, ...otherProps} = others;
         if (loading) {
             return loadingContent;
         }
@@ -61,20 +69,20 @@ export class LazyContent extends Component<LazyContentProps, LazyContentState> {
             return errorText ?? error.message;
         }
         if (type === 'html') {
-            return <HtmlContent html={content as string} />;
+            return <HtmlContent html={content as string} executeScript {...otherProps} />;
         }
         if (type === 'text') {
             return content;
         }
-        return <CustomContent content={content} />;
+        return <CustomContent content={content} {...otherProps} />;
     }
 
     render(props: LazyContentProps) {
         const {loading} = this.state;
-        const {loadingClass, loadingIndicator, className, style, attrs, loadingText} = props;
+        const {id, loadingClass, loadingIndicator, className, style, attrs, loadingText, ...others} = props;
         return (
-            <div className={classes('lazy-content', className, loading ? loadingClass : '', loadingIndicator ? 'load-indicator' : '')} data-loading={loadingText} style={style} {...attrs}>
-                {this._renderContent(props)}
+            <div id={id} ref={this._ref} className={classes('lazy-content', className, loading ? loadingClass : '', loadingIndicator ? 'load-indicator' : '')} data-loading={loadingText} style={style} {...attrs}>
+                {this._renderContent(props, others)}
             </div>
         );
     }

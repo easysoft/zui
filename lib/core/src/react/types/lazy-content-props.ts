@@ -4,6 +4,7 @@ import type {ClassNameLike} from '../../helpers';
 import type {CustomContentType} from './custom-content-type';
 
 export type LazyContentProps<T = string | CustomContentType, A extends unknown[] = unknown[], THIS = unknown> = {
+    id?: string;
     className?: ClassNameLike;
     style?: JSX.CSSProperties;
     attrs?: Record<string, unknown>;
