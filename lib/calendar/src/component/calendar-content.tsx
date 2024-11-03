@@ -24,10 +24,14 @@ export class CalendarContent<P extends CalendarProps = CalendarProps> extends HE
     judgeWeekendShouldShrink() {
         let flag = false;
         for (let i = 0; i < 6; i++) {
-            flag = flag || this.state.eventMap.has(this.state.dateList[i][5].date.toISOString().split('T')[0]);
-            flag = flag || this.state.eventMap.has(this.state.dateList[i][6].date.toISOString().split('T')[0]);
+            flag = flag || Boolean(this.formatDate(this.state.dateList[i][5].date));
+            flag = flag || Boolean(this.formatDate(this.state.dateList[i][6].date));
         }
         return !flag;
+    }
+
+    formatDate(date: Date): string {
+        return date.toLocaleDateString('en-CA'); // 'en-CA' locale uses YYYY-MM-DD format
     }
 
     componentWillUpdate(nextProps: Readonly<P>): void {
@@ -40,7 +44,7 @@ export class CalendarContent<P extends CalendarProps = CalendarProps> extends HE
         const map = new Map<string, CalendarEvent[]>();
         this.props.calendarEventMap?.forEach((value) => {
             if (value.date !== undefined && this.props.calendarEventGroupMap?.get(value?.calendarEventGroup)?.checked) {
-                const dateKey = new Date(value.date).toISOString().split('T')[0]; // 将日期转换为 'YYYY-MM-DD' 格式
+                const dateKey = this.formatDate(value.date); // 将日期转换为 'YYYY-MM-DD' 格式
                 if (!map.has(dateKey)) {
                     map.set(dateKey, [value]);
                 } else {
@@ -70,25 +74,34 @@ export class CalendarContent<P extends CalendarProps = CalendarProps> extends HE
                 if (dragElement && dropElement) { 
                     const prevDate = new Date( dragElement.dataset.date || '');
                     const moveToDate: Date = new Date( dropElement.dataset.date || '');
+                    console.log(prevDate, moveToDate);
+                    console.log('Date', this.formatDate(prevDate), this.formatDate(moveToDate));
                     const index: number = Number(dragElement.dataset.index);
-                    const prevDateEvents = prevDate && this.state.eventMap.get(prevDate?.toISOString().split('T')[0]);
-                    const moveToDateEvents = this.state.eventMap.has(moveToDate?.toISOString().split('T')[0]) ? this.state.eventMap.get(moveToDate?.toISOString().split('T')[0]) : [];
+                    const prevDateEvents = this.state.eventMap.get(this.formatDate(prevDate)) || [];
+                    const moveToDateEvents =  this.state.eventMap.get(this.formatDate(moveToDate)) || [];
+                    console.log('prevDateEvents', prevDateEvents, 'moveToDateEvents', moveToDateEvents);
                     if (prevDateEvents) {
                         const emptyAry: CalendarEvent[] = [];
                         const eventToMove = index !== undefined && index >= 0 && index < prevDateEvents.length ? [prevDateEvents[index]] : emptyAry;
+                        console.log('eventToMove', eventToMove);
                         eventToMove[0].date = new Date(moveToDate.getFullYear(), moveToDate.getMonth(), moveToDate.getDate(), prevDate.getHours(), prevDate.getMinutes(), prevDate.getSeconds());
+                        console.log('changeDate', eventToMove[0].date);
                         if (eventToMove && Array.isArray(moveToDateEvents)) {
                             moveToDateEvents.push(...eventToMove);
+                            console.log('moveToDateEvents', moveToDateEvents);
                             const newEventMap = new Map(this.state.eventMap);
-                            newEventMap.set(moveToDate?.toISOString().split('T')[0], moveToDateEvents);
+                            newEventMap.set(this.formatDate(moveToDate), moveToDateEvents);
+                            console.log('set', moveToDate?.toISOString().split('T')[0], moveToDateEvents);
+                            console.log('newMap', newEventMap);
                             if (index !== undefined && index >= 0 && index < prevDateEvents.length) {
                                 prevDateEvents.splice(index, 1);
                                 if (prevDateEvents.length === 0) {
-                                    newEventMap.delete(prevDate?.toISOString().split('T')[0]);
+                                    newEventMap.delete(this.formatDate(prevDate));
                                 } else {
-                                    newEventMap.set(prevDate?.toISOString().split('T')[0], [...prevDateEvents]);
+                                    newEventMap.set(this.formatDate(prevDate), [...prevDateEvents]);
                                 }
                             }
+                            console.log(newEventMap);
                             this.setState({eventMap: newEventMap});
                         }
                     }
@@ -190,8 +203,8 @@ export class CalendarContent<P extends CalendarProps = CalendarProps> extends HE
                                             eventSetMap = {this.state.eventSetMap}
                                             onEventClick={onEventClick}
                                             calendarEventGroups = {this.props.calendarEventGroupMap}
-                                            calendarEvents={this.state.eventMap.get(item.date.toISOString().split('T')[0]) || []}
-                                            date={item.date.toISOString().split('T')[0]}
+                                            calendarEvents={this.state.eventMap.get(this.formatDate(item.date)) || []}
+                                            date={this.formatDate(item.date)}
                                         ></CalendarEventDom>) : null}
                                 </div></td>;
                         })}
