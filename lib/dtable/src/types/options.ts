@@ -12,6 +12,7 @@ export interface DTableDataOptions<C = ColSetting> {
     data: (RowData | string)[] | number;
     rowDataGetter?: (ids: string[]) => RowData[],
     cellValueGetter?: CellValueGetter,
+    rowConverter?: (row: RowData, index: number) => RowData;
     rowKey?: string;
 }
 

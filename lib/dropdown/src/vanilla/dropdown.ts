@@ -39,7 +39,7 @@ export class Dropdown<O extends DropdownOptions = DropdownOptions> extends Popov
             nestedToggle: '.item',
             accordion: true,
             relativeTarget: {target: relativeTarget, event: this.options.triggerEvent, dropdown: this},
-            dropdown: this,
+            dropdown: this as Dropdown,
             popup: true,
             ...menu,
         };

@@ -19,7 +19,7 @@ importers:
         version: 0.2.4
       '@preact/signals':
         specifier: ^1.3.0
-        version: 1.3.0(preact@10.23.2)
+        version: 1.3.0(preact@10.24.3)
       '@preact/signals-core':
         specifier: ^1.8.0
         version: 1.8.0
@@ -48,8 +48,8 @@ importers:
         specifier: ^5.0.7
         version: 5.0.7
       preact:
-        specifier: ^10.23.2
-        version: 10.23.2
+        specifier: ^10.24.3
+        version: 10.24.3
       tinykeys:
         specifier: ^2.1.0
         version: 2.1.0
@@ -62,7 +62,7 @@ importers:
         version: 2.7.0(autoprefixer@10.4.19(postcss@8.4.39))(postcss@8.4.39)
       '@preact/preset-vite':
         specifier: ^2.8.3
-        version: 2.8.3(@babel/core@7.24.7)(preact@10.23.2)(vite@4.5.3(@types/node@20.14.10))
+        version: 2.8.3(@babel/core@7.24.7)(preact@10.24.3)(vite@4.5.3(@types/node@20.14.10))
       '@types/fs-extra':
         specifier: ^11.0.4
         version: 11.0.4
@@ -797,6 +797,9 @@ importers:
       '@zui/css-icons':
         specifier: workspace:^0.0.1
         version: link:../css-icons
+      '@zui/helpers':
+        specifier: workspace:^0.0.1
+        version: link:../helpers
       '@zui/list':
         specifier: workspace:^0.0.1
         version: link:../list
@@ -3688,8 +3691,8 @@ packages:
     resolution: {integrity: sha512-0vzE+lAiG7hZl1/9I8yzKLx3aR9Xbof3fBHKunvMfOCYAtMhrsnccJY2iTURb9EZd5+pLuiNV9/c/GZJOHsgIw==}
     engines: {node: ^10 || ^12 || >=14}
 
-  preact@10.23.2:
-    resolution: {integrity: sha512-kKYfePf9rzKnxOAKDpsWhg/ysrHPqT+yQ7UW4JjdnqjFIeNUnNcEJvhuA8fDenxAGWzUqtd51DfVg7xp/8T9NA==}
+  preact@10.24.3:
+    resolution: {integrity: sha512-Z2dPnBnMUfyQfSQ+GBdsGa16hz35YmLmtTLhM169uW944hYL6xzTYkJjC07j+Wosz733pMWx0fgON3JNw1jJQA==}
 
   prelude-ls@1.2.1:
     resolution: {integrity: sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==}
@@ -4513,7 +4516,7 @@ snapshots:
   '@docsearch/js@3.5.2(@algolia/client-search@4.23.3)(search-insights@2.13.0)':
     dependencies:
       '@docsearch/react': 3.5.2(@algolia/client-search@4.23.3)(search-insights@2.13.0)
-      preact: 10.23.2
+      preact: 10.24.3
     transitivePeerDependencies:
       - '@algolia/client-search'
       - '@types/react'
@@ -4762,13 +4765,13 @@ snapshots:
   '@pkgjs/parseargs@0.11.0':
     optional: true
 
-  '@preact/preset-vite@2.8.3(@babel/core@7.24.7)(preact@10.23.2)(vite@4.5.3(@types/node@20.14.10))':
+  '@preact/preset-vite@2.8.3(@babel/core@7.24.7)(preact@10.24.3)(vite@4.5.3(@types/node@20.14.10))':
     dependencies:
       '@babel/code-frame': 7.24.7
       '@babel/core': 7.24.7
       '@babel/plugin-transform-react-jsx': 7.24.7(@babel/core@7.24.7)
       '@babel/plugin-transform-react-jsx-development': 7.24.7(@babel/core@7.24.7)
-      '@prefresh/vite': 2.4.6(preact@10.23.2)(vite@4.5.3(@types/node@20.14.10))
+      '@prefresh/vite': 2.4.6(preact@10.24.3)(vite@4.5.3(@types/node@20.14.10))
       '@rollup/pluginutils': 4.2.1
       babel-plugin-transform-hook-names: 1.0.2(@babel/core@7.24.7)
       debug: 4.3.5
@@ -4785,27 +4788,27 @@ snapshots:
 
   '@preact/signals-core@1.8.0': {}
 
-  '@preact/signals@1.3.0(preact@10.23.2)':
+  '@preact/signals@1.3.0(preact@10.24.3)':
     dependencies:
       '@preact/signals-core': 1.8.0
-      preact: 10.23.2
+      preact: 10.24.3
 
   '@prefresh/babel-plugin@0.5.1': {}
 
-  '@prefresh/core@1.5.2(preact@10.23.2)':
+  '@prefresh/core@1.5.2(preact@10.24.3)':
     dependencies:
-      preact: 10.23.2
+      preact: 10.24.3
 
   '@prefresh/utils@1.2.0': {}
 
-  '@prefresh/vite@2.4.6(preact@10.23.2)(vite@4.5.3(@types/node@20.14.10))':
+  '@prefresh/vite@2.4.6(preact@10.24.3)(vite@4.5.3(@types/node@20.14.10))':
     dependencies:
       '@babel/core': 7.24.7
       '@prefresh/babel-plugin': 0.5.1
-      '@prefresh/core': 1.5.2(preact@10.23.2)
+      '@prefresh/core': 1.5.2(preact@10.24.3)
       '@prefresh/utils': 1.2.0
       '@rollup/pluginutils': 4.2.1
-      preact: 10.23.2
+      preact: 10.24.3
       vite: 4.5.3(@types/node@20.14.10)
     transitivePeerDependencies:
       - supports-color
@@ -6659,7 +6662,7 @@ snapshots:
       picocolors: 1.0.1
       source-map-js: 1.2.0
 
-  preact@10.23.2: {}
+  preact@10.24.3: {}
 
   prelude-ls@1.2.1: {}
 

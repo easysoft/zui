@@ -203,7 +203,7 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
         this._zIndex = Popover.Z_INDEX++;
         this._shown = true;
         this.render();
-        SHOWN_POPOVERS.set(this.gid, this);
+        SHOWN_POPOVERS.set(this.gid, this as Popover);
         onShow?.call(this);
         this.emit('show');
 
@@ -229,8 +229,11 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
                 });
         }
 
-        if (!this._virtual && elementShowClass) {
-            $(this._triggerElement as HTMLElement).addClass(elementShowClass);
+        if (!this._virtual) {
+            $target.attr('zui-commands-proxy', '').data('zui.commandProxy', this._triggerElement);
+            if (elementShowClass) {
+                $(this._triggerElement as HTMLElement).addClass(elementShowClass);
+            }
         }
 
         this._resetTimer(() => {
@@ -262,8 +265,12 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
             $target.off(this.namespace);
         }
 
-        if (!this._virtual && elementShowClass) {
-            $(this._triggerElement as HTMLElement).removeClass(elementShowClass).removeAttr('data-pop-placement');
+        if (!this._virtual) {
+            const $trigger = $(this._triggerElement as HTMLElement);
+            $trigger.removeAttr('zui-commands-proxy').removeData('zui.commandProxy');
+            if (elementShowClass) {
+                $trigger.removeClass(elementShowClass).removeAttr('data-pop-placement');
+            }
         }
 
         if (hideNewOnHide) {

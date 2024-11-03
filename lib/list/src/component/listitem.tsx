@@ -124,6 +124,7 @@ export class Listitem<P extends ListitemProps = ListitemProps, S = {}> extends H
             subtitle,
             hint,
             selected,
+            command,
         } = props;
         const ComponentName = innerComponent || ((url && !actions) ? 'a' : 'div');
         const asLink = ComponentName === 'a';
@@ -139,7 +140,7 @@ export class Listitem<P extends ListitemProps = ListitemProps, S = {}> extends H
                 multiline: multiline ?? !!(title && subtitle),
                 state: asLink && !disabled,
             }),
-        }, asLink ? {href: url || 'javascript:;', target} : null, extraAttrs, innerAttrs);
+        }, command ? {'zui-command': command} : null, asLink ? {href: url || 'javascript:;', target} : null, extraAttrs, innerAttrs);
         return (
             <ComponentName {...attrs}>
                 {this._renderLeading(props)}

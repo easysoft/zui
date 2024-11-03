@@ -9,3 +9,4 @@ export * from './group';
 export * from './header-group';
 export * from './cellspan';
 export * from './sortable';
+export * from './pager';

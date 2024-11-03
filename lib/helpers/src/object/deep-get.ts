@@ -78,3 +78,11 @@ export function deepGet<T>(object: object, pathName: string | string[], defaultV
         return defaultValue;
     }
 }
+
+export function deepCall(object: object, pathName: string | string[], args?: unknown[], thisObj?: unknown): unknown {
+    const callback = deepGet(object, pathName);
+    if (typeof callback === 'function') {
+        return callback.apply(thisObj || object, args);
+    }
+    return callback;
+}

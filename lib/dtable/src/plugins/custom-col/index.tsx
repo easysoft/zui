@@ -77,6 +77,7 @@ const customColPlugin: DTablePlugin<DTableCustomColTypes, [DTableContextMenuType
                         }
                         return <span style={style} />;
                     };
+                    const disableHideCol = (this.getColInfo(info.colName)?.setting.required as boolean) || !this.options.canSetColVisibility?.call(this, info.colName, false);
                     return [
                         {
                             icon: getIcon(border),
@@ -91,8 +92,8 @@ const customColPlugin: DTablePlugin<DTableCustomColTypes, [DTableContextMenuType
                         {
                             text: this.i18n('hideCol'),
                             icon: 'eye-off',
-                            disabled: (this.getColInfo(info.colName)?.setting.required as boolean) || !this.options.canSetColVisibility?.call(this, info.colName, false),
-                            onClick: () => this.setColVisibility(info.colName, false),
+                            disabled: disableHideCol,
+                            onClick: disableHideCol ? undefined : (() => this.setColVisibility(info.colName, false)),
                         },
                     ];
                 },
