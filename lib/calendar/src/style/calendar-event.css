@@ -1,31 +1,31 @@
 .calendar-event-item {
-    @apply -relative -px-1 -border -outline-2 -outline-gray-200/50 -text-white;
+  @apply -relative -px-1 -border -outline-2 -outline-gray-200/50 -text-white;
 }
 .calendar-event-item-time {
-    @apply -w-7 -inline-block;
-    /* display: inline-block; */
+  @apply -w-7 -inline-block;
+  /* display: inline-block; */
 } 
 .calendar-body-bottom{
-    @apply -absolute -right-0.5 -bottom-0.5 -cursor-pointer;
- }
- .chevron-left,
+  @apply -absolute -right-0.5 -bottom-0.5 -cursor-pointer;
+}
+.chevron-left,
 .chevron-right,
 .chevron-down,
 .chevron-up {
-  @apply -w-[1em] -h-[1em] -relative -inline-flex -items-center -justify-center;
+@apply -w-[1em] -h-[1em] -relative -inline-flex -items-center -justify-center;
 }
 .chevron-left::before,
 .chevron-right::before,
 .chevron-down::before,
 .chevron-up::before {
-  @apply -content-[''] -block -w-[0.6923077em] -h-[0.6923077em] -rotate-45 -border-current -border -border-t-0 -border-l-0 -origin-center --translate-y-0.5;
+@apply -content-[''] -block -w-[0.6923077em] -h-[0.6923077em] -rotate-45 -border-current -border -border-t-0 -border-l-0 -origin-center --translate-y-0.5;
 }
 .chevron-left::before {
-  @apply -rotate-[135deg] -translate-y-0 -translate-x-0.5;
+@apply -rotate-[135deg] -translate-y-0 -translate-x-0.5;
 }
 .chevron-right::before {
-  @apply --rotate-45 -translate-y-0 --translate-x-0.5;
+@apply --rotate-45 -translate-y-0 --translate-x-0.5;
 }
 .chevron-up::before {
-  @apply -rotate-[225deg] -translate-y-0.5;
+@apply -rotate-[225deg] -translate-y-0.5;
 }
