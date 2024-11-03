@@ -133,7 +133,7 @@ export class HElement<P extends HElementProps, S = {}> extends Component<P, S> {
         });
     }
 
-    executeCommand(context: CommandContext | string, params: unknown[]) {
+    executeCommand(context: CommandContext | string, params: unknown[] = []) {
         const {onCommand, commands} = this.props;
         let result;
         if (typeof context === 'string') {
