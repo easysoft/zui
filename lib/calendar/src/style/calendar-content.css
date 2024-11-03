@@ -1,16 +1,3 @@
-td{
-    @apply -bg-surface-light;
-    @apply -text-center -text-gray-700 -p-0;
-}
-
-td:hover{
-    @apply -bg-primary-50;
-}
-.calendar-body-part:hover{
-    /* @apply -border-2 -primary; */
-    @apply -flex -flex-col -justify-start;
-}
-
 .calendar{
     @apply -flex -w-full;
 }

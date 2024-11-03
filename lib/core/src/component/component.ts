@@ -176,10 +176,12 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
         }
 
         this.init();
+        this.options.$onCreate?.call(this);
         requestAnimationFrame(async () => {
             this._inited = true;
             await this.afterInit();
             this.emit('inited', this.options);
+            this.options.$onInited?.call(this);
         });
     }
 
@@ -307,6 +309,8 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
                 TYPED_ALL.delete(NAME);
             }
         }
+
+        this.options.$onDestroy?.call(this);
     }
 
     /**
@@ -339,7 +343,7 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
             } as ComponentOptions<O>;
             const {$options} = finalOptions;
             if ($options) {
-                const extraOptions = typeof $options === 'function' ? $options(this.element, finalOptions) : $options;
+                const extraOptions = typeof $options === 'function' ? $options.call(this, this.element, finalOptions) : $options;
                 if (extraOptions) {
                     $.extend(finalOptions, extraOptions);
                 }

@@ -24,6 +24,7 @@
         "type": "component",
         "displayName": "日历",
         "notReady": true,
+        "wip": true,
         "contributes": {
             "css": [
                 "class",
