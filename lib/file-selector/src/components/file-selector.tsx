@@ -161,6 +161,7 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
             await this._showAlert(exceededSizeTip, {
                 name: fileInfo.name,
                 size: formatBytes(fileInfo.size, 1),
+                maxFileSize,
             });
         }
         return true;
