@@ -46,4 +46,5 @@ export interface PickOptions<S extends PickState = PickState> {
     onPopShown?: () => void;
     onPopHide?: () => void;
     onPopHidden?: () => void;
+    onClickItem?: (event: MouseEvent, value: string) => void;
 }

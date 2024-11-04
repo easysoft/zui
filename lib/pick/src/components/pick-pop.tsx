@@ -30,9 +30,13 @@ export class PickPop<S extends PickState = PickState, P extends PickPopProps<S> 
     }
 
     protected _handleClick(event: MouseEvent) {
-        const {togglePop} = this.props;
+        const {togglePop, onClickItem, state} = this.props;
         const $target = $(event.target as HTMLElement);
         const $value = $target.closest('[data-pick-value]');
+        if (onClickItem) {
+            onClickItem(event, state.value);
+        }
+
         if ($value.length) {
             event.stopPropagation();
             return togglePop(false, {value: `${$value.dataset('pickValue')}`} as Partial<S>);
