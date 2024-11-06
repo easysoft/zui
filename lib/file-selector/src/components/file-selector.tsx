@@ -21,7 +21,6 @@ import type {FileInfo, FileSelectorProps, FileSelectorState, StaticFileInfo} fro
 export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S extends FileSelectorState = FileSelectorState> extends HElement<P, S> {
     static defaultProps: Partial<FileSelectorProps> = {
         mode: 'button',
-        maxFileSize: '100MB',
         fileIcons: 'file',
         renameBtn: true,
         removeBtn: true,
@@ -50,6 +49,15 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
     protected _skipAddMore?: boolean;
 
     constructor(props: P) {
+        if (props.totalFileSize) {
+            const {maxFileSize = '100MB', totalFileSize} = props;
+            const maxSize = typeof maxFileSize === 'number' ? maxFileSize : convertBytes(maxFileSize);
+            const totalSize = typeof totalFileSize === 'number' ? totalFileSize : convertBytes(totalFileSize);
+            props.maxFileSize = maxSize > totalSize
+                ? totalFileSize
+                : maxFileSize;
+        }
+
         super(props);
         this.state = {
             files: (props.defaultFiles || []).map(x => this.constructor.getInfo(x)),
