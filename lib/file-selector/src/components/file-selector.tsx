@@ -58,6 +58,10 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
                 : maxFileSize;
         }
 
+        if (!props.maxFileSize) {
+            props.maxFileSize = '100MB';
+        }
+
         super(props);
         this.state = {
             files: (props.defaultFiles || []).map(x => this.constructor.getInfo(x)),
