@@ -403,7 +403,7 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
                     });
                 }
             });
-        });
+        }, {ancestorResize: false});
     }
 
     render(options?: Partial<O>) {
