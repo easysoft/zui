@@ -59,7 +59,7 @@
             "name": "typography",
             "notReady": false,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/typography/package.json",
-            "order": 1000000052010000000
+            "order": 1000000053010000000
         }
     },
     {
@@ -212,7 +212,7 @@
             "name": "checkbox",
             "notReady": false,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/checkbox/package.json",
-            "order": 2000000008010000000
+            "order": 2000000009010000000
         }
     },
     {
@@ -249,7 +249,7 @@
             "name": "common-list",
             "notReady": false,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/common-list/package.json",
-            "order": 2000000010010000000
+            "order": 2000000011010000000
         }
     },
     {
@@ -281,7 +281,7 @@
             "name": "form",
             "notReady": false,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/form/package.json",
-            "order": 2000000021010000000
+            "order": 2000000022010000000
         }
     },
     {
@@ -308,7 +308,7 @@
             "name": "form-control",
             "notReady": false,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/form-control/package.json",
-            "order": 2000000022010000000
+            "order": 2000000023010000000
         }
     },
     {
@@ -342,7 +342,7 @@
             "name": "icons",
             "notReady": false,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/icons/package.json",
-            "order": 2000000024010000000
+            "order": 2000000025010000000
         }
     },
     {
@@ -378,7 +378,7 @@
             "name": "input-control",
             "notReady": false,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/input-control/package.json",
-            "order": 2000000025010000000
+            "order": 2000000026010000000
         }
     },
     {
@@ -411,7 +411,7 @@
             "name": "label",
             "notReady": false,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/label/package.json",
-            "order": 2000000028010000000
+            "order": 2000000029010000000
         }
     },
     {
@@ -456,7 +456,7 @@
             "name": "list",
             "notReady": true,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/list/package.json",
-            "order": 2000000029010000000
+            "order": 2000000030010000000
         }
     },
     {
@@ -505,7 +505,7 @@
             "name": "menu",
             "notReady": false,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/menu/package.json",
-            "order": 2000000030010000000
+            "order": 2000000031010000000
         }
     },
     {
@@ -549,7 +549,7 @@
             "name": "messager",
             "notReady": false,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/messager/package.json",
-            "order": 2000000031010000000
+            "order": 2000000032010000000
         }
     },
     {
@@ -582,7 +582,7 @@
             "name": "progress",
             "notReady": false,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/progress/package.json",
-            "order": 2000000039010000000
+            "order": 2000000040010000000
         }
     },
     {
@@ -619,7 +619,7 @@
             "name": "progress-circle",
             "notReady": false,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/progress-circle/package.json",
-            "order": 2000000040010000000
+            "order": 2000000041010000000
         }
     },
     {
@@ -666,7 +666,7 @@
             "name": "scrollbar",
             "notReady": false,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/scrollbar/package.json",
-            "order": 2000000041010000000
+            "order": 2000000042010000000
         }
     },
     {
@@ -692,7 +692,7 @@
             "name": "core",
             "notReady": false,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/core/package.json",
-            "order": 3000000012010000000
+            "order": 3000000013010000000
         }
     },
     {
@@ -722,7 +722,7 @@
             "name": "dnd",
             "notReady": true,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/dnd/package.json",
-            "order": 3000000016010000000
+            "order": 3000000017010000000
         },
         "dependencies": {
             "@zui/core": "workspace:^0.0.1"
@@ -756,7 +756,7 @@
             "notReady": false,
             "wip": true,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/event-bus/package.json",
-            "order": 3000000019010000000
+            "order": 3000000020010000000
         }
     },
     {
@@ -786,7 +786,7 @@
             "name": "sortable",
             "notReady": true,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/sortable/package.json",
-            "order": 3000000044010000000
+            "order": 3000000045010000000
         },
         "dependencies": {
             "@zui/core": "workspace:^0.0.1",
@@ -825,7 +825,7 @@
             "notReady": true,
             "wip": true,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/split/package.json",
-            "order": 3000000045010000000
+            "order": 3000000046010000000
         },
         "dependencies": {
             "@zui/core": "workspace:^0.0.1",
@@ -865,7 +865,7 @@
             "name": "store",
             "notReady": false,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/store/package.json",
-            "order": 3000000046010000000
+            "order": 3000000047010000000
         }
     },
     {
@@ -986,6 +986,50 @@
         }
     },
     {
+        "name": "@zui/calendar",
+        "version": "0.0.1",
+        "description": "ZUI Calendar",
+        "keywords": [
+            "js",
+            "cs",
+            "zui:component"
+        ],
+        "main": "src/main.ts",
+        "module": "src/main.ts",
+        "browser": "src/main.ts",
+        "dependencies": {
+            "@zui/core": "workspace:^0.0.1",
+            "@zui/helpers": "workspace:^0.0.1"
+        },
+        "files": [
+            "./src/**/*"
+        ],
+        "devDependencies": {
+            "zui-dev": "workspace:^0.0.1"
+        },
+        "zui": {
+            "type": "component",
+            "displayName": "日历",
+            "contributes": {
+                "css": [
+                    "class",
+                    "var"
+                ],
+                "js": [
+                    "component"
+                ]
+            },
+            "path": "/home/runner/work/zui/zui/lib/calendar",
+            "workspace": true,
+            "sourceType": "build-in",
+            "name": "calendar",
+            "notReady": true,
+            "wip": true,
+            "packageJsonPath": "/home/runner/work/zui/zui/lib/calendar/package.json",
+            "order": 4000000007010000000
+        }
+    },
+    {
         "name": "@zui/color-picker",
         "version": "0.0.1",
         "main": "src/main.ts",
@@ -1024,7 +1068,7 @@
             "name": "color-picker",
             "notReady": false,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/color-picker/package.json",
-            "order": 4000000009010000000
+            "order": 4000000010010000000
         }
     },
     {
@@ -1073,7 +1117,7 @@
             "name": "datetime-picker",
             "notReady": false,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/datetime-picker/package.json",
-            "order": 4000000015010000000
+            "order": 4000000016010000000
         }
     },
     {
@@ -1116,7 +1160,7 @@
             "name": "file-selector",
             "notReady": false,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/file-selector/package.json",
-            "order": 4000000020010000000
+            "order": 4000000021010000000
         }
     },
     {
@@ -1155,7 +1199,7 @@
             "name": "input-group",
             "notReady": false,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/input-group/package.json",
-            "order": 4000000026010000000
+            "order": 4000000027010000000
         }
     },
     {
@@ -1204,7 +1248,7 @@
             "name": "modal",
             "notReady": false,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/modal/package.json",
-            "order": 4000000032010000000
+            "order": 4000000033010000000
         }
     },
     {
@@ -1249,7 +1293,7 @@
             "name": "nav",
             "notReady": false,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/nav/package.json",
-            "order": 4000000033010000000
+            "order": 4000000034010000000
         }
     },
     {
@@ -1296,7 +1340,7 @@
             "name": "pager",
             "notReady": false,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/pager/package.json",
-            "order": 4000000034010000000
+            "order": 4000000035010000000
         }
     },
     {
@@ -1329,7 +1373,7 @@
             "name": "panel",
             "notReady": false,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/panel/package.json",
-            "order": 4000000035010000000
+            "order": 4000000036010000000
         }
     },
     {
@@ -1373,7 +1417,7 @@
             "name": "pick",
             "notReady": false,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/pick/package.json",
-            "order": 4000000036010000000
+            "order": 4000000037010000000
         }
     },
     {
@@ -1419,7 +1463,7 @@
             "name": "picker",
             "notReady": false,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/picker/package.json",
-            "order": 4000000037010000000
+            "order": 4000000038010000000
         }
     },
     {
@@ -1459,7 +1503,7 @@
             "name": "popover",
             "notReady": true,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/popover/package.json",
-            "order": 4000000038010000000
+            "order": 4000000039010000000
         }
     },
     {
@@ -1500,7 +1544,7 @@
             "name": "search-box",
             "notReady": false,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/search-box/package.json",
-            "order": 4000000042010000000
+            "order": 4000000043010000000
         }
     },
     {
@@ -1537,7 +1581,7 @@
             "name": "sidebar",
             "notReady": true,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/sidebar/package.json",
-            "order": 4000000043010000000
+            "order": 4000000044010000000
         }
     },
     {
@@ -1572,7 +1616,7 @@
             "name": "table",
             "notReady": false,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/table/package.json",
-            "order": 4000000047010000000
+            "order": 4000000048010000000
         }
     },
     {
@@ -1618,7 +1662,7 @@
             "name": "toolbar",
             "notReady": false,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/toolbar/package.json",
-            "order": 4000000049010000000
+            "order": 4000000050010000000
         }
     },
     {
@@ -1663,7 +1707,7 @@
             "name": "tooltip",
             "notReady": false,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/tooltip/package.json",
-            "order": 4000000050010000000
+            "order": 4000000051010000000
         }
     },
     {
@@ -1708,7 +1752,7 @@
             "name": "tree",
             "notReady": true,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/tree/package.json",
-            "order": 4000000051010000000
+            "order": 4000000052010000000
         }
     },
     {
@@ -1747,7 +1791,7 @@
             "name": "upload",
             "notReady": true,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/upload/package.json",
-            "order": 4000000053010000000
+            "order": 4000000054010000000
         }
     },
     {
@@ -1787,7 +1831,7 @@
             "name": "upload-imgs",
             "notReady": true,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/upload-imgs/package.json",
-            "order": 4000000054010000000
+            "order": 4000000055010000000
         }
     },
     {
@@ -1823,7 +1867,7 @@
             "notReady": true,
             "wip": true,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/virtual-grid/package.json",
-            "order": 4000000056010000000
+            "order": 4000000057010000000
         }
     },
     {
@@ -1856,7 +1900,7 @@
             "notReady": false,
             "wip": true,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/virtualize/package.json",
-            "order": 4000000057010000000
+            "order": 4000000058010000000
         }
     },
     {
@@ -1904,7 +1948,7 @@
             "name": "cards",
             "notReady": true,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/cards/package.json",
-            "order": 5000000007010001000
+            "order": 5000000008010000000
         }
     },
     {
@@ -1947,7 +1991,7 @@
             "name": "contextmenu",
             "notReady": true,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/contextmenu/package.json",
-            "order": 5000000011010001000
+            "order": 5000000012010000000
         }
     },
     {
@@ -1998,7 +2042,7 @@
             "notReady": true,
             "publicPath": false,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/dashboard/package.json",
-            "order": 5000000014010000000
+            "order": 5000000015010001000
         }
     },
     {
@@ -2049,7 +2093,7 @@
             "name": "dropdown",
             "notReady": false,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/dropdown/package.json",
-            "order": 5000000017010000000
+            "order": 5000000018010000000
         }
     },
     {
@@ -2110,7 +2154,7 @@
             "name": "dtable",
             "notReady": false,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/dtable/package.json",
-            "order": 5000000018010000000
+            "order": 5000000019010001000
         }
     },
     {
@@ -2161,7 +2205,7 @@
             "name": "kanban",
             "notReady": true,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/kanban/package.json",
-            "order": 5000000027010001000
+            "order": 5000000028010000000
         }
     },
     {
@@ -2198,7 +2242,7 @@
             "name": "tabs",
             "notReady": false,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/tabs/package.json",
-            "order": 5000000048010000000
+            "order": 5000000049010000000
         }
     },
     {
@@ -2231,7 +2275,7 @@
             "name": "css-icons",
             "notReady": false,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/css-icons/package.json",
-            "order": 6000000013010000000
+            "order": 6000000014010000000
         }
     },
     {
@@ -2265,7 +2309,7 @@
             "name": "utilities",
             "notReady": false,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/utilities/package.json",
-            "order": 6000000055010001000
+            "order": 6000000056010000000
         }
     },
     {
@@ -2297,7 +2341,7 @@
             "name": "helpers",
             "notReady": false,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/helpers/package.json",
-            "order": 7000000023010001000
+            "order": 7000000024010000000
         }
     }
 ]
