@@ -18,6 +18,9 @@ export class DropdownMenu<T extends DropdownMenuOptions = DropdownMenuOptions> e
         defaultNestedShow: false,
         expandOnSearch: false,
         nestedSearch: false,
+        flip: false,
+        shift: true,
+        offset: 1,
     };
 
     static inheritNestedProps = [...SearchMenu.inheritNestedProps, 'container', 'tree'];
@@ -56,19 +59,24 @@ export class DropdownMenu<T extends DropdownMenuOptions = DropdownMenuOptions> e
         }
 
         let {maxHeight} = this.props;
+        const {flip: flipSetting, shift: shiftSetting, offset: offsetSetting} = this.props;
         computePosition(trigger, element, {
             placement: this.props.placement,
-            middleware: [flip(), shift(), offset(1), size({
-                apply({availableWidth, availableHeight}) {
-                    if (maxHeight) {
-                        const [maxHeightVal, unit] = parseSize(maxHeight);
-                        maxHeight = Math.min(unit === '%' ? (maxHeightVal *  window.innerHeight) : maxHeightVal, availableHeight - 2);
-                    } else {
-                        maxHeight = availableHeight;
-                    }
-                    $element.css({maxHeight, maxWidth: availableWidth - 2});
-                },
-            })],
+            middleware: [
+                flipSetting ? flip() : null,
+                shiftSetting ? shift(typeof shiftSetting === 'object' ? shiftSetting : undefined) : null,
+                offset(offsetSetting),
+                size({
+                    apply({availableWidth, availableHeight}) {
+                        if (maxHeight) {
+                            const [maxHeightVal, unit] = parseSize(maxHeight);
+                            maxHeight = Math.min(unit === '%' ? (maxHeightVal *  window.innerHeight) : maxHeightVal, availableHeight - 2);
+                        } else {
+                            maxHeight = availableHeight;
+                        }
+                        $element.css({maxHeight, maxWidth: availableWidth - 2});
+                    },
+                })],
         }).then(({x, y}) => {
             $element.css({
                 left: x,
