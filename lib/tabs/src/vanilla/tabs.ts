@@ -31,7 +31,8 @@ export class Tabs extends Component<{}, {show: [target: string], shown: [target:
         /* Add active class to panes. */
         const target: string = $navItem.attr('href') || $navItem.data('target');
         const name: string = $navItem.data('name') || target;
-        const $activePane = $(target);
+        const $tabsContainer = $nav.closest('.tabs');
+        const $activePane = $tabsContainer.length ? $tabsContainer.find(target) : $(target);
         if (!$activePane.length) {
             return;
         }
