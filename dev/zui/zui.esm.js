@@ -8,7 +8,7 @@ var ht = (n, t, e) => (Ns(n, t, "read from private field"), e ? e.call(n) : t.ge
   t instanceof WeakSet ? t.add(n) : t.set(n, e);
 }, bt = (n, t, e, s) => (Ns(n, t, "write to private field"), s ? s.call(n, e) : t.set(n, e), e);
 var Es = (n, t, e) => (Ns(n, t, "access private method"), e);
-const Rd = "3.0.0", Dd = 1731033343594, Ld = "production", Ft = document, $n = window, yo = Ft.documentElement, pe = Ft.createElement.bind(Ft), vo = pe("div"), As = pe("table"), Fl = pe("tbody"), $r = pe("tr"), { isArray: Qn, prototype: bo } = Array, { concat: Wl, filter: bi, indexOf: wo, map: Co, push: jl, slice: So, some: wi, splice: Bl } = bo, Vl = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, Ul = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, Kl = /<.+>/, ql = /^\w+$/;
+const Rd = "3.0.0", Dd = 1731294588317, Ld = "production", Ft = document, $n = window, yo = Ft.documentElement, pe = Ft.createElement.bind(Ft), vo = pe("div"), As = pe("table"), Fl = pe("tbody"), $r = pe("tr"), { isArray: Qn, prototype: bo } = Array, { concat: Wl, filter: bi, indexOf: wo, map: Co, push: jl, slice: So, some: wi, splice: Bl } = bo, Vl = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, Ul = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, Kl = /<.+>/, ql = /^\w+$/;
 function Ci(n, t) {
   const e = Gl(t);
   return !n || !e && !he(t) && !tt(t) ? [] : !e && Ul.test(n) ? t.getElementsByClassName(n.slice(1).replace(/\\/g, "")) : !e && ql.test(n) ? t.getElementsByTagName(n) : t.querySelectorAll(n);
@@ -12427,9 +12427,9 @@ class Gn extends vt {
     if (!i.length && (i = e.find(Vs).first(), !i.length))
       return;
     s.removeClass("active"), i.addClass("active");
-    const r = i.attr("href") || i.data("target"), o = i.data("name") || r, a = p(r);
-    a.length && (a.parent().children(".tab-pane").removeClass("active in"), a.addClass("active").trigger("show", [o]), this.emit("show", o), this._timer && clearTimeout(this._timer), this._timer = setTimeout(() => {
-      a.addClass("in").trigger("shown", [o]), this.emit("shown", o), this._timer = 0;
+    const r = i.attr("href") || i.data("target"), o = i.data("name") || r, a = e.closest(".tabs"), l = a.length ? a.find(r) : p(r);
+    l.length && (l.parent().children(".tab-pane").removeClass("active in"), l.addClass("active").trigger("show", [o]), this.emit("show", o), this._timer && clearTimeout(this._timer), this._timer = setTimeout(() => {
+      l.addClass("in").trigger("shown", [o]), this.emit("shown", o), this._timer = 0;
     }, 10));
   }
 }
