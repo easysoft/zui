@@ -18,7 +18,7 @@ export class DropdownMenu<T extends DropdownMenuOptions = DropdownMenuOptions> e
         defaultNestedShow: false,
         expandOnSearch: false,
         nestedSearch: false,
-        flip: false,
+        flip: true,
         shift: true,
         offset: 1,
     };
