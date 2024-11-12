@@ -17,6 +17,7 @@ export class LazyContent extends Component<LazyContentProps, LazyContentState> {
         type: 'html',
         loadingIndicator: true,
         loadingClass: 'loading',
+        clearBeforeLoad: true,
     };
 
     state: LazyContentState = {};
@@ -27,8 +28,8 @@ export class LazyContent extends Component<LazyContentProps, LazyContentState> {
 
     async load(newFetcher?: FetcherSetting) {
         const {props} = this;
-        const {fetcher, type, fetcherArgs, fetcherThis = this} = props;
-        this.setState({loading: true, error: undefined, content: undefined});
+        const {fetcher, type, fetcherArgs, fetcherThis = this, clearBeforeLoad} = props;
+        this.setState({loading: true, error: undefined, ...(clearBeforeLoad ? {content: undefined} : {})});
         try {
             const content = await fetchData(newFetcher || fetcher, fetcherArgs, {throws: true, dataType: type === 'custom' ? 'json' : 'text'}, fetcherThis, (ajax) => {
                 this._ajax = ajax;
@@ -61,8 +62,8 @@ export class LazyContent extends Component<LazyContentProps, LazyContentState> {
 
     protected _renderContent(_props: LazyContentProps, others: Partial<LazyContentProps>) {
         const {loading, error, content = ''} = this.state;
-        const {loadingContent, errorText, type, ...otherProps} = others;
-        if (loading) {
+        const {loadingContent, errorText, type, clearBeforeLoad, ...otherProps} = others;
+        if (loading && clearBeforeLoad) {
             return loadingContent;
         }
         if (error) {

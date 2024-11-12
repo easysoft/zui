@@ -10,6 +10,7 @@ export type LazyContentProps<T = string | CustomContentType, A extends unknown[]
     attrs?: Record<string, unknown>;
     loadingClass?: ClassNameLike;
     loadingIndicator?: boolean;
+    clearBeforeLoad?: boolean;
     loadingContent?: CustomContentType;
     fetcher: FetcherSetting<T, A, THIS>;
     fetcherArgs: A;
