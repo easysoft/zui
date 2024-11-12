@@ -79,9 +79,9 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
             if (limitValueInList) {
                 const valueMap = getValueMap(items as PickerItemOptions[]);
                 state.value = this.formatValueList(state.value, valueSplitter).filter(x => valueMap.has(x)).join(valueSplitter);
-            }
-            if (!this.formatValueList(state.value, valueSplitter).length && required && !multiple) {
-                state.value = (items[0].value ?? '') as string;
+                if (required && !multiple && !this.formatValueList(state.value, valueSplitter).length) {
+                    state.value = (items[0].value ?? '') as string;
+                }
             }
         }
 
