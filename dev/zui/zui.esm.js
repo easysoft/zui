@@ -8,7 +8,7 @@ var ht = (n, t, e) => (Ns(n, t, "read from private field"), e ? e.call(n) : t.ge
   t instanceof WeakSet ? t.add(n) : t.set(n, e);
 }, bt = (n, t, e, s) => (Ns(n, t, "write to private field"), s ? s.call(n, e) : t.set(n, e), e);
 var Es = (n, t, e) => (Ns(n, t, "access private method"), e);
-const Rd = "3.0.0", Dd = 1731381679270, Ld = "production", Ft = document, $n = window, yo = Ft.documentElement, pe = Ft.createElement.bind(Ft), vo = pe("div"), As = pe("table"), Fl = pe("tbody"), $r = pe("tr"), { isArray: Qn, prototype: bo } = Array, { concat: Wl, filter: bi, indexOf: wo, map: Co, push: jl, slice: So, some: wi, splice: Bl } = bo, Vl = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, Ul = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, Kl = /<.+>/, ql = /^\w+$/;
+const Rd = "3.0.0", Dd = 1731382022510, Ld = "production", Ft = document, $n = window, yo = Ft.documentElement, pe = Ft.createElement.bind(Ft), vo = pe("div"), As = pe("table"), Fl = pe("tbody"), $r = pe("tr"), { isArray: Qn, prototype: bo } = Array, { concat: Wl, filter: bi, indexOf: wo, map: Co, push: jl, slice: So, some: wi, splice: Bl } = bo, Vl = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, Ul = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, Kl = /<.+>/, ql = /^\w+$/;
 function Ci(n, t) {
   const e = Gl(t);
   return !n || !e && !ue(t) && !tt(t) ? [] : !e && Ul.test(n) ? t.getElementsByClassName(n.slice(1).replace(/\\/g, "")) : !e && ql.test(n) ? t.getElementsByTagName(n) : t.querySelectorAll(n);
@@ -9927,9 +9927,8 @@ let ks = class extends St {
         typeof c.value == "number" && (c.value = String(c.value));
       }), o) {
         const c = ae(e);
-        r.value = this.formatValueList(r.value, s).filter((u) => c.has(u)).join(s);
+        r.value = this.formatValueList(r.value, s).filter((u) => c.has(u)).join(s), a && !l && !this.formatValueList(r.value, s).length && (r.value = e[0].value ?? "");
       }
-      !this.formatValueList(r.value, s).length && a && !l && (r.value = e[0].value ?? "");
     }
     return r;
   }
