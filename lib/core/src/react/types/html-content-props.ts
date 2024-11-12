@@ -13,4 +13,9 @@ export interface HtmlContentProps extends HElementProps {
      * Execute script.
      */
     executeScript?: boolean,
+
+    /**
+     * Element inner html updater.
+     */
+    htmlRender?: (element: HTMLElement, props: HtmlContentProps) => void,
 }
