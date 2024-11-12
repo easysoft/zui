@@ -8,7 +8,7 @@ var ht = (n, t, e) => (Ns(n, t, "read from private field"), e ? e.call(n) : t.ge
   t instanceof WeakSet ? t.add(n) : t.set(n, e);
 }, bt = (n, t, e, s) => (Ns(n, t, "write to private field"), s ? s.call(n, e) : t.set(n, e), e);
 var Es = (n, t, e) => (Ns(n, t, "access private method"), e);
-const Rd = "3.0.0", Dd = 1731378573056, Ld = "production", Ft = document, $n = window, yo = Ft.documentElement, pe = Ft.createElement.bind(Ft), vo = pe("div"), As = pe("table"), Fl = pe("tbody"), $r = pe("tr"), { isArray: Qn, prototype: bo } = Array, { concat: Wl, filter: bi, indexOf: wo, map: Co, push: jl, slice: So, some: wi, splice: Bl } = bo, Vl = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, Ul = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, Kl = /<.+>/, ql = /^\w+$/;
+const Rd = "3.0.0", Dd = 1731381679270, Ld = "production", Ft = document, $n = window, yo = Ft.documentElement, pe = Ft.createElement.bind(Ft), vo = pe("div"), As = pe("table"), Fl = pe("tbody"), $r = pe("tr"), { isArray: Qn, prototype: bo } = Array, { concat: Wl, filter: bi, indexOf: wo, map: Co, push: jl, slice: So, some: wi, splice: Bl } = bo, Vl = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, Ul = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, Kl = /<.+>/, ql = /^\w+$/;
 function Ci(n, t) {
   const e = Gl(t);
   return !n || !e && !ue(t) && !tt(t) ? [] : !e && Ul.test(n) ? t.getElementsByClassName(n.slice(1).replace(/\\/g, "")) : !e && ql.test(n) ? t.getElementsByTagName(n) : t.querySelectorAll(n);
@@ -8290,10 +8290,12 @@ const Pu = {
 };
 let te = class extends Q {
   constructor(t) {
-    if (t.totalFileSize) {
-      const { maxFileSize: e = "100MB", totalFileSize: s } = t, i = typeof e == "number" ? e : _e(e), r = typeof s == "number" ? s : _e(s);
-      t.maxFileSize = i > r ? s : e;
-    }
+    if (t.totalFileSize)
+      if (t.maxFileSize) {
+        const { maxFileSize: e, totalFileSize: s } = t, i = typeof e == "number" ? e : _e(e), r = typeof s == "number" ? s : _e(s);
+        t.maxFileSize = i > r ? s : e;
+      } else
+        t.maxFileSize = t.totalFileSize;
     t.maxFileSize || (t.maxFileSize = "100MB"), super(t), this._input = G(), this._file = G(), this._id = `file-selector-input-${ut()}`, this._data = new DataTransfer(), this.stopRenameFile = () => {
       const { renaming: e, newName: s } = this.state;
       this.cancelRenameFile(), !(!e || !s) && this.renameFile(e, s);
