@@ -50,12 +50,16 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
 
     constructor(props: P) {
         if (props.totalFileSize) {
-            const {maxFileSize = '100MB', totalFileSize} = props;
-            const maxSize = typeof maxFileSize === 'number' ? maxFileSize : convertBytes(maxFileSize);
-            const totalSize = typeof totalFileSize === 'number' ? totalFileSize : convertBytes(totalFileSize);
-            props.maxFileSize = maxSize > totalSize
-                ? totalFileSize
-                : maxFileSize;
+            if (props.maxFileSize) {
+                const {maxFileSize, totalFileSize} = props;
+                const maxSize = typeof maxFileSize === 'number' ? maxFileSize : convertBytes(maxFileSize);
+                const totalSize = typeof totalFileSize === 'number' ? totalFileSize : convertBytes(totalFileSize);
+                props.maxFileSize = maxSize > totalSize
+                    ? totalFileSize
+                    : maxFileSize;
+            } else {
+                props.maxFileSize = props.totalFileSize;
+            }
         }
 
         if (!props.maxFileSize) {
