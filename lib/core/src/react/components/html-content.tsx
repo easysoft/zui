@@ -17,35 +17,25 @@ import type {HtmlContentProps} from '../types';
 export class HtmlContent extends Component<HtmlContentProps> {
     protected _ref = createRef<HTMLDivElement>();
 
-    update() {
-        const element = this._ref.current;
-        if (!element) {
+    protected _runJS() {
+        if (!this.props.executeScript) {
             return;
         }
-        (this.props.htmlRender || HtmlContent.update)(element, this.props);
+        $(this._ref.current).runJS().zuiInit();
     }
 
     componentDidMount(): void {
-        this.update();
+        this._runJS();
     }
 
     componentDidUpdate(previousProps: Readonly<HtmlContentProps>): void {
         if (this.props.html !== previousProps.html) {
-            this.update();
+            this._runJS();
         }
     }
 
     render(props: HtmlContentProps) {
         const {executeScript, html, ...others} = props;
-        return <HElement forwardRef={this._ref} {...others} />;
-    }
-
-    static update(element: HTMLElement, props: HtmlContentProps) {
-        const {executeScript, html} = props;
-        if (executeScript) {
-            $(element).html(html);
-        } else {
-            element.innerHTML = html;
-        }
+        return <HElement forwardRef={this._ref} dangerouslySetInnerHTML={{__html: html}} {...others} />;
     }
 }
