@@ -152,10 +152,12 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
         this.resetOptions(options);
         this._key = this.options.key ?? `__${gid}`;
 
-        if (ALL.has(element)) {
-            ALL.get(element)!.add(this);
+        let all = ALL.get(element);
+        if (all) {
+            all.add(this);
         } else {
-            ALL.set(element, new Set([this]));
+            all = new Set([this]);
+            ALL.set(element, all);
         }
 
         if (TYPED_ALL.has(NAME)) {
@@ -164,7 +166,7 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
             TYPED_ALL.set(NAME, new Set([this]));
         }
 
-        $element.data(KEY, this).attr(ATTR_KEY, '').attr(DATA_KEY, `${gid}`);
+        $element.data(KEY, this).attr(ATTR_KEY, '').attr(DATA_KEY, `${gid}`).attr('z-use', [...new Set([...all].map(x => x.constructor.NAME))].join(','));
         if (MULTI_INSTANCE) {
             const dataName = `${KEY}:ALL`;
             let instanceMap: Map<string | number, Component> | undefined = $element.data(dataName);
@@ -308,6 +310,13 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
             if (typedMap.size === 0) {
                 TYPED_ALL.delete(NAME);
             }
+        }
+
+        const useAll = ALL.get(element);
+        if (!useAll?.size) {
+            $element.removeAttr('z-use');
+        } else {
+            $element.attr('z-use', [...new Set([...useAll].map(x => x.constructor.NAME))].join(','));
         }
 
         this.options.$onDestroy?.call(this);
