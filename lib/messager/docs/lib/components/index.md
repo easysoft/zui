@@ -50,7 +50,7 @@ $('#messagerTrigger').on('click', () => {
 
 ```js
 Messager.show({
-    message: '这是一条悬浮消息。',
+    content: '这是一条悬浮消息。',
     placement: 'top-left',
 });
 ```
@@ -83,7 +83,7 @@ Messager.show({
 
 ```js
 zui.Messager.show({
-    message: '嘿！这是一条消息。',
+    content: '嘿！这是一条消息。',
     type: 'primary',
 });
 ```
@@ -106,7 +106,7 @@ zui.Messager.show({
 
 ```js
 zui.Messager.show({
-    message: '嘿！这是一条消息。',
+    content: '嘿！这是一条消息。',
     close: false
 });
 ```
@@ -129,7 +129,7 @@ zui.Messager.show({
 
 ```js
 zui.Messager.show({
-    massage: '你的邮件已成功发送。',
+    content: '你的邮件已成功发送。',
     type: 'success',
     actions: [{
         name: 'undo',
@@ -158,7 +158,7 @@ zui.Messager.show({
 
 ```js
 zui.Messager.show({
-    massage: '嘿！这是一条消息。',
+    content: '嘿！这是一条消息。',
     time: 0,
 });
 ```
@@ -181,7 +181,7 @@ zui.Messager.show({
 
 ```js
 zui.Messager.show({
-    massage: '嘿！这是一条消息。',
+    content: '嘿！这是一条消息。',
     animation: false,
 });
 ```
