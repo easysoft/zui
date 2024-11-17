@@ -36,28 +36,31 @@ const mousemovePlugin: DTablePlugin<DTableMousemoveTypes> = {
         mousemove(event) {
             if (this.data.mmRafID) {
                 cancelAnimationFrame(this.data.mmRafID);
-                this.data.mmRafID = 0;
             }
 
             this.data.mmRafID = requestAnimationFrame(() => {
                 this.emitCustomEvent('mousemovesmooth', event);
+                this.data.mmRafID = 0;
             });
             event.preventDefault();
         },
         document_mousemove(event) {
             if (this.data.dmmRafID) {
                 cancelAnimationFrame(this.data.dmmRafID);
-                this.data.dmmRafID = 0;
             }
 
             this.data.dmmRafID = requestAnimationFrame(() => {
                 this.emitCustomEvent('document_mousemovesmooth', event);
+                this.data.mmRafID = 0;
             });
         },
     },
     methods: {
         ignoreNextClick(timeout = 10) {
-            window.setTimeout(() => {
+            if (this.data.ignoreNextClick) {
+                clearTimeout(this.data.ignoreNextClick);
+            }
+            this.data.ignoreNextClick = window.setTimeout(() => {
                 this.data.ignoreNextClick = undefined;
             }, timeout);
         },

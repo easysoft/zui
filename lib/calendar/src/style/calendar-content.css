@@ -1,0 +1,51 @@
+.calendar{
+    @apply -flex -w-full;
+}
+.calendar-table{
+    @apply -w-full;
+}
+
+.calendar-body-header{
+    @apply -px-2 -py-1 -flex -justify-end -items-center;
+}
+
+.calendar-content-header {
+    @apply -px-1 -py-1 -border -border-gray-300;
+    border-width:0 1px;
+}
+
+.calendar-td{
+    @apply -text-start -border;
+    width: 14.2857%;
+}
+
+.calendar-header-part{
+    @apply  -px-4 -py-2 -text-center -text-gray-700;
+}
+
+.calendar-body-header-month{
+    @apply -mr-1;
+}
+.calendar-body-part{
+  
+    @apply -flex -flex-col -justify-start;
+}
+
+
+.is-current-month{
+    @apply -bg-white;
+}
+
+.is-current-month-today{
+    /* @apply -bg-gray-50; */
+    @apply: -bg-primary;
+    border-image: linear-gradient(to right, #367df1, #f1367d);
+    border-image-slice: 1;
+    border:solid 2px #3b82f6;
+    background: none;
+    /* color: white; */
+}
+
+.is-today .calendar-body-header{
+    @apply -bg-gray-200;
+}

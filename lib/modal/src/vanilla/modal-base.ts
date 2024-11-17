@@ -161,11 +161,14 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
         }
 
         this.layout();
+        this.options.onShow?.call(this);
         this.emit('show');
 
         this._setTimer(() => {
             $modal.addClass(CLASS_SHOWN);
             this._setTimer(() => {
+                $modal.find('[autofocus]')[0]?.focus();
+                this.options.onShown?.call(this);
                 this.emit('shown');
             });
         }, 50);
@@ -183,10 +186,12 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
 
         this._shown = false;
         $(this.modalElement).removeClass(CLASS_SHOWN);
+        this.options.onHide?.call(this);
         this.emit('hide');
 
         this._setTimer(() => {
             $(this.modalElement).removeClass(CLASS_SHOW);
+            this.options.onHidden?.call(this);
             this.emit('hidden');
         });
 

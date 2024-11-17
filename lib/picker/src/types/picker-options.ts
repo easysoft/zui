@@ -1,8 +1,8 @@
 import type {PickOptions} from '@zui/pick';
 import type {MenuOptions} from '@zui/menu';
 import type {ToolbarSetting} from '@zui/toolbar';
-import type {TreeOptions} from '@zui/tree';
-import type {CustomContentType, HotkeysSettings} from '@zui/core';
+import type {SearchTreeOptions, TreeOptions} from '@zui/tree';
+import type {ClassNameLike, CustomContentType, HotkeysSettings} from '@zui/core';
 import type {PickerState} from './picker-state';
 import type {PickerItemBasic} from './picker-item-options';
 
@@ -12,13 +12,14 @@ export interface PickerOptions<S extends PickerState = PickerState> extends Pick
     required?: boolean;
 
     valueSplitter?: string;
-    emptyValue?: string;
+    emptyValue?: string | false;
     limitValueInList?: boolean;
     tree?: TreeOptions | boolean;
-    menu?: MenuOptions;
+    menu?: SearchTreeOptions;
     checkbox?: MenuOptions['checkbox'];
     items: MenuOptions['items'];
     maxItemsCount?: number;
+    exceedLimitHint?: string;
     toolbar?: ToolbarSetting | boolean;
     cache?: boolean;
     searchDelay?: number;
@@ -27,6 +28,7 @@ export interface PickerOptions<S extends PickerState = PickerState> extends Pick
     search?: boolean | number;
     searchHint?: string;
     hotkeys?: HotkeysSettings;
+    caretClass?: ClassNameLike;
 
     onDeselect?: (values: string | string[]) => false | void;
     onSelect?: (values: string | string[]) => false | void;

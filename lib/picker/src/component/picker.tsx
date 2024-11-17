@@ -67,7 +67,7 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
             items: items,
             selections: [],
         };
-        this._emptyValueSet = new Set(emptyValue.split(valueSplitter));
+        this._emptyValueSet = new Set(typeof emptyValue === 'string' ? emptyValue.split(valueSplitter) : []);
 
         if (Array.isArray(items) && items.length) {
             const {limitValueInList, required, multiple} = this.props;
@@ -174,7 +174,7 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
         this._abort = abort;
 
         const {items: itemsSetting = [], searchDelay} = this.props;
-        const {search} = this.state;
+        const {search = ''} = this.state;
         let items: ListItem[] = [];
         if (!Array.isArray(itemsSetting)) {
             await delay(searchDelay || 500);
@@ -183,7 +183,13 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
             }
             let ajaxSetting = itemsSetting;
             if (typeof ajaxSetting === 'string') {
-                ajaxSetting = formatString(ajaxSetting, {search: encodeURIComponent(search)});
+                ajaxSetting = {url: ajaxSetting};
+            }
+            if (typeof ajaxSetting === 'object' && ajaxSetting.url) {
+                ajaxSetting = {
+                    ...ajaxSetting,
+                    url: formatString(ajaxSetting.url, {search: encodeURIComponent(search)}),
+                };
             }
             items = await fetchData(ajaxSetting as ListItemsFetcher, [this, search], {signal: abort.signal});
             if (this._abort !== abort) {
@@ -317,6 +323,7 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
             search: props.search,
             display: props.display,
             searchHint: props.searchHint,
+            caretClass: props.caretClass,
             clearable: !!this.valueList.length && !props.required,
             valueList: this.valueList,
             emptyValue: this.firstEmptyValue,
@@ -331,6 +338,7 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
     protected _getPopProps(props: RenderableProps<O>, state: Readonly<S>): PickerMenuProps<S> {
         return {
             ...super._getPopProps(props, state),
+            picker: this as unknown as Picker,
             menu: props.menu,
             tree: props.tree,
             checkbox: props.checkbox,
@@ -340,6 +348,7 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
             footer: this._renderToolbar(),
             valueList: this.valueList,
             noMatchHint: state.loading ? i18n.getLang('loadingHint') : (props.searchEmptyHint ?? i18n.getLang('searchEmptyHint')),
+            exceedLimitHint: props.exceedLimitHint ?? i18n.getLang('exceedLimitHint'),
             onDeselect: this.deselect,
             onSelect: this.select,
             onClear: this.clear,
@@ -366,7 +375,7 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
                 text: i18n.getLang('cancelSelect'),
             }];
         }
-        return Toolbar.render(toolbar, [], {size: 'sm', getItem: (item) => {
+        return Toolbar.render(toolbar, [], {size: 'sm', relativeTarget: this, getItem: (item) => {
             if (!item.onClick) {
                 if (item.key === 'selectAll') {
                     item.onClick = this.selectAll.bind(this);

@@ -133,7 +133,7 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
      * @param options The component initial options.
      */
     constructor(selector: Selector, options?: Partial<ComponentOptions<O>>) {
-        const {KEY, DATA_KEY, DEFAULT, MULTI_INSTANCE, NAME, ATTR_KEY, ALL, TYPED_ALL} = this.constructor;
+        const {KEY, DATA_KEY, MULTI_INSTANCE, NAME, ATTR_KEY, ALL, TYPED_ALL} = this.constructor;
 
         if (!NAME) {
             throw new Error('[ZUI] The component must have a "NAME" static property.');
@@ -149,8 +149,7 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
         this._gid = gid;
         this._element = element;
 
-        this._options = {...DEFAULT, ...(options?.$optionsFromDataset !== false ? $element.dataset() : {})} as ComponentOptions<O>;
-        this.setOptions(options);
+        this.resetOptions(options);
         this._key = this.options.key ?? `__${gid}`;
 
         if (ALL.has(element)) {
@@ -177,10 +176,12 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
         }
 
         this.init();
+        this.options.$onCreate?.call(this);
         requestAnimationFrame(async () => {
             this._inited = true;
             await this.afterInit();
             this.emit('inited', this.options);
+            this.options.$onInited?.call(this);
         });
     }
 
@@ -288,7 +289,7 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
                     this.$element.removeData(`${KEY}:ALL`);
                 } else {
                     const nextInstance =  map.values().next().value;
-                    $element.data(KEY, nextInstance).attr(DATA_KEY, nextInstance.gid);
+                    $element.data(KEY, nextInstance).attr(DATA_KEY, String(nextInstance?.gid));
                 }
             }
         }
@@ -308,6 +309,8 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
                 TYPED_ALL.delete(NAME);
             }
         }
+
+        this.options.$onDestroy?.call(this);
     }
 
     /**
@@ -333,15 +336,28 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
      */
     setOptions(options?: Partial<ComponentOptions<O>>, reset?: boolean): ComponentOptions<O> {
         if (reset) {
-            this._options = {
+            const finalOptions = {
                 ...this.constructor.DEFAULT,
                 ...(options?.$optionsFromDataset !== false ? this.$element.dataset() : {}),
                 ...options,
             } as ComponentOptions<O>;
+            const {$options} = finalOptions;
+            if ($options) {
+                const extraOptions = typeof $options === 'function' ? $options.call(this, this.element, finalOptions) : $options;
+                if (extraOptions) {
+                    $.extend(finalOptions, extraOptions);
+                }
+                delete finalOptions.$options;
+            }
+            this._options = finalOptions;
         } else if (options) {
             $.extend(this._options, options);
         }
         return this._options!;
+    }
+
+    resetOptions(options?: Partial<ComponentOptions<O>>) {
+        return this.setOptions(options, true);
     }
 
     /**
@@ -522,8 +538,12 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
                 .each((_, element) => {
                     ALL.get(element)?.forEach(checkInstance);
                 });
-        } else {
+        } else if (this !== Component) {
             TYPED_ALL.get(this.NAME)?.forEach(checkInstance);
+        } else {
+            ALL.forEach((components) => {
+                components.forEach(checkInstance);
+            });
         }
         return list.sort((a, b) => a.gid - b.gid);
     }
@@ -565,6 +585,8 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
                         if (initOptions) {
                             instance.render(initOptions);
                         }
+                    } else if (callMethod) {
+                        return;
                     } else {
                         instance = new ZUIComponent(element, initOptions);
                     }

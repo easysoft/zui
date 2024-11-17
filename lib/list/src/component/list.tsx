@@ -249,6 +249,10 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
         this.props.afterRender?.call(this, firstRender);
     }
 
+    protected _beforeRender(props: RenderableProps<P>): void | RenderableProps<P> | undefined {
+        return this.props.beforeRender?.call(this, props);
+    }
+
     protected _getItems(props: RenderableProps<P>): Item[] {
         const {items} = props;
         const {items: stateItems} = this.state;
@@ -268,9 +272,11 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
 
         if (renderedItem.type === 'item') {
             const {checkbox} = props;
-            if (checkbox) {
+            if (renderedItem.checkbox === false) {
+                renderedItem.checked = undefined;
+            } else if (checkbox || renderedItem.checkbox) {
                 renderedItem.checked = this.isChecked(renderedItem.key!, index, renderedItem.checked as CheckedType);
-                if (typeof checkbox === 'object') {
+                if (typeof checkbox === 'object' && renderedItem.checkbox !== false) {
                     renderedItem.checkbox = renderedItem.checkbox ? $.extend({}, checkbox, renderedItem.checkbox) : checkbox;
                 }
                 if (props.selectOnChecked && renderedItem.checked === true) {
@@ -315,7 +321,13 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
         } else if (checkOnClick === true) {
             checkOnClick = '.item-checkbox';
         }
-        if (checkOnClick && !info?.renderedItem.disabled && info && (event.target as HTMLElement).closest(checkOnClick)) {
+        if (!checkOnClick || !info || !info.renderedItem) {
+            return info;
+        }
+        const renderedItem = info.renderedItem;
+        const itemCheckbox = renderedItem.checkbox;
+        const hasCheckbox = itemCheckbox !== false && (this.props.checkbox || itemCheckbox || renderedItem.checked !== undefined);
+        if (hasCheckbox && !renderedItem.disabled && info && (event.target as HTMLElement).closest(checkOnClick)) {
             this.toggleChecked(info.key);
             event.stopPropagation();
             return;
@@ -325,7 +337,7 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
 
     protected _getClassName(props: RenderableProps<P>): ClassNameLike {
         const {loading, loadFailed} = this.state;
-        return [super._getClassName(props), loading ? 'loading' : (loadFailed ? 'is-load-failed' : '')];
+        return [super._getClassName(props), loading ? 'loading' : (loadFailed ? 'is-load-failed' : ''), props.hoverItemActions ? 'with-hover-actions' : ''];
     }
 
     protected _getProps(props: RenderableProps<P>): Record<string, unknown> {

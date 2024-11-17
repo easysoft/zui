@@ -1,13 +1,26 @@
-import {classes, CustomContent} from '@zui/core';
+import {classes, CustomContent, $} from '@zui/core';
 import {Toolbar} from '@zui/toolbar/src/component/toolbar';
-import {Component, isValidElement} from 'preact';
-import {ModalDialogOptions} from '../types';
+import {Component, createRef, isValidElement} from 'preact';
+import {ModalDialogOptions, ModalDialogState} from '../types';
 
-export class ModalDialog extends Component<ModalDialogOptions> {
+export class ModalDialog extends Component<ModalDialogOptions, ModalDialogState> {
     static defaultProps = {closeBtn: true};
 
+    protected _ref = createRef<HTMLDivElement>();
+
+    constructor(props: ModalDialogOptions) {
+        super(props);
+        this.state = {showed: !props.waitShowEvent};
+    }
+
     componentDidMount() {
-        this.props.afterRender?.call(this, {firstRender: true});
+        const {waitShowEvent, afterRender} = this.props;
+        afterRender?.call(this, {firstRender: true});
+        if (waitShowEvent) {
+            $(this._ref.current).on(waitShowEvent, () => {
+                this.setState({showed: true});
+            });
+        }
     }
 
     componentDidUpdate(): void {
@@ -103,10 +116,12 @@ export class ModalDialog extends Component<ModalDialogOptions> {
             style,
             contentClass,
             children,
+            waitShowEvent,
         } = this.props;
 
+        const loading = waitShowEvent && !this.state.showed;
         return (
-            <div className={classes('modal-dialog', className)} style={style}>
+            <div ref={waitShowEvent ? this._ref : undefined} className={classes('modal-dialog', className, loading ? 'loading' : '')} style={style}>
                 <div className={classes('modal-content', contentClass)}>
                     {this.renderHeader()}
                     {this.renderActions()}
@@ -114,6 +129,7 @@ export class ModalDialog extends Component<ModalDialogOptions> {
                     {children}
                     {this.renderFooter()}
                 </div>
+                {loading ? <div class="load-indicator loading" /> : null}
             </div>
         );
     }

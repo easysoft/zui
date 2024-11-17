@@ -68,6 +68,14 @@ const resizePlugin: DTablePlugin<DTableResizeTypes, [DTableMousemoveTypes]> = {
     name: 'resize',
     when: options => !!options.colResize,
     plugins: [mousemove],
+    resetState(props) {
+        return {colsSizes: props.cols?.reduce((sizes, col) => {
+            if (col.extraWidth !== undefined) {
+                sizes[col.name] = col.extraWidth as number;
+            }
+            return sizes;
+        }, {} as Record<string, number>)};
+    },
     state() {
         return {colsSizes: this.props.cols?.reduce((sizes, col) => {
             if (col.extraWidth !== undefined) {
@@ -145,7 +153,7 @@ const resizePlugin: DTablePlugin<DTableResizeTypes, [DTableMousemoveTypes]> = {
             if (!col) {
                 return;
             }
-            if (col.sideIndex === this.layout.cols[col.side].list.length - 1) {
+            if (col.side !== 'left' && col.sideIndex === this.layout.cols[col.side].list.length - 1) {
                 return;
             }
             let colResize = col.setting.colResize ?? this.options.colResize;

@@ -1,10 +1,11 @@
 import {isValidElement} from 'preact';
 import {HtmlContent} from './html-content';
 import {HElement} from './h-element';
+import {LazyContent} from './lazy-content';
 import {mergeProps} from '../../helpers';
 
 import type {ComponentChildren, VNode} from 'preact';
-import type {HtmlContentProps, HElementProps, CustomContentType, CustomContentGenerator, CustomContentProps} from '../types';
+import type {HtmlContentProps, HElementProps, CustomContentType, CustomContentGenerator, CustomContentProps, LazyContentProps} from '../types';
 
 /**
  * Render custom content.
@@ -29,7 +30,10 @@ export function renderCustomContent(props: CustomContentProps): ComponentChildre
         }
         return content;
     }
-    if (content && typeof content === 'object' && (typeof (content as HtmlContentProps).html === 'string' || (content as HtmlContentProps).component)) {
+    if (content && typeof content === 'object' && (typeof (content as HtmlContentProps).html === 'string' || (content as HtmlContentProps).component || (content as LazyContentProps).fetcher)) {
+        if ((content as LazyContentProps).fetcher) {
+            return <LazyContent {...(mergeProps(others, content) as unknown as LazyContentProps)} />;
+        }
         if ((content as HtmlContentProps).html) {
             return <HtmlContent {...(mergeProps(others, content) as unknown as HtmlContentProps)} />;
         }

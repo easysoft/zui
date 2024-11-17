@@ -1,5 +1,6 @@
 import 'zui-dev';
 import '@zui/button';
+import '@zui/list';
 import '@zui/menu';
 import '@zui/input-control';
 import '@zui/checkbox';
@@ -37,6 +38,11 @@ onPageUpdate(() => {
             console.log('datePicker.onChange', value);
         },
         allowInvalid: true,
+        isAllowDate: (date) => {
+            const day = date.getDate();
+            const week = date.getDay();
+            return day !== 20 && week !== 2;
+        },
     });
     console.log('> datePicker', datePicker);
 

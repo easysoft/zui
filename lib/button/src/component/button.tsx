@@ -16,12 +16,12 @@ export class Button<P extends ButtonProps = ButtonProps> extends HElement<P> {
     }
 
     protected _getChildren(props: RenderableProps<P>) {
-        const {loading, loadingIcon, loadingText, icon, text, children, trailingIcon, caret} = props;
+        const {loading, loadingIcon, loadingText, icon, iconClass, text, textClass, children, trailingIcon, trailingIconClass, caret} = props;
         return [
-            loading ? <Icon icon={loadingIcon || 'icon-spinner-snake'} className="spin" /> : <Icon icon={icon} />,
-            this._isEmptyText ? null : <span className="text">{loading ? loadingText : text}</span>,
+            loading ? <Icon icon={loadingIcon || 'icon-spinner-snake'} className="spin" /> : <Icon icon={icon} className={iconClass} />,
+            this._isEmptyText ? null : <span className={classes('text', textClass)}>{loading ? loadingText : text}</span>,
             loading ? null : children,
-            loading ? null : <Icon icon={trailingIcon} />,
+            loading ? null : <Icon icon={trailingIcon} className={trailingIconClass} />,
             loading ? null : caret ? <span className={typeof caret === 'string' ? `caret-${caret}` : 'caret'} /> : null,
         ];
     }
@@ -43,7 +43,7 @@ export class Button<P extends ButtonProps = ButtonProps> extends HElement<P> {
 
     protected _getProps(props: RenderableProps<P>) {
         const component = this._getComponent(props);
-        const {url, target, disabled, btnType = 'button', hint} = props;
+        const {url, target, disabled, btnType = 'button', hint, command} = props;
         const asLink = component === 'a';
         const componentProps: Record<string, unknown> = {
             ...super._getProps(props),
@@ -66,6 +66,9 @@ export class Button<P extends ButtonProps = ButtonProps> extends HElement<P> {
             }
             if (target !== undefined) {
                 componentProps[asLink ? 'target' : 'data-target'] = target;
+            }
+            if (command) {
+                componentProps['zui-command'] = command;
             }
         }
         return componentProps;

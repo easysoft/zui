@@ -150,7 +150,7 @@ function isAllCollapsed(this: DTableNested): boolean {
     return true;
 }
 
-function updateNestedMapOrders(map: Map<string, NestedRowInfo>, lastOrder = 0, ids?: string[], level = 0): number {
+function updateNestedMapOrders(map: Map<string, NestedRowInfo>, lastOrder = 1, ids?: string[], level = 0): number {
     if (!ids) {
         ids = [...map.keys()];
     }
@@ -203,13 +203,14 @@ const nestedToggleClass = 'dtable-nested-toggle';
 const nestedPlugin: DTablePlugin<DTableNestedTypes, DTableNestedDependencies> = {
     name: 'nested',
     plugins: [store],
+    requireAfter: ['sortable'],
     defaultOptions: {
         nested: 'auto',
         nestedParentKey: 'parent',
         asParentKey: 'asParent',
         nestedIndent: 20,
         canSortTo(from, to) {
-            const {nestedMap} = this.data;
+            const {nestedMap} = (this as unknown as DTableNested).data;
             const fromInfo = nestedMap.get(from.id);
             const toInfo = nestedMap.get(to.id);
             return fromInfo?.parent === toInfo?.parent;
@@ -312,13 +313,18 @@ const nestedPlugin: DTablePlugin<DTableNestedTypes, DTableNestedDependencies> = 
             }
         });
 
-        rows = rows.filter(row => this.getNestedRowInfo(row.id).state !== NestedRowState.hidden);
-        updateNestedMapOrders(this.data.nestedMap);
+        const nestedStateMap = new Map<string, NestedRowInfo>();
+        const undefinedOrder = rows.length * 100;
+        rows = rows.filter((row) => {
+            const info = this.getNestedRowInfo(row.id)!;
+            nestedStateMap.set(row.id, info);
+            return info.state !== NestedRowState.hidden;
+        });
+        updateNestedMapOrders(nestedStateMap);
         rows.sort((rowA, rowB) => {
-            const infoA = this.getNestedRowInfo(rowA.id);
-            const infoB = this.getNestedRowInfo(rowB.id);
-            const result = (infoA.order ?? 0) - (infoB.order ?? 0);
-            return result === 0 ? (rowA.index - rowB.index) : result;
+            const infoA = nestedStateMap.get(rowA.id);
+            const infoB = nestedStateMap.get(rowB.id);
+            return (infoA?.order ?? (undefinedOrder + rowA.index)) - (infoB?.order ?? (undefinedOrder + rowB.index));
         });
         return rows;
     },
@@ -354,6 +360,7 @@ const nestedPlugin: DTablePlugin<DTableNestedTypes, DTableNestedDependencies> = 
                 result.push(<div className="dtable-nested-indent" style={{width: nestedIndent * info.level + 'px'}} />);
             }
         }
+
         return result;
     },
     onRenderHeaderCell(result, {row, col}) {

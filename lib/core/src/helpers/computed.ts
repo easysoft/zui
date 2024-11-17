@@ -51,6 +51,17 @@ export class Computed<T = unknown, D extends unknown[] = unknown[]> {
     }
 
     /**
+     * Set the dependencies of the computed value.
+     *
+     * @param dependencies The dependencies of the computed value.
+     * @returns The computed value.
+     */
+    depends(dependencies: D | (() => D)) {
+        this._dependencies = dependencies;
+        return this;
+    }
+
+    /**
      * Forces the computed value to be recomputed.
      * @param dependencies The new dependencies to use for recomputing the value.
      * @returns The recomputed value.
@@ -78,7 +89,10 @@ export class Computed<T = unknown, D extends unknown[] = unknown[]> {
         // Check if dependencies changed.
         const lastDependencies = this._lastDependencies;
         if (!lastDependencies || dependencies.some((dept, index) => {
-            return isDiff(dept instanceof Computed ? dept.value : dept, lastDependencies[index]);
+            if (dept instanceof Computed) {
+                return dept.value !== lastDependencies[index];
+            }
+            return isDiff(dept, lastDependencies[index]);
         })) {
             this._value = this._compute();
             this._lastDependencies = dependencies.map(x => x instanceof Computed ? x.cache : x) as D;

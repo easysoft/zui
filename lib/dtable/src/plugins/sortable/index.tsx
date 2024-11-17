@@ -7,7 +7,6 @@ import './style.css';
 import type {DTableWithPlugin, DTablePlugin} from '../../types/plugin';
 import type {DTableMousemoveTypes} from '../mousemove';
 import type {DTableAutoscrollTypes} from '../autoscroll';
-import type {DTableNestedTypes, DTableNested} from '../nested';
 import type {RowInfo} from '../../types/row';
 
 export type SortingSide = 'before' | 'after';
@@ -45,21 +44,25 @@ export type DTableSortableTypes = {
     }
 };
 
-export type DTableSortable = DTableWithPlugin<DTableSortableTypes, [DTableMousemoveTypes, DTableNestedTypes, DTableAutoscrollTypes]>;
+export type DTableSortable = DTableWithPlugin<DTableSortableTypes, [DTableMousemoveTypes, DTableAutoscrollTypes]>;
 
-const sortablePlugin: DTablePlugin<DTableSortableTypes, [DTableMousemoveTypes, DTableNestedTypes, DTableAutoscrollTypes]> = {
+const sortablePlugin: DTablePlugin<DTableSortableTypes, [DTableMousemoveTypes, DTableAutoscrollTypes]> = {
     name: 'sortable',
     defaultOptions: {
         sortable: true,
-        canSortTo(this: DTableSortable, from: RowInfo, to: RowInfo) {
-            if (!this.options.nested) {
-                return true;
-            }
-            return (this as unknown as DTableNested).getNestedRowInfo(from.id).parent === (this as unknown as DTableNested).getNestedRowInfo(to.id).parent;
-        },
     },
     when: options => !!options.sortable,
     plugins: [mousemove, autoscroll],
+    resetState: true,
+    state() {
+        return {
+            rowOrders: undefined,
+            sortingFrom: undefined,
+            sortingPos: undefined,
+            sortingTo: undefined,
+            sortingSide: undefined,
+        };
+    },
     events: {
         click(event) {
             if ((event.target as HTMLElement).closest('.dtable-sort-link')) {
@@ -84,9 +87,7 @@ const sortablePlugin: DTablePlugin<DTableSortableTypes, [DTableMousemoveTypes, D
             if (!row || this.options.onSortStart?.call(this, row, event) === false) {
                 return;
             }
-            if ($target.closest('a,button,img').attr('draggable', 'false').length) {
-                event.preventDefault();
-            }
+            event.preventDefault();
             const startMouseY = event.clientY;
             this.data.sortableInfo = {from: row, offset: startMouseY - info.cellElement.getBoundingClientRect().top, startMouseY, lastMouseY: startMouseY};
         },
@@ -103,21 +104,24 @@ const sortablePlugin: DTablePlugin<DTableSortableTypes, [DTableMousemoveTypes, D
                 let orders: string[] | undefined;
                 const {sortingFrom, sortingTo, sortingSide} = sortingState;
                 if (sortingTo && sortingSide) {
-                    const rows = [...this.layout.rows];
+                    const ids = this.layout.rows.map(row => row.id);
+                    const oldOrders = [...ids];
                     const fromIndex = sortingFrom.index;
                     const toIndex = sortingTo.index;
-                    const row = rows.splice(fromIndex, 1);
-                    rows.splice(toIndex, 0, row[0]);
-                    rowOrders = {};
-                    orders = [];
-                    rows.forEach(({id}, index) => {
-                        rowOrders![id] = index;
-                        orders!.push(id);
-                    });
+                    if (!(fromIndex === (toIndex + 1) && sortingSide === 'after') && !(fromIndex === (toIndex - 1) && sortingSide === 'before')) {
+                        const row = ids.splice(fromIndex, 1);
+                        ids.splice(toIndex, 0, row[0]);
+                        rowOrders = {};
+                        orders = [];
+                        ids.forEach((id, index) => {
+                            rowOrders![id] = index;
+                            orders!.push(id);
+                        });
 
-                    if (this.options.onSort?.call(this, sortingFrom, sortingTo, sortingSide, orders) === false) {
-                        rowOrders = undefined;
-                        orders = undefined;
+                        if (oldOrders.join() === orders.join() || this.options.onSort?.call(this, sortingFrom, sortingTo, sortingSide, orders) === false) {
+                            rowOrders = undefined;
+                            orders = undefined;
+                        }
                     }
                 }
 
@@ -128,12 +132,17 @@ const sortablePlugin: DTablePlugin<DTableSortableTypes, [DTableMousemoveTypes, D
                 this.disableAnimation();
                 this.update({
                     dirtyType: 'layout',
-                    state: $.extend({
-                        sortingFrom: undefined,
-                        sortingPos: undefined,
-                        sortingTo: undefined,
-                        sortingSide: undefined,
-                    }, rowOrders ? {rowOrders} : null),
+                    state: preState => {
+                        return $.extend({
+                            sortingFrom: undefined,
+                            sortingPos: undefined,
+                            sortingTo: undefined,
+                            sortingSide: undefined,
+                        }, rowOrders ? {rowOrders: {
+                            ...(preState.rowOrders as Record<string, number>),
+                            ...rowOrders,
+                        }} : null);
+                    },
                 }, () => {
                     this.options.onSortEnd?.call(this, sortingFrom, sortingTo, sortingSide, orders);
                     setTimeout(() => {
@@ -210,8 +219,11 @@ const sortablePlugin: DTablePlugin<DTableSortableTypes, [DTableMousemoveTypes, D
         if (!rowOrders) {
             return;
         }
+        const undefinedOrder = rows.length * 100;
         rows = rows.sort((row1, row2) => {
-            return rowOrders[row1.id] - rowOrders[row2.id];
+            const order1 = rowOrders[row1.id] ?? (undefinedOrder + row1.index);
+            const order2 = rowOrders[row2.id] ?? (undefinedOrder + row2.index);
+            return order1 - order2;
         });
         return rows;
     },

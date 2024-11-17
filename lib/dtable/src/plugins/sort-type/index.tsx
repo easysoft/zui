@@ -1,7 +1,7 @@
 import {formatString} from '@zui/helpers';
 import {definePlugin} from '../../helpers/shared-plugins';
 
-import type {JSX} from 'preact';
+import {isValidElement, type JSX} from 'preact';
 import type {ColInfo} from '../../types/col';
 import type {DTableWithPlugin, DTablePlugin} from '../../types/plugin';
 import type {DTableSortTypes} from '../sort';
@@ -14,6 +14,7 @@ export type DTableSortTypeTypes = {
         sortLink?: string | ({url: string} & JSX.HTMLAttributes<HTMLAnchorElement>) | ((this: DTableSortType, col: ColInfo, sortType: string, currentSortType: string) => (string | ({url: string} & JSX.HTMLAttributes<HTMLAnchorElement>))),
     },
     options: {
+        sortType?: boolean;
         sortLink?: string | ({url: string} & JSX.HTMLAttributes<HTMLAnchorElement>) | ((this: DTableSortType, col: ColInfo, sortType: string, currentSortType: string) => (string | ({url: string} & JSX.HTMLAttributes<HTMLAnchorElement>))),
         orderBy?: Record<string, ColSortType>
     }
@@ -23,6 +24,8 @@ export type DTableSortType = DTableWithPlugin<DTableSortTypeTypes, [DTableSortTy
 
 const sortTypePlugin: DTablePlugin<DTableSortTypeTypes, [DTableSortTypes]> = {
     name: 'sort-type',
+    defaultOptions: {sortType: true},
+    when: options => !!options.sortType && !options.sort,
     onRenderHeaderCell(result, info) {
         const {col} = info;
         const {setting} = col;
@@ -50,7 +53,7 @@ const sortTypePlugin: DTablePlugin<DTableSortTypeTypes, [DTableSortTypes]> = {
                     sortLink = {url: sortLink};
                 }
                 const {url, ...linkProps} = sortLink;
-                result[0] = <a className="dtable-sort-link" href={formatString(url, {...setting, sortType: nextSortType})} {...linkProps}>{result[0]}{sortIcon}</a>;
+                result[0] = <a className="dtable-sort-link" href={formatString(url, {...setting, sortType: nextSortType})} {...linkProps}>{(typeof result[0] !== 'object' || isValidElement(result[0])) ? result[0] : col.name}{sortIcon}</a>;
             } else {
                 result.push(sortIcon);
             }

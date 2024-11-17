@@ -18,6 +18,8 @@ export interface ScrollToMouseOption {
     side?: ScrollSide | ScrollSide[],
 }
 
+export type ScrollToMouseInfo = ScrollToMouseOption & {startTime: number, position?: {x: number; y: number}};
+
 export interface DTableAutoscrollTypes {
     methods: {
         scrollTo: (this: DTableAutoscroll, info: {col?: ColInfoLike, row?: RowInfoLike, extra?: number}) => boolean;
@@ -26,7 +28,7 @@ export interface DTableAutoscrollTypes {
     },
     data: {
         scrollToTimer?: number;
-        scrollToMouse?: ScrollToMouseOption & {startTime: number, position?: {x: number; y: number}};
+        scrollToMouse?: ScrollToMouseInfo;
     }
 }
 
@@ -137,14 +139,14 @@ const autoscrollPlugin: DTablePlugin<DTableAutoscrollTypes, [DTableMousemoveType
         startScrollToMouse(options) {
             const setting = {
                 interval: 60,
-                speed: 0.2,
+                speed: 0.5,
                 delay: 200,
                 maxStep: this.options.rowHeight,
                 onlyInside: false,
                 detectPadding: 30,
                 startTime: Date.now(),
                 ...options,
-            };
+            } as ScrollToMouseInfo;
             this.data.scrollToMouse = setting;
             clearInterval(this.data.scrollToTimer);
             this.data.scrollToTimer = window.setInterval(tryScrollToMouse.bind(this), setting.interval);

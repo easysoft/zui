@@ -20,6 +20,9 @@
 .dropdown > .dropdown-menu {
   @apply -relative;
 }
+.popup .popup.search-menu {
+  @apply -bg-[--menu-bg];
+}
 
 .show > .menu-wrapper {
   @apply -flex;

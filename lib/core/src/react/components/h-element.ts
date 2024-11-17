@@ -1,8 +1,10 @@
 import {h, Component} from 'preact';
+import {deepCall} from '@zui/helpers';
 import {nextGid} from '../../helpers/gid';
 import {classes} from '../../helpers/classes';
 import {getReactComponent} from './components';
 import {i18n} from '../../i18n';
+import {bindCommands, unbindCommands, type CommandContext} from '../../helpers';
 
 import type {JSX, ComponentType, RenderableProps, ComponentChildren} from 'preact';
 import type {ClassNameLike} from '../../helpers/classes';
@@ -58,6 +60,13 @@ export class HElement<P extends HElementProps, S = {}> extends Component<P, S> {
      */
     get i18nData(): (I18nLangMap | undefined)[] {
         return [this.props.i18n, this.constructor.i18n];
+    }
+
+    /**
+     * Get the command scope.
+     */
+    get commandScope() {
+        return this.constructor.NAME;
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -124,12 +133,32 @@ export class HElement<P extends HElementProps, S = {}> extends Component<P, S> {
         });
     }
 
+    executeCommand(context: CommandContext | string, params: unknown[] = []) {
+        const {onCommand, commands} = this.props;
+        let result;
+        if (typeof context === 'string') {
+            context = {name: context};
+        }
+        const {scope, name} = context;
+        const onCommandFromProps = commands ? (commands[`${scope}~${name}`] || commands[name]) : null;
+        if (onCommandFromProps) {
+            return onCommandFromProps.call(this, context, params);
+        }
+        if (!context.scope || context.scope === this.commandScope) {
+            result = deepCall(this, context.name, params);
+        }
+        if (onCommand) {
+            result = onCommand.call(this, context, params);
+        }
+        return result;
+    }
+
     protected _getClassName(props: RenderableProps<P>): ClassNameLike {
         return props.className;
     }
 
     protected _getProps(props: RenderableProps<P>): Record<string, unknown> {
-        const {className, attrs, props: componentProps, data, forwardRef, children, component, style, class: classNameAlt, ...others} = props;
+        const {className, attrs, props: componentProps, data, forwardRef, children, component, style, class: classNameAlt, commands, onCommand, ...others} = props;
         const customProps = new Set((this.constructor as typeof HElement).customProps);
         const strDangerouslySetInnerHTML = 'dangerouslySetInnerHTML';
         const other = Object.keys(others).reduce<Record<string, unknown>>((map, key) => {
@@ -158,6 +187,24 @@ export class HElement<P extends HElementProps, S = {}> extends Component<P, S> {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     protected _onRender(component: ComponentType | keyof JSX.IntrinsicElements, componentProps: Record<string, unknown>, children: ComponentChildren, _props: RenderableProps<P>): [component: ComponentType | keyof JSX.IntrinsicElements, componentProps: Record<string, unknown>, children: ComponentChildren] | void {
         return [component, componentProps, children];
+    }
+
+    componentDidMount(): void {
+        const {commands, onCommand} = this.props;
+        if (commands || onCommand) {
+            bindCommands(this.element, {
+                commands,
+                scope: this.commandScope,
+                onCommand: this.executeCommand.bind(this),
+            });
+        }
+    }
+
+    componentWillUnmount(): void {
+        const {commands, onCommand} = this.props;
+        if (commands || onCommand) {
+            unbindCommands(this.element, this.commandScope);
+        }
     }
 
     render(props: RenderableProps<P>) {

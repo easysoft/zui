@@ -310,7 +310,7 @@ function checkComponents(delay = 100) {
 }
 
 function autoDestroyComponents() {
-    if (takeData(document.body, '_autoDestoryMob')) {
+    if (!document.body || takeData(document.body, '_autoDestoryMob')) {
         return;
     }
     const mob = new MutationObserver((mutations) => {

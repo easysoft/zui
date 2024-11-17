@@ -17,6 +17,7 @@ export type ModalDialogOptions = {
     footer?: CustomContentType;
     footerClass?: ClassNameLike;
     footerActions?: ToolbarOptions;
+    waitShowEvent?: string;
     afterRender?: (info: {firstRender: boolean}) => void;
     beforeDestroy?: () => void;
 };

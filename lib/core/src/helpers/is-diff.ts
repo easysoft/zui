@@ -23,7 +23,7 @@ export function isDiff(value1: unknown, value2: unknown) {
                         return true;
                     }
                 }
-                return true;
+                return false;
             }
 
             const keys1 = Object.keys(value1);
@@ -36,11 +36,11 @@ export function isDiff(value1: unknown, value2: unknown) {
                     return true;
                 }
             }
-            return true;
+            return false;
         }
         if (typeOfValue1 === 'function' && typeOfValue2 === 'function') {
             return value1.toString() !== value2.toString();
         }
     }
-    return true;
+    return value1 !== value2;
 }

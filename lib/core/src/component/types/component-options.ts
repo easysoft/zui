@@ -15,4 +15,9 @@ export type ComponentBaseOptions = {
 /**
  * The component options.
  */
-export type ComponentOptions<O extends {} = {}> = ComponentBaseOptions & O;
+export type ComponentOptions<O extends {} = {}> = ComponentBaseOptions & O & {
+    $options?: Partial<O> | ((element: HTMLElement, options: Partial<O>) => Partial<O> | undefined);
+    $onCreate?: () => void;
+    $onInited?: () => void;
+    $onDestroy?: () => void;
+};

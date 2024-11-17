@@ -66,7 +66,7 @@ export class PickerMultiSelect extends PickTrigger<PickerState, PickerSelectProp
     }
 
     protected _renderTrigger(props: PickerSelectProps) {
-        const {state: {selections = [], open, value}, search, placeholder, display, valueList, children} = this.props;
+        const {state: {selections = [], open, value}, search, placeholder, display, valueList, children, caretClass} = this.props;
         const showSearch = open && search;
         let view: ComponentChildren;
         const noSelections = !showSearch && !selections.length;
@@ -89,7 +89,7 @@ export class PickerMultiSelect extends PickTrigger<PickerState, PickerSelectProp
         return [
             view,
             children,
-            <span key="caret" class="caret"></span>,
+            <span key="caret" class={classes('caret', caretClass)}></span>,
         ];
     }
 

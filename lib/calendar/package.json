@@ -1,0 +1,38 @@
+{
+    "name": "@zui/calendar",
+    "description": "ZUI Calendar",
+    "version": "0.0.1",
+    "keywords": [
+        "js",
+        "cs",
+        "zui:component"
+    ],
+    "main": "src/main.ts",
+    "module": "src/main.ts",
+    "browser": "src/main.ts",
+    "dependencies": {
+        "@zui/core": "workspace:^0.0.1",
+        "@zui/helpers": "workspace:^0.0.1"
+    },
+    "files": [
+        "./src/**/*"
+    ],
+    "devDependencies": {
+        "zui-dev": "workspace:^0.0.1"
+    },
+    "zui": {
+        "type": "component",
+        "displayName": "日历",
+        "notReady": true,
+        "wip": true,
+        "contributes": {
+            "css": [
+                "class",
+                "var"
+            ],
+            "js": [
+                "component"
+            ]
+        }
+    }
+}

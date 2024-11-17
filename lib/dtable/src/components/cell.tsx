@@ -62,7 +62,7 @@ export function Cell(props: CellProps) {
             if (item.tagName && !item.outer) {
                 contentTagName = item.tagName as string;
             }
-        } else {
+        } else if (typeof item !== 'object' || isValidElement(item)) {
             contentChildren.push(item);
         }
     });

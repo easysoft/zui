@@ -38,6 +38,10 @@ export class PickerMenu extends PickPop<PickerState, PickerMenuProps> {
         return this._menu.current;
     }
 
+    get picker() {
+        return this.props.picker;
+    }
+
     componentDidMount(): void {
         super.componentDidMount();
         if (this._firstSelected === undefined) {
@@ -65,6 +69,10 @@ export class PickerMenu extends PickPop<PickerState, PickerMenuProps> {
         }).on('hidePop.zui.Picker', () => {
             this.props.togglePop(false);
         });
+
+        setTimeout(() => {
+            $(this.menu?.element).find('.menu-item>.active').scrollIntoView({container: '.menu'});
+        }, 100);
     }
 
     componentWillUnmount(): void {
@@ -160,7 +168,7 @@ export class PickerMenu extends PickPop<PickerState, PickerMenuProps> {
     }
 
     protected _getMenuProps(props: RenderableProps<PickerMenuProps>): SearchMenuOptions {
-        const {menu, tree, state, checkbox, header, footer, noMatchHint, maxItemsCount} = props;
+        const {menu, tree, state, checkbox, header, footer, noMatchHint, maxItemsCount, exceedLimitHint} = props;
         const {items, search} = state;
 
         return mergeProps({
@@ -172,6 +180,7 @@ export class PickerMenu extends PickPop<PickerState, PickerMenuProps> {
             defaultNestedShow: true,
             activeOnHover: true,
             search: search,
+            exceedLimitHint,
             onClickItem: this._handleItemClick,
             nestedToggle: '.nested-toggle-icon,.item-icon',
             checkbox,
@@ -179,6 +188,7 @@ export class PickerMenu extends PickPop<PickerState, PickerMenuProps> {
             header,
             footer,
             noMatchHint,
+            relativeTarget: this,
         }, menu, tree);
     }
 

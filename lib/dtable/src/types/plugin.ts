@@ -59,6 +59,7 @@ export type DTablePlugin<T extends DTablePluginTypes = {}, D extends DTablePlugi
     name: DTablePluginName;
 } & Partial<{
     when: (options: Options) => boolean,
+    requireAfter: DTablePluginName[],
     defaultOptions: Partial<Options>;
     colTypes: Record<string, Partial<PluginColSetting> | PluginColSettingModifier<T, D>>;
     events: DTablePluginEvents<T, D> | ((this: PluginTable) => DTablePluginEvents<T, D>);

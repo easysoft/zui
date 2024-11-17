@@ -17,7 +17,17 @@ export class Dropdown<O extends DropdownOptions = DropdownOptions> extends Popov
         closeBtn: false,
         animation: 'fade',
         limitSize: true,
+        notHideOnClick: '.not-hide-menu,.form-control,input,label,.nested-toggle-icon',
     };
+
+    handleClickTarget(event: MouseEvent): void | boolean {
+        const $target = $(event.target as HTMLElement);
+        const {notHideOnClick} = this.options;
+        if (!notHideOnClick || !$target.closest(notHideOnClick).length) {
+            this.hide();
+        }
+        return true;
+    }
 
     protected _getMenuOptions(): DropdownMenuOptions {
         const {items, placement, menu, tree, onClickItem, relativeTarget = this._triggerElement} = this.options;
@@ -29,6 +39,7 @@ export class Dropdown<O extends DropdownOptions = DropdownOptions> extends Popov
             nestedToggle: '.item',
             accordion: true,
             relativeTarget: {target: relativeTarget, event: this.options.triggerEvent, dropdown: this},
+            dropdown: this as Dropdown,
             popup: true,
             ...menu,
         };
@@ -46,13 +57,6 @@ export class Dropdown<O extends DropdownOptions = DropdownOptions> extends Popov
         }
         return options;
     }
-
-    protected _onClickDoc = (event: MouseEvent) => {
-        const $target = $(event.target as HTMLElement);
-        if (!$target.closest('.not-hide-menu,.form-control,input,label,.nested-toggle-icon').length && (this._virtual || !$target.closest(this._triggerElement as HTMLElement).length)) {
-            this.hide();
-        }
-    };
 }
 
 Dropdown.toggle = {

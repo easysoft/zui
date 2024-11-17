@@ -63,7 +63,7 @@ export const extLibs = [...zuiLib.reduce((set, lib) => {
 
 function createNav() {
     return [
-        {text: '指引',        link: '/guide/start/',     activeMatch: '/guide/'},
+        {text: '文档',        link: '/guide/start/',     activeMatch: '/guide/'},
         {text: 'CSS 工具类',  link: '/utilities/skin/utilities/solid', activeMatch: '/utilities/'},
         {text: '组件',        link: '/lib/components/button/',       activeMatch: '/lib/'},
         {text: 'ZUI1',        link: 'https://openzui.com/1/'},

@@ -1,7 +1,7 @@
-import {render} from 'preact';
-import {delay, i18n, $, nextGid, HtmlContent, classes} from '@zui/core';
+import {createRef, RefObject, render} from 'preact';
+import {delay, i18n, $, nextGid, HtmlContent, classes, CustomContent} from '@zui/core';
 import {ModalBase} from './modal-base';
-import {ModalOptions, ModalDialogOptions, ModalCustomOptions, ModalAjaxOptions, ModalAlertOptions, ModalTypedOptions, ModalConfirmOptions} from '../types';
+import {ModalOptions, ModalDialogOptions, ModalCustomOptions, ModalAjaxOptions, ModalAlertOptions, ModalTypedOptions, ModalConfirmOptions, ModalPromptOptions} from '../types';
 import {ModalDialog} from '../component';
 import {ModalIframeContent} from '../component/modal-iframe-content';
 
@@ -58,6 +58,7 @@ async function buildIframeModal(this: Modal, _element: HTMLElement, options: Mod
     return {
         title,
         ...custom,
+        waitShowEvent: 'modal-iframe-loaded',
         body: <ModalIframeContent url={url} watchHeight={!hasHeight} />,
     };
 }
@@ -262,9 +263,9 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
         return !$.isDetached(modal.modalElement);
     }
 
-    static open(options: ModalTypedOptions & {container?: string | HTMLElement}): Promise<Modal> {
+    static open(options: ModalTypedOptions & {container?: string | HTMLElement, ref?: RefObject<Modal>}): Promise<Modal> {
         return new Promise((resolve) => {
-            const {container = document.body, ...others} = options;
+            const {container = document.body, ref, ...others} = options;
             const modalOptions = {show: true, ...others} as ModalOptions;
             if (!modalOptions.type && modalOptions.url) {
                 modalOptions.type = 'ajax';
@@ -276,6 +277,9 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
                 modalOptions.key = modalOptions.id;
             }
             const modal = Modal.ensure(container, modalOptions) as Modal;
+            if (ref) {
+                ref.current = modal;
+            }
             const namespace = `${Modal.NAMESPACE}.open${nextGid()}`;
             modal.on(`hidden${namespace}`, () => {
                 modal.off(namespace);
@@ -366,6 +370,38 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
             ...otherOptions,
         });
         return result === 'confirm';
+    }
+
+    static async prompt(options: string | ModalPromptOptions): Promise<string | null> {
+        if (typeof options === 'string') {
+            options = {message: options} as ModalPromptOptions;
+        }
+        const {defaultValue = '', placeholder, onResult, onShown, message, content, bodyClass, custom, ...otherOptions} = options;
+        let result = defaultValue;
+        let enterKeyPressed = false;
+        const modal = createRef<Modal>();
+        const confirmed = await Modal.confirm({
+            ...otherOptions,
+            custom: {closeBtn: false, ...custom},
+            message,
+            ref: modal,
+            content: (
+                <div className={classes('modal-body', bodyClass as string)}>
+                    <CustomContent content={message} />
+                    <input type="text" className="modal-prompt-input form-control mt-3" autoFocus placeholder={placeholder} defaultValue={defaultValue} onChange={e => {result = (e.target as HTMLInputElement).value;}} onKeyDown={e => {
+                        if (e.key === 'Enter') {
+                            enterKeyPressed = true;
+                            e.preventDefault();
+                            modal.current?.hide();
+                        } else if (e.key === 'Escape') {
+                            modal.current?.hide();
+                        }
+                    }} />
+                    {content}
+                </div>
+            ),
+        });
+        return (confirmed || enterKeyPressed) ? result : null;
     }
 }
 

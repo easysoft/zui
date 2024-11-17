@@ -124,7 +124,7 @@ function handleGlobalEvent(this: Cash, event: Event) {
     const zuiOn = $element.attr('zui-on');
     if (zuiOn) {
         const [events, code] = zuiOn.split('~').map(x => x.trim());
-        if (events) {
+        if (events && events.split(' ').includes(type)) {
             processGlobalEvent($element, event, $.extend({
                 on: events,
             }, code ? (code.startsWith('{') ? evalValue(code) : {do: code}) : getZData($element, {prefix: 'data-', evalValue: ['call', 'if', 'do']})));
@@ -138,7 +138,7 @@ function handleGlobalEvent(this: Cash, event: Event) {
     }
 
     const dataOn = $element.attr('data-on');
-    if (dataOn) {
+    if (dataOn && dataOn.split(' ').includes(type)) {
         processGlobalEvent($element, event, getZData($element, {prefix: 'data-', evalValue: ['call', 'if', 'do']}) as GlobalEventOptions);
     }
 }
@@ -147,4 +147,6 @@ export function registerGlobalListener(events: string[]) {
     $(document).off('.zui.global').on(events.map(event => `${event}.zui.global`).join(' '), `[zui-on],${events.map(x => `[zui-on-${x}]`)},[data-on]`, handleGlobalEvent);
 }
 
-registerGlobalListener(['click', 'change', 'inited']);
+$(() => {
+    registerGlobalListener(['click', 'change', 'inited']);
+});

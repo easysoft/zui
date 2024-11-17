@@ -5,6 +5,13 @@
 .group.active .group-active\:opacity-100,
 .active\:opacity-100.active {@apply -opacity-100;}
 
+.group:hover .group-hover\:opacity-0,
+.hover\:opacity-0:hover,
+.group:active .group-active\:opacity-0,
+.active\:opacity-0:active,
+.group.active .group-active\:opacity-0,
+.active\:opacity-0.active {@apply -opacity-0;}
+
 .group:hover .group-hover\:text-primary,
 .hover\:text-primary:hover,
 .group:active .group-active\:text-primary,
@@ -53,3 +60,24 @@
 .active\:shadow:active,
 .group.active .group-active\:shadow,
 .active\:shadow.active {@apply -shadow;}
+
+.group:hover .group-hover\:shadow-lg,
+.hover\:shadow-lg:hover,
+.group:active .group-active\:shadow-lg,
+.active\:shadow-lg:active,
+.group.active .group-active\:shadow-lg,
+.active\:shadow-lg.active {@apply -shadow-lg;}
+
+.group:hover .group-hover\:block,
+.hover\:block:hover {@apply !-block;}
+
+.group:hover .group-hover\:flex,
+.hover\:flex:hover {@apply !-flex;}
+
+.group:hover .group-hover\:inline-flex,
+.hover\:inline-flex:hover {@apply !-inline-flex;}
+
+.group:hover .group-hover\:scale-110,
+.hover\:scale-110:hover {@apply !-scale-110;}
+.group:hover .group-hover\:scale-125,
+.hover\:scale-125:hover {@apply !-scale-125;}
