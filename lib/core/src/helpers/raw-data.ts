@@ -14,3 +14,11 @@ export function parseRawData<T = unknown>(data: string, ...args: unknown[]): T {
 
     return JSON.parse(data);
 }
+
+export function jsRaw(data: unknown): string {
+    return JSON.stringify(data, (_, value) => {
+        if (typeof value === 'function') {
+            return `RAWJS<${value.toString().split('"').join('<RAWJS_QUOTE>').split('\n').join('<RAWJS_LINE>')}>RAWJS`;
+        }
+    });
+}
