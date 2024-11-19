@@ -37,7 +37,7 @@ export type DTableNestedTypes = {
         nestedIndent: number;
         preserveNested: boolean;
         noNestedCheck: boolean;
-        defaultNestedState: Record<RowID, boolean>;
+        defaultNestedState: Record<RowID, boolean> | boolean;
         onNestedChange: () => void;
         onRenderNestedToggle: (this: DTableNested, info: NestedRowInfo | undefined, rowID: string, col: ColInfo, rowData: RowData | undefined) => CustomRenderResult;
     }>,
@@ -256,7 +256,21 @@ const nestedPlugin: DTablePlugin<DTableNestedTypes, DTableNestedDependencies> = 
                 defaultNestedState = localNestedState as typeof defaultNestedState;
             }
         }
-        this.state.nestedState = defaultNestedState || {};
+        if (defaultNestedState === true) {
+            const {data, rowKey = 'id'} = this.options;
+            if (Array.isArray(data)) {
+                defaultNestedState = data.reduce<Record<string, boolean>>((nestedState, row) => {
+                    nestedState[typeof row === 'string' ? row : (row[rowKey] as string)] = true;
+                    return nestedState;
+                }, {});
+            }
+        }
+        this.state.nestedState = (defaultNestedState || {}) as Record<string, boolean>;
+    },
+    onMounted() {
+        if (this.options.defaultNestedState === true && !this.options.preserveNested) {
+            this.toggleRow('HEADER', true);
+        }
     },
     beforeLayout() {
         this.data.nestedMap.clear();

@@ -262,6 +262,7 @@ onPageUpdate(() => {
         },
         localPager: true,
         footer: ['checkbox', 'divider', 'checkedInfo', 'divider', 'flex', 'pager'],
+        defaultNestedState: true,
     });
     console.log('DataTable', datatable);
 });
