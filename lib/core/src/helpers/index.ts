@@ -20,3 +20,4 @@ export * from './hotkeys';
 export * from './fullscreen';
 export * from './sticky';
 export * from './commands';
+export * from './run-js';

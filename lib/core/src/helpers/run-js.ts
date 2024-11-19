@@ -1,5 +1,5 @@
 import {$, Cash} from '../cash';
-import {nextGid} from '../helpers';
+import {nextGid} from '.';
 
 import type {Selector} from '../cash';
 
