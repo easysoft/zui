@@ -1,4 +1,4 @@
-import {$, Cash} from '../cash';
+import {$, Cash, Selector} from '../cash';
 import {type GetLibOptions} from '../dom';
 import {evalValue} from '../helpers';
 import {storeData, takeData} from '../helpers/data';
@@ -16,6 +16,7 @@ export type ComponentCreateOptions = ComponentOptions & {
 
 export type ZUIInitOptions = {
     update?: boolean | 'reset';
+    runJS?: boolean;
     beforeCreate?: BeforeCreateCallback;
     onCreate?: OnCreateCallback;
 };
@@ -330,29 +331,37 @@ function autoDestroyComponents() {
     storeData(document.body, '_autoDestoryMob', mob);
 }
 
-/** Define the $.fn.zuiInit method. */
-$.fn.zuiInit = function (this: Cash, options?: ZUIInitOptions) {
-    this.find('[zui-create],[data-zui]').each(function () {
+export function init(element: Selector, options?: ZUIInitOptions) {
+    const $element = $(element);
+    $element.find('[zui-create],[data-zui]').each(function () {
         if (options?.beforeCreate?.(this) === false) {
             return;
         }
         initCreators(this, options);
     });
-    this.find('[zui-init]').each(function () {
+    $element.find('[zui-init]').each(function () {
         if (this.hasAttribute('z-zui-inited')) {
             return;
         }
         this.setAttribute('z-zui-inited', '');
         $.runJS(this.getAttribute('zui-init')!, ['$element', $(this)]);
     });
-    this.find('.hide-before-init').removeClass('invisible hidden opacity-0');
-    this.find('.scroll-into-view').scrollIntoView();
-    this.find('[data-on="inited"],[zui-on-inited]').each((_, ele) => {
+    $element.find('.hide-before-init').removeClass('invisible hidden opacity-0');
+    $element.find('.scroll-into-view').scrollIntoView();
+    $element.find('[data-on="inited"],[zui-on-inited]').each((_, ele) => {
         const $ele = $(ele);
         if (!$ele.zui()) {
             $ele.trigger('inited');
         }
     });
+    if (options?.runJS) {
+        $element.runJS();
+    }
+}
+
+/** Define the $.fn.zuiInit method. */
+$.fn.zuiInit = function (this: Cash, options?: ZUIInitOptions) {
+    init(this, options);
     return this;
 };
 
