@@ -1,4 +1,4 @@
-import {isValidElement} from 'preact';
+import {Component, isValidElement} from 'preact';
 import {HtmlContent} from './html-content';
 import {HElement} from './h-element';
 import {LazyContent} from './lazy-content';
@@ -70,4 +70,10 @@ export function CustomContent(props: CustomContentProps): VNode | null {
         return result;
     }
     return <>{result}</>;
+}
+
+export class CustomContentClass extends Component<CustomContentProps> {
+    render(props: CustomContentProps): VNode | null {
+        return CustomContent(props);
+    }
 }
