@@ -1,7 +1,7 @@
 import {Component} from '../component';
 
 export type StickyOptions = {
-    side?: 'top' | 'bottom';
+    side?: 'top' | 'bottom' | 'left' | 'right';
     offset?: number;
     zIndex?: number;
     pinnedClass?: string;
@@ -20,15 +20,31 @@ export class Sticky extends Component<StickyOptions> {
 
     protected declare _raf: number;
 
-    init() {
-        const {offset = 1, side, zIndex, pinnedClass = 'is-pinned', targets, scrollContainer} = this.options;
+    get $targets() {
         const {$element} = this;
-        const $targets = targets ? $element.find(targets) : $element;
-        $targets.css({position: 'sticky', zIndex});
-        if (side) $targets.css(side, -offset);
+        const {targets} = this.options;
+        return targets ? $element.find(targets) : $element;
+    }
+
+    protected _handleScroll(container: HTMLElement, side: NonNullable<StickyOptions['side']>, pinnedClass: string) {
+        const {offset = 1} = this.options;
+        const $currentTargets = this.$targets;
+        const containerRect = container.getBoundingClientRect();
+        const {scrollTop, scrollLeft} = container;
+        $currentTargets.each((_, e) => {
+            const rect = e.getBoundingClientRect();
+            const isPinned = (side === 'top' && scrollTop > 0 && rect.top <= (containerRect.top + offset)) || (side === 'bottom' && rect.bottom >= (containerRect.bottom - offset)) || (side === 'left' && scrollLeft > 0 && rect.left <= (containerRect.left + offset)) || (side === 'right' && scrollLeft < (container.scrollWidth - container.clientWidth));
+            e.classList.toggle(pinnedClass, isPinned);
+        });
+    }
+
+    init() {
+        const {offset = 1, side = 'top', zIndex, pinnedClass = 'is-pinned', scrollContainer} = this.options;
+        const {$element, $targets} = this;
+        $targets.css({position: 'sticky', zIndex, [side]: 0});
 
         if (scrollContainer) {
-            const container = $element.closest(scrollContainer)[0] as HTMLElement;
+            const container = ($element.closest(scrollContainer)[0] || $element.find(scrollContainer)[0]) as HTMLElement;
             if (container) {
                 const listener = () => {
                     if (this._raf) {
@@ -36,22 +52,16 @@ export class Sticky extends Component<StickyOptions> {
                     }
                     this._raf = requestAnimationFrame(() => {
                         this._raf = 0;
-                        if (container.scrollTop === 0 && (!side || side === 'top')) {
-                            $targets.toggleClass(pinnedClass, false);
-                            return;
-                        }
-                        const containerRect = container.getBoundingClientRect();
-                        $targets.each((_, target) => {
-                            const rect = target.getBoundingClientRect();
-                            const pinned = rect[side || 'top'] === containerRect[side || 'top'];
-                            target.classList.toggle(pinnedClass, pinned);
-                        });
+                        this._handleScroll(container, side, pinnedClass);
                     });
                 };
                 this._scrollListener = listener;
                 container.addEventListener('scroll', listener);
             }
             this._container = container;
+            requestAnimationFrame(() => {
+                this._handleScroll(container, side, pinnedClass);
+            });
         } else {
             this._ob = new IntersectionObserver(
                 (entries) => {
@@ -62,7 +72,7 @@ export class Sticky extends Component<StickyOptions> {
                 {threshold: [1]},
             );
 
-            $targets.each((_, e) => this._ob.observe(e));
+            $targets.css('side', -offset).each((_, e) => this._ob.observe(e));
         }
     }
 
