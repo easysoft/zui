@@ -8,7 +8,7 @@ var ht = (n, t, e) => ($s(n, t, "read from private field"), e ? e.call(n) : t.ge
   t instanceof WeakSet ? t.add(n) : t.set(n, e);
 }, bt = (n, t, e, s) => ($s(n, t, "write to private field"), s ? s.call(n, e) : t.set(n, e), e);
 var Ns = (n, t, e) => ($s(n, t, "access private method"), e);
-const zd = "3.0.0", Od = 1732172418263, Hd = "production", Ft = document, $n = window, bo = Ft.documentElement, pe = Ft.createElement.bind(Ft), wo = pe("div"), Es = pe("table"), Wl = pe("tbody"), Er = pe("tr"), { isArray: Xn, prototype: Co } = Array, { concat: jl, filter: bi, indexOf: So, map: xo, push: Bl, slice: ko, some: wi, splice: Vl } = Co, Ul = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, Kl = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, ql = /<.+>/, Gl = /^\w+$/;
+const zd = "3.0.0", Od = 1732600612819, Hd = "production", Ft = document, $n = window, bo = Ft.documentElement, pe = Ft.createElement.bind(Ft), wo = pe("div"), Es = pe("table"), Wl = pe("tbody"), Er = pe("tr"), { isArray: Xn, prototype: Co } = Array, { concat: jl, filter: bi, indexOf: So, map: xo, push: Bl, slice: ko, some: wi, splice: Vl } = Co, Ul = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, Kl = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, ql = /<.+>/, Gl = /^\w+$/;
 function Ci(n, t) {
   const e = Yl(t);
   return !n || !e && !he(t) && !tt(t) ? [] : !e && Kl.test(n) ? t.getElementsByClassName(n.slice(1).replace(/\\/g, "")) : !e && Gl.test(n) ? t.getElementsByTagName(n) : t.querySelectorAll(n);
@@ -2497,36 +2497,41 @@ p(() => {
   p("body").zuiInit({ update: !0 }), th(), nh();
 });
 class ih extends vt {
+  get $targets() {
+    const { $element: t } = this, { targets: e } = this.options;
+    return e ? t.find(e) : t;
+  }
+  _handleScroll(t, e, s) {
+    const { offset: i = 1 } = this.options, r = this.$targets, o = t.getBoundingClientRect(), { scrollTop: a, scrollLeft: l } = t;
+    r.each((c, u) => {
+      const h = u.getBoundingClientRect(), f = e === "top" && a > 0 && h.top <= o.top + i || e === "bottom" && h.bottom >= o.bottom - i || e === "left" && l > 0 && h.left <= o.left + i || e === "right" && l < t.scrollWidth - t.clientWidth;
+      u.classList.toggle(s, f);
+    });
+  }
   init() {
-    const { offset: t = 1, side: e, zIndex: s, pinnedClass: i = "is-pinned", targets: r, scrollContainer: o } = this.options, { $element: a } = this, l = r ? a.find(r) : a;
-    if (l.css({ position: "sticky", zIndex: s }), e && l.css(e, -t), o) {
-      const c = a.closest(o)[0];
-      if (c) {
-        const u = () => {
+    const { offset: t = 1, side: e = "top", zIndex: s, pinnedClass: i = "is-pinned", scrollContainer: r } = this.options, { $element: o, $targets: a } = this;
+    if (a.css({ position: "sticky", zIndex: s, [e]: 0 }), r) {
+      const l = o.closest(r)[0] || o.find(r)[0];
+      if (l) {
+        const c = () => {
           this._raf && cancelAnimationFrame(this._raf), this._raf = requestAnimationFrame(() => {
-            if (this._raf = 0, c.scrollTop === 0 && (!e || e === "top")) {
-              l.toggleClass(i, !1);
-              return;
-            }
-            const h = c.getBoundingClientRect();
-            l.each((f, d) => {
-              const m = d.getBoundingClientRect()[e || "top"] === h[e || "top"];
-              d.classList.toggle(i, m);
-            });
+            this._raf = 0, this._handleScroll(l, e, i);
           });
         };
-        this._scrollListener = u, c.addEventListener("scroll", u);
+        this._scrollListener = c, l.addEventListener("scroll", c);
       }
-      this._container = c;
+      this._container = l, requestAnimationFrame(() => {
+        this._handleScroll(l, e, i);
+      });
     } else
       this._ob = new IntersectionObserver(
-        (c) => {
-          c.forEach((u) => {
-            u.target.classList.toggle(i, u.intersectionRatio < t);
+        (l) => {
+          l.forEach((c) => {
+            c.target.classList.toggle(i, c.intersectionRatio < t);
           });
         },
         { threshold: [1] }
-      ), l.each((c, u) => this._ob.observe(u));
+      ), a.css("side", -t).each((l, c) => this._ob.observe(c));
   }
   destroy() {
     var t;
