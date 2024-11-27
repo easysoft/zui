@@ -8,7 +8,7 @@ var ht = (n, t, e) => ($s(n, t, "read from private field"), e ? e.call(n) : t.ge
   t instanceof WeakSet ? t.add(n) : t.set(n, e);
 }, bt = (n, t, e, s) => ($s(n, t, "write to private field"), s ? s.call(n, e) : t.set(n, e), e);
 var Ns = (n, t, e) => ($s(n, t, "access private method"), e);
-const zd = "3.0.0", Od = 1732600612819, Hd = "production", Ft = document, $n = window, bo = Ft.documentElement, pe = Ft.createElement.bind(Ft), wo = pe("div"), Es = pe("table"), Wl = pe("tbody"), Er = pe("tr"), { isArray: Xn, prototype: Co } = Array, { concat: jl, filter: bi, indexOf: So, map: xo, push: Bl, slice: ko, some: wi, splice: Vl } = Co, Ul = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, Kl = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, ql = /<.+>/, Gl = /^\w+$/;
+const zd = "3.0.0", Od = 1732671762892, Hd = "production", Ft = document, $n = window, bo = Ft.documentElement, pe = Ft.createElement.bind(Ft), wo = pe("div"), Es = pe("table"), Wl = pe("tbody"), Er = pe("tr"), { isArray: Xn, prototype: Co } = Array, { concat: jl, filter: bi, indexOf: So, map: xo, push: Bl, slice: ko, some: wi, splice: Vl } = Co, Ul = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, Kl = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, ql = /<.+>/, Gl = /^\w+$/;
 function Ci(n, t) {
   const e = Yl(t);
   return !n || !e && !he(t) && !tt(t) ? [] : !e && Kl.test(n) ? t.getElementsByClassName(n.slice(1).replace(/\\/g, "")) : !e && Gl.test(n) ? t.getElementsByTagName(n) : t.querySelectorAll(n);
@@ -9527,6 +9527,8 @@ br.replace = !0;
 class wr extends F {
   constructor(t) {
     super(t), this._searchInput = G(), this._measure = G(), this._changeTimer = 0, this._handleChange = (e) => {
+      if (e.isComposing)
+        return;
       const s = e.target.value;
       this.setState({ search: s }, () => {
         const { onSearch: i } = this.props;
@@ -9584,6 +9586,7 @@ class wr extends F {
         event: "keydown"
       }));
     }
+    p(this._searchInput.current).on("compositionend", this._handleChange);
   }
   componentDidUpdate() {
     const { inline: t } = this.props;
@@ -9596,7 +9599,7 @@ class wr extends F {
     }
   }
   componentWillUnmount() {
-    clearTimeout(this._changeTimer), this._hotkeysScope && p(this._searchInput.current).unbindHotkeys(this._hotkeysScope);
+    clearTimeout(this._changeTimer), this._hotkeysScope && p(this._searchInput.current).unbindHotkeys(this._hotkeysScope), p(this._searchInput.current).off("compositionend", this._handleChange);
   }
   render(t, e) {
     const { placeholder: s, inline: i } = t, { search: r } = e, o = r.trim().length > 0;
