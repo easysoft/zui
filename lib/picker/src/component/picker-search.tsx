@@ -79,6 +79,8 @@ export class PickerSearch extends Component<PickerSearchProps, PickerSearchState
                 });
             }
         }
+
+        $(this._searchInput.current).on('compositionend', this._handleChange);
     }
 
     componentDidUpdate(): void {
@@ -98,9 +100,13 @@ export class PickerSearch extends Component<PickerSearchProps, PickerSearchState
         if (this._hotkeysScope) {
             $(this._searchInput.current).unbindHotkeys(this._hotkeysScope);
         }
+        $(this._searchInput.current).off('compositionend', this._handleChange);
     }
 
     _handleChange = (event: Event) => {
+        if ((event as KeyboardEvent).isComposing) {
+            return;
+        }
         const search = (event.target as HTMLInputElement).value;
         this.setState({search}, () => {
             const {onSearch} = this.props;
