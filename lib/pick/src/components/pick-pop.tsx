@@ -174,7 +174,7 @@ export class PickPop<S extends PickState = PickState, P extends PickPopProps<S> 
                 placement: (!placement || placement === 'auto') ? 'bottom-start' : placement,
                 middleware: [placement === 'auto' ? flip() : null, shift(), offset(1)].filter(Boolean),
             }).then(({x, y, placement: actualPlacement}) => {
-                if (isElementDetached(trigger) || !isVisible(trigger)) {
+                if (isElementDetached(trigger) || !isVisible(trigger, {checkZeroSize: true})) {
                     $(element).css({display: 'none'});
                     return;
                 }
