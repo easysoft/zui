@@ -68,6 +68,14 @@ export class PickerMenu extends PickPop<PickerState, PickerMenuProps> {
             }
         }).on('hidePop.zui.Picker', () => {
             this.props.togglePop(false);
+        }).on('deselectLast.zui.Picker', () => {
+            if (this.props.multiple)  {
+                const {valueList} = this.props;
+                const last = valueList[valueList.length - 1];
+                if (last) {
+                    this.props.onDeselect(last);
+                }
+            }
         });
 
         setTimeout(() => {

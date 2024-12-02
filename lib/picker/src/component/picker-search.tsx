@@ -70,6 +70,14 @@ export class PickerSearch extends Component<PickerSearchProps, PickerSearchState
                         this.$pop.trigger('activePrev');
                     },
                 },
+                deselectLast: {
+                    keys: 'Backspace',
+                    handler: () => {
+                        if (!this.state.search.trim().length) {
+                            this.$pop.trigger('deselectLast');
+                        }
+                    },
+                },
             });
             if (hotkeysMap) {
                 this._hotkeysScope = `PickerSearch_${nextGid()}`;
