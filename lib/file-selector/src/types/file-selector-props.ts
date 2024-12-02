@@ -9,6 +9,8 @@ import type {FileSelectorMode} from './file-selector-mode';
 
 export interface FileSelectorProps extends HElementProps {
     name?: string;
+    deleteName?: string;
+    renameName?: string;
     disabled?: boolean;
     accept?: string;
     mode?: FileSelectorMode;

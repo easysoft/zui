@@ -299,6 +299,7 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
         }
 
         const originFile = fileInfo.file;
+        const {files, renamedFiles = {}} = this.state;
         if (originFile) {
             const newFile = new File([originFile], newName, {type: originFile.type, lastModified: originFile.lastModified});
             const dataIndex = Array.from(this._data.files).indexOf(originFile);
@@ -308,17 +309,18 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
             this._data.items.add(newFile);
             this._syncFiles(true);
             fileInfo.file = newFile;
+        } else {
+            renamedFiles[fileInfo.id] = newName;
         }
         fileInfo.name = newName;
         fileInfo.ext = this.constructor.getExt(newName);
-        const {files} = this.state;
         const index = files.indexOf(fileInfo);
         if (index >= 0) {
             files.splice(index, 1, fileInfo);
         } else {
             files.push(fileInfo);
         }
-        this.setState({files: [...files]});
+        this.setState({files: [...files], renamedFiles: {...renamedFiles}});
     }
 
     stopRenameFile = () => {
@@ -370,10 +372,15 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
             }
         }
 
-        const index = this.state.files.indexOf(fileInfo);
+        const {files, deletedFiles = [], renamedFiles = {}} = this.state;
+        const index = files.indexOf(fileInfo);
         if (index >= 0) {
-            this.state.files.splice(index, 1);
-            this.setState({files: this.state.files});
+            if (!fileInfo.file && !deletedFiles.includes(fileInfo.id)) {
+                delete renamedFiles[fileInfo.id];
+                deletedFiles.push(fileInfo.id);
+            }
+            files.splice(index, 1);
+            this.setState({files: [...files], deletedFiles: [...deletedFiles], renamedFiles: {...renamedFiles}});
             this._syncFiles(true);
         }
     }
@@ -481,8 +488,22 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
     }
 
     protected _renderForForm(props: RenderableProps<P>) {
-        const {name, accept, onChange} = props;
-        return <input key="form" ref={this._file} type="file" name={name} multiple={this.multiple} accept={accept} style="display:none" onChange={onChange} />;
+        const {name, accept, onChange, deleteName, renameName} = props;
+        const {deletedFiles, renamedFiles} = this.state;
+        const views = [
+            <input key="form" ref={this._file} type="file" name={name} multiple={this.multiple} accept={accept} style="display:none" onChange={onChange} />,
+        ];
+        if (deleteName && deletedFiles) {
+            views.push(
+                ...deletedFiles.map(id => <input key={`delete:${id}`} type="hidden" name={`${deleteName}[${id}]`} value={id} />),
+            );
+        }
+        if (renameName && renamedFiles) {
+            views.push(
+                ...Object.entries(renamedFiles).map(([id, newName]) => <input key={`rename:${id}`} type="hidden" name={`${renameName}[${id}]`} value={newName} />),
+            );
+        }
+        return views;
     }
 
     protected _getIcon(file: FileInfo): IconType | undefined {
@@ -624,9 +645,9 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
         }
         const data = $btn.data()!;
         if (data.renameFile) {
-            this.startRenameFile(data.renameFile);
+            this.startRenameFile(String(data.renameFile));
         } else if (data.removeFile) {
-            this.removeFile(data.removeFile);
+            this.removeFile(String(data.removeFile));
         }
     };
 
@@ -691,7 +712,7 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
         return {
             name,
             size: sizeVal,
-            id: file.id ?? [name, sizeVal].join(':'),
+            id: file.id ? String(file.id) : [name, sizeVal].join(':'),
             type: type ?? '',
             ext: this.getExt(name),
             file: (file as FileInfo).file,
