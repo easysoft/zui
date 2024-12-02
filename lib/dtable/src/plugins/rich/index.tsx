@@ -46,9 +46,9 @@ export type DTableRichTypes = {
 
 export type DTableRich = DTableWithPlugin<DTableRichTypes>;
 
-export function renderLink(link: ColLinkSetting | undefined, info: {row: RowInfo, col: ColInfo}, content?: ComponentChildren, props?: Record<string, unknown>) {
+export function renderLink(this: DTableWithPlugin, link: ColLinkSetting | undefined, info: {row: RowInfo, col: ColInfo}, content?: ComponentChildren, props?: Record<string, unknown>) {
     if (typeof link === 'function') {
-        link = link(info);
+        link = link.call(this, info);
     }
     if (typeof link === 'string' && link.length) {
         link = {url: link};
@@ -69,19 +69,19 @@ export function renderLink(link: ColLinkSetting | undefined, info: {row: RowInfo
     return <a href={formatString(url, info.row.data)} {...props} {...linkProps} {...dataset}>{content}</a>;
 }
 
-export function renderFormat(format: ColFormatSetting | undefined, info: {row: RowInfo, col: ColInfo}, value?: unknown) {
+export function renderFormat(this: DTableWithPlugin, format: ColFormatSetting | undefined, info: {row: RowInfo, col: ColInfo}, value?: unknown) {
     if (format === undefined || format === null) {
         return;
     }
     const rowData = info.row.data;
     value = value ?? rowData?.[info.col.name];
     if (typeof format === 'function') {
-        return format(value, info);
+        return format.call(this, value, info);
     }
     return formatString(format, {...rowData, '0': value});
 }
 
-export function renderDatetime(format: ColDateFormatSetting, info: {row: RowInfo, col: ColInfo}, value?: unknown, invalidDate?: string) {
+export function renderDatetime(this: DTableWithPlugin, format: ColDateFormatSetting, info: {row: RowInfo, col: ColInfo}, value?: unknown, invalidDate?: string) {
     if (!value) {
         return invalidDate ?? value as string;
     }
@@ -96,21 +96,21 @@ export function renderDatetime(format: ColDateFormatSetting, info: {row: RowInfo
         format = '[yyyy-]MM-dd hh:mm';
     }
     if (typeof format === 'function') {
-        format = format(value, info);
+        format = format.call(this, value, info);
     }
     return formatDate(value as DateLike, format, invalidDate ?? value as string);
 }
 
-export function renderLinkCell(result: CustomRenderResultList, info: {row: RowInfo, col: ColInfo}) {
+export function renderLinkCell(this: DTableWithPlugin, result: CustomRenderResultList, info: {row: RowInfo, col: ColInfo}) {
     const {link} = info.col.setting;
-    const linkElement = renderLink(link as ColLinkSetting, info, result[0]);
+    const linkElement = renderLink.call(this, link as ColLinkSetting, info, result[0]);
     if (linkElement) {
         result[0] = linkElement;
     }
     return result;
 }
 
-export function renderFormatCell(result: CustomRenderResultList, info: {row: RowInfo, col: ColInfo, value: unknown}) {
+export function renderFormatCell(this: DTableWithPlugin, result: CustomRenderResultList, info: {row: RowInfo, col: ColInfo, value: unknown}) {
     const {format, digits} = info.col.setting;
     let value = result[0];
     if (typeof digits === 'number' && !Number.isNaN(Number(value))) {
@@ -120,13 +120,13 @@ export function renderFormatCell(result: CustomRenderResultList, info: {row: Row
         }
     }
     if (format) {
-        value = renderFormat(format as ColFormatSetting, info, value);
+        value = renderFormat.call(this, format as ColFormatSetting, info, value);
     }
     result[0] = value as string;
     return result;
 }
 
-export function renderMapCell(result: CustomRenderResultList, info: {row: RowInfo, col: ColInfo}) {
+export function renderMapCell(this: DTableWithPlugin, result: CustomRenderResultList, info: {row: RowInfo, col: ColInfo}) {
     const {map, mapSplitter = ',', mapJoiner} = info.col.setting as DTableRichTypes['col'];
     if (map) {
         let value: string | string[] = result[0] as string;
@@ -134,7 +134,7 @@ export function renderMapCell(result: CustomRenderResultList, info: {row: RowInf
             value = value.split(mapSplitter);
         }
         if (typeof map === 'function') {
-            result[0] = map(value, info);
+            result[0] = map.call(this, value, info);
         } else if (typeof map === 'object') {
             if (!Array.isArray(value)) {
                 value = [value];
@@ -145,10 +145,10 @@ export function renderMapCell(result: CustomRenderResultList, info: {row: RowInf
     return result;
 }
 
-export function renderStyleMapCell(styleMap: Record<string, string> | ((info: {row: RowInfo, col: ColInfo}) => Record<string, string>), result: CustomRenderResultList, info: {row: RowInfo, col: ColInfo}) {
+export function renderStyleMapCell(this: DTableWithPlugin, styleMap: Record<string, string> | ((info: {row: RowInfo, col: ColInfo}) => Record<string, string>), result: CustomRenderResultList, info: {row: RowInfo, col: ColInfo}) {
     const style: Record<string, unknown> = {};
     if (typeof styleMap === 'function') {
-        Object.assign(style, styleMap(info));
+        Object.assign(style, styleMap.call(this, info));
     } else {
         Object.keys(styleMap).forEach(name => {
             const value = info.row.data?.[styleMap[name]] as string;
@@ -163,19 +163,19 @@ export function renderStyleMapCell(styleMap: Record<string, string> | ((info: {r
     return result;
 }
 
-export function renderDatetimeCell(result: CustomRenderResultList, info: {row: RowInfo, col: ColInfo}, defaultFormat: ColDateFormatSetting = '[yyyy-]MM-dd hh:mm') {
+export function renderDatetimeCell(this: DTableWithPlugin, result: CustomRenderResultList, info: {row: RowInfo, col: ColInfo}, defaultFormat: ColDateFormatSetting = '[yyyy-]MM-dd hh:mm') {
     const {formatDate: dateFormat = defaultFormat, invalidDate} = info.col.setting as DTableRichTypes['col'];
-    result[0] = renderDatetime(dateFormat, info, result[0], invalidDate);
+    result[0] = renderDatetime.call(this, dateFormat, info, result[0], invalidDate);
     return result;
 }
 
-export function renderHtmlCell(result: CustomRenderResultList, info: {row: RowInfo, col: ColInfo}, defaultHtml: ColHTMLSetting = false) {
+export function renderHtmlCell(this: DTableWithPlugin, result: CustomRenderResultList, info: {row: RowInfo, col: ColInfo}, defaultHtml: ColHTMLSetting = false) {
     const {html = defaultHtml} = info.col.setting;
     if (html === false) {
         return result;
     }
     const content = result[0];
-    const htmlCode = html === true ? content : renderFormat(html as ColFormatSetting, info, content);
+    const htmlCode = html === true ? content : renderFormat.call(this, html as ColFormatSetting, info, content);
     result[0] = {
         html: htmlCode,
     };
@@ -187,7 +187,7 @@ const richPlugin: DTablePlugin<DTableRichTypes> = {
     colTypes: {
         html: {
             onRenderCell(result, info) {
-                return renderHtmlCell(result, info, true);
+                return renderHtmlCell.call(this as DTableWithPlugin, result, info, true);
             },
         },
         progress: {
@@ -230,15 +230,15 @@ const richPlugin: DTablePlugin<DTableRichTypes> = {
     onRenderCell(result, info) {
         const {formatDate: dateFormat, html, hint, styleMap} = info.col.setting;
         if (dateFormat) {
-            result = renderDatetimeCell(result, info, dateFormat);
+            result = renderDatetimeCell.call(this, result, info, dateFormat);
         }
 
-        result = renderMapCell(result, info);
-        result = renderFormatCell(result, info);
+        result = renderMapCell.call(this, result, info);
+        result = renderFormatCell.call(this, result, info);
         if (html) {
-            result = renderHtmlCell(result, info);
+            result = renderHtmlCell.call(this, result, info);
         } else {
-            result = renderLinkCell(result, info);
+            result = renderLinkCell.call(this, result, info);
         }
 
         if (hint) {
@@ -254,7 +254,7 @@ const richPlugin: DTablePlugin<DTableRichTypes> = {
         }
 
         if (styleMap) {
-            result = renderStyleMapCell(styleMap, result, info);
+            result = renderStyleMapCell.call(this, styleMap, result, info);
         }
 
         return result;
