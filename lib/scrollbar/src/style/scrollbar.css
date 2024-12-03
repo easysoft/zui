@@ -6,10 +6,11 @@
 ::-webkit-scrollbar-track {
     box-shadow: var(--scrollbar-shadow);
     transition: background-color var(--scrollbar-duration);
+    background: var(--scrollbar-bg);
 }
 :hover::-webkit-scrollbar-track,
 ::-webkit-scrollbar-track:hover {
-    background: var(--scrollbar-bg);
+    background: var(--scrollbar-hover-bg);
 }
 
 ::-webkit-scrollbar-thumb {
