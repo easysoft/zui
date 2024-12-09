@@ -19,6 +19,7 @@ export class SearchMenu<T extends SearchMenuOptions = SearchMenuOptions> extends
         wrap: true,
         nestedSearch: true,
         underlineKeys: true,
+        limit: 200,
     };
 
     protected declare _searchKeys: string[];
