@@ -1,4 +1,4 @@
-import {$} from '@zui/core';
+import {$, signal} from '@zui/core';
 import {Component, createRef} from 'preact';
 
 export type ModalIframeContentProps = {
@@ -6,10 +6,6 @@ export type ModalIframeContentProps = {
     watchHeight?: boolean;
     iframeBodyClass?: string;
     onLoad?: (this: ModalIframeContent) => void;
-};
-
-export type ModalIframeContentState = {
-    height?: number;
 };
 
 export class ModalIframeContent extends Component<ModalIframeContentProps> {
@@ -21,20 +17,33 @@ export class ModalIframeContent extends Component<ModalIframeContentProps> {
 
     _rob?: ResizeObserver;
 
-    state: ModalIframeContentState = {};
+    _height = signal<number>();
+
+    _timer = 0;
 
     get iframeDoc() {
         return this._ref.current?.contentWindow?.document;
     }
 
+    protected _handleError = (event: ErrorEvent) => {
+        if (event.message.includes('ResizeObserver loop completed with undelivered notifications')) {
+            this.componentWillUnmount();
+        }
+    };
+
     componentDidMount() {
         if (this.props.watchHeight) {
             this._watchIframeHeight();
         }
+        window.addEventListener('error', this._handleError);
     }
 
     componentWillUnmount(): void {
+        window.removeEventListener('error', this._handleError);
         this._rob?.disconnect();
+        if (this._timer) {
+            clearTimeout(this._timer);
+        }
     }
 
     _watchIframeHeight() {
@@ -45,13 +54,20 @@ export class ModalIframeContent extends Component<ModalIframeContentProps> {
         let rob = this._rob;
         rob?.disconnect();
         rob = new ResizeObserver(() => {
-            const body = iframeDoc.body;
-            const html = iframeDoc.documentElement;
-            const height = Math.ceil(Math.max(body.scrollHeight, body.offsetHeight, html.offsetHeight));
-            this.setState({height});
+            if (this._timer) {
+                clearTimeout(this._timer);
+            }
+            this._timer = window.setTimeout(() => {
+                const body = iframeDoc.body;
+                const html = iframeDoc.documentElement;
+                const height = Math.ceil(Math.max(body.scrollHeight, body.offsetHeight, html.offsetHeight));
+                if (height && height !== this._height.value) {
+                    this._height.value = height;
+                }
+                this._timer = 0;
+            }, 10);
         });
         rob.observe(iframeDoc.body);
-        rob.observe(iframeDoc.documentElement);
         this._rob = rob;
     }
 
@@ -78,7 +94,7 @@ export class ModalIframeContent extends Component<ModalIframeContentProps> {
         return (
             <iframe
                 className="modal-iframe"
-                style={this.state}
+                style={this._height.value ? `height: ${this._height.value}px;` : undefined}
                 src={this.props.url}
                 ref={this._ref}
                 onLoad={this._handleIframeLoad}
