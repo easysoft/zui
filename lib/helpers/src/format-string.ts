@@ -89,6 +89,9 @@ export function formatBytes(size: number, fixed = 2, unit?: keyof typeof BYTE_UN
 export const convertBytes = (str: string) => {
     const pattern = /^[0-9]*(B|KB|MB|GB|TB)$/;
     str = str.toUpperCase();
+    if (!str.endsWith('B')) {
+        str += 'B';
+    }
     const matchRes = str.match(pattern);
     if (!matchRes) {
         return 0;
