@@ -308,7 +308,7 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
             content = <div className={classes('modal-body', customOptions.bodyClass)}>{content}</div>;
         }
         const actionItems: ToolbarItemOptions[] = [];
-        (Array.isArray(actions) ? actions : [actions]).forEach((item) => {
+        (Array.isArray(actions) ? actions : (actions ? [actions] : [])).forEach((item) => {
             item = {
                 ...(typeof item === 'string' ? {key: item} : item),
             } as ToolbarItemOptions;
