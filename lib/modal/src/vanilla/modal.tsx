@@ -296,7 +296,7 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
         }
         const {type, message, icon, iconClass = 'icon-lg muted', actions = 'confirm', onClickAction, custom, key = '__alert', ...otherOptions} = options;
         const customOptions = (typeof custom === 'function' ? custom() : custom) || {};
-        let content = typeof message === 'object' && message.html ? <div dangerouslySetInnerHTML={{__html: message.html}}></div> : (<div>{message}</div>);
+        let content = <CustomContent content={message} />;
         if (icon) {
             content = (
                 <div className={classes('modal-body row gap-4 items-center', customOptions.bodyClass)}>
