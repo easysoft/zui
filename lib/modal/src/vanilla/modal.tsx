@@ -12,9 +12,10 @@ type ModalDialogHTML = [html: string];
 type ModalBuildFunction = (this: Modal, element: HTMLElement, options: ModalOptions) => Promise<ModalDialogOptions | ModalDialogHTML | boolean | undefined>;
 
 function buildCustomModal(this: Modal, _element: HTMLElement, options: ModalCustomOptions): ModalDialogOptions | boolean | undefined {
-    const {custom, title, content} = options;
+    const {custom, title, content, closeBtn} = options;
     return {
         body: content,
+        closeBtn,
         title,
         ...(typeof custom === 'function' ? custom() : custom),
     };

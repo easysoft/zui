@@ -21,6 +21,7 @@ export type ModalOptions = ModalBaseOptions & {
 
 export interface ModalCustomOptions extends ModalOptions {
     type: 'custom',
+    closeBtn?: boolean;
     content?: CustomContentType;
     custom: ModalDialogOptions | (() => ModalDialogOptions);
 }
