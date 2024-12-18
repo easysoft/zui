@@ -19,6 +19,7 @@
 .article table,
 .article img {
   @apply -my-[--article-p-space];
+  text-wrap: pretty;
 }
 
 .article p {
