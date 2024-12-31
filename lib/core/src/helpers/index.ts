@@ -22,3 +22,4 @@ export * from './sticky';
 export * from './commands';
 export * from './run-js';
 export * from './select-file';
+export * from './read-file';
