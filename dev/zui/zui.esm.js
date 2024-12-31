@@ -8,7 +8,7 @@ var ht = (n, t, e) => ($s(n, t, "read from private field"), e ? e.call(n) : t.ge
   t instanceof WeakSet ? t.add(n) : t.set(n, e);
 }, bt = (n, t, e, s) => ($s(n, t, "write to private field"), s ? s.call(n, e) : t.set(n, e), e);
 var Ns = (n, t, e) => ($s(n, t, "access private method"), e);
-const zd = "3.0.0", Od = 1734499551215, Fd = "production", Ht = document, Nn = window, bo = Ht.documentElement, pe = Ht.createElement.bind(Ht), wo = pe("div"), Es = pe("table"), Wl = pe("tbody"), Er = pe("tr"), { isArray: Qn, prototype: Co } = Array, { concat: jl, filter: bi, indexOf: So, map: xo, push: Bl, slice: ko, some: wi, splice: Vl } = Co, Ul = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, Kl = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, ql = /<.+>/, Gl = /^\w+$/;
+const zd = "3.0.0", Od = 1735640107609, Fd = "production", Ht = document, Nn = window, bo = Ht.documentElement, pe = Ht.createElement.bind(Ht), wo = pe("div"), Es = pe("table"), Wl = pe("tbody"), Er = pe("tr"), { isArray: Qn, prototype: Co } = Array, { concat: jl, filter: bi, indexOf: So, map: xo, push: Bl, slice: ko, some: wi, splice: Vl } = Co, Ul = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, Kl = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, ql = /<.+>/, Gl = /^\w+$/;
 function Ci(n, t) {
   const e = Yl(t);
   return !n || !e && !he(t) && !tt(t) ? [] : !e && Kl.test(n) ? t.getElementsByClassName(n.slice(1).replace(/\\/g, "")) : !e && Gl.test(n) ? t.getElementsByTagName(n) : t.querySelectorAll(n);
@@ -2795,6 +2795,25 @@ p.fn.runJS = function(n) {
     Zs(e, n);
   });
 };
+function Zd(n) {
+  return new Promise((t) => {
+    typeof n == "string" && (n = { accept: n });
+    const e = document.createElement("input");
+    e.type = "file", e.accept = (n == null ? void 0 : n.accept) || "*/*", e.multiple = (n == null ? void 0 : n.multiple) || !1, e.onchange = () => {
+      e.files ? t(e.multiple ? e.files : e.files[0]) : t(null), e.remove();
+    }, e.click();
+  });
+}
+function Xd(n) {
+  return new Promise((t, e) => {
+    const s = new FileReader();
+    s.onload = () => {
+      t(s.result);
+    }, s.onerror = (i) => {
+      e(i);
+    }, s.readAsText(n);
+  });
+}
 function as(n, t = {}) {
   const e = p(n)[0];
   if (!e)
@@ -2975,7 +2994,7 @@ function ga(n, t) {
 p.fn.resize = function(n) {
   return ga(this, n);
 };
-const Zd = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+const Qd = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
   isElementDetached: ne,
   isVisible: as,
@@ -3096,7 +3115,7 @@ function _h(n) {
   }
 }
 var L = void 0;
-function Xd(n) {
+function tf(n) {
   var t = L;
   L = void 0;
   try {
@@ -5615,7 +5634,7 @@ dn.DEFAULT = {
 };
 dn.MULTI_INSTANCE = !0;
 dn.TypeOptions = {};
-let of = dn, gs = class extends H {
+let lf = dn, gs = class extends H {
   render(t) {
     const { percent: e = 50, color: s, background: i = null, height: r, width: o, children: a, className: l, style: c } = t;
     return /* @__PURE__ */ g("div", { class: k("progress", l), style: {
@@ -12536,7 +12555,7 @@ export {
   nt as Icon,
   mr as ImageSelector,
   Ui as Menu,
-  of as Messager,
+  lf as Messager,
   jn as Modal,
   Qe as ModalBase,
   qe as ModalTrigger,
@@ -12578,7 +12597,7 @@ export {
   Ud as defineFn,
   Pn as delay,
   Wc as disableScroll,
-  Zd as dom,
+  Qd as dom,
   jr as downloadFile,
   cs as effect,
   Jc as enterFullscreen,
@@ -12621,6 +12640,7 @@ export {
   jd as parseRawData,
   Fi as parseSize,
   ka as reactComponents,
+  Xd as readFile,
   Xc as registerComponent,
   Bc as registerGlobalListener,
   it as registerReactComponent,
@@ -12629,6 +12649,7 @@ export {
   ei as renderCustomContent,
   xh as renderCustomResult,
   Zs as runJS,
+  Zd as selectFile,
   zr as setZData,
   Dc as shareData,
   ln as signal,
@@ -12639,6 +12660,6 @@ export {
   na as toggleFullscreen,
   ji as unbindCommands,
   ea as unbindHotkeys,
-  Xd as untracked
+  tf as untracked
 };
 //# sourceMappingURL=zui.esm.js.map
