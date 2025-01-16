@@ -29,9 +29,25 @@ export class PickerSearch extends Component<PickerSearchProps, PickerSearchState
         this._searchInput.current?.focus();
     }
 
+    setSearch(search: string, focus = true) {
+        if (!search.length && this.state.search.length) {
+            this.props.onClear?.();
+        }
+        const oldSearch = this._searchInput.current?.value;
+        if (oldSearch === search) {
+            if (focus) {
+                this.focus();
+            }
+            return;
+        }
+        $(this._searchInput?.current).val(search).trigger('change');
+        if (focus) {
+            this.focus();
+        }
+    }
+
     clear() {
-        this.props.onClear?.();
-        this.setState({search: ''}, () => this.focus());
+        this.setSearch('');
     }
 
     componentDidMount(): void {
