@@ -119,8 +119,11 @@ export class SearchMenu<T extends SearchMenuOptions = SearchMenuOptions> extends
     }
 
     protected _renderItem(props: RenderableProps<T>, item: Item, index: number): ComponentChildren {
+        if (item.hidden && !this._hasNestedItems) {
+            return null;
+        }
         item.className = [item.className, item.hidden ? 'is-not-match' : ''];
-        if (props.underlineKeys && this._searchKeys.length) {
+        if (!item.hidden && props.underlineKeys && this._searchKeys.length) {
             ['text', 'title', 'subtitle', 'content'].forEach(key => {
                 if (typeof item[key] === 'string') {
                     item[key] = (this.constructor as typeof SearchMenu).underlineKeys(this._searchKeys, [item[key] as string]);
