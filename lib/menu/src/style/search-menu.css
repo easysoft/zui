@@ -37,5 +37,5 @@
   @apply -hidden;
 }
 .search-menu-exceed-limit-hint {
-  @apply -text-gray-500 -text-sm -p-2;
+  @apply -text-gray-500 -text-sm -p-1;
 }
