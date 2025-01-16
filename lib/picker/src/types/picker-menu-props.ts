@@ -19,6 +19,7 @@ export interface PickerMenuProps<S extends PickerState = PickerState> extends Pi
     exceedLimitHint?: string;
     picker?: Picker;
 
+    onPick: (options: {toggle?: string, select?: string | string[], diselect?: string | string[]}) => void;
     onSelect: (values: string | string[]) => void;
     onDeselect: (values: string | string[]) => void;
     onClear: () => void;

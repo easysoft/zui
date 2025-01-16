@@ -149,22 +149,21 @@ export class PickerMenu extends PickPop<PickerState, PickerMenuProps> {
         if (Array.isArray(item.items) && item.items.every(x => this._disabledSet.has(x.value as string))) {
             return;
         }
-        const {multiple, onToggleValue, onSelect, togglePop, onDeselect} = this.props;
+        const {multiple, onPick} = this.props;
         if (multiple) {
             if (item.items) {
                 const map = getValueMap(item.items as NestedItem[]);
                 const values = [...map.values()].filter(x => !x.items && !this._disabledSet.has(x.value as string)).map(x => x.value as string);
                 if ($(target).closest('.item').children('.item-inner.selected').length) {
-                    onDeselect(values);
+                    onPick({diselect: values});
                 } else {
-                    onSelect(values);
+                    onPick({select: values});
                 }
             } else {
-                onToggleValue(value);
+                onPick({toggle: value});
             }
         } else {
-            onSelect(value);
-            togglePop(false, {search: ''});
+            onPick({select: value});
         }
     };
 

@@ -31,6 +31,7 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
         emptyValue: '',
         cache: true,
         hotkeys: true,
+        clearSearchOnSelect: true,
     };
 
     static Pop = PickerMenu as typeof Pick.Pop;
@@ -350,6 +351,24 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
         };
     }
 
+    protected _handlePickValue = (options: {toggle?: string, select?: string | string[], diselect?: string | string[]}) => {
+        const {toggle, select, diselect} = options;
+        if (toggle !== undefined) {
+            this.toggleValue(toggle);
+        } else if (select !== undefined) {
+            this.select(select);
+        } else if (diselect !== undefined) {
+            this.deselect(diselect);
+        }
+        if (this.props.multiple) {
+            if (this.props.clearSearchOnSelect && this.state.search?.length) {
+                this.focusSearch('');
+            }
+        } else {
+            this.toggle(false, {search: ''} as S);
+        }
+    };
+
     protected _getPopProps(props: RenderableProps<O>, state: Readonly<S>): PickerMenuProps<S> {
         return {
             ...super._getPopProps(props, state),
@@ -370,6 +389,7 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
             onClear: this.clear,
             onToggleValue: this.toggleValue,
             onSetValue: this.setValue,
+            onPick: this._handlePickValue,
         };
     }
 
