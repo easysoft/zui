@@ -61,6 +61,18 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
     get searchBox() {
         return (this.trigger as PickerMultiSelect | PickerSingleSelect)?.searchBox;
     }
+
+    focusSearch(search?: string) {
+        const {searchBox} = this;
+        if (searchBox) {
+            if (typeof search === 'string') {
+                searchBox.setSearch(search);
+            } else {
+                searchBox.focus();
+            }
+        }
+    }
+
     getDefaultState(props?: RenderableProps<O>) {
         const {items, valueSplitter = ',', emptyValue = ''} = props || this.props;
         const state = {
