@@ -54,7 +54,7 @@ export function renderLink(this: DTableWithPlugin, link: ColLinkSetting | undefi
         link = {url: link};
     }
     if (!link) {
-        return content;
+        return Array.isArray(content) ? <>{content}</> : content;
     }
     const {url, ...linkProps} = link as ({url: string;} & JSX.HTMLAttributes<HTMLAnchorElement>);
     const {setting} = info.col;
