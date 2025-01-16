@@ -347,6 +347,7 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
             maxItemsCount: props.maxItemsCount,
             footer: this._renderToolbar(),
             valueList: this.valueList,
+            noFlipAfterShow: true,
             noMatchHint: state.loading ? i18n.getLang('loadingHint') : (props.searchEmptyHint ?? i18n.getLang('searchEmptyHint')),
             exceedLimitHint: props.exceedLimitHint ?? i18n.getLang('exceedLimitHint'),
             onDeselect: this.deselect,
