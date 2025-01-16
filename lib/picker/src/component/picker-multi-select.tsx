@@ -7,6 +7,10 @@ import {PickerItemBasic, PickerSelectProps, PickerState} from '../types';
 import {PickerSearch} from './picker-search';
 
 export class PickerMultiSelect extends PickTrigger<PickerState, PickerSelectProps> {
+    get searchBox() {
+        return this._search.current;
+    }
+
     protected _search = createRef<PickerSearch>();
 
     protected _handleDeselectClick = (event: MouseEvent) => {

@@ -8,6 +8,10 @@ import '@zui/css-icons/src/icons/caret.css';
 import '@zui/css-icons/src/icons/close.css';
 
 export class PickerSingleSelect extends PickTrigger<PickerState, PickerSelectProps> {
+    get searchBox() {
+        return this._search.current;
+    }
+
     protected _search = createRef<PickerSearch>();
 
     protected _handleDeselectClick = (event: MouseEvent) => {

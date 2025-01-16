@@ -58,6 +58,9 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
         return this._emptyValueSet.values().next().value as string;
     }
 
+    get searchBox() {
+        return (this.trigger as PickerMultiSelect | PickerSingleSelect)?.searchBox;
+    }
     getDefaultState(props?: RenderableProps<O>) {
         const {items, valueSplitter = ',', emptyValue = ''} = props || this.props;
         const state = {
