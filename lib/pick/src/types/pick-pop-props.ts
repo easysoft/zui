@@ -20,6 +20,7 @@ export interface PickPopProps<S extends PickState = PickState> {
     beforeDestroy?: () => void;
     onLayout?: (element: HTMLElement) => void;
     onClickItem?: (event: MouseEvent, state: string) => void;
+    noFlipAfterShow?: boolean;
 
     limitInScreen?: boolean;
     placement?: PickPopPlacement;

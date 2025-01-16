@@ -12,6 +12,8 @@ export class PickPop<S extends PickState = PickState, P extends PickPopProps<S> 
 
     _container?: HTMLElement;
 
+    _lastPlacement?: Placement;
+
     constructor(props: P) {
         super(props);
         this._handleClick = this._handleClick.bind(this);
@@ -169,10 +171,11 @@ export class PickPop<S extends PickState = PickState, P extends PickPopProps<S> 
         }
 
         this._layoutWatcher = autoUpdate(trigger, element, () => {
-            const {placement, width} = props;
+            const {placement, width, noFlipAfterShow} = props;
+            const lastPlacement = this._lastPlacement;
             computePosition(trigger, element, {
-                placement: (!placement || placement === 'auto') ? 'bottom-start' : placement,
-                middleware: [placement === 'auto' ? flip() : null, shift(), offset(1)].filter(Boolean),
+                placement: (noFlipAfterShow && lastPlacement) ? lastPlacement : ((!placement || placement === 'auto') ? 'bottom-start' : placement),
+                middleware: [(placement === 'auto' && (!noFlipAfterShow || !lastPlacement)) ? flip() : null, shift(), offset(1)].filter(Boolean),
             }).then(({x, y, placement: actualPlacement}) => {
                 if (isElementDetached(trigger) || !isVisible(trigger, {checkZeroSize: true})) {
                     $(element).css({display: 'none'});
@@ -183,6 +186,9 @@ export class PickPop<S extends PickState = PickState, P extends PickPopProps<S> 
                     top: y,
                 }, actualPlacement));
                 this.props.onLayout?.(element);
+                if (!lastPlacement) {
+                    this._lastPlacement = actualPlacement;
+                }
             });
             if (width === '100%') {
                 $(element).css(this._getStyle());
