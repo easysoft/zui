@@ -7,6 +7,7 @@ import '@zui/checkbox';
 import '@zui/avatar';
 import '@zui/tree';
 import {Picker} from './src/main';
+import {$} from '@zui/core';
 
 const items = [
     {text: 'Apple', value: 'apple', keys: 'fruit food'},
@@ -147,6 +148,10 @@ onPageUpdate(() => {
         searchHint: '搜索选项',
         onSelect: (values) => console.log('onSelect', values),
         onDeselect: (values) => console.log('onDeselect', values),
+        onChange: (value, oldValue) => console.log('onChange', value, '<==', oldValue),
+    });
+    $('#singlePicker').on('change', (event) => {
+        console.log('change', event.target.value, event);
     });
     console.log('> singlePicker', singlePicker);
 
@@ -159,6 +164,10 @@ onPageUpdate(() => {
         toolbar: true,
         onSelect: (values) => console.log('onSelect', values),
         onDeselect: (values) => console.log('onDeselect', values),
+        onChange: (value, oldValue) => console.log('onChange', value, '<==', oldValue),
+    });
+    $('#multiPicker').on('change', (event) => {
+        console.log('change', event.target.value, event);
     });
     console.log('> multiPicker', multiPicker);
 
