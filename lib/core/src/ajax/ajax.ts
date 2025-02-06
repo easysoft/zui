@@ -1,6 +1,5 @@
-import {$} from '@zui/core';
-
-import type {AjaxBeforeSendCallback, AjaxCallbackMap, AjaxCompleteCallback, AjaxErrorCallback, AjaxFormItemValue, AjaxSetting, AjaxSuccessCallback} from './types';
+import type {AjaxBeforeSendCallback, AjaxCallbackMap, AjaxCompleteCallback, AjaxErrorCallback, AjaxSetting, AjaxSuccessCallback} from './types';
+import {createFormData} from '../form';
 
 function setHeader(headers: HeadersInit, name: string, value: string) {
     if (headers instanceof Headers) {
@@ -12,20 +11,6 @@ function setHeader(headers: HeadersInit, name: string, value: string) {
     }
 }
 
-function setFormItem(formData: FormData, name: string, value: AjaxFormItemValue | AjaxFormItemValue[] | Record<string, AjaxFormItemValue>) {
-    if (value === undefined || value === null) {
-        return;
-    }
-    if (Array.isArray(value)) {
-        value.forEach((v) => setFormItem(formData, name, v));
-    } else if (!(value instanceof Blob) && $.isPlainObject(value)) {
-        Object.entries(value).forEach(([key, v]) => {
-            setFormItem(formData, `${name}[${key}]`, v);
-        });
-    } else {
-        formData.append(name, value instanceof Blob ? value : String(value));
-    }
-}
 
 function getDataType(contentType: string | undefined | null, accepts: Record<string, string> | undefined) {
     if (contentType) {
@@ -45,32 +30,6 @@ function getDataType(contentType: string | undefined | null, accepts: Record<str
     return 'text';
 }
 
-export function createFormData(data: string | FormData | URLSearchParams | Record<string, AjaxFormItemValue | AjaxFormItemValue[]> | [name: string, value: AjaxFormItemValue][], existingFormData?: FormData): FormData {
-    const formData = existingFormData || new FormData();
-    if (data) {
-        if (typeof data === 'string') {
-            data = new URLSearchParams(data);
-        }
-        if (data instanceof URLSearchParams) {
-            data.forEach((value, name) => {
-                setFormItem(formData, name, value);
-            });
-        } else if (Array.isArray(data)) {
-            data.forEach(([name, value]) => {
-                setFormItem(formData, name, value);
-            });
-        } else if (data instanceof FormData) {
-            data.forEach((value, name) => {
-                setFormItem(formData, name, value);
-            });
-        } else if ($.isPlainObject(data)) {
-            Object.entries(data).forEach(([name, value]) => {
-                setFormItem(formData, name, value);
-            });
-        }
-    }
-    return formData;
-}
 
 export class Ajax<T = unknown> {
     static globalBeforeSends: AjaxBeforeSendCallback[] = [];

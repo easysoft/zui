@@ -1,3 +1,4 @@
+import type {FormItemValue} from '../form';
 
 export type AjaxBeforeSendCallback = (init: RequestInit) => void | Partial<RequestInit> | false;
 
@@ -9,9 +10,7 @@ export type AjaxSuccessCallback = (data: unknown, statusText: string, response: 
 
 export type AjaxDataFilter = (data: unknown, dataType: string) => unknown;
 
-export type AjaxFormItemValue = undefined | null | string | Blob | File | boolean | number;
-
-export type AjaxFormData = string | FormData | URLSearchParams | Record<string, AjaxFormItemValue | AjaxFormItemValue[]> | [name: string, value: AjaxFormItemValue][];
+export type AjaxFormData = string | FormData | URLSearchParams | Record<string, FormItemValue | FormItemValue[]> | [name: string, value: FormItemValue][];
 
 export type AjaxCallbackMap = {
     success: AjaxSuccessCallback;

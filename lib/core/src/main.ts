@@ -1,6 +1,7 @@
 export * from './config';
 export * from './cash';
 export * from './i18n';
+export * from './form';
 export * from './ajax';
 export * from './helpers';
 export * as dom from './dom';
