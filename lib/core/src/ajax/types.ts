@@ -1,4 +1,5 @@
-export type AjaxBeforeSendCallback = (init: RequestInit) => void | false;
+
+export type AjaxBeforeSendCallback = (init: RequestInit) => void | Partial<RequestInit> | false;
 
 export type AjaxCompleteCallback = (response: Response | undefined, statusText: string | undefined) => void;
 
