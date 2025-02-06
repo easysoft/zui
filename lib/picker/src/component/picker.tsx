@@ -228,13 +228,15 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
                 if (Array.isArray(prevState.items) && prevState.items !== newState.items) {
                     getValueMap(prevState.items as PickerItemOptions[], map);
                 }
-                getValueMap(items, map);
-                newState.selections = this.formatValueList(newState.value ?? prevState.value).reduce<PickerItemBasic[]>((list, value) => {
-                    if (!this.isEmptyValue(value)) {
-                        list.push(map.get(value) || {value, text: value});
-                    }
-                    return list;
-                }, []);
+                if (Array.isArray(items)) {
+                    getValueMap(items, map);
+                    newState.selections = this.formatValueList(newState.value ?? prevState.value).reduce<PickerItemBasic[]>((list, value) => {
+                        if (!this.isEmptyValue(value)) {
+                            list.push(map.get(value) || {value, text: value});
+                        }
+                        return list;
+                    }, []);
+                }
             }
             return newState;
         }, callback);
