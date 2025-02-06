@@ -8,7 +8,7 @@ var ht = (n, t, e) => ($s(n, t, "read from private field"), e ? e.call(n) : t.ge
   t instanceof WeakSet ? t.add(n) : t.set(n, e);
 }, wt = (n, t, e, s) => ($s(n, t, "write to private field"), s ? s.call(n, e) : t.set(n, e), e);
 var Ns = (n, t, e) => ($s(n, t, "access private method"), e);
-const zd = "3.0.0", Od = 1737593824375, Fd = "production", Ht = document, Nn = window, wo = Ht.documentElement, pe = Ht.createElement.bind(Ht), bo = pe("div"), Es = pe("table"), Wl = pe("tbody"), Er = pe("tr"), { isArray: Qn, prototype: Co } = Array, { concat: jl, filter: wi, indexOf: So, map: xo, push: Bl, slice: ko, some: bi, splice: Vl } = Co, Ul = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, Kl = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, ql = /<.+>/, Gl = /^\w+$/;
+const zd = "3.0.0", Od = 1738828996991, Fd = "production", Ht = document, Nn = window, wo = Ht.documentElement, pe = Ht.createElement.bind(Ht), bo = pe("div"), Es = pe("table"), Wl = pe("tbody"), Er = pe("tr"), { isArray: Qn, prototype: Co } = Array, { concat: jl, filter: wi, indexOf: So, map: xo, push: Bl, slice: ko, some: bi, splice: Vl } = Co, Ul = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, Kl = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, ql = /<.+>/, Gl = /^\w+$/;
 function Ci(n, t) {
   const e = Yl(t);
   return !n || !e && !he(t) && !tt(t) ? [] : !e && Kl.test(n) ? t.getElementsByClassName(n.slice(1).replace(/\\/g, "")) : !e && Gl.test(n) ? t.getElementsByTagName(n) : t.querySelectorAll(n);
@@ -932,15 +932,27 @@ Oo({
     close: "Close"
   }
 });
-function Lr(n, t, e) {
-  n instanceof Headers ? n.set(t, e) : Array.isArray(n) ? n.push([t, e]) : n[t] = e;
-}
 function we(n, t, e) {
   e != null && (Array.isArray(e) ? e.forEach((s) => we(n, t, s)) : !(e instanceof Blob) && f.isPlainObject(e) ? Object.entries(e).forEach(([s, i]) => {
     we(n, `${t}[${s}]`, i);
   }) : n.append(t, e instanceof Blob ? e : String(e)));
 }
 function Pc(n, t) {
+  const e = t || new FormData();
+  return n && (typeof n == "string" && (n = new URLSearchParams(n)), n instanceof URLSearchParams ? n.forEach((s, i) => {
+    we(e, i, s);
+  }) : Array.isArray(n) ? n.forEach(([s, i]) => {
+    we(e, s, i);
+  }) : n instanceof FormData ? n.forEach((s, i) => {
+    we(e, i, s);
+  }) : f.isPlainObject(n) && Object.entries(n).forEach(([s, i]) => {
+    we(e, s, i);
+  })), e;
+}
+function Lr(n, t, e) {
+  n instanceof Headers ? n.set(t, e) : Array.isArray(n) ? n.push([t, e]) : n[t] = e;
+}
+function Ic(n, t) {
   if (n) {
     const e = {
       text: "text/plain",
@@ -953,18 +965,6 @@ function Pc(n, t) {
         return s;
   }
   return "text";
-}
-function Ic(n, t) {
-  const e = t || new FormData();
-  return n && (typeof n == "string" && (n = new URLSearchParams(n)), n instanceof URLSearchParams ? n.forEach((s, i) => {
-    we(e, i, s);
-  }) : Array.isArray(n) ? n.forEach(([s, i]) => {
-    we(e, s, i);
-  }) : n instanceof FormData ? n.forEach((s, i) => {
-    we(e, i, s);
-  }) : f.isPlainObject(n) && Object.entries(n).forEach(([s, i]) => {
-    we(e, s, i);
-  })), e;
 }
 class Ii {
   get completed() {
@@ -1032,7 +1032,7 @@ class Ii {
     } = this.setting;
     e && (m.method = e);
     let v = s;
-    v && (i && (v = Ic(v)), m.body = v), o && (m.mode = "cors");
+    v && (i && (v = Pc(v)), m.body = v), o && (m.mode = "cors");
     const y = m.headers || {};
     Lr(y, "X-Requested-With", "XMLHttpRequest"), r && Lr(y, "Content-Type", r), m.headers = y, m.signal && m.signal.addEventListener("abort", () => {
       this.abort();
@@ -1067,7 +1067,7 @@ class Ii {
       a = await fetch(this.url, this.request), this.response = a;
       const { statusText: h } = a;
       if (a.ok) {
-        const p = (u = a.headers.get("Content-Disposition")) == null ? void 0 : u.startsWith("attachment"), d = p ? "blob" : e || Pc(a.headers.get("Content-Type"), s);
+        const p = (u = a.headers.get("Content-Disposition")) == null ? void 0 : u.startsWith("attachment"), d = p ? "blob" : e || Ic(a.headers.get("Content-Type"), s);
         p || d === "blob" || d === "file" ? c = await a.blob() : d === "json" ? typeof o == "function" ? (c = await a.text(), c = o(c)) : c = await a.json() : c = await a.text(), this.data = c;
         const _ = (i == null ? void 0 : i(c, d)) ?? c;
         this._emit("success", _, h, a);
@@ -10075,7 +10075,7 @@ let xs = class extends St {
       const i = typeof t == "function" ? t(s) : t;
       if (i.value !== void 0 && i.value !== s.value || i.items && i.items !== s.items) {
         const r = i.items || s.items, o = /* @__PURE__ */ new Map();
-        Array.isArray(s.items) && s.items !== i.items && oe(s.items, o), oe(r, o), i.selections = this.formatValueList(i.value ?? s.value).reduce((a, l) => (this.isEmptyValue(l) || a.push(o.get(l) || { value: l, text: l }), a), []);
+        Array.isArray(s.items) && s.items !== i.items && oe(s.items, o), Array.isArray(r) && (oe(r, o), i.selections = this.formatValueList(i.value ?? s.value).reduce((a, l) => (this.isEmptyValue(l) || a.push(o.get(l) || { value: l, text: l }), a), []));
       }
       return i;
     }, e);
@@ -12616,7 +12616,7 @@ export {
   ye as convertBytes,
   ia as create,
   q as createDate,
-  Ic as createFormData,
+  Pc as createFormData,
   $h as createPortal,
   G as createRef,
   se as deepCall,
@@ -12678,6 +12678,7 @@ export {
   xh as renderCustomResult,
   Zs as runJS,
   Zd as selectFile,
+  we as setFormDataValue,
   zr as setZData,
   Dc as shareData,
   ln as signal,
