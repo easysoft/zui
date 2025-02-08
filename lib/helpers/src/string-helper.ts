@@ -1,4 +1,13 @@
 /**
+ * 判断是否为字符串
+ * @param value 要判断的值
+ * @returns 如果为 `true` 则表示是字符串
+ */
+export function isNotEmptyString(value: unknown): value is string {
+    return typeof value === 'string' && value !== '';
+}
+
+/**
  * 格式化字符串
  * @param str 要格式化的字符串
  * @param args 格式化参数
