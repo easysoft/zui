@@ -1,4 +1,4 @@
-import {convertBytes, formatBytes} from '@zui/helpers/src/format-string';
+import {convertBytes, formatBytes} from '@zui/helpers/src/string-helper';
 import {Component, $, Cash} from '@zui/core';
 import {UploadOptions} from '../types';
 import {Tooltip} from '@zui/tooltip';

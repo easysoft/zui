@@ -9,7 +9,7 @@ import type {ComponentType, RenderableProps} from 'preact';
 import type {ListItem, ListItemsFetcher} from '@zui/list';
 import type {PickTriggerProps} from '@zui/pick';
 import type {PickerItemBasic, PickerItemOptions, PickerMenuProps, PickerOptions, PickerSelectProps, PickerState} from '../types';
-import {formatString} from '@zui/helpers/src/format-string';
+import {formatString} from '@zui/helpers/src/string-helper';
 
 function getValueMap(items: PickerItemOptions[], userMap?: Map<string, PickerItemOptions>): Map<string, PickerItemOptions> {
     return items.reduce<Map<string, PickerItemOptions>>((map, item) => {

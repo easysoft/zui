@@ -1,7 +1,7 @@
 import {Button} from '@zui/button/src/component/button';
 import {ComponentChildren} from 'preact';
 import {PageLinkCreator, PagerInfo, PagerNavProps} from '../types';
-import {formatString} from '@zui/helpers/src/format-string';
+import {formatString} from '@zui/helpers/src/string-helper';
 import {updatePagerInfo} from '../helpers/update-pager-info';
 
 export function PagerNav({

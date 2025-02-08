@@ -1,6 +1,6 @@
 import {classes} from '@zui/core';
 import {DropdownButton} from '@zui/dropdown/src/component';
-import {formatString} from '@zui/helpers/src/format-string';
+import {formatString} from '@zui/helpers/src/string-helper';
 import {PageLinkCreator, PagerInfo, PagerSizeMenuProps} from '../types';
 import {Item} from '@zui/common-list/src/types';
 

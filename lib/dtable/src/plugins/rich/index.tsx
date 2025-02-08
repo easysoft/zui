@@ -1,4 +1,4 @@
-import {formatString} from '@zui/helpers/src/format-string';
+import {formatString} from '@zui/helpers/src/string-helper';
 import {formatDate} from '@zui/helpers/src/date-helper';
 import {ProgressCircle} from '@zui/progress-circle/src/component';
 import {ProgressBar} from '@zui/progress/src/components';

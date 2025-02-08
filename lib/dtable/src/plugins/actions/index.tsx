@@ -1,4 +1,4 @@
-import {formatString} from '@zui/helpers/src/format-string';
+import {formatString} from '@zui/helpers/src/string-helper';
 import {Toolbar} from '@zui/toolbar/src/component/toolbar';
 import {definePlugin} from '../../helpers/shared-plugins';
 
