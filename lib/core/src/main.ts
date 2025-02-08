@@ -1,3 +1,4 @@
+export * from './types';
 export * from './config';
 export * from './cash';
 export * from './i18n';
