@@ -86,11 +86,11 @@ export class PickTrigger<S extends PickState = PickState, P extends PickTriggerP
 
     componentDidMount(): void {
         const {id} = this.props;
-        $(`#${id}`).on(`change.zui.pick.${id} syncValue.zui.pick.${id}`, (event: Event, from: symbol) => {
+        $(`#${id}`).on(`change.zui.pick.${id} syncValue.zui.pick.${id}`, (event: Event, from?: symbol | {setValue?: string}) => {
             if (typeof from === 'symbol') {
                 return;
             }
-            const value = (event.target as HTMLInputElement).value;
+            const value = ($.isPlainObject(from) && typeof from.setValue === 'string') ? from.setValue : (event.target as HTMLInputElement).value;
             this._skipTriggerChange = value;
             this.props.changeState({value} as Partial<S>);
         });
