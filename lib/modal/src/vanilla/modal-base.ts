@@ -83,20 +83,27 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
         }
     }
 
+    protected _cancelObserver() {
+        this._rob?.disconnect();
+        this._rob = undefined;
+    }
+
     afterInit() {
         this.on('click', this._handleClick);
         if (this.options.show) {
             this.show();
         }
 
-        this._observeResize();
-
         this.on('hidden', (event) => {
             const {modalElement} = this;
             if (!modalElement.parentNode) {
                 return this.destroy();
             }
-            if ((event.target as HTMLElement).closest('.modal') === modalElement && !ModalBase.getAll().some((modal) => modal.shown)) {
+            const isCurrent = (event.target as HTMLElement).closest('.modal') === modalElement;
+            if (isCurrent) {
+                this._cancelObserver();
+            }
+            if (isCurrent && !ModalBase.getAll().some((modal) => modal.shown)) {
                 $('html').enableScroll();
             }
         });
@@ -106,6 +113,7 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
                 return this.destroy();
             }
             if ((event.target as HTMLElement).closest('.modal') === modalElement) {
+                this._observeResize();
                 $('html').disableScroll();
             }
         });
@@ -116,10 +124,7 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
 
     destroy(): void {
         super.destroy();
-        if (this._rob) {
-            this._rob.disconnect();
-            this._rob = undefined;
-        }
+        this._cancelObserver();
     }
 
     show(options?: Partial<T>) {
