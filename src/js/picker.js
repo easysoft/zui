@@ -74,6 +74,7 @@
         onShowedDrop: null, // function
         onHiddenDrop: null, // function
         valueMustInList: true,
+        history: false,
     };
 
     var LANG = {
@@ -84,6 +85,8 @@
             remoteErrorHint: '无法从服务器获取结果 - {0}',
             selectAll: '全选',
             deselectAll: '取消选择',
+            reselect: '重选',
+            undo: '撤销',
         },
         zh_tw: {
             emptyResultHint: '沒有可選項',
@@ -92,6 +95,8 @@
             remoteErrorHint: '無法從服務器獲取結果 - {0}',
             selectAll: '全選',
             deselectAll: '取消選擇',
+            reselect: '重選',
+            undo: '撤銷',
         },
         en: {
             emptyResultHint: 'No options',
@@ -100,6 +105,8 @@
             remoteErrorHint: 'Unable to get result from server: {0}',
             selectAll: 'Select all',
             deselectAll: 'Deselect all',
+            reselect: 'Reselect',
+            undo: 'Undo',
         }
     };
 
@@ -206,6 +213,8 @@
         that.$selections = $selections;
         that.$search = $search;
         that.search = '';
+        that.history = [];
+        that.historyIndex = -1;
 
         // Init placeholder
         var placeholder = options.placeholder;
@@ -475,7 +484,7 @@
     };
 
     Picker.prototype.focus = function() {
-        this.$search.focus();
+        this.$search.trigger('focus');
     };
 
     Picker.prototype.select = function(value, notHideDropList) {
@@ -555,7 +564,34 @@
         if (!notHideDropList) {
             that.hideDropList();
         }
-    }
+    };
+
+    Picker.prototype.reselect = function() {
+        var that = this;
+        var history = that.history;
+        var index = that.historyIndex;
+        if (index >= 0 && index < history.length - 1) {
+            index = index + 1;
+            that.historyIndex = index;
+            that.setValue(history[index], false, false, true);
+            that.renderOptionsList();
+        }
+    };
+
+    Picker.prototype.undo = function() {
+        var that = this;
+        var history = that.history;
+        var index = that.historyIndex;
+        if (index === -1) {
+            index = history.length - 1;
+        }
+        if (history.length > 0 && index > 0 && index < history.length) {
+            index = index - 1;
+            that.historyIndex = index;
+            that.setValue(history[index], false, false, true);
+            that.renderOptionsList();
+        }
+    };
 
     Picker.prototype.updateMessage = function(message, type, skipLayout) {
         var that = this;
@@ -915,7 +951,24 @@
 
         that.$dropMenu.toggleClass('picker-no-options', !optionsCount);
         that.layoutDropList(that.listRendered);
+        that.updateHistoryButtons();
         that.listRendered = true;
+    };
+
+    Picker.prototype.updateHistoryButtons = function() {
+        var that = this;
+        if (!that.options.history || !that.$actions) {
+            return;
+        }
+        var historyIndex = that.historyIndex;
+        var historyLenght = that.history.length;
+        if(historyIndex === -1) {
+            historyIndex = historyLenght - 1;
+        }
+        var reselectEnabled = historyIndex >= 0 && historyIndex < historyLenght - 1;
+        var undoEnabled = historyLenght > 0 && historyIndex > 0 && historyIndex < historyLenght;
+        that.$actions.find('[data-type="reselect"]').attr('disabled', reselectEnabled ? null : 'disabled');
+        that.$actions.find('[data-type="undo"]').attr('disabled', undoEnabled ? null : 'disabled');
     };
 
     Picker.prototype.activeOption = function(activeValue, skipScroll) {
@@ -1067,6 +1120,7 @@
 
     Picker.prototype.showDropList = function() {
         var that = this;
+        var options = that.options;
 
         if (that.triggerEvent('showingDrop', {picker: that}) === false) {
             return;
@@ -1082,21 +1136,21 @@
         that.activeValue = null;
         SHOWS[that.id] = that;
 
-        if(that.options.disableScrollOnShow) {
+        if(options.disableScrollOnShow) {
             $.zui.fixBodyScrollbar();
         }
 
         if (!that.$dropMenu) {
             var $dropMenu = $('<div class="picker-drop-menu" id="pickerDropMenu-' + that.id + '"></div>').attr('data-id', that.id);
             var $optionsList = $('<div class="picker-option-list"></div>').appendTo($dropMenu);
-            var checkable = that.options.checkable;
+            var checkable = options.checkable;
             $dropMenu.data(NAME, that)
                 .toggleClass('picker-multi', that.multi)
                 .toggleClass('picker-single', !that.multi)
                 .toggleClass('picker-checkable', !!checkable)
                 .appendTo('body');
 
-            if (that.options.chosenMode) {
+            if (options.chosenMode) {
                 $dropMenu.addClass('chosen-up');
             }
 
@@ -1115,11 +1169,12 @@
                 }
             });
 
-            if (that.multi && !that.options.remote) {
+            if (that.multi && !options.remote) {
                 that.$actions = $([
                     '<div class="picker-actions">',
                         '<button type="button" class="btn btn-sm btn-link picker-action" data-type="select-all">' + that.lang.selectAll + '</button>',
                         '<button type="button" class="btn btn-sm btn-link picker-action" data-type="deselect-all">' + that.lang.deselectAll + '</button>',
+                        options.history ? ('<button type="button" class="btn btn-sm btn-link picker-action" data-type="reselect">' + that.lang.reselect + '</button><button type="button" class="btn btn-sm btn-link picker-action" data-type="undo">' + that.lang.undo + '</button>') : '',
                     '</div>'
                 ].join('')).appendTo($dropMenu);
 
@@ -1129,6 +1184,10 @@
                         that.selectAll(checkable);
                     } else if (actionType === 'deselect-all') {
                         that.deselectAll(checkable);
+                    } else if (actionType === 'reselect') {
+                        that.reselect();
+                    } else if (actionType === 'undo') {
+                        that.undo();
                     }
                 });
             }
@@ -1380,7 +1439,7 @@
         }
     };
 
-    Picker.prototype.setValue = function(value, silent, skipRenderSelections) {
+    Picker.prototype.setValue = function(value, silent, skipRenderSelections, skipHistory) {
         var that = this;
         var options = that.options;
         var needTriggerChange;
@@ -1433,6 +1492,27 @@
 
         if (isMulti) {
             that.valueSet = null;
+
+            if(options.history && !skipHistory) {
+                var history = that.history;
+                var historyIndex = that.historyIndex;
+                var maxHistory = typeof options.history === 'number' ? options.history : 100;
+                if(history.length) {
+                    if (historyIndex >= 0 && historyIndex < history.length) {
+                        history = history.slice(0, historyIndex);
+                    }
+                    if(needTriggerChange) {
+                        history.push(value);
+                        that.historyIndex = -1;
+                        if(history.length > maxHistory) {
+                            history.shift();
+                        }
+                    }
+                } else {
+                    history.push(value);
+                    that.historyIndex = -1;
+                }
+            }
         }
 
         // Update form item
