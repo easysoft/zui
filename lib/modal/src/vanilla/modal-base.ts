@@ -92,6 +92,7 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
         this.on('click', this._handleClick);
         if (this.options.show) {
             this.show();
+            this._observeResize();
         }
 
         this.on('hidden', (event) => {
