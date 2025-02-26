@@ -8,7 +8,7 @@ var ht = (n, t, e) => ($s(n, t, "read from private field"), e ? e.call(n) : t.ge
   t instanceof WeakSet ? t.add(n) : t.set(n, e);
 }, bt = (n, t, e, s) => ($s(n, t, "write to private field"), s ? s.call(n, e) : t.set(n, e), e);
 var Ns = (n, t, e) => ($s(n, t, "access private method"), e);
-const zd = "3.0.0", Od = 1739795371485, Fd = "production", Ht = document, Nn = window, bo = Ht.documentElement, pe = Ht.createElement.bind(Ht), wo = pe("div"), Es = pe("table"), Wl = pe("tbody"), Er = pe("tr"), { isArray: Qn, prototype: Co } = Array, { concat: jl, filter: bi, indexOf: So, map: xo, push: Bl, slice: ko, some: wi, splice: Vl } = Co, Ul = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, Kl = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, ql = /<.+>/, Gl = /^\w+$/;
+const zd = "3.0.0", Od = 1740547798362, Fd = "production", Ht = document, Nn = window, bo = Ht.documentElement, pe = Ht.createElement.bind(Ht), wo = pe("div"), Es = pe("table"), Wl = pe("tbody"), Er = pe("tr"), { isArray: Qn, prototype: Co } = Array, { concat: jl, filter: bi, indexOf: So, map: xo, push: Bl, slice: ko, some: wi, splice: Vl } = Co, Ul = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, Kl = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, ql = /<.+>/, Gl = /^\w+$/;
 function Ci(n, t) {
   const e = Yl(t);
   return !n || !e && !he(t) && !tt(t) ? [] : !e && Kl.test(n) ? t.getElementsByClassName(n.slice(1).replace(/\\/g, "")) : !e && Gl.test(n) ? t.getElementsByTagName(n) : t.querySelectorAll(n);
@@ -9998,9 +9998,9 @@ let xs = class extends St {
       const s = this.formatValueList(e), i = this.props.multiple ? [...this.valueList, ...s] : s[0];
       return this.setValue(i);
     }, this.isSelected = (e) => this.valueList.includes(e), this._handlePickValue = (e) => {
-      var o;
+      var o, a;
       const { toggle: s, select: i, diselect: r } = e;
-      s !== void 0 ? this.toggleValue(s) : i !== void 0 ? this.select(i) : r !== void 0 && this.deselect(r), this.props.multiple ? this.props.clearSearchOnSelect && ((o = this.state.search) != null && o.length) && this.focusSearch("") : this.toggle(!1, { search: "" });
+      s !== void 0 ? this.toggleValue(s) : i !== void 0 ? this.select(i) : r !== void 0 && this.deselect(r), this.props.multiple ? this.props.clearSearchOnSelect && ((o = this.state.search) != null && o.length) && this.focusSearch("") : (this.toggle(!1), (a = this.searchBox) == null || a.clear());
     }, this.setValue = this.setValue.bind(this), this.isEmptyValue = this.isEmptyValue.bind(this);
   }
   get valueList() {
