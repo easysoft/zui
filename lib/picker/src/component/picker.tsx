@@ -367,7 +367,8 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
                 this.focusSearch('');
             }
         } else {
-            this.toggle(false, {search: ''} as S);
+            this.toggle(false);
+            this.searchBox?.clear();
         }
     };
 
