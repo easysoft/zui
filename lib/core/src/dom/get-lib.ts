@@ -1,4 +1,5 @@
 import {$} from '../cash';
+import {BUILD} from '../config';
 
 export type GetLibCallback = () => void;
 
@@ -10,6 +11,7 @@ export interface LoadJSOptions {
     noModule?: boolean;
     type?: string;
     integrity?: string;
+    version?: string;
 }
 
 export interface LoadJSModuleOptions<T = unknown> extends LoadJSOptions {
@@ -24,6 +26,7 @@ export interface LoadCSSOptions {
     src: string;
     id?: string;
     type?: 'css';
+    version?: string;
 }
 
 export type GetLibOptions = {
@@ -34,6 +37,7 @@ export type GetLibOptions = {
     noModule?: boolean;
     type?: string;
     integrity?: string;
+    version?: string;
     name?: string;
     root?: string;
     css?: string;
@@ -45,6 +49,8 @@ export type GetLibOptions = {
 declare module 'cash-dom' {
     interface CashStatic {
         libRoot?: string;
+
+        libVersion?: string;
 
         libMap?: Record<string, GetLibOptions>;
 
@@ -67,8 +73,11 @@ declare module 'cash-dom' {
 }
 
 /** Define the $.libRoot property. */
-$.setLibRoot = function (root: string): void {
+$.setLibRoot = function (root: string, libVersion?: string): void {
     $.libRoot = root;
+    if (libVersion) {
+        $.libVersion = libVersion;
+    }
 };
 
 /** Define the $.libMap property. */
@@ -82,6 +91,8 @@ $.registerLib = function (name: string, options: GetLibOptions): void {
     $.libMap[name] = options;
 };
 
+$.libVersion = BUILD.toString(36);
+
 /**
  * Load a CSS file by append a link tag to the head.
  */
@@ -90,8 +101,8 @@ export function loadCSS(options: string | LoadCSSOptions): Promise<void> {
         if (typeof options === 'string') {
             options = {src: options};
         }
-        const {src, id} = options;
-        const $oldLinks = $(id ? `#${id}` : `link[href="${src}"]`);
+        const {src, id, version} = options;
+        const $oldLinks = $(id ? `#${id}` : `link[href^="${src}"]`);
         if ($oldLinks.length) {
             resolve();
             return;
@@ -104,7 +115,7 @@ export function loadCSS(options: string | LoadCSSOptions): Promise<void> {
             reject(new Error(`[ZUI] Failed to load CSS from: ${src}`));
         };
         link.rel = 'stylesheet';
-        link.href = src;
+        link.href = `${src}${version ? `${src.includes('?') ? '&' : '?'}v=${version}` : ''}`;
         if (id) {
             link.id = id;
         }
@@ -117,8 +128,8 @@ export function loadJS(options: string | LoadJSOptions): Promise<void> {
         if (typeof options === 'string') {
             options = {src: options};
         }
-        const {src, id} = options;
-        const $oldScripts = $(id ? `#${id}` : `script[src="${src}"]`);
+        const {src, id, version} = options;
+        const $oldScripts = $(id ? `#${id}` : `script[src^="${src}"]`);
         if ($oldScripts.length) {
             if ($oldScripts.dataset('loaded')) {
                 resolve();
@@ -151,7 +162,7 @@ export function loadJS(options: string | LoadJSOptions): Promise<void> {
             reject(new Error(`[ZUI] Failed to load JS from: ${src}`));
         };
         $('head').append(script);
-        script.src = src;
+        script.src = `${src}${version ? `${src.includes('?') ? '&' : '?'}v=${version}` : ''}`;
     });
 }
 
@@ -272,7 +283,7 @@ $.getLib = async function<T = unknown> (optionsOrSrc: string | string[] | GetLib
         }
     }
 
-    const {root = $.libRoot} = options;
+    const {root = $.libRoot, version = $.libVersion} = options;
     for (let srcOptions of srcList) {
         if (typeof srcOptions === 'string') {
             srcOptions = {src: srcOptions};
@@ -284,6 +295,7 @@ $.getLib = async function<T = unknown> (optionsOrSrc: string | string[] | GetLib
         const loadOptions = {
             ...options,
             ...srcOptions,
+            version,
             src,
         };
         if (srcOptions.type === 'css' || (!srcOptions.type && src.endsWith('.css'))) {
