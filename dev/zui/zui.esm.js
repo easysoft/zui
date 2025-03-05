@@ -8,7 +8,7 @@ var ht = (n, t, e) => ($s(n, t, "read from private field"), e ? e.call(n) : t.ge
   t instanceof WeakSet ? t.add(n) : t.set(n, e);
 }, bt = (n, t, e, s) => ($s(n, t, "write to private field"), s ? s.call(n, e) : t.set(n, e), e);
 var Ns = (n, t, e) => ($s(n, t, "access private method"), e);
-const zd = "3.0.0", Od = 1740553200314, Fd = "production", Ht = document, Nn = window, bo = Ht.documentElement, pe = Ht.createElement.bind(Ht), wo = pe("div"), Es = pe("table"), Wl = pe("tbody"), Er = pe("tr"), { isArray: Qn, prototype: Co } = Array, { concat: jl, filter: bi, indexOf: So, map: xo, push: Bl, slice: ko, some: wi, splice: Vl } = Co, Ul = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, Kl = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, ql = /<.+>/, Gl = /^\w+$/;
+const zd = "3.0.0", Od = 1741141055898, Fd = "production", Ht = document, Nn = window, bo = Ht.documentElement, pe = Ht.createElement.bind(Ht), wo = pe("div"), Es = pe("table"), Wl = pe("tbody"), Er = pe("tr"), { isArray: Qn, prototype: Co } = Array, { concat: jl, filter: bi, indexOf: So, map: xo, push: Bl, slice: ko, some: wi, splice: Vl } = Co, Ul = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, Kl = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, ql = /<.+>/, Gl = /^\w+$/;
 function Ci(n, t) {
   const e = Yl(t);
   return !n || !e && !he(t) && !tt(t) ? [] : !e && Kl.test(n) ? t.getElementsByClassName(n.slice(1).replace(/\\/g, "")) : !e && Gl.test(n) ? t.getElementsByTagName(n) : t.querySelectorAll(n);
@@ -2872,7 +2872,7 @@ p.setLibRoot = function(n, t) {
 p.registerLib = function(n, t) {
   p.libMap || (p.libMap = {}), !t.name && t.id && (t.id = `zui-lib-${n}`), p.libMap[n] = t;
 };
-p.libVersion = 1740553200314 .toString(36);
+p.libVersion = 1741141055898 .toString(36);
 function da(n) {
   return new Promise((t, e) => {
     typeof n == "string" && (n = { src: n });
@@ -8062,7 +8062,7 @@ const Ru = {
   iframe: Iu
 }, uo = "loading", el = class re extends Qe {
   constructor() {
-    super(...arguments), He(this, Wn), He(this, kn), He(this, zt, void 0), He(this, We, void 0), He(this, Ot, void 0);
+    super(...arguments), He(this, Wn), He(this, kn), He(this, zt, void 0), He(this, We, void 0), He(this, Ot, void 0), this._builded = !1;
   }
   get id() {
     return xt(this, We);
@@ -8119,17 +8119,19 @@ const Ru = {
     if (this.loading)
       return !1;
     xt(this, Ot) && clearTimeout(xt(this, Ot));
-    const { modalElement: t, options: e } = this, s = p(t), { type: i, loadTimeout: r, loadingClass: o = uo, loadingText: a = null } = e;
+    const { modalElement: t, options: e } = this, s = p(t), { type: i, loadTimeout: r, loadingClass: o = uo, loadingText: a = null, cache: l } = e;
     if (!i || i === "static")
       return !0;
-    const l = Ru[i];
-    if (!l)
+    if (l && this._builded)
+      return this.layout(), !0;
+    const c = Ru[i];
+    if (!c)
       return console.warn(`Modal: Cannot build modal with type "${i}"`), !1;
     s.attr("data-loading", a).addClass(o), r && ve(this, Ot, window.setTimeout(() => {
       ve(this, Ot, 0), xn(this, kn, ai).call(this, this.options.timeoutTip);
     }, r));
-    const c = await l.call(this, t, e);
-    return this._destroyed ? !1 : (c === !1 ? await xn(this, kn, ai).call(this, this.options.failedTip) : c && typeof c == "object" && await xn(this, Wn, fr).call(this, c), xt(this, Ot) && (clearTimeout(xt(this, Ot)), ve(this, Ot, 0)), this.layout(), await Pn(100), s.removeClass(o), !0);
+    const u = await c.call(this, t, e);
+    return this._destroyed ? !1 : (u === !1 ? await xn(this, kn, ai).call(this, this.options.failedTip) : u && typeof u == "object" && await xn(this, Wn, fr).call(this, u), xt(this, Ot) && (clearTimeout(xt(this, Ot)), ve(this, Ot, 0)), this.layout(), this._builded = !0, await Pn(100), s.removeClass(o), !0);
   }
   static isValid(t) {
     return !p.isDetached(t.modalElement);
