@@ -8,7 +8,7 @@ var ht = (n, t, e) => ($s(n, t, "read from private field"), e ? e.call(n) : t.ge
   t instanceof WeakSet ? t.add(n) : t.set(n, e);
 }, bt = (n, t, e, s) => ($s(n, t, "write to private field"), s ? s.call(n, e) : t.set(n, e), e);
 var Ns = (n, t, e) => ($s(n, t, "access private method"), e);
-const zd = "3.0.0", Od = 1741141055898, Fd = "production", Ht = document, Nn = window, bo = Ht.documentElement, pe = Ht.createElement.bind(Ht), wo = pe("div"), Es = pe("table"), Wl = pe("tbody"), Er = pe("tr"), { isArray: Qn, prototype: Co } = Array, { concat: jl, filter: bi, indexOf: So, map: xo, push: Bl, slice: ko, some: wi, splice: Vl } = Co, Ul = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, Kl = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, ql = /<.+>/, Gl = /^\w+$/;
+const zd = "3.0.0", Od = 1741161069751, Fd = "production", Ht = document, Nn = window, bo = Ht.documentElement, pe = Ht.createElement.bind(Ht), wo = pe("div"), Es = pe("table"), Wl = pe("tbody"), Er = pe("tr"), { isArray: Qn, prototype: Co } = Array, { concat: jl, filter: bi, indexOf: So, map: xo, push: Bl, slice: ko, some: wi, splice: Vl } = Co, Ul = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, Kl = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, ql = /<.+>/, Gl = /^\w+$/;
 function Ci(n, t) {
   const e = Yl(t);
   return !n || !e && !he(t) && !tt(t) ? [] : !e && Kl.test(n) ? t.getElementsByClassName(n.slice(1).replace(/\\/g, "")) : !e && Gl.test(n) ? t.getElementsByTagName(n) : t.querySelectorAll(n);
@@ -2872,7 +2872,7 @@ p.setLibRoot = function(n, t) {
 p.registerLib = function(n, t) {
   p.libMap || (p.libMap = {}), !t.name && t.id && (t.id = `zui-lib-${n}`), p.libMap[n] = t;
 };
-p.libVersion = 1741141055898 .toString(36);
+p.libVersion = 1741161069751 .toString(36);
 function da(n) {
   return new Promise((t, e) => {
     typeof n == "string" && (n = { src: n });
@@ -8199,25 +8199,25 @@ const Ru = {
   }
   static async prompt(t) {
     typeof t == "string" && (t = { message: t });
-    const { defaultValue: e = "", placeholder: s, onResult: i, onShown: r, message: o, content: a, bodyClass: l, custom: c, ...u } = t;
-    let h = e, f = !1;
-    const d = G();
+    const { defaultValue: e = "", placeholder: s, onResult: i, onShown: r, message: o, content: a, bodyClass: l, custom: c, multiline: u, ...h } = t;
+    let f = e, d = !1;
+    const m = (b) => {
+      f = b.target.value;
+    }, _ = G(), v = (b) => {
+      var w, C;
+      b.key === "Enter" ? (d = !0, b.preventDefault(), (w = _.current) == null || w.hide()) : b.key === "Escape" && ((C = _.current) == null || C.hide());
+    };
     return await re.confirm({
-      ...u,
+      ...h,
       custom: { closeBtn: !1, ...c },
       message: o,
-      ref: d,
+      ref: _,
       content: /* @__PURE__ */ g("div", { className: k("modal-body", l), children: [
         /* @__PURE__ */ g(D, { content: o }),
-        /* @__PURE__ */ g("input", { type: "text", className: "modal-prompt-input form-control mt-3", autoFocus: !0, placeholder: s, defaultValue: e, onChange: (_) => {
-          h = _.target.value;
-        }, onKeyDown: (_) => {
-          var v, y;
-          _.key === "Enter" ? (f = !0, _.preventDefault(), (v = d.current) == null || v.hide()) : _.key === "Escape" && ((y = d.current) == null || y.hide());
-        } }),
+        u ? /* @__PURE__ */ g("textarea", { className: "modal-prompt-input form-control mt-3", autoFocus: !0, placeholder: s, defaultValue: e, onChange: m, onKeyDown: v, rows: 10 }) : /* @__PURE__ */ g("input", { type: "text", className: "modal-prompt-input form-control mt-3", autoFocus: !0, placeholder: s, defaultValue: e, onChange: m, onKeyDown: v }),
         a
       ] })
-    }) || f ? h : null;
+    }) || d ? f : null;
   }
 };
 zt = /* @__PURE__ */ new WeakMap();
