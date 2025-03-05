@@ -384,10 +384,22 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
         if (typeof options === 'string') {
             options = {message: options} as ModalPromptOptions;
         }
-        const {defaultValue = '', placeholder, onResult, onShown, message, content, bodyClass, custom, ...otherOptions} = options;
+        const {defaultValue = '', placeholder, onResult, onShown, message, content, bodyClass, custom, multiline, ...otherOptions} = options;
         let result = defaultValue;
         let enterKeyPressed = false;
+        const onChange = (e: Event) => {
+            result = (e.target as HTMLInputElement).value;
+        };
         const modal = createRef<Modal>();
+        const onKeyDown = (e: KeyboardEvent) => {
+            if (e.key === 'Enter') {
+                enterKeyPressed = true;
+                e.preventDefault();
+                modal.current?.hide();
+            } else if (e.key === 'Escape') {
+                modal.current?.hide();
+            }
+        };
         const confirmed = await Modal.confirm({
             ...otherOptions,
             custom: {closeBtn: false, ...custom},
@@ -396,15 +408,8 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
             content: (
                 <div className={classes('modal-body', bodyClass as string)}>
                     <CustomContent content={message} />
-                    <input type="text" className="modal-prompt-input form-control mt-3" autoFocus placeholder={placeholder} defaultValue={defaultValue} onChange={e => {result = (e.target as HTMLInputElement).value;}} onKeyDown={e => {
-                        if (e.key === 'Enter') {
-                            enterKeyPressed = true;
-                            e.preventDefault();
-                            modal.current?.hide();
-                        } else if (e.key === 'Escape') {
-                            modal.current?.hide();
-                        }
-                    }} />
+                    {multiline ? <textarea className="modal-prompt-input form-control mt-3" autoFocus placeholder={placeholder} defaultValue={defaultValue} onChange={onChange} onKeyDown={onKeyDown} rows={10} /> :
+                        <input type="text" className="modal-prompt-input form-control mt-3" autoFocus placeholder={placeholder} defaultValue={defaultValue} onChange={onChange} onKeyDown={onKeyDown} />}
                     {content}
                 </div>
             ),
