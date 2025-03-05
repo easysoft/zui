@@ -16,6 +16,7 @@ export type ModalOptions = ModalBaseOptions & {
     title?: string;
     destroyOnHide?: boolean;
     modal?: boolean;
+    cache?: boolean;
     [prop: string]: unknown;
 };
 

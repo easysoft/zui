@@ -85,6 +85,8 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
 
     #loadingTimer?: number;
 
+    protected _builded = false;
+
     get id() {
         return this.#id as string;
     }
@@ -215,8 +217,12 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
 
         const {modalElement, options} = this;
         const $modal = $(modalElement);
-        const {type, loadTimeout, loadingClass = LOADING_CLASS, loadingText = null} = options;
+        const {type, loadTimeout, loadingClass = LOADING_CLASS, loadingText = null, cache} = options;
         if (!type || type === 'static') {
+            return true;
+        }
+        if (cache && this._builded) {
+            this.layout();
             return true;
         }
 
@@ -252,6 +258,7 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
         }
 
         this.layout();
+        this._builded = true;
 
         await delay(100);
 
