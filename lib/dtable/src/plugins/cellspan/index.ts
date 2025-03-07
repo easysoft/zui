@@ -12,7 +12,7 @@ export type DTableCellSpanInfo    = DTableCellSpanSetting & {width: number, heig
 
 export type DTableCellSpanTypes = {
     data: {
-        overlayedCellSet: Set<DTableCellID>;
+        overlayCellSet: Set<DTableCellID>;
         cellSpanMap: Map<DTableCellID, DTableCellSpanInfo>;
     },
     options: {
@@ -26,24 +26,24 @@ const cellspanPlugin: DTablePlugin<DTableCellSpanTypes> = {
     name: 'cellspan',
     when: (options) => !!options.getCellSpan,
     data() {
-        return {cellSpanMap: new Map(), overlayedCellSet: new Set()};
+        return {cellSpanMap: new Map(), overlayCellSet: new Set()};
     },
     onLayout(layout) {
         const {getCellSpan} = this.options;
         if (!getCellSpan) {
             return;
         }
-        const {cellSpanMap, overlayedCellSet} = this.data;
+        const {cellSpanMap, overlayCellSet} = this.data;
         const {rows, cols, rowHeight} = layout;
         cellSpanMap.clear();
-        overlayedCellSet.clear();
+        overlayCellSet.clear();
 
         const initCellSpanInfo = (colList: ColInfo[], row: RowInfo, rowListIndex: number) => {
             const {index: rowIndex} = row;
             colList.forEach((col, colListIndex) => {
                 const {index: colIndex} = col;
                 const id: DTableCellID = `C${colIndex}R${rowIndex}`;
-                if (overlayedCellSet.has(id)) {
+                if (overlayCellSet.has(id)) {
                     return;
                 }
                 const info = getCellSpan.call(this, {row, col});
@@ -59,9 +59,9 @@ const cellspanPlugin: DTablePlugin<DTableCellSpanTypes> = {
                 for (let i = 0; i < colSpan; i++) {
                     width += colList[colListIndex + i].realWidth;
                     for (let j = 0; j < rowSpan; j++) {
-                        const overlayedCellID: DTableCellID = `C${colIndex + i}R${rowIndex + j}`;
-                        if (overlayedCellID !== id) {
-                            overlayedCellSet.add(overlayedCellID);
+                        const overlayCellID: DTableCellID = `C${colIndex + i}R${rowIndex + j}`;
+                        if (overlayCellID !== id) {
+                            overlayCellSet.add(overlayCellID);
                         }
                     }
                 }
@@ -82,7 +82,7 @@ const cellspanPlugin: DTablePlugin<DTableCellSpanTypes> = {
     },
     onRenderCell(result, {row, col}) {
         const id: DTableCellID = `C${col.index}R${row.index}`;
-        if (this.data.overlayedCellSet.has(id)) {
+        if (this.data.overlayCellSet.has(id)) {
             result.push({outer: true, style: {display: 'none', className: 'cellspan-overlayed-cell'}});
         } else {
             const info = this.data.cellSpanMap.get(id);
