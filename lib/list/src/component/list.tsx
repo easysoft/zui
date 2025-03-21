@@ -63,7 +63,7 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
         if (this.props.activeOnHover && !this.props.multipleActive) {
             $(this.element).on(`mouseenter${this.namespace}`, '[z-item]', (event) => {
                 const info = this._getItemFromEvent(event);
-                if (info && info.renderedItem.type === 'item' && !info.renderedItem.disabled && !this.isActive(info.key)) {
+                if (info && info.renderedItem.type === 'item' && !info.renderedItem.disabled && info.renderedItem.hover !== false && !this.isActive(info.key)) {
                     this.toggleActive(info.key, true);
                 }
             });
@@ -210,20 +210,14 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
 
     getNextItem(key: string | undefined, condition?: (item: Item, index: number) => boolean, step = 1, items: Item[] | undefined = undefined): Item | undefined {
         items = items || this._renderedItems;
-        const count = items.length;
-        if (key === undefined) {
-            return items[step ? 0 : count - 1];
-        }
-        let index = items.findIndex(x => x.key === key);
-        if (index < 0 || count < 2) {
-            return items[step ? 0 : count - 1];
-        }
-        let checkCount = 0;
         condition = condition || ((x) => x.type === 'item' && !x.disabled);
+        const count = items.length;
+        let index = key === undefined ? count - 1 : items.findIndex(x => x.key === key);
+        let checkCount = 0;
         while (checkCount < count) {
             index = (index + step + count) % count;
             const nextItem = items[index];
-            if (nextItem && !nextItem.disabled && !nextItem.hidden && condition.call(this, nextItem, index)) {
+            if (nextItem && !nextItem.hidden && condition.call(this, nextItem, index)) {
                 return nextItem;
             }
             checkCount++;
