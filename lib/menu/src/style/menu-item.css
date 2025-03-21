@@ -13,6 +13,11 @@
     background: var(--menu-active-bg);
     color: var(--menu-active-color);
 }
+.menu-item > a.no-hover:hover,
+.menu-item > a.no-hover.hover {
+    background: unset;
+    color: unset;
+}
 .menu-item > a.disabled:hover,
 .menu-item > a.disabled:hover,
 .menu-item.disabled > a:hover,
