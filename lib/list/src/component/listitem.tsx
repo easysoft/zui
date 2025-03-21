@@ -125,6 +125,7 @@ export class Listitem<P extends ListitemProps = ListitemProps, S = {}> extends H
             hint,
             selected,
             command,
+            hover,
         } = props;
         const ComponentName = innerComponent || ((url && !actions) ? 'a' : 'div');
         const asLink = ComponentName === 'a';
@@ -135,6 +136,7 @@ export class Listitem<P extends ListitemProps = ListitemProps, S = {}> extends H
                 active,
                 disabled,
                 'has-divider': divider,
+                'no-hover': hover === false,
                 selected,
                 checked,
                 multiline: multiline ?? !!(title && subtitle),

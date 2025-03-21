@@ -13,6 +13,7 @@ export interface ListitemProps extends Item {
     checked?: CheckedType;
     checkbox?: CheckboxProps;
     disabled?: boolean;
+    hover?: boolean;
     active?: boolean;
     divider?: boolean;
     toggleIcon?: CustomContentType;
