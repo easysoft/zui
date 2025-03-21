@@ -1,8 +1,8 @@
 import {HElement, Icon, classes} from '@zui/core';
 
+import type {RenderableProps} from 'preact';
 import type {ClassNameLike} from '@zui/core';
 import type {ButtonProps} from '../types/button-props';
-import type {RenderableProps} from 'preact';
 
 export class Button<P extends ButtonProps = ButtonProps> extends HElement<P> {
     protected declare _isEmptyText?: boolean;
