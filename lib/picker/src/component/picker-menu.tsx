@@ -120,9 +120,6 @@ export class PickerMenu extends PickPop<PickerState, PickerMenuProps> {
             className: classes(item.className, {hover: item.value !== undefined && item.value === this.props.state.hoverItem}),
             items: subItems,
         };
-        if (selected && !item.disabled && this._firstSelected === undefined) {
-            this._firstSelected = item.key!;
-        }
         if (item.content && item.text) {
             delete item.text;
         }
@@ -130,8 +127,17 @@ export class PickerMenu extends PickPop<PickerState, PickerMenuProps> {
         if (!result) {
             return result;
         }
-        if (result.disabled) {
+        if (result.disabled || result.value === undefined) {
+            if (result.hover === undefined) {
+                result.hover = false;
+            }
+            if (result.disabled === undefined) {
+                result.disabled = true;
+            }
             this._disabledSet.add(result.value as string);
+        }
+        if (selected && !result.disabled && result.value !== undefined && this._firstSelected === undefined) {
+            this._firstSelected = result.value as string;
         }
         return result;
     };
