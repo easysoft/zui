@@ -34,7 +34,7 @@ export function removePlugin(name: string): boolean {
     return sharedPlugins.delete(name);
 }
 
-function getDTablePlugin(nameOrPlugin: DTablePluginLike): DTablePlugin | undefined {
+export function getDTablePlugin(nameOrPlugin: DTablePluginLike): DTablePlugin | undefined {
     if (typeof nameOrPlugin === 'string') {
         const plugin = sharedPlugins.get(nameOrPlugin);
         if (!plugin) {

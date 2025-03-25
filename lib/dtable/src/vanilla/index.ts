@@ -1,6 +1,6 @@
 import {ComponentFromReact, ComponentOptions} from '@zui/core';
 import {DTable as DTableReact} from '../components/dtable';
-import {removePlugin, definePlugin} from '../helpers/shared-plugins';
+import {removePlugin, definePlugin, getDTablePlugin} from '../helpers/shared-plugins';
 import * as plugins from '../plugins';
 import type {DTableOptions} from '../types/options';
 
@@ -12,6 +12,8 @@ export class DTable extends ComponentFromReact<DTableOptions, DTableReact> {
     static definePlugin = definePlugin;
 
     static removePlugin = removePlugin;
+
+    static getPlugin = getDTablePlugin;
 
     static plugins = plugins;
 
