@@ -8,7 +8,7 @@ var ht = (n, t, e) => ($s(n, t, "read from private field"), e ? e.call(n) : t.ge
   t instanceof WeakSet ? t.add(n) : t.set(n, e);
 }, bt = (n, t, e, s) => ($s(n, t, "write to private field"), s ? s.call(n, e) : t.set(n, e), e);
 var Ns = (n, t, e) => ($s(n, t, "access private method"), e);
-const zd = "3.0.0", Od = 1742903261513, Fd = "production", Ht = document, Nn = window, bo = Ht.documentElement, pe = Ht.createElement.bind(Ht), wo = pe("div"), Es = pe("table"), jl = pe("tbody"), Er = pe("tr"), { isArray: Qn, prototype: Co } = Array, { concat: Bl, filter: bi, indexOf: So, map: xo, push: Vl, slice: ko, some: wi, splice: Ul } = Co, Kl = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, ql = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, Gl = /<.+>/, Yl = /^\w+$/;
+const zd = "3.0.0", Od = 1743124159834, Fd = "production", Ht = document, Nn = window, bo = Ht.documentElement, pe = Ht.createElement.bind(Ht), wo = pe("div"), Es = pe("table"), jl = pe("tbody"), Er = pe("tr"), { isArray: Qn, prototype: Co } = Array, { concat: Bl, filter: bi, indexOf: So, map: xo, push: Vl, slice: ko, some: wi, splice: Ul } = Co, Kl = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, ql = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, Gl = /<.+>/, Yl = /^\w+$/;
 function Ci(n, t) {
   const e = Jl(t);
   return !n || !e && !he(t) && !tt(t) ? [] : !e && ql.test(n) ? t.getElementsByClassName(n.slice(1).replace(/\\/g, "")) : !e && Yl.test(n) ? t.getElementsByTagName(n) : t.querySelectorAll(n);
@@ -2872,7 +2872,7 @@ p.setLibRoot = function(n, t) {
 p.registerLib = function(n, t) {
   p.libMap || (p.libMap = {}), !t.name && t.id && (t.id = `zui-lib-${n}`), p.libMap[n] = t;
 };
-p.libVersion = 1742903261513 .toString(36);
+p.libVersion = 1743124159834 .toString(36);
 function da(n) {
   return new Promise((t, e) => {
     typeof n == "string" && (n = { src: n });
@@ -5675,7 +5675,7 @@ let ms = class extends H {
     return /* @__PURE__ */ g("svg", { className: a, width: s, height: s, children: [
       /* @__PURE__ */ g("circle", { cx: f, cy: f, r: m, "stroke-width": d, stroke: i, fill: "transparent" }),
       /* @__PURE__ */ g("circle", { cx: f, cy: f, r: m, "stroke-width": d, stroke: r, fill: "transparent", "stroke-linecap": "round", "stroke-dasharray": Math.PI * m * 2, "stroke-dashoffset": Math.PI * m * 2 * (100 - e) / 100, style: { transformOrigin: "center", transform: "rotate(-90deg)" } }),
-      o ? /* @__PURE__ */ g("text", { x: c ?? f, y: u ?? f + d / 2, "dominant-baseline": "middle", "text-anchor": "middle", style: l || { fontSize: `${m}px`, stroke: "currentColor" }, children: o === !0 ? Math.round(e) : o }) : null,
+      o ? /* @__PURE__ */ g("text", { x: c ?? f, y: u ?? f + d / 2, "dominant-baseline": "middle", "text-anchor": "middle", style: l || { fontSize: `${m}px`, stroke: "currentColor" }, children: o === !0 ? Math.floor(e) : o }) : null,
       h
     ] });
   }
