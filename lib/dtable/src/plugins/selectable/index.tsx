@@ -494,7 +494,7 @@ const selectablePlugin: DTablePlugin<DTableSelectableTypes, [DTableMousemoveType
             if (pos) {
                 const selection = stringifySelection(selectingStart, pos);
                 if (selection) {
-                    this.selectCells(selection);
+                    requestAnimationFrame(() => this.selectCells(selection));
                     event.stopPropagation();
                 }
             }
