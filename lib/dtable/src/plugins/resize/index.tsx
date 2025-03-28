@@ -189,7 +189,6 @@ const resizePlugin: DTablePlugin<DTableResizeTypes, [DTableMousemoveTypes]> = {
         return result;
     },
     onAddCol(col) {
-        console.log('onAddCol.state', {...this.state});
         const sizeChange = this.state.colsSizes[col.name] ?? col.setting.extraWidth;
         if (typeof sizeChange === 'number') {
             this.data.colOriginSize.set(col.name, col.width);
