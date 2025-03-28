@@ -74,7 +74,7 @@ const resizePlugin: DTablePlugin<DTableResizeTypes, [DTableMousemoveTypes]> = {
                 sizes[col.name] = col.extraWidth as number;
             }
             return sizes;
-        }, {} as Record<string, number>)};
+        }, {} as Record<string, number>) || {}};
     },
     state() {
         return {colsSizes: this.props.cols?.reduce((sizes, col) => {
@@ -82,7 +82,7 @@ const resizePlugin: DTablePlugin<DTableResizeTypes, [DTableMousemoveTypes]> = {
                 sizes[col.name] = col.extraWidth as number;
             }
             return sizes;
-        }, {} as Record<string, number>)};
+        }, {} as Record<string, number>) || {}};
     },
     data() {
         return {colOriginSize: new Map()};
@@ -189,6 +189,7 @@ const resizePlugin: DTablePlugin<DTableResizeTypes, [DTableMousemoveTypes]> = {
         return result;
     },
     onAddCol(col) {
+        console.log('onAddCol.state', {...this.state});
         const sizeChange = this.state.colsSizes[col.name] ?? col.setting.extraWidth;
         if (typeof sizeChange === 'number') {
             this.data.colOriginSize.set(col.name, col.width);
