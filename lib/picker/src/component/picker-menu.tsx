@@ -79,7 +79,7 @@ export class PickerMenu extends PickPop<PickerState, PickerMenuProps> {
         });
 
         setTimeout(() => {
-            $(this.menu?.element).find('.menu-item>.active').scrollIntoView({container: '.menu'});
+            $(this.menu?.element).find('.menu-item>.selected').scrollIntoView({block: 'center'});
         }, 100);
     }
 
