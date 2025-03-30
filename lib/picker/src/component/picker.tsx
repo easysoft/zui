@@ -250,16 +250,22 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
         if (!state.loading && (force || cache.search !== state.search || props.items !== cache.items)) {
             await this.changeState({loading: true} as Partial<S>);
             let loadItems = await this.load();
-            loadItems = loadItems.filter(x => {
-                x.key = x.key ?? (x.value as string);
-                if (typeof x.value === 'number') {
-                    x.value = String(x.value);
-                }
-                if (this.isEmptyValue(x.value as string)) {
-                    return false;
-                }
-                return true;
-            });
+            const filterItems = (items: ListItem[]) => {
+                return items.filter(x => {
+                    x.key = x.key ?? (x.value as string);
+                    if (typeof x.value === 'number') {
+                        x.value = String(x.value);
+                    }
+                    if (this.isEmptyValue(x.value as string)) {
+                        return false;
+                    }
+                    if (Array.isArray(x.items)) {
+                        x.items = filterItems(x.items as ListItem[]);
+                    }
+                    return true;
+                });
+            };
+            loadItems = filterItems(loadItems);
             newState.loading = false;
             newState.items = loadItems as PickerItemOptions[];
             cache.items = props.items;
