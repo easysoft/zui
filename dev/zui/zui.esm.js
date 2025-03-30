@@ -8,7 +8,7 @@ var ht = (n, t, e) => ($s(n, t, "read from private field"), e ? e.call(n) : t.ge
   t instanceof WeakSet ? t.add(n) : t.set(n, e);
 }, bt = (n, t, e, s) => ($s(n, t, "write to private field"), s ? s.call(n, e) : t.set(n, e), e);
 var Ns = (n, t, e) => ($s(n, t, "access private method"), e);
-const zd = "3.0.0", Od = 1743127628310, Fd = "production", Ht = document, Nn = window, bo = Ht.documentElement, pe = Ht.createElement.bind(Ht), wo = pe("div"), Es = pe("table"), jl = pe("tbody"), Er = pe("tr"), { isArray: Qn, prototype: Co } = Array, { concat: Bl, filter: bi, indexOf: So, map: xo, push: Vl, slice: ko, some: wi, splice: Ul } = Co, Kl = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, ql = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, Gl = /<.+>/, Yl = /^\w+$/;
+const zd = "3.0.0", Od = 1743348446598, Fd = "production", Ht = document, Nn = window, bo = Ht.documentElement, pe = Ht.createElement.bind(Ht), wo = pe("div"), Es = pe("table"), jl = pe("tbody"), Er = pe("tr"), { isArray: Qn, prototype: Co } = Array, { concat: Bl, filter: bi, indexOf: So, map: xo, push: Vl, slice: ko, some: wi, splice: Ul } = Co, Kl = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, ql = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, Gl = /<.+>/, Yl = /^\w+$/;
 function Ci(n, t) {
   const e = Jl(t);
   return !n || !e && !he(t) && !tt(t) ? [] : !e && ql.test(n) ? t.getElementsByClassName(n.slice(1).replace(/\\/g, "")) : !e && Yl.test(n) ? t.getElementsByTagName(n) : t.querySelectorAll(n);
@@ -2872,7 +2872,7 @@ p.setLibRoot = function(n, t) {
 p.registerLib = function(n, t) {
   p.libMap || (p.libMap = {}), !t.name && t.id && (t.id = `zui-lib-${n}`), p.libMap[n] = t;
 };
-p.libVersion = 1743127628310 .toString(36);
+p.libVersion = 1743348446598 .toString(36);
 function da(n) {
   return new Promise((t, e) => {
     typeof n == "string" && (n = { src: n });
@@ -9938,7 +9938,7 @@ class fl extends Ka {
       }
     }), setTimeout(() => {
       var s;
-      p((s = this.menu) == null ? void 0 : s.element).find(".menu-item>.active").scrollIntoView({ container: ".menu" });
+      p((s = this.menu) == null ? void 0 : s.element).find(".menu-item>.selected").scrollIntoView({ block: "center" });
     }, 100);
   }
   componentWillUnmount() {
@@ -10062,13 +10062,13 @@ let xs = class extends St {
    */
   async load() {
     let t = this._abort;
-    t && t.abort(), t = new AbortController(), this._abort = t;
+    t && t.abort();
     const { items: e = [], searchDelay: s } = this.props, { search: i = "" } = this.state;
     let r = [];
     if (Array.isArray(e))
       r = e;
     else {
-      if (await Pn(s || 500), this._abort !== t)
+      if (t = new AbortController(), this._abort = t, await Pn(s || 500), this._abort !== t)
         return r;
       let o = e;
       if (typeof o == "string" && (o = { url: o }), typeof o == "object" && o.url && (o = {
@@ -10094,7 +10094,8 @@ let xs = class extends St {
     if (this._itemsCacheInfo = i, !e.loading && (t || i.search !== e.search || s.items !== i.items)) {
       await this.changeState({ loading: !0 });
       let a = await this.load();
-      a = a.filter((l) => (l.key = l.key ?? l.value, typeof l.value == "number" && (l.value = String(l.value)), !this.isEmptyValue(l.value))), r.loading = !1, r.items = a, i.items = s.items, i.search = e.search;
+      const l = (c) => c.filter((u) => (u.key = u.key ?? u.value, typeof u.value == "number" && (u.value = String(u.value)), this.isEmptyValue(u.value) ? !1 : (Array.isArray(u.items) && (u.items = l(u.items)), !0)));
+      a = l(a), r.loading = !1, r.items = a, i.items = s.items, i.search = e.search;
     } else
       i.items && !e.open && s.cache === !1 && !Array.isArray(s.items) && (i.items = void 0);
     (t || i.value !== e.value) && (i.value = e.value);
