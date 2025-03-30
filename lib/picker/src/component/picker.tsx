@@ -186,13 +186,13 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
         if (abort) {
             abort.abort();
         }
-        abort = new AbortController();
-        this._abort = abort;
 
         const {items: itemsSetting = [], searchDelay} = this.props;
         const {search = ''} = this.state;
         let items: ListItem[] = [];
         if (!Array.isArray(itemsSetting)) {
+            abort = new AbortController();
+            this._abort = abort;
             await delay(searchDelay || 500);
             if (this._abort !== abort) {
                 return items;
