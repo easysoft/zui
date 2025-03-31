@@ -35,7 +35,7 @@ export function createFormData(data: string | FormData | URLSearchParams | Recor
             data.forEach((value, name) => {
                 setFormDataValue(formData, name, value);
             });
-        } else if ($.isPlainObject(data)) {
+        } else if (typeof data === 'object' && data) {
             Object.entries(data).forEach(([name, value]) => {
                 setFormDataValue(formData, name, value);
             });
