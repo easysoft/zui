@@ -8,7 +8,7 @@ var ht = (n, t, e) => ($s(n, t, "read from private field"), e ? e.call(n) : t.ge
   t instanceof WeakSet ? t.add(n) : t.set(n, e);
 }, bt = (n, t, e, s) => ($s(n, t, "write to private field"), s ? s.call(n, e) : t.set(n, e), e);
 var Ns = (n, t, e) => ($s(n, t, "access private method"), e);
-const zd = "3.0.0", Od = 1743348446598, Fd = "production", Ht = document, Nn = window, bo = Ht.documentElement, pe = Ht.createElement.bind(Ht), wo = pe("div"), Es = pe("table"), jl = pe("tbody"), Er = pe("tr"), { isArray: Qn, prototype: Co } = Array, { concat: Bl, filter: bi, indexOf: So, map: xo, push: Vl, slice: ko, some: wi, splice: Ul } = Co, Kl = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, ql = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, Gl = /<.+>/, Yl = /^\w+$/;
+const zd = "3.0.0", Od = 1743400777283, Fd = "production", Ht = document, Nn = window, bo = Ht.documentElement, pe = Ht.createElement.bind(Ht), wo = pe("div"), Es = pe("table"), jl = pe("tbody"), Er = pe("tr"), { isArray: Qn, prototype: Co } = Array, { concat: Bl, filter: bi, indexOf: So, map: xo, push: Vl, slice: ko, some: wi, splice: Ul } = Co, Kl = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, ql = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, Gl = /<.+>/, Yl = /^\w+$/;
 function Ci(n, t) {
   const e = Jl(t);
   return !n || !e && !he(t) && !tt(t) ? [] : !e && ql.test(n) ? t.getElementsByClassName(n.slice(1).replace(/\\/g, "")) : !e && Yl.test(n) ? t.getElementsByTagName(n) : t.querySelectorAll(n);
@@ -2872,7 +2872,7 @@ p.setLibRoot = function(n, t) {
 p.registerLib = function(n, t) {
   p.libMap || (p.libMap = {}), !t.name && t.id && (t.id = `zui-lib-${n}`), p.libMap[n] = t;
 };
-p.libVersion = 1743348446598 .toString(36);
+p.libVersion = 1743400777283 .toString(36);
 function da(n) {
   return new Promise((t, e) => {
     typeof n == "string" && (n = { src: n });
@@ -4656,7 +4656,7 @@ class dn {
    * @param type Store type.
    */
   constructor(t = "", e = "local") {
-    this._type = e, this._id = t, this._name = `ZUI_STORE:${this._id}`, this._storage = e === "local" ? localStorage : sessionStorage;
+    this._cache = /* @__PURE__ */ new Map(), this._type = e, this._id = t, this._name = `ZUI_STORE:${this._id}`, this._storage = e === "local" ? localStorage : sessionStorage;
   }
   /**
    * Get store type.
@@ -4679,7 +4679,7 @@ class dn {
    * @param id Store profile ID.
    */
   switch(t) {
-    this._id = t, this._name = `ZUI_STORE:${this._id}`;
+    this._id = t, this._name = `ZUI_STORE:${this._id}`, this._cache.clear();
   }
   /**
    * Get value from store.
@@ -4689,6 +4689,8 @@ class dn {
    * @returns Value of key or defaultValue if key is not found.
    */
   get(t, e) {
+    if (this._cache.has(t))
+      return this._cache.get(t);
     const s = this._storage.getItem(this._getKey(t));
     if (typeof s == "string") {
       if (s.startsWith(Ls))
@@ -4701,6 +4703,14 @@ class dn {
     return s ?? e;
   }
   /**
+   * Set cache value.
+   * @param key Key to set.
+   * @param value Value to set.
+   */
+  setCache(t, e) {
+    this._cache.set(t, e);
+  }
+  /**
    * Set key-value pair in store.
    *
    * @param key Key to set.
@@ -4709,7 +4719,11 @@ class dn {
   set(t, e) {
     if (e == null)
       return this.remove(t);
-    this._storage.setItem(this._getKey(t), typeof e == "string" ? `${Ls}${e}` : JSON.stringify(e));
+    try {
+      this._storage.setItem(this._getKey(t), typeof e == "string" ? `${Ls}${e}` : JSON.stringify(e));
+    } catch (s) {
+      this.setCache(t, e), console.warn(`[ZUI] Failed to set value to ${this._type} store: ${this._getKey(t)}, use cache instead.`, s);
+    }
   }
   /**
    * Remove key-value pair from store.
@@ -4717,7 +4731,7 @@ class dn {
    * @param key Key to remove.
    */
   remove(t) {
-    this._storage.removeItem(this._getKey(t));
+    this._cache.delete(t), this._storage.removeItem(this._getKey(t));
   }
   /**
    * Iterate all key-value pairs in store.
@@ -4725,13 +4739,16 @@ class dn {
    * @param callback Callback function to call for each key-value pair in the store.
    */
   each(t) {
-    for (let e = 0; e < this._storage.length; e++) {
-      const s = this._storage.key(e);
-      if (s != null && s.startsWith(this._name)) {
-        const i = this._storage.getItem(s);
-        typeof i == "string" && t(s.substring(this._name.length + 1), JSON.parse(i));
+    const e = [];
+    for (let s = 0; s < this._storage.length; s++) {
+      const i = this._storage.key(s);
+      if (i != null && i.startsWith(this._name)) {
+        const r = this._storage.getItem(i), o = i.substring(this._name.length + 1);
+        typeof r == "string" && t(o, JSON.parse(r)), e.push(o);
       }
     }
+    for (const s of this._cache.keys())
+      e.includes(s) || t(s, this._cache.get(s));
   }
   /**
    * Get all key values in store.
@@ -4740,9 +4757,12 @@ class dn {
    */
   getAll() {
     const t = {};
-    return this.each((e, s) => {
+    this.each((e, s) => {
       t[e] = s;
-    }), t;
+    });
+    for (const e of this._cache.keys())
+      t[e] = this._cache.get(e);
+    return t;
   }
 }
 const ni = new dn("DEFAULT");
@@ -9873,7 +9893,7 @@ class fl extends Ka {
         return t;
       const s = new Set(this.props.valueList);
       let i = t.items, r = !1, o = !1;
-      Array.isArray(i) && (r = !0, i = i.reduce((u, h, f) => {
+      Array.isArray(i) && this.props.multiple && (r = !0, i = i.reduce((u, h, f) => {
         const d = this._getItem(h, f);
         return d && (d.selected ? o = !0 : r = !1, u.push(d)), u;
       }, []));
