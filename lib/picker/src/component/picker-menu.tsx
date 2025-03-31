@@ -96,7 +96,7 @@ export class PickerMenu extends PickPop<PickerState, PickerMenuProps> {
         let subItems = item.items;
         let isAllItemsChecked = false;
         let hasSomeItemsChecked = false;
-        if (Array.isArray(subItems)) {
+        if (Array.isArray(subItems) && this.props.multiple) {
             isAllItemsChecked = true;
             subItems = subItems.reduce<NestedItem[]>((list, subItem, subIndex) => {
                 const finalSubItem = this._getItem(subItem, subIndex);
