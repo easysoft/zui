@@ -17,6 +17,8 @@ export class Store {
 
     protected _altStorage?: Store;
 
+    protected _cache = new Map<string, unknown>();
+
     /**
      * Create new store instance.
      * @param id   Store profile ID.
@@ -61,6 +63,7 @@ export class Store {
     switch(id: string) {
         this._id = id;
         this._name = `ZUI_STORE:${this._id}`;
+        this._cache.clear();
     }
 
     /**
@@ -87,6 +90,9 @@ export class Store {
      * @returns Value of key or defaultValue if key is not found.
      */
     get<T>(key: string, defaultValue?: T): T | undefined {
+        if (this._cache.has(key)) {
+            return this._cache.get(key) as T;
+        }
         const value = this._storage.getItem(this._getKey(key));
         if (typeof value === 'string') {
             if (value.startsWith(STR_PREFIX)) {
@@ -101,6 +107,15 @@ export class Store {
     }
 
     /**
+     * Set cache value.
+     * @param key Key to set.
+     * @param value Value to set.
+     */
+    setCache(key: string, value: unknown): void {
+        this._cache.set(key, value);
+    }
+
+    /**
      * Set key-value pair in store.
      *
      * @param key Key to set.
@@ -110,7 +125,12 @@ export class Store {
         if (value === undefined || value === null) {
             return this.remove(key);
         }
-        this._storage.setItem(this._getKey(key), typeof value === 'string' ? `${STR_PREFIX}${value}` : JSON.stringify(value));
+        try {
+            this._storage.setItem(this._getKey(key), typeof value === 'string' ? `${STR_PREFIX}${value}` : JSON.stringify(value));
+        } catch (error) {
+            this.setCache(key, value);
+            console.warn(`[ZUI] Failed to set value to ${this._type} store: ${this._getKey(key)}, use cache instead.`, error);
+        }
     }
 
     /**
@@ -119,6 +139,7 @@ export class Store {
      * @param key Key to remove.
      */
     remove(key: string): void {
+        this._cache.delete(key);
         this._storage.removeItem(this._getKey(key));
     }
 
@@ -128,13 +149,21 @@ export class Store {
      * @param callback Callback function to call for each key-value pair in the store.
      */
     each(callback: (name: string, value: unknown) => void): void {
+        const keys: string[] = [];
         for (let i = 0; i < this._storage.length; i++) {
             const key = this._storage.key(i);
             if (key?.startsWith(this._name)) {
                 const value = this._storage.getItem(key);
+                const name = key.substring(this._name.length + 1);
                 if (typeof value === 'string') {
-                    callback(key.substring(this._name.length + 1), JSON.parse(value));
+                    callback(name, JSON.parse(value));
                 }
+                keys.push(name);
+            }
+        }
+        for (const key of this._cache.keys()) {
+            if (!keys.includes(key)) {
+                callback(key, this._cache.get(key));
             }
         }
     }
@@ -149,6 +178,9 @@ export class Store {
         this.each((key, value) => {
             result[key] = value;
         });
+        for (const key of this._cache.keys()) {
+            result[key] = this._cache.get(key);
+        }
         return result;
     }
 }
