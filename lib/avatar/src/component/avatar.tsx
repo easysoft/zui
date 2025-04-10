@@ -27,6 +27,7 @@ export class Avatar extends Component<AvatarOptions> {
             icon,
             text,
             code,
+            displayText,
             maxTextLength = 2,
             src,
             hueDistance = 43,
@@ -68,20 +69,20 @@ export class Avatar extends Component<AvatarOptions> {
         } else if (icon) {
             finalClass.push('has-icon');
             content = <Icon icon={icon} />;
-        } else if (text?.length) {
-            const displayText = getAvatarText(text, maxTextLength);
-            const displayTextLength = displayText.length;
+        } else if (text?.length || displayText?.length) {
+            const finalDisplayText = displayText ?? getAvatarText(text!, maxTextLength);
+            const displayTextLength = finalDisplayText.length;
             finalClass.push('has-text', `has-text-${displayTextLength}`);
 
             if (background === undefined) {
-                const avatarCode = code ?? text;
+                const avatarCode = code ?? text ?? displayText!;
                 const hue = (typeof avatarCode === 'number' ? avatarCode : getUniqueCode(avatarCode)) * hueDistance % 360;
                 finalStyle.background = `hsl(${hue},${saturation * 100}%,${lightness * 100}%)`;
                 if (!foreColor) {
                     const rgb = hslToRgb(hue, saturation, lightness);
                     finalStyle.color = contrastColor(rgb);
                 }
-            } else if (!foreColor && background) {
+            } else if (!foreColor && background && /#?[0-9a-fA-F]{6}/.test(background)) {
                 finalStyle.color = contrastColor(background);
             }
             let textStyle: JSX.CSSProperties | undefined;
@@ -89,7 +90,7 @@ export class Avatar extends Component<AvatarOptions> {
                 textStyle = {transform: `scale(${actualSize / (16 * displayTextLength)})`, whiteSpace: 'nowrap'};
             }
 
-            content = <div data-actualSize={actualSize} className="avatar-text" style={textStyle}>{displayText}</div>;
+            content = <div data-actualSize={actualSize} className="avatar-text" style={textStyle}>{finalDisplayText}</div>;
         }
 
         return (
