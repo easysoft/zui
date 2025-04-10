@@ -8,7 +8,7 @@ var ht = (n, t, e) => ($s(n, t, "read from private field"), e ? e.call(n) : t.ge
   t instanceof WeakSet ? t.add(n) : t.set(n, e);
 }, bt = (n, t, e, s) => ($s(n, t, "write to private field"), s ? s.call(n, e) : t.set(n, e), e);
 var Ns = (n, t, e) => ($s(n, t, "access private method"), e);
-const zd = "3.0.0", Od = 1744180698932, Fd = "production", Ht = document, Nn = window, bo = Ht.documentElement, pe = Ht.createElement.bind(Ht), wo = pe("div"), Es = pe("table"), jl = pe("tbody"), Er = pe("tr"), { isArray: Qn, prototype: Co } = Array, { concat: Bl, filter: bi, indexOf: So, map: xo, push: Vl, slice: ko, some: wi, splice: Ul } = Co, Kl = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, ql = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, Gl = /<.+>/, Yl = /^\w+$/;
+const zd = "3.0.0", Od = 1744276163993, Fd = "production", Ht = document, Nn = window, bo = Ht.documentElement, pe = Ht.createElement.bind(Ht), wo = pe("div"), Es = pe("table"), jl = pe("tbody"), Er = pe("tr"), { isArray: Qn, prototype: Co } = Array, { concat: Bl, filter: bi, indexOf: So, map: xo, push: Vl, slice: ko, some: wi, splice: Ul } = Co, Kl = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, ql = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, Gl = /<.+>/, Yl = /^\w+$/;
 function Ci(n, t) {
   const e = Jl(t);
   return !n || !e && !he(t) && !tt(t) ? [] : !e && ql.test(n) ? t.getElementsByClassName(n.slice(1).replace(/\\/g, "")) : !e && Yl.test(n) ? t.getElementsByTagName(n) : t.querySelectorAll(n);
@@ -2872,7 +2872,7 @@ p.setLibRoot = function(n, t) {
 p.registerLib = function(n, t) {
   p.libMap || (p.libMap = {}), !t.name && t.id && (t.id = `zui-lib-${n}`), p.libMap[n] = t;
 };
-p.libVersion = 1744180698932 .toString(36);
+p.libVersion = 1744276163993 .toString(36);
 function da(n) {
   return new Promise((t, e) => {
     typeof n == "string" && (n = { src: n });
@@ -4187,43 +4187,44 @@ let us = class extends H {
       icon: l,
       text: c,
       code: u,
-      maxTextLength: h = 2,
-      src: f,
-      hueDistance: d = 43,
-      saturation: m = 0.4,
-      lightness: _ = 0.6,
-      children: v,
-      ...y
-    } = this.props, b = ["avatar", t], w = { ...e, background: o, color: a };
-    let C = 32;
-    s && (typeof s == "number" ? (w.width = `${s}px`, w.height = `${s}px`, w.fontSize = `${Math.max(12, Math.round(s / 2))}px`, C = s) : (b.push(`size-${s}`), C = { xs: 20, sm: 24, lg: 48, xl: 80 }[s])), i ? b.push("circle") : r && (typeof r == "number" ? w.borderRadius = `${r}px` : b.push(`rounded-${r}`));
-    let S;
-    if (f)
-      b.push("has-img"), S = /* @__PURE__ */ g("img", { className: "avatar-img", src: f, alt: c });
+      displayText: h,
+      maxTextLength: f = 2,
+      src: d,
+      hueDistance: m = 43,
+      saturation: _ = 0.4,
+      lightness: v = 0.6,
+      children: y,
+      ...b
+    } = this.props, w = ["avatar", t], C = { ...e, background: o, color: a };
+    let S = 32;
+    s && (typeof s == "number" ? (C.width = `${s}px`, C.height = `${s}px`, C.fontSize = `${Math.max(12, Math.round(s / 2))}px`, S = s) : (w.push(`size-${s}`), S = { xs: 20, sm: 24, lg: 48, xl: 80 }[s])), i ? w.push("circle") : r && (typeof r == "number" ? C.borderRadius = `${r}px` : w.push(`rounded-${r}`));
+    let T;
+    if (d)
+      w.push("has-img"), T = /* @__PURE__ */ g("img", { className: "avatar-img", src: d, alt: c });
     else if (l)
-      b.push("has-icon"), S = /* @__PURE__ */ g(nt, { icon: l });
-    else if (c != null && c.length) {
-      const T = Rh(c, h), E = T.length;
-      if (b.push("has-text", `has-text-${E}`), o === void 0) {
-        const A = u ?? c, I = (typeof A == "number" ? A : ah(A)) * d % 360;
-        if (w.background = `hsl(${I},${m * 100}%,${_ * 100}%)`, !a) {
-          const $ = Ih(I, m, _);
-          w.color = to($);
+      w.push("has-icon"), T = /* @__PURE__ */ g(nt, { icon: l });
+    else if (c != null && c.length || h != null && h.length) {
+      const E = h ?? Rh(c, f), N = E.length;
+      if (w.push("has-text", `has-text-${N}`), o === void 0) {
+        const I = u ?? c ?? h, $ = (typeof I == "number" ? I : ah(I)) * m % 360;
+        if (C.background = `hsl(${$},${_ * 100}%,${v * 100}%)`, !a) {
+          const P = Ih($, _, v);
+          C.color = to(P);
         }
       } else
-        !a && o && (w.color = to(o));
-      let N;
-      C && C < 16 * E && (N = { transform: `scale(${C / (16 * E)})`, whiteSpace: "nowrap" }), S = /* @__PURE__ */ g("div", { "data-actualSize": C, className: "avatar-text", style: N, children: T });
+        !a && o && /#?[0-9a-fA-F]{6}/.test(o) && (C.color = to(o));
+      let A;
+      S && S < 16 * N && (A = { transform: `scale(${S / (16 * N)})`, whiteSpace: "nowrap" }), T = /* @__PURE__ */ g("div", { "data-actualSize": S, className: "avatar-text", style: A, children: E });
     }
     return /* @__PURE__ */ g(
       "div",
       {
-        className: k(b),
-        style: w,
-        ...y,
+        className: k(w),
+        style: C,
+        ...b,
         children: [
-          S,
-          v
+          T,
+          y
         ]
       }
     );
