@@ -6,6 +6,8 @@ import {SidebarOptions} from '../types/sidebar-options';
 export type SidebarProps = SidebarOptions & {
     className?: ClassNameLike;
     style?: JSX.CSSProperties;
+    contentClass?: ClassNameLike;
+    contentStyle?: JSX.CSSProperties;
     children?: ComponentChildren;
 };
 
@@ -21,7 +23,7 @@ export class Sidebar extends ReactComponent<SidebarProps> {
     componentDidMount(): void {
         const {current} = this._element;
         if (current) {
-            const {className, style, children, ...sidebarOptions} = this.props;
+            const {className, style, children, contentClass, contentStyle, ...sidebarOptions} = this.props;
             this._sidebar = new SidebarVanilla(current, sidebarOptions);
         }
     }
@@ -31,14 +33,14 @@ export class Sidebar extends ReactComponent<SidebarProps> {
     }
 
     render(props: RenderableProps<SidebarProps>) {
-        const {className = 'w-40', side = 'left', style, children} = props;
+        const {className = 'w-40', side = 'left', style, children, contentClass, contentStyle} = props;
         return (
             <div
                 ref={this._element}
                 className={classes(`sidebar side-bar-${side}`, className)}
                 style={style}
             >
-                <div className="sidebar-content">{children}</div>
+                <div className={classes('sidebar-content', contentClass)} style={contentStyle}>{children}</div>
             </div>
         );
     }
