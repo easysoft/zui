@@ -14,6 +14,10 @@ export class Sidebar extends ReactComponent<SidebarProps> {
 
     protected _element = createRef<HTMLDivElement>();
 
+    get sidebar() {
+        return this._sidebar;
+    }
+
     componentDidMount(): void {
         const {current} = this._element;
         if (current) {
