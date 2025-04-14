@@ -21,7 +21,7 @@
 }
 
 .sidebar-gutter {
-  @apply -w-[--gutter-width] -absolute -left-full -top-0 -bottom-0;
+  @apply -w-[--gutter-width] -absolute -left-full -top-0 -bottom-0 -z-10;
 }
 .sidebar-right > .sidebar-gutter {
   @apply -right-full -left-auto;
