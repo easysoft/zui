@@ -30,6 +30,7 @@ import {custom} from './src/plugins/custom';
 import {resize} from './src/plugins/resize';
 import {sortCol} from './src/plugins/sort-col';
 import {customCol} from './src/plugins/custom-col';
+import {contextmenu} from './src/plugins/contextmenu';
 
 const faker = new Faker({locale: [zh_CN, en]});
 
@@ -128,7 +129,7 @@ onPageUpdate(() => {
         cellHover: true,
         rowHover: true,
         responsive: true,
-        plugins: [datagrid, cellspan, custom],
+        plugins: [datagrid, cellspan, custom, contextmenu],
         getCellSpan({row, col}) {
             if (col.index === 1 && row.index === 0) {
                 return {
@@ -142,6 +143,15 @@ onPageUpdate(() => {
                     rowSpan: 2,
                 };
             }
+        },
+        contextmenu: {
+            cell: [
+                {
+                    text: 'copy',
+                    icon: 'icon-copy',
+                    hint: '复制',
+                },
+            ],
         },
     });
     console.log('dataTable', dataTable);
