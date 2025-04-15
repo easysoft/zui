@@ -1,3 +1,4 @@
+import {$} from '@zui/core';
 import {definePlugin} from '../../helpers/shared-plugins';
 import {editable} from '../editable';
 import {resize} from '../resize';
@@ -129,7 +130,10 @@ function selectNextCell(table: DTableDatagrid, event: KeyboardEvent, direction?:
 }
 
 const hotkeyHandlers: Record<string, (this: DTableDatagrid, event: KeyboardEvent) => void> = {
-    delete() {
+    delete(event) {
+        if ($(event.target as HTMLElement).is('input,textarea')) {
+            return;
+        }
         this.deleteSelections();
     },
     cut() {
