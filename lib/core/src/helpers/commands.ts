@@ -76,7 +76,7 @@ export function parseCommand(commandLike: CommandLike): CommandExecuteInfo | und
     }
     let scope = '';
     if (finalName.includes('~')) {
-        [finalName, scope] = finalName.split('~');
+        [scope, finalName] = finalName.split('~');
     }
     return {
         name: finalName,
