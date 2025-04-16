@@ -2,7 +2,7 @@ import {createRef, render, h} from 'preact';
 import {Component as ComponentBase} from '../component';
 import {mergeProps} from '../helpers';
 
-import type {Component as ComponentReact, ComponentClass, Attributes} from 'preact';
+import type {Component as ComponentReact, ComponentClass, Attributes, RefObject} from 'preact';
 import {type I18nLangMap} from '../i18n';
 import type {ComponentEventsDefnition} from '../component';
 
@@ -65,7 +65,7 @@ export class ComponentFromReact<O extends {} = {}, C extends ComponentReact<O> =
         super.destroy();
     }
 
-    protected _getRenderProps(userOptions: Record<string, unknown>) {
+    protected _getRenderProps(userOptions: Omit<O, '$replace' | '$optionsFromDataset'>): Omit<O, '$replace' | '$optionsFromDataset'> & {ref: RefObject<C>} {
         return {
             ref: this._ref,
             ...userOptions,
