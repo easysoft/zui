@@ -2,7 +2,7 @@ import {createRef, render, h} from 'preact';
 import {Component as ComponentBase} from '../component';
 import {mergeProps} from '../helpers';
 
-import type {Component as ComponentReact, ComponentClass} from 'preact';
+import type {Component as ComponentReact, ComponentClass, Attributes} from 'preact';
 import {type I18nLangMap} from '../i18n';
 import type {ComponentEventsDefnition} from '../component';
 
@@ -65,6 +65,13 @@ export class ComponentFromReact<O extends {} = {}, C extends ComponentReact<O> =
         super.destroy();
     }
 
+    protected _getRenderProps(userOptions: Record<string, unknown>) {
+        return {
+            ref: this._ref,
+            ...userOptions,
+        };
+    }
+
     /**
      * Render component.
      *
@@ -74,10 +81,7 @@ export class ComponentFromReact<O extends {} = {}, C extends ComponentReact<O> =
         const {element, $: instance} = this;
         const {Component, replace} = this.constructor;
         const {$replace = replace, $optionsFromDataset, ...userOptions} = this.setOptions(options, reset);
-        const props = {
-            ref: this._ref,
-            ...userOptions,
-        };
+        const props = this._getRenderProps(userOptions);
         if (reset) {
             (instance as {resetState?: (props?: Record<string, unknown>, init?: boolean) => void})?.resetState?.(userOptions);
         }
@@ -95,7 +99,7 @@ export class ComponentFromReact<O extends {} = {}, C extends ComponentReact<O> =
             );
         } else {
             render(
-                h(Component as ComponentClass, props),
+                h(Component as ComponentClass, props as Attributes),
                 element,
             );
         }
