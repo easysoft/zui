@@ -655,16 +655,23 @@ export class DTable extends Component<DTableOptions, DTableState> {
         data.value = this.getCellValue(row, col);
         result[0] = data.value as ComponentChildren;
         const renderCallbackName = row.id === 'HEADER' ? 'onRenderHeaderCell' : 'onRenderCell';
+        const renderCell = (callback: CellRenderCallback, type: string) => {
+            try {
+                result = callback.call(this, result, data, cellProps, h);
+            } catch (error) {
+                console.error(`[ZUI] DTable render cell(${row.id}:${col.name}) by ${type} error:`, error);
+            }
+        };
         if (col.setting[renderCallbackName]) {
-            result = (col.setting[renderCallbackName] as CellRenderCallback).call(this, result, data, cellProps, h);
+            renderCell(col.setting[renderCallbackName] as CellRenderCallback, 'col');
         }
         this._plugins.forEach(plugin => {
             if (plugin[renderCallbackName]) {
-                result = (plugin[renderCallbackName] as CellRenderCallback).call(this, result, data, cellProps, h);
+                renderCell(plugin[renderCallbackName] as CellRenderCallback, `plugin (${plugin.name})`);
             }
         });
         if (this.options[renderCallbackName]) {
-            result = (this.options[renderCallbackName] as CellRenderCallback).call(this, result, data, cellProps, h);
+            renderCell(this.options[renderCallbackName] as CellRenderCallback, 'options');
         }
         return result;
     };
