@@ -632,4 +632,6 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
             this.toggleMap.set(toggleName, ComponentClass);
         }
     }
+
+    static declare loadModule?: () => Promise<unknown>;
 }
