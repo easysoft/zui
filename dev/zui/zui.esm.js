@@ -8,7 +8,7 @@ var ht = (n, t, e) => ($s(n, t, "read from private field"), e ? e.call(n) : t.ge
   t instanceof WeakSet ? t.add(n) : t.set(n, e);
 }, bt = (n, t, e, s) => ($s(n, t, "write to private field"), s ? s.call(n, e) : t.set(n, e), e);
 var Ns = (n, t, e) => ($s(n, t, "access private method"), e);
-const zd = "3.0.0", Od = 1744807544669, Fd = "production", Ht = document, Nn = window, bo = Ht.documentElement, pe = Ht.createElement.bind(Ht), wo = pe("div"), Es = pe("table"), jl = pe("tbody"), Er = pe("tr"), { isArray: Qn, prototype: Co } = Array, { concat: Bl, filter: bi, indexOf: So, map: xo, push: Vl, slice: ko, some: wi, splice: Ul } = Co, Kl = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, ql = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, Gl = /<.+>/, Yl = /^\w+$/;
+const zd = "3.0.0", Od = 1744940893100, Fd = "production", Ht = document, Nn = window, bo = Ht.documentElement, pe = Ht.createElement.bind(Ht), wo = pe("div"), Es = pe("table"), jl = pe("tbody"), Er = pe("tr"), { isArray: Qn, prototype: Co } = Array, { concat: Bl, filter: bi, indexOf: So, map: xo, push: Vl, slice: ko, some: wi, splice: Ul } = Co, Kl = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, ql = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, Gl = /<.+>/, Yl = /^\w+$/;
 function Ci(n, t) {
   const e = Jl(t);
   return !n || !e && !he(t) && !tt(t) ? [] : !e && ql.test(n) ? t.getElementsByClassName(n.slice(1).replace(/\\/g, "")) : !e && Yl.test(n) ? t.getElementsByTagName(n) : t.querySelectorAll(n);
@@ -2872,7 +2872,7 @@ p.setLibRoot = function(n, t) {
 p.registerLib = function(n, t) {
   p.libMap || (p.libMap = {}), !t.name && t.id && (t.id = `zui-lib-${n}`), p.libMap[n] = t;
 };
-p.libVersion = 1744807544669 .toString(36);
+p.libVersion = 1744940893100 .toString(36);
 function da(n) {
   return new Promise((t, e) => {
     typeof n == "string" && (n = { src: n });
@@ -10812,10 +10812,16 @@ let $r = class extends H {
     }), X(this, ks, (e, s, i, r) => {
       const { row: o, col: a } = s;
       s.value = this.getCellValue(o, a), e[0] = s.value;
-      const l = o.id === "HEADER" ? "onRenderHeaderCell" : "onRenderCell";
-      return a.setting[l] && (e = a.setting[l].call(this, e, s, i, r)), this._plugins.forEach((c) => {
-        c[l] && (e = c[l].call(this, e, s, i, r));
-      }), this.options[l] && (e = this.options[l].call(this, e, s, i, r)), e;
+      const l = o.id === "HEADER" ? "onRenderHeaderCell" : "onRenderCell", c = (u, h) => {
+        try {
+          e = u.call(this, e, s, i, r);
+        } catch (f) {
+          console.error(`[ZUI] DTable render cell(${o.id}:${a.name}) by ${h} error:`, f);
+        }
+      };
+      return a.setting[l] && c(a.setting[l], "col"), this._plugins.forEach((u) => {
+        u[l] && c(u[l], `plugin (${u.name})`);
+      }), this.options[l] && c(this.options[l], "options"), e;
     }), X(this, Un, (e, s) => {
       s === "horz" ? this.scroll({ scrollLeft: e }) : this.scroll({ scrollTop: e });
     }), X(this, pi, (e) => {
