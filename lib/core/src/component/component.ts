@@ -145,6 +145,9 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
         }
 
         const element = $element[0] as U;
+        if (!element) {
+            throw new Error(`[ZUI] Invalid selector "${selector}" for component "${NAME}", can not find the element matched.`);
+        }
         const gid = nextGid();
         this._gid = gid;
         this._element = element;
