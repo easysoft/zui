@@ -8,7 +8,7 @@ var ht = (n, t, e) => ($s(n, t, "read from private field"), e ? e.call(n) : t.ge
   t instanceof WeakSet ? t.add(n) : t.set(n, e);
 }, bt = (n, t, e, s) => ($s(n, t, "write to private field"), s ? s.call(n, e) : t.set(n, e), e);
 var Ns = (n, t, e) => ($s(n, t, "access private method"), e);
-const zd = "3.0.0", Od = 1744940893100, Fd = "production", Ht = document, Nn = window, bo = Ht.documentElement, pe = Ht.createElement.bind(Ht), wo = pe("div"), Es = pe("table"), jl = pe("tbody"), Er = pe("tr"), { isArray: Qn, prototype: Co } = Array, { concat: Bl, filter: bi, indexOf: So, map: xo, push: Vl, slice: ko, some: wi, splice: Ul } = Co, Kl = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, ql = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, Gl = /<.+>/, Yl = /^\w+$/;
+const zd = "3.0.0", Od = 1745311284772, Fd = "production", Ht = document, Nn = window, bo = Ht.documentElement, pe = Ht.createElement.bind(Ht), wo = pe("div"), Es = pe("table"), jl = pe("tbody"), Er = pe("tr"), { isArray: Qn, prototype: Co } = Array, { concat: Bl, filter: bi, indexOf: So, map: xo, push: Vl, slice: ko, some: wi, splice: Ul } = Co, Kl = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, ql = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, Gl = /<.+>/, Yl = /^\w+$/;
 function Ci(n, t) {
   const e = Jl(t);
   return !n || !e && !he(t) && !tt(t) ? [] : !e && ql.test(n) ? t.getElementsByClassName(n.slice(1).replace(/\\/g, "")) : !e && Yl.test(n) ? t.getElementsByTagName(n) : t.querySelectorAll(n);
@@ -1948,7 +1948,10 @@ const _e = class sa {
     const u = p(t);
     if (u.data(s) && !r)
       throw new Error(`[ZUI] The component "${o}" has been initialized on element.`);
-    const h = u[0], f = ut();
+    const h = u[0];
+    if (!h)
+      throw new Error(`[ZUI] Invalid selector "${t}" for component "${o}", can not find the element matched.`);
+    const f = ut();
     this._gid = f, this._element = h, this.resetOptions(e), this._key = this.options.key ?? `__${f}`;
     let d = l.get(h);
     if (d ? d.add(this) : (d = /* @__PURE__ */ new Set([this]), l.set(h, d)), c.has(o) ? c.get(o).add(this) : c.set(o, /* @__PURE__ */ new Set([this])), u.data(s, this).attr(a, "").attr(i, `${f}`).attr("z-use", [...new Set([...d].map((_) => _.constructor.NAME))].join(",")), r) {
@@ -2872,7 +2875,7 @@ p.setLibRoot = function(n, t) {
 p.registerLib = function(n, t) {
   p.libMap || (p.libMap = {}), !t.name && t.id && (t.id = `zui-lib-${n}`), p.libMap[n] = t;
 };
-p.libVersion = 1744940893100 .toString(36);
+p.libVersion = 1745311284772 .toString(36);
 function da(n) {
   return new Promise((t, e) => {
     typeof n == "string" && (n = { src: n });
