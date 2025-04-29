@@ -1,4 +1,4 @@
-:root {
+.table {
     --table-head-bg:       var(--color-surface);
     --table-striped-color: var(--color-gray-50);
     --table-hover-color:   rgba(var(--color-primary-500-rgb), .05);
