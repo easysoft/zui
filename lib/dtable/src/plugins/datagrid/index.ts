@@ -140,6 +140,9 @@ const hotkeyHandlers: Record<string, (this: DTableDatagrid, event: KeyboardEvent
         this.cutSelections();
     },
     selectAll(event) {
+        if (this.state.editingCell) {
+            return;
+        }
         this.selectAllCells();
         event.preventDefault();
     },
