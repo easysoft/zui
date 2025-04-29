@@ -80,7 +80,7 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
             ...super.getDefaultState(props),
             loading: false,
             search: '',
-            items: items,
+            items: Array.isArray(items) ? items : [],
             selections: [],
         };
         this._emptyValueSet = new Set(typeof emptyValue === 'string' ? emptyValue.split(valueSplitter) : []);
