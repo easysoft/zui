@@ -50,7 +50,8 @@ const buildConfig = await createBuildConfig({
     version: argv.version ?? argv.v,
     exts: buildLibPaths,
     exports: argv.exports ?? argv.E,
-    ignoreNotReady: argv.ignoreNotReady
+    ignoreNotReady: argv.ignoreNotReady,
+    includeWip: argv.includeWip,
 });
 
 const buildDir = Path.resolve(process.cwd(), 'build');

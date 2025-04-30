@@ -39,6 +39,9 @@ export interface BuildConfigOptions {
 
     /** Whether to include not ready libs. */
     ignoreNotReady?: boolean;
+
+    /** Whether to include wip libs. */
+    includeWip?: boolean;
 }
 
 export interface BuildLibExportTarget {
@@ -311,6 +314,7 @@ export async function createBuildConfig(options: BuildConfigOptions): Promise<Bu
         version,
         ignoreLibs,
         ignoreNotReady,
+        includeWip,
     } = options;
 
     const exts = getBuildLibPaths(options.exts);
@@ -320,7 +324,7 @@ export async function createBuildConfig(options: BuildConfigOptions): Promise<Bu
     const libsSetting = configFileOrLibs.split(' ');
     Object.keys(libsMap).forEach(libName => {
         const lib = libsMap[libName];
-        if ((lib.zui.wip || lib.zui.separately) && !exts.includes(libName) && !exts.includes(lib.zui.name) && libsSetting.every(x => x !== libName && !x.startsWith(`${libName}~`))) {
+        if (((lib.zui.wip && !includeWip) || lib.zui.separately) && !exts.includes(libName) && !exts.includes(lib.zui.name) && libsSetting.every(x => x !== libName && !x.startsWith(`${libName}~`))) {
             delete libsMap[libName];
         }
     });
