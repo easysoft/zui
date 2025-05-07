@@ -63,7 +63,7 @@ if (import.meta.hot) {
 
     if (currentLibName) {
         await loadLibPage(currentLibName);
-        if (window.location.hash) {
+        if (window.location.hash && !window.location.hash.startsWith('#!')) {
             const anchor = document.querySelector(window.location.hash);
             if (anchor) {
                 anchor.scrollIntoView({block: 'start'});
