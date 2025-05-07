@@ -73,7 +73,15 @@ export class Avatar extends Component<AvatarOptions> {
             const finalDisplayText = displayText ?? getAvatarText(text!, maxTextLength);
             const displayTextLength = finalDisplayText.length;
             finalClass.push('has-text', `has-text-${displayTextLength}`);
+            let textStyle: JSX.CSSProperties | undefined;
+            if (actualSize && actualSize < (16 * displayTextLength)) {
+                textStyle = {transform: `scale(${actualSize / (16 * displayTextLength)})`, whiteSpace: 'nowrap'};
+            }
 
+            content = <div data-actualSize={actualSize} className="avatar-text" style={textStyle}>{finalDisplayText}</div>;
+        }
+
+        if (!src) {
             if (background === undefined) {
                 const avatarCode = code ?? text ?? displayText!;
                 const hue = (typeof avatarCode === 'number' ? avatarCode : getUniqueCode(avatarCode)) * hueDistance % 360;
@@ -85,12 +93,6 @@ export class Avatar extends Component<AvatarOptions> {
             } else if (!foreColor && background && /#?[0-9a-fA-F]{6}/.test(background)) {
                 finalStyle.color = contrastColor(background);
             }
-            let textStyle: JSX.CSSProperties | undefined;
-            if (actualSize && actualSize < (16 * displayTextLength)) {
-                textStyle = {transform: `scale(${actualSize / (16 * displayTextLength)})`, whiteSpace: 'nowrap'};
-            }
-
-            content = <div data-actualSize={actualSize} className="avatar-text" style={textStyle}>{finalDisplayText}</div>;
         }
 
         return (
