@@ -239,12 +239,9 @@ export function unbindCommands(element: Selector, scopes: string | true = true):
 }
 
 function getCommandBindInfo($target: Cash, scope?: string): CommandsBindInfo | undefined {
-    let $element = $target.closest(`[${COMMANDS_ATTR}]`);
-    if (!$element.length) {
-        const $proxy = $target.closest(`[${COMMAND_PROXY_ATTR}]`);
-        if ($proxy.length) {
-            $element = $($proxy.data('zui.commandProxy') || $proxy.attr('COMMAND_PROXY_ATTR')).closest(`[${COMMANDS_ATTR}]`);
-        }
+    let $element = $target.closest(`[${COMMANDS_ATTR}],[${COMMAND_PROXY_ATTR}]`).first();
+    if ($element.attr(COMMAND_PROXY_ATTR) !== undefined) {
+        $element = $($element.data('zui.commandProxy') || $element.attr(COMMAND_PROXY_ATTR)).closest(`[${COMMANDS_ATTR}]`);
     }
     if (!$element.length) {
         return;
