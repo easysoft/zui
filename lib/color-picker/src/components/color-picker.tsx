@@ -67,10 +67,10 @@ export class ColorPicker extends Pick<PickState, ColorPickerOptions> {
     }
 
     _renderTrigger(props: ColorPickerOptions, state: PickState): ComponentChildren {
-        const {icon} = props;
+        const {icon, hint = ''} = props;
         const {value} = state;
         return [
-            icon ? <Icon key="icon" icon={icon} /> : <span class="color-picker-item bg-current ring ring-gray ring-inset" style={{background: value}}></span>,
+            icon ? <Icon key="icon" icon={icon} title={hint} /> : <span class="color-picker-item bg-current ring ring-gray ring-inset" style={{background: value}} title={hint}></span>,
         ];
     }
 
