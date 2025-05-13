@@ -196,6 +196,16 @@ const COMMANDS_ATTR      = 'z-commands';
 const COMMAND_PROXY_ATTR = 'zui-commands-proxy';
 const COMMAND_ATTR       = 'zui-command';
 
+const globalCommandHandlers: Record<string, CommandCallback> = {};
+
+export function registerGlobalCommand(nameOrMap: string | Record<string, CommandCallback>, handler? : CommandCallback): void {
+    if (typeof nameOrMap === 'string' && handler) {
+        globalCommandHandlers[nameOrMap] = handler;
+    } else if (typeof nameOrMap === 'object') {
+        Object.assign(globalCommandHandlers, nameOrMap);
+    }
+}
+
 export function bindCommands(element?: Selector, options?: CommandsBindOptions | CommandCallback | string): void {
     if (typeof options === 'string') {
         options = {scope: options};
@@ -338,6 +348,10 @@ function handleGlobalCommand(event: Event & {commandHandled?: boolean}) {
             }
             if (scope === '$') {
                 return deepCall($, name, params);
+            }
+
+            if (scope === '' && globalCommandHandlers[name] !== undefined) {
+                return globalCommandHandlers[name](finalContext, params);
             }
 
             return result;
