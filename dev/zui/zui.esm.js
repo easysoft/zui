@@ -8,7 +8,7 @@ var ht = (n, t, e) => ($s(n, t, "read from private field"), e ? e.call(n) : t.ge
   t instanceof WeakSet ? t.add(n) : t.set(n, e);
 }, bt = (n, t, e, s) => ($s(n, t, "write to private field"), s ? s.call(n, e) : t.set(n, e), e);
 var Ns = (n, t, e) => ($s(n, t, "access private method"), e);
-const zd = "3.0.0", Od = 1746616161545, Fd = "production", Ht = document, Nn = window, wo = Ht.documentElement, pe = Ht.createElement.bind(Ht), Co = pe("div"), Es = pe("table"), Bl = pe("tbody"), Ar = pe("tr"), { isArray: Qn, prototype: So } = Array, { concat: Vl, filter: wi, indexOf: xo, map: ko, push: Ul, slice: To, some: Ci, splice: Kl } = So, ql = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, Gl = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, Yl = /<.+>/, Jl = /^\w+$/;
+const zd = "3.0.0", Od = 1747127542264, Fd = "production", Ht = document, Nn = window, wo = Ht.documentElement, pe = Ht.createElement.bind(Ht), Co = pe("div"), Es = pe("table"), Bl = pe("tbody"), Ar = pe("tr"), { isArray: Qn, prototype: So } = Array, { concat: Vl, filter: wi, indexOf: xo, map: ko, push: Ul, slice: To, some: Ci, splice: Kl } = So, ql = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, Gl = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, Yl = /<.+>/, Jl = /^\w+$/;
 function Si(n, t) {
   const e = Zl(t);
   return !n || !e && !he(t) && !tt(t) ? [] : !e && Gl.test(n) ? t.getElementsByClassName(n.slice(1).replace(/\\/g, "")) : !e && Jl.test(n) ? t.getElementsByTagName(n) : t.querySelectorAll(n);
@@ -2871,7 +2871,7 @@ p.setLibRoot = function(n, t) {
 p.registerLib = function(n, t) {
   p.libMap || (p.libMap = {}), !t.name && t.id && (t.id = `zui-lib-${n}`), p.libMap[n] = t;
 };
-p.libVersion = 1746616161545 .toString(36);
+p.libVersion = 1747127542264 .toString(36);
 function fa(n) {
   return new Promise((t, e) => {
     typeof n == "string" && (n = { src: n });
@@ -7164,9 +7164,9 @@ let Ga = class extends St {
     this.props.disabled || (super._handleChange(t, e), this.syncColor());
   }
   _renderTrigger(t, e) {
-    const { icon: s } = t, { value: i } = e;
+    const { icon: s, hint: i = "" } = t, { value: r } = e;
     return [
-      s ? /* @__PURE__ */ g(nt, { icon: s }, "icon") : /* @__PURE__ */ g("span", { class: "color-picker-item bg-current ring ring-gray ring-inset", style: { background: i } })
+      s ? /* @__PURE__ */ g(nt, { icon: s, title: i }, "icon") : /* @__PURE__ */ g("span", { class: "color-picker-item bg-current ring ring-gray ring-inset", style: { background: r }, title: i })
     ];
   }
   _getTriggerProps(t, e) {
