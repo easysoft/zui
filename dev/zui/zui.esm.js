@@ -8,7 +8,7 @@ var ht = (n, t, e) => (Ns(n, t, "read from private field"), e ? e.call(n) : t.ge
   t instanceof WeakSet ? t.add(n) : t.set(n, e);
 }, bt = (n, t, e, s) => (Ns(n, t, "write to private field"), s ? s.call(n, e) : t.set(n, e), e);
 var Es = (n, t, e) => (Ns(n, t, "access private method"), e);
-const Od = "3.0.0", Fd = 1747127606670, Hd = "production", Ht = document, Nn = window, Co = Ht.documentElement, pe = Ht.createElement.bind(Ht), So = pe("div"), As = pe("table"), Vl = pe("tbody"), Mr = pe("tr"), { isArray: ts, prototype: xo } = Array, { concat: Ul, filter: Ci, indexOf: ko, map: To, push: Kl, slice: $o, some: Si, splice: ql } = xo, Gl = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, Yl = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, Jl = /<.+>/, Zl = /^\w+$/;
+const Od = "3.0.0", Fd = 1747300799938, Hd = "production", Ht = document, Nn = window, Co = Ht.documentElement, pe = Ht.createElement.bind(Ht), So = pe("div"), As = pe("table"), Vl = pe("tbody"), Mr = pe("tr"), { isArray: ts, prototype: xo } = Array, { concat: Ul, filter: Ci, indexOf: ko, map: To, push: Kl, slice: $o, some: Si, splice: ql } = xo, Gl = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, Yl = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, Jl = /<.+>/, Zl = /^\w+$/;
 function xi(n, t) {
   const e = Xl(t);
   return !n || !e && !he(t) && !tt(t) ? [] : !e && Yl.test(n) ? t.getElementsByClassName(n.slice(1).replace(/\\/g, "")) : !e && Zl.test(n) ? t.getElementsByTagName(n) : t.querySelectorAll(n);
@@ -2874,7 +2874,7 @@ p.setLibRoot = function(n, t) {
 p.registerLib = function(n, t) {
   p.libMap || (p.libMap = {}), !t.name && t.id && (t.id = `zui-lib-${n}`), p.libMap[n] = t;
 };
-p.libVersion = 1747127606670 .toString(36);
+p.libVersion = 1747300799938 .toString(36);
 function pa(n) {
   return new Promise((t, e) => {
     typeof n == "string" && (n = { src: n });
@@ -7839,9 +7839,9 @@ const fo = "show", Hs = "in", Pu = '[data-dismiss="modal"]', bn = "modal-hide", 
   }
   hide() {
     var e;
-    if (!this._shown)
+    if (!this._shown || (this._shown = !1, p(this.modalElement).removeClass(Hs), ((e = this.options.onHide) == null ? void 0 : e.call(this)) === !1))
       return !1;
-    this._shown = !1, p(this.modalElement).removeClass(Hs), (e = this.options.onHide) == null || e.call(this), this.emit("hide"), this._setTimer(() => {
+    this.emit("hide"), this._setTimer(() => {
       var s;
       p(this.modalElement).removeClass(fo), (s = this.options.onHidden) == null || s.call(this), this.emit("hidden");
     });
