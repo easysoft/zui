@@ -192,7 +192,9 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
 
         this._shown = false;
         $(this.modalElement).removeClass(CLASS_SHOWN);
-        this.options.onHide?.call(this);
+        if (this.options.onHide?.call(this) === false) {
+            return false;
+        }
         this.emit('hide');
 
         this._setTimer(() => {

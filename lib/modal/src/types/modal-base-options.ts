@@ -22,5 +22,5 @@ export type ModalBaseOptions = {
     onShown?: (this: ModalBase) => void;
     onHidden?: (this: ModalBase) => void;
     onShow?: (this: ModalBase) => void;
-    onHide?: (this: ModalBase) => void;
+    onHide?: (this: ModalBase) => void | false;
 };
