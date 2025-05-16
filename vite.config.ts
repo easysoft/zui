@@ -1,5 +1,6 @@
 import Path, {dirname} from 'path';
 import fs from 'fs-extra';
+import {execSync} from 'child_process';
 import {defineConfig, mergeConfig, type UserConfig, type LibraryOptions} from 'vite';
 import {blue} from 'colorette';
 import eslint from 'vite-plugin-eslint';
@@ -95,6 +96,7 @@ export default defineConfig(async ({mode}) => {
             'process.env.NODE_ENV': JSON.stringify(mode),
             __BUILD_MODE__: JSON.stringify(mode),
             __BUILD_TIME__: Date.now(),
+            __BUILD_HASH__: JSON.stringify(execSync('git rev-parse HEAD').toString().trim()),
             __APP_VERSION__: JSON.stringify(packageJson.version),
         },
         experimental: {
