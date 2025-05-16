@@ -8,7 +8,7 @@ var ht = (n, t, e) => (Ns(n, t, "read from private field"), e ? e.call(n) : t.ge
   t instanceof WeakSet ? t.add(n) : t.set(n, e);
 }, bt = (n, t, e, s) => (Ns(n, t, "write to private field"), s ? s.call(n, e) : t.set(n, e), e);
 var Es = (n, t, e) => (Ns(n, t, "access private method"), e);
-const Od = "3.0.0", Fd = 1747300799938, Hd = "production", Ht = document, Nn = window, Co = Ht.documentElement, pe = Ht.createElement.bind(Ht), So = pe("div"), As = pe("table"), Vl = pe("tbody"), Mr = pe("tr"), { isArray: ts, prototype: xo } = Array, { concat: Ul, filter: Ci, indexOf: ko, map: To, push: Kl, slice: $o, some: Si, splice: ql } = xo, Gl = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, Yl = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, Jl = /<.+>/, Zl = /^\w+$/;
+const Od = "3.0.0", Fd = 1747377898570, Hd = "production", Wd = "f073d9fcc21572ec32f6e3177f84584cfff44e5a", Ht = document, Nn = window, Co = Ht.documentElement, pe = Ht.createElement.bind(Ht), So = pe("div"), As = pe("table"), Vl = pe("tbody"), Mr = pe("tr"), { isArray: ts, prototype: xo } = Array, { concat: Ul, filter: Ci, indexOf: ko, map: To, push: Kl, slice: $o, some: Si, splice: ql } = xo, Gl = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, Yl = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, Jl = /<.+>/, Zl = /^\w+$/;
 function xi(n, t) {
   const e = Xl(t);
   return !n || !e && !he(t) && !tt(t) ? [] : !e && Yl.test(n) ? t.getElementsByClassName(n.slice(1).replace(/\\/g, "")) : !e && Zl.test(n) ? t.getElementsByTagName(n) : t.querySelectorAll(n);
@@ -837,7 +837,7 @@ function se(n, t, e, s) {
   const i = Pi(n, t);
   return typeof i == "function" ? i.apply(s || n, e) : i;
 }
-function Wd(n) {
+function jd(n) {
   return typeof n == "string" && n !== "";
 }
 function V(n, ...t) {
@@ -1132,7 +1132,7 @@ async function is(n, t = [], e, s, i) {
   const [a] = await o.send();
   return a;
 }
-function jd(n) {
+function Bd(n) {
   return !!(n && (typeof n == "string" || typeof n == "object" && n.url || typeof n == "function"));
 }
 p.fetch = is;
@@ -1252,7 +1252,7 @@ function zi(n, t, e) {
   let s = we.get(n) || {};
   return e && n instanceof Element && (s = Object.assign({}, p(n).dataset(), s)), t === void 0 ? s : s[t];
 }
-function Bd(n) {
+function Vd(n) {
   we.delete(n);
 }
 p.fn.dataset = p.fn.data;
@@ -1267,10 +1267,10 @@ function Te(n, ...t) {
   return n.includes("RAWJS") && (n = n.split('"RAWJS<').join("").split('>RAWJS"').join("").split("<RAWJS_QUOTE>").join('"').split("<RAWJS_LINE>").join(`
 `)), new Function(`return ${n}`)(...t);
 }
-function Vd(n, ...t) {
+function Ud(n, ...t) {
   return n.includes("RAWJS") ? Te(n, ...t) : JSON.parse(n);
 }
-function Ud(n) {
+function Kd(n) {
   return JSON.stringify(n, (t, e) => {
     if (typeof e == "function")
       return `RAWJS<${e.toString().split('"').join("<RAWJS_QUOTE>").split(`
@@ -1874,7 +1874,7 @@ function na(n, t, e) {
 function sa(n, t) {
   return p(n).off(`.zui.hotkeys${t ? `.${t}` : ""}`);
 }
-const Kd = Xc;
+const qd = Xc;
 p.fn.hotkeys = function(n, t) {
   return na(this, n, t);
 };
@@ -2335,7 +2335,7 @@ function aa(n) {
     }
   }
 }
-function qd(n) {
+function Gd(n) {
   var t;
   n ? (t = as(n)) == null || t.defineFn() : window._zuiDefined || (aa(), vt.map.forEach((e) => {
     e.defineFn();
@@ -2551,11 +2551,11 @@ const Xe = 24 * 60 * 60 * 1e3, q = (n) => n === void 0 ? /* @__PURE__ */ new Dat
     e = t.replace(s.toString(), ""), t = s;
   }
   return n = new Date(q(n).getTime()), e === "month" ? n.setMonth(n.getMonth() + t) : e === "year" ? n.setFullYear(n.getFullYear() + t) : e === "week" ? n.setDate(n.getDate() + t * 7) : e === "hour" ? n.setHours(n.getHours() + t) : e === "minute" ? n.setMinutes(n.getMinutes() + t) : e === "second" ? n.setSeconds(n.getSeconds() + t) : n.setDate(n.getDate() + t), n;
-}, le = (n, t = /* @__PURE__ */ new Date()) => q(n).toDateString() === q(t).toDateString(), Zs = (n, t = /* @__PURE__ */ new Date()) => q(n).getFullYear() === q(t).getFullYear(), ca = (n, t = /* @__PURE__ */ new Date()) => (n = q(n), t = q(t), n.getFullYear() === t.getFullYear() && n.getMonth() === t.getMonth()), Gd = (n, t = /* @__PURE__ */ new Date()) => {
+}, le = (n, t = /* @__PURE__ */ new Date()) => q(n).toDateString() === q(t).toDateString(), Zs = (n, t = /* @__PURE__ */ new Date()) => q(n).getFullYear() === q(t).getFullYear(), ca = (n, t = /* @__PURE__ */ new Date()) => (n = q(n), t = q(t), n.getFullYear() === t.getFullYear() && n.getMonth() === t.getMonth()), Yd = (n, t = /* @__PURE__ */ new Date()) => {
   n = q(n), t = q(t);
   const e = 1e3 * 60 * 60 * 24, s = Math.floor(n.getTime() / e), i = Math.floor(t.getTime() / e);
   return Math.floor((s + 4) / 7) === Math.floor((i + 4) / 7);
-}, Yd = (n, t) => le(q(t), n), Jd = (n, t) => le(q(t).getTime() - Xe, n), Zd = (n, t) => le(q(t).getTime() + Xe, n), ha = (n) => n != null && !isNaN(q(n).getTime()), Tt = (n, t = "yyyy-MM-dd hh:mm", e = "") => {
+}, Jd = (n, t) => le(q(t), n), Zd = (n, t) => le(q(t).getTime() - Xe, n), Xd = (n, t) => le(q(t).getTime() + Xe, n), ha = (n) => n != null && !isNaN(q(n).getTime()), Tt = (n, t = "yyyy-MM-dd hh:mm", e = "") => {
   if (n = q(n), !ha(n))
     return e;
   if (typeof t == "function")
@@ -2575,7 +2575,7 @@ const Xe = 24 * 60 * 60 * 1e3, q = (n) => n === void 0 ? /* @__PURE__ */ new Dat
       t = t.replace(RegExp.$1, RegExp.$1.length === 1 ? r : `00${r}`.substring(r.length));
     }
   }), t;
-}, Xd = (n, t, e) => {
+}, Qd = (n, t, e) => {
   const s = {
     full: "yyyy-M-d",
     month: "M-d",
@@ -2680,7 +2680,7 @@ async function uh(n, t) {
   }));
 }
 const Se = "zui.commands", Ne = "z-commands", Ds = "zui-commands-proxy", ua = "zui-command", Dn = {};
-function Qd(n, t) {
+function tf(n, t) {
   typeof n == "string" && t ? Dn[n] = t : typeof n == "object" && Object.assign(Dn, n);
 }
 function Bi(n, t) {
@@ -2800,7 +2800,7 @@ p.fn.runJS = function(n) {
     Qs(e, n);
   });
 };
-function tf(n) {
+function ef(n) {
   return new Promise((t) => {
     typeof n == "string" && (n = { accept: n });
     const e = document.createElement("input");
@@ -2809,7 +2809,7 @@ function tf(n) {
     }, e.click();
   });
 }
-function ef(n) {
+function nf(n) {
   return new Promise((t, e) => {
     const s = new FileReader();
     s.onload = () => {
@@ -2874,7 +2874,7 @@ p.setLibRoot = function(n, t) {
 p.registerLib = function(n, t) {
   p.libMap || (p.libMap = {}), !t.name && t.id && (t.id = `zui-lib-${n}`), p.libMap[n] = t;
 };
-p.libVersion = 1747300799938 .toString(36);
+p.libVersion = 1747377898570 .toString(36);
 function pa(n) {
   return new Promise((t, e) => {
     typeof n == "string" && (n = { src: n });
@@ -3001,7 +3001,7 @@ function _a(n, t) {
 p.fn.resize = function(n) {
   return _a(this, n);
 };
-const nf = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+const sf = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
   isElementDetached: ne,
   isVisible: ls,
@@ -3122,7 +3122,7 @@ function vh(n) {
   }
 }
 var L = void 0;
-function sf(n) {
+function rf(n) {
   var t = L;
   L = void 0;
   try {
@@ -5664,7 +5664,7 @@ fn.DEFAULT = {
 };
 fn.MULTI_INSTANCE = !0;
 fn.TypeOptions = {};
-let uf = fn, ms = class extends H {
+let df = fn, ms = class extends H {
   render(t) {
     const { percent: e = 50, color: s, background: i = null, height: r, width: o, children: a, className: l, style: c } = t;
     return /* @__PURE__ */ g("div", { class: k("progress", l), style: {
@@ -12605,6 +12605,7 @@ export {
   Di as Ajax,
   Ra as Avatar,
   Fd as BUILD,
+  Wd as BUILD_HASH,
   Hd as BUILD_MODE,
   Da as BtnGroup,
   qc as Bus,
@@ -12628,7 +12629,7 @@ export {
   nt as Icon,
   yr as ImageSelector,
   qi as Menu,
-  uf as Messager,
+  df as Messager,
   Bn as Modal,
   tn as ModalBase,
   Ge as ModalTrigger,
@@ -12656,7 +12657,7 @@ export {
   jt as bus,
   p as cash,
   k as classes,
-  Bd as clearData,
+  Vd as clearData,
   xa as computed,
   ye as convertBytes,
   oa as create,
@@ -12667,10 +12668,10 @@ export {
   se as deepCall,
   Pi as deepGet,
   Mc as deepGetPath,
-  qd as defineFn,
+  Gd as defineFn,
   Pn as delay,
   Vc as disableScroll,
-  nf as dom,
+  sf as dom,
   Vr as downloadFile,
   hs as effect,
   Qc as enterFullscreen,
@@ -12680,7 +12681,7 @@ export {
   is as fetchData,
   Lt as formatBytes,
   Tt as formatDate,
-  Xd as formatDateSpan,
+  Qd as formatDateSpan,
   V as formatString,
   Wo as getClassList,
   as as getComponent,
@@ -12690,33 +12691,33 @@ export {
   ch as getUniqueCode,
   Je as getZData,
   wt as h,
-  Kd as hotkeys,
+  qd as hotkeys,
   j as i18n,
   oh as init,
   aa as initGlobalComponents,
   qs as isDiff,
-  jd as isFetchSetting,
-  Wd as isNotEmptyString,
+  Bd as isFetchSetting,
+  jd as isNotEmptyString,
   le as isSameDay,
   ca as isSameMonth,
-  Gd as isSameWeek,
+  Yd as isSameWeek,
   Zs as isSameYear,
-  Yd as isToday,
-  Zd as isTomorrow,
+  Jd as isToday,
+  Xd as isTomorrow,
   ha as isValidDate,
   ot as isValidElement,
-  Jd as isYesterday,
-  Ud as jsRaw,
+  Zd as isYesterday,
+  Kd as jsRaw,
   O as mergeProps,
   ut as nextGid,
   Xs as parseCommand,
   hh as parseCommands,
-  Vd as parseRawData,
+  Ud as parseRawData,
   Wi as parseSize,
   $a as reactComponents,
-  ef as readFile,
+  nf as readFile,
   eh as registerComponent,
-  Qd as registerGlobalCommand,
+  tf as registerGlobalCommand,
   Kc as registerGlobalListener,
   it as registerReactComponent,
   Zo as removeUndefinedProps,
@@ -12724,7 +12725,7 @@ export {
   si as renderCustomContent,
   Th as renderCustomResult,
   Qs as runJS,
-  tf as selectFile,
+  ef as selectFile,
   be as setFormDataValue,
   Fr as setZData,
   Oc as shareData,
@@ -12736,6 +12737,6 @@ export {
   ia as toggleFullscreen,
   Vi as unbindCommands,
   sa as unbindHotkeys,
-  sf as untracked
+  rf as untracked
 };
 //# sourceMappingURL=zui.esm.js.map
