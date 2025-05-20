@@ -28,7 +28,7 @@
     "zui": {
         "type": "js-ui",
         "displayName": "卡片",
-        "notReady": true,
+        "wip": true,
         "contributes": {
             "css": [
                 "class",

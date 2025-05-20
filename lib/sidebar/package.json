@@ -20,7 +20,6 @@
     "zui": {
         "type": "component",
         "displayName": "侧边栏",
-        "notReady": true,
         "contributes": {
             "css": [
                 "class",

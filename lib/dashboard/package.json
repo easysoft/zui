@@ -31,7 +31,6 @@
         "type": "js-ui",
         "displayName": "仪表盘",
         "publicPath": false,
-        "notReady": true,
         "contributes": {
             "css": [
                 "class",

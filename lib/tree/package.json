@@ -28,7 +28,6 @@
     "zui": {
         "type": "component",
         "displayName": "树形菜单",
-        "notReady": true,
         "contributes": {
             "css": [
                 "class",
