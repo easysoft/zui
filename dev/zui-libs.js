@@ -454,7 +454,7 @@ export default [
             "workspace": true,
             "sourceType": "build-in",
             "name": "list",
-            "notReady": true,
+            "notReady": false,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/list/package.json",
             "order": 2000000030010000000
         }
@@ -720,7 +720,7 @@ export default [
             "workspace": true,
             "sourceType": "build-in",
             "name": "dnd",
-            "notReady": true,
+            "notReady": false,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/dnd/package.json",
             "order": 3000000017010000000
         },
@@ -784,7 +784,7 @@ export default [
             "workspace": true,
             "sourceType": "build-in",
             "name": "sortable",
-            "notReady": true,
+            "notReady": false,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/sortable/package.json",
             "order": 3000000045010000000
         },
@@ -822,8 +822,7 @@ export default [
             "workspace": true,
             "sourceType": "build-in",
             "name": "split",
-            "notReady": true,
-            "wip": true,
+            "notReady": false,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/split/package.json",
             "order": 3000000046010000000
         },
@@ -1501,7 +1500,7 @@ export default [
             "workspace": true,
             "sourceType": "build-in",
             "name": "popover",
-            "notReady": true,
+            "notReady": false,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/popover/package.json",
             "order": 4000000039010000000
         }
@@ -1579,7 +1578,7 @@ export default [
             "workspace": true,
             "sourceType": "build-in",
             "name": "sidebar",
-            "notReady": true,
+            "notReady": false,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/sidebar/package.json",
             "order": 4000000044010000000
         }
@@ -1750,7 +1749,7 @@ export default [
             "workspace": true,
             "sourceType": "build-in",
             "name": "tree",
-            "notReady": true,
+            "notReady": false,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/tree/package.json",
             "order": 4000000052010000000
         }
@@ -1789,7 +1788,7 @@ export default [
             "workspace": true,
             "sourceType": "build-in",
             "name": "upload",
-            "notReady": true,
+            "notReady": false,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/upload/package.json",
             "order": 4000000054010000000
         }
@@ -1829,7 +1828,7 @@ export default [
             "workspace": true,
             "sourceType": "build-in",
             "name": "upload-imgs",
-            "notReady": true,
+            "notReady": false,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/upload-imgs/package.json",
             "order": 4000000055010000000
         }
@@ -1946,7 +1945,8 @@ export default [
             "workspace": true,
             "sourceType": "build-in",
             "name": "cards",
-            "notReady": true,
+            "notReady": false,
+            "wip": true,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/cards/package.json",
             "order": 5000000008010000000
         }
@@ -1989,7 +1989,7 @@ export default [
             "workspace": true,
             "sourceType": "build-in",
             "name": "contextmenu",
-            "notReady": true,
+            "notReady": false,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/contextmenu/package.json",
             "order": 5000000012010000000
         }
@@ -2039,7 +2039,7 @@ export default [
             "workspace": true,
             "sourceType": "build-in",
             "name": "dashboard",
-            "notReady": true,
+            "notReady": false,
             "publicPath": false,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/dashboard/package.json",
             "order": 5000000015010001000
@@ -2203,7 +2203,7 @@ export default [
             "workspace": true,
             "sourceType": "build-in",
             "name": "kanban",
-            "notReady": true,
+            "notReady": false,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/kanban/package.json",
             "order": 5000000028010000000
         }
