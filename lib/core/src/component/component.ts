@@ -5,6 +5,7 @@ import {isElementDetached} from '../dom/is-detached';
 
 import type {Cash, Element, Selector} from '../cash';
 import type {ComponentEventArgs, ComponentEventName, ComponentOptions, ComponentEvents, ComponentEventsDefnition, ComponentToggleConfig} from './types';
+import {fetchData} from '../ajax';
 
 /**
  * The event callback for component.
@@ -183,6 +184,16 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
         this.init();
         this.options.$onCreate?.call(this);
         requestAnimationFrame(async () => {
+            const {$fetcher} = this.options;
+            if ($fetcher) {
+                const remoteOptions = await fetchData($fetcher, [], {dataType: 'js'});
+                if (this.destroyed) {
+                    return;
+                }
+                if (remoteOptions) {
+                    this.setOptions(remoteOptions);
+                }
+            }
             this._inited = true;
             await this.afterInit();
             this.emit('inited', this.options);

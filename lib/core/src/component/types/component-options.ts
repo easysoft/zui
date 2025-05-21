@@ -1,3 +1,4 @@
+import {FetcherSetting} from '../../ajax';
 import type {I18nLangMap} from '../../i18n';
 
 /**
@@ -17,6 +18,7 @@ export type ComponentBaseOptions = {
  */
 export type ComponentOptions<O extends {} = {}> = ComponentBaseOptions & O & {
     $options?: Partial<O> | ((element: HTMLElement, options: Partial<O>) => Partial<O> | undefined);
+    $fetcher?: FetcherSetting<Partial<O>>;
     $onCreate?: () => void;
     $onInited?: () => void;
     $onDestroy?: () => void;
