@@ -1,5 +1,6 @@
 import type {AjaxBeforeSendCallback, AjaxCallbackMap, AjaxCompleteCallback, AjaxErrorCallback, AjaxSetting, AjaxSuccessCallback} from './types';
 import {createFormData} from '../form';
+import {parseRawData} from '../helpers';
 
 function setHeader(headers: HeadersInit, name: string, value: string) {
     if (headers instanceof Headers) {
@@ -252,6 +253,9 @@ export class Ajax<T = unknown> {
                     } else {
                         data = await response.json();
                     }
+                } else if (dataType === 'js') {
+                    data = await response.text();
+                    data = parseRawData(data as string);
                 } else {
                     data = await response.text();
                 }

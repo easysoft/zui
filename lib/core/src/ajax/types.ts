@@ -24,7 +24,7 @@ export interface AjaxSetting extends RequestInit {
     data?: AjaxFormData;
     contentType?: string; // application/x-www-form-urlencoded, multipart/form-data, or text/plain
     accepts?: Record<string, string>;
-    dataType?: string;
+    dataType?: 'json' | 'text' | 'blob' | 'js' | ({} & string);
     timeout?: number;
     processData?: boolean;
     jsonParser?: (text: string) => unknown;
