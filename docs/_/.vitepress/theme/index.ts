@@ -9,6 +9,7 @@ import StyleTile from './components/style-tile.vue';
 import PropItem from './components/prop-item.vue';
 import Props from './components/props.vue';
 import ZUIReady from './components/zui-ready.vue';
+import ZUI from './components/zui.vue';
 import zuiData from './zui-data';
 import './tailwind.css';
 import './vars.css';
@@ -20,6 +21,7 @@ export default {
     enhanceApp({app}) {
         enhanceAppWithTabs(app);
         app.component('Example', Example);
+        app.component('ZUI', ZUI);
         app.component('CssPropValue', CssPropValue);
         app.component('CopyCode', CopyCode);
         app.component('StyleTile', StyleTile);
