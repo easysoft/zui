@@ -174,7 +174,7 @@ export class Dashboard extends Component<Required<DashboardOptions>, DashboardSt
 
     tryLoadNext = () => {
         clearTimeout(this._loadTimer);
-        this._loadTimer = window.setTimeout(() => this.loadNext(), 100);
+        this._loadTimer = window.setTimeout(() => this.loadNext(), 50);
     };
 
     protected _isVisible(id: string) {
