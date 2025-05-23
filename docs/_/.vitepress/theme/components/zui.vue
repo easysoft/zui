@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import {computed, onMounted, ref} from 'vue';
+import {onMounted, ref} from 'vue';
 
 const props = defineProps<{
   className?: string,
@@ -17,15 +17,6 @@ const props = defineProps<{
 }>();
 
 const ele = ref();
-const restProps = computed(() => {
-  const {
-    className,
-    style,
-    create,
-    options,
-    ready,
-  } = props;
-});
 
 onMounted(() => {
   onZUIReady(() => {
