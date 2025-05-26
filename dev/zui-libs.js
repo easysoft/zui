@@ -1946,7 +1946,6 @@ export default [
             "sourceType": "build-in",
             "name": "cards",
             "notReady": false,
-            "wip": true,
             "packageJsonPath": "/home/runner/work/zui/zui/lib/cards/package.json",
             "order": 5000000008010000000
         }
