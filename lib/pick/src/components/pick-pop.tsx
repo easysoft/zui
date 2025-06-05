@@ -1,6 +1,6 @@
 import {Component, ComponentChildren, JSX, RefObject, RenderableProps, VNode, createRef} from 'preact';
 import {computePosition, flip, offset, shift, autoUpdate, Placement} from '@floating-ui/dom';
-import {$, classes, createPortal, toCssSize} from '@zui/core';
+import {$, classes, createPortal, CustomContent, toCssSize} from '@zui/core';
 import {isElementDetached, isVisible} from '@zui/core/src/dom';
 
 import type {PickState, PickPopProps} from '../types';
@@ -96,9 +96,12 @@ export class PickPop<S extends PickState = PickState, P extends PickPopProps<S> 
     }
 
     protected _render(props: RenderableProps<P>): VNode {
+        const {header, footer} = props;
         return (
             <div {...this._getProps(props)}>
+                {header ? <CustomContent key="header" component="header" className="pick-pop-header" content={header} /> : null}
                 {this._renderPop(props)}
+                {footer ? <CustomContent key="footer" component="footer" className="pick-pop-footer" content={footer} /> : null}
             </div>
         );
     }

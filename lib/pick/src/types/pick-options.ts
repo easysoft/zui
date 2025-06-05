@@ -1,5 +1,5 @@
 import type {ComponentType, JSX} from 'preact';
-import type {ClassNameLike} from '@zui/core';
+import type {ClassNameLike, CustomContentType} from '@zui/core';
 import type {PickPopProps} from './pick-pop-props';
 import type {PickState} from './pick-state';
 import type {PickPopLayout} from './pick-pop-layout';
@@ -40,6 +40,8 @@ export interface PickOptions<S extends PickState = PickState> {
     popMaxHeight?: number | string;
     popMaxWidth?: number | string;
     popMinWidth?: number | string;
+    popHeader?: CustomContentType;
+    popFooter?: CustomContentType;
 
     onPopLayout?: (layout: PickPopLayout) => PickPopLayout;
     onPopShow?: () => void;

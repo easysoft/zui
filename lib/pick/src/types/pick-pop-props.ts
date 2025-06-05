@@ -1,5 +1,5 @@
 import type {JSX, ComponentChildren} from 'preact';
-import type {ClassNameLike} from '@zui/core';
+import type {ClassNameLike, CustomContentType} from '@zui/core';
 import type {PickState, PickerStateChanger} from './pick-state';
 import type {PickPopPlacement} from './pick-pop-placement';
 
@@ -16,6 +16,8 @@ export interface PickPopProps<S extends PickState = PickState> {
     className?: ClassNameLike;
     style?: JSX.CSSProperties;
     children?: ComponentChildren;
+    header?: CustomContentType;
+    footer?: CustomContentType;
     afterRender?: (info: {firstRender: boolean}) => void;
     beforeDestroy?: () => void;
     onLayout?: (element: HTMLElement) => void;
