@@ -205,6 +205,14 @@ export class PickerMenu extends PickPop<PickerState, PickerMenuProps> {
         }, menu, tree);
     }
 
+    protected _renderHeader() {
+        return null;
+    }
+
+    protected _renderFooter() {
+        return null;
+    }
+
     protected _renderPop(props: RenderableProps<PickerMenuProps>): ComponentChildren {
         const {tree} = props;
         this._firstSelected = undefined;
