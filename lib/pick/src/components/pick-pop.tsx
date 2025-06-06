@@ -95,13 +95,28 @@ export class PickPop<S extends PickState = PickState, P extends PickPopProps<S> 
         return this._container;
     }
 
+    protected _renderHeader(props: RenderableProps<P>): VNode | null {
+        const {header} = props;
+        if (!header) {
+            return null;
+        }
+        return <CustomContent key="header" component="header" className="pick-pop-header" content={header} />;
+    }
+
+    protected _renderFooter(props: RenderableProps<P>): VNode | null {
+        const {footer} = props;
+        if (!footer) {
+            return null;
+        }
+        return <CustomContent key="footer" component="footer" className="pick-pop-footer" content={footer} />;
+    }
+
     protected _render(props: RenderableProps<P>): VNode {
-        const {header, footer} = props;
         return (
             <div {...this._getProps(props)}>
-                {header ? <CustomContent key="header" component="header" className="pick-pop-header" content={header} /> : null}
+                {this._renderHeader(props)}
                 {this._renderPop(props)}
-                {footer ? <CustomContent key="footer" component="footer" className="pick-pop-footer" content={footer} /> : null}
+                {this._renderFooter(props)}
             </div>
         );
     }
