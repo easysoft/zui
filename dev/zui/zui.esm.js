@@ -8,7 +8,7 @@ var bt = (n, t, e) => (gi(n, t, "read from private field"), e ? e.call(n) : t.ge
   t instanceof WeakSet ? t.add(n) : t.set(n, e);
 }, It = (n, t, e, s) => (gi(n, t, "write to private field"), s ? s.call(n, e) : t.set(n, e), e);
 var _i = (n, t, e) => (gi(n, t, "access private method"), e);
-const Kp = "3.0.0", Gp = 1749201864197, qp = "production", Yp = "9e16db0520cff99925702459c691faee67cbc730", ae = document, mn = window, Ha = ae.documentElement, Fe = ae.createElement.bind(ae), Wa = Fe("div"), yi = Fe("table"), Ih = Fe("tbody"), Oo = Fe("tr"), { isArray: Hn, prototype: Ba } = Array, { concat: Dh, filter: gr, indexOf: ja, map: Ua, push: Ph, slice: Va, some: _r, splice: Lh } = Ba, Rh = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, zh = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, Oh = /<.+>/, Fh = /^\w+$/;
+const Kp = "3.0.0", Gp = 1749628287315, qp = "production", Yp = "96b9c1c3d2baac96536e140bb7303c1152070551", ae = document, mn = window, Ha = ae.documentElement, Fe = ae.createElement.bind(ae), Wa = Fe("div"), yi = Fe("table"), Ih = Fe("tbody"), Oo = Fe("tr"), { isArray: Hn, prototype: Ba } = Array, { concat: Dh, filter: gr, indexOf: ja, map: Ua, push: Ph, slice: Va, some: _r, splice: Lh } = Ba, Rh = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, zh = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, Oh = /<.+>/, Fh = /^\w+$/;
 function yr(n, t) {
   const e = Hh(t);
   return !n || !e && !Re(t) && !lt(t) ? [] : !e && zh.test(n) ? t.getElementsByClassName(n.slice(1).replace(/\\/g, "")) : !e && Fh.test(n) ? t.getElementsByTagName(n) : t.querySelectorAll(n);
@@ -2881,7 +2881,7 @@ p.setLibRoot = function(n, t) {
 p.registerLib = function(n, t) {
   p.libMap || (p.libMap = {}), !t.name && t.id && (t.id = `zui-lib-${n}`), p.libMap[n] = t;
 };
-p.libVersion = 1749201864197 .toString(36);
+p.libVersion = 1749628287315 .toString(36);
 function Pl(n) {
   return new Promise((t, e) => {
     typeof n == "string" && (n = { src: n });
