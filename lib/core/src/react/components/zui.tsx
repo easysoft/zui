@@ -13,6 +13,8 @@ type ZUIComponentOptions = {
     $options?: Record<string, unknown>;
     /** 根元素的属性 */
     $rootAttrs?: Record<string, unknown>;
+    /** 触发强制更新组件 */
+    $forceUpdate?: unknown;
     /** 其他任意属性 */
     [key: string] : unknown;
 };
@@ -56,6 +58,7 @@ export class ZUI extends Component<ZUIComponentOptions> {
         const {
             $tagName,
             $rootAttrs,
+            $forceUpdate,
             $use,
             $options,
             ...rest
@@ -74,6 +77,7 @@ export class ZUI extends Component<ZUIComponentOptions> {
         const {
             $tagName,
             $rootAttrs,
+            $forceUpdate,
             $use,
             $options,
             ...rest
@@ -96,7 +100,7 @@ export class ZUI extends Component<ZUIComponentOptions> {
      * 如果组件类型或标签发生变化则重新初始化,否则更新现有组件
      */
     componentDidUpdate(previousProps: Readonly<ZUIComponentOptions>): void {
-        if (previousProps.$use !== this.props.$use || previousProps.$tagName !== this.props.$tagName) {
+        if (previousProps.$forceUpdate !== this.props.$forceUpdate || previousProps.$use !== this.props.$use || previousProps.$tagName !== this.props.$tagName) {
             this.initZuiComponent();
         } else {
             this.updateZuiComponent();
