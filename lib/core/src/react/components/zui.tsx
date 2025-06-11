@@ -11,6 +11,8 @@ type ZUIComponentOptions = {
     $tagName?: string;
     /** 组件配置选项 */
     $options?: Record<string, unknown>;
+    /** 根元素的属性 */
+    $rootAttrs?: Record<string, unknown>;
     /** 其他任意属性 */
     [key: string] : unknown;
 };
@@ -53,6 +55,7 @@ export class ZUI extends Component<ZUIComponentOptions> {
         }
         const {
             $tagName,
+            $rootAttrs,
             $use,
             $options,
             ...rest
@@ -70,6 +73,7 @@ export class ZUI extends Component<ZUIComponentOptions> {
     updateZuiComponent() {
         const {
             $tagName,
+            $rootAttrs,
             $use,
             $options,
             ...rest
@@ -106,10 +110,12 @@ export class ZUI extends Component<ZUIComponentOptions> {
     render(props: ZUIComponentOptions) {
         const {
             $tagName = 'div',
+            $rootAttrs,
         } = props;
 
         return h($tagName as unknown as ComponentType, {
             ref: this._eleRef,
+            ...$rootAttrs,
         } as ClassAttributes<HTMLInputElement>);
     }
 }
