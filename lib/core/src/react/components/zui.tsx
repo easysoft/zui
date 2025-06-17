@@ -108,6 +108,13 @@ export class ZUI extends Component<ZUIComponentOptions> {
     }
 
     /**
+     * 组件卸载时销毁ZUI组件实例
+     */
+    componentWillUnmount(): void {
+        this._ref.current?.destroy();
+    }
+
+    /**
      * 渲染组件
      * 默认渲染为div元素,可通过$tagName属性指定其他标签
      */
