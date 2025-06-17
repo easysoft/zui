@@ -25,3 +25,5 @@ export class DTable extends ComponentFromReact<DTableOptions, DTableReact> {
         return options as ComponentOptions<DTableOptions>;
     }
 }
+
+DTable.register();
