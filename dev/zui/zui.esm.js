@@ -8,7 +8,7 @@ var bt = (n, t, e) => (gi(n, t, "read from private field"), e ? e.call(n) : t.ge
   t instanceof WeakSet ? t.add(n) : t.set(n, e);
 }, It = (n, t, e, s) => (gi(n, t, "write to private field"), s ? s.call(n, e) : t.set(n, e), e);
 var _i = (n, t, e) => (gi(n, t, "access private method"), e);
-const Kp = "3.0.0", Gp = 1750127850895, qp = "production", Yp = "3482b4a09c0e505dcf3eeb14b8effa309db802d0", ae = document, mn = window, Ha = ae.documentElement, Fe = ae.createElement.bind(ae), Wa = Fe("div"), yi = Fe("table"), Ih = Fe("tbody"), Oo = Fe("tr"), { isArray: Hn, prototype: Ba } = Array, { concat: Dh, filter: gr, indexOf: ja, map: Ua, push: Ph, slice: Va, some: _r, splice: Lh } = Ba, Rh = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, zh = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, Oh = /<.+>/, Fh = /^\w+$/;
+const Kp = "3.0.0", Gp = 1750215922993, qp = "production", Yp = "9268436a3c859cff1b24a8117749adb0719d8bd6", ae = document, mn = window, Ha = ae.documentElement, Fe = ae.createElement.bind(ae), Wa = Fe("div"), yi = Fe("table"), Ih = Fe("tbody"), Oo = Fe("tr"), { isArray: Hn, prototype: Ba } = Array, { concat: Dh, filter: gr, indexOf: ja, map: Ua, push: Ph, slice: Va, some: _r, splice: Lh } = Ba, Rh = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, zh = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, Oh = /<.+>/, Fh = /^\w+$/;
 function yr(n, t) {
   const e = Hh(t);
   return !n || !e && !Re(t) && !lt(t) ? [] : !e && zh.test(n) ? t.getElementsByClassName(n.slice(1).replace(/\\/g, "")) : !e && Fh.test(n) ? t.getElementsByTagName(n) : t.querySelectorAll(n);
@@ -2881,7 +2881,7 @@ p.setLibRoot = function(n, t) {
 p.registerLib = function(n, t) {
   p.libMap || (p.libMap = {}), !t.name && t.id && (t.id = `zui-lib-${n}`), p.libMap[n] = t;
 };
-p.libVersion = 1750127850895 .toString(36);
+p.libVersion = 1750215922993 .toString(36);
 function Pl(n) {
   return new Promise((t, e) => {
     typeof n == "string" && (n = { src: n });
@@ -4010,17 +4010,17 @@ let vt = class extends Z {
     if (o && typeof o == "object" && (o = o[r]), o) {
       const c = o.call(this, e, s);
       if (c !== void 0)
-        return /* @__PURE__ */ m(R, { "z-key": e.key, "z-item": s, "z-type": r, content: c });
+        return /* @__PURE__ */ m(R, { "z-key": e.key, "z-item": s, "z-type": r, content: c }, e.key);
     }
     const { ItemComponents: a } = this.constructor;
     let l = a[r];
     if (!l && e.component)
-      return /* @__PURE__ */ m(R, { "z-key": e.key, "z-item": s, "z-type": r, content: { ...e } });
+      return /* @__PURE__ */ m(R, { "z-key": e.key, "z-item": s, "z-type": r, content: { ...e } }, e.key);
     if (l = l || a.default || Z, Array.isArray(l)) {
       let c = l[1];
       typeof c == "function" && (c = c.call(this, e, t)), e = O({}, c, e), l = l[0];
     }
-    return /* @__PURE__ */ m(l, { "z-key": e.key, "z-item": s, "z-type": r, ...e });
+    return /* @__PURE__ */ m(l, { "z-key": e.key, "z-item": s, "z-type": r, ...e }, e.key);
   }
   /**
    * Get the rendered item final properties.
