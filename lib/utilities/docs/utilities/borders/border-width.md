@@ -2,7 +2,7 @@
 
 ## 效果
 
-使用 `'rounded-*` 设置元素边框大小。
+使用 `'border-*` 设置元素边框大小。
 
 <Example class="col gap-6">
   <div v-for="group in radiusList" :key="group.name || group.title">
