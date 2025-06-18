@@ -185,14 +185,14 @@ export class CommonList<P extends CommonListProps = CommonListProps, S = {}> ext
         if (itemRender) {
             const customResult = itemRender.call(this, item, index);
             if (customResult !== undefined) {
-                return <CustomContent z-key={item.key} z-item={index} z-type={type} content={customResult} />;
+                return <CustomContent key={item.key} z-key={item.key} z-item={index} z-type={type} content={customResult} />;
             }
         }
 
         const {ItemComponents} = this.constructor;
         let ItemComponent = ItemComponents[type!];
         if (!ItemComponent && item.component) {
-            return <CustomContent z-key={item.key} z-item={index} z-type={type} content={{...item}}/>;
+            return <CustomContent key={item.key} z-key={item.key} z-item={index} z-type={type} content={{...item}}/>;
         }
         ItemComponent = ItemComponent || ItemComponents.default || HElement;
         if (Array.isArray(ItemComponent)) {
@@ -203,7 +203,7 @@ export class CommonList<P extends CommonListProps = CommonListProps, S = {}> ext
             item = mergeProps({}, defaultItemProps, item);
             ItemComponent = ItemComponent[0];
         }
-        return <ItemComponent z-key={item.key} z-item={index} z-type={type} {...item} />;
+        return <ItemComponent key={item.key} z-key={item.key} z-item={index} z-type={type} {...item} />;
     }
 
     /**
