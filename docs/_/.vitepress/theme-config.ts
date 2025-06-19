@@ -79,7 +79,7 @@ function initSidebars(): Record<string, {text: string, section?: string, items?:
             {text: '全局配置', section: 'config', collapsed: false},
             {text: '开发定制', section: 'customize'},
             {text: '贡献', section: 'contributes', hidden: true},
-            {text: '关于', section: 'about', hidden: true}
+            {text: '关于', section: 'about'}
         ],
         '/utilities/': [
             {text: '外观', section: 'skin', collapsed: false},
