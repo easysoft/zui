@@ -277,7 +277,7 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
             cache.value = state.value;
         }
         const newItems = newState.items;
-        if (props.required && !props.multiple && this.isEmptyValue(this.state.value) && Array.isArray(newItems) && newItems.length) {
+        if (props.limitValueInList && props.required && !props.multiple && this.isEmptyValue(this.state.value) && Array.isArray(newItems) && newItems.length) {
             newState.value = newItems[0].value;
         }
         if (Object.keys(newState).length) {
