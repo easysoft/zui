@@ -8,7 +8,7 @@ var bt = (n, t, e) => (gi(n, t, "read from private field"), e ? e.call(n) : t.ge
   t instanceof WeakSet ? t.add(n) : t.set(n, e);
 }, It = (n, t, e, s) => (gi(n, t, "write to private field"), s ? s.call(n, e) : t.set(n, e), e);
 var _i = (n, t, e) => (gi(n, t, "access private method"), e);
-const Kp = "3.0.0", Gp = 1750343780599, qp = "production", Yp = "9e71aa730ddd2851bd292aee2d22355b442431cb", ae = document, mn = window, Ha = ae.documentElement, Fe = ae.createElement.bind(ae), Wa = Fe("div"), yi = Fe("table"), Ih = Fe("tbody"), Oo = Fe("tr"), { isArray: Hn, prototype: Ba } = Array, { concat: Dh, filter: gr, indexOf: ja, map: Ua, push: Ph, slice: Va, some: _r, splice: Lh } = Ba, Rh = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, zh = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, Oh = /<.+>/, Fh = /^\w+$/;
+const Kp = "3.0.0", Gp = 1750756858827, qp = "production", Yp = "02493b8fe7849f62f1be05e32f5e88f7bc095cfc", ae = document, mn = window, Ha = ae.documentElement, Fe = ae.createElement.bind(ae), Wa = Fe("div"), yi = Fe("table"), Ih = Fe("tbody"), Oo = Fe("tr"), { isArray: Hn, prototype: Ba } = Array, { concat: Dh, filter: gr, indexOf: ja, map: Ua, push: Ph, slice: Va, some: _r, splice: Lh } = Ba, Rh = /^#(?:[\w-]|\\.|[^\x00-\xa0])*$/, zh = /^\.(?:[\w-]|\\.|[^\x00-\xa0])*$/, Oh = /<.+>/, Fh = /^\w+$/;
 function yr(n, t) {
   const e = Hh(t);
   return !n || !e && !Re(t) && !lt(t) ? [] : !e && zh.test(n) ? t.getElementsByClassName(n.slice(1).replace(/\\/g, "")) : !e && Fh.test(n) ? t.getElementsByTagName(n) : t.querySelectorAll(n);
@@ -2881,7 +2881,7 @@ p.setLibRoot = function(n, t) {
 p.registerLib = function(n, t) {
   p.libMap || (p.libMap = {}), !t.name && t.id && (t.id = `zui-lib-${n}`), p.libMap[n] = t;
 };
-p.libVersion = 1750343780599 .toString(36);
+p.libVersion = 1750756858827 .toString(36);
 function Pl(n) {
   return new Promise((t, e) => {
     typeof n == "string" && (n = { src: n });
@@ -10954,7 +10954,7 @@ let di = class extends Rt {
       i.items && !e.open && s.cache === !1 && !Array.isArray(s.items) && (i.items = void 0);
     (t || i.value !== e.value) && (i.value = e.value);
     const o = r.items;
-    s.required && !s.multiple && this.isEmptyValue(this.state.value) && Array.isArray(o) && o.length && (r.value = o[0].value), Object.keys(r).length && await this.changeState(r);
+    s.limitValueInList && s.required && !s.multiple && this.isEmptyValue(this.state.value) && Array.isArray(o) && o.length && (r.value = o[0].value), Object.keys(r).length && await this.changeState(r);
   }
   async tryUpdate() {
     this._updateTimer && clearTimeout(this._updateTimer), this._updateTimer = window.setTimeout(() => {
