@@ -221,7 +221,14 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
         }
     }
 
-    setValue(value: string, silent?: boolean) {
+    async setValue(value: string, silent?: boolean) {
+        const {beforeChange} = this.props;
+        if (beforeChange) {
+            const result = await beforeChange.call(this, value, this.state.value);
+            if (result === false) {
+                return;
+            }
+        }
         if (silent) {
             const trigger = this._trigger.current;
             if (trigger) {
