@@ -225,8 +225,10 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
         const {beforeChange} = this.props;
         if (beforeChange) {
             const result = await beforeChange.call(this, value, this.state.value);
-            if (result === false) {
+            if (result === false || result === undefined) {
                 return;
+            } else if (typeof result === 'string') {
+                value = result;
             }
         }
         if (silent) {
