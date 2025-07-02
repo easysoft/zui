@@ -69,10 +69,18 @@ export function deepGetPath(object: object, pathName: string | string[]): (objec
  * deepGetPath(object, 'a[0].d');   // Output 2
  * deepGetPath(object, 'a');        // Output [{b: {c: 1}, d: 2}]
  */
-export function deepGet<T>(object: object, pathName: string | string[], defaultValue?: T): T | undefined {
+export function deepGet<T>(object: object, pathName: string | string[], defaultValue?: T | undefined, onGetParent?: (parent: object, name: string) => void): T | undefined {
+    if (typeof pathName === 'string') {
+        pathName = pathName.split('.');
+    }
+
     try {
         const way = deepGetPath(object, pathName);
-        const lastValue = way[way.length - 1] as T | undefined;
+        const length = way.length;
+        const lastValue = way[length - 1] as T | undefined;
+        if (onGetParent) {
+            onGetParent(length > 1 ? way[length - 2] as object : object, pathName[pathName.length - 1]);
+        }
         return lastValue === undefined ? defaultValue : lastValue;
     } catch (_) {
         return defaultValue;
@@ -80,9 +88,12 @@ export function deepGet<T>(object: object, pathName: string | string[], defaultV
 }
 
 export function deepCall(object: object, pathName: string | string[], args?: unknown[], thisObj?: unknown): unknown {
-    const callback = deepGet(object, pathName);
+    let parent: object | undefined;
+    const callback = deepGet(object, pathName, undefined, (p) => {
+        parent = p;
+    }) as unknown;
     if (typeof callback === 'function') {
-        return callback.apply(thisObj || object, args);
+        return callback.apply(thisObj ?? parent, args);
     }
     return callback;
 }
