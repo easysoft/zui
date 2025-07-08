@@ -104,8 +104,9 @@ const pagerPlugin: DTablePlugin<DTablePagerTypes> = {
                 ...(typeof localPager === 'object' ? localPager : null),
                 ...this.state.pager,
             };
-            const start = (page - 1) * recPerPage;
-            const end = Math.min(page * recPerPage, rows.length);
+            const actualPage = Math.max(0, Math.min(page, Math.ceil(rows.length / recPerPage)));
+            const start = (actualPage - 1) * recPerPage;
+            const end = Math.min(actualPage * recPerPage, rows.length);
             return rows.slice(start, end);
         }
     },
