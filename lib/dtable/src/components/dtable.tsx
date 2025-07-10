@@ -972,12 +972,12 @@ export class DTable extends Component<DTableOptions, DTableState> {
         });
 
         const {rowsHeightTotal, rowsHeight, rows, rowHeight} = layout;
+        const {rowDataGetter, partialRender = true} = this.options;
         const scrollTop = Math.min(Math.max(0, rowsHeightTotal - rowsHeight), this.state.scrollTop);
-        const startRowIndex = Math.floor(scrollTop / rowHeight);
+        const startRowIndex = partialRender ? Math.floor(scrollTop / rowHeight) : 0;
         const scrollBottom = scrollTop + rowsHeight;
-        const endRowIndex = Math.min(rows.length, Math.ceil(scrollBottom / rowHeight));
+        const endRowIndex = partialRender ? Math.min(rows.length, Math.ceil(scrollBottom / rowHeight)) : rows.length;
         const visibleRows: RowInfo[] = [];
-        const {rowDataGetter} = this.options;
         for (let i = startRowIndex; i < endRowIndex; i++) {
             const row = rows[i];
 
