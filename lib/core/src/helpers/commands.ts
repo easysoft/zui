@@ -345,6 +345,8 @@ function handleGlobalCommand(event: Event & {commandHandled?: boolean}) {
                 }
                 if (zuiInstance) {
                     return deepCall(zuiInstance, name, params);
+                } else {
+                    console.warn(`[ZUI] Command "${name}" not found in scope "${scope}".`);
                 }
                 return;
             }
