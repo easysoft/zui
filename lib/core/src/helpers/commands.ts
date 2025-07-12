@@ -1,6 +1,7 @@
 import {deepCall} from '@zui/helpers';
 import {$, Cash, type Selector} from '../cash';
 import {nextGid} from './gid';
+import {Component} from '../component';
 
 export interface CommandContext {
     name: string,
@@ -331,6 +332,19 @@ function handleGlobalCommand(event: Event & {commandHandled?: boolean}) {
                     event.preventDefault();
                 } else {
                     deepCall(event, name, params);
+                }
+                return;
+            }
+            if (scope?.startsWith('.')) {
+                let zuiInstance: Component | undefined;
+                if (scope === '.') {
+                    zuiInstance = $target.closest('[z-use]').zui() as unknown as Component;
+                } else {
+                    const zuiName = scope.substring(1);
+                    zuiInstance = $target.closest(`[z-use-${zuiName}]`).zui(zuiName) as unknown as Component;
+                }
+                if (zuiInstance) {
+                    return deepCall(zuiInstance, name, params);
                 }
                 return;
             }
