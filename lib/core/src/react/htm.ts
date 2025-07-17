@@ -5,5 +5,5 @@ const html = htm.bind(h);
 
 export {
     htm,
-    html as hh,
+    html,
 };
