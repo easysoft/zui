@@ -13,4 +13,6 @@ export type ToolbarSpaceOptions = {type: 'space'} & Item;
 
 export type ToolbarBtnGroupOptions = {type: 'btn-group'} & BtnGroupOptions & Item;
 
-export type ToolbarItemOptions = ToolbarBtnOptions | ToolbarDropdownOptions | ToolbarDividerOptions | ToolbarSpaceOptions | ToolbarBtnGroupOptions;
+export type ToolbarAngleOptions = {type: 'angle'} & Item;
+
+export type ToolbarItemOptions = ToolbarBtnOptions | ToolbarDropdownOptions | ToolbarDividerOptions | ToolbarSpaceOptions | ToolbarBtnGroupOptions | ToolbarAngleOptions;

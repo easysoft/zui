@@ -10,6 +10,7 @@ onPageUpdate(() => {
     const toolbar = new Toolbar('#toolbar', {
         items: [
             {text: '首页', icon: 'icon-home', active: true},
+            {type: 'angle'},
             {text: '动态'},
             {text: '论坛'},
             {type: 'divider'},
