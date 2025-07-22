@@ -20,5 +20,6 @@ export function jsRaw(data: unknown): string {
         if (typeof value === 'function') {
             return `RAWJS<${value.toString().split('"').join('<RAWJS_QUOTE>').split('\n').join('<RAWJS_LINE>')}>RAWJS`;
         }
+        return value;
     });
 }
