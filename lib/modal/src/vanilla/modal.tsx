@@ -297,7 +297,7 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
         });
     }
 
-    static async alert(options: string | ModalAlertOptions): Promise<string | undefined> {
+    static async alert(options: string | Partial<ModalAlertOptions>): Promise<string | undefined> {
         if (typeof options === 'string') {
             options = {message: options} as ModalAlertOptions;
         }
@@ -364,7 +364,7 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
         return result;
     }
 
-    static async confirm(options: string | ModalConfirmOptions): Promise<boolean> {
+    static async confirm(options: string | Partial<ModalConfirmOptions>): Promise<boolean> {
         if (typeof options === 'string') {
             options = {message: options} as ModalConfirmOptions;
         }
@@ -380,7 +380,7 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
         return result === 'confirm';
     }
 
-    static async prompt(options: string | ModalPromptOptions): Promise<string | null> {
+    static async prompt(options: string | Partial<ModalPromptOptions>): Promise<string | null> {
         if (typeof options === 'string') {
             options = {message: options} as ModalPromptOptions;
         }
