@@ -1,4 +1,4 @@
-import {Component, $, Selector} from '@zui/core';
+import {Component, $, Selector, evalValue} from '@zui/core';
 
 const NAV_CLASS = 'nav';
 
@@ -29,7 +29,11 @@ export class Tabs extends Component<{}, {show: [target: string], shown: [target:
         $navItem.addClass('active');
 
         /* Add active class to panes. */
-        const target: string = $navItem.attr('href') || $navItem.data('target');
+        let target: string = $navItem.attr('href') || $navItem.data('target');
+        if (!target) {
+            const toggleOptions = $navItem.attr('zui-toggle-tab') as string;
+            target = evalValue<{target: string}>(toggleOptions).target;
+        }
         const name: string = $navItem.data('name') || target;
         const $tabsContainer = $nav.closest('.tabs');
         const $activePane = $tabsContainer.length ? $tabsContainer.find(target) : $(target);
