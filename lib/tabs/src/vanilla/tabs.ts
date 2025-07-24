@@ -2,7 +2,7 @@ import {Component, $, Selector} from '@zui/core';
 
 const NAV_CLASS = 'nav';
 
-const NAV_ITEM_SELECTOR = '[data-toggle="tab"]';
+const NAV_ITEM_SELECTOR = '[data-toggle="tab"],[zui-toggle="tab"]';
 
 const ACTIVE_CLASS = 'active';
 
