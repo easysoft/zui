@@ -44,6 +44,27 @@
 </div>
 ```
 
+通过 `zui-toggle="tab"` 来设置标签页的切换。
+
+```html:example: gap-3
+<ul class="nav nav-tabs">
+  <li class="nav-item"><a class="active" zui-toggle="tab"  zui-toggle-tab="{target: '#tab5Content1'}">标签1</a></li>
+  <li class="nav-item"><a  zui-toggle="tab" zui-toggle-tab="{target: '#tab5Content2'}">标签2</a></li>
+  <li class="nav-item"><a  zui-toggle="tab" zui-toggle-tab="{target: '#tab5Content3'}">标签3</a></li>
+</ul>
+<div class="tab-content">
+  <div class="tab-pane active" id="tab5Content1">
+    <p>我是标签1。</p>
+  </div>
+  <div class="tab-pane" id="tab5Content2">
+    <p>我是标签2。</p>
+  </div>
+  <div class="tab-pane" id="tab5Content3">
+    <p>我是标签3。</p>
+  </div>
+</div>
+```
+
 ## 动画效果
 
 ```html:example: gap-3
