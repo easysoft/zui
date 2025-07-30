@@ -21,6 +21,7 @@ export interface PickOptions<S extends PickState = PickState> {
     Trigger?: ComponentType<PickTriggerProps<S>>;
     Pop?: ComponentType<PickPopProps<S>>;
 
+    value?: string;
     defaultValue?: string;
     disabled?: boolean;
     readonly?: boolean;

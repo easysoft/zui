@@ -51,12 +51,13 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
     }
 
     get value() {
-        return this.state.value;
+        return this.props.value ?? this.state.value;
     }
 
     getDefaultState(props?: RenderableProps<O>): S {
+        const {value, defaultValue = ''} = props || this.props;
         return {
-            value: String((props || this.props).defaultValue ?? ''),
+            value: String(value ?? defaultValue),
             open: false,
         } as S;
     }
@@ -221,10 +222,13 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
         }
     }
 
-    async setValue(value: string, silent?: boolean) {
+    async setValue(value: unknown, silent?: boolean) {
+        if (typeof value !== 'string') {
+            value = String(value);
+        }
         const {beforeChange} = this.props;
         if (beforeChange) {
-            const result = await beforeChange.call(this, value, this.state.value);
+            const result = await beforeChange.call(this, value as string, this.state.value);
             if (result === false) {
                 return;
             } else if (typeof result === 'string') {
@@ -234,7 +238,7 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
         if (silent) {
             const trigger = this._trigger.current;
             if (trigger) {
-                trigger._skipTriggerChange = value;
+                trigger._skipTriggerChange = value as string;
             }
         }
         return this.changeState({value} as Partial<S>);
@@ -258,7 +262,12 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
         }
     }
 
-    componentDidUpdate(_previousProps: Readonly<O>, previousState: Readonly<S>): void {
+    componentDidUpdate(previousProps: Readonly<O>, previousState: Readonly<S>): void {
+        if (previousProps.value !== this.props.value && this.props.value !== undefined) {
+            this.setValue(this.props.value);
+            return;
+        }
+
         const {open: opened, value} = this.state;
         const {open: prevOpened, value: prevValue} = previousState;
         if (!!opened !== !!prevOpened) {
