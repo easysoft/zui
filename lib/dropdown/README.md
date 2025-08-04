@@ -40,6 +40,8 @@
 const dropdown = new Dropdown('#dropdownToggle', {
     arrow: true,
     menu: {
+        searchBox: true,
+        searchPlacement: 'top',
         items: [
             {text: '复制', icon: 'icon-copy'},
             {text: '粘贴', icon: 'icon-paste'},
