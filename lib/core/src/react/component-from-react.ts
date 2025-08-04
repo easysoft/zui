@@ -83,7 +83,7 @@ export class ComponentFromReact<O extends {} = {}, C extends ComponentReact<O> =
         const {$replace = replace, $optionsFromDataset, ...userOptions} = this.setOptions(options, reset);
         const props = this._getRenderProps(userOptions);
         if (reset) {
-            (instance as {resetState?: (props?: Record<string, unknown>, init?: boolean) => void})?.resetState?.(userOptions);
+            (instance as {resetState?: (props?: Record<string, unknown>, init?: boolean) => void})?.resetState?.(props);
         }
 
         if ($replace && (Component as {HElement?: boolean}).HElement && (element.tagName.toLowerCase() === $replace || $replace === true)) {
