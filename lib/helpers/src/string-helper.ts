@@ -35,7 +35,7 @@ export function formatString(str: string, ...args: [Record<string, unknown>] | u
     }
     if (args.length === 1 && typeof args[0] === 'object' && args[0]) {
         const obj = args[0];
-        Object.keys(obj).forEach(key => {
+        Object.keys(obj).forEach((key) => {
             const value = (obj as Record<string, unknown>)[key] ?? '';
             str = str.replace(new RegExp(`\\{${key}\\}`, 'g'), `${value}`);
         });
@@ -52,13 +52,12 @@ export function formatString(str: string, ...args: [Record<string, unknown>] | u
 /**
  * 字节单位表
  */
-// eslint-disable-next-line @typescript-eslint/naming-convention
 enum BYTE_UNITS {
     B = 1,
     KB = 1024,
-    MB = 1024 * 1024,
-    GB = 1024 * 1024 * 1024,
-    TB = 1024 * 1024 * 1024 * 1024,
+    MB = 1048576,       // 1024 * 1024,
+    GB = 1073741824,    // 1024 * 1024 * 1024,
+    TB = 1099511627776, // 1024 * 1024 * 1024 * 1024,
 }
 
 /**
@@ -75,13 +74,17 @@ export function formatBytes(size: number, fixed = 2, unit?: keyof typeof BYTE_UN
     if (!unit) {
         if (size < BYTE_UNITS.KB) {
             unit = 'B';
-        } else if (size < BYTE_UNITS.MB) {
+        }
+        else if (size < BYTE_UNITS.MB) {
             unit = 'KB';
-        } else if (size < BYTE_UNITS.GB) {
+        }
+        else if (size < BYTE_UNITS.GB) {
             unit = 'MB';
-        } else if (size < BYTE_UNITS.TB) {
+        }
+        else if (size < BYTE_UNITS.TB) {
             unit = 'GB';
-        } else {
+        }
+        else {
             unit = 'TB';
         }
     }
