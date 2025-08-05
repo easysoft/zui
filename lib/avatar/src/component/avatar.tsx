@@ -70,7 +70,7 @@ export class Avatar extends Component<AvatarOptions> {
             finalClass.push('has-icon');
             content = <Icon icon={icon} />;
         } else if (text?.length || displayText?.length) {
-            const finalDisplayText = displayText ?? getAvatarText(text!, maxTextLength);
+            const finalDisplayText = displayText ?? getAvatarText(text || '', maxTextLength);
             const displayTextLength = finalDisplayText.length;
             finalClass.push('has-text', `has-text-${displayTextLength}`);
             let textStyle: JSX.CSSProperties | undefined;
@@ -83,7 +83,7 @@ export class Avatar extends Component<AvatarOptions> {
 
         if (!src) {
             if (background === undefined) {
-                const avatarCode = code ?? text ?? displayText!;
+                const avatarCode = (code ?? text ?? displayText) || '';
                 const hue = (typeof avatarCode === 'number' ? avatarCode : getUniqueCode(avatarCode)) * hueDistance % 360;
                 finalStyle.background = `hsl(${hue},${saturation * 100}%,${lightness * 100}%)`;
                 if (!foreColor) {
