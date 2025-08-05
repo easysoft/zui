@@ -6,7 +6,7 @@ import {Button} from '@zui/button/src/component';
 import {i18n} from '@zui/core';
 import '../i18n';
 
-export class CalendarHeader<P extends CalendarHeaderProps = CalendarHeaderProps, S = {}> extends HElement<P, S> {
+export class CalendarHeader<P extends CalendarHeaderProps = CalendarHeaderProps, S = unknown> extends HElement<P, S> {
     render(props: CalendarHeaderProps): VNode<Attributes> {
         const {date, onMonthChange, onDateChange, onShowCalendarGroup} = props;
         const calendarSet = i18n.getLang('calendarSet');
@@ -16,11 +16,15 @@ export class CalendarHeader<P extends CalendarHeaderProps = CalendarHeaderProps,
         return (
             <div class="calendar-header">
                 <div class="calendar-header-left">
-                    <Button className = 'btn-front' onClick={() => onShowCalendarGroup()}>{calendarSet}</Button >              
-                    <Button className = 'btn-front' onClick={() => onDateChange(new Date())}>{today}</Button > 
-                    <span class = 'btn btn-left ' onClick={() => onMonthChange?.('prev')}><span class='chevron-left'></span></span> 
-                    <span class = 'btn btn-right 'onClick={() => onMonthChange?.('next')} ><span class='chevron-right'></span></span> </div>
-                <div className="calendar-content">{formattedDate}</div></div>
+                    <Button className="btn-front" onClick={() => onShowCalendarGroup()}>{calendarSet}</Button>
+                    <Button className="btn-front" onClick={() => onDateChange(new Date())}>{today}</Button>
+                    <span class="btn btn-left " onClick={() => onMonthChange?.('prev')}><span class="chevron-left"></span></span>
+                    <span class="btn btn-right "onClick={() => onMonthChange?.('next')}><span class="chevron-right"></span></span>
+                    {' '}
+
+                </div>
+                <div className="calendar-content">{formattedDate}</div>
+            </div>
         );
     }
 }

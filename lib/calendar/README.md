@@ -19,7 +19,8 @@
 
 ## 可配置项
 
-### 日历:
+### 日历
+
 | 参数                   | 类型                                                     | 作用                                       |
 |----------------------|:------------------------------------------------------:|------------------------------------------|
 | `date`               | Date                                                   | 当前日期                                   |
@@ -32,10 +33,11 @@
 | `onDragChange`       | (newState: DraggableState, oldState: DraggableState) => void | 拖动状态变化时的回调函数          |
 | `onEventClick`       | (e: CalendarEvent) => void                            | 事件点击时的回调函数                     |
 | `maxVisibleEvents`   | number                                                | 每个日期最大可见事件数量                  |
+
                    |
 
+### 事件属性
 
-### 事件属性:
 calendarEvent:
 
 | 参数       | 类型           | 作用  |
@@ -46,7 +48,8 @@ calendarEvent:
 | `date`      | Date | 事件的日期 |
 | `description`           | string | 事件的描述（可选）  |
 
-### 事件集:
+### 事件集
+
 CalendarEventGroups:
 
 | 参数       | 类型           | 作用  |
@@ -55,5 +58,3 @@ CalendarEventGroups:
 | `title`         | string | 事件组的标题（可选） |
 | `color`         | string | 事件组的颜色（可选） |
 | `checked`       | boolean | 事件组是否被选中（可选） |
-
-

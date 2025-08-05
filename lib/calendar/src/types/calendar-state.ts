@@ -4,16 +4,16 @@ export interface CalendarState {
     date: Date;
     showCalendarGroup: boolean;
     eventSetMap: Map<string, CalendarEvent[]>;
-    calendarEventMap?:Map<string, CalendarEvent>;
-    calendarGroupMap?:Map<string, CalendarEventGroup>;
+    calendarEventMap?: Map<string, CalendarEvent>;
+    calendarGroupMap?: Map<string, CalendarEventGroup>;
 }
 
 export interface CalendarContentState {
     isExtended: boolean;
-    dateList:{date:Date} [][];
+    dateList: {date: Date} [][];
     calendarEventMap?: Map<string, CalendarEvent>;
     eventSetMap?: Map<string, CalendarEvent[]>;
-    eventMap:Map<string, CalendarEvent[]>;
+    eventMap: Map<string, CalendarEvent[]>;
     dragEvent?: Draggable;
 }
 
