@@ -483,7 +483,7 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
 
     protected _preserveState() {
         if (this._storeID) {
-            store.set(this._storeID, {nestedShow: this.state.nestedShow});
+            store.set(this._storeID, {nestedShow: this.state.nestedShow, defaultShow: this.state.defaultShow});
         }
     }
 
