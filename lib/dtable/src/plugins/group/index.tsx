@@ -5,10 +5,10 @@ import {ColInfo} from '../../types';
 export type DTableGroupTypes = {
     options: Partial<{
         groupDivider: boolean;
-    }>,
+    }>;
     col: Partial<{
         group: string;
-    }>
+    }>;
 };
 
 const applyGroupDivider = (cols: ColInfo[]) => {

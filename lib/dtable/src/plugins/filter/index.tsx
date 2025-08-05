@@ -5,7 +5,7 @@ import './style.css';
 
 import type {ClassNameLike} from '@zui/core';
 import type {DTableWithPlugin, DTablePlugin} from '../../types/plugin';
-import type {RowInfo} from '../../types/row';
+import type {RowData, RowInfo} from '../../types/row';
 import type {ComponentChildren} from 'preact';
 import type {DTableNested} from '../nested';
 
@@ -23,22 +23,19 @@ export interface DTableFilterTypes {
         reset: (event: Event) => void;
         submit: (event: Event) => void;
         onRemove: (this: DTableFilterable, from: RowInfo, to: RowInfo, orders: string[]) => void;
-        filter: {icon: string, className: string};
+        filter: {icon: string; className: string};
 
-    }>
+    }>;
     col: Partial<{
         filterable: boolean;
-        filter: {icon: string, className: string};
+        filter: {icon: string; className: string};
         reset: (event: Event) => void;
         submit: (event: Event) => void;
-    }>
-    methods: {
-
-    }
+    }>;
     state: {
         id: string;
         filterOptions: FilterDataOptions[];
-    }
+    };
 }
 
 export interface FilterDataOptions {
@@ -46,7 +43,7 @@ export interface FilterDataOptions {
     key: string;
 }
 let filterOptions: FilterDataOptions[] = [];
-function getFilterOptions(setting = {type: '', name: '', statusMap: {}}, data = []): FilterDataOptions[] {
+function getFilterOptions(setting = {type: '', name: '', statusMap: {} as Record<string, string>}, data = [] as {id: string; [key: string]: string}[]): FilterDataOptions[] {
     let filterOption = [];
     if (setting.type === 'status') {
         for (const key in setting.statusMap) {
@@ -57,12 +54,12 @@ function getFilterOptions(setting = {type: '', name: '', statusMap: {}}, data = 
             filterOption.push(item);
         }
     } else if (setting.type === 'avatarBtn') {
-        const dataFilter = data.map(({manager, managerAccount})=>{
+        const dataFilter = data.map(({manager, managerAccount}) => {
             return {text: manager, key: managerAccount};
         });
         filterOption = unique(dataFilter);
     } else {
-        const dataFilter = data.map((item)=>{
+        const dataFilter = data.map((item) => {
             return {text: item[setting.name], key: item.id};
         });
         filterOption = unique(dataFilter);
@@ -75,11 +72,11 @@ function unique(arr: FilterDataOptions[]) {
     if (!arr.length) return [];
     const res = new Map();
     // && !res.has(item.key) && res.set(item.key, 1)
-    return arr.filter((item: FilterDataOptions)=> !res.has(item.text) && res.set(item.text, 1));
+    return arr.filter((item: FilterDataOptions) => !res.has(item.text) && res.set(item.text, 1));
 }
 
-function onInput(e:Event, name: string) {
-    const inputValue = e.target.value;
+function onInput(e: Event, name: string) {
+    const inputValue = (e.target as HTMLInputElement).value;
     if (!inputValue) {
         updateList(filterOptions, name);
     } else {
@@ -90,7 +87,7 @@ function onInput(e:Event, name: string) {
     }
 }
 
-function updateList(data = [], id = '') {
+function updateList(data = [] as FilterDataOptions[], id = '') {
     const newList = data.map((item: FilterDataOptions) => {
         return (
             <li class="menu-item not-hide-menu">
@@ -107,14 +104,14 @@ function updateList(data = [], id = '') {
     render((newList), targetElement);
 }
 
-function renderFilterContent(className = '', filterData = [], name = '') {
-    let filterContent:ComponentChildren = null;
+function renderFilterContent(className = '', filterData = [] as FilterDataOptions[], name = '') {
+    let filterContent: ComponentChildren = null;
     filterContent = (
-        <menu class={classes('dropdown-menu menu', 'dtable-filter-content', ...className)}  id={name}>
+        <menu class={classes('dropdown-menu menu', 'dtable-filter-content', ...className)} id={name}>
             <li class="menu-item not-hide-menu">
                 <div class="input-control prefix-sm suffix-sm">
                     <span class="input-control-prefix"><i class="icon icon-search"></i></span>
-                    <input type="text" class="form-control" placeholder="请填写" onInput={(e) => {onInput(e, name);}}/>
+                    <input type="text" class="form-control" placeholder="请填写" onInput={(e) => {onInput(e, name);}} />
                 </div>
             </li>
             <div class="filter-list">
@@ -125,7 +122,7 @@ function renderFilterContent(className = '', filterData = [], name = '') {
                     return (
                         <li class="menu-item not-hide-menu">
                             <div class="checkbox-primary">
-                                <input type="checkbox" id={item.key}/>
+                                <input type="checkbox" id={item.key} />
                                 <label for={item.key}>{item.text}</label>
                             </div>
                         </li>
@@ -174,13 +171,13 @@ function onReset(event: Event) {
         return;
     }
     const filterInput = filterContentElement.querySelector('.form-control');
-    const checkoboxs = filterContentElement.querySelectorAll('input[type="checkbox"]');
-    if (!filterInput || !checkoboxs?.length)  {
+    const checkboxes = filterContentElement.querySelectorAll('input[type="checkbox"]');
+    if (!filterInput || !checkboxes?.length) {
         return;
     }
-    filterInput.value = '';
-    checkoboxs.forEach(checkoboxItem => {
-        checkoboxItem.checked = false;
+    (filterInput as HTMLInputElement).value = '';
+    checkboxes.forEach((checkboxItem) => {
+        (checkboxItem as HTMLInputElement).checked = false;
     });
 }
 
@@ -196,17 +193,17 @@ const filterPlugin: DTablePlugin<DTableFilterTypes> = {
         filterable: true,
         filterHref: '',
     },
-    onRenderHeaderCell(result, {col}) {
+    onRenderHeaderCell(result, {col}, _props, _h) {
         const {filterable: filterTypeSetting, filter = {icon: '', className: ''}, name} = col.setting;
         if (filterTypeSetting) {
             const href = `${name}FilterContent`;
             this.state.id = href;
             const filterIcon = filter.icon || 'icon-filter';
             result.push(
-                <button class="dtable-filter" data-toggle="dropdown" href={'#' + href}><i className={classes('icon', filterIcon)}></i></button>,
+                <a class="dtable-filter" data-toggle="dropdown" href={'#' + href}><i className={classes('icon', filterIcon)}></i></a>,
             );
-            if (!this.options.data?.length) return;
-            const filterList = getFilterOptions(col.setting, this.options.data) || [];
+            if (!(this.options.data as (string | RowData)[])?.length) return;
+            const filterList = getFilterOptions(col.setting as {type: string; name: string; statusMap: Record<string, string>}, this.options.data as unknown as {id: string; [key: string]: string}[]) || [];
             this.state.filterOptions = filterList;
             renderFilterContent(filter.className, filterList, href);
         }

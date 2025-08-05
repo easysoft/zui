@@ -10,13 +10,13 @@ export type DTableHeaderGroupInfo = {
 export type DTableHeaderGroupTypes = {
     options: Partial<{
         headerGroup: boolean;
-    }>,
+    }>;
     col: Partial<{
         headerGroup: string;
-    }>,
+    }>;
     data: {
         headerGroups: Map<string, DTableHeaderGroupInfo>;
-    }
+    };
 };
 
 const headerGroupPlugin: DTablePlugin<DTableHeaderGroupTypes> = {

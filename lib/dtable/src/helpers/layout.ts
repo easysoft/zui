@@ -21,7 +21,7 @@ function initSectionColsLayout(cols: DTableColsSectionLayout, fixed = false, max
         if ((!fixed && extraWidth > 0) || (fixed && extraWidth !== 0)) {
             const flexCols = cols.flexList.length ? cols.flexList : cols.list;
             const totalFlex = flexCols.reduce((total, col) => total + (col.flex || 1), 0);
-            flexCols.forEach(col => {
+            flexCols.forEach((col) => {
                 const flexWidth = Math[extraWidth < 0 ? 'max' : 'min'](extraWidth, Math.ceil(extraWidth * ((col.flex || 1) / totalFlex)));
                 col.realWidth = col.width + flexWidth;
             });
@@ -86,7 +86,7 @@ export function initColsLayout(dtable: DTable, options: DTableOptions, plugins: 
 
     const onAddColCallbacks: ((this: DTable, colInfo: ColInfo) => void)[] = [];
     const colTypesModifiers: Record<string, (Partial<ColSetting> | ((this: DTable, colSetting: ColSetting) => (Partial<ColSetting> | undefined)))[]> = {};
-    plugins.forEach(plugin => {
+    plugins.forEach((plugin) => {
         const {colTypes, onAddCol} = plugin;
         if (colTypes) {
             Object.entries(colTypes).forEach(([type, modifier]) => {
@@ -132,7 +132,7 @@ export function initColsLayout(dtable: DTable, options: DTableOptions, plugins: 
 
         const colTypeModifier = colTypesModifiers[type];
         if (colTypeModifier) {
-            colTypeModifier.forEach(modifier => {
+            colTypeModifier.forEach((modifier) => {
                 const newColSetting = typeof modifier === 'function' ? modifier.call(dtable, colSetting) : modifier;
                 if (newColSetting) {
                     Object.assign(colSetting, newColSetting, userColSetting);
@@ -141,7 +141,8 @@ export function initColsLayout(dtable: DTable, options: DTableOptions, plugins: 
         }
 
         const {flex, minWidth = minColWidth, maxWidth = maxColWidth} = colSetting;
-        const colWidth = parseNumber(colSetting.width || defaultColWidth, defaultColWidth);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        const colWidth = parseNumber(colSetting.width || defaultColWidth!, defaultColWidth);
         colInfo.flex = flex === true ? 1 : (typeof flex === 'number' ? flex : 0);
         colInfo.width = clamp(colWidth < 1 ? Math.round(colWidth * width) : colWidth, minWidth, maxWidth);
         colInfo.side = getColSide(colSetting.fixed);
@@ -173,7 +174,8 @@ export function initColsLayout(dtable: DTable, options: DTableOptions, plugins: 
 
     /* Layout columns. */
     initSectionColsLayout(rightCols, true);
-    const maxLeftWidth = width - rightCols.width - Math.max(40, minColWidth);
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const maxLeftWidth = width - rightCols.width - Math.max(40, minColWidth!);
     initSectionColsLayout(leftCols, true, maxLeftWidth);
     centerCols.widthSetting = width - leftCols.width - rightCols.width;
     initSectionColsLayout(centerCols);

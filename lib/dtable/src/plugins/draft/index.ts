@@ -20,12 +20,12 @@ export interface DTableDraftTypes {
     };
     methods: {
         getCellDraftValue(this: DTableDraft, row: RowInfo | string | number, col: ColInfo | string | number): unknown;
-        stageDraft(this: DTableDraft, draftRows: DTableDraftRows, options?: {skipUpdate?: boolean, callback?: (stagingDraft: DTableDraftRows) => void}): void;
-        applyDraft(this: DTableDraft, draftRows: DTableDraftRows, options?: {skipUpdate?: boolean, callback?: (appliedDraft: DTableDraftRows) => void}): void;
+        stageDraft(this: DTableDraft, draftRows: DTableDraftRows, options?: {skipUpdate?: boolean; callback?: (stagingDraft: DTableDraftRows) => void}): void;
+        applyDraft(this: DTableDraft, draftRows: DTableDraftRows, options?: {skipUpdate?: boolean; callback?: (appliedDraft: DTableDraftRows) => void}): void;
         renderDraftCell: NonNullable<typeof draftPlugin['onRenderCell']>;
-        getRowDraftData(this: DTableDraft, row: RowInfo | string | number, options?: {includeIndexCol?: boolean, emptyCellValue?: unknown}): Partial<RowData>;
-        getColDraftData(this: DTableDraft, col: ColInfo | string | number, options?: {includeHeaderRow?: boolean, emptyCellValue?: unknown}): Record<string, unknown>;
-    }
+        getRowDraftData(this: DTableDraft, row: RowInfo | string | number, options?: {includeIndexCol?: boolean; emptyCellValue?: unknown}): Partial<RowData>;
+        getColDraftData(this: DTableDraft, col: ColInfo | string | number, options?: {includeHeaderRow?: boolean; emptyCellValue?: unknown}): Record<string, unknown>;
+    };
 }
 
 type DTableDraft = DTableWithPlugin<DTableDraftTypes>;
@@ -37,7 +37,7 @@ export function mergeDraft(sourceDraft: DTableDraftRows, newDraft: DTableDraftRo
             if (data === undefined) {
                 delete draft[rowID];
             } else {
-                Object.keys(data).forEach(key => {
+                Object.keys(data).forEach((key) => {
                     const value = data[key];
                     if (value === undefined) {
                         delete sourceData[key];

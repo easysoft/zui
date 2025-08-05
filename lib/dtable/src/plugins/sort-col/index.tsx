@@ -34,11 +34,11 @@ export type DTableSortColTypes = {
         sortingColSide?: SortingColSide;
     };
     data: {
-        sortColInfo?: {from: ColInfo, element: HTMLElement, offset: number, state?: SortingColState, startMouseX: number, lastMouseX: number, colOffsetMap?: Record<string, number>};
-    },
+        sortColInfo?: {from: ColInfo; element: HTMLElement; offset: number; state?: SortingColState; startMouseX: number; lastMouseX: number; colOffsetMap?: Record<string, number>};
+    };
     methods: {
         getSortingColState(this: DTableSortCol, event: MouseEvent): SortingColState | undefined;
-    }
+    };
 };
 
 export type DTableSortCol = DTableWithPlugin<DTableSortColTypes, [DTableMousemoveTypes, DTableAutoscrollTypes]>;

@@ -7,14 +7,14 @@ export interface DTableMousemoveTypes {
         mmRafID?: number;
         dmmRafID?: number;
         ignoreNextClick?: number;
-    },
+    };
     events: {
         mousemovesmooth: MouseEvent;
         document_mousemovesmooth: MouseEvent;
-    },
+    };
     methods: {
         ignoreNextClick(this: DTableMousemove, timeout?: number): void;
-    }
+    };
 }
 
 export type DTableMousemove = DTableWithPlugin<DTableMousemoveTypes>;

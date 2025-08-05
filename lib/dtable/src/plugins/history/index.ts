@@ -34,7 +34,7 @@ export interface DTableHistoryTypes {
         canRedoHistory(this: DTableHistory): boolean;
         addHistory(this: DTableHistory, item: DTableHistoryItem): void;
         getHistory(this: DTableHistory, cursor?: number | DTableHistoryItem): DTableHistoryItem | undefined;
-    }
+    };
 }
 
 export type DTableHistoryDependencies = [DTableStoreTypes, DTableDraftTypes];
@@ -52,7 +52,7 @@ export function diffDraft(newDraft: DTableDraftRows, oldDraft: DTableDraftRows):
         const rowKeys = new Set([...Object.keys(newRowData), ...Object.keys(oldRowData)]);
         const rowDiffInfo: Record<string, unknown> = {};
         let rowDiffSetted = false;
-        rowKeys.forEach(rowKey => {
+        rowKeys.forEach((rowKey) => {
             const newValue = newRowData[rowKey];
             const oldValue = oldRowData[rowKey];
             if (newValue !== oldValue) {
@@ -105,7 +105,7 @@ const historyPlugin: DTablePlugin<DTableHistoryTypes, DTableHistoryDependencies>
             let {historyCursor, historyItems} = this.state;
             if (historyCursor > 0) {
                 const deletedItems = historyItems.splice(0, historyCursor);
-                deletedItems.forEach(historyItem => {
+                deletedItems.forEach((historyItem) => {
                     if (typeof historyItem === 'number') {
                         this.data.store.session.remove(`HISTORY:${this.id}:${historyItem}`);
                     }

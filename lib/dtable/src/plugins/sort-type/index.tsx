@@ -11,13 +11,13 @@ export type ColSortType = 'asc' | 'desc' | boolean;
 export type DTableSortTypeTypes = {
     col: {
         sortType: ColSortType;
-        sortLink?: string | ({url: string} & JSX.HTMLAttributes<HTMLAnchorElement>) | ((this: DTableSortType, col: ColInfo, sortType: string, currentSortType: string) => (string | ({url: string} & JSX.HTMLAttributes<HTMLAnchorElement>))),
-    },
+        sortLink?: string | ({url: string} & JSX.HTMLAttributes<HTMLAnchorElement>) | ((this: DTableSortType, col: ColInfo, sortType: string, currentSortType: string) => (string | ({url: string} & JSX.HTMLAttributes<HTMLAnchorElement>)));
+    };
     options: {
         sortType?: boolean;
-        sortLink?: string | ({url: string} & JSX.HTMLAttributes<HTMLAnchorElement>) | ((this: DTableSortType, col: ColInfo, sortType: string, currentSortType: string) => (string | ({url: string} & JSX.HTMLAttributes<HTMLAnchorElement>))),
-        orderBy?: Record<string, ColSortType>
-    }
+        sortLink?: string | ({url: string} & JSX.HTMLAttributes<HTMLAnchorElement>) | ((this: DTableSortType, col: ColInfo, sortType: string, currentSortType: string) => (string | ({url: string} & JSX.HTMLAttributes<HTMLAnchorElement>)));
+        orderBy?: Record<string, ColSortType>;
+    };
 };
 
 export type DTableSortType = DTableWithPlugin<DTableSortTypeTypes, [DTableSortTypes]>;
@@ -53,7 +53,12 @@ const sortTypePlugin: DTablePlugin<DTableSortTypeTypes, [DTableSortTypes]> = {
                     sortLink = {url: sortLink};
                 }
                 const {url, ...linkProps} = sortLink;
-                result[0] = <a className="dtable-sort-link" href={formatString(url, {...setting, sortType: nextSortType})} {...linkProps}>{(typeof result[0] !== 'object' || isValidElement(result[0])) ? result[0] : col.name}{sortIcon}</a>;
+                result[0] = (
+                    <a className="dtable-sort-link" href={formatString(url, {...setting, sortType: nextSortType})} {...linkProps}>
+                        {(typeof result[0] !== 'object' || isValidElement(result[0])) ? result[0] : col.name}
+                        {sortIcon}
+                    </a>
+                );
             } else {
                 result.push(sortIcon);
             }

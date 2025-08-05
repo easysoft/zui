@@ -40,7 +40,7 @@ export function Cell(props: CellProps) {
 
     let contentTagName = 'div';
 
-    result?.forEach(item => {
+    result?.forEach((item) => {
         if (typeof item === 'object' && item && !isValidElement(item) && ('html' in item || 'className' in item || 'style' in item || 'attrs' in item || 'children' in item || 'tagName' in item)) {
             const children = item.outer ? outerChildren : contentChildren;
             if (item.html) {
@@ -80,9 +80,11 @@ export function Cell(props: CellProps) {
             {...outerAttrs}
         >
             {
-                contentChildren.length > 0 && (<ContentTag className={classes(contentClassName)} style={contentStyle} {...contentAttrs}>
-                    {contentChildren}
-                </ContentTag>)
+                contentChildren.length > 0 && (
+                    <ContentTag className={classes(contentClassName)} style={contentStyle} {...contentAttrs}>
+                        {contentChildren}
+                    </ContentTag>
+                )
             }
             {outerChildren}
         </div>

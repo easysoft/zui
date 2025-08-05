@@ -6,12 +6,12 @@ import type {DTablePlugin, DTableWithPlugin} from '../../types/plugin';
 
 export interface DTablePagerTypes {
     options: Partial<{
-        footPager: PagerOptions,
-        localPager: PagerInfo | boolean,
-    }>,
+        footPager: PagerOptions;
+        localPager: PagerInfo | boolean;
+    }>;
     state: {
         pager?: PagerInfo;
-    },
+    };
 }
 
 export type DTablePager = DTableWithPlugin<DTablePagerTypes>;
@@ -42,34 +42,34 @@ const pagerPlugin: DTablePlugin<DTablePagerTypes> = {
                 footPager = {
                     items: [
                         {
-                            'type': 'link',
-                            'page': 'first',
-                            'icon': 'icon-first-page',
+                            type: 'link',
+                            page: 'first',
+                            icon: 'icon-first-page',
                         },
                         {
-                            'type': 'link',
-                            'page': 'prev',
-                            'icon': 'icon-angle-left',
+                            type: 'link',
+                            page: 'prev',
+                            icon: 'icon-angle-left',
                         },
                         {
-                            'type': 'info',
-                            'text': '{page}/{pageTotal}',
+                            type: 'info',
+                            text: '{page}/{pageTotal}',
                         },
                         {
-                            'type': 'link',
-                            'page': 'next',
-                            'icon': 'icon-angle-right',
+                            type: 'link',
+                            page: 'next',
+                            icon: 'icon-angle-right',
                         },
                         {
-                            'type': 'link',
-                            'page': 'last',
-                            'icon': 'icon-last-page',
+                            type: 'link',
+                            page: 'last',
+                            icon: 'icon-last-page',
                         },
                     ],
                     ...footPager,
                 };
                 if (Array.isArray(footPager.items)) {
-                    footPager.items.forEach(item => {
+                    footPager.items.forEach((item) => {
                         if (item.type === 'size-menu' && item.caret === undefined) {
                             item.caret = 'up';
                         }

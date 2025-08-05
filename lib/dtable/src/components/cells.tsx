@@ -4,7 +4,6 @@ import {Cell} from './cell';
 import type {ComponentChild} from 'preact';
 import type {CellsProps} from '../types';
 
-
 export function Cells({
     rows = [],
     cols,

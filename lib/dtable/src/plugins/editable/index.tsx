@@ -4,28 +4,28 @@ import {draft} from '../draft';
 
 import type {RefObject} from 'preact';
 import type {DTableDraftTypes, DTableDraftRows} from '../draft';
-import type {DTableWithPlugin, DTablePlugin, DTableWithPluginColInfo, ColName, RowID, RowData, RowInfo, ColInfo} from '../../types';
+import type {DTableWithPlugin, DTablePlugin, ColName, RowID, RowData, RowInfo, ColInfo} from '../../types';
 import './style.css';
 
 export interface DTableEditableTypes {
     options: Partial<{
         editable: boolean | ((rowID: RowID, colName: ColName) => boolean);
         headerEditable: boolean;
-        onEditCell?: (this: DTableEditable, changeInfo: {rowID: RowID, colName: ColName, value: unknown, oldValue: unknown}) => false | void;
+        onEditCell?: (this: DTableEditable, changeInfo: {rowID: RowID; colName: ColName; value: unknown; oldValue: unknown}) => false | void;
         selectAllOnFocus?: boolean;
         onPasteToCell?: (this: DTableEditable, event: ClipboardEvent) => void;
         emptyCellValue?: unknown;
     }>;
     state: {
-        editingCell?: {rowID: RowID, colName: ColName};
+        editingCell?: {rowID: RowID; colName: ColName};
     };
     data: {
         editingInputRef: RefObject<HTMLInputElement>;
         needAutoFocus?: boolean;
-    },
+    };
     methods: {
-        editCell(this: DTableEditable, cell?: {rowID: RowID, colName: ColName}): void;
-        deleteCells(this: DTableEditable, cells: {rowID: RowID, colName: ColName}[], emptyCellValue?: unknown): boolean;
+        editCell(this: DTableEditable, cell?: {rowID: RowID; colName: ColName}): void;
+        deleteCells(this: DTableEditable, cells: {rowID: RowID; colName: ColName}[], emptyCellValue?: unknown): boolean;
         isCellEditing: (this: DTableEditable, rowID: RowID, colName: ColName) => boolean;
         handleEditingInputChange: (this: DTableEditable, event: Event) => void;
         handleEditingInputBlur: (this: DTableEditable, event: Event) => void;
@@ -33,13 +33,13 @@ export interface DTableEditableTypes {
         renderEditableCell: NonNullable<typeof editablePlugin['onRenderCell']>;
         deleteRows(this: DTableEditable, rows: number | RowID | RowInfo | (RowInfo | RowID | number)[], options?: {skipUpdate?: boolean | undefined}): void;
         deleteCols(this: DTableEditable, cols: number | ColName | ColInfo | (ColInfo | ColName | number)[], options?: {skipUpdate?: boolean | undefined}): void;
-    }
+    };
 }
 
 export type DTableEditable = DTableWithPlugin<DTableEditableTypes, [DTableDraftTypes]>;
 
 function isSameData(names: string[], source: Record<string, unknown>, target: Record<string, unknown>): boolean {
-    return names.every(name => {
+    return names.every((name) => {
         return source[name] === target[name];
     });
 }
@@ -238,7 +238,8 @@ const editablePlugin: DTablePlugin<DTableEditableTypes, [DTableDraftTypes]> = {
                 this.editCell();
             }
         },
-        renderEditableCell(result, {col, row}, h) {
+        renderEditableCell(result, data, cellProps, h) {
+            const {col, row} = data;
             const {id: rowID} = row;
             if (this.isCellEditing(rowID, col.name)) {
                 const cellValue = `${this.getCellDraftValue(rowID, col.name) ?? ''}`;
@@ -261,7 +262,7 @@ const editablePlugin: DTablePlugin<DTableEditableTypes, [DTableDraftTypes]> = {
                     children: editingBox,
                 }];
             }
-            return this.renderDraftCell(result, {row, col: col as unknown as DTableWithPluginColInfo<DTableDraftTypes>}, h);
+            return this.renderDraftCell(result, data, cellProps, h);
         },
     },
     onUpdated() {

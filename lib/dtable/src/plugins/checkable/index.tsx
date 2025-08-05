@@ -20,24 +20,24 @@ export interface DTableCheckableTypes {
         beforeCheckRows: (this: DTableCheckable, ids: string[] | undefined, changes: Record<string, boolean>, checkedRows: Record<string, boolean>) => Record<string, boolean> | undefined;
         onCheckChange: (this: DTableCheckable, changes: Record<string, boolean>) => void;
         checkboxRender: (this: DTableCheckable, checked: boolean, rowID: string, disabled?: boolean) => CustomRenderResult;
-    }>,
+    }>;
     col: {
         checkbox?: boolean | ((this: DTableCheckable, rowID: string) => boolean);
-    }
+    };
     methods: {
         toggleCheckRows: typeof toggleCheckRows;
         isRowChecked: typeof isRowChecked;
         isAllRowChecked: typeof isAllRowChecked;
         getChecks: typeof getChecks;
         toggleCheckable: typeof toggleCheckable;
-    },
+    };
     state: {
         checkedRows: Record<string, true>;
         forceCheckable?: boolean;
-    },
+    };
     data: {
-        disableCheckable?: boolean,
-    },
+        disableCheckable?: boolean;
+    };
 }
 
 export type DTableCheckable = DTableWithPlugin<DTableCheckableTypes>;
@@ -77,14 +77,14 @@ function toggleCheckRows(this: DTableCheckable, ids?: string | string[] | boolea
         if (!Array.isArray(ids)) {
             ids = [ids];
         }
-        ids.forEach(id => {
+        ids.forEach((id) => {
             toggleRow(id, checked ?? !checkedRows[id]);
         });
     }
     if (Object.keys(changes).length) {
         const beforeCheckResults = this.options.beforeCheckRows?.call(this, ids, changes, checkedRows);
         if (beforeCheckResults) {
-            Object.keys(beforeCheckResults).forEach(key => {
+            Object.keys(beforeCheckResults).forEach((key) => {
                 const checkable = canRowCheckable ? canRowCheckable.call(this, key) : true;
                 if (!checkable || (!allowCheckDisabled && checkable === 'disabled')) {
                     return;
@@ -213,7 +213,7 @@ const checkablePlugin: DTablePlugin<DTableCheckableTypes> = {
     onCreate() {
         const {checkedRows: defaultCheckedRows} = this.options;
         if (defaultCheckedRows) {
-            this.setState(prevState => {
+            this.setState((prevState) => {
                 return {
                     checkedRows: {
                         ...(prevState.checkedRows as Record<string, true>),

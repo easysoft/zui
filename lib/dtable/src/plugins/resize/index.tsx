@@ -12,21 +12,21 @@ export interface DTableResizeTypes {
     options: Partial<{
         colResize: boolean | ((this: DTableResize, colName: ColName) => boolean);
         onColResize: (this: DTableResize, colName: ColName, sizeChange: number, col: ColInfo) => void;
-    }>,
+    }>;
     col: {
         colResize?: boolean | ((this: DTableResize, colName: ColName) => boolean);
         extraWidth?: number;
-    },
+    };
     state: {
-        colResizing?: {colName: ColName, startX: number, startSize: number}
+        colResizing?: {colName: ColName; startX: number; startSize: number};
         colsSizes: Record<ColName, number>;
-    },
+    };
     data: {
         colOriginSize: Map<ColName, number>;
-    },
+    };
     methods: {
         isColResizable(this: DTableResize, col: ColName | ColInfo): boolean | void;
-    }
+    };
 }
 
 export type DTableResize = DTableWithPlugin<DTableResizeTypes, [DTableMousemoveTypes]>;

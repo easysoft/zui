@@ -35,13 +35,13 @@ export type DTableSortableTypes = {
         sortingSide: SortingSide;
     }>;
     data: {
-        disableCheckable?: boolean,
-        disableSortable?: boolean,
-        sortableInfo?: {from: RowInfo, offset: number, state?: SortingState, startMouseY: number, lastMouseY: number};
-    },
+        disableCheckable?: boolean;
+        disableSortable?: boolean;
+        sortableInfo?: {from: RowInfo; offset: number; state?: SortingState; startMouseY: number; lastMouseY: number};
+    };
     methods: {
         getSortingState(this: DTableSortable, event: MouseEvent): SortingState | undefined;
-    }
+    };
 };
 
 export type DTableSortable = DTableWithPlugin<DTableSortableTypes, [DTableMousemoveTypes, DTableAutoscrollTypes]>;
@@ -132,7 +132,7 @@ const sortablePlugin: DTablePlugin<DTableSortableTypes, [DTableMousemoveTypes, D
                 this.disableAnimation();
                 this.update({
                     dirtyType: 'layout',
-                    state: preState => {
+                    state: (preState) => {
                         return $.extend({
                             sortingFrom: undefined,
                             sortingPos: undefined,

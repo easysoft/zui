@@ -7,26 +7,26 @@ import type {DTable, RowInfo, ColInfo} from '../../main-react';
 import type {DTableWithPlugin, DTablePlugin} from '../../types/plugin';
 import type {DTableAutoscrollTypes} from '../autoscroll';
 
-export type DTableColIndex       = number;
-export type DTableRowIndex       = number;
-export type DTableColSelection   = `C${DTableColIndex}`;
-export type DTableRowSelection   = `R${DTableRowIndex}`;
-export type DTableCellSelection  = `${DTableColSelection}${DTableRowSelection}`;
-export type DTableSelection      = DTableColSelection | DTableRowSelection | DTableCellSelection;
+export type DTableColIndex = number;
+export type DTableRowIndex = number;
+export type DTableColSelection = `C${DTableColIndex}`;
+export type DTableRowSelection = `R${DTableRowIndex}`;
+export type DTableCellSelection = `${DTableColSelection}${DTableRowSelection}`;
+export type DTableSelection = DTableColSelection | DTableRowSelection | DTableCellSelection;
 export type DTableRangeSelection = `${DTableSelection}:${DTableSelection}`;
-export type DTableSelections     = (DTableSelection | DTableRangeSelection)[];
-export type DTableCellPos        = {col: DTableColIndex, row: DTableRowIndex};
+export type DTableSelections = (DTableSelection | DTableRangeSelection)[];
+export type DTableCellPos = {col: DTableColIndex; row: DTableRowIndex};
 
-export type DTableCellPosMap     =  Map<DTableColIndex, Set<DTableRowIndex>>;
+export type DTableCellPosMap = Map<DTableColIndex, Set<DTableRowIndex>>;
 
 export interface DTableSelectableTypes {
     options: Partial<{
         selectable: boolean | ((cellPos: DTableCellPos) => boolean);
         onSelectCells: (this: DTableSelectable, cells: DTableCellPos[]) => void;
-        beforeSelectCells: (this: DTableSelectable, cells: DTableCellPos[]) => void |  DTableCellPos[];
+        beforeSelectCells: (this: DTableSelectable, cells: DTableCellPos[]) => void | DTableCellPos[];
         ignoreDeselectOn: string;
         markSelectRange: boolean;
-    }>,
+    }>;
     state: {
         selectedMap: DTableCellPosMap;
         selectingMap: DTableCellPosMap;
@@ -37,7 +37,7 @@ export interface DTableSelectableTypes {
     data: {
         selectingStart?: DTableCellPos;
         disableSelectable?: boolean;
-    },
+    };
     methods: {
         selectCells: typeof selectCells;
         selectNextCell: typeof selectNextCell;
@@ -192,7 +192,7 @@ function isCellSelectable(table: DTableSelectable, pos: DTableCellPos): boolean 
     return !!selectable;
 }
 
-function selectCells(this: DTableSelectable, selections: DTableSelection | DTableRangeSelection | DTableSelections | DTableCellPos[], options: {clearBefore?: boolean, deselect?: boolean, selecting?: boolean, callback?: (this: DTableSelectable, cells: DTableCellPos[]) => void} = {}): DTableCellPos[] {
+function selectCells(this: DTableSelectable, selections: DTableSelection | DTableRangeSelection | DTableSelections | DTableCellPos[], options: {clearBefore?: boolean; deselect?: boolean; selecting?: boolean; callback?: (this: DTableSelectable, cells: DTableCellPos[]) => void} = {}): DTableCellPos[] {
     if (!Array.isArray(selections)) {
         selections = [selections];
     }
@@ -287,11 +287,11 @@ function selectNextCell(this: DTableSelectable, direction?: 'right' | 'down' | '
     return;
 }
 
-function selectingCells(this: DTableSelectable, selections: DTableSelection | DTableRangeSelection | DTableSelections, options?: {clearBefore?: boolean, deselect?: boolean, callback?: (this: DTableSelectable, cells: DTableCellPos[]) => void}): DTableCellPos[] {
+function selectingCells(this: DTableSelectable, selections: DTableSelection | DTableRangeSelection | DTableSelections, options?: {clearBefore?: boolean; deselect?: boolean; callback?: (this: DTableSelectable, cells: DTableCellPos[]) => void}): DTableCellPos[] {
     return selectCells.call(this, selections, {...options, selecting: true});
 }
 
-function deselectCells(this: DTableSelectable, selections: DTableSelection | DTableRangeSelection | DTableSelections, options: {clearBefore?: boolean, selecting?: boolean, callback?: (this: DTableSelectable, cells: DTableCellPos[]) => void}): DTableCellPos[] {
+function deselectCells(this: DTableSelectable, selections: DTableSelection | DTableRangeSelection | DTableSelections, options: {clearBefore?: boolean; selecting?: boolean; callback?: (this: DTableSelectable, cells: DTableCellPos[]) => void}): DTableCellPos[] {
     return selectCells.call(this, selections, {...options, deselect: true});
 }
 
@@ -354,7 +354,7 @@ function isRowSelected(this: DTableSelectable, row: number | string | RowInfo): 
     if (typeof rowIndex !== 'number') {
         return false;
     }
-    return this.layout.cols.list.every(col => {
+    return this.layout.cols.list.every((col) => {
         return col.name === 'INDEX' || this.isCellSelected({col: col.index, row: rowIndex});
     });
 }
@@ -365,7 +365,7 @@ function isColSelected(this: DTableSelectable, col: number | string | ColInfo): 
         return false;
     }
     const {rows} = this.layout;
-    return rows.every(row => {
+    return rows.every((row) => {
         return this.isCellSelected({col: colIndex, row: row.index});
     });
 }

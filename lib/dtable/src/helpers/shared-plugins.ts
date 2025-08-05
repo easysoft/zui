@@ -52,7 +52,7 @@ export function getDTablePlugin(nameOrPlugin: DTablePluginLike): DTablePlugin | 
 }
 
 function initPluginsInner(plugins: DTablePlugin[], pluginsLike: DTablePluginLike[], pluginSet: Set<string>): DTablePlugin[] {
-    pluginsLike.forEach(nameOrPlugin => {
+    pluginsLike.forEach((nameOrPlugin) => {
         if (!nameOrPlugin) {
             return;
         }
@@ -69,7 +69,6 @@ function initPluginsInner(plugins: DTablePlugin[], pluginsLike: DTablePluginLike
         }
         plugins.push(plugin);
         pluginSet.add(plugin.name);
-
     });
     return plugins;
 }
@@ -83,7 +82,7 @@ export function initPlugins(pluginsLike: DTablePluginLike[] = [], includeBuildIn
     }
 
     const plugins = initPluginsInner([], pluginsLike, new Set<string>());
-    const pluginRequireList: DTablePlugin[]  = [];
+    const pluginRequireList: DTablePlugin[] = [];
     const pluginOrder = plugins.reduce((order, plugin, index) => {
         order.set(plugin.name, index * 1000);
         if (plugin.requireAfter?.length) {
@@ -92,7 +91,7 @@ export function initPlugins(pluginsLike: DTablePluginLike[] = [], includeBuildIn
         return order;
     }, new Map<string, number>());
     if (pluginRequireList.length) {
-        pluginRequireList.forEach(plugin => {
+        pluginRequireList.forEach((plugin) => {
             const requireAfterOrders = plugin.requireAfter!.reduce((orders, name) => {
                 if (pluginOrder.has(name)) {
                     orders.push(pluginOrder.get(name)!);

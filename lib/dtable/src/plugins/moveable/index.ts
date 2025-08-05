@@ -8,11 +8,11 @@ import type {DTableWithPlugin, DTablePlugin} from '../../types/plugin';
 export interface DTableMoveableTypes {
     options: {
         moveable?: boolean | 'header';
-    },
+    };
     data: {
-        disableMoveable?: boolean,
-        moveableStartInfo?: {x: number, y: number, scrollLeft: number, scrollTop: number}
-    },
+        disableMoveable?: boolean;
+        moveableStartInfo?: {x: number; y: number; scrollLeft: number; scrollTop: number};
+    };
 }
 
 export type DTableMoveable = DTableWithPlugin<DTableMoveableTypes, [DTableMousemoveTypes]>;

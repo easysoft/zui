@@ -9,27 +9,27 @@ import type {RowInfoLike} from '../../types/row';
 export type ScrollSide = 'left' | 'right' | 'top' | 'bottom' | 'x' | 'y';
 
 export interface ScrollToMouseOption {
-    interval: number,
-    onlyInside: boolean,
-    speed: number,
-    maxStep:  number,
-    delay: number,
-    detectPadding: number,
-    side?: ScrollSide | ScrollSide[],
+    interval: number;
+    onlyInside: boolean;
+    speed: number;
+    maxStep: number;
+    delay: number;
+    detectPadding: number;
+    side?: ScrollSide | ScrollSide[];
 }
 
-export type ScrollToMouseInfo = ScrollToMouseOption & {startTime: number, position?: {x: number; y: number}};
+export type ScrollToMouseInfo = ScrollToMouseOption & {startTime: number; position?: {x: number; y: number}};
 
 export interface DTableAutoscrollTypes {
     methods: {
-        scrollTo: (this: DTableAutoscroll, info: {col?: ColInfoLike, row?: RowInfoLike, extra?: number}) => boolean;
+        scrollTo: (this: DTableAutoscroll, info: {col?: ColInfoLike; row?: RowInfoLike; extra?: number}) => boolean;
         startScrollToMouse: (this: DTableAutoscroll, options?: Partial<ScrollToMouseOption>) => void;
         stopScrollToMouse: (this: DTableAutoscroll) => void;
-    },
+    };
     data: {
         scrollToTimer?: number;
         scrollToMouse?: ScrollToMouseInfo;
-    }
+    };
 }
 
 export type DTableAutoscroll = DTableWithPlugin<DTableAutoscrollTypes, [DTableMousemoveTypes]>;
@@ -76,14 +76,14 @@ function tryScrollToMouse(this: DTableAutoscroll) {
             }
             return sides;
         }, []));
-        if (!scrollSides.has('left') && deltaLeft < 0 || (!scrollSides.has('right') && deltaLeft > 0)) {
+        if ((!scrollSides.has('left') && deltaLeft < 0) || (!scrollSides.has('right') && deltaLeft > 0)) {
             deltaLeft = 0;
         }
-        if (!scrollSides.has('top') && deltaTop < 0 || (!scrollSides.has('bottom') && deltaTop > 0)) {
+        if ((!scrollSides.has('top') && deltaTop < 0) || (!scrollSides.has('bottom') && deltaTop > 0)) {
             deltaTop = 0;
         }
     }
-    const state: {scrollLeft?: number, scrollTop?: number} = {};
+    const state: {scrollLeft?: number; scrollTop?: number} = {};
     if (deltaLeft !== 0) {
         state.scrollLeft = this.layout.scrollLeft + speed * deltaLeft;
     }
@@ -112,7 +112,7 @@ const autoscrollPlugin: DTablePlugin<DTableAutoscrollTypes, [DTableMousemoveType
             if (!colInfo && !rowInfo) {
                 return false;
             }
-            const scrollInfo: {scrollLeft?: number, scrollTop?: number} = {};
+            const scrollInfo: {scrollLeft?: number; scrollTop?: number} = {};
             const {layout} = this;
             if (colInfo) {
                 const {scrollLeft, cols: colsInfo} = layout;

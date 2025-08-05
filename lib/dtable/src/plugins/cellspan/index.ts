@@ -2,29 +2,29 @@ import {definePlugin} from '../../helpers/shared-plugins';
 import {ColInfo, RowInfo} from '../../types';
 import type {DTableWithPlugin, DTablePlugin} from '../../types/plugin';
 
-export type DTableColIndex        = number;
-export type DTableRowIndex        = number;
-export type DTableColID           = `C${DTableColIndex}`;
-export type DTableRowID           = `R${DTableRowIndex}`;
-export type DTableCellID          = `${DTableColID}${DTableRowID}`;
-export type DTableCellSpanSetting = {colSpan: number, rowSpan: number};
-export type DTableCellSpanInfo    = DTableCellSpanSetting & {width: number, height: number};
+export type DTableColIndex = number;
+export type DTableRowIndex = number;
+export type DTableColID = `C${DTableColIndex}`;
+export type DTableRowID = `R${DTableRowIndex}`;
+export type DTableCellID = `${DTableColID}${DTableRowID}`;
+export type DTableCellSpanSetting = {colSpan: number; rowSpan: number};
+export type DTableCellSpanInfo = DTableCellSpanSetting & {width: number; height: number};
 
 export type DTableCellSpanTypes = {
     data: {
         overlayCellSet: Set<DTableCellID>;
         cellSpanMap: Map<DTableCellID, DTableCellSpanInfo>;
-    },
+    };
     options: {
-        getCellSpan?: (this: DTableCellSpan, cell: {row: RowInfo, col: ColInfo}) => Partial<DTableCellSpanSetting> | undefined;
-    }
+        getCellSpan?: (this: DTableCellSpan, cell: {row: RowInfo; col: ColInfo}) => Partial<DTableCellSpanSetting> | undefined;
+    };
 };
 
 export type DTableCellSpan = DTableWithPlugin<DTableCellSpanTypes>;
 
 const cellspanPlugin: DTablePlugin<DTableCellSpanTypes> = {
     name: 'cellspan',
-    when: (options) => !!options.getCellSpan,
+    when: options => !!options.getCellSpan,
     data() {
         return {cellSpanMap: new Map(), overlayCellSet: new Set()};
     },

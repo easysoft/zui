@@ -9,15 +9,15 @@ import type {JSX, ComponentChildren} from 'preact';
 import type {DateLike} from '@zui/helpers/src/date-helper';
 import type {DTablePlugin, RowInfo, ColInfo, DTableWithPlugin, CustomRenderResultList} from '../../types';
 
-export type ColLinkSetting = string | false | ({url: string} & JSX.HTMLAttributes<HTMLAnchorElement>) | ((info: {row: RowInfo, col: ColInfo}) => string | false | ({url: string} & JSX.HTMLAttributes<HTMLAnchorElement>));
+export type ColLinkSetting = string | false | ({url: string} & JSX.HTMLAttributes<HTMLAnchorElement>) | ((info: {row: RowInfo; col: ColInfo}) => string | false | ({url: string} & JSX.HTMLAttributes<HTMLAnchorElement>));
 
-export type ColDateFormatSetting = boolean | string | ((value: unknown, info: {row: RowInfo, col: ColInfo}) => string);
+export type ColDateFormatSetting = boolean | string | ((value: unknown, info: {row: RowInfo; col: ColInfo}) => string);
 
-export type ColFormatSetting = string | ((value: unknown, info: {row: RowInfo, col: ColInfo}) => string);
+export type ColFormatSetting = string | ((value: unknown, info: {row: RowInfo; col: ColInfo}) => string);
 
-export type ColHTMLSetting = boolean | string | ((value: unknown, info: {row: RowInfo, col: ColInfo}) => string);
+export type ColHTMLSetting = boolean | string | ((value: unknown, info: {row: RowInfo; col: ColInfo}) => string);
 
-export type ColMapSetting = Record<string, string> | ((value: unknown, info: {row: RowInfo, col: ColInfo}) => string);
+export type ColMapSetting = Record<string, string> | ((value: unknown, info: {row: RowInfo; col: ColInfo}) => string);
 
 export type DTableRichTypes = {
     col: Partial<{
@@ -39,14 +39,14 @@ export type DTableRichTypes = {
         map: ColMapSetting;
         mapSplitter: string;
         mapJoiner: string;
-        hint: boolean | string | ((info: {row: RowInfo, col: ColInfo}) => string);
-        styleMap: Record<string, string> | ((info: {row: RowInfo, col: ColInfo}) => Record<string, string>);
-    }>,
+        hint: boolean | string | ((info: {row: RowInfo; col: ColInfo}) => string);
+        styleMap: Record<string, string> | ((info: {row: RowInfo; col: ColInfo}) => Record<string, string>);
+    }>;
 };
 
 export type DTableRich = DTableWithPlugin<DTableRichTypes>;
 
-export function renderLink(this: DTableWithPlugin, link: ColLinkSetting | undefined, info: {row: RowInfo, col: ColInfo}, content?: ComponentChildren, props?: Record<string, unknown>) {
+export function renderLink(this: DTableWithPlugin, link: ColLinkSetting | undefined, info: {row: RowInfo; col: ColInfo}, content?: ComponentChildren, props?: Record<string, unknown>) {
     if (typeof link === 'function') {
         link = link.call(this, info);
     }
@@ -56,11 +56,11 @@ export function renderLink(this: DTableWithPlugin, link: ColLinkSetting | undefi
     if (!link) {
         return Array.isArray(content) ? <>{content}</> : content;
     }
-    const {url, ...linkProps} = link as ({url: string;} & JSX.HTMLAttributes<HTMLAnchorElement>);
+    const {url, ...linkProps} = link as ({url: string} & JSX.HTMLAttributes<HTMLAnchorElement>);
     const {setting} = info.col;
     const dataset: Record<string, string> = {};
     if (setting) {
-        Object.keys(setting).forEach(k => {
+        Object.keys(setting).forEach((k) => {
             if (k.startsWith('data-')) {
                 dataset[k] = setting[k] as string;
             }
@@ -69,7 +69,7 @@ export function renderLink(this: DTableWithPlugin, link: ColLinkSetting | undefi
     return <a href={formatString(url, info.row.data)} {...props} {...linkProps} {...dataset}>{content}</a>;
 }
 
-export function renderFormat(this: DTableWithPlugin, format: ColFormatSetting | undefined, info: {row: RowInfo, col: ColInfo}, value?: unknown) {
+export function renderFormat(this: DTableWithPlugin, format: ColFormatSetting | undefined, info: {row: RowInfo; col: ColInfo}, value?: unknown) {
     if (format === undefined || format === null) {
         return;
     }
@@ -78,10 +78,10 @@ export function renderFormat(this: DTableWithPlugin, format: ColFormatSetting | 
     if (typeof format === 'function') {
         return format.call(this, value, info);
     }
-    return formatString(format, {...rowData, '0': value});
+    return formatString(format, {...rowData, 0: value});
 }
 
-export function renderDatetime(this: DTableWithPlugin, format: ColDateFormatSetting, info: {row: RowInfo, col: ColInfo}, value?: unknown, invalidDate?: string) {
+export function renderDatetime(this: DTableWithPlugin, format: ColDateFormatSetting, info: {row: RowInfo; col: ColInfo}, value?: unknown, invalidDate?: string) {
     if (!value) {
         return invalidDate ?? value as string;
     }
@@ -101,7 +101,7 @@ export function renderDatetime(this: DTableWithPlugin, format: ColDateFormatSett
     return formatDate(value as DateLike, format, invalidDate ?? value as string);
 }
 
-export function renderLinkCell(this: DTableWithPlugin, result: CustomRenderResultList, info: {row: RowInfo, col: ColInfo}) {
+export function renderLinkCell(this: DTableWithPlugin, result: CustomRenderResultList, info: {row: RowInfo; col: ColInfo}) {
     const {link} = info.col.setting;
     const linkElement = renderLink.call(this, link as ColLinkSetting, info, result[0]);
     if (linkElement) {
@@ -110,7 +110,7 @@ export function renderLinkCell(this: DTableWithPlugin, result: CustomRenderResul
     return result;
 }
 
-export function renderFormatCell(this: DTableWithPlugin, result: CustomRenderResultList, info: {row: RowInfo, col: ColInfo, value: unknown}) {
+export function renderFormatCell(this: DTableWithPlugin, result: CustomRenderResultList, info: {row: RowInfo; col: ColInfo; value: unknown}) {
     const {format, digits} = info.col.setting;
     let value = result[0];
     if (typeof digits === 'number' && !Number.isNaN(Number(value))) {
@@ -126,7 +126,7 @@ export function renderFormatCell(this: DTableWithPlugin, result: CustomRenderRes
     return result;
 }
 
-export function renderMapCell(this: DTableWithPlugin, result: CustomRenderResultList, info: {row: RowInfo, col: ColInfo}) {
+export function renderMapCell(this: DTableWithPlugin, result: CustomRenderResultList, info: {row: RowInfo; col: ColInfo}) {
     const {map, mapSplitter = ',', mapJoiner} = info.col.setting as DTableRichTypes['col'];
     if (map) {
         let value: string | string[] = result[0] as string;
@@ -145,12 +145,12 @@ export function renderMapCell(this: DTableWithPlugin, result: CustomRenderResult
     return result;
 }
 
-export function renderStyleMapCell(this: DTableWithPlugin, styleMap: Record<string, string> | ((info: {row: RowInfo, col: ColInfo}) => Record<string, string>), result: CustomRenderResultList, info: {row: RowInfo, col: ColInfo}) {
+export function renderStyleMapCell(this: DTableWithPlugin, styleMap: Record<string, string> | ((info: {row: RowInfo; col: ColInfo}) => Record<string, string>), result: CustomRenderResultList, info: {row: RowInfo; col: ColInfo}) {
     const style: Record<string, unknown> = {};
     if (typeof styleMap === 'function') {
         Object.assign(style, styleMap.call(this, info));
     } else {
-        Object.keys(styleMap).forEach(name => {
+        Object.keys(styleMap).forEach((name) => {
             const value = info.row.data?.[styleMap[name]] as string;
             if (value !== undefined) {
                 style[name] = value;
@@ -163,13 +163,13 @@ export function renderStyleMapCell(this: DTableWithPlugin, styleMap: Record<stri
     return result;
 }
 
-export function renderDatetimeCell(this: DTableWithPlugin, result: CustomRenderResultList, info: {row: RowInfo, col: ColInfo}, defaultFormat: ColDateFormatSetting = '[yyyy-]MM-dd hh:mm') {
+export function renderDatetimeCell(this: DTableWithPlugin, result: CustomRenderResultList, info: {row: RowInfo; col: ColInfo}, defaultFormat: ColDateFormatSetting = '[yyyy-]MM-dd hh:mm') {
     const {formatDate: dateFormat = defaultFormat, invalidDate} = info.col.setting as DTableRichTypes['col'];
     result[0] = renderDatetime.call(this, dateFormat, info, result[0], invalidDate);
     return result;
 }
 
-export function renderHtmlCell(this: DTableWithPlugin, result: CustomRenderResultList, info: {row: RowInfo, col: ColInfo}, defaultHtml: ColHTMLSetting = false) {
+export function renderHtmlCell(this: DTableWithPlugin, result: CustomRenderResultList, info: {row: RowInfo; col: ColInfo}, defaultHtml: ColHTMLSetting = false) {
     const {html = defaultHtml} = info.col.setting;
     if (html === false) {
         return result;

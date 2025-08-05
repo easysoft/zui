@@ -7,8 +7,8 @@ import type {DTableCheckable, DTableCheckableTypes} from '../checkable';
 export type DTableToolbarTypes = {
     options: Partial<{
         footToolbar: ToolbarSetting<[DTableWithToolbar]>;
-        showToolbarOnChecked: boolean,
-    }>
+        showToolbarOnChecked: boolean;
+    }>;
 };
 
 export type DTableWithToolbar = DTableWithPlugin<DTableToolbarTypes>;

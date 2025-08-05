@@ -31,7 +31,7 @@ export type ColInfo<S = ColSetting> = {
     border?: ColBorderType;
 };
 
-export type ColSetting<S = {}> = S & {
+export type ColSetting<S = object> = S & {
     name: ColName;
 } & Partial<{
     title: string;
