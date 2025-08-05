@@ -236,6 +236,21 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
         return !!(nestedShow[keyPath] ?? this.state.defaultShow);
     }
 
+    isAllExpanded() {
+        const {nestedShow} = this;
+        if (typeof nestedShow === 'boolean') {
+            return nestedShow;
+        }
+        const {defaultShow} = this.state;
+        if (!Object.keys(nestedShow).length) {
+            return !!defaultShow;
+        }
+        const itemMap = this.getItemMap(true);
+        return Array.from(itemMap.entries()).every(([keyPath]) => {
+            return nestedShow[keyPath] ?? defaultShow;
+        });
+    }
+
     async toggle(keyPath: string, toggle?: boolean, reset?: boolean) {
         const isExpanded = this.isExpanded(keyPath);
         if (!reset && toggle === isExpanded) {
