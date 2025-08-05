@@ -6,7 +6,7 @@ export function setFormDataValue(formData: FormData, name: string, value: FormIt
         return;
     }
     if (Array.isArray(value)) {
-        value.forEach((v) => setFormDataValue(formData, name, v));
+        value.forEach(v => setFormDataValue(formData, name, v));
     } else if (!(value instanceof Blob) && $.isPlainObject(value)) {
         Object.entries(value).forEach(([key, v]) => {
             setFormDataValue(formData, `${name}[${key}]`, v);
@@ -15,7 +15,6 @@ export function setFormDataValue(formData: FormData, name: string, value: FormIt
         formData.append(name, value instanceof Blob ? value : String(value));
     }
 }
-
 
 export function createFormData(data: string | FormData | URLSearchParams | Record<string, FormItemValue | FormItemValue[]> | [name: string, value: FormItemValue][], existingFormData?: FormData): FormData {
     const formData = existingFormData || new FormData();

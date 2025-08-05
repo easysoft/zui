@@ -17,22 +17,22 @@ export type CustomRenderResultItem = Partial<{
 /**
  * @deprecated Use `CustomContent` instead.
  */
-export type CustomRenderResultGenerator<T extends Array<unknown> = unknown[], THIS = unknown> = (this: THIS, result: ComponentChildren[], ...args: T) => (ComponentChildren | CustomRenderResultItem)[] | undefined | void;
+export type CustomRenderResultGenerator<T extends unknown[] = unknown[], THIS = unknown> = (this: THIS, result: ComponentChildren[], ...args: T) => (ComponentChildren | CustomRenderResultItem)[] | undefined | void;
 
 /**
  * @deprecated Use `CustomContent` instead.
  */
-export type CustomRenderResult<T extends Array<unknown> = unknown[], THIS = unknown> = CustomRenderResultGenerator<T, THIS> | CustomRenderResultItem | ComponentChildren;
+export type CustomRenderResult<T extends unknown[] = unknown[], THIS = unknown> = CustomRenderResultGenerator<T, THIS> | CustomRenderResultItem | ComponentChildren;
 
 /**
  * @deprecated Use `CustomContent` instead.
  */
-export type CustomRenderResultList<T extends Array<unknown> = unknown[], THIS = unknown> = CustomRenderResult<T, THIS>[];
+export type CustomRenderResultList<T extends unknown[] = unknown[], THIS = unknown> = CustomRenderResult<T, THIS>[];
 
 /**
  * @deprecated Use `CustomContent` instead.
  */
-export type CustomRenderProps<T extends Array<unknown> = unknown[], THIS = unknown> = {
+export type CustomRenderProps<T extends unknown[] = unknown[], THIS = unknown> = {
     tag?: string;
     className?: ClassNameLike;
     style?: JSX.CSSProperties;
@@ -65,7 +65,7 @@ export function renderCustomResult<T extends HTMLElement = HTMLElement>(props: C
     const rootStyle: JSX.CSSProperties = {...style};
     const result: ComponentChildren[] = [];
     const rawHtml: string[] = [];
-    renders.forEach(render => {
+    renders.forEach((render) => {
         const items: (CustomRenderResultItem | ComponentChildren)[] = [];
         if (typeof render === 'string' && generators && generators[render]) {
             render = generators[render];
@@ -86,7 +86,7 @@ export function renderCustomResult<T extends HTMLElement = HTMLElement>(props: C
         } else {
             items.push(render);
         }
-        items.forEach(item => {
+        items.forEach((item) => {
             if (item === undefined || item === null) {
                 return;
             }

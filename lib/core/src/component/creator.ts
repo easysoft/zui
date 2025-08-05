@@ -99,9 +99,9 @@ declare module 'cash-dom' {
     }
 }
 
-export type BeforeCreateCallback = (element: HTMLElement) => boolean | void;
+export type BeforeCreateCallback = (element: HTMLElement) => boolean | undefined;
 
-export type OnCreateCallback = (name: string, options: Record<string, unknown>) => false | Record<string, unknown> | void;
+export type OnCreateCallback = (name: string, options: Record<string, unknown>) => false | Record<string, unknown> | undefined;
 
 /**
  * Create zui component instance from elements which match [zui-create], [data-zui], [data-zui] is deprecated, use [zui-create] instead.
@@ -148,19 +148,20 @@ function initCreators(element: HTMLElement, options: ZUIInitOptions = {}): void 
     };
     if (typeof createNames === 'string') {
         createNames = createNames.trim();
-        const names = createNames.length ? createNames.split(',').map((name) => name.trim()) : [];
-        const createOptionsMap = getZData(element, {prefix: 'zui-create-', evalValue: true})!;
+        const names = createNames.length ? createNames.split(',').map(name => name.trim()) : [];
+        const createOptionsMap = getZData(element, {prefix: 'zui-create-', evalValue: true}) || {};
         const createOptionsNames = Object.keys(createOptionsMap);
         if (!createOptionsNames.length && names.length === 1) {
             createInstance(names[0], $element.dataset());
         } else {
             const initedNames = new Set<string>();
-            [...names, ...createOptionsNames].forEach(name => {
+            [...names, ...createOptionsNames].forEach((name) => {
                 if (initedNames.has(name)) {
                     return;
                 }
                 const createOptions = createOptionsMap[name] as ComponentCreateOptions | undefined;
                 createInstance(name, createOptions);
+                // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
                 delete createOptionsMap[name];
                 initedNames.add(name);
             });
@@ -172,7 +173,7 @@ function initCreators(element: HTMLElement, options: ZUIInitOptions = {}): void 
             return;
         }
         console.warn('[ZUI] create component instance with [data-zui] is deprecated, use [zui-create] instead.', {element, options});
-        delete initOptions!.zui;
+        delete initOptions?.zui;
         createInstance(name, initOptions);
     }
 }
@@ -247,10 +248,10 @@ function bindToggleEvents() {
             }
         } else {
             const {shown, show, hide, toggle: toggleFunc} = component as unknown as {
-                shown?: boolean,
-                show?: () => void,
-                hide?: () => void,
-                toggle?: () => void,
+                shown?: boolean;
+                show?: () => void;
+                hide?: () => void;
+                toggle?: () => void;
             };
 
             let func: (() => void) | undefined;
@@ -306,7 +307,7 @@ function checkComponents(delay = 100) {
     }
     checkComponentsTimer = 0;
     Component.ALL.forEach((components) => {
-        components.forEach((component) => component.autoDestroy());
+        components.forEach(component => component.autoDestroy());
     });
 }
 
@@ -344,7 +345,10 @@ export function init(element: Selector, options?: ZUIInitOptions) {
             return;
         }
         this.setAttribute('z-zui-inited', '');
-        $.runJS(this.getAttribute('zui-init')!, ['$element', $(this)]);
+        const initCode = this.getAttribute('zui-init');
+        if (initCode) {
+            $.runJS(initCode, ['$element', $(this)]);
+        }
     });
     $element.find('.hide-before-init').removeClass('invisible hidden opacity-0');
     $element.find('.scroll-into-view').scrollIntoView();

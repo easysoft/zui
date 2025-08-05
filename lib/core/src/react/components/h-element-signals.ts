@@ -3,7 +3,7 @@ import {HElement} from './h-element';
 import {type Signal, signal, batch} from '../signals';
 import type {HElementProps} from '../types';
 
-export class HElementSignals<P extends HElementProps, S = {}, SIGNALS = {readonly [K in keyof S]-?: Signal<S[K]>}> extends HElement<P, S> {
+export class HElementSignals<P extends HElementProps, S = object, SIGNALS = {readonly [K in keyof S]-?: Signal<S[K]>}> extends HElement<P, S> {
     static HElementSignals = true;
 
     declare signals: SIGNALS;
@@ -18,7 +18,7 @@ export class HElementSignals<P extends HElementProps, S = {}, SIGNALS = {readonl
     }
 
     changeState(state: Partial<S> | ((prevState: Readonly<S>) => Partial<S>), callback?: () => void): Promise<S> {
-        return new Promise(resolve => {
+        return new Promise((resolve) => {
             batch(() => {
                 if (typeof state === 'function') {
                     state = state(this.state);

@@ -16,7 +16,7 @@ type ZUIComponentOptions = {
     /** 触发强制更新组件 */
     $forceUpdate?: unknown;
     /** 其他任意属性 */
-    [key: string] : unknown;
+    [key: string]: unknown;
 };
 
 /**
@@ -63,6 +63,7 @@ export class ZUI extends Component<ZUIComponentOptions> {
             $options,
             ...rest
         } = this.props;
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         this._ref.current = create($use, this._eleRef.current!, {
             ...$options,
             ...rest,

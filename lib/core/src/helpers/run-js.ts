@@ -51,7 +51,7 @@ $.runJS = <T>(jsCode: string, ...args: [name: string, value: unknown][]): T => {
     if (!jsCode.startsWith('return ') && !jsCode.endsWith(';')) {
         jsCode = `return ${jsCode}`;
     }
-    // eslint-disable-next-line @typescript-eslint/no-implied-eval
+
     const func = new Function(...args.map(([name]) => name), jsCode);
     return func(...args.map(([, value]) => value));
 };

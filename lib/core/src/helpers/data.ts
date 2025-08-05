@@ -31,11 +31,13 @@ export function storeData(target: object, data: Record<string, unknown>): void;
  */
 export function storeData(target: object, keyOrData: string | Record<string, unknown> | null, value?: unknown): void {
     const hasCache = cache.has(target);
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const data = hasCache ? cache.get(target)! : {};
     if (typeof keyOrData === 'string') {
         data[keyOrData] = value;
     } else if (keyOrData === null) {
         Object.keys(data).forEach((key) => {
+            // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
             delete data[key];
         });
     } else {
@@ -44,6 +46,7 @@ export function storeData(target: object, keyOrData: string | Record<string, unk
 
     Object.keys(data).forEach((key) => {
         if (data[key] === undefined) {
+            // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
             delete data[key];
         }
     });
@@ -130,7 +133,7 @@ $.fn.data = function (this: Cash, ...args: (string | Record<string, unknown> | u
         if (!this.length) {
             return;
         }
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-non-null-assertion
         return takeData(this[0]!, data as string, true) as any;
     }
     return this.each((_, ele) => {

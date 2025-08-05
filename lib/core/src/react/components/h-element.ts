@@ -14,7 +14,7 @@ import type {I18nLangMap} from '../../i18n';
 /**
  * The base HTML element.
  */
-export class HElement<P extends HElementProps, S = {}> extends Component<P, S> {
+export class HElement<P extends HElementProps, S = object> extends Component<P, S> {
     static HElement = true;
 
     static customProps: string[] = [];
@@ -69,7 +69,6 @@ export class HElement<P extends HElementProps, S = {}> extends Component<P, S> {
         return this.constructor.NAME;
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     getDefaultState(_props?: RenderableProps<P>): S {
         return {} as S;
     }
@@ -107,6 +106,7 @@ export class HElement<P extends HElementProps, S = {}> extends Component<P, S> {
      * @param args         The i18n arguments.
      * @param defaultValue The default value if the key is not found.
      */
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
     i18n(key: string, args?: Record<string, string | number>, defaultValue?: string): string;
 
     /**
@@ -125,7 +125,7 @@ export class HElement<P extends HElementProps, S = {}> extends Component<P, S> {
     }
 
     changeState(state: Partial<S> | ((prevState: Readonly<S>) => Partial<S>), callback?: () => void): Promise<S> {
-        return new Promise<S>(resolve => {
+        return new Promise<S>((resolve) => {
             this.setState(state, () => {
                 callback?.();
                 resolve(this.state);
@@ -180,12 +180,11 @@ export class HElement<P extends HElementProps, S = {}> extends Component<P, S> {
         return props.children;
     }
 
-    protected _beforeRender(props: RenderableProps<P>): RenderableProps<P> | undefined | void {
+    protected _beforeRender(props: RenderableProps<P>): RenderableProps<P> | undefined {
         return props;
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    protected _onRender(component: ComponentType | keyof JSX.IntrinsicElements, componentProps: Record<string, unknown>, children: ComponentChildren, _props: RenderableProps<P>): [component: ComponentType | keyof JSX.IntrinsicElements, componentProps: Record<string, unknown>, children: ComponentChildren] | void {
+    protected _onRender(component: ComponentType | keyof JSX.IntrinsicElements, componentProps: Record<string, unknown>, children: ComponentChildren, _props: RenderableProps<P>): [component: ComponentType | keyof JSX.IntrinsicElements, componentProps: Record<string, unknown>, children: ComponentChildren] | undefined {
         return [component, componentProps, children];
     }
 

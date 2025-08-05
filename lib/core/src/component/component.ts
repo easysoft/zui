@@ -10,12 +10,12 @@ import {fetchData} from '../ajax';
 /**
  * The event callback for component.
  */
-export type ComponentEventCallback<E extends ComponentEventsDefnition, O extends {}, N extends ComponentEventName<E>> = (event: N extends keyof HTMLElementEventMap ? HTMLElementEventMap[N] : Event, args: [Component<O, E>, ComponentEventArgs<E, N>]) => void | false;
+export type ComponentEventCallback<E extends ComponentEventsDefnition, O extends object, N extends ComponentEventName<E>> = (event: N extends keyof HTMLElementEventMap ? HTMLElementEventMap[N] : Event, args: [Component<O, E>, ComponentEventArgs<E, N>]) => undefined | false;
 
 /**
  * The component base class.
  */
-export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {}, U extends HTMLElement = HTMLElement> {
+export class Component<O extends object = object, E extends ComponentEventsDefnition = ComponentEventsDefnition, U extends HTMLElement = HTMLElement> {
     /**
      * The default options.
      */
@@ -48,7 +48,7 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
      * ZUI name
      */
     static get ZUI() {
-        return this.NAME.replace(/(^[A-Z]+)/, (match) => match.toLowerCase());
+        return this.NAME.replace(/(^[A-Z]+)/, match => match.toLowerCase());
     }
 
     /**
@@ -158,19 +158,19 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
 
         let all = ALL.get(element);
         if (all) {
-            all.add(this);
+            all.add(this as Component);
         } else {
-            all = new Set([this]);
+            all = new Set([this as Component]);
             ALL.set(element, all);
         }
 
         if (TYPED_ALL.has(NAME)) {
-            TYPED_ALL.get(NAME)!.add(this);
+            TYPED_ALL.get(NAME)?.add(this as Component);
         } else {
-            TYPED_ALL.set(NAME, new Set([this]));
+            TYPED_ALL.set(NAME, new Set([this as Component]));
         }
 
-        $element.data(KEY, this).attr(ATTR_KEY, '').attr(DATA_KEY, `${gid}`).attr('z-use', [...new Set([...all].map(x => x.constructor.NAME))].join(','));
+        $element.data(KEY, this).attr(ATTR_KEY, '').attr(DATA_KEY, `${gid}`).attr('z-use', [...new Set([...(all || [])].map(x => x.constructor.NAME))].join(','));
         if (MULTI_INSTANCE) {
             const dataName = `${KEY}:ALL`;
             let instanceMap: Map<string | number, Component> | undefined = $element.data(dataName);
@@ -178,7 +178,7 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
                 instanceMap = new Map();
                 $element.data(dataName, instanceMap);
             }
-            instanceMap.set(this._key, this);
+            instanceMap.set(this._key, this as Component);
         }
 
         this.init();
@@ -219,7 +219,10 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
      * Get the component element.
      */
     get element() {
-        return this._element!;
+        if (!this._element) {
+            throw new Error('[ZUI] Component element is not available.');
+        }
+        return this._element;
     }
 
     get key() {
@@ -230,7 +233,10 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
      * Get the component options.
      */
     get options() {
-        return this._options!;
+        if (!this._options) {
+            throw new Error('[ZUI] Component options are not available.');
+        }
+        return this._options;
     }
 
     /**
@@ -263,13 +269,19 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
 
     /**
      * Initialize the component.
+     * Override this method in subclasses to provide custom initialization logic.
      */
-    init() {}
+    init() {
+        // Base implementation - override in subclasses
+    }
 
     /**
      * Do something after the component initialized.
+     * Override this method in subclasses to provide custom post-initialization logic.
      */
-    afterInit(): void | Promise<void> {}
+    afterInit(): void | Promise<void> {
+        // Base implementation - override in subclasses
+    }
 
     /**
      * Render the component.
@@ -304,7 +316,7 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
                 if (map.size === 0) {
                     this.$element.removeData(`${KEY}:ALL`);
                 } else {
-                    const nextInstance =  map.values().next().value;
+                    const nextInstance = map.values().next().value;
                     $element.data(KEY, nextInstance).attr(DATA_KEY, String(nextInstance?.gid));
                 }
             }
@@ -312,7 +324,7 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
 
         const map = ALL.get(element);
         if (map) {
-            map.delete(this);
+            map.delete(this as Component);
             if (map.size === 0) {
                 ALL.delete(element);
             }
@@ -320,7 +332,7 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
 
         const typedMap = TYPED_ALL.get(NAME);
         if (typedMap) {
-            typedMap.delete(this);
+            typedMap.delete(this as Component);
             if (typedMap.size === 0) {
                 TYPED_ALL.delete(NAME);
             }
@@ -376,7 +388,10 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
         } else if (options) {
             $.extend(this._options, options);
         }
-        return this._options!;
+        if (!this._options) {
+            throw new Error('[ZUI] Component options are not available.');
+        }
+        return this._options;
     }
 
     resetOptions(options?: Partial<ComponentOptions<O>>) {
@@ -454,6 +469,7 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
      * @param args         The i18n arguments.
      * @param defaultValue The default value if the key is not found.
      */
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
     i18n(key: string, args?: Record<string, string | number>, defaultValue?: string): string;
 
     /**
@@ -500,7 +516,7 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
      * @param selector The component element selector.
      * @returns        The component instance.
      */
-    static get<O extends {}, E extends ComponentEvents, U extends HTMLElement, T extends typeof Component<O, E, U>>(this: T, selector: Selector, key?: string | number): InstanceType<T> | undefined {
+    static get<O extends object, E extends ComponentEvents, U extends HTMLElement, T extends typeof Component<O, E, U>>(this: T, selector: Selector, key?: string | number): InstanceType<T> | undefined {
         const $element = $(selector);
         if (this.MULTI_INSTANCE && key !== undefined) {
             const instanceMap = $element.data(`${this.KEY}:ALL`);
@@ -512,8 +528,7 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
         return $element.data(this.KEY);
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    static isValid<O extends {}, E extends ComponentEvents, U extends HTMLElement, T extends typeof Component<O, E, U>>(this: T, _instance: InstanceType<T>): boolean {
+    static isValid<O extends object, E extends ComponentEvents, U extends HTMLElement, T extends typeof Component<O, E, U>>(this: T, _instance: InstanceType<T>): boolean {
         return true;
     }
 
@@ -525,7 +540,7 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
      * @param options   The component options.
      * @returns         The component instance.
      */
-    static ensure<O extends {}, E extends ComponentEvents, U extends HTMLElement, T extends typeof Component<O, E, U>>(this: T, selector: Selector, options?: Partial<ComponentOptions<O>>): InstanceType<T> {
+    static ensure<O extends object, E extends ComponentEvents, U extends HTMLElement, T extends typeof Component<O, E, U>>(this: T, selector: Selector, options?: Partial<ComponentOptions<O>>): InstanceType<T> {
         const instance = this.get(selector, options?.key);
         if (instance) {
             if (this.isValid(instance)) {
@@ -547,7 +562,7 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
      * @param selector The component element selector.
      * @returns        All component instances.
      */
-    static getAll<O extends {}, E extends ComponentEvents, U extends HTMLElement, T extends typeof Component<O, E, U>>(this: T, selector?: Selector, filter?: (instance: InstanceType<T>) => boolean): InstanceType<T>[] {
+    static getAll<O extends object, E extends ComponentEvents, U extends HTMLElement, T extends typeof Component<O, E, U>>(this: T, selector?: Selector, filter?: (instance: InstanceType<T>) => boolean): InstanceType<T>[] {
         const {SELECTOR, ALL, TYPED_ALL} = this;
         const list: InstanceType<T>[] = [];
         const checkInstance = (instance: Component) => {
@@ -578,7 +593,7 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
      * @param selector The component element selector.
      * @returns        The component instance.
      */
-    static query<O extends {}, E extends ComponentEvents, U extends HTMLElement, T extends typeof Component<O, E, U>>(this: T, selector?: Selector, key?: string | number, filter?: (instance: InstanceType<T>) => boolean): InstanceType<T> | undefined {
+    static query<O extends object, E extends ComponentEvents, U extends HTMLElement, T extends typeof Component<O, E, U>>(this: T, selector?: Selector, key?: string | number, filter?: (instance: InstanceType<T>) => boolean): InstanceType<T> | undefined {
         if (selector === undefined) {
             return this.getAll(undefined, filter).pop();
         }
@@ -598,7 +613,7 @@ export class Component<O extends {} = {}, E extends ComponentEventsDefnition = {
         // eslint-disable-next-line @typescript-eslint/no-this-alias
         const ZUIComponent = this;
         $.fn.extend({
-            [fnName](options: Partial<ComponentOptions<{}>> | string, ...args: unknown[]) {
+            [fnName](options: Partial<ComponentOptions<object>> | string, ...args: unknown[]) {
                 const initOptions = typeof options === 'object' ? options : undefined;
                 const callMethod = typeof options === 'string' ? options : undefined;
                 let callResult: unknown;

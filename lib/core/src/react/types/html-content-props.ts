@@ -7,10 +7,10 @@ export interface HtmlContentProps extends HElementProps {
     /**
      * HTML code.
      */
-    html: string,
+    html: string;
 
     /**
      * Execute script.
      */
-    executeScript?: boolean,
+    executeScript?: boolean;
 }

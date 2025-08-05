@@ -4,13 +4,13 @@ import {nextGid} from './gid';
 import {Component} from '../component';
 
 export interface CommandContext {
-    name: string,
-    options?: Record<string, unknown>,
-    event?: Event,
-    scope?: string,
-    prevResult?: unknown,
-    element?: HTMLElement,
-    abort?: () => void,
+    name: string;
+    options?: Record<string, unknown>;
+    event?: Event;
+    scope?: string;
+    prevResult?: unknown;
+    element?: HTMLElement;
+    abort?: () => void;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -19,16 +19,16 @@ export type CommandCallback = (context: CommandContext, params: any[]) => any;
 export type CommandEventCallback = (event: Event, data: [context: CommandContext, params: unknown[]]) => void;
 
 export type CommandsBindOptions = {
-    scope?: string,
-    events?: string,
-    onCommand?: CommandCallback,
-    commands?: Record<string, CommandCallback>,
-    scoped?: boolean,
+    scope?: string;
+    events?: string;
+    onCommand?: CommandCallback;
+    commands?: Record<string, CommandCallback>;
+    scoped?: boolean;
 };
 
 export type CommandsBindInfo = CommandsBindOptions & {
-    element: HTMLElement,
-    gid: number,
+    element: HTMLElement;
+    gid: number;
 };
 
 export interface CommandExecutionOptions {
@@ -183,7 +183,7 @@ export async function executeCommands(commands: CommandsLike, options: CommandEx
         }
         return results;
     }
-    const results = await Promise.all(commandList.map(command => {
+    const results = await Promise.all(commandList.map((command) => {
         if (signal?.aborted) {
             return;
         }
@@ -192,14 +192,14 @@ export async function executeCommands(commands: CommandsLike, options: CommandEx
     return results;
 }
 
-const COMMAND_DATA_NAME  = 'zui.commands';
-const COMMANDS_ATTR      = 'z-commands';
+const COMMAND_DATA_NAME = 'zui.commands';
+const COMMANDS_ATTR = 'z-commands';
 const COMMAND_PROXY_ATTR = 'zui-commands-proxy';
-const COMMAND_ATTR       = 'zui-command';
+const COMMAND_ATTR = 'zui-command';
 
 const globalCommandHandlers: Record<string, CommandCallback> = {};
 
-export function registerGlobalCommand(nameOrMap: string | Record<string, CommandCallback>, handler? : CommandCallback): void {
+export function registerGlobalCommand(nameOrMap: string | Record<string, CommandCallback>, handler?: CommandCallback): void {
     if (typeof nameOrMap === 'string' && handler) {
         globalCommandHandlers[nameOrMap] = handler;
     } else if (typeof nameOrMap === 'object') {
@@ -237,7 +237,8 @@ export function unbindCommands(element: Selector, scopes: string | true = true):
         $element.removeData(COMMAND_DATA_NAME);
     } else if (scopes.length) {
         const boundCommands = $element.data(COMMAND_DATA_NAME) || {};
-        scopes.split(',').forEach(scope => {
+        scopes.split(',').forEach((scope) => {
+            // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
             delete boundCommands[scope];
         });
         const boundScopes = Object.keys(boundCommands);

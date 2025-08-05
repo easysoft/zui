@@ -6,7 +6,7 @@ import {$, Cash, Selector, Comparator} from '../cash';
 type ISVisibleOptions = {
     /** Whether to check if the element is fully visible. */
     fullyCheck?: boolean;
-    viewport?: {left: number, top: number, width: number, height: number} | DOMRectReadOnly;
+    viewport?: {left: number; top: number; width: number; height: number} | DOMRectReadOnly;
     container?: Comparator;
     checkZeroSize?: boolean;
 };
@@ -32,6 +32,7 @@ export function isVisible(selector: Selector, options: ISVisibleOptions = {}): b
     }
     if (!viewport) {
         if (options.container) {
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             viewport = $(element).closest(options.container)[0]!.getBoundingClientRect();
         } else {
             const {innerHeight, innerWidth} = window;
@@ -43,9 +44,9 @@ export function isVisible(selector: Selector, options: ISVisibleOptions = {}): b
     if (options.fullyCheck) {
         return (
             (left >= viewportLeft)
-                && (top >= viewportTop)
-                && ((left + width) <= (viewportWidth + viewportLeft))
-                && ((top + height) <= (viewportHeight + viewportTop))
+            && (top >= viewportTop)
+            && ((left + width) <= (viewportWidth + viewportLeft))
+            && ((top + height) <= (viewportHeight + viewportTop))
         );
     }
     // http://stackoverflow.com/questions/325933/determine-whether-two-date-ranges-overlap

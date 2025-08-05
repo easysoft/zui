@@ -6,7 +6,7 @@ import type {Component as ComponentReact, ComponentClass, Attributes, RefObject}
 import {type I18nLangMap} from '../i18n';
 import type {ComponentEventsDefnition} from '../component';
 
-export class ComponentFromReact<O extends {} = {}, C extends ComponentReact<O> = ComponentReact<O>, E extends ComponentEventsDefnition = {}, U extends HTMLElement = HTMLElement> extends ComponentBase<O & {$replace?: boolean}, E, U> {
+export class ComponentFromReact<O extends object = object, C extends ComponentReact<O> = ComponentReact<O>, E extends ComponentEventsDefnition = ComponentEventsDefnition, U extends HTMLElement = HTMLElement> extends ComponentBase<O & {$replace?: boolean}, E, U> {
     /**
      * The React component class.
      */
@@ -40,7 +40,7 @@ export class ComponentFromReact<O extends {} = {}, C extends ComponentReact<O> =
      * The i18n data.
      */
     get i18nData() {
-        const {i18n, i18nData} = this.constructor.Component as {i18n?: I18nLangMap, i18nData?: (I18nLangMap | undefined)[]};
+        const {i18n, i18nData} = this.constructor.Component as {i18n?: I18nLangMap; i18nData?: (I18nLangMap | undefined)[]};
         if (i18nData) {
             return [...i18nData, this.constructor.i18n];
         }
@@ -94,6 +94,7 @@ export class ComponentFromReact<O extends {} = {}, C extends ComponentReact<O> =
             }, {});
             render(
                 h(Component as ComponentClass, mergeProps({component: element.tagName.toLowerCase(), attrs}, props)),
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                 element.parentElement!,
                 element,
             );

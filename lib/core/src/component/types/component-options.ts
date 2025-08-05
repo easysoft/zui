@@ -16,7 +16,7 @@ export type ComponentBaseOptions = {
 /**
  * The component options.
  */
-export type ComponentOptions<O extends {} = {}> = ComponentBaseOptions & O & {
+export type ComponentOptions<O extends object = object> = ComponentBaseOptions & O & {
     $options?: Partial<O> | ((element: HTMLElement, options: Partial<O>) => Partial<O> | undefined);
     $fetcher?: FetcherSetting<Partial<O>>;
     $onCreate?: () => void;

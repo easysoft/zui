@@ -17,7 +17,6 @@ export interface HElementProps extends PreactDOMAttributes, Attributes {
      */
     className?: ClassNameLike;
 
-
     /**
      * The alternative class name of the element.
      */
@@ -66,10 +65,10 @@ export interface HElementProps extends PreactDOMAttributes, Attributes {
     /**
      * The command callback.
      */
-    onCommand?: CommandCallback,
+    onCommand?: CommandCallback;
 
     /**
      * The commands callback map.
      */
-    commands?: Record<string, CommandCallback>,
+    commands?: Record<string, CommandCallback>;
 }

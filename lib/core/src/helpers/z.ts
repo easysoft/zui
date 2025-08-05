@@ -34,7 +34,7 @@ export function getZData(selector: Selector, prefixOrOptions?: ZDataGetterOption
         const {value} = attribute;
         let finalValue: unknown = value;
         if (name.startsWith(prefix)) {
-            name = name.slice(prefix.length).replace(/-([a-z])/g, (g) => g[1].toUpperCase());
+            name = name.slice(prefix.length).replace(/-([a-z])/g, g => g[1].toUpperCase());
             if (getter) {
                 finalValue = getter(name, value);
             } else {
@@ -44,7 +44,7 @@ export function getZData(selector: Selector, prefixOrOptions?: ZDataGetterOption
                     } else if (json) {
                         finalValue = JSON.parse(value);
                     }
-                } catch (error) {
+                } catch (_error) {
                     // Ignore.
                 }
             }
@@ -64,7 +64,7 @@ export function setZData(selector: Selector, data: Record<string, unknown>, pref
         if (typeof value !== 'string') {
             value = JSON.stringify(value);
         }
-        name = name.replace(/[A-Z]/g, (g) => `-${g.toLowerCase()}`);
+        name = name.replace(/[A-Z]/g, g => `-${g.toLowerCase()}`);
         $element.attr(`${prefix}${name}`, value as string);
     });
 }

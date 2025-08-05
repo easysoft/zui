@@ -22,7 +22,7 @@ export function renderCustomContent(props: CustomContentProps): ComponentChildre
         content = (content as CustomContentGenerator).call(generatorThis, ...(generatorArgs || []));
     }
     if (Array.isArray(content)) {
-        return content.map((x) => renderCustomContent({...others, content: x, generatorThis, generatorArgs}));
+        return content.map(x => renderCustomContent({...others, content: x, generatorThis, generatorArgs}));
     }
     if ((typeof content === 'string' || typeof content === 'number')) {
         if (Object.keys(others).length) {
@@ -39,7 +39,7 @@ export function renderCustomContent(props: CustomContentProps): ComponentChildre
         }
         const {children, ...contentOthers} = content as HElementProps;
         if (children) {
-            content = mergeProps({children: ((Array.isArray(children) ? children : [children]) as CustomContentType[]).map((x) => renderCustomContent({...others, content: x, generatorThis, generatorArgs}))}, contentOthers);
+            content = mergeProps({children: ((Array.isArray(children) ? children : [children]) as CustomContentType[]).map(x => renderCustomContent({...others, content: x, generatorThis, generatorArgs}))}, contentOthers);
         }
         return <HElement {...(mergeProps(others, content) as unknown as HElementProps)} />;
     }

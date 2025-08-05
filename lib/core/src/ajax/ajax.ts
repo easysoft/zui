@@ -12,7 +12,6 @@ function setHeader(headers: HeadersInit, name: string, value: string) {
     }
 }
 
-
 function getDataType(contentType: string | undefined | null, accepts: Record<string, string> | undefined) {
     if (contentType) {
         const map = {
@@ -30,7 +29,6 @@ function getDataType(contentType: string | undefined | null, accepts: Record<str
 
     return 'text';
 }
-
 
 export class Ajax<T = unknown> {
     static globalBeforeSends: AjaxBeforeSendCallback[] = [];
@@ -59,9 +57,7 @@ export class Ajax<T = unknown> {
         return this.data !== undefined || this.error !== undefined;
     }
 
-    get [Symbol.toStringTag]() {
-        return 'Ajax';
-    }
+    readonly [Symbol.toStringTag] = 'Ajax';
 
     constructor(setting: AjaxSetting) {
         this.setting = setting;
@@ -102,7 +98,7 @@ export class Ajax<T = unknown> {
                 resolve(this.data);
             }
         } else {
-            this.success((data) => resolve(data as T));
+            this.success(data => resolve(data as T));
             if (reject) {
                 this.fail(reject);
             }
@@ -115,7 +111,7 @@ export class Ajax<T = unknown> {
             calback(this.error);
             return this;
         }
-        return this.on('error', (error) => calback(error));
+        return this.on('error', error => calback(error));
     }
 
     finally(onFinally: () => void) {

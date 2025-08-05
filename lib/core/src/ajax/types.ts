@@ -1,6 +1,6 @@
 import type {FormItemValue} from '../form';
 
-export type AjaxBeforeSendCallback = (init: RequestInit) => void | Partial<RequestInit> | false;
+export type AjaxBeforeSendCallback = (init: RequestInit) => undefined | Partial<RequestInit> | false;
 
 export type AjaxCompleteCallback = (response: Response | undefined, statusText: string | undefined) => void;
 
@@ -28,7 +28,6 @@ export interface AjaxSetting extends RequestInit {
     timeout?: number;
     processData?: boolean;
     jsonParser?: (text: string) => unknown;
-    // global?: boolean;
     crossDomain?: boolean;
     traditional?: boolean;
     dataFilter?: AjaxDataFilter;
@@ -43,6 +42,6 @@ export type FetcherUrl = string;
 
 export type FetcherInit = AjaxSetting;
 
-export type FetcherFn<T = {}, A extends unknown[] = unknown[], THIS = unknown> = (this: THIS, ...args: A) => Promise<T> | T;
+export type FetcherFn<T = unknown, A extends unknown[] = unknown[], THIS = unknown> = (this: THIS, ...args: A) => Promise<T> | T;
 
-export type FetcherSetting<T = {}, A extends unknown[] = unknown[], THIS = unknown> = FetcherUrl | FetcherInit | FetcherFn<T, A, THIS>;
+export type FetcherSetting<T = unknown, A extends unknown[] = unknown[], THIS = unknown> = FetcherUrl | FetcherInit | FetcherFn<T, A, THIS>;

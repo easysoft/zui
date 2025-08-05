@@ -2,11 +2,11 @@ import {ComponentChildren, toChildArray} from 'preact';
 import {$} from '../cash';
 
 export function mergeProps<T extends Record<string, unknown> = Record<string, unknown>>(props: Record<string, unknown>, ...args: unknown[]) {
-    args.forEach(arg => {
+    args.forEach((arg) => {
         if (!arg || typeof arg !== 'object') {
             return;
         }
-        Object.keys(arg as Partial<T>).forEach(key => {
+        Object.keys(arg as Partial<T>).forEach((key) => {
             let value = (arg as Record<string, unknown>)[key];
             const oldValue = props[key];
             if (value === oldValue) {
@@ -28,7 +28,7 @@ export function mergeProps<T extends Record<string, unknown> = Record<string, un
 }
 
 export function removeUndefinedProps(props: Record<string, unknown>) {
-    Object.keys(props).forEach(key => {
+    Object.keys(props).forEach((key) => {
         if (props[key] === undefined) {
             delete props[key];
         }

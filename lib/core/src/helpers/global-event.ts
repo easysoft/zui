@@ -81,7 +81,7 @@ function processGlobalEvent($element: Cash, event: Event, options: GlobalEventOp
                 if (paramsOption[0] === '[') {
                     params.push(...(parseVal(paramsOption) as unknown[]));
                 } else {
-                    params.push(...paramsOption.split(', ').map(x => {
+                    params.push(...paramsOption.split(', ').map((x) => {
                         x = x.trim();
                         if (x === '$element') return $element;
                         if (x === 'event') return event;

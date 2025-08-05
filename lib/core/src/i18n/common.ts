@@ -1,7 +1,7 @@
 import {addI18nMap} from './i18n';
 
 addI18nMap({
-    'zh_cn': {
+    zh_cn: {
         confirm: '确定',
         save: '保存',
         cancel: '取消',
@@ -11,7 +11,7 @@ addI18nMap({
         copy: '复制',
         close: '关闭',
     },
-    'zh_tw': {
+    zh_tw: {
         confirm: '確定',
         save: '儲存',
         cancel: '取消',

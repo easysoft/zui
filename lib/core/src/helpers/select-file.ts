@@ -1,12 +1,12 @@
-export function selectFile(options?: string | {accept?: string, multiple: false | undefined}): Promise<File | null>;
+export function selectFile(options?: string | {accept?: string; multiple: false | undefined}): Promise<File | null>;
 
-export function selectFile(options: {accept?: string, multiple: true}): Promise<FileList | null>;
+export function selectFile(options: {accept?: string; multiple: true}): Promise<FileList | null>;
 
 /**
  * Select file from file system.
  * @param options
  */
-export function selectFile(options?: string | {accept?: string, multiple?: boolean}): Promise<File | FileList | null> {
+export function selectFile(options?: string | {accept?: string; multiple?: boolean}): Promise<File | FileList | null> {
     return new Promise((resolve) => {
         if (typeof options === 'string') {
             options = {accept: options};

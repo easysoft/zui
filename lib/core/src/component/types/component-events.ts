@@ -3,9 +3,7 @@ import {ComponentOptions} from './component-options';
 /**
  * The component events.
  */
-export interface ComponentEvents {
-    [event: string]: unknown[];
-}
+export type ComponentEvents = Record<string, unknown[]>;
 
 /**
  * The component events definition.

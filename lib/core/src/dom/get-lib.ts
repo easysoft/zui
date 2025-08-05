@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/unified-signatures */
 import {$} from '../cash';
 import {BUILD} from '../config';
 
@@ -15,9 +16,9 @@ export interface LoadJSOptions {
 }
 
 export interface LoadJSModuleOptions<T = unknown> extends LoadJSOptions {
-    type: 'module',
+    type: 'module';
     imports?: string | Record<string, string>;
-    srcList?: {src: string, imports?: string | Record<string, string>}[];
+    srcList?: {src: string; imports?: string | Record<string, string>}[];
     globalVar?: boolean | string;
     resolve?: (result: T) => void;
 }
@@ -199,6 +200,7 @@ export function loadModule<T = unknown>(options: string | LoadJSModuleOptions): 
             $script.removeData('resolves');
             resolveCallback?.(result);
             resolve(result);
+            // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
             delete (window as unknown as Record<string, unknown>)[resolveID];
         }});
         script.async = async;
