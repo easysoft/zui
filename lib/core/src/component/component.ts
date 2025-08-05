@@ -10,7 +10,7 @@ import {fetchData} from '../ajax';
 /**
  * The event callback for component.
  */
-export type ComponentEventCallback<E extends ComponentEventsDefnition, O extends object, N extends ComponentEventName<E>> = (event: N extends keyof HTMLElementEventMap ? HTMLElementEventMap[N] : Event, args: [Component<O, E>, ComponentEventArgs<E, N>]) => undefined | false;
+export type ComponentEventCallback<E extends ComponentEventsDefnition, O extends object, N extends ComponentEventName<E>> = (event: N extends keyof HTMLElementEventMap ? HTMLElementEventMap[N] : Event, args: [Component<O, E>, ComponentEventArgs<E, N>]) => void | false;
 
 /**
  * The component base class.
