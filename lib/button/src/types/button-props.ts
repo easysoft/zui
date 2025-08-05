@@ -11,7 +11,7 @@ export interface ButtonProps extends HElementProps {
     /** 按钮的 HTML 类型：button、submit、reset 或自定义类型 */
     btnType?: 'button' | 'submit' | 'reset' | (string & {});
     /** 按钮尺寸：xs（极小）、sm（小）、md（中）、lg（大）、xl（特大） */
-    size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl',
+    size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
     /** 点击事件处理函数 */
     onClick?: JSX.MouseEventHandler<HTMLAnchorElement>;
     /** 按钮链接地址 */

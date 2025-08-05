@@ -11,7 +11,7 @@ export class Button<P extends ButtonProps = ButtonProps> extends HElement<P> {
 
     protected _beforeRender(props: RenderableProps<P>) {
         const {text, loading, loadingText, caret, icon, trailingIcon, children} = props;
-        this._isEmptyText = text === undefined || text === null || (typeof text === 'string' && !text.length) || loading && !loadingText;
+        this._isEmptyText = text === undefined || text === null || (typeof text === 'string' && !text.length) || (loading && !loadingText);
         this._onlyCaret = caret && this._isEmptyText && !icon && !trailingIcon && !children && !loading;
     }
 
@@ -56,7 +56,8 @@ export class Button<P extends ButtonProps = ButtonProps> extends HElement<P> {
                 if (component === 'button') {
                     componentProps.type = btnType;
                 }
-            } else {
+            }
+            else {
                 componentProps.className = classes([componentProps.className as ClassNameLike, btnType]);
             }
         }
