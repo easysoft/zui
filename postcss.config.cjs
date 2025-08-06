@@ -1,3 +1,6 @@
+/* eslint-disable no-undef */
+/* eslint-disable @typescript-eslint/no-require-imports */
+
 const minimist = require('minimist');
 
 const argv = minimist(process.argv.slice(4));
