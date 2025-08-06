@@ -46,7 +46,7 @@ export class Upload<T extends UploadOptions = UploadOptions> extends Component<T
         tip: '',
         draggable: false,
         showSize: true,
-        onAdd: (file) => file,
+        onAdd: file => file,
     };
 
     init() {
@@ -141,7 +141,7 @@ export class Upload<T extends UploadOptions = UploadOptions> extends Component<T
             .prop('name', name)
             .prop('id', name)
             .prop('multiple', multiple)
-            .on('change', event => {
+            .on('change', (event) => {
                 const fileList = (event.target as HTMLInputElement).files;
                 if (!fileList) {
                     return;
@@ -197,7 +197,7 @@ export class Upload<T extends UploadOptions = UploadOptions> extends Component<T
         const mimeAllList: string[] = [];
         const extList: string[] = [];
 
-        fileTypes.forEach(type => {
+        fileTypes.forEach((type) => {
             if (type.endsWith('/*')) {
                 mimeAllList.push(type.substring(0, type.length - 1));
             } else if (type.includes('/')) {
@@ -209,8 +209,8 @@ export class Upload<T extends UploadOptions = UploadOptions> extends Component<T
 
         return files.filter(file => (
             mimeList.includes(file.type)
-                || mimeAllList.some(x => file.type.startsWith(x))
-                || extList.some(x => file.name.endsWith(x))
+            || mimeAllList.some(x => file.type.startsWith(x))
+            || extList.some(x => file.name.endsWith(x))
         ));
     }
 
@@ -245,7 +245,6 @@ export class Upload<T extends UploadOptions = UploadOptions> extends Component<T
             return;
         }
 
-
         if (files.length === 0) {
             return;
         }
@@ -265,7 +264,7 @@ export class Upload<T extends UploadOptions = UploadOptions> extends Component<T
     }
 
     protected deleteFileItem(name: string) {
-        const fileName =  this.renameMap.get(name) ?? name;
+        const fileName = this.renameMap.get(name) ?? name;
         this.renameMap.delete(name);
         const file = this.fileMap.get(fileName);
         if (!file) {
@@ -288,7 +287,7 @@ export class Upload<T extends UploadOptions = UploadOptions> extends Component<T
         this.currentBytes -= file.size;
         onSizeChange?.(this.currentBytes);
         this.dataTransfer = new DataTransfer();
-        this.fileMap.forEach((f) => this.dataTransfer.items.add(f));
+        this.fileMap.forEach(f => this.dataTransfer.items.add(f));
         this.$input.prop('files', this.dataTransfer.files);
     }
 
@@ -313,11 +312,10 @@ export class Upload<T extends UploadOptions = UploadOptions> extends Component<T
         file = new File([file], newName);
         this.fileMap
             .set(newName, file)
-            .forEach((f) => this.dataTransfer.items.add(f));
+            .forEach(f => this.dataTransfer.items.add(f));
 
         this.$input.prop('files', this.dataTransfer.files);
     }
-
 
     protected createFileItem(file: File) {
         const {showIcon} = this.options;
