@@ -35,7 +35,7 @@ export class KanbanLane extends HElement<KanbanLaneProps> {
         });
     }
 
-    protected _renderCol(lane: KanbanLaneProps, col: KanbanColOptions, itemRender: KanbanLaneProps['itemRender'], items: KanbanLaneProps['items'], getLaneCol: KanbanLaneProps['getLaneCol'] ) {
+    protected _renderCol(lane: KanbanLaneProps, col: KanbanColOptions, itemRender: KanbanLaneProps['itemRender'], items: KanbanLaneProps['items'], getLaneCol: KanbanLaneProps['getLaneCol']) {
         if (getLaneCol) {
             const newCol = getLaneCol(lane, col);
             if (newCol) {
@@ -67,7 +67,7 @@ export class KanbanLane extends HElement<KanbanLaneProps> {
             <div key="cols" className="kanban-lane-cols">
                 {cols.reduce<ComponentChild[]>((list, col) => {
                     if (col.subCols) {
-                        col.subCols.forEach(subCol => {
+                        col.subCols.forEach((subCol) => {
                             list.push(this._renderCol(props, subCol, itemRender, items, getLaneCol));
                         });
                     } else {

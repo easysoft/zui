@@ -20,7 +20,7 @@ export interface KanbanColOptions extends HElementProps {
     prefixClass?: ClassNameLike;
     title?: CustomContentType;
     titleClass?: ClassNameLike;
-    titleAlign?: 'left' | 'center',
+    titleAlign?: 'left' | 'center';
     subtitle?: CustomContentType;
     subtitleClass?: ClassNameLike;
     icon?: IconType;

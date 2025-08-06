@@ -68,7 +68,7 @@ export class KanbanLinks extends Component<KanbanLinksProps, KanbanLinksState> {
         const offsetTop = container.scrollTop - containerTop;
         const offsetLeft = container.scrollLeft - containerLeft;
         const layout: KanbanLinksState['layout'] = {};
-        watchSet.forEach(key => {
+        watchSet.forEach((key) => {
             const [kanban, id] = key.split('_');
             const element = $container.find(`${this._multiKanban ? `.kanban[z-key="${kanban}"] ` : ''}.kanban-item[z-key="${id}"]`).children()[0];
             if (element && dom.isVisible(element, {container: '.kanban-lane-col'})) {
@@ -106,7 +106,7 @@ export class KanbanLinks extends Component<KanbanLinksProps, KanbanLinksState> {
             }
             return includeSet.has(from) || includeSet.has(to) || includeSet.has(`${from}-${to}`);
         };
-        return  links.reduce((list, link) => {
+        return links.reduce((list, link) => {
             if (!filters || isLinkMatch(link)) {
                 const result = this._renderLink(link);
                 if (result) {

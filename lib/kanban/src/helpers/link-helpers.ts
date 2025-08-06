@@ -11,8 +11,8 @@ export type LinkLayout = {
     height: number;
     fromSide: KanbanLinkSide;
     toSide: KanbanLinkSide;
-    fromPos: {x: number, y: number};
-    toPos: {x: number, y: number};
+    fromPos: {x: number; y: number};
+    toPos: {x: number; y: number};
     svgPathProps: Record<string, unknown>;
     svgPathBackProps: Record<string, unknown>;
     svgProps: Record<string, unknown>;
@@ -21,24 +21,24 @@ export type LinkLayout = {
     padding: number;
 };
 
-export type ElementPos = {x: number, y: number};
+export type ElementPos = {x: number; y: number};
 
-export type ElementSize = {width: number, height: number};
+export type ElementSize = {width: number; height: number};
 
 export type ElementReact = ElementPos & ElementSize;
 
 export type LinkMarker = {
-    id: string,
-    orient: string,
-    markerUnits: string,
-    refX: number,
-    refY: number,
-    markerWidth: number,
-    markerHeight: number,
+    id: string;
+    orient: string;
+    markerUnits: string;
+    refX: number;
+    refY: number;
+    markerWidth: number;
+    markerHeight: number;
     path: {
-        d: string,
-        fill: string,
-    },
+        d: string;
+        fill: string;
+    };
 };
 
 export const oppositeSideMap: Record<KanbanLinkSide, KanbanLinkSide> = {
@@ -70,7 +70,7 @@ export function getDistanceAbs(from: ElementPos, to: ElementPos): number {
     return ((from.x - to.x) * (from.x - to.x)) + ((from.y - to.y) * (from.y - to.y));
 }
 
-export function getBestLinkSides(from: ElementReact, to: ElementReact, fromSide?: KanbanLinkSide, toSide?: KanbanLinkSide): {fromSide: KanbanLinkSide, toSide: KanbanLinkSide, fromPos: ElementPos, toPos: ElementPos} {
+export function getBestLinkSides(from: ElementReact, to: ElementReact, fromSide?: KanbanLinkSide, toSide?: KanbanLinkSide): {fromSide: KanbanLinkSide; toSide: KanbanLinkSide; fromPos: ElementPos; toPos: ElementPos} {
     const fromSides: KanbanLinkSide[] = fromSide ? [fromSide] : ['left', 'right', 'top', 'bottom'];
     const toSides: KanbanLinkSide[] = toSide ? [toSide] : ['left', 'right', 'top', 'bottom'];
     let minDistance = Number.MAX_SAFE_INTEGER;
@@ -92,7 +92,7 @@ export function getBestLinkSides(from: ElementReact, to: ElementReact, fromSide?
     });
     return {
         fromSide, toSide, fromPos, toPos,
-    } as {fromSide: KanbanLinkSide, toSide: KanbanLinkSide, fromPos: ElementPos, toPos: ElementPos};
+    } as {fromSide: KanbanLinkSide; toSide: KanbanLinkSide; fromPos: ElementPos; toPos: ElementPos};
 }
 
 export function getCenterPos(from: ElementPos, to: ElementPos): ElementPos {
@@ -135,7 +135,7 @@ export function getPointMarker(type: KanbanLinkPointType, side: 'start' | 'end',
     return marker;
 }
 
-export function getLinkPath(fromPos: ElementPos, toPos: ElementPos, fromSide: KanbanLinkSide, toSide: KanbanLinkSide, shape: KanbanLinkShape = 'curve', strokeWidth: number = 2, curveRate = 1): string {
+export function getLinkPath(fromPos: ElementPos, toPos: ElementPos, fromSide: KanbanLinkSide, toSide: KanbanLinkSide, shape: KanbanLinkShape = 'curve', strokeWidth = 2, curveRate = 1): string {
     const {
         x, y, width, height,
     } = getRectOfTwoPos(fromPos, toPos);

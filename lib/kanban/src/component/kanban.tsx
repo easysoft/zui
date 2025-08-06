@@ -196,7 +196,7 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
     }
 
     update(changes: Partial<KanbanDataset>): Promise<S> {
-        return this.changeState((prevState) => ({
+        return this.changeState(prevState => ({
             changes: mergeData({...prevState.changes}, changes, this.itemKey),
         } as Partial<S>));
     }
@@ -287,7 +287,7 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
             if (toggle) {
                 const oldSelectedSet = new Set(oldSelected);
                 const toggleNewSelected = new Set<string>();
-                newSelected.forEach(key => {
+                newSelected.forEach((key) => {
                     if (oldSelectedSet.has(key)) {
                         oldSelectedSet.delete(key);
                     } else {
@@ -366,12 +366,12 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
         };
     }
 
-    protected _getDropChanges(info: KanbanDropInfo): {changes: Partial<KanbanData>, data?: {list: string[], lane: string, col: string}} {
+    protected _getDropChanges(info: KanbanDropInfo): {changes: Partial<KanbanData>; data?: {list: string[]; lane: string; col: string}} {
         const {drag, drop} = info;
         const data = this.data;
         const changes: Partial<KanbanData> = {};
         const {itemKey} = this;
-        const changeData: {list: string[], lane: string, col: string} = {
+        const changeData: {list: string[]; lane: string; col: string} = {
             list: [],
             lane: drop.lane!,
             col: drop.col!,
@@ -493,7 +493,7 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
                 })[info.type];
                 return $(element).find(selector);
             }),
-            canDrop: userOptions.canDrop || (canDrop || dropRules) ? ((_event: DragEvent, dragElement: HTMLElement, dropElement: HTMLElement) => {
+            canDrop: userOptions.canDrop || (canDrop || dropRules) ? (_event: DragEvent, dragElement: HTMLElement, dropElement: HTMLElement) => {
                 const dragInfo = this._getElementInfo(dragElement);
                 if (!dragInfo) {
                     return false;
@@ -516,7 +516,7 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
                 if (canDrop) {
                     return canDrop.call(this, dragInfo, dropInfo);
                 }
-            }) : undefined,
+            } : undefined,
             onDragStart: (event: DragEvent, dragElement: HTMLElement) => {
                 const info = this._getElementInfo(dragElement);
                 if (!info) {
@@ -588,8 +588,8 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
         let hasSubCols = false;
         const {items = []} = kanbanData;
         const itemsMap: KanbanItemsMap = {};
-        const colMap: Map<KanbanColName, KanbanColOptions> = new Map();
-        const cols = getCols.call(this, kanbanData.cols, props, col => {
+        const colMap = new Map<KanbanColName, KanbanColOptions>();
+        const cols = getCols.call(this, kanbanData.cols, props, (col) => {
             if (col.parentName !== undefined) {
                 hasSubCols = true;
             }
@@ -598,7 +598,7 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
         const lanes = getLanes.call(this, kanbanData.lanes, props, (lane) => {
             itemsMap[lane.name] = cols.reduce<Record<string, KanbanItem[]>>((map, col) => {
                 if (col.subCols) {
-                    col.subCols.forEach(subCol => {
+                    col.subCols.forEach((subCol) => {
                         map[subCol.name] = [];
                     });
                 } else {
@@ -628,14 +628,14 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
         const forEachItem = (item: KanbanItem) => {
             item.selected = selectedSet.has(item[itemKey] as string);
         };
-        lanes.forEach(lane => {
+        lanes.forEach((lane) => {
             const laneItems = itemsMap[lane.name];
             if (!laneItems) {
                 return;
             }
-            cols.forEach(col => {
+            cols.forEach((col) => {
                 laneItems[col.name] = getColItems.call(this, laneItems[col.name], lane, col, props, forEachItem);
-                col.subCols?.forEach(subCol => {
+                col.subCols?.forEach((subCol) => {
                     laneItems[subCol.name] = getColItems.call(this, laneItems[subCol.name], lane, subCol, props, forEachItem);
                 });
             });
@@ -687,7 +687,7 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
             }
             return col;
         };
-        cols = cols.map(col => {
+        cols = cols.map((col) => {
             if (col.subCols) {
                 return {
                     ...col,
@@ -698,7 +698,7 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
         });
         if (responsiveCols.length && totalWidth < containerWidth) {
             const extraColWidth = Math.floor((containerWidth - totalWidth) / responsiveCols.length);
-            responsiveCols.forEach(col => {
+            responsiveCols.forEach((col) => {
                 col.width = Math.min(col.maxWidth!, Math.max(col.minWidth!, col.width as number + extraColWidth));
             });
         }
@@ -710,7 +710,7 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
         if (!laneHeight && !maxLaneHeight && !minLaneHeight) {
             return lanes;
         }
-        return lanes.map(lane => {
+        return lanes.map((lane) => {
             return {
                 height: typeof laneHeight === 'function' ? laneHeight.call(this, lane) : laneHeight,
                 maxHeight: maxLaneHeight,

@@ -11,5 +11,4 @@ export class Kanban extends ComponentFromReact<KanbanProps, KanbanReact> {
     static Component = KanbanReact;
 }
 
-
 Kanban.register();

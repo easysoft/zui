@@ -45,7 +45,7 @@ export function getCols(this: unknown, cols: KanbanColOptions[] | undefined, opt
         return list;
     }, []);
 
-    subCols.forEach(col => {
+    subCols.forEach((col) => {
         const parentCol = rootColMap.get(col.parentName!);
         if (parentCol) {
             parentCol.subCols = mergeList(parentCol.subCols, [col], 'name');
@@ -54,7 +54,7 @@ export function getCols(this: unknown, cols: KanbanColOptions[] | undefined, opt
 
     if (needSort) {
         cols.sort(sortByOrder);
-        [...rootColMap.values()].forEach(col => {
+        [...rootColMap.values()].forEach((col) => {
             if (col.subCols) {
                 col.subCols.sort(sortByOrder);
             }
@@ -135,9 +135,9 @@ export function sortByOrder(a: {order?: number}, b: {order?: number}) {
     return a.order! - b.order!;
 }
 
-export function mergeList<T extends {}>(items: T[] | undefined, newItems: T[] | undefined, itemKey: string = 'key'): T[] {
+export function mergeList<T extends object>(items: T[] | undefined, newItems: T[] | undefined, itemKey = 'key'): T[] {
     if (!items) {
-        return newItems ? [...newItems ] : [];
+        return newItems ? [...newItems] : [];
     }
     const finalItems = [...items];
     if (newItems) {
@@ -147,7 +147,7 @@ export function mergeList<T extends {}>(items: T[] | undefined, newItems: T[] | 
             order = Math.max((item as {order?: number}).order ?? index, order);
             return map;
         }, new Map<string, number>());
-        newItems.forEach(item => {
+        newItems.forEach((item) => {
             const key = String(item[itemKey as keyof T]);
             if (indexMap.has(key)) {
                 finalItems[indexMap.get(key)!] = {
@@ -165,9 +165,9 @@ export function mergeList<T extends {}>(items: T[] | undefined, newItems: T[] | 
     return finalItems;
 }
 
-function normalizeItems(items: KanbanDataset['items'], itemKey: string) : KanbanItem[] {
+function normalizeItems(items: KanbanDataset['items'], itemKey: string): KanbanItem[] {
     if (Array.isArray(items)) {
-        return items.map(item => {
+        return items.map((item) => {
             return {
                 ...item,
                 [itemKey]: String(item[itemKey]),
@@ -177,7 +177,7 @@ function normalizeItems(items: KanbanDataset['items'], itemKey: string) : Kanban
     return Object.keys(items).reduce<KanbanItem[]>((list, lane) => {
         const laneItems = items[lane];
         Object.keys(laneItems).forEach((col) => {
-            list.push(...(laneItems[col] || []).map(item => {
+            list.push(...(laneItems[col] || []).map((item) => {
                 return {
                     ...item,
                     lane,
@@ -201,7 +201,7 @@ export function normalizeData(data: KanbanDataset, itemKey: string): KanbanData 
 export function mergeData(data: Partial<KanbanData>, extraData: Partial<KanbanDataset>, itemKey: string): Partial<KanbanData> {
     const lanes = mergeList(data.lanes, extraData.lanes, 'name');
     const cols = mergeList(data.cols, extraData.cols, 'name');
-    const links = mergeList(data.links, extraData.links?.map(link => {
+    const links = mergeList(data.links, extraData.links?.map((link) => {
         if (link[itemKey] === undefined) {
             link[itemKey] = createLinkID(link);
         }
