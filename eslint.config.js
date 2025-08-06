@@ -15,6 +15,7 @@ export default tseslint.config(
         semi: true,
         indent: 4,
         blockSpacing: false,
+        braceStyle: '1tbs',
         quoteProps: 'as-needed',
     }),
     {
@@ -36,10 +37,25 @@ export default tseslint.config(
         },
         rules: {
             '@stylistic/object-curly-spacing': ['error', 'never'],
-            '@stylistic/no-multi-spaces': ['error', {
-                ignoreEOLComments: true,
-            }],
+            '@stylistic/no-multi-spaces': ['error', {ignoreEOLComments: true}],
+            '@stylistic/multiline-ternary': 'off',
             '@typescript-eslint/consistent-type-definitions': 'off',
+            '@typescript-eslint/no-invalid-void-type': 'off',
+            '@typescript-eslint/no-dynamic-delete': 'off',
+            '@typescript-eslint/no-non-null-assertion': 'off',
+            '@typescript-eslint/no-require-imports': 'off',
+            '@typescript-eslint/no-unused-vars': [
+                'error',
+                {
+                    args: 'all',
+                    argsIgnorePattern: '^_',
+                    caughtErrors: 'all',
+                    caughtErrorsIgnorePattern: '^_',
+                    destructuredArrayIgnorePattern: '^_',
+                    varsIgnorePattern: '^_',
+                    ignoreRestSiblings: true,
+                },
+            ],
         },
         ignores: [
             './build/**/*',
