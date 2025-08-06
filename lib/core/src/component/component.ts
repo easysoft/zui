@@ -12,6 +12,8 @@ import {fetchData} from '../ajax';
  */
 export type ComponentEventCallback<E extends ComponentEventsDefnition, O extends object, N extends ComponentEventName<E>> = (event: N extends keyof HTMLElementEventMap ? HTMLElementEventMap[N] : Event, args: [Component<O, E>, ComponentEventArgs<E, N>]) => void | false;
 
+export type ComponentClass = typeof Component;
+
 /**
  * The component base class.
  */
@@ -528,7 +530,7 @@ export class Component<O extends object = object, E extends ComponentEventsDefni
         return $element.data(this.KEY);
     }
 
-    static isValid<O extends object, E extends ComponentEvents, U extends HTMLElement, T extends typeof Component<O, E, U>>(this: T, _instance: InstanceType<T>): boolean {
+    static isValid(_instance: InstanceType<typeof this>): boolean {
         return true;
     }
 
@@ -540,7 +542,7 @@ export class Component<O extends object = object, E extends ComponentEventsDefni
      * @param options   The component options.
      * @returns         The component instance.
      */
-    static ensure<O extends object, E extends ComponentEvents, U extends HTMLElement, T extends typeof Component<O, E, U>>(this: T, selector: Selector, options?: Partial<ComponentOptions<O>>): InstanceType<T> {
+    static ensure<O extends object, E extends ComponentEvents, U extends HTMLElement, T extends typeof Component<O, E, U>>(this: T, selector: Selector, options?: InstanceType<T>['options']): InstanceType<T> {
         const instance = this.get(selector, options?.key);
         if (instance) {
             if (this.isValid(instance)) {
@@ -586,13 +588,6 @@ export class Component<O extends object = object, E extends ComponentEventsDefni
         return list.sort((a, b) => a.gid - b.gid);
     }
 
-    /**
-     * Query the component instance.
-     *
-     * @param this     Current component constructor.
-     * @param selector The component element selector.
-     * @returns        The component instance.
-     */
     static query<O extends object, E extends ComponentEvents, U extends HTMLElement, T extends typeof Component<O, E, U>>(this: T, selector?: Selector, key?: string | number, filter?: (instance: InstanceType<T>) => boolean): InstanceType<T> | undefined {
         if (selector === undefined) {
             return this.getAll(undefined, filter).pop();
@@ -647,11 +642,11 @@ export class Component<O extends object = object, E extends ComponentEventsDefni
         });
     }
 
-    static map = new Map<string, typeof Component>();
+    static map = new Map<string, ComponentClass>();
 
-    static toggleMap = new Map<string, typeof Component>();
+    static toggleMap = new Map<string, ComponentClass>();
 
-    static register(ComponentClass?: typeof Component, name?: string) {
+    static register(ComponentClass?: ComponentClass, name?: string) {
         ComponentClass = ComponentClass || this;
         name = (name ?? ComponentClass.NAME).toLowerCase();
         this.map.set(name, ComponentClass);

@@ -65,7 +65,7 @@ export class Sticky extends Component<StickyOptions> {
         } else {
             this._ob = new IntersectionObserver(
                 (entries) => {
-                    entries.forEach(e => {
+                    entries.forEach((e) => {
                         e.target.classList.toggle(pinnedClass, e.intersectionRatio < offset);
                     });
                 },

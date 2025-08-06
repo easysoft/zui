@@ -180,7 +180,7 @@ export class HElement<P extends HElementProps, S = object> extends Component<P, 
         return props.children;
     }
 
-    protected _beforeRender(props: RenderableProps<P>): RenderableProps<P> | undefined {
+    protected _beforeRender(props: RenderableProps<P>): RenderableProps<P> | void {
         return props;
     }
 
