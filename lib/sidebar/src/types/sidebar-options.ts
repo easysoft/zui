@@ -1,7 +1,7 @@
 import type {Selector, SizeSetting} from '@zui/core';
 
 export interface SidebarOptions {
-    parent?: Selector,
+    parent?: Selector;
     side?: 'left' | 'right';
     width?: SizeSetting;
     maxWidth?: SizeSetting;
