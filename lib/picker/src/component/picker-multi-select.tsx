@@ -83,12 +83,13 @@ export class PickerMultiSelect extends PickTrigger<PickerState, PickerSelectProp
             view = <div key="selections" className="picker-multi-selections">{view}</div>;
         } else if (noSelections) {
             view = <span key="selections" className="picker-select-placeholder">{placeholder}</span>;
-
         } else {
-            view = (<div key="selections" className="picker-multi-selections">
-                {selections.map(this._renderSelection)}
-                {showSearch ? this._renderSearch(props) : null}
-            </div>);
+            view = (
+                <div key="selections" className="picker-multi-selections">
+                    {selections.map(this._renderSelection)}
+                    {showSearch ? this._renderSearch(props) : null}
+                </div>
+            );
         }
         return [
             view,
@@ -98,14 +99,14 @@ export class PickerMultiSelect extends PickTrigger<PickerState, PickerSelectProp
     }
 
     protected _renderValue(props: PickerSelectProps) {
-        const {name, state: {value = ''}, disabled, readonly, id, valueList, emptyValue} = props;
+        const {name, state: {value = ''}, disabled, id, valueList, emptyValue} = props;
         if (name) {
             if (this.hasInput) {
                 $(`#${id}`).val(value);
             } else {
                 const values = valueList.length ? valueList : [emptyValue];
                 return (
-                    <select id={id} multiple className="pick-value" name={name.endsWith('[]') ? name : `${name}[]`} disabled={disabled} readonly={readonly} style={{display: 'none'}}>
+                    <select id={id} multiple className="pick-value" name={name.endsWith('[]') ? name : `${name}[]`} disabled={disabled} style={{display: 'none'}}>
                         {values.map(x => <option key={x} value={x}>{x}</option>)}
                     </select>
                 );

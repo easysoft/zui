@@ -30,7 +30,7 @@ export class PickerMenu extends PickPop<PickerState, PickerMenuProps> {
 
     protected declare _renderItemCallback: MenuOptions['beforeRenderItem'];
 
-    protected _disabledSet: Set<string> = new Set();
+    protected _disabledSet = new Set<string>();
 
     protected _firstSelected?: string;
 
@@ -69,7 +69,7 @@ export class PickerMenu extends PickPop<PickerState, PickerMenuProps> {
         }).on('hidePop.zui.Picker', () => {
             this.props.togglePop(false);
         }).on('deselectLast.zui.Picker', () => {
-            if (this.props.multiple)  {
+            if (this.props.multiple) {
                 const {valueList} = this.props;
                 const last = valueList[valueList.length - 1];
                 if (last) {
@@ -146,7 +146,7 @@ export class PickerMenu extends PickPop<PickerState, PickerMenuProps> {
         return this._renderItemCallback?.call(this, item, index);
     };
 
-    _handleItemClick = ({item, event}: {item: NestedListItem, event: MouseEvent, renderedItem: NestedItem}) => {
+    _handleItemClick = ({item, event}: {item: NestedListItem; event: MouseEvent; renderedItem: NestedItem}) => {
         const value = item.value as string;
         const target = event.target as HTMLElement;
         if (item.disabled || value === undefined || target.closest('.item-icon,.nested-toggle-icon,.disabled')) {

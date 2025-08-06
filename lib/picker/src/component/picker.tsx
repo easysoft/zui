@@ -36,7 +36,7 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
 
     static Pop = PickerMenu as typeof Pick.Pop;
 
-    protected _itemsCacheInfo?: {search?: string, value?: string, items?: PickerOptions['items']};
+    protected _itemsCacheInfo?: {search?: string; value?: string; items?: PickerOptions['items']};
 
     protected _abort?: AbortController;
 
@@ -87,7 +87,7 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
 
         if (Array.isArray(items) && items.length) {
             const {limitValueInList, required, multiple} = this.props;
-            items.forEach(item => {
+            items.forEach((item) => {
                 if (typeof item.value === 'number') {
                     item.value = String(item.value);
                 }
@@ -224,7 +224,7 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
             const newState = typeof state === 'function' ? state(prevState) : state;
             if ((newState.value !== undefined && newState.value !== prevState.value) || (newState.items && newState.items !== prevState.items)) {
                 const items = newState.items || prevState.items;
-                const map: Map<string, PickerItemOptions> = new Map();
+                const map = new Map<string, PickerItemOptions>();
                 if (Array.isArray(prevState.items) && prevState.items !== newState.items) {
                     getValueMap(prevState.items as PickerItemOptions[], map);
                 }
@@ -251,7 +251,7 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
             await this.changeState({loading: true} as Partial<S>);
             let loadItems = await this.load();
             const filterItems = (items: ListItem[]) => {
-                return items.filter(x => {
+                return items.filter((x) => {
                     x.key = x.key ?? (x.value as string);
                     if (typeof x.value === 'number') {
                         x.value = String(x.value);
@@ -335,7 +335,6 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
                 }
             }
         }
-
     }
 
     protected _getTriggerProps(props: RenderableProps<O>, state: Readonly<S>): PickerSelectProps<S> {
@@ -359,7 +358,7 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
         };
     }
 
-    protected _handlePickValue = (options: {toggle?: string, select?: string | string[], diselect?: string | string[]}) => {
+    protected _handlePickValue = (options: {toggle?: string; select?: string | string[]; diselect?: string | string[]}) => {
         const {toggle, select, diselect} = options;
         if (toggle !== undefined) {
             this.toggleValue(toggle);

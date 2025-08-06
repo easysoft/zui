@@ -1,14 +1,14 @@
 import {i18n} from '@zui/core';
 
 i18n.addLang({
-    'zh_cn': {
+    zh_cn: {
         selectAll: '全选',
         cancelSelect: '取消选择',
         searchEmptyHint: '无匹配选项',
         loadingHint: '正在加载...',
         exceedLimitHint: '还有 {0} 个选项没有显示，可尝试搜索来查找',
     },
-    'zh_tw': {
+    zh_tw: {
         selectAll: '全選',
         cancelSelect: '取消選擇',
         searchEmptyHint: '無匹配選項',
