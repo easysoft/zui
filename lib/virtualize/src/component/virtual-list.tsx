@@ -5,7 +5,7 @@ import {VirtualItem} from './virtual-item';
 import type {ComponentChildren, RenderableProps} from 'preact';
 import type {VirtualItemProps, VirtualListProps, VirtualListState} from '../types';
 
-export type VirtualItemInfo = {key: string, start: number, size: number, renderSize: number | undefined, item?: VirtualItemProps};
+export type VirtualItemInfo = {key: string; start: number; size: number; renderSize: number | undefined; item?: VirtualItemProps};
 
 export class VirtualList extends HElement<VirtualListProps, VirtualListState> {
     static defaultProps: Partial<VirtualListProps> = {
@@ -23,11 +23,11 @@ export class VirtualList extends HElement<VirtualListProps, VirtualListState> {
 
     protected _rob?: ResizeObserver;
 
-    protected _sizeMap: Map<string, number> = new Map();
+    protected _sizeMap = new Map<string, number>();
 
-    protected _layoutTimer: number = 0;
+    protected _layoutTimer = 0;
 
-    protected _scrollTimer: number = 0;
+    protected _scrollTimer = 0;
 
     constructor(props: RenderableProps<VirtualListProps>) {
         super(props);
@@ -106,7 +106,7 @@ export class VirtualList extends HElement<VirtualListProps, VirtualListState> {
             newState.scroll = scroll;
         }
         if (Object.keys(sizeMap).length) {
-            Object.keys(oldSizeMap).forEach(key => {
+            Object.keys(oldSizeMap).forEach((key) => {
                 if (!renderSizeMap.has(key)) {
                     delete oldSizeMap[key];
                 }
