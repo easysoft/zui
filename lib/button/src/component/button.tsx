@@ -56,8 +56,7 @@ export class Button<P extends ButtonProps = ButtonProps> extends HElement<P> {
                 if (component === 'button') {
                     componentProps.type = btnType;
                 }
-            }
-            else {
+            } else {
                 componentProps.className = classes([componentProps.className as ClassNameLike, btnType]);
             }
         }
