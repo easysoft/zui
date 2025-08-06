@@ -50,6 +50,7 @@ export class Moveable extends Component<MoveableOptions> {
             } else {
                 strategy = this.options.move || 'none';
             }
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             const position = strategy === 'transform' ? Moveable.getTranslate(target) : (strategy === 'scroll' ? {left: target.scrollLeft, top: target.scrollTop} : $target.position()!);
             newState = $.extend(newState, {
                 strategy,
@@ -119,7 +120,8 @@ export class Moveable extends Component<MoveableOptions> {
     };
 
     protected _handleMouseMove = (event: MouseEvent) => {
-        if (!this._state || !event.buttons) {
+        const state = this._state;
+        if (!state || !event.buttons) {
             return;
         }
         event.preventDefault();
@@ -129,12 +131,13 @@ export class Moveable extends Component<MoveableOptions> {
         this._raf = requestAnimationFrame(() => {
             this._raf = 0;
             this._setState(event);
-            this.options.onMove?.call(this, event, this._state!);
+            this.options.onMove?.call(this, event, state);
         });
     };
 
     protected _handleMouseUp = (event: MouseEvent) => {
-        if (!this._state) {
+        const state = this._state;
+        if (!state) {
             return;
         }
         if (this._raf) {
@@ -142,8 +145,8 @@ export class Moveable extends Component<MoveableOptions> {
             this._raf = 0;
         }
         this._setState(event);
-        this.options.onMove?.call(this, event, this._state!);
-        this.options.onMoveEnd?.call(this, event, this._state!);
+        this.options.onMove?.call(this, event, state);
+        this.options.onMoveEnd?.call(this, event, state);
         this._clean();
     };
 
@@ -163,7 +166,7 @@ export class Moveable extends Component<MoveableOptions> {
         this._state = undefined;
     }
 
-    static getTranslate(element: HTMLElement): {left: number, top: number} {
+    static getTranslate(element: HTMLElement): {left: number; top: number} {
         const style = window.getComputedStyle(element);
         const transform = style.getPropertyValue('transform');
         if (transform === 'none') {

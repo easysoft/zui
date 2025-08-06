@@ -1,4 +1,4 @@
 export type DraggableState = {
-    dragging: HTMLElement | null,
-    dropping: HTMLElement | null
+    dragging: HTMLElement | null;
+    dropping: HTMLElement | null;
 };

@@ -116,6 +116,7 @@ export class Draggable extends Component<DraggableOptions> {
         let $targets = (typeof target === 'function' ? $(target.call(this, dragElement)) : $element.find(target || selector || DROPPABLE_SELECTOR));
         if (canDrop) {
             $targets = $targets.filter((_, ele) => {
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                 return canDrop.call(this, event, dragElement!, ele) !== false;
             });
         }
@@ -133,12 +134,12 @@ export class Draggable extends Component<DraggableOptions> {
         $element.find(DROPPABLE_SELECTOR).removeAttr('droppable');
         $targets.attr('droppable', 'true');
         this._$targets = $targets;
-
     };
 
     protected _setDragEffect(event: DragEvent) {
         const {dropEffect} = this.options;
         if (dropEffect) {
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             event.dataTransfer!.dropEffect = dropEffect;
         }
     }
@@ -193,6 +194,7 @@ export class Draggable extends Component<DraggableOptions> {
         if (droppingClass) {
             $(dropElement).removeClass(droppingClass);
         }
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         this.options.onDragLeave?.call(this, event, this.dragElement!, dropElement);
     }
 
@@ -211,6 +213,7 @@ export class Draggable extends Component<DraggableOptions> {
         const dropTarget = $(event.target as HTMLElement).closest(DROPPABLE_SELECTOR)[0];
         if (dropTarget) {
             event.preventDefault();
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             this.options.onDrop?.call(this, event, this.dragElement!, dropTarget);
         }
 
