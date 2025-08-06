@@ -22,7 +22,7 @@ export class Checkbox<P extends CheckboxProps = CheckboxProps> extends HElement<
     protected _getClassName(props: RenderableProps<P>): ClassNameLike {
         const {disabled, type = 'checkbox'} = props;
         const {checked} = this;
-        return [props.className, type === 'switch' ? type : `${type}-primary`,  {
+        return [props.className, type === 'switch' ? type : `${type}-primary`, {
             disabled,
             checked: checked === true,
             indeterminate: checked === 'indeterminate',
@@ -56,9 +56,11 @@ export class Checkbox<P extends CheckboxProps = CheckboxProps> extends HElement<
                     checked={typeof checked === 'boolean' ? checked : undefined}
                 />
             ) : null,
-            (<label htmlFor={id} key="label">
-                <CustomContent content={label} />
-            </label>),
+            (
+                <label htmlFor={id} key="label">
+                    <CustomContent content={label} />
+                </label>
+            ),
         ];
     }
 }
