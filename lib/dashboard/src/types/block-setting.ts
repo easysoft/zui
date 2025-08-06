@@ -7,7 +7,7 @@ export type BlockSetting = {
     id: string | number;
     width?: number;
     height?: number;
-    size?: string | {width: number, height: number} | [width: number, height: number];
+    size?: string | {width: number; height: number} | [width: number, height: number];
     left?: number;
     top?: number;
     fetch?: BlockFetcher;
