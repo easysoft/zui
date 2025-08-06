@@ -23,7 +23,7 @@ export class Menu<T extends MenuOptions = MenuOptions, S extends NestedListState
         scrollbarHover: true,
     };
 
-    protected declare _hoverInfo?: {timer: number, keyPath?: string | null, shown?: boolean};
+    protected declare _hoverInfo?: {timer: number; keyPath?: string | null; shown?: boolean};
 
     constructor(props: T) {
         super(props);

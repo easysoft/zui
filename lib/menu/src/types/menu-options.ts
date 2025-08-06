@@ -14,5 +14,5 @@ export interface MenuOptions<T extends MenuItemOptions = NestedListItem> extends
     compact?: boolean;
     scrollbarThin?: boolean;
     scrollbarHover?: boolean;
-    nestedTrigger?: 'click' | 'hover',
+    nestedTrigger?: 'click' | 'hover';
 }

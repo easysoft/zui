@@ -80,7 +80,7 @@ export class SearchMenu<T extends SearchMenuOptions = SearchMenuOptions> extends
         const isMatch = isItemMatch ? isItemMatch.call(this, item, this._searchKeys, index, parentKey) : (this.constructor as typeof SearchMenu).isItemMatch(item, this._searchKeys, props.searchProps);
         if ((nestedSearch && this.isRoot) && isMatch && parentKey !== undefined) {
             let key = '';
-            String(parentKey).split(':').forEach(x => {
+            String(parentKey).split(':').forEach((x) => {
                 key += `${key.length ? ':' : ''}${x}`;
                 this._matchedParents.add(key);
             });
@@ -124,7 +124,7 @@ export class SearchMenu<T extends SearchMenuOptions = SearchMenuOptions> extends
         }
         item.className = [item.className, item.hidden ? 'is-not-match' : ''];
         if (!item.hidden && props.underlineKeys && this._searchKeys.length) {
-            ['text', 'title', 'subtitle', 'content'].forEach(key => {
+            ['text', 'title', 'subtitle', 'content'].forEach((key) => {
                 if (typeof item[key] === 'string') {
                     item[key] = (this.constructor as typeof SearchMenu).underlineKeys(this._searchKeys, [item[key] as string]);
                 }
@@ -169,10 +169,12 @@ export class SearchMenu<T extends SearchMenuOptions = SearchMenuOptions> extends
         }
         return [
             noMatchHint ? <div key="noMatchHint" className="search-menu-no-match-hint">{noMatchHint}</div> : null,
-            (hasHeader || hasTopSearchBox) ? (<header key="header" className={classes('search-menu-header', headerClass)}>
-                {hasHeader ? super._renderWrapperHeader(props) : null}
-                {hasTopSearchBox ? this._renderSearchBox(props) : null}
-            </header>) : null,
+            (hasHeader || hasTopSearchBox) ? (
+                <header key="header" className={classes('search-menu-header', headerClass)}>
+                    {hasHeader ? super._renderWrapperHeader(props) : null}
+                    {hasTopSearchBox ? this._renderSearchBox(props) : null}
+                </header>
+            ) : null,
         ];
     }
 
@@ -212,7 +214,7 @@ export class SearchMenu<T extends SearchMenuOptions = SearchMenuOptions> extends
         if (!searchKeys.length) {
             return true;
         }
-        return searchKeys.every(searchKey => searchProps.some(propSetting => {
+        return searchKeys.every(searchKey => searchProps.some((propSetting) => {
             const propValue = typeof propSetting === 'function' ? propSetting(item) : item[propSetting];
             return typeof propValue === 'string' && propValue.length && propValue.toLowerCase().includes(searchKey);
         }));
@@ -224,7 +226,7 @@ export class SearchMenu<T extends SearchMenuOptions = SearchMenuOptions> extends
      * @param search    Search string.
      * @returns Search keys array.
      */
-    static getSearchKeys(search: string = ''): string[] {
+    static getSearchKeys(search = ''): string[] {
         return $.unique((search).toLowerCase().split(' ').filter(x => x.length)) as string[];
     }
 
