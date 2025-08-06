@@ -1,5 +1,5 @@
 import {$} from '../cash';
-import type {FormItemValue} from './types';
+import type {FormDataLike, FormItemValue} from './types';
 
 export function setFormDataValue(formData: FormData, name: string, value: FormItemValue | FormItemValue[] | Record<string, FormItemValue>) {
     if (value === undefined || value === null) {
@@ -16,7 +16,7 @@ export function setFormDataValue(formData: FormData, name: string, value: FormIt
     }
 }
 
-export function createFormData(data: string | FormData | URLSearchParams | Record<string, FormItemValue | FormItemValue[]> | [name: string, value: FormItemValue][], existingFormData?: FormData): FormData {
+export function createFormData(data: FormDataLike, existingFormData?: FormData): FormData {
     const formData = existingFormData || new FormData();
     if (data) {
         if (typeof data === 'string') {
