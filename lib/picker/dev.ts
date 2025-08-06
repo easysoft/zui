@@ -146,8 +146,8 @@ onPageUpdate(() => {
         defaultValue: 'banana',
         placeholder: '请选择你的最爱',
         searchHint: '搜索选项',
-        onSelect: (values) => console.log('onSelect', values),
-        onDeselect: (values) => console.log('onDeselect', values),
+        onSelect: values => console.log('onSelect', values),
+        onDeselect: values => console.log('onDeselect', values),
         onChange: (value, oldValue) => console.log('onChange', value, '<==', oldValue),
     });
     $('#singlePicker').on('change', (event) => {
@@ -162,8 +162,8 @@ onPageUpdate(() => {
         defaultValue: 'banana,orange',
         placeholder: '请选择你的最爱',
         toolbar: true,
-        onSelect: (values) => console.log('onSelect', values),
-        onDeselect: (values) => console.log('onDeselect', values),
+        onSelect: values => console.log('onSelect', values),
+        onDeselect: values => console.log('onDeselect', values),
         onChange: (value, oldValue) => console.log('onChange', value, '<==', oldValue),
     });
     $('#multiPicker').on('change', (event) => {
@@ -172,14 +172,14 @@ onPageUpdate(() => {
     console.log('> multiPicker', multiPicker);
 
     const noSearchPicker = new Picker('#noSearchPicker', {
-        'multiple': true,
-        'items': [
-            {'text': '查看研发需求', 'value': 'story', 'items': [{'text': 'SR1', 'value': '1'}, {'text': 'SR2', 'value': '2'}, {'text': 'SR3', 'value': '3'}, {'text': 'SR4', 'value': '4'}]},
+        multiple: true,
+        items: [
+            {text: '查看研发需求', value: 'story', items: [{text: 'SR1', value: '1'}, {text: 'SR2', value: '2'}, {text: 'SR3', value: '3'}, {text: 'SR4', value: '4'}]},
         ],
-        'search': false,
-        'display': 'test {value}',
-        'emptyValue': '',
-        'defaultValue': '',
+        search: false,
+        display: 'test {value}',
+        emptyValue: '',
+        defaultValue: '',
         menu: {
             checkbox: true,
         },
