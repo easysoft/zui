@@ -1,6 +1,6 @@
 export type MessagerEvents = {
-    show: [],
-    shown: [],
-    hide: [],
-    hidden: [],
+    show: [];
+    shown: [];
+    hide: [];
+    hidden: [];
 };
