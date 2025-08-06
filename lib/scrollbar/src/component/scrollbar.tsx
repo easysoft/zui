@@ -2,9 +2,7 @@ import {ClassNameLike, classes} from '@zui/core';
 import {Component, JSX, RefObject} from 'preact';
 import './scrollbar.css';
 
-export interface OnScrollListener {
-    (scrollPos: number, type: 'vert' | 'horz'): void;
-}
+export type OnScrollListener = (scrollPos: number, type: 'vert' | 'horz') => void;
 
 export interface ScrollbarProps {
     scrollSize: number;
@@ -14,12 +12,12 @@ export interface ScrollbarProps {
     minBarSize?: number;
     scrollPos?: number;
     size?: number;
-    className?: ClassNameLike,
+    className?: ClassNameLike;
     onScroll?: OnScrollListener;
-    left?: number,
-    top?: number,
-    right?: number,
-    bottom?: number,
+    left?: number;
+    top?: number;
+    right?: number;
+    bottom?: number;
     style?: JSX.CSSProperties;
     wheelContainer?: string | RefObject<HTMLElement>;
     wheelSpeed?: number;
@@ -27,7 +25,7 @@ export interface ScrollbarProps {
 
 export interface ScrollbarState {
     scrollPos: number;
-    dragStart: {x: number, y: number, offset: number} | false;
+    dragStart: {x: number; y: number; offset: number} | false;
 }
 
 export class Scrollbar extends Component<ScrollbarProps, ScrollbarState> {
@@ -110,7 +108,7 @@ export class Scrollbar extends Component<ScrollbarProps, ScrollbarState> {
 
     _handleWheel = (event: Event) => {
         const {wheelContainer} = this.props;
-        const target = (event.target as HTMLElement);
+        const target = event.target as HTMLElement;
         if (!target || !wheelContainer) {
             return;
         }
