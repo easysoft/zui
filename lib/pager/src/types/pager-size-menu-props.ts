@@ -4,11 +4,11 @@ import type {DropdownButtonOptions, DropdownMenuOptions} from '@zui/dropdown';
 import type {MenuItemOptions} from '@zui/menu';
 import type {PagerInfo} from './pager-info';
 
-export interface PagerSizeMenuProps extends Item, Omit<ButtonProps, 'type'> {
-    type: 'size-menu',
-    items?: number[],
-    itemProps?: Partial<MenuItemOptions>,
-    dropdown?: DropdownButtonOptions,
+export interface PagerSizeMenuProps extends Omit<Item, 'key'>, Omit<ButtonProps, 'type'> {
+    type: 'size-menu';
+    items?: number[];
+    itemProps?: Partial<MenuItemOptions>;
+    dropdown?: DropdownButtonOptions;
     menu?: DropdownMenuOptions;
     text?: string | ((info: PagerInfo) => string);
 }

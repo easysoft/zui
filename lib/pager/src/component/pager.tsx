@@ -69,7 +69,7 @@ export class Pager<T extends PagerOptions = PagerOptions> extends Toolbar<T> {
         }
     };
 
-    protected _handleClickSizeMenu = (info: {event: Event, item: Item}) => {
+    protected _handleClickSizeMenu = (info: {event: Event; item: Item}) => {
         const {item} = info;
         const recPerPage = item['z-change-page-size'];
         if (typeof recPerPage === 'number' && !item.disabled) {
@@ -121,7 +121,7 @@ export class Pager<T extends PagerOptions = PagerOptions> extends Toolbar<T> {
         if (type === 'size-menu') {
             propsMap.menu = {
                 onClickItem: this._handleClickSizeMenu,
-                ...(propsMap.menu as {}),
+                ...(propsMap.menu as object),
             };
         }
         if (type === 'link') {

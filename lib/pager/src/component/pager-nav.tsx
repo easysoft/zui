@@ -11,7 +11,7 @@ export function PagerNav({
     pagerInfo,
     linkCreator,
     ...btnProps
-}: PagerNavProps & {pagerInfo: PagerInfo, linkCreator: PageLinkCreator}) {
+}: PagerNavProps & {pagerInfo: PagerInfo; linkCreator: PageLinkCreator}) {
     if (!pagerInfo.pageTotal) {
         return;
     }
@@ -26,13 +26,13 @@ export function PagerNav({
 
     const createItem = (current: number, total: number) => {
         const elements: ComponentChildren[] = [];
-        for (let i = current; i <= total; i++ ) {
+        for (let i = current; i <= total; i++) {
             newBtnProps.text = i;
             delete newBtnProps.icon;
             newBtnProps.disabled = false;
             const info = updatePagerInfo(pagerInfo, i);
             if (linkCreator) {
-                newBtnProps.url = typeof linkCreator === 'function' ? linkCreator(info)  : formatString(linkCreator, info);
+                newBtnProps.url = typeof linkCreator === 'function' ? linkCreator(info) : formatString(linkCreator, info);
             }
             elements.push(<Button type={type} {...newBtnProps} />);
         }
@@ -40,18 +40,18 @@ export function PagerNav({
     };
 
     let resultElements: ComponentChildren[] = [];
-    resultElements = [...createItem(1,  1)];
+    resultElements = [...createItem(1, 1)];
     if (pagerInfo.pageTotal <= 1) {
         return resultElements;
     }
     if (pagerInfo.pageTotal <= count) {
-        resultElements = [...resultElements, ...createItem(2,  pagerInfo.pageTotal)];
+        resultElements = [...resultElements, ...createItem(2, pagerInfo.pageTotal)];
     } else if (pagerInfo.page < (count - 2)) {
-        resultElements = [...resultElements, ...createItem(2,  count - 2), createEllipsis(), ...createItem(pagerInfo.pageTotal,  pagerInfo.pageTotal)];
+        resultElements = [...resultElements, ...createItem(2, count - 2), createEllipsis(), ...createItem(pagerInfo.pageTotal, pagerInfo.pageTotal)];
     } else if (pagerInfo.page > (pagerInfo.pageTotal - count + 3)) {
         resultElements = [...resultElements, createEllipsis(), ...createItem((pagerInfo.pageTotal - count + 3), pagerInfo.pageTotal)];
     } else {
-        resultElements = [...resultElements, createEllipsis(), ...createItem(pagerInfo.page - Math.ceil((count - 4) / 2), pagerInfo.page + Math.floor((count - 4) / 2)), createEllipsis(), ...createItem(pagerInfo.pageTotal,  pagerInfo.pageTotal)];
+        resultElements = [...resultElements, createEllipsis(), ...createItem(pagerInfo.page - Math.ceil((count - 4) / 2), pagerInfo.page + Math.floor((count - 4) / 2)), createEllipsis(), ...createItem(pagerInfo.pageTotal, pagerInfo.pageTotal)];
     }
     return resultElements;
 }

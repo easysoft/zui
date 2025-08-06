@@ -13,15 +13,15 @@ export function PagerSizeMenu({
     menu,
     itemProps,
     ...dropdownProps
-}: PagerSizeMenuProps & {pagerInfo: PagerInfo, linkCreator: PageLinkCreator}) {
-    dropdown.items = items.map(recPerPage => {
+}: PagerSizeMenuProps & {pagerInfo: PagerInfo; linkCreator: PageLinkCreator}) {
+    dropdown.items = items.map((recPerPage) => {
         const info = {...pagerInfo, recPerPage};
         return {
             ...itemProps,
             key: recPerPage,
             text: `${recPerPage}`,
             active: recPerPage === pagerInfo.recPerPage,
-            url: linkCreator ? (typeof linkCreator === 'function' ? linkCreator(info)  : formatString(linkCreator, info)) : undefined,
+            url: linkCreator ? (typeof linkCreator === 'function' ? linkCreator(info) : formatString(linkCreator, info)) : undefined,
             'z-change-page-size': recPerPage,
         } as unknown as Item;
     }) as Item[];
