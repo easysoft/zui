@@ -16,5 +16,5 @@ export type ComponentToggleConfig = {
     prevent?: boolean;
     onGet?: (this: typeof Component, element: HTMLElement) => Component | undefined;
     onCreate?: (this: typeof Component, element: HTMLElement, event: Event, options: ComponentOptions) => Component | false;
-    onToggle?: (this: typeof Component, component: Component, element: HTMLElement, event: Event) => undefined | false;
+    onToggle?: (this: typeof Component, component: Component, element: HTMLElement, event: Event) => void | false;
 };
