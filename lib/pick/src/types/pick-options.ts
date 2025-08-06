@@ -27,8 +27,8 @@ export interface PickOptions<S extends PickState = PickState> {
     readonly?: boolean;
     name?: string;
     onChange?: (value: string, oldValue: string) => void;
-    beforeChange?: (value: string, oldValue: string) => Promise<boolean | string | undefined> | boolean | string | undefined;
-    onClick?: (event: MouseEvent) => undefined | boolean;
+    beforeChange?: (value: string, oldValue: string) => Promise<boolean | string | void> | boolean | string | void;
+    onClick?: (event: MouseEvent) => void | boolean;
 
     hidePopWhenEmpty?: boolean;
     limitPopInScreen?: boolean;
