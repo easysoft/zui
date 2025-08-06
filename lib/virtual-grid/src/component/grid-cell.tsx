@@ -1,4 +1,4 @@
-import {ComponentChildren} from 'preact';
+import {Attributes, ComponentChildren, h} from 'preact';
 import {CellProps} from '../types';
 
 export function GridCell({
@@ -23,7 +23,7 @@ export function GridCell({
     if (onRender) {
         content = onRender(type, data);
     } else if (Component) {
-        content = <Component {...props} />;
+        content = h(Component, props as Attributes);
     } else {
         content = data as ComponentChildren;
     }
