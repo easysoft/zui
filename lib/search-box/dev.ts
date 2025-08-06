@@ -8,4 +8,5 @@ onPageUpdate(() => {
         placeholder: 'Search...',
         circle: true,
     });
+    console.log('> searchBox', searchBox);
 });
