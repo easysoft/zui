@@ -1,9 +1,5 @@
 import stylistic from '@stylistic/eslint-plugin';
 import typescriptParser from '@typescript-eslint/parser';
-// import airbnbBase from 'eslint-config-airbnb-base';
-// import airbnbTypescript from 'eslint-config-airbnb-typescript';
-// import importPlugin from 'eslint-plugin-import';
-
 import eslint from '@eslint/js';
 import tseslint from 'typescript-eslint';
 
