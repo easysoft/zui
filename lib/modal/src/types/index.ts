@@ -7,3 +7,6 @@ export * from './modal-trigger-options';
 export * from './modal-dialog-options';
 export * from './modal-dialog-state';
 export * from './modal-options';
+export * from './modal-position-setting';
+export * from './modal-size-setting';
+export * from './cash';
