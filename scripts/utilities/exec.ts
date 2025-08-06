@@ -1,6 +1,6 @@
 import {spawn, exec as execute, ExecOptions, SpawnOptionsWithoutStdio} from 'child_process';
 
-export function exec(command: string, args?: ReadonlyArray<string>, options?: SpawnOptionsWithoutStdio): Promise<number | null> {
+export function exec(command: string, args?: readonly string[], options?: SpawnOptionsWithoutStdio): Promise<number | null> {
     return new Promise((resolve) => {
         const spawnObj = spawn(command, args ?? [], {stdio: 'inherit', shell: true, ...options});
         spawnObj.on('close', (code) => {

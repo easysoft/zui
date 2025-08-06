@@ -12,7 +12,6 @@ const markdownIt: MarkdownIt = new MarkdownIt('default', {
         if (langName && hljs.getLanguage(langName)) {
             try {
                 return `<pre class="hljs" data-lang="${langName}"><code>${hljs.highlight(str, {language: langName, ignoreIllegals: true}).value}</code></pre>`;
-            // eslint-disable-next-line no-empty
             } catch (error) {
                 return `<pre data-lang="${langName}"><code class="text-red">${error}</code></pre>`;
             }
