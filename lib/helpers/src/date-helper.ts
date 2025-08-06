@@ -200,7 +200,7 @@ export const formatDate = (date: DateLike, format: string | DateFormatter = 'yyy
  * @param format 格式化参数
  * @returns 时间范围描述文本
  */
-export const formatDateSpan = (date1: DateLike, date2: DateLike, format?: {full?: string; month?: string; day?: string; str?: string;}): string => {
+export const formatDateSpan = (date1: DateLike, date2: DateLike, format?: {full?: string; month?: string; day?: string; str?: string}): string => {
     const finalFormat = {
         full: 'yyyy-M-d', month: 'M-d', day: 'd', str: '{0} ~ {1}', ...format,
     };

@@ -74,17 +74,13 @@ export function formatBytes(size: number, fixed = 2, unit?: keyof typeof BYTE_UN
     if (!unit) {
         if (size < BYTE_UNITS.KB) {
             unit = 'B';
-        }
-        else if (size < BYTE_UNITS.MB) {
+        } else if (size < BYTE_UNITS.MB) {
             unit = 'KB';
-        }
-        else if (size < BYTE_UNITS.GB) {
+        } else if (size < BYTE_UNITS.GB) {
             unit = 'MB';
-        }
-        else if (size < BYTE_UNITS.TB) {
+        } else if (size < BYTE_UNITS.TB) {
             unit = 'GB';
-        }
-        else {
+        } else {
             unit = 'TB';
         }
     }

@@ -23,7 +23,7 @@ export function isLightColor(color: string | RGBColor): boolean {
     return (r * 0.299 + g * 0.587 + b * 0.114) > 186;
 }
 
-export function contrastColor(color: string | RGBColor, options?: {dark: string, light: string}) {
+export function contrastColor(color: string | RGBColor, options?: {dark: string; light: string}) {
     return isLightColor(color) ? (options?.dark ?? '#333333') : (options?.light ?? '#ffffff');
 }
 
