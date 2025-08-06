@@ -29,7 +29,7 @@ export interface CommonListProps<T extends Item = Item> extends HElementProps {
     /**
      * List items, can be an array or a function that returns an array.
      */
-    items?: ItemsSetting<T> | {};
+    items?: ItemsSetting<T> | Record<string, unknown>;
 
     /**
      * Item common properties.
@@ -77,7 +77,7 @@ export interface CommonListProps<T extends Item = Item> extends HElementProps {
      *
      * @param info - The information about the clicked item.
      */
-    onClickItem?: (info: {item: T, index: number, event: MouseEvent, renderedItem: T, relativeTarget?: unknown}) => void;
+    onClickItem?: (info: {item: T; index: number; event: MouseEvent; renderedItem: T; relativeTarget?: unknown}) => void;
 
     /**
      * The relative target for the list.

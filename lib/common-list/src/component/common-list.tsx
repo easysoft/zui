@@ -7,7 +7,7 @@ import type {CommonListProps, Item, ItemKey, ItemType} from '../types';
 /**
  * Generic list component.
  */
-export class CommonList<P extends CommonListProps = CommonListProps, S = {}> extends HElement<P, S> {
+export class CommonList<P extends CommonListProps = CommonListProps, S = unknown> extends HElement<P, S> {
     /**
      * Root element default name, used for class name.
      */
@@ -30,7 +30,7 @@ export class CommonList<P extends CommonListProps = CommonListProps, S = {}> ext
         default: HElement,
         divider: [HElement, {className: 'divider'}],
         space: [HElement, (item) => {
-            const {space, flex, style} = item as {space: JSX.CSSProperties['width'], flex: JSX.CSSProperties['flex'], style: JSX.CSSProperties};
+            const {space, flex, style} = item as {space: JSX.CSSProperties['width']; flex: JSX.CSSProperties['flex']; style: JSX.CSSProperties};
             return {
                 style: {width: space, height: space, flex, ...style},
             };
@@ -99,7 +99,7 @@ export class CommonList<P extends CommonListProps = CommonListProps, S = {}> ext
     }
 
     getRenderedItem(key: ItemKey) {
-        return this._renderedItems.find((item) => item.key === key);
+        return this._renderedItems.find(item => item.key === key);
     }
 
     getItem(key: ItemKey): Item | undefined {
@@ -107,7 +107,7 @@ export class CommonList<P extends CommonListProps = CommonListProps, S = {}> ext
     }
 
     getItemIndex(key: ItemKey) {
-        return this._renderedItems.findIndex((item) => item.key === key);
+        return this._renderedItems.findIndex(item => item.key === key);
     }
 
     getItemByIndex(index: number) {
@@ -192,7 +192,7 @@ export class CommonList<P extends CommonListProps = CommonListProps, S = {}> ext
         const {ItemComponents} = this.constructor;
         let ItemComponent = ItemComponents[type!];
         if (!ItemComponent && item.component) {
-            return <CustomContent key={item.key} z-key={item.key} z-item={index} z-type={type} content={{...item}}/>;
+            return <CustomContent key={item.key} z-key={item.key} z-item={index} z-type={type} content={{...item}} />;
         }
         ItemComponent = ItemComponent || ItemComponents.default || HElement;
         if (Array.isArray(ItemComponent)) {
