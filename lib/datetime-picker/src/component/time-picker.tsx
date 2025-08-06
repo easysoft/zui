@@ -6,6 +6,7 @@ import {TimePickerOptions} from '../types';
 import {TimePickerMenu} from './time-picker-menu';
 import '@zui/css-icons/src/icons/time.css';
 import '@zui/css-icons/src/icons/close.css';
+import {ComponentChildren, RenderableProps} from 'preact';
 
 const parseTime = (value?: string): Date | undefined => {
     if (!value) {
@@ -53,7 +54,7 @@ export class TimePicker extends Pick<PickState, TimePickerOptions> {
         this.setTime('');
     };
 
-    setTime(value: string | {hour?: number, minute?: number}, force?: boolean) {
+    setTime(value: string | {hour?: number; minute?: number}, force?: boolean) {
         if (!force && (this.props.disabled || this.props.readonly)) {
             return;
         }

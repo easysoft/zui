@@ -21,7 +21,7 @@ const getCalendarInfo = (year: number, month: number, weekStart = 0): CalenderIn
     };
 };
 
-const createDateSet = (dates: DateLike | DateLike[], dateFormat: string): Set<string> => new Set((Array.isArray(dates) ? dates : [dates]).map((item) => formatDate(item, dateFormat)));
+const createDateSet = (dates: DateLike | DateLike[], dateFormat: string): Set<string> => new Set((Array.isArray(dates) ? dates : [dates]).map(item => formatDate(item, dateFormat)));
 
 export class MiniCalendar extends Component<MiniCalendarProps> {
     _handleClickDate = (event: MouseEvent) => {

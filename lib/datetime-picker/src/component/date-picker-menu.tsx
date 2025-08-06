@@ -129,56 +129,56 @@ export class DatePickerMenu extends Component<DatePickerMenuProps, DatePickerMen
                         {
                             isSelectDay
                                 ? (
-                                    <div>
-                                        <Button type="ghost" size="sm" square onClick={this.#switchToPrevMonth}><i className="chevron-left"></i></Button>
-                                        <Button type="ghost" size="sm" square onClick={this.#switchToNextMonth}><i className="chevron-right"></i></Button>
-                                    </div>
-                                )
+                                        <div>
+                                            <Button type="ghost" size="sm" square onClick={this.#switchToPrevMonth}><i className="chevron-left"></i></Button>
+                                            <Button type="ghost" size="sm" square onClick={this.#switchToNextMonth}><i className="chevron-right"></i></Button>
+                                        </div>
+                                    )
                                 : null
                         }
                     </div>
                     {
                         isSelectDay
                             ? (
-                                <MiniCalendar
-                                    weekStart={weekStart}
-                                    weekNames={weekNames}
-                                    monthNames={monthNames}
-                                    maxDate={maxDate}
-                                    minDate={minDate}
-                                    year={year}
-                                    month={month}
-                                    selections={currentDate || []}
-                                    onClickDate={this.changeDate}
-                                    isAllowDate={props.isAllowDate}
-                                />
-                            )
+                                    <MiniCalendar
+                                        weekStart={weekStart}
+                                        weekNames={weekNames}
+                                        monthNames={monthNames}
+                                        maxDate={maxDate}
+                                        minDate={minDate}
+                                        year={year}
+                                        month={month}
+                                        selections={currentDate || []}
+                                        onClickDate={this.changeDate}
+                                        isAllowDate={props.isAllowDate}
+                                    />
+                                )
                             : null
                     }
                     {
                         select === 'year'
                             ? (
-                                <ValueSelector
-                                    className="date-pick-menu-years overflow-y-auto scrollbar-hover scrollbar-thin"
-                                    value={year}
-                                    min={minDate.getFullYear()}
-                                    max={maxDate.getFullYear()}
-                                    onChange={this.#changeYear}
-                                />
-                            )
+                                    <ValueSelector
+                                        className="date-pick-menu-years overflow-y-auto scrollbar-hover scrollbar-thin"
+                                        value={year}
+                                        min={minDate.getFullYear()}
+                                        max={maxDate.getFullYear()}
+                                        onChange={this.#changeYear}
+                                    />
+                                )
                             : (
-                                select === 'month'
-                                    ? (
-                                        <ValueSelector
-                                            className="date-pick-menu-month overflow-y-auto scrollbar-hover scrollbar-thin"
-                                            value={month}
-                                            min={1}
-                                            max={12}
-                                            onChange={this.#changeMonth}
-                                        />
-                                    )
-                                    : null
-                            )
+                                    select === 'month'
+                                        ? (
+                                                <ValueSelector
+                                                    className="date-pick-menu-month overflow-y-auto scrollbar-hover scrollbar-thin"
+                                                    value={month}
+                                                    min={1}
+                                                    max={12}
+                                                    onChange={this.#changeMonth}
+                                                />
+                                            )
+                                        : null
+                                )
                     }
                     {isSelectDay ? this.#renderFooter(props) : null}
                 </div>
