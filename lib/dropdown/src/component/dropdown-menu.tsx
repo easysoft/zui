@@ -29,7 +29,7 @@ export class DropdownMenu<T extends DropdownMenuOptions = DropdownMenuOptions> e
 
     protected declare _searchFocused: boolean;
 
-    protected declare _position: {left: number, top: number, width: number, height: number};
+    protected declare _position: {left: number; top: number; width: number; height: number};
 
     get isHoverTrigger(): boolean {
         const {nestedTrigger, tree} = this.props;
@@ -70,7 +70,7 @@ export class DropdownMenu<T extends DropdownMenuOptions = DropdownMenuOptions> e
                     apply({availableWidth, availableHeight}) {
                         if (maxHeight) {
                             const [maxHeightVal, unit] = parseSize(maxHeight);
-                            maxHeight = Math.min(unit === '%' ? (maxHeightVal *  window.innerHeight) : maxHeightVal, availableHeight - 2);
+                            maxHeight = Math.min(unit === '%' ? (maxHeightVal * window.innerHeight) : maxHeightVal, availableHeight - 2);
                         } else {
                             maxHeight = availableHeight;
                         }
