@@ -17,7 +17,7 @@ export class Sortable extends Component<SortableOptions> {
         const {options} = this;
         if (options.dragShadow !== undefined && options.dragShadow !== true) {
             const {dragShadow, onEnd, setData} = options;
-            options.setData = ((dataTransfer, dragEl) => {
+            options.setData = (dataTransfer, dragEl) => {
                 if (dragShadow === false && !this._emptyShadow) {
                     this._emptyShadow = dragEl.cloneNode(true) as HTMLElement;
                     this._emptyShadow.classList.add('sortable-empty-shadow');
@@ -25,7 +25,7 @@ export class Sortable extends Component<SortableOptions> {
                 }
                 dataTransfer.setDragImage(dragShadow === false ? this._emptyShadow! : dragShadow, 0, 0);
                 setData?.(dataTransfer, dragEl);
-            });
+            };
             options.onEnd = (event) => {
                 onEnd?.(event);
                 this._emptyShadow?.remove();
@@ -64,7 +64,7 @@ export class Sortable extends Component<SortableOptions> {
      * @param order an array of strings to sort.
      * @param useAnimation default: false.
      */
-    sort(order: ReadonlyArray<string>, useAnimation?: boolean): void {
+    sort(order: readonly string[], useAnimation?: boolean): void {
         this.module.sort(order, useAnimation);
     }
 
