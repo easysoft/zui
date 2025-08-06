@@ -21,24 +21,24 @@ export type ModalOptions = ModalBaseOptions & {
 };
 
 export interface ModalCustomOptions extends ModalOptions {
-    type: 'custom',
+    type: 'custom';
     closeBtn?: boolean;
     content?: CustomContentType;
     custom: ModalDialogOptions | (() => ModalDialogOptions);
 }
 
 export interface ModalAjaxOptions extends ModalOptions {
-    type: 'ajax',
+    type: 'ajax';
     url: string;
     request?: RequestInit;
-    dataType?: 'json' | 'html' | 'text',
+    dataType?: 'json' | 'html' | 'text';
     replace?: boolean;
     custom?: Partial<ModalDialogOptions>;
     executeScript?: boolean;
 }
 
 export interface ModalIframeOptions extends ModalOptions {
-    type: 'iframe',
+    type: 'iframe';
     url: string;
     custom?: Partial<ModalDialogOptions>;
 }

@@ -1,6 +1,6 @@
 export type ModalEvents = {
-    show: [],
-    shown: [],
-    hide: [],
-    hidden: [],
+    show: [];
+    shown: [];
+    hide: [];
+    hidden: [];
 };
