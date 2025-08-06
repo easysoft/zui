@@ -13,9 +13,9 @@ onPageUpdate(() => {
     const fileSelector1 = new FileSelector('#fileSelectorExample1', {
         name: 'file',
         defaultFiles: [
-            {name: 'file1.txt', size: 1024, id: 1},
-            {name: 'file2.txt', size: 2048, id: 2},
-            {name: 'file3.txt', size: 4096, id: 3},
+            {name: 'file1.txt', size: 1024, id: '1'},
+            {name: 'file2.txt', size: 2048, id: '2'},
+            {name: 'file3.txt', size: 4096, id: '3'},
         ],
         deleteName: 'deleteFiles',
         renameName: 'renameFiles',

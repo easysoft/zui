@@ -130,8 +130,8 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
             return;
         }
         this._skipAddMore = false;
-        for (let i = 0; i < files.length; i++) {
-            await this.addFile(files[i]);
+        for (const file of files) {
+            await this.addFile(file);
             if (this._skipAddMore) {
                 break;
             }
@@ -270,7 +270,7 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
         this._data.items.add(file);
         this._syncFiles(true);
 
-        await this.changeState((prevState) => ({files: [...prevState.files, fileInfo]} as S));
+        await this.changeState(prevState => ({files: [...prevState.files, fileInfo]} as S));
 
         return true;
     }
@@ -474,13 +474,13 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
         const draggableProps = isGrid ? {} : this._getDraggableProps();
         if (isGrid || mode === 'box') {
             return (
-                <Button key="upload" {...btnProps} {...draggableProps} className={classes(isGrid ? 'file-selector-grid-btn' : 'file-selector-box', btnProps.className)}>
+                <Button key="upload" {...btnProps} {...(draggableProps as ButtonProps)} className={classes(isGrid ? 'file-selector-grid-btn' : 'file-selector-box', btnProps.className)}>
                     {tipView}
                 </Button>
             );
         }
         return (
-            <div key="upload" className="file-selector-btn" {...draggableProps}>
+            <div key="upload" className="file-selector-btn" {...(draggableProps as JSX.DOMAttributes<HTMLElement>)}>
                 <Button rounded="full" size="sm" {...btnProps} />
                 {tipView}
             </div>
@@ -651,7 +651,6 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
         }
     };
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     protected _renderList(_props: RenderableProps<P>) {
         const {files, renaming} = this.state;
         return (
@@ -727,7 +726,7 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
             return true;
         }
         const acceptTypes = Array.isArray(accept) ? accept : accept.split(',');
-        return acceptTypes.some(acceptType => {
+        return acceptTypes.some((acceptType) => {
             if (file.type && acceptType === file.type) {
                 return true;
             }
@@ -753,7 +752,7 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
             files = Array.from(files);
         }
         const acceptTypes = accept.split(',');
-        return files.filter(file => {
+        return files.filter((file) => {
             return this.isAccept(file, acceptTypes);
         });
     }
