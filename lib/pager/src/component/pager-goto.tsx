@@ -15,11 +15,11 @@ export function PagerGoto({
     onChange,
     linkCreator,
     ...btnProps
-}: PagerGotoProps & {pagerInfo: PagerInfo, linkCreator: PageLinkCreator}) {
+}: PagerGotoProps & {pagerInfo: PagerInfo; linkCreator: PageLinkCreator}) {
     const newBtnProps = {...btnProps};
     let inputValue: number;
     const getValue = (e: Event) => {
-        inputValue = Number(e.target?.value) || 1;
+        inputValue = Number((e.target as HTMLInputElement)?.value) || 1;
         inputValue = inputValue > pagerInfo.pageTotal ? pagerInfo.pageTotal : inputValue;
     };
 
@@ -27,20 +27,20 @@ export function PagerGoto({
         if (!event?.target) {
             return;
         }
-        inputValue = inputValue <= pagerInfo.pageTotal ? inputValue :  pagerInfo.pageTotal;
+        inputValue = inputValue <= pagerInfo.pageTotal ? inputValue : pagerInfo.pageTotal;
         const info = updatePagerInfo(pagerInfo, inputValue);
         if (onChange && !onChange({info, event})) {
             return;
         }
-        event.target.href = newBtnProps.url = typeof linkCreator === 'function' ? linkCreator(info)  : formatString(linkCreator, info);
+        (event.target as HTMLAnchorElement).href = newBtnProps.url = typeof linkCreator === 'function' ? linkCreator(info) : formatString(linkCreator, info);
     };
     const renderInfo = updatePagerInfo(pagerInfo, page || 0);
-    newBtnProps.url = typeof linkCreator === 'function' ? linkCreator(renderInfo)  : formatString(linkCreator, renderInfo);
+    newBtnProps.url = typeof linkCreator === 'function' ? linkCreator(renderInfo) : formatString(linkCreator, renderInfo);
 
     return (
         <div className={classes('input-group', 'pager-goto-group', size ? `size-${size}` : '')}>
-            <input type="number" class="form-control" max={pagerInfo.pageTotal} min="1" onInput={getValue}  />
-            <Button type={type} {...newBtnProps} onClick={onUpdatePage}/>
+            <input type="number" class="form-control" max={pagerInfo.pageTotal} min="1" onInput={getValue} />
+            <Button type={type} {...newBtnProps} onClick={onUpdatePage} />
         </div>
     );
 }
