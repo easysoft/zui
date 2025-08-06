@@ -12,13 +12,16 @@ export class ProgressBar extends Component<ProgressBarOptions> {
     render(props: ProgressBarOptions) {
         const {percent = 50, color, background = null, height, width, children, className, style} = props;
         return (
-            <div class={classes('progress', className)} style={{
-                width,
-                height,
-                '--progress-bg': background,
-                '--progress-bar-color': color,
-                ...style,
-            }}>
+            <div
+                class={classes('progress', className)}
+                style={{
+                    width,
+                    height,
+                    '--progress-bg': background,
+                    '--progress-bar-color': color,
+                    ...style,
+                }}
+            >
                 <div class="progress-bar" style={{width: `${percent}%`}}>
                 </div>
                 {children}
