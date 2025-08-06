@@ -6,7 +6,7 @@ const NAV_ITEM_SELECTOR = '[data-toggle="tab"],[zui-toggle="tab"]';
 
 const ACTIVE_CLASS = 'active';
 
-export class Tabs extends Component<{}, {show: [target: string], shown: [target: string]}> {
+export class Tabs extends Component<object, {show: [target: string]; shown: [target: string]}> {
     static NAME = 'Tabs';
 
     _timer = 0;
@@ -61,7 +61,7 @@ Tabs.toggle = {
         const $target = $(element);
         const $nav = $target.closest(`.${NAV_CLASS}`);
         if ($nav.length) {
-            Tabs.ensure($nav, options as {}).active($target);
+            Tabs.ensure($nav, options).active($target);
         }
     },
 };
