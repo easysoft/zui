@@ -241,7 +241,7 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
             }, loadTimeout);
         }
 
-        const result = await build.call(this, modalElement, options);
+        const result = await build.call(this as Modal, modalElement, options);
         if (this._destroyed) {
             return false;
         }
@@ -267,11 +267,11 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
         return true;
     }
 
-    static isValid(modal: Modal) {
+    static isValid2(modal: Modal) {
         return !$.isDetached(modal.modalElement);
     }
 
-    static open(options: ModalTypedOptions & {container?: string | HTMLElement, ref?: RefObject<Modal>}): Promise<Modal> {
+    static open(options: ModalTypedOptions & {container?: string | HTMLElement; ref?: RefObject<Modal>}): Promise<Modal> {
         return new Promise((resolve) => {
             const {container = document.body, ref, ...others} = options;
             const modalOptions = {show: true, ...others} as ModalOptions;
@@ -408,8 +408,8 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
             content: (
                 <div className={classes('modal-body', bodyClass as string)}>
                     <CustomContent content={message} />
-                    {multiline ? <textarea className="modal-prompt-input form-control mt-3" autoFocus placeholder={placeholder} defaultValue={defaultValue} onChange={onChange} onKeyDown={onKeyDown} rows={10} /> :
-                        <input type="text" className="modal-prompt-input form-control mt-3" autoFocus placeholder={placeholder} defaultValue={defaultValue} onChange={onChange} onKeyDown={onKeyDown} />}
+                    {multiline ? <textarea className="modal-prompt-input form-control mt-3" autoFocus placeholder={placeholder} defaultValue={defaultValue} onChange={onChange} onKeyDown={onKeyDown} rows={10} />
+                        : <input type="text" className="modal-prompt-input form-control mt-3" autoFocus placeholder={placeholder} defaultValue={defaultValue} onChange={onChange} onKeyDown={onKeyDown} />}
                     {content}
                 </div>
             ),
