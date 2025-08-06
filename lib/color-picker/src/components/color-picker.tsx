@@ -62,7 +62,7 @@ export class ColorPicker extends Pick<PickState, ColorPickerOptions> {
         if (this.props.disabled) {
             return;
         }
-        super._handleChange(value, prevValue);
+        super._handleChange(value || '', prevValue || '');
         this.syncColor();
     }
 
@@ -89,15 +89,17 @@ export class ColorPicker extends Pick<PickState, ColorPickerOptions> {
         const {value} = state;
         let headingView: ComponentChildren;
         if (heading) {
-            headingView = (<div key="heading" className="color-picker-heading">
-                {heading}
-                {closeBtn ? <button className="btn ghost square rounded size-sm" data-dismiss="pick"><span class="close"></span></button> : null}
-            </div>);
+            headingView = (
+                <div key="heading" className="color-picker-heading">
+                    {heading}
+                    {closeBtn ? <button className="btn ghost square rounded size-sm" data-dismiss="pick"><span class="close"></span></button> : null}
+                </div>
+            );
         }
         return [
             headingView,
             <div key="row" className="color-picker-row">
-                {colors.map((color) => (<button key={color} className="btn color-picker-item" style={{backgroundColor: color}} data-pick-value={color}>{value === color ? <Icon icon="check" /> : null}</button>))}
+                {colors.map(color => (<button key={color} className="btn color-picker-item" style={{backgroundColor: color}} data-pick-value={color}>{value === color ? <Icon icon="check" /> : null}</button>))}
                 <button className="btn color-picker-item" data-pick-value=""><Icon className="text-fore" icon="trash" /></button>
             </div>,
         ];
