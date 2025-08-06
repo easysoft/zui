@@ -24,7 +24,7 @@ export class Store {
      * @param id   Store profile ID.
      * @param type Store type.
      */
-    constructor(id: string = '', type: StoreType = 'local') {
+    constructor(id = '', type: StoreType = 'local') {
         this._type = type;
         this._id = id;
         this._name = `ZUI_STORE:${this._id}`;
