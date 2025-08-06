@@ -9,7 +9,7 @@ import type {CheckedType} from '@zui/checkbox';
 import type {ListProps, ListState, ListItemsSetting, ListItemsFetcher} from '../types';
 
 export class List<P extends ListProps = ListProps, S extends ListState = ListState> extends CommonList<P, S> {
-    static ItemComponents: typeof CommonList.ItemComponents  = {
+    static ItemComponents: typeof CommonList.ItemComponents = {
         ...CommonList.ItemComponents,
         default: HElement,
         item: Listitem,
@@ -197,7 +197,7 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
             return;
         }
         active = active ?? !this.isActive(keys[0]);
-        await this.changeState(prevState => {
+        await this.changeState((prevState) => {
             const activeMap = this.props.multipleActive ? (keys as string[]).reduce<Record<string, boolean>>((map, key) => {
                 map[key] = active!;
                 return map;
@@ -210,7 +210,7 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
 
     getNextItem(key: string | undefined, condition?: (item: Item, index: number) => boolean, step = 1, items: Item[] | undefined = undefined): Item | undefined {
         items = items || this._renderedItems;
-        condition = condition || ((x) => x.type === 'item' && !x.disabled);
+        condition = condition || (x => x.type === 'item' && !x.disabled);
         const count = items.length;
         let index = key === undefined ? count - 1 : items.findIndex(x => x.key === key);
         let checkCount = 0;
@@ -243,7 +243,7 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
         this.props.afterRender?.call(this, firstRender);
     }
 
-    protected _beforeRender(props: RenderableProps<P>): void | RenderableProps<P> | undefined {
+    protected _beforeRender(props: RenderableProps<P>) {
         return this.props.beforeRender?.call(this, props);
     }
 
@@ -253,7 +253,6 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
         return stateItems || (Array.isArray(items) ? items : []);
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     protected _getRenderedItem(props: RenderableProps<P>, renderedItem: Item, index: number): Item {
         const {divider, multiline} = props;
         renderedItem = mergeProps({}, removeUndefinedProps({

@@ -13,7 +13,7 @@ export interface NestedListProps<T extends NestedItem = NestedListItem> extends 
     accordion?: boolean;
     nestedShow?: boolean | Record<ItemKey, boolean>;
     defaultNestedShow?: boolean | Record<ItemKey, boolean>;
-    toggleIcons?: {collapsed?: IconType, expanded?: IconType, normal?: IconType};
+    toggleIcons?: {collapsed?: IconType; expanded?: IconType; normal?: IconType};
     nestedToggle?: string;
     renderCollapsedList?: boolean;
     checkedState?: Record<ItemKey, boolean>;

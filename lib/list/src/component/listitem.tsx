@@ -7,7 +7,7 @@ import {Checkbox} from '@zui/checkbox/src/component';
 import type {ComponentChild, ComponentChildren, ComponentType, JSX, RenderableProps} from 'preact';
 import type {ListitemProps} from '../types';
 
-export class Listitem<P extends ListitemProps = ListitemProps, S = {}> extends HElement<P, S> {
+export class Listitem<P extends ListitemProps = ListitemProps, S = unknown> extends HElement<P, S> {
     protected _renderLeading(props: RenderableProps<P>): ComponentChild[] {
         const {
             icon,
@@ -101,7 +101,10 @@ export class Listitem<P extends ListitemProps = ListitemProps, S = {}> extends H
         }
         if (multiline) {
             return contents.length ? [
-                <div key="trailing" className={classes('item-trailing', trailingClass)}>{contents}{customTrailing}</div>,
+                <div key="trailing" className={classes('item-trailing', trailingClass)}>
+                    {contents}
+                    {customTrailing}
+                </div>,
             ] : [];
         }
         return contents;
@@ -152,10 +155,11 @@ export class Listitem<P extends ListitemProps = ListitemProps, S = {}> extends H
         );
     }
 
-    protected _onRender(component: ComponentType | keyof JSX.IntrinsicElements, componentProps: Record<string, unknown>, children: ComponentChildren, _props: RenderableProps<P>): void | [component: ComponentType | keyof JSX.IntrinsicElements, componentProps: Record<string, unknown>, children: ComponentChildren] {
+    protected _onRender(component: ComponentType | keyof JSX.IntrinsicElements, componentProps: Record<string, unknown>, children: ComponentChildren, _props: RenderableProps<P>): undefined | [component: ComponentType | keyof JSX.IntrinsicElements, componentProps: Record<string, unknown>, children: ComponentChildren] {
         const innerAttrs = Object.keys(componentProps).reduce<Record<string, unknown>>((attrs, key) => {
             if (key.startsWith('data-')) {
                 attrs[key] = componentProps[key];
+                // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
                 delete componentProps[key];
             }
             return attrs;
