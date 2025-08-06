@@ -16,9 +16,9 @@ function getLibByPath(path: string, libsCache: Record<string, LibInfo>): LibInfo
     const nodeModulesIndex = path.indexOf(nodeModulesFlag);
     if (nodeModulesIndex > -1) {
         const nodeModulePath = path.substring(nodeModulesIndex + nodeModulesFlag.length);
-        return Object.values(libsCache).find((x) => nodeModulePath.startsWith(`${x.name}${Path.sep}`));
+        return Object.values(libsCache).find(x => nodeModulePath.startsWith(`${x.name}${Path.sep}`));
     }
-    return Object.values(libsCache).find((x) => path.startsWith(`${x.zui.path}${Path.sep}`));
+    return Object.values(libsCache).find(x => path.startsWith(`${x.zui.path}${Path.sep}`));
 }
 
 export default defineConfig(async ({mode}) => {
@@ -81,7 +81,7 @@ export default defineConfig(async ({mode}) => {
                     }
                     return Path.join(lib.zui.path, source);
                 }},
-                ...Object.values(libsCache).reduce<{find: string, replacement: string}[]>((aliasList, info) => {
+                ...Object.values(libsCache).reduce<{find: string; replacement: string}[]>((aliasList, info) => {
                     if (info.zui.sourceType === 'exts') {
                         aliasList.push({find: info.name, replacement: info.zui.path});
                         if (info.zui.replace) {
@@ -100,7 +100,7 @@ export default defineConfig(async ({mode}) => {
             __APP_VERSION__: JSON.stringify(packageJson.version),
         },
         experimental: {
-            renderBuiltUrl(filename: string, {type}: {hostId: string, hostType: 'js' | 'css' | 'html', type: 'public' | 'asset'}) {
+            renderBuiltUrl(filename: string, {type}: {hostId: string; hostType: 'js' | 'css' | 'html'; type: 'public' | 'asset'}) {
                 if (type === 'public') {
                     return `./${filename}`;
                 }
