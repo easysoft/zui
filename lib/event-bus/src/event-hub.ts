@@ -1,6 +1,6 @@
 import {EventBus, CustomEventMap, CustomEventListener, nativeEvents} from './event-bus';
 
-export class EventHub<E extends CustomEventMap = {}, TYPES extends string = Extract<keyof E, string>> extends EventBus<E, TYPES> {
+export class EventHub<E extends CustomEventMap = CustomEventMap, TYPES extends string = Extract<keyof E, string>> extends EventBus<E, TYPES> {
     #handlers = new Map<CustomEventListener, [type: TYPES, options?: AddEventListenerOptions]>();
 
     #suffix?: string;
