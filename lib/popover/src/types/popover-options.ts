@@ -5,14 +5,14 @@ import type {PopoverPanelOptions} from './popover-panel-options';
 export type PopoverSide = 'top' | 'right' | 'bottom' | 'left';
 
 export type PopoverLayoutInfo = {
-    popSide: PopoverSide,
-    arrowSide: PopoverSide,
-    x: number,
-    y: number,
-    placement: Placement,
-    strategy: Strategy,
-    trigger: HTMLElement | VirtualElement,
-    target: HTMLElement,
+    popSide: PopoverSide;
+    arrowSide: PopoverSide;
+    x: number;
+    y: number;
+    placement: Placement;
+    strategy: Strategy;
+    trigger: HTMLElement | VirtualElement;
+    target: HTMLElement;
 };
 
 export type PopoverOptions = Omit<PopoverPanelOptions, 'arrow' | 'arrowStyle' | 'onlyInner'> & {

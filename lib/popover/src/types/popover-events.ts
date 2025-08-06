@@ -1,6 +1,6 @@
 export type PopoverEvents = {
-    show: [],
-    shown: [],
-    hide: [],
-    hidden: [],
+    show: [];
+    shown: [];
+    hide: [];
+    hidden: [];
 };

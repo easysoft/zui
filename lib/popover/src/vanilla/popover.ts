@@ -14,7 +14,7 @@ export type PopoverShowOptions = {
     hideOthers?: boolean;
 };
 
-export class Popover<O extends PopoverOptions = PopoverOptions, E extends ComponentEvents = {}> extends Component<O, [PopoverEvents, E], HTMLElement> {
+export class Popover<O extends PopoverOptions = PopoverOptions, E extends ComponentEvents = ComponentEvents> extends Component<O, [PopoverEvents, E], HTMLElement> {
     static NAME = 'Popover';
 
     static Z_INDEX = 1700;
@@ -445,13 +445,13 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
     handleClickOutside(event: MouseEvent): void | boolean {
         if (this.options.mask) {
             const triggerElement = this._triggerElement;
-            if (!(triggerElement instanceof HTMLElement && $(event.target as  HTMLElement).closest(triggerElement).length)) {
+            if (!(triggerElement instanceof HTMLElement && $(event.target as HTMLElement).closest(triggerElement).length)) {
                 this.hide();
             }
         }
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
     handleClickTarget(_event: MouseEvent): void | boolean {
     }
 
