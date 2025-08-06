@@ -6,7 +6,7 @@ import {List} from '@zui/list/src/component';
 import type {ComponentChildren, RenderableProps} from 'preact';
 import type {CardProps} from '../types';
 
-export class Card<P extends CardProps = CardProps, S = {}> extends HElement<P, S> {
+export class Card<P extends CardProps = CardProps, S = object> extends HElement<P, S> {
     protected _renderContent(props: RenderableProps<P>): ComponentChildren {
         const {
             subtitle,
@@ -71,10 +71,12 @@ export class Card<P extends CardProps = CardProps, S = {}> extends HElement<P, S
             footActions,
         } = props;
         if (footer || footActions) {
-            return (<div className={classes('card-footer', footerClass)}>
-                <CustomContent key="footer" content={footer} />
-                {Toolbar.render(footActions, [props], {key: 'foot-actions', relativeTarget: props, className: 'card-foot-actions', size: 'sm'}, this)}
-            </div>);
+            return (
+                <div className={classes('card-footer', footerClass)}>
+                    <CustomContent key="footer" content={footer} />
+                    {Toolbar.render(footActions, [props], {key: 'foot-actions', relativeTarget: props, className: 'card-foot-actions', size: 'sm'}, this)}
+                </div>
+            );
         }
     }
 
