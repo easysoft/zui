@@ -5,7 +5,7 @@ import {isElementDetached, isVisible} from '@zui/core/src/dom';
 
 import type {PickState, PickPopProps} from '../types';
 
-export class PickPop<S extends PickState = PickState, P extends PickPopProps<S> = PickPopProps<S>, STATE = {}> extends Component<P, STATE> {
+export class PickPop<S extends PickState = PickState, P extends PickPopProps<S> = PickPopProps<S>, STATE = object> extends Component<P, STATE> {
     _ref: RefObject<HTMLDivElement> | undefined = createRef<HTMLDivElement>();
 
     _layoutWatcher?: () => void;

@@ -10,7 +10,7 @@ export interface PickTriggerProps<S extends PickState = PickState> {
     empty?: boolean;
     changeState: PickerStateChanger<S>;
     togglePop: (open?: boolean, state?: Partial<S>) => Promise<S>;
-    onClick?: (event: MouseEvent) => void | boolean;
+    onClick?: (event: MouseEvent) => undefined | boolean;
     clickType?: 'toggle' | 'open';
 
     name?: string;

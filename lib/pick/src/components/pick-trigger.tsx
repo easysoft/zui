@@ -4,7 +4,7 @@ import type {PickState, PickTriggerProps} from '../types';
 
 export const EVENT_PICK = Symbol('EVENT_PICK');
 
-export class PickTrigger<S extends PickState = PickState, P extends PickTriggerProps<S> = PickTriggerProps<S>, STATE = {}> extends Component<P, STATE> {
+export class PickTrigger<S extends PickState = PickState, P extends PickTriggerProps<S> = PickTriggerProps<S>, STATE = object> extends Component<P, STATE> {
     _hasInput: boolean;
 
     _skipTriggerChange?: string | false;
