@@ -44,10 +44,10 @@ const datetimePicker = new zui.DatetimePicker('#datetimePicker');
 <div id="datetimePicker2"></div>
 
 <script>
-const datetimePicker1 = new zui.datetimePicker('#datetimePicker1', {
+const datetimePicker1 = new zui.DatetimePicker('#datetimePicker1', {
     defaultValue: '2023-06-12'
 });
-const datetimePicker2 = new zui.datetimePicker('#datetimePicker2', {
+const datetimePicker2 = new zui.DatetimePicker('#datetimePicker2', {
     defaultValue: 'today'
 });
 </script>
@@ -73,7 +73,7 @@ const datetimePicker2 = new zui.datetimePicker('#datetimePicker2', {
 <div id="datetimePicker"></div>
 
 <script>
-const datetimePicker = new zui.datetimePicker('#datetimePicker', {
+const datetimePicker = new zui.DatetimePicker('#datetimePicker', {
     format: 'yyyy/M/d HH:mm',
 });
 </script>
@@ -99,7 +99,7 @@ const datetimePicker = new zui.datetimePicker('#datetimePicker', {
 <div id="datetimePicker"></div>
 
 <script>
-const datetimePicker = new zui.datetimePicker('#datetimePicker', {
+const datetimePicker = new zui.DatetimePicker('#datetimePicker', {
     minDate: "{{new Date(minDate).toLocaleString()}}",
     maxDate: "{{new Date(maxDate).toLocaleString()}}",
 });
@@ -131,7 +131,7 @@ const datetimePicker = new zui.datetimePicker('#datetimePicker', {
 
 <script>
 const today = new Date();
-const datetimePicker = new zui.datetimePicker('#datetimePicker', {
+const datetimePicker = new zui.DatetimePicker('#datetimePicker', {
     menu: [
         {text: '一周之后', 'data-set-date': zui.addDate(today, 1, 'week').getTime()},
         {text: '一个月之后', 'data-set-date': zui.addDate(today, 1, 'month').getTime()},
@@ -163,7 +163,7 @@ const datetimePicker = new zui.datetimePicker('#datetimePicker', {
 
 <script>
 const today = new Date();
-const datetimePicker = new zui.datetimePicker('#datetimePicker', {
+const datetimePicker = new zui.DatetimePicker('#datetimePicker', {
     actions: [
         {text: '一周', 'data-set-date': zui.addDate(today, 1, 'week').getTime()},
         {text: '一个月', 'data-set-date': zui.addDate(today, 1, 'month').getTime()},
