@@ -19,21 +19,30 @@ function getAnimationFromPlacement(placement?: MessagerPlacement): string {
 
 export class MessagerItem extends ReactComponent<MessagerItemOptions> {
     render(props: MessagerItemOptions) {
-        const {margin,
+        const {
+            margin,
             type,
             placement,
             animation,
             show,
             className,
+            message,
+            html,
+            content,
             time,
-            ...alertOptions} = props;
-        if (typeof alertOptions.html === 'string') {
-            alertOptions.content = {html: alertOptions.html};
-            delete alertOptions.html;
+            ...alertOptions
+        } = props;
+        const contents = content ? [content] : [];
+        if (typeof html === 'string') {
+            contents.push({html});
+        }
+        if (message) {
+            contents.push(message);
         }
         return (
             <Alert
                 className={classes('messager', className, type, animation === true ? getAnimationFromPlacement(placement) : animation, show ? 'in' : '')}
+                content={contents}
                 {...alertOptions}
             />
         );
