@@ -3,31 +3,46 @@ export type DebounceOptions = {
     immediate?: boolean;
 };
 
+/**
+ * Creates a debounced function that delays invoking func until after delay milliseconds
+ * have elapsed since the last time the debounced function was invoked.
+ *
+ * @param func - The function to debounce
+ * @param optionsOrDelay - The delay in milliseconds or options object
+ * @returns The debounced function
+ */
 export function debounce<T extends (...args: unknown[]) => unknown>(func: T, optionsOrDelay?: DebounceOptions | number): T {
     const options = typeof optionsOrDelay === 'number' ? {delay: optionsOrDelay} : optionsOrDelay;
     const {delay = 0, immediate = false} = options ?? {};
 
     let timer: number | null = null;
-    let result: unknown;
 
     const debounced = function (this: ThisType<T>, ...args: Parameters<T>) {
+        const callNow = immediate && !timer;
+
         if (timer) {
             clearTimeout(timer);
         }
 
-        if (immediate) {
-            if (timer) {
-                timer = window.setTimeout(() => timer = null, delay);
-            } else {
-                result = func.apply(this, args);
-                return result;
+        timer = window.setTimeout(() => {
+            timer = null;
+            if (!immediate) {
+                func.apply(this, args);
             }
-        } else {
-            timer = window.setTimeout(() => func.apply(this, args), delay);
-        }
+        }, delay);
 
-        return result as ReturnType<T>;
+        if (callNow) {
+            return func.apply(this, args);
+        }
+    } as T;
+
+    // Add cancel method to allow manual cancellation
+    (debounced as T & {cancel: () => void}).cancel = function () {
+        if (timer) {
+            clearTimeout(timer);
+            timer = null;
+        }
     };
 
-    return debounced as T;
+    return debounced;
 }
