@@ -72,7 +72,7 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
     }
 
     changeState(state: Partial<S> | ((prevState: Readonly<S>) => Partial<S>), callback?: () => void): Promise<S> {
-        return new Promise<S>(resolve => {
+        return new Promise<S>((resolve) => {
             this.setState(state, () => {
                 callback?.();
                 resolve(this.state);
@@ -97,7 +97,7 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
             this._toggleTimer = 0;
         }
 
-        let newState = await this.changeState(prevState => {
+        let newState = await this.changeState((prevState) => {
             open = open ?? !prevState.open;
 
             return {
@@ -179,12 +179,10 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
         };
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     protected _renderTrigger(_props: RenderableProps<O>, _state: Readonly<S>): ComponentChildren {
         return null;
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     protected _renderPop(_props: RenderableProps<O>, _state: Readonly<S>): ComponentChildren {
         return null;
     }
@@ -296,15 +294,17 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
         let popView: ComponentChildren;
         if (opened && (!props.hidePopWhenEmpty || !this._isEmptyValue())) {
             const Pop = this._getPop(props);
-            popView = (<Pop key="pop" ref={this._pop} {...this._getPopProps(props, state)}>
-                {this._renderPop(props, state)}
-            </Pop>);
+            popView = (
+                <Pop key="pop" ref={this._pop} {...this._getPopProps(props, state)}>
+                    {this._renderPop(props, state)}
+                </Pop>
+            );
         }
-        return (<>
+        return [
             <Trigger key="pick" {...this._getTriggerProps(props, state)}>
                 {this._renderTrigger(props, state)}
-            </Trigger>
-            {popView}
-        </>);
+            </Trigger>,
+            popView,
+        ];
     }
 }
