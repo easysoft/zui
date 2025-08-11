@@ -2,6 +2,7 @@ import stylistic from '@stylistic/eslint-plugin';
 import typescriptParser from '@typescript-eslint/parser';
 import eslint from '@eslint/js';
 import tseslint from 'typescript-eslint';
+import {globalIgnores} from 'eslint/config';
 
 export default tseslint.config(
     eslint.configs.recommended,
@@ -53,11 +54,11 @@ export default tseslint.config(
                 },
             ],
         },
-        ignores: [
-            './build/**/*',
-            './dist/**/*',
-            './lib/*/public/**/*',
-            './exts/*/*/public/**/*',
-        ],
     },
+    globalIgnores([
+        './build/**/*',
+        './dist/**/*',
+        './lib/*/public/**/*',
+        './exts/*/*/public/**/*',
+    ]),
 );
