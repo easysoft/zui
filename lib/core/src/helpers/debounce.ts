@@ -3,15 +3,19 @@ export type DebounceOptions = {
     immediate?: boolean;
 };
 
+export type DebouncedFunction<T extends (...args: unknown[]) => unknown> = T & {
+    cancel: () => void;
+};
+
 /**
  * Creates a debounced function that delays invoking func until after delay milliseconds
  * have elapsed since the last time the debounced function was invoked.
  *
  * @param func - The function to debounce
  * @param optionsOrDelay - The delay in milliseconds or options object
- * @returns The debounced function
+ * @returns The debounced function with a cancel method
  */
-export function debounce<T extends (...args: unknown[]) => unknown>(func: T, optionsOrDelay?: DebounceOptions | number): T {
+export function debounce<T extends (...args: unknown[]) => unknown>(func: T, optionsOrDelay?: DebounceOptions | number): DebouncedFunction<T> {
     const options = typeof optionsOrDelay === 'number' ? {delay: optionsOrDelay} : optionsOrDelay;
     const {delay = 0, immediate = false} = options ?? {};
 
@@ -34,10 +38,10 @@ export function debounce<T extends (...args: unknown[]) => unknown>(func: T, opt
         if (callNow) {
             return func.apply(this, args);
         }
-    } as T;
+    } as DebouncedFunction<T>;
 
     // Add cancel method to allow manual cancellation
-    (debounced as T & {cancel: () => void}).cancel = function () {
+    debounced.cancel = function () {
         if (timer) {
             clearTimeout(timer);
             timer = null;
