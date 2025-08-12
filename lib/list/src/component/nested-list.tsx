@@ -4,7 +4,7 @@ import {List} from './list';
 import '@zui/css-icons/src/icons/caret.css';
 
 import type {ComponentChild, ComponentChildren, RenderableProps} from 'preact';
-import type {ClassNameLike} from '@zui/core';
+import type {ClassNameLike, IconType} from '@zui/core';
 import type {Item, ItemKey} from '@zui/common-list';
 import type {CheckedType} from '@zui/checkbox';
 import type {ListItemsSetting, NestedItem, NestedListProps, NestedListState} from '../types';
@@ -534,7 +534,7 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
             toggleIcon = isExpanded ? (toggleIcons.expanded || <span className="caret-down"></span>) : (toggleIcons.collapsed || <span className="caret-right"></span>);
             toggleClass = `state is-${isExpanded ? 'expanded' : 'collapsed'}`;
             if (!isValidElement(toggleIcon)) {
-                toggleIcon = <Icon icon={toggleIcon} />;
+                toggleIcon = <Icon icon={toggleIcon as IconType} />;
             }
         } else {
             toggleIcon = <Icon icon={toggleIcons.normal} />;
