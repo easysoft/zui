@@ -39,7 +39,6 @@ export function getHotkeysMap(settings: HotkeysSettings, defaultMap: HotkeysMap 
     Object.keys(settings).forEach((name) => {
         const setting = (settings as Record<HotkeyName, HotkeySetting | boolean>)[name];
         if (!setting) {
-            // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
             delete map[name];
         } else if (setting === true) {
             if (defaultMap[name]) {

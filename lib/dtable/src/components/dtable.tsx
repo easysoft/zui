@@ -1039,7 +1039,6 @@ export class DTable extends Component<DTableOptions, DTableState> {
             }
 
             this._plugins.forEach((plugin) => {
-                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                 const newLayout = plugin.beforeRender?.call(this, layout!);
                 if (newLayout) {
                     layout = newLayout;
@@ -1084,7 +1083,6 @@ export class DTable extends Component<DTableOptions, DTableState> {
             }
 
             this._plugins.forEach((plugin) => {
-                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                 const result = plugin.onRender?.call(this, layout!);
                 if (!result) {
                     return;

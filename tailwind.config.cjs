@@ -15,7 +15,7 @@ const config = {
                 './lib/*/src/**/*.{vue,js,ts,jsx,tsx}',
                 './exts/*/*/src/**/*.{vue,js,ts,jsx,tsx}',
             ]
-        : [{ raw: '' }],
+        : [{raw: ''}],
     safelist: ['dark'],
     theme: defaultTheme,
     plugins: [
@@ -49,7 +49,7 @@ let tailwind = argv.tailwind || process.env.TAILWIND_CONFIG;
 if (tailwind) {
     const mergePresets = (preset) => {
         if (typeof preset === 'function') {
-            mergePresets(preset({ config, colorToVars }));
+            mergePresets(preset({config, colorToVars}));
         } else if (Array.isArray(preset)) {
             preset.forEach(mergePresets);
         } else if (typeof preset === 'object') {

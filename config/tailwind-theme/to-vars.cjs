@@ -1,7 +1,7 @@
 const colorVariable = require('@mertasan/tailwindcss-variables/colorVariable');
 
 function toVars(colorObject, parentName = 'color', vars = {}) {
-    Object.keys(colorObject).forEach(name => {
+    Object.keys(colorObject).forEach((name) => {
         const value = colorObject[name];
         if (!value || ['transparent', 'inherit', 'currentColor'].includes(value)) {
             return;

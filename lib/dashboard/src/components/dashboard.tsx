@@ -131,7 +131,6 @@ export class Dashboard extends Component<Required<DashboardOptions>, DashboardSt
         }
         this.update({id, loading: true, needLoad: false}, async () => {
             try {
-                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                 const html = await $.fetch(fetcher!, [id, block], ({url}) => ({url: formatString(url, block), dataType: 'html'}));
                 this.update({id, loading: false, content: {html}}, () => {
                     this._setCache(id, html);
@@ -253,7 +252,7 @@ export class Dashboard extends Component<Required<DashboardOptions>, DashboardSt
         if (typeof size === 'string') {
             size = blockSizeMap[size];
         }
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+
         size = size || blockDefaultSize!;
         if (!Array.isArray(size)) {
             size = [size.width, size.height];
@@ -297,7 +296,6 @@ export class Dashboard extends Component<Required<DashboardOptions>, DashboardSt
     }
 
     protected _initDraggable() {
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         const blocksElement = this._ref.current!;
         this._draggable = new Draggable(blocksElement, {
             selector: '.dashboard-block',
@@ -321,9 +319,9 @@ export class Dashboard extends Component<Required<DashboardOptions>, DashboardSt
             onDragOver: (event) => {
                 const {cellHeight, grid} = this.props;
                 const bounding = blocksElement.getBoundingClientRect();
-                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+
                 const [, , width, height] = this._dragging!;
-                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+
                 const [offsetX, offsetY] = this._dragOffset!;
                 const dropLeft = Math.min(grid - width, Math.max(0, Math.round((event.clientX - bounding.left - offsetX) / (bounding.width / grid))));
                 const dropTop = Math.max(0, Math.round((event.clientY - bounding.top - offsetY) / cellHeight));
@@ -340,7 +338,6 @@ export class Dashboard extends Component<Required<DashboardOptions>, DashboardSt
                 if (dragging && dropping) {
                     const {blocks} = this.state;
                     blocks.forEach((block, index) => {
-                        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                         const [left, top] = dragging === block.id ? dropping : this._map.get(block.id)!;
                         if (block.left !== left || block.top !== top) {
                             blocks[index] = {...block, left, top};
@@ -365,7 +362,6 @@ export class Dashboard extends Component<Required<DashboardOptions>, DashboardSt
         const layout: Record<string, {top: number; left: number; width: number; height: number}> = {};
         let layoutChanged = false;
         blocks.forEach((block) => {
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             const [left, top, width, height] = this._map.get(block.id)!;
             const oldLocation = this._oldMap.get(block.id);
             if (!oldLocation || oldLocation[0] !== left || oldLocation[1] !== top || oldLocation[2] !== width || oldLocation[3] !== height) {

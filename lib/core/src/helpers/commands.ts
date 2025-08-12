@@ -238,7 +238,6 @@ export function unbindCommands(element: Selector, scopes: string | true = true):
     } else if (scopes.length) {
         const boundCommands = $element.data(COMMAND_DATA_NAME) || {};
         scopes.split(',').forEach((scope) => {
-            // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
             delete boundCommands[scope];
         });
         const boundScopes = Object.keys(boundCommands);

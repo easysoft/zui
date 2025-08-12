@@ -16,7 +16,7 @@ export default tseslint.config(
         quoteProps: 'as-needed',
     }),
     {
-        files: ['**/*.{js,ts,tsx}'],
+        files: ['**/*.{js,cjs,mjs,ts,tsx}'],
         languageOptions: {
             ecmaVersion: 13,
             sourceType: 'module',
@@ -30,6 +30,18 @@ export default tseslint.config(
                     './exts/*/*/tsconfig.json',
                     './exts/*/tsconfig.json',
                 ],
+            },
+            globals: {
+                console: 'readonly',
+                Buffer: 'readonly',
+                window: 'readonly',
+                document: 'readonly',
+                process: 'readonly',
+                require: 'readonly',
+                module: 'readonly',
+                requestAnimationFrame: 'readonly',
+                cancelAnimationFrame: 'readonly',
+                onZUIReady: 'readonly',
             },
         },
         rules: {
@@ -58,6 +70,7 @@ export default tseslint.config(
     globalIgnores([
         './build/**/*',
         './dist/**/*',
+        './docs/_/**/*',
         './lib/*/public/**/*',
         './exts/*/*/public/**/*',
     ]),

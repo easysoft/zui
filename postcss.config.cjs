@@ -1,6 +1,3 @@
-/* eslint-disable no-undef */
-/* eslint-disable @typescript-eslint/no-require-imports */
-
 const minimist = require('minimist');
 
 const argv = minimist(process.argv.slice(4));
@@ -10,7 +7,7 @@ if (cssnanoFlag !== 'no' && (process.env.NODE_ENV === 'production' || cssnanoFla
     extraPlugins.push(require('cssnano'));
 }
 if (argv.rem2px || process.env.POSTCSS_REM2PX) {
-    extraPlugins.push(require('postcss-rem-to-pixel')({ propList: ['*'] }));
+    extraPlugins.push(require('postcss-rem-to-pixel')({propList: ['*']}));
 }
 
 module.exports = {

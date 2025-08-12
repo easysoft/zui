@@ -141,7 +141,7 @@ export function initColsLayout(dtable: DTable, options: DTableOptions, plugins: 
         }
 
         const {flex, minWidth = minColWidth, maxWidth = maxColWidth} = colSetting;
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+
         const colWidth = parseNumber(colSetting.width || defaultColWidth!, defaultColWidth);
         colInfo.flex = flex === true ? 1 : (typeof flex === 'number' ? flex : 0);
         colInfo.width = clamp(colWidth < 1 ? Math.round(colWidth * width) : colWidth, minWidth, maxWidth);
@@ -174,7 +174,7 @@ export function initColsLayout(dtable: DTable, options: DTableOptions, plugins: 
 
     /* Layout columns. */
     initSectionColsLayout(rightCols, true);
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+
     const maxLeftWidth = width - rightCols.width - Math.max(40, minColWidth!);
     initSectionColsLayout(leftCols, true, maxLeftWidth);
     centerCols.widthSetting = width - leftCols.width - rightCols.width;

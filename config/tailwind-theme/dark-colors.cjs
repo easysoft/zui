@@ -28,7 +28,6 @@ const special = reverseShade(shades.purple);
 /** Gray: Neutral, Background, Border. */
 const gray = reverseShade(shades.slate);
 
-
 // Special Colors.
 // ======================
 

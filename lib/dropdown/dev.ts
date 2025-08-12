@@ -36,7 +36,7 @@ onPageUpdate(() => {
                 {
                     text: '保存',
                     icon: 'icon-save',
-                    onClick: (event) => console.log('> menuItem.clicked', event),
+                    onClick: event => console.log('> menuItem.clicked', event),
                     items: [
                         {text: '保存到云端'},
                         {

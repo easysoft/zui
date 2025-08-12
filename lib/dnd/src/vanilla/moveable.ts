@@ -50,7 +50,7 @@ export class Moveable extends Component<MoveableOptions> {
             } else {
                 strategy = this.options.move || 'none';
             }
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+
             const position = strategy === 'transform' ? Moveable.getTranslate(target) : (strategy === 'scroll' ? {left: target.scrollLeft, top: target.scrollTop} : $target.position()!);
             newState = $.extend(newState, {
                 strategy,

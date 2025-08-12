@@ -63,7 +63,7 @@ export class ZUI extends Component<ZUIComponentOptions> {
             $options,
             ...rest
         } = this.props;
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+
         this._ref.current = create($use, this._eleRef.current!, {
             ...$options,
             ...rest,

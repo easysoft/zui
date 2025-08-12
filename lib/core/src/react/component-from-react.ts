@@ -94,7 +94,7 @@ export class ComponentFromReact<O extends object = object, C extends ComponentRe
             }, {});
             render(
                 h(Component as ComponentClass, mergeProps({component: element.tagName.toLowerCase(), attrs}, props)),
-                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+
                 element.parentElement!,
                 element,
             );

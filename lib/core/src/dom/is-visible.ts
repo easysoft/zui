@@ -32,7 +32,6 @@ export function isVisible(selector: Selector, options: ISVisibleOptions = {}): b
     }
     if (!viewport) {
         if (options.container) {
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             viewport = $(element).closest(options.container)[0]!.getBoundingClientRect();
         } else {
             const {innerHeight, innerWidth} = window;

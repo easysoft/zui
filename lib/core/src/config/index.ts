@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention */
-
 declare const __APP_VERSION__: string;
 
 declare const __BUILD_TIME__: number;

@@ -50,7 +50,7 @@ export function Portal(this: any, props: any) {
                     this.childNodes.push(child);
                     that._container.appendChild(child);
                 },
-                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+
                 insertBefore(child: VNode, _before: VNode) {
                     this.childNodes.push(child);
                     that._container.appendChild(child);

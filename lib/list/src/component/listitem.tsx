@@ -159,7 +159,7 @@ export class Listitem<P extends ListitemProps = ListitemProps, S = unknown> exte
         const innerAttrs = Object.keys(componentProps).reduce<Record<string, unknown>>((attrs, key) => {
             if (key.startsWith('data-')) {
                 attrs[key] = componentProps[key];
-                // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
+
                 delete componentProps[key];
             }
             return attrs;

@@ -1,6 +1,6 @@
 import DefaultTheme from 'vitepress/theme';
-import type { Theme } from 'vitepress';
-import { enhanceAppWithTabs } from 'vitepress-plugin-tabs/client';
+import type {Theme} from 'vitepress';
+import {enhanceAppWithTabs} from 'vitepress-plugin-tabs/client';
 import Example from './components/example.vue';
 import CssPropValue from './components/css-prop-value.vue';
 import CopyCode from './components/copy-code.vue';

@@ -200,7 +200,7 @@ export function loadModule<T = unknown>(options: string | LoadJSModuleOptions): 
             $script.removeData('resolves');
             resolveCallback?.(result);
             resolve(result);
-            // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
+
             delete (window as unknown as Record<string, unknown>)[resolveID];
         }});
         script.async = async;
