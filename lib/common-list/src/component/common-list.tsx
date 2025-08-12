@@ -7,7 +7,7 @@ import type {CommonListProps, Item, ItemKey, ItemType} from '../types';
 /**
  * Generic list component.
  */
-export class CommonList<P extends CommonListProps = CommonListProps, S = unknown> extends HElement<P, S> {
+export class CommonList<P extends CommonListProps = CommonListProps, S = object> extends HElement<P, S> {
     /**
      * Root element default name, used for class name.
      */
