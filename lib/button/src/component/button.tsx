@@ -1,4 +1,4 @@
-import {HElement, Icon, classes} from '@zui/core';
+import {HElement, Icon, classes, mergeProps} from '@zui/core';
 
 import type {RenderableProps} from 'preact';
 import type {ClassNameLike} from '@zui/core';
@@ -43,7 +43,7 @@ export class Button<P extends ButtonProps = ButtonProps> extends HElement<P> {
 
     protected _getProps(props: RenderableProps<P>) {
         const component = this._getComponent(props);
-        const {url, target, disabled, btnType = 'button', hint, command} = props;
+        const {url, target, disabled, btnType = 'button', size, hint, command} = props;
         const asLink = component === 'a';
         const componentProps: Record<string, unknown> = {
             ...super._getProps(props),
@@ -70,6 +70,9 @@ export class Button<P extends ButtonProps = ButtonProps> extends HElement<P> {
             if (command) {
                 componentProps['zui-command'] = command;
             }
+        }
+        if (size && typeof size === 'number') {
+            mergeProps(componentProps, {style: {'--btn-height': `${size}px`}});
         }
         return componentProps;
     }
