@@ -50,6 +50,8 @@ export class DTable extends Component<DTableOptions, DTableState> {
 
     _noAnimation?: number;
 
+    _firstRender = true;
+
     constructor(props: DTableOptions) {
         super(props);
 
@@ -654,7 +656,8 @@ export class DTable extends Component<DTableOptions, DTableState> {
 
     #afterRender() {
         this._needRender = false;
-        this._plugins.forEach(plugin => plugin.afterRender?.call(this));
+        this._plugins.forEach(plugin => plugin.afterRender?.call(this, this._firstRender));
+        this._firstRender = false;
         this.options.afterRender?.call(this);
     }
 
