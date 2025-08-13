@@ -269,7 +269,14 @@ $.getLib = async function<T = unknown> (optionsOrSrc: string | string[] | GetLib
     const libVarName = typeof check === 'string' ? check : name;
     let moduleResult: T | undefined;
     const getLibVar = (): T | undefined => {
-        return libVarName ? ((window as unknown as Record<string, unknown>)[libVarName] as T || moduleResult) : undefined;
+        let libVar: T | undefined;
+        if (libVarName) {
+            libVar = ((window as unknown as Record<string, unknown>)[libVarName] as T || moduleResult);
+        }
+        if (libVar instanceof Element) {
+            return;
+        }
+        return libVar;
     };
     if (typeof check === 'string') {
         check = () => !!getLibVar();
