@@ -141,7 +141,7 @@ function initCreators(element: HTMLElement, options: ZUIInitOptions = {}): void 
         const $lib = createOptions.$lib as (GetLibOptions | undefined);
         if ($lib) {
             delete createOptions.$lib;
-            $.getLib($lib).then(() => create(name, element, createOptions));
+            $.getLib($lib).then(() => createInAnimationFrame(name, element, createOptions));
             return;
         }
         createInAnimationFrame(name, element, createOptions);
