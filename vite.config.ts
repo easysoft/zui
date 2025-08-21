@@ -107,6 +107,9 @@ export default defineConfig(async ({mode}) => {
                 return {relative: true};
             },
         },
+        server: {
+            allowedHosts: true,
+        },
     };
 
     if (extraBuildConfig) {
