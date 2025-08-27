@@ -6,4 +6,5 @@ export * from './custom-content';
 export * from './icon';
 export * from './portals';
 export * from './components';
+export * from './zui';
 import './share';
