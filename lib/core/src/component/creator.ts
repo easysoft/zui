@@ -25,10 +25,10 @@ export function getComponent(name: string): ComponentClass | undefined {
     return Component.map.get(name.toLowerCase());
 }
 
-export function create(name: string, element: HTMLElement, options: ComponentCreateOptions = {}) {
-    let TheComponentClass = getComponent(name);
+export function create(nameOrClass: string | ComponentClass, element: HTMLElement, options: ComponentCreateOptions = {}) {
+    let TheComponentClass = typeof nameOrClass === 'function' ? nameOrClass : getComponent(nameOrClass);
     if (!TheComponentClass) {
-        TheComponentClass = initGlobalComponents(name);
+        TheComponentClass = initGlobalComponents(nameOrClass as string);
     }
     if (!TheComponentClass) {
         return null;
