@@ -6,7 +6,7 @@ import {create, Component as ZUIVanillaComponent} from '../../component';
  */
 type ZUIComponentOptions = {
     /** 要使用的ZUI组件名称 */
-    $use: string;
+    $use: string | typeof ZUIVanillaComponent;
     /** 渲染的HTML标签名 */
     $tagName?: string;
     /** 组件配置选项 */
