@@ -1,4 +1,4 @@
-import {h, createRef, Component, ComponentType, ClassAttributes} from 'preact';
+import {createRef, Component, ComponentType} from 'preact';
 import {create, Component as ZUIVanillaComponent} from '../../component';
 
 /**
@@ -125,9 +125,7 @@ export class ZUI extends Component<ZUIComponentOptions> {
             $rootAttrs,
         } = props;
 
-        return h($tagName as unknown as ComponentType, {
-            ref: this._eleRef,
-            ...$rootAttrs,
-        } as ClassAttributes<HTMLInputElement>);
+        const ComponentType = $tagName as unknown as ComponentType;
+        return <ComponentType ref={this._eleRef} {...$rootAttrs} />;
     }
 }
