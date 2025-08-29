@@ -11,7 +11,7 @@
 == 示例
 
 <Example>
-  <div data-zui="SearchBox"></div>
+  <div data-zui="SearchBox" data-name="mySearch"></div>
 </Example>
 
 == HTML
@@ -20,7 +20,7 @@
 <div id="searchBox"></div>
 
 <script>
-const searchBox = new zui.SearchBox('#searchBox');
+const searchBox = new zui.SearchBox('#searchBox', {name: 'mySearch'});
 </script>
 ```
 
