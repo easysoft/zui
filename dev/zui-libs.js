@@ -59,7 +59,7 @@ export default [
             "name": "typography",
             "notReady": false,
             "packageJsonPath": "/Users/hao/Projects/zui3/lib/typography/package.json",
-            "order": 1000000055010000000
+            "order": 1000000054010000000
         }
     },
     {
@@ -216,42 +216,6 @@ export default [
         }
     },
     {
-        "name": "@zui/collapsible",
-        "version": "0.0.1",
-        "description": "ZUI Collapsible",
-        "keywords": [
-            "css",
-            "components"
-        ],
-        "main": "src/main.ts",
-        "devDependencies": {
-            "@zui/base": "workspace:*",
-            "@zui/utilities": "workspace:*"
-        },
-        "dependencies": {
-            "@zui/base": "workspace:*",
-            "@zui/core": "workspace:^0.0.1"
-        },
-        "files": [],
-        "zui": {
-            "type": "control",
-            "displayName": "折叠",
-            "contributes": {
-                "css": [
-                    "class",
-                    "var"
-                ]
-            },
-            "path": "/Users/hao/Projects/zui3/lib/collapsible",
-            "workspace": true,
-            "sourceType": "build-in",
-            "name": "collapsible",
-            "notReady": false,
-            "packageJsonPath": "/Users/hao/Projects/zui3/lib/collapsible/package.json",
-            "order": 2000000010010000000
-        }
-    },
-    {
         "name": "@zui/common-list",
         "version": "0.0.1",
         "main": "src/main.ts",
@@ -285,7 +249,7 @@ export default [
             "name": "common-list",
             "notReady": false,
             "packageJsonPath": "/Users/hao/Projects/zui3/lib/common-list/package.json",
-            "order": 2000000012010000000
+            "order": 2000000011010000000
         }
     },
     {
@@ -317,7 +281,7 @@ export default [
             "name": "form",
             "notReady": false,
             "packageJsonPath": "/Users/hao/Projects/zui3/lib/form/package.json",
-            "order": 2000000024010000000
+            "order": 2000000023010000000
         }
     },
     {
@@ -344,7 +308,7 @@ export default [
             "name": "form-control",
             "notReady": false,
             "packageJsonPath": "/Users/hao/Projects/zui3/lib/form-control/package.json",
-            "order": 2000000025010000000
+            "order": 2000000024010000000
         }
     },
     {
@@ -378,7 +342,7 @@ export default [
             "name": "icons",
             "notReady": false,
             "packageJsonPath": "/Users/hao/Projects/zui3/lib/icons/package.json",
-            "order": 2000000027010000000
+            "order": 2000000026010000000
         }
     },
     {
@@ -414,7 +378,7 @@ export default [
             "name": "input-control",
             "notReady": false,
             "packageJsonPath": "/Users/hao/Projects/zui3/lib/input-control/package.json",
-            "order": 2000000028010000000
+            "order": 2000000027010000000
         }
     },
     {
@@ -447,7 +411,7 @@ export default [
             "name": "label",
             "notReady": false,
             "packageJsonPath": "/Users/hao/Projects/zui3/lib/label/package.json",
-            "order": 2000000031010000000
+            "order": 2000000030010000000
         }
     },
     {
@@ -491,7 +455,7 @@ export default [
             "name": "list",
             "notReady": false,
             "packageJsonPath": "/Users/hao/Projects/zui3/lib/list/package.json",
-            "order": 2000000032010000000
+            "order": 2000000031010000000
         }
     },
     {
@@ -540,7 +504,7 @@ export default [
             "name": "menu",
             "notReady": false,
             "packageJsonPath": "/Users/hao/Projects/zui3/lib/menu/package.json",
-            "order": 2000000033010000000
+            "order": 2000000032010000000
         }
     },
     {
@@ -584,7 +548,7 @@ export default [
             "name": "messager",
             "notReady": false,
             "packageJsonPath": "/Users/hao/Projects/zui3/lib/messager/package.json",
-            "order": 2000000034010000000
+            "order": 2000000033010000000
         }
     },
     {
@@ -617,7 +581,7 @@ export default [
             "name": "progress",
             "notReady": false,
             "packageJsonPath": "/Users/hao/Projects/zui3/lib/progress/package.json",
-            "order": 2000000042010000000
+            "order": 2000000041010000000
         }
     },
     {
@@ -654,7 +618,7 @@ export default [
             "name": "progress-circle",
             "notReady": false,
             "packageJsonPath": "/Users/hao/Projects/zui3/lib/progress-circle/package.json",
-            "order": 2000000043010000000
+            "order": 2000000042010000000
         }
     },
     {
@@ -700,7 +664,7 @@ export default [
             "name": "scrollbar",
             "notReady": false,
             "packageJsonPath": "/Users/hao/Projects/zui3/lib/scrollbar/package.json",
-            "order": 2000000044010000000
+            "order": 2000000043010000000
         }
     },
     {
@@ -726,7 +690,7 @@ export default [
             "name": "core",
             "notReady": false,
             "packageJsonPath": "/Users/hao/Projects/zui3/lib/core/package.json",
-            "order": 3000000014010000000
+            "order": 3000000013010000000
         }
     },
     {
@@ -756,7 +720,7 @@ export default [
             "name": "dnd",
             "notReady": false,
             "packageJsonPath": "/Users/hao/Projects/zui3/lib/dnd/package.json",
-            "order": 3000000019010000000
+            "order": 3000000018010000000
         },
         "dependencies": {
             "@zui/core": "workspace:^0.0.1"
@@ -790,7 +754,7 @@ export default [
             "notReady": false,
             "wip": true,
             "packageJsonPath": "/Users/hao/Projects/zui3/lib/event-bus/package.json",
-            "order": 3000000022010000000
+            "order": 3000000021010000000
         }
     },
     {
@@ -820,7 +784,7 @@ export default [
             "name": "sortable",
             "notReady": false,
             "packageJsonPath": "/Users/hao/Projects/zui3/lib/sortable/package.json",
-            "order": 3000000047010000000
+            "order": 3000000046010000000
         },
         "dependencies": {
             "@zui/core": "workspace:^0.0.1",
@@ -858,7 +822,7 @@ export default [
             "name": "split",
             "notReady": false,
             "packageJsonPath": "/Users/hao/Projects/zui3/lib/split/package.json",
-            "order": 3000000048010000000
+            "order": 3000000047010000000
         },
         "dependencies": {
             "@zui/core": "workspace:^0.0.1",
@@ -898,7 +862,7 @@ export default [
             "name": "store",
             "notReady": false,
             "packageJsonPath": "/Users/hao/Projects/zui3/lib/store/package.json",
-            "order": 3000000049010000000
+            "order": 3000000048010000000
         }
     },
     {
@@ -1101,7 +1065,7 @@ export default [
             "name": "color-picker",
             "notReady": false,
             "packageJsonPath": "/Users/hao/Projects/zui3/lib/color-picker/package.json",
-            "order": 4000000011010000000
+            "order": 4000000010010000000
         }
     },
     {
@@ -1150,7 +1114,7 @@ export default [
             "name": "datetime-picker",
             "notReady": false,
             "packageJsonPath": "/Users/hao/Projects/zui3/lib/datetime-picker/package.json",
-            "order": 4000000017010000000
+            "order": 4000000016010000000
         }
     },
     {
@@ -1193,7 +1157,7 @@ export default [
             "name": "file-selector",
             "notReady": false,
             "packageJsonPath": "/Users/hao/Projects/zui3/lib/file-selector/package.json",
-            "order": 4000000023010000000
+            "order": 4000000022010000000
         }
     },
     {
@@ -1232,7 +1196,7 @@ export default [
             "name": "input-group",
             "notReady": false,
             "packageJsonPath": "/Users/hao/Projects/zui3/lib/input-group/package.json",
-            "order": 4000000029010000000
+            "order": 4000000028010000000
         }
     },
     {
@@ -1281,7 +1245,7 @@ export default [
             "name": "modal",
             "notReady": false,
             "packageJsonPath": "/Users/hao/Projects/zui3/lib/modal/package.json",
-            "order": 4000000035010000000
+            "order": 4000000034010000000
         }
     },
     {
@@ -1326,7 +1290,7 @@ export default [
             "name": "nav",
             "notReady": false,
             "packageJsonPath": "/Users/hao/Projects/zui3/lib/nav/package.json",
-            "order": 4000000036010000000
+            "order": 4000000035010000000
         }
     },
     {
@@ -1373,7 +1337,7 @@ export default [
             "name": "pager",
             "notReady": false,
             "packageJsonPath": "/Users/hao/Projects/zui3/lib/pager/package.json",
-            "order": 4000000037010000000
+            "order": 4000000036010000000
         }
     },
     {
@@ -1406,7 +1370,7 @@ export default [
             "name": "panel",
             "notReady": false,
             "packageJsonPath": "/Users/hao/Projects/zui3/lib/panel/package.json",
-            "order": 4000000038010000000
+            "order": 4000000037010000000
         }
     },
     {
@@ -1450,7 +1414,7 @@ export default [
             "name": "pick",
             "notReady": false,
             "packageJsonPath": "/Users/hao/Projects/zui3/lib/pick/package.json",
-            "order": 4000000039010000000
+            "order": 4000000038010000000
         }
     },
     {
@@ -1496,7 +1460,7 @@ export default [
             "name": "picker",
             "notReady": false,
             "packageJsonPath": "/Users/hao/Projects/zui3/lib/picker/package.json",
-            "order": 4000000040010000000
+            "order": 4000000039010000000
         }
     },
     {
@@ -1536,7 +1500,7 @@ export default [
             "name": "popover",
             "notReady": false,
             "packageJsonPath": "/Users/hao/Projects/zui3/lib/popover/package.json",
-            "order": 4000000041010000000
+            "order": 4000000040010000000
         }
     },
     {
@@ -1577,7 +1541,7 @@ export default [
             "name": "search-box",
             "notReady": false,
             "packageJsonPath": "/Users/hao/Projects/zui3/lib/search-box/package.json",
-            "order": 4000000045010000000
+            "order": 4000000044010000000
         }
     },
     {
@@ -1614,7 +1578,7 @@ export default [
             "name": "sidebar",
             "notReady": false,
             "packageJsonPath": "/Users/hao/Projects/zui3/lib/sidebar/package.json",
-            "order": 4000000046010000000
+            "order": 4000000045010000000
         }
     },
     {
@@ -1649,7 +1613,7 @@ export default [
             "name": "table",
             "notReady": false,
             "packageJsonPath": "/Users/hao/Projects/zui3/lib/table/package.json",
-            "order": 4000000050010000000
+            "order": 4000000049010000000
         }
     },
     {
@@ -1695,7 +1659,7 @@ export default [
             "name": "toolbar",
             "notReady": false,
             "packageJsonPath": "/Users/hao/Projects/zui3/lib/toolbar/package.json",
-            "order": 4000000052010000000
+            "order": 4000000051010000000
         }
     },
     {
@@ -1740,7 +1704,7 @@ export default [
             "name": "tooltip",
             "notReady": false,
             "packageJsonPath": "/Users/hao/Projects/zui3/lib/tooltip/package.json",
-            "order": 4000000053010000000
+            "order": 4000000052010000000
         }
     },
     {
@@ -1785,7 +1749,7 @@ export default [
             "name": "tree",
             "notReady": false,
             "packageJsonPath": "/Users/hao/Projects/zui3/lib/tree/package.json",
-            "order": 4000000054010000000
+            "order": 4000000053010000000
         }
     },
     {
@@ -1824,7 +1788,7 @@ export default [
             "name": "upload",
             "notReady": false,
             "packageJsonPath": "/Users/hao/Projects/zui3/lib/upload/package.json",
-            "order": 4000000056010000000
+            "order": 4000000055010000000
         }
     },
     {
@@ -1864,7 +1828,7 @@ export default [
             "name": "upload-imgs",
             "notReady": false,
             "packageJsonPath": "/Users/hao/Projects/zui3/lib/upload-imgs/package.json",
-            "order": 4000000057010000000
+            "order": 4000000056010000000
         }
     },
     {
@@ -1900,7 +1864,7 @@ export default [
             "notReady": true,
             "wip": true,
             "packageJsonPath": "/Users/hao/Projects/zui3/lib/virtual-grid/package.json",
-            "order": 4000000059010000000
+            "order": 4000000058010000000
         }
     },
     {
@@ -1933,7 +1897,7 @@ export default [
             "notReady": false,
             "wip": true,
             "packageJsonPath": "/Users/hao/Projects/zui3/lib/virtualize/package.json",
-            "order": 4000000060010000000
+            "order": 4000000059010000000
         }
     },
     {
@@ -2024,7 +1988,7 @@ export default [
             "name": "contextmenu",
             "notReady": false,
             "packageJsonPath": "/Users/hao/Projects/zui3/lib/contextmenu/package.json",
-            "order": 5000000013010000000
+            "order": 5000000012010000000
         }
     },
     {
@@ -2075,7 +2039,7 @@ export default [
             "notReady": false,
             "publicPath": false,
             "packageJsonPath": "/Users/hao/Projects/zui3/lib/dashboard/package.json",
-            "order": 5000000016010000000
+            "order": 5000000015010001000
         }
     },
     {
@@ -2126,7 +2090,7 @@ export default [
             "name": "dropdown",
             "notReady": false,
             "packageJsonPath": "/Users/hao/Projects/zui3/lib/dropdown/package.json",
-            "order": 5000000020010000000
+            "order": 5000000019010001000
         }
     },
     {
@@ -2187,7 +2151,7 @@ export default [
             "name": "dtable",
             "notReady": false,
             "packageJsonPath": "/Users/hao/Projects/zui3/lib/dtable/package.json",
-            "order": 5000000021010000000
+            "order": 5000000020010000000
         }
     },
     {
@@ -2238,7 +2202,7 @@ export default [
             "name": "kanban",
             "notReady": false,
             "packageJsonPath": "/Users/hao/Projects/zui3/lib/kanban/package.json",
-            "order": 5000000030010000000
+            "order": 5000000029010000000
         }
     },
     {
@@ -2275,7 +2239,7 @@ export default [
             "name": "tabs",
             "notReady": false,
             "packageJsonPath": "/Users/hao/Projects/zui3/lib/tabs/package.json",
-            "order": 5000000051010001000
+            "order": 5000000050010000000
         }
     },
     {
@@ -2308,7 +2272,7 @@ export default [
             "name": "css-icons",
             "notReady": false,
             "packageJsonPath": "/Users/hao/Projects/zui3/lib/css-icons/package.json",
-            "order": 6000000015010001000
+            "order": 6000000014010000000
         }
     },
     {
@@ -2342,7 +2306,7 @@ export default [
             "name": "utilities",
             "notReady": false,
             "packageJsonPath": "/Users/hao/Projects/zui3/lib/utilities/package.json",
-            "order": 6000000058010000000
+            "order": 6000000057010000000
         }
     },
     {
@@ -2374,7 +2338,7 @@ export default [
             "name": "helpers",
             "notReady": false,
             "packageJsonPath": "/Users/hao/Projects/zui3/lib/helpers/package.json",
-            "order": 7000000026010000000
+            "order": 7000000025010000000
         }
     }
 ];
