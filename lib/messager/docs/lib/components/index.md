@@ -195,6 +195,7 @@ type?: string; // 消息类型
 placement?: string; // 浮动消息定位方式，支持 `'top' | 'center' | 'bottom' | 'left-top' | 'left' | 'left-bottom' | 'right' | 'right-top' | 'right-bottom'`
 time?: number; // 浮动消息持续时间
 content?: string; // 浮动消息内容
+message?: string; // 浮动消息内容，等同于 content
 icon?: string; // 图标名称
 actions?: object[]; // 操作按钮定义列表
 margin?: number; // 外边距
