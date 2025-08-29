@@ -20,12 +20,12 @@
                     "var"
                 ]
             },
-            "path": "/home/runner/work/zui/zui/lib/base",
+            "path": "/Users/hao/Projects/zui3/lib/base",
             "workspace": true,
             "sourceType": "build-in",
             "name": "base",
             "notReady": false,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/base/package.json",
+            "packageJsonPath": "/Users/hao/Projects/zui3/lib/base/package.json",
             "order": 1000000003010000000
         }
     },
@@ -53,13 +53,13 @@
                     "var"
                 ]
             },
-            "path": "/home/runner/work/zui/zui/lib/typography",
+            "path": "/Users/hao/Projects/zui3/lib/typography",
             "workspace": true,
             "sourceType": "build-in",
             "name": "typography",
             "notReady": false,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/typography/package.json",
-            "order": 1000000053010000000
+            "packageJsonPath": "/Users/hao/Projects/zui3/lib/typography/package.json",
+            "order": 1000000055010000000
         }
     },
     {
@@ -91,12 +91,12 @@
                     "var"
                 ]
             },
-            "path": "/home/runner/work/zui/zui/lib/alert",
+            "path": "/Users/hao/Projects/zui3/lib/alert",
             "workspace": true,
             "sourceType": "build-in",
             "name": "alert",
             "notReady": false,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/alert/package.json",
+            "packageJsonPath": "/Users/hao/Projects/zui3/lib/alert/package.json",
             "order": 2000000000010000000
         }
     },
@@ -123,12 +123,12 @@
                     "var"
                 ]
             },
-            "path": "/home/runner/work/zui/zui/lib/breadcrumb",
+            "path": "/Users/hao/Projects/zui3/lib/breadcrumb",
             "workspace": true,
             "sourceType": "build-in",
             "name": "breadcrumb",
             "notReady": false,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/breadcrumb/package.json",
+            "packageJsonPath": "/Users/hao/Projects/zui3/lib/breadcrumb/package.json",
             "order": 2000000004010000000
         }
     },
@@ -170,12 +170,12 @@
                     "var"
                 ]
             },
-            "path": "/home/runner/work/zui/zui/lib/button",
+            "path": "/Users/hao/Projects/zui3/lib/button",
             "workspace": true,
             "sourceType": "build-in",
             "name": "button",
             "notReady": false,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/button/package.json",
+            "packageJsonPath": "/Users/hao/Projects/zui3/lib/button/package.json",
             "order": 2000000006010000000
         }
     },
@@ -206,13 +206,49 @@
                     "var"
                 ]
             },
-            "path": "/home/runner/work/zui/zui/lib/checkbox",
+            "path": "/Users/hao/Projects/zui3/lib/checkbox",
             "workspace": true,
             "sourceType": "build-in",
             "name": "checkbox",
             "notReady": false,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/checkbox/package.json",
+            "packageJsonPath": "/Users/hao/Projects/zui3/lib/checkbox/package.json",
             "order": 2000000009010000000
+        }
+    },
+    {
+        "name": "@zui/collapsible",
+        "version": "0.0.1",
+        "description": "ZUI Collapsible",
+        "keywords": [
+            "css",
+            "components"
+        ],
+        "main": "src/main.ts",
+        "devDependencies": {
+            "@zui/base": "workspace:*",
+            "@zui/utilities": "workspace:*"
+        },
+        "dependencies": {
+            "@zui/base": "workspace:*",
+            "@zui/core": "workspace:^0.0.1"
+        },
+        "files": [],
+        "zui": {
+            "type": "control",
+            "displayName": "折叠",
+            "contributes": {
+                "css": [
+                    "class",
+                    "var"
+                ]
+            },
+            "path": "/Users/hao/Projects/zui3/lib/collapsible",
+            "workspace": true,
+            "sourceType": "build-in",
+            "name": "collapsible",
+            "notReady": false,
+            "packageJsonPath": "/Users/hao/Projects/zui3/lib/collapsible/package.json",
+            "order": 2000000010010000000
         }
     },
     {
@@ -243,13 +279,13 @@
                     "var"
                 ]
             },
-            "path": "/home/runner/work/zui/zui/lib/common-list",
+            "path": "/Users/hao/Projects/zui3/lib/common-list",
             "workspace": true,
             "sourceType": "build-in",
             "name": "common-list",
             "notReady": false,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/common-list/package.json",
-            "order": 2000000011010000000
+            "packageJsonPath": "/Users/hao/Projects/zui3/lib/common-list/package.json",
+            "order": 2000000012010000000
         }
     },
     {
@@ -275,13 +311,13 @@
                     "var"
                 ]
             },
-            "path": "/home/runner/work/zui/zui/lib/form",
+            "path": "/Users/hao/Projects/zui3/lib/form",
             "workspace": true,
             "sourceType": "build-in",
             "name": "form",
             "notReady": false,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/form/package.json",
-            "order": 2000000022010000000
+            "packageJsonPath": "/Users/hao/Projects/zui3/lib/form/package.json",
+            "order": 2000000024010000000
         }
     },
     {
@@ -302,13 +338,13 @@
                     "var"
                 ]
             },
-            "path": "/home/runner/work/zui/zui/lib/form-control",
+            "path": "/Users/hao/Projects/zui3/lib/form-control",
             "workspace": true,
             "sourceType": "build-in",
             "name": "form-control",
             "notReady": false,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/form-control/package.json",
-            "order": 2000000023010000000
+            "packageJsonPath": "/Users/hao/Projects/zui3/lib/form-control/package.json",
+            "order": 2000000025010000000
         }
     },
     {
@@ -336,13 +372,13 @@
                     "fonts"
                 ]
             },
-            "path": "/home/runner/work/zui/zui/lib/icons",
+            "path": "/Users/hao/Projects/zui3/lib/icons",
             "workspace": true,
             "sourceType": "build-in",
             "name": "icons",
             "notReady": false,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/icons/package.json",
-            "order": 2000000025010000000
+            "packageJsonPath": "/Users/hao/Projects/zui3/lib/icons/package.json",
+            "order": 2000000027010000000
         }
     },
     {
@@ -372,13 +408,13 @@
                     "var"
                 ]
             },
-            "path": "/home/runner/work/zui/zui/lib/input-control",
+            "path": "/Users/hao/Projects/zui3/lib/input-control",
             "workspace": true,
             "sourceType": "build-in",
             "name": "input-control",
             "notReady": false,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/input-control/package.json",
-            "order": 2000000026010000000
+            "packageJsonPath": "/Users/hao/Projects/zui3/lib/input-control/package.json",
+            "order": 2000000028010000000
         }
     },
     {
@@ -405,26 +441,25 @@
                     "var"
                 ]
             },
-            "path": "/home/runner/work/zui/zui/lib/label",
+            "path": "/Users/hao/Projects/zui3/lib/label",
             "workspace": true,
             "sourceType": "build-in",
             "name": "label",
             "notReady": false,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/label/package.json",
-            "order": 2000000029010000000
+            "packageJsonPath": "/Users/hao/Projects/zui3/lib/label/package.json",
+            "order": 2000000031010000000
         }
     },
     {
         "name": "@zui/list",
         "version": "0.0.1",
         "main": "src/main.ts",
-        "browserslist": "",
+        "browser": "src/main.ts",
         "files": [
             "./src/**/*"
         ],
         "exports": {
-            ".": "./src/main.ts",
-            "./react": "./src/main-react.ts"
+            ".": "./src/main.ts"
         },
         "devDependencies": {
             "@zui/base": "workspace:*",
@@ -450,13 +485,13 @@
                     "var"
                 ]
             },
-            "path": "/home/runner/work/zui/zui/lib/list",
+            "path": "/Users/hao/Projects/zui3/lib/list",
             "workspace": true,
             "sourceType": "build-in",
             "name": "list",
             "notReady": false,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/list/package.json",
-            "order": 2000000030010000000
+            "packageJsonPath": "/Users/hao/Projects/zui3/lib/list/package.json",
+            "order": 2000000032010000000
         }
     },
     {
@@ -499,13 +534,13 @@
                     "var"
                 ]
             },
-            "path": "/home/runner/work/zui/zui/lib/menu",
+            "path": "/Users/hao/Projects/zui3/lib/menu",
             "workspace": true,
             "sourceType": "build-in",
             "name": "menu",
             "notReady": false,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/menu/package.json",
-            "order": 2000000031010000000
+            "packageJsonPath": "/Users/hao/Projects/zui3/lib/menu/package.json",
+            "order": 2000000033010000000
         }
     },
     {
@@ -543,13 +578,13 @@
                     "var"
                 ]
             },
-            "path": "/home/runner/work/zui/zui/lib/messager",
+            "path": "/Users/hao/Projects/zui3/lib/messager",
             "workspace": true,
             "sourceType": "build-in",
             "name": "messager",
             "notReady": false,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/messager/package.json",
-            "order": 2000000032010000000
+            "packageJsonPath": "/Users/hao/Projects/zui3/lib/messager/package.json",
+            "order": 2000000034010000000
         }
     },
     {
@@ -576,13 +611,13 @@
                     "var"
                 ]
             },
-            "path": "/home/runner/work/zui/zui/lib/progress",
+            "path": "/Users/hao/Projects/zui3/lib/progress",
             "workspace": true,
             "sourceType": "build-in",
             "name": "progress",
             "notReady": false,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/progress/package.json",
-            "order": 2000000040010000000
+            "packageJsonPath": "/Users/hao/Projects/zui3/lib/progress/package.json",
+            "order": 2000000042010000000
         }
     },
     {
@@ -613,13 +648,13 @@
                     "var"
                 ]
             },
-            "path": "/home/runner/work/zui/zui/lib/progress-circle",
+            "path": "/Users/hao/Projects/zui3/lib/progress-circle",
             "workspace": true,
             "sourceType": "build-in",
             "name": "progress-circle",
             "notReady": false,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/progress-circle/package.json",
-            "order": 2000000041010000000
+            "packageJsonPath": "/Users/hao/Projects/zui3/lib/progress-circle/package.json",
+            "order": 2000000043010000000
         }
     },
     {
@@ -627,7 +662,6 @@
         "version": "0.0.1",
         "main": "src/main.ts",
         "browser": "src/main.ts",
-        "browserslist": "",
         "keywords": [
             "css",
             "js",
@@ -660,13 +694,13 @@
                     "component"
                 ]
             },
-            "path": "/home/runner/work/zui/zui/lib/scrollbar",
+            "path": "/Users/hao/Projects/zui3/lib/scrollbar",
             "workspace": true,
             "sourceType": "build-in",
             "name": "scrollbar",
             "notReady": false,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/scrollbar/package.json",
-            "order": 2000000042010000000
+            "packageJsonPath": "/Users/hao/Projects/zui3/lib/scrollbar/package.json",
+            "order": 2000000044010000000
         }
     },
     {
@@ -686,13 +720,13 @@
                     "class"
                 ]
             },
-            "path": "/home/runner/work/zui/zui/lib/core",
+            "path": "/Users/hao/Projects/zui3/lib/core",
             "workspace": true,
             "sourceType": "build-in",
             "name": "core",
             "notReady": false,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/core/package.json",
-            "order": 3000000013010000000
+            "packageJsonPath": "/Users/hao/Projects/zui3/lib/core/package.json",
+            "order": 3000000014010000000
         }
     },
     {
@@ -716,13 +750,13 @@
                     "module"
                 ]
             },
-            "path": "/home/runner/work/zui/zui/lib/dnd",
+            "path": "/Users/hao/Projects/zui3/lib/dnd",
             "workspace": true,
             "sourceType": "build-in",
             "name": "dnd",
             "notReady": false,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/dnd/package.json",
-            "order": 3000000017010000000
+            "packageJsonPath": "/Users/hao/Projects/zui3/lib/dnd/package.json",
+            "order": 3000000019010000000
         },
         "dependencies": {
             "@zui/core": "workspace:^0.0.1"
@@ -749,14 +783,14 @@
                     "class"
                 ]
             },
-            "path": "/home/runner/work/zui/zui/lib/event-bus",
+            "path": "/Users/hao/Projects/zui3/lib/event-bus",
             "workspace": true,
             "sourceType": "build-in",
             "name": "event-bus",
             "notReady": false,
             "wip": true,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/event-bus/package.json",
-            "order": 3000000020010000000
+            "packageJsonPath": "/Users/hao/Projects/zui3/lib/event-bus/package.json",
+            "order": 3000000022010000000
         }
     },
     {
@@ -780,13 +814,13 @@
                     "module"
                 ]
             },
-            "path": "/home/runner/work/zui/zui/lib/sortable",
+            "path": "/Users/hao/Projects/zui3/lib/sortable",
             "workspace": true,
             "sourceType": "build-in",
             "name": "sortable",
             "notReady": false,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/sortable/package.json",
-            "order": 3000000045010000000
+            "packageJsonPath": "/Users/hao/Projects/zui3/lib/sortable/package.json",
+            "order": 3000000047010000000
         },
         "dependencies": {
             "@zui/core": "workspace:^0.0.1",
@@ -818,13 +852,13 @@
                     "module"
                 ]
             },
-            "path": "/home/runner/work/zui/zui/lib/split",
+            "path": "/Users/hao/Projects/zui3/lib/split",
             "workspace": true,
             "sourceType": "build-in",
             "name": "split",
             "notReady": false,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/split/package.json",
-            "order": 3000000046010000000
+            "packageJsonPath": "/Users/hao/Projects/zui3/lib/split/package.json",
+            "order": 3000000048010000000
         },
         "dependencies": {
             "@zui/core": "workspace:^0.0.1",
@@ -858,13 +892,13 @@
                     "module"
                 ]
             },
-            "path": "/home/runner/work/zui/zui/lib/store",
+            "path": "/Users/hao/Projects/zui3/lib/store",
             "workspace": true,
             "sourceType": "build-in",
             "name": "store",
             "notReady": false,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/store/package.json",
-            "order": 3000000047010000000
+            "packageJsonPath": "/Users/hao/Projects/zui3/lib/store/package.json",
+            "order": 3000000049010000000
         }
     },
     {
@@ -894,12 +928,12 @@
                     "var"
                 ]
             },
-            "path": "/home/runner/work/zui/zui/lib/avatar",
+            "path": "/Users/hao/Projects/zui3/lib/avatar",
             "workspace": true,
             "sourceType": "build-in",
             "name": "avatar",
             "notReady": false,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/avatar/package.json",
+            "packageJsonPath": "/Users/hao/Projects/zui3/lib/avatar/package.json",
             "order": 4000000001010000000
         }
     },
@@ -929,12 +963,12 @@
                     "var"
                 ]
             },
-            "path": "/home/runner/work/zui/zui/lib/avatar-group",
+            "path": "/Users/hao/Projects/zui3/lib/avatar-group",
             "workspace": true,
             "sourceType": "build-in",
             "name": "avatar-group",
             "notReady": false,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/avatar-group/package.json",
+            "packageJsonPath": "/Users/hao/Projects/zui3/lib/avatar-group/package.json",
             "order": 4000000002010000000
         }
     },
@@ -975,12 +1009,12 @@
                     "var"
                 ]
             },
-            "path": "/home/runner/work/zui/zui/lib/btn-group",
+            "path": "/Users/hao/Projects/zui3/lib/btn-group",
             "workspace": true,
             "sourceType": "build-in",
             "name": "btn-group",
             "notReady": false,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/btn-group/package.json",
+            "packageJsonPath": "/Users/hao/Projects/zui3/lib/btn-group/package.json",
             "order": 4000000005010000000
         }
     },
@@ -1018,13 +1052,13 @@
                     "component"
                 ]
             },
-            "path": "/home/runner/work/zui/zui/lib/calendar",
+            "path": "/Users/hao/Projects/zui3/lib/calendar",
             "workspace": true,
             "sourceType": "build-in",
             "name": "calendar",
             "notReady": true,
             "wip": true,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/calendar/package.json",
+            "packageJsonPath": "/Users/hao/Projects/zui3/lib/calendar/package.json",
             "order": 4000000007010000000
         }
     },
@@ -1061,13 +1095,13 @@
                     "var"
                 ]
             },
-            "path": "/home/runner/work/zui/zui/lib/color-picker",
+            "path": "/Users/hao/Projects/zui3/lib/color-picker",
             "workspace": true,
             "sourceType": "build-in",
             "name": "color-picker",
             "notReady": false,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/color-picker/package.json",
-            "order": 4000000010010000000
+            "packageJsonPath": "/Users/hao/Projects/zui3/lib/color-picker/package.json",
+            "order": 4000000011010000000
         }
     },
     {
@@ -1110,13 +1144,13 @@
                     "var"
                 ]
             },
-            "path": "/home/runner/work/zui/zui/lib/datetime-picker",
+            "path": "/Users/hao/Projects/zui3/lib/datetime-picker",
             "workspace": true,
             "sourceType": "build-in",
             "name": "datetime-picker",
             "notReady": false,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/datetime-picker/package.json",
-            "order": 4000000016010000000
+            "packageJsonPath": "/Users/hao/Projects/zui3/lib/datetime-picker/package.json",
+            "order": 4000000017010000000
         }
     },
     {
@@ -1153,13 +1187,13 @@
                     "var"
                 ]
             },
-            "path": "/home/runner/work/zui/zui/lib/file-selector",
+            "path": "/Users/hao/Projects/zui3/lib/file-selector",
             "workspace": true,
             "sourceType": "build-in",
             "name": "file-selector",
             "notReady": false,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/file-selector/package.json",
-            "order": 4000000021010000000
+            "packageJsonPath": "/Users/hao/Projects/zui3/lib/file-selector/package.json",
+            "order": 4000000023010000000
         }
     },
     {
@@ -1192,13 +1226,13 @@
                     "var"
                 ]
             },
-            "path": "/home/runner/work/zui/zui/lib/input-group",
+            "path": "/Users/hao/Projects/zui3/lib/input-group",
             "workspace": true,
             "sourceType": "build-in",
             "name": "input-group",
             "notReady": false,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/input-group/package.json",
-            "order": 4000000027010000000
+            "packageJsonPath": "/Users/hao/Projects/zui3/lib/input-group/package.json",
+            "order": 4000000029010000000
         }
     },
     {
@@ -1241,13 +1275,13 @@
                     "component"
                 ]
             },
-            "path": "/home/runner/work/zui/zui/lib/modal",
+            "path": "/Users/hao/Projects/zui3/lib/modal",
             "workspace": true,
             "sourceType": "build-in",
             "name": "modal",
             "notReady": false,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/modal/package.json",
-            "order": 4000000033010000000
+            "packageJsonPath": "/Users/hao/Projects/zui3/lib/modal/package.json",
+            "order": 4000000035010000000
         }
     },
     {
@@ -1286,13 +1320,13 @@
                     "var"
                 ]
             },
-            "path": "/home/runner/work/zui/zui/lib/nav",
+            "path": "/Users/hao/Projects/zui3/lib/nav",
             "workspace": true,
             "sourceType": "build-in",
             "name": "nav",
             "notReady": false,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/nav/package.json",
-            "order": 4000000034010000000
+            "packageJsonPath": "/Users/hao/Projects/zui3/lib/nav/package.json",
+            "order": 4000000036010000000
         }
     },
     {
@@ -1333,13 +1367,13 @@
                     "var"
                 ]
             },
-            "path": "/home/runner/work/zui/zui/lib/pager",
+            "path": "/Users/hao/Projects/zui3/lib/pager",
             "workspace": true,
             "sourceType": "build-in",
             "name": "pager",
             "notReady": false,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/pager/package.json",
-            "order": 4000000035010000000
+            "packageJsonPath": "/Users/hao/Projects/zui3/lib/pager/package.json",
+            "order": 4000000037010000000
         }
     },
     {
@@ -1366,13 +1400,13 @@
                     "var"
                 ]
             },
-            "path": "/home/runner/work/zui/zui/lib/panel",
+            "path": "/Users/hao/Projects/zui3/lib/panel",
             "workspace": true,
             "sourceType": "build-in",
             "name": "panel",
             "notReady": false,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/panel/package.json",
-            "order": 4000000036010000000
+            "packageJsonPath": "/Users/hao/Projects/zui3/lib/panel/package.json",
+            "order": 4000000038010000000
         }
     },
     {
@@ -1410,13 +1444,13 @@
                     "var"
                 ]
             },
-            "path": "/home/runner/work/zui/zui/lib/pick",
+            "path": "/Users/hao/Projects/zui3/lib/pick",
             "workspace": true,
             "sourceType": "build-in",
             "name": "pick",
             "notReady": false,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/pick/package.json",
-            "order": 4000000037010000000
+            "packageJsonPath": "/Users/hao/Projects/zui3/lib/pick/package.json",
+            "order": 4000000039010000000
         }
     },
     {
@@ -1456,13 +1490,13 @@
                     "var"
                 ]
             },
-            "path": "/home/runner/work/zui/zui/lib/picker",
+            "path": "/Users/hao/Projects/zui3/lib/picker",
             "workspace": true,
             "sourceType": "build-in",
             "name": "picker",
             "notReady": false,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/picker/package.json",
-            "order": 4000000038010000000
+            "packageJsonPath": "/Users/hao/Projects/zui3/lib/picker/package.json",
+            "order": 4000000040010000000
         }
     },
     {
@@ -1496,13 +1530,13 @@
                     "var"
                 ]
             },
-            "path": "/home/runner/work/zui/zui/lib/popover",
+            "path": "/Users/hao/Projects/zui3/lib/popover",
             "workspace": true,
             "sourceType": "build-in",
             "name": "popover",
             "notReady": false,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/popover/package.json",
-            "order": 4000000039010000000
+            "packageJsonPath": "/Users/hao/Projects/zui3/lib/popover/package.json",
+            "order": 4000000041010000000
         }
     },
     {
@@ -1537,13 +1571,13 @@
                     "var"
                 ]
             },
-            "path": "/home/runner/work/zui/zui/lib/search-box",
+            "path": "/Users/hao/Projects/zui3/lib/search-box",
             "workspace": true,
             "sourceType": "build-in",
             "name": "search-box",
             "notReady": false,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/search-box/package.json",
-            "order": 4000000043010000000
+            "packageJsonPath": "/Users/hao/Projects/zui3/lib/search-box/package.json",
+            "order": 4000000045010000000
         }
     },
     {
@@ -1574,13 +1608,13 @@
                     "var"
                 ]
             },
-            "path": "/home/runner/work/zui/zui/lib/sidebar",
+            "path": "/Users/hao/Projects/zui3/lib/sidebar",
             "workspace": true,
             "sourceType": "build-in",
             "name": "sidebar",
             "notReady": false,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/sidebar/package.json",
-            "order": 4000000044010000000
+            "packageJsonPath": "/Users/hao/Projects/zui3/lib/sidebar/package.json",
+            "order": 4000000046010000000
         }
     },
     {
@@ -1609,13 +1643,13 @@
                     "var"
                 ]
             },
-            "path": "/home/runner/work/zui/zui/lib/table",
+            "path": "/Users/hao/Projects/zui3/lib/table",
             "workspace": true,
             "sourceType": "build-in",
             "name": "table",
             "notReady": false,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/table/package.json",
-            "order": 4000000048010000000
+            "packageJsonPath": "/Users/hao/Projects/zui3/lib/table/package.json",
+            "order": 4000000050010000000
         }
     },
     {
@@ -1655,13 +1689,13 @@
                     "var"
                 ]
             },
-            "path": "/home/runner/work/zui/zui/lib/toolbar",
+            "path": "/Users/hao/Projects/zui3/lib/toolbar",
             "workspace": true,
             "sourceType": "build-in",
             "name": "toolbar",
             "notReady": false,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/toolbar/package.json",
-            "order": 4000000050010000000
+            "packageJsonPath": "/Users/hao/Projects/zui3/lib/toolbar/package.json",
+            "order": 4000000052010000000
         }
     },
     {
@@ -1700,13 +1734,13 @@
                     "var"
                 ]
             },
-            "path": "/home/runner/work/zui/zui/lib/tooltip",
+            "path": "/Users/hao/Projects/zui3/lib/tooltip",
             "workspace": true,
             "sourceType": "build-in",
             "name": "tooltip",
             "notReady": false,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/tooltip/package.json",
-            "order": 4000000051010000000
+            "packageJsonPath": "/Users/hao/Projects/zui3/lib/tooltip/package.json",
+            "order": 4000000053010000000
         }
     },
     {
@@ -1745,13 +1779,13 @@
                     "var"
                 ]
             },
-            "path": "/home/runner/work/zui/zui/lib/tree",
+            "path": "/Users/hao/Projects/zui3/lib/tree",
             "workspace": true,
             "sourceType": "build-in",
             "name": "tree",
             "notReady": false,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/tree/package.json",
-            "order": 4000000052010000000
+            "packageJsonPath": "/Users/hao/Projects/zui3/lib/tree/package.json",
+            "order": 4000000054010000000
         }
     },
     {
@@ -1784,13 +1818,13 @@
                     "var"
                 ]
             },
-            "path": "/home/runner/work/zui/zui/lib/upload",
+            "path": "/Users/hao/Projects/zui3/lib/upload",
             "workspace": true,
             "sourceType": "build-in",
             "name": "upload",
             "notReady": false,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/upload/package.json",
-            "order": 4000000054010000000
+            "packageJsonPath": "/Users/hao/Projects/zui3/lib/upload/package.json",
+            "order": 4000000056010000000
         }
     },
     {
@@ -1824,13 +1858,13 @@
                     "var"
                 ]
             },
-            "path": "/home/runner/work/zui/zui/lib/upload-imgs",
+            "path": "/Users/hao/Projects/zui3/lib/upload-imgs",
             "workspace": true,
             "sourceType": "build-in",
             "name": "upload-imgs",
             "notReady": false,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/upload-imgs/package.json",
-            "order": 4000000055010000000
+            "packageJsonPath": "/Users/hao/Projects/zui3/lib/upload-imgs/package.json",
+            "order": 4000000057010000000
         }
     },
     {
@@ -1859,14 +1893,14 @@
                     "var"
                 ]
             },
-            "path": "/home/runner/work/zui/zui/lib/virtual-grid",
+            "path": "/Users/hao/Projects/zui3/lib/virtual-grid",
             "workspace": true,
             "sourceType": "build-in",
             "name": "virtual-grid",
             "notReady": true,
             "wip": true,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/virtual-grid/package.json",
-            "order": 4000000057010000000
+            "packageJsonPath": "/Users/hao/Projects/zui3/lib/virtual-grid/package.json",
+            "order": 4000000059010000000
         }
     },
     {
@@ -1892,14 +1926,14 @@
                     "var"
                 ]
             },
-            "path": "/home/runner/work/zui/zui/lib/virtualize",
+            "path": "/Users/hao/Projects/zui3/lib/virtualize",
             "workspace": true,
             "sourceType": "build-in",
             "name": "virtualize",
             "notReady": false,
             "wip": true,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/virtualize/package.json",
-            "order": 4000000058010000000
+            "packageJsonPath": "/Users/hao/Projects/zui3/lib/virtualize/package.json",
+            "order": 4000000060010000000
         }
     },
     {
@@ -1941,12 +1975,12 @@
                     "component"
                 ]
             },
-            "path": "/home/runner/work/zui/zui/lib/cards",
+            "path": "/Users/hao/Projects/zui3/lib/cards",
             "workspace": true,
             "sourceType": "build-in",
             "name": "cards",
             "notReady": false,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/cards/package.json",
+            "packageJsonPath": "/Users/hao/Projects/zui3/lib/cards/package.json",
             "order": 5000000008010000000
         }
     },
@@ -1984,13 +2018,13 @@
                     "component"
                 ]
             },
-            "path": "/home/runner/work/zui/zui/lib/contextmenu",
+            "path": "/Users/hao/Projects/zui3/lib/contextmenu",
             "workspace": true,
             "sourceType": "build-in",
             "name": "contextmenu",
             "notReady": false,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/contextmenu/package.json",
-            "order": 5000000012010000000
+            "packageJsonPath": "/Users/hao/Projects/zui3/lib/contextmenu/package.json",
+            "order": 5000000013010000000
         }
     },
     {
@@ -2034,14 +2068,14 @@
                     "component"
                 ]
             },
-            "path": "/home/runner/work/zui/zui/lib/dashboard",
+            "path": "/Users/hao/Projects/zui3/lib/dashboard",
             "workspace": true,
             "sourceType": "build-in",
             "name": "dashboard",
             "notReady": false,
             "publicPath": false,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/dashboard/package.json",
-            "order": 5000000015010001000
+            "packageJsonPath": "/Users/hao/Projects/zui3/lib/dashboard/package.json",
+            "order": 5000000016010000000
         }
     },
     {
@@ -2086,13 +2120,13 @@
                     "component"
                 ]
             },
-            "path": "/home/runner/work/zui/zui/lib/dropdown",
+            "path": "/Users/hao/Projects/zui3/lib/dropdown",
             "workspace": true,
             "sourceType": "build-in",
             "name": "dropdown",
             "notReady": false,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/dropdown/package.json",
-            "order": 5000000018010000000
+            "packageJsonPath": "/Users/hao/Projects/zui3/lib/dropdown/package.json",
+            "order": 5000000020010000000
         }
     },
     {
@@ -2147,13 +2181,13 @@
                     "component"
                 ]
             },
-            "path": "/home/runner/work/zui/zui/lib/dtable",
+            "path": "/Users/hao/Projects/zui3/lib/dtable",
             "workspace": true,
             "sourceType": "build-in",
             "name": "dtable",
             "notReady": false,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/dtable/package.json",
-            "order": 5000000019010001000
+            "packageJsonPath": "/Users/hao/Projects/zui3/lib/dtable/package.json",
+            "order": 5000000021010000000
         }
     },
     {
@@ -2198,13 +2232,13 @@
                     "component"
                 ]
             },
-            "path": "/home/runner/work/zui/zui/lib/kanban",
+            "path": "/Users/hao/Projects/zui3/lib/kanban",
             "workspace": true,
             "sourceType": "build-in",
             "name": "kanban",
             "notReady": false,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/kanban/package.json",
-            "order": 5000000028010000000
+            "packageJsonPath": "/Users/hao/Projects/zui3/lib/kanban/package.json",
+            "order": 5000000030010000000
         }
     },
     {
@@ -2235,13 +2269,13 @@
                     "component"
                 ]
             },
-            "path": "/home/runner/work/zui/zui/lib/tabs",
+            "path": "/Users/hao/Projects/zui3/lib/tabs",
             "workspace": true,
             "sourceType": "build-in",
             "name": "tabs",
             "notReady": false,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/tabs/package.json",
-            "order": 5000000049010000000
+            "packageJsonPath": "/Users/hao/Projects/zui3/lib/tabs/package.json",
+            "order": 5000000051010001000
         }
     },
     {
@@ -2268,13 +2302,13 @@
                     "var"
                 ]
             },
-            "path": "/home/runner/work/zui/zui/lib/css-icons",
+            "path": "/Users/hao/Projects/zui3/lib/css-icons",
             "workspace": true,
             "sourceType": "build-in",
             "name": "css-icons",
             "notReady": false,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/css-icons/package.json",
-            "order": 6000000014010000000
+            "packageJsonPath": "/Users/hao/Projects/zui3/lib/css-icons/package.json",
+            "order": 6000000015010001000
         }
     },
     {
@@ -2302,13 +2336,13 @@
                     "var"
                 ]
             },
-            "path": "/home/runner/work/zui/zui/lib/utilities",
+            "path": "/Users/hao/Projects/zui3/lib/utilities",
             "workspace": true,
             "sourceType": "build-in",
             "name": "utilities",
             "notReady": false,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/utilities/package.json",
-            "order": 6000000056010000000
+            "packageJsonPath": "/Users/hao/Projects/zui3/lib/utilities/package.json",
+            "order": 6000000058010000000
         }
     },
     {
@@ -2334,13 +2368,13 @@
                     "method"
                 ]
             },
-            "path": "/home/runner/work/zui/zui/lib/helpers",
+            "path": "/Users/hao/Projects/zui3/lib/helpers",
             "workspace": true,
             "sourceType": "build-in",
             "name": "helpers",
             "notReady": false,
-            "packageJsonPath": "/home/runner/work/zui/zui/lib/helpers/package.json",
-            "order": 7000000024010000000
+            "packageJsonPath": "/Users/hao/Projects/zui3/lib/helpers/package.json",
+            "order": 7000000026010000000
         }
     }
 ]

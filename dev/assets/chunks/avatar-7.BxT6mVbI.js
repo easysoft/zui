@@ -1,0 +1,1 @@
+const a="/zui/dev/assets/avatar/avatar-1.png",s="/zui/dev/assets/avatar/avatar-2.png",t="/zui/dev/assets/avatar/avatar-3.png",r="/zui/dev/assets/avatar/avatar-4.png",v="/zui/dev/assets/avatar/avatar-5.png",e="/zui/dev/assets/avatar/avatar-6.png",o="/zui/dev/assets/avatar/avatar-7.png";export{a as _,s as a,t as b,r as c,v as d,e,o as f};
