@@ -89,7 +89,7 @@ export class CheckList<P extends CheckListProps = CheckListProps> extends HEleme
             this.setState({checked: newChecked});
         }
 
-        this.props.onChange?.call(this, event, newChecked);
+        this.props.onChange?.call(this, newChecked, event);
     };
 
     protected _getChildren(props: RenderableProps<P>): ComponentChildren {
