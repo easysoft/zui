@@ -32,11 +32,11 @@ export class Checkbox<P extends CheckboxProps = CheckboxProps> extends HElement<
     protected _handleChange = (event: Event) => {
         const {onChange} = this.props;
         const checked = (event.target as HTMLInputElement).indeterminate ? 'indeterminate' : (event.target as HTMLInputElement).checked;
-        if (onChange) {
-            onChange.call(this, event, checked);
-        }
         if (!this._controlled) {
             this.setState({checked});
+        }
+        if (onChange) {
+            onChange.call(this, event, checked);
         }
     };
 
@@ -44,7 +44,7 @@ export class Checkbox<P extends CheckboxProps = CheckboxProps> extends HElement<
         const {name, type, value, id, label} = props;
         const {checked} = this;
         return [
-            name ? (
+            name !== false ? (
                 <input
                     key="input"
                     type={type === 'radio' ? type : 'checkbox'}

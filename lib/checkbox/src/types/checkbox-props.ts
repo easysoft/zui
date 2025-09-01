@@ -8,7 +8,7 @@ export interface CheckboxProps extends HElementProps {
     defaultChecked?: CheckedType;
     checked?: CheckedType;
     disabled?: boolean;
-    name?: string;
+    name?: string | false;
     value?: string;
     onChange?: (event: Event, checked: CheckedType) => void;
 }
