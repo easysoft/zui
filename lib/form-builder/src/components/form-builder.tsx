@@ -306,12 +306,12 @@ export class FormBuilder extends HElement<FormBuilderOptions> {
             }];
         },
         multiPicker: 'picker',
-        input: ({schema, path}, builder) => {
+        input: ({schema}) => {
             const {type = 'string'} = schema;
             if (type === 'number' || type === 'integer') {
                 return ['input', {type: 'number'}, (event) => {
                     const value = ((event as Event).target as HTMLInputElement).value;
-                    builder.setFieldValue(path, +value);
+                    return +value;
                 }];
             }
             return 'input';
