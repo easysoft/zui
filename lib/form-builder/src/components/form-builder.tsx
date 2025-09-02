@@ -298,8 +298,6 @@ export class FormBuilder extends HElement<FormBuilderOptions> {
             }
             return 'input';
         },
-        map: [MapEdit],
-        stringList: [StringListEdit],
         picker: ({schema}) => {
             const isArray = schema.type === 'array';
             const multiple = schema.props?.multiple ?? (schema.widget === 'multiPicker' ? true : isArray);
