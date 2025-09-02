@@ -102,6 +102,7 @@ export class CheckList<P extends CheckListProps = CheckListProps> extends HEleme
                     key={item.value}
                     name={name}
                     id={`${id}_${item.value}`}
+                    label={item.label}
                     type={type}
                     value={item.value}
                     checked={checked.includes(item.value)}
