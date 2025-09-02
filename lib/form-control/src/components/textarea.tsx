@@ -1,5 +1,5 @@
 import {Component, type RenderableProps} from 'preact';
-import {ClassNameLike, classes} from '@zui/core';
+import {ClassNameLike, classes, $} from '@zui/core';
 
 export type TextAreaProps = {
     className?: ClassNameLike;
@@ -7,20 +7,33 @@ export type TextAreaProps = {
     disabled?: boolean;
     value?: string;
     readonly?: boolean;
+    autoHeight?: boolean;
     placeholder?: string;
     onChange?: (value: string, event: Event) => void;
 };
 
 export class TextArea extends Component<TextAreaProps> {
-    protected _controlled: boolean;
-
-    constructor(props: TextAreaProps) {
-        super(props);
-        this._controlled = props.value !== undefined;
-    }
-
     get value() {
         return (this.base as HTMLTextAreaElement).value;
+    }
+
+    autoHeight() {
+        $.autoHeight(this.base);
+    }
+
+    componentDidMount(): void {
+        if (this.props.autoHeight) {
+            this.autoHeight();
+            $(this.base).on('input paste change', () => {
+                this.autoHeight();
+            });
+        }
+    }
+
+    componentWillUnmount(): void {
+        if (this.props.autoHeight) {
+            $(this.base).off('input paste change');
+        }
     }
 
     protected _handleChange = (event: Event) => {
