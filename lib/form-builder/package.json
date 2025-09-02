@@ -12,6 +12,7 @@
         "@zui/checkbox": "workspace:*",
         "@zui/dtable": "workspace:*",
         "@zui/form-control": "workspace:*",
+        "@zui/collapsible": "workspace:*",
         "@zui/progress-circle": "workspace:*"
     },
     "devDependencies": {

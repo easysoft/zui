@@ -16,6 +16,7 @@ import '@zui/search-box';
 import '@zui/list';
 import '@zui/menu';
 import '@zui/form';
+import '@zui/collapsible';
 import '@zentao/icons';
 import '@zentao/picker/src/style';
 import '@zui/datetime-picker';

@@ -1,8 +1,8 @@
 import {Component, ComponentChild, RenderableProps} from 'preact';
 import {classes, CustomContent} from '@zui/core';
+import {Collapsible} from '@zui/collapsible/src/components';
 import {ArraySchema, FieldSchemaInfo} from '../types';
 import {SchemaFormItem} from './schema-form-item';
-import {CollapsableCell} from './collapsable-cell';
 
 export interface SchemaRendererProps {
     infoGetter: (path?: string) => FieldSchemaInfo | undefined;
@@ -27,9 +27,13 @@ export class SchemaRenderer extends Component<SchemaRendererProps> {
         }
         if (path.length) {
             return (
-                <CollapsableCell title={title} caption={description}>
+                <Collapsible
+                    title={title}
+                    caption={description}
+                    className="form-builder-collapsible"
+                >
                     {cells}
-                </CollapsableCell>
+                </Collapsible>
             );
         }
         return cells;
@@ -51,10 +55,12 @@ export class SchemaRenderer extends Component<SchemaRendererProps> {
             }
             const valueList = arraySchemaInfo.value as unknown[];
             return (
-                <CollapsableCell
+                <Collapsible
                     title={title}
                     caption={description}
-                    collapsed={schema.collapsed ?? (schema.title ? false : 'disabled')}
+                    disabled={schema.collapsed === 'disabled'}
+                    collapsed={typeof schema.collapsed === 'boolean' ? schema.collapsed : !schema.title}
+                    className="form-builder-collapsible"
                 >
                     {valueList.map((value, index) => {
                         const itemSchemaInfo = {
@@ -64,7 +70,7 @@ export class SchemaRenderer extends Component<SchemaRendererProps> {
                         };
                         return <SchemaRenderer infoGetter={infoGetter} path={itemSchemaInfo.path} schemaInfo={itemSchemaInfo} onChangeField={this.props.onChangeField} />;
                     })}
-                </CollapsableCell>
+                </Collapsible>
             );
         }
         return this._renderFormItem(schemaInfo);
@@ -102,7 +108,7 @@ export class SchemaRenderer extends Component<SchemaRendererProps> {
                 key={path}
                 z-key={path}
                 z-type={type}
-                className={classes('form-builder-schema', {
+                className={classes('form-builder-item', {
                     'is-root': !path.length,
                     'is-disabled': disabled,
                     'is-readonly': readonly,
