@@ -44,6 +44,9 @@ export const schema = {
                     type: 'string',
                     widget: 'textarea',
                     placeholder: '请输入多行文本',
+                    props: {
+                        autoHeight: true,
+                    },
                     extra: {html: '这是表单项底部的额外内容，支持 <strong>HTML</strong> 语法。'},
                 },
             },
