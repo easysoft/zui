@@ -1,0 +1,10 @@
+.form-builder-title {
+  @apply -font-bold -text-lg -mb-3 -px-1;
+}
+
+.form-builder-schema .form-hint {
+  @apply -text-gray-500 -px-2;
+}
+.form-builder-extra {
+  @apply -px-2;
+}
