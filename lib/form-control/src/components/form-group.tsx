@@ -31,7 +31,7 @@ export function FormGroup(props: FormGroupProps) {
             {label ? (
                 <label class={classes('form-label', labelClass, required ? 'required' : '')} for={name}>
                     {label}
-                    {tooltip ? <div className="state" title={tooltip}><Icon icon="info" /></div> : null}
+                    {tooltip ? <div className="state" zui-toggle="tooltip" data-content={tooltip}><Icon icon="info" /></div> : null}
                 </label>
             ) : null}
             {control ? <FormControl {...control} /> : null}
