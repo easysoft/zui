@@ -89,6 +89,7 @@ export class CheckList<P extends CheckListProps = CheckListProps> extends HEleme
             this.setState({checked: newChecked});
         }
 
+        event.stopPropagation();
         this.props.onChange?.call(this, newChecked, event);
     };
 
