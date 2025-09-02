@@ -6,6 +6,6 @@
     },
     "include": [
       "src",
-      "docs",
+      "docs", "../form-control/src/components/form-control.tsx", "../form-control/src/components/form-group.tsx", "../form-control/src/components/map-edit.tsx", "../form-control/src/components/string-list-edit.tsx",
     ]
   }

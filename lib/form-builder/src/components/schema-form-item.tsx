@@ -1,7 +1,7 @@
 import {Component, RenderableProps} from 'preact';
+import {FormGroup} from '@zui/form-control/src/components';
 import {$} from '@zui/core';
 import {FieldSchemaInfo} from '../types';
-import {FormGroup} from './form-group';
 
 export interface SchemaFormItemProps {
     schemaInfo: FieldSchemaInfo;

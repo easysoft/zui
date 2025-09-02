@@ -3,8 +3,8 @@ import {type ClassNameLike, type ComponentChildren, computed, CustomContent, HEl
 import {Toolbar} from '@zui/toolbar/src/component';
 import {Picker} from '@zui/picker/src/component';
 import type {FormBuilderOptions, FormSchema, FormWidgetMap, JSONSchema, FieldSchemaInfo, FormWidgetSetting, FormWidgetSettingDefinition} from '../types';
-import {MapEdit} from './map-edit';
-import {StringListEdit} from './string-list-edit';
+import {MapEdit} from '../../../form-control/src/components/map-edit';
+import {StringListEdit} from '../../../form-control/src/components/string-list-edit';
 import {SchemaRenderer} from './schema-renderer';
 
 export class FormBuilder extends HElement<FormBuilderOptions> {
@@ -313,10 +313,7 @@ export class FormBuilder extends HElement<FormBuilderOptions> {
         input: ({schema}) => {
             const {type = 'string'} = schema;
             if (type === 'number' || type === 'integer') {
-                return ['input', {type: 'number'}, (event) => {
-                    const value = ((event as Event).target as HTMLInputElement).value;
-                    return +value;
-                }];
+                return ['input', {type: 'number'}];
             }
             return 'input';
         },

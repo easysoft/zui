@@ -2,12 +2,16 @@
     "name": "@zui/form-builder",
     "version": "0.0.1",
     "main": "src/main.ts",
+    "files": [
+        "./src/**/*"
+    ],
     "dependencies": {
         "@zui/core": "workspace:*",
         "@zui/toolbar": "workspace:*",
         "@zui/picker": "workspace:*",
         "@zui/checkbox": "workspace:*",
         "@zui/dtable": "workspace:*",
+        "@zui/form-control": "workspace:*",
         "@zui/progress-circle": "workspace:*"
     },
     "devDependencies": {

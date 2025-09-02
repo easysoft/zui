@@ -654,6 +654,12 @@ importers:
       '@zui/core':
         specifier: workspace:*
         version: link:../core
+      '@zui/dtable':
+        specifier: workspace:*
+        version: link:../dtable
+      '@zui/form-control':
+        specifier: workspace:*
+        version: link:../form-control
       '@zui/picker':
         specifier: workspace:*
         version: link:../picker
