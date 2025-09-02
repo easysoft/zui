@@ -10,6 +10,10 @@ declare module 'cash-dom' {
     interface Cash {
         autoHeight(this: Cash, options?: AutoHeightOptions): Cash;
     }
+
+    interface CashStatic {
+        autoHeight(selector: Selector, options?: AutoHeightOptions): Cash;
+    }
 }
 
 function autoHeight(selector: Selector) {
@@ -20,7 +24,7 @@ function autoHeight(selector: Selector) {
     if (maxHeight && minHeight > maxHeight) {
         minHeight = maxHeight;
     }
-    $element.css({minHeight});
+    return $element.css({minHeight});
 }
 
 $.fn.autoHeight = function (options: AutoHeightOptions) {
@@ -37,3 +41,5 @@ $.fn.autoHeight = function (options: AutoHeightOptions) {
         setTimeout(() => autoHeight($element), 100);
     });
 };
+
+$.autoHeight = autoHeight;
