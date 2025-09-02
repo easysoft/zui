@@ -182,9 +182,13 @@ export class FormBuilder extends HElement<FormBuilderOptions> {
     };
 
     protected _evaluateExpression(expression: string, ...args: [name: string, value: unknown][]): unknown {
-        const code = expression.substring(2, expression.length - 2);
-        const value = $.runJS(code, ...args);
-        return value;
+        try {
+            const code = expression.substring(2, expression.length - 2);
+            const value = $.runJS(code, ...args);
+            return value;
+        } catch (error) {
+            console.warn('[ZUI] Failed to evaluate expression:', expression, error);
+        }
     }
 
     protected _createFieldSchemaInfo(path: string): FieldSchemaInfo | undefined {
