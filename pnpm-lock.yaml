@@ -347,6 +347,28 @@ importers:
         specifier: workspace:*
         version: link:../utilities
 
+  lib/collapsible:
+    dependencies:
+      '@zui/base':
+        specifier: workspace:*
+        version: link:../base
+      '@zui/button':
+        specifier: workspace:^0.0.1
+        version: link:../button
+      '@zui/core':
+        specifier: workspace:^0.0.1
+        version: link:../core
+      '@zui/css-icons':
+        specifier: workspace:^0.0.1
+        version: link:../css-icons
+      '@zui/toolbar':
+        specifier: workspace:^0.0.1
+        version: link:../toolbar
+    devDependencies:
+      '@zui/utilities':
+        specifier: workspace:*
+        version: link:../utilities
+
   lib/color-picker:
     dependencies:
       '@zui/base':
@@ -651,6 +673,9 @@ importers:
       '@zui/checkbox':
         specifier: workspace:*
         version: link:../checkbox
+      '@zui/collapsible':
+        specifier: workspace:*
+        version: link:../collapsible
       '@zui/core':
         specifier: workspace:*
         version: link:../core
