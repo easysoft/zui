@@ -72,6 +72,7 @@ export default tseslint.config(
         './dist/**/*',
         './docs/_/**/*',
         './lib/*/public/**/*',
+        './lib/*/dev/**/*',
         './exts/*/*/public/**/*',
     ]),
 );
