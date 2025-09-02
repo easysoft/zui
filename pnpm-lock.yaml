@@ -675,6 +675,10 @@ importers:
         version: link:../../dev
 
   lib/form-control:
+    dependencies:
+      '@zui/core':
+        specifier: workspace:*
+        version: link:../core
     devDependencies:
       '@zui/base':
         specifier: workspace:*
