@@ -56,7 +56,7 @@ if (import.meta.hot) {
             if (libPage) {
                 libPage.innerHTML = data.content;
                 libPage.classList.add('is-loaded');
-                document.dispatchEvent(new CustomEvent('dev-page-update'));
+                document.dispatchEvent(new CustomEvent('dev-page-update', {detail: {libName: data.libName}}));
             }
         }
     });

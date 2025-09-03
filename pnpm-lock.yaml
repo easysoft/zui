@@ -160,7 +160,11 @@ importers:
         specifier: ^2.2.0
         version: 2.2.0
 
-  dev: {}
+  dev:
+    dependencies:
+      '@zui/form-builder':
+        specifier: workspace:*
+        version: link:../lib/form-builder
 
   docs:
     dependencies:

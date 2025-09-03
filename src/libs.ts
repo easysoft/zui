@@ -39,7 +39,7 @@ export async function loadLibPage(libName: string) {
     if (libPage) {
         libPage.innerHTML = content;
         libPage.classList.add('is-loaded');
-        document.dispatchEvent(new CustomEvent('dev-page-load'));
+        document.dispatchEvent(new CustomEvent('dev-page-load', {detail: {libName}}));
     }
     document.title = `${libName.toUpperCase()} - ZUI3`;
 }
