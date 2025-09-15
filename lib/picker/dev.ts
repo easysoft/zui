@@ -149,6 +149,7 @@ onPageUpdate(() => {
         onSelect: values => console.log('onSelect', values),
         onDeselect: values => console.log('onDeselect', values),
         onChange: (value, oldValue) => console.log('onChange', value, '<==', oldValue),
+        shareSelections: 'selectOne',
     });
     $('#singlePicker').on('change', (event) => {
         console.log('change', event.target.value, event);
@@ -165,6 +166,7 @@ onPageUpdate(() => {
         onSelect: values => console.log('onSelect', values),
         onDeselect: values => console.log('onDeselect', values),
         onChange: (value, oldValue) => console.log('onChange', value, '<==', oldValue),
+        shareSelections: 'selectOne',
     });
     $('#multiPicker').on('change', (event) => {
         console.log('change', event.target.value, event);

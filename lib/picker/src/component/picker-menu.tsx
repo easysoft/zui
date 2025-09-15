@@ -123,6 +123,9 @@ export class PickerMenu extends PickPop<PickerState, PickerMenuProps> {
         if (item.content && item.text) {
             delete item.text;
         }
+        if (this.props.getItem) {
+            item = this.props.getItem(item, index);
+        }
         const result = this._getItemCallback?.call(this, item, index) ?? item;
         if (!result) {
             return result;

@@ -6,7 +6,7 @@ import {PickerSingleSelect} from './picker-single-select';
 import {PickerMenu} from './picker-menu';
 
 import type {ComponentType, RenderableProps} from 'preact';
-import type {ListItem, ListItemsFetcher} from '@zui/list';
+import type {ListItem, ListItemsFetcher, NestedItem} from '@zui/list';
 import type {PickTriggerProps} from '@zui/pick';
 import type {PickerItemBasic, PickerItemOptions, PickerMenuProps, PickerOptions, PickerSelectProps, PickerState} from '../types';
 import {formatString} from '@zui/helpers/src/string-helper';
@@ -44,6 +44,8 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
 
     protected declare _emptyValueSet: Set<string>;
 
+    protected declare _sharedValueSet: Set<string>;
+
     constructor(props: O) {
         super(props);
 
@@ -52,7 +54,11 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
     }
 
     get valueList(): string[] {
-        return this.formatValueList(this.state.value);
+        if (this.props.multiple) {
+            return this.formatValueList(this.state.value);
+        }
+        const value = this.state.value;
+        return this.isEmptyValue(value) ? [] : [value];
     }
 
     get firstEmptyValue() {
@@ -61,6 +67,10 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
 
     get searchBox() {
         return (this.trigger as PickerMultiSelect | PickerSingleSelect)?.searchBox;
+    }
+
+    get value() {
+        return this.props.value ?? this.state.value;
     }
 
     focusSearch(search?: string) {
@@ -303,6 +313,13 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
     componentDidMount(): void {
         super.componentDidMount();
         this.tryUpdate();
+
+        const {shareSelections} = this.props;
+        if (shareSelections) {
+            const sharedPickers = Picker.sharedPickers.get(shareSelections) || new Set();
+            sharedPickers.add(this as unknown as Picker);
+            Picker.sharedPickers.set(shareSelections, sharedPickers);
+        }
     }
 
     componentWillUnmount(): void {
@@ -310,6 +327,16 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
         this._abort = undefined;
         this._itemsCacheInfo = undefined;
         clearTimeout(this._updateTimer);
+
+        const {shareSelections} = this.props;
+        if (shareSelections) {
+            const sharedPickers = Picker.sharedPickers.get(shareSelections) || new Set();
+            sharedPickers.delete(this as unknown as Picker);
+            if (!sharedPickers.size) {
+                Picker.sharedPickers.delete(shareSelections);
+            }
+        }
+
         super.componentWillUnmount();
     }
 
@@ -377,12 +404,23 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
         }
     };
 
+    protected _getMenuItem = (item: NestedItem, index: number) => {
+        if (this._sharedValueSet?.has(item.value as string)) {
+            item.disabled = true;
+        }
+        return item;
+    };
+
     protected _getPopProps(props: RenderableProps<O>, state: Readonly<S>): PickerMenuProps<S> {
+        if (props.shareSelections) {
+            this._sharedValueSet = Picker.getSharedSelections(props.shareSelections);
+        }
         return {
             ...super._getPopProps(props, state),
             picker: this as unknown as Picker,
             menu: props.menu,
             tree: props.tree,
+            getItem: props.shareSelections ? this._getMenuItem : undefined,
             checkbox: props.checkbox,
             multiple: props.multiple,
             search: props.search,
@@ -470,5 +508,16 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
         }
         const stateValue = this.formatValue(valueList);
         return super.setValue(stateValue, silent);
+    }
+
+    static sharedPickers = new Map<string, Set<Picker>>();
+
+    static getSharedSelections(name: string): Set<string> {
+        const valueSet = new Set<string>();
+        const sharedPickers = Picker.sharedPickers.get(name) || new Set();
+        sharedPickers.forEach((picker) => {
+            picker.valueList.forEach(value => valueSet.add(value));
+        });
+        return valueSet;
     }
 }
