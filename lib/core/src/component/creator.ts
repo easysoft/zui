@@ -307,7 +307,7 @@ function checkComponents(delay = 100) {
     }
     checkComponentsTimer = 0;
     Component.ALL.forEach((components) => {
-        components.forEach(component => component.autoDestroy());
+        components.forEach(component => !component.options.$notDestroyOnDetach && component.autoDestroy());
     });
 }
 
