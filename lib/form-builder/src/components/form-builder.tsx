@@ -3,8 +3,6 @@ import {type ClassNameLike, type ComponentChildren, computed, CustomContent, HEl
 import {Toolbar} from '@zui/toolbar/src/component';
 import {Picker} from '@zui/picker/src/component';
 import type {FormBuilderOptions, FormSchema, FormWidgetMap, JSONSchema, FieldSchemaInfo, FormWidgetSetting, FormWidgetSettingDefinition} from '../types';
-import {MapEdit} from '../../../form-control/src/components/map-edit';
-import {StringListEdit} from '../../../form-control/src/components/string-list-edit';
 import {SchemaRenderer} from './schema-renderer';
 
 export class FormBuilder extends HElement<FormBuilderOptions> {
