@@ -292,6 +292,13 @@ export class Component<O extends object = object, E extends ComponentEventsDefni
      */
     render(options?: Partial<ComponentOptions<O>>, reset?: boolean) {
         this.setOptions(options, reset);
+        const {$class, $style} = this.options;
+        if ($class) {
+            this.$element.setClass($class);
+        }
+        if ($style) {
+            this.$element.css($style);
+        }
     }
 
     /**

@@ -65,7 +65,7 @@ export class ComponentFromReact<O extends object = object, C extends ComponentRe
         super.destroy();
     }
 
-    protected _getRenderProps(userOptions: Omit<O, '$replace' | '$optionsFromDataset'>): Omit<O, '$replace' | '$optionsFromDataset'> & {ref: RefObject<C>} {
+    protected _getRenderProps(userOptions: Omit<O, '$replace' | '$optionsFromDataset' | '$class' | '$style'>): Omit<O, '$replace' | '$optionsFromDataset' | '$class' | '$style'> & {ref: RefObject<C>} {
         return {
             ref: this._ref,
             ...userOptions,
@@ -80,7 +80,9 @@ export class ComponentFromReact<O extends object = object, C extends ComponentRe
     render(options?: Partial<O>, reset?: boolean) {
         const {element, $: instance} = this;
         const {Component, replace} = this.constructor;
-        const {$replace = replace, $optionsFromDataset, ...userOptions} = this.setOptions(options, reset);
+
+        super.render(options, reset);
+        const {$replace = replace, $optionsFromDataset, $class, $style, ...userOptions} = this.options;
         const props = this._getRenderProps(userOptions);
         if (reset) {
             (instance as {resetState?: (props?: Record<string, unknown>, init?: boolean) => void})?.resetState?.(props);

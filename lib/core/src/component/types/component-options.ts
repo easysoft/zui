@@ -1,4 +1,6 @@
-import {FetcherSetting} from '../../ajax';
+import type {JSX} from 'preact';
+import type {FetcherSetting} from '../../ajax';
+import type {ClassNameLike} from '../../helpers';
 import type {I18nLangMap} from '../../i18n';
 
 /**
@@ -22,4 +24,6 @@ export type ComponentOptions<O extends object = object> = ComponentBaseOptions &
     $onCreate?: () => void;
     $onInited?: () => void;
     $onDestroy?: () => void;
+    $class?: ClassNameLike;
+    $style?: JSX.CSSProperties;
 };
