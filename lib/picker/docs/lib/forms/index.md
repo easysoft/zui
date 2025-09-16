@@ -112,6 +112,47 @@ const picker = new zui.Picker('#multiPickerExample', {
 
 :::
 
+## 共享选择项
+
+通过 `shareSelections` 属性可以共享选择项标识，当在一个 Picker 中选中的选项会在其他共享同一标识符的 Picker 中被标记为不可选择。
+
+::: tabs
+
+== 示例
+
+<Example class="row gap-4 justify-stretch">
+  <ZUI use="picker" :options="{$class: 'flex-1', items, shareSelections: 'sharedPicker', placeholder: '请选择一个水果，无法选择右侧已选择的水果'}" />
+  <ZUI use="picker" :options="{$class: 'flex-1', items, shareSelections: 'sharedPicker', placeholder: '请选择一个水果，无法选择左侧已选择的水果'}" />
+</Example>
+
+== HTML
+
+```html
+<div id="sharedPickerExample1"></div>
+```
+
+== JS
+
+```js
+const items = [
+    {text: 'Apple', value: 'apple'},
+    {text: 'Banana', value: 'banana'},
+    {text: 'Orange', value: 'orange'},
+];
+const picker1 = new zui.Picker('#sharedPickerExample1', {
+    shareSelections: 'sharedPicker',
+    placeholder: '请选择一个水果',
+    items,
+});
+const picker2 = new zui.Picker('#sharedPickerExample2', {
+    shareSelections: 'sharedPicker',
+    placeholder: '请选择一个水果',
+    items,
+});
+```
+
+:::
+
 ## 初始化选项
 
 <Props>
@@ -141,24 +182,50 @@ onChange?: function;
 disabled?: boolean;
 /** 是否允许选择多个值，如果指定为数字，则限制多选的数目，默认 false。 */
 multiple?: boolean | number;
-/** 是否必选（不允许空值，不可以被清除）。 */
-required?: boolean;
 /** 选择框上的占位文本。 */
 placeholder?: string;
+/** 是否必选（不允许空值，不可以被清除）。 */
+required?: boolean;
 /** 多个值的分隔字符串，默认为 ','。 */
 valueSplitter?: string;
+/** 空值定义。 */
+emptyValue?: string | false;
+/** 是否限制值必须在列表中。 */
+limitValueInList?: boolean;
 /** 列表项或列表项获取方法。 */
 items: object[] | function;
+/** 树形选项配置。 */
+tree?: TreeOptions | boolean;
 /** 附加的菜单选项。 */
-menu?: MenuOptions;
-/** 是否启用快捷键。 */
-hotkey?: boolean;
-/** 是否启用搜索。 */
-search?: boolean | number;
+menu?: SearchTreeOptions;
+/** 复选框选项。 */
+checkbox?: boolean | object;
+/** 共享选择标识。 */
+shareSelections?: string;
+/** 最大选项数量。 */
+maxItemsCount?: number;
+/** 超出限制提示文本。 */
+exceedLimitHint?: string;
+/** 工具栏配置。 */
+toolbar?: ToolbarSetting | boolean;
+/** 是否启用缓存。 */
+cache?: boolean;
 /** 搜索延迟时间，单位：毫秒。 */
 searchDelay?: number;
+/** 搜索为空时的提示文本。 */
+searchEmptyHint?: string;
+/** 显示格式，可以是字符串或函数。 */
+display?: string | function;
+/** 是否启用搜索，如果指定为数字，则限制搜索的最小字符数。 */
+search?: boolean | number;
 /** 搜索提示文本。 */
 searchHint?: string;
+/** 快捷键设置。 */
+hotkeys?: object;
+/** 下拉箭头的类名。 */
+caretClass?: string | object | array;
+/** 选择后是否清空搜索。 */
+clearSearchOnSelect?: boolean;
 /** 当取消选择值时的回调函数。 */
 onDeselect?: function;
 /** 当选择值时的回调函数。 */
@@ -232,22 +299,23 @@ style?: object;
 <script setup>
 import {onMounted} from 'vue';
 
+const items = [
+      {text: 'Apple', value: 'apple', keys: 'fruit food'},
+      {text: 'Banana', value: 'banana', keys: 'fruit food'},
+      {text: 'Orange', value: 'orange', keys: 'fruit food'},
+      {text: 'Strawberries', value: 'strawberries', keys: 'fruit food'},
+      {text: 'Cat', value: 'cat', keys: 'animals pet'},
+      {text: 'Dog', value: 'dog', keys: 'animals pet'},
+      {text: 'Fish', value: 'fish', keys: 'animals food'},
+      {text: 'Pig', value: 'pig', keys: 'animals food'},
+      {text: '梨子', value: 'pear', keys: 'fruit food'},
+      {text: 'Anna', value: 'anna', keys: 'human animals'},
+      {text: 'Ben', value: 'ben', keys: 'human animals'},
+      {text: 'Cake', value: 'cake', keys: 'food'},
+];
+
 onMounted(() => {
     onZUIReady(() => {
-        const items = [
-            {text: 'Apple', value: 'apple', keys: 'fruit food'},
-            {text: 'Banana', value: 'banana', keys: 'fruit food'},
-            {text: 'Orange', value: 'orange', keys: 'fruit food'},
-            {text: 'Strawberries', value: 'strawberries', keys: 'fruit food'},
-            {text: 'Cat', value: 'cat', keys: 'animals pet'},
-            {text: 'Dog', value: 'dog', keys: 'animals pet'},
-            {text: 'Fish', value: 'fish', keys: 'animals food'},
-            {text: 'Pig', value: 'pig', keys: 'animals food'},
-            {text: '梨子', value: 'pear', keys: 'fruit food'},
-            {text: 'Anna', value: 'anna', keys: 'human animals'},
-            {text: 'Ben', value: 'ben', keys: 'human animals'},
-            {text: 'Cake', value: 'cake', keys: 'food'},
-        ];
         new zui.Picker('#singlePickerExample', {
             items,
             defaultValue: 'banana',
