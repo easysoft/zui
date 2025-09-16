@@ -404,7 +404,7 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
         }
     };
 
-    protected _getMenuItem = (item: NestedItem, index: number) => {
+    protected _getMenuItem = (item: NestedItem) => {
         if (this._sharedValueSet?.has(item.value as string)) {
             item.disabled = true;
         }
