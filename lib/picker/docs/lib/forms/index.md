@@ -9,7 +9,7 @@
 == 示例
 
 <Example>
-  <div id="singlePickerExample"></div>
+  <ZUI use="picker" :options="{items, defaultValue: 'banana', name: 'picker', placeholder: '请选择你的最爱', searchHint: '搜索选项'}" />
 </Example>
 
 == HTML
@@ -51,7 +51,7 @@ const picker = new zui.Picker('#singlePickerExample', {
 == 示例
 
 <Example>
-  <div id="multiPickerExample"></div>
+  <ZUI use="picker" :options="{multiple: true, items, defaultValue: 'banana,orange', placeholder: '请选择你的最爱', menuCheckbox: true}" />
 </Example>
 
 == HTML
@@ -95,7 +95,7 @@ const picker = new zui.Picker('#multiPickerExample', {
 <Example>
   <div class="input-group">
     <span class="input-group-addon">选择一种水果</span>
-    <div class="input-group-control" data-zui="picker" data-items='[{"text": "Apple", "value": "apple"}, {"text": "Banana", "value": "banana"}]'></div>
+    <ZUI use="picker" :options="{$class: 'input-group-control', items}" />
     <button type="button" class="btn btn-default" tabindex="-1">刷新</button>
   </div>
 </Example>
@@ -297,8 +297,6 @@ style?: object;
 </Props>
 
 <script setup>
-import {onMounted} from 'vue';
-
 const items = [
       {text: 'Apple', value: 'apple', keys: 'fruit food'},
       {text: 'Banana', value: 'banana', keys: 'fruit food'},
@@ -313,25 +311,4 @@ const items = [
       {text: 'Ben', value: 'ben', keys: 'human animals'},
       {text: 'Cake', value: 'cake', keys: 'food'},
 ];
-
-onMounted(() => {
-    onZUIReady(() => {
-        new zui.Picker('#singlePickerExample', {
-            items,
-            defaultValue: 'banana',
-            name: 'picker',
-            placeholder: '请选择你的最爱',
-            searchHint: '搜索选项',
-        });
-
-        new zui.Picker('#multiPickerExample', {
-            multiple: true,
-            items,
-            defaultValue: 'banana,orange',
-            name: 'picker',
-            placeholder: '请选择你的最爱',
-            menuCheckbox: true,
-        });
-    });
-});
 </script>
