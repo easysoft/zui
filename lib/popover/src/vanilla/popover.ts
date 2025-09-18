@@ -317,12 +317,12 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
         this._clearDelayHide();
     }
 
-    update() {
+    updateLayout() {
         if (this.destroyed || !this._shown) {
             return;
         }
 
-        const trigger = this._triggerElement;
+        const trigger = this.getTriggerElement();
         const target = this._targetElement;
         const {animation, name = 'popover', minWidth, minHeight, maxWidth, maxHeight, limitInScreen, onLayout} = this.options;
         if (!this._virtual) {
@@ -411,7 +411,7 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
             return;
         }
 
-        this._layoutWatcher = autoUpdate(trigger, target, this.update.bind(this), {ancestorResize: false});
+        this._layoutWatcher = autoUpdate(trigger, target, this.updateLayout.bind(this), {ancestorResize: false});
     }
 
     render(options?: Partial<O>) {
