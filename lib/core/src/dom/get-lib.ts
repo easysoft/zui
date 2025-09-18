@@ -73,16 +73,14 @@ declare module 'cash-dom' {
     }
 }
 
-/** Define the $.libRoot property. */
-$.setLibRoot = function (root: string, libVersion?: string): void {
+export function setLibRoot(root: string, libVersion?: string): void {
     $.libRoot = root;
     if (libVersion) {
         $.libVersion = libVersion;
     }
 };
 
-/** Define the $.libMap property. */
-$.registerLib = function (name: string, options: GetLibOptions): void {
+export function registerLib(name: string, options: GetLibOptions): void {
     if (!$.libMap) {
         $.libMap = {};
     }
@@ -91,6 +89,12 @@ $.registerLib = function (name: string, options: GetLibOptions): void {
     }
     $.libMap[name] = options;
 };
+
+/** Define the $.libRoot property. */
+$.setLibRoot = setLibRoot;
+
+/** Define the $.libMap property. */
+$.registerLib = registerLib;
 
 $.libVersion = BUILD.toString(36);
 
@@ -233,8 +237,7 @@ export function loadModule<T = unknown>(options: string | LoadJSModuleOptions): 
     });
 }
 
-/** Define the $.getLib method. */
-$.getLib = async function<T = unknown> (optionsOrSrc: string | string[] | GetLibOptions, optionsOrCallback?: Omit<GetLibOptions, 'src'> | GetLibCallback, callback?: GetLibCallback): Promise<T | undefined> {
+export async function getLib<T = unknown>(optionsOrSrc: string | string[] | GetLibOptions, optionsOrCallback?: Omit<GetLibOptions, 'src'> | GetLibCallback, callback?: GetLibCallback): Promise<T | undefined> {
     if (typeof optionsOrSrc === 'string') {
         optionsOrSrc = ($.libMap?.[optionsOrSrc] || {src: optionsOrSrc}) as GetLibOptions;
     }
@@ -319,6 +322,9 @@ $.getLib = async function<T = unknown> (optionsOrSrc: string | string[] | GetLib
     }
     return onSuccess();
 };
+
+/** Define the $.getLib method. */
+$.getLib = getLib;
 
 /** Define the $.getScript method. */
 $.getScript = $.getLib;
