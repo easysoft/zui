@@ -24,3 +24,5 @@ export * from './run-js';
 export * from './select-file';
 export * from './read-file';
 export * from './debounce';
+export * from './get-lib';
+export * from './lib-loader';
