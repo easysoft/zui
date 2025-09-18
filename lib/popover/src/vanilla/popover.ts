@@ -317,6 +317,84 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
         this._clearDelayHide();
     }
 
+    update() {
+        if (this.destroyed || !this._shown) {
+            return;
+        }
+
+        const trigger = this._triggerElement;
+        const target = this._targetElement;
+        const {animation, name = 'popover', minWidth, minHeight, maxWidth, maxHeight, limitInScreen, onLayout} = this.options;
+        if (!this._virtual) {
+            const style: JSX.CSSProperties = {
+                minWidth: toCssSize(minWidth),
+                minHeight: toCssSize(minHeight),
+                maxWidth: toCssSize(maxWidth),
+                maxHeight: toCssSize(maxHeight),
+            };
+            const {width, height} = this.options;
+            if (width) {
+                style.width = typeof width === 'function' ? width() : (width === '100%' ? $(trigger as HTMLElement).outerWidth() : width);
+            }
+            if (height) {
+                style.height = typeof height === 'function' ? height() : height;
+            }
+            if (Object.keys(style).length) {
+                $(target).css(style);
+            }
+        }
+        computePosition(...this._getLayoutOptions()).then(({x, y, middlewareData, placement, strategy}) => {
+            if (trigger instanceof HTMLElement && isElementDetached(trigger)) {
+                this.hide(true);
+                return;
+            }
+            const style: JSX.CSSProperties = {
+                position: strategy,
+                left: x,
+                top: y,
+            };
+            const $target = $(target).css(style);
+            if (limitInScreen) {
+                $target.css({
+                    top: Math.max(0, Math.min(window.innerHeight - $target.outerHeight(), y)),
+                    left: Math.max(0, Math.min(window.innerWidth - $target.outerWidth(), x)),
+                });
+            }
+            const popSide = placement.split('-')[0] as PopoverSide;
+            const arrowSide = {
+                top: 'bottom',
+                right: 'left',
+                bottom: 'top',
+                left: 'right',
+            }[popSide] as PopoverSide;
+            const arrowPosition = middlewareData.arrow;
+            if (arrowPosition) {
+                $target.attr('data-pop-placement', popSide).find('.arrow').css({
+                    left: arrowPosition.x,
+                    top: arrowPosition.y,
+                }).attr('class', `arrow ${name}-arrow arrow-${arrowSide}`);
+            }
+            if (animation === true) {
+                $target.attr('class', `${$target.attr('class')!.split(' ').filter(n => n !== 'fade' && !n.startsWith('fade-from')).join(' ')} fade-from-${arrowSide}`);
+            }
+            if (!this._virtual) {
+                $(this._triggerElement as HTMLElement).attr('data-pop-placement', popSide);
+            }
+            if (onLayout) {
+                onLayout.call(this, {
+                    target: target as HTMLElement,
+                    trigger,
+                    popSide: popSide,
+                    arrowSide: arrowSide,
+                    x,
+                    y,
+                    placement,
+                    strategy,
+                });
+            }
+        });
+    }
+
     layout() {
         const trigger = this._triggerElement;
         const target = this._targetElement;
@@ -333,80 +411,7 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
             return;
         }
 
-        this._layoutWatcher = autoUpdate(trigger, target, () => {
-            if (this.destroyed || !this._shown) {
-                return;
-            }
-            const {animation, name = 'popover', minWidth, minHeight, maxWidth, maxHeight, limitInScreen, onLayout} = this.options;
-            if (!this._virtual) {
-                const style: JSX.CSSProperties = {
-                    minWidth: toCssSize(minWidth),
-                    minHeight: toCssSize(minHeight),
-                    maxWidth: toCssSize(maxWidth),
-                    maxHeight: toCssSize(maxHeight),
-                };
-                const {width, height} = this.options;
-                if (width) {
-                    style.width = typeof width === 'function' ? width() : (width === '100%' ? $(trigger as HTMLElement).outerWidth() : width);
-                }
-                if (height) {
-                    style.height = typeof height === 'function' ? height() : height;
-                }
-                if (Object.keys(style).length) {
-                    $(target).css(style);
-                }
-            }
-            computePosition(...this._getLayoutOptions()).then(({x, y, middlewareData, placement, strategy}) => {
-                if (trigger instanceof HTMLElement && isElementDetached(trigger)) {
-                    this.hide(true);
-                    return;
-                }
-                const style: JSX.CSSProperties = {
-                    position: strategy,
-                    left: x,
-                    top: y,
-                };
-                const $target = $(target).css(style);
-                if (limitInScreen) {
-                    $target.css({
-                        top: Math.max(0, Math.min(window.innerHeight - $target.outerHeight(), y)),
-                        left: Math.max(0, Math.min(window.innerWidth - $target.outerWidth(), x)),
-                    });
-                }
-                const popSide = placement.split('-')[0] as PopoverSide;
-                const arrowSide = {
-                    top: 'bottom',
-                    right: 'left',
-                    bottom: 'top',
-                    left: 'right',
-                }[popSide] as PopoverSide;
-                const arrowPosition = middlewareData.arrow;
-                if (arrowPosition) {
-                    $target.attr('data-pop-placement', popSide).find('.arrow').css({
-                        left: arrowPosition.x,
-                        top: arrowPosition.y,
-                    }).attr('class', `arrow ${name}-arrow arrow-${arrowSide}`);
-                }
-                if (animation === true) {
-                    $target.attr('class', `${$target.attr('class')!.split(' ').filter(n => n !== 'fade' && !n.startsWith('fade-from')).join(' ')} fade-from-${arrowSide}`);
-                }
-                if (!this._virtual) {
-                    $(this._triggerElement as HTMLElement).attr('data-pop-placement', popSide);
-                }
-                if (onLayout) {
-                    onLayout.call(this, {
-                        target,
-                        trigger,
-                        popSide: popSide,
-                        arrowSide: arrowSide,
-                        x,
-                        y,
-                        placement,
-                        strategy,
-                    });
-                }
-            });
-        }, {ancestorResize: false});
+        this._layoutWatcher = autoUpdate(trigger, target, this.update.bind(this), {ancestorResize: false});
     }
 
     render(options?: Partial<O>) {
