@@ -25,6 +25,9 @@ export class LibLoader<T = unknown> {
 
     async load() {
         this._module = await getLib(this._name);
-        return this._module;
+        if (!this._module) {
+            throw new Error(`[ZUI] Failed to load lib: ${this._name}`);
+        }
+        return this._module!;
     }
 }
