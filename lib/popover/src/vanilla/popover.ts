@@ -1,5 +1,5 @@
 import {arrow, computePosition, flip, shift, size, autoUpdate, offset, VirtualElement, ReferenceElement, ComputePositionConfig} from '@floating-ui/dom';
-import {Component, $, ComponentEvents, JSX, evalValue, toCssSize} from '@zui/core';
+import {Component, $, ComponentEvents, JSX, evalValue, toCssSize, nextGid} from '@zui/core';
 import {PopoverEvents, PopoverOptions, PopoverPanelOptions, PopoverSide} from '../types';
 import {PopoverPanel} from './popover-panel';
 import {isElementDetached} from '@zui/core/src/dom';
@@ -309,6 +309,9 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
             const {namespace} = this;
             $(this._triggerElement as HTMLElement).off(namespace);
         }
+        if (this.$element.hasClass('popover-tmp')) {
+            this.$element.remove();
+        }
         this._resetTimer();
         this._destoryTarget();
         this._clearDelayHide();
@@ -589,10 +592,25 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
         };
     };
 
+    static create<O extends PopoverOptions, E extends ComponentEvents, T extends typeof Popover<O, E>>(this: T, options?: O & {event?: Event}, element?: HTMLElement): InstanceType<T> {
+        const {element: elementSetting, container = 'body', id = `popover_${nextGid()}`} = options || {};
+        element = element || (elementSetting instanceof HTMLElement ? elementSetting : undefined);
+        if (!element) {
+            element = $(`<div id="${id}" class="popover-tmp"></div>`).appendTo($(container))[0]!;
+        }
+        return (this as typeof Popover).ensure(element as HTMLElement, {id, destroyOnHide: true, ...options}) as InstanceType<T>;
+    }
+
     static show<O extends PopoverOptions, E extends ComponentEvents, T extends typeof Popover<O, E>>(this: T, options: O & {event?: Event}): InstanceType<T> {
         const {element: elementSetting, event, ...otherOptions} = options;
         const element = elementSetting || (event?.currentTarget as HTMLElement);
-        return (this as typeof Popover).ensure(element instanceof HTMLElement ? element : document.body, {element, show: true, destroyOnHide: true, triggerEvent: event, ...otherOptions}) as InstanceType<T>;
+        return this.create({
+            element,
+            show: true,
+            destroyOnHide: true,
+            triggerEvent: event,
+            ...otherOptions,
+        } as O & {event?: Event}, element instanceof HTMLElement ? element : document.body);
     }
 }
 
