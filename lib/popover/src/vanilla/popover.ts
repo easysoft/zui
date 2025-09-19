@@ -443,7 +443,7 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
                 panel.render(panelOptions);
             } else {
                 panel = new PopoverPanel(targetElement, panelOptions);
-                panel.on('inited', () => this.layout());
+                panel.on('inited', this._handlePanelInited);
             }
             this._panel = panel;
         } else {
@@ -478,6 +478,10 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
             this.hide();
         }, delay);
     }
+
+    protected _handlePanelInited = () => {
+        this.layout();
+    };
 
     protected _clearDelayHide() {
         if (this._hideTimer) {
