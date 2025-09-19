@@ -324,7 +324,7 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
 
         const trigger = this.getTriggerElement();
         const target = this._targetElement;
-        const {animation, name = 'popover', minWidth, minHeight, maxWidth, maxHeight, limitInScreen, onLayout} = this.options;
+        const {minWidth, minHeight, maxWidth, maxHeight} = this.options;
         if (!this._virtual) {
             const style: JSX.CSSProperties = {
                 minWidth: toCssSize(minWidth),
@@ -343,6 +343,13 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
                 $(target).css(style);
             }
         }
+        this.updatePosition();
+    }
+
+    updatePosition() {
+        const trigger = this.getTriggerElement();
+        const target = this._targetElement;
+        const {animation, name = 'popover', limitInScreen, onLayout} = this.options;
         computePosition(...this._getLayoutOptions()).then(({x, y, middlewareData, placement, strategy}) => {
             if (trigger instanceof HTMLElement && isElementDetached(trigger)) {
                 this.hide(true);
@@ -417,6 +424,7 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
     render(options?: Partial<O>) {
         super.render(options);
         const targetElement = this._targetElement;
+        console.log('> Popover.render1', {targetElement});
         if (!targetElement) {
             return;
         }
@@ -426,6 +434,7 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
         if (panelOptions.className) {
             $targetElement.setClass(panelOptions.className);
         }
+        console.log('> Popover.render2', {panelOptions});
         if (this._dynamic) {
             let panel = this._panel;
             if (panel && panel.element !== targetElement) {
