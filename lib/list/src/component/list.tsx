@@ -239,6 +239,13 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
         this.activeNext(condition, -1);
     }
 
+    activeFirst(condition?: (item: Item, index: number) => boolean) {
+        const nextItem = this.getNextItem(undefined, condition);
+        if (nextItem) {
+            this.toggleActive(nextItem.key!);
+        }
+    }
+
     protected _afterRender(firstRender: boolean) {
         this.props.afterRender?.call(this, firstRender);
     }
