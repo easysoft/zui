@@ -424,7 +424,6 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
     render(options?: Partial<O>) {
         super.render(options);
         const targetElement = this._targetElement;
-        console.log('> Popover.render1', {targetElement});
         if (!targetElement) {
             return;
         }
@@ -434,7 +433,6 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
         if (panelOptions.className) {
             $targetElement.setClass(panelOptions.className);
         }
-        console.log('> Popover.render2', {panelOptions});
         if (this._dynamic) {
             let panel = this._panel;
             if (panel && panel.element !== targetElement) {
@@ -489,7 +487,7 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
     }
 
     protected _getLayoutOptions(): [trigger: ReferenceElement, element: HTMLElement, options: Partial<ComputePositionConfig>] {
-        const trigger = this._triggerElement;
+        const trigger = this.getTriggerElement();
         const element = this._targetElement!;
         const {placement: placementSetting, flip: isFlip, limitSize, shift: shiftSetting, offset: offsetSetting, arrow: arrowSetting, strategy} = this.options;
         const arrowElement = arrowSetting ? element.querySelector('.arrow') : null;
