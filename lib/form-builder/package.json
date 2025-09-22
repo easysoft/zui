@@ -23,7 +23,6 @@
     "zui": {
         "type": "component",
         "displayName": "表单生成器",
-        "wip": true,
         "contributes": {
             "css": ["class", "var"]
         }
