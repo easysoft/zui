@@ -69,7 +69,7 @@ export interface BaseSchema<T = unknown> {
     /** 传递给组件的额外属性，支持 JavaScript 表达式 */
     props?: Record<string, unknown>;
     /** 是否为必填字段，支持 JavaScript 表达式 */
-    required?: boolean;
+    required?: boolean | string[];
     /** 工具提示文本，支持 JavaScript 表达式 */
     tooltip?: string;
     /** 提示信息文本，支持 JavaScript 表达式 */
@@ -139,6 +139,8 @@ export interface ObjectSchema extends BaseSchema<Record<string, unknown>> {
     properties: Record<string, JSONSchema>;
     /** 是否默认折叠显示，'disabled' 表示不可折叠 */
     collapsed?: boolean | 'disabled';
+    /** 必填字段 */
+    required?: string[];
 }
 
 /**
