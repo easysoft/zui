@@ -291,7 +291,7 @@ export class Component<O extends object = object, E extends ComponentEventsDefni
      * @param options The component options to override before render.
      */
     render(options?: Partial<ComponentOptions<O>>, reset?: boolean) {
-        this.setOptions(options, reset);
+        this._options = this.setOptions(options, reset);
         const {$class, $style} = this.options;
         if ($class) {
             this.$element.setClass($class);
