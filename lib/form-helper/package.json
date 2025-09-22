@@ -1,0 +1,24 @@
+{
+    "name": "@zui/form-helper",
+    "version": "0.0.1",
+    "main": "src/main.ts",
+    "files": [
+        "./src/**/*"
+    ],
+    "dependencies": {
+        "@zui/core": "workspace:*",
+        "@zui/picker": "workspace:*",
+        "@zui/checkbox": "workspace:*",
+        "@zui/form-control": "workspace:*"
+    },
+    "devDependencies": {
+        "zui-dev": "workspace:^0.0.1"
+    },
+    "zui": {
+        "type": "component",
+        "displayName": "表单助手",
+        "contributes": {
+            "css": ["class", "var"]
+        }
+    }
+}
