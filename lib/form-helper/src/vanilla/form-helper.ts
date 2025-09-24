@@ -134,6 +134,12 @@ export class FormHelper {
         return true;
     }
 
+    setFormData(data: Record<string, unknown>) {
+        Object.entries(data).forEach(([key, value]) => {
+            this.setFieldVal(key, value);
+        });
+    }
+
     static globalControls: Record<string, FormControlFinder> = {
         picker: ($field, $scope) => {
             const $picker = $field.closest('[z-use-picker]');
