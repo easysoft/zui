@@ -5,6 +5,7 @@ import {LazyContent} from './lazy-content';
 import {Icon} from './icon';
 import {Portal} from './portals';
 import {registerReactComponent} from './components';
+import {ZUI} from './zui';
 
 registerReactComponent({
     HElement,
@@ -17,4 +18,5 @@ registerReactComponent({
     lazy: LazyContent,
     Icon,
     Portal,
+    ZUI,
 });
