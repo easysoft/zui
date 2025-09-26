@@ -81,13 +81,12 @@ export class FormHelper {
         if (!controls) {
             return;
         }
-        Object.entries(controls).forEach(([type, finder]) => {
+        for (const [type, finder] of Object.entries(controls)) {
             const control = finder($field, this._$element);
             if (control) {
                 return {type, ...control};
             }
-        });
-        return;
+        }
     }
 
     getFieldInfo(query: string): FormField | undefined {
@@ -142,11 +141,16 @@ export class FormHelper {
 
     static globalControls: Record<string, FormControlFinder> = {
         picker: ($field, $scope) => {
-            const $picker = $field.closest('[z-use-picker]');
+            let $picker = $field.closest('[z-use-picker]');
+            let isPickerLike = false;
+            if (!$picker.length && $field.hasClass('pick-value')) {
+                $picker = $field.closest('[z-use]');
+                isPickerLike = true;
+            }
             if (!$picker.length || !$picker.closest($scope).length) {
                 return;
             }
-            const instance = $picker.data('zui.Picker') as Picker;
+            const instance = (isPickerLike ? $picker.zui() : $picker.data('zui.Picker')) as Picker;
             if (!instance) {
                 return;
             }
