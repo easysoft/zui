@@ -1,6 +1,5 @@
 import {$, Cash, Selector} from '../cash';
-import {type GetLibOptions} from '../dom';
-import {evalValue} from '../helpers';
+import {evalValue, type GetLibOptions} from '../helpers';
 import {storeData, takeData} from '../helpers/data';
 import {getZData} from '../helpers/z';
 import {Component} from './component';

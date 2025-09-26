@@ -123,7 +123,7 @@ export class Component<O extends object = object, E extends ComponentEventsDefni
     /**
      * Auto destroy flag.
      */
-    private _autoDestory = 0;
+    protected _autoDestory = 0;
 
     /**
      * The component destroyed flag.
@@ -537,7 +537,7 @@ export class Component<O extends object = object, E extends ComponentEventsDefni
         return $element.data(this.KEY);
     }
 
-    static isValid(_instance: InstanceType<typeof this>): boolean {
+    static isValid(_instance: InstanceType<typeof Component>): boolean {
         return true;
     }
 
