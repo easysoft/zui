@@ -6,6 +6,7 @@ import {ModalDialog} from '../component';
 import {ModalIframeContent} from '../component/modal-iframe-content';
 
 import type {ToolbarOptions, ToolbarItemOptions} from '@zui/toolbar';
+import {isElementDetached} from '@zui/core/src/dom';
 
 type ModalDialogHTML = [html: string];
 
@@ -87,6 +88,8 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
 
     protected _builded = false;
 
+    protected _staticMbo?: MutationObserver;
+
     get id() {
         return this.#id as string;
     }
@@ -136,7 +139,25 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
 
     afterInit() {
         super.afterInit();
-        if (this.options.destroyOnHide && this.options.type !== 'static') {
+        const isStatic = this.options.type === 'static';
+        if (isStatic) {
+            this._staticMbo = new MutationObserver((mutations) => {
+                let hasRemovedNodes = false;
+                for (const mutation of mutations) {
+                    if (mutation.removedNodes.length) {
+                        hasRemovedNodes = true;
+                        break;
+                    }
+                }
+
+                if (hasRemovedNodes) {
+                    this.autoDestroy();
+                }
+            });
+            this._staticMbo.observe(this.modalElement.parentNode!, {
+                childList: true,
+            });
+        } else if (this.options.destroyOnHide) {
             this.on('hidden', (event) => {
                 const $modal = $(event.target as HTMLElement);
                 if ($modal.data('key') === this.key) {
@@ -144,6 +165,21 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
                 }
             });
         }
+    }
+
+    /**
+     * Auto destroy the component when detached.
+     */
+    autoDestroy(delay = 100) {
+        if (this._autoDestory) {
+            clearTimeout(this._autoDestory);
+        }
+        this._autoDestory = window.setTimeout(() => {
+            this._autoDestory = 0;
+            if (isElementDetached(this.element) || (this.options.type === 'static' && isElementDetached(this.modalElement))) {
+                this.destroy();
+            }
+        }, delay);
     }
 
     show(options?: Partial<T>) {
@@ -161,6 +197,7 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
             $(modal).removeData(this.constructor.KEY).remove();
             this.#modal = undefined;
         }
+        this._staticMbo?.disconnect();
     }
 
     render(options?: Partial<T>) {
