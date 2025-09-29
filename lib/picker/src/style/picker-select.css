@@ -6,6 +6,9 @@
 .picker-select.form-control {
   @apply -flex;
 }
+.picker-select.form-control.disabled * {
+  @apply -opacity-100;
+}
 
 .picker-select-placeholder {
   @apply -flex-auto -text-placeholder;
