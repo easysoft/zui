@@ -51,5 +51,5 @@
 }
 
 .article pre {
-  @apply -border -rounded -bg-gray-50;
+  @apply -border -border-gray-600/10 -rounded -bg-gray-500/5;
 }
