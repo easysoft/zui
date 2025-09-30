@@ -304,7 +304,7 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
         return true;
     }
 
-    static isValid2(modal: Modal) {
+    static isValid(modal: Modal) {
         return !$.isDetached(modal.modalElement);
     }
 
