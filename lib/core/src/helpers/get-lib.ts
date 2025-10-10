@@ -163,8 +163,8 @@ export function loadJS(options: string | LoadJSOptions): Promise<void> {
             callbacks.forEach(x => x());
             $(script).removeData('loadCalls');
         };
-        script.onerror = () => {
-            reject(new Error(`[ZUI] Failed to load JS from: ${src}`));
+        script.onerror = (e) => {
+            reject(new Error(`[ZUI] Failed to load JS from: ${src}`, {cause: e}));
         };
         $('head').append(script);
         script.src = `${src}${version ? `${src.includes('?') ? '&' : '?'}v=${version}` : ''}`;
