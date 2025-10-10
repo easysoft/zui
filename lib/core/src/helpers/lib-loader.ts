@@ -5,6 +5,8 @@ export class LibLoader<T = unknown> {
 
     protected _name: string;
 
+    protected _error?: Error;
+
     constructor(name: string, options?: GetLibOptions) {
         this._name = name;
         if (options) {
@@ -23,11 +25,24 @@ export class LibLoader<T = unknown> {
         registerLib(this._name, options);
     }
 
-    async load() {
-        this._module = await getLib(this._name);
-        if (!this._module) {
-            throw new Error(`[ZUI] Failed to load lib: ${this._name}`);
+    async load(options?: {throwError?: boolean; noCache?: boolean}) {
+        const {throwError, noCache} = options || {};
+        if (!noCache) {
+            if (this._module !== undefined) {
+                return this._module;
+            }
+            if (this._error) {
+                return;
+            }
         }
-        return this._module!;
+        try {
+            this._module = await getLib(this._name);
+        } catch (error) {
+            this._error = error as Error;
+            if (throwError) {
+                throw error;
+            }
+        }
+        return this._module;
     }
 }
