@@ -90,8 +90,25 @@ export class FormHelper {
     }
 
     getFieldInfo(query: string): FormField | undefined {
-        const {cacheQuery, allowSameName} = this._options;
-        const $field = cacheQuery ? this._cachedFields.get(query) : this._queryField(query);
+        const {cacheQuery, allowSameName, fields} = this._options;
+
+        let $userField: Cash | undefined;
+        if (fields) {
+            const findFn = typeof fields === 'function' ? fields : fields[query];
+            if (findFn) {
+                const findResult = findFn.call(this, query, this._$element);
+                if (findResult instanceof $) {
+                    $userField = findResult as Cash;
+                } else if (findResult) {
+                    return findResult as FormField;
+                }
+                if (findResult === false) {
+                    return;
+                }
+            }
+        }
+
+        const $field = $userField || (cacheQuery ? this._cachedFields.get(query) : this._queryField(query));
         if (!$field?.length) {
             return;
         }

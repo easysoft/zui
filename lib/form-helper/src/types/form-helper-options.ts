@@ -18,6 +18,8 @@ export type FormField = {
 
 export type FormControlFinder = ($field: Cash, $scope: Cash) => Omit<FormControlInfo, 'type'> & {type?: string} | undefined;
 
+export type FormFieldFinder = (query: string, $scope: Cash) => FormField | Cash | false | undefined;
+
 export interface FormHelperOptions {
     /**
      * 当查询参数无法作为 name 匹配时，是否自动将查询参数作为 ID 查询。
@@ -48,6 +50,12 @@ export interface FormHelperOptions {
      * Control finder.
      */
     controls?: Record<string, FormControlFinder>;
+
+    /**
+     * 表单字段查找。
+     * Form fields finder.
+     */
+    fields?: Record<string, FormFieldFinder> | FormFieldFinder;
 
     /**
      * 是否在找不到控件时抛出错误。
