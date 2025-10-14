@@ -81,3 +81,6 @@
 .hover\:scale-110:hover {@apply !-scale-110;}
 .group:hover .group-hover\:scale-125,
 .hover\:scale-125:hover {@apply !-scale-125;}
+
+.group:hover .group-hover\:ring-primary,
+.hover\:ring-primary:hover {@apply !-ring-primary-500;}
