@@ -1,4 +1,4 @@
-import type {ClassNameLike, CustomContentType} from '@zui/core';
+import type {ClassNameLike, CommandCallback, CustomContentType} from '@zui/core';
 import type {DTable} from '../main-react';
 import type {CellValueGetter, CellRenderCallback} from './cell';
 import type {ColSetting} from './col';
@@ -67,5 +67,8 @@ export interface DTableOptions<C = ColSetting> extends DTableDataOptions<C>, DTa
     style?: Record<string, string | number>;
     parent?: HTMLElement;
     plugins?: DTablePluginLike[];
+    commandScope?: string;
+    onCommand?: CommandCallback;
+    commands?: Record<string, CommandCallback>;
     [prop: string]: unknown;
 }
