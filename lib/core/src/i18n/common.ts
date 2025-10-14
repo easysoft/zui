@@ -10,6 +10,8 @@ addI18nMap({
         add: '添加',
         copy: '复制',
         close: '关闭',
+        edit: '编辑',
+        open: '打开',
     },
     zh_tw: {
         confirm: '確定',
@@ -20,6 +22,8 @@ addI18nMap({
         add: '添加',
         Copy: '複製',
         close: '關閉',
+        edit: '編輯',
+        open: '打開',
     },
     en: {
         confirm: 'Confirm',
@@ -30,5 +34,7 @@ addI18nMap({
         add: 'Add',
         copy: 'Copy',
         close: 'Close',
+        edit: 'Edit',
+        open: 'Open',
     },
 });
