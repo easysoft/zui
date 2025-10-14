@@ -63,14 +63,17 @@ export class FormHelper {
 
         const options = this._options;
         const safeSelector = query.replaceAll('[', '\\[').replaceAll(']', '\\]');
-        let $field = $element.find(`[name="${safeSelector}"]`);
+        let $field = $element.find(`[zui-form-field="${safeSelector}"]`);
+        if (!$field.length) {
+            $field = $element.find(`[name="${safeSelector}"]`);
+        }
         if (!$field.length && options.matchID) {
             $field = $element.find(`#${safeSelector}`);
         }
         if (!$field.length && options.matchBrackets && !query.includes('[')) {
             $field = $element.find(`[name="${safeSelector}\\[\\]"]`);
             if (!$field.length) {
-                $field = $element.find(`[name="^${safeSelector}\\["]`);
+                $field = $element.find(`[name^="${safeSelector}["]`);
             }
         }
         return $field.length ? $field : undefined;
