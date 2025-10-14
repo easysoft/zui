@@ -140,6 +140,10 @@ export function initColsLayout(dtable: DTable, options: DTableOptions, plugins: 
             });
         }
 
+        if (colSetting.hidden) {
+            return;
+        }
+
         const {flex, minWidth = minColWidth, maxWidth = maxColWidth} = colSetting;
 
         const colWidth = parseNumber(colSetting.width || defaultColWidth!, defaultColWidth);
