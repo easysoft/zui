@@ -718,6 +718,25 @@ importers:
         specifier: workspace:*
         version: link:../utilities
 
+  lib/form-helper:
+    dependencies:
+      '@zui/checkbox':
+        specifier: workspace:*
+        version: link:../checkbox
+      '@zui/core':
+        specifier: workspace:*
+        version: link:../core
+      '@zui/form-control':
+        specifier: workspace:*
+        version: link:../form-control
+      '@zui/picker':
+        specifier: workspace:*
+        version: link:../picker
+    devDependencies:
+      zui-dev:
+        specifier: workspace:^0.0.1
+        version: link:../../dev
+
   lib/helpers: {}
 
   lib/icons:
