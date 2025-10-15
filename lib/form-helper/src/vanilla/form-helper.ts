@@ -13,6 +13,8 @@ export class FormHelper {
         throwError: true,
     };
 
+    declare ['constructor']: typeof FormHelper;
+
     /**
      * 选项。 Options.
      */
@@ -29,12 +31,13 @@ export class FormHelper {
     protected _cachedFields: Map<string, Cash>;
 
     constructor(selector: Selector, options?: FormHelperOptions) {
+        const {DEFAULT, globalControls} = this.constructor;
         this._options = {
-            ...FormHelper.DEFAULT,
+            ...DEFAULT,
             ...options,
             controls: {
-                ...FormHelper.globalControls,
-                ...FormHelper.DEFAULT.controls,
+                ...globalControls,
+                ...DEFAULT.controls,
                 ...options?.controls,
             },
         };
@@ -188,7 +191,7 @@ export class FormHelper {
     };
 
     static registerControl(type: string, finder: FormControlFinder) {
-        FormHelper.globalControls[type] = finder;
+        this.globalControls[type] = finder;
     }
 }
 
