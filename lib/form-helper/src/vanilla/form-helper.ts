@@ -170,7 +170,7 @@ export class FormHelper {
                 $picker = $field.closest('[z-use]');
                 isPickerLike = true;
             }
-            if (!$picker.length || !$picker.closest($scope).length) {
+            if (!$picker.length || ($scope && !$picker.closest($scope).length)) {
                 return;
             }
             const instance = (isPickerLike ? $picker.zui() : $picker.data('zui.Picker')) as Picker;
