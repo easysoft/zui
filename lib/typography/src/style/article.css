@@ -17,6 +17,7 @@
 .article video,
 .article audio,
 .article table,
+.article pre,
 .article img {
   @apply -my-[--article-p-space];
   text-wrap: pretty;
