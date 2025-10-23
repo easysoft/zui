@@ -108,7 +108,7 @@ export const convertBytes = (str: string) => {
     return Number.parseInt(str, 10) * BYTE_UNITS[unit];
 };
 
-export const excapeHtml = (html: string) => {
+export const escapeHtml = (html: string) => {
     return html.replace(/&/g, '&amp;')
         .replace(/</g, '&lt;')
         .replace(/>/g, '&gt;')
