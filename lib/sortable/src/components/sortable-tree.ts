@@ -24,6 +24,12 @@ export class SortableTree<P extends SortableTreeProps = SortableTreeProps, S ext
         }
     }
 
+    componentWillUnmount(): void {
+        if (this._sortable) {
+            this._sortable.destroy();
+        }
+    }
+
     getOrders() {
         return this._sortable?.toArray() || [];
     }
