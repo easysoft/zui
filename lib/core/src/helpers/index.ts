@@ -26,3 +26,4 @@ export * from './read-file';
 export * from './debounce';
 export * from './get-lib';
 export * from './lib-loader';
+export * from './try-exec';
