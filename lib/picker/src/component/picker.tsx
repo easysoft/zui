@@ -166,7 +166,7 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
         }
         const valueMap = getValueMap(items);
         const newValueList = [...valueMap.values()].reduce<string[]>((list, item) => {
-            if (!item.disabled) {
+            if (!item.disabled && !item.items) {
                 list.push(item.value as string);
             }
             return list;
