@@ -1,6 +1,6 @@
-export function selectFile(options?: string | {accept?: string; multiple: false | undefined}): Promise<File | null>;
+export function selectFile(options?: string | {accept?: string; multiple?: false | undefined}): Promise<File | null>;
 
-export function selectFile(options: {accept?: string; multiple: true}): Promise<FileList | null>;
+export function selectFile(options: {accept?: string; multiple?: true}): Promise<FileList | null>;
 
 /**
  * Select file from file system.
