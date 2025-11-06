@@ -6,4 +6,5 @@ const html = htm.bind(h);
 export {
     htm,
     html,
+    html as jsx,
 };
