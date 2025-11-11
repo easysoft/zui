@@ -12,7 +12,7 @@ import {ValueSelector} from './value-selector';
 import {getDate} from '../helpers';
 
 export class DatePickerMenu extends Component<DatePickerMenuProps, DatePickerMenuState> {
-    #ref: RefObject<HTMLDivElement> = createRef();
+    protected _ref: RefObject<HTMLDivElement> = createRef();
 
     constructor(props: DatePickerMenuProps) {
         super(props);
@@ -25,14 +25,14 @@ export class DatePickerMenu extends Component<DatePickerMenuProps, DatePickerMen
         };
     }
 
-    #handleClick = (event: MouseEvent) => {
+    protected _handleClick = (event: MouseEvent) => {
         const $element = $(event.target as HTMLElement).closest('[data-set-date]');
         if ($element.length) {
             this.changeDate($element.dataset('set-date') as string);
         }
     };
 
-    #switchToPrevMonth = () => {
+    protected _switchToPrevMonth = () => {
         const {year, month} = this.state;
         if (month === 1) {
             this.setState({year: year - 1, month: 12});
@@ -41,7 +41,7 @@ export class DatePickerMenu extends Component<DatePickerMenuProps, DatePickerMen
         }
     };
 
-    #switchToNextMonth = () => {
+    protected _switchToNextMonth = () => {
         const {year, month} = this.state;
         if (month === 12) {
             this.setState({year: year + 1, month: 1});
@@ -50,15 +50,15 @@ export class DatePickerMenu extends Component<DatePickerMenuProps, DatePickerMen
         }
     };
 
-    #changeYear = (year: number) => {
+    protected _changeYear = (year: number) => {
         this.setState({year, select: 'day'});
     };
 
-    #changeMonth = (month: number) => {
+    protected _changeMonth = (month: number) => {
         this.setState({month, select: 'day'});
     };
 
-    #renderMenu(props: DatePickerMenuProps) {
+    protected _renderMenu(props: DatePickerMenuProps) {
         return Menu.render(props.menu, [], {
             onClickItem: (item) => {
                 const value = item.item.value;
@@ -69,7 +69,7 @@ export class DatePickerMenu extends Component<DatePickerMenuProps, DatePickerMen
         }, this);
     }
 
-    #renderFooter(props: DatePickerMenuProps) {
+    protected _renderFooter(props: DatePickerMenuProps) {
         let {actions} = props;
         const {todayText = i18n.getLang('today'), clearText} = props;
         if (actions === undefined) {
@@ -119,8 +119,8 @@ export class DatePickerMenu extends Component<DatePickerMenuProps, DatePickerMen
         const minDate = minDateSetting ? minDateSetting : createDate('1970-1-1');
         const maxDate = maxDateSetting ? maxDateSetting : createDate('2099-12-31');
         return (
-            <div className="date-picker-menu row" ref={this.#ref} onClick={this.#handleClick}>
-                {this.#renderMenu(props)}
+            <div className="date-picker-menu row" ref={this._ref} onClick={this._handleClick}>
+                {this._renderMenu(props)}
                 <div className="cell" style="width: 312px">
                     <div className="row p-2">
                         <Button type={select === 'year' ? 'primary-pale' : 'ghost'} size="sm" caret onClick={this._showSelect.bind(this, 'year')}>{formatString(yearText, year)}</Button>
@@ -130,8 +130,8 @@ export class DatePickerMenu extends Component<DatePickerMenuProps, DatePickerMen
                             isSelectDay
                                 ? (
                                         <div>
-                                            <Button type="ghost" size="sm" square onClick={this.#switchToPrevMonth}><i className="chevron-left"></i></Button>
-                                            <Button type="ghost" size="sm" square onClick={this.#switchToNextMonth}><i className="chevron-right"></i></Button>
+                                            <Button type="ghost" size="sm" square onClick={this._switchToPrevMonth}><i className="chevron-left"></i></Button>
+                                            <Button type="ghost" size="sm" square onClick={this._switchToNextMonth}><i className="chevron-right"></i></Button>
                                         </div>
                                     )
                                 : null
@@ -163,7 +163,7 @@ export class DatePickerMenu extends Component<DatePickerMenuProps, DatePickerMen
                                         value={year}
                                         min={minDate.getFullYear()}
                                         max={maxDate.getFullYear()}
-                                        onChange={this.#changeYear}
+                                        onChange={this._changeYear}
                                     />
                                 )
                             : (
@@ -174,13 +174,13 @@ export class DatePickerMenu extends Component<DatePickerMenuProps, DatePickerMen
                                                     value={month}
                                                     min={1}
                                                     max={12}
-                                                    onChange={this.#changeMonth}
+                                                    onChange={this._changeMonth}
                                                 />
                                             )
                                         : null
                                 )
                     }
-                    {isSelectDay ? this.#renderFooter(props) : null}
+                    {isSelectDay ? this._renderFooter(props) : null}
                 </div>
             </div>
         );
