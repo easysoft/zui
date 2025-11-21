@@ -28,11 +28,16 @@ import {schema as schemaExampleStandard, defaultData} from './dev/form-schema-st
 
 onPageUpdate(() => {
     const formBuilder = new FormBuilder('#formBuilderExample', {
+        component: 'form',
         formName: 'json',
         schema: schemaExampleStandard as FormSchema,
         defaultData,
         widgets: {
             progressCircle: ({value}) => [ProgressCircle as unknown as ComponentType, {percent: value || 0}],
+        },
+        onSubmit: (event, data) => {
+            console.log('onSubmit', event, data);
+            return false;
         },
         onDataChange: (data) => {
             const yamlString = yaml.dump(data);

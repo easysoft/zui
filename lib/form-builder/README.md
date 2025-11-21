@@ -3,8 +3,8 @@
 ## 示例
 
 ```html:example
-<form id="formBuilderExample">
-</form>
+<div id="formBuilderExample">
+</div>
 ```
 
 <div class="row border items-stretch">
