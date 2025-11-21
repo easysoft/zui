@@ -248,6 +248,13 @@ export class FormBuilder extends HElement<FormBuilderOptions> {
         return widgetSetting;
     }
 
+    protected _handleSubmit = (event: Event) => {
+        const result = this.props.onSubmit?.call(this, event, this.formData);
+        if (result === false) {
+            event.preventDefault();
+        }
+    };
+
     protected _renderHeader(props: RenderableProps<FormBuilderOptions>) {
         const {header} = props;
         if (!header) {
@@ -279,6 +286,7 @@ export class FormBuilder extends HElement<FormBuilderOptions> {
     protected _getProps(props: RenderableProps<FormBuilderOptions>): Record<string, unknown> {
         return mergeProps({}, super._getProps(props), {
             action: props.formAction,
+            onSubmit: this._handleSubmit,
         });
     }
 

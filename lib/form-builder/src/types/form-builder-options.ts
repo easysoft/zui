@@ -61,6 +61,9 @@ export interface FormBuilderOptions extends HElementProps {
     /** 数据变化时的回调函数 */
     onDataChange?: (newData: Record<string, unknown>, oldData: Record<string, unknown>) => void;
 
+    /** 表单提交时的回调函数，返回 false 阻止表单提交 */
+    onSubmit?: (event: Event, data: Record<string, unknown>) => boolean | void;
+
     /** 表单项数据变化时的回调函数 */
     onFieldChange?: (path: string, value: unknown, oldValue: unknown) => void | Record<string, unknown> | boolean;
 
