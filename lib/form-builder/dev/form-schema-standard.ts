@@ -13,6 +13,12 @@ export const schema = {
             defaultValue: '这是静态纯文本内容',
             dependencies: ['specials.progressCircleChanger'],
         },
+        title: {
+            title: '标题',
+            type: 'string',
+            required: true,
+            defaultValue: '这是标题内容',
+        },
         inputboxes: {
             title: '输入框',
             type: 'object',
