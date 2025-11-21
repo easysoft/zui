@@ -55,6 +55,9 @@ export interface FormBuilderOptions extends HElementProps {
     /** 表单数据作为表单项提交的名称 */
     formName?: string;
 
+    /** 表单的 action 属性 */
+    formAction?: string;
+
     /** 数据变化时的回调函数 */
     onDataChange?: (newData: Record<string, unknown>, oldData: Record<string, unknown>) => void;
 

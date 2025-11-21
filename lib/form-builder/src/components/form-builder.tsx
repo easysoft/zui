@@ -276,6 +276,12 @@ export class FormBuilder extends HElement<FormBuilderOptions> {
         return <CustomContent key="footer" className="form-builder-footer" content={footer} />;
     }
 
+    protected _getProps(props: RenderableProps<FormBuilderOptions>): Record<string, unknown> {
+        return mergeProps({}, super._getProps(props), {
+            action: props.formAction,
+        });
+    }
+
     protected _getClassName(props: RenderableProps<FormBuilderOptions>): ClassNameLike {
         return ['form-builder', props.className];
     }
