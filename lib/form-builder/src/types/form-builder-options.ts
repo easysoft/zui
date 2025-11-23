@@ -58,6 +58,9 @@ export interface FormBuilderOptions extends HElementProps {
     /** 表单的 action 属性 */
     formAction?: string;
 
+    /** 是否自动验证表单 */
+    autoValidate?: {onChange?: true | 'removeErrors'; onSubmit?: boolean};
+
     /** 数据变化时的回调函数 */
     onDataChange?: (newData: Record<string, unknown>, oldData: Record<string, unknown>) => void;
 

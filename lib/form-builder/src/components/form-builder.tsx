@@ -9,6 +9,13 @@ import {getLang} from '../i18n';
 export class FormBuilder extends HElement<FormBuilderOptions> {
     static readonly NAME = 'FormBuilder';
 
+    static defaultProps: Partial<FormBuilderOptions> = {
+        autoValidate: {
+            onChange: 'removeErrors',
+            onSubmit: true,
+        },
+    };
+
     protected _schema$: Signal<FormSchema>;
 
     protected _dataMap$: Signal<Record<string, unknown>>;
@@ -304,6 +311,18 @@ export class FormBuilder extends HElement<FormBuilderOptions> {
             }
             this._updateFieldInfo(info.path, handledDependencies);
         });
+        const {autoValidate = {}} = this.props;
+        if (autoValidate.onChange) {
+            const errorsMap = this._validationErrors$.value;
+            if (autoValidate.onChange === 'removeErrors' && errorsMap[path]?.length) {
+                this._validationErrors$.value = {
+                    ...errorsMap,
+                    [path]: [],
+                };
+            } else {
+                this.validateField(path);
+            }
+        }
         return newInfo;
     }
 
@@ -418,7 +437,12 @@ export class FormBuilder extends HElement<FormBuilderOptions> {
     }
 
     protected _handleSubmit = (event: Event) => {
-        const result = this.props.onSubmit?.call(this, event, this.formData);
+        const {onSubmit, autoValidate} = this.props;
+        if ((autoValidate?.onSubmit) && !this.validate()) {
+            event.preventDefault();
+            return;
+        }
+        const result = onSubmit?.call(this, event, this.formData);
         if (result === false) {
             event.preventDefault();
         }
