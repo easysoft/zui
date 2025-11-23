@@ -529,6 +529,7 @@ export class FormBuilder extends HElement<FormBuilderOptions> {
     static typeDefaultValueMap: Record<string, unknown> = {
         string: '',
         number: 0,
+        integer: 0,
         boolean: false,
         array: [],
         object: {},
