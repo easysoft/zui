@@ -2,7 +2,7 @@ import type {ComponentType, RenderableProps} from 'preact';
 import {type ClassNameLike, type ComponentChildren, computed, CustomContent, HElement, mergeProps, ReadonlySignal, Signal, effect, $, signal, batch} from '@zui/core';
 import {Toolbar} from '@zui/toolbar/src/component';
 import {Picker} from '@zui/picker/src/component';
-import type {FormBuilderOptions, FormSchema, FormWidgetMap, JSONSchema, FieldSchemaInfo, FormWidgetSetting, FormWidgetSettingDefinition} from '../types';
+import type {FormBuilderOptions, FormSchema, FormWidgetMap, JSONSchema, FieldSchemaInfo, FormWidgetSetting, FormWidgetSettingDefinition, ObjectSchema} from '../types';
 import {SchemaRenderer} from './schema-renderer';
 
 export class FormBuilder extends HElement<FormBuilderOptions> {
@@ -206,10 +206,25 @@ export class FormBuilder extends HElement<FormBuilderOptions> {
             finalSchema[key] = value;
         }
 
+        const propertyKeys = (finalSchema.type === 'object' && finalSchema.properties) ? Object.keys(finalSchema.properties as Record<string, JSONSchema>) : undefined;
+        if (propertyKeys) {
+            const propertyOrderMap = new Map<string, number>();
+            for (const key of propertyKeys) {
+                const propertySchema = (finalSchema as unknown as ObjectSchema).properties[key];
+                if (typeof propertySchema.order !== 'number') {
+                    break;
+                }
+                propertyOrderMap.set(key, propertySchema.order);
+            }
+            if (propertyOrderMap.size === propertyKeys.length) {
+                propertyKeys.sort((a, b) => propertyOrderMap.get(a)! - propertyOrderMap.get(b)!);
+            }
+        }
+
         const info = {
             path,
             schema: finalSchema as unknown as JSONSchema,
-            properties: (finalSchema.type === 'object' && finalSchema.properties) ? Object.keys(finalSchema.properties as Record<string, JSONSchema>) : undefined,
+            properties: propertyKeys,
             value: fieldValue,
             dependenciesSet: new Set<string>(currentSchema.dependencies || []),
         };

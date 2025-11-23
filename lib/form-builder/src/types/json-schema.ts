@@ -84,6 +84,8 @@ export interface BaseSchema<T = unknown> {
     rules?: FormValidateRule[];
     /** 依赖的字段 */
     dependencies?: string[];
+    /** 字段排序 */
+    order?: number;
 }
 
 /**
