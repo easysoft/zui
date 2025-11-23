@@ -101,6 +101,8 @@ export interface StringSchema extends BaseSchema<string> {
     min?: number;
     /** 字符串验证的正则表达式模式 */
     pattern?: string;
+    /** 是否自动修剪字符串 */
+    autoTrim?: 'start' | 'end' | true;
 }
 
 /**

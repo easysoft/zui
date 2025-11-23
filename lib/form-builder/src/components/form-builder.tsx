@@ -101,6 +101,17 @@ export class FormBuilder extends HElement<FormBuilderOptions> {
     }
 
     setFieldValue = (path: string, value: unknown) => {
+        const info = this.getFieldSchemaInfo(path);
+        const autoTrim = (info?.schema as StringSchema).autoTrim;
+        if (autoTrim && typeof value === 'string') {
+            if (autoTrim === 'start') {
+                value = value.trimStart();
+            } else if (autoTrim === 'end') {
+                value = value.trimEnd();
+            } else {
+                value = value.trim();
+            }
+        }
         const dataMap = this._dataMap$.value;
         const oldValue = dataMap[path];
         if (oldValue !== value) {
