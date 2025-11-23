@@ -44,9 +44,12 @@
   @apply -gap-y-1;
 }
 .form-horz .form-builder-item > .form-hint,
+.form-horz.form-builder-body > .form-actions,
+.form-horz .form-builder-item > .form-item-errors,
 .form-horz .form-builder-item > .form-builder-extra {
   @apply -pl-[--form-horz-label-width]
 }
-.form-horz.form-builder-body > .form-actions {
-  @apply -pl-[--form-horz-label-width]
+
+.form-item-error {
+  @apply -text-danger-500;
 }

@@ -44,6 +44,12 @@ export type FormExtra = string | {html: string};
 export type FormGridWidth = 'full' | `${number}/${number}` | `${number}px` | `${number}%` | number;
 
 /**
+ * 表单验证规则模式
+ * 可以是正则表达式字符串或包含正则表达式和错误消息的对象
+ */
+export type FormValidateRulePattern = string | {pattern: string; message?: string};
+
+/**
  * 基础 Schema 接口，所有字段类型的共同配置
  * @template T 字段值的数据类型
  */
@@ -100,7 +106,7 @@ export interface StringSchema extends BaseSchema<string> {
     /** 字符串最小长度 */
     min?: number;
     /** 字符串验证的正则表达式模式 */
-    pattern?: string;
+    pattern?: FormValidateRulePattern;
     /** 是否自动修剪字符串 */
     autoTrim?: 'start' | 'end' | true;
 }
@@ -153,9 +159,9 @@ export interface ObjectSchema extends BaseSchema<Record<string, unknown>> {
 export interface MapSchema extends BaseSchema<Record<string, unknown>> {
     type: 'map';
     /** 键的验证模式 */
-    keyPattern?: string;
+    keyPattern?: FormValidateRulePattern;
     /** 值的验证模式 */
-    valuePattern?: string;
+    valuePattern?: FormValidateRulePattern;
 }
 
 /**

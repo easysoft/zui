@@ -2,8 +2,9 @@ import type {ComponentType, RenderableProps} from 'preact';
 import {type ClassNameLike, type ComponentChildren, computed, CustomContent, HElement, mergeProps, ReadonlySignal, Signal, effect, $, signal, batch} from '@zui/core';
 import {Toolbar} from '@zui/toolbar/src/component';
 import {Picker} from '@zui/picker/src/component';
-import type {FormBuilderOptions, FormSchema, FormWidgetMap, JSONSchema, FieldSchemaInfo, FormWidgetSetting, FormWidgetSettingDefinition, ObjectSchema} from '../types';
+import type {FormBuilderOptions, FormSchema, FormWidgetMap, JSONSchema, FieldSchemaInfo, FormWidgetSetting, FormWidgetSettingDefinition, ObjectSchema, FormValidateRulePattern, StringSchema} from '../types';
 import {SchemaRenderer} from './schema-renderer';
+import {getLang} from '../i18n';
 
 export class FormBuilder extends HElement<FormBuilderOptions> {
     static readonly NAME = 'FormBuilder';
@@ -11,6 +12,8 @@ export class FormBuilder extends HElement<FormBuilderOptions> {
     protected _schema$: Signal<FormSchema>;
 
     protected _dataMap$: Signal<Record<string, unknown>>;
+
+    protected _validationErrors$: Signal<Record<string, [code: string, error: string][]>>;
 
     protected _schemaPatches$: Signal<Record<string, Partial<JSONSchema>>>;
 
@@ -31,6 +34,7 @@ export class FormBuilder extends HElement<FormBuilderOptions> {
         const dataMap = FormBuilder.buildDataMap(props.schema, props.defaultData);
         this._dataMap$ = signal(dataMap);
         this._schemaPatches$ = signal({});
+        this._validationErrors$ = signal({});
 
         this._formData$ = computed(() => {
             return FormBuilder.buildFormData(this._dataMap$.value);
@@ -67,6 +71,10 @@ export class FormBuilder extends HElement<FormBuilderOptions> {
 
     get schemaMap() {
         return this._schemaMap$.value;
+    }
+
+    get validationErrors() {
+        return this._validationErrors$.value;
     }
 
     componentDidMount(): void {
@@ -114,25 +122,147 @@ export class FormBuilder extends HElement<FormBuilderOptions> {
         }
         const dataMap = this._dataMap$.value;
         const oldValue = dataMap[path];
-        if (oldValue !== value) {
-            requestAnimationFrame(() => {
-                const result = this.props.onFieldChange?.call(this, path, value, oldValue);
-                if (result === false) {
-                    return;
-                }
-                batch(() => {
-                    const changes = {
-                        [path]: value,
-                        ...(typeof result === 'object' ? result : {}),
-                    };
-                    this._dataMap$.value = {
-                        ...dataMap,
-                        ...changes,
-                    };
-                    this._updateFieldInfos(Object.keys(changes));
-                });
-            });
+        if (oldValue === value) {
+            return;
         }
+        requestAnimationFrame(() => {
+            const result = this.props.onFieldChange?.call(this, path, value, oldValue);
+            if (result === false) {
+                return;
+            }
+            batch(() => {
+                const changes = {
+                    [path]: value,
+                    ...(typeof result === 'object' ? result : {}),
+                };
+                this._dataMap$.value = {
+                    ...dataMap,
+                    ...changes,
+                };
+                const allRelativePaths = Object.keys(changes);
+                this._updateFieldInfos(allRelativePaths);
+            });
+        });
+    };
+
+    validateField(pathOrSchemaInfo: string | FieldSchemaInfo, options?: {skipUpdate?: boolean; value?: unknown}): [code: string, error: string][] {
+        const info = typeof pathOrSchemaInfo === 'string' ? this.getFieldSchemaInfo(pathOrSchemaInfo) : pathOrSchemaInfo;
+        const type = info?.schema.type;
+        if (!type || type === 'object') {
+            return [];
+        }
+        const {schema} = info;
+        const value = options?.value ?? info.value;
+        const formatError = (code: string): [code: string, error: string] => {
+            return [code, getLang(`validate.${code}`, schema as unknown as Record<string, string | number>)!];
+        };
+        const validatePattern = (pattern: FormValidateRulePattern | undefined, val: string, code = 'pattern'): [code: string, error: string] | undefined => {
+            if (!pattern) {
+                return;
+            }
+            const patternConfig = typeof pattern === 'string' ? {pattern} : pattern;
+            const regex = new RegExp(patternConfig.pattern);
+            if (!regex.test(val)) {
+                return patternConfig.message ? [code, patternConfig.message] : formatError(code);
+            }
+        };
+        if (info.required) {
+            if (value === undefined || value === null || (type === 'string' && value === '') || (type === 'array' && (!Array.isArray(value) || value.length === 0)) || (type === 'map' && Object.keys(value).length === 0) || ((type === 'number' || type === 'integer') && Number.isNaN(value))) {
+                return [formatError('required')];
+            }
+        }
+        const errors: [code: string, error: string][] = [];
+        if (schema.type === 'string') {
+            if (typeof schema.min === 'number' && schema.min > 0 && String(value ?? '').length < schema.min) {
+                errors.push(formatError('minLength'));
+            }
+            if (typeof schema.max === 'number' && schema.max > 0 && String(value ?? '').length > schema.max) {
+                errors.push(formatError('maxLength'));
+            }
+
+            const patterError = validatePattern(schema.pattern, String(value ?? ''));
+            if (patterError) {
+                errors.push(patterError);
+            }
+        } else if (schema.type === 'number' || schema.type === 'integer') {
+            if (typeof schema.min === 'number' && schema.min > 0 && Number(value ?? 0) < schema.min) {
+                errors.push(formatError('min'));
+            }
+            if (typeof schema.max === 'number' && schema.max > 0 && Number(value ?? 0) > schema.max) {
+                errors.push(formatError('max'));
+            }
+            if (schema.type === 'integer' && !Number.isInteger(Number(value ?? 0))) {
+                errors.push(formatError('integer'));
+            }
+        } else if (schema.type === 'array') {
+            if (typeof schema.min === 'number' && schema.min > 0 && Array.isArray(value) && value.length < schema.min) {
+                errors.push(formatError('minCount'));
+            }
+            if (typeof schema.max === 'number' && schema.max > 0 && Array.isArray(value) && value.length > schema.max) {
+                errors.push(formatError('maxCount'));
+            }
+        } else if (schema.type === 'map' && (schema.keyPattern || schema.valuePattern)) {
+            const map = value as Record<string, unknown>;
+            const {keyPattern, valuePattern} = schema;
+            for (const [key, val] of Object.entries(map)) {
+                const keyError = validatePattern(keyPattern, key, 'keyPattern');
+                const valueError = validatePattern(valuePattern, String(val ?? ''), 'valuePattern');
+                if (keyError) {
+                    errors.push(keyError);
+                }
+                if (valueError) {
+                    errors.push(valueError);
+                }
+            }
+        }
+        if (!options?.skipUpdate) {
+            const {validationErrors} = this;
+            if (JSON.stringify(validationErrors[info.path]) === JSON.stringify(errors)) {
+                return errors;
+            }
+            this._validationErrors$.value = {
+                ...validationErrors,
+                [info.path]: errors,
+            };
+            this._updateFieldInfo(info.path);
+        }
+        return errors;
+    }
+
+    /**
+     * 验证表单
+     * @returns 是否验证通过
+     * 如果验证不通过，则返回 false，并滚动到第一个错误所在的表单项
+     * 如果验证通过，则返回 true
+     */
+    validate(): boolean {
+        const errors: Record<string, [code: string, error: string][]> = {};
+        const {validationErrors} = this;
+        const validateOptions = {skipUpdate: true};
+        let fieldErrorsChanged = false;
+        let firstErrorPath = '';
+        FormBuilder.loopSchema(this.schema, (_schema, path) => {
+            const fieldErrors = this.validateField(path, validateOptions);
+            if (!fieldErrorsChanged && JSON.stringify(validationErrors[path] || []) !== JSON.stringify(fieldErrors)) {
+                fieldErrorsChanged = true;
+            }
+            if (fieldErrors.length > 0) {
+                errors[path] = fieldErrors;
+                firstErrorPath = path;
+            }
+        });
+        if (!fieldErrorsChanged) {
+            return true;
+        }
+        this._validationErrors$.value = errors;
+        if (firstErrorPath.length) {
+            $(this.element).find(`[z-key="${firstErrorPath}"]`).scrollIntoView();
+        }
+        return false;
+    }
+
+    getFieldValidationErrors = (path: string): [code: string, error: string][] => {
+        return this.validationErrors[path] || [];
     };
 
     protected _updateMap() {
@@ -308,7 +438,11 @@ export class FormBuilder extends HElement<FormBuilderOptions> {
         return (
             <div key="body" className={`form-builder-body form-grid form-${schema.displayType || 'vert'}`}>
                 {title ? <div className="form-builder-title">{title}</div> : null}
-                <SchemaRenderer infoGetter={this.getFieldSchemaInfo} onChangeField={this.setFieldValue} />
+                <SchemaRenderer
+                    infoGetter={this.getFieldSchemaInfo}
+                    errorsGetter={this.getFieldValidationErrors}
+                    onChangeField={this.setFieldValue}
+                />
                 {actions ? Toolbar.render(actions, [], {className: 'form-actions'}) : null}
             </div>
         );

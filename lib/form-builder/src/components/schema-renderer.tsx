@@ -7,7 +7,9 @@ import {SchemaFormItem} from './schema-form-item';
 export interface SchemaRendererProps {
     infoGetter: (path?: string) => FieldSchemaInfo | undefined;
     onChangeField: (path: string, value: unknown) => void;
+    errorsGetter: (path: string) => [code: string, error: string][];
     schemaInfo?: FieldSchemaInfo;
+    errors?: [code: string, error: string][];
     path?: string;
 }
 
@@ -18,12 +20,14 @@ export class SchemaRenderer extends Component<SchemaRendererProps> {
     }
 
     protected _renderObjectSchema(schemaInfo: FieldSchemaInfo) {
-        const {infoGetter, path = '', onChangeField} = this.props;
+        const {infoGetter, errorsGetter, path = '', onChangeField} = this.props;
         const {schema, properties = []} = schemaInfo;
         const {title, description} = schema;
         const cells: ComponentChild[] = [];
         for (const key of properties) {
-            cells.push(<SchemaRenderer key={key} infoGetter={infoGetter} path={path.length ? `${path}.${key}` : key} onChangeField={onChangeField} />);
+            const propertyPath = path.length ? `${path}.${key}` : key;
+            const errors = errorsGetter(propertyPath);
+            cells.push(<SchemaRenderer key={key} infoGetter={infoGetter} path={propertyPath} onChangeField={onChangeField} errorsGetter={errorsGetter} errors={errors.length ? errors : undefined} />);
         }
         if (path.length) {
             return (
@@ -42,7 +46,7 @@ export class SchemaRenderer extends Component<SchemaRendererProps> {
     }
 
     protected _renderArraySchema(schemaInfo: FieldSchemaInfo) {
-        const {infoGetter, path = ''} = this.props;
+        const {infoGetter, errorsGetter, path = ''} = this.props;
         if (!schemaInfo) {
             console.warn('[ZUI] Schema not found:', path);
             return null;
@@ -70,7 +74,8 @@ export class SchemaRenderer extends Component<SchemaRendererProps> {
                             path: `${path}[${index}]`,
                             value,
                         };
-                        return <SchemaRenderer infoGetter={infoGetter} path={itemSchemaInfo.path} schemaInfo={itemSchemaInfo} onChangeField={this.props.onChangeField} />;
+                        const errors = errorsGetter(itemSchemaInfo.path);
+                        return <SchemaRenderer infoGetter={infoGetter} errors={errors.length ? errors : undefined} errorsGetter={errorsGetter} path={itemSchemaInfo.path} schemaInfo={itemSchemaInfo} onChangeField={this.props.onChangeField} />;
                     })}
                 </Collapsible>
             );
@@ -111,7 +116,7 @@ export class SchemaRenderer extends Component<SchemaRendererProps> {
     }
 
     render(props: RenderableProps<SchemaRendererProps>) {
-        const {infoGetter, path = ''} = props;
+        const {infoGetter, errors, path = ''} = props;
         const schemaInfo = props.schemaInfo || infoGetter(path);
         if (!schemaInfo) {
             console.warn('[ZUI] Schema not found:', path);
@@ -133,10 +138,18 @@ export class SchemaRenderer extends Component<SchemaRendererProps> {
                     'is-disabled': disabled,
                     'is-readonly': readonly,
                     'is-required': required,
+                    'has-error': errors?.length,
                 })}
                 style={widthStyle ? {'flex-basis': widthStyle} : undefined}
             >
                 {this._renderSchema(schemaInfo)}
+                {errors?.length ? (
+                    <div class="form-item-errors">
+                        {errors.map(([code, error]) => (
+                            <div key={code} class="form-item-error">{error}</div>
+                        ))}
+                    </div>
+                ) : null}
                 {hint ? <div className="form-hint">{hint}</div> : null}
                 {extra ? <CustomContent className="form-builder-extra" content={extra} /> : null}
             </div>
