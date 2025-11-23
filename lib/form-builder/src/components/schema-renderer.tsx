@@ -1,7 +1,7 @@
 import {Component, ComponentChild, RenderableProps} from 'preact';
 import {classes, CustomContent} from '@zui/core';
 import {Collapsible} from '@zui/collapsible/src/components';
-import {ArraySchema, FieldSchemaInfo} from '../types';
+import {ArraySchema, FieldSchemaInfo, FormGridWidth} from '../types';
 import {SchemaFormItem} from './schema-form-item';
 
 export interface SchemaRendererProps {
@@ -28,15 +28,17 @@ export class SchemaRenderer extends Component<SchemaRendererProps> {
         if (path.length) {
             return (
                 <Collapsible
+                    key={path}
                     title={title}
                     caption={description}
                     className="form-builder-collapsible"
+                    contentClass="form-builder-items"
                 >
                     {cells}
                 </Collapsible>
             );
         }
-        return cells;
+        return <div className="form-builder-items">{cells}</div>;
     }
 
     protected _renderArraySchema(schemaInfo: FieldSchemaInfo) {
@@ -91,6 +93,23 @@ export class SchemaRenderer extends Component<SchemaRendererProps> {
         return <SchemaFormItem schemaInfo={schemaInfo} onChangeField={this.props.onChangeField} />;
     }
 
+    protected _getWidthStyle(width?: FormGridWidth): string {
+        if (typeof width !== 'string' && typeof width !== 'number') {
+            return '';
+        }
+        if (typeof width === 'number') {
+            return `${(width / 12) * 100}%`;
+        }
+        if (width === 'full') {
+            return '100%';
+        }
+        if (/^\d+\/\d+$/.test(width)) {
+            const [numerator, denominator] = width.split('/').map(Number);
+            return `${(numerator / denominator) * 100}%`;
+        }
+        return width;
+    }
+
     render(props: RenderableProps<SchemaRendererProps>) {
         const {infoGetter, path = ''} = props;
         const schemaInfo = props.schemaInfo || infoGetter(path);
@@ -102,7 +121,8 @@ export class SchemaRenderer extends Component<SchemaRendererProps> {
         if (schema.hidden) {
             return null;
         }
-        const {extra, hint, type, disabled, readonly, required} = schema;
+        const {extra, hint, width, type, disabled, readonly, required} = schema;
+        const widthStyle = this._getWidthStyle(width);
         return (
             <div
                 key={path}
@@ -114,6 +134,7 @@ export class SchemaRenderer extends Component<SchemaRendererProps> {
                     'is-readonly': readonly,
                     'is-required': required,
                 })}
+                style={widthStyle ? {'flex-basis': widthStyle} : undefined}
             >
                 {this._renderSchema(schemaInfo)}
                 {hint ? <div className="form-hint">{hint}</div> : null}

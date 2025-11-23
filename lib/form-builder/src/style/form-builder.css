@@ -22,12 +22,19 @@
   @apply !-border-border;
 }
 
-.form-builder-item.is-root > .form-builder-item > .collapsible {
+.form-builder-items {
+  @apply -flex -flex-row -flex-wrap;
+}
+.form-builder-items > .form-builder-item {
+  @apply -basis-full;
+}
+
+.form-builder-item.is-root > .form-builder-items > .form-builder-item > .collapsible {
   @apply -mb-4 hover:-shadow;
 }
-.form-builder-item.is-root > .form-builder-item > .collapsible > .collapsible-header {
+.form-builder-item.is-root > .form-builder-items > .form-builder-item > .collapsible > .collapsible-header {
   @apply -border-b -bg-gray-100 -p-0 -rounded-t-md;
 }
-.form-builder-item.is-root > .form-builder-item > .collapsible > .collapsible-body {
+.form-builder-item.is-root > .form-builder-items > .form-builder-item > .collapsible > .collapsible-body {
   @apply -px-0;
 }
