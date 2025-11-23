@@ -38,3 +38,15 @@
 .form-builder-item.is-root > .form-builder-items > .form-builder-item > .collapsible > .collapsible-body {
   @apply -px-0;
 }
+
+/* form builder with horizontal layout. */
+.form-horz .form-builder-items {
+  @apply -gap-y-1;
+}
+.form-horz .form-builder-item > .form-hint,
+.form-horz .form-builder-item > .form-builder-extra {
+  @apply -pl-[--form-horz-label-width]
+}
+.form-horz.form-builder-body > .form-actions {
+  @apply -pl-[--form-horz-label-width]
+}

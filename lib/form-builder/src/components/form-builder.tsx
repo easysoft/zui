@@ -282,7 +282,7 @@ export class FormBuilder extends HElement<FormBuilderOptions> {
         const {schema, actions} = props;
         const {title} = schema;
         return (
-            <div key="body" className="form-builder-body form-grid">
+            <div key="body" className={`form-builder-body form-grid form-${schema.displayType || 'vert'}`}>
                 {title ? <div className="form-builder-title">{title}</div> : null}
                 <SchemaRenderer infoGetter={this.getFieldSchemaInfo} onChangeField={this.setFieldValue} />
                 {actions ? Toolbar.render(actions, [], {className: 'form-actions'}) : null}
