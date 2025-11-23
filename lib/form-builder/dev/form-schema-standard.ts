@@ -17,17 +17,19 @@ export const schema = {
             title: '标题',
             type: 'string',
             required: true,
+            max: 100,
+            min: 4,
             defaultValue: '这是标题内容',
         },
         inputboxes: {
             title: '输入框',
             type: 'object',
             description: '用于手动输入文本和值',
+            required: ['textbox', 'numberBox'],
             properties: {
                 textbox: {
                     title: '文本框',
                     type: 'string',
-                    required: true,
                     hint: '这个输入框字段被标记为必填',
                     defaultValue: '这是文本框的默认值',
                     width: '1/2',
@@ -239,7 +241,7 @@ export const schema = {
                 },
                 progressCircleChanger: {
                     title: '进度环控制器',
-                    type: 'number',
+                    type: 'integer',
                     defaultValue: 50,
                     widget: 'input',
                     props: {
