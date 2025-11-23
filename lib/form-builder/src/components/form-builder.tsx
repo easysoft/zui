@@ -197,16 +197,17 @@ export class FormBuilder extends HElement<FormBuilderOptions> {
 
         const fieldValue = this._dataMap$.value[path];
         const keys = Object.keys(currentSchema) as (keyof JSONSchema)[];
-        const finalSchema = {} as Record<string, unknown>;
+        const finalSchema = {} as JSONSchema;
         for (const key of keys) {
             let value: unknown = currentSchema[key];
             if (typeof value === 'string' && value.startsWith('{{') && value.endsWith('}}')) {
                 value = this._evaluateExpression(value, ['formBuilder', this], ['schema', currentSchema], ['formData', this.formData], ['value', fieldValue], ['path', path]);
             }
-            finalSchema[key] = value;
+            (finalSchema as unknown as Record<string, unknown>)[key] = value;
         }
 
-        const propertyKeys = (finalSchema.type === 'object' && finalSchema.properties) ? Object.keys(finalSchema.properties as Record<string, JSONSchema>) : undefined;
+        const schemaType = finalSchema.type;
+        const propertyKeys = (schemaType === 'object' && finalSchema.properties) ? Object.keys(finalSchema.properties) : undefined;
         if (propertyKeys) {
             const propertyOrderMap = new Map<string, number>();
             for (const key of propertyKeys) {
@@ -220,8 +221,20 @@ export class FormBuilder extends HElement<FormBuilderOptions> {
                 propertyKeys.sort((a, b) => propertyOrderMap.get(a)! - propertyOrderMap.get(b)!);
             }
         }
+        let required = Array.isArray(finalSchema.required) ? false : !!finalSchema.required;
+        if (schemaType !== 'object' && finalSchema.required === undefined && path.length > 2 && path.includes('.')) {
+            const pathParts = path.split('.');
+            const thisKey = pathParts.pop()!;
+            const parentPath = pathParts.join('.');
+            const parentSchemaInfo = this.getFieldSchemaInfo(parentPath);
+            const parentSchema = parentSchemaInfo ? parentSchemaInfo.schema : this.getSchemaByPath(parentPath);
+            if (parentSchema) {
+                required = Array.isArray(parentSchema.required) && parentSchema.required.includes(thisKey);
+            }
+        }
 
         const info = {
+            required,
             path,
             schema: finalSchema as unknown as JSONSchema,
             properties: propertyKeys,

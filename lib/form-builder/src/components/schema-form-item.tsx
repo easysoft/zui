@@ -42,15 +42,15 @@ export class SchemaFormItem extends Component<SchemaFormItemProps> {
     };
 
     render({schemaInfo}: RenderableProps<SchemaFormItemProps>) {
-        const {schema, value, widget: widgetSetting, path} = schemaInfo;
-        const {title, description, tooltip, disabled, readonly, placeholder, required} = schema;
+        const {schema, value, widget: widgetSetting, path, required} = schemaInfo;
+        const {title, description, tooltip, disabled, readonly, placeholder} = schema;
         const [widget, widgetProps] = widgetSetting;
         const controlProps: FormControlProps = {
             widget,
             disabled,
             readonly,
             placeholder,
-            required: Array.isArray(required) ? required.includes(path) : required,
+            required,
             props: widgetProps,
             value: value,
             onChange: this._handleChange,

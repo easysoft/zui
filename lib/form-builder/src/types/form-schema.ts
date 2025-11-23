@@ -62,4 +62,5 @@ export type FieldSchemaInfo = {
     value: unknown;
     widget: FormWidgetSetting;
     dependenciesSet: Set<string>;
+    required: boolean;
 };
