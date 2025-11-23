@@ -1,5 +1,5 @@
 import {Component, RenderableProps} from 'preact';
-import {FormGroup} from '@zui/form-control/src/components';
+import {FormControlProps, FormGroup} from '@zui/form-control/src/components';
 import {$} from '@zui/core';
 import {FieldSchemaInfo} from '../types';
 
@@ -45,14 +45,14 @@ export class SchemaFormItem extends Component<SchemaFormItemProps> {
         const {schema, value, widget: widgetSetting, path} = schemaInfo;
         const {title, description, tooltip, disabled, readonly, placeholder, required} = schema;
         const [widget, widgetProps] = widgetSetting;
-        const controlProps = {
+        const controlProps: FormControlProps = {
             widget,
             disabled,
             readonly,
             placeholder,
-            required,
+            required: Array.isArray(required) ? required.includes(path) : required,
             props: widgetProps,
-            defaultValue: value,
+            value: value,
             onChange: this._handleChange,
         };
         return (
@@ -61,7 +61,7 @@ export class SchemaFormItem extends Component<SchemaFormItemProps> {
                 label={title}
                 hint={description}
                 tooltip={tooltip}
-                required={required}
+                required={controlProps.required}
                 control={controlProps}
             />
         );
