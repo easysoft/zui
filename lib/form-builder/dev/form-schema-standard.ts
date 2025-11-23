@@ -30,6 +30,7 @@ export const schema = {
                     required: true,
                     hint: '这个输入框字段被标记为必填',
                     defaultValue: '这是文本框的默认值',
+                    width: '1/2',
                     widget: 'input',
                     props: {
                         placeholder: '请输入文本',
@@ -40,6 +41,7 @@ export const schema = {
                     type: 'number',
                     widget: 'input',
                     hint: '这是表单项的底部提示',
+                    width: '1/2',
                     defaultValue: 100,
                     description: '这是表单项的描述',
                     tooltip: '这是表单项的悬浮提示',

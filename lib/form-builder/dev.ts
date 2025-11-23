@@ -30,7 +30,10 @@ onPageUpdate(() => {
     const formBuilder = new FormBuilder('#formBuilderExample', {
         component: 'form',
         formName: 'json',
-        schema: schemaExampleStandard as FormSchema,
+        schema: {
+            displayType: 'horz',
+            ...schemaExampleStandard,
+        } as FormSchema,
         defaultData,
         widgets: {
             progressCircle: ({value}) => [ProgressCircle as unknown as ComponentType, {percent: value || 0}],
