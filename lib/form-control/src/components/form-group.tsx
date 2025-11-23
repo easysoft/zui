@@ -5,7 +5,7 @@ import {FormControl, FormControlProps} from './form-control';
 export type FormGroupProps = {
     name?: string;
 
-    label?: string;
+    label?: CustomContentType;
 
     style?: JSX.CSSProperties;
 
@@ -28,9 +28,9 @@ export function FormGroup(props: FormGroupProps) {
     const {children, name, label, tooltip, labelClass, required, style, className, hint, control} = props;
     return (
         <div className={classes('form-group', className)} data-name={name} style={style}>
-            {label ? (
+            {label !== undefined ? (
                 <label class={classes('form-label', labelClass, required ? 'required' : '')} for={name}>
-                    {label}
+                    <CustomContent content={label} />
                     {tooltip ? <div className="state" zui-toggle="tooltip" data-content={tooltip}><Icon icon="info" /></div> : null}
                 </label>
             ) : null}
