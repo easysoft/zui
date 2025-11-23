@@ -27,7 +27,7 @@ export type FormGroupProps = {
 export function FormGroup(props: FormGroupProps) {
     const {children, name, label, tooltip, labelClass, required, style, className, hint, control} = props;
     return (
-        <div className={classes('form-group', className)} data-name={name} style={style}>
+        <div className={classes('form-group', className, control?.widget === 'text' ? 'is-static-text' : null)} data-name={name} style={style}>
             {label !== undefined ? (
                 <label class={classes('form-label', labelClass, required ? 'required' : '')} for={name}>
                     <CustomContent content={label} />
