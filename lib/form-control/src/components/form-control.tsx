@@ -45,15 +45,17 @@ export class FormControl extends Component<FormControlProps> {
     protected _renderCheckbox(props: Record<string, unknown>) {
         const {className, type, name, defaultValue, disabled, ...rest} = props;
         return (
-            <Checkbox
-                type={type as CheckboxProps['type']}
-                id={name as string ?? this._defaultID}
-                className={className as ClassNameLike}
-                name={name as string}
-                defaultChecked={!!defaultValue}
-                disabled={!!disabled}
-                {...rest}
-            />
+            <div className={`check-list-inline is-type-${type}`}>
+                <Checkbox
+                    type={type as CheckboxProps['type']}
+                    id={name as string ?? this._defaultID}
+                    className={className as ClassNameLike}
+                    name={name as string}
+                    defaultChecked={!!defaultValue}
+                    disabled={!!disabled}
+                    {...rest}
+                />
+            </div>
         );
     }
 
