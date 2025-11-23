@@ -24,6 +24,9 @@
 .form-horz .form-label {
   @apply -absolute -left-0 -top-0 -pr-2 -pl-4 -justify-end -w-[--form-horz-label-width];
 }
+.form-horz .is-static-text > .form-label {
+  @apply -h-7;
+}
 .form-horz .form-label.required::after {
   @apply -order-first -ml-0;
 }
@@ -45,4 +48,9 @@
 .form .form-group-wrapper.flex-none,
 .form-horz .form-group-wrapper.flex-none {
   @apply -flex-none;
+}
+
+/* Form grid with horizontal layout. */
+.form-grid.form-horz .form-label {
+  @apply -top-[--form-grid-gap-y-half];
 }
