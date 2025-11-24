@@ -244,6 +244,13 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
 
     componentDidMount() {
         this._afterRender(true);
+
+        const {value, defaultValue} = this.props;
+        const initialValue = value ?? defaultValue ?? '';
+        const currentValue = this.state.value;
+        if (initialValue !== currentValue) {
+            this._handleChange(currentValue, initialValue);
+        }
     }
 
     componentWillUpdate(_nextProps: Readonly<O>, nextState: Readonly<S>): void {
