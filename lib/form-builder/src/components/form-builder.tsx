@@ -557,7 +557,7 @@ export class FormBuilder extends HElement<FormBuilderOptions> {
             }
         } else {
             const key = (schema.type === 'array' && schema.items) ? `${path}[]` : path;
-            map[key] = data ?? JSON.parse(JSON.stringify(schema.defaultValue ?? this.typeDefaultValueMap[schema.type]));
+            map[key] = data ?? JSON.parse(JSON.stringify(schema.defaultValue ?? this.typeDefaultValueMap[schema.type] ?? ''));
         }
         return map;
     }
