@@ -55,6 +55,11 @@ if (import.meta.hot) {
             const libPage = document.getElementById('libPage');
             if (libPage) {
                 libPage.innerHTML = data.content;
+
+                if ((window as unknown as {$: (element: Element) => ({zuiInit: () => void})}).$) {
+                    (window as unknown as {$: (element: Element) => ({zuiInit: () => void})}).$(libPage).zuiInit();
+                }
+
                 libPage.classList.add('is-loaded');
                 document.dispatchEvent(new CustomEvent('dev-page-update', {detail: {libName: data.libName}}));
             }
