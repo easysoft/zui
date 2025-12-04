@@ -440,6 +440,10 @@ importers:
       vhtml:
         specifier: ^2.2.0
         version: 2.2.0
+    devDependencies:
+      '@types/vhtml':
+        specifier: ^2.2.9
+        version: 2.2.9
 
   lib/css-icons:
     devDependencies:
@@ -2931,6 +2935,10 @@ packages:
 
   /@types/unist@3.0.3:
     resolution: {integrity: sha512-ko/gIFJRv177XgZsZcBwnqJN5x/Gien8qNOn0D5bQU/zAzVf9Zt3BlcUiLqhV9y4ARk0GbT3tnUiPNgnTXzc/Q==}
+    dev: true
+
+  /@types/vhtml@2.2.9:
+    resolution: {integrity: sha512-maEIRJb+PdK2FWDORl0a0aNUSGlniMl8pN+7WbanLzx1Gry4gLfsT0C9O/6JucPPBHCNrqDSImr2QcsUENLKUg==}
     dev: true
 
   /@types/web-bluetooth@0.0.21:
