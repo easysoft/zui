@@ -74,10 +74,14 @@ export class Messager extends Component<MessagerOptions> {
             options = {content: options};
         }
         const {container, ...others} = options;
-        const finalOptions = {type, key: `messager_${nextGid()}`, ...others};
-        if (finalOptions.type) {
-            $.extend(finalOptions, this.TypeOptions[finalOptions.type]);
-        }
+        const finalOptions = {
+            type,
+            key: `messager_${nextGid()}`,
+            content: undefined,
+            message: undefined,
+            ...(type ? this.TypeOptions[type] : {}),
+            ...others,
+        };
         const messager = Messager.ensure(container || 'body', finalOptions as Partial<MessagerOptions>);
         messager.hide();
         messager.show();
