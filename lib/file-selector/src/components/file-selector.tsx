@@ -582,8 +582,8 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
     }
 
     protected _renderFile(file: FileInfo) {
-        let {itemProps} = this.props;
-        itemProps = mergeProps({
+        const {itemProps} = this.props;
+        const finalItemProps = mergeProps({
             className: this.props.mode === 'grid' ? 'file-selector-grid-item' : 'file-selector-item',
             multiline: false,
             title: file.name,
@@ -593,7 +593,7 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
             'z-id': file.id,
         }, typeof itemProps === 'function' ? itemProps.call(this, file) : itemProps);
         return (
-            <Listitem key={file.id} {...itemProps} />
+            <Listitem key={file.id} {...finalItemProps} />
         );
     }
 
@@ -604,33 +604,29 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
     };
 
     protected _renderFileRename(file: FileInfo) {
-        let {itemProps} = this.props;
-        if (typeof itemProps === 'function') {
-            itemProps = itemProps.call(this, file);
-        } else {
-            const {newName = file.name} = this.state;
-            const isGrid = this.props.mode === 'grid';
-            const renameText = (
-                <div className="file-selector-rename-text">
-                    <div className="form-control size-sm">{newName}</div>
-                    <input type="text" defaultValue={file.name} className="form-control size-sm select-all file-selector-rename-input" autofocus onBlur={isGrid ? this.stopRenameFile : undefined} onChange={this._handleRenameChange} onInput={this._handleRenameChange} />
-                </div>
-            );
-            itemProps = mergeProps({
-                className: `${isGrid ? 'file-selector-grid-item' : 'file-selector-item'} is-renaming`,
-                multiline: false,
-                avatar: this._getAvatar(file),
-                'z-id': file.id,
-                contentClass: 'file-selector-rename',
-                content: isGrid ? renameText : [
-                    renameText,
-                    <Button icon="check" text={this.i18n('confirm')} type="primary-pale" size="sm" onClick={this.stopRenameFile} />,
-                    <Button icon="close" text={this.i18n('cancel')} type="gray-pale" size="sm" onClick={this.cancelRenameFile} />,
-                ],
-            }, itemProps);
-        }
+        const {itemProps} = this.props;
+        const {newName = file.name} = this.state;
+        const isGrid = this.props.mode === 'grid';
+        const renameText = (
+            <div className="file-selector-rename-text">
+                <div className="form-control size-sm">{newName}</div>
+                <input type="text" defaultValue={file.name} className="form-control size-sm select-all file-selector-rename-input" autofocus onBlur={isGrid ? this.stopRenameFile : undefined} onChange={this._handleRenameChange} onInput={this._handleRenameChange} />
+            </div>
+        );
+        const finalItemProps = mergeProps({
+            className: `${isGrid ? 'file-selector-grid-item' : 'file-selector-item'} is-renaming`,
+            multiline: false,
+            avatar: this._getAvatar(file),
+            'z-id': file.id,
+            contentClass: 'file-selector-rename',
+            content: isGrid ? renameText : [
+                renameText,
+                <Button icon="check" text={this.i18n('confirm')} type="primary-pale" size="sm" onClick={this.stopRenameFile} />,
+                <Button icon="close" text={this.i18n('cancel')} type="gray-pale" size="sm" onClick={this.cancelRenameFile} />,
+            ],
+        }, typeof itemProps === 'function' ? itemProps.call(this, file) : itemProps);
         return (
-            <Listitem key={file.id} {...itemProps} />
+            <Listitem key={file.id} {...finalItemProps} />
         );
     }
 
