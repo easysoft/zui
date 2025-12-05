@@ -74,6 +74,7 @@ export class Messager extends Component<MessagerOptions> {
             options = {content: options};
         }
         const {container, ...others} = options;
+        type = type ?? others.type;
         const finalOptions = {
             type,
             key: `messager_${nextGid()}`,
