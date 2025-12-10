@@ -30,7 +30,9 @@ export function FormGroup(props: FormGroupProps) {
         <div className={classes('form-group', className, control?.widget === 'text' ? 'is-static-text' : null)} data-name={name} style={style}>
             {label !== undefined ? (
                 <label class={classes('form-label', labelClass, required ? 'required' : '')} for={name}>
-                    <CustomContent content={label} />
+                    <div class="form-label-text" title={typeof label === 'string' ? label : undefined}>
+                        <CustomContent content={label} />
+                    </div>
                     {tooltip ? <div className="state" zui-toggle="tooltip" data-content={tooltip}><Icon icon="info" /></div> : null}
                 </label>
             ) : null}
