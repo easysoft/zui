@@ -285,6 +285,22 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
         });
     }
 
+    replaceFileName(fileInfo: FileInfo, newName: string) {
+        const originFile = fileInfo.file;
+        if (!originFile) {
+            return;
+        }
+        const newFile = new File([originFile], newName, {type: originFile.type, lastModified: originFile.lastModified});
+        const dataIndex = Array.from(this._data.files).indexOf(originFile);
+        if (dataIndex >= 0) {
+            this._data.items.remove(dataIndex);
+        }
+        this._data.items.add(newFile);
+        fileInfo.file = newFile;
+        this._syncFiles(true);
+        return newFile;
+    }
+
     async renameFile(id: string, newName: string) {
         const fileInfo = this.getFile(id);
         if (!fileInfo || fileInfo.name === newName) {
@@ -298,17 +314,9 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
             }
         }
 
-        const originFile = fileInfo.file;
         const {files, renamedFiles = {}} = this.state;
-        if (originFile) {
-            const newFile = new File([originFile], newName, {type: originFile.type, lastModified: originFile.lastModified});
-            const dataIndex = Array.from(this._data.files).indexOf(originFile);
-            if (dataIndex >= 0) {
-                this._data.items.remove(dataIndex);
-            }
-            this._data.items.add(newFile);
-            this._syncFiles(true);
-            fileInfo.file = newFile;
+        if (fileInfo.file) {
+            this.replaceFileName(fileInfo, newName);
         } else {
             renamedFiles[fileInfo.id] = newName;
         }
