@@ -1,6 +1,6 @@
 import type {ComponentChildren, JSX} from 'preact';
 import {type ClassNameLike, CustomContent, CustomContentType, Icon, classes} from '@zui/core';
-import {FormControl, FormControlProps} from './form-control';
+import {FormControl, type FormControlProps} from './form-control';
 
 export type FormGroupProps = {
     name?: string;
