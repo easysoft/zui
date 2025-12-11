@@ -23,6 +23,7 @@ function getLibByPath(path: string, libsCache: Record<string, LibInfo>): LibInfo
 
 export default defineConfig(async ({mode}) => {
     const buildLibs = process.env.BUILD_LIBS ?? 'buildIn';
+    const noMinify = process.env.NO_MINIFY === 'true' || process.env.NO_MINIFY === '1';
     const libsCache: Record<string, LibInfo> | undefined = await getLibs(buildLibs.split(','));
 
     const configFile = process.env.VITE_EXTRA_CONFIG;
@@ -55,6 +56,7 @@ export default defineConfig(async ({mode}) => {
             assetsInlineLimit: 256,
             sourcemap: true,
             cssMinify: false,
+            minify: !noMinify,
         },
         esbuild: {
             jsxFactory: 'h',

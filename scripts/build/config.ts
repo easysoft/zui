@@ -42,6 +42,9 @@ export interface BuildConfigOptions {
 
     /** Whether to include wip libs. */
     includeWip?: boolean;
+
+    /** Whether to minify the build output. */
+    noMinify?: boolean;
 }
 
 export interface BuildLibExportTarget {

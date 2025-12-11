@@ -52,6 +52,7 @@ const buildConfig = await createBuildConfig({
     exports: argv.exports ?? argv.E,
     ignoreNotReady: argv.ignoreNotReady,
     includeWip: argv.includeWip,
+    noMinify: argv.noMinify,
 });
 
 const buildDir = Path.resolve(process.cwd(), 'build');
@@ -125,6 +126,7 @@ if (!argv.s && !argv.skipBuild) {
         env: {
             ...process.env,
             BUILD_LIBS: buildLibPaths.join(','),
+            NO_MINIFY: argv.noMinify,
             ZIP: argv.zip,
             ZIP_OUT: argv.zipOut,
             VITE_EXTRA_CONFIG: viteConfigFile,
