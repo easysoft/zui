@@ -9,12 +9,12 @@
 }
 
 .text-shimmer {
-    background: linear-gradient(90deg, var(--text-shimmer-1, currentColor) 0%, var(--text-shimmer-2, var(--color-gray-100, #f1f1f1)) 50%, var(--text-shimmer-1, currentColor) 100%);
+    background: linear-gradient(90deg, var(--text-shimmer-1, currentColor) 20%, var(--text-shimmer-2, var(--color-gray-400, #f1f1f1)) 50%, var(--text-shimmer-1, currentColor) 80%);
     background-size: 200% auto; /* 拉大背景以允许移动 */
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent; /* 兼容性写法，同 color: transparent */
-    animation: -shimmer 2s linear infinite;
+    animation: -shimmer 3s linear infinite;
 }
 
 .text-aurora {
