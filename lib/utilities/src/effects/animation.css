@@ -8,8 +8,52 @@
     @apply -outline-yellow-300 -outline --outline-offset-1 -outline-1;
 }
 
+.text-shimmer {
+    background: linear-gradient(90deg, var(--text-shimmer-1, currentColor) 0%, var(--text-shimmer-2, var(--color-gray-100, #f1f1f1)) 50%, var(--text-shimmer-1, currentColor) 100%);
+    background-size: 200% auto; /* 拉大背景以允许移动 */
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent; /* 兼容性写法，同 color: transparent */
+    animation: -shimmer 2s linear infinite;
+}
+
+.text-aurora {
+    background: linear-gradient(120deg, var(--text-aurora-1, var(--color-special-500, #a855f7)) 0%, var(--text-aurora-2, var(--color-secondary-500, #3b82f6)) 25%, var(--text-aurora-3, var(--color-success-500, #06b6d4)) 50%, var(--text-aurora-4, var(--color-primary-500, #3b82f6)) 75%, var(--text-aurora-1, var(--color-special-500, #a855f7)) 100%);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: -aurora 3s linear infinite;
+}
+
+.text-breathe {
+    background: linear-gradient(to right, var(--text-breathe-1, var(--color-danger-500, #ec4899)), var(--text-breathe-2, var(--color-warning-500, #f97316)), var(--text-breathe-3, var(--color-danger-500, #ec4899)));
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: -breathe 4s ease-in-out infinite;
+}
+
 @keyframes -highlight {
     50% {
         @apply -outline-4 --outline-offset-4 -bg-yellow-50;
     }
+}
+
+@keyframes -shimmer {
+    to {
+        background-position: -200% center;
+    }
+}
+
+@keyframes -aurora {
+    0% { background-position: 0% center; }
+    100% { background-position: 200% center; }
+}
+
+@keyframes -breathe {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
