@@ -703,3 +703,16 @@
   height: 2rem;
 }
 </style>
+
+### Animations
+
+```html:example: blocks
+<div class="animate-spin"></div>
+<div class="animate-ping"></div>
+<div class="animate-pulse"></div>
+<div class="animate-bounce"></div>
+<div class="animate-highlight"></div>
+<div class="text-shimmer"></div>
+<div class="text-aurora"></div>
+<div class="text-breathe"></div>
+```
