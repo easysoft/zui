@@ -96,8 +96,8 @@ export class MiniCalendar extends Component<MiniCalendarProps> {
             rows.push(<div className="row" key={time}>{rowDays}</div>);
         }
         return (
-            <div className="mini-calendar">
-                <div className="row">
+            <div className="mini-calendar" key={`${year}-${month}`}>
+                <div className="row" key="header">
                     {weekNamesView}
                 </div>
                 {rows}
