@@ -10,6 +10,8 @@ export type AjaxSuccessCallback = (data: unknown, statusText: string, response: 
 
 export type AjaxDataFilter = (data: unknown, dataType: string) => unknown;
 
+export type AjaxDataConverter = (data: unknown, dataType: string) => unknown | Promise<unknown>;
+
 export type AjaxFormData = string | FormData | URLSearchParams | Record<string, FormItemValue | FormItemValue[]> | [name: string, value: FormItemValue][];
 
 export type AjaxCallbackMap = {
@@ -35,6 +37,7 @@ export interface AjaxSetting extends RequestInit {
     success?: AjaxSuccessCallback;
     error?: AjaxErrorCallback;
     complete?: AjaxCompleteCallback;
+    convert?: AjaxDataConverter;
     throws?: boolean;
 }
 

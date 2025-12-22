@@ -223,7 +223,7 @@ export class Ajax<T = unknown> {
         }
         this._init();
 
-        const {timeout, dataType: dataTypeSetting, accepts, dataFilter, throws, jsonParser} = this.setting;
+        const {timeout, dataType: dataTypeSetting, accepts, dataFilter, throws, jsonParser, convert} = this.setting;
         if (timeout) {
             this._timeoutID = window.setTimeout(() => {
                 this.abort(new Error('timeout'));
@@ -254,6 +254,9 @@ export class Ajax<T = unknown> {
                     data = parseRawData(data as string);
                 } else {
                     data = await response.text();
+                }
+                if (convert) {
+                    data = await convert(data, dataType);
                 }
                 this.data = data as T;
                 const filteredData = dataFilter?.(data, dataType) ?? data;
