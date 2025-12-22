@@ -425,6 +425,7 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
             multiple: props.multiple,
             search: props.search,
             maxItemsCount: props.maxItemsCount,
+            noNestedPick: props.noNestedPick,
             footer: this._renderToolbar(),
             valueList: this.valueList,
             noFlipAfterShow: true,

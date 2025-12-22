@@ -96,7 +96,7 @@ export class PickerMenu extends PickPop<PickerState, PickerMenuProps> {
         let subItems = item.items;
         let isAllItemsChecked = false;
         let hasSomeItemsChecked = false;
-        if (Array.isArray(subItems) && this.props.multiple) {
+        if (Array.isArray(subItems) && this.props.multiple && !this.props.noNestedPick) {
             isAllItemsChecked = true;
             subItems = subItems.reduce<NestedItem[]>((list, subItem, subIndex) => {
                 const finalSubItem = this._getItem(subItem, subIndex);
@@ -158,9 +158,9 @@ export class PickerMenu extends PickPop<PickerState, PickerMenuProps> {
         if (Array.isArray(item.items) && item.items.every(x => this._disabledSet.has(x.value as string))) {
             return;
         }
-        const {multiple, onPick} = this.props;
+        const {multiple, onPick, noNestedPick} = this.props;
         if (multiple) {
-            if (item.items) {
+            if (item.items && !noNestedPick) {
                 const map = getValueMap(item.items as NestedItem[]);
                 const values = [...map.values()].filter(x => !x.items && !this._disabledSet.has(x.value as string)).map(x => x.value as string);
                 if ($(target).closest('.item').children('.item-inner.selected').length) {

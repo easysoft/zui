@@ -31,6 +31,7 @@ export interface PickerOptions<S extends PickerState = PickerState> extends Pick
     hotkeys?: HotkeysSettings;
     caretClass?: ClassNameLike;
     clearSearchOnSelect?: boolean;
+    noNestedPick?: boolean;
 
     onDeselect?: (values: string | string[]) => false | void;
     onSelect?: (values: string | string[]) => false | void;

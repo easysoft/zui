@@ -19,6 +19,7 @@ export interface PickerMenuProps<S extends PickerState = PickerState> extends Pi
     maxItemsCount?: number;
     exceedLimitHint?: string;
     picker?: Picker;
+    noNestedPick?: boolean;
 
     getItem?: (item: NestedItem, index: number) => NestedItem;
     onPick: (options: {toggle?: string; select?: string | string[]; diselect?: string | string[]}) => void;
