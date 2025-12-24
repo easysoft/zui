@@ -73,7 +73,11 @@ export class PickTrigger<S extends PickState = PickState, P extends PickTriggerP
     }
 
     protected _renderValue(props: RenderableProps<P>): ComponentChildren {
-        const {name, state: {value = ''}, disabled, readonly, id} = props;
+        const {name, state: {value = ''}, disabled, readonly, id, onRenderValue} = props;
+        if (onRenderValue) {
+            return onRenderValue.call(this, value, props);
+        }
+
         if (name) {
             if (this._hasInput) {
                 $(`#${id}`).val(value);

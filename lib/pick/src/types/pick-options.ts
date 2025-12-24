@@ -1,4 +1,4 @@
-import type {ComponentType, JSX} from 'preact';
+import type {ComponentChildren, ComponentType, JSX} from 'preact';
 import type {ClassNameLike, CustomContentType} from '@zui/core';
 import type {PickPopProps} from './pick-pop-props';
 import type {PickState} from './pick-state';
@@ -29,6 +29,7 @@ export interface PickOptions<S extends PickState = PickState> {
     onChange?: (value: string, oldValue: string) => void;
     beforeChange?: (value: string, oldValue: string) => Promise<boolean | string | void> | boolean | string | void;
     onClick?: (event: MouseEvent) => void | boolean;
+    onRenderValue?: (value: unknown, props: PickTriggerProps<S>) => ComponentChildren;
 
     hidePopWhenEmpty?: boolean;
     limitPopInScreen?: boolean;
