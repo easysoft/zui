@@ -99,7 +99,10 @@ export class PickerMultiSelect extends PickTrigger<PickerState, PickerSelectProp
     }
 
     protected _renderValue(props: PickerSelectProps) {
-        const {name, state: {value = ''}, disabled, id, valueList, emptyValue} = props;
+        const {name, state: {value = ''}, disabled, id, valueList, emptyValue, onRenderValue} = props;
+        if (onRenderValue) {
+            return onRenderValue(valueList, props);
+        }
         if (name) {
             if (this.hasInput) {
                 $(`#${id}`).val(value);
