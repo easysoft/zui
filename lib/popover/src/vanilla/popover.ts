@@ -105,13 +105,15 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
                     this.setOptions(options as Partial<O>);
                 };
                 if (trigger === 'hover') {
-                    $triggerElement.on(`pointerenter${namespace}`, (event: MouseEvent) => {
+                    $triggerElement.on(`mouseenter${namespace}`, (event: MouseEvent) => {
                         if ($triggerElement.is('[disabled],.disabled')) {
                             return;
                         }
                         setOptionsFromTrigger();
-                        this.show({delay: true, event});
-                    }).on(`pointerleave${namespace} pointercancel${namespace}`, () => {
+                        if (!this.shown) {
+                            this.show({delay: true, event});
+                        }
+                    }).on(`mouseleave${namespace}`, (e) => {
                         this.delayHide();
                     });
                 } else {
