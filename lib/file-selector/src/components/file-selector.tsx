@@ -446,7 +446,31 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
 
     protected _handleDrop = (event: DragEvent) => {
         this._handleDragLeave(event);
-        const files = this.constructor.filterFiles(event.dataTransfer?.files || [], this.props.accept);
+        const dataTransfer = event.dataTransfer;
+        if (!dataTransfer) {
+            return;
+        }
+
+        /* filter directories. */
+        const fileItems: File[] = [];
+        if (dataTransfer.items) {
+            for (const item of dataTransfer.items) {
+                if (item.kind === 'file' && item.webkitGetAsEntry) {
+                    const entry = item.webkitGetAsEntry();
+                    if (entry && entry.isDirectory) {
+                        continue;
+                    }
+                }
+                const file = item.getAsFile();
+                if (file) {
+                    fileItems.push(file);
+                }
+            }
+        } else {
+            fileItems.push(...Array.from(dataTransfer.files || []));
+        }
+
+        const files = this.constructor.filterFiles(fileItems, this.props.accept);
         if (files.length) {
             this.selectFiles(files);
             this.setState({inputKey: nextGid()});
@@ -757,6 +781,10 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
         }
         const acceptTypes = accept.split(',');
         return files.filter((file) => {
+            /* filter directories. */
+            if (file.type === '' && !file.size && !file.name.includes('.')) {
+                return false;
+            }
             return this.isAccept(file, acceptTypes);
         });
     }
