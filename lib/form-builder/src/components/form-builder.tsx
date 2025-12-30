@@ -143,7 +143,7 @@ export class FormBuilder extends HElement<FormBuilderOptions> {
                     ...(typeof result === 'object' ? result : {}),
                 };
                 this._dataMap$.value = {
-                    ...dataMap,
+                    ...this._dataMap$.value,
                     ...changes,
                 };
                 const allRelativePaths = Object.keys(changes);
