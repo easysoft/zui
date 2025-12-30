@@ -9,6 +9,7 @@ export type SelectProps = {
     value?: string | string[];
     readonly?: boolean;
     items?: {text: string; value: string}[];
+    placeholder?: string;
     onChange?: (value: string | string[], event: Event) => void;
 };
 
@@ -45,16 +46,23 @@ export class Select extends Component<SelectProps, SelectState> {
     };
 
     render(props: RenderableProps<SelectProps>) {
-        const {items = [], className, value: _value, defaultValue, multiple, onChange, ...rest} = props;
+        const {items = [], className, value: _value, defaultValue, multiple, placeholder, onChange, ...rest} = props;
         const {value} = this.state;
         const valueSet = new Set(multiple ? value : [value]);
+        let hasSelectedValue = false;
+        const options = (items as {text: string; value: string}[]).map((item) => {
+            const selected = valueSet.has(item.value);
+            if (selected) {
+                hasSelectedValue = true;
+            }
+            return (
+                <option key={item.value} value={item.value} selected={selected}>{item.text}</option>
+            );
+        });
         return (
             <select className={classes('form-control', className as ClassNameLike)} multiple={multiple} onChange={this._handleChange} {...rest}>
-                {
-                    (items as {text: string; value: string}[]).map(item => (
-                        <option value={item.value} selected={valueSet.has(item.value)}>{item.text}</option>
-                    ))
-                }
+                {(hasSelectedValue && !multiple) ? null : <option value="">{placeholder}</option>}
+                {options}
             </select>
         );
     }
