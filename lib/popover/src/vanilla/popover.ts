@@ -110,6 +110,7 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
                             return;
                         }
                         setOptionsFromTrigger();
+                        this._clearDelayHide();
                         if (!this.shown) {
                             this.show({delay: true, event});
                         }
@@ -223,10 +224,10 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
             this._clearDelayHide();
             $target
                 .off(namespace)
-                .on(`pointerenter${namespace}`, () => {
+                .on(`mouseenter${namespace}`, () => {
                     this._clearDelayHide();
                 })
-                .on(`pointerleave${namespace}`, () => {
+                .on(`mouseleave${namespace}`, () => {
                     this.delayHide();
                 });
         }
@@ -472,7 +473,7 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
     handleClickTarget(_event: MouseEvent): void | boolean {
     }
 
-    delayHide(delay = 100) {
+    delayHide(delay = 150) {
         this._resetTimer();
         this._clearDelayHide();
         this._hideTimer = window.setTimeout(() => {
