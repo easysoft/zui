@@ -14,8 +14,8 @@ export class Nav<T extends NavOptions = NavOptions> extends List<T> {
     };
 
     protected _getClassName(props: RenderableProps<T>): ClassNameLike {
-        const {type, stacked} = props;
-        return [super._getClassName(props), type ? `nav-${type}` : '', stacked ? 'nav-stacked' : ''];
+        const {type, stacked, justified} = props;
+        return [super._getClassName(props), type ? `nav-${type}` : '', stacked ? 'nav-stacked' : '', justified ? 'nav-justified' : ''];
     }
 
     static render<T extends unknown[] = []>(this: unknown, setting: NavSetting<T> | undefined, args: T, defaultProps?: Partial<NavOptions> & Attributes, thisObject?: unknown) {
