@@ -11,7 +11,7 @@ export class CommonList<P extends CommonListProps = CommonListProps, S = object>
     /**
      * Root element default name, used for class name.
      */
-    static NAME = '';
+    static NAME = 'CommonList';
 
     /**
      * Item default name, used for class name.
