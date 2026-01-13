@@ -203,7 +203,7 @@ function bindToggleEvents() {
         let options = $this.dataset() as Record<string, unknown>;
         const toggleOptions = $this.attr(`zui-toggle-${toggleName}`);
         if (toggleOptions) {
-            options = $.extend(options, evalValue(toggleOptions));
+            options = $.extend(options, evalValue(toggleOptions, ['_element', this], ['_$element', $this]));
         }
         if (convertHref && $this.is('a')) {
             const href = $this.attr('href');
