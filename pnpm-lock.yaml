@@ -435,6 +435,28 @@ importers:
         specifier: workspace:^0.0.1
         version: link:../../dev
 
+  lib/copy-btn:
+    dependencies:
+      '@zui/core':
+        specifier: workspace:*
+        version: link:../core
+      '@zui/tooltip':
+        specifier: workspace:*
+        version: link:../tooltip
+    devDependencies:
+      '@zui/base':
+        specifier: workspace:*
+        version: link:../base
+      '@zui/button':
+        specifier: workspace:0.0.1
+        version: link:../button
+      '@zui/utilities':
+        specifier: workspace:*
+        version: link:../utilities
+      zui-dev:
+        specifier: workspace:*
+        version: link:../../dev
+
   lib/core:
     dependencies:
       vhtml:
