@@ -50,7 +50,7 @@ export type CopyBtnOptions = {
     /**
      * 复制内容
      */
-    content?: CopyContents;
+    copy?: CopyContents;
 
     /**
      * 复制前的回调

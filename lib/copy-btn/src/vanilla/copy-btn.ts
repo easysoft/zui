@@ -20,8 +20,8 @@ export class CopyBtn extends Component<CopyBtnOptions> {
     protected _copying = false;
 
     async getContent() {
-        const {content, target, onCopy} = this.options;
-        let finalContent: CopyContents | false | undefined = content;
+        const {copy: copyContent, target, onCopy} = this.options;
+        let finalContent: CopyContents | false | undefined = copyContent;
         if (target && finalContent === undefined) {
             const $target = $(target);
             finalContent = {
@@ -30,7 +30,7 @@ export class CopyBtn extends Component<CopyBtnOptions> {
             };
         }
         if (onCopy) {
-            const result = await onCopy.call(this, content);
+            const result = await onCopy.call(this, finalContent);
             if (result !== undefined) {
                 if (result instanceof $) {
                     finalContent = {
@@ -60,7 +60,6 @@ export class CopyBtn extends Component<CopyBtnOptions> {
 
         // 获取复制的内容
         const content = await this.getContent();
-        console.log('> copy', {content, that: this});
         if (content === false || content === undefined) {
             this._copying = false;
             return;
