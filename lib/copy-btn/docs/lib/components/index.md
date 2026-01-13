@@ -4,14 +4,14 @@
 
 ## 使用方法
 
-为按钮元素添加 `data-toggle="copyBtn"` 属性即可激活复制按钮功能。通过 `data-content` 属性指定要复制的文本内容。
+为按钮元素添加 `zui-toggle="copyBtn"` 属性即可激活复制按钮功能。通过 `data-copy` 属性指定要复制的文本内容。
 
 ::: tabs
 
 == 示例
 
 <Example class="flex gap-4">
-  <button type="button" class="btn" data-toggle="copyBtn" data-content="这是要复制的文本">
+  <button type="button" class="btn" zui-toggle="copyBtn" data-copy="这是要复制的文本">
     <i class="icon icon-copy"></i> 复制文本
   </button>
 </Example>
@@ -19,7 +19,7 @@
 == HTML
 
 ```html
-<button type="button" class="btn" data-toggle="copyBtn" data-content="这是要复制的文本">
+<button type="button" class="btn" zui-toggle="copyBtn" data-copy="这是要复制的文本">
   <i class="icon icon-copy"></i> 复制文本
 </button>
 ```
@@ -36,18 +36,18 @@
 
 <Example class="col gap-4">
   <div id="copyTarget" class="p-4 surface rounded">这是目标元素中的内容，点击下方按钮复制此内容。</div>
-  <button type="button" class="btn" data-toggle="copyBtn" href="#copyTarget">
+  <a class="btn" zui-toggle="copyBtn" href="#copyTarget">
     <i class="icon icon-copy"></i> 复制目标内容
-  </button>
+  </a>
 </Example>
 
 == HTML
 
 ```html
 <div id="copyTarget" class="p-4 surface rounded">这是目标元素中的内容，点击下方按钮复制此内容。</div>
-<button type="button" class="btn" data-toggle="copyBtn" href="#copyTarget">
+<a class="btn" zui-toggle="copyBtn" href="#copyTarget">
   <i class="icon icon-copy"></i> 复制目标内容
-</button>
+</a>
 ```
 
 :::
@@ -65,7 +65,7 @@
 == 示例
 
 <Example class="flex gap-4">
-  <button type="button" class="btn" data-toggle="copyBtn" data-mode="tooltip" data-content="工具提示模式">
+  <button type="button" class="btn" zui-toggle="copyBtn" data-mode="tooltip" data-copy="工具提示模式">
     <i class="icon icon-copy"></i> 工具提示
   </button>
 </Example>
@@ -73,7 +73,7 @@
 == HTML
 
 ```html
-<button type="button" class="btn" data-toggle="copyBtn" data-mode="tooltip" data-content="工具提示模式">
+<button type="button" class="btn" zui-toggle="copyBtn" data-mode="tooltip" data-copy="工具提示模式">
   <i class="icon icon-copy"></i> 工具提示
 </button>
 ```
@@ -89,16 +89,16 @@
 == 示例
 
 <Example class="flex gap-4">
-  <button type="button" class="btn" data-toggle="copyBtn" data-mode="overlay" data-content="内容覆盖模式" data-copied-icon="check">
-    <i class="icon icon-copy"></i> 内容覆盖
+  <button type="button" class="btn" zui-toggle="copyBtn" data-mode="overlay" data-copy="内容覆盖模式" data-copied-icon="check">
+    <i class="icon icon-copy"></i> <span class="text">内容覆盖</span>
   </button>
 </Example>
 
 == HTML
 
 ```html
-<button type="button" class="btn" data-toggle="copyBtn" data-mode="overlay" data-content="内容覆盖模式" data-copied-icon="check">
-  <i class="icon icon-copy"></i> 内容覆盖
+<button type="button" class="btn" zui-toggle="copyBtn" data-mode="overlay" data-copy="内容覆盖模式" data-copied-icon="check">
+  <i class="icon icon-copy"></i> <span class="text">内容覆盖</span>
 </button>
 ```
 
@@ -113,7 +113,7 @@
 == 示例
 
 <Example class="flex gap-4">
-  <button type="button" class="btn" data-toggle="copyBtn" data-content="自定义提示" data-copied-text="复制成功！">
+  <button type="button" class="btn" zui-toggle="copyBtn" data-copy="自定义提示" data-copied-text="复制成功！">
     <i class="icon icon-copy"></i> 自定义提示文本
   </button>
 </Example>
@@ -121,7 +121,7 @@
 == HTML
 
 ```html
-<button type="button" class="btn" data-toggle="copyBtn" data-content="自定义提示" data-copied-text="复制成功！">
+<button type="button" class="btn" zui-toggle="copyBtn" data-copy="自定义提示" data-copied-text="复制成功！">
   <i class="icon icon-copy"></i> 自定义提示文本
 </button>
 ```
@@ -137,10 +137,10 @@
 == 示例
 
 <Example class="flex gap-4">
-  <button type="button" class="btn" data-toggle="copyBtn" data-content="短暂提示" data-duration="1000">
+  <button type="button" class="btn" zui-toggle="copyBtn" data-copy="短暂提示" data-duration="1000">
     <i class="icon icon-copy"></i> 1秒提示
   </button>
-  <button type="button" class="btn" data-toggle="copyBtn" data-content="较长提示" data-duration="5000">
+  <button type="button" class="btn" zui-toggle="copyBtn" data-copy="较长提示" data-duration="5000">
     <i class="icon icon-copy"></i> 5秒提示
   </button>
 </Example>
@@ -148,10 +148,10 @@
 == HTML
 
 ```html
-<button type="button" class="btn" data-toggle="copyBtn" data-content="短暂提示" data-duration="1000">
+<button type="button" class="btn" zui-toggle="copyBtn" data-copy="短暂提示" data-duration="1000">
   <i class="icon icon-copy"></i> 1秒提示
 </button>
-<button type="button" class="btn" data-toggle="copyBtn" data-content="较长提示" data-duration="5000">
+<button type="button" class="btn" zui-toggle="copyBtn" data-copy="较长提示" data-duration="5000">
   <i class="icon icon-copy"></i> 5秒提示
 </button>
 ```
@@ -169,7 +169,7 @@ import {CopyBtn} from '@zui/copy-btn';
 
 // 创建复制按钮实例
 const copyBtn = new CopyBtn('#myBtn', {
-    content: '要复制的内容',
+    copy: '要复制的内容',
     copiedText: '已复制到剪贴板',
 });
 ```
@@ -203,7 +203,7 @@ const copyBtn = new CopyBtn('#myBtn', {
 import {CopyBtn} from '@zui/copy-btn';
 
 const copyBtn = new CopyBtn('#myBtn', {
-    content: '要复制的内容',
+    copy: '要复制的内容',
 });
 
 // 主动触发复制
@@ -214,7 +214,7 @@ copyBtn.copy();
 
 <Props>
 mode?: 'tooltip' | 'overlay'; // 提示方式，可选值为工具提示（'tooltip'）或内容覆盖（'overlay'），默认为 'tooltip'
-content?: string | {text?: string, html?: string}; // 要复制的内容，可以是字符串或包含 text 和 html 的对象
+copy?: string | {text?: string, html?: string}; // 要复制的内容，可以是字符串或包含 text 和 html 的对象
 target?: string | HTMLElement; // 复制目标元素的选择器或元素，用于复制目标元素的内容
 copiedText?: string; // 复制成功后显示的文本，默认为 '已复制'
 copiedIcon?: string; // 复制成功后显示的图标名称（仅在 overlay 模式下有效）
