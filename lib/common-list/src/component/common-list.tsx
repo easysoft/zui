@@ -28,6 +28,12 @@ export class CommonList<P extends CommonListProps = CommonListProps, S = object>
      */
     static ItemComponents: Partial<Record<ItemType, ComponentType | [ComponentType, Partial<Item> | ((this: CommonList, item: Item, props: CommonListProps) => Partial<Item>)]>> = {
         default: HElement,
+        text: [HElement, (item) => {
+            const {text} = item as {text: string};
+            return {
+                children: <span className="text">{text}</span>,
+            };
+        }],
         divider: [HElement, {className: 'divider'}],
         space: [HElement, (item) => {
             const {space, flex, style} = item as {space: JSX.CSSProperties['width']; flex: JSX.CSSProperties['flex']; style: JSX.CSSProperties};
