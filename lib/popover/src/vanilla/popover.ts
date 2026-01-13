@@ -114,7 +114,7 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
                         if (!this.shown) {
                             this.show({delay: true, event});
                         }
-                    }).on(`mouseleave${namespace}`, (e) => {
+                    }).on(`mouseleave${namespace}`, () => {
                         this.delayHide();
                     });
                 } else {
