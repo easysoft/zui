@@ -14,17 +14,18 @@ declare module 'cash-dom' {
 type ZDataGetterOptions = {
     prefix?: string;
     evalValue?: boolean | string[];
-    evalArgs?: unknown[];
+    evalArgs?: [name: string, value: unknown][];
     json?: boolean;
     getter?: (name: string, value: unknown) => unknown;
 };
 
 export function getZData(selector: Selector, prefixOrOptions?: ZDataGetterOptions | string): Record<string, unknown> | undefined {
-    const element = $(selector)[0];
+    const $element = $(selector);
+    const element = $element[0];
     if (!element) {
         return;
     }
-    const {prefix, getter, evalValue: evalValueSetting, json = true, evalArgs = []} = {
+    const {prefix, getter, evalValue: evalValueSetting, json = true, evalArgs = [['_element', element], ['_$element', $element]]} = {
         prefix: 'z-',
         ...(typeof prefixOrOptions === 'string' ? {prefix: prefixOrOptions} : prefixOrOptions),
     };
