@@ -66,11 +66,11 @@ export async function copy(contents: CopyContents): Promise<void> {
             }
             let dataKey = key;
             if (dataKey === 'text') {
-                dataKey = 'text/plan';
+                dataKey = 'text/plain';
             } else if (dataKey === 'html') {
                 dataKey = 'text/html';
             }
-            if (useFallback && dataKey === 'text/plan') {
+            if (useFallback && dataKey === 'text/plain') {
                 fallbackText = typeof value === 'string' ? value : await value.text();
                 break;
             }
