@@ -15,4 +15,12 @@ export type MoveableState = {
     top: number;
     scrollLeft: number;
     scrollTop: number;
+
+    // 鼠标事件的坐标（screenX/screenY）
+    // 拖动起始位置
+    fromX: number;
+    fromY: number;
+    // 上次移动位置
+    lastX: number;
+    lastY: number;
 };

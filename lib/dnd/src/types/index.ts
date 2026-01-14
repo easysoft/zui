@@ -1,3 +1,4 @@
+export * from './edge-detection';
 export * from './draggable-options';
 export * from './draggable-state';
 export * from './moveable-options';

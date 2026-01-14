@@ -1,5 +1,6 @@
 import type {MoveableState} from './moveable-state';
 import type {MoveableStrategy} from './moveable-strategy';
+import type {EdgeDetectionConfig} from './edge-detection';
 
 export type MoveableOptions = {
     /**
@@ -31,6 +32,11 @@ export type MoveableOptions = {
      * The move strategy, including: "position", "transform", "scroll", "none" (no actual move).
      */
     move?: boolean | MoveableStrategy;
+
+    /**
+     * 边缘检测设置
+     */
+    edgeDetection?: boolean | EdgeDetectionConfig;
 
     /**
      * 当有元素位置变更时触发。
