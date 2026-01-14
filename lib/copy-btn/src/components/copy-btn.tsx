@@ -2,6 +2,7 @@ import {Button} from '@zui/button/src/component';
 import {type ButtonProps} from '@zui/button';
 import type {CopyBtnOptions} from '../types';
 import {CopyBtn as CopyBtnVanilla} from '../vanilla/copy-btn';
+import {RenderableProps} from 'preact';
 
 export type CopyBtnProps = CopyBtnOptions & ButtonProps;
 
@@ -26,5 +27,16 @@ export class CopyBtn extends Button<CopyBtnProps> {
     componentWillUnmount(): void {
         super.componentWillUnmount();
         this._copyBtn?.destroy();
+    }
+
+    protected _handleClick = () => {
+        this._copyBtn?.copy();
+    };
+
+    protected _getProps(props: RenderableProps<CopyBtnProps>) {
+        return {
+            ...super._getProps(props),
+            onClick: this._handleClick,
+        };
     }
 }
