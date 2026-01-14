@@ -46,7 +46,7 @@ export class Moveable extends Component<MoveableOptions> {
         };
 
         if (this.isEdgeDetectionEnabled) {
-            const {container, distance}: EdgeDetectionConfig = this.options.edgeDetection;
+            const {container, distance}: EdgeDetectionConfig = this.options.edgeDetection as EdgeDetectionConfig;
             if (container === 'viewport') {
                 rect.width = window.innerWidth;
                 rect.height = window.innerHeight;
@@ -86,7 +86,7 @@ export class Moveable extends Component<MoveableOptions> {
             bottom: edgeRect.y + edgeRect.height - edgeRect.padding,
         };
 
-        const targetRect = this.moveElement.getBoundingClientRect();
+        const targetRect = this.moveElement!.getBoundingClientRect();
         // 目标元素的边缘位置（本次移动后）
         const targetX = targetRect.x + dx;
         const targetY = targetRect.y + dy;
@@ -153,7 +153,7 @@ export class Moveable extends Component<MoveableOptions> {
             default:
         }
 
-        const {deltaX, deltaY} = this._state;
+        const {deltaX, deltaY, event} = this._state!;
         this._state = {
             ...this._state!,
             deltaX: deltaX + targetDx,
@@ -170,7 +170,7 @@ export class Moveable extends Component<MoveableOptions> {
      * @param dy y 变化值
      */
     protected _moveByPosition(dx: number, dy: number) {
-        const {target} = this._state;
+        const {target} = this._state!;
         const currentLeft = parseFloat(target.style.left || '0');
         const currentTop = parseFloat(target.style.top || '0');
 
@@ -184,7 +184,7 @@ export class Moveable extends Component<MoveableOptions> {
      * @param dy y 变化值
      */
     protected _moveByTransform(dx: number, dy: number) {
-        const {target} = this._state;
+        const {target} = this._state!;
         const currentTranslate = Moveable.getTranslate(target);
 
         const left = currentTranslate.left + dx;
@@ -199,7 +199,7 @@ export class Moveable extends Component<MoveableOptions> {
      * @param dy y 变化值
      */
     protected _moveByScroll(dx: number, dy: number) {
-        const {target} = this._state;
+        const {target} = this._state!;
         target.scrollLeft -= dx;
         target.scrollTop -= dy;
     }
@@ -211,7 +211,7 @@ export class Moveable extends Component<MoveableOptions> {
      */
     protected _moveStart(x: number, y: number) {
         this._state = {
-            ...this._state,
+            ...this._state!,
             fromX: x,
             fromY: y,
             lastX: x,
@@ -226,11 +226,11 @@ export class Moveable extends Component<MoveableOptions> {
      * @param x 鼠标的 x 坐标
      * @param y 鼠标的 y 坐标
      */
-    protected _moveTo(x: number, y: number) {
+    protected _moveTo(x: number, y: number, event: MouseEvent) {
         const {
             lastX,
             lastY,
-        } = this._state;
+        } = this._state!;
 
         const dx = x - lastX;
         const dy = y - lastY;
@@ -238,9 +238,10 @@ export class Moveable extends Component<MoveableOptions> {
         this._moveBy(dx, dy);
 
         this._state = {
-            ...this._state,
+            ...this._state!,
             lastX: x,
             lastY: y,
+            event,
         };
     }
 
@@ -279,9 +280,10 @@ export class Moveable extends Component<MoveableOptions> {
         }
 
         this._state = {
+            event,
             target: moveElement,
             strategy,
-        };
+        } as MoveableState;
         this._moveStart(event.screenX, event.screenY);
 
         $(document).off('mousemove mouseup').on(`mousemove${this.namespace}`, this._handleMouseMove.bind(this)).on(`mouseup${this.namespace}`, this._handleMouseUp.bind(this));
@@ -294,7 +296,7 @@ export class Moveable extends Component<MoveableOptions> {
         }
         event.preventDefault();
 
-        this._moveTo(event.screenX, event.screenY);
+        this._moveTo(event.screenX, event.screenY, event);
     };
 
     protected _handleMouseUp = (event: MouseEvent) => {

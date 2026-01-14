@@ -1,6 +1,7 @@
 import {MoveableStrategy} from './moveable-strategy';
 
 export type MoveableState = {
+    event: MouseEvent;
     target: HTMLElement;
     strategy: MoveableStrategy;
     startX: number;
