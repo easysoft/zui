@@ -1,7 +1,7 @@
 import '@zui/menu';
 import 'zui-dev';
 import {$} from '@zui/core';
-import {Draggable, Moveable} from './src/main';
+import {Draggable, Moveable, Resizable} from './src/main';
 
 $.registerLib('sortablejs', {
     src: '/lib/sortable/public/sortable.min.js',
@@ -38,4 +38,44 @@ onPageUpdate(() => {
     });
 
     console.log('> moveable', moveable);
+
+    new Resizable('#resize1', {
+        x: 'left',
+        y: 'top',
+        edgeDetection: {
+            container: 'viewport',
+            distance: 24,
+        },
+    });
+    new Resizable('#resize2', {
+        x: 'right',
+        y: 'bottom',
+        edgeDetection: {
+            container: 'viewport',
+            distance: 24,
+        },
+    });
+    new Resizable('#resize3', {
+        x: 'right',
+        y: 'top',
+        minWidth: 100,
+        minHeight: 100,
+        edgeDetection: {
+            container: 'viewport',
+            distance: 24,
+        },
+    });
+    new Resizable('#resize4', {
+        x: 'left',
+        y: 'bottom',
+        edgeDetection: {
+            container: 'viewport',
+            distance: {
+                left: 100,
+                top: 200,
+                right: 200,
+                bottom: 100,
+            },
+        },
+    });
 });
