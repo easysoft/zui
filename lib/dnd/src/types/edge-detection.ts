@@ -1,4 +1,14 @@
 /**
+ * 边缘检测详细设置
+ */
+export interface DistanceRect {
+    left: number;
+    top: number;
+    right: number;
+    bottom: number;
+}
+
+/**
  * 边缘检测设置
  */
 export interface EdgeDetectionConfig {
@@ -21,7 +31,7 @@ export interface EdgeDetectionConfig {
     /**
      * 边缘距离（单位像素）
      */
-    distance: number;
+    distance: number | DistanceRect;
 }
 
 /**

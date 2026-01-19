@@ -77,13 +77,25 @@ export class Moveable extends Component<MoveableOptions> {
             return false;
         }
 
-        const edgeRect = this.edgeRect;
+        const {
+            x: edgeX,
+            y: edgeY,
+            width,
+            height,
+            padding,
+        } = this.edgeRect;
+
+        const isPaddingRect = !Number.isInteger(padding);
+        const pLeft = isPaddingRect ? padding.left : padding;
+        const pRight = isPaddingRect ? padding.right : padding;
+        const pTop = isPaddingRect ? padding.top : padding;
+        const pBottom = isPaddingRect ? padding.bottom : padding;
         // 容器的边缘位置
         const edgeSizes = {
-            left: edgeRect.x + edgeRect.padding,
-            right: edgeRect.x + edgeRect.width - edgeRect.padding,
-            top: edgeRect.y + edgeRect.padding,
-            bottom: edgeRect.y + edgeRect.height - edgeRect.padding,
+            left: edgeX + pLeft,
+            right: edgeX + width - pRight,
+            top: edgeY + pTop,
+            bottom: edgeY + height - pBottom,
         };
 
         const targetRect = this.moveElement!.getBoundingClientRect();
