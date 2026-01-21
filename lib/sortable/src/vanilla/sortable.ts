@@ -80,7 +80,7 @@ export class Sortable extends Component<SortableOptions> {
      */
     destroy(): void {
         super.destroy();
-        this.module.destroy();
+        this.module?.destroy();
     }
 
     /**
