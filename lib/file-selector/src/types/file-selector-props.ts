@@ -20,6 +20,8 @@ export interface FileSelectorProps extends HElementProps {
     gridHeight?: SizeSetting;
     gridGap?: SizeSetting;
     defaultFiles?: (StaticFileInfo | FileInfo | File)[];
+    /** Alias of defaultFiles. */
+    value?: (StaticFileInfo | FileInfo | File)[];
     multiple?: boolean;
     itemProps?: Partial<ListitemProps> | ((file: FileInfo) => Partial<ListitemProps>);
     draggable?: boolean;

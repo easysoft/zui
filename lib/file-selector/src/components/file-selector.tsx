@@ -68,7 +68,7 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
 
         super(props);
         this.state = {
-            files: (props.defaultFiles || []).map(x => this.constructor.getInfo(x)),
+            files: (props.value || props.defaultFiles || []).map(x => this.constructor.getInfo(x)),
             inputKey: 0,
         } as S;
     }
@@ -123,6 +123,14 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
 
     select() {
         this._input.current?.click();
+    }
+
+    setFiles(files: (StaticFileInfo | FileInfo | File)[]) {
+        this.setState({files: files.map(x => this.constructor.getInfo(x))});
+    }
+
+    setValue(value: (StaticFileInfo | FileInfo | File)[]) {
+        this.setFiles(value);
     }
 
     async selectFiles(files: FileList | File[]) {
