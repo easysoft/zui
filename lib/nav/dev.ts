@@ -2,6 +2,7 @@ import 'zui-dev';
 import '@zui/icons';
 import '@zui/button';
 import '@zui/btn-group';
+import '@zui/menu';
 import '@zui/dropdown';
 import {Nav} from './src/main';
 
