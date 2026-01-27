@@ -29,7 +29,7 @@ export interface CommonListProps<T extends Item = Item> extends HElementProps {
     /**
      * List items, can be an array or a function that returns an array.
      */
-    items?: ItemsSetting<T> | Record<string, unknown>;
+    items?: ItemsSetting<T> | unknown;
 
     /**
      * Item common properties.
@@ -56,7 +56,7 @@ export interface CommonListProps<T extends Item = Item> extends HElementProps {
      * @param items - The list items.
      * @returns The modified list items.
      */
-    getItems?: (items: Item[]) => Item[] | undefined;
+    getItems?: (items: T[]) => T[] | undefined;
 
     /**
      * Item render functions.
