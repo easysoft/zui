@@ -665,7 +665,7 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
         return finalProps;
     }
 
-    protected _beforeRender(props: RenderableProps<P>): void | RenderableProps<P> | undefined {
+    protected _beforeRender(props: RenderableProps<P>): void | undefined {
         this._renderedItemMap.clear();
         this._hasIcons = false;
         this._hasNestedItems = false;
