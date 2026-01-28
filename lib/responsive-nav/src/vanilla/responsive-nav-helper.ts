@@ -1,6 +1,8 @@
-import {$, type Cash, i18n, Component, html, nextGid, debounce} from '@zui/core';
+import {$, type Cash, i18n, Component, html, debounce} from '@zui/core';
+import type {Item} from '@zui/common-list';
 import type {ResponsiveNavHelperProps} from '../types';
 import {listenResize} from '@zui/core/src/dom';
+import {Dropdown} from '@zui/dropdown';
 
 export class ResponsiveNavHelper extends Component<ResponsiveNavHelperProps> {
     static NAME = 'ResponsiveNavHelper';
@@ -10,6 +12,12 @@ export class ResponsiveNavHelper extends Component<ResponsiveNavHelperProps> {
     protected _windowResizeHandler?: () => void;
 
     protected declare _tryRender: () => void;
+
+    protected _moreItems?: Item[];
+
+    protected _moreElements?: HTMLElement[];
+
+    protected _dropdown?: Dropdown;
 
     init() {
         // Base implementation - override in subclasses
@@ -21,11 +29,13 @@ export class ResponsiveNavHelper extends Component<ResponsiveNavHelperProps> {
         this.render();
         this.$element.addClass('in');
 
-        const {watch = ['self']} = this.options;
+        const {watch = ['container']} = this.options;
         let watchWindow = false;
         const watchElements = watch.reduce((elements, watchType) => {
             if (watchType === 'window') {
                 watchWindow = true;
+            } else if (watchType === 'container') {
+                elements.add(this.getContainer()[0] as HTMLElement);
             } else if (watchType === 'self') {
                 elements.add(this.element);
             } else if (watchType === 'parent') {
@@ -54,6 +64,7 @@ export class ResponsiveNavHelper extends Component<ResponsiveNavHelperProps> {
 
     destroy(): void {
         super.destroy();
+        this._dropdown?.destroy();
         this.$element.removeClass('rsh-overflowed').find('.rsh-more').remove();
         this._observer?.disconnect();
         if (this._windowResizeHandler) {
@@ -75,12 +86,12 @@ export class ResponsiveNavHelper extends Component<ResponsiveNavHelperProps> {
         if (!$items.length) return;
 
         const $more = this.getMore();
-        const $moreMenu = $more.find('.rsh-more-menu');
         const moreSize = this.getItemSize($more[0] as HTMLElement);
 
         let size = moreSize;
         let overflow = false;
-        $moreMenu.empty();
+        this._moreItems = undefined;
+        this._moreElements = [];
         $items.each((_, item) => {
             const $item = $(item);
             if ($item.hasClass('rsh-more')) {
@@ -96,23 +107,22 @@ export class ResponsiveNavHelper extends Component<ResponsiveNavHelperProps> {
                 }
             }
 
-            $item.css('display', overflow ? 'none' : 'flex');
             if (overflow) {
-                this.addToMore($item, $moreMenu);
+                this._moreElements!.push(item);
             }
+
+            $item.css('display', overflow ? 'none' : 'flex');
         });
 
         this.$element.toggleClass('rsh-overflowed', overflow);
         $more.css('display', overflow ? 'flex' : 'none');
     }
 
-    addToMore($item: Cash, $moreMenu: Cash) {
-        const $menuItem = $item.clone().removeClass('nav-item').addClass('menu-item').css('display', 'flex');
-        $moreMenu.append($menuItem);
-    }
-
     getContainer(): Cash {
         const {container} = this.options;
+        if (container === 'parent') {
+            return this.$element.parent();
+        }
         return container ? $(container) : this.$element;
     }
 
@@ -142,6 +152,19 @@ export class ResponsiveNavHelper extends Component<ResponsiveNavHelperProps> {
         return item.offsetWidth + parseInt(style.marginLeft) + parseInt(style.marginRight);
     }
 
+    _getMoreItems(): Item[] {
+        const {_moreElements} = this;
+        if (!_moreElements?.length) {
+            return [];
+        }
+        return _moreElements.map((element) => {
+            return {
+                text: element.textContent,
+                url: element.getAttribute('href'),
+            };
+        });
+    }
+
     getMore(): Cash {
         let $more = this.$element.find('.rsh-more');
         if ($more.length) {
@@ -154,11 +177,7 @@ export class ResponsiveNavHelper extends Component<ResponsiveNavHelperProps> {
         if (typeof moreSetting === 'string') {
             moreSetting = {text: moreSetting};
         }
-        const dropdownID = `rnh-dropdown-${nextGid()}`;
-        const $menu = $(`<menu class="rsh-more-menu dropdown-menu menu" id="${dropdownID}"></menu>`);
         const $moreBtn = $(moreSetting.html || '<a></a>').attr({
-            'data-toggle': 'dropdown',
-            'data-target': `#${dropdownID}`,
             ...moreSetting.attrs,
         });
         if (moreSetting.icon) {
@@ -170,10 +189,16 @@ export class ResponsiveNavHelper extends Component<ResponsiveNavHelperProps> {
         if (moreSetting.caret) {
             $moreBtn.append('<span class="caret"></span>');
         }
-        $more.append($moreBtn, $menu);
+        $more.append($moreBtn);
+
+        this._dropdown = new Dropdown($moreBtn[0], {
+            placement: 'bottom-start',
+            items: this._getMoreItems.bind(this),
+            ...this.options.moreDropdown,
+        }) as Dropdown;
 
         this.$element.append($more);
-        this.options.onCreateMoreItem?.call(this, $more);
+        this.options.onCreateMore?.call(this, $more, this._dropdown);
         return $more;
     }
 }
