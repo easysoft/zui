@@ -1180,6 +1180,25 @@ importers:
         specifier: workspace:*
         version: link:../../dev
 
+  lib/responsive-nav:
+    dependencies:
+      '@zui/core':
+        specifier: workspace:^0.0.1
+        version: link:../core
+      '@zui/dropdown':
+        specifier: workspace:^0.0.1
+        version: link:../dropdown
+      '@zui/nav':
+        specifier: workspace:^0.0.1
+        version: link:../nav
+    devDependencies:
+      '@zui/base':
+        specifier: workspace:*
+        version: link:../base
+      '@zui/utilities':
+        specifier: workspace:*
+        version: link:../utilities
+
   lib/scrollbar:
     dependencies:
       '@zui/core':
@@ -1315,6 +1334,22 @@ importers:
       '@zui/nav':
         specifier: workspace:^0.0.1
         version: link:../nav
+      '@zui/utilities':
+        specifier: workspace:*
+        version: link:../utilities
+
+  lib/time-span:
+    dependencies:
+      '@zui/core':
+        specifier: workspace:^0.0.1
+        version: link:../core
+      '@zui/helpers':
+        specifier: workspace:^0.0.1
+        version: link:../helpers
+    devDependencies:
+      '@zui/base':
+        specifier: workspace:*
+        version: link:../base
       '@zui/utilities':
         specifier: workspace:*
         version: link:../utilities
