@@ -1,0 +1,34 @@
+{
+    "name": "@zui/responsive-nav",
+    "version": "0.0.1",
+    "main": "src/main.ts",
+    "browser": "src/main.ts",
+    "keywords": [
+        "css",
+        "js",
+        "zui:component"
+    ],
+    "files": [
+        "./src/**/*"
+    ],
+    "exports": {
+        ".": "./src/main.ts"
+    },
+    "devDependencies": {
+        "@zui/base": "workspace:*",
+        "@zui/utilities": "workspace:*"
+    },
+    "dependencies": {
+        "@zui/core": "workspace:^0.0.1",
+        "@zui/nav": "workspace:^0.0.1",
+        "@zui/dropdown": "workspace:^0.0.1"
+    },
+    "zui": {
+        "type": "control",
+        "displayName": "自适应导航",
+        "contributes": {
+            "css": ["class", "var"],
+            "js": ["component"]
+        }
+    }
+}
