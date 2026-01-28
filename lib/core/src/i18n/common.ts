@@ -12,6 +12,7 @@ addI18nMap({
         close: '关闭',
         edit: '编辑',
         open: '打开',
+        more: '更多',
     },
     zh_tw: {
         confirm: '確定',
@@ -24,6 +25,7 @@ addI18nMap({
         close: '關閉',
         edit: '編輯',
         open: '打開',
+        more: '更多',
     },
     en: {
         confirm: 'Confirm',
@@ -36,5 +38,6 @@ addI18nMap({
         close: 'Close',
         edit: 'Edit',
         open: 'Open',
+        more: 'More',
     },
 });
