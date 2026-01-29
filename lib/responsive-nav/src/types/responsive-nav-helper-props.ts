@@ -12,6 +12,7 @@ export interface ResponsiveNavHelperProps {
     moreDropdown?: Partial<DropdownOptions>;
     getContainerSize?: (container: HTMLElement) => number;
     getItemSize?: (item: HTMLElement) => number;
-    itemCreator?: (item: HTMLElement) => Item;
+    getMoreItem?: (item: HTMLElement) => Item | false | void;
+    getMoreItems?: (items: HTMLElement[]) => Item[];
     onCreateMore?: ($more: Cash, dropdown: Dropdown) => void;
 }

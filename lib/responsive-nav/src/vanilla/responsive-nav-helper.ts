@@ -98,8 +98,9 @@ export class ResponsiveNavHelper extends Component<ResponsiveNavHelperProps> {
                 return;
             }
 
+            const opacity = $item.css('opacity');
             if (!overflow) {
-                $item.css('display', 'flex');
+                $item.css({display: 'flex', opacity: 0});
                 const itemSize = this.getItemSize($item[0] as HTMLElement);
                 size += itemSize;
                 if (size > containerSize) {
@@ -111,7 +112,7 @@ export class ResponsiveNavHelper extends Component<ResponsiveNavHelperProps> {
                 this._moreElements!.push(item);
             }
 
-            $item.css('display', overflow ? 'none' : 'flex');
+            $item.css({opacity, display: overflow ? 'none' : 'flex'}).toggleClass('rsh-overflow-item', overflow);
         });
 
         this.$element.toggleClass('rsh-overflowed', overflow);
@@ -157,12 +158,40 @@ export class ResponsiveNavHelper extends Component<ResponsiveNavHelperProps> {
         if (!_moreElements?.length) {
             return [];
         }
-        return _moreElements.map((element) => {
-            return {
-                text: element.textContent,
-                url: element.getAttribute('href'),
-            };
-        });
+        const {getMoreItem, getMoreItems} = this.options;
+        if (getMoreItems) {
+            return getMoreItems.call(this, _moreElements);
+        }
+        return _moreElements.reduce((items, element) => {
+            if (getMoreItem) {
+                const userItem = getMoreItem.call(this, element);
+                if (userItem) {
+                    items.push(userItem);
+                }
+                if (userItem === false) {
+                    return items;
+                }
+            }
+
+            const $element = $(element);
+            let item: Item | undefined;
+            if ($element.hasClass('divider')) {
+                item = {type: 'divider'};
+            } else {
+                const attrs = Object.fromEntries(Array.from(element.attributes).map(attr => [attr.name, attr.value]));
+                if (attrs.style) {
+                    attrs.style = attrs.style.replace('display: none;', '');
+                }
+                if (attrs.class) {
+                    attrs.class = attrs.class.replace('nav-item', 'menu-item');
+                }
+                item = {type: 'node', html: $element.html(), attrs};
+            }
+            if (item) {
+                items.push(item);
+            }
+            return items;
+        }, [] as Item[]);
     }
 
     getMore(): Cash {
