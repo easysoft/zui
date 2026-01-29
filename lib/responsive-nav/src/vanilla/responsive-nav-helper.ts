@@ -92,10 +92,18 @@ export class ResponsiveNavHelper extends Component<ResponsiveNavHelperProps> {
         let overflow = false;
         this._moreItems = undefined;
         this._moreElements = [];
+        const {fixedItems = '.is-rsh-fixed'} = this.options;
+        const $fixedItems = fixedItems ? $items.filter(fixedItems) : null;
+        const fixedItemSet = $fixedItems?.length ? new Set($fixedItems) : null;
+        if ($fixedItems?.length) {
+            for (const item of $fixedItems) {
+                size += this.getItemSize(item);
+            }
+        }
         for (const item of $items) {
             const $item = $(item);
-            if ($item.hasClass('rsh-more')) {
-                return;
+            if ($item.hasClass('rsh-more') || fixedItemSet?.has(item)) {
+                continue;
             }
 
             const opacity = $item.css('opacity');
@@ -103,9 +111,10 @@ export class ResponsiveNavHelper extends Component<ResponsiveNavHelperProps> {
                 $item.css({display: 'flex', opacity: 0});
                 const itemSize = this.getItemSize($item[0] as HTMLElement);
                 size += itemSize;
-                if (size > containerSize) {
-                    overflow = true;
-                }
+            }
+
+            if (size > containerSize) {
+                overflow = true;
             }
 
             if (overflow) {

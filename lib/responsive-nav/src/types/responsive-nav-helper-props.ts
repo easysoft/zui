@@ -9,6 +9,7 @@ export interface ResponsiveNavHelperProps {
     container?: Selector;
     items?: Comparator;
     ignoreItems?: Comparator;
+    fixedItems?: Comparator;
     moreDropdown?: Partial<DropdownOptions>;
     getContainerSize?: (container: HTMLElement) => number;
     getItemSize?: (item: HTMLElement) => number;
