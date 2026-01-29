@@ -153,12 +153,12 @@ export class ResponsiveNavHelper extends Component<ResponsiveNavHelperProps> {
         return item.offsetWidth + parseInt(style.marginLeft) + parseInt(style.marginRight);
     }
 
-    _getMoreItems(): Item[] {
+    getMoreItems(): Item[] {
         const {_moreElements} = this;
         if (!_moreElements?.length) {
             return [];
         }
-        const {getMoreItem = this._getMoreItem.bind(this), getMoreItems} = this.options;
+        const {getMoreItem = this.getMoreItem.bind(this), getMoreItems} = this.options;
         if (getMoreItems) {
             return getMoreItems.call(this, _moreElements);
         }
@@ -171,10 +171,18 @@ export class ResponsiveNavHelper extends Component<ResponsiveNavHelperProps> {
         }, [] as Item[]);
     }
 
-    _getMoreItem(element: HTMLElement): Item | undefined {
+    getMoreItem(element: HTMLElement): Item | undefined {
         const $element = $(element);
         if ($element.hasClass('divider')) {
             return {type: 'divider'};
+        }
+        const $dropdown = $element.children('[data-toggle="dropdown"],z-use-dropdown');
+        if ($dropdown.length) {
+            let dropdown = Dropdown.query($dropdown);
+            if (!dropdown) {
+                dropdown = new Dropdown($dropdown);
+            }
+            return {items: dropdown.options.items || [], text: $dropdown.find('.text').text(), icon: $dropdown.find('.icon').attr('class')?.replace('icon ', '')};
         }
         const attrs = Object.fromEntries(Array.from(element.attributes).map(attr => [attr.name, attr.value]));
         if (attrs.style) {
@@ -214,7 +222,7 @@ export class ResponsiveNavHelper extends Component<ResponsiveNavHelperProps> {
 
         this._dropdown = new Dropdown($moreBtn[0], {
             placement: 'bottom-start',
-            items: this._getMoreItems.bind(this),
+            items: this.getMoreItems.bind(this),
             ...this.options.moreDropdown,
         }) as Dropdown;
 
