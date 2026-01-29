@@ -23,12 +23,7 @@
   <li class="item nav-item"><a><span class="text">Feedback</span></a></li>
   <li class="item nav-item"><button type="button" class="btn mx-2">Lucky</button></li>
   <li class="item nav-item">
-    <a data-toggle="dropdown" href="#blogDropdown"><span class="text">Blog</span><span class="caret"></span></a>
-    <menu id="blogDropdown" class="dropdown-menu menu">
-      <li class="item menu-item"><a><span class="text">Life</span></a></li>
-      <li class="item menu-item"><a><span class="text">Share</span></a></li>
-      <li class="item menu-item"><a><span class="text">Feed</span></a></li>
-    </menu>
+    <a data-toggle="dropdown" data-items='[{"text":"Life"},{"text":"Share"},{"text":"Feed"}]'><span class="text">Blog</span><span class="caret"></span></a>
   </li>
   <li class="item nav-item"><a><span class="text">About Us</span></a></li>
 </menu>
