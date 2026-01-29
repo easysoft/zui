@@ -1,3 +1,6 @@
+.menu-item {
+    @apply -list-none;
+}
 .menu-item > .item-inner,
 .menu-item > a {
     @apply -flex -text-inherit -px-2 -py-1 -items-center -justify-between -transition-colors -relative -truncate -cursor-pointer -rounded -gap-2;
