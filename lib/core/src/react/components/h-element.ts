@@ -168,7 +168,7 @@ export class HElement<P extends HElementProps, S = object> extends Component<P, 
             }
             return map;
         }, {});
-        return {ref: forwardRef, className: classes(this._getClassName(props), classNameAlt) || undefined, style, [`z-gid-${this._gid}`]: '', ...other, ...attrs, ...componentProps};
+        return {ref: forwardRef, className: classes(this._getClassName(props), classNameAlt), style, [`z-gid-${this._gid}`]: '', ...other, ...attrs, ...componentProps};
     }
 
     protected _getComponent(props: RenderableProps<P>): ComponentType | keyof JSX.IntrinsicElements {
@@ -215,6 +215,7 @@ export class HElement<P extends HElementProps, S = object> extends Component<P, 
         if (renderResult) {
             [component, componentProps, children] = renderResult;
         }
+        console.log('> componentProps', componentProps);
         return h(component as ComponentType, componentProps, children);
     }
 }
