@@ -215,7 +215,6 @@ export class HElement<P extends HElementProps, S = object> extends Component<P, 
         if (renderResult) {
             [component, componentProps, children] = renderResult;
         }
-        console.log('> componentProps', componentProps);
         return h(component as ComponentType, componentProps, children);
     }
 }
