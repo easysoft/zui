@@ -24,7 +24,7 @@
         "@zui/dropdown": "workspace:^0.0.1"
     },
     "zui": {
-        "type": "control",
+        "type": "component",
         "displayName": "自适应导航",
         "contributes": {
             "css": ["class", "var"],
