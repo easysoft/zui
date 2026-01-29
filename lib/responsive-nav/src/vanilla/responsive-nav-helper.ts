@@ -92,7 +92,7 @@ export class ResponsiveNavHelper extends Component<ResponsiveNavHelperProps> {
         let overflow = false;
         this._moreItems = undefined;
         this._moreElements = [];
-        $items.each((_, item) => {
+        for (const item of $items) {
             const $item = $(item);
             if ($item.hasClass('rsh-more')) {
                 return;
@@ -113,7 +113,7 @@ export class ResponsiveNavHelper extends Component<ResponsiveNavHelperProps> {
             }
 
             $item.css({opacity, display: overflow ? 'none' : 'flex'}).toggleClass('rsh-overflow-item', overflow);
-        });
+        }
 
         this.$element.toggleClass('rsh-overflowed', overflow);
         $more.css('display', overflow ? 'flex' : 'none');
@@ -158,40 +158,32 @@ export class ResponsiveNavHelper extends Component<ResponsiveNavHelperProps> {
         if (!_moreElements?.length) {
             return [];
         }
-        const {getMoreItem, getMoreItems} = this.options;
+        const {getMoreItem = this._getMoreItem.bind(this), getMoreItems} = this.options;
         if (getMoreItems) {
             return getMoreItems.call(this, _moreElements);
         }
         return _moreElements.reduce((items, element) => {
-            if (getMoreItem) {
-                const userItem = getMoreItem.call(this, element);
-                if (userItem) {
-                    items.push(userItem);
-                }
-                if (userItem === false) {
-                    return items;
-                }
-            }
-
-            const $element = $(element);
-            let item: Item | undefined;
-            if ($element.hasClass('divider')) {
-                item = {type: 'divider'};
-            } else {
-                const attrs = Object.fromEntries(Array.from(element.attributes).map(attr => [attr.name, attr.value]));
-                if (attrs.style) {
-                    attrs.style = attrs.style.replace('display: none;', '');
-                }
-                if (attrs.class) {
-                    attrs.class = attrs.class.replace('nav-item', 'menu-item');
-                }
-                item = {type: 'node', html: $element.html(), attrs};
-            }
-            if (item) {
-                items.push(item);
+            const userItem = getMoreItem.call(this, element);
+            if (userItem) {
+                items.push(userItem);
             }
             return items;
         }, [] as Item[]);
+    }
+
+    _getMoreItem(element: HTMLElement): Item | undefined {
+        const $element = $(element);
+        if ($element.hasClass('divider')) {
+            return {type: 'divider'};
+        }
+        const attrs = Object.fromEntries(Array.from(element.attributes).map(attr => [attr.name, attr.value]));
+        if (attrs.style) {
+            attrs.style = attrs.style.replace('display: none;', '');
+        }
+        if (attrs.class) {
+            attrs.class = attrs.class.replace('nav-item', 'menu-item');
+        }
+        return {type: 'node', html: $element.html(), attrs};
     }
 
     getMore(): Cash {
