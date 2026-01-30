@@ -102,7 +102,9 @@ export class ResponsiveNavHelper extends Component<ResponsiveNavHelperProps> {
         }
         for (const item of $items) {
             const $item = $(item);
-            if ($item.hasClass('rsh-more') || fixedItemSet?.has(item)) {
+            const fixed = fixedItemSet?.has(item);
+            $item.toggleClass('rsh-fixed-item', !fixed);
+            if (fixed || $item.hasClass('rsh-more')) {
                 continue;
             }
 
@@ -125,7 +127,7 @@ export class ResponsiveNavHelper extends Component<ResponsiveNavHelperProps> {
         }
 
         this.$element.toggleClass('rsh-overflowed', overflow);
-        $more.css('display', overflow ? 'flex' : 'none');
+        $more.css('display', overflow ? 'flex' : 'none').appendTo(this.$element);
     }
 
     getContainer(): Cash {
@@ -191,7 +193,7 @@ export class ResponsiveNavHelper extends Component<ResponsiveNavHelperProps> {
             if (!dropdown) {
                 dropdown = new Dropdown($dropdown);
             }
-            return {items: dropdown.options.items || [], text: $dropdown.find('.text').text(), icon: $dropdown.find('.icon').attr('class')?.replace('icon ', '')};
+            return {items: dropdown.options.items || dropdown.options.menu?.items || [], text: $dropdown.find('.text').text(), icon: $dropdown.find('.icon').attr('class')?.replace('icon ', '')};
         }
         const attrs = Object.fromEntries(Array.from(element.attributes).map(attr => [attr.name, attr.value]));
         if (attrs.style) {
@@ -209,7 +211,7 @@ export class ResponsiveNavHelper extends Component<ResponsiveNavHelperProps> {
             return $more;
         }
 
-        $more = $('<li class="rsh-more item nav-item"></li>');
+        $more = $('<li class="rsh-more item nav-item" style="order:9999"></li>');
 
         let moreSetting = this.options.more || {html: '<a><span class="more-vert"></span></a>', attrs: {title: i18n.getLang('more')!}};
         if (typeof moreSetting === 'string') {
