@@ -77,14 +77,18 @@ export class ModalIframeContent extends Component<ModalIframeContentProps> {
             return;
         }
 
-        const {iframeBodyClass, watchHeight} = this.props;
+        try {
+            const {iframeBodyClass, watchHeight} = this.props;
 
-        if (watchHeight) {
-            this._watchIframeHeight();
-        }
+            if (watchHeight) {
+                this._watchIframeHeight();
+            }
 
-        if (iframeBodyClass) {
-            iframeDoc.body.classList.add(iframeBodyClass);
+            if (iframeBodyClass) {
+                iframeDoc.body.classList.add(iframeBodyClass);
+            }
+        } catch {
+            // ignore error
         }
 
         $(this._ref.current).trigger('modal-iframe-loaded');
