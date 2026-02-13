@@ -5,6 +5,10 @@ import {listenResize} from '@zui/core/src/dom';
 import {Dropdown} from '@zui/dropdown';
 
 export class ResponsiveNavHelper extends Component<ResponsiveNavHelperProps> {
+    static DEFAULT = {
+        showSelected: true,
+    };
+
     static NAME = 'ResponsiveNavHelper';
 
     protected _observer?: ResizeObserver;
@@ -86,13 +90,16 @@ export class ResponsiveNavHelper extends Component<ResponsiveNavHelperProps> {
         if (!$items.length) return;
 
         const $more = this.getMore();
+        $more.css({display: 'flex', opacity: 0});
         const moreSize = this.getItemSize($more[0] as HTMLElement);
+        $more.css({display: 'none', opacity: 0});
 
         let size = moreSize;
         let overflow = false;
         this._moreItems = undefined;
         this._moreElements = [];
-        const {fixedItems = '.is-rsh-fixed'} = this.options;
+        const sizeMap = new Map<HTMLElement, number>();
+        const {fixedItems = '.is-rsh-fixed', showSelected} = this.options;
         const $fixedItems = fixedItems ? $items.filter(fixedItems) : null;
         const fixedItemSet = $fixedItems?.length ? new Set($fixedItems) : null;
         if ($fixedItems?.length) {
@@ -109,9 +116,11 @@ export class ResponsiveNavHelper extends Component<ResponsiveNavHelperProps> {
             }
 
             const opacity = $item.css('opacity');
+            $item.css({display: 'flex', opacity: 0});
+            const itemSize = this.getItemSize($item[0] as HTMLElement);
+            sizeMap.set(item, itemSize);
+
             if (!overflow) {
-                $item.css({display: 'flex', opacity: 0});
-                const itemSize = this.getItemSize($item[0] as HTMLElement);
                 size += itemSize;
             }
 
@@ -126,8 +135,30 @@ export class ResponsiveNavHelper extends Component<ResponsiveNavHelperProps> {
             $item.css({opacity, display: overflow ? 'none' : 'flex'}).toggleClass('rsh-overflow-item', overflow);
         }
 
+        if (overflow) {
+            const overflowSize = this._moreElements!.reduce((size, item) => {
+                const $item = $(item);
+                if (!size && $item.hasClass('divider')) {
+                    return 0;
+                }
+                const itemSize = sizeMap.get(item) || 0;
+                return size + itemSize;
+            }, 0);
+            if (moreSize >= overflowSize) {
+                overflow = false;
+                for (const item of this._moreElements!) {
+                    $(item).css({display: 'flex', opacity: 1});
+                }
+                this._moreElements = [];
+            }
+        }
+
         this.$element.toggleClass('rsh-overflowed', overflow);
-        $more.css('display', overflow ? 'flex' : 'none').appendTo(this.$element);
+        $more.css({display: overflow ? 'flex' : 'none', opacity: 1}).appendTo(this.$element);
+
+        if (overflow && showSelected) {
+            this._renderMoreBtn();
+        }
     }
 
     getContainer(): Cash {
@@ -173,13 +204,17 @@ export class ResponsiveNavHelper extends Component<ResponsiveNavHelperProps> {
         if (getMoreItems) {
             return getMoreItems.call(this, _moreElements);
         }
-        return _moreElements.reduce((items, element) => {
+        const moreItems = _moreElements.reduce((items, element) => {
             const userItem = getMoreItem.call(this, element);
             if (userItem) {
+                if (userItem.type === 'divider' && (!items.length || items[items.length - 1]?.type === 'divider')) {
+                    return items;
+                }
                 items.push(userItem);
             }
             return items;
         }, [] as Item[]);
+        return moreItems;
     }
 
     getMoreItem(element: HTMLElement): Item | undefined {
@@ -219,7 +254,7 @@ export class ResponsiveNavHelper extends Component<ResponsiveNavHelperProps> {
         }
         const $moreBtn = $(moreSetting.html || '<a></a>').attr({
             ...moreSetting.attrs,
-        });
+        }).addClass('rsh-more-btn');
         if (moreSetting.icon) {
             $moreBtn.prepend(`<i class="icon ${moreSetting.icon}"></i>`);
         }
@@ -240,6 +275,29 @@ export class ResponsiveNavHelper extends Component<ResponsiveNavHelperProps> {
         this.$element.append($more);
         this.options.onCreateMore?.call(this, $more, this._dropdown);
         return $more;
+    }
+
+    _renderMoreBtn() {
+        const $moreBtn = this.$element.find('.rsh-more-btn');
+        const {showSelected} = this.options;
+        if (!$moreBtn.length || !showSelected) {
+            return;
+        }
+        if (!$moreBtn.data('originHTML')) {
+            $moreBtn.data('originHTML', $moreBtn.html());
+        }
+        const $selectedItem = $(this._moreElements).filter(showSelected === true ? (_, item) => {
+            const $item = $(item);
+            return $item.is('.active,.selected') || !!$item.children('.active,.selected').length;
+        } : showSelected);
+
+        const hasSelected = !!$selectedItem.length;
+        $moreBtn.toggleClass('active', hasSelected);
+        if (hasSelected) {
+            $moreBtn.empty().append($('<span>').text($selectedItem.text())).append('<span class="caret"></span>');
+        } else {
+            $moreBtn.html($moreBtn.data('originHTML'));
+        }
     }
 }
 

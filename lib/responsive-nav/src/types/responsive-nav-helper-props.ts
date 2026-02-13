@@ -6,6 +6,7 @@ export interface ResponsiveNavHelperProps {
     watch?: ('window' | 'self' | 'parent' | 'container' | Selector)[];
     debounce?: number;
     more?: string | {html?: string; text?: string; icon?: string; caret?: boolean; attrs?: Record<string, string>};
+    showSelected?: boolean | Comparator;
     container?: Selector;
     items?: Comparator;
     ignoreItems?: Comparator;
