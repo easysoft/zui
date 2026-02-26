@@ -1,4 +1,4 @@
-import {deepCall} from '@zui/helpers';
+import {deepCall, deepGet} from '@zui/helpers';
 import {$, Cash, type Selector} from '../cash';
 import {nextGid} from './gid';
 import {Component} from '../component';
@@ -302,6 +302,12 @@ function handleGlobalCommand(event: Event & {commandHandled?: boolean}) {
                 ...context,
                 abort,
             };
+            params = params.map((param) => {
+                if (typeof param === 'string' && param.startsWith('$.')) {
+                    return deepGet(finalContext, param.substring(2));
+                }
+                return param;
+            });
             let result;
             const bindInfo = getCommandBindInfo($target, scope);
             if (bindInfo) {
@@ -344,7 +350,7 @@ function handleGlobalCommand(event: Event & {commandHandled?: boolean}) {
                     zuiInstance = $target.closest(`[z-use-${zuiName}]`).zui(zuiName) as unknown as Component;
                 }
                 if (zuiInstance) {
-                    return deepCall(zuiInstance, name, params);
+                    return zuiInstance.executeCommand(name, params);
                 } else {
                     console.warn(`[ZUI] Command "${name}" not found in scope "${scope}".`);
                 }
