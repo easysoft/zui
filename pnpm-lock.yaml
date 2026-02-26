@@ -298,9 +298,21 @@ importers:
       '@zui/core':
         specifier: workspace:^0.0.1
         version: link:../core
+      '@zui/css-icons':
+        specifier: workspace:^0.0.1
+        version: link:../css-icons
+      '@zui/datetime-picker':
+        specifier: workspace:^0.0.1
+        version: link:../datetime-picker
       '@zui/helpers':
         specifier: workspace:^0.0.1
         version: link:../helpers
+      '@zui/list':
+        specifier: workspace:^0.0.1
+        version: link:../list
+      '@zui/toolbar':
+        specifier: workspace:^0.0.1
+        version: link:../toolbar
     devDependencies:
       zui-dev:
         specifier: workspace:^0.0.1
