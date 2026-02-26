@@ -19,7 +19,7 @@ export class Button<P extends ButtonProps = ButtonProps> extends HElement<P> {
         const {loading, loadingIcon, loadingText, icon, iconClass, text, textClass, children, trailingIcon, trailingIconClass, caret} = props;
         return [
             loading ? <Icon icon={loadingIcon || 'icon-spinner-snake'} className="spin" /> : <Icon icon={icon} className={iconClass} />,
-            this._isEmptyText ? null : <span className={classes('text', textClass)}>{loading ? loadingText : text}</span>,
+            (text === undefined || text === null) ? null : <span className={classes('text', textClass)}>{loading ? loadingText : text}</span>,
             loading ? null : children,
             loading ? null : <Icon icon={trailingIcon} className={trailingIconClass} />,
             loading ? null : caret ? <span className={typeof caret === 'string' ? `caret-${caret}` : 'caret'} /> : null,
