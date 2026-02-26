@@ -1,7 +1,16 @@
+/**
+ * 日期时间表达值
+ */
 export type DateLike = Date | number | string;
 
+/**
+ * 时间单位
+ */
 export type DurationType = 'day' | 'month' | 'year' | 'week' | 'hour' | 'minute' | 'second';
 
+/**
+ * 日期时间格式化函数
+ */
 export type DateFormatter = (date: Date) => string;
 
 /**
@@ -14,12 +23,12 @@ export const TIME_DAY = 24 * 60 * 60 * 1000;
  * @param date 用于创建 Date 对象的日期时间表达值，如果留空则创建当前系统时间对象
  * @returns 日期时间对象
  */
-export const createDate = (date?: DateLike): Date => {
+export const createDate = (date?: DateLike, forceNew?: boolean): Date => {
     if (date === undefined) {
         return new Date();
     }
     if (date instanceof Date) {
-        return date;
+        return forceNew ? new Date(date.getTime()) : date;
     }
     if (typeof date === 'string') {
         date = date.trim();
@@ -34,13 +43,29 @@ export const createDate = (date?: DateLike): Date => {
     return date;
 };
 
+/**
+ * 获取日期时间对象的时间戳
+ * @param date 日期时间表达值
+ * @returns 时间戳
+ */
+export const getDateTime = (date?: DateLike): number => {
+    return createDate(date).getTime();
+};
+
+/**
+ * 在一个日期时间对象上增加指定的时间
+ * @param date 日期时间表达值
+ * @param value 增加的时间值
+ * @param type 增加的时间单位
+ * @returns 日期时间对象
+ */
 export const addDate = (date: DateLike, value: number | string, type: DurationType = 'day'): Date => {
     if (typeof value === 'string') {
         const count = Number.parseInt(value, 10);
         type = value.replace(count.toString(), '') as DurationType;
         value = count;
     }
-    date = new Date(createDate(date).getTime());
+    date = new Date(getDateTime(date));
     if (type === 'month') {
         date.setMonth(date.getMonth() + value);
     } else if (type === 'year') {
@@ -97,11 +122,9 @@ export const isSameMonth = (date1: DateLike, date2: DateLike = new Date()): bool
  * @returns 如果为 `true` 则表示两个日期是同一周
  */
 export const isSameWeek = (date1: DateLike, date2: DateLike = new Date()): boolean => {
-    date1 = createDate(date1);
-    date2 = createDate(date2);
     const oneDayTime = 1000 * 60 * 60 * 24;
-    const weeks1 = Math.floor(date1.getTime() / oneDayTime);
-    const weeks2 = Math.floor(date2.getTime() / oneDayTime);
+    const weeks1 = Math.floor(getDateTime(date1) / oneDayTime);
+    const weeks2 = Math.floor(getDateTime(date2) / oneDayTime);
     // 1970-1-1 是周四
     return Math.floor((weeks1 + 4) / 7) === Math.floor((weeks2 + 4) / 7);
 };
@@ -120,7 +143,7 @@ export const isToday = (date: DateLike, now?: DateLike): boolean => isSameDay(cr
  * @param now 作为今天判断依据的日期，如果留空则使用当前系统时间
  * @returns 如果为 `true` 则表示是昨天
  */
-export const isYesterday = (date: DateLike, now?: DateLike): boolean => isSameDay(createDate(now).getTime() - TIME_DAY, date);
+export const isYesterday = (date: DateLike, now?: DateLike): boolean => isSameDay(getDateTime(now) - TIME_DAY, date);
 
 /**
  * 判断指定的日期是否是在明天
@@ -128,7 +151,7 @@ export const isYesterday = (date: DateLike, now?: DateLike): boolean => isSameDa
  * @param now 作为今天判断依据的日期，如果留空则使用当前系统时间
  * @returns 如果为 `true` 则表示是明天
  */
-export const isTomorrow = (date: DateLike, now?: DateLike): boolean => isSameDay(createDate(now).getTime() + TIME_DAY, date);
+export const isTomorrow = (date: DateLike, now?: DateLike): boolean => isSameDay(getDateTime(now) + TIME_DAY, date);
 
 /**
  * 判断指定的日期是否合法。
@@ -136,7 +159,7 @@ export const isTomorrow = (date: DateLike, now?: DateLike): boolean => isSameDay
  * @param date 要判断的日期时间表达值。
  * @returns 如果为 `true` 则表示是合法的日期时间表达值。
  */
-export const isValidDate = (date: DateLike): boolean => date !== undefined && date !== null && !isNaN(createDate(date).getTime());
+export const isValidDate = (date: DateLike): boolean => date !== undefined && date !== null && !isNaN(getDateTime(date));
 
 /**
  * 格式化日期时间值为字符串，所有可用的格式化参数有：
