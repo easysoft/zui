@@ -12,7 +12,11 @@
     "browser": "src/main.ts",
     "dependencies": {
         "@zui/core": "workspace:^0.0.1",
-        "@zui/helpers": "workspace:^0.0.1"
+        "@zui/helpers": "workspace:^0.0.1",
+        "@zui/css-icons": "workspace:^0.0.1",
+        "@zui/toolbar": "workspace:^0.0.1",
+        "@zui/list": "workspace:^0.0.1",
+        "@zui/datetime-picker": "workspace:^0.0.1"
     },
     "files": [
         "./src/**/*"
@@ -23,8 +27,6 @@
     "zui": {
         "type": "component",
         "displayName": "日历",
-        "notReady": true,
-        "wip": true,
         "contributes": {
             "css": [
                 "class",
