@@ -1,3 +1,4 @@
+import {deepCall} from '@zui/helpers';
 import {I18nLangMap, i18n} from '../i18n';
 import {$} from '../cash';
 import {nextGid} from '../helpers';
@@ -494,6 +495,16 @@ export class Component<O extends object = object, E extends ComponentEventsDefni
         return i18n(i18nData, key, args, defaultValue, this.options.lang, this.constructor.NAME)
             ?? i18n<string>(i18nData, key, args, defaultValue, this.options.lang)
             ?? `{i18n:${key}}`;
+    }
+
+    /**
+     * Execute a command.
+     * @param command The command.
+     * @param args    The command arguments.
+     * @returns       The command result.
+     */
+    executeCommand(command: string, args: unknown[]) {
+        return deepCall(this, command, args);
     }
 
     /**
