@@ -1,31 +1,27 @@
 import {i18n} from '@zui/core';
+import '@zui/datetime-picker/src/i18n';
+
+const zh_cn = {
+    defaultCategoryName: '默认',
+    weekNamesFull: ['周日', '周一', '周二', '周三', '周四', '周五', '周六'],
+    moreItems: '还有 {0} 项…',
+
+};
+
+const zh_tw: typeof zh_cn = {
+    defaultCategoryName: '預設',
+    weekNamesFull: ['週日', '週一', '週二', '週三', '週四', '週五', '週六'],
+    moreItems: '還有 {0} 項…',
+};
+
+const en: typeof zh_cn = {
+    defaultCategoryName: 'Default',
+    weekNamesFull: ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'],
+    moreItems: '+{0} more…',
+};
 
 i18n.addLang({
-    zh_cn: {
-        calendarSet: '日历集',
-        today: '今天',
-        yearFormat: '年',
-        monthFormat: '月',
-        weekNames: ['一', '二', '三', '四', '五', '六', '日'],
-        monthNames: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
-        dateFormat: 'YYYY年MM月dd日',
-    },
-    zh_tw: {
-        calendarSet: '日曆集',
-        today: '今天',
-        yearFormat: '年',
-        monthFormat: '月',
-        weekNames: ['一', '二', '三', '四', '五', '六', '日'],
-        monthNames: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
-        dateFormat: 'YYYY年MM月dd日',
-    },
-    en: {
-        calendarSet: 'CalendarSet',
-        today: 'Today',
-        yearFormat: '',
-        monthFormat: '',
-        weekNames: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-        monthNames: ['Jan.', 'Feb.', 'Mar.', 'Apr.', 'May.', 'Jun.', 'Jul.', 'Aug.', 'Sept.', 'Oct.', 'Nov.', 'Dec.'],
-        dateFormat: 'MM/dd/YYYY',
-    },
+    zh_cn,
+    zh_tw,
+    en,
 });
