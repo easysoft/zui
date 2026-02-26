@@ -5,6 +5,7 @@ import {mergeProps} from '../helpers';
 import type {Component as ComponentReact, ComponentClass, Attributes, RefObject} from 'preact';
 import {type I18nLangMap} from '../i18n';
 import type {ComponentEventsDefnition} from '../component';
+import {deepCall} from '@zui/helpers/src/object';
 
 export class ComponentFromReact<O extends object = object, C extends ComponentReact<O> = ComponentReact<O>, E extends ComponentEventsDefnition = ComponentEventsDefnition, U extends HTMLElement = HTMLElement> extends ComponentBase<O & {$replace?: boolean}, E, U> {
     /**
@@ -105,6 +106,20 @@ export class ComponentFromReact<O extends object = object, C extends ComponentRe
                 h(Component as ComponentClass, props as Attributes),
                 element,
             );
+        }
+    }
+
+    /**
+     * Execute a command.
+     * @param command The command.
+     * @param args    The command arguments.
+     * @returns       The command result.
+     */
+    executeCommand(command: string, args: unknown[]) {
+        try {
+            return deepCall(this.$!, command, args, this.$, true);
+        } catch {
+            return super.executeCommand(command, args);
         }
     }
 
