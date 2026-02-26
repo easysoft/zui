@@ -1,0 +1,26 @@
+.calendar-event-list-item-time {
+    @apply -text-gray-500 -opacity-75;
+}
+.calendar-event-list-item > .listitem {
+    @apply -text-fore;
+}
+.calendar-event-list-item > .listitem .item-title {
+    @apply -whitespace-nowrap -min-w-0 -overflow-hidden;
+}
+.calendar-event-list-item > .listitem > .item-icon {
+    @apply -min-w-4 --mx-0.5 -flex -items-center -justify-center -scale-75;
+    color: var(--calendar-event-color);
+}
+.calendar-event-list-item > .listitem > .item-icon.icon-calendar-event-dot {
+    @apply -scale-100;
+}
+.icon-calendar-event-dot::before {
+    @apply -content-[''] -block -w-2 -h-2 -rounded-full -min-w-2 ;
+    background: var(--calendar-event-color);
+}
+.calendar-event-list-item.has-bg > .listitem {
+    @apply -bg-[--calendar-event-background];
+}
+.calendar-event-list-item-more {
+    @apply -text-sm -text-gray-500 -opacity-50 hover:-opacity-100;
+}

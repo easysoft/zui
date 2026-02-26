@@ -1,0 +1,58 @@
+.calendar-month-view-row {
+    @apply -flex -flex-row -flex-nowrap -items-stretch;
+}
+.calendar-month-view-row + .calendar-month-view-row {
+    @apply -border-t;
+}
+
+.calendar-month-view-col {
+    @apply -flex-1;
+}
+.calendar-month-view-header-col {
+    @apply -px-1 -py-0.5;
+}
+.calendar-month-view-week-name {
+    @apply -font-bold -text-gray-500 -text-center;
+}
+
+.calendar-month-view-day {
+    @apply -min-h-20 -min-w-0;
+}
+.calendar-month-view-day + .calendar-month-view-day {
+    @apply -border-l;
+}
+.calendar-month-view-day-head {
+    @apply -px-1 -py-0.5 -flex -items-center -justify-end -gap-2;
+}
+.calendar-month-view-month-name {
+    @apply -px-1 -rounded-full -bg-gray-400 -text-canvas;
+}
+.calendar-month-view-day-number {
+    @apply -text-gray-500;
+}
+.is-today .calendar-month-view-day-number {
+    @apply -px-1 -rounded-full -bg-danger-500 -text-canvas -min-w-5 -text-center;
+}
+.calendar-month-view-day.is-out-month {
+    @apply -bg-gray-500/5;
+}
+.calendar-month-view-day.is-out-month > * {
+    @apply -opacity-50;
+}
+.calendar-month-view-day.is-today {
+    @apply -bg-warning-500/5;
+}
+
+.calendar-month-view .calendar-event-list-item > .listitem {
+    @apply -py-px -text-sm -gap-1;
+}
+.calendar-month-view .calendar-event-list-item-more > .listitem {
+    @apply -py-0 -pl-5;
+}
+
+.calendar-body {
+    @apply -border -rounded;
+}
+.calendar-header + .calendar-body {
+    @apply -mt-2;
+}
