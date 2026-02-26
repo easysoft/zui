@@ -1,22 +1,23 @@
-import {Draggable} from '@zui/dnd/src/vanilla';
-import {CalendarEvent, CalendarEventGroup} from './calendar-event-props';
-export interface CalendarState {
-    date: Date;
-    showCalendarGroup: boolean;
-    eventSetMap: Map<string, CalendarEvent[]>;
-    calendarEventMap?: Map<string, CalendarEvent>;
-    calendarGroupMap?: Map<string, CalendarEventGroup>;
-}
+import type {CalendarCategory} from './calendar-category';
+import type {CalendarEvent} from './calendar-event';
+import type {CalendarViewMode} from './calendar-view-mode';
 
-export interface CalendarContentState {
-    isExtended: boolean;
-    dateList: {date: Date} [][];
-    calendarEventMap?: Map<string, CalendarEvent>;
-    eventSetMap?: Map<string, CalendarEvent[]>;
-    eventMap: Map<string, CalendarEvent[]>;
-    dragEvent?: Draggable;
-}
+/**
+ * 日历组件的状态接口
+ */
+export type CalendarState = {
+    /** 当前日期 */
+    date: number;
 
-export interface EventState {
-    date: Date;
-}
+    /** 日历视图 */
+    mode: CalendarViewMode;
+
+    /** 是否只读 */
+    readonly: boolean;
+
+    /** 修改的日历集 */
+    modifidCategories: CalendarCategory[];
+
+    /** 修改的日历事件 */
+    modifiedEvents: CalendarEvent[];
+};
