@@ -87,13 +87,16 @@ export function deepGet<T>(object: object, pathName: string | string[], defaultV
     }
 }
 
-export function deepCall(object: object, pathName: string | string[], args?: unknown[], thisObj?: unknown): unknown {
+export function deepCall(object: object, pathName: string | string[], args?: unknown[], thisObj?: unknown, throws?: boolean): unknown {
     let parent: object | undefined;
     const callback = deepGet(object, pathName, undefined, (p) => {
         parent = p;
     }) as unknown;
     if (typeof callback === 'function') {
         return callback.apply(thisObj ?? parent, args);
+    }
+    if (throws) {
+        throw new Error(`Cannot call function "${Array.isArray(pathName) ? pathName.join('.') : pathName}" on object:`, object);
     }
     return callback;
 }
