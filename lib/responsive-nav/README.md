@@ -26,6 +26,6 @@
   <li class="item nav-item">
     <a data-toggle="dropdown" data-items='[{"text":"Life"},{"text":"Share"},{"text":"Feed"}]'><span class="text">Blog</span><span class="caret"></span></a>
   </li>
-  <li class="item nav-item"><a><span class="text">About Us</span></a></li>
+  <li class="item nav-item is-rsh-more"><a><span class="text">About Us</span></a></li>
 </menu>
 ```

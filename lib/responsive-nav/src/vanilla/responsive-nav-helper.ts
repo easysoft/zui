@@ -99,9 +99,11 @@ export class ResponsiveNavHelper extends Component<ResponsiveNavHelperProps> {
         this._moreItems = undefined;
         this._moreElements = [];
         const sizeMap = new Map<HTMLElement, number>();
-        const {fixedItems = '.is-rsh-fixed', showSelected} = this.options;
+        const {fixedItems = '.is-rsh-fixed', moreItems = '.is-rsh-more', showSelected} = this.options;
         const $fixedItems = fixedItems ? $items.filter(fixedItems) : null;
         const fixedItemSet = $fixedItems?.length ? new Set($fixedItems) : null;
+        const $moreItems = moreItems ? $items.filter(moreItems) : null;
+        const moreItemSet = $moreItems?.length ? new Set($moreItems) : null;
         if ($fixedItems?.length) {
             for (const item of $fixedItems) {
                 size += this.getItemSize(item);
@@ -110,13 +112,19 @@ export class ResponsiveNavHelper extends Component<ResponsiveNavHelperProps> {
         for (const item of $items) {
             const $item = $(item);
             const fixed = fixedItemSet?.has(item);
+            $item.toggleClass('rsh-fixed-item', !!fixed);
             if (fixed || $item.hasClass('rsh-more')) {
                 continue;
             }
 
+            if (moreItemSet?.has(item)) {
+                this._moreElements!.push(item);
+                $item.css({display: 'none'}).addClass('rsh-overflow-item');
+                continue;
+            }
             const opacity = $item.css('opacity');
             $item.css({display: 'flex', opacity: 0});
-            const itemSize = this.getItemSize($item[0] as HTMLElement);
+            const itemSize = this.getItemSize(item as HTMLElement);
             sizeMap.set(item, itemSize);
 
             if (!overflow) {
@@ -134,6 +142,7 @@ export class ResponsiveNavHelper extends Component<ResponsiveNavHelperProps> {
             $item.css({opacity, display: overflow ? 'none' : 'flex'}).toggleClass('rsh-overflow-item', overflow);
         }
 
+        const hasMoreItems = !!this._moreElements?.length;
         if (overflow) {
             const overflowSize = this._moreElements!.reduce((size, item) => {
                 const $item = $(item);
@@ -152,10 +161,11 @@ export class ResponsiveNavHelper extends Component<ResponsiveNavHelperProps> {
             }
         }
 
-        this.$element.toggleClass('rsh-overflowed', overflow);
-        $more.css({display: overflow ? 'flex' : 'none', opacity: 1}).appendTo(this.$element);
+        this.$element.toggleClass('rsh-has-more-items', hasMoreItems)
+            .toggleClass('rsh-overflowed', overflow);
+        $more.css({display: hasMoreItems ? 'flex' : 'none', opacity: 1}).appendTo(this.$element);
 
-        if (overflow && showSelected) {
+        if (hasMoreItems && showSelected) {
             this._renderMoreBtn();
         }
     }
