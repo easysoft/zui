@@ -1,7 +1,7 @@
 import {ComponentChildren, RenderableProps} from 'preact';
-import {HElementSignals, computed} from '@zui/core';
-import {type DateLike, getDateTime} from '@zui/helpers';
-import type {CalendarEvent, CalendarProps, CalendarState} from '../types';
+import {HElementSignals, computed, effect} from '@zui/core';
+import {createDate, type DateLike, getDateTime} from '@zui/helpers';
+import type {CalendarCategory, CalendarEvent, CalendarProps, CalendarState} from '../types';
 import {CalendarHeader} from './calendar-header';
 import {CalendarMonthView} from './calendar-month-view';
 import {mergeCategories, mergeEvents} from '../helpers';
@@ -27,6 +27,11 @@ export class Calendar<P extends CalendarProps = CalendarProps> extends HElementS
             ...this.categories.reduce((acc, category) => [...acc, ...category.events || []], [] as CalendarEvent[]),
             ...this.signals.modifiedEvents.value,
         ], this.defaultCategoryID);
+    });
+
+    protected _dateEffect = effect(() => {
+        const {date, mode} = this;
+        this.props.onSwitchDate?.call(this, createDate(date), mode);
     });
 
     get defaultCategoryID() {
@@ -90,6 +95,11 @@ export class Calendar<P extends CalendarProps = CalendarProps> extends HElementS
 
     getCategory(categoryID: string) {
         return this.categories.find(category => String(category.id) === String(categoryID));
+    }
+
+    componentWillUnmount(): void {
+        this._dateEffect();
+        super.componentWillUnmount();
     }
 
     protected _renderHeader(props: RenderableProps<P>): ComponentChildren {
