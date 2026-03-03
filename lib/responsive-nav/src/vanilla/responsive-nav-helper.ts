@@ -110,7 +110,6 @@ export class ResponsiveNavHelper extends Component<ResponsiveNavHelperProps> {
         for (const item of $items) {
             const $item = $(item);
             const fixed = fixedItemSet?.has(item);
-            $item.toggleClass('rsh-fixed-item', !fixed);
             if (fixed || $item.hasClass('rsh-more')) {
                 continue;
             }
