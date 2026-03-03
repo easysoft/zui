@@ -142,9 +142,9 @@ cacheQuery?: boolean;
 /** 是否允许同名字段，当为 `false`（默认）时，查找到多个同名字段会抛出错误。 */
 allowSameName?: boolean;
 /** 控件查找器映射，用于识别和操作自定义控件（如 Picker）。 */
-controls?: Record<string, FormControlFinder>;
+controls?: object;
 /** 表单字段自定义查找器，可以是按字段名映射的对象或统一的查找函数。 */
-fields?: Record<string, FormFieldFinder> | FormFieldFinder;
+fields?: object | function;
 /** 是否在找不到字段时抛出错误，默认 `true`。 */
 throwError?: boolean;
 </Props>
