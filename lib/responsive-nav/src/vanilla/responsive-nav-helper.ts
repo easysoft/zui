@@ -123,7 +123,7 @@ export class ResponsiveNavHelper extends Component<ResponsiveNavHelperProps> {
                 continue;
             }
             const opacity = $item.css('opacity');
-            $item.css({display: 'flex', opacity: 0});
+            $item.data('rsh-opacity', opacity).css({display: 'flex', opacity: 0});
             const itemSize = this.getItemSize(item as HTMLElement);
             sizeMap.set(item, itemSize);
 
@@ -143,7 +143,7 @@ export class ResponsiveNavHelper extends Component<ResponsiveNavHelperProps> {
         }
 
         const hasMoreItems = !!this._moreElements?.length;
-        if (overflow) {
+        if (overflow && !moreItemSet?.size) {
             const overflowSize = this._moreElements!.reduce((size, item) => {
                 const $item = $(item);
                 if (!size && $item.hasClass('divider')) {
@@ -155,7 +155,8 @@ export class ResponsiveNavHelper extends Component<ResponsiveNavHelperProps> {
             if (moreSize >= overflowSize) {
                 overflow = false;
                 for (const item of this._moreElements!) {
-                    $(item).css({display: 'flex', opacity: 1});
+                    const $item = $(item);
+                    $item.css({display: 'flex', opacity: $item.data('rsh-opacity') || 1});
                 }
                 this._moreElements = [];
             }
