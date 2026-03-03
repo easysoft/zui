@@ -80,6 +80,14 @@ export class Calendar<P extends CalendarProps = CalendarProps> extends HElementS
         this.changeState({date: getDateTime(date)});
     }
 
+    modifyEvents(events: CalendarEvent[]) {
+        this.changeState({modifiedEvents: mergeEvents([...events, ...this.signals.modifiedEvents.value])});
+    }
+
+    modifyCategories(categories: CalendarCategory[]) {
+        this.changeState({modifidCategories: mergeCategories([...categories, ...this.signals.modifidCategories.value])});
+    }
+
     clickEvent(eventID: string, mouseEvent: MouseEvent) {
         const event = this.getEvent(eventID);
         if (!event) {
