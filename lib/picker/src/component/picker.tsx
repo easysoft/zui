@@ -217,7 +217,12 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
                     url: formatString(ajaxSetting.url, {search: encodeURIComponent(search)}),
                 };
             }
-            items = await fetchData(ajaxSetting as ListItemsFetcher, [this, search], {signal: abort.signal});
+            try {
+                items = await fetchData(ajaxSetting as ListItemsFetcher, [this, search], {signal: abort.signal});
+            } catch (error) {
+                items = [];
+                console.warn('[ZUI] Picker: Failed to load items.', this.props.name, {error});
+            }
             if (this._abort !== abort) {
                 return items;
             }
