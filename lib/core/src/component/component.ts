@@ -189,7 +189,7 @@ export class Component<O extends object = object, E extends ComponentEventsDefni
         requestAnimationFrame(async () => {
             const {$fetcher} = this.options;
             if ($fetcher) {
-                const remoteOptions = await fetchData($fetcher, [], {dataType: 'js'});
+                const remoteOptions = await fetchData($fetcher, [element, this.options, this], {dataType: 'js'});
                 if (this.destroyed) {
                     return;
                 }
