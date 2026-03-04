@@ -1,4 +1,4 @@
-import {$, type Cash, i18n, Component, html, debounce} from '@zui/core';
+import {$, type Cash, i18n, Component, html, debounce, evalValue} from '@zui/core';
 import type {Item} from '@zui/common-list';
 import type {ResponsiveNavHelperProps} from '../types';
 import {listenResize} from '@zui/core/src/dom';
@@ -232,13 +232,21 @@ export class ResponsiveNavHelper extends Component<ResponsiveNavHelperProps> {
         if ($element.hasClass('divider')) {
             return {type: 'divider'};
         }
-        const $dropdown = $element.children('[data-toggle="dropdown"],z-use-dropdown');
+        const $dropdown = $element.children('[data-toggle="dropdown"],[z-use-dropdown],[zui-toggle-dropdown]');
         if ($dropdown.length) {
             let dropdown = Dropdown.query($dropdown);
             if (!dropdown) {
                 dropdown = new Dropdown($dropdown);
             }
-            return {items: dropdown.options.items || dropdown.options.menu?.items || [], text: $dropdown.find('.text').text(), icon: $dropdown.find('.icon').attr('class')?.replace('icon ', '')};
+            let items = dropdown.options.items || dropdown.options.menu?.items;
+            if (!items && $dropdown.attr('zui-toggle-dropdown')) {
+                const toggleAttr = $dropdown.attr('zui-toggle-dropdown');
+                const toggleOptions: typeof dropdown.options | null = toggleAttr ? evalValue(toggleAttr, ['_element', $dropdown[0]], ['_$element', $dropdown]) : null;
+                if (toggleOptions) {
+                    items = toggleOptions.items || toggleOptions.menu?.items;
+                }
+            }
+            return {items, text: $dropdown.find('.text').text(), icon: $dropdown.find('.icon').attr('class')?.replace('icon ', '')};
         }
         const attrs = Object.fromEntries(Array.from(element.attributes).map(attr => [attr.name, attr.value]));
         if (attrs.style) {
