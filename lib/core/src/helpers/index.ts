@@ -28,3 +28,4 @@ export * from './get-lib';
 export * from './lib-loader';
 export * from './try-exec';
 export * from './copy';
+export * from './wait-until';
