@@ -45,7 +45,7 @@ export interface FileSelectorProps extends HElementProps {
     onRemove?: (file: FileInfo) => void | Promise<void | false>;
     onChange?: (event: Event) => void;
     onRename?: (newName: string, oldName: string, file: FileInfo) => void | false | Promise<void | false>;
-    onDuplicated?: (name: string, currentFile: FileInfo, existFile: FileInfo) => void | true;
+    onDuplicated?: (name: string, currentFile: FileInfo, existFile: FileInfo) => void | true | Promise<void | true>;
     onExceededSize?: (limit: number, file: FileInfo) => void | true;
     onExceededTotalSize?: (limit: number, file: FileInfo) => void | true;
     onExceededCount?: (limit: number, file: FileInfo) => void | true;

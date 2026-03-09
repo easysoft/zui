@@ -169,8 +169,11 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
             return false;
         }
 
-        if (onDuplicated?.call(this, name, fileInfo, oldFile) === true) {
-            return true;
+        if (onDuplicated) {
+            const result = await onDuplicated.call(this, name, fileInfo, oldFile);
+            if (result === true) {
+                return true;
+            }
         }
 
         if (duplicatedTip) {
