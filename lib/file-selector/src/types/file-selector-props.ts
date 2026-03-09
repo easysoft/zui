@@ -34,6 +34,7 @@ export interface FileSelectorProps extends HElementProps {
     maxFileSize?: FileSize;
     totalFileSize?: FileSize;
     allowSameName?: boolean;
+    checkBuffer?: boolean;
     duplicatedTip?: string | ModalAlertOptions;
     exceededSizeTip?: string | ModalAlertOptions;
     exceededTotalSizeTip?: string | ModalAlertOptions;

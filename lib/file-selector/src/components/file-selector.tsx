@@ -27,6 +27,7 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
         draggable: true,
         thumbnail: true,
         maxFileCount: 0,
+        checkBuffer: true,
     };
 
     static i18n = i18nData;
@@ -146,10 +147,24 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
         }
     }
 
+    async findSameFile(file: File) {
+        const oldFiles = this.state.files;
+        for (const oldFile of oldFiles) {
+            if (oldFile.file) {
+                const isSame = await this.constructor.isSame(file, oldFile.file);
+                if (isSame) {
+                    return oldFile;
+                }
+            }
+        }
+    }
+
     protected async _checkDuplicated(fileInfo: FileInfo): Promise<boolean> {
-        const {allowSameName, onDuplicated, duplicatedTip = this.i18n('duplicatedTip')} = this.props;
+        const {allowSameName, onDuplicated, duplicatedTip = this.i18n('duplicatedTip'), checkBuffer} = this.props;
+
+        const sameFile = (checkBuffer && fileInfo.file) ? await this.findSameFile(fileInfo.file) : undefined;
         const {name} = fileInfo;
-        const oldFile = allowSameName ? this.getFile(fileInfo.id) : this.getFileByName(name);
+        const oldFile = sameFile || (allowSameName ? this.getFile(fileInfo.id) : this.getFileByName(name));
         if (!oldFile) {
             return false;
         }
@@ -795,5 +810,20 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
             }
             return this.isAccept(file, acceptTypes);
         });
+    }
+
+    static async isSame(file1: File, file2: File) {
+        if (file1.size !== file2.size) return false;
+        const [bufA, bufB] = await Promise.all([
+            file1.arrayBuffer(),
+            file2.arrayBuffer(),
+        ]);
+        if (bufA.byteLength !== bufB.byteLength) return false;
+        const a = new Uint8Array(bufA);
+        const b = new Uint8Array(bufB);
+        for (let i = 0; i < a.length; i++) {
+            if (a[i] !== b[i]) return false;
+        }
+        return true;
     }
 }
