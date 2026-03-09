@@ -27,7 +27,6 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
         draggable: true,
         thumbnail: true,
         maxFileCount: 0,
-        checkBuffer: true,
     };
 
     static i18n = i18nData;
