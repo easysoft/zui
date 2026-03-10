@@ -312,7 +312,7 @@ export class ResponsiveNavHelper extends Component<ResponsiveNavHelperProps> {
         const hasSelected = !!$selectedItem.length;
         $moreBtn.toggleClass('active', hasSelected);
         if (hasSelected) {
-            $moreBtn.empty().append($('<span>').text($selectedItem.text())).append('<span class="caret"></span>');
+            $moreBtn.empty().append($('<span class="text">').text($selectedItem.text())).append('<span class="caret"></span>');
         } else {
             $moreBtn.html($moreBtn.data('originHTML'));
         }
