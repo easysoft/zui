@@ -278,7 +278,7 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
 
         if (hideNewOnHide) {
             SHOWN_POPOVERS.forEach((popover) => {
-                if (popover !== this && popover.zIndex > this.zIndex) {
+                if (popover !== this && popover.zIndex > this.zIndex && popover.options.trigger !== 'hover') {
                     popover.hide();
                 }
             });
