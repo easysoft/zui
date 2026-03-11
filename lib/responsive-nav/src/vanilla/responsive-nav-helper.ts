@@ -142,7 +142,7 @@ export class ResponsiveNavHelper extends Component<ResponsiveNavHelperProps> {
             $item.css({opacity, display: overflow ? 'none' : 'flex'}).toggleClass('rsh-overflow-item', overflow);
         }
 
-        const hasMoreItems = !!this._moreElements?.length;
+        let hasMoreItems = !!this._moreElements!.length;
         if (overflow && !moreItemSet?.size) {
             const overflowSize = this._moreElements!.reduce((size, item) => {
                 const $item = $(item);
@@ -159,6 +159,7 @@ export class ResponsiveNavHelper extends Component<ResponsiveNavHelperProps> {
                     $item.css({display: 'flex', opacity: $item.data('rsh-opacity') || 1});
                 }
                 this._moreElements = [];
+                hasMoreItems = false;
             }
         }
 
