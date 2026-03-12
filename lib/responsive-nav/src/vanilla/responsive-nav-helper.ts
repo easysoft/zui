@@ -117,13 +117,14 @@ export class ResponsiveNavHelper extends Component<ResponsiveNavHelperProps> {
                 continue;
             }
 
+            const originDisplay = $item.data('rsh-display') || $item.css('display');
             if (moreItemSet?.has(item)) {
                 this._moreElements!.push(item);
                 $item.css({display: 'none'}).addClass('rsh-overflow-item');
                 continue;
             }
             const opacity = $item.css('opacity');
-            $item.data('rsh-opacity', opacity).css({display: 'flex', opacity: 0});
+            $item.data({'rsh-opacity': opacity, 'rsh-display': originDisplay}).css({display: originDisplay, opacity: 0});
             const itemSize = this.getItemSize(item as HTMLElement);
             sizeMap.set(item, itemSize);
 
@@ -139,7 +140,7 @@ export class ResponsiveNavHelper extends Component<ResponsiveNavHelperProps> {
                 this._moreElements!.push(item);
             }
 
-            $item.css({opacity, display: overflow ? 'none' : 'flex'}).toggleClass('rsh-overflow-item', overflow);
+            $item.css({opacity, display: overflow ? 'none' : originDisplay}).toggleClass('rsh-overflow-item', overflow);
         }
 
         let hasMoreItems = !!this._moreElements!.length;
@@ -156,7 +157,7 @@ export class ResponsiveNavHelper extends Component<ResponsiveNavHelperProps> {
                 overflow = false;
                 for (const item of this._moreElements!) {
                     const $item = $(item);
-                    $item.css({display: 'flex', opacity: $item.data('rsh-opacity') || 1});
+                    $item.css({display: $item.data('rsh-display') || 'flex', opacity: $item.data('rsh-opacity') || 1});
                 }
                 this._moreElements = [];
                 hasMoreItems = false;
