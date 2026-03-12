@@ -185,8 +185,16 @@ export class ResponsiveNavHelper extends Component<ResponsiveNavHelperProps> {
         container = container || this.getContainer()[0] as HTMLElement;
         if (!container) return 0;
 
-        const {getContainerSize} = this.options;
-        return getContainerSize ? getContainerSize.call(this, container) : container.offsetWidth;
+        const {getContainerSize, scrollbarDetect, scrollbarSize = 10} = this.options;
+        let size = getContainerSize ? getContainerSize.call(this, container) : container.offsetWidth;
+
+        if (scrollbarDetect !== false) {
+            const scrollbarDetectFn = typeof scrollbarDetect === 'function' ? scrollbarDetect : () => (window.innerWidth - document.body.clientWidth);
+            if (!scrollbarDetectFn()) {
+                size -= scrollbarSize;
+            }
+        }
+        return size;
     }
 
     getItems(): Cash {
