@@ -214,7 +214,7 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
             if (typeof ajaxSetting === 'object' && ajaxSetting.url) {
                 ajaxSetting = {
                     ...ajaxSetting,
-                    url: formatString(ajaxSetting.url, {search: encodeURIComponent(search)}),
+                    url: formatString(ajaxSetting.url, {search: encodeURIComponent(search), 'search:base64': btoa(search)}),
                 };
             }
             try {
