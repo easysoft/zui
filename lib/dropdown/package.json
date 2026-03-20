@@ -18,6 +18,7 @@
         "@zui/base": "workspace:*",
         "@zui/icons": "workspace:*",
         "@zui/utilities": "workspace:*",
+        "@zui/toolbar": "workspace:*",
         "zui-dev": "workspace:*"
     },
     "dependencies": {

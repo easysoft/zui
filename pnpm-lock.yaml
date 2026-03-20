@@ -596,6 +596,9 @@ importers:
       '@zui/icons':
         specifier: workspace:*
         version: link:../icons
+      '@zui/toolbar':
+        specifier: workspace:*
+        version: link:../toolbar
       '@zui/utilities':
         specifier: workspace:*
         version: link:../utilities

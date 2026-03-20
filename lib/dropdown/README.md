@@ -238,3 +238,67 @@ console.log('> dropdown', dropdown);
   <li class="menu-item"><a>修改</a></li>
 </menu>
 ```
+
+## 复杂交互的例子
+
+```html:example: -flex -gap-3
+<button class="btn" type="button" id="dropdownToggle2">动态下拉菜单 <span class="caret"></span></button>
+```
+
+```js
+const dropdown2 = new Dropdown('#dropdownToggle2', {
+    arrow: true,
+    menu: {
+        checkOnClick: '.has-checkbox .item',
+        items: [
+            {text: 'V1', key: '1', actions: [{text: '编辑', onClick: () => console.log('> 编辑了版本1')}]},
+            {text: 'V2', key: '2'},
+            {text: 'V3', key: '3'},
+            {text: 'V4', key: '4'},
+        ],
+        header() {
+            return {
+                component: 'Listitem',
+                className: 'not-hide-menu',
+                props: {
+                    text: '全部版本',
+                    titleClass: 'text-gray',
+                    actions: [
+                        {icon: 'exchange', text: '对比', className: this.state.showCheckbox ? 'invisible pointer-events-none' : 'text-primary', onClick: () => this.setState({showCheckbox: true})},
+                    ],
+                },
+            };
+        },
+        footer() {
+            if (!this.state.showCheckbox) {
+                return null;
+            }
+            return {
+                component: 'Toolbar',
+                props: {
+                    gap: 4,
+                    className: 'p-1 pt-0',
+                    items: [
+                        {text: '确定', size: 'sm', disabled: this.getChecks().length < 2, type: 'primary', onClick: () => console.log('点击了确认，已选中对比版本', this.getChecks())},
+                        {text: '取消对比', size: 'sm', className: 'not-hide-menu', type: 'default', onClick: () => this.setState({showCheckbox: false})},
+                    ],
+                },
+            };
+        },
+        getItem(item) {
+            if (!this.state.showCheckbox) return item;
+            item = $.extend({checked: !!this.state.checked[item.key]}, item);
+            if (!item.checked && item.disabled === undefined) item = $.extend({disabled: this.getChecks().length >= 2}, item);
+            return item;
+        },
+        onClickItem(info) {
+            if (this.state.showCheckbox) {
+                info.event.stopPropagation();
+            } else {
+                console.log('> 选择了版本', info.item.key);
+            }
+        },
+    },
+    width: 200,
+});
+```
