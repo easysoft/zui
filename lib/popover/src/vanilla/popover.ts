@@ -1,5 +1,5 @@
 import {arrow, computePosition, flip, shift, size, autoUpdate, offset, VirtualElement, ReferenceElement, ComputePositionConfig} from '@floating-ui/dom';
-import {Component, $, ComponentEvents, JSX, evalValue, toCssSize, nextGid} from '@zui/core';
+import {Component, $, ComponentEvents, JSX, evalValue, toCssSize, nextGid, ComponentOptions} from '@zui/core';
 import {PopoverEvents, PopoverOptions, PopoverPanelOptions, PopoverSide} from '../types';
 import {PopoverPanel} from './popover-panel';
 import {isElementDetached} from '@zui/core/src/dom';
@@ -65,6 +65,8 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
 
     protected declare _zIndex: number;
 
+    protected _lastTriggerAttr = '';
+
     get shown() {
         return this._shown;
     }
@@ -97,10 +99,19 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
             const {namespace} = this;
             if (trigger) {
                 const setOptionsFromTrigger = () => {
+                    const toggleOptions = $triggerElement.attr(`zui-toggle-${this.constructor.ZUI}`) ?? '';
+                    if (toggleOptions && this._lastTriggerAttr === toggleOptions) {
+                        return;
+                    }
+                    this._lastTriggerAttr = toggleOptions;
                     let options = $triggerElement.dataset();
-                    const toggleOptions = $triggerElement.attr(`zui-toggle-${this.constructor.ZUI}`);
                     if (toggleOptions) {
-                        options = $.extend(options, evalValue(toggleOptions));
+                        const newOptions = evalValue(toggleOptions) as ComponentOptions<O>;
+                        let extraOptions = newOptions.$options;
+                        if (typeof extraOptions === 'function') {
+                            extraOptions = extraOptions.call(this, this.element, newOptions);
+                        }
+                        options = $.extend(options, newOptions, extraOptions || {});
                     }
                     this.setOptions(options as Partial<O>);
                 };
