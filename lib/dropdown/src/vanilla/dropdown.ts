@@ -1,8 +1,8 @@
-import {$, h} from '@zui/core';
+import {$, h, createRef} from '@zui/core';
 import {Popover} from '@zui/popover';
 import {DropdownMenu} from '../component';
 
-import type {ComponentType} from 'preact';
+import type {ComponentType, RefObject} from 'preact';
 import type {PopoverPanelOptions} from '@zui/popover';
 import type {DropdownOptions, DropdownMenuOptions} from '../types';
 
@@ -19,6 +19,12 @@ export class Dropdown<O extends DropdownOptions = DropdownOptions> extends Popov
         limitSize: true,
         notHideOnClick: '.not-hide-menu,.form-control,input,label,.nested-toggle-icon',
     };
+
+    protected _menuRef: RefObject<DropdownMenu> = createRef();
+
+    get menu() {
+        return this._menuRef.current;
+    }
 
     handleClickTarget(event: MouseEvent): void | boolean {
         const $target = $(event.target as HTMLElement);
@@ -41,8 +47,9 @@ export class Dropdown<O extends DropdownOptions = DropdownOptions> extends Popov
             relativeTarget: {target: relativeTarget, event: this.options.triggerEvent, dropdown: this},
             dropdown: this as Dropdown,
             popup: true,
+            ref: this._menuRef,
             ...menu,
-        };
+        } as DropdownMenuOptions;
     }
 
     protected _getRenderOptions(): PopoverPanelOptions {
