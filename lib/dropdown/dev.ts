@@ -75,6 +75,7 @@ onPageUpdate(() => {
                 {text: 'V4', key: '4'},
             ],
             header() {
+                console.log('> dropdown2.header', this);
                 return {
                     component: 'Listitem',
                     className: 'not-hide-menu',
@@ -118,6 +119,10 @@ onPageUpdate(() => {
             },
         },
         width: 200,
+        mask: false,
+        onHide: function () {
+            return !this.menu.state.showCheckbox;
+        },
     });
 
     console.log('> dropdown2', dropdown2);
