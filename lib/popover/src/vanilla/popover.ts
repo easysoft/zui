@@ -209,6 +209,11 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
         this._targetElement = target;
         const $target = $(target);
         const {animation, onShow, onShown, trigger, elementShowClass} = this.options;
+        const showResult = onShow?.call(this);
+        if (showResult === false) {
+            return;
+        }
+
         const {SHOWN_POPOVERS} = this.constructor as typeof Popover;
         $target.addClass(CLASS_SHOW);
         if (animation) {
@@ -218,7 +223,6 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
         this._shown = true;
         this.render();
         SHOWN_POPOVERS.set(this.gid, this as Popover);
-        onShow?.call(this);
         this.emit('show');
 
         /* Hide other shown popovers. */
@@ -268,9 +272,14 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
         const {destroyOnHide, animation, onHide, onHidden, trigger, hideNewOnHide, elementShowClass} = this.options;
         const $target = $(this._targetElement as HTMLElement);
         const {SHOWN_POPOVERS} = this.constructor as typeof Popover;
+
+        const hideResult = onHide?.call(this);
+        if (hideResult === false) {
+            return;
+        }
+
         this._shown = false;
         SHOWN_POPOVERS.delete(this.gid);
-        onHide?.call(this);
         this.emit('hide');
         $target.removeClass(CLASS_SHOWN);
 

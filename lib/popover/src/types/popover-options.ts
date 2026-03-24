@@ -50,8 +50,8 @@ export type PopoverOptions = Omit<PopoverPanelOptions, 'arrow' | 'arrowStyle' | 
     hideNewOnHide?: boolean;
 
     onLayout?: (info: PopoverLayoutInfo) => void;
-    onShow?: () => void;
+    onShow?: () => boolean | void;
     onShown?: () => void;
-    onHide?: () => void;
+    onHide?: () => boolean | void;
     onHidden?: () => void;
 };
