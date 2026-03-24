@@ -115,3 +115,16 @@ export const escapeHtml = (html: string) => {
         .replace(/"/g, '&quot;')
         .replace(/'/g, '&#039;');
 };
+
+export const encodeBase64 = (value: string): string => {
+    const utf8 = encodeURIComponent(value).replace(/%([0-9A-F]{2})/g, (_, hex: string) => String.fromCharCode(parseInt(hex, 16)));
+    return btoa(utf8);
+};
+
+export const decodeBase64 = (value: string): string => {
+    const utf8 = atob(value);
+    const encoded = Array.from(utf8).map((char) => {
+        return `%${char.charCodeAt(0).toString(16).padStart(2, '0').toUpperCase()}`;
+    }).join('');
+    return decodeURIComponent(encoded);
+};
