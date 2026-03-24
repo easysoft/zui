@@ -1150,6 +1150,9 @@ importers:
       '@zui/form-control':
         specifier: workspace:*
         version: link:../form-control
+      '@zui/helpers':
+        specifier: workspace:*
+        version: link:../helpers
       '@zui/menu':
         specifier: workspace:*
         version: link:../menu

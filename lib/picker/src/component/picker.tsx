@@ -1,5 +1,6 @@
 import {$, delay, fetchData, i18n} from '@zui/core';
 import {Pick} from '@zui/pick/src/components';
+import {encodeBase64} from '@zui/helpers/src/string-helper';
 import {Toolbar} from '@zui/toolbar/src/component';
 import {PickerMultiSelect} from './picker-multi-select';
 import {PickerSingleSelect} from './picker-single-select';
@@ -214,7 +215,7 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
             if (typeof ajaxSetting === 'object' && ajaxSetting.url) {
                 ajaxSetting = {
                     ...ajaxSetting,
-                    url: formatString(ajaxSetting.url, {search: encodeURIComponent(search), 'search:base64': btoa(search)}),
+                    url: formatString(ajaxSetting.url, {search: encodeURIComponent(search), 'search:base64': encodeBase64(search)}),
                 };
             }
             try {
