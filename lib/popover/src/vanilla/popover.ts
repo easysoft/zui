@@ -1,5 +1,5 @@
 import {arrow, computePosition, flip, shift, size, autoUpdate, offset, VirtualElement, ReferenceElement, ComputePositionConfig} from '@floating-ui/dom';
-import {Component, $, ComponentEvents, JSX, evalValue, toCssSize, nextGid, ComponentOptions} from '@zui/core';
+import {Component, $, ComponentEvents, JSX, evalValue, toCssSize, nextGid, ComponentOptions, parseSize} from '@zui/core';
 import {PopoverEvents, PopoverOptions, PopoverPanelOptions, PopoverSide} from '../types';
 import {PopoverPanel} from './popover-panel';
 import {isElementDetached} from '@zui/core/src/dom';
@@ -516,7 +516,7 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
     protected _getLayoutOptions(): [trigger: ReferenceElement, element: HTMLElement, options: Partial<ComputePositionConfig>] {
         const trigger = this.getTriggerElement();
         const element = this._targetElement!;
-        const {placement: placementSetting, flip: isFlip, limitSize, shift: shiftSetting, offset: offsetSetting, arrow: arrowSetting, strategy} = this.options;
+        const {placement: placementSetting, flip: isFlip, limitSize, shift: shiftSetting, offset: offsetSetting, arrow: arrowSetting, strategy, maxHeight: maxHeightSetting, maxWidth: maxWidthSetting} = this.options;
         const arrowElement = arrowSetting ? element.querySelector('.arrow') : null;
         const arrowSize = arrowElement ? (typeof arrowSetting === 'number' ? arrowSetting : 5) : 0;
         const getOffsetSetting = () => {
@@ -541,7 +541,18 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
                 arrowSetting ? arrow({element: arrowElement!}) : null,
                 limitSize ? size({
                     apply({availableWidth, availableHeight, placement}) {
-                        $(element).css({maxHeight: availableHeight - (['top', 'bottom'].includes(placement.split('-')[0]) ? arrowSize : 0) - 2, maxWidth: availableWidth - 2});
+                        let maxHeight = availableHeight - (['top', 'bottom'].includes(placement.split('-')[0]) ? arrowSize : 0) - 2;
+                        let maxWidth = availableWidth - 2;
+                        if (maxHeightSetting) {
+                            maxHeight = Math.min(maxHeight, parseSize(maxHeightSetting)[0]);
+                        }
+                        if (maxWidthSetting) {
+                            maxWidth = Math.min(maxWidth, parseSize(maxWidthSetting)[0]);
+                        }
+                        $(element).css({
+                            maxHeight,
+                            maxWidth,
+                        });
                     },
                 }) : null,
             ].filter(Boolean),
