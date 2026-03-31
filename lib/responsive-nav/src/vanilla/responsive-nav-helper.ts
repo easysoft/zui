@@ -24,7 +24,6 @@ export class ResponsiveNavHelper extends Component<ResponsiveNavHelperProps> {
     protected _dropdown?: Dropdown;
 
     init() {
-        // Base implementation - override in subclasses
         this.$element.addClass('fade');
         this._tryRender = debounce(() => this.render(), this.options.debounce || 20) as () => void;
     }
