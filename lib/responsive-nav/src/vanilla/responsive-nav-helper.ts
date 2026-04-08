@@ -233,6 +233,9 @@ export class ResponsiveNavHelper extends Component<ResponsiveNavHelperProps> {
             }
             return items;
         }, [] as Item[]);
+        if (moreItems.length && moreItems[moreItems.length - 1]?.type === 'divider') {
+            moreItems.pop();
+        }
         return moreItems;
     }
 
