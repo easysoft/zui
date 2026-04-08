@@ -219,7 +219,7 @@ export class ResponsiveNavHelper extends Component<ResponsiveNavHelperProps> {
         if (!_moreElements?.length) {
             return [];
         }
-        const {getMoreItem = this.getMoreItem.bind(this), getMoreItems} = this.options;
+        const {getMoreItem = this.getMoreItem.bind(this), getMoreItems, mergeDropdown} = this.options;
         if (getMoreItems) {
             return getMoreItems.call(this, _moreElements);
         }
@@ -228,6 +228,18 @@ export class ResponsiveNavHelper extends Component<ResponsiveNavHelperProps> {
             if (userItem) {
                 if (userItem.type === 'divider' && (!items.length || items[items.length - 1]?.type === 'divider')) {
                     return items;
+                }
+                if (Array.isArray(userItem.items)) {
+                    if (!userItem.items.length) {
+                        return items;
+                    }
+                    if (mergeDropdown && (mergeDropdown === true || $(element).closest(mergeDropdown).length)) {
+                        if (items.length) {
+                            items.push({type: 'divider'});
+                        }
+                        items.push(...userItem.items, {type: 'divider'});
+                        return items;
+                    }
                 }
                 items.push(userItem);
             }
@@ -324,7 +336,10 @@ export class ResponsiveNavHelper extends Component<ResponsiveNavHelperProps> {
         const hasSelected = !!$selectedItem.length;
         $moreBtn.toggleClass('active', hasSelected);
         if (hasSelected) {
-            $moreBtn.empty().append($('<span class="text">').text($selectedItem.text())).append('<span class="caret"></span>');
+            $moreBtn.empty().append($selectedItem.children().html());
+            if (!$moreBtn.find('.caret,[class*="caret"]').length) {
+                $moreBtn.append('<span class="caret"></span>');
+            }
         } else {
             $moreBtn.html($moreBtn.data('originHTML'));
         }

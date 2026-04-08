@@ -13,6 +13,7 @@ export interface ResponsiveNavHelperProps {
     fixedItems?: Comparator;
     moreItems?: Comparator;
     moreDropdown?: Partial<DropdownOptions>;
+    mergeDropdown?: boolean | Comparator;
     scrollbarDetect?: boolean | (() => boolean);
     scrollbarSize?: number;
     getContainerSize?: (container: HTMLElement) => number;
