@@ -1,5 +1,6 @@
 import type {ComponentChildren, JSX} from 'preact';
-import {type ClassNameLike, CustomContent, CustomContentType, Icon, classes} from '@zui/core';
+import {type ClassNameLike, CustomContent, CustomContentType, Icon, classes, jsRaw} from '@zui/core';
+import {type TooltipOptions} from '@zui/tooltip';
 import {FormControl, type FormControlProps} from './form-control';
 
 export type FormGroupProps = {
@@ -13,7 +14,7 @@ export type FormGroupProps = {
 
     className?: ClassNameLike;
 
-    tooltip?: string;
+    tooltip?: string | TooltipOptions;
 
     required?: boolean;
 
@@ -33,7 +34,7 @@ export function FormGroup(props: FormGroupProps) {
                     <div class="form-label-text" title={typeof label === 'string' ? label : undefined}>
                         <CustomContent content={label} />
                     </div>
-                    {tooltip ? <div className="state" zui-toggle="tooltip" data-content={tooltip}><Icon icon="info" /></div> : null}
+                    {tooltip ? <div className="state" zui-toggle="tooltip" zui-toggle-tooltip={jsRaw(typeof tooltip === 'string' ? {content: tooltip} : tooltip)}><Icon icon="info" /></div> : null}
                 </label>
             ) : null}
             {control ? <FormControl {...control} /> : null}
