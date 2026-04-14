@@ -1,3 +1,5 @@
+import type {TooltipOptions} from '@zui/tooltip';
+
 /**
  * JSON Schema 支持的基本数据类型
  * - string: 字符串类型
@@ -77,7 +79,7 @@ export interface BaseSchema<T = unknown> {
     /** 是否为必填字段，支持 JavaScript 表达式 */
     required?: boolean | string[];
     /** 工具提示文本，支持 JavaScript 表达式 */
-    tooltip?: string;
+    tooltip?: string | TooltipOptions;
     /** 提示信息文本，支持 JavaScript 表达式 */
     hint?: string;
     /** 是否禁用字段，支持 JavaScript 表达式 */
