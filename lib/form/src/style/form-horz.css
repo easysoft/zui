@@ -30,7 +30,9 @@
 .form-horz .form-label.required::after {
   @apply -order-first -ml-0;
 }
-
+.form-horz .form-label-text {
+  @apply -flex-auto;
+}
 .form-horz .form-tip {
   @apply -w-full;
 }

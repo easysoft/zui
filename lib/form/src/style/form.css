@@ -20,7 +20,7 @@
   @apply -ml-3;
 }
 .form-label-text {
-  @apply -flex-auto -min-w-0 -overflow-hidden;
+  @apply -min-w-0 -overflow-hidden;
 }
 
 .form-tip {
