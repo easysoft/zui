@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export type DebounceOptions = {
     delay?: number;
     immediate?: boolean;
 };
 
-export type DebouncedFunction<T extends (...args: unknown[]) => unknown> = T & {
+export type DebouncedFunction<T extends (...args: any[]) => any> = T & {
     cancel: () => void;
 };
 
@@ -15,7 +16,7 @@ export type DebouncedFunction<T extends (...args: unknown[]) => unknown> = T & {
  * @param optionsOrDelay - The delay in milliseconds or options object
  * @returns The debounced function with a cancel method
  */
-export function debounce<T extends (...args: unknown[]) => unknown>(func: T, optionsOrDelay?: DebounceOptions | number): DebouncedFunction<T> {
+export function debounce<T extends (...args: any[]) => any>(func: T, optionsOrDelay?: DebounceOptions | number): DebouncedFunction<T> {
     const options = typeof optionsOrDelay === 'number' ? {delay: optionsOrDelay} : optionsOrDelay;
     const {delay = 0, immediate = false} = options ?? {};
 
