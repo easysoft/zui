@@ -419,7 +419,7 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
 
     protected _getPopProps(props: RenderableProps<O>, state: Readonly<S>): PickerMenuProps<S> {
         if (props.shareSelections) {
-            this._sharedValueSet = Picker.getSharedSelections(props.shareSelections);
+            this._sharedValueSet = props.getSharedValues ? new Set(props.getSharedValues(props.shareSelections)) : Picker.getSharedSelections(props.shareSelections);
         }
         return {
             ...super._getPopProps(props, state),

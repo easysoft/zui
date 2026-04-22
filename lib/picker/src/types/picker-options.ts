@@ -19,6 +19,7 @@ export interface PickerOptions<S extends PickerState = PickerState> extends Pick
     checkbox?: MenuOptions['checkbox'];
     items: MenuOptions['items'];
     shareSelections?: string;
+    getSharedValues?: (shareSelections: string) => string[];
     maxItemsCount?: number;
     exceedLimitHint?: string;
     toolbar?: ToolbarSetting | boolean;
