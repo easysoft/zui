@@ -24,7 +24,7 @@ const defaultConverters: Record<string, StringConverter> = {
     quote: (value: unknown) => `"${value}"`,
     singleQuote: (value: unknown) => `'${value}'`,
     code: (value: unknown) => `\`${value}\``,
-    json: (value: unknown) => JSON.stringify(value),
+    json: (value: unknown, space?: string | number) => JSON.stringify(value, null, space),
     base64: (value: unknown) => encodeBase64(String(value)),
     base64Decode: (value: unknown) => decodeBase64(String(value)),
     escape: (value: unknown) => escapeHtml(String(value)),
@@ -54,7 +54,6 @@ const defaultConverters: Record<string, StringConverter> = {
     join: (value: unknown, sep = ',') => Array.isArray(value) ? value.join(sep) : String(value),
     padStart: (value: unknown, len: string, pad = ' ') => String(value).padStart(Number(len), pad),
     padEnd: (value: unknown, len: string, pad = ' ') => String(value).padEnd(Number(len), pad),
-    kebab: (value: unknown) => String(value).replace(/([a-z])([A-Z])/g, '$1-$2').replace(/[\s_]+/g, '-').toLowerCase(),
     trim: (value: unknown) => String(value).trim(),
     trimStart: (value: unknown) => String(value).trimStart(),
     trimEnd: (value: unknown) => String(value).trimEnd(),
@@ -90,12 +89,12 @@ function parseConverterExpr(expr: string): {name: string; args: string[]} {
  * @param converters 转换器
  * @returns 转换后的字符串
  */
-export function convertString(str: string, expr: string | string[], converters?: Record<string, StringConverter>): string {
+export function convertString(value: unknown, expr: string | string[], converters?: Record<string, StringConverter>): string {
     converters = converters || defaultConverters;
     const segments = typeof expr === 'string' ? expr.split('|') : expr;
-    let value: unknown = str;
-    for (let i = 1; i < segments.length; i++) {
-        const {name, args} = parseConverterExpr(segments[i]);
+    let currentValue = value;
+    for (const segment of segments) {
+        const {name, args} = parseConverterExpr(segment);
         if (!name) {
             continue;
         }
@@ -103,10 +102,10 @@ export function convertString(str: string, expr: string | string[], converters?:
         if (!converter) {
             continue;
         }
-        value = converter(value, ...args);
+        currentValue = converter(currentValue, ...args);
     }
 
-    return value === undefined || value === null ? '' : String(value);
+    return currentValue === undefined || currentValue === null ? '' : String(currentValue);
 }
 
 /**
@@ -125,19 +124,19 @@ export function convertString(str: string, expr: string | string[], converters?:
  * @returns 格式化后的字符串
  * @example <caption>通过对象名称格式化</caption>
  *     // 简单格式化
- *     const say = convertString('Say {what} to {who}', {what: 'hello', who: 'you'});
+ *     const say = formatWithPipes('Say {what} to {who}', {what: 'hello', who: 'you'});
  *     // say 值为 'Say hello to you'
  *
  *     // 格式化并进行大写转换
- *     const say = convertString('My name is {name|upper}', {name: 'jim'});
+ *     const say = formatWithPipes('My name is {name|upper}', {name: 'jim'});
  *     // say 值为 'My name is JIM'
  *
  *     // 格式化并进行日期转换
- *     const say = convertString('The date is {date|date:yyyy-MM-dd}', {date: new Date()});
+ *     const say = formatWithPipes('The date is {date|date:yyyy-MM-dd}', {date: new Date()});
  *     // say 值为 'The date is 2026-04-22'
  *
  *     // 多个转换器依次执行
- *     const say = convertString('The password is {password|base64|quote}', {password: '123456'});
+ *     const say = formatWithPipes('The password is {password|base64|quote}', {password: '123456'});
  *     // say 值为 'The password is "MTIzNDU2"'
  */
 export function formatWithPipes(str: string, obj: Record<string, unknown>, converters?: Record<string, StringConverter>): string {
@@ -150,7 +149,7 @@ export function formatWithPipes(str: string, obj: Record<string, unknown>, conve
             return match;
         }
 
-        return convertString(match, segments, allConverters);
+        return convertString(obj[key], segments.slice(1), allConverters);
     });
 }
 
