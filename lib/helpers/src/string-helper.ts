@@ -1,3 +1,5 @@
+import {type DateLike, formatDate, getDateTime} from './date-helper';
+
 /**
  * 判断是否为字符串
  * @param value 要判断的值
@@ -5,6 +7,122 @@
  */
 export function isNotEmptyString(value: unknown): value is string {
     return typeof value === 'string' && value !== '';
+}
+
+/**
+ * 字符串转换器
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type StringConverter = (value: unknown, ...args: any[]) => unknown;
+
+/**
+ * 默认转换器集合
+ */
+const defaultConverters: Record<string, StringConverter> = {
+    upper: (value: unknown) => String(value).toUpperCase(),
+    lower: (value: unknown) => String(value).toLowerCase(),
+    quote: (value: unknown) => `"${value}"`,
+    singleQuote: (value: unknown) => `'${value}'`,
+    code: (value: unknown) => `\`${value}\``,
+    json: (value: unknown) => JSON.stringify(value),
+    base64: (value: unknown) => encodeBase64(String(value)),
+    base64Decode: (value: unknown) => decodeBase64(String(value)),
+    escape: (value: unknown) => escapeHtml(String(value)),
+    bytes: (value: unknown) => formatBytes(Number(value)),
+    date: (value: unknown, format: string) => formatDate(value as DateLike, format),
+    timestamp: (value: unknown) => String(getDateTime(value as DateLike)),
+    urlEncode: (value: unknown) => encodeURIComponent(String(value)),
+    urlDecode: (value: unknown) => decodeURIComponent(String(value)),
+    capitalize: (value: unknown) => String(value).charAt(0).toUpperCase() + String(value).slice(1),
+    truncate: (value: unknown, length: string | number) => String(value).slice(0, Number(length)),
+    ellipsis: (value: unknown, length: string | number) => {
+        const str = String(value);
+        const len = Number(length);
+        return str.length > len ? str.slice(0, len) + '...' : str;
+    },
+    replace: (value: unknown, search: string, replace: string) => String(value).replace(search, replace ?? ''),
+    replaceAll: (value: unknown, search: string, replace: string) => String(value).replaceAll(search, replace ?? ''),
+    default: (value: unknown, fallback: string) => (value === undefined || value === null || value === '' ? fallback : value),
+};
+
+/**
+ * 占位符正则：匹配形如 `{key}`、`{key|converter}`、`{key|converter:arg1,arg2|converter2}` 的片段
+ */
+const PLACEHOLDER_REGEX = /\{([^{}]+)\}/g;
+
+/**
+ * 解析单个转换器表达式，例如 `date:yyyy-MM-dd HH:mm:ss`、`replace:foo,bar`
+ *
+ * - 转换器名称与参数之间使用第一个 `:` 分隔，以便参数中可以包含 `:`（例如日期格式 `HH:mm:ss`）
+ * - 参数之间使用 `,` 分隔，参数前后的空白会被去除
+ */
+function parseConverterExpr(expr: string): {name: string; args: string[]} {
+    const colonIdx = expr.indexOf(':');
+    if (colonIdx === -1) {
+        return {name: expr.trim(), args: []};
+    }
+    const name = expr.slice(0, colonIdx).trim();
+    const argsStr = expr.slice(colonIdx + 1);
+    const args = argsStr.split(',').map(arg => arg.trim());
+    return {name, args};
+}
+
+/**
+ * 格式化字符串，并支持在格式化过程中进行转换
+ *
+ * 占位符格式：`{key[|converter[:arg1,arg2,...]][|converter2...]}`
+ *
+ * - `key` 为参数对象 `obj` 的属性名
+ * - 可以使用 `|` 连接多个转换器，依次执行
+ * - 转换器可以接受参数，参数通过 `:` 附加在转换器名称之后，多个参数使用 `,` 分隔
+ * - 如果占位符对应的 `key` 在 `obj` 中不存在，占位符会原样保留
+ *
+ * @param str 要格式化的字符串
+ * @param obj 格式化参数
+ * @param converters 自定义转换器，会与默认转换器合并（自定义的同名转换器会覆盖默认的）
+ * @returns 格式化后的字符串
+ * @example <caption>通过对象名称格式化</caption>
+ *     // 简单格式化
+ *     const say = convertString('Say {what} to {who}', {what: 'hello', who: 'you'});
+ *     // say 值为 'Say hello to you'
+ *
+ *     // 格式化并进行大写转换
+ *     const say = convertString('My name is {name|upper}', {name: 'jim'});
+ *     // say 值为 'My name is JIM'
+ *
+ *     // 格式化并进行日期转换
+ *     const say = convertString('The date is {date|date:yyyy-MM-dd}', {date: new Date()});
+ *     // say 值为 'The date is 2026-04-22'
+ *
+ *     // 多个转换器依次执行
+ *     const say = convertString('The password is {password|base64|quote}', {password: '123456'});
+ *     // say 值为 'The password is "MTIzNDU2"'
+ */
+export function formatWithPipes(str: string, obj: Record<string, unknown>, converters?: Record<string, StringConverter>): string {
+    const allConverters: Record<string, StringConverter> = converters ? {...defaultConverters, ...converters} : defaultConverters;
+
+    return str.replace(PLACEHOLDER_REGEX, (match, expr: string) => {
+        const segments = expr.split('|');
+        const key = segments[0].trim();
+        if (!Object.prototype.hasOwnProperty.call(obj, key)) {
+            return match;
+        }
+
+        let value: unknown = obj[key];
+        for (let i = 1; i < segments.length; i++) {
+            const {name, args} = parseConverterExpr(segments[i]);
+            if (!name) {
+                continue;
+            }
+            const converter = allConverters[name];
+            if (!converter) {
+                continue;
+            }
+            value = converter(value, ...args);
+        }
+
+        return value === undefined || value === null ? '' : String(value);
+    });
 }
 
 /**
@@ -26,6 +144,7 @@ export function formatString(str: string, ...args: unknown[]): string;
   * @example <caption>通过对象名称格式化</caption>
   *     const say = formatString('Say {what} to {who}', {what: 'hello', who: 'you'});
   *     // say 值为 'Say hello to you'
+  *
   */
 export function formatString(str: string, obj: Record<string, unknown>): string;
 
@@ -34,12 +153,7 @@ export function formatString(str: string, ...args: [Record<string, unknown>] | u
         return str;
     }
     if (args.length === 1 && typeof args[0] === 'object' && args[0]) {
-        const obj = args[0];
-        Object.keys(obj).forEach((key) => {
-            const value = (obj as Record<string, unknown>)[key] ?? '';
-            str = str.replace(new RegExp(`\\{${key}\\}`, 'g'), `${value}`);
-        });
-        return str;
+        return formatWithPipes(str, args[0] as Record<string, unknown>);
     }
 
     for (let i = 0; i < args.length; i++) {
