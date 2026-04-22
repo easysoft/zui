@@ -34,6 +34,9 @@ const defaultConverters: Record<string, StringConverter> = {
     urlEncode: (value: unknown) => encodeURIComponent(String(value)),
     urlDecode: (value: unknown) => decodeURIComponent(String(value)),
     capitalize: (value: unknown) => String(value).charAt(0).toUpperCase() + String(value).slice(1),
+    snake: (value: unknown) => String(value).replace(/([a-z])([A-Z])/g, '$1_$2').replace(/[\s-]+/g, '_').toLowerCase(),
+    kebab: (value: unknown) => String(value).replace(/([a-z])([A-Z])/g, '$1-$2').replace(/[\s_]+/g, '-').toLowerCase(),
+    camel: (value: unknown) => String(value).replace(/[-_\s]+(.)?/g, (_, c) => c ? c.toUpperCase() : ''),
     truncate: (value: unknown, length: string | number) => String(value).slice(0, Number(length)),
     ellipsis: (value: unknown, length: string | number) => {
         const str = String(value);
@@ -42,6 +45,19 @@ const defaultConverters: Record<string, StringConverter> = {
     },
     replace: (value: unknown, search: string, replace: string) => String(value).replace(search, replace ?? ''),
     replaceAll: (value: unknown, search: string, replace: string) => String(value).replaceAll(search, replace ?? ''),
+    fixed: (value: unknown, fractionDigits = '2') => Number(value).toFixed(Number(fractionDigits)),
+    currency: (value: unknown, currency = 'CNY') => new Intl.NumberFormat('zh-CN', {style: 'currency', currency}).format(Number(value)),
+    mask: (value: unknown, start = '3', end = '4') => {
+        const s = String(value);
+        return s.slice(0, Number(start)) + '*'.repeat(Math.max(0, s.length - Number(start) - Number(end))) + s.slice(-Number(end));
+    },
+    join: (value: unknown, sep = ',') => Array.isArray(value) ? value.join(sep) : String(value),
+    padStart: (value: unknown, len: string, pad = ' ') => String(value).padStart(Number(len), pad),
+    padEnd: (value: unknown, len: string, pad = ' ') => String(value).padEnd(Number(len), pad),
+    kebab: (value: unknown) => String(value).replace(/([a-z])([A-Z])/g, '$1-$2').replace(/[\s_]+/g, '-').toLowerCase(),
+    trim: (value: unknown) => String(value).trim(),
+    trimStart: (value: unknown) => String(value).trimStart(),
+    trimEnd: (value: unknown) => String(value).trimEnd(),
     default: (value: unknown, fallback: string) => (value === undefined || value === null || value === '' ? fallback : value),
 };
 
@@ -65,6 +81,32 @@ function parseConverterExpr(expr: string): {name: string; args: string[]} {
     const argsStr = expr.slice(colonIdx + 1);
     const args = argsStr.split(',').map(arg => arg.trim());
     return {name, args};
+}
+
+/**
+ * 转换字符串
+ * @param str 要转换的字符串
+ * @param expr 转换表达式
+ * @param converters 转换器
+ * @returns 转换后的字符串
+ */
+export function convertString(str: string, expr: string | string[], converters?: Record<string, StringConverter>): string {
+    converters = converters || defaultConverters;
+    const segments = typeof expr === 'string' ? expr.split('|') : expr;
+    let value: unknown = str;
+    for (let i = 1; i < segments.length; i++) {
+        const {name, args} = parseConverterExpr(segments[i]);
+        if (!name) {
+            continue;
+        }
+        const converter = converters[name];
+        if (!converter) {
+            continue;
+        }
+        value = converter(value, ...args);
+    }
+
+    return value === undefined || value === null ? '' : String(value);
 }
 
 /**
@@ -108,20 +150,7 @@ export function formatWithPipes(str: string, obj: Record<string, unknown>, conve
             return match;
         }
 
-        let value: unknown = obj[key];
-        for (let i = 1; i < segments.length; i++) {
-            const {name, args} = parseConverterExpr(segments[i]);
-            if (!name) {
-                continue;
-            }
-            const converter = allConverters[name];
-            if (!converter) {
-                continue;
-            }
-            value = converter(value, ...args);
-        }
-
-        return value === undefined || value === null ? '' : String(value);
+        return convertString(match, segments, allConverters);
     });
 }
 
