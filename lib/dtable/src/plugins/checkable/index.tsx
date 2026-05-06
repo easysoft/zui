@@ -280,7 +280,11 @@ const checkablePlugin: DTablePlugin<DTableCheckableTypes> = {
         if (!$target.length || $target.closest('btn,a,button.not-checkable,.form-control,.btn').length) {
             return;
         }
-        const $checkbox = $target.closest(checkboxSelector).not('.disabled');
+        const $checkbox = $target.closest(checkboxSelector);
+        if ($checkbox.closest('.disabled').length && !this.options.allowCheckDisabled) {
+            event.preventDefault();
+            return;
+        }
         if ($checkbox.length || this.options.checkOnClickRow) {
             this.toggleCheckRows(rowID);
         }
