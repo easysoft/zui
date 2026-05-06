@@ -116,12 +116,12 @@ function isAllRowChecked(this: DTableCheckable): boolean {
     const checkedLength = this.getChecks().length;
     const {canRowCheckable, allowCheckDisabled} = this.options;
     if (canRowCheckable) {
-        return checkedLength === this.layout?.allRows.reduce((length, row) => {
+        return checkedLength >= this.layout?.allRows.reduce((length, row) => {
             const checkable = canRowCheckable ? canRowCheckable.call(this, row.id) : true;
             return length + ((!checkable || (!allowCheckDisabled && checkable === 'disabled')) ? 0 : 1);
         }, 0);
     }
-    return checkedLength === allRowLength;
+    return checkedLength >= allRowLength;
 }
 
 function getChecks(this: DTableCheckable): string[] {
@@ -281,7 +281,7 @@ const checkablePlugin: DTablePlugin<DTableCheckableTypes> = {
             return;
         }
         const $checkbox = $target.closest(checkboxSelector);
-        if ($checkbox.closest('.disabled').length && !this.options.allowCheckDisabled) {
+        if ($checkbox.closest('.disabled').length) {
             event.preventDefault();
             return;
         }
