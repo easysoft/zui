@@ -8,7 +8,7 @@
     user-select: none;
 }
 .dtable-cell.is-select::after {
-    @apply -opacity-100 -border -border-[--dtable-selected-color] -z-10;
+    @apply -opacity-100 -border -border-[--dtable-selected-color] -z-10 --left-px;
 }
 .dtable-cell.is-selecting {
     background: var(--dtable-selecting-bg);
