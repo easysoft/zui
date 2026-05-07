@@ -1,11 +1,13 @@
 import {definePlugin} from '../../helpers/shared-plugins';
 import {mousemove} from '../mousemove';
+import {type DTableHotkeyTypes, hotkey} from '../hotkey';
 import './style.css';
 
 import type {DTableMousemoveTypes} from '../mousemove';
 import type {DTable, RowInfo, ColInfo} from '../../main-react';
 import type {DTableWithPlugin, DTablePlugin} from '../../types/plugin';
 import type {DTableAutoscrollTypes} from '../autoscroll';
+import type {DTableDraftTypes} from '../draft';
 
 export type DTableColIndex = number;
 export type DTableRowIndex = number;
@@ -26,6 +28,14 @@ export interface DTableSelectableTypes {
         beforeSelectCells: (this: DTableSelectable, cells: DTableCellPos[]) => void | DTableCellPos[];
         ignoreDeselectOn: string;
         markSelectRange: boolean;
+        selectableHotkeys?: {
+            selectAll?: boolean | string;
+            copy?: boolean | string;
+            selectRight?: boolean | string;
+            selectLeft?: boolean | string;
+            selectDown?: boolean | string;
+            selectUp?: boolean | string;
+        } | false;
     }>;
     state: {
         selectedMap: DTableCellPosMap;
@@ -56,10 +66,12 @@ export interface DTableSelectableTypes {
         getSelectedCols: typeof getSelectedCols;
         getSelectedRows: typeof getSelectedRows;
         selectOutsideClick?: (event: MouseEvent) => void;
+        copySelectedCols: (this: DTableSelectable) => boolean;
+        copySelections: (this: DTableSelectable) => boolean;
     };
 }
 
-type DTableSelectable = DTableWithPlugin<DTableSelectableTypes, [DTableMousemoveTypes, DTableAutoscrollTypes]>;
+type DTableSelectable = DTableWithPlugin<DTableSelectableTypes, [DTableHotkeyTypes, DTableMousemoveTypes, DTableAutoscrollTypes, DTableDraftTypes]>;
 
 const REG_CELL = /C(\d+)R(\d+)/i;
 const REG_SELECTION = /(?:C(\d+))?(?:R(\d+))?/i;
@@ -438,15 +450,142 @@ export function getMousePos(table: DTable, event: Event, options?: {ignoreHeader
     return {col: colIndex, row: rowIndex};
 }
 
-const selectablePlugin: DTablePlugin<DTableSelectableTypes, [DTableMousemoveTypes, DTableAutoscrollTypes]> = {
+function handleSelectNextCell(table: DTableSelectable, event: KeyboardEvent, direction?: 'right' | 'down' | 'left' | 'up') {
+    if (table.selectNextCell(direction)) {
+        event.preventDefault();
+        event.stopPropagation();
+    }
+}
+
+export function isEmptyCellData(data: unknown): boolean {
+    return data === undefined || data === null || (typeof data === 'string' && !data.length);
+}
+
+export function trimDataGrid(data: unknown[][]): unknown[][] {
+    let maxColIndex = 0;
+    let maxRowIndex = 0;
+    data.forEach((row, rowIndex) => {
+        row.forEach((cell, colIndex) => {
+            if (!isEmptyCellData(cell)) {
+                maxColIndex = Math.max(maxColIndex, colIndex);
+                maxRowIndex = Math.max(maxRowIndex, rowIndex);
+            }
+        });
+    });
+    return data.slice(0, maxRowIndex + 1).map(row => row.slice(0, maxColIndex + 1));
+}
+
+function copySelections(this: DTableSelectable) {
+    const selectedCells = this.getSelectedCells();
+    if (!selectedCells.length) {
+        return false;
+    }
+    let minColIndex = Number.MAX_SAFE_INTEGER;
+    let minRowIndex = Number.MAX_SAFE_INTEGER;
+    selectedCells.forEach((pos) => {
+        minColIndex = Math.min(pos.col, minColIndex);
+        minRowIndex = Math.min(pos.row, minRowIndex);
+    });
+    const data: unknown[][] = [];
+    selectedCells.forEach((pos) => {
+        const value = this.getCellDraftValue ? this.getCellDraftValue(pos.row, pos.col) : this.getCellValue(pos.row, pos.col);
+        let rowData = data[pos.row - minRowIndex];
+        if (!rowData) {
+            rowData = [];
+            data[pos.row - minRowIndex] = rowData;
+        }
+        rowData[pos.col - minColIndex] = value;
+    });
+    const plainText = trimDataGrid(data).map(x => x.join('\t')).join('\n');
+    navigator.clipboard.writeText(plainText);
+    return true;
+}
+
+function copySelectedCols(this: DTableSelectable) {
+    const selectedCols = this.getSelectedCols();
+    if (!selectedCols.length) {
+        return false;
+    }
+    const rowsCount = this.layout.rows.length;
+    const data: unknown[][] = [];
+    for (let i = -1; i < rowsCount; ++i) {
+        data.push(selectedCols.map((col) => {
+            const value = this.getCellDraftValue ? this.getCellDraftValue(i, col) : this.getCellValue(i, col);
+            if (i === -1 && value === col.name) {
+                return '';
+            }
+            return value;
+        }));
+    }
+    const plainText = trimDataGrid(data).map(x => x.join('\t')).join('\n');
+    navigator.clipboard.writeText(plainText);
+    return true;
+}
+
+const hotkeyHandlers: Record<string, (this: DTableSelectable, event: KeyboardEvent) => void> = {
+    selectAll(event) {
+        if (this.state.editingCell) {
+            return;
+        }
+        this.selectAllCells();
+        event.preventDefault();
+    },
+    copy(event) {
+        this.copySelections();
+        event.preventDefault();
+    },
+    selectRight(event) {
+        handleSelectNextCell(this, event, 'right');
+    },
+    selectLeft(event) {
+        handleSelectNextCell(this, event, 'left');
+    },
+    selectDown(event) {
+        handleSelectNextCell(this, event, 'down');
+    },
+    selectUp(event) {
+        handleSelectNextCell(this, event, 'up');
+    },
+};
+
+const selectablePlugin: DTablePlugin<DTableSelectableTypes, [DTableHotkeyTypes, DTableMousemoveTypes, DTableAutoscrollTypes, DTableDraftTypes]> = {
     name: 'selectable',
     defaultOptions: {selectable: true, markSelectRange: true},
     when: options => !!options.selectable,
-    plugins: [mousemove],
+    plugins: [mousemove, hotkey],
     state() {
         return {
             selectedMap: new Map(),
             selectingMap: new Map(),
+        };
+    },
+    options(options) {
+        const {selectableHotkeys, hotkeys} = options;
+        if (selectableHotkeys === false) {
+            return options;
+        }
+        const defaultHotkeys: Record<string, string> = {
+            selectAll: '$mod+a',
+            copy: '$mod+c',
+            selectRight: 'Tab,ArrowRight',
+            selectLeft: 'ArrowLeft',
+            selectDown: 'ArrowDown',
+            selectUp: 'ArrowUp',
+        };
+        const hotkeysOverride = {
+            ...hotkeys,
+            ...Object.entries({
+                ...defaultHotkeys,
+                ...selectableHotkeys,
+            }).reduce<NonNullable<typeof hotkeys>>((hotkeysMap, [name, key]) => {
+                if (key) {
+                    hotkeysMap[key === true ? defaultHotkeys[name] : key] = hotkeyHandlers[name]?.bind(this);
+                }
+                return hotkeysMap;
+            }, {}),
+        };
+        return {
+            hotkeys: hotkeysOverride,
         };
     },
     methods: {
@@ -466,6 +605,8 @@ const selectablePlugin: DTablePlugin<DTableSelectableTypes, [DTableMousemoveType
         selectAllCells,
         deselectAllCells,
         getSelectedCellsSize,
+        copySelections,
+        copySelectedCols,
     },
     events: {
         mousedown(event) {
