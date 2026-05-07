@@ -1,8 +1,8 @@
 :root {
-    --dtable-selected-color: var(--color-success-500);
-    --dtable-selected-bg: var(--color-success-50);
-    --dtable-selecting-bg: var(--color-success-100);
-    --dtable-highlight-color: var(--color-success-700);
+    --dtable-selected-color: var(--color-primary-300);
+    --dtable-selected-bg: var(--color-primary-50);
+    --dtable-selecting-bg: var(--color-primary-100);
+    --dtable-highlight-color: var(--color-primary-600);
 }
 .dtable-selectable {
     user-select: none;
@@ -10,10 +10,12 @@
 .dtable-cell.is-select::after {
     @apply -opacity-100 -border -border-[--dtable-selected-color] -z-10 --left-px;
 }
-.dtable-cell.is-selecting {
+.dtable-cell.is-selecting,
+.dtable-striped .dtable-cell.is-odd-row.is-selecting {
     background: var(--dtable-selecting-bg);
 }
-.dtable-cell.is-selected {
+.dtable-cell.is-selected,
+.dtable-striped .dtable-cell.is-odd-row.is-selected {
     background: var(--dtable-selected-bg);
 }
 .dtable-cell.is-row-selected[data-col="INDEX"]::after,
