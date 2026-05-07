@@ -8,9 +8,13 @@ export class Sortable extends Component<SortableOptions> {
         animation: 150,
     };
 
-    declare module: SortableModule;
+    protected _module?: SortableModule;
 
     protected _emptyShadow?: HTMLElement;
+
+    get module() {
+        return this._module;
+    }
 
     async afterInit() {
         const SortableModuleClass = await Sortable.loadModule();
@@ -33,7 +37,7 @@ export class Sortable extends Component<SortableOptions> {
             };
             delete options.dragShadow;
         }
-        this.module = new SortableModuleClass(this.element, options);
+        this._module = new SortableModuleClass(this.element, options);
     }
 
     /**
@@ -45,9 +49,9 @@ export class Sortable extends Component<SortableOptions> {
     option<K extends keyof SortableJSOptions>(name: K): SortableJSOptions[K];
     option<K extends keyof SortableJSOptions>(name: K, value?: SortableJSOptions[K]): void | SortableJSOptions[K] {
         if (value === undefined) {
-            return this.module.option(name);
+            return this._module?.option(name);
         }
-        this.module.option(name, value);
+        this._module?.option(name, value);
     }
 
     /**
@@ -56,7 +60,7 @@ export class Sortable extends Component<SortableOptions> {
      * @param selector default: `options.draggable`
      */
     closest(element: HTMLElement, selector?: string): HTMLElement | null {
-        return this.module.closest(element, selector);
+        return this._module!.closest(element, selector);
     }
 
     /**
@@ -65,14 +69,14 @@ export class Sortable extends Component<SortableOptions> {
      * @param useAnimation default: false.
      */
     sort(order: readonly string[], useAnimation?: boolean): void {
-        this.module.sort(order, useAnimation);
+        this._module!.sort(order, useAnimation);
     }
 
     /**
      * Saving and restoring of the sort.
      */
     save(): void {
-        this.module.save();
+        this._module!.save();
     }
 
     /**
@@ -80,14 +84,15 @@ export class Sortable extends Component<SortableOptions> {
      */
     destroy(): void {
         super.destroy();
-        this.module?.destroy();
+        this._module?.destroy();
+        this._module = undefined;
     }
 
     /**
      * Serializes the sortable's item data-id's (dataIdAttr option) into an array of string.
      */
     toArray(): string[] {
-        return this.module.toArray();
+        return this._module!.toArray();
     }
 
     static Module?: SortableClass;
