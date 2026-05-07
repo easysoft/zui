@@ -299,6 +299,7 @@ export const datagridPlugin: DTablePlugin<DTableDatagridTypes, DTableDatagridDep
         cellValueSplitter: '\t',
         cellValueGetter,
         hotkeys: {},
+        copyHeader: false,
         autoExpandGrid: true,
     },
     options(options) {

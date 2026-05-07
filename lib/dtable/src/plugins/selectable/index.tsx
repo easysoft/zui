@@ -28,6 +28,7 @@ export interface DTableSelectableTypes {
         beforeSelectCells: (this: DTableSelectable, cells: DTableCellPos[]) => void | DTableCellPos[];
         ignoreDeselectOn: string;
         markSelectRange: boolean;
+        copyHeader?: boolean;
         selectableHotkeys?: {
             selectAll?: boolean | string;
             copy?: boolean | string;
@@ -487,6 +488,7 @@ function copySelections(this: DTableSelectable) {
         minRowIndex = Math.min(pos.row, minRowIndex);
     });
     const data: unknown[][] = [];
+    const selectedColIndexes = new Set<number>();
     selectedCells.forEach((pos) => {
         const value = this.getCellDraftValue ? this.getCellDraftValue(pos.row, pos.col) : this.getCellValue(pos.row, pos.col);
         let rowData = data[pos.row - minRowIndex];
@@ -495,7 +497,20 @@ function copySelections(this: DTableSelectable) {
             data[pos.row - minRowIndex] = rowData;
         }
         rowData[pos.col - minColIndex] = value;
+        selectedColIndexes.add(pos.col);
     });
+    if (this.options.copyHeader) {
+        const headerRow: unknown[] = [];
+        selectedColIndexes.forEach((colIndex) => {
+            const colInfo = this.getColInfo(colIndex);
+            if (!colInfo) {
+                return;
+            }
+            const value = this.getCellDraftValue ? this.getCellDraftValue(-1, colInfo) : this.getCellValue(-1, colInfo);
+            headerRow[colIndex - minColIndex] = (value === colInfo.name) ? '' : value;
+        });
+        data.unshift(headerRow);
+    }
     const plainText = trimDataGrid(data).map(x => x.join('\t')).join('\n');
     navigator.clipboard.writeText(plainText);
     return true;
@@ -550,7 +565,11 @@ const hotkeyHandlers: Record<string, (this: DTableSelectable, event: KeyboardEve
 
 const selectablePlugin: DTablePlugin<DTableSelectableTypes, [DTableHotkeyTypes, DTableMousemoveTypes, DTableAutoscrollTypes, DTableDraftTypes]> = {
     name: 'selectable',
-    defaultOptions: {selectable: true, markSelectRange: true},
+    defaultOptions: {
+        selectable: true,
+        copyHeader: true,
+        markSelectRange: true,
+    },
     when: options => !!options.selectable,
     plugins: [mousemove, hotkey],
     state() {
