@@ -1,12 +1,6 @@
 .tooltip {
   @apply -z-tooltip -rounded -bg-[--tooltip-bg] -border-[--tooltip-color] -text-[--tooltip-text] -py-1 -px-2 -text-xs -max-w-md -whitespace-pre-wrap;
 }
-.tooltip:not(.white) > .arrow {
-  @apply -border-0;
-}
-.tooltip.white > .arrow {
-  border-color: inherit;
-}
 .tooltip-has-title {
   @apply -shadow-xl -px-3 -pt-2 -pb-3 -bg-opacity-80 -backdrop-blur;
 }
@@ -21,4 +15,13 @@
 }
 .tooltip-content {
   @apply -p-1;
+}
+
+.tooltip.light,
+.tooltip.white {
+  @apply -bg-canvas -text-fore -border-border-strong -border -border-solid;
+}
+.tooltip.light > .arrow,
+.tooltip.white > .arrow {
+  @apply -border-inherit;
 }
