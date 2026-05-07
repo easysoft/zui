@@ -2,7 +2,7 @@ import {$} from '@zui/core';
 import {definePlugin} from '../../helpers/shared-plugins';
 import {editable} from '../editable';
 import {resize} from '../resize';
-import {selectable, parseRange} from '../selectable';
+import {selectable, parseRange, isEmptyCellData} from '../selectable';
 import {hotkey} from '../hotkey';
 import {history} from '../history';
 import {autoscroll} from '../autoscroll';
@@ -35,19 +35,13 @@ export interface DTableDatagridTypes {
         autoExpandGrid?: boolean | number;
         datagridHotkeys?: {
             delete?: boolean | string;
-            selectAll?: boolean | string;
             paste?: boolean | string;
-            copy?: boolean | string;
             focus?: boolean | string;
             cancel?: boolean | string;
             cut?: boolean | string;
             redo?: boolean | string;
             undo?: boolean | string;
-            selectRight?: boolean | string;
-            selectLeft?: boolean | string;
-            selectDown?: boolean | string;
-            selectUp?: boolean | string;
-        };
+        } | false;
         cellValueSplitter?: string;
         onReadClipboardFail?: () => void;
         deletedKey?: string;
@@ -58,9 +52,7 @@ export interface DTableDatagridTypes {
     };
     methods: {
         deleteSelections: (this: DTableDatagrid) => boolean;
-        copySelections: (this: DTableDatagrid) => boolean;
         cutSelections: (this: DTableDatagrid) => boolean;
-        copySelectedCols: (this: DTableDatagrid) => boolean;
         pasteToSelectedCol: (this: DTableDatagrid) => Promise<boolean>;
         deleteSelectedCols: (this: DTableDatagrid) => boolean;
         deleteSelectedRows: (this: DTableDatagrid) => boolean;
@@ -122,13 +114,6 @@ function cellValueGetter(this: DTableDatagrid, row: RowInfo, col: ColInfo, origi
     return originValue;
 }
 
-function selectNextCell(table: DTableDatagrid, event: KeyboardEvent, direction?: 'right' | 'down' | 'left' | 'up') {
-    if (table.selectNextCell(direction)) {
-        event.preventDefault();
-        event.stopPropagation();
-    }
-}
-
 const hotkeyHandlers: Record<string, (this: DTableDatagrid, event: KeyboardEvent) => void> = {
     delete(event) {
         if ($(event.target as HTMLElement).is('input,textarea')) {
@@ -139,19 +124,8 @@ const hotkeyHandlers: Record<string, (this: DTableDatagrid, event: KeyboardEvent
     cut() {
         this.cutSelections();
     },
-    selectAll(event) {
-        if (this.state.editingCell) {
-            return;
-        }
-        this.selectAllCells();
-        event.preventDefault();
-    },
     paste() {
         this.pasteToSelection();
-    },
-    copy(event) {
-        this.copySelections();
-        event.preventDefault();
     },
     focus() {
         const selectedCell = this.getSelectedCells()[0];
@@ -173,18 +147,6 @@ const hotkeyHandlers: Record<string, (this: DTableDatagrid, event: KeyboardEvent
     },
     redo() {
         this.redoHistory();
-    },
-    selectRight(event) {
-        selectNextCell(this, event, 'right');
-    },
-    selectLeft(event) {
-        selectNextCell(this, event, 'left');
-    },
-    selectDown(event) {
-        selectNextCell(this, event, 'down');
-    },
-    selectUp(event) {
-        selectNextCell(this, event, 'up');
     },
 };
 
@@ -317,25 +279,6 @@ export function expandGridSize(this: DTableDatagrid, size: {rowsCount?: number; 
     return false;
 }
 
-function isEmptyCellData(data: unknown): boolean {
-    return data === undefined || data === null || (typeof data === 'string' && !data.length);
-}
-
-function trimDataGrid(data: unknown[][]): unknown[][] {
-    let maxColIndex = 0;
-    let maxRowIndex = 0;
-    data.forEach((row, rowIndex) => {
-        row.forEach((cell, colIndex) => {
-            if (!isEmptyCellData(cell)) {
-                maxColIndex = Math.max(maxColIndex, colIndex);
-                maxRowIndex = Math.max(maxRowIndex, rowIndex);
-            }
-        });
-    });
-    return data.slice(0, maxRowIndex + 1).map(row => row.slice(0, maxColIndex + 1));
-    return data;
-}
-
 export const datagridPlugin: DTablePlugin<DTableDatagridTypes, DTableDatagridDependencies> = {
     name: 'datagrid',
     plugins: [editable, selectable, hotkey, resize, history, autoscroll],
@@ -377,7 +320,7 @@ export const datagridPlugin: DTablePlugin<DTableDatagridTypes, DTableDatagridDep
         };
         const hotkeysOverride = {
             ...hotkeys,
-            ...Object.entries({
+            ...(datagridHotkeys === false ? {} : Object.entries({
                 ...defaultHotkeys,
                 ...datagridHotkeys,
             }).reduce<NonNullable<typeof hotkeys>>((hotkeysMap, [name, key]) => {
@@ -385,7 +328,7 @@ export const datagridPlugin: DTablePlugin<DTableDatagridTypes, DTableDatagridDep
                     hotkeysMap[key === true ? defaultHotkeys[name] : key] = hotkeyHandlers[name]?.bind(this);
                 }
                 return hotkeysMap;
-            }, {}),
+            }, {})),
         };
         return {
             hotkeys: hotkeysOverride,
@@ -471,26 +414,6 @@ export const datagridPlugin: DTablePlugin<DTableDatagridTypes, DTableDatagridDep
             }
             return false;
         },
-        copySelectedCols() {
-            const selectedCols = this.getSelectedCols();
-            if (!selectedCols.length) {
-                return false;
-            }
-            const rowsCount = this.layout.rows.length;
-            const data: unknown[][] = [];
-            for (let i = -1; i < rowsCount; ++i) {
-                data.push(selectedCols.map((col) => {
-                    const value = this.getCellDraftValue(i, col);
-                    if (i === -1 && value === col.name) {
-                        return '';
-                    }
-                    return value;
-                }));
-            }
-            const plainText = trimDataGrid(data).map(x => x.join('\t')).join('\n');
-            navigator.clipboard.writeText(plainText);
-            return true;
-        },
         clearSelectedCols() {
             const selectedCols = this.getSelectedCols();
             if (!selectedCols.length) {
@@ -527,31 +450,6 @@ export const datagridPlugin: DTablePlugin<DTableDatagridTypes, DTableDatagridDep
         cutSelectedCols() {
             this.copySelectedCols();
             return this.clearSelectedCols();
-        },
-        copySelections() {
-            const selectedCells = this.getSelectedCells();
-            if (!selectedCells.length) {
-                return false;
-            }
-            let minColIndex = Number.MAX_SAFE_INTEGER;
-            let minRowIndex = Number.MAX_SAFE_INTEGER;
-            selectedCells.forEach((pos) => {
-                minColIndex = Math.min(pos.col, minColIndex);
-                minRowIndex = Math.min(pos.row, minRowIndex);
-            });
-            const data: unknown[][] = [];
-            selectedCells.forEach((pos) => {
-                const value = this.getCellDraftValue(pos.row, pos.col);
-                let rowData = data[pos.row - minRowIndex];
-                if (!rowData) {
-                    rowData = [];
-                    data[pos.row - minRowIndex] = rowData;
-                }
-                rowData[pos.col - minColIndex] = value;
-            });
-            const plainText = trimDataGrid(data).map(x => x.join('\t')).join('\n');
-            navigator.clipboard.writeText(plainText);
-            return true;
         },
         cutSelections() {
             this.copySelections();
