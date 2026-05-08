@@ -1,5 +1,5 @@
 import {ComponentChildren, createRef} from 'preact';
-import {CustomContent, classes} from '@zui/core';
+import {CustomContent, classes, renderCustomContent} from '@zui/core';
 import {PickTrigger} from '@zui/pick/src/components';
 import {formatString} from '@zui/helpers';
 import {PickerSearch} from './picker-search';
@@ -81,7 +81,7 @@ export class PickerSingleSelect extends PickTrigger<PickerState, PickerSelectPro
         } else if (selection || (placeholder === undefined && display)) {
             const {text} = selection || {text: '', value: ''};
             if (typeof display === 'function') {
-                view = display.call(this, value, selections);
+                view = <CustomContent content={display.call(this, value, selections)} />;
             } else if (typeof display === 'string') {
                 view = formatString(display, selection);
             } else {
