@@ -5,6 +5,8 @@ import '@zui/menu';
 import '@zui/form-control';
 import '@zui/checkbox';
 import '@zui/avatar';
+import '@zui/search-box';
+import '@zui/input-control';
 import '@zui/tree';
 import {Picker} from './src/main';
 import {$} from '@zui/core';
@@ -196,4 +198,35 @@ onPageUpdate(() => {
         display: '已选择 {count} 项',
     });
     console.log('> noSearchMultiPicker', noSearchMultiPicker);
+
+    const customPicker = new Picker('#customPicker', {
+        items,
+        placeholder: '请选择你的最爱',
+        required: true,
+        search: false,
+        className: 'picker-btn state',
+
+        // 在下拉菜单内显示搜索框
+        menu: {
+            searchBox: true,
+            search: undefined,
+        },
+
+        // 自定义下拉菜单控件显示
+        display: (value, selections) => {
+            return {html: `<div>你选择了：${selections.map(x => x.text).join(',')}</div><style>.picker-btn {box-shadow: none!important;outline:none}.picker-btn .caret{display:none}</style><button type="button" class="picker-btn-trigger btn size-xs square"><i class="icon icon-exchange">↓</i></button>`, className: 'flex justify-between gap-2 p-px'};
+        },
+
+        // 自定义点击事件
+        onClick: (event) => {
+            if ($(event.target).closest('.picker-btn-trigger').length) {
+                return;
+            }
+
+            event.preventDefault();
+            // 执行自定义操作
+            console.log('> customPicker.onClick', event);
+        },
+    });
+    console.log('> customPicker', customPicker);
 });
