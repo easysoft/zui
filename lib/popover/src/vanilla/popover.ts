@@ -1,4 +1,4 @@
-import {arrow, computePosition, flip, shift, size, autoUpdate, offset, VirtualElement, ReferenceElement, ComputePositionConfig} from '@floating-ui/dom';
+import {arrow, computePosition, flip, shift, hide, size, autoUpdate, offset, VirtualElement, ReferenceElement, ComputePositionConfig} from '@floating-ui/dom';
 import {Component, $, ComponentEvents, JSX, evalValue, toCssSize, nextGid, ComponentOptions, parseSize} from '@zui/core';
 import {PopoverEvents, PopoverOptions, PopoverPanelOptions, PopoverSide} from '../types';
 import {PopoverPanel} from './popover-panel';
@@ -516,7 +516,7 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
     protected _getLayoutOptions(): [trigger: ReferenceElement, element: HTMLElement, options: Partial<ComputePositionConfig>] {
         const trigger = this.getTriggerElement();
         const element = this._targetElement!;
-        const {placement: placementSetting, flip: isFlip, limitSize, shift: shiftSetting, offset: offsetSetting, arrow: arrowSetting, strategy, maxHeight: maxHeightSetting, maxWidth: maxWidthSetting} = this.options;
+        const {placement: placementSetting, flip: isFlip, limitSize, shift: shiftSetting, offset: offsetSetting, arrow: arrowSetting, strategy, maxHeight: maxHeightSetting, maxWidth: maxWidthSetting, autoHide} = this.options;
         const arrowElement = arrowSetting ? element.querySelector('.arrow') : null;
         const arrowSize = arrowElement ? (typeof arrowSetting === 'number' ? arrowSetting : 5) : 0;
         const getOffsetSetting = () => {
@@ -555,6 +555,7 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
                         });
                     },
                 }) : null,
+                autoHide ? hide(typeof autoHide === 'object' ? autoHide : undefined) : null,
             ].filter(Boolean),
         }];
     }

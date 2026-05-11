@@ -1,4 +1,4 @@
-import type {Placement, Strategy, ShiftOptions, Derivable, VirtualElement, OffsetOptions} from '@floating-ui/dom';
+import type {Placement, Strategy, ShiftOptions, Derivable, VirtualElement, OffsetOptions, HideOptions} from '@floating-ui/dom';
 import type {Selector, SizeSetting} from '@zui/core';
 import type {PopoverPanelOptions} from './popover-panel-options';
 
@@ -40,6 +40,7 @@ export type PopoverOptions = Omit<PopoverPanelOptions, 'arrow' | 'arrowStyle' | 
     flip?: boolean;
     shift?: boolean | ShiftOptions | Derivable<ShiftOptions>;
     arrow?: boolean | number;
+    autoHide?: boolean | HideOptions;
     offset?: OffsetOptions;
     mask?: boolean;
     delay?: number;
