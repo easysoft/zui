@@ -5,7 +5,7 @@ import {addDate, createDate, formatDate, isSameDay, type DateLike} from '@zui/he
 import '@zui/css-icons/src/icons/chevron.css';
 import type {CalendarViewMode} from '../types';
 import type {CustomContentType} from '@zui/core/src/react';
-import type {ToolbarSetting, ToolbarOptions} from '@zui/toolbar';
+import type {ToolbarSetting, ToolbarOptions, ToolbarItemOptions} from '@zui/toolbar';
 
 /**
  * 日历头部的属性接口
@@ -32,6 +32,9 @@ export type CalendarHeaderProps = {
     /** 按钮尺寸，默认 'sm' */
     btnSize?: ToolbarOptions['size'];
 
+    /** 头部导航栏按钮 */
+    navItems?: ToolbarItemOptions[];
+
     /** 头部操作栏 */
     actions?: ToolbarSetting;
 };
@@ -41,7 +44,7 @@ export type CalendarHeaderProps = {
  */
 export class CalendarHeader extends Component<CalendarHeaderProps> {
     protected _getNavItems = (props: CalendarHeaderProps) => {
-        const {monthFormat = 'yyyy-MM', dateFormat = 'yyyy-MM-dd', date} = props;
+        const {monthFormat = 'yyyy-MM', dateFormat = 'yyyy-MM-dd', date, navItems = []} = props;
         const current = createDate(date, true);
         const today = new Date();
         current.setHours(0, 0, 0, 0);
@@ -55,7 +58,7 @@ export class CalendarHeader extends Component<CalendarHeaderProps> {
             {hint: formatDate(prev, monthFormat), text: '', textClass: 'chevron-left', command: `.~switchDate/${prev.getTime()}`},
             {type: 'text', text: formatDate(current, monthFormat)},
             {hint: formatDate(next, monthFormat), text: '', textClass: 'chevron-right', command: `.~switchDate/${next.getTime()}`},
-
+            ...navItems,
         ];
     };
 
