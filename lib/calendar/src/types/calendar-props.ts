@@ -59,6 +59,9 @@ export type CalendarProps = HElementProps & {
     /** 点击日历事件 */
     onClickEvent?: (event: CalendarEvent, category: CalendarCategory, mouseEvent: MouseEvent) => void;
 
+    /** 点击日历日期 */
+    onClickDay?: (date: Date, mouseEvent: MouseEvent) => void;
+
     /** 切换日期回调函数 */
     onSwitchDate?: (date: Date, mode: CalendarViewMode) => void;
 };

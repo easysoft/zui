@@ -1,6 +1,6 @@
 import {ComponentChildren, RenderableProps} from 'preact';
 import {HElementSignals, computed, effect} from '@zui/core';
-import {createDate, type DateLike, getDateTime} from '@zui/helpers';
+import {createDate, type DateLike, formatDate, getDateTime} from '@zui/helpers';
 import type {CalendarCategory, CalendarEvent, CalendarProps, CalendarState} from '../types';
 import {CalendarHeader} from './calendar-header';
 import {CalendarMonthView} from './calendar-month-view';
@@ -97,8 +97,18 @@ export class Calendar<P extends CalendarProps = CalendarProps> extends HElementS
         this.props.onClickEvent?.call(this, event, category!, mouseEvent);
     }
 
+    clickDay(dateStr: string, mouseEvent: MouseEvent) {
+        const date = createDate(dateStr);
+        this.props.onClickDay?.call(this, date, mouseEvent);
+    }
+
     getEvent(eventID: string) {
         return this.events.find(event => String(event.id) === String(eventID));
+    }
+
+    getDayEvents(date: DateLike) {
+        const dateStr = formatDate(date, 'yyyy-MM-dd');
+        return this.events.filter(event => formatDate(event.start, 'yyyy-MM-dd') === dateStr);
     }
 
     getCategory(categoryID: string) {

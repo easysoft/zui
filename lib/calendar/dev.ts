@@ -26,6 +26,10 @@ onPageLoad(() => {
         onClickEvent: (event, category, mouseEvent) => {
             console.log('> onClickEvent', {event, category, mouseEvent});
         },
+        onClickDay: function (date, mouseEvent) {
+            const dayEvents = this.getDayEvents(date);
+            console.log('> onClickDay', {date, mouseEvent, dayEvents});
+        },
     });
     console.log('> calendar', calendar);
 });

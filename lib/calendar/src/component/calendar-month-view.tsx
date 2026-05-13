@@ -46,7 +46,7 @@ export class CalendarMonthView extends Component<CalendarMonthViewProps> {
             'is-weekend': weekDay === 0 || weekDay === 6,
         });
         return (
-            <div className={className} key={dateStr} z-date={dateStr} zui-command={`.~clickDay/${dateStr}`}>
+            <div className={className} key={dateStr} z-date={dateStr} zui-command={`.~clickDay/${dateStr}/$.event`}>
                 <div className="calendar-month-view-day-head" title={dateStr}>
                     {(date === 1 && monthNames) ? <span class="calendar-month-view-month-name">{monthNames[day.getMonth()]}</span> : null}
                     <span class="calendar-month-view-day-number">{day.getDate()}</span>
