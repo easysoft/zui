@@ -1,7 +1,7 @@
 import 'zui-dev';
 import type {ComponentType} from 'preact';
 import yaml from 'js-yaml';
-import {$} from '@zui/core';
+import {$, jsx} from '@zui/core';
 import '@zui/button';
 import '@zui/icons';
 import '@zui/btn-group';
@@ -37,6 +37,9 @@ onPageUpdate(() => {
         defaultData,
         widgets: {
             progressCircle: ({value}) => [ProgressCircle as unknown as ComponentType, {percent: value || 0}],
+            customComponent: [(props: Record<string, unknown>) => {
+                return jsx`<div class="form-static-text">${props.value}</div>`;
+            }],
         },
         onSubmit: (event, data) => {
             console.log('onSubmit', event, data);

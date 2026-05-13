@@ -251,6 +251,12 @@ export const schema = {
                     },
                     extra: {html: '此处为了展示进度环的值的改变会触发表单项 <code>specials.progressCircle</code> 值的改变，使<strong>进度环</strong>显示新的值。'},
                 },
+                customComponent: {
+                    title: '自定义组件',
+                    type: 'string',
+                    defaultValue: '这是自定义组件的默认值',
+                    widget: 'customComponent'
+                }
             },
         },
     },
