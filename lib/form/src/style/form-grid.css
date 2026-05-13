@@ -21,6 +21,9 @@
   @apply -w-full;
 }
 
+.form-grid-rows {
+  @apply -w-full --mx-[--form-grid-gap-x-half];
+}
 .form-grid-row {
   @apply -w-full -flex -flex-row -py-[--form-grid-gap-y-half] -relative;
 }
