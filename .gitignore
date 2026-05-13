@@ -9,3 +9,5 @@ exts/
 publish/LICENSE
 publish/README.md
 .cursor/hooks/state
+.local.*
+*.local.*
