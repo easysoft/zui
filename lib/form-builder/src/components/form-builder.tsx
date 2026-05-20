@@ -54,6 +54,7 @@ export class FormBuilder extends HElement<FormBuilderOptions> {
             FormBuilder.loopSchema(this.schema, (schema, path) => {
                 map[path] = $.extend(true, schema, schemaPatches[path]);
             });
+            this._map.clear();
             return map;
         });
 
@@ -463,6 +464,7 @@ export class FormBuilder extends HElement<FormBuilderOptions> {
             <div key="body" className={`form-builder-body form-grid form-${schema.displayType || 'vert'}`}>
                 {title ? <div className="form-builder-title">{title}</div> : null}
                 <SchemaRenderer
+                    key={this.schemaMap}
                     infoGetter={this.getFieldSchemaInfo}
                     errorsGetter={this.getFieldValidationErrors}
                     onChangeField={this.setFieldValue}
