@@ -1,6 +1,6 @@
 import {Component, RenderableProps} from 'preact';
 import {FormControlProps, FormGroup} from '@zui/form-control/src/components';
-import {$} from '@zui/core';
+import {$, mergeProps} from '@zui/core';
 import {FieldSchemaInfo} from '../types';
 
 export interface SchemaFormItemProps {
@@ -43,7 +43,7 @@ export class SchemaFormItem extends Component<SchemaFormItemProps> {
 
     render({schemaInfo}: RenderableProps<SchemaFormItemProps>) {
         const {schema, value, widget: widgetSetting, path, required} = schemaInfo;
-        const {title, description, tooltip, disabled, readonly, placeholder} = schema;
+        const {title, description, tooltip, disabled, readonly, placeholder, props} = schema;
         const [widget, widgetProps] = widgetSetting;
         const controlProps: FormControlProps = {
             widget,
@@ -51,7 +51,7 @@ export class SchemaFormItem extends Component<SchemaFormItemProps> {
             readonly,
             placeholder,
             required,
-            props: widgetProps,
+            props: mergeProps({}, widgetProps, props),
             value: value,
             onChange: this._handleChange,
         };
