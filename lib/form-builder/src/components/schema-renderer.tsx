@@ -126,7 +126,7 @@ export class SchemaRenderer extends Component<SchemaRendererProps> {
         if (schema.hidden) {
             return null;
         }
-        const {extra, hint, width, type, disabled, readonly, required} = schema;
+        const {extra, hint, width, type, disabled, readonly, required, className} = schema;
         const widthStyle = this._getWidthStyle(width);
         return (
             <div
@@ -139,7 +139,7 @@ export class SchemaRenderer extends Component<SchemaRendererProps> {
                     'is-readonly': readonly,
                     'is-required': required,
                     'has-error': errors?.length,
-                })}
+                }, className)}
                 style={widthStyle ? {'flex-basis': widthStyle} : undefined}
             >
                 {this._renderSchema(schemaInfo)}

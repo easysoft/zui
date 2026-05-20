@@ -1,3 +1,4 @@
+import type {ClassNameLike} from '@zui/core';
 import type {TooltipOptions} from '@zui/tooltip';
 
 /**
@@ -74,6 +75,8 @@ export interface BaseSchema<T = unknown> {
     readonlyWidget?: string;
     /** 输入框占位符文本，支持 JavaScript 表达式 */
     placeholder?: string;
+    /** 字段的类名 */
+    className?: ClassNameLike;
     /** 传递给组件的额外属性，支持 JavaScript 表达式 */
     props?: Record<string, unknown>;
     /** 是否为必填字段，支持 JavaScript 表达式 */
