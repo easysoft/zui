@@ -513,6 +513,12 @@ export class FormBuilder extends HElement<FormBuilderOptions> {
             return [Picker as ComponentType, {
                 multiple,
             }, (value) => {
+                if ((multiple && isArray)) {
+                    if (!schema.required && !(value as string)?.length) {
+                        return [];
+                    }
+                    return (value as string).split((schema.props as {valueSplitter?: string})?.valueSplitter ?? ',');
+                }
                 return (multiple && isArray) ? (value as string).split((schema.props as {valueSplitter?: string})?.valueSplitter ?? ',') : value;
             }];
         },
