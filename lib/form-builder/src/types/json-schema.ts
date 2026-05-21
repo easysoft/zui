@@ -1,4 +1,4 @@
-import type {ClassNameLike} from '@zui/core';
+import type {ClassNameLike, CustomContentType} from '@zui/core';
 import type {TooltipOptions} from '@zui/tooltip';
 
 /**
@@ -33,7 +33,7 @@ export type FormValidateRule = {
  * 表单额外内容配置
  * 可以是纯文本或包含 HTML 的对象
  */
-export type FormExtra = string | {html: string};
+export type FormExtra = string | CustomContentType;
 
 /**
  * 表单网格宽度配置
