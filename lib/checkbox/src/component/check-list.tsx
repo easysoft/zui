@@ -95,17 +95,20 @@ export class CheckList<P extends CheckListProps = CheckListProps> extends HEleme
 
     protected _getChildren(props: RenderableProps<P>): ComponentChildren {
         const {name, id = this._defaultID, disabled, type = 'checkbox'} = props;
-        const {items, checked} = this.state;
+        const {items} = this.state;
+        const checked = this.checked;
+        const checkedSet = new Set(Array.isArray(checked) ? checked : [checked]);
         return items?.map((item) => {
             return (
                 <Checkbox
                     key={item.value}
                     name={name}
                     id={`${id}_${item.value}`}
+                    className={item.className}
                     label={item.label ?? item.text}
                     type={type}
                     value={item.value}
-                    checked={checked.includes(item.value)}
+                    checked={checkedSet.has(item.value)}
                     onChange={this._handleChange}
                     disabled={disabled}
                 />

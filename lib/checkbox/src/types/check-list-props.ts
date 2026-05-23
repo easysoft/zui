@@ -1,6 +1,6 @@
-import type {CustomContentType, FetcherSetting, HElementProps} from '@zui/core';
+import type {ClassNameLike, CustomContentType, FetcherSetting, HElementProps} from '@zui/core';
 
-export type CheckListItem = {label?: CustomContentType; text?: CustomContentType; value: string};
+export type CheckListItem = {label?: CustomContentType; text?: CustomContentType; value: string; className?: ClassNameLike};
 
 export interface CheckListProps extends HElementProps {
     type?: 'checkbox' | 'radio' | 'switch';
