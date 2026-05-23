@@ -9,6 +9,7 @@ export type TextAreaProps = {
     readonly?: boolean;
     autoHeight?: boolean;
     placeholder?: string;
+    rows?: number;
     onChange?: (value: string, event: Event) => void;
 };
 
