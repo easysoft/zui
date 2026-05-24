@@ -39,8 +39,6 @@ export type FormLayout = {
  * 继承自 ObjectSchema，添加了表单特有的布局和显示配置
  */
 export interface FormSchema extends ObjectSchema {
-    /** 表单的显示类型 */
-    displayType?: FormDisplayType;
     /** 表单的列数，用于栅格布局 */
     column?: number;
     /** 标签的宽度（像素） */

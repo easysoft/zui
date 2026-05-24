@@ -64,6 +64,7 @@ export const schema = {
         checkboxes: {
             title: '选择和开关',
             type: 'object',
+            displayType: 'horz',
             properties: {
                 checkbox: {
                     title: '开关',

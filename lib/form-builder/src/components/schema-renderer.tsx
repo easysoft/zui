@@ -1,7 +1,7 @@
 import {Component, ComponentChild, RenderableProps} from 'preact';
 import {classes, CustomContent} from '@zui/core';
 import {Collapsible} from '@zui/collapsible/src/components';
-import {ArraySchema, FieldSchemaInfo, FormGridWidth} from '../types';
+import {ArraySchema, FieldSchemaInfo, FormGridWidth, ObjectSchema} from '../types';
 import {SchemaFormItem} from './schema-form-item';
 
 export interface SchemaRendererProps {
@@ -22,7 +22,7 @@ export class SchemaRenderer extends Component<SchemaRendererProps> {
     protected _renderObjectSchema(schemaInfo: FieldSchemaInfo) {
         const {infoGetter, errorsGetter, path = '', onChangeField} = this.props;
         const {schema, properties = []} = schemaInfo;
-        const {title, description} = schema;
+        const {title, description, displayType} = schema as ObjectSchema;
         const cells: ComponentChild[] = [];
         for (const key of properties) {
             const propertyPath = path.length ? `${path}.${key}` : key;
@@ -36,7 +36,7 @@ export class SchemaRenderer extends Component<SchemaRendererProps> {
                     title={title}
                     caption={description}
                     className="form-builder-collapsible"
-                    contentClass="form-builder-items"
+                    contentClass={`form-builder-items form-${displayType}`}
                 >
                     {cells}
                 </Collapsible>

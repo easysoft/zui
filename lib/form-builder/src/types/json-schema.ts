@@ -1,5 +1,6 @@
 import type {ClassNameLike, CustomContentType} from '@zui/core';
 import type {TooltipOptions} from '@zui/tooltip';
+import {FormDisplayType} from './form-schema';
 
 /**
  * JSON Schema 支持的基本数据类型
@@ -156,6 +157,8 @@ export interface ObjectSchema extends BaseSchema<Record<string, unknown>> {
     collapsed?: boolean | 'disabled';
     /** 必填字段 */
     required?: string[];
+    /** 表单的显示类型 */
+    displayType?: FormDisplayType;
 }
 
 /**

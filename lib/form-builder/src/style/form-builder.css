@@ -53,3 +53,7 @@
 .form-item-error {
   @apply -text-danger-500;
 }
+
+.form-builder-items.form-horz .form-label {
+  @apply -top-[--form-grid-gap-y-half];
+}

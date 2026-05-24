@@ -31,7 +31,7 @@ onPageUpdate(() => {
         component: 'form',
         formName: 'json',
         schema: {
-            displayType: 'horz',
+            displayType: 'vert',
             ...schemaExampleStandard,
         } as FormSchema,
         defaultData,
