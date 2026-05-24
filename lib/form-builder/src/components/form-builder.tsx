@@ -470,6 +470,7 @@ export class FormBuilder extends HElement<FormBuilderOptions> {
                     onChangeField={this.setFieldValue}
                 />
                 {actions ? Toolbar.render(actions, [], {className: 'form-actions'}) : null}
+                {props.children}
             </div>
         );
     }
