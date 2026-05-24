@@ -136,6 +136,10 @@ export class FormControl extends Component<FormControlProps> {
             return this._renderTextarea(finalWidgetProps);
         }
 
+        if (widget === 'file') {
+            return this._renderInput({...finalWidgetProps, type: 'file'});
+        }
+
         if (widget === 'input') {
             return this._renderInput(finalWidgetProps);
         }
