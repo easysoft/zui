@@ -30,7 +30,7 @@ export class Draggable extends Component<DraggableOptions> {
     protected _$targets?: Cash;
 
     /** 标记是否需要执行清理。Whether cleanup is pending. */
-    protected declare _needClean: boolean;
+    protected _needClean = true;
 
     /** 拖拽事件监听容器的 Cash 包装。Cash-wrapped drag event container. */
     protected declare _$dragContainer: Cash;
@@ -303,7 +303,10 @@ export class Draggable extends Component<DraggableOptions> {
      * Clean up drag/drop state: remove all drag-related CSS classes and droppable attributes, reset internal state.
      */
     protected _clean() {
-        this._needClean = true;
+        if (this._needClean === false) {
+            return;
+        }
+        this._needClean = false;
 
         const {draggingClass, droppableClass, droppingClass, hasDraggingClass} = this.options;
         if (hasDraggingClass) {

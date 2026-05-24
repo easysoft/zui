@@ -26,9 +26,6 @@ export class Moveable extends Component<MoveableOptions> {
     /** 当前移动状态，未在移动时为 undefined。The current move state; undefined when idle. */
     protected _state?: MoveableState;
 
-    /** requestAnimationFrame 标识符。requestAnimationFrame handle. */
-    protected declare _raf: number;
-
     /** 获取当前移动状态。Get the current move state. */
     get state() {
         return this._state;
@@ -193,14 +190,15 @@ export class Moveable extends Component<MoveableOptions> {
         }
 
         const {deltaX, deltaY, event} = this._state!;
+        const oldState = this._state!;
         this._state = {
-            ...this._state!,
+            ...oldState,
             deltaX: deltaX + targetDx,
             deltaY: deltaY + targetDy,
         };
 
         this.options.onMove?.call(this, event, this._state);
-        this.options.onChange?.call(this, this._state, this._state, event);
+        this.options.onChange?.call(this, this._state, oldState, event);
     }
 
     /**
