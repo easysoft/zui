@@ -86,22 +86,9 @@ build/、dist/、publish/   构建中间产物 / 最终产物（gitignored）
 - 未使用变量以 `_` 开头可豁免（`argsIgnorePattern: '^_'`）。
 - TS 严格模式开启，但 `noImplicitReturns: false`；类型路径走 `@zui/*` 别名。
 
-## 提交规范
+## 代码提交
 
-- 首行格式：`<type> <scope>: <description>`
-  - `<type>`：`*` = change（修改）、`+` = addition（新增）、`-` = removal（移除）
-  - `<scope>`：`lib/<name>/` 下的库变更写作 `<lib-name>`（如 `button`）；仓库根或跨库变更写作 `proj`
-  - `<description>`：英文一句话简述本次变更
-- 提交信息全部使用英文，不允许 emoji
-- 如需详细说明，与首行空一行后用 Markdown 撰写，多条变更使用列表项
-
-示例：
-
-```text
-* zentao/form-designer: add textarea option to form field panel
-+ zentao/whiteboard: add new whiteboard extension
-* zentao: update pnpm-lock.yaml after dependency bump
-```
+代码提交参考 `.claude/commands/zui-commit.md`。
 
 ## 容易踩的坑
 
