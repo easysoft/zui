@@ -12,6 +12,8 @@ export type MapEditProps = {
     defaultValue?: MapValue;
     readonly?: boolean;
     onChange?: (value: MapValue) => void;
+    keyPlaceholder?: string;
+    valuePlaceholder?: string;
     keyWidth?: SizeSetting | 'auto';
     valueWidth?: SizeSetting | 'auto';
     maxWidth?: SizeSetting | 'auto';
@@ -82,11 +84,11 @@ export class MapEdit extends Component<MapEditProps> {
     }
 
     protected _renderItem(gid: number, key: string, value: string) {
-        const {readonly} = this.props;
+        const {readonly, keyPlaceholder, valuePlaceholder} = this.props;
         return (
             <div className="map-edit-item" key={gid} z-key={gid}>
-                <input className="map-edit-item-key form-control" type="text" value={key} readonly={readonly} onChange={this._handleKeyChange} />
-                <input className="map-edit-item-value form-control" type="text" value={value} readonly={readonly} onChange={this._handleValueChange} />
+                <input className="map-edit-item-key form-control" type="text" value={key} readonly={readonly} onChange={this._handleKeyChange} placeholder={keyPlaceholder} />
+                <input className="map-edit-item-value form-control" type="text" value={value} readonly={readonly} onChange={this._handleValueChange} placeholder={valuePlaceholder} />
                 <div className="map-edit-item-actions">
                     <Button type="ghost" size="sm" icon="plus" onClick={this._handleAddClick} />
                     <Button type="ghost" size="sm" icon="trash" onClick={this._handleDeleteClick} />
