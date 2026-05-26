@@ -49,6 +49,19 @@
 .w-4\/6   {@apply -w-4/6;}
 .w-5\/6   {@apply -w-5/6;}
 
+.w-1\/12  {@apply -w-1/12;}
+.w-2\/12  {@apply -w-2/12;}
+.w-3\/12  {@apply -w-3/12;}
+.w-4\/12  {@apply -w-4/12;}
+.w-5\/12  {@apply -w-5/12;}
+.w-6\/12  {@apply -w-6/12;}
+.w-7\/12  {@apply -w-7/12;}
+.w-8\/12  {@apply -w-8/12;}
+.w-9\/12  {@apply -w-9/12;}
+.w-10\/12 {@apply -w-10/12;}
+.w-11\/12 {@apply -w-11/12;}
+.w-12\/12 {@apply -w-full;}
+
 .w-auto   {@apply -w-auto;}
 .w-full   {@apply -w-full;}
 .w-screen {@apply -w-screen;}
