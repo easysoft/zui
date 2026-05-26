@@ -301,6 +301,7 @@ export const datagridPlugin: DTablePlugin<DTableDatagridTypes, DTableDatagridDep
         hotkeys: {},
         copyHeader: false,
         autoExpandGrid: true,
+        selectOnClickCell: true,
     },
     options(options) {
         const {datagridHotkeys, datasource, hotkeys, editable: editableOption, selectable: selectableOption, beforeSelectCells, showRowIndex, colResize, onPasteToCell, afterStageDraft} = options;

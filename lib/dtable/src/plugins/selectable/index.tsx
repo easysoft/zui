@@ -17,7 +17,7 @@ export type DTableCellSelection = `${DTableColSelection}${DTableRowSelection}`;
 export type DTableSelection = DTableColSelection | DTableRowSelection | DTableCellSelection;
 export type DTableRangeSelection = `${DTableSelection}:${DTableSelection}`;
 export type DTableSelections = (DTableSelection | DTableRangeSelection)[];
-export type DTableCellPos = {col: DTableColIndex; row: DTableRowIndex};
+export type DTableCellPos = {col: DTableColIndex; row: DTableRowIndex; event?: MouseEvent};
 
 export type DTableCellPosMap = Map<DTableColIndex, Set<DTableRowIndex>>;
 
@@ -29,6 +29,7 @@ export interface DTableSelectableTypes {
         ignoreDeselectOn: string;
         markSelectRange: boolean;
         copyHeader?: boolean;
+        selectOnClickCell?: boolean;
         selectableHotkeys?: {
             selectAll?: boolean | string;
             copy?: boolean | string;
@@ -433,7 +434,7 @@ function getSelectedCellsSize(this: DTableSelectable): number {
     return size;
 }
 
-export function getMousePos(table: DTable, event: Event, options?: {ignoreHeaderCell?: boolean}): DTableCellPos | undefined {
+export function getMousePos(table: DTable, event: MouseEvent, options?: {ignoreHeaderCell?: boolean}): DTableCellPos | undefined {
     const pointerInfo = table.getPointerInfo(event);
     if (!pointerInfo || pointerInfo.target.closest('input,textarea,[contenteditable]')) {
         return;
@@ -448,7 +449,7 @@ export function getMousePos(table: DTable, event: Event, options?: {ignoreHeader
         return;
     }
     const rowIndex = isHeaderRow ? (-1) : table.getRowInfo(rowID)?.index ?? -1;
-    return {col: colIndex, row: rowIndex};
+    return {col: colIndex, row: rowIndex, event};
 }
 
 function handleSelectNextCell(table: DTableSelectable, event: KeyboardEvent, direction?: 'right' | 'down' | 'left' | 'up') {
@@ -652,6 +653,16 @@ const selectablePlugin: DTablePlugin<DTableSelectableTypes, [DTableHotkeyTypes, 
             this.data.selectingStart = undefined;
             const pos = getMousePos(this, event);
             if (pos) {
+                // 如果鼠标只是点击没有移动（从按下到谈起的移动距离小于4px），并且没有启用 selectOnClickCell 则不进行选择
+                const startEvent = selectingStart.event;
+                if (startEvent && !this.options.selectOnClickCell) {
+                    const distance = Math.sqrt(Math.pow(event.clientX - startEvent.clientX, 2) + Math.pow(event.clientY - startEvent.clientY, 2));
+                    if (distance < 4) {
+                        return;
+                    }
+                    return;
+                }
+
                 const selection = stringifySelection(selectingStart, pos);
                 if (selection) {
                     requestAnimationFrame(() => this.selectCells(selection));
