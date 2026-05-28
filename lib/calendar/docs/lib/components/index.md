@@ -220,8 +220,16 @@ onMounted(() => {
 | `getCategory(id)` | 按 ID 查找日历集 |
 | `modifyEvents(events)` | 增量更新事件（与已有数据按 `id` 合并） |
 | `modifyCategories(categories)` | 增量更新日历集 |
+| `clickEvent(eventID, mouseEvent)` | 触发事件项点击行为，等价于用户点击对应事件 |
+| `clickDay(dateStr, mouseEvent)` | 触发日期格点击行为，等价于用户点击对应日期 |
 
 ## 数据结构
+
+文档中的 `DateLike` 类型来自 `@zui/helpers`，可接受以下任意形式：
+
+- `Date` 对象
+- 时间戳数字（毫秒，例如 `Date.now()`）
+- 可被 `new Date(...)` 识别的字符串（例如 `'2026-05-28'`）
 
 ### `CalendarEvent`
 

@@ -32,7 +32,7 @@ export type CalendarProps = HElementProps & {
     /** 日历事件，默认 [] */
     events?: CalendarEvent[];
 
-    /** 默认日历集，默认 '' */
+    /** 默认日历集，默认 'DEFAULT' */
     defaultCategory?: string;
 
     /** 是否只读 */
