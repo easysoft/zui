@@ -653,14 +653,13 @@ const selectablePlugin: DTablePlugin<DTableSelectableTypes, [DTableHotkeyTypes, 
             this.data.selectingStart = undefined;
             const pos = getMousePos(this, event);
             if (pos) {
-                // 如果鼠标只是点击没有移动（从按下到谈起的移动距离小于4px），并且没有启用 selectOnClickCell 则不进行选择
+                // 当 selectOnClickCell=false 时，鼠标按下到抬起移动距离小于 4px 视为点击，不触发选择
                 const startEvent = selectingStart.event;
                 if (startEvent && !this.options.selectOnClickCell) {
-                    const distance = Math.sqrt(Math.pow(event.clientX - startEvent.clientX, 2) + Math.pow(event.clientY - startEvent.clientY, 2));
+                    const distance = Math.hypot(event.clientX - startEvent.clientX, event.clientY - startEvent.clientY);
                     if (distance < 4) {
                         return;
                     }
-                    return;
                 }
 
                 const selection = stringifySelection(selectingStart, pos);
