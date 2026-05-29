@@ -71,4 +71,14 @@ export interface HElementProps extends PreactDOMAttributes, Attributes {
      * The commands callback map.
      */
     commands?: Record<string, CommandCallback>;
+
+    /**
+     * The mount callback.
+     */
+    onMounted?: () => void;
+
+    /**
+     * The unmount callback.
+     */
+    onUnmount?: () => void;
 }

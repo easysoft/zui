@@ -285,6 +285,7 @@ export class HElement<P extends HElementProps, S = object> extends Component<P, 
                 onCommand: this.executeCommand.bind(this),
             });
         }
+        this.props.onMounted?.call(this);
     }
 
     componentWillUnmount(): void {
@@ -292,6 +293,7 @@ export class HElement<P extends HElementProps, S = object> extends Component<P, 
         if (commands || onCommand) {
             unbindCommands(this.element, this.commandScope);
         }
+        this.props.onUnmount?.call(this);
     }
 
     render(props: RenderableProps<P>) {
