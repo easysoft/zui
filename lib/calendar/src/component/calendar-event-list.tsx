@@ -55,7 +55,7 @@ export class CalendarEventList extends Component<CalendarEventListProps> {
                 className: ['calendar-event-list-item', background ? 'has-bg' : ''],
                 style: (color || background) ? {'--calendar-event-color': color, '--calendar-event-background': background} : undefined,
                 multiline: false,
-                url: `#!.~clickEvent/${event.id}/$.event`,
+                props: {'zui-command': `.~clickEvent/${event.id}/$.event`},
             };
 
             if (eventRender) {
