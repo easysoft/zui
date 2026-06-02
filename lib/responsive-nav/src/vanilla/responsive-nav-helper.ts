@@ -270,7 +270,8 @@ export class ResponsiveNavHelper extends Component<ResponsiveNavHelperProps> {
                     items = toggleOptions.items || toggleOptions.menu?.items;
                 }
             }
-            return {items, text: $dropdown.find('.text').text(), icon: $dropdown.find('.icon').attr('class')?.replace('icon ', '')};
+            const text = $dropdown.find('.text').text();
+            return {items, text, icon: $dropdown.find('.icon').attr('class')?.replace('icon ', ''), attrs: {title: text}};
         }
         const attrs = Object.fromEntries(Array.from(element.attributes).map(attr => [attr.name, attr.value]));
         if (attrs.style) {
@@ -278,6 +279,10 @@ export class ResponsiveNavHelper extends Component<ResponsiveNavHelperProps> {
         }
         if (attrs.class) {
             attrs.class = attrs.class.replace('nav-item', 'menu-item');
+        }
+        const $text = $element.find('.text');
+        if ($text.length) {
+            attrs.title = $text.text();
         }
         return {type: 'node', html: $element.html(), attrs};
     }
