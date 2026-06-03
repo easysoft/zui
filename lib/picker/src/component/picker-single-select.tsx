@@ -1,5 +1,5 @@
 import {ComponentChildren, createRef} from 'preact';
-import {CustomContent, classes, renderCustomContent} from '@zui/core';
+import {CustomContent, classes} from '@zui/core';
 import {PickTrigger} from '@zui/pick/src/components';
 import {formatString} from '@zui/helpers';
 import {PickerSearch} from './picker-search';
