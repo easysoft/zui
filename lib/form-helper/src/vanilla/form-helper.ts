@@ -57,7 +57,11 @@ export class FormHelper {
         return this._$element;
     }
 
-    protected _queryField(query: string): Cash | undefined {
+    protected _queryField(query?: string): Cash | undefined {
+        query = query?.trim();
+        if (!query?.length) {
+            return;
+        }
         const $element = this._$element;
         if ('#.['.includes(query[0])) {
             const $field = $element.find(query);
