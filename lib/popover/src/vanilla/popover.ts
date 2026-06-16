@@ -347,24 +347,27 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
 
         const trigger = this.getTriggerElement();
         const target = this._targetElement;
-        const {minWidth, minHeight, maxWidth, maxHeight} = this.options;
-        if (!this._virtual) {
-            const style: JSX.CSSProperties = {
-                minWidth: toCssSize(minWidth),
-                minHeight: toCssSize(minHeight),
-                maxWidth: toCssSize(maxWidth),
-                maxHeight: toCssSize(maxHeight),
-            };
-            const {width, height} = this.options;
-            if (width) {
-                style.width = typeof width === 'function' ? width() : (width === '100%' ? $(trigger as HTMLElement).outerWidth() : width);
+        const {minWidth, minHeight, maxWidth, maxHeight, width, height} = this.options;
+        let style: JSX.CSSProperties = {
+            minWidth: toCssSize(minWidth),
+            minHeight: toCssSize(minHeight),
+            maxWidth: toCssSize(maxWidth),
+            maxHeight: toCssSize(maxHeight),
+        };
+        if (width) {
+            style.width = typeof width === 'function' ? width() : (width === '100%' && trigger ? $(trigger as HTMLElement).outerWidth() : width);
+        }
+        if (height) {
+            style.height = typeof height === 'function' ? height() : height;
+        }
+        style = Object.entries(style).reduce((acc, [key, value]) => {
+            if (value !== undefined && value !== null) {
+                acc[key] = value;
             }
-            if (height) {
-                style.height = typeof height === 'function' ? height() : height;
-            }
-            if (Object.keys(style).length) {
-                $(target).css(style);
-            }
+            return acc;
+        }, {} as JSX.CSSProperties);
+        if (Object.keys(style).length) {
+            $(target).css(style);
         }
         this.updatePosition();
     }
