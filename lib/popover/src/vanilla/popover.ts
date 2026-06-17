@@ -355,7 +355,7 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
             maxHeight: toCssSize(maxHeight),
         };
         if (width) {
-            style.width = typeof width === 'function' ? width() : (width === '100%' && trigger ? $(trigger as HTMLElement).outerWidth() : width);
+            style.width = typeof width === 'function' ? width() : (width === '100%' && trigger ? trigger.getBoundingClientRect().width : width);
         }
         if (height) {
             style.height = typeof height === 'function' ? height() : height;
