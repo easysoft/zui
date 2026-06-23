@@ -14,6 +14,8 @@ function setHeader(headers: HeadersInit, name: string, value: string) {
 
 function getDataType(contentType: string | undefined | null, accepts: Record<string, string> | undefined) {
     if (contentType) {
+        // Content-Type 可能带 charset 等参数（如 application/json; charset=utf-8），只取 mime 部分比对。
+        const mime = contentType.split(';')[0].trim();
         const map = {
             text: 'text/plain',
             html: 'text/html',
@@ -21,7 +23,7 @@ function getDataType(contentType: string | undefined | null, accepts: Record<str
             ...accepts,
         };
         for (const [key, value] of Object.entries(map)) {
-            if (value.split(',').map(x => x.trim()).includes(contentType)) {
+            if (value.split(',').map(x => x.trim()).includes(mime)) {
                 return key;
             }
         }
