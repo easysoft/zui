@@ -94,8 +94,10 @@ export class Ajax<T = unknown> {
 
     then(resolve: (data: T) => void, reject?: (error: Error) => void) {
         if (this.completed) {
-            if (reject && this.error) {
-                reject(this.error);
+            if (this.error) {
+                if (reject) {
+                    reject(this.error);
+                }
             } else {
                 resolve(this.data);
             }
@@ -151,6 +153,10 @@ export class Ajax<T = unknown> {
             accepts,
             dataType,
             timeout,
+            jsonParser,
+            traditional,
+            convert,
+            throws,
             dataFilter,
             beforeSend,
             success,
@@ -201,6 +207,16 @@ export class Ajax<T = unknown> {
         }
         initOptions.headers = headers;
 
+        if (success) {
+            this.success(success);
+        }
+        if (error) {
+            this.fail(error);
+        }
+        if (complete) {
+            this.complete(complete);
+        }
+
         const beforeSends = [...(this.constructor as typeof Ajax).globalBeforeSends, beforeSend];
         for (const callback of beforeSends) {
             if (!callback) {
@@ -213,16 +229,6 @@ export class Ajax<T = unknown> {
             if (result) {
                 Object.assign(initOptions, result);
             }
-        }
-
-        if (success) {
-            this.success(success);
-        }
-        if (error) {
-            this.fail(error);
-        }
-        if (complete) {
-            this.complete(complete);
         }
 
         if (initOptions.signal) {
@@ -247,7 +253,15 @@ export class Ajax<T = unknown> {
             return [];
         }
         if (this._init() === false) {
-            return [];
+            // beforeSend 返回 false，取消请求；标记为已完成并通知 error/complete。
+            const abortError = this._abortError || new Error('abort');
+            this.error = abortError;
+            this._emit('error', abortError, undefined, abortError.message);
+            this._emit('complete', undefined, undefined);
+            if (this.setting.throws) {
+                throw abortError;
+            }
+            return [undefined, abortError, undefined];
         }
 
         const {timeout, dataType: dataTypeSetting, accepts, dataFilter, throws, jsonParser, convert} = this.setting;
@@ -285,9 +299,11 @@ export class Ajax<T = unknown> {
                 if (convert) {
                     data = await convert(data, dataType);
                 }
+                if (dataFilter) {
+                    data = dataFilter(data, dataType) ?? data;
+                }
                 this.data = data as T;
-                const filteredData = dataFilter?.(data, dataType) ?? data;
-                this._emit('success', filteredData, statusText, response);
+                this._emit('success', data, statusText, response);
             } else {
                 this.data = await response.text() as T;
                 throw new Error(statusText);
