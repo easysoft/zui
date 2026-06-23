@@ -14,6 +14,10 @@ export class LibLoader<T = unknown> {
         }
     }
 
+    get loaded() {
+        return !!this._module;
+    }
+
     get Module(): T {
         if (!this._module) {
             throw new Error('[ZUI] LibLoader.Module is not loaded.');
