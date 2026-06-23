@@ -160,12 +160,34 @@ export class Ajax<T = unknown> {
         if (type) {
             initOptions.method = type;
         }
+        let requestUrl = url;
+        const method = (initOptions.method || 'GET').toUpperCase();
         let dataSetting = data;
         if (dataSetting) {
-            if (processData) {
-                dataSetting = createFormData(dataSetting);
+            if (method === 'GET' || method === 'HEAD') {
+                // GET/HEAD 请求不能带 body，数据并入 url 查询串。
+                let query: string;
+                if (processData) {
+                    const params = new URLSearchParams();
+                    createFormData(dataSetting).forEach((value, name) => {
+                        params.append(name, typeof value === 'string' ? value : String(value));
+                    });
+                    query = params.toString();
+                } else {
+                    query = typeof dataSetting === 'string' ? dataSetting : new URLSearchParams(dataSetting as Record<string, string>).toString();
+                }
+                if (query) {
+                    const hashIndex = requestUrl.indexOf('#');
+                    const hash = hashIndex < 0 ? '' : requestUrl.slice(hashIndex);
+                    const base = hashIndex < 0 ? requestUrl : requestUrl.slice(0, hashIndex);
+                    requestUrl = `${base}${base.includes('?') ? '&' : '?'}${query}${hash}`;
+                }
+            } else {
+                if (processData) {
+                    dataSetting = createFormData(dataSetting);
+                }
+                initOptions.body = dataSetting as BodyInit;
             }
-            initOptions.body = dataSetting as BodyInit;
         }
         if (crossDomain) {
             initOptions.mode = 'cors';
@@ -177,12 +199,6 @@ export class Ajax<T = unknown> {
         }
         initOptions.headers = headers;
 
-        if (initOptions.signal) {
-            initOptions.signal.addEventListener('abort', () => {
-                this.abort();
-            });
-        }
-
         const beforeSends = [...(this.constructor as typeof Ajax).globalBeforeSends, beforeSend];
         for (const callback of beforeSends) {
             if (!callback) {
@@ -190,7 +206,7 @@ export class Ajax<T = unknown> {
             }
             const result = callback.call(this, initOptions);
             if (result === false) {
-                return;
+                return false;
             }
             if (result) {
                 Object.assign(initOptions, result);
@@ -206,8 +222,15 @@ export class Ajax<T = unknown> {
         if (complete) {
             this.complete(complete);
         }
+
+        if (initOptions.signal) {
+            initOptions.signal.addEventListener('abort', () => {
+                this.abort();
+            });
+        }
         initOptions.signal = this._controller.signal;
-        this.url = url;
+
+        this.url = requestUrl;
         this.request = initOptions;
     }
 
@@ -221,7 +244,9 @@ export class Ajax<T = unknown> {
         if (this.completed) {
             return [];
         }
-        this._init();
+        if (this._init() === false) {
+            return [];
+        }
 
         const {timeout, dataType: dataTypeSetting, accepts, dataFilter, throws, jsonParser, convert} = this.setting;
         if (timeout) {
