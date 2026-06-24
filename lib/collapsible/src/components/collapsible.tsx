@@ -88,12 +88,12 @@ export class Collapsible extends HElement<CollapsibleProps, CollapsibleState> {
     }
 
     protected _renderBody(props: RenderableProps<CollapsibleProps>) {
-        const {content, contentClass, children, onlyHideOnCollapsed} = props;
+        const {content, contentClass, contentStyle, children, onlyHideOnCollapsed} = props;
         if (!onlyHideOnCollapsed && this.collapsed) {
             return null;
         }
         return (
-            <div key="content" className={classes('collapsible-body', contentClass)}>
+            <div key="content" className={classes('collapsible-body', contentClass)} style={contentStyle}>
                 <CustomContent content={content} />
                 {children}
             </div>
