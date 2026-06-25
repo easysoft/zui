@@ -53,8 +53,10 @@ onPageUpdate(() => {
     console.log('> timePicker', timePicker);
 
     const datetimePicker = new DatetimePicker('#datetime-picker-example', {
-        maxDate: '2024-2-20 8:00',
+        maxDate: '2028-2-20 8:00',
         minDate: '2023-12-1 12:00',
+        format: 'yyyy-MM-dd hh:mm:ss',
+        defaultValue: 'today',
     });
     console.log('> datetimePicker', datetimePicker);
 });
