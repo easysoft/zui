@@ -1,4 +1,5 @@
 .pnpm-debug.log
+.pnpm-store/
 node_modules/
 dist/
 build/
