@@ -67,7 +67,7 @@ export class Moveable extends Component<MoveableOptions> {
             let strategy: MoveableStrategy;
             if (this.options.move === true) {
                 const position = $target.css('position');
-                strategy = (position === 'fixed' || position === 'absolute' || position === 'relative') ? 'position' : 'transform';
+                strategy = (position === 'fixed' || position === 'absolute') ? 'position' : 'transform';
             } else {
                 strategy = this.options.move || 'none';
             }
@@ -167,6 +167,10 @@ export class Moveable extends Component<MoveableOptions> {
         const {selector, handle, onMoveStart} = options;
         const $clickTarget = $(event.target as HTMLElement);
         const $moveElement = selector === 'self' ? this.$element : $clickTarget.closest(selector);
+
+        if (this._state) {
+            this._clean();
+        }
 
         const moveElement = $moveElement[0];
         if (!moveElement || (handle && !$clickTarget.closest(handle).length)) {
