@@ -1,4 +1,5 @@
 import {Component, $, Cash} from '@zui/core';
+import {matchesHandle} from '../helpers';
 import {DraggableOptions, DraggableState} from '../types';
 
 /** 匹配所有标记了 droppable 属性的元素。Matches all elements with the droppable attribute. */
@@ -115,7 +116,7 @@ export class Draggable extends Component<DraggableOptions> {
         const $dragElement = $clickTarget.closest(selector);
 
         const dragElement = $dragElement[0];
-        if (!dragElement || (handle && !$clickTarget.closest(handle).length)) {
+        if (!dragElement || !matchesHandle($clickTarget, handle)) {
             return;
         }
 

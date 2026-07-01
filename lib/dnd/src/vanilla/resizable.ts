@@ -1,6 +1,16 @@
 import {Component, $} from '@zui/core';
 import type {DistanceRect, ResizableDirection, ResizableOptions, ResizableState, ResizableUpdateInfo} from '../types';
-import {Moveable} from './moveable';
+import {
+    bindDocumentMouseEvents,
+    cancelMouseMoveFrame,
+    clamp,
+    getMatchingTargets,
+    getTranslate,
+    requestMouseMoveFrame,
+    resolveContainerElement,
+    resolveContainerRect,
+    unbindDocumentMouseEvents,
+} from '../helpers';
 
 import '../css/resizable.css';
 
@@ -141,7 +151,7 @@ export class Resizable extends Component<ResizableOptions> {
 
         if (target && direction) {
             const targetRect = target.getBoundingClientRect();
-            const translate = Moveable.getTranslate(target);
+            const translate = getTranslate(target);
             this._runtime = {
                 target,
                 startWidth: targetRect.width,
@@ -277,8 +287,7 @@ export class Resizable extends Component<ResizableOptions> {
             return;
         }
 
-        const {namespace} = this;
-        $(document).off(namespace).on(`mousemove${namespace}`, this._handleMouseMove).on(`mouseup${namespace}`, this._handleMouseUp);
+        bindDocumentMouseEvents(this.namespace, this._handleMouseMove, this._handleMouseUp);
     };
 
     /**
@@ -290,10 +299,7 @@ export class Resizable extends Component<ResizableOptions> {
             return;
         }
         event.preventDefault();
-        if (this._raf) {
-            cancelAnimationFrame(this._raf);
-        }
-        this._raf = requestAnimationFrame(() => {
+        this._raf = requestMouseMoveFrame(this._raf, () => {
             this._raf = 0;
             this._setState(event);
         });
@@ -308,10 +314,7 @@ export class Resizable extends Component<ResizableOptions> {
             return;
         }
         event.preventDefault();
-        if (this._raf) {
-            cancelAnimationFrame(this._raf);
-            this._raf = 0;
-        }
+        this._raf = cancelMouseMoveFrame(this._raf);
         this._setState(event);
         this.options.onResizeEnd?.call(this, event, this._state);
         this._clean();
@@ -322,7 +325,7 @@ export class Resizable extends Component<ResizableOptions> {
      * Clean up resize state: remove document events, classes, animation frame and state.
      */
     protected _clean() {
-        $(document).off(this.namespace);
+        unbindDocumentMouseEvents(this.namespace);
         const {hasResizingClass, resizingClass} = this.options;
         if (hasResizingClass) {
             this.$element.removeClass(hasResizingClass);
@@ -335,10 +338,7 @@ export class Resizable extends Component<ResizableOptions> {
             $(this._activeHandle).removeClass(RESIZABLE_HANDLE_ACTIVE_CLASS);
             this._activeHandle = undefined;
         }
-        if (this._raf) {
-            cancelAnimationFrame(this._raf);
-            this._raf = 0;
-        }
+        this._raf = cancelMouseMoveFrame(this._raf);
         this._state = undefined;
         this._runtime = undefined;
     }
@@ -401,11 +401,11 @@ export class Resizable extends Component<ResizableOptions> {
 
         if (edge === 'start') {
             min = startMin + delta;
-            const size = Moveable.clamp(max - min, minSize, maxSize);
+            const size = clamp(max - min, minSize, maxSize);
             min = max - size;
         } else if (edge === 'end') {
             max = startMax + delta;
-            const size = Moveable.clamp(max - min, minSize, maxSize);
+            const size = clamp(max - min, minSize, maxSize);
             max = min + size;
         }
 
@@ -424,7 +424,7 @@ export class Resizable extends Component<ResizableOptions> {
                 }
             } else {
                 const size = max - min;
-                min = Moveable.clamp(min, bounds.min, bounds.max - size);
+                min = clamp(min, bounds.min, bounds.max - size);
                 max = min + size;
             }
         }
@@ -440,23 +440,7 @@ export class Resizable extends Component<ResizableOptions> {
      * Resolve the element for the `container` option when it can be resolved to a DOM element.
      */
     protected _getContainerElement(): Element | null {
-        const {container} = this.options;
-        if (!container || container === 'window') {
-            return null;
-        }
-        if (container === 'self') {
-            return this.element;
-        }
-        if (container === 'parent') {
-            return this.element.parentElement;
-        }
-        if (typeof container === 'string') {
-            return document.querySelector(container);
-        }
-        if (container instanceof Element) {
-            return container;
-        }
-        return null;
+        return resolveContainerElement(this.options.container, this.element);
     }
 
     /**
@@ -464,36 +448,7 @@ export class Resizable extends Component<ResizableOptions> {
      * Resolve the area rect for the `container` option, shrunk by `containerPadding`.
      */
     protected _getContainerRect(): DistanceRect | null {
-        const {container, containerPadding} = this.options;
-        if (container === false || container === undefined) {
-            return null;
-        }
-
-        let rect: {left: number; top: number; right: number; bottom: number} | undefined;
-        if (container === 'window') {
-            rect = {left: 0, top: 0, right: window.innerWidth, bottom: window.innerHeight};
-        } else {
-            const element = this._getContainerElement();
-            if (element) {
-                const box = element.getBoundingClientRect();
-                rect = {left: box.left, top: box.top, right: box.right, bottom: box.bottom};
-            } else if (typeof (container as {getBoundingClientRect?: unknown}).getBoundingClientRect === 'function') {
-                const box = (container as {getBoundingClientRect(): DOMRect}).getBoundingClientRect();
-                rect = {left: box.left, top: box.top, right: box.right, bottom: box.bottom};
-            }
-        }
-
-        if (!rect) {
-            return null;
-        }
-
-        const padding = Moveable.normalizePadding(containerPadding);
-        return {
-            left: rect.left + padding.left,
-            top: rect.top + padding.top,
-            right: rect.right - padding.right,
-            bottom: rect.bottom - padding.bottom,
-        };
+        return resolveContainerRect(this.options.container, this.options.containerPadding, this.element);
     }
 
     /**
@@ -501,17 +456,7 @@ export class Resizable extends Component<ResizableOptions> {
      * Get all target elements matching selector (returns the root element when selector is "self").
      */
     protected _getMatchingTargets(): HTMLElement[] {
-        const {selector} = this.options;
-        if (selector === 'self') {
-            return [this.element];
-        }
-        const targets: HTMLElement[] = [];
-        if (selector) {
-            this.$element.find(selector).each((_index, element) => {
-                targets.push(element as HTMLElement);
-            });
-        }
-        return targets;
+        return getMatchingTargets(this.element, this.options.selector);
     }
 
     /**

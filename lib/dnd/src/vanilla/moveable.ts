@@ -1,4 +1,17 @@
 import {Component, $} from '@zui/core';
+import {
+    bindDocumentMouseEvents,
+    cancelMouseMoveFrame,
+    clamp,
+    getMatchingTargets,
+    getTranslate,
+    matchesHandle,
+    normalizePadding,
+    requestMouseMoveFrame,
+    resolveContainerElement,
+    resolveContainerRect,
+    unbindDocumentMouseEvents,
+} from '../helpers';
 import {DistanceRect, MoveableAutoUpdateOptions, MoveableOptions, MoveableState, MoveableStrategy, MoveableUpdateInfo} from '../types';
 
 /** 匹配所有标记了 moveable 属性的元素。Matches all elements with the moveable attribute. */
@@ -35,7 +48,7 @@ export class Moveable extends Component<MoveableOptions> {
     protected _restStrategy?: MoveableStrategy;
 
     /** 用于取消动画帧的 ID。The ID for canceling the animation frame. */
-    protected declare _raf: number;
+    protected _raf = 0;
 
     /** autoUpdate 使用的 ResizeObserver。The ResizeObserver used by autoUpdate. */
     protected _resizeObserver?: ResizeObserver;
@@ -77,7 +90,7 @@ export class Moveable extends Component<MoveableOptions> {
     destroy(): void {
         this.stopAutoUpdate();
         this._clean();
-        $(document).off(this.namespace);
+        unbindDocumentMouseEvents(this.namespace);
         super.destroy();
     }
 
@@ -92,7 +105,7 @@ export class Moveable extends Component<MoveableOptions> {
             const $target = $(target);
             const strategy = this._resolveStrategy(target);
 
-            const position = strategy === 'transform' ? Moveable.getTranslate(target) : (strategy === 'scroll' ? {left: target.scrollLeft, top: target.scrollTop} : $target.position()!);
+            const position = strategy === 'transform' ? getTranslate(target) : (strategy === 'scroll' ? {left: target.scrollLeft, top: target.scrollTop} : $target.position()!);
             const clientRect = target.getBoundingClientRect();
             newState = $.extend(newState, {
                 strategy,
@@ -211,7 +224,7 @@ export class Moveable extends Component<MoveableOptions> {
         }
 
         const moveElement = $moveElement[0];
-        if (!moveElement || (handle && !$clickTarget.closest(handle).length)) {
+        if (!moveElement || !matchesHandle($clickTarget, handle)) {
             return;
         }
 
@@ -238,8 +251,7 @@ export class Moveable extends Component<MoveableOptions> {
             }
             return;
         }
-        const {namespace} = this;
-        $(document).off(namespace).on(`mousemove${namespace}`, this._handleMouseMove.bind(this)).on(`mouseup${namespace}`, this._handleMouseUp.bind(this));
+        bindDocumentMouseEvents(this.namespace, this._handleMouseMove, this._handleMouseUp);
     };
 
     /**
@@ -252,10 +264,7 @@ export class Moveable extends Component<MoveableOptions> {
             return;
         }
         event.preventDefault();
-        if (this._raf) {
-            cancelAnimationFrame(this._raf);
-        }
-        this._raf = requestAnimationFrame(() => {
+        this._raf = requestMouseMoveFrame(this._raf, () => {
             this._raf = 0;
             this._setState(event);
         });
@@ -269,10 +278,7 @@ export class Moveable extends Component<MoveableOptions> {
         if (!this._state) {
             return;
         }
-        if (this._raf) {
-            cancelAnimationFrame(this._raf);
-            this._raf = 0;
-        }
+        this._raf = cancelMouseMoveFrame(this._raf);
         this._setState(event);
         this.options.onMoveEnd?.call(this, event, this._state!);
         this._clean();
@@ -283,7 +289,7 @@ export class Moveable extends Component<MoveableOptions> {
      * Clean up move state: remove global event listeners, remove CSS classes, reset internal state.
      */
     protected _clean() {
-        $(document).off(this.namespace);
+        unbindDocumentMouseEvents(this.namespace);
         const {hasMovingClass, movingClass} = this.options;
         if (hasMovingClass) {
             this.$element.removeClass(hasMovingClass);
@@ -295,10 +301,7 @@ export class Moveable extends Component<MoveableOptions> {
                 $moveElement.removeClass(movingClass);
             }
         }
-        if (this._raf) {
-            cancelAnimationFrame(this._raf);
-            this._raf = 0;
-        }
+        this._raf = cancelMouseMoveFrame(this._raf);
         this._state = undefined;
     }
 
@@ -324,23 +327,7 @@ export class Moveable extends Component<MoveableOptions> {
      * @returns 容器元素，无法解析为元素（如 window、普通对象、false）时返回 null。The container element, or null when it does not resolve to an element (e.g. window, a plain object, or false).
      */
     protected _getContainerElement(): Element | null {
-        const {container} = this.options;
-        if (!container || container === 'window') {
-            return null;
-        }
-        if (container === 'self') {
-            return this.element;
-        }
-        if (container === 'parent') {
-            return this.element.parentElement;
-        }
-        if (typeof container === 'string') {
-            return document.querySelector(container);
-        }
-        if (container instanceof Element) {
-            return container;
-        }
-        return null;
+        return resolveContainerElement(this.options.container, this.element);
     }
 
     /**
@@ -350,36 +337,7 @@ export class Moveable extends Component<MoveableOptions> {
      * @returns 区域矩形，无法解析或不限制时返回 null。The area rect, or null when unconstrained or unresolvable.
      */
     protected _getContainerRect(): DistanceRect | null {
-        const {container, containerPadding} = this.options;
-        if (container === false || container === undefined) {
-            return null;
-        }
-
-        let rect: {left: number; top: number; right: number; bottom: number} | undefined;
-        if (container === 'window') {
-            rect = {left: 0, top: 0, right: window.innerWidth, bottom: window.innerHeight};
-        } else {
-            const element = this._getContainerElement();
-            if (element) {
-                const box = element.getBoundingClientRect();
-                rect = {left: box.left, top: box.top, right: box.right, bottom: box.bottom};
-            } else if (typeof (container as {getBoundingClientRect?: unknown}).getBoundingClientRect === 'function') {
-                const box = (container as {getBoundingClientRect(): DOMRect}).getBoundingClientRect();
-                rect = {left: box.left, top: box.top, right: box.right, bottom: box.bottom};
-            }
-        }
-
-        if (!rect) {
-            return null;
-        }
-
-        const padding = Moveable.normalizePadding(containerPadding);
-        return {
-            left: rect.left + padding.left,
-            top: rect.top + padding.top,
-            right: rect.right - padding.right,
-            bottom: rect.bottom - padding.bottom,
-        };
+        return resolveContainerRect(this.options.container, this.options.containerPadding, this.element);
     }
 
     /**
@@ -397,8 +355,8 @@ export class Moveable extends Component<MoveableOptions> {
             return null;
         }
         const {startClientLeft, startClientTop, width, height, startLeft, startTop} = state;
-        const clientLeft = Moveable.clamp(startClientLeft + deltaX, rect.left, rect.right - width);
-        const clientTop = Moveable.clamp(startClientTop + deltaY, rect.top, rect.bottom - height);
+        const clientLeft = clamp(startClientLeft + deltaX, rect.left, rect.right - width);
+        const clientTop = clamp(startClientTop + deltaY, rect.top, rect.bottom - height);
         return {
             left: startLeft + (clientLeft - startClientLeft),
             top: startTop + (clientTop - startClientTop),
@@ -459,10 +417,10 @@ export class Moveable extends Component<MoveableOptions> {
         }
 
         const $target = $(target);
-        const position = strategy === 'transform' ? Moveable.getTranslate(target) : $target.position()!;
+        const position = strategy === 'transform' ? getTranslate(target) : $target.position()!;
         const clientRect = target.getBoundingClientRect();
-        const clientLeft = Moveable.clamp(clientRect.left, rect.left, rect.right - clientRect.width);
-        const clientTop = Moveable.clamp(clientRect.top, rect.top, rect.bottom - clientRect.height);
+        const clientLeft = clamp(clientRect.left, rect.left, rect.right - clientRect.width);
+        const clientTop = clamp(clientRect.top, rect.top, rect.bottom - clientRect.height);
         if (clientLeft === clientRect.left && clientTop === clientRect.top) {
             return;
         }
@@ -498,17 +456,7 @@ export class Moveable extends Component<MoveableOptions> {
      * @returns 目标元素数组。The array of target elements.
      */
     protected _getMatchingTargets(): HTMLElement[] {
-        const {selector} = this.options;
-        if (selector === 'self') {
-            return [this.element];
-        }
-        const targets: HTMLElement[] = [];
-        if (selector) {
-            this.$element.find(selector).each((_index, element) => {
-                targets.push(element as HTMLElement);
-            });
-        }
-        return targets;
+        return getMatchingTargets(this.element, this.options.selector);
     }
 
     /**
@@ -655,15 +603,7 @@ export class Moveable extends Component<MoveableOptions> {
      * @returns 四边数值。The four side values.
      */
     static normalizePadding(padding?: number | Partial<DistanceRect>): DistanceRect {
-        if (typeof padding === 'number') {
-            return {left: padding, top: padding, right: padding, bottom: padding};
-        }
-        return {
-            left: padding?.left ?? 0,
-            top: padding?.top ?? 0,
-            right: padding?.right ?? 0,
-            bottom: padding?.bottom ?? 0,
-        };
+        return normalizePadding(padding);
     }
 
     /**
@@ -676,7 +616,7 @@ export class Moveable extends Component<MoveableOptions> {
      * @returns 夹取后的数值。The clamped value.
      */
     static clamp(value: number, min: number, max: number): number {
-        return Math.max(min, Math.min(value, max));
+        return clamp(value, min, max);
     }
 
     /**
@@ -687,19 +627,6 @@ export class Moveable extends Component<MoveableOptions> {
      * @returns 包含 left 和 top 偏移量的对象。Object with left and top offsets.
      */
     static getTranslate(element: HTMLElement): {left: number; top: number} {
-        const style = window.getComputedStyle(element);
-        const transform = style.getPropertyValue('transform');
-        if (transform === 'none') {
-            return {left: 0, top: 0};
-        }
-        const matrix = transform.match(/^matrix\((.+)\)$/);
-        if (!matrix) {
-            return {left: 0, top: 0};
-        }
-        const values = matrix[1].split(', ');
-        return {
-            left: parseFloat(values[4]),
-            top: parseFloat(values[5]),
-        };
+        return getTranslate(element);
     }
 }
