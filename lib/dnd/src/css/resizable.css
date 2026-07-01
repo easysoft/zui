@@ -4,72 +4,72 @@
   --corner-handle-width: 8px;
 }
 
-.zui-resizable-handle {
+.resizable-handle {
   position: absolute;
   user-select: none;
   transition: background-color 0.15s;
   z-index: 10;
 }
-.zui-resizable-handle:hover {
+.resizable-handle:hover {
   background-color: #D2D6E5;
 }
-.zui-resizable-handle[data-dir="n"],
-.zui-resizable-handle[data-dir="s"] {
+.resizable-handle[z-dir="n"],
+.resizable-handle[z-dir="s"] {
   cursor: ns-resize;
   width: auto;
   height: var(--side-handle-width);
   left: var(--side-handle-shift);
   right: var(--side-handle-shift);
 }
-.zui-resizable-handle[data-dir="n"] {
+.resizable-handle[z-dir="n"] {
   top: calc(var(--side-handle-width) / 2 * -1);
   bottom: auto;
 }
-.zui-resizable-handle[data-dir="s"] {
+.resizable-handle[z-dir="s"] {
   top: auto;
   bottom: calc(var(--side-handle-width) / 2 * -1);
 }
-.zui-resizable-handle[data-dir="w"],
-.zui-resizable-handle[data-dir="e"] {
+.resizable-handle[z-dir="w"],
+.resizable-handle[z-dir="e"] {
   cursor: ew-resize;
   width: var(--side-handle-width);
   height: auto;
   top: var(--side-handle-shift);
   bottom: var(--side-handle-shift);
 }
-.zui-resizable-handle[data-dir="w"] {
+.resizable-handle[z-dir="w"] {
   left: calc(var(--side-handle-width) / 2 * -1);
   right: auto;
 }
-.zui-resizable-handle[data-dir="e"] {
+.resizable-handle[z-dir="e"] {
   left: auto;
   right: calc(var(--side-handle-width) / 2 * -1);
 }
-.zui-resizable-handle[data-dir="ne"],
-.zui-resizable-handle[data-dir="sw"] {
+.resizable-handle[z-dir="ne"],
+.resizable-handle[z-dir="sw"] {
   cursor: nesw-resize;
   width: var(--corner-handle-width);
   height: var(--corner-handle-width);
 }
-.zui-resizable-handle[data-dir="ne"] {
+.resizable-handle[z-dir="ne"] {
   top: calc(var(--corner-handle-width) / 2 * -1);
   right: calc(var(--corner-handle-width) / 2 * -1);
 }
-.zui-resizable-handle[data-dir="sw"] {
+.resizable-handle[z-dir="sw"] {
   left: calc(var(--corner-handle-width) / 2 * -1);
   bottom: calc(var(--corner-handle-width) / 2 * -1);
 }
-.zui-resizable-handle[data-dir="nw"],
-.zui-resizable-handle[data-dir="se"] {
+.resizable-handle[z-dir="nw"],
+.resizable-handle[z-dir="se"] {
   cursor: nwse-resize;
   width: var(--corner-handle-width);
   height: var(--corner-handle-width);
 }
-.zui-resizable-handle[data-dir="nw"] {
+.resizable-handle[z-dir="nw"] {
   top: calc(var(--corner-handle-width) / 2 * -1);
   left: calc(var(--corner-handle-width) / 2 * -1);
 }
-.zui-resizable-handle[data-dir="se"] {
+.resizable-handle[z-dir="se"] {
   right: calc(var(--corner-handle-width) / 2 * -1);
   bottom: calc(var(--corner-handle-width) / 2 * -1);
 }

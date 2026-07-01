@@ -8,13 +8,13 @@ import '../css/resizable.css';
 const RESIZABLE_SELECTOR = '[resizable="true"]';
 
 /** 缩放手柄元素的 CSS 类名。CSS class name for resize handle elements. */
-const RESIZABLE_HANDLE_CLASS = 'zui-resizable-handle';
+const RESIZABLE_HANDLE_CLASS = 'resizable-handle';
 
 /** 缩放手柄选择器。Resize handle selector. */
 const RESIZABLE_HANDLE_SELECTOR = `.${RESIZABLE_HANDLE_CLASS}`;
 
 /** 自动生成手柄的标记属性。Marker attribute for generated handles. */
-const RESIZABLE_GENERATED_HANDLE_ATTR = 'data-zui-resizable-generated';
+const RESIZABLE_GENERATED_HANDLE_ATTR = 'z-resizable-generated';
 
 /** 默认生成的八个缩放方向。The eight default resize directions. */
 const RESIZABLE_DIRECTIONS: ResizableDirection[] = ['n', 'e', 's', 'w', 'ne', 'nw', 'se', 'sw'];
@@ -108,7 +108,7 @@ export class Resizable extends Component<ResizableOptions> {
         this._getMatchingTargets().forEach((target) => {
             const $target = $(target);
             RESIZABLE_DIRECTIONS.forEach((direction) => {
-                $target.append(`<div class="${RESIZABLE_HANDLE_CLASS}" data-dir="${direction}" ${RESIZABLE_GENERATED_HANDLE_ATTR}="true"></div>`);
+                $target.append(`<div class="${RESIZABLE_HANDLE_CLASS}" z-dir="${direction}" ${RESIZABLE_GENERATED_HANDLE_ATTR}="true"></div>`);
             });
         });
     }
@@ -228,7 +228,7 @@ export class Resizable extends Component<ResizableOptions> {
             return;
         }
 
-        const direction = $(handle).data('dir') as ResizableDirection | undefined;
+        const direction = $(handle).z('dir') as ResizableDirection | undefined;
         if (!Resizable.isDirection(direction)) {
             return;
         }
