@@ -1,8 +1,11 @@
 import {Component, $} from '@zui/core';
-import {MoveableOptions, MoveableState, MoveableStrategy, MoveableUpdateInfo} from '../types';
+import {DistanceRect, MoveableOptions, MoveableState, MoveableStrategy, MoveableUpdateInfo} from '../types';
 
 /** 匹配所有标记了 moveable 属性的元素。Matches all elements with the moveable attribute. */
 const MOVEABLE_SELECTOR = '[moveable="true"]';
+
+/** 支持区域限制的移动策略。Movement strategies that support area constraint. */
+const CONSTRAINABLE_STRATEGIES: MoveableStrategy[] = ['position', 'transform'];
 
 /**
  * 基于鼠标事件的元素移动组件。
@@ -19,10 +22,17 @@ export class Moveable extends Component<MoveableOptions> {
         hasMovingClass: 'has-moving',
         movingClass: 'is-moving',
         move: true,
+        container: 'window',
     };
 
     /** 当前移动状态，未在移动时为 undefined。The current move state; undefined when idle. */
     protected _state?: MoveableState;
+
+    /** 最近一次被移动的元素，拖动结束后仍保留，供 update() 区域重排使用。The most recently moved element, kept after a move for update() re-clamping. */
+    protected _restTarget?: HTMLElement;
+
+    /** 最近一次被移动元素使用的移动策略。The movement strategy used by the most recently moved element. */
+    protected _restStrategy?: MoveableStrategy;
 
     /** 用于取消动画帧的 ID。The ID for canceling the animation frame. */
     protected declare _raf: number;
@@ -73,6 +83,7 @@ export class Moveable extends Component<MoveableOptions> {
             }
 
             const position = strategy === 'transform' ? Moveable.getTranslate(target) : (strategy === 'scroll' ? {left: target.scrollLeft, top: target.scrollTop} : $target.position()!);
+            const clientRect = target.getBoundingClientRect();
             newState = $.extend(newState, {
                 strategy,
                 target,
@@ -86,15 +97,30 @@ export class Moveable extends Component<MoveableOptions> {
                 top: position.top,
                 scrollLeft: target.scrollLeft,
                 scrollTop: target.scrollTop,
+                startClientLeft: clientRect.left,
+                startClientTop: clientRect.top,
+                width: clientRect.width,
+                height: clientRect.height,
             });
+            this._restTarget = target;
+            this._restStrategy = strategy;
         } else if (oldState) {
             const deltaX = newState.x - oldState.startX;
             const deltaY = newState.y - oldState.startY;
+            let left = oldState.startLeft + deltaX;
+            let top = oldState.startTop + deltaY;
+            if (CONSTRAINABLE_STRATEGIES.includes(oldState.strategy)) {
+                const clamped = this._clampToContainer(oldState, deltaX, deltaY);
+                if (clamped) {
+                    left = clamped.left;
+                    top = clamped.top;
+                }
+            }
             newState = $.extend({}, oldState, newState, {
                 deltaX,
                 deltaY,
-                left: oldState.startLeft + deltaX,
-                top: oldState.startTop + deltaY,
+                left,
+                top,
             });
         }
 
@@ -121,6 +147,7 @@ export class Moveable extends Component<MoveableOptions> {
     update(state?: MoveableState) {
         state = state || this._state;
         if (!state) {
+            this._reclampRestTarget();
             return;
         }
 
@@ -262,6 +289,155 @@ export class Moveable extends Component<MoveableOptions> {
             this._raf = 0;
         }
         this._state = undefined;
+    }
+
+    /**
+     * 解析 `container` 选项对应的区域矩形（视口坐标），并按 `containerPadding` 收缩（负值则向外扩展）。
+     * Resolve the area rect (in viewport coordinates) for the `container` option, shrunk by `containerPadding` (negative values expand it outward).
+     *
+     * @returns 区域矩形，无法解析或不限制时返回 null。The area rect, or null when unconstrained or unresolvable.
+     */
+    protected _getContainerRect(): DistanceRect | null {
+        const {container, containerPadding} = this.options;
+        if (container === false || container === undefined) {
+            return null;
+        }
+
+        let rect: {left: number; top: number; right: number; bottom: number} | undefined;
+        if (container === 'window') {
+            rect = {left: 0, top: 0, right: window.innerWidth, bottom: window.innerHeight};
+        } else {
+            let element: Element | null | undefined;
+            if (container === 'self') {
+                element = this.element;
+            } else if (container === 'parent') {
+                element = this.element.parentElement;
+            } else if (typeof container === 'string') {
+                element = document.querySelector(container);
+            } else if (typeof (container as {getBoundingClientRect?: unknown}).getBoundingClientRect === 'function') {
+                const box = (container as {getBoundingClientRect(): DOMRect}).getBoundingClientRect();
+                rect = {left: box.left, top: box.top, right: box.right, bottom: box.bottom};
+            }
+            if (!rect && element) {
+                const box = element.getBoundingClientRect();
+                rect = {left: box.left, top: box.top, right: box.right, bottom: box.bottom};
+            }
+        }
+
+        if (!rect) {
+            return null;
+        }
+
+        const padding = Moveable.normalizePadding(containerPadding);
+        return {
+            left: rect.left + padding.left,
+            top: rect.top + padding.top,
+            right: rect.right - padding.right,
+            bottom: rect.bottom - padding.bottom,
+        };
+    }
+
+    /**
+     * 基于起始状态与累计位移，计算被区域限制修正后的 left/top（视口 1:1 位移）。
+     * Compute the area-constrained left/top from the start state and accumulated displacement (1:1 viewport movement).
+     *
+     * @param state  起始移动状态。The starting move state.
+     * @param deltaX x 方向累计位移。Accumulated x displacement.
+     * @param deltaY y 方向累计位移。Accumulated y displacement.
+     * @returns 修正后的 left/top，无区域限制时返回 null。The constrained left/top, or null when unconstrained.
+     */
+    protected _clampToContainer(state: MoveableState, deltaX: number, deltaY: number): {left: number; top: number} | null {
+        const rect = this._getContainerRect();
+        if (!rect) {
+            return null;
+        }
+        const {startClientLeft, startClientTop, width, height, startLeft, startTop} = state;
+        const clientLeft = Moveable.clamp(startClientLeft + deltaX, rect.left, rect.right - width);
+        const clientTop = Moveable.clamp(startClientTop + deltaY, rect.top, rect.bottom - height);
+        return {
+            left: startLeft + (clientLeft - startClientLeft),
+            top: startTop + (clientTop - startClientTop),
+        };
+    }
+
+    /**
+     * 将最近一次被移动的元素按当前区域限制重新夹取到最近合法位置（用于区域变更后手动调用 update）。
+     * Re-clamp the most recently moved element to the nearest valid position under the current area constraint (used when update is called after the area changes).
+     */
+    protected _reclampRestTarget() {
+        const target = this._restTarget;
+        const strategy = this._restStrategy;
+        if (!target || !strategy || !CONSTRAINABLE_STRATEGIES.includes(strategy)) {
+            return;
+        }
+        const rect = this._getContainerRect();
+        if (!rect) {
+            return;
+        }
+
+        const $target = $(target);
+        const position = strategy === 'transform' ? Moveable.getTranslate(target) : $target.position()!;
+        const clientRect = target.getBoundingClientRect();
+        const clientLeft = Moveable.clamp(clientRect.left, rect.left, rect.right - clientRect.width);
+        const clientTop = Moveable.clamp(clientRect.top, rect.top, rect.bottom - clientRect.height);
+        if (clientLeft === clientRect.left && clientTop === clientRect.top) {
+            return;
+        }
+
+        const left = position.left + (clientLeft - clientRect.left);
+        const top = position.top + (clientTop - clientRect.top);
+        this.update({
+            strategy,
+            target,
+            startX: 0,
+            startY: 0,
+            deltaX: 0,
+            deltaY: 0,
+            startLeft: position.left,
+            startTop: position.top,
+            left,
+            top,
+            x: 0,
+            y: 0,
+            scrollLeft: target.scrollLeft,
+            scrollTop: target.scrollTop,
+            startClientLeft: clientRect.left,
+            startClientTop: clientRect.top,
+            width: clientRect.width,
+            height: clientRect.height,
+        } as MoveableState);
+    }
+
+    /**
+     * 将 containerPadding 归一化为四边数值。允许负值，不做非负约束。
+     * Normalize containerPadding into four side values. Negative values are allowed.
+     *
+     * @param padding 边距设置。The padding setting.
+     * @returns 四边数值。The four side values.
+     */
+    static normalizePadding(padding?: number | Partial<DistanceRect>): DistanceRect {
+        if (typeof padding === 'number') {
+            return {left: padding, top: padding, right: padding, bottom: padding};
+        }
+        return {
+            left: padding?.left ?? 0,
+            top: padding?.top ?? 0,
+            right: padding?.right ?? 0,
+            bottom: padding?.bottom ?? 0,
+        };
+    }
+
+    /**
+     * 将数值夹取到 [min, max] 区间；当 min > max（元素大于区域）时对齐到 min。
+     * Clamp a value into [min, max]; aligns to min when min > max (element larger than area).
+     *
+     * @param value 待夹取的数值。The value to clamp.
+     * @param min   下界。The lower bound.
+     * @param max   上界。The upper bound.
+     * @returns 夹取后的数值。The clamped value.
+     */
+    static clamp(value: number, min: number, max: number): number {
+        return Math.max(min, Math.min(value, max));
     }
 
     /**

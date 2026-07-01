@@ -1,4 +1,5 @@
 import type {CSSProperties} from 'preact';
+import type {DistanceRect} from './edge-detection';
 import type {MoveableState} from './moveable-state';
 import type {MoveableStrategy} from './moveable-strategy';
 
@@ -7,6 +8,26 @@ export type MoveableUpdateInfo = {
     scrollLeft?: number;
     scrollTop?: number;
 };
+
+/**
+ * 移动区域限制目标。
+ * The movement area constraint target.
+ *
+ * - `false`      不限制。No constraint.
+ * - `'window'`   当前窗口视口。The current window viewport.
+ * - `'self'`     组件根元素（this.element）。The component root element (this.element).
+ * - `'parent'`   组件根元素的父元素（this.element.parentElement）。The parent of the root element.
+ * - `string`     CSS 选择器指定的元素对应的区域。The element matched by a CSS selector.
+ * - `HTMLElement` / `{getBoundingClientRect}` 给定的元素或提供 getBoundingClientRect 方法的对象。
+ *                A given element or any object providing getBoundingClientRect.
+ */
+export type MoveableContainer = false
+    | 'window'
+    | 'self'
+    | 'parent'
+    | (string & {})
+    | HTMLElement
+    | {getBoundingClientRect(): DOMRect};
 
 export type MoveableOptions = {
     /**
@@ -38,6 +59,18 @@ export type MoveableOptions = {
      * The move strategy, including: "position", "transform", "scroll", "none" (no actual move). Defaults to true (automatically infer from the element's position attribute).
      */
     move?: boolean | MoveableStrategy;
+
+    /**
+     * 移动区域限制，将被移动元素约束在指定区域内，默认为 "window"（当前窗口）。仅对 "position"/"transform" 策略生效。
+     * The movement area constraint that keeps the moved element inside the given area. Defaults to "window". Only applies to the "position"/"transform" strategies.
+     */
+    container?: MoveableContainer;
+
+    /**
+     * 元素距区域边缘的间距。可传入单个数值同时控制上下左右，也可以分别指定 top/right/bottom/left。允许负值（负值表示区域向外扩展，元素可移出区域边缘对应的距离），缺省为 0。
+     * The gap between the element and the area edges. Pass a single number to control all four sides, or specify top/right/bottom/left separately. Negative values are allowed (expanding the area outward so the element can move beyond the edges). Defaults to 0.
+     */
+    containerPadding?: number | Partial<DistanceRect>;
 
     /**
      * 当有元素位置变更时触发。

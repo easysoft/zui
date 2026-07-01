@@ -49,4 +49,16 @@ export type MoveableState = {
 
     /** 滚动容器当前的 scrollTop 值。The scroll container's current scrollTop value. */
     scrollTop: number;
+
+    /** 移动开始时目标元素的视口 left 值（getBoundingClientRect().left），用于区域限制计算。The target's viewport left at move start, used for area constraint. */
+    startClientLeft: number;
+
+    /** 移动开始时目标元素的视口 top 值（getBoundingClientRect().top），用于区域限制计算。The target's viewport top at move start, used for area constraint. */
+    startClientTop: number;
+
+    /** 移动开始时目标元素的宽度。The target's width at move start. */
+    width: number;
+
+    /** 移动开始时目标元素的高度。The target's height at move start. */
+    height: number;
 };
