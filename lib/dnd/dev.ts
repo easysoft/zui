@@ -34,7 +34,7 @@ onPageUpdate(() => {
     const moveable = new Moveable('#example2', {
         container: 'self',
         containerPadding: 8,
-        autoUpdate: true,
+        autoUpdate: {resize: true, scroll: true, targets: 'all'},
         onChange(newState, oldState, event) {
             console.log('onChange', event.type, {newState, oldState});
         },

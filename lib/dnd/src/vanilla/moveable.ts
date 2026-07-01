@@ -158,7 +158,7 @@ export class Moveable extends Component<MoveableOptions> {
     update(state?: MoveableState) {
         state = state || this._state;
         if (!state) {
-            this._reclampRestTarget();
+            this._reclampByOption();
             return;
         }
 
@@ -410,12 +410,50 @@ export class Moveable extends Component<MoveableOptions> {
      * Re-clamp the most recently moved element to the nearest valid position under the current area constraint (used when update is called after the area changes).
      */
     protected _reclampRestTarget() {
-        const target = this._restTarget;
-        const strategy = this._restStrategy;
-        if (!target || !strategy || !CONSTRAINABLE_STRATEGIES.includes(strategy)) {
+        if (this._restTarget && this._restStrategy) {
+            this._reclampElement(this._restTarget, this._restStrategy);
+        }
+    }
+
+    /**
+     * 按 autoUpdate 的 targets 设置选择重排范围：'all' 重排所有匹配 selector 的元素，否则仅重排最近移动的元素。
+     * Choose the re-clamp scope by the autoUpdate targets setting: 'all' re-clamps every element matching the selector, otherwise only the most recently moved element.
+     */
+    protected _reclampByOption() {
+        if (this._resolveAutoUpdateOptions()?.targets === 'all') {
+            this._reclampAllTargets();
+        } else {
+            this._reclampRestTarget();
+        }
+    }
+
+    /**
+     * 重排所有匹配 selector 的元素到当前区域限制内的最近合法位置。
+     * Re-clamp every element matching the selector to the nearest valid position within the current area constraint.
+     */
+    protected _reclampAllTargets() {
+        const rect = this._getContainerRect();
+        if (!rect) {
             return;
         }
-        const rect = this._getContainerRect();
+        this._getMatchingTargets().forEach((target) => {
+            this._reclampElement(target, this._resolveStrategy(target), rect);
+        });
+    }
+
+    /**
+     * 将单个元素按区域限制重新夹取到最近合法位置。
+     * Re-clamp a single element to the nearest valid position within the area constraint.
+     *
+     * @param target   目标元素。The target element.
+     * @param strategy 移动策略。The movement strategy.
+     * @param rect     预先解析的区域矩形，缺省时内部解析。A pre-resolved area rect; resolved internally when omitted.
+     */
+    protected _reclampElement(target: HTMLElement, strategy: MoveableStrategy, rect?: DistanceRect | null) {
+        if (!CONSTRAINABLE_STRATEGIES.includes(strategy)) {
+            return;
+        }
+        rect = rect ?? this._getContainerRect();
         if (!rect) {
             return;
         }
@@ -451,6 +489,26 @@ export class Moveable extends Component<MoveableOptions> {
             width: clientRect.width,
             height: clientRect.height,
         } as MoveableState);
+    }
+
+    /**
+     * 获取所有匹配 selector 的目标元素（selector 为 "self" 时返回根元素）。
+     * Get all target elements matching the selector (returns the root element when selector is "self").
+     *
+     * @returns 目标元素数组。The array of target elements.
+     */
+    protected _getMatchingTargets(): HTMLElement[] {
+        const {selector} = this.options;
+        if (selector === 'self') {
+            return [this.element];
+        }
+        const targets: HTMLElement[] = [];
+        if (selector) {
+            this.$element.find(selector).each((_index, element) => {
+                targets.push(element as HTMLElement);
+            });
+        }
+        return targets;
     }
 
     /**
@@ -546,7 +604,9 @@ export class Moveable extends Component<MoveableOptions> {
         if (containerElement) {
             observer.observe(containerElement);
         }
-        if (this._restTarget) {
+        if (this._resolveAutoUpdateOptions()?.targets === 'all') {
+            this._getMatchingTargets().forEach(target => observer.observe(target));
+        } else if (this._restTarget) {
             observer.observe(this._restTarget);
         }
     }
@@ -565,7 +625,7 @@ export class Moveable extends Component<MoveableOptions> {
             if (this._state) {
                 return;
             }
-            this._reclampRestTarget();
+            this._reclampByOption();
         });
     }
 
@@ -580,7 +640,7 @@ export class Moveable extends Component<MoveableOptions> {
                 return;
             }
             if (!this._state) {
-                this._reclampRestTarget();
+                this._reclampByOption();
             }
             this._autoUpdateRaf = requestAnimationFrame(loop);
         };

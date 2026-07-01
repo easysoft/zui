@@ -53,6 +53,16 @@ export type MoveableAutoUpdateOptions = {
      * Defaults to false; auto-enabled when container is such an unobservable object (can be turned off explicitly by setting false).
      */
     animationFrame?: boolean;
+
+    /**
+     * 自动更新作用的目标范围：
+     * - `'last'`（默认）仅重排最近一次被移动的元素。
+     * - `'all'` 重排所有匹配 selector 的元素（selector 为 "self" 时即根元素）。
+     * The scope of elements the auto-update applies to:
+     * - `'last'` (default) re-clamps only the most recently moved element.
+     * - `'all'` re-clamps every element matching the selector (the root element when selector is "self").
+     */
+    targets?: 'last' | 'all';
 };
 
 export type MoveableOptions = {
