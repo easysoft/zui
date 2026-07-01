@@ -57,6 +57,7 @@ export class Moveable extends Component<MoveableOptions> {
 
     protected _setState(event: MouseEvent, target?: HTMLElement): boolean {
         let newState = {
+            event,
             x: event.pageX,
             y: event.pageY,
         } as MoveableState;
@@ -251,6 +252,10 @@ export class Moveable extends Component<MoveableOptions> {
             if (movingClass) {
                 $moveElement.removeClass(movingClass);
             }
+        }
+        if (this._raf) {
+            cancelAnimationFrame(this._raf);
+            this._raf = 0;
         }
         this._state = undefined;
     }

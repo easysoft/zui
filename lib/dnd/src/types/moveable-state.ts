@@ -49,16 +49,4 @@ export type MoveableState = {
 
     /** 滚动容器当前的 scrollTop 值。The scroll container's current scrollTop value. */
     scrollTop: number;
-
-    /** 拖拽起始时鼠标的 screenX 坐标。Mouse screenX at drag start. */
-    fromX: number;
-
-    /** 拖拽起始时鼠标的 screenY 坐标。Mouse screenY at drag start. */
-    fromY: number;
-
-    /** 上次 mousemove 事件的 screenX 坐标。Mouse screenX from the last mousemove event. */
-    lastX: number;
-
-    /** 上次 mousemove 事件的 screenY 坐标。Mouse screenY from the last mousemove event. */
-    lastY: number;
 };

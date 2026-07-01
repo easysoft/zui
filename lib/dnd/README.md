@@ -3,7 +3,7 @@
 ## Moveable
 
 ```html:example
-<div id="example2" class="ring -h-48 -w-full -bg-slate-100 -relative">
+<div id="example2" class="ring -h-48 -w-full -bg-slate-100 -relative z-10">
   <div class="item -w-12 -h-12 primary -cursor-move hover:shadow -absolute -left-12 -top-0" moveable="true">item1</div>
   <div class="item -w-12 -h-12 primary -cursor-move hover:shadow relative" moveable="true">item2</div>
   <div class="item -w-12 -h-12 primary -cursor-move hover:shadow" moveable="true">item3</div>
