@@ -1,16 +1,15 @@
 import {Component, $} from '@zui/core';
-import {MoveableOptions, MoveableState, MoveableStrategy, EdgeDetectionConfig, EdgeDetectionResult} from '../types';
+import {MoveableOptions, MoveableState, MoveableStrategy} from '../types';
 
 /** 匹配所有标记了 moveable 属性的元素。Matches all elements with the moveable attribute. */
 const MOVEABLE_SELECTOR = '[moveable="true"]';
 
 /**
  * 基于鼠标事件的元素移动组件。
- * 支持 position、transform、scroll 三种移动策略，以及可选的边缘检测防止元素移出容器。
+ * 支持 position、transform、scroll 三种移动策略。
  *
  * Mouse-event-driven element movement component.
- * Supports position, transform, and scroll movement strategies, with optional edge detection
- * to prevent elements from being moved outside a container boundary.
+ * Supports position, transform, and scroll movement strategies.
  */
 export class Moveable extends Component<MoveableOptions> {
     static NAME = 'Moveable';
@@ -20,11 +19,13 @@ export class Moveable extends Component<MoveableOptions> {
         hasMovingClass: 'has-moving',
         movingClass: 'is-moving',
         move: true,
-        edgeDetection: false,
     };
 
     /** 当前移动状态，未在移动时为 undefined。The current move state; undefined when idle. */
     protected _state?: MoveableState;
+
+    /** 用于取消动画帧的 ID。The ID for canceling the animation frame. */
+    protected declare _raf: number;
 
     /** 获取当前移动状态。Get the current move state. */
     get state() {
@@ -34,40 +35,6 @@ export class Moveable extends Component<MoveableOptions> {
     /** 获取正在被移动的目标元素。Get the element currently being moved. */
     get moveElement() {
         return this._state?.target;
-    }
-
-    /**
-     * 是否启用边缘检测。
-     * Whether edge detection is enabled.
-     */
-    get isEdgeDetectionEnabled() {
-        return !!this.options.edgeDetection;
-    }
-
-    /**
-     * 获取边缘检测区域的矩形信息（位置、尺寸和内边距）。
-     * Get the edge detection area rectangle (position, dimensions, and padding).
-     */
-    get edgeRect() {
-        const rect = {
-            x: 0,
-            y: 0,
-            width: 0,
-            height: 0,
-            padding: 0,
-        };
-
-        if (this.isEdgeDetectionEnabled) {
-            const {container, distance}: EdgeDetectionConfig = this.options.edgeDetection as EdgeDetectionConfig;
-            if (container === 'viewport') {
-                rect.width = window.innerWidth;
-                rect.height = window.innerHeight;
-            }
-
-            rect.padding = distance;
-        }
-
-        return rect;
     }
 
     /**
@@ -88,200 +55,77 @@ export class Moveable extends Component<MoveableOptions> {
         super.destroy();
     }
 
+    protected _setState(event: MouseEvent, target?: HTMLElement) {
+        let newState = {
+            x: event.pageX,
+            y: event.pageY,
+        } as MoveableState;
+        const oldState = this._state;
+        if (target) {
+            const $target = $(target);
+            let strategy: MoveableStrategy;
+            if (this.options.move === true) {
+                const position = $target.css('position');
+                strategy = (position === 'fixed' || position === 'absolute' || position === 'relative') ? 'position' : 'transform';
+            } else {
+                strategy = this.options.move || 'none';
+            }
+
+            const position = strategy === 'transform' ? Moveable.getTranslate(target) : (strategy === 'scroll' ? {left: target.scrollLeft, top: target.scrollTop} : $target.position()!);
+            newState = $.extend(newState, {
+                strategy,
+                target,
+                startX: newState.x,
+                startY: newState.y,
+                deltaX: 0,
+                deltaY: 0,
+                startLeft: position.left,
+                startTop: position.top,
+                left: position.left,
+                top: position.top,
+                scrollLeft: target.scrollLeft,
+                scrollTop: target.scrollTop,
+            });
+        } else if (oldState) {
+            const deltaX = newState.x - oldState.startX;
+            const deltaY = newState.y - oldState.startY;
+            newState = $.extend({}, oldState, newState, {
+                deltaX,
+                deltaY,
+                left: oldState.startLeft + deltaX,
+                top: oldState.startTop + deltaY,
+            });
+        }
+        this._state = newState;
+        this.options.onChange?.call(this, newState, oldState, event);
+
+        this.update();
+    }
+
     /**
-     * 对目标元素在给定位移下执行边缘检测，返回需要修正的偏移量。
-     * 如果元素移动后会超出容器边界，返回将其拉回边界所需的 x/y 修正值。
+     * 更新移动状态。
+     * Update the moveable state.
      *
-     * Perform edge detection for the target element with the given displacement.
-     * Returns x/y correction offsets needed to pull the element back within bounds.
-     *
-     * @param dx x 方向的位移。Displacement in the x direction.
-     * @param dy y 方向的位移。Displacement in the y direction.
-     * @returns 修正偏移量，未启用边缘检测时返回 false。Correction offsets, or false if edge detection is disabled.
+     * @param state 移动状态。Moveable state.
+     * @returns
      */
-    protected _edgeDetect(dx: number, dy: number): EdgeDetectionResult | false {
-        if (!this.isEdgeDetectionEnabled) {
-            return false;
+    update(state?: MoveableState) {
+        state = state || this._state;
+        if (!state) {
+            return;
         }
 
-        const {
-            x: edgeX,
-            y: edgeY,
-            width,
-            height,
-            padding,
-        } = this.edgeRect;
-
-        const isPaddingRect = !Number.isInteger(padding);
-        const pLeft = isPaddingRect ? padding.left : padding;
-        const pRight = isPaddingRect ? padding.right : padding;
-        const pTop = isPaddingRect ? padding.top : padding;
-        const pBottom = isPaddingRect ? padding.bottom : padding;
-        const edgeSizes = {
-            left: edgeX + pLeft,
-            right: edgeX + width - pRight,
-            top: edgeY + pTop,
-            bottom: edgeY + height - pBottom,
-        };
-
-        const targetRect = this.moveElement!.getBoundingClientRect();
-        const targetX = targetRect.x + dx;
-        const targetY = targetRect.y + dy;
-        const targetSizes = {
-            left: targetX,
-            right: targetX + targetRect.width,
-            top: targetY,
-            bottom: targetY + targetRect.height,
-        };
-
-        const left = targetSizes.left < edgeSizes.left;
-        const right = targetSizes.right > edgeSizes.right;
-        const top = targetSizes.top < edgeSizes.top;
-        const bottom = targetSizes.bottom > edgeSizes.bottom;
-
-        let x = 0;
-        if (right) {
-            x = edgeSizes.right - targetSizes.right;
-        } else if (left) {
-            x = edgeSizes.left - targetSizes.left;
+        const {strategy, target: currentTarget} = state;
+        const $target = $(currentTarget);
+        if (strategy === 'position') {
+            $target.css({left: state.left, top: state.top});
+        } else if (strategy === 'transform') {
+            $target.css('transform', `translate(${state.left}px, ${state.top}px)`);
+        } else if (strategy === 'scroll') {
+            currentTarget.scrollLeft = state.scrollLeft - state.deltaX;
+            currentTarget.scrollTop = state.scrollTop - state.deltaY;
         }
-        let y = 0;
-        if (bottom) {
-            y = edgeSizes.bottom - targetSizes.bottom;
-        } else if (top) {
-            y = edgeSizes.top - targetSizes.top;
-        }
-
-        return {
-            x,
-            y,
-        };
-    }
-
-    /**
-     * 按给定的增量移动目标元素。先执行边缘检测修正，再根据策略实际移动元素，最后触发回调。
-     * Move the target element by the given delta. Applies edge detection correction first,
-     * then moves the element according to the strategy, and finally fires callbacks.
-     *
-     * @param dx x 方向增量。Delta in the x direction.
-     * @param dy y 方向增量。Delta in the y direction.
-     */
-    protected _moveBy(dx: number, dy: number) {
-        let targetDx = dx;
-        let targetDy = dy;
-
-        const edgeDetectResult = this._edgeDetect(dx, dy);
-        if (edgeDetectResult) {
-            targetDx += edgeDetectResult.x;
-            targetDy += edgeDetectResult.y;
-        }
-
-        switch (this._state!.strategy) {
-            case 'position':
-                this._moveByPosition(targetDx, targetDy);
-                break;
-            case 'transform':
-                this._moveByTransform(targetDx, targetDy);
-                break;
-            case 'scroll':
-                this._moveByScroll(targetDx, targetDy);
-                break;
-            default:
-        }
-
-        const {deltaX, deltaY, event} = this._state!;
-        const oldState = this._state!;
-        this._state = {
-            ...oldState,
-            deltaX: deltaX + targetDx,
-            deltaY: deltaY + targetDy,
-        };
-
-        this.options.onMove?.call(this, event, this._state);
-        this.options.onChange?.call(this, this._state, oldState, event);
-    }
-
-    /**
-     * 通过修改 CSS `left`/`top` 属性移动元素。
-     * Move the element by updating its CSS `left`/`top` properties.
-     */
-    protected _moveByPosition(dx: number, dy: number) {
-        const {target} = this._state!;
-        const currentLeft = parseFloat(target.style.left || '0');
-        const currentTop = parseFloat(target.style.top || '0');
-
-        target.style.left = `${currentLeft + dx}px`;
-        target.style.top = `${currentTop + dy}px`;
-    }
-
-    /**
-     * 通过修改 CSS `transform: translate()` 移动元素。
-     * Move the element by updating its CSS `transform: translate()`.
-     */
-    protected _moveByTransform(dx: number, dy: number) {
-        const {target} = this._state!;
-        const currentTranslate = Moveable.getTranslate(target);
-
-        const left = currentTranslate.left + dx;
-        const top = currentTranslate.top + dy;
-
-        target.style.transform = `translate(${left}px, ${top}px)`;
-    }
-
-    /**
-     * 通过调整容器的 `scrollLeft`/`scrollTop` 实现滚动移动（方向取反）。
-     * Move by adjusting the container's `scrollLeft`/`scrollTop` (direction is inverted).
-     */
-    protected _moveByScroll(dx: number, dy: number) {
-        const {target} = this._state!;
-        target.scrollLeft -= dx;
-        target.scrollTop -= dy;
-    }
-
-    /**
-     * 记录移动起始坐标，重置累计偏移量。
-     * Record the starting mouse coordinates and reset accumulated displacement.
-     *
-     * @param x 起始 screenX 坐标。Starting screenX coordinate.
-     * @param y 起始 screenY 坐标。Starting screenY coordinate.
-     */
-    protected _moveStart(x: number, y: number) {
-        this._state = {
-            ...this._state!,
-            fromX: x,
-            fromY: y,
-            lastX: x,
-            lastY: y,
-            deltaX: 0,
-            deltaY: 0,
-        };
-    }
-
-    /**
-     * 计算自上次移动以来的增量并执行移动，同时更新 lastX/lastY。
-     * Compute the delta since the last move, execute the move, and update lastX/lastY.
-     *
-     * @param x 当前 screenX 坐标。Current screenX coordinate.
-     * @param y 当前 screenY 坐标。Current screenY coordinate.
-     * @param event 当前鼠标事件。Current mouse event.
-     */
-    protected _moveTo(x: number, y: number, event: MouseEvent) {
-        const {
-            lastX,
-            lastY,
-        } = this._state!;
-
-        const dx = x - lastX;
-        const dy = y - lastY;
-
-        this._moveBy(dx, dy);
-
-        this._state = {
-            ...this._state!,
-            lastX: x,
-            lastY: y,
-            event,
-        };
+        this.options.onUpdate?.call(this, state);
     }
 
     /**
@@ -316,25 +160,9 @@ export class Moveable extends Component<MoveableOptions> {
         }
 
         event.preventDefault();
-
-        // 根据元素 CSS position 自动选择移动策略：
-        // absolute/fixed/relative → position 策略，其他 → transform 策略
-        let strategy: MoveableStrategy;
-        if (this.options.move === true) {
-            const position = $(moveElement).css('position');
-            strategy = (position === 'fixed' || position === 'absolute' || position === 'relative') ? 'position' : 'transform';
-        } else {
-            strategy = this.options.move || 'none';
-        }
-
-        this._state = {
-            event,
-            target: moveElement,
-            strategy,
-        } as MoveableState;
-        this._moveStart(event.screenX, event.screenY);
-
-        $(document).off('mousemove mouseup').on(`mousemove${this.namespace}`, this._handleMouseMove.bind(this)).on(`mouseup${this.namespace}`, this._handleMouseUp.bind(this));
+        this._setState(event, moveElement);
+        const {namespace} = this;
+        $(document).off(namespace).on(`mousemove${namespace}`, this._handleMouseMove.bind(this)).on(`mouseup${namespace}`, this._handleMouseUp.bind(this));
     };
 
     /**
@@ -347,8 +175,14 @@ export class Moveable extends Component<MoveableOptions> {
             return;
         }
         event.preventDefault();
-
-        this._moveTo(event.screenX, event.screenY, event);
+        if (this._raf) {
+            cancelAnimationFrame(this._raf);
+        }
+        this._raf = requestAnimationFrame(() => {
+            this._raf = 0;
+            this._setState(event);
+            this.options.onMove?.call(this, event, this._state!);
+        });
     };
 
     /**
@@ -360,8 +194,13 @@ export class Moveable extends Component<MoveableOptions> {
         if (!state) {
             return;
         }
-
-        this.options.onMoveEnd?.call(this, event, state);
+        if (this._raf) {
+            cancelAnimationFrame(this._raf);
+            this._raf = 0;
+        }
+        this._setState(event);
+        this.options.onMove?.call(this, event, this._state!);
+        this.options.onMoveEnd?.call(this, event, this._state!);
         this._clean();
     };
 
@@ -370,7 +209,7 @@ export class Moveable extends Component<MoveableOptions> {
      * Clean up move state: remove global event listeners, remove CSS classes, reset internal state.
      */
     protected _clean() {
-        $(document).off('mousemove mouseup');
+        $(document).off(this.namespace);
         const {hasMovingClass, movingClass} = this.options;
         if (hasMovingClass) {
             this.$element.removeClass(hasMovingClass);
