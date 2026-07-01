@@ -1,7 +1,11 @@
-:root {
+.resizable {
+  /* 边缘（上/下/左/右）拖拽手柄的厚度 */
   --side-handle-width: 4px;
+  /* 边缘手柄两端相对容器边界的内缩距离，避免与角落手柄重叠 */
   --side-handle-shift: 4px;
+  /* 手柄在 hover 或拖拽中时的高亮背景色 */
   --side-handle-color: var(--color-primary-400);
+  /* 角落（四个角）拖拽手柄的宽高尺寸 */
   --corner-handle-width: 8px;
 }
 
