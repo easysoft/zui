@@ -1,6 +1,7 @@
 :root {
   --side-handle-width: 4px;
   --side-handle-shift: 4px;
+  --side-handle-color: var(--color-primary-400);
   --corner-handle-width: 8px;
 }
 
@@ -11,7 +12,7 @@
   z-index: 10;
 }
 .resizable-handle:hover {
-  background-color: #D2D6E5;
+  background-color: var(--side-handle-color);
 }
 .resizable-handle[z-dir="n"],
 .resizable-handle[z-dir="s"] {
