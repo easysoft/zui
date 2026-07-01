@@ -1,5 +1,5 @@
 import {Component, $} from '@zui/core';
-import {MoveableOptions, MoveableState, MoveableStrategy} from '../types';
+import {MoveableOptions, MoveableState, MoveableStrategy, MoveableUpdateInfo} from '../types';
 
 /** 匹配所有标记了 moveable 属性的元素。Matches all elements with the moveable attribute. */
 const MOVEABLE_SELECTOR = '[moveable="true"]';
@@ -55,7 +55,7 @@ export class Moveable extends Component<MoveableOptions> {
         super.destroy();
     }
 
-    protected _setState(event: MouseEvent, target?: HTMLElement) {
+    protected _setState(event: MouseEvent, target?: HTMLElement): boolean {
         let newState = {
             x: event.pageX,
             y: event.pageY,
@@ -96,10 +96,18 @@ export class Moveable extends Component<MoveableOptions> {
                 top: oldState.startTop + deltaY,
             });
         }
-        this._state = newState;
-        this.options.onChange?.call(this, newState, oldState, event);
 
-        this.update();
+        const changeResult = this.options.onChange?.call(this, newState, oldState, event);
+        if (changeResult === false) {
+            return false;
+        }
+        if (changeResult) {
+            newState = $.extend(newState, changeResult);
+        }
+        this._state = newState;
+        this.update(newState);
+        this.options.onMove?.call(this, event, newState);
+        return true;
     }
 
     /**
@@ -117,15 +125,33 @@ export class Moveable extends Component<MoveableOptions> {
 
         const {strategy, target: currentTarget} = state;
         const $target = $(currentTarget);
+        let updateInfo: MoveableUpdateInfo = {};
         if (strategy === 'position') {
-            $target.css({left: state.left, top: state.top});
+            updateInfo.style = {left: state.left, top: state.top};
         } else if (strategy === 'transform') {
-            $target.css('transform', `translate(${state.left}px, ${state.top}px)`);
+            updateInfo.style = {transform: `translate(${state.left}px, ${state.top}px)`};
         } else if (strategy === 'scroll') {
-            currentTarget.scrollLeft = state.scrollLeft - state.deltaX;
-            currentTarget.scrollTop = state.scrollTop - state.deltaY;
+            updateInfo.scrollLeft = currentTarget.scrollLeft - state.deltaX;
+            updateInfo.scrollTop = currentTarget.scrollTop - state.deltaY;
         }
-        this.options.onUpdate?.call(this, state);
+
+        const updateResult = this.options.onUpdate?.call(this, updateInfo, state);
+        if (updateResult === false) {
+            return;
+        }
+        if (updateResult) {
+            updateInfo = $.extend(updateInfo, updateResult);
+        }
+
+        if (updateInfo.style) {
+            $target.css(updateInfo.style);
+        }
+        if (updateInfo.scrollLeft !== undefined) {
+            currentTarget.scrollLeft = updateInfo.scrollLeft;
+        }
+        if (updateInfo.scrollTop !== undefined) {
+            currentTarget.scrollTop = updateInfo.scrollTop;
+        }
     }
 
     /**
@@ -160,7 +186,15 @@ export class Moveable extends Component<MoveableOptions> {
         }
 
         event.preventDefault();
-        this._setState(event, moveElement);
+        if (!this._setState(event, moveElement)) {
+            if (movingClass) {
+                $moveElement.removeClass(movingClass);
+            }
+            if (hasMovingClass) {
+                this.$element.removeClass(hasMovingClass);
+            }
+            return;
+        }
         const {namespace} = this;
         $(document).off(namespace).on(`mousemove${namespace}`, this._handleMouseMove.bind(this)).on(`mouseup${namespace}`, this._handleMouseUp.bind(this));
     };
@@ -181,7 +215,6 @@ export class Moveable extends Component<MoveableOptions> {
         this._raf = requestAnimationFrame(() => {
             this._raf = 0;
             this._setState(event);
-            this.options.onMove?.call(this, event, this._state!);
         });
     };
 
@@ -190,8 +223,7 @@ export class Moveable extends Component<MoveableOptions> {
      * Handle mouseup: fire the `onMoveEnd` callback and perform cleanup.
      */
     protected _handleMouseUp = (event: MouseEvent) => {
-        const state = this._state;
-        if (!state) {
+        if (!this._state) {
             return;
         }
         if (this._raf) {
@@ -199,7 +231,6 @@ export class Moveable extends Component<MoveableOptions> {
             this._raf = 0;
         }
         this._setState(event);
-        this.options.onMove?.call(this, event, this._state!);
         this.options.onMoveEnd?.call(this, event, this._state!);
         this._clean();
     };
