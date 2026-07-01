@@ -10,6 +10,9 @@ const RESIZABLE_SELECTOR = '[resizable="true"]';
 /** 缩放手柄元素的 CSS 类名。CSS class name for resize handle elements. */
 const RESIZABLE_HANDLE_CLASS = 'resizable-handle';
 
+/** 正在拖拽的缩放手柄 CSS 类名。CSS class name for the active resize handle. */
+const RESIZABLE_HANDLE_ACTIVE_CLASS = 'is-resizing';
+
 /** 缩放手柄选择器。Resize handle selector. */
 const RESIZABLE_HANDLE_SELECTOR = `.${RESIZABLE_HANDLE_CLASS}`;
 
@@ -72,6 +75,9 @@ export class Resizable extends Component<ResizableOptions> {
     /** 当前缩放操作的内部上下文。Internal context for the current resize operation. */
     protected _runtime?: ResizableRuntime;
 
+    /** 当前正在拖拽的缩放手柄。The resize handle currently being dragged. */
+    protected _activeHandle?: HTMLElement;
+
     /** 用于取消动画帧的 ID。The ID for canceling the animation frame. */
     protected _raf = 0;
 
@@ -97,6 +103,7 @@ export class Resizable extends Component<ResizableOptions> {
     async afterInit() {
         this.refresh();
         this.on('mousedown', this._handleMouseDown);
+        this.$element.addClass('resizable');
     }
 
     /**
@@ -254,6 +261,8 @@ export class Resizable extends Component<ResizableOptions> {
         if (hasResizingClass) {
             this.$element.addClass(hasResizingClass);
         }
+        $(handle).addClass(RESIZABLE_HANDLE_ACTIVE_CLASS);
+        this._activeHandle = handle;
 
         event.preventDefault();
         if (!this._setState(event, resizeElement, direction)) {
@@ -263,6 +272,8 @@ export class Resizable extends Component<ResizableOptions> {
             if (hasResizingClass) {
                 this.$element.removeClass(hasResizingClass);
             }
+            $(handle).removeClass(RESIZABLE_HANDLE_ACTIVE_CLASS);
+            this._activeHandle = undefined;
             return;
         }
 
@@ -319,6 +330,10 @@ export class Resizable extends Component<ResizableOptions> {
         const {resizeElement} = this;
         if (resizeElement && resizingClass) {
             $(resizeElement).removeClass(resizingClass);
+        }
+        if (this._activeHandle) {
+            $(this._activeHandle).removeClass(RESIZABLE_HANDLE_ACTIVE_CLASS);
+            this._activeHandle = undefined;
         }
         if (this._raf) {
             cancelAnimationFrame(this._raf);

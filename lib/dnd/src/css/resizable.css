@@ -11,7 +11,8 @@
   transition: background-color 0.15s;
   z-index: 10;
 }
-.resizable-handle:hover {
+.resizable-handle:hover,
+.resizable-handle.is-resizing {
   background-color: var(--side-handle-color);
 }
 .resizable-handle[z-dir="n"],
