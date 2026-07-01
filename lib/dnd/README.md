@@ -14,10 +14,10 @@
 
 ```html:example
 <div class="ring -h-[200px] -w-full -bg-slate-100 -relative">
-  <div id="resize1" class="item -w-[100px] -h-[100px] ring canvas hover:shadow -absolute -left-[30px] -top-[30px]" resizeable="true">resize1</div>
-  <div id="resize2" class="item -w-[100px] -h-[100px] ring canvas hover:shadow -absolute -right-[30px] -bottom-[30px]" resizeable="true">resize2</div>
-  <div id="resize3" class="item -w-[100px] -h-[100px] ring canvas hover:shadow -fixed -right-[150px] -top-[150px] -z-10" resizeable="true">resize3</div>
-  <div id="resize4" class="item -w-[100px] -h-[100px] ring canvas hover:shadow -fixed -left-[150px] -bottom-[150px] -z-10" resizeable="true">resize4</div>
+  <div id="resize1" class="item -w-[100px] -h-[100px] ring canvas hover:shadow -absolute -left-[30px] -top-[30px]" resizable="true">resize1</div>
+  <div id="resize2" class="item -w-[100px] -h-[100px] ring canvas hover:shadow -absolute -right-[30px] -bottom-[30px]" resizable="true">resize2</div>
+  <div id="resize3" class="item -w-[100px] -h-[100px] ring canvas hover:shadow -fixed -right-[150px] -top-[150px] -z-10" resizable="true">resize3</div>
+  <div id="resize4" class="item -w-[100px] -h-[100px] ring canvas hover:shadow -fixed -left-[150px] -bottom-[150px] -z-10" resizable="true">resize4</div>
 </div>
 ```
 

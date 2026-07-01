@@ -1,364 +1,519 @@
 import {Component, $} from '@zui/core';
-import {ResizableOptions, ResizableState, SizeRect, ChangeRect, EdgeDetectionConfig, DistanceRect} from '../types';
+import type {DistanceRect, ResizableDirection, ResizableOptions, ResizableState, ResizableUpdateInfo} from '../types';
 import {Moveable} from './moveable';
 
 import '../css/resizable.css';
 
-/** 缩放手柄元素的 CSS 类名。CSS class name for resize handle elements. */
-const RESIZABLE_HANDLER_CLASS = 'zui-resizable-handle';
+/** 匹配所有标记了 resizable 属性的元素。Matches all elements with the resizable attribute. */
+const RESIZABLE_SELECTOR = '[resizable="true"]';
 
-/**
- * 边缘检测区域的矩形描述，包含位置、尺寸和内边距。
- * Rectangle describing the edge detection area, including position, dimensions, and padding.
- */
-type EdgeRect = SizeRect & {
-    padding: number | DistanceRect;
+/** 缩放手柄元素的 CSS 类名。CSS class name for resize handle elements. */
+const RESIZABLE_HANDLE_CLASS = 'zui-resizable-handle';
+
+/** 缩放手柄选择器。Resize handle selector. */
+const RESIZABLE_HANDLE_SELECTOR = `.${RESIZABLE_HANDLE_CLASS}`;
+
+/** 自动生成手柄的标记属性。Marker attribute for generated handles. */
+const RESIZABLE_GENERATED_HANDLE_ATTR = 'data-zui-resizable-generated';
+
+/** 默认生成的八个缩放方向。The eight default resize directions. */
+const RESIZABLE_DIRECTIONS: ResizableDirection[] = ['n', 'e', 's', 'w', 'ne', 'nw', 'se', 'sw'];
+
+/** 单轴缩放方向。Resize edge on one axis. */
+type ResizeAxisEdge = 'start' | 'end' | 'none';
+
+/** 单轴缩放边界。Resize bounds on one axis. */
+type ResizeAxisBounds = {
+    min: number;
+    max: number;
+};
+
+/** 计算后要写入的尺寸与 transform 偏移。Computed size and transform offsets to write. */
+type ResizeRect = {
+    width: number;
+    height: number;
+    left: number;
+    top: number;
+};
+
+/** 不暴露到公共 ResizableState 的内部缩放上下文。Internal resize context not exposed through ResizableState. */
+type ResizableRuntime = {
+    target: HTMLElement;
+    startWidth: number;
+    startHeight: number;
+    startClientLeft: number;
+    startClientTop: number;
+    startClientRight: number;
+    startClientBottom: number;
 };
 
 /**
- * 边缘检测结果：各轴方向上是否超出边界。
- * Edge detection result: whether each axis has exceeded the boundary.
- */
-interface EdgeDetectionResult {
-    /** x 方向是否越界。Whether x-axis is out of bounds. */
-    x: boolean;
-    /** y 方向是否越界。Whether y-axis is out of bounds. */
-    y: boolean;
-}
-
-/**
- * 元素缩放组件。在目标元素的八个方向（上、下、左、右及四个角）生成拖拽手柄，
- * 通过鼠标拖拽实现元素的尺寸调整和位置偏移，支持最小宽高限制和边缘检测。
+ * 基于鼠标事件的元素尺寸调整组件。
+ * 使用八方向手柄调整目标元素尺寸，并通过 transform 调整左/上边拖动时的位置偏移。
  *
- * Element resize component. Creates drag handles in eight directions (N/S/E/W and four corners)
- * around the target element. Supports resizing via mouse drag with minimum size constraints
- * and optional edge detection.
+ * Mouse-event-driven element resize component.
+ * Uses eight directional handles to resize the target element and transform offsets for north/west edges.
  */
 export class Resizable extends Component<ResizableOptions> {
     static NAME = 'Resizable';
 
     static DEFAULT: Partial<ResizableOptions> = {
-        edgeDetection: false,
-        x: 'left',
-        y: 'top',
+        selector: RESIZABLE_SELECTOR,
+        hasResizingClass: 'has-resizing',
+        resizingClass: 'is-resizing',
+        container: 'window',
         minWidth: 0,
         minHeight: 0,
     };
 
-    /** 当前缩放状态。Current resize state. */
+    /** 当前公开缩放状态。Current public resize state. */
     protected _state?: ResizableState;
 
-    /** 鼠标是否处于按下状态。Whether the mouse button is currently held down. */
-    protected _isMouseDown = false;
+    /** 当前缩放操作的内部上下文。Internal context for the current resize operation. */
+    protected _runtime?: ResizableRuntime;
 
-    /**
-     * 是否启用边缘检测。
-     * Whether edge detection is enabled.
-     */
-    get isEdgeDetectionEnabled() {
-        return !!this.options.edgeDetection;
+    /** 用于取消动画帧的 ID。The ID for canceling the animation frame. */
+    protected _raf = 0;
+
+    /** 获取当前缩放状态。Get the current resize state. */
+    get state(): ResizableState | undefined {
+        return this._state;
     }
 
-    /**
-     * 获取边缘检测区域的矩形信息（位置、尺寸和内边距）。
-     * Get the edge detection area rectangle (position, dimensions, and padding).
-     */
-    get edgeRect(): EdgeRect {
-        const rect: EdgeRect = {
-            x: 0,
-            y: 0,
-            width: 0,
-            height: 0,
-            padding: 0,
-        };
-
-        if (this.isEdgeDetectionEnabled) {
-            const {container, distance}: EdgeDetectionConfig = this.options.edgeDetection;
-            if (container === 'viewport') {
-                rect.width = window.innerWidth;
-                rect.height = window.innerHeight;
-            }
-
-            rect.padding = distance;
-        }
-
-        return rect;
+    /** 获取正在被调整尺寸的目标元素。Get the element currently being resized. */
+    get resizeElement() {
+        return this._runtime?.target;
     }
 
     /** 获取所有缩放手柄元素。Get all resize handle elements. */
     get handles() {
-        return $(this._element).find(`.${RESIZABLE_HANDLER_CLASS}`);
+        return this.$element.find(RESIZABLE_HANDLE_SELECTOR);
     }
 
     /**
-     * 初始化：在目标元素内创建八个方向的缩放手柄并绑定 mousedown 事件。
-     * Initialize: create eight directional resize handles inside the target element and bind mousedown.
+     * 初始化：生成手柄并绑定 mousedown 事件。
+     * Initialize: create handles and bind the mousedown event.
      */
     async afterInit() {
-        const container = $(this._element);
-
-        const directions = ['n', 'e', 's', 'w', 'ne', 'nw', 'se', 'sw'];
-        directions.forEach((dir) => {
-            const handle = $(`<div class="${RESIZABLE_HANDLER_CLASS}" data-dir="${dir}"></div>`);
-
-            container.append(handle);
-        });
-
-        $(this.handles).on('mousedown', this._handleMouseDown);
+        this.refresh();
+        this.on('mousedown', this._handleMouseDown);
     }
 
     /**
-     * 处理 mousedown 事件：记录拖拽方向和起始鼠标坐标，绑定全局 mousemove/mouseup 事件。
-     * Handle mousedown: record the drag direction and starting mouse coordinates,
-     * bind global mousemove/mouseup events.
+     * 刷新自动生成的缩放手柄。
+     * Refresh generated resize handles.
      */
-    protected _handleMouseDown = (event: MouseEvent) => {
-        event.preventDefault();
-
-        const dir = $(event.target).data('dir');
-
-        const state: ResizableState = {
-            handle: dir,
-            startX: event.screenX,
-            startY: event.screenY,
-        };
-
-        this._state = state;
-        this._isMouseDown = true;
-
-        $(document)
-            .on(`mousemove${this.namespace}`, this._handleMouseMove.bind(this))
-            .on(`mouseup${this.namespace}`, this._handleMouseUp.bind(this));
-    };
+    refresh() {
+        this._removeGeneratedHandles();
+        this._getMatchingTargets().forEach((target) => {
+            const $target = $(target);
+            RESIZABLE_DIRECTIONS.forEach((direction) => {
+                $target.append(`<div class="${RESIZABLE_HANDLE_CLASS}" data-dir="${direction}" ${RESIZABLE_GENERATED_HANDLE_ATTR}="true"></div>`);
+            });
+        });
+    }
 
     /**
-     * 处理 mousemove 事件：执行边缘检测后计算尺寸变化并应用。
-     * Handle mousemove: perform edge detection, compute size changes, and apply them.
+     * 销毁组件，清理状态、移除自动生成的手柄与事件监听。
+     * Destroy the component, clean up state, remove generated handles and event listeners.
      */
-    protected _handleMouseMove = (event: MouseEvent) => {
-        event.preventDefault();
-
-        if (!this._isMouseDown || !event.buttons) return;
-
-        let result = {
-            x: false,
-            y: false,
-        };
-        if (this.isEdgeDetectionEnabled) {
-            result = this._edgeDetect(event.clientX, event.clientY);
-        }
-
-        this._moveTo(event.screenX, event.screenY, result.x, result.y);
-
-        this._state = {
-            ...this._state,
-            startX: event.screenX,
-            startY: event.screenY,
-        };
-    };
+    destroy(): void {
+        this._clean();
+        this._removeGeneratedHandles();
+        this.$element.off(this.namespace);
+        super.destroy();
+    }
 
     /**
-     * 处理 mouseup 事件：结束缩放操作，移除全局事件监听。
-     * Handle mouseup: end the resize operation and remove global event listeners.
+     * 设置缩放状态并触发样式更新。
+     * Set the resize state and trigger style update.
      */
-    protected _handleMouseUp = (event: MouseEvent) => {
-        event.preventDefault();
+    protected _setState(event: MouseEvent, target?: HTMLElement, direction?: ResizableDirection): boolean {
+        const oldState = this._state;
+        let newState: ResizableState;
 
-        this._isMouseDown = false;
-
-        $(document).off(`mousemove${this.namespace} mouseup${this.namespace}`);
-    };
-
-    /**
-     * 对鼠标指针位置进行边缘检测，判断各轴方向是否超出容器边界。
-     * Perform edge detection on the mouse pointer position, checking if each axis exceeds container bounds.
-     *
-     * @param x 鼠标 clientX 坐标。Mouse clientX coordinate.
-     * @param y 鼠标 clientY 坐标。Mouse clientY coordinate.
-     * @returns 各轴的越界状态，未启用边缘检测时返回 false。Per-axis out-of-bounds status, or false if disabled.
-     */
-    protected _edgeDetect(x: number, y: number): EdgeDetectionResult | false {
-        if (!this.isEdgeDetectionEnabled) {
+        if (target && direction) {
+            const targetRect = target.getBoundingClientRect();
+            const translate = Moveable.getTranslate(target);
+            this._runtime = {
+                target,
+                startWidth: targetRect.width,
+                startHeight: targetRect.height,
+                startClientLeft: targetRect.left,
+                startClientTop: targetRect.top,
+                startClientRight: targetRect.right,
+                startClientBottom: targetRect.bottom,
+            };
+            newState = {
+                event,
+                direction,
+                startX: event.pageX,
+                startY: event.pageY,
+                x: event.pageX,
+                y: event.pageY,
+                startLeft: translate.left,
+                startTop: translate.top,
+            };
+        } else if (oldState) {
+            newState = $.extend({}, oldState, {
+                event,
+                x: event.pageX,
+                y: event.pageY,
+            });
+        } else {
             return false;
         }
 
-        const {
-            x: edgeX,
-            y: edgeY,
-            width,
-            height,
-            padding,
-        } = this.edgeRect;
+        const changeResult = this.options.onChange?.call(this, newState, oldState, event);
+        if (changeResult === false) {
+            if (target) {
+                this._runtime = undefined;
+            }
+            return false;
+        }
+        if (changeResult) {
+            newState = $.extend(newState, changeResult);
+        }
 
-        const isPaddingRect = !Number.isInteger(padding);
-        const pLeft = isPaddingRect ? padding.left : padding;
-        const pRight = isPaddingRect ? padding.right : padding;
-        const pTop = isPaddingRect ? padding.top : padding;
-        const pBottom = isPaddingRect ? padding.bottom : padding;
-        const left = edgeX + pLeft;
-        const right = edgeX + width - pRight;
-        const top = edgeY + pTop;
-        const bottom = edgeY + height - pBottom;
-
-        return {
-            x: x < left || x > right,
-            y: y < top || y > bottom,
-        };
+        this._state = newState;
+        this.update(newState);
+        this.options.onResize?.call(this, event, newState);
+        return true;
     }
 
     /**
-     * 根据拖拽方向和鼠标位移计算尺寸与位置的变化量（ChangeRect），然后调用 `_resizeBy` 应用。
-     * 不同方向的拖拽手柄对宽高和偏移的影响各不相同，且受定位基准边缘（x/y）影响。
-     *
-     * Compute size and position deltas (ChangeRect) based on the drag direction and mouse displacement,
-     * then call `_resizeBy` to apply. Different handle directions affect width/height/offset differently,
-     * and behavior depends on the positioning anchor edge (x/y option).
-     *
-     * @param x  当前 screenX 坐标。Current screenX.
-     * @param y  当前 screenY 坐标。Current screenY.
-     * @param ox x 方向是否越界（越界时该轴位移归零）。Whether x-axis is out of bounds (zeroes the axis delta).
-     * @param oy y 方向是否越界（越界时该轴位移归零）。Whether y-axis is out of bounds (zeroes the axis delta).
+     * 更新目标元素尺寸与位置。
+     * Update the target element size and position.
      */
-    protected _moveTo = (x: number, y: number, ox: boolean, oy: boolean) => {
-        const {
-            handle,
-            startX,
-            startY,
-        } = this._state;
-
-        let rect: ChangeRect = {
-            dx: 0,
-            dy: 0,
-            dw: 0,
-            dh: 0,
-        };
-
-        const cx = ox ? 0 : x - startX;
-        const cy = oy ? 0 : y - startY;
-
-        const baseX = this.options.x;
-        const baseY = this.options.y;
-
-        switch (handle) {
-            case 'n':
-                rect = {
-                    dx: 0,
-                    dy: baseY === 'top' ? cy : 0,
-                    dw: 0,
-                    dh: -cy,
-                };
-                break;
-            case 's':
-                rect = {
-                    dx: 0,
-                    dy: baseY === 'bottom' ? cy : 0,
-                    dw: 0,
-                    dh: cy,
-                };
-                break;
-            case 'w':
-                rect = {
-                    dx: baseX === 'left' ? cx : 0,
-                    dy: 0,
-                    dw: -cx,
-                    dh: 0,
-                };
-                break;
-            case 'e':
-                rect = {
-                    dx: baseX === 'right' ? cx : 0,
-                    dy: 0,
-                    dw: cx,
-                    dh: 0,
-                };
-                break;
-            case 'ne':
-                rect = {
-                    dx: baseX === 'right' ? cx : 0,
-                    dy: baseY === 'top' ? cy : 0,
-                    dw: cx,
-                    dh: -cy,
-                };
-                break;
-            case 'nw':
-                rect = {
-                    dx: baseX === 'left' ? cx : 0,
-                    dy: baseY === 'top' ? cy : 0,
-                    dw: -cx,
-                    dh: -cy,
-                };
-                break;
-            case 'se':
-                rect = {
-                    dx: baseX === 'right' ? cx : 0,
-                    dy: baseY === 'bottom' ? cy : 0,
-                    dw: cx,
-                    dh: cy,
-                };
-                break;
-            case 'sw':
-                rect = {
-                    dx: baseX === 'left' ? cx : 0,
-                    dy: baseY === 'bottom' ? cy : 0,
-                    dw: -cx,
-                    dh: cy,
-                };
-                break;
-            default:
+    update(state?: ResizableState) {
+        state = state || this._state;
+        const runtime = this._runtime;
+        if (!state || !runtime) {
+            return;
         }
 
-        this._resizeBy(rect);
+        const rect = this._getResizeRect(state);
+        let updateInfo: ResizableUpdateInfo = {
+            style: {
+                width: rect.width,
+                height: rect.height,
+                transform: `translate(${rect.left}px, ${rect.top}px)`,
+            },
+        };
+
+        const updateResult = this.options.onUpdate?.call(this, updateInfo, state);
+        if (updateResult === false) {
+            return;
+        }
+        if (updateResult) {
+            updateInfo = $.extend(updateInfo, updateResult);
+        }
+
+        if (updateInfo.style) {
+            $(runtime.target).css(updateInfo.style);
+        }
+    }
+
+    /**
+     * 处理 mousedown 事件：匹配缩放目标与手柄方向，初始化缩放状态并绑定文档事件。
+     * Handle mousedown: resolve the resize target and handle direction, initialize state and bind document events.
+     */
+    protected _handleMouseDown = (event: MouseEvent) => {
+        const {options} = this;
+        const {selector, onResizeStart} = options;
+        const $clickTarget = $(event.target as HTMLElement);
+        const $handle = $clickTarget.closest(RESIZABLE_HANDLE_SELECTOR);
+        const handle = $handle[0];
+        if (!handle) {
+            return;
+        }
+
+        const direction = $(handle).data('dir') as ResizableDirection | undefined;
+        if (!Resizable.isDirection(direction)) {
+            return;
+        }
+
+        if (this._state) {
+            this._clean();
+        }
+
+        const $resizeElement = selector === 'self' ? this.$element : $handle.closest(selector || RESIZABLE_SELECTOR);
+        const resizeElement = $resizeElement[0];
+        if (!resizeElement) {
+            return;
+        }
+
+        if (onResizeStart && onResizeStart.call(this, event, resizeElement, direction) === false) {
+            return;
+        }
+
+        const {hasResizingClass, resizingClass} = options;
+        if (resizingClass) {
+            $resizeElement.addClass(resizingClass);
+        }
+        if (hasResizingClass) {
+            this.$element.addClass(hasResizingClass);
+        }
+
+        event.preventDefault();
+        if (!this._setState(event, resizeElement, direction)) {
+            if (resizingClass) {
+                $resizeElement.removeClass(resizingClass);
+            }
+            if (hasResizingClass) {
+                this.$element.removeClass(hasResizingClass);
+            }
+            return;
+        }
+
+        const {namespace} = this;
+        $(document).off(namespace).on(`mousemove${namespace}`, this._handleMouseMove).on(`mouseup${namespace}`, this._handleMouseUp);
     };
 
     /**
-     * 将 ChangeRect 中的增量应用到目标元素的尺寸和位置上。
-     * 使用 `transform: translate()` 定位，并强制执行最小宽高约束。
-     *
-     * Apply the ChangeRect deltas to the target element's size and position.
-     * Uses `transform: translate()` for positioning and enforces minimum width/height constraints.
+     * 处理 mousemove 事件：通过 requestAnimationFrame 节流持续缩放。
+     * Handle mousemove: continuously resize with requestAnimationFrame throttling.
      */
-    protected _resizeBy = (rect: ChangeRect) => {
-        const targetRect = this._element.getBoundingClientRect();
-        const translate = Moveable.getTranslate(this._element);
-
-        let width = targetRect.width + rect.dw;
-        let height = targetRect.height + rect.dh;
-        let x = translate.left + rect.dx;
-        let y = translate.top + rect.dy;
-
-        const {
-            minWidth,
-            minHeight,
-        } = this.options;
-
-        if (minWidth && width < minWidth) {
-            width = minWidth;
-            x = translate.left;
+    protected _handleMouseMove = (event: MouseEvent) => {
+        if (!this._state || !event.buttons) {
+            return;
         }
-        if (minHeight && height < minHeight) {
-            height = minHeight;
-            y = translate.top;
+        event.preventDefault();
+        if (this._raf) {
+            cancelAnimationFrame(this._raf);
         }
-
-        this._element.style.width = `${width}px`;
-        this._element.style.height = `${height}px`;
-        this._element.style.transform = `translate(${x}px, ${y}px)`;
-
-        this.options.onChange?.call(this, this._state, {
-            ...rect,
-            width,
-            height,
-            x,
-            y,
+        this._raf = requestAnimationFrame(() => {
+            this._raf = 0;
+            this._setState(event);
         });
     };
 
     /**
-     * 销毁组件：移除手柄事件监听和全局事件监听。
-     * Destroy the component: remove handle event listeners and global event listeners.
+     * 处理 mouseup 事件：刷新最终状态、触发结束回调并清理。
+     * Handle mouseup: flush final state, fire the end callback and clean up.
      */
-    destroy(): void {
-        $(this.handles).off('mousedown');
-        $(document).off(`mousemove${this.namespace} mouseup${this.namespace}`);
+    protected _handleMouseUp = (event: MouseEvent) => {
+        if (!this._state) {
+            return;
+        }
+        event.preventDefault();
+        if (this._raf) {
+            cancelAnimationFrame(this._raf);
+            this._raf = 0;
+        }
+        this._setState(event);
+        this.options.onResizeEnd?.call(this, event, this._state);
+        this._clean();
+    };
+
+    /**
+     * 清理缩放状态：移除文档事件、类名、动画帧与状态。
+     * Clean up resize state: remove document events, classes, animation frame and state.
+     */
+    protected _clean() {
+        $(document).off(this.namespace);
+        const {hasResizingClass, resizingClass} = this.options;
+        if (hasResizingClass) {
+            this.$element.removeClass(hasResizingClass);
+        }
+        const {resizeElement} = this;
+        if (resizeElement && resizingClass) {
+            $(resizeElement).removeClass(resizingClass);
+        }
+        if (this._raf) {
+            cancelAnimationFrame(this._raf);
+            this._raf = 0;
+        }
+        this._state = undefined;
+        this._runtime = undefined;
+    }
+
+    /**
+     * 根据当前状态计算尺寸和 transform 偏移。
+     * Compute size and transform offsets from the current state.
+     */
+    protected _getResizeRect(state: ResizableState): ResizeRect {
+        const runtime = this._runtime!;
+        const {direction} = state;
+        const deltaX = state.x - state.startX;
+        const deltaY = state.y - state.startY;
+        const containerRect = this._getContainerRect();
+        const xAxis = this._resizeAxis({
+            edge: direction.includes('w') ? 'start' : (direction.includes('e') ? 'end' : 'none'),
+            startMin: runtime.startClientLeft,
+            startMax: runtime.startClientRight,
+            delta: deltaX,
+            minSize: this.options.minWidth ?? 0,
+            maxSize: this.options.maxWidth ?? Number.POSITIVE_INFINITY,
+            bounds: containerRect ? {min: containerRect.left, max: containerRect.right} : undefined,
+        });
+        const yAxis = this._resizeAxis({
+            edge: direction.includes('n') ? 'start' : (direction.includes('s') ? 'end' : 'none'),
+            startMin: runtime.startClientTop,
+            startMax: runtime.startClientBottom,
+            delta: deltaY,
+            minSize: this.options.minHeight ?? 0,
+            maxSize: this.options.maxHeight ?? Number.POSITIVE_INFINITY,
+            bounds: containerRect ? {min: containerRect.top, max: containerRect.bottom} : undefined,
+        });
+
+        return {
+            width: xAxis.max - xAxis.min,
+            height: yAxis.max - yAxis.min,
+            left: state.startLeft + xAxis.min - runtime.startClientLeft,
+            top: state.startTop + yAxis.min - runtime.startClientTop,
+        };
+    }
+
+    /**
+     * 单轴计算尺寸边缘，先应用最小/最大尺寸，再应用容器限制。
+     * Compute one axis edge, applying min/max size first and then container bounds.
+     */
+    protected _resizeAxis(options: {
+        edge: ResizeAxisEdge;
+        startMin: number;
+        startMax: number;
+        delta: number;
+        minSize: number;
+        maxSize: number;
+        bounds?: ResizeAxisBounds;
+    }): ResizeAxisBounds {
+        const {edge, startMin, startMax, delta, bounds} = options;
+        const minSize = Math.max(0, options.minSize);
+        const maxSize = Math.max(minSize, options.maxSize);
+        let min = startMin;
+        let max = startMax;
+
+        if (edge === 'start') {
+            min = startMin + delta;
+            const size = Moveable.clamp(max - min, minSize, maxSize);
+            min = max - size;
+        } else if (edge === 'end') {
+            max = startMax + delta;
+            const size = Moveable.clamp(max - min, minSize, maxSize);
+            max = min + size;
+        }
+
+        if (bounds) {
+            if (edge === 'start') {
+                min = Math.max(min, bounds.min);
+                max = Math.min(max, bounds.max);
+                if (max - min < minSize) {
+                    min = Math.max(bounds.min, max - minSize);
+                }
+            } else if (edge === 'end') {
+                min = Math.max(min, bounds.min);
+                max = Math.min(max, bounds.max);
+                if (max - min < minSize) {
+                    max = Math.min(bounds.max, min + minSize);
+                }
+            } else {
+                const size = max - min;
+                min = Moveable.clamp(min, bounds.min, bounds.max - size);
+                max = min + size;
+            }
+        }
+
+        if (max < min) {
+            max = min;
+        }
+        return {min, max};
+    }
+
+    /**
+     * 解析 `container` 选项对应的元素（当可解析为 DOM 元素时）。
+     * Resolve the element for the `container` option when it can be resolved to a DOM element.
+     */
+    protected _getContainerElement(): Element | null {
+        const {container} = this.options;
+        if (!container || container === 'window') {
+            return null;
+        }
+        if (container === 'self') {
+            return this.element;
+        }
+        if (container === 'parent') {
+            return this.element.parentElement;
+        }
+        if (typeof container === 'string') {
+            return document.querySelector(container);
+        }
+        if (container instanceof Element) {
+            return container;
+        }
+        return null;
+    }
+
+    /**
+     * 解析 `container` 选项对应的区域矩形（视口坐标），并按 `containerPadding` 收缩。
+     * Resolve the area rect for the `container` option, shrunk by `containerPadding`.
+     */
+    protected _getContainerRect(): DistanceRect | null {
+        const {container, containerPadding} = this.options;
+        if (container === false || container === undefined) {
+            return null;
+        }
+
+        let rect: {left: number; top: number; right: number; bottom: number} | undefined;
+        if (container === 'window') {
+            rect = {left: 0, top: 0, right: window.innerWidth, bottom: window.innerHeight};
+        } else {
+            const element = this._getContainerElement();
+            if (element) {
+                const box = element.getBoundingClientRect();
+                rect = {left: box.left, top: box.top, right: box.right, bottom: box.bottom};
+            } else if (typeof (container as {getBoundingClientRect?: unknown}).getBoundingClientRect === 'function') {
+                const box = (container as {getBoundingClientRect(): DOMRect}).getBoundingClientRect();
+                rect = {left: box.left, top: box.top, right: box.right, bottom: box.bottom};
+            }
+        }
+
+        if (!rect) {
+            return null;
+        }
+
+        const padding = Moveable.normalizePadding(containerPadding);
+        return {
+            left: rect.left + padding.left,
+            top: rect.top + padding.top,
+            right: rect.right - padding.right,
+            bottom: rect.bottom - padding.bottom,
+        };
+    }
+
+    /**
+     * 获取所有匹配 selector 的目标元素（selector 为 "self" 时返回根元素）。
+     * Get all target elements matching selector (returns the root element when selector is "self").
+     */
+    protected _getMatchingTargets(): HTMLElement[] {
+        const {selector} = this.options;
+        if (selector === 'self') {
+            return [this.element];
+        }
+        const targets: HTMLElement[] = [];
+        if (selector) {
+            this.$element.find(selector).each((_index, element) => {
+                targets.push(element as HTMLElement);
+            });
+        }
+        return targets;
+    }
+
+    /**
+     * 移除自动生成的缩放手柄。
+     * Remove generated resize handles.
+     */
+    protected _removeGeneratedHandles() {
+        this.$element.find(`${RESIZABLE_HANDLE_SELECTOR}[${RESIZABLE_GENERATED_HANDLE_ATTR}]`).each((_index, element) => {
+            element.remove();
+        });
+    }
+
+    /**
+     * 判断值是否为合法方向。
+     * Check whether a value is a valid direction.
+     */
+    static isDirection(value: unknown): value is ResizableDirection {
+        return typeof value === 'string' && RESIZABLE_DIRECTIONS.includes(value as ResizableDirection);
     }
 }

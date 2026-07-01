@@ -1,82 +1,82 @@
-import {ResizableState} from './resizable-state';
+import type {CSSProperties} from 'preact';
+import type {DistanceRect} from './edge-detection';
+import type {MoveableContainer} from './moveable-options';
+import type {ResizableDirection, ResizableState} from './resizable-state';
 
-/**
- * 尺寸位置数据
- */
-export interface SizeRect {
-    /**
-     * 宽度
-     */
-    width: number;
-    /**
-     * 高度
-     */
-    height: number;
-    /**
-     * 横向偏移
-     */
-    x: number;
-    /**
-     * 纵向偏移
-     */
-    y: number;
-}
+export type ResizableUpdateInfo = {
+    style?: CSSProperties;
+};
 
-/**
- * 尺寸位置变化数据
- */
-export interface ChangeRect {
+export type ResizableOptions = {
     /**
-     * 宽度变化
+     * 要调整尺寸的元素选择器，默认为匹配所有标记了 resizable 属性的元素。
+     * The selector to find resizable elements. Defaults to all elements with the [resizable="true"] attribute.
      */
-    dw: number;
-    /**
-     * 高度变化
-     */
-    dh: number;
-    /**
-     * 横向偏移
-     */
-    dx: number;
-    /**
-     * 纵向偏移
-     */
-    dy: number;
-}
-
-/**
- * 元素尺寸位置及变化数据
- */
-type ResizeMatrix = SizeRect & ChangeRect;
-
-export type ResizableOption = {
-    /**
-     * 边缘检测设置
-     */
-    edgeDetection?: boolean | EdgeDetectionConfig;
+    selector?: 'self' | (string & {});
 
     /**
-     * x 方向基准边缘
+     * 当有元素正在调整尺寸时添加到根元素上的类名。
+     * The class name added to the root element when an element is resizing.
      */
-    x: 'left' | 'right';
-    /**
-     * y 方向基准边缘
-     */
-    y: 'top' | 'bottom';
+    hasResizingClass?: string;
 
     /**
-     * 最小宽度
+     * 当有元素正在调整尺寸时添加到目标元素上的类名。
+     * The class name added to the target element when it is resizing.
      */
-    minWidth: number;
-    /**
-     * 最小高度
-     */
-    minHeight: number;
+    resizingClass?: string;
 
     /**
-     * 当位置/尺寸尺寸改变时触发
-     * @param state 内部状态
-     * @param matrix 变化数据
+     * 尺寸调整区域限制，将目标元素约束在指定区域内。
+     * The resize area constraint that keeps the target element inside the given area.
      */
-    onChange?: (state: ResizableState, matrix: ResizeMatrix) => void;
+    container?: MoveableContainer;
+
+    /**
+     * 元素距区域边缘的间距。
+     * The gap between the element and the area edges.
+     */
+    containerPadding?: number | Partial<DistanceRect>;
+
+    /** 最小宽度。Minimum width. */
+    minWidth?: number;
+
+    /** 最小高度。Minimum height. */
+    minHeight?: number;
+
+    /** 最大宽度。Maximum width. */
+    maxWidth?: number;
+
+    /** 最大高度。Maximum height. */
+    maxHeight?: number;
+
+    /**
+     * 当尺寸状态变更时触发。
+     * Triggered when the resize state changes.
+     */
+    onChange?: (newState: ResizableState, oldState: ResizableState | undefined, event: MouseEvent) => void | false | Partial<ResizableState>;
+
+    /**
+     * 在尺寸调整开始时触发，如果返回 false，则取消调整。
+     * Triggered when resizing starts. If returns false, the resize is canceled.
+     */
+    onResizeStart?: (event: MouseEvent, target: HTMLElement, direction: ResizableDirection) => void | boolean;
+
+    /**
+     * 在尺寸调整中触发。
+     * Triggered while resizing.
+     */
+    onResize?: (event: MouseEvent, state: ResizableState) => void;
+
+    /**
+     * 在尺寸调整结束时触发。
+     * Triggered when resizing ends.
+     */
+    onResizeEnd?: (event: MouseEvent, state: ResizableState) => void;
+
+    /**
+     * 在尺寸样式更新时触发。
+     * Triggered when resize styles are updated.
+     */
+    onUpdate?: (info: ResizableUpdateInfo, state: ResizableState) => void | false | Partial<ResizableUpdateInfo>;
 };

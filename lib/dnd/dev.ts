@@ -43,42 +43,26 @@ onPageUpdate(() => {
     console.log('> moveable', moveable);
 
     new Resizable('#resize1', {
-        x: 'left',
-        y: 'top',
-        edgeDetection: {
-            container: 'viewport',
-            distance: 24,
-        },
+        selector: 'self',
+        containerPadding: 24,
     });
     new Resizable('#resize2', {
-        x: 'right',
-        y: 'bottom',
-        edgeDetection: {
-            container: 'viewport',
-            distance: 24,
-        },
+        selector: 'self',
+        containerPadding: 24,
     });
     new Resizable('#resize3', {
-        x: 'right',
-        y: 'top',
+        selector: 'self',
         minWidth: 100,
         minHeight: 100,
-        edgeDetection: {
-            container: 'viewport',
-            distance: 24,
-        },
+        containerPadding: 24,
     });
     new Resizable('#resize4', {
-        x: 'left',
-        y: 'bottom',
-        edgeDetection: {
-            container: 'viewport',
-            distance: {
-                left: 100,
-                top: 200,
-                right: 200,
-                bottom: 100,
-            },
+        selector: 'self',
+        containerPadding: {
+            left: 100,
+            top: 200,
+            right: 200,
+            bottom: 100,
         },
     });
 });
