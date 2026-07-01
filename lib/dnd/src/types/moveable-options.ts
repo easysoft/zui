@@ -29,6 +29,32 @@ export type MoveableContainer = false
     | HTMLElement
     | {getBoundingClientRect(): DOMRect};
 
+/**
+ * autoUpdate 的精细控制选项。
+ * Fine-grained control for autoUpdate.
+ */
+export type MoveableAutoUpdateOptions = {
+    /**
+     * 监听容器与目标元素的尺寸变化（基于 ResizeObserver 与 window 的 resize 事件）。默认 true。
+     * Watch size changes of the container and the target via ResizeObserver and the window resize event. Defaults to true.
+     */
+    resize?: boolean;
+
+    /**
+     * 监听祖先滚动容器与窗口的滚动（基于 window 的捕获阶段 scroll 事件）。默认 true。
+     * Watch scrolling of ancestor scroll containers and the window via a capture-phase scroll listener on window. Defaults to true.
+     */
+    scroll?: boolean;
+
+    /**
+     * 使用 requestAnimationFrame 持续轮询，以兼容无法被观察的容器（如仅提供 getBoundingClientRect 方法的普通对象）。
+     * 默认 false；当 container 为此类无法观察的对象时会自动启用（可显式设为 false 关闭）。
+     * Continuously poll via requestAnimationFrame to support containers that cannot be observed (e.g. plain objects that only provide a getBoundingClientRect method).
+     * Defaults to false; auto-enabled when container is such an unobservable object (can be turned off explicitly by setting false).
+     */
+    animationFrame?: boolean;
+};
+
 export type MoveableOptions = {
     /**
      * 要移动的元素的选择器，默认为匹配所有标记了 moveable 属性的元素（[moveable="true"]）。
@@ -71,6 +97,16 @@ export type MoveableOptions = {
      * The gap between the element and the area edges. Pass a single number to control all four sides, or specify top/right/bottom/left separately. Negative values are allowed (expanding the area outward so the element can move beyond the edges). Defaults to 0.
      */
     containerPadding?: number | Partial<DistanceRect>;
+
+    /**
+     * 是否在容器区域或目标元素的尺寸/位置发生变化时，自动按当前约束把已移动的元素重新校正到最近的合法位置。
+     * 传入 true 开启（等价于 {resize: true, scroll: true}），也可传入对象进行精细控制。仅对 "position"/"transform" 策略生效。
+     * 当 selector 为 "self" 时，即使尚未拖动过也会约束根元素。
+     * Whether to automatically re-clamp the moved element to the nearest valid position under the current constraint when the container area or the target size/position changes.
+     * Pass true to enable (equivalent to {resize: true, scroll: true}), or pass an object for fine-grained control. Only applies to the "position"/"transform" strategies.
+     * When selector is "self", the root element is constrained even before it is moved.
+     */
+    autoUpdate?: boolean | MoveableAutoUpdateOptions;
 
     /**
      * 当有元素位置变更时触发。

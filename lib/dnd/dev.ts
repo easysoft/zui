@@ -34,15 +34,13 @@ onPageUpdate(() => {
     const moveable = new Moveable('#example2', {
         container: 'self',
         containerPadding: 8,
+        autoUpdate: true,
         onChange(newState, oldState, event) {
             console.log('onChange', event.type, {newState, oldState});
         },
     });
 
     console.log('> moveable', moveable);
-
-    /* 窗口尺寸变化后，重新把元素约束回区域内。Re-clamp elements into the area after the window resizes. */
-    $(window).off('resize.dnd-dev').on('resize.dnd-dev', () => moveable.update());
 
     new Resizable('#resize1', {
         x: 'left',

@@ -1,5 +1,5 @@
 import {Component, $} from '@zui/core';
-import {DistanceRect, MoveableOptions, MoveableState, MoveableStrategy, MoveableUpdateInfo} from '../types';
+import {DistanceRect, MoveableAutoUpdateOptions, MoveableOptions, MoveableState, MoveableStrategy, MoveableUpdateInfo} from '../types';
 
 /** 匹配所有标记了 moveable 属性的元素。Matches all elements with the moveable attribute. */
 const MOVEABLE_SELECTOR = '[moveable="true"]';
@@ -37,6 +37,18 @@ export class Moveable extends Component<MoveableOptions> {
     /** 用于取消动画帧的 ID。The ID for canceling the animation frame. */
     protected declare _raf: number;
 
+    /** autoUpdate 使用的 ResizeObserver。The ResizeObserver used by autoUpdate. */
+    protected _resizeObserver?: ResizeObserver;
+
+    /** autoUpdate 绑定到 window 的 scroll/resize 处理器。The scroll/resize handler bound to window by autoUpdate. */
+    protected _autoUpdateHandler?: () => void;
+
+    /** autoUpdate 的动画帧 ID（用于节流或 animationFrame 轮询）。The animation frame ID used by autoUpdate (for throttling or animationFrame polling). */
+    protected _autoUpdateRaf = 0;
+
+    /** 是否正在进行 animationFrame 轮询。Whether the animationFrame polling loop is running. */
+    protected _autoUpdateFrameLoop = false;
+
     /** 获取当前移动状态。Get the current move state. */
     get state() {
         return this._state;
@@ -53,6 +65,9 @@ export class Moveable extends Component<MoveableOptions> {
      */
     async afterInit() {
         this.on('mousedown', this._handleMouseDown);
+        if (this.options.autoUpdate) {
+            this.startAutoUpdate();
+        }
     }
 
     /**
@@ -60,6 +75,7 @@ export class Moveable extends Component<MoveableOptions> {
      * Destroy the component, clean up state and remove event listeners.
      */
     destroy(): void {
+        this.stopAutoUpdate();
         this._clean();
         $(document).off(this.namespace);
         super.destroy();
@@ -74,13 +90,7 @@ export class Moveable extends Component<MoveableOptions> {
         const oldState = this._state;
         if (target) {
             const $target = $(target);
-            let strategy: MoveableStrategy;
-            if (this.options.move === true) {
-                const position = $target.css('position');
-                strategy = (position === 'fixed' || position === 'absolute') ? 'position' : 'transform';
-            } else {
-                strategy = this.options.move || 'none';
-            }
+            const strategy = this._resolveStrategy(target);
 
             const position = strategy === 'transform' ? Moveable.getTranslate(target) : (strategy === 'scroll' ? {left: target.scrollLeft, top: target.scrollTop} : $target.position()!);
             const clientRect = target.getBoundingClientRect();
@@ -104,6 +114,7 @@ export class Moveable extends Component<MoveableOptions> {
             });
             this._restTarget = target;
             this._restStrategy = strategy;
+            this._syncAutoUpdateTargets();
         } else if (oldState) {
             const deltaX = newState.x - oldState.startX;
             const deltaY = newState.y - oldState.startY;
@@ -292,6 +303,47 @@ export class Moveable extends Component<MoveableOptions> {
     }
 
     /**
+     * 推断目标元素的移动策略：move 为 true 时按其定位方式自动判断，否则使用显式指定的策略。
+     * Resolve the movement strategy for the target: auto-detect from its positioning when move is true, otherwise use the explicit strategy.
+     *
+     * @param target 目标 DOM 元素。The target DOM element.
+     * @returns 移动策略。The movement strategy.
+     */
+    protected _resolveStrategy(target: HTMLElement): MoveableStrategy {
+        if (this.options.move === true) {
+            const position = $(target).css('position');
+            return (position === 'fixed' || position === 'absolute') ? 'position' : 'transform';
+        }
+        return this.options.move || 'none';
+    }
+
+    /**
+     * 解析 `container` 选项对应的元素（当可解析为 DOM 元素时）。
+     * Resolve the element for the `container` option when it can be resolved to a DOM element.
+     *
+     * @returns 容器元素，无法解析为元素（如 window、普通对象、false）时返回 null。The container element, or null when it does not resolve to an element (e.g. window, a plain object, or false).
+     */
+    protected _getContainerElement(): Element | null {
+        const {container} = this.options;
+        if (!container || container === 'window') {
+            return null;
+        }
+        if (container === 'self') {
+            return this.element;
+        }
+        if (container === 'parent') {
+            return this.element.parentElement;
+        }
+        if (typeof container === 'string') {
+            return document.querySelector(container);
+        }
+        if (container instanceof Element) {
+            return container;
+        }
+        return null;
+    }
+
+    /**
      * 解析 `container` 选项对应的区域矩形（视口坐标），并按 `containerPadding` 收缩（负值则向外扩展）。
      * Resolve the area rect (in viewport coordinates) for the `container` option, shrunk by `containerPadding` (negative values expand it outward).
      *
@@ -307,19 +359,12 @@ export class Moveable extends Component<MoveableOptions> {
         if (container === 'window') {
             rect = {left: 0, top: 0, right: window.innerWidth, bottom: window.innerHeight};
         } else {
-            let element: Element | null | undefined;
-            if (container === 'self') {
-                element = this.element;
-            } else if (container === 'parent') {
-                element = this.element.parentElement;
-            } else if (typeof container === 'string') {
-                element = document.querySelector(container);
+            const element = this._getContainerElement();
+            if (element) {
+                const box = element.getBoundingClientRect();
+                rect = {left: box.left, top: box.top, right: box.right, bottom: box.bottom};
             } else if (typeof (container as {getBoundingClientRect?: unknown}).getBoundingClientRect === 'function') {
                 const box = (container as {getBoundingClientRect(): DOMRect}).getBoundingClientRect();
-                rect = {left: box.left, top: box.top, right: box.right, bottom: box.bottom};
-            }
-            if (!rect && element) {
-                const box = element.getBoundingClientRect();
                 rect = {left: box.left, top: box.top, right: box.right, bottom: box.bottom};
             }
         }
@@ -406,6 +451,140 @@ export class Moveable extends Component<MoveableOptions> {
             width: clientRect.width,
             height: clientRect.height,
         } as MoveableState);
+    }
+
+    /**
+     * 开启自动更新：监听容器区域与目标元素的尺寸/位置变化，自动按当前约束把最近移动的元素重排到最近合法位置。
+     * 若已开启会先停止再重新开启。仅对 "position"/"transform" 策略生效。
+     *
+     * Start auto-updating: watch the container area and target size/position, and re-clamp the most recently moved element under the current constraint.
+     * Restarts if already running. Only applies to the "position"/"transform" strategies.
+     */
+    startAutoUpdate() {
+        this.stopAutoUpdate();
+        const config = this._resolveAutoUpdateOptions();
+        if (!config) {
+            return;
+        }
+
+        /* selector 为 self 时，即便尚未拖动过也把根元素纳入约束。When selector is 'self', constrain the root element even before any drag. */
+        if (!this._restTarget && this.options.selector === 'self') {
+            const element = this.element;
+            this._restTarget = element;
+            this._restStrategy = this._resolveStrategy(element);
+        }
+
+        const handler = () => this._scheduleAutoUpdate();
+        this._autoUpdateHandler = handler;
+
+        if (config.scroll !== false) {
+            window.addEventListener('scroll', handler, {capture: true, passive: true});
+        }
+        if (config.resize !== false) {
+            window.addEventListener('resize', handler);
+            if (typeof ResizeObserver !== 'undefined') {
+                this._resizeObserver = new ResizeObserver(handler);
+            }
+        }
+        this._syncAutoUpdateTargets();
+
+        /* container 为无法观察的普通对象（仅提供 getBoundingClientRect），或显式要求时，使用 rAF 轮询。When container is an unobservable plain object, or when explicitly requested, poll via rAF. */
+        const {container} = this.options;
+        const isUnobservableObject = !!container && typeof container === 'object' && !(container instanceof Element);
+        if (config.animationFrame || (config.animationFrame !== false && isUnobservableObject)) {
+            this._startAutoUpdateFrameLoop();
+        }
+    }
+
+    /**
+     * 停止自动更新，移除所有监听与观察器。
+     * Stop auto-updating and remove all listeners and observers.
+     */
+    stopAutoUpdate() {
+        const handler = this._autoUpdateHandler;
+        if (handler) {
+            window.removeEventListener('scroll', handler, {capture: true} as EventListenerOptions);
+            window.removeEventListener('resize', handler);
+            this._autoUpdateHandler = undefined;
+        }
+        if (this._resizeObserver) {
+            this._resizeObserver.disconnect();
+            this._resizeObserver = undefined;
+        }
+        this._autoUpdateFrameLoop = false;
+        if (this._autoUpdateRaf) {
+            cancelAnimationFrame(this._autoUpdateRaf);
+            this._autoUpdateRaf = 0;
+        }
+    }
+
+    /**
+     * 归一化 autoUpdate 选项。
+     * Normalize the autoUpdate option.
+     *
+     * @returns 归一化后的配置，未开启时返回 null。The normalized config, or null when disabled.
+     */
+    protected _resolveAutoUpdateOptions(): MoveableAutoUpdateOptions | null {
+        const {autoUpdate} = this.options;
+        if (!autoUpdate) {
+            return null;
+        }
+        return autoUpdate === true ? {resize: true, scroll: true} : autoUpdate;
+    }
+
+    /**
+     * 让 ResizeObserver 观察当前容器元素与最近移动的目标元素（在目标变更后调用以保持同步）。
+     * Make the ResizeObserver watch the current container element and the most recently moved target (called after the target changes to keep it in sync).
+     */
+    protected _syncAutoUpdateTargets() {
+        const observer = this._resizeObserver;
+        if (!observer) {
+            return;
+        }
+        observer.disconnect();
+        const containerElement = this._getContainerElement();
+        if (containerElement) {
+            observer.observe(containerElement);
+        }
+        if (this._restTarget) {
+            observer.observe(this._restTarget);
+        }
+    }
+
+    /**
+     * 通过动画帧节流触发一次重排（避免同一帧内多次监听回调重复计算）。
+     * Throttle a single re-clamp via an animation frame (avoids redundant work when multiple listeners fire in the same frame).
+     */
+    protected _scheduleAutoUpdate() {
+        if (this._autoUpdateRaf) {
+            return;
+        }
+        this._autoUpdateRaf = requestAnimationFrame(() => {
+            this._autoUpdateRaf = 0;
+            /* 拖动进行中时不干预，交由拖动逻辑约束。Do not interfere while dragging; the drag logic handles constraints. */
+            if (this._state) {
+                return;
+            }
+            this._reclampRestTarget();
+        });
+    }
+
+    /**
+     * 启动 animationFrame 轮询循环，每帧按当前约束重排（用于无法被观察的容器）。
+     * Start the animationFrame polling loop that re-clamps every frame under the current constraint (for containers that cannot be observed).
+     */
+    protected _startAutoUpdateFrameLoop() {
+        this._autoUpdateFrameLoop = true;
+        const loop = () => {
+            if (!this._autoUpdateFrameLoop) {
+                return;
+            }
+            if (!this._state) {
+                this._reclampRestTarget();
+            }
+            this._autoUpdateRaf = requestAnimationFrame(loop);
+        };
+        this._autoUpdateRaf = requestAnimationFrame(loop);
     }
 
     /**
