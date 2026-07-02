@@ -50,6 +50,33 @@ export function getTranslate(element: HTMLElement): {left: number; top: number} 
 }
 
 /**
+ * 通过临时改变尺寸探测元素的布局锚点。
+ * 绝对定位元素的 computed left/right 都会解析成像素值，无法区分锚点，
+ * 故实测哪条边在尺寸变化时保持不动：不动的一侧即为锚定边。
+ *
+ * Detect an element's layout anchor by probing how it reflows when its size changes.
+ * Computed left/right of a positioned element both resolve to pixels and can't reveal the anchor,
+ * so measure which edge stays fixed when the size grows: the fixed edge is the anchor.
+ *
+ * @returns anchorRight 为 true 表示改变宽度时右边不动（以 right 定位）；anchorBottom 同理。
+ */
+export function detectResizeAnchor(element: HTMLElement): {anchorRight: boolean; anchorBottom: boolean} {
+    const {style} = element;
+    const before = element.getBoundingClientRect();
+    const prevWidth = style.width;
+    const prevHeight = style.height;
+    style.width = `${before.width + 10}px`;
+    style.height = `${before.height + 10}px`;
+    const after = element.getBoundingClientRect();
+    style.width = prevWidth;
+    style.height = prevHeight;
+    return {
+        anchorRight: Math.abs(after.right - before.right) < Math.abs(after.left - before.left),
+        anchorBottom: Math.abs(after.bottom - before.bottom) < Math.abs(after.top - before.top),
+    };
+}
+
+/**
  * 判断点击目标是否满足 handle 限制。
  * Check whether the clicked target satisfies the handle constraint.
  */

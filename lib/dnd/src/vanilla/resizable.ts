@@ -4,6 +4,7 @@ import {
     bindDocumentMouseEvents,
     cancelMouseMoveFrame,
     clamp,
+    detectResizeAnchor,
     getMatchingTargets,
     getTranslate,
     requestMouseMoveFrame,
@@ -58,6 +59,10 @@ type ResizableRuntime = {
     startClientTop: number;
     startClientRight: number;
     startClientBottom: number;
+    /** 目标以 right 定位（改变宽度时锚定右边）。The target is anchored to its right edge (width grows leftward). */
+    anchorRight: boolean;
+    /** 目标以 bottom 定位（改变高度时锚定下边）。The target is anchored to its bottom edge (height grows upward). */
+    anchorBottom: boolean;
 };
 
 /**
@@ -152,6 +157,7 @@ export class Resizable extends Component<ResizableOptions> {
         if (target && direction) {
             const targetRect = target.getBoundingClientRect();
             const translate = getTranslate(target);
+            const anchor = detectResizeAnchor(target);
             this._runtime = {
                 target,
                 startWidth: targetRect.width,
@@ -160,6 +166,8 @@ export class Resizable extends Component<ResizableOptions> {
                 startClientTop: targetRect.top,
                 startClientRight: targetRect.right,
                 startClientBottom: targetRect.bottom,
+                anchorRight: anchor.anchorRight,
+                anchorBottom: anchor.anchorBottom,
             };
             newState = {
                 event,
@@ -375,8 +383,14 @@ export class Resizable extends Component<ResizableOptions> {
         return {
             width: xAxis.max - xAxis.min,
             height: yAxis.max - yAxis.min,
-            left: state.startLeft + xAxis.min - runtime.startClientLeft,
-            top: state.startTop + yAxis.min - runtime.startClientTop,
+            // 以 right/bottom 定位时，改变尺寸会让盒子朝反方向生长，此时锚定另一条边来补偿 translate。
+            // For right/bottom-anchored targets the box grows in the opposite direction, so compensate translate against the anchored edge.
+            left: runtime.anchorRight
+                ? state.startLeft + xAxis.max - runtime.startClientRight
+                : state.startLeft + xAxis.min - runtime.startClientLeft,
+            top: runtime.anchorBottom
+                ? state.startTop + yAxis.max - runtime.startClientBottom
+                : state.startTop + yAxis.min - runtime.startClientTop,
         };
     }
 

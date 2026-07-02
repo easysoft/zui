@@ -17,7 +17,7 @@
   <div id="resize1" class="item center -w-[100px] -h-[100px] ring canvas hover:shadow -absolute -left-[30px] -top-[30px]" resizable="true">resize1</div>
   <div id="resize2" class="item center -w-[100px] -h-[100px] ring canvas hover:shadow -absolute -left-[230px] -top-[130px]" resizable="true">resize2</div>
   <div id="resize3" class="item center -w-[100px] -h-[100px] ring canvas hover:shadow -fixed -left-[150px] -top-[150px] -z-10" resizable="true">resize3</div>
-  <div id="resize4" class="item center -w-[100px] -h-[100px] ring canvas hover:shadow -fixed -left-[150px] -top-[150px] -z-10" resizable="true">resize4</div>
+  <div id="resize4" class="item center -w-[100px] -h-[100px] ring canvas hover:shadow -fixed -right-[150px] -bottom-[150px] -z-10" resizable="true">resize4</div>
 </div>
 ```
 
