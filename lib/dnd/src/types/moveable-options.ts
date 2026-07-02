@@ -30,6 +30,14 @@ export type MoveableContainer = false
     | {getBoundingClientRect(): DOMRect};
 
 /**
+ * 移动区域的边距限制。可为固定数值/四边对象，或一个动态返回边距的函数（参数为当前被移动的元素与当前移动状态，未在移动时状态为 undefined）。
+ * The area padding constraint. Either a fixed number/per-side object, or a function that dynamically returns the padding (its arguments are the currently moved element and the current move state, which is undefined when idle).
+ */
+export type MoveableContainerPadding = number
+    | Partial<DistanceRect>
+    | ((target: HTMLElement, state: MoveableState | undefined) => number | Partial<DistanceRect>);
+
+/**
  * autoUpdate 的精细控制选项。
  * Fine-grained control for autoUpdate.
  */
@@ -104,9 +112,11 @@ export type MoveableOptions = {
 
     /**
      * 元素距区域边缘的间距。可传入单个数值同时控制上下左右，也可以分别指定 top/right/bottom/left。允许负值（负值表示区域向外扩展，元素可移出区域边缘对应的距离），缺省为 0。
+     * 也可传入一个函数，根据当前被移动的元素与当前移动状态动态返回上述边距值。
      * The gap between the element and the area edges. Pass a single number to control all four sides, or specify top/right/bottom/left separately. Negative values are allowed (expanding the area outward so the element can move beyond the edges). Defaults to 0.
+     * A function can also be passed to dynamically return the padding above based on the currently moved element and the current move state.
      */
-    containerPadding?: number | Partial<DistanceRect>;
+    containerPadding?: MoveableContainerPadding;
 
     /**
      * 是否在容器区域或目标元素的尺寸/位置发生变化时，自动按当前约束把已移动的元素重新校正到最近的合法位置。

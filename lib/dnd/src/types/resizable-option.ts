@@ -7,6 +7,14 @@ export type ResizableUpdateInfo = {
     style?: CSSProperties;
 };
 
+/**
+ * 尺寸调整区域的边距限制。可为固定数值/四边对象，或一个动态返回边距的函数（参数为当前被调整尺寸的元素与当前调整状态，未在调整时状态为 undefined）。
+ * The area padding constraint. Either a fixed number/per-side object, or a function that dynamically returns the padding (its arguments are the element currently being resized and the current resize state, which is undefined when idle).
+ */
+export type ResizableContainerPadding = number
+    | Partial<DistanceRect>
+    | ((target: HTMLElement, state: ResizableState | undefined) => number | Partial<DistanceRect>);
+
 export type ResizableOptions = {
     /**
      * 要调整尺寸的元素选择器，默认为匹配所有标记了 resizable 属性的元素。
@@ -33,10 +41,10 @@ export type ResizableOptions = {
     container?: MoveableContainer;
 
     /**
-     * 元素距区域边缘的间距。
-     * The gap between the element and the area edges.
+     * 元素距区域边缘的间距。也可传入一个函数，根据当前被调整尺寸的元素与当前调整状态动态返回边距值。
+     * The gap between the element and the area edges. A function can also be passed to dynamically return the padding based on the element currently being resized and the current resize state.
      */
-    containerPadding?: number | Partial<DistanceRect>;
+    containerPadding?: ResizableContainerPadding;
 
     /** 最小宽度。Minimum width. */
     minWidth?: number;

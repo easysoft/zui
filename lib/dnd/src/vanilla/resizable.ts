@@ -352,7 +352,7 @@ export class Resizable extends Component<ResizableOptions> {
         const {direction} = state;
         const deltaX = state.x - state.startX;
         const deltaY = state.y - state.startY;
-        const containerRect = this._getContainerRect();
+        const containerRect = this._getContainerRect(runtime.target, state);
         const xAxis = this._resizeAxis({
             edge: direction.includes('w') ? 'start' : (direction.includes('e') ? 'end' : 'none'),
             startMin: runtime.startClientLeft,
@@ -446,9 +446,28 @@ export class Resizable extends Component<ResizableOptions> {
     /**
      * 解析 `container` 选项对应的区域矩形（视口坐标），并按 `containerPadding` 收缩。
      * Resolve the area rect for the `container` option, shrunk by `containerPadding`.
+     *
+     * @param target 用于解析 `containerPadding` 函数的目标元素。The target element passed to a `containerPadding` function.
+     * @param state  用于解析 `containerPadding` 函数的调整状态。The resize state passed to a `containerPadding` function.
      */
-    protected _getContainerRect(): DistanceRect | null {
-        return resolveContainerRect(this.options.container, this.options.containerPadding, this.element);
+    protected _getContainerRect(target?: HTMLElement, state?: ResizableState): DistanceRect | null {
+        return resolveContainerRect(this.options.container, this._resolveContainerPadding(target, state), this.element);
+    }
+
+    /**
+     * 解析 `containerPadding` 选项：为函数时以当前被调整尺寸的元素与调整状态调用，否则原样返回。
+     * Resolve the `containerPadding` option: call it with the element being resized and the resize state when it is a function, otherwise return it as-is.
+     *
+     * @param target 目标元素，缺省时回退到当前被调整尺寸的元素或根元素。The target element, falling back to the element being resized or the root element.
+     * @param state  调整状态，缺省时回退到当前状态。The resize state, falling back to the current state.
+     * @returns 归一化前的边距值。The padding value before normalization.
+     */
+    protected _resolveContainerPadding(target?: HTMLElement, state?: ResizableState): number | Partial<DistanceRect> | undefined {
+        const {containerPadding} = this.options;
+        if (typeof containerPadding === 'function') {
+            return containerPadding(target ?? this._runtime?.target ?? this.element, state ?? this._state);
+        }
+        return containerPadding;
     }
 
     /**

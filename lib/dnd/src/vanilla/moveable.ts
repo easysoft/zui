@@ -334,10 +334,28 @@ export class Moveable extends Component<MoveableOptions> {
      * 解析 `container` 选项对应的区域矩形（视口坐标），并按 `containerPadding` 收缩（负值则向外扩展）。
      * Resolve the area rect (in viewport coordinates) for the `container` option, shrunk by `containerPadding` (negative values expand it outward).
      *
+     * @param target 用于解析 `containerPadding` 函数的目标元素。The target element passed to a `containerPadding` function.
+     * @param state  用于解析 `containerPadding` 函数的移动状态。The move state passed to a `containerPadding` function.
      * @returns 区域矩形，无法解析或不限制时返回 null。The area rect, or null when unconstrained or unresolvable.
      */
-    protected _getContainerRect(): DistanceRect | null {
-        return resolveContainerRect(this.options.container, this.options.containerPadding, this.element);
+    protected _getContainerRect(target?: HTMLElement, state?: MoveableState): DistanceRect | null {
+        return resolveContainerRect(this.options.container, this._resolveContainerPadding(target, state), this.element);
+    }
+
+    /**
+     * 解析 `containerPadding` 选项：为函数时以当前被移动元素与移动状态调用，否则原样返回。
+     * Resolve the `containerPadding` option: call it with the currently moved element and move state when it is a function, otherwise return it as-is.
+     *
+     * @param target 目标元素，缺省时回退到最近移动的元素或根元素。The target element, falling back to the most recently moved element or the root element.
+     * @param state  移动状态，缺省时回退到当前状态。The move state, falling back to the current state.
+     * @returns 归一化前的边距值。The padding value before normalization.
+     */
+    protected _resolveContainerPadding(target?: HTMLElement, state?: MoveableState): number | Partial<DistanceRect> | undefined {
+        const {containerPadding} = this.options;
+        if (typeof containerPadding === 'function') {
+            return containerPadding(target ?? this._restTarget ?? this.element, state ?? this._state);
+        }
+        return containerPadding;
     }
 
     /**
@@ -350,7 +368,7 @@ export class Moveable extends Component<MoveableOptions> {
      * @returns 修正后的 left/top，无区域限制时返回 null。The constrained left/top, or null when unconstrained.
      */
     protected _clampToContainer(state: MoveableState, deltaX: number, deltaY: number): {left: number; top: number} | null {
-        const rect = this._getContainerRect();
+        const rect = this._getContainerRect(state.target, state);
         if (!rect) {
             return null;
         }
@@ -390,12 +408,12 @@ export class Moveable extends Component<MoveableOptions> {
      * Re-clamp every element matching the selector to the nearest valid position within the current area constraint.
      */
     protected _reclampAllTargets() {
-        const rect = this._getContainerRect();
-        if (!rect) {
+        /* 仅用于判断容器是否可解析；实际区域按每个元素解析，以支持 containerPadding 为函数的场景。Only used to check whether the container resolves; the actual rect is resolved per element to support a function containerPadding. */
+        if (!this._getContainerRect()) {
             return;
         }
         this._getMatchingTargets().forEach((target) => {
-            this._reclampElement(target, this._resolveStrategy(target), rect);
+            this._reclampElement(target, this._resolveStrategy(target));
         });
     }
 
@@ -411,7 +429,7 @@ export class Moveable extends Component<MoveableOptions> {
         if (!CONSTRAINABLE_STRATEGIES.includes(strategy)) {
             return;
         }
-        rect = rect ?? this._getContainerRect();
+        rect = rect ?? this._getContainerRect(target);
         if (!rect) {
             return;
         }
