@@ -91,6 +91,15 @@ new zui.Resizable('#resizableLimit', {
 - `'parent'`：组件根元素的父元素。
 - CSS 选择器字符串、`HTMLElement` 或任意提供 `getBoundingClientRect()` 的对象。
 
+`containerPadding` 也可以传入一个函数，根据当前被调整尺寸的元素与当前调整状态动态返回间距值（未在调整时状态参数为 `undefined`）：
+
+```js
+new zui.Resizable('#panel', {
+    container: 'parent',
+    containerPadding: (target, state) => (target.classList.contains('large') ? 24 : {top: 8, bottom: 8}),
+});
+```
+
 ## 选项
 
 <Props>
@@ -112,8 +121,8 @@ maxHeight?: number;
 /** 尺寸调整区域限制。 */
 container?: false | 'window' | 'self' | 'parent' | string | HTMLElement = "window";
 
-/** 元素距区域边缘的间距，允许负值。 */
-containerPadding?: number | {top?: number; right?: number; bottom?: number; left?: number};
+/** 元素距区域边缘的间距，允许负值；也可传入函数，按当前被调整尺寸元素与调整状态动态返回间距。 */
+containerPadding?: number | {top?: number; right?: number; bottom?: number; left?: number} | ((target: HTMLElement, state: ResizableState | undefined) => number | {top?: number; right?: number; bottom?: number; left?: number});
 
 /** 元素调整尺寸时添加到组件根元素的类名。 */
 hasResizingClass?: string = "has-resizing";

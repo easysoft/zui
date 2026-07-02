@@ -99,6 +99,15 @@ new zui.Moveable('#moveableHandle', {
 
 `containerPadding` 设置元素距区域边缘的间距，可传入单个数值或分别指定 `top`/`right`/`bottom`/`left`。允许使用负值，表示区域向外扩展，元素可以移出边缘对应的距离。
 
+`containerPadding` 也可以传入一个函数，根据当前被移动的元素与当前移动状态动态返回上述间距值（未在移动时状态参数为 `undefined`）：
+
+```js
+new zui.Moveable('#board', {
+    container: 'parent',
+    containerPadding: (target, state) => (target.classList.contains('large') ? 24 : {top: 8, bottom: 8}),
+});
+```
+
 开启 `autoUpdate` 后，当容器区域或目标尺寸/位置发生变化（窗口缩放、滚动等）时，会自动把已移动的元素重新校正到最近的合法位置。
 
 ## 选项
@@ -116,8 +125,8 @@ move?: boolean | 'position' | 'transform' | 'scroll' | 'none' = true;
 /** 移动区域限制，仅对 position/transform 策略生效。 */
 container?: false | 'window' | 'self' | 'parent' | string | HTMLElement = "window";
 
-/** 元素距区域边缘的间距，允许负值。 */
-containerPadding?: number | {top?: number; right?: number; bottom?: number; left?: number};
+/** 元素距区域边缘的间距，允许负值；也可传入函数，按当前被移动元素与移动状态动态返回间距。 */
+containerPadding?: number | {top?: number; right?: number; bottom?: number; left?: number} | ((target: HTMLElement, state: MoveableState | undefined) => number | {top?: number; right?: number; bottom?: number; left?: number});
 
 /** 容器区域或目标尺寸变化时，自动把元素重新校正到合法位置。 */
 autoUpdate?: boolean | {resize?: boolean; scroll?: boolean; animationFrame?: boolean; targets?: 'last' | 'all'};
