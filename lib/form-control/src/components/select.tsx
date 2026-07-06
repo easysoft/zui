@@ -20,8 +20,20 @@ export type SelectState = {
 export class Select extends Component<SelectProps, SelectState> {
     constructor(props: SelectProps) {
         super(props);
+
+        let value = props.value ?? props.defaultValue ?? (props.multiple ? [] : '');
+        if (Array.isArray(value)) {
+            value = value.reduce((acc, curr) => {
+                if (curr !== null && curr !== undefined) {
+                    acc.push(String(curr));
+                }
+                return acc;
+            }, [] as string[]);
+        } else {
+            value = String(value ?? '');
+        }
         this.state = {
-            value: props.value ?? props.defaultValue ?? (props.multiple ? [] : ''),
+            value,
         };
     }
 
@@ -51,12 +63,13 @@ export class Select extends Component<SelectProps, SelectState> {
         const valueSet = new Set(multiple ? value : [value]);
         let hasSelectedValue = false;
         const options = (items as {text: string; value: string}[]).map((item) => {
-            const selected = valueSet.has(item.value);
+            const itemValue = String(item.value ?? '');
+            const selected = valueSet.has(itemValue);
             if (selected) {
                 hasSelectedValue = true;
             }
             return (
-                <option key={item.value} value={item.value} selected={selected}>{item.text}</option>
+                <option key={itemValue} value={itemValue} selected={selected}>{item.text}</option>
             );
         });
         return (
