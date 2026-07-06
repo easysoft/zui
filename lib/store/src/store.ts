@@ -95,13 +95,7 @@ export class Store {
         }
         const value = this._storage.getItem(this._getKey(key));
         if (typeof value === 'string') {
-            if (value.startsWith(STR_PREFIX)) {
-                return value.substring(STR_PREFIX.length) as T;
-            }
-            try {
-                return JSON.parse(value);
-            // eslint-disable-next-line no-empty
-            } catch (_error) {}
+            return this.parseValue(value);
         }
         return (value as T) ?? defaultValue;
     }
@@ -144,6 +138,28 @@ export class Store {
     }
 
     /**
+     * Parse value from string.
+     * @param value Value to parse.
+     * @param throws Whether to throw an error if the value is not a string.
+     * @returns Parsed value.
+     */
+    parseValue<T>(value: unknown, throws = false): T {
+        if (typeof value === 'string') {
+            if (value.startsWith(STR_PREFIX)) {
+                return value.substring(STR_PREFIX.length) as T;
+            }
+            try {
+                return JSON.parse(value);
+            } catch (error) {
+                if (throws) {
+                    throw error;
+                }
+            }
+        }
+        return value as T;
+    }
+
+    /**
      * Iterate all key-value pairs in store.
      *
      * @param callback Callback function to call for each key-value pair in the store.
@@ -156,7 +172,7 @@ export class Store {
                 const value = this._storage.getItem(key);
                 const name = key.substring(this._name.length + 1);
                 if (typeof value === 'string') {
-                    callback(name, JSON.parse(value));
+                    callback(name, this.parseValue(value));
                 }
                 keys.push(name);
             }
