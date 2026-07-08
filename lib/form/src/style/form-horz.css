@@ -19,7 +19,7 @@
   @apply -min-w-0;
 }
 .form-horz .form-group.no-label {
-  @apply -pl-0;
+  @apply -pl-[--form-grid-gap-x-half];
 }
 .form-horz .form-group.no-label > .check-list-inline {
   @apply -px-4;
