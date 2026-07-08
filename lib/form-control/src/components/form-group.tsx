@@ -27,8 +27,9 @@ export type FormGroupProps = {
 
 export function FormGroup(props: FormGroupProps) {
     const {children, name, label, tooltip, labelClass, required, style, className, hint, control} = props;
+    const noLabel = label === undefined || label === null || label === false || (typeof label === 'string' && !label.trim().length);
     return (
-        <div className={classes('form-group', className, control?.widget === 'text' ? 'is-static-text' : null)} data-name={name} style={style}>
+        <div className={classes('form-group', className, control?.widget === 'text' ? 'is-static-text' : null, noLabel ? 'no-label' : '')} data-name={name} style={style}>
             {label !== undefined ? (
                 <label class={classes('form-label', labelClass, required ? 'required' : '')} for={name}>
                     <div class="form-label-text" title={typeof label === 'string' ? label : undefined}>
