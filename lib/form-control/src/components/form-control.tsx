@@ -43,7 +43,7 @@ export class FormControl extends Component<FormControlProps> {
     }
 
     protected _renderCheckbox(props: Record<string, unknown>) {
-        const {className, type, name, defaultValue, disabled, ...rest} = props;
+        const {className, type, name, defaultValue, value, disabled, ...rest} = props;
         return (
             <div className={`check-list-inline is-type-${type}`}>
                 <Checkbox
@@ -53,6 +53,7 @@ export class FormControl extends Component<FormControlProps> {
                     name={name as string}
                     defaultChecked={!!defaultValue}
                     disabled={!!disabled}
+                    checked={!!value}
                     {...rest}
                 />
             </div>
@@ -60,7 +61,7 @@ export class FormControl extends Component<FormControlProps> {
     }
 
     protected _renderCheckList(props: Record<string, unknown>) {
-        const {items = [], type = 'radio', className, disabled, block = false, name, defaultValue, ...rest} = props;
+        const {items = [], type = 'radio', className, disabled, block = false, name, defaultValue, value, ...rest} = props;
         return (
             <CheckList
                 type={type as CheckListProps['type']}
@@ -68,6 +69,7 @@ export class FormControl extends Component<FormControlProps> {
                 className={className as ClassNameLike}
                 name={name as string}
                 defaultChecked={defaultValue as string[] | string}
+                checked={value as string[] | string}
                 disabled={!!disabled}
                 inline={!block}
                 {...rest}

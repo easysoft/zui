@@ -18,6 +18,8 @@ export type FormGroupProps = {
 
     required?: boolean;
 
+    disabled?: boolean;
+
     labelClass?: ClassNameLike;
 
     children?: ComponentChildren;
@@ -26,7 +28,7 @@ export type FormGroupProps = {
 };
 
 export function FormGroup(props: FormGroupProps) {
-    const {children, name, label, tooltip, labelClass, required, style, className, hint, control} = props;
+    const {children, name, label, tooltip, labelClass, required, disabled, style, className, hint, control} = props;
     const noLabel = label === undefined || label === null || label === false || (typeof label === 'string' && !label.trim().length);
     return (
         <div className={classes('form-group', className, control?.widget === 'text' ? 'is-static-text' : null, noLabel ? 'no-label' : '')} data-name={name} style={style}>
@@ -38,7 +40,7 @@ export function FormGroup(props: FormGroupProps) {
                     {tooltip ? <div className="state" zui-toggle="tooltip" zui-toggle-tooltip={jsRaw(typeof tooltip === 'string' ? {content: tooltip} : tooltip)}><Icon icon="info" /></div> : null}
                 </label>
             ) : null}
-            {control ? <FormControl {...control} /> : null}
+            {control ? <FormControl {...{name, required, disabled, ...control}} /> : null}
             {children}
             {hint ? <CustomContent className="form-tip" content={hint} /> : null}
         </div>
