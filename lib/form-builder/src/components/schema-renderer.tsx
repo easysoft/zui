@@ -22,7 +22,7 @@ export class SchemaRenderer extends Component<SchemaRendererProps> {
     protected _renderObjectSchema(schemaInfo: FieldSchemaInfo) {
         const {infoGetter, errorsGetter, path = '', onChangeField} = this.props;
         const {schema, properties = []} = schemaInfo;
-        const {title, description, displayType} = schema as ObjectSchema;
+        const {title, description, displayType = 'vert', displayMode = 'grid'} = schema as ObjectSchema;
         const cells: ComponentChild[] = [];
         for (const key of properties) {
             const propertyPath = path.length ? `${path}.${key}` : key;
@@ -36,7 +36,7 @@ export class SchemaRenderer extends Component<SchemaRendererProps> {
                     title={title}
                     caption={description}
                     className="form-builder-collapsible"
-                    contentClass={`form-builder-items form-${displayType}`}
+                    contentClass={`form-builder-items form-${displayMode} form-${displayType}`}
                 >
                     {cells}
                 </Collapsible>
@@ -140,7 +140,7 @@ export class SchemaRenderer extends Component<SchemaRendererProps> {
                     'is-required': required,
                     'has-error': errors?.length,
                 }, className)}
-                style={widthStyle ? {'flex-basis': widthStyle} : undefined}
+                style={widthStyle ? {'--form-item-width': widthStyle} : undefined}
             >
                 {this._renderSchema(schemaInfo)}
                 {errors?.length ? (

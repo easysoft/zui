@@ -172,22 +172,26 @@ export const schema = {
                 morePickers: {
                     title: '更多选择器',
                     type: 'object',
+                    displayMode: 'column',
                     properties: {
                         datePicker: {
                             title: '日期选择器',
                             type: 'string',
                             widget: 'datePicker',
+                            width: '1/2',
                             props: {
                                 format: 'yyyy-MM-dd',
                             },
                         },
                         datetimePicker: {
                             title: '日期时间选择器',
+                            width: '1/2',
                             type: 'string',
                             widget: 'datetimePicker',
                         },
                         colorPicker: {
                             title: '颜色选择器',
+                            width: '1/3',
                             type: 'string',
                             widget: 'colorPicker',
                         },

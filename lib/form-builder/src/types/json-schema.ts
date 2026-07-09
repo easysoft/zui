@@ -55,6 +55,13 @@ export type FormGridWidth = 'full' | `${number}/${number}` | `${number}px` | `${
 export type FormDisplayType = 'vert' | 'horz' | 'inline';
 
 /**
+ * 表单显示模式
+ * - column: 列模式（默认）
+ * - grid: 网格模式
+ */
+export type FormDisplayMode = 'column' | 'grid';
+
+/**
  * 表单验证规则模式
  * 可以是正则表达式字符串或包含正则表达式和错误消息的对象
  */
@@ -164,6 +171,8 @@ export interface ObjectSchema extends BaseSchema<Record<string, unknown>> {
     collapsed?: boolean | 'disabled';
     /** 必填字段 */
     required?: string[];
+    /** 表单的显示模式 */
+    displayMode?: FormDisplayMode;
     /** 表单的显示类型 */
     displayType?: FormDisplayType;
 }

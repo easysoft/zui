@@ -2,6 +2,9 @@
   @apply -font-bold -text-lg -mb-3 -px-1;
 }
 
+.form-builder-item {
+  flex-basis: var(--form-item-width, 100%);
+}
 .form-builder-item .form-hint {
   @apply -text-gray-500 -px-2;
 }
@@ -24,9 +27,6 @@
 
 .form-builder-items {
   @apply -flex -flex-row -flex-wrap;
-}
-.form-builder-items > .form-builder-item {
-  @apply -basis-full;
 }
 
 .form-builder-item.is-root > .form-builder-items > .form-builder-item > .collapsible {
@@ -56,4 +56,12 @@
 
 .form-builder-items.form-horz .form-label {
   @apply -top-[--form-grid-gap-y-half];
+}
+
+
+.form-builder-items.form-column {
+  @apply -flex-col;
+}
+.form-builder-items.form-column > .form-builder-item {
+  width: var(--form-item-width, 100%);
 }
