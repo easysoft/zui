@@ -279,6 +279,13 @@ export const defaultData = {
             key2: 'value2',
         },
     },
+    checkboxes: {
+        checkbox: true,
+        checkboxList: ['option1', 'option2'],
+    },
+    selects: {
+        select: 'option1',
+    },
     specials: {
         burn: [15, 12, 12, 10, 8, 5, 4, 3, 1, 0, 0, 0],
     },
