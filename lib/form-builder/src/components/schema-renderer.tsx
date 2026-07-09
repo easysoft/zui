@@ -29,6 +29,7 @@ export class SchemaRenderer extends Component<SchemaRendererProps> {
             const errors = errorsGetter(propertyPath);
             cells.push(<SchemaRenderer key={key} infoGetter={infoGetter} path={propertyPath} onChangeField={onChangeField} errorsGetter={errorsGetter} errors={errors.length ? errors : undefined} />);
         }
+        const itemsClass = `form-builder-items form-${displayMode} form-${displayType}`;
         if (path.length) {
             return (
                 <Collapsible
@@ -36,13 +37,13 @@ export class SchemaRenderer extends Component<SchemaRendererProps> {
                     title={title}
                     caption={description}
                     className="form-builder-collapsible"
-                    contentClass={`form-builder-items form-${displayMode} form-${displayType}`}
+                    contentClass={itemsClass}
                 >
                     {cells}
                 </Collapsible>
             );
         }
-        return <div className="form-builder-items">{cells}</div>;
+        return <div className={itemsClass}>{cells}</div>;
     }
 
     protected _renderArraySchema(schemaInfo: FieldSchemaInfo) {
