@@ -14,14 +14,6 @@ import type {JSONSchema, ObjectSchema} from './json-schema';
 export type ExpressionOrValue<T> = `{{${string}}}` | T;
 
 /**
- * 表单显示类型
- * - vert: 垂直布局（标签在上，控件在下）
- * - horz: 水平布局（标签在左，控件在右）
- * - inline: 内联布局（标签和控件在同一行）
- */
-export type FormDisplayType = 'vert' | 'horz' | 'inline';
-
-/**
  * 表单布局配置
  * 用于定义表单字段的分组和布局
  */

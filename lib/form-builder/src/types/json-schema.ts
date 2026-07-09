@@ -1,6 +1,5 @@
 import type {ClassNameLike, CustomContentType} from '@zui/core';
 import type {TooltipOptions} from '@zui/tooltip';
-import {FormDisplayType} from './form-schema';
 
 /**
  * JSON Schema 支持的基本数据类型
@@ -46,6 +45,14 @@ export type FormExtra = string | CustomContentType;
  * - 数字: 栅格列数
  */
 export type FormGridWidth = 'full' | `${number}/${number}` | `${number}px` | `${number}%` | number;
+
+/**
+ * 表单显示类型
+ * - vert: 垂直布局（标签在上，控件在下）
+ * - horz: 水平布局（标签在左，控件在右）
+ * - inline: 内联布局（标签和控件在同一行）
+ */
+export type FormDisplayType = 'vert' | 'horz' | 'inline';
 
 /**
  * 表单验证规则模式
