@@ -84,6 +84,10 @@ export interface BaseSchema<T = unknown> {
     defaultValue?: T;
     /** 字段的宽度配置 */
     width?: FormGridWidth;
+    /** 是否在字段前面添加换行 */
+    wrapBefore?: boolean;
+    /** 是否在字段后面添加换行 */
+    wrapAfter?: boolean;
     /** 用于渲染字段的组件名称 */
     widget?: string;
     /** 只读模式下使用的组件名称 */

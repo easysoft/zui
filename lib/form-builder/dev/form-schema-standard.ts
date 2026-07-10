@@ -12,6 +12,8 @@ export const schema = {
             hidden: '{{formData.specials.progressCircleChanger % 20 === 0}}',
             defaultValue: '这是静态纯文本内容',
             dependencies: ['specials.progressCircleChanger'],
+            width: '1/2',
+            wrapAfter: true,
         },
         title: {
             title: '标题',

@@ -127,9 +127,10 @@ export class SchemaRenderer extends Component<SchemaRendererProps> {
         if (schema.hidden) {
             return null;
         }
-        const {extra, hint, width, type, disabled, readonly, required, className} = schema;
+        const {extra, hint, width, type, disabled, readonly, required, className, wrapBefore, wrapAfter} = schema;
         const widthStyle = this._getWidthStyle(width);
-        return (
+        return [
+            wrapBefore ? <div key={`${path}-wrap-before`} className="form-grid-wrap form-grid-wrap-before" z-wrap-before={path} /> : null,
             <div
                 key={path}
                 z-key={path}
@@ -153,7 +154,8 @@ export class SchemaRenderer extends Component<SchemaRendererProps> {
                 ) : null}
                 {hint ? <div className="form-hint">{hint}</div> : null}
                 {extra ? <CustomContent className="form-builder-extra" content={extra} /> : null}
-            </div>
-        );
+            </div>,
+            wrapAfter ? <div key={`${path}-wrap-after`} className="form-grid-wrap form-grid-wrap-after" data-wrap-after={path} /> : null,
+        ];
     }
 }
