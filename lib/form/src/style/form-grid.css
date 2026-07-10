@@ -18,7 +18,7 @@
 }
 
 .form-grid-wrap {
-  @apply -w-full;
+  @apply -w-full -basis-full;
 }
 
 .form-grid-rows {
