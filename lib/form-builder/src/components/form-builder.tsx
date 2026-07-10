@@ -259,14 +259,13 @@ export class FormBuilder extends HElement<FormBuilderOptions> {
                 firstErrorPath = path;
             }
         });
-        if (!fieldErrorsChanged) {
-            return true;
+        if (fieldErrorsChanged) {
+            this._validationErrors$.value = errors;
+            if (firstErrorPath.length) {
+                $(this.element).find(`[z-key="${firstErrorPath}"]`).scrollIntoView();
+            }
         }
-        this._validationErrors$.value = errors;
-        if (firstErrorPath.length) {
-            $(this.element).find(`[z-key="${firstErrorPath}"]`).scrollIntoView();
-        }
-        return false;
+        return Object.keys(errors).length === 0;
     }
 
     getFieldValidationErrors = (path: string): [code: string, error: string][] => {
@@ -439,7 +438,7 @@ export class FormBuilder extends HElement<FormBuilderOptions> {
 
     protected _handleSubmit = (event: Event) => {
         const {onSubmit, autoValidate} = this.props;
-        if ((autoValidate?.onSubmit) && !this.validate()) {
+        if (autoValidate?.onSubmit && !this.validate()) {
             event.preventDefault();
             return;
         }
