@@ -305,7 +305,7 @@ export class FormBuilder extends HElement<FormBuilderOptions> {
             info$.value = newInfo;
         }
         handledDependencies = handledDependencies || new Set<string>();
-        map.values().forEach(({value: info}) => {
+        Array.from(map.values()).forEach(({value: info}) => {
             if (!info || info.path === path || handledDependencies.has(info.path) || !info.dependenciesSet.has(path)) {
                 return;
             }
