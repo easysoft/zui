@@ -271,9 +271,32 @@ export class FormBuilder extends HElement<FormBuilderOptions> {
     /**
      * 设置表单验证错误
      * @param errors 字段路径到错误列表的映射；错误项可以是错误消息字符串或 `[code, message]` 元组
+     * @param reset 是否重置错误列表
+     * 如果为 `true`，则整表替换为传入错误；如果为 `false`，则按字段合并，
+     * 同一字段内按错误 code 覆盖同 code，保留未被覆盖的 code
      */
-    setValidationErrors(errors: Record<string, (string | [code: string, error: string])[]>) {
-        this._validationErrors$.value = Object.fromEntries(Object.entries(errors).map(([path, errors]) => [path, errors.map(error => typeof error === 'string' ? [`${path}_Error`, error] : error)]));
+    setValidationErrors(errors: Record<string, (string | [code: string, error: string])[]>, reset?: boolean) {
+        const normalize = (path: string, fieldErrors: (string | [code: string, error: string])[]): [code: string, error: string][] => {
+            return fieldErrors.map(error => typeof error === 'string' ? [`${path}_Error`, error] : error);
+        };
+
+        if (reset) {
+            this._validationErrors$.value = Object.fromEntries(
+                Object.entries(errors).map(([path, fieldErrors]) => [path, normalize(path, fieldErrors)]),
+            );
+            return;
+        }
+
+        const nextErrors = {...this._validationErrors$.value};
+        for (const [path, fieldErrors] of Object.entries(errors)) {
+            const incoming = normalize(path, fieldErrors);
+            const mergedByCode = new Map((nextErrors[path] || []).map(error => [error[0], error]));
+            for (const error of incoming) {
+                mergedByCode.set(error[0], error);
+            }
+            nextErrors[path] = Array.from(mergedByCode.values());
+        }
+        this._validationErrors$.value = nextErrors;
     }
 
     getFieldValidationErrors = (path: string): [code: string, error: string][] => {
