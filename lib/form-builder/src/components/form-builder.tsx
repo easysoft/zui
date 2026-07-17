@@ -270,33 +270,30 @@ export class FormBuilder extends HElement<FormBuilderOptions> {
 
     /**
      * 设置表单验证错误
-     * @param errors 字段路径到错误列表的映射；错误项可以是错误消息字符串或 `[code, message]` 元组
+     * @param errors 字段路径到错误的映射；每个字段可以是错误消息字符串、`{code, message}` 对象，或该对象的数组
      * @param reset 是否重置错误列表
-     * 如果为 `true`，则整表替换为传入错误；如果为 `false`，则按字段合并，
-     * 同一字段内按错误 code 覆盖同 code，保留未被覆盖的 code
+     * 如果为 `true`，则重置错误列表；如果为 `false`，则合并错误列表
      */
-    setValidationErrors(errors: Record<string, (string | [code: string, error: string])[]>, reset?: boolean) {
-        const normalize = (path: string, fieldErrors: (string | [code: string, error: string])[]): [code: string, error: string][] => {
-            return fieldErrors.map(error => typeof error === 'string' ? [`${path}_Error`, error] : error);
-        };
-
-        if (reset) {
-            this._validationErrors$.value = Object.fromEntries(
-                Object.entries(errors).map(([path, fieldErrors]) => [path, normalize(path, fieldErrors)]),
-            );
-            return;
-        }
-
-        const nextErrors = {...this._validationErrors$.value};
-        for (const [path, fieldErrors] of Object.entries(errors)) {
-            const incoming = normalize(path, fieldErrors);
-            const mergedByCode = new Map((nextErrors[path] || []).map(error => [error[0], error]));
-            for (const error of incoming) {
-                mergedByCode.set(error[0], error);
+    setValidationErrors(errors: Record<string, (string | {code: string; message: string} | {code: string; message: string}[])>, reset?: boolean) {
+        const normalize = (path: string, fieldErrors: (string | {code: string; message: string} | {code: string; message: string}[])): [code: string, error: string][] => {
+            if (typeof fieldErrors === 'string') {
+                return [[`${path}_Error`, fieldErrors]];
             }
-            nextErrors[path] = Array.from(mergedByCode.values());
+            if (Array.isArray(fieldErrors)) {
+                return fieldErrors.map(x => [x.code, x.message]);
+            }
+            return [[fieldErrors.code, fieldErrors.message]];
+        };
+        const newValue = Object.fromEntries(Object.entries(errors).map(([path, fieldErrors]) => [path, normalize(path, fieldErrors)]));
+        if (reset) {
+            this._validationErrors$.value = newValue;
+        } else {
+            this._validationErrors$.value = {
+                ...this._validationErrors$.value,
+                ...newValue,
+            };
         }
-        this._validationErrors$.value = nextErrors;
+        this.forceUpdate();
     }
 
     getFieldValidationErrors = (path: string): [code: string, error: string][] => {
@@ -329,11 +326,12 @@ export class FormBuilder extends HElement<FormBuilderOptions> {
         }
         const map = this._map;
         let info$ = map.get(path);
-        if (!info$) {
+        const firstInited = !info$;
+        if (firstInited) {
             info$ = signal(newInfo);
             this._map.set(path, info$);
         } else {
-            info$.value = newInfo;
+            info$!.value = newInfo;
         }
         handledDependencies = handledDependencies || new Set<string>();
         Array.from(map.values()).forEach(({value: info}) => {
@@ -342,16 +340,18 @@ export class FormBuilder extends HElement<FormBuilderOptions> {
             }
             this._updateFieldInfo(info.path, handledDependencies);
         });
-        const {autoValidate = {}} = this.props;
-        if (autoValidate.onChange) {
-            const errorsMap = this._validationErrors$.value;
-            if (autoValidate.onChange === 'removeErrors' && errorsMap[path]?.length) {
-                this._validationErrors$.value = {
-                    ...errorsMap,
-                    [path]: [],
-                };
-            } else {
-                this.validateField(path);
+        if (!firstInited) {
+            const {autoValidate = {}} = this.props;
+            if (autoValidate.onChange) {
+                const errorsMap = this._validationErrors$.value;
+                if (autoValidate.onChange === 'removeErrors' && errorsMap[path]?.length) {
+                    this._validationErrors$.value = {
+                        ...errorsMap,
+                        [path]: [],
+                    };
+                } else {
+                    this.validateField(path);
+                }
             }
         }
         return newInfo;
