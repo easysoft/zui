@@ -88,7 +88,7 @@ export class LazyContent extends Component<LazyContentProps, LazyContentState> {
 
     protected _renderContent(_props: LazyContentProps, others: Partial<LazyContentProps>) {
         const {loading, error, content = ''} = this.state;
-        const {loadingContent, errorText, type, clearBeforeLoad, ...otherProps} = others;
+        const {loadingContent, contentClass, contentStyle, contentAttrs, errorText, type, clearBeforeLoad, ...otherProps} = others;
         if (loading && clearBeforeLoad) {
             return loadingContent;
         }
@@ -96,12 +96,12 @@ export class LazyContent extends Component<LazyContentProps, LazyContentState> {
             return errorText ?? error.message;
         }
         if (type === 'html') {
-            return <HtmlContent html={content as string} executeScript {...otherProps} />;
+            return <HtmlContent html={content as string} executeScript className={contentClass} style={contentStyle} attrs={contentAttrs} {...otherProps} />;
         }
         if (type === 'text') {
             return content;
         }
-        return <CustomContent content={content} {...otherProps} />;
+        return <CustomContent content={content} className={contentClass} style={contentStyle} attrs={contentAttrs} {...otherProps} />;
     }
 
     /**
@@ -111,6 +111,7 @@ export class LazyContent extends Component<LazyContentProps, LazyContentState> {
     render(props: LazyContentProps) {
         const {loading} = this.state;
         const {id, loadingClass, loadingIndicator, className, style, attrs, loadingText, ...others} = props;
+        console.log('> LazyContent.render', this);
         return (
             <div id={id} ref={this._ref} className={classes('lazy-content', className, loading ? loadingClass : '', loadingIndicator ? 'load-indicator' : '')} data-loading={loadingText} style={style} {...attrs}>
                 {this._renderContent(props, others)}

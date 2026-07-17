@@ -8,6 +8,9 @@ export type LazyContentProps<T = string | CustomContentType, A extends unknown[]
     className?: ClassNameLike;
     style?: JSX.CSSProperties;
     attrs?: Record<string, unknown>;
+    contentClass?: ClassNameLike;
+    contentStyle?: JSX.CSSProperties;
+    contentAttrs?: Record<string, unknown>;
     loadingClass?: ClassNameLike;
     loadingIndicator?: boolean;
     clearBeforeLoad?: boolean;
