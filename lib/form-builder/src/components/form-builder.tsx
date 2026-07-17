@@ -268,6 +268,14 @@ export class FormBuilder extends HElement<FormBuilderOptions> {
         return Object.keys(errors).length === 0;
     }
 
+    /**
+     * 设置表单验证错误
+     * @param errors 字段路径到错误列表的映射；错误项可以是错误消息字符串或 `[code, message]` 元组
+     */
+    setValidationErrors(errors: Record<string, (string | [code: string, error: string])[]>) {
+        this._validationErrors$.value = Object.fromEntries(Object.entries(errors).map(([path, errors]) => [path, errors.map(error => typeof error === 'string' ? [`${path}_Error`, error] : error)]));
+    }
+
     getFieldValidationErrors = (path: string): [code: string, error: string][] => {
         return this.validationErrors[path] || [];
     };
