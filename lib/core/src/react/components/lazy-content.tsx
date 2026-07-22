@@ -111,7 +111,6 @@ export class LazyContent extends Component<LazyContentProps, LazyContentState> {
     render(props: LazyContentProps) {
         const {loading} = this.state;
         const {id, loadingClass, loadingIndicator, className, style, attrs, loadingText, ...others} = props;
-        console.log('> LazyContent.render', this);
         return (
             <div id={id} ref={this._ref} className={classes('lazy-content', className, loading ? loadingClass : '', loadingIndicator ? 'load-indicator' : '')} data-loading={loadingText} style={style} {...attrs}>
                 {this._renderContent(props, others)}
