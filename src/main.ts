@@ -7,13 +7,32 @@ import './style.css';
 
 const groupedLibs = await loadLibs();
 
+function getLibShortName(name: string): string {
+    return name.includes('/') ? name.slice(name.lastIndexOf('/') + 1) : name;
+}
+
+/** Use short name when unique across all libs; otherwise keep the full key. */
+function getLibUrlName(name: string, shortNameCounts: Map<string, number>): string {
+    const shortName = getLibShortName(name);
+    return (shortNameCounts.get(shortName) ?? 0) <= 1 ? shortName : name;
+}
+
 async function buildLibNav() {
     const libNav = document.querySelector<HTMLDivElement>('#libNav');
     if (!libNav) {
         return;
     }
+    const shortNameCounts = new Map<string, number>();
+    for (const [, libs] of groupedLibs) {
+        for (const lib of libs) {
+            const shortName = getLibShortName(lib.zui.name);
+            shortNameCounts.set(shortName, (shortNameCounts.get(shortName) ?? 0) + 1);
+        }
+    }
+
     const html: string[] = [];
     let count = 0;
+    let currentLibHref = '';
     for (const [type, libs] of groupedLibs) {
         if (!libs.length) {
             continue;
@@ -24,7 +43,12 @@ async function buildLibNav() {
         html.push(`<li class="lib-type -text-white/50 -text-sm -font-bold -pt-1">${type.toUpperCase()}<span class="-text-sm -ml-1 -bg-white/30 -text-primary-900 -px-1 -rounded-full" id="libsCount">${libs.length}</span></li>`);
         for (const lib of libs) {
             const {name} = lib.zui;
-            html.push(`<a href="/${encodeURIComponent(name)}/" class="-flex -items-center -justify-between -px-1 -py-1 -text-base -font-normal -rounded ${name === currentLibName ? '-text-white -font-bold -bg-primary-600' : '-text-white/80'} hover:-bg-black/20 hover:-backdrop-blur hover:-text-white">`);
+            const urlName = getLibUrlName(name, shortNameCounts);
+            const href = `/${encodeURIComponent(urlName)}/`;
+            if (name === currentLibName) {
+                currentLibHref = href;
+            }
+            html.push(`<a href="${href}" class="-flex -items-center -justify-between -px-1 -py-1 -text-base -font-normal -rounded ${name === currentLibName ? '-text-white -font-bold -bg-primary-600' : '-text-white/80'} hover:-bg-black/20 hover:-backdrop-blur hover:-text-white">`);
             html.push(`<span class="-ml-1">${lib.zui.displayName ?? name}</span>`);
 
             if (lib.zui.sourceType === 'exts') {
@@ -41,9 +65,11 @@ async function buildLibNav() {
         countElement.innerText = `${count}`;
     }
 
-    const currentNavItem = document.querySelector<HTMLElement>(`a[href="/${currentLibName}/"]`);
-    if (currentNavItem) {
-        currentNavItem.scrollIntoView({behavior: 'smooth', block: 'center'});
+    if (currentLibHref) {
+        const currentNavItem = document.querySelector<HTMLElement>(`a[href="${currentLibHref}"]`);
+        if (currentNavItem) {
+            currentNavItem.scrollIntoView({behavior: 'smooth', block: 'center'});
+        }
     }
 }
 
