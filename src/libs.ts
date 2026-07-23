@@ -1,10 +1,27 @@
 import {LibInfo} from '../scripts/libs/lib-info';
 
-export const currentLibName = decodeURIComponent(window.location.pathname.split('/')[1] ?? '');
+const urlLibName = decodeURIComponent(window.location.pathname.split('/')[1] ?? '');
+
+/** Resolved lib key (exact or short-name match); set after loadLibs(). */
+export let currentLibName = urlLibName;
+
+function resolveLibName(name: string, libs: Record<string, LibInfo>): string {
+    if (!name || libs[name]) {
+        return name;
+    }
+    for (const key of Object.keys(libs)) {
+        const shortName = key.includes('/') ? key.slice(key.lastIndexOf('/') + 1) : key;
+        if (shortName === name) {
+            return key;
+        }
+    }
+    return name;
+}
 
 export async function loadLibs() {
     const response = await fetch('/libs/');
     const libs: Record<string, LibInfo> = await response.json();
+    currentLibName = resolveLibName(urlLibName, libs);
     const groupedLibs = Object.values(libs).reduce<Record<string, LibInfo[]>>((map, lib) => {
         const {type} = lib.zui;
         if (!map[type]) {

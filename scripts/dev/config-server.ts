@@ -5,11 +5,32 @@ import {generateLibDoc} from '../docs/lib-doc-generator';
 import {getLibs} from '../libs/query';
 import {LibInfo} from '../libs/lib-info';
 
-function getLibNameFromUrl(url: string): string | null {
-    if (/^\/(lib\/)?[\w-\d%]+\/?$/.test(url)) {
-        return decodeURIComponent(url.replace('/lib/', '/').slice(1).split('/')[0]);
+/**
+ * Prefer exact libs key match; otherwise match by short name (last `/` segment).
+ * e.g. "form-designer" → "@zentao/form-designer". Conflicts: first hit wins.
+ */
+function resolveLibName(name: string, libs: Record<string, LibInfo>): string | null {
+    if (libs[name]) {
+        return name;
+    }
+    for (const key of Object.keys(libs)) {
+        const shortName = key.includes('/') ? key.slice(key.lastIndexOf('/') + 1) : key;
+        if (shortName === name) {
+            return key;
+        }
     }
     return null;
+}
+
+function getLibNameFromUrl(url: string, libs?: Record<string, LibInfo>): string | null {
+    if (!/^\/(lib\/)?[\w-\d%]+\/?$/.test(url)) {
+        return null;
+    }
+    const name = decodeURIComponent(url.replace('/lib/', '/').slice(1).split('/')[0]);
+    if (!libs) {
+        return name;
+    }
+    return resolveLibName(name, libs);
 }
 
 const buildLibs = process.env.BUILD_LIBS ?? 'buildIn';
@@ -31,10 +52,11 @@ export default (options: {rootPath: string}): Plugin => ({
             }
 
             if (/^\/lib\/[\w-\d%]+\/(README|dev).md$/.test(req.url)) {
-                const libName = decodeURIComponent(req.url.replace('/lib/', '').split('/')[0]);
+                const rawLibName = decodeURIComponent(req.url.replace('/lib/', '').split('/')[0]);
                 if (!libsCache) {
                     libsCache = await getLibs();
                 }
+                const libName = resolveLibName(rawLibName, libsCache) ?? rawLibName;
 
                 let markdownFile = path.join(options.rootPath, req.url);
                 const libInfo = libsCache[libName];
@@ -90,7 +112,7 @@ export default (options: {rootPath: string}): Plugin => ({
         if (!ctx.originalUrl) {
             return html;
         }
-        const libName = getLibNameFromUrl(ctx.originalUrl);
+        const libName = getLibNameFromUrl(ctx.originalUrl, libsCache);
         const lib = libName && libsCache && libsCache[libName];
         if (lib) {
             let devEntryFile = path.join(lib.zui.path, 'dev.ts');
