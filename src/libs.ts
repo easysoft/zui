@@ -2,8 +2,14 @@ import {LibInfo} from '../scripts/libs/lib-info';
 
 const urlLibName = decodeURIComponent(window.location.pathname.split('/')[1] ?? '');
 
-/** Resolved lib key (exact or short-name match); set after loadLibs(). */
+/** Resolved lib key (exact / short-name / scope_pkg match); set after loadLibs(). */
 export let currentLibName = urlLibName;
+
+/** "@zentao/form-designer" → "zentao_form-designer" */
+function toFriendlyLibUrlName(name: string): string {
+    const match = /^@([^/]+)\/(.+)$/.exec(name);
+    return match ? `${match[1]}_${match[2]}` : name;
+}
 
 function resolveLibName(name: string, libs: Record<string, LibInfo>): string {
     if (!name || libs[name]) {
@@ -12,6 +18,11 @@ function resolveLibName(name: string, libs: Record<string, LibInfo>): string {
     for (const key of Object.keys(libs)) {
         const shortName = key.includes('/') ? key.slice(key.lastIndexOf('/') + 1) : key;
         if (shortName === name) {
+            return key;
+        }
+    }
+    for (const key of Object.keys(libs)) {
+        if (toFriendlyLibUrlName(key) === name) {
             return key;
         }
     }

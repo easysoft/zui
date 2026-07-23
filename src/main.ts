@@ -11,10 +11,19 @@ function getLibShortName(name: string): string {
     return name.includes('/') ? name.slice(name.lastIndexOf('/') + 1) : name;
 }
 
-/** Use short name when unique across all libs; otherwise keep the full key. */
+/** "@zentao/form-designer" → "zentao_form-designer" (avoids %2F in URLs). */
+function toFriendlyLibUrlName(name: string): string {
+    const match = /^@([^/]+)\/(.+)$/.exec(name);
+    return match ? `${match[1]}_${match[2]}` : name;
+}
+
+/** Prefer short name when unique; on conflict use scope_pkg form. */
 function getLibUrlName(name: string, shortNameCounts: Map<string, number>): string {
     const shortName = getLibShortName(name);
-    return (shortNameCounts.get(shortName) ?? 0) <= 1 ? shortName : name;
+    if ((shortNameCounts.get(shortName) ?? 0) <= 1) {
+        return shortName;
+    }
+    return toFriendlyLibUrlName(name);
 }
 
 async function buildLibNav() {

@@ -6,8 +6,18 @@ import {getLibs} from '../libs/query';
 import {LibInfo} from '../libs/lib-info';
 
 /**
- * Prefer exact libs key match; otherwise match by short name (last `/` segment).
- * e.g. "form-designer" → "@zentao/form-designer". Conflicts: first hit wins.
+ * Convert scoped lib key to a URL-friendly name without `/`.
+ * e.g. "@zentao/form-designer" → "zentao_form-designer"
+ */
+function toFriendlyLibUrlName(name: string): string {
+    const match = /^@([^/]+)\/(.+)$/.exec(name);
+    return match ? `${match[1]}_${match[2]}` : name;
+}
+
+/**
+ * Prefer exact libs key match; otherwise short name (last `/` segment);
+ * then scope_pkg form ("zentao_form-designer" → "@zentao/form-designer").
+ * Short-name conflicts: first hit wins.
  */
 function resolveLibName(name: string, libs: Record<string, LibInfo>): string | null {
     if (libs[name]) {
@@ -16,6 +26,11 @@ function resolveLibName(name: string, libs: Record<string, LibInfo>): string | n
     for (const key of Object.keys(libs)) {
         const shortName = key.includes('/') ? key.slice(key.lastIndexOf('/') + 1) : key;
         if (shortName === name) {
+            return key;
+        }
+    }
+    for (const key of Object.keys(libs)) {
+        if (toFriendlyLibUrlName(key) === name) {
             return key;
         }
     }
