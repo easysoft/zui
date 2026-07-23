@@ -50,7 +50,12 @@ pnpm install
 
 ```sh
 pnpm dev
+
+# 启动带扩展库的开发服务
+pnpm dev:exts
 ```
+
+默认启动成功后可以通过浏览器访问 http://localhost:5173/ 开发页面。如果要直接打开指定库的开发页面，可以在浏览器访问 http://localhost:5173/<lib-name>/ 。
 
 ### 构建项目
 
