@@ -5,4 +5,5 @@ import {ProgressCircle} from './src/vanilla';
 onPageUpdate(() => {
     const progressCircle = new ProgressCircle('#progressCircle', {
     });
+    console.log('> progressCircle', progressCircle);
 });

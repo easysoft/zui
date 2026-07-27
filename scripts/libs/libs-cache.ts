@@ -4,8 +4,8 @@ import {LibInfo} from './lib-info';
 import recursiveLastModified from '../utilities/recursive-last-modified';
 
 export interface LibsListCache {
-    libs: Record<string, LibInfo>,
-    lastChangeTime: number,
+    libs: Record<string, LibInfo>;
+    lastChangeTime: number;
 }
 
 const libsCache: Record<string, LibsListCache> = {};
@@ -22,7 +22,7 @@ async function loadLibsCache() {
     if (cacheFileExists) {
         const cacheData = await fs.readJson(cacheFile, {throws: false});
         if (cacheData) {
-            Object.keys(cacheData).forEach(key => {
+            Object.keys(cacheData).forEach((key) => {
                 libsCache[key] = cacheData[key] as LibsListCache;
             });
         }

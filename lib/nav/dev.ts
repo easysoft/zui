@@ -1,8 +1,10 @@
 import 'zui-dev';
 import '@zui/icons';
 import '@zui/button';
+import '@zui/list';
 import '@zui/btn-group';
 import '@zui/dropdown';
+import '@zui/menu';
 import {Nav} from './src/main';
 
 onPageUpdate(() => {
@@ -12,16 +14,17 @@ onPageUpdate(() => {
             {text: '动态'},
             {text: '论坛'},
             {type: 'divider'},
-            {text: '博客', icon: 'icon-rss'},
-            {text: '关注我们', icon: 'icon-group'},
             {
-                type: 'btn-group',
-                text: '按钮组',
+                type: 'dropdown',
+                text: '博客',
+                icon: 'icon-rss',
                 items: [
-                    {text: '按钮1'},
-                    {text: '按钮2'},
+                    {text: '博客1'},
+                    {text: '博客2'},
+                    {text: '博客3'},
                 ],
             },
+            {text: '关注我们', icon: 'icon-group'},
         ],
         onClickItem: (info) => {
             console.log('> nav.onClickItem', info);

@@ -12,21 +12,21 @@ export interface DTableResizeTypes {
     options: Partial<{
         colResize: boolean | ((this: DTableResize, colName: ColName) => boolean);
         onColResize: (this: DTableResize, colName: ColName, sizeChange: number, col: ColInfo) => void;
-    }>,
+    }>;
     col: {
         colResize?: boolean | ((this: DTableResize, colName: ColName) => boolean);
         extraWidth?: number;
-    },
+    };
     state: {
-        colResizing?: {colName: ColName, startX: number, startSize: number}
+        colResizing?: {colName: ColName; startX: number; startSize: number};
         colsSizes: Record<ColName, number>;
-    },
+    };
     data: {
         colOriginSize: Map<ColName, number>;
-    },
+    };
     methods: {
         isColResizable(this: DTableResize, col: ColName | ColInfo): boolean | void;
-    }
+    };
 }
 
 export type DTableResize = DTableWithPlugin<DTableResizeTypes, [DTableMousemoveTypes]>;
@@ -68,13 +68,21 @@ const resizePlugin: DTablePlugin<DTableResizeTypes, [DTableMousemoveTypes]> = {
     name: 'resize',
     when: options => !!options.colResize,
     plugins: [mousemove],
+    resetState(props) {
+        return {colsSizes: props.cols?.reduce((sizes, col) => {
+            if (col.extraWidth !== undefined) {
+                sizes[col.name] = col.extraWidth as number;
+            }
+            return sizes;
+        }, {} as Record<string, number>) || {}};
+    },
     state() {
         return {colsSizes: this.props.cols?.reduce((sizes, col) => {
             if (col.extraWidth !== undefined) {
                 sizes[col.name] = col.extraWidth as number;
             }
             return sizes;
-        }, {} as Record<string, number>)};
+        }, {} as Record<string, number>) || {}};
     },
     data() {
         return {colOriginSize: new Map()};
@@ -145,7 +153,7 @@ const resizePlugin: DTablePlugin<DTableResizeTypes, [DTableMousemoveTypes]> = {
             if (!col) {
                 return;
             }
-            if (col.sideIndex === this.layout.cols[col.side].list.length - 1) {
+            if (col.side !== 'left' && col.sideIndex === this.layout.cols[col.side].list.length - 1) {
                 return;
             }
             let colResize = col.setting.colResize ?? this.options.colResize;

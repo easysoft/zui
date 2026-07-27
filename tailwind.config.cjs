@@ -5,15 +5,17 @@ const defaultTheme = require('./config/tailwind-theme/index.cjs');
 /** @type {import('tailwindcss').Config} */
 const config = {
     darkMode: 'media',
-    content: process.env.NODE_ENV === 'development' ? [
-        './index.html',
-        './index.md',
-        './src/**/*.{vue,js,ts,jsx,tsx}',
-        './lib/*/index.html',
-        './lib/*/README.md',
-        './lib/*/src/**/*.{vue,js,ts,jsx,tsx}',
-        './exts/*/*/src/**/*.{vue,js,ts,jsx,tsx}',
-    ] : [{raw: ''}],
+    content: process.env.NODE_ENV === 'development'
+        ? [
+                './index.html',
+                './index.md',
+                './src/**/*.{vue,js,ts,jsx,tsx}',
+                './lib/*/index.html',
+                './lib/*/README.md',
+                './lib/*/src/**/*.{vue,js,ts,jsx,tsx}',
+                './exts/*/*/src/**/*.{vue,js,ts,jsx,tsx}',
+            ]
+        : [{raw: ''}],
     safelist: ['dark'],
     theme: defaultTheme,
     plugins: [
@@ -26,7 +28,7 @@ const config = {
 };
 
 function colorToVars(colorObject, parentName = 'color', vars = {}) {
-    Object.keys(colorObject).forEach(name => {
+    Object.keys(colorObject).forEach((name) => {
         const value = colorObject[name];
         if (!value || ['transparent', 'inherit', 'currentColor'].includes(value)) {
             return;
@@ -61,7 +63,7 @@ if (tailwind) {
         tailwind = tailwind.split(',');
     }
     if (Array.isArray(tailwind)) {
-        tailwind.forEach(tailwindPath => {
+        tailwind.forEach((tailwindPath) => {
             mergePresets(require(tailwindPath));
         });
     }
@@ -73,12 +75,12 @@ if (argv.noPreflightStyle || process.env.TAILWIND_NO_PREFLIGHT) {
     };
 }
 
-[config.theme, config.theme.extend].forEach(theme => {
+[config.theme, config.theme.extend].forEach((theme) => {
     const varsSafelist = [];
-    ['variables', 'darkVariables'].forEach(key => {
+    ['variables', 'darkVariables'].forEach((key) => {
         const variables = theme[key];
         if (typeof variables === 'object') {
-            Object.keys(variables).forEach(varKey => {
+            Object.keys(variables).forEach((varKey) => {
                 if (varKey.startsWith('.')) {
                     varsSafelist.push(varKey.substring(1));
                 }

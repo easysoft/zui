@@ -7,3 +7,5 @@ export class SearchBox extends ComponentFromReact<SearchBoxOptions, SearchBoxRea
 
     static Component = SearchBoxReact;
 }
+
+SearchBox.register();

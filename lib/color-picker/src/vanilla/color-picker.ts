@@ -7,3 +7,5 @@ export class ColorPicker extends ComponentFromReact<ColorPickerOptions, ColorPic
 
     static Component = ColorPickerReact;
 }
+
+ColorPicker.register();

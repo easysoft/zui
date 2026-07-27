@@ -1,9 +1,13 @@
 import htm from 'htm';
+import vhtml from 'vhtml';
 import {h} from './preact';
 
-const html = htm.bind(h);
+const jsx = htm.bind(h);
+const html = htm.bind(vhtml);
 
 export {
     htm,
-    html as hh,
+    html,
+    jsx,
+    vhtml,
 };

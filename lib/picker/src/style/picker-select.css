@@ -6,6 +6,9 @@
 .picker-select.form-control {
   @apply -flex;
 }
+.picker-select.form-control.disabled * {
+  @apply -opacity-100;
+}
 
 .picker-select-placeholder {
   @apply -flex-auto -text-placeholder;
@@ -29,7 +32,7 @@
   @apply -h-auto -pl-1 -min-h-[32px];
 }
 .picker-multi-selections {
-  @apply -flex -flex-wrap -gap-1 -min-w-0;
+  @apply -flex -flex-wrap -gap-1 -min-w-0 -flex-auto;
 }
 .picker-multi-selection {
   @apply -flex -items-center -border -bg-surface -pl-2 -rounded-full -max-w-full;

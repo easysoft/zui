@@ -8,3 +8,4 @@ export * from './cell';
 export * from './row';
 export * from './layout';
 export * from './block-props';
+export * from './cash';

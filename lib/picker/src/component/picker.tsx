@@ -1,15 +1,16 @@
 import {$, delay, fetchData, i18n} from '@zui/core';
 import {Pick} from '@zui/pick/src/components';
+import {encodeBase64} from '@zui/helpers/src/string-helper';
 import {Toolbar} from '@zui/toolbar/src/component';
 import {PickerMultiSelect} from './picker-multi-select';
 import {PickerSingleSelect} from './picker-single-select';
 import {PickerMenu} from './picker-menu';
 
 import type {ComponentType, RenderableProps} from 'preact';
-import type {ListItem, ListItemsFetcher} from '@zui/list';
+import type {ListItem, ListItemsFetcher, NestedItem} from '@zui/list';
 import type {PickTriggerProps} from '@zui/pick';
 import type {PickerItemBasic, PickerItemOptions, PickerMenuProps, PickerOptions, PickerSelectProps, PickerState} from '../types';
-import {formatString} from '@zui/helpers/src/format-string';
+import {formatString} from '@zui/helpers/src/string-helper';
 
 function getValueMap(items: PickerItemOptions[], userMap?: Map<string, PickerItemOptions>): Map<string, PickerItemOptions> {
     return items.reduce<Map<string, PickerItemOptions>>((map, item) => {
@@ -31,17 +32,20 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
         emptyValue: '',
         cache: true,
         hotkeys: true,
+        clearSearchOnSelect: true,
     };
 
     static Pop = PickerMenu as typeof Pick.Pop;
 
-    protected _itemsCacheInfo?: {search?: string, value?: string, items?: PickerOptions['items']};
+    protected _itemsCacheInfo?: {search?: string; value?: string; items?: PickerOptions['items']};
 
     protected _abort?: AbortController;
 
     protected _updateTimer = 0;
 
     protected declare _emptyValueSet: Set<string>;
+
+    protected declare _sharedValueSet: Set<string>;
 
     constructor(props: O) {
         super(props);
@@ -51,11 +55,34 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
     }
 
     get valueList(): string[] {
-        return this.formatValueList(this.state.value);
+        if (this.props.multiple) {
+            return this.formatValueList(this.state.value);
+        }
+        const value = this.state.value;
+        return this.isEmptyValue(value) ? [] : [value];
     }
 
     get firstEmptyValue() {
         return this._emptyValueSet.values().next().value as string;
+    }
+
+    get searchBox() {
+        return (this.trigger as PickerMultiSelect | PickerSingleSelect)?.searchBox;
+    }
+
+    get value() {
+        return this.props.value ?? this.state.value;
+    }
+
+    focusSearch(search?: string) {
+        const {searchBox} = this;
+        if (searchBox) {
+            if (typeof search === 'string') {
+                searchBox.setSearch(search);
+            } else {
+                searchBox.focus();
+            }
+        }
     }
 
     getDefaultState(props?: RenderableProps<O>) {
@@ -64,14 +91,14 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
             ...super.getDefaultState(props),
             loading: false,
             search: '',
-            items: items,
+            items: Array.isArray(items) ? items : [],
             selections: [],
         };
-        this._emptyValueSet = new Set(emptyValue.split(valueSplitter));
+        this._emptyValueSet = new Set(typeof emptyValue === 'string' ? emptyValue.split(valueSplitter) : []);
 
         if (Array.isArray(items) && items.length) {
             const {limitValueInList, required, multiple} = this.props;
-            items.forEach(item => {
+            items.forEach((item) => {
                 if (typeof item.value === 'number') {
                     item.value = String(item.value);
                 }
@@ -79,9 +106,9 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
             if (limitValueInList) {
                 const valueMap = getValueMap(items as PickerItemOptions[]);
                 state.value = this.formatValueList(state.value, valueSplitter).filter(x => valueMap.has(x)).join(valueSplitter);
-            }
-            if (!this.formatValueList(state.value, valueSplitter).length && required && !multiple) {
-                state.value = (items[0].value ?? '') as string;
+                if (required && !multiple && !this.formatValueList(state.value, valueSplitter).length) {
+                    state.value = (items[0].value ?? '') as string;
+                }
             }
         }
 
@@ -140,7 +167,7 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
         }
         const valueMap = getValueMap(items);
         const newValueList = [...valueMap.values()].reduce<string[]>((list, item) => {
-            if (!item.disabled) {
+            if (!item.disabled && !item.items) {
                 list.push(item.value as string);
             }
             return list;
@@ -170,22 +197,33 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
         if (abort) {
             abort.abort();
         }
-        abort = new AbortController();
-        this._abort = abort;
 
         const {items: itemsSetting = [], searchDelay} = this.props;
-        const {search} = this.state;
+        const {search = ''} = this.state;
         let items: ListItem[] = [];
         if (!Array.isArray(itemsSetting)) {
+            abort = new AbortController();
+            this._abort = abort;
             await delay(searchDelay || 500);
             if (this._abort !== abort) {
                 return items;
             }
             let ajaxSetting = itemsSetting;
             if (typeof ajaxSetting === 'string') {
-                ajaxSetting = formatString(ajaxSetting, {search: encodeURIComponent(search)});
+                ajaxSetting = {url: ajaxSetting};
             }
-            items = await fetchData(ajaxSetting as ListItemsFetcher, [this, search], {signal: abort.signal});
+            if (typeof ajaxSetting === 'object' && ajaxSetting.url) {
+                ajaxSetting = {
+                    ...ajaxSetting,
+                    url: formatString(ajaxSetting.url, {search: encodeURIComponent(search), 'search:base64': encodeBase64(search)}),
+                };
+            }
+            try {
+                items = await fetchData(ajaxSetting as ListItemsFetcher, [this, search], {signal: abort.signal});
+            } catch (error) {
+                items = [];
+                console.warn('[ZUI] Picker: Failed to load items.', this.props.name, {error});
+            }
             if (this._abort !== abort) {
                 return items;
             }
@@ -202,17 +240,19 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
             const newState = typeof state === 'function' ? state(prevState) : state;
             if ((newState.value !== undefined && newState.value !== prevState.value) || (newState.items && newState.items !== prevState.items)) {
                 const items = newState.items || prevState.items;
-                const map: Map<string, PickerItemOptions> = new Map();
+                const map = new Map<string, PickerItemOptions>();
                 if (Array.isArray(prevState.items) && prevState.items !== newState.items) {
                     getValueMap(prevState.items as PickerItemOptions[], map);
                 }
-                getValueMap(items, map);
-                newState.selections = this.formatValueList(newState.value ?? prevState.value).reduce<PickerItemBasic[]>((list, value) => {
-                    if (!this.isEmptyValue(value)) {
-                        list.push(map.get(value) || {value, text: value});
-                    }
-                    return list;
-                }, []);
+                if (Array.isArray(items)) {
+                    getValueMap(items, map);
+                    newState.selections = this.formatValueList(newState.value ?? prevState.value).reduce<PickerItemBasic[]>((list, value) => {
+                        if (!this.isEmptyValue(value)) {
+                            list.push(map.get(value) || {value, text: value});
+                        }
+                        return list;
+                    }, []);
+                }
             }
             return newState;
         }, callback);
@@ -226,16 +266,22 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
         if (!state.loading && (force || cache.search !== state.search || props.items !== cache.items)) {
             await this.changeState({loading: true} as Partial<S>);
             let loadItems = await this.load();
-            loadItems = loadItems.filter(x => {
-                x.key = x.key ?? (x.value as string);
-                if (typeof x.value === 'number') {
-                    x.value = String(x.value);
-                }
-                if (this.isEmptyValue(x.value as string)) {
-                    return false;
-                }
-                return true;
-            });
+            const filterItems = (items: ListItem[]) => {
+                return items.filter((x) => {
+                    x.key = x.key ?? (x.value as string);
+                    if (typeof x.value === 'number') {
+                        x.value = String(x.value);
+                    }
+                    if (this.isEmptyValue(x.value as string)) {
+                        return false;
+                    }
+                    if (Array.isArray(x.items)) {
+                        x.items = filterItems(x.items as ListItem[]);
+                    }
+                    return true;
+                });
+            };
+            loadItems = filterItems(loadItems);
             newState.loading = false;
             newState.items = loadItems as PickerItemOptions[];
             cache.items = props.items;
@@ -247,7 +293,7 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
             cache.value = state.value;
         }
         const newItems = newState.items;
-        if (props.required && !props.multiple && this.isEmptyValue(this.state.value) && Array.isArray(newItems) && newItems.length) {
+        if (props.limitValueInList && props.required && !props.multiple && this.isEmptyValue(this.state.value) && Array.isArray(newItems) && newItems.length) {
             newState.value = newItems[0].value;
         }
         if (Object.keys(newState).length) {
@@ -273,6 +319,13 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
     componentDidMount(): void {
         super.componentDidMount();
         this.tryUpdate();
+
+        const {shareSelections} = this.props;
+        if (shareSelections) {
+            const sharedPickers = Picker.sharedPickers.get(shareSelections) || new Set();
+            sharedPickers.add(this as unknown as Picker);
+            Picker.sharedPickers.set(shareSelections, sharedPickers);
+        }
     }
 
     componentWillUnmount(): void {
@@ -280,6 +333,16 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
         this._abort = undefined;
         this._itemsCacheInfo = undefined;
         clearTimeout(this._updateTimer);
+
+        const {shareSelections} = this.props;
+        if (shareSelections) {
+            const sharedPickers = Picker.sharedPickers.get(shareSelections) || new Set();
+            sharedPickers.delete(this as unknown as Picker);
+            if (!sharedPickers.size) {
+                Picker.sharedPickers.delete(shareSelections);
+            }
+        }
+
         super.componentWillUnmount();
     }
 
@@ -305,7 +368,6 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
                 }
             }
         }
-
     }
 
     protected _getTriggerProps(props: RenderableProps<O>, state: Readonly<S>): PickerSelectProps<S> {
@@ -317,6 +379,7 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
             search: props.search,
             display: props.display,
             searchHint: props.searchHint,
+            caretClass: props.caretClass,
             clearable: !!this.valueList.length && !props.required,
             valueList: this.valueList,
             emptyValue: this.firstEmptyValue,
@@ -328,23 +391,58 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
         };
     }
 
+    protected _handlePickValue = (options: {toggle?: string; select?: string | string[]; diselect?: string | string[]}) => {
+        const {toggle, select, diselect} = options;
+        if (toggle !== undefined) {
+            this.toggleValue(toggle);
+        } else if (select !== undefined) {
+            this.select(select);
+        } else if (diselect !== undefined) {
+            this.deselect(diselect);
+        }
+        if (this.props.multiple) {
+            if (this.props.clearSearchOnSelect && this.state.search?.length) {
+                this.focusSearch('');
+            }
+        } else {
+            this.toggle(false);
+            this.searchBox?.clear();
+        }
+    };
+
+    protected _getMenuItem = (item: NestedItem) => {
+        if (this._sharedValueSet?.has(item.value as string)) {
+            item.disabled = true;
+        }
+        return item;
+    };
+
     protected _getPopProps(props: RenderableProps<O>, state: Readonly<S>): PickerMenuProps<S> {
+        if (props.shareSelections) {
+            this._sharedValueSet = props.getSharedValues ? new Set(props.getSharedValues(props.shareSelections)) : Picker.getSharedSelections(props.shareSelections);
+        }
         return {
             ...super._getPopProps(props, state),
+            picker: this as unknown as Picker,
             menu: props.menu,
             tree: props.tree,
+            getItem: props.shareSelections ? this._getMenuItem : undefined,
             checkbox: props.checkbox,
             multiple: props.multiple,
             search: props.search,
             maxItemsCount: props.maxItemsCount,
+            noNestedPick: props.noNestedPick,
             footer: this._renderToolbar(),
             valueList: this.valueList,
+            noFlipAfterShow: true,
             noMatchHint: state.loading ? i18n.getLang('loadingHint') : (props.searchEmptyHint ?? i18n.getLang('searchEmptyHint')),
+            exceedLimitHint: props.exceedLimitHint ?? i18n.getLang('exceedLimitHint'),
             onDeselect: this.deselect,
             onSelect: this.select,
             onClear: this.clear,
             onToggleValue: this.toggleValue,
             onSetValue: this.setValue,
+            onPick: this._handlePickValue,
         };
     }
 
@@ -366,7 +464,7 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
                 text: i18n.getLang('cancelSelect'),
             }];
         }
-        return Toolbar.render(toolbar, [], {size: 'sm', getItem: (item) => {
+        return Toolbar.render(toolbar, [], {size: 'sm', relativeTarget: this, getItem: (item) => {
             if (!item.onClick) {
                 if (item.key === 'selectAll') {
                     item.onClick = this.selectAll.bind(this);
@@ -417,5 +515,16 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
         }
         const stateValue = this.formatValue(valueList);
         return super.setValue(stateValue, silent);
+    }
+
+    static sharedPickers = new Map<string, Set<Picker>>();
+
+    static getSharedSelections(name: string): Set<string> {
+        const valueSet = new Set<string>();
+        const sharedPickers = Picker.sharedPickers.get(name) || new Set();
+        sharedPickers.forEach((picker) => {
+            picker.valueList.forEach(value => valueSet.add(value));
+        });
+        return valueSet;
     }
 }

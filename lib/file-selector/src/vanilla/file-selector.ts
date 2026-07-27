@@ -1,6 +1,6 @@
 import {ComponentFromReact} from '@zui/core';
 import {FileSelector as FileSelectorReact} from '../components';
-import {FileSelectorProps} from '../types';
+import type {FileSelectorProps} from '../types';
 
 export class FileSelector extends ComponentFromReact<FileSelectorProps, FileSelectorReact> {
     static NAME = 'FileSelector';

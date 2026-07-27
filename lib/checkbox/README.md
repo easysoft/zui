@@ -1,4 +1,4 @@
-## 多选和单选框
+# 多选和单选框
 
 ## 默认外观
 
@@ -49,10 +49,10 @@
 
 ## 排列
 
-### 设置垂直间距 `space-y-*`
+### 垂直排列
 
 ```html:example
-<div class="space-y-1">
+<div class="check-list">
   <label class="checkbox">
     <input type="checkbox"> 多选框 1
   </label>
@@ -65,10 +65,10 @@
 </div>
 ```
 
-### 水平排列和间距 `flex`, `gap-*`
+### 水平排列
 
 ```html:example
-<div class="flex gap-4">
+<div class="check-list-inline">
   <label class="checkbox">
     <input type="checkbox"> 多选框 1
   </label>
@@ -86,56 +86,60 @@
 高级外观的多选和单选框使用自定义的外观代替原生外观，在所有浏览器都具有一致的体验。
 
 ```html:example
-<div class="checkbox-primary">
-  <input type="checkbox" id="primaryCheckbox1">
-  <label for="primaryCheckbox1">未选中</label>
-</div>
-<div class="checkbox-primary">
-  <input type="checkbox" checked="checked" id="primaryCheckbox2">
-  <label for="primaryCheckbox2">选中</label>
-</div>
-<div class="checkbox-primary" style="--checkbox-color: var(--color-success-500)">
-  <input type="checkbox" checked="checked" id="primaryCheckbox5">
-  <label for="primaryCheckbox5">自定义颜色</label>
-</div>
-<div class="checkbox-primary">
-  <input type="checkbox" disabled="disabled" id="primaryCheckbox3">
-  <label for="primaryCheckbox3">禁用</label>
-</div>
-<div class="checkbox-primary">
-  <input type="checkbox" checked="checked" disabled="disabled" id="primaryCheckbox4">
-  <label for="primaryCheckbox4">禁用</label>
-</div>
-<div class="checkbox-primary indeterminate">
-  <input type="checkbox" id="primaryCheckbox6">
-  <label for="primaryCheckbox6">Indeterminate</label>
+<div class="check-list">
+  <div class="checkbox-primary">
+    <input type="checkbox" id="primaryCheckbox1">
+    <label for="primaryCheckbox1">未选中</label>
+  </div>
+  <div class="checkbox-primary">
+    <input type="checkbox" checked="checked" id="primaryCheckbox2">
+    <label for="primaryCheckbox2">选中</label>
+  </div>
+  <div class="checkbox-primary" style="--checkbox-color: var(--color-success-500)">
+    <input type="checkbox" checked="checked" id="primaryCheckbox5">
+    <label for="primaryCheckbox5">自定义颜色</label>
+  </div>
+  <div class="checkbox-primary">
+    <input type="checkbox" disabled="disabled" id="primaryCheckbox3">
+    <label for="primaryCheckbox3">禁用</label>
+  </div>
+  <div class="checkbox-primary">
+    <input type="checkbox" checked="checked" disabled="disabled" id="primaryCheckbox4">
+    <label for="primaryCheckbox4">禁用</label>
+  </div>
+  <div class="checkbox-primary indeterminate">
+    <input type="checkbox" id="primaryCheckbox6">
+    <label for="primaryCheckbox6">Indeterminate</label>
+  </div>
 </div>
 ```
 
 ```html:example
-<div class="radio-primary">
-  <input type="radio" name="primaryRadioGroup1" id="primaryradio1">
-  <label for="primaryradio1">选项一</label>
-</div>
-<div class="radio-primary">
-  <input type="radio" name="primaryRadioGroup1" checked="checked" id="primaryradio2">
-  <label for="primaryradio2">选项二</label>
-</div>
-<div class="radio-primary">
-  <input type="radio" name="primaryRadioGroup1" checked="checked" id="primaryradio3">
-  <label for="primaryradio3">选项三</label>
-</div>
-<div class="radio-primary">
-  <input type="radio" name="primaryRadioGroup1" disabled="disabled" id="primaryradio4">
-  <label for="primaryradio4">禁用</label>
-</div>
-<div class="radio-primary">
-  <input type="radio" name="primaryRadioGroup1" checked="checked" disabled="disabled" id="primaryradio5">
-  <label for="primaryradio5">禁用</label>
+<div class="check-list">
+  <div class="radio-primary">
+    <input type="radio" name="primaryRadioGroup1" id="primaryradio1">
+    <label for="primaryradio1">选项一</label>
+  </div>
+  <div class="radio-primary">
+    <input type="radio" name="primaryRadioGroup1" checked="checked" id="primaryradio2">
+    <label for="primaryradio2">选项二</label>
+  </div>
+  <div class="radio-primary">
+    <input type="radio" name="primaryRadioGroup1" checked="checked" id="primaryradio3">
+    <label for="primaryradio3">选项三</label>
+  </div>
+  <div class="radio-primary">
+    <input type="radio" name="primaryRadioGroup1" disabled="disabled" id="primaryradio4">
+    <label for="primaryradio4">禁用</label>
+  </div>
+  <div class="radio-primary">
+    <input type="radio" name="primaryRadioGroup1" checked="checked" disabled="disabled" id="primaryradio5">
+    <label for="primaryradio5">禁用</label>
+  </div>
 </div>
 ```
 
-高级外观还可以不使用 `<input>` 元素，在此种情况下，为 `.checkbox-primary` 或 `.radio-primary` 添加 `.checked` 类标记为选中状态，用户无法通过点击来切换选中状态，但可以通过程序手动添加或移除 `.checked` 来更改选中状态。该外观无法在`<lable>`标签两侧增加`<input>`元素的情况下使用。
+高级外观还可以不使用 `<input>` 元素，在此种情况下，为 `.checkbox-primary` 或 `.radio-primary` 添加 `.checked` 类标记为选中状态，用户无法通过点击来切换选中状态，但可以通过程序手动添加或移除 `.checked` 来更改选中状态。该外观无法在`<label>`标签两侧增加`<input>`元素的情况下使用。
 
 ```html:example
 <div class="checkbox-primary">
@@ -158,21 +162,23 @@
 ## 开关
 
 ```html:example
-<div class="switch">
-  <input type="checkbox" id="primaryCheckbox21">
-  <label for="primaryCheckbox21">未选中</label>
-</div>
-<div class="switch">
-  <input type="checkbox" checked="checked" id="primaryCheckbox22">
-  <label for="primaryCheckbox22">选中</label>
-</div>
-<div class="switch">
-  <input type="checkbox" checked="checked" disabled="disabled" id="primaryCheckbox23">
-  <label for="primaryCheckbox23">禁用选中</label>
-</div>
-<div class="switch">
-  <input type="checkbox" disabled="disabled" id="primaryCheckbox23">
-  <label for="primaryCheckbox23">禁用</label>
+<div class="check-list">
+  <div class="switch">
+    <input type="checkbox" id="primaryCheckbox21">
+    <label for="primaryCheckbox21">未选中</label>
+  </div>
+  <div class="switch">
+    <input type="checkbox" checked="checked" id="primaryCheckbox22">
+    <label for="primaryCheckbox22">选中</label>
+  </div>
+  <div class="switch">
+    <input type="checkbox" checked="checked" disabled="disabled" id="primaryCheckbox23">
+    <label for="primaryCheckbox23">禁用选中</label>
+  </div>
+  <div class="switch">
+    <input type="checkbox" disabled="disabled" id="primaryCheckbox23">
+    <label for="primaryCheckbox23">禁用</label>
+  </div>
 </div>
 ```
 
@@ -180,36 +186,16 @@
 
 ```html:example
 <div class="check-list-inline">
-  <label class="checkbox">
-    <input type="checkbox"> 复选框 1
-  </label>
-  <label class="checkbox">
-    <input type="checkbox"> 复选框 2
-  </label>
-  <label class="checkbox">
-    <input type="checkbox"> 复选框 1
-  </label>
-  <label class="checkbox">
-    <input type="checkbox"> 复选框 2
-  </label>
-  <label class="checkbox">
-    <input type="checkbox"> 复选框 1
-  </label>
-  <label class="checkbox">
-    <input type="checkbox"> 复选框 2
-  </label>
-  <label class="checkbox">
-    <input type="checkbox"> 复选框 1
-  </label>
-  <label class="checkbox">
-    <input type="checkbox"> 复选框 2
-  </label>
-  <label class="checkbox">
-    <input type="checkbox"> 复选框 1
-  </label>
-  <label class="checkbox">
-    <input type="checkbox"> 复选框 2
-  </label>
+  <label class="checkbox"><input type="checkbox"> 复选框 1</label>
+  <label class="checkbox"><input type="checkbox"> 复选框 2</label>
+  <label class="checkbox"><input type="checkbox"> 复选框 3</label>
+  <label class="checkbox"><input type="checkbox"> 复选框 4</label>
+  <label class="checkbox"><input type="checkbox"> 复选框 5</label>
+  <label class="checkbox"><input type="checkbox"> 复选框 6</label>
+  <label class="checkbox"><input type="checkbox"> 复选框 7</label>
+  <label class="checkbox"><input type="checkbox"> 复选框 8</label>
+  <label class="checkbox"><input type="checkbox"> 复选框 9</label>
+  <label class="checkbox"><input type="checkbox"> 复选框 10</label>
 </div>
 ```
 

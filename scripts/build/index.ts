@@ -14,7 +14,7 @@ if (viteFile) {
     try {
         const extraViteConfig = await import(viteFile);
         viteConfig = mergeConfig(viteConfig, extraViteConfig);
-    } catch (error) {
+    } catch (_error) {
         throw new Error(`ZUI build: Cannot load extra config file from "${viteFile}".`);
     }
 }
@@ -28,17 +28,17 @@ if (argv.noCash) {
                     globals: {
                         'cash-dom': '$',
                     },
-                }
-            }
-        }
+                },
+            },
+        },
     });
 }
 
 if (argv.noSourceMap) {
     viteConfig = mergeConfig(viteConfig, {
         build: {
-            sourcemap: false
-        }
+            sourcemap: false,
+        },
     });
 }
 
@@ -50,7 +50,9 @@ const buildConfig = await createBuildConfig({
     version: argv.version ?? argv.v,
     exts: buildLibPaths,
     exports: argv.exports ?? argv.E,
-    ignoreNotReady: argv.ignoreNotReady
+    ignoreNotReady: argv.ignoreNotReady,
+    includeWip: argv.includeWip,
+    noMinify: argv.noMinify,
 });
 
 const buildDir = Path.resolve(process.cwd(), 'build');
@@ -97,12 +99,12 @@ if (tailwindConfigs.length) {
     const tailwindConfigsFileContent = [
         'module.exports = [',
         tailwindConfigs.map(x => `    require(${JSON.stringify(x)}),`).join('\n'),
-        '];'
+        '];',
     ].join('\n');
     await fs.writeFile(tailwindConfigsPath, tailwindConfigsFileContent);
 
     console.log(cyan('tailwind configs...'));
-    tailwindConfigs.forEach(tailwindFile => {
+    tailwindConfigs.forEach((tailwindFile) => {
         console.log(green('+'), Path.relative(process.cwd(), tailwindFile));
     });
     console.log();
@@ -124,6 +126,7 @@ if (!argv.s && !argv.skipBuild) {
         env: {
             ...process.env,
             BUILD_LIBS: buildLibPaths.join(','),
+            NO_MINIFY: argv.noMinify,
             ZIP: argv.zip,
             ZIP_OUT: argv.zipOut,
             VITE_EXTRA_CONFIG: viteConfigFile,
@@ -131,6 +134,6 @@ if (!argv.s && !argv.skipBuild) {
             POSTCSS_REM2PX: argv.rem2px,
             TAILWIND_NO_PREFLIGHT: argv.noPreflightStyle,
             TAILWIND_CONFIG: tailwindConfigsPath,
-        }
+        },
     });
 }

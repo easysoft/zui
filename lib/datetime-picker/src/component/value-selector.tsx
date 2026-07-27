@@ -11,9 +11,9 @@ export interface ValueSelectorProps {
 }
 
 export class ValueSelector extends Component<ValueSelectorProps> {
-    #ref = createRef<HTMLDivElement>();
+    protected _ref = createRef<HTMLDivElement>();
 
-    #handleClickItem = (event: MouseEvent) => {
+    protected _handleClickItem = (event: MouseEvent) => {
         const {onChange} = this.props;
         if (!onChange) {
             return;
@@ -31,10 +31,10 @@ export class ValueSelector extends Component<ValueSelectorProps> {
         const valueView: ComponentChild[] = [];
         const nowYear = new Date().getFullYear();
         for (let i = min; i <= max; ++i) {
-            valueView.push(<Button type="ghost" key={i} data-value={i} active={i === value} className={classes(nowYear === i ? 'is-current' : '')} onClick={this.#handleClickItem}>{i}</Button>);
+            valueView.push(<Button type="ghost" key={i} data-value={i} active={i === value} className={classes(nowYear === i ? 'is-current' : '')} onClick={this._handleClickItem}>{i}</Button>);
         }
         return (
-            <div className={className} ref={this.#ref}>
+            <div className={className} ref={this._ref}>
                 {valueView}
             </div>
         );

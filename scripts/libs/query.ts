@@ -9,7 +9,7 @@ import {getLibsCache, setLibsCache} from './libs-cache';
  * Get lib list
  * @param libPath - Lib path - 组件路径
  */
-export async function getLibs(libPath: string | string[] = '', options: {root?: string, sourceType?: LibSourceType, cache?: boolean, idx?: number, hasSubs?: boolean, extsName?: string} = {}): Promise<Record<string, LibInfo>> {
+export async function getLibs(libPath: string | string[] = '', options: {root?: string; sourceType?: LibSourceType; cache?: boolean; idx?: number; hasSubs?: boolean; extsName?: string} = {}): Promise<Record<string, LibInfo>> {
     if (!libPath || libPath === 'all') {
         const libs = await getLibs(['buildIn', 'exts'], options);
         return libs;
@@ -125,7 +125,7 @@ export function getAllLibs() {
     return getLibs();
 }
 
-export async function getLibList(libPath: string | string[] = '', options: {root?: string, sourceType?: LibSourceType, cache?: boolean, idx?: number} = {}) {
+export async function getLibList(libPath: string | string[] = '', options: {root?: string; sourceType?: LibSourceType; cache?: boolean; idx?: number} = {}) {
     const libs = await getLibs(libPath, options);
     return Object.values(libs).sort((a, b) => a.zui.order - b.zui.order);
 }
@@ -137,7 +137,7 @@ export function sortLibList(libList: LibInfo[]) {
     }).sort((a, b) => a.zui.order - b.zui.order);
 }
 
-export function createLibFromPackageJson(packageJson: Record<string, unknown>, options: {sourceType?: LibSourceType, path: string, idx?: number, workspace?: boolean, packageJsonPath: string, tailwindConfigPath?: string, extsName?: string}): LibInfo {
+export function createLibFromPackageJson(packageJson: Record<string, unknown>, options: {sourceType?: LibSourceType; path: string; idx?: number; workspace?: boolean; packageJsonPath: string; tailwindConfigPath?: string; extsName?: string}): LibInfo {
     const name = packageJson.name as string;
     const defaultName = name.startsWith('@zui/') ? name.substring(5) : name;
     const {sourceType = 'build-in', path, idx = 0, workspace, packageJsonPath, tailwindConfigPath, extsName} = options;

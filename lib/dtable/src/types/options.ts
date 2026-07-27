@@ -1,4 +1,4 @@
-import type {ClassNameLike, CustomContentType} from '@zui/core';
+import type {ClassNameLike, CommandCallback, CustomContentType} from '@zui/core';
 import type {DTable} from '../main-react';
 import type {CellValueGetter, CellRenderCallback} from './cell';
 import type {ColSetting} from './col';
@@ -10,26 +10,28 @@ import type {RowData, RowInfo} from './row';
 export interface DTableDataOptions<C = ColSetting> {
     cols: C[];
     data: (RowData | string)[] | number;
-    rowDataGetter?: (ids: string[]) => RowData[],
-    cellValueGetter?: CellValueGetter,
+    rowDataGetter?: (ids: string[]) => RowData[];
+    cellValueGetter?: CellValueGetter;
+    rowConverter?: (row: RowData, index: number) => RowData;
     rowKey?: string;
 }
 
 export interface DTableLayoutOptions {
-    width: number | '100%' | ((this: DTable) => number | '100%');
-    height: number | '100%' | 'auto' | {min: number, max: number} | ((this: DTable, actualHeight: number) => number | 'auto' | {min: number, max: number});
+    width?: number | '100%' | ((this: DTable) => number | '100%');
+    height?: number | '100%' | 'auto' | {min: number; max: number} | ((this: DTable, actualHeight: number) => number | 'auto' | {min: number; max: number});
     fixedLeftWidth?: number | 'auto' | `${number}%` | ((this: DTable) => number);
     fixedRightWidth?: number | 'auto' | `${number}%` | ((this: DTable) => number);
-    rowHeight: number;
-    defaultColWidth: number;
-    minColWidth: number;
-    maxColWidth: number;
+    rowHeight?: number;
+    defaultColWidth?: number;
+    minColWidth?: number;
+    maxColWidth?: number;
     header?: boolean | CustomRenderResultList<[layout: DTableLayout], DTable> | CustomRenderResultGenerator<[layout: DTableLayout], DTable> | CustomRenderResultItem;
     footer?: boolean | CustomRenderResultList<[layout: DTableLayout], DTable> | ((this: DTable, layout: DTableLayout) => CustomRenderResultList<[layout: DTableLayout], DTable>);
-    headerHeight: number;
-    footerHeight: number;
-    responsive: boolean | string;
-    scrollbarHover: boolean;
+    partialRender?: boolean;
+    headerHeight?: number;
+    footerHeight?: number;
+    responsive?: boolean | string;
+    scrollbarHover?: boolean;
     scrollbarSize?: number;
     horzScrollbarPos?: 'inside' | 'outside';
     vertScrollbarPos?: 'inside' | 'outside';
@@ -46,13 +48,13 @@ export interface DTableStyleOptions {
 
 export interface DTableCallbackOptions {
     onLayout?: (this: DTable, layout: DTableLayout) => (DTableLayout | void);
-    onScroll?: (this: DTable, scrollInfo: {scrollTop?: number, scrollLeft?: number}) => void;
+    onScroll?: (this: DTable, scrollInfo: {scrollTop?: number; scrollLeft?: number}) => void;
     onRenderCell?: CellRenderCallback;
     onRenderHeaderCell?: CellRenderCallback;
     beforeRender?: (this: DTable, layout: DTableLayout) => (DTableLayout | void);
-    afterRender?: (this: DTable) => void;
-    onCellClick?: (this: DTable, event: MouseEvent, data: {rowID: string, colName: string, rowInfo?: RowInfo, element: HTMLElement}) => void | true;
-    onHeaderCellClick?: (this: DTable, event: MouseEvent, data: {colName: string, element: HTMLElement}) => void;
+    afterRender?: (this: DTable, firstRender?: boolean) => void;
+    onCellClick?: (this: DTable, event: MouseEvent, data: {rowID: string; colName: string; rowInfo?: RowInfo; element: HTMLElement}) => void | true;
+    onHeaderCellClick?: (this: DTable, event: MouseEvent, data: {colName: string; element: HTMLElement}) => void;
     onAddRow?: (this: DTable, row: RowInfo, index: number) => void | false;
     onAddRows?: (this: DTable, rows: RowInfo[], colsLayout: DTableColsLayout) => RowInfo[] | void;
 }
@@ -61,9 +63,12 @@ export interface DTableOptions<C = ColSetting> extends DTableDataOptions<C>, DTa
     id?: string;
     lang?: string;
     i18n?: Record<string, Record<string, string | object>>;
-    className?: ClassNameLike,
-    style?: Record<string, string | number>,
-    parent?: HTMLElement,
+    className?: ClassNameLike;
+    style?: Record<string, string | number>;
+    parent?: HTMLElement;
     plugins?: DTablePluginLike[];
-    [prop: string]: unknown
+    commandScope?: string;
+    onCommand?: CommandCallback;
+    commands?: Record<string, CommandCallback>;
+    [prop: string]: unknown;
 }

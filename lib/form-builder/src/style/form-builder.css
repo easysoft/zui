@@ -1,0 +1,67 @@
+.form-builder-title {
+  @apply -font-bold -text-lg -mb-3 -px-1;
+}
+
+.form-builder-item {
+  flex-basis: var(--form-item-width, 100%);
+}
+.form-builder-item .form-hint {
+  @apply -text-gray-500 -px-2;
+}
+.form-builder-extra {
+  @apply -px-2;
+}
+
+.form-builder-collapsible {
+  @apply -border -m-2;
+}
+.form-builder-collapsible .collapsible-header {
+  @apply -cursor-pointer;
+}
+.form-builder-collapsible .collapsible-body {
+  @apply -pt-0;
+}
+.form-builder-collapsible:hover {
+  @apply !-border-border;
+}
+
+.form-builder-items {
+  @apply -flex -flex-row -flex-wrap;
+}
+
+.form-builder-item.is-root > .form-builder-items > .form-builder-item > .collapsible {
+  @apply -mb-4 hover:-shadow;
+}
+.form-builder-item.is-root > .form-builder-items > .form-builder-item > .collapsible > .collapsible-header {
+  @apply -border-b -bg-gray-100 -p-0 -rounded-t-md;
+}
+.form-builder-item.is-root > .form-builder-items > .form-builder-item > .collapsible > .collapsible-body {
+  @apply -px-0;
+}
+
+/* form builder with horizontal layout. */
+.form-horz .form-builder-items {
+  @apply -gap-y-1;
+}
+.form-horz .form-builder-item > .form-hint,
+.form-horz.form-builder-body > .form-actions,
+.form-horz .form-builder-item > .form-item-errors,
+.form-horz .form-builder-item > .form-builder-extra {
+  @apply -pl-[--form-horz-label-width]
+}
+
+.form-item-error {
+  @apply -text-danger-500;
+}
+
+.form-builder-items.form-horz .form-label {
+  @apply -top-[--form-grid-gap-y-half];
+}
+
+
+.form-builder-items.form-column {
+  @apply -flex-col;
+}
+.form-builder-items.form-column > .form-builder-item {
+  width: var(--form-item-width, 100%);
+}

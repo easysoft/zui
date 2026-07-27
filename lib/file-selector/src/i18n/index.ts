@@ -1,15 +1,15 @@
 export default {
-    'zh_cn': {
+    zh_cn: {
         selectFile: '选择文件',
         fileSelectTip: '（不超过 {maxFileSize}）',
         removeFile: '移除文件',
         renameFile: '重命名',
         duplicatedTip: '文件 “{name}”（{size}） 已存在。',
-        exceededSizeTip: '文件 “{name}”（{size}） 超过了 {maxSize} 的限制。',
+        exceededSizeTip: '文件 “{name}”（{size}） 超过了 {maxFileSize} 的限制。',
         exceededTotalSizeTip: '文件 “{name}”（{size}） 超过了总大小 {totalFileSize} 的限制。',
         exceededCountTip: '文件 “{name}”（{size}） 超过了数量 {maxFileCount} 的限制。',
     },
-    'zh_tw': {
+    zh_tw: {
         selectFile: '選擇文件',
         fileSelectTip: '（不超過 {maxFileSize}）',
         removeFile: '移除文件',

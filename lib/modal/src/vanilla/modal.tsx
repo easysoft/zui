@@ -1,20 +1,22 @@
-import {render} from 'preact';
-import {delay, i18n, $, nextGid, HtmlContent, classes} from '@zui/core';
+import {createRef, RefObject, render} from 'preact';
+import {delay, i18n, $, nextGid, HtmlContent, classes, CustomContent} from '@zui/core';
 import {ModalBase} from './modal-base';
-import {ModalOptions, ModalDialogOptions, ModalCustomOptions, ModalAjaxOptions, ModalAlertOptions, ModalTypedOptions, ModalConfirmOptions} from '../types';
+import {ModalOptions, ModalDialogOptions, ModalCustomOptions, ModalAjaxOptions, ModalAlertOptions, ModalTypedOptions, ModalConfirmOptions, ModalPromptOptions} from '../types';
 import {ModalDialog} from '../component';
 import {ModalIframeContent} from '../component/modal-iframe-content';
 
 import type {ToolbarOptions, ToolbarItemOptions} from '@zui/toolbar';
+import {isElementDetached} from '@zui/core/src/dom';
 
 type ModalDialogHTML = [html: string];
 
 type ModalBuildFunction = (this: Modal, element: HTMLElement, options: ModalOptions) => Promise<ModalDialogOptions | ModalDialogHTML | boolean | undefined>;
 
 function buildCustomModal(this: Modal, _element: HTMLElement, options: ModalCustomOptions): ModalDialogOptions | boolean | undefined {
-    const {custom, title, content} = options;
+    const {custom, title, content, closeBtn} = options;
     return {
         body: content,
+        closeBtn,
         title,
         ...(typeof custom === 'function' ? custom() : custom),
     };
@@ -58,6 +60,7 @@ async function buildIframeModal(this: Modal, _element: HTMLElement, options: Mod
     return {
         title,
         ...custom,
+        waitShowEvent: 'modal-iframe-loaded',
         body: <ModalIframeContent url={url} watchHeight={!hasHeight} />,
     };
 }
@@ -82,6 +85,10 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
     #id?: string;
 
     #loadingTimer?: number;
+
+    protected _builded = false;
+
+    protected _staticMbo?: MutationObserver;
 
     get id() {
         return this.#id as string;
@@ -132,7 +139,25 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
 
     afterInit() {
         super.afterInit();
-        if (this.options.destroyOnHide && this.options.type !== 'static') {
+        const isStatic = this.options.type === 'static';
+        if (isStatic) {
+            this._staticMbo = new MutationObserver((mutations) => {
+                let hasRemovedNodes = false;
+                for (const mutation of mutations) {
+                    if (mutation.removedNodes.length) {
+                        hasRemovedNodes = true;
+                        break;
+                    }
+                }
+
+                if (hasRemovedNodes) {
+                    this.autoDestroy();
+                }
+            });
+            this._staticMbo.observe(this.modalElement.parentNode!, {
+                childList: true,
+            });
+        } else if (this.options.destroyOnHide) {
             this.on('hidden', (event) => {
                 const $modal = $(event.target as HTMLElement);
                 if ($modal.data('key') === this.key) {
@@ -140,6 +165,21 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
                 }
             });
         }
+    }
+
+    /**
+     * Auto destroy the component when detached.
+     */
+    autoDestroy(delay = 100) {
+        if (this._autoDestory) {
+            clearTimeout(this._autoDestory);
+        }
+        this._autoDestory = window.setTimeout(() => {
+            this._autoDestory = 0;
+            if (isElementDetached(this.element) || (this.options.type === 'static' && isElementDetached(this.modalElement))) {
+                this.destroy();
+            }
+        }, delay);
     }
 
     show(options?: Partial<T>) {
@@ -157,6 +197,7 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
             $(modal).removeData(this.constructor.KEY).remove();
             this.#modal = undefined;
         }
+        this._staticMbo?.disconnect();
     }
 
     render(options?: Partial<T>) {
@@ -213,8 +254,12 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
 
         const {modalElement, options} = this;
         const $modal = $(modalElement);
-        const {type, loadTimeout, loadingClass = LOADING_CLASS, loadingText = null} = options;
+        const {type, loadTimeout, loadingClass = LOADING_CLASS, loadingText = null, cache} = options;
         if (!type || type === 'static') {
+            return true;
+        }
+        if (cache && this._builded) {
+            this.layout();
             return true;
         }
 
@@ -233,7 +278,7 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
             }, loadTimeout);
         }
 
-        const result = await build.call(this, modalElement, options);
+        const result = await build.call(this as Modal, modalElement, options);
         if (this._destroyed) {
             return false;
         }
@@ -250,6 +295,7 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
         }
 
         this.layout();
+        this._builded = true;
 
         await delay(100);
 
@@ -262,9 +308,9 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
         return !$.isDetached(modal.modalElement);
     }
 
-    static open(options: ModalTypedOptions & {container?: string | HTMLElement}): Promise<Modal> {
+    static open(options: ModalTypedOptions & {container?: string | HTMLElement; ref?: RefObject<Modal>}): Promise<Modal> {
         return new Promise((resolve) => {
-            const {container = document.body, ...others} = options;
+            const {container = document.body, ref, ...others} = options;
             const modalOptions = {show: true, ...others} as ModalOptions;
             if (!modalOptions.type && modalOptions.url) {
                 modalOptions.type = 'ajax';
@@ -276,6 +322,9 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
                 modalOptions.key = modalOptions.id;
             }
             const modal = Modal.ensure(container, modalOptions) as Modal;
+            if (ref) {
+                ref.current = modal;
+            }
             const namespace = `${Modal.NAMESPACE}.open${nextGid()}`;
             modal.on(`hidden${namespace}`, () => {
                 modal.off(namespace);
@@ -285,13 +334,13 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
         });
     }
 
-    static async alert(options: string | ModalAlertOptions): Promise<string | undefined> {
+    static async alert(options: string | Partial<ModalAlertOptions>): Promise<string | undefined> {
         if (typeof options === 'string') {
             options = {message: options} as ModalAlertOptions;
         }
         const {type, message, icon, iconClass = 'icon-lg muted', actions = 'confirm', onClickAction, custom, key = '__alert', ...otherOptions} = options;
         const customOptions = (typeof custom === 'function' ? custom() : custom) || {};
-        let content = typeof message === 'object' && message.html ? <div dangerouslySetInnerHTML={{__html: message.html}}></div> : (<div>{message}</div>);
+        let content = <CustomContent content={message} />;
         if (icon) {
             content = (
                 <div className={classes('modal-body row gap-4 items-center', customOptions.bodyClass)}>
@@ -303,7 +352,7 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
             content = <div className={classes('modal-body', customOptions.bodyClass)}>{content}</div>;
         }
         const actionItems: ToolbarItemOptions[] = [];
-        (Array.isArray(actions) ? actions : [actions]).forEach((item) => {
+        (Array.isArray(actions) ? actions : (actions ? [actions] : [])).forEach((item) => {
             item = {
                 ...(typeof item === 'string' ? {key: item} : item),
             } as ToolbarItemOptions;
@@ -352,7 +401,7 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
         return result;
     }
 
-    static async confirm(options: string | ModalConfirmOptions): Promise<boolean> {
+    static async confirm(options: string | Partial<ModalConfirmOptions>): Promise<boolean> {
         if (typeof options === 'string') {
             options = {message: options} as ModalConfirmOptions;
         }
@@ -366,6 +415,43 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
             ...otherOptions,
         });
         return result === 'confirm';
+    }
+
+    static async prompt(options: string | Partial<ModalPromptOptions>): Promise<string | null> {
+        if (typeof options === 'string') {
+            options = {message: options} as ModalPromptOptions;
+        }
+        const {defaultValue = '', placeholder, onResult, onShown, message, content, bodyClass, custom, multiline, ...otherOptions} = options;
+        let result = defaultValue;
+        let enterKeyPressed = false;
+        const onChange = (e: Event) => {
+            result = (e.target as HTMLInputElement).value;
+        };
+        const modal = createRef<Modal>();
+        const onKeyDown = (e: KeyboardEvent) => {
+            if (e.key === 'Enter') {
+                enterKeyPressed = true;
+                e.preventDefault();
+                modal.current?.hide();
+            } else if (e.key === 'Escape') {
+                modal.current?.hide();
+            }
+        };
+        const confirmed = await Modal.confirm({
+            ...otherOptions,
+            custom: {closeBtn: false, ...custom},
+            message,
+            ref: modal,
+            content: (
+                <div className={classes('modal-body', bodyClass as string)}>
+                    <CustomContent content={message} />
+                    {multiline ? <textarea className="modal-prompt-input form-control mt-3" autoFocus placeholder={placeholder} defaultValue={defaultValue} onChange={onChange} onKeyDown={onKeyDown} rows={10} />
+                        : <input type="text" className="modal-prompt-input form-control mt-3" autoFocus placeholder={placeholder} defaultValue={defaultValue} onChange={onChange} onKeyDown={onKeyDown} />}
+                    {content}
+                </div>
+            ),
+        });
+        return (confirmed || enterKeyPressed) ? result : null;
     }
 }
 

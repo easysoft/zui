@@ -1,5 +1,6 @@
 import Path, {dirname} from 'path';
 import fs from 'fs-extra';
+import {execSync} from 'child_process';
 import {defineConfig, mergeConfig, type UserConfig, type LibraryOptions} from 'vite';
 import {blue} from 'colorette';
 import eslint from 'vite-plugin-eslint';
@@ -15,13 +16,14 @@ function getLibByPath(path: string, libsCache: Record<string, LibInfo>): LibInfo
     const nodeModulesIndex = path.indexOf(nodeModulesFlag);
     if (nodeModulesIndex > -1) {
         const nodeModulePath = path.substring(nodeModulesIndex + nodeModulesFlag.length);
-        return Object.values(libsCache).find((x) => nodeModulePath.startsWith(`${x.name}${Path.sep}`));
+        return Object.values(libsCache).find(x => nodeModulePath.startsWith(`${x.name}${Path.sep}`));
     }
-    return Object.values(libsCache).find((x) => path.startsWith(`${x.zui.path}${Path.sep}`));
+    return Object.values(libsCache).find(x => path.startsWith(`${x.zui.path}${Path.sep}`));
 }
 
 export default defineConfig(async ({mode}) => {
     const buildLibs = process.env.BUILD_LIBS ?? 'buildIn';
+    const noMinify = process.env.NO_MINIFY === 'true' || process.env.NO_MINIFY === '1';
     const libsCache: Record<string, LibInfo> | undefined = await getLibs(buildLibs.split(','));
 
     const configFile = process.env.VITE_EXTRA_CONFIG;
@@ -54,6 +56,7 @@ export default defineConfig(async ({mode}) => {
             assetsInlineLimit: 256,
             sourcemap: true,
             cssMinify: false,
+            minify: !noMinify,
         },
         esbuild: {
             jsxFactory: 'h',
@@ -80,7 +83,7 @@ export default defineConfig(async ({mode}) => {
                     }
                     return Path.join(lib.zui.path, source);
                 }},
-                ...Object.values(libsCache).reduce<{find: string, replacement: string}[]>((aliasList, info) => {
+                ...Object.values(libsCache).reduce<{find: string; replacement: string}[]>((aliasList, info) => {
                     if (info.zui.sourceType === 'exts') {
                         aliasList.push({find: info.name, replacement: info.zui.path});
                         if (info.zui.replace) {
@@ -93,16 +96,21 @@ export default defineConfig(async ({mode}) => {
         },
         define: {
             'process.env.NODE_ENV': JSON.stringify(mode),
+            __BUILD_MODE__: JSON.stringify(mode),
             __BUILD_TIME__: Date.now(),
+            __BUILD_HASH__: JSON.stringify(execSync('git rev-parse HEAD').toString().trim()),
             __APP_VERSION__: JSON.stringify(packageJson.version),
         },
         experimental: {
-            renderBuiltUrl(filename: string, {type}: {hostId: string, hostType: 'js' | 'css' | 'html', type: 'public' | 'asset'}) {
+            renderBuiltUrl(filename: string, {type}: {hostId: string; hostType: 'js' | 'css' | 'html'; type: 'public' | 'asset'}) {
                 if (type === 'public') {
                     return `./${filename}`;
                 }
                 return {relative: true};
             },
+        },
+        server: {
+            allowedHosts: true,
         },
     };
 

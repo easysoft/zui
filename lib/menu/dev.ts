@@ -17,6 +17,7 @@ onPageUpdate(() => {
         {
             text: '导入',
             icon: 'icon-upload-alt',
+            listProps: {compact: true, searchBox: true},
             items: [
                 {text: '从本地导入'},
                 {text: '从网络导入'},
@@ -25,10 +26,11 @@ onPageUpdate(() => {
         {text: '导出', icon: 'icon-download-alt'},
         {type: 'divider'},
         {
-            text: '保存', icon: 'icon-save', onClick: (event) => console.log('> menuItem.clicked', event),
+            text: '保存', icon: 'icon-save', onClick: event => console.log('> menuItem.clicked', event),
             items: [
                 {text: '保存到云端'},
                 {
+                    listProps: {searchBox: true},
                     text: '下载到本地',
                     items: [
                         {text: '下载为 PDF'},
@@ -45,12 +47,14 @@ onPageUpdate(() => {
         searchPlacement: 'bottom',
         underlineKeys: true,
         items: searchMenuItems,
+        nestedSearch: false,
         maxHeight: 200,
         onClickItem: (info) => {
             console.log('> menu.onClickItem', info);
         },
     });
     console.log('> searchMenu1', searchMenu1);
+
     const searchMenu2 = new SearchMenu('#searchMenu2', {
         popup: true,
         searchBox: true,
@@ -73,7 +77,7 @@ onPageUpdate(() => {
             {text: '导入', icon: 'icon-upload-alt'},
             {text: '导出', icon: 'icon-download-alt'},
             {type: 'divider'},
-            {text: '保存', icon: 'icon-save', onClick: (event) => console.log('> menuItem.clicked', event)},
+            {text: '保存', icon: 'icon-save', onClick: event => console.log('> menuItem.clicked', event)},
         ],
         onClickItem: (info) => {
             console.log('> menu.onClickItem', info);
@@ -89,7 +93,7 @@ onPageUpdate(() => {
             {type: 'heading', text: '更多操作'},
             {text: '导入', active: false},
             {text: '导出', checked: true},
-            {text: '保存', active: true, onClick: (event) => console.log('> menuItem.clicked', event)},
+            {text: '保存', active: true, onClick: event => console.log('> menuItem.clicked', event)},
         ],
         checkbox: true,
         checkOnClick: true,
@@ -104,7 +108,7 @@ onPageUpdate(() => {
             {type: 'heading', text: '更多操作'},
             {text: '导出', icon: 'icon-download-alt'},
             {
-                text: '保存', icon: 'icon-save', onClick: (event) => console.log('> menuItem.clicked', event),
+                text: '保存', icon: 'icon-save', onClick: event => console.log('> menuItem.clicked', event),
                 items: [
                     {text: '保存到云端'},
                     {

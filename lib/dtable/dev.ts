@@ -30,6 +30,7 @@ import {custom} from './src/plugins/custom';
 import {resize} from './src/plugins/resize';
 import {sortCol} from './src/plugins/sort-col';
 import {customCol} from './src/plugins/custom-col';
+import {contextmenu} from './src/plugins/contextmenu';
 
 const faker = new Faker({locale: [zh_CN, en]});
 
@@ -37,7 +38,7 @@ onPageUpdate(() => {
     const customColsTable = new DTable('#customColsTable', {
         cols: [
             {name: 'id', title: 'ID', width: 80, fixed: 'left', sortType: 'desc', checkbox: true},
-            {name: 'name', title: '项目名称', minWidth: 200, flex: 1, sortType: true, nestedToggle: true, childLabel: '子'},
+            {name: 'name', title: '项目名称', minWidth: 200, fixed: 'left', flex: 1, sortType: true, nestedToggle: true, childLabel: '子'},
             {name: 'manager', title: '负责人', sortType: true, border: true, width: 200},
             {name: 'storyScale', title: '需求规模', sortType: true},
             {name: 'executionCount', title: '执行数', sortType: true},
@@ -128,7 +129,7 @@ onPageUpdate(() => {
         cellHover: true,
         rowHover: true,
         responsive: true,
-        plugins: [datagrid, cellspan, custom],
+        plugins: [datagrid, cellspan, custom, contextmenu],
         getCellSpan({row, col}) {
             if (col.index === 1 && row.index === 0) {
                 return {
@@ -142,6 +143,15 @@ onPageUpdate(() => {
                     rowSpan: 2,
                 };
             }
+        },
+        contextmenu: {
+            cell: [
+                {
+                    text: 'copy',
+                    icon: 'icon-copy',
+                    hint: '复制',
+                },
+            ],
         },
     });
     console.log('dataTable', dataTable);
@@ -260,7 +270,9 @@ onPageUpdate(() => {
             recPerPage: 10,
             linkCreator: '#?page={page}&recPerPage={recPerPage}',
         },
+        localPager: true,
         footer: ['checkbox', 'divider', 'checkedInfo', 'divider', 'flex', 'pager'],
+        defaultNestedState: true,
     });
     console.log('DataTable', datatable);
 });

@@ -1,6 +1,6 @@
-import {$} from '@zui/core';
-
-import type {AjaxCallbackMap, AjaxCompleteCallback, AjaxErrorCallback, AjaxFormItemValue, AjaxSetting, AjaxSuccessCallback} from './types';
+import type {AjaxBeforeSendCallback, AjaxCallbackMap, AjaxCompleteCallback, AjaxErrorCallback, AjaxSetting, AjaxSuccessCallback} from './types';
+import {createFormData} from '../form';
+import {parseRawData} from '../helpers';
 
 function setHeader(headers: HeadersInit, name: string, value: string) {
     if (headers instanceof Headers) {
@@ -12,23 +12,10 @@ function setHeader(headers: HeadersInit, name: string, value: string) {
     }
 }
 
-function setFormItem(formData: FormData, name: string, value: AjaxFormItemValue | AjaxFormItemValue[] | Record<string, AjaxFormItemValue>) {
-    if (value === undefined || value === null) {
-        return;
-    }
-    if (Array.isArray(value)) {
-        value.forEach((v) => setFormItem(formData, name, v));
-    } else if (!(value instanceof Blob) && $.isPlainObject(value)) {
-        Object.entries(value).forEach(([key, v]) => {
-            setFormItem(formData, `${name}[${key}]`, v);
-        });
-    } else {
-        formData.append(name, value instanceof Blob ? value : String(value));
-    }
-}
-
 function getDataType(contentType: string | undefined | null, accepts: Record<string, string> | undefined) {
     if (contentType) {
+        // Content-Type 可能带 charset 等参数（如 application/json; charset=utf-8），只取 mime 部分比对。
+        const mime = contentType.split(';')[0].trim();
         const map = {
             text: 'text/plain',
             html: 'text/html',
@@ -36,7 +23,7 @@ function getDataType(contentType: string | undefined | null, accepts: Record<str
             ...accepts,
         };
         for (const [key, value] of Object.entries(map)) {
-            if (value.split(',').map(x => x.trim()).includes(contentType)) {
+            if (value.split(',').map(x => x.trim()).includes(mime)) {
                 return key;
             }
         }
@@ -45,34 +32,9 @@ function getDataType(contentType: string | undefined | null, accepts: Record<str
     return 'text';
 }
 
-export function createFormData(data: string | FormData | URLSearchParams | Record<string, AjaxFormItemValue | AjaxFormItemValue[]> | [name: string, value: AjaxFormItemValue][], existingFormData?: FormData): FormData {
-    const formData = existingFormData || new FormData();
-    if (data) {
-        if (typeof data === 'string') {
-            data = new URLSearchParams(data);
-        }
-        if (data instanceof URLSearchParams) {
-            data.forEach((value, name) => {
-                setFormItem(formData, name, value);
-            });
-        } else if (Array.isArray(data)) {
-            data.forEach(([name, value]) => {
-                setFormItem(formData, name, value);
-            });
-        } else if (data instanceof FormData) {
-            data.forEach((value, name) => {
-                setFormItem(formData, name, value);
-            });
-        } else if ($.isPlainObject(data)) {
-            Object.entries(data).forEach(([name, value]) => {
-                setFormItem(formData, name, value);
-            });
-        }
-    }
-    return formData;
-}
+export class Ajax<T = unknown> {
+    static globalBeforeSends: AjaxBeforeSendCallback[] = [];
 
-export class Ajax<T> {
     private declare _timeoutID: number;
 
     private _controller: AbortController;
@@ -97,9 +59,7 @@ export class Ajax<T> {
         return this.data !== undefined || this.error !== undefined;
     }
 
-    get [Symbol.toStringTag]() {
-        return 'Ajax';
-    }
+    readonly [Symbol.toStringTag] = 'Ajax';
 
     constructor(setting: AjaxSetting) {
         this.setting = setting;
@@ -134,13 +94,15 @@ export class Ajax<T> {
 
     then(resolve: (data: T) => void, reject?: (error: Error) => void) {
         if (this.completed) {
-            if (reject && this.error) {
-                reject(this.error);
+            if (this.error) {
+                if (reject) {
+                    reject(this.error);
+                }
             } else {
                 resolve(this.data);
             }
         } else {
-            this.success((data) => resolve(data as T));
+            this.success(data => resolve(data as T));
             if (reject) {
                 this.fail(reject);
             }
@@ -153,7 +115,7 @@ export class Ajax<T> {
             calback(this.error);
             return this;
         }
-        return this.on('error', (error) => calback(error));
+        return this.on('error', error => calback(error));
     }
 
     finally(onFinally: () => void) {
@@ -191,6 +153,10 @@ export class Ajax<T> {
             accepts,
             dataType,
             timeout,
+            jsonParser,
+            traditional,
+            convert,
+            throws,
             dataFilter,
             beforeSend,
             success,
@@ -199,18 +165,37 @@ export class Ajax<T> {
             ...initOptions
         } = this.setting;
 
-        if (beforeSend?.(initOptions) === false) {
-            return;
-        }
         if (type) {
             initOptions.method = type;
         }
+        let requestUrl = url;
+        const method = (initOptions.method || 'GET').toUpperCase();
         let dataSetting = data;
         if (dataSetting) {
-            if (processData) {
-                dataSetting = createFormData(dataSetting);
+            if (method === 'GET' || method === 'HEAD') {
+                // GET/HEAD 请求不能带 body，数据并入 url 查询串。
+                let query: string;
+                if (processData) {
+                    const params = new URLSearchParams();
+                    createFormData(dataSetting).forEach((value, name) => {
+                        params.append(name, typeof value === 'string' ? value : String(value));
+                    });
+                    query = params.toString();
+                } else {
+                    query = typeof dataSetting === 'string' ? dataSetting : new URLSearchParams(dataSetting as Record<string, string>).toString();
+                }
+                if (query) {
+                    const hashIndex = requestUrl.indexOf('#');
+                    const hash = hashIndex < 0 ? '' : requestUrl.slice(hashIndex);
+                    const base = hashIndex < 0 ? requestUrl : requestUrl.slice(0, hashIndex);
+                    requestUrl = `${base}${base.includes('?') ? '&' : '?'}${query}${hash}`;
+                }
+            } else {
+                if (processData) {
+                    dataSetting = createFormData(dataSetting);
+                }
+                initOptions.body = dataSetting as BodyInit;
             }
-            initOptions.body = dataSetting as BodyInit;
         }
         if (crossDomain) {
             initOptions.mode = 'cors';
@@ -222,11 +207,6 @@ export class Ajax<T> {
         }
         initOptions.headers = headers;
 
-        if (initOptions.signal) {
-            initOptions.signal.addEventListener('abort', () => {
-                this.abort();
-            });
-        }
         if (success) {
             this.success(success);
         }
@@ -236,8 +216,29 @@ export class Ajax<T> {
         if (complete) {
             this.complete(complete);
         }
+
+        const beforeSends = [...(this.constructor as typeof Ajax).globalBeforeSends, beforeSend];
+        for (const callback of beforeSends) {
+            if (!callback) {
+                continue;
+            }
+            const result = callback.call(this, initOptions);
+            if (result === false) {
+                return false;
+            }
+            if (result) {
+                Object.assign(initOptions, result);
+            }
+        }
+
+        if (initOptions.signal) {
+            initOptions.signal.addEventListener('abort', () => {
+                this.abort();
+            });
+        }
         initOptions.signal = this._controller.signal;
-        this.url = url;
+
+        this.url = requestUrl;
         this.request = initOptions;
     }
 
@@ -251,9 +252,19 @@ export class Ajax<T> {
         if (this.completed) {
             return [];
         }
-        this._init();
+        if (this._init() === false) {
+            // beforeSend 返回 false，取消请求；标记为已完成并通知 error/complete。
+            const abortError = this._abortError || new Error('abort');
+            this.error = abortError;
+            this._emit('error', abortError, undefined, abortError.message);
+            this._emit('complete', undefined, undefined);
+            if (this.setting.throws) {
+                throw abortError;
+            }
+            return [undefined, abortError, undefined];
+        }
 
-        const {timeout, dataType: dataTypeSetting, accepts, dataFilter, throws, jsonParser} = this.setting;
+        const {timeout, dataType: dataTypeSetting, accepts, dataFilter, throws, jsonParser, convert} = this.setting;
         if (timeout) {
             this._timeoutID = window.setTimeout(() => {
                 this.abort(new Error('timeout'));
@@ -279,17 +290,28 @@ export class Ajax<T> {
                     } else {
                         data = await response.json();
                     }
+                } else if (dataType === 'js') {
+                    data = await response.text();
+                    data = parseRawData(data as string);
                 } else {
                     data = await response.text();
                 }
+                if (convert) {
+                    data = await convert(data, dataType);
+                }
+                if (dataFilter) {
+                    data = dataFilter(data, dataType) ?? data;
+                }
                 this.data = data as T;
-                const filteredData = dataFilter?.(data, dataType) ?? data;
-                this._emit('success', filteredData, statusText, response);
+                this._emit('success', data, statusText, response);
             } else {
                 this.data = await response.text() as T;
                 throw new Error(statusText);
             }
         } catch (err) {
+            if (this.data === undefined && data !== undefined) {
+                this.data = data as T;
+            }
             error = err as Error;
             let skipTriggerError = false;
             if (error.name === 'AbortError') {

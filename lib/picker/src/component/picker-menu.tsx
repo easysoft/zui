@@ -30,12 +30,16 @@ export class PickerMenu extends PickPop<PickerState, PickerMenuProps> {
 
     protected declare _renderItemCallback: MenuOptions['beforeRenderItem'];
 
-    protected _disabledSet: Set<string> = new Set();
+    protected _disabledSet = new Set<string>();
 
     protected _firstSelected?: string;
 
     get menu() {
         return this._menu.current;
+    }
+
+    get picker() {
+        return this.props.picker;
     }
 
     componentDidMount(): void {
@@ -64,7 +68,19 @@ export class PickerMenu extends PickPop<PickerState, PickerMenuProps> {
             }
         }).on('hidePop.zui.Picker', () => {
             this.props.togglePop(false);
+        }).on('deselectLast.zui.Picker', () => {
+            if (this.props.multiple) {
+                const {valueList} = this.props;
+                const last = valueList[valueList.length - 1];
+                if (last) {
+                    this.props.onDeselect(last);
+                }
+            }
         });
+
+        setTimeout(() => {
+            $(this.menu?.element).find('.menu-item>.selected').scrollIntoView({block: 'center'});
+        }, 100);
     }
 
     componentWillUnmount(): void {
@@ -80,7 +96,7 @@ export class PickerMenu extends PickPop<PickerState, PickerMenuProps> {
         let subItems = item.items;
         let isAllItemsChecked = false;
         let hasSomeItemsChecked = false;
-        if (Array.isArray(subItems)) {
+        if (Array.isArray(subItems) && this.props.multiple && !this.props.noNestedPick) {
             isAllItemsChecked = true;
             subItems = subItems.reduce<NestedItem[]>((list, subItem, subIndex) => {
                 const finalSubItem = this._getItem(subItem, subIndex);
@@ -104,18 +120,27 @@ export class PickerMenu extends PickPop<PickerState, PickerMenuProps> {
             className: classes(item.className, {hover: item.value !== undefined && item.value === this.props.state.hoverItem}),
             items: subItems,
         };
-        if (selected && !item.disabled && this._firstSelected === undefined) {
-            this._firstSelected = item.key!;
-        }
         if (item.content && item.text) {
             delete item.text;
+        }
+        if (this.props.getItem) {
+            item = this.props.getItem(item, index);
         }
         const result = this._getItemCallback?.call(this, item, index) ?? item;
         if (!result) {
             return result;
         }
-        if (result.disabled) {
+        if (result.disabled || result.value === undefined) {
+            if (result.hover === undefined) {
+                result.hover = false;
+            }
+            if (result.disabled === undefined) {
+                result.disabled = true;
+            }
             this._disabledSet.add(result.value as string);
+        }
+        if (selected && !result.disabled && result.value !== undefined && this._firstSelected === undefined) {
+            this._firstSelected = result.value as string;
         }
         return result;
     };
@@ -124,7 +149,7 @@ export class PickerMenu extends PickPop<PickerState, PickerMenuProps> {
         return this._renderItemCallback?.call(this, item, index);
     };
 
-    _handleItemClick = ({item, event}: {item: NestedListItem, event: MouseEvent, renderedItem: NestedItem}) => {
+    _handleItemClick = ({item, event}: {item: NestedListItem; event: MouseEvent; renderedItem: NestedItem}) => {
         const value = item.value as string;
         const target = event.target as HTMLElement;
         if (item.disabled || value === undefined || target.closest('.item-icon,.nested-toggle-icon,.disabled')) {
@@ -133,22 +158,21 @@ export class PickerMenu extends PickPop<PickerState, PickerMenuProps> {
         if (Array.isArray(item.items) && item.items.every(x => this._disabledSet.has(x.value as string))) {
             return;
         }
-        const {multiple, onToggleValue, onSelect, togglePop, onDeselect} = this.props;
+        const {multiple, onPick, noNestedPick} = this.props;
         if (multiple) {
-            if (item.items) {
+            if (item.items && !noNestedPick) {
                 const map = getValueMap(item.items as NestedItem[]);
                 const values = [...map.values()].filter(x => !x.items && !this._disabledSet.has(x.value as string)).map(x => x.value as string);
                 if ($(target).closest('.item').children('.item-inner.selected').length) {
-                    onDeselect(values);
+                    onPick({diselect: values});
                 } else {
-                    onSelect(values);
+                    onPick({select: values});
                 }
             } else {
-                onToggleValue(value);
+                onPick({toggle: value});
             }
         } else {
-            onSelect(value);
-            togglePop(false, {search: ''});
+            onPick({select: value});
         }
     };
 
@@ -160,7 +184,7 @@ export class PickerMenu extends PickPop<PickerState, PickerMenuProps> {
     }
 
     protected _getMenuProps(props: RenderableProps<PickerMenuProps>): SearchMenuOptions {
-        const {menu, tree, state, checkbox, header, footer, noMatchHint, maxItemsCount} = props;
+        const {menu, tree, state, checkbox, header, footer, noMatchHint, maxItemsCount, exceedLimitHint} = props;
         const {items, search} = state;
 
         return mergeProps({
@@ -172,6 +196,7 @@ export class PickerMenu extends PickPop<PickerState, PickerMenuProps> {
             defaultNestedShow: true,
             activeOnHover: true,
             search: search,
+            exceedLimitHint,
             onClickItem: this._handleItemClick,
             nestedToggle: '.nested-toggle-icon,.item-icon',
             checkbox,
@@ -179,7 +204,16 @@ export class PickerMenu extends PickPop<PickerState, PickerMenuProps> {
             header,
             footer,
             noMatchHint,
+            relativeTarget: this,
         }, menu, tree);
+    }
+
+    protected _renderHeader() {
+        return null;
+    }
+
+    protected _renderFooter() {
+        return null;
     }
 
     protected _renderPop(props: RenderableProps<PickerMenuProps>): ComponentChildren {

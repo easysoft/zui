@@ -5,8 +5,11 @@ import '@zui/menu';
 import '@zui/form-control';
 import '@zui/checkbox';
 import '@zui/avatar';
+import '@zui/search-box';
+import '@zui/input-control';
 import '@zui/tree';
 import {Picker} from './src/main';
+import {$} from '@zui/core';
 
 const items = [
     {text: 'Apple', value: 'apple', keys: 'fruit food'},
@@ -145,8 +148,13 @@ onPageUpdate(() => {
         defaultValue: 'banana',
         placeholder: '请选择你的最爱',
         searchHint: '搜索选项',
-        onSelect: (values) => console.log('onSelect', values),
-        onDeselect: (values) => console.log('onDeselect', values),
+        onSelect: values => console.log('onSelect', values),
+        onDeselect: values => console.log('onDeselect', values),
+        onChange: (value, oldValue) => console.log('onChange', value, '<==', oldValue),
+        shareSelections: 'selectOne',
+    });
+    $('#singlePicker').on('change', (event) => {
+        console.log('change', event.target.value, event);
     });
     console.log('> singlePicker', singlePicker);
 
@@ -157,20 +165,25 @@ onPageUpdate(() => {
         defaultValue: 'banana,orange',
         placeholder: '请选择你的最爱',
         toolbar: true,
-        onSelect: (values) => console.log('onSelect', values),
-        onDeselect: (values) => console.log('onDeselect', values),
+        onSelect: values => console.log('onSelect', values),
+        onDeselect: values => console.log('onDeselect', values),
+        onChange: (value, oldValue) => console.log('onChange', value, '<==', oldValue),
+        shareSelections: 'selectOne',
+    });
+    $('#multiPicker').on('change', (event) => {
+        console.log('change', event.target.value, event);
     });
     console.log('> multiPicker', multiPicker);
 
     const noSearchPicker = new Picker('#noSearchPicker', {
-        'multiple': true,
-        'items': [
-            {'text': '查看研发需求', 'value': 'story', 'items': [{'text': 'SR1', 'value': '1'}, {'text': 'SR2', 'value': '2'}, {'text': 'SR3', 'value': '3'}, {'text': 'SR4', 'value': '4'}]},
+        multiple: true,
+        items: [
+            {text: '查看研发需求', value: 'story', items: [{text: 'SR1', value: '1'}, {text: 'SR2', value: '2'}, {text: 'SR3', value: '3'}, {text: 'SR4', value: '4'}]},
         ],
-        'search': false,
-        'display': 'test {value}',
-        'emptyValue': '',
-        'defaultValue': '',
+        search: false,
+        display: 'test {value}',
+        emptyValue: '',
+        defaultValue: '',
         menu: {
             checkbox: true,
         },
@@ -185,4 +198,35 @@ onPageUpdate(() => {
         display: '已选择 {count} 项',
     });
     console.log('> noSearchMultiPicker', noSearchMultiPicker);
+
+    const customPicker = new Picker('#customPicker', {
+        items,
+        placeholder: '请选择你的最爱',
+        required: true,
+        search: false,
+        className: 'picker-btn state',
+
+        // 在下拉菜单内显示搜索框
+        menu: {
+            searchBox: true,
+            search: undefined,
+        },
+
+        // 自定义下拉菜单控件显示
+        display: (value, selections) => {
+            return {html: `<div>你选择了：${selections.map(x => x.text).join(',')}</div><style>.picker-btn {box-shadow: none!important;outline:none}.picker-btn .caret{display:none}</style><button type="button" class="picker-btn-trigger btn size-xs square"><i class="icon icon-exchange">↓</i></button>`, className: 'flex justify-between gap-2 p-px'};
+        },
+
+        // 自定义点击事件
+        onClick: (event) => {
+            if ($(event.target).closest('.picker-btn-trigger').length) {
+                return;
+            }
+
+            event.preventDefault();
+            // 执行自定义操作
+            console.log('> customPicker.onClick', event);
+        },
+    });
+    console.log('> customPicker', customPicker);
 });

@@ -15,7 +15,7 @@
     "vite.config.ts",
     "tailwind.config.cjs",
     "postcss.config.cjs",
-    ".eslintrc.cjs"
+    "eslint.config.js"
   ],
   "exclude": [
     "./lib/*/public/",

@@ -18,10 +18,10 @@ export type DTableCustomSetting = DTableCustomHTMLCode | DTableCustomHTMLElement
 export type DTableCustomTypes = {
     col: Partial<{
         custom: DTableCustomSetting;
-    }>,
+    }>;
     options: {
         customMap: Record<string, DTableCustomInfo>;
-    }
+    };
 };
 
 export type DTableCustom = DTableWithPlugin<DTableCustomTypes>;
@@ -43,7 +43,7 @@ const customPlugin: DTablePlugin<DTableCustomTypes> = {
         }
         const customList = Array.isArray(custom) ? custom : [custom];
         const {customMap} = this.options;
-        customList.forEach(setting => {
+        customList.forEach((setting) => {
             let info: DTableCustomInfo;
             if (typeof setting === 'string') {
                 info = setting.startsWith('<') ? {

@@ -1,6 +1,6 @@
 import type {PickTriggerProps} from '@zui/pick';
 import type {PickerState} from './picker-state';
-import type {HotkeysSettings, CustomContentType} from '@zui/core';
+import type {HotkeysSettings, CustomContentType, ClassNameLike} from '@zui/core';
 import type {PickerItemBasic} from './picker-item-options';
 
 export interface PickerSelectProps<S extends PickerState = PickerState> extends PickTriggerProps<S> {
@@ -14,6 +14,7 @@ export interface PickerSelectProps<S extends PickerState = PickerState> extends 
     emptyValue: string;
     hotkeys?: HotkeysSettings;
     display?: string | ((values: string | string[], selections: PickerItemBasic[]) => CustomContentType);
+    caretClass?: ClassNameLike;
 
     onSelect: (values: string | string[]) => void;
     onDeselect: (values: string | string[]) => void;

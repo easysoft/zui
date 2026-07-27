@@ -1,5 +1,5 @@
 .article {
-  @apply -text-[--font-size-article] -break-words;
+  @apply -text-[--font-size-article] -break-words -whitespace-pre-wrap;
   hyphens: auto;
 }
 .article h1,
@@ -17,8 +17,10 @@
 .article video,
 .article audio,
 .article table,
+.article pre,
 .article img {
   @apply -my-[--article-p-space];
+  text-wrap: pretty;
 }
 
 .article p {
@@ -50,5 +52,5 @@
 }
 
 .article pre {
-  @apply -border -rounded -bg-gray-50;
+  @apply -border -border-gray-600/10 -rounded -bg-gray-500/5;
 }

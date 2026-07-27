@@ -31,6 +31,7 @@ export function storeData(target: object, data: Record<string, unknown>): void;
  */
 export function storeData(target: object, keyOrData: string | Record<string, unknown> | null, value?: unknown): void {
     const hasCache = cache.has(target);
+
     const data = hasCache ? cache.get(target)! : {};
     if (typeof keyOrData === 'string') {
         data[keyOrData] = value;

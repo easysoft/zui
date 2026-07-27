@@ -43,8 +43,8 @@ export type DTableLayout = {
     header?: boolean | CustomRenderResultList<[table: DTable, layout: DTableLayout]>;
     footer?: boolean | CustomRenderResultList<[layout: DTableLayout], DTable> | ((this: DTable, layout: DTableLayout) => CustomRenderResultList<[layout: DTableLayout], DTable>);
     footerGenerators: Record<string, CustomRenderResult<[table: DTable, layout: DTableLayout]>>;
-    headerHeight: number,
-    footerHeight: number,
+    headerHeight: number;
+    footerHeight: number;
     cols: DTableColsLayout;
     className?: string;
     headerChildren?: ComponentChild[];

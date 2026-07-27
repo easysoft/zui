@@ -4,7 +4,7 @@ import type {PickState, PickTriggerProps} from '../types';
 
 export const EVENT_PICK = Symbol('EVENT_PICK');
 
-export class PickTrigger<S extends PickState = PickState, P extends PickTriggerProps<S> = PickTriggerProps<S>, STATE = {}> extends Component<P, STATE> {
+export class PickTrigger<S extends PickState = PickState, P extends PickTriggerProps<S> = PickTriggerProps<S>, STATE = object> extends Component<P, STATE> {
     _hasInput: boolean;
 
     _skipTriggerChange?: string | false;
@@ -73,7 +73,11 @@ export class PickTrigger<S extends PickState = PickState, P extends PickTriggerP
     }
 
     protected _renderValue(props: RenderableProps<P>): ComponentChildren {
-        const {name, state: {value = ''}, disabled, readonly, id} = props;
+        const {name, state: {value = ''}, disabled, readonly, id, onRenderValue} = props;
+        if (onRenderValue) {
+            return onRenderValue.call(this, value, props);
+        }
+
         if (name) {
             if (this._hasInput) {
                 $(`#${id}`).val(value);
@@ -86,11 +90,11 @@ export class PickTrigger<S extends PickState = PickState, P extends PickTriggerP
 
     componentDidMount(): void {
         const {id} = this.props;
-        $(`#${id}`).on(`change.zui.pick.${id} syncValue.zui.pick.${id}`, (event: Event, from: symbol) => {
+        $(`#${id}`).on(`change.zui.pick.${id} syncValue.zui.pick.${id}`, (event: Event, from?: symbol | {setValue?: string}) => {
             if (typeof from === 'symbol') {
                 return;
             }
-            const value = (event.target as HTMLInputElement).value;
+            const value = ($.isPlainObject(from) && typeof from.setValue === 'string') ? from.setValue : (event.target as HTMLInputElement).value;
             this._skipTriggerChange = value;
             this.props.changeState({value} as Partial<S>);
         });

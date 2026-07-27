@@ -54,8 +54,8 @@ export class KanbanList extends HElement<KanbanListProps, KanbanListState> {
                 }}, typeof moveable === 'object' ? moveable : null));
             }
             if (showLinkOnSelected) {
-                $(element).on(`kanbanItemSelected${EVENT_NAMESPACE}`, (_event, info: {kanban: string, selected: string[]}) => {
-                    this.setState(prevState => {
+                $(element).on(`kanbanItemSelected${EVENT_NAMESPACE}`, (_event, info: {kanban: string; selected: string[]}) => {
+                    this.setState((prevState) => {
                         return {
                             selected: {
                                 ...(prevState.selected),
@@ -66,7 +66,7 @@ export class KanbanList extends HElement<KanbanListProps, KanbanListState> {
                 });
             }
             if (showLinkOnHover) {
-                $(element).on(`kanbanItemHover${EVENT_NAMESPACE}`, (_event, {kanban, hover}: {kanban: string, hover: string}) => {
+                $(element).on(`kanbanItemHover${EVENT_NAMESPACE}`, (_event, {kanban, hover}: {kanban: string; hover: string}) => {
                     this.setState({hover: hover === undefined ? hover : `${kanban}_${hover}`});
                 });
             }
@@ -96,7 +96,7 @@ export class KanbanList extends HElement<KanbanListProps, KanbanListState> {
     }
 
     resetState(props?: RenderableProps<KanbanListProps>, init?: boolean): void {
-        this._kanbanRefs.forEach(ref => {
+        this._kanbanRefs.forEach((ref) => {
             ref.current?.resetState();
         });
         super.resetState(props, init);
@@ -142,7 +142,7 @@ export class KanbanList extends HElement<KanbanListProps, KanbanListState> {
     }
 
     updateLink(link: KanbanLinkOptions | KanbanLinkOptions[], change?: Partial<KanbanLinkOptions>) {
-        return this.changeState(prevState => {
+        return this.changeState((prevState) => {
             let newLinks = Array.isArray(link) ? link : [link];
             if (change) {
                 newLinks = newLinks.map(x => ({...x, ...change}));
@@ -239,7 +239,7 @@ export class KanbanList extends HElement<KanbanListProps, KanbanListState> {
             filters = [];
             const {selected = {}, hover} = this.state;
             if (showLinkOnSelected && selected) {
-                Object.keys(selected).forEach(kanban => {
+                Object.keys(selected).forEach((kanban) => {
                     const selectedItems = selected[kanban];
                     if (selectedItems.length) {
                         filters!.push(...selectedItems.map(x => `${kanban}_${x}`));
@@ -301,7 +301,7 @@ export class KanbanList extends HElement<KanbanListProps, KanbanListState> {
             }),
             props.children,
         ];
-        refKeys.forEach(key => {
+        refKeys.forEach((key) => {
             kanbanRefs.delete(key);
         });
         const links = this._renderLinks(props);

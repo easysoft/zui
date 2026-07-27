@@ -3,7 +3,13 @@
 }
 
 .form-horz .form-group {
-  @apply -flex -flex-row -items-start -relative -min-h-[32px] -flex-wrap -pl-[--form-horz-label-width] -min-w-0 -flex-grow;
+  @apply -flex -flex-row -items-start -relative -min-h-[32px] -flex-wrap -pl-[--form-horz-label-width] -min-w-0 -flex-none;
+}
+.form-horz.is-single-row {
+  @apply -flex-col;
+}
+.form-horz .form-row .form-group {
+  @apply -flex-auto;
 }
 .form-horz .form-group[class^="w-"],
 .form-horz .form-group[class*=" w-"] {
@@ -13,7 +19,7 @@
   @apply -min-w-0;
 }
 .form-horz .form-group.no-label {
-  @apply -pl-0;
+  @apply -pl-[--form-grid-gap-x-half];
 }
 .form-horz .form-group.no-label > .check-list-inline {
   @apply -px-4;
@@ -21,10 +27,15 @@
 .form-horz .form-label {
   @apply -absolute -left-0 -top-0 -pr-2 -pl-4 -justify-end -w-[--form-horz-label-width];
 }
+.form-horz .is-static-text > .form-label {
+  @apply -h-7;
+}
 .form-horz .form-label.required::after {
   @apply -order-first -ml-0;
 }
-
+.form-horz .form-label-text {
+  @apply -flex-auto -text-right;
+}
 .form-horz .form-tip {
   @apply -w-full;
 }
@@ -42,4 +53,9 @@
 .form .form-group-wrapper.flex-none,
 .form-horz .form-group-wrapper.flex-none {
   @apply -flex-none;
+}
+
+/* Form grid with horizontal layout. */
+.form-grid.form-horz .form-label {
+  @apply -top-[--form-grid-gap-y-half];
 }

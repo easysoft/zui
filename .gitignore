@@ -1,4 +1,5 @@
 .pnpm-debug.log
+.pnpm-store/
 node_modules/
 dist/
 build/
@@ -8,3 +9,6 @@ exts/
 !scripts/build/
 publish/LICENSE
 publish/README.md
+.cursor/hooks/state
+.local.*
+*.local.*

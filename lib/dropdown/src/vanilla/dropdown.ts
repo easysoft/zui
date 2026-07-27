@@ -1,8 +1,8 @@
-import {$, h} from '@zui/core';
+import {$, h, createRef} from '@zui/core';
 import {Popover} from '@zui/popover';
 import {DropdownMenu} from '../component';
 
-import type {ComponentType} from 'preact';
+import type {ComponentType, RefObject} from 'preact';
 import type {PopoverPanelOptions} from '@zui/popover';
 import type {DropdownOptions, DropdownMenuOptions} from '../types';
 
@@ -17,7 +17,23 @@ export class Dropdown<O extends DropdownOptions = DropdownOptions> extends Popov
         closeBtn: false,
         animation: 'fade',
         limitSize: true,
+        notHideOnClick: '.not-hide-menu,.form-control,input,label,.nested-toggle-icon',
     };
+
+    protected _menuRef: RefObject<DropdownMenu> = createRef();
+
+    get menu() {
+        return this._menuRef.current;
+    }
+
+    handleClickTarget(event: MouseEvent): void | boolean {
+        const $target = $(event.target as HTMLElement);
+        const {notHideOnClick} = this.options;
+        if (!notHideOnClick || !$target.closest(notHideOnClick).length) {
+            this.hide();
+        }
+        return true;
+    }
 
     protected _getMenuOptions(): DropdownMenuOptions {
         const {items, placement, menu, tree, onClickItem, relativeTarget = this._triggerElement} = this.options;
@@ -29,9 +45,11 @@ export class Dropdown<O extends DropdownOptions = DropdownOptions> extends Popov
             nestedToggle: '.item',
             accordion: true,
             relativeTarget: {target: relativeTarget, event: this.options.triggerEvent, dropdown: this},
+            dropdown: this as Dropdown,
             popup: true,
+            ref: this._menuRef,
             ...menu,
-        };
+        } as DropdownMenuOptions;
     }
 
     protected _getRenderOptions(): PopoverPanelOptions {
@@ -46,19 +64,12 @@ export class Dropdown<O extends DropdownOptions = DropdownOptions> extends Popov
         }
         return options;
     }
-
-    protected _onClickDoc = (event: MouseEvent) => {
-        const $target = $(event.target as HTMLElement);
-        if (!$target.closest('.not-hide-menu,.form-control,input,label,.nested-toggle-icon').length && (this._virtual || !$target.closest(this._triggerElement as HTMLElement).length)) {
-            this.hide();
-        }
-    };
 }
 
 Dropdown.toggle = {
     ...Popover.toggle,
     getOptions(element, options, event) {
-        options = Popover.toggle!.getOptions!.call(this, element, options, event);
+        options = Popover.toggle?.getOptions?.call(this, element, options, event) || {};
         if (!options.target && !options.items && !options.menu) {
             options.target = $(element).next('.dropdown-menu');
         }

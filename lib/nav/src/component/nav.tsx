@@ -1,12 +1,25 @@
 import {mergeProps, type ClassNameLike} from '@zui/core';
 import {List} from '@zui/list/src/component/list';
+import {DropdownButton} from '@zui/dropdown/src/component';
 
 import type {Item} from '@zui/common-list';
 import type {Attributes, RenderableProps} from 'preact';
 import type {NavOptions, NavSetting} from '../types';
+import {DropdownButtonOptions} from '@zui/dropdown/src/types';
 
 export class Nav<T extends NavOptions = NavOptions> extends List<T> {
     static NAME = 'nav';
+
+    static ItemComponents = {
+        ...List.ItemComponents,
+        dropdown: [List.ItemComponents.default, (item: Item) => {
+            const {text, items, menu, props, className, innerClass} = item as Item & DropdownButtonOptions & {props: DropdownButtonOptions};
+            return {
+                className,
+                children: <DropdownButton className={innerClass as string} type="ghost" text={text} items={items} menu={menu} {...props} />,
+            };
+        }],
+    } as unknown as typeof List.ItemComponents;
 
     static defaultItemProps: Partial<Item> = {
         component: 'li',
@@ -14,8 +27,8 @@ export class Nav<T extends NavOptions = NavOptions> extends List<T> {
     };
 
     protected _getClassName(props: RenderableProps<T>): ClassNameLike {
-        const {type, stacked} = props;
-        return [super._getClassName(props), type ? `nav-${type}` : '', stacked ? 'nav-stacked' : ''];
+        const {type, stacked, justified} = props;
+        return [super._getClassName(props), type ? `nav-${type}` : '', stacked ? 'nav-stacked' : '', justified ? 'nav-justified' : ''];
     }
 
     static render<T extends unknown[] = []>(this: unknown, setting: NavSetting<T> | undefined, args: T, defaultProps?: Partial<NavOptions> & Attributes, thisObject?: unknown) {

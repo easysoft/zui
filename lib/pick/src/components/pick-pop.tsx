@@ -1,16 +1,18 @@
 import {Component, ComponentChildren, JSX, RefObject, RenderableProps, VNode, createRef} from 'preact';
 import {computePosition, flip, offset, shift, autoUpdate, Placement} from '@floating-ui/dom';
-import {$, classes, createPortal, toCssSize} from '@zui/core';
+import {$, classes, createPortal, CustomContent, toCssSize} from '@zui/core';
 import {isElementDetached, isVisible} from '@zui/core/src/dom';
 
 import type {PickState, PickPopProps} from '../types';
 
-export class PickPop<S extends PickState = PickState, P extends PickPopProps<S> = PickPopProps<S>, STATE = {}> extends Component<P, STATE> {
+export class PickPop<S extends PickState = PickState, P extends PickPopProps<S> = PickPopProps<S>, STATE = object> extends Component<P, STATE> {
     _ref: RefObject<HTMLDivElement> | undefined = createRef<HTMLDivElement>();
 
     _layoutWatcher?: () => void;
 
     _container?: HTMLElement;
+
+    _lastPlacement?: Placement;
 
     constructor(props: P) {
         super(props);
@@ -30,9 +32,13 @@ export class PickPop<S extends PickState = PickState, P extends PickPopProps<S> 
     }
 
     protected _handleClick(event: MouseEvent) {
-        const {togglePop} = this.props;
+        const {togglePop, onClickItem, state} = this.props;
         const $target = $(event.target as HTMLElement);
         const $value = $target.closest('[data-pick-value]');
+        if (onClickItem) {
+            onClickItem(event, state.value);
+        }
+
         if ($value.length) {
             event.stopPropagation();
             return togglePop(false, {value: `${$value.dataset('pickValue')}`} as Partial<S>);
@@ -89,10 +95,28 @@ export class PickPop<S extends PickState = PickState, P extends PickPopProps<S> 
         return this._container;
     }
 
+    protected _renderHeader(props: RenderableProps<P>): VNode | null {
+        const {header} = props;
+        if (!header) {
+            return null;
+        }
+        return <CustomContent key="header" component="header" className="pick-pop-header" content={header} />;
+    }
+
+    protected _renderFooter(props: RenderableProps<P>): VNode | null {
+        const {footer} = props;
+        if (!footer) {
+            return null;
+        }
+        return <CustomContent key="footer" component="footer" className="pick-pop-footer" content={footer} />;
+    }
+
     protected _render(props: RenderableProps<P>): VNode {
         return (
             <div {...this._getProps(props)}>
+                {this._renderHeader(props)}
                 {this._renderPop(props)}
+                {this._renderFooter(props)}
             </div>
         );
     }
@@ -165,12 +189,13 @@ export class PickPop<S extends PickState = PickState, P extends PickPopProps<S> 
         }
 
         this._layoutWatcher = autoUpdate(trigger, element, () => {
-            const {placement, width} = props;
+            const {placement, width, noFlipAfterShow} = props;
+            const lastPlacement = this._lastPlacement;
             computePosition(trigger, element, {
-                placement: (!placement || placement === 'auto') ? 'bottom-start' : placement,
-                middleware: [placement === 'auto' ? flip() : null, shift(), offset(1)].filter(Boolean),
+                placement: (noFlipAfterShow && lastPlacement) ? lastPlacement : ((!placement || placement === 'auto') ? 'bottom-start' : placement),
+                middleware: [(placement === 'auto' && (!noFlipAfterShow || !lastPlacement)) ? flip() : null, shift(), offset(1)].filter(Boolean),
             }).then(({x, y, placement: actualPlacement}) => {
-                if (isElementDetached(trigger) || !isVisible(trigger)) {
+                if (isElementDetached(trigger) || !isVisible(trigger, {checkZeroSize: true})) {
                     $(element).css({display: 'none'});
                     return;
                 }
@@ -179,6 +204,9 @@ export class PickPop<S extends PickState = PickState, P extends PickPopProps<S> 
                     top: y,
                 }, actualPlacement));
                 this.props.onLayout?.(element);
+                if (!lastPlacement) {
+                    this._lastPlacement = actualPlacement;
+                }
             });
             if (width === '100%') {
                 $(element).css(this._getStyle());

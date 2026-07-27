@@ -9,7 +9,7 @@ import type {CheckedType} from '@zui/checkbox';
 import type {ListProps, ListState, ListItemsSetting, ListItemsFetcher} from '../types';
 
 export class List<P extends ListProps = ListProps, S extends ListState = ListState> extends CommonList<P, S> {
-    static ItemComponents: typeof CommonList.ItemComponents  = {
+    static ItemComponents: typeof CommonList.ItemComponents = {
         ...CommonList.ItemComponents,
         default: HElement,
         item: Listitem,
@@ -63,7 +63,7 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
         if (this.props.activeOnHover && !this.props.multipleActive) {
             $(this.element).on(`mouseenter${this.namespace}`, '[z-item]', (event) => {
                 const info = this._getItemFromEvent(event);
-                if (info && info.renderedItem.type === 'item' && !info.renderedItem.disabled && !this.isActive(info.key)) {
+                if (info && info.renderedItem.type === 'item' && !info.renderedItem.disabled && info.renderedItem.hover !== false && !this.isActive(info.key)) {
                     this.toggleActive(info.key, true);
                 }
             });
@@ -197,7 +197,7 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
             return;
         }
         active = active ?? !this.isActive(keys[0]);
-        await this.changeState(prevState => {
+        await this.changeState((prevState) => {
             const activeMap = this.props.multipleActive ? (keys as string[]).reduce<Record<string, boolean>>((map, key) => {
                 map[key] = active!;
                 return map;
@@ -210,20 +210,14 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
 
     getNextItem(key: string | undefined, condition?: (item: Item, index: number) => boolean, step = 1, items: Item[] | undefined = undefined): Item | undefined {
         items = items || this._renderedItems;
+        condition = condition || (x => x.type === 'item' && !x.disabled);
         const count = items.length;
-        if (key === undefined) {
-            return items[step ? 0 : count - 1];
-        }
-        let index = items.findIndex(x => x.key === key);
-        if (index < 0 || count < 2) {
-            return items[step ? 0 : count - 1];
-        }
+        let index = key === undefined ? count - 1 : items.findIndex(x => x.key === key);
         let checkCount = 0;
-        condition = condition || ((x) => x.type === 'item' && !x.disabled);
         while (checkCount < count) {
             index = (index + step + count) % count;
             const nextItem = items[index];
-            if (nextItem && !nextItem.disabled && !nextItem.hidden && condition.call(this, nextItem, index)) {
+            if (nextItem && !nextItem.hidden && condition.call(this, nextItem, index)) {
                 return nextItem;
             }
             checkCount++;
@@ -245,8 +239,19 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
         this.activeNext(condition, -1);
     }
 
+    activeFirst(condition?: (item: Item, index: number) => boolean) {
+        const nextItem = this.getNextItem(undefined, condition);
+        if (nextItem) {
+            this.toggleActive(nextItem.key!);
+        }
+    }
+
     protected _afterRender(firstRender: boolean) {
         this.props.afterRender?.call(this, firstRender);
+    }
+
+    protected _beforeRender(props: RenderableProps<P>) {
+        return this.props.beforeRender?.call(this, props);
     }
 
     protected _getItems(props: RenderableProps<P>): Item[] {
@@ -255,7 +260,6 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
         return stateItems || (Array.isArray(items) ? items : []);
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     protected _getRenderedItem(props: RenderableProps<P>, renderedItem: Item, index: number): Item {
         const {divider, multiline} = props;
         renderedItem = mergeProps({}, removeUndefinedProps({
@@ -268,9 +272,11 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
 
         if (renderedItem.type === 'item') {
             const {checkbox} = props;
-            if (checkbox) {
+            if (renderedItem.checkbox === false) {
+                renderedItem.checked = undefined;
+            } else if (checkbox || renderedItem.checkbox) {
                 renderedItem.checked = this.isChecked(renderedItem.key!, index, renderedItem.checked as CheckedType);
-                if (typeof checkbox === 'object') {
+                if (typeof checkbox === 'object' && renderedItem.checkbox !== false) {
                     renderedItem.checkbox = renderedItem.checkbox ? $.extend({}, checkbox, renderedItem.checkbox) : checkbox;
                 }
                 if (props.selectOnChecked && renderedItem.checked === true) {
@@ -315,7 +321,13 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
         } else if (checkOnClick === true) {
             checkOnClick = '.item-checkbox';
         }
-        if (checkOnClick && !info?.renderedItem.disabled && info && (event.target as HTMLElement).closest(checkOnClick)) {
+        if (!checkOnClick || !info || !info.renderedItem) {
+            return info;
+        }
+        const renderedItem = info.renderedItem;
+        const itemCheckbox = renderedItem.checkbox;
+        const hasCheckbox = itemCheckbox !== false && (this.props.checkbox || itemCheckbox || renderedItem.checked !== undefined);
+        if (hasCheckbox && !renderedItem.disabled && info && (event.target as HTMLElement).closest(checkOnClick)) {
             this.toggleChecked(info.key);
             event.stopPropagation();
             return;
@@ -325,7 +337,7 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
 
     protected _getClassName(props: RenderableProps<P>): ClassNameLike {
         const {loading, loadFailed} = this.state;
-        return [super._getClassName(props), loading ? 'loading' : (loadFailed ? 'is-load-failed' : '')];
+        return [super._getClassName(props), loading ? 'loading' : (loadFailed ? 'is-load-failed' : ''), props.hoverItemActions ? 'with-hover-actions' : ''];
     }
 
     protected _getProps(props: RenderableProps<P>): Record<string, unknown> {

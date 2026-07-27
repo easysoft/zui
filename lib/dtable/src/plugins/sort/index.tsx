@@ -8,7 +8,7 @@ import type {RowInfo} from '../../types';
 
 export type ColSortOrder = 'asc' | 'desc' | 'none';
 
-export type ColSortBy = {name: ColName, order: ColSortOrder};
+export type ColSortBy = {name: ColName; order: ColSortOrder};
 
 export type ColSortFn = (this: DTableSort, row1: RowInfo, row2: RowInfo, col: ColInfo) => number;
 
@@ -16,16 +16,16 @@ export type ColSortFnName = string;
 
 export type DTableSortTypes = {
     col: {
-        sort: boolean | ColSortFn | ColSortFnName,
-    },
+        sort: boolean | ColSortFn | ColSortFnName;
+    };
     options: {
         sort?: boolean | ColSortFn | Record<ColSortFnName, ColSortFn>;
         sortBy?: ColSortBy | ColSortBy[];
         multiSort?: boolean;
-    },
+    };
     state: {
         sortBy?: ColSortBy[];
-    }
+    };
 };
 
 export type DTableSort = DTableWithPlugin<DTableSortTypes>;
@@ -56,7 +56,7 @@ const defaultSortFns: Record<ColSortFnName, ColSortFn> = {
 
 const sortPlugin: DTablePlugin<DTableSortTypes> = {
     name: 'sort',
-    defaultOptions: {sort: true},
+    defaultOptions: {sort: false},
     when: options => !!options.sort,
     onCreate() {
         const {sortBy} = this.options;
@@ -135,7 +135,12 @@ const sortPlugin: DTablePlugin<DTableSortTypes> = {
         const order = sortBy?.find(x => x.name === col.name)?.order;
         const sortTypeName = order || 'none';
         const sortIcon = <div className={`dtable-sort dtable-sort-${sortTypeName}`} />;
-        result[0] = <a className="dtable-sort-link" href="javascript:;">{result[0]}{sortIcon}</a>;
+        result[0] = (
+            <a className="dtable-sort-link" href="javascript:;">
+                {result[0]}
+                {sortIcon}
+            </a>
+        );
         result.push(
             {outer: true, attrs: {'data-sort': sortTypeName}},
         );

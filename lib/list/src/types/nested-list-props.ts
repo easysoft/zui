@@ -10,15 +10,14 @@ export interface NestedListProps<T extends NestedItem = NestedListItem> extends 
     indent?: number;
     level?: number;
     preserve?: string;
-    nestedTrigger?: 'click' | 'hover',
     accordion?: boolean;
     nestedShow?: boolean | Record<ItemKey, boolean>;
     defaultNestedShow?: boolean | Record<ItemKey, boolean>;
-    toggleIcons?: {collapsed?: IconType, expanded?: IconType, normal?: IconType};
+    toggleIcons?: {collapsed?: IconType; expanded?: IconType; normal?: IconType};
     nestedToggle?: string;
     renderCollapsedList?: boolean;
     checkedState?: Record<ItemKey, boolean>;
+    expandChildrenOnCheck?: boolean;
     toggleOnActive?: boolean;
-    onToggle?: (key: ItemKey, toggle: boolean) => false | void;
-    onHoverItem?: (info: {hover: boolean, item: T, index: number, event: MouseEvent}) => void;
+    onToggle?: (key: ItemKey, toggle: boolean, reset?: boolean) => false | void;
 }

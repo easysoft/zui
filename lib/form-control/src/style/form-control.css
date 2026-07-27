@@ -15,3 +15,7 @@
 .form-control.readonly {
   @apply -bg-[--form-control-readonly];
 }
+
+.form-static-text {
+  @apply -py-1;
+}

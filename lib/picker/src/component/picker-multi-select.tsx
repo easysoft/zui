@@ -7,6 +7,10 @@ import {PickerItemBasic, PickerSelectProps, PickerState} from '../types';
 import {PickerSearch} from './picker-search';
 
 export class PickerMultiSelect extends PickTrigger<PickerState, PickerSelectProps> {
+    get searchBox() {
+        return this._search.current;
+    }
+
     protected _search = createRef<PickerSearch>();
 
     protected _handleDeselectClick = (event: MouseEvent) => {
@@ -66,7 +70,7 @@ export class PickerMultiSelect extends PickTrigger<PickerState, PickerSelectProp
     }
 
     protected _renderTrigger(props: PickerSelectProps) {
-        const {state: {selections = [], open, value}, search, placeholder, display, valueList, children} = this.props;
+        const {state: {selections = [], open, value}, search, placeholder, display, valueList, children, caretClass} = this.props;
         const showSearch = open && search;
         let view: ComponentChildren;
         const noSelections = !showSearch && !selections.length;
@@ -79,29 +83,33 @@ export class PickerMultiSelect extends PickTrigger<PickerState, PickerSelectProp
             view = <div key="selections" className="picker-multi-selections">{view}</div>;
         } else if (noSelections) {
             view = <span key="selections" className="picker-select-placeholder">{placeholder}</span>;
-
         } else {
-            view = (<div key="selections" className="picker-multi-selections">
-                {selections.map(this._renderSelection)}
-                {showSearch ? this._renderSearch(props) : null}
-            </div>);
+            view = (
+                <div key="selections" className="picker-multi-selections">
+                    {selections.map(this._renderSelection)}
+                    {showSearch ? this._renderSearch(props) : null}
+                </div>
+            );
         }
         return [
             view,
             children,
-            <span key="caret" class="caret"></span>,
+            <span key="caret" class={classes('caret', caretClass)}></span>,
         ];
     }
 
     protected _renderValue(props: PickerSelectProps) {
-        const {name, state: {value = ''}, disabled, readonly, id, valueList, emptyValue} = props;
+        const {name, state: {value = ''}, disabled, id, valueList, emptyValue, onRenderValue} = props;
+        if (onRenderValue) {
+            return onRenderValue(valueList, props);
+        }
         if (name) {
             if (this.hasInput) {
                 $(`#${id}`).val(value);
             } else {
                 const values = valueList.length ? valueList : [emptyValue];
                 return (
-                    <select id={id} multiple className="pick-value" name={name.endsWith('[]') ? name : `${name}[]`} disabled={disabled} readonly={readonly} style={{display: 'none'}}>
+                    <select id={id} multiple className="pick-value" name={name.endsWith('[]') ? name : `${name}[]`} disabled={disabled} style={{display: 'none'}}>
                         {values.map(x => <option key={x} value={x}>{x}</option>)}
                     </select>
                 );

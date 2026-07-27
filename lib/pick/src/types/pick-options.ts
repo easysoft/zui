@@ -1,5 +1,5 @@
-import type {ComponentType, JSX} from 'preact';
-import type {ClassNameLike} from '@zui/core';
+import type {ComponentChildren, ComponentType, JSX} from 'preact';
+import type {ClassNameLike, CustomContentType} from '@zui/core';
 import type {PickPopProps} from './pick-pop-props';
 import type {PickState} from './pick-state';
 import type {PickPopLayout} from './pick-pop-layout';
@@ -21,12 +21,15 @@ export interface PickOptions<S extends PickState = PickState> {
     Trigger?: ComponentType<PickTriggerProps<S>>;
     Pop?: ComponentType<PickPopProps<S>>;
 
+    value?: string;
     defaultValue?: string;
     disabled?: boolean;
     readonly?: boolean;
     name?: string;
     onChange?: (value: string, oldValue: string) => void;
+    beforeChange?: (value: string, oldValue: string) => Promise<boolean | string | void> | boolean | string | void;
     onClick?: (event: MouseEvent) => void | boolean;
+    onRenderValue?: (value: unknown, props: PickTriggerProps<S>) => ComponentChildren;
 
     hidePopWhenEmpty?: boolean;
     limitPopInScreen?: boolean;
@@ -40,10 +43,13 @@ export interface PickOptions<S extends PickState = PickState> {
     popMaxHeight?: number | string;
     popMaxWidth?: number | string;
     popMinWidth?: number | string;
+    popHeader?: CustomContentType;
+    popFooter?: CustomContentType;
 
     onPopLayout?: (layout: PickPopLayout) => PickPopLayout;
     onPopShow?: () => void;
     onPopShown?: () => void;
     onPopHide?: () => void;
     onPopHidden?: () => void;
+    onClickItem?: (event: MouseEvent, value: string) => void;
 }

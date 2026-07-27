@@ -26,6 +26,9 @@ if (argv.build !== 'no') {
     if (argv.ignoreNotReady) {
         params.push('--ignoreNotReady');
     }
+    if (argv.includeWip) {
+        params.push('--includeWip');
+    }
     await exec('pnpm', params);
 }
 

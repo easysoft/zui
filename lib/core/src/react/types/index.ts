@@ -1,5 +1,6 @@
 export * from './h-element-props';
 export * from './html-content-props';
+export * from './lazy-content-props';
 export * from './custom-content-props';
 export * from './custom-content-static';
 export * from './custom-content-generator';

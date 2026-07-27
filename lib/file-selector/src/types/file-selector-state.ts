@@ -6,4 +6,6 @@ export interface FileSelectorState {
     inputKey: number;
     newName?: string;
     dragging?: boolean;
+    deletedFiles?: string[];
+    renamedFiles?: Record<string, string>;
 }

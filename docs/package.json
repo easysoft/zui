@@ -10,10 +10,10 @@
         "serve": "vitepress serve ./_"
     },
     "dependencies": {
-        "vue": "^3.3.11"
+        "vue": "^3.5.21"
     },
     "devDependencies": {
-        "vitepress": "1.0.0-rc.31",
-        "vitepress-plugin-tabs": "^0.5.0"
+        "vitepress": "^1.6.4",
+        "vitepress-plugin-tabs": "^0.7.3"
     }
 }

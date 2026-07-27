@@ -15,7 +15,7 @@ export class KanbanRegion extends HElement<KanbanRegionProps, KanbanRegionState>
             return;
         }
         const needUpdateData = this._needUpdateData;
-        [...needUpdateData.keys()].forEach(key => {
+        [...needUpdateData.keys()].forEach((key) => {
             const kanban = this.getKanban(key);
             if (kanban) {
                 kanban.update(needUpdateData.get(key) as Partial<KanbanDataset>);
@@ -63,7 +63,7 @@ export class KanbanRegion extends HElement<KanbanRegionProps, KanbanRegionState>
                 return item;
             });
         }
-        return new Promise(resolve => {
+        return new Promise((resolve) => {
             this.setState(state.items ? (prevState) => {
                 return {...state, items: mergeList(prevState.items, state.items as KanbanProps[])};
             } : state, resolve as () => void);
@@ -114,7 +114,7 @@ export class KanbanRegion extends HElement<KanbanRegionProps, KanbanRegionState>
             refKeys.delete(key);
             return <Kanban z-key={key} {...kanbanProps} />;
         });
-        refKeys.forEach(key => {
+        refKeys.forEach((key) => {
             kanbanRefs.delete(key);
         });
         return children;

@@ -13,24 +13,24 @@ export interface DTableCustomColTypes {
         canSetColVisibility?: (this: DTableCustomCol, colName: ColName, visible: boolean) => boolean;
         onSetColBorder?: (this: DTableCustomCol, colName: ColName, border: ColBorderType, colBorders: Record<ColName, ColBorderType>) => void;
         onSetColVisibility?: (this: DTableCustomCol, colName: ColName, visible: boolean) => void;
-    },
+    };
     col: {
         required?: boolean;
-    },
+    };
     state: {
         colBorders: Record<ColName, ColBorderType>;
         colVisibility: Record<ColName, boolean>;
-    },
+    };
     methods: {
         getColBorder: (this: DTableCustomCol, colName: ColName, checkNeighbor?: boolean) => ColBorderType;
         setColBorder: (this: DTableCustomCol, colName: ColName, border: ColBorderType) => void;
         setColVisibility: (this: DTableCustomCol, colName: ColName, visible: boolean) => void;
-    }
+    };
 }
 
 export type DTableCustomCol = DTableWithPlugin<DTableCustomColTypes, [DTableContextMenuTypes]>;
 
-function getNeighborColBorder(table: DTableCustomCol, col?: ColInfo | ColName): {prev?: ColBorderType, next?: ColBorderType, prevName?: ColName, nextName?: ColName} {
+function getNeighborColBorder(table: DTableCustomCol, col?: ColInfo | ColName): {prev?: ColBorderType; next?: ColBorderType; prevName?: ColName; nextName?: ColName} {
     if (typeof col === 'string') {
         col = table.getColInfo.call(table, col);
     }
@@ -77,6 +77,7 @@ const customColPlugin: DTablePlugin<DTableCustomColTypes, [DTableContextMenuType
                         }
                         return <span style={style} />;
                     };
+                    const disableHideCol = (this.getColInfo(info.colName)?.setting.required as boolean) || !this.options.canSetColVisibility?.call(this, info.colName, false);
                     return [
                         {
                             icon: getIcon(border),
@@ -91,8 +92,8 @@ const customColPlugin: DTablePlugin<DTableCustomColTypes, [DTableContextMenuType
                         {
                             text: this.i18n('hideCol'),
                             icon: 'eye-off',
-                            disabled: (this.getColInfo(info.colName)?.setting.required as boolean) || !this.options.canSetColVisibility?.call(this, info.colName, false),
-                            onClick: () => this.setColVisibility(info.colName, false),
+                            disabled: disableHideCol,
+                            onClick: disableHideCol ? undefined : () => this.setColVisibility(info.colName, false),
                         },
                     ];
                 },
@@ -144,15 +145,15 @@ const customColPlugin: DTablePlugin<DTableCustomColTypes, [DTableContextMenuType
                 return {
                     colBorders,
                 };
-            }}, onSetColBorder ? (() => {
+            }}, onSetColBorder ? () => {
                 onSetColBorder!.call(this, colName, border, this.state.colBorders);
-            }) : undefined);
+            } : undefined);
         },
         setColVisibility(colName, visible) {
             const {onSetColVisibility} = this.options;
-            this.update({dirtyType: 'options', state: (prevState) => ({colVisibility: {...(prevState as typeof this.state).colVisibility, [colName]: visible}})}, onSetColVisibility ? (() => {
+            this.update({dirtyType: 'options', state: prevState => ({colVisibility: {...(prevState as typeof this.state).colVisibility, [colName]: visible}})}, onSetColVisibility ? () => {
                 onSetColVisibility!.call(this, colName, visible);
-            }) : undefined);
+            } : undefined);
         },
     },
     onAddCol(col) {
@@ -164,7 +165,7 @@ const customColPlugin: DTablePlugin<DTableCustomColTypes, [DTableContextMenuType
     beforeLayout(options) {
         const {colVisibility} = this.state;
         if (Object.keys(colVisibility).length && options.cols) {
-            options.cols = options.cols.map(col => {
+            options.cols = options.cols.map((col) => {
                 if (colVisibility[col.name] !== undefined) {
                     col = {
                         ...col,

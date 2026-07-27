@@ -33,11 +33,12 @@ export class Messager extends Component<MessagerOptions> {
     }
 
     protected _getItem() {
+        const options = {...this.options};
         if (this._item) {
-            this._item.setOptions(this.options);
+            this._item.setOptions(options);
         } else {
             const holder = this._getHolder();
-            const item = new MessagerItem(holder, this.options);
+            const item = new MessagerItem(holder, options);
             item.on('hidden', () => {
                 item.destroy();
                 holder?.remove();
@@ -73,10 +74,15 @@ export class Messager extends Component<MessagerOptions> {
             options = {content: options};
         }
         const {container, ...others} = options;
-        const finalOptions = {type, key: `messager_${nextGid()}`, ...others};
-        if (finalOptions.type) {
-            $.extend(finalOptions, this.TypeOptions[finalOptions.type]);
-        }
+        type = type ?? others.type;
+        const finalOptions = {
+            type,
+            key: `messager_${nextGid()}`,
+            content: undefined,
+            message: undefined,
+            ...(type ? this.TypeOptions[type] : {}),
+            ...others,
+        };
         const messager = Messager.ensure(container || 'body', finalOptions as Partial<MessagerOptions>);
         messager.hide();
         messager.show();

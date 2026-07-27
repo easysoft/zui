@@ -2,11 +2,12 @@ import {createRef, render, h} from 'preact';
 import {Component as ComponentBase} from '../component';
 import {mergeProps} from '../helpers';
 
-import type {Component as ComponentReact, ComponentClass} from 'preact';
+import type {Component as ComponentReact, ComponentClass, Attributes, RefObject} from 'preact';
 import {type I18nLangMap} from '../i18n';
 import type {ComponentEventsDefnition} from '../component';
+import {deepCall} from '@zui/helpers/src/object';
 
-export class ComponentFromReact<O extends {} = {}, C extends ComponentReact<O> = ComponentReact<O>, E extends ComponentEventsDefnition = {}, U extends HTMLElement = HTMLElement> extends ComponentBase<O & {$replace?: boolean}, E, U> {
+export class ComponentFromReact<O extends object = object, C extends ComponentReact<O> = ComponentReact<O>, E extends ComponentEventsDefnition = ComponentEventsDefnition, U extends HTMLElement = HTMLElement> extends ComponentBase<O & {$replace?: boolean}, E, U> {
     /**
      * The React component class.
      */
@@ -40,7 +41,7 @@ export class ComponentFromReact<O extends {} = {}, C extends ComponentReact<O> =
      * The i18n data.
      */
     get i18nData() {
-        const {i18n, i18nData} = this.constructor.Component as {i18n?: I18nLangMap, i18nData?: (I18nLangMap | undefined)[]};
+        const {i18n, i18nData} = this.constructor.Component as {i18n?: I18nLangMap; i18nData?: (I18nLangMap | undefined)[]};
         if (i18nData) {
             return [...i18nData, this.constructor.i18n];
         }
@@ -65,6 +66,13 @@ export class ComponentFromReact<O extends {} = {}, C extends ComponentReact<O> =
         super.destroy();
     }
 
+    protected _getRenderProps(userOptions: Omit<O, '$replace' | '$optionsFromDataset' | '$class' | '$style'>): Omit<O, '$replace' | '$optionsFromDataset' | '$class' | '$style'> & {ref: RefObject<C>} {
+        return {
+            ref: this._ref,
+            ...userOptions,
+        };
+    }
+
     /**
      * Render component.
      *
@@ -73,13 +81,12 @@ export class ComponentFromReact<O extends {} = {}, C extends ComponentReact<O> =
     render(options?: Partial<O>, reset?: boolean) {
         const {element, $: instance} = this;
         const {Component, replace} = this.constructor;
-        const {$replace = replace, $optionsFromDataset, ...userOptions} = this.setOptions(options, reset);
-        const props = {
-            ref: this._ref,
-            ...userOptions,
-        };
+
+        super.render(options, reset);
+        const {$replace = replace, $optionsFromDataset, $class, $style, ...userOptions} = this.options;
+        const props = this._getRenderProps(userOptions);
         if (reset) {
-            (instance as {resetState?: (props?: Record<string, unknown>, init?: boolean) => void})?.resetState?.(userOptions);
+            (instance as {resetState?: (props?: Record<string, unknown>, init?: boolean) => void})?.resetState?.(props);
         }
 
         if ($replace && (Component as {HElement?: boolean}).HElement && (element.tagName.toLowerCase() === $replace || $replace === true)) {
@@ -90,14 +97,29 @@ export class ComponentFromReact<O extends {} = {}, C extends ComponentReact<O> =
             }, {});
             render(
                 h(Component as ComponentClass, mergeProps({component: element.tagName.toLowerCase(), attrs}, props)),
+
                 element.parentElement!,
                 element,
             );
         } else {
             render(
-                h(Component as ComponentClass, props),
+                h(Component as ComponentClass, props as Attributes),
                 element,
             );
+        }
+    }
+
+    /**
+     * Execute a command.
+     * @param command The command.
+     * @param args    The command arguments.
+     * @returns       The command result.
+     */
+    executeCommand(command: string, args: unknown[]) {
+        try {
+            return deepCall(this.$!, command, args, this.$, true);
+        } catch {
+            return super.executeCommand(command, args);
         }
     }
 

@@ -7,3 +7,7 @@
 .menu-nested .menu-item > .item-inner {
   @apply -pl-0;
 }
+.menu-nested .search-menu-header,
+.menu-nested .search-menu-footer {
+  @apply -ml-[--menu-indent] --mt-0.5 -mb-1 -pr-px;
+}

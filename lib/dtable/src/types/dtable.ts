@@ -3,7 +3,7 @@ import type {DTable} from '../components/dtable';
 export type DTableState = {
     scrollTop: number;
     scrollLeft: number;
-    renderCount: number,
+    renderCount: number;
     [prop: string]: unknown;
 };
 
@@ -14,8 +14,8 @@ export type DTableEventListener<T = DTable, E extends Event = Event> = (this: T,
 export type DTableEventTarget = '' | 'window' | 'document';
 
 export type DTablePointerInfo = {
-    cellElement: HTMLElement,
-    colName: string,
-    rowID: string,
-    target: HTMLElement,
+    cellElement: HTMLElement;
+    colName: string;
+    rowID: string;
+    target: HTMLElement;
 };

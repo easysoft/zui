@@ -22,7 +22,7 @@ export class Checkbox<P extends CheckboxProps = CheckboxProps> extends HElement<
     protected _getClassName(props: RenderableProps<P>): ClassNameLike {
         const {disabled, type = 'checkbox'} = props;
         const {checked} = this;
-        return [props.className, type === 'switch' ? type : `${type}-primary`,  {
+        return [props.className, type === 'switch' ? type : `${type}-primary`, {
             disabled,
             checked: checked === true,
             indeterminate: checked === 'indeterminate',
@@ -32,11 +32,11 @@ export class Checkbox<P extends CheckboxProps = CheckboxProps> extends HElement<
     protected _handleChange = (event: Event) => {
         const {onChange} = this.props;
         const checked = (event.target as HTMLInputElement).indeterminate ? 'indeterminate' : (event.target as HTMLInputElement).checked;
-        if (onChange) {
-            onChange.call(this, event, checked);
-        }
         if (!this._controlled) {
             this.setState({checked});
+        }
+        if (onChange) {
+            onChange.call(this, event, checked);
         }
     };
 
@@ -44,7 +44,7 @@ export class Checkbox<P extends CheckboxProps = CheckboxProps> extends HElement<
         const {name, type, value, id, label} = props;
         const {checked} = this;
         return [
-            name ? (
+            name !== false ? (
                 <input
                     key="input"
                     type={type === 'radio' ? type : 'checkbox'}
@@ -56,9 +56,11 @@ export class Checkbox<P extends CheckboxProps = CheckboxProps> extends HElement<
                     checked={typeof checked === 'boolean' ? checked : undefined}
                 />
             ) : null,
-            (<label htmlFor={id} key="label">
-                <CustomContent content={label} />
-            </label>),
+            (
+                <label htmlFor={id} key="label">
+                    <CustomContent content={label} />
+                </label>
+            ),
         ];
     }
 }

@@ -1,4 +1,3 @@
-import {ComponentChildren, RenderableProps} from 'preact';
 import {Icon, classes} from '@zui/core';
 import {formatDate, createDate} from '@zui/helpers';
 import {Pick} from '@zui/pick/src/components/pick';
@@ -7,6 +6,7 @@ import {TimePickerOptions} from '../types';
 import {TimePickerMenu} from './time-picker-menu';
 import '@zui/css-icons/src/icons/time.css';
 import '@zui/css-icons/src/icons/close.css';
+import {ComponentChildren, RenderableProps} from 'preact';
 
 const parseTime = (value?: string): Date | undefined => {
     if (!value) {
@@ -54,8 +54,8 @@ export class TimePicker extends Pick<PickState, TimePickerOptions> {
         this.setTime('');
     };
 
-    setTime(value: string | {hour?: number, minute?: number}) {
-        if (this.props.disabled || this.props.readonly) {
+    setTime(value: string | {hour?: number; minute?: number}, force?: boolean) {
+        if (!force && (this.props.disabled || this.props.readonly)) {
             return;
         }
         let valueString = '';
@@ -68,12 +68,22 @@ export class TimePicker extends Pick<PickState, TimePickerOptions> {
         }
 
         const date = parseTime(valueString);
-        const {onInvalid, required, defaultValue} = this.props;
-        this.setState({value: date ? formatDate(date, this.props.format) : (required ? defaultValue : '')}, () => {
+        const {onInvalid, required, defaultValue, format} = this.props;
+        return this.changeState({value: date ? formatDate(date, format) : (required ? defaultValue : '')}, () => {
             if (!date && onInvalid) {
                 onInvalid(valueString);
             }
         });
+    }
+
+    setValue(value: string, silent?: boolean) {
+        if (silent) {
+            const trigger = this._trigger.current;
+            if (trigger) {
+                trigger._skipTriggerChange = value;
+            }
+        }
+        return this.setTime(value, true) as Promise<PickState>;
     }
 
     getTime(): [hour: number, minute: number] | null {

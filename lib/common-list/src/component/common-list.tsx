@@ -7,11 +7,11 @@ import type {CommonListProps, Item, ItemKey, ItemType} from '../types';
 /**
  * Generic list component.
  */
-export class CommonList<P extends CommonListProps = CommonListProps, S = {}> extends HElement<P, S> {
+export class CommonList<P extends CommonListProps = CommonListProps, S = object> extends HElement<P, S> {
     /**
      * Root element default name, used for class name.
      */
-    static NAME = '';
+    static NAME = 'CommonList';
 
     /**
      * Item default name, used for class name.
@@ -28,9 +28,15 @@ export class CommonList<P extends CommonListProps = CommonListProps, S = {}> ext
      */
     static ItemComponents: Partial<Record<ItemType, ComponentType | [ComponentType, Partial<Item> | ((this: CommonList, item: Item, props: CommonListProps) => Partial<Item>)]>> = {
         default: HElement,
+        text: [HElement, (item) => {
+            const {text} = item as {text: string};
+            return {
+                children: <span className="text">{text}</span>,
+            };
+        }],
         divider: [HElement, {className: 'divider'}],
         space: [HElement, (item) => {
-            const {space, flex, style} = item as {space: JSX.CSSProperties['width'], flex: JSX.CSSProperties['flex'], style: JSX.CSSProperties};
+            const {space, flex, style} = item as {space: JSX.CSSProperties['width']; flex: JSX.CSSProperties['flex']; style: JSX.CSSProperties};
             return {
                 style: {width: space, height: space, flex, ...style},
             };
@@ -75,6 +81,8 @@ export class CommonList<P extends CommonListProps = CommonListProps, S = {}> ext
      */
     protected declare _renderedItems: Item[];
 
+    protected _forceUpdateKeyPrefix = 0;
+
     constructor(props: P) {
         super(props);
         this._handleClick = this._handleClick.bind(this);
@@ -94,12 +102,17 @@ export class CommonList<P extends CommonListProps = CommonListProps, S = {}> ext
         return this.props.itemName || this.constructor.ITEM_NAME;
     }
 
+    resetState(props?: RenderableProps<P>, init?: boolean) {
+        this._forceUpdateKeyPrefix++;
+        super.resetState(props, init);
+    }
+
     getItems() {
         return this._items;
     }
 
     getRenderedItem(key: ItemKey) {
-        return this._renderedItems.find((item) => item.key === key);
+        return this._renderedItems.find(item => item.key === key);
     }
 
     getItem(key: ItemKey): Item | undefined {
@@ -107,7 +120,7 @@ export class CommonList<P extends CommonListProps = CommonListProps, S = {}> ext
     }
 
     getItemIndex(key: ItemKey) {
-        return this._renderedItems.findIndex((item) => item.key === key);
+        return this._renderedItems.findIndex(item => item.key === key);
     }
 
     getItemByIndex(index: number) {
@@ -178,6 +191,7 @@ export class CommonList<P extends CommonListProps = CommonListProps, S = {}> ext
         }
 
         const {type} = item;
+        const itemKey = `${this._forceUpdateKeyPrefix}:${item.key}`;
         let {itemRender} = props;
         if (itemRender && typeof itemRender === 'object') {
             itemRender = itemRender[type!];
@@ -185,14 +199,14 @@ export class CommonList<P extends CommonListProps = CommonListProps, S = {}> ext
         if (itemRender) {
             const customResult = itemRender.call(this, item, index);
             if (customResult !== undefined) {
-                return <CustomContent z-key={item.key} z-item={index} z-type={type} content={customResult} />;
+                return <CustomContent key={itemKey} z-key={item.key} z-item={index} z-type={type} content={customResult} />;
             }
         }
 
         const {ItemComponents} = this.constructor;
         let ItemComponent = ItemComponents[type!];
         if (!ItemComponent && item.component) {
-            return <CustomContent z-key={item.key} z-item={index} z-type={type} content={{...item}}/>;
+            return <CustomContent key={itemKey} z-key={item.key} z-item={index} z-type={type} content={{...item}} />;
         }
         ItemComponent = ItemComponent || ItemComponents.default || HElement;
         if (Array.isArray(ItemComponent)) {
@@ -203,7 +217,7 @@ export class CommonList<P extends CommonListProps = CommonListProps, S = {}> ext
             item = mergeProps({}, defaultItemProps, item);
             ItemComponent = ItemComponent[0];
         }
-        return <ItemComponent z-key={item.key} z-item={index} z-type={type} {...item} />;
+        return <ItemComponent key={itemKey} z-key={item.key} z-item={index} z-type={type} {...item} />;
     }
 
     /**
@@ -275,6 +289,13 @@ export class CommonList<P extends CommonListProps = CommonListProps, S = {}> ext
             items = items.call(this);
         } else if (!Array.isArray(items)) {
             items = [];
+        }
+        const {getItems} = props;
+        if (getItems) {
+            const result = getItems.call(this, items as Item[]);
+            if (result !== undefined) {
+                return result;
+            }
         }
         return items as Item[];
     }

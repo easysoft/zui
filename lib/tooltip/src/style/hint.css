@@ -16,7 +16,7 @@
 .hint::after,
 [class^="hint-"]::after,
 [class*=" hint-"]::after {
-  @apply -content-[attr(data-hint)] -absolute -bg-[--tooltip-bg] -border-[--tooltip-color] -text-[--tooltip-text] -py-1 -px-2 -text-xs -max-w-md -rounded -shadow -whitespace-nowrap -overflow-hidden;
+  @apply -content-[attr(data-hint)] -absolute -bg-[--tooltip-bg] -border-[--tooltip-color] -text-[--tooltip-text] -py-1 -px-2 -text-xs -max-w-md -rounded -shadow -whitespace-nowrap -overflow-hidden -text-ellipsis;
   text-shadow: 0 1px 0 var(--tooltip-bg);
 }
 .hint::before,

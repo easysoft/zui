@@ -8,7 +8,7 @@ export interface DTableStoreTypes {
     };
     data: {
         store: Store;
-    },
+    };
 }
 
 export type DTableStore = DTableWithPlugin<DTableStoreTypes>;

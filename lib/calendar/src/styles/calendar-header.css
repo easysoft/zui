@@ -1,0 +1,9 @@
+.calendar-header {
+    @apply -flex -items-center -gap-4;
+}
+.calendar-header-title {
+    @apply -font-bold;
+}
+.calendar-header-nav {
+    @apply -flex-auto;
+}

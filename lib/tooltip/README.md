@@ -65,6 +65,8 @@
 指定外观类型来更改颜色主题。
 
 ```html:example: -flex -gap-3 -flex-wrap
+<button type="button" class="btn" data-toggle="tooltip" data-content="这是提示消息" data-type="default">default</button>
+<button type="button" class="btn" data-toggle="tooltip" data-content="这是提示消息" data-type="light">light</button>
 <button type="button" class="btn" data-toggle="tooltip" data-content="这是提示消息" data-type="gray">gray</button>
 <button type="button" class="btn primary" data-toggle="tooltip" data-content="这是提示消息" data-type="primary">primary</button>
 <button type="button" class="btn secondary" data-toggle="tooltip" data-content="这是提示消息" data-type="secondary">secondary</button>

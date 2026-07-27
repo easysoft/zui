@@ -1,0 +1,30 @@
+{
+    "name": "@zui/form-builder",
+    "version": "0.0.1",
+    "main": "src/main.ts",
+    "files": [
+        "./src/**/*"
+    ],
+    "dependencies": {
+        "@zui/core": "workspace:*",
+        "@zui/toolbar": "workspace:*",
+        "@zui/picker": "workspace:*",
+        "@zui/checkbox": "workspace:*",
+        "@zui/dtable": "workspace:*",
+        "@zui/form-control": "workspace:*",
+        "@zui/collapsible": "workspace:*",
+        "@zui/progress-circle": "workspace:*"
+    },
+    "devDependencies": {
+        "zui-dev": "workspace:^0.0.1",
+        "js-yaml": "^4.1.0",
+        "@types/js-yaml": "^4.0.9"
+    },
+    "zui": {
+        "type": "component",
+        "displayName": "表单生成器",
+        "contributes": {
+            "css": ["class", "var"]
+        }
+    }
+}

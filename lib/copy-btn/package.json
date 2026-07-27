@@ -1,0 +1,39 @@
+{
+    "name": "@zui/copy-btn",
+    "version": "0.0.1",
+    "main": "src/main.ts",
+    "browser": "src/main.ts",
+    "browserslist": "",
+    "keywords": [
+        "css",
+        "zui:component"
+    ],
+    "files": [
+        "./src/**/*"
+    ],
+    "exports": {
+        ".": "./src/main.ts"
+    },
+    "devDependencies": {
+        "@zui/base": "workspace:*",
+        "@zui/button": "workspace:0.0.1",
+        "@zui/utilities": "workspace:*",
+        "zui-dev": "workspace:*"
+    },
+    "dependencies": {
+        "@zui/core": "workspace:*",
+        "@zui/button": "workspace:*",
+        "@zui/tooltip": "workspace:*"
+
+    },
+    "zui": {
+        "type": "component",
+        "displayName": "复制按钮",
+        "contributes": {
+            "css": [
+                "class",
+                "var"
+            ]
+        }
+    }
+}

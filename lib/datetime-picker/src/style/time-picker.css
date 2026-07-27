@@ -2,5 +2,5 @@
   @apply -max-h-[inherit];
 }
 .time-picker-menu .menu-item > a {
-  @apply -justify-center;
+  @apply -justify-center -px-0 -text-center;
 }

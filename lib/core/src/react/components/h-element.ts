@@ -1,8 +1,10 @@
 import {h, Component} from 'preact';
+import {deepCall} from '@zui/helpers';
 import {nextGid} from '../../helpers/gid';
 import {classes} from '../../helpers/classes';
 import {getReactComponent} from './components';
 import {i18n} from '../../i18n';
+import {bindCommands, unbindCommands, type CommandContext} from '../../helpers';
 
 import type {JSX, ComponentType, RenderableProps, ComponentChildren} from 'preact';
 import type {ClassNameLike} from '../../helpers/classes';
@@ -12,7 +14,7 @@ import type {I18nLangMap} from '../../i18n';
 /**
  * The base HTML element.
  */
-export class HElement<P extends HElementProps, S = {}> extends Component<P, S> {
+export class HElement<P extends HElementProps, S = object> extends Component<P, S> {
     static HElement = true;
 
     static customProps: string[] = [];
@@ -37,6 +39,9 @@ export class HElement<P extends HElementProps, S = {}> extends Component<P, S> {
      */
     declare ['constructor']: typeof HElement<P, S>;
 
+    /**
+     * The unique global ID of the component instance, used to locate the rendered DOM element.
+     */
     protected _gid = nextGid();
 
     constructor(props: P) {
@@ -45,10 +50,20 @@ export class HElement<P extends HElementProps, S = {}> extends Component<P, S> {
         this.state = this.getDefaultState(props);
     }
 
+    /**
+     * Get the unique global ID of the component instance.
+     *
+     * @returns The unique global ID.
+     */
     get gid() {
         return this._gid;
     }
 
+    /**
+     * Get the DOM element.
+     *
+     * @returns The DOM element.
+     */
     get element() {
         return document.querySelector(`[z-gid-${this._gid}]`);
     }
@@ -60,11 +75,29 @@ export class HElement<P extends HElementProps, S = {}> extends Component<P, S> {
         return [this.props.i18n, this.constructor.i18n];
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    /**
+     * Get the command scope.
+     */
+    get commandScope() {
+        return this.constructor.NAME;
+    }
+
+    /**
+     * Get the default state.
+     *
+     * @param props The props.
+     * @returns The default state.
+     */
     getDefaultState(_props?: RenderableProps<P>): S {
         return {} as S;
     }
 
+    /**
+     * Reset the state.
+     *
+     * @param props The props.
+     * @param init Whether to initialize the state.
+     */
     resetState(props?: RenderableProps<P>, init?: boolean) {
         const defaultState = this.getDefaultState(props);
         if (init) {
@@ -98,6 +131,7 @@ export class HElement<P extends HElementProps, S = {}> extends Component<P, S> {
      * @param args         The i18n arguments.
      * @param defaultValue The default value if the key is not found.
      */
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
     i18n(key: string, args?: Record<string, string | number>, defaultValue?: string): string;
 
     /**
@@ -115,8 +149,15 @@ export class HElement<P extends HElementProps, S = {}> extends Component<P, S> {
             ?? `{i18n:${key}}`;
     }
 
+    /**
+     * Change the component state.
+     *
+     * @param state The new state.
+     * @param callback The callback to call after the state is changed.
+     * @returns The promise of the state.
+     */
     changeState(state: Partial<S> | ((prevState: Readonly<S>) => Partial<S>), callback?: () => void): Promise<S> {
-        return new Promise<S>(resolve => {
+        return new Promise<S>((resolve) => {
             this.setState(state, () => {
                 callback?.();
                 resolve(this.state);
@@ -124,12 +165,54 @@ export class HElement<P extends HElementProps, S = {}> extends Component<P, S> {
         });
     }
 
+    /**
+     * Execute a command.
+     *
+     * @param context The command context.
+     * @param params The command parameters.
+     * @returns The result of the command.
+     */
+    executeCommand(context: CommandContext | string, params: unknown[] = []) {
+        const {onCommand, commands} = this.props;
+        let result;
+        if (typeof context === 'string') {
+            context = {name: context};
+        }
+        const {scope, name} = context;
+        const onCommandFromProps = commands ? (commands[`${scope}~${name}`] || commands[name]) : null;
+        if (onCommandFromProps) {
+            return onCommandFromProps.call(this, context, params);
+        }
+        if (!context.scope || context.scope === this.commandScope) {
+            result = deepCall(this, context.name, params);
+        }
+        if (onCommand) {
+            result = onCommand.call(this, context, params);
+        }
+        return result;
+    }
+
+    /**
+     * Get the class name(s) applied to the root element.
+     * Subclasses can override this to inject component-specific classes.
+     *
+     * @param props The current renderable props.
+     * @returns     The class name(s) to merge onto the root element.
+     */
     protected _getClassName(props: RenderableProps<P>): ClassNameLike {
         return props.className;
     }
 
+    /**
+     * Resolve the final attributes/props passed to the underlying DOM element or component.
+     * Filters out framework-only props, allows whitelisted custom props, forwards `data-*`,
+     * `z-*`, `zui-*` and event handler attributes, and stamps the unique `z-gid-*` marker.
+     *
+     * @param props The current renderable props.
+     * @returns     The merged props object to spread onto the rendered element.
+     */
     protected _getProps(props: RenderableProps<P>): Record<string, unknown> {
-        const {className, attrs, props: componentProps, data, forwardRef, children, component, style, class: classNameAlt, ...others} = props;
+        const {className, attrs, props: componentProps, data, forwardRef, children, component, style, class: classNameAlt, commands, onCommand, ...others} = props;
         const customProps = new Set((this.constructor as typeof HElement).customProps);
         const strDangerouslySetInnerHTML = 'dangerouslySetInnerHTML';
         const other = Object.keys(others).reduce<Record<string, unknown>>((map, key) => {
@@ -139,25 +222,78 @@ export class HElement<P extends HElementProps, S = {}> extends Component<P, S> {
             }
             return map;
         }, {});
-        return {ref: forwardRef, className: classes(this._getClassName(props), classNameAlt) || undefined, style, [`z-gid-${this._gid}`]: '', ...other, ...attrs, ...componentProps};
+        return {ref: forwardRef, className: classes(this._getClassName(props), classNameAlt), style, [`z-gid-${this._gid}`]: '', ...other, ...attrs, ...componentProps};
     }
 
+    /**
+     * Resolve the actual component/tag to render.
+     * Accepts a tag name, a registered component name, or a component reference;
+     * defaults to a `div` when not specified.
+     *
+     * @param props The current renderable props.
+     * @returns     The resolved component type or intrinsic HTML tag name.
+     */
     protected _getComponent(props: RenderableProps<P>): ComponentType | keyof JSX.IntrinsicElements {
         const {component = 'div'} = props;
         return (typeof component === 'string' ? getReactComponent(component as string) : component) || component;
     }
 
+    /**
+     * Resolve the children rendered inside the root element.
+     * Subclasses can override this to compose additional content around `props.children`.
+     *
+     * @param props The current renderable props.
+     * @returns     The children to render.
+     */
     protected _getChildren(props: RenderableProps<P>): ComponentChildren {
         return props.children;
     }
 
-    protected _beforeRender(props: RenderableProps<P>): RenderableProps<P> | undefined | void {
+    /**
+     * Hook invoked before the render pipeline starts.
+     * Subclasses can override this to transform or replace the incoming props;
+     * returning `void` keeps the original props unchanged.
+     *
+     * @param props The current renderable props.
+     * @returns     The (optionally) transformed props, or `void` to keep them as-is.
+     */
+    protected _beforeRender(props: RenderableProps<P>): RenderableProps<P> | void {
         return props;
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    protected _onRender(component: ComponentType | keyof JSX.IntrinsicElements, componentProps: Record<string, unknown>, children: ComponentChildren, _props: RenderableProps<P>): [component: ComponentType | keyof JSX.IntrinsicElements, componentProps: Record<string, unknown>, children: ComponentChildren] | void {
+    /**
+     * Final hook invoked right before `h()` is called.
+     * Subclasses can override this to swap the component, mutate the resolved props,
+     * or wrap the children. Returning `undefined` keeps the inputs unchanged.
+     *
+     * @param component      The resolved component type or tag name.
+     * @param componentProps The resolved props to pass to the component.
+     * @param children       The resolved children.
+     * @param _props         The original renderable props (unused by default).
+     * @returns              A `[component, props, children]` tuple, or `undefined` to keep inputs.
+     */
+    protected _onRender(component: ComponentType | keyof JSX.IntrinsicElements, componentProps: Record<string, unknown>, children: ComponentChildren, _props: RenderableProps<P>): [component: ComponentType | keyof JSX.IntrinsicElements, componentProps: Record<string, unknown>, children: ComponentChildren] | undefined {
         return [component, componentProps, children];
+    }
+
+    componentDidMount(): void {
+        const {commands, onCommand} = this.props;
+        if (commands || onCommand) {
+            bindCommands(this.element, {
+                commands,
+                scope: this.commandScope,
+                onCommand: this.executeCommand.bind(this),
+            });
+        }
+        this.props.onMounted?.call(this);
+    }
+
+    componentWillUnmount(): void {
+        const {commands, onCommand} = this.props;
+        if (commands || onCommand) {
+            unbindCommands(this.element, this.commandScope);
+        }
+        this.props.onUnmount?.call(this);
     }
 
     render(props: RenderableProps<P>) {

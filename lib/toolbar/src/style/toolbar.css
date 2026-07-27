@@ -10,6 +10,6 @@
   @apply -w-px -h-px -flex-auto;
 }
 
-.toolbar > .dropdown.show {
+.toolbar > .dropdown.show:not(.dropdown-menu) {
   @apply -flex -items-center -relative;
 }

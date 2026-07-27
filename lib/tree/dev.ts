@@ -48,13 +48,13 @@ onPageUpdate(() => {
                     key: 'edit',
                     icon: 'edit',
                     hint: '编辑',
-                    onClick: (e) => console.log(e),
+                    onClick: e => console.log(e),
                 },
                 {
                     key: 'delete',
                     icon: 'trash',
                     hint: '删除',
-                    onClick: (e) => console.log(e),
+                    onClick: e => console.log(e),
                 },
                 {
                     type: 'dropdown',
@@ -82,20 +82,20 @@ onPageUpdate(() => {
         collapsedIcon: 'folder-close',
         expandedIcon: 'folder-open',
         normalIcon: 'file-o',
-        hover: true,
+        // hover: true,
         itemActions: {
             items: [
                 {
                     key: 'edit',
                     icon: 'edit',
                     hint: '编辑',
-                    onClick: (e) => console.log(e),
+                    onClick: e => console.log(e),
                 },
                 {
                     key: 'delete',
                     icon: 'trash',
                     hint: '删除',
-                    onClick: (e) => console.log(e),
+                    onClick: e => console.log(e),
                 },
                 {
                     type: 'dropdown',

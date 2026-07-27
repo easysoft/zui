@@ -7,3 +7,5 @@
 .table-cell        {@apply -table-cell;}
 .table-row         {@apply -table-row;}
 .hidden            {@apply !-hidden;}
+
+.hide-children > * {@apply !-hidden;}

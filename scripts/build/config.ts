@@ -39,6 +39,12 @@ export interface BuildConfigOptions {
 
     /** Whether to include not ready libs. */
     ignoreNotReady?: boolean;
+
+    /** Whether to include wip libs. */
+    includeWip?: boolean;
+
+    /** Whether to minify the build output. */
+    noMinify?: boolean;
 }
 
 export interface BuildLibExportTarget {
@@ -127,12 +133,10 @@ function parseLibExport(statement: string, lib?: LibInfo): BuildLibExport {
         const targets = targetsPath.trim().replace(/(^{)|(}$)/g, '').split(',');
         targets.forEach((item) => {
             const [name, alias] = item.trim().split(':');
-            info.targets.push({name, alias})
+            info.targets.push({name, alias});
         });
         info.path = path.startsWith('./') ? path.substring(2) : path;
-
     } else {
-
         if (statement.startsWith('./')) {
             if (lib && lib.exports && lib.exports[statement]) {
                 info.path = lib.exports[statement];
@@ -170,16 +174,16 @@ function createLibExportStatement(exportInfo: BuildLibExport, libName: string): 
 
     const targets: string[] = [];
     if (exportInfo.targets?.length) {
-        const generalExport = exportInfo.targets.find(x => x.name ==='*');
+        const generalExport = exportInfo.targets.find(x => x.name === '*');
         if (generalExport) {
-            targets.push(`*${generalExport.alias ? ` as ${generalExport.alias}`: ''}`);
+            targets.push(`*${generalExport.alias ? ` as ${generalExport.alias}` : ''}`);
         }
         const namingExports: string[] = [];
-        exportInfo.targets.forEach(target => {
+        exportInfo.targets.forEach((target) => {
             if (target.name === '*') {
                 return;
             }
-            namingExports.push(`${target.name}${target.alias ? ` as ${target.alias}`: ''}`);
+            namingExports.push(`${target.name}${target.alias ? ` as ${target.alias}` : ''}`);
         });
         if (namingExports.length) {
             targets.push(`{${namingExports.join(',')}}`);
@@ -277,7 +281,7 @@ function parseBuildLib(libLike: string | '@zui' | 'zui', libsMap: Record<string,
  */
 export function parseBuildLibs(libsLike: LibsLike, libsMap: Record<string, LibInfo>): BuildLibInfo[] {
     const libs: LibInfo[] = [];
-    libsLike.split(' ').forEach(libLike => {
+    libsLike.split(' ').forEach((libLike) => {
         if (!libLike.length) {
             return;
         }
@@ -311,6 +315,7 @@ export async function createBuildConfig(options: BuildConfigOptions): Promise<Bu
         version,
         ignoreLibs,
         ignoreNotReady,
+        includeWip,
     } = options;
 
     const exts = getBuildLibPaths(options.exts);
@@ -318,9 +323,9 @@ export async function createBuildConfig(options: BuildConfigOptions): Promise<Bu
 
     // Skip wip and separately libs
     const libsSetting = configFileOrLibs.split(' ');
-    Object.keys(libsMap).forEach(libName => {
+    Object.keys(libsMap).forEach((libName) => {
         const lib = libsMap[libName];
-        if ((lib.zui.wip || lib.zui.separately) && !exts.includes(libName) && !exts.includes(lib.zui.name) && libsSetting.every(x => x !== libName && !x.startsWith(`${libName}~`))) {
+        if (((lib.zui.wip && !includeWip) || lib.zui.separately) && !exts.includes(libName) && !exts.includes(lib.zui.name) && libsSetting.every(x => x !== libName && !x.startsWith(`${libName}~`))) {
             delete libsMap[libName];
         }
     });
@@ -330,7 +335,7 @@ export async function createBuildConfig(options: BuildConfigOptions): Promise<Bu
         version,
         libs: [],
         ignoreNotReady,
-        defaultExports: options.exports ? parseLibExportList(options.exports) : undefined
+        defaultExports: options.exports ? parseLibExportList(options.exports) : undefined,
     };
 
     if (configFileOrLibs && isPathLike(configFileOrLibs)) {
@@ -354,7 +359,7 @@ export async function createBuildConfig(options: BuildConfigOptions): Promise<Bu
 
     const ignoreLibsSet = buildConfig.libs.reduce((set, lib) => {
         if (lib.zui.sourceType === 'exts' && lib.zui.replace) {
-            lib.zui.replace.split(',').forEach(x => {
+            lib.zui.replace.split(',').forEach((x) => {
                 x = x.trim();
                 if (x.length) {
                     set.add(x);
@@ -372,7 +377,7 @@ export async function createBuildConfig(options: BuildConfigOptions): Promise<Bu
         }, ignoreLibsSet);
     }
     if (ignoreLibsSet.size) {
-        buildConfig.libs = buildConfig.libs.filter((lib) => !(ignoreLibsSet.has(lib.name) || ignoreLibsSet.has(lib.zui.name)))
+        buildConfig.libs = buildConfig.libs.filter(lib => !(ignoreLibsSet.has(lib.name) || ignoreLibsSet.has(lib.zui.name)));
     }
 
     if (!buildConfig.version) {
@@ -402,11 +407,11 @@ export async function prepareBuildFiles(config: BuildConfig, buildDir: string) {
         }
         dependencies[lib.name] = lib.zui.workspace ? `link:${Path.relative(buildDir, lib.zui.path)}` : lib.version;
         if (lib.exportList) {
-            lib.exportList.forEach(item => {
+            lib.exportList.forEach((item) => {
                 entryFileLines.push(createLibExportStatement(item, lib.name));
             });
         } else if (lib.zui.sourceType !== 'npm' && config.defaultExports?.length) {
-            config.defaultExports.forEach(item => {
+            config.defaultExports.forEach((item) => {
                 if (isExportPathInLib(item.path, lib)) {
                     entryFileLines.push(createLibExportStatement(item, lib.name));
                 } else {
@@ -442,7 +447,7 @@ export async function prepareBuildFiles(config: BuildConfig, buildDir: string) {
  * @param config Build config - 构建配置
  * @return Vite config - Vite 配置
  */
-export function createViteConfig(config: BuildConfig, options: {buildDir: string, outDir?: string}) {
+export function createViteConfig(config: BuildConfig, options: {buildDir: string; outDir?: string}) {
     return {
         build: {
             lib: {

@@ -1,5 +1,5 @@
 .popover {
-  @apply -absolute -w-max -hidden;
+  @apply -absolute -left-0 -top-0 -w-max -hidden;
 }
 .popover.show {
   @apply -block;

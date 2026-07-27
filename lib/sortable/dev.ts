@@ -45,7 +45,7 @@ onPageUpdate(() => {
         sortable: {
             handle: '.icon-move',
         },
-        canSortTo: function (event, from, to, parentKey) {
+        canSortTo: function (_event, _from, to) {
             if (to.text === '技术支持') {
                 return false;
             }

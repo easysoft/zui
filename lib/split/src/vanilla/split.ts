@@ -34,7 +34,7 @@ function mapSizes(sizes: (SizeSetting | null | undefined)[], totalSize: number, 
             currentSize += autoSize;
         });
     }
-    return initialSizes.map((size) => 100 * size / currentSize);
+    return initialSizes.map(size => 100 * size / currentSize);
 }
 
 export class Split extends Component<SplitOptions> {
@@ -142,7 +142,7 @@ export class Split extends Component<SplitOptions> {
             }
             return list;
         }, []);
-        splitElements.forEach((element) => $(element).addClass('split-cell'));
+        splitElements.forEach(element => $(element).addClass('split-cell'));
         this._elements = splitElements;
         this._handleDragEnd = this._handleDragEnd.bind(this);
         this._createGutter = this._createGutter.bind(this);
@@ -241,7 +241,7 @@ export class Split extends Component<SplitOptions> {
             .z('index', index)
             .toggleClass('is-first', index === 1)
             .toggleClass('is-last', index === count - 1);
-        if (toggleBtn === true || Array.isArray(toggleBtn) && toggleBtn[index]) {
+        if (toggleBtn === true || (Array.isArray(toggleBtn) && toggleBtn[index])) {
             $gutter.append('<button class="gutter-toggle" type="button"><span class="chevron-left"></span></button>');
         }
         return $gutter[0] as HTMLElement;

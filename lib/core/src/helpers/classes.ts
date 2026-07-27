@@ -3,7 +3,7 @@ import {$, Cash} from '../cash';
 /**
  * Classname like.
  */
-export type ClassNameLike = string | null | undefined | boolean | {[key: string]: unknown} | (() => ClassNameLike) | ClassNameLike[];
+export type ClassNameLike = string | null | undefined | boolean | Record<string, unknown> | (() => ClassNameLike) | ClassNameLike[];
 
 /**
  * Classname setting.

@@ -7,10 +7,11 @@ import {Checkbox} from '@zui/checkbox/src/component';
 import type {ComponentChild, ComponentChildren, ComponentType, JSX, RenderableProps} from 'preact';
 import type {ListitemProps} from '../types';
 
-export class Listitem<P extends ListitemProps = ListitemProps, S = {}> extends HElement<P, S> {
+export class Listitem<P extends ListitemProps = ListitemProps, S = unknown> extends HElement<P, S> {
     protected _renderLeading(props: RenderableProps<P>): ComponentChild[] {
         const {
             icon,
+            iconClass,
             avatar,
             toggleIcon,
             leading,
@@ -27,7 +28,7 @@ export class Listitem<P extends ListitemProps = ListitemProps, S = {}> extends H
             contents.push(<Checkbox key="checkbox" className="item-checkbox" checked={checked} {...checkbox} />);
         }
         if (icon) {
-            contents.push(<Icon key="icon" className="item-icon" icon={icon} />);
+            contents.push(<Icon key="icon" className={classes('item-icon', iconClass)} icon={icon} />);
         }
         if (avatar) {
             const avatarProps = typeof avatar === 'function' ? avatar.call(this, props) : avatar;
@@ -84,14 +85,15 @@ export class Listitem<P extends ListitemProps = ListitemProps, S = {}> extends H
             trailing,
             trailingClass,
             trailingIcon,
+            trailingIconClass,
             actions,
         } = props;
         const contents: ComponentChild[] = [];
         if (trailingIcon) {
-            contents.push(<Icon key="trailing-icon" className="item-trailing-icon" icon={trailingIcon} />);
+            contents.push(<Icon key="trailing-icon" className={classes('item-trailing-icon', trailingIconClass)} icon={trailingIcon} />);
         }
         if (actions) {
-            contents.push(Toolbar.render(actions, [props], {key: 'actions', relativeTarget: props, size: 'sm'}, this));
+            contents.push(Toolbar.render(actions, [props], {key: 'actions', className: 'item-actions', relativeTarget: props, size: 'sm'}, this));
         }
         const customTrailing = trailing ? <CustomContent key="trailing" content={trailing} /> : null;
         if (customTrailing) {
@@ -99,7 +101,10 @@ export class Listitem<P extends ListitemProps = ListitemProps, S = {}> extends H
         }
         if (multiline) {
             return contents.length ? [
-                <div key="trailing" className={classes('item-trailing', trailingClass)}>{contents}{customTrailing}</div>,
+                <div key="trailing" className={classes('item-trailing', trailingClass)}>
+                    {contents}
+                    {customTrailing}
+                </div>,
             ] : [];
         }
         return contents;
@@ -122,6 +127,8 @@ export class Listitem<P extends ListitemProps = ListitemProps, S = {}> extends H
             subtitle,
             hint,
             selected,
+            command,
+            hover,
         } = props;
         const ComponentName = innerComponent || ((url && !actions) ? 'a' : 'div');
         const asLink = ComponentName === 'a';
@@ -132,12 +139,13 @@ export class Listitem<P extends ListitemProps = ListitemProps, S = {}> extends H
                 active,
                 disabled,
                 'has-divider': divider,
+                'no-hover': hover === false,
                 selected,
                 checked,
                 multiline: multiline ?? !!(title && subtitle),
                 state: asLink && !disabled,
             }),
-        }, asLink ? {href: url || 'javascript:;', target} : null, extraAttrs, innerAttrs);
+        }, command ? {'zui-command': command} : null, asLink ? {href: url || 'javascript:;', target} : null, extraAttrs, innerAttrs);
         return (
             <ComponentName {...attrs}>
                 {this._renderLeading(props)}
@@ -147,10 +155,11 @@ export class Listitem<P extends ListitemProps = ListitemProps, S = {}> extends H
         );
     }
 
-    protected _onRender(component: ComponentType | keyof JSX.IntrinsicElements, componentProps: Record<string, unknown>, children: ComponentChildren, _props: RenderableProps<P>): void | [component: ComponentType | keyof JSX.IntrinsicElements, componentProps: Record<string, unknown>, children: ComponentChildren] {
+    protected _onRender(component: ComponentType | keyof JSX.IntrinsicElements, componentProps: Record<string, unknown>, children: ComponentChildren, _props: RenderableProps<P>): undefined | [component: ComponentType | keyof JSX.IntrinsicElements, componentProps: Record<string, unknown>, children: ComponentChildren] {
         const innerAttrs = Object.keys(componentProps).reduce<Record<string, unknown>>((attrs, key) => {
             if (key.startsWith('data-')) {
                 attrs[key] = componentProps[key];
+
                 delete componentProps[key];
             }
             return attrs;

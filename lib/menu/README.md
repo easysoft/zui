@@ -115,23 +115,23 @@ console.log('> menu', menu);
 
 ```html:example
 <menu class="menu has-icons -w-32">
-  <li class="menu-item"><a class="disabled"><i class="icon icon-upload-alt"></i> 导入（被禁用）</a></li>
-  <li class="menu-item"><a><i class="icon icon-download-alt"></i> 导出</a></li>
-  <li class="menu-item"><a><i class="icon icon-save"></i> 保存</a></li>
+  <li class="menu-item item"><a class="disabled"><i class="icon icon-upload-alt"></i> 导入（被禁用）</a></li>
+  <li class="menu-item item"><a><i class="icon icon-download-alt"></i> 导出</a></li>
+  <li class="menu-item item"><a><i class="icon icon-save"></i> 保存</a></li>
 </menu>
 ```
 
-## 选中
+## 激活与选中
 
 ```html:example
 <menu class="menu -w-32">
-  <li class="menu-item"><a>周一</a></li>
-  <li class="menu-item"><a class="active">周二</a></li>
-  <li class="menu-item"><a class="active">周三</a></li>
-  <li class="menu-item"><a>周四</a></li>
-  <li class="menu-item"><a class="active">周五</a></li>
-  <li class="menu-item"><a>周六</a></li>
-  <li class="menu-item"><a>周日</a></li>
+  <li class="menu-item item"><a>周一</a></li>
+  <li class="menu-item item"><a class="selected">周二</a></li>
+  <li class="menu-item item"><a class="selected">周三</a></li>
+  <li class="menu-item item"><a>周四</a></li>
+  <li class="menu-item item"><a class="active">周五</a></li>
+  <li class="menu-item item"><a class="disabled">周六</a></li>
+  <li class="menu-item item"><a>周日</a></li>
 </menu>
 ```
 

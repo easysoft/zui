@@ -12,16 +12,16 @@ type DTableContextMenuCreator = (this: DTableContextMenu, event: MouseEvent, inf
 export interface DTableContextMenuTypes {
     options: {
         contextmenu?: ListitemProps[] | DTableContextMenuCreator | {
-            cell?: ListitemProps[] | DTableContextMenuCreator,
-            header?: ListitemProps[] | DTableContextMenuCreator,
+            cell?: ListitemProps[] | DTableContextMenuCreator;
+            header?: ListitemProps[] | DTableContextMenuCreator;
         };
     };
     data: {
-        contextmenu: ContextMenu
-    },
+        contextmenu: ContextMenu;
+    };
     methods: {
-        getContextMenuItems: (this: DTableContextMenu, event: MouseEvent, info: DTablePointerInfo) => ListitemProps[] | undefined,
-    }
+        getContextMenuItems: (this: DTableContextMenu, event: MouseEvent, info: DTablePointerInfo) => ListitemProps[] | undefined;
+    };
 }
 
 export type DTableContextMenu = DTableWithPlugin<DTableContextMenuTypes>;

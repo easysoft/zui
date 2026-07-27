@@ -17,7 +17,7 @@ onPageLoad(() => {
                 {text: '导入目录'},
             ]},
             {text: '导出', icon: 'icon-download-alt'},
-            {text: '保存', icon: 'icon-save', onClick: (event) => console.log('> btnGroupItem.clicked', event)},
+            {text: '保存', icon: 'icon-save', onClick: event => console.log('> btnGroupItem.clicked', event)},
         ],
         onClickItem: (info) => {
             console.log('> btnGroup.onClickItem', info);

@@ -29,7 +29,7 @@ export interface CommonListProps<T extends Item = Item> extends HElementProps {
     /**
      * List items, can be an array or a function that returns an array.
      */
-    items?: ItemsSetting<T> | {};
+    items?: ItemsSetting<T> | unknown;
 
     /**
      * Item common properties.
@@ -51,6 +51,14 @@ export interface CommonListProps<T extends Item = Item> extends HElementProps {
     getItem?: (item: T, index: number) => T | false | undefined;
 
     /**
+     * Get items, can convert original items.
+     *
+     * @param items - The list items.
+     * @returns The modified list items.
+     */
+    getItems?: (items: T[]) => T[] | undefined;
+
+    /**
      * Item render functions.
      */
     itemRender?: ItemRender<T> | Record<ItemType, ItemRender<T>>;
@@ -69,7 +77,7 @@ export interface CommonListProps<T extends Item = Item> extends HElementProps {
      *
      * @param info - The information about the clicked item.
      */
-    onClickItem?: (info: {item: T, index: number, event: MouseEvent, renderedItem: T, relativeTarget?: unknown}) => void;
+    onClickItem?: (info: {item: T; index: number; event: MouseEvent; renderedItem: T; relativeTarget?: unknown}) => void;
 
     /**
      * The relative target for the list.

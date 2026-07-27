@@ -1,32 +1,44 @@
 import {definePlugin} from '../../helpers/shared-plugins';
 import {mousemove} from '../mousemove';
+import {type DTableHotkeyTypes, hotkey} from '../hotkey';
 import './style.css';
 
 import type {DTableMousemoveTypes} from '../mousemove';
 import type {DTable, RowInfo, ColInfo} from '../../main-react';
 import type {DTableWithPlugin, DTablePlugin} from '../../types/plugin';
 import type {DTableAutoscrollTypes} from '../autoscroll';
+import type {DTableDraftTypes} from '../draft';
 
-export type DTableColIndex       = number;
-export type DTableRowIndex       = number;
-export type DTableColSelection   = `C${DTableColIndex}`;
-export type DTableRowSelection   = `R${DTableRowIndex}`;
-export type DTableCellSelection  = `${DTableColSelection}${DTableRowSelection}`;
-export type DTableSelection      = DTableColSelection | DTableRowSelection | DTableCellSelection;
+export type DTableColIndex = number;
+export type DTableRowIndex = number;
+export type DTableColSelection = `C${DTableColIndex}`;
+export type DTableRowSelection = `R${DTableRowIndex}`;
+export type DTableCellSelection = `${DTableColSelection}${DTableRowSelection}`;
+export type DTableSelection = DTableColSelection | DTableRowSelection | DTableCellSelection;
 export type DTableRangeSelection = `${DTableSelection}:${DTableSelection}`;
-export type DTableSelections     = (DTableSelection | DTableRangeSelection)[];
-export type DTableCellPos        = {col: DTableColIndex, row: DTableRowIndex};
+export type DTableSelections = (DTableSelection | DTableRangeSelection)[];
+export type DTableCellPos = {col: DTableColIndex; row: DTableRowIndex; event?: MouseEvent};
 
-export type DTableCellPosMap     =  Map<DTableColIndex, Set<DTableRowIndex>>;
+export type DTableCellPosMap = Map<DTableColIndex, Set<DTableRowIndex>>;
 
 export interface DTableSelectableTypes {
     options: Partial<{
         selectable: boolean | ((cellPos: DTableCellPos) => boolean);
         onSelectCells: (this: DTableSelectable, cells: DTableCellPos[]) => void;
-        beforeSelectCells: (this: DTableSelectable, cells: DTableCellPos[]) => void |  DTableCellPos[];
+        beforeSelectCells: (this: DTableSelectable, cells: DTableCellPos[]) => void | DTableCellPos[];
         ignoreDeselectOn: string;
         markSelectRange: boolean;
-    }>,
+        copyHeader?: boolean;
+        selectOnClickCell?: boolean;
+        selectableHotkeys?: {
+            selectAll?: boolean | string;
+            copy?: boolean | string;
+            selectRight?: boolean | string;
+            selectLeft?: boolean | string;
+            selectDown?: boolean | string;
+            selectUp?: boolean | string;
+        } | false;
+    }>;
     state: {
         selectedMap: DTableCellPosMap;
         selectingMap: DTableCellPosMap;
@@ -37,7 +49,7 @@ export interface DTableSelectableTypes {
     data: {
         selectingStart?: DTableCellPos;
         disableSelectable?: boolean;
-    },
+    };
     methods: {
         selectCells: typeof selectCells;
         selectNextCell: typeof selectNextCell;
@@ -56,10 +68,12 @@ export interface DTableSelectableTypes {
         getSelectedCols: typeof getSelectedCols;
         getSelectedRows: typeof getSelectedRows;
         selectOutsideClick?: (event: MouseEvent) => void;
+        copySelectedCols: (this: DTableSelectable) => boolean;
+        copySelections: (this: DTableSelectable) => boolean;
     };
 }
 
-type DTableSelectable = DTableWithPlugin<DTableSelectableTypes, [DTableMousemoveTypes, DTableAutoscrollTypes]>;
+type DTableSelectable = DTableWithPlugin<DTableSelectableTypes, [DTableHotkeyTypes, DTableMousemoveTypes, DTableAutoscrollTypes, DTableDraftTypes]>;
 
 const REG_CELL = /C(\d+)R(\d+)/i;
 const REG_SELECTION = /(?:C(\d+))?(?:R(\d+))?/i;
@@ -192,7 +206,7 @@ function isCellSelectable(table: DTableSelectable, pos: DTableCellPos): boolean 
     return !!selectable;
 }
 
-function selectCells(this: DTableSelectable, selections: DTableSelection | DTableRangeSelection | DTableSelections | DTableCellPos[], options: {clearBefore?: boolean, deselect?: boolean, selecting?: boolean, callback?: (this: DTableSelectable, cells: DTableCellPos[]) => void} = {}): DTableCellPos[] {
+function selectCells(this: DTableSelectable, selections: DTableSelection | DTableRangeSelection | DTableSelections | DTableCellPos[], options: {clearBefore?: boolean; deselect?: boolean; selecting?: boolean; callback?: (this: DTableSelectable, cells: DTableCellPos[]) => void} = {}): DTableCellPos[] {
     if (!Array.isArray(selections)) {
         selections = [selections];
     }
@@ -287,11 +301,11 @@ function selectNextCell(this: DTableSelectable, direction?: 'right' | 'down' | '
     return;
 }
 
-function selectingCells(this: DTableSelectable, selections: DTableSelection | DTableRangeSelection | DTableSelections, options?: {clearBefore?: boolean, deselect?: boolean, callback?: (this: DTableSelectable, cells: DTableCellPos[]) => void}): DTableCellPos[] {
+function selectingCells(this: DTableSelectable, selections: DTableSelection | DTableRangeSelection | DTableSelections, options?: {clearBefore?: boolean; deselect?: boolean; callback?: (this: DTableSelectable, cells: DTableCellPos[]) => void}): DTableCellPos[] {
     return selectCells.call(this, selections, {...options, selecting: true});
 }
 
-function deselectCells(this: DTableSelectable, selections: DTableSelection | DTableRangeSelection | DTableSelections, options: {clearBefore?: boolean, selecting?: boolean, callback?: (this: DTableSelectable, cells: DTableCellPos[]) => void}): DTableCellPos[] {
+function deselectCells(this: DTableSelectable, selections: DTableSelection | DTableRangeSelection | DTableSelections, options: {clearBefore?: boolean; selecting?: boolean; callback?: (this: DTableSelectable, cells: DTableCellPos[]) => void}): DTableCellPos[] {
     return selectCells.call(this, selections, {...options, deselect: true});
 }
 
@@ -354,7 +368,7 @@ function isRowSelected(this: DTableSelectable, row: number | string | RowInfo): 
     if (typeof rowIndex !== 'number') {
         return false;
     }
-    return this.layout.cols.list.every(col => {
+    return this.layout.cols.list.every((col) => {
         return col.name === 'INDEX' || this.isCellSelected({col: col.index, row: rowIndex});
     });
 }
@@ -365,7 +379,7 @@ function isColSelected(this: DTableSelectable, col: number | string | ColInfo): 
         return false;
     }
     const {rows} = this.layout;
-    return rows.every(row => {
+    return rows.every((row) => {
         return this.isCellSelected({col: colIndex, row: row.index});
     });
 }
@@ -420,7 +434,7 @@ function getSelectedCellsSize(this: DTableSelectable): number {
     return size;
 }
 
-export function getMousePos(table: DTable, event: Event, options?: {ignoreHeaderCell?: boolean}): DTableCellPos | undefined {
+export function getMousePos(table: DTable, event: MouseEvent, options?: {ignoreHeaderCell?: boolean}): DTableCellPos | undefined {
     const pointerInfo = table.getPointerInfo(event);
     if (!pointerInfo || pointerInfo.target.closest('input,textarea,[contenteditable]')) {
         return;
@@ -435,18 +449,163 @@ export function getMousePos(table: DTable, event: Event, options?: {ignoreHeader
         return;
     }
     const rowIndex = isHeaderRow ? (-1) : table.getRowInfo(rowID)?.index ?? -1;
-    return {col: colIndex, row: rowIndex};
+    return {col: colIndex, row: rowIndex, event};
 }
 
-const selectablePlugin: DTablePlugin<DTableSelectableTypes, [DTableMousemoveTypes, DTableAutoscrollTypes]> = {
+function handleSelectNextCell(table: DTableSelectable, event: KeyboardEvent, direction?: 'right' | 'down' | 'left' | 'up') {
+    if (table.selectNextCell(direction)) {
+        event.preventDefault();
+        event.stopPropagation();
+    }
+}
+
+export function isEmptyCellData(data: unknown): boolean {
+    return data === undefined || data === null || (typeof data === 'string' && !data.length);
+}
+
+export function trimDataGrid(data: unknown[][]): unknown[][] {
+    let maxColIndex = 0;
+    let maxRowIndex = 0;
+    data.forEach((row, rowIndex) => {
+        row.forEach((cell, colIndex) => {
+            if (!isEmptyCellData(cell)) {
+                maxColIndex = Math.max(maxColIndex, colIndex);
+                maxRowIndex = Math.max(maxRowIndex, rowIndex);
+            }
+        });
+    });
+    return data.slice(0, maxRowIndex + 1).map(row => row.slice(0, maxColIndex + 1));
+}
+
+function copySelections(this: DTableSelectable) {
+    const selectedCells = this.getSelectedCells();
+    if (!selectedCells.length) {
+        return false;
+    }
+    let minColIndex = Number.MAX_SAFE_INTEGER;
+    let minRowIndex = Number.MAX_SAFE_INTEGER;
+    selectedCells.forEach((pos) => {
+        minColIndex = Math.min(pos.col, minColIndex);
+        minRowIndex = Math.min(pos.row, minRowIndex);
+    });
+    const data: unknown[][] = [];
+    const selectedColIndexes = new Set<number>();
+    selectedCells.forEach((pos) => {
+        const value = this.getCellDraftValue ? this.getCellDraftValue(pos.row, pos.col) : this.getCellValue(pos.row, pos.col);
+        let rowData = data[pos.row - minRowIndex];
+        if (!rowData) {
+            rowData = [];
+            data[pos.row - minRowIndex] = rowData;
+        }
+        rowData[pos.col - minColIndex] = value;
+        selectedColIndexes.add(pos.col);
+    });
+    if (this.options.copyHeader) {
+        const headerRow: unknown[] = [];
+        selectedColIndexes.forEach((colIndex) => {
+            const colInfo = this.getColInfo(colIndex);
+            if (!colInfo) {
+                return;
+            }
+            const value = this.getCellDraftValue ? this.getCellDraftValue(-1, colInfo) : this.getCellValue(-1, colInfo);
+            headerRow[colIndex - minColIndex] = (value === colInfo.name) ? '' : value;
+        });
+        data.unshift(headerRow);
+    }
+    const plainText = trimDataGrid(data).map(x => x.join('\t')).join('\n');
+    navigator.clipboard.writeText(plainText);
+    return true;
+}
+
+function copySelectedCols(this: DTableSelectable) {
+    const selectedCols = this.getSelectedCols();
+    if (!selectedCols.length) {
+        return false;
+    }
+    const rowsCount = this.layout.rows.length;
+    const data: unknown[][] = [];
+    for (let i = -1; i < rowsCount; ++i) {
+        data.push(selectedCols.map((col) => {
+            const value = this.getCellDraftValue ? this.getCellDraftValue(i, col) : this.getCellValue(i, col);
+            if (i === -1 && value === col.name) {
+                return '';
+            }
+            return value;
+        }));
+    }
+    const plainText = trimDataGrid(data).map(x => x.join('\t')).join('\n');
+    navigator.clipboard.writeText(plainText);
+    return true;
+}
+
+const hotkeyHandlers: Record<string, (this: DTableSelectable, event: KeyboardEvent) => void> = {
+    selectAll(event) {
+        if (this.state.editingCell) {
+            return;
+        }
+        this.selectAllCells();
+        event.preventDefault();
+    },
+    copy(event) {
+        this.copySelections();
+        event.preventDefault();
+    },
+    selectRight(event) {
+        handleSelectNextCell(this, event, 'right');
+    },
+    selectLeft(event) {
+        handleSelectNextCell(this, event, 'left');
+    },
+    selectDown(event) {
+        handleSelectNextCell(this, event, 'down');
+    },
+    selectUp(event) {
+        handleSelectNextCell(this, event, 'up');
+    },
+};
+
+const selectablePlugin: DTablePlugin<DTableSelectableTypes, [DTableHotkeyTypes, DTableMousemoveTypes, DTableAutoscrollTypes, DTableDraftTypes]> = {
     name: 'selectable',
-    defaultOptions: {selectable: true, markSelectRange: true},
+    defaultOptions: {
+        selectable: true,
+        copyHeader: true,
+        markSelectRange: true,
+    },
     when: options => !!options.selectable,
-    plugins: [mousemove],
+    plugins: [mousemove, hotkey],
     state() {
         return {
             selectedMap: new Map(),
             selectingMap: new Map(),
+        };
+    },
+    options(options) {
+        const {selectableHotkeys, hotkeys} = options;
+        if (selectableHotkeys === false) {
+            return options;
+        }
+        const defaultHotkeys: Record<string, string> = {
+            selectAll: '$mod+a',
+            copy: '$mod+c',
+            selectRight: 'Tab,ArrowRight',
+            selectLeft: 'ArrowLeft',
+            selectDown: 'ArrowDown',
+            selectUp: 'ArrowUp',
+        };
+        const hotkeysOverride = {
+            ...hotkeys,
+            ...Object.entries({
+                ...defaultHotkeys,
+                ...selectableHotkeys,
+            }).reduce<NonNullable<typeof hotkeys>>((hotkeysMap, [name, key]) => {
+                if (key) {
+                    hotkeysMap[key === true ? defaultHotkeys[name] : key] = hotkeyHandlers[name]?.bind(this);
+                }
+                return hotkeysMap;
+            }, {}),
+        };
+        return {
+            hotkeys: hotkeysOverride,
         };
     },
     methods: {
@@ -466,6 +625,8 @@ const selectablePlugin: DTablePlugin<DTableSelectableTypes, [DTableMousemoveType
         selectAllCells,
         deselectAllCells,
         getSelectedCellsSize,
+        copySelections,
+        copySelectedCols,
     },
     events: {
         mousedown(event) {
@@ -492,9 +653,18 @@ const selectablePlugin: DTablePlugin<DTableSelectableTypes, [DTableMousemoveType
             this.data.selectingStart = undefined;
             const pos = getMousePos(this, event);
             if (pos) {
+                // 当 selectOnClickCell=false 时，鼠标按下到抬起移动距离小于 4px 视为点击，不触发选择
+                const startEvent = selectingStart.event;
+                if (startEvent && !this.options.selectOnClickCell) {
+                    const distance = Math.hypot(event.clientX - startEvent.clientX, event.clientY - startEvent.clientY);
+                    if (distance < 4) {
+                        return;
+                    }
+                }
+
                 const selection = stringifySelection(selectingStart, pos);
                 if (selection) {
-                    this.selectCells(selection);
+                    requestAnimationFrame(() => this.selectCells(selection));
                     event.stopPropagation();
                 }
             }

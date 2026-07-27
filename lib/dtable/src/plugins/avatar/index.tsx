@@ -7,18 +7,18 @@ import {classes} from '@zui/core';
 
 export type DTableAvatarTypes = {
     col: Partial<{
-        avatarClass?: string,
-        avatarKey?: string,
-        avatarCodeKey?: string,
-        avatarProps?: AvatarOptions | ((col: ColInfo, row: RowInfo) => AvatarOptions),
-        avatarBtnProps?: JSX.HTMLAttributes<HTMLButtonElement> | ((col: ColInfo, row: RowInfo) => JSX.HTMLAttributes<HTMLButtonElement>),
+        avatarClass?: string;
+        avatarKey?: string;
+        avatarCodeKey?: string;
+        avatarProps?: AvatarOptions | ((col: ColInfo, row: RowInfo) => AvatarOptions);
+        avatarBtnProps?: JSX.HTMLAttributes<HTMLButtonElement> | ((col: ColInfo, row: RowInfo) => JSX.HTMLAttributes<HTMLButtonElement>);
         avatarNameKey?: string;
-    }>,
+    }>;
 };
 
 export type DTableAvatar = DTableWithPlugin<DTableAvatarTypes>;
 
-function renderAvatarCell(result: CustomRenderResultList, {row, col}: {row: RowInfo, col: ColInfo}) {
+function renderAvatarCell(result: CustomRenderResultList, {row, col}: {row: RowInfo; col: ColInfo}) {
     const {data: rowData} = row;
     const text = rowData ? (rowData[col.name] as string) : undefined;
     if (!text?.length) {

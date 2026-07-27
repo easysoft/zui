@@ -1,10 +1,8 @@
 import {EventEmitter} from './event-emitter';
 
-export interface CustomEventListener<E extends Event = Event> {
-    (evt: E): void;
-}
+export type CustomEventListener<E extends Event = Event> = (evt: E) => void;
 
-export type CustomEventMap = {[event: string]: Event};
+export type CustomEventMap = Record<string, Event>;
 
 export const nativeEvents = new Set([
     'click',
@@ -55,7 +53,7 @@ export const nativeEvents = new Set([
     'scroll',
 ]);
 
-export class EventBus<E extends CustomEventMap = {}, TYPES extends string = Extract<keyof E, string>> extends EventEmitter {
+export class EventBus<E extends CustomEventMap = CustomEventMap, TYPES extends string = Extract<keyof E, string>> extends EventEmitter {
     on<T extends TYPES>(type: T, listener: CustomEventListener<E[T]>, options?: AddEventListenerOptions) {
         super.on(type, listener as EventListener, options);
     }

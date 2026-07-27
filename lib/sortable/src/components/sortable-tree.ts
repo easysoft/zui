@@ -12,7 +12,7 @@ export class SortableTree<P extends SortableTreeProps = SortableTreeProps, S ext
         sortable: true,
     };
 
-    static inheritNestedProps = [...Tree.inheritNestedProps, 'onSort', 'sortable'];
+    static inheritNestedProps = [...Tree.inheritNestedProps, 'onSort', 'sortable', 'canSortTo'];
 
     declare _sortable: Sortable;
 
@@ -21,6 +21,12 @@ export class SortableTree<P extends SortableTreeProps = SortableTreeProps, S ext
         const sortableOptions = this._getSortableOptions();
         if (sortableOptions) {
             this._sortable = new Sortable(this.element, sortableOptions);
+        }
+    }
+
+    componentWillUnmount(): void {
+        if (this._sortable) {
+            this._sortable.destroy();
         }
     }
 

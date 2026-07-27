@@ -1,10 +1,11 @@
-import {isValidElement} from 'preact';
+import {Component, isValidElement} from 'preact';
 import {HtmlContent} from './html-content';
 import {HElement} from './h-element';
+import {LazyContent} from './lazy-content';
 import {mergeProps} from '../../helpers';
 
 import type {ComponentChildren, VNode} from 'preact';
-import type {HtmlContentProps, HElementProps, CustomContentType, CustomContentGenerator, CustomContentProps} from '../types';
+import type {HtmlContentProps, HElementProps, CustomContentType, CustomContentGenerator, CustomContentProps, LazyContentProps} from '../types';
 
 /**
  * Render custom content.
@@ -21,7 +22,7 @@ export function renderCustomContent(props: CustomContentProps): ComponentChildre
         content = (content as CustomContentGenerator).call(generatorThis, ...(generatorArgs || []));
     }
     if (Array.isArray(content)) {
-        return content.map((x) => renderCustomContent({...others, content: x, generatorThis, generatorArgs}));
+        return content.map(x => renderCustomContent({...others, content: x, generatorThis, generatorArgs}));
     }
     if ((typeof content === 'string' || typeof content === 'number')) {
         if (Object.keys(others).length) {
@@ -29,13 +30,16 @@ export function renderCustomContent(props: CustomContentProps): ComponentChildre
         }
         return content;
     }
-    if (content && typeof content === 'object' && (typeof (content as HtmlContentProps).html === 'string' || (content as HtmlContentProps).component)) {
+    if (content && typeof content === 'object' && (typeof (content as HtmlContentProps).html === 'string' || (content as HtmlContentProps).component || (content as LazyContentProps).fetcher)) {
+        if ((content as LazyContentProps).fetcher) {
+            return <LazyContent {...(mergeProps(others, content) as unknown as LazyContentProps)} />;
+        }
         if ((content as HtmlContentProps).html) {
             return <HtmlContent {...(mergeProps(others, content) as unknown as HtmlContentProps)} />;
         }
         const {children, ...contentOthers} = content as HElementProps;
         if (children) {
-            content = mergeProps({children: ((Array.isArray(children) ? children : [children]) as CustomContentType[]).map((x) => renderCustomContent({...others, content: x, generatorThis, generatorArgs}))}, contentOthers);
+            content = mergeProps({children: ((Array.isArray(children) ? children : [children]) as CustomContentType[]).map(x => renderCustomContent({...others, content: x, generatorThis, generatorArgs}))}, contentOthers);
         }
         return <HElement {...(mergeProps(others, content) as unknown as HElementProps)} />;
     }
@@ -66,4 +70,10 @@ export function CustomContent(props: CustomContentProps): VNode | null {
         return result;
     }
     return <>{result}</>;
+}
+
+export class CustomContentClass extends Component<CustomContentProps> {
+    render(props: CustomContentProps): VNode | null {
+        return CustomContent(props);
+    }
 }

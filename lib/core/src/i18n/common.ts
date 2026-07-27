@@ -1,7 +1,7 @@
 import {addI18nMap} from './i18n';
 
 addI18nMap({
-    'zh_cn': {
+    zh_cn: {
         confirm: '确定',
         save: '保存',
         cancel: '取消',
@@ -10,8 +10,12 @@ addI18nMap({
         add: '添加',
         copy: '复制',
         close: '关闭',
+        edit: '编辑',
+        open: '打开',
+        more: '更多',
+        loading: '加载中...',
     },
-    'zh_tw': {
+    zh_tw: {
         confirm: '確定',
         save: '儲存',
         cancel: '取消',
@@ -20,6 +24,10 @@ addI18nMap({
         add: '添加',
         Copy: '複製',
         close: '關閉',
+        edit: '編輯',
+        open: '打開',
+        more: '更多',
+        loading: '加載中...',
     },
     en: {
         confirm: 'Confirm',
@@ -30,5 +38,9 @@ addI18nMap({
         add: 'Add',
         copy: 'Copy',
         close: 'Close',
+        edit: 'Edit',
+        open: 'Open',
+        more: 'More',
+        loading: 'Loading...',
     },
 });

@@ -14,9 +14,9 @@ export class Tooltip extends Popover<TooltipOptions> {
         name: 'tooltip',
         animation: 'fade',
         destroyOnHide: 5000,
+        hideOthers: true,
+        hideNewOnHide: false,
     };
-
-    static hideOthers = true;
 
     protected _getRenderOptions(): PopoverPanelOptions {
         const {type, className, title: originTitle, content: originContent} = this.options;

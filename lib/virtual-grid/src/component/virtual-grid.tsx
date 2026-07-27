@@ -6,12 +6,12 @@ import {GridCell} from './grid-cell';
 export class VirtualGrid extends Component<VirtualGridOptions> {
     render() {
         const {width, height, cells, left, top, visibleBounding, onRenderCell, style, children, offsetX = 0, offsetY = 0, ...others} = this.props;
-        const visibleCells = visibleBounding ? cells.filter((cell) => isCellVisible(cell.bounding, visibleBounding, offsetX, offsetY)) : cells;
+        const visibleCells = visibleBounding ? cells.filter(cell => isCellVisible(cell.bounding, visibleBounding, offsetX, offsetY)) : cells;
 
         return (
             <div style={{width, height, left, top, ...style}} {...others}>
                 {
-                    visibleCells.map((cell) => (<GridCell offsetX={offsetX} offsetY={offsetY} {...cell} />))
+                    visibleCells.map(cell => (<GridCell offsetX={offsetX} offsetY={offsetY} {...cell} />))
                 }
                 {children}
             </div>

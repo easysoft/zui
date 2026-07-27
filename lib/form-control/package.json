@@ -2,10 +2,15 @@
     "name": "@zui/form-control",
     "version": "0.0.1",
     "main": "src/main.ts",
+    "files": [
+        "./src/**/*"
+    ],
     "dependencies": {
+        "@zui/core": "workspace:*"
     },
     "devDependencies": {
         "@zui/base": "workspace:*",
+        "@zui/tooltip": "workspace:*",
         "@zui/utilities": "workspace:*"
     },
     "zui": {

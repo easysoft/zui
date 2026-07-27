@@ -15,9 +15,9 @@ export class DatetimePicker extends DatePicker<DatetimePickerOptions> {
         minuteStep: 5,
     } as Partial<PickOptions>;
 
-    getTime(): [hour: number, minute: number] | null {
+    getTime(): [hour: number, minute: number, second: number] | null {
         const date = this.getDate();
-        return date ? [date.getHours(), date.getMinutes()] : null;
+        return date ? [date.getHours(), date.getMinutes(), date.getSeconds()] : null;
     }
 
     _afterSetDate() {
@@ -29,15 +29,18 @@ export class DatetimePicker extends DatePicker<DatetimePickerOptions> {
         const oldDate = this.getDate() || new Date();
         newDate.setHours(oldDate.getHours());
         newDate.setMinutes(oldDate.getMinutes());
+        newDate.setSeconds(oldDate.getSeconds());
         this.setDate(formatDate(newDate, this.props.format));
     };
 
-    _handleSetTime = (type: 'hour' | 'minute', value: number) => {
+    _handleSetTime = (type: 'hour' | 'minute' | 'second', value: number) => {
         const date = this.getDate() || new Date();
         if (type === 'hour') {
             date.setHours(value);
-        } else {
+        } else if (type === 'minute') {
             date.setMinutes(value);
+        } else {
+            date.setSeconds(value);
         }
         this.setDate(formatDate(date, this.props.format));
     };

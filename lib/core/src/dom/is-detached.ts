@@ -5,8 +5,8 @@ import {$, Cash} from '../cash';
  * @param element  The element to check.
  * @returns       Whether the element is detached from document.
  */
-export function isElementDetached(element: Node): boolean {
-    if (element.parentNode === document) {
+export function isElementDetached(element?: Node): boolean {
+    if (!element || element.parentNode === document) {
         return false;
     }
     if (!element.parentNode) {

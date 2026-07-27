@@ -8,6 +8,10 @@ import '@zui/css-icons/src/icons/caret.css';
 import '@zui/css-icons/src/icons/close.css';
 
 export class PickerSingleSelect extends PickTrigger<PickerState, PickerSelectProps> {
+    get searchBox() {
+        return this._search.current;
+    }
+
     protected _search = createRef<PickerSearch>();
 
     protected _handleDeselectClick = (event: MouseEvent) => {
@@ -67,7 +71,7 @@ export class PickerSingleSelect extends PickTrigger<PickerState, PickerSelectPro
     }
 
     protected _renderTrigger(props: PickerSelectProps) {
-        const {children, state: {selections = [], value, open}, placeholder, search, disabled, readonly, clearable, display} = props;
+        const {children, state: {selections = [], value, open}, placeholder, search, disabled, clearable, display, caretClass} = props;
 
         const [selection] = selections;
         const showSearch = open && search;
@@ -77,7 +81,7 @@ export class PickerSingleSelect extends PickTrigger<PickerState, PickerSelectPro
         } else if (selection || (placeholder === undefined && display)) {
             const {text} = selection || {text: '', value: ''};
             if (typeof display === 'function') {
-                view = display.call(this, value, selections);
+                view = <CustomContent content={display.call(this, value, selections)} />;
             } else if (typeof display === 'string') {
                 view = formatString(display, selection);
             } else {
@@ -94,9 +98,9 @@ export class PickerSingleSelect extends PickTrigger<PickerState, PickerSelectPro
             view = <span key="main" className="picker-select-placeholder">{placeholder}</span>;
         }
         const deselectBtnView = (clearable && !showSearch) ? (
-            <button key="deselect" type="button" className="btn picker-deselect-btn size-xs square ghost" disabled={disabled} readonly={readonly} onClick={this._handleDeselectClick}><span className="close"></span></button>
+            <button key="deselect" type="button" className="btn picker-deselect-btn size-xs square ghost" disabled={disabled} onClick={this._handleDeselectClick}><span className="close"></span></button>
         ) : null;
-        const caret = showSearch ? null : <span key="caret" className="caret"></span>;
+        const caret = showSearch ? null : <span key="caret" className={classes('caret flex-none', caretClass)}></span>;
         return [
             view,
             children,

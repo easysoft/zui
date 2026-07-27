@@ -1,4 +1,3 @@
 import type {FileSelectorProps} from './file-selector-props';
 
-export interface ImageSelectorProps extends FileSelectorProps {
-}
+export type ImageSelectorProps = FileSelectorProps;

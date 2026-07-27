@@ -1,10 +1,11 @@
-import {classes, $, mergeProps} from '@zui/core';
+import {classes, $, mergeProps, HElement} from '@zui/core';
 import {BtnGroup} from '@zui/btn-group/src/component/btn-group';
 
 import type {Item} from '@zui/common-list';
 import type {ToolbarOptions, ToolbarSetting} from '../types';
 import type {ClassNameLike} from '@zui/core/src/helpers';
 import type {Attributes, RenderableProps} from 'preact';
+import '@zui/css-icons';
 
 export class Toolbar<T extends ToolbarOptions = ToolbarOptions> extends BtnGroup<T> {
     static NAME = 'toolbar';
@@ -18,6 +19,7 @@ export class Toolbar<T extends ToolbarOptions = ToolbarOptions> extends BtnGroup
     static ItemComponents = {
         ...BtnGroup.ItemComponents,
         btnGroup: BtnGroup,
+        angle: [HElement, {className: 'angle chevron-right opacity-50 text-xs'}],
         'btn-group': BtnGroup,
     };
 

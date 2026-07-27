@@ -3,7 +3,7 @@ export type * from 'cash-dom';
 
 declare global {
     interface Window {
-        $: typeof $
+        $: typeof $;
     }
 }
 

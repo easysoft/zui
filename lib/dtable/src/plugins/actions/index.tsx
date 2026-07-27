@@ -1,4 +1,4 @@
-import {formatString} from '@zui/helpers/src/format-string';
+import {formatString} from '@zui/helpers/src/string-helper';
 import {Toolbar} from '@zui/toolbar/src/component/toolbar';
 import {definePlugin} from '../../helpers/shared-plugins';
 
@@ -8,28 +8,28 @@ import type {RowData, RowInfo} from '../../types/row';
 import type {ColInfo} from '../../types/col';
 import type {ListitemProps} from '@zui/list/src/types';
 
-type ActionItemInfo = Partial<ToolbarItemOptions & {name: string, items?: ListitemProps[]}>;
+type ActionItemInfo = Partial<ToolbarItemOptions & {name: string; items?: ListitemProps[]}>;
 
 export type DTableActionsTypes = {
     col: Partial<{
-        actions?: string | (string | ActionItemInfo)[],
-        actionsCreator: (info: {row: RowInfo, col: ColInfo}) => ToolbarItemOptions[],
-        actionItemCreator: (item: Partial<ToolbarItemOptions>, info: {row: RowInfo, col: ColInfo}) => ToolbarItemOptions,
-        actionsSetting: Partial<ToolbarOptions>,
-        actionsMap: Record<string, Partial<ToolbarItemOptions>>,
-    }>,
+        actions?: string | (string | ActionItemInfo)[];
+        actionsCreator: (info: {row: RowInfo; col: ColInfo}) => ToolbarItemOptions[];
+        actionItemCreator: (item: Partial<ToolbarItemOptions>, info: {row: RowInfo; col: ColInfo}) => ToolbarItemOptions;
+        actionsSetting: Partial<ToolbarOptions>;
+        actionsMap: Record<string, Partial<ToolbarItemOptions>>;
+    }>;
     options: Partial<{
-        actionsCreator: (info: {row: RowInfo, col: ColInfo}) => ToolbarItemOptions[],
-        actionItemCreator: (item: Partial<ToolbarItemOptions>, info: {row: RowInfo, col: ColInfo}) => ToolbarItemOptions,
-    }>,
+        actionsCreator: (info: {row: RowInfo; col: ColInfo}) => ToolbarItemOptions[];
+        actionItemCreator: (item: Partial<ToolbarItemOptions>, info: {row: RowInfo; col: ColInfo}) => ToolbarItemOptions;
+    }>;
 };
 
 function createActionFromString(action: string): ActionItemInfo {
     const [name, items] = action.split(':');
-    const actionInfo: {type?: string, name: string, items?: ListitemProps[], disabled?: boolean} = name[0] === '-' ? {name: name.substring(1), disabled: true} : {name};
+    const actionInfo: {type?: string; name: string; items?: ListitemProps[]; disabled?: boolean} = name[0] === '-' ? {name: name.substring(1), disabled: true} : {name};
     if (items?.length) {
         actionInfo.type = 'dropdown';
-        actionInfo.items = items.split(',').reduce<{name: string, disabled?: boolean}[]>((list, itemName) => {
+        actionInfo.items = items.split(',').reduce<{name: string; disabled?: boolean}[]>((list, itemName) => {
             itemName = itemName.trim();
             if (itemName.length) {
                 list.push(itemName[0] === '-' ? {name: itemName.substring(1), disabled: true} : {name: itemName});
@@ -40,14 +40,14 @@ function createActionFromString(action: string): ActionItemInfo {
     return actionInfo;
 }
 
-const defaultActionItemCreator = (item: Partial<ToolbarDropdownOptions>, info: {row: RowInfo, col: ColInfo}) => {
+const defaultActionItemCreator = (item: Partial<ToolbarDropdownOptions>, info: {row: RowInfo; col: ColInfo}) => {
     if (item.url) {
         item.url = formatString(item.url, info.row.data);
     }
     const data = {row: info.row.id, col: info.col.name};
     const items = item.dropdown?.items || item.items;
     if (items) {
-        (items as (ListitemProps & {url?: string})[]).forEach(x => {
+        (items as (ListitemProps & {url?: string})[]).forEach((x) => {
             if (x.url) {
                 x.url = formatString(x.url, info.row.data);
             }
@@ -66,7 +66,7 @@ const getActionItems = (actions?: string | (string | ActionItemInfo)[]): ActionI
     if (typeof actions === 'string') {
         actions = actions.split('|');
     }
-    return actions.map(action => {
+    return actions.map((action) => {
         return typeof action === 'string' ? createActionFromString(action) : action;
     }).filter(Boolean) as ActionItemInfo[];
 };
@@ -91,7 +91,7 @@ const actionsPlugin: DTablePlugin<DTableActionsTypes> = {
                     actionItemCreator = (this as DTableWithPlugin<DTableActionsTypes>).options.actionItemCreator || defaultActionItemCreator,
                 } = col.setting;
                 const toolbarOptions: ToolbarOptions = {
-                    items: actionsCreator?.(info) ?? actionItems.map(action => {
+                    items: actionsCreator?.(info) ?? actionItems.map((action) => {
                         const {name, ...others} = action;
                         if (actionsMap && name) {
                             Object.assign(others, actionsMap[name], {...others});
@@ -107,12 +107,12 @@ const actionsPlugin: DTablePlugin<DTableActionsTypes> = {
                             delete others['data-toggle'];
                         }
                         if (items && others.type === 'dropdown') {
-                            const {dropdown = {placement: 'bottom-end'}} = (others as ToolbarDropdownOptions);
+                            const {dropdown = {placement: 'bottom-end'}} = others as ToolbarDropdownOptions;
                             dropdown.menu = {
                                 className: 'menu-dtable-actions',
                             };
                             dropdown.items = items.map((item) => {
-                                const itemAction = (typeof item === 'string' ? {name: item} : {...item}) as ListitemProps & {name?: string, url?: string, disabled?: boolean};
+                                const itemAction = (typeof item === 'string' ? {name: item} : {...item}) as ListitemProps & {name?: string; url?: string; disabled?: boolean};
                                 if (itemAction.name) {
                                     if (actionsMap && actionsMap[itemAction.name]) {
                                         Object.assign(itemAction, actionsMap[itemAction.name], {...itemAction});

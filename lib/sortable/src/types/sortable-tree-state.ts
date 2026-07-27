@@ -1,4 +1,3 @@
 import type {ListState} from '@zui/list';
 
-export interface SortableTreeState extends ListState {
-}
+export type SortableTreeState = ListState;

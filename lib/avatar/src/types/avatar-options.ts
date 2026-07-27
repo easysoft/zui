@@ -11,6 +11,7 @@ export interface AvatarOptions {
     foreColor?: string;
     icon?: IconType;
     text?: string;
+    displayText?: string;
     code?: string | number;
     maxTextLength?: number;
     saturation?: number;

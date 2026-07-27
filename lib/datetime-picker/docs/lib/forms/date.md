@@ -97,7 +97,7 @@ const datePicker = new zui.DatePicker('#datePicker', {
 <div id="datetimePicker"></div>
 
 <script>
-const datetimePicker = new zui.datetimePicker('#datetimePicker', {
+const datetimePicker = new zui.DatetimePicker('#datetimePicker', {
     minDate: "{{new Date(minDate).toLocaleDateString()}}",
     maxDate: "{{new Date(maxDate).toLocaleDateString()}}",
 });

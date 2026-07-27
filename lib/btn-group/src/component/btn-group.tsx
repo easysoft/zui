@@ -50,7 +50,7 @@ export class BtnGroup<T extends BtnGroupOptions = BtnGroupOptions> extends Commo
         return itemProps;
     }
 
-    protected _beforeRender(props: RenderableProps<T>): void | RenderableProps<T> | undefined {
+    protected _beforeRender(props: RenderableProps<T>) {
         const {btnProps, btnType, size} = props;
 
         this._shareBtnProps = mergeProps({}, btnProps, removeUndefinedProps({btnType, size}));

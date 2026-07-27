@@ -51,12 +51,13 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
     }
 
     get value() {
-        return this.state.value;
+        return this.props.value ?? this.state.value;
     }
 
     getDefaultState(props?: RenderableProps<O>): S {
+        const {value, defaultValue = ''} = props || this.props;
         return {
-            value: String((props || this.props).defaultValue ?? ''),
+            value: String(value ?? defaultValue),
             open: false,
         } as S;
     }
@@ -71,7 +72,7 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
     }
 
     changeState(state: Partial<S> | ((prevState: Readonly<S>) => Partial<S>), callback?: () => void): Promise<S> {
-        return new Promise<S>(resolve => {
+        return new Promise<S>((resolve) => {
             this.setState(state, () => {
                 callback?.();
                 resolve(this.state);
@@ -96,7 +97,7 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
             this._toggleTimer = 0;
         }
 
-        let newState = await this.changeState(prevState => {
+        let newState = await this.changeState((prevState) => {
             open = open ?? !prevState.open;
 
             return {
@@ -146,6 +147,7 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
             disabled: props.disabled,
             readonly: props.readonly,
             clickType: props.clickType,
+            onRenderValue: props.onRenderValue,
             onClick: props.onClick,
             changeState: this.changeState,
             togglePop: this.toggle,
@@ -172,15 +174,16 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
             maxWidth: props.popMaxWidth,
             minWidth: props.popMinWidth,
             limitInScreen: props.limitPopInScreen,
+            onClickItem: props.onClickItem,
+            header: props.popHeader,
+            footer: props.popFooter,
         };
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     protected _renderTrigger(_props: RenderableProps<O>, _state: Readonly<S>): ComponentChildren {
         return null;
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     protected _renderPop(_props: RenderableProps<O>, _state: Readonly<S>): ComponentChildren {
         return null;
     }
@@ -218,11 +221,23 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
         }
     }
 
-    setValue(value: string, silent?: boolean) {
+    async setValue(value: unknown, silent?: boolean) {
+        if (typeof value !== 'string') {
+            value = String(value);
+        }
+        const {beforeChange} = this.props;
+        if (beforeChange) {
+            const result = await beforeChange.call(this, value as string, this.state.value);
+            if (result === false) {
+                return;
+            } else if (typeof result === 'string') {
+                value = result;
+            }
+        }
         if (silent) {
             const trigger = this._trigger.current;
             if (trigger) {
-                trigger._skipTriggerChange = value;
+                trigger._skipTriggerChange = value as string;
             }
         }
         return this.changeState({value} as Partial<S>);
@@ -230,6 +245,13 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
 
     componentDidMount() {
         this._afterRender(true);
+
+        const {value, defaultValue} = this.props;
+        const initialValue = value ?? defaultValue ?? '';
+        const currentValue = this.state.value;
+        if (initialValue !== currentValue) {
+            this._handleChange(currentValue, initialValue);
+        }
     }
 
     componentWillUpdate(_nextProps: Readonly<O>, nextState: Readonly<S>): void {
@@ -246,7 +268,12 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
         }
     }
 
-    componentDidUpdate(_previousProps: Readonly<O>, previousState: Readonly<S>): void {
+    componentDidUpdate(previousProps: Readonly<O>, previousState: Readonly<S>): void {
+        if (previousProps.value !== this.props.value && this.props.value !== undefined) {
+            this.setValue(this.props.value);
+            return;
+        }
+
         const {open: opened, value} = this.state;
         const {open: prevOpened, value: prevValue} = previousState;
         if (!!opened !== !!prevOpened) {
@@ -275,15 +302,17 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
         let popView: ComponentChildren;
         if (opened && (!props.hidePopWhenEmpty || !this._isEmptyValue())) {
             const Pop = this._getPop(props);
-            popView = (<Pop key="pop" ref={this._pop} {...this._getPopProps(props, state)}>
-                {this._renderPop(props, state)}
-            </Pop>);
+            popView = (
+                <Pop key="pop" ref={this._pop} {...this._getPopProps(props, state)}>
+                    {this._renderPop(props, state)}
+                </Pop>
+            );
         }
-        return (<>
+        return [
             <Trigger key="pick" {...this._getTriggerProps(props, state)}>
                 {this._renderTrigger(props, state)}
-            </Trigger>
-            {popView}
-        </>);
+            </Trigger>,
+            popView,
+        ];
     }
 }

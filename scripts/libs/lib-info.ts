@@ -4,8 +4,8 @@ import {LibType} from './lib-type';
 export type LibSourceType = 'npm' | 'exts' | 'build-in' | 'local';
 
 export type LibBuildInfo = {
-    prebuild?: boolean | string,
-    defaultExport?: string,
+    prebuild?: boolean | string;
+    defaultExport?: string;
 };
 
 export interface ZuiLibInfo {
@@ -22,8 +22,8 @@ export interface ZuiLibInfo {
     workspace?: boolean;
     packageJsonPath?: string;
     tailwindConfigPath?: string;
-    prebuild?: boolean | string,
-    defaultExport?: string,
+    prebuild?: boolean | string;
+    defaultExport?: string;
     replace?: string;
     notReady?: boolean;         // current lib is not ready
     wip?: boolean;              // current lib is work in progress

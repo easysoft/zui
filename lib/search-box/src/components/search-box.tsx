@@ -129,7 +129,7 @@ export class SearchBox extends Component<SearchBoxOptions, SearchBoxState> {
     }
 
     render(props: RenderableProps<SearchBoxOptions>, state: Readonly<SearchBoxState>) {
-        const {style, className, rootClass, rootStyle, readonly, disabled, circle, placeholder, mergeIcon, searchIcon, clearIcon, value: controlledValue, compact, prefixClass, suffixClass} = props;
+        const {style, className, rootClass, rootStyle, readonly, disabled, circle, placeholder, mergeIcon, searchIcon, clearIcon, value: controlledValue, compact, prefixClass, suffixClass, name} = props;
         const {focus, value} = state;
         const {id} = this;
         const finalValue = controlledValue ?? value;
@@ -171,6 +171,7 @@ export class SearchBox extends Component<SearchBoxOptions, SearchBoxState> {
                     key="input"
                     ref={this._input}
                     id={id}
+                    name={name}
                     type="text"
                     class={classes('form-control', {'rounded-full': circle, 'size-sm': compact}, className)}
                     style={style}

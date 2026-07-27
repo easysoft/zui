@@ -12,6 +12,7 @@ export interface PickTriggerProps<S extends PickState = PickState> {
     togglePop: (open?: boolean, state?: Partial<S>) => Promise<S>;
     onClick?: (event: MouseEvent) => void | boolean;
     clickType?: 'toggle' | 'open';
+    onRenderValue?: (value: unknown, props: PickTriggerProps<S>) => ComponentChildren;
 
     name?: string;
 

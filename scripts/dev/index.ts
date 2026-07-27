@@ -12,7 +12,6 @@ const tailwindConfigs = libs.reduce<string[]>((list, libConfig) => {
     return list;
 }, []);
 
-
 await exec('pnpm', ['run', 'dev'], {
     env: {
         ...process.env,

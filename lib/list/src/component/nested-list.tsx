@@ -1,10 +1,10 @@
-import {Icon, classes, mergeProps, $} from '@zui/core';
+import {Icon, classes, mergeProps, $, isValidElement} from '@zui/core';
 import {store} from '@zui/store';
 import {List} from './list';
 import '@zui/css-icons/src/icons/caret.css';
 
 import type {ComponentChild, ComponentChildren, RenderableProps} from 'preact';
-import type {ClassNameLike} from '@zui/core';
+import type {ClassNameLike, IconType} from '@zui/core';
 import type {Item, ItemKey} from '@zui/common-list';
 import type {CheckedType} from '@zui/checkbox';
 import type {ListItemsSetting, NestedItem, NestedListProps, NestedListState} from '../types';
@@ -37,7 +37,7 @@ function forEachChild(item: ItemInfo, callback: (child: ItemInfo) => void) {
     if (!children.length) {
         return;
     }
-    children.forEach(child => {
+    children.forEach((child) => {
         callback(child);
         forEachChild(child, callback);
     });
@@ -57,7 +57,6 @@ function parentKeys(keyPath: string) {
         return keys;
     }, []);
 }
-
 
 function reduceNestedItems<T>(items: Item[], itemKey: string | undefined, reducer: (previousValue: T, info: ItemInfo) => T, initialValue: T, level = 0, parent?: ItemInfo): T {
     return items.reduce((currentValue, item, index) => {
@@ -94,11 +93,9 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
         indent: 20,
     } as Partial<NestedListProps>;
 
-    static inheritNestedProps = ['component', 'name', 'itemName', 'itemKey', 'indent', 'hover', 'divider', 'multiline', 'toggleIcons', 'nestedToggle', 'accordion', 'itemRender', 'itemProps', 'beforeRenderItem', 'onToggle', 'checkbox', 'getItem', 'checkOnClick', 'selectOnChecked', 'checkedState', 'onClickItem', 'activeOnHover', 'multipleActive', 'onActive'];
+    static inheritNestedProps = ['component', 'name', 'itemName', 'itemKey', 'indent', 'hover', 'divider', 'multiline', 'toggleIcons', 'nestedToggle', 'accordion', 'itemRender', 'itemProps', 'onToggle', 'checkbox', 'getItem', 'getItems', 'checkOnClick', 'selectOnChecked', 'checkedState', 'onClickItem', 'activeOnHover', 'multipleActive', 'onActive', 'hoverItemActions'];
 
     protected declare _hasNestedItems: boolean;
-
-    protected declare _needHandleHover: boolean;
 
     protected declare _storeID: string;
 
@@ -106,9 +103,9 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
 
     protected declare _itemMap?: Map<string, ItemInfo>;
 
-    protected declare _needInitChecks?: boolean;
+    protected declare _itemMapCache: Map<string, ItemInfo>;
 
-    protected declare _hoverInfo?: {timer: number, info: MouseEventInfo};
+    protected declare _needInitChecks?: boolean;
 
     constructor(props: P) {
         super(props);
@@ -129,11 +126,11 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
         if (!props.level) {
             const nestedState = this.state.nestedShow;
             if (nestedState) {
-                Object.keys(nestedState).forEach(key => {
+                Object.keys(nestedState).forEach((key) => {
                     if (!nestedState[key]) {
                         return;
                     }
-                    parentKeys(key).forEach(parentKey => {
+                    parentKeys(key).forEach((parentKey) => {
                         nestedState[parentKey] = true;
                     });
                 });
@@ -142,7 +139,6 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
         }
 
         this._renderedItemMap = new Map();
-        this._handleHover = this._handleHover.bind(this);
         this._handleClick = this._handleClick.bind(this);
         this._beforeRenderNestedItem = this._beforeRenderNestedItem.bind(this);
         this._handleNestedToggle = this._handleNestedToggle.bind(this);
@@ -158,22 +154,24 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
         return this.props.nestedShow ?? this.state.nestedShow ?? false;
     }
 
-    get isHoverTrigger() {
-        return this.props.nestedTrigger === 'hover';
-    }
-
     async setItems(items?: Item[] | undefined, error?: Error | undefined) {
         if (this.isRoot) {
             this._needInitChecks = true;
         }
         const state = await super.setItems(items, error);
         if (items && this.props.parent?.checked === true) {
-            this.toggleChecked(this._renderedItems.map(x => x.key!),  true);
+            this.toggleChecked(this._renderedItems.map(x => x.key!), true);
+        } else if (items?.some(x => x.checked)) {
+            this._needInitChecks = true;
+            this.forceUpdate();
         }
         return state;
     }
 
-    getItemMap() {
+    getItemMap(useCache?: boolean) {
+        if (useCache && (this._itemMap || this._itemMapCache)) {
+            return this._itemMap || this._itemMapCache;
+        }
         if (!this._itemMap) {
             let needCheckRenderItems = false;
             const map: Map<string, ItemInfo> = reduceNestedItems(this._items, this.props.itemKey, (currentMap, info) => {
@@ -208,6 +206,7 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
                         info.parent = parent;
                     }
                 });
+                this._itemMapCache = map;
                 return map;
             }
             this._itemMap = map;
@@ -220,8 +219,9 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
     }
 
     getItem(keyPath: string) {
-        if (this._itemMap) {
-            return this._itemMap.get(keyPath)?.data;
+        const itemMap = this._itemMap || this._itemMapCache;
+        if (itemMap) {
+            return itemMap.get(keyPath)?.data;
         }
         const renderedItem = this.getRenderedItem(keyPath);
         return renderedItem ? (renderedItem._item as Item) : super.getItem(keyPath);
@@ -235,24 +235,39 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
         return !!(nestedShow[keyPath] ?? this.state.defaultShow);
     }
 
-    async toggle(keyPath: string, toggle?: boolean) {
+    isAllExpanded() {
+        const {nestedShow} = this;
+        if (typeof nestedShow === 'boolean') {
+            return nestedShow;
+        }
+        const {defaultShow} = this.state;
+        if (!Object.keys(nestedShow).length) {
+            return !!defaultShow;
+        }
+        const itemMap = this.getItemMap(true);
+        return Array.from(itemMap.entries()).every(([keyPath]) => {
+            return nestedShow[keyPath] ?? defaultShow;
+        });
+    }
+
+    async toggle(keyPath: string, toggle?: boolean, reset?: boolean) {
         const isExpanded = this.isExpanded(keyPath);
-        if (toggle === isExpanded) {
+        if (!reset && toggle === isExpanded) {
             return;
         }
         if (toggle === undefined) {
             toggle = !isExpanded;
         }
         const {nestedShow, onToggle, accordion} = this.props;
-        if (onToggle && onToggle.call(this, keyPath, toggle) === false) {
+        if (onToggle && onToggle.call(this, keyPath, toggle, reset) === false) {
             return;
         }
         if (nestedShow !== undefined) {
             return;
         }
-        await this.changeState(prevState => {
+        await this.changeState((prevState) => {
             let newNestedShow: Record<ItemKey, boolean> = {
-                ...prevState.nestedShow,
+                ...(reset ? {} : prevState.nestedShow),
                 [keyPath]: toggle!,
             };
             if (toggle && accordion) {
@@ -260,7 +275,7 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
                 if (parentKey.length) {
                     parentKey += ':';
                 }
-                Object.keys(newNestedShow).forEach(key => {
+                Object.keys(newNestedShow).forEach((key) => {
                     if (key !== keyPath && key.startsWith(parentKey)) {
                         newNestedShow[key] = false;
                     }
@@ -270,16 +285,6 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
                 map[key] = toggle!;
                 return map;
             }, newNestedShow) : newNestedShow;
-            if (this.isHoverTrigger && !toggle) {
-                Object.keys(newNestedShow).forEach(key => {
-                    if (!newNestedShow[key] || !key.startsWith(`${keyPath}:`)) {
-                        return;
-                    }
-                    parentKeys(keyPath).forEach(k => {
-                        newNestedShow[k] = true;
-                    });
-                });
-            }
             return {
                 nestedShow: newNestedShow,
             } as Partial<S>;
@@ -294,7 +299,7 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
     }
 
     getChecks() {
-        return Array.from(this.getItemMap().values()).reduce<ItemKey[]>((checks, {keyPath, data}) => {
+        return Array.from(this.getItemMap(true).values()).reduce<ItemKey[]>((checks, {keyPath, data}) => {
             const checkState = this.state.checked[keyPath];
             if ((checkState === true || (data.checked && checkState !== false)) === true) {
                 checks.push(keyPath);
@@ -336,23 +341,25 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
             return;
         }
         if (this.isRoot) {
-            const map = this.getItemMap();
-            await this.changeState(({checked: prevChecked}) => {
+            await this.changeState(({checked: prevChecked, nestedShow: preNestedShow}) => {
                 const isChecked = (item: ItemInfo) => {
                     return change[item.keyPath] ?? prevChecked[item.keyPath] ?? item.data.checked ?? false;
                 };
-                Object.keys(change).forEach(key => {
+                const map = this.getItemMap();
+                const nestedShow: Record<string, boolean> = {};
+                const {expandChildrenOnCheck} = this.props;
+                Object.keys(change).forEach((key) => {
                     checked = change[key];
                     const item = map.get(key);
                     if (!item) {
                         return;
                     }
-                    forEachChild(item, child => {
+                    forEachChild(item, (child) => {
                         if (isChecked(child) !== checked) {
                             change[child.keyPath] = checked!;
                         }
                     });
-                    forEachParent(item, parent => {
+                    forEachParent(item, (parent) => {
                         const {children} = parent;
                         const checkedCount = children.reduce((count, child) => {
                             if (isChecked(child)) {
@@ -363,11 +370,18 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
 
                         change[parent.keyPath] = checkedCount === children.length ? true : (checkedCount ? 'indeterminate' : false);
                     });
+                    if (expandChildrenOnCheck && checked && item.data.items) {
+                        nestedShow[key] = true;
+                    }
                 });
                 return {
                     checked: {
                         ...prevChecked,
                         ...change,
+                    },
+                    nestedShow: {
+                        ...preNestedShow,
+                        ...nestedShow,
                     },
                 } as Partial<S>;
             }, () => {
@@ -415,7 +429,7 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
         if (this.isRoot) {
             await super.toggleActive(keys, active);
             if (this.props.toggleOnActive) {
-                (keys as string[]).forEach(key => {
+                (keys as string[]).forEach((key) => {
                     if (this.isActive(key) && !this.isExpanded(key)) {
                         this.toggle(key, true);
                     }
@@ -456,7 +470,7 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
         if (this._needInitChecks) {
             const initChecks: Record<string, CheckedType> = {};
             const itemMap = this.getItemMap();
-            itemMap.forEach(item => {
+            itemMap.forEach((item) => {
                 if (item.data.checked !== undefined) {
                     initChecks[item.keyPath] = item.data.checked as CheckedType;
                 }
@@ -468,7 +482,7 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
 
     protected _preserveState() {
         if (this._storeID) {
-            store.set(this._storeID, {nestedShow: this.state.nestedShow});
+            store.set(this._storeID, {nestedShow: this.state.nestedShow, defaultShow: this.state.defaultShow});
         }
     }
 
@@ -519,6 +533,9 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
         if (typeof isExpanded === 'boolean') {
             toggleIcon = isExpanded ? (toggleIcons.expanded || <span className="caret-down"></span>) : (toggleIcons.collapsed || <span className="caret-right"></span>);
             toggleClass = `state is-${isExpanded ? 'expanded' : 'collapsed'}`;
+            if (!isValidElement(toggleIcon)) {
+                toggleIcon = <Icon icon={toggleIcon as IconType} />;
+            }
         } else {
             toggleIcon = <Icon icon={toggleIcons.normal} />;
             toggleClass = 'is-empty';
@@ -557,87 +574,79 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
         });
     }
 
-    protected _beforeRenderNestedItem(item: NestedItem): NestedItem | false {
+    protected _beforeRenderNestedItem(item: NestedItem, index: number): NestedItem | false {
+        const {beforeRenderItem} = this.props;
+        if (beforeRenderItem) {
+            const result = beforeRenderItem.call(this, item, index);
+            if (result !== undefined) {
+                item = result;
+            }
+        }
         this._renderedItemMap.set(item._keyPath as string, item);
         return item;
     }
 
     protected _renderItem(props: RenderableProps<P>, renderedItem: NestedItem, index: number): ComponentChildren {
-        if (this._hasNestedItems && renderedItem.type === 'item' && renderedItem.toggleIcon === undefined) {
+        if ((this._hasNestedItems || !this.isRoot) && renderedItem.type === 'item' && renderedItem.toggleIcon === undefined) {
             renderedItem.toggleIcon = this._renderNestedToggle(props, renderedItem.expanded as boolean | undefined);
         }
         const nestedListContent = renderedItem.items ? this._renderNestedList(props, renderedItem.items, renderedItem, renderedItem.expanded as boolean) : null;
         renderedItem = mergeProps(renderedItem, {
             'z-parent': renderedItem.parentKey,
             'z-key-path': renderedItem._keyPath,
-        }, this._needHandleHover ? {
-            onMouseEnter: this._handleHover,
-            onMouseLeave: this._handleHover,
-        } : null, nestedListContent ? {children: nestedListContent} : null);
+        }, nestedListContent ? {children: nestedListContent} : null);
         this._renderedItemMap.set(renderedItem._keyPath as string, renderedItem);
         return super._renderItem(props, renderedItem, index);
     }
 
     protected _getItemFromEvent(event: MouseEvent, target?: HTMLElement): MouseEventInfo | undefined {
-        const info = super._getItemFromEvent(event, target) as MouseEventInfo;
+        target = target || event.target as HTMLElement;
+        let info = super._getItemFromEvent(event, target) as MouseEventInfo;
         if (!info) {
+            const listEle = target.closest('[z-list]') as HTMLElement;
+            if (listEle) {
+                const listKey = listEle.getAttribute('z-list')!;
+                const item = this.getItem(listKey);
+                const renderedItem = this.getRenderedItem(listKey);
+                if (!item || !renderedItem) {
+                    return;
+                }
+                info = {
+                    target,
+                    index: renderedItem._index as number,
+                    item,
+                    element: listEle,
+                    event,
+                    key: listKey,
+                    keyPath: listKey,
+                    renderedItem,
+                };
+            }
             return;
         }
-        if (event.type === 'mouseenter' || event.type === 'mouseleave') {
-            info.hover = event.type === 'mouseenter';
+        if (event.type === 'mouseenter' || event.type === 'mouseleave' || event.type === 'mouseover') {
+            info.hover = event.type !== 'mouseleave';
         }
         const {parentKey} = this.props;
-        return {...info, parentKey, keyPath: `${parentKey !== undefined ? `${parentKey}:` : ''}${info.key}`, target: target || event.target as HTMLElement};
+        return {...info, parentKey, keyPath: `${parentKey !== undefined ? `${parentKey}:` : ''}${info.key}`, target};
     }
 
-    protected _toggleFromEvent(info: MouseEventInfo) {
-        const {item, hover, event, keyPath, target} = info;
-        const {nestedToggle} = this.props;
-        const {isHoverTrigger} = this;
-        if (!item.items || event.defaultPrevented || (isHoverTrigger && hover === undefined) || (!isHoverTrigger && event.type !== 'click') || target.closest('.not-nested-toggle') || (nestedToggle && !item.disabled && !target.closest(nestedToggle)) || (!nestedToggle && !item.disabled && target.closest('a,.btn,.item-checkbox,.open-url') && !target.closest('.nested-toggle-icon,.item-icon'))) {
-            return info;
-        }
-        const toggle = typeof hover === 'boolean' ? hover : undefined;
-        this.toggle(keyPath, toggle);
-        event.preventDefault();
-    }
-
-    protected _handleNestedToggle(key: ItemKey, toggle: boolean) {
-        this.toggle(key, toggle);
+    protected _handleNestedToggle(key: ItemKey, toggle: boolean, reset?: boolean) {
+        this.toggle(key, toggle, reset);
     }
 
     protected _handleClick(event: MouseEvent) {
         const info = super._handleClick(event);
         if (info) {
-            return this._toggleFromEvent(info as MouseEventInfo);
+            const {renderedItem: item, keyPath, target} = info as MouseEventInfo;
+            const {nestedToggle} = this.props;
+            if (!item.items || event.defaultPrevented || target.closest('.not-nested-toggle') || (nestedToggle && !item.disabled && !target.closest(nestedToggle)) || (!nestedToggle && !item.disabled && target.closest('a,.btn,.item-checkbox,.open-url,input,select,textarea') && !target.closest('.nested-toggle-icon,.item-icon'))) {
+                return info;
+            }
+            this.toggle(keyPath);
+            event.preventDefault();
         }
         return info;
-    }
-
-    protected _handleHover(event: MouseEvent) {
-        const info = this._getItemFromEvent(event);
-        if (!info) {
-            return;
-        }
-        this.props.onHoverItem?.call(this, info as {hover: boolean, item: NestedItem, index: number, event: MouseEvent});
-        if (!this.isHoverTrigger) {
-            return;
-        }
-        const lastHover = this._hoverInfo;
-        if (lastHover) {
-            if (lastHover.info.keyPath === info.keyPath) {
-                clearTimeout(lastHover.timer);
-            } else {
-                this._toggleFromEvent(lastHover.info);
-            }
-        }
-        this._hoverInfo = {
-            info,
-            timer: window.setTimeout(() => {
-                this._hoverInfo = undefined;
-                this._toggleFromEvent(info);
-            }, info.hover ? 0 : 200),
-        };
     }
 
     protected _handleNestedCheck(change: Record<ItemKey, CheckedType>) {
@@ -648,7 +657,7 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
         const {level = 0, indent = 20, parentKey} = props;
         const finalProps = mergeProps(super._getProps(props), {
             'z-level': level,
-            'z-parent-key': parentKey,
+            'z-list': parentKey,
             style: {'--list-nested-indent': `${level * indent}px`, '--list-indent': `${indent}px`},
             className: this._hasNestedItems ? 'has-nested-items' : 'no-nested-items',
         });
@@ -656,11 +665,10 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
         return finalProps;
     }
 
-    protected _beforeRender(props: RenderableProps<P>): void | RenderableProps<P> | undefined {
+    protected _beforeRender(props: RenderableProps<P>): void | undefined {
         this._renderedItemMap.clear();
         this._hasIcons = false;
-        this._hasNestedItems = !this.isRoot;
-        this._needHandleHover = !!(props.onHoverItem || this.isHoverTrigger);
+        this._hasNestedItems = false;
         return super._beforeRender(props);
     }
 }

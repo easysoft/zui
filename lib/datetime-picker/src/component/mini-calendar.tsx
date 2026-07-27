@@ -21,7 +21,7 @@ const getCalendarInfo = (year: number, month: number, weekStart = 0): CalenderIn
     };
 };
 
-const createDateSet = (dates: DateLike | DateLike[], dateFormat: string): Set<string> => new Set((Array.isArray(dates) ? dates : [dates]).map((item) => formatDate(item, dateFormat)));
+const createDateSet = (dates: DateLike | DateLike[], dateFormat: string): Set<string> => new Set((Array.isArray(dates) ? dates : [dates]).map(item => formatDate(item, dateFormat)));
 
 export class MiniCalendar extends Component<MiniCalendarProps> {
     _handleClickDate = (event: MouseEvent) => {
@@ -47,6 +47,7 @@ export class MiniCalendar extends Component<MiniCalendarProps> {
             selections = [],
             maxDate,
             minDate,
+            isAllowDate,
         } = props;
         const weekNamesView: ComponentChild[] = [];
         const btnClass = 'btn ghost square rounded-full';
@@ -67,6 +68,10 @@ export class MiniCalendar extends Component<MiniCalendarProps> {
             const rowDays: ComponentChild[] = [];
             for (let i = 0; i < 7; i++) {
                 const day = new Date(time);
+                let allowInfo = isAllowDate?.(day) ?? true;
+                if (typeof allowInfo === 'boolean') {
+                    allowInfo = {allow: allowInfo};
+                }
                 const date = day.getDate();
                 const dateStr = formatDate(day, dateFormat);
                 const weekDay = day.getDay();
@@ -79,11 +84,11 @@ export class MiniCalendar extends Component<MiniCalendarProps> {
                     'is-out-month': !isInMonth,
                     'is-today': isSameDay(day, now),
                     'is-weekend': weekDay === 0 || weekDay === 6,
-                    disabled: !isSameDay(day, maxDateTime) && !isSameDay(day, minDateTime) && (time > maxDateTime || time < minDateTime),
+                    disabled: !allowInfo.allow || ((time > maxDateTime || time < minDateTime) && !isSameDay(day, maxDateTime) && !isSameDay(day, minDateTime)),
                 });
                 rowDays.push(
                     <div className={className} key={dateStr} data-date={dateStr}>
-                        <button type="button" className={btnClass} onClick={this._handleClickDate}>{(date === 1 && monthNames) ? monthNames[day.getMonth()] : day.getDate()}</button>
+                        <button type="button" className={btnClass} onClick={this._handleClickDate} title={allowInfo.hint}>{(date === 1 && monthNames) ? monthNames[day.getMonth()] : day.getDate()}</button>
                     </div>,
                 );
                 time += TIME_DAY;
@@ -91,8 +96,8 @@ export class MiniCalendar extends Component<MiniCalendarProps> {
             rows.push(<div className="row" key={time}>{rowDays}</div>);
         }
         return (
-            <div className="mini-calendar">
-                <div className="row">
+            <div className="mini-calendar" key={`${year}-${month}`}>
+                <div className="row" key="header">
                     {weekNamesView}
                 </div>
                 {rows}

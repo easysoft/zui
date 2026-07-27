@@ -7,7 +7,6 @@ import {getExtLibPaths} from '../libs/ext-libs';
 import {getLibs} from '../libs/query';
 import {LibInfo} from '../libs/lib-info';
 
-
 const libPath = path.resolve(process.cwd(), './lib/');
 const docsPath = path.resolve(process.cwd(), './docs/docs/');
 const extsPath = path.resolve(process.cwd(), './exts/');
@@ -28,7 +27,7 @@ if (exts) {
             ...Object.keys(extLibPaths).map(libName => path.join(extsPath, libName, `${extLibPaths[libName].endsWith('*') ? '*/' : ''}@(docs|assets)/**/*`)),
         );
     } else if (typeof exts === 'string') {
-        exts.split(',').forEach(ext => {
+        exts.split(',').forEach((ext) => {
             ext = ext.trim();
             if (ext.length && extLibPaths[ext]) {
                 watchPath.push(

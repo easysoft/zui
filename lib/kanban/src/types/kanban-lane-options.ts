@@ -9,8 +9,8 @@ export interface KanbanLaneOptions extends HElementProps {
     color?: string;
     order?: number;
     title?: CustomContentType;
-    titleClass?: ClassNameLike
-    actions? : ToolbarSetting<[KanbanLaneProps]>;
+    titleClass?: ClassNameLike;
+    actions?: ToolbarSetting<[KanbanLaneProps]>;
     height?: SizeSetting;
     minHeight?: SizeSetting;
     maxHeight?: SizeSetting;

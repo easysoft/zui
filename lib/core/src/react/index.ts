@@ -1,4 +1,7 @@
 export * from './preact';
+export * from './signals';
 export * from './components';
 export * from './component-from-react';
+export * from './custom';
 export * from './types';
+export * from './htm';

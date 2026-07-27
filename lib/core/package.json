@@ -15,5 +15,11 @@
                 "class"
             ]
         }
+    },
+    "dependencies": {
+        "vhtml": "^2.2.0"
+    },
+    "devDependencies": {
+        "@types/vhtml": "^2.2.9"
     }
 }

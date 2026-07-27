@@ -1,8 +1,8 @@
-import {HElement, Icon, classes} from '@zui/core';
+import {HElement, Icon, classes, mergeProps} from '@zui/core';
 
+import type {RenderableProps} from 'preact';
 import type {ClassNameLike} from '@zui/core';
 import type {ButtonProps} from '../types/button-props';
-import type {RenderableProps} from 'preact';
 
 export class Button<P extends ButtonProps = ButtonProps> extends HElement<P> {
     protected declare _isEmptyText?: boolean;
@@ -11,17 +11,17 @@ export class Button<P extends ButtonProps = ButtonProps> extends HElement<P> {
 
     protected _beforeRender(props: RenderableProps<P>) {
         const {text, loading, loadingText, caret, icon, trailingIcon, children} = props;
-        this._isEmptyText = text === undefined || text === null || (typeof text === 'string' && !text.length) || loading && !loadingText;
+        this._isEmptyText = text === undefined || text === null || (typeof text === 'string' && !text.length) || (loading && !loadingText);
         this._onlyCaret = caret && this._isEmptyText && !icon && !trailingIcon && !children && !loading;
     }
 
     protected _getChildren(props: RenderableProps<P>) {
-        const {loading, loadingIcon, loadingText, icon, text, children, trailingIcon, caret} = props;
+        const {loading, loadingIcon, loadingText, icon, iconClass, text, textClass, children, trailingIcon, trailingIconClass, caret} = props;
         return [
-            loading ? <Icon icon={loadingIcon || 'icon-spinner-snake'} className="spin" /> : <Icon icon={icon} />,
-            this._isEmptyText ? null : <span className="text">{loading ? loadingText : text}</span>,
+            loading ? <Icon icon={loadingIcon || 'icon-spinner-snake'} className="spin" /> : <Icon icon={icon} className={iconClass} />,
+            (text === undefined || text === null) ? null : <span className={classes('text', textClass)}>{loading ? loadingText : text}</span>,
             loading ? null : children,
-            loading ? null : <Icon icon={trailingIcon} />,
+            loading ? null : <Icon icon={trailingIcon} className={trailingIconClass} />,
             loading ? null : caret ? <span className={typeof caret === 'string' ? `caret-${caret}` : 'caret'} /> : null,
         ];
     }
@@ -43,7 +43,7 @@ export class Button<P extends ButtonProps = ButtonProps> extends HElement<P> {
 
     protected _getProps(props: RenderableProps<P>) {
         const component = this._getComponent(props);
-        const {url, target, disabled, btnType = 'button', hint} = props;
+        const {url, target, disabled, btnType = 'button', size, hint, command} = props;
         const asLink = component === 'a';
         const componentProps: Record<string, unknown> = {
             ...super._getProps(props),
@@ -67,6 +67,12 @@ export class Button<P extends ButtonProps = ButtonProps> extends HElement<P> {
             if (target !== undefined) {
                 componentProps[asLink ? 'target' : 'data-target'] = target;
             }
+            if (command) {
+                componentProps['zui-command'] = command;
+            }
+        }
+        if (size && typeof size === 'number') {
+            mergeProps(componentProps, {style: {'--btn-height': `${size}px`}});
         }
         return componentProps;
     }

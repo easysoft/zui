@@ -16,33 +16,35 @@ export type ModalOptions = ModalBaseOptions & {
     title?: string;
     destroyOnHide?: boolean;
     modal?: boolean;
+    cache?: boolean;
     [prop: string]: unknown;
 };
 
 export interface ModalCustomOptions extends ModalOptions {
-    type: 'custom',
+    type: 'custom';
+    closeBtn?: boolean;
     content?: CustomContentType;
     custom: ModalDialogOptions | (() => ModalDialogOptions);
 }
 
 export interface ModalAjaxOptions extends ModalOptions {
-    type: 'ajax',
+    type: 'ajax';
     url: string;
     request?: RequestInit;
-    dataType?: 'json' | 'html' | 'text',
+    dataType?: 'json' | 'html' | 'text';
     replace?: boolean;
     custom?: Partial<ModalDialogOptions>;
     executeScript?: boolean;
 }
 
 export interface ModalIframeOptions extends ModalOptions {
-    type: 'iframe',
+    type: 'iframe';
     url: string;
     custom?: Partial<ModalDialogOptions>;
 }
 
 export interface ModalAlertOptions extends ModalCustomOptions {
-    message: string | {html: string};
+    message: CustomContentType;
     icon?: string;
     iconClass?: string;
     actions?: ToolbarItemOptions[] | string | string[];
@@ -51,6 +53,13 @@ export interface ModalAlertOptions extends ModalCustomOptions {
 
 export interface ModalConfirmOptions extends ModalAlertOptions {
     onResult?: (confirmed: boolean, modal: Modal) => void;
+}
+
+export interface ModalPromptOptions extends ModalAlertOptions {
+    defaultValue?: string;
+    placeholder?: string;
+    multiline?: boolean;
+    onResult?: (value: string, modal: Modal) => void;
 }
 
 export type ModalTypedOptions = ModalCustomOptions | ModalAjaxOptions | ModalIframeOptions;

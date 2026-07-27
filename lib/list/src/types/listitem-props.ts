@@ -13,10 +13,12 @@ export interface ListitemProps extends Item {
     checked?: CheckedType;
     checkbox?: CheckboxProps;
     disabled?: boolean;
+    hover?: boolean;
     active?: boolean;
     divider?: boolean;
     toggleIcon?: CustomContentType;
     icon?: IconType;
+    iconClass?: ClassNameLike;
     selected?: boolean;
     avatar?: AvatarOptions | ((item: Item) => AvatarOptions);
     leading?: CustomContentType;
@@ -33,9 +35,11 @@ export interface ListitemProps extends Item {
     trailing?: CustomContentType;
     trailingClass?: ClassNameLike;
     trailingIcon?: IconType;
+    trailingIconClass?: ClassNameLike;
     actions?: ToolbarSetting<[Item]>;
     contentClass?: ClassNameLike;
     content?: CustomContentType;
     contentAttrs?: Record<string, unknown>;
     hint?: string;
+    command?: string;
 }

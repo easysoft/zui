@@ -5,10 +5,10 @@ import type {DTableWithPlugin, DTablePlugin} from '../../types/plugin';
 export interface DTableHotkeyTypes {
     options: Partial<{
         hotkeys: HotkeysBindingMap;
-    }>,
+    }>;
     data: {
         hotkeysScope: string;
-    },
+    };
 }
 
 export type DTableHotkey = DTableWithPlugin<DTableHotkeyTypes>;
@@ -22,9 +22,9 @@ export const hotkeyPlugin: DTablePlugin<DTableHotkeyTypes> = {
             return;
         }
         const hotkeysMap: HotkeysBindingMap = {};
-        Object.keys(hotkeys).forEach(keys => {
+        Object.keys(hotkeys).forEach((keys) => {
             const callback = hotkeys[keys];
-            keys.split(',').forEach(key => {
+            keys.split(',').forEach((key) => {
                 key = key.trim();
                 if (!key.length) {
                     return;

@@ -26,7 +26,7 @@ onPageUpdate(() => {
         },
     });
     console.log('> pager', pager);
-    let pagerCount =  1;
+    let pagerCount = 1;
     const pagerMaxCount = new Pager('#pagerMaxCount', {
         items: [
             {type: 'link', page: 'prev', icon: 'icon-angle-left', hint: '上一页'},
@@ -48,7 +48,7 @@ onPageUpdate(() => {
             }
             const fElement = info.event.target.closest('.pager');
             const btns = fElement.querySelectorAll('.pager-nav');
-            btns.forEach(element => {
+            btns.forEach((element) => {
                 element.classList.remove('active');
             });
             info.event.target.classList.toggle('active');
@@ -70,7 +70,7 @@ onPageUpdate(() => {
             }
             const fElement = info.event.target.closest('.pager');
             const btns = fElement.querySelectorAll('.pager-nav');
-            btns.forEach(element => {
+            btns.forEach((element) => {
                 element.classList.remove('active');
             });
             info.event.target.classList.toggle('active');
@@ -92,6 +92,4 @@ onPageUpdate(() => {
         },
     });
     console.log('goto', pagerGoto);
-
-
 });

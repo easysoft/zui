@@ -19,6 +19,9 @@
 .form-label > .checkbox-primary {
   @apply -ml-3;
 }
+.form-label-text {
+  @apply -min-w-0 -overflow-hidden;
+}
 
 .form-tip {
   @apply -mt-1 -block;

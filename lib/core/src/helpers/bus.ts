@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/unified-signatures */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {$, type Cash, type Selector} from '../cash';
 

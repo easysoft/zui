@@ -1,0 +1,81 @@
+.resizable {
+  /* 边缘（上/下/左/右）拖拽手柄的厚度 */
+  --side-handle-width: 4px;
+  /* 边缘手柄两端相对容器边界的内缩距离，避免与角落手柄重叠 */
+  --side-handle-shift: 4px;
+  /* 手柄在 hover 或拖拽中时的高亮背景色 */
+  --side-handle-color: var(--color-primary-400);
+  /* 角落（四个角）拖拽手柄的宽高尺寸 */
+  --corner-handle-width: 8px;
+}
+
+.resizable-handle {
+  position: absolute;
+  user-select: none;
+  transition: background-color 0.15s;
+  z-index: 10;
+}
+.resizable-handle:hover,
+.resizable-handle.is-resizing {
+  background-color: var(--side-handle-color);
+}
+.resizable-handle[z-dir="n"],
+.resizable-handle[z-dir="s"] {
+  cursor: ns-resize;
+  width: auto;
+  height: var(--side-handle-width);
+  left: var(--side-handle-shift);
+  right: var(--side-handle-shift);
+}
+.resizable-handle[z-dir="n"] {
+  top: calc(var(--side-handle-width) / 2 * -1);
+  bottom: auto;
+}
+.resizable-handle[z-dir="s"] {
+  top: auto;
+  bottom: calc(var(--side-handle-width) / 2 * -1);
+}
+.resizable-handle[z-dir="w"],
+.resizable-handle[z-dir="e"] {
+  cursor: ew-resize;
+  width: var(--side-handle-width);
+  height: auto;
+  top: var(--side-handle-shift);
+  bottom: var(--side-handle-shift);
+}
+.resizable-handle[z-dir="w"] {
+  left: calc(var(--side-handle-width) / 2 * -1);
+  right: auto;
+}
+.resizable-handle[z-dir="e"] {
+  left: auto;
+  right: calc(var(--side-handle-width) / 2 * -1);
+}
+.resizable-handle[z-dir="ne"],
+.resizable-handle[z-dir="sw"] {
+  cursor: nesw-resize;
+  width: var(--corner-handle-width);
+  height: var(--corner-handle-width);
+}
+.resizable-handle[z-dir="ne"] {
+  top: calc(var(--corner-handle-width) / 2 * -1);
+  right: calc(var(--corner-handle-width) / 2 * -1);
+}
+.resizable-handle[z-dir="sw"] {
+  left: calc(var(--corner-handle-width) / 2 * -1);
+  bottom: calc(var(--corner-handle-width) / 2 * -1);
+}
+.resizable-handle[z-dir="nw"],
+.resizable-handle[z-dir="se"] {
+  cursor: nwse-resize;
+  width: var(--corner-handle-width);
+  height: var(--corner-handle-width);
+}
+.resizable-handle[z-dir="nw"] {
+  top: calc(var(--corner-handle-width) / 2 * -1);
+  left: calc(var(--corner-handle-width) / 2 * -1);
+}
+.resizable-handle[z-dir="se"] {
+  right: calc(var(--corner-handle-width) / 2 * -1);
+  bottom: calc(var(--corner-handle-width) / 2 * -1);
+}

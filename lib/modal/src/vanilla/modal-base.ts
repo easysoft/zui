@@ -27,7 +27,7 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
 
     static hideOthers = true;
 
-    static get SELECTOR() {
+    static override get SELECTOR() {
         return '.modal';
     }
 
@@ -83,20 +83,28 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
         }
     }
 
+    protected _cancelObserver() {
+        this._rob?.disconnect();
+        this._rob = undefined;
+    }
+
     afterInit() {
         this.on('click', this._handleClick);
         if (this.options.show) {
             this.show();
+            this._observeResize();
         }
-
-        this._observeResize();
 
         this.on('hidden', (event) => {
             const {modalElement} = this;
             if (!modalElement.parentNode) {
                 return this.destroy();
             }
-            if ((event.target as HTMLElement).closest('.modal') === modalElement && !ModalBase.getAll().some((modal) => modal.shown)) {
+            const isCurrent = (event.target as HTMLElement).closest('.modal') === modalElement;
+            if (isCurrent) {
+                this._cancelObserver();
+            }
+            if (isCurrent && !ModalBase.getAll().some(modal => modal.shown)) {
                 $('html').enableScroll();
             }
         });
@@ -106,6 +114,7 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
                 return this.destroy();
             }
             if ((event.target as HTMLElement).closest('.modal') === modalElement) {
+                this._observeResize();
                 $('html').disableScroll();
             }
         });
@@ -116,10 +125,7 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
 
     destroy(): void {
         super.destroy();
-        if (this._rob) {
-            this._rob.disconnect();
-            this._rob = undefined;
-        }
+        this._cancelObserver();
     }
 
     show(options?: Partial<T>) {
@@ -161,11 +167,14 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
         }
 
         this.layout();
+        this.options.onShow?.call(this as ModalBase);
         this.emit('show');
 
         this._setTimer(() => {
             $modal.addClass(CLASS_SHOWN);
             this._setTimer(() => {
+                $modal.find('[autofocus]')[0]?.focus();
+                this.options.onShown?.call(this as ModalBase);
                 this.emit('shown');
             });
         }, 50);
@@ -183,17 +192,21 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
 
         this._shown = false;
         $(this.modalElement).removeClass(CLASS_SHOWN);
+        if (this.options.onHide?.call(this as ModalBase) === false) {
+            return false;
+        }
         this.emit('hide');
 
         this._setTimer(() => {
             $(this.modalElement).removeClass(CLASS_SHOW);
+            this.options.onHidden?.call(this as ModalBase);
             this.emit('hidden');
         });
 
         /* Show other hidden modals. */
         const constructor = this.constructor as typeof ModalBase;
         if (constructor.hideOthers && this.options.hideOthers !== false) {
-            constructor.getAll().forEach(x => {
+            constructor.getAll().forEach((x) => {
                 if (x.shown && x !== this) {
                     $(x.modalElement).removeClass(HIDE_CLASS);
                 }
@@ -309,7 +322,7 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
 
 $(window).on(`resize.${ModalBase.NAMESPACE}`, () => {
     ModalBase.getAll().forEach((modal) => {
-        const m = (modal as ModalBase);
+        const m = modal as ModalBase;
         if (m.shown && m.options.responsive) {
             m.layout();
         }

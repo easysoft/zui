@@ -14,7 +14,7 @@ export type ComponentToggleConfig = {
     setOptions?: boolean;
     convertHref?: boolean | {selector?: string; url?: string};
     prevent?: boolean;
-    onGet?: (this: typeof Component, element: HTMLElement) => Component | void;
+    onGet?: (this: typeof Component, element: HTMLElement) => Component | undefined;
     onCreate?: (this: typeof Component, element: HTMLElement, event: Event, options: ComponentOptions) => Component | false;
     onToggle?: (this: typeof Component, component: Component, element: HTMLElement, event: Event) => void | false;
 };

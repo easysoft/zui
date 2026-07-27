@@ -1,6 +1,6 @@
-import {arrow, computePosition, flip, shift, size, autoUpdate, offset, VirtualElement, ReferenceElement, ComputePositionConfig} from '@floating-ui/dom';
-import {Component, $, ComponentEvents, JSX} from '@zui/core';
-import {PopoverEvents, PopoverOptions, PopoverPanelOptions} from '../types';
+import {arrow, computePosition, flip, shift, hide, size, autoUpdate, offset, VirtualElement, ReferenceElement, ComputePositionConfig} from '@floating-ui/dom';
+import {Component, $, ComponentEvents, JSX, evalValue, toCssSize, nextGid, ComponentOptions, parseSize} from '@zui/core';
+import {PopoverEvents, PopoverOptions, PopoverPanelOptions, PopoverSide} from '../types';
 import {PopoverPanel} from './popover-panel';
 import {isElementDetached} from '@zui/core/src/dom';
 
@@ -14,7 +14,7 @@ export type PopoverShowOptions = {
     hideOthers?: boolean;
 };
 
-export class Popover<O extends PopoverOptions = PopoverOptions, E extends ComponentEvents = {}> extends Component<O, [PopoverEvents, E], HTMLElement> {
+export class Popover<O extends PopoverOptions = PopoverOptions, E extends ComponentEvents = ComponentEvents> extends Component<O, [PopoverEvents, E], HTMLElement> {
     static NAME = 'Popover';
 
     static Z_INDEX = 1700;
@@ -33,9 +33,11 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
         animation: true,
         closeBtn: true,
         popup: true,
+        elementShowClass: 'with-popover-show',
+        hideNewOnHide: true,
     };
 
-    static hideOthers = false;
+    static SHOWN_POPOVERS = new Map<number, Popover>();
 
     protected declare _virtual: boolean;
 
@@ -61,12 +63,28 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
 
     protected declare _hideTimer?: number;
 
+    protected declare _zIndex: number;
+
+    protected _lastTriggerAttr = '';
+
     get shown() {
         return this._shown;
     }
 
     get id() {
         return this._id;
+    }
+
+    get zIndex() {
+        return this._zIndex;
+    }
+
+    get trigger() {
+        return this._triggerElement;
+    }
+
+    get target() {
+        return this._targetElement;
     }
 
     afterInit() {
@@ -79,31 +97,49 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
         if (triggerElement instanceof HTMLElement) {
             const $triggerElement = $(triggerElement);
             const {namespace} = this;
-            if (trigger === 'hover') {
-                $triggerElement.on(`pointerenter${namespace}`, (event: MouseEvent) => {
-                    if ($triggerElement.is('[disabled],.disabled')) {
+            if (trigger) {
+                const setOptionsFromTrigger = () => {
+                    const toggleOptions = $triggerElement.attr(`zui-toggle-${this.constructor.ZUI}`) ?? '';
+                    if (toggleOptions && this._lastTriggerAttr === toggleOptions) {
                         return;
                     }
-                    const target = $triggerElement.dataset('target');
-                    if (target) {
-                        this.setOptions({target} as Partial<O>);
+                    this._lastTriggerAttr = toggleOptions;
+                    let options = $triggerElement.dataset();
+                    if (toggleOptions) {
+                        const newOptions = evalValue(toggleOptions) as ComponentOptions<O>;
+                        let extraOptions = newOptions.$options;
+                        if (typeof extraOptions === 'function') {
+                            extraOptions = extraOptions.call(this, this.element, newOptions);
+                        }
+                        options = $.extend(options, newOptions, extraOptions || {});
                     }
-                    this.show({delay: true, event});
-                }).on(`pointerleave${namespace} pointercancel${namespace}`, () => {
-                    this.delayHide();
-                });
-            } else if (trigger) {
-                $triggerElement.on(`${trigger}${namespace}`, (event: Event) => {
-                    if ($triggerElement.is('[disabled],.disabled')) {
-                        return;
-                    }
-                    const target = $triggerElement.dataset('target');
-                    if (!this.shown && target) {
-                        this.setOptions({target} as Partial<O>);
-                    }
-                    this.toggle({event});
-                    event.preventDefault();
-                });
+                    this.setOptions(options as Partial<O>);
+                };
+                if (trigger === 'hover') {
+                    $triggerElement.on(`mouseenter${namespace}`, (event: MouseEvent) => {
+                        if ($triggerElement.is('[disabled],.disabled')) {
+                            return;
+                        }
+                        setOptionsFromTrigger();
+                        this._clearDelayHide();
+                        if (!this.shown) {
+                            this.show({delay: true, event});
+                        }
+                    }).on(`mouseleave${namespace}`, () => {
+                        this.delayHide();
+                    });
+                } else {
+                    $triggerElement.on(`${trigger}${namespace}`, (event: Event) => {
+                        if ($triggerElement.is('[disabled],.disabled')) {
+                            return;
+                        }
+                        if (!this.shown) {
+                            setOptionsFromTrigger();
+                        }
+                        this.toggle({event, delay: true});
+                        event.preventDefault();
+                    });
+                }
             }
         }
         const {show} = this.options;
@@ -146,7 +182,7 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
     }
 
     show(options?: PopoverShowOptions) {
-        const {delay, event, hideOthers} = options || {};
+        const {delay, event, hideOthers = this.options.hideOthers} = options || {};
         if (event) {
             this._triggerEvent = event;
         }
@@ -172,22 +208,27 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
         }
         this._targetElement = target;
         const $target = $(target);
-        const {animation, mask, onShow, onShown, trigger} = this.options;
+        const {animation, onShow, onShown, trigger, elementShowClass} = this.options;
+        const showResult = onShow?.call(this);
+        if (showResult === false) {
+            return;
+        }
+
+        const {SHOWN_POPOVERS} = this.constructor as typeof Popover;
         $target.addClass(CLASS_SHOW);
         if (animation) {
             $target.addClass(animation === true ? 'fade' : animation);
         }
+        this._zIndex = Popover.Z_INDEX++;
         this._shown = true;
         this.render();
-        onShow?.call(this);
+        SHOWN_POPOVERS.set(this.gid, this as Popover);
         this.emit('show');
 
-        /* Hide other shown modals. */
-        const constructor = this.constructor as typeof Popover;
-        const {hideOthers: hideOthersOption} = this.options;
-        if (hideOthers || (constructor.hideOthers && this.options.hideOthers !== false) || hideOthersOption) {
-            constructor.getAll().forEach((popover) => {
-                if (popover !== this && popover.shown && !$target.closest(popover.element).length) {
+        /* Hide other shown popovers. */
+        if (hideOthers) {
+            SHOWN_POPOVERS.forEach((popover) => {
+                if (popover !== this) {
                     popover.hide();
                 }
             });
@@ -198,19 +239,19 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
             this._clearDelayHide();
             $target
                 .off(namespace)
-                .on(`pointerenter${namespace}`, () => {
+                .on(`mouseenter${namespace}`, () => {
                     this._clearDelayHide();
                 })
-                .on(`pointerleave${namespace}`, () => {
+                .on(`mouseleave${namespace}`, () => {
                     this.delayHide();
                 });
         }
-        $target.on(`click${namespace}`, '[data-dismiss="popover"]', () => {
-            this.hide();
-        });
 
         if (!this._virtual) {
-            $(this._triggerElement as HTMLElement).addClass('with-popover-show');
+            $target.attr('zui-commands-proxy', '').data('zui.commandProxy', this._triggerElement);
+            if (elementShowClass) {
+                $(this._triggerElement as HTMLElement).addClass(elementShowClass);
+            }
         }
 
         this._resetTimer(() => {
@@ -220,10 +261,6 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
                 onShown?.call(this);
                 this.emit('shown');
             }, 200);
-
-            if (mask) {
-                $(document).off(`click${this.namespace}`, this._onClickDoc).on(`click${this.namespace}`, this._onClickDoc);
-            }
         }, 50);
     }
 
@@ -232,10 +269,17 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
             this._resetTimer();
         }
 
-        const {destroyOnHide, animation, onHide, onHidden, trigger} = this.options;
+        const {destroyOnHide, animation, onHide, onHidden, trigger, hideNewOnHide, elementShowClass} = this.options;
         const $target = $(this._targetElement as HTMLElement);
+        const {SHOWN_POPOVERS} = this.constructor as typeof Popover;
+
+        const hideResult = onHide?.call(this);
+        if (hideResult === false) {
+            return;
+        }
+
         this._shown = false;
-        onHide?.call(this);
+        SHOWN_POPOVERS.delete(this.gid);
         this.emit('hide');
         $target.removeClass(CLASS_SHOWN);
 
@@ -245,10 +289,20 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
         }
 
         if (!this._virtual) {
-            $(this._triggerElement as HTMLElement).removeClass('with-popover-show').removeAttr('data-pop-placement');
+            const $trigger = $(this._triggerElement as HTMLElement);
+            $trigger.removeAttr('zui-commands-proxy').removeData('zui.commandProxy');
+            if (elementShowClass) {
+                $trigger.removeClass(elementShowClass).removeAttr('data-pop-placement');
+            }
         }
 
-        $(document).off(this.namespace);
+        if (hideNewOnHide) {
+            SHOWN_POPOVERS.forEach((popover) => {
+                if (popover !== this && popover.zIndex > this.zIndex && popover.options.trigger !== 'hover') {
+                    popover.hide();
+                }
+            });
+        }
 
         this._resetTimer(() => {
             onHidden?.call(this);
@@ -274,14 +328,104 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
 
     destroy(): void {
         super.destroy();
-        $(document).off(this.namespace);
         if (!this._virtual) {
             const {namespace} = this;
             $(this._triggerElement as HTMLElement).off(namespace);
         }
+        if (this.$element.hasClass('popover-tmp')) {
+            this.$element.remove();
+        }
         this._resetTimer();
         this._destoryTarget();
         this._clearDelayHide();
+    }
+
+    updateLayout() {
+        if (this.destroyed || !this._shown) {
+            return;
+        }
+
+        const trigger = this.getTriggerElement();
+        const target = this._targetElement;
+        const {minWidth, minHeight, maxWidth, maxHeight, width, height} = this.options;
+        let style: JSX.CSSProperties = {
+            minWidth: toCssSize(minWidth),
+            minHeight: toCssSize(minHeight),
+            maxWidth: toCssSize(maxWidth),
+            maxHeight: toCssSize(maxHeight),
+        };
+        if (width) {
+            style.width = typeof width === 'function' ? width() : (width === '100%' && trigger ? trigger.getBoundingClientRect().width : width);
+        }
+        if (height) {
+            style.height = typeof height === 'function' ? height() : height;
+        }
+        style = Object.entries(style).reduce((acc, [key, value]) => {
+            if (value !== undefined && value !== null) {
+                acc[key] = value;
+            }
+            return acc;
+        }, {} as JSX.CSSProperties);
+        if (Object.keys(style).length) {
+            $(target).css(style);
+        }
+        this.updatePosition();
+    }
+
+    updatePosition() {
+        const trigger = this.getTriggerElement();
+        const target = this._targetElement;
+        const {animation, name = 'popover', limitInScreen, onLayout} = this.options;
+        computePosition(...this._getLayoutOptions()).then(({x, y, middlewareData, placement, strategy}) => {
+            if (trigger instanceof HTMLElement && isElementDetached(trigger)) {
+                this.hide(true);
+                return;
+            }
+            const style: JSX.CSSProperties = {
+                position: strategy,
+                left: x,
+                top: y,
+            };
+            const $target = $(target).css(style);
+            if (limitInScreen) {
+                $target.css({
+                    top: Math.max(0, Math.min(window.innerHeight - $target.outerHeight(), y)),
+                    left: Math.max(0, Math.min(window.innerWidth - $target.outerWidth(), x)),
+                });
+            }
+            const popSide = placement.split('-')[0] as PopoverSide;
+            const arrowSide = {
+                top: 'bottom',
+                right: 'left',
+                bottom: 'top',
+                left: 'right',
+            }[popSide] as PopoverSide;
+            const arrowPosition = middlewareData.arrow;
+            if (arrowPosition) {
+                $target.attr('data-pop-placement', popSide).find('.arrow').css({
+                    left: arrowPosition.x,
+                    top: arrowPosition.y,
+                }).attr('class', `arrow ${name}-arrow arrow-${arrowSide}`);
+            }
+            if (animation === true) {
+                $target.attr('class', `${$target.attr('class')!.split(' ').filter(n => n !== 'fade' && !n.startsWith('fade-from')).join(' ')} fade-from-${arrowSide}`);
+            }
+            if (!this._virtual) {
+                $(this._triggerElement as HTMLElement).attr('data-pop-placement', popSide);
+            }
+            if (onLayout) {
+                onLayout.call(this, {
+                    target: target as HTMLElement,
+                    trigger,
+                    popSide: popSide,
+                    arrowSide: arrowSide,
+                    x,
+                    y,
+                    placement,
+                    strategy,
+                });
+            }
+        });
     }
 
     layout() {
@@ -300,54 +444,7 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
             return;
         }
 
-        this._layoutWatcher = autoUpdate(trigger, target, () => {
-            const {animation, name = 'popover'} = this.options;
-            if (!this._virtual) {
-                const style: JSX.CSSProperties = {};
-                const {width, height} = this.options;
-                if (width) {
-                    style.width = typeof width === 'function' ? width() : (width === '100%' ? $(trigger as HTMLElement).outerWidth() : width);
-                }
-                if (height) {
-                    style.height = typeof height === 'function' ? height() : height;
-                }
-                if (Object.keys(style).length) {
-                    $(target).css(style);
-                }
-            }
-            computePosition(...this._getLayoutOptions()).then(({x, y, middlewareData, placement, strategy}) => {
-                if (trigger instanceof HTMLElement && isElementDetached(trigger)) {
-                    this.hide(true);
-                    return;
-                }
-                const style: JSX.CSSProperties = {
-                    position: strategy,
-                    left: x,
-                    top: y,
-                };
-                const $target = $(target).css(style);
-                const popSide = placement.split('-')[0] as string;
-                const arrowSide = {
-                    top: 'bottom',
-                    right: 'left',
-                    bottom: 'top',
-                    left: 'right',
-                }[popSide] as string;
-                const arrowPosition = middlewareData.arrow;
-                if (arrowPosition) {
-                    $target.attr('data-pop-placement', popSide).find('.arrow').css({
-                        left: arrowPosition.x,
-                        top: arrowPosition.y,
-                    }).attr('class', `arrow ${name}-arrow arrow-${arrowSide}`);
-                }
-                if (animation === true) {
-                    $target.attr('class', `${$target.attr('class')!.split(' ').filter(n => n !== 'fade' && !n.startsWith('fade-from')).join(' ')} fade-from-${arrowSide}`);
-                }
-                if (!this._virtual) {
-                    $(this._triggerElement as HTMLElement).attr('data-pop-placement', popSide);
-                }
-            });
-        });
+        this._layoutWatcher = autoUpdate(trigger, target, this.updateLayout.bind(this), {ancestorResize: false});
     }
 
     render(options?: Partial<O>) {
@@ -358,7 +455,7 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
         }
         const panelOptions = this._getRenderOptions();
         const $targetElement = $(targetElement);
-        $targetElement.toggleClass('popup', panelOptions.popup).css(panelOptions.style!);
+        $targetElement.z('popover', this.gid).toggleClass('popup', panelOptions.popup).css(panelOptions.style!);
         if (panelOptions.className) {
             $targetElement.setClass(panelOptions.className);
         }
@@ -372,7 +469,7 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
                 panel.render(panelOptions);
             } else {
                 panel = new PopoverPanel(targetElement, panelOptions);
-                panel.on('inited', () => this.layout());
+                panel.on('inited', this._handlePanelInited);
             }
             this._panel = panel;
         } else {
@@ -386,7 +483,20 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
         }
     }
 
-    protected delayHide(delay = 100) {
+    handleClickOutside(event: MouseEvent): void | boolean {
+        if (this.options.mask) {
+            const triggerElement = this._triggerElement;
+            if (!(triggerElement instanceof HTMLElement && $(event.target as HTMLElement).closest(triggerElement).length)) {
+                this.hide();
+            }
+        }
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    handleClickTarget(_event: MouseEvent): void | boolean {
+    }
+
+    delayHide(delay = 150) {
         this._resetTimer();
         this._clearDelayHide();
         this._hideTimer = window.setTimeout(() => {
@@ -394,6 +504,10 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
             this.hide();
         }, delay);
     }
+
+    protected _handlePanelInited = () => {
+        this.layout();
+    };
 
     protected _clearDelayHide() {
         if (this._hideTimer) {
@@ -403,9 +517,9 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
     }
 
     protected _getLayoutOptions(): [trigger: ReferenceElement, element: HTMLElement, options: Partial<ComputePositionConfig>] {
-        const trigger = this._triggerElement;
+        const trigger = this.getTriggerElement();
         const element = this._targetElement!;
-        const {placement: placementSetting, flip: isFlip, limitSize, shift: shiftSetting, offset: offsetSetting, arrow: arrowSetting, strategy} = this.options;
+        const {placement: placementSetting, flip: isFlip, limitSize, shift: shiftSetting, offset: offsetSetting, arrow: arrowSetting, strategy, maxHeight: maxHeightSetting, maxWidth: maxWidthSetting, autoHide} = this.options;
         const arrowElement = arrowSetting ? element.querySelector('.arrow') : null;
         const arrowSize = arrowElement ? (typeof arrowSetting === 'number' ? arrowSetting : 5) : 0;
         const getOffsetSetting = () => {
@@ -430,9 +544,21 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
                 arrowSetting ? arrow({element: arrowElement!}) : null,
                 limitSize ? size({
                     apply({availableWidth, availableHeight, placement}) {
-                        $(element).css({maxHeight: availableHeight - (['top', 'bottom'].includes(placement.split('-')[0]) ? arrowSize : 0) - 2, maxWidth: availableWidth - 2});
+                        let maxHeight = availableHeight - (['top', 'bottom'].includes(placement.split('-')[0]) ? arrowSize : 0) - 2;
+                        let maxWidth = availableWidth - 2;
+                        if (maxHeightSetting) {
+                            maxHeight = Math.min(maxHeight, parseSize(maxHeightSetting)[0]);
+                        }
+                        if (maxWidthSetting) {
+                            maxWidth = Math.min(maxWidth, parseSize(maxWidthSetting)[0]);
+                        }
+                        $(element).css({
+                            maxHeight,
+                            maxWidth,
+                        });
                     },
                 }) : null,
+                autoHide ? hide(typeof autoHide === 'object' ? autoHide : undefined) : null,
             ].filter(Boolean),
         }];
     }
@@ -450,6 +576,8 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
             className = name,
             closeBtn,
             arrow: arrowSetting,
+            footer,
+            footerClass = `${name}-footer`,
         } = this.options;
         return {
             popup,
@@ -458,12 +586,14 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
             headingClass,
             contentClass,
             content,
-            style: {zIndex: (this.constructor as typeof Popover).Z_INDEX++, ...style},
+            style: {zIndex: this._zIndex, ...style},
             className,
             closeBtn,
             arrow: arrowSetting ? `arrow ${name}-arrow` : false,
             arrowStyle: {'--arrow-size': `${typeof arrowSetting === 'number' ? arrowSetting : 5}px`},
             onlyInner: true,
+            footer,
+            footerClass,
         };
     }
 
@@ -516,17 +646,25 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
         };
     };
 
-    protected _onClickDoc = (event: MouseEvent) => {
-        const $target = $(event.target as HTMLElement);
-        if ((!$target.closest(`#${this._id}`).length && (this._virtual || !$target.closest(this._triggerElement as HTMLElement).length) && this._targetElement !== $target.closest('.popover')[0])) {
-            this.hide();
+    static create<O extends PopoverOptions, E extends ComponentEvents, T extends typeof Popover<O, E>>(this: T, options?: O & {event?: Event}, element?: HTMLElement): InstanceType<T> {
+        const {element: elementSetting, container = 'body', id = `popover_${nextGid()}`} = options || {};
+        element = element || (elementSetting instanceof HTMLElement ? elementSetting : undefined);
+        if (!element) {
+            element = $(`<div id="${id}" class="popover-tmp"></div>`).appendTo($(container))[0]!;
         }
-    };
+        return (this as typeof Popover).ensure(element as HTMLElement, {id, destroyOnHide: true, ...options}) as InstanceType<T>;
+    }
 
     static show<O extends PopoverOptions, E extends ComponentEvents, T extends typeof Popover<O, E>>(this: T, options: O & {event?: Event}): InstanceType<T> {
         const {element: elementSetting, event, ...otherOptions} = options;
         const element = elementSetting || (event?.currentTarget as HTMLElement);
-        return (this as typeof Popover).ensure(element instanceof HTMLElement ? element : document.body, {element, show: true, destroyOnHide: true, triggerEvent: event, ...otherOptions}) as InstanceType<T>;
+        return this.create({
+            element,
+            show: true,
+            destroyOnHide: true,
+            triggerEvent: event,
+            ...otherOptions,
+        } as O & {event?: Event}, element instanceof HTMLElement ? element : document.body);
     }
 }
 
@@ -555,3 +693,35 @@ Popover.toggle = {
 };
 
 Popover.register();
+
+$(() => {
+    $(document).on(`click.${Popover.NAMESPACE}`, (event: MouseEvent) => {
+        const {SHOWN_POPOVERS} = Popover;
+        if (!SHOWN_POPOVERS.size) {
+            return;
+        }
+        const $target = $(event.target as HTMLElement);
+        const $popoverTarget = $target.closest('[z-popover]');
+        const gid = $popoverTarget.length ? $popoverTarget.z('popover') as number : 0;
+        const clickedPopover = gid ? SHOWN_POPOVERS.get(gid) : null;
+        if (clickedPopover) {
+            const name = clickedPopover.options.name ?? clickedPopover.constructor.ZUI;
+            if ($target.closest(`[data-dismiss="popover"],[data-dismiss="${name}"]`).length) {
+                clickedPopover.hide();
+                return;
+            }
+
+            if (clickedPopover.handleClickTarget(event)) {
+                return;
+            }
+        }
+        const popovers = [...SHOWN_POPOVERS.values()].sort((a, b) => b.zIndex - a.zIndex);
+        for (const popover of popovers) {
+            if (popover !== clickedPopover && popover.handleClickOutside(event)) {
+                return;
+            }
+        }
+    });
+});
+
+Object.assign(window, {Popover});

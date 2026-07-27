@@ -9,7 +9,7 @@ export interface VirtualGridProps extends HElementProps {
     initialScrollLeft?: number;
     initialScrollTop?: number;
     getItemCount?: (items: unknown) => number;
-    getItemSize?: (items: unknown, index: number) => {width: number, height: number} | undefined;
+    getItemSize?: (items: unknown, index: number) => {width: number; height: number} | undefined;
     getItem?: (items: unknown, index: number) => VirtualItemProps;
     renderItem?: (props: VirtualItemProps, items: unknown, index: number) => ComponentChildren;
     onScroll?: (scrollLeft: number, scrollTop: number) => void;

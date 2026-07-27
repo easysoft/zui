@@ -27,7 +27,6 @@ const special = shades.purple;
 /** Gray: Neutral, background, border. */
 const gray = shades.slate;
 
-
 // Special Colors
 // ======================
 
@@ -45,7 +44,6 @@ const black = shades.black;
 
 /** White. */
 const white = shades.white;
-
 
 // UI Special Colors
 // ======================

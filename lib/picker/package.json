@@ -19,7 +19,8 @@
         "@zui/form-control": "workspace:*",
         "@zui/menu": "workspace:*",
         "@zui/tree": "workspace:*",
-        "@zui/pick": "workspace:*"
+        "@zui/pick": "workspace:*",
+        "@zui/helpers": "workspace:*"
     },
     "devDependencies": {
         "zui-dev": "workspace:*",

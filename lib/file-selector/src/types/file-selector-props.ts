@@ -9,6 +9,8 @@ import type {FileSelectorMode} from './file-selector-mode';
 
 export interface FileSelectorProps extends HElementProps {
     name?: string;
+    deleteName?: string;
+    renameName?: string;
     disabled?: boolean;
     accept?: string;
     mode?: FileSelectorMode;
@@ -18,6 +20,8 @@ export interface FileSelectorProps extends HElementProps {
     gridHeight?: SizeSetting;
     gridGap?: SizeSetting;
     defaultFiles?: (StaticFileInfo | FileInfo | File)[];
+    /** Alias of defaultFiles. */
+    value?: (StaticFileInfo | FileInfo | File)[];
     multiple?: boolean;
     itemProps?: Partial<ListitemProps> | ((file: FileInfo) => Partial<ListitemProps>);
     draggable?: boolean;
@@ -30,6 +34,7 @@ export interface FileSelectorProps extends HElementProps {
     maxFileSize?: FileSize;
     totalFileSize?: FileSize;
     allowSameName?: boolean;
+    checkBuffer?: boolean;
     duplicatedTip?: string | ModalAlertOptions;
     exceededSizeTip?: string | ModalAlertOptions;
     exceededTotalSizeTip?: string | ModalAlertOptions;
@@ -40,7 +45,7 @@ export interface FileSelectorProps extends HElementProps {
     onRemove?: (file: FileInfo) => void | Promise<void | false>;
     onChange?: (event: Event) => void;
     onRename?: (newName: string, oldName: string, file: FileInfo) => void | false | Promise<void | false>;
-    onDuplicated?: (name: string, currentFile: FileInfo, existFile: FileInfo) => void | true;
+    onDuplicated?: (name: string, currentFile: FileInfo, existFile: FileInfo) => void | true | Promise<void | true>;
     onExceededSize?: (limit: number, file: FileInfo) => void | true;
     onExceededTotalSize?: (limit: number, file: FileInfo) => void | true;
     onExceededCount?: (limit: number, file: FileInfo) => void | true;

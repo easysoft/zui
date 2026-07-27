@@ -4,3 +4,5 @@ packages:
   - "docs"
   - "!build"
   - "!exts"
+allowBuilds:
+  esbuild: true
