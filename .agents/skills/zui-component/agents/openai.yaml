@@ -1,0 +1,4 @@
+interface:
+  display_name: "ZUI Component"
+  short_description: "Design and implement ZUI 3 components"
+  default_prompt: "Use $zui-component to design and implement a component in the specified ZUI 3 library."

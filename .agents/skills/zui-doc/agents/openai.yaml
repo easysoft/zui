@@ -1,0 +1,4 @@
+interface:
+  display_name: "ZUI Documentation"
+  short_description: "Write and improve ZUI 3 library documentation"
+  default_prompt: "Use $zui-doc to write or improve documentation for the specified ZUI 3 library."
