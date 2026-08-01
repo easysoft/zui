@@ -46,7 +46,7 @@ store.remove('mySecretCode');
 
 ```js
 store.each((name, value) => {
-    console.log(name, '=', 'value');
+    console.log(name, '=', value);
 });
 ```
 
@@ -86,10 +86,12 @@ store.session.getAll(); // 返回 {mySecretCode: 1314520, myName: 'Jue'}
 
 **示例**
 
+`store.create(name, type)` 的第二个参数用于指定存储类型，留空时默认创建**本地存储**（`local`）；需要会话存储时必须显式传入 `'session'`。
+
 ```js
 /* 分别创建一个本地存储和会话存储实例 */
 const myStore = store.create('myStore');
-const mySessionStore = store.create('mySessionStore');
+const mySessionStore = store.create('mySessionStore', 'session');
 
 /* 分别设置同名的存储的值 */
 store.set('mySecretCode', 1);
@@ -101,3 +103,26 @@ store.get('mySecretCode');          // 返回 1
 myStore.get('mySecretCode');        // 返回 2
 mySessionStore.get('mySecretCode'); // 返回 3
 ```
+
+## 切换存储配置
+
+使用 `switch` 方法可以将实例切换到另一个存储配置（`id`）。切换后已经通过 `store.session` 创建的会话实例也会同步到新的配置，不会继续写入旧配置。
+
+```js
+store.switch('userA'); // 之后 store 和 store.session 都读写 userA 的数据
+```
+
+## 直接使用 `Store` 类
+
+除了默认的 `store` 实例，也可以从包根导入 `Store` 类创建自己的实例。
+
+```js
+import {Store} from '@zui/store';
+
+const myStore = new Store('myProfile', 'local');
+myStore.set('token', 'abc');
+```
+
+## 存储不可用时的回退
+
+在禁用本地存储或受限的环境（如部分沙箱化 iframe）中，`Store` 不会构造失败或抛出异常，而是自动回退到实例内部的内存缓存。此时数据在页面刷新后不会保留，读写行为仍然可用。
