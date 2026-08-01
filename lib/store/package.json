@@ -12,7 +12,7 @@
         "type": "js-helpers",
         "displayName": "本地存储",
         "contributes": {
-            "js": ["module"]
+            "js": ["class", "module"]
         }
     }
 }
