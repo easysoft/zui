@@ -12,7 +12,7 @@
         "type": "js-lib",
         "displayName": "JS 辅助方法",
         "contributes": {
-            "js": ["class", "var", "method"]
+            "js": ["var", "method"]
         }
     }
 }

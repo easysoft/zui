@@ -122,11 +122,16 @@ export const isSameMonth = (date1: DateLike, date2: DateLike = new Date()): bool
  * @returns 如果为 `true` 则表示两个日期是同一周
  */
 export const isSameWeek = (date1: DateLike, date2: DateLike = new Date()): boolean => {
-    const oneDayTime = 1000 * 60 * 60 * 24;
-    const weeks1 = Math.floor(getDateTime(date1) / oneDayTime);
-    const weeks2 = Math.floor(getDateTime(date2) / oneDayTime);
-    // 1970-1-1 是周四
-    return Math.floor((weeks1 + 4) / 7) === Math.floor((weeks2 + 4) / 7);
+    // 以本地日历为准，把每个日期归一化到所在周的周一零点后再比较，避免使用固定的 UTC 天数导致周日被划到下一周。
+    const startOfWeek = (date: DateLike): number => {
+        const day = createDate(date, true);
+        day.setHours(0, 0, 0, 0);
+        // getDay: 0 表示周日、1 表示周一……(day + 6) % 7 得到距离本周周一的天数。
+        const offset = (day.getDay() + 6) % 7;
+        day.setDate(day.getDate() - offset);
+        return day.getTime();
+    };
+    return startOfWeek(date1) === startOfWeek(date2);
 };
 
 /**
@@ -143,7 +148,7 @@ export const isToday = (date: DateLike, now?: DateLike): boolean => isSameDay(cr
  * @param now 作为今天判断依据的日期，如果留空则使用当前系统时间
  * @returns 如果为 `true` 则表示是昨天
  */
-export const isYesterday = (date: DateLike, now?: DateLike): boolean => isSameDay(getDateTime(now) - TIME_DAY, date);
+export const isYesterday = (date: DateLike, now?: DateLike): boolean => isSameDay(addDate(createDate(now), -1, 'day'), date);
 
 /**
  * 判断指定的日期是否是在明天
@@ -151,7 +156,7 @@ export const isYesterday = (date: DateLike, now?: DateLike): boolean => isSameDa
  * @param now 作为今天判断依据的日期，如果留空则使用当前系统时间
  * @returns 如果为 `true` 则表示是明天
  */
-export const isTomorrow = (date: DateLike, now?: DateLike): boolean => isSameDay(getDateTime(now) + TIME_DAY, date);
+export const isTomorrow = (date: DateLike, now?: DateLike): boolean => isSameDay(addDate(createDate(now), 1, 'day'), date);
 
 /**
  * 判断指定的日期是否合法。
@@ -209,8 +214,10 @@ export const formatDate = (date: DateLike, format: string | DateFormatter = 'yyy
     }
     Object.keys(dateInfo).forEach((k) => {
         if (new RegExp(`(${k})`).test(format as string)) {
+            const token = RegExp.$1;
             const str = `${dateInfo[k as keyof typeof dateInfo]}`;
-            format = (format as string).replace(RegExp.$1, RegExp.$1.length === 1 ? str : (`00${str}`).substring(str.length));
+            // 按占位符 token 的长度补零，`SSS` 需要补到 3 位，`MM`/`dd` 等补到 2 位。
+            format = (format as string).replace(token, token.length === 1 ? str : str.padStart(token.length, '0'));
         }
     });
     return format;
