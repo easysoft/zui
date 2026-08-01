@@ -1,0 +1,4 @@
+interface:
+  display_name: "ZUI Commit"
+  short_description: "Review and create ZUI 3 Git commits safely"
+  default_prompt: "Use $zui-commit to review the current changes and create properly scoped ZUI 3 commits."
