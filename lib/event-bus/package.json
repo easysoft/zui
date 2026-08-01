@@ -12,7 +12,7 @@
         "type": "js-helpers",
         "displayName": "Event Bus",
         "contributes": {
-            "js": ["class"]
+            "js": ["class", "var"]
         }
     }
 }
