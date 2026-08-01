@@ -88,7 +88,7 @@ build/、dist/、publish/   构建中间产物 / 最终产物（gitignored）
 
 ## 代码提交
 
-代码提交参考 `.claude/commands/zui-commit.md`。
+代码提交参考 `.agents/skills/zui-commit/SKILL.md`。
 
 ## 容易踩的坑
 
