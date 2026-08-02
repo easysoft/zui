@@ -15,6 +15,7 @@
     "noUnusedParameters": true,
     "noImplicitReturns": false,
     "paths": {
+      "zui-dev": ["./dev"],
       "@zui/*": ["./lib/*"]
     }
   },
