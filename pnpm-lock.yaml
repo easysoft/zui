@@ -661,7 +661,11 @@ importers:
         specifier: workspace:^0.0.1
         version: link:../../dev
 
-  lib/event-bus: {}
+  lib/event-bus:
+    devDependencies:
+      '@zui/core':
+        specifier: workspace:*
+        version: link:../core
 
   lib/file-selector:
     dependencies:

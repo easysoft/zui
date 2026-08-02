@@ -1,6 +1,6 @@
 import 'zui-dev';
 import {$} from '@zui/core';
-import {EventHub} from './src/main';
+import {EventHub} from './src/event-hub';
 
 type DemoEvents = {
     ping: CustomEvent<{from: string} | undefined>;

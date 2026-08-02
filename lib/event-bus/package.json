@@ -8,6 +8,9 @@
     "files": [
         "./src/**/*"
     ],
+    "devDependencies": {
+        "@zui/core": "workspace:*"
+    },
     "zui": {
         "type": "js-helpers",
         "displayName": "Event Bus",
