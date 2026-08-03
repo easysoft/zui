@@ -6,7 +6,7 @@
 
 此 JS 插件提供了一系列方法用于读写本地存储数据。相比较直接使用这些浏览器原生接口，`Store` 类在读写数据时会自动进行转换，所以你可以存储任何可以被系列化为 JSON 的数据，例如数值、数组和复杂对象，而不仅仅是字符串。
 
-`zui.store` 为默认的持久存储管理实例，可以直接使用上面的各种方法进行数据操作。如需使用会话存储数据，则只需要通过 `store.session` 访问会话存储类型的管理实例即可。
+`zui.store` 为默认的持久存储管理实例，可以直接使用上面的各种方法进行数据操作。如需使用会话存储数据，则只需要通过 `zui.store.session` 访问会话存储类型的管理实例即可。
 
 ## 存储数据
 
@@ -15,7 +15,7 @@
 **示例**
 
 ```js
-store.set('mySecretCode', 1314520);
+zui.store.set('mySecretCode', 1314520);
 ```
 
 ## 读取数据
@@ -25,7 +25,7 @@ store.set('mySecretCode', 1314520);
 **示例**
 
 ```js
-store.get('mySecretCode'); // 基于存储数据的例子应该返回 1314520
+zui.store.get('mySecretCode'); // 基于存储数据的例子应该返回 1314520
 ```
 
 ## 移除数据
@@ -35,7 +35,7 @@ store.get('mySecretCode'); // 基于存储数据的例子应该返回 1314520
 **示例**
 
 ```js
-store.remove('mySecretCode');
+zui.store.remove('mySecretCode');
 ```
 
 ## 遍历数据
@@ -45,7 +45,7 @@ store.remove('mySecretCode');
 **示例**
 
 ```js
-store.each((name, value) => {
+zui.store.each((name, value) => {
     console.log(name, '=', value);
 });
 ```
@@ -57,23 +57,23 @@ store.each((name, value) => {
 **示例**
 
 ```js
-store.set('mySecretCode', 1314520);
-store.set('myName', 'Jue');
+zui.store.set('mySecretCode', 1314520);
+zui.store.set('myName', 'Jue');
 
-store.getAll(); // 返回 {mySecretCode: 1314520, myName: 'Jue'}
+zui.store.getAll(); // 返回 {mySecretCode: 1314520, myName: 'Jue'}
 ```
 
 ## 操作本地会话数据
 
-要操作此次会话在本地的数据可以通过 `store.session` 实例上的方法。
+要操作此次会话在本地的数据可以通过 `zui.store.session` 实例上的方法。
 
 **示例**
 
 ```js
-store.session.set('mySecretCode', 1314520);
-store.session.set('myName', 'Jue');
+zui.store.session.set('mySecretCode', 1314520);
+zui.store.session.set('myName', 'Jue');
 
-store.session.getAll(); // 返回 {mySecretCode: 1314520, myName: 'Jue'}
+zui.store.session.getAll(); // 返回 {mySecretCode: 1314520, myName: 'Jue'}
 ```
 
 ::: warning
@@ -82,42 +82,51 @@ store.session.getAll(); // 返回 {mySecretCode: 1314520, myName: 'Jue'}
 
 ## 创建独立的读写实例
 
-通常使用 `Store` 的默认实例 `store` 即可读写数据，但有时需要一个独立的存储实例，可以通过 `store.create` 方法创建一个 `Store` 实例实现。
+通常使用默认实例 `zui.store` 即可读写数据，但有时需要一个独立的存储实例，可以通过 `zui.store.create` 方法创建一个 `Store` 实例实现。
 
 **示例**
 
-`store.create(name, type)` 的第二个参数用于指定存储类型，留空时默认创建**本地存储**（`local`）；需要会话存储时必须显式传入 `'session'`。
+`zui.store.create(name, type)` 的第二个参数用于指定存储类型，留空时默认创建**本地存储**（`local`）；需要会话存储时必须显式传入 `'session'`。
 
 ```js
 /* 分别创建一个本地存储和会话存储实例 */
-const myStore = store.create('myStore');
-const mySessionStore = store.create('mySessionStore', 'session');
+const myStore = zui.store.create('myStore');
+const mySessionStore = zui.store.create('mySessionStore', 'session');
 
 /* 分别设置同名的存储的值 */
-store.set('mySecretCode', 1);
+zui.store.set('mySecretCode', 1);
 myStore.set('mySecretCode', 2);
 mySessionStore.set('mySecretCode', 3);
 
 /* 他们可以读取到同名的各自的值 */
-store.get('mySecretCode');          // 返回 1
-myStore.get('mySecretCode');        // 返回 2
-mySessionStore.get('mySecretCode'); // 返回 3
+zui.store.get('mySecretCode');          // 返回 1
+myStore.get('mySecretCode');            // 返回 2
+mySessionStore.get('mySecretCode');     // 返回 3
 ```
 
 ## 切换存储配置
 
-使用 `switch` 方法可以将实例切换到另一个存储配置（`id`）。切换后已经通过 `store.session` 创建的会话实例也会同步到新的配置，不会继续写入旧配置。
+使用 `switch` 方法可以将实例切换到另一个存储配置（`id`）。切换后已经通过 `zui.store.session` 创建的会话实例也会同步到新的配置，不会继续写入旧配置。
 
 ```js
-store.switch('userA'); // 之后 store 和 store.session 都读写 userA 的数据
+zui.store.switch('userA'); // 之后 zui.store 和 zui.store.session 都读写 userA 的数据
 ```
 
 ## 直接使用 `Store` 类
 
-除了默认的 `store` 实例，也可以从包根导入 `Store` 类创建自己的实例。
+除了默认的 `zui.store` 实例，也可以通过全局对象上的 `zui.Store` 类创建自己的实例。
 
 ```js
-import {Store} from '@zui/store';
+const myStore = new zui.Store('myProfile', 'local');
+myStore.set('token', 'abc');
+```
+
+## 模块引入（ESM / npm）
+
+在构建工具中，也可以从包根导入 `Store` 类或默认实例：
+
+```js
+import {Store, store} from '@zui/store';
 
 const myStore = new Store('myProfile', 'local');
 myStore.set('token', 'abc');
