@@ -38,7 +38,7 @@ function processGlobalEvent($element: Cash, event: Event, options: GlobalEventOp
         return value;
     };
     if (parseBool(options.once)) {
-        if (options.onceCalled) {
+        if ($element.dataset('once-called')) {
             return;
         }
         $element.dataset('once-called', true);
