@@ -63,6 +63,25 @@ lib/<name>/docs/lib/<basic|components|forms|helpers>/index.md
 
 `<Example>`、`<ZUI>` 和 `<Props>` 是官网 Markdown 的渲染语法，不是 ZUI 面向用户的公开 API。代码标签页必须展示用户实际可复制的 HTML、JS、Preact 或 vanilla 写法，不要把这些文档组件放入用户代码。
 
+### ZUI 成员访问
+
+在官网的普通 JS 示例和代码标签页中，默认通过已加载的全局对象 `zui` 访问公开组件、方法及其他成员，不要为普通用法添加模块导入：
+
+```js
+new zui.Menu(element, options);
+
+// 同一示例需要多个成员时可以统一解构。
+const {Nav, Messager} = zui;
+const nav = new Nav(element, options);
+Messager.show('操作成功');
+```
+
+- 使用少量成员时优先保留 `zui.Menu`、`zui.Messager.show()` 等完整访问形式，使来源一目了然。
+- 同一示例反复使用多个成员时可以先从 `zui` 解构，避免重复前缀。
+- 不要在普通示例中写 `import {Menu} from 'zui'` 或从 `@zui/*` 导入运行时成员。
+- 只有在专门说明 ESM/npm、构建工具、Preact 模块入口或 TypeScript 类型导入时才展示 `import`，并把它作为对应消费方式的补充示例。
+- 使用前根据公开入口确认成员确实挂载在当前文档构建的 `zui` 全局对象上，不要根据源码导出名称猜测。
+
 ### 示例与代码标签页
 
 同时展示运行结果和源码时使用以下结构。`示例` 放在首个标签；根据真实消费方式保留或增加 `HTML`、`JS`、`Preact` 等标签。
@@ -226,6 +245,7 @@ export default {
 
 - 示例能在文档环境运行，依赖均已进入文档构建。
 - 代码标签页不包含文档专用组件，并与预览区展示同一种公开用法和行为。
+- 普通 JS 示例默认通过全局 `zui` 访问公开成员；模块导入只出现在明确说明模块化消费方式的章节。
 - 示例 ID 唯一，不污染全局，不留下计时器或监听器。
 - 表格、默认值、事件参数和方法返回值与源码一致。
 - 第一屏示例覆盖最常见路径，后续示例覆盖重要状态和边界。
