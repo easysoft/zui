@@ -22,7 +22,7 @@ addI18nMap({
         delete: '刪除',
         reset: '重置',
         add: '添加',
-        Copy: '複製',
+        copy: '複製',
         close: '關閉',
         edit: '編輯',
         open: '打開',
