@@ -23,13 +23,11 @@ export function isDisabled(selector: Selector): boolean {
 /* Declare types. */
 declare module 'cash-dom' {
     interface Cash {
-        isDisabled(): this;
+        isDisabled(): boolean;
     }
 }
 
 /* Extend as $.fn.isDisabled() */
 $.fn.isDisabled = function (this: Cash) {
-    return this.each((_, ele) => {
-        isDisabled(ele);
-    });
+    return isDisabled(this);
 };
