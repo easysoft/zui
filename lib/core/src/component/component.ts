@@ -197,6 +197,9 @@ export class Component<O extends object = object, E extends ComponentEventsDefni
                     this.setOptions(remoteOptions);
                 }
             }
+            if (this.destroyed) {
+                return;
+            }
             this._inited = true;
             await this.afterInit();
             this.emit('inited', this.options);
@@ -306,6 +309,13 @@ export class Component<O extends object = object, E extends ComponentEventsDefni
      * Destroy the component.
      */
     destroy() {
+        if (this._destroyed) {
+            return;
+        }
+        if (this._autoDestory) {
+            clearTimeout(this._autoDestory);
+            this._autoDestory = 0;
+        }
         const {KEY, DATA_KEY, ALL, TYPED_ALL, NAME, MULTI_INSTANCE, ATTR_KEY} = this.constructor;
         const {$element, element} = this;
 
@@ -447,9 +457,9 @@ export class Component<O extends object = object, E extends ComponentEventsDefni
     }
 
     /**
-     * Stop listening to a component event.
-     * @param event     The event name.
-     * @param callback  The event callback.
+     * Stop listening to a component event. All handlers bound under the component
+     * namespace for the given event name are removed.
+     * @param event  The event name.
      */
     off<N extends ComponentEventName<E>>(event: N | (string & {})) {
         this.$element.off(this._wrapEvent(event));
