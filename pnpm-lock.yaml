@@ -1330,12 +1330,6 @@ importers:
         specifier: ^1.6.5
         version: 1.6.5
     devDependencies:
-      '@types/sortablejs':
-        specifier: ^1.15.1
-        version: 1.15.1
-      sortablejs:
-        specifier: ^1.15.0
-        version: 1.15.0
       zui-dev:
         specifier: workspace:^0.0.1
         version: link:../../dev

@@ -13,6 +13,10 @@
         "contributes": {
             "js": [
                 "module"
+            ],
+            "css": [
+                "class",
+                "var"
             ]
         }
     },
@@ -22,8 +26,6 @@
         "split.js": "^1.6.5"
     },
     "devDependencies": {
-        "@types/sortablejs": "^1.15.1",
-        "sortablejs": "^1.15.0",
         "zui-dev": "workspace:^0.0.1"
     }
 }
