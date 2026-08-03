@@ -84,7 +84,7 @@ export function registerLib(name: string, options: GetLibOptions): void {
     if (!$.libMap) {
         $.libMap = {};
     }
-    if (!options.name && options.id) {
+    if (!options.id) {
         options.id = `zui-lib-${name}`;
     }
     $.libMap[name] = options;

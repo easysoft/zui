@@ -1,12 +1,15 @@
 export async function downloadFile(file: Blob | Response | string, fileName?: string): Promise<Blob> {
     if (file instanceof Blob) {
         const link = document.createElement('a');
-        link.href = window.URL.createObjectURL(file);
+        const url = window.URL.createObjectURL(file);
+        link.href = url;
         if (fileName) {
             link.download = decodeURIComponent(fileName);
         }
         link.click();
         link.remove();
+        // Revoke the object URL after the download has been initiated to avoid leaking it.
+        setTimeout(() => window.URL.revokeObjectURL(url), 1000);
         return file;
     }
     if (file instanceof Response) {
