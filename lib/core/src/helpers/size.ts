@@ -7,13 +7,13 @@ export function parseSize<A extends unknown[] = unknown[]>(size: SizeSetting, ca
     if (typeof size === 'number') {
         return [size];
     }
-    let match = size.match(/(\d+)(%|px)?/);
-    if (match) {
-        return [parseInt(match[1]), match[2] as 'px' | '%'];
+    const fraction = size.match(/^\s*(-?\d*\.?\d+)\s*\/\s*(-?\d*\.?\d+)\s*$/);
+    if (fraction) {
+        return [100 * parseFloat(fraction[1]) / parseFloat(fraction[2]), '%'];
     }
-    match = size.match(/(\d+)\/(\d+)/);
+    const match = size.match(/(-?\d*\.?\d+)(%|px)?/);
     if (match) {
-        return [100 * parseInt(match[1]) / parseInt(match[2]), '%'];
+        return [parseFloat(match[1]), match[2] as 'px' | '%'];
     }
     return [NaN];
 }
