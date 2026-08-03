@@ -335,6 +335,7 @@ export class Ajax<T = unknown> {
         if (error && throws) {
             throw error;
         }
-        return [data as D, error, response];
+        // Fall back to the resolved body (e.g. an error response text) when the local data was not assigned.
+        return [(data ?? this.data) as D, error, response];
     }
 }
