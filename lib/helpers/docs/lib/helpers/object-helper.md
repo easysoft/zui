@@ -33,9 +33,9 @@ function deepGet<T>(
 ```js
 const object = {a: [{b: {c: 1}, d: 2}]};
 
-deepGet(object, 'a[0].b.c');   // 1
-deepGet(object, 'a[0].d');     // 2
-deepGet(object, 'a.x.y', 0);   // 0（路径不存在，返回默认值）
+zui.deepGet(object, 'a[0].b.c');   // 1
+zui.deepGet(object, 'a[0].d');     // 2
+zui.deepGet(object, 'a.x.y', 0);   // 0（路径不存在，返回默认值）
 ```
 
 `deepGet` 不会修改传入的路径数组，可安全地复用同一个数组多次调用。
@@ -64,7 +64,7 @@ function deepGetPath(object: object, pathName: string | string[]): unknown[];
 ```js
 const object = {a: [{b: {c: 1}}]};
 
-deepGetPath(object, 'a[0].b.c');
+zui.deepGetPath(object, 'a[0].b.c');
 // [object, [{b: {c: 1}}], {b: {c: 1}}, {c: 1}, 1]
 ```
 
@@ -101,5 +101,5 @@ function deepCall(
 ```js
 const object = {math: {add: (a, b) => a + b}};
 
-deepCall(object, 'math.add', [1, 2]); // 3
+zui.deepCall(object, 'math.add', [1, 2]); // 3
 ```

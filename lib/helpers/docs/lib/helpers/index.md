@@ -2,16 +2,11 @@
 
 `@zui/helpers` 提供一组与框架无关的纯函数、常量和通用类型，涵盖日期、字符串、对象和颜色处理。所有方法均可在浏览器或 Node 环境中直接使用，不依赖 DOM。
 
-## 引入
+页面已加载 ZUI 时，通过全局对象 `zui` 访问这些方法：
 
 ```js
-import {formatDate, convertBytes, deepGet, hslToRgb} from '@zui/helpers';
-```
-
-也可以从对应的子模块按需引入：
-
-```js
-import {formatDate} from '@zui/helpers/src/date-helper';
+zui.formatDate(Date.now(), 'yyyy-MM-dd hh:mm:ss.SSS');
+zui.deepGet({a: [{b: 1}]}, 'a[0].b', 0);
 ```
 
 ## 方法分组
@@ -27,16 +22,24 @@ import {formatDate} from '@zui/helpers/src/date-helper';
 
 ```js
 // 日期：格式化与相对日期判断
-formatDate(Date.now(), 'yyyy-MM-dd hh:mm:ss.SSS'); // 例如 '2026-08-01 09:30:00.005'
-isSameWeek('2026-06-01', '2026-06-07');            // true（同一周，周一为周首）
+zui.formatDate(Date.now(), 'yyyy-MM-dd hh:mm:ss.SSS'); // 例如 '2026-08-01 09:30:00.005'
+zui.isSameWeek('2026-06-01', '2026-06-07');            // true（同一周，周一为周首）
 
 // 字符串：字节单位与脱敏
-convertBytes('1.5MB');                              // 1572864
-convertString('12345678901', 'mask');              // '123****8901'
+zui.convertBytes('1.5MB');                              // 1572864
+zui.convertString('12345678901', 'mask');              // '123****8901'
 
 // 对象：按路径安全取值
-deepGet({a: [{b: 1}]}, 'a[0].b', 0);               // 1
+zui.deepGet({a: [{b: 1}]}, 'a[0].b', 0);               // 1
 
 // 颜色：HSL 转 RGB（越界的 s/l 会夹取到 [0, 1]）
-hslToRgb(120, 1, 0.5);                              // [0, 255, 0]
+zui.hslToRgb(120, 1, 0.5);                              // [0, 255, 0]
+```
+
+## 模块引入（ESM / npm）
+
+在构建工具或 Node 环境中，也可以从包根按名导入：
+
+```js
+import {formatDate, convertBytes, deepGet, hslToRgb} from '@zui/helpers';
 ```

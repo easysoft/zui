@@ -25,9 +25,9 @@ function hex2Rgb(hex: string): RGBColor;
 **示例**
 
 ```js
-hex2Rgb('#f00');    // [255, 0, 0]
-hex2Rgb('00ff00');  // [0, 255, 0]
-hex2Rgb('zzzzzz');  // 抛出 Error: Invalid HEX color "zzzzzz".
+zui.hex2Rgb('#f00');    // [255, 0, 0]
+zui.hex2Rgb('00ff00');  // [0, 255, 0]
+zui.hex2Rgb('zzzzzz');  // 抛出 Error: Invalid HEX color "zzzzzz".
 ```
 
 ## `hslToRgb`
@@ -53,8 +53,8 @@ function hslToRgb(h: number, s: number, l: number): RGBColor;
 **示例**
 
 ```js
-hslToRgb(0, 1, 0.5);    // [255, 0, 0]
-hslToRgb(120, 1, 0.5);  // [0, 255, 0]
+zui.hslToRgb(0, 1, 0.5);    // [255, 0, 0]
+zui.hslToRgb(120, 1, 0.5);  // [0, 255, 0]
 ```
 
 ## `isLightColor`
@@ -98,6 +98,6 @@ function contrastColor(color: string | RGBColor, options?: {dark: string; light:
 **示例**
 
 ```js
-contrastColor('#ffffff'); // '#333333'
-contrastColor('#000000'); // '#ffffff'
+zui.contrastColor('#ffffff'); // '#333333'
+zui.contrastColor('#000000'); // '#ffffff'
 ```

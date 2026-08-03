@@ -27,8 +27,8 @@ function formatString(str: string, map: Record<string, unknown>): string;
 **示例**
 
 ```js
-formatString('{0} {1}!', 'Hello', 'world');           // 'Hello world!'
-formatString('Say {what} to {who}', {what: 'hi', who: 'you'}); // 'Say hi to you'
+zui.formatString('{0} {1}!', 'Hello', 'world');           // 'Hello world!'
+zui.formatString('Say {what} to {who}', {what: 'hi', who: 'you'}); // 'Say hi to you'
 ```
 
 ## `convertString`
@@ -52,12 +52,12 @@ function convertString(
 **示例**
 
 ```js
-convertString('jim', 'upper');            // 'JIM'
-convertString('123456', 'base64|quote');  // '"MTIzNDU2"'
+zui.convertString('jim', 'upper');            // 'JIM'
+zui.convertString('123456', 'base64|quote');  // '"MTIzNDU2"'
 
 // mask：保留前 start 位、后 end 位，中间以 * 遮蔽
-convertString('12345678901', 'mask');     // '123****8901'
-convertString('123456', 'mask:2,0');      // '12****'（尾部长度为 0 时不重复原字符串）
+zui.convertString('12345678901', 'mask');     // '123****8901'
+zui.convertString('123456', 'mask:2,0');      // '12****'（尾部长度为 0 时不重复原字符串）
 ```
 
 ## `formatWithPipes`
@@ -79,7 +79,7 @@ function formatWithPipes(
 **示例**
 
 ```js
-formatWithPipes('My name is {name|upper}', {name: 'jim'});
+zui.formatWithPipes('My name is {name|upper}', {name: 'jim'});
 // 'My name is JIM'
 ```
 
@@ -101,9 +101,9 @@ function convertBytes(str: string): number;
 **示例**
 
 ```js
-formatBytes(1572864);      // '1.50MB'
-convertBytes('1.5MB');     // 1572864
-convertBytes('100');       // 100（无单位时按字节处理）
+zui.formatBytes(1572864);      // '1.50MB'
+zui.convertBytes('1.5MB');     // 1572864
+zui.convertBytes('100');       // 100（无单位时按字节处理）
 ```
 
 ## 编码与转义
@@ -123,6 +123,6 @@ function decodeBase64(value: string): string;
 **示例**
 
 ```js
-escapeHtml('<b>&"</b>');           // '&lt;b&gt;&amp;&quot;&lt;/b&gt;'
-decodeBase64(encodeBase64('中文')); // '中文'（编码后可原样解码回来）
+zui.escapeHtml('<b>&"</b>');           // '&lt;b&gt;&amp;&quot;&lt;/b&gt;'
+zui.decodeBase64(zui.encodeBase64('中文')); // '中文'（编码后可原样解码回来）
 ```

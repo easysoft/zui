@@ -97,9 +97,9 @@ function isSameWeek(date1: DateLike, date2?: DateLike): boolean;
 **示例**
 
 ```js
-isSameDay('2026-08-01 08:00', '2026-08-01 20:00'); // true
-isSameWeek('2026-06-01', '2026-06-07');            // true（周一与同周周日）
-isSameWeek('2026-06-01', '2026-06-08');            // false（下一周周一）
+zui.isSameDay('2026-08-01 08:00', '2026-08-01 20:00'); // true
+zui.isSameWeek('2026-06-01', '2026-06-07');            // true（周一与同周周日）
+zui.isSameWeek('2026-06-01', '2026-06-08');            // false（下一周周一）
 ```
 
 ## 相对日期判断
@@ -124,8 +124,8 @@ function isTomorrow(date: DateLike, now?: DateLike): boolean;
 **示例**
 
 ```js
-isYesterday('2026-07-31', '2026-08-01'); // true
-isTomorrow('2026-08-02', '2026-08-01');  // true
+zui.isYesterday('2026-07-31', '2026-08-01'); // true
+zui.isTomorrow('2026-08-02', '2026-08-01');  // true
 ```
 
 ## `formatDateSpan`
