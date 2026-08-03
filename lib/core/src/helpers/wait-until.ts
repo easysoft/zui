@@ -22,7 +22,7 @@ export type WaitUntilOptions<T> = {
  * @returns 返回值
  */
 export function waitUntil<T>(condition: (returnValue: (value: T) => void, checkCount: number) => unknown | Promise<unknown>, optionsOrTimeout?: WaitUntilOptions<T> | number): Promise<T | void> {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
         const {interval = 100, timeout = 60000, timerRef, timeoutValue, abortSignal} = typeof optionsOrTimeout === 'number' ? {timeout: optionsOrTimeout} : (optionsOrTimeout || {});
         let checkCount = 0;
         let checking = false;
@@ -33,7 +33,6 @@ export function waitUntil<T>(condition: (returnValue: (value: T) => void, checkC
             value = v;
         };
         const timerID = window.setInterval(async () => {
-            checkCount++;
             if (checking) {
                 return;
             }
@@ -43,16 +42,28 @@ export function waitUntil<T>(condition: (returnValue: (value: T) => void, checkC
                 return;
             }
             checking = true;
-            const checkResult = await condition(returnValue, checkCount);
-            if (checkResult) {
+            checkCount++;
+            try {
+                const checkResult = await condition(returnValue, checkCount);
+                if (checkResult) {
+                    clearInterval(timerID);
+                    resolve(valueReturned ? value : checkResult as T);
+                    return;
+                }
+                if (checkCount * interval >= timeout) {
+                    const timeoutResult = timeoutValue ? (await timeoutValue(checkCount)) : undefined;
+                    clearInterval(timerID);
+                    resolve(timeoutResult);
+                    return;
+                }
+            } catch (error) {
+                // Reject instead of hanging forever when the condition throws or rejects.
                 clearInterval(timerID);
-                resolve(valueReturned ? value : checkResult as T);
-            } else if (checkCount * interval >= timeout) {
-                const timeoutResult = timeoutValue ? (await timeoutValue(checkCount)) : undefined;
-                clearInterval(timerID);
-                resolve(timeoutResult);
+                reject(error);
+                return;
+            } finally {
+                checking = false;
             }
-            checking = false;
         }, interval);
         if (timerRef) {
             timerRef.current = timerID;
