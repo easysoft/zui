@@ -31,6 +31,11 @@ export class ComponentFromReact<O extends object = object, C extends ComponentRe
     protected _ref = createRef<C>();
 
     /**
+     * The DOM container the Preact tree was rendered into, used to unmount on destroy.
+     */
+    protected declare _renderContainer?: HTMLElement;
+
+    /**
      * The React component instance.
      */
     get $(): C | null {
@@ -59,9 +64,10 @@ export class ComponentFromReact<O extends object = object, C extends ComponentRe
      * Destroy component.
      */
     destroy() {
-        this.$?.componentWillUnmount?.();
-        if (this.element) {
-            this.element.innerHTML = '';
+        // Unmount the whole Preact tree so nested components run their cleanup (componentWillUnmount, effect teardown) instead of leaking.
+        if (this._renderContainer) {
+            render(null, this._renderContainer);
+            this._renderContainer = undefined;
         }
         super.destroy();
     }
@@ -95,6 +101,7 @@ export class ComponentFromReact<O extends object = object, C extends ComponentRe
                 data[name === 'class' ? 'className' : name] = value;
                 return data;
             }, {});
+            this._renderContainer = element.parentElement ?? undefined;
             render(
                 h(Component as ComponentClass, mergeProps({component: element.tagName.toLowerCase(), attrs}, props)),
 
@@ -102,6 +109,7 @@ export class ComponentFromReact<O extends object = object, C extends ComponentRe
                 element,
             );
         } else {
+            this._renderContainer = element;
             render(
                 h(Component as ComponentClass, props as Attributes),
                 element,
