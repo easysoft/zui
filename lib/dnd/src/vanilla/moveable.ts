@@ -183,8 +183,9 @@ export class Moveable extends Component<MoveableOptions> {
         } else if (strategy === 'transform') {
             updateInfo.style = {transform: `translate(${state.left}px, ${state.top}px)`};
         } else if (strategy === 'scroll') {
-            updateInfo.scrollLeft = currentTarget.scrollLeft - state.deltaX;
-            updateInfo.scrollTop = currentTarget.scrollTop - state.deltaY;
+            // Base the scroll offset on the scroll position captured at move start, not the live (already-updated) value, to avoid accelerating drift.
+            updateInfo.scrollLeft = state.scrollLeft - state.deltaX;
+            updateInfo.scrollTop = state.scrollTop - state.deltaY;
         }
 
         const updateResult = this.options.onUpdate?.call(this, updateInfo, state);
