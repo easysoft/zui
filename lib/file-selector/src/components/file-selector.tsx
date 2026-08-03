@@ -495,7 +495,7 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
             fileItems.push(...Array.from(dataTransfer.files || []));
         }
 
-        const files = this.constructor.filterFiles(fileItems, this.props.accept);
+        const files = this.constructor.filterFiles(fileItems, this.props.accept) as File[];
         if (files.length) {
             this.selectFiles(files);
             this.setState({inputKey: nextGid()});
@@ -774,7 +774,7 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
 
     static imageAccepts = 'image/*,.png,.jpg,.jpeg,.gif';
 
-    static isAccept(file: File | FileInfo, accept: string | string[]) {
+    static isAccept(file: {type: string; name: string} | File | FileInfo, accept: string | string[]) {
         if (!accept || !accept.length) {
             return true;
         }
@@ -793,11 +793,11 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
         });
     }
 
-    static isImage(file: File | FileInfo) {
+    static isImage(file: {type: string; name: string} | File | FileInfo) {
         return this.isAccept(file, this.imageAccepts);
     }
 
-    static filterFiles(files: FileList | File[], accept: string | undefined) {
+    static filterFiles(files: FileList | (File | {type: string; name: string; size: number})[], accept: string | undefined) {
         if (!accept || !accept.length) {
             return files;
         }
@@ -814,7 +814,7 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
         });
     }
 
-    static async isSame(file1: File, file2: File) {
+    static async isSame(file1: Blob, file2: Blob) {
         if (file1.size !== file2.size) return false;
         const [bufA, bufB] = await Promise.all([
             file1.arrayBuffer(),
