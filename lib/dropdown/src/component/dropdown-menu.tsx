@@ -166,7 +166,7 @@ export class DropdownMenu<T extends DropdownMenuOptions = DropdownMenuOptions> e
         };
     }
 
-    protected _beforeRender(props: RenderableProps<T>): void | RenderableProps<T> | undefined {
+    protected _beforeRender(props: RenderableProps<T>): void | undefined {
         this._nestedContextMenu = [];
         return super._beforeRender(props);
     }
