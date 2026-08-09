@@ -1,5 +1,5 @@
 import type {CustomContentType} from '@zui/core';
-import type {AlertOptions} from '@zui/alert/src/types';
+import type {AlertOptions} from '@zui/alert/react';
 import type {MessagerPlacement} from './messager-placement';
 
 export interface MessagerOptions extends AlertOptions {

@@ -32,6 +32,14 @@ export class Messager extends Component<MessagerOptions> {
         this._item?.hide();
     }
 
+    destroy(): void {
+        this._item?.destroy();
+        this._item = undefined;
+        this._holder?.remove();
+        this._holder = undefined;
+        super.destroy();
+    }
+
     protected _getItem() {
         const options = {...this.options};
         if (this._item) {
