@@ -8,3 +8,5 @@ export class VirtualList extends ComponentFromReact<VirtualListProps, VirtualLis
 
     static Component = VirtualListReact;
 }
+
+VirtualList.register();

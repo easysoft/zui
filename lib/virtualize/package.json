@@ -2,6 +2,10 @@
     "name": "@zui/virtualize",
     "version": "0.0.1",
     "main": "src/main.ts",
+    "exports": {
+        ".": "./src/main.ts",
+        "./react": "./src/main-react.ts"
+    },
     "files": [
         "./src/**/*"
     ],
@@ -17,10 +21,7 @@
         "displayName": "虚拟渲染",
         "wip": true,
         "contributes": {
-            "css": [
-                "class",
-                "var"
-            ]
+            "js": ["component"]
         }
     }
 }
