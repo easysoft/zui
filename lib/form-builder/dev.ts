@@ -18,7 +18,6 @@ import '@zui/menu';
 import '@zui/form';
 import '@zui/collapsible';
 import '@zentao/icons';
-import '@zentao/picker/src/style';
 import '@zui/datetime-picker';
 import '@zui/color-picker';
 import highlight from 'highlight.js';

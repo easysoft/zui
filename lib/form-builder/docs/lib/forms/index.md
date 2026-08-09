@@ -54,22 +54,25 @@ const formBuilder = new FormBuilder('#formBuilderExample', {
 * 确保在 `<form>` 上初始化 FormBuilder
 * 通过 `actions` 选项设置表单底部的提交按钮，例如 `[{btnType: 'submit', text: '提交', type: 'primary'}]`
 * 通过 `formName` 设置最终表单生成的 JSON 数据作为表单项提交到服务器的名称，例如 `json`
-* 如果要使用 ZUI Ajax 表单，可以通过 `ajax` 选项设置 AjaxForm 选项进行启用
 
 ## 选项
 
 | 选项           | 类型                                              | 说明 |
 |----------------|--------------------------------------------------|------|
 | `schema`       | `FormSchema`                                     | 表单的 Schema 定义，描述表单结构和字段 |
-| `ajax`         | `AjaxFormOptions`                                | Ajax 表单提交配置，支持异步提交等功能 |
 | `widgets`      | `FormWidgetMap`                                  | 自定义组件映射表，键为组件名，值为组件类型或 [组件, 属性] 元组 |
 | `readonly`     | `boolean`                                        | 是否为只读模式，启用后表单不可编辑 |
 | `defaultData`  | `Record<string, unknown>`                        | 表单的默认数据，初始化时填充表单 |
 | `actions`      | `ToolbarSetting`                                 | 操作栏配置，支持自定义表单底部按钮等 |
 | `header`       | `CustomContentType`                              | 表单头部内容，可为字符串、VNode、函数等 |
 | `footer`       | `CustomContentType`                              | 表单底部内容，可为字符串、VNode、函数等 |
+| `formName`     | `string`                                         | 将当前表单数据序列化为隐藏字段时使用的字段名 |
+| `formAction`   | `string`                                         | 原生 `<form>` 的 `action` 属性 |
+| `autoValidate` | `{onChange?: true \| 'removeErrors'; onSubmit?: boolean}` | 自动验证行为 |
 | `onDataChange` | `(newData: Record<string, unknown>, oldData: Record<string, unknown>) => void` | 数据变化时的回调函数 |
 | `onSchemaChange` | `(newSchema: FormSchema, oldSchema: FormSchema) => void` | Schema 变化时的回调函数 |
+| `onFieldChange` | `(path, value, oldValue) => void \| Record<string, unknown> \| false` | 字段变更回调；返回映射可联动更新其他字段，返回 `false` 可取消此次变更 |
+| `onSubmit` | `(event, data) => void \| false` | 表单提交回调；返回 `false` 可阻止提交 |
 | `afterRender`  | `(firstRender?: boolean) => void`                | 渲染完成后的回调函数，`firstRender` 表示是否首次渲染 |
 
 ## 属性
@@ -78,9 +81,13 @@ const formBuilder = new FormBuilder('#formBuilderExample', {
 
 获取表单的 JSON Schema 定义。
 
-### data
+### formData
 
-获取表单的默认数据。
+获取当前表单数据。
+
+### validationErrors
+
+获取当前字段路径到验证错误列表的映射。
 
 ## 方法
 
@@ -112,13 +119,14 @@ const schema = formBuilder.getSchemaByPath('object.property');
 方法定义：
 
 ```ts
-setSchemaByPath(path: string, schema: JSONSchema): void;
+setSchemaByPath(path: string, schema: Partial<JSONSchema>, deepMerge?: boolean): void;
 ```
 
 参数：
 
 * `path`：字段的路径，格式为 `object.property`
-* `schema`：要设置的 JSONSchema 对象
+* `schema`：要合并到该路径的 Schema 覆盖
+* `deepMerge`：是否深度合并覆盖，默认为 `true`
 
 返回值：
 
@@ -144,9 +152,6 @@ export interface FormBuilderOptions extends HElementProps {
     /** 表单的 Schema 定义 */
     schema: FormSchema;
 
-    /** Ajax 表单提交配置 */
-    ajax?: AjaxFormOptions;
-
     /** 自定义组件映射表 */
     widgets?: FormWidgetMap;
 
@@ -165,11 +170,26 @@ export interface FormBuilderOptions extends HElementProps {
     /** 表单底部内容 */
     footer?: CustomContentType;
 
+    /** 序列化表单数据的隐藏字段名 */
+    formName?: string;
+
+    /** 原生表单 action */
+    formAction?: string;
+
+    /** 自动验证配置 */
+    autoValidate?: {onChange?: true | 'removeErrors'; onSubmit?: boolean};
+
     /** 数据变化时的回调函数 */
     onDataChange?: (newData: Record<string, unknown>, oldData: Record<string, unknown>) => void;
 
     /** Schema 变化时的回调函数 */
     onSchemaChange?: (newSchema: FormSchema, oldSchema: FormSchema) => void;
+
+    /** 表单项变化时的回调函数 */
+    onFieldChange?: (path: string, value: unknown, oldValue: unknown) => void | Record<string, unknown> | false;
+
+    /** 表单提交时的回调函数 */
+    onSubmit?: (event: Event, data: Record<string, unknown>) => void | false;
 
     /** 渲染完成后的回调函数 */
     afterRender?: (firstRender?: boolean) => void;
@@ -204,11 +224,11 @@ export interface FormSchema extends ObjectSchema {
 表单显示类型，用于控制表单字段的布局方式。
 
 ```ts
-export type FormDisplayType = 'row' | 'column' | 'inline';
+export type FormDisplayType = 'vert' | 'horz' | 'inline';
 ```
 
-* `row`: 行布局（标签在上，控件在下）
-* `column`: 列布局（标签在左，控件在右）
+* `vert`: 垂直布局（标签在上，控件在下）
+* `horz`: 水平布局（标签在左，控件在右）
 * `inline`: 内联布局（标签和控件在同一行）
 
 #### `FormLayout`
@@ -254,14 +274,14 @@ export interface BaseSchema<T = unknown> {
     /** 字段标题/标签 */
     title?: string;
 
-    /** 字段描述文本，支持 JavaScript 表达式 */
-    description?: ExpressionOrValue<string>;
+    /** 字段描述文本 */
+    description?: string;
 
     /** 额外的内容或 HTML */
     extra?: FormExtra;
 
     /** 字段的默认值 */
-    default?: T;
+    defaultValue?: T;
 
     /** 字段的宽度配置 */
     width?: FormGridWidth;
@@ -272,29 +292,29 @@ export interface BaseSchema<T = unknown> {
     /** 只读模式下使用的组件名称 */
     readonlyWidget?: string;
 
-    /** 输入框占位符文本，支持 JavaScript 表达式 */
-    placeholder?: ExpressionOrValue<string>;
+    /** 输入框占位符文本 */
+    placeholder?: string;
 
-    /** 传递给组件的额外属性，支持 JavaScript 表达式 */
-    props?: ExpressionOrValue<Record<string, unknown>>;
+    /** 传递给组件的额外属性 */
+    props?: Record<string, unknown>;
 
-    /** 是否为必填字段，支持 JavaScript 表达式 */
-    required?: ExpressionOrValue<boolean>;
+    /** 是否为必填字段 */
+    required?: boolean | string[];
 
-    /** 工具提示文本，支持 JavaScript 表达式 */
-    tooltip?: ExpressionOrValue<string>;
+    /** 工具提示文本 */
+    tooltip?: string | TooltipOptions;
 
-    /** 提示信息文本，支持 JavaScript 表达式 */
-    hint?: ExpressionOrValue<string>;
+    /** 提示信息文本 */
+    hint?: string;
 
-    /** 是否禁用字段，支持 JavaScript 表达式 */
-    disabled?: ExpressionOrValue<boolean>;
+    /** 是否禁用字段 */
+    disabled?: boolean;
 
-    /** 是否隐藏字段，支持 JavaScript 表达式 */
-    hidden?: ExpressionOrValue<boolean>;
+    /** 是否隐藏字段 */
+    hidden?: boolean;
 
-    /** 是否为只读模式，支持 JavaScript 表达式 */
-    readonly?: ExpressionOrValue<boolean>;
+    /** 是否为只读模式 */
+    readonly?: boolean;
 
     /** 验证规则列表 */
     rules?: FormValidateRule[];
@@ -307,7 +327,7 @@ export interface BaseSchema<T = unknown> {
 export interface StringSchema extends BaseSchema<string> {
     type: 'string';
     /** 字符串格式，如 'email', 'url', 'date' 等 */
-    format?: ExpressionOrValue<string>;
+    format?: string;
     /** 字符串最大长度 */
     max?: number;
     /** 字符串最小长度 */
@@ -387,18 +407,9 @@ export interface ArraySchema extends BaseSchema<unknown[]> {
 }
 ```
 
-### `FormBuilderState`
+### 实例数据
 
-表单构建器状态接口，包含表单构建器运行时的状态信息。
-
-```ts
-export interface FormBuilderState {
-    /** 当前的表单 Schema 配置 */
-    schema: FormSchema;
-    /** 当前的表单数据 */
-    data: Record<string, unknown>;
-}
-```
+通过实例的只读 `schema`、`formData` 和 `validationErrors` 属性读取当前的 Schema、嵌套表单数据和验证错误。调用 `setSchemaByPath(path, patch)` 可对单个路径追加 Schema 覆盖，而不会修改传入的原始 Schema 对象。
 
 ### 工具类型
 

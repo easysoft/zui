@@ -1,7 +1,8 @@
-import {Component, ComponentChild, RenderableProps} from 'preact';
+import {Component} from 'preact';
+import type {ComponentChild, RenderableProps} from 'preact';
 import {classes, CustomContent} from '@zui/core';
-import {Collapsible} from '@zui/collapsible/src/components';
-import {ArraySchema, FieldSchemaInfo, FormGridWidth, ObjectSchema} from '../types';
+import {Collapsible} from '@zui/collapsible/react';
+import type {ArraySchema, FieldSchemaInfo, FormGridWidth, ObjectSchema} from '../types';
 import {SchemaFormItem} from './schema-form-item';
 
 export interface SchemaRendererProps {
@@ -60,7 +61,7 @@ export class SchemaRenderer extends Component<SchemaRendererProps> {
                 console.warn('[ZUI] Schema not found:', `${path}[]`);
                 return null;
             }
-            const valueList = arraySchemaInfo.value as unknown[];
+            const valueList = Array.isArray(arraySchemaInfo.value) ? arraySchemaInfo.value : [];
             return (
                 <Collapsible
                     title={title}
@@ -76,7 +77,7 @@ export class SchemaRenderer extends Component<SchemaRendererProps> {
                             value,
                         };
                         const errors = errorsGetter(itemSchemaInfo.path);
-                        return <SchemaRenderer infoGetter={infoGetter} errors={errors.length ? errors : undefined} errorsGetter={errorsGetter} path={itemSchemaInfo.path} schemaInfo={itemSchemaInfo} onChangeField={this.props.onChangeField} />;
+                        return <SchemaRenderer key={itemSchemaInfo.path} infoGetter={infoGetter} errors={errors.length ? errors : undefined} errorsGetter={errorsGetter} path={itemSchemaInfo.path} schemaInfo={itemSchemaInfo} onChangeField={this.props.onChangeField} />;
                     })}
                 </Collapsible>
             );
@@ -111,6 +112,9 @@ export class SchemaRenderer extends Component<SchemaRendererProps> {
         }
         if (/^\d+\/\d+$/.test(width)) {
             const [numerator, denominator] = width.split('/').map(Number);
+            if (!denominator) {
+                return '';
+            }
             return `${(numerator / denominator) * 100}%`;
         }
         return width;
@@ -146,9 +150,9 @@ export class SchemaRenderer extends Component<SchemaRendererProps> {
             >
                 {this._renderSchema(schemaInfo)}
                 {errors?.length ? (
-                    <div class="form-item-errors">
+                    <div className="form-item-errors">
                         {errors.map(([code, error]) => (
-                            <div key={code} class="form-item-error">{error}</div>
+                            <div key={code} className="form-item-error">{error}</div>
                         ))}
                     </div>
                 ) : null}

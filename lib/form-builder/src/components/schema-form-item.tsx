@@ -1,5 +1,7 @@
-import {Component, RenderableProps} from 'preact';
-import {FormControlProps, FormGroup} from '@zui/form-control/src/components';
+import {Component} from 'preact';
+import type {RenderableProps} from 'preact';
+import {FormGroup} from '@zui/form-control/react';
+import type {FormControlProps} from '@zui/form-control/react';
 import {$, mergeProps} from '@zui/core';
 import {FieldSchemaInfo} from '../types';
 
@@ -20,7 +22,7 @@ export class SchemaFormItem extends Component<SchemaFormItemProps> {
                 return;
             }
             if (event instanceof Event) {
-                const targetElement = event.target as HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement | HTMLSelectElement;
+                const targetElement = event.target as HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement;
                 if (targetElement.tagName === 'INPUT' && targetElement.type === 'radio' && !$(targetElement).prop('checked')) {
                     return;
                 }

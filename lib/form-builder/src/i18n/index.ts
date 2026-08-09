@@ -21,7 +21,7 @@ const zh_tw: typeof zh_cn = {
         maxLength: '“{title}”的長度不能超過{max}',
         minCount: '“{title}”的數目不能少於{min}',
         maxCount: '“{title}”的數目不能超過{max}',
-        min: '“{title}”不能小於{max}',
+        min: '“{title}”不能小於{min}',
         max: '“{title}”不能超過{max}',
         pattern: '“{title}”格式不正確',
         integer: '“{title}”必須是整數',
