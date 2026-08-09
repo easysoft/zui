@@ -80,10 +80,13 @@ console.log('Hello World!');
   <li>Mix flour, baking powder, sugar, and salt.</li>
   <li>In another bowl, mix eggs, milk, and oil.</li>
   <li>Stir both mixtures together.</li>
-  <ol>
-    <li>Fill muffin tray 3/4 full.</li>
-    <li>Bake for 20 minutes.</li>
-  </ol>
+  <li>
+    Bake
+    <ol>
+      <li>Fill muffin tray 3/4 full.</li>
+      <li>Bake for 20 minutes.</li>
+    </ol>
+  </li>
 </ol>
 ```
 
