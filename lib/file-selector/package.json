@@ -2,6 +2,11 @@
     "name": "@zui/file-selector",
     "version": "0.0.1",
     "main": "src/main.ts",
+    "exports": {
+        ".": "./src/main.ts",
+        "./css": "./src/main-css.ts",
+        "./react": "./src/main-react.ts"
+    },
     "browserslist": "",
     "keywords": [
         "css",
@@ -18,7 +23,9 @@
         "@zui/core": "workspace:^0.0.1",
         "@zui/avatar": "workspace:^0.0.1",
         "@zui/form-control": "workspace:^0.0.1",
-        "@zui/list": "workspace:^0.0.1"
+        "@zui/list": "workspace:^0.0.1",
+        "@zui/common-list": "workspace:^0.0.1",
+        "@zui/toolbar": "workspace:^0.0.1"
     },
     "devDependencies": {
         "zui-dev": "workspace:*"

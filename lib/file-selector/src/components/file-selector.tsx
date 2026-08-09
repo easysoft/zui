@@ -1,8 +1,8 @@
 import {createRef} from 'preact';
 import {CustomContent, HElement, classes, mergeProps, nextGid, $, toCssSize} from '@zui/core';
 import {formatBytes, convertBytes, formatString} from '@zui/helpers';
-import {Button} from '@zui/button/src/component';
-import {Listitem} from '@zui/list/src/component';
+import {Button} from '@zui/button/react';
+import {Listitem} from '@zui/list/react';
 import {Modal} from '@zui/modal';
 import i18nData from '../i18n';
 
@@ -46,29 +46,34 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
 
     protected _data: DataTransfer = new DataTransfer();
 
+    /** Object URLs created for local image previews. */
+    protected _objectURLs = new Map<File, string>();
+
     protected _skipAddMore?: boolean;
 
     constructor(props: P) {
+        let maxFileSize = props.maxFileSize;
         if (props.totalFileSize) {
-            if (props.maxFileSize) {
-                const {maxFileSize, totalFileSize} = props;
+            if (maxFileSize) {
+                const {totalFileSize} = props;
                 const maxSize = typeof maxFileSize === 'number' ? maxFileSize : convertBytes(maxFileSize);
                 const totalSize = typeof totalFileSize === 'number' ? totalFileSize : convertBytes(totalFileSize);
-                props.maxFileSize = maxSize > totalSize
+                maxFileSize = maxSize > totalSize
                     ? totalFileSize
                     : maxFileSize;
             } else {
-                props.maxFileSize = props.totalFileSize;
+                maxFileSize = props.totalFileSize;
             }
         }
 
-        if (!props.maxFileSize) {
-            props.maxFileSize = '100MB';
+        if (!maxFileSize) {
+            maxFileSize = '100MB';
         }
 
-        super(props);
+        super({...props, maxFileSize} as P);
         this.state = {
-            files: (props.value || props.defaultFiles || []).map(x => this.constructor.getInfo(x)),
+            files: (this.props.value || this.props.defaultFiles || []).map(x => this.constructor.getInfo(x)),
+            renaming: '',
             inputKey: 0,
         } as S;
     }
@@ -101,6 +106,7 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
     }
 
     componentDidMount(): void {
+        super.componentDidMount();
         const initFiles = this.state.files.reduce<File[]>((files, file) => {
             if (file.file) {
                 files.push(file.file);
@@ -113,6 +119,12 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
         }
     }
 
+    componentWillUnmount(): void {
+        this._objectURLs.forEach(url => URL.revokeObjectURL(url));
+        this._objectURLs.clear();
+        super.componentWillUnmount();
+    }
+
     getFile(id: string) {
         return this.state.files.find(file => file.id === id);
     }
@@ -122,11 +134,21 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
     }
 
     select() {
-        this._input.current?.click();
+        if (!this.props.disabled) {
+            this._input.current?.click();
+        }
     }
 
     setFiles(files: (StaticFileInfo | FileInfo | File)[]) {
-        this.setState({files: files.map(x => this.constructor.getInfo(x))});
+        const fileInfos = files.map(x => this.constructor.getInfo(x));
+        this._rebuildData(fileInfos);
+        this.setState({
+            files: fileInfos,
+            renaming: '',
+            newName: undefined,
+            deletedFiles: undefined,
+            renamedFiles: undefined,
+        }, () => this._syncFiles());
     }
 
     setValue(value: (StaticFileInfo | FileInfo | File)[]) {
@@ -134,6 +156,9 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
     }
 
     async selectFiles(files: FileList | File[]) {
+        if (this.props.disabled) {
+            return;
+        }
         if (this.props.onSelect?.call(this, files) === false) {
             return;
         }
@@ -301,6 +326,9 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
     }
 
     startRenameFile(id: string) {
+        if (this.props.disabled || !this.getFile(id)) {
+            return;
+        }
         this.setState({renaming: id, newName: undefined}, () => {
             const input = $(this._file.current).closest('.file-selector').find('.file-selector-rename-input')[0] as HTMLInputElement;
             if (input) {
@@ -321,7 +349,7 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
             this._data.items.remove(dataIndex);
         }
         this._data.items.add(newFile);
-        fileInfo.file = newFile;
+        this._revokeObjectURL(originFile);
         this._syncFiles(true);
         return newFile;
     }
@@ -339,21 +367,21 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
             }
         }
 
-        const {files, renamedFiles = {}} = this.state;
+        const renamedFiles = {...this.state.renamedFiles};
+        const nextFileInfo: FileInfo = {
+            ...fileInfo,
+            name: newName,
+            ext: this.constructor.getExt(newName),
+        };
         if (fileInfo.file) {
-            this.replaceFileName(fileInfo, newName);
+            nextFileInfo.file = this.replaceFileName(fileInfo, newName);
         } else {
             renamedFiles[fileInfo.id] = newName;
         }
-        fileInfo.name = newName;
-        fileInfo.ext = this.constructor.getExt(newName);
-        const index = files.indexOf(fileInfo);
-        if (index >= 0) {
-            files.splice(index, 1, fileInfo);
-        } else {
-            files.push(fileInfo);
-        }
-        this.setState({files: [...files], renamedFiles: {...renamedFiles}});
+        this.setState({
+            files: this.state.files.map(file => file.id === id ? nextFileInfo : file),
+            renamedFiles,
+        });
     }
 
     stopRenameFile = () => {
@@ -376,10 +404,9 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
         }
         const {onRemove, removeConfirm} = this.props;
         if (removeConfirm) {
-            let confirmOptions = removeConfirm;
-            if (typeof confirmOptions === 'string') {
-                confirmOptions = {message: confirmOptions} as ModalConfirmOptions;
-            }
+            const confirmOptions = typeof removeConfirm === 'string'
+                ? {message: removeConfirm} as ModalConfirmOptions
+                : {...removeConfirm};
             if (typeof confirmOptions.message === 'string') {
                 confirmOptions.message = formatString(confirmOptions.message, {
                     name: fileInfo.name,
@@ -403,38 +430,67 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
             if (dataIndex >= 0) {
                 this._data.items.remove(dataIndex);
             }
+            this._revokeObjectURL(fileInfo.file);
         }
 
-        const {files, deletedFiles = [], renamedFiles = {}} = this.state;
-        const index = files.indexOf(fileInfo);
-        if (index >= 0) {
+        if (this.state.files.includes(fileInfo)) {
+            const deletedFiles = [...(this.state.deletedFiles || [])];
+            const renamedFiles = {...this.state.renamedFiles};
             if (!fileInfo.file && !deletedFiles.includes(fileInfo.id)) {
                 delete renamedFiles[fileInfo.id];
                 deletedFiles.push(fileInfo.id);
             }
-            files.splice(index, 1);
-            this.setState({files: [...files], deletedFiles: [...deletedFiles], renamedFiles: {...renamedFiles}});
+            this.setState({
+                files: this.state.files.filter(file => file !== fileInfo),
+                deletedFiles,
+                renamedFiles,
+            });
             this._syncFiles(true);
         }
     }
 
     protected _syncFiles(triggerChange = false) {
         const files = this._data.files;
-        const element = this._file.current!;
-        element!.files = files;
+        const element = this._file.current;
+        if (!element) {
+            return;
+        }
+        element.files = files;
         if (triggerChange) {
-            $(element!).trigger('change', {files});
+            $(element).trigger('change', {files});
+        }
+    }
+
+    protected _rebuildData(files: FileInfo[]) {
+        const nextFiles = new Set(files.flatMap(file => file.file ? [file.file] : []));
+        this._objectURLs.forEach((url, file) => {
+            if (!nextFiles.has(file)) {
+                URL.revokeObjectURL(url);
+                this._objectURLs.delete(file);
+            }
+        });
+        this._data = new DataTransfer();
+        files.forEach((file) => {
+            if (file.file) {
+                this._data.items.add(file.file);
+            }
+        });
+    }
+
+    protected _revokeObjectURL(file: File) {
+        const url = this._objectURLs.get(file);
+        if (url) {
+            URL.revokeObjectURL(url);
+            this._objectURLs.delete(file);
         }
     }
 
     protected _showAlert(tip: string | ModalAlertOptions, formatData?: Record<string, unknown>) {
-        if (typeof tip === 'string') {
-            tip = {message: tip} as ModalAlertOptions;
+        const options = typeof tip === 'string' ? {message: tip} as ModalAlertOptions : {...tip};
+        if (typeof options.message === 'string') {
+            options.message = formatString(options.message, {...this.info, ...formatData});
         }
-        if (typeof tip.message === 'string') {
-            tip.message = formatString(tip.message, {...this.info, ...formatData});
-        }
-        return Modal.alert(tip);
+        return Modal.alert(options);
     }
 
     protected _getTip(tip: CustomContentType): CustomContentType {
@@ -445,20 +501,26 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
     }
 
     protected _handleChange = (event: Event) => {
+        if (this.props.disabled) {
+            return;
+        }
         const input = event.target as HTMLInputElement;
         if (!input.files) {
             return;
         }
-        this.selectFiles(input.files);
+        this.selectFiles(this.constructor.filterFiles(input.files, this.props.accept) as File[]);
         this.setState({inputKey: nextGid()});
     };
 
     protected _renderInput(props: RenderableProps<P>) {
-        return <input key={`input${this.state.inputKey}`} id={this._id} multiple={this.multiple} accept={props.accept} style="display:none" type="file" ref={this._input} onChange={this._handleChange} />;
+        return <input key={`input${this.state.inputKey}`} id={this._id} multiple={this.multiple} accept={props.accept} disabled={props.disabled} style={{display: 'none'}} type="file" ref={this._input} onChange={this._handleChange} />;
     }
 
     protected _handleDragOver = (event: DragEvent) => {
         event.preventDefault();
+        if (this.props.disabled) {
+            return;
+        }
         if (!this.state.dragging) {
             this.setState({dragging: true});
         }
@@ -471,6 +533,9 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
 
     protected _handleDrop = (event: DragEvent) => {
         this._handleDragLeave(event);
+        if (this.props.disabled) {
+            return;
+        }
         const dataTransfer = event.dataTransfer;
         if (!dataTransfer) {
             return;
@@ -548,7 +613,7 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
         const {name, accept, onChange, deleteName, renameName} = props;
         const {deletedFiles, renamedFiles} = this.state;
         const views = [
-            <input key="form" ref={this._file} type="file" name={name} multiple={this.multiple} accept={accept} style="display:none" onChange={onChange} />,
+            <input key="form" ref={this._file} type="file" name={name} multiple={this.multiple} accept={accept} disabled={this.props.disabled} style={{display: 'none'}} onChange={onChange} />,
         ];
         if (deleteName && deletedFiles) {
             views.push(
@@ -576,7 +641,16 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
 
     protected _getThumbnail(file: FileInfo) {
         if ((file.file || file.url) && this.props.thumbnail && this.constructor.isImage(file)) {
-            return file.url || URL.createObjectURL(file.file!);
+            if (file.url) {
+                return file.url;
+            }
+            const localFile = file.file!;
+            let url = this._objectURLs.get(localFile);
+            if (!url) {
+                url = URL.createObjectURL(localFile);
+                this._objectURLs.set(localFile, url);
+            }
+            return url;
         }
     }
 
@@ -779,15 +853,18 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
             return true;
         }
         const acceptTypes = Array.isArray(accept) ? accept : accept.split(',');
-        return acceptTypes.some((acceptType) => {
-            if (file.type && acceptType === file.type) {
+        const fileType = file.type.toLowerCase();
+        const fileName = file.name.toLowerCase();
+        return acceptTypes.some((type) => {
+            const acceptType = type.trim().toLowerCase();
+            if (fileType && acceptType === fileType) {
                 return true;
             }
             if (acceptType.startsWith('.')) {
-                return file.name.endsWith(acceptType);
+                return fileName.endsWith(acceptType);
             }
             if (acceptType.endsWith('/*')) {
-                return file.type.startsWith(acceptType.slice(0, -1));
+                return fileType.startsWith(acceptType.slice(0, -1));
             }
             return false;
         });
