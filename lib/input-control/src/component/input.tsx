@@ -8,6 +8,8 @@ type InputProps = {
     type?: string;
     defaultValue?: string;
     value?: string;
+    disabled?: boolean;
+    readonly?: boolean;
     onChange?: (value: string) => void;
     icon?: string;
 };
@@ -21,13 +23,15 @@ export default class Input extends Component<InputProps, InputState> {
         super(props);
 
         this.state = {
-            value: props.defaultValue ?? '',
+            value: props.value ?? props.defaultValue ?? '',
         };
     }
 
     handleChange = (e: JSXInternal.TargetedEvent<HTMLInputElement, Event>) => {
         const value = (e.target as HTMLInputElement).value;
-        this.setState({value});
+        if (this.props.value === undefined) {
+            this.setState({value});
+        }
         const {onChange} = this.props;
 
         if (onChange) {
@@ -36,7 +40,9 @@ export default class Input extends Component<InputProps, InputState> {
     };
 
     handleClear = () => {
-        this.setState({value: ''});
+        if (this.props.value === undefined) {
+            this.setState({value: ''});
+        }
         const {onChange} = this.props;
 
         if (onChange) {
@@ -51,18 +57,18 @@ export default class Input extends Component<InputProps, InputState> {
     }
 
     render() {
-        const {type = 'text', icon, value: _value, defaultValue, className, style, onChange, ...rest} = this.props;
-        const {value} = this.state;
+        const {type = 'text', icon, value: controlledValue, defaultValue, className, style, onChange, disabled, readonly, ...rest} = this.props;
+        const value = controlledValue ?? this.state.value;
 
-        const iconView = icon ? <label className="input-control-prefix"><i className={`icon icon-${icon}`}></i></label> : null;
+        const iconView = icon ? <span className="input-control-prefix" aria-hidden="true"><i className={`icon icon-${icon}`}></i></span> : null;
 
         return (
-            <div className={classes('zui-input input-control has-prefix-icon', className)} style={style}>
+            <div className={classes('zui-input input-control', icon ? 'has-prefix-icon' : '', className)} style={style}>
                 {iconView}
-                <input className="form-control" type={type} value={value} onChange={this.handleChange} {...rest} />
-                <span className={classes('-absolute -w-8 -h-8 -right-0 -top-0 -flex -justify-center -items-center -cursor-pointer', {'-hidden': !value})} onClick={this.handleClear}>
-                    <i className="icon icon-close"></i>
-                </span>
+                <input className="form-control" type={type} value={value} disabled={disabled} readonly={readonly} onChange={this.handleChange} {...rest} />
+                <button type="button" className={classes('-absolute -w-8 -h-8 -right-0 -top-0 -flex -justify-center -items-center -cursor-pointer -appearance-none -border-0 -bg-transparent -p-0', {'-hidden': !value || disabled || readonly})} onClick={this.handleClear} aria-label="Clear input">
+                    <i className="icon icon-close" aria-hidden="true"></i>
+                </button>
             </div>
         );
     }
