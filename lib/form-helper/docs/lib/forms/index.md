@@ -53,6 +53,13 @@ helper.setFormData({
 });
 ```
 
+当表单通过异步内容或前端渲染替换了字段节点，并且启用了 `cacheQuery` 时，可调用 `clearCache()` 使后续查询重新读取 DOM；也可以传入单个查询名只清除该字段的缓存。
+
+```js
+helper.clearCache();
+helper.clearCache('username');
+```
+
 ## 获取字段信息
 
 使用 `getFieldInfo(query)` 方法获取字段的完整信息，返回一个 `FormField` 对象，包含字段的 DOM 元素、名称、当前值以及关联的控件信息。

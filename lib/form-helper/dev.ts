@@ -10,7 +10,7 @@ import '@zui/color-picker';
 import {FormHelper} from './src/main';
 
 onPageUpdate(() => {
-    const formBuilder = new FormHelper('#formBuilderExample', {
+    const formHelper = new FormHelper('#formHelperExample', {
     });
-    console.log('> formBuilder', formBuilder);
+    console.log('> formHelper', formHelper);
 });
