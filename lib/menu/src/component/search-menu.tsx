@@ -195,7 +195,7 @@ export class SearchMenu<T extends SearchMenuOptions = SearchMenuOptions> extends
         );
     }
 
-    protected _beforeRender(props: RenderableProps<T>): void | RenderableProps<T> | undefined {
+    protected _beforeRender(props: RenderableProps<T>): void | undefined {
         if (this.isRoot) {
             this._matchedParents = new Set();
             this._showCount = 0;
