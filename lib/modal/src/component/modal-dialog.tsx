@@ -1,5 +1,5 @@
-import {classes, CustomContent, $} from '@zui/core';
-import {Toolbar} from '@zui/toolbar/src/component/toolbar';
+import {classes, CustomContent, $, getLang} from '@zui/core';
+import {Toolbar} from '@zui/toolbar/react';
 import {Component, createRef, isValidElement} from 'preact';
 import {ModalDialogOptions, ModalDialogState} from '../types';
 
@@ -68,7 +68,7 @@ export class ModalDialog extends Component<ModalDialogOptions, ModalDialogState>
             <div className="modal-actions">
                 {actions ? <Toolbar {...actions} /> : null}
                 {closeBtn ? (
-                    <button type="button" class="btn square ghost" data-dismiss="modal"><span class="close"></span></button>
+                    <button type="button" className="btn square ghost" aria-label={getLang('close', undefined, 'Close') || 'Close'} data-dismiss="modal"><span className="close"></span></button>
                 ) : null}
             </div>
         );
@@ -129,7 +129,7 @@ export class ModalDialog extends Component<ModalDialogOptions, ModalDialogState>
                     {children}
                     {this.renderFooter()}
                 </div>
-                {loading ? <div class="load-indicator loading" /> : null}
+                {loading ? <div className="load-indicator loading" /> : null}
             </div>
         );
     }

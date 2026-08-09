@@ -43,32 +43,46 @@ export class ModalIframeContent extends Component<ModalIframeContentProps> {
         this._rob?.disconnect();
         if (this._timer) {
             clearTimeout(this._timer);
+            this._timer = 0;
         }
     }
 
     _watchIframeHeight() {
-        const iframeDoc = this.iframeDoc;
-        if (!iframeDoc) {
-            return;
-        }
-        let rob = this._rob;
-        rob?.disconnect();
-        rob = new ResizeObserver(() => {
-            if (this._timer) {
-                clearTimeout(this._timer);
+        try {
+            const iframeDoc = this.iframeDoc;
+            const iframeBody = iframeDoc?.body;
+            if (!iframeDoc || !iframeBody) {
+                return;
             }
-            this._timer = window.setTimeout(() => {
-                const body = iframeDoc.body;
-                const html = iframeDoc.documentElement;
-                const height = Math.ceil(Math.max(body.scrollHeight, body.offsetHeight, html.offsetHeight));
-                if (height && height !== this._height.value) {
-                    this._height.value = height;
+            let rob = this._rob;
+            rob?.disconnect();
+            rob = new ResizeObserver(() => {
+                if (this._timer) {
+                    clearTimeout(this._timer);
                 }
-                this._timer = 0;
-            }, 10);
-        });
-        rob.observe(iframeDoc.body);
-        this._rob = rob;
+                this._timer = window.setTimeout(() => {
+                    try {
+                        const body = iframeDoc.body;
+                        const html = iframeDoc.documentElement;
+                        if (!body || !html) {
+                            return;
+                        }
+                        const height = Math.ceil(Math.max(body.scrollHeight, body.offsetHeight, html.offsetHeight));
+                        if (height && height !== this._height.value) {
+                            this._height.value = height;
+                        }
+                    } catch {
+                        // Cross-origin iframes cannot expose a document for height measurement.
+                    } finally {
+                        this._timer = 0;
+                    }
+                }, 10);
+            });
+            rob.observe(iframeBody);
+            this._rob = rob;
+        } catch {
+            // Cross-origin iframes cannot be observed.
+        }
     }
 
     _handleIframeLoad = () => {
@@ -85,7 +99,10 @@ export class ModalIframeContent extends Component<ModalIframeContentProps> {
             }
 
             if (iframeBodyClass) {
-                iframeDoc.body.classList.add(iframeBodyClass);
+                const classNames = iframeBodyClass.split(/\s+/).filter(Boolean);
+                if (classNames.length) {
+                    iframeDoc.body.classList.add(...classNames);
+                }
             }
         } catch {
             // ignore error

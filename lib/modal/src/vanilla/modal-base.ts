@@ -124,6 +124,10 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
     }
 
     destroy(): void {
+        if (this._timer) {
+            clearTimeout(this._timer);
+            this._timer = 0;
+        }
         super.destroy();
         this._cancelObserver();
     }
@@ -190,11 +194,11 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
             return false;
         }
 
-        this._shown = false;
-        $(this.modalElement).removeClass(CLASS_SHOWN);
         if (this.options.onHide?.call(this as ModalBase) === false) {
             return false;
         }
+        this._shown = false;
+        $(this.modalElement).removeClass(CLASS_SHOWN);
         this.emit('hide');
 
         this._setTimer(() => {

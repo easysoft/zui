@@ -1,12 +1,11 @@
 import {createRef, RefObject, render} from 'preact';
-import {delay, i18n, $, nextGid, HtmlContent, classes, CustomContent} from '@zui/core';
+import {delay, i18n, $, nextGid, HtmlContent, classes, CustomContent, dom} from '@zui/core';
 import {ModalBase} from './modal-base';
 import {ModalOptions, ModalDialogOptions, ModalCustomOptions, ModalAjaxOptions, ModalAlertOptions, ModalTypedOptions, ModalConfirmOptions, ModalPromptOptions} from '../types';
 import {ModalDialog} from '../component';
 import {ModalIframeContent} from '../component/modal-iframe-content';
 
 import type {ToolbarOptions, ToolbarItemOptions} from '@zui/toolbar';
-import {isElementDetached} from '@zui/core/src/dom';
 
 type ModalDialogHTML = [html: string];
 
@@ -176,7 +175,7 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
         }
         this._autoDestory = window.setTimeout(() => {
             this._autoDestory = 0;
-            if (isElementDetached(this.element) || (this.options.type === 'static' && isElementDetached(this.modalElement))) {
+            if (dom.isElementDetached(this.element) || (this.options.type === 'static' && dom.isElementDetached(this.modalElement))) {
                 this.destroy();
             }
         }, delay);
@@ -191,13 +190,18 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
     }
 
     destroy() {
+        if (this.#loadingTimer) {
+            clearTimeout(this.#loadingTimer);
+            this.#loadingTimer = 0;
+        }
+        this._staticMbo?.disconnect();
+        this._staticMbo = undefined;
         super.destroy();
         const modal = this.#modal;
         if (modal) {
             $(modal).removeData(this.constructor.KEY).remove();
             this.#modal = undefined;
         }
-        this._staticMbo?.disconnect();
     }
 
     render(options?: Partial<T>) {
@@ -278,7 +282,12 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
             }, loadTimeout);
         }
 
-        const result = await build.call(this as Modal, modalElement, options);
+        let result: ModalDialogOptions | ModalDialogHTML | boolean | undefined;
+        try {
+            result = await build.call(this as Modal, modalElement, options);
+        } catch {
+            result = false;
+        }
         if (this._destroyed) {
             return false;
         }
@@ -299,7 +308,9 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
 
         await delay(100);
 
-        $modal.removeClass(loadingClass);
+        if (!this._destroyed) {
+            $modal.removeClass(loadingClass);
+        }
 
         return true;
     }
@@ -421,7 +432,7 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
         if (typeof options === 'string') {
             options = {message: options} as ModalPromptOptions;
         }
-        const {defaultValue = '', placeholder, onResult, onShown, message, content, bodyClass, custom, multiline, ...otherOptions} = options;
+        const {defaultValue = '', placeholder, onResult, message, content, bodyClass, custom, multiline, ...otherOptions} = options;
         let result = defaultValue;
         let enterKeyPressed = false;
         const onChange = (e: Event) => {
@@ -429,7 +440,7 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
         };
         const modal = createRef<Modal>();
         const onKeyDown = (e: KeyboardEvent) => {
-            if (e.key === 'Enter') {
+            if (e.key === 'Enter' && (!multiline || e.ctrlKey || e.metaKey)) {
                 enterKeyPressed = true;
                 e.preventDefault();
                 modal.current?.hide();
@@ -451,7 +462,11 @@ export class Modal<T extends ModalOptions = ModalOptions> extends ModalBase<T> {
                 </div>
             ),
         });
-        return (confirmed || enterKeyPressed) ? result : null;
+        if (confirmed || enterKeyPressed) {
+            onResult?.(result, modal.current!);
+            return result;
+        }
+        return null;
     }
 }
 
