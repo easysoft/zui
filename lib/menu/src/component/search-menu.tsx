@@ -1,6 +1,6 @@
 import {$, classes, mergeProps} from '@zui/core';
 import {formatString} from '@zui/helpers';
-import {SearchBox} from '@zui/search-box/src/components';
+import {SearchBox} from '@zui/search-box/react';
 import {Menu} from './menu';
 
 import {type ComponentChild, type ComponentChildren, type RenderableProps} from 'preact';

@@ -1,5 +1,5 @@
 import {CustomContent, classes, mergeProps} from '@zui/core';
-import {NestedList, Listitem} from '@zui/list/src/component';
+import {NestedList, Listitem} from '@zui/list/react';
 
 import type {Attributes, ComponentChildren, RenderableProps} from 'preact';
 import type {ClassNameLike} from '@zui/core';
