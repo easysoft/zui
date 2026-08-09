@@ -10,3 +10,5 @@ export class Card extends ComponentFromReact<CardProps, CardReact> {
 
     static replace = true;
 }
+
+Card.register();

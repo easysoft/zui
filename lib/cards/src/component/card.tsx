@@ -1,7 +1,7 @@
 import {ClassNameLike, CustomContent, HElement, Icon, classes, mergeProps} from '@zui/core';
-import {Avatar} from '@zui/avatar/src/component';
-import {Toolbar} from '@zui/toolbar/src/component';
-import {List} from '@zui/list/src/component';
+import {Avatar} from '@zui/avatar/react';
+import {Toolbar} from '@zui/toolbar/react';
+import {List} from '@zui/list/react';
 
 import type {ComponentChildren, RenderableProps} from 'preact';
 import type {CardProps} from '../types';
@@ -100,8 +100,7 @@ export class Card<P extends CardProps = CardProps, S = object> extends HElement<
         if (avatar) {
             const avatarProps = typeof avatar === 'function' ? avatar.call(this, props) : avatar;
             if (avatarProps) {
-                avatarProps.className = classes('item-avatar', avatarProps.className);
-                return <Avatar key="avatar" {...avatarProps} />;
+                return <Avatar key="avatar" {...avatarProps} className={classes('item-avatar', avatarProps.className)} />;
             }
         }
     }

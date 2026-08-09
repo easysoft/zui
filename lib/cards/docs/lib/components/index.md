@@ -40,6 +40,33 @@
 
 :::
 
+## JavaScript 组件
+
+除 CSS 卡片外，`Card` 和 `CardList` 也提供原生包装器与 Preact 组件。通过公开入口导入可避免依赖库内 `src/*` 路径。
+
+```js
+import {Card, CardList} from '@zui/cards';
+
+new Card('#cardExample', {
+  title: '卡片标题',
+  subtitle: '副标题',
+  content: '卡片内容',
+  selected: true,
+});
+
+new CardList('#cardListExample', {
+  countPerRow: 3,
+  items: [{title: '第一张卡片'}, {title: '第二张卡片'}],
+});
+```
+
+```tsx
+import {Card, CardList} from '@zui/cards/react';
+
+<Card title="卡片标题" content="卡片内容" />
+<CardList countPerRow={3} items={[{title: '第一张卡片'}]} />
+```
+
 ## 选中状态
 
 卡片支持选中状态，添加 `selected` 类。

@@ -1,5 +1,5 @@
 import {ClassNameLike, mergeProps, toCssSize} from '@zui/core';
-import {List} from '@zui/list/src/component';
+import {List} from '@zui/list/react';
 import {CardItem} from './card-item';
 
 import type {RenderableProps} from 'preact';

@@ -10,7 +10,13 @@
     "main": "src/main.ts",
     "module": "src/main.ts",
     "browser": "src/main.ts",
+    "exports": {
+        ".": "./src/main.ts",
+        "./css": "./src/main-css.ts",
+        "./react": "./src/main-react.ts"
+    },
     "dependencies": {
+        "@zui/avatar": "workspace:^0.0.1",
         "@zui/core": "workspace:^0.0.1",
         "@zui/helpers": "workspace:^0.0.1",
         "@zui/common-list": "workspace:^0.0.1",
@@ -23,6 +29,9 @@
         "./src/**/*"
     ],
     "devDependencies": {
+        "@zui/button": "workspace:^0.0.1",
+        "@zui/icons": "workspace:^0.0.1",
+        "@zui/label": "workspace:^0.0.1",
         "zui-dev": "workspace:^0.0.1"
     },
     "zui": {
