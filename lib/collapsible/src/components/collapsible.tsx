@@ -1,10 +1,10 @@
 import {classes, CustomContent, HElement} from '@zui/core';
-import {Button} from '@zui/button/src/component';
+import {Button} from '@zui/button/react';
 
 import type {ClassNameLike} from '@zui/core';
 import type {ComponentChildren, RenderableProps} from 'preact';
 import type {CollapsibleProps, CollapsibleState} from '../types';
-import {Toolbar} from '@zui/toolbar/src/component';
+import {Toolbar} from '@zui/toolbar/react';
 
 export class Collapsible extends HElement<CollapsibleProps, CollapsibleState> {
     static defaultProps = {
@@ -25,25 +25,12 @@ export class Collapsible extends HElement<CollapsibleProps, CollapsibleState> {
 
     toggle(collapsed?: boolean) {
         const {collapsed: collapsedProp, onChange} = this.props;
+        const nextCollapsed = collapsed ?? !this.collapsed;
+        if (nextCollapsed === this.collapsed || onChange?.call(this, nextCollapsed) === false) {
+            return;
+        }
         if (collapsedProp === undefined) {
-            let changedCollapsed: boolean | undefined;
-            this.setState((prevState) => {
-                collapsed = collapsed ?? !prevState.collapsed;
-                if (collapsed !== prevState.collapsed) {
-                    changedCollapsed = collapsed;
-                    return {collapsed};
-                }
-                return null;
-            }, () => {
-                if (onChange && typeof changedCollapsed === 'boolean') {
-                    onChange.call(this, changedCollapsed);
-                }
-            });
-        } else {
-            collapsed = collapsed ?? !collapsedProp;
-            if (collapsedProp !== collapsed) {
-                onChange?.call(this, collapsed);
-            }
+            this.setState({collapsed: nextCollapsed});
         }
     }
 
@@ -59,6 +46,9 @@ export class Collapsible extends HElement<CollapsibleProps, CollapsibleState> {
     }
 
     protected _handleClickHeader = (event: MouseEvent) => {
+        if (this.props.disabled) {
+            return;
+        }
         const target = event.target as HTMLElement;
         if (target.closest('.collapsible-toggle-btn') || (this.props.toggleOnClickHeader && !target.closest('a,button'))) {
             this.toggle();
@@ -66,17 +56,18 @@ export class Collapsible extends HElement<CollapsibleProps, CollapsibleState> {
     };
 
     protected _renderHeader(props: RenderableProps<CollapsibleProps>) {
-        const {header, headerClass, collapsedIcon, expandedIcon, toggleButton, title, actions, caption} = props;
+        const {header, headerClass, collapsedIcon, expandedIcon, toggleButton, title, actions, caption, disabled} = props;
         const {collapsed} = this;
         const icon = collapsed ? collapsedIcon : expandedIcon;
+        const {className: toggleButtonClass, ...toggleButtonProps} = toggleButton || {};
         return (
             <div
                 key="header"
                 className={classes('collapsible-header', headerClass)}
                 onClick={this._handleClickHeader}
             >
-                <Button className="collapsible-toggle-btn" size="sm" type="ghost" icon={icon} square {...toggleButton}>
-                    {icon ? null : <span class={`text-xs ${collapsed ? 'chevron-right' : 'chevron-down'}`}></span>}
+                <Button className={classes('collapsible-toggle-btn', toggleButtonClass)} size="sm" type="ghost" icon={icon} square disabled={disabled} aria-expanded={!collapsed} {...toggleButtonProps}>
+                    {icon ? null : <span className={`text-xs ${collapsed ? 'chevron-right' : 'chevron-down'}`}></span>}
                 </Button>
                 {title ? <CustomContent className="collapsible-header-title" content={title} /> : null}
                 {caption ? <CustomContent className="collapsible-header-caption" content={caption} /> : null}

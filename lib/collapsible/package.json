@@ -16,7 +16,13 @@
         "@zui/toolbar": "workspace:^0.0.1"
     },
     "files": [
+        "./src/**/*"
     ],
+    "exports": {
+        ".": "./src/main.ts",
+        "./css": "./src/main-css.ts",
+        "./react": "./src/main-react.ts"
+    },
     "zui": {
         "type": "control",
         "displayName": "折叠",
