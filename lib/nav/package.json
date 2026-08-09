@@ -10,18 +10,23 @@
         "@zui/icons": "workspace:^0.0.1",
         "@zui/button": "workspace:^0.0.1",
         "@zui/btn-group": "workspace:^0.0.1",
-        "@zui/dropdown": "workspace:^0.0.1",
         "zui-dev": "workspace:^0.0.1"
     },
     "dependencies": {
         "@zui/core": "workspace:^0.0.1",
         "@zui/css-icons": "workspace:^0.0.1",
         "@zui/common-list": "workspace:^0.0.1",
+        "@zui/dropdown": "workspace:^0.0.1",
         "@zui/list": "workspace:^0.0.1"
     },
     "files": [
-         "./src/**/*"
+        "./src/**/*"
     ],
+    "exports": {
+        ".": "./src/main.ts",
+        "./css": "./src/main-css.ts",
+        "./react": "./src/main-react.ts"
+    },
     "zui": {
         "type": "component",
         "displayName": "导航",
