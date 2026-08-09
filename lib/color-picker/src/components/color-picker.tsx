@@ -1,8 +1,8 @@
 import {ComponentChildren, RenderableProps} from 'preact';
 import {Icon, $, classes} from '@zui/core';
-import '@zui/css-icons/src/icons/close.css';
-import {Pick} from '@zui/pick/src/components/pick';
-import {PickOptions, PickState, PickTriggerProps} from '@zui/pick/src/types';
+import '@zui/css-icons';
+import {Pick} from '@zui/pick/react';
+import {PickOptions, PickState, PickTriggerProps} from '@zui/pick';
 import {ColorPickerOptions} from '../types';
 
 export class ColorPicker extends Pick<PickState, ColorPickerOptions> {
@@ -18,7 +18,7 @@ export class ColorPicker extends Pick<PickState, ColorPickerOptions> {
 
     getDefaultState(props?: RenderableProps<ColorPickerOptions> | undefined): PickState {
         const state = super.getDefaultState(props);
-        if (state.value === undefined && (props || this.props).required) {
+        if (!state.value && (props || this.props).required) {
             state.value = this.getColors()[0];
         }
         return state;
@@ -27,12 +27,13 @@ export class ColorPicker extends Pick<PickState, ColorPickerOptions> {
     getColors() {
         const {colors} = this.props;
         if (typeof colors === 'string') {
-            return colors.split(',');
+            return colors.split(',').map(color => color.trim()).filter(Boolean);
         }
         return colors || [];
     }
 
     componentDidMount(): void {
+        super.componentDidMount();
         this.syncColor();
     }
 
@@ -59,9 +60,6 @@ export class ColorPicker extends Pick<PickState, ColorPickerOptions> {
     }
 
     _handleChange(value: string | undefined, prevValue: string | undefined) {
-        if (this.props.disabled) {
-            return;
-        }
         super._handleChange(value || '', prevValue || '');
         this.syncColor();
     }
@@ -70,7 +68,7 @@ export class ColorPicker extends Pick<PickState, ColorPickerOptions> {
         const {icon, hint = ''} = props;
         const {value} = state;
         return [
-            icon ? <Icon key="icon" icon={icon} title={hint} /> : <span class="color-picker-item bg-current ring ring-gray ring-inset" style={{background: value}} title={hint}></span>,
+            icon ? <Icon key="icon" icon={icon} title={hint} /> : <span className="color-picker-item bg-current ring ring-gray ring-inset" style={{background: value}} title={hint}></span>,
         ];
     }
 
@@ -92,15 +90,15 @@ export class ColorPicker extends Pick<PickState, ColorPickerOptions> {
             headingView = (
                 <div key="heading" className="color-picker-heading">
                     {heading}
-                    {closeBtn ? <button className="btn ghost square rounded size-sm" data-dismiss="pick"><span class="close"></span></button> : null}
+                    {closeBtn ? <button type="button" className="btn ghost square rounded size-sm" data-dismiss="pick"><span className="close"></span></button> : null}
                 </div>
             );
         }
         return [
             headingView,
             <div key="row" className="color-picker-row">
-                {colors.map(color => (<button key={color} className="btn color-picker-item" style={{backgroundColor: color}} data-pick-value={color}>{value === color ? <Icon icon="check" /> : null}</button>))}
-                <button className="btn color-picker-item" data-pick-value=""><Icon className="text-fore" icon="trash" /></button>
+                {colors.map(color => (<button key={color} type="button" className="btn color-picker-item" style={{backgroundColor: color}} data-pick-value={color} aria-label={color}>{value === color ? <Icon icon="check" /> : null}</button>))}
+                <button type="button" className="btn color-picker-item" data-pick-value=""><Icon className="text-fore" icon="trash" /></button>
             </div>,
         ];
     }
