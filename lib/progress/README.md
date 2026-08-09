@@ -2,6 +2,16 @@
 
 进度条提供了工作或动作的实时反馈。
 
+## JavaScript 组件
+
+```html:example
+<div id="progressBarExample"></div>
+```
+
+```js
+new ProgressBar('#progressBarExample', {percent: 65, height: 20, width: 320});
+```
+
 ## 使用方法
 
 ```htnl:example

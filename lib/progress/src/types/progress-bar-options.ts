@@ -6,7 +6,7 @@ export type ProgressBarOptions = {
     percent?: number;
     color?: string;
     background?: string;
-    height: number;
-    width: 'auto' | '100%' | number | ({} & string);
+    height?: number;
+    width?: 'auto' | '100%' | number | ({} & string);
     children?: ComponentChildren;
 };

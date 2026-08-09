@@ -24,6 +24,24 @@
 
 :::
 
+## JavaScript 组件
+
+`ProgressBar` 同时提供原生包装器和 Preact 组件；百分比会限制在 `0` 到 `100` 之间，并带有 `progressbar` 无障碍语义。
+
+```js
+const progress = new zui.ProgressBar('#progressBarExample', {
+    percent: 65,
+    height: 20,
+    width: 320,
+});
+```
+
+```tsx
+import {ProgressBar} from '@zui/progress/react';
+
+<ProgressBar percent={65} height={20} width={320} />
+```
+
 ## 颜色主题
 
 给 `.progress-bar` 元素添加 `.*` 等颜色[CSS工具类](/utilities/style/utilities/solid)，得到各种颜色的进度条。
