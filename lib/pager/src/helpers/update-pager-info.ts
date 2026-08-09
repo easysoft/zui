@@ -2,7 +2,10 @@ import {PageName} from '../types';
 import {PagerInfo} from '../types/pager-info';
 
 export function updatePagerInfo(info: PagerInfo, page?: PageName): PagerInfo {
-    const pageTotal = info.pageTotal || Math.ceil(info.recTotal / info.recPerPage);
+    const recTotal = Number.isFinite(info.recTotal) ? Math.max(0, info.recTotal) : 0;
+    const recPerPage = Number.isFinite(info.recPerPage) ? Math.max(1, info.recPerPage) : 1;
+    const calculatedPageTotal = Math.ceil(recTotal / recPerPage);
+    const pageTotal = Number.isFinite(info.pageTotal) && info.pageTotal > 0 ? info.pageTotal : calculatedPageTotal;
     if (typeof page === 'string') {
         if (page === 'first') {
             page = 1;
@@ -18,9 +21,15 @@ export function updatePagerInfo(info: PagerInfo, page?: PageName): PagerInfo {
             page = Number.parseInt(page, 10);
         }
     }
-    page = page !== undefined ? Math.max(1, Math.min(page < 0 ? (pageTotal + page) : page, pageTotal)) : info.page;
+    if (!pageTotal) {
+        return {...info, recTotal, recPerPage, pageTotal: 0, page: 0};
+    }
+    const candidate = typeof page === 'number' && Number.isFinite(page) ? page : info.page;
+    page = Math.max(1, Math.min(candidate < 0 ? (pageTotal + candidate) : candidate, pageTotal));
     return {
         ...info,
+        recTotal,
+        recPerPage,
         pageTotal,
         page: page,
     };

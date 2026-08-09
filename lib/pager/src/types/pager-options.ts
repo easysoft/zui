@@ -1,4 +1,4 @@
-import type {ToolbarOptions} from '@zui/toolbar/src/types';
+import type {ToolbarOptions} from '@zui/toolbar';
 import type {PageLinkCreator} from './page-link-creator';
 import type {PagerInfo} from './pager-info';
 

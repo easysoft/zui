@@ -1,5 +1,5 @@
 import {$, computed, effect, signal} from '@zui/core';
-import {Toolbar} from '@zui/toolbar/src/component';
+import {Toolbar} from '@zui/toolbar/react';
 import {PagerLink} from './pager-link';
 import {PagerInfoItem} from './pager-info';
 import {PagerNav} from './pager-nav';
@@ -55,7 +55,7 @@ export class Pager<T extends PagerOptions = PagerOptions> extends Toolbar<T> {
     }
 
     protected _handleClickLink = (event: MouseEvent) => {
-        const $target = $(event.currentTarget as HTMLElement);
+        const $target = $(event.target as HTMLElement).closest('[z-go-to-page]');
         if ($target.is('.disabled')) {
             return;
         }
@@ -83,10 +83,11 @@ export class Pager<T extends PagerOptions = PagerOptions> extends Toolbar<T> {
 
     componentDidUpdate(previousProps: Readonly<T>): void {
         if (this.props.useState) {
-            if (this.props.recTotal !== previousProps.recTotal) {
+            if (this.props.recTotal !== previousProps.recTotal || this.props.recPerPage !== previousProps.recPerPage) {
                 this._pagerChanges.value = {
                     ...this._pagerChanges.value,
                     recTotal: this.props.recTotal,
+                    recPerPage: this.props.recPerPage,
                 };
             }
         } else {
@@ -99,6 +100,7 @@ export class Pager<T extends PagerOptions = PagerOptions> extends Toolbar<T> {
 
     componentWillUnmount(): void {
         this._changeEffect();
+        super.componentWillUnmount();
     }
 
     protected _beforeRender(props: RenderableProps<T>): void | RenderableProps<T> | undefined {
@@ -124,7 +126,7 @@ export class Pager<T extends PagerOptions = PagerOptions> extends Toolbar<T> {
                 ...(propsMap.menu as object),
             };
         }
-        if (type === 'link') {
+        if (type === 'link' || type === 'nav') {
             propsMap.onClick = this._handleClickLink;
         }
         return propsMap;
@@ -132,11 +134,11 @@ export class Pager<T extends PagerOptions = PagerOptions> extends Toolbar<T> {
 
     static format(pagerInfo: PagerInfo): PagerInfo {
         const {page = 1, recTotal = 0, recPerPage = 10} = pagerInfo;
-        const finalRecTotal = Math.max(0, +recTotal);
-        const finalRecPerPage = Math.max(1, +recPerPage);
+        const finalRecTotal = Number.isFinite(+recTotal) ? Math.max(0, +recTotal) : 0;
+        const finalRecPerPage = Number.isFinite(+recPerPage) ? Math.max(1, +recPerPage) : 1;
         const pageTotal = finalRecPerPage ? Math.ceil(finalRecTotal / finalRecPerPage) : 0;
         return {
-            page: Math.min(Math.max(1, +page), pageTotal),
+            page: pageTotal ? Math.min(Math.max(1, Number.isFinite(+page) ? +page : 1), pageTotal) : 0,
             recTotal: finalRecTotal,
             recPerPage: finalRecPerPage,
             pageTotal,
