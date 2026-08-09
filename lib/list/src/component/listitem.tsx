@@ -1,8 +1,8 @@
 import {toChildArray} from 'preact';
 import {CustomContent, HElement, Icon, classes, mergeProps} from '@zui/core';
-import {Avatar} from '@zui/avatar/src/component';
-import {Toolbar} from '@zui/toolbar/src/component';
-import {Checkbox} from '@zui/checkbox/src/component';
+import {Avatar} from '@zui/avatar/react';
+import {Toolbar} from '@zui/toolbar/react';
+import {Checkbox} from '@zui/checkbox/react';
 
 import type {ComponentChild, ComponentChildren, ComponentType, JSX, RenderableProps} from 'preact';
 import type {ListitemProps} from '../types';
@@ -103,7 +103,6 @@ export class Listitem<P extends ListitemProps = ListitemProps, S = unknown> exte
             return contents.length ? [
                 <div key="trailing" className={classes('item-trailing', trailingClass)}>
                     {contents}
-                    {customTrailing}
                 </div>,
             ] : [];
         }

@@ -1,5 +1,5 @@
 import {$, Computed, HElement, classes, fetchData, mergeProps, removeUndefinedProps} from '@zui/core';
-import {CommonList} from '@zui/common-list/src/component';
+import {CommonList} from '@zui/common-list/react';
 import {Listitem} from './listitem';
 
 import type {ComponentChild, ComponentChildren, RenderableProps} from 'preact';
@@ -201,7 +201,13 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
             const activeMap = this.props.multipleActive ? (keys as string[]).reduce<Record<string, boolean>>((map, key) => {
                 map[key] = active!;
                 return map;
-            }, {...prevState.activeMap}) : {[keys[0]]: active!};
+            }, {...prevState.activeMap}) : {
+                ...(active ? Array.from(this._activeSet.value).reduce<Record<string, boolean>>((map, key) => {
+                    map[key] = false;
+                    return map;
+                }, {}) : {}),
+                [keys[0]]: active!,
+            };
             return {activeMap} as Partial<S>;
         }, () => {
             this.props.onActive?.call(this, keys as string[], active!);

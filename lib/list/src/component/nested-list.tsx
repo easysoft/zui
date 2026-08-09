@@ -1,7 +1,7 @@
 import {Icon, classes, mergeProps, $, isValidElement} from '@zui/core';
 import {store} from '@zui/store';
 import {List} from './list';
-import '@zui/css-icons/src/icons/caret.css';
+import '@zui/css-icons';
 
 import type {ComponentChild, ComponentChildren, RenderableProps} from 'preact';
 import type {ClassNameLike, IconType} from '@zui/core';
@@ -547,6 +547,7 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
         const items = super._getItems(props);
         if (this.isRoot && items !== this._items) {
             this._itemMap = undefined;
+            this._itemMapCache = undefined;
         }
         return items;
     }
@@ -622,7 +623,7 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
                     renderedItem,
                 };
             }
-            return;
+            return info;
         }
         if (event.type === 'mouseenter' || event.type === 'mouseleave' || event.type === 'mouseover') {
             info.hover = event.type !== 'mouseleave';
