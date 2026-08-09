@@ -1,5 +1,14 @@
 # 数据表格
 
+## JavaScript 组件
+
+```js
+new DTable('#dataTable', {
+    cols: [{name: 'id', title: 'ID', width: 80}],
+    data: [{id: 1}],
+});
+```
+
 ## 自定义列
 
 <div id="customColsTable"></div>

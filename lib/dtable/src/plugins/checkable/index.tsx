@@ -1,5 +1,5 @@
 import {$, CustomContent} from '@zui/core';
-import {Checkbox} from '@zui/checkbox/src/component';
+import {Checkbox} from '@zui/checkbox/react';
 import {definePlugin} from '../../helpers/shared-plugins';
 import './style.css';
 

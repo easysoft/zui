@@ -74,6 +74,7 @@ function initPluginsInner(plugins: DTablePlugin[], pluginsLike: DTablePluginLike
 }
 
 export function initPlugins(pluginsLike: DTablePluginLike[] = [], includeBuildIns = true): DTablePlugin[] {
+    pluginsLike = [...pluginsLike];
     if (includeBuildIns && buildInPlugins.length) {
         pluginsLike.unshift(...buildInPlugins);
     }

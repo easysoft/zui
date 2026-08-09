@@ -1,12 +1,12 @@
-import {formatString} from '@zui/helpers/src/string-helper';
-import {Toolbar} from '@zui/toolbar/src/component/toolbar';
+import {formatString} from '@zui/helpers';
+import {Toolbar} from '@zui/toolbar/react';
 import {definePlugin} from '../../helpers/shared-plugins';
 
-import type {ToolbarOptions, ToolbarItemOptions, ToolbarDropdownOptions} from '@zui/toolbar/src/types';
+import type {ToolbarOptions, ToolbarItemOptions, ToolbarDropdownOptions} from '@zui/toolbar';
 import type {DTablePlugin, DTableWithPlugin} from '../../types/plugin';
 import type {RowData, RowInfo} from '../../types/row';
 import type {ColInfo} from '../../types/col';
-import type {ListitemProps} from '@zui/list/src/types';
+import type {ListitemProps} from '@zui/list';
 
 type ActionItemInfo = Partial<ToolbarItemOptions & {name: string; items?: ListitemProps[]}>;
 
@@ -41,22 +41,29 @@ function createActionFromString(action: string): ActionItemInfo {
 }
 
 const defaultActionItemCreator = (item: Partial<ToolbarDropdownOptions>, info: {row: RowInfo; col: ColInfo}) => {
-    if (item.url) {
-        item.url = formatString(item.url, info.row.data);
+    const nextItem = {...item};
+    if (nextItem.url) {
+        nextItem.url = formatString(nextItem.url, info.row.data);
     }
     const data = {row: info.row.id, col: info.col.name};
-    const items = item.dropdown?.items || item.items;
+    const items = nextItem.dropdown?.items || nextItem.items;
     if (items) {
-        (items as (ListitemProps & {url?: string})[]).forEach((x) => {
-            if (x.url) {
-                x.url = formatString(x.url, info.row.data);
+        const nextItems = (items as (ListitemProps & {url?: string})[]).map((itemInfo) => {
+            const nextItemInfo = {...itemInfo};
+            if (nextItemInfo.url) {
+                nextItemInfo.url = formatString(nextItemInfo.url, info.row.data);
             }
-            x.data = data;
-            return x;
+            nextItemInfo.data = data;
+            return nextItemInfo;
         });
+        if (nextItem.dropdown?.items) {
+            nextItem.dropdown = {...nextItem.dropdown, items: nextItems};
+        } else {
+            nextItem.items = nextItems;
+        }
     }
-    item.data = data;
-    return item;
+    nextItem.data = data;
+    return nextItem;
 };
 
 const getActionItems = (actions?: string | (string | ActionItemInfo)[]): ActionItemInfo[] => {
@@ -107,8 +114,9 @@ const actionsPlugin: DTablePlugin<DTableActionsTypes> = {
                             delete others['data-toggle'];
                         }
                         if (items && others.type === 'dropdown') {
-                            const {dropdown = {placement: 'bottom-end'}} = others as ToolbarDropdownOptions;
+                            const dropdown = {...((others as ToolbarDropdownOptions).dropdown || {placement: 'bottom-end'})};
                             dropdown.menu = {
+                                ...dropdown.menu,
                                 className: 'menu-dtable-actions',
                             };
                             dropdown.items = items.map((item) => {

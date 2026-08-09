@@ -1,6 +1,6 @@
 import {Component, createRef, h as _h} from 'preact';
 import {classes, $, i18n, CustomContent, nextGid, CustomRender, dom} from '@zui/core';
-import {Scrollbar} from '@zui/scrollbar/src/component/scrollbar';
+import {Scrollbar} from '@zui/scrollbar/react';
 import {addPlugin, initPlugins, removePlugin} from '../helpers/shared-plugins';
 import {getDefaultOptions} from '../helpers/default-options';
 import {initColsLayout} from '../helpers/layout';
@@ -216,6 +216,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
 
         if (this._rafId) {
             cancelAnimationFrame(this._rafId);
+            this._rafId = 0;
         }
     }
 
@@ -304,7 +305,8 @@ export class DTable extends Component<DTableOptions, DTableState> {
         let {scrollLeft, scrollTop} = info;
 
         if (to === 'up' || to === 'down') {
-            scrollTop = scrollTopOld + (to === 'down' ? 1 : -1) * Math.floor(rowsHeight / rowHeight) * rowHeight;
+            const pageSize = Number.isFinite(rowHeight) && rowHeight > 0 ? Math.max(rowHeight, Math.floor(Math.max(0, rowsHeight) / rowHeight) * rowHeight) : 0;
+            scrollTop = scrollTopOld + (to === 'down' ? 1 : -1) * pageSize;
         } else if (to === 'left' || to === 'right') {
             scrollLeft = scrollLeftOld + (to === 'right' ? 1 : -1) * width;
         } else if (to === 'top') {
@@ -326,14 +328,14 @@ export class DTable extends Component<DTableOptions, DTableState> {
         }
 
         const state: {scrollLeft?: number; scrollTop?: number} = {};
-        if (typeof scrollLeft == 'number') {
-            scrollLeft = Math.max(0, Math.min(scrollLeft, totalWidth - width));
+        if (typeof scrollLeft === 'number' && Number.isFinite(scrollLeft)) {
+            scrollLeft = Math.max(0, Math.min(scrollLeft, Math.max(0, totalWidth - width)));
             if (scrollLeft !== scrollLeftOld) {
                 state.scrollLeft = scrollLeft;
             }
         }
-        if (typeof scrollTop == 'number') {
-            scrollTop = Math.max(0, Math.min(scrollTop, rowsHeightTotal - rowsHeight));
+        if (typeof scrollTop === 'number' && Number.isFinite(scrollTop)) {
+            scrollTop = Math.max(0, Math.min(scrollTop, Math.max(0, rowsHeightTotal - rowsHeight)));
             if (scrollTop !== scrollTopOld) {
                 state.scrollTop = scrollTop;
             }
@@ -759,13 +761,13 @@ export class DTable extends Component<DTableOptions, DTableState> {
         if (newInfo.row !== oldInfo.row) {
             $element.find('.is-hover-row').removeClass('is-hover-row');
             if (newInfo.row) {
-                $element.find(`.dtable-cell[data-row="${newInfo.row}"]`).addClass('is-hover-row');
+                $element.find('.dtable-cell').filter((_index, cell) => cell.dataset.row === newInfo.row).addClass('is-hover-row');
             }
         }
         if (newInfo.col !== oldInfo.col) {
             $element.find('.is-hover-col').removeClass('is-hover-col');
             if (newInfo.col) {
-                $element.find(`.dtable-cell[data-col="${newInfo.col}"]`).addClass('is-hover-col');
+                $element.find('.dtable-cell').filter((_index, cell) => cell.dataset.col === newInfo.col).addClass('is-hover-col');
             }
         }
         this._hover = newInfo;
@@ -837,12 +839,15 @@ export class DTable extends Component<DTableOptions, DTableState> {
                 this._needRender = true;
                 return;
             }
+        } else if (typeof widthSetting === 'number' && Number.isFinite(widthSetting)) {
+            width = Math.max(0, widthSetting);
         }
 
         /* Init columns. */
         const cols = initColsLayout(this, options, plugins, width);
 
-        const {data, rowKey = 'id', rowHeight = 35, rowConverter} = options;
+        const {data, rowKey = 'id', rowHeight: rowHeightSetting = 35, rowConverter} = options;
+        const rowHeight = Number.isFinite(rowHeightSetting) && rowHeightSetting > 0 ? rowHeightSetting : 35;
         const allRows: RowInfo[] = [];
         const addRowItem = (id: string, index: number, item?: RowData) => {
             const rowData = item ?? {[rowKey]: id};
@@ -898,8 +903,9 @@ export class DTable extends Component<DTableOptions, DTableState> {
         });
 
         const {header, footer} = options;
-        const headerHeight = header ? (options.headerHeight || rowHeight) : 0;
-        const footerHeight = footer ? (options.footerHeight || rowHeight) : 0;
+        const getSectionHeight = (height: number | undefined) => Number.isFinite(height) && height! > 0 ? height : rowHeight;
+        const headerHeight = header ? getSectionHeight(options.headerHeight) : 0;
+        const footerHeight = footer ? getSectionHeight(options.footerHeight) : 0;
         let heightSetting = options.height;
         let height = 0;
 
@@ -911,7 +917,9 @@ export class DTable extends Component<DTableOptions, DTableState> {
         if (heightSetting === 'auto') {
             height = actualHeight;
         } else if (typeof heightSetting === 'object') {
-            height = Math.min(heightSetting.max, Math.max(heightSetting.min, actualHeight));
+            const minHeight = Number.isFinite(heightSetting.min) ? Math.max(0, heightSetting.min) : 0;
+            const maxHeight = Number.isFinite(heightSetting.max) ? Math.max(minHeight, heightSetting.max) : actualHeight;
+            height = Math.min(maxHeight, Math.max(minHeight, actualHeight));
         } else if (heightSetting === '100%') {
             const {parent: parentElement} = this;
             if (parentElement) {
@@ -922,10 +930,10 @@ export class DTable extends Component<DTableOptions, DTableState> {
                 return;
             }
         } else {
-            height = heightSetting as number;
+            height = typeof heightSetting === 'number' && Number.isFinite(heightSetting) ? Math.max(0, heightSetting) : actualHeight;
         }
 
-        const rowsHeight = height - headerHeight - footerHeight;
+        const rowsHeight = Math.max(0, height - headerHeight - footerHeight);
         const layout = {
             options,
             allRows,
@@ -973,8 +981,9 @@ export class DTable extends Component<DTableOptions, DTableState> {
 
         /* Calculate scroll left. */
         const {cols: {center: centerCols}} = layout;
-        let {scrollLeft} = this.state;
-        scrollLeft = Math.min(Math.max(0, centerCols.totalWidth - centerCols.width), scrollLeft);
+        const maxScrollLeft = Math.max(0, centerCols.totalWidth - centerCols.width);
+        let scrollLeft = Number.isFinite(this.state.scrollLeft) ? this.state.scrollLeft : 0;
+        scrollLeft = Math.min(maxScrollLeft, Math.max(0, scrollLeft));
         let colRealLeft = 0;
         centerCols.list.forEach((col) => {
             col.left = colRealLeft;
@@ -984,7 +993,8 @@ export class DTable extends Component<DTableOptions, DTableState> {
 
         const {rowsHeightTotal, rowsHeight, rows, rowHeight} = layout;
         const {rowDataGetter, partialRender = true} = this.options;
-        const scrollTop = Math.min(Math.max(0, rowsHeightTotal - rowsHeight), this.state.scrollTop);
+        const maxScrollTop = Math.max(0, rowsHeightTotal - rowsHeight);
+        const scrollTop = Math.min(maxScrollTop, Math.max(0, Number.isFinite(this.state.scrollTop) ? this.state.scrollTop : 0));
         const startRowIndex = partialRender ? Math.floor(scrollTop / rowHeight) : 0;
         const scrollBottom = scrollTop + rowsHeight;
         const endRowIndex = partialRender ? Math.min(rows.length, Math.ceil(scrollBottom / rowHeight)) : rows.length;

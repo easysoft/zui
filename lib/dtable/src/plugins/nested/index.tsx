@@ -1,7 +1,7 @@
 import {formatString} from '@zui/helpers';
 import {definePlugin} from '../../helpers/shared-plugins';
 import {store} from '../store';
-import '@zui/css-icons/src/icons/toggle.css';
+import '@zui/css-icons';
 import './style.css';
 
 import {ComponentChildren, CustomContent, type CustomContentType} from '@zui/core';
