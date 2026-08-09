@@ -19,7 +19,7 @@
     }
     .-state.selected:not(:hover,:focus-visible,:focus-within,:active):before {
         opacity: var(--state-selected-opacity, .1);
-        background: var(--state-selected-color, var(--state-scale));
+        background: var(--state-selected-color, var(--state-color));
         @apply -scale-100;
     }
     .-state:focus-visible {
