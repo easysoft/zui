@@ -1,6 +1,6 @@
 import {Component} from 'preact';
 import {classes} from '@zui/core';
-import {createDate, formatDate, isValidDate} from '@zui/helpers/src/date-helper';
+import {createDate, formatDate, isValidDate} from '@zui/helpers';
 import type {TimeSpanProps} from '../types';
 
 export class TimeSpan extends Component<TimeSpanProps> {
@@ -9,10 +9,10 @@ export class TimeSpan extends Component<TimeSpanProps> {
         const date = createDate(time);
 
         if (!isValidDate(date)) {
-            return <span class={classes('time-span is-invalid', className)} {...others}>{invalidText ?? time}</span>;
+            return <span className={classes('time-span is-invalid', className)} {...others}>{invalidText ?? String(time)}</span>;
         }
 
         const formattedTime = formatDate(date, format);
-        return <span class={classes('time-span', className)} {...others}>{formattedTime}</span>;
+        return <span className={classes('time-span', className)} {...others}>{formattedTime}</span>;
     }
 }

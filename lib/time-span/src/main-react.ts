@@ -1,6 +1,5 @@
 import './i18n';
-import './component/share';
 
-export * from './vanilla';
+export * from './component';
 export * from './helper';
 export * from './types';

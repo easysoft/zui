@@ -1,9 +1,13 @@
 import {i18n} from '@zui/core';
-import {createDate, type DateLike} from '@zui/helpers/src/date-helper';
+import {createDate, isValidDate, type DateLike} from '@zui/helpers';
 
 export function timeago(time: DateLike, now?: DateLike, lang?: string): string {
     const date = createDate(time);
-    const nowTime = createDate(now).getTime();
+    if (!isValidDate(date)) {
+        return '';
+    }
+    const nowDate = createDate(now);
+    const nowTime = isValidDate(nowDate) ? nowDate.getTime() : Date.now();
     const diff = nowTime - date.getTime();
     const absDiff = Math.abs(diff);
     const isPast = diff > 0;
