@@ -2,7 +2,7 @@ import type {IconType} from '@zui/core';
 import type {PickOptions} from '@zui/pick';
 import type {NavSetting} from '@zui/nav';
 import type {ToolbarSetting} from '@zui/toolbar';
-import type {DateLike} from '@zui/helpers/src/date-helper';
+import type {DateLike} from '@zui/helpers';
 
 export interface DatePickerOptions extends PickOptions {
     required?: boolean;

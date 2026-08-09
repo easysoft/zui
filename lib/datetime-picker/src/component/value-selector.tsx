@@ -1,6 +1,6 @@
 import {Component, ComponentChild, createRef} from 'preact';
 import {$, classes} from '@zui/core';
-import {Button} from '@zui/button/src/component/button';
+import {Button} from '@zui/button/react';
 
 export interface ValueSelectorProps {
     max: number;

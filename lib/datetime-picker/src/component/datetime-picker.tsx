@@ -1,5 +1,5 @@
 import {formatDate, createDate} from '@zui/helpers';
-import '@zui/css-icons/src/icons/calendar.css';
+import '@zui/css-icons';
 import {DatePicker} from './date-picker';
 import {TimePickerMenu} from './time-picker-menu';
 
@@ -34,7 +34,7 @@ export class DatetimePicker extends DatePicker<DatetimePickerOptions> {
     };
 
     _handleSetTime = (type: 'hour' | 'minute' | 'second', value: number) => {
-        const date = this.getDate() || new Date();
+        const date = new Date(this.getDate()?.getTime() ?? Date.now());
         if (type === 'hour') {
             date.setHours(value);
         } else if (type === 'minute') {

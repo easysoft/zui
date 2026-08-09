@@ -10,6 +10,12 @@
     "files": [
         "./src/**/*"
     ],
+    "exports": {
+        ".": "./src/main.ts",
+        "./css": "./src/main-css.ts",
+        "./react": "./src/main-react.ts",
+        "./i18n": "./src/i18n/index.ts"
+    },
     "dependencies": {
         "@zui/menu": "workspace:*",
         "@zui/nav": "workspace:*",
