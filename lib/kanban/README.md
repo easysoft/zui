@@ -1,5 +1,17 @@
 # 看板
 
+## JavaScript 组件
+
+```js
+new Kanban('#kanbanList', {
+    data: {
+        lanes: [{name: 'team-a'}],
+        cols: [{name: 'todo'}],
+        items: [{id: 'task-1', lane: 'team-a', col: 'todo', title: '任务'}],
+    },
+});
+```
+
 ## 示例
 
 ```html:example: bg-surface

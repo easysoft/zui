@@ -1,5 +1,5 @@
 import type {KanbanData} from './kanban-data';
-import type {CustomContentType} from '@zui/core/src/react';
+import type {CustomContentType} from '@zui/core';
 
 export type KanbanState = {
     loading?: boolean;

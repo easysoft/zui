@@ -42,6 +42,10 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
 
     protected declare _hoverTimer: number;
 
+    protected _loadVersion = 0;
+
+    protected _destroyed = false;
+
     protected _data = new Computed(this._getData.bind(this), () => {
         const {getCol, colProps, itemCountPerRow, itemGap, getLane, laneProps, itemProps, getItem, getLink, linkProps, responsive} = this.props;
         return [
@@ -88,13 +92,14 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
     }
 
     componentDidMount() {
+        super.componentDidMount();
         this._afterRender(true);
         this.tryLoad();
         this._initDraggable();
 
         const {responsive, selectable} = this.props;
         const element = this._ref.current;
-        if (element && responsive) {
+        if (element && responsive && typeof ResizeObserver !== 'undefined') {
             const rob = new ResizeObserver(this.updateLayout.bind(this));
             const $container = typeof responsive !== 'boolean' ? $(responsive) : $(element.closest('.kanban-list') || element.parentElement);
             $container.each((_index, ele) => {
@@ -118,6 +123,16 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
     }
 
     componentWillUnmount(): void {
+        this._destroyed = true;
+        this._loadVersion++;
+        if (this._raf) {
+            cancelAnimationFrame(this._raf);
+            this._raf = 0;
+        }
+        if (this._hoverTimer) {
+            clearTimeout(this._hoverTimer);
+            this._hoverTimer = 0;
+        }
         this.props.beforeDestroy?.call(this);
         this._draggable?.destroy();
         this._rob?.disconnect();
@@ -125,6 +140,7 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
         if (this.props.selectable) {
             $(document).off('click.kanban', this._handleGlobalClick);
         }
+        super.componentWillUnmount();
     }
 
     getDefaultState(props?: RenderableProps<P>): S {
@@ -140,15 +156,24 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
     load(): void {
         const {data, onLoad, onLoadFail} = this.props;
         this._loadedSetting = data;
+        const loadVersion = ++this._loadVersion;
         this.setState({loading: true}, async () => {
             const newState = {loading: false} as Partial<KanbanState>;
             try {
                 const newData = normalizeData(await fetchData(data as KanbanDataFetcher, [this], {throws: true}), this.itemKey);
-                newState.data = onLoad?.call(this, newData) || newData;
+                if (this._destroyed || loadVersion !== this._loadVersion) {
+                    return;
+                }
+                newState.data = onLoad?.call(this, newData) ?? newData;
             } catch (error) {
-                newState.loadFailed = (typeof onLoadFail === 'function' ? (onLoadFail as (error: Error) => CustomContentType | undefined).call(this, error as Error) : onLoadFail) || String(error);
+                if (this._destroyed || loadVersion !== this._loadVersion) {
+                    return;
+                }
+                newState.loadFailed = (typeof onLoadFail === 'function' ? (onLoadFail as (error: Error) => CustomContentType | undefined).call(this, error as Error) : onLoadFail) ?? String(error);
             }
-            this.setState(newState);
+            if (!this._destroyed && loadVersion === this._loadVersion) {
+                this.setState(newState);
+            }
         });
     }
 
@@ -163,12 +188,17 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
                 const {responsive, laneNameWidth = 20} = this.props;
                 const $container = typeof responsive !== 'boolean' ? $(responsive) : $(element.closest('.kanban-list') || element.parentElement);
                 const container = $container[0];
-                let containerWidth = $container.width() - laneNameWidth - (container!.offsetWidth - container!.clientWidth);
+                const width = $container.width();
+                if (!container || !Number.isFinite(width)) {
+                    return;
+                }
+                const normalizedLaneNameWidth = Number.isFinite(laneNameWidth) ? Math.max(0, laneNameWidth) : 0;
+                let containerWidth = width - normalizedLaneNameWidth - (container.offsetWidth - container.clientWidth);
                 const group = element.closest('.kanban-region');
                 if (group) {
                     containerWidth -= group.clientWidth - $(group).width();
                 }
-                this.setState({containerWidth: containerWidth});
+                this.setState({containerWidth: Math.max(0, containerWidth)});
             }
         });
     }
@@ -279,7 +309,7 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
     }
 
     select(selected: ItemKey | ItemKey[], toggle?: boolean) {
-        let newSelected = Array.isArray(selected) ? selected : (selected ? [selected] : []);
+        let newSelected = (Array.isArray(selected) ? selected : (selected ? [selected] : [])).map(key => String(key));
         let oldSelected = this.state.selected || [];
         const {onSelect} = this.props;
         return this.changeState((prevState) => {
@@ -371,14 +401,21 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
         const data = this.data;
         const changes: Partial<KanbanData> = {};
         const {itemKey} = this;
+        const {lane, col} = drop;
+        if (!lane || !col) {
+            return {changes};
+        }
         const changeData: {list: string[]; lane: string; col: string} = {
             list: [],
-            lane: drop.lane!,
-            col: drop.col!,
+            lane,
+            col,
         };
         if (drag.type === 'item') {
             const item = drag.item!;
-            const colItems = data.items[drop.lane!][drop.col!];
+            const colItems = data.items[lane]?.[col];
+            if (!colItems) {
+                return {changes, data: changeData};
+            }
             const newColItems = [...colItems];
             const newItem: Partial<KanbanItem> = {
                 [itemKey]: item[itemKey],
@@ -386,7 +423,7 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
             };
             const isSameCol = drop.col === item.col;
             const isSameLane = drop.lane === item.lane;
-            if (isSameCol && isSameLane && item[itemKey] === drop.item![itemKey]) {
+            if (isSameCol && isSameLane && drop.type === 'item' && item[itemKey] === drop.item![itemKey]) {
                 return {changes, data: changeData};
             }
             if (!isSameCol) {
@@ -406,7 +443,8 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
                     newColItems.splice(dragIndex, 1);
                 }
                 const index = newColItems.findIndex(x => x[itemKey] === dropItem[itemKey]);
-                newColItems.splice(info.side === 'before' ? index : (index + 1), 0, newItem);
+                const insertAt = index < 0 ? newColItems.length : (info.side === 'before' ? index : index + 1);
+                newColItems.splice(insertAt, 0, newItem);
                 changed = true;
             }
             if (changed) {
@@ -425,7 +463,7 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
                     if (changeItem !== oldItem) {
                         changes.items!.push(changeItem);
                     }
-                    changeData.list.push(changeItem[itemKey] as string);
+                    changeData.list.push(String(changeItem[itemKey]));
                 });
             }
         } else if (drag.type === 'newItem') {
@@ -444,12 +482,15 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
                 col: drop.col,
                 ...newItem,
             };
-            if (newItem?.[itemKey]) {
-                const colItems = data.items[drop.lane!][drop.col!];
+            if (newItem?.[itemKey] !== undefined) {
+                const colItems = data.items[lane]?.[col];
+                if (!colItems) {
+                    return {changes, data: changeData};
+                }
                 const newColItems = [...colItems];
                 newColItems.push(newItem);
                 changes.items = newColItems;
-                changeData.list.push(newItem[itemKey] as string);
+                changeData.list.push(String(newItem[itemKey]));
             }
         }
         return {changes, data: changeData};
@@ -565,18 +606,18 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
 
     protected _onAddLink = async (newLink: KanbanLinkOptions) => {
         const {onAddLink} = this.props;
-        newLink[this.itemKey] = createLinkID(newLink);
-        const result = await onAddLink?.call(this, newLink);
-        if (result === false) {
+        const link = {...newLink, [this.itemKey]: createLinkID(newLink)};
+        const result = await onAddLink?.call(this, link);
+        if (this._destroyed || result === false) {
             return;
         }
-        this.addLink(newLink);
+        this.addLink(link);
     };
 
     protected _onDeleteLink = async (link: KanbanLinkOptions) => {
         const {onDeleteLink} = this.props;
         const result = await onDeleteLink?.call(this, link);
-        if (result === false) {
+        if (this._destroyed || result === false) {
             return;
         }
         this.deleteLink(link);
@@ -643,12 +684,10 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
         let {links = []} = kanbanData;
         links = links.reduce<KanbanLinkOptions[]>((list, link) => {
             if (!link.deleted && itemMap.has(link.from) && itemMap.has(link.to) && !deletedItemSet.has(link.from) && !deletedItemSet.has(link.to)) {
-                if (link[itemKey] === undefined) {
-                    link[itemKey] = createLinkID(link);
-                }
-                const finalLink = props.getLink?.call(this, link) ?? link;
+                const nextLink = link[itemKey] === undefined ? {...link, [itemKey]: createLinkID(link)} : {...link};
+                const finalLink = props.getLink?.call(this, nextLink) ?? nextLink;
                 if (finalLink !== false && !finalLink.deleted) {
-                    list.push(finalLink);
+                    list.push({...finalLink});
                 }
             }
             return list;
@@ -660,10 +699,15 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
     protected _layoutCols(cols: KanbanColOptions[], props: RenderableProps<P>): KanbanColOptions[] {
         const {containerWidth = 0} = this.state;
         const {colsGap = 8, minColWidth: defaultMinColWidth = 150, maxColWidth: defaultMaxColWidth = 600, colWidth: defaultColWidth = 200} = props;
+        const normalizedContainerWidth = Number.isFinite(containerWidth) ? Math.max(0, containerWidth) : 0;
+        const normalizedColsGap = Number.isFinite(colsGap) ? Math.max(0, colsGap) : 0;
         const responsiveCols: KanbanColOptions[] = [];
         let totalWidth = 0;
         const processCol = (col: KanbanColOptions) => {
-            const {minWidth = defaultMinColWidth, maxWidth = defaultMaxColWidth} = col;
+            const minWidthSetting = col.minWidth ?? defaultMinColWidth;
+            const maxWidthSetting = col.maxWidth ?? defaultMaxColWidth;
+            const minWidth = Number.isFinite(minWidthSetting) ? Math.max(0, minWidthSetting) : 0;
+            const maxWidth = Number.isFinite(maxWidthSetting) ? Math.max(minWidth, maxWidthSetting) : minWidth;
             let {width = defaultColWidth} = col;
             if (typeof width === 'function') {
                 width = width.call(this, col);
@@ -674,13 +718,16 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
             } else {
                 const [value, unit] = parseSize(width);
                 if (unit === '%') {
-                    width = containerWidth * value / 100;
+                    width = normalizedContainerWidth * value / 100;
                 } else {
                     width = value;
                 }
             }
+            if (!Number.isFinite(width)) {
+                width = minWidth;
+            }
             width = Math.min(maxWidth, Math.max(minWidth, width));
-            totalWidth += width + (totalWidth ? colsGap : 0);
+            totalWidth += width + (totalWidth ? normalizedColsGap : 0);
             col = {...col, width, maxWidth, minWidth};
             if (isAutoCol) {
                 responsiveCols.push(col);
@@ -696,8 +743,8 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
             }
             return processCol(col);
         });
-        if (responsiveCols.length && totalWidth < containerWidth) {
-            const extraColWidth = Math.floor((containerWidth - totalWidth) / responsiveCols.length);
+        if (responsiveCols.length && totalWidth < normalizedContainerWidth) {
+            const extraColWidth = Math.floor((normalizedContainerWidth - totalWidth) / responsiveCols.length);
             responsiveCols.forEach((col) => {
                 col.width = Math.min(col.maxWidth!, Math.max(col.minWidth!, col.width as number + extraColWidth));
             });

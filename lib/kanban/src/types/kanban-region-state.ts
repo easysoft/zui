@@ -1,4 +1,4 @@
-import type {ListitemProps} from '@zui/list/src/types';
+import type {ListitemProps} from '@zui/list';
 import type {KanbanProps} from './kanban-props';
 
 export interface KanbanRegionState {

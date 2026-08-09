@@ -13,8 +13,6 @@ export class KanbanLinkEditor extends Component<KanbanLinkEditorProps, KanbanLin
 
     protected declare _container: HTMLElement;
 
-    protected _raf?: number;
-
     protected _leaveTimer?: number;
 
     protected declare _moveable: Moveable;
@@ -24,9 +22,15 @@ export class KanbanLinkEditor extends Component<KanbanLinkEditorProps, KanbanLin
     state: KanbanLinkEditorState = {};
 
     componentDidMount(): void {
-        const element = this._ref.current!;
+        const element = this._ref.current;
+        if (!element) {
+            return;
+        }
         const {container = '.kanban'} = this.props;
-        const containerElement = element.closest(container) as HTMLElement;
+        const containerElement = element.closest<HTMLElement>(container);
+        if (!containerElement) {
+            return;
+        }
         const $container = $(containerElement);
         this._container = containerElement;
         this._multiKanban = $container.find('.kanban').length > 1;
@@ -38,14 +42,15 @@ export class KanbanLinkEditor extends Component<KanbanLinkEditorProps, KanbanLin
             clearTimeout(this._leaveTimer);
             const $item = $(event.target as HTMLElement).closest(eventSelector);
             const id = $item.z('key') as string;
-            if (this.state.from === id || $item.hasClass('is-dragging')) {
+            const content = this._getItemContent($item[0] as HTMLElement | undefined);
+            if (!id || !content || this.state.from === id || $item.hasClass('is-dragging')) {
                 return;
             }
             this.setState({
                 from: id,
                 fromKanban: this._multiKanban ? $item.closest('.kanban').z('key') as string : undefined,
                 to: undefined,
-                fromRect: this._getRect($item.children()[0]!),
+                fromRect: this._getRect(content),
                 dragPos: undefined,
             });
         }).on(`mouseleave${EVENT_NAMESPACE}`, eventSelector, () => {
@@ -65,7 +70,11 @@ export class KanbanLinkEditor extends Component<KanbanLinkEditorProps, KanbanLin
         }).on(`laneColScroll${EVENT_NAMESPACE}`, (event: Event) => {
             const {from} = this.state;
             if (from) {
-                this.setState({fromRect: this._getRect($(event.target as HTMLElement).find(`.kanban-item[z-key="${from}"]`).children()[0]!)});
+                const item = Array.from((event.target as HTMLElement).querySelectorAll<HTMLElement>('.kanban-item')).find(element => element.getAttribute('z-key') === from);
+                const content = this._getItemContent(item);
+                if (content) {
+                    this.setState({fromRect: this._getRect(content)});
+                }
             }
         });
 
@@ -85,10 +94,12 @@ export class KanbanLinkEditor extends Component<KanbanLinkEditorProps, KanbanLin
                 let toRect: KanbanLinkEditorState['toRect'] | undefined;
                 let toKanban: string | undefined;
                 const $item = $(event.target as HTMLElement).closest(eventSelector);
-                if ($item.length && to !== this.state.from) {
-                    to = $item.attr('z-key') as string;
+                const itemKey = $item.attr('z-key') as string | undefined;
+                const content = this._getItemContent($item[0] as HTMLElement | undefined);
+                if (itemKey && content && itemKey !== this.state.from) {
+                    to = itemKey;
                     toKanban = this._multiKanban ? $item.closest('.kanban').z('key') as string : undefined;
-                    toRect = this._getRect($item.children()[0]!);
+                    toRect = this._getRect(content);
                 }
                 this.setState({dragPos, to, toKanban, toRect});
             },
@@ -105,13 +116,14 @@ export class KanbanLinkEditor extends Component<KanbanLinkEditorProps, KanbanLin
     }
 
     componentWillUnmount(): void {
-        const kanbanElement = this._ref.current?.closest('.kanban');
-        if (kanbanElement) {
-            $(kanbanElement).off(EVENT_NAMESPACE);
+        if (this._container) {
+            $(this._container).off(EVENT_NAMESPACE);
         }
-        if (this._raf) {
-            cancelAnimationFrame(this._raf);
+        if (this._leaveTimer) {
+            clearTimeout(this._leaveTimer);
+            this._leaveTimer = undefined;
         }
+        this._moveable?.destroy();
     }
 
     protected _getRect(element: HTMLElement) {
@@ -124,6 +136,11 @@ export class KanbanLinkEditor extends Component<KanbanLinkEditorProps, KanbanLin
             width: rect.width,
             height: rect.height,
         };
+    }
+
+    protected _getItemContent(element: HTMLElement | undefined) {
+        const content = element?.firstElementChild;
+        return content instanceof HTMLElement ? content : undefined;
     }
 
     protected _cancelHover() {

@@ -1,5 +1,5 @@
 import {CustomContent, HElement, classes, mergeProps, toCssSize} from '@zui/core';
-import {Toolbar} from '@zui/toolbar/src/component';
+import {Toolbar} from '@zui/toolbar/react';
 
 import type {ComponentChild, ComponentChildren, RenderableProps} from 'preact';
 import type {ClassNameLike} from '@zui/core';

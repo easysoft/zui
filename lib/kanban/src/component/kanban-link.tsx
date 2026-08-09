@@ -1,7 +1,7 @@
 import {Component} from 'preact';
 import {classes} from '@zui/core';
 import {layoutLink} from '../helpers/link-helpers';
-import '@zui/css-icons/src/icons/close.css';
+import '@zui/css-icons';
 
 import type {ComponentChild, RenderableProps} from 'preact';
 import type {KanbanLinkProps, KanbanLinkState} from '../types';

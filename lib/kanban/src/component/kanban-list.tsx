@@ -1,4 +1,4 @@
-import {$, HElement, createRef, mergeProps} from '@zui/core';
+import {$, HElement, createRef, mergeProps, toCssSize} from '@zui/core';
 import {Moveable} from '@zui/dnd';
 import {Kanban} from './kanban';
 import {KanbanRegion} from './kanban-region';
@@ -11,6 +11,8 @@ import {createLinkID} from '../helpers/link-helpers';
 import {mergeList} from '../helpers/kanban-helpers';
 
 const EVENT_NAMESPACE = '.kanban';
+
+const getItemLayoutKey = (kanban: unknown, item: unknown) => JSON.stringify([String(kanban ?? ''), String(item ?? '')]);
 
 export class KanbanList extends HElement<KanbanListProps, KanbanListState> {
     static defaultProps: Partial<KanbanListProps> = {
@@ -37,7 +39,11 @@ export class KanbanList extends HElement<KanbanListProps, KanbanListState> {
 
     protected _kanbanRefs = new Map<string, RefObject<Kanban | KanbanRegion>>();
 
+    protected _destroyed = false;
+
     componentDidMount() {
+        super.componentDidMount();
+        this._destroyed = false;
         const element = this._ref.current;
         if (element) {
             const {moveable, responsive, showLinkOnSelected, showLinkOnHover} = this.props;
@@ -67,11 +73,11 @@ export class KanbanList extends HElement<KanbanListProps, KanbanListState> {
             }
             if (showLinkOnHover) {
                 $(element).on(`kanbanItemHover${EVENT_NAMESPACE}`, (_event, {kanban, hover}: {kanban: string; hover: string}) => {
-                    this.setState({hover: hover === undefined ? hover : `${kanban}_${hover}`});
+                    this.setState({hover: hover === undefined ? hover : getItemLayoutKey(kanban, hover)});
                 });
             }
 
-            if (responsive) {
+            if (responsive && typeof ResizeObserver !== 'undefined') {
                 const rob = new ResizeObserver(this._tryUpdateLayout.bind(this));
                 const $element = typeof responsive !== 'boolean' ? $(responsive) : $(element).parent();
                 $element.each((_index, ele) => {
@@ -79,16 +85,23 @@ export class KanbanList extends HElement<KanbanListProps, KanbanListState> {
                 });
                 this._rob = rob;
             }
+            this._tryUpdateLayout();
         }
     }
 
     componentWillUnmount(): void {
+        this._destroyed = true;
         this._moveable?.destroy();
         this._rob?.disconnect();
+        if (this._layoutTimer) {
+            cancelAnimationFrame(this._layoutTimer);
+            this._layoutTimer = 0;
+        }
         const element = this._ref.current;
         if (element) {
             $(element).off(EVENT_NAMESPACE);
         }
+        super.componentWillUnmount();
     }
 
     getDefaultState(_props?: RenderableProps<KanbanListProps> | undefined): KanbanListState {
@@ -138,7 +151,10 @@ export class KanbanList extends HElement<KanbanListProps, KanbanListState> {
         const $element = $(element);
         const width = $element.width();
         const height = $element.height();
-        this.setState({width, height});
+        this.setState({
+            width: Number.isFinite(width) ? Math.max(0, width) : 0,
+            height: Number.isFinite(height) ? Math.max(0, height) : 0,
+        });
     }
 
     updateLink(link: KanbanLinkOptions | KanbanLinkOptions[], change?: Partial<KanbanLinkOptions>) {
@@ -164,7 +180,9 @@ export class KanbanList extends HElement<KanbanListProps, KanbanListState> {
             cancelAnimationFrame(this._layoutTimer);
         }
         this._layoutTimer = requestAnimationFrame(() => {
-            this.updateLayout();
+            if (!this._destroyed) {
+                this.updateLayout();
+            }
             this._layoutTimer = 0;
         });
     }
@@ -183,26 +201,26 @@ export class KanbanList extends HElement<KanbanListProps, KanbanListState> {
             style: {
                 width: widthSetting,
                 height: heightSetting,
-                '--kanban-list-width': `${actualWidth || width}px`,
-                '--kanban-list-height': `${actualHeight || height}px`,
+                '--kanban-list-width': toCssSize(actualWidth ?? widthSetting),
+                '--kanban-list-height': toCssSize(actualHeight ?? heightSetting),
             },
         });
     }
 
     protected _onAddLink = async (newLink: KanbanLinkOptions) => {
         const {onAddLink, linkItemKey} = this.props;
-        newLink[linkItemKey!] = createLinkID(newLink);
-        const result = await onAddLink?.call(this, newLink);
-        if (result === false) {
+        const link = {...newLink, [linkItemKey!]: createLinkID(newLink)};
+        const result = await onAddLink?.call(this, link);
+        if (this._destroyed || result === false) {
             return;
         }
-        this.addLink(newLink);
+        this.addLink(link);
     };
 
     protected _onDeleteLink = async (link: KanbanLinkOptions) => {
         const {onDeleteLink} = this.props;
         const result = await onDeleteLink?.call(this, link);
-        if (result === false) {
+        if (this._destroyed || result === false) {
             return;
         }
         this.deleteLink(link);
@@ -211,13 +229,14 @@ export class KanbanList extends HElement<KanbanListProps, KanbanListState> {
     protected _getLinks(props: RenderableProps<KanbanListProps>): KanbanLinkOptions[] {
         const {linkChanges = []} = this.state;
         const {links = [], getLink, linkItemKey} = props;
-        return mergeList(links, linkChanges, this.props.linkItemKey).reduce((list, link) => {
+        return mergeList(links, linkChanges, this.props.linkItemKey).reduce((list, sourceLink) => {
+            let link = {...sourceLink};
             const newLink = getLink?.call(this, link);
             if (newLink !== false) {
-                link = newLink || link;
+                link = {...(newLink || link)};
                 if (!link.deleted) {
-                    if (!link[linkItemKey!]) {
-                        link[linkItemKey!] = createLinkID(link);
+                    if (link[linkItemKey!] === undefined) {
+                        link = {...link, [linkItemKey!]: createLinkID(link)};
                     }
                     list.push(link);
                 }
@@ -242,7 +261,7 @@ export class KanbanList extends HElement<KanbanListProps, KanbanListState> {
                 Object.keys(selected).forEach((kanban) => {
                     const selectedItems = selected[kanban];
                     if (selectedItems.length) {
-                        filters!.push(...selectedItems.map(x => `${kanban}_${x}`));
+                        filters!.push(...selectedItems.map(x => getItemLayoutKey(kanban, x)));
                     }
                 });
             }
@@ -270,7 +289,8 @@ export class KanbanList extends HElement<KanbanListProps, KanbanListState> {
         const kanbanRefs = this._kanbanRefs;
         const refKeys = new Set<string>(kanbanRefs.keys());
         const children = [
-            ...items.map((kanbanProps, index) => {
+            ...items.map((item, index) => {
+                let kanbanProps = item;
                 if (kanbanPropsSetting) {
                     kanbanProps = typeof kanbanPropsSetting === 'function' ? kanbanPropsSetting.call(this, kanbanProps, index) : $.extend({}, kanbanPropsSetting, kanbanProps);
                 }
@@ -284,14 +304,20 @@ export class KanbanList extends HElement<KanbanListProps, KanbanListState> {
                 const isRegion = ((kanbanProps as KanbanRegionProps).heading !== undefined || (kanbanProps as KanbanRegionProps).items);
                 if (showLinkOnSelected || showLinkOnHover || selectable) {
                     if (isRegion) {
-                        (kanbanProps as KanbanRegionProps).kanbanProps = {showLinkOnSelected, showLinkOnHover, selectable, ...(kanbanProps as KanbanRegionProps).kanbanProps} as KanbanProps;
+                        kanbanProps = {
+                            ...(kanbanProps as KanbanRegionProps),
+                            kanbanProps: {showLinkOnSelected, showLinkOnHover, selectable, ...(kanbanProps as KanbanRegionProps).kanbanProps} as KanbanProps,
+                        };
                     } else {
                         kanbanProps = {showLinkOnSelected, showLinkOnHover, selectable, ...kanbanProps};
                     }
                 }
                 if (editLinks) {
                     if (isRegion) {
-                        (kanbanProps as KanbanRegionProps).items = ((kanbanProps as KanbanRegionProps).items || []).map(x => ({...x, editLinks: false}));
+                        kanbanProps = {
+                            ...(kanbanProps as KanbanRegionProps),
+                            items: ((kanbanProps as KanbanRegionProps).items || []).map(x => ({...x, editLinks: false})),
+                        };
                     } else {
                         kanbanProps = {...kanbanProps, editLinks: false};
                     }
