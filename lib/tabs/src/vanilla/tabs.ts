@@ -11,6 +11,14 @@ export class Tabs extends Component<object, {show: [target: string]; shown: [tar
 
     _timer = 0;
 
+    destroy(): void {
+        if (this._timer) {
+            clearTimeout(this._timer);
+            this._timer = 0;
+        }
+        super.destroy();
+    }
+
     active(selector?: Selector) {
         const $nav = this.$element;
         const $items = $nav.find(NAV_ITEM_SELECTOR);
@@ -24,22 +32,30 @@ export class Tabs extends Component<object, {show: [target: string]; shown: [tar
             }
         }
 
-        /* Add active class to nav item. */
-        $items.removeClass('active');
-        $navItem.addClass('active');
-
-        /* Add active class to panes. */
-        let target: string = $navItem.attr('href') || $navItem.data('target');
+        /* Find the matching pane before changing the currently active item. */
+        let target = ($navItem.attr('href') || $navItem.data('target')) as string | undefined;
         if (!target) {
             const toggleOptions = $navItem.attr('zui-toggle-tab') as string;
-            target = evalValue<{target: string}>(toggleOptions).target;
+            target = toggleOptions ? evalValue<{target?: string}>(toggleOptions)?.target : undefined;
         }
-        const name: string = $navItem.data('name') || target;
+        if (!target) {
+            return;
+        }
         const $tabsContainer = $nav.closest('.tabs');
-        const $activePane = $tabsContainer.length ? $tabsContainer.find(target) : $(target);
+        let $activePane;
+        try {
+            $activePane = $tabsContainer.length ? $tabsContainer.find(target) : $(target);
+        } catch {
+            return;
+        }
         if (!$activePane.length) {
             return;
         }
+
+        /* Activate the nav item and its pane only after the target is valid. */
+        $items.removeClass('active');
+        $navItem.addClass('active');
+        const name: string = $navItem.data('name') || target;
         $activePane.parent().children('.tab-pane').removeClass('active in');
         $activePane.addClass('active').trigger('show', [name]);
 
