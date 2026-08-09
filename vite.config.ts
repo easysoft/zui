@@ -21,6 +21,23 @@ function getLibByPath(path: string, libsCache: Record<string, LibInfo>): LibInfo
     return Object.values(libsCache).find(x => path.startsWith(`${x.zui.path}${Path.sep}`));
 }
 
+/** Resolve `@zui/<lib>/...` through package.json exports when present; otherwise fall back to default Vite resolution. */
+function resolveZuiExportPath(updatedId: string, libsCache: Record<string, LibInfo>): string | undefined {
+    const lib = Object.values(libsCache).find(x => updatedId === x.zui.path || updatedId.startsWith(`${x.zui.path}${Path.sep}`));
+    if (!lib) {
+        return;
+    }
+    const relative = Path.relative(lib.zui.path, updatedId).replace(/\\/g, '/');
+    if (!relative || relative === '.') {
+        return;
+    }
+    const exportPath = lib.exports?.[`./${relative}`];
+    if (!exportPath) {
+        return;
+    }
+    return Path.resolve(lib.zui.path, exportPath);
+}
+
 export default defineConfig(async ({mode}) => {
     const buildLibs = process.env.BUILD_LIBS ?? 'buildIn';
     const noMinify = process.env.NO_MINIFY === 'true' || process.env.NO_MINIFY === '1';
@@ -66,7 +83,17 @@ export default defineConfig(async ({mode}) => {
         resolve: {
             preserveSymlinks: true,
             alias: [
-                {find: /^@zui\/(.*)/, replacement: `${__dirname}/lib/$1`},
+                {
+                    find: /^@zui\/(.+)$/,
+                    replacement: `${__dirname}/lib/$1`,
+                    customResolver(source, importer, resolveOptions) {
+                        const exportResolved = resolveZuiExportPath(source, libsCache);
+                        if (exportResolved) {
+                            return exportResolved;
+                        }
+                        return this.resolve(source, importer, Object.assign({skipSelf: true}, resolveOptions)).then((resolved) => resolved || {id: source});
+                    },
+                },
                 {find: 'zui-dev', replacement: `${__dirname}/dev`},
                 {find: 'zui-config', replacement: `${__dirname}/config`},
                 {find: '~/', replacement: `${__dirname}/`},
