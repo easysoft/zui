@@ -1,5 +1,5 @@
-import {SearchMenu} from '@zui/menu/src/component';
-import {Listitem} from '@zui/list/src/component';
+import {SearchMenu} from '@zui/menu/react';
+import {Listitem} from '@zui/list/react';
 import {Tree} from './tree';
 
 import type {RenderableProps} from 'preact';

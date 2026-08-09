@@ -1,4 +1,4 @@
-import {Menu} from '@zui/menu/src/component';
+import {Menu} from '@zui/menu/react';
 
 import type {RenderableProps} from 'preact';
 import type {ClassNameLike} from '@zui/core';
