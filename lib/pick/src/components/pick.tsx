@@ -1,5 +1,5 @@
 import {Component, ComponentChildren, ComponentType, RefObject, RenderableProps, createRef} from 'preact';
-import {delay, nextGid} from '@zui/core';
+import {nextGid} from '@zui/core';
 import type {PickOptions, PickPopProps, PickState, PickTriggerProps} from '../types';
 import {PickTrigger} from './pick-trigger';
 import {PickPop} from './pick-pop';
@@ -25,6 +25,10 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
     protected _id: string;
 
     protected _toggleTimer = 0;
+
+    protected _toggleResolve?: () => void;
+
+    protected _toggleVersion = 0;
 
     protected _pop: RefObject<PickPop<S, PickPopProps<S>>> = createRef();
 
@@ -80,22 +84,42 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
         });
     }
 
+    protected _clearToggleTimer() {
+        if (this._toggleTimer) {
+            clearTimeout(this._toggleTimer);
+            this._toggleTimer = 0;
+        }
+        const resolve = this._toggleResolve;
+        this._toggleResolve = undefined;
+        resolve?.();
+    }
+
+    protected _waitForToggle(delay: number) {
+        return new Promise<void>((resolve) => {
+            this._toggleResolve = resolve;
+            this._toggleTimer = window.setTimeout(() => {
+                this._toggleTimer = 0;
+                this._toggleResolve = undefined;
+                resolve();
+            }, delay);
+        });
+    }
+
     toggle = async (open?: boolean, state?: Partial<S>): Promise<S> => {
         if (this.props.disabled || this.props.readonly) {
             open = false;
         }
         const {state: currentState} = this;
-        if (typeof open === 'boolean' && open === (!!currentState.open && currentState.open !== 'closing')) {
+        const isOpen = currentState.open === true || currentState.open === 'opening';
+        if (typeof open === 'boolean' && open === isOpen) {
             if (state) {
                 await this.changeState(state);
             }
             return this.state;
         }
 
-        if (this._toggleTimer) {
-            clearTimeout(this._toggleTimer);
-            this._toggleTimer = 0;
-        }
+        const toggleVersion = ++this._toggleVersion;
+        this._clearToggleTimer();
 
         let newState = await this.changeState((prevState) => {
             open = open ?? !prevState.open;
@@ -105,20 +129,22 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
                 ...state,
             } as Partial<S>;
         });
+        if (toggleVersion !== this._toggleVersion) {
+            return this.state;
+        }
         const {open: openState} = newState;
 
         if (openState === 'closing') {
-            await delay(200, (id) => {
-                this._toggleTimer = id;
-            });
-            this._toggleTimer = 0;
+            await this._waitForToggle(200);
+            if (toggleVersion !== this._toggleVersion) {
+                return this.state;
+            }
             newState = await this.changeState({open: false} as Partial<S>);
         } else if (openState === 'opening') {
-            await delay(50, (id) => {
-                this._toggleTimer = id;
-            });
-
-            this._toggleTimer = 0;
+            await this._waitForToggle(50);
+            if (toggleVersion !== this._toggleVersion) {
+                return this.state;
+            }
             newState = await this.changeState({open: true} as Partial<S>);
         }
 
@@ -177,6 +203,18 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
             onClickItem: props.onClickItem,
             header: props.popHeader,
             footer: props.popFooter,
+            onLayout: props.onPopLayout ? (element) => {
+                const layout = {
+                    left: element.offsetLeft,
+                    top: element.offsetTop,
+                    width: element.offsetWidth,
+                    height: element.offsetHeight,
+                };
+                const nextLayout = props.onPopLayout?.call(this, layout);
+                if (nextLayout) {
+                    $(element).css(nextLayout);
+                }
+            } : undefined,
         };
     }
 
@@ -222,9 +260,7 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
     }
 
     async setValue(value: unknown, silent?: boolean) {
-        if (typeof value !== 'string') {
-            value = String(value);
-        }
+        value = value == null ? '' : String(value);
         const {beforeChange} = this.props;
         if (beforeChange) {
             const result = await beforeChange.call(this, value as string, this.state.value);
@@ -287,13 +323,8 @@ export class Pick<S extends PickState = PickState, O extends PickOptions<S> = Pi
 
     componentWillUnmount(): void {
         this.props.beforeDestroy?.call(this);
-        if (this._toggleTimer) {
-            clearTimeout(this._toggleTimer);
-        }
-        const pop = this._pop.current as unknown as Component<PickPopProps<S>>;
-        if (pop && pop.componentWillUnmount) {
-            pop.componentWillUnmount();
-        }
+        ++this._toggleVersion;
+        this._clearToggleTimer();
     }
 
     render(props: RenderableProps<O>, state: Readonly<S>) {

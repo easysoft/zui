@@ -1,7 +1,6 @@
 import {Component, ComponentChildren, JSX, RefObject, RenderableProps, VNode, createRef} from 'preact';
 import {computePosition, flip, offset, shift, autoUpdate, Placement} from '@floating-ui/dom';
-import {$, classes, createPortal, CustomContent, toCssSize} from '@zui/core';
-import {isElementDetached, isVisible} from '@zui/core/src/dom';
+import {$, classes, createPortal, CustomContent, dom, toCssSize} from '@zui/core';
 
 import type {PickState, PickPopProps} from '../types';
 
@@ -64,12 +63,15 @@ export class PickPop<S extends PickState = PickState, P extends PickPopProps<S> 
         const {
             id,
             style,
+            height,
             maxHeight,
             maxWidth,
             minHeight,
             minWidth,
         } = props;
-        const finalStyle = $.extend({maxHeight,
+        const finalStyle = $.extend({
+            height: height === undefined ? undefined : (typeof height === 'function' ? height() : toCssSize(height)),
+            maxHeight,
             maxWidth,
             minHeight,
             minWidth,
@@ -195,7 +197,10 @@ export class PickPop<S extends PickState = PickState, P extends PickPopProps<S> 
                 placement: (noFlipAfterShow && lastPlacement) ? lastPlacement : ((!placement || placement === 'auto') ? 'bottom-start' : placement),
                 middleware: [(placement === 'auto' && (!noFlipAfterShow || !lastPlacement)) ? flip() : null, shift(), offset(1)].filter(Boolean),
             }).then(({x, y, placement: actualPlacement}) => {
-                if (isElementDetached(trigger) || !isVisible(trigger, {checkZeroSize: true})) {
+                if (this.element !== element || !this.props.state.open || dom.isElementDetached(element)) {
+                    return;
+                }
+                if (dom.isElementDetached(trigger) || !dom.isVisible(trigger, {checkZeroSize: true})) {
                     $(element).css({display: 'none'});
                     return;
                 }

@@ -20,7 +20,10 @@ export class PickTrigger<S extends PickState = PickState, P extends PickTriggerP
     }
 
     protected _handleClick(event: MouseEvent) {
-        const {togglePop, clickType, onClick} = this.props;
+        const {togglePop, clickType, onClick, disabled, readonly} = this.props;
+        if (disabled || readonly) {
+            return;
+        }
         let toggle: undefined | boolean = clickType === 'open' ? true : undefined;
         const $target = $(event.target as HTMLElement);
         const clickResult = onClick?.(event);
@@ -102,7 +105,7 @@ export class PickTrigger<S extends PickState = PickState, P extends PickTriggerP
 
     componentWillUnmount(): void {
         const {id} = this.props;
-        $(`#${id}`).off(`change.zui.pick.${id}`);
+        $(`#${id}`).off(`.zui.pick.${id}`);
     }
 
     componentDidUpdate(previousProps: Readonly<P>): void {
