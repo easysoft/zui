@@ -18,9 +18,11 @@ export class Sortable extends Component<SortableOptions> {
 
     async afterInit() {
         const SortableModuleClass = await Sortable.loadModule();
-        const {options} = this;
-        if (options.dragShadow !== undefined && options.dragShadow !== true) {
-            const {dragShadow, onEnd, setData} = options;
+        if (this.destroyed) {
+            return;
+        }
+        const {dragShadow, onEnd, setData, ...options} = this.options;
+        if (dragShadow !== undefined && dragShadow !== true) {
             options.setData = (dataTransfer, dragEl) => {
                 if (dragShadow === false && !this._emptyShadow) {
                     this._emptyShadow = dragEl.cloneNode(true) as HTMLElement;
@@ -35,7 +37,6 @@ export class Sortable extends Component<SortableOptions> {
                 this._emptyShadow?.remove();
                 this._emptyShadow = undefined;
             };
-            delete options.dragShadow;
         }
         this._module = new SortableModuleClass(this.element, options);
     }
@@ -83,9 +84,11 @@ export class Sortable extends Component<SortableOptions> {
      * Removes the sortable functionality completely.
      */
     destroy(): void {
-        super.destroy();
+        this._emptyShadow?.remove();
+        this._emptyShadow = undefined;
         this._module?.destroy();
         this._module = undefined;
+        super.destroy();
     }
 
     /**
