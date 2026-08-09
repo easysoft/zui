@@ -1,14 +1,14 @@
 import {Component, type ComponentType, type RenderableProps, type JSX} from 'preact';
-import {classes, ClassNameLike, mergeProps, nextGid, Component as ZUIComponent} from '@zui/core';
-import {ZUI} from '@zui/core/src/react/components/zui';
-import {Checkbox, CheckList} from '@zui/checkbox/src/component';
+import {classes, ClassNameLike, mergeProps, nextGid, Component as ZUIComponent, ZUI} from '@zui/core';
+import {Checkbox, CheckList} from '@zui/checkbox/react';
 import type {CheckboxProps, CheckListProps} from '@zui/checkbox';
-import type {FormWidgetType} from '../../../form-builder/src/types';
 import {Select} from './select';
 import {Input} from './input';
 import {TextArea} from './textarea';
 import {StringListEdit} from './string-list-edit';
 import {MapEdit} from './map-edit';
+
+type FormWidgetType = typeof ZUIComponent | ComponentType | string;
 
 export type FormControlProps = {
     className?: ClassNameLike;
@@ -53,7 +53,7 @@ export class FormControl extends Component<FormControlProps> {
                     name={name as string}
                     defaultChecked={!!defaultValue}
                     disabled={!!disabled}
-                    checked={!!value}
+                    checked={value === undefined ? undefined : !!value}
                     {...rest}
                 />
             </div>

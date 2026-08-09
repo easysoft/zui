@@ -1,6 +1,6 @@
 import {Component, type RenderableProps} from 'preact';
 import {signal, Signal, nextGid, SizeSetting, toCssSize, $, effect} from '@zui/core';
-import {Button} from '@zui/button/src/component';
+import {Button} from '@zui/button/react';
 
 export type MapValue = Record<string, string>;
 
@@ -90,8 +90,8 @@ export class MapEdit extends Component<MapEditProps> {
                 <input className="map-edit-item-key form-control" type="text" value={key} readonly={readonly} onChange={this._handleKeyChange} placeholder={keyPlaceholder} />
                 <input className="map-edit-item-value form-control" type="text" value={value} readonly={readonly} onChange={this._handleValueChange} placeholder={valuePlaceholder} />
                 <div className="map-edit-item-actions">
-                    <Button type="ghost" size="sm" icon="plus" onClick={this._handleAddClick} />
-                    <Button type="ghost" size="sm" icon="trash" onClick={this._handleDeleteClick} />
+                    <Button type="ghost" size="sm" icon="plus" disabled={readonly} onClick={this._handleAddClick} />
+                    <Button type="ghost" size="sm" icon="trash" disabled={readonly} onClick={this._handleDeleteClick} />
                 </div>
             </div>
         );
