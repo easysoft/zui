@@ -1,7 +1,7 @@
 import {CustomContent, HElement, mergeProps} from '@zui/core';
 
 import type {ComponentChild, ComponentChildren, ComponentType, JSX, RenderableProps} from 'preact';
-import type {ClassNameLike} from '../../../core/src/helpers';
+import type {ClassNameLike} from '@zui/core';
 import type {CommonListProps, Item, ItemKey, ItemType} from '../types';
 
 /**
