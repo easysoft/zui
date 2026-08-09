@@ -7,6 +7,11 @@
     "files": [
         "./src/**/*"
     ],
+    "exports": {
+        ".": "./src/main.ts",
+        "./css": "./src/main-css.ts",
+        "./react": "./src/main-react.ts"
+    },
     "dependencies": {
         "@zui/core": "workspace:*",
         "@zui/toolbar": "workspace:*",
