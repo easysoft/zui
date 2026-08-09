@@ -1,9 +1,9 @@
 import {classes, $, mergeProps, HElement} from '@zui/core';
-import {BtnGroup} from '@zui/btn-group/src/component/btn-group';
+import {BtnGroup} from '@zui/btn-group/react';
 
 import type {Item} from '@zui/common-list';
 import type {ToolbarOptions, ToolbarSetting} from '../types';
-import type {ClassNameLike} from '@zui/core/src/helpers';
+import type {ClassNameLike} from '@zui/core';
 import type {Attributes, RenderableProps} from 'preact';
 import '@zui/css-icons';
 
