@@ -43,12 +43,15 @@ export class Button<P extends ButtonProps = ButtonProps> extends HElement<P> {
 
     protected _getProps(props: RenderableProps<P>) {
         const component = this._getComponent(props);
-        const {url, target, disabled, btnType = 'button', size, hint, command} = props;
+        const {url, target, disabled, loading, btnType = 'button', size, hint, command} = props;
         const asLink = component === 'a';
+        const isDisabled = !!(disabled || loading);
         const componentProps: Record<string, unknown> = {
             ...super._getProps(props),
             type: asLink ? undefined : 'button',
-            disabled: (!asLink && disabled) ? '' : undefined,
+            disabled: (!asLink && isDisabled) ? '' : undefined,
+            'aria-disabled': (asLink && isDisabled) ? 'true' : undefined,
+            tabIndex: (asLink && isDisabled) ? -1 : undefined,
             title: hint,
         };
         if (btnType) {
@@ -60,7 +63,7 @@ export class Button<P extends ButtonProps = ButtonProps> extends HElement<P> {
                 componentProps.className = classes([componentProps.className as ClassNameLike, btnType]);
             }
         }
-        if (!disabled) {
+        if (!isDisabled) {
             if (url !== undefined) {
                 componentProps[asLink ? 'href' : 'data-url'] = url;
             }
@@ -70,6 +73,11 @@ export class Button<P extends ButtonProps = ButtonProps> extends HElement<P> {
             if (command) {
                 componentProps['zui-command'] = command;
             }
+        } else if (asLink) {
+            componentProps.onClick = (event: MouseEvent) => {
+                event.preventDefault();
+                event.stopPropagation();
+            };
         }
         if (size && typeof size === 'number') {
             mergeProps(componentProps, {style: {'--btn-height': `${size}px`}});
