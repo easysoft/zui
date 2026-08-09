@@ -12,7 +12,8 @@
         "./src/**/*"
     ],
     "exports": {
-        ".": "./src/main.ts"
+        ".": "./src/main.ts",
+        "./css": "./src/main-css.ts"
     },
     "devDependencies": {
         "@zui/base": "workspace:*",
