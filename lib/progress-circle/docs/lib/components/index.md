@@ -68,16 +68,16 @@ size?: number;
 circleWidth?: number;
 
 /** 环形部分的背景色。 */
-circleBg: string;
+circleBg?: string;
 
 /** 环形部分的前景色。 */
-circleColor: string;
+circleColor?: string;
 
 /** 是否在中间区域显示百分比文本，或者直接指定要显示的文本。 */
 text?: string | boolean;
 
 /** 百分比文本的样式。 */
-textStyle?: string | object;
+textStyle?: string | JSX.CSSProperties;
 
 /** 百分比文本的 X 坐标。 */
 textX?: number;

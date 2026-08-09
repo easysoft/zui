@@ -8,17 +8,20 @@
         "./src/**/*"
     ],
     "exports": {
-      ".": "./src/main.ts"
+      ".": "./src/main.ts",
+      "./react": "./src/main-react.ts"
     },
     "dependencies": {
-        "zui-dev": "workspace:*",
         "@zui/core": "workspace:*"
+    },
+    "devDependencies": {
+        "zui-dev": "workspace:*"
     },
     "zui": {
         "type": "control",
         "displayName": "环形进度条",
         "contributes": {
-            "css": ["class", "var"]
+            "js": ["component"]
         }
     }
 }
