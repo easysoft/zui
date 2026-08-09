@@ -1,10 +1,10 @@
 import {Component} from 'preact';
 import {CustomContent, i18n} from '@zui/core';
-import {Toolbar} from '@zui/toolbar/src/component';
+import {Toolbar} from '@zui/toolbar/react';
 import {addDate, createDate, formatDate, isSameDay, type DateLike} from '@zui/helpers';
-import '@zui/css-icons/src/icons/chevron.css';
+import '@zui/css-icons';
 import type {CalendarViewMode} from '../types';
-import type {CustomContentType} from '@zui/core/src/react';
+import type {CustomContentType} from '@zui/core';
 import type {ToolbarSetting, ToolbarOptions, ToolbarItemOptions} from '@zui/toolbar';
 
 /**

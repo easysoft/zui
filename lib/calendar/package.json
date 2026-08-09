@@ -21,6 +21,11 @@
     "files": [
         "./src/**/*"
     ],
+    "exports": {
+        ".": "./src/main.ts",
+        "./css": "./src/main-css.ts",
+        "./react": "./src/main-react.ts"
+    },
     "devDependencies": {
         "zui-dev": "workspace:^0.0.1"
     },

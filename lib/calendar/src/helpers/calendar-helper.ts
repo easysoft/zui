@@ -1,5 +1,5 @@
 import {$, i18n} from '@zui/core';
-import {getDateTime, TIME_DAY} from '@zui/helpers';
+import {getDateTime} from '@zui/helpers';
 import type {CalendarCategory, CalendarEvent} from '../types';
 
 export const mergeCategories = (categories: CalendarCategory[], defaultCategoryID?: string) => {
@@ -41,25 +41,35 @@ export const mergeEvents = (events: CalendarEvent[], defaultCategoryID?: string)
         if (event.start === undefined) {
             continue;
         }
-        if (typeof event.start !== 'number') {
-            event.start = getDateTime(event.start);
+        const start = getDateTime(event.start);
+        if (Number.isNaN(start)) {
+            continue;
         }
-        if (event.end !== undefined && typeof event.end !== 'number') {
-            event.end = getDateTime(event.end);
+        const newEvent = {
+            ...event,
+            start,
+        } as CalendarEvent;
+        if (event.end !== undefined) {
+            const end = getDateTime(event.end);
+            if (!Number.isNaN(end)) {
+                newEvent.end = end;
+            } else {
+                delete newEvent.end;
+            }
         }
-        const oldEvent = eventsMap.get(event.id);
+        const oldEvent = eventsMap.get(newEvent.id);
         if (oldEvent) {
-            $.extend(true, oldEvent, event);
+            $.extend(true, oldEvent, newEvent);
         } else {
-            const newEvent = $.extend(true, {}, event);
-            if (newEvent.order === undefined) {
-                newEvent.order = finalEvents.length;
+            const finalEvent = $.extend(true, {}, newEvent) as CalendarEvent;
+            if (finalEvent.order === undefined) {
+                finalEvent.order = finalEvents.length;
             }
-            if (defaultCategoryID !== undefined && newEvent.category === undefined) {
-                newEvent.category = defaultCategoryID;
+            if (defaultCategoryID !== undefined && finalEvent.category === undefined) {
+                finalEvent.category = defaultCategoryID;
             }
-            eventsMap.set(event.id, newEvent);
-            finalEvents.push(newEvent);
+            eventsMap.set(finalEvent.id, finalEvent);
+            finalEvents.push(finalEvent);
         }
     }
     finalEvents.sort((a, b) => {
@@ -79,24 +89,31 @@ export const mergeEvents = (events: CalendarEvent[], defaultCategoryID?: string)
 /**
  * 获取日历信息
  */
-type CalenderMonthViewInfo = {
+type CalendarMonthViewInfo = {
     /** 日历天数 */
     days: number;
     /** 日历开始时间 */
     startTime: number;
     /** 日历第一天 */
     firstDay: number;
+    /** 日历首个可见日期 */
+    startDate: Date;
+    /** 日历行数 */
+    rows: number;
 };
 
-export const getMonthViewInfo = (year: number, month: number, weekStart = 0): CalenderMonthViewInfo => {
+export const getMonthViewInfo = (year: number, month: number, weekStart = 0): CalendarMonthViewInfo => {
     const firstDay = new Date(year, month - 1, 1);
     const firstDayOfWeek = firstDay.getDay();
     const endDay = new Date(year, month, 0);
-    const startTime = firstDay.getTime() - ((7 + firstDayOfWeek - weekStart) % 7) * TIME_DAY;
+    const offset = (7 + firstDayOfWeek - weekStart) % 7;
+    const startDate = new Date(year, month - 1, 1 - offset);
     const days = endDay.getDate();
     return {
         days,
-        startTime,
+        startTime: startDate.getTime(),
         firstDay: firstDay.getTime(),
+        startDate,
+        rows: Math.max(5, Math.ceil((offset + days) / 7)),
     };
 };

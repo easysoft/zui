@@ -1,7 +1,7 @@
 import {Component, ComponentChild} from 'preact';
 import {classes, i18n} from '@zui/core';
-import {createDate, formatDate, isSameDay, isSameMonth, TIME_DAY} from '@zui/helpers';
-import '@zui/css-icons/src/icons/chevron.css';
+import {createDate, formatDate, isSameDay, isSameMonth} from '@zui/helpers';
+import '@zui/css-icons';
 import type {CalendarCategory, CalendarEvent, CalendarMonthViewProps} from '../types';
 import {getMonthViewInfo} from '../helpers';
 import {CalendarEventList} from './calendar-event-list';
@@ -20,7 +20,7 @@ export class CalendarMonthView extends Component<CalendarMonthViewProps> {
                     className={classes('calendar-month-view-col calendar-month-view-header-col', {'is-weekend': weekIndex === 0 || weekIndex === 6})}
                     key={i}
                 >
-                    <div class="calendar-month-view-week-name">{weekNames ? weekNames[weekIndex] : weekIndex}</div>
+                    <div className="calendar-month-view-week-name">{weekNames ? weekNames[weekIndex] : weekIndex}</div>
                 </div>,
             );
         }
@@ -31,8 +31,7 @@ export class CalendarMonthView extends Component<CalendarMonthViewProps> {
         );
     }
 
-    protected _renderDay(time: number, eventsMap: Map<string, CalendarEvent[]>, categoriesMap: Map<string, CalendarCategory>, firstDay: number, today: Date, dateFormat: string | ((date: Date) => string), monthNames: string[]) {
-        const day = new Date(time);
+    protected _renderDay(day: Date, eventsMap: Map<string, CalendarEvent[]>, categoriesMap: Map<string, CalendarCategory>, firstDay: number, today: Date, dateFormat: string | ((date: Date) => string), monthNames: string[]) {
         const date = day.getDate();
         const dateStr = formatDate(day, dateFormat);
         const dayEvents = eventsMap.get(dateStr) || [];
@@ -48,8 +47,8 @@ export class CalendarMonthView extends Component<CalendarMonthViewProps> {
         return (
             <div className={className} key={dateStr} z-date={dateStr} zui-command={`.~clickDay/${dateStr}/$.event`}>
                 <div className="calendar-month-view-day-head" title={dateStr}>
-                    {(date === 1 && monthNames) ? <span class="calendar-month-view-month-name">{monthNames[day.getMonth()]}</span> : null}
-                    <span class="calendar-month-view-day-number">{day.getDate()}</span>
+                    {(date === 1 && monthNames) ? <span className="calendar-month-view-month-name">{monthNames[day.getMonth()]}</span> : null}
+                    <span className="calendar-month-view-day-number">{day.getDate()}</span>
                 </div>
                 <CalendarEventList
                     className="calendar-month-view-day-events"
@@ -64,8 +63,7 @@ export class CalendarMonthView extends Component<CalendarMonthViewProps> {
 
     protected _renderRows(year: number, month: number, weekStart: number, props: CalendarMonthViewProps) {
         const {dateFormat = 'yyyy-MM-dd', events = [], categories = []} = props;
-        const {startTime, days, firstDay} = getMonthViewInfo(year, month, weekStart);
-        const endTime = firstDay + (days * TIME_DAY);
+        const {startDate, rows: rowCount, firstDay} = getMonthViewInfo(year, month, weekStart);
         const rows: ComponentChild[] = [];
         const monthNames = i18n.getLang('monthNames') as string[];
         const today = new Date();
@@ -80,14 +78,14 @@ export class CalendarMonthView extends Component<CalendarMonthViewProps> {
             categoriesMap.set(category.id, category);
         }
 
-        let time = startTime;
-        while (time <= endTime) {
+        const calendarDate = new Date(startDate);
+        for (let row = 0; row < rowCount; row++) {
             const rowDays: ComponentChild[] = [];
             for (let i = 0; i < 7; i++) {
-                rowDays.push(this._renderDay(time, eventsMap, categoriesMap, firstDay, today, dateFormat, monthNames));
-                time += TIME_DAY;
+                rowDays.push(this._renderDay(new Date(calendarDate), eventsMap, categoriesMap, firstDay, today, dateFormat, monthNames));
+                calendarDate.setDate(calendarDate.getDate() + 1);
             }
-            rows.push(<div className="calendar-month-view-row calendar-month-view-week" key={time}>{rowDays}</div>);
+            rows.push(<div className="calendar-month-view-row calendar-month-view-week" key={row}>{rowDays}</div>);
         }
         return rows;
     }

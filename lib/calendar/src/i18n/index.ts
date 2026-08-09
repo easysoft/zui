@@ -1,5 +1,5 @@
 import {i18n} from '@zui/core';
-import '@zui/datetime-picker/src/i18n';
+import '@zui/datetime-picker/i18n';
 
 const zh_cn = {
     defaultCategoryName: '默认',
