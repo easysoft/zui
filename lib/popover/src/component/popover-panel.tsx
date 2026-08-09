@@ -1,8 +1,7 @@
 import {Component, ComponentChild} from 'preact';
 import {PopoverPanelOptions} from '../types';
-import {classes, CustomContent} from '@zui/core';
-import '@zui/css-icons/src/icons/arrow.css';
-import '@zui/css-icons/src/icons/close.css';
+import {classes, CustomContent, getLang} from '@zui/core';
+import '@zui/css-icons';
 
 export class PopoverPanel extends Component<PopoverPanelOptions> {
     render(props: PopoverPanelOptions) {
@@ -35,7 +34,7 @@ export class PopoverPanel extends Component<PopoverPanelOptions> {
         }
 
         const views: ComponentChild[] = [];
-        const closeBtnView = closeBtn ? <button className="btn ghost square size-sm btn-close" data-dismiss="popover"><span className="close"></span></button> : null;
+        const closeBtnView = closeBtn ? <button type="button" className="btn ghost square size-sm btn-close" aria-label={getLang('close', undefined, 'Close') || 'Close'} data-dismiss="popover"><span className="close"></span></button> : null;
         if (title) {
             views.push(
                 <div className={headingClass} key="heading">
