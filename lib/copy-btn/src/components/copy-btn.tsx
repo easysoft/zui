@@ -1,4 +1,4 @@
-import {Button} from '@zui/button/src/component';
+import {Button} from '@zui/button/react';
 import {type ButtonProps} from '@zui/button';
 import type {CopyBtnOptions} from '../types';
 import {CopyBtn as CopyBtnVanilla} from '../vanilla/copy-btn';
@@ -15,8 +15,13 @@ export class CopyBtn extends Button<CopyBtnProps> {
         ...CopyBtnVanilla.DEFAULT,
     } as Partial<CopyBtnProps>;
 
-    get coyBtn() {
+    get copyBtn() {
         return this._copyBtn;
+    }
+
+    /** @deprecated Use copyBtn. */
+    get coyBtn() {
+        return this.copyBtn;
     }
 
     componentDidMount(): void {
@@ -25,12 +30,20 @@ export class CopyBtn extends Button<CopyBtnProps> {
     }
 
     componentWillUnmount(): void {
-        super.componentWillUnmount();
         this._copyBtn?.destroy();
+        super.componentWillUnmount();
     }
 
-    protected _handleClick = () => {
-        this._copyBtn?.copy();
+    protected _handleClick: NonNullable<ButtonProps['onClick']> = (event) => {
+        if (this.props.disabled || this.props.loading) {
+            event.preventDefault();
+            event.stopPropagation();
+            return;
+        }
+        this.props.onClick?.(event);
+        if (!event.defaultPrevented) {
+            void this._copyBtn?.copy();
+        }
     };
 
     protected _getProps(props: RenderableProps<CopyBtnProps>) {

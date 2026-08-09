@@ -58,23 +58,25 @@ export class CopyBtn extends Component<CopyBtnOptions> {
             this.$element.addClass(copyingClass);
         }
 
-        // 获取复制的内容
-        const content = await this.getContent();
-        if (content === false || content === undefined) {
+        try {
+            // 获取复制的内容
+            const content = await this.getContent();
+            if (content === false || content === undefined) {
+                return;
+            }
+
+            // 复制内容
+            await copy(content);
+
+            this._showTip();
+
+            onCopied?.call(this);
+        } finally {
             this._copying = false;
-            return;
+            if (copyingClass) {
+                this.$element.removeClass(copyingClass);
+            }
         }
-
-        // 复制内容
-        await copy(content);
-
-        this._showTip();
-
-        if (onCopied) {
-            onCopied.call(this);
-        }
-
-        this._copying = false;
     }
 
     protected _showTip() {
@@ -108,9 +110,9 @@ export class CopyBtn extends Component<CopyBtnOptions> {
             }
             $element.addClass('hide-children');
             if (copiedIcon) {
-                $element.append(`<i class="copied-overlay icon ${copiedIcon.startsWith('icon-') ? copiedIcon : `icon-${copiedIcon}`}" style="display:inline!important"></i>`);
+                $element.append($('<i class="copied-overlay icon"></i>').addClass(copiedIcon.startsWith('icon-') ? copiedIcon : `icon-${copiedIcon}`).attr('style', 'display:inline!important'));
             }
-            $element.append(`<span class="copied-overlay text" style="display:inline!important">${text}</span>`);
+            $element.append($('<span class="copied-overlay text"></span>').text(text).attr('style', 'display:inline!important'));
         }
 
         this._timer = window.setTimeout(() => {
@@ -141,6 +143,8 @@ export class CopyBtn extends Component<CopyBtnOptions> {
     destroy(): void {
         this._hideTip();
         this._tooltip?.destroy();
+        this._tooltip = undefined;
+        super.destroy();
     }
 }
 
