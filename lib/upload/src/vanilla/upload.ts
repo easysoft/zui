@@ -1,4 +1,4 @@
-import {convertBytes, formatBytes} from '@zui/helpers/src/string-helper';
+import {convertBytes, formatBytes} from '@zui/helpers';
 import {Component, $, Cash} from '@zui/core';
 import {UploadOptions} from '../types';
 import {Tooltip} from '@zui/tooltip';
@@ -21,6 +21,8 @@ export class Upload<T extends UploadOptions = UploadOptions> extends Component<T
     private limitBytes: number;
 
     protected currentBytes: number;
+
+    private _removeTimers = new Set<ReturnType<typeof setTimeout>>();
 
     static NAME = 'Upload';
 
@@ -72,13 +74,16 @@ export class Upload<T extends UploadOptions = UploadOptions> extends Component<T
 
     protected initUploadCash() {
         const {name, uploadText, uploadIcon, listPosition, btnClass, tip, draggable} = this.options;
-        this.$list = $('<ul class="file-list py-1"></ul>');
-        const $tip = $(`<span class="upload-tip">${tip}</span>`);
+        this.$list = $('<ul></ul>').addClass('file-list py-1');
+        const $tip = $('<span></span>').addClass('upload-tip').text(tip!);
 
         if (!draggable) {
-            this.$label = $(`<label class="btn ${btnClass}" for="${name}">${uploadText}</label>`);
+            this.$label = $('<label></label>')
+                .addClass(`btn ${btnClass}`)
+                .attr('for', name)
+                .text(uploadText!);
             if (uploadIcon) {
-                const $uploadIcon = $(`<i class="icon icon-${uploadIcon}"></i>`);
+                const $uploadIcon = $('<i></i>').addClass(`icon icon-${uploadIcon}`);
                 this.$label.prepend($uploadIcon);
             }
             const $children = listPosition === 'bottom'
@@ -88,12 +93,14 @@ export class Upload<T extends UploadOptions = UploadOptions> extends Component<T
             return;
         }
 
-        const $uploadText = $(`<span class="text-primary">${uploadText}</span>`);
+        const $uploadText = $('<span></span>').addClass('text-primary').text(uploadText!);
         if (uploadIcon) {
-            const $uploadIcon = $(`<i class="icon icon-${uploadIcon} mr-1"></i>`);
+            const $uploadIcon = $('<i></i>').addClass(`icon icon-${uploadIcon} mr-1`);
             $uploadText.prepend($uploadIcon);
         }
-        this.$label = $(`<label class="draggable-area col justify-center items-center cursor-pointer block w-full h-16" for="${name}"></label>`)
+        this.$label = $('<label></label>')
+            .addClass('draggable-area col justify-center items-center cursor-pointer block w-full h-16')
+            .attr('for', name)
             .append($uploadText)
             .append($tip);
         this.bindDragEvent();
@@ -127,7 +134,6 @@ export class Upload<T extends UploadOptions = UploadOptions> extends Component<T
                 this.$label.addClass('border-gray');
                 this.$label.removeClass('dragover');
                 const files: File[] = Array.from(e.dataTransfer?.files ?? []);
-                console.log(e.dataTransfer.files);
                 this.addFileItem(files);
             });
     }
@@ -162,7 +168,7 @@ export class Upload<T extends UploadOptions = UploadOptions> extends Component<T
             this.renameMap.clear();
             this.fileMap.clear();
             this.dataTransfer.items.clear();
-            this.currentBytes = file.size;
+            this.currentBytes = 0;
         }
 
         this.renameMap.set(file.name, file.name);
@@ -180,19 +186,19 @@ export class Upload<T extends UploadOptions = UploadOptions> extends Component<T
 
         const pos = file.name.lastIndexOf('.');
         if (pos === -1) {
-            return this.renameDuplicatedFile(new File([file], `${file.name}(1)`));
+            return this.renameDuplicatedFile(new File([file], `${file.name}(1)`, {type: file.type, lastModified: file.lastModified}));
         }
 
         const fileName = file.name.substring(0, pos);
         const fileExt = file.name.substring(pos);
-        return this.renameDuplicatedFile(new File([file], `${fileName}(1)${fileExt}`));
+        return this.renameDuplicatedFile(new File([file], `${fileName}(1)${fileExt}`, {type: file.type, lastModified: file.lastModified}));
     }
 
     protected filterFiles(files: File[]) {
         const {accept} = this.options;
         if (!accept) return files;
 
-        const fileTypes = accept.replace(/\s/g, '').split(',');
+        const fileTypes = accept.replace(/\s/g, '').toLowerCase().split(',');
         const mimeList: string[] = [];
         const mimeAllList: string[] = [];
         const extList: string[] = [];
@@ -207,11 +213,13 @@ export class Upload<T extends UploadOptions = UploadOptions> extends Component<T
             }
         });
 
-        return files.filter(file => (
-            mimeList.includes(file.type)
-            || mimeAllList.some(x => file.type.startsWith(x))
-            || extList.some(x => file.name.endsWith(x))
-        ));
+        return files.filter((file) => {
+            const fileType = file.type.toLowerCase();
+            const fileName = file.name.toLowerCase();
+            return mimeList.includes(fileType)
+                || mimeAllList.some(x => fileType.startsWith(x))
+                || extList.some(x => fileName.endsWith(x));
+        });
     }
 
     protected addFileItem(files: File[]) {
@@ -249,6 +257,8 @@ export class Upload<T extends UploadOptions = UploadOptions> extends Component<T
             return;
         }
         if (files[0].size > this.limitBytes) {
+            onExceededSize?.(this.limitBytes);
+            if (exceededSizeHint) alert(exceededSizeHint);
             return;
         }
 
@@ -275,20 +285,22 @@ export class Upload<T extends UploadOptions = UploadOptions> extends Component<T
         const $item = this.itemMap.get(file.name);
         this.itemMap.delete(file.name);
         $item?.addClass('hidden');
-        const tooltipInstance = $item?.find('.file-delete')?.data('tooltip');
-        if (tooltipInstance) {
-            tooltipInstance.destroy();
-            tooltipInstance.tooltip?.remove();
-        }
-        setTimeout(() => $item?.remove(), 3000);
+        $item?.find('.file-action').each((_index, element) => {
+            const tooltipInstance = $(element).data('tooltip') as Tooltip | undefined;
+            tooltipInstance?.destroy();
+            tooltipInstance?.tooltip?.remove();
+        });
+        const removeTimer = setTimeout(() => {
+            this._removeTimers.delete(removeTimer);
+            $item?.remove();
+        }, 3000);
+        this._removeTimers.add(removeTimer);
         onDelete?.(file);
         this.fileMap.delete(file.name);
 
-        this.currentBytes -= file.size;
+        this.currentBytes = Math.max(0, this.currentBytes - file.size);
         onSizeChange?.(this.currentBytes);
-        this.dataTransfer = new DataTransfer();
-        this.fileMap.forEach(f => this.dataTransfer.items.add(f));
-        this.$input.prop('files', this.dataTransfer.files);
+        this._syncInputFiles();
     }
 
     protected renameFileItem(file: File, newName: string) {
@@ -309,11 +321,17 @@ export class Upload<T extends UploadOptions = UploadOptions> extends Component<T
         this.fileMap.delete(file.name);
 
         this.dataTransfer = new DataTransfer();
-        file = new File([file], newName);
+        file = new File([file], newName, {type: file.type, lastModified: file.lastModified});
         this.fileMap
             .set(newName, file)
             .forEach(f => this.dataTransfer.items.add(f));
 
+        this.$input.prop('files', this.dataTransfer.files);
+    }
+
+    protected _syncInputFiles() {
+        this.dataTransfer = new DataTransfer();
+        this.fileMap.forEach(file => this.dataTransfer.items.add(file));
         this.$input.prop('files', this.dataTransfer.files);
     }
 
@@ -329,47 +347,49 @@ export class Upload<T extends UploadOptions = UploadOptions> extends Component<T
 
     private fileIcon() {
         const {icon} = this.options;
-        return $(`<i class="icon icon-${icon}"></i>`);
+        return $('<i></i>').addClass(`icon icon-${icon}`);
     }
 
     protected fileRenameBtn() {
         const {useIconBtn, renameText, renameIcon, renameClass} = this.options;
         if (useIconBtn) {
-            const $iconBtn = $(`<button class="btn btn-link h-5 w-5 p-0 ${renameClass}"><i class="icon icon-${renameIcon}"></i></button>`)
+            const $iconBtn = $('<button></button>')
                 .prop('type', 'button')
-                .addClass('file-action file-rename');
-            new Tooltip($iconBtn, {title: renameText});
+                .addClass(`btn btn-link h-5 w-5 p-0 ${renameClass} file-action file-rename`)
+                .append($('<i></i>').addClass(`icon icon-${renameIcon}`));
+            $iconBtn.data('tooltip', new Tooltip($iconBtn, {title: renameText}));
             return $iconBtn;
         }
 
         return $('<button />')
             .prop('type', 'button')
             .addClass(`btn size-sm rounded-sm text-primary canvas file-action file-rename ${renameClass}`)
-            .html(renameText!);
+            .text(renameText!);
     }
 
     protected fileDeleteBtn() {
         const {useIconBtn, deleteText, deleteIcon, deleteClass} = this.options;
         if (useIconBtn) {
-            const $iconBtn = $(`<button class="btn btn-link h-5 w-5 p-0 ${deleteClass}"><i class="icon icon-${deleteIcon}"></i></button>`)
+            const $iconBtn = $('<button></button>')
                 .prop('type', 'button')
-                .addClass('file-action file-delete');
+                .addClass(`btn btn-link h-5 w-5 p-0 ${deleteClass} file-action file-delete`)
+                .append($('<i></i>').addClass(`icon icon-${deleteIcon}`));
             $iconBtn.data('tooltip', new Tooltip($iconBtn, {title: deleteText}));
             return $iconBtn;
         }
 
         return $('<button />')
-            .html(deleteText!)
             .prop('type', 'button')
-            .addClass(`btn size-sm rounded-sm text-primary canvas file-action file-delete ${deleteClass}`);
+            .addClass(`btn size-sm rounded-sm text-primary canvas file-action file-delete ${deleteClass}`)
+            .text(deleteText!);
     }
 
     protected fileName(name: string) {
-        return $(`<span class="file-name">${name}</span>`);
+        return $('<span></span>').addClass('file-name').text(name);
     }
 
     protected fileSize(size: number) {
-        return $(`<span class="file-size text-gray">${formatBytes(size)}</span>`);
+        return $('<span></span>').addClass('file-size text-gray').text(formatBytes(size));
     }
 
     protected createFileInfo(file: File) {
@@ -417,7 +437,7 @@ export class Upload<T extends UploadOptions = UploadOptions> extends Component<T
                 if (e.key === 'Enter') {
                     const $fileItem = $renameContainer.closest('.file-item');
                     const $fileName = $fileItem.find('.file-name');
-                    if ($fileName.html() === $input.val()) {
+                    if ($fileName.text() === $input.val()) {
                         $renameContainer.addClass('hidden');
                         $fileItem.find('.file-info.hidden').removeClass('hidden');
                         return;
@@ -432,7 +452,7 @@ export class Upload<T extends UploadOptions = UploadOptions> extends Component<T
                     this.renameFileItem(file, $input.val() as string);
                     $renameContainer.addClass('hidden');
                     $fileItem.find('.file-info.hidden').removeClass('hidden');
-                    $fileName.html($input.val() as string);
+                    $fileName.text($input.val() as string);
                 } else if (e.key === 'Escape') {
                     $input.val(file.name);
                     $renameContainer
@@ -445,11 +465,11 @@ export class Upload<T extends UploadOptions = UploadOptions> extends Component<T
         const $submitBtn = $('<button />')
             .addClass('btn primary rename-confirm-btn')
             .prop('type', 'button')
-            .html(confirmText!)
+            .text(confirmText!)
             .on('click', () => {
                 const $fileItem = $renameContainer.closest('.file-item');
                 const $fileName = $fileItem.find('.file-name');
-                if ($fileName.html() === $input.val()) {
+                if ($fileName.text() === $input.val()) {
                     $renameContainer.addClass('hidden');
                     $fileItem.find('.file-info.hidden').removeClass('hidden');
                     return;
@@ -463,12 +483,12 @@ export class Upload<T extends UploadOptions = UploadOptions> extends Component<T
                 this.renameFileItem(file, $input.val() as string);
                 $renameContainer.addClass('hidden');
                 $fileItem.find('.file-info.hidden').removeClass('hidden');
-                $fileName.html($input.val() as string);
+                $fileName.text($input.val() as string);
             });
         const $cancelBtn = $('<button />')
             .prop('type', 'button')
             .addClass('btn rename-cancel-btn')
-            .html(cancelText!)
+            .text(cancelText!)
             .on('click', () => {
                 $input.val(file.name);
                 $renameContainer
@@ -484,5 +504,16 @@ export class Upload<T extends UploadOptions = UploadOptions> extends Component<T
         return $renameContainer
             .append($input)
             .append($groupBtn);
+    }
+
+    destroy() {
+        this._removeTimers.forEach(timer => clearTimeout(timer));
+        this._removeTimers.clear();
+        this.$element.find('.file-action').each((_index, element) => {
+            const tooltipInstance = $(element).data('tooltip') as Tooltip | undefined;
+            tooltipInstance?.destroy();
+            tooltipInstance?.tooltip?.remove();
+        });
+        super.destroy();
     }
 }

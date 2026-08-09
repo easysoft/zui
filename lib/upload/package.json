@@ -3,6 +3,10 @@
     "version": "0.0.1",
     "main": "src/main.ts",
     "browser": "src/main.ts",
+    "exports": {
+        ".": "./src/main.ts",
+        "./css": "./src/main-css.ts"
+    },
     "browserslist": "",
     "keywords": [
         "css",
@@ -13,6 +17,7 @@
         "@zui/icons": "workspace:0.0.1",
         "@zui/helpers": "workspace:^0.0.1",
         "@zui/input-group": "workspace:^0.0.1",
+        "@zui/btn-group": "workspace:^0.0.1",
         "@zui/core": "workspace:^0.0.1",
         "@zui/tooltip": "workspace:^0.0.1"
     },
