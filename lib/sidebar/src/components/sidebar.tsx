@@ -1,7 +1,9 @@
-import {ComponentChildren, createRef, JSX, RenderableProps} from 'preact';
-import {ClassNameLike, ReactComponent, classes} from '@zui/core';
+import {createRef} from 'preact';
+import {ReactComponent, classes} from '@zui/core';
 import {Sidebar as SidebarVanilla} from '../vanilla/sidebar';
-import {SidebarOptions} from '../types/sidebar-options';
+import type {ComponentChildren, JSX, RenderableProps} from 'preact';
+import type {ClassNameLike} from '@zui/core';
+import type {SidebarOptions} from '../types/sidebar-options';
 
 export type SidebarProps = SidebarOptions & {
     className?: ClassNameLike;
@@ -37,7 +39,7 @@ export class Sidebar extends ReactComponent<SidebarProps> {
         return (
             <div
                 ref={this._element}
-                className={classes(`sidebar side-bar-${side}`, className)}
+                className={classes(`sidebar sidebar-${side}`, className)}
                 style={style}
             >
                 <div className={classes('sidebar-content', contentClass)} style={contentStyle}>{children}</div>
