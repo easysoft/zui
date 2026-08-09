@@ -7,6 +7,8 @@ import type {CheckboxProps, CheckboxState} from '../types';
 export class Checkbox<P extends CheckboxProps = CheckboxProps> extends HElement<P, CheckboxState> {
     protected _controlled: boolean;
 
+    protected _defaultID = `_checkbox-${this._gid}`;
+
     constructor(props: P) {
         super(props);
         this.state = {
@@ -41,7 +43,7 @@ export class Checkbox<P extends CheckboxProps = CheckboxProps> extends HElement<
     };
 
     protected _getChildren(props: RenderableProps<P>): ComponentChildren {
-        const {name, type, value, id, label} = props;
+        const {name, type, value, id = this._defaultID, label, disabled} = props;
         const {checked} = this;
         return [
             name !== false ? (
@@ -51,9 +53,10 @@ export class Checkbox<P extends CheckboxProps = CheckboxProps> extends HElement<
                     name={name}
                     id={id}
                     value={value}
+                    disabled={disabled}
                     onChange={this._handleChange}
                     indeterminate={checked === 'indeterminate'}
-                    checked={typeof checked === 'boolean' ? checked : undefined}
+                    checked={checked === true}
                 />
             ) : null,
             (

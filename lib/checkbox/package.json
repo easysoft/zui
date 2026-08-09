@@ -4,6 +4,10 @@
     "version": "0.0.1",
     "keywords": ["css", "components"],
     "main": "src/main.ts",
+    "exports": {
+        ".": "./src/main.ts",
+        "./react": "./src/main-react.ts"
+    },
     "devDependencies": {
         "@zui/base": "workspace:*",
         "@zui/utilities": "workspace:*"

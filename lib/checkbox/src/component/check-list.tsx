@@ -43,9 +43,12 @@ export class CheckList<P extends CheckListProps = CheckListProps> extends HEleme
         }
     }
 
+    componentDidMount(): void {
+        this.load();
+    }
+
     componentDidUpdate(previousProps: Readonly<P>): void {
-        const {items} = this.props;
-        if (items && !Array.isArray(items) && isDiff(items, previousProps.items)) {
+        if (isDiff(this.props.items, previousProps.items)) {
             this.load();
         }
     }
