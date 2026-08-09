@@ -1,7 +1,7 @@
 import {$, delay, fetchData, i18n} from '@zui/core';
-import {Pick} from '@zui/pick/src/components';
-import {encodeBase64} from '@zui/helpers/src/string-helper';
-import {Toolbar} from '@zui/toolbar/src/component';
+import {Pick} from '@zui/pick/react';
+import {encodeBase64, formatString} from '@zui/helpers';
+import {Toolbar} from '@zui/toolbar/react';
 import {PickerMultiSelect} from './picker-multi-select';
 import {PickerSingleSelect} from './picker-single-select';
 import {PickerMenu} from './picker-menu';
@@ -10,7 +10,6 @@ import type {ComponentType, RenderableProps} from 'preact';
 import type {ListItem, ListItemsFetcher, NestedItem} from '@zui/list';
 import type {PickTriggerProps} from '@zui/pick';
 import type {PickerItemBasic, PickerItemOptions, PickerMenuProps, PickerOptions, PickerSelectProps, PickerState} from '../types';
-import {formatString} from '@zui/helpers/src/string-helper';
 
 function getValueMap(items: PickerItemOptions[], userMap?: Map<string, PickerItemOptions>): Map<string, PickerItemOptions> {
     return items.reduce<Map<string, PickerItemOptions>>((map, item) => {
@@ -42,6 +41,8 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
     protected _abort?: AbortController;
 
     protected _updateTimer = 0;
+
+    protected _destroyed = false;
 
     protected declare _emptyValueSet: Set<string>;
 
@@ -86,7 +87,8 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
     }
 
     getDefaultState(props?: RenderableProps<O>) {
-        const {items, valueSplitter = ',', emptyValue = ''} = props || this.props;
+        const sourceProps = props || this.props;
+        const {items, valueSplitter = ',', emptyValue = ''} = sourceProps;
         const state = {
             ...super.getDefaultState(props),
             loading: false,
@@ -97,12 +99,7 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
         this._emptyValueSet = new Set(typeof emptyValue === 'string' ? emptyValue.split(valueSplitter) : []);
 
         if (Array.isArray(items) && items.length) {
-            const {limitValueInList, required, multiple} = this.props;
-            items.forEach((item) => {
-                if (typeof item.value === 'number') {
-                    item.value = String(item.value);
-                }
-            }); // Fix item value could be non-string.
+            const {limitValueInList, required, multiple} = sourceProps;
             if (limitValueInList) {
                 const valueMap = getValueMap(items as PickerItemOptions[]);
                 state.value = this.formatValueList(state.value, valueSplitter).filter(x => valueMap.has(x)).join(valueSplitter);
@@ -219,12 +216,15 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
                 };
             }
             try {
-                items = await fetchData(ajaxSetting as ListItemsFetcher, [this, search], {signal: abort.signal});
+                const loadedItems = await fetchData(ajaxSetting as ListItemsFetcher, [this, search], {signal: abort.signal});
+                items = Array.isArray(loadedItems) ? loadedItems : [];
             } catch (error) {
                 items = [];
-                console.warn('[ZUI] Picker: Failed to load items.', this.props.name, {error});
+                if (!abort.signal.aborted) {
+                    console.warn('[ZUI] Picker: Failed to load items.', this.props.name, {error});
+                }
             }
-            if (this._abort !== abort) {
+            if (abort.signal.aborted || this._abort !== abort) {
                 return items;
             }
         } else {
@@ -259,6 +259,9 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
     }
 
     async update(force?: boolean) {
+        if (this._destroyed) {
+            return;
+        }
         const {state, props} = this;
         const cache = this._itemsCacheInfo || {};
         const newState: Partial<S> = {};
@@ -266,22 +269,29 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
         if (!state.loading && (force || cache.search !== state.search || props.items !== cache.items)) {
             await this.changeState({loading: true} as Partial<S>);
             let loadItems = await this.load();
-            const filterItems = (items: ListItem[]) => {
-                return items.filter((x) => {
-                    x.key = x.key ?? (x.value as string);
-                    if (typeof x.value === 'number') {
-                        x.value = String(x.value);
+            if (this._destroyed) {
+                return;
+            }
+            const filterItems = (items: ListItem[]): PickerItemOptions[] => {
+                return items.reduce<PickerItemOptions[]>((filteredItems, item) => {
+                    const value = typeof item.value === 'number' ? String(item.value) : item.value;
+                    if (this.isEmptyValue(value as string)) {
+                        return filteredItems;
                     }
-                    if (this.isEmptyValue(x.value as string)) {
-                        return false;
-                    }
-                    if (Array.isArray(x.items)) {
-                        x.items = filterItems(x.items as ListItem[]);
-                    }
-                    return true;
-                });
+                    filteredItems.push({
+                        ...item,
+                        key: item.key ?? value as string,
+                        value,
+                        items: Array.isArray(item.items) ? filterItems(item.items as ListItem[]) : item.items,
+                    } as PickerItemOptions);
+                    return filteredItems;
+                }, []);
             };
             loadItems = filterItems(loadItems);
+            if (state.search !== this.state.search || props.items !== this.props.items) {
+                await this.changeState({loading: false} as Partial<S>);
+                return;
+            }
             newState.loading = false;
             newState.items = loadItems as PickerItemOptions[];
             cache.items = props.items;
@@ -302,17 +312,24 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
     }
 
     async tryUpdate() {
+        if (this._destroyed) {
+            return;
+        }
         if (this._updateTimer) {
             clearTimeout(this._updateTimer);
         }
         this._updateTimer = window.setTimeout(() => {
             this._updateTimer = 0;
-            this.update();
+            void this.update();
         }, 50);
     }
 
     componentDidUpdate(previousProps: Readonly<O>, previousState: Readonly<S>): void {
         super.componentDidUpdate(previousProps, previousState);
+        if (previousState.search !== this.state.search) {
+            this._abort?.abort();
+            this._abort = undefined;
+        }
         this.tryUpdate();
     }
 
@@ -329,6 +346,7 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
     }
 
     componentWillUnmount(): void {
+        this._destroyed = true;
         this._abort?.abort();
         this._abort = undefined;
         this._itemsCacheInfo = undefined;
@@ -412,7 +430,7 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
 
     protected _getMenuItem = (item: NestedItem) => {
         if (this._sharedValueSet?.has(item.value as string)) {
-            item.disabled = true;
+            return {...item, disabled: true};
         }
         return item;
     };
@@ -465,16 +483,17 @@ export class Picker<S extends PickerState = PickerState, O extends PickerOptions
             }];
         }
         return Toolbar.render(toolbar, [], {size: 'sm', relativeTarget: this, getItem: (item) => {
-            if (!item.onClick) {
-                if (item.key === 'selectAll') {
-                    item.onClick = this.selectAll.bind(this);
-                    item.disabled = this.isSelectedAll();
-                } else if (item.key === 'cancelSelect') {
-                    item.onClick = this.deselectAll.bind(this);
-                    item.disabled = !this.valueList.length;
+            const nextItem = {...item};
+            if (!nextItem.onClick) {
+                if (nextItem.key === 'selectAll') {
+                    nextItem.onClick = this.selectAll.bind(this);
+                    nextItem.disabled = this.isSelectedAll();
+                } else if (nextItem.key === 'cancelSelect') {
+                    nextItem.onClick = this.deselectAll.bind(this);
+                    nextItem.disabled = !this.valueList.length;
                 }
             }
-            return item;
+            return nextItem;
         }}, this);
     }
 

@@ -1,9 +1,9 @@
 import {ComponentChildren, RefObject, RenderableProps, createRef} from 'preact';
 import {classes, $, mergeProps} from '@zui/core';
-import {SearchMenu} from '@zui/menu/src/component';
-import {SearchTree} from '@zui/tree/src/components';
-import {PickPop} from '@zui/pick/src/components';
-import '@zui/css-icons/src/icons/close.css';
+import {SearchMenu} from '@zui/menu/react';
+import {SearchTree} from '@zui/tree/react';
+import {PickPop} from '@zui/pick/react';
+import '@zui/css-icons';
 
 import type {NestedItem, NestedListItem} from '@zui/list';
 import type {MenuOptions, SearchMenuOptions} from '@zui/menu';
@@ -33,6 +33,8 @@ export class PickerMenu extends PickPop<PickerState, PickerMenuProps> {
     protected _disabledSet = new Set<string>();
 
     protected _firstSelected?: string;
+
+    protected _scrollTimer = 0;
 
     get menu() {
         return this._menu.current;
@@ -78,14 +80,16 @@ export class PickerMenu extends PickPop<PickerState, PickerMenuProps> {
             }
         });
 
-        setTimeout(() => {
+        this._scrollTimer = window.setTimeout(() => {
+            this._scrollTimer = 0;
             $(this.menu?.element).find('.menu-item>.selected').scrollIntoView({block: 'center'});
         }, 100);
     }
 
     componentWillUnmount(): void {
-        super.componentWillUnmount();
+        clearTimeout(this._scrollTimer);
         $(this.element).off('.zui.Picker');
+        super.componentWillUnmount();
     }
 
     _getItem = (item: NestedItem, index: number) => {

@@ -1,8 +1,7 @@
 import {classes, $, createRef, CustomContent, ComponentChildren} from '@zui/core';
 import {formatString} from '@zui/helpers';
-import '@zui/css-icons/src/icons/caret.css';
-import '@zui/css-icons/src/icons/close.css';
-import {PickTrigger, EVENT_PICK} from '@zui/pick/src/components';
+import '@zui/css-icons';
+import {PickTrigger, EVENT_PICK} from '@zui/pick/react';
 import {PickerItemBasic, PickerSelectProps, PickerState} from '../types';
 import {PickerSearch} from './picker-search';
 
@@ -32,7 +31,9 @@ export class PickerMultiSelect extends PickTrigger<PickerState, PickerSelectProp
 
     protected _handleClick(event: MouseEvent): void {
         super._handleClick(event);
-        this._search.current?.focus();
+        if (!this.props.disabled && !this.props.readonly) {
+            this._search.current?.focus();
+        }
     }
 
     protected _getClass(props: PickerSelectProps) {
@@ -48,7 +49,7 @@ export class PickerMultiSelect extends PickTrigger<PickerState, PickerSelectProp
         return (
             <div className="picker-multi-selection" key={selection.value} title={typeof text === 'string' ? text : undefined}>
                 <span className="text"><CustomContent content={text} /></span>
-                {(this.props.disabled || this.props.readonly) ? null : <div className="picker-deselect-btn btn size-xs ghost" onClick={this._handleDeselectClick} data-value={selection.value}><span className="close"></span></div>}
+                {(this.props.disabled || this.props.readonly) ? null : <button type="button" className="picker-deselect-btn btn size-xs ghost" onClick={this._handleDeselectClick} data-value={selection.value}><span className="close"></span></button>}
             </div>
         );
     };
@@ -94,7 +95,7 @@ export class PickerMultiSelect extends PickTrigger<PickerState, PickerSelectProp
         return [
             view,
             children,
-            <span key="caret" class={classes('caret', caretClass)}></span>,
+            <span key="caret" className={classes('caret', caretClass)}></span>,
         ];
     }
 

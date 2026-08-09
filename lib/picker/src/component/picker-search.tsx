@@ -1,7 +1,7 @@
 import {Component, ComponentChild, RenderableProps, createRef} from 'preact';
 import {$, getHotkeysMap, nextGid} from '@zui/core';
 import {PickerSearchProps} from '../types';
-import '@zui/css-icons/src/icons/magnifier.css';
+import '@zui/css-icons';
 
 export type PickerSearchState = {
     search: string;
