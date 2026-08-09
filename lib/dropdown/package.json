@@ -12,22 +12,25 @@
         "./src/**/*"
     ],
     "exports": {
-        ".": "./src/main.ts"
+        ".": "./src/main.ts",
+        "./css": "./src/main-css.ts",
+        "./react": "./src/main-react.ts"
     },
     "devDependencies": {
         "@zui/base": "workspace:*",
         "@zui/icons": "workspace:*",
         "@zui/utilities": "workspace:*",
-        "@zui/toolbar": "workspace:*",
         "zui-dev": "workspace:*"
     },
     "dependencies": {
         "@zui/core": "workspace:*",
         "@zui/button": "workspace:*",
+        "@zui/btn-group": "workspace:^0.0.1",
         "@zui/popover": "workspace:*",
         "@zui/css-icons": "workspace:*",
         "@zui/list": "workspace:*",
-        "@zui/menu": "workspace:*"
+        "@zui/menu": "workspace:*",
+        "@zui/toolbar": "workspace:*"
     },
     "zui": {
         "type": "js-ui",

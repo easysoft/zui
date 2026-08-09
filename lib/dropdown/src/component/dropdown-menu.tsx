@@ -1,12 +1,12 @@
 import {$, mergeProps, parseSize} from '@zui/core';
 import {flip, computePosition, shift, size, offset} from '@floating-ui/dom';
-import {SearchMenu} from '@zui/menu/src/component';
+import {SearchMenu} from '@zui/menu/react';
 
 import type {ClassNameLike} from '@zui/core';
 import type {SearchBoxOptions} from '@zui/search-box';
 import type {ListItemsSetting, NestedItem, NestedListProps} from '@zui/list';
 import {type ComponentChildren, type RenderableProps, type ComponentChild} from 'preact';
-import type {MouseEventInfo} from '@zui/list/src/component';
+import type {MouseEventInfo} from '@zui/list/react';
 import type {DropdownMenuOptions} from '../types/dropdown-menu-options';
 import type {Dropdown} from '../vanilla';
 

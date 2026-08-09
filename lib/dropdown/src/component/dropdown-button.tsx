@@ -1,8 +1,8 @@
 import {createRef} from 'preact';
 import {$} from '@zui/core';
-import {Button} from '@zui/button/src/component';
-import {BtnGroup} from '@zui/btn-group/src/component';
-import {Toolbar} from '@zui/toolbar/src/component';
+import {Button} from '@zui/button/react';
+import {BtnGroup} from '@zui/btn-group/react';
+import {Toolbar} from '@zui/toolbar/react';
 import {Dropdown} from '../vanilla';
 
 import type {DropdownButtonOptions} from '../types';
