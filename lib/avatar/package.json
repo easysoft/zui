@@ -14,7 +14,9 @@
         "@zui/utilities": "workspace:*"
     },
     "exports": {
-        ".": "./src/main.ts"
+        ".": "./src/main.ts",
+        "./css": "./src/main-css.ts",
+        "./react": "./src/main-react.ts"
     },
     "zui": {
         "type": "component",
