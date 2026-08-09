@@ -1,6 +1,6 @@
 import {$, mergeProps, removeUndefinedProps} from '@zui/core';
-import {Button} from '@zui/button/src/component';
-import {CommonList} from '@zui/common-list/src/component';
+import {Button} from '@zui/button/react';
+import {CommonList} from '@zui/common-list/react';
 
 import type {RenderableProps} from 'preact';
 import type {ButtonProps} from '@zui/button';
