@@ -5,7 +5,8 @@
   @apply -absolute -transition-[left,top];
 }
 .dashboard-block {
-  @apply -absolute -inset-2 -transition-opacity -bg-canvas -rounded;
+  @apply -absolute -transition-opacity -bg-canvas -rounded;
+  inset: calc(var(--dashboard-gap, 16px) / 2);
 }
 .dashboard-block.is-dragging {
   @apply -opacity-0 -z-overlay;
@@ -40,6 +41,9 @@
 }
 .dashboard-block-actions .btn {
   @apply -opacity-60 hover:-opacity-100;
+}
+.dashboard-block-actions {
+  @apply -flex -items-center;
 }
 .dashboard-drop-shadow {
   @apply -absolute -transition-[left,top];

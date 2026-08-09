@@ -5,9 +5,9 @@ import {Draggable} from '@zui/dnd';
 import {formatString} from '@zui/helpers';
 import {Block} from './block';
 import {ContextMenu} from '@zui/contextmenu';
+import type {ContextMenuOptions} from '@zui/contextmenu';
 import type {DashboardOptions, BlockInfo, DashboardLayout, BlockFetcher, BlockSetting, BlockContentSetting} from '../types';
 import '../style';
-import {PopoverOptions} from '@zui/popover/src/types';
 
 export type BlockLocation = [left: number, top: number, width: number, height: number];
 
@@ -81,6 +81,10 @@ export class Dashboard extends Component<Required<DashboardOptions>, DashboardSt
 
     protected _oldMap: BlocksMap = new Map();
 
+    protected _loadVersions = new Map<string, number>();
+
+    protected _destroyed = false;
+
     constructor(props: Required<DashboardOptions>) {
         super(props);
         this.state = {blocks: this._initBlocks(props.blocks)};
@@ -90,29 +94,39 @@ export class Dashboard extends Component<Required<DashboardOptions>, DashboardSt
         return this.state.blocks.find(block => block.id === id);
     }
 
+    protected _getGrid() {
+        const {grid = 1} = this.props;
+        return Number.isFinite(grid) ? Math.max(1, Math.floor(grid)) : 1;
+    }
+
+    protected _getCellHeight() {
+        const {cellHeight = 1} = this.props;
+        return Number.isFinite(cellHeight) ? Math.max(1, cellHeight) : 1;
+    }
+
     update(info: Partial<BlockInfo> & {id: string}, callback?: () => void) {
         const {id} = info;
-        const {blocks} = this.state;
+        const blocks = [...this.state.blocks];
         const index = blocks.findIndex(block => block.id === id);
         if (index < 0) {
             return;
         }
         const block = blocks[index];
-        if (info.fetch && info.fetch !== block.fetch && info.needLoad === undefined) {
-            info.needLoad = true;
+        const nextInfo = {...info};
+        if ('fetch' in nextInfo && nextInfo.fetch !== block.fetch && nextInfo.needLoad === undefined) {
+            nextInfo.needLoad = true;
+            this._loadVersions.set(id, (this._loadVersions.get(id) || 0) + 1);
         }
-        blocks[index] = {...block, ...info};
+        blocks[index] = {...block, ...nextInfo};
         this.setState({blocks}, callback);
     }
 
     delete(id: string) {
-        const {blocks} = this.state;
-        const index = blocks.findIndex(block => block.id === id);
-        if (index < 0) {
+        if (!this.getBlock(id)) {
             return;
         }
-        blocks.splice(index, 1);
-        this.setState({blocks});
+        this._loadVersions.delete(id);
+        this.setState({blocks: this.state.blocks.filter(block => block.id !== id)});
     }
 
     add(blocks: BlockSetting | BlockSetting[]) {
@@ -129,16 +143,25 @@ export class Dashboard extends Component<Required<DashboardOptions>, DashboardSt
         if (!fetcher) {
             return;
         }
+        const loadVersion = (this._loadVersions.get(id) || 0) + 1;
+        this._loadVersions.set(id, loadVersion);
+        const isCurrentLoad = () => !this._destroyed && this._loadVersions.get(id) === loadVersion && !!this.getBlock(id);
         this.update({id, loading: true, needLoad: false}, async () => {
             try {
                 const html = await $.fetch(fetcher!, [id, block], ({url}) => ({url: formatString(url, block), dataType: 'html'}));
+                if (!isCurrentLoad()) {
+                    return;
+                }
                 this.update({id, loading: false, content: {html}}, () => {
                     this._setCache(id, html);
                     this.props.onLoad?.call(this, block);
                 });
             } catch (error) {
+                if (!isCurrentLoad()) {
+                    return;
+                }
                 const content = (
-                    <div class="panel center text-danger p-5">
+                    <div className="panel center text-danger p-5">
                         Error:
                         {(error as Error).message}
                     </div>
@@ -151,10 +174,14 @@ export class Dashboard extends Component<Required<DashboardOptions>, DashboardSt
     }
 
     reset(blockSettings: BlockSetting[]) {
+        this._loadVersions.clear();
         this.setState({blocks: this._initBlocks(blockSettings)});
     }
 
     loadNext() {
+        if (this._destroyed) {
+            return;
+        }
         const {blocks} = this.state;
         let needLoadID = '';
         for (const block of blocks) {
@@ -172,7 +199,11 @@ export class Dashboard extends Component<Required<DashboardOptions>, DashboardSt
         if (!needLoadID.length) {
             return;
         }
-        requestAnimationFrame(() => this.load(needLoadID));
+        requestAnimationFrame(() => {
+            if (!this._destroyed) {
+                this.load(needLoadID);
+            }
+        });
     }
 
     tryLoadNext = () => {
@@ -181,7 +212,15 @@ export class Dashboard extends Component<Required<DashboardOptions>, DashboardSt
     };
 
     protected _isVisible(id: string) {
-        return !this.props.onlyLoadVisible || !!$(this._ref.current).find(`.dashboard-block[data-id="${id}"]`).isVisible();
+        if (!this.props.onlyLoadVisible) {
+            return true;
+        }
+        const root = this._ref.current;
+        if (!root) {
+            return false;
+        }
+        const element = Array.from(root.querySelectorAll<HTMLElement>('.dashboard-block')).find(block => block.dataset.id === id);
+        return !!element && $(element).isVisible();
     }
 
     protected _setCache(id: string, html: string) {
@@ -205,14 +244,19 @@ export class Dashboard extends Component<Required<DashboardOptions>, DashboardSt
         if (!cache) {
             return;
         }
-        const cacheHtml = typeof cache === 'string' ? store.get<string>(`${CACHE_PREFIX}${cache}:${id}`) : store.session.get<string>(`${CACHE_PREFIX}${id}`);
-        if (cacheHtml) {
-            return {html: cacheHtml};
+        try {
+            const cacheHtml = typeof cache === 'string' ? store.get<string>(`${CACHE_PREFIX}${cache}:${id}`) : store.session.get<string>(`${CACHE_PREFIX}${id}`);
+            if (cacheHtml) {
+                return {html: cacheHtml};
+            }
+        } catch (error) {
+            console.warn('ZUI: Failed to restore block content from cache.', {id, error});
         }
     }
 
     protected _initBlocks(blockSettings: BlockSetting[]) {
-        const {blockFetch, blockMenu, grid} = this.props;
+        const {blockFetch, blockMenu} = this.props;
+        const grid = this._getGrid();
         const blocks = blockSettings.map<BlockInfo>((block) => {
             const {
                 id,
@@ -228,12 +272,14 @@ export class Dashboard extends Component<Required<DashboardOptions>, DashboardSt
             } = block;
 
             const [width, height] = this._getBlockSize((widthSetting && heightSetting) ? {width: widthSetting, height: heightSetting} : size);
+            const normalizedLeft = Number.isFinite(left) ? Math.max(0, Math.min(grid - width, Math.floor(left))) : -1;
+            const normalizedTop = Number.isFinite(top) ? Math.max(0, Math.floor(top)) : -1;
             return {
                 id: `${id}`,
                 width,
                 height,
-                left: Math.min(left, grid - width),
-                top,
+                left: normalizedLeft,
+                top: normalizedTop,
                 fetch,
                 menu,
                 content: content ?? this._getCache(`${id}`),
@@ -247,21 +293,24 @@ export class Dashboard extends Component<Required<DashboardOptions>, DashboardSt
     }
 
     protected _getBlockSize(size: BlockSetting['size']): [width: number, height: number] {
-        const {blockDefaultSize, blockSizeMap} = this.props;
+        const {blockDefaultSize = [1, 1], blockSizeMap = {}} = this.props;
         size = size ?? blockDefaultSize;
         if (typeof size === 'string') {
             size = blockSizeMap[size];
         }
 
-        size = size || blockDefaultSize!;
+        size = size || blockDefaultSize;
         if (!Array.isArray(size)) {
             size = [size.width, size.height];
         }
-        return size;
+        const [width, height] = size;
+        const normalizeSize = (value: number) => Number.isFinite(value) ? Math.max(1, Math.floor(value)) : 1;
+        return [Math.min(this._getGrid(), normalizeSize(width)), normalizeSize(height)];
     }
 
     protected _layout(): DashboardLayout {
-        const {blocks, dragging, dropping} = this.state;
+        const {dragging, dropping} = this.state;
+        const blocks = [...this.state.blocks];
         const map = this._map;
         if (map.size) {
             const empty: BlockLocation = [0, 0, 0, 0];
@@ -296,7 +345,10 @@ export class Dashboard extends Component<Required<DashboardOptions>, DashboardSt
     }
 
     protected _initDraggable() {
-        const blocksElement = this._ref.current!;
+        const blocksElement = this._ref.current;
+        if (!blocksElement) {
+            return;
+        }
         this._draggable = new Draggable(blocksElement, {
             selector: '.dashboard-block',
             target: () => blocksElement,
@@ -317,12 +369,16 @@ export class Dashboard extends Component<Required<DashboardOptions>, DashboardSt
                 this.setState({dragging: id});
             },
             onDragOver: (event) => {
-                const {cellHeight, grid} = this.props;
+                const cellHeight = this._getCellHeight();
+                const grid = this._getGrid();
                 const bounding = blocksElement.getBoundingClientRect();
 
-                const [, , width, height] = this._dragging!;
+                if (!this._dragging || !this._dragOffset || !bounding.width) {
+                    return;
+                }
+                const [, , width, height] = this._dragging;
 
-                const [offsetX, offsetY] = this._dragOffset!;
+                const [offsetX, offsetY] = this._dragOffset;
                 const dropLeft = Math.min(grid - width, Math.max(0, Math.round((event.clientX - bounding.left - offsetX) / (bounding.width / grid))));
                 const dropTop = Math.max(0, Math.round((event.clientY - bounding.top - offsetY) / cellHeight));
                 const oldDropPos = this.state.dropping;
@@ -336,13 +392,17 @@ export class Dashboard extends Component<Required<DashboardOptions>, DashboardSt
                 const newState: Partial<DashboardState> = {dragging: undefined, dropping: undefined};
                 const layout: Record<string, {top: number; left: number}> = {};
                 if (dragging && dropping) {
-                    const {blocks} = this.state;
-                    blocks.forEach((block, index) => {
-                        const [left, top] = dragging === block.id ? dropping : this._map.get(block.id)!;
-                        if (block.left !== left || block.top !== top) {
-                            blocks[index] = {...block, left, top};
-                            layout[block.id] = {left, top};
+                    const blocks = this.state.blocks.map((block) => {
+                        const location = dragging === block.id ? dropping : this._map.get(block.id);
+                        if (!location) {
+                            return block;
                         }
+                        const [left, top] = location;
+                        if (block.left !== left || block.top !== top) {
+                            layout[block.id] = {left, top};
+                            return {...block, left, top};
+                        }
+                        return block;
                     });
                     newState.blocks = blocks;
                 }
@@ -362,7 +422,11 @@ export class Dashboard extends Component<Required<DashboardOptions>, DashboardSt
         const layout: Record<string, {top: number; left: number; width: number; height: number}> = {};
         let layoutChanged = false;
         blocks.forEach((block) => {
-            const [left, top, width, height] = this._map.get(block.id)!;
+            const location = this._map.get(block.id);
+            if (!location) {
+                return;
+            }
+            const [left, top, width, height] = location;
             const oldLocation = this._oldMap.get(block.id);
             if (!oldLocation || oldLocation[0] !== left || oldLocation[1] !== top || oldLocation[2] !== width || oldLocation[3] !== height) {
                 layoutChanged = true;
@@ -430,7 +494,7 @@ export class Dashboard extends Component<Required<DashboardOptions>, DashboardSt
         let left = expectLeft < 0 ? 0 : expectLeft;
         let top = topSetting < 0 ? 0 : topSetting;
         let found = false;
-        const grid = this.props.grid;
+        const grid = this._getGrid();
         while (!found) {
             if (this._canPlace([left, top, width, height])) {
                 found = true;
@@ -479,7 +543,7 @@ export class Dashboard extends Component<Required<DashboardOptions>, DashboardSt
                 },
                 ...menu,
             },
-        } as PopoverOptions);
+        } as ContextMenuOptions);
     };
 
     componentDidMount(): void {
@@ -493,6 +557,8 @@ export class Dashboard extends Component<Required<DashboardOptions>, DashboardSt
 
     componentDidUpdate(previousProps: Readonly<Required<DashboardOptions>>): void {
         if (previousProps.blocks !== this.props.blocks) {
+            this._loadVersions.clear();
+            this._oldMap.clear();
             this.setState({blocks: this._initBlocks(this.props.blocks)});
         } else {
             this.loadNext();
@@ -500,6 +566,8 @@ export class Dashboard extends Component<Required<DashboardOptions>, DashboardSt
     }
 
     componentWillUnmount(): void {
+        this._destroyed = true;
+        this._loadVersions.clear();
         clearTimeout(this._loadTimer);
         $(window).off('scroll', this.tryLoadNext);
         this._draggable?.destroy();
@@ -507,13 +575,16 @@ export class Dashboard extends Component<Required<DashboardOptions>, DashboardSt
 
     render() {
         const {blocks, height: dashboardHeight} = this._layout();
-        const {cellHeight, grid, emptyBlockContent} = this.props;
+        const {emptyBlockContent, gap: gapSetting = 0} = this.props;
+        const cellHeight = this._getCellHeight();
+        const grid = this._getGrid();
+        const gap = Number.isFinite(gapSetting) ? Math.max(0, gapSetting) : 0;
         const {dropping, dragging} = this.state;
         const map = this._map;
         return (
-            <div class="dashboard">
+            <div className="dashboard" style={{'--dashboard-gap': `${gap}px`}}>
                 <div
-                    class="dashboard-blocks"
+                    className="dashboard-blocks"
                     style={{height: dashboardHeight * cellHeight}}
                     ref={this._ref}
                 >
@@ -536,7 +607,9 @@ export class Dashboard extends Component<Required<DashboardOptions>, DashboardSt
                                 top={cellHeight * top}
                                 width={`${100 * width / grid}%`}
                                 height={cellHeight * height}
-                                content={content ?? emptyBlockContent}
+                                content={content ?? (block.loading ? block.placeholder ?? emptyBlockContent : emptyBlockContent)}
+                                loading={block.loading}
+                                toolbar={block.toolbar}
                                 title={title}
                                 className={classes(block.needLoad ? 'need-load' : '', content ? 'has-content' : '')}
                                 onMenuBtnClick={menu ? this._handleMenuClick : undefined}

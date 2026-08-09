@@ -1,4 +1,5 @@
 import type {ClassNameLike} from '@zui/core';
+import type {ToolbarOptions} from '@zui/toolbar';
 import type {BlockContentSetting} from './block-info';
 
 export type BlockProps = {
@@ -10,8 +11,9 @@ export type BlockProps = {
     width: number | string;
     height: number | string;
     loading?: boolean;
-    content: BlockContentSetting;
+    content?: BlockContentSetting;
     title?: string;
+    toolbar?: ToolbarOptions;
     draggable?: boolean;
     onDragStart?: (event: DragEvent) => void;
     onDragEnd?: (event: DragEvent) => void;
