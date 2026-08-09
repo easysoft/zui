@@ -1,5 +1,7 @@
-import {ClassNameLike, classes} from '@zui/core';
-import {Component, JSX, RefObject} from 'preact';
+import {classes} from '@zui/core';
+import {Component} from 'preact';
+import type {JSX, RefObject} from 'preact';
+import type {ClassNameLike} from '@zui/core';
 import './scrollbar.css';
 
 export type OnScrollListener = (scrollPos: number, type: 'vert' | 'horz') => void;
@@ -43,21 +45,41 @@ export class Scrollbar extends Component<ScrollbarProps, ScrollbarState> {
     }
 
     get scrollPos() {
-        return this.props.scrollPos ?? this.state.scrollPos;
+        const scrollPos = this.props.scrollPos ?? this.state.scrollPos;
+        return Number.isFinite(scrollPos) ? Math.max(0, Math.min(scrollPos, this.maxScrollPos)) : 0;
     }
 
     get controlled() {
         return this.props.scrollPos !== undefined;
     }
 
+    get trackSize(): number {
+        const {clientSize} = this.props;
+        return Number.isFinite(clientSize) ? Math.max(0, clientSize) : 0;
+    }
+
+    get contentSize(): number {
+        const {scrollSize} = this.props;
+        return Number.isFinite(scrollSize) ? Math.max(0, scrollSize) : 0;
+    }
+
     get maxScrollPos(): number {
-        const {scrollSize, clientSize} = this.props;
-        return Math.max(0, scrollSize - clientSize);
+        return Math.max(0, this.contentSize - this.trackSize);
     }
 
     get barSize(): number {
-        const {clientSize, scrollSize, size = 12, minBarSize = 3 * size} = this.props;
-        return Math.max(Math.round(clientSize * clientSize / scrollSize), minBarSize);
+        const {size = 12, minBarSize = 3 * size} = this.props;
+        const {trackSize, contentSize} = this;
+        const scrollbarSize = Number.isFinite(size) && size > 0 ? size : 12;
+        const minimumBarSize = Number.isFinite(minBarSize) ? Math.max(0, minBarSize) : 3 * scrollbarSize;
+        if (!trackSize || contentSize <= trackSize) {
+            return trackSize;
+        }
+        return Math.min(trackSize, Math.max(Math.round(trackSize * trackSize / contentSize), Math.min(minimumBarSize, trackSize)));
+    }
+
+    get barTravel(): number {
+        return Math.max(0, this.trackSize - this.barSize);
     }
 
     componentDidMount() {
@@ -66,8 +88,11 @@ export class Scrollbar extends Component<ScrollbarProps, ScrollbarState> {
 
         const {wheelContainer} = this.props;
         if (wheelContainer) {
-            this.#wheelRoot = typeof wheelContainer === 'string' ? document : wheelContainer.current as HTMLElement;
-            this.#wheelRoot.addEventListener('wheel', this._handleWheel, {passive: false});
+            const wheelRoot = typeof wheelContainer === 'string' ? document : wheelContainer.current;
+            if (wheelRoot) {
+                this.#wheelRoot = wheelRoot;
+                wheelRoot.addEventListener('wheel', this._handleWheel, {passive: false});
+            }
         }
     }
 
@@ -77,11 +102,16 @@ export class Scrollbar extends Component<ScrollbarProps, ScrollbarState> {
 
         if (this.#wheelRoot) {
             this.#wheelRoot.removeEventListener('wheel', this._handleWheel);
+            this.#wheelRoot = null;
+        }
+        if (this.#rafId) {
+            cancelAnimationFrame(this.#rafId);
+            this.#rafId = 0;
         }
     }
 
     scroll(scrollPos: number): boolean {
-        scrollPos = Math.max(0, Math.min(Math.round(scrollPos), this.maxScrollPos));
+        scrollPos = Number.isFinite(scrollPos) ? Math.max(0, Math.min(Math.round(scrollPos), this.maxScrollPos)) : 0;
         if (scrollPos === this.scrollPos) {
             return false;
         }
@@ -108,8 +138,8 @@ export class Scrollbar extends Component<ScrollbarProps, ScrollbarState> {
 
     _handleWheel = (event: Event) => {
         const {wheelContainer} = this.props;
-        const target = event.target as HTMLElement;
-        if (!target || !wheelContainer) {
+        const target = event.target;
+        if (!(target instanceof Element) || !wheelContainer) {
             return;
         }
 
@@ -128,8 +158,9 @@ export class Scrollbar extends Component<ScrollbarProps, ScrollbarState> {
                 cancelAnimationFrame(this.#rafId);
             }
             this.#rafId = requestAnimationFrame(() => {
+                const {barTravel, maxScrollPos} = this;
                 const dragDelta = this.props.type === 'horz' ? (event.clientX - dragStart.x) : (event.clientY - dragStart.y);
-                this.scroll(dragStart.offset + dragDelta * this.props.scrollSize / this.props.clientSize);
+                this.scroll(dragStart.offset + (barTravel ? dragDelta * maxScrollPos / barTravel : 0));
                 this.#rafId = 0;
             });
             event.preventDefault();
@@ -158,17 +189,16 @@ export class Scrollbar extends Component<ScrollbarProps, ScrollbarState> {
             return;
         }
         const boundingRect = currentTarget.getBoundingClientRect();
-        const {type, clientSize, scrollSize} = this.props;
+        const {type} = this.props;
         const clickOffset = (type === 'horz' ? (event.clientX - boundingRect.left) : (event.clientY - boundingRect.top)) - (this.barSize / 2);
-        this.scroll(clickOffset * scrollSize / clientSize);
+        this.scroll(this.barTravel ? clickOffset * this.maxScrollPos / this.barTravel : 0);
         event.preventDefault();
     };
 
     render() {
         const {
-            clientSize,
             type,
-            size = 12,
+            size: configuredSize = 12,
             className,
             style,
             left,
@@ -177,7 +207,9 @@ export class Scrollbar extends Component<ScrollbarProps, ScrollbarState> {
             right,
         } = this.props;
 
+        const size = Number.isFinite(configuredSize) && configuredSize > 0 ? configuredSize : 12;
         const {maxScrollPos, scrollPos} = this;
+        const {trackSize, barTravel} = this;
         const {dragStart} = this.state;
 
         const rootStyle: JSX.CSSProperties = {
@@ -190,14 +222,14 @@ export class Scrollbar extends Component<ScrollbarProps, ScrollbarState> {
         const barStyle: JSX.CSSProperties = {};
         if (type === 'horz') {
             rootStyle.height = size;
-            rootStyle.width = clientSize;
+            rootStyle.width = trackSize;
             barStyle.width = this.barSize;
-            barStyle.left = Math.round(Math.min(maxScrollPos, scrollPos) * (clientSize - barStyle.width) / maxScrollPos);
+            barStyle.left = maxScrollPos ? Math.round(Math.min(maxScrollPos, scrollPos) * barTravel / maxScrollPos) : 0;
         } else {
             rootStyle.width = size;
-            rootStyle.height = clientSize;
+            rootStyle.height = trackSize;
             barStyle.height = this.barSize;
-            barStyle.top = Math.round(Math.min(maxScrollPos, scrollPos) * (clientSize - barStyle.height) / maxScrollPos);
+            barStyle.top = maxScrollPos ? Math.round(Math.min(maxScrollPos, scrollPos) * barTravel / maxScrollPos) : 0;
         }
 
         return (

@@ -1,5 +1,15 @@
 # 滚动条
 
+## JavaScript scrollbar
+
+```html:example
+<div id="scrollbarExample"></div>
+```
+
+```js
+render(<Scrollbar clientSize={320} scrollSize={960} defaultScrollPos={160} />, document.querySelector('#scrollbarExample'));
+```
+
 ## CSS Scrollbar style
 
 ```html:example
