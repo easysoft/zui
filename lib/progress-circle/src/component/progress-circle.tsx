@@ -24,10 +24,46 @@ export class ProgressCircle extends Component<ProgressCircleOptions> {
         const radius = (normalizedSize - circleWidth) / 2;
         const circumference = Math.PI * radius * 2;
         return (
-            <svg className={className} width={normalizedSize} height={normalizedSize} role="progressbar" aria-valuemin={0} aria-valuemax={100} aria-valuenow={normalizedPercent}>
-                <circle cx={center} cy={center} r={radius} strokeWidth={circleWidth} stroke={circleBg} fill="transparent" />
-                <circle cx={center} cy={center} r={radius} strokeWidth={circleWidth} stroke={circleColor} fill="transparent" strokeLinecap="round" strokeDasharray={circumference} strokeDashoffset={circumference * (100 - normalizedPercent) / 100} style={{transformOrigin: 'center', transform: 'rotate(-90deg)'}} />
-                {text ? <text x={textX ?? center} y={textY ?? (center + (circleWidth / 2))} dominantBaseline="middle" textAnchor="middle" style={textStyle || {fontSize: `${radius}px`, stroke: 'currentColor'}}>{text === true ? Math.floor(normalizedPercent) : text}</text> : null}
+            <svg
+                className={className}
+                width={normalizedSize}
+                height={normalizedSize}
+                role="progressbar"
+                aria-valuemin={0}
+                aria-valuemax={100}
+                aria-valuenow={normalizedPercent}
+            >
+                <circle
+                    cx={center}
+                    cy={center}
+                    r={radius}
+                    stroke-width={circleWidth}
+                    stroke={circleBg}
+                    fill="transparent"
+                />
+                <circle
+                    cx={center}
+                    cy={center}
+                    r={radius}
+                    stroke-width={circleWidth}
+                    stroke={circleColor}
+                    fill="transparent"
+                    stroke-linecap="round"
+                    stroke-dasharray={circumference}
+                    stroke-dashoffset={circumference * (100 - normalizedPercent) / 100}
+                    style={{transformOrigin: 'center', transform: 'rotate(-90deg)'}}
+                />
+                {text ? (
+                    <text
+                        x={textX ?? center}
+                        y={textY ?? (center + (circleWidth / 2))}
+                        dominant-baseline="middle"
+                        text-anchor="middle"
+                        style={textStyle || {fontSize: `${radius}px`, stroke: 'currentColor'}}
+                    >
+                        {text === true ? Math.floor(normalizedPercent) : text}
+                    </text>
+                ) : null}
                 {children}
             </svg>
         );
