@@ -88,7 +88,7 @@ export function registerLib(name: string, options: GetLibOptions): void {
     if (!options.id) {
         options.id = `zui-lib-${name}`;
     }
-    $.libMap[name] = options;
+    $.libMap[name] = {name, ...options};
 };
 
 /** Define the $.libRoot property. */
