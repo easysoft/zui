@@ -43,6 +43,7 @@ export type GetLibOptions = {
     root?: string;
     css?: string;
     check?: string | boolean | (() => boolean | Promise<boolean>);
+    dependencies?: string[];
     success?: GetLibCallback;
 };
 
@@ -166,6 +167,9 @@ export function loadJS(options: string | LoadJSOptions): Promise<void> {
         script.onerror = (e) => {
             reject(new Error(`[ZUI] Failed to load JS from: ${src}`, {cause: e}));
         };
+        if (id) {
+            script.id = id;
+        }
         $('head').append(script);
         script.src = `${src}${version ? `${src.includes('?') ? '&' : '?'}v=${version}` : ''}`;
     });
@@ -252,7 +256,7 @@ export async function getLib<T = unknown>(optionsOrSrc: string | string[] | GetL
     }
 
     let {src: srcList} = options;
-    const {name, success} = options;
+    const {name, success, dependencies} = options;
     const lib = ($.libMap && name) ? $.libMap[name] : null;
     if (lib) {
         options = $.extend({}, lib, options);
@@ -263,6 +267,16 @@ export async function getLib<T = unknown>(optionsOrSrc: string | string[] | GetL
     }
     if (!srcList || !srcList.length) {
         throw new Error('[ZUI] No src provided for $.getLib.');
+    }
+
+    if (dependencies?.length) {
+        for (const dependency of dependencies) {
+            try {
+                await getLib(dependency);
+            } catch (error) {
+                console.warn(`[ZUI] Failed to load dependency ${dependency} for ${name}`, error);
+            }
+        }
     }
 
     let {check = true} = options;
@@ -304,17 +318,21 @@ export async function getLib<T = unknown>(optionsOrSrc: string | string[] | GetL
         if (root && !/https?:\/\//.test(src)) {
             src = `${root}${(root.endsWith('/') || src.startsWith('/')) ? '' : '/'}${src}`;
         }
+        const srcID = srcOptions.id ?? options.id;
+        const type = (srcOptions.type ?? options.type) ?? (src.endsWith('.css') ? 'css' : 'js');
         const loadOptions = {
             ...options,
             ...srcOptions,
             version,
             src,
+            id: srcList.length > 1 ? `${srcID}-${type}-${src.split('/').pop()!.replaceAll(/[?.]/g, '_')}` : srcID,
         };
-        if (srcOptions.type === 'css' || (!srcOptions.type && src.endsWith('.css'))) {
+
+        if (type === 'css') {
             await loadCSS(loadOptions as LoadCSSOptions);
             continue;
         }
-        if (loadOptions.type === 'module') {
+        if (type === 'module') {
             moduleResult = await loadModule(loadOptions as LoadJSModuleOptions);
             continue;
         }
