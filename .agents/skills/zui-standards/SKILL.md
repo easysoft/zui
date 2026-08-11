@@ -1,6 +1,6 @@
 ---
 name: zui-standards
-description: "查询并应用 ZUI 3 公共开发规范。Use when Codex needs to inspect ZUI library roles, package metadata, component architectures, helper APIs, documentation, playground pages, or internationalization conventions; 在分析或实施任何 `lib/*` 相关开发任务前使用，也用于只读回答“ZUI 应该如何实现”之类的规范问题。"
+description: "查询并应用 ZUI 3 公共开发规范。Use when Codex needs to inspect ZUI library roles, package metadata, component architectures, on-demand external library loading, helper APIs, documentation, playground pages, or internationalization conventions; 在分析或实施任何 `lib/*` 相关开发任务前使用，也用于只读回答“ZUI 应该如何实现”之类的规范问题。"
 ---
 
 # ZUI 公共开发规范
@@ -12,6 +12,7 @@ description: "查询并应用 ZUI 3 公共开发规范。Use when Codex needs to
 3. 按任务类型读取下列对应规范，不要无差别加载全部参考文件：
    - 库角色、包骨架或元数据：[references/library.md](references/library.md)
    - UI 组件：[references/component.md](references/component.md)
+   - 组件运行时按需加载外部 JS/CSS：[references/external-library.md](references/external-library.md)，并同时读取组件规范
    - helper、store 或 utils：[references/helper.md](references/helper.md)
    - 官网文档：[references/documentation.md](references/documentation.md)
    - `README.md` 与 `dev.ts`：[references/dev-page.md](references/dev-page.md)
