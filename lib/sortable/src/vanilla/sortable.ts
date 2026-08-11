@@ -1,5 +1,6 @@
-import {Component, $} from '@zui/core';
-import {SortableModule, SortableClass, SortableJSOptions, SortableOptions} from '../types';
+import {Component} from '@zui/core';
+import {sortableLoader} from '../helper/sortable-loader';
+import type {SortableModule, SortableClass, SortableJSOptions, SortableOptions} from '../types';
 
 export class Sortable extends Component<SortableOptions> {
     static NAME = 'Sortable';
@@ -18,7 +19,7 @@ export class Sortable extends Component<SortableOptions> {
 
     async afterInit() {
         const SortableModuleClass = await Sortable.loadModule();
-        if (this.destroyed) {
+        if (!SortableModuleClass || this.destroyed) {
             return;
         }
         const {dragShadow, onEnd, setData, ...options} = this.options;
@@ -98,17 +99,11 @@ export class Sortable extends Component<SortableOptions> {
         return this._module!.toArray();
     }
 
-    static Module?: SortableClass;
+    static get Module(): SortableClass {
+        return sortableLoader.Module;
+    }
 
-    static async loadModule(): Promise<SortableClass> {
-        if (!this.Module) {
-            this.Module = await $.getLib('sortablejs');
-        }
-        return this.Module;
+    static loadModule(): Promise<SortableClass | undefined> {
+        return sortableLoader.load();
     }
 }
-
-$.registerLib('sortablejs', {
-    src: 'sortable/sortable.min.js',
-    check: 'Sortable',
-});
