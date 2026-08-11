@@ -74,6 +74,8 @@ export type FormValidateRulePattern = string | {pattern: string; message?: strin
 export interface BaseSchema<T = unknown> {
     /** 字段的数据类型 */
     type: JSONSchemaType;
+    /** 候选 Schema，仅提供类型声明，FormBuilder 不解析或验证这些分支 */
+    anyOf?: JSONSchema[];
     /** 字段标题/标签 */
     title?: string;
     /** 字段描述文本，支持 JavaScript 表达式 */
