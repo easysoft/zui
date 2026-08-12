@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="{{LANG}}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="{{TITLE}} — 使用 ZUI 构建的响应式 Web 页面。">
+    <title>{{TITLE}}</title>
+    <link rel="stylesheet" href="{{ZUI_CSS}}">
+    <link rel="stylesheet" href="./app.css">
+</head>
+<body id="top">
+    <a class="skip-link" href="#main">跳到主要内容</a>
+
+    <header class="site-header">
+        <div class="page-shell site-header__inner">
+            <a class="brand" href="#top" aria-label="{{TITLE}} 首页">
+                <span class="brand__mark" aria-hidden="true">Z</span>
+                <span>{{TITLE}}</span>
+            </a>
+
+            <nav class="site-nav" aria-label="主要导航">
+                <menu class="nav nav-pills">
+                    <li class="nav-item"><a class="active" href="#overview">概览</a></li>
+                    <li class="nav-item"><a href="#workspace">工作区</a></li>
+                    <li class="nav-item"><a href="#next">下一步</a></li>
+                </menu>
+            </nav>
+
+            <div class="header-actions">
+                <button
+                    class="btn ghost"
+                    type="button"
+                    aria-label="切换深色模式"
+                    zui-on-click="document.documentElement.classList.toggle('dark')"
+                >
+                    <i class="icon icon-moon" aria-hidden="true"></i>
+                </button>
+                <button
+                    class="btn ghost"
+                    type="button"
+                    aria-label="打开快捷菜单"
+                    zui-toggle="dropdown"
+                    zui-toggle-dropdown="{items: [{text: '回到概览', url: '#overview'}, {text: '打开工作区', url: '#workspace'}, {text: '查看下一步', url: '#next'}]}"
+                >
+                    <i class="icon icon-ellipsis-v" aria-hidden="true"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main id="main">
+        <section class="hero page-shell" aria-labelledby="hero-title">
+            <div class="hero__copy">
+                <span class="label primary-pale">ZUI 3 · 零构建起步</span>
+                <h1 id="hero-title">把清晰的想法，快速变成可用的页面</h1>
+                <p class="hero__lead">这是一个可直接打开的 ZUI 页面骨架。替换内容、调整主题并组合组件，即可交付符合真实场景的界面。</p>
+                <div class="hero__actions">
+                    <button
+                        class="btn primary"
+                        type="button"
+                        zui-on-click="zui.Messager.show('页面已就绪，可以开始构建。')"
+                    >
+                        开始体验
+                        <i class="icon icon-arrow-right" aria-hidden="true"></i>
+                    </button>
+                    <a class="btn primary-outline" href="#workspace">查看工作区</a>
+                </div>
+            </div>
+
+            <aside class="hero-card" aria-label="页面摘要">
+                <div class="hero-card__eyebrow">本次交付</div>
+                <strong class="hero-card__value">01</strong>
+                <h2>一个可运行的页面</h2>
+                <p>内置样式、组件和图标资源，无需安装依赖或执行打包。</p>
+                <div class="signal-list" aria-label="交付特性">
+                    <span><i aria-hidden="true"></i> 响应式布局</span>
+                    <span><i aria-hidden="true"></i> 声明式交互</span>
+                    <span><i aria-hidden="true"></i> 本地资源优先</span>
+                </div>
+            </aside>
+        </section>
+
+        <section id="overview" class="page-section page-shell" aria-labelledby="overview-title">
+            <div class="section-heading">
+                <div>
+                    <span class="section-kicker">概览</span>
+                    <h2 id="overview-title">围绕目标组织页面</h2>
+                </div>
+                <p>用一条主线串起信息、行动和反馈，避免把组件演示误当成完整产品。</p>
+            </div>
+
+            <div class="metric-grid">
+                <article class="metric-card">
+                    <span class="metric-card__label">视觉层级</span>
+                    <strong>清晰</strong>
+                    <p>一个主要标题，一组明确行动。</p>
+                </article>
+                <article class="metric-card">
+                    <span class="metric-card__label">组件策略</span>
+                    <strong>ZUI 优先</strong>
+                    <p>语义类、声明式组件、少量定制 CSS。</p>
+                </article>
+                <article class="metric-card">
+                    <span class="metric-card__label">交付方式</span>
+                    <strong>即开即用</strong>
+                    <p>静态文件也能拥有完整交互。</p>
+                </article>
+            </div>
+        </section>
+
+        <section id="workspace" class="page-section page-shell" aria-labelledby="workspace-title">
+            <div class="section-heading">
+                <div>
+                    <span class="section-kicker">工作区</span>
+                    <h2 id="workspace-title">用真实内容替换模板</h2>
+                </div>
+                <p>保留有用的结构，删除与用户任务无关的模块。</p>
+            </div>
+
+            <div class="workspace-grid">
+                <article class="panel">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">关键任务</h3>
+                        <span class="label secondary-pale">3 项</span>
+                    </div>
+                    <div class="panel-body panel-body--flush">
+                        <div class="table-scroll" tabindex="0" aria-label="关键任务表格，可横向滚动">
+                            <table class="table table-hover">
+                                <caption class="sr-only">关键任务及状态</caption>
+                                <thead>
+                                    <tr>
+                                        <th scope="col">任务</th>
+                                        <th scope="col">负责人</th>
+                                        <th scope="col">状态</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>明确页面目标</td>
+                                        <td>产品</td>
+                                        <td><span class="label success-pale">已完成</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>组织核心内容</td>
+                                        <td>设计</td>
+                                        <td><span class="label primary-pale">进行中</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>验证关键交互</td>
+                                        <td>开发</td>
+                                        <td><span class="label">待开始</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </article>
+
+                <aside class="panel" aria-labelledby="schedule-title">
+                    <div class="panel-heading">
+                        <h3 id="schedule-title" class="panel-title">安排下一步</h3>
+                    </div>
+                    <div class="panel-body schedule-form">
+                        <div class="form-field">
+                            <label for="project-name">项目名称</label>
+                            <input id="project-name" class="form-control" value="{{TITLE}}">
+                        </div>
+                        <div class="form-field">
+                            <label for="date-picker-target-date">目标日期</label>
+                            <div zui-create="datePicker" data-id="target-date"></div>
+                        </div>
+                        <button
+                            class="btn primary"
+                            type="button"
+                            zui-on-click="zui.Messager.show('草稿已保存。')"
+                        >保存草稿</button>
+                    </div>
+                </aside>
+            </div>
+        </section>
+
+        <section id="next" class="page-section page-shell" aria-labelledby="next-title">
+            <div class="next-card">
+                <div>
+                    <span class="section-kicker">下一步</span>
+                    <h2 id="next-title">让这个骨架服务于用户，而不是反过来</h2>
+                    <p>根据需求改写文案、信息架构、色彩和交互，并在真实浏览器中验证。</p>
+                </div>
+                <a class="btn primary" href="#top">回到顶部</a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="page-shell">{{TITLE}} · Built with bundled ZUI {{ZUI_VERSION}}</div>
+    </footer>
+
+    <script src="{{ZUI_JS}}"{{ZUI_SCRIPT_ATTRS}}></script>
+</body>
+</html>

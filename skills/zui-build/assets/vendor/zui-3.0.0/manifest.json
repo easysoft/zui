@@ -1,0 +1,19 @@
+{
+    "name": "zui",
+    "version": "3.0.0",
+    "publishedAt": "2024-07-27T08:51:04.569Z",
+    "bundledAt": "2026-08-12",
+    "source": "https://registry.npmjs.org/zui/-/zui-3.0.0.tgz",
+    "integrity": "sha512-DbIbZA0Cthwzl/gGtMDMQ54dlumyKtE0z8VzukamE+5ZJ0C6s1DgbKInC7gD9nYzB9bakqcvvoAMnovxYqXWVQ==",
+    "files": {
+        "LICENSE": "sha256-0377ad944ec393de26125f99e8341da4224720cedba5cbd160906c74689e789a",
+        "zui.css": "sha256-1975e9b9b282fcd9f52e053847071db47adccb56f8b243390132a5851fe30775",
+        "zui.js": "sha256-ccf11c1fae08d8cc4e23ae8cf72bc3335a566d6190acc7e7cc1e5bca4fbdfbb6",
+        "zui.esm.js": "sha256-9f9383a20932a9a4f51b801be005f58eefea97036b65bd52d21f1bc2e65c2926",
+        "icons/fontawesome-license.md": "sha256-2b67460d906814c9b868fd9acb0935126e9b013b286e5303c8c15b19aec0adbc",
+        "icons/zenicon.eot": "sha256-a85a81f7ff820b9dc71c7c41525a371286de230d770a31715d731e0a019b6c24",
+        "icons/zenicon.svg": "sha256-9f82729c1e95f4ec488e0ef83be7692fdef28b3be4465c75b995bfb4b01f04e5",
+        "icons/zenicon.ttf": "sha256-7ef8bdc4873ebdeec326796525fcd60febca93d3dcc30f794aa5bf36bef3702d",
+        "icons/zenicon.woff": "sha256-b6177c74405ac6ca1dfb2c8e35280db18e88aa9965260c19b384ce2d68ecd73c"
+    }
+}
