@@ -16,6 +16,36 @@ ZUI 3 不绑定特定的 JavaScript 框架，在原生 Web 项目以及各类前
 - **灵活引入**：提供 UMD 和 ESM 产物，既可以直接通过 `<script>` 使用，也可以配合现代构建工具。
 - **可组合构建**：每个功能都是独立的 workspace 库，可以按项目需求生成定制组合版本。
 
+## Codex 插件
+
+本仓库也是一个仅包含技能的 Codex 插件，提供两种互补工作流：
+
+- `$zui`：识别现有项目的 ZUI 版本和接入方式，并安全地安装、集成、重构或排查 ZUI 3。
+- `$zui-build`：从需求描述创建无需安装依赖或构建工具即可运行的独立 ZUI 3 页面或小型静态站点。
+
+### 从 GitHub marketplace 安装
+
+先添加本仓库提供的 marketplace，再安装 `zui` 插件：
+
+```sh
+codex plugin marketplace add easysoft/zui
+codex plugin add zui@zui
+```
+
+安装后请重新启动 Codex，并新建一个会话，让新会话加载插件中的技能。
+
+在已有应用中使用 ZUI 时，可以这样开始：
+
+```text
+使用 $zui 检查当前项目，并按现有技术栈接入 ZUI 3。
+```
+
+需要从零创建独立页面时，使用：
+
+```text
+使用 $zui-build 根据这份需求创建一个可直接运行的响应式页面：……
+```
+
 ## 快速开始
 
 ### 通过 CDN 使用

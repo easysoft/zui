@@ -1,0 +1,37 @@
+{
+    "name": "zui",
+    "version": "3.0.0",
+    "description": "Use ZUI 3 in existing projects or build standalone ZUI-powered Web pages.",
+    "author": {
+        "name": "Easysoft",
+        "url": "https://github.com/easysoft"
+    },
+    "homepage": "https://openzui.com/",
+    "repository": "https://github.com/easysoft/zui",
+    "license": "MIT",
+    "keywords": [
+        "zui",
+        "web-ui",
+        "frontend",
+        "components",
+        "codex-skills"
+    ],
+    "skills": "./skills/",
+    "interface": {
+        "displayName": "ZUI 3",
+        "shortDescription": "Integrate ZUI or build standalone ZUI pages",
+        "longDescription": "Use ZUI 3 safely in existing applications or create responsive standalone Web pages with bundled ZUI resources.",
+        "developerName": "Easysoft",
+        "category": "Developer Tools",
+        "capabilities": [
+            "Read",
+            "Write"
+        ],
+        "websiteURL": "https://openzui.com/",
+        "defaultPrompt": [
+            "Use $zui to inspect this project and integrate ZUI 3 safely.",
+            "Use $zui-build to create a standalone ZUI page from my brief."
+        ],
+        "brandColor": "#3280FC"
+    }
+}
