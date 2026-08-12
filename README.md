@@ -1,5 +1,6 @@
 # ZUI 3
 
+[English](./README.en.md)
 
 > 开箱即用、可组合、可定制的 Web UI 组件库。
 
