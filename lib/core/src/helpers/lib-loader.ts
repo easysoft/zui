@@ -39,8 +39,12 @@ export class LibLoader<T = unknown> {
                 return;
             }
         }
+        if (noCache) {
+            this._error = undefined;
+        }
         try {
-            this._module = await getLib(this._name);
+            this._module = await getLib(this._name, noCache ? {noCache: true} : undefined);
+            this._error = undefined;
         } catch (error) {
             this._error = error as Error;
             if (throwError) {
