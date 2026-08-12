@@ -23,7 +23,7 @@ Apply ZUI through the public surface actually available in the user's applicatio
 node <skill-root>/scripts/inspect-zui-project.mjs --root <project-root>
 ```
 
-Use `--json` when structured output is easier to inspect. Supplement the report with targeted `rg` searches and direct reads of relevant files; the script reports signals, not API correctness.
+Use `--json` when structured output is easier to inspect. The inspector discovers workspace manifests when the supplied root is a workspace, follows parent directories to the nearest package-manager context, resolves hoisted packages, and keeps representative source matches when signal volume is high. Supplement the report with targeted `rg` searches and direct reads of relevant files; the script reports signals, not API correctness.
 
 ## Resolve facts before choosing an API
 
