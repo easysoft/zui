@@ -1,89 +1,127 @@
 # ZUI 3
 
-ZUI 3 是一个全新的开源 UI 组件库，提供了丰富的实用组件，并提供灵活的定制方式。不依赖任何 JavaScript 框架，可在任何 Web 应用中以原生方式使用。
 
-访问 [ZUI 官网](https://openzui.com/) 预览组件库。
+> 开箱即用、可组合、可定制的 Web UI 组件库。
 
-👉 如需访问 ZUI 1，请前往 [ZUI 1](https://openzui.com/1/)。ZUI 1 源码已转移至 [`zui1` 分支](https://github.com/easysoft/zui/tree/zui1)。
+ZUI 3 不绑定特定的 JavaScript 框架，在原生 Web 项目以及各类前端框架中都可以使用。它同时提供 CSS 工具类、CSS 组件与 JavaScript 组件，并支持通过浏览器脚本、ES Module 或定制构建引入。
 
-如需了解开发中的文档，请访问：[开发文档](https://easysoft.github.io/zui/dev/)。
+[官网](https://openzui.com/) · [开发文档](https://easysoft.github.io/zui/dev/) · [GitHub](https://github.com/easysoft/zui) · [更新日志](./CHANGELOG.md)
 
-## 特性
+## 核心特性
 
-* 📡 **统一的 UI 配置**：基于 CSS 变量实现的全局 UI 配置，为组件提供统一风格基础，支持深色模式，方便定制主题；
-* 👔 **丰富的 CSS 工具类**：基于 [Tailwind CSS](https://tailwindcss.com/) 提供丰富的 CSS 工具类，包括特别的语义化外观工具类，轻松实现常见布局、文字排版、动画、外观定义；
-* ⭐️ **实用的 CSS 组件**：提供大量实用的 CSS 组件，无需 JS 即可实现界面基本功能，如按钮、表单、导航、卡片、表格等；
-* 💎 **强大的 JS 组件**：通过 JS 实现许多功能强大的组件，包括下拉菜单、工具提示、对话框、数据表格、文件上传等；
-* 📦 **使用灵活**：不依赖具体框架，所有 CSS 工具类开箱即用，所有 JS 组件支持原生调用，丰富的引入方式，支持 ESM 导入，或直接在浏览器中引用 JS 和 CSS，支持打包定制组合版本。
+- **框架无关**：对外提供原生 DOM API，可以独立使用，也可以集成到现有应用中。
+- **组件丰富**：覆盖按钮、表单、导航、卡片、表格、下拉菜单、对话框、数据表格和文件上传等常见场景。
+- **风格统一**：使用 CSS 变量管理全局设计配置，支持主题定制与深色模式。
+- **灵活引入**：提供 UMD 和 ESM 产物，既可以直接通过 `<script>` 使用，也可以配合现代构建工具。
+- **可组合构建**：每个功能都是独立的 workspace 库，可以按项目需求生成定制组合版本。
 
-## 快速预览
+## 快速开始
 
-### 使用 CSS 工具类
+### 通过 CDN 使用
 
-```html
-<button class="btn primary">ZUI 3</button>
-<button class="btn primary-outline">Read more</button>
-```
-
-### 使用 JS 组件
+将 ZUI 的 CSS 和 JavaScript 引入页面，即可使用组件样式与全局 `zui` 对象：
 
 ```html
-<menu id="colorPicker"></menu>
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZUI 3 Demo</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/zui/dist/zui.css">
+</head>
+<body>
+    <button id="helloZui" type="button" class="btn primary">Hello ZUI</button>
 
-<script>
-const colorPicker = new ColorPicker('#colorPicker', {
-    heading: '选择颜色',
-    defaultValue: '#0ea5e9',
-});
-</script>
+    <script src="https://cdn.jsdelivr.net/npm/zui/dist/zui.js"></script>
+    <script>
+        document.querySelector('#helloZui').addEventListener('click', () => {
+            zui.Messager.show('ZUI 3 已就绪！');
+        });
+    </script>
+</body>
+</html>
 ```
 
-## 开发
+> 生产环境中建议在 CDN 地址中固定明确的 ZUI 版本。
 
-### 安装依赖
+### 通过包管理器使用
 
 ```sh
+pnpm add zui
+```
+
+```js
+import 'zui/css';
+import {Messager} from 'zui';
+
+Messager.show('ZUI 3 已就绪！');
+```
+
+完整的引入方式、组件 API 与示例请查看 [ZUI 文档](https://openzui.com/)。
+
+## 源码开发
+
+### 环境要求
+
+- Node.js 18+
+- pnpm 8+
+
+### 启动本地开发服务
+
+```sh
+git clone https://github.com/easysoft/zui.git
+cd zui
 pnpm install
-```
-
-### 启动开发服务器
-
-```sh
 pnpm dev
-
-# 启动带扩展库的开发服务
-pnpm dev:exts
 ```
 
-默认启动成功后可以通过浏览器访问 http://localhost:5173/ 开发页面。如果要直接打开指定库的开发页面，可以在浏览器访问 http://localhost:5173/<lib-name>/ 。
+开发服务默认运行在 `http://localhost:5173/`。访问 `http://localhost:5173/<lib-name>/` 可以直接打开指定库的调试页，例如 `http://localhost:5173/button/`。
 
-### 构建项目
+### 常用命令
+
+| 命令 | 说明 |
+| --- | --- |
+| `pnpm dev` | 启动内置库的开发服务 |
+| `pnpm dev:exts` | 启动包含 `exts/` 扩展库的开发服务 |
+| `pnpm lint` | 运行 ESLint 检查 |
+| `pnpm build` | 构建完整的 ZUI 产物 |
+| `pnpm docs:dev` | 准备并启动 VitePress 文档服务 |
+| `pnpm docs:build` | 构建文档站点 |
+
+本项目以各库的 `dev.ts` 作为交互调试入口。修改 `lib/<lib-name>/` 后，应在对应的单库页面验证功能与样式。
+
+### 定制构建
+
+构建命令可以按需组合多个库：
 
 ```sh
-pnpm build
+pnpm build -- --lib="button dropdown" --name=zui-custom
 ```
 
-### 文档开发预览
+产物将输出到 `dist/zui-custom/`。更多构建选项请查看 [定制构建文档](https://easysoft.github.io/zui/dev/guide/customize/build.html)。
 
-```sh
-pnpm docs:dev
-```
+## 仓库结构
 
-### 文档构建
-
-```sh
-pnpm docs:build
-```
+| 目录 | 职责 |
+| --- | --- |
+| `lib/` | 内置组件、辅助 API、样式、调试页与文档源文件 |
+| `config/` | 共享的 Tailwind 主题配置 |
+| `dev/` | 本地调试页的开发辅助工具 |
+| `docs/` | VitePress 文档站点与基础文档 |
+| `scripts/` | 构建、文档同步和库元数据处理脚本 |
+| `exts/` | 通过 `pnpm extend-lib <path>` 接入的本地扩展库 |
 
 ## 技术栈
 
-* Node.js 18+
-* 包管理器：[pnpm](https://pnpm.io/zh/)
-* 构建工具：[Vite](https://cn.vitejs.dev/)
-* CSS 工具库：[TailwindCSS](https://tailwindcss.com/)
-* 静态文档网站生成：[VitePress](https://vitepress.dev/)
-* TypeScript 4.5+
-* 字体图标生成：[Fantasticon](https://github.com/tancredi/fantasticon)
-* JS 组件开发：[preact.js](https://preactjs.com/)
+ZUI 3 使用 [TypeScript](https://www.typescriptlang.org/)、[Preact](https://preactjs.com/)、[Cash](https://github.com/fabiospampinato/cash)、[Tailwind CSS](https://tailwindcss.com/)、[Vite](https://vitejs.dev/) 和 [VitePress](https://vitepress.dev/) 开发。
 
-> 感谢关注 ZUI 3！如有建议或问题，欢迎 [提交 Issue](https://github.com/easysoft/zui/issues) 与我们交流。
+## 参与贡献
+
+欢迎通过 [Issue](https://github.com/easysoft/zui/issues) 报告问题或提交建议，也欢迎提交 Pull Request。提交代码前，请至少运行 `pnpm lint`，并在对应的单库调试页中完成验证。
+
+> 正在寻找 ZUI 1？请访问 [ZUI 1 官网](https://openzui.com/1/) 或 [`zui1` 分支](https://github.com/easysoft/zui/tree/zui1)。
+
+## 开源许可
+
+ZUI 3 基于 [MIT License](./LICENSE) 开源。
