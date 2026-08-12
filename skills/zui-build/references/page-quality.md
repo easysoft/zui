@@ -2,12 +2,12 @@
 
 ## Turn the brief into a page
 
-Before editing, identify the page's audience, primary task, required information, main action, secondary actions, and delivery constraints. Make reasonable content and layout assumptions when the brief is incomplete, but do not invent business facts. Replace all starter copy and delete irrelevant starter sections before delivery.
+Before editing, identify the page's audience, purpose, required information, actions, and delivery constraints. Make reasonable content and layout assumptions when the brief is incomplete, but do not invent business facts. Replace all starter copy and delete irrelevant starter sections before delivery.
 
-Build an information hierarchy before decorating it:
+Choose the page structure from the brief rather than from the starter. Full documents, application shells, full-screen workspaces, embedded prototypes, and other structures are all valid. When the requested experience benefits from an information hierarchy:
 
-1. Establish one clear page purpose and one primary heading.
-2. Put the main action where users first need it.
+1. Make the purpose and available actions understandable.
+2. Put important actions where users need them.
 3. Group supporting information by task, not by component type.
 4. Make empty, loading, error, disabled, and success feedback explicit when the page behavior needs them.
 5. Keep a coherent path through the page on both wide and narrow screens.
@@ -34,7 +34,7 @@ Keep content realistic and concise. Use meaningful labels, plausible data suppli
 - Check at approximately 320px, 768px, and 1440px widths, plus any user-specified target.
 - Avoid horizontal page scrolling; constrain only genuinely wide data such as tables.
 - Keep controls large enough to operate by touch and avoid hover-only essential actions.
-- Use landmarks, one `h1`, ordered headings, associated form labels, explicit button types, meaningful link text, and alt text appropriate to each image.
+- Use appropriate landmarks and heading structure when the page has document-like content. Preserve associated form labels, explicit button types, meaningful link text, and alt text appropriate to each image.
 - Preserve keyboard access, visible focus, logical focus order, overlay dismissal, readable contrast, reduced-motion preferences, and zoom up to 200%.
 - Treat color as reinforcement, not the only carrier of status.
 
@@ -54,4 +54,4 @@ Then serve or open the page in a real browser. Confirm:
 - navigation, forms, menus, messages, dialogs, and other primary flows work with mouse and keyboard;
 - layout, content, theme, focus, and overflow hold at narrow and wide sizes.
 
-The validator catches structural and resource mistakes; it does not replace visual, behavioral, security, or accessibility review.
+The validator only checks that the page references ZUI and that recognized local ZUI resources resolve safely. It does not inspect or constrain page content, metadata, landmarks, headings, IDs, controls, or interaction patterns, and it does not replace visual, behavioral, security, or accessibility review.

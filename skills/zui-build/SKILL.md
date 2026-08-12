@@ -50,7 +50,7 @@ Read [references/page-quality.md](references/page-quality.md) before making subs
 
 - use semantic HTML and verified ZUI component classes for matching controls and structures;
 - place page-specific CSS after `zui.css` and build on ZUI color, radius, shadow, and spacing variables;
-- keep one clear primary task and a coherent responsive hierarchy;
+- derive the page structure, tasks, and responsive hierarchy from the user's brief rather than from the starter;
 - make content credible and specific without inventing business claims;
 - preserve accessibility, keyboard behavior, focus, contrast, reduced motion, and meaningful states.
 
@@ -72,11 +72,13 @@ Keep evaluated declarative values developer-authored. Never interpolate untruste
 
 ## Validate the result
 
-Run the deterministic structural and resource check:
+Run the deterministic ZUI resource check:
 
 ```sh
 node <skill-root>/scripts/validate-zui-page.mjs --root <page-directory>
 ```
+
+The validator only verifies that the entry page references ZUI and that recognized local ZUI resources resolve safely. It deliberately imposes no requirements on page content, document metadata, landmarks, headings, IDs, controls, or declarative interaction style. A CSS-only ZUI page is valid; include `zui.js` only when the requested page needs it.
 
 Then preview the actual page, for example:
 
