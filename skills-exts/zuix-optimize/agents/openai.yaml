@@ -1,0 +1,4 @@
+interface:
+  display_name: "ZUIX Optimization"
+  short_description: "Audit and optimize ZUI extension libraries"
+  default_prompt: "Use $zuix-optimize to audit and optimize one or more libraries in a ZUI extension project."

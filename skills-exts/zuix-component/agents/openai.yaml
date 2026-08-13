@@ -1,0 +1,4 @@
+interface:
+  display_name: "ZUIX Component"
+  short_description: "Design and implement ZUI extension components"
+  default_prompt: "Use $zuix-component to design and implement a component in the specified ZUI extension library."

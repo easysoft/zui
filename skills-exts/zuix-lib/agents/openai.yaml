@@ -1,0 +1,4 @@
+interface:
+  display_name: "ZUIX Library"
+  short_description: "Plan and implement complete ZUI extension libraries"
+  default_prompt: "Use $zuix-lib to plan and implement a complete package in a ZUI extension project."

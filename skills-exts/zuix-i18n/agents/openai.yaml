@@ -1,0 +1,4 @@
+interface:
+  display_name: "ZUIX Internationalization"
+  short_description: "Add and verify ZUI extension internationalization"
+  default_prompt: "Use $zuix-i18n to add or improve internationalization for the specified ZUI extension library."

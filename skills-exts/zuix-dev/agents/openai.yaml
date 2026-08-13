@@ -1,0 +1,4 @@
+interface:
+  display_name: "ZUIX Dev Page"
+  short_description: "Build ZUI extension playground pages"
+  default_prompt: "Use $zuix-dev to build or improve the host-integrated playground for a ZUI extension library."

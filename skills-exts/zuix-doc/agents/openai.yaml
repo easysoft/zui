@@ -1,0 +1,4 @@
+interface:
+  display_name: "ZUIX Documentation"
+  short_description: "Write ZUI extension library documentation"
+  default_prompt: "Use $zuix-doc to document the specified ZUI extension library through its host documentation pipeline."
