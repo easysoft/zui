@@ -4,23 +4,23 @@ import {UploadOptions} from '../types';
 import {Tooltip} from '@zui/tooltip';
 
 export class Upload<T extends UploadOptions = UploadOptions> extends Component<T> {
-    protected $input: Cash;
+    protected declare $input: Cash;
 
-    protected $label: Cash;
+    protected declare $label: Cash;
 
-    protected $list: Cash;
+    protected declare $list: Cash;
 
-    protected fileMap: Map<string, File>;
+    protected declare fileMap: Map<string, File>;
 
-    private renameMap: Map<string, string>;
+    private declare renameMap: Map<string, string>;
 
-    private itemMap: Map<string, Cash>;
+    private declare itemMap: Map<string, Cash>;
 
-    private dataTransfer: DataTransfer;
+    private declare dataTransfer: DataTransfer;
 
-    private limitBytes: number;
+    private declare limitBytes: number;
 
-    protected currentBytes: number;
+    protected declare currentBytes: number;
 
     private _removeTimers = new Set<ReturnType<typeof setTimeout>>();
 
@@ -288,7 +288,6 @@ export class Upload<T extends UploadOptions = UploadOptions> extends Component<T
         $item?.find('.file-action').each((_index, element) => {
             const tooltipInstance = $(element).data('tooltip') as Tooltip | undefined;
             tooltipInstance?.destroy();
-            tooltipInstance?.tooltip?.remove();
         });
         const removeTimer = setTimeout(() => {
             this._removeTimers.delete(removeTimer);
@@ -512,7 +511,6 @@ export class Upload<T extends UploadOptions = UploadOptions> extends Component<T
         this.$element.find('.file-action').each((_index, element) => {
             const tooltipInstance = $(element).data('tooltip') as Tooltip | undefined;
             tooltipInstance?.destroy();
-            tooltipInstance?.tooltip?.remove();
         });
         super.destroy();
     }

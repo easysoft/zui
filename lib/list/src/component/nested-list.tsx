@@ -103,7 +103,7 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
 
     protected declare _itemMap?: Map<string, ItemInfo>;
 
-    protected declare _itemMapCache: Map<string, ItemInfo>;
+    protected declare _itemMapCache?: Map<string, ItemInfo>;
 
     protected declare _needInitChecks?: boolean;
 
@@ -168,9 +168,9 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
         return state;
     }
 
-    getItemMap(useCache?: boolean) {
+    getItemMap(useCache?: boolean): Map<string, ItemInfo> {
         if (useCache && (this._itemMap || this._itemMapCache)) {
-            return this._itemMap || this._itemMapCache;
+            return (this._itemMap || this._itemMapCache)!;
         }
         if (!this._itemMap) {
             let needCheckRenderItems = false;
@@ -211,7 +211,7 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
             }
             this._itemMap = map;
         }
-        return this._itemMap;
+        return this._itemMap!;
     }
 
     getRenderedItem(keyPath: string): Item | undefined {
@@ -386,7 +386,8 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
                 } as Partial<S>;
             }, () => {
                 const checkState = this.state.checked;
-                this.props.onCheck?.call(this, change, Object.keys(checkState).filter(x => checkState[x] === true));
+                const onCheck = this.props.onCheck as ((this: this, change: Record<ItemKey, CheckedType>, checks: ItemKey[]) => void) | undefined;
+                onCheck?.call(this, change, Object.keys(checkState).filter(x => checkState[x] === true));
             });
             return;
         }
@@ -396,7 +397,8 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
             map[`${parentKey !== undefined ? `${parentKey}:` : ''}${key}`] = change[key];
             return map;
         }, {});
-        onCheck!.call(this, nestedChange, []);
+        const handleCheck = onCheck as (this: this, change: Record<ItemKey, CheckedType>, checks: ItemKey[]) => void;
+        handleCheck.call(this, nestedChange, []);
     }
 
     getKeyPath(key: string) {

@@ -1,12 +1,15 @@
 import {deepCall} from '@zui/helpers';
 import {I18nLangMap, i18n} from '../i18n';
 import {$} from '../cash';
-import {nextGid} from '../helpers';
+import {nextGid} from '../helpers/gid';
+import '../helpers/classes';
+import '../helpers/data';
+import '../helpers/event';
 import {isElementDetached} from '../dom/is-detached';
 
 import type {Cash, Element, Selector} from '../cash';
 import type {ComponentEventArgs, ComponentEventName, ComponentOptions, ComponentEvents, ComponentEventsDefnition, ComponentToggleConfig} from './types';
-import {fetchData} from '../ajax';
+import {fetchData} from '../ajax/fetcher';
 
 /**
  * The event callback for component.
@@ -337,7 +340,10 @@ export class Component<O extends object = object, E extends ComponentEventsDefni
                     this.$element.removeData(`${KEY}:ALL`);
                 } else {
                     const nextInstance = map.values().next().value;
-                    $element.data(KEY, nextInstance).attr(DATA_KEY, String(nextInstance?.gid));
+                    $element
+                        .data(KEY, nextInstance)
+                        .attr(ATTR_KEY, '')
+                        .attr(DATA_KEY, String(nextInstance?.gid));
                 }
             }
         }
@@ -546,7 +552,7 @@ export class Component<O extends object = object, E extends ComponentEventsDefni
      * @param selector The component element selector.
      * @returns        The component instance.
      */
-    static get<O extends object, E extends ComponentEvents, U extends HTMLElement, T extends typeof Component<O, E, U>>(this: T, selector: Selector, key?: string | number): InstanceType<T> | undefined {
+    static get<T>(this: {prototype: T; MULTI_INSTANCE: boolean; KEY: string}, selector: Selector, key?: string | number): T | undefined {
         const $element = $(selector);
         if (this.MULTI_INSTANCE && key !== undefined) {
             const instanceMap = $element.data(`${this.KEY}:ALL`);
@@ -571,7 +577,7 @@ export class Component<O extends object = object, E extends ComponentEventsDefni
      * @returns         The component instance.
      */
     static ensure<O extends object, E extends ComponentEvents, U extends HTMLElement, T extends typeof Component<O, E, U>>(this: T, selector: Selector, options?: InstanceType<T>['options']): InstanceType<T> {
-        const instance = this.get(selector, options?.key);
+        const instance = this.get(selector, options?.key) as InstanceType<T> | undefined;
         if (instance) {
             if (this.isValid(instance)) {
                 if (options) {
@@ -620,7 +626,7 @@ export class Component<O extends object = object, E extends ComponentEventsDefni
         if (selector === undefined) {
             return this.getAll(undefined, filter).pop();
         }
-        return this.get($(selector).closest(this.SELECTOR), key);
+        return this.get($(selector).closest(this.SELECTOR), key) as InstanceType<T> | undefined;
     }
 
     /**

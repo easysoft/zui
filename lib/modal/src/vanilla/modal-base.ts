@@ -39,6 +39,8 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
 
     protected _lastDialogSize?: [width: number, height: number];
 
+    protected _restoreFocusElement?: HTMLElement;
+
     protected declare _shown: boolean;
 
     get modalElement() {
@@ -128,6 +130,7 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
             clearTimeout(this._timer);
             this._timer = 0;
         }
+        this._restoreFocusElement = undefined;
         super.destroy();
         this._cancelObserver();
     }
@@ -140,6 +143,14 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
             return false;
         }
 
+        if (!this._shown) {
+            const activeElement = document.activeElement;
+            this._restoreFocusElement = activeElement instanceof HTMLElement
+                && activeElement !== document.body
+                && !modalElement.contains(activeElement)
+                ? activeElement
+                : undefined;
+        }
         this._shown = true;
         this.setOptions(options);
         const {animation, backdrop, className, style} = this.options;
@@ -203,6 +214,11 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
 
         this._setTimer(() => {
             $(this.modalElement).removeClass(CLASS_SHOW);
+            const restoreFocusElement = this._restoreFocusElement;
+            this._restoreFocusElement = undefined;
+            if (restoreFocusElement?.isConnected) {
+                restoreFocusElement.focus();
+            }
             this.options.onHidden?.call(this as ModalBase);
             this.emit('hidden');
         });
@@ -312,7 +328,18 @@ export class ModalBase<T extends ModalBaseOptions = ModalBaseOptions> extends Co
     }
 
     static last(target?: HTMLDivElement | string) {
-        return ModalBase.query(target, undefined, modal => modal.shown);
+        if (target !== undefined) {
+            const modal = ModalBase.query(target);
+            return modal?.shown ? modal : undefined;
+        }
+        return ModalBase.getAll(undefined, modal => modal.shown).reduce<ModalBase | undefined>((topmost, modal) => {
+            if (!topmost) {
+                return modal;
+            }
+            const zIndex = Number.parseFloat(modal.modalElement.style.zIndex) || 0;
+            const topmostZIndex = Number.parseFloat(topmost.modalElement.style.zIndex) || 0;
+            return zIndex >= topmostZIndex ? modal : topmost;
+        }, undefined);
     }
 
     static hide(target?: HTMLDivElement | string) {
@@ -331,4 +358,15 @@ $(window).on(`resize.${ModalBase.NAMESPACE}`, () => {
             m.layout();
         }
     });
+});
+
+$(document).on(`keydown.${ModalBase.NAMESPACE}`, (event: KeyboardEvent) => {
+    if (event.key !== 'Escape' || event.defaultPrevented) {
+        return;
+    }
+    const modal = ModalBase.last();
+    if (modal?.options.keyboard) {
+        event.preventDefault();
+        modal.hide();
+    }
 });

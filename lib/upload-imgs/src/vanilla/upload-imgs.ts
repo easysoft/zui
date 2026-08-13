@@ -4,11 +4,11 @@ import type {Cash} from '@zui/core';
 import type {UploadImgsOptions} from '../types';
 
 export class UploadImgs extends Upload<UploadImgsOptions> {
-    private $uploadInfo: Cash;
+    private declare $uploadInfo: Cash;
 
-    private $tip: Cash;
+    private declare $tip: Cash;
 
-    private $uploadButtonItem: Cash;
+    private declare $uploadButtonItem: Cash;
 
     private _imageReaders!: Set<FileReader>;
 

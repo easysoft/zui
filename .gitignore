@@ -3,6 +3,11 @@
 node_modules/
 dist/
 build/
+!tests/build/
+!tests/build/**
+coverage/
+playwright-report/
+test-results/
 .temp
 .cache
 exts/

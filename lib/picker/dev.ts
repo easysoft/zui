@@ -213,7 +213,7 @@ onPageUpdate(() => {
         },
 
         // 自定义下拉菜单控件显示
-        display: (value, selections) => {
+        display: (_value, selections) => {
             return {html: `<div>你选择了：${selections.map(x => x.text).join(',')}</div><style>.picker-btn {box-shadow: none!important;outline:none}.picker-btn .caret{display:none}</style><button type="button" class="picker-btn-trigger btn size-xs square"><i class="icon icon-exchange">↓</i></button>`, className: 'flex justify-between gap-2 p-px'};
         },
 

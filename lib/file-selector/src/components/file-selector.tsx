@@ -367,7 +367,7 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
             }
         }
 
-        const renamedFiles = {...this.state.renamedFiles};
+        const renamedFiles: Record<string, string> = {...this.state.renamedFiles};
         const nextFileInfo: FileInfo = {
             ...fileInfo,
             name: newName,
@@ -434,8 +434,8 @@ export class FileSelector<P extends FileSelectorProps = FileSelectorProps, S ext
         }
 
         if (this.state.files.includes(fileInfo)) {
-            const deletedFiles = [...(this.state.deletedFiles || [])];
-            const renamedFiles = {...this.state.renamedFiles};
+            const deletedFiles: string[] = [...(this.state.deletedFiles || [])];
+            const renamedFiles: Record<string, string> = {...this.state.renamedFiles};
             if (!fileInfo.file && !deletedFiles.includes(fileInfo.id)) {
                 delete renamedFiles[fileInfo.id];
                 deletedFiles.push(fileInfo.id);

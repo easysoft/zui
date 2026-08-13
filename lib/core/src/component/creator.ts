@@ -1,12 +1,14 @@
 import {$, Cash, Selector} from '../cash';
-import {evalValue, type GetLibOptions} from '../helpers';
+import {getLib, type GetLibOptions} from '../helpers/get-lib';
+import {evalValue} from '../helpers/raw-data';
+import '../dom/scroll-into-view';
 import {storeData, takeData} from '../helpers/data';
 import {getZData} from '../helpers/z';
-import {Component} from './component';
+import {Component, type ComponentClass} from './component';
 
 import type {ComponentOptions} from './types';
 
-export type ComponentClass = typeof Component;
+export type {ComponentClass} from './component';
 
 export type ComponentCreateOptions = ComponentOptions & {
     $update?: boolean | 'reset';
@@ -140,7 +142,7 @@ function initCreators(element: HTMLElement, options: ZUIInitOptions = {}): void 
         const $lib = createOptions.$lib as (GetLibOptions | undefined);
         if ($lib) {
             delete createOptions.$lib;
-            $.getLib($lib).then(() => createInAnimationFrame(name, element, createOptions));
+            getLib($lib).then(() => createInAnimationFrame(name, element, createOptions));
             return;
         }
         createInAnimationFrame(name, element, createOptions);

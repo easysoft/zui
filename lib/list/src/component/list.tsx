@@ -161,7 +161,8 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
             },
         } as Partial<S>), () => {
             const checkState = this.state.checked;
-            this.props.onCheck?.call(this, change, Object.keys(checkState).filter(x => checkState[x] === true));
+            const onCheck = this.props.onCheck as ((this: this, change: Record<ItemKey, CheckedType>, checks: ItemKey[]) => void) | undefined;
+            onCheck?.call(this, change, Object.keys(checkState).filter(x => checkState[x] === true));
         });
     }
 

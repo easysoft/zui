@@ -70,7 +70,7 @@ export class FormHelper {
     protected _findByAttribute(attribute: string, value: string, startsWith = false): Cash {
         return this._$element.find(`[${attribute}]`).filter((_index, element) => {
             const attributeValue = element.getAttribute(attribute);
-            return startsWith ? attributeValue?.startsWith(value) : attributeValue === value;
+            return startsWith ? (attributeValue?.startsWith(value) ?? false) : attributeValue === value;
         });
     }
 

@@ -1,6 +1,6 @@
 import type {AjaxBeforeSendCallback, AjaxCallbackMap, AjaxCompleteCallback, AjaxErrorCallback, AjaxSetting, AjaxSuccessCallback} from './types';
-import {createFormData} from '../form';
-import {parseRawData} from '../helpers';
+import {createFormData} from '../form/helper';
+import {parseRawData} from '../helpers/raw-data';
 
 function setHeader(headers: HeadersInit, name: string, value: string) {
     if (headers instanceof Headers) {

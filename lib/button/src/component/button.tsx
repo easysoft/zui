@@ -49,7 +49,7 @@ export class Button<P extends ButtonProps = ButtonProps> extends HElement<P> {
         const componentProps: Record<string, unknown> = {
             ...super._getProps(props),
             type: asLink ? undefined : 'button',
-            disabled: (!asLink && isDisabled) ? '' : undefined,
+            disabled: (!asLink && isDisabled) ? true : undefined,
             'aria-disabled': (asLink && isDisabled) ? 'true' : undefined,
             tabIndex: (asLink && isDisabled) ? -1 : undefined,
             title: hint,

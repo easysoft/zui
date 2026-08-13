@@ -131,7 +131,7 @@ function renderFilterContent(className = '', filterData = [] as FilterDataOption
             </div>
             <li class="menu-item menu-btns">
                 <button type="button" class="btn size-sm filter-reset not-hide-menu" onClick={onReset}>重置</button>
-                <button type="button" class="btn size-sm primary filter-submit" onClick={onSubmit}>确定</button>
+                <button type="button" class="btn size-sm primary filter-submit">确定</button>
             </li>
         </menu>
     );
@@ -181,10 +181,6 @@ function onReset(event: Event) {
     });
 }
 
-function onSubmit() {
-    console.log('onSubmit');
-}
-
 export type DTableFilterable = DTableWithPlugin<DTableFilterTypes>;
 
 const filterPlugin: DTablePlugin<DTableFilterTypes> = {
@@ -202,7 +198,7 @@ const filterPlugin: DTablePlugin<DTableFilterTypes> = {
             result.push(
                 <a class="dtable-filter" data-toggle="dropdown" href={'#' + href}><i className={classes('icon', filterIcon)}></i></a>,
             );
-            if (!(this.options.data as (string | RowData)[])?.length) return;
+            if (!(this.options.data as (string | RowData)[])?.length) return result;
             const filterList = getFilterOptions(col.setting as {type: string; name: string; statusMap: Record<string, string>}, this.options.data as unknown as {id: string; [key: string]: string}[]) || [];
             this.state.filterOptions = filterList;
             renderFilterContent(filter.className, filterList, href);

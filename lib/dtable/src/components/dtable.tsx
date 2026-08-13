@@ -903,7 +903,7 @@ export class DTable extends Component<DTableOptions, DTableState> {
         });
 
         const {header, footer} = options;
-        const getSectionHeight = (height: number | undefined) => Number.isFinite(height) && height! > 0 ? height : rowHeight;
+        const getSectionHeight = (height: number | undefined): number => typeof height === 'number' && Number.isFinite(height) && height > 0 ? height : rowHeight;
         const headerHeight = header ? getSectionHeight(options.headerHeight) : 0;
         const footerHeight = footer ? getSectionHeight(options.footerHeight) : 0;
         let heightSetting = options.height;

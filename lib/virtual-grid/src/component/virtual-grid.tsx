@@ -12,7 +12,7 @@ export class VirtualGrid extends Component<VirtualGridOptions> {
         return (
             <div className={classes('virtual-grid', className)} style={{position: 'relative', width, height, left, top, ...style}} {...others}>
                 {
-                    visibleCells.map(cell => (<GridCell key={cell.key} offsetX={offsetX} offsetY={offsetY} {...cell} onRender={cell.onRender ?? onRenderCell} />))
+                    visibleCells.map(({key, ...cell}) => (<GridCell {...cell} key={key} offsetX={offsetX} offsetY={offsetY} onRender={cell.onRender ?? onRenderCell} />))
                 }
                 {children}
             </div>

@@ -1,5 +1,5 @@
 import {Component, ComponentChildren, ComponentType, RefObject, RenderableProps, createRef} from 'preact';
-import {nextGid} from '@zui/core';
+import {$, nextGid} from '@zui/core';
 import type {PickOptions, PickPopProps, PickState, PickTriggerProps} from '../types';
 import {PickTrigger} from './pick-trigger';
 import {PickPop} from './pick-pop';

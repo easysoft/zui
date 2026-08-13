@@ -1,4 +1,5 @@
 import type {PagerInfo, PagerOptions} from '@zui/pager';
+import type {ToolbarItemOptions} from '@zui/toolbar';
 import {Pager} from '@zui/pager/react';
 import {definePlugin} from '../../helpers/shared-plugins';
 
@@ -39,7 +40,7 @@ const pagerPlugin: DTablePlugin<DTablePagerTypes> = {
             const {footPager} = this.options;
             const {localPager} = this.options;
             if (footPager) {
-                const defaultItems: NonNullable<PagerOptions['items']> = [
+                const defaultItems: ToolbarItemOptions[] = [
                     {
                         type: 'link',
                         page: 'first',
@@ -65,9 +66,10 @@ const pagerPlugin: DTablePlugin<DTablePagerTypes> = {
                         icon: 'icon-last-page',
                     },
                 ];
+                const items = Array.isArray(footPager.items) ? footPager.items as ToolbarItemOptions[] : defaultItems;
                 let pagerOptions: PagerOptions = {
                     ...footPager,
-                    items: (Array.isArray(footPager.items) ? footPager.items : defaultItems).map((item) => {
+                    items: items.map((item) => {
                         return item.type === 'size-menu' && item.caret === undefined ? {...item, caret: 'up'} : {...item};
                     }),
                 };

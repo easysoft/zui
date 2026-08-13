@@ -22,7 +22,8 @@ export class Sortable extends Component<SortableOptions> {
         if (!SortableModuleClass || this.destroyed) {
             return;
         }
-        const {dragShadow, onEnd, setData, ...options} = this.options;
+        const {dragShadow, onEnd, setData, ...sortableOptions} = this.options;
+        const options: SortableJSOptions = sortableOptions;
         if (dragShadow !== undefined && dragShadow !== true) {
             options.setData = (dataTransfer, dragEl) => {
                 if (dragShadow === false && !this._emptyShadow) {

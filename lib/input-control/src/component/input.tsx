@@ -1,5 +1,4 @@
 import {Component, JSX} from 'preact';
-import type {JSXInternal} from 'preact/src/jsx';
 import {classes} from '@zui/core';
 
 type InputProps = {
@@ -27,7 +26,7 @@ export default class Input extends Component<InputProps, InputState> {
         };
     }
 
-    handleChange = (e: JSXInternal.TargetedEvent<HTMLInputElement, Event>) => {
+    handleChange = (e: JSX.TargetedEvent<HTMLInputElement, Event>) => {
         const value = (e.target as HTMLInputElement).value;
         if (this.props.value === undefined) {
             this.setState({value});

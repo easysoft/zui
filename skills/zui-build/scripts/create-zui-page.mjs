@@ -102,7 +102,7 @@ function escapeHTML(value) {
         .replaceAll('<', '&lt;')
         .replaceAll('>', '&gt;')
         .replaceAll('"', '&quot;')
-        .replaceAll("'", '&#39;');
+        .replaceAll('\'', '&#39;');
 }
 
 function replaceToken(content, token, value) {
@@ -145,7 +145,7 @@ async function ensureEmptyDestination(destination) {
 async function copyDirectory(source, destination) {
     await fs.mkdir(destination, {recursive: true});
     const entries = await fs.readdir(source, {withFileTypes: true});
-    await Promise.all(entries.map(async entry => {
+    await Promise.all(entries.map(async (entry) => {
         const sourcePath = path.join(source, entry.name);
         const destinationPath = path.join(destination, entry.name);
         if (entry.isDirectory()) {
@@ -250,7 +250,7 @@ async function main() {
     console.log(`Preview: python3 -m http.server 4173 --directory ${result.root}`);
 }
 
-main().catch(error => {
+main().catch((error) => {
     console.error(`[zui-build] ${error.message}`);
     process.exitCode = 1;
 });

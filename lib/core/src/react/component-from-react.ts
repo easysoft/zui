@@ -69,6 +69,7 @@ export class ComponentFromReact<O extends object = object, C extends ComponentRe
             render(null, this._renderContainer);
             this._renderContainer = undefined;
         }
+        this._ref.current = null;
         super.destroy();
     }
 

@@ -35,7 +35,9 @@ export class Avatar extends Component<AvatarOptions> {
             children,
             ...others
         } = this.props;
-        const avatarChildren = typeof children === 'function' ? children.call(this) : children;
+        const avatarChildren = typeof children === 'function'
+            ? (children as (this: Avatar) => ComponentChildren).call(this)
+            : children;
 
         const finalClass = ['avatar', className];
         const finalStyle = {...style, background, color: foreColor};

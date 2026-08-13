@@ -77,7 +77,7 @@ export class Select extends Component<SelectProps, SelectState> {
             );
         });
         return (
-            <select className={classes('form-control', className as ClassNameLike)} multiple={multiple} value={multiple ? valueList : valueList[0]} disabled={disabled || readonly} aria-readonly={readonly || undefined} onChange={this._handleChange} {...rest}>
+            <select className={classes('form-control', className as ClassNameLike)} multiple={multiple} value={multiple ? undefined : valueList[0]} disabled={disabled || readonly} aria-readonly={readonly || undefined} onChange={this._handleChange} {...rest}>
                 {(hasSelectedValue && !multiple) ? null : <option value="">{placeholder}</option>}
                 {options}
             </select>
