@@ -95,8 +95,8 @@ Messager.show('ZUI 3 已就绪！');
 
 ### 环境要求
 
-- Node.js 18+
-- pnpm 8+
+- Node.js 22.13+
+- pnpm 11.21.0
 
 ### 启动本地开发服务
 
@@ -116,11 +116,20 @@ pnpm dev
 | `pnpm dev` | 启动内置库的开发服务 |
 | `pnpm dev:exts` | 启动包含 `exts/` 扩展库的开发服务 |
 | `pnpm lint` | 运行 ESLint 检查 |
+| `pnpm typecheck` | 检查源码、工具与测试的 TypeScript 类型 |
+| `pnpm test` | 运行 Vitest 单元和 DOM 组件测试 |
+| `pnpm test:coverage` | 运行单元和 DOM 测试并生成覆盖率报告 |
+| `pnpm test:build` | 验证代表性 ESM、UMD、CSS、source map、ZIP 与外置 Cash 产物 |
+| `pnpm test:e2e` | 使用 Chromium 运行 Playwright 浏览器测试 |
+| `pnpm test:e2e:all` | 使用 Chromium、Firefox 和 WebKit 运行浏览器测试 |
+| `pnpm check` | 运行 lint、typecheck、单元/DOM 测试和技能测试 |
 | `pnpm build` | 构建完整的 ZUI 产物 |
 | `pnpm docs:dev` | 准备并启动 VitePress 文档服务 |
 | `pnpm docs:build` | 构建文档站点 |
 
 本项目以各库的 `dev.ts` 作为交互调试入口。修改 `lib/<lib-name>/` 后，应在对应的单库页面验证功能与样式。
+
+测试分层、浏览器安装和视觉基线更新方式请查看[自动化测试指南](./docs/docs/guide/customize/testing.md)。
 
 ### 定制构建
 
@@ -141,6 +150,7 @@ pnpm build -- --lib="button dropdown" --name=zui-custom
 | `dev/` | 本地调试页的开发辅助工具 |
 | `docs/` | VitePress 文档站点与基础文档 |
 | `scripts/` | 构建、文档同步和库元数据处理脚本 |
+| `tests/` | 单元、DOM、构建消费和 Playwright 浏览器测试 |
 | `exts/` | 通过 `pnpm extend-lib <path>` 接入的本地扩展库 |
 
 ## 技术栈
@@ -149,7 +159,7 @@ ZUI 3 使用 [TypeScript](https://www.typescriptlang.org/)、[Preact](https://pr
 
 ## 参与贡献
 
-欢迎通过 [Issue](https://github.com/easysoft/zui/issues) 报告问题或提交建议，也欢迎提交 Pull Request。提交代码前，请至少运行 `pnpm lint`，并在对应的单库调试页中完成验证。
+欢迎通过 [Issue](https://github.com/easysoft/zui/issues) 报告问题或提交建议，也欢迎提交 Pull Request。提交代码前，请运行 `pnpm check`，并根据改动范围补充代表构建、浏览器测试和对应的单库调试页验证。
 
 > 正在寻找 ZUI 1？请访问 [ZUI 1 官网](https://openzui.com/1/) 或 [`zui1` 分支](https://github.com/easysoft/zui/tree/zui1)。
 

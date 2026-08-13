@@ -6,13 +6,21 @@ ZUI 3 是一个不依赖 JavaScript 框架的 Web UI 组件库。以 pnpm worksp
 
 ## 常用命令
 
-包管理器固定为 **pnpm**（`preinstall` 钩子会拒绝其他包管理器），Node 要求 18+。
+包管理器固定为 **pnpm 11.21.0**（`preinstall` 钩子会拒绝其他包管理器），Node 要求 22.13+。
 
 ```sh
 pnpm install               # 安装依赖
 pnpm dev                   # 启动开发服务器，自动遍历 lib/* 生成左侧导航
 pnpm dev:exts              # 带扩展库 (exts/) 一起开发
 pnpm lint                  # 运行 ESLint（vite 也会通过 vite-plugin-eslint 实时检查）
+pnpm typecheck             # 检查源码、工具和测试的 TypeScript 类型
+pnpm test                  # 运行 Vitest 单元测试与 jsdom 组件测试
+pnpm test:coverage         # 运行单元/DOM 测试并生成覆盖率
+pnpm test:skills           # 验证仓库内 ZUI 技能脚本
+pnpm test:build            # 验证 ESM/UMD/CSS/source map/ZIP/--noCash 构建消费契约
+pnpm test:e2e              # 使用 Chromium 运行 Playwright（需先安装浏览器）
+pnpm test:e2e:all          # 使用 Chromium、Firefox、WebKit 运行 Playwright
+pnpm check                 # lint + typecheck + 单元/DOM + skills 的常用提交前检查
 pnpm build                 # 走自定义构建管线 scripts/build/index.ts，会汇总 lib/*、生成临时 build/ 目录后再调 build:vite
 pnpm build:vite            # tsc 类型检查 + 单次 vite build（一般不直接用，由 scripts/build 调用）
 pnpm docs:dev              # 准备并启动 VitePress 文档站；docs:dev-fast 跳过预处理
@@ -28,7 +36,7 @@ pnpm publish:npm           # 构建并发布到 npm
 - `--noMinify`、`--noSourceMap`、`--noCash`（cash-dom 外置）、`--zip=xx.zip`：构建产物细节。
 - `--saveConfig[=path]`：把解析后的 build config 写到文件，便于排查。
 
-单库本地调试：直接 `pnpm dev`，浏览器访问 `/<lib-name>/` 即可加载该 lib 的 `dev.ts`（见 `index.html` + `src/main.ts` + `src/libs.ts`，会按 `lib/*/package.json` 自动发现）。本仓库**没有单元测试套件**，验证依赖各 lib 自带的 `dev.ts` 演示页面与 `docs/lib/components/*.md` 中的示例。
+单库本地调试：直接 `pnpm dev`，浏览器访问 `/<lib-name>/` 即可加载该 lib 的 `dev.ts`（见 `index.html` + `src/main.ts` + `src/libs.ts`，会按 `lib/*/package.json` 自动发现）。自动化测试分为 `tests/unit`（Node 纯逻辑）、`tests/dom`（Vitest + jsdom）、`tests/build`（最终分发消费）和 `tests/e2e`（Playwright 真实浏览器）；调试页继续用于人工交互和样式验证。
 
 ## 仓库结构与构建模型
 
@@ -44,6 +52,7 @@ docs/               VitePress 站点，源 markdown 由 lib/*/docs 同步生成
 exts/               外部扩展库（gitignored）：通过 `pnpm extend-lib` 软链入 exts/，配置在 exts/libs.json
 scripts/            构建/文档/lib 元信息处理（build, libs, docs, dev, utilities）
 src/                pnpm dev 入口（开发首页 + lib 导航 + hot reload 桥接）
+tests/              单元、DOM、构建消费与 Playwright 浏览器测试
 build/、dist/、publish/   构建中间产物 / 最终产物（gitignored）
 ```
 
@@ -97,3 +106,5 @@ build/、dist/、publish/   构建中间产物 / 最终产物（gitignored）
 - 引用其他 lib 走 `@zui/<name>`，**不要写相对路径**穿过 lib 边界，否则 build config 解析（`isExportPathInLib`）会拒绝。
 - `lib/<name>/dev.ts` 里使用的 `onPageLoad`/`onPageUpdate` 是 `dev/` 注入的全局函数，仅在开发模式生效。
 - exts/ 是 gitignored，CI 上没有；写代码不要硬依赖某个 ext lib 的存在。
+- Playwright 首次运行前执行 `pnpm exec playwright install chromium`；完整跨浏览器检查安装 `chromium firefox webkit`。视觉基线按 project/操作系统保存，只使用本机 Chromium 评审并在确认像素变化正确后更新；CI 跳过平台相关的视觉比对。
+- axe 只能覆盖可自动检测的可访问性问题；键盘顺序、焦点、屏幕阅读器、缩放和兼容性下限仍需人工验证。

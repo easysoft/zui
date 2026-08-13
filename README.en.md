@@ -95,8 +95,8 @@ See the [ZUI documentation](https://openzui.com/) for all installation methods, 
 
 ### Requirements
 
-- Node.js 18+
-- pnpm 8+
+- Node.js 22.13+
+- pnpm 11.21.0
 
 ### Start the Local Development Server
 
@@ -116,11 +116,20 @@ The development server runs at `http://localhost:5173/` by default. Open `http:/
 | `pnpm dev` | Start the development server with built-in libraries |
 | `pnpm dev:exts` | Start the development server with libraries from `exts/` |
 | `pnpm lint` | Run ESLint checks |
+| `pnpm typecheck` | Type-check source, tooling, and tests |
+| `pnpm test` | Run Vitest unit and DOM component tests |
+| `pnpm test:coverage` | Run unit and DOM tests with coverage |
+| `pnpm test:build` | Verify representative ESM, UMD, CSS, source map, ZIP, and external Cash outputs |
+| `pnpm test:e2e` | Run Playwright browser tests in Chromium |
+| `pnpm test:e2e:all` | Run browser tests in Chromium, Firefox, and WebKit |
+| `pnpm check` | Run lint, typecheck, unit/DOM tests, and skills tests |
 | `pnpm build` | Build the complete ZUI distribution |
 | `pnpm docs:dev` | Prepare and start the VitePress documentation server |
 | `pnpm docs:build` | Build the documentation site |
 
 Each library uses its `dev.ts` file as the interactive playground entry point. After changing `lib/<lib-name>/`, verify its behavior and styles on the corresponding library page.
+
+See the [automated testing guide](./docs/docs/guide/customize/testing.md) for the test layers, browser installation, and visual baseline workflow.
 
 ### Custom Builds
 
@@ -141,6 +150,7 @@ The generated files are written to `dist/zui-custom/`. See the [custom build doc
 | `dev/` | Development utilities for local playgrounds |
 | `docs/` | VitePress documentation site and base documentation |
 | `scripts/` | Build, documentation synchronization, and library metadata scripts |
+| `tests/` | Unit, DOM, distribution-consumer, and Playwright browser tests |
 | `exts/` | Local extension libraries added with `pnpm extend-lib <path>` |
 
 ## Technology
@@ -149,7 +159,7 @@ ZUI 3 is built with [TypeScript](https://www.typescriptlang.org/), [Preact](http
 
 ## Contributing
 
-Use [GitHub Issues](https://github.com/easysoft/zui/issues) to report bugs or propose improvements. Pull requests are also welcome. Before submitting code, run at least `pnpm lint` and verify your changes on the corresponding library playground.
+Use [GitHub Issues](https://github.com/easysoft/zui/issues) to report bugs or propose improvements. Pull requests are also welcome. Before submitting code, run `pnpm check`, then add the representative build, browser, and library-playground checks that match the change.
 
 > Looking for ZUI 1? Visit the [ZUI 1 website](https://openzui.com/1/) or the [`zui1` branch](https://github.com/easysoft/zui/tree/zui1).
 
