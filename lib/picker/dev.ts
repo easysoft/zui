@@ -8,7 +8,7 @@ import '@zui/avatar';
 import '@zui/search-box';
 import '@zui/input-control';
 import '@zui/tree';
-import {Picker} from './src/main';
+import {Picker, type PickerState} from './src/main';
 import {$} from '@zui/core';
 
 const items = [
@@ -50,6 +50,43 @@ const nestedItems = [
 ];
 
 onPageUpdate(() => {
+    const creatableSourceItems = items.map(item => ({...item}));
+    const creatableSourceItemsSnapshot = JSON.stringify(creatableSourceItems);
+    const creatablePicker = new Picker('#creatablePicker', {
+        name: 'creatableTags',
+        multiple: true,
+        items: creatableSourceItems,
+        creatable: true,
+        placeholder: '搜索或创建选项',
+        onSelect: function (this: {state: PickerState}, values) {
+            console.log('> creatablePicker.onSelect', JSON.stringify({values, createdItems: this.state.createdItems, itemValues: this.state.items.map(item => item.value)}));
+        },
+    });
+    console.log('> creatablePicker', creatablePicker, 'sourceItems', creatableSourceItems);
+
+    const customCreatablePicker = new Picker('#customCreatablePicker', {
+        name: 'customCreatableTags',
+        multiple: true,
+        tree: true,
+        items: nestedItems,
+        creatable: (search) => {
+            if (search === 'return-false') {
+                return false;
+            }
+            if (search === 'throw-error') {
+                throw new Error('Creatable callback test error.');
+            }
+            const value = search.toLowerCase().replace(/[^\w\u4e00-\u9fff]+/g, '-').replace(/^-|-$/g, '');
+            return value ? {text: `自定义：${search}`, value} : false;
+        },
+        beforeChange: value => value.includes('before-change-false') ? false : undefined,
+        placeholder: '搜索或创建自定义选项',
+        onSelect: function (this: {state: PickerState}, values) {
+            console.log('> customCreatablePicker.onSelect', JSON.stringify({values, createdItems: this.state.createdItems, itemValues: this.state.items.map(item => item.value)}));
+        },
+    });
+    console.log('> customCreatablePicker', customCreatablePicker);
+
     const singlePickerRemote = new Picker('#singlePickerRemote', {
         name: 'selectOne',
         items: '/lib/picker/dev/items.json',
@@ -65,6 +102,7 @@ onPageUpdate(() => {
         name: 'selectSome',
         multiple: true,
         items: '/lib/picker/dev/nested-items.json',
+        creatable: true,
         tree: true,
         toolbar: true,
         menu: {
@@ -229,4 +267,7 @@ onPageUpdate(() => {
         },
     });
     console.log('> customPicker', customPicker);
+
+    Object.assign(window, {creatablePicker, customCreatablePicker, multiPickerRemote, creatableSourceItems});
+    window.setTimeout(() => console.log('> creatableSourceItems unchanged', JSON.stringify(creatableSourceItems) === creatableSourceItemsSnapshot), 100);
 });

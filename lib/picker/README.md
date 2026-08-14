@@ -14,6 +14,24 @@
 <div id="noSearchMultiPicker"></div>
 ```
 
+## 搜索创建选项
+
+仅多选 Picker 支持创建选项。搜索无匹配结果时，可点击创建提示或按 <kbd>Enter</kbd> 创建并选中新选项。
+
+### 使用搜索文本创建
+
+```html:example
+<div id="creatablePicker"></div>
+```
+
+### 转换创建项
+
+```html:example
+<div id="customCreatablePicker"></div>
+```
+
+转换示例中可输入 `return-false`、`throw-error`、`before-change-false` 和 `Apple!`，分别验证取消创建、回调异常、`beforeChange` 回滚和已有值去重。
+
 ## 远程数据
 
 ### 单选

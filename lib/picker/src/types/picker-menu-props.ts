@@ -16,12 +16,14 @@ export interface PickerMenuProps<S extends PickerState = PickerState> extends Pi
     header?: CustomContentType;
     footer?: CustomContentType;
     noMatchHint?: string;
+    createHint?: string;
     maxItemsCount?: number;
     exceedLimitHint?: string;
     picker?: Picker;
     noNestedPick?: boolean;
 
     getItem?: (item: NestedItem, index: number) => NestedItem;
+    onCreate?: (search: string) => void;
     onPick: (options: {toggle?: string; select?: string | string[]; diselect?: string | string[]}) => void;
     onSelect: (values: string | string[]) => void;
     onDeselect: (values: string | string[]) => void;
