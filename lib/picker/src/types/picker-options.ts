@@ -4,7 +4,7 @@ import type {ToolbarSetting} from '@zui/toolbar';
 import type {SearchTreeOptions, TreeOptions} from '@zui/tree';
 import type {ClassNameLike, CustomContentType, HotkeysSettings} from '@zui/core';
 import type {PickerState} from './picker-state';
-import type {PickerItemBasic} from './picker-item-options';
+import type {PickerItemBasic, PickerItemOptions} from './picker-item-options';
 
 export interface PickerOptions<S extends PickerState = PickerState> extends PickOptions<S> {
     multiple?: boolean | number;
@@ -29,6 +29,7 @@ export interface PickerOptions<S extends PickerState = PickerState> extends Pick
     display?: string | ((values: string | string[], selections: PickerItemBasic[]) => CustomContentType);
     search?: boolean | number;
     searchHint?: string;
+    creatable?: boolean | ((search: string) => PickerItemOptions | false);
     hotkeys?: HotkeysSettings;
     caretClass?: ClassNameLike;
     clearSearchOnSelect?: boolean;
