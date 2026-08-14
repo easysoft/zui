@@ -29,7 +29,16 @@ export default defineConfig({
     vite: {
         define: {
             __ZUI_VERSION__: JSON.stringify(pkg.version),
-        }
+        },
+        server: {
+            watch: {
+                ignored: [
+                    '**/.vitepress/dist/**',
+                    '**/.vitepress/cache/**',
+                    '**/public/zui/**',
+                ],
+            },
+        },
     },
     vue: {
         template: {
