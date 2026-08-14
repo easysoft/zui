@@ -2,10 +2,9 @@
 module.exports = {
     darkMode: 'class',
     content: [
-        './_/**/*.{vue,js,ts,jsx,tsx,md}',
-        './_/.vitepress/**/*.{vue,js,ts,jsx,tsx,md}',
-        '!node_modules',
-        '!public',
+        './_/.vitepress/theme/**/*.{vue,js,ts,jsx,tsx}',
+        './_/.vitepress/*.{js,ts}',
+        './_/**/*.md',
     ],
     theme: require('../config/tailwind-theme/index.cjs'),
     prefix: '-',
