@@ -39,7 +39,7 @@
 
 ## 尺寸
 
-当使用不同大小的头像时，可以通过为 `.avatar-group` 添加同样等级的 `size-*` 辅助类已获得统一的堆叠间距。
+当使用不同大小的头像时，可以通过为 `.avatar-group` 添加同样等级的 `size-*` 辅助类以获得统一的堆叠间距。
 
 ::: tabs
 
@@ -76,7 +76,7 @@
 == HTML
 
 ```html
-<div class="avatar-group size-xs gap-3">
+<div class="avatar-group size-xs">
   <div class="avatar size-xs circle"><img src="/assets/avatar/avatar-1.png"></div>
   <div class="avatar size-xs circle"><img src="/assets/avatar/avatar-2.png"></div>
   <div class="avatar size-xs circle"><img src="/assets/avatar/avatar-3.png"></div>
@@ -196,6 +196,46 @@
 | `size-lg`      | 工具类 | 头像组使用大号尺寸   |
 | `size-xl`      | 工具类 | 头像组使用超大号尺寸 |
 
+## CSS 变量
+
+头像组提供了如下 CSS 变量：
+
+| 变量名称                     | 变量含义                                     | 默认值                 |
+| ---------------------------- | -------------------------------------------- | ---------------------- |
+| `--avatar-group-ring-width`  | 堆叠头像描边宽度                             | `1px`                  |
+| `--avatar-group-ring-color`  | 堆叠头像描边颜色，用于将相邻头像分隔开       | `var(--color-canvas)`  |
+
+描边默认使用页面画布颜色，因此头像组置于非画布背景（例如彩色卡片）之上时，需要覆盖 `--avatar-group-ring-color`：
+
+::: tabs
+
+== 示例
+
+<Example class="flex gap-4 flex-wrap items-end bg-primary-500 p-3">
+  <div class="avatar-group">
+    <div class="avatar circle"><img src="/assets/avatar/avatar-1.png"></div>
+    <div class="avatar circle"><img src="/assets/avatar/avatar-2.png"></div>
+    <div class="avatar circle gray-200">+10</div>
+  </div>
+  <div class="avatar-group" style="--avatar-group-ring-color: var(--color-primary-500);">
+    <div class="avatar circle"><img src="/assets/avatar/avatar-3.png"></div>
+    <div class="avatar circle"><img src="/assets/avatar/avatar-4.png"></div>
+    <div class="avatar circle gray-200">+10</div>
+  </div>
+</Example>
+
+== HTML
+
+```html
+<div class="avatar-group" style="--avatar-group-ring-color: var(--color-primary-500);">
+  <div class="avatar circle"><img src="/assets/avatar/avatar-3.png"></div>
+  <div class="avatar circle"><img src="/assets/avatar/avatar-4.png"></div>
+  <div class="avatar circle gray-200">+10</div>
+</div>
+```
+
+:::
+
 ## 参考
 
-- [头像](/lib/components/avatar/index.html)
+- [头像](/lib/components/avatar/)
