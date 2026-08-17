@@ -1,0 +1,4 @@
+:root {
+  --avatar-group-ring-width: 1px;
+  --avatar-group-ring-color: var(--color-canvas);
+}
