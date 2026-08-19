@@ -4,10 +4,6 @@
 
 使用组件类`.table`来获得外观 通常搭配`<table>`元素使用.
 
-```html:example
-<button data-@click="click" class="btn">Test</button>
-```
-
 ```html:example:
 <table class="table">
     <thead>
@@ -46,7 +42,7 @@
 使用组件类`.table-striped`获得斑马纹表格外观
 
 ```html:example:
-<table class="table table-striped table-row-hover">
+<table class="table table-striped table-hover">
   <thead>
       <tr>
           <th>项目名称</th>
