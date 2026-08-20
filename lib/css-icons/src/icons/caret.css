@@ -22,10 +22,6 @@
   @apply -rotate-[225deg] -translate-y-0.5;
 }
 
-:hover > .caret,
-:focus > .caret {
-    opacity: inherit;
-}
 .disabled .caret,
 .readonly .caret {
     opacity: var(--caret-opacity, .5);
