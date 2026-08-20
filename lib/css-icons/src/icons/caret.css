@@ -1,3 +1,8 @@
+:root {
+    /* Opacity of a caret inside a disabled or readonly element. */
+    --caret-opacity: .5;
+}
+
 .caret,
 .caret-left,
 .caret-right,
@@ -24,5 +29,5 @@
 
 .disabled .caret,
 .readonly .caret {
-    opacity: var(--caret-opacity, .5);
+    opacity: var(--caret-opacity);
 }
