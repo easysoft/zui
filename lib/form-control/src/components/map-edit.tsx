@@ -9,9 +9,10 @@ export type MapPair = [gid: number, key: string, value: string];
 export type MapValuePair = [key: string, value: string];
 
 export type MapEditProps = {
-    defaultValue?: MapValue;
+    defaultValue?: MapValue | MapValuePair[];
+    value?: MapValue | MapValuePair[];
     readonly?: boolean;
-    onChange?: (value: MapValue) => void;
+    onChange?: (value: MapValue, pairs: MapValuePair[]) => void;
     keyPlaceholder?: string;
     valuePlaceholder?: string;
     keyWidth?: SizeSetting | 'auto';
@@ -37,7 +38,7 @@ export class MapEdit extends Component<MapEditProps> {
 
     constructor(props: MapEditProps) {
         super(props);
-        const pairs: MapPair[] = props.defaultValue ? Object.entries(props.defaultValue).map(([key, value]) => [nextGid(), key, value]) : [];
+        const pairs: MapPair[] = props.defaultValue ? (Array.isArray(props.defaultValue) ? props.defaultValue : Object.entries(props.defaultValue)).map(([key, value]) => [nextGid(), key, value]) : [];
         if (!pairs.length) {
             pairs.push([nextGid(), '', '']);
         }
@@ -53,7 +54,7 @@ export class MapEdit extends Component<MapEditProps> {
                 this._valuePairs = newValuePairs;
                 if (this.props.onChange) {
                     requestAnimationFrame(() => {
-                        this.props.onChange?.(this.value);
+                        this.props.onChange?.(this.value, this._valuePairs);
                     });
                 }
             }
