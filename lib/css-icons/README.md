@@ -79,14 +79,6 @@
 <span class="magnifier text-lg text-primary"></span>
 ```
 
-## 更多
-
-```html:example:flex items-center gap-2
-<span class="more"></span>
-<span class="more-vert"></span>
-<span class="more-vert text-xl"></span>
-```
-
 ## 时间
 
 ```html:example:flex items-center gap-2
