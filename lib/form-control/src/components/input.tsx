@@ -9,6 +9,7 @@ export type InputProps = {
     value?: string | number;
     readonly?: boolean;
     placeholder?: string;
+    autofocus?: boolean;
     onChange?: (value: string | number, event: Event) => void;
 };
 
