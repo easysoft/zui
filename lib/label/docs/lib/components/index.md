@@ -139,7 +139,7 @@
 
 ## 圆点标签
 
-当与工具类 `label-dot` 一起使用时则获得圆点标签。
+当与工具类 `label-dot` 一起使用时则获得圆点标签。圆点标签同样响应尺寸类 `size-*`。
 
 ::: tabs
 
@@ -160,6 +160,17 @@
   <span class="label label-dot dark"></span>
 </Example>
 
+== 尺寸
+
+<Example class="flex gap-4 items-center">
+  <span class="label label-dot size-sm"></span>
+  <span class="label label-dot"></span>
+  <span class="label label-dot size-lg"></span>
+  <span class="label label-dot primary size-sm"></span>
+  <span class="label label-dot primary"></span>
+  <span class="label label-dot primary size-lg"></span>
+</Example>
+
 == HTML
 
 ```html
@@ -175,6 +186,10 @@
 <span class="label label-dot light"></span>
 <span class="label label-dot gray"></span>
 <span class="label label-dot dark"></span>
+
+<span class="label label-dot size-sm"></span>
+<span class="label label-dot"></span>
+<span class="label label-dot size-lg"></span>
 ```
 
 :::
@@ -211,6 +226,8 @@
 | `label-dot`      | 工具类 | 标签使用圆形外观 |
 | `size-sm`      | 工具类      |   标签使用小号尺寸 |
 | `size-lg`      | 工具类      |   标签使用大号尺寸 |
+
+`label-dot` 需要与 `label` 一起使用。圆点直径随尺寸类变化：`size-sm` 为 6px，默认为 8px，`size-lg` 为 12px。
 
 ## CSS 变量
 
