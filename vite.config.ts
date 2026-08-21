@@ -46,12 +46,13 @@ export default defineConfig(async ({mode}) => {
     }
 
     const buildHash = execSync('git rev-parse HEAD').toString().trim();
+    const buildTime = Number(execSync('git log -1 --format=%ct').toString().trim()) * 1000;
     let viteConfig: UserConfig = mergeConfig(createSharedViteConfig({
         mode,
         rootPath: __dirname,
         libsCache,
         buildHash,
-        buildTime: Date.now(),
+        buildTime,
     }), {
         base: './',
         build: {
