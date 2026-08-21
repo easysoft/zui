@@ -13,6 +13,9 @@
         "@zui/button": "workspace:^0.0.1",
         "@zui/utilities": "workspace:*"
     },
+    "files": [
+        "./src/**/*"
+    ],
     "zui": {
         "type": "control",
         "displayName": "标签",
