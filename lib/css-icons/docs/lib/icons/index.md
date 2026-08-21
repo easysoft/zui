@@ -32,27 +32,31 @@ ZUI 提供一组用纯 CSS 绘制的小图标，不依赖图标字体，也不�
 
 :::
 
-放在带有 `.disabled` 或 `.readonly` 的元素内时，下拉图标会按 `--caret-opacity` 变淡。
+下拉图标默认以 `--caret-opacity`（`.5`）显示，比正文更淡，作为次要元素出现。在任意祖先元素上覆盖 `--caret-opacity` 即可调整其中所有下拉图标的深浅。
 
 ::: tabs
 
 == 示例
 
 <Example class="flex items-center gap-4">
-  <span class="row items-center gap-1">正常 <span class="caret"></span></span>
+  <span class="row items-center gap-1">默认 <span class="caret"></span></span>
+  <span class="row items-center gap-1" style="--caret-opacity: 1">加深 <span class="caret"></span></span>
+  <span class="row items-center gap-1" style="--caret-opacity: .3">变淡 <span class="caret"></span></span>
   <span class="row items-center gap-1 disabled">禁用 <span class="caret"></span></span>
-  <span class="row items-center gap-1 readonly">只读 <span class="caret"></span></span>
 </Example>
 
 == HTML
 
 ```html
-<span class="row items-center gap-1">正常 <span class="caret"></span></span>
+<span class="row items-center gap-1">默认 <span class="caret"></span></span>
+<span class="row items-center gap-1" style="--caret-opacity: 1">加深 <span class="caret"></span></span>
+<span class="row items-center gap-1" style="--caret-opacity: .3">变淡 <span class="caret"></span></span>
 <span class="row items-center gap-1 disabled">禁用 <span class="caret"></span></span>
-<span class="row items-center gap-1 readonly">只读 <span class="caret"></span></span>
 ```
 
 :::
+
+`.disabled` 和 `.readonly` 不会额外调暗下拉图标，它们的作用是把图标的不透明度固定在 `--caret-opacity` 上：`@zui/utilities` 的 `.disabled *` 会把容器内所有元素改成 `--opacity-disabled`，若不固定，禁用容器里的下拉图标反而会比正常状态更明显。禁用容器本身的整体变淡仍然生效。
 
 ## V 形
 
@@ -370,8 +374,8 @@ CSS 图标提供了如下 CSS 类：
 | `arrow-right` | 修饰类 | 与 `arrow` 搭配使用，尖角朝右并贴在父元素右边 |
 | `is-collapsed` | 修饰类 | 放在 `toggle-icon` 的祖先元素上，使其显示为加号 |
 | `is-expanded` | 修饰类 | 放在 `toggle-icon` 的祖先元素上，使其显示为减号 |
-| `disabled` | 修饰类 | 放在 `caret` 的祖先元素上，使下拉图标按 `--caret-opacity` 变淡 |
-| `readonly` | 修饰类 | 放在 `caret` 的祖先元素上，使下拉图标按 `--caret-opacity` 变淡 |
+| `disabled` | 修饰类 | 放在下拉图标的祖先元素上，把图标的不透明度固定为 `--caret-opacity` |
+| `readonly` | 修饰类 | 放在下拉图标的祖先元素上，把图标的不透明度固定为 `--caret-opacity` |
 
 ## CSS 变量
 
@@ -379,10 +383,10 @@ CSS 图标提供了如下 CSS 变量：
 
 | 变量名称 | 变量含义 | 默认值 | 声明位置 |
 | --- | --- | --- | --- |
-| `--caret-opacity` | 处于 `disabled` 或 `readonly` 元素内的下拉图标的不透明度 | `.5` | `:root` |
+| `--caret-opacity` | 下拉图标的不透明度 | `.5` | `:root` |
 | `--toggle-icon-size` | 切换图标的边长 | `calc((var(--font-size-root) * 3 / 4) + 1px)` | `:root` |
 | `--arrow-size` | 气泡尖角的大小 | `5px` | `.arrow` |
 
-`--caret-opacity` 与 `--toggle-icon-size` 声明在 `:root` 上，图标从祖先元素继承它们的值，因此既可以在 `:root` 上全局覆盖，也可以在任意祖先元素上局部覆盖。`@zui/tree` 就是在 `.tree-toggle` 上把 `--caret-opacity` 改成 `.3` 的。
+`--caret-opacity` 与 `--toggle-icon-size` 声明在 `:root` 上，图标从祖先元素继承它们的值，因此既可以在 `:root` 上全局覆盖，也可以在任意祖先元素上局部覆盖，例如在某个工具栏上把其中的下拉图标整体加深。
 
 `--arrow-size` 声明在 `.arrow` 自身上，继承而来的值不会生效，需要覆盖到图标元素本身，例如行内 `style` 或更具体的选择器。
