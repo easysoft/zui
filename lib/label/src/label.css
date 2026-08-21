@@ -1,5 +1,4 @@
-
-.label{
+.label {
   @apply -h-5 -px-1 -inline-flex -items-center -justify-center -whitespace-pre-line -text-sm -bg-[--label-bg] -rounded-[--label-radius] -ring-[--label-border-color] -ring-1 -text-[--label-color] -min-w-[1.25rem];
 }
 .label.size-lg {
@@ -8,6 +7,12 @@
 .label.size-sm {
   @apply -h-4 -min-w-[1rem];
 }
-.label-dot {
+.label.label-dot {
   @apply -rounded-full -h-2 -px-0 -aspect-square -min-w-0;
+}
+.label.label-dot.size-sm {
+  @apply -h-1.5;
+}
+.label.label-dot.size-lg {
+  @apply -h-3;
 }
