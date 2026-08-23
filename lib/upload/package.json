@@ -24,6 +24,9 @@
     "devDependencies": {
         "zui-dev": "workspace:^0.0.1"
     },
+    "files": [
+        "./src/**/*"
+    ],
     "zui": {
         "type": "component",
         "displayName": "上传文件",

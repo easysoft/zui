@@ -13,6 +13,9 @@
         "@zui/base": "workspace:*",
         "@zui/utilities": "workspace:*"
     },
+    "files": [
+        "./src/**/*"
+    ],
     "zui": {
         "type": "control",
         "displayName": "图标",

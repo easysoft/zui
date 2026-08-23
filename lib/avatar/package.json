@@ -18,6 +18,9 @@
         "./css": "./src/main-css.ts",
         "./react": "./src/main-react.ts"
     },
+    "files": [
+        "./src/**/*"
+    ],
     "zui": {
         "type": "component",
         "displayName": "头像",

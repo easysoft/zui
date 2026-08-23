@@ -19,6 +19,9 @@
         "@zui/checkbox": "workspace:^0.0.1",
         "@zui/utilities": "workspace:*"
     },
+    "files": [
+        "./src/**/*"
+    ],
     "zui": {
         "type": "component",
         "displayName": "输入组",
