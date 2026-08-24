@@ -119,7 +119,7 @@ export class UploadImgs extends Upload<UploadImgsOptions> {
         if (showSize) {
             $fileItem.append(
                 this.fileSize(file.size)
-                    .addClass('file-size label text-white circle darker absolute px-1 hidden')
+                    .addClass('file-size label text-white rounded-full darker absolute px-1 hidden')
                     .removeClass('text-gray')
                     .css({top: 96, left: 4}),
             );

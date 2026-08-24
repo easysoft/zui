@@ -55,7 +55,7 @@ export class Avatar extends Component<AvatarOptions> {
             }
         }
         if (circle) {
-            finalClass.push('circle');
+            finalClass.push('rounded-full');
         } else if (rounded) {
             if (typeof rounded === 'number') {
                 finalStyle.borderRadius = `${rounded}px`;
