@@ -55,7 +55,9 @@ export class Avatar extends Component<AvatarOptions> {
             }
         }
         if (circle) {
-            finalClass.push('rounded-full');
+            // `circle` is deprecated in favour of `rounded-full` (utilities/borders/rounded.css).
+            // Both are emitted until the alias itself is dropped, so consumer CSS still matches.
+            finalClass.push('rounded-full', 'circle');
         } else if (rounded) {
             if (typeof rounded === 'number') {
                 finalStyle.borderRadius = `${rounded}px`;
