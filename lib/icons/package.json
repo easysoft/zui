@@ -14,7 +14,8 @@
         "@zui/utilities": "workspace:*"
     },
     "files": [
-        "./src/**/*"
+        "./src/**/*",
+        "./public/**/*"
     ],
     "zui": {
         "type": "control",
