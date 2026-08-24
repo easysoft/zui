@@ -205,12 +205,12 @@ new Pager('#pagerGoto', {
   <button type="button" class="btn"><i class="icon icon-angle-right"></i></button>
 </div>
 <div class="pager pager-loose gap-x-3">
-  <button type="button" class="btn circle"><i class="icon icon-angle-left"></i></button>
-  <button type="button" class="btn circle">1</button>
-  <button type="button" class="btn circle active primary">2</button>
-  <button type="button" class="btn circle">3</button>
-  <button type="button" class="btn circle">4</button>
-  <button type="button" class="btn circle"><i class="icon icon-angle-right"></i></button>
+  <button type="button" class="btn rounded-full"><i class="icon icon-angle-left"></i></button>
+  <button type="button" class="btn rounded-full">1</button>
+  <button type="button" class="btn rounded-full active primary">2</button>
+  <button type="button" class="btn rounded-full">3</button>
+  <button type="button" class="btn rounded-full">4</button>
+  <button type="button" class="btn rounded-full"><i class="icon icon-angle-right"></i></button>
 </div>
 ```
 

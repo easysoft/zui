@@ -88,7 +88,7 @@ new ProgressBar('#progressBarExample', {percent: 65, height: 20, width: 320});
   </div>
 ```
 ```html:example
-  <div class="progress mb-5 circle">
+  <div class="progress mb-5 rounded-full">
     <div class="progress-bar " style="width: 40%">
     </div>
   </div>

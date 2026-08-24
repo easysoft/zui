@@ -95,7 +95,7 @@
 <div class="alert warning rounded-md">注意！看起来遇到一些问题。</div>
 <div class="alert danger rounded-lg">确实遇到了问题，请立即处理吧。</div>
 <div class="alert light rounded-xl">你可能需要了解一些内容。</div>
-<div class="alert important circle">欢迎使用ZUI3。</div>
+<div class="alert important rounded-full">欢迎使用ZUI3。</div>
 
 ```
 

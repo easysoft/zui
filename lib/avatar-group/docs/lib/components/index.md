@@ -12,12 +12,12 @@
 
 <Example class="flex gap-4 flex-wrap items-end">
   <div class="avatar-group">
-    <div class="avatar circle"><img src="/assets/avatar/avatar.png"></div>
-    <div class="avatar circle"><img src="/assets/avatar/avatar-1.png"></div>
-    <div class="avatar circle"><img src="/assets/avatar/avatar-2.png"></div>
-    <div class="avatar circle"><img src="/assets/avatar/avatar-3.png"></div>
-    <div class="avatar circle"><img src="/assets/avatar/avatar-4.png"></div>
-    <div class="avatar circle gray-200">+10</div>
+    <div class="avatar rounded-full"><img src="/assets/avatar/avatar.png"></div>
+    <div class="avatar rounded-full"><img src="/assets/avatar/avatar-1.png"></div>
+    <div class="avatar rounded-full"><img src="/assets/avatar/avatar-2.png"></div>
+    <div class="avatar rounded-full"><img src="/assets/avatar/avatar-3.png"></div>
+    <div class="avatar rounded-full"><img src="/assets/avatar/avatar-4.png"></div>
+    <div class="avatar rounded-full gray-200">+10</div>
   </div>
 </Example>
 
@@ -25,12 +25,12 @@
 
 ```html
 <div class="avatar-group">
-  <div class="avatar circle"><img src="/assets/avatar/avatar.png"></div>
-  <div class="avatar circle"><img src="/assets/avatar/avatar-1.png"></div>
-  <div class="avatar circle"><img src="/assets/avatar/avatar-2.png"></div>
-  <div class="avatar circle"><img src="/assets/avatar/avatar-3.png"></div>
-  <div class="avatar circle"><img src="/assets/avatar/avatar-4.png"></div>
-  <div class="avatar circle gray-200">+10</div>
+  <div class="avatar rounded-full"><img src="/assets/avatar/avatar.png"></div>
+  <div class="avatar rounded-full"><img src="/assets/avatar/avatar-1.png"></div>
+  <div class="avatar rounded-full"><img src="/assets/avatar/avatar-2.png"></div>
+  <div class="avatar rounded-full"><img src="/assets/avatar/avatar-3.png"></div>
+  <div class="avatar rounded-full"><img src="/assets/avatar/avatar-4.png"></div>
+  <div class="avatar rounded-full gray-200">+10</div>
 </div>
 ```
 
@@ -47,29 +47,29 @@
 
 <Example class="flex gap-4 flex-wrap items-end">
   <div class="avatar-group size-xs">
-    <div class="avatar size-xs circle"><img src="/assets/avatar/avatar-1.png"></div>
-    <div class="avatar size-xs circle"><img src="/assets/avatar/avatar-2.png"></div>
-    <div class="avatar size-xs circle"><img src="/assets/avatar/avatar-3.png"></div>
+    <div class="avatar size-xs rounded-full"><img src="/assets/avatar/avatar-1.png"></div>
+    <div class="avatar size-xs rounded-full"><img src="/assets/avatar/avatar-2.png"></div>
+    <div class="avatar size-xs rounded-full"><img src="/assets/avatar/avatar-3.png"></div>
   </div>
   <div class="avatar-group size-sm">
-    <div class="avatar size-sm circle"><img src="/assets/avatar/avatar-4.png"></div>
-    <div class="avatar size-sm circle"><img src="/assets/avatar/avatar-5.png"></div>
-    <div class="avatar size-sm circle"><img src="/assets/avatar/avatar-6.png"></div>
+    <div class="avatar size-sm rounded-full"><img src="/assets/avatar/avatar-4.png"></div>
+    <div class="avatar size-sm rounded-full"><img src="/assets/avatar/avatar-5.png"></div>
+    <div class="avatar size-sm rounded-full"><img src="/assets/avatar/avatar-6.png"></div>
   </div>
   <div class="avatar-group">
-    <div class="avatar circle"><img src="/assets/avatar/avatar-7.png"></div>
-    <div class="avatar circle"><img src="/assets/avatar/avatar-8.png"></div>
-    <div class="avatar circle"><img src="/assets/avatar/avatar-9.png"></div>
+    <div class="avatar rounded-full"><img src="/assets/avatar/avatar-7.png"></div>
+    <div class="avatar rounded-full"><img src="/assets/avatar/avatar-8.png"></div>
+    <div class="avatar rounded-full"><img src="/assets/avatar/avatar-9.png"></div>
   </div>
   <div class="avatar-group size-lg">
-    <div class="avatar size-lg circle"><img src="/assets/avatar/avatar-10.png"></div>
-    <div class="avatar size-lg circle"><img src="/assets/avatar/avatar-1.png"></div>
-    <div class="avatar size-lg circle"><img src="/assets/avatar/avatar-2.png"></div>
+    <div class="avatar size-lg rounded-full"><img src="/assets/avatar/avatar-10.png"></div>
+    <div class="avatar size-lg rounded-full"><img src="/assets/avatar/avatar-1.png"></div>
+    <div class="avatar size-lg rounded-full"><img src="/assets/avatar/avatar-2.png"></div>
   </div>
   <div class="avatar-group size-xl">
-    <div class="avatar size-xl circle"><img src="/assets/avatar/avatar-3.png"></div>
-    <div class="avatar size-xl circle"><img src="/assets/avatar/avatar-4.png"></div>
-    <div class="avatar size-xl circle"><img src="/assets/avatar/avatar-5.png"></div>
+    <div class="avatar size-xl rounded-full"><img src="/assets/avatar/avatar-3.png"></div>
+    <div class="avatar size-xl rounded-full"><img src="/assets/avatar/avatar-4.png"></div>
+    <div class="avatar size-xl rounded-full"><img src="/assets/avatar/avatar-5.png"></div>
   </div>
 </Example>
 
@@ -77,29 +77,29 @@
 
 ```html
 <div class="avatar-group size-xs">
-  <div class="avatar size-xs circle"><img src="/assets/avatar/avatar-1.png"></div>
-  <div class="avatar size-xs circle"><img src="/assets/avatar/avatar-2.png"></div>
-  <div class="avatar size-xs circle"><img src="/assets/avatar/avatar-3.png"></div>
+  <div class="avatar size-xs rounded-full"><img src="/assets/avatar/avatar-1.png"></div>
+  <div class="avatar size-xs rounded-full"><img src="/assets/avatar/avatar-2.png"></div>
+  <div class="avatar size-xs rounded-full"><img src="/assets/avatar/avatar-3.png"></div>
 </div>
 <div class="avatar-group size-sm">
-  <div class="avatar size-sm circle"><img src="/assets/avatar/avatar-4.png"></div>
-  <div class="avatar size-sm circle"><img src="/assets/avatar/avatar-5.png"></div>
-  <div class="avatar size-sm circle"><img src="/assets/avatar/avatar-6.png"></div>
+  <div class="avatar size-sm rounded-full"><img src="/assets/avatar/avatar-4.png"></div>
+  <div class="avatar size-sm rounded-full"><img src="/assets/avatar/avatar-5.png"></div>
+  <div class="avatar size-sm rounded-full"><img src="/assets/avatar/avatar-6.png"></div>
 </div>
 <div class="avatar-group">
-  <div class="avatar circle"><img src="/assets/avatar/avatar-7.png"></div>
-  <div class="avatar circle"><img src="/assets/avatar/avatar-8.png"></div>
-  <div class="avatar circle"><img src="/assets/avatar/avatar-9.png"></div>
+  <div class="avatar rounded-full"><img src="/assets/avatar/avatar-7.png"></div>
+  <div class="avatar rounded-full"><img src="/assets/avatar/avatar-8.png"></div>
+  <div class="avatar rounded-full"><img src="/assets/avatar/avatar-9.png"></div>
 </div>
 <div class="avatar-group size-lg">
-  <div class="avatar size-lg circle"><img src="/assets/avatar/avatar-10.png"></div>
-  <div class="avatar size-lg circle"><img src="/assets/avatar/avatar-1.png"></div>
-  <div class="avatar size-lg circle"><img src="/assets/avatar/avatar-2.png"></div>
+  <div class="avatar size-lg rounded-full"><img src="/assets/avatar/avatar-10.png"></div>
+  <div class="avatar size-lg rounded-full"><img src="/assets/avatar/avatar-1.png"></div>
+  <div class="avatar size-lg rounded-full"><img src="/assets/avatar/avatar-2.png"></div>
 </div>
 <div class="avatar-group size-xl">
-  <div class="avatar size-xl circle"><img src="/assets/avatar/avatar-3.png"></div>
-  <div class="avatar size-xl circle"><img src="/assets/avatar/avatar-4.png"></div>
-  <div class="avatar size-xl circle"><img src="/assets/avatar/avatar-5.png"></div>
+  <div class="avatar size-xl rounded-full"><img src="/assets/avatar/avatar-3.png"></div>
+  <div class="avatar size-xl rounded-full"><img src="/assets/avatar/avatar-4.png"></div>
+  <div class="avatar size-xl rounded-full"><img src="/assets/avatar/avatar-5.png"></div>
 </div>
 ```
 
@@ -116,34 +116,34 @@
 
 <Example class="flex gap-4 flex-wrap items-end">
   <div class="avatar-group gap-0">
-    <div class="avatar circle"><img src="/assets/avatar/avatar-1.png"></div>
-    <div class="avatar circle"><img src="/assets/avatar/avatar-2.png"></div>
-    <div class="avatar circle gray-200">0</div>
+    <div class="avatar rounded-full"><img src="/assets/avatar/avatar-1.png"></div>
+    <div class="avatar rounded-full"><img src="/assets/avatar/avatar-2.png"></div>
+    <div class="avatar rounded-full gray-200">0</div>
   </div>
   <div class="avatar-group gap-1">
-    <div class="avatar circle"><img src="/assets/avatar/avatar-4.png"></div>
-    <div class="avatar circle"><img src="/assets/avatar/avatar-5.png"></div>
-    <div class="avatar circle gray-200">1</div>
+    <div class="avatar rounded-full"><img src="/assets/avatar/avatar-4.png"></div>
+    <div class="avatar rounded-full"><img src="/assets/avatar/avatar-5.png"></div>
+    <div class="avatar rounded-full gray-200">1</div>
   </div>
   <div class="avatar-group gap-2">
-    <div class="avatar circle"><img src="/assets/avatar/avatar-7.png"></div>
-    <div class="avatar circle"><img src="/assets/avatar/avatar-8.png"></div>
-    <div class="avatar circle gray-200">2</div>
+    <div class="avatar rounded-full"><img src="/assets/avatar/avatar-7.png"></div>
+    <div class="avatar rounded-full"><img src="/assets/avatar/avatar-8.png"></div>
+    <div class="avatar rounded-full gray-200">2</div>
   </div>
   <div class="avatar-group">
-    <div class="avatar circle"><img src="/assets/avatar/avatar-10.png"></div>
-    <div class="avatar circle"><img src="/assets/avatar/avatar-1.png"></div>
-    <div class="avatar circle gray-200">2.5</div>
+    <div class="avatar rounded-full"><img src="/assets/avatar/avatar-10.png"></div>
+    <div class="avatar rounded-full"><img src="/assets/avatar/avatar-1.png"></div>
+    <div class="avatar rounded-full gray-200">2.5</div>
   </div>
   <div class="avatar-group gap-3">
-    <div class="avatar circle"><img src="/assets/avatar/avatar-3.png"></div>
-    <div class="avatar circle"><img src="/assets/avatar/avatar-4.png"></div>
-    <div class="avatar circle gray-200">3</div>
+    <div class="avatar rounded-full"><img src="/assets/avatar/avatar-3.png"></div>
+    <div class="avatar rounded-full"><img src="/assets/avatar/avatar-4.png"></div>
+    <div class="avatar rounded-full gray-200">3</div>
   </div>
   <div class="avatar-group gap-3.5">
-    <div class="avatar circle"><img src="/assets/avatar/avatar-6.png"></div>
-    <div class="avatar circle"><img src="/assets/avatar/avatar-7.png"></div>
-    <div class="avatar circle gray-200">3.5</div>
+    <div class="avatar rounded-full"><img src="/assets/avatar/avatar-6.png"></div>
+    <div class="avatar rounded-full"><img src="/assets/avatar/avatar-7.png"></div>
+    <div class="avatar rounded-full gray-200">3.5</div>
   </div>
 </Example>
 
@@ -151,34 +151,34 @@
 
 ```html
 <div class="avatar-group gap-0">
-  <div class="avatar circle"><img src="/assets/avatar/avatar-1.png"></div>
-  <div class="avatar circle"><img src="/assets/avatar/avatar-2.png"></div>
-  <div class="avatar circle gray-200">0</div>
+  <div class="avatar rounded-full"><img src="/assets/avatar/avatar-1.png"></div>
+  <div class="avatar rounded-full"><img src="/assets/avatar/avatar-2.png"></div>
+  <div class="avatar rounded-full gray-200">0</div>
 </div>
 <div class="avatar-group gap-1">
-  <div class="avatar circle"><img src="/assets/avatar/avatar-4.png"></div>
-  <div class="avatar circle"><img src="/assets/avatar/avatar-5.png"></div>
-  <div class="avatar circle gray-200">1</div>
+  <div class="avatar rounded-full"><img src="/assets/avatar/avatar-4.png"></div>
+  <div class="avatar rounded-full"><img src="/assets/avatar/avatar-5.png"></div>
+  <div class="avatar rounded-full gray-200">1</div>
 </div>
 <div class="avatar-group gap-2">
-  <div class="avatar circle"><img src="/assets/avatar/avatar-7.png"></div>
-  <div class="avatar circle"><img src="/assets/avatar/avatar-8.png"></div>
-  <div class="avatar circle gray-200">2</div>
+  <div class="avatar rounded-full"><img src="/assets/avatar/avatar-7.png"></div>
+  <div class="avatar rounded-full"><img src="/assets/avatar/avatar-8.png"></div>
+  <div class="avatar rounded-full gray-200">2</div>
 </div>
 <div class="avatar-group">
-  <div class="avatar circle"><img src="/assets/avatar/avatar-10.png"></div>
-  <div class="avatar circle"><img src="/assets/avatar/avatar-1.png"></div>
-  <div class="avatar circle gray-200">2.5</div>
+  <div class="avatar rounded-full"><img src="/assets/avatar/avatar-10.png"></div>
+  <div class="avatar rounded-full"><img src="/assets/avatar/avatar-1.png"></div>
+  <div class="avatar rounded-full gray-200">2.5</div>
 </div>
 <div class="avatar-group gap-3">
-  <div class="avatar circle"><img src="/assets/avatar/avatar-3.png"></div>
-  <div class="avatar circle"><img src="/assets/avatar/avatar-4.png"></div>
-  <div class="avatar circle gray-200">3</div>
+  <div class="avatar rounded-full"><img src="/assets/avatar/avatar-3.png"></div>
+  <div class="avatar rounded-full"><img src="/assets/avatar/avatar-4.png"></div>
+  <div class="avatar rounded-full gray-200">3</div>
 </div>
 <div class="avatar-group gap-3.5">
-  <div class="avatar circle"><img src="/assets/avatar/avatar-6.png"></div>
-  <div class="avatar circle"><img src="/assets/avatar/avatar-7.png"></div>
-  <div class="avatar circle gray-200">3.5</div>
+  <div class="avatar rounded-full"><img src="/assets/avatar/avatar-6.png"></div>
+  <div class="avatar rounded-full"><img src="/assets/avatar/avatar-7.png"></div>
+  <div class="avatar rounded-full gray-200">3.5</div>
 </div>
 ```
 
@@ -213,14 +213,14 @@
 
 <Example class="flex gap-4 flex-wrap items-end bg-primary-500 p-3">
   <div class="avatar-group">
-    <div class="avatar circle"><img src="/assets/avatar/avatar-1.png"></div>
-    <div class="avatar circle"><img src="/assets/avatar/avatar-2.png"></div>
-    <div class="avatar circle gray-200">+10</div>
+    <div class="avatar rounded-full"><img src="/assets/avatar/avatar-1.png"></div>
+    <div class="avatar rounded-full"><img src="/assets/avatar/avatar-2.png"></div>
+    <div class="avatar rounded-full gray-200">+10</div>
   </div>
   <div class="avatar-group" style="--avatar-group-ring-color: var(--color-primary-500);">
-    <div class="avatar circle"><img src="/assets/avatar/avatar-3.png"></div>
-    <div class="avatar circle"><img src="/assets/avatar/avatar-4.png"></div>
-    <div class="avatar circle gray-200">+10</div>
+    <div class="avatar rounded-full"><img src="/assets/avatar/avatar-3.png"></div>
+    <div class="avatar rounded-full"><img src="/assets/avatar/avatar-4.png"></div>
+    <div class="avatar rounded-full gray-200">+10</div>
   </div>
 </Example>
 
@@ -228,9 +228,9 @@
 
 ```html
 <div class="avatar-group" style="--avatar-group-ring-color: var(--color-primary-500);">
-  <div class="avatar circle"><img src="/assets/avatar/avatar-3.png"></div>
-  <div class="avatar circle"><img src="/assets/avatar/avatar-4.png"></div>
-  <div class="avatar circle gray-200">+10</div>
+  <div class="avatar rounded-full"><img src="/assets/avatar/avatar-3.png"></div>
+  <div class="avatar rounded-full"><img src="/assets/avatar/avatar-4.png"></div>
+  <div class="avatar rounded-full gray-200">+10</div>
 </div>
 ```
 

@@ -270,7 +270,7 @@
 
 <Example class="flex gap-4 flex-wrap items-end">
   <div class="input-control">
-    <input type="text" class="form-control circle" placeholder="请填写" />
+    <input type="text" class="form-control rounded-full" placeholder="请填写" />
   </div>
   <div class="input-control">
     <input type="text" class="form-control shadow" placeholder="请填写" />
@@ -279,7 +279,7 @@
 
 ```html
 <div class="input-control">
-  <input type="text" class="form-control circle" placeholder="请填写" />
+  <input type="text" class="form-control rounded-full" placeholder="请填写" />
 </div>
 <div class="input-control">
   <input type="text" class="form-control shadow" placeholder="请填写" />

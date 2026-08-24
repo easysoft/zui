@@ -154,7 +154,7 @@ console.log('> menu', menu);
 ```html:example
 <menu class="menu -w-36">
   <li class="row items-center gap-2 py-1 px-2">
-    <div class="avatar circle flex-none"><img src="/lib/avatar/assets/avatar.png"></div>
+    <div class="avatar rounded-full flex-none"><img src="/lib/avatar/assets/avatar.png"></div>
     <div class="flex-auto">
       <div>张三</div>
       <div class="text-gray text-sm">zhangsan</div>

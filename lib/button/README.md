@@ -141,7 +141,7 @@
 <button type="button" class="rounded-md btn primary">Button</button>
 <button type="button" class="rounded-lg btn primary">Button</button>
 <button type="button" class="btn primary rounded-xl">Button</button>
-<button type="button" class="btn primary circle">Button</button>
+<button type="button" class="btn primary rounded-full">Button</button>
 ```
 
 ## Shadow

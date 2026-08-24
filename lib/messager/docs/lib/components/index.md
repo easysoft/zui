@@ -74,9 +74,9 @@ Messager.show({
   <button type="button" class="btn important" data-on="click" data-do="zui.Messager.show({content: '嘿！这是一条消息。', type: 'important'});">important</button>
   <button type="button" class="btn gray" data-on="click" data-do="zui.Messager.show({content: '嘿！这是一条消息。', type: 'gray'});">gray</button>
   <button type="button" class="btn black" data-on="click" data-do="zui.Messager.show({content: '嘿！这是一条消息。', type: 'black'});">black</button>
-  <button type="button" class="btn primary circle" data-on="click" data-do="zui.Messager.show({content: '嘿！这是一条消息。', type: 'primary circle'});">primary circle</button>
-  <button type="button" class="btn success-pale circle" data-on="click" data-do="zui.Messager.show({content: '嘿！这是一条消息。', type: 'success-pale circle'});">success-pale circle</button>
-  <button type="button" class="btn danger-outline circle" data-on="click" data-do="zui.Messager.show({content: '嘿！这是一条消息。', type: 'danger-outline circle'});">danger-outline circle</button>
+  <button type="button" class="btn primary rounded-full" data-on="click" data-do="zui.Messager.show({content: '嘿！这是一条消息。', type: 'primary rounded-full'});">primary rounded-full</button>
+  <button type="button" class="btn success-pale rounded-full" data-on="click" data-do="zui.Messager.show({content: '嘿！这是一条消息。', type: 'success-pale rounded-full'});">success-pale rounded-full</button>
+  <button type="button" class="btn danger-outline rounded-full" data-on="click" data-do="zui.Messager.show({content: '嘿！这是一条消息。', type: 'danger-outline rounded-full'});">danger-outline rounded-full</button>
 </example>
 
 == JS

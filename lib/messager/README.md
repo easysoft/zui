@@ -106,21 +106,21 @@ document.querySelector('.messager-toggle').addEventListener('click', (event) => 
 <button type="button" class="btn messager-toggle danger" data-type="danger">danger</button>
 <button type="button" class="btn messager-toggle special" data-type="special">special</button>
 <button type="button" class="btn messager-toggle important" data-type="important">important</button>
-<button type="button" class="btn messager-toggle primary circle" data-type="primary circle">primary circle</button>
+<button type="button" class="btn messager-toggle primary rounded-full" data-type="primary rounded-full">primary rounded-full</button>
 <button type="button" class="btn messager-toggle primary-pale" data-type="primary-pale">primary-pale</button>
 <button type="button" class="btn messager-toggle secondary-pale" data-type="secondary-pale">secondary-pale</button>
 <button type="button" class="btn messager-toggle success-pale" data-type="success-pale">success-pale</button>
 <button type="button" class="btn messager-toggle danger-pale" data-type="danger-pale">danger-pale</button>
 <button type="button" class="btn messager-toggle special-pale" data-type="special-pale">special-pale</button>
 <button type="button" class="btn messager-toggle important-pale" data-type="important-pale">important-pale</button>
-<button type="button" class="btn messager-toggle primary-pale circle" data-type="primary-pale circle">primary-pale circle</button>
+<button type="button" class="btn messager-toggle primary-pale rounded-full" data-type="primary-pale rounded-full">primary-pale rounded-full</button>
 <button type="button" class="btn messager-toggle primary-outline" data-type="primary-outline">primary-outline</button>
 <button type="button" class="btn messager-toggle secondary-outline" data-type="secondary-outline">secondary-outline</button>
 <button type="button" class="btn messager-toggle success-outline" data-type="success-outline">success-outline</button>
 <button type="button" class="btn messager-toggle danger-outline" data-type="danger-outline">danger-outline</button>
 <button type="button" class="btn messager-toggle special-outline" data-type="special-outline">special-outline</button>
 <button type="button" class="btn messager-toggle important-outline" data-type="important-outline">important-outline</button>
-<button type="button" class="btn messager-toggle primary-outline circle" data-type="primary-outline circle">primary-outline circle</button>
+<button type="button" class="btn messager-toggle primary-outline rounded-full" data-type="primary-outline rounded-full">primary-outline rounded-full</button>
 ```
 
 ```js
