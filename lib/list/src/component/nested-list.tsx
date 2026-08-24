@@ -643,7 +643,13 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
         if (info) {
             const {renderedItem: item, keyPath, target} = info as MouseEventInfo;
             const {nestedToggle} = this.props;
-            if (!item.items || event.defaultPrevented || target.closest('.not-nested-toggle') || (nestedToggle && !item.disabled && !target.closest(nestedToggle)) || (!nestedToggle && !item.disabled && target.closest('a,.btn,.item-checkbox,.open-url,input,select,textarea') && !target.closest('.nested-toggle-icon,.item-icon'))) {
+            if (!item.items
+                || event.defaultPrevented
+                || target.closest('.not-nested-toggle')
+                || target.closest(`[z-list="${keyPath}"]`)
+                || (nestedToggle && !item.disabled && !target.closest(nestedToggle))
+                || (!nestedToggle && !item.disabled && target.closest('a,.btn,.item-checkbox,.open-url,input,select,textarea') && !target.closest('.nested-toggle-icon,.item-icon'))
+            ) {
                 return info;
             }
             this.toggle(keyPath);
