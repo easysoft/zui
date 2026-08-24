@@ -1,6 +1,7 @@
 {
     "name": "@zui/form-helper",
     "version": "0.0.1",
+    "keywords": ["zui:js-helpers"],
     "main": "src/main.ts",
     "exports": {
         ".": "./src/main.ts"

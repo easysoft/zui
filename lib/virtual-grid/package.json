@@ -1,6 +1,7 @@
 {
     "name": "@zui/virtual-grid",
     "version": "0.0.1",
+    "keywords": ["zui:component"],
     "main": "src/main.ts",
     "exports": {
         ".": "./src/main.ts",

@@ -4,6 +4,7 @@
     "version": "0.0.1",
     "main": "src/main.ts",
     "browserslist": "",
+    "keywords": ["zui:component"],
     "dependencies": {
         "@zui/core": "workspace:*",
         "@zui/helpers": "workspace:*"

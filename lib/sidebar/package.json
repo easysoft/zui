@@ -8,6 +8,7 @@
         "./react": "./src/main-react.ts"
     },
     "browserslist": "",
+    "keywords": ["zui:component"],
     "files": [
         "./src/**/*"
     ],

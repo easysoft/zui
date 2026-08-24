@@ -2,7 +2,7 @@
     "name": "@zui/pager",
     "description": "ZUI pager",
     "version": "0.0.1",
-    "keywords": ["css", "components"],
+    "keywords": ["css", "components", "zui:component"],
     "main": "src/main.ts",
     "dependencies": {
       "@zui/button": "workspace:^0.0.1",

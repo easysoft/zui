@@ -2,7 +2,7 @@
     "name": "@zui/popover",
     "description": "ZUI Toolbar",
     "version": "0.0.1",
-    "keywords": ["css", "components"],
+    "keywords": ["css", "components", "zui:component"],
     "main": "src/main.ts",
     "devDependencies": {
         "zui-dev": "workspace:^0.0.1"

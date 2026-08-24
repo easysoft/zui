@@ -4,7 +4,7 @@
     "main": "src/main.ts",
     "browser": "src/main.ts",
     "browserslist": "",
-    "keywords": ["css", "zui:control"],
+    "keywords": ["css", "zui:component"],
     "dependencies": {
         "@zui/avatar": "workspace:0.0.1"
     },

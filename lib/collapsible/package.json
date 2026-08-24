@@ -2,7 +2,7 @@
     "name": "@zui/collapsible",
     "description": "ZUI Collapsible",
     "version": "0.0.1",
-    "keywords": ["css", "components"],
+    "keywords": ["css", "components", "zui:control"],
     "main": "src/main.ts",
     "devDependencies": {
         "@zui/base": "workspace:*",
