@@ -596,6 +596,8 @@
 | `bordered`      | 工具类 | 为表格添加完整边框       |
 | `condensed`     | 工具类 | 为表格启用紧凑布局       |
 
+`borderless`、`bordered`、`condensed` 需与 `table` 组合使用（如 `<table class="table condensed">`），单独使用不会生效；`table-striped`、`table-hover`、`table-fixed` 可直接使用。
+
 ## CSS 变量
 
 表格提供了如下 CSS 变量：

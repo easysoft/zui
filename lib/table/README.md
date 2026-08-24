@@ -4,6 +4,8 @@
 
 使用组件类`.table`来获得外观 通常搭配`<table>`元素使用.
 
+下面的修饰类（`.bordered`、`.borderless`、`.condensed`）需与 `.table` 组合使用，单独使用不会生效。`.table-striped`、`.table-hover`、`.table-fixed` 自带 `table-` 前缀，可直接使用。
+
 ```html:example:
 <table class="table">
     <thead>
@@ -184,7 +186,7 @@
  ```
   ## condensed
 
- 使用组件类`.condensed`更为紧凑的表格外观
+ 使用组件类`.condensed`获得更为紧凑的表格外观
 
  ```html:example:
  <table class="table condensed">
