@@ -46,6 +46,7 @@
     "docs:serve": "cd docs && pnpm serve",
     "docs:prepare": "tsx ./scripts/docs/prepare.ts",
     "extend-lib": "tsx ./scripts/libs/extend-lib.ts",
+    "lib:keywords": "tsx ./scripts/libs/check-keywords.ts",
     "publish:npm": "pnpm build -- --ignoreNotReady && tsx ./scripts/build/publish.ts && cd ./publish && npm publish"
   },
   "dependencies": {
