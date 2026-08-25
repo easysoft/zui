@@ -29,6 +29,14 @@ pnpm extend-lib <path>     # 通过软链将外部目录加入 exts/ 并写入 e
 pnpm publish:npm           # 构建并发布到 npm
 ```
 
+### 开发服务管理
+
+需要使用开发服务（包括 `pnpm dev`、`pnpm dev:exts` 和文档服务等）时：
+
+- 启动前先检查目标端口、相关进程和页面响应，确认是否已有可复用的服务。
+- 若已有服务，直接复用，不要重复启动；如需重启，说明原因并要求用户自行操作，不要代用户停止或重启。
+- 若没有服务，由 Codex 启动；之后如需重启该服务，也由 Codex 操作。每次启动或重启后都必须告知用户服务地址、端口和运行状态。
+
 `pnpm build` 支持的关键参数（透传给 `scripts/build/index.ts`）：
 
 - `--lib=zui`、`--name=mybuild`、`--version=1.0.0`：定制构建名/版本；`--lib` 支持 `button dropdown +clipboard !icons` 这样的库组合 DSL（见 `scripts/build/config.ts` 注释）。
