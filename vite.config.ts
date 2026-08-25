@@ -1,6 +1,7 @@
 import Path, {dirname} from 'path';
 import fs from 'fs-extra';
 import {execSync} from 'child_process';
+import glob from 'fast-glob';
 import {defineConfig, mergeConfig, type UserConfig, type LibraryOptions} from 'vite';
 import {blue} from 'colorette';
 import eslint from 'vite-plugin-eslint';
@@ -10,6 +11,17 @@ import configDevServer from './scripts/dev/config-server';
 import type {LibInfo} from './scripts/libs/lib-info';
 import {getLibs} from './scripts/libs/query';
 import {createSharedViteConfig} from './vite.shared';
+
+async function getLatestModifiedTime(files: string[]) {
+    const times = await Promise.all(files.map(async (file) => {
+        try {
+            return (await fs.stat(file)).mtimeMs;
+        } catch {
+            return 0;
+        }
+    }));
+    return Math.max(0, ...times);
+}
 
 /**
  * Extension collections are symlinked as `exts/<group>/<lib>/`. Their
@@ -45,8 +57,15 @@ export default defineConfig(async ({mode}) => {
         console.log(blue('merged extra vite config file:'), '\n', Path.relative(__dirname, configFromFile) + '\n');
     }
 
-    const buildHash = execSync('git rev-parse HEAD').toString().trim();
-    const buildTime = Number(execSync('git log -1 --format=%ct').toString().trim()) * 1000;
+    const buildHash = execSync('git rev-parse HEAD', {cwd: __dirname}).toString().trim();
+    const repositoryFiles = execSync('git ls-files --cached --others --exclude-standard -z', {cwd: __dirname}).toString().split('\0').filter(Boolean).map(file => Path.resolve(__dirname, file));
+    const extensionPatterns = [...new Set(Object.values(libsCache)
+        .filter(lib => lib.zui.sourceType === 'exts')
+        .map(lib => `${glob.convertPathToPattern(lib.zui.path)}/**/*`))];
+    const extensionFiles = extensionPatterns.length ? await glob(extensionPatterns, {dot: true, ignore: ['**/node_modules/**'], onlyFiles: true}) : [];
+    const filesModifiedTime = await getLatestModifiedTime([...repositoryFiles, ...extensionFiles]);
+    const lastCommitTime = Number(execSync('git log -1 --format=%ct', {cwd: __dirname}).toString().trim()) * 1000;
+    const buildTime = Math.floor(Math.max(filesModifiedTime, lastCommitTime));
     let viteConfig: UserConfig = mergeConfig(createSharedViteConfig({
         mode,
         rootPath: __dirname,
