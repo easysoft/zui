@@ -18,7 +18,8 @@ export class ColorPicker extends Pick<PickState, ColorPickerOptions> {
 
     getDefaultState(props?: RenderableProps<ColorPickerOptions> | undefined): PickState {
         const state = super.getDefaultState(props);
-        if (!state.value && (props || this.props).required) {
+        // 即便是 required，默认值也是空字符串，所以只考虑 state.value === undefined 的情况
+        if (state.value === undefined && (props || this.props).required) {
             state.value = this.getColors()[0];
         }
         return state;
