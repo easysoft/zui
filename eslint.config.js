@@ -1,13 +1,28 @@
 import stylistic from '@stylistic/eslint-plugin';
-import typescriptParser from '@typescript-eslint/parser';
 import eslint from '@eslint/js';
 import tseslint from 'typescript-eslint';
 import {globalIgnores} from 'eslint/config';
 
+const jsFiles = ['**/*.{js,cjs,mjs}'];
+const tsFiles = ['**/*.{ts,tsx}'];
+const sourceFiles = [...jsFiles, ...tsFiles];
+const unusedVarsOptions = {
+    args: 'all',
+    argsIgnorePattern: '^_',
+    caughtErrors: 'all',
+    caughtErrorsIgnorePattern: '^_',
+    destructuredArrayIgnorePattern: '^_',
+    varsIgnorePattern: '^_',
+    ignoreRestSiblings: true,
+};
+const typescriptConfigs = [
+    ...tseslint.configs.strict,
+    ...tseslint.configs.stylistic,
+].map(config => ({...config, files: tsFiles}));
+
 export default tseslint.config(
     eslint.configs.recommended,
-    tseslint.configs.strict,
-    tseslint.configs.stylistic,
+    ...typescriptConfigs,
     stylistic.configs.customize({
         semi: true,
         indent: 4,
@@ -16,21 +31,10 @@ export default tseslint.config(
         quoteProps: 'as-needed',
     }),
     {
-        files: ['**/*.{js,cjs,mjs,ts,tsx}'],
+        files: sourceFiles,
         languageOptions: {
             ecmaVersion: 13,
             sourceType: 'module',
-            parser: typescriptParser,
-            parserOptions: {
-                tsconfigRootDir: import.meta.dirname,
-                project: [
-                    './tsconfig.root.json',
-                    './lib/*/tsconfig.json',
-                    './docs/tsconfig.json',
-                    './exts/*/*/tsconfig.json',
-                    './exts/*/tsconfig.json',
-                ],
-            },
             globals: {
                 console: 'readonly',
                 Buffer: 'readonly',
@@ -45,6 +49,8 @@ export default tseslint.config(
             },
         },
         rules: {
+            'no-useless-assignment': 'off',
+            'preserve-caught-error': 'off',
             '@stylistic/object-curly-spacing': ['error', 'never'],
             '@stylistic/no-multi-spaces': ['error', {ignoreEOLComments: true}],
             '@stylistic/multiline-ternary': 'off',
@@ -53,26 +59,35 @@ export default tseslint.config(
             '@typescript-eslint/no-dynamic-delete': 'off',
             '@typescript-eslint/no-non-null-assertion': 'off',
             '@typescript-eslint/no-require-imports': 'off',
+        },
+    },
+    {
+        files: jsFiles,
+        rules: {
+            'no-unused-vars': ['warn', unusedVarsOptions],
+        },
+    },
+    {
+        files: tsFiles,
+        rules: {
             '@typescript-eslint/no-unused-vars': [
                 'warn',
-                {
-                    args: 'all',
-                    argsIgnorePattern: '^_',
-                    caughtErrors: 'all',
-                    caughtErrorsIgnorePattern: '^_',
-                    destructuredArrayIgnorePattern: '^_',
-                    varsIgnorePattern: '^_',
-                    ignoreRestSiblings: true,
-                },
+                unusedVarsOptions,
             ],
         },
     },
     globalIgnores([
         './build/**/*',
+        './coverage/**/*',
         './dist/**/*',
         './docs/_/**/*',
+        './exts/**/*',
         './lib/*/public/**/*',
         './lib/*/dev/**/*',
-        './exts/*/*/public/**/*',
+        './playwright-report/**/*',
+        './publish/**/*',
+        './skills-exts/**/*',
+        './skills/*/assets/vendor/**/*',
+        './test-results/**/*',
     ]),
 );

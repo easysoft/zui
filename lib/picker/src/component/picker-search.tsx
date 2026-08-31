@@ -1,7 +1,7 @@
 import {Component, ComponentChild, RenderableProps, createRef} from 'preact';
 import {$, getHotkeysMap, nextGid} from '@zui/core';
 import {PickerSearchProps} from '../types';
-import '@zui/css-icons/src/icons/magnifier.css';
+import '@zui/css-icons';
 
 export type PickerSearchState = {
     search: string;
@@ -70,8 +70,13 @@ export class PickerSearch extends Component<PickerSearchProps, PickerSearchState
                     keys: 'Enter',
                     handler: (event) => {
                         event.preventDefault();
-                        this.$pop.trigger('selectActive');
-                        this.clear();
+                        const $createOption = this.$pop.find('.no-match-child .picker-create-option');
+                        if ($createOption.length) {
+                            $createOption.trigger('click');
+                        } else {
+                            this.$pop.trigger('selectActive');
+                            this.clear();
+                        }
                     },
                 },
                 activeNext: {

@@ -1,8 +1,12 @@
 import type {CustomContentType, HElementProps} from '@zui/core';
 import type {Item, ItemType} from './item';
 
+type BivariantCallback<Args extends unknown[], Result> = {
+    bivarianceHack(...args: Args): Result;
+}['bivarianceHack'];
+
 /** Item render function. */
-export type ItemRender<T extends Item = Item> = (item: T, index: number) => CustomContentType;
+export type ItemRender<T extends Item = Item> = BivariantCallback<[item: T, index: number], CustomContentType>;
 
 /** List items setting. */
 export type ItemsSetting<T extends Item = Item> = T[] | (() => T[]);
@@ -48,7 +52,7 @@ export interface CommonListProps<T extends Item = Item> extends HElementProps {
      * @param index - The list item index.
      * @returns The list item definition or false to skip this item.
      */
-    getItem?: (item: T, index: number) => T | false | undefined;
+    getItem?: BivariantCallback<[item: T, index: number], T | false | undefined>;
 
     /**
      * Get items, can convert original items.
@@ -56,7 +60,7 @@ export interface CommonListProps<T extends Item = Item> extends HElementProps {
      * @param items - The list items.
      * @returns The modified list items.
      */
-    getItems?: (items: T[]) => T[] | undefined;
+    getItems?: BivariantCallback<[items: T[]], T[] | undefined>;
 
     /**
      * Item render functions.
@@ -70,14 +74,14 @@ export interface CommonListProps<T extends Item = Item> extends HElementProps {
      * @param index - The list item index.
      * @returns The modified list item definition.
      */
-    beforeRenderItem?: (item: T, index: number) => T | void;
+    beforeRenderItem?: BivariantCallback<[item: T, index: number], T | void>;
 
     /**
      * Handles the click event on an item.
      *
      * @param info - The information about the clicked item.
      */
-    onClickItem?: (info: {item: T; index: number; event: MouseEvent; renderedItem: T; relativeTarget?: unknown}) => void;
+    onClickItem?: BivariantCallback<[info: {item: T; index: number; event: MouseEvent; renderedItem: T; relativeTarget?: unknown}], void>;
 
     /**
      * The relative target for the list.

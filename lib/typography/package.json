@@ -4,6 +4,7 @@
     "main": "src/main.ts",
     "browser": "src/main.ts",
     "browserslist": "",
+    "keywords": ["zui:css-base"],
     "files": [
         "./src/**/*"
     ],

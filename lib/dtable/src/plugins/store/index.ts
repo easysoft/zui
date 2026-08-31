@@ -1,4 +1,4 @@
-import {Store} from '@zui/store/src/store';
+import {Store} from '@zui/store';
 import {definePlugin} from '../../helpers/shared-plugins';
 import type {DTableWithPlugin, DTablePlugin} from '../../types/plugin';
 

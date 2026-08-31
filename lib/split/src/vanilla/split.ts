@@ -6,14 +6,15 @@ import type {SplitOptions} from '../types';
 
 function mapSizes(sizes: (SizeSetting | null | undefined)[], totalSize: number, colsCount: number, gutterSize: number): number[] {
     totalSize = totalSize - (colsCount - 1) * gutterSize;
-    while (sizes.length < colsCount) {
-        sizes.push(undefined);
+    // Copy the input so the caller's array (e.g. options.sizes) is never mutated.
+    const list = sizes.slice(0, colsCount);
+    while (list.length < colsCount) {
+        list.push(undefined);
     }
-    sizes = sizes.splice(0, colsCount);
     const initialSizes: number[] = [];
     const autoIndex: number[] = [];
     let currentSize = 0;
-    sizes.forEach((size, index) => {
+    list.forEach((size, index) => {
         if (size === null || size === undefined) {
             autoIndex.push(index);
             return;
@@ -25,14 +26,18 @@ function mapSizes(sizes: (SizeSetting | null | undefined)[], totalSize: number, 
         }
         const thisSize = unit === '%' ? (totalSize * val / 100) : val;
         currentSize += thisSize;
-        initialSizes![index] = thisSize;
+        initialSizes[index] = thisSize;
     });
     if (autoIndex.length) {
         const autoSize = Math.max(1, (totalSize - currentSize) / autoIndex.length);
         autoIndex.forEach((index) => {
-            initialSizes![index] = autoSize;
+            initialSizes[index] = autoSize;
             currentSize += autoSize;
         });
+    }
+    if (currentSize <= 0) {
+        // Avoid divide-by-zero producing NaN percentages; fall back to an even distribution.
+        return initialSizes.map(() => 100 / colsCount);
     }
     return initialSizes.map(size => 100 * size / currentSize);
 }
@@ -55,18 +60,27 @@ export class Split extends Component<SplitOptions> {
 
     protected _sizeBack: number[][] = [];
 
+    /** 分栏数量。The number of panes. */
     get count() {
         return this._elements.length;
     }
 
+    /** 是否为垂直分栏。Whether the split is vertical. */
     get isVertical() {
         return this.options.direction === 'vertical' || !!this.options.vertical;
     }
 
+    /** 分栏容器在主轴方向上的总尺寸（像素）。The container size along the main axis, in pixels. */
     get totalSize() {
         return this.$element[this.isVertical ? 'height' : 'width']();
     }
 
+    /**
+     * 判断指定分栏是否已折叠（主轴尺寸小于 1px）。
+     * Whether the pane at the given index is collapsed (its main-axis size is below 1px).
+     *
+     * @param index 分栏索引。Pane index.
+     */
     isCollapsed(index: number) {
         return $(this._elements[index])[this.isVertical ? 'height' : 'width']() < 1;
     }
@@ -107,6 +121,12 @@ export class Split extends Component<SplitOptions> {
         this._update();
     }
 
+    /**
+     * 展开此前被折叠的分栏，尽量恢复折叠前的尺寸；若无备份则回退为一半尺寸。
+     * Expand a previously collapsed pane, restoring the sizes captured before collapse, or falling back to half size.
+     *
+     * @param index 分栏索引。Pane index.
+     */
     expand(index: number): void {
         const sizes = this.getSizes();
         const backSizes = this._sizeBack[index];
@@ -120,6 +140,12 @@ export class Split extends Component<SplitOptions> {
         this.setSizes(sizes);
     }
 
+    /**
+     * 在折叠与展开之间切换指定分栏。
+     * Toggle the pane at the given index between collapsed and expanded.
+     *
+     * @param index 分栏索引。Pane index.
+     */
     toggle(index: number): void {
         if (this.isCollapsed(index)) {
             this.expand(index);
@@ -196,11 +222,11 @@ export class Split extends Component<SplitOptions> {
      */
     destroy(preserveStyles?: boolean, preserveGutters?: boolean): void {
         super.destroy();
-        this.off('click transitionend');
         if (this._raf) {
             cancelAnimationFrame(this._raf);
         }
-        return this._split.destroy(preserveStyles, preserveGutters);
+        // `_split` may be undefined if the instance is destroyed before afterInit runs (afterInit is scheduled via requestAnimationFrame).
+        this._split?.destroy(preserveStyles, preserveGutters);
     }
 
     render() {

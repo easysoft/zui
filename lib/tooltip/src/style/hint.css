@@ -76,7 +76,7 @@
 }
 
 /* Size. */
-.hint-sm::after
+.hint-sm::after,
 .hint-md::after,
 .hint-lg::after,
 .hint-xl::after {

@@ -1,0 +1,4 @@
+interface:
+  display_name: "ZUI 应用开发"
+  short_description: "在应用项目中正确集成、使用、定制并排查 ZUI 3 组件库"
+  default_prompt: "使用 $zui 在当前应用项目中实现一个符合现有架构的 ZUI 界面功能。"

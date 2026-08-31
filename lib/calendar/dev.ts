@@ -4,7 +4,7 @@ import '@zui/button';
 import '@zui/toolbar';
 import '@zui/list';
 import '@zui/btn-group';
-import '@zentao/icons';
+// import '@zentao/icons';
 import {Calendar} from './src/main';
 import events from './dev/events-example';
 

@@ -1,4 +1,4 @@
-import {List} from '@zui/list/src/component';
+import {List} from '@zui/list/react';
 import {Sortable} from '../vanilla/sortable';
 
 import type {RenderableProps} from 'preact';
@@ -26,6 +26,7 @@ export class SortableList<P extends SortableListProps = SortableListProps, S ext
         if (this._sortable) {
             this._sortable.destroy();
         }
+        super.componentWillUnmount();
     }
 
     getOrders() {

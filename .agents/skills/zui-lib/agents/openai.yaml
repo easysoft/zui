@@ -1,0 +1,4 @@
+interface:
+  display_name: "ZUI Library"
+  short_description: "Plan and implement complete ZUI 3 libraries"
+  default_prompt: "Use $zui-lib to plan and implement a complete new or existing ZUI 3 library."

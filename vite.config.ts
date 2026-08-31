@@ -1,27 +1,45 @@
 import Path, {dirname} from 'path';
 import fs from 'fs-extra';
 import {execSync} from 'child_process';
+import glob from 'fast-glob';
 import {defineConfig, mergeConfig, type UserConfig, type LibraryOptions} from 'vite';
 import {blue} from 'colorette';
 import eslint from 'vite-plugin-eslint';
 import {viteZip} from 'vite-plugin-zip-file';
 import preact from '@preact/preset-vite';
 import configDevServer from './scripts/dev/config-server';
+import type {LibInfo} from './scripts/libs/lib-info';
 import {getLibs} from './scripts/libs/query';
-import {LibInfo} from './scripts/libs/lib-info';
-import packageJson from './package.json';
+import {createSharedViteConfig} from './vite.shared';
 
-function getLibByPath(path: string, libsCache: Record<string, LibInfo>): LibInfo | undefined {
-    const nodeModulesFlag = `${Path.sep}node_modules${Path.sep}`;
-    const nodeModulesIndex = path.indexOf(nodeModulesFlag);
-    if (nodeModulesIndex > -1) {
-        const nodeModulePath = path.substring(nodeModulesIndex + nodeModulesFlag.length);
-        return Object.values(libsCache).find(x => nodeModulePath.startsWith(`${x.name}${Path.sep}`));
+async function getLatestModifiedTime(files: string[]) {
+    const times = await Promise.all(files.map(async (file) => {
+        try {
+            return (await fs.stat(file)).mtimeMs;
+        } catch {
+            return 0;
+        }
+    }));
+    return Math.max(0, ...times);
+}
+
+/**
+ * Extension collections are symlinked as `exts/<group>/<lib>/`. Their
+ * `tsconfig.json` files extend `../../tsconfig.json`, which in the original
+ * repo is the collection root. With `preserveSymlinks: true`, Vite resolves
+ * that path to `exts/tsconfig.json` instead, so create a bridge when needed.
+ */
+function ensureExtsTsconfig(rootPath: string) {
+    const extsDir = Path.join(rootPath, 'exts');
+    const tsconfigPath = Path.join(extsDir, 'tsconfig.json');
+    if (!fs.existsSync(extsDir) || fs.existsSync(tsconfigPath)) {
+        return;
     }
-    return Object.values(libsCache).find(x => path.startsWith(`${x.zui.path}${Path.sep}`));
+    fs.writeFileSync(tsconfigPath, `${JSON.stringify({extends: '../tsconfig.json'}, null, 4)}\n`);
 }
 
 export default defineConfig(async ({mode}) => {
+    ensureExtsTsconfig(__dirname);
     const buildLibs = process.env.BUILD_LIBS ?? 'buildIn';
     const noMinify = process.env.NO_MINIFY === 'true' || process.env.NO_MINIFY === '1';
     const libsCache: Record<string, LibInfo> | undefined = await getLibs(buildLibs.split(','));
@@ -39,67 +57,35 @@ export default defineConfig(async ({mode}) => {
         console.log(blue('merged extra vite config file:'), '\n', Path.relative(__dirname, configFromFile) + '\n');
     }
 
-    let viteConfig: UserConfig = {
+    const buildHash = execSync('git rev-parse HEAD', {cwd: __dirname}).toString().trim();
+    const repositoryFiles = execSync('git ls-files --cached --others --exclude-standard -z', {cwd: __dirname}).toString().split('\0').filter(Boolean).map(file => Path.resolve(__dirname, file));
+    const extensionPatterns = [...new Set(Object.values(libsCache)
+        .filter(lib => lib.zui.sourceType === 'exts')
+        .map(lib => `${glob.convertPathToPattern(lib.zui.path)}/**/*`))];
+    const extensionFiles = extensionPatterns.length ? await glob(extensionPatterns, {dot: true, ignore: ['**/node_modules/**'], onlyFiles: true}) : [];
+    const filesModifiedTime = await getLatestModifiedTime([...repositoryFiles, ...extensionFiles]);
+    const lastCommitTime = Number(execSync('git log -1 --format=%ct', {cwd: __dirname}).toString().trim()) * 1000;
+    const buildTime = Math.floor(Math.max(filesModifiedTime, lastCommitTime));
+    let viteConfig: UserConfig = mergeConfig(createSharedViteConfig({
+        mode,
+        rootPath: __dirname,
+        libsCache,
+        buildHash,
+        buildTime,
+    }), {
         base: './',
         build: {
             outDir: 'dist/dev',
+            target: ['chrome107', 'edge107', 'firefox104', 'safari16'],
             rollupOptions: {
                 output: {
-                    assetFileNames: (chunkInfo) => {
-                        if (chunkInfo.name == 'style.css' && viteConfig.build?.lib) {
-                            return `${libFileName}.css`;
-                        }
-                        return chunkInfo.name ?? 'noname';
-                    },
+                    assetFileNames: (chunkInfo: {name?: string}) => chunkInfo.name ?? 'noname',
                 },
             },
             assetsInlineLimit: 256,
             sourcemap: true,
             cssMinify: false,
             minify: !noMinify,
-        },
-        esbuild: {
-            jsxFactory: 'h',
-            jsxFragment: 'Fragment',
-            jsxInject: 'import {h} from \'preact\'',
-        },
-        resolve: {
-            preserveSymlinks: true,
-            alias: [
-                {find: /^@zui\/(.*)/, replacement: `${__dirname}/lib/$1`},
-                {find: 'zui-dev', replacement: `${__dirname}/dev`},
-                {find: 'zui-config', replacement: `${__dirname}/config`},
-                {find: '~/', replacement: `${__dirname}/`},
-                {find: '@/', replacement: '/', customResolver: (source, importer) => {
-                    if (!importer) {
-                        return;
-                    }
-                    const lib = getLibByPath(importer, libsCache);
-                    if (!lib) {
-                        return Path.join(__dirname, source);
-                    }
-                    if (source.startsWith('/public/') && mode !== 'development') {
-                        return `/${lib.zui.publicPath || lib.zui.name}/${source.replace('/public/', '')}`;
-                    }
-                    return Path.join(lib.zui.path, source);
-                }},
-                ...Object.values(libsCache).reduce<{find: string; replacement: string}[]>((aliasList, info) => {
-                    if (info.zui.sourceType === 'exts') {
-                        aliasList.push({find: info.name, replacement: info.zui.path});
-                        if (info.zui.replace) {
-                            aliasList.push({find: info.zui.replace, replacement: info.zui.path});
-                        }
-                    }
-                    return aliasList;
-                }, []),
-            ],
-        },
-        define: {
-            'process.env.NODE_ENV': JSON.stringify(mode),
-            __BUILD_MODE__: JSON.stringify(mode),
-            __BUILD_TIME__: Date.now(),
-            __BUILD_HASH__: JSON.stringify(execSync('git rev-parse HEAD').toString().trim()),
-            __APP_VERSION__: JSON.stringify(packageJson.version),
         },
         experimental: {
             renderBuiltUrl(filename: string, {type}: {hostId: string; hostType: 'js' | 'css' | 'html'; type: 'public' | 'asset'}) {
@@ -112,7 +98,7 @@ export default defineConfig(async ({mode}) => {
         server: {
             allowedHosts: true,
         },
-    };
+    });
 
     if (extraBuildConfig) {
         viteConfig = mergeConfig(viteConfig, extraBuildConfig);
@@ -126,6 +112,7 @@ export default defineConfig(async ({mode}) => {
             }
             return `${libFileName}.${format}.js`;
         };
+        lib.cssFileName = libFileName;
     }
 
     viteConfig = mergeConfig(viteConfig, {

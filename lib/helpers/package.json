@@ -2,17 +2,21 @@
     "name": "@zui/helpers",
     "description": "ZUI helpers",
     "version": "0.0.1",
-    "keywords": ["js", "zui:js-helpers"],
+    "keywords": ["js", "zui:js-lib"],
     "main": "src/main.ts",
     "module": "src/main.ts",
     "files": [
         "./src/**/*"
     ],
+    "devDependencies": {
+        "@zui/core": "workspace:*",
+        "zui-dev": "workspace:*"
+    },
     "zui": {
         "type": "js-lib",
         "displayName": "JS 辅助方法",
         "contributes": {
-            "js": ["class", "var", "method"]
+            "js": ["var", "method"]
         }
     }
 }

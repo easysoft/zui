@@ -5,11 +5,16 @@
     "browserslist": "",
     "keywords": [
         "css",
-        "zui:control"
+        "zui:component"
     ],
     "files": [
         "./src/**/*"
     ],
+    "exports": {
+        ".": "./src/main.ts",
+        "./css": "./src/main-css.ts",
+        "./react": "./src/main-react.ts"
+    },
     "dependencies": {
         "@zui/base": "workspace:*",
         "@zui/button": "workspace:*",

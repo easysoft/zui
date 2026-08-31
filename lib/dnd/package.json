@@ -4,7 +4,7 @@
     "version": "0.0.1",
     "keywords": [
         "js",
-        "zui:js-lib"
+        "zui:js-helpers"
     ],
     "browser": "src/main.ts",
     "main": "src/main.ts",
@@ -24,6 +24,7 @@
         "@zui/core": "workspace:^0.0.1"
     },
     "devDependencies": {
-        "zui-dev": "workspace:^0.0.1"
+        "zui-dev": "workspace:^0.0.1",
+        "@zui/menu": "workspace:^0.0.1"
     }
 }

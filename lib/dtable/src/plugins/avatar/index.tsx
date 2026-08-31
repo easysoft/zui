@@ -1,7 +1,7 @@
 import {JSX} from 'preact';
 import {definePlugin} from '../../helpers/shared-plugins';
-import {Avatar} from '@zui/avatar/src/component';
-import type {AvatarOptions} from '@zui/avatar/src/types';
+import {Avatar} from '@zui/avatar/react';
+import type {AvatarOptions} from '@zui/avatar/react';
 import type {DTablePlugin, RowInfo, ColInfo, DTableWithPlugin, CustomRenderResultList} from '../../types';
 import {classes} from '@zui/core';
 

@@ -4,6 +4,7 @@
     "version": "0.0.1",
     "main": "src/main.ts",
     "browserslist": "",
+    "keywords": ["zui:component"],
     "dependencies": {
         "@zui/core": "workspace:*",
         "@zui/helpers": "workspace:*"
@@ -14,8 +15,13 @@
         "@zui/utilities": "workspace:*"
     },
     "exports": {
-        ".": "./src/main.ts"
+        ".": "./src/main.ts",
+        "./css": "./src/main-css.ts",
+        "./react": "./src/main-react.ts"
     },
+    "files": [
+        "./src/**/*"
+    ],
     "zui": {
         "type": "component",
         "displayName": "头像",

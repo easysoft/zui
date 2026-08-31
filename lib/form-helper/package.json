@@ -1,7 +1,11 @@
 {
     "name": "@zui/form-helper",
     "version": "0.0.1",
+    "keywords": ["zui:js-helpers"],
     "main": "src/main.ts",
+    "exports": {
+        ".": "./src/main.ts"
+    },
     "files": [
         "./src/**/*"
     ],
@@ -12,13 +16,20 @@
         "@zui/form-control": "workspace:*"
     },
     "devDependencies": {
-        "zui-dev": "workspace:^0.0.1"
+        "zui-dev": "workspace:^0.0.1",
+        "@zui/button": "workspace:*",
+        "@zui/color-picker": "workspace:*",
+        "@zui/datetime-picker": "workspace:*",
+        "@zui/form": "workspace:*",
+        "@zui/input-control": "workspace:*",
+        "@zui/input-group": "workspace:*",
+        "@zui/search-box": "workspace:*"
     },
     "zui": {
-        "type": "component",
+        "type": "js-helpers",
         "displayName": "表单助手",
         "contributes": {
-            "css": ["class", "var"]
+            "js": ["class", "module"]
         }
     }
 }

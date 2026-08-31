@@ -8,6 +8,8 @@ import type {VirtualItemProps, VirtualListProps, VirtualListState} from '../type
 export type VirtualItemInfo = {key: string; start: number; size: number; renderSize: number | undefined; item?: VirtualItemProps};
 
 export class VirtualList extends HElement<VirtualListProps, VirtualListState> {
+    static readonly NAME = 'VirtualList';
+
     static defaultProps: Partial<VirtualListProps> = {
         itemKey: 'id',
         defaultItemSize: 28,
@@ -31,8 +33,9 @@ export class VirtualList extends HElement<VirtualListProps, VirtualListState> {
 
     constructor(props: RenderableProps<VirtualListProps>) {
         super(props);
+        const totalSize = props.horizontal ? props.width : props.height;
         this.state = {
-            totalSize: Number.parseInt(String(props.horizontal ? props.width : props.width)) || 0,
+            totalSize: typeof totalSize === 'number' && Number.isFinite(totalSize) ? Math.max(0, totalSize) : 0,
             scroll: 0,
             sizeMap: {},
         };
@@ -40,11 +43,14 @@ export class VirtualList extends HElement<VirtualListProps, VirtualListState> {
     }
 
     componentDidMount(): void {
+        super.componentDidMount();
         const element = this._ref.current;
         if (element) {
-            const rob = new ResizeObserver(this._tryUpdateLayout.bind(this));
-            rob.observe(element);
-            this._rob = rob;
+            if (typeof ResizeObserver !== 'undefined') {
+                const rob = new ResizeObserver(this._tryUpdateLayout.bind(this));
+                rob.observe(element);
+                this._rob = rob;
+            }
             if ($(element).css('position') === 'static') {
                 this.setState({position: 'relative'});
             }
@@ -64,6 +70,9 @@ export class VirtualList extends HElement<VirtualListProps, VirtualListState> {
         }
         cancelAnimationFrame(this._layoutTimer);
         cancelAnimationFrame(this._scrollTimer);
+        this._layoutTimer = 0;
+        this._scrollTimer = 0;
+        super.componentWillUnmount();
     }
 
     protected _tryUpdateLayout(): void {
@@ -90,7 +99,6 @@ export class VirtualList extends HElement<VirtualListProps, VirtualListState> {
         const {horizontal} = this.props;
         const {sizeMap: oldSizeMap} = this.state;
         const sizeMap: Record<string, number> = {};
-        const renderSizeMap = this._sizeMap;
         $(element).children('[z-key]').each((_i, ele) => {
             const key = ele.getAttribute('z-key');
             if (key === null) {
@@ -106,11 +114,6 @@ export class VirtualList extends HElement<VirtualListProps, VirtualListState> {
             newState.scroll = scroll;
         }
         if (Object.keys(sizeMap).length) {
-            Object.keys(oldSizeMap).forEach((key) => {
-                if (!renderSizeMap.has(key)) {
-                    delete oldSizeMap[key];
-                }
-            });
             newState.sizeMap = {...oldSizeMap, ...sizeMap};
         }
         if (Object.keys(newState).length) {
@@ -123,7 +126,11 @@ export class VirtualList extends HElement<VirtualListProps, VirtualListState> {
             cancelAnimationFrame(this._scrollTimer);
         }
         this._scrollTimer = requestAnimationFrame(() => {
-            const element = this._ref.current!;
+            const element = this._ref.current;
+            if (!element) {
+                this._scrollTimer = 0;
+                return;
+            }
             const {horizontal} = this.props;
             const scroll = horizontal ? element.scrollLeft : element.scrollTop;
             if (scroll !== this.state.scroll) {
@@ -135,8 +142,8 @@ export class VirtualList extends HElement<VirtualListProps, VirtualListState> {
     }
 
     protected _getTotalSize(): number {
-        const element = this._ref.current!;
-        return this.props.horizontal ? element.clientWidth : element.clientHeight;
+        const element = this._ref.current;
+        return element ? (this.props.horizontal ? element.clientWidth : element.clientHeight) : 0;
     }
 
     protected _getProps(props: RenderableProps<VirtualListProps>): Record<string, unknown> {
@@ -149,13 +156,18 @@ export class VirtualList extends HElement<VirtualListProps, VirtualListState> {
         });
     }
 
+    protected _getClassName(props: RenderableProps<VirtualListProps>) {
+        return ['virtual-list', super._getClassName(props)];
+    }
+
     protected _getItemCount(props: RenderableProps<VirtualListProps>) {
         const {itemCount, data} = props;
         if (typeof itemCount === 'number') {
-            return itemCount;
+            return Number.isFinite(itemCount) ? Math.max(0, Math.floor(itemCount)) : 0;
         }
         if (typeof itemCount === 'function') {
-            return itemCount.call(this, data);
+            const count = itemCount.call(this, data);
+            return Number.isFinite(count) ? Math.max(0, Math.floor(count)) : 0;
         }
         if (Array.isArray(data)) {
             return data.length;
@@ -177,10 +189,14 @@ export class VirtualList extends HElement<VirtualListProps, VirtualListState> {
     protected _getItemKey(props: RenderableProps<VirtualListProps>, index: number): string {
         const {itemKey, data} = props;
         if (typeof itemKey === 'function') {
-            return itemKey.call(this, data, index);
+            const key = itemKey.call(this, data, index);
+            return key === undefined || key === null ? `${index}` : String(key);
         }
         if (Array.isArray(data) && typeof itemKey === 'string') {
-            return data[index]?.[itemKey];
+            const key = data[index]?.[itemKey];
+            if (key !== undefined && key !== null) {
+                return String(key);
+            }
         }
         return `${index}`;
     }
@@ -189,16 +205,20 @@ export class VirtualList extends HElement<VirtualListProps, VirtualListState> {
         const itemCount = this._getItemCount(props);
         const itemsInfo: VirtualItemInfo[] = [];
         const {totalSize, scroll, sizeMap} = this.state;
-        const {itemSize, defaultItemSize = 0, data, padding = 0, gap = 0, horizontal, skipOverflow} = props;
+        const {itemSize, defaultItemSize = 0, data, horizontal, skipOverflow} = props;
+        const padding = typeof props.padding === 'number' && Number.isFinite(props.padding) ? Math.max(0, props.padding) : 0;
+        const gap = typeof props.gap === 'number' && Number.isFinite(props.gap) ? Math.max(0, props.gap) : 0;
+        const itemDefaultSize = Number.isFinite(defaultItemSize) ? Math.max(0, defaultItemSize) : 0;
         let start = padding;
         const items: [index: number, item: VirtualItemProps][] = [];
-        let autoOverscan = this._autoOverscan || Math.max(defaultItemSize, 50);
+        let autoOverscan = this._autoOverscan || Math.max(itemDefaultSize, 50);
         this._sizeMap.clear();
-        const overscan = props.overscan || autoOverscan;
+        const overscan = typeof props.overscan === 'number' && Number.isFinite(props.overscan) ? Math.max(0, props.overscan) : autoOverscan;
         for (let i = 0; i < itemCount; i++) {
-            const renderSize = typeof itemSize === 'function' ? itemSize.call(this, data, i) : itemSize;
+            const itemRenderSize = typeof itemSize === 'function' ? itemSize.call(this, data, i) : itemSize;
+            const renderSize = typeof itemRenderSize === 'number' && Number.isFinite(itemRenderSize) ? Math.max(0, itemRenderSize) : undefined;
             const key = this._getItemKey(props, i);
-            const size = renderSize ?? sizeMap[key] ?? defaultItemSize;
+            const size = renderSize ?? sizeMap[key] ?? itemDefaultSize;
             if (size && start > padding) {
                 start += gap;
             }

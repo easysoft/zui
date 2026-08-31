@@ -4,6 +4,8 @@ import type {ComponentChildren, RenderableProps} from 'preact';
 import type {VirtualItemProps} from '../types';
 
 export class VirtualItem extends HElement<VirtualItemProps> {
+    static readonly NAME = 'VirtualItem';
+
     protected _getChildren(props: RenderableProps<VirtualItemProps>): ComponentChildren {
         const {content, children} = props;
         if (content) {

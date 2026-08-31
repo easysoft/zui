@@ -1,0 +1,4 @@
+interface:
+  display_name: "ZUIX UMD Wrapper"
+  short_description: "Wrap UMD libraries as ZUI extension packages"
+  default_prompt: "Use $zuix-wrap-lib to wrap a ready-to-use UMD library in a ZUI extension project."

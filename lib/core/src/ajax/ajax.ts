@@ -1,6 +1,6 @@
 import type {AjaxBeforeSendCallback, AjaxCallbackMap, AjaxCompleteCallback, AjaxErrorCallback, AjaxSetting, AjaxSuccessCallback} from './types';
-import {createFormData} from '../form';
-import {parseRawData} from '../helpers';
+import {createFormData} from '../form/helper';
+import {parseRawData} from '../helpers/raw-data';
 
 function setHeader(headers: HeadersInit, name: string, value: string) {
     if (headers instanceof Headers) {
@@ -335,6 +335,7 @@ export class Ajax<T = unknown> {
         if (error && throws) {
             throw error;
         }
-        return [data as D, error, response];
+        // Fall back to the resolved body (e.g. an error response text) when the local data was not assigned.
+        return [(data ?? this.data) as D, error, response];
     }
 }

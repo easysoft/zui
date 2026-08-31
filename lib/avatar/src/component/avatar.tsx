@@ -1,7 +1,6 @@
 import {Component, ComponentChildren, JSX} from 'preact';
 import {classes, Icon} from '@zui/core';
-import {contrastColor, hslToRgb} from '@zui/helpers/src/color-helper';
-import {getUniqueCode} from '@zui/helpers/src/string-code';
+import {contrastColor, getUniqueCode, hslToRgb} from '@zui/helpers';
 import {AvatarOptions} from '../types/';
 
 function getAvatarText(text: string, maxTextLength: number) {
@@ -36,6 +35,9 @@ export class Avatar extends Component<AvatarOptions> {
             children,
             ...others
         } = this.props;
+        const avatarChildren = typeof children === 'function'
+            ? (children as (this: Avatar) => ComponentChildren).call(this)
+            : children;
 
         const finalClass = ['avatar', className];
         const finalStyle = {...style, background, color: foreColor};
@@ -65,7 +67,7 @@ export class Avatar extends Component<AvatarOptions> {
         let content: ComponentChildren | undefined;
         if (src) {
             finalClass.push('has-img');
-            content = <img className="avatar-img" src={src} alt={text} />;
+            content = <img className="avatar-img" src={src} alt={text || ''} />;
         } else if (icon) {
             finalClass.push('has-icon');
             content = <Icon icon={icon} />;
@@ -102,7 +104,7 @@ export class Avatar extends Component<AvatarOptions> {
                 {...others}
             >
                 {content}
-                {children}
+                {avatarChildren}
             </div>
         );
     }

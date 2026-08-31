@@ -1,11 +1,10 @@
 import {ComponentChildren, createRef} from 'preact';
 import {CustomContent, classes} from '@zui/core';
-import {PickTrigger} from '@zui/pick/src/components';
+import {PickTrigger} from '@zui/pick/react';
 import {formatString} from '@zui/helpers';
 import {PickerSearch} from './picker-search';
 import {PickerSelectProps, PickerState} from '../types';
-import '@zui/css-icons/src/icons/caret.css';
-import '@zui/css-icons/src/icons/close.css';
+import '@zui/css-icons';
 
 export class PickerSingleSelect extends PickTrigger<PickerState, PickerSelectProps> {
     get searchBox() {
@@ -44,7 +43,9 @@ export class PickerSingleSelect extends PickTrigger<PickerState, PickerSelectPro
 
     protected _handleClick(event: MouseEvent): void {
         super._handleClick(event);
-        this._search.current?.focus();
+        if (!this.props.disabled && !this.props.readonly) {
+            this._search.current?.focus();
+        }
     }
 
     protected _getClass(props: PickerSelectProps) {

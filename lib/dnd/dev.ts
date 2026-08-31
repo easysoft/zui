@@ -8,7 +8,13 @@ $.registerLib('sortablejs', {
     name: 'Draggable',
 });
 
+let instances: {destroy: () => void}[] = [];
+
 onPageUpdate(() => {
+    // Destroy instances from the previous run so HMR does not leak global mouse/scroll/resize listeners.
+    instances.forEach(instance => instance.destroy());
+    instances = [];
+
     const draggable = new Draggable('#example1', {
         onDragStart: (event, dragElement) => {
             console.log('onDragStart', event, dragElement);
@@ -42,21 +48,21 @@ onPageUpdate(() => {
 
     console.log('> moveable', moveable);
 
-    new Resizable('#resize1', {
+    const resize1 = new Resizable('#resize1', {
         selector: 'self',
         containerPadding: 24,
     });
-    new Resizable('#resize2', {
+    const resize2 = new Resizable('#resize2', {
         selector: 'self',
         containerPadding: 24,
     });
-    new Resizable('#resize3', {
+    const resize3 = new Resizable('#resize3', {
         selector: 'self',
         minWidth: 100,
         minHeight: 100,
         containerPadding: 24,
     });
-    new Resizable('#resize4', {
+    const resize4 = new Resizable('#resize4', {
         selector: 'self',
         containerPadding: {
             left: 100,
@@ -65,4 +71,6 @@ onPageUpdate(() => {
             bottom: 100,
         },
     });
+
+    instances.push(draggable, moveable, resize1, resize2, resize3, resize4);
 });

@@ -1,5 +1,5 @@
 import {$, CustomContent} from '@zui/core';
-import {Checkbox} from '@zui/checkbox/src/component';
+import {Checkbox} from '@zui/checkbox/react';
 import {definePlugin} from '../../helpers/shared-plugins';
 import './style.css';
 
@@ -146,6 +146,22 @@ function renderCheckbox(checked: boolean, _rowID?: RowID, disabled = false, labe
 
 const checkboxSelector = 'input[type="checkbox"],.dtable-checkbox';
 
+/**
+ * Detect a click that the browser is going to relay to the checkbox bound to the clicked label.
+ * Handling both clicks would toggle the same rows twice within one gesture and cancel itself out.
+ */
+function isRelayedToCheckbox(target: HTMLElement): boolean {
+    const control = target.closest('label')?.control;
+    return control instanceof HTMLInputElement && control.type === 'checkbox' && !control.disabled;
+}
+
+function handleFooterCheckboxClick(this: DTableCheckable, event: MouseEvent) {
+    if (isRelayedToCheckbox(event.target as HTMLElement)) {
+        return;
+    }
+    this.toggleCheckRows();
+}
+
 const checkablePlugin: DTablePlugin<DTableCheckableTypes> = {
     name: 'checkable',
     defaultOptions: {
@@ -190,7 +206,7 @@ const checkablePlugin: DTablePlugin<DTableCheckableTypes> = {
         checkbox() {
             const checked = this.isAllRowChecked();
             return [
-                <div style={{paddingRight: 'calc(3*var(--space))', display: 'flex', alignItems: 'center'}} onClick={() => this.toggleCheckRows()}>{renderCheckbox(checked, undefined, false, this.options.checkboxLabel)}</div>,
+                <div style={{paddingRight: 'calc(3*var(--space))', display: 'flex', alignItems: 'center'}} onClick={handleFooterCheckboxClick.bind(this)}>{renderCheckbox(checked, undefined, false, this.options.checkboxLabel)}</div>,
             ];
         },
         checkedInfo(_, layout) {
@@ -264,7 +280,7 @@ const checkablePlugin: DTablePlugin<DTableCheckableTypes> = {
             return;
         }
         const target = event.target as HTMLElement;
-        if (!target) {
+        if (!target || isRelayedToCheckbox(target)) {
             return;
         }
         const checkbox = target.closest<HTMLInputElement>(checkboxSelector);
@@ -277,7 +293,7 @@ const checkablePlugin: DTablePlugin<DTableCheckableTypes> = {
             return;
         }
         const $target = $(event.target as HTMLElement);
-        if (!$target.length || $target.closest('btn,a,button.not-checkable,.form-control,.btn').length) {
+        if (!$target.length || $target.closest('btn,a,button.not-checkable,.form-control,.btn').length || isRelayedToCheckbox(event.target as HTMLElement)) {
             return;
         }
         const $checkbox = $target.closest(checkboxSelector);

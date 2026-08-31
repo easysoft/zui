@@ -1,6 +1,6 @@
 import {createRef, type RefObject, type ComponentChildren, type RenderableProps} from 'preact';
 import {$, ClassNameLike, HElement, mergeProps} from '@zui/core';
-import {Listitem} from '@zui/list/src/component';
+import {Listitem} from '@zui/list/react';
 import {Kanban} from './kanban';
 import {mergeData, mergeList, sortByOrder} from '../helpers/kanban-helpers';
 import type {KanbanData, KanbanDataset, KanbanProps, KanbanRegionProps, KanbanRegionState} from '../types';

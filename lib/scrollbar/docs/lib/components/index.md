@@ -31,6 +31,23 @@
 
 :::
 
+## JavaScript 滚动轨道
+
+`Scrollbar` 用于绘制可拖拽的虚拟滚动轨道。它不会自动移动内容；通过 `onScroll` 将得到的位置同步到内容容器或数据窗口。`scrollSize` 是全部内容长度，`clientSize` 是可视轨道长度。
+
+```tsx
+import {Scrollbar} from '@zui/scrollbar/react';
+
+<Scrollbar
+  scrollSize={2000}
+  clientSize={400}
+  defaultScrollPos={0}
+  onScroll={scrollPos => updateVisibleRows(scrollPos)}
+/>
+```
+
+设置 `type="horz"` 可使用水平轴；提供 `wheelContainer`（CSS 选择器或 ref）后，鼠标滚轮会驱动此轨道，且仅在实际位置发生变化时阻止浏览器默认滚动。
+
 ## 窄滚动条样式
 
 ::: tabs

@@ -305,9 +305,9 @@ const upload = new Upload('#example8', {
 
 ### `onAdd`
 
-文件变更回调。
+文件加入前回调，返回 `null` 可跳过该文件，返回 `File` 可替换最终加入的文件。
 
-+ 类型：`(files: File[] | File) => void`
++ 类型：`(file: File) => File | null`
 + 必选：否
 
 ### `onDelete`
@@ -427,6 +427,5 @@ export default {
     }
 };
 </script>
-
 
 

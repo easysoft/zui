@@ -1,6 +1,6 @@
 import type {ComponentChildren} from 'preact';
-import type {ToolbarOptions} from '@zui/toolbar/src/types';
-import type {ContextMenuOptions} from '@zui/contextmenu/src/types';
+import type {ToolbarOptions} from '@zui/toolbar';
+import type {ContextMenuOptions} from '@zui/contextmenu';
 import type {BlockFetcher} from './block-fetcher';
 
 export type BlockContentSetting = ComponentChildren | {html: string};

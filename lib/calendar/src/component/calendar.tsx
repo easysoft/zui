@@ -81,11 +81,11 @@ export class Calendar<P extends CalendarProps = CalendarProps> extends HElementS
     }
 
     modifyEvents(events: CalendarEvent[]) {
-        this.changeState({modifiedEvents: mergeEvents([...events, ...this.signals.modifiedEvents.value])});
+        this.changeState({modifiedEvents: mergeEvents([...this.signals.modifiedEvents.value, ...events])});
     }
 
     modifyCategories(categories: CalendarCategory[]) {
-        this.changeState({modifidCategories: mergeCategories([...categories, ...this.signals.modifidCategories.value])});
+        this.changeState({modifidCategories: mergeCategories([...this.signals.modifidCategories.value, ...categories])});
     }
 
     clickEvent(eventID: string, mouseEvent: MouseEvent) {
@@ -120,6 +120,22 @@ export class Calendar<P extends CalendarProps = CalendarProps> extends HElementS
         super.componentWillUnmount();
     }
 
+    componentDidUpdate(previousProps: Readonly<P>): void {
+        const state: Partial<CalendarState> = {};
+        if (this.props.date !== undefined && previousProps.date !== this.props.date) {
+            state.date = getDateTime(this.props.date);
+        }
+        if (this.props.view !== undefined && previousProps.view !== this.props.view) {
+            state.mode = this.props.view;
+        }
+        if (this.props.readonly !== undefined && previousProps.readonly !== this.props.readonly) {
+            state.readonly = this.props.readonly;
+        }
+        if (Object.keys(state).length) {
+            this.changeState(state);
+        }
+    }
+
     protected _renderHeader(props: RenderableProps<P>): ComponentChildren {
         const {headerTitle, headerActions, headerProps, monthFormat, dateFormat} = props;
 
@@ -145,6 +161,7 @@ export class Calendar<P extends CalendarProps = CalendarProps> extends HElementS
                     date={date}
                     categories={categories}
                     events={events}
+                    dateFormat={props.dateFormat}
                     weekStart={props.weekStart}
                     maxEventCount={props.maxEventCount}
                     eventRender={props.eventRender}

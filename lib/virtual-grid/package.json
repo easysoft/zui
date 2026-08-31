@@ -1,7 +1,12 @@
 {
     "name": "@zui/virtual-grid",
     "version": "0.0.1",
+    "keywords": ["zui:component"],
     "main": "src/main.ts",
+    "exports": {
+        ".": "./src/main.ts",
+        "./react": "./src/main-react.ts"
+    },
     "files": [
         "./src/**/*"
     ],
@@ -21,10 +26,7 @@
         "wip": true,
         "notReady": true,
         "contributes": {
-            "css": [
-                "class",
-                "var"
-            ]
+            "js": ["component"]
         }
     }
 }

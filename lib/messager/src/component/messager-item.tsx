@@ -1,5 +1,5 @@
 import {classes, ReactComponent} from '@zui/core';
-import {Alert} from '@zui/alert/src/component';
+import {Alert} from '@zui/alert/react';
 import {MessagerItemOptions, MessagerPlacement} from '../types';
 
 function getAnimationFromPlacement(placement?: MessagerPlacement): string {

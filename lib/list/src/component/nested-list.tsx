@@ -1,7 +1,7 @@
 import {Icon, classes, mergeProps, $, isValidElement} from '@zui/core';
 import {store} from '@zui/store';
 import {List} from './list';
-import '@zui/css-icons/src/icons/caret.css';
+import '@zui/css-icons';
 
 import type {ComponentChild, ComponentChildren, RenderableProps} from 'preact';
 import type {ClassNameLike, IconType} from '@zui/core';
@@ -103,7 +103,7 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
 
     protected declare _itemMap?: Map<string, ItemInfo>;
 
-    protected declare _itemMapCache: Map<string, ItemInfo>;
+    protected declare _itemMapCache?: Map<string, ItemInfo>;
 
     protected declare _needInitChecks?: boolean;
 
@@ -168,9 +168,9 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
         return state;
     }
 
-    getItemMap(useCache?: boolean) {
+    getItemMap(useCache?: boolean): Map<string, ItemInfo> {
         if (useCache && (this._itemMap || this._itemMapCache)) {
-            return this._itemMap || this._itemMapCache;
+            return (this._itemMap || this._itemMapCache)!;
         }
         if (!this._itemMap) {
             let needCheckRenderItems = false;
@@ -211,7 +211,7 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
             }
             this._itemMap = map;
         }
-        return this._itemMap;
+        return this._itemMap!;
     }
 
     getRenderedItem(keyPath: string): Item | undefined {
@@ -386,7 +386,8 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
                 } as Partial<S>;
             }, () => {
                 const checkState = this.state.checked;
-                this.props.onCheck?.call(this, change, Object.keys(checkState).filter(x => checkState[x] === true));
+                const onCheck = this.props.onCheck as ((this: this, change: Record<ItemKey, CheckedType>, checks: ItemKey[]) => void) | undefined;
+                onCheck?.call(this, change, Object.keys(checkState).filter(x => checkState[x] === true));
             });
             return;
         }
@@ -396,7 +397,8 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
             map[`${parentKey !== undefined ? `${parentKey}:` : ''}${key}`] = change[key];
             return map;
         }, {});
-        onCheck!.call(this, nestedChange, []);
+        const handleCheck = onCheck as (this: this, change: Record<ItemKey, CheckedType>, checks: ItemKey[]) => void;
+        handleCheck.call(this, nestedChange, []);
     }
 
     getKeyPath(key: string) {
@@ -547,6 +549,7 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
         const items = super._getItems(props);
         if (this.isRoot && items !== this._items) {
             this._itemMap = undefined;
+            this._itemMapCache = undefined;
         }
         return items;
     }
@@ -622,7 +625,7 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
                     renderedItem,
                 };
             }
-            return;
+            return info;
         }
         if (event.type === 'mouseenter' || event.type === 'mouseleave' || event.type === 'mouseover') {
             info.hover = event.type !== 'mouseleave';
@@ -640,7 +643,13 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
         if (info) {
             const {renderedItem: item, keyPath, target} = info as MouseEventInfo;
             const {nestedToggle} = this.props;
-            if (!item.items || event.defaultPrevented || target.closest('.not-nested-toggle') || (nestedToggle && !item.disabled && !target.closest(nestedToggle)) || (!nestedToggle && !item.disabled && target.closest('a,.btn,.item-checkbox,.open-url,input,select,textarea') && !target.closest('.nested-toggle-icon,.item-icon'))) {
+            if (!item.items
+                || event.defaultPrevented
+                || target.closest('.not-nested-toggle')
+                || target.closest(`[z-list="${keyPath}"]`)
+                || (nestedToggle && !item.disabled && !target.closest(nestedToggle))
+                || (!nestedToggle && !item.disabled && target.closest('a,.btn,.item-checkbox,.open-url,input,select,textarea') && !target.closest('.nested-toggle-icon,.item-icon'))
+            ) {
                 return info;
             }
             this.toggle(keyPath);

@@ -1,11 +1,11 @@
 import {mergeProps, type ClassNameLike} from '@zui/core';
-import {List} from '@zui/list/src/component/list';
-import {DropdownButton} from '@zui/dropdown/src/component';
+import {List} from '@zui/list/react';
+import {DropdownButton} from '@zui/dropdown/react';
 
 import type {Item} from '@zui/common-list';
 import type {Attributes, RenderableProps} from 'preact';
 import type {NavOptions, NavSetting} from '../types';
-import {DropdownButtonOptions} from '@zui/dropdown/src/types';
+import type {DropdownButtonOptions} from '@zui/dropdown/react';
 
 export class Nav<T extends NavOptions = NavOptions> extends List<T> {
     static NAME = 'nav';

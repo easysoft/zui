@@ -13,3 +13,10 @@
 .picker-menu .search-menu-footer {
   @apply -border-t -py-1;
 }
+.picker-create-option.btn {
+  @apply -w-full -justify-start -font-normal -text-link;
+}
+.picker-create-option.btn:hover,
+.picker-create-option.btn:focus-visible {
+  @apply -text-link-hover;
+}

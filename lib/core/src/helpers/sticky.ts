@@ -72,7 +72,7 @@ export class Sticky extends Component<StickyOptions> {
                 {threshold: [1]},
             );
 
-            $targets.css('side', -offset).each((_, e) => this._ob.observe(e));
+            $targets.each((_, e) => this._ob.observe(e));
         }
     }
 

@@ -3,19 +3,31 @@
    "name": "@zui/progress",
    "description": "ZUI progress",
    "version": "0.0.1",
-   "keywords": ["css", "zui:css-progress"],
+   "keywords": ["css", "zui:control"],
+   "main": "src/main.ts",
    "module": "src/main.ts",
+   "exports": {
+       ".": "./src/main.ts",
+       "./css": "./src/main-css.ts",
+       "./react": "./src/main-react.ts"
+   },
    "files": [
        "./src/**/*"
    ],
    "dependencies": {
         "@zui/core": "workspace:*"
     },
+   "devDependencies": {
+       "@zui/base": "workspace:*",
+       "@zui/utilities": "workspace:*",
+       "zui-dev": "workspace:*"
+   },
    "zui": {
        "type": "control",
        "displayName": "进度条",
        "contributes": {
-           "css": ["class", "var"]
+           "css": ["class", "var"],
+           "js": ["component"]
        }
    }
 }

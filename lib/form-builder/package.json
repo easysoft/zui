@@ -1,7 +1,13 @@
 {
     "name": "@zui/form-builder",
     "version": "0.0.1",
+    "keywords": ["zui:component"],
     "main": "src/main.ts",
+    "exports": {
+        ".": "./src/main.ts",
+        "./css": "./src/main-css.ts",
+        "./react": "./src/main-react.ts"
+    },
     "files": [
         "./src/**/*"
     ],
@@ -13,12 +19,27 @@
         "@zui/dtable": "workspace:*",
         "@zui/form-control": "workspace:*",
         "@zui/collapsible": "workspace:*",
-        "@zui/progress-circle": "workspace:*"
+        "@zui/progress-circle": "workspace:*",
+        "@zui/tooltip": "workspace:*"
     },
     "devDependencies": {
+        "@zui/btn-group": "workspace:*",
+        "@zui/button": "workspace:*",
+        "@zui/color-picker": "workspace:*",
+        "@zui/css-icons": "workspace:*",
+        "@zui/datetime-picker": "workspace:*",
+        "@zui/form": "workspace:*",
+        "@zui/icons": "workspace:*",
+        "@zui/input-control": "workspace:*",
+        "@zui/input-group": "workspace:*",
+        "@zui/list": "workspace:*",
+        "@zui/menu": "workspace:*",
+        "@zui/panel": "workspace:*",
+        "@zui/search-box": "workspace:*",
         "zui-dev": "workspace:^0.0.1",
         "js-yaml": "^4.1.0",
-        "@types/js-yaml": "^4.0.9"
+        "@types/js-yaml": "^4.0.9",
+        "highlight.js": "^11.11.1"
     },
     "zui": {
         "type": "component",

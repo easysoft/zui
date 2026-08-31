@@ -1,5 +1,5 @@
-import {Button} from '@zui/button/src/component/button';
-import {formatString} from '@zui/helpers/src/string-helper';
+import {Button} from '@zui/button/react';
+import {formatString} from '@zui/helpers';
 import {updatePagerInfo} from '../helpers/update-pager-info';
 import {PageLinkCreator, PagerInfo, PagerLinkProps} from '../types';
 

@@ -129,6 +129,10 @@ export class Resizable extends Component<ResizableOptions> {
         this._removeGeneratedHandles();
         this._getMatchingTargets().forEach((target) => {
             const $target = $(target);
+            // Handles are absolutely positioned inside the target, so a static target must establish a positioning context first.
+            if (getComputedStyle(target).position === 'static') {
+                $target.css('position', 'relative');
+            }
             RESIZABLE_DIRECTIONS.forEach((direction) => {
                 $target.append(`<div class="${RESIZABLE_HANDLE_CLASS}" z-dir="${direction}" ${RESIZABLE_GENERATED_HANDLE_ATTR}="true"></div>`);
             });

@@ -2,7 +2,7 @@
     "name": "@zui/table",
     "description": "ZUI table",
     "version": "0.0.1",
-    "keywords": ["css", "js", "components"],
+    "keywords": ["css", "js", "components", "zui:component"],
     "main": "src/main.ts",
     "devDependencies": {
         "@zui/base": "workspace:*",

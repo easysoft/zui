@@ -1,12 +1,12 @@
 import {ComponentChildren, RenderableProps} from 'preact';
 import {Icon, classes} from '@zui/core';
 import {formatDate} from '@zui/helpers';
-import {Pick} from '@zui/pick/src/components/pick';
-import {PickOptions, PickPopProps, PickState, PickTriggerProps} from '@zui/pick/src/types';
+import {Pick} from '@zui/pick/react';
+import {PickOptions, PickPopProps, PickState, PickTriggerProps} from '@zui/pick';
 import {getDate, campDate} from '../helpers';
 import {DatePickerOptions} from '../types';
 import {DatePickerMenu} from './date-picker-menu';
-import '@zui/css-icons/src/icons/calendar.css';
+import '@zui/css-icons';
 
 export class DatePicker<T extends DatePickerOptions = DatePickerOptions> extends Pick<PickState, T> {
     static defaultProps = {
@@ -32,26 +32,33 @@ export class DatePicker<T extends DatePickerOptions = DatePickerOptions> extends
         return this._date;
     }
 
-    setDate = (value: string, force?: boolean) => {
+    setDate = async (value: string, force?: boolean, silent?: boolean) => {
         const {disabled, readonly} = this.props;
         if (!force && (disabled || readonly)) {
             return;
         }
 
+        const beforeChangeResult = await this.props.beforeChange?.call(this, value, this.state.value);
+        if (beforeChangeResult === false) {
+            return;
+        }
+        if (typeof beforeChangeResult === 'string') {
+            value = beforeChangeResult;
+        }
         const newValue = this._calcValue(value);
+        if (silent) {
+            const trigger = this._trigger.current;
+            if (trigger) {
+                trigger._skipTriggerChange = newValue;
+            }
+        }
         return this.changeState({value: newValue}, () => {
             this._afterSetDate();
         });
     };
 
     setValue(value: string, silent?: boolean) {
-        if (silent) {
-            const trigger = this._trigger.current;
-            if (trigger) {
-                trigger._skipTriggerChange = value;
-            }
-        }
-        return this.setDate(value, true) as Promise<PickState>;
+        return this.setDate(value, true, silent) as Promise<PickState>;
     }
 
     _calcValue(value: string): string {
@@ -90,7 +97,8 @@ export class DatePicker<T extends DatePickerOptions = DatePickerOptions> extends
         this.setDate((event.target as HTMLInputElement).value);
     };
 
-    _handleClearBtnClick = () => {
+    _handleClearBtnClick = (event: MouseEvent) => {
+        event.stopPropagation();
         this.setDate('');
     };
 
@@ -107,7 +115,7 @@ export class DatePicker<T extends DatePickerOptions = DatePickerOptions> extends
             iconView = <button type="button" className="btn size-sm square ghost" onClick={this._handleClearBtnClick}><span className="close"></span></button>;
         } else if (icon) {
             if (icon === true) {
-                iconView = <i class="i-calendar"></i>;
+                iconView = <i className="i-calendar"></i>;
             } else {
                 iconView = <Icon icon={icon} />;
             }
@@ -127,7 +135,7 @@ export class DatePicker<T extends DatePickerOptions = DatePickerOptions> extends
                 onFocus={this._handleInputFocus}
                 onChange={this._handleInputChange}
             />,
-            iconView ? <label key="icon" for={id} className="input-control-suffix">{iconView}</label> : null,
+            iconView ? <span key="icon" className="input-control-suffix">{iconView}</span> : null,
         ];
     }
 

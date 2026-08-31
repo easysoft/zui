@@ -1,29 +1,37 @@
 /**
- * Get all values in path from an object
+ * Get all values along an access path from an object.
+ *
+ * The returned array starts with the source object itself and appends every
+ * intermediate value visited while walking the path, so the last element is the
+ * final value. Values may be of any type (objects, arrays, numbers, strings…),
+ * which is why the return type is `unknown[]`.
+ *
+ * The caller's `pathName` array is never mutated; the path segments are copied
+ * internally before traversal.
+ *
  * @param object The object to access
- * @param pathName Access path
- * @returns All values in path
+ * @param pathName Access path, either a dot string like `a[0].b.c` or an array of segments
+ * @returns All values visited along the path, source object first, final value last
+ * @throws When a bracket sub-path is applied to a non-object, or when the path cannot be fully resolved
  * @example
  * const object = {
  *     a: [{b: {c: 1}, d: 2}]
  * };
  *
- * deepGetPath(object, 'a[0].b.c'); // Output [[{b: {c: 1}, d: 2}], {b: {c: 1}, {c: 1}, 1]
+ * deepGetPath(object, 'a[0].b.c'); // Output [object, [{b: {c: 1}, d: 2}], {b: {c: 1}, d: 2}, {c: 1}, 1]
  */
-export function deepGetPath(object: object, pathName: string | string[]): (object | undefined)[] {
+export function deepGetPath(object: object, pathName: string | string[]): unknown[] {
     if (object === null || object === undefined) {
         return [object, undefined];
     }
 
-    if (typeof pathName === 'string') {
-        pathName = pathName.split('.');
-    }
+    const segments = typeof pathName === 'string' ? pathName.split('.') : [...pathName];
 
-    const fullPath = pathName.join('.');
-    let context = object;
-    const way = [context];
-    while (typeof context === 'object' && context !== null && pathName.length) {
-        let name = pathName.shift()!;
+    const fullPath = segments.join('.');
+    let context: unknown = object;
+    const way: unknown[] = [context];
+    while (typeof context === 'object' && context !== null && segments.length) {
+        let name = segments.shift()!;
         let subName: string | undefined;
         const bracketIndex = name.indexOf('[');
         if (bracketIndex > 0 && bracketIndex < (name.length - 1) && name.endsWith(']')) {
@@ -31,14 +39,14 @@ export function deepGetPath(object: object, pathName: string | string[]): (objec
             name = name.substring(0, bracketIndex);
         }
 
-        context = (context as Record<string, object>)[name];
+        context = (context as Record<string, unknown>)[name];
         way.push(context);
         if (subName !== undefined) {
             if (typeof context === 'object' && context !== null) {
                 if (context instanceof Map) {
                     context = context.get(subName);
                 } else {
-                    context = (context as Record<string, object>)[subName];
+                    context = (context as Record<string, unknown>)[subName];
                 }
                 way.push(context);
             } else {
@@ -47,8 +55,8 @@ export function deepGetPath(object: object, pathName: string | string[]): (objec
         }
     }
 
-    if (pathName.length) {
-        throw new Error(`Cannot access property with rest path "${pathName.join('.')}", the full path is "${fullPath}".`);
+    if (segments.length) {
+        throw new Error(`Cannot access property with rest path "${segments.join('.')}", the full path is "${fullPath}".`);
     }
 
     return way;
@@ -70,16 +78,14 @@ export function deepGetPath(object: object, pathName: string | string[]): (objec
  * deepGetPath(object, 'a');        // Output [{b: {c: 1}, d: 2}]
  */
 export function deepGet<T>(object: object, pathName: string | string[], defaultValue?: T | undefined, onGetParent?: (parent: object, name: string) => void): T | undefined {
-    if (typeof pathName === 'string') {
-        pathName = pathName.split('.');
-    }
+    const segments = typeof pathName === 'string' ? pathName.split('.') : pathName;
 
     try {
-        const way = deepGetPath(object, pathName);
+        const way = deepGetPath(object, segments);
         const length = way.length;
         const lastValue = way[length - 1] as T | undefined;
         if (onGetParent) {
-            onGetParent(length > 1 ? way[length - 2] as object : object, pathName[pathName.length - 1]);
+            onGetParent(length > 1 ? way[length - 2] as object : object, segments[segments.length - 1]);
         }
         return lastValue === undefined ? defaultValue : lastValue;
     } catch (_) {
@@ -87,6 +93,18 @@ export function deepGet<T>(object: object, pathName: string | string[], defaultV
     }
 }
 
+/**
+ * 按访问路径取出对象中的函数并调用它。
+ *
+ * 若目标不是函数，则在 `throws` 为真时抛出错误，否则原样返回该值。调用时 `this`
+ * 默认指向该函数所在的父对象，可通过 `thisObj` 覆盖。
+ * @param object 要访问的对象
+ * @param pathName 访问路径，点字符串或路径片段数组
+ * @param args 调用函数时传入的参数
+ * @param thisObj 调用时的 `this`，留空时使用函数所在的父对象
+ * @param throws 目标不是函数时是否抛出错误
+ * @returns 函数调用结果；目标非函数且不抛错时返回该值本身
+ */
 export function deepCall(object: object, pathName: string | string[], args?: unknown[], thisObj?: unknown, throws?: boolean): unknown {
     let parent: object | undefined;
     const callback = deepGet(object, pathName, undefined, (p) => {

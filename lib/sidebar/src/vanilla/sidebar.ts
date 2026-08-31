@@ -1,15 +1,16 @@
 import {Component, parseSize, $} from '@zui/core';
 import {store} from '@zui/store';
 import {Moveable} from '@zui/dnd';
-import '@zui/css-icons/src/icons/chevron.css';
-import '@zui/split/src/style/index';
+import '@zui/css-icons';
+import '@zui/split';
 
 import type {SizeSetting} from '@zui/core';
 import type {SidebarOptions} from '../types';
 
 function calcSize(size: SizeSetting, totalSize: number) {
     const [value, unit] = parseSize(size);
-    return unit === '%' ? (totalSize * value / 100) : value;
+    const result = unit === '%' ? (totalSize * value / 100) : value;
+    return Number.isFinite(result) ? Math.max(0, result) : 0;
 }
 
 const RESIZING_CLASS = 'is-sidebar-resizing';
@@ -65,14 +66,15 @@ export class Sidebar extends Component<SidebarOptions, {
 
     get $parent() {
         const {parent} = this.options;
-        return parent ? $(parent) : this.$element.parent();
+        const $parent = parent ? $(parent) : this.$element.parent();
+        return $parent.length ? $parent : this.$element.parent();
     }
 
     afterInit() {
         const {$element} = this;
-        const $container = $element.parent();
+        const $container = this.$parent;
         const container = $container[0]!;
-        const containerWidth = $container.width();
+        const containerWidth = Math.max(0, $container.width());
         this._container = container;
 
         const {
@@ -87,11 +89,14 @@ export class Sidebar extends Component<SidebarOptions, {
             dbclick,
         } = this.options;
         this._storeID = preserve ? `SIDEBAR:${preserve}:width` : '';
-        this._side = side;
+        this._side = side === 'right' ? 'right' : 'left';
         this._minWidth = calcSize(minWidth, containerWidth);
-        this._maxWidth = calcSize(maxWidth, containerWidth);
-        this._defaultWidth = Math.max(this._minWidth, Math.min(this._maxWidth, calcSize(width || $element.width(), containerWidth)));
-        this._width = (preserve ? store.get(this._storeID) : null) ?? this._defaultWidth;
+        this._maxWidth = Math.max(this._minWidth, calcSize(maxWidth, containerWidth));
+        this._defaultWidth = Math.max(this._minWidth, Math.min(this._maxWidth, calcSize(width ?? $element.width(), containerWidth)));
+        const storedWidth = preserve ? store.get(this._storeID) : undefined;
+        this._width = typeof storedWidth === 'number' && Number.isFinite(storedWidth)
+            ? Math.max(0, Math.min(this._maxWidth, storedWidth))
+            : this._defaultWidth;
 
         this.render();
 
@@ -124,7 +129,7 @@ export class Sidebar extends Component<SidebarOptions, {
                     if (Math.abs(deltaX) < 10) {
                         return;
                     }
-                    this.update(this._startWidth + (deltaX * (side === 'left' ? 1 : -1)));
+                    this.update(this._startWidth + (deltaX * (this._side === 'left' ? 1 : -1)));
                 },
                 onMoveEnd: () => {
                     if (animation) {
@@ -172,7 +177,13 @@ export class Sidebar extends Component<SidebarOptions, {
         }
 
         const {preserve, toggleBtn, onResize, onToggle, animation} = this.options;
-        width = width < this._minWidth ? (toggleBtn ? 0 : this._minWidth) : Math.min(this._maxWidth, width, this._container.clientWidth);
+        const maximumWidth = Math.max(0, Math.min(this._maxWidth, this._container.clientWidth));
+        width = Number.isFinite(width) ? Math.max(0, width) : this._defaultWidth;
+        if (width && width < this._minWidth) {
+            width = toggleBtn ? 0 : Math.min(this._minWidth, maximumWidth);
+        } else {
+            width = Math.min(maximumWidth, width);
+        }
         if (width === this._width) {
             return;
         }
@@ -225,3 +236,5 @@ export class Sidebar extends Component<SidebarOptions, {
         }
     }
 }
+
+Sidebar.register();

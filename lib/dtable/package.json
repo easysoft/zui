@@ -5,12 +5,14 @@
     "keywords": [
         "js",
         "cs",
-        "zui:component"
+        "zui:js-ui"
     ],
     "main": "src/main.ts",
     "module": "src/main.ts",
     "browser": "src/main.ts",
     "dependencies": {
+        "@zui/avatar": "workspace:^0.0.1",
+        "@zui/list": "workspace:^0.0.1",
         "@zui/core": "workspace:^0.0.1",
         "@zui/helpers": "workspace:^0.0.1",
         "@zui/scrollbar": "workspace:^0.0.1",
@@ -26,16 +28,24 @@
     },
     "exports": {
         ".": "./src/main.ts",
+        "./css": "./src/main-css.ts",
         "./react": "./src/main-react.ts",
+        "./plugins": "./src/plugins/index.ts",
         "./plugins/": "./src/plugins/"
     },
     "files": [
         "./src/**/*"
     ],
     "devDependencies": {
-        "@zui/avatar": "workspace:^0.0.1",
+        "@faker-js/faker": "^8.4.1",
+        "@zui/button": "workspace:^0.0.1",
+        "@zui/dropdown": "workspace:^0.0.1",
+        "@zui/form": "workspace:^0.0.1",
+        "@zui/input-control": "workspace:^0.0.1",
         "@zui/label": "workspace:^0.0.1",
         "@zui/icons": "workspace:^0.0.1",
+        "@zui/popover": "workspace:^0.0.1",
+        "@zui/tooltip": "workspace:^0.0.1",
         "zui-dev": "workspace:^0.0.1"
     },
     "zui": {

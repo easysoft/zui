@@ -5,11 +5,17 @@
     "browserslist": "",
     "keywords": [
         "css",
-        "zui:control"
+        "zui:component"
     ],
     "files": [
         "./src/**/*"
     ],
+    "exports": {
+        ".": "./src/main.ts",
+        "./css": "./src/main-css.ts",
+        "./react": "./src/main-react.ts",
+        "./i18n": "./src/i18n/index.ts"
+    },
     "dependencies": {
         "@zui/menu": "workspace:*",
         "@zui/nav": "workspace:*",
@@ -27,6 +33,7 @@
     "devDependencies": {
         "zui-dev": "workspace:*",
         "@zui/button": "workspace:0.0.1",
+        "@zui/list": "workspace:0.0.1",
         "@zui/utilities": "workspace:*"
     },
     "zui": {

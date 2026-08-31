@@ -1,5 +1,5 @@
 import type {HElementProps} from '@zui/core';
-import type {ListitemProps} from '@zui/list/src/types';
+import type {ListitemProps} from '@zui/list';
 import type {KanbanProps} from './kanban-props';
 
 export interface KanbanRegionProps extends HElementProps {

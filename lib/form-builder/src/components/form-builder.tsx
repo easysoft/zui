@@ -1,7 +1,7 @@
 import type {ComponentType, RenderableProps} from 'preact';
 import {type ClassNameLike, type ComponentChildren, computed, CustomContent, HElement, mergeProps, ReadonlySignal, Signal, effect, $, signal, batch} from '@zui/core';
-import {Toolbar} from '@zui/toolbar/src/component';
-import {Picker} from '@zui/picker/src/component';
+import {Toolbar} from '@zui/toolbar/react';
+import {Picker} from '@zui/picker/react';
 import type {FormBuilderOptions, FormSchema, FormWidgetMap, JSONSchema, FieldSchemaInfo, FormWidgetSetting, FormWidgetSettingDefinition, ObjectSchema, FormValidateRulePattern, StringSchema} from '../types';
 import {SchemaRenderer} from './schema-renderer';
 import {getLang} from '../i18n';
@@ -52,7 +52,7 @@ export class FormBuilder extends HElement<FormBuilderOptions> {
             const map: Record<string, JSONSchema> = {};
             const schemaPatches = this._schemaPatches$.value;
             FormBuilder.loopSchema(this.schema, (schema, path) => {
-                map[path] = $.extend(true, schema, schemaPatches[path]);
+                map[path] = $.extend(true, {}, schema, schemaPatches[path]);
             });
             this._map.clear();
             return map;
@@ -86,19 +86,28 @@ export class FormBuilder extends HElement<FormBuilderOptions> {
     }
 
     componentDidMount(): void {
+        super.componentDidMount();
         this.props.afterRender?.call(this, true);
     }
 
     componentDidUpdate(previousProps: Readonly<FormBuilderOptions>): void {
         if (previousProps.schema !== this.props.schema) {
-            this._schema$.value = this.props.schema;
-        } else {
-            this.props.afterRender?.call(this, false);
+            const oldSchema = this._schema$.value;
+            const formData = $.extend(true, {}, this.props.defaultData, this.formData);
+            batch(() => {
+                this._schema$.value = this.props.schema;
+                this._schemaPatches$.value = {};
+                this._validationErrors$.value = {};
+                this._dataMap$.value = FormBuilder.buildDataMap(this.props.schema, formData);
+            });
+            this.props.onSchemaChange?.call(this, this.props.schema, oldSchema);
         }
+        this.props.afterRender?.call(this, false);
     }
 
     componentWillUnmount(): void {
         this._formDataEffect();
+        super.componentWillUnmount();
     }
 
     getSchemaByPath(path: string): JSONSchema | undefined {
@@ -109,7 +118,7 @@ export class FormBuilder extends HElement<FormBuilderOptions> {
         const schemaPatches = this._schemaPatches$.value;
         this._schemaPatches$.value = {
             ...schemaPatches,
-            [path]: deepMerge ? $.extend(true, schemaPatches[path] || {}, fieldSchema) : {
+            [path]: deepMerge ? $.extend(true, {}, schemaPatches[path], fieldSchema) : {
                 ...schemaPatches[path],
                 ...fieldSchema,
             } as JSONSchema,
@@ -118,7 +127,7 @@ export class FormBuilder extends HElement<FormBuilderOptions> {
 
     setFieldValue = (path: string, value: unknown) => {
         const info = this.getFieldSchemaInfo(path);
-        const autoTrim = (info?.schema as StringSchema).autoTrim;
+        const autoTrim = (info?.schema as StringSchema | undefined)?.autoTrim;
         if (autoTrim && typeof value === 'string') {
             if (autoTrim === 'start') {
                 value = value.trimStart();
@@ -133,23 +142,21 @@ export class FormBuilder extends HElement<FormBuilderOptions> {
         if (oldValue === value) {
             return;
         }
-        requestAnimationFrame(() => {
-            const result = this.props.onFieldChange?.call(this, path, value, oldValue);
-            if (result === false) {
-                return;
-            }
-            batch(() => {
-                const changes = {
-                    [path]: value,
-                    ...(typeof result === 'object' ? result : {}),
-                };
-                this._dataMap$.value = {
-                    ...this._dataMap$.value,
-                    ...changes,
-                };
-                const allRelativePaths = Object.keys(changes);
-                this._updateFieldInfos(allRelativePaths);
-            });
+        const result = this.props.onFieldChange?.call(this, path, value, oldValue);
+        if (result === false) {
+            return;
+        }
+        batch(() => {
+            const changes = {
+                [path]: value,
+                ...(typeof result === 'object' ? result : {}),
+            };
+            this._dataMap$.value = {
+                ...this._dataMap$.value,
+                ...changes,
+            };
+            const allRelativePaths = Object.keys(changes);
+            this._updateFieldInfos(allRelativePaths);
         });
     };
 
@@ -169,7 +176,13 @@ export class FormBuilder extends HElement<FormBuilderOptions> {
                 return;
             }
             const patternConfig = typeof pattern === 'string' ? {pattern} : pattern;
-            const regex = new RegExp(patternConfig.pattern);
+            let regex: RegExp;
+            try {
+                regex = new RegExp(patternConfig.pattern);
+            } catch (error) {
+                console.warn('[ZUI] Invalid validation pattern:', patternConfig.pattern, error);
+                return;
+            }
             if (!regex.test(val)) {
                 return patternConfig.message ? [code, patternConfig.message] : formatError(code);
             }
@@ -209,7 +222,7 @@ export class FormBuilder extends HElement<FormBuilderOptions> {
             if (typeof schema.max === 'number' && schema.max > 0 && Array.isArray(value) && value.length > schema.max) {
                 errors.push(formatError('maxCount'));
             }
-        } else if (schema.type === 'map' && (schema.keyPattern || schema.valuePattern)) {
+        } else if (schema.type === 'map' && value && typeof value === 'object' && !Array.isArray(value) && (schema.keyPattern || schema.valuePattern)) {
             const map = value as Record<string, unknown>;
             const {keyPattern, valuePattern} = schema;
             for (const [key, val] of Object.entries(map)) {
@@ -256,14 +269,16 @@ export class FormBuilder extends HElement<FormBuilderOptions> {
             }
             if (fieldErrors.length > 0) {
                 errors[path] = fieldErrors;
-                firstErrorPath = path;
+                if (!firstErrorPath.length) {
+                    firstErrorPath = path;
+                }
             }
         });
         if (fieldErrorsChanged) {
             this._validationErrors$.value = errors;
-            if (firstErrorPath.length) {
-                $(this.element).find(`[z-key="${firstErrorPath}"]`).scrollIntoView();
-            }
+        }
+        if (firstErrorPath.length) {
+            $(this.element).find('[z-key]').filter((_index, element) => element.getAttribute('z-key') === firstErrorPath).scrollIntoView();
         }
         return Object.keys(errors).length === 0;
     }
@@ -396,6 +411,9 @@ export class FormBuilder extends HElement<FormBuilderOptions> {
             }
             (finalSchema as unknown as Record<string, unknown>)[key] = value;
         }
+        if (this.props.readonly) {
+            finalSchema.readonly = true;
+        }
 
         const schemaType = finalSchema.type;
         const propertyKeys = (schemaType === 'object' && finalSchema.properties) ? Object.keys(finalSchema.properties) : undefined;
@@ -440,7 +458,8 @@ export class FormBuilder extends HElement<FormBuilderOptions> {
     }
 
     protected _getWidget(schemaInfo: Omit<FieldSchemaInfo, 'widget'>): FormWidgetSetting {
-        const {widget: widgetName, props} = schemaInfo.schema;
+        const {widget: defaultWidgetName, readonlyWidget, props, readonly} = schemaInfo.schema;
+        const widgetName = readonly ? (readonlyWidget || defaultWidgetName) : defaultWidgetName;
         const {widgetMap} = FormBuilder;
         const {widgets = {}} = this.props;
         let widget: FormWidgetSettingDefinition | undefined;
@@ -460,7 +479,7 @@ export class FormBuilder extends HElement<FormBuilderOptions> {
         if (typeof widget === 'function') {
             widget = widget.call(this, schemaInfo, this);
         }
-        const widgetSetting: FormWidgetSetting = Array.isArray(widget) ? widget : [widget];
+        const widgetSetting = (Array.isArray(widget) ? [...widget] : [widget]) as FormWidgetSetting;
         if (props) {
             widgetSetting[1] = mergeProps({}, props, widgetSetting[1]);
         }

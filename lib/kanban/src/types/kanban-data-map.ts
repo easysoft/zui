@@ -1,4 +1,4 @@
-import type {ItemKey} from '@zui/common-list/src/types';
+import type {ItemKey} from '@zui/common-list';
 import type {KanbanDataset} from './kanban-dataset';
 import type {KanbanItemsMap} from './kanban-items-map';
 import type {KanbanLinkOptions} from './kanban-link-options';

@@ -3,6 +3,7 @@
     "version": "0.0.1",
     "main": "src/main.ts",
     "browser": "src/main.ts",
+    "keywords": ["zui:js-helpers"],
     "files": [
         "./src/**/*"
     ],
@@ -20,6 +21,7 @@
         "vhtml": "^2.2.0"
     },
     "devDependencies": {
-        "@types/vhtml": "^2.2.9"
+        "@types/vhtml": "^2.2.9",
+        "zui-dev": "workspace:*"
     }
 }

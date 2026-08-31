@@ -1,5 +1,5 @@
 import type {HElementProps, Selector, SizeSetting} from '@zui/core';
-import type {MoveableOptions} from '@zui/dnd/src/types';
+import type {MoveableOptions} from '@zui/dnd';
 import type {KanbanProps} from './kanban-props';
 import type {KanbanRegionProps} from './kanban-region-props';
 import type {KanbanLinkOptions} from './kanban-link-options';

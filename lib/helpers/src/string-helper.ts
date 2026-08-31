@@ -49,7 +49,11 @@ const defaultConverters: Record<string, StringConverter> = {
     currency: (value: unknown, currency = 'CNY') => new Intl.NumberFormat('zh-CN', {style: 'currency', currency}).format(Number(value)),
     mask: (value: unknown, start = '3', end = '4') => {
         const s = String(value);
-        return s.slice(0, Number(start)) + '*'.repeat(Math.max(0, s.length - Number(start) - Number(end))) + s.slice(-Number(end));
+        const startNum = Math.max(0, Number(start) || 0);
+        const endNum = Math.max(0, Number(end) || 0);
+        const stars = '*'.repeat(Math.max(0, s.length - startNum - endNum));
+        // 尾部长度为 0 时不能用 `slice(-0)`（等价于 `slice(0)`，会返回整串），需单独返回空串。
+        return s.slice(0, startNum) + stars + (endNum > 0 ? s.slice(-endNum) : '');
     },
     join: (value: unknown, sep = ',') => Array.isArray(value) ? value.join(sep) : String(value),
     padStart: (value: unknown, len: string, pad = ' ') => String(value).padStart(Number(len), pad),
@@ -231,12 +235,15 @@ export function formatBytes(size: number, fixed = 2, unit?: keyof typeof BYTE_UN
 }
 
 /**
- * 转换带单位的字节字符串为字节数
- * @param str 带单位的字节字符串
- * @returns 字节数
+ * 转换带单位的字节字符串为字节数，支持十进制数值，例如 `1.5MB`。
+ * @param str 带单位的字节字符串，例如 `100KB`、`1.5MB`；不含单位时按 `B` 处理
+ * @returns 字节数；无法解析时返回 `0`
+ * @example
+ * convertBytes('1.5MB'); // 1572864
+ * convertBytes('100');   // 100
  */
 export const convertBytes = (str: string) => {
-    const pattern = /^[0-9]*(B|KB|MB|GB|TB)$/;
+    const pattern = /^([0-9]*\.?[0-9]+)(B|KB|MB|GB|TB)$/;
     str = str.toUpperCase();
     if (!str.endsWith('B')) {
         str += 'B';
@@ -245,11 +252,15 @@ export const convertBytes = (str: string) => {
     if (!matchRes) {
         return 0;
     }
-    const unit = matchRes[1] as keyof typeof BYTE_UNITS;
-    str = str.replace(unit, '');
-    return Number.parseInt(str, 10) * BYTE_UNITS[unit];
+    const unit = matchRes[2] as keyof typeof BYTE_UNITS;
+    return parseFloat(matchRes[1]) * BYTE_UNITS[unit];
 };
 
+/**
+ * 转义 HTML 特殊字符（`&`、`<`、`>`、`"`、`'`），用于安全地插入文本内容。
+ * @param html 原始字符串
+ * @returns 转义后的字符串
+ */
 export const escapeHtml = (html: string) => {
     return html.replace(/&/g, '&amp;')
         .replace(/</g, '&lt;')
@@ -258,11 +269,21 @@ export const escapeHtml = (html: string) => {
         .replace(/'/g, '&#039;');
 };
 
+/**
+ * 将字符串编码为 Base64（支持 UTF-8 多字节字符）。
+ * @param value 原始字符串
+ * @returns Base64 编码字符串
+ */
 export const encodeBase64 = (value: string): string => {
     const utf8 = encodeURIComponent(value).replace(/%([0-9A-F]{2})/g, (_, hex: string) => String.fromCharCode(parseInt(hex, 16)));
     return btoa(utf8);
 };
 
+/**
+ * 将 Base64 字符串解码为原始字符串（支持 UTF-8 多字节字符）。
+ * @param value Base64 编码字符串
+ * @returns 解码后的原始字符串
+ */
 export const decodeBase64 = (value: string): string => {
     const utf8 = atob(value);
     const encoded = Array.from(utf8).map((char) => {

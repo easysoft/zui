@@ -5,6 +5,14 @@ import type {ListItemsSetting} from './list-items-setting';
 import type {ListItem} from './list-item';
 import type {List} from '../component';
 
+type BivariantCallback<Args extends unknown[], Result> = {
+    bivarianceHack(...args: Args): Result;
+}['bivarianceHack'];
+
+type ListCheckCallback<T extends Item> = {
+    bivarianceHack(this: List<ListProps<T>>, change: Record<ItemKey, CheckedType>, checks: ItemKey[]): void;
+}['bivarianceHack'];
+
 export interface ListProps<T extends Item = ListItem> extends CommonListProps<T> {
     items?: ListItemsSetting<T>;
     divider?: boolean;
@@ -17,8 +25,8 @@ export interface ListProps<T extends Item = ListItem> extends CommonListProps<T>
     activeOnHover?: boolean;
     hoverItemActions?: boolean;
     onActive?: (keys: string[], active: boolean) => void;
-    onCheck?: (this: List<T>, change: Record<ItemKey, CheckedType>, checks: ItemKey[]) => void;
-    onLoad?: (items: T[]) => void | T[];
+    onCheck?: ListCheckCallback<T>;
+    onLoad?: BivariantCallback<[items: T[]], void | T[]>;
     onLoadFail?: CustomContentType | ((error: Error) => CustomContentType | void);
     beforeRender?: (options: ListProps) => void;
     afterRender?: (firstRender: boolean) => void;

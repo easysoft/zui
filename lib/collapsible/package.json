@@ -2,11 +2,15 @@
     "name": "@zui/collapsible",
     "description": "ZUI Collapsible",
     "version": "0.0.1",
-    "keywords": ["css", "components"],
+    "keywords": ["css", "components", "zui:control"],
     "main": "src/main.ts",
     "devDependencies": {
         "@zui/base": "workspace:*",
-        "@zui/utilities": "workspace:*"
+        "@zui/utilities": "workspace:*",
+        "@zui/icons": "workspace:^0.0.1",
+        "@zui/list": "workspace:^0.0.1",
+        "@zui/menu": "workspace:^0.0.1",
+        "zui-dev": "workspace:*"
     },
     "dependencies": {
         "@zui/base": "workspace:*",
@@ -16,7 +20,13 @@
         "@zui/toolbar": "workspace:^0.0.1"
     },
     "files": [
+        "./src/**/*"
     ],
+    "exports": {
+        ".": "./src/main.ts",
+        "./css": "./src/main-css.ts",
+        "./react": "./src/main-react.ts"
+    },
     "zui": {
         "type": "control",
         "displayName": "折叠",

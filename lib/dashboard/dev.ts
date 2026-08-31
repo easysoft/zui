@@ -6,7 +6,7 @@ import '@zui/table';
 import '@zui/dtable';
 import {Dashboard} from './src/main';
 
-onPageLoad(() => {
+onPageUpdate(() => {
     const dashboard = new Dashboard('#dashboard', {
         blocks: [
             {id: 1, size: [3, 2]},

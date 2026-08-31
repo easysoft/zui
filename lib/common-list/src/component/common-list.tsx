@@ -1,7 +1,7 @@
 import {CustomContent, HElement, mergeProps} from '@zui/core';
 
 import type {ComponentChild, ComponentChildren, ComponentType, JSX, RenderableProps} from 'preact';
-import type {ClassNameLike} from '../../../core/src/helpers';
+import type {ClassNameLike} from '@zui/core';
 import type {CommonListProps, Item, ItemKey, ItemType} from '../types';
 
 /**
@@ -163,7 +163,22 @@ export class CommonList<P extends CommonListProps = CommonListProps, S = object>
         return {index, item, element, event, key, renderedItem, relativeTarget: this.props.relativeTarget};
     }
 
+    /**
+     * Detect a click that the browser is going to relay to the checkbox bound to the clicked label.
+     * Handling both clicks would toggle the same item twice within one gesture and cancel itself out.
+     */
+    protected _isRelayedToCheckbox(target: EventTarget | null): boolean {
+        if (!(target instanceof HTMLElement)) {
+            return false;
+        }
+        const control = target.closest('label')?.control;
+        return control instanceof HTMLInputElement && control.type === 'checkbox' && !control.disabled;
+    }
+
     protected _handleClick(event: MouseEvent) {
+        if (this._isRelayedToCheckbox(event.target)) {
+            return;
+        }
         const info = this._getItemFromEvent(event);
         if (!info) {
             return;

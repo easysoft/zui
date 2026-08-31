@@ -698,10 +698,6 @@
 .blocks > h3 {
   width: 100%;
 }
-.blocks > .btn {
-  padding: 0 0.75rem;
-  height: 2rem;
-}
 </style>
 
 ### Animations

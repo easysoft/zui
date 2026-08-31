@@ -2,6 +2,25 @@
 
 数据表格是一种展示二维数据的强大方式，相比较普通的[表格（`<table>`）组件](/lib/components/table/)，提供了更多的交互形式，并且拥有插件机制方便定制复杂交互的界面。
 
+## 模块化入口
+
+使用包的公开入口导入原生组件、样式和 Preact 组件；不要依赖 `src/` 下的内部文件：
+
+```ts
+import {DTable} from '@zui/dtable';
+import '@zui/dtable/css';
+
+new DTable('#myDtable', {cols: [], data: []});
+```
+
+```tsx
+import {DTable} from '@zui/dtable/react';
+
+<DTable cols={[]} data={[]} />
+```
+
+内置插件可从 `@zui/dtable/plugins` 导入；需要单独插件模块时使用 `@zui/dtable/plugins/<name>`。数值 `width` 会按像素宽度处理，`rowHeight` 必须为正数。
+
 ## 示例
 
 ### 基本功能

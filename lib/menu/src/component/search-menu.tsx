@@ -1,6 +1,6 @@
 import {$, classes, mergeProps} from '@zui/core';
 import {formatString} from '@zui/helpers';
-import {SearchBox} from '@zui/search-box/src/components';
+import {SearchBox} from '@zui/search-box/react';
 import {Menu} from './menu';
 
 import {type ComponentChild, type ComponentChildren, type RenderableProps} from 'preact';
@@ -195,7 +195,7 @@ export class SearchMenu<T extends SearchMenuOptions = SearchMenuOptions> extends
         );
     }
 
-    protected _beforeRender(props: RenderableProps<T>): void | RenderableProps<T> | undefined {
+    protected _beforeRender(props: RenderableProps<T>): void | undefined {
         if (this.isRoot) {
             this._matchedParents = new Set();
             this._showCount = 0;

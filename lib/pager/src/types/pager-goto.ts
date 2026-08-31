@@ -1,4 +1,4 @@
-import type {Item} from '@zui/common-list/src/types';
+import type {Item} from '@zui/common-list';
 import type {ButtonProps} from '@zui/button';
 import type {PagerInfo} from './pager-info';
 import type {PageName} from './page-name';

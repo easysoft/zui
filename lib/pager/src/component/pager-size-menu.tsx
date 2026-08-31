@@ -1,8 +1,8 @@
 import {classes} from '@zui/core';
-import {DropdownButton} from '@zui/dropdown/src/component';
-import {formatString} from '@zui/helpers/src/string-helper';
+import {DropdownButton} from '@zui/dropdown/react';
+import {formatString} from '@zui/helpers';
 import {PageLinkCreator, PagerInfo, PagerSizeMenuProps} from '../types';
-import {Item} from '@zui/common-list/src/types';
+import {Item} from '@zui/common-list';
 
 export function PagerSizeMenu({
     type: pagerSizeMenuType,
@@ -14,21 +14,24 @@ export function PagerSizeMenu({
     itemProps,
     ...dropdownProps
 }: PagerSizeMenuProps & {pagerInfo: PagerInfo; linkCreator: PageLinkCreator}) {
-    dropdown.items = items.map((recPerPage) => {
-        const info = {...pagerInfo, recPerPage};
-        return {
-            ...itemProps,
-            key: recPerPage,
-            text: `${recPerPage}`,
-            active: recPerPage === pagerInfo.recPerPage,
-            url: linkCreator ? (typeof linkCreator === 'function' ? linkCreator(info) : formatString(linkCreator, info)) : undefined,
-            'z-change-page-size': recPerPage,
-        } as unknown as Item;
-    }) as Item[];
+    const finalDropdown = {
+        ...dropdown,
+        items: items.map((recPerPage) => {
+            const info = {...pagerInfo, recPerPage};
+            return {
+                ...itemProps,
+                key: recPerPage,
+                text: `${recPerPage}`,
+                active: recPerPage === pagerInfo.recPerPage,
+                url: linkCreator ? (typeof linkCreator === 'function' ? linkCreator(info) : formatString(linkCreator, info)) : undefined,
+                'z-change-page-size': recPerPage,
+            } as unknown as Item;
+        }) as Item[],
+    };
     const {text = ''} = dropdownProps;
     dropdownProps.text = typeof text === 'function' ? text(pagerInfo) : formatString(text, pagerInfo);
-    dropdown.menu = {...menu, ...dropdown.menu, className: classes(dropdown.menu?.className, 'pager-size-menu')} as typeof dropdown.menu;
+    finalDropdown.menu = {...menu, ...dropdown.menu, className: classes(dropdown.menu?.className, 'pager-size-menu')} as typeof finalDropdown.menu;
     return (
-        <DropdownButton dropdown={dropdown} {...dropdownProps} />
+        <DropdownButton dropdown={finalDropdown} {...dropdownProps} />
     );
 }

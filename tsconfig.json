@@ -14,7 +14,9 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noImplicitReturns": false,
+    "types": ["vite/client"],
     "paths": {
+      "zui-dev": ["./dev"],
       "@zui/*": ["./lib/*"]
     }
   },

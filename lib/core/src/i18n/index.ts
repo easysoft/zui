@@ -1,3 +1,3 @@
 export * from './types';
-export {i18n} from './i18n';
+export {i18n, getLang} from './i18n';
 import './common';

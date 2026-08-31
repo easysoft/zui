@@ -1,9 +1,10 @@
 import {ComponentChildren, RefObject, RenderableProps, createRef} from 'preact';
 import {classes, $, mergeProps} from '@zui/core';
-import {SearchMenu} from '@zui/menu/src/component';
-import {SearchTree} from '@zui/tree/src/components';
-import {PickPop} from '@zui/pick/src/components';
-import '@zui/css-icons/src/icons/close.css';
+import {formatString} from '@zui/helpers';
+import {SearchMenu} from '@zui/menu/react';
+import {SearchTree} from '@zui/tree/react';
+import {PickPop} from '@zui/pick/react';
+import '@zui/css-icons';
 
 import type {NestedItem, NestedListItem} from '@zui/list';
 import type {MenuOptions, SearchMenuOptions} from '@zui/menu';
@@ -33,6 +34,8 @@ export class PickerMenu extends PickPop<PickerState, PickerMenuProps> {
     protected _disabledSet = new Set<string>();
 
     protected _firstSelected?: string;
+
+    protected _scrollTimer = 0;
 
     get menu() {
         return this._menu.current;
@@ -78,14 +81,16 @@ export class PickerMenu extends PickPop<PickerState, PickerMenuProps> {
             }
         });
 
-        setTimeout(() => {
+        this._scrollTimer = window.setTimeout(() => {
+            this._scrollTimer = 0;
             $(this.menu?.element).find('.menu-item>.selected').scrollIntoView({block: 'center'});
         }, 100);
     }
 
     componentWillUnmount(): void {
-        super.componentWillUnmount();
+        clearTimeout(this._scrollTimer);
         $(this.element).off('.zui.Picker');
+        super.componentWillUnmount();
     }
 
     _getItem = (item: NestedItem, index: number) => {
@@ -184,10 +189,10 @@ export class PickerMenu extends PickPop<PickerState, PickerMenuProps> {
     }
 
     protected _getMenuProps(props: RenderableProps<PickerMenuProps>): SearchMenuOptions {
-        const {menu, tree, state, checkbox, header, footer, noMatchHint, maxItemsCount, exceedLimitHint} = props;
+        const {menu, tree, state, checkbox, header, footer, noMatchHint, createHint, onCreate, maxItemsCount, exceedLimitHint} = props;
         const {items, search} = state;
 
-        return mergeProps({
+        const menuProps = mergeProps({
             ref: this._menu,
             className: 'picker-menu-list',
             underlineKeys: true,
@@ -205,7 +210,26 @@ export class PickerMenu extends PickPop<PickerState, PickerMenuProps> {
             footer,
             noMatchHint,
             relativeTarget: this,
-        }, menu, tree);
+        }, menu, tree) as SearchMenuOptions;
+        const createValue = search.trim();
+        if (createHint && onCreate && createValue.length) {
+            const createText = formatString(createHint, createValue);
+            menuProps.noMatchHint = (
+                <button
+                    type="button"
+                    className="btn ghost size-sm picker-create-option"
+                    aria-label={createText}
+                    onClick={(event) => {
+                        event.preventDefault();
+                        event.stopPropagation();
+                        onCreate(createValue);
+                    }}
+                >
+                    {createText}
+                </button>
+            ) as unknown as string;
+        }
+        return menuProps;
     }
 
     protected _renderHeader() {

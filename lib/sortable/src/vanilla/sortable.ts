@@ -1,5 +1,6 @@
-import {Component, $} from '@zui/core';
-import {SortableModule, SortableClass, SortableJSOptions, SortableOptions} from '../types';
+import {Component} from '@zui/core';
+import {sortableLoader} from '../helper/sortable-loader';
+import type {SortableModule, SortableClass, SortableJSOptions, SortableOptions} from '../types';
 
 export class Sortable extends Component<SortableOptions> {
     static NAME = 'Sortable';
@@ -18,9 +19,12 @@ export class Sortable extends Component<SortableOptions> {
 
     async afterInit() {
         const SortableModuleClass = await Sortable.loadModule();
-        const {options} = this;
-        if (options.dragShadow !== undefined && options.dragShadow !== true) {
-            const {dragShadow, onEnd, setData} = options;
+        if (!SortableModuleClass || this.destroyed) {
+            return;
+        }
+        const {dragShadow, onEnd, setData, ...sortableOptions} = this.options;
+        const options: SortableJSOptions = sortableOptions;
+        if (dragShadow !== undefined && dragShadow !== true) {
             options.setData = (dataTransfer, dragEl) => {
                 if (dragShadow === false && !this._emptyShadow) {
                     this._emptyShadow = dragEl.cloneNode(true) as HTMLElement;
@@ -35,7 +39,6 @@ export class Sortable extends Component<SortableOptions> {
                 this._emptyShadow?.remove();
                 this._emptyShadow = undefined;
             };
-            delete options.dragShadow;
         }
         this._module = new SortableModuleClass(this.element, options);
     }
@@ -83,9 +86,11 @@ export class Sortable extends Component<SortableOptions> {
      * Removes the sortable functionality completely.
      */
     destroy(): void {
-        super.destroy();
+        this._emptyShadow?.remove();
+        this._emptyShadow = undefined;
         this._module?.destroy();
         this._module = undefined;
+        super.destroy();
     }
 
     /**
@@ -95,17 +100,11 @@ export class Sortable extends Component<SortableOptions> {
         return this._module!.toArray();
     }
 
-    static Module?: SortableClass;
+    static get Module(): SortableClass {
+        return sortableLoader.Module;
+    }
 
-    static async loadModule(): Promise<SortableClass> {
-        if (!this.Module) {
-            this.Module = await $.getLib('sortablejs');
-        }
-        return this.Module;
+    static loadModule(): Promise<SortableClass | undefined> {
+        return sortableLoader.load();
     }
 }
-
-$.registerLib('sortablejs', {
-    src: 'sortable/sortable.min.js',
-    check: 'Sortable',
-});

@@ -25,6 +25,8 @@ export function addI18nMap(codeOrMap: I18nLangCode | I18nLangMap, values?: I18nV
         codeOrMap = {[codeOrMap]: values ?? {}};
     }
     $.extend(true, globalLangMap, codeOrMap);
+    /* Keep the public snapshot in sync so `i18n.map` reflects the current map instead of the initial undefined value. */
+    i18n.map = globalLangMap;
 }
 
 export function i18n<T = string>(maps: I18nLangMap | (I18nLangMap | undefined)[] | undefined, key: string, defaultValue?: T, langCode?: I18nLangCode, globalPrefix?: string): T | undefined;

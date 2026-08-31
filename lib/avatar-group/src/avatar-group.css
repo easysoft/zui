@@ -1,14 +1,20 @@
 .avatar-group {
   @apply -flex -gap-2.5;
 }
-.avatar-group > .avatar {
-  box-shadow: 0 0 0 1px var(--color-canvas);
+.avatar-group > * {
+  box-shadow: 0 0 0 var(--avatar-group-ring-width) var(--avatar-group-ring-color);
 }
 .avatar-group > * + * {
   @apply --ml-4;
 }
+/**
+ * Stacking overlap is (|margin-left| - gap) as a fraction of the avatar width,
+ * not the margin alone, so `size-xs` (w-5) and `size-sm` (w-6) need the same
+ * margin to overlap by a comparable amount. Keep the ratios in mind when
+ * changing these values.
+ */
 .avatar-group.size-xs > * + * {
-  @apply --ml-3;
+  @apply --ml-3.5;
 }
 .avatar-group.size-sm > * + * {
   @apply --ml-3.5;

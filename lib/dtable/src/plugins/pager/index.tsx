@@ -1,5 +1,6 @@
 import type {PagerInfo, PagerOptions} from '@zui/pager';
-import {Pager} from '@zui/pager/src/component';
+import type {ToolbarItemOptions} from '@zui/toolbar';
+import {Pager} from '@zui/pager/react';
 import {definePlugin} from '../../helpers/shared-plugins';
 
 import type {DTablePlugin, DTableWithPlugin} from '../../types/plugin';
@@ -36,63 +37,63 @@ const pagerPlugin: DTablePlugin<DTablePagerTypes> = {
     },
     footer: {
         pager() {
-            let {footPager} = this.options;
+            const {footPager} = this.options;
             const {localPager} = this.options;
             if (footPager) {
-                footPager = {
-                    items: [
-                        {
-                            type: 'link',
-                            page: 'first',
-                            icon: 'icon-first-page',
-                        },
-                        {
-                            type: 'link',
-                            page: 'prev',
-                            icon: 'icon-angle-left',
-                        },
-                        {
-                            type: 'info',
-                            text: '{page}/{pageTotal}',
-                        },
-                        {
-                            type: 'link',
-                            page: 'next',
-                            icon: 'icon-angle-right',
-                        },
-                        {
-                            type: 'link',
-                            page: 'last',
-                            icon: 'icon-last-page',
-                        },
-                    ],
+                const defaultItems: ToolbarItemOptions[] = [
+                    {
+                        type: 'link',
+                        page: 'first',
+                        icon: 'icon-first-page',
+                    },
+                    {
+                        type: 'link',
+                        page: 'prev',
+                        icon: 'icon-angle-left',
+                    },
+                    {
+                        type: 'info',
+                        text: '{page}/{pageTotal}',
+                    },
+                    {
+                        type: 'link',
+                        page: 'next',
+                        icon: 'icon-angle-right',
+                    },
+                    {
+                        type: 'link',
+                        page: 'last',
+                        icon: 'icon-last-page',
+                    },
+                ];
+                const items = Array.isArray(footPager.items) ? footPager.items as ToolbarItemOptions[] : defaultItems;
+                let pagerOptions: PagerOptions = {
                     ...footPager,
+                    items: items.map((item) => {
+                        return item.type === 'size-menu' && item.caret === undefined ? {...item, caret: 'up'} : {...item};
+                    }),
                 };
-                if (Array.isArray(footPager.items)) {
-                    footPager.items.forEach((item) => {
-                        if (item.type === 'size-menu' && item.caret === undefined) {
-                            item.caret = 'up';
-                        }
-                    });
-                }
                 if (this.options.localPager) {
-                    Object.assign(footPager, {
+                    const onChangePageInfo = pagerOptions.onChangePageInfo;
+                    pagerOptions = {
+                        ...pagerOptions,
                         ...(typeof localPager === 'object' ? localPager : null),
                         ...this.state.pager,
                         recTotal: this.layout.allRows.length,
                         useState: true,
-                    });
-                    footPager.onChangePageInfo = (newPager) => {
-                        this.update({
-                            dirtyType: 'layout',
-                            state: (prevState) => {
-                                const pager = {...(prevState as unknown as DTablePagerTypes['state']).pager, ...newPager};
-                                return {pager};
-                            },
-                        });
+                        onChangePageInfo: (newPager, event) => {
+                            onChangePageInfo?.(newPager, event);
+                            this.update({
+                                dirtyType: 'layout',
+                                state: (prevState) => {
+                                    const pager = {...(prevState as unknown as DTablePagerTypes['state']).pager, ...newPager};
+                                    return {pager};
+                                },
+                            });
+                        },
                     };
                 }
-                return [<Pager {...footPager} />];
+                return [<Pager {...pagerOptions} />];
             }
             return [];
         },
@@ -104,9 +105,11 @@ const pagerPlugin: DTablePlugin<DTablePagerTypes> = {
                 ...(typeof localPager === 'object' ? localPager : null),
                 ...this.state.pager,
             };
-            const actualPage = Math.max(0, Math.min(page, Math.ceil(rows.length / recPerPage)));
-            const start = (actualPage - 1) * recPerPage;
-            const end = Math.min(actualPage * recPerPage, rows.length);
+            const actualRecPerPage = Number.isFinite(recPerPage) ? Math.max(1, Math.floor(recPerPage)) : 20;
+            const pageTotal = Math.max(1, Math.ceil(rows.length / actualRecPerPage));
+            const actualPage = Number.isFinite(page) ? Math.max(1, Math.min(Math.floor(page), pageTotal)) : 1;
+            const start = (actualPage - 1) * actualRecPerPage;
+            const end = Math.min(actualPage * actualRecPerPage, rows.length);
             return rows.slice(start, end);
         }
     },

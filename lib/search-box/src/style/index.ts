@@ -1,3 +1,2 @@
-import '@zui/css-icons/src/icons/magnifier.css';
-import '@zui/css-icons/src/icons/close.css';
+import '@zui/css-icons';
 import './search-box.css';

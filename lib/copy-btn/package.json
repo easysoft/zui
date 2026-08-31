@@ -12,13 +12,14 @@
         "./src/**/*"
     ],
     "exports": {
-        ".": "./src/main.ts"
+        ".": "./src/main.ts",
+        "./react": "./src/main-react.ts"
     },
     "devDependencies": {
         "@zui/base": "workspace:*",
-        "@zui/button": "workspace:0.0.1",
         "@zui/utilities": "workspace:*",
-        "zui-dev": "workspace:*"
+        "zui-dev": "workspace:*",
+        "@zui/form-control": "workspace:*"
     },
     "dependencies": {
         "@zui/core": "workspace:*",

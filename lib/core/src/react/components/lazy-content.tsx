@@ -38,6 +38,9 @@ export class LazyContent extends Component<LazyContentProps, LazyContentState> {
 
     protected _ajax?: Ajax;
 
+    /** 加载序号，用于丢弃过期的乱序响应 */
+    protected _loadSeq = 0;
+
     /**
      * 加载内容
      * @param newFetcher 可选的新的获取器设置，如果提供将使用此设置进行加载，否则使用 props 中的 fetcher
@@ -45,13 +48,22 @@ export class LazyContent extends Component<LazyContentProps, LazyContentState> {
     async load(newFetcher?: FetcherSetting) {
         const {props} = this;
         const {fetcher, type, fetcherArgs, fetcherThis = this, clearBeforeLoad} = props;
+        // Abort any in-flight request and mark this call as the latest load.
+        this._ajax?.abort();
+        const seq = ++this._loadSeq;
         this.setState({loading: true, error: undefined, ...(clearBeforeLoad ? {content: undefined} : {})});
         try {
             const content = await fetchData(newFetcher || fetcher, fetcherArgs, {throws: true, dataType: type === 'custom' ? 'json' : 'text'}, fetcherThis, (ajax) => {
                 this._ajax = ajax;
             });
+            if (seq !== this._loadSeq) {
+                return;
+            }
             this.setState({content: content as CustomContentType, loading: false});
         } catch (error) {
+            if (seq !== this._loadSeq) {
+                return;
+            }
             this.setState({error: error as Error, loading: false});
         }
         this._ajax = undefined;

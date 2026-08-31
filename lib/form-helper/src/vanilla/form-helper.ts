@@ -1,4 +1,4 @@
-import {$, Component, type Cash, type Selector} from '@zui/core';
+import {$, type Cash, type Component, type Selector} from '@zui/core';
 import type {Picker} from '@zui/picker';
 import type {FormControlFinder, FormControlInfo, FormField, FormHelperOptions} from '../types';
 
@@ -57,6 +57,23 @@ export class FormHelper {
         return this._$element;
     }
 
+    /** Clear cached field queries after the form DOM has changed. */
+    clearCache(query?: string) {
+        if (query === undefined) {
+            this._cachedFields.clear();
+        } else {
+            this._cachedFields.delete(query);
+        }
+        return this;
+    }
+
+    protected _findByAttribute(attribute: string, value: string, startsWith = false): Cash {
+        return this._$element.find(`[${attribute}]`).filter((_index, element) => {
+            const attributeValue = element.getAttribute(attribute);
+            return startsWith ? (attributeValue?.startsWith(value) ?? false) : attributeValue === value;
+        });
+    }
+
     protected _queryField(query?: string): Cash | undefined {
         query = query?.trim();
         if (!query?.length) {
@@ -69,18 +86,17 @@ export class FormHelper {
         }
 
         const options = this._options;
-        const safeSelector = query.replaceAll('[', '\\[').replaceAll(']', '\\]');
-        let $field = $element.find(`[zui-form-field="${safeSelector}"]`);
+        let $field = this._findByAttribute('zui-form-field', query);
         if (!$field.length) {
-            $field = $element.find(`[name="${safeSelector}"]`);
+            $field = this._findByAttribute('name', query);
         }
         if (!$field.length && options.matchID) {
-            $field = $element.find(`#${safeSelector}`);
+            $field = this._findByAttribute('id', query);
         }
         if (!$field.length && options.matchBrackets && !query.includes('[')) {
-            $field = $element.find(`[name="${safeSelector}\\[\\]"]`);
+            $field = this._findByAttribute('name', `${query}[]`);
             if (!$field.length) {
-                $field = $element.find(`[name^="${safeSelector}["]`);
+                $field = this._findByAttribute('name', `${query}[`, true);
             }
         }
         return $field.length ? $field : undefined;
@@ -118,7 +134,13 @@ export class FormHelper {
             }
         }
 
-        const $field = $userField || (cacheQuery ? this._cachedFields.get(query) : this._queryField(query));
+        let $field = $userField;
+        if (!$field && cacheQuery) {
+            $field = this._cachedFields.get(query);
+        }
+        if (!$field) {
+            $field = this._queryField(query);
+        }
         if (!$field?.length) {
             return;
         }

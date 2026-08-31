@@ -1,0 +1,4 @@
+interface:
+  display_name: "ZUIX Helper"
+  short_description: "Design and implement ZUI extension helper APIs"
+  default_prompt: "Use $zuix-helper to design and implement helper APIs in the specified ZUI extension library."

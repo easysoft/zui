@@ -1,8 +1,7 @@
 import {arrow, computePosition, flip, shift, hide, size, autoUpdate, offset, VirtualElement, ReferenceElement, ComputePositionConfig} from '@floating-ui/dom';
-import {Component, $, ComponentEvents, JSX, evalValue, toCssSize, nextGid, ComponentOptions, parseSize} from '@zui/core';
+import {Component, $, ComponentEvents, JSX, dom, evalValue, toCssSize, nextGid, ComponentOptions, parseSize} from '@zui/core';
 import {PopoverEvents, PopoverOptions, PopoverPanelOptions, PopoverSide} from '../types';
 import {PopoverPanel} from './popover-panel';
-import {isElementDetached} from '@zui/core/src/dom';
 
 const CLASS_SHOW = 'show';
 
@@ -211,6 +210,7 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
         const {animation, onShow, onShown, trigger, elementShowClass} = this.options;
         const showResult = onShow?.call(this);
         if (showResult === false) {
+            this._destoryTarget();
             return;
         }
 
@@ -267,6 +267,7 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
     hide(destroy?: boolean) {
         if (!this._shown || !this._targetElement) {
             this._resetTimer();
+            return;
         }
 
         const {destroyOnHide, animation, onHide, onHidden, trigger, hideNewOnHide, elementShowClass} = this.options;
@@ -327,17 +328,25 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
     }
 
     destroy(): void {
+        this._resetTimer();
+        this._clearDelayHide();
+        const {SHOWN_POPOVERS} = this.constructor as typeof Popover;
+        SHOWN_POPOVERS.delete(this.gid);
+        this._shown = false;
+        $(this._targetElement).removeClass(`${CLASS_SHOW} ${CLASS_SHOWN}`);
+        if (!this._virtual && this._triggerElement instanceof HTMLElement) {
+            const {elementShowClass} = this.options;
+            $(this._triggerElement).removeAttr('zui-commands-proxy').removeData('zui.commandProxy').removeAttr('data-pop-placement').removeClass(elementShowClass || '');
+        }
         super.destroy();
-        if (!this._virtual) {
+        if (!this._virtual && this._triggerElement instanceof HTMLElement) {
             const {namespace} = this;
-            $(this._triggerElement as HTMLElement).off(namespace);
+            $(this._triggerElement).off(namespace);
         }
         if (this.$element.hasClass('popover-tmp')) {
             this.$element.remove();
         }
-        this._resetTimer();
         this._destoryTarget();
-        this._clearDelayHide();
     }
 
     updateLayout() {
@@ -377,7 +386,10 @@ export class Popover<O extends PopoverOptions = PopoverOptions, E extends Compon
         const target = this._targetElement;
         const {animation, name = 'popover', limitInScreen, onLayout} = this.options;
         computePosition(...this._getLayoutOptions()).then(({x, y, middlewareData, placement, strategy}) => {
-            if (trigger instanceof HTMLElement && isElementDetached(trigger)) {
+            if (this.destroyed || !this._shown || target !== this._targetElement) {
+                return;
+            }
+            if (trigger instanceof HTMLElement && dom.isElementDetached(trigger)) {
                 this.hide(true);
                 return;
             }

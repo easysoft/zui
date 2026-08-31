@@ -1,6 +1,6 @@
 # 仪表盘
 
-仪表盘用于创建由多个区块构成的信息展示页面，这些区块可以灵活排练，可以是图表、表格、卡片等。
+仪表盘用于创建由多个区块构成的信息展示页面；区块可以灵活排列，并承载图表、表格、卡片等内容。
 
 ## 用法
 
@@ -37,16 +37,19 @@ const dashboard = new zui.Dashboard('#dashboardExample', {
 
 | 属性 | 类型 | 说明 |
 | --- | --- | --- |
-| `responsive` | `boolean` | 是否响应式，可选，默认为 `true` |
+| `responsive` | `boolean` | 预留的响应式选项，可选，默认 `false` |
 | `blocks` | `BlockSetting[]` | 区块定义列表，可选，默认为 `[]` |
 | `grid` | `number` | 网格水平个数，可选，默认为 `3` |
 | `gap` | `number` | 区块之间的间隔，可选，默认为 `16` |
 | `cellHeight` | `number` | 单个网格的高度，可选，默认为 `64` |
+| `cache` | `boolean` \| `string` | 是否缓存异步区块内容；传入字符串时用作缓存命名空间，默认 `true` |
 | `blockFetch` | `BlockFetcher` | 区块内容的获取方式，可选，默认为 `undefined` |
-| `blockDefaultSize` | `[width: number, height: number]` \| `{width: number, height: number}` | 区块的默认大小，可选，默认为 `[1, 4]` |
-| `blockSizeMap` | `Record<string, [width: number, height: number] \| {width: number, height: number}>` | 区块的大小映射表，可选，默认为 `{}` |
+| `blockDefaultSize` | `[width: number, height: number]` \| `{width: number, height: number}` | 区块的默认大小，可选，默认为 `[1, 3]` |
+| `blockSizeMap` | `Record<string, [width: number, height: number] \| {width: number, height: number}>` | 区块的大小映射表，可选；默认提供 `xs`、`sm`、`md`、`lg`、`xl` 及宽/长变体 |
 | `blockMenu` | `ContextMenuOptions` | 定义区块操作菜单 |
-| `onLayoutChange` | `(blocks: BlockSetting[]) => void` | 区块布局变更回调函数 |
+| `emptyBlockContent` | `ComponentChildren \| {html: string}` | 未加载内容的占位内容 |
+| `onlyLoadVisible` | `boolean` | 是否仅在区块进入可视区后加载，默认 `true` |
+| `onLayoutChange` | `(layout: Record<string, {top: number; left: number; width: number; height: number}>) => void` | 区块布局变更回调函数 |
 
 ## 预设区块尺寸
 
@@ -91,34 +94,52 @@ blockSizeMap: {
 
 ### `load`
 
-该方法用于手动重新载入指定区块的内容，定义为：
+手动重新载入指定区块的内容。可选的 `fetcher` 会覆盖该区块当前的获取方式：
 
 ```ts
-function load(id: string): void;
+function load(id: string, fetcher?: BlockFetcher): void;
 ```
+
+### `update`
+
+更新指定区块的属性；当 `fetch` 发生变化时，区块会重新进入待加载状态：
+
+```ts
+function update(info: Partial<BlockInfo> & {id: string}, callback?: () => void): void;
+```
+
+### `add`
+
+向仪表盘添加一个或多个区块：
+
+```ts
+function add(blocks: BlockSetting | BlockSetting[]): void;
+```
+
+### `delete`
+
+移除指定区块：
+
+```ts
+function delete(id: string): void;
+```
+
+### `reset`
+
+使用新的区块定义重置仪表盘，并取消旧区块的待处理加载结果：
+
+```ts
+function reset(blockSettings: BlockSetting[]): void;
+```
+
+通过原生组件实例的 `$` 属性可访问这些方法，例如 `dashboard.$?.load('sales')`；Cash 插件调用也支持 `$('#dashboard').zuiDashboard('load', 'sales')`。
 
 ### `render`
 
-通过该方法来手动渲染仪表盘，可以传入新的选项来覆盖原有的选项，定义为：
+原生组件实例的 `render` 方法可传入新的选项以重新渲染仪表盘：
 
 ```ts
-function render(options: DashboardOptions): void;
-```
-
-### `addBlock`
-
-通过该方法向仪表盘添加一个新的区块，定义为：
-
-```ts
-function addBlock(block: BlockSetting): void;
-```
-
-### `removeBlock`
-
-通过该方法向仪表盘移除一个区块，定义为：
-
-```ts
-function removeBlock(id: string): void;
+function render(options?: Partial<DashboardOptions>, reset?: boolean): void;
 ```
 
 ## API
@@ -147,7 +168,7 @@ type BlockInfo = {
     title?: string;
     toolbar?: ToolbarOptions;
     placeholder?: ComponentChildren;
-    content?: ComponentChildren;
+    content?: ComponentChildren | {html: string};
     menu?: ContextMenuOptions;
 };
 ```
@@ -161,11 +182,17 @@ type DashboardOptions =  {
     grid?: number;
     gap?: number;
     cellHeight?: number;
+    cache?: boolean | string;
     blockFetch?: BlockFetcher;
     blockDefaultSize?: [width: number, height: number] | {width: number, height: number};
-    blockSizeMap: Record<string, [width: number, height: number] | {width: number, height: number}>;
+    blockSizeMap?: Record<string, [width: number, height: number] | {width: number, height: number}>;
     blockMenu?: ContextMenuOptions;
-    onLayoutChange?: (blocks: BlockSetting[]) => void;
+    emptyBlockContent?: ComponentChildren | {html: string};
+    onlyLoadVisible?: boolean;
+    onClickMenu?: (info: {item: MenuItemOptions; event: MouseEvent}, block: BlockInfo) => void;
+    onLayoutChange?: (layout: Record<string, {top: number; left: number; width: number; height: number}>) => void;
+    onLoad?: (info: BlockInfo) => void;
+    onLoadFail?: (error: Error, info: BlockInfo) => void;
 };
 ```
 

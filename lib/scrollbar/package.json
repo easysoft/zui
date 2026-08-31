@@ -6,7 +6,7 @@
     "keywords": [
         "css",
         "js",
-        "zui:component"
+        "zui:control"
     ],
     "files": [
         "./src/**/*"
@@ -18,7 +18,8 @@
     },
     "devDependencies": {
         "@zui/base": "workspace:*",
-        "@zui/utilities": "workspace:*"
+        "@zui/utilities": "workspace:*",
+        "zui-dev": "workspace:*"
     },
     "dependencies": {
         "@zui/core": "workspace:^0.0.1"

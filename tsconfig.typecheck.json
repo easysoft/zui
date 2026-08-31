@@ -1,0 +1,42 @@
+{
+    "extends": "./tsconfig.json",
+    "compilerOptions": {
+        "jsx": "react-jsx",
+        "jsxImportSource": "preact",
+        "paths": {
+            "zui-dev": ["./dev/src/dev.ts"],
+            "zui-config": ["./config"],
+            "@zui/*/react": ["./lib/*/src/main-react.ts"],
+            "@zui/*/css": ["./lib/*/src/main-css.ts"],
+            "@zui/*": ["./lib/*"]
+        }
+    },
+    "include": [
+        "./lib/*/src/**/*.ts",
+        "./lib/*/src/**/*.tsx",
+        "./dev/src/**/*.ts",
+        "./dev/src/**/*.tsx",
+        "./scripts/**/*.ts",
+        "./scripts/**/*.tsx",
+        "./src/**/*.ts",
+        "./src/**/*.tsx",
+        "./tests/**/*.ts",
+        "./tests/**/*.tsx",
+        "./vite.config.ts",
+        "./vite.shared.ts",
+        "./vitest.config.ts",
+        "./playwright.config.ts"
+    ],
+    "exclude": [
+        "./build",
+        "./dist",
+        "./docs",
+        "./exts",
+        "./lib/*/dev.ts",
+        "./lib/*/docs",
+        "./lib/*/public",
+        "./node_modules",
+        "./publish",
+        "./skills-exts"
+    ]
+}

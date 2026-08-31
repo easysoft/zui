@@ -3,11 +3,13 @@
     "version": "0.0.1",
     "main": "src/main.ts",
     "browser": "src/main.ts",
+    "keywords": ["zui:control"],
     "files": [
         "./src/**/*"
     ],
     "exports": {
-        ".": "./src/main.ts"
+        ".": "./src/main.ts",
+        "./react": "./src/main-react.ts"
     },
     "devDependencies": {
         "@zui/base": "workspace:*",

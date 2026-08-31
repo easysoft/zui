@@ -3,23 +3,33 @@ on:
   push:
     branches:
       - dev
+
+permissions:
+  contents: write
+
+concurrency:
+  group: deploy-docs-dev
+  cancel-in-progress: true
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: pnpm/action-setup@v2
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
         with:
-          version: 9
-      - uses: actions/setup-node@v3
+          version: 11.21.0
+      - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22.13.1
           cache: pnpm
       - run: pnpm install --frozen-lockfile
+      - name: Verify source changes
+        run: pnpm check
       - name: Build
         run: BASE_PATH=/zui/dev/ pnpm docs:build
       - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
+        uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: docs/_/.vitepress/dist

@@ -6,13 +6,23 @@
     "browserslist": "",
     "keywords": [
         "css",
-        "zui:control"
+        "zui:js-ui"
     ],
+    "files": [
+        "./src/**/*"
+    ],
+    "exports": {
+        ".": "./src/main.ts",
+        "./css": "./src/main-css.ts"
+    },
+    "dependencies": {
+        "@zui/core": "workspace:*"
+    },
     "devDependencies": {
         "@zui/base": "workspace:*",
-        "@zui/core": "workspace:*",
         "@zui/nav": "workspace:^0.0.1",
-        "@zui/utilities": "workspace:*"
+        "@zui/utilities": "workspace:*",
+        "zui-dev": "workspace:*"
     },
     "zui": {
         "type": "js-ui",

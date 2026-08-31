@@ -4,7 +4,7 @@
     "main": "src/main.ts",
     "browser": "src/main.ts",
     "browserslist": "",
-    "keywords": ["css", "zui:control"],
+    "keywords": ["css", "zui:component"],
     "dependencies": {
         "@zui/avatar": "workspace:0.0.1"
     },
@@ -12,6 +12,9 @@
         "@zui/base": "workspace:*",
         "@zui/utilities": "workspace:*"
     },
+    "files": [
+        "./src/**/*"
+    ],
     "zui": {
         "type": "component",
         "displayName": "头像组",

@@ -3,7 +3,7 @@ import {DTable as DTableReact} from '../components/dtable';
 import {removePlugin, definePlugin, getDTablePlugin} from '../helpers/shared-plugins';
 import * as plugins from '../plugins';
 import type {DTableOptions} from '../types/options';
-import {deepCall} from '@zui/helpers/src/object';
+import {deepCall} from '@zui/helpers';
 
 export class DTable extends ComponentFromReact<DTableOptions, DTableReact> {
     static NAME = 'DTable';

@@ -7,3 +7,5 @@ export class Dashboard extends ComponentFromReact<DashboardOptions, DashboardRea
 
     static Component = DashboardReact;
 }
+
+Dashboard.register();

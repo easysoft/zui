@@ -2,17 +2,21 @@
     "name": "@zui/store",
     "description": "ZUI localstorage helper",
     "version": "0.0.1",
-    "keywords": ["js", "zui:js-lib"],
+    "keywords": ["js", "zui:js-helpers"],
     "browser": "src/main.ts",
     "main": "src/main.ts",
     "files": [
         "./src/**/*"
     ],
+    "devDependencies": {
+        "@zui/core": "workspace:*",
+        "zui-dev": "workspace:*"
+    },
     "zui": {
         "type": "js-helpers",
         "displayName": "本地存储",
         "contributes": {
-            "js": ["module"]
+            "js": ["class", "module"]
         }
     }
 }

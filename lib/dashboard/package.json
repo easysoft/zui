@@ -5,13 +5,14 @@
     "keywords": [
         "js",
         "cs",
-        "zui:component"
+        "zui:js-ui"
     ],
     "main": "src/main.ts",
     "module": "src/main.ts",
     "dependencies": {
         "@zui/core": "workspace:^0.0.1",
         "@zui/helpers": "workspace:^0.0.1",
+        "@zui/menu": "workspace:^0.0.1",
         "@zui/store": "workspace:^0.0.1",
         "@zui/contextmenu": "workspace:^0.0.1",
         "@zui/css-icons": "workspace:^0.0.1",
@@ -19,12 +20,17 @@
         "@zui/toolbar": "workspace:^0.0.1"
     },
     "exports": {
-        ".": "./src/main.ts"
+        ".": "./src/main.ts",
+        "./css": "./src/main-css.ts",
+        "./react": "./src/main-react.ts"
     },
     "files": [
         "./src/**/*"
     ],
     "devDependencies": {
+        "@zui/dtable": "workspace:^0.0.1",
+        "@zui/panel": "workspace:^0.0.1",
+        "@zui/table": "workspace:^0.0.1",
         "zui-dev": "workspace:^0.0.1"
     },
     "zui": {

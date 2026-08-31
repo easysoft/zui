@@ -1,7 +1,7 @@
 import {JSX, ComponentType} from 'preact';
 import {CellInfo, DTablePlugin, DTableWithPlugin} from '../../types';
 import {$} from '@zui/core';
-import {HtmlContent} from '@zui/core/src/react';
+import {HtmlContent} from '@zui/core';
 import {formatString} from '@zui/helpers';
 import {definePlugin} from '../../helpers/shared-plugins';
 

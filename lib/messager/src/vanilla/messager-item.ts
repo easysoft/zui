@@ -37,6 +37,9 @@ export class MessagerItem extends ComponentFromReact<MessagerItemOptions, Messag
     }
 
     show() {
+        if (this.destroyed) {
+            return;
+        }
         this.render();
         this.emit('show');
         this._resetTimer(() => {
@@ -55,6 +58,10 @@ export class MessagerItem extends ComponentFromReact<MessagerItemOptions, Messag
 
     hide() {
         if (!this._show) {
+            if (this._showTimer) {
+                clearTimeout(this._showTimer);
+                this._showTimer = 0;
+            }
             return;
         }
 
@@ -73,10 +80,14 @@ export class MessagerItem extends ComponentFromReact<MessagerItemOptions, Messag
         if (this._showTimer) {
             clearTimeout(this._showTimer);
         }
-        this._showTimer = window.setTimeout(() => {
-            callback();
+        const timer = window.setTimeout(() => {
+            if (this._showTimer !== timer) {
+                return;
+            }
             this._showTimer = 0;
+            callback();
         }, time);
+        this._showTimer = timer;
     }
 
     _afterRender = ({firstRender}: {firstRender: boolean}) => {
@@ -88,4 +99,12 @@ export class MessagerItem extends ComponentFromReact<MessagerItemOptions, Messag
             this.$element.css('margin', `${margin}px`);
         }
     };
+
+    destroy(): void {
+        if (this._showTimer) {
+            clearTimeout(this._showTimer);
+            this._showTimer = 0;
+        }
+        super.destroy();
+    }
 }

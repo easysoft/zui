@@ -1,0 +1,4 @@
+interface:
+  display_name: "ZUI Dev Page"
+  short_description: "Build and maintain ZUI 3 playground pages"
+  default_prompt: "Use $zui-dev to build or improve the playground page for the specified ZUI 3 library."

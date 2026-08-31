@@ -2,7 +2,7 @@ import 'zui-dev';
 import {VirtualList} from './src/main';
 
 onPageUpdate(() => {
-    const virtualGrid = new VirtualList('#virtualList', {
+    const virtualList = new VirtualList('#virtualList', {
         height: 200,
         className: 'bg-gray',
         itemCount: 20,
@@ -16,6 +16,6 @@ onPageUpdate(() => {
             return (index + 1) * 10;
         },
     });
-    Object.assign(window, {vg: virtualGrid});
-    console.log('> virtualGrid', virtualGrid);
+    Object.assign(window, {virtualList});
+    console.log('> virtualList', virtualList);
 });

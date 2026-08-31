@@ -1,4 +1,4 @@
-import {Tree} from '@zui/tree/src/components';
+import {Tree} from '@zui/tree/react';
 import {Sortable} from '../vanilla/sortable';
 
 import type {RenderableProps} from 'preact';
@@ -28,6 +28,7 @@ export class SortableTree<P extends SortableTreeProps = SortableTreeProps, S ext
         if (this._sortable) {
             this._sortable.destroy();
         }
+        super.componentWillUnmount();
     }
 
     getOrders() {

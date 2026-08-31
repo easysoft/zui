@@ -1,12 +1,11 @@
-import {formatString} from '@zui/helpers/src/string-helper';
-import {formatDate} from '@zui/helpers/src/date-helper';
-import {ProgressCircle} from '@zui/progress-circle/src/component';
-import {ProgressBar} from '@zui/progress/src/components';
-import '@zui/progress/src/style';
+import {formatString, formatDate} from '@zui/helpers';
+import {ProgressCircle} from '@zui/progress-circle/react';
+import {ProgressBar} from '@zui/progress/react';
+import '@zui/progress/css';
 import {definePlugin} from '../../helpers/shared-plugins';
 
 import type {JSX, ComponentChildren} from 'preact';
-import type {DateLike} from '@zui/helpers/src/date-helper';
+import type {DateLike} from '@zui/helpers';
 import type {DTablePlugin, RowInfo, ColInfo, DTableWithPlugin, CustomRenderResultList} from '../../types';
 
 export type ColLinkSetting = string | false | ({url: string} & JSX.HTMLAttributes<HTMLAnchorElement>) | ((info: {row: RowInfo; col: ColInfo}) => string | false | ({url: string} & JSX.HTMLAttributes<HTMLAnchorElement>));
@@ -82,10 +81,10 @@ export function renderFormat(this: DTableWithPlugin, format: ColFormatSetting | 
 }
 
 export function renderDatetime(this: DTableWithPlugin, format: ColDateFormatSetting, info: {row: RowInfo; col: ColInfo}, value?: unknown, invalidDate?: string) {
-    if (!value) {
+    value = value ?? info.row.data?.[info.col.name];
+    if (value === undefined || value === null || value === '') {
         return invalidDate ?? value as string;
     }
-    value = value ?? info.row.data?.[info.col.name];
     if (value === '0000-00-00 00:00:00' || value === '0000-00-00') {
         return invalidDate ?? '';
     }
@@ -113,11 +112,10 @@ export function renderLinkCell(this: DTableWithPlugin, result: CustomRenderResul
 export function renderFormatCell(this: DTableWithPlugin, result: CustomRenderResultList, info: {row: RowInfo; col: ColInfo; value: unknown}) {
     const {format, digits} = info.col.setting;
     let value = result[0];
-    if (typeof digits === 'number' && !Number.isNaN(Number(value))) {
+    const normalizedDigits = typeof digits === 'number' && Number.isFinite(digits) ? Math.max(0, Math.min(100, Math.floor(digits))) : undefined;
+    if (normalizedDigits !== undefined && Number.isFinite(Number(value))) {
         value = Number(value);
-        if (digits >= 0) {
-            value = (value as number).toFixed(digits);
-        }
+        value = (value as number).toFixed(normalizedDigits);
     }
     if (format) {
         value = renderFormat.call(this, format as ColFormatSetting, info, value);

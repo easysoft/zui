@@ -6,13 +6,18 @@
     "browserslist": "",
     "keywords": [
         "css",
-        "zui:control"
+        "zui:component"
     ],
     "devDependencies": {
         "@zui/base": "workspace:*",
         "@zui/table": "workspace:^0.0.1",
-        "@zui/utilities": "workspace:*"
+        "@zui/utilities": "workspace:*",
+        "@zui/icons": "workspace:*",
+        "@zui/toolbar": "workspace:*"
     },
+    "files": [
+        "./src/**/*"
+    ],
     "zui": {
         "type": "component",
         "displayName": "面板",

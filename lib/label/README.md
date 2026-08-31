@@ -141,10 +141,10 @@
 <span class="label rounded-sm">span</span>
 <span class="label rounded">span</span>
 <span class="label rounded-md">span</span>
-<span class="label circle">span</span>
+<span class="label rounded-full">span</span>
 ```
 ## Button Label
 
 ```html:example: -flex -gap-3
-<button class="btn" type="button">按钮 <span class="label sm circle">12</span></button>
+<button class="btn" type="button">按钮 <span class="label size-sm rounded-full">12</span></button>
 ```

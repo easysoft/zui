@@ -4,13 +4,17 @@
     "version": "0.0.1",
     "keywords": [
         "js",
-        "zui:js-lib"
+        "zui:js-helpers"
     ],
     "browser": "src/main.ts",
     "main": "src/main.ts",
     "files": [
         "./src/**/*"
     ],
+    "exports": {
+        ".": "./src/main.ts",
+        "./react": "./src/main-react.ts"
+    },
     "zui": {
         "type": "js-helpers",
         "displayName": "Sortable JS",
@@ -30,6 +34,10 @@
     "devDependencies": {
         "sortablejs": "^1.15.0",
         "zui-dev": "workspace:^0.0.1",
-        "@types/sortablejs": "^1.15.1"
+        "@types/sortablejs": "^1.15.1",
+        "@zui/avatar": "workspace:^0.0.1",
+        "@zui/button": "workspace:^0.0.1",
+        "@zui/checkbox": "workspace:^0.0.1",
+        "@zui/icons": "workspace:^0.0.1"
     }
 }

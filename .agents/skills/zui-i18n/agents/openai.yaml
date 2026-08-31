@@ -1,0 +1,4 @@
+interface:
+  display_name: "ZUI Internationalization"
+  short_description: "Add and verify ZUI 3 internationalization"
+  default_prompt: "Use $zui-i18n to add or improve internationalization for the specified ZUI 3 library."

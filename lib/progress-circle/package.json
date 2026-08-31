@@ -2,23 +2,26 @@
     "name": "@zui/progress-circle",
     "description": "ZUI progress-circle",
     "version": "0.0.1",
-    "keywords": ["js", "zui:js-progress-circle"],
+    "keywords": ["js", "zui:control"],
     "module": "src/main.ts",
     "files": [
         "./src/**/*"
     ],
     "exports": {
-      ".": "./src/main.ts"
+      ".": "./src/main.ts",
+      "./react": "./src/main-react.ts"
     },
     "dependencies": {
-        "zui-dev": "workspace:*",
         "@zui/core": "workspace:*"
+    },
+    "devDependencies": {
+        "zui-dev": "workspace:*"
     },
     "zui": {
         "type": "control",
         "displayName": "环形进度条",
         "contributes": {
-            "css": ["class", "var"]
+            "js": ["component"]
         }
     }
 }

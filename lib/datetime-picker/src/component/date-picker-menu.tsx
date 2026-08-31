@@ -1,12 +1,12 @@
 import {Component, type RefObject, createRef} from 'preact';
 import {createDate, formatDate, formatString} from '@zui/helpers';
 import {$, i18n} from '@zui/core';
-import {Menu} from '@zui/menu/src/component';
-import {Button} from '@zui/button/src/component';
-import {Toolbar} from '@zui/toolbar/src/component';
+import {Menu} from '@zui/menu/react';
+import {Button} from '@zui/button/react';
+import {Toolbar} from '@zui/toolbar/react';
 import type {ToolbarItemOptions} from '@zui/toolbar';
 import type {DatePickerMenuProps, DatePickerMenuState} from '../types';
-import '@zui/css-icons/src/icons/chevron.css';
+import '@zui/css-icons';
 import {MiniCalendar} from './mini-calendar';
 import {ValueSelector} from './value-selector';
 import {getDate} from '../helpers';
@@ -57,6 +57,16 @@ export class DatePickerMenu extends Component<DatePickerMenuProps, DatePickerMen
     protected _changeMonth = (month: number) => {
         this.setState({month, select: 'day'});
     };
+
+    componentDidUpdate(previousProps: Readonly<DatePickerMenuProps>): void {
+        if (previousProps.date === this.props.date) {
+            return;
+        }
+        const date = getDate(this.props.date);
+        if (date) {
+            this.setState({year: date.getFullYear(), month: date.getMonth() + 1});
+        }
+    }
 
     protected _renderMenu(props: DatePickerMenuProps) {
         return Menu.render(props.menu, [], {
@@ -121,7 +131,7 @@ export class DatePickerMenu extends Component<DatePickerMenuProps, DatePickerMen
         return (
             <div className="date-picker-menu row" ref={this._ref} onClick={this._handleClick}>
                 {this._renderMenu(props)}
-                <div className="cell" style="width: 312px">
+                <div className="cell" style={{width: '312px'}}>
                     <div className="row p-2">
                         <Button type={select === 'year' ? 'primary-pale' : 'ghost'} size="sm" caret onClick={this._showSelect.bind(this, 'year')}>{formatString(yearText, year)}</Button>
                         <Button type={select === 'month' ? 'primary-pale' : 'ghost'} size="sm" caret onClick={this._showSelect.bind(this, 'month')}>{monthNames ? monthNames[month - 1] : month}</Button>

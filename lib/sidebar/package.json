@@ -2,7 +2,13 @@
     "name": "@zui/sidebar",
     "version": "0.0.1",
     "main": "src/main.ts",
+    "exports": {
+        ".": "./src/main.ts",
+        "./css": "./src/main-css.ts",
+        "./react": "./src/main-react.ts"
+    },
     "browserslist": "",
+    "keywords": ["zui:component"],
     "files": [
         "./src/**/*"
     ],
@@ -11,7 +17,8 @@
         "@zui/core": "workspace:*",
         "@zui/store": "workspace:*",
         "@zui/split": "workspace:*",
-        "@zui/dnd": "workspace:*"
+        "@zui/dnd": "workspace:*",
+        "@zui/css-icons": "workspace:*"
     },
     "devDependencies": {
         "zui-dev": "workspace:*",
@@ -24,7 +31,8 @@
             "css": [
                 "class",
                 "var"
-            ]
+            ],
+            "js": ["component"]
         }
     }
 }

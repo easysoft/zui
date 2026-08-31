@@ -1,6 +1,7 @@
 {
     "name": "@zui/form",
     "version": "0.0.1",
+    "keywords": ["zui:control"],
     "main": "src/main.ts",
     "dependencies": {
         "@zui/input-group": "workspace:*",
@@ -10,8 +11,13 @@
     "devDependencies": {
         "@zui/base": "workspace:*",
         "@zui/button": "workspace:*",
-        "@zui/utilities": "workspace:*"
+        "@zui/utilities": "workspace:*",
+        "@zui/icons": "workspace:*",
+        "@zui/input-control": "workspace:*"
     },
+    "files": [
+        "./src/**/*"
+    ],
     "zui": {
         "type": "control",
         "displayName": "表单",

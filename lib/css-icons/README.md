@@ -36,21 +36,30 @@
 
 ## 更多
 
+`.more` 和 `.more-vert` 尺寸固定，不随字号变化。
+
 ```html:example:flex items-center gap-2
 <span class="more"></span>
 <span class="more-vert"></span>
-<span class="more-vert text-xl"></span>
+<span class="more-vert text-primary"></span>
 ```
 
 ## 箭头
 
-```html:example
-<div class="-w-32 -h-16 -relative">
-  <span class="arrow"></span>
-  <span class="arrow arrow-left"></span>
-  <span class="arrow arrow-right"></span>
-  <span class="arrow arrow-down"></span>
-  <span class="arrow arrow-up"></span>
+箭头从父元素继承 `background` 和 `border`，因此必须放在一个自身带背景色和边框的元素中，并由父元素设置定位。
+
+```html:example:flex items-center gap-4
+<div class="-relative -w-24 -h-16 -rounded -border -border-[--color-border] -bg-surface">
+  <span class="arrow arrow-up" style="left: 50%"></span>
+</div>
+<div class="-relative -w-24 -h-16 -rounded -border -border-[--color-border] -bg-surface">
+  <span class="arrow arrow-down" style="left: 50%"></span>
+</div>
+<div class="-relative -w-24 -h-16 -rounded -border -border-[--color-border] -bg-surface">
+  <span class="arrow arrow-left" style="top: 50%"></span>
+</div>
+<div class="-relative -w-24 -h-16 -rounded -border -border-[--color-border] -bg-surface">
+  <span class="arrow arrow-right" style="top: 50%"></span>
 </div>
 ```
 
@@ -77,14 +86,6 @@
 <span class="magnifier"></span>
 <span class="magnifier text-lg"></span>
 <span class="magnifier text-lg text-primary"></span>
-```
-
-## 更多
-
-```html:example:flex items-center gap-2
-<span class="more"></span>
-<span class="more-vert"></span>
-<span class="more-vert text-xl"></span>
 ```
 
 ## 时间

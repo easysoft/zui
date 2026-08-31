@@ -172,13 +172,10 @@ export async function executeCommands(commands: CommandsLike, options: CommandEx
         const results = [];
         let result;
         for (const command of commandList) {
-            if (!signal?.aborted) {
+            if (signal?.aborted) {
                 break;
             }
             result = await executeCommand(command, options, result);
-            if (signal?.aborted) {
-                result = undefined;
-            }
             results.push(result);
         }
         return results;
@@ -242,7 +239,7 @@ export function unbindCommands(element: Selector, scopes: string | true = true):
         });
         const boundScopes = Object.keys(boundCommands);
         if (boundScopes.length) {
-            $element.attr(COMMANDS_ATTR, boundScopes.join(',')).data(COMMAND_DATA_NAME, bindCommands);
+            $element.attr(COMMANDS_ATTR, boundScopes.join(',')).data(COMMAND_DATA_NAME, boundCommands);
         } else {
             unbindCommands($element, true);
         }

@@ -13,6 +13,10 @@
         "@zui/base": "workspace:*",
         "@zui/utilities": "workspace:*"
     },
+    "files": [
+        "./src/**/*",
+        "./public/**/*"
+    ],
     "zui": {
         "type": "control",
         "displayName": "图标",

@@ -1,5 +1,5 @@
 import {IconType, ComponentChildren} from '@zui/core';
-import {PickOptions} from '@zui/pick/src/types';
+import {PickOptions} from '@zui/pick';
 
 export interface ColorPickerOptions extends PickOptions {
     required?: boolean;

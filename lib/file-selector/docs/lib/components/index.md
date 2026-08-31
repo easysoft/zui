@@ -98,7 +98,7 @@ const fileSelector = new zui.FileSelector({
 <div id="imageSelector"></div>
 
 <script>
-const imageSelector = new zui.imageSelector();
+const imageSelector = new zui.ImageSelector();
 // 等价于：
 // const imageSelector = new zui.FileSelector({
 //     mode: 'grid',
@@ -129,7 +129,7 @@ const imageSelector = new zui.imageSelector();
 <div id="fileSelector"></div>
 
 <script>
-const fileSelector = new zui.fileSelector({
+const fileSelector = new zui.FileSelector({
     accept: 'image/*,.png,.jpg,.jpeg,.gif',
     tip: '只支持选择图片'
 });
@@ -156,7 +156,7 @@ const fileSelector = new zui.fileSelector({
 <div id="fileSelector"></div>
 
 <script>
-const fileSelector = new zui.fileSelector({
+const fileSelector = new zui.FileSelector({
     maxFileSize: '1MB',
     totalFileSize: '10MB',
     tip: '单个文件不超过 1MB，总文件大小不超过 10MB'
@@ -184,7 +184,7 @@ const fileSelector = new zui.fileSelector({
 <div id="fileSelector"></div>
 
 <script>
-const fileSelector = new zui.fileSelector({
+const fileSelector = new zui.FileSelector({
     maxFileCount: 3,
     tip: '最多选择 3 个文件'
 });
@@ -211,7 +211,7 @@ const fileSelector = new zui.fileSelector({
 <div id="fileSelector"></div>
 
 <script>
-const fileSelector = new zui.fileSelector({
+const fileSelector = new zui.FileSelector({
     defaultFiles: [
         {name: 'file1.txt', size: 1024},
         {name: 'file2.txt', size: 2048},
@@ -241,7 +241,7 @@ const fileSelector = new zui.fileSelector({
 <div id="fileSelector"></div>
 
 <script>
-const fileSelector = new zui.fileSelector({
+const fileSelector = new zui.FileSelector({
     disabled: true,
     defaultFiles: [
         {name: 'file1.txt', size: 1024},
@@ -279,7 +279,7 @@ const fileSelector = new zui.fileSelector({
 <div id="fileSelector"></div>
 
 <script>
-const fileSelector = new zui.fileSelector({
+const fileSelector = new zui.FileSelector({
     tip: '请选择文件，不超过 {maxFileSize}'
 });
 </script>
@@ -305,7 +305,7 @@ const fileSelector = new zui.fileSelector({
 <div id="fileSelector"></div>
 
 <script>
-const fileSelector = new zui.fileSelector({
+const fileSelector = new zui.FileSelector({
     fileIcons: {
         image: 'image',
         video: 'video',
@@ -342,7 +342,7 @@ const fileSelector = new zui.fileSelector({
 <div id="fileSelector"></div>
 
 <script>
-const fileSelector = new zui.fileSelector({
+const fileSelector = new zui.FileSelector({
     thumbnail: false,
     tip: '不显示缩略图'
 });
@@ -369,7 +369,7 @@ const fileSelector = new zui.fileSelector({
 <div id="fileSelector"></div>
 
 <script>
-const fileSelector = new zui.fileSelector({
+const fileSelector = new zui.FileSelector({
     draggable: false,
     mode: 'grid',
     tip: '禁用拖放'
@@ -397,7 +397,7 @@ const fileSelector = new zui.fileSelector({
 <div id="fileSelector"></div>
 
 <script>
-const fileSelector = new zui.fileSelector({
+const fileSelector = new zui.FileSelector({
     multiple: false,
     tip: '一次只能选择一个文件'
 });
@@ -424,7 +424,7 @@ const fileSelector = new zui.fileSelector({
 <div id="fileSelector"></div>
 
 <script>
-const fileSelector = new zui.fileSelector({
+const fileSelector = new zui.FileSelector({
     mode: 'grid',
     gridWidth: '200px',
     gridHeight: '200px',
@@ -454,7 +454,7 @@ const fileSelector = new zui.fileSelector({
 <div id="fileSelector"></div>
 
 <script>
-const fileSelector = new zui.fileSelector({
+const fileSelector = new zui.FileSelector({
     uploadBtn: {
         text: '上传文件',
         icon: 'upload',
@@ -487,7 +487,7 @@ const fileSelector = new zui.fileSelector({
 <div id="fileSelector"></div>
 
 <script>
-const fileSelector = new zui.fileSelector({
+const fileSelector = new zui.FileSelector({
     renameBtn: {
         text: '重命名',
         icon: 'edit',
@@ -522,7 +522,7 @@ const fileSelector = new zui.fileSelector({
 <div id="fileSelector"></div>
 
 <script>
-const fileSelector = new zui.fileSelector({
+const fileSelector = new zui.FileSelector({
     removeBtn: {
         text: '删除',
         icon: 'trash',
@@ -567,7 +567,7 @@ const fileSelector = new zui.fileSelector({
 <div id="fileSelector"></div>
 
 <script>
-const fileSelector = new zui.fileSelector({
+const fileSelector = new zui.FileSelector({
     removeConfirm: {
         title: '删除文件',
         content: '确定要删除文件吗？'
@@ -612,7 +612,7 @@ const fileSelector = new zui.fileSelector({
 <div id="fileSelector"></div>
 
 <script>
-const fileSelector = new zui.fileSelector({
+const fileSelector = new zui.FileSelector({
     onRename: (newName, oldName, file) => {
         console.log('Rename file', file);
     },
@@ -649,7 +649,7 @@ const fileSelector = new zui.fileSelector({
 <div id="fileSelector"></div>
 
 <script>
-const fileSelector = new zui.fileSelector({
+const fileSelector = new zui.FileSelector({
     onDuplicated: (name, currentFile, existFile) => {
         console.log('Duplicated file', name, currentFile, existFile);
     },

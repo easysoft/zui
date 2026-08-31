@@ -1,0 +1,4 @@
+interface:
+  display_name: "ZUI 页面构建"
+  short_description: "从零使用内置 ZUI 资源快速构建可运行的 Web 页面"
+  default_prompt: "使用 $zui-build 从零构建一个可直接运行的 ZUI Web 页面。"

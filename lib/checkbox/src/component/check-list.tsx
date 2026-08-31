@@ -6,25 +6,30 @@ import type {CheckListProps, CheckListState} from '../types';
 import {Checkbox} from './checkbox';
 
 export class CheckList<P extends CheckListProps = CheckListProps> extends HElement<P, CheckListState> {
-    protected _controlled: boolean;
+    static customProps = ['onChange'];
 
     protected _defaultID = `_check-list-${this._gid}`;
-
-    constructor(props: P) {
-        super(props);
-        this.state = {
-            checked: props.checked ?? props.defaultChecked ?? (props.type === 'radio' ? '' : []),
-            items: Array.isArray(props.items) ? props.items : undefined,
-        };
-        this._controlled = props.checked !== undefined;
-    }
 
     get isRadio() {
         return this.props.type === 'radio';
     }
 
+    /**
+     * Whether the checked state is owned by the `checked` prop.
+     */
+    get controlled() {
+        return this.props.checked !== undefined;
+    }
+
     get checked() {
-        return this._controlled ? (this.props.checked ?? (this.isRadio ? '' : [])) : this.state.checked;
+        return (this.controlled ? this.props.checked : this.state.checked) ?? (this.isRadio ? '' : []);
+    }
+
+    getDefaultState(props?: RenderableProps<P>): CheckListState {
+        return {
+            checked: props?.checked ?? props?.defaultChecked ?? (props?.type === 'radio' ? '' : []),
+            items: Array.isArray(props?.items) ? props.items : undefined,
+        };
     }
 
     async load() {
@@ -43,9 +48,13 @@ export class CheckList<P extends CheckListProps = CheckListProps> extends HEleme
         }
     }
 
+    componentDidMount(): void {
+        super.componentDidMount();
+        this.load();
+    }
+
     componentDidUpdate(previousProps: Readonly<P>): void {
-        const {items} = this.props;
-        if (items && !Array.isArray(items) && isDiff(items, previousProps.items)) {
+        if (isDiff(this.props.items, previousProps.items)) {
             this.load();
         }
     }
@@ -85,7 +94,10 @@ export class CheckList<P extends CheckListProps = CheckListProps> extends HEleme
             return;
         }
 
-        if (!this._controlled) {
+        if (this.controlled) {
+            // The caller may keep the same `checked` prop, so restore the DOM state changed by the browser.
+            this.forceUpdate();
+        } else {
             this.setState({checked: newChecked});
         }
 

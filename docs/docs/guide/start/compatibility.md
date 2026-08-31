@@ -2,12 +2,16 @@
 
 ## 支持的浏览器
 
-* Chrome：84+
-* Firefox：63+
-* Safari：14.1+
-* Edge：84+
+ZUI 3 的发布产物以以下浏览器版本为最低编译目标：
+
+* Chrome：107+
+* Firefox：104+
+* Safari：16+
+* Edge：107+
 * Chrome for Android：126+
-* iOS Safari：14.5+
+* iOS Safari：16+
+
+持续集成会使用项目锁定的 Playwright 版本，在最新版 Chromium、Firefox 和 WebKit 引擎上运行 smoke、交互和自动化可访问性检查。Playwright 的当前引擎检查不能替代最低版本、Android 或真实 iOS 设备验证；涉及兼容性边界的改动仍需在对应环境人工确认。
 
 ## 用到的第三方库
 
@@ -20,11 +24,13 @@
 
 ## 技术栈
 
-* Node.js 18+
-* 包管理器：[pnpm](https://pnpm.io/zh/)
+下列版本是参与源码开发和构建 ZUI 3 的工具要求，不是应用使用 ZUI 运行时产物的要求：
+
+* Node.js 22.13+
+* 包管理器：[pnpm 11.21.0](https://pnpm.io/zh/)
 * 构建工具：[Vite](https://cn.vitejs.dev/)
 * CSS 工具库：[TailwindCSS](https://tailwindcss.com/)
 * 静态文档网站生成：[VitePress](https://vitepress.dev/)
-* TypeScript 4.5+
+* TypeScript 5.9+
 * 字体图标生成：[Fantasticon](https://github.com/tancredi/fantasticon)
 * JS 组件开发 [preact.js](https://preactjs.com/)

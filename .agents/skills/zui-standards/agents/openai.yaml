@@ -1,0 +1,4 @@
+interface:
+  display_name: "ZUI Standards"
+  short_description: "Inspect and apply ZUI 3 development standards"
+  default_prompt: "Use $zui-standards to inspect and apply the relevant ZUI 3 development conventions."

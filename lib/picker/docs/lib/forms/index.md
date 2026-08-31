@@ -86,6 +86,50 @@ const picker = new zui.Picker('#multiPickerExample', {
 
 :::
 
+## 创建选项
+
+在多选 Picker 中设置 `creatable: true` 后，当非空搜索词没有匹配项且数据已加载完成时，下拉列表会显示本地化的“创建”按钮。点击按钮或在搜索框按 <kbd>Enter</kbd>，会创建选项、选中新值并清空搜索；下拉面板保持打开。
+
+::: tabs
+
+== 示例
+
+<Example>
+  <ZUI use="picker" :options="{multiple: true, items, creatable: true, placeholder: '搜索或创建选项'}" />
+</Example>
+
+== HTML
+
+```html
+<div id="creatablePickerExample"></div>
+
+<script>
+const picker = new zui.Picker('#creatablePickerExample', {
+    multiple: true,
+    items,
+    creatable: true,
+    placeholder: '搜索或创建选项',
+});
+</script>
+```
+
+:::
+
+`creatable` 也可以是同步转换函数，用于自定义新选项。搜索文本会先去除首尾空白；返回 `false`、抛出错误或返回没有有效 `value` 的选项时，本次不会创建。
+
+```js
+const picker = new zui.Picker('#customCreatablePicker', {
+    multiple: true,
+    items,
+    creatable(search) {
+        const value = search.toLowerCase().replace(/\s+/g, '-');
+        return value ? {text: `自定义：${search}`, value: `tag:${value}`} : false;
+    },
+});
+```
+
+新建项保存在当前 Picker 实例的 `PickerState.createdItems` 中，`PickerState.items` 则包含数据源选项和新建项；传入的 `items` 不会被修改。可以通过 vanilla 实例的 `picker.$?.state.createdItems` 查看创建项。创建项仅存在于当前实例生命周期中，重置或销毁 Picker 后会清除；如需服务端持久化，应在业务层另行处理。若数据源随后返回相同 `value` 的选项，列表优先使用数据源选项。
+
 ## 在输入组中使用
 
 ::: tabs
@@ -220,6 +264,8 @@ display?: string | function;
 search?: boolean | number;
 /** 搜索提示文本。 */
 searchHint?: string;
+/** 是否允许在多选搜索无匹配结果时创建选项，或使用同步函数转换新选项。 */
+creatable?: boolean | ((search: string) => PickerItemOptions | false);
 /** 快捷键设置。 */
 hotkeys?: object;
 /** 下拉箭头的类名。 */

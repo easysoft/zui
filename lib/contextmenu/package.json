@@ -6,18 +6,25 @@
     "browserslist": "",
     "keywords": [
         "css",
-        "zui:control"
+        "zui:js-ui"
     ],
+    "files": [
+        "./src/**/*"
+    ],
+    "exports": {
+        ".": "./src/main.ts"
+    },
     "devDependencies": {
         "@zui/base": "workspace:*",
         "@zui/button": "workspace:0.0.1",
         "@zui/icons": "workspace:^0.0.1",
         "@zui/utilities": "workspace:*",
-        "@zui/dropdown": "workspace:*",
-        "zui-dev": "workspace:^0.0.1"
+        "zui-dev": "workspace:^0.0.1",
+        "@zui/list": "workspace:*"
     },
     "dependencies": {
         "@zui/core": "workspace:*",
+        "@zui/dropdown": "workspace:*",
         "@zui/menu": "workspace:*"
     },
     "zui": {

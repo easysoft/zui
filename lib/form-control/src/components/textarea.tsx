@@ -14,6 +14,10 @@ export type TextAreaProps = {
 };
 
 export class TextArea extends Component<TextAreaProps> {
+    protected _handleAutoHeight = () => {
+        this.autoHeight();
+    };
+
     get value() {
         return (this.base as HTMLTextAreaElement).value;
     }
@@ -25,15 +29,13 @@ export class TextArea extends Component<TextAreaProps> {
     componentDidMount(): void {
         if (this.props.autoHeight) {
             this.autoHeight();
-            $(this.base).on('input paste change', () => {
-                this.autoHeight();
-            });
+            $(this.base).on('input.zui.TextArea paste.zui.TextArea change.zui.TextArea', this._handleAutoHeight);
         }
     }
 
     componentWillUnmount(): void {
         if (this.props.autoHeight) {
-            $(this.base).off('input paste change');
+            $(this.base).off('.zui.TextArea');
         }
     }
 

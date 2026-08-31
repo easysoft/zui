@@ -1,0 +1,4 @@
+interface:
+  display_name: "ZUI Optimization"
+  short_description: "Audit and optimize one or more ZUI 3 libraries"
+  default_prompt: "Use $zui-optimize to audit and optimize the specified ZUI 3 libraries."

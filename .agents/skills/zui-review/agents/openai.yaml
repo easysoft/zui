@@ -1,0 +1,4 @@
+interface:
+  display_name: "ZUI Review"
+  short_description: "Review ZUI 3 changes for actionable defects"
+  default_prompt: "Use $zui-review to review the current local changes for actionable defects."

@@ -1,7 +1,6 @@
-import {$, type Cash, i18n, Component, html, debounce, evalValue} from '@zui/core';
+import {$, type Cash, i18n, Component, html, debounce, dom, evalValue} from '@zui/core';
 import type {Item} from '@zui/common-list';
 import type {ResponsiveNavHelperProps} from '../types';
-import {listenResize} from '@zui/core/src/dom';
 import {Dropdown} from '@zui/dropdown';
 
 export class ResponsiveNavHelper extends Component<ResponsiveNavHelperProps> {
@@ -38,7 +37,10 @@ export class ResponsiveNavHelper extends Component<ResponsiveNavHelperProps> {
             if (watchType === 'window') {
                 watchWindow = true;
             } else if (watchType === 'container') {
-                elements.add(this.getContainer()[0] as HTMLElement);
+                const container = this.getContainer()[0] as HTMLElement | undefined;
+                if (container) {
+                    elements.add(container);
+                }
             } else if (watchType === 'self') {
                 elements.add(this.element);
             } else if (watchType === 'parent') {
@@ -55,7 +57,7 @@ export class ResponsiveNavHelper extends Component<ResponsiveNavHelperProps> {
         }, new Set<HTMLElement>());
 
         if (watchElements.size) {
-            this._observer = listenResize([...watchElements], () => {
+            this._observer = dom.listenResize([...watchElements], () => {
                 this._tryRender();
             });
         }
@@ -211,7 +213,7 @@ export class ResponsiveNavHelper extends Component<ResponsiveNavHelperProps> {
             return getItemSize.call(this, item);
         }
         const style = getComputedStyle(item);
-        return item.offsetWidth + parseInt(style.marginLeft) + parseInt(style.marginRight);
+        return item.offsetWidth + (parseFloat(style.marginLeft) || 0) + (parseFloat(style.marginRight) || 0);
     }
 
     getMoreItems(): Item[] {

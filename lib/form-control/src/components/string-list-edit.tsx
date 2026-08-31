@@ -1,6 +1,6 @@
 import {Component, type RenderableProps} from 'preact';
 import {signal, Signal, nextGid, SizeSetting, toCssSize, $, effect} from '@zui/core';
-import {Button} from '@zui/button/src/component';
+import {Button} from '@zui/button/react';
 
 export type StringListValue = string[];
 
@@ -43,7 +43,7 @@ export class StringListEdit extends Component<StringListEditProps> {
                 return acc;
             }, [] as StringListValue);
 
-            const changed = oldValue.length !== value.length || oldValue.some((value, index) => value !== value[index]);
+            const changed = oldValue.length !== value.length || oldValue.some((oldItem, index) => oldItem !== value[index]);
             if (changed) {
                 this._value = value;
                 if (this.props.onChange) {
@@ -88,8 +88,8 @@ export class StringListEdit extends Component<StringListEditProps> {
                     onChange={this._handleValueChange}
                 />
                 <div className="string-list-edit-item-actions">
-                    <Button type="ghost" size="sm" icon="plus" onClick={this._handleAddClick} />
-                    <Button type="ghost" size="sm" icon="trash" onClick={this._handleDeleteClick} />
+                    <Button type="ghost" size="sm" icon="plus" disabled={readonly} onClick={this._handleAddClick} />
+                    <Button type="ghost" size="sm" icon="trash" disabled={readonly} onClick={this._handleDeleteClick} />
                 </div>
             </div>
         );

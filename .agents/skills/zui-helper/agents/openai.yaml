@@ -1,0 +1,4 @@
+interface:
+  display_name: "ZUI Helper"
+  short_description: "Design and implement ZUI 3 helper APIs"
+  default_prompt: "Use $zui-helper to design and implement helper APIs in the specified ZUI 3 library."

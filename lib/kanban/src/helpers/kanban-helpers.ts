@@ -1,8 +1,22 @@
 import {mergeProps} from '@zui/core';
-import {getUniqueCode} from '@zui/helpers/src/string-code';
+import {getUniqueCode} from '@zui/helpers';
 
 import type {KanbanLaneOptions, KanbanColOptions, KanbanItem, KanbanData, KanbanProps, KanbanDataset} from '../types';
 import {createLinkID} from './link-helpers';
+
+const cloneMergeInput = <T extends object | undefined>(value: T): T => {
+    if (!value) {
+        return value;
+    }
+    const copy = {...value} as Record<string, unknown>;
+    Object.keys(copy).forEach((key) => {
+        const nested = copy[key];
+        if (nested && typeof nested === 'object' && !Array.isArray(nested) && (key === 'style' || key.endsWith('Style') || key === 'attrs' || key.endsWith('Attrs') || key === 'props')) {
+            copy[key] = {...nested};
+        }
+    });
+    return copy as T;
+};
 
 export function getCols(this: unknown, cols: KanbanColOptions[] | undefined, options: Pick<KanbanProps, 'getCol' | 'colProps' | 'itemCountPerRow' | 'itemGap'>, forEachCol?: (col: KanbanColOptions) => void) {
     if (!cols || !cols.length) {
@@ -12,30 +26,34 @@ export function getCols(this: unknown, cols: KanbanColOptions[] | undefined, opt
     let needSort = false;
     const subCols: KanbanColOptions[] = [];
     const rootColMap = new Map<string, KanbanColOptions>();
-    cols = cols.reduce<KanbanColOptions[]>((list, col, index) => {
-        col = mergeProps({itemGap, itemCountPerRow}, colProps, col) as unknown as KanbanColOptions;
+    cols = cols.reduce<KanbanColOptions[]>((list, sourceCol, index) => {
+        let col = mergeProps({itemGap, itemCountPerRow}, cloneMergeInput(colProps), cloneMergeInput(sourceCol)) as unknown as KanbanColOptions;
+        col = {...col, subCols: col.subCols?.map(subCol => ({...subCol}))};
         if (getCol) {
             const result = getCol.call(this, col);
-            if (result !== false) {
-                col = result || col;
+            if (result === false) {
+                return list;
+            }
+            if (result) {
+                col = {...result, subCols: result.subCols?.map(subCol => ({...subCol}))};
             }
         }
         if (col.deleted) {
             return list;
         }
 
-        if (typeof col.order === 'number') {
+        if (typeof col.order === 'number' && Number.isFinite(col.order)) {
             needSort = true;
         } else {
-            col.order = index;
+            col = {...col, order: index};
         }
         if (typeof col.name !== 'string') {
-            col.name = String(col.name);
+            col = {...col, name: String(col.name)};
         }
 
         forEachCol?.call(this, col);
         if (col.parentName !== undefined) {
-            col.parentName = String(col.parentName);
+            col = {...col, parentName: String(col.parentName)};
             subCols.push(col);
         } else {
             rootColMap.set(col.name, col);
@@ -69,29 +87,33 @@ export function getLanes(this: unknown, lanes: KanbanLaneOptions[] | undefined, 
     }
     const {getLane, laneProps} = options;
     let needSort = false;
-    lanes = lanes.reduce<KanbanLaneOptions[]>((list, lane, index) => {
+    lanes = lanes.reduce<KanbanLaneOptions[]>((list, sourceLane, index) => {
+        let lane = {...sourceLane};
         if (laneProps) {
-            lane = mergeProps({}, laneProps, lane) as unknown as KanbanLaneOptions;
+            lane = mergeProps({}, cloneMergeInput(laneProps), cloneMergeInput(lane)) as unknown as KanbanLaneOptions;
         }
         if (getLane) {
             const result = getLane.call(this, lane);
-            if (result !== false) {
-                lane = result || lane;
+            if (result === false) {
+                return list;
+            }
+            if (result) {
+                lane = {...result};
             }
         }
         if (lane.deleted) {
             return list;
         }
-        if (typeof lane.order === 'number') {
+        if (typeof lane.order === 'number' && Number.isFinite(lane.order)) {
             needSort = true;
         } else {
             lane.order = index;
         }
-        if (lane.color === undefined) {
-            lane.color = `hsl(${(43 * getUniqueCode(lane.name)) % 360}deg 40% 50%)`;
-        }
         if (typeof lane.name !== 'string') {
             lane.name = String(lane.name);
+        }
+        if (lane.color === undefined) {
+            lane.color = `hsl(${(43 * getUniqueCode(lane.name)) % 360}deg 40% 50%)`;
         }
         forEachLane?.call(this, lane);
         list.push(lane);
@@ -109,16 +131,21 @@ export function getColItems(this: unknown, items: KanbanItem[] | undefined, lane
     }
     const {itemProps, getItem} = options;
     let needSort = false;
-    items = items.reduce<KanbanItem[]>((colItems, item) => {
+    items = items.reduce<KanbanItem[]>((colItems, sourceItem) => {
+        let item = {...sourceItem};
         if (itemProps) {
-            item = mergeProps({}, itemProps, item) as unknown as KanbanItem;
+            item = mergeProps({}, cloneMergeInput(itemProps), cloneMergeInput(item)) as unknown as KanbanItem;
         }
-        const finalItem = getItem?.call(this, {col: col.name, lane: lane.name, item, laneInfo: lane, colInfo: col}) ?? item;
-        if (finalItem !== false && !finalItem.deleted) {
-            if (typeof finalItem.order === 'number') {
+        const result = getItem?.call(this, {col: col.name, lane: lane.name, item, laneInfo: lane, colInfo: col});
+        if (result === false) {
+            return colItems;
+        }
+        const finalItem = {...(result ?? item)};
+        if (!finalItem.deleted) {
+            if (typeof finalItem.order === 'number' && Number.isFinite(finalItem.order)) {
                 needSort = true;
             } else {
-                finalItem.order = colItems.length - 1;
+                finalItem.order = colItems.length;
             }
             colItems.push(finalItem);
             forEachItem?.call(this, finalItem);
@@ -132,7 +159,9 @@ export function getColItems(this: unknown, items: KanbanItem[] | undefined, lane
 }
 
 export function sortByOrder(a: {order?: number}, b: {order?: number}) {
-    return a.order! - b.order!;
+    const orderA = typeof a.order === 'number' && Number.isFinite(a.order) ? a.order : 0;
+    const orderB = typeof b.order === 'number' && Number.isFinite(b.order) ? b.order : 0;
+    return orderA - orderB;
 }
 
 export function mergeList<T extends object>(items: T[] | undefined, newItems: T[] | undefined, itemKey = 'key'): T[] {
@@ -202,10 +231,11 @@ export function mergeData(data: Partial<KanbanData>, extraData: Partial<KanbanDa
     const lanes = mergeList(data.lanes, extraData.lanes, 'name');
     const cols = mergeList(data.cols, extraData.cols, 'name');
     const links = mergeList(data.links, extraData.links?.map((link) => {
-        if (link[itemKey] === undefined) {
-            link[itemKey] = createLinkID(link);
+        const finalLink = {...link};
+        if (finalLink[itemKey] === undefined) {
+            finalLink[itemKey] = createLinkID(finalLink);
         }
-        return link;
+        return finalLink;
     }), itemKey);
     const items = mergeList(data.items, normalizeItems(extraData.items || [], itemKey), itemKey);
     return {lanes, cols, items, links};

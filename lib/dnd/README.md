@@ -1,4 +1,13 @@
-# Darg and Drop
+# Drag and Drop
+
+`@zui/dnd` 提供三个基于鼠标事件的原生组件:
+
+- `Draggable`:基于 HTML5 拖放的列表拖拽/放置。
+- `Moveable`:通过 `position` / `transform` / `scroll` 策略移动元素。
+- `Resizable`:为目标元素生成八向缩放手柄。
+
+> 注意:当前实现基于鼠标事件,仅面向桌面端;触控/指针支持尚未提供。
+> 缩放手柄以绝对定位插入目标内部,静态定位的目标会在初始化时被自动设为 `position: relative`。
 
 ## Moveable
 

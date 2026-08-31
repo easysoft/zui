@@ -1,8 +1,8 @@
 import {Component} from 'preact';
 import {$, ClassNameLike, i18n, signal} from '@zui/core';
-import {List} from '@zui/list/src/component';
+import {List} from '@zui/list/react';
 import {formatDate} from '@zui/helpers';
-import '@zui/css-icons/src/icons/chevron.css';
+import '@zui/css-icons';
 import type {ListItem, ListitemProps} from '@zui/list';
 import type {CalendarCategory, CalendarEvent} from '../types';
 

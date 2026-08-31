@@ -1,6 +1,6 @@
-import {Toolbar} from '@zui/toolbar/src/component/toolbar';
+import {Toolbar} from '@zui/toolbar/react';
 import {definePlugin} from '../../helpers/shared-plugins';
-import type {ToolbarSetting} from '@zui/toolbar/src/types';
+import type {ToolbarSetting} from '@zui/toolbar';
 import type {DTablePlugin, DTableWithPlugin} from '../../types/plugin';
 import type {DTableCheckable, DTableCheckableTypes} from '../checkable';
 

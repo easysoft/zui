@@ -1,9 +1,11 @@
-import {Attributes, ComponentChildren, ComponentType} from 'preact';
-import {CellProps} from '../types';
+import {classes} from '@zui/core';
+import type {Attributes, ComponentChildren, ComponentType} from 'preact';
+import type {CellProps} from '../types';
 
 export function GridCell({
     type,
     key,
+    className,
     style,
     bounding,
     offsetX = 0,
@@ -30,7 +32,7 @@ export function GridCell({
     }
     const {left, top, width, height} = bounding;
     return (
-        <div style={{width, height, left: left + offsetX, top: top + offsetY, ...style}} {...others}>
+        <div className={classes('virtual-grid-cell', className)} style={{position: 'absolute', width, height, left: left + offsetX, top: top + offsetY, ...style}} {...others}>
             {content}
             {children}
         </div>

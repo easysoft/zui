@@ -1,5 +1,6 @@
 import {$, HtmlContent, classes} from '@zui/core';
-import '@zui/css-icons/src/icons/more.css';
+import {Toolbar} from '@zui/toolbar/react';
+import '@zui/css-icons';
 import type {BlockProps} from '../types';
 
 export type BlockState = {
@@ -7,24 +8,26 @@ export type BlockState = {
 };
 
 export function Block(props: BlockProps) {
-    const {left, className, top, id, onMenuBtnClick, title, width, height, content, loading, draggable = true} = props;
+    const {left, className, top, id, onMenuBtnClick, title, width, height, content, loading, draggable = true, toolbar} = props;
+    const hasActions = !!toolbar || !!onMenuBtnClick;
     return (
-        <div class="dashboard-block-cell" style={{left, top, width, height}}>
+        <div className="dashboard-block-cell" style={{left, top, width, height}}>
             <div
                 className={classes('dashboard-block load-indicator', (loading && !content) ? 'loading' : '', onMenuBtnClick ? 'has-more-menu' : '', className)}
                 draggable={draggable}
                 data-id={id}
             >
-                <div class="dashboard-block-header">
-                    <div class="dashboard-block-title">{title}</div>
-                    {onMenuBtnClick ? (
-                        <div class="dashboard-block-actions toolbar">
-                            <button class="toolbar-item dashboard-block-action btn square ghost rounded size-sm" data-type="more" onClick={onMenuBtnClick}><div class="more-vert"></div></button>
+                <div className="dashboard-block-header">
+                    <div className="dashboard-block-title">{title}</div>
+                    {hasActions ? (
+                        <div className="dashboard-block-actions">
+                            {toolbar ? <Toolbar {...toolbar} className={classes('dashboard-block-toolbar', toolbar.className)} /> : null}
+                            {onMenuBtnClick ? <button type="button" className="toolbar-item dashboard-block-action btn square ghost rounded size-sm" data-type="more" onClick={onMenuBtnClick}><div className="more-vert"></div></button> : null}
                         </div>
                     ) : null}
                 </div>
-                {$.isPlainObject(content) && (content as {html?: string}).html ? <HtmlContent className="dashboard-block-body" executeScript {...(content as {html: string})} /> : (
-                    <div class="dashboard-block-body">{content}</div>
+                {$.isPlainObject(content) && typeof (content as {html?: unknown}).html === 'string' ? <HtmlContent className="dashboard-block-body" executeScript {...(content as {html: string})} /> : (
+                    <div className="dashboard-block-body">{content}</div>
                 )}
             </div>
         </div>

@@ -1,6 +1,6 @@
 import {Component, type RenderableProps} from 'preact';
 import {signal, Signal, nextGid, SizeSetting, toCssSize, $, effect} from '@zui/core';
-import {Button} from '@zui/button/src/component';
+import {Button} from '@zui/button/react';
 
 export type MapValue = Record<string, string>;
 
@@ -9,9 +9,10 @@ export type MapPair = [gid: number, key: string, value: string];
 export type MapValuePair = [key: string, value: string];
 
 export type MapEditProps = {
-    defaultValue?: MapValue;
+    defaultValue?: MapValue | MapValuePair[];
+    value?: MapValue | MapValuePair[];
     readonly?: boolean;
-    onChange?: (value: MapValue) => void;
+    onChange?: (value: MapValue, pairs: MapValuePair[]) => void;
     keyPlaceholder?: string;
     valuePlaceholder?: string;
     keyWidth?: SizeSetting | 'auto';
@@ -37,7 +38,7 @@ export class MapEdit extends Component<MapEditProps> {
 
     constructor(props: MapEditProps) {
         super(props);
-        const pairs: MapPair[] = props.defaultValue ? Object.entries(props.defaultValue).map(([key, value]) => [nextGid(), key, value]) : [];
+        const pairs: MapPair[] = props.defaultValue ? (Array.isArray(props.defaultValue) ? props.defaultValue : Object.entries(props.defaultValue)).map(([key, value]) => [nextGid(), key, value]) : [];
         if (!pairs.length) {
             pairs.push([nextGid(), '', '']);
         }
@@ -53,7 +54,7 @@ export class MapEdit extends Component<MapEditProps> {
                 this._valuePairs = newValuePairs;
                 if (this.props.onChange) {
                     requestAnimationFrame(() => {
-                        this.props.onChange?.(this.value);
+                        this.props.onChange?.(this.value, this._valuePairs);
                     });
                 }
             }
@@ -90,8 +91,8 @@ export class MapEdit extends Component<MapEditProps> {
                 <input className="map-edit-item-key form-control" type="text" value={key} readonly={readonly} onChange={this._handleKeyChange} placeholder={keyPlaceholder} />
                 <input className="map-edit-item-value form-control" type="text" value={value} readonly={readonly} onChange={this._handleValueChange} placeholder={valuePlaceholder} />
                 <div className="map-edit-item-actions">
-                    <Button type="ghost" size="sm" icon="plus" onClick={this._handleAddClick} />
-                    <Button type="ghost" size="sm" icon="trash" onClick={this._handleDeleteClick} />
+                    <Button type="ghost" size="sm" icon="plus" disabled={readonly} onClick={this._handleAddClick} />
+                    <Button type="ghost" size="sm" icon="trash" disabled={readonly} onClick={this._handleDeleteClick} />
                 </div>
             </div>
         );

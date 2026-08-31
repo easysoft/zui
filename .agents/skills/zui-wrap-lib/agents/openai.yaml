@@ -1,0 +1,4 @@
+interface:
+  display_name: "ZUI UMD Wrapper"
+  short_description: "Wrap ready-to-use UMD libraries as ZUI components"
+  default_prompt: "Use $zui-wrap-lib to wrap a ready-to-use third-party UMD library as a ZUI component."

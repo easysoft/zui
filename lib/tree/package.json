@@ -5,11 +5,16 @@
     "browserslist": "",
     "keywords": [
         "css",
-        "zui:control"
+        "zui:component"
     ],
     "files": [
         "./src/**/*"
     ],
+    "exports": {
+        ".": "./src/main.ts",
+        "./css": "./src/main-css.ts",
+        "./react": "./src/main-react.ts"
+    },
     "dependencies": {
         "@zui/base": "workspace:*",
         "@zui/button": "workspace:*",
@@ -23,7 +28,10 @@
     "devDependencies": {
         "zui-dev": "workspace:*",
         "@zui/button": "workspace:0.0.1",
-        "@zui/utilities": "workspace:*"
+        "@zui/utilities": "workspace:*",
+        "@zui/form-control": "workspace:*",
+        "@zui/icons": "workspace:*",
+        "@zui/input-control": "workspace:*"
     },
     "zui": {
         "type": "component",

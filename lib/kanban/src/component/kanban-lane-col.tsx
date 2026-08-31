@@ -1,6 +1,6 @@
 import {Component, createRef} from 'preact';
 import {classes, $, CustomContent, toCssSize} from '@zui/core';
-import {CardList} from '@zui/cards/src/component';
+import {CardList} from '@zui/cards/react';
 
 import type {ComponentChildren, JSX, RefObject} from 'preact';
 import type {KanbanItem, KanbanLaneColProps} from '../types';
@@ -16,7 +16,7 @@ export class KanbanLaneCol extends Component<KanbanLaneColProps> {
 
     componentDidMount(): void {
         const {current} = this._listRef;
-        if (current) {
+        if (current && typeof ResizeObserver !== 'undefined') {
             this._ob = new ResizeObserver((entries) => {
                 $(this._listRef.current).trigger('laneColResize', entries[0]);
             });

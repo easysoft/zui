@@ -55,6 +55,7 @@ export class SearchBox extends Component<SearchBoxOptions, SearchBoxState> {
     }
 
     componentWillUnmount(): void {
+        this._clearTimer();
         if (this._hotkeysScope) {
             $(this.input).unbindHotkeys(this._hotkeysScope);
         }
@@ -77,7 +78,11 @@ export class SearchBox extends Component<SearchBoxOptions, SearchBoxState> {
     }
 
     clear(event?: Event) {
-        const oldValue = this.state.value;
+        if (this.props.disabled || this.props.readonly) {
+            return;
+        }
+        const oldValue = this.props.value ?? this.state.value;
+        this._clearTimer();
         this.setState({value: ''}, () => {
             const {onChange, onClear} = this.props;
             onClear?.(event);
@@ -94,7 +99,7 @@ export class SearchBox extends Component<SearchBoxOptions, SearchBoxState> {
     };
 
     _handleChange = (event: Event) => {
-        const oldValue = this.state.value;
+        const oldValue = this.props.value ?? this.state.value;
         const value = (event.target as HTMLInputElement).value;
         const {onChange, delay} = this.props;
         this.setState({value}, () => {
@@ -128,6 +133,12 @@ export class SearchBox extends Component<SearchBoxOptions, SearchBoxState> {
         this._timer = 0;
     }
 
+    componentDidUpdate(_previousProps: Readonly<SearchBoxOptions>): void {
+        if (this.props.value !== undefined && this.props.value !== this.state.value) {
+            this.setState({value: this.props.value});
+        }
+    }
+
     render(props: RenderableProps<SearchBoxOptions>, state: Readonly<SearchBoxState>) {
         const {style, className, rootClass, rootStyle, readonly, disabled, circle, placeholder, mergeIcon, searchIcon, clearIcon, value: controlledValue, compact, prefixClass, suffixClass, name} = props;
         const {focus, value} = state;
@@ -138,19 +149,20 @@ export class SearchBox extends Component<SearchBoxOptions, SearchBoxState> {
         let suffixView: ComponentChildren;
         let searchIconView: ComponentChildren;
         if (searchIcon) {
-            searchIconView = searchIcon === true ? <span class="magnifier" /> : <Icon icon={searchIcon} />;
+            searchIconView = searchIcon === true ? <span className="magnifier" /> : <Icon icon={searchIcon} />;
         }
         if (!mergeIcon && searchIcon) {
-            prefixView = <label key="prefix" for={id} class={classes('input-control-prefix', prefixClass)}>{searchIconView}</label>;
+            prefixView = <label key="prefix" htmlFor={id} className={classes('input-control-prefix', prefixClass)}>{searchIconView}</label>;
         }
         if (clearIcon && !empty) {
             suffixView = (
                 <button
                     type="button"
-                    class="btn ghost size-sm square rounded-full"
+                    className="btn ghost size-sm square rounded-full"
+                    disabled={disabled || readonly}
                     onClick={this._handleClearBtnClick}
                 >
-                    {clearIcon === true ? <span class="close" /> : <Icon icon={clearIcon} />}
+                    {clearIcon === true ? <span className="close" /> : <Icon icon={clearIcon} />}
                 </button>
             );
         } else if (mergeIcon && searchIcon) {
@@ -158,14 +170,14 @@ export class SearchBox extends Component<SearchBoxOptions, SearchBoxState> {
         }
         if (suffixView) {
             suffixView = (
-                <label key="suffix" for={id} class={classes('input-control-suffix', suffixClass)}>
+                <span key="suffix" className={classes('input-control-suffix', suffixClass)}>
                     {suffixView}
-                </label>
+                </span>
             );
         }
 
         return (
-            <div class={classes('search-box input-control', rootClass, {focus, empty, compact, 'has-prefix-icon': prefixView, 'has-suffix-icon': suffixView})} style={rootStyle}>
+            <div className={classes('search-box input-control', rootClass, {focus, empty, compact, 'has-prefix-icon': prefixView, 'has-suffix-icon': suffixView})} style={rootStyle}>
                 {prefixView}
                 <input
                     key="input"
@@ -173,14 +185,13 @@ export class SearchBox extends Component<SearchBoxOptions, SearchBoxState> {
                     id={id}
                     name={name}
                     type="text"
-                    class={classes('form-control', {'rounded-full': circle, 'size-sm': compact}, className)}
+                    className={classes('form-control', {'rounded-full': circle, 'size-sm': compact}, className)}
                     style={style}
                     placeholder={placeholder}
                     disabled={disabled}
-                    readonly={readonly}
+                    readOnly={readonly}
                     value={finalValue}
                     onInput={this._handleChange}
-                    onChange={this._handleChange}
                     onFocus={this._handleFocus}
                     onBlur={this._handleFocus}
                 />
