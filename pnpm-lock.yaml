@@ -1677,6 +1677,9 @@ importers:
       '@zui/base':
         specifier: workspace:*
         version: link:../base
+      '@zui/button':
+        specifier: workspace:^0.0.1
+        version: link:../button
       '@zui/core':
         specifier: workspace:^0.0.1
         version: link:../core
