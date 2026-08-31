@@ -1,5 +1,6 @@
 :root {
-    /* Opacity of a caret inside a disabled or readonly element. */
+    /* Opacity of a caret at rest. Set it on any ancestor to dim or brighten
+       the carets inside it. */
     --caret-opacity: .5;
 }
 
@@ -9,6 +10,7 @@
 .caret-down,
 .caret-up {
   @apply -w-[0.75rem] -h-[0.75rem] -relative -inline-flex -items-center -justify-center;
+  opacity: var(--caret-opacity);
 }
 .caret::before,
 .caret-left::before,
@@ -27,7 +29,18 @@
   @apply -rotate-[225deg] -translate-y-0.5;
 }
 
+/* Pin the opacity against `.disabled *`, which would otherwise raise a caret in a
+   disabled container to `--opacity-disabled`, and against consumer rules that
+   override the base opacity at a single class of specificity. */
 .disabled .caret,
-.readonly .caret {
+.disabled .caret-left,
+.disabled .caret-right,
+.disabled .caret-down,
+.disabled .caret-up,
+.readonly .caret,
+.readonly .caret-left,
+.readonly .caret-right,
+.readonly .caret-down,
+.readonly .caret-up {
     opacity: var(--caret-opacity);
 }
