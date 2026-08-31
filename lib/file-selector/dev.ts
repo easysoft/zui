@@ -1,7 +1,6 @@
 import 'zui-dev';
 import '@zui/button';
 import '@zui/menu';
-import '@zentao/icons';
 import '@zui/form-control';
 import '@zui/toolbar';
 import '@zui/avatar';
