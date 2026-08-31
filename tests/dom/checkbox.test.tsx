@@ -5,6 +5,7 @@ import userEvent from '@testing-library/user-event';
 import {describe, expect, it, vi} from 'vitest';
 import {Checkbox} from '@zui/checkbox/src/component/checkbox';
 import {CheckList} from '@zui/checkbox/src/component/check-list';
+import {Radio} from '@zui/checkbox/src/component/radio';
 
 const items = [
     {value: 'a', text: 'Alpha'},
@@ -40,6 +41,24 @@ describe('Checkbox', () => {
 
         expect(input.checked).toBe(false);
         expect(container.firstElementChild!.classList.contains('checked')).toBe(false);
+        expect(onChange).toHaveBeenCalledTimes(1);
+        expect(onChange).toHaveBeenLastCalledWith(expect.any(Event), true);
+    });
+
+    it('keeps separately rendered controlled radios in sync when the caller ignores the change', async () => {
+        const user = setup();
+        const onChange = vi.fn();
+        const {container} = render(
+            <div>
+                <Radio name="choice" checked label="Alpha" />
+                <Radio name="choice" checked={false} label="Beta" onChange={onChange} />
+            </div>,
+        );
+        const inputs = container.querySelectorAll<HTMLInputElement>('input');
+
+        await user.click(inputs[1]);
+
+        expect([...inputs].map(input => input.checked)).toEqual([true, false]);
         expect(onChange).toHaveBeenCalledTimes(1);
         expect(onChange).toHaveBeenLastCalledWith(expect.any(Event), true);
     });

@@ -4,6 +4,8 @@ import type {ClassNameLike} from '@zui/core';
 import type {ComponentChildren, RenderableProps} from 'preact';
 import type {CheckboxProps, CheckboxState, CheckedType} from '../types';
 
+const checkboxByInput = new WeakMap<HTMLInputElement, Checkbox>();
+
 export class Checkbox<P extends CheckboxProps = CheckboxProps> extends HElement<P, CheckboxState> {
     static customProps = ['onChange'];
 
@@ -38,7 +40,13 @@ export class Checkbox<P extends CheckboxProps = CheckboxProps> extends HElement<
     }
 
     protected _handleInputRef = (input: HTMLInputElement | null) => {
+        if (this._input) {
+            checkboxByInput.delete(this._input);
+        }
         this._input = input;
+        if (input) {
+            checkboxByInput.set(input, this);
+        }
     };
 
     /**
@@ -49,6 +57,24 @@ export class Checkbox<P extends CheckboxProps = CheckboxProps> extends HElement<
         if (this._input) {
             this._input.indeterminate = this.checked === 'indeterminate';
         }
+    };
+
+    /** Restore all ZUI radios changed by the browser in the same native group. */
+    protected _syncRadioGroup = () => {
+        const input = this._input;
+        if (!input || input.type !== 'radio' || !input.name) {
+            return;
+        }
+
+        const radios = (input.getRootNode() as ParentNode).querySelectorAll<HTMLInputElement>('input[type="radio"]');
+        radios.forEach((radio) => {
+            if (radio.name === input.name && radio.form === input.form) {
+                const checkbox = checkboxByInput.get(radio);
+                if (checkbox) {
+                    radio.checked = checkbox.checked === true;
+                }
+            }
+        });
     };
 
     protected _getClassName(props: RenderableProps<P>): ClassNameLike {
@@ -66,7 +92,10 @@ export class Checkbox<P extends CheckboxProps = CheckboxProps> extends HElement<
         const checked = (event.target as HTMLInputElement).checked;
         if (this.controlled) {
             // The caller may keep the same `checked` prop, so restore the DOM state changed by the browser.
-            this.forceUpdate(this._syncIndeterminate);
+            this.forceUpdate(() => {
+                this._syncIndeterminate();
+                this._syncRadioGroup();
+            });
         } else {
             this.setState({checked}, this._syncIndeterminate);
         }
