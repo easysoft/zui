@@ -381,6 +381,9 @@ importers:
       '@zui/button':
         specifier: workspace:^0.0.1
         version: link:../button
+      '@zui/dropdown':
+        specifier: workspace:^0.0.1
+        version: link:../dropdown
       '@zui/icons':
         specifier: workspace:^0.0.1
         version: link:../icons

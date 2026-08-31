@@ -32,6 +32,7 @@
         "@zui/button": "workspace:^0.0.1",
         "@zui/icons": "workspace:^0.0.1",
         "@zui/label": "workspace:^0.0.1",
+        "@zui/dropdown": "workspace:^0.0.1",
         "zui-dev": "workspace:^0.0.1"
     },
     "zui": {

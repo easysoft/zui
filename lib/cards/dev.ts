@@ -4,6 +4,8 @@ import '@zui/label';
 import '@zui/icons';
 import '@zui/button';
 import '@zui/list';
+import '@zui/menu';
+import '@zui/dropdown';
 import {CardList, Card} from './src/main';
 
 onPageUpdate(() => {
