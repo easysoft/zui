@@ -94,13 +94,6 @@ export class DatePicker<T extends DatePickerOptions = DatePickerOptions> extends
     };
 
     _handleInputChange = (event: Event) => {
-        const value = (event.target as HTMLInputElement).value;
-        if (this._parseDate(value) || this.props.allowInvalid) {
-            this.setDate(value);
-        }
-    };
-
-    _handleInputBlur = (event: FocusEvent) => {
         this.setDate((event.target as HTMLInputElement).value);
     };
 
@@ -140,8 +133,7 @@ export class DatePicker<T extends DatePickerOptions = DatePickerOptions> extends
                 readOnly={readonly}
                 autoComplete="off"
                 onFocus={this._handleInputFocus}
-                onInput={this._handleInputChange}
-                onBlur={this._handleInputBlur}
+                onChange={this._handleInputChange}
             />,
             iconView ? <span key="icon" className="input-control-suffix">{iconView}</span> : null,
         ];
