@@ -49,6 +49,8 @@ export default tseslint.config(
             },
         },
         rules: {
+            'no-useless-assignment': 'off',
+            'preserve-caught-error': 'off',
             '@stylistic/object-curly-spacing': ['error', 'never'],
             '@stylistic/no-multi-spaces': ['error', {ignoreEOLComments: true}],
             '@stylistic/multiline-ternary': 'off',
