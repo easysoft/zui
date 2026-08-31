@@ -10,6 +10,6 @@ export interface CheckListProps extends HElementProps {
     checked?: string[] | string;
     disabled?: boolean;
     name?: string | false;
-    items?: FetcherSetting<CheckListItem[]>;
+    items?: CheckListItem[] | FetcherSetting<CheckListItem[]>;
     onChange?: (checked: string[] | string, event: Event) => void;
 }
