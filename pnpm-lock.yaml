@@ -347,6 +347,12 @@ importers:
         specifier: workspace:^0.0.1
         version: link:../toolbar
     devDependencies:
+      '@zui/btn-group':
+        specifier: workspace:^0.0.1
+        version: link:../btn-group
+      '@zui/button':
+        specifier: workspace:^0.0.1
+        version: link:../button
       zui-dev:
         specifier: workspace:^0.0.1
         version: link:../../dev

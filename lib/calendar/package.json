@@ -27,7 +27,9 @@
         "./react": "./src/main-react.ts"
     },
     "devDependencies": {
-        "zui-dev": "workspace:^0.0.1"
+        "zui-dev": "workspace:^0.0.1",
+        "@zui/button": "workspace:^0.0.1",
+        "@zui/btn-group": "workspace:^0.0.1"
     },
     "zui": {
         "type": "component",
