@@ -146,6 +146,15 @@ function renderCheckbox(checked: boolean, _rowID?: RowID, disabled = false, labe
 
 const checkboxSelector = 'input[type="checkbox"],.dtable-checkbox';
 
+/**
+ * Detect a click that the browser is going to relay to the checkbox bound to the clicked label.
+ * Handling both clicks would toggle the same rows twice within one gesture and cancel itself out.
+ */
+function isRelayedToCheckbox(target: HTMLElement): boolean {
+    const control = target.closest('label')?.control;
+    return control instanceof HTMLInputElement && control.type === 'checkbox' && !control.disabled;
+}
+
 const checkablePlugin: DTablePlugin<DTableCheckableTypes> = {
     name: 'checkable',
     defaultOptions: {
@@ -264,7 +273,7 @@ const checkablePlugin: DTablePlugin<DTableCheckableTypes> = {
             return;
         }
         const target = event.target as HTMLElement;
-        if (!target) {
+        if (!target || isRelayedToCheckbox(target)) {
             return;
         }
         const checkbox = target.closest<HTMLInputElement>(checkboxSelector);
@@ -277,7 +286,7 @@ const checkablePlugin: DTablePlugin<DTableCheckableTypes> = {
             return;
         }
         const $target = $(event.target as HTMLElement);
-        if (!$target.length || $target.closest('btn,a,button.not-checkable,.form-control,.btn').length) {
+        if (!$target.length || $target.closest('btn,a,button.not-checkable,.form-control,.btn').length || isRelayedToCheckbox(event.target as HTMLElement)) {
             return;
         }
         const $checkbox = $target.closest(checkboxSelector);
