@@ -621,6 +621,9 @@ importers:
         specifier: workspace:*
         version: link:../toolbar
     devDependencies:
+      '@zui/list':
+        specifier: workspace:0.0.1
+        version: link:../list
       '@zui/utilities':
         specifier: workspace:*
         version: link:../utilities

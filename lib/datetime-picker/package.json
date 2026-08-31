@@ -33,6 +33,7 @@
     "devDependencies": {
         "zui-dev": "workspace:*",
         "@zui/button": "workspace:0.0.1",
+        "@zui/list": "workspace:0.0.1",
         "@zui/utilities": "workspace:*"
     },
     "zui": {
