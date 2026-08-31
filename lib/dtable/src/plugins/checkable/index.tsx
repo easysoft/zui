@@ -155,6 +155,13 @@ function isRelayedToCheckbox(target: HTMLElement): boolean {
     return control instanceof HTMLInputElement && control.type === 'checkbox' && !control.disabled;
 }
 
+function handleFooterCheckboxClick(this: DTableCheckable, event: MouseEvent) {
+    if (isRelayedToCheckbox(event.target as HTMLElement)) {
+        return;
+    }
+    this.toggleCheckRows();
+}
+
 const checkablePlugin: DTablePlugin<DTableCheckableTypes> = {
     name: 'checkable',
     defaultOptions: {
@@ -199,7 +206,7 @@ const checkablePlugin: DTablePlugin<DTableCheckableTypes> = {
         checkbox() {
             const checked = this.isAllRowChecked();
             return [
-                <div style={{paddingRight: 'calc(3*var(--space))', display: 'flex', alignItems: 'center'}} onClick={() => this.toggleCheckRows()}>{renderCheckbox(checked, undefined, false, this.options.checkboxLabel)}</div>,
+                <div style={{paddingRight: 'calc(3*var(--space))', display: 'flex', alignItems: 'center'}} onClick={handleFooterCheckboxClick.bind(this)}>{renderCheckbox(checked, undefined, false, this.options.checkboxLabel)}</div>,
             ];
         },
         checkedInfo(_, layout) {
