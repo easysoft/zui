@@ -24,7 +24,9 @@
         "zui-dev": "workspace:*",
         "@zui/base": "workspace:*",
         "@zui/icons": "workspace:*",
-        "@zui/utilities": "workspace:*"
+        "@zui/utilities": "workspace:*",
+        "@zui/button": "workspace:^0.0.1",
+        "@zui/toolbar": "workspace:^0.0.1"
     },
     "zui": {
         "type": "control",

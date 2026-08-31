@@ -18,7 +18,8 @@
     "devDependencies": {
         "@zui/base": "workspace:*",
         "@zui/utilities": "workspace:*",
-        "zui-dev": "workspace:*"
+        "zui-dev": "workspace:*",
+        "@zui/form-control": "workspace:*"
     },
     "dependencies": {
         "@zui/core": "workspace:*",

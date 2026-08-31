@@ -6,7 +6,11 @@
     "main": "src/main.ts",
     "devDependencies": {
         "@zui/base": "workspace:*",
-        "@zui/utilities": "workspace:*"
+        "@zui/utilities": "workspace:*",
+        "@zui/icons": "workspace:^0.0.1",
+        "@zui/list": "workspace:^0.0.1",
+        "@zui/menu": "workspace:^0.0.1",
+        "zui-dev": "workspace:*"
     },
     "dependencies": {
         "@zui/base": "workspace:*",

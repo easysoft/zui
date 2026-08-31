@@ -8,7 +8,9 @@
         "@zui/avatar": "workspace:^0.0.1",
         "@zui/base": "workspace:*",
         "@zui/icons": "workspace:^0.0.1",
-        "zui-dev": "workspace:^0.0.1"
+        "zui-dev": "workspace:^0.0.1",
+        "@zui/dropdown": "workspace:^0.0.1",
+        "@zui/menu": "workspace:^0.0.1"
     },
     "dependencies": {
         "@zui/button": "workspace:^0.0.1",

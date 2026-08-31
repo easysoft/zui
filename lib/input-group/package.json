@@ -17,7 +17,9 @@
         "@zui/icons": "workspace:^0.0.1",
         "@zui/dropdown": "workspace:^0.0.1",
         "@zui/checkbox": "workspace:^0.0.1",
-        "@zui/utilities": "workspace:*"
+        "@zui/utilities": "workspace:*",
+        "@zui/list": "workspace:^0.0.1",
+        "@zui/menu": "workspace:^0.0.1"
     },
     "files": [
         "./src/**/*"

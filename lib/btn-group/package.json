@@ -24,7 +24,9 @@
         "zui-dev": "workspace:*",
         "@zui/base": "workspace:*",
         "@zui/icons": "workspace:*",
-        "@zui/utilities": "workspace:*"
+        "@zui/utilities": "workspace:*",
+        "@zui/dropdown": "workspace:^0.0.1",
+        "@zui/menu": "workspace:^0.0.1"
     },
     "zui": {
         "type": "component",

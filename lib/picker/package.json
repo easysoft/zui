@@ -30,7 +30,11 @@
     "devDependencies": {
         "zui-dev": "workspace:*",
         "@zui/button": "workspace:0.0.1",
-        "@zui/utilities": "workspace:*"
+        "@zui/utilities": "workspace:*",
+        "@zui/avatar": "workspace:*",
+        "@zui/input-control": "workspace:*",
+        "@zui/list": "workspace:*",
+        "@zui/search-box": "workspace:*"
     },
     "zui": {
         "type": "component",

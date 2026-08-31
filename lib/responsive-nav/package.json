@@ -16,7 +16,11 @@
     },
     "devDependencies": {
         "@zui/base": "workspace:*",
-        "@zui/utilities": "workspace:*"
+        "@zui/utilities": "workspace:*",
+        "@zui/button": "workspace:^0.0.1",
+        "@zui/css-icons": "workspace:^0.0.1",
+        "@zui/form-control": "workspace:^0.0.1",
+        "@zui/menu": "workspace:^0.0.1"
     },
     "dependencies": {
         "@zui/core": "workspace:^0.0.1",

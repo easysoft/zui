@@ -20,7 +20,9 @@
         "@zui/base": "workspace:*",
         "@zui/icons": "workspace:*",
         "@zui/utilities": "workspace:*",
-        "zui-dev": "workspace:*"
+        "zui-dev": "workspace:*",
+        "@zui/checkbox": "workspace:*",
+        "@zui/input-control": "workspace:*"
     },
     "dependencies": {
         "@zui/core": "workspace:*",

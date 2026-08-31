@@ -21,6 +21,7 @@
         "vhtml": "^2.2.0"
     },
     "devDependencies": {
-        "@types/vhtml": "^2.2.9"
+        "@types/vhtml": "^2.2.9",
+        "zui-dev": "workspace:*"
     }
 }

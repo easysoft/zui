@@ -5,7 +5,8 @@
     "keywords": ["css", "components", "zui:component"],
     "main": "src/main.ts",
     "devDependencies": {
-        "zui-dev": "workspace:^0.0.1"
+        "zui-dev": "workspace:^0.0.1",
+        "@zui/button": "workspace:^0.0.1"
     },
     "dependencies": {
         "@zui/core": "workspace:^0.0.1",

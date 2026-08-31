@@ -28,7 +28,9 @@
         "@zui/toolbar": "workspace:^0.0.1"
     },
     "devDependencies": {
-        "zui-dev": "workspace:*"
+        "zui-dev": "workspace:*",
+        "@zui/input-control": "workspace:^0.0.1",
+        "@zui/menu": "workspace:^0.0.1"
     },
     "zui": {
         "type": "component",

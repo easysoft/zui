@@ -25,7 +25,9 @@
     "devDependencies": {
         "zui-dev": "workspace:*",
         "@zui/button": "workspace:0.0.1",
-        "@zui/utilities": "workspace:*"
+        "@zui/utilities": "workspace:*",
+        "@zui/form-control": "workspace:*",
+        "@zui/menu": "workspace:*"
     },
     "zui": {
         "type": "component",

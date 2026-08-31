@@ -16,7 +16,14 @@
         "@zui/form-control": "workspace:*"
     },
     "devDependencies": {
-        "zui-dev": "workspace:^0.0.1"
+        "zui-dev": "workspace:^0.0.1",
+        "@zui/button": "workspace:*",
+        "@zui/color-picker": "workspace:*",
+        "@zui/datetime-picker": "workspace:*",
+        "@zui/form": "workspace:*",
+        "@zui/input-control": "workspace:*",
+        "@zui/input-group": "workspace:*",
+        "@zui/search-box": "workspace:*"
     },
     "zui": {
         "type": "js-helpers",

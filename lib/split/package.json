@@ -27,6 +27,8 @@
         "split.js": "^1.6.5"
     },
     "devDependencies": {
-        "zui-dev": "workspace:^0.0.1"
+        "zui-dev": "workspace:^0.0.1",
+        "@zui/button": "workspace:^0.0.1",
+        "@zui/menu": "workspace:^0.0.1"
     }
 }
