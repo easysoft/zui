@@ -12,6 +12,9 @@
         "@zui/button": "workspace:*",
         "@zui/utilities": "workspace:*"
     },
+    "files": [
+        "./src/**/*"
+    ],
     "zui": {
         "type": "control",
         "displayName": "表单",
