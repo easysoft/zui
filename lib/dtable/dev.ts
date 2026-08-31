@@ -178,7 +178,7 @@ onPageUpdate(() => {
                 };
                 if (releaseIncrease > 6) {
                     result.push({
-                        html: `<span class="label size-sm ${row.data?.milestone ? 'important' : 'secondary'}-pale circle">+${releaseIncrease - 6}</span>`,
+                        html: `<span class="label size-sm ${row.data?.milestone ? 'important' : 'secondary'}-pale rounded-full">+${releaseIncrease - 6}</span>`,
                     });
                 }
                 result.push({attrs: {'data-toggle': 'popover', 'data-content': '发布说明'}});

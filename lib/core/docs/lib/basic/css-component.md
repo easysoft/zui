@@ -42,8 +42,8 @@ CSS 组件通常提供了多种样式修饰，例如按钮的颜色、大小、�
   <button type="button" class="btn primary">主要按钮</button>
   <button type="button" class="btn black rounded-none">黑色按钮</button>
   <button type="button" class="btn secondary-outline square">正</button>
-  <button type="button" class="btn dark-outline circle">描边</button>
-  <button type="button" class="btn danger-pale square circle">❤️</button>
+  <button type="button" class="btn dark-outline rounded-full">描边</button>
+  <button type="button" class="btn danger-pale square rounded-full">❤️</button>
   <button type="button" class="btn text-primary ghost">链接按钮</button>
 </Example>
 
@@ -53,8 +53,8 @@ CSS 组件通常提供了多种样式修饰，例如按钮的颜色、大小、�
 <button type="button" class="btn primary">主要按钮</button>
 <button type="button" class="btn black rounded-none">黑色按钮</button>
 <button type="button" class="btn secondary-outline square">正</button>
-<button type="button" class="btn dark-outline circle">描边</button>
-<button type="button" class="btn danger-pale square circle">❤️</button>
+<button type="button" class="btn dark-outline rounded-full">描边</button>
+<button type="button" class="btn danger-pale square rounded-full">❤️</button>
 <button type="button" class="btn text-primary ghost">链接按钮</button>
 ```
 

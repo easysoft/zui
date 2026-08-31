@@ -38,7 +38,7 @@
 
 <Example>
   <div class="animate-pulse rounded w-full max-auto flex px-4 py-4">
-    <div class="w-16 h-16 bg-primary circle">
+    <div class="w-16 h-16 bg-primary rounded-full">
     </div>
     <div class="flex-1 h-16 px-4 ">
       <div class="h-4 w-48 bg-primary mb-2 rounded"></div>
@@ -50,7 +50,7 @@
 
 ```html
 <div class="animate-pulse rounded w-full max-auto flex px-4 py-4">
-  <div class="w-16 h-16 bg-primary circle">
+  <div class="w-16 h-16 bg-primary rounded-full">
   </div>
   <div class="flex-1 h-16 px-4 ">
     <div class="h-4 w-48 bg-primary mb-2 rounded"></div>

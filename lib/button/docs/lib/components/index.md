@@ -32,8 +32,8 @@
   <button type="button" class="btn primary">主要按钮</button>
   <button type="button" class="btn black rounded-none">黑色按钮</button>
   <button type="button" class="btn secondary-outline square">正</button>
-  <button type="button" class="btn dark-outline circle">描边</button>
-  <button type="button" class="btn danger-pale square circle">❤️</button>
+  <button type="button" class="btn dark-outline rounded-full">描边</button>
+  <button type="button" class="btn danger-pale square rounded-full">❤️</button>
   <button type="button" class="btn text-primary ghost">链接按钮</button>
 </Example>
 
@@ -43,8 +43,8 @@
 <button type="button" class="btn primary">主要按钮</button>
 <button type="button" class="btn black rounded-none">黑色按钮</button>
 <button type="button" class="btn secondary-outline square">正</button>
-<button type="button" class="btn dark-outline circle">描边</button>
-<button type="button" class="btn danger-pale square circle">❤️</button>
+<button type="button" class="btn dark-outline rounded-full">描边</button>
+<button type="button" class="btn danger-pale square rounded-full">❤️</button>
 <button type="button" class="btn text-primary ghost">链接按钮</button>
 ```
 
@@ -268,28 +268,28 @@
 
 ### 圆形按钮
 
-当与工具类 `circle` 与 `square` 一起使用时则获得圆形按钮。
+当与工具类 `rounded-full` 与 `square` 一起使用时则获得圆形按钮。
 
 ::: tabs
 
 == 示例
 
 <Example class="flex gap-4 items-end">
-  <button type="button" class="btn square circle size-xs">XS</button>
-  <button type="button" class="btn square circle size-sm">S</button>
-  <button type="button" class="btn square circle">正</button>
-  <button type="button" class="btn square circle size-lg">L</button>
-  <button type="button" class="btn square circle size-xl">XL</button>
+  <button type="button" class="btn square rounded-full size-xs">XS</button>
+  <button type="button" class="btn square rounded-full size-sm">S</button>
+  <button type="button" class="btn square rounded-full">正</button>
+  <button type="button" class="btn square rounded-full size-lg">L</button>
+  <button type="button" class="btn square rounded-full size-xl">XL</button>
 </Example>
 
 == HTML
 
 ```html
-<button type="button" class="btn square circle size-xs">XS</button>
-<button type="button" class="btn square circle size-sm">S</button>
-<button type="button" class="btn square circle">正</button>
-<button type="button" class="btn square circle size-lg">L</button>
-<button type="button" class="btn square circle size-xl">XL</button>
+<button type="button" class="btn square rounded-full size-xs">XS</button>
+<button type="button" class="btn square rounded-full size-sm">S</button>
+<button type="button" class="btn square rounded-full">正</button>
+<button type="button" class="btn square rounded-full size-lg">L</button>
+<button type="button" class="btn square rounded-full size-xl">XL</button>
 ```
 
 :::

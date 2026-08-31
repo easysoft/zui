@@ -39,7 +39,7 @@ describe('Avatar', () => {
         expect(avatar.style.width).toBe('20px');
         expect(avatar.style.height).toBe('20px');
         expect(avatar.style.fontSize).toBe('12px');
-        expect(avatar).toHaveClass('circle');
+        expect(avatar).toHaveClass('rounded-full', 'circle');
         expect(avatar).not.toHaveClass('rounded-lg');
         expect(text.style.transform).toBe('scale(0.625)');
         expect(text.dataset.actualsize).toBe('20');
@@ -78,7 +78,7 @@ describe('Avatar', () => {
         await flushAnimationFrame();
 
         expect(within(host).getByText('U')).toBeInTheDocument();
-        expect(host.querySelector('.avatar')).toHaveClass('circle');
+        expect(host.querySelector('.avatar')).toHaveClass('rounded-full', 'circle');
 
         avatar.render({displayText: 'ZU', text: undefined});
         expect(within(host).getByText('ZU')).toBeInTheDocument();
