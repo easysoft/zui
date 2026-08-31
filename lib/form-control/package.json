@@ -1,6 +1,7 @@
 {
     "name": "@zui/form-control",
     "version": "0.0.1",
+    "keywords": ["zui:control"],
     "main": "src/main.ts",
     "exports": {
         ".": "./src/main.ts",

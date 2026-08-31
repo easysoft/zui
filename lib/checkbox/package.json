@@ -2,7 +2,7 @@
     "name": "@zui/checkbox",
     "description": "ZUI checkbox",
     "version": "0.0.1",
-    "keywords": ["css", "components"],
+    "keywords": ["css", "components", "zui:control"],
     "main": "src/main.ts",
     "exports": {
         ".": "./src/main.ts",

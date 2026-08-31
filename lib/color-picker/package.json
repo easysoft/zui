@@ -5,7 +5,7 @@
     "browserslist": "",
     "keywords": [
         "css",
-        "zui:control"
+        "zui:component"
     ],
     "files": [
         "./src/**/*"

@@ -5,7 +5,7 @@
     "keywords": [
         "js",
         "cs",
-        "zui:component"
+        "zui:js-ui"
     ],
     "main": "src/main.ts",
     "module": "src/main.ts",

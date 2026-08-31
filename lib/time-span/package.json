@@ -6,7 +6,7 @@
     "keywords": [
         "css",
         "js",
-        "zui:component"
+        "zui:control"
     ],
     "files": [
         "./src/**/*"

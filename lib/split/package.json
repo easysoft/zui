@@ -3,6 +3,7 @@
     "description": "split.js plugin from https://split.js.org/",
     "version": "0.0.1",
     "browser": "src/main.ts",
+    "keywords": ["zui:js-helpers"],
     "main": "src/main.ts",
     "files": [
         "./src/**/*"

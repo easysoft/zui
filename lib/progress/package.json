@@ -3,7 +3,7 @@
    "name": "@zui/progress",
    "description": "ZUI progress",
    "version": "0.0.1",
-   "keywords": ["css", "zui:css-progress"],
+   "keywords": ["css", "zui:control"],
    "main": "src/main.ts",
    "module": "src/main.ts",
    "exports": {

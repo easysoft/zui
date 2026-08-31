@@ -3,6 +3,7 @@
     "version": "0.0.1",
     "main": "src/main.ts",
     "browser": "src/main.ts",
+    "keywords": ["zui:js-helpers"],
     "files": [
         "./src/**/*"
     ],

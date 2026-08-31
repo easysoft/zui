@@ -6,7 +6,7 @@
     "browserslist": "",
     "keywords": [
         "css",
-        "zui:control"
+        "zui:component"
     ],
     "dependencies": {
         "@zui/form-control": "workspace:*"

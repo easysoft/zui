@@ -10,7 +10,7 @@
     "browserslist": "",
     "keywords": [
         "css",
-        "zui:control"
+        "zui:component"
     ],
     "dependencies": {
         "@zui/button": "workspace:^0.0.1",
