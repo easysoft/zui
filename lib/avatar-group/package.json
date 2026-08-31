@@ -12,6 +12,9 @@
         "@zui/base": "workspace:*",
         "@zui/utilities": "workspace:*"
     },
+    "files": [
+        "./src/**/*"
+    ],
     "zui": {
         "type": "component",
         "displayName": "头像组",

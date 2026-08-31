@@ -1,3 +1,8 @@
+:root {
+    /* Opacity of a caret inside a disabled or readonly element. */
+    --caret-opacity: .5;
+}
+
 .caret,
 .caret-left,
 .caret-right,
@@ -22,11 +27,7 @@
   @apply -rotate-[225deg] -translate-y-0.5;
 }
 
-:hover > .caret,
-:focus > .caret {
-    opacity: inherit;
-}
 .disabled .caret,
 .readonly .caret {
-    opacity: var(--caret-opacity, .5);
+    opacity: var(--caret-opacity);
 }

@@ -15,11 +15,11 @@
 }
 
 .table-striped > tbody > tr:nth-child(even) {
-  background: var(--table-striped-color);
+  background-color: var(--table-striped-color);
 }
 
 .table-hover > tbody > tr:hover > * {
-  background: var(--table-hover-color);
+  background-color: var(--table-hover-color);
 }
 
 .table.bordered > * > tr > *  {
@@ -31,7 +31,7 @@
   @apply -border-none;
 }
 
-.condensed > * > tr > * {
+.table.condensed > * > tr > * {
   @apply -px-3 -py-1.5;
 }
 

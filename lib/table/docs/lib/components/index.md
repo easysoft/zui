@@ -584,7 +584,7 @@
 
 ## CSS 类
 
-按钮提供了如下 CSS 类：
+表格提供了如下 CSS 类：
 
 | 类              |  类型  | 作用                     |
 | --------------- | :----: | ------------------------ |
@@ -596,11 +596,31 @@
 | `bordered`      | 工具类 | 为表格添加完整边框       |
 | `condensed`     | 工具类 | 为表格启用紧凑布局       |
 
+`borderless`、`bordered`、`condensed` 需与 `table` 组合使用（如 `<table class="table condensed">`），单独使用不会生效；`table-striped`、`table-hover`、`table-fixed` 可直接使用。
+
 ## CSS 变量
 
-| 变量名称              | 变量含义                       |
-| --------------------- | ------------------------------ |
-| `--table-head-bg`       | 表头背景色                     |
-| `--table-striped-color` | 表格斑马纹行背景色             |
-| `--table-hover-color`   | 表格行响应鼠标悬停变化背景颜色 |
-| `--table-border-color`  | 表格边框颜色                   |
+表格提供了如下 CSS 变量：
+
+| 变量名称                | 变量含义                       | 默认值                                    |
+| ----------------------- | ------------------------------ | ----------------------------------------- |
+| `--table-head-bg`       | 表头背景色                     | `var(--color-surface)`                    |
+| `--table-striped-color` | 表格斑马纹行背景色             | `var(--color-gray-50)`                    |
+| `--table-hover-color`   | 表格行响应鼠标悬停变化背景颜色 | `rgba(var(--color-primary-500-rgb), .05)` |
+| `--table-border-color`  | 表格边框颜色                   | `var(--color-border)`                     |
+
+这些变量声明在 `.table` 上，而不是 `:root`。覆盖时需要作用到表格元素本身，例如自定义 `.table` 规则、更具体的选择器或行内 `style`；在 `:root` 上覆盖不会生效，因为元素上直接匹配的声明始终优先于继承而来的值。
+
+```css
+/* 生效 */
+.table {
+  --table-head-bg: var(--color-primary-100);
+}
+
+/* 不生效 */
+:root {
+  --table-head-bg: var(--color-primary-100);
+}
+```
+
+声明在 `.table` 上还使得其中的 `var()` 在每个表格元素上求值，因此位于 `.dark`、`.light-in-dark` 等局部主题作用域内的表格，能够取到所在作用域的颜色。
