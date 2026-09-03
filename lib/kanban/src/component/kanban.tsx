@@ -6,7 +6,7 @@ import {KanbanLinks} from './kanban-links';
 import {getCols, mergeData, getLanes, getColItems, normalizeData} from '../helpers/kanban-helpers';
 
 import type {ComponentChildren, RenderableProps} from 'preact';
-import type {ClassNameLike, CustomContentType} from '@zui/core';
+import type {ClassNameLike, CustomContentType, SizeSetting} from '@zui/core';
 import type {ItemKey} from '@zui/common-list';
 import type {KanbanColName, KanbanColOptions, KanbanData, KanbanDataset, KanbanDataFetcher, KanbanDataSetting, KanbanItem, KanbanLaneName, KanbanLaneOptions, KanbanLinkOptions, KanbanProps, KanbanState, KanbanDataMap, KanbanItemsMap, KanbanElementInfo, KanbanDropInfo, KanbanDropSide, KanbanItemInfo} from '../types';
 import {createLinkID} from '../helpers/link-helpers';
@@ -701,13 +701,21 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
         const {colsGap = 8, minColWidth: defaultMinColWidth = 150, maxColWidth: defaultMaxColWidth = 600, colWidth: defaultColWidth = 200} = props;
         const normalizedContainerWidth = Number.isFinite(containerWidth) ? Math.max(0, containerWidth) : 0;
         const normalizedColsGap = Number.isFinite(colsGap) ? Math.max(0, colsGap) : 0;
+        const resolveSize = (setting: SizeSetting | null | undefined, fallback: number) => {
+            if (setting === undefined || setting === null) {
+                return fallback;
+            }
+            const [value, unit] = parseSize(setting);
+            const size = unit === '%' ? normalizedContainerWidth * value / 100 : value;
+            return Number.isFinite(size) ? Math.max(0, size) : fallback;
+        };
+        const normalizedDefaultMinColWidth = resolveSize(defaultMinColWidth, 150);
+        const normalizedDefaultMaxColWidth = Math.max(normalizedDefaultMinColWidth, resolveSize(defaultMaxColWidth, 600));
         const responsiveCols: KanbanColOptions[] = [];
         let totalWidth = 0;
         const processCol = (col: KanbanColOptions) => {
-            const minWidthSetting = col.minWidth ?? defaultMinColWidth;
-            const maxWidthSetting = col.maxWidth ?? defaultMaxColWidth;
-            const minWidth = Number.isFinite(minWidthSetting) ? Math.max(0, minWidthSetting) : 0;
-            const maxWidth = Number.isFinite(maxWidthSetting) ? Math.max(minWidth, maxWidthSetting) : minWidth;
+            const minWidth = resolveSize(col.minWidth, normalizedDefaultMinColWidth);
+            const maxWidth = Math.max(minWidth, resolveSize(col.maxWidth, normalizedDefaultMaxColWidth));
             let {width = defaultColWidth} = col;
             if (typeof width === 'function') {
                 width = width.call(this, col);
