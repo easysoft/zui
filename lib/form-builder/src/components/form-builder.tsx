@@ -1,10 +1,31 @@
-import type {ComponentType, RenderableProps} from 'preact';
+import {isValidElement, type ComponentType, type RenderableProps} from 'preact';
 import {type ClassNameLike, type ComponentChildren, computed, CustomContent, HElement, mergeProps, ReadonlySignal, Signal, effect, $, signal, batch} from '@zui/core';
 import {Toolbar} from '@zui/toolbar/react';
 import {Picker} from '@zui/picker/react';
 import type {FormBuilderOptions, FormSchema, FormWidgetMap, JSONSchema, FieldSchemaInfo, FormWidgetSetting, FormWidgetSettingDefinition, ObjectSchema, FormValidateRulePattern, StringSchema} from '../types';
 import {SchemaRenderer} from './schema-renderer';
 import {getLang} from '../i18n';
+
+function mergeSchema<T>(...sources: unknown[]): T {
+    function mergeValue(target: unknown, source: unknown): unknown {
+        if (isValidElement(source) || (!Array.isArray(source) && !$.isPlainObject(source))) {
+            return source;
+        }
+        const result = Array.isArray(source)
+            ? (Array.isArray(target) ? [...target] : [])
+            : ($.isPlainObject(target) && !isValidElement(target) ? {...target} : {});
+        const resultMap = result as unknown as Record<string, unknown>;
+        const sourceMap = source as unknown as Record<string, unknown>;
+        Object.keys(sourceMap).forEach((key) => {
+            resultMap[key] = mergeValue(resultMap[key], sourceMap[key]);
+        });
+        return result;
+    }
+
+    return sources.reduce((result, source) => {
+        return source === undefined || source === null ? result : mergeValue(result, source);
+    }, {}) as T;
+}
 
 export class FormBuilder extends HElement<FormBuilderOptions> {
     static readonly NAME = 'FormBuilder';
@@ -52,7 +73,7 @@ export class FormBuilder extends HElement<FormBuilderOptions> {
             const map: Record<string, JSONSchema> = {};
             const schemaPatches = this._schemaPatches$.value;
             FormBuilder.loopSchema(this.schema, (schema, path) => {
-                map[path] = $.extend(true, {}, schema, schemaPatches[path]);
+                map[path] = mergeSchema<JSONSchema>(schema, schemaPatches[path]);
             });
             this._map.clear();
             return map;
@@ -118,7 +139,7 @@ export class FormBuilder extends HElement<FormBuilderOptions> {
         const schemaPatches = this._schemaPatches$.value;
         this._schemaPatches$.value = {
             ...schemaPatches,
-            [path]: deepMerge ? $.extend(true, {}, schemaPatches[path], fieldSchema) : {
+            [path]: deepMerge ? mergeSchema<Partial<JSONSchema>>(schemaPatches[path], fieldSchema) : {
                 ...schemaPatches[path],
                 ...fieldSchema,
             } as JSONSchema,
