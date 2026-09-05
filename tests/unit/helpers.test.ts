@@ -47,6 +47,23 @@ describe('@zui/helpers', () => {
             expect(clone.getTime()).toBe(original.getTime());
         });
 
+        it('parses date-only ISO strings as local midnight in any time zone', () => {
+            const originalTZ = process.env.TZ;
+            try {
+                for (const tz of ['America/Edmonton', 'Asia/Shanghai', 'UTC']) {
+                    process.env.TZ = tz;
+                    const date = createDate('2026-09-17');
+                    expect([date.getFullYear(), date.getMonth(), date.getDate(), date.getHours()]).toEqual([2026, 8, 17, 0]);
+                    expect(formatDate('2026-09-17', 'yyyy-MM-dd')).toBe('2026-09-17');
+                    expect(formatDate(' 2026-09-17 ', 'yyyy-MM-dd')).toBe('2026-09-17');
+                }
+            } finally {
+                process.env.TZ = originalTZ;
+            }
+            expect(createDate('2026-09-17T00:00:00Z').getTime()).toBe(Date.UTC(2026, 8, 17));
+            expect(createDate('2026-09-17 10:30:00').getHours()).toBe(10);
+        });
+
         it('adds supported calendar units without mutating the input', () => {
             const original = new Date(2026, 0, 5, 10, 0, 0);
             expect(addDate(original, '2week').getDate()).toBe(19);

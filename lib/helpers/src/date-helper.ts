@@ -34,6 +34,12 @@ export const createDate = (date?: DateLike, forceNew?: boolean): Date => {
         date = date.trim();
         if (/^\d+$/.test(date)) {
             date = Number.parseInt(date, 10);
+        } else if (/^\d{4}-\d{2}-\d{2}$/.test(date)) {
+            // The Date constructor treats a date-only ISO string ("2026-09-17") as UTC midnight, so in time zones
+            // west of UTC it becomes the previous day. Parse it as local midnight instead, consistent with
+            // "2026-09-17 00:00:00" and with what date pickers expect.
+            const [year, month, day] = date.split('-').map(Number);
+            return new Date(year, month - 1, day);
         }
     }
     if (typeof date === 'number' && date < 10000000000) {
