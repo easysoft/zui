@@ -22,16 +22,18 @@ node ../zuix-standards/scripts/resolve-zui-ext-context.mjs --cwd <目标路径> 
 
 ## 实施
 
-1. 缺少会改变演示目标、公开消费方式或交互验收的信息时先询问；否则直接在调试页边界内实施，不增加确认门禁。
+1. 按共享工作流先检查请求、已确认决定和目标现状，合理沿用既有约定；仅有无法可靠消除且会实质改变调试页目标、公开契约或交付边界的歧义时询问，否则直接在本领域内实施，不增加确认门禁。
 2. 在实际页面源中使用当前宿主支持的 `html:example` fence 和 utility class 语法构建实例 DOM；资源通过扩展开发管线实际支持的路径引用，不硬编码某个扩展品牌或组名。
 3. `dev.ts` 中用真实 `packageName` 导入目标入口和演示依赖；不要把 `folderName` 或 `zuiName` 当成模块包名。库内相对入口可沿用目标现状。
 4. DOM 首次建立和 HMR 重建后都必须执行的实例化、查询和局部绑定放入 `onPageUpdate`；真正一次性的全局设置才放入 `onPageLoad`。
 5. 避免重复全局监听、冲突 ID、不可清理的 timer/observer 和遗留实例。组件可销毁时，在重建或重新实例化前清理旧实例。
 6. 若调试页需要覆盖 `LibLoader` 的本地资源，使用同一 loader 注册名和 check，并从 resolver 的 `extsName`、`folderName`、`publicPath` 及宿主实际 URL 规则构造路径；禁止写死项目名或假定三者相同。
-7. 只修改 `targetLibRoot` 中调试页及批准的演示资源。源码 lint、类型、依赖与测试从 `extensionRoot` 执行；不修改 `zuiRoot` 的源码、package、lockfile、注册、缓存或生成目录。
+7. 只修改 `targetLibRoot` 中调试页及批准的演示资源。源码 lint、类型、依赖与测试从 `extensionRoot` 执行；不修改宿主源码、package、lockfile 或注册；宿主生成物和缓存写入遵循共享工作流的验证隔离与批准规则。
 8. 不为使演示成立而悄悄修改运行时 API、正式文档或 i18n。发现越界问题时单独报告。
 
 ## 宿主联合验证
+
+宿主命令的执行位置、生成物与缓存写入统一遵循 [共享工作流](../zuix-standards/references/workflow.md) 的验证隔离与批准规则；下文 `zuiRoot` 表示宿主契约来源，不表示可直接写入原工作区。
 
 1. 先在 `extensionRoot` 读取实际 package scripts，运行调试页相关静态、lint 和类型检查。
 2. 仅当 resolver 确认 `zuiRoot` 与 `extsName`，且宿主注册指向当前 `extensionRoot` 时，从 `zuiRoot` 启动扩展开发入口，例如：
@@ -42,11 +44,11 @@ pnpm dev:exts -- --lib=buildIn,<extsName>
 
 3. 从宿主实际库发现/导航结果进入目标页，不从 `folderName`、`packageName` 或 `zuiName` 猜测 URL。
 4. 验证首次加载、主要状态与交互、键盘/焦点/ARIA、错误边界、销毁重建及页面源修改后的 HMR。检查控制台没有重复初始化和异常。
-5. 持续进程验证完成后主动结束，不遗留后台服务。宿主命令写入的生成物不得加入扩展项目提交范围。
+5. 服务的启动、复用、重启和清理遵循共享工作流的开发服务管理规则。宿主命令写入的生成物不得加入扩展项目提交范围。
 
 ## 组合边界与交付
 
 - 独立调用且目标明确时直接实施。
-- 由 `../zuix-component/SKILL.md`、`../zuix-helper/SKILL.md`、`../zuix-lib/SKILL.md` 或 `../zuix-optimize/SKILL.md` 编排时，只处理共享已批准范围内的调试页，不重复确认。
+- 作为其他 ZUI 技能的子流程时，只处理共享范围内的调试页工作；按共享工作流复用已有批准，包括 wrap-lib，不重复确认。独立调用仍遵循本技能的直接实施或只读模式。
 - 用户只要求评审时保持只读。
 - 交付时汇报实际页面源、演示矩阵、生命周期处理、四层上下文、本地与宿主验证结果及未覆盖项，不自动提交、推送或发布。

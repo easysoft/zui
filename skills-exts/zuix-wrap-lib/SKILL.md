@@ -57,7 +57,7 @@ node ../zuix-standards/scripts/resolve-zui-ext-context.mjs --cwd <目标路径> 
 
 ## 一次集成计划
 
-修改任何文件前，输出可直接实施的计划并请求用户明确确认，然后停止。计划至少包含：
+尚无适用批准时，在修改任何文件前输出可直接实施的拟实施计划，并请求用户明确确认；批准状态和等待期间的推进方式遵循共享工作流。计划至少包含：
 
 - 四层上下文、新建/已有库、真实命名字段、包角色、架构、两个参考实现；
 - UMD 来源、版本、许可证、目标 `public/` 路径、全局名、loader 注册和资源依赖；
@@ -65,9 +65,9 @@ node ../zuix-standards/scripts/resolve-zui-ext-context.mjs --cwd <目标路径> 
 - 类型策略、公开 API、消费方式、数据流、error/retry、update/destroy；
 - `extensionRoot` 内精确文件集，以及 README/dev、正式文档、样式、i18n 的纳入/排除；
 - 扩展侧检查与 `zuiRoot + extsName` 宿主联合验收、剩余假设；
-- 明确标记的“已批准范围”。
+- 明确标记的“拟实施范围”。
 
-本技能只设置这一次确认。完全落入批准范围的 component/helper/dev/doc 子流程不重复确认；目标、公开 API、包角色、UMD 资源、宿主影响或文件边界变化时重新规划。
+按 [zuix 共享工作流](../zuix-standards/references/workflow.md) 复用本任务已有且仍完整适用的明确批准，包括 wrap-lib 的协调计划，不重复确认。超出批准范围时只暂停受影响部分及其依赖写操作，提交增量计划并确认；继续范围内不受影响的工作。始终服从当前协作模式。
 
 ## 实施
 
@@ -79,9 +79,11 @@ node ../zuix-standards/scripts/resolve-zui-ext-context.mjs --cwd <目标路径> 
 6. 每次异步加载后检查模块结果和实例存活状态；定义加载前方法、失败和显式重试行为；`destroy()` 清理第三方实例、监听、DOM 及其他副作用。
 7. 只创建真实需要的入口、component/vanilla/helper/types/style 和注册副作用；沿用扩展项目合理局部目录风格，不公开私有 loader，不创建空目录。
 8. 按扩展版 `zuix-dev` 完成调试源：生产入口先注册相对资源，再用相同注册名和 `check` 覆盖宿主实际 `/exts/<extsName>/<folderName>/public/...` 地址；`extsName` 未解析时不得写猜测值。HMR 重建前销毁旧实例。正式文档只在批准范围内实施。
-9. 依赖和 lockfile 在 `extensionRoot` 按实际 pnpm 策略更新；不修改 `zuiRoot` 的依赖、锁文件、注册或缓存。
+9. 依赖和 lockfile 在 `extensionRoot` 按实际 pnpm 策略更新；不修改宿主依赖、锁文件或注册；宿主生成物和缓存写入遵循共享工作流的验证隔离与批准规则。
 
 ## 验证与交付
+
+宿主命令的执行位置、生成物与缓存写入统一遵循 [共享工作流](../zuix-standards/references/workflow.md) 的验证隔离与批准规则；下文 `zuiRoot` 表示宿主契约来源，不表示可直接写入原工作区。
 
 至少分别验证：
 

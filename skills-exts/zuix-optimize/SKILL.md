@@ -1,6 +1,6 @@
 ---
 name: zuix-optimize
-description: "审计并优化独立 ZUI 扩展项目中的一个、多个或全部 `lib/*` 包，覆盖组件与 helper 质量、缺陷修复、package/宿主契约、公开 API 文档、开发调试、国际化和规范一致性。Use when a user asks for an audit, quality pass, cleanup, defect remediation, documentation completion, playground expansion, i18n improvement, or standards-based optimization across existing ZUI extension libraries; audits remain read-only, while every implementation starts only after one scope-complete plan is explicitly confirmed."
+description: "审计独立 ZUI 扩展项目的整库质量，或编排多个包、多个开发领域的优化。Use for whole-library quality audits, multi-package or cross-domain optimization, or explicit zuix-optimize requests. 单独的文档、调试页和 i18n 需求优先使用对应技能，不要仅因出现优化或完善而触发；审计只读，实施仍须完整计划的明确批准。"
 ---
 
 # ZUI 扩展库优化
@@ -53,7 +53,7 @@ node ../zuix-standards/scripts/resolve-zui-ext-context.mjs --cwd <目标路径> 
 
 ## 统一确认门禁
 
-任何文件修改、依赖安装或生成产物前，输出决策完整的优化计划，至少包含：
+尚无适用批准时，在任何文件修改、依赖安装或生成产物前输出决策完整的拟实施优化计划，至少包含：
 
 - 四层上下文、目标库清单与真实命名字段、排除项、工作区基线和相似实现；
 - 按库列出的 confirmed defect、risk、文档/调试/i18n/package/宿主缺口及优先级；
@@ -61,24 +61,26 @@ node ../zuix-standards/scripts/resolve-zui-ext-context.mjs --cwd <目标路径> 
 - owner skill、`targetLibRoot`/`extensionRoot` 内精确文件边界、依赖顺序和跨库影响；
 - JSDoc、正式文档、调试页、i18n、public 资源和 package 元数据的纳入范围；
 - 扩展侧验证、宿主联合验证、基线失败、批次顺序和剩余假设；
-- 明确标记的“已批准范围”，精确列出本次允许修改的库、问题、领域与所有权边界。
+- 明确标记的“拟实施范围”，精确列出本次允许修改的库、问题、领域与所有权边界。
 
 单库或少量库能一次形成完整计划时，只等待一次明确确认。全库或大范围默认先给出只读路线图，并为首个可独立验收批次提交完整计划；后续批次深审后分别确认，除非用户已明确批准其中每项具体修改。一次笼统的“优化全部”不能授权未知变更。
 
-用户明确确认前停止。回答问题、选择批次或调整优先级不等于批准实施。只读审计不请求实施确认，也不修改文件。
+尚无适用批准时，请求用户明确确认后再实施；批准状态、包含批次选择或优先级调整的授权回复及等待期间的推进方式遵循共享工作流。用户只要求审计时不请求实施确认，也不修改文件。始终服从当前协作模式。
 
 ## 编排实施
 
+宿主命令的执行位置、生成物与缓存写入统一遵循 [共享工作流](../zuix-standards/references/workflow.md) 的验证隔离与批准规则；下文 `zuiRoot` 表示宿主契约来源，不表示可直接写入原工作区。
+
 1. 确认后重新运行 resolver 并检查 `gitRoot` 状态；上下文、注册、目标或基线变化时先核对，只实施批准范围。
-2. 单库跨领域可用 `$zuix-lib` 作为执行器；窄领域直接用相应技能。把已批准范围传给子技能，范围内不重复确认；目标、公开 API、兼容性、宿主影响或文件边界变化时返回本技能重新规划。
+2. 单库跨领域可用 `$zuix-lib` 作为执行器；窄领域直接用相应技能。把已批准范围传给子技能，范围内不重复确认；目标、公开 API、兼容性、宿主影响或文件边界需要超出批准范围时，按共享工作流仅暂停受影响部分，并返回本技能提出增量计划及确认。
 3. 先处理共享基础/helper，再处理依赖它们的组件，随后处理 i18n、正式文档和调试页。互不依赖的包可并行，但每库保持独立验收记录。
-4. 仅在真实 `targetLibRoot` 和批准的 `extensionRoot` 文件内修改。依赖与 lockfile 按扩展项目策略在 `extensionRoot` 处理；不修改 `zuiRoot` 源码、依赖、lockfile、注册、缓存或生成目录。
+4. 仅在真实 `targetLibRoot` 和批准的 `extensionRoot` 文件内修改。依赖与 lockfile 按扩展项目策略在 `extensionRoot` 处理；不修改宿主源码、依赖、lockfile 或注册；宿主生成物和缓存写入遵循共享工作流的验证隔离与批准规则。
 5. 只修复证据充分且已批准的问题。新发现先记入下一批；不顺手扩张。保留合理局部结构与 API，避免无关格式化、重命名、迁移和公共契约破坏。
-6. 每完成一个库运行扩展侧针对性检查并更新账本；批次结束后，在 `zuiRoot + extsName` 已唯一解析时运行批准的组合构建、文档和浏览器验证。持续进程完成后结束。
+6. 每完成一个库运行扩展侧针对性检查并更新账本；批次结束后，在 `zuiRoot + extsName` 已唯一解析时运行批准的组合构建、文档和浏览器验证。服务的启动、复用、重启和清理遵循共享工作流的开发服务管理规则。
 
 ## 交付
 
 - 按库汇报 defect、质量、API/JSDoc、package/宿主契约、正式文档、调试和 i18n 变化。
 - 分开记录扩展侧通过、宿主侧通过、基线阻断、未执行与未验证项。
 - 对比可验证行为，不用文件数代替质量结果。
-- 不编辑宿主生成目录，不遗留开发服务，不自动提交、推送或发布。
+- 不手工编辑宿主生成目录代替修改源文件；验证产物和服务管理遵循共享工作流，不自动提交、推送或发布。

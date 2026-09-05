@@ -1,6 +1,6 @@
 ---
 name: zuix-helper
-description: "在独立 ZUI 扩展项目的目标库中设计、实现或优化辅助 API，包括纯函数、类型、状态类、store/单例、浏览器 DOM 模块和库内私有 helper。Use when a user asks for utils, data helpers, stores, browser helpers, shared classes, or helper refactors maintained outside the ZUI 主仓库；先解析扩展项目与宿主的四层上下文，完成需求与 API 设计后必须给出计划并等待明确确认。"
+description: "在独立 ZUI 扩展项目的目标库中设计、实现或优化辅助 API，包括纯函数、类型、状态类、store/单例、浏览器 DOM 模块和库内私有 helper。Use when a user asks for utils, data helpers, stores, browser helpers, shared classes, or helper refactors maintained outside the ZUI 主仓库；先解析扩展项目与宿主的四层上下文，先给出 API 计划并经明确确认后实施；已有适用批准时按共享工作流复用，不重复确认。"
 ---
 
 # ZUI 扩展 Helper 开发
@@ -39,7 +39,7 @@ node ../zuix-standards/scripts/resolve-zui-ext-context.mjs --cwd <目标路径> 
 
 ## 确认门禁
 
-修改任何文件前给出决策完整的计划，至少包含：
+尚无适用批准时，在修改任何文件前给出决策完整的拟实施计划，至少包含：
 
 - 四层上下文、目标库的 `folderName` / `packageName` / `zuiName`、helper 分类及两个参考实现；
 - 目标、非目标、兼容性和可观察验收场景；
@@ -48,22 +48,24 @@ node ../zuix-standards/scripts/resolve-zui-ext-context.mjs --cwd <目标路径> 
 - 浏览器监听、timer、observer、SSR/global 防护与清理策略；
 - `targetLibRoot` 内精确文件集、入口、真实依赖和 `zui.contributes` 影响；
 - 在 `extensionRoot` 执行的 dependency/lint/type/test，以及在 `zuiRoot` + `extsName` 执行的联合验证；
-- 文档、调试页、剩余假设及明确标记的“已批准范围”。
+- 文档、调试页、剩余假设及明确标记的“拟实施范围”。
 
-请求用户明确确认，然后停止。回答问题或讨论计划不算确认。
+尚无适用批准时，请求用户明确确认后再实施；批准状态及包含修订的授权回复遵循共享工作流。
 
-只有 `../zuix-lib/SKILL.md` 或 `../zuix-optimize/SKILL.md` 展示的已批准范围完整覆盖当前目标、API、文件边界和验收场景时，才能复用该确认。公开 API、跨库影响或范围变化时返回协调技能重新规划。始终服从当前协作模式。
+按 [zuix 共享工作流](../zuix-standards/references/workflow.md) 复用本任务已有且仍完整适用的明确批准，包括 wrap-lib 的协调计划，不重复确认。超出批准范围时只暂停受影响部分及其依赖写操作，提交增量计划并确认；继续范围内不受影响的工作。始终服从当前协作模式。
 
 ## 实施
 
 1. 确认且当前模式允许编辑后，重新运行 resolver 并检查 `gitRoot` 状态；上下文变化时停止核对。
-2. 仅修改 `targetLibRoot` 及已批准的扩展项目文件。安装依赖、更新扩展 lockfile、lint、类型检查和测试都从 `extensionRoot` 执行；不修改 `zuiRoot` 的源码、依赖、lockfile、注册或生成目录。
+2. 仅修改 `targetLibRoot` 及已批准的扩展项目文件。安装依赖、更新扩展 lockfile、lint、类型检查和测试都从 `extensionRoot` 执行；不修改宿主源码、依赖、lockfile 或注册；宿主生成物和缓存写入遵循共享工作流的验证隔离与批准规则。
 3. 默认保持纯函数无副作用且确定；状态型工具明确实例/单例所有权、重入、并发、失败和销毁行为。
 4. 为公共 API 添加有价值的 JSDoc，并从局部入口和库入口显式导出；不让消费者依赖未承诺的深层路径。
 5. 依赖分类服从扩展项目当前 package 策略。不要把主仓库的 `workspace:*`、namespace 或“不声明 @zui 依赖”等局部惯例机械套到扩展项目。
 6. 若批准范围包含正式文档或调试页，完整读取并遵循 `../zuix-doc/SKILL.md` 或 `../zuix-dev/SKILL.md`；完全位于共享批准范围时不重复确认。
 
 ## 验证与交付
+
+宿主命令的执行位置、生成物与缓存写入统一遵循 [共享工作流](../zuix-standards/references/workflow.md) 的验证隔离与批准规则；下文 `zuiRoot` 表示宿主契约来源，不表示可直接写入原工作区。
 
 1. 从 `extensionRoot` 读取实际 package scripts，运行针对性 lint、类型、测试、公共导出和序列化/清理检查。覆盖空值、非法输入、重复调用、并发、失败与不可用浏览器 API 等适用场景。
 2. 需要宿主联合构建时，只有 resolver 已确认 `zuiRoot` 与 `extsName` 才从 `zuiRoot` 运行，并用准确 `zuiName`：

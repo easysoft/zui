@@ -28,7 +28,7 @@ node ../zuix-standards/scripts/resolve-zui-ext-context.mjs --cwd <目标路径> 
    - **bootstrap**：没有 i18n 基础时建立当前扩展项目适用的最小结构；
    - **complete**：保留现有结构，补齐缺失语言、键、引用或加载；
    - **clean**：均符合当前契约时不制造无意义改动。
-4. 缺少会改变翻译范围、产品术语、语言集合或公共覆盖方式的信息时先询问；否则直接在 i18n 边界内实施，不增加确认门禁。
+4. 按共享工作流先检查请求、已确认决定和目标现状，合理沿用既有约定；仅有无法可靠消除且会实质改变国际化目标、公开契约或交付边界的歧义时询问，否则直接在本领域内实施，不增加确认门禁。
 
 ## 实施
 
@@ -39,10 +39,12 @@ node ../zuix-standards/scripts/resolve-zui-ext-context.mjs --cwd <目标路径> 
 5. 所有语言保留相同占位符。区分 ZUI i18n 插值与下游组件稍后处理的模板占位符，避免提前消费。
 6. 明确并验证全局语言、实例 `lang`、实例 i18n 覆盖、缺失键默认值、不支持语言和语言码归一化。不要承诺当前源码没有实现的 fallback 链。
 7. 动态切换语言时区分 render 内求值与模块级常量一次性求值；需要实时更新时设计可重新求值的数据路径，不让静态常量伪装成响应式。
-8. 只修改 `targetLibRoot` 内国际化所需源码、类型与接线。依赖、lint、类型和测试从 `extensionRoot` 执行；不修改 `zuiRoot` 的源码、依赖、lockfile、注册或生成目录。
+8. 只修改 `targetLibRoot` 内国际化所需源码、类型与接线。依赖、lint、类型和测试从 `extensionRoot` 执行；不修改宿主源码、依赖、lockfile 或注册；宿主生成物和缓存写入遵循共享工作流的验证隔离与批准规则。
 9. 文档、调试页和无关运行时 API 仅在用户请求或共享批准范围明确包含时修改，并分别完整读取 `../zuix-doc/SKILL.md` 或 `../zuix-dev/SKILL.md`。
 
 ## 验证与交付
+
+宿主命令的执行位置、生成物与缓存写入统一遵循 [共享工作流](../zuix-standards/references/workflow.md) 的验证隔离与批准规则；下文 `zuiRoot` 表示宿主契约来源，不表示可直接写入原工作区。
 
 1. 程序化比较语言键、嵌套和占位符；核对每个源码键引用已定义、每个语言文件从发布入口可达。
 2. 从 `extensionRoot` 读取实际 package scripts，运行针对性 lint、类型和测试。至少验证三种语言的真实消费路径、实例覆盖、缺失键和动态行为（若承诺）。
@@ -52,6 +54,6 @@ node ../zuix-standards/scripts/resolve-zui-ext-context.mjs --cwd <目标路径> 
 pnpm build -- --exts=buildIn,<extsName> --lib='<zuiName>' --noMinify
 ```
 
-4. 需要语言切换调试时，按 `../zuix-dev/SKILL.md` 从 `zuiRoot` 启动扩展开发入口并验证，结束后关闭持续进程。
-5. 独立需求明确时直接实施；由 `../zuix-component/SKILL.md`、`../zuix-helper/SKILL.md`、`../zuix-lib/SKILL.md` 或 `../zuix-optimize/SKILL.md` 编排时只处理共享范围，不重复确认。
+4. 需要语言切换调试时，按 `../zuix-dev/SKILL.md` 从 `zuiRoot` 启动扩展开发入口并验证，服务的启动、复用、重启和清理遵循共享工作流的开发服务管理规则。
+5. 作为其他 ZUI 技能的子流程时，只处理共享范围内的 i18n 工作；按共享工作流复用已有批准，包括 wrap-lib，不重复确认。独立调用仍遵循本技能的直接实施或只读模式。
 6. 汇报模式、namespace、键与接线变化、四层上下文、验证结果、疑似未使用键和待决术语，不自动提交、推送或发布。

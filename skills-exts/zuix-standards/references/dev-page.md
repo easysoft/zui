@@ -36,4 +36,4 @@
 pnpm dev:exts -- --lib=buildIn,<EXTS_NAME>
 ```
 
-从宿主导航确定目标 URL；短名冲突时使用宿主生成的安全 scoped URL。验证首次加载、Markdown HMR、交互和控制台后结束服务，不遗留后台进程。
+从宿主导航确定目标 URL；短名冲突时使用宿主生成的安全 scoped URL。验证首次加载、Markdown HMR、交互和控制台；服务管理及宿主写入遵循 [共享工作流](workflow.md) 的服务与验证隔离规则。

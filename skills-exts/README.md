@@ -71,7 +71,7 @@ node .agents/skills/zuix-standards/scripts/inspect-zui-lib.mjs \
 - 从目标项目事实推导 `packageName`、`zuiName`、`publicPath`、包 scope 和依赖协议，不硬编码某个扩展项目的约定。
 - 扩展源码、依赖和质量检查归 `EXT_ROOT`；Git 操作归 `GIT_ROOT`；联合开发、构建和文档归 `ZUI_ROOT`。
 - 跨包导入使用真实公开 package name，不通过相对路径或宿主 `exts/` 软链接穿越包边界。
-- 宿主 ZUI 默认只用于读取规范和联合验证，不修改其源码、依赖、lockfile、注册、缓存或生成目录。
+- 宿主 ZUI 默认只用于读取规范和联合验证，不修改其源码、依赖、lockfile 或注册。原宿主生成物与缓存写入仍须明确批准；优先按 [共享工作流](zuix-standards/references/workflow.md) 隔离验证。
 - 完整读取各层适用的 `AGENTS.md`，保留已有工作区改动，不自动提交、推送或发布。
 - 宿主或扩展注册无法唯一解析时，继续可行的扩展侧工作，但不猜测宿主命令、URL 或构建参数。
 

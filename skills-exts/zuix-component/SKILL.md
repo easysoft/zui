@@ -1,6 +1,6 @@
 ---
 name: zuix-component
-description: "在独立 ZUI 扩展项目的目标库中设计、实现或优化组件，覆盖纯 CSS、Preact、Preact + ComponentFromReact、原生 Component DOM 增强器、控制器 + Preact 子视图及外部库按需加载。Use when a user asks to add, refactor, extend, or fix a component maintained outside the ZUI 主仓库；先解析扩展项目与宿主的四层上下文，完成需求理解与组件设计后必须给出计划并等待明确确认。"
+description: "在独立 ZUI 扩展项目的目标库中设计、实现或优化组件，覆盖纯 CSS、Preact、Preact + ComponentFromReact、原生 Component DOM 增强器、控制器 + Preact 子视图及外部库按需加载。Use when a user asks to add, refactor, extend, or fix a component maintained outside the ZUI 主仓库；先解析扩展项目与宿主的四层上下文，先给出设计计划并经明确确认后实施；已有适用批准时按共享工作流复用，不重复确认。"
 ---
 
 # ZUI 扩展组件开发
@@ -40,7 +40,7 @@ node ../zuix-standards/scripts/resolve-zui-ext-context.mjs --cwd <目标路径> 
 
 ## 确认门禁
 
-修改任何文件前，给出一份决策完整的计划，至少包含：
+尚无适用批准时，在修改任何文件前给出一份决策完整的拟实施计划，至少包含：
 
 - 四层上下文、目标库的 `folderName` / `packageName` / `zuiName`、包角色、组件架构及两个参考实现；
 - 目标、非目标、兼容性与可观察验收场景；
@@ -49,16 +49,16 @@ node ../zuix-standards/scripts/resolve-zui-ext-context.mjs --cwd <目标路径> 
 - 外部资源（若有）的 loader 所有权、注册名、资源/check/依赖、加载时机、失败重试和销毁竞态；
 - `targetLibRoot` 内的精确文件集、入口、样式及 package 元数据影响；
 - 在 `extensionRoot` 执行的依赖、lint、类型或测试，以及在 `zuiRoot` + `extsName` 执行的联合验证；
-- 正式文档和调试页是否纳入、剩余假设及明确标记的“已批准范围”。
+- 正式文档和调试页是否纳入、剩余假设及明确标记的“拟实施范围”。
 
-明确请求用户确认，然后停止。回答问题、局部修订计划或继续讨论不算确认。
+尚无适用批准时，请求用户明确确认后再实施；批准状态、包含修订的授权回复及等待期间的推进方式遵循共享工作流。
 
-只有 `../zuix-lib/SKILL.md` 或 `../zuix-optimize/SKILL.md` 已展示且记录的已批准范围完整覆盖当前目标、公开 API、文件边界和验收场景时，才能复用其一次确认。任何目标、公开 API、宿主影响或文件范围变化都返回协调技能重新规划。始终服从当前协作模式。
+按 [zuix 共享工作流](../zuix-standards/references/workflow.md) 复用本任务已有且仍完整适用的明确批准，包括 wrap-lib 的协调计划，不重复确认。超出批准范围时只暂停受影响部分及其依赖写操作，提交增量计划并确认；继续范围内不受影响的工作。始终服从当前协作模式。
 
 ## 实施
 
 1. 获得确认且当前模式允许编辑后，重新运行 resolver 并检查 `gitRoot` 状态；上下文或注册发生变化时先停止核对。
-2. 仅在 `targetLibRoot` 和批准的扩展项目文件内实施。依赖安装、lockfile、lint、类型检查和扩展项目测试都从 `extensionRoot` 执行；不修改 `zuiRoot` 的源码、依赖、lockfile、生成目录或注册配置。
+2. 仅在 `targetLibRoot` 和批准的扩展项目文件内实施。依赖安装、lockfile、lint、类型检查和扩展项目测试都从 `extensionRoot` 执行；不修改宿主源码、依赖、lockfile 或注册配置；宿主生成物和缓存写入遵循共享工作流的验证隔离与批准规则。
 3. 使用 Preact 而不是 React。跨库导入使用真实 `packageName`；显式维护局部入口、库入口及必要副作用导入。`zuiName` 只用于宿主发现/构建选择，不能代替模块包名。
 4. 运行时外部依赖统一通过目标库内单例 `LibLoader<T>` 按需加载，落实加载失败、显式重试、异步销毁竞态及第三方实例清理；不要在组件中维护第二份模块缓存。
 5. 按实际需要实现样式根类、CSS 变量、语义标签、键盘、焦点和 ARIA。Tailwind、Preact 和 CSS 约定以当前宿主规范与扩展项目配置共同验证。
@@ -71,6 +71,8 @@ node ../zuix-standards/scripts/resolve-zui-ext-context.mjs --cwd <目标路径> 
 
 ## 验证与交付
 
+宿主命令的执行位置、生成物与缓存写入统一遵循 [共享工作流](../zuix-standards/references/workflow.md) 的验证隔离与批准规则；下文 `zuiRoot` 表示宿主契约来源，不表示可直接写入原工作区。
+
 1. 在 `extensionRoot` 运行扩展项目实际提供的针对性 lint、类型、测试和依赖检查；先读取 package scripts，不把主仓库命令当作扩展项目命令。
 2. 需要联合构建时，仅在 resolver 已确认 `zuiRoot` 与 `extsName` 后，从 `zuiRoot` 使用扩展发现参数和准确 `zuiName`，例如：
 
@@ -78,7 +80,7 @@ node ../zuix-standards/scripts/resolve-zui-ext-context.mjs --cwd <目标路径> 
 pnpm build -- --exts=buildIn,<extsName> --lib='<zuiName>' --noMinify
 ```
 
-3. 需要交互验证时，从 `zuiRoot` 启动扩展开发入口，例如 `pnpm dev:exts -- --lib=buildIn,<extsName>`，再通过宿主实际发现结果进入目标页；不要从 `folderName` 猜测路由。完成后结束持续进程。
+3. 需要交互验证时，从 `zuiRoot` 启动扩展开发入口，例如 `pnpm dev:exts -- --lib=buildIn,<extsName>`，再通过宿主实际发现结果进入目标页；不要从 `folderName` 猜测路由。服务的启动、复用、重启和清理遵循共享工作流的开发服务管理规则。
 4. 分别记录扩展项目检查、宿主联合验证和未执行项；宿主基线失败不能宣称目标库通过。
 5. 汇报实现文件、公开 API、四层上下文、验证结果和未验证风险，不自动提交、推送或发布。
 
