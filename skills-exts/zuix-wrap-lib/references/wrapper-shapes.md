@@ -1,17 +1,8 @@
 # 扩展项目 UMD 封装形态决策
 
-## 先解析上下文
+## 上下文
 
-从 resolver 获取 `TARGET_LIB_ROOT`、`EXT_ROOT`、`GIT_ROOT`、`ZUI_ROOT + EXTS_NAME` 及 `LIB_FOLDER`、`PACKAGE_NAME`、`ZUI_NAME`、`PUBLIC_PATH`。这些名称用途不同：
-
-- 文件创建在 `TARGET_LIB_ROOT`，依赖与项目检查从 `EXT_ROOT` 执行；
-- Git 状态和 diff 使用 `GIT_ROOT`；
-- 源码跨包 import 使用真实 `PACKAGE_NAME`；
-- 宿主联合构建选择准确 `ZUI_NAME`；
-- 开发资源 URL 使用已解析的 `EXTS_NAME + LIB_FOLDER`；
-- 生产资源路径以 `PUBLIC_PATH` 和宿主当前构建契约为准。
-
-新库还不存在时，从计划父项目、根配置和至少两个成熟兄弟包推导 package scope、初始版本、依赖协议与目录风格。不要从参考扩展项目复制专属 scope、组名、相邻路径或 commit scope。
+按 [共享工作流](../../zuix-standards/references/workflow.md) 解析本次所需所有权、宿主及包标识，并复用仍适用的发现。新包的 scope、版本、依赖及目录风格从目标扩展项目当前契约推导，不复制另一项目的专属约定。
 
 ## 先判断外部 API，再决定 ZUI 形态
 
@@ -51,7 +42,7 @@
 - 检查产物没有顶层 `import`/`export`，能由普通 `<script>` 执行，并在执行后产生 `check` 指定的稳定全局。
 - 确认 UMD 全局形状与类型声明、版本和文档一致；文件名或扩展名本身不是证据。
 - 记录第三方版本、来源、完整性和许可证；本地托管时原样保留批准的 UMD/CSS/license。
-- 发现纯 ESM、缺失全局或需要重打包时停止；本技能不转换、不重新构建，也不提供 ESM loader 兜底。
+- 先核实用户指定版本的格式、路径和全局名；仍缺少可用资源时只暂停依赖它的封装工作，报告缺口并继续不受影响的已授权事项。不转换、重建、换用未经批准的资源，也不提供 ESM loader 兜底。
 
 ## 类型策略
 
@@ -92,7 +83,7 @@
 - 多实例和并发加载共享资源请求，但每个 facade 只拥有自身第三方实例。
 - 加载返回前 destroy 必须阻止迟到初始化；最终 destroy 清理实例、listener、observer、timer、DOM 和资源所有权范围内的副作用。
 
-完整 loader 语义始终读取当前 `ZUI_ROOT` 源码和扩展 standards 的 external-library reference，不复制历史实现。
+本次涉及的 loader 语义从当前 `ZUI_ROOT` 源码和 external-library 规范核实，已有且未变化的发现直接复用。
 
 ## 资源路径
 
@@ -102,6 +93,8 @@
 - 多文件 JS/CSS 或前置依赖用 `GetLibOptions` 表达，不在组件生命周期手写标签或加载序列。
 
 ## 验收矩阵
+
+按共享工作流选择本次所需检查；新增封装或改变对应契约时覆盖相关项目：
 
 - 扩展侧：package/exports/files、依赖分类、type-only import、lint、类型、测试和 `git diff --check`。
 - 宿主侧：唯一 `EXTS_NAME` 注册、准确 `ZUI_NAME` 选择、联合构建、public 复制结果、dev 地址、HMR 和文档。

@@ -1,22 +1,17 @@
 ---
 name: zuix-commit
-description: "按独立 ZUI 扩展项目自身规范只读分析变更、生成英文 commit message，或在用户明确要求提交时审查、验证、按逻辑单元完成 Git 提交。Use when the user asks to inspect commit scope, generate a commit message, commit staged or current changes, 提交代码, 保存改动, or wrap up work owned by a ZUI extension repository; always distinguish the extension root from its actual Git root and infer scope from applicable AGENTS.md plus recent history."
+description: "分析独立 ZUI 扩展项目的提交范围、生成英文 commit message，或执行明确授权的 Git 提交；按实际 Git 所有权和项目规范操作。"
 ---
 
 # ZUI 扩展项目提交
 
 ## 解析所有权与规则
 
-1. 在采取其他任务动作前，完整读取 `../zuix-standards/SKILL.md`，再完整读取 `../zuix-standards/references/workflow.md`。
-2. 从当前技能目录运行只读 resolver：
+按 [共享工作流](../zuix-standards/references/workflow.md) 解析本次所需上下文并读取适用 `AGENTS.md`，复用仍适用的发现。提交首先需要明确 `extensionRoot` 与实际 `gitRoot`；宿主只在相关联合验证需要时解析。
 
-```sh
-node ../zuix-standards/scripts/resolve-zui-ext-context.mjs --cwd <目标路径> [--lib <目录名或包名>] [--host <宿主根>] --json
-```
+所有 Git 命令使用 `git -C <gitRoot>`，不要把宿主 `exts/` 符号链接所在仓库当成文件所有者。目标库的目录名、package 名、zui 名只用于定位和理解变更，不用于猜测 commit scope。
 
-3. 记录 `extensionRoot`（扩展源码、依赖与质量检查工作目录）和 `gitRoot`（Git 状态、diff、历史与提交所有权边界）。它们可能不同；所有 Git 命令都使用 `git -C <gitRoot>`，不得从宿主 `exts/` 符号链接误把 ZUI 主仓库当成所有者。
-4. 完整读取 `gitRoot`、`extensionRoot` 及目标路径适用的 `AGENTS.md`。若 resolver 同时得到 `targetLibRoot`、`folderName`、`packageName` 和 `zuiName`，只把它们用于定位和理解变更，不用来猜 commit scope。
-5. 从适用 `AGENTS.md` 的提交规范和 `git -C <gitRoot> log --oneline -20` 的稳定历史共同推导 type、scope、语言、标题格式和正文惯例。显式规范优先于历史；历史样本不足或相互冲突时，先报告不确定性，不硬编码 `@zui`、扩展组名、目录名、`proj` 或任何产品前缀。
+从适用的提交规范和最近稳定历史推导 type、scope、语言及格式，显式规范优先。历史不足或相互冲突时，报告影响本次提交的不确定性，不硬编码另一项目的前缀。
 
 ## 操作边界
 
@@ -36,29 +31,31 @@ node ../zuix-standards/scripts/resolve-zui-ext-context.mjs --cwd <目标路径> 
 
 ## 工作流
 
-1. **收集上下文**：并行运行：
-   - `git -C <gitRoot> status --short --branch`
-   - `git -C <gitRoot> diff --cached`
-   - `git -C <gitRoot> diff`
-   - `git -C <gitRoot> ls-files --others --exclude-standard`
+1. **收集上下文**：并行收集状态、路径和必要历史，不读取全部无关变更内容：
+   - `git -C <gitRoot> --no-optional-locks status --short --branch`
+   - `git -C <gitRoot> diff --cached --name-status`
+   - `git -C <gitRoot> diff --name-status`
+   - `git -C <gitRoot> ls-files --others --exclude-standard -z`
    - `git -C <gitRoot> log --oneline -20`
 
-   单独读取候选未跟踪文件；普通 diff 不包含其内容。记录 `extensionRoot` 相对 `gitRoot` 的路径，确认每个候选文件确由该 Git 根拥有。
+   记录 `extensionRoot` 相对 `gitRoot` 的路径，确认候选文件由该 Git 根拥有。
 2. **确定候选范围**：
-   - 暂存区已有变更时，将现有暂存快照视为用户主动点名的提交范围；忽略未暂存和未跟踪内容，除非用户明确要求纳入。
+   - 用户明确指定的文件、hunk、暂存层级或其他提交范围优先。既有暂存快照与该范围不一致时，保留快照，说明差异；处理方式尚未获授权时，先取得许可，不把范围外暂存内容一并提交，也不自行改写暂存区。
+   - 用户未指定不同范围且暂存区已有变更时，将现有暂存快照视为用户主动点名的提交范围；忽略未暂存和未跟踪内容，除非用户明确要求纳入。
    - 对暂存快照的范围、逻辑归属或敏感性有疑问时，不改变暂存区，先询问。
    - 暂存区为空时，只选择用户点名或当前任务直接产生的文件，不默认暂存整个工作区。
    - 用户明确要求“全部当前改动”时，仍排除无关生成物和 `.env*`、凭据、token、私钥、私有配置等敏感内容。
+   - 候选范围确定后才读取对应 cached/unstaged diff 或候选未跟踪文件；使用 `--no-ext-diff`，pathspec 始终放在 `--` 后。评审可读取判断所需的基线源码、调用方和测试，不混入候选外的未提交变更内容。
 3. **规划原子提交**：先按逻辑目的分组，再应用已推导的 type/scope。
    - 无明显问题的既有暂存快照优先保持为一个提交；用户的主动暂存意图高于通常拆分惯例。
    - 未暂存范围中，不同目标库通常分别提交；共享基础与消费者只有在一个不可分割的功能中才合并。
    - 同一功能涉及新增、修改和删除文件时可以保持一个提交。
    - 需要拆分既有暂存快照时，先说明方案并取得用户许可，不破坏部分暂存内容。
 4. **审查每组变更**：检查调试残留、明显逻辑错误、遗漏的异常/空值分支、复制错误、公共 API 注释、无关文件、生成物和敏感信息。按文件与行号报告问题；仅有提交授权不包含修复；提交模式下，本任务已有仍适用的修复授权且相应实施确认要求已满足时，在评审后完成范围内修复、重新评审和验证，再继续提交。没有修复授权或需要接受未解决问题时，仍由用户决定；修复后重新收集上下文。
-5. **执行验证**：始终对候选或暂存变更运行相应 `git diff --check`。根据变更从 `extensionRoot` 的实际 scripts、配置和 `AGENTS.md` 选择 lint、类型或测试；需要宿主联合验证时只在 resolver 唯一解析 `zuiRoot + extsName` 后运行，并把结果与扩展侧检查分开。验证失败时不绕过 hooks；只有用户明确接受失败才继续。
+5. **执行验证**：始终对候选或暂存变更运行相应 `git diff --check`。按候选风险从 `extensionRoot` 实际脚本和规则选择必要检查，复用同一快照的有效结果；快照变化后重新评审并补充受影响验证。宿主联合检查遵循共享工作流的上下文、隔离与批准规则，结果与扩展侧分开。仅有提交授权不包含修复；只读模式不运行会刷新产物或缓存的命令，除非用户明确要求。验证失败时先按第 4 步核对已有修复授权，完成范围内修复并复验；仍有失败时，只有用户明确接受相应风险才继续提交，不绕过 hooks。
 6. **输出或提交**：
    - 只读模式返回建议分组、scope 推导证据和完整 commit message，然后停止。
    - 提交模式且暂存区为空时，按组使用 `git -C <gitRoot> add -- <明确路径...>`；不使用 `git add .` 或 `git add -A`。
-   - 每次提交前重新检查 cached name-status、完整 cached diff 和 cached `diff --check`，确认只包含当前组。
+   - 每次提交前重新检查 cached name-status、完整 cached diff 和 cached `diff --check`，确认只包含当前组且与已评审、已验证快照一致；存在差异时重新评审并补充受影响验证。
    - 用不会触发 shell 插值的参数或标准输入传递 message。hook 修改文件或提交失败后重新检查状态，不使用 `--no-verify`。
 7. **确认结果**：运行 `git -C <gitRoot> status --short --branch`，报告每个 commit 的短 hash、标题、scope 依据、验证结果和仍保留的未提交改动。

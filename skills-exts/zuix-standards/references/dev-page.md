@@ -4,7 +4,7 @@
 
 目标调试页源文件位于 `TARGET_LIB_ROOT`，常见为 `README.md` 或 `dev.md` 加 `dev.ts`；渲染和 HMR 由 `ZUI_ROOT` 的扩展开发服务器提供。
 
-读取宿主 dev 管线，确认页面内容优先级、入口回退、URL 命名、`zui-dev` API、`@/` 资源解析和 HMR 事件。不要直接照搬内置库的 `pnpm dev` 或 `/lib/<name>/public/...` 路径。
+本次涉及页面来源、入口、URL、`zui-dev` API、资源或 HMR 时，核实宿主对应契约，复用仍适用的已有发现。不要直接照搬内置库的 `pnpm dev` 或 `/lib/<name>/public/...` 路径。
 
 ## Markdown 页面
 
@@ -30,10 +30,10 @@
 
 按组件能力选择：HTML/Preact/vanilla/自动创建、controlled/uncontrolled、事件与方法、toggle、disabled/loading/empty/error、长内容、大数据、失败重试、重复操作、销毁重建、键盘焦点、ARIA 和语言切换。
 
-先静态检查 fence、selector、import 和清理，再在唯一 `ZUI_ROOT + EXTS_NAME` 中运行实际扩展 dev script，通常为：
+按共享工作流选择相关 fence、selector、import 或清理检查。涉及渲染、交互或 HMR 时，再通过已确认的宿主和注册组使用实际扩展 dev script，例如：
 
 ```sh
 pnpm dev:exts -- --lib=buildIn,<EXTS_NAME>
 ```
 
-从宿主导航确定目标 URL；短名冲突时使用宿主生成的安全 scoped URL。验证首次加载、Markdown HMR、交互和控制台；服务管理及宿主写入遵循 [共享工作流](workflow.md) 的服务与验证隔离规则。
+从宿主导航确定目标 URL；短名冲突时使用宿主生成的安全 scoped URL。验证本次涉及的首次加载、Markdown HMR、交互或控制台行为；服务管理及宿主写入遵循 [共享工作流](workflow.md) 的服务与验证隔离规则。

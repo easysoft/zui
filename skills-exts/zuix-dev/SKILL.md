@@ -1,24 +1,15 @@
 ---
 name: zuix-dev
-description: "为独立 ZUI 扩展项目中的目标库新建、补全或优化开发调试页，维护实际页面源（README.md 或 dev.md）与 dev.ts，并通过已注册的 ZUI 宿主扩展组联合验证。Use when a user asks for an extension-library playground, demo matrix, local debug page, README/dev.md examples, HMR behavior, or dev lifecycle fixes；意图明确时在调试页边界内直接实施。"
+description: "维护独立 ZUI 扩展库的 README/dev.md 调试页及 dev.ts，并按需通过宿主验证交互和 HMR。需求明确时直接实施。"
 ---
 
 # ZUI 扩展库开发调试页
 
 ## 准备
 
-1. 在采取其他任务动作前，完整读取 `../zuix-standards/SKILL.md`。
-2. 从当前技能目录运行只读 resolver：
+按 [共享工作流](../zuix-standards/references/workflow.md) 解析本次所需上下文、读取适用规则并检查所有权；已有且未变化的发现直接复用。阅读 [调试页规范](../zuix-standards/references/dev-page.md) 中与本次修改有关的部分。
 
-```sh
-node ../zuix-standards/scripts/resolve-zui-ext-context.mjs --cwd <目标路径> --lib <目录名或包名> [--host <宿主根>] --json
-```
-
-3. 记录 resolver 给出的 `targetLibRoot`、`extensionRoot`、`gitRoot`、`zuiRoot`、`extsName`、`folderName`、`packageName`、`zuiName`、`publicPath` 和 `dependencyPolicy`。这些分别表示目标库、扩展工作根、Git 所有权、联合宿主、扩展组、目录名、模块包名、构建选择名、资源目录和依赖策略，不得混用。
-4. 按 `zuix-standards` 的路由完整读取工作流与调试页规范。完整读取各层适用的 `AGENTS.md` 并检查 `gitRoot` 状态；所有源文件通过 `targetLibRoot` 的真实路径编辑，不通过 `zuiRoot/exts/<extsName>` 符号链接写入。
-5. `zuiRoot` 或 `extsName` 未解析时禁止猜测。可以完成不依赖运行时的源码分析和静态改进，但若请求要求真实交互/HMR 验收，必须报告宿主上下文缺失。
-6. 阅读目标库的 package、入口、公开 API、样式、现有 `README.md`、`dev.md`、`dev.ts`，再阅读两个相近库的调试页。优先扩展项目内参考，不足时再读当前宿主内置库。
-7. 确认宿主实际页面源：开发管线通常优先 `dev.md`、缺失时回退 `README.md`，但以当前 `zuiRoot` 源码和目标现状为准。维护已有真实页面源，不无理由迁移或同时复制两份。
+检查实际页面源及相关 `dev.ts`、API 或样式。开发管线通常优先 `dev.md`、缺失时回退 `README.md`，以目标现状和当前宿主为准，不无理由迁移或复制两份。需要新场景或生命周期判断时再参考相关实现；真实交互/HMR 验收需要已确认的宿主。
 
 ## 实施
 
@@ -33,22 +24,13 @@ node ../zuix-standards/scripts/resolve-zui-ext-context.mjs --cwd <目标路径> 
 
 ## 宿主联合验证
 
-宿主命令的执行位置、生成物与缓存写入统一遵循 [共享工作流](../zuix-standards/references/workflow.md) 的验证隔离与批准规则；下文 `zuiRoot` 表示宿主契约来源，不表示可直接写入原工作区。
+按共享工作流完成本次所需检查、范围内修复和复验。涉及渲染、交互或 HMR 时，再通过已确认的宿主及注册组复用或启动扩展开发服务，从实际导航进入目标页。
 
-1. 先在 `extensionRoot` 读取实际 package scripts，运行调试页相关静态、lint 和类型检查。
-2. 仅当 resolver 确认 `zuiRoot` 与 `extsName`，且宿主注册指向当前 `extensionRoot` 时，从 `zuiRoot` 启动扩展开发入口，例如：
-
-```sh
-pnpm dev:exts -- --lib=buildIn,<extsName>
-```
-
-3. 从宿主实际库发现/导航结果进入目标页，不从 `folderName`、`packageName` 或 `zuiName` 猜测 URL。
-4. 验证首次加载、主要状态与交互、键盘/焦点/ARIA、错误边界、销毁重建及页面源修改后的 HMR。检查控制台没有重复初始化和异常。
-5. 服务的启动、复用、重启和清理遵循共享工作流的开发服务管理规则。宿主命令写入的生成物不得加入扩展项目提交范围。
+根据本次变更验证首次加载、相关状态与交互、键盘/焦点、销毁重建或 HMR，检查控制台异常。服务归属、宿主写入和验证隔离遵循共享工作流。
 
 ## 组合边界与交付
 
 - 独立调用且目标明确时直接实施。
-- 作为其他 ZUI 技能的子流程时，只处理共享范围内的调试页工作；按共享工作流复用已有批准，包括 wrap-lib，不重复确认。独立调用仍遵循本技能的直接实施或只读模式。
+- 作为子流程时只处理共享范围内的本领域工作；上下文、批准和增量范围统一遵循共享工作流。
 - 用户只要求评审时保持只读。
 - 交付时汇报实际页面源、演示矩阵、生命周期处理、四层上下文、本地与宿主验证结果及未覆盖项，不自动提交、推送或发布。

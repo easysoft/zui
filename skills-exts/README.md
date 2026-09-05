@@ -26,7 +26,7 @@ $zuix-commit 分析当前扩展项目的提交范围并生成 commit message
 
 ## 四层上下文
 
-扩展库开发不能把源码仓库、Git 仓库和宿主 ZUI 当成同一个目录。所有技能都会先解析以下上下文：
+扩展库开发不能把源码仓库、Git 仓库和宿主 ZUI 当成同一个目录。按 [共享工作流](zuix-standards/references/workflow.md) 解析任务所需上下文并复用已有发现；宿主只在相关契约或联合验证需要时解析：
 
 | 上下文 | 含义 | 主要用途 |
 | --- | --- | --- |
@@ -72,7 +72,7 @@ node .agents/skills/zuix-standards/scripts/inspect-zui-lib.mjs \
 - 扩展源码、依赖和质量检查归 `EXT_ROOT`；Git 操作归 `GIT_ROOT`；联合开发、构建和文档归 `ZUI_ROOT`。
 - 跨包导入使用真实公开 package name，不通过相对路径或宿主 `exts/` 软链接穿越包边界。
 - 宿主 ZUI 默认只用于读取规范和联合验证，不修改其源码、依赖、lockfile 或注册。原宿主生成物与缓存写入仍须明确批准；优先按 [共享工作流](zuix-standards/references/workflow.md) 隔离验证。
-- 完整读取各层适用的 `AGENTS.md`，保留已有工作区改动，不自动提交、推送或发布。
+- 读取目标适用的 `AGENTS.md`，复用本任务中未变化的规则和上下文，保留已有工作区改动，不自动提交、推送或发布。
 - 宿主或扩展注册无法唯一解析时，继续可行的扩展侧工作，但不猜测宿主命令、URL 或构建参数。
 
 每个技能目录都包含 `SKILL.md` 和 `agents/openai.yaml`。共享规范与上下文脚本位于 `zuix-standards/`；领域专用审计和封装参考分别位于 `zuix-optimize/` 与 `zuix-wrap-lib/`。

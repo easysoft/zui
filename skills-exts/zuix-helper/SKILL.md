@@ -1,34 +1,19 @@
 ---
 name: zuix-helper
-description: "在独立 ZUI 扩展项目的目标库中设计、实现或优化辅助 API，包括纯函数、类型、状态类、store/单例、浏览器 DOM 模块和库内私有 helper。Use when a user asks for utils, data helpers, stores, browser helpers, shared classes, or helper refactors maintained outside the ZUI 主仓库；先解析扩展项目与宿主的四层上下文，先给出 API 计划并经明确确认后实施；已有适用批准时按共享工作流复用，不重复确认。"
+description: "在独立 ZUI 扩展项目中设计、实现或修复函数、类、store 和其他 helper；实施前确认计划或复用已有批准。"
 ---
 
 # ZUI 扩展 Helper 开发
 
 ## 准备与分析
 
-1. 在采取其他任务动作前，完整读取 `../zuix-standards/SKILL.md`。
-2. 从当前技能目录运行只读 resolver：
+按 [共享工作流](../zuix-standards/references/workflow.md) 解析本次所需上下文、读取适用规则并检查所有权；已有且未变化的发现直接复用。
 
-```sh
-node ../zuix-standards/scripts/resolve-zui-ext-context.mjs --cwd <目标路径> --lib <目录名或包名> [--host <宿主根>] --json
-```
-
-3. 以 resolver 输出为准记录四层上下文：
-   - `targetLibRoot`：目标库真实目录；
-   - `extensionRoot`：源码、依赖、lint、类型和测试的执行根；
-   - `gitRoot`：Git 状态与变更所有权根；
-   - `zuiRoot`：只用于联合构建/调试/文档的 ZUI 宿主；
-   - `extsName`：宿主扩展组；
-   - `folderName`、`packageName`、`zuiName`、`publicPath`：不得互相代替；
-   - `dependencyPolicy`：扩展兄弟包与宿主依赖的实际声明策略。
-4. `zuiRoot` 或 `extsName` 未解析时不要猜测或使用内置库命令代替；本地分析可以继续，需要宿主验收时明确报告缺口。
-5. 按 `zuix-standards` 的路由完整读取工作流和 helper 规范；涉及 package 角色、文档或调试页时再读对应规范。
-6. 完整读取 `gitRoot`、`extensionRoot`、`targetLibRoot` 及只读宿主范围适用的 `AGENTS.md`。检查 `gitRoot` 状态，始终通过 `targetLibRoot` 真实路径编辑，不通过宿主 `exts/` 符号链接写入。
-7. 盘点目标库并完整阅读两个最接近的成熟实现。优先扩展项目内实现，不足时再从当前 `zuiRoot` 选择内置参考；核对入口、真实 `packageName`、依赖、JSDoc、生命周期和错误约定。
-8. 将需求分类为库内私有 helper、纯函数/常量/类型、状态类、store/单例或浏览器 DOM 模块。不要因“可能复用”擅自创建共享包或扩大公共 API。
+阅读 [helper 规范](../zuix-standards/references/helper.md) 的相关部分；涉及包角色、文档或调试页时再读对应规范。从目标和必要调用方判断库内私有 helper、纯函数/类型、状态类、store/单例或浏览器 DOM 模块，不因“可能复用”擅自创建共享包或扩大公共 API。
 
 ## API 设计
+
+按本次涉及的 helper 类别和变化选择以下决策，未变化的契约引用现状：
 
 1. 定义输入、输出、类型、空值和非法输入行为，以及同步/异步错误语义。
 2. 对状态型 helper 定义所有权、更新/订阅顺序、重入、并发、失败恢复、reset 与 destroy。
@@ -39,9 +24,9 @@ node ../zuix-standards/scripts/resolve-zui-ext-context.mjs --cwd <目标路径> 
 
 ## 确认门禁
 
-尚无适用批准时，在修改任何文件前给出决策完整的拟实施计划，至少包含：
+尚无适用批准时，在修改任何文件前按共享工作流给出拟实施计划；以下仅展开本次相关决策：
 
-- 四层上下文、目标库的 `folderName` / `packageName` / `zuiName`、helper 分类及两个参考实现；
+- 四层上下文、目标库的 `folderName` / `packageName` / `zuiName`、helper 分类及必要参考依据；
 - 目标、非目标、兼容性和可观察验收场景；
 - 公开 API、类型、错误语义、导出路径与必要 JSDoc；
 - 数据流、状态所有权、持久化/序列化与副作用；
@@ -50,31 +35,21 @@ node ../zuix-standards/scripts/resolve-zui-ext-context.mjs --cwd <目标路径> 
 - 在 `extensionRoot` 执行的 dependency/lint/type/test，以及在 `zuiRoot` + `extsName` 执行的联合验证；
 - 文档、调试页、剩余假设及明确标记的“拟实施范围”。
 
-尚无适用批准时，请求用户明确确认后再实施；批准状态及包含修订的授权回复遵循共享工作流。
+尚无适用批准时，等待用户对计划明确确认后再实施。
 
-按 [zuix 共享工作流](../zuix-standards/references/workflow.md) 复用本任务已有且仍完整适用的明确批准，包括 wrap-lib 的协调计划，不重复确认。超出批准范围时只暂停受影响部分及其依赖写操作，提交增量计划并确认；继续范围内不受影响的工作。始终服从当前协作模式。
+批准复用、修订回复、增量范围和等待期间的推进遵循共享工作流，始终服从当前协作模式。
 
 ## 实施
 
-1. 确认且当前模式允许编辑后，重新运行 resolver 并检查 `gitRoot` 状态；上下文变化时停止核对。
+1. 确认且当前模式允许编辑后检查 `gitRoot` 状态，按共享工作流复用或刷新受影响的上下文。
 2. 仅修改 `targetLibRoot` 及已批准的扩展项目文件。安装依赖、更新扩展 lockfile、lint、类型检查和测试都从 `extensionRoot` 执行；不修改宿主源码、依赖、lockfile 或注册；宿主生成物和缓存写入遵循共享工作流的验证隔离与批准规则。
 3. 默认保持纯函数无副作用且确定；状态型工具明确实例/单例所有权、重入、并发、失败和销毁行为。
 4. 为公共 API 添加有价值的 JSDoc，并从局部入口和库入口显式导出；不让消费者依赖未承诺的深层路径。
 5. 依赖分类服从扩展项目当前 package 策略。不要把主仓库的 `workspace:*`、namespace 或“不声明 @zui 依赖”等局部惯例机械套到扩展项目。
-6. 若批准范围包含正式文档或调试页，完整读取并遵循 `../zuix-doc/SKILL.md` 或 `../zuix-dev/SKILL.md`；完全位于共享批准范围时不重复确认。
+6. 若批准范围包含正式文档或调试页，按需读取并遵循 `../zuix-doc/SKILL.md` 或 `../zuix-dev/SKILL.md`；完全位于共享批准范围时不重复确认。
 
 ## 验证与交付
 
-宿主命令的执行位置、生成物与缓存写入统一遵循 [共享工作流](../zuix-standards/references/workflow.md) 的验证隔离与批准规则；下文 `zuiRoot` 表示宿主契约来源，不表示可直接写入原工作区。
+按共享工作流选择本次所需的扩展检查及宿主检查，完成范围内修复和复验。验收项目按涉及的输入、错误、重入/并发、序列化、环境防护或清理行为选择。
 
-1. 从 `extensionRoot` 读取实际 package scripts，运行针对性 lint、类型、测试、公共导出和序列化/清理检查。覆盖空值、非法输入、重复调用、并发、失败与不可用浏览器 API 等适用场景。
-2. 需要宿主联合构建时，只有 resolver 已确认 `zuiRoot` 与 `extsName` 才从 `zuiRoot` 运行，并用准确 `zuiName`：
-
-```sh
-pnpm build -- --exts=buildIn,<extsName> --lib='<zuiName>' --noMinify
-```
-
-3. 不以宿主构建替代扩展项目自己的质量检查，也不以宿主基线失败掩盖目标错误。
-4. 汇报 API、修改文件、四层上下文、扩展检查、宿主联合验证及风险，不自动提交、推送或发布。
-
-与其他技能组合且包含 component/helper 时，共用一份计划和一次确认。
+涉及宿主运行时或分发时，使用已确认的 `zuiRoot + extsName` 和准确 `zuiName` 做所需联合验证，执行位置遵循隔离与批准规则。交付时报告 API、修改文件、影响交付的上下文及分层验证结果，不自动提交、推送或发布。

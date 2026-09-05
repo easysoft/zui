@@ -38,7 +38,7 @@
 
 ## 依赖分类
 
-先盘点 `EXT_ROOT` 根配置和至少两个兄弟包，分别记录：
+本次涉及依赖策略时，读取 `EXT_ROOT` 相关配置，必要时参考成熟兄弟包，核实：
 
 - 扩展兄弟包使用 `workspace:*`、`link:../peer` 还是版本范围；
 - 宿主 `@zui/*` 依赖是显式声明、peer dependency，还是由路径映射和宿主管线提供；
@@ -51,8 +51,10 @@
 
 ## 验证
 
+按 [共享工作流](workflow.md) 选择本次所需检查；新包或改变相应契约时核对：
+
 - 解析 `package.json` 并确认所有入口、exports、files 和 public 目标存在。
 - 对照源码 import 与发布类型检查依赖分类。
 - 对照宿主类型定义检查 `zui.type`、`contributes`、`replace` 和 `publicPath`。
-- 在 `EXT_ROOT` 运行目标 lint/type/test，在 `ZUI_ROOT` 用准确 `EXTS_NAME` 与 `ZUI_NAME` 做联合构建。
+- 在 `EXT_ROOT` 运行受影响的现有检查；改变宿主发现、入口、依赖、资源或分发时，以准确 `EXTS_NAME` 与 `ZUI_NAME` 补充所需联合验证。
 - 验证不得修改宿主 package、锁文件或扩展注册状态。

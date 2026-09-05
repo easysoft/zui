@@ -75,9 +75,11 @@ pnpm docs:build:exts
 
 ## 验收
 
+按共享工作流及本次接入范围选择相关项目：
+
 - `TARGET_LIB_ROOT`、`EXT_ROOT`、`GIT_ROOT` 各自正确，符号链接与真实路径一致；
 - `ZUI_ROOT/exts/libs.json` 与链接唯一匹配 `EXTS_NAME`；
 - 宿主发现的 `PACKAGE_NAME`、`ZUI_NAME`、`zui.replace`、`PUBLIC_PATH` 与目标元数据一致；
-- 联合导航、入口、样式、跨包导入、public 资源和 HMR 正常；
+- 交付包含联合调试时，验证本次涉及的导航、入口、样式、跨包导入、public 资源或 HMR；
 - 构建与文档使用准确 group/name，并保留两边既有改动；
 - 宿主未因扩展开发产生不应提交的依赖或锁文件变化。
