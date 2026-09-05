@@ -260,4 +260,4 @@ export default {
 pnpm docs:prepare -- --copy --build=no
 ```
 
-根据修改风险再运行 `pnpm docs:build`。`pnpm docs:dev` 是持续进程，只在需要浏览器验证时启动，并在完成后结束。
+根据修改风险再运行 `pnpm docs:build`。文档生成物与缓存遵循 [共享工作流](workflow.md) 的验证隔离要求；`pnpm docs:dev` 仅在需要浏览器验证时按服务规则复用或启动，并按归属和用途管理。

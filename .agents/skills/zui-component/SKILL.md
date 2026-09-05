@@ -1,6 +1,6 @@
 ---
 name: zui-component
-description: "在指定 `lib/*` 中设计、实现或优化 ZUI 3 组件，覆盖纯 CSS、Preact、Preact + ComponentFromReact、原生 Component DOM 增强器、控制器 + Preact 子视图及外部库按需加载。Use when a user asks to add, refactor, extend, or fix a ZUI component, its public consumption modes, or its runtime integration with an external library; 需求理解与组件设计完成后必须先给出计划并等待明确确认，再修改代码。"
+description: "在指定 `lib/*` 中设计、实现或优化 ZUI 3 组件，覆盖纯 CSS、Preact、Preact + ComponentFromReact、原生 Component DOM 增强器、控制器 + Preact 子视图及外部库按需加载。Use when a user asks to add, refactor, extend, or fix a ZUI component, its public consumption modes, or its runtime integration with an external library; 先给出设计计划并经明确确认后实施；已有适用批准时按共享工作流复用，不重复确认。"
 ---
 
 # ZUI 组件开发
@@ -14,18 +14,18 @@ description: "在指定 `lib/*` 中设计、实现或优化 ZUI 3 组件，覆�
 
 ## 理解与设计
 
-1. 从现有代码和请求中推断用途、场景、目标用户和约束。先检查同一术语是否可能代表不同的组件身份、视觉形态、包角色、实现架构或公开 API；若存在这种高影响歧义，提出 1–3 个最少必要问题并停止，不要选择一个假设继续输出实施计划。
+1. 从现有代码、请求及已确认决定推断用途、场景、目标用户和约束。合理沿用既有约定并说明；同一术语仍有无法可靠消除、会实质改变组件身份、包角色、架构或公开契约的歧义时，提出 1–3 个最少必要问题，暂缓依赖该答案的设计，不以假设代替高影响选择。其他只读调查可继续。
 2. 只询问无法从仓库发现且会改变设计的信息，通常包括：
    - 需要支持的 HTML/CSS、Preact、vanilla 构造器、`zui-create` 或 toggle 消费方式；
    - 受控或非受控状态、事件、命令式方法、异步和错误行为；
    - 视觉变体、响应式、键盘、焦点、ARIA 与国际化要求。
-3. 提问前可以简述已从仓库确认的背景及每个问题会影响的设计，不要用单一“关键假设”替用户做高影响选择。得到答案后再继续设计。
+3. 提问时说明已确认的背景及问题影响；答案明确后继续相关设计。澄清与实施批准的关系遵循共享工作流。
 4. 分别判断包角色和实现架构。不要因为包类型是 `component` 就默认使用 Preact，也不要因使用 Preact 就改变包角色。
 5. 定义最小公开 API、状态或数据流、DOM 生命周期与清理策略。仅暴露真实需要的入口。
 
 ## 确认门禁
 
-在任何文件修改前，给出一份决策完整的计划，至少包含：
+尚无适用批准时，在任何文件修改前给出一份决策完整的拟实施计划，至少包含：
 
 - 类型判断：包角色、组件架构及两个相似实现；
 - 目标、非目标和验收场景；
@@ -36,9 +36,9 @@ description: "在指定 `lib/*` 中设计、实现或优化 ZUI 3 组件，覆�
 - 正式文档与调试页是否纳入；
 - 验证方式、边界场景和仍存在的假设。
 
-明确请求用户确认，然后停止。问题回答、局部修订或继续讨论不算确认。
+尚无适用批准时，请求用户明确确认后再实施；批准状态、包含修订的授权回复及等待期间的推进方式遵循共享工作流。
 
-只有当 `zui-lib` 或 `zui-optimize` 已记录并展示“已批准范围”，且当前组件的目标、公开 API、文件边界和验收场景完全位于该范围内时，才能复用协调技能的一次确认。任何目标、公开 API 或范围变化都返回当前协调技能重新规划。始终服从当前协作模式；用户确认不能覆盖仍生效的 Plan Mode。
+按 [zui 共享工作流](../zui-standards/references/workflow.md) 复用本任务已有且仍完整适用的明确批准，包括 wrap-lib 的协调计划，不重复确认。超出批准范围时只暂停受影响部分及其依赖写操作，提交增量计划并确认；继续范围内不受影响的工作。始终服从当前协作模式。
 
 ## 实施
 
