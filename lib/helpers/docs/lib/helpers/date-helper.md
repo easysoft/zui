@@ -16,6 +16,10 @@ function createDate(dateLike: string | number | Date): Date;
 
 **返回值**：`Date`：日期时间对象。
 
+::: tip 提示
+形如 `2026-09-17` 的纯日期字符串会按**本地时区的零点**解析（`Date` 构造函数本身会把这种字符串当作 UTC 零点，在 UTC 以西的时区会得到前一天）。带时间的字符串和时间戳按 `Date` 构造函数的规则处理。
+:::
+
 :::
 
 ## `addDate`
