@@ -35,11 +35,8 @@ export const createDate = (date?: DateLike, forceNew?: boolean): Date => {
         if (/^\d+$/.test(date)) {
             date = Number.parseInt(date, 10);
         } else if (/^\d{4}-\d{2}-\d{2}$/.test(date)) {
-            // The Date constructor treats a date-only ISO string ("2026-09-17") as UTC midnight, so in time zones
-            // west of UTC it becomes the previous day. Parse it as local midnight instead, consistent with
-            // "2026-09-17 00:00:00" and with what date pickers expect.
-            const [year, month, day] = date.split('-').map(Number);
-            return new Date(year, month - 1, day);
+            // 补上本地时间，保留原生 ISO 解析的日期校验和 0-99 年份。
+            date = `${date}T00:00:00`;
         }
     }
     if (typeof date === 'number' && date < 10000000000) {

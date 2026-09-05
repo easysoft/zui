@@ -54,6 +54,22 @@ describe('DatetimePicker manual input', () => {
         expect(input).toHaveValue('最近一周');
     });
 
+    it('rejects an out-of-range month when a DatePicker draft is committed', async () => {
+        const user = userEvent.setup({advanceTimers: vi.advanceTimersByTime});
+        const onInvalid = vi.fn();
+        const {container} = render(<DatePicker defaultValue="2026-09-17" onInvalid={onInvalid} />);
+        const input = container.querySelector<HTMLInputElement>('input.form-control')!;
+
+        await user.click(input);
+        await user.clear(input);
+        await user.type(input, '2026-13-17');
+        await user.tab();
+        await vi.advanceTimersByTimeAsync(250);
+
+        expect(onInvalid).toHaveBeenCalledWith('2026-13-17');
+        expect(input).toHaveValue('');
+    });
+
     it('preserves a DatetimePicker draft until blur commits the complete value', async () => {
         const user = userEvent.setup({advanceTimers: vi.advanceTimersByTime});
         const {container} = render(

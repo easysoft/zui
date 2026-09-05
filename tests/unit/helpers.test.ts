@@ -22,6 +22,7 @@ import {
     isLightColor,
     isSameWeek,
     isTomorrow,
+    isValidDate,
     isYesterday,
 } from '@zui/helpers';
 
@@ -62,6 +63,20 @@ describe('@zui/helpers', () => {
             }
             expect(createDate('2026-09-17T00:00:00Z').getTime()).toBe(Date.UTC(2026, 8, 17));
             expect(createDate('2026-09-17 10:30:00').getHours()).toBe(10);
+        });
+
+        it('rejects out-of-range fields in date-only ISO strings', () => {
+            for (const value of ['2026-13-17', '2026-00-17', '2026-09-00', '2026-09-32', '0000-00-00']) {
+                expect(isValidDate(value)).toBe(false);
+                expect(formatDate(value, 'yyyy-MM-dd', 'invalid')).toBe('invalid');
+            }
+        });
+
+        it('preserves years below 100 in date-only ISO strings', () => {
+            for (const [value, year] of [['0000-01-01', 0], ['0001-01-01', 1], ['0099-01-01', 99]] as const) {
+                const date = createDate(value);
+                expect([date.getFullYear(), date.getMonth(), date.getDate(), date.getHours()]).toEqual([year, 0, 1, 0]);
+            }
         });
 
         it('adds supported calendar units without mutating the input', () => {
