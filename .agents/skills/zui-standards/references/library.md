@@ -92,8 +92,10 @@ src/
 
 ## 验证
 
+按 [共享工作流](workflow.md) 选择本次所需检查；新包或改变相应契约时核对：
+
 - 解析 `package.json` 并确认所有 `main`、`browser`、`module`、`exports`、`files` 目标。
 - 对照源码导入检查 dependency 分类。
 - 对照构建类型检查 `zui.type` 与 `contributes`。
-- 运行目标库 lint/类型检查和 `pnpm build -- --lib=<name> --noMinify`。
+- 运行受影响的 lint、类型或现有测试；改变入口、依赖、资源或分发时补充所需目标构建。
 - 若新增文档或调试页，再执行对应规范中的验证。

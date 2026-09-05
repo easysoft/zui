@@ -1,6 +1,6 @@
 ---
 name: zui-review
-description: "只读评审 ZUI 3 的代码变更，默认检查全部本地未提交改动，没有未提交改动时检查相对推送目标尚未推送的提交；用户指定范围时严格按该范围评审。Use when the user asks for code review, diff review, regression checks, or merge-readiness feedback in this repository; report actionable findings without modifying files or Git state. Do not use for broad whole-library optimization without a change scope."
+description: "只读评审 ZUI 主仓库的指定变更；默认评审本地未提交改动，没有改动时评审未推送提交。适用于 diff 评审，不用于整库优化审计。"
 ---
 
 # ZUI 代码评审
@@ -10,7 +10,7 @@ description: "只读评审 ZUI 3 的代码变更，默认检查全部本地未�
 - 评审保持只读；“review”“检查代码”或“评审代码”不表示授权修复、格式化、暂存、提交、推送、切换分支或更新远端引用。
 - 用户另行明确要求修复时，先完成评审，再按变更所属的 ZUI 实施技能及其确认门禁处理；不要让修复诉求改变本次评审范围。
 - 保留用户已有的暂存、未暂存和未跟踪内容。不要运行 `--fix`、会刷新生成目录或缓存的验证命令；用户明确要求相应验证或能够可靠使用仓库外临时输出时除外。
-- 完整读取仓库根目录 `AGENTS.md`。涉及 `lib/*` 时，读取 [ZUI 公共规范](../zui-standards/SKILL.md)、[协作工作流](../zui-standards/references/workflow.md) 和与本次改动领域对应的规范；不要无差别加载全部参考文件。
+- 读取目标适用的 `AGENTS.md`；已有且未变化的上下文直接复用。涉及 `lib/*` 时，按 [ZUI 公共规范](../zui-standards/SKILL.md) 和 [协作工作流](../zui-standards/references/workflow.md) 读取判断本次变更所需的规范与源码。
 
 ## 确定评审范围
 

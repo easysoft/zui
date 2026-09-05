@@ -50,7 +50,7 @@ pnpm publish:npm           # 构建并发布到 npm
 ## 仓库结构与构建模型
 
 ```
-lib/<name>/         每个 UI 组件库一个目录（66 个内置库），都是 workspace 包，名为 @zui/<name>
+lib/<name>/         内置库 workspace 包，名为 @zui/<name>；库清单以当前 lib/*/package.json 为准
   src/              组件源代码；通常拆 component/（preact JSX）+ vanilla/（原生 wrapper）+ style/ + types/
   dev.ts            pnpm dev 时该 lib 的 playground 入口；自由调用 onPageLoad/onPageUpdate
   docs/lib/components/*.md  组件文档，由 scripts/docs 同步进 docs/_ 给 VitePress
@@ -95,7 +95,7 @@ build/、dist/、publish/   构建中间产物 / 最终产物（gitignored）
 ### 文档与样式
 
 - 文档源在每个 `lib/<name>/docs/lib/components/*.md`，`pnpm docs:dev` 会先跑 `scripts/docs/prepare.ts` 同步到 `docs/_`，再启 VitePress。监听阶段 `scripts/docs/watch.ts` 会增量同步。
-- Tailwind 启用 **prefix `-`**（见 `tailwind.config.cjs`）。所以正常 utility 类是 `-flex -p-4 -bg-primary-800` 这种带前导短横的写法，不要把短横当成 bug 删掉。深色模式走 `media`，但开发首页 `index.html` 中也有 `class="dark"` 切换脚本。
+- CSS 源码中的 Tailwind `@apply` 使用 **prefix `-`**（见 `tailwind.config.cjs`），例如 `@apply -flex -p-4`，保留该前缀。对外 HTML 和文档示例使用实际公开的 ZUI 类名，例如 `flex`、`p-4`；不要假定所有 Tailwind utility 都有公开别名。深色模式走 `media`，但开发首页 `index.html` 中也有 `class="dark"` 切换脚本。
 - 全局 PostCSS 走 `postcss.config.cjs`，支持 `--cssnano`、`--rem2px` 等构建参数（通过 env 透传）。
 
 ## 代码风格与约定

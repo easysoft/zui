@@ -8,7 +8,7 @@
 - 组件实现不要直接调用 `$.getLib`、`$.registerLib`，不要自行插入 `<script>` / `<link>`，也不要另建静态字段缓存第三方模块。
 - `dev.ts` 可以用同一注册名覆盖资源地址；`@zui/core` 的加载基础设施不受上述组件侧限制。
 
-当前生产实现以 `lib/sortable/src/helper/sortable-loader.ts` 和 `lib/sortable/src/vanilla/sortable.ts` 为加载模式基准，以 `lib/core/src/helpers/lib-loader.ts`、`get-lib.ts` 的实际契约为准。仓库暂时只有一个组件侧 `LibLoader` 基准时，再选择一个架构相近的成熟组件核对生命周期和公开 API，不虚构第二种加载模式。
+加载模式可参考 `lib/sortable/src/helper/sortable-loader.ts` 和 `lib/sortable/src/vanilla/sortable.ts`，以 `lib/core/src/helpers/lib-loader.ts`、`get-lib.ts` 的实际契约为准。按本次决策核实相关部分，需要时再参考架构相近的实现，不固定参考数量。
 
 ## Loader 所有权与注册
 
@@ -85,9 +85,9 @@ $.registerLib('external-lib', {
 
 ## 计划与验证
 
-计划至少说明注册名、loader 所有权、资源来源与 `check`、前置依赖、加载时机、公开加载 API、loading/error/retry 语义、销毁竞态、本地开发资源和依赖分类。
+计划与批准遵循 [共享工作流](workflow.md)；本次涉及的加载决策包括注册与所有权、资源及 `check`、依赖与时机、公开 API、失败重试、销毁竞态及开发接线。未变化部分引用现状。
 
-验证至少覆盖：
+按共享工作流选择本次所需验证；新增封装或改变对应行为时检查：
 
 - 未预载时首次使用才请求资源，成功后正常初始化；
 - 已预载全局模块时不重复插入资源；

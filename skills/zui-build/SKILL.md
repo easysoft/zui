@@ -1,6 +1,6 @@
 ---
 name: zui-build
-description: Create new standalone ZUI 3 Web pages and small static sites from scratch without requiring an existing project, package installation, or build tool. Use when Codex needs to turn a brief into a runnable landing page, dashboard, admin screen, form, report, prototype, demo, or other Web UI with ZUI as the interface framework; scaffold the bundled latest published ZUI CSS/JS assets by default, optionally use pinned CDN resources, and prefer semantic ZUI markup plus declarative `zui-create`, `zui-toggle`, and `zui-on-*` behavior. Do not use for integrating ZUI into an existing application; use the ZUI consumer integration skill for that case.
+description: "使用内置 ZUI 资源从零创建可运行的独立网页或小型静态站点。向已有应用集成 ZUI 时使用 zui 技能。"
 ---
 
 # Build standalone pages with ZUI

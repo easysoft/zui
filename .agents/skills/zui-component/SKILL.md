@@ -1,16 +1,15 @@
 ---
 name: zui-component
-description: "在指定 `lib/*` 中设计、实现或优化 ZUI 3 组件，覆盖纯 CSS、Preact、Preact + ComponentFromReact、原生 Component DOM 增强器、控制器 + Preact 子视图及外部库按需加载。Use when a user asks to add, refactor, extend, or fix a ZUI component, its public consumption modes, or its runtime integration with an external library; 先给出设计计划并经明确确认后实施；已有适用批准时按共享工作流复用，不重复确认。"
+description: "在 ZUI 主仓库的 lib/* 中设计、实现或修复组件；实施前按共享工作流确认计划或复用已有批准。"
 ---
 
 # ZUI 组件开发
 
 ## 准备
 
-1. 定位仓库根目录和目标 `lib/<lib-name>`；若目标库名称无法从请求或仓库发现，先询问。
-2. 完整读取根目录 `AGENTS.md`、兄弟技能 `../zui-standards/references/workflow.md` 和 `../zui-standards/references/component.md`。组件需要在运行时加载外部 JS/CSS 时再读 `../zui-standards/references/external-library.md`；涉及新包或元数据时再读 `../zui-standards/references/library.md`；涉及文档、调试页或国际化时再读对应 standards 参考。
-3. 运行 `../zui-standards/scripts/inspect-zui-lib.mjs` 盘点目标和候选库，然后完整阅读目标库与两个最相近成熟实现的关键源码。已有库沿用合理的局部目录命名。
-4. 检查工作区状态，保留用户已有改动，不修改目标库之外的内容，除非批准范围明确包含跨库依赖。
+按 [共享工作流](../zui-standards/references/workflow.md) 定位目标、检查所有权并复用已有发现。组件实现读取 [组件规范](../zui-standards/references/component.md) 的相关部分；运行时加载外部资源再读 external-library 规范，涉及包元数据再读 library 规范，其他领域按需路由。
+
+阅读本次判断所需的目标源码；架构或公开契约尚不清楚时再检查相似实现。仅修改目标库，除非批准范围明确包含跨库依赖。
 
 ## 理解与设计
 
@@ -25,9 +24,9 @@ description: "在指定 `lib/*` 中设计、实现或优化 ZUI 3 组件，覆�
 
 ## 确认门禁
 
-尚无适用批准时，在任何文件修改前给出一份决策完整的拟实施计划，至少包含：
+尚无适用批准时，在任何文件修改前按共享工作流给出可直接实施的拟实施计划；以下仅展开本次相关决策：
 
-- 类型判断：包角色、组件架构及两个相似实现；
+- 类型判断：包角色、组件架构及必要参考依据；
 - 目标、非目标和验收场景；
 - 公开 API：消费方式、options/props、事件、方法、类型及兼容性；
 - 实现方式：渲染、状态/数据流、生命周期、清理、无障碍和 i18n；
@@ -36,9 +35,7 @@ description: "在指定 `lib/*` 中设计、实现或优化 ZUI 3 组件，覆�
 - 正式文档与调试页是否纳入；
 - 验证方式、边界场景和仍存在的假设。
 
-尚无适用批准时，请求用户明确确认后再实施；批准状态、包含修订的授权回复及等待期间的推进方式遵循共享工作流。
-
-按 [zui 共享工作流](../zui-standards/references/workflow.md) 复用本任务已有且仍完整适用的明确批准，包括 wrap-lib 的协调计划，不重复确认。超出批准范围时只暂停受影响部分及其依赖写操作，提交增量计划并确认；继续范围内不受影响的工作。始终服从当前协作模式。
+尚无适用批准时，等待用户明确确认后再实施。批准复用、修订回复、增量范围与等待期间的推进遵循共享工作流，始终服从当前协作模式。
 
 ## 实施
 
@@ -47,7 +44,5 @@ description: "在指定 `lib/*` 中设计、实现或优化 ZUI 3 组件，覆�
 3. 运行时外部依赖统一通过库内单例 `LibLoader<T>` 按需加载，并落实加载失败、重试、异步销毁竞态和第三方实例清理；不要在组件内直接调用 `$.getLib`、注入资源标签或维护第二份模块缓存。
 4. 按实际需要实现样式根类、`--<component>-*` 变量、带 `-` 前缀的 Tailwind `@apply`、语义标签、键盘、焦点和 ARIA。
 5. 仅在批准范围内调用或遵循 `$zui-i18n`、`$zui-doc`、`$zui-dev`；不要借机修改其他领域。
-6. 运行与风险匹配的 lint、单库构建和调试页检查；仓库没有通用单测时，以类型检查、演示交互和文档示例覆盖验收场景。
+6. 按共享工作流验证本次改动、修复范围内问题并复跑受影响检查；组件验收项目按本次涉及的行为选择。
 7. 汇报实现文件、公开 API、验证结果和未验证风险，不自动提交。
-
-多个技能直接组合时，共用这一份计划和一次确认；不得为同一批准范围重复设置门禁。

@@ -2,7 +2,7 @@
 
 ## Identify the installed surface
 
-Inspect all of the following that exist:
+Inspect the sources needed to resolve the current integration decision; reuse established facts while they remain applicable:
 
 - `package.json`, workspace manifests, and the active lockfile;
 - `node_modules/zui/package.json` and `node_modules/@zui/*/package.json`;

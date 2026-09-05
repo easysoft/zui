@@ -1,6 +1,6 @@
 ---
 name: zui-commit
-description: "按 ZUI 3 规范只读分析变更和生成英文 commit message，或在用户明确要求提交时审查、验证、按逻辑单元拆分并完成 Git 提交。Use when the user asks to inspect commit scope, generate a commit message, commit staged or current changes, 提交代码, 保存改动, or wrap up changes into commits in this repository. Message-only requests remain read-only; mutation requires explicit commit intent."
+description: "分析 ZUI 主仓库的提交范围、生成英文 commit message，或执行用户明确要求的 Git 提交。仅分析或生成 message 时保持只读。"
 ---
 
 # ZUI 提交

@@ -1,6 +1,6 @@
 ---
 name: zui
-description: Use ZUI 3 safely and idiomatically in application projects that consume the framework. Use when Codex needs to detect a project's ZUI setup or version, install or import ZUI, build or refactor UI with ZUI CSS utilities, components, or helpers, integrate vanilla or Preact APIs with React, Vue, Svelte, or another framework, configure themes or languages, work with declarative `zui-*` attributes, or diagnose missing styles, initialization, lifecycle, bundler, and type errors. This skill is for ZUI consumers, not for developing the ZUI repository itself.
+description: "在已有应用中集成、使用或排查 ZUI 3；适用于消费方项目，不用于开发 ZUI 源码仓库。"
 ---
 
 # ZUI application development
@@ -17,13 +17,13 @@ Apply ZUI through the public surface actually available in the user's applicatio
    - scoped packages such as `@zui/<name>`;
    - a custom bundle exposing only selected libraries;
    - CSS-only markup, vanilla components, declarative attributes, helpers, or verified Preact entries.
-4. Run the bundled inspector when working in a JavaScript/TypeScript project:
+4. When the ZUI setup is unclear in a JavaScript/TypeScript project, use the bundled inspector:
 
 ```sh
 node <skill-root>/scripts/inspect-zui-project.mjs --root <project-root>
 ```
 
-Use `--json` when structured output is easier to inspect. The inspector discovers workspace manifests when the supplied root is a workspace, follows parent directories to the nearest package-manager context, resolves hoisted packages, and keeps representative source matches when signal volume is high. Supplement the report with targeted `rg` searches and direct reads of relevant files; the script reports signals, not API correctness.
+Reuse established project context while it remains applicable; refresh it when dependencies, delivery mode, or relevant configuration change. Use `--json` when structured output is easier to inspect. The inspector discovers workspace manifests when the supplied root is a workspace, follows parent directories to the nearest package-manager context, resolves hoisted packages, and keeps representative source matches when signal volume is high. Supplement the report with targeted `rg` searches and direct reads of relevant files; the script reports signals, not API correctness.
 
 ## Resolve facts before choosing an API
 
@@ -73,7 +73,7 @@ Read [references/troubleshooting.md](references/troubleshooting.md) when styles,
 
 ## Validate the result
 
-1. Run the project's existing formatter, lint, typecheck, tests, and production build in proportion to the change.
+1. Select the project's existing checks that cover the requested change. Fix failures introduced by that change within its authorized scope, then rerun affected checks. Reuse valid results for unchanged work; do not end an implementation task at a first pass with fixable failures.
 2. Exercise the affected UI in the project's normal browser workflow when available.
 3. Verify initial render, primary interaction, disabled/loading/empty/error states when relevant, keyboard and focus behavior, responsive/theme behavior, and cleanup after navigation or unmount.
 4. For declarative or routed content, verify both the initial page and dynamically inserted content.
