@@ -36,7 +36,7 @@ ignored 文件不属于默认未提交范围，用户点名时才纳入。显式
    - 公共 API、类型、事件、DOM/CSS、序列化、包元数据或向后兼容性回归；
    - listener、timer、observer、portal、实例、缓存及其他资源的初始化、更新与销毁不对称；
    - 安全、数据损坏、无障碍、国际化及有可复现场景的性能退化；
-   - ZUI 的 Preact/vanilla 双形态、组件注册、`@zui/*` 跨库导入、`contributes`、Tailwind 前导 `-`、主题和 HMR 约定；
+   - ZUI 的 Preact/vanilla 双形态、组件注册、`@zui/*` 跨库导入、`contributes`、[辅助类优先](../zui-standards/references/component.md#布局与样式)、Tailwind 前导 `-`、主题和 HMR 约定；
    - 生成文件与 source-of-truth 不一致。遇到生成产物时找到生成器或映射并审查源头，不只评审生成结果。
 3. 搜索相关符号、相似成熟实现和调用点来验证判断。发现看似异常的代码时，先确认是否为现有约定、兼容处理或基线问题。
 4. 对 tracked Git diff 运行对应范围的 `git diff --check`。它不覆盖未跟踪文件；对未跟踪文本文件使用等价 whitespace 检查，或以 `git diff --no-index --check -- /dev/null <file>` 检查诊断内容，并注意 no-index 因“存在内容差异”返回非零不等于 whitespace 失败。按风险选择不会修改工作区的目标 lint、类型或现有测试命令；先从当前 `package.json` 确认可用脚本，不臆造 `pnpm test`。lint 输出先作为验证结果，只有它证明本次变更引入真实缺陷或确定阻断既有门禁时才升级为 finding。把静态检查、构建、浏览器/runtime 验证分开报告。无法安全运行的验证说明原因和剩余风险，不把“未运行”写成“通过”。

@@ -101,6 +101,7 @@
 - 合理局部目录和 API 风格是否保留；
 - Preact、Cash、路径别名和跨包公开 import 是否符合当前上下文；
 - CSS 根类、变量、Tailwind prefix、主题和 dark mode 是否与 `EXT_ROOT` 配置及宿主合并结果一致；
+- 组件、调试页和文档示例是否遵循 [辅助类优先规范](../../zuix-standards/references/component.md#布局与样式)：自定义 CSS 或静态内联样式能否用当前宿主已核实的 `@zui/utilities` 公开类快捷实现，所用辅助类是否进入实际消费产物；等价替换作为维护性改进，不仅凭存在 CSS 就判定缺陷；
 - 是否存在无关迁移、格式化或隐式公共契约破坏。
 
 ## 范围策略

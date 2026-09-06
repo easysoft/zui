@@ -6,6 +6,8 @@
 
 本次涉及页面来源、入口、URL、`zui-dev` API、资源或 HMR 时，核实宿主对应契约，复用仍适用的已有发现。不要直接照搬内置库的 `pnpm dev` 或 `/lib/<name>/public/...` 路径。
 
+示例容器、Markdown 中的实例 DOM 和 `dev.ts` 生成的界面都遵循 [辅助类优先规范](component.md#布局与样式)：先组合当前宿主可用的 `@zui/utilities` 公开辅助类，只有无法快捷实现时才补充自定义 CSS。
+
 ## Markdown 页面
 
 - 保留目标项目既有的 `README.md` / `dev.md` 选择，不无理由迁移。

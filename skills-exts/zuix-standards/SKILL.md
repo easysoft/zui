@@ -12,6 +12,7 @@ description: "查询独立 ZUI 扩展项目的开发规范，解析目标库、�
    - 包角色、骨架、元数据与依赖：[references/library.md](references/library.md)
    - 宿主注册、联合调试、构建和文档：[references/extension-library.md](references/extension-library.md)
    - UI 组件：[references/component.md](references/component.md)
+   - 组件、调试页和文档示例的布局与样式：[辅助类优先规范](references/component.md#布局与样式)
    - 运行时按需加载外部 JS/CSS：[references/external-library.md](references/external-library.md)，以及相关组件或 helper 约束
    - helper、store 或 utils：[references/helper.md](references/helper.md)
    - 官网正式文档：[references/documentation.md](references/documentation.md)

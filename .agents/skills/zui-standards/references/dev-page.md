@@ -11,6 +11,8 @@
 
 调试页用于覆盖开发场景，不是官网正式文档。不要把两套示例语法混用。
 
+示例容器、Markdown 中的实例 DOM 和 `dev.ts` 生成的界面都遵循 [辅助类优先规范](component.md#布局与样式)：先组合 `@zui/utilities` 公开辅助类，只有无法快捷实现时才补充自定义 CSS。
+
 ## README.md
 
 - 使用 info string 为 `html:example:<utility classes>` 的代码围栏提供实例 DOM。

@@ -21,6 +21,7 @@ docs/lib/<category>/index.md
 - options/props、事件、方法、公共类型、CSS 类/变量、异步、错误、生命周期和兼容性与源码一致。
 - 示例使用真实 `PACKAGE_NAME`、全局导出或宿主文档组件，不假设扩展包名属于 `@zui/*`。
 - 使用宿主正式文档的 Example/tabs/Props/ZUI 等语法，不混用调试页 fence。
+- 示例容器、示例内容和用户代码遵循 [辅助类优先规范](component.md#布局与样式)：先组合当前宿主可用的 `@zui/utilities` 公开辅助类，只有无法快捷实现时才补充自定义 CSS。
 - 本次新增或改变的链接和资源路径按宿主同步契约验证，不使用本机绝对路径或 `exts/` 符号链接作为公开 URL。
 
 ## 修改边界

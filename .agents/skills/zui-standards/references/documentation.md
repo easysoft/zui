@@ -119,7 +119,7 @@ Messager.show('操作成功');
 - 统一使用 `class` 设置示例布局，不在同一文档中混用 `className`。
 - `background` 仅在需要区分透明、阴影或边界时使用，支持 `light-grid`、`blue-circle` 和 `light-circle`。
 - `padding` 接受间距类名；使用数字时写成 Vue 绑定形式，例如 `:padding="4"`。默认留白合适时省略。
-- 官网示例和用户代码使用 `@zui/utilities` 实际公开的无前缀类名，例如 `flex`、`gap-4`、`p-4`。前导 `-` 是 CSS 源码中 `@apply` Tailwind utility 的内部写法；不要假设每个 Tailwind utility 都有公开的无前缀别名。
+- 官网示例容器、示例内容和用户代码遵循 [辅助类优先规范](component.md#布局与样式)：先组合 `@zui/utilities` 实际公开的无前缀类名，只有无法快捷实现时才补充自定义 CSS；类名与 CSS 源码中的 Tailwind `@apply` 前缀按该规范核实。
 - 示例自身的布局类只服务于展示，不要混入用户复制的代码。
 
 ### 文档实例 `<ZUI>`

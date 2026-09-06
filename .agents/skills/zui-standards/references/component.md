@@ -63,12 +63,18 @@ Vanilla 子类必须提供稳定的 `static NAME`。`ComponentFromReact` 子类�
 
 优先复用 `Component`、`ComponentFromReact`、Cash、core helper 和现有控件，不重复建立基础设施。
 
-## 样式与无障碍
+## 布局与样式
 
-- 使用稳定的组件根类，并让状态/元素类从根语义派生。
-- 公共可定制值使用 `--<component>-*` CSS 变量，提供合理默认值。
-- Tailwind `@apply` 使用仓库前缀形式，例如 `@apply -flex -gap-2`；不要删除前导 `-`。
+- 组件实现、调试页和文档示例统一优先在 HTML/JSX 的 `class` / `className` 中组合 `@zui/utilities` 辅助类，实现布局、间距、尺寸、排版、颜色等通用样式。只有现有辅助类无法快捷、清晰地实现目标时，才补充最少的自定义 CSS；不要用静态内联样式绕过这一原则。
+- 使用前按需查阅 `lib/utilities/docs/utilities/` 和 `lib/utilities/src/`，核实公开类名及效果。HTML/JSX 使用 `flex`、`items-center`、`gap-2`、`p-4` 等实际公开的无前缀类名，不假设每个 Tailwind utility、变体或任意值语法都有对应的公开类。
+- 自定义 CSS 只处理辅助类未覆盖的部分，例如无法通过现有类表达的复合状态、伪元素或组件特有动画，并在实现说明中简述原因。确需 CSS 时，Tailwind `@apply` 使用仓库前缀形式，例如 `@apply -flex -gap-2`；把可直接组合的辅助类包装进新选择器仍属于自定义 CSS。
+- 使用稳定的组件根类，并让状态/元素类从根语义派生；复用辅助类时保留既有 DOM/CSS 公开契约。
+- 公共可定制值使用 `--<component>-*` CSS 变量，提供合理默认值；确需运行时计算的值可通过 CSS 变量或 `style` 传入。
+- 核实真实消费入口和目标构建会包含所用辅助类的样式，并按消费方式维护必要依赖与样式接线；不能只因开发页加载了完整 ZUI 就认为单库消费也可用。
 - 避免泄漏全局样式，复核 dark mode、响应式、RTL（若相关）及主题变量。
+
+## 无障碍
+
 - 优先正确语义标签；实现键盘操作、焦点进入/返回、可见 focus 样式和必要 ARIA。
 - 动态内容和状态变化需要可被辅助技术理解；disabled 与只读语义不能只靠颜色。
 
