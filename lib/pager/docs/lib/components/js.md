@@ -1,493 +1,165 @@
-# 分页生成器 [WIP]
+# 分页生成器
 
-当数据量过多时，使用分页生成器动态分解数据。
+`Pager` 根据总记录数、每页条数和当前页生成[分页控件](/lib/components/pager/)。它负责分页信息和操作界面，数据请求、列表刷新及地址跳转由应用接入。
 
-## 综合用法
+## 基本使用
 
-<Example class="col gap-2">
-  <div id="pagerExample1"></div>
-  <div id="pagerExample2"></div>
-  <div id="pagerExample3"></div>
-</Example>
+::: tabs
 
-```html
-<div id="pagerExample1"></div>
-<div id="pagerExample2"></div>
-<div id="pagerExample3"></div>
-
-<script>
-    new zui.Pager('#pagerExample1', {
-        items: [
-            {type: 'info', text: '共 {recTotal} 项'},
-            {type: 'size-menu', text: '每页 {recPerPage} 项', dropdown: {placement: 'top'}},
-            {type: 'link', page: 'first', icon: 'icon-double-angle-left', hint: '第一页'},
-            {type: 'link', page: 'prev', icon: 'icon-angle-left', hint: '上一页'},
-            {type: 'info', text: '{page}/{pageTotal}'},
-            {type: 'link', page: 'next', icon: 'icon-angle-right', hint: '下一页'},
-            {type: 'link', page: 'last', icon: 'icon-double-angle-right', hint: '最后一页'},
-        ],
-        page: 2,
-        recTotal: 101,
-        recPerPage: 10,
-        linkCreator: '#?page={page}&recPerPage={recPerPage}',
-        onClickItem: (info) => {
-            console.log('> pagerExample1.onClickItem', info);
-        },
-    });
-    new zui.Pager('#pagerExample2', {
-        items: [
-            {type: 'info', text: '共 {recTotal} 项'},
-            {type: 'size-menu', text: '每页 {recPerPage} 项', dropdown: {placement: 'top'}},
-            {type: 'link', page: 'first', icon: 'icon-double-angle-left', hint: '第一页'},
-            {type: 'link', page: 'prev', icon: 'icon-angle-left', hint: '上一页'},
-            {type: 'nav', count: 6},
-            {type: 'link', page: 'next', icon: 'icon-angle-right', hint: '下一页'},
-            {type: 'link', page: 'last', icon: 'icon-double-angle-right', hint: '最后一页'},
-            {type: 'goto', text: '跳转'},
-        ],
-        page: 2,
-        recTotal: 51,
-        recPerPage: 10,
-        linkCreator: '#?page={page}&recPerPage={recPerPage}',
-        onClickItem: (info) => {
-            if (info.item.type !== 'nav') {
-                return;
-            }
-            const fElement = info.event.target.closest('.pager');
-            const btns = fElement.querySelectorAll('.pager-nav');
-            btns.forEach(element => {
-                element.classList.remove('active');
-            });
-            info.event.target.classList.add('active');
-        },
-    });
-    new zui.Pager('#pagerExample3', {
-        items: [
-            {type: 'info', text: '共 {recTotal} 项'},
-            {type: 'link', page: 'prev', icon: 'icon-angle-left', hint: '上一页'},
-            {type: 'nav'},
-            {type: 'link', page: 'next', icon: 'icon-angle-right', hint: '下一页'},
-        ],
-        page: 2,
-        recTotal: 51,
-        recPerPage: 10,
-        linkCreator: '#?page={page}&recPerPage={recPerPage}',
-        onClickItem: (info) => {
-            if (info.item.type !== 'nav') {
-                return;
-            }
-            const fElement = info.event.target.closest('.pager');
-            const classList = ['text-canvas', 'bg-primary'];
-            const btns = fElement.querySelectorAll('.pager-nav');
-            btns.forEach(element => {
-                element.classList.remove(...classList);
-            });
-            info.event.target.classList.add(...classList);
-        },
-    });
-
-</script>
-```
-
-## 简单分页
-
-<Example class="col gap-2">
-  <div id="pagerAllCount"></div>
-  <p>大于 6 页时的效果：</p>
-  <div id="pagerMaxCount"></div>
-</Example>
-
-```html
-<div id="pagerAllCount"></div>
-<div id="pagerMaxCount"></div>
-
-<script>
-    new zui.Pager('#pagerAllCount', {
-        items: [
-            {type: 'link', page: 'prev', icon: 'icon-angle-left', hint: '上一页'},
-            {type: 'nav'},
-            // ...
-            onClickItem: (info) => {
-                if (info.item.type !== 'nav') {
-                    return;
-                }
-                const fElement = info.event.target.closest('.pager');
-                const btns = fElement.querySelectorAll('.pager-nav');
-                btns.forEach(element => {
-                    element.classList.remove('active');
-                });
-                info.event.target.classList.add('active');
-            },
-        ],
-        // ...
-    });
-    new zui.Pager('#pagerMaxCount', {
-        items: [
-            {type: 'link', page: 'prev', icon: 'icon-angle-left', hint: '上一页'},
-            {type: 'nav', count: 6},
-            // ...
-        ],
-        // ...
-    });
-</script>
-```
-
-## 跳转到
+== 示例
 
 <Example>
-  <div id="pagerGoto"></div>
+  <ZUI use="pager" :options="pagerOptions" />
+  <p class="text-sm text-gray mt-2" role="status">{{ pagerStatus }}</p>
 </Example>
 
-```html
-<div id="pagerGoto"></div>
-
-<script>
-    new zui.Pager('#pagerGoto', {
-        items: [
-            {type: 'link', page: 'prev', icon: 'icon-angle-left', hint: '上一页'},
-            {type: 'info', text: '{page}/{pageTotal}'},
-            {type: 'link', page: 'next', icon: 'icon-angle-right', hint: '下一页'},
-            {type: 'goto', text: '跳转'},
-        ],
-        page: 2,
-        recTotal: 101,
-        recPerPage: 10,
-        linkCreator: '#?page={page}&recPerPage={recPerPage}',
-        onClickItem: (info) => {
-            console.log(info);
-        },
-    });
-</script>
-```
-
-## 外观
-
-结合[CSS工具类](/utilities/style/utilities/outline)实现不同类型的分页外观
-
-<Example class="col gap-2">
-  <div id="pagerNav1"></div>
-</Example>
+== HTML
 
 ```html
-<script>
-    new zui.Pager('#pagerNav1', {
-        btnProps: {btnType: 'border'},
-        // ...
-        onClickItem: (info) => {
-            if (info.item.type !== 'nav') {
-                return;
-            }
-            const fElement = info.event.target.closest('.pager');
-            const btns = fElement.querySelectorAll('.pager-nav');
-            btns.forEach(element => {
-                element.classList.remove('active');
-            });
-            info.event.target.classList.add('active');
-        },
-    });
-</script>
+<div id="resultPager"></div>
 ```
 
-## 引入
-
-### 通过npm
+== JS
 
 ```js
-import {Pager} from 'zui/pager';
-const contextMenu = new Pager(element, options);
-```
-
-### 通过全局对象
-
-```js
-const pager = new zui.Pager(element, options);
-```
-
-### 使用React 组件
-
-```js
-import {render} from 'react';
-import {Pager} from 'zui/pager/react';
-
-render(element, <Pager {...options} />);
-```
-
-### 使用Jquery 扩展
-
-```js
-$(element).pager(options);
-
-const pager = $(element).data('zui.pager');
-```
-
-## 选项
-
-### `linkCreator`
-
-导航链接生成器，点击页码时进行页面地址更换。
-
-* 类型：<code>string | ((info: [PagerInfo](#pagerinfo)) => string)</code>
-* 必选：否
-
-### `page`
-
-初始状态的当前页码。
-
-* 类型：`number`。
-
-### `recTotal`
-
-总记录数目。
-
-* 类型：`number`。
-
-### `recPerPage`
-
-每页记录数。
-
-* 类型：`number`。
-
-### `pageTotal`
-
-总页数。
-
-* 类型：`number`。
-
-### `items`
-
-定义分页项的列表，可以通过一个函数动态返回分页组件。
-
-基于 [工具栏](/lib/components/toolbar/js.html#选项) 选项 和 自定义 [PagerItemOptions](#pageritemoptions) 选项。
-
-### `onClickItem`
-
-指定分页按钮的点击回调事件。
-
-## API
-
-### `PagerInfo`
-
-**参数：**
-
-#### `page`
-
-* 含义：初始状态的当前页码；
-* 类型：`number`。
-
-#### `recTotal`
-
-* 含义：总记录数目；
-* 类型：`number`。
-
-#### `recPerPage`
-
-* 含义：每页记录数；
-* 类型：`number`。
-
-#### `pageTotal`
-
-* 含义：总页数；
-* 类型：`number`。
-
-### `PagerItemOptions`
-
-**参数：**
-
-#### `type`
-
-* 含义：子项类型；
-* 类型：`string`；
-* 可选项：`info | link | nav | size-menu | goto`。
-
-#### `page`
-
-* 含义：页码名称；
-* 类型：`'first' | 'last' | 'prev' | 'next' | 'current' | number`。
-
-#### `text`
-
-* 含义：指定类型为 **info | size-menu** 的显示文案；
-* 类型：<code>string | ((info: [PagerInfo](#pagerinfo)) => string)</code>。
-
-#### `count`
-
-* 含义：指定类型为 **nav** 的展示数量；
-* 类型：`number`。
-
-
-#### `format`
-
-* 含义：指定类型为 **link | nav** 的显示格式；
-* 类型：<code>string | ((info: [PagerInfo](#pagerinfo)) => string)</code>。
-
-#### `dropdown`
-
-* 含义：指定下拉菜单的属性；
-* 类型：`object`。
-
-#### `items`
-
-* 含义：指定类型为 **size-menu** 下拉菜单里的选项；
-* 类型：`number[]`。
-
-
-<script>
-export default {
-    mounted() {
-        onZUIReady(() => {
-            new zui.Pager('#pagerExample1', {
-                items: [
-                    {type: 'info', text: '共 {recTotal} 项'},
-                    {type: 'size-menu', text: '每页 {recPerPage} 项', dropdown: {placement: 'top'}},
-                    {type: 'link', page: 'first', icon: 'icon-double-angle-left', hint: '第一页'},
-                    {type: 'link', page: 'prev', icon: 'icon-angle-left', hint: '上一页'},
-                    {type: 'info', text: '{page}/{pageTotal}'},
-                    {type: 'link', page: 'next', icon: 'icon-angle-right', hint: '下一页'},
-                    {type: 'link', page: 'last', icon: 'icon-double-angle-right', hint: '最后一页'},
-                    {type: 'goto', text: '跳转'},
-                ],
-                page: 2,
-                recTotal: 101,
-                recPerPage: 10,
-                linkCreator: '#?page={page}&recPerPage={recPerPage}',
-                onClickItem: (info) => {
-                    console.log('> pagerExample1.onClickItem', info);
-                },
-            });
-            new zui.Pager('#pagerExample2', {
-                items: [
-                    {type: 'info', text: '共 {recTotal} 项'},
-                    {type: 'size-menu', text: '每页 {recPerPage} 项', dropdown: {placement: 'top'}},
-                    {type: 'link', page: 'first', icon: 'icon-double-angle-left', hint: '第一页'},
-                    {type: 'link', page: 'prev', icon: 'icon-angle-left', hint: '上一页'},
-                    {type: 'nav', count: 6},
-                    {type: 'link', page: 'next', icon: 'icon-angle-right', hint: '下一页'},
-                    {type: 'link', page: 'last', icon: 'icon-double-angle-right', hint: '最后一页'},
-                    {type: 'goto', text: '跳转'},
-                ],
-                page: 2,
-                recTotal: 51,
-                recPerPage: 10,
-                linkCreator: '#?page={page}&recPerPage={recPerPage}',
-                onClickItem: (info) => {
-                    if (info.item.type !== 'nav') {
-                        return;
-                    }
-                    const fElement = info.event.target.closest('.pager');
-                    const btns = fElement.querySelectorAll('.pager-nav');
-                    btns.forEach(element => {
-                        element.classList.remove('active');
-                    });
-                    info.event.target.classList.add('active');
-                },
-            });
-            new zui.Pager('#pagerExample3', {
-                items: [
-                    {type: 'info', text: '共 {recTotal} 项'},
-                    {type: 'link', page: 'prev', icon: 'icon-angle-left', hint: '上一页'},
-                    {type: 'nav'},
-                    {type: 'link', page: 'next', icon: 'icon-angle-right', hint: '下一页'},
-                ],
-                page: 2,
-                recTotal: 51,
-                recPerPage: 10,
-                linkCreator: '#?page={page}&recPerPage={recPerPage}',
-                onClickItem: (info) => {
-                    if (info.item.type !== 'nav') {
-                        return;
-                    }
-                    const fElement = info.event.target.closest('.pager');
-                    const classList = ['text-canvas', 'bg-primary'];
-                    const btns = fElement.querySelectorAll('.pager-nav');
-                    btns.forEach(element => {
-                        element.classList.remove(...classList);
-                    });
-                    info.event.target.classList.add(...classList);
-                },
-            });
-            const basicPagerOptions = {
-                items: [
-                    {type: 'link', page: 'prev', icon: 'icon-angle-left', hint: '上一页'},
-                    {type: 'nav'},
-                    {type: 'link', page: 'next', icon: 'icon-angle-right', hint: '下一页'},
-                ],
-                page: 2,
-                recTotal: 47,
-                recPerPage: 10,
-                linkCreator: '#?page={page}&recPerPage={recPerPage}',
-                onClickItem: (info) => {
-                    if (info.item.type !== 'nav') {
-                        return;
-                    }
-                    const fElement = info.event.target.closest('.pager');
-                    const btns = fElement.querySelectorAll('.pager-nav');
-                    btns.forEach(element => {
-                        element.classList.remove('active');
-                    });
-                    info.event.target.classList.add('active');
-                },
-
-            };
-            new zui.Pager('#pagerAllCount', {
-                ...basicPagerOptions,
-            });
-            const pagerMaxCount = new zui.Pager('#pagerMaxCount', {
-                items: [
-                    {type: 'link', page: 'prev', icon: 'icon-angle-left', hint: '上一页'},
-                    {type: 'nav', count: 6},
-                    {type: 'link', page: 'next', icon: 'icon-angle-right', hint: '下一页'},
-                ],
-                page: 1,
-                recTotal: 101,
-                recPerPage: 10,
-                linkCreator: '#?page={page}&recPerPage={recPerPage}',
-                onClickItem: (info) => {
-                    const numStr = info.event.target.querySelector('.text')?.innerText;
-                    if (Number(numStr)) {
-                        pagerMaxCount.render({page: Number(numStr)});
-                    }
-                    if (info.item.type !== 'nav') {
-                        return;
-                    }
-                    const fElement = info.event.target.closest('.pager');
-                    const btns = fElement.querySelectorAll('.pager-nav');
-                    btns.forEach(element => {
-                        element.classList.remove('active');
-                    });
-                    info.event.target.classList.add('active');
-                },
-            });
-            new zui.Pager('#pagerGoto', {
-                items: [
-                    {type: 'link', page: 'prev', icon: 'icon-angle-left', hint: '上一页'},
-                    {type: 'info', text: '{page}/{pageTotal}'},
-                    {type: 'link', page: 'next', icon: 'icon-angle-right', hint: '下一页'},
-                    {type: 'goto', text: '跳转'},
-                ],
-                page: 1,
-                recTotal: 101,
-                recPerPage: 10,
-                linkCreator: '#?page={page}&recPerPage={recPerPage}',
-            });
-
-            new zui.Pager('#pagerNav1', {
-                btnProps: {btnType: 'border'},
-                ...basicPagerOptions,
-                onClickItem: (info) => {
-                    if (info.item.type !== 'nav') {
-                        return;
-                    }
-                    const fElement = info.event.target.closest('.pager');
-                    const btns = fElement.querySelectorAll('.pager-nav');
-                    const classList = ['text-canvas', 'bg-primary'];
-                    btns.forEach(element => {
-                        element.classList.remove(...classList);
-                    });
-                    info.event.target.classList.add(...classList);
-                },
-            });
-        })
+const pager = new zui.Pager('#resultPager', {
+    page: 1,
+    recTotal: 101,
+    recPerPage: 10,
+    useState: true,
+    items: [
+        {type: 'info', text: '共 {recTotal} 项'},
+        {type: 'link', page: 'prev', text: '上一页'},
+        {type: 'nav', count: 5},
+        {type: 'link', page: 'next', text: '下一页'},
+        {type: 'size-menu', text: '每页 {recPerPage} 项', items: [10, 20, 50]},
+    ],
+    onChangePageInfo(info, event) {
+        console.log('加载分页数据', info.page, info.recPerPage);
     },
+});
+```
 
-}
+:::
+
+<script setup>
+import {ref} from 'vue';
+const pagerStatus = ref('第 1 页，每页 10 项');
+const pagerOptions = {
+    page: 1,
+    recTotal: 101,
+    recPerPage: 10,
+    useState: true,
+    items: [
+        {type: 'info', text: '共 {recTotal} 项'},
+        {type: 'link', page: 'prev', text: '上一页'},
+        {type: 'nav', count: 5},
+        {type: 'link', page: 'next', text: '下一页'},
+        {type: 'size-menu', text: '每页 {recPerPage} 项', items: [10, 20, 50]},
+    ],
+    onChangePageInfo(info) {
+        pagerStatus.value = `第 ${info.page} 页，每页 ${info.recPerPage} 项`;
+    },
+};
 </script>
+
+## 状态与数据请求
+
+`useState: true` 让页码按钮和每页条数菜单更新内部分页状态，适合在 `onChangePageInfo(info, event)` 中请求新数据。组件不会自动请求业务接口。
+
+未启用 `useState` 时，界面以传入的 `page`、`recTotal`、`recPerPage` 为准。应用处理变化后，需要调用 `pager.render(info)` 同步新的分页信息。需要从外部精确设置页码时，推荐使用这种方式。
+
+```js
+const pager = new zui.Pager('#resultPager', {
+    page: 1,
+    recTotal: 101,
+    recPerPage: 10,
+    items: [{type: 'nav'}],
+    onChangePageInfo(info) {
+        pager.render(info);
+        // 在这里请求并显示该页数据。
+    },
+});
+```
+
+`pageTotal` 根据 `recTotal / recPerPage` 向上取整计算。无记录时 `page` 和 `pageTotal` 都是 `0`；有记录时页码限制在 `1` 到 `pageTotal` 内。每页条数最小为 `1`。
+
+## 分页条目
+
+| `type` | 用途 | 主要选项 |
+| --- | --- | --- |
+| `info` | 显示分页信息 | `text` 支持 `{page}`、`{recTotal}`、`{recPerPage}`、`{pageTotal}` |
+| `link` | 单个翻页按钮 | `page` 支持页码及 `first`、`prev`、`next`、`last`、`current` |
+| `nav` | 连续页码和省略号 | `count` 默认 `12`，实际至少显示 5 个位置 |
+| `size-menu` | 选择每页条数 | `items` 为数值数组，`text` 支持分页占位符，`dropdown` 配置下拉菜单 |
+| `goto` | 输入目标页码并跳转 | `text` 设置按钮文字，`onChange({info, event})` 处理跳转 |
+
+其他条目和按钮选项继承[工具栏生成器](/lib/components/toolbar/js.html)。页码链接在当前页及首尾边界会自动设置不可操作状态。
+
+## 输入页码跳转
+
+`goto` 条目有独立的 `onChange`，不会自动通过页码按钮的内部更新路径刷新分页。无页面跳转的场景可以在该回调中更新控件和业务数据，并返回 `false` 阻止默认链接行为：
+
+```js
+const pager = new zui.Pager('#resultPager', {
+    page: 1,
+    recTotal: 101,
+    recPerPage: 10,
+    items: [
+        {type: 'info', text: '第 {page} / {pageTotal} 页'},
+        {type: 'goto', text: '跳转', onChange({info}) {
+            pager.render(info);
+            return false;
+        }},
+    ],
+});
+```
+
+若 `goto.onChange` 需要继续通过链接跳转，应返回 `true`。输入的目标页会限制在有效页码范围内。
+
+## 链接跳转与外观
+
+多页面场景使用 `linkCreator` 生成分页链接：
+
+```js
+pager.render({linkCreator: '/tasks?page={page}&recPerPage={recPerPage}'});
+```
+
+也可以传入 `(info) => string`。若使用异步加载，应保持 `linkCreator` 为空，或在相应事件中阻止默认跳转。修改每页条数时不会自动重置为第一页；如需重置，由应用计算并回传 `page: 1`。
+
+通过 `size`、`btnType`、`btnProps` 调整按钮外观，通过条目 `btnType` 覆盖单个按钮。例如 `pager.render({btnType: 'secondary', size: 'sm'})`；样式取值参见[按钮](/lib/components/button/)。
+
+## 选项与实例
+
+<Props>
+page?: number = 1; // 当前页。
+recTotal?: number = 0; // 总记录数。
+recPerPage?: number = 10; // 每页条数。
+useState?: boolean; // 使用内部翻页状态；默认界面以传入选项为准。
+items?: Item[]; // 分页条目，需显式提供。
+linkCreator?: string | ((info: PagerInfo) =&gt; string); // 生成翻页地址。
+onChangePageInfo?: (info: PagerInfo, event: Event) =&gt; void; // 页码或每页条数菜单发生变化。
+size?: "xs" | "sm" | "md" | "lg" | "xl"; // 按钮尺寸。
+btnType?: string; // 按钮外观。
+btnProps?: Partial&lt;ButtonProps&gt;; // 共享按钮属性。
+</Props>
+
+`PagerInfo` 包含数值字段 `page`、`recTotal`、`recPerPage`、`pageTotal`。顶层 `onChange` 不作为通用翻页通知使用；监听页码和条数变化使用 `onChangePageInfo`，监听跳转输入使用条目的 `onChange`。
+
+```js
+pager.render({page: 1, recTotal: 58, recPerPage: 20});
+const instance = zui.Pager.get('#resultPager');
+pager.destroy();
+```
+
+外部 `page` 更新应配合未启用 `useState` 的方式使用。移除分页控件时销毁原生实例。
+
+## 模块引入
+
+```ts
+import {Pager} from '@zui/pager';
+import {Pager as PagerView} from '@zui/pager/react';
+import type {PagerOptions, PagerInfo} from '@zui/pager';
+```
+
+Preact 的 `render` 从 `preact` 引入，用法为 `render(<PagerView {...options} />, element)`；样式可单独引入 `@zui/pager/css`。
