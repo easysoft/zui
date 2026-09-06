@@ -134,6 +134,105 @@ test.describe('development library catalog', () => {
         await expect(page).toHaveURL(/\/button\/$/);
     });
 
+    test('moves between cards in their visual direction after resizing and filtering', async ({page}) => {
+        const names = ['alert', 'avatar', 'avatar-group', 'base', 'breadcrumb', 'button', 'button-group', 'calendar', 'cards', 'checkbox', 'collapsible'];
+        await page.route('**/libs/', async (route) => {
+            await route.fulfill({json: Object.fromEntries(names.map((name, index) => [name, {
+                name: `@zui/${name}`,
+                version: '0.0.1',
+                zui: {name, type: index < 7 ? 'control' : 'component', displayName: name, sourceType: 'build-in', path: `lib/${name}`, order: 0},
+            }]))});
+        });
+        await page.setViewportSize({width: 1240, height: 900});
+        await page.emulateMedia({reducedMotion: 'no-preference'});
+        await page.goto('/');
+        const cards = page.locator('#libResults .dev-lib');
+        const search = page.locator('#libSearch');
+        await expect(cards).toHaveCount(11);
+
+        await search.press('ArrowDown');
+        await expect(cards.nth(0)).toBeFocused();
+        await page.keyboard.press('ArrowLeft');
+        await expect(cards.nth(0)).toBeFocused();
+        await page.keyboard.press('ArrowRight');
+        await expect(cards.nth(1)).toBeFocused();
+        await page.keyboard.press('ArrowDown');
+        await expect(cards.nth(5)).toBeFocused();
+        await page.keyboard.press('ArrowLeft');
+        await expect(cards.nth(4)).toBeFocused();
+        await page.keyboard.press('ArrowUp');
+        await expect(cards.nth(0)).toBeFocused();
+        await page.keyboard.press('ArrowUp');
+        await expect(search).toBeFocused();
+
+        // Horizontal navigation stays in its row; a short final row uses its nearest card.
+        await cards.nth(3).focus();
+        await page.keyboard.press('ArrowRight');
+        await expect(cards.nth(3)).toBeFocused();
+        await page.keyboard.press('ArrowDown');
+        await expect(cards.nth(7)).toBeFocused();
+        await page.keyboard.press('ArrowDown');
+        await expect(cards.nth(10)).toBeFocused();
+        await page.keyboard.press('ArrowDown');
+        await expect(cards.nth(10)).toBeFocused();
+        await page.keyboard.press('ArrowUp');
+        await expect(cards.nth(6)).toBeFocused();
+
+        await cards.nth(1).focus();
+        await page.setViewportSize({width: 940, height: 900});
+        await page.keyboard.press('ArrowDown');
+        await expect(cards.nth(4)).toBeFocused();
+        await page.locator('#libType').selectOption('control');
+        await expect(cards).toHaveCount(7);
+        await cards.nth(2).focus();
+        await page.keyboard.press('ArrowDown');
+        await expect(cards.nth(5)).toBeFocused();
+        await page.keyboard.press('ArrowDown');
+        await expect(cards.nth(6)).toBeFocused();
+
+        // Visual order can differ from DOM order.
+        const reordered = await page.addStyleTag({content: '#libResults .dev-lib:first-child { order: 1; }'});
+        await cards.nth(1).focus();
+        await page.keyboard.press('ArrowRight');
+        await expect(cards.nth(2)).toBeFocused();
+        await page.keyboard.press('ArrowDown');
+        await expect(cards.nth(5)).toBeFocused();
+        await reordered.evaluate(element => element.parentNode!.removeChild(element));
+
+        await page.setViewportSize({width: 375, height: 600});
+        await page.keyboard.press('ArrowRight');
+        await expect(cards.nth(5)).toBeFocused();
+        await page.keyboard.press('ArrowLeft');
+        await expect(cards.nth(5)).toBeFocused();
+        await page.keyboard.press('ArrowDown');
+        await expect(cards.nth(6)).toBeFocused();
+        await expect(cards.nth(6)).toBeInViewport({ratio: 1});
+        await page.keyboard.press('ArrowUp');
+        await expect(cards.nth(5)).toBeFocused();
+
+        await search.fill('avatar');
+        await search.press('ArrowLeft');
+        await expect(search).toBeFocused();
+        await search.press('ArrowDown');
+        await expect(cards.nth(0)).toBeFocused();
+        await page.keyboard.press('ArrowDown');
+        await expect(cards.nth(1)).toBeFocused();
+
+        await page.setViewportSize({width: 1240, height: 900});
+        await page.goto('/button/');
+        await page.keyboard.press('ControlOrMeta+k');
+        await expect(page.locator('#catalogDialog')).toBeVisible();
+        await search.press('ArrowDown');
+        await page.keyboard.press('ArrowRight');
+        await expect(cards.nth(1)).toBeFocused();
+        await page.keyboard.press('ArrowDown');
+        await expect(cards.nth(5)).toBeFocused();
+        await page.keyboard.press('ArrowUp');
+        await expect(cards.nth(1)).toBeFocused();
+        await page.keyboard.press('Enter');
+        await expect(page).toHaveURL(/\/avatar\/$/);
+    });
+
     test('keeps scoped libraries distinct and searches metadata across library sources', async ({page}) => {
         await page.route('**/libs/', async (route) => {
             await route.fulfill({json: {

@@ -187,16 +187,26 @@ async function initCatalog() {
         }
     });
     results.addEventListener('keydown', (event) => {
-        if (event.key !== 'ArrowDown' && event.key !== 'ArrowUp') {
+        if (event.isComposing || event.altKey || event.ctrlKey || event.metaKey || event.shiftKey || !['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(event.key)) {
             return;
         }
-        const links = [...results.querySelectorAll<HTMLAnchorElement>('a')];
-        const index = links.indexOf(document.activeElement as HTMLAnchorElement);
-        if (index >= 0) {
-            event.preventDefault();
-            const next = index + (event.key === 'ArrowDown' ? 1 : -1);
-            (next < 0 ? search : links[Math.min(next, links.length - 1)]).focus();
+        const active = document.activeElement;
+        if (!(active instanceof HTMLAnchorElement) || !active.matches('.dev-lib')) {
+            return;
         }
+        event.preventDefault();
+        const horizontal = event.key === 'ArrowLeft' || event.key === 'ArrowRight';
+        const direction = event.key === 'ArrowLeft' || event.key === 'ArrowUp' ? -1 : 1;
+        // Layout coordinates keep hover and focus transforms from changing the navigation row.
+        const x = active.offsetLeft + active.offsetWidth / 2;
+        const y = active.offsetTop + active.offsetHeight / 2;
+        const candidates = [...results.querySelectorAll<HTMLAnchorElement>('.dev-lib')].map((link) => {
+            const dx = link.offsetLeft + link.offsetWidth / 2 - x;
+            const dy = link.offsetTop + link.offsetHeight / 2 - y;
+            return {link, distance: (horizontal ? dx : dy) * direction, offset: Math.abs(horizontal ? dy : dx)};
+        }).filter(candidate => candidate.distance > 0 && (!horizontal || candidate.offset < active.offsetHeight / 2));
+        candidates.sort((a, b) => a.distance - b.distance || a.offset - b.offset);
+        (candidates[0]?.link ?? (event.key === 'ArrowUp' ? search : active)).focus();
     });
     renderResults();
 
