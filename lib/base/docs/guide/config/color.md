@@ -154,7 +154,7 @@ Color Generator](https://uicolors.app/create) 等工具来生成调色板。
 如果你需要自定义配色，建议只通过修改调色板来实现，不建议修改界面颜色，除非主题需要实现对比度更明显的风格，任何时候都不应该修改特殊颜色的定义。
 :::
 
-更多关于主题的内容参考 [主题](/theme/) 文档。
+更多关于主题的内容参考 [主题](/themes/) 文档。
 
 <script setup>
 const semanticColors = [

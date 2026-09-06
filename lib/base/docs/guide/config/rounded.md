@@ -96,7 +96,7 @@
 
 ### 自定义主题
 
-可以通过定制主题来修改圆角设置，具体参见 [主题](/guide/theme/) 文档。
+可以通过定制主题来修改圆角设置，具体参见 [主题](/themes/) 文档。
 
 <script setup>
 const roundedList = [
