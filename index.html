@@ -2,36 +2,55 @@
 <html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ZUI3 Development</title>
+    <title>组件库 · ZUI 开发调试</title>
     <script>
-      document.documentElement.classList.toggle('dark', localStorage.getItem('dark') === 'true');
-      window.$toggleDarkTheme = () => {
-        document.documentElement.classList.toggle('dark');
-        localStorage.setItem('dark', document.documentElement.classList.contains('dark'));
-      };
-      document.addEventListener('click', (event) => {
-        if (event.target.closest('[data-toggle="darkTheme"]')) {
-          $toggleDarkTheme();
-          event.preventDefault();
-        }
-      });
+      try {
+        document.documentElement.classList.toggle('dark', localStorage.getItem('dark') === 'true');
+      } catch {}
     </script>
   </head>
   <body>
-    <aside class="-fixed -inset-y-0 -left-0 -z-10 -bg-primary-800 dark:-bg-primary-900">
-      <div class="-flex -flex-col -h-full">
-        <a href="/" class="-flex -items-center -p-4 -flex-none">
-          <img src="./favicon.svg" class="-mr-3 -h-6 -sm:h-7" alt="ZUI Logo" data-toggle="darkTheme" />
-          <span class="-self-center -text-xl -font-semibold -whitespace-nowrap -text-white">ZUI DEV</span><span class="-ml-2 -font-bold -text-sm -bg-white/50 -text-primary-900 -px-1 -rounded-full" id="libsCount"></span>
-        </a>
-        <div class="-flex-auto -overflow-y-auto -min-h-0 scrollbar-hover -p-3 -pt-0" style="overflow: overlay">
-          <ul class="-space-y-0.5 -text-lg -list-none -pl-0" id="libNav"></ul>
+    <a class="dev-skip" href="#workspace">跳至内容</a>
+    <header class="dev-header">
+      <a class="dev-brand" href="/" aria-label="ZUI 组件库首页">
+        <img src="/favicon.svg" width="30" height="30" alt="" />
+        <strong>ZUI</strong><span>DEV</span>
+      </a>
+      <span class="dev-breadcrumb" id="currentLibLabel">组件库</span>
+      <div class="dev-search-row">
+        <div class="dev-search">
+          <select id="libType" aria-label="组件库类型" disabled><option value="">全部类型</option></select>
+          <select id="libSource" aria-label="组件库来源" disabled><option value="">全部来源</option></select>
+          <span class="dev-search-icon" aria-hidden="true"></span>
+          <div class="dev-search-entry">
+            <input id="libSearch" type="search" aria-label="搜索组件库" placeholder="搜索名称、拼音或缩写…" autocomplete="off" spellcheck="false" aria-controls="libResults" aria-describedby="searchHint" disabled />
+            <div class="dev-recent" id="recentLibs" hidden></div>
+          </div>
+          <kbd class="dev-shortcut">⌘ K</kbd>
         </div>
+        <button class="dev-button" id="closeCatalog" type="button" hidden>关闭 <kbd>Esc</kbd></button>
       </div>
-    </aside>
-    <div id="libPage"></div>
+      <div class="dev-actions">
+        <button class="dev-button" id="openCatalog" type="button" hidden>切换组件 <kbd class="dev-shortcut">⌘ K</kbd></button>
+        <button class="dev-button dev-theme" id="themeToggle" type="button" aria-label="切换深色模式" aria-pressed="false" title="切换深色模式"><span aria-hidden="true">◐</span></button>
+      </div>
+    </header>
+    <main id="workspace" tabindex="-1">
+      <section class="dev-catalog" id="catalog" aria-labelledby="categoryTitle">
+        <div class="dev-catalog-body">
+          <div class="dev-results-heading">
+            <h1 id="categoryTitle">全部组件库</h1><span class="dev-tag dev-source-tag" id="selectedSource" hidden></span><span id="resultCount" role="status" aria-live="polite">正在加载…</span>
+            <span class="dev-search-hint" id="searchHint"><kbd>↑ ↓</kbd> 选择 <kbd>Enter</kbd> 打开 · <span id="sortHint">A–Z</span></span>
+          </div>
+          <div class="dev-results" id="libResults" aria-busy="true"></div>
+          <div class="dev-empty" id="emptyState" hidden><h3>没有找到匹配的组件库</h3><p>试试其他关键词，或清除筛选条件。</p><button class="dev-button" id="resetFilters" type="button">清除筛选</button></div>
+        </div>
+      </section>
+      <div id="libPage" hidden></div>
+    </main>
+    <dialog class="dev-dialog" id="catalogDialog" aria-label="切换组件库"></dialog>
     <script type="module" id="mainModule" src="/src/main.ts"></script>
   </body>
 </html>

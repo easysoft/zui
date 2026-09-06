@@ -39,6 +39,7 @@ export interface LibInfo {
     module?: string;                  // 'src/main.ts',
     exports?: Record<string, string>; // {"./jquery": "./src/main-jquery.ts"}
     description?: string;             // '头像',
+    keywords?: string[];
     browserslist?: string;            // '',
     dependencies?: Record<string, string>;
     devDependencies?: Record<string, string>;

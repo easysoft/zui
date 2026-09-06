@@ -31,6 +31,9 @@ function resolveLibName(name: string, libs: Record<string, LibInfo>): string {
 
 export async function loadLibs() {
     const response = await fetch('/libs/');
+    if (!response.ok) {
+        throw new Error(`Unable to load libraries: ${response.status}`);
+    }
     const libs: Record<string, LibInfo> = await response.json();
     currentLibName = resolveLibName(urlLibName, libs);
     const groupedLibs = Object.values(libs).reduce<Record<string, LibInfo[]>>((map, lib) => {
@@ -62,6 +65,9 @@ export async function loadLibs() {
 
 export async function loadLibPage(libName: string) {
     const response = await fetch(`/lib/${encodeURIComponent(libName)}/README.md`);
+    if (!response.ok) {
+        throw new Error(`Unable to load library page: ${response.status}`);
+    }
     const content = await response.text();
     const libPage = document.getElementById('libPage');
     if (libPage) {
