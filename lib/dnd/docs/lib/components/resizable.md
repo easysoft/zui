@@ -85,7 +85,7 @@ new zui.Resizable('#resizableLimit', {
 
 ## 区域限制
 
-`container` 与 `containerPadding` 的含义同[可移动](/lib/components/dnd/moveable/)组件，用于把调整后的元素约束在指定区域内：
+`container` 与 `containerPadding` 的含义同[可移动](/lib/components/dnd/moveable.html)组件，用于把调整后的元素约束在指定区域内：
 
 - `false`：不限制。
 - `'window'`（默认）：当前窗口视口。

@@ -1,6 +1,6 @@
 # 可移动
 
-`Moveable` 基于鼠标事件实现元素的自由移动。它会在按下鼠标后跟随指针实时移动目标元素，支持 `position`、`transform`、`scroll`、`none` 四种移动策略，并可将元素约束在指定区域内。与基于原生拖放 API 的[拖拽](/lib/components/dnd/draggable/)不同，`Moveable` 适合用于自由拖动的浮层、看板卡片、画布节点等场景。
+`Moveable` 基于鼠标事件实现元素的自由移动。它会在按下鼠标后跟随指针实时移动目标元素，支持 `position`、`transform`、`scroll`、`none` 四种移动策略，并可将元素约束在指定区域内。与基于原生拖放 API 的[拖拽](/lib/components/dnd/draggable.html)不同，`Moveable` 适合用于自由拖动的浮层、看板卡片、画布节点等场景。
 
 ## 使用方法
 
