@@ -44,7 +44,7 @@ import {ProgressBar} from '@zui/progress/react';
 
 ## 颜色主题
 
-给 `.progress-bar` 元素添加 `.*` 等颜色[CSS工具类](/utilities/style/utilities/solid)，得到各种颜色的进度条。
+给 `.progress-bar` 元素添加 `.*` 等颜色[CSS工具类](/utilities/skin/utilities/solid.html)，得到各种颜色的进度条。
 
 ::: tabs
 
