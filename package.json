@@ -99,6 +99,7 @@
     "markdown-it-anchor": "^8.6.7",
     "markdown-it-toc-done-right": "^4.2.0",
     "minimist": "^1.2.8",
+    "pinyin-pro": "3.29.3",
     "postcss": "^8.5.6",
     "postcss-import": "^15.1.0",
     "postcss-inset": "^1.0.0",
