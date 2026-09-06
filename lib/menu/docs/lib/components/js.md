@@ -1,394 +1,167 @@
-# 菜单生成器 [WIP]
+# 菜单生成器
 
-菜单生成器允许通过 JS 动态创建一个[菜单](/lib/components/menu/index.html)。
+`Menu` 根据数据创建[菜单](/lib/components/menu/)，支持分组、图标、嵌套项和点击回调。使用原生实例时，通过 `render()` 更新选项，通过 `$` 访问菜单的交互方法。
 
-## 示例
+## 基本使用
 
-通过构造一个 `Menu` 实例，在一个空的 `<div>` 元素上创建一个菜单。
+::: tabs
+
+== 示例
 
 <Example>
-  <div id="menu1" class="w-32"></div>
+  <ZUI use="menu" :options="menuOptions" />
+  <p class="text-sm text-gray mt-2" role="status">{{ menuAction }}</p>
 </Example>
 
-<script>
-export default {
-    mounted() {
-        onZUIReady(() => {
-            const menu = new zui.Menu('#menu1', {
-                items: [
-                    {text: '复制', icon: 'icon-copy'},
-                    {text: '粘贴', icon: 'icon-paste'},
-                    {text: '剪切'},
-                    {type: 'divider'},
-                    {type: 'heading', text: '更多操作'},
-                    {text: '导入', icon: 'icon-upload-alt'},
-                    {text: '导出', icon: 'icon-download-alt'},
-                    {text: '保存', icon: 'icon-save', onClick: (event) => console.log('> menuItem.clicked', event)},
-                ]
-            });
-            const menu2 = new zui.Menu('#menu2', {
-                items: [
-                    {text: '复制', icon: 'icon-copy'},
-                    {text: '粘贴', icon: 'icon-paste'},
-                    {text: '剪切'},
-                    {type: 'divider'},
-                    {type: 'heading', text: '更多操作'},
-                    {text: '导入', icon: 'icon-upload-alt'},
-                    {text: '导出', icon: 'icon-download-alt'},
-                    {text: '保存', icon: 'icon-save', onClick: (event) => console.log('> menuItem.clicked', event)},
-                ],
-                onClickItem: (info) => {
-                    console.log('> menu.onClickItem', info);
-                },
-            });
-            const menu3 = new zui.Menu('#menu3', {
-                items: [
-                    {text: '复制', icon: 'icon-copy'},
-                    {text: '粘贴', icon: 'icon-paste'},
-                    {text: '剪切'},
-                    {type: 'divider'},
-                    {text: '更多操作', items:[
-                        {text: '导入', icon: 'icon-upload-alt', items:[
-                            {text: '单次导入'},
-                            {text: '批量导入'}
-                        ]},
-                        {text: '导出', icon: 'icon-download-alt'},
-                        {text: '保存', icon: 'icon-save', onClick: (event) => console.log('> menuItem.clicked', event)},
-                    ]},
-                ],
-            });
-        })
+== HTML
+
+```html
+<div id="fileMenu"></div>
+```
+
+== JS
+
+```js
+const menu = new zui.Menu('#fileMenu', {
+    className: 'w-48',
+    nestedToggle: '.listitem',
+    items: [
+        {type: 'heading', text: '文件操作'},
+        {id: 'copy', text: '复制', icon: 'copy'},
+        {id: 'paste', text: '粘贴', icon: 'paste', disabled: true},
+        {type: 'divider'},
+        {id: 'export', text: '导出', icon: 'download-alt', items: [
+            {id: 'pdf', text: 'PDF 文件'},
+            {id: 'html', text: 'HTML 文件'},
+        ]},
+    ],
+    onClickItem({item, event}) {
+        if (!item.items) {
+            event.preventDefault();
+            console.log('执行操作', item.id);
+        }
+    },
+});
+```
+
+:::
+
+<script setup>
+import {ref} from 'vue';
+const menuAction = ref('请选择一个操作');
+const menuOptions = {
+    className: 'w-48',
+    nestedToggle: '.listitem',
+    items: [
+        {type: 'heading', text: '文件操作'},
+        {id: 'copy', text: '复制', icon: 'copy'},
+        {id: 'paste', text: '粘贴', icon: 'paste', disabled: true},
+        {type: 'divider'},
+        {id: 'export', text: '导出', icon: 'download-alt', items: [
+            {id: 'pdf', text: 'PDF 文件'},
+            {id: 'html', text: 'HTML 文件'},
+        ]},
+    ],
+    onClickItem({item, event}) {
+        if (!item.items) {
+            event.preventDefault();
+            menuAction.value = `已选择：${item.text}`;
+        }
     },
 };
 </script>
 
-```html
-<div id="menu1" class="w-32"></div>
+## 菜单项
 
-<script>
-const menu = new Menu('#menu1', {
-    items: [
-        {text: '复制', icon: 'icon-copy'},
-        {text: '粘贴', icon: 'icon-paste'},
-        {text: '剪切'},
-        {type: 'divider'},
-        {type: 'heading', text: '更多操作'},
-        {text: '导入', icon: 'icon-upload-alt'},
-        {text: '导出', icon: 'icon-download-alt'},
-        {text: '保存', icon: 'icon-save', onClick: (event) => console.log('> menuItem.clicked', event)},
-    ]
-});
-console.log('> menu', menu);
-</script>
-```
+`items` 的普通条目使用 `MenuItemOptions`，也支持 `type: 'heading'` 和 `type: 'divider'`。推荐为普通条目提供稳定的 `id`；`itemKey` 默认为 `id`。
 
-## 引入
+<Props>
+id?: string | number; // 条目标识。
+text?: CustomContentType; // 显示文本。
+icon?: IconType; // 前置图标。
+url?: string; // 链接地址。
+target?: string; // 链接打开目标。
+disabled?: boolean; // 禁用条目交互。
+active?: boolean; // 高亮条目。
+trailingIcon?: IconType; // 尾部图标。
+items?: NestedListItem[]; // 子菜单项。
+onClick?: (event: MouseEvent, info: object) =&gt; void; // 单项点击回调。
+</Props>
 
-### 通过 npm
+`onClickItem(info)` 接收原始 `item`、当前层级的 `index`、最终渲染数据 `renderedItem` 和鼠标 `event`。条目的 `onClick(event, info)` 也可以处理独立操作。需要阻止链接跳转时调用 `event.preventDefault()`。
 
-```js
-import {Menu} from 'zui/menu';
+## 子菜单
 
-const menu = new Menu(element, options);
-```
+子菜单使用条目的 `items` 定义。默认点击展开图标可切换；示例设置 `nestedToggle: '.listitem'`，使整行点击也可切换。
 
-### 通过全局对象 `zui`
+- `defaultNestedShow` 设置初始展开状态，可为布尔值或键路径映射。
+- `nestedShow` 可由调用方传入展开状态。
+- `accordion: true` 在展开某个分支时收起其他分支。
+- `nestedTrigger: 'hover'` 配合 `wrap: true` 可启用鼠标悬停展开；触屏场景应保留点击用法。
+
+初始化后可通过内部菜单实例控制展开。多级键路径使用冒号分隔：
 
 ```js
-const menu = new zui.Menu(element, options);
+await menu.$?.toggle('export', true);
+await menu.$?.toggleAll(false);
+const expanded = menu.$?.isExpanded('export');
 ```
 
-### 使用 React 组件
+## 动态数据与更新
 
-```jsx
-import {render} from 'react';
-import {Menu} from 'zui/menu/react';
-
-render(element, <Menu {...options} />);
-```
-
-### 使用 jQuery 扩展
+`items` 支持数组、返回数组的函数和异步数据设置，加载规则与[列表](/lib/components/list/#异步数据)一致。更新数据时调用原生实例的 `render()`：
 
 ```js
-$(element).menu(options);
-
-const menu = $(element).data('zui.menu');
+menu.render({items: [
+    {id: 'save', text: '保存', icon: 'save'},
+    {id: 'close', text: '关闭'},
+]});
 ```
 
-## 更新菜单项
-
-调用菜单组件实例上的 `render` 方法来更新菜单项，并重新进行渲染：
-
-```js
-menu.render({
-    items: [
-        // ... 新的菜单项
-    ],
-    // ... 可以传入其他新的选项
-});
-```
-
-## 动态菜单项
-
-将选项 `items` 设置为一个函数，当需要显示菜单时会调用此函数来创建新的菜单项列表。
-
-```js
-new Menu('#menu', {
-    items: () => {
-        const itemList = [
-            {text: '剪切'},
-            {text: '复制', icon: 'icon-copy'},
-        ];
-
-        if (clipboardHasContent) {
-            itemList.push({text: '粘贴', icon: 'icon-paste'});
-        }
-
-        return itemList;
-    }
-})
-```
-
-
-
-## 监听点击事件
-
-<Example>
-  <div id="menu2" class="w-32"></div>
-</Example>
-
-**示例：**
-通过items 项中 'onClick' 或通过 'options' 中 'onClickItem' 传参，即可监听点击事件
-
-```html
-<div id="menu2" class="w-32"></div>
-
-<script>
-  const menu2 = new zui.Menu('#menu2', {
-      items: [
-          {text: '复制', icon: 'icon-copy'},
-          {text: '粘贴', icon: 'icon-paste'},
-          {text: '剪切'},
-          {type: 'divider'},
-          {type: 'heading', text: '更多操作'},
-          {text: '导入', icon: 'icon-upload-alt'},
-          {text: '导出', icon: 'icon-download-alt'},
-          {text: '保存', icon: 'icon-save', onClick: (event) => console.log('> menuItem.clicked', event)},
-      ],
-      onClickItem: (info) => {
-          console.log('> menu.onClickItem', info);
-      },
-  });
-</script>
-```
-
-## 多层级菜单
-
-<Example>
-  <div id="menu3" class="w-32"></div>
-</Example>
-
-**示例：**
-
-```html
-<div id="menu3" class="w-32"></div>
-
-<script>
-  new zui.Menu('#menu3', {
-      items: [
-          {text: '复制', icon: 'icon-copy'},
-          {text: '粘贴', icon: 'icon-paste'},
-          {text: '剪切'},
-          {type: 'divider'},
-          {text: '更多操作', items:[
-              {text: '导入', icon: 'icon-upload-alt', items:[
-                  {text: '单次导入'},
-                  {text: '批量导入'}
-              ]},
-              {text: '导出', icon: 'icon-download-alt'},
-              {text: '保存', icon: 'icon-save', onClick: (event) => console.log('> menuItem.clicked', event)},
-          ]},
-      ],
-  });
-</script>
-```
-
-
-## 构造方法
-
-**定义：**
-
-```ts
-constructor(element: HTMLElement | string, options: MenuOptions);
-```
-
-**参数：**
-
-* `element`：指定用于创建菜单的容器元素，或者通过字符串指定用于查找容器元素的选择器
-* `options`：指定选项
-
-**示例：**
-
-```ts
-new zui.Menu('#menu', {
-    items: [
-        {text: '复制', icon: 'icon-copy'},
-        {text: '粘贴', icon: 'icon-paste'},
-    ]
-});
-```
+需要重新请求同一个动态数据源时，可在初始化后调用 `await menu.$?.load()`。异步加载可通过 `onLoad(items)` 处理结果，通过 `onLoadFail(error)` 提供失败内容。
 
 ## 选项
 
-### `className`
+<Props>
+items?: ListItemsSetting; // 菜单项和动态数据设置。
+itemKey?: string = "id"; // 条目键字段。
+className?: ClassNameLike; // 菜单附加类名。
+compact?: boolean; // 紧凑布局。
+popup?: boolean; // 弹出菜单外观，不负责定位或显示切换。
+wrap?: boolean; // 启用菜单外层容器。
+wrapClass?: ClassNameLike; // 外层容器附加类名。
+wrapAttrs?: Record&lt;string, unknown&gt;; // 外层容器 DOM 属性。
+height?: SizeSetting; // 外层容器高度，需启用 wrap。
+maxHeight?: SizeSetting; // 外层容器最大高度，需启用 wrap。
+header?: CustomContentType; // 外层容器头部，需启用 wrap。
+footer?: CustomContentType; // 外层容器底部，需启用 wrap。
+scrollbarThin?: boolean; // 细滚动条，需启用 wrap。
+scrollbarHover?: boolean = true; // 悬停显示滚动条，需启用 wrap。
+nestedTrigger?: "click" | "hover"; // 子菜单触发方式，默认使用点击。
+nestedToggle?: string; // 点击展开目标选择器。
+defaultNestedShow?: boolean | Record&lt;string, boolean&gt; = false; // 初始展开状态。
+accordion?: boolean; // 同时只展开一个分支。
+onClickItem?: (info: object) =&gt; void; // 条目点击回调。
+onToggle?: (key: string, toggle: boolean, reset?: boolean) =&gt; false | void; // 展开变化前回调，false 取消变化。
+afterRender?: (firstRender: boolean) =&gt; void; // 每次渲染后回调。
+beforeDestroy?: () =&gt; void; // 卸载前回调。
+</Props>
 
-类名。
+自定义单项渲染使用 `itemRender`，渲染前调整数据使用 `getItem`、`getItems` 或 `beforeRenderItem`，详见[通用列表](/lib/components/common-list/)。弹出定位和触发行为由[下拉菜单](/lib/components/dropdown/)或[上下文菜单](/lib/components/contextmenu/)提供。
 
-* 类型：`string | object | array`
-* 必选：否
-
-### `items`
-
-定义菜单项列表，可以通过一个函数动态返回菜单项列表。
-
-* 类型：<code>[MenuListItem](#menulistitem)[] | () => [MenuListItem](#menulistitem)[] | () => Promise<[MenuListItem](#menulistitem)[]></code>
-* 必选：是
-
-### `hasIcons`
-
-指定菜单项中是否包含左侧图标（方便对图标和文本进行对齐），当此选项为空时会自动根据实际菜单项进行判断。
-
-* 类型：`boolean`
-* 必选：否
-
-### `subMenuTrigger`
-
-指定触发打开子级菜单的事件。
-
-* 类型：`'click' | 'hover' | 'always'`
-* 必选：否
-
-其中当指定为 `'always'` 时，子菜单将永远被渲染。
-
-### `onRenderItem`
-
-指定一个回调函数用于对组件渲染进行自定义。
-
-* 类型：<code>(item: [MenuListItem](#menulistitem)) => Partial<[MenuListItem](#menulistitem)> | react.ComponentChildren | undefined</code>
-* 必选：否
-
-该回调函数不同内容拥有不同的行为：
-
-* <code>Partial<[MenuListItem]></code>：对原列表项定义对象进行修改；
-* `react.ComponentChildren`：返回自定义渲染内容；
-* `undefined`：不对默认渲染行为进行干预。
-
-### `afterRender`
-
-指定一个回调函数在渲染之后调用。
-
-### `afterRender`
-
-指定一个回调函数在渲染之后调用。
-
-## 方法
-
-### `render`
-
-重新渲染，可以指定新的选项。
-
-**定义：**
+## 模块引入与销毁
 
 ```ts
-render(options: Partial<MenuOptions>): void;
+import {Menu} from '@zui/menu';
+import {Menu as MenuView} from '@zui/menu/react';
+import type {MenuOptions, MenuItemOptions} from '@zui/menu';
 ```
 
-**参数：**
+Preact 入口使用 `import {render} from 'preact'`，调用顺序为 `render(<MenuView {...options} />, element)`，样式可单独引入 `@zui/menu/css`。
 
-* `options`：需要重新设置的选项
-
-## API
-
-### `MenuOptions`
-
-选项定义对象。
-
-```ts
-interface MenuOptions {
-    items: MenuListItem[] | (() => MenuListItem[]);
-    className?: string | object | array;
-    hasIcons?: boolean;
-    children?: ComponentChildren;
-    subMenuTrigger?: 'click' | 'hover' | 'always';
-    onClickItem?: (info: {menu: Menu, item: MenuItemOptions, index: number, event: MouseEvent}) => void;
-    onRenderSubMenu?: (info: {menu: Menu, item: MenuItemOptions, h: typeof _h}) => ComponentChildren;
-    onRenderItem?: (info: {menu: Menu, item: MenuListItem, index: number, h: typeof _h}) => Partial<MenuListItem> | ComponentChildren | undefined;
-    afterRender?: (info: {menu: Menu, firstRender: boolean}) => void;
-    beforeDestroy?: (info: {menu: Menu}) => void;
-}
+```js
+const instance = zui.Menu.get('#fileMenu');
+menu.destroy();
 ```
 
-### `Menu`
-
-菜单组件类。
-
-**定义**
-
-```ts
-class Menu {
-    constructor(element: string | HTMLElement, options: Partial<MenuOptions>);
-
-    options: MenuOptions;
-
-    element: HTMLElement;
-
-    render(options: Partial<MenuOptions>): void;
-
-    setOptions(options?: Partial<MenuOptions>): MenuOptions;
-
-    destroy(): void;
-
-    toggleSubMenu(key: string | number, toggle?: boolean): void;
-
-    clearAllSubMenu();
-
-    isSubMenuShow(key: string | number);
-}
-```
-
-### `MenuListItem`
-
-菜单项定义对象。
-
-**定义：**
-
-```ts
-type MenuListItem = MenuItemOptions | MenuHeadingOptions | MenuDividerOptions;
-```
-
-### `MenuItemOptions`
-
-菜单操作项定义对象。
-
-**定义：**
-
-```ts
-type MenuItemOptions = {
-    rootClass?: ClassNameLike;
-    className?: ClassNameLike;
-    style?: JSX.CSSProperties;
-    url?: string;
-    target?: string;
-    disabled?: boolean;
-    active?: boolean;
-    icon?: string | VNode;
-    text?: ComponentChildren;
-    trailingIcon?: string | VNode;
-    onClick?: JSX.MouseEventHandler<HTMLAnchorElement>;
-    children?: ComponentChildren | (() => ComponentChildren);
-    rootProps?: JSX.HTMLAttributes<HTMLElement>;
-    type?: 'item',
-    key?: string | number,
-    items?: MenuListItem[],
-};
-```
+在单页应用卸载页面时销毁原生实例，避免保留菜单和事件监听。
