@@ -1,0 +1,47 @@
+.details {
+  --details-duration: 0.2s;
+}
+.details > summary {
+  @apply -flex -items-center -gap-2 -cursor-pointer -list-none;
+}
+.details > summary::-webkit-details-marker {
+  @apply -hidden;
+}
+.details > summary::marker {
+  @apply -content-none;
+}
+.details > summary::before {
+  @apply -content-[''] -box-border -block -flex-none -w-[0.5em] -h-[0.5em] -border -border-current -border-t-0 -border-l-0 -origin-center;
+  transform: rotate(-45deg);
+}
+.details[open] > summary::before {
+  transform: translateY(-25%) rotate(45deg);
+}
+.details > summary:focus-visible {
+  @apply -outline-focus -outline-offset-2 -outline-2;
+}
+.details:not(.no-transition)::details-content {
+  block-size: 0;
+  overflow: hidden;
+  transition-property: block-size, content-visibility;
+  transition-duration: var(--details-duration);
+  transition-behavior: allow-discrete;
+}
+.details:not(.no-transition)[open]::details-content {
+  block-size: auto;
+  block-size: calc-size(auto, size);
+}
+.details:not(.no-transition) > summary::before {
+  transition: transform var(--details-duration);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .details:not(.no-transition)::details-content,
+  .details:not(.no-transition) > summary::before {
+    transition: none;
+  }
+}
+
+.details > .panel-heading {
+  @apply -pl-3;
+}

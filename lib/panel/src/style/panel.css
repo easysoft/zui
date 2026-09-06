@@ -6,7 +6,7 @@
   @apply -px-4 -py-2 -flex -justify-between -items-center -flex-nowrap -gap-4 -bg-[--panel-heading-bg];
 }
 .panel-title {
-  @apply -font-bold -m-0 -flex -items-center -gap-2;
+  @apply -font-bold -m-0 -flex -items-center -gap-2 -flex-auto;
 }
 .panel-actions {
   @apply --mr-2 -flex -items-center;

@@ -436,6 +436,9 @@ importers:
       '@zui/css-icons':
         specifier: workspace:^0.0.1
         version: link:../css-icons
+      '@zui/panel':
+        specifier: workspace:^0.0.1
+        version: link:../panel
       '@zui/toolbar':
         specifier: workspace:^0.0.1
         version: link:../toolbar
