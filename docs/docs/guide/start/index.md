@@ -202,7 +202,7 @@ import 'zui/css';
 zui.Messager.show('Hello!');
 ```
 
-如果你仅仅需要 ZUI 中的单个组件，例如 [数据表格](/lib/dtable/dtable/)，你可以这样导入：
+如果你仅仅需要 ZUI 中的单个组件，例如 [数据表格](/lib/components/dtable/)，你可以这样导入：
 
 ```js
 import {DTable} from 'zui/lib/dtable';

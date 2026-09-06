@@ -232,7 +232,7 @@ const nav = zui.Nav.get('#myNav');
 
 ### 通过 Cash 辅助方法使用组件
 
-为了方便手动构造、调用组件，增加了一系列 jQuery 风格的方法，这些方法通过 Cash 实现，详情参考文档 [Cash 辅助方法](/lib/helpers/core/component.html#cash-%E8%BE%85%E5%8A%A9%E6%96%B9%E6%B3%95)。
+为了方便手动构造、调用组件，增加了一系列 jQuery 风格的方法，这些方法通过 Cash 实现，详情参考文档 [Cash 辅助方法](/lib/basic/core/cash.html#cash-组件调用方式)。
 
 ### ComponentFromReact 类
 
@@ -305,7 +305,7 @@ $(function() {
 
 ## 便捷事件机制
 
-[便捷事件机制](/lib/helpers/@zentao/helpers/events.html)允许通过 HTML 元素属性 [data-on] 来绑定事件。
+[便捷事件机制](/lib/basic/core/zui-on.html)允许通过 HTML 元素属性 `zui-on-*` 来绑定事件，例如 `zui-on-click`。
 
 ## 使用 JS 辅助工具
 
