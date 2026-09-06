@@ -1,6 +1,49 @@
 import {expect, test} from '@playwright/test';
 
 test.describe('development library catalog', () => {
+    test('renders the background, respects reduced motion, and works without WebGL', async ({page}) => {
+        await page.addInitScript(() => {
+            const drawArrays = WebGL2RenderingContext.prototype.drawArrays;
+            WebGL2RenderingContext.prototype.drawArrays = function (...args) {
+                document.documentElement.dataset.backgroundDraws = String(Number(document.documentElement.dataset.backgroundDraws ?? 0) + 1);
+                return drawArrays.apply(this, args);
+            };
+        });
+        await page.emulateMedia({reducedMotion: 'no-preference'});
+        await page.goto('/');
+        const background = page.locator('canvas.dev-background');
+        const drawCount = () => page.evaluate(() => Number(document.documentElement.dataset.backgroundDraws));
+        await expect(background).toBeVisible();
+        await expect(background).toHaveAttribute('aria-hidden', 'true');
+        await expect.poll(drawCount).toBeGreaterThan(1);
+
+        await page.emulateMedia({reducedMotion: 'reduce'});
+        await page.evaluate(() => new Promise<void>(resolve => requestAnimationFrame(() => resolve())));
+        const pausedCount = await drawCount();
+        await page.waitForTimeout(200);
+        expect(await drawCount()).toBe(pausedCount);
+        await page.emulateMedia({reducedMotion: 'no-preference'});
+        await expect.poll(drawCount).toBeGreaterThan(pausedCount);
+
+        await page.goto('/button/');
+        await expect(page.locator('#libPage.is-loaded')).toBeVisible();
+        await expect(background).toHaveCount(0);
+
+        await page.addInitScript(() => {
+            const getContext = HTMLCanvasElement.prototype.getContext;
+            Object.defineProperty(HTMLCanvasElement.prototype, 'getContext', {
+                value(contextId: string, ...args: unknown[]) {
+                    return contextId === 'webgl2' ? null : Reflect.apply(getContext, this, [contextId, ...args]);
+                },
+            });
+        });
+        await page.goto('/');
+        await expect(page.locator('#libSearch')).toBeEnabled();
+        await expect(background).toHaveCount(0);
+        await page.locator('#libSearch').fill('anniu');
+        await expect(page.locator('#libResults a[data-lib="button"]')).toBeVisible();
+    });
+
     test('searches by display name and package, filters types, and recovers from empty results', async ({page}) => {
         await page.goto('/');
 

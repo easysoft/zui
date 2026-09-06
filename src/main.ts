@@ -4,7 +4,12 @@ import '@zui/scrollbar/src/main-css';
 import 'highlight.js/styles/github.css';
 import {loadLibPage, loadLibs, currentLibName} from './libs';
 import {createSearchIndex, getSearchScore, normalizeSearchText} from './lib-search';
+import {mountCatalogBackground} from './catalog-background';
 import './style.css';
+
+if (!currentLibName) {
+    mountCatalogBackground();
+}
 
 const catalog = document.querySelector<HTMLElement>('#catalog')!;
 const dialog = document.querySelector<HTMLDialogElement>('#catalogDialog')!;
@@ -122,7 +127,7 @@ async function initCatalog() {
     const recent = recentNames.map(name => entries.find(entry => entry.name === name)).filter(entry => entry && entry !== current);
     const recentElement = document.querySelector<HTMLElement>('#recentLibs')!;
     recentElement.hidden = !recent.length;
-    recentElement.innerHTML = `<span>最近访问</span>${recent.map(entry => `<a href="${entry!.href}">${escapeHTML(entry!.title)}</a>`).join('')}`;
+    recentElement.innerHTML = recent.map(entry => `<a href="${entry!.href}">${escapeHTML(entry!.title)}</a>`).join('');
 
     for (const [type, group] of groupedLibs) {
         typeSelect.add(new Option(`${typeLabels[type] || type} (${group.length})`, type));
