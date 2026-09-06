@@ -59,6 +59,13 @@ body {
     border-bottom: 1px solid var(--dev-border);
     background: var(--dev-surface);
 }
+@supports (backdrop-filter: blur(16px)) or (-webkit-backdrop-filter: blur(16px)) {
+    .dev-header {
+        background: color-mix(in srgb, var(--dev-surface) 80%, transparent);
+        -webkit-backdrop-filter: blur(16px);
+        backdrop-filter: blur(16px);
+    }
+}
 .dev-brand, .dev-actions, .dev-button {
     display: inline-flex;
     align-items: center;
