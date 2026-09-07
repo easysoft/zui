@@ -1,8 +1,6 @@
 import DefaultTheme from 'vitepress/theme';
 import type {Theme} from 'vitepress';
-import {h} from 'vue';
 import {enhanceAppWithTabs} from 'vitepress-plugin-tabs/client';
-import HomePreview from './components/home-preview.vue';
 import Example from './components/example.vue';
 import CssPropValue from './components/css-prop-value.vue';
 import CopyCode from './components/copy-code.vue';
@@ -20,10 +18,6 @@ import './style.css';
 export default {
     extends: DefaultTheme,
 
-    Layout: () => h(DefaultTheme.Layout, null, {
-        'home-hero-image': () => h(HomePreview),
-    }),
-
     enhanceApp({app}) {
         enhanceAppWithTabs(app);
         app.component('Example', Example);
@@ -40,4 +34,7 @@ export default {
 
         app.config.globalProperties.zui = zuiData;
     },
+
+    // use our custom layout component that we'll create next
+    // Layout: DynamicLayout
 } satisfies Theme;
