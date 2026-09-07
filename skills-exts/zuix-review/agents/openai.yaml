@@ -1,0 +1,4 @@
+interface:
+  display_name: "ZUIX Review"
+  short_description: "Review ZUI extension changes for actionable defects"
+  default_prompt: "Use $zuix-review to review changes in the current ZUI extension project for actionable defects."

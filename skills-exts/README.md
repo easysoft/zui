@@ -1,6 +1,6 @@
 # ZUIX 扩展库开发技能
 
-`ZUIX` 表示 **ZUI Extension**。本目录提供一套面向独立 ZUI 扩展组件库项目的 Codex 技能，覆盖规范查询、组件与 helper 开发、整库编排、国际化、文档、调试、优化、第三方库封装和 Git 提交。
+`ZUIX` 表示 **ZUI Extension**。本目录提供一套面向独立 ZUI 扩展组件库项目的 Codex 技能，覆盖规范查询、组件与 helper 开发、整库编排、国际化、文档、调试、变更评审、优化、第三方库封装和 Git 提交。
 
 主仓库的 `.agents/skills/zui-*` 服务于 ZUI 内置 `lib/*`；这里的 `zuix-*` 专门处理扩展项目与宿主 ZUI 分离的开发模型。两套技能使用不同前缀，可以在同一环境中并存。
 
@@ -19,11 +19,15 @@ cp -R <zui-root>/skills-exts/zuix-* <extension-root>/.agents/skills/
 $zuix-standards 检查 lib/my-component 的包信息和宿主集成方式
 $zuix-component 为 lib/my-component 增加一个 vanilla + Preact 组件
 $zuix-lib 在当前扩展项目中新建一个完整组件库
+$zuix-review
+$zuix-review 评审 lib/my-component 的改动
 $zuix-commit
 $zuix-commit 分析当前扩展项目的提交范围并生成 commit message
 ```
 
 直接调用 `$zuix-commit` 会审查并提交当前扩展项目的改动，必要检查通过后不再确认；有暂存变更时使用已有快照，暂存区为空且未指定范围时选择扩展项目内的可提交改动。明确要求只分析、评审或生成提交信息时保持只读。
+
+指定 diff 的只读评审使用 `$zuix-review`；默认评审 `EXT_ROOT` 内暂存、未暂存和未跟踪改动的并集，没有未提交改动时才在同一路径范围内评审未推送提交，用户显式指定的范围优先。评审不自动修复或提交。整库、多库质量审计使用 `$zuix-optimize`。
 
 这套技能是自包含的，运行时不依赖宿主仓库中的 `.agents/skills/zui-*`。
 
@@ -65,6 +69,7 @@ node .agents/skills/zuix-standards/scripts/inspect-zui-lib.mjs \
 | `zuix-i18n` | 审计、接入和完善国际化 | 目标明确时直接实施 |
 | `zuix-doc` | 维护扩展包官网正式文档源 | 目标明确时直接实施 |
 | `zuix-dev` | 维护 README/dev 页面和 `dev.ts` | 目标明确时直接实施 |
+| `zuix-review` | 只读评审指定 diff，默认未提交改动或未推送提交 | 始终只读 |
 | `zuix-optimize` | 审计或优化一个、多个或全部扩展包 | 审计只读；修改前统一确认 |
 | `zuix-wrap-lib` | 将 ready-to-use UMD/IIFE 封装为扩展包 | 先给出集成计划并确认 |
 | `zuix-commit` | 审查并提交，或按请求只读分析和生成 message | 直接调用即授权提交；检查通过后不再确认 |
