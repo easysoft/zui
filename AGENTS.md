@@ -106,7 +106,7 @@ build/、dist/、publish/   构建中间产物 / 最终产物（gitignored）
 
 ## 代码提交
 
-代码提交参考 `.agents/skills/zui-commit/SKILL.md`。
+代码提交参考 `.agents/skills/zui-commit/SKILL.md`。用户直接调用 `/zui-commit`、`$zui-commit` 或要求使用本技能，即视为提交授权；范围明确、审查无问题且必要检查通过后直接提交，不再次确认。已有暂存变更时保留该快照；暂存区为空且未指定范围时，选择本仓库内的可提交改动。明确只要求分析、评审或生成提交信息时保持只读；仅讨论或修改技能本身不构成提交请求。
 
 ## 容易踩的坑
 
