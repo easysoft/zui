@@ -278,13 +278,14 @@
 :root {
   --vp-button-brand-border: var(--vp-c-brand-lighter);
   --vp-button-brand-text: var(--vp-c-white);
-  --vp-button-brand-bg: var(--vp-c-brand);
+  /* Keep white button labels readable in both themes, whose color scales invert. */
+  --vp-button-brand-bg: #2563eb;
   --vp-button-brand-hover-border: var(--vp-c-brand-lighter);
   --vp-button-brand-hover-text: var(--vp-c-white);
-  --vp-button-brand-hover-bg: var(--vp-c-brand-dark);
+  --vp-button-brand-hover-bg: #1d4ed8;
   --vp-button-brand-active-border: var(--vp-c-brand-lighter);
   --vp-button-brand-active-text: var(--vp-c-white);
-  --vp-button-brand-active-bg: var(--vp-c-brand-darker);
+  --vp-button-brand-active-bg: #1e40af;
 
   --vp-button-alt-border: var(--vp-c-border);
   --vp-button-alt-text: var(--vp-c-neutral);
