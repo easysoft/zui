@@ -19,8 +19,11 @@ cp -R <zui-root>/skills-exts/zuix-* <extension-root>/.agents/skills/
 $zuix-standards 检查 lib/my-component 的包信息和宿主集成方式
 $zuix-component 为 lib/my-component 增加一个 vanilla + Preact 组件
 $zuix-lib 在当前扩展项目中新建一个完整组件库
+$zuix-commit
 $zuix-commit 分析当前扩展项目的提交范围并生成 commit message
 ```
+
+直接调用 `$zuix-commit` 会审查并提交当前扩展项目的改动，必要检查通过后不再确认；有暂存变更时使用已有快照，暂存区为空且未指定范围时选择扩展项目内的可提交改动。明确要求只分析、评审或生成提交信息时保持只读。
 
 这套技能是自包含的，运行时不依赖宿主仓库中的 `.agents/skills/zui-*`。
 
@@ -64,7 +67,7 @@ node .agents/skills/zuix-standards/scripts/inspect-zui-lib.mjs \
 | `zuix-dev` | 维护 README/dev 页面和 `dev.ts` | 目标明确时直接实施 |
 | `zuix-optimize` | 审计或优化一个、多个或全部扩展包 | 审计只读；修改前统一确认 |
 | `zuix-wrap-lib` | 将 ready-to-use UMD/IIFE 封装为扩展包 | 先给出集成计划并确认 |
-| `zuix-commit` | 分析提交、生成 message 或执行明确授权的提交 | 默认只读；明确要求后才提交 |
+| `zuix-commit` | 审查并提交，或按请求只读分析和生成 message | 直接调用即授权提交；检查通过后不再确认 |
 
 ## 核心原则
 
@@ -72,7 +75,7 @@ node .agents/skills/zuix-standards/scripts/inspect-zui-lib.mjs \
 - 扩展源码、依赖和质量检查归 `EXT_ROOT`；Git 操作归 `GIT_ROOT`；联合开发、构建和文档归 `ZUI_ROOT`。
 - 跨包导入使用真实公开 package name，不通过相对路径或宿主 `exts/` 软链接穿越包边界。
 - 宿主 ZUI 默认只用于读取规范和联合验证，不修改其源码、依赖、lockfile 或注册。原宿主生成物与缓存写入仍须明确批准；优先按 [共享工作流](zuix-standards/references/workflow.md) 隔离验证。
-- 读取目标适用的 `AGENTS.md`，复用本任务中未变化的规则和上下文，保留已有工作区改动，不自动提交、推送或发布。
+- 读取目标适用的 `AGENTS.md`，复用本任务中未变化的规则和上下文，保留已有工作区改动。开发任务不自动提交；用户直接调用 `zuix-commit` 即授权按其范围规则提交，不自动推送或发布。
 - 宿主或扩展注册无法唯一解析时，继续可行的扩展侧工作，但不猜测宿主命令、URL 或构建参数。
 
 每个技能目录都包含 `SKILL.md` 和 `agents/openai.yaml`。共享规范与上下文脚本位于 `zuix-standards/`；领域专用审计和封装参考分别位于 `zuix-optimize/` 与 `zuix-wrap-lib/`。

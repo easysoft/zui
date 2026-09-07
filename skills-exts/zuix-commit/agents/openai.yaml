@@ -1,4 +1,4 @@
 interface:
   display_name: "ZUIX Commit"
   short_description: "Review and create extension repository commits"
-  default_prompt: "Use $zuix-commit to review and commit changes for the current ZUI extension project."
+  default_prompt: "Use $zuix-commit to review the current ZUI extension changes, run the necessary checks, and commit passing changes without asking for confirmation again."
