@@ -57,11 +57,9 @@ export class Sticky extends Component<StickyOptions> {
                 };
                 this._scrollListener = listener;
                 container.addEventListener('scroll', listener);
+                this._container = container;
+                listener();
             }
-            this._container = container;
-            requestAnimationFrame(() => {
-                this._handleScroll(container, side, pinnedClass);
-            });
         } else {
             this._ob = new IntersectionObserver(
                 (entries) => {
