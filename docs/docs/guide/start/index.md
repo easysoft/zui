@@ -196,20 +196,25 @@ $ npm install zui
 然后在 JS 代码中导入：
 
 ```js
-import zui from 'zui';
+import * as zui from 'zui';
 import 'zui/css';
 
 zui.Messager.show('Hello!');
 ```
 
-如果你仅仅需要 ZUI 中的单个组件，例如 [数据表格](/lib/components/dtable/)，你可以这样导入：
+也可以从整包中导入指定组件，例如 [数据表格](/lib/components/dtable/)。在页面中放置 `<div id="myTable"></div>` 后，通过命名导入创建实例：
 
 ```js
-import {DTable} from 'zui/lib/dtable';
-import 'zui/lib/dtable/css';
+import {DTable} from 'zui';
+import 'zui/css';
 
-const myTable = new DTable('#myTable', {...});
+const myTable = new DTable('#myTable', {
+    cols: [{name: 'name', title: '名称', width: 200}],
+    data: [{id: '1', name: '示例条目'}],
+});
 ```
+
+以上示例均使用 `zui` 包的公开入口。如果需要按组件组合裁剪 JS 和 CSS，请参考[定制打包](/guide/customize/build.html)。
 
 <script setup>
 import {withBase} from 'vitepress';
