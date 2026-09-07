@@ -81,7 +81,13 @@ jobs:
         run: pnpm test:build
 
       - name: Build the complete distribution
-        run: pnpm build -- --lib=zui --ignoreNotReady
+        run: pnpm build -- --lib=zui --name=zui --outDir=dist/zui --ignoreNotReady
+
+      - name: Verify complete distribution files
+        run: |
+          test -s dist/zui/zui.js
+          test -s dist/zui/zui.esm.js
+          test -s dist/zui/zui.css
 
       - name: Upload complete distribution
         uses: actions/upload-artifact@v4
