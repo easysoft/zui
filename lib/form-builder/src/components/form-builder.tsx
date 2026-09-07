@@ -1,10 +1,11 @@
 import {isValidElement, type ComponentType, type RenderableProps} from 'preact';
-import {type ClassNameLike, type ComponentChildren, computed, CustomContent, HElement, mergeProps, ReadonlySignal, Signal, effect, $, signal, batch} from '@zui/core';
+import {type ClassNameLike, type ComponentChildren, computed, CustomContent, HElement, mergeProps, ReadonlySignal, Signal, effect, $, signal, batch, untracked} from '@zui/core';
 import {Toolbar} from '@zui/toolbar/react';
 import {Picker} from '@zui/picker/react';
 import type {FormBuilderOptions, FormSchema, FormWidgetMap, JSONSchema, FieldSchemaInfo, FormWidgetSetting, FormWidgetSettingDefinition, ObjectSchema, FormValidateRulePattern, StringSchema} from '../types';
 import {SchemaRenderer} from './schema-renderer';
 import {getLang} from '../i18n';
+import {isSchemaEqual} from '../helpers/is-schema-equal';
 
 function mergeSchema<T>(...sources: unknown[]): T {
     function mergeValue(target: unknown, source: unknown): unknown {
@@ -53,6 +54,8 @@ export class FormBuilder extends HElement<FormBuilderOptions> {
 
     protected _schemaMap$: ReadonlySignal<Record<string, JSONSchema>>;
 
+    protected _schemaEffect: () => void;
+
     protected _map = new Map<string, Signal<FieldSchemaInfo>>();
 
     constructor(props: FormBuilderOptions) {
@@ -72,11 +75,27 @@ export class FormBuilder extends HElement<FormBuilderOptions> {
         this._schemaMap$ = computed(() => {
             const map: Record<string, JSONSchema> = {};
             const schemaPatches = this._schemaPatches$.value;
-            FormBuilder.loopSchema(this.schema, (schema, path) => {
-                map[path] = mergeSchema<JSONSchema>(schema, schemaPatches[path]);
-            });
-            this._map.clear();
+            const visit = (schema: JSONSchema, path: string): JSONSchema => {
+                const merged = mergeSchema<JSONSchema>({...schema, ...schemaPatches[path]});
+                map[path] = merged;
+                if (merged.type === 'object') {
+                    for (const key of Object.keys(merged.properties)) {
+                        merged.properties[key] = visit(merged.properties[key], path ? `${path}.${key}` : key);
+                    }
+                } else if (merged.type === 'array' && merged.items) {
+                    merged.items = visit(merged.items, `${path}[]`);
+                }
+                return merged;
+            };
+            visit(this.schema, '');
             return map;
+        });
+
+        let previousSchemaMap: Record<string, JSONSchema> = {};
+        this._schemaEffect = effect(() => {
+            const schemaMap = this.schemaMap;
+            untracked(() => this._updateMap(previousSchemaMap));
+            previousSchemaMap = schemaMap;
         });
 
         this._formDataEffect = effect(() => {
@@ -112,21 +131,22 @@ export class FormBuilder extends HElement<FormBuilderOptions> {
     }
 
     componentDidUpdate(previousProps: Readonly<FormBuilderOptions>): void {
-        if (previousProps.schema !== this.props.schema) {
+        if (!isSchemaEqual(previousProps.schema, this.props.schema)) {
             const oldSchema = this._schema$.value;
-            const formData = $.extend(true, {}, this.props.defaultData, this.formData);
             batch(() => {
                 this._schema$.value = this.props.schema;
                 this._schemaPatches$.value = {};
-                this._validationErrors$.value = {};
-                this._dataMap$.value = FormBuilder.buildDataMap(this.props.schema, formData);
             });
             this.props.onSchemaChange?.call(this, this.props.schema, oldSchema);
+        }
+        if (previousProps.readonly !== this.props.readonly || !isSchemaEqual(previousProps.widgets, this.props.widgets)) {
+            batch(() => this._updateFieldInfos(Object.keys(this.schemaMap)));
         }
         this.props.afterRender?.call(this, false);
     }
 
     componentWillUnmount(): void {
+        this._schemaEffect();
         this._formDataEffect();
         super.componentWillUnmount();
     }
@@ -136,14 +156,25 @@ export class FormBuilder extends HElement<FormBuilderOptions> {
     }
 
     setSchemaByPath(path: string, fieldSchema: Partial<JSONSchema>, deepMerge = true) {
+        const schema = this.getSchemaByPath(path);
+        if (!schema) {
+            return;
+        }
         const schemaPatches = this._schemaPatches$.value;
-        this._schemaPatches$.value = {
-            ...schemaPatches,
-            [path]: deepMerge ? mergeSchema<Partial<JSONSchema>>(schemaPatches[path], fieldSchema) : {
-                ...schemaPatches[path],
-                ...fieldSchema,
-            } as JSONSchema,
-        };
+        const merged = deepMerge ? mergeSchema<JSONSchema>(schema, fieldSchema) : {...schema, ...fieldSchema};
+        const patch = {...schemaPatches[path]};
+        for (const key of Object.keys(fieldSchema)) {
+            (patch as Record<string, unknown>)[key] = (merged as unknown as Record<string, unknown>)[key];
+        }
+        batch(() => {
+            this._schemaPatches$.value = {...schemaPatches, [path]: patch};
+            const paths = this.schemaMap;
+            const patches = this._schemaPatches$.value;
+            const retainedPatches = Object.fromEntries(Object.entries(patches).filter(([key]) => paths[key]));
+            if (Object.keys(retainedPatches).length !== Object.keys(patches).length) {
+                this._schemaPatches$.value = retainedPatches;
+            }
+        });
     }
 
     setFieldValue = (path: string, value: unknown) => {
@@ -177,7 +208,19 @@ export class FormBuilder extends HElement<FormBuilderOptions> {
                 ...changes,
             };
             const allRelativePaths = Object.keys(changes);
-            this._updateFieldInfos(allRelativePaths);
+            const updatedPaths = this._updateFieldInfos(allRelativePaths);
+            const {autoValidate} = this.props;
+            if (autoValidate?.onChange) {
+                for (const fieldPath of updatedPaths) {
+                    if (autoValidate.onChange === 'removeErrors') {
+                        if (this.validationErrors[fieldPath]?.length) {
+                            this._validationErrors$.value = {...this.validationErrors, [fieldPath]: []};
+                        }
+                    } else {
+                        this.validateField(fieldPath);
+                    }
+                }
+            }
         });
     };
 
@@ -208,13 +251,10 @@ export class FormBuilder extends HElement<FormBuilderOptions> {
                 return patternConfig.message ? [code, patternConfig.message] : formatError(code);
             }
         };
-        if (info.required) {
-            if (value === undefined || value === null || (type === 'string' && value === '') || (type === 'array' && (!Array.isArray(value) || value.length === 0)) || (type === 'map' && Object.keys(value).length === 0) || ((type === 'number' || type === 'integer') && Number.isNaN(value))) {
-                return [formatError('required')];
-            }
-        }
         const errors: [code: string, error: string][] = [];
-        if (schema.type === 'string') {
+        if (info.required && (value === undefined || value === null || (type === 'string' && value === '') || (type === 'array' && (!Array.isArray(value) || value.length === 0)) || (type === 'map' && Object.keys(value).length === 0) || ((type === 'number' || type === 'integer') && Number.isNaN(value)))) {
+            errors.push(formatError('required'));
+        } else if (schema.type === 'string') {
             if (typeof schema.min === 'number' && schema.min > 0 && String(value ?? '').length < schema.min) {
                 errors.push(formatError('minLength'));
             }
@@ -266,7 +306,6 @@ export class FormBuilder extends HElement<FormBuilderOptions> {
                 ...validationErrors,
                 [info.path]: errors,
             };
-            this._updateFieldInfo(info.path);
         }
         return errors;
     }
@@ -283,7 +322,7 @@ export class FormBuilder extends HElement<FormBuilderOptions> {
         const validateOptions = {skipUpdate: true};
         let fieldErrorsChanged = false;
         let firstErrorPath = '';
-        FormBuilder.loopSchema(this.schema, (_schema, path) => {
+        Object.keys(this.schemaMap).forEach((path) => {
             const fieldErrors = this.validateField(path, validateOptions);
             if (!fieldErrorsChanged && JSON.stringify(validationErrors[path] || []) !== JSON.stringify(fieldErrors)) {
                 fieldErrorsChanged = true;
@@ -336,58 +375,82 @@ export class FormBuilder extends HElement<FormBuilderOptions> {
         return this.validationErrors[path] || [];
     };
 
-    protected _updateMap() {
-        const map = this._map;
-        const mapKeySet = new Set(map.keys());
-        FormBuilder.loopSchema(this.schema, (_schema, path) => {
-            mapKeySet.delete(path);
-            this._updateFieldInfo(path);
-        });
-        for (const wildKey of mapKeySet.keys()) {
-            map.delete(wildKey);
+    protected _updateMap(previousSchemaMap: Record<string, JSONSchema>) {
+        const schemaMap = this.schemaMap;
+        const dataMap = FormBuilder.buildDataMap(schemaMap[''], this.props.defaultData);
+        const previousData = this._dataMap$.peek();
+        for (const path of Object.keys(dataMap)) {
+            if (path in previousData && (!previousSchemaMap[path] || previousSchemaMap[path].type === schemaMap[path]?.type)) {
+                dataMap[path] = previousData[path];
+            }
+        }
+        if (!isSchemaEqual(previousData, dataMap)) {
+            this._dataMap$.value = dataMap;
+        }
+
+        const changedPaths = new Set<string>();
+        for (const path of this._map.keys()) {
+            if (!schemaMap[path]) {
+                this._map.delete(path);
+                changedPaths.add(path);
+            }
+        }
+        for (const path of Object.keys(schemaMap)) {
+            const parentPath = path.slice(0, Math.max(0, path.lastIndexOf('.')));
+            if (!isSchemaEqual(previousSchemaMap[path], schemaMap[path]) || (path && !isSchemaEqual(previousSchemaMap[parentPath]?.required, schemaMap[parentPath]?.required))) {
+                changedPaths.add(path);
+            }
+        }
+        this._updateFieldInfos([...changedPaths]);
+
+        const errors = this._validationErrors$.peek();
+        const retainedErrors = Object.fromEntries(Object.entries(errors).filter(([path]) => {
+            const schemaPath = path.replace(/\[\d+\]/g, '[]');
+            return schemaMap[schemaPath] && previousSchemaMap[schemaPath]?.type === schemaMap[schemaPath].type;
+        }));
+        if (!isSchemaEqual(errors, retainedErrors)) {
+            this._validationErrors$.value = retainedErrors;
         }
     }
 
     protected _updateFieldInfos(paths: string[]) {
         const handledDependencies = new Set(paths);
-        for (const path of paths) {
-            this._updateFieldInfo(path, handledDependencies);
+        for (const path of handledDependencies) {
+            this._updateFieldInfo(path);
+            for (const info$ of this._map.values()) {
+                const info = info$.peek();
+                if (info.dependenciesSet.has(path)) {
+                    handledDependencies.add(info.path);
+                }
+            }
         }
+        return handledDependencies;
     }
 
-    protected _updateFieldInfo(path: string, handledDependencies?: Set<string>) {
+    protected _updateFieldInfo(path: string) {
         const newInfo = this._createFieldSchemaInfo(path);
         if (!newInfo) {
             return;
         }
         const map = this._map;
         let info$ = map.get(path);
-        const firstInited = !info$;
-        if (firstInited) {
+        if (!info$) {
             info$ = signal(newInfo);
             this._map.set(path, info$);
         } else {
-            info$!.value = newInfo;
-        }
-        handledDependencies = handledDependencies || new Set<string>();
-        Array.from(map.values()).forEach(({value: info}) => {
-            if (!info || info.path === path || handledDependencies.has(info.path) || !info.dependenciesSet.has(path)) {
-                return;
+            const previous = info$.peek();
+            if (isSchemaEqual(previous.schema, newInfo.schema)) {
+                newInfo.schema = previous.schema;
             }
-            this._updateFieldInfo(info.path, handledDependencies);
-        });
-        if (!firstInited) {
-            const {autoValidate = {}} = this.props;
-            if (autoValidate.onChange) {
-                const errorsMap = this._validationErrors$.value;
-                if (autoValidate.onChange === 'removeErrors' && errorsMap[path]?.length) {
-                    this._validationErrors$.value = {
-                        ...errorsMap,
-                        [path]: [],
-                    };
-                } else {
-                    this.validateField(path);
-                }
+            if (previous.schema !== newInfo.schema || !Object.is(previous.value, newInfo.value) || previous.required !== newInfo.required || !isSchemaEqual(previous.widget, newInfo.widget)) {
+                info$.value = newInfo;
+            }
+            const getValidation = (info: FieldSchemaInfo) => {
+                const schema = info.schema as unknown as Record<string, unknown>;
+                return [info.required, ...['type', 'min', 'max', 'pattern', 'keyPattern', 'valuePattern'].map(key => schema[key])];
+            };
+            if (this.validationErrors[path]?.length && !isSchemaEqual(getValidation(previous), getValidation(newInfo))) {
+                this.validateField(newInfo);
             }
         }
         return newInfo;
@@ -452,7 +515,7 @@ export class FormBuilder extends HElement<FormBuilderOptions> {
             }
         }
         let required = Array.isArray(finalSchema.required) ? false : !!finalSchema.required;
-        if (schemaType !== 'object' && finalSchema.required === undefined && path.length > 2 && path.includes('.')) {
+        if (schemaType !== 'object' && finalSchema.required === undefined && path.length) {
             const pathParts = path.split('.');
             const thisKey = pathParts.pop()!;
             const parentPath = pathParts.join('.');
@@ -528,13 +591,14 @@ export class FormBuilder extends HElement<FormBuilderOptions> {
     }
 
     protected _renderBody(props: RenderableProps<FormBuilderOptions>) {
-        const {schema, actions} = props;
+        const {actions} = props;
+        const schema = this.schemaMap[''] as FormSchema;
         const {title} = schema;
         return (
             <div key="body" className={`form-builder-body form-grid form-${schema.displayType || 'vert'}`}>
                 {title ? <div className="form-builder-title">{title}</div> : null}
                 <SchemaRenderer
-                    key={this.schemaMap}
+                    key="schema"
                     infoGetter={this.getFieldSchemaInfo}
                     errorsGetter={this.getFieldValidationErrors}
                     onChangeField={this.setFieldValue}

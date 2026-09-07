@@ -4,6 +4,7 @@ import {FormGroup} from '@zui/form-control/react';
 import type {FormControlProps} from '@zui/form-control/react';
 import {$, mergeProps} from '@zui/core';
 import {FieldSchemaInfo} from '../types';
+import {isSchemaEqual} from '../helpers/is-schema-equal';
 
 export interface SchemaFormItemProps {
     schemaInfo: FieldSchemaInfo;
@@ -11,6 +12,19 @@ export interface SchemaFormItemProps {
 }
 
 export class SchemaFormItem extends Component<SchemaFormItemProps> {
+    protected _controlKey = 0;
+
+    componentWillReceiveProps({schemaInfo}: SchemaFormItemProps) {
+        const previous = this.props.schemaInfo;
+        // Value edits belong to the mounted widget. Schema/configuration changes must
+        // also reach widgets that only initialize their options in componentDidMount.
+        const getOptions = ({schema, widget, required}: FieldSchemaInfo) => [schema.type, widget[0], schema.props, schema.disabled, schema.readonly, schema.placeholder, required];
+        const optionsChanged = Object.is(previous.value, schemaInfo.value) && !isSchemaEqual(previous.widget[1], schemaInfo.widget[1]);
+        if (optionsChanged || !isSchemaEqual(getOptions(previous), getOptions(schemaInfo))) {
+            this._controlKey++;
+        }
+    }
+
     protected _handleChange = (event: unknown) => {
         const {schemaInfo, onChangeField} = this.props;
         const onChange = schemaInfo.widget[2];
@@ -59,6 +73,7 @@ export class SchemaFormItem extends Component<SchemaFormItemProps> {
         };
         return (
             <FormGroup
+                key={this._controlKey}
                 name={path}
                 label={title}
                 hint={description}
