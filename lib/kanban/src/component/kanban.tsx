@@ -232,12 +232,13 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
     }
 
     createSnap(): KanbanSnap {
+        const data = $.extend(true, {}, this._kanbanData.value) as Partial<KanbanData>;
         return {
             date: Date.now(),
             kanban: this as Kanban,
-            data: $.extend(true, {}, this._data) as Partial<KanbanData>,
-            restore() {
-                this.kanban.changeState({changes: this.data} as Partial<S>);
+            data,
+            restore: () => {
+                this.changeState({changes: data} as Partial<S>);
             },
         };
     }
