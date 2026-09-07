@@ -140,7 +140,7 @@ await kanban.$?.select([]);        // 清空选择
 
 拖放产生变化时，`onDrop(changes, info)` 接收增量数据以及拖动对象、目标和落点方向。当前实现需要配置 `onDrop` 才会应用计算出的数据变更。同步返回 `false` 拒绝本次变更；回调不会等待 Promise。
 
-拖放规则和回调应在创建实例时配置。当前实现不会在 `render()` 后重新绑定拖放选项；需要改变这些设置时重新创建实例。
+`dropRules`、`canDrop`、`onDragStart` 和 `onDrop` 可以通过 `render({...})` 更新，无需重建实例。每次拖动开始时按当前规则筛选放置目标，事件发生时调用当前回调。`dragTypes` 和底层 `draggable` 设置仍在创建时确定，改变它们时需重新创建实例。
 
 需要保存成功后再改变界面时，先同步返回 `false`，保存成功后通过 `update(changes)` 应用同一份变更。以下 `data` 使用前面的数据集，容器仍需置于 `.kanban-list` 中：
 
@@ -173,7 +173,7 @@ const dropRules = {
 };
 ```
 
-在创建选项中传入 `dropRules`。更复杂的条件可通过 `canDrop(dragInfo, dropInfo)` 判断。卡片配置了 `dropRules` 时按该规则判断，不会再叠加调用 `canDrop`。`onDragStart(info)` 返回 `false` 可阻止拖动；`onDropNewItem(info)` 用于将外部新条目转换为卡片数据。
+在创建选项中传入 `dropRules`，也可以通过 `kanban.render({dropRules})` 更新。更复杂的条件可通过 `canDrop(dragInfo, dropInfo)` 判断。卡片配置了 `dropRules` 时按该规则判断，不会再叠加调用 `canDrop`。`onDragStart(info)` 返回 `false` 可阻止拖动；`onDropNewItem(info)` 用于将外部新条目转换为卡片数据。
 
 ## 异步加载与实例更新
 

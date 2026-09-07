@@ -503,7 +503,7 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
         if (!draggable || !element) {
             return;
         }
-        const {dragTypes = ['item', 'newItem'], onDragStart, onDrop, canDrop, dropRules} = this.props;
+        const {dragTypes = ['item', 'newItem']} = this.props;
         const dragTypeList = typeof dragTypes === 'string' ? dragTypes.split(',') : dragTypes;
         const dragTypeSelectors: Record<string, string> = {
             item: '.kanban-item',
@@ -535,7 +535,11 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
                 })[info.type];
                 return $(element).find(selector);
             }),
-            canDrop: userOptions.canDrop || (canDrop || dropRules) ? (_event: DragEvent, dragElement: HTMLElement, dropElement: HTMLElement) => {
+            canDrop: userOptions.canDrop || ((_event: DragEvent, dragElement: HTMLElement, dropElement: HTMLElement) => {
+                const {canDrop, dropRules} = this.props;
+                if (!canDrop && !dropRules) {
+                    return;
+                }
                 const dragInfo = this._getElementInfo(dragElement);
                 if (!dragInfo) {
                     return false;
@@ -558,8 +562,9 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
                 if (canDrop) {
                     return canDrop.call(this, dragInfo, dropInfo);
                 }
-            } : undefined,
+            }),
             onDragStart: (event: DragEvent, dragElement: HTMLElement) => {
+                const {onDragStart} = this.props;
                 const info = this._getElementInfo(dragElement);
                 if (!info) {
                     return false;
@@ -580,6 +585,7 @@ export class Kanban<P extends KanbanProps = KanbanProps, S extends KanbanState =
                 updateDropElementAttr(dropElement);
             },
             onDrop: (event: DragEvent, dragElement: HTMLElement, dropElement: HTMLElement) => {
+                const {onDrop} = this.props;
                 updateDropElementAttr(dropElement);
                 const info = this._getDropInfo(event, dragElement, dropElement);
                 if (!info) {
