@@ -1,5 +1,33 @@
 ---
 layout: home
+title: ZUI 3 - 开箱即用的组合式前端 UI 框架
+titleTemplate: false
+description: ZUI 3 为前端开发者提供 CSS 工具类和 JS 组件，无需绑定 JavaScript 框架，支持按需使用、深色模式与主题定制。
+head:
+  - - meta
+    - property: og:type
+      content: website
+  - - meta
+    - property: og:locale
+      content: zh_CN
+  - - meta
+    - property: og:site_name
+      content: ZUI 3
+  - - meta
+    - property: og:title
+      content: ZUI 3 - 开箱即用的组合式前端 UI 框架
+  - - meta
+    - property: og:description
+      content: CSS 工具类与 JS 组件按需组合，支持深色模式与主题定制。
+  - - meta
+    - name: twitter:card
+      content: summary
+  - - meta
+    - name: twitter:title
+      content: ZUI 3 - 开箱即用的组合式前端 UI 框架
+  - - meta
+    - name: twitter:description
+      content: CSS 工具类与 JS 组件按需组合，支持深色模式与主题定制。
 
 hero:
   name: ZUI 3
