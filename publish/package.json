@@ -7,12 +7,12 @@
       "pnpm": ">=8"
     },
     "files": ["dist"],
-    "main": "./dist/zui.js",
+    "main": "./dist/zui.cjs",
     "module": "./dist/zui.esm.js",
     "exports": {
       ".": {
         "import": "./dist/zui.esm.js",
-        "require": "./dist/zui.js"
+        "require": "./dist/zui.cjs"
       },
       "./css": "./dist/zui.css"
     },

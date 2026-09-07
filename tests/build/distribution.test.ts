@@ -1,10 +1,11 @@
 import {execFile} from 'node:child_process';
 import {promises as fs} from 'node:fs';
+import {createRequire} from 'node:module';
 import Path from 'node:path';
 import {pathToFileURL} from 'node:url';
 import {promisify} from 'node:util';
 import {JSDOM} from 'jsdom';
-import {afterAll, beforeAll, describe, expect, test} from 'vitest';
+import {afterAll, beforeAll, describe, expect, test, vi} from 'vitest';
 
 const execFileAsync = promisify(execFile);
 const projectRoot = Path.resolve(import.meta.dirname, '../..');
@@ -12,6 +13,7 @@ const outputRoot = Path.join(projectRoot, 'test-results/build');
 const bundledOutput = Path.join(outputRoot, 'zui-test');
 const externalOutput = Path.join(outputRoot, 'zui-test-external');
 const pnpmCommand = process.platform === 'win32' ? 'pnpm.cmd' : 'pnpm';
+const npmCommand = process.platform === 'win32' ? 'npm.cmd' : 'npm';
 
 async function runBuild(args: string[]): Promise<void> {
     await execFileAsync(pnpmCommand, ['build', '--', ...args], {
@@ -70,6 +72,7 @@ type BrowserGlobals = typeof globalThis & {
 };
 
 async function withBrowserGlobals<T>(callback: (dom: JSDOM) => Promise<T>): Promise<T> {
+    vi.useFakeTimers({toFake: ['setTimeout', 'clearTimeout', 'setInterval', 'clearInterval']});
     const dom = new JSDOM('<!doctype html><html><body></body></html>', {
         runScripts: 'outside-only',
         url: 'http://localhost/',
@@ -83,6 +86,8 @@ async function withBrowserGlobals<T>(callback: (dom: JSDOM) => Promise<T>): Prom
 
     defineGlobal('window', dom.window);
     defineGlobal('document', dom.window.document);
+    defineGlobal('localStorage', dom.window.localStorage);
+    defineGlobal('sessionStorage', dom.window.sessionStorage);
     defineGlobal('navigator', dom.window.navigator);
     defineGlobal('HTMLElement', dom.window.HTMLElement);
     defineGlobal('Element', dom.window.Element);
@@ -107,6 +112,8 @@ async function withBrowserGlobals<T>(callback: (dom: JSDOM) => Promise<T>): Prom
             }
         }
         dom.window.close();
+        vi.clearAllTimers();
+        vi.useRealTimers();
     }
 }
 
@@ -209,5 +216,58 @@ describe('external Cash distribution', () => {
         expect(umd).toMatch(/\.zui=\{\},\w+\.\$\)/);
         expect(esm).not.toContain('sourceMappingURL=');
         expect(umd).not.toContain('sourceMappingURL=');
+    });
+});
+
+test('installs the npm tarball with working ESM, CommonJS, UMD, and CSS entries', async () => {
+    const publishFixture = Path.join(outputRoot, 'publish-project');
+    const publishPath = Path.join(publishFixture, 'publish');
+    const consumerPath = Path.join(outputRoot, 'consumer');
+    const npmCache = Path.join(outputRoot, 'npm-cache');
+
+    await runBuild([
+        '--lib=zui',
+        '--name=zui',
+        `--outDir=${Path.join(publishFixture, 'dist/zui')}`,
+        '--ignoreNotReady',
+    ]);
+    await fs.mkdir(publishPath, {recursive: true});
+    for (const file of ['package.json', 'publish/package.json', 'README.md', 'LICENSE']) {
+        await fs.copyFile(Path.join(projectRoot, file), Path.join(publishFixture, file));
+    }
+    await execFileAsync(process.execPath, ['--import', 'tsx', Path.join(projectRoot, 'scripts/build/publish.ts')], {
+        cwd: publishFixture,
+    });
+    const {stdout} = await execFileAsync(npmCommand, [
+        'pack', '--ignore-scripts', '--json', '--pack-destination', outputRoot, '--cache', npmCache,
+    ], {cwd: publishPath});
+    const [{filename}] = JSON.parse(stdout) as {filename: string}[];
+
+    await fs.mkdir(consumerPath, {recursive: true});
+    await fs.writeFile(Path.join(consumerPath, 'package.json'), JSON.stringify({private: true, type: 'module'}));
+    await execFileAsync(npmCommand, [
+        'install', '--offline', '--ignore-scripts', '--no-audit', '--no-fund', '--package-lock=false',
+        '--cache', npmCache, Path.join(outputRoot, filename),
+    ], {cwd: consumerPath});
+    const entryPath = Path.join(consumerPath, 'entry.mjs');
+    await fs.writeFile(entryPath, 'export * from \'zui\';\n');
+    const packageRequire = createRequire(Path.join(consumerPath, 'package.json'));
+    const installedPackage = Path.join(consumerPath, 'node_modules/zui');
+
+    await withBrowserGlobals(async (dom) => {
+        const distribution = await import(pathToFileURL(entryPath).href) as Record<string, unknown>;
+        const commonJs = packageRequire('zui') as Record<string, unknown>;
+        for (const name of ['DTable', 'Messager', 'Kanban']) {
+            expect(distribution[name], name).toBeTypeOf('function');
+            expect(commonJs[name], name).toBeTypeOf('function');
+        }
+        expect(Object.keys(commonJs).sort()).toEqual(Object.keys(distribution).sort());
+        expect(packageRequire(installedPackage)).toBe(commonJs);
+
+        dom.window.eval(await fileContents(Path.join(installedPackage, 'dist/zui.js')));
+        const umd = (dom.window as unknown as {zui: Record<string, unknown>}).zui;
+        expect(Object.keys(umd).sort()).toEqual(Object.keys(distribution).sort());
+        await expectFile(packageRequire.resolve('zui/css'));
+        await expectFile(Path.join(installedPackage, 'dist/zui.js.map'));
     });
 });

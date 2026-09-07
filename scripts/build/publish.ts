@@ -6,6 +6,7 @@ const publishDistPath = path.resolve(publishPath, 'dist');
 
 await fs.emptyDir(publishDistPath);
 await fs.copy(path.resolve(process.cwd(), './dist/zui'), publishDistPath);
+await fs.copyFile(path.join(publishDistPath, 'zui.js'), path.join(publishDistPath, 'zui.cjs'));
 await fs.copyFile(path.resolve(process.cwd(), './README.md'), path.resolve(publishPath, './README.md'));
 await fs.copyFile(path.resolve(process.cwd(), './LICENSE'), path.resolve(publishPath, './LICENSE'));
 
