@@ -1,0 +1,15 @@
+# Reviewed capabilities, limited to these exact files; no global rule is disabled.
+# Rationale: .github/plugin-scan-review.md
+# CI checks the hashes of this configuration and every listed file before scanning.
+[scanner]
+ignore_paths = [
+    "lib/core/src/helpers/raw-data.ts",
+    "lib/core/src/helpers/run-js.ts",
+    "tests/build/distribution.test.ts",
+    "skills/zui/scripts/inspect-zui-project.mjs",
+    "skills/zui/scripts/inspect-zui-project.test.mjs",
+    "skills/zui-build/scripts/create-zui-page.mjs",
+    "skills/zui-build/scripts/validate-zui-page.mjs",
+    "skills/zui-build/assets/vendor/zui-3.0.0/zui.js",
+    "skills/zui-build/assets/vendor/zui-3.0.0/zui.esm.js",
+]
