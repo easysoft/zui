@@ -13,15 +13,21 @@ hero:
       text: GitHub
       link: https://github.com/easysoft/zui
 features:
-  - icon: ⚡️
-    title: 开箱即用，按需加载
-    details: 采用基础 + 组件库模式，按需使用
-  - icon: 💎
-    title: 丰富的组件库
-    details: 实用 CSS 工具类 + 强大的 JS 组件库
-  - icon: 🛠️
-    title: 丰富主题，灵活定制
-    details: 深色模式，自定义主题，定制打包
+  - title: <i class="icon icon-code" aria-hidden="true"></i> 用类名搭出界面
+    details: |
+      导入样式后，用类名组合按钮、表单与布局。
+      <code class="home-feature-code">&lt;button class="btn"&gt;
+        确认
+      &lt;/button&gt;</code>
+      <a class="home-feature-link" href="./guide/start/">快速开始</a>
+  - title: <i class="icon icon-cubes" aria-hidden="true"></i> 按页面需要组合组件
+    details: |
+      从菜单、弹窗到数据表格，通过选项配置所需交互。
+      <a class="home-feature-link" href="./lib/components/menu/">查看菜单组件</a>
+  - title: <i class="icon icon-sliders" aria-hidden="true"></i> 用主题统一外观
+    details: |
+      通过变量配置颜色、圆角与间距，适配浅色和深色界面。
+      <a class="home-feature-link" href="./guide/config/base/color.html">配置主题颜色</a>
 ---
 
 <style>
@@ -88,8 +94,73 @@ features:
   background: var(--color-surface);
   border-color: var(--vp-c-divider);
 }
+.VPContent.is-home .VPFeatures {
+  padding-top: 32px;
+}
+.VPContent.is-home .VPFeatures .items {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: 20px;
+  margin: 0;
+}
+.VPContent.is-home .VPFeatures .item {
+  width: auto;
+  min-width: 0;
+  padding: 0;
+}
+.VPContent.is-home .VPFeatures .item:first-child {
+  grid-row: span 2;
+}
+.VPContent.is-home .VPFeatures .item:first-child .VPFeature {
+  background: var(--color-primary-50);
+}
+.VPContent.is-home .VPFeatures .item:last-child .VPFeature {
+  background: var(--color-canvas);
+}
+.VPContent.is-home .VPFeature .box {
+  padding: 28px;
+}
+.VPContent.is-home .VPFeature .icon {
+  color: var(--color-fore);
+  background: transparent;
+  margin-right: 8px;
+}
+.VPContent.is-home .VPFeature .title {
+  color: var(--color-fore);
+  font-size: 20px;
+  line-height: 1.4;
+}
 .VPContent.is-home .VPFeature .details {
   color: var(--color-fore);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.7;
+}
+.home-feature-code {
+  display: block;
+  margin-top: 24px;
+  padding: 20px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 8px;
+  background: var(--color-canvas);
+  color: var(--color-fore);
+  font: 14px/1.8 var(--vp-font-family-mono);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.home-feature-link {
+  display: block;
+  width: fit-content;
+  margin-top: 20px;
+  color: var(--vp-c-brand-1);
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.home-feature-link:hover {
+  color: var(--vp-c-brand-1);
+  text-decoration-thickness: 2px;
 }
 .VPContent.is-home + .VPFooter {
   background: var(--color-canvas);
@@ -113,6 +184,19 @@ features:
   }
   .VPContent.is-home .VPHomeHero .tagline {
     font-size: 16px;
+  }
+  .VPContent.is-home .VPFeatures .items {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .VPContent.is-home .VPFeatures .item:first-child {
+    grid-row: auto;
+  }
+  .VPContent.is-home .VPFeature .box {
+    padding: 24px;
+  }
+  .home-feature-code {
+    padding: 16px;
+    font-size: 12px;
   }
 }
 </style>
