@@ -25,14 +25,24 @@ features:
 
 <style>
 .VPContent.is-home {
-  background: linear-gradient(125deg, var(--color-primary-50) 0%, var(--color-primary-50) 40%, var(--color-primary-100) calc(40% + 1px), var(--color-primary-100) 60%, var(--color-primary-200) calc(60% + 1px), var(--color-primary-200) 72%, var(--color-primary-500) calc(72% + 1px), var(--color-primary-500) 100%);
+  background: var(--color-canvas);
+}
+.VPContent.is-home .VPHomeHero {
+  background: linear-gradient(125deg, transparent 55%, var(--color-primary-50) calc(55% + 1px), var(--color-primary-50) 75%, var(--color-primary-100) calc(75% + 1px));
 }
 .VPContent.is-home .VPFeature {
-  background: rgba(var(--color-inverse-rgb), .05);
-  backdrop-filter: blur(10px);
-  border-color: rgba(var(--color-inverse-rgb), .1);
+  background: var(--color-surface);
+  border-color: var(--vp-c-divider);
+}
+.VPContent.is-home .VPFeature .details {
+  color: var(--color-fore);
 }
 .VPContent.is-home + .VPFooter {
-  background: var(--color-primary-50);
+  background: var(--color-canvas);
+}
+@media (max-width: 767px) {
+  .VPContent.is-home .VPHomeHero {
+    background: none;
+  }
 }
 </style>
