@@ -56,6 +56,15 @@ button.DocSearch-Button {
   @apply -bg-surface/50 -backdrop-blur;
 }
 
+.VPLocalSearchBox .results {
+  list-style: none;
+  padding-left: 0;
+}
+.VPLocalSearchBox .result {
+  color: var(--vp-c-text-1);
+  text-decoration: none;
+}
+
 .custom-block.warning {
   @apply -ring-0;
 }
