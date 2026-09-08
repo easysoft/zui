@@ -604,28 +604,9 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
 
     protected _getItemFromEvent(event: MouseEvent, target?: HTMLElement): MouseEventInfo | undefined {
         target = target || event.target as HTMLElement;
-        let info = super._getItemFromEvent(event, target) as MouseEventInfo;
+        const info = super._getItemFromEvent(event, target) as MouseEventInfo;
         if (!info) {
-            const listEle = target.closest('[z-list]') as HTMLElement;
-            if (listEle) {
-                const listKey = listEle.getAttribute('z-list')!;
-                const item = this.getItem(listKey);
-                const renderedItem = this.getRenderedItem(listKey);
-                if (!item || !renderedItem) {
-                    return;
-                }
-                info = {
-                    target,
-                    index: renderedItem._index as number,
-                    item,
-                    element: listEle,
-                    event,
-                    key: listKey,
-                    keyPath: listKey,
-                    renderedItem,
-                };
-            }
-            return info;
+            return;
         }
         if (event.type === 'mouseenter' || event.type === 'mouseleave' || event.type === 'mouseover') {
             info.hover = event.type !== 'mouseleave';
