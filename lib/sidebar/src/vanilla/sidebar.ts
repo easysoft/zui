@@ -56,6 +56,8 @@ export class Sidebar extends Component<SidebarOptions, {
 
     declare _maxWidth: number;
 
+    protected _resizingSidebars?: Sidebar[];
+
     get side() {
         return this._side;
     }
@@ -97,6 +99,11 @@ export class Sidebar extends Component<SidebarOptions, {
         this._width = typeof storedWidth === 'number' && Number.isFinite(storedWidth)
             ? Math.max(0, Math.min(this._maxWidth, storedWidth))
             : this._defaultWidth;
+        const sharedSidebar = this._getSharedSidebars()[0];
+        if (sharedSidebar) {
+            this._width = this._clampWidth(sharedSidebar.width);
+            this._widthBack = sharedSidebar.width || sharedSidebar._widthBack || sharedSidebar._defaultWidth;
+        }
 
         this.render();
 
@@ -122,7 +129,7 @@ export class Sidebar extends Component<SidebarOptions, {
                 move: false,
                 onMoveStart: () => {
                     this._startWidth = this._width;
-                    this.$parent.addClass(RESIZING_CLASS).removeClass(ANIMATION_CLASS);
+                    this._setResizing(true);
                 },
                 onMove: (_event, info) => {
                     const {deltaX} = info;
@@ -131,12 +138,7 @@ export class Sidebar extends Component<SidebarOptions, {
                     }
                     this.update(this._startWidth + (deltaX * (this._side === 'left' ? 1 : -1)));
                 },
-                onMoveEnd: () => {
-                    if (animation) {
-                        this.$parent.addClass(ANIMATION_CLASS);
-                    }
-                    this.$parent.removeClass(RESIZING_CLASS);
-                },
+                onMoveEnd: () => this._setResizing(false),
             });
         }
         if (animation) {
@@ -149,22 +151,27 @@ export class Sidebar extends Component<SidebarOptions, {
     }
 
     destroy(): void {
+        this._setResizing(false);
         super.destroy();
         if (this._raf) {
             cancelAnimationFrame(this._raf);
+            this._raf = 0;
         }
         this._moveable?.destroy();
     }
 
     toggle(collapsed?: boolean) {
         collapsed = collapsed ?? !!this._width;
-        if (collapsed) {
+        if (collapsed && this._width) {
             this._widthBack = this._width;
         }
         this.update(collapsed ? 0 : this._widthBack || this._defaultWidth);
     }
 
     update(width: number, immediately?: boolean) {
+        if (this.destroyed) {
+            return;
+        }
         if (!immediately) {
             if (this._raf) {
                 cancelAnimationFrame(this._raf);
@@ -176,20 +183,61 @@ export class Sidebar extends Component<SidebarOptions, {
             return;
         }
 
-        const {preserve, toggleBtn, onResize, onToggle, animation} = this.options;
+        this._updateWidth(width);
+    }
+
+    protected _getSharedSidebars() {
+        const {shareWidth} = this.options;
+        return shareWidth ? Sidebar.getAll(undefined, sidebar => sidebar !== this && sidebar.inited && !sidebar.destroyed && sidebar.options.shareWidth === shareWidth) : [];
+    }
+
+    protected _setResizing(resizing: boolean) {
+        if (resizing) {
+            this._resizingSidebars = [this, ...this._getSharedSidebars()];
+        }
+        const sidebars = this._resizingSidebars;
+        if (!sidebars) {
+            return;
+        }
+        sidebars.forEach(sidebar => sidebar.$parent.toggleClass(RESIZING_CLASS, resizing).removeClass(ANIMATION_CLASS));
+        if (!resizing) {
+            sidebars.forEach((sidebar) => {
+                if (!sidebar.destroyed && sidebar.options.animation) {
+                    sidebar.$parent.addClass(ANIMATION_CLASS);
+                }
+            });
+            this._resizingSidebars = undefined;
+        }
+    }
+
+    protected _clampWidth(width: number) {
         const maximumWidth = Math.max(0, Math.min(this._maxWidth, this._container.clientWidth));
         width = Number.isFinite(width) ? Math.max(0, width) : this._defaultWidth;
         if (width && width < this._minWidth) {
-            width = toggleBtn ? 0 : Math.min(this._minWidth, maximumWidth);
-        } else {
-            width = Math.min(maximumWidth, width);
+            return this.options.toggleBtn ? 0 : Math.min(this._minWidth, maximumWidth);
         }
+        return Math.min(maximumWidth, width);
+    }
+
+    protected _updateWidth(width: number, share = true) {
+        if (this.destroyed) {
+            return;
+        }
+        if (this._raf) {
+            cancelAnimationFrame(this._raf);
+            this._raf = 0;
+        }
+        width = this._clampWidth(width);
         if (width === this._width) {
             return;
         }
 
+        const {preserve, onResize, onToggle, animation} = this.options;
         const isOldCollapsed = !this._width;
         const isCollapsed = !width;
+        if (isCollapsed && !isOldCollapsed) {
+            this._widthBack = this._width;
+        }
         this._width = width;
         if (preserve) {
             store.set(this._storeID, width);
@@ -197,12 +245,20 @@ export class Sidebar extends Component<SidebarOptions, {
         this.render();
         onResize?.(width);
         if (isOldCollapsed !== isCollapsed) {
-            if (isOldCollapsed && animation) {
+            if (isOldCollapsed && animation && !this.$parent.hasClass(RESIZING_CLASS)) {
                 this.$element.addClass(TRANSITION_CLASS);
             }
             onToggle?.(isCollapsed);
         }
         this.emit('sidebarResize', width);
+        if (share) {
+            for (const sidebar of this._getSharedSidebars()) {
+                if (this.destroyed || this._width !== width) {
+                    break;
+                }
+                sidebar._updateWidth(width, false);
+            }
+        }
     }
 
     render() {
@@ -231,7 +287,7 @@ export class Sidebar extends Component<SidebarOptions, {
             .css(`--sidebar-${side}-width`, `${width}px`)
             .toggleClass(`is-sidebar-${side}-collapsed`, isCollapsed);
 
-        if (this._moveable?.state) {
+        if (this._moveable?.state || $parent.hasClass(RESIZING_CLASS)) {
             $element.removeClass(TRANSITION_CLASS);
         }
     }

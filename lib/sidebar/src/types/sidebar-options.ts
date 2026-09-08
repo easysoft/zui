@@ -12,6 +12,8 @@ export interface SidebarOptions {
     dragToResize?: boolean;
     dbclick?: 'toggle' | 'reset';
     preserve?: string;
+    /** 共享宽度的分组标识；相同非空标识的实例同步宽度。 */
+    shareWidth?: string;
     onToggle?: (collapsed: boolean) => void;
     onResize?: (width: number) => void;
 }

@@ -1,8 +1,11 @@
 import 'zui-dev';
 import {Sidebar} from './src/main';
 
+let sidebars: Sidebar[] = [];
+
 onPageUpdate(() => {
-    const sidebar = new Sidebar('#sidebar', {width: 300, parent: 'body', preserve: 'sidebar'});
+    sidebars.forEach(sidebar => sidebar.destroy());
+    const sidebar = new Sidebar('#sidebar', {width: 300, parent: 'body', preserve: 'sidebar', shareWidth: 'sidebar-demo'});
     console.log('> sidebar', sidebar);
 
     const sidebarRight = new Sidebar('#sidebarRight', {
@@ -12,7 +15,9 @@ onPageUpdate(() => {
         side: 'right',
         animation: 1000,
         preserve: 'sidebarRight',
+        shareWidth: 'sidebar-demo',
         // toggleBtn: false,
     });
     console.log('> sidebarRight', sidebarRight);
+    sidebars = [sidebar, sidebarRight];
 });
