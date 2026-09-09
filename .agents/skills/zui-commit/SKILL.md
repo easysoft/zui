@@ -25,17 +25,25 @@ description: "审查并提交 ZUI 主仓库的改动；用户直接调用本技�
 - 首行格式：`<type> <scope>: <description>`
   - `<type>`：`*` = change、`+` = addition、`-` = removal。按提交的主要语义判断，不按文件的 A/M/D 状态机械拆分；新增功能即使同时修改旧文件，仍可使用 `+`。
   - `<scope>`：`lib/<name>/` 内的变更使用 `<name>`；仓库根、开发基础设施或不可拆分的跨库变更使用 `proj`。
-  - `<description>`：使用简洁的英文祈使句，建议不超过 72 个字符且结尾不加句号。
+  - `<description>`：使用简洁的英文祈使句，结尾不加句号。
+- 标题长度按整行计算（包括 type 和 scope），以约 50 个字符为目标；这是软目标，不为缩短而省略关键信息。
 - 提交信息全部使用英文，不使用 emoji。
-- 如需详细说明，与首行空一行后用 Markdown 撰写，多条变更使用列表项。
+- 默认提供正文；标题已能完整说明的极小改动（如拼写修正）可以省略。需要解释行为变化、原因或注意事项时保留正文。
+- 有正文时，第二行留空，正文从第三行开始；用 Markdown 列表（`- `）按逻辑列出主要变更，并说明必要的原因或决策依据。避免逐文件复述 diff，不强制条目数量。
+- 变更列表之后按需空一行追加 `Note: ...`，写清兼容性影响、迁移步骤或使用限制及所需行动；验证缺口具体说明未覆盖的场景。没有实际注意事项时省略，不写空泛提醒。
+- 正文以本次提交的实际 diff 和验证结果为依据，不混入其他提交或未提交改动。
 - 不添加 `Co-authored-by` 等 Agent 相关信息。
 
 示例：
 
 ```text
-* form-builder: add textarea option to form field panel
-+ utilities: add new whiteboard extension
-* proj: update pnpm-lock.yaml after dependency bump
++ form-builder: add textarea option
+
+- Add textarea fields so forms can collect multiline text
+- Preserve textarea settings when editing existing fields
+
+Note: Rendering saved textarea fields in the consuming application
+has not been verified.
 ```
 
 ## 与代码评审技能协作
@@ -87,5 +95,6 @@ description: "审查并提交 ZUI 主仓库的改动；用户直接调用本技�
    - 提交模式下直接完成已通过审查和必要验证的组，不停在建议或等待再次确认。存在问题或检查失败时，仅暂停受影响组及其依赖组；相互独立且检查通过的组继续提交，未解决的问题按步骤 4、5 处理。
    - 提交模式且暂存区为空：按组使用明确路径暂存，避免笼统执行 `git add .` 或 `git add -A`。
    - 每次提交前重新检查 `git diff --cached --name-status`、完整 cached diff 和 `git diff --cached --check`，确认暂存区只包含当前组且与已评审、已验证范围一致；任何差异都返回步骤 4 重新审查并补充验证。
-   - 使用安全的参数或标准输入传递 commit message 并运行 `git commit`。若 hook 修改文件或提交失败，重新检查仓库状态，不使用 `--no-verify` 绕过。
+   - 使用安全的文件或标准输入传递完整 commit message（如 `git commit -F -`），保留标题与正文之间的空行及实际换行；不要截断正文或将换行写成字面量 `\n`。若 hook 修改文件或提交失败，重新检查仓库状态，不使用 `--no-verify` 绕过。
+   - 每次提交成功后运行 `git log -1 --format=%B`，核对实际保存的完整 message，确认标题、空行、正文和按需附加的注意事项与预期一致；发现差异时如实报告，不擅自 amend。
 7. **确认结果**：运行 `git status --short --branch`，报告每个 commit 的短 hash、标题、评审结论、已运行的验证、用户明确接受的问题或风险，以及仍保留的未提交改动。
