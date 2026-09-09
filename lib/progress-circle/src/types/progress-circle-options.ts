@@ -2,7 +2,7 @@ import type {JSX, ComponentChildren} from '@zui/core';
 
 export type ProgressCircleOptions = {
     className?: string;
-    percent?: number;
+    percent?: number | string;
     size?: number;
     circleWidth?: number;
     circleBg?: string;

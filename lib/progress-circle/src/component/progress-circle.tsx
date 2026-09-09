@@ -9,8 +9,9 @@ export class ProgressCircle extends Component<ProgressCircleOptions> {
     };
 
     render(props: ProgressCircleOptions) {
-        const {percent = 50, size = 24, circleBg, circleColor, text, className, textStyle, textX, textY, children} = props;
-        const normalizedPercent = Number.isFinite(percent) ? Math.max(0, Math.min(100, percent)) : 0;
+        const {percent = 0, size = 24, circleBg, circleColor, text, className, textStyle, textX, textY, children} = props;
+        const percentValue = typeof percent === 'string' ? Number.parseInt(percent) : +percent;
+        const normalizedPercent = Number.isFinite(percentValue) ? Math.max(0, Math.min(100, percentValue)) : 0;
         const normalizedSize = Number.isFinite(size) && size > 0 ? size : 24;
         const center = normalizedSize / 2;
         let {circleWidth = 0.1} = props;
