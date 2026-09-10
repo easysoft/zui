@@ -99,7 +99,6 @@ export class DropdownMenu<T extends DropdownMenuOptions = DropdownMenuOptions> e
         return mergeProps(this.isHoverTrigger ? {
             'z-key': item.key,
             'z-hover': this.props.parentKey ?? 'root',
-            onMouseEnter: this._handleHover,
             onMouseLeave: this._handleHover,
         } : {}, super._getNestedProps(props, items, item, expanded)) as NestedListProps;
     }
@@ -117,6 +116,10 @@ export class DropdownMenu<T extends DropdownMenuOptions = DropdownMenuOptions> e
                 return super._getItemFromEvent(event, $target[0]) as MouseEventInfo;
             }
         }
+    }
+
+    protected _toggleNestedOnClick(keyPath: string) {
+        this.toggle(keyPath, this.isHoverTrigger ? true : undefined);
     }
 
     protected _renderNestedList(props: RenderableProps<T>, items: ListItemsSetting, item: NestedItem, expanded: boolean): ComponentChildren {

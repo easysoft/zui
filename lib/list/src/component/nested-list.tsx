@@ -619,6 +619,10 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
         this.toggle(key, toggle, reset);
     }
 
+    protected _toggleNestedOnClick(keyPath: string) {
+        this.toggle(keyPath);
+    }
+
     protected _handleClick(event: MouseEvent) {
         const info = super._handleClick(event);
         if (info) {
@@ -633,7 +637,7 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
             ) {
                 return info;
             }
-            this.toggle(keyPath);
+            this._toggleNestedOnClick(keyPath);
             event.preventDefault();
         }
         return info;

@@ -49,7 +49,6 @@ export class Menu<T extends MenuOptions = MenuOptions, S extends NestedListState
             wrapAttrs,
             (height || maxHeight) ? {style: {height, maxHeight}} : null,
             this.isRoot && this.isHoverTrigger ? {
-                onMouseEnter: this._handleHover,
                 onMouseLeave: this._handleHover,
                 onMouseOver: this._handleHover,
             } : null,

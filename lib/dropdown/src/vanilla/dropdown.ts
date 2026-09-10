@@ -28,6 +28,9 @@ export class Dropdown<O extends DropdownOptions = DropdownOptions> extends Popov
 
     handleClickTarget(event: MouseEvent): void | boolean {
         const $target = $(event.target as HTMLElement);
+        if ($target.closest('.menu-item').hasClass('is-nested')) {
+            return true;
+        }
         const {notHideOnClick} = this.options;
         if (!notHideOnClick || !$target.closest(notHideOnClick).length) {
             this.hide();
