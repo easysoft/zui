@@ -19,15 +19,21 @@ export class SearchBox extends Component<SearchBoxOptions, SearchBoxState> {
 
     protected _timer = 0;
 
+    protected _composing = false;
+
+    protected _lastChangeValue: string;
+
     protected _hotkeysScope?: string;
 
     constructor(props: SearchBoxOptions) {
         super(props);
         this.state = {focus: false, value: props.defaultValue || ''};
+        this._lastChangeValue = props.value ?? this.state.value;
         this._gid = props.id || `search-box-${nextGid()}`;
     }
 
     componentDidMount(): void {
+        $(this.input).on('compositionstart', this._handleCompositionStart).on('compositionend', this._handleCompositionEnd);
         const {hotkeys} = this.props;
         if (hotkeys) {
             const hotkeysMap = getHotkeysMap(hotkeys, {
@@ -56,6 +62,7 @@ export class SearchBox extends Component<SearchBoxOptions, SearchBoxState> {
 
     componentWillUnmount(): void {
         this._clearTimer();
+        $(this.input).off('compositionstart', this._handleCompositionStart).off('compositionend', this._handleCompositionEnd);
         if (this._hotkeysScope) {
             $(this.input).unbindHotkeys(this._hotkeysScope);
         }
@@ -83,6 +90,7 @@ export class SearchBox extends Component<SearchBoxOptions, SearchBoxState> {
         }
         const oldValue = this.props.value ?? this.state.value;
         this._clearTimer();
+        this._lastChangeValue = '';
         this.setState({value: ''}, () => {
             const {onChange, onClear} = this.props;
             onClear?.(event);
@@ -99,23 +107,37 @@ export class SearchBox extends Component<SearchBoxOptions, SearchBoxState> {
     };
 
     _handleChange = (event: Event) => {
-        const oldValue = this.props.value ?? this.state.value;
+        const composing = this._composing || (event as InputEvent).isComposing;
         const value = (event.target as HTMLInputElement).value;
         const {onChange, delay} = this.props;
         this.setState({value}, () => {
-            if (!onChange || oldValue === value) {
+            if (composing || this._composing || !onChange) {
                 return;
             }
-            if (delay) {
-                this._clearTimer();
-                this._timer = window.setTimeout(() => {
+            this._clearTimer();
+            const notify = () => {
+                this._timer = 0;
+                if (this._lastChangeValue !== value) {
+                    this._lastChangeValue = value;
                     onChange(value, event);
-                    this._timer = 0;
-                }, delay);
+                }
+            };
+            if (delay) {
+                this._timer = window.setTimeout(notify, delay);
             } else {
-                onChange(value, event);
+                notify();
             }
         });
+    };
+
+    _handleCompositionStart = () => {
+        this._composing = true;
+        this._clearTimer();
+    };
+
+    _handleCompositionEnd = (event: CompositionEvent) => {
+        this._composing = false;
+        this._handleChange(event);
     };
 
     _handleFocus = (event: FocusEvent) => {
@@ -133,9 +155,14 @@ export class SearchBox extends Component<SearchBoxOptions, SearchBoxState> {
         this._timer = 0;
     }
 
-    componentDidUpdate(_previousProps: Readonly<SearchBoxOptions>): void {
-        if (this.props.value !== undefined && this.props.value !== this.state.value) {
-            this.setState({value: this.props.value});
+    componentDidUpdate(previousProps: Readonly<SearchBoxOptions>): void {
+        if (!this._composing && this.props.value !== undefined) {
+            if (this.props.value !== previousProps.value) {
+                this._lastChangeValue = this.props.value;
+            }
+            if (this.props.value !== this.state.value) {
+                this.setState({value: this.props.value});
+            }
         }
     }
 
@@ -143,7 +170,7 @@ export class SearchBox extends Component<SearchBoxOptions, SearchBoxState> {
         const {style, className, rootClass, rootStyle, readonly, disabled, circle, placeholder, mergeIcon, searchIcon, clearIcon, value: controlledValue, compact, prefixClass, suffixClass, name} = props;
         const {focus, value} = state;
         const {id} = this;
-        const finalValue = controlledValue ?? value;
+        const finalValue = this._composing ? value : (controlledValue ?? value);
         const empty = typeof finalValue !== 'string' || !finalValue.trim().length;
         let prefixView: ComponentChildren;
         let suffixView: ComponentChildren;

@@ -28,6 +28,8 @@ export class SearchMenu<T extends SearchMenuOptions = SearchMenuOptions> extends
 
     protected declare _showCount: number;
 
+    protected declare _composingSearch?: HTMLInputElement;
+
     constructor(props: T) {
         super(props);
         (this.state as SearchMenuState).search = props.search ?? props.defaultSearch;
@@ -136,6 +138,53 @@ export class SearchMenu<T extends SearchMenuOptions = SearchMenuOptions> extends
     protected _getWrapClass(props: RenderableProps<T>): ClassNameLike {
         const isSearchMode = this.isRoot && this._searchKeys.length;
         return classes(super._getWrapClass(props), 'search-menu', props.searchBox ? `search-menu-on-${props.searchPlacement || 'top'}` : '', isSearchMode ? 'is-search-mode' : '', isSearchMode && props.expandOnSearch ? 'no-toggle-on-search' : '');
+    }
+
+    protected _getWrapperProps(props: RenderableProps<T>): Record<string, unknown> {
+        const wrapProps = super._getWrapperProps(props);
+        if (this.isHoverTrigger) {
+            ['onFocusIn', 'onCompositionStart', 'onCompositionEnd'].forEach((name) => {
+                const handler = (wrapProps[name] ?? wrapProps[name.toLowerCase()]) as ((event: FocusEvent | CompositionEvent) => void) | undefined;
+                delete wrapProps[name];
+                // Composition events have no corresponding DOM on* property.
+                wrapProps[name.toLowerCase()] = (event: FocusEvent | CompositionEvent) => {
+                    this._handleSearchInteraction(event);
+                    handler?.(event);
+                };
+            });
+        }
+        return wrapProps;
+    }
+
+    protected _handleSearchInteraction = (event: FocusEvent | CompositionEvent) => {
+        const input = event.target;
+        if (!(input instanceof HTMLInputElement) || !input.closest('.search-box')) {
+            return;
+        }
+        if (event.type === 'compositionend') {
+            this._composingSearch = undefined;
+        } else {
+            if (event.type === 'compositionstart') {
+                this._composingSearch = input;
+            }
+            // Focus and composition events bubble through every ancestor menu.
+            this._clearHoverTimer();
+        }
+    };
+
+    protected _handleHover(event: MouseEvent) {
+        if (event.type === 'mouseleave') {
+            const wrapper = this.element?.parentElement;
+            const input = this._composingSearch && wrapper?.contains(this._composingSearch)
+                ? this._composingSearch
+                : wrapper?.ownerDocument.activeElement;
+            if (input instanceof HTMLInputElement && input.closest('.search-box') && wrapper?.contains(input)) {
+                // Native IME candidate windows can move the pointer outside the menu.
+                this._clearHoverTimer();
+                return;
+            }
+        }
+        super._handleHover(event);
     }
 
     protected _getSearchBoxProps(props: RenderableProps<T>): SearchBoxOptions {

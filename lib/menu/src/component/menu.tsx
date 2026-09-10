@@ -87,7 +87,7 @@ export class Menu<T extends MenuOptions = MenuOptions, S extends NestedListState
 
         const lastInfo = this._hoverInfo;
         const lastKeyPath = lastInfo?.keyPath;
-        if (lastKeyPath === keyPath) {
+        if (lastInfo && lastKeyPath === keyPath) {
             return;
         }
         if (lastInfo?.timer) {
@@ -110,12 +110,17 @@ export class Menu<T extends MenuOptions = MenuOptions, S extends NestedListState
         };
     }
 
-    componentWillUnmount(): void {
-        super.componentWillUnmount();
+    protected _clearHoverTimer() {
         const timer = this._hoverInfo?.timer;
         if (timer) {
             clearTimeout(timer);
         }
+        this._hoverInfo = undefined;
+    }
+
+    componentWillUnmount(): void {
+        super.componentWillUnmount();
+        this._clearHoverTimer();
     }
 
     render(props: RenderableProps<T>) {

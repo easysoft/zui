@@ -3,21 +3,21 @@ import {describe, expect, it, vi} from 'vitest';
 import {Dropdown} from '@zui/dropdown';
 import {flushAnimationFrame} from '../setup/dom';
 
-async function createDropdown(tree: boolean, nestedTrigger?: 'click' | 'hover') {
+async function createDropdown(tree: boolean, nestedTrigger?: 'click' | 'hover', searchBox = false, mask = false) {
     const trigger = document.createElement('button');
     document.body.append(trigger);
     const onClickItem = vi.fn();
     const onToggle = vi.fn();
     const dropdown = new Dropdown(trigger, {
         animation: false,
-        mask: false,
+        mask,
         tree,
         onClickItem,
         menu: {nestedTrigger, onToggle},
         items: [
             {key: 'copy', text: 'Copy'},
-            {key: 'export', text: 'Export', icon: 'download', items: [
-                {key: 'format', text: 'Choose format', items: [
+            {key: 'export', text: 'Export', icon: 'download', listProps: {searchBox}, items: [
+                {key: 'format', text: 'Choose format', listProps: {searchBox}, items: [
                     {key: 'pdf', text: 'Export as PDF'},
                 ]},
             ]},
@@ -71,6 +71,94 @@ describe.each([false, true])('Dropdown click dismissal (tree: %s)', (tree) => {
         expect(dropdown.shown).toBe(true);
 
         fireEvent.click(menu.getByText('Copy'));
+        expect(dropdown.shown).toBe(false);
+    });
+});
+
+describe('Dropdown search interaction', () => {
+    async function openSearchMenu(mask = false) {
+        const result = await createDropdown(false, 'hover', true, mask);
+        fireEvent.mouseOver(result.menu.getByText('Export'));
+        await flushHover();
+        const input = result.menu.getByRole('textbox') as HTMLInputElement;
+        const wrapper = result.dropdown.menu!.element!.closest('.menu-wrapper')!;
+        return {...result, input, wrapper};
+    }
+
+    it('keeps a focused search submenu open after leaving the menu and resumes hiding after blur', async () => {
+        const {dropdown, menu, input, wrapper} = await openSearchMenu();
+        act(() => input.focus());
+
+        fireEvent.mouseLeave(input.closest('.menu-wrapper')!);
+        fireEvent.mouseLeave(wrapper);
+        await flushHover();
+
+        expect(input).toHaveFocus();
+        expect(menu.getByText('Choose format')).toBeVisible();
+        expect(dropdown.shown).toBe(true);
+
+        act(() => input.blur());
+        fireEvent.mouseLeave(wrapper);
+        await flushHover();
+        expect(menu.queryByText('Choose format')).not.toBeInTheDocument();
+    });
+
+    it('cancels a pending hover dismissal when the search field receives focus', async () => {
+        const {menu, input, wrapper} = await openSearchMenu();
+        fireEvent.mouseLeave(wrapper);
+        act(() => input.focus());
+        await flushHover();
+
+        expect(menu.getByText('Choose format')).toBeVisible();
+        expect(input).toHaveFocus();
+    });
+
+    it('protects composition even if the native candidate window takes focus', async () => {
+        const {menu, input, wrapper} = await openSearchMenu();
+        act(() => input.focus());
+        act(() => input.blur());
+        fireEvent.mouseLeave(wrapper);
+        fireEvent(input, new CompositionEvent('compositionstart', {bubbles: true}));
+        fireEvent.input(input, {target: {value: 'c'}, isComposing: true});
+        fireEvent.mouseLeave(wrapper);
+        await act(async () => {
+            await vi.advanceTimersByTimeAsync(600);
+        });
+
+        expect(input).toBeInTheDocument();
+        expect(input).toHaveValue('c');
+        expect(menu.getByText('Choose format')).toBeVisible();
+
+        fireEvent(input, new CompositionEvent('compositionend', {bubbles: true}));
+        fireEvent.mouseLeave(wrapper);
+        await flushHover();
+        expect(menu.queryByText('Choose format')).not.toBeInTheDocument();
+    });
+
+    it('protects all ancestor menus while searching a deeper submenu and still selects leaves', async () => {
+        const {dropdown, menu, wrapper} = await openSearchMenu();
+        fireEvent.mouseOver(menu.getByText('Choose format'));
+        await flushHover();
+        const input = within(menu.getByText('Export as PDF').closest('.menu-wrapper')!).getByRole('textbox');
+        act(() => input.focus());
+        fireEvent(input, new CompositionEvent('compositionstart', {bubbles: true}));
+        fireEvent.mouseLeave(input.closest('.menu-wrapper')!);
+        fireEvent.mouseLeave(wrapper);
+        await flushHover();
+
+        expect(menu.getByText('Choose format')).toBeVisible();
+        expect(menu.getByText('Export as PDF')).toBeVisible();
+        fireEvent(input, new CompositionEvent('compositionend', {bubbles: true}));
+        fireEvent.click(menu.getByText('Export as PDF'));
+        expect(dropdown.shown).toBe(false);
+    });
+
+    it('still closes the dropdown when clicking outside a focused search menu', async () => {
+        const {dropdown, input} = await openSearchMenu(true);
+        act(() => input.focus());
+
+        fireEvent.click(document.body);
+
         expect(dropdown.shown).toBe(false);
     });
 });
