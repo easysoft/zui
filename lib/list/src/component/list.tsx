@@ -45,6 +45,14 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
 
     protected _visibleItemsRevision = 0;
 
+    protected _showMoreElement?: HTMLButtonElement;
+
+    protected _showMorePending = false;
+
+    protected _autoShowMoreFrame?: number;
+
+    protected _autoShowMoreObserver?: {observer: IntersectionObserver; element: HTMLButtonElement; revision: number; count: number};
+
     protected _activeSet = new Computed<Set<string>>(() => {
         const map = new Set<string>();
         const {active} = this.props;
@@ -85,6 +93,7 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
     componentDidMount() {
         this._afterRender(true);
         this.tryLoad();
+        this._syncAutoShowMore();
 
         if (this.props.activeOnHover && !this.props.multipleActive) {
             $(this.element).on(`mouseenter${this.namespace}`, '[z-item]', (event) => {
@@ -99,9 +108,12 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
     componentDidUpdate(): void {
         this._afterRender(false);
         this.tryLoad();
+        this._syncAutoShowMore();
     }
 
     componentWillUnmount(): void {
+        this._disconnectAutoShowMore();
+        this._showMoreElement = undefined;
         $(this.element).off(this.namespace);
         this.props.beforeDestroy?.call(this);
     }
@@ -406,14 +418,23 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
     protected _handleShowMore = (event: MouseEvent) => {
         event.preventDefault();
         event.stopPropagation();
+        this._showMore(document.activeElement === event.currentTarget);
+    };
+
+    protected _showMore(moveFocus = false) {
+        if (this._showMorePending || !this._remainingItemsCount || !this._visibleItemsLimit || this.state.loading || this.state.loadFailed) {
+            return;
+        }
+        this._cancelAutoShowMoreFrame();
+        this._showMorePending = true;
         const previousLastIndex = this._visibleItemIndexes.at(-1) ?? -1;
-        const moveFocus = document.activeElement === event.currentTarget;
         const {showMoreStep = 0} = this.props;
         const step = Number.isFinite(showMoreStep) && showMoreStep > 0 ? Math.max(1, Math.floor(showMoreStep)) : this._visibleItemsLimit;
         this.changeState({visibleItems: {
             revision: this._visibleItemsRevision,
             count: this._visibleItemsCount + step,
         }} as Partial<S>, () => {
+            this._showMorePending = false;
             if (!moveFocus) {
                 return;
             }
@@ -427,7 +448,66 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
                 focusTarget.focus();
             }
         });
+    }
+
+    protected _setShowMoreElement = (element: HTMLButtonElement | null) => {
+        this._showMoreElement = element ?? undefined;
+        if (!element) {
+            this._disconnectAutoShowMore();
+        }
     };
+
+    protected _cancelAutoShowMoreFrame() {
+        if (this._autoShowMoreFrame !== undefined) {
+            cancelAnimationFrame(this._autoShowMoreFrame);
+            this._autoShowMoreFrame = undefined;
+        }
+    }
+
+    protected _disconnectAutoShowMore() {
+        this._cancelAutoShowMoreFrame();
+        this._autoShowMoreObserver?.observer.disconnect();
+        this._autoShowMoreObserver = undefined;
+    }
+
+    protected _syncAutoShowMore() {
+        const element = this._showMoreElement;
+        const {loading, loadFailed} = this.state;
+        if (!this.props.autoShowMore || !element || !this._remainingItemsCount || loading || loadFailed || typeof IntersectionObserver !== 'function') {
+            this._disconnectAutoShowMore();
+            return;
+        }
+        const revision = this._visibleItemsRevision;
+        const count = this._visibleItemsCount;
+        const current = this._autoShowMoreObserver;
+        if (current?.element === element && current.revision === revision && current.count === count) {
+            return;
+        }
+        this._disconnectAutoShowMore();
+        // Recheck after each batch so short lists can fill the viewport, one batch per animation frame.
+        const observer = new IntersectionObserver((entries) => {
+            if (this._autoShowMoreObserver?.observer !== observer) {
+                return;
+            }
+            const entry = entries.at(-1);
+            if (!entry || entry.target !== element || !entry.isIntersecting || entry.intersectionRatio <= 0) {
+                this._cancelAutoShowMoreFrame();
+                return;
+            }
+            if (this._autoShowMoreFrame !== undefined || this._showMorePending) {
+                return;
+            }
+            this._autoShowMoreFrame = requestAnimationFrame(() => {
+                this._autoShowMoreFrame = undefined;
+                if (this._autoShowMoreObserver?.observer === observer && this.props.autoShowMore && element.isConnected && element.getClientRects().length
+                    && this._visibleItemsRevision === revision && this._visibleItemsCount === count) {
+                    this._showMore();
+                }
+            });
+        }, {root: null, threshold: 0.01});
+        this._autoShowMoreObserver = {observer, element, revision, count};
+        observer.observe(element);
+    }
 
     protected _renderShowMore(props: RenderableProps<P>): ComponentChild {
         const count = this._remainingItemsCount;
@@ -438,7 +518,7 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
         const Tag = typeof tag === 'string' && ['ul', 'ol', 'menu'].includes(tag) ? 'li' : 'div';
         return (
             <Tag key="show-more" className="list-show-more not-nested-toggle">
-                <button type="button" className="btn ghost" onClick={this._handleShowMore}>
+                <button ref={this._setShowMoreElement} type="button" className="btn ghost" onClick={this._handleShowMore}>
                     <CustomContent content={content} />
                 </button>
             </Tag>

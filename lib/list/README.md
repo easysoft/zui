@@ -8,6 +8,16 @@
 <div id="largeList"></div>
 ```
 
+## 滚动时自动显示更多
+
+数据包含 1000 项，首次显示 20 项。设置 `autoShowMore: true` 和 `showMoreStep: 10` 后，在下方容器内滚动至底部提示，即自动追加 10 项；追加后提示仍可见时继续分批追加，直到提示移出可见区域或全部条目显示完毕。也可以手动点击提示。
+
+```html:example
+<div id="autoMoreList" class="h-64 overflow-auto" tabindex="0" role="region" aria-label="自动分批显示列表"></div>
+```
+
+自动显示只使用已获取的数据，不发起远程分页请求；未启用 `autoShowMore` 的上方示例仍需手动点击。
+
 ## 远程数据
 
 ### 远程数据列表

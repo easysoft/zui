@@ -3,6 +3,7 @@ import '@zui/icons';
 import '@zui/button';
 import '@zui/avatar';
 import '@zui/checkbox';
+import '@zui/utilities';
 import {List, NestedList} from './src/main';
 
 let instances: {destroy: () => void}[] = [];
@@ -16,6 +17,14 @@ onPageUpdate(() => {
         maxVisibleItems: 100,
         showMoreStep: 50,
         showMoreText: count => `剩余 ${count} 项，点击再显示 50 项`,
+    });
+
+    const autoMoreList = new List('#autoMoreList', {
+        items: Array.from({length: 1000}, (_, index) => ({id: `auto-${index}`, text: `自动列表项 ${index + 1}`})),
+        maxVisibleItems: 20,
+        showMoreStep: 10,
+        autoShowMore: true,
+        showMoreText: count => `剩余 ${count} 项，滚动至此自动显示，也可点击显示`,
     });
 
     const remoteNestedList = new NestedList('#remoteNestedList', {
@@ -119,5 +128,5 @@ onPageUpdate(() => {
     });
     console.log('> simpleList', simpleList);
 
-    instances.push(largeList, remoteNestedList, remoteNestedList2, remoteSimpleList, nestedList, simpleList);
+    instances.push(largeList, autoMoreList, remoteNestedList, remoteNestedList2, remoteSimpleList, nestedList, simpleList);
 });

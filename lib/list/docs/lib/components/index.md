@@ -87,11 +87,50 @@ largeList.render({
 
 `showMoreStep` 未设置、值不大于 `0` 或不是有限数时，使用归一化后的 `maxVisibleItems`；正数同样向下取整且至少为 `1`。修改 `showMoreStep` 只影响下一次追加，不会收起已经显示的条目。子列表继承该选项，也可以通过条目的 `listProps.showMoreStep` 单独覆盖。
 
-分批显示保留完整数据、原始条目索引和勾选状态。普通列表会尽早限制条目处理范围，未显示条目的子列表也不会创建；搜索、自定义过滤和树形勾选仍可能扫描全部数据。随着点击追加，DOM 数量会持续增加，分批显示不等同于滚动虚拟化。
+分批显示保留完整数据、原始条目索引和勾选状态。普通列表会尽早限制条目处理范围，未显示条目的子列表也不会创建；搜索、自定义过滤和树形勾选仍可能扫描全部数据。随着追加，DOM 数量会持续增加，分批显示不等同于滚动虚拟化。
 
-继承自 `List` 的组件同样支持这两个选项，包括 `NestedList`、`Menu`、`Tree`、`Nav` 和 `CardList`。嵌套列表的子级继承设置，每层独立按批次增加；`SearchMenu` 的 `limit` 仍控制允许显示的搜索结果总数，在此范围内再应用分批显示。底部提示可通过 Tab 聚焦，并使用 Enter 或空格键追加条目。
+继承自 `List` 的组件同样支持这些选项，包括 `NestedList`、`Menu`、`Tree`、`Nav` 和 `CardList`。嵌套列表的子级继承设置，每层独立按批次增加；`SearchMenu` 的 `limit` 仍控制允许显示的搜索结果总数，在此范围内再应用分批显示。底部提示可通过 Tab 聚焦，并使用 Enter 或空格键追加条目。
 
 嵌套搜索遇到尚未加载的数据、自定义子级过滤或 `listProps` 覆盖时，会保留无法提前判断的候选分支；余数可能包含展开后才确认无匹配结果的分支，以避免提前加载和创建全部子列表。
+
+### 自动显示下一批
+
+设置 `autoShowMore: true` 后，底部提示按钮进入可见区域时，会自动按 `showMoreStep` 追加条目。追加后按钮仍可见时，继续分批追加，直到按钮移出可见区域或所有条目显示完毕。可见区域同时受页面视口和祖先滚动容器边界限制。
+
+::: tabs
+
+== 示例
+
+<Example>
+  <div class="h-64 overflow-auto" tabindex="0" role="region" aria-label="自动分批显示列表">
+    <ZUI use="list" :options="{items: autoMoreItems, maxVisibleItems: 20, showMoreStep: 10, autoShowMore: true}" />
+  </div>
+</Example>
+
+== HTML
+
+```html
+<div class="h-64 overflow-auto" tabindex="0" role="region" aria-label="自动分批显示列表">
+    <ul id="autoDocumentList"></ul>
+</div>
+```
+
+== JS
+
+```js
+const autoList = new zui.List('#autoDocumentList', {
+    items: Array.from({length: 1000}, (_, index) => ({id: `auto-${index}`, text: `条目 ${index + 1}`})),
+    maxVisibleItems: 20,
+    showMoreStep: 10,
+    autoShowMore: true,
+});
+```
+
+:::
+
+`autoShowMore` 默认为 `false`，需要与有效的 `maxVisibleItems` 一起使用。开启后仍可手动点击提示；不支持 `IntersectionObserver` 的环境继续使用手动点击。子列表继承该选项，可以通过条目的 `listProps.autoShowMore: false` 单独关闭。
+
+自动追加仅显示已经获取的数据，不会发起远程分页请求。
 
 ## 列表项
 
@@ -202,7 +241,8 @@ list.render({
 
 <Props>
 maxVisibleItems?: number; // 首次显示的条目数量；默认不限制。
-showMoreStep?: number; // 每次点击追加的条目数量；默认与 maxVisibleItems 一致。
+showMoreStep?: number; // 每次追加的条目数量；默认与 maxVisibleItems 一致。
+autoShowMore?: boolean = false; // 底部提示进入可见区域时自动追加条目。
 showMoreText?: string | ((remaining: number) =&gt; CustomContentType); // 底部提示，字符串中的 {count} 替换为剩余条目数。
 divider?: boolean; // 显示条目分割线。
 multiline?: boolean; // 多行条目外观。
@@ -246,3 +286,7 @@ import type {ListProps, ListItem, NestedListProps} from '@zui/list';
 ```
 
 Preact 入口使用时还需加载包含列表样式的 ZUI CSS。列表不会自动成为键盘菜单；导航项应使用链接，操作项应提供可聚焦的按钮，勾选场景可使用复选框的原生键盘操作。
+
+<script setup>
+const autoMoreItems = Array.from({length: 1000}, (_, index) => ({id: `auto-${index}`, text: `条目 ${index + 1}`}));
+</script>

@@ -19,6 +19,8 @@ export interface ListProps<T extends Item = ListItem> extends CommonListProps<T>
     maxVisibleItems?: number;
     /** Number of items added by each show-more action. Defaults to maxVisibleItems. */
     showMoreStep?: number;
+    /** Automatically show the next batch when the show-more button enters the visible area. Defaults to false. */
+    autoShowMore?: boolean;
     /** Show-more content; string templates support {count}, the number of remaining items. */
     showMoreText?: string | ((remaining: number) => CustomContentType);
     divider?: boolean;
