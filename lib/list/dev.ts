@@ -5,7 +5,18 @@ import '@zui/avatar';
 import '@zui/checkbox';
 import {List, NestedList} from './src/main';
 
+let instances: {destroy: () => void}[] = [];
+
 onPageUpdate(() => {
+    instances.forEach(instance => instance.destroy());
+    instances = [];
+
+    const largeList = new List('#largeList', {
+        items: Array.from({length: 10000}, (_, index) => ({id: `large-${index}`, text: `列表项 ${index + 1}`})),
+        maxVisibleItems: 100,
+        showMoreText: count => `剩余 ${count} 项，点击再显示 100 项`,
+    });
+
     const remoteNestedList = new NestedList('#remoteNestedList', {
         items: '/lib/list/dev/nested-items.json',
         checkbox: true,
@@ -85,6 +96,9 @@ onPageUpdate(() => {
         items: items,
         checkbox: true,
         checkOnClick: true,
+        defaultNestedShow: true,
+        maxVisibleItems: 3,
+        showMoreText: '剩余 {count} 项，点击再显示 3 项',
     });
     console.log('> nestedList', nestedList);
 
@@ -103,4 +117,6 @@ onPageUpdate(() => {
         ],
     });
     console.log('> simpleList', simpleList);
+
+    instances.push(largeList, remoteNestedList, remoteNestedList2, remoteSimpleList, nestedList, simpleList);
 });

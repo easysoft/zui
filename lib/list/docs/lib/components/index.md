@@ -34,6 +34,62 @@ const list = new zui.List('#documentList', {
 
 默认用 `id` 生成字符串键，也可通过 `itemKey` 指定字段。每项应具有稳定且唯一的键。
 
+## 大量数据分批显示
+
+设置 `maxVisibleItems` 可以减少首次显示时创建的条目组件和 DOM。超过上限时，底部显示“剩余 N 项没有显示，点击显示更多”；每次点击按同样的数量追加，最后一批不足时显示剩余全部条目。
+
+::: tabs
+
+== 示例
+
+<Example>
+  <ZUI use="list" :options="{maxVisibleItems: 3, showMoreText: '还有 {count} 项，点击继续显示', items: [{id: 'doc-1', text: '使用指南'}, {id: 'doc-2', text: '安装说明'}, {id: 'doc-3', text: '组件目录'}, {id: 'doc-4', text: '主题配置'}, {id: 'doc-5', text: '更新记录'}, {id: 'doc-6', text: '常见问题'}, {id: 'doc-7', text: '贡献指南'}]}" />
+</Example>
+
+== HTML
+
+```html
+<ul id="largeDocumentList"></ul>
+```
+
+== JS
+
+```js
+const largeList = new zui.List('#largeDocumentList', {
+    maxVisibleItems: 3,
+    showMoreText: '还有 {count} 项，点击继续显示',
+    items: [
+        {id: 'doc-1', text: '使用指南'},
+        {id: 'doc-2', text: '安装说明'},
+        {id: 'doc-3', text: '组件目录'},
+        {id: 'doc-4', text: '主题配置'},
+        {id: 'doc-5', text: '更新记录'},
+        {id: 'doc-6', text: '常见问题'},
+        {id: 'doc-7', text: '贡献指南'},
+    ],
+});
+```
+
+:::
+
+`showMoreText` 支持包含 `{count}` 的字符串，或接收剩余条目数量并返回 `CustomContentType` 的回调。未设置时，使用当前语言的默认提示，支持简体中文、繁体中文和英文。例如，10000 项数据可以每次显示 100 项：
+
+```js
+largeList.render({
+    items: Array.from({length: 10000}, (_, index) => ({id: `item-${index}`, text: `条目 ${index + 1}`})),
+    maxVisibleItems: 100,
+    showMoreText: count => `剩余 ${count} 项，点击再显示 100 项`,
+});
+```
+
+未设置 `maxVisibleItems`、值不大于 `0` 或不是有限数时，不限制显示数量。正数向下取整，小于 `1` 的正数按 `1` 处理。替换 `items` 数据来源或修改上限后，显示数量回到第一批。
+
+分批显示保留完整数据、原始条目索引和勾选状态。普通列表会尽早限制条目处理范围，未显示条目的子列表也不会创建；搜索、自定义过滤和树形勾选仍可能扫描全部数据。随着点击追加，DOM 数量会持续增加，分批显示不等同于滚动虚拟化。
+
+继承自 `List` 的组件同样支持这两个选项，包括 `NestedList`、`Menu`、`Tree`、`Nav` 和 `CardList`。嵌套列表的子级继承设置，每层独立按批次增加；`SearchMenu` 的 `limit` 仍控制允许显示的搜索结果总数，在此范围内再应用分批显示。底部提示可通过 Tab 聚焦，并使用 Enter 或空格键追加条目。
+
+嵌套搜索遇到尚未加载的数据、自定义子级过滤或 `listProps` 覆盖时，会保留无法提前判断的候选分支；余数可能包含展开后才确认无匹配结果的分支，以避免提前加载和创建全部子列表。
+
 ## 列表项
 
 | 字段 | 说明 |
@@ -142,6 +198,8 @@ list.render({
 除 [通用列表选项](/lib/components/common-list/#选项) 外，还支持：
 
 <Props>
+maxVisibleItems?: number; // 首次显示及每次追加的条目数量；默认不限制。
+showMoreText?: string | ((remaining: number) =&gt; CustomContentType); // 底部提示，字符串中的 {count} 替换为剩余条目数。
 divider?: boolean; // 显示条目分割线。
 multiline?: boolean; // 多行条目外观。
 checkbox?: boolean | CheckboxProps; // 显示复选框。

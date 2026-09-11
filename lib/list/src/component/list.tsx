@@ -1,9 +1,10 @@
-import {$, Computed, HElement, classes, fetchData, mergeProps, removeUndefinedProps} from '@zui/core';
+import {$, Computed, CustomContent, HElement, classes, fetchData, mergeProps, removeUndefinedProps} from '@zui/core';
 import {CommonList} from '@zui/common-list/react';
 import {Listitem} from './listitem';
+import {listI18n} from '../i18n';
 
 import type {ComponentChild, ComponentChildren, RenderableProps} from 'preact';
-import type {ClassNameLike, CustomContentType} from '@zui/core';
+import type {ClassNameLike, CustomContentType, I18nLangMap} from '@zui/core';
 import type {Item, ItemKey} from '@zui/common-list';
 import type {CheckedType} from '@zui/checkbox';
 import type {ListProps, ListState, ListItemsSetting, ListItemsFetcher} from '../types';
@@ -18,11 +19,31 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
 
     static NAME = 'list';
 
+    static i18n: I18nLangMap = listI18n;
+
     protected _loadedSetting?: ListItemsSetting;
 
     protected declare _hasIcons: boolean;
 
     protected declare _hasCheckbox: boolean;
+
+    protected _preparedAllItems = true;
+
+    protected _limitedItemKeys = new Set<string>();
+
+    protected _visibleItemIndexes: number[] = [];
+
+    protected _remainingItemsCount = 0;
+
+    protected _visibleItemsLimit = 0;
+
+    protected _visibleItemsCount = 0;
+
+    protected _visibleItemsContext: unknown;
+
+    protected _visibleItemsSource?: Item[];
+
+    protected _visibleItemsRevision = 0;
 
     protected _activeSet = new Computed<Set<string>>(() => {
         const map = new Set<string>();
@@ -49,6 +70,11 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
 
     get namespace() {
         return `.zui.${this.constructor.NAME}.list_${this.gid}`;
+    }
+
+    get i18nData() {
+        const data = super.i18nData;
+        return this.constructor.i18n === listI18n ? data : [...data, listI18n];
     }
 
     get isLazyItems() {
@@ -117,15 +143,40 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
         return this.state.checked[key] ?? item.checked ?? defaultChecked;
     }
 
+    getItemIndex(key: ItemKey) {
+        if (this._preparedAllItems) {
+            return this._renderedItems.findIndex(item => item?.key === key);
+        }
+        return this._items.findIndex((item, index) => item && (this._renderedItems[index]?.key ?? this._getRawItemKey(item, index)) === key);
+    }
+
+    getRenderedItem(key: ItemKey) {
+        return this._renderedItems.find(item => item?.key === key);
+    }
+
+    getKey(index: number): ItemKey | undefined {
+        const item = this._items?.[index];
+        return super.getKey(index) ?? (!this._preparedAllItems && item ? this._getRawItemKey(item, index) : undefined);
+    }
+
+    protected _getRawItemKey(item: Item, index: number): ItemKey {
+        const {itemKey} = this.props;
+        return String((itemKey ? item[itemKey] : item.key) ?? item.key ?? index);
+    }
+
+    protected _getItemKeys(): (ItemKey | undefined)[] {
+        return this._items.map((item, index) => this._renderedItems[index]?.key ?? (!this._preparedAllItems && item ? this._getRawItemKey(item, index) : undefined));
+    }
+
     isAllChecked(): boolean {
-        return this._renderedItems.every(({key}, index) => this.isChecked(key!, index) === true);
+        return this._getItemKeys().every((key, index) => key === undefined || this.isChecked(key, index) === true);
     }
 
     toggleAllChecked(checked?: boolean) {
         if (checked === undefined) {
             checked = !this.isAllChecked();
         }
-        return this.toggleChecked(this._renderedItems.map(x => x.key!), checked);
+        return this.toggleChecked(this._getItemKeys().filter((key): key is string => key !== undefined), checked);
     }
 
     async toggleChecked(keyOrChange: ItemKey | ItemKey[] | Record<ItemKey, CheckedType>, checked?: boolean) {
@@ -167,7 +218,7 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
     }
 
     getChecks() {
-        return this._renderedItems.reduce<ItemKey[]>((checks, {key}, index) => {
+        return this._getItemKeys().reduce<ItemKey[]>((checks, key, index) => {
             if (key !== undefined && this.isChecked(key, index) === true) {
                 checks.push(key);
             }
@@ -219,12 +270,12 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
         items = items || this._renderedItems;
         condition = condition || (x => x.type === 'item' && !x.disabled);
         const count = items.length;
-        let index = key === undefined ? count - 1 : items.findIndex(x => x.key === key);
+        let index = key === undefined ? count - 1 : items.findIndex(x => x?.key === key);
         let checkCount = 0;
         while (checkCount < count) {
             index = (index + step + count) % count;
             const nextItem = items[index];
-            if (nextItem && !nextItem.hidden && condition.call(this, nextItem, index)) {
+            if (nextItem && !nextItem.hidden && !this._isItemLimited(nextItem.key!) && condition.call(this, nextItem, index)) {
                 return nextItem;
             }
             checkCount++;
@@ -265,6 +316,131 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
         const {items} = props;
         const {items: stateItems} = this.state;
         return stateItems || (Array.isArray(items) ? items : []);
+    }
+
+    /** Filtering callbacks may change keys or omit items, so keep their complete preparation contract. */
+    protected _prepareAllItems(props: RenderableProps<P>): boolean {
+        return !!props.getItem;
+    }
+
+    protected _getItemsLimitContext(props: RenderableProps<P>): unknown {
+        return props.getItem;
+    }
+
+    protected _isItemVisible(_props: RenderableProps<P>, item: Item, _index: number): boolean {
+        return !item.hidden;
+    }
+
+    protected _isItemLimited(key: string): boolean {
+        return this._limitedItemKeys.has(key);
+    }
+
+    protected _renderItems(props: RenderableProps<P>, items: Item[]): ComponentChild[] {
+        const {maxVisibleItems = 0} = props;
+        const limit = Number.isFinite(maxVisibleItems) && maxVisibleItems > 0 ? Math.max(1, Math.floor(maxVisibleItems)) : 0;
+        const context = this._getItemsLimitContext(props);
+        if (this._visibleItemsSource !== items || this._visibleItemsLimit !== limit || this._visibleItemsContext !== context) {
+            this._visibleItemsRevision++;
+        }
+        this._visibleItemsSource = items;
+        this._visibleItemsLimit = limit;
+        this._visibleItemsContext = context;
+        this._remainingItemsCount = 0;
+        this._limitedItemKeys.clear();
+        this._visibleItemIndexes = [];
+        if (!limit) {
+            this._preparedAllItems = true;
+            return super._renderItems(props, items);
+        }
+
+        const previous = this.state.visibleItems;
+        const count = previous?.revision === this._visibleItemsRevision ? previous.count : limit;
+        this._visibleItemsCount = count;
+        this._preparedAllItems = this._prepareAllItems(props);
+        this._renderedItems = this._preparedAllItems ? items.map((item, index) => this._getItem(props, item, index) || undefined) as Item[] : [];
+        const hiddenDefaults = new Map<string, unknown>();
+
+        // Scan raw metadata for the count and keys; only prepare the displayed batch on the fast path.
+        items.forEach((rawItem, index) => {
+            let item: Item | undefined = this._renderedItems[index];
+            if (this._preparedAllItems) {
+                if (!item || !this._isItemVisible(props, item, index)) {
+                    return;
+                }
+            } else {
+                if (!rawItem) {
+                    return;
+                }
+                const type = rawItem.type ?? this.constructor.defaultItemType;
+                if (!hiddenDefaults.has(type)) {
+                    let hidden: unknown;
+                    for (const defaults of [this.constructor.defaultItemProps, this.constructor.defaultItemPropsMap?.[type], props.itemProps, props.itemPropsMap?.[type]]) {
+                        if (defaults && Object.prototype.hasOwnProperty.call(defaults, 'hidden')) {
+                            hidden = defaults.hidden;
+                        }
+                    }
+                    hiddenDefaults.set(type, hidden);
+                }
+                const hidden = Object.prototype.hasOwnProperty.call(rawItem, 'hidden') ? rawItem.hidden : hiddenDefaults.get(type);
+                if (hidden) {
+                    return;
+                }
+            }
+            if (this._visibleItemIndexes.length >= count) {
+                this._remainingItemsCount++;
+                this._limitedItemKeys.add(item?.key ?? this._getRawItemKey(rawItem, index));
+                return;
+            }
+            if (!this._preparedAllItems) {
+                item = this._getItem(props, rawItem, index) || undefined;
+                if (!item || !this._isItemVisible(props, item, index)) {
+                    return;
+                }
+                this._renderedItems[index] = item;
+            }
+            this._visibleItemIndexes.push(index);
+        });
+        return this._visibleItemIndexes.map(index => this._renderItem(props, this._renderedItems[index], index));
+    }
+
+    protected _handleShowMore = (event: MouseEvent) => {
+        event.preventDefault();
+        event.stopPropagation();
+        const previousLastIndex = this._visibleItemIndexes.at(-1) ?? -1;
+        const moveFocus = document.activeElement === event.currentTarget;
+        this.changeState({visibleItems: {
+            revision: this._visibleItemsRevision,
+            count: this._visibleItemsCount + this._visibleItemsLimit,
+        }} as Partial<S>, () => {
+            if (!moveFocus) {
+                return;
+            }
+            const nextIndex = this._visibleItemIndexes.find(index => index > previousLastIndex);
+            const nextItem = this.element?.querySelector<HTMLElement>(`:scope > [z-item="${nextIndex}"]`);
+            if (nextItem) {
+                const focusTarget = nextItem.querySelector<HTMLElement>('a[href],button,input,select,textarea,[tabindex]') ?? nextItem;
+                if (focusTarget === nextItem) {
+                    focusTarget.tabIndex = -1;
+                }
+                focusTarget.focus();
+            }
+        });
+    };
+
+    protected _renderShowMore(props: RenderableProps<P>): ComponentChild {
+        const count = this._remainingItemsCount;
+        const {showMoreText} = props;
+        const content = typeof showMoreText === 'function' ? showMoreText.call(this, count)
+            : typeof showMoreText === 'string' ? showMoreText.replaceAll('{count}', String(count)) : this.i18n('showMore', {count});
+        const tag = props.component || this.constructor.TAG;
+        const Tag = typeof tag === 'string' && ['ul', 'ol', 'menu'].includes(tag) ? 'li' : 'div';
+        return (
+            <Tag key="show-more" className="list-show-more not-nested-toggle">
+                <button type="button" className="btn ghost" onClick={this._handleShowMore}>
+                    <CustomContent content={content} />
+                </button>
+            </Tag>
+        );
     }
 
     protected _getRenderedItem(props: RenderableProps<P>, renderedItem: Item, index: number): Item {
@@ -342,6 +518,13 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
         return info;
     }
 
+    protected _getItemFromEvent(event: MouseEvent, target?: HTMLElement) {
+        if ((target || event.target as HTMLElement).closest('.list-show-more')) {
+            return;
+        }
+        return super._getItemFromEvent(event, target);
+    }
+
     protected _getClassName(props: RenderableProps<P>): ClassNameLike {
         const {loading, loadFailed} = this.state;
         return [super._getClassName(props), loading ? 'loading' : (loadFailed ? 'is-load-failed' : ''), props.hoverItemActions ? 'with-hover-actions' : ''];
@@ -351,7 +534,7 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
         const {className, ...others} = super._getProps(props);
         return {
             ...others,
-            className: classes(className as ClassNameLike, this._hasIcons ? 'has-icons' : '', this._hasCheckbox ? 'has-checkbox' : ''),
+            className: classes(className as ClassNameLike, this._hasIcons ? 'has-icons' : '', this._hasCheckbox ? 'has-checkbox' : '', this._visibleItemsLimit ? 'list-limited' : ''),
         };
     }
 
@@ -363,6 +546,9 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
         const {loadFailed} = this.state;
         if (loadFailed) {
             children.push(loadFailed);
+        }
+        if (this._remainingItemsCount && !this.state.loading && !loadFailed) {
+            children.push(this._renderShowMore(props));
         }
         return children;
     }

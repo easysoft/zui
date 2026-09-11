@@ -30,6 +30,8 @@ export class SearchMenu<T extends SearchMenuOptions = SearchMenuOptions> extends
 
     protected declare _composingSearch?: HTMLInputElement;
 
+    protected declare _searchLimitContext?: unknown[];
+
     constructor(props: T) {
         super(props);
         (this.state as SearchMenuState).search = props.search ?? props.defaultSearch;
@@ -68,7 +70,7 @@ export class SearchMenu<T extends SearchMenuOptions = SearchMenuOptions> extends
         }
         const $element = $(this.element);
         const $matchedChildren = $element.find('.item.is-nested.is-not-match').filter((_, element) => this._matchedParents.has(element.getAttribute('z-key-path') || '')).addClass('has-match-child');
-        $element.parent().toggleClass('no-match-child', !!this._searchKeys?.length && !$matchedChildren.length && !$element.children('.item').not('.is-not-match').length);
+        $element.parent().toggleClass('no-match-child', !!this._searchKeys?.length && !$matchedChildren.length && !$element.children('.item').not('.is-not-match').length && !$element.children('.list-show-more').length);
     }
 
     protected _handleSearchChange = (search: string) => {
@@ -118,6 +120,44 @@ export class SearchMenu<T extends SearchMenuOptions = SearchMenuOptions> extends
             this._showCount++;
         }
         return finalItem;
+    }
+
+    protected _prepareAllItems(): boolean {
+        return true;
+    }
+
+    protected _getItemsLimitContext(props: RenderableProps<T>): unknown {
+        const context = [super._getItemsLimitContext(props), props.search ?? this._searchKeys.join(' '), props.limit, props.nestedSearch, props.isItemMatch, props.searchProps];
+        if (!this._searchLimitContext || context.some((value, index) => value !== this._searchLimitContext![index])) {
+            this._searchLimitContext = context;
+        }
+        return this._searchLimitContext;
+    }
+
+    protected _hasMatchedDescendant(props: RenderableProps<T>, item: NestedItem, parentKey = String(item._keyPath)): boolean {
+        const {items, listProps} = item;
+        if (!items) {
+            return false;
+        }
+        // These branches need their own instance to resolve data or customized child props.
+        // Keep the ancestor eligible without preparing children or triggering a lazy fetch.
+        if (!Array.isArray(items) || props.getItem || props.getItems || listProps) {
+            return true;
+        }
+        return items.some((child, index) => {
+            if (!child) {
+                return false;
+            }
+            if (this._isItemMatch(props, child, index, parentKey)) {
+                return true;
+            }
+            const key = String((props.itemKey ? child[props.itemKey] : child.key) ?? (child.key ?? index));
+            return this._hasMatchedDescendant(props, child, `${parentKey}:${key}`);
+        });
+    }
+
+    protected _isItemVisible(props: RenderableProps<T>, item: NestedItem): boolean {
+        return !item.hidden || (!!props.nestedSearch && this._hasMatchedDescendant(props, item));
     }
 
     protected _renderItem(props: RenderableProps<T>, item: Item, index: number): ComponentChildren {

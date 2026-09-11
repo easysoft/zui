@@ -93,7 +93,9 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
         indent: 20,
     } as Partial<NestedListProps>;
 
-    static inheritNestedProps = ['component', 'name', 'itemName', 'itemKey', 'indent', 'hover', 'divider', 'multiline', 'toggleIcons', 'nestedToggle', 'accordion', 'itemRender', 'itemProps', 'onToggle', 'checkbox', 'getItem', 'getItems', 'checkOnClick', 'selectOnChecked', 'checkedState', 'onClickItem', 'activeOnHover', 'multipleActive', 'onActive', 'hoverItemActions'];
+    static inheritNestedProps = ['component', 'name', 'itemName', 'itemKey', 'indent', 'hover', 'divider', 'multiline', 'toggleIcons', 'nestedToggle', 'accordion', 'itemRender', 'itemProps', 'onToggle', 'checkbox', 'getItem', 'getItems', 'checkOnClick', 'selectOnChecked', 'checkedState', 'onClickItem', 'activeOnHover', 'multipleActive', 'onActive', 'hoverItemActions', 'maxVisibleItems', 'showMoreText', 'lang', 'i18n'];
+
+    protected _nestedLists = new Map<string, NestedList>();
 
     protected declare _hasNestedItems: boolean;
 
@@ -160,7 +162,7 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
         }
         const state = await super.setItems(items, error);
         if (items && this.props.parent?.checked === true) {
-            this.toggleChecked(this._renderedItems.map(x => x.key!), true);
+            this.toggleChecked(this._getItemKeys().filter((key): key is string => key !== undefined), true);
         } else if (items?.some(x => x.checked)) {
             this._needInitChecks = true;
             this.forceUpdate();
@@ -467,6 +469,20 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
         return super.getNextItem(key, condition, step, items);
     }
 
+    protected _isItemLimited(keyPath: string): boolean {
+        // Walk mounted branches so each level keeps its own batch, including explicitly limited children.
+        if (super._isItemLimited(keyPath)) {
+            return true;
+        }
+        for (let separator = keyPath.indexOf(':'); separator >= 0; separator = keyPath.indexOf(':', separator + 1)) {
+            const key = keyPath.slice(0, separator);
+            if (super._isItemLimited(key) || this._nestedLists.get(key)?._isItemLimited(keyPath.slice(separator + 1))) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     protected _afterRender(firstRender: boolean): void {
         super._afterRender(firstRender);
         if (this._needInitChecks) {
@@ -525,7 +541,19 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
         }
         const nestedListProps = this._getNestedProps(props, items, item, expanded);
         const NestedListComponent = this.constructor as typeof NestedList;
-        return <NestedListComponent key={`nested:${item.key}`} {...nestedListProps} />;
+        return (
+            <NestedListComponent
+                key={`nested:${item.key}`}
+                {...nestedListProps}
+                ref={(list) => {
+                    if (list) {
+                        this._nestedLists.set(item.key!, list);
+                    } else {
+                        this._nestedLists.delete(item.key!);
+                    }
+                }}
+            />
+        );
     }
 
     protected _renderNestedToggle(props: RenderableProps<P>, isExpanded: boolean | undefined): ComponentChild {

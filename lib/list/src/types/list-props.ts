@@ -15,6 +15,10 @@ type ListCheckCallback<T extends Item> = {
 
 export interface ListProps<T extends Item = ListItem> extends CommonListProps<T> {
     items?: ListItemsSetting<T>;
+    /** Initial visible item count and the number added by each show-more action. Non-positive values disable the limit. */
+    maxVisibleItems?: number;
+    /** Show-more content; string templates support {count}, the number of remaining items. */
+    showMoreText?: string | ((remaining: number) => CustomContentType);
     divider?: boolean;
     multiline?: boolean;
     checkbox?: boolean | CheckboxProps;

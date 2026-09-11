@@ -5,6 +5,18 @@
   @apply -font-bold -text-gray-500;
 }
 
+/* The shared footer also spans card grids and horizontal lists. */
+.list-limited {
+  @apply -flex-wrap;
+}
+.list-show-more {
+  @apply -w-full -shrink-0 -list-none;
+  grid-column: 1 / -1;
+}
+.list-show-more > .btn {
+  @apply -w-full -h-auto -whitespace-normal;
+}
+
 .with-hover-actions > .item {
   @apply -relative
 }
