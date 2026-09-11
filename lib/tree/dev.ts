@@ -73,6 +73,7 @@ onPageUpdate(() => {
             ],
         },
         items,
+        maxVisibleItems: 2,
     });
     console.log('> tree', tree);
 
