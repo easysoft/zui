@@ -40,6 +40,7 @@ ignored 文件不属于默认未提交范围，用户点名时才纳入。显式
    - 公共 API、类型、事件、DOM/CSS、序列化、包元数据或向后兼容性回归；
    - listener、timer、observer、portal、实例、缓存及其他资源的初始化、更新与销毁不对称；
    - 安全、数据损坏、无障碍、国际化及有可复现场景的性能退化；
+   - Preact 组件违反[状态与副作用规范](../zuix-standards/references/component.md#preact-状态与副作用)：使用 hooks（含 signals hooks），或未在卸载/销毁时清理 `effect`；
    - ZUI 的 Preact/vanilla 双形态、组件注册、`contributes`、[辅助类优先](../zuix-standards/references/component.md#布局与样式)、Tailwind 前导 `-`、主题和 HMR 约定；
    - 扩展兄弟包与宿主库的真实公开 package name、依赖协议和导出契约，不通过相对路径或宿主 `exts/` 软链接跨包导入；从实际 package 与宿主实现核对 `ZUI_NAME`、`PUBLIC_PATH`、WIP/notReady 及资源加载、构建消费关系，不从目录名、包 scope 或注册组猜测；
    - 生成文件与 source-of-truth 不一致。遇到生成产物时找到生成器或映射并审查源头，不只评审生成结果。

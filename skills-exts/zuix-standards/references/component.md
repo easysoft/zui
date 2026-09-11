@@ -41,6 +41,12 @@
 
 优先复用当前宿主原语和公开组件，不复制基础设施。扩展实现可以替换宿主库时，额外验证 `zui.replace` 的公开兼容性。
 
+### Preact 状态与副作用
+
+- 禁止使用 hooks 机制：不导入或调用 `preact/hooks`，不使用自定义 hooks，也不使用 `useSignal`、`useComputed`、`useSignalEffect` 等 signals hooks。
+- 响应式状态推荐使用 `signal`，派生值使用 `computed`，批量更新按需使用 `batch`；优先从当前宿主 `@zui/core` 的公开入口复用这些 API，并核实目标宿主版本的导出。组件私有状态由实例持有，避免在每次 render 时重新创建。
+- 副作用按需使用 `effect`，结合类组件或 vanilla 实例的生命周期管理；卸载或销毁时调用其返回的 disposer，并在 effect 的清理函数中释放监听器、计时器等资源。
+
 ## 布局与样式
 
 - 扩展组件、调试页和文档示例统一优先在 HTML/JSX 的 `class` / `className` 中组合 `@zui/utilities` 辅助类，实现布局、间距、尺寸、排版、颜色等通用样式。只有现有辅助类无法快捷、清晰地实现目标时，才补充最少的自定义 CSS；不要用静态内联样式绕过这一原则。

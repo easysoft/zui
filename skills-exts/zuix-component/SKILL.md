@@ -43,7 +43,7 @@ description: "在独立 ZUI 扩展项目中设计、实现或修复组件；区�
 
 1. 获得确认且当前模式允许编辑后检查 `gitRoot` 状态，按共享工作流复用或刷新受影响的上下文。
 2. 仅在 `targetLibRoot` 和批准的扩展项目文件内实施。依赖安装、lockfile、lint、类型检查和扩展项目测试都从 `extensionRoot` 执行；不修改宿主源码、依赖、lockfile 或注册配置；宿主生成物和缓存写入遵循共享工作流的验证隔离与批准规则。
-3. 使用 Preact 而不是 React。跨库导入使用真实 `packageName`；显式维护局部入口、库入口及必要副作用导入。`zuiName` 只用于宿主发现/构建选择，不能代替模块包名。
+3. 使用 Preact 而不是 React，并遵循[状态与副作用规范](../zuix-standards/references/component.md#preact-状态与副作用)：禁止 hooks，响应式状态推荐 signals，按生命周期清理 `effect`。跨库导入使用真实 `packageName`；显式维护局部入口、库入口及必要副作用导入。`zuiName` 只用于宿主发现/构建选择，不能代替模块包名。
 4. 运行时外部依赖统一通过目标库内单例 `LibLoader<T>` 按需加载，落实加载失败、显式重试、异步销毁竞态及第三方实例清理；不要在组件中维护第二份模块缓存。
 5. 按 [布局与样式规范](../zuix-standards/references/component.md#布局与样式) 优先组合 `@zui/utilities` 辅助类，只有无法快捷实现时才补充最少自定义 CSS；落实语义标签、键盘、焦点和 ARIA。Tailwind、Preact 和 CSS 约定以当前宿主规范与扩展项目配置共同验证。
 6. 若批准范围包含其他领域，按需读取对应技能并传递已有发现和批准范围：

@@ -80,6 +80,7 @@ build/、dist/、publish/   构建中间产物 / 最终产物（gitignored）
 - 所有"JS 组件"继承 `Component`（`lib/core/src/component/component.ts`），提供 `NAME / KEY / NAMESPACE / ATTR_KEY (z-use-xxx)` 等约定、自动 DOM data 关联、事件命名空间、`Component.get(element)` 取实例等。
 - 富交互组件常用模式：`component/xxx.tsx` 写 Preact 组件，`vanilla/xxx.ts` 继承 `ComponentFromReact` 把 Preact 组件包成"原生类"，对外暴露 `new Menu('#menu', options)` 这种形态（见 `lib/menu`）。`component/share.ts` 中 `registerReactComponent(components)` 把 React 组件登记到 `<z-use-xxx>` 元素自动初始化体系。
 - 不要直接引入 React，**用 Preact**：`vite.config.ts` 把 `jsx` 注入为 `import {h} from 'preact'`，`jsxFactory: h`，`jsxFragment: Fragment`；`lib/*/tsconfig.json` 设 `"jsxImportSource": "preact"`。
+- Preact 组件**禁止使用 hooks**，包括 `preact/hooks`、自定义 hooks，以及 `useSignal`、`useComputed`、`useSignalEffect` 等 signals hooks。响应式状态推荐使用 `@zui/core` 导出的 `signal`、`computed`，按需使用 `batch` 和 `effect`；组件卸载或销毁时须清理 `effect` 及其资源。具体遵循[状态与副作用规范](.agents/skills/zui-standards/references/component.md#preact-状态与副作用)。
 
 ### 路径别名与 lib 解析
 
