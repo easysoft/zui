@@ -90,3 +90,55 @@ test('stops observing when every item fits in the visible area', async ({page}) 
     await waitForObserverFrames(page);
     await expect(scroller.locator('.list > [z-item]')).toHaveCount(3);
 });
+
+for (const [name, lib] of [['NestedList', 'list'], ['Tree', 'tree'], ['Menu', 'menu']] as const) {
+    test(`${name} inherits automatic batches in its third level`, async ({page}) => {
+        await page.goto(`/${lib}/`);
+        await page.locator('#libPage.is-loaded').waitFor();
+        await page.evaluate(async ({corePath, componentPath, name}) => {
+            const {h, render} = await import(corePath) as typeof import('@zui/core');
+            const components = await import(componentPath) as Record<string, import('preact').ComponentType<import('@zui/list').NestedListProps>>;
+            const host = document.createElement('div');
+            host.id = 'nested-auto-more-fixture';
+            Object.assign(host.style, {position: 'fixed', top: '20px', right: '20px', width: '360px', height: '144px', overflow: 'auto'});
+            document.body.append(host);
+            const siblings = Array.from({length: 4}, (_, index) => ({id: `sibling-${index}`, text: `Sibling ${index}`, style: {height: '180px'}}));
+            render(h(components[name], {
+                maxVisibleItems: 2,
+                showMoreStep: 1,
+                showMoreText: 'More {count}',
+                autoShowMore: true,
+                defaultNestedShow: true,
+                items: [
+                    {
+                        id: 'parent', text: 'Parent', items: [
+                            {
+                                id: 'child', text: 'Child',
+                                items: Array.from({length: 6}, (_, index) => ({id: `leaf-${index}`, text: `Leaf ${index}`, style: {height: '60px'}})),
+                            },
+                            ...siblings,
+                        ],
+                    },
+                    ...siblings,
+                ],
+            }), host);
+        }, {corePath: '/lib/core/src/main.ts', componentPath: `/lib/${lib}/src/main-react.ts`, name});
+
+        const fixture = page.locator('#nested-auto-more-fixture');
+        const root = fixture.locator('[z-level="0"]');
+        const child = fixture.locator('[z-list="parent"]');
+        const grandchild = fixture.locator('[z-list="parent:child"]');
+        const grandchildItems = grandchild.locator(':scope > [z-item]');
+        await expect(root.locator(':scope > [z-item]')).toHaveCount(2);
+        await expect(child.locator(':scope > [z-item]')).toHaveCount(2);
+        await expect(grandchildItems).toHaveCount(2);
+        const more = grandchild.getByRole('button', {name: 'More 4', exact: true});
+        await more.evaluate(button => button.scrollIntoView({block: 'end'}));
+        await expect(grandchildItems).toHaveCount(3);
+        await waitForObserverFrames(page);
+        await expect(grandchildItems).toHaveCount(3);
+        await expect(grandchild.getByRole('button', {name: 'More 3', exact: true})).not.toBeInViewport();
+        await expect(root.locator(':scope > [z-item]')).toHaveCount(2);
+        await expect(child.locator(':scope > [z-item]')).toHaveCount(2);
+    });
+}

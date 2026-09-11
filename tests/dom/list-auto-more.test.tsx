@@ -1,6 +1,11 @@
-import {act, fireEvent, render, within} from '@testing-library/preact';
+import {act, fireEvent, render} from '@testing-library/preact';
 import {beforeEach, describe, expect, it, vi} from 'vitest';
 import {List, NestedList} from '@zui/list/react';
+import {Menu, SearchMenu} from '@zui/menu/react';
+import {Tree} from '@zui/tree/react';
+
+import type {ComponentType} from 'preact';
+import type {ListProps, NestedListProps} from '@zui/list';
 
 const observers: MockIntersectionObserver[] = [];
 
@@ -33,6 +38,34 @@ class MockIntersectionObserver implements IntersectionObserver {
 
 function makeItems(count: number, prefix = 'Item') {
     return Array.from({length: count}, (_, index) => ({id: String(index), text: `${prefix} ${index}`}));
+}
+
+function makeHierarchy(listProps?: Pick<ListProps, 'maxVisibleItems' | 'showMoreStep' | 'showMoreText' | 'autoShowMore'>) {
+    return [
+        {id: 'root-branch', text: 'Root branch', listProps, items: [
+            {id: 'middle-branch', text: 'Middle branch', items: makeItems(8, 'Leaf')},
+            ...makeItems(7, 'Middle row'),
+        ]},
+        ...makeItems(7, 'Root row'),
+    ];
+}
+
+function nestedLists(container: Element) {
+    return [0, 1, 2].map((level) => {
+        const list = container.querySelector<HTMLElement>(`[z-level="${level}"]`);
+        expect(list).not.toBeNull();
+        return list!;
+    });
+}
+
+function itemCounts(lists: HTMLElement[]) {
+    return lists.map(list => list.querySelectorAll(':scope > [z-item]').length);
+}
+
+function showMoreButton(list: HTMLElement) {
+    const button = list.querySelector<HTMLButtonElement>(':scope > .list-show-more button');
+    expect(button).not.toBeNull();
+    return button!;
 }
 
 function observerFor(target: Element) {
@@ -209,33 +242,101 @@ describe('List automatic incremental display', () => {
         expect(container.querySelectorAll('[z-item]')).toHaveLength(5);
         expect(getByRole('button', {name: 'More 2'})).toBeInTheDocument();
     });
+});
 
-    it('inherits automatic display in nested lists and respects a disabled branch', async () => {
-        const {getByText} = render(
-            <NestedList
-                defaultNestedShow
-                maxVisibleItems={2}
-                showMoreStep={1}
-                autoShowMore
-                showMoreText="More {count}"
-                items={[
-                    {id: 'inherited', text: 'Inherited', items: makeItems(5, 'Inherited child')},
-                    {id: 'disabled', text: 'Disabled', items: makeItems(5, 'Disabled child'), listProps: {autoShowMore: false}},
-                ]}
-            />,
+const nestedComponents: [string, ComponentType<NestedListProps>][] = [
+    ['NestedList', NestedList],
+    ['Tree', Tree],
+    ['Menu', Menu],
+    ['SearchMenu', SearchMenu],
+];
+
+describe.each(nestedComponents)('%s recursive incremental display', (_name, NestedComponent) => {
+    it('inherits all four display options through three levels and advances each level independently', async () => {
+        const {container} = render(
+            <NestedComponent items={makeHierarchy()} defaultNestedShow maxVisibleItems={2} showMoreStep={3} showMoreText="Unseen {count}" autoShowMore />,
         );
-        const inherited = getByText('Inherited child 0').closest('[z-item]')!.parentElement!;
-        const disabled = getByText('Disabled child 0').closest('[z-item]')!.parentElement!;
-        const inheritedButton = within(inherited).getByRole('button', {name: 'More 3'});
-        const disabledButton = within(disabled).getByRole('button', {name: 'More 3'});
-        expect(observers.some(observer => observer.observe.mock.calls.some(([target]) => target === disabledButton))).toBe(false);
+        expect(itemCounts(nestedLists(container))).toEqual([2, 2, 2]);
+        nestedLists(container).forEach((list) => {
+            const button = showMoreButton(list);
+            expect(button).toHaveTextContent('Unseen 6');
+            observerFor(button);
+        });
 
-        observerFor(inheritedButton).emit(inheritedButton, true);
+        const expectedCounts = [2, 2, 2];
+        for (const level of [2, 1, 0]) {
+            const button = showMoreButton(nestedLists(container)[level]);
+            observerFor(button).emit(button, true);
+            await flushFrame();
+
+            expectedCounts[level] += 3;
+            const lists = nestedLists(container);
+            expect(itemCounts(lists)).toEqual(expectedCounts);
+            lists.forEach((list, index) => {
+                expect(showMoreButton(list)).toHaveTextContent(`Unseen ${8 - expectedCounts[index]}`);
+            });
+        }
+    });
+
+    it('passes a middle-list override of all four options down to its descendants', async () => {
+        const items = makeHierarchy({maxVisibleItems: 1, showMoreStep: 2, showMoreText: 'Branch {count}', autoShowMore: false});
+        const {container} = render(
+            <NestedComponent items={items} defaultNestedShow maxVisibleItems={2} showMoreStep={3} showMoreText="Root {count}" autoShowMore />,
+        );
+        const lists = nestedLists(container);
+        expect(itemCounts(lists)).toEqual([2, 1, 1]);
+        expect(showMoreButton(lists[0])).toHaveTextContent('Root 6');
+        observerFor(showMoreButton(lists[0]));
+        for (const list of lists.slice(1)) {
+            const button = showMoreButton(list);
+            expect(button).toHaveTextContent('Branch 7');
+            expect(observers.some(observer => observer.observe.mock.calls.some(([target]) => target === button))).toBe(false);
+        }
+
+        fireEvent.click(showMoreButton(lists[2]));
+        expect(itemCounts(nestedLists(container))).toEqual([2, 1, 3]);
+        expect(showMoreButton(nestedLists(container)[2])).toHaveTextContent('Branch 5');
+        fireEvent.click(showMoreButton(nestedLists(container)[1]));
+        expect(itemCounts(nestedLists(container))).toEqual([2, 3, 3]);
+        expect(showMoreButton(nestedLists(container)[1])).toHaveTextContent('Branch 5');
+
+        const rootButton = showMoreButton(nestedLists(container)[0]);
+        observerFor(rootButton).emit(rootButton, true);
         await flushFrame();
+        expect(itemCounts(nestedLists(container))).toEqual([5, 3, 3]);
+    });
 
-        expect(inherited.querySelectorAll(':scope > [z-item]')).toHaveLength(3);
-        expect(disabled.querySelectorAll(':scope > [z-item]')).toHaveLength(2);
-        fireEvent.click(disabledButton);
-        expect(disabled.querySelectorAll(':scope > [z-item]')).toHaveLength(3);
+    it('uses updated parent options when collapsed levels open and when mounted descendants update', async () => {
+        const items = makeHierarchy();
+        const {container, getByText, rerender} = render(
+            <NestedComponent items={items} defaultNestedShow={false} maxVisibleItems={2} showMoreStep={3} showMoreText="Old {count}" autoShowMore />,
+        );
+        expect(container.querySelector('[z-level="1"]')).toBeNull();
+
+        rerender(<NestedComponent items={items} defaultNestedShow={false} maxVisibleItems={3} showMoreStep={1} showMoreText="Updated {count}" autoShowMore={false} />);
+        expect(container.querySelector('[z-level="1"]')).toBeNull();
+        const initialObservations = observeCount();
+        fireEvent.click(getByText('Root branch').closest('[z-item]')!.querySelector('.nested-toggle-icon')!);
+        expect(container.querySelector('[z-level="2"]')).toBeNull();
+        fireEvent.click(getByText('Middle branch').closest('[z-item]')!.querySelector('.nested-toggle-icon')!);
+
+        let lists = nestedLists(container);
+        expect(itemCounts(lists)).toEqual([3, 3, 3]);
+        expect(observeCount()).toBe(initialObservations);
+        lists.forEach(list => expect(showMoreButton(list)).toHaveTextContent('Updated 5'));
+        fireEvent.click(showMoreButton(lists[2]));
+        expect(itemCounts(nestedLists(container))).toEqual([3, 3, 4]);
+
+        rerender(<NestedComponent items={items} defaultNestedShow={false} maxVisibleItems={3} showMoreStep={2} showMoreText="Current {count}" autoShowMore />);
+        lists = nestedLists(container);
+        expect(itemCounts(lists)).toEqual([3, 3, 4]);
+        lists.forEach((list, index) => {
+            expect(showMoreButton(list)).toHaveTextContent(`Current ${index === 2 ? 4 : 5}`);
+            observerFor(showMoreButton(list));
+        });
+        const deepestButton = showMoreButton(lists[2]);
+        observerFor(deepestButton).emit(deepestButton, true);
+        await flushFrame();
+        expect(itemCounts(nestedLists(container))).toEqual([3, 3, 6]);
     });
 });
