@@ -50,15 +50,15 @@ describe('List incremental display', () => {
         expect(created).toHaveBeenCalledTimes(100);
         expect(directItems(listElement(ref.current!))).toHaveLength(100);
         expect(ref.current!.getItems()).toBe(items);
-        expect(getByRole('button', {name: '剩余9900项没有显示，点击显示更多'})).toHaveAttribute('type', 'button');
+        expect(getByRole('button', {name: '剩余9900项，点击显示更多'})).toHaveAttribute('type', 'button');
 
         ref.current!.prepared = 0;
-        fireEvent.click(getByRole('button', {name: '剩余9900项没有显示，点击显示更多'}));
+        fireEvent.click(getByRole('button', {name: '剩余9900项，点击显示更多'}));
 
         expect(ref.current!.prepared).toBe(200);
         expect(created).toHaveBeenCalledTimes(200);
         expect(directItems(listElement(ref.current!))).toHaveLength(200);
-        expect(getByRole('button', {name: '剩余9800项没有显示，点击显示更多'})).toBeInTheDocument();
+        expect(getByRole('button', {name: '剩余9800项，点击显示更多'})).toBeInTheDocument();
         expect(listElement(ref.current!).querySelector('[z-item="199"]')).toHaveAttribute('z-key', '199');
     });
 
@@ -115,11 +115,33 @@ describe('List incremental display', () => {
         expect(container.querySelectorAll('[z-item]')).toHaveLength(8);
     });
 
-    it('supports a custom template and keyboard activation without selecting a list item', async () => {
+    it.each([
+        [undefined, 'UL', 'LI'],
+        ['ol', 'OL', 'LI'],
+        ['menu', 'MENU', 'LI'],
+        ['div', 'DIV', 'DIV'],
+    ] as const)('uses a valid show-more row for a %s list container', (component, rootTag, rowTag) => {
+        const {container, getByRole} = render(<List component={component} items={makeItems(3)} maxVisibleItems={1} showMoreText="More {count}" />);
+        const root = container.firstElementChild!;
+        const row = root.querySelector(':scope > .list-show-more')!;
+        const button = getByRole('button', {name: 'More 2'});
+
+        expect(root.tagName).toBe(rootTag);
+        expect(row.tagName).toBe(rowTag);
+        expect(row).toBe(root.lastElementChild);
+        expect(button.parentElement).toBe(row);
+        expect(button).toHaveAttribute('type', 'button');
+        expect(row).not.toHaveAttribute('z-item');
+    });
+
+    it('supports a custom template and keyboard activation without selecting an item or submitting its form', async () => {
         const onClickItem = vi.fn();
+        const onSubmit = vi.fn((event: Event) => event.preventDefault());
         const user = userEvent.setup({advanceTimers: vi.advanceTimersByTime});
         const {container, getByRole, queryByRole} = render(
-            <List items={makeItems(5)} maxVisibleItems={2} showMoreText="Show more ({count} remaining)" onClickItem={onClickItem} />,
+            <form onSubmit={onSubmit}>
+                <List items={makeItems(5)} maxVisibleItems={2} showMoreText="Show more ({count} remaining)" onClickItem={onClickItem} />
+            </form>,
         );
         const button = getByRole('button', {name: 'Show more (3 remaining)'});
         expect(button.closest('[z-item]')).toBeNull();
@@ -130,6 +152,7 @@ describe('List incremental display', () => {
         expect(container.querySelectorAll('[z-item]')).toHaveLength(4);
         expect(container.querySelector('[z-item="2"]')).toHaveFocus();
         expect(onClickItem).not.toHaveBeenCalled();
+        expect(onSubmit).not.toHaveBeenCalled();
 
         getByRole('button', {name: 'Show more (1 remaining)'}).focus();
         await user.keyboard(' ');
@@ -138,6 +161,7 @@ describe('List incremental display', () => {
         expect(queryByRole('button')).not.toBeInTheDocument();
         expect(container.querySelector('[z-item="4"]')).toHaveFocus();
         expect(onClickItem).not.toHaveBeenCalled();
+        expect(onSubmit).not.toHaveBeenCalled();
     });
 
     it('renders custom callback content with the exact remaining count', () => {
@@ -154,13 +178,13 @@ describe('List incremental display', () => {
     it('uses translated defaults, falls back to Chinese and accepts an instance i18n override', () => {
         const items = makeItems(4);
         const {getByRole, rerender} = render(<List items={items} maxVisibleItems={1} lang="en" />);
-        expect(getByRole('button', {name: '3 items remaining. Click to show more'})).toBeInTheDocument();
+        expect(getByRole('button', {name: '3 items remaining, click to show more'})).toBeInTheDocument();
 
         rerender(<List items={items} maxVisibleItems={1} lang="zh_tw" />);
-        expect(getByRole('button', {name: '剩餘3項沒有顯示，點擊顯示更多'})).toBeInTheDocument();
+        expect(getByRole('button', {name: '剩餘3項，點擊顯示更多'})).toBeInTheDocument();
 
         rerender(<List items={items} maxVisibleItems={1} lang="fr" />);
-        expect(getByRole('button', {name: '剩余3项没有显示，点击显示更多'})).toBeInTheDocument();
+        expect(getByRole('button', {name: '剩余3项，点击显示更多'})).toBeInTheDocument();
 
         rerender(<List items={items} maxVisibleItems={1} lang="en" i18n={{en: {showMore: 'Load the next batch ({count} remaining)'}}} />);
         expect(getByRole('button', {name: 'Load the next batch (3 remaining)'})).toBeInTheDocument();
@@ -358,7 +382,7 @@ describe('inherited List incremental display', () => {
         const {getByRole} = render(<CustomI18nList ref={ref} items={makeItems(4)} maxVisibleItems={1} lang="en" />);
 
         expect(ref.current!.i18n('ownLabel')).toBe('Custom label');
-        expect(getByRole('button', {name: '3 items remaining. Click to show more'})).toBeInTheDocument();
+        expect(getByRole('button', {name: '3 items remaining, click to show more'})).toBeInTheDocument();
     });
 
     it('does not activate a parent when hovering the nested show-more prompt', () => {

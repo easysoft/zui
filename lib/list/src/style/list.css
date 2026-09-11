@@ -13,8 +13,8 @@
   @apply -w-full -shrink-0 -list-none;
   grid-column: 1 / -1;
 }
-.list-show-more > .btn {
-  @apply -w-full -h-auto -whitespace-normal;
+.list-show-more > .listitem {
+  @apply -w-full -h-auto -whitespace-normal -text-left;
 }
 
 .with-hover-actions > .item {

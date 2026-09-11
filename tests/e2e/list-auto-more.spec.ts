@@ -34,6 +34,7 @@ async function mountAutoList(page: Page, total: number, hidden = false) {
 }
 
 test('loads each visible batch inside a scroller without moving focus', async ({page}) => {
+    await page.setViewportSize({width: 1280, height: 600});
     await page.goto('/list/');
     const scroller = page.locator('#autoMoreList');
     const items = scroller.locator('.list > [z-item]');

@@ -1,7 +1,8 @@
-import {$, Computed, CustomContent, HElement, classes, fetchData, mergeProps, removeUndefinedProps} from '@zui/core';
+import {$, Computed, HElement, classes, fetchData, mergeProps, removeUndefinedProps} from '@zui/core';
 import {CommonList} from '@zui/common-list/react';
 import {Listitem} from './listitem';
 import {listI18n} from '../i18n';
+import '@zui/css-icons';
 
 import type {ComponentChild, ComponentChildren, RenderableProps} from 'preact';
 import type {ClassNameLike, CustomContentType, I18nLangMap} from '@zui/core';
@@ -515,13 +516,19 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
         const content = typeof showMoreText === 'function' ? showMoreText.call(this, count)
             : typeof showMoreText === 'string' ? showMoreText.replaceAll('{count}', String(count)) : this.i18n('showMore', {count});
         const tag = props.component || this.constructor.TAG;
-        const Tag = typeof tag === 'string' && ['ul', 'ol', 'menu'].includes(tag) ? 'li' : 'div';
+        const component = typeof tag === 'string' && ['ul', 'ol', 'menu'].includes(tag) ? 'li' : 'div';
         return (
-            <Tag key="show-more" className="list-show-more not-nested-toggle">
-                <button ref={this._setShowMoreElement} type="button" className="btn ghost" onClick={this._handleShowMore}>
-                    <CustomContent content={content} />
-                </button>
-            </Tag>
+            <Listitem
+                key="show-more"
+                component={component}
+                className="list-show-more not-nested-toggle"
+                innerComponent="button"
+                innerClass="state"
+                innerAttrs={{type: 'button', ref: this._setShowMoreElement, onClick: this._handleShowMore}}
+                contentClass="text-gray"
+                content={content}
+                icon={<span class="more" />}
+            />
         );
     }
 

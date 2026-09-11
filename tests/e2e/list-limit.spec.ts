@@ -130,3 +130,32 @@ test('places the shared footer below horizontal navigation and card grids', asyn
         await expect(footer).toHaveCount(0);
     }
 });
+
+test('keeps the footer below CSS grid rows with valid list semantics', async ({page}) => {
+    await page.goto('/list/');
+    await page.locator('#libPage.is-loaded').waitFor();
+    await page.evaluate(async ({corePath, listPath}) => {
+        const {h, render} = await import(corePath) as typeof import('@zui/core');
+        const {List} = await import(listPath) as typeof import('@zui/list/react');
+        const host = document.createElement('div');
+        host.id = 'grid-list-limit-fixture';
+        document.body.append(host);
+        render(h(List as unknown as import('preact').ComponentType<import('@zui/list').ListProps>, {
+            component: 'ol',
+            style: {display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)'},
+            maxVisibleItems: 2,
+            items: [{id: 'first', text: 'First'}, {id: 'second', text: 'Second'}, {id: 'third', text: 'Third'}],
+        }), host);
+    }, {corePath: '/lib/core/src/main.ts', listPath: '/lib/list/src/main-react.ts'});
+    const root = page.locator('#grid-list-limit-fixture > ol');
+    const footer = root.locator(':scope > .list-show-more');
+    await expect(root.locator(':scope > li')).toHaveCount(3);
+    const rootBox = await root.boundingBox();
+    const itemBox = await root.locator(':scope > [z-item]').last().boundingBox();
+    const footerBox = await footer.boundingBox();
+    expect(footerBox!.y).toBeGreaterThanOrEqual(itemBox!.y + itemBox!.height - 1);
+    expect(footerBox!.width).toBeCloseTo(rootBox!.width, 0);
+    await footer.getByRole('button').click();
+    await expect(root.locator(':scope > [z-item]')).toHaveCount(3);
+    await expect(footer).toHaveCount(0);
+});

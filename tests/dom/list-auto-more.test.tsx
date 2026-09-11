@@ -16,7 +16,11 @@ class MockIntersectionObserver implements IntersectionObserver {
 
     readonly thresholds: readonly number[];
 
-    readonly observe = vi.fn<(target: Element) => void>();
+    readonly observe = vi.fn((target: Element) => {
+        if (!(target instanceof Element)) {
+            throw new TypeError('IntersectionObserver.observe requires an Element');
+        }
+    });
 
     readonly unobserve = vi.fn<(target: Element) => void>();
 
@@ -115,6 +119,8 @@ describe('List automatic incremental display', () => {
         input.focus();
         const button = getByRole('button', {name: 'More 5'});
         const observer = observerFor(button);
+        expect(button).toBeInstanceOf(HTMLButtonElement);
+        expect(observer.observe).toHaveBeenCalledWith(button);
         expect(observer.root).toBeNull();
         expect(observer.thresholds).toEqual([0.01]);
 
