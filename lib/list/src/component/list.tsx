@@ -512,6 +512,7 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
 
     protected _renderShowMore(props: RenderableProps<P>): ComponentChild {
         const count = this._remainingItemsCount;
+        const {itemName, name} = this;
         const {showMoreText} = props;
         const content = typeof showMoreText === 'function' ? showMoreText.call(this, count)
             : typeof showMoreText === 'string' ? showMoreText.replaceAll('{count}', String(count)) : this.i18n('showMore', {count});
@@ -523,7 +524,7 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
                 component={component}
                 className="list-show-more not-nested-toggle"
                 innerComponent="button"
-                innerClass="state"
+                innerClass={['state', itemName ? `${itemName}-inner${name ? ` ${name}-item-inner` : ''}` : '']}
                 innerAttrs={{type: 'button', ref: this._setShowMoreElement, onClick: this._handleShowMore}}
                 contentClass="text-gray"
                 content={content}
