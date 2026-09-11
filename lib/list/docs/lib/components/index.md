@@ -36,7 +36,7 @@ const list = new zui.List('#documentList', {
 
 ## 大量数据分批显示
 
-设置 `maxVisibleItems` 可以减少首次显示时创建的条目组件和 DOM。超过上限时，底部显示“剩余 N 项没有显示，点击显示更多”；每次点击按同样的数量追加，最后一批不足时显示剩余全部条目。
+设置 `maxVisibleItems` 可以减少首次显示时创建的条目组件和 DOM。超过上限时，底部显示“剩余 N 项没有显示，点击显示更多”；每次点击按 `showMoreStep` 指定的数量追加，默认与 `maxVisibleItems` 一致，最后一批不足时显示剩余全部条目。
 
 ::: tabs
 
@@ -72,17 +72,20 @@ const largeList = new zui.List('#largeDocumentList', {
 
 :::
 
-`showMoreText` 支持包含 `{count}` 的字符串，或接收剩余条目数量并返回 `CustomContentType` 的回调。未设置时，使用当前语言的默认提示，支持简体中文、繁体中文和英文。例如，10000 项数据可以每次显示 100 项：
+`showMoreText` 支持包含 `{count}` 的字符串，或接收剩余条目数量并返回 `CustomContentType` 的回调。未设置时，使用当前语言的默认提示，支持简体中文、繁体中文和英文。例如，10000 项数据可以首次显示 100 项，之后每次追加 50 项：
 
 ```js
 largeList.render({
     items: Array.from({length: 10000}, (_, index) => ({id: `item-${index}`, text: `条目 ${index + 1}`})),
     maxVisibleItems: 100,
-    showMoreText: count => `剩余 ${count} 项，点击再显示 100 项`,
+    showMoreStep: 50,
+    showMoreText: count => `剩余 ${count} 项，点击再显示 50 项`,
 });
 ```
 
 未设置 `maxVisibleItems`、值不大于 `0` 或不是有限数时，不限制显示数量。正数向下取整，小于 `1` 的正数按 `1` 处理。替换 `items` 数据来源或修改上限后，显示数量回到第一批。
+
+`showMoreStep` 未设置、值不大于 `0` 或不是有限数时，使用归一化后的 `maxVisibleItems`；正数同样向下取整且至少为 `1`。修改 `showMoreStep` 只影响下一次追加，不会收起已经显示的条目。子列表继承该选项，也可以通过条目的 `listProps.showMoreStep` 单独覆盖。
 
 分批显示保留完整数据、原始条目索引和勾选状态。普通列表会尽早限制条目处理范围，未显示条目的子列表也不会创建；搜索、自定义过滤和树形勾选仍可能扫描全部数据。随着点击追加，DOM 数量会持续增加，分批显示不等同于滚动虚拟化。
 
@@ -198,7 +201,8 @@ list.render({
 除 [通用列表选项](/lib/components/common-list/#选项) 外，还支持：
 
 <Props>
-maxVisibleItems?: number; // 首次显示及每次追加的条目数量；默认不限制。
+maxVisibleItems?: number; // 首次显示的条目数量；默认不限制。
+showMoreStep?: number; // 每次点击追加的条目数量；默认与 maxVisibleItems 一致。
 showMoreText?: string | ((remaining: number) =&gt; CustomContentType); // 底部提示，字符串中的 {count} 替换为剩余条目数。
 divider?: boolean; // 显示条目分割线。
 multiline?: boolean; // 多行条目外观。

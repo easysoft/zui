@@ -14,7 +14,8 @@ onPageUpdate(() => {
     const largeList = new List('#largeList', {
         items: Array.from({length: 10000}, (_, index) => ({id: `large-${index}`, text: `列表项 ${index + 1}`})),
         maxVisibleItems: 100,
-        showMoreText: count => `剩余 ${count} 项，点击再显示 100 项`,
+        showMoreStep: 50,
+        showMoreText: count => `剩余 ${count} 项，点击再显示 50 项`,
     });
 
     const remoteNestedList = new NestedList('#remoteNestedList', {

@@ -2,7 +2,7 @@
 
 ## 大量数据分批显示
 
-数据包含 10000 项，`maxVisibleItems: 100` 使首次只渲染 100 项，每次点击底部提示再显示 100 项。提示通过 `showMoreText` 回调定制；可在浏览器开发工具中观察条目 DOM 数量随点击增加。
+数据包含 10000 项，`maxVisibleItems: 100` 使首次只渲染 100 项，`showMoreStep: 50` 使每次点击底部提示再显示 50 项；不设置 `showMoreStep` 时，每次默认追加 100 项。提示通过 `showMoreText` 回调定制；可在浏览器开发工具中观察条目 DOM 数量随点击增加。
 
 ```html:example
 <div id="largeList"></div>

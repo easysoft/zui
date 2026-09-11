@@ -408,9 +408,11 @@ export class List<P extends ListProps = ListProps, S extends ListState = ListSta
         event.stopPropagation();
         const previousLastIndex = this._visibleItemIndexes.at(-1) ?? -1;
         const moveFocus = document.activeElement === event.currentTarget;
+        const {showMoreStep = 0} = this.props;
+        const step = Number.isFinite(showMoreStep) && showMoreStep > 0 ? Math.max(1, Math.floor(showMoreStep)) : this._visibleItemsLimit;
         this.changeState({visibleItems: {
             revision: this._visibleItemsRevision,
-            count: this._visibleItemsCount + this._visibleItemsLimit,
+            count: this._visibleItemsCount + step,
         }} as Partial<S>, () => {
             if (!moveFocus) {
                 return;

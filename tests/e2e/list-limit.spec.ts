@@ -5,20 +5,20 @@ test('shows a large list in batches with keyboard focus and a wrapping footer', 
     const list = page.locator('#largeList > .list');
     const items = list.locator(':scope > [z-item]');
     await expect(items).toHaveCount(100);
-    const more = list.getByRole('button', {name: '剩余 9900 项，点击再显示 100 项'});
+    const more = list.getByRole('button', {name: '剩余 9900 项，点击再显示 50 项'});
     await more.focus();
     await more.press('Enter');
-    await expect(items).toHaveCount(200);
+    await expect(items).toHaveCount(150);
     await expect(list.locator(':scope > [z-item="100"]')).toBeFocused();
 
     await page.setViewportSize({width: 390, height: 844});
-    const nextMore = list.getByRole('button', {name: '剩余 9800 项，点击再显示 100 项'});
+    const nextMore = list.getByRole('button', {name: '剩余 9850 项，点击再显示 50 项'});
     await nextMore.scrollIntoViewIfNeeded();
     const overflow = await nextMore.evaluate(button => button.scrollWidth > button.clientWidth);
     expect(overflow).toBe(false);
     await nextMore.press('Space');
-    await expect(items).toHaveCount(300);
-    await expect(list.locator(':scope > [z-item="200"]')).toBeFocused();
+    await expect(items).toHaveCount(200);
+    await expect(list.locator(':scope > [z-item="150"]')).toBeFocused();
     await list.locator('.list-show-more').scrollIntoViewIfNeeded();
     await page.screenshot({path: testInfo.outputPath('list-limit-narrow.png')});
 });

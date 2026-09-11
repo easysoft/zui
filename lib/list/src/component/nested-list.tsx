@@ -93,7 +93,7 @@ export class NestedList<P extends NestedListProps = NestedListProps, S extends N
         indent: 20,
     } as Partial<NestedListProps>;
 
-    static inheritNestedProps = ['component', 'name', 'itemName', 'itemKey', 'indent', 'hover', 'divider', 'multiline', 'toggleIcons', 'nestedToggle', 'accordion', 'itemRender', 'itemProps', 'onToggle', 'checkbox', 'getItem', 'getItems', 'checkOnClick', 'selectOnChecked', 'checkedState', 'onClickItem', 'activeOnHover', 'multipleActive', 'onActive', 'hoverItemActions', 'maxVisibleItems', 'showMoreText', 'lang', 'i18n'];
+    static inheritNestedProps = ['component', 'name', 'itemName', 'itemKey', 'indent', 'hover', 'divider', 'multiline', 'toggleIcons', 'nestedToggle', 'accordion', 'itemRender', 'itemProps', 'onToggle', 'checkbox', 'getItem', 'getItems', 'checkOnClick', 'selectOnChecked', 'checkedState', 'onClickItem', 'activeOnHover', 'multipleActive', 'onActive', 'hoverItemActions', 'maxVisibleItems', 'showMoreStep', 'showMoreText', 'lang', 'i18n'];
 
     protected _nestedLists = new Map<string, NestedList>();
 

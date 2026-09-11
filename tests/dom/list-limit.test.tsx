@@ -76,6 +76,45 @@ describe('List incremental display', () => {
         expect(queryByRole('button') !== null).toBe(expected < 3);
     });
 
+    it('uses an independent show-more step and stops at the final partial batch', () => {
+        const {container, getByRole, queryByRole} = render(<List items={makeItems(9)} maxVisibleItems={2} showMoreStep={3} showMoreText="More {count}" />);
+
+        expect(container.querySelectorAll('[z-item]')).toHaveLength(2);
+        fireEvent.click(getByRole('button', {name: 'More 7'}));
+        expect(container.querySelectorAll('[z-item]')).toHaveLength(5);
+        fireEvent.click(getByRole('button', {name: 'More 4'}));
+        expect(container.querySelectorAll('[z-item]')).toHaveLength(8);
+        fireEvent.click(getByRole('button', {name: 'More 1'}));
+        expect(container.querySelectorAll('[z-item]')).toHaveLength(9);
+        expect(queryByRole('button')).not.toBeInTheDocument();
+    });
+
+    it.each([[0, 2], [-1, 2], [Number.NaN, 2], [Number.POSITIVE_INFINITY, 2], [0.5, 1], [3.9, 3]])('normalizes showMoreStep %s to %s additional items', (showMoreStep, expectedStep) => {
+        const {container, getByRole} = render(<List items={makeItems(8)} maxVisibleItems={2.9} showMoreStep={showMoreStep} showMoreText="More {count}" />);
+
+        expect(container.querySelectorAll('[z-item]')).toHaveLength(2);
+        fireEvent.click(getByRole('button', {name: 'More 6'}));
+        expect(container.querySelectorAll('[z-item]')).toHaveLength(2 + expectedStep);
+        expect(getByRole('button', {name: `More ${6 - expectedStep}`})).toBeInTheDocument();
+    });
+
+    it('applies a changed step on the next click without resetting the current batch', () => {
+        const items = makeItems(12);
+        const {container, getByRole, rerender} = render(<List items={items} maxVisibleItems={2} showMoreStep={3} showMoreText="More {count}" />);
+        fireEvent.click(getByRole('button', {name: 'More 10'}));
+        expect(container.querySelectorAll('[z-item]')).toHaveLength(5);
+
+        rerender(<List items={items} maxVisibleItems={2} showMoreStep={1} showMoreText="More {count}" />);
+        expect(container.querySelectorAll('[z-item]')).toHaveLength(5);
+        fireEvent.click(getByRole('button', {name: 'More 7'}));
+        expect(container.querySelectorAll('[z-item]')).toHaveLength(6);
+
+        rerender(<List items={items} maxVisibleItems={2} showMoreText="More {count}" />);
+        expect(container.querySelectorAll('[z-item]')).toHaveLength(6);
+        fireEvent.click(getByRole('button', {name: 'More 6'}));
+        expect(container.querySelectorAll('[z-item]')).toHaveLength(8);
+    });
+
     it('supports a custom template and keyboard activation without selecting a list item', async () => {
         const onClickItem = vi.fn();
         const user = userEvent.setup({advanceTimers: vi.advanceTimersByTime});
@@ -391,6 +430,38 @@ describe('inherited List incremental display', () => {
         expect(getByText('Unrendered descendant')).toBeInTheDocument();
         expect(onClickItem).not.toHaveBeenCalled();
         expect(onToggle).not.toHaveBeenCalled();
+    });
+
+    it('inherits the show-more step in nested lists and accepts a per-branch override', () => {
+        const ref = createRef<NestedList>();
+        const {getByText} = render(
+            <NestedList
+                ref={ref}
+                defaultNestedShow
+                maxVisibleItems={2}
+                showMoreStep={3}
+                showMoreText="More {count}"
+                items={[
+                    {id: 'inherited', text: 'Inherited', items: makeItems(6, 'Inherited child')},
+                    {id: 'override', text: 'Override', items: makeItems(6, 'Override child'), listProps: {showMoreStep: 1}},
+                    {id: 'last', text: 'Last root item'},
+                ]}
+            />,
+        );
+        const root = listElement(ref.current!);
+        const inherited = getByText('Inherited child 0').closest('[z-item]')!.parentElement!;
+        const override = getByText('Override child 0').closest('[z-item]')!.parentElement!;
+        expect(directItems(root)).toHaveLength(2);
+        expect(directItems(inherited)).toHaveLength(2);
+        expect(directItems(override)).toHaveLength(2);
+
+        fireEvent.click(within(inherited).getByRole('button', {name: 'More 4'}));
+        expect(directItems(inherited)).toHaveLength(5);
+        expect(directItems(override)).toHaveLength(2);
+        fireEvent.click(within(override).getByRole('button', {name: 'More 4'}));
+        expect(directItems(override)).toHaveLength(3);
+        expect(directItems(inherited)).toHaveLength(5);
+        expect(directItems(root)).toHaveLength(2);
     });
 
     it('supports Nav and the non-ul CardList root', () => {
