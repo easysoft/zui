@@ -1,2 +1,1 @@
-export * from './virtual-item';
-export * from './virtual-list';
+export {VirtualList} from './virtual-list';

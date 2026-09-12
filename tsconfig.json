@@ -17,6 +17,7 @@
     "types": ["vite/client"],
     "paths": {
       "zui-dev": ["./dev"],
+      "@zui/virtualize/virtualizer": ["./lib/virtualize/src/virtualizer.ts"],
       "@zui/*": ["./lib/*"]
     }
   },

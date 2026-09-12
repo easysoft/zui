@@ -1,0 +1,9 @@
+.virtual-list {
+    /* TanStack preserves the scroll anchor when measured sizes change. */
+    overflow-anchor: none;
+}
+
+.virtual-list-item {
+    /* A core size includes the item's border and padding, even without base.css. */
+    box-sizing: border-box;
+}

@@ -6,6 +6,7 @@
         "paths": {
             "zui-dev": ["./dev/src/dev.ts"],
             "zui-config": ["./config"],
+            "@zui/virtualize/virtualizer": ["./lib/virtualize/src/virtualizer.ts"],
             "@zui/*/react": ["./lib/*/src/main-react.ts"],
             "@zui/*/css": ["./lib/*/src/main-css.ts"],
             "@zui/*": ["./lib/*"]

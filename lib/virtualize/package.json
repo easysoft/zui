@@ -1,28 +1,33 @@
 {
     "name": "@zui/virtualize",
+    "description": "TanStack Virtual adapters and virtual lists for ZUI and Preact",
     "version": "0.0.1",
     "keywords": ["zui:component"],
     "main": "src/main.ts",
     "exports": {
         ".": "./src/main.ts",
-        "./react": "./src/main-react.ts"
+        "./react": "./src/main-react.ts",
+        "./virtualizer": "./src/virtualizer.ts"
     },
     "files": [
         "./src/**/*"
     ],
     "dependencies": {
-        "@zui/core": "workspace:^0.0.1"
-      },
+        "@tanstack/virtual-core": "3.17.9",
+        "@zui/core": "workspace:*",
+        "@zui/utilities": "workspace:*",
+        "preact": "^10.27.2"
+    },
     "devDependencies": {
-        "zui-dev": "workspace:*",
-        "@zui/utilities": "workspace:*"
+        "@zui/button": "workspace:*",
+        "zui-dev": "workspace:*"
     },
     "zui": {
         "type": "component",
         "displayName": "虚拟渲染",
-        "wip": true,
         "contributes": {
-            "js": ["component"]
+            "css": ["class"],
+            "js": ["class", "method", "component"]
         }
     }
 }
