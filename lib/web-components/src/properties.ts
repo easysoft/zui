@@ -38,3 +38,28 @@ export function numberProperty(attribute: string, defaultValue: number, minimum 
     };
     return {attribute, defaultValue, reflect: true, fromAttribute: normalize, normalize};
 }
+
+/** Picker union options accept an empty attribute, true/false, or a positive integer. */
+export function booleanOrNumberProperty(attribute: string, defaultValue: boolean): ElementProperty {
+    const normalize = (value: unknown) => {
+        if (value == null) {
+            return defaultValue;
+        }
+        if (value === '' || value === true || value === 'true') {
+            return true;
+        }
+        if (value === false || value === 'false') {
+            return false;
+        }
+        const number = Number(value);
+        return Number.isInteger(number) && number > 0 ? number : defaultValue;
+    };
+    return {
+        attribute,
+        defaultValue,
+        reflect: true,
+        fromAttribute: normalize,
+        normalize,
+        toAttribute: value => value === true ? '' : String(value),
+    };
+}

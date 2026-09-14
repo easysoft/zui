@@ -9,7 +9,7 @@ export abstract class ZuiElement<P extends object = Record<string, unknown>> ext
     static get observedAttributes(): string[] {
         return [...new Set([
             ...Object.values(this.properties).flatMap(property => property.attribute ? [property.attribute] : []),
-            'aria-label', 'aria-labelledby', 'aria-describedby', 'title',
+            'aria-label', 'aria-labelledby', 'aria-describedby', 'title', 'lang',
         ])];
     }
 
@@ -142,8 +142,8 @@ export abstract class ZuiElement<P extends object = Record<string, unknown>> ext
                 this._reflecting = false;
             }
         }
+        this._propertyChanged(name, previous, source);
         if (!Object.is(previous, nextValue)) {
-            this._propertyChanged(name, previous, source);
             this._requestUpdate();
         }
     }

@@ -1,7 +1,7 @@
 import {render} from 'preact';
 import {ZuiElement} from './element';
 
-import type {VNode} from 'preact';
+import type {ComponentChild} from 'preact';
 
 /** Shares rendering and full Preact-tree cleanup between renderer adapters. */
 export abstract class PreactElement<P extends object> extends ZuiElement<P> {
@@ -16,5 +16,5 @@ export abstract class PreactElement<P extends object> extends ZuiElement<P> {
         }
     }
 
-    protected abstract _renderView(): VNode;
+    protected abstract _renderView(): ComponentChild;
 }

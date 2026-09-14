@@ -2002,6 +2002,9 @@ importers:
       '@zui/pager':
         specifier: workspace:*
         version: link:../pager
+      '@zui/picker':
+        specifier: workspace:*
+        version: link:../picker
       preact:
         specifier: ^10.27.2
         version: 10.28.2
