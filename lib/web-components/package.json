@@ -1,0 +1,15 @@
+{
+    "name": "@zui/web-components",
+    "version": "0.0.1",
+    "description": "Custom Element adapters for ZUI components",
+    "main": "src/main.ts",
+    "files": ["./src/**/*"],
+    "keywords": ["zui:js-helpers", "web-components"],
+    "exports": {".": "./src/main.ts"},
+    "zui": {
+        "type": "js-helpers",
+        "displayName": "Web Components",
+        "separately": true,
+        "contributes": {"js": ["class", "method"]}
+    }
+}

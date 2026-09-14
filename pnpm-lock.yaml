@@ -1991,6 +1991,8 @@ importers:
         specifier: workspace:*
         version: link:../../dev
 
+  lib/web-components: {}
+
 packages:
 
   '@adobe/css-tools@4.5.0':
