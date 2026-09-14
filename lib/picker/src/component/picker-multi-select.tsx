@@ -1,4 +1,4 @@
-import {classes, $, createRef, CustomContent, ComponentChildren} from '@zui/core';
+import {classes, $, createRef, CustomContent, ComponentChildren, toCssSize} from '@zui/core';
 import {formatString} from '@zui/helpers';
 import '@zui/css-icons';
 import {PickTrigger, EVENT_PICK} from '@zui/pick/react';
@@ -71,22 +71,28 @@ export class PickerMultiSelect extends PickTrigger<PickerState, PickerSelectProp
     }
 
     protected _renderTrigger(props: PickerSelectProps) {
-        const {state: {selections = [], open, value}, search, placeholder, display, valueList, children, caretClass} = this.props;
+        const {state: {selections = [], open, value}, search, placeholder, display, valueList, children, caretClass, maxHeight} = this.props;
         const showSearch = open && search;
         let view: ComponentChildren;
         const noSelections = !showSearch && !selections.length;
+        const getSelectionsStyle = () => {
+            if (maxHeight) {
+                return {maxHeight: toCssSize(maxHeight), overflowY: 'auto'};
+            }
+            return undefined;
+        };
         if (display && (!noSelections || placeholder === undefined)) {
             if (typeof display === 'function') {
                 view = display.call(this, valueList, selections);
             } else if (typeof display === 'string') {
                 view = formatString(display, {value, values: valueList, count: valueList.length});
             }
-            view = <div key="selections" className="picker-multi-selections">{view}</div>;
+            view = <div key="selections" className="picker-multi-selections" style={getSelectionsStyle()}>{view}</div>;
         } else if (noSelections) {
             view = <span key="selections" className="picker-select-placeholder">{placeholder}</span>;
         } else {
             view = (
-                <div key="selections" className="picker-multi-selections">
+                <div key="selections" className="picker-multi-selections" style={getSelectionsStyle()}>
                     {selections.map(this._renderSelection)}
                     {showSearch ? this._renderSearch(props) : null}
                 </div>
@@ -95,7 +101,7 @@ export class PickerMultiSelect extends PickTrigger<PickerState, PickerSelectProp
         return [
             view,
             children,
-            <span key="caret" className={classes('caret', caretClass)}></span>,
+            <div key="caret" className="picker-multi-caret"><span className={classes('caret', caretClass)}></span></div>,
         ];
     }
 

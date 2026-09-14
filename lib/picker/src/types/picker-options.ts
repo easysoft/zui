@@ -2,7 +2,7 @@ import type {PickOptions} from '@zui/pick';
 import type {MenuOptions} from '@zui/menu';
 import type {ToolbarSetting} from '@zui/toolbar';
 import type {SearchTreeOptions, TreeOptions} from '@zui/tree';
-import type {ClassNameLike, CustomContentType, HotkeysSettings} from '@zui/core';
+import type {ClassNameLike, CustomContentType, HotkeysSettings, SizeSetting} from '@zui/core';
 import type {PickerState} from './picker-state';
 import type {PickerItemBasic, PickerItemOptions} from './picker-item-options';
 
@@ -34,6 +34,7 @@ export interface PickerOptions<S extends PickerState = PickerState> extends Pick
     caretClass?: ClassNameLike;
     clearSearchOnSelect?: boolean;
     noNestedPick?: boolean;
+    maxHeight?: SizeSetting;
 
     onDeselect?: (values: string | string[]) => false | void;
     onSelect?: (values: string | string[]) => false | void;

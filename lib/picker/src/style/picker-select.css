@@ -29,10 +29,13 @@
 }
 
 .picker-select-multi.form-control {
-  @apply -h-auto -pl-1 -min-h-[32px];
+  @apply -h-auto -min-h-[32px] -p-0 -relative;
 }
 .picker-multi-selections {
-  @apply -flex -flex-wrap -gap-1 -min-w-0 -flex-auto;
+  @apply -flex -flex-wrap -gap-1 -min-w-0 -flex-auto -py-1 -pl-1 -pr-5;
+}
+.picker-multi-caret {
+  @apply -absolute -top-0 -right-0 -bottom-0 -flex -items-center -justify-center -pr-2;
 }
 .picker-multi-selection {
   @apply -flex -items-center -border -bg-surface -pl-2 -rounded-full -max-w-full;
