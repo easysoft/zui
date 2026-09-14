@@ -3,25 +3,43 @@
     "version": "0.0.1",
     "description": "Custom Element adapters for ZUI components",
     "main": "src/main.ts",
-    "files": ["./src/**/*"],
-    "keywords": ["zui:js-helpers", "web-components"],
+    "files": [
+        "./src/**/*"
+    ],
+    "keywords": [
+        "zui:js-helpers",
+        "web-components"
+    ],
     "exports": {
         ".": "./src/main.ts",
         "./button": "./src/button.ts",
         "./pager": "./src/pager.ts",
-        "./picker": "./src/picker.ts"
+        "./picker": "./src/picker.ts",
+        "./all": "./src/all.ts",
+        "./auto": "./src/auto.ts",
+        "./css": "./src/main-css.ts"
     },
     "dependencies": {
+        "@zui/base": "workspace:*",
         "@zui/button": "workspace:*",
         "@zui/core": "workspace:*",
         "@zui/pager": "workspace:*",
         "@zui/picker": "workspace:*",
+        "@zui/utilities": "workspace:*",
         "preact": "^10.27.2"
     },
     "zui": {
         "type": "js-helpers",
         "displayName": "Web Components",
         "separately": true,
-        "contributes": {"js": ["class", "method"], "css": ["class"]}
+        "contributes": {
+            "js": [
+                "class",
+                "method"
+            ],
+            "css": [
+                "class"
+            ]
+        }
     }
 }

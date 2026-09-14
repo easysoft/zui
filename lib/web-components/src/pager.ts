@@ -7,6 +7,7 @@ import {numberProperty} from './properties';
 import './style.css';
 
 import type {PagerInfo, PagerOptions} from '@zui/pager';
+import type {Component} from '@zui/core';
 import type {ElementComponentOptions} from './component-element';
 
 export type PagerElementOptions = Pick<PagerInfo, 'page' | 'recTotal' | 'recPerPage'> & Pick<PagerOptions, 'items' | 'linkCreator'>;
@@ -50,7 +51,7 @@ export class ZuiPagerElement extends ComponentElement<PagerElementOptions, Pager
         };
     }
 
-    protected _createComponent(container: HTMLElement, options: ElementComponentOptions<PagerOptions>) {
+    protected _createComponent(container: HTMLElement, options: ElementComponentOptions<PagerOptions>): Component<PagerOptions> {
         return new Pager(container, options);
     }
 }

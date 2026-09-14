@@ -1993,6 +1993,9 @@ importers:
 
   lib/web-components:
     dependencies:
+      '@zui/base':
+        specifier: workspace:*
+        version: link:../base
       '@zui/button':
         specifier: workspace:*
         version: link:../button
@@ -2005,6 +2008,9 @@ importers:
       '@zui/picker':
         specifier: workspace:*
         version: link:../picker
+      '@zui/utilities':
+        specifier: workspace:*
+        version: link:../utilities
       preact:
         specifier: ^10.27.2
         version: 10.28.2
