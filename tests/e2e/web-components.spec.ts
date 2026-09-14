@@ -31,3 +31,22 @@ test('custom button preserves native keyboard and form behavior', async ({page})
     await page.setViewportSize({width: 375, height: 667});
     await expect(button).toBeVisible();
 });
+
+test('custom pager changes pages through the keyboard and reports the current state', async ({page}) => {
+    await page.goto('/pager/');
+    await page.locator('#libPage.is-loaded').waitFor();
+    await page.evaluate(async (modulePath) => {
+        const {definePager} = await import(modulePath);
+        definePager();
+        document.body.innerHTML = '<zui-pager rec-total="120" rec-per-page="20" aria-label="分页"></zui-pager><output></output>';
+        document.querySelector('zui-pager')!.addEventListener('zui-change', (event) => {
+            document.querySelector('output')!.textContent = String((event as CustomEvent).detail.page);
+        });
+    }, '/lib/web-components/src/pager.ts');
+    const second = page.getByRole('button', {name: '2', exact: true});
+    await second.focus();
+    await page.keyboard.press('Enter');
+    await expect(page.locator('output')).toHaveText('2');
+    await expect(page.locator('zui-pager')).toHaveAttribute('page', '2');
+    await expect(second).toBeDisabled();
+});

@@ -7,10 +7,13 @@
     "keywords": ["zui:js-helpers", "web-components"],
     "exports": {
         ".": "./src/main.ts",
-        "./button": "./src/button.ts"
+        "./button": "./src/button.ts",
+        "./pager": "./src/pager.ts"
     },
     "dependencies": {
         "@zui/button": "workspace:*",
+        "@zui/core": "workspace:*",
+        "@zui/pager": "workspace:*",
         "preact": "^10.27.2"
     },
     "zui": {

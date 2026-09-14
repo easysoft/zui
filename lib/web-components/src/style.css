@@ -6,3 +6,7 @@ zui-button {
     display: inline-block;
     vertical-align: middle;
 }
+
+zui-pager {
+    display: block;
+}
