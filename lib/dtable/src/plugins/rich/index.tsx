@@ -112,10 +112,11 @@ export function renderLinkCell(this: DTableWithPlugin, result: CustomRenderResul
 export function renderFormatCell(this: DTableWithPlugin, result: CustomRenderResultList, info: {row: RowInfo; col: ColInfo; value: unknown}) {
     const {format, digits} = info.col.setting;
     let value = result[0];
-    const normalizedDigits = typeof digits === 'number' && Number.isFinite(digits) ? Math.max(0, Math.min(100, Math.floor(digits))) : undefined;
-    if (normalizedDigits !== undefined && Number.isFinite(Number(value))) {
+    if (typeof digits === 'number' && !Number.isNaN(Number(value))) {
         value = Number(value);
-        value = (value as number).toFixed(normalizedDigits);
+        if (digits >= 0) {
+            value = (value as number).toFixed(digits);
+        }
     }
     if (format) {
         value = renderFormat.call(this, format as ColFormatSetting, info, value);
