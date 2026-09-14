@@ -1991,7 +1991,14 @@ importers:
         specifier: workspace:*
         version: link:../../dev
 
-  lib/web-components: {}
+  lib/web-components:
+    dependencies:
+      '@zui/button':
+        specifier: workspace:*
+        version: link:../button
+      preact:
+        specifier: ^10.27.2
+        version: 10.28.2
 
 packages:
 

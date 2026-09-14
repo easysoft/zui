@@ -5,11 +5,18 @@
     "main": "src/main.ts",
     "files": ["./src/**/*"],
     "keywords": ["zui:js-helpers", "web-components"],
-    "exports": {".": "./src/main.ts"},
+    "exports": {
+        ".": "./src/main.ts",
+        "./button": "./src/button.ts"
+    },
+    "dependencies": {
+        "@zui/button": "workspace:*",
+        "preact": "^10.27.2"
+    },
     "zui": {
         "type": "js-helpers",
         "displayName": "Web Components",
         "separately": true,
-        "contributes": {"js": ["class", "method"]}
+        "contributes": {"js": ["class", "method"], "css": ["class"]}
     }
 }
