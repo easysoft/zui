@@ -7,7 +7,9 @@ import './style.css';
 
 import type {ButtonProps} from '@zui/button';
 
-export type ButtonElementOptions = Pick<ButtonProps, 'type' | 'btnType' | 'size' | 'icon' | 'url' | 'target' | 'disabled' | 'loading' | 'loadingText' | 'active'> & {
+export type ButtonElementOptions = Pick<ButtonProps, 'type' | 'btnType' | 'url' | 'target' | 'disabled' | 'loading' | 'loadingText' | 'active'> & {
+    size: '' | Exclude<NonNullable<ButtonProps['size']>, number>;
+    icon: string;
     text: string;
     name: string;
     value: string;
@@ -36,7 +38,7 @@ export class ZuiButtonElement extends PreactElement<ButtonElementOptions> {
     declare text: string;
     declare type: string;
     declare btnType: ButtonProps['btnType'];
-    declare size: ButtonProps['size'];
+    declare size: ButtonElementOptions['size'];
     declare icon: string;
     declare url: string;
     declare target: string;
@@ -53,9 +55,11 @@ export class ZuiButtonElement extends PreactElement<ButtonElementOptions> {
     }
 
     protected _renderView() {
-        const {name, value, form, ...props} = this.options;
+        const {name, value, form, size, ...props} = this.options;
         return h(Button, {
             ...props,
+            size: size || undefined,
+            loadingIcon: {icon: '', className: 'spinner', 'aria-hidden': true},
             hint: this.title || undefined,
             attrs: {
                 ...this._accessibleAttributes(),

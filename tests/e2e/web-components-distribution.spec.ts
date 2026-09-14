@@ -90,11 +90,23 @@ for (const mode of ['explicit', 'auto-module', 'auto-script']) {
         const button = page.getByRole('button', {name: 'Save'});
         await expect(button).toBeVisible();
         await expect(button).toHaveCSS('display', 'inline-flex');
+        const primary = await button.evaluate(element => `rgb(${getComputedStyle(element).getPropertyValue('--color-primary-500-rgb').split(',').map(value => value.trim()).join(', ')})`);
+        await expect(button).toHaveCSS('background-color', primary);
+        await expect(page.getByRole('combobox', {name: 'Owner'})).not.toHaveCSS('box-shadow', 'none');
         await expect(page.getByRole('navigation', {name: 'Pages'}).getByRole('button')).toHaveCount(3);
         await page.getByRole('combobox', {name: 'Owner'}).click();
         await page.getByRole('option', {name: 'Tom', exact: true}).click();
         await expect(page.locator('zui-picker')).toContainText('Tom');
         expect(await page.evaluate(() => [...new FormData(document.querySelector('form')!).entries()])).toEqual([['owner', 'tom']]);
+        await page.evaluate(() => {
+            const element = document.querySelector('zui-button')!;
+            element.loadingText = 'Saving';
+            element.loading = true;
+        });
+        await expect(page.getByRole('button', {name: 'Saving'})).toBeDisabled();
+        const spinner = page.locator('zui-button .spinner');
+        await expect(spinner).toBeVisible();
+        expect(await spinner.evaluate(element => getComputedStyle(element, '::before').animationName)).not.toBe('none');
         expect(errors).toEqual([]);
     });
 }

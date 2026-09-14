@@ -20,13 +20,31 @@
         "./css": "./src/main-css.ts"
     },
     "dependencies": {
+        "@zui/avatar": "workspace:*",
         "@zui/base": "workspace:*",
+        "@zui/btn-group": "workspace:*",
         "@zui/button": "workspace:*",
+        "@zui/checkbox": "workspace:*",
+        "@zui/common-list": "workspace:*",
         "@zui/core": "workspace:*",
+        "@zui/css-icons": "workspace:*",
+        "@zui/dropdown": "workspace:*",
+        "@zui/form-control": "workspace:*",
+        "@zui/input-control": "workspace:*",
+        "@zui/list": "workspace:*",
+        "@zui/menu": "workspace:*",
         "@zui/pager": "workspace:*",
+        "@zui/pick": "workspace:*",
         "@zui/picker": "workspace:*",
+        "@zui/popover": "workspace:*",
+        "@zui/search-box": "workspace:*",
+        "@zui/toolbar": "workspace:*",
+        "@zui/tree": "workspace:*",
         "@zui/utilities": "workspace:*",
         "preact": "^10.27.2"
+    },
+    "devDependencies": {
+        "zui-dev": "workspace:*"
     },
     "zui": {
         "type": "js-helpers",
