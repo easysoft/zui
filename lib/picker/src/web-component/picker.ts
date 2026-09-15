@@ -1,10 +1,10 @@
 import {createRef, h} from 'preact';
 import {$, i18n, nextGid, PreactElement, property} from '@zui/core';
-import {Picker} from './component';
-import './vanilla';
+import {Picker} from '../component';
+import '../vanilla';
 import '@zui/button/css';
 
-import type {PickerOptions} from './types';
+import type {PickerOptions} from '../types';
 import type {ComponentClass, Ref} from 'preact';
 import type {PropertyChangeSource} from '@zui/core';
 
