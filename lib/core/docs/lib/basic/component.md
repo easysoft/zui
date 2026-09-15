@@ -171,3 +171,103 @@ new zui.Nav('#myNav', {
 const nav = zui.Nav.get('#myNav');
 </script>
 ```
+
+
+## 由组件库声明 Web Component
+
+组件库可以在类上提供 `static WebComponent` 配置。`register()` 读取该配置，只有 `autoDefine: true` 时自动注册自定义元素；没有配置的组件保持原有注册行为。以下是供组件库源码使用的 TypeScript 示例：
+
+```ts
+import {Component, numberProperty} from '@zui/core';
+import type {WebComponentConfig} from '@zui/core';
+
+type CounterOptions = {count: number};
+
+class Counter extends Component<CounterOptions> {
+    static NAME = 'Counter';
+
+    static WebComponent: WebComponentConfig<CounterOptions> = {
+        autoDefine: true,
+        component: Counter,
+        properties: {
+            count: numberProperty('count', 0),
+        },
+    };
+
+    afterInit() {
+        this.render();
+    }
+
+    render(options?: Partial<CounterOptions>) {
+        super.render(options);
+        this.element.textContent = String(this.options.count);
+    }
+}
+
+Counter.register();
+```
+
+加载该库后即可使用 `<zui-counter count="3"></zui-counter>`。标签默认由 `NAME` 转为 kebab-case 并添加 `zui-` 前缀，例如 `DatePicker` 对应 `zui-date-picker`；通过 `tagName` 可以显式指定名称。`register()` 的组件查找别名不改变自定义元素标签名。
+
+工厂会自动识别 `WebComponent.component`，不需要额外声明渲染模式：
+
+| 配置中的组件类型 | 创建与更新 | 移除后的清理 |
+| --- | --- | --- |
+| ZUI `Component` 子类 | 创建原生实例，更新时调用 `setOptions()` 或 `render()` | 调用实例 `destroy()` |
+| ZUI `ComponentFromReact` 子类 | 保留完整原生 wrapper，包括其参数处理和生命周期 | 调用 wrapper 的 `destroy()`，卸载内部 Preact 树 |
+| Preact 组件类或函数 | 直接将转换后的 props 交给 Preact | 卸载整个 Preact 树 |
+
+例如 Pager 使用 `component: PagerReact`；需要复用原生 wrapper 时，可以像上面的 Counter 一样指定组件类自身。`ComponentFromReact` 继承自 ZUI `Component`，会自动归入原生实例分支。
+
+### 配置与类型
+
+`WebComponentConfig<P, O, G>` 中，`P` 是元素的可写属性，`O` 是原组件接收的 options/props，`G` 是只读计算属性。`O` 默认与 `P` 相同；不需要计算属性时可以省略 `G`。
+
+| 配置 | 说明 |
+| --- | --- |
+| `autoDefine` | 仅值为 `true` 时随 `Component.register()` 自动注册 |
+| `tagName` | 可选的自定义元素标签名 |
+| `component` | 原生 ZUI 组件或 Preact 组件 |
+| `properties` | 声明全部可写属性的默认值、转换和 attribute 映射 |
+| `getters` | 按名称提供 `(props) => value`，生成只读 property |
+| `options` | `(props, context) => options`；属性可直接传给原组件时可以省略 |
+
+`numberProperty()`、`booleanProperty()` 和 `stringProperty()` 声明标量转换。`property<T>()` 声明仅供 JavaScript 使用的数组、对象或函数属性，未指定默认值时初始值为 `undefined`；此时 `T` 应包含 `undefined`。属性名不能覆盖元素已有的属性或方法，例如 `title`、`focus`、`ready`。
+
+`options()` 中的 `context` 提供以下能力：
+
+- `element`：当前元素及其可写属性、只读计算属性。
+- `set(partialProps)`：同步属性与 attribute，并合并更新；不会自动产生用户事件。
+- `emit(name, detail, cancelable?)`：发出冒泡且 `composed: true` 的 `CustomEvent`，返回 `dispatchEvent()` 的结果。
+- `accessibleAttributes()`：取得宿主的 `aria-label`、`aria-labelledby`、`aria-describedby` 和 `title`，由配置映射到内部组件。
+
+### 手动创建与注册
+
+若希望由使用方决定注册时机，在组件库中将 `autoDefine` 设为 `false`，然后调用工厂。以下代码继续使用上面的 Counter 配置：
+
+```ts
+import {createWebComponent, defineWebComponent} from '@zui/core';
+
+// 创建并导出构造器，暂不注册标签。
+export const ZuiCounterElement = createWebComponent(Counter.WebComponent);
+export type ZuiCounterElement = InstanceType<typeof ZuiCounterElement>;
+
+// 由使用方显式注册；也可以直接调用 ZuiCounterElement.define()。
+defineWebComponent(Counter.WebComponent, 'zui-counter');
+```
+
+同一个配置对象复用同一个构造器，重复注册同一实现是幂等的；同名标签已被其他构造器占用时会报错。配置对象应在模块初始化时创建并保持稳定。修改配置或标签名后应重新加载页面；导入后关闭 `autoDefine` 不会撤销已完成的注册。
+
+工厂生成 property 的类型，无需手写 `declare count`。需要让 `document.createElement()` 识别标签类型时，由组件库增加静态声明：
+
+```ts
+declare global {
+    interface HTMLElementTagNameMap {
+        'zui-counter': ZuiCounterElement;
+    }
+}
+```
+
+元素采用 Light DOM，工厂在宿主内部创建 `.zui-webc-mount` 挂载容器。组件库负责提供宿主及挂载容器的样式，例如 Counter 使用 `zui-counter { display: block; }` 和 `zui-counter > .zui-webc-mount { display: contents; }`。依赖宿主已有 DOM 的增强型组件需要额外适配。表单关联、插槽和组件专属交互不会因配置工厂自动获得；复杂组件仍可使用专门适配器。
+
+没有 Custom Elements API 时，`Component.register()` 跳过自动定义并继续原有组件注册。工厂的实际注册和渲染需要浏览器环境，这不代表支持服务端渲染。

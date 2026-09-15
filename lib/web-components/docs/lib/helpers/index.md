@@ -58,9 +58,10 @@ definePicker();
 
 | 入口 | 用途 |
 | --- | --- |
-| `@zui/web-components` | 基类和属性描述 helper，不注册组件 |
-| `/button`、`/pager`、`/picker` | 对应元素类、类型和 `defineXxx()` |
-| `/all` | 三个组件的导出及 `defineAll()`，导入时不注册 |
+| `@zui/web-components` | 工厂、基类和属性描述 helper，不注册组件 |
+| `/button`、`/picker` | 专门适配器、类型和显式 `defineXxx()` |
+| `/pager` | 转出 Pager 库的元素类及兼容 `definePager()`；导入时自动注册 Pager |
+| `/all` | 三个组件的导出及 `defineAll()`；导入时已自动注册 Pager |
 | `/auto` | ESM 自动注册全部三个组件 |
 | `/css` | 完整样式，包含基础变量与辅助类 |
 | `zui-web-components.auto.js` | 浏览器普通 script，自动注册；导出到 `window.ZuiWebComponents` |
@@ -68,6 +69,14 @@ definePicker();
 ESM 入口共享运行时。同一页面选择 ESM 或普通 script 中的一种接入方式，并只加载一个版本；浏览器不允许重新定义同名标签。同一实现重复调用 `defineAll()` 或 `defineXxx()` 安全。
 
 运行时仅用于浏览器。SSR 项目应在客户端挂载阶段动态导入；类型可以通过 `import type` 引入。Picker 依赖 `ElementInternals` 表单关联能力，本轮验证覆盖当前 Playwright 的 Chromium、Firefox 和 WebKit，未提供旧浏览器 polyfill。
+
+## 组件库拥有配置
+
+通用工厂及生命周期运行时位于 `@zui/core`。组件库在类上声明 `static WebComponent`，`Component.register()` 根据 `autoDefine` 决定是否自动注册；不声明配置的组件保持原有行为。
+
+工厂自动识别 `component`：ZUI `Component` 和 `ComponentFromReact` 子类走原生实例生命周期，Preact 组件类和函数走直接渲染。`createWebComponent(config)` 创建并复用构造器，`defineWebComponent(config, tagName)` 执行显式注册。详细配置和类型示例见[组件基类](/lib/basic/core/component.html#由组件库声明-web-component)。
+
+Pager 已迁移至此机制，直接加载 `@zui/pager` 即可使用 `<zui-pager>`，本包 `/pager` 入口复用同一份配置与构造器。Button 和 Picker 继续保留各自的行为适配器，表单关联等专属行为不会由工厂自动推导。
 
 ## 属性与更新
 

@@ -1,5 +1,15 @@
 # 分页
 
+## Web Component
+
+Pager 的 `static WebComponent` 配置会随 `Pager.register()` 自动注册标签，本页加载 Pager 后可直接使用：
+
+```html:example
+<zui-pager rec-total="120" rec-per-page="20" aria-label="Web Component 分页"></zui-pager>
+```
+
+通过 property 或 `setOptions()` 更新 `page`、`recTotal`、`recPerPage`；用户换页触发 `zui-change`。完整配置位于 `src/vanilla/index.ts`。
+
 ## 动态组件
 
 ```html:example

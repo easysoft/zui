@@ -1,6 +1,6 @@
 # Web Components
 
-通过原生自定义元素使用 ZUI。当前试验支持 Button、Pager 和 Picker，使用 Light DOM，内部复用现有组件。
+通过原生自定义元素使用 ZUI。当前试验支持 Button、Pager 和 Picker，使用 Light DOM，内部复用现有组件。Pager 已通过组件库自己的 `static WebComponent` 配置接入 `core` 工厂；Button 和 Picker 保留专门适配器。
 
 ## 按钮
 
@@ -15,6 +15,8 @@
 按钮文字使用 `text`。`type` 控制外观，原生提交和重置使用 `btn-type="submit"`、`btn-type="reset"`。
 
 ## 分页
+
+直接引入 `@zui/pager` 即可自动注册 `<zui-pager>`；兼容入口 `@zui/web-components/pager` 复用同一个构造器。
 
 通过键盘或点击换页会触发 `zui-change`；直接设置 `page` 或 `recTotal` 不触发用户事件。
 
@@ -79,3 +81,11 @@ picker.items = [{value: 'hao', text: 'Hao'}, {value: 'tom', text: 'Tom'}];
 ```
 
 在当前 worktree 运行 `pnpm dev`，访问 `/web-components/` 可打开本页。完整契约见 `docs/lib/helpers/index.md`。
+
+## 组件作者接入
+
+在组件类中定义 `static WebComponent`，通过 `autoDefine: true` 让 `Component.register()` 自动注册。`component` 可传入 ZUI `Component`、`ComponentFromReact` 子类或 Preact 组件，工厂自动选择创建与清理方式。
+
+通用 API 为 `createWebComponent(config)`、`defineWebComponent(config, tagName)` 和 `WebComponentConfig<P, O, G>`，从 `@zui/core` 导出；本包主入口同时转出这些工厂 API。组件作者配置说明位于 `lib/core/docs/lib/basic/component.md`，Pager 的完整配置位于 `lib/pager/src/vanilla/index.ts`。
+
+`/all` 导入时会应用 Pager 的自动注册配置；`defineAll()` 继续负责完成全部三个标签的注册。Button 和 Picker 的独立入口仍需调用对应的 `defineXxx()`。

@@ -63,6 +63,28 @@ const pagerOptions = {
 };
 </script>
 
+## Web Component
+
+Pager 在自己的 `static WebComponent` 中声明了 `autoDefine: true`。加载 Pager 的原生入口后，`Pager.register()` 会自动注册 `<zui-pager>`：
+
+```html
+<zui-pager id="customPager" rec-total="120" rec-per-page="20" aria-label="结果分页"></zui-pager>
+```
+
+```js
+const customPager = document.querySelector('#customPager');
+customPager.addEventListener('zui-change', event => {
+    const {page, recPerPage} = event.detail;
+    // 在这里请求并显示该页数据。
+    console.log(page, recPerPage);
+});
+customPager.setOptions({recTotal: 60, page: 2});
+```
+
+`page`、`recTotal`、`recPerPage` 可通过 property 或 HTML attribute 更新，`pageTotal` 是只读计算属性。`items` 和 `linkCreator` 使用 JavaScript property。用户换页时 `zui-change.detail` 包含 `PagerInfo` 和 `originalEvent`；直接设置属性不会触发该用户事件。默认导航配置为 `{type: 'nav', count: 7}`。
+
+模块化使用时，`import '@zui/pager'` 会应用自动注册配置；`@zui/pager/react` 仅提供 Preact 组件。自定义元素复用 Pager 样式，按组件库接入规范加载对应 CSS。配置由 Pager 库维护，工厂及自动识别机制参见[组件基类](/lib/basic/core/component.html#由组件库声明-web-component)。
+
 ## 状态与数据请求
 
 `useState: true` 让页码按钮和每页条数菜单更新内部分页状态，适合在 `onChangePageInfo(info, event)` 中请求新数据。组件不会自动请求业务接口。
