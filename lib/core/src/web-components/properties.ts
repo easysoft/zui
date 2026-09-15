@@ -64,7 +64,16 @@ export function booleanOrNumberProperty(attribute: string, defaultValue: boolean
     };
 }
 
-/** A JavaScript-only property for arrays, objects and functions; no attribute parsing. */
-export function property<T>(defaultValue?: T): ElementProperty<T> {
-    return {defaultValue};
-}
+/**
+ * Create a JavaScript-only property, or use the typed helpers for attribute conversion.
+ * @example property<string[]>([]); property.string('label'); property.number('count', 0);
+ */
+export const property = Object.assign(
+    <T>(defaultValue?: T): ElementProperty<T> => ({defaultValue}),
+    {
+        string: stringProperty,
+        boolean: booleanProperty,
+        number: numberProperty,
+        booleanOrNumber: booleanOrNumberProperty,
+    },
+);

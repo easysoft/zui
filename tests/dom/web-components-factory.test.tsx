@@ -1,6 +1,6 @@
 import {Component as View} from 'preact';
 import {describe, expect, expectTypeOf, it, vi} from 'vitest';
-import {Component, ComponentFromReact, createWebComponent, defineWebComponent, numberProperty, property} from '@zui/core';
+import {Component, ComponentFromReact, createWebComponent, defineWebComponent, property} from '@zui/core';
 import {flushAnimationFrame} from '../setup/dom';
 
 import type {ComponentOptions, WebComponentConfig, WebComponentInstance} from '@zui/core';
@@ -35,7 +35,7 @@ class WrappedCounter extends ComponentFromReact<CounterProps, CounterView> {
     static Component = CounterView;
 }
 
-const properties = {count: numberProperty('count', 1), items: property<string[] | undefined>()};
+const properties = {count: property.number('count', 1), items: property<string[] | undefined>()};
 
 async function flush() {
     await Promise.resolve();
@@ -107,7 +107,7 @@ describe('library-owned custom element factory', () => {
             static NAME = 'FactoryInferredView';
             static WebComponent: WebComponentConfig<{value: number}, CounterProps, {doubled: number}> = {
                 autoDefine: true,
-                properties: {value: numberProperty('value', 2)},
+                properties: {value: property.number('value', 2)},
                 getters: {doubled: props => props.value * 2},
                 options: (props, context) => ({count: context.element.doubled, items: [String(props.value)]}),
             };

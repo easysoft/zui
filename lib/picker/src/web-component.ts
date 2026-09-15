@@ -1,5 +1,5 @@
 import {createRef, h} from 'preact';
-import {$, i18n, nextGid, PreactElement, booleanOrNumberProperty, booleanProperty, stringProperty} from '@zui/core';
+import {$, i18n, nextGid, PreactElement, property} from '@zui/core';
 import {Picker} from './component';
 import './vanilla';
 import '@zui/button/css';
@@ -30,14 +30,14 @@ export class ZuiPickerElement extends PreactElement<PickerElementOptions> {
     static formAssociated = true;
 
     static properties = {
-        value: stringProperty('value', '', false),
-        name: stringProperty('name'),
-        placeholder: stringProperty('placeholder'),
-        disabled: booleanProperty('disabled'),
-        readonly: booleanProperty('readonly'),
-        required: booleanProperty('required'),
-        multiple: booleanOrNumberProperty('multiple', false),
-        search: booleanOrNumberProperty('search', true),
+        value: property.string('value', '', false),
+        name: property.string('name'),
+        placeholder: property.string('placeholder'),
+        disabled: property.boolean('disabled'),
+        readonly: property.boolean('readonly'),
+        required: property.boolean('required'),
+        multiple: property.booleanOrNumber('multiple', false),
+        search: property.booleanOrNumber('search', true),
         items: {},
     };
 

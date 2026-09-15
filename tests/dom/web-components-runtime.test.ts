@@ -1,13 +1,13 @@
 import {describe, expect, it} from 'vitest';
-import {ZuiElement, booleanProperty, numberProperty, stringProperty} from '@zui/core';
+import {ZuiElement, property} from '@zui/core';
 
 type CounterOptions = {count: number; disabled: boolean; label: string; items: string[] | undefined};
 
 class CounterElement extends ZuiElement<CounterOptions> {
     static properties = {
-        count: numberProperty('count', 1, 1),
-        disabled: booleanProperty('disabled'),
-        label: stringProperty('label'),
+        count: property.number('count', 1, 1),
+        disabled: property.boolean('disabled'),
+        label: property.string('label'),
         items: {},
     };
 

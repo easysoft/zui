@@ -1,4 +1,4 @@
-import {ComponentFromReact, createWebComponent, numberProperty, property} from '@zui/core';
+import {ComponentFromReact, createWebComponent, property} from '@zui/core';
 import {Pager as PagerReact} from '../component/pager';
 
 import type {WebComponentConfig} from '@zui/core';
@@ -15,9 +15,9 @@ export class Pager<T extends PagerOptions = PagerOptions> extends ComponentFromR
     static WebComponent: WebComponentConfig<PagerElementOptions, PagerOptions, {pageTotal: number}> = {
         autoDefine: true,
         properties: {
-            page: numberProperty('page', 1),
-            recTotal: numberProperty('rec-total', 0),
-            recPerPage: numberProperty('rec-per-page', 10, 1),
+            page: property.number('page', 1),
+            recTotal: property.number('rec-total', 0),
+            recPerPage: property.number('rec-per-page', 10, 1),
             items: property<PagerOptions['items']>(),
             linkCreator: property<PagerOptions['linkCreator']>(),
         },

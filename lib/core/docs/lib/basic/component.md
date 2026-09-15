@@ -215,7 +215,7 @@ definePicker();
 组件库可以在类上提供 `static WebComponent` 配置。`register()` 读取该配置，只有 `autoDefine: true` 时自动注册自定义元素；没有配置的组件保持原有注册行为。以下是供组件库源码使用的 TypeScript 示例：
 
 ```ts
-import {Component, numberProperty} from '@zui/core';
+import {Component, property} from '@zui/core';
 import type {WebComponentConfig} from '@zui/core';
 
 type CounterOptions = {count: number};
@@ -226,7 +226,7 @@ class Counter extends Component<CounterOptions> {
     static WebComponent: WebComponentConfig<CounterOptions> = {
         autoDefine: true,
         properties: {
-            count: numberProperty('count', 0),
+            count: property.number('count', 0),
         },
     };
 
@@ -276,7 +276,9 @@ Pager 因此只需要保留 `static Component = PagerReact`，无需在 Web Comp
 | `getters` | 按名称提供 `(props) => value`，生成只读 property |
 | `options` | `(props, context) => options`；属性可直接传给原组件时可以省略 |
 
-`numberProperty()`、`booleanProperty()` 和 `stringProperty()` 声明标量转换。`property<T>()` 声明仅供 JavaScript 使用的数组、对象或函数属性，未指定默认值时初始值为 `undefined`；此时 `T` 应包含 `undefined`。属性名不能覆盖元素已有的属性或方法，例如 `title`、`focus`、`ready`。
+`property.string()`、`property.boolean()` 和 `property.number()` 声明标量转换；`property.booleanOrNumber()` 声明布尔值或正整数的联合属性，例如 Picker 的 `multiple`。`property<T>()` 声明仅供 JavaScript 使用的数组、对象或函数属性，未指定默认值时初始值为 `undefined`；此时 `T` 应包含 `undefined`。属性名不能覆盖元素已有的属性或方法，例如 `title`、`focus`、`ready`。
+
+原有的 `stringProperty`、`booleanProperty`、`numberProperty` 和 `booleanOrNumberProperty` 仍可单独导入，与 `property` 上的方法共用同一实现。
 
 `options()` 中的 `context` 提供以下能力：
 
