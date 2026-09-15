@@ -17,6 +17,5 @@ import '@zui/pager/css';
 import '@zui/tree/css';
 import '@zui/pick/css';
 import '@zui/picker/css';
-import './style.css';
 // Skin utilities override component defaults and must be loaded last.
 import '@zui/utilities';

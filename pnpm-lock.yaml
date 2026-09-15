@@ -321,6 +321,9 @@ importers:
       '@zui/css-icons':
         specifier: workspace:^0.0.1
         version: link:../css-icons
+      preact:
+        specifier: ^10.27.2
+        version: 10.28.2
     devDependencies:
       '@zui/avatar':
         specifier: workspace:^0.0.1
@@ -1482,6 +1485,9 @@ importers:
       '@zui/tree':
         specifier: workspace:*
         version: link:../tree
+      preact:
+        specifier: ^10.27.2
+        version: 10.28.2
     devDependencies:
       '@zui/avatar':
         specifier: workspace:*

@@ -388,3 +388,48 @@
 | `--btn-bg`   | 按钮背景颜色 |
 | `--btn-border-color` | 按钮边框颜色 |
 | `--btn-height` | 按钮高度 |
+
+## Web Component
+
+调用 `zui.defineButton()` 注册 `<zui-button>`。组件内部保留原生按钮或链接，支持键盘操作、表单提交和重置；重复调用注册方法安全。
+
+```html
+<zui-button text="提交" type="primary" btn-type="submit"></zui-button>
+<script>
+zui.defineButton();
+</script>
+```
+
+在源码模块中，适配器和类型由按钮库直接导出：
+
+```ts
+import {defineButton, ZuiButtonElement} from '@zui/button';
+import type {ButtonElementOptions} from '@zui/button';
+
+defineButton();
+const button: ZuiButtonElement = document.createElement('zui-button');
+const options: Partial<ButtonElementOptions> = {text: '保存', loading: false};
+button.setOptions(options);
+```
+
+```html
+<zui-button text="保存" type="primary" btn-type="submit"></zui-button>
+<zui-button text="重置" btn-type="reset"></zui-button>
+<zui-button text="加载中" loading></zui-button>
+```
+
+| 属性 / property | 默认值 | 说明 |
+| --- | --- | --- |
+| `text` | `""` | 纯文本内容 |
+| `type` | `""` | ZUI 外观，例如 `primary` |
+| `btn-type` / `btnType` | `"button"` | 原生按钮类型 |
+| `size` | `""` | 尺寸，例如 `sm`、`lg` |
+| `icon` | `""` | 图标字符串，使用图标时需加载对应图标资源 |
+| `url`、`target` | `""` | 链接地址和打开方式 |
+| `disabled`、`loading`、`active` | `false` | 禁用、加载、激活状态 |
+| `loading-text` / `loadingText` | `""` | 加载文字 |
+| `name`、`value`、`form` | `""` | 传给内部原生控件的表单属性 |
+
+`focus()`、`click()` 委托内部按钮或链接；点击通过原生 `click` 事件传播。提交和重置由内部原生按钮完成。
+
+复杂属性通过 JavaScript property 设置，更新在同一轮合并；`await element.ready` 等待当前连接首次渲染完成。移出文档后会卸载内部组件，同一轮 DOM 移动保留实例。组件采用 Light DOM，需加载按钮库样式。通用机制见[组件基类](/lib/basic/core/component.html#由组件库声明-web-component)。

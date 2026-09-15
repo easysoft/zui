@@ -53,8 +53,6 @@ describe('zui-pager', () => {
         expect(createWebComponent(Pager)).toBe(ZuiPagerElement);
         expect(Pager.WebComponent.component).toBeUndefined();
         expect(() => Pager.register()).not.toThrow();
-        const {definePager} = await import('@zui/web-components/src/pager');
-        expect(() => definePager()).not.toThrow();
         const element = await mount();
         const container = element.firstElementChild;
         element.recTotal = 80;

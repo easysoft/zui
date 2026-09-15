@@ -25,7 +25,8 @@
         "@zui/menu": "workspace:*",
         "@zui/tree": "workspace:*",
         "@zui/pick": "workspace:*",
-        "@zui/helpers": "workspace:*"
+        "@zui/helpers": "workspace:*",
+        "preact": "^10.27.2"
     },
     "devDependencies": {
         "zui-dev": "workspace:*",
@@ -43,7 +44,8 @@
             "css": [
                 "class",
                 "var"
-            ]
+            ],
+            "js": ["class", "method", "component"]
         }
     }
 }

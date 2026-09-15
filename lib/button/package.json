@@ -22,13 +22,15 @@
     },
     "dependencies": {
         "@zui/core": "workspace:^0.0.1",
-        "@zui/css-icons": "workspace:^0.0.1"
+        "@zui/css-icons": "workspace:^0.0.1",
+        "preact": "^10.27.2"
     },
     "zui": {
         "type": "control",
         "displayName": "按钮",
         "contributes": {
-            "css": ["class", "var"]
+            "css": ["class", "var"],
+            "js": ["class", "method"]
         }
     }
 }

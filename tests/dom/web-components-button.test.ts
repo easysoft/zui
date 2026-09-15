@@ -1,5 +1,5 @@
 import {describe, expect, it, vi} from 'vitest';
-import {defineButton} from '@zui/web-components/src/button';
+import {defineButton} from '@zui/button';
 
 defineButton();
 

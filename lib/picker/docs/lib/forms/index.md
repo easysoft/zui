@@ -358,3 +358,77 @@ const items = [
       {text: 'Cake', value: 'cake', keys: 'food'},
 ];
 </script>
+
+## Web Component
+
+调用 `zui.definePicker()` 注册 `<zui-picker>`。组件支持原生表单提交、校验、重置、标签关联以及键盘选择；重复调用注册方法安全。
+
+```html
+<form>
+  <label for="webcPickerExample">负责人</label>
+  <zui-picker id="webcPickerExample" name="owner" value="hao" required></zui-picker>
+  <button type="submit">提交</button>
+  <button type="reset">重置</button>
+</form>
+<script>
+zui.definePicker();
+const picker = document.querySelector('#webcPickerExample');
+picker.items = [{value: 'hao', text: 'Hao'}, {value: 'tom', text: 'Tom'}];
+</script>
+```
+
+在源码模块中，适配器和类型由选择器库直接导出：
+
+```ts
+import {definePicker, ZuiPickerElement} from '@zui/picker';
+import type {PickerElementOptions, PickerChangeDetail} from '@zui/picker';
+
+definePicker();
+const picker: ZuiPickerElement = document.createElement('zui-picker');
+const options: Partial<PickerElementOptions> = {items: [{value: 'hao', text: 'Hao'}]};
+picker.setOptions(options);
+picker.addEventListener('zui-change', event => {
+    const detail = (event as CustomEvent<PickerChangeDetail>).detail;
+    console.log(detail.value, detail.oldValue);
+});
+```
+
+| 属性 / property | 默认值 | 说明 |
+| --- | --- | --- |
+| `items` | 空列表 | 通过 property 设置，沿用 Picker 的 items 类型 |
+| `value` property | `""` | 当前值；多选以逗号分隔，例如 `"hao,tom"` |
+| `value` attribute、`defaultValue` | `""` | 表单重置时恢复的默认值 |
+| `name` | `""` | 表单字段名 |
+| `placeholder` | `""` | 空值提示 |
+| `disabled`、`readonly`、`required` | `false` | 禁用、只读和必填 |
+| `multiple` | `false` | `true` 启用多选，正整数限制选择数量 |
+| `search` | `true` | 搜索开关；正整数同样视为开启 |
+
+`value` property 和 attribute 分离：用户修改或通过 property 赋值后，再修改 attribute 只改变默认值；`form.reset()` 恢复默认值且不触发 `zui-change`。多选提交一个逗号分隔字符串字段，组件不会额外插入同名隐藏表单项。
+
+支持原生 `FormData`、`form.reset()`、`label for`、`fieldset disabled`，以及 `form`、`labels`、`validity`、`validationMessage`、`willValidate`、`checkValidity()`、`reportValidity()` 和 `setCustomValidity(message)`。`show()`、`hide()` 返回 Promise。
+
+```js
+picker.addEventListener('zui-before-change', event => {
+    if (event.detail.value === 'restricted') {
+        event.preventDefault();
+    }
+});
+```
+
+| 事件 | detail | 触发时机 |
+| --- | --- | --- |
+| `zui-before-change` | `{value, oldValue}` | 用户修改前，可同步 `preventDefault()` 取消 |
+| `zui-change` | `{value, oldValue}` | 用户修改完成，每次有效修改触发一次 |
+| `zui-shown`、`zui-hidden` | `{}` | 浮层展开、关闭 |
+| `zui-error` | `{error}` | 通用适配器渲染失败；首次挂载失败同时拒绝 `ready` |
+
+这些自定义事件均冒泡且 `composed: true`。程序赋值保持静默；在 `zui-before-change` 回调中赋新值，以该新值为准。
+
+`label for`、`aria-label`、`aria-labelledby`、`aria-describedby` 可为控件提供名称和说明。选择器支持键盘打开、选项导航、选择与关闭，关闭后恢复焦点。完整键盘操作和屏幕阅读器体验仍需结合宿主页面验证。
+
+数组、对象和函数通过 JavaScript property 设置，不能把 JSON 字符串写入 `items` attribute。注册前赋值的 property 在升级时保留，程序更新在同一轮合并；`await picker.ready` 等待当前连接首次渲染完成，不表示远程数据已经加载。
+
+组件采用 Light DOM。持续移出文档后会卸载内部组件并清理浮层，同一轮 DOM 移动保留实例，重新连接时重新挂载。运行时依赖浏览器的 Custom Elements 与 `ElementInternals` 表单关联能力；服务端项目在客户端挂载后加载运行时，类型可用 `import type` 引入。
+
+通用工厂和属性规则见[组件基类](/lib/basic/core/component.html#由组件库声明-web-component)。

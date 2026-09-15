@@ -167,3 +167,30 @@ const customPicker = new Picker('#customPicker', {
     },
 });
 ```
+
+## Web Component 与原生表单
+
+本页通过 `definePicker()`、`defineButton()` 注册示例使用的自定义元素。
+
+可以通过标签、Tab、方向键、Enter 和 Escape 操作选择器。试试必填校验、重置、fieldset 禁用，以及取消选中事件。
+
+```html:example: col gap-3
+<form id="webcForm" class="col gap-3">
+  <fieldset id="webcFields" class="col gap-3">
+    <label id="webcOwnerLabel" for="webcOwner">负责人（必填）</label>
+    <zui-picker id="webcOwner" name="owner" value="hao" required placeholder="请选择负责人" lang="zh-CN"></zui-picker>
+    <label id="webcReviewersLabel" for="webcReviewers">评审人（最多 3 人）</label>
+    <zui-picker id="webcReviewers" name="reviewers" value="tom,amy" multiple="3" placeholder="请选择评审人" lang="zh-CN"></zui-picker>
+  </fieldset>
+  <div class="flex flex-wrap gap-3">
+    <zui-button text="提交表单" type="primary" btn-type="submit"></zui-button>
+    <zui-button text="重置" btn-type="reset"></zui-button>
+    <zui-button id="webcSetOwner" text="通过 property 设为 Tom"></zui-button>
+    <zui-button id="webcClearOwner" text="清空负责人"></zui-button>
+  </div>
+  <label><input id="webcDisableFields" type="checkbox"> 禁用整个 fieldset</label>
+  <label><input id="webcReadonlyOwner" type="checkbox"> 负责人只读</label>
+  <label><input id="webcCancelChange" type="checkbox"> 取消负责人下一次修改</label>
+  <output id="webcFormState" aria-live="polite"></output>
+</form>
+```

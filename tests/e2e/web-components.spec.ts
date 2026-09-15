@@ -16,7 +16,7 @@ test('custom button preserves native keyboard and form behavior', async ({page})
             event.preventDefault();
             document.querySelector('output')!.textContent = 'Submitted';
         });
-    }, '/lib/web-components/src/button.ts');
+    }, '/lib/button/src/main.ts');
 
     const button = page.getByRole('button', {name: 'Save'});
     await expect(button).toBeVisible();

@@ -154,3 +154,17 @@
 <button type="button" class="shadow-lg btn">Button</button>
 <button type="button" class="shadow-xl btn">Button</button>
 ```
+
+## Web Component
+
+本页调用 `defineButton()` 注册 `<zui-button>`，组件适配由按钮库提供。
+
+```html:example: flex flex-wrap gap-3
+<zui-button text="主要按钮" type="primary"></zui-button>
+<zui-button text="小按钮" size="sm"></zui-button>
+<zui-button text="不可用" disabled></zui-button>
+<zui-button text="保存" loading loading-text="保存中"></zui-button>
+<zui-button text="ZUI 官网" url="https://openzui.com" target="_blank"></zui-button>
+```
+
+按钮文字使用 `text`。`type` 控制外观，原生提交和重置使用 `btn-type="submit"`、`btn-type="reset"`。

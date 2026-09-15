@@ -20,7 +20,6 @@ async function mountPicker(page: Page) {
             </form>
         `;
         const element = document.querySelector('zui-picker')!;
-        // Exercise the browser's upgrade path with a complex property already assigned.
         element.items = [{value: 'hao', text: 'Hao'}, {value: 'tom', text: 'Tom'}, {value: 'amy', text: 'Amy'}];
         let changes = 0;
         element.addEventListener('zui-change', () => {
@@ -29,7 +28,7 @@ async function mountPicker(page: Page) {
         document.querySelector('form')!.addEventListener('submit', event => event.preventDefault());
         definePicker();
         await element.ready;
-    }, '/lib/web-components/src/picker.ts');
+    }, '/lib/picker/src/main.ts');
 }
 
 async function formValues(page: Page) {

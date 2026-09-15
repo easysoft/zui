@@ -1,5 +1,5 @@
 import {describe, expect, it} from 'vitest';
-import {ZuiElement, booleanProperty, numberProperty, stringProperty} from '@zui/web-components';
+import {ZuiElement, booleanProperty, numberProperty, stringProperty} from '@zui/core';
 
 type CounterOptions = {count: number; disabled: boolean; label: string; items: string[] | undefined};
 
