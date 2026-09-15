@@ -1,20 +1,18 @@
 import {execFile} from 'node:child_process';
 import {promises as fs} from 'node:fs';
 import Path from 'node:path';
-import {tmpdir} from 'node:os';
 import {promisify} from 'node:util';
 import {JSDOM} from 'jsdom';
 import {beforeAll, describe, expect, it} from 'vitest';
-import ts from 'typescript';
 
 const run = promisify(execFile);
 const projectRoot = Path.resolve(import.meta.dirname, '../..');
 const output = Path.join(projectRoot, 'test-results/web-components/button');
 const pagerOutput = Path.join(projectRoot, 'test-results/web-components/pager');
-const packageOutput = Path.join(projectRoot, 'test-results/web-components/package');
+const pickerOutput = Path.join(projectRoot, 'test-results/web-components/picker');
 
 beforeAll(async () => {
-    await run('pnpm', ['build', '--', '--lib=web-components~button', '--name=zui-webc-button', `--outDir=${output}`], {
+    await run('pnpm', ['build', '--', '--lib=button', '--name=zui-webc-button', `--outDir=${output}`], {
         cwd: projectRoot,
         maxBuffer: 20 * 1024 * 1024,
     });
@@ -22,7 +20,7 @@ beforeAll(async () => {
         cwd: projectRoot,
         maxBuffer: 20 * 1024 * 1024,
     });
-    await run('pnpm', ['build:web-components', '--', `--outDir=${packageOutput}`], {
+    await run('pnpm', ['build', '--', '--lib=picker', '--name=zui-webc-picker', `--outDir=${pickerOutput}`], {
         cwd: projectRoot,
         maxBuffer: 20 * 1024 * 1024,
     });
@@ -77,83 +75,21 @@ describe('custom element distribution', () => {
         }
     });
 
-    it('exports portable types that can be checked outside the workspace', async () => {
-        const consumer = await fs.mkdtemp(Path.join(tmpdir(), 'zui-web-components-consumer-'));
+    it('provides explicit Picker registration from its ordinary library build', async () => {
+        const dom = new JSDOM('<!doctype html>', {url: 'http://localhost/', runScripts: 'outside-only'});
         try {
-            const installed = Path.join(consumer, 'node_modules/@zui/web-components');
-            await fs.mkdir(Path.dirname(installed), {recursive: true});
-            await fs.cp(packageOutput, installed, {recursive: true});
-            const manifest = JSON.parse(await fs.readFile(Path.join(installed, 'package.json'), 'utf8'));
-            const resolveFrom = [Path.join(projectRoot, 'node_modules'), Path.join(projectRoot, 'lib/core/node_modules')];
-            for (const dependency of Object.keys(manifest.dependencies)) {
-                let resolved: string | undefined;
-                for (const directory of resolveFrom) {
-                    try {
-                        resolved = await fs.realpath(Path.join(directory, dependency));
-                        break;
-                    } catch (_error) {
-                        // Some dependencies are installed in the core workspace only.
-                    }
-                }
-                expect(resolved, dependency).toBeDefined();
-                const link = Path.join(consumer, 'node_modules', dependency);
-                await fs.mkdir(Path.dirname(link), {recursive: true});
-                await fs.symlink(resolved!, link, 'dir');
-            }
-            const entry = Path.join(consumer, 'app.ts');
-            await fs.writeFile(entry, `
-                import {defineAll, ZuiPickerElement, type PickerChangeDetail} from '@zui/web-components/all';
-                import {defineButton} from '@zui/web-components/button';
-                import {ZuiPagerElement} from '@zui/web-components/pager';
-                import {createWebComponent, defineWebComponent, numberProperty, type WebComponentConfig, type WebComponentOwner} from '@zui/web-components';
-                defineAll(); defineButton();
-                const picker: ZuiPickerElement = document.createElement('zui-picker');
-                picker.items = [{text: 'Hao', value: 'hao'}];
-                picker.value = 'hao';
-                const detail: PickerChangeDetail = {value: picker.value, oldValue: ''};
-                const pager: ZuiPagerElement = document.createElement('zui-pager');
-                pager.page = 2;
-                const total: number = pager.pageTotal;
-                const config: WebComponentConfig<{count: number}> = {
-                    component: props => String(props.count),
-                    properties: {count: numberProperty('count', 1)},
-                };
-                const Counter = createWebComponent(config);
-                const count: number = new Counter().count;
-                declare const Owner: WebComponentOwner<{value: number}, {count: number}, {doubled: number}>;
-                const OwnedCounter = createWebComponent(Owner);
-                defineWebComponent(Owner);
-                const ownedValue: number = new OwnedCounter().value;
-                const ownedTotal: number = new OwnedCounter().doubled;
-                console.log(detail, total, count, ownedValue, ownedTotal);
-                // @ts-expect-error inferred owner property types are preserved.
-                new OwnedCounter().value = '2';
-                // @ts-expect-error inferred owner getters are readonly.
-                new OwnedCounter().doubled = 10;
-                // @ts-expect-error computed properties are readonly.
-                pager.pageTotal = 10;
-                // @ts-expect-error scalar property types are preserved.
-                pager.page = '2';
-                // @ts-expect-error current values are strings, including multiple selections.
-                picker.value = 1;
-            `);
-            const program = ts.createProgram([entry], {
-                strict: true,
-                noEmit: true,
-                types: [],
-                target: ts.ScriptTarget.ESNext,
-                module: ts.ModuleKind.ESNext,
-                moduleResolution: ts.ModuleResolutionKind.Bundler,
-            });
-            const errors = ts.getPreEmitDiagnostics(program).map(error => `${error.file?.fileName}: ${ts.flattenDiagnosticMessageText(error.messageText, '\n')}`);
-            expect(errors).toEqual([]);
-            for (const target of Object.values(manifest.exports) as (string | {types: string; import: string})[]) {
-                for (const path of typeof target === 'string' ? [target] : Object.values(target)) {
-                    expect((await fs.stat(Path.join(installed, path))).isFile()).toBe(true);
-                }
-            }
+            dom.window.eval(await fs.readFile(Path.join(pickerOutput, 'zui-webc-picker.js'), 'utf8'));
+            const exports = (dom.window as unknown as {zui: {definePicker: () => void; ZuiPickerElement: CustomElementConstructor}}).zui;
+            expect(dom.window.customElements.get('zui-picker')).toBeUndefined();
+            exports.definePicker();
+            exports.definePicker();
+            expect(dom.window.customElements.get('zui-picker')).toBe(exports.ZuiPickerElement);
+            const css = await fs.readFile(Path.join(pickerOutput, 'zui-webc-picker.css'), 'utf8');
+            expect(css).toContain('zui-picker');
+            expect(css).toContain('.zui-webc-mount');
+            expect(css).toMatch(/\.picker[\s,{.:]/);
         } finally {
-            await fs.rm(consumer, {recursive: true, force: true});
+            dom.window.close();
         }
     });
 });

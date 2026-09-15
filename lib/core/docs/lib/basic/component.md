@@ -173,6 +173,43 @@ const nav = zui.Nav.get('#myNav');
 ```
 
 
+## 通过自定义元素使用组件
+
+Web Component 由对应组件库提供，共用 `@zui/core` 的元素运行时。普通 ZUI 构建可以直接使用这些导出：
+
+```js
+zui.defineButton();
+zui.definePicker();
+// Pager 根据自身的 autoDefine 配置，在加载时自动注册。
+```
+
+```html
+<zui-button text="保存" type="primary"></zui-button>
+<zui-pager rec-total="120" rec-per-page="20"></zui-pager>
+<zui-picker name="owner" placeholder="请选择负责人"></zui-picker>
+```
+
+源码模块按所属库引入：
+
+```js
+import {defineButton} from '@zui/button';
+import {definePicker} from '@zui/picker';
+import '@zui/pager';
+
+defineButton();
+definePicker();
+```
+
+| 组件 | 元素及注册方式 | 使用说明 |
+| --- | --- | --- |
+| Button | `ZuiButtonElement`、`defineButton()` | [按钮](/lib/components/button/index.html#web-component) |
+| Pager | `ZuiPagerElement`，加载时自动注册 | [分页](/lib/components/pager/js.html#web-component) |
+| Picker | `ZuiPickerElement`、`definePicker()` | [下拉选择器](/lib/forms/picker/index.html#web-component) |
+
+重复调用同一实现的注册方法安全。复杂值通过 JavaScript property 设置，注册前赋值在升级时保留；属性更新按微任务合并。`ready` 只表示当前连接首次渲染完成，不代表远程数据加载完成。持续移出文档后释放资源，同一轮 DOM 移动保留实例。
+
+组件采用 Light DOM，样式随所属库提供。运行时在浏览器中使用，Picker 还依赖 `ElementInternals` 的表单关联能力；类型可通过 `import type` 引入。
+
 ## 由组件库声明 Web Component
 
 组件库可以在类上提供 `static WebComponent` 配置。`register()` 读取该配置，只有 `autoDefine: true` 时自动注册自定义元素；没有配置的组件保持原有注册行为。以下是供组件库源码使用的 TypeScript 示例：

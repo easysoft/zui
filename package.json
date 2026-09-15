@@ -25,7 +25,6 @@
     "dev:exts": "tsx ./scripts/dev/index.ts",
     "build:vite": "tsc && vite build",
     "build": "tsx ./scripts/build",
-    "build:web-components": "tsx ./scripts/build/web-components.ts",
     "preview": "vite preview",
     "preinstall": "npx only-allow pnpm",
     "lint": "eslint . --max-warnings=0",

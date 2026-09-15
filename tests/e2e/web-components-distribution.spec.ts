@@ -18,13 +18,13 @@ test.describe.configure({mode: 'default'});
 
 test.beforeAll(async ({browserName: _browserName}, info) => {
     test.setTimeout(120_000);
-    const output = Path.join(root, 'test-results/web-components/browser-package', info.project.name);
-    await run('pnpm', ['build:web-components', '--', `--outDir=${output}`], {cwd: root, maxBuffer: 20 * 1024 * 1024});
+    const output = Path.join(root, 'test-results/web-components/browser-zui', info.project.name);
+    await run('pnpm', ['build', '--', '--lib=zui', '--name=zui', '--ignoreNotReady', `--outDir=${output}`], {cwd: root, maxBuffer: 20 * 1024 * 1024});
     server = createServer(async (request, response) => {
         const path = new URL(request.url!, 'http://localhost').pathname;
         if (path === '/') {
             response.setHeader('Content-Type', 'text/html');
-            response.end(`<!doctype html><html lang="en"><head><title>Web Components distribution</title><link rel="stylesheet" href="/style.css"></head><body>
+            response.end(`<!doctype html><html lang="en"><head><title>Web Components distribution</title><link rel="stylesheet" href="/zui.css"></head><body>
                 <form><label for="owner" id="owner-label">Owner</label>
                 <zui-picker id="owner" name="owner" value="hao"></zui-picker>
                 <zui-button text="Save" type="primary" btn-type="submit"></zui-button></form>
@@ -53,8 +53,8 @@ test.afterAll(async () => {
     }
 });
 
-for (const mode of ['explicit', 'auto-module', 'auto-script']) {
-    test(`built ${mode} entry works without the ZUI development server`, async ({page}) => {
+for (const mode of ['esm', 'umd']) {
+    test(`ordinary ZUI ${mode} build supports custom elements without the development server`, async ({page}) => {
         const errors: string[] = [];
         page.on('pageerror', error => errors.push(error.message));
         await page.goto(address);
@@ -62,28 +62,29 @@ for (const mode of ['explicit', 'auto-module', 'auto-script']) {
             document.querySelector('zui-picker')!.items = [{value: 'hao', text: 'Hao'}, {value: 'tom', text: 'Tom'}];
             document.querySelector('form')!.addEventListener('submit', event => event.preventDefault());
         });
-        if (mode === 'auto-script') {
-            await page.addScriptTag({url: `${address}/zui-web-components.auto.js`});
-        } else {
-            await page.evaluate(async ({mode, address}) => {
-                if (mode === 'explicit') {
-                    const {defineButton} = await import(`${address}/button.js`);
-                    if (customElements.get('zui-button')) {
-                        throw new Error('Explicit import registered an element');
-                    }
-                    defineButton();
-                    const {ZuiElement} = await import(`${address}/index.js`);
-                    if (!(document.querySelector('zui-button') instanceof ZuiElement)) {
-                        throw new Error('ESM entries do not share the same runtime');
-                    }
-                    const {defineAll} = await import(`${address}/all.js`);
-                    defineAll();
-                    defineAll();
-                } else {
-                    await import(`${address}/auto.js`);
-                }
-            }, {mode, address});
+        if (mode === 'umd') {
+            await page.addScriptTag({url: `${address}/zui.js`});
         }
+        await page.evaluate(async ({mode, address}) => {
+            const api = mode === 'esm' ? await import(`${address}/zui.esm.js`) : (window as unknown as {zui: Record<string, unknown>}).zui;
+            if (customElements.get('zui-button') || customElements.get('zui-picker')) {
+                throw new Error('Import must leave explicit element registration to the consumer');
+            }
+            if (customElements.get('zui-pager') !== api.ZuiPagerElement) {
+                throw new Error('Pager must apply its automatic registration configuration');
+            }
+            const defineButton = api.defineButton as () => void;
+            const definePicker = api.definePicker as () => void;
+            defineButton();
+            definePicker();
+            defineButton();
+            definePicker();
+            for (const tag of ['zui-button', 'zui-picker', 'zui-pager']) {
+                if (!(document.querySelector(tag) instanceof (api.ZuiElement as typeof HTMLElement))) {
+                    throw new Error('Component libraries do not share the core element runtime');
+                }
+            }
+        }, {mode, address});
         await page.evaluate(async () => {
             await Promise.all([...document.querySelectorAll('zui-button, zui-picker, zui-pager')].map(element => (element as HTMLElement & {ready: Promise<void>}).ready));
         });
