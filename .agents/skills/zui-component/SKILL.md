@@ -1,6 +1,6 @@
 ---
 name: zui-component
-description: "在 ZUI 主仓库的 lib/* 中设计、实现或修复组件；实施前按共享工作流确认计划或复用已有批准。"
+description: "在 ZUI 主仓库的 lib/* 中设计、实现或修复组件及 Web Component 适配；实施前按共享工作流确认计划或复用已有批准。"
 ---
 
 # ZUI 组件开发
@@ -9,13 +9,15 @@ description: "在 ZUI 主仓库的 lib/* 中设计、实现或修复组件；实
 
 按 [共享工作流](../zui-standards/references/workflow.md) 定位目标、检查所有权并复用已有发现。组件实现读取 [组件规范](../zui-standards/references/component.md) 的相关部分；运行时加载外部资源再读 external-library 规范，涉及包元数据再读 library 规范，其他领域按需路由。
 
+涉及自定义元素时，读取 [Web Component 规范](../zui-standards/references/web-component.md)，按组件能力选择独立工厂配置或元素子类。
+
 阅读本次判断所需的目标源码；架构或公开契约尚不清楚时再检查相似实现。仅修改目标库，除非批准范围明确包含跨库依赖。
 
 ## 理解与设计
 
 1. 从现有代码、请求及已确认决定推断用途、场景、目标用户和约束。合理沿用既有约定并说明；同一术语仍有无法可靠消除、会实质改变组件身份、包角色、架构或公开契约的歧义时，提出 1–3 个最少必要问题，暂缓依赖该答案的设计，不以假设代替高影响选择。其他只读调查可继续。
 2. 只询问无法从仓库发现且会改变设计的信息，通常包括：
-   - 需要支持的 HTML/CSS、Preact、vanilla 构造器、`zui-create` 或 toggle 消费方式；
+   - 需要支持的 HTML/CSS、Preact、vanilla 构造器、Web Component、`zui-create` 或 toggle 消费方式；
    - 受控或非受控状态、事件、命令式方法、异步和错误行为；
    - 视觉变体、响应式、键盘、焦点、ARIA 与国际化要求。
 3. 提问时说明已确认的背景及问题影响；答案明确后继续相关设计。澄清与实施批准的关系遵循共享工作流。
@@ -28,7 +30,7 @@ description: "在 ZUI 主仓库的 lib/* 中设计、实现或修复组件；实
 
 - 类型判断：包角色、组件架构及必要参考依据；
 - 目标、非目标和验收场景；
-- 公开 API：消费方式、options/props、事件、方法、类型及兼容性；
+- 公开 API：消费方式、options/props、事件、方法、类型及兼容性；Web Component 还需确定标签、注册时机、attribute/property 映射和表单关联需求；
 - 实现方式：渲染、状态/数据流、生命周期、清理、无障碍和 i18n；
 - 外部资源（若有）：`LibLoader` 所有权、注册名、资源/check/依赖、加载时机、失败重试、开发资源与销毁竞态；
 - 文件集、入口导出、依赖和 `contributes` 影响；

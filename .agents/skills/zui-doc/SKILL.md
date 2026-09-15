@@ -8,7 +8,7 @@ description: "维护 ZUI 主仓库 lib/* 的官网文档源、API 说明和示�
 ## 工作流
 
 1. 按 [共享工作流](../zui-standards/references/workflow.md) 定位目标、检查已有改动并复用上下文；按其澄清规则消除影响本次交付的歧义，需求明确时直接实施。
-2. 按需阅读 [documentation 规范](../zui-standards/references/documentation.md) 中与本次变更有关的部分。
+2. 按需阅读 [documentation 规范](../zui-standards/references/documentation.md) 中与本次变更有关的部分；自定义元素文档同时读取 [Web Component 规范](../zui-standards/references/web-component.md)，区分元素 API 与原组件 API。
 3. 阅读目标文档和核实本次说明所需的公开类型、入口或实现；新建或重构页面时再检查相关页面结构和必要参考，不发明 API。
 4. 优先沿用已有分类；否则按内容选择 `lib/<name>/docs/lib/<basic|components|forms|helpers>/index.md`。`index.md` 是默认主页面，仅在已有结构或用户明确要求时维护额外页面。
 5. 新建或重构文档时，第一屏提供可运行基础示例，再按实际 API 和请求范围补充场景、选项、事件、方法和类型；引入说明遵循[接入与构建说明](../zui-standards/references/documentation.md#接入与构建说明)，只补充影响使用步骤的特殊条件。官网使用 `<Example>`、`::: tabs`、`<Props>` 与 `<ZUI use="...">`，不得混用调试页的 `html:example`。

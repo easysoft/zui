@@ -9,6 +9,8 @@ description: "在 ZUI 主仓库的 lib/* 中设计、实现或修复函数、类
 
 按 [共享工作流](../zui-standards/references/workflow.md) 定位目标并复用已有上下文，阅读 [helper 规范](../zui-standards/references/helper.md) 中与本次变更有关的部分。涉及包角色、文档或调试页时再读对应规范。
 
+维护 `@zui/core` 的 Web Component 工厂、属性描述符或元素运行时时，同时读取 [Web Component 规范](../zui-standards/references/web-component.md)，核对调用方的类型推导、注册与生命周期契约。
+
 从目标及必要调用方判断纯函数/常量/类型、状态类、store/单例、浏览器 DOM 模块或库内私有 helper 的归属，核实本次涉及的副作用、错误和清理约定。不要擅自把私有 helper 提升为共享包。
 
 ## 确认门禁
