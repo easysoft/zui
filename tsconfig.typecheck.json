@@ -9,6 +9,8 @@
             "@zui/virtualize/virtualizer": ["./lib/virtualize/src/virtualizer.ts"],
             "@zui/*/react": ["./lib/*/src/main-react.ts"],
             "@zui/*/css": ["./lib/*/src/main-css.ts"],
+            "@zui/pager/vanilla": ["./lib/pager/src/vanilla/index.ts"],
+            "@zui/pager/web-component": ["./lib/pager/src/web-component/index.ts"],
             "@zui/*": ["./lib/*"]
         }
     },

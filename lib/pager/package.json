@@ -29,7 +29,9 @@
     "exports": {
         ".": "./src/main.ts",
         "./css": "./src/main-css.ts",
-        "./react": "./src/main-react.ts"
+        "./react": "./src/main-react.ts",
+        "./vanilla": "./src/vanilla/index.ts",
+        "./web-component": "./src/web-component/index.ts"
     },
     "zui": {
         "type": "component",

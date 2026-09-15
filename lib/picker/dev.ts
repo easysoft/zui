@@ -10,6 +10,7 @@ import '@zui/input-control';
 import '@zui/tree';
 import {Picker, type PickerState} from './src/main';
 import {$} from '@zui/core';
+import './dev/web-component';
 
 const items = [
     {text: 'Apple', value: 'apple', keys: 'fruit food'},

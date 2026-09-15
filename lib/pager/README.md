@@ -1,5 +1,15 @@
 # 分页
 
+## Web Component
+
+Pager 的自定义元素由独立模块定义，聚合入口会加载该模块并注册标签，本页可直接使用：
+
+```html:example
+<zui-pager rec-total="120" rec-per-page="20" aria-label="Web Component 分页"></zui-pager>
+```
+
+通过 property 或 `setOptions()` 更新 `page`、`recTotal`、`recPerPage`；用户换页触发 `zui-change`。完整配置位于 `src/web-component/pager.ts`。`@zui/pager/vanilla` 和 `@zui/pager/web-component` 可分别引入原生类和自定义元素。
+
 ## 动态组件
 
 ```html:example

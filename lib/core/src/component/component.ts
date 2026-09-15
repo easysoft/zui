@@ -1,4 +1,7 @@
 import {deepCall} from '@zui/helpers';
+import {defineWebComponent} from '../web-components/factory';
+
+import type {WebComponentOwner, WebComponentRegistration} from '../web-components/factory';
 import {I18nLangMap, i18n} from '../i18n';
 import {$} from '../cash';
 import {nextGid} from '../helpers/gid';
@@ -49,6 +52,14 @@ export class Component<O extends object = object, E extends ComponentEventsDefni
      * The component toggle config.
      */
     static toggle: ComponentToggleConfig | undefined;
+
+    /** Optional, library-owned Custom Element configuration. */
+    static WebComponent: WebComponentRegistration | undefined;
+
+    /** Default renderer used when WebComponent.component is omitted. */
+    static get WebComponentRenderer(): unknown {
+        return this;
+    }
 
     /**
      * ZUI name
@@ -683,6 +694,11 @@ export class Component<O extends object = object, E extends ComponentEventsDefni
     static register(ComponentClass?: ComponentClass, name?: string) {
         ComponentClass = ComponentClass || this;
         name = (name ?? ComponentClass.NAME).toLowerCase();
+        const config = ComponentClass.WebComponent;
+        if (config?.autoDefine && typeof customElements !== 'undefined') {
+            // Each library checks its full configuration against WebComponentConfig.
+            defineWebComponent(ComponentClass as WebComponentOwner<object>);
+        }
         this.map.set(name, ComponentClass);
 
         const toggleName = ComponentClass.toggle?.name?.toLowerCase();

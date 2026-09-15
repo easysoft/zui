@@ -19,3 +19,10 @@
   @apply -text-primary-500;
   box-shadow:0px 0px 0px 1px var(--color-primary-500);
 }
+
+zui-pager {
+  display: block;
+}
+zui-pager > .zui-webc-mount {
+  display: contents;
+}
