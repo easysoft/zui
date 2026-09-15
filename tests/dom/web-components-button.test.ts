@@ -4,6 +4,36 @@ import {defineButton} from '@zui/button';
 defineButton();
 
 describe('zui-button', () => {
+    it('projects default content, retains listeners and uses text as a fallback', async () => {
+        const element = document.createElement('zui-button');
+        element.text = 'Fallback';
+        element.innerHTML = '<strong>Save changes</strong>';
+        const content = element.querySelector('strong')!;
+        const onClick = vi.fn();
+        content.addEventListener('click', onClick);
+        document.body.append(element);
+        await element.ready;
+        const button = element.querySelector('button')!;
+        expect(button).toHaveAccessibleName('Save changes');
+        expect(button.querySelector('strong')).toBe(content);
+        expect(button).not.toHaveClass('square');
+        content.click();
+        expect(onClick).toHaveBeenCalledOnce();
+        element.loadingText = 'Saving';
+        element.loading = true;
+        await Promise.resolve();
+        expect(button).toHaveAccessibleName('Saving');
+        expect(element.querySelector('strong')).toBeNull();
+        element.loading = false;
+        await Promise.resolve();
+        expect(button.querySelector('strong')).toBe(content);
+        content.remove();
+        for (let index = 0; index < 4; index++) {
+            await Promise.resolve();
+        }
+        expect(button).toHaveAccessibleName('Fallback');
+    });
+
     it('renders and updates the existing button without replacing the host', async () => {
         document.body.innerHTML = '<zui-button text="Save" type="primary"></zui-button>';
         const element = document.querySelector('zui-button')!;

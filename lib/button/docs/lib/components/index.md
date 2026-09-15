@@ -418,9 +418,24 @@ button.setOptions(options);
 <zui-button text="加载中" loading></zui-button>
 ```
 
+### 默认插槽
+
+直接写在标签内的文本和 HTML 会作为默认插槽传给按钮的 `children`：
+
+```html
+<zui-button type="primary"><strong>立即保存</strong></zui-button>
+<zui-button text="保存" loading-text="保存中">保存修改</zui-button>
+```
+
+有默认插槽内容时优先显示插槽；未提供内容或只有排版空白时回退到 `text`。设置 `loading` 会暂存内容并显示 `loading-text`，结束加载后恢复同一组节点。原节点引用和已有监听器会被保留；按钮内容应使用文本或短语内容，避免嵌套按钮、链接等交互控件。
+
+Button 只声明默认插槽。内容采用 Light DOM 投放，通用规则见[内容插槽](/lib/basic/core/component.html#内容插槽)。
+
+### 属性与方法
+
 | 属性 / property | 默认值 | 说明 |
 | --- | --- | --- |
-| `text` | `""` | 纯文本内容 |
+| `text` | `""` | 默认插槽缺省时的纯文本内容 |
 | `type` | `""` | ZUI 外观，例如 `primary` |
 | `btn-type` / `btnType` | `"button"` | 原生按钮类型 |
 | `size` | `""` | 尺寸，例如 `sm`、`lg` |

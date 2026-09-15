@@ -165,6 +165,10 @@
 <zui-button text="不可用" disabled></zui-button>
 <zui-button text="保存" loading loading-text="保存中"></zui-button>
 <zui-button text="ZUI 官网" url="https://openzui.com" target="_blank"></zui-button>
+<zui-button type="primary"><strong>立即保存</strong></zui-button>
+<zui-button text="保存" loading loading-text="保存中"><strong>保存修改</strong></zui-button>
 ```
 
-按钮文字使用 `text`。`type` 控制外观，原生提交和重置使用 `btn-type="submit"`、`btn-type="reset"`。
+按钮文字可以使用 `text`，也可以直接写在标签内部。默认插槽支持文本和 HTML；有内容时优先显示插槽，没有内容时回退到 `text`。加载时暂存插槽并显示 `loading-text`，结束后恢复原节点。
+
+`type` 控制外观，原生提交和重置使用 `btn-type="submit"`、`btn-type="reset"`。

@@ -8,7 +8,7 @@ test('custom button preserves native keyboard and form behavior', async ({page})
         defineButton();
         document.body.innerHTML = `
             <form>
-                <zui-button text="Save" btn-type="submit" type="primary"></zui-button>
+                <zui-button btn-type="submit" type="primary"><strong>Save</strong></zui-button>
                 <output aria-live="polite">Waiting</output>
             </form>
         `;

@@ -40,12 +40,13 @@ describe('custom element distribution', () => {
     });
 
     it('provides explicit registration from the built script', async () => {
-        const dom = new JSDOM('<!doctype html><zui-button text="Save"></zui-button>', {
+        const dom = new JSDOM('<!doctype html><zui-button text="Fallback"><strong>Save</strong></zui-button>', {
             url: 'http://localhost/',
             runScripts: 'outside-only',
             pretendToBeVisual: true,
         });
         try {
+            const content = dom.window.document.querySelector('strong');
             dom.window.eval(await fs.readFile(Path.join(output, 'zui-webc-button.js'), 'utf8'));
             const exports = (dom.window as unknown as {zui: {defineButton: () => void}}).zui;
             expect(dom.window.customElements.get('zui-button')).toBeUndefined();
@@ -53,6 +54,7 @@ describe('custom element distribution', () => {
             const element = dom.window.document.querySelector('zui-button') as HTMLElement & {ready: Promise<void>};
             await element.ready;
             expect(element.querySelector('button')?.textContent).toBe('Save');
+            expect(element.querySelector('button strong')).toBe(content);
         } finally {
             dom.window.close();
         }

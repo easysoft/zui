@@ -15,6 +15,8 @@ export type ButtonElementOptions = Pick<ButtonProps, 'type' | 'btnType' | 'url' 
 
 /** Light DOM button retaining a native button or anchor as its interactive node. */
 export class ZuiButtonElement extends PreactElement<ButtonElementOptions> {
+    static slots = {'': 'children'};
+
     static properties = {
         text: property.string('text'),
         type: property.string('type'),
@@ -53,8 +55,11 @@ export class ZuiButtonElement extends PreactElement<ButtonElementOptions> {
 
     protected _renderView() {
         const {name, value, form, size, ...props} = this.options;
+        const {children} = this._slotProps();
         return h(Button, {
             ...props,
+            children,
+            text: children && !props.loading ? undefined : props.text,
             size: size || undefined,
             loadingIcon: {icon: '', className: 'spinner', 'aria-hidden': true},
             hint: this.title || undefined,
