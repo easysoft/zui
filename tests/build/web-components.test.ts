@@ -105,7 +105,7 @@ describe('custom element distribution', () => {
                 import {defineAll, ZuiPickerElement, type PickerChangeDetail} from '@zui/web-components/all';
                 import {defineButton} from '@zui/web-components/button';
                 import {ZuiPagerElement} from '@zui/web-components/pager';
-                import {createWebComponent, numberProperty, type WebComponentConfig} from '@zui/web-components';
+                import {createWebComponent, defineWebComponent, numberProperty, type WebComponentConfig, type WebComponentOwner} from '@zui/web-components';
                 defineAll(); defineButton();
                 const picker: ZuiPickerElement = document.createElement('zui-picker');
                 picker.items = [{text: 'Hao', value: 'hao'}];
@@ -120,7 +120,16 @@ describe('custom element distribution', () => {
                 };
                 const Counter = createWebComponent(config);
                 const count: number = new Counter().count;
-                console.log(detail, total, count);
+                declare const Owner: WebComponentOwner<{value: number}, {count: number}, {doubled: number}>;
+                const OwnedCounter = createWebComponent(Owner);
+                defineWebComponent(Owner);
+                const ownedValue: number = new OwnedCounter().value;
+                const ownedTotal: number = new OwnedCounter().doubled;
+                console.log(detail, total, count, ownedValue, ownedTotal);
+                // @ts-expect-error inferred owner property types are preserved.
+                new OwnedCounter().value = '2';
+                // @ts-expect-error inferred owner getters are readonly.
+                new OwnedCounter().doubled = 10;
                 // @ts-expect-error computed properties are readonly.
                 pager.pageTotal = 10;
                 // @ts-expect-error scalar property types are preserved.

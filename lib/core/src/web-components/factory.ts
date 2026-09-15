@@ -31,7 +31,8 @@ export type WebComponentConfig<P extends object, O extends object = P, G extends
     autoDefine?: boolean;
     /** Defaults to zui-<kebab-case Component.NAME> during Component.register(). */
     tagName?: string;
-    component: ComponentType<O> | WebComponentNativeComponent<O>;
+    /** Inferred from the owning class when omitted; required for standalone configurations. */
+    component?: ComponentType<O> | WebComponentNativeComponent<O>;
     properties: {[K in keyof P]-?: ElementProperty<P[K]>};
     getters?: {[K in keyof G]: (props: Readonly<P>) => G[K]};
     /** Omit when element properties can be passed to the component unchanged. */
@@ -42,20 +43,47 @@ export type WebComponentConfig<P extends object, O extends object = P, G extends
 export type WebComponentRegistration = {
     autoDefine?: boolean;
     tagName?: string;
-    component: unknown;
+    component?: unknown;
     properties: Record<string, ElementProperty>;
 };
 
+/** A Component class with its library-owned configuration and default renderer. */
+export type WebComponentOwner<P extends object, O extends object = P, G extends object = object> = {
+    new(...args: never[]): object;
+    readonly NAME: string;
+    readonly WebComponent: WebComponentConfig<P, O, G>;
+    readonly WebComponentRenderer: unknown;
+};
+
+type WebComponentSource<P extends object, O extends object, G extends object> = WebComponentConfig<P, O, G> | WebComponentOwner<P, O, G>;
+
 const constructors = new WeakMap<object, CustomElementConstructor>();
 
-/** Create once per configuration object. Component inheritance selects the renderer. */
-export function createWebComponent<P extends object, O extends object = P, G extends object = object>(config: WebComponentConfig<P, O, G>): WebComponentConstructor<P, G> {
-    const cached = constructors.get(config);
+function resolveSource<P extends object, O extends object, G extends object>(source: WebComponentSource<P, O, G>): {config: WebComponentConfig<P, O, G>; owner?: WebComponentOwner<P, O, G>} {
+    if (typeof source === 'function') {
+        if (!source.WebComponent) {
+            throw new TypeError('[ZUI] The component must declare a WebComponent configuration.');
+        }
+        return {config: source.WebComponent, owner: source};
+    }
+    return {config: source};
+}
+
+/** Create from a configuration or its owning Component class, preserving constructor identity. */
+export function createWebComponent<P extends object, O extends object = P, G extends object = object>(source: WebComponentSource<P, O, G>): WebComponentConstructor<P, G> {
+    const {config, owner} = resolveSource(source);
+    // Inherited configurations need separate constructors when their renderer is inferred.
+    const key = owner && config.component === undefined ? owner : config;
+    const cached = constructors.get(key);
     if (cached) {
         return cached as unknown as WebComponentConstructor<P, G>;
     }
+    const component = config.component ?? owner?.WebComponentRenderer;
+    if (typeof component !== 'function') {
+        throw new TypeError('[ZUI] A WebComponent component is required; supply component or an owning class with a renderer.');
+    }
     // This check runs after module initialization, including Component's own definition.
-    const native = config.component === Component || config.component.prototype instanceof Component;
+    const native = component === Component || component.prototype instanceof Component;
     class ConfiguredElement extends ComponentElement<P, O> {
         static properties = config.properties;
 
@@ -84,7 +112,7 @@ export function createWebComponent<P extends object, O extends object = P, G ext
         }
 
         protected _createComponent(container: HTMLElement, options: ElementComponentOptions<O>): Component<O> {
-            const Constructor = config.component as WebComponentNativeComponent<O>;
+            const Constructor = component as WebComponentNativeComponent<O>;
             return new Constructor(container, options);
         }
 
@@ -92,7 +120,7 @@ export function createWebComponent<P extends object, O extends object = P, G ext
             if (native) {
                 super._render();
             } else {
-                render(h(config.component as ComponentType<O>, this._options()), this._container!);
+                render(h(component as ComponentType<O>, this._options()), this._container!);
                 this._markReady();
             }
         }
@@ -115,16 +143,20 @@ export function createWebComponent<P extends object, O extends object = P, G ext
             },
         });
     }
-    constructors.set(config, ConfiguredElement);
+    constructors.set(key, ConfiguredElement);
     return ConfiguredElement as unknown as WebComponentConstructor<P, G>;
 }
 
-/** Define a configured element; repeated calls reuse the same constructor. */
-export function defineWebComponent<P extends object, O extends object = P, G extends object = object>(config: WebComponentConfig<P, O, G>, name = config.tagName): WebComponentConstructor<P, G> {
+/** Define an element, defaulting to tagName or the owning class's zui-<NAME> tag. */
+export function defineWebComponent<P extends object, O extends object = P, G extends object = object>(source: WebComponentSource<P, O, G>, name?: string): WebComponentConstructor<P, G> {
+    const {config, owner} = resolveSource(source);
+    name ??= config.tagName ?? (owner ? `zui-${owner.NAME
+        .replace(/([A-Z]+)([A-Z][a-z])/g, '$1-$2')
+        .replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase()}` : undefined);
     if (!name) {
         throw new Error('[ZUI] A custom element tagName is required.');
     }
-    const Element = createWebComponent(config);
+    const Element = createWebComponent(source);
     Element.define(name);
     return Element;
 }

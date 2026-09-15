@@ -61,8 +61,9 @@ describe('library-owned custom element factory', () => {
         Owner.register(undefined, 'factory-alias');
         await element.ready;
         expect(Component.map.get('factory-alias')).toBe(Owner);
-        const Element = createWebComponent(Owner.WebComponent);
+        const Element = createWebComponent(Owner);
         expect(customElements.get('zui-factory-http-pager')).toBe(Element);
+        expect(createWebComponent(Owner)).toBe(Element);
         expect(createWebComponent(Owner.WebComponent)).toBe(Element);
         expect(() => Owner.register()).not.toThrow();
         expect(element.textContent).toBe('7:early');
@@ -77,28 +78,155 @@ describe('library-owned custom element factory', () => {
         class Unsupported extends Component {
             static NAME = 'FactoryUnsupported';
         }
-        class Manual extends Component {
+        class Manual extends WrappedCounter {
             static NAME = 'FactoryManual';
-            static WebComponent = {autoDefine: false, tagName: 'app-factory-counter', component: CounterView, properties};
+            static WebComponent = {autoDefine: false, tagName: 'app-factory-counter', properties};
         }
         Unsupported.register();
         Manual.register();
         expect(customElements.get('zui-factory-unsupported')).toBeUndefined();
         expect(customElements.get('app-factory-counter')).toBeUndefined();
-        createWebComponent(Manual.WebComponent);
+        createWebComponent(Manual);
         expect(customElements.get('app-factory-counter')).toBeUndefined();
-        const Element = defineWebComponent(Manual.WebComponent);
-        expect(defineWebComponent(Manual.WebComponent)).toBe(Element);
+        const Element = defineWebComponent(Manual);
+        expect(defineWebComponent(Manual)).toBe(Element);
         const element = new Element();
         document.body.append(element);
         await element.ready;
         expect(element.textContent).toBe('1:');
-        class Auto extends Component {
+        class Auto extends WrappedCounter {
             static NAME = 'FactoryAutoNamed';
             static WebComponent = {...Manual.WebComponent, autoDefine: true, tagName: 'app-factory-auto'};
         }
         Auto.register();
-        expect(customElements.get('app-factory-auto')).toBe(createWebComponent(Auto.WebComponent));
+        expect(customElements.get('app-factory-auto')).toBe(createWebComponent(Auto));
+    });
+
+    it('infers the Preact renderer while preserving mapped properties and computed types', async () => {
+        class Owner extends WrappedCounter {
+            static NAME = 'FactoryInferredView';
+            static WebComponent: WebComponentConfig<{value: number}, CounterProps, {doubled: number}> = {
+                autoDefine: true,
+                properties: {value: numberProperty('value', 2)},
+                getters: {doubled: props => props.value * 2},
+                options: (props, context) => ({count: context.element.doubled, items: [String(props.value)]}),
+            };
+        }
+        const Element = createWebComponent(Owner);
+        expect(customElements.get('zui-factory-inferred-view')).toBeUndefined();
+        Owner.register();
+        expect(defineWebComponent(Owner)).toBe(Element);
+        const element = new Element();
+        expectTypeOf(element.value).toEqualTypeOf<number>();
+        expectTypeOf(element.doubled).toEqualTypeOf<number>();
+        document.body.append(element);
+        await element.ready;
+        expect(element.textContent).toBe('4:2');
+        expect(Owner.get(element.firstElementChild as HTMLElement)).toBeUndefined();
+        element.value = 3;
+        await flush();
+        expect(element.textContent).toBe('6:3');
+        expect(element.doubled).toBe(6);
+        expect(Reflect.set(element, 'doubled', 99)).toBe(false);
+        expect(() => createWebComponent(Owner.WebComponent)).toThrow('component is required');
+    });
+
+    it('infers native owners and gives subclasses sharing a config separate constructors', async () => {
+        class Parent extends NativeCounter {
+            static NAME = 'FactoryInferredNative';
+            // A plain Component must still use its native lifecycle even with this property.
+            static Component = CounterView;
+            static WebComponent = {autoDefine: true, properties};
+        }
+        class Child extends Parent {
+            static NAME = 'FactoryInferredChild';
+        }
+        expect(Parent.WebComponent).toBe(Child.WebComponent);
+        const ParentElement = createWebComponent(Parent);
+        const ChildElement = createWebComponent(Child);
+        expect(ParentElement).not.toBe(ChildElement);
+        Parent.register();
+        Child.register();
+        expect(customElements.get('zui-factory-inferred-native')).toBe(ParentElement);
+        expect(customElements.get('zui-factory-inferred-child')).toBe(ChildElement);
+        const parent = new ParentElement();
+        const child = new ChildElement();
+        document.body.append(parent, child);
+        await flush();
+        await Promise.all([parent.ready, child.ready]);
+        const parentInstance = Parent.get(parent.firstElementChild as HTMLElement)!;
+        const childInstance = Child.get(child.firstElementChild as HTMLElement)!;
+        expect(parentInstance.constructor).toBe(Parent);
+        expect(childInstance.constructor).toBe(Child);
+        child.count = 5;
+        await flush();
+        expect(child.textContent).toBe('5');
+        expect(parent.textContent).toBe('1');
+        child.remove();
+        await flush();
+        expect(childInstance.destroyed).toBe(true);
+        expect(parentInstance.destroyed).toBe(false);
+        expect(createWebComponent(Child)).toBe(ChildElement);
+    });
+
+    it('uses a subclass Preact renderer even when its configuration is inherited', async () => {
+        class Parent extends WrappedCounter {
+            static NAME = 'FactoryInheritedView';
+            static WebComponent = {properties};
+        }
+        class ChildView extends CounterView {
+            render() {
+                return <b>{`child:${this.props.count}`}</b>;
+            }
+        }
+        class Child extends Parent {
+            static NAME = 'FactoryInheritedChildView';
+            static Component = ChildView;
+        }
+        const ParentElement = defineWebComponent(Parent);
+        const ChildElement = defineWebComponent(Child);
+        expect(ParentElement).not.toBe(ChildElement);
+        const parent = new ParentElement();
+        const child = new ChildElement();
+        document.body.append(parent, child);
+        await Promise.all([parent.ready, child.ready]);
+        expect(parent.textContent).toBe('1:');
+        expect(child.textContent).toBe('child:1');
+    });
+
+    it('lets an explicit component retain the ComponentFromReact wrapper', async () => {
+        class Owner extends WrappedCounter {
+            static NAME = 'FactoryExplicitWrapper';
+            static WebComponent: WebComponentConfig<CounterProps> = {autoDefine: true, component: Owner, properties};
+        }
+        Owner.register();
+        const Element = createWebComponent(Owner);
+        expect(createWebComponent(Owner.WebComponent)).toBe(Element);
+        const element = new Element();
+        document.body.append(element);
+        await flush();
+        await element.ready;
+        const instance = Owner.get(element.firstElementChild as HTMLElement)!;
+        expect(instance).toBeInstanceOf(Owner);
+        expect(instance.$).toBeInstanceOf(CounterView);
+        element.remove();
+        await flush();
+        expect(instance.destroyed).toBe(true);
+        expect(instance.$).toBeNull();
+    });
+
+    it('rejects configurations without a usable component or owner', () => {
+        expect(() => createWebComponent({properties})).toThrow('component is required');
+        expect(() => defineWebComponent({properties}, 'test-factory-missing-component')).toThrow('component is required');
+        expect(customElements.get('test-factory-missing-component')).toBeUndefined();
+        class MissingView extends ComponentFromReact {
+            static NAME = 'FactoryMissingView';
+            static WebComponent = {autoDefine: true, properties};
+        }
+        expect(() => MissingView.register()).toThrow('component is required');
+        expect(customElements.get('zui-factory-missing-view')).toBeUndefined();
+        // @ts-expect-error An owner must declare a WebComponent configuration.
+        expect(() => createWebComponent(NativeCounter)).toThrow('must declare a WebComponent configuration');
     });
 
     it.each([NativeCounter, WrappedCounter])('owns a %s instance across updates and reconnects', async (Constructor) => {

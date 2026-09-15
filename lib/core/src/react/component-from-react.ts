@@ -13,6 +13,11 @@ export class ComponentFromReact<O extends object = object, C extends ComponentRe
      */
     static Component: unknown;
 
+    /** Render Preact directly by default; an explicit component can retain the wrapper. */
+    static get WebComponentRenderer(): unknown {
+        return this.Component;
+    }
+
     /**
      * Whether replace the element.
      */

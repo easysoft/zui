@@ -14,7 +14,6 @@ export class Pager<T extends PagerOptions = PagerOptions> extends ComponentFromR
 
     static WebComponent: WebComponentConfig<PagerElementOptions, PagerOptions, {pageTotal: number}> = {
         autoDefine: true,
-        component: PagerReact,
         properties: {
             page: numberProperty('page', 1),
             recTotal: numberProperty('rec-total', 0),
@@ -43,7 +42,7 @@ export class Pager<T extends PagerOptions = PagerOptions> extends ComponentFromR
     };
 }
 
-export const ZuiPagerElement = createWebComponent(Pager.WebComponent);
+export const ZuiPagerElement = createWebComponent(Pager);
 export type ZuiPagerElement = InstanceType<typeof ZuiPagerElement>;
 
 Pager.register();

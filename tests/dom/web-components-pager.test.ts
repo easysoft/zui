@@ -1,5 +1,6 @@
 import {describe, expect, it, vi} from 'vitest';
 import {Pager, ZuiPagerElement} from '@zui/pager';
+import {createWebComponent} from '@zui/core';
 import {flushAnimationFrame} from '../setup/dom';
 
 async function mount() {
@@ -49,6 +50,8 @@ describe('zui-pager', () => {
 
     it('registers from the Pager library and reuses the generated constructor', async () => {
         expect(customElements.get('zui-pager')).toBe(ZuiPagerElement);
+        expect(createWebComponent(Pager)).toBe(ZuiPagerElement);
+        expect(Pager.WebComponent.component).toBeUndefined();
         expect(() => Pager.register()).not.toThrow();
         const {definePager} = await import('@zui/web-components/src/pager');
         expect(() => definePager()).not.toThrow();

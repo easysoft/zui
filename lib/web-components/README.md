@@ -84,8 +84,8 @@ picker.items = [{value: 'hao', text: 'Hao'}, {value: 'tom', text: 'Tom'}];
 
 ## 组件作者接入
 
-在组件类中定义 `static WebComponent`，通过 `autoDefine: true` 让 `Component.register()` 自动注册。`component` 可传入 ZUI `Component`、`ComponentFromReact` 子类或 Preact 组件，工厂自动选择创建与清理方式。
+在组件类中定义 `static WebComponent`，通过 `autoDefine: true` 让 `Component.register()` 自动注册。`component` 可以省略：`ComponentFromReact` 默认使用其 `static Component`，普通 `Component` 默认使用所属类自身。显式 `component` 优先，可指定原生 ZUI 类或 Preact 组件；例如 `component: Pager` 会保留 Pager wrapper 的生命周期。
 
-通用 API 为 `createWebComponent(config)`、`defineWebComponent(config, tagName)` 和 `WebComponentConfig<P, O, G>`，从 `@zui/core` 导出；本包主入口同时转出这些工厂 API。组件作者配置说明位于 `lib/core/docs/lib/basic/component.md`，Pager 的完整配置位于 `lib/pager/src/vanilla/index.ts`。
+通用 API 为 `createWebComponent(Pager)`、`defineWebComponent(Pager, tagName?)` 和 `WebComponentConfig<P, O, G>`，从 `@zui/core` 导出；本包主入口同时转出这些工厂 API。也支持直接传入配置，此时必须显式提供 `component`。组件作者配置说明位于 `lib/core/docs/lib/basic/component.md`，Pager 的完整配置位于 `lib/pager/src/vanilla/index.ts`。
 
 `/all` 导入时会应用 Pager 的自动注册配置；`defineAll()` 继续负责完成全部三个标签的注册。Button 和 Picker 的独立入口仍需调用对应的 `defineXxx()`。

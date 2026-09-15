@@ -74,7 +74,9 @@ ESM 入口共享运行时。同一页面选择 ESM 或普通 script 中的一种
 
 通用工厂及生命周期运行时位于 `@zui/core`。组件库在类上声明 `static WebComponent`，`Component.register()` 根据 `autoDefine` 决定是否自动注册；不声明配置的组件保持原有行为。
 
-工厂自动识别 `component`：ZUI `Component` 和 `ComponentFromReact` 子类走原生实例生命周期，Preact 组件类和函数走直接渲染。`createWebComponent(config)` 创建并复用构造器，`defineWebComponent(config, tagName)` 执行显式注册。详细配置和类型示例见[组件基类](/lib/basic/core/component.html#由组件库声明-web-component)。
+`component` 可以省略：`ComponentFromReact` 默认使用其 `static Component`，普通 `Component` 默认使用所属类自身。显式配置优先；指定 ZUI `Component` 或 `ComponentFromReact` 子类时保留原生实例生命周期，指定 Preact 组件类或函数时直接渲染。
+
+`createWebComponent(Pager)` 创建并复用构造器，`defineWebComponent(Pager, tagName?)` 执行显式注册，默认标签由配置的 `tagName` 或所属类的 `NAME` 决定。也可传入独立配置对象，此时必须提供 `component`。详细配置和类型示例见[组件基类](/lib/basic/core/component.html#由组件库声明-web-component)。
 
 Pager 已迁移至此机制，直接加载 `@zui/pager` 即可使用 `<zui-pager>`，本包 `/pager` 入口复用同一份配置与构造器。Button 和 Picker 继续保留各自的行为适配器，表单关联等专属行为不会由工厂自动推导。
 

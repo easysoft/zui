@@ -1,7 +1,7 @@
 import {deepCall} from '@zui/helpers';
 import {defineWebComponent} from '../web-components/factory';
 
-import type {WebComponentConfig, WebComponentRegistration} from '../web-components/factory';
+import type {WebComponentOwner, WebComponentRegistration} from '../web-components/factory';
 import {I18nLangMap, i18n} from '../i18n';
 import {$} from '../cash';
 import {nextGid} from '../helpers/gid';
@@ -55,6 +55,11 @@ export class Component<O extends object = object, E extends ComponentEventsDefni
 
     /** Optional, library-owned Custom Element configuration. */
     static WebComponent: WebComponentRegistration | undefined;
+
+    /** Default renderer used when WebComponent.component is omitted. */
+    static get WebComponentRenderer(): unknown {
+        return this;
+    }
 
     /**
      * ZUI name
@@ -691,11 +696,8 @@ export class Component<O extends object = object, E extends ComponentEventsDefni
         name = (name ?? ComponentClass.NAME).toLowerCase();
         const config = ComponentClass.WebComponent;
         if (config?.autoDefine && typeof customElements !== 'undefined') {
-            const tagName = config.tagName ?? `zui-${ComponentClass.NAME
-                .replace(/([A-Z]+)([A-Z][a-z])/g, '$1-$2')
-                .replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase()}`;
             // Each library checks its full configuration against WebComponentConfig.
-            defineWebComponent(config as WebComponentConfig<object>, tagName);
+            defineWebComponent(ComponentClass as WebComponentOwner<object>);
         }
         this.map.set(name, ComponentClass);
 
