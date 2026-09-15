@@ -31,11 +31,14 @@
 - 语义 HTML + CSS 类；
 - Preact 组件导入；
 - vanilla 构造器 `new Component(selector, options)`；
+- 已实现适配的 Web Component 标签，如 `<zui-pager>`；
 - `z-use-*` / `zui-create` 自动创建；
 - `zui-toggle` / toggle 触发；
 - 命令式方法、事件和实例查询。
 
 `registerReactComponent()` 把 Preact 渲染器登记到自动渲染体系；`Component.register()` 登记 vanilla 组件与 declarative/toggle 能力。两者作用不同，只在公开消费方式需要时接入。
+
+Web Component 是可选消费方式，由各库在单数目录 `src/web-component/` 中定义，通过目录 `index.ts` 和 `src/main.ts` 导出。它使用 Custom Elements 注册与连接生命周期，不依赖页面扫描来创建实例；具体遵循 [Web Component 规范](web-component.md)。
 
 Vanilla 子类必须提供稳定的 `static NAME`。`ComponentFromReact` 子类还要提供正确的 `static Component`，并定义替换宿主、render/reset、ref 与 destroy 行为。
 
