@@ -1,8 +1,8 @@
 import {h} from 'preact';
 import {PreactElement, property} from '@zui/core';
-import {Button} from './component';
+import {Button} from '../component';
 
-import type {ButtonProps} from './types';
+import type {ButtonProps} from '../types';
 
 export type ButtonElementOptions = Pick<ButtonProps, 'type' | 'btnType' | 'url' | 'target' | 'disabled' | 'loading' | 'loadingText' | 'active'> & {
     size: '' | Exclude<NonNullable<ButtonProps['size']>, number>;
