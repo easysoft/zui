@@ -6,12 +6,14 @@ import type {ComponentType} from 'preact';
 import type {ElementComponentOptions} from './component-element';
 import type {ZuiElement} from './element';
 import type {ElementProperty} from './properties';
+import type {ElementSlotMap} from './slots';
 
 export type WebComponentInstance<P extends object, G extends object = object> = ZuiElement<P> & P & Readonly<G>;
 
 export type WebComponentConstructor<P extends object, G extends object = object> = {
     new(): WebComponentInstance<P, G>;
     readonly properties: Record<string, ElementProperty>;
+    readonly slots: ElementSlotMap;
     define(name: string): void;
 };
 
@@ -36,6 +38,8 @@ export type WebComponentConfig<P extends object, O extends object = P, G extends
     /** Inferred from the component argument when omitted; required for standalone configurations. */
     component?: WebComponentTarget<O>;
     properties: {[K in keyof P]-?: ElementProperty<P[K]>};
+    /** Map original light-DOM children to the target component's content props. */
+    slots?: ElementSlotMap<O>;
     getters?: {[K in keyof G]: (props: Readonly<P>) => G[K]};
     /** Omit when element properties can be passed to the component unchanged. */
     options?: (props: Readonly<P>, context: WebComponentContext<P, G>) => O;
@@ -47,6 +51,7 @@ export type WebComponentRegistration = {
     tagName?: string;
     component?: unknown;
     properties: Record<string, ElementProperty>;
+    slots?: ElementSlotMap;
 };
 
 /** A Component class with its library-owned configuration and default renderer. */
@@ -104,6 +109,8 @@ function createResolvedWebComponent<P extends object, O extends object, G extend
     class ConfiguredElement extends ComponentElement<P, O> {
         static properties = config.properties;
 
+        static slots = config.slots ?? {};
+
         private _context: WebComponentContext<P, G> = {
             element: this as unknown as WebComponentInstance<P, G>,
             set: (options) => {
@@ -121,7 +128,8 @@ function createResolvedWebComponent<P extends object, O extends object, G extend
         };
 
         private _options(): O {
-            return config.options ? config.options(this.options, this._context) : this.options as unknown as O;
+            const options = config.options ? config.options(this.options, this._context) : this.options as unknown as O;
+            return {...options, ...this._slotProps()};
         }
 
         protected _componentOptions(): ElementComponentOptions<O> {
@@ -170,14 +178,14 @@ function createResolvedWebComponent<P extends object, O extends object, G extend
 
 /** Create from a configuration, a configured owner, or a component with external configuration. */
 export function createWebComponent<P extends object, O extends object = P, G extends object = object>(source: WebComponentSource<P, O, G>): WebComponentConstructor<P, G>;
-export function createWebComponent<P extends object, O extends object = P, G extends object = object>(source: WebComponentTarget<O> | WebComponentOwner<NoInfer<P>, O, NoInfer<G>>, config: WebComponentConfig<P, O, G>): WebComponentConstructor<P, G>;
+export function createWebComponent<P extends object, O extends object = P, G extends object = object>(source: WebComponentTarget<O> | WebComponentOwner<NoInfer<P>, O, NoInfer<G>>, config: WebComponentConfig<P, NoInfer<O>, G>): WebComponentConstructor<P, G>;
 export function createWebComponent<P extends object, O extends object = P, G extends object = object>(source: WebComponentSource<P, O, G> | WebComponentTarget<O>, config?: WebComponentConfig<P, O, G>): WebComponentConstructor<P, G> {
     return createResolvedWebComponent(resolveSource(source, config));
 }
 
 /** Define when a registry is available, using the explicit name, config.tagName, or the component's NAME. */
 export function defineWebComponent<P extends object, O extends object = P, G extends object = object>(source: WebComponentSource<P, O, G>, name?: string): WebComponentConstructor<P, G>;
-export function defineWebComponent<P extends object, O extends object = P, G extends object = object>(source: WebComponentTarget<O> | WebComponentOwner<NoInfer<P>, O, NoInfer<G>>, config: WebComponentConfig<P, O, G>, name?: string): WebComponentConstructor<P, G>;
+export function defineWebComponent<P extends object, O extends object = P, G extends object = object>(source: WebComponentTarget<O> | WebComponentOwner<NoInfer<P>, O, NoInfer<G>>, config: WebComponentConfig<P, NoInfer<O>, G>, name?: string): WebComponentConstructor<P, G>;
 export function defineWebComponent<P extends object, O extends object = P, G extends object = object>(source: WebComponentSource<P, O, G> | WebComponentTarget<O>, configOrName?: WebComponentConfig<P, O, G> | string, name?: string): WebComponentConstructor<P, G> {
     const resolved = resolveSource(source, typeof configOrName === 'object' ? configOrName : undefined);
     const {config, sourceName} = resolved;

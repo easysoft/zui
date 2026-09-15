@@ -1,4 +1,7 @@
+import {ElementSlots} from './slots';
+
 import type {ElementProperty} from './properties';
+import type {ElementSlotMap} from './slots';
 
 export type PropertyChangeSource = 'attribute' | 'property' | 'internal';
 
@@ -8,6 +11,8 @@ const ElementBase = typeof HTMLElement === 'undefined' ? Object as unknown as ty
 /** Light DOM custom element runtime. Rendering and registration require a browser. */
 export abstract class ZuiElement<P extends object = Record<string, unknown>> extends ElementBase {
     static properties: Record<string, ElementProperty> = {};
+
+    static slots: ElementSlotMap = {};
 
     static get observedAttributes(): string[] {
         return [...new Set([
@@ -23,6 +28,8 @@ export abstract class ZuiElement<P extends object = Record<string, unknown>> ext
     private _upgrades = new Map<string, unknown>();
 
     private _scheduled = false;
+
+    private _slots?: ElementSlots;
 
     private _reflecting = false;
 
@@ -86,6 +93,8 @@ export abstract class ZuiElement<P extends object = Record<string, unknown>> ext
             if (this.isConnected || !this._container) {
                 return;
             }
+            this._slots?.destroy();
+            this._slots = undefined;
             this._destroy();
             this._container?.remove();
             this._container = undefined;
@@ -125,6 +134,11 @@ export abstract class ZuiElement<P extends object = Record<string, unknown>> ext
             }
         }
         return attrs;
+    }
+
+    /** Declared slot content overrides corresponding view props; absent slots add no props. */
+    protected _slotProps() {
+        return this._slots?.props() ?? {};
     }
 
     protected _setProperty(name: string, value: unknown, source: PropertyChangeSource = 'property'): void {
@@ -175,6 +189,11 @@ export abstract class ZuiElement<P extends object = Record<string, unknown>> ext
                     this._container.className = 'zui-webc-mount';
                     this.append(this._container);
                 }
+                const slots = (this.constructor as typeof ZuiElement).slots;
+                if (!this._slots && Object.keys(slots).length) {
+                    this._slots = new ElementSlots(this, this._container, slots, () => this._requestUpdate());
+                }
+                this._slots?.update();
                 this._render();
             } catch (error) {
                 this._readySettled = true;

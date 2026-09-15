@@ -32,6 +32,57 @@ test('custom button preserves native keyboard and form behavior', async ({page})
     await expect(button).toBeVisible();
 });
 
+test('light-DOM slots preserve nodes, form values and focus across updates', async ({page}) => {
+    await page.goto('/core/');
+    await page.locator('#libPage.is-loaded').waitFor();
+    const example = page.locator('zui-slot-example');
+    await expect(example.locator('header')).toHaveText('基本信息 · 内容插槽');
+    await example.getByRole('button', {name: '已点击 0 次'}).click();
+    await expect(example.getByRole('button', {name: '已点击 1 次'})).toBeVisible();
+
+    await page.evaluate(async (modulePath) => {
+        const {h, defineWebComponent, property} = await import(modulePath);
+        defineWebComponent(({heading, children, actions, count}: {heading: unknown; children: unknown; actions: unknown; count: number}) => h('section', {'data-count': count},
+            h('header', null, heading), h('main', null, children), h('footer', null, actions)), {
+            tagName: 'test-browser-slots',
+            properties: {count: property.number('count', 0)},
+            slots: {'': 'children', heading: 'heading', actions: 'actions'},
+        });
+        document.body.innerHTML = '<form><test-browser-slots><b slot="heading">Heading</b><input name="note" aria-label="Note" value="Initial"><button slot="actions" type="button">Update</button></test-browser-slots></form>';
+        const element = document.querySelector('test-browser-slots') as HTMLElement & {count: number};
+        const input = element.querySelector('input')!;
+        const action = element.querySelector('button')!;
+        input.value = 'Before mount';
+        action.addEventListener('click', () => {
+            element.count++;
+        });
+        input.addEventListener('input', () => {
+            element.dataset.edited = 'true';
+        });
+    }, '/lib/core/src/main.ts');
+
+    const input = page.getByRole('textbox', {name: 'Note'});
+    await expect(input).toHaveValue('Before mount');
+    await input.fill('User input');
+    await expect(page.locator('test-browser-slots')).toHaveAttribute('data-edited', 'true');
+    await page.evaluate(() => {
+        const element = document.querySelector('test-browser-slots') as HTMLElement & {count: number};
+        element.count++;
+    });
+    await expect(page.locator('section')).toHaveAttribute('data-count', '1');
+    await expect(input).toBeFocused();
+    expect(await page.evaluate(() => new FormData(document.querySelector('form')!).get('note'))).toBe('User input');
+    await page.keyboard.press('Tab');
+    const action = page.getByRole('button', {name: 'Update'});
+    await expect(action).toBeFocused();
+    await page.keyboard.press('Enter');
+    await expect(page.locator('section')).toHaveAttribute('data-count', '2');
+    await expect(page.locator('main > slot')).toHaveCSS('display', 'contents');
+    await page.setViewportSize({width: 375, height: 667});
+    await expect(input).toBeVisible();
+    await expect(action).toBeVisible();
+});
+
 test('custom pager changes pages through the keyboard and reports the current state', async ({page}) => {
     // Warm Vite dependencies, then use a fresh document with no Pager registration.
     await page.goto('/pager/');

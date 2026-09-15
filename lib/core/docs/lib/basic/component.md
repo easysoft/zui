@@ -322,6 +322,7 @@ Pager 已将自定义元素定义放在独立模块中，通过 `defineWebCompon
 | `tagName` | 可选的自定义元素标签名 |
 | `component` | 可选的原生 ZUI 组件或 Preact 组件；省略时从所属类推导，独立配置必须提供 |
 | `properties` | 声明全部可写属性的默认值、转换和 attribute 映射 |
+| `slots` | 可选的插槽名到内容 prop 的映射；空字符串表示默认插槽 |
 | `getters` | 按名称提供 `(props) => value`，生成只读 property |
 | `options` | `(props, context) => options`；属性可直接传给原组件时可以省略 |
 
@@ -333,6 +334,58 @@ Pager 已将自定义元素定义放在独立模块中，通过 `defineWebCompon
 - `set(partialProps)`：同步属性与 attribute，并合并更新；不会自动产生用户事件。
 - `emit(name, detail, cancelable?)`：发出冒泡且 `composed: true` 的 `CustomEvent`，返回 `dispatchEvent()` 的结果。
 - `accessibleAttributes()`：取得宿主的 `aria-label`、`aria-labelledby`、`aria-describedby` 和 `title`，由配置映射到内部组件。
+
+### 内容插槽
+
+通过 `slots` 将 HTML 直属子内容传给已有 Preact 组件的内容 props。以下为源码模块中的完整定义：
+
+```tsx
+import {defineWebComponent} from '@zui/core';
+import type {ComponentChildren} from 'preact';
+
+type SectionProps = {
+    heading?: ComponentChildren;
+    children?: ComponentChildren;
+    actions?: ComponentChildren;
+};
+
+function SectionView({heading, children, actions}: SectionProps) {
+    return (
+        <section>
+            <header>{heading}</header>
+            <div>{children}</div>
+            <footer>{actions}</footer>
+        </section>
+    );
+}
+
+export const ZuiSectionElement = defineWebComponent(SectionView, {
+    tagName: 'zui-section',
+    properties: {},
+    slots: {'': 'children', heading: 'heading', actions: 'actions'},
+    options: () => ({heading: '默认标题'}),
+});
+```
+
+```html
+<zui-section>
+    <strong slot="heading">基本信息</strong>
+    <span slot="heading"> · 可编辑</span>
+    <p>这里是正文。</p>
+    <button slot="actions" type="button">编辑</button>
+</zui-section>
+```
+
+- 只收集宿主的直属文本和元素节点；无 `slot` 或 `slot=""` 的节点使用默认插槽。嵌套内容里的 `slot` 由其所属组件处理。
+- 同名内容按声明顺序组合。每个插槽映射到不同的内容 prop，目标类型需能接收 Preact VNode；`children` 可以直接使用。
+- 有内容时覆盖 `options()` 返回的同名 prop；没有内容或只有排版空白时保留原 prop，由组件提供回退内容。插槽不写入元素的 `options` 快照，也不会生成可写 property。
+- 只接管已声明的插槽。未声明的内容保留在宿主原位置；按组件文档提供受支持的插槽名。
+- 支持向宿主 `append()` / `prepend()` 内容、修改原节点的 `slot`、删除原节点及修改其内容，插槽映射会合并更新。原节点及其子树不会被复制，已有监听器和输入值会保留。
+- 组件暂时不渲染某个内容 prop 时，节点会被暂存；恢复渲染时重新投放。真正断开连接后按原顺序恢复宿主子内容，重新连接后再次投放。
+
+继承 `PreactElement` 的专用适配器可以声明 `static slots = {'': 'children'}`，在 `_renderView()` 中用 `this._slotProps()` 获取并合并插槽内容。原生组件目标需要自行渲染收到的内容 props；配置不会让 DOM 增强器自动具备内容渲染能力。
+
+这是 Light DOM 内容投放：内部使用透明的 `<slot>` 容器显式放置原节点，节点的实际父级会改变，不提供 Shadow DOM 的 `assignedNodes()`、`slotchange` 或样式隔离语义。每个内容 prop 应只渲染到一个位置。调用方可以修改保留的原节点，但不要同时用另一个渲染器重建宿主或内部挂载树。普通属性更新不移动已投放的节点；初次投放、插槽改名或隐藏内容可能影响焦点，并触发嵌套自定义元素的连接回调。
 
 ### 手动创建与注册
 
@@ -364,6 +417,6 @@ declare global {
 }
 ```
 
-元素采用 Light DOM，工厂在宿主内部创建 `.zui-webc-mount` 挂载容器。组件库负责提供宿主及挂载容器的样式，例如 Counter 使用 `zui-counter { display: block; }` 和 `zui-counter > .zui-webc-mount { display: contents; }`。依赖宿主已有 DOM 的增强型组件需要额外适配。表单关联、插槽和组件专属交互不会因配置工厂自动获得；复杂组件仍可使用专门适配器。
+元素采用 Light DOM，工厂在宿主内部创建 `.zui-webc-mount` 挂载容器。组件库负责提供宿主及挂载容器的样式，例如 Counter 使用 `zui-counter { display: block; }` 和 `zui-counter > .zui-webc-mount { display: contents; }`。依赖宿主已有 DOM 的增强型组件需要额外适配。内容插槽需通过 `slots` 显式声明；表单关联和组件专属交互仍由专门适配器提供。
 
 没有 Custom Elements API 时，`Component.register()` 跳过自动定义并继续原有组件注册。工厂的实际注册和渲染需要浏览器环境，这不代表支持服务端渲染。
