@@ -1,6 +1,6 @@
 ---
 name: zui
-description: "在已有应用中集成、使用或排查 ZUI 3；适用于消费方项目，不用于开发 ZUI 源码仓库。"
+description: "在已有应用中集成、使用或排查 ZUI 3，包括已提供的 Web Components；适用于消费方项目，不用于开发 ZUI 源码仓库。"
 ---
 
 # ZUI application development
@@ -16,7 +16,7 @@ Apply ZUI through the public surface actually available in the user's applicatio
    - full npm package such as `zui`;
    - scoped packages such as `@zui/<name>`;
    - a custom bundle exposing only selected libraries;
-   - CSS-only markup, vanilla components, declarative attributes, helpers, or verified Preact entries.
+   - CSS-only markup, vanilla components, Web Components, declarative attributes, helpers, or verified Preact entries.
 4. When the ZUI setup is unclear in a JavaScript/TypeScript project, use the bundled inspector:
 
 ```sh
@@ -49,10 +49,13 @@ Read [references/integration-and-discovery.md](references/integration-and-discov
 | Stateful DOM interaction | A verified vanilla constructor or static component method |
 | Server-rendered markup with client enhancement | Declarative attributes or a client-only vanilla initializer |
 | Preact application | A verified package `/react` entry when it exists |
-| React, Vue, Svelte, or another renderer | A vanilla instance mounted through that framework's lifecycle |
+| Framework-neutral custom tags | A verified Web Component entry and its registration API |
+| React, Vue, Svelte, or another renderer | A verified Web Component, or a vanilla instance mounted through that framework's lifecycle |
 | Framework-independent data operation | A verified ZUI helper import |
 
 Prefer CSS-only markup when JavaScript adds no user value. Prefer an existing ZUI component over recreating its behavior, but do not force ZUI onto application-specific logic that has no matching public API.
+
+Read [references/web-component.md](references/web-component.md) when using custom elements; availability and registration differ by component and build.
 
 Read [references/component-patterns.md](references/component-patterns.md) for CSS, vanilla, declarative, theming, language, lifecycle, security, and accessibility rules. Read [references/framework-lifecycle.md](references/framework-lifecycle.md) when a UI framework, SSR, hydration, or client-side routing owns the surrounding DOM.
 
@@ -62,7 +65,7 @@ Read [references/component-patterns.md](references/component-patterns.md) for CS
 2. Import the required CSS exactly once at an intentional application boundary. Confirm ordering relative to resets, application overrides, CSS modules, and shadow roots.
 3. Use only verified public entries. If the installed full package and scoped packages expose different subpaths, keep their import forms distinct.
 4. Keep renderer ownership clear. Once a ZUI component owns a host's descendants, update it through its public API rather than mutating those descendants from another renderer.
-5. Create browser components only after the host element exists. Reuse or update an existing instance when supported, and call `destroy()` or the documented disposer during unmount or replacement.
+5. Create vanilla instances after mount and call their documented disposer during unmount. Web Components initialize on connection and clean up on disconnection; update their properties and remove application-owned listeners without assuming an element exposes `destroy()`.
 6. Keep untrusted data out of evaluated declarative attributes. Prefer programmatic options for user-supplied or server-supplied values.
 7. Preserve semantic elements, labels, keyboard behavior, focus handling, ARIA relationships, reduced-motion preferences, and readable contrast. ZUI styling does not replace application accessibility requirements.
 8. Make the narrowest change that satisfies the request. Do not upgrade ZUI, replace the delivery mode, or migrate unrelated components unless the user asks.

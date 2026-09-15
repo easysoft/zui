@@ -4,6 +4,8 @@
 
 Render a stable, usually empty host from the application framework. Let ZUI own only that host's internal DOM. Keep framework-rendered children outside it unless the component explicitly documents a slot, portal, or content callback.
 
+The instance creation and destruction steps below apply to vanilla wrappers. For a verified custom-element entry, follow [Web Component lifecycle](web-component.md#frameworks-and-lifecycle): render the tag, assign properties, and let connection/disconnection own its internal component.
+
 Create the ZUI instance after mount, update it through a verified public method, and destroy it before the host is removed. Guard against development-mode double mounting, route transitions, keyed replacements, and asynchronous imports finishing after unmount.
 
 ## React
