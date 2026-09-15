@@ -8,7 +8,7 @@ export type ElementProperty<T = unknown> = {
     toAttribute?: (value: unknown) => string | null;
 };
 
-export function stringProperty(attribute: string, defaultValue = '', reflect = true): ElementProperty<string> {
+function stringProperty(attribute: string, defaultValue = '', reflect = true): ElementProperty<string> {
     return {
         attribute,
         defaultValue,
@@ -19,7 +19,7 @@ export function stringProperty(attribute: string, defaultValue = '', reflect = t
 }
 
 /** Boolean attributes use HTML presence semantics, including disabled="false". */
-export function booleanProperty(attribute: string): ElementProperty<boolean> {
+function booleanProperty(attribute: string): ElementProperty<boolean> {
     return {
         attribute,
         defaultValue: false,
@@ -31,7 +31,7 @@ export function booleanProperty(attribute: string): ElementProperty<boolean> {
 }
 
 /** Invalid, non-finite and out-of-range numbers fall back to the declared default. */
-export function numberProperty(attribute: string, defaultValue: number, minimum = 0): ElementProperty<number> {
+function numberProperty(attribute: string, defaultValue: number, minimum = 0): ElementProperty<number> {
     const normalize = (value: unknown) => {
         const number = value === null || value === undefined || value === '' ? NaN : Number(value);
         return Number.isFinite(number) && Number.isInteger(number) && number >= minimum ? number : defaultValue;
@@ -40,7 +40,7 @@ export function numberProperty(attribute: string, defaultValue: number, minimum 
 }
 
 /** Picker union options accept an empty attribute, true/false, or a positive integer. */
-export function booleanOrNumberProperty(attribute: string, defaultValue: boolean): ElementProperty<boolean | number> {
+function booleanOrNumberProperty(attribute: string, defaultValue: boolean): ElementProperty<boolean | number> {
     const normalize = (value: unknown) => {
         if (value == null) {
             return defaultValue;

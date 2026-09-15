@@ -278,8 +278,6 @@ Pager 因此只需要保留 `static Component = PagerReact`，无需在 Web Comp
 
 `property.string()`、`property.boolean()` 和 `property.number()` 声明标量转换；`property.booleanOrNumber()` 声明布尔值或正整数的联合属性，例如 Picker 的 `multiple`。`property<T>()` 声明仅供 JavaScript 使用的数组、对象或函数属性，未指定默认值时初始值为 `undefined`；此时 `T` 应包含 `undefined`。属性名不能覆盖元素已有的属性或方法，例如 `title`、`focus`、`ready`。
 
-原有的 `stringProperty`、`booleanProperty`、`numberProperty` 和 `booleanOrNumberProperty` 仍可单独导入，与 `property` 上的方法共用同一实现。
-
 `options()` 中的 `context` 提供以下能力：
 
 - `element`：当前元素及其可写属性、只读计算属性。
