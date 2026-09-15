@@ -66,6 +66,8 @@ Choose the smallest working surface in this order:
 4. `zui-on-*` or a small `zui-init` action;
 5. imperative `zui.*` code only when state, lifecycle, CSP, dynamic data, or a public method requires it.
 
+If the user requests Web Components, first check the selected runtime using [Web Component availability](references/resources-and-delivery.md#web-component-availability); custom tags are a separate consumption surface and do not use `zui-create` to instantiate themselves.
+
 Read [references/declarative-zui.md](references/declarative-zui.md) before adding interactive components or dynamically inserted markup. Verify every component name, option, event, method, CSS class, and variable against the bundled release or version-matched official documentation. Do not infer APIs.
 
 Keep evaluated declarative values developer-authored. Never interpolate untrusted user, URL, CMS, or API data into `zui-create-*`, `zui-toggle-*`, `zui-on-*`, or `zui-init` attributes. Use controlled JavaScript when data is dynamic or a strict CSP forbids evaluated declarations.
