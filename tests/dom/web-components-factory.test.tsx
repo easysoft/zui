@@ -215,6 +215,151 @@ describe('library-owned custom element factory', () => {
         expect(instance.$).toBeNull();
     });
 
+    it('defines a native component with external mapped options and typed getters', async () => {
+        class ExternalCounter extends NativeCounter {
+            static NAME = 'FactoryExternalNative';
+        }
+        const config: WebComponentConfig<{value: number}, CounterProps, {doubled: number}> = {
+            autoDefine: false,
+            properties: {value: property.number('value', 2)},
+            getters: {doubled: props => props.value * 2},
+            options: (_props, context) => ({count: context.element.doubled}),
+        };
+        ExternalCounter.register();
+        expect(customElements.get('zui-factory-external-native')).toBeUndefined();
+        const Element = createWebComponent(ExternalCounter, config);
+        expect(defineWebComponent(ExternalCounter, config)).toBe(Element);
+        expect(defineWebComponent(ExternalCounter, config)).toBe(Element);
+        expect(ExternalCounter.WebComponent).toBeUndefined();
+        const element = new Element();
+        expectTypeOf(element.value).toEqualTypeOf<number>();
+        expectTypeOf(element.doubled).toEqualTypeOf<number>();
+        document.body.append(element);
+        await flush();
+        await element.ready;
+        const instance = ExternalCounter.get(element.firstElementChild as HTMLElement)!;
+        expect(instance).toBeInstanceOf(ExternalCounter);
+        expect(element.textContent).toBe('4');
+        element.value = 3;
+        await flush();
+        expect(element.textContent).toBe('6');
+        element.remove();
+        await flush();
+        expect(instance.destroyed).toBe(true);
+    });
+
+    it('infers an external ComponentFromReact renderer without creating its wrapper', async () => {
+        const config = {properties};
+        const Element = defineWebComponent(WrappedCounter, config, 'test-factory-external-wrapper');
+        expect(createWebComponent(WrappedCounter, config)).toBe(Element);
+        expect(WrappedCounter.WebComponent).toBeUndefined();
+        const element = new Element();
+        document.body.append(element);
+        await element.ready;
+        expect(element.textContent).toBe('1:');
+        expect(WrappedCounter.get(element.firstElementChild as HTMLElement)).toBeUndefined();
+        element.count = 4;
+        await flush();
+        expect(element.textContent).toBe('4:');
+    });
+
+    it('accepts a Preact function and gives an explicit tag precedence over config.tagName', async () => {
+        const FunctionalCounter = (props: CounterProps) => <span>{props.count}</span>;
+        const config = {tagName: 'test-factory-unused-tag', properties};
+        const Element = defineWebComponent(FunctionalCounter, config, 'test-factory-external-function');
+        expect(customElements.get(config.tagName)).toBeUndefined();
+        expect(defineWebComponent(FunctionalCounter, config, 'test-factory-external-function')).toBe(Element);
+        expect(() => defineWebComponent(FunctionalCounter, {properties})).toThrow('tagName is required');
+        const element = new Element();
+        expectTypeOf(element.count).toEqualTypeOf<number>();
+        document.body.append(element);
+        await element.ready;
+        expect(element.textContent).toBe('1');
+    });
+
+    it('keeps Preact components separate when they share one external configuration', async () => {
+        class FirstView extends CounterView {
+            static NAME = 'FactoryExternalFirstView';
+        }
+        class SecondView extends CounterView {
+            static NAME = 'FactoryExternalSecondView';
+            render() {
+                return <b>{`second:${this.props.count}`}</b>;
+            }
+        }
+        const config = {properties};
+        const First = defineWebComponent(FirstView, config);
+        const Second = defineWebComponent(SecondView, config);
+        expect(First).not.toBe(Second);
+        expect(customElements.get('zui-factory-external-first-view')).toBe(First);
+        expect(customElements.get('zui-factory-external-second-view')).toBe(Second);
+        expect(createWebComponent(FirstView, config)).toBe(First);
+        const first = new First();
+        const second = new Second();
+        document.body.append(first, second);
+        await Promise.all([first.ready, second.ready]);
+        expect(first.textContent).toBe('1:');
+        expect(second.textContent).toBe('second:1');
+    });
+
+    it('keeps different external configurations on the same component independent', async () => {
+        const firstConfig = {tagName: 'test-factory-variant-one', properties};
+        const secondConfig = {
+            tagName: 'test-factory-variant-two',
+            properties: {...properties, count: property.number('count', 7)},
+            getters: {doubled: (props: CounterProps) => props.count * 2},
+        };
+        const First = defineWebComponent(NativeCounter, firstConfig);
+        const Second = defineWebComponent(NativeCounter, secondConfig);
+        expect(First).not.toBe(Second);
+        expect(defineWebComponent(NativeCounter, firstConfig)).toBe(First);
+        expect(defineWebComponent(NativeCounter, secondConfig)).toBe(Second);
+        const first = new First();
+        const second = new Second();
+        document.body.append(first, second);
+        await flush();
+        await Promise.all([first.ready, second.ready]);
+        expect(first.textContent).toBe('1');
+        expect(second.textContent).toBe('7');
+        expect(second.doubled).toBe(14);
+        second.count = 8;
+        await flush();
+        expect(second.textContent).toBe('8');
+        expect(first.textContent).toBe('1');
+    });
+
+    it('reuses external overrides while preserving unmodified owner configuration fields', async () => {
+        class Owner extends WrappedCounter {
+            static NAME = 'FactoryExternalOverride';
+            static WebComponent: WebComponentConfig<CounterProps, CounterProps, {doubled: number}> = {
+                tagName: 'test-factory-static-config',
+                component: CounterView,
+                properties,
+                getters: {doubled: props => props.count * 2},
+            };
+        }
+        const declared = Owner.WebComponent;
+        const override: WebComponentConfig<CounterProps, CounterProps, {doubled: number}> = {
+            tagName: 'test-factory-overridden-config',
+            component: NativeCounter,
+            properties: {...properties, count: property.number('count', 3)},
+        };
+        const Element = createWebComponent(Owner, override);
+        expect(createWebComponent(Owner, override)).toBe(Element);
+        expect(defineWebComponent(Owner, override)).toBe(Element);
+        expect(defineWebComponent(Owner, override)).toBe(Element);
+        expect(customElements.get(declared.tagName!)).toBeUndefined();
+        expect(Owner.WebComponent).toBe(declared);
+        expect(declared.properties.count.defaultValue).toBe(1);
+        const element = new Element();
+        document.body.append(element);
+        await flush();
+        await element.ready;
+        expect(element.textContent).toBe('3');
+        expect(element.doubled).toBe(6);
+        expect(NativeCounter.get(element.firstElementChild as HTMLElement)).toBeInstanceOf(NativeCounter);
+    });
+
     it('rejects configurations without a usable component or owner', () => {
         expect(() => createWebComponent({properties})).toThrow('component is required');
         expect(() => defineWebComponent({properties}, 'test-factory-missing-component')).toThrow('component is required');
@@ -275,14 +420,22 @@ describe('library-owned custom element factory', () => {
         expect(element.children).toHaveLength(0);
     });
 
-    it('skips automatic definition when the Custom Elements API is unavailable', () => {
+    it('allows imports without a registry and defines elements when one becomes available', () => {
         class Owner extends Component {
             static NAME = 'FactoryNoRegistry';
             static WebComponent = {autoDefine: true, component: CounterView, properties};
         }
+        const registry = customElements;
         vi.stubGlobal('customElements', undefined);
         expect(() => Owner.register()).not.toThrow();
         expect(Component.map.get('factorynoregistry')).toBe(Owner);
+        const config = {tagName: 'test-factory-late-registry', properties};
+        const Element = defineWebComponent(CounterView, config);
+        expect(createWebComponent(CounterView, config)).toBe(Element);
+        vi.stubGlobal('customElements', registry);
+        expect(customElements.get(config.tagName)).toBeUndefined();
+        expect(defineWebComponent(CounterView, config)).toBe(Element);
+        expect(customElements.get(config.tagName)).toBe(Element);
     });
 
     it('reports collisions and allows retry after an invalid tag name', () => {

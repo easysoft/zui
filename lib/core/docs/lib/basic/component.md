@@ -180,7 +180,7 @@ Web Component 由对应组件库提供，共用 `@zui/core` 的元素运行时�
 ```js
 zui.defineButton();
 zui.definePicker();
-// Pager 根据自身的 autoDefine 配置，在加载时自动注册。
+// Pager 的独立 Web Component 模块在加载时注册标签。
 ```
 
 ```html
@@ -209,6 +209,55 @@ definePicker();
 重复调用同一实现的注册方法安全。复杂值通过 JavaScript property 设置，注册前赋值在升级时保留；属性更新按微任务合并。`ready` 只表示当前连接首次渲染完成，不代表远程数据加载完成。持续移出文档后释放资源，同一轮 DOM 移动保留实例。
 
 组件采用 Light DOM，样式随所属库提供。运行时在浏览器中使用，Picker 还依赖 `ElementInternals` 的表单关联能力；类型可通过 `import type` 引入。
+
+## 在组件外定义 Web Component
+
+原生组件可以只负责自身行为，在另一个模块中调用 `defineWebComponent(Component, config, tagName?)` 定义自定义元素。原组件无需声明 `static WebComponent`：
+
+```ts
+import {Component, defineWebComponent, property} from '@zui/core';
+
+type ExternalCounterOptions = {count: number};
+
+class ExternalCounter extends Component<ExternalCounterOptions> {
+    static NAME = 'ExternalCounter';
+
+    afterInit() {
+        this.render();
+    }
+
+    render(options?: Partial<ExternalCounterOptions>) {
+        super.render(options);
+        this.element.textContent = String(this.options.count);
+    }
+}
+
+const externalConfig = {properties: {count: property.number('count', 0)}};
+export const ExternalCounterElement = defineWebComponent(ExternalCounter, externalConfig);
+```
+
+默认标签为 `<zui-external-counter>`。也可以直接使用 Preact 类或函数；没有 `NAME` 时，通过配置的 `tagName` 或第三个参数指定标签：
+
+```ts
+defineWebComponent(
+    ({count}: ExternalCounterOptions) => String(count),
+    {...externalConfig, tagName: 'app-counter-text'},
+);
+```
+
+单配置对象的写法同样支持独立定义，此时 `component` 必须显式提供：
+
+```ts
+defineWebComponent({
+    ...externalConfig,
+    component: ExternalCounter,
+    tagName: 'app-native-counter',
+});
+```
+
+`createWebComponent(Component, config)` 只创建构造器；`defineWebComponent()` 在浏览器中立即注册，不受 `autoDefine` 控制。缺少 `customElements` 时只创建构造器，以便模块仍可被引入；注册和渲染需要浏览器环境。标签名优先使用显式参数，其次是 `config.tagName`，最后从组件的 `NAME` 推导。
+
+同一组件和同一外部配置对象复用构造器，不同组件或不同外部配置对象分别创建构造器。配置内容应在首次创建前确定；使用原配置对象可以重复注册同一个标签。若组件已有 `static WebComponent`，外部配置覆盖同名顶层字段，`properties`、`getters` 等对象整体替换。
 
 ## 由组件库声明 Web Component
 
@@ -251,7 +300,7 @@ Counter.register();
 2. 所属类继承 `ComponentFromReact` 时使用其 `static Component`，直接渲染 Preact。
 3. 所属类继承普通 `Component` 时使用该类自身，保留原生实例生命周期。
 
-Pager 因此只需要保留 `static Component = PagerReact`，无需在 Web Component 配置中重复指定。若需要保留 Pager wrapper 的参数处理和生命周期，可以显式配置 `component: Pager`。
+Pager 已将自定义元素定义放在独立模块中，通过 `defineWebComponent(PagerReact, config)` 接入；原生 Pager 类只负责自身注册。若需要保留 Pager wrapper 的参数处理和生命周期，可以显式配置 `component: Pager`。
 
 确定目标后，工厂自动选择渲染与清理方式，无需额外声明模式：
 

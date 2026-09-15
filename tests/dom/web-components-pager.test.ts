@@ -1,6 +1,7 @@
 import {describe, expect, it, vi} from 'vitest';
-import {Pager, ZuiPagerElement} from '@zui/pager';
-import {createWebComponent} from '@zui/core';
+import {Pager} from '@zui/pager/vanilla';
+import {ZuiPagerElement} from '@zui/pager/web-component';
+import {ZuiPagerElement as AggregatedPagerElement} from '@zui/pager';
 import {flushAnimationFrame} from '../setup/dom';
 
 async function mount() {
@@ -48,10 +49,10 @@ describe('zui-pager', () => {
         expect(onChange).not.toHaveBeenCalled();
     });
 
-    it('registers from the Pager library and reuses the generated constructor', async () => {
+    it('shares the standalone definition with the aggregate entry', async () => {
         expect(customElements.get('zui-pager')).toBe(ZuiPagerElement);
-        expect(createWebComponent(Pager)).toBe(ZuiPagerElement);
-        expect(Pager.WebComponent.component).toBeUndefined();
+        expect(AggregatedPagerElement).toBe(ZuiPagerElement);
+        expect(Pager.WebComponent).toBeUndefined();
         expect(() => Pager.register()).not.toThrow();
         const element = await mount();
         const container = element.firstElementChild;

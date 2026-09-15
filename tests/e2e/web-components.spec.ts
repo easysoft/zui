@@ -33,19 +33,27 @@ test('custom button preserves native keyboard and form behavior', async ({page})
 });
 
 test('custom pager changes pages through the keyboard and reports the current state', async ({page}) => {
+    // Warm Vite dependencies, then use a fresh document with no Pager registration.
     await page.goto('/pager/');
     await page.locator('#libPage.is-loaded').waitFor();
-    await page.evaluate(async (modulePath) => {
-        const {Pager, ZuiPagerElement} = await import(modulePath);
-        if (customElements.get('zui-pager') !== ZuiPagerElement) {
-            throw new Error('Pager import did not register its configured element');
-        }
+    await page.goto('/button/');
+    await page.locator('#libPage.is-loaded').waitFor();
+    await page.evaluate(async ({vanillaPath, elementPath, mainPath}) => {
+        const {Pager} = await import(vanillaPath);
         Pager.register();
+        if (customElements.get('zui-pager') || Pager.WebComponent) {
+            throw new Error('The native Pager entry must be independent of its custom element');
+        }
+        const {ZuiPagerElement} = await import(elementPath);
+        const aggregate = await import(mainPath);
+        if (customElements.get('zui-pager') !== ZuiPagerElement || aggregate.ZuiPagerElement !== ZuiPagerElement) {
+            throw new Error('Pager entries must share the standalone element definition');
+        }
         document.body.innerHTML = '<zui-pager rec-total="120" rec-per-page="20" aria-label="分页"></zui-pager><output></output>';
         document.querySelector('zui-pager')!.addEventListener('zui-change', (event) => {
             document.querySelector('output')!.textContent = String((event as CustomEvent).detail.page);
         });
-    }, '/lib/pager/src/main.ts');
+    }, {vanillaPath: '/lib/pager/src/vanilla/index.ts', elementPath: '/lib/pager/src/web-component/index.ts', mainPath: '/lib/pager/src/main.ts'});
     await expect(page.locator('zui-pager')).toHaveCSS('display', 'block');
     await expect(page.locator('zui-pager > .zui-webc-mount')).toHaveCSS('display', 'contents');
     const second = page.getByRole('button', {name: '2', exact: true});

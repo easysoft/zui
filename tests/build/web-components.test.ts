@@ -1,6 +1,7 @@
 import {execFile} from 'node:child_process';
 import {promises as fs} from 'node:fs';
 import Path from 'node:path';
+import {createRequire} from 'node:module';
 import {promisify} from 'node:util';
 import {JSDOM} from 'jsdom';
 import {beforeAll, describe, expect, it} from 'vitest';
@@ -9,6 +10,7 @@ const run = promisify(execFile);
 const projectRoot = Path.resolve(import.meta.dirname, '../..');
 const output = Path.join(projectRoot, 'test-results/web-components/button');
 const pagerOutput = Path.join(projectRoot, 'test-results/web-components/pager');
+const pagerElementOutput = Path.join(projectRoot, 'test-results/web-components/pager-element');
 const pickerOutput = Path.join(projectRoot, 'test-results/web-components/picker');
 
 beforeAll(async () => {
@@ -17,6 +19,10 @@ beforeAll(async () => {
         maxBuffer: 20 * 1024 * 1024,
     });
     await run('pnpm', ['build', '--', '--lib=pager', '--name=zui-webc-pager', `--outDir=${pagerOutput}`], {
+        cwd: projectRoot,
+        maxBuffer: 20 * 1024 * 1024,
+    });
+    await run('pnpm', ['build', '--', '--lib=pager~web-component', '--name=zui-pager-element', `--outDir=${pagerElementOutput}`], {
         cwd: projectRoot,
         maxBuffer: 20 * 1024 * 1024,
     });
@@ -70,6 +76,26 @@ describe('custom element distribution', () => {
             expect(css).toContain('.zui-webc-mount');
             expect(css).toMatch(/\.pager[\s,{.:]/);
             expect(css).toMatch(/\.btn[\s,{.:]/);
+        } finally {
+            dom.window.close();
+        }
+    });
+
+    it('resolves independent Pager entries and builds its standalone custom element', async () => {
+        const resolve = createRequire(Path.join(projectRoot, 'lib/pager/package.json')).resolve;
+        expect(resolve('@zui/pager/vanilla')).toBe(Path.join(projectRoot, 'lib/pager/src/vanilla/index.ts'));
+        expect(resolve('@zui/pager/web-component')).toBe(Path.join(projectRoot, 'lib/pager/src/web-component/index.ts'));
+        const dom = new JSDOM('<!doctype html><zui-pager rec-total="60" rec-per-page="20"></zui-pager>', {
+            url: 'http://localhost/', runScripts: 'outside-only', pretendToBeVisual: true,
+        });
+        try {
+            dom.window.eval(await fs.readFile(Path.join(pagerElementOutput, 'zui-pager-element.js'), 'utf8'));
+            const element = dom.window.document.querySelector('zui-pager') as HTMLElement & {ready: Promise<void>};
+            await element.ready;
+            expect(element.querySelectorAll('button')).toHaveLength(3);
+            const css = await fs.readFile(Path.join(pagerElementOutput, 'zui-pager-element.css'), 'utf8');
+            expect(css).toContain('zui-pager');
+            expect(css).toMatch(/\.pager[\s,{.:]/);
         } finally {
             dom.window.close();
         }

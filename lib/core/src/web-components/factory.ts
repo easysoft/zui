@@ -18,6 +18,8 @@ export type WebComponentConstructor<P extends object, G extends object = object>
 /** Native ComponentFromReact subclasses also satisfy this constructor contract. */
 export type WebComponentNativeComponent<O extends object> = new(container: HTMLElement, options: ElementComponentOptions<O>) => Component<O>;
 
+type WebComponentTarget<O extends object> = ComponentType<O> | WebComponentNativeComponent<O>;
+
 export type WebComponentContext<P extends object, G extends object = object> = {
     readonly element: WebComponentInstance<P, G>;
     /** Synchronize properties/attributes without synthesizing user events. */
@@ -29,10 +31,10 @@ export type WebComponentContext<P extends object, G extends object = object> = {
 export type WebComponentConfig<P extends object, O extends object = P, G extends object = object> = {
     /** Opt in to automatic definition when the owning Component is registered. */
     autoDefine?: boolean;
-    /** Defaults to zui-<kebab-case Component.NAME> during Component.register(). */
+    /** Defaults to zui-<kebab-case source.NAME> when a named component is supplied. */
     tagName?: string;
-    /** Inferred from the owning class when omitted; required for standalone configurations. */
-    component?: ComponentType<O> | WebComponentNativeComponent<O>;
+    /** Inferred from the component argument when omitted; required for standalone configurations. */
+    component?: WebComponentTarget<O>;
     properties: {[K in keyof P]-?: ElementProperty<P[K]>};
     getters?: {[K in keyof G]: (props: Readonly<P>) => G[K]};
     /** Omit when element properties can be passed to the component unchanged. */
@@ -57,28 +59,43 @@ export type WebComponentOwner<P extends object, O extends object = P, G extends 
 
 type WebComponentSource<P extends object, O extends object, G extends object> = WebComponentConfig<P, O, G> | WebComponentOwner<P, O, G>;
 
-const constructors = new WeakMap<object, CustomElementConstructor>();
+type ResolvedWebComponent<P extends object, O extends object, G extends object> = {
+    config: WebComponentConfig<P, O, G>;
+    component: unknown;
+    sourceName?: string;
+    cacheSource: object;
+    cacheKey: object;
+};
 
-function resolveSource<P extends object, O extends object, G extends object>(source: WebComponentSource<P, O, G>): {config: WebComponentConfig<P, O, G>; owner?: WebComponentOwner<P, O, G>} {
-    if (typeof source === 'function') {
-        if (!source.WebComponent) {
-            throw new TypeError('[ZUI] The component must declare a WebComponent configuration.');
-        }
-        return {config: source.WebComponent, owner: source};
+const constructors = new WeakMap<object, WeakMap<object, CustomElementConstructor>>();
+
+function resolveSource<P extends object, O extends object, G extends object>(source: WebComponentSource<P, O, G> | WebComponentTarget<O>, externalConfig?: WebComponentConfig<P, O, G>): ResolvedWebComponent<P, O, G> {
+    if (typeof source !== 'function') {
+        return {config: source, component: source.component, cacheSource: source, cacheKey: source};
     }
-    return {config: source};
+    const owner = source as Partial<WebComponentOwner<P, O, G>>;
+    const declaredConfig = owner.WebComponent;
+    const config = externalConfig && declaredConfig ? {...declaredConfig, ...externalConfig} : externalConfig ?? declaredConfig;
+    if (!config) {
+        throw new TypeError('[ZUI] The component must declare a WebComponent configuration or receive one explicitly.');
+    }
+    return {
+        config,
+        component: config.component ?? ('WebComponentRenderer' in source ? owner.WebComponentRenderer : source),
+        sourceName: owner.NAME,
+        // External overrides are keyed by their original identity, never the merged object.
+        // Inferred renderers also keep inherited configurations local to each owning class.
+        cacheSource: externalConfig !== undefined || config.component === undefined ? source : config,
+        cacheKey: externalConfig ?? config,
+    };
 }
 
-/** Create from a configuration or its owning Component class, preserving constructor identity. */
-export function createWebComponent<P extends object, O extends object = P, G extends object = object>(source: WebComponentSource<P, O, G>): WebComponentConstructor<P, G> {
-    const {config, owner} = resolveSource(source);
-    // Inherited configurations need separate constructors when their renderer is inferred.
-    const key = owner && config.component === undefined ? owner : config;
-    const cached = constructors.get(key);
+function createResolvedWebComponent<P extends object, O extends object, G extends object>({config, component, cacheSource, cacheKey}: ResolvedWebComponent<P, O, G>): WebComponentConstructor<P, G> {
+    let cache = constructors.get(cacheSource);
+    const cached = cache?.get(cacheKey);
     if (cached) {
         return cached as unknown as WebComponentConstructor<P, G>;
     }
-    const component = config.component ?? owner?.WebComponentRenderer;
     if (typeof component !== 'function') {
         throw new TypeError('[ZUI] A WebComponent component is required; supply component or an owning class with a renderer.');
     }
@@ -143,20 +160,37 @@ export function createWebComponent<P extends object, O extends object = P, G ext
             },
         });
     }
-    constructors.set(key, ConfiguredElement);
+    if (!cache) {
+        cache = new WeakMap();
+        constructors.set(cacheSource, cache);
+    }
+    cache.set(cacheKey, ConfiguredElement);
     return ConfiguredElement as unknown as WebComponentConstructor<P, G>;
 }
 
-/** Define an element, defaulting to tagName or the owning class's zui-<NAME> tag. */
-export function defineWebComponent<P extends object, O extends object = P, G extends object = object>(source: WebComponentSource<P, O, G>, name?: string): WebComponentConstructor<P, G> {
-    const {config, owner} = resolveSource(source);
-    name ??= config.tagName ?? (owner ? `zui-${owner.NAME
+/** Create from a configuration, a configured owner, or a component with external configuration. */
+export function createWebComponent<P extends object, O extends object = P, G extends object = object>(source: WebComponentSource<P, O, G>): WebComponentConstructor<P, G>;
+export function createWebComponent<P extends object, O extends object = P, G extends object = object>(source: WebComponentTarget<O> | WebComponentOwner<NoInfer<P>, O, NoInfer<G>>, config: WebComponentConfig<P, O, G>): WebComponentConstructor<P, G>;
+export function createWebComponent<P extends object, O extends object = P, G extends object = object>(source: WebComponentSource<P, O, G> | WebComponentTarget<O>, config?: WebComponentConfig<P, O, G>): WebComponentConstructor<P, G> {
+    return createResolvedWebComponent(resolveSource(source, config));
+}
+
+/** Define when a registry is available, using the explicit name, config.tagName, or the component's NAME. */
+export function defineWebComponent<P extends object, O extends object = P, G extends object = object>(source: WebComponentSource<P, O, G>, name?: string): WebComponentConstructor<P, G>;
+export function defineWebComponent<P extends object, O extends object = P, G extends object = object>(source: WebComponentTarget<O> | WebComponentOwner<NoInfer<P>, O, NoInfer<G>>, config: WebComponentConfig<P, O, G>, name?: string): WebComponentConstructor<P, G>;
+export function defineWebComponent<P extends object, O extends object = P, G extends object = object>(source: WebComponentSource<P, O, G> | WebComponentTarget<O>, configOrName?: WebComponentConfig<P, O, G> | string, name?: string): WebComponentConstructor<P, G> {
+    const resolved = resolveSource(source, typeof configOrName === 'object' ? configOrName : undefined);
+    const {config, sourceName} = resolved;
+    name ??= typeof configOrName === 'string' ? configOrName : config.tagName ?? (sourceName ? `zui-${sourceName
         .replace(/([A-Z]+)([A-Z][a-z])/g, '$1-$2')
         .replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase()}` : undefined);
     if (!name) {
         throw new Error('[ZUI] A custom element tagName is required.');
     }
-    const Element = createWebComponent(source);
-    Element.define(name);
+    const Element = createResolvedWebComponent(resolved);
+    // Standalone definitions may be imported where the Custom Elements API is unavailable.
+    if (typeof customElements !== 'undefined') {
+        Element.define(name);
+    }
     return Element;
 }
