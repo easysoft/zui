@@ -1,9 +1,55 @@
-import {ComponentFromReact} from '@zui/core';
+import {ComponentFromReact, createWebComponent, numberProperty, property} from '@zui/core';
 import {Pager as PagerReact} from '../component/pager';
-import {PagerOptions} from '../types';
+
+import type {WebComponentConfig} from '@zui/core';
+import type {PagerInfo, PagerOptions} from '../types';
+
+export type PagerElementOptions = Pick<PagerInfo, 'page' | 'recTotal' | 'recPerPage'> & Pick<PagerOptions, 'items' | 'linkCreator'>;
+export type PagerChangeDetail = PagerInfo & {originalEvent: Event};
 
 export class Pager<T extends PagerOptions = PagerOptions> extends ComponentFromReact<T> {
     static NAME = 'Pager';
 
     static Component = PagerReact;
+
+    static WebComponent: WebComponentConfig<PagerElementOptions, PagerOptions, {pageTotal: number}> = {
+        autoDefine: true,
+        component: PagerReact,
+        properties: {
+            page: numberProperty('page', 1),
+            recTotal: numberProperty('rec-total', 0),
+            recPerPage: numberProperty('rec-per-page', 10, 1),
+            items: property<PagerOptions['items']>(),
+            linkCreator: property<PagerOptions['linkCreator']>(),
+        },
+        getters: {
+            pageTotal: props => Math.ceil(props.recTotal / props.recPerPage),
+        },
+        options: (props, context) => {
+            const info = PagerReact.format({...props, pageTotal: context.element.pageTotal});
+            context.set({page: info.page});
+            return {
+                ...info,
+                items: props.items ?? [{type: 'nav', count: 7}],
+                linkCreator: props.linkCreator,
+                useState: false,
+                attrs: {role: 'navigation', 'aria-label': 'Pagination', ...context.accessibleAttributes()},
+                onChangePageInfo: (nextInfo, originalEvent) => {
+                    context.set({page: nextInfo.page, recPerPage: nextInfo.recPerPage});
+                    context.emit<PagerChangeDetail>('zui-change', {...nextInfo, originalEvent});
+                },
+            };
+        },
+    };
+}
+
+export const ZuiPagerElement = createWebComponent(Pager.WebComponent);
+export type ZuiPagerElement = InstanceType<typeof ZuiPagerElement>;
+
+Pager.register();
+
+declare global {
+    interface HTMLElementTagNameMap {
+        'zui-pager': ZuiPagerElement;
+    }
 }

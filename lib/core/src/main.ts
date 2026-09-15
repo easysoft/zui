@@ -8,3 +8,4 @@ export * from './helpers';
 export * as dom from './dom';
 export * from './react';
 export * from './component';
+export * from './web-components';

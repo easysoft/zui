@@ -18,7 +18,7 @@ beforeAll(async () => {
         cwd: projectRoot,
         maxBuffer: 20 * 1024 * 1024,
     });
-    await run('pnpm', ['build', '--', '--lib=web-components~pager', '--name=zui-webc-pager', `--outDir=${pagerOutput}`], {
+    await run('pnpm', ['build', '--', '--lib=pager', '--name=zui-webc-pager', `--outDir=${pagerOutput}`], {
         cwd: projectRoot,
         maxBuffer: 20 * 1024 * 1024,
     });
@@ -54,7 +54,7 @@ describe('custom element distribution', () => {
         }
     });
 
-    it('mounts a vanilla-backed pager from its own built entry', async () => {
+    it('automatically defines the pager from the ordinary Pager library build', async () => {
         const dom = new JSDOM('<!doctype html><zui-pager rec-total="60" rec-per-page="20"></zui-pager>', {
             url: 'http://localhost/',
             runScripts: 'outside-only',
@@ -62,12 +62,14 @@ describe('custom element distribution', () => {
         });
         try {
             dom.window.eval(await fs.readFile(Path.join(pagerOutput, 'zui-webc-pager.js'), 'utf8'));
-            (dom.window as unknown as {zui: {definePager: () => void}}).zui.definePager();
+            expect(dom.window.customElements.get('zui-pager')).toBeDefined();
             const element = dom.window.document.querySelector('zui-pager') as HTMLElement & {ready: Promise<void>};
             await element.ready;
             expect(element.querySelectorAll('button')).toHaveLength(3);
             expect(dom.window.customElements.get('zui-button')).toBeUndefined();
             const css = await fs.readFile(Path.join(pagerOutput, 'zui-webc-pager.css'), 'utf8');
+            expect(css).toContain('zui-pager');
+            expect(css).toContain('.zui-webc-mount');
             expect(css).toMatch(/\.pager[\s,{.:]/);
             expect(css).toMatch(/\.btn[\s,{.:]/);
         } finally {
@@ -102,12 +104,27 @@ describe('custom element distribution', () => {
             await fs.writeFile(entry, `
                 import {defineAll, ZuiPickerElement, type PickerChangeDetail} from '@zui/web-components/all';
                 import {defineButton} from '@zui/web-components/button';
+                import {ZuiPagerElement} from '@zui/web-components/pager';
+                import {createWebComponent, numberProperty, type WebComponentConfig} from '@zui/web-components';
                 defineAll(); defineButton();
                 const picker: ZuiPickerElement = document.createElement('zui-picker');
                 picker.items = [{text: 'Hao', value: 'hao'}];
                 picker.value = 'hao';
                 const detail: PickerChangeDetail = {value: picker.value, oldValue: ''};
-                console.log(detail);
+                const pager: ZuiPagerElement = document.createElement('zui-pager');
+                pager.page = 2;
+                const total: number = pager.pageTotal;
+                const config: WebComponentConfig<{count: number}> = {
+                    component: props => String(props.count),
+                    properties: {count: numberProperty('count', 1)},
+                };
+                const Counter = createWebComponent(config);
+                const count: number = new Counter().count;
+                console.log(detail, total, count);
+                // @ts-expect-error computed properties are readonly.
+                pager.pageTotal = 10;
+                // @ts-expect-error scalar property types are preserved.
+                pager.page = '2';
                 // @ts-expect-error current values are strings, including multiple selections.
                 picker.value = 1;
             `);

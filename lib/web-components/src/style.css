@@ -7,6 +7,6 @@ zui-button {
     vertical-align: middle;
 }
 
-zui-pager, zui-picker {
+zui-picker {
     display: block;
 }

@@ -36,13 +36,18 @@ test('custom pager changes pages through the keyboard and reports the current st
     await page.goto('/pager/');
     await page.locator('#libPage.is-loaded').waitFor();
     await page.evaluate(async (modulePath) => {
-        const {definePager} = await import(modulePath);
-        definePager();
+        const {Pager, ZuiPagerElement} = await import(modulePath);
+        if (customElements.get('zui-pager') !== ZuiPagerElement) {
+            throw new Error('Pager import did not register its configured element');
+        }
+        Pager.register();
         document.body.innerHTML = '<zui-pager rec-total="120" rec-per-page="20" aria-label="分页"></zui-pager><output></output>';
         document.querySelector('zui-pager')!.addEventListener('zui-change', (event) => {
             document.querySelector('output')!.textContent = String((event as CustomEvent).detail.page);
         });
-    }, '/lib/web-components/src/pager.ts');
+    }, '/lib/pager/src/main.ts');
+    await expect(page.locator('zui-pager')).toHaveCSS('display', 'block');
+    await expect(page.locator('zui-pager > .zui-webc-mount')).toHaveCSS('display', 'contents');
     const second = page.getByRole('button', {name: '2', exact: true});
     await second.focus();
     await page.keyboard.press('Enter');

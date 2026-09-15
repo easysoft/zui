@@ -1,4 +1,2 @@
-export {ZuiElement} from './element';
-export type {PropertyChangeSource} from './element';
-export {stringProperty, booleanProperty, numberProperty} from './properties';
-export type {ElementProperty} from './properties';
+export {ZuiElement, createWebComponent, defineWebComponent, stringProperty, booleanProperty, numberProperty, property} from '@zui/core';
+export type {ElementProperty, PropertyChangeSource, WebComponentConfig, WebComponentContext, WebComponentConstructor, WebComponentInstance, WebComponentNativeComponent} from '@zui/core';

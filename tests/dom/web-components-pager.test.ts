@@ -1,9 +1,6 @@
 import {describe, expect, it, vi} from 'vitest';
-import {Pager} from '@zui/pager';
-import {definePager} from '@zui/web-components/src/pager';
+import {Pager, ZuiPagerElement} from '@zui/pager';
 import {flushAnimationFrame} from '../setup/dom';
-
-definePager();
 
 async function mount() {
     const element = document.createElement('zui-pager');
@@ -50,17 +47,23 @@ describe('zui-pager', () => {
         expect(onChange).not.toHaveBeenCalled();
     });
 
-    it('owns the vanilla instance across updates and cleans it on removal', async () => {
+    it('registers from the Pager library and reuses the generated constructor', async () => {
+        expect(customElements.get('zui-pager')).toBe(ZuiPagerElement);
+        expect(() => Pager.register()).not.toThrow();
+        const {definePager} = await import('@zui/web-components/src/pager');
+        expect(() => definePager()).not.toThrow();
         const element = await mount();
-        const container = element.querySelector<HTMLElement>('.zui-webc-mount')!;
-        const instance = Pager.get(container)!;
-        expect(instance.options.$notDestroyOnDetach).toBe(true);
+        const container = element.firstElementChild;
         element.recTotal = 80;
         await Promise.resolve();
-        expect(Pager.get(container)).toBe(instance);
+        expect(element.firstElementChild).toBe(container);
+        expect(Pager.get(container as HTMLElement)).toBeUndefined();
         element.remove();
         await Promise.resolve();
-        expect(instance.destroyed).toBe(true);
-        expect(Pager.get(container)).toBeUndefined();
+        expect(element.children).toHaveLength(0);
+        document.body.append(element);
+        await element.ready;
+        expect(element.firstElementChild).not.toBe(container);
+        expect(element.recTotal).toBe(80);
     });
 });
