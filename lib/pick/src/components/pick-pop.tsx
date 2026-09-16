@@ -19,7 +19,7 @@ export class PickPop<S extends PickState = PickState, P extends PickPopProps<S> 
     }
 
     get trigger(): HTMLElement | undefined | null {
-        return $(`#pick-${this.props.id}`)[0];
+        return document.getElementById(`pick-${this.props.id}`);
     }
 
     get element(): HTMLElement | undefined | null {
@@ -128,9 +128,9 @@ export class PickPop<S extends PickState = PickState, P extends PickPopProps<S> 
     }
 
     protected _handleDocClick = (e: MouseEvent) => {
-        const {state: {open}, id, togglePop} = this.props;
-        const $target = $(e.target as HTMLElement);
-        if (open !== 'closing' && !$target.closest(`#pick-${id},#pick-pop-${id}`).length && $target.parent().length) {
+        const {state: {open}, togglePop} = this.props;
+        const target = e.target as Node;
+        if (open !== 'closing' && !this.trigger?.contains(target) && !this.element?.contains(target) && target.parentElement) {
             togglePop(false);
         }
     };
@@ -237,9 +237,9 @@ export class PickPop<S extends PickState = PickState, P extends PickPopProps<S> 
             layoutWatcher();
             this._layoutWatcher = undefined;
         }
+        this.element?.remove();
         this._container = undefined;
         this._ref = undefined;
-        $(`#pick-pop-${this.props.id}`).remove();
 
         this.props.beforeDestroy?.();
     }

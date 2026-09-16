@@ -12,7 +12,7 @@ export class PickTrigger<S extends PickState = PickState, P extends PickTriggerP
     constructor(props: P) {
         super(props);
         this._handleClick = this._handleClick.bind(this);
-        this._hasInput = !!$(`#${props.id}`).length;
+        this._hasInput = !!document.getElementById(props.id);
     }
 
     get hasInput() {
@@ -83,7 +83,7 @@ export class PickTrigger<S extends PickState = PickState, P extends PickTriggerP
 
         if (name) {
             if (this._hasInput) {
-                $(`#${id}`).val(value);
+                $(document.getElementById(id)).val(value);
             } else {
                 return <input id={id} type="hidden" className="pick-value" name={name} value={value} readonly={readonly} disabled={disabled} />;
             }
@@ -93,7 +93,7 @@ export class PickTrigger<S extends PickState = PickState, P extends PickTriggerP
 
     componentDidMount(): void {
         const {id} = this.props;
-        $(`#${id}`).on(`change.zui.pick.${id} syncValue.zui.pick.${id}`, (event: Event, from?: symbol | {setValue?: string}) => {
+        $(document.getElementById(id)).on(`change.zui.pick.${id} syncValue.zui.pick.${id}`, (event: Event, from?: symbol | {setValue?: string}) => {
             if (typeof from === 'symbol') {
                 return;
             }
@@ -105,14 +105,14 @@ export class PickTrigger<S extends PickState = PickState, P extends PickTriggerP
 
     componentWillUnmount(): void {
         const {id} = this.props;
-        $(`#${id}`).off(`.zui.pick.${id}`);
+        $(document.getElementById(id)).off(`.zui.pick.${id}`);
     }
 
     componentDidUpdate(previousProps: Readonly<P>): void {
         const {id, state, name} = this.props;
         if (name && previousProps.state.value !== state.value) {
             if (this._skipTriggerChange !== state.value) {
-                $(`#${id}`).trigger('change', EVENT_PICK);
+                $(document.getElementById(id)).trigger('change', EVENT_PICK);
             }
             this._skipTriggerChange = false;
         }
