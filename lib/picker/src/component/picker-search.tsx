@@ -22,7 +22,7 @@ export class PickerSearch extends Component<PickerSearchProps, PickerSearchState
     }
 
     get $pop() {
-        return $(`#pick-pop-${this.props.id}`);
+        return $(document.getElementById(`pick-pop-${this.props.id}`));
     }
 
     focus() {
