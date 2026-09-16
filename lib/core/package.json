@@ -13,11 +13,14 @@
         "contributes": {
             "js": [
                 "method",
-                "class"
+                "class",
+                "var",
+                "component"
             ]
         }
     },
     "dependencies": {
+        "@tanstack/query-core": "5.102.8",
         "vhtml": "^2.2.0"
     },
     "devDependencies": {

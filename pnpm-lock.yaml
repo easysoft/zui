@@ -23,6 +23,9 @@ importers:
       '@preact/signals-core':
         specifier: ^1.12.1
         version: 1.12.2
+      '@tanstack/query-core':
+        specifier: 5.102.8
+        version: 5.102.8
       '@tanstack/virtual-core':
         specifier: 3.17.9
         version: 3.17.9
@@ -579,6 +582,9 @@ importers:
 
   lib/core:
     dependencies:
+      '@tanstack/query-core':
+        specifier: 5.102.8
+        version: 5.102.8
       vhtml:
         specifier: ^2.2.0
         version: 2.2.0
@@ -2925,6 +2931,9 @@ packages:
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
     peerDependencies:
       eslint: ^9.0.0 || ^10.0.0
+
+  '@tanstack/query-core@5.102.8':
+    resolution: {integrity: sha512-ZNjkJ33CqvPNec/6lZBnHqLc3EVGPZ9ySLhYahU9TcuRFdmwXewuj0c4hwSWcGHqEUwcSrKeZ+oGcvPBqXcQcg==}
 
   '@tanstack/virtual-core@3.17.9':
     resolution: {integrity: sha512-M8Bzy7CCMvUjRiuoHVH9mRjyUVczRs8v8RcUEphLFGc445ZP4KQ15Y1sLqhQqJi/HgGJrxfCHnEnIX0x9mVrBg==}
@@ -6118,6 +6127,8 @@ snapshots:
       espree: 10.4.0
       estraverse: 5.3.0
       picomatch: 4.0.7
+
+  '@tanstack/query-core@5.102.8': {}
 
   '@tanstack/virtual-core@3.17.9': {}
 
