@@ -8,8 +8,8 @@ export class HElementSignals<P extends HElementProps, S = object, SIGNALS = {rea
 
     declare signals: SIGNALS;
 
-    constructor(props: P) {
-        super(props);
+    constructor(props: P, context?: unknown) {
+        super(props, context);
 
         this.signals = {} as SIGNALS;
         const {state} = this;

@@ -44,8 +44,8 @@ export class HElement<P extends HElementProps, S = object> extends Component<P, 
      */
     protected _gid = nextGid();
 
-    constructor(props: P) {
-        super(props);
+    constructor(props: P, context?: unknown) {
+        super(props, context);
 
         this.state = this.getDefaultState(props);
     }
