@@ -5,8 +5,12 @@ import {classes} from '../../helpers/classes';
 import {getReactComponent} from './components';
 import {i18n} from '../../i18n';
 import {bindCommands, unbindCommands, type CommandContext} from '../../helpers';
+import {createQuery} from '../../query/create-query';
+import {QueryClientContext, resolveQueryClient} from '../../query/query-client-context';
 
 import type {JSX, ComponentType, RenderableProps, ComponentChildren} from 'preact';
+import type {DefaultError, QueryClient, QueryKey, QueryObserverOptions} from '@tanstack/query-core';
+import type {QueryController} from '../../query/create-query';
 import type {ClassNameLike} from '../../helpers/classes';
 import type {HElementProps} from '../types';
 import type {I18nLangMap} from '../../i18n';
@@ -44,6 +48,10 @@ export class HElement<P extends HElementProps, S = object> extends Component<P, 
      */
     protected _gid = nextGid();
 
+    private _queries?: Set<Pick<QueryController, 'mount' | 'destroy'>>;
+
+    private _queryLifecycle?: 'mounted' | 'destroyed';
+
     constructor(props: P, context?: unknown) {
         super(props, context);
 
@@ -80,6 +88,41 @@ export class HElement<P extends HElementProps, S = object> extends Component<P, 
      */
     get commandScope() {
         return this.constructor.NAME;
+    }
+
+    /**
+     * Creates a query owned by this component. Subscribes on mount (or immediately
+     * when already mounted) and destroys it on unmount. Keep the instance outside render.
+     * Resolves the optional client, then props.queryClient, then QueryClientContext.
+     * Context access requires static contextType = QueryClientContext.
+     * Lifecycle overrides must call super.componentDidMount()/componentWillUnmount().
+     */
+    createQuery<
+        TQueryFnData = unknown,
+        TError = DefaultError,
+        TData = TQueryFnData,
+        TQueryKey extends QueryKey = QueryKey,
+    >(
+        options: QueryObserverOptions<TQueryFnData, TError, TData, TQueryFnData, TQueryKey>,
+        client?: QueryClient,
+    ): QueryController<TQueryFnData, TError, TData, TQueryKey> {
+        if (this._queryLifecycle === 'destroyed') {
+            throw new Error('Cannot create a query after the component has unmounted.');
+        }
+        const contextClient = this.constructor.contextType === QueryClientContext ? this.context as QueryClient | undefined : undefined;
+        const query = createQuery(resolveQueryClient(client ?? this.props.queryClient, contextClient), options);
+        const ownedQuery = {
+            ...query,
+            destroy: () => {
+                this._queries?.delete(ownedQuery);
+                query.destroy();
+            },
+        };
+        (this._queries ??= new Set()).add(ownedQuery);
+        if (this._queryLifecycle === 'mounted') {
+            ownedQuery.mount();
+        }
+        return ownedQuery;
     }
 
     /**
@@ -277,6 +320,8 @@ export class HElement<P extends HElementProps, S = object> extends Component<P, 
     }
 
     componentDidMount(): void {
+        this._queryLifecycle = 'mounted';
+        this._queries?.forEach(query => query.mount());
         const {commands, onCommand} = this.props;
         if (commands || onCommand) {
             bindCommands(this.element, {
@@ -289,6 +334,9 @@ export class HElement<P extends HElementProps, S = object> extends Component<P, 
     }
 
     componentWillUnmount(): void {
+        this._queryLifecycle = 'destroyed';
+        this._queries?.forEach(query => query.destroy());
+        this._queries = undefined;
         const {commands, onCommand} = this.props;
         if (commands || onCommand) {
             unbindCommands(this.element, this.commandScope);

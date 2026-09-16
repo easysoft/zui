@@ -1,6 +1,6 @@
-import {createRef} from 'preact';
+import {createContext, createRef} from 'preact';
 import {act, render, screen} from '@testing-library/preact';
-import {describe, expect, it, vi} from 'vitest';
+import {describe, expect, expectTypeOf, it, vi} from 'vitest';
 import {
     HElement,
     HElementSignals,
@@ -10,28 +10,16 @@ import {
     createQuery,
     resolveQueryClient,
 } from '@zui/core';
-import type {HElementProps} from '@zui/core';
+import type {HElementProps, QueryFunctionContext} from '@zui/core';
 
-type ViewProps = HElementProps & {queryClient?: QueryClient};
-
-class QueryView extends HElement<ViewProps> {
+class QueryView extends HElement<HElementProps> {
     static contextType = QueryClientContext;
 
     declare context: QueryClient | undefined;
 
-    query = createQuery(resolveQueryClient(this.props.queryClient, this.context), {
+    query = this.createQuery({
         queryKey: ['view'], queryFn: async () => 'loaded', staleTime: Infinity,
     });
-
-    componentDidMount() {
-        this.query.mount();
-        super.componentDidMount();
-    }
-
-    componentWillUnmount() {
-        this.query.destroy();
-        super.componentWillUnmount();
-    }
 
     protected _getChildren() {
         return this.query.result.value.data ?? 'pending';
@@ -45,7 +33,7 @@ describe('query context', () => {
         const view = render(<QueryClientProvider client={client}><QueryView ref={ref} /></QueryClientProvider>);
         expect(ref.current?.query.client).toBe(client);
         await act(async () => {
-            await ref.current?.query.refetch();
+            await vi.advanceTimersByTimeAsync(0);
         });
         expect(screen.getByText('loaded')).toBeInTheDocument();
         await act(async () => {
@@ -165,6 +153,184 @@ describe('query context', () => {
         const calls = queryFn.mock.calls.length;
         await vi.advanceTimersByTimeAsync(500);
         expect(queryFn).toHaveBeenCalledTimes(calls);
+        client.clear();
+    });
+});
+
+describe('HElement.createQuery', () => {
+    it('defers field queries until mount and can dispose a component that never mounted', () => {
+        const client = new QueryClient({defaultOptions: {queries: {gcTime: Infinity}}});
+        const instance = new QueryView({}, client);
+        expect(instance.query.result.value).toMatchObject({isPending: true, isFetching: false});
+        expect(client.getQueryCache().find({queryKey: ['view']})?.getObserversCount()).toBe(0);
+        instance.componentWillUnmount();
+        expect(() => instance.query.mount()).toThrow('destroyed');
+        expect(() => new QueryView({})).toThrow('QueryClientProvider');
+        client.clear();
+    });
+
+    it('is inherited by HElementSignals and preserves component lifecycle callbacks', async () => {
+        const client = new QueryClient({defaultOptions: {queries: {gcTime: Infinity}}});
+        const queryFn = vi.fn(async () => 'signals query');
+        class SignalQueryView extends HElementSignals<HElementProps> {
+            static contextType = QueryClientContext;
+
+            query = this.createQuery({queryKey: ['signals'], queryFn});
+
+            protected _getChildren() {
+                return this.query.result.value.data ?? 'pending';
+            }
+        }
+        const ref = createRef<SignalQueryView>();
+        const observerCount = () => client.getQueryCache().find({queryKey: ['signals']})?.getObserversCount();
+        const onMounted = vi.fn(() => expect(observerCount()).toBe(1));
+        const onUnmount = vi.fn(() => expect(observerCount()).toBe(0));
+        const view = render(<QueryClientProvider client={client}><SignalQueryView ref={ref} onMounted={onMounted} onUnmount={onUnmount} /></QueryClientProvider>);
+        await act(async () => {
+            await vi.advanceTimersByTimeAsync(0);
+        });
+        expect(queryFn).toHaveBeenCalledOnce();
+        expect(screen.getByText('signals query')).toBeInTheDocument();
+        expectTypeOf(ref.current!.query.result.value.data).toEqualTypeOf<string | undefined>();
+        const query = ref.current!.query;
+        view.unmount();
+        expect(onMounted).toHaveBeenCalledOnce();
+        expect(onUnmount).toHaveBeenCalledOnce();
+        await expect(query.refetch()).rejects.toThrow('destroyed');
+        client.clear();
+    });
+
+    it('mounts queries created later, supports explicit client precedence and rejects creation after unmount', async () => {
+        const client = new QueryClient({defaultOptions: {queries: {gcTime: Infinity}}});
+        const explicit = new QueryClient({defaultOptions: {queries: {gcTime: Infinity}}});
+        const ref = createRef<HElement<HElementProps>>();
+        const view = render(<HElement ref={ref} queryClient={client} />);
+        const instance = ref.current!;
+        const first = instance.createQuery({queryKey: ['later'], queryFn: async () => 1});
+        const second = instance.createQuery({queryKey: ['explicit'], queryFn: async () => 2}, explicit);
+        expect(first.client).toBe(client);
+        expect(second.client).toBe(explicit);
+        expect(client.getQueryCache().find({queryKey: ['later']})?.getObserversCount()).toBe(1);
+        expect(explicit.getQueryCache().find({queryKey: ['explicit']})?.getObserversCount()).toBe(1);
+        first.destroy();
+        expect(client.getQueryCache().find({queryKey: ['later']})?.getObserversCount()).toBe(0);
+        view.unmount();
+        expect(explicit.getQueryCache().find({queryKey: ['explicit']})?.getObserversCount()).toBe(0);
+        await expect(second.refetch()).rejects.toThrow('destroyed');
+        expect(() => instance.createQuery({queryKey: ['too-late']})).toThrow('unmounted');
+        client.clear();
+        explicit.clear();
+    });
+
+    it('does not mistake another context for a query client', () => {
+        const OtherContext = createContext({name: 'another context'});
+        class OtherContextView extends HElement<HElementProps> {
+            static contextType = OtherContext;
+
+            query = this.createQuery({queryKey: ['other-context'], enabled: false});
+        }
+        expect(() => new OtherContextView({}, {name: 'another context'})).toThrow('QueryClientProvider');
+        const client = new QueryClient({defaultOptions: {queries: {gcTime: Infinity}}});
+        const ref = createRef<OtherContextView>();
+        const view = render(<OtherContext.Provider value={{name: 'custom'}}><OtherContextView ref={ref} queryClient={client} /></OtherContext.Provider>);
+        expect(ref.current?.query.client).toBe(client);
+        expect(ref.current?.context).toEqual({name: 'custom'});
+        view.unmount();
+        client.clear();
+    });
+
+    it('removes queries destroyed before mount and owns queries created in lifecycle overrides', () => {
+        const client = new QueryClient({defaultOptions: {queries: {gcTime: Infinity}}});
+        const discardedFn = vi.fn(async () => 'discarded');
+        const firstFn = vi.fn(async () => 'first');
+        const secondFn = vi.fn(async () => 'second');
+        class LifecycleView extends HElement<HElementProps> {
+            discarded = this.createQuery({queryKey: ['discarded'], queryFn: discardedFn});
+
+            constructor(props: HElementProps) {
+                super(props);
+                this.discarded.destroy();
+            }
+
+            componentDidMount() {
+                this.createQuery({queryKey: ['first'], queryFn: firstFn});
+                super.componentDidMount();
+                this.createQuery({queryKey: ['second'], queryFn: secondFn});
+            }
+        }
+        const view = render(<LifecycleView queryClient={client} />);
+        expect(discardedFn).not.toHaveBeenCalled();
+        expect(firstFn).toHaveBeenCalledOnce();
+        expect(secondFn).toHaveBeenCalledOnce();
+        view.unmount();
+        expect(client.getQueryCache().getAll().every(query => query.getObserversCount() === 0)).toBe(true);
+        client.clear();
+    });
+
+    it('preserves inference and allows options to follow updated props', async () => {
+        type Props = HElementProps & {id: number};
+        const getOptions = (id: number) => ({
+            queryKey: ['typed', id] as const,
+            queryFn: async ({queryKey}: QueryFunctionContext<readonly ['typed', number]>) => ({id: queryKey[1]}),
+            select: (value: {id: number}) => `item ${value.id}`,
+        });
+        class TypedView extends HElement<Props> {
+            query = this.createQuery(getOptions(this.props.id));
+
+            componentDidUpdate(previousProps: Props) {
+                if (previousProps.id !== this.props.id) {
+                    this.query.setOptions(getOptions(this.props.id));
+                }
+            }
+
+            protected _getChildren() {
+                return this.query.result.value.data;
+            }
+        }
+        const client = new QueryClient({defaultOptions: {queries: {gcTime: Infinity}}});
+        const ref = createRef<TypedView>();
+        const view = render(<TypedView ref={ref} queryClient={client} id={1} />);
+        await act(async () => {
+            await vi.advanceTimersByTimeAsync(0);
+        });
+        expect(screen.getByText('item 1')).toBeInTheDocument();
+        expectTypeOf(ref.current!.query.result.value.data).toEqualTypeOf<string | undefined>();
+        view.rerender(<TypedView ref={ref} queryClient={client} id={2} />);
+        await act(async () => {
+            await vi.advanceTimersByTimeAsync(0);
+        });
+        expect(screen.getByText('item 2')).toBeInTheDocument();
+        expect(client.getQueryCache().find({queryKey: ['typed', 1]})?.getObserversCount()).toBe(0);
+        view.unmount();
+        expect(client.getQueryCache().find({queryKey: ['typed', 2]})?.getObserversCount()).toBe(0);
+        client.clear();
+    });
+
+    it('keeps a shared request alive until the last component unmounts', () => {
+        const client = new QueryClient({defaultOptions: {queries: {gcTime: Infinity}}});
+        let abortSignal: AbortSignal | undefined;
+        const queryFn = vi.fn(({signal}: QueryFunctionContext) => {
+            abortSignal = signal;
+            return new Promise<string>(() => undefined);
+        });
+        class PendingView extends HElement<HElementProps> {
+            static contextType = QueryClientContext;
+
+            query = this.createQuery({queryKey: ['pending-shared'], queryFn});
+        }
+        const view = render(
+            <QueryClientProvider client={client}>
+                <PendingView key="first" />
+                <PendingView key="second" />
+            </QueryClientProvider>,
+        );
+        expect(queryFn).toHaveBeenCalledOnce();
+        view.rerender(<QueryClientProvider client={client}><PendingView key="second" /></QueryClientProvider>);
+        expect(abortSignal?.aborted).toBe(false);
+        expect(client.getQueryCache().find({queryKey: ['pending-shared']})?.getObserversCount()).toBe(1);
+        view.unmount();
+        expect(abortSignal?.aborted).toBe(true);
+        expect(client.getQueryCache().find({queryKey: ['pending-shared']})?.getObserversCount()).toBe(0);
         client.clear();
     });
 });

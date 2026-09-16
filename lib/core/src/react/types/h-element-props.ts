@@ -1,4 +1,5 @@
 import type {PreactDOMAttributes, JSX, RefObject, ComponentType, Attributes} from 'preact';
+import type {QueryClient} from '@tanstack/query-core';
 import type {ClassNameLike} from '../../helpers/classes';
 import type {I18nLangMap} from '../../i18n';
 import type {CommandCallback} from '../../helpers';
@@ -36,6 +37,12 @@ export interface HElementProps extends PreactDOMAttributes, Attributes {
      * The component properties.
      */
     props?: Record<string, unknown>;
+
+    /**
+     * Explicit client for queries created by this component; overrides QueryClientContext.
+     * The application or QueryClientProvider owns this client's lifecycle.
+     */
+    queryClient?: QueryClient;
 
     /**
      * The extra data.

@@ -67,7 +67,7 @@ const users = zui.createQuery(client, {
 
 ## Preact Context
 
-模块开发时从 `@zui/core` 导入。`QueryClientProvider` 用类组件管理客户端的挂载与卸载，`static contextType` 在类组件中取得客户端。以下示例使用模拟数据，可直接挂到页面中的容器：
+模块开发时从 `@zui/core` 导入。`QueryClientProvider` 管理客户端的挂载与卸载；`HElement` 和 `HElementSignals` 的实例方法 `createQuery(options)` 从 Context 获取客户端，并自动随组件挂载、销毁查询。以下示例使用模拟数据，可直接挂到页面中的容器：
 
 ```tsx
 import {
@@ -75,14 +75,12 @@ import {
     QueryClient,
     QueryClientContext,
     QueryClientProvider,
-    createQuery,
     render,
-    resolveQueryClient,
     type HElementProps,
 } from '@zui/core';
 
 type User = {id: number; name: string};
-type Props = HElementProps & {projectId: number; queryClient?: QueryClient};
+type Props = HElementProps & {projectId: number};
 
 function usersOptions(projectId: number) {
     return {
@@ -96,27 +94,12 @@ function usersOptions(projectId: number) {
 class ProjectUsers extends HElement<Props> {
     static contextType = QueryClientContext;
 
-    declare context: QueryClient | undefined;
-
-    private _users = createQuery(
-        resolveQueryClient(this.props.queryClient, this.context),
-        usersOptions(this.props.projectId),
-    );
-
-    componentDidMount() {
-        this._users.mount();
-        super.componentDidMount();
-    }
+    private _users = this.createQuery(usersOptions(this.props.projectId));
 
     componentDidUpdate(previousProps: Props) {
         if (previousProps.projectId !== this.props.projectId) {
             this._users.setOptions(usersOptions(this.props.projectId));
         }
-    }
-
-    componentWillUnmount() {
-        this._users.destroy();
-        super.componentWillUnmount();
     }
 
     protected _getChildren() {
@@ -146,13 +129,25 @@ render(
 // 页面销毁：render(null, container); container.remove();
 ```
 
-`resolveQueryClient(explicitClient?, contextClient?)` 按“显式客户端 → Context → 抛出缺失错误”解析，不创建隐式全局客户端。显式覆盖使用的客户端仍应由应用或对应 Provider 管理生命周期。
+`this.createQuery(options, client?)` 按“第二参数 → `props.queryClient` → `QueryClientContext`”取得客户端，找不到时抛出错误。使用 Context 时声明 `static contextType = QueryClientContext`；通过 `queryClient` prop 或第二参数指定客户端时，不需要声明 Context。组件可以继续使用自己的其他 Context。
+
+实例方法返回与独立 `createQuery()` 相同的控制器，保留类型推导、`result`、`setOptions()` 和 `refetch()`。`HElementSignals` 直接继承此方法。
+
+- 在类字段或构造函数中创建的查询，会延迟到组件挂载时订阅。
+- 挂载后创建的查询会立即订阅，卸载时统一销毁。
+- 可以提前调用查询的 `destroy()`，该查询会从组件管理集合中移除。
+- 在类字段或受控事件中创建查询，不要在每次 `render()` 中重复创建。
+- 子类如覆写 `componentDidMount()` 或 `componentWillUnmount()`，须调用对应的 `super` 方法；无需再逐个调用查询的 `mount()` 或 `destroy()`。
+
+查询创建后绑定原客户端；修改 `queryClient` prop 时也需重建查询。客户端本身的生命周期仍由应用或 Provider 管理。非 `HElement` 组件可继续使用独立 `createQuery(client, options)` 和 `resolveQueryClient(explicitClient?, contextClient?)`，并自行配对查询的挂载、销毁。
 
 `HElement` 和 `HElementSignals` 会透传构造函数的 context，因此没有自定义构造函数时，可以直接在类字段初始化中使用 `this.context`。子类如有自定义构造函数，须把第二个参数传给 `super(props, context)`；中间基类也须继续透传。
 
 函数组件可以通过 `QueryClientContext.Consumer` 读取客户端，再把它交给拥有生命周期的子组件；不要在每次 render 的 Consumer 回调内创建查询或发起请求：
 
 ```tsx
+import {resolveQueryClient} from '@zui/core';
+
 <QueryClientContext.Consumer>
     {client => <ProjectUsers projectId={1} queryClient={resolveQueryClient(client)} />}
 </QueryClientContext.Consumer>
