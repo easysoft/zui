@@ -13,7 +13,7 @@ description: "查询 ZUI 主仓库的开发规范，为库开发及本地 exts �
    - 将外部 ZUI 库接入当前仓库的 `exts/` 共同调试、构建或维护文档：[references/extension-library.md](references/extension-library.md)
    - UI 组件：[references/component.md](references/component.md)
    - Web Component 适配、工厂和属性契约：[references/web-component.md](references/web-component.md)
-   - 组件、调试页和文档示例的布局与样式：[辅助类优先规范](references/component.md#布局与样式)
+   - 组件、调试页和文档示例的布局与样式：[布局与样式规范](references/component.md#布局与样式)；新增或修改布局类、示例容器类或可复制代码时，读取 [CSS utilities 使用与核实](references/utilities.md)
    - 组件运行时按需加载外部 JS/CSS：[references/external-library.md](references/external-library.md)，并同时读取组件规范
    - helper、store 或 utils：[references/helper.md](references/helper.md)
    - 官网文档：[references/documentation.md](references/documentation.md)
