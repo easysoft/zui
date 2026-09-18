@@ -1,4 +1,4 @@
 interface:
   display_name: "ZUI 应用开发"
-  short_description: "在应用中集成和排查 ZUI 3 组件及 Web Components"
-  default_prompt: "使用 $zui 在当前应用项目中实现一个符合现有架构的 ZUI 界面功能。"
+  short_description: "在应用中使用 ZUI 3、创建和注册自定义组件及集成 Web Components"
+  default_prompt: "使用 $zui 在当前应用项目中实现 ZUI 界面功能，按需直接创建和注册符合现有架构的应用组件。"

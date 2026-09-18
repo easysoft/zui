@@ -1,6 +1,6 @@
 ---
 name: zui
-description: "在已有应用中集成、使用或排查 ZUI 3，包括已提供的 Web Components；适用于消费方项目，不用于开发 ZUI 源码仓库。"
+description: "在已有应用中集成、使用或排查 ZUI 3，直接创建和注册应用自定义组件，或使用已提供的 Web Components；适用于消费方项目，不用于开发 ZUI 源码仓库。"
 ---
 
 # ZUI application development
@@ -47,6 +47,8 @@ Read [references/integration-and-discovery.md](references/integration-and-discov
 | Static control or layout | Semantic HTML plus verified ZUI CSS classes |
 | Small visual adjustment | Public ZUI utility classes or documented CSS variables |
 | Stateful DOM interaction | A verified vanilla constructor or static component method |
+| Application-specific reusable DOM behavior | An application-local subclass of the verified `Component` base |
+| Application-specific reactive view | A verified `ReactComponent` view with `ComponentFromReact` when a vanilla/declarative interface is needed |
 | Server-rendered markup with client enhancement | Declarative attributes or a client-only vanilla initializer |
 | Preact application | A verified package `/react` entry when it exists |
 | Framework-neutral custom tags | A verified Web Component entry and its registration API |
@@ -58,6 +60,16 @@ Prefer CSS-only markup when JavaScript adds no user value. Prefer an existing ZU
 Read [references/web-component.md](references/web-component.md) when using custom elements; availability and registration differ by component and build.
 
 Read [references/component-patterns.md](references/component-patterns.md) for CSS, vanilla, declarative, theming, language, lifecycle, security, and accessibility rules. Read [references/framework-lifecycle.md](references/framework-lifecycle.md) when a UI framework, SSR, hydration, or client-side routing owns the surrounding DOM.
+
+## Create and register application components
+
+Read [references/custom-components.md](references/custom-components.md) when defining a new ZUI component in application code, wrapping a Preact view, or extending an existing component. This is part of the consumer workflow: keep the implementation in the application's existing JS/TS modules or page scripts; it does not require a new ZUI library, extension package, or ZUI rebuild.
+
+- Verify the bases and helpers exposed by the application's runtime, then choose `Component` for DOM behavior or `ReactComponent` for a Preact view. Add a `ComponentFromReact` wrapper with a unique `NAME` and `Component` only when needed for vanilla instances or declarative use.
+- Use the existing module imports or global `zui`. In plain JavaScript, verified `zui.jsx` tagged templates support Preact rendering without introducing JSX compilation.
+- Keep registration and mounting explicit. A wrapper's `.register()` registers its ZUI name; it does not by itself mount a view, export the class on global `zui`, or register a Preact name. Follow the reference for the requested initialization route.
+- Author ZUI Preact views as classes without hooks, using the runtime's signals and lifecycle methods as needed. Preserve parent lifecycle behavior, and clean up application-owned effects and resources.
+- Validate the component's actual creation, option updates, interaction, and disposal in its application host. Do not treat successful registration alone as a working component.
 
 ## Implement within the application
 
