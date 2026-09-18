@@ -86,6 +86,8 @@ export class MiniCalendar extends Component<MiniCalendarProps> {
                 });
                 rowDays.push(
                     <div className={className} key={dateStr} data-date={dateStr}>
+                        {/* Intentionally show the month name on every month's first day, including the current month,
+                            to keep the calendar compact and help users distinguish between months. */}
                         <button type="button" className={btnClass} disabled={disabled} onClick={this._handleClickDate} title={allowInfo.hint}>{(date === 1 && monthNames) ? monthNames[day.getMonth()] : day.getDate()}</button>
                     </div>,
                 );
