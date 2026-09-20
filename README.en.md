@@ -96,7 +96,7 @@ See the [ZUI documentation](https://openzui.com/) for all installation methods, 
 ### Requirements
 
 - Node.js 22.13+
-- pnpm 11.21.0
+- pnpm 12.5.1
 
 ### Start the Local Development Server
 

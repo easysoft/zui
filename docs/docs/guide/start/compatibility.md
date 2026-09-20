@@ -27,7 +27,7 @@ ZUI 3 的发布产物以以下浏览器版本为最低编译目标：
 下列版本是参与源码开发和构建 ZUI 3 的工具要求，不是应用使用 ZUI 运行时产物的要求：
 
 * Node.js 22.13+
-* 包管理器：[pnpm 11.21.0](https://pnpm.io/zh/)
+* 包管理器：[pnpm 12.5.1](https://pnpm.io/zh/)
 * 构建工具：[Vite](https://cn.vitejs.dev/)
 * CSS 工具库：[TailwindCSS](https://tailwindcss.com/)
 * 静态文档网站生成：[VitePress](https://vitepress.dev/)

@@ -3,10 +3,10 @@
   "version": "3.0.0",
   "type": "module",
   "private": true,
-  "packageManager": "pnpm@11.21.0",
+  "packageManager": "pnpm@12.5.1",
   "engines": {
     "node": ">=22.13",
-    "pnpm": "11.21.0"
+    "pnpm": "12.5.1"
   },
   "files": [
     "dist/zui"
@@ -69,10 +69,10 @@
     "tinykeys": "^2.1.0"
   },
   "devDependencies": {
+    "@axe-core/playwright": "4.13.0",
     "@eslint/js": "^10.0.1",
     "@faker-js/faker": "^8.4.1",
     "@mertasan/tailwindcss-variables": "^2.7.0",
-    "@axe-core/playwright": "4.13.0",
     "@playwright/test": "1.62.1",
     "@preact/preset-vite": "2.10.6",
     "@stylistic/eslint-plugin": "^5.10.0",
@@ -87,6 +87,7 @@
     "@types/minimist": "^1.2.5",
     "@types/node": "22.20.1",
     "@typescript-eslint/parser": "^8.68.0",
+    "@vitest/coverage-v8": "4.1.10",
     "autoprefixer": "^10.4.21",
     "chokidar": "^3.6.0",
     "colorette": "^2.0.20",
@@ -95,8 +96,8 @@
     "fast-glob": "^3.3.3",
     "fs-extra": "^11.3.2",
     "highlight.js": "^11.11.1",
-    "jsdom": "30.0.1",
     "jquery": "^3.7.1",
+    "jsdom": "30.0.1",
     "markdown-it": "^13.0.2",
     "markdown-it-anchor": "^8.6.7",
     "markdown-it-toc-done-right": "^4.2.0",
@@ -114,7 +115,6 @@
     "vite-plugin-eslint": "^1.8.1",
     "vite-plugin-zip-file": "^2.2.0",
     "vitest": "4.1.10",
-    "@vitest/coverage-v8": "4.1.10",
     "zui-dev": "workspace:*"
   }
 }

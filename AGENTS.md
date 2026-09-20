@@ -6,7 +6,7 @@ ZUI 3 是一个不依赖 JavaScript 框架的 Web UI 组件库。以 pnpm worksp
 
 ## 常用命令
 
-包管理器固定为 **pnpm 11.21.0**（`preinstall` 钩子会拒绝其他包管理器），Node 要求 22.13+。
+包管理器固定为 **pnpm 12.5.1**（`preinstall` 钩子会拒绝其他包管理器），Node 要求 22.13+。
 
 ```sh
 pnpm install               # 安装依赖
