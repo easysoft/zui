@@ -21,9 +21,11 @@ const TYPE_ORDER = new Map([
 
 function usage() {
     return [
-        'Usage: inspect-zui-lib.mjs --root <extension-root> [--lib <folder-or-package>] [--json]',
+        'Usage: inspect-zui-lib.mjs --root <extension-root> [--lib <folder-or-package>] [--search <keywords>] [--json]',
         '',
         'Read-only screening of direct packages under <extension-root>/lib/.',
+        '--search: case-insensitive literal words (OR); searches root/lib, a collection, or one library.',
+        'Search reports up to 8 hits per library; use the host root separately for built-in libraries.',
     ].join('\n');
 }
 
@@ -35,7 +37,7 @@ function parseArgs(argv) {
             options.json = true;
         } else if (argument === '--help' || argument === '-h') {
             options.help = true;
-        } else if (argument === '--root' || argument === '--lib') {
+        } else if (argument === '--root' || argument === '--lib' || argument === '--search') {
             const value = argv[index + 1];
             if (!value || value.startsWith('--')) throw new Error(`Missing value for ${argument}`);
             options[argument.slice(2)] = value;
@@ -45,6 +47,9 @@ function parseArgs(argv) {
         }
     }
     if (!options.help && !options.root) throw new Error('Missing required option: --root <path>');
+    if (options.search !== undefined && !options.search.trim()) {
+        throw new Error('--search requires at least one non-whitespace keyword');
+    }
     return options;
 }
 
@@ -348,6 +353,147 @@ function printTable(root, libraries) {
     }
 }
 
+// Keep this search block identical in both standards skills so either CLI works after installation.
+const SEARCH_MATCH_LIMIT = 8;
+
+async function discoverSearchLibraries(root) {
+    if (!await isDirectory(root)) {
+        throw new Error('Invalid search root: ' + root);
+    }
+    const nestedRoot = path.join(root, 'lib');
+    let collectionRoot = root;
+    if (await isDirectory(nestedRoot)) {
+        collectionRoot = nestedRoot;
+    } else if (await isFile(path.join(root, 'package.json'))) {
+        const packageJson = await readJson(path.join(root, 'package.json'));
+        if (packageJson.name && (packageJson.zui || await isDirectory(path.join(root, 'src')))) {
+            return [{path: root, packageJson}];
+        }
+    }
+    const libraries = [];
+    for (const entry of await readdir(collectionRoot, {withFileTypes: true})) {
+        const libraryPath = path.join(collectionRoot, entry.name);
+        if (!await isFile(path.join(libraryPath, 'package.json'))) {
+            continue;
+        }
+        const packageJson = await readJson(path.join(libraryPath, 'package.json'));
+        if (typeof packageJson.name === 'string' && packageJson.name) {
+            libraries.push({path: libraryPath, packageJson});
+        }
+    }
+    return libraries.sort((left, right) => left.path.localeCompare(right.path));
+}
+
+function searchSnippet(text, terms) {
+    text = text.trim().replace(/\s+/g, ' ');
+    const lower = text.toLowerCase();
+    const positions = terms.map(term => lower.indexOf(term)).filter(position => position >= 0);
+    const start = Math.max(0, Math.min(...positions, text.length) - 70);
+    return (start ? '…' : '') + text.slice(start, start + 220) + (text.length > start + 220 ? '…' : '');
+}
+
+async function searchLibrary(library, terms) {
+    const {packageJson, path: libraryPath} = library;
+    const name = path.basename(libraryPath);
+    const zuiName = packageJson.zui?.name ?? packageJson.name.replace(/^@zui\//, '');
+    const matches = [];
+    let matchesTotal = 0;
+    const contains = text => terms.some(term => text.toLowerCase().includes(term));
+    const addMatch = (kind, file, line, text) => {
+        matchesTotal += 1;
+        if (matches.length < SEARCH_MATCH_LIMIT) {
+            matches.push({kind, file, line, text: searchSnippet(text, terms)});
+        }
+    };
+    const metadata = {
+        folder: name,
+        packageName: packageJson.name,
+        zuiName,
+        displayName: packageJson.zui?.displayName,
+        description: packageJson.description,
+        keywords: Array.isArray(packageJson.keywords) ? packageJson.keywords.join(' ') : packageJson.keywords,
+    };
+    for (const [field, value] of Object.entries(metadata)) {
+        if (typeof value === 'string' && contains(value)) {
+            addMatch('metadata', field === 'folder' ? null : 'package.json', null, field + ': ' + value);
+        }
+    }
+    const sourceFiles = (await listFiles(path.join(libraryPath, 'src')))
+        .filter(file => SOURCE_EXTENSIONS.has(path.extname(file).toLowerCase())).sort();
+    const docFiles = (await listFiles(path.join(libraryPath, 'docs')))
+        .filter(file => path.extname(file).toLowerCase() === '.md').sort();
+    const pageFiles = [];
+    for (const page of ['README.md', 'dev.md']) {
+        const file = path.join(libraryPath, page);
+        if (await isFile(file)) {
+            pageFiles.push(file);
+        }
+    }
+    // ponytail: Literal matches are reuse candidates; verify public exports in source before importing.
+    for (const file of [...sourceFiles, ...pageFiles, ...docFiles]) {
+        const relativeFile = relativePosix(libraryPath, file);
+        if (contains(relativeFile)) {
+            addMatch('path', relativeFile, null, relativeFile);
+        }
+        const lines = (await readFile(file, 'utf8')).split(/\r?\n/);
+        for (const [index, line] of lines.entries()) {
+            if (contains(line)) {
+                addMatch(relativeFile.startsWith('src/') ? 'source' : 'docs', relativeFile, index + 1, line);
+            }
+        }
+    }
+    if (!matchesTotal) {
+        return null;
+    }
+    return {
+        name,
+        packageName: packageJson.name,
+        zuiName,
+        path: libraryPath,
+        displayName: packageJson.zui?.displayName ?? null,
+        description: packageJson.description ?? null,
+        type: packageJson.zui?.type ?? null,
+        wip: Boolean(packageJson.wip || packageJson.zui?.wip),
+        notReady: Boolean(packageJson.notReady || packageJson.zui?.notReady),
+        matchesTotal,
+        matchesTruncated: matchesTotal > matches.length,
+        matches,
+    };
+}
+
+async function searchLibraries(root, options) {
+    const terms = [...new Set(options.search.toLowerCase().trim().split(/\s+/))];
+    let candidates = await discoverSearchLibraries(root);
+    if (options.lib) {
+        const requested = options.lib.toLowerCase();
+        candidates = candidates.filter((library) => {
+            const names = [path.basename(library.path), library.packageJson.name, library.packageJson.zui?.name]
+                .filter(name => typeof name === 'string').map(name => name.toLowerCase());
+            return names.some(name => name === requested || (!requested.includes('/') && name.split('/').at(-1) === requested));
+        });
+        if (!candidates.length) {
+            throw new Error('ZUI library not found: ' + options.lib);
+        }
+    }
+    const libraries = (await Promise.all(candidates.map(library => searchLibrary(library, terms)))).filter(Boolean);
+    const notice = 'Matches are reuse candidates, not verified public exports. Check the package entry and usage before importing.';
+    const report = {root, query: options.search, terms, scanned: candidates.length, count: libraries.length, notice, libraries};
+    if (options.json) {
+        console.log(JSON.stringify(report, null, 2));
+        return;
+    }
+    console.log('ZUI reuse candidates in ' + root + ': ' + libraries.length + ' of ' + candidates.length + ' libraries');
+    console.log(notice);
+    for (const library of libraries) {
+        const status = [library.wip && 'wip', library.notReady && 'not-ready'].filter(Boolean).join(', ') || 'ready';
+        console.log('\n' + library.packageName + ' [' + (library.type ?? 'unknown') + '; ' + status + '] ' + library.path);
+        console.log('  Matches: ' + library.matchesTotal + (library.matchesTruncated ? ' (showing ' + library.matches.length + ', truncated)' : ''));
+        for (const match of library.matches) {
+            console.log('  ' + (match.file ?? '(folder)') + (match.line === null ? '' : ':' + match.line) + ' [' + match.kind + '] ' + match.text);
+        }
+    }
+}
+
 async function main() {
     let options;
     try {
@@ -364,6 +510,10 @@ async function main() {
     }
     try {
         const root = path.resolve(options.root);
+        if (options.search !== undefined) {
+            await searchLibraries(root, options);
+            return;
+        }
         const libRoot = path.join(root, 'lib');
         if (!await isDirectory(libRoot)) throw new Error(`Invalid extension root: ${root} (missing lib/)`);
         const folders = [];

@@ -9,7 +9,7 @@ description: "新建 ZUI 主仓库的完整库，或编排已有库的跨领域�
 
 1. 按 [共享工作流](../zui-standards/references/workflow.md) 完成所需发现并复用已有上下文；读取 [库规范](../zui-standards/references/library.md) 的相关部分。
 2. 判断目标是新库还是已有库，并检查工作区状态。已有库保持合理的局部目录与 API 风格，不顺带迁移无关代码。
-3. 从目标和必要参考识别本次涉及的包角色、贡献与消费方式；需要定位或筛选时使用盘点脚本。仅询问无法发现且会改变本次设计或验收的信息。
+3. 从目标和必要参考识别本次涉及的包角色、贡献与消费方式；按[先查找，再复用](../zui-standards/references/workflow.md#复用已有能力)检索所需组件和 helper，在集成计划中说明复用 API 或新增缺口，并把发现传递给领域技能。仅询问无法发现且会改变本次设计或验收的信息。
 4. 根据请求选择需要的领域，规划时读取影响本次决策的技能和参考部分；实施时沿用这些发现：
    - UI 组件及 Web Component 适配：`../zui-component/SKILL.md`
    - helper/store/utils：`../zui-helper/SKILL.md`

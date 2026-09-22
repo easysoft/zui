@@ -18,10 +18,12 @@ description: "查询独立 ZUI 扩展项目的开发规范，解析目标库、�
    - 官网正式文档：[references/documentation.md](references/documentation.md)
    - `README.md` / `dev.md` 与 `dev.ts`：[references/dev-page.md](references/dev-page.md)
    - 国际化：[references/i18n.md](references/i18n.md)
-3. 从相关源码、类型或实际行为核实本次决策所需事实，按共享工作流的优先级解决冲突。需要筛选目标或参考时可运行：
+3. 新增组件或工具前按[先查找，再复用](references/workflow.md#复用已有能力)检索扩展项目和宿主已有能力，再从入口、类型或实际行为核实。脚本同时保留目标盘点模式：
 
 ```sh
 node <本技能目录>/scripts/inspect-zui-lib.mjs --root <EXT_ROOT> [--lib <目录名或包名>] --json
+node <本技能目录>/scripts/inspect-zui-lib.mjs --root <EXT_ROOT> --search '关键词 symbolName' --json
+node <本技能目录>/scripts/inspect-zui-lib.mjs --root <ZUI_ROOT> --search '关键词 symbolName' --json
 ```
 
 4. 本技能的规范查询阶段保持只读。用户已要求实施时，主流程完成查询后继续进入相应扩展版实施技能，直到其必要确认点或任务完成；仅指出技能名称不构成实施任务交付。由其他技能调用时只提供约束，不增加独立确认门禁，也不由本查询阶段修改文件。

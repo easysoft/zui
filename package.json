@@ -32,7 +32,7 @@
     "test": "vitest run --project unit --project dom",
     "test:watch": "vitest --project unit --project dom",
     "test:coverage": "vitest run --coverage --project unit --project dom",
-    "test:skills": "node --test skills/zui/scripts/inspect-zui-project.test.mjs",
+    "test:skills": "node --test skills/zui/scripts/inspect-zui-project.test.mjs tests/skills/*.test.mjs",
     "test:build": "vitest run --project build",
     "test:e2e": "playwright test",
     "test:e2e:all": "tsx ./scripts/tests/e2e-all.ts",

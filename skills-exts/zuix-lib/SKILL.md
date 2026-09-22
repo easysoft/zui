@@ -11,6 +11,8 @@ description: "新建独立 ZUI 扩展项目的完整库，或编排已有库的�
 
 判断新库或已有库。新库使用 resolver 的 `plannedTargetLibRoot` 记录安全候选位置；scope、版本、依赖和发布策略从扩展项目现状发现，缺失字段留给本次设计，不从目录名猜测。已有库保留合理的局部目录和 API。
 
+按[先查找，再复用](../zuix-standards/references/workflow.md#复用已有能力)检索扩展项目及宿主所需的组件和 helper，在集成计划中说明复用的真实包名、API 或新增缺口，并把发现传递给领域技能。
+
 根据请求选择领域，规划时读取影响本次决策的技能和参考部分，实施时沿用这些发现：
 
 - UI 组件：`../zuix-component/SKILL.md`

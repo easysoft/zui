@@ -11,6 +11,8 @@ description: "在独立 ZUI 扩展项目中设计、实现或修复组件；区�
 
 阅读 [组件规范](../zuix-standards/references/component.md) 的相关部分；运行时加载外部资源再读 external-library 规范，涉及包元数据再读 library 规范，其他领域按需路由。阅读判断本次变更所需的目标源码，架构或契约不清楚时再补充基础设施和相似实现。
 
+新增组件或能力前执行[先查找，再复用](../zuix-standards/references/workflow.md#复用已有能力)，检索当前扩展项目和宿主可组合的已有组件与 helper；设计中说明所复用的真实包名、API 或必须新增的缺口。
+
 ## 理解与设计
 
 1. 从请求、目标源码和 package 元数据推断用途、用户、约束及兼容要求。分别判断包角色和实现架构；不要因为 `zui.type` 是 `component` 就默认使用 Preact。

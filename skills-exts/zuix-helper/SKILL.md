@@ -11,6 +11,8 @@ description: "在独立 ZUI 扩展项目中设计、实现或修复函数、类�
 
 阅读 [helper 规范](../zuix-standards/references/helper.md) 的相关部分；涉及包角色、文档或调试页时再读对应规范。从目标和必要调用方判断库内私有 helper、纯函数/类型、状态类、store/单例或浏览器 DOM 模块，不因“可能复用”擅自创建共享包或扩大公共 API。
 
+新增工具或能力前执行[先查找，再复用](../zuix-standards/references/workflow.md#复用已有能力)，检索当前扩展项目和宿主已有 helper、类型与基础设施；设计中说明所复用的真实包名、API 或必须新增的缺口。
+
 ## API 设计
 
 按本次涉及的 helper 类别和变化选择以下决策，未变化的契约引用现状：
