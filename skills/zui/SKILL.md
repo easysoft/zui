@@ -94,4 +94,4 @@ Read [references/troubleshooting.md](references/troubleshooting.md) when styles,
 4. For declarative or routed content, verify both the initial page and dynamically inserted content.
 5. Report the detected ZUI version and consumption mode, changed files, validation performed, and any behavior that could not be verified.
 
-If the target is the ZUI source repository itself and the request changes `lib/*`, stop using this consumer workflow and follow that repository's internal ZUI development skills and confirmation gates.
+If the target is the ZUI source repository itself and the request changes `lib/*`, stop using this consumer workflow and follow that repository's internal ZUI development skills and shared workflow.

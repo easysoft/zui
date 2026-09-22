@@ -30,7 +30,7 @@ lib/<name>/
   src/style/...                    # 仅壳层或外部库需要
   README.md                        # 调试页 DOM
   dev.ts                           # 本地 loader 覆盖与交互
-  docs/lib/.../index.md            # 仅批准正式文档时
+  docs/lib/.../index.md            # 仅任务包含正式文档时
 ```
 
 生产入口必须能触达 loader 注册和必要样式副作用。私有 loader 不从 `src/main.ts` 导出；只有用户确实需要自行预加载、重试或读取模块时，才设计稳定的公共加载 API。

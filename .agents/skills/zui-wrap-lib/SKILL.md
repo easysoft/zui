@@ -1,6 +1,6 @@
 ---
 name: zui-wrap-lib
-description: "将已经可用的 UMD/IIFE 资源封装为 ZUI 主仓库的 lib/* 库，通过 LibLoader 按需加载。不转换资源格式，实施须批准集成计划。"
+description: "将已经可用的 UMD/IIFE 资源封装为 ZUI 主仓库的 lib/* 库，通过 LibLoader 按需加载。不转换资源格式，需求明确时形成集成计划后直接实施。"
 ---
 
 # ZUI UMD 库封装
@@ -24,7 +24,7 @@ description: "将已经可用的 UMD/IIFE 资源封装为 ZUI 主仓库的 lib/*
    - `../zui-standards/references/external-library.md`
    - UI 组件再读 `../zui-standards/references/component.md`；无状态函数或服务 facade 再读 `../zui-standards/references/helper.md`。
    - 纳入 `README.md` / `dev.ts` 或正式文档时，再读对应的 `dev-page.md` / `documentation.md`。
-3. 按需读取 [references/wrapper-shapes.md](references/wrapper-shapes.md) 的形态判断及所选形态约束，再按范围读取 `../zui-lib/SKILL.md`、`../zui-component/SKILL.md`、`../zui-helper/SKILL.md`、`../zui-dev/SKILL.md` 或 `../zui-doc/SKILL.md`；由本技能统一它们的确认门禁。
+3. 按需读取 [references/wrapper-shapes.md](references/wrapper-shapes.md) 的形态判断及所选形态约束，再按范围读取 `../zui-lib/SKILL.md`、`../zui-component/SKILL.md`、`../zui-helper/SKILL.md`、`../zui-dev/SKILL.md` 或 `../zui-doc/SKILL.md`；由本技能统一它们的任务范围与计划。
 4. 检查工作区状态并保留已有修改。确认目标是新建 `lib/<name>` 还是扩展已有库，不覆盖无关文件。
 5. 检查 UMD 产物或其文档，只提取封装所需事实：资源位置、全局名、构造器/函数、初始化参数、返回值、事件、更新与销毁 API、配套 CSS/资源、版本和许可证。不要把“确认可直接使用”变成转制或重打包工作。
 6. 核实本次涉及的 `LibLoader`/`getLib` 契约；需要参考时，可从 `lib/sortable/src/helper/sortable-loader.ts` 和 `lib/sortable/src/vanilla/sortable.ts` 检查加载及生命周期模式，再按证据需要补充相近实现。
@@ -51,27 +51,27 @@ description: "将已经可用的 UMD/IIFE 资源封装为 ZUI 主仓库的 lib/*
 
 ## 一次集成计划
 
-尚无适用批准时，在修改任何目标库文件前按共享工作流输出可直接实施的拟实施计划，并等待用户明确确认；以下仅展开本次相关决策：
+按共享工作流形成可直接实施的集成计划；以下仅展开本次相关决策：
 
 - 新建/已有库、包角色、实现架构及必要参考依据；
 - UMD 来源与版本、目标 `public/` 路径或绝对 URL、全局名、loader 注册与资源依赖；
 - package 名称、入口、依赖、`zui` 元数据和 publicPath 决策；
 - 类型策略、公开 API、消费方式、状态/数据流、错误重试、更新与 destroy；
 - 精确文件集，以及 README/dev、正式文档、样式和 i18n 的纳入/排除；
-- 运行时验收场景、静态验证、仍存在的假设和明确标记的“拟实施范围”。
+- 运行时验收场景、静态验证、仍存在的假设和本次任务范围。
 
-批准复用、修订回复、增量范围和等待期间的推进遵循共享工作流，始终服从当前协作模式。
+需求明确后直接实施；任务范围、必要澄清及协作模式遵循共享工作流。
 
 ## 实施
 
-1. 确认后重新检查工作区状态，仅修改批准范围。
+1. 重新检查工作区状态，仅修改任务范围。
 2. 新库按 `@zui/<kebab-name>`、`0.0.1`、真实入口、准确依赖和 `zui.contributes` 创建最小骨架；`publicPath` 只在构建后的资源目录不同于库名时声明。已有库沿用合理结构，不顺带规范化。
-3. 将用户提供的 UMD/CSS/许可证文件原样放入批准的 `public/` 位置，或为已批准的绝对 URL 配置 loader。不要编辑、压缩、转译或生成第三方产物。
+3. 将用户提供的 UMD/CSS/许可证文件原样放入计划中的 `public/` 位置，或为选定的绝对 URL 配置 loader。不要编辑、压缩、转译或生成第三方产物。
 4. 在库内私有 helper 中创建唯一的 `LibLoader<T>`，显式配置 `src` 和 `check`；多个组件共享同一个 loader，不在组件类维护第二份模块缓存。
 5. 优先使用第三方声明的 `import type`；没有可靠声明时只手写封装实际使用的窄接口。公共类型引用第三方包时，确保消费者能解析相应依赖。
-6. 按批准形态实现 facade。每次异步加载后检查模块结果和实例存活状态；定义加载前方法行为；在 `destroy()` 中清理第三方实例、监听、DOM 和其他副作用。
+6. 按选定形态实现 facade。每次异步加载后检查模块结果和实例存活状态；定义加载前方法行为；在 `destroy()` 中清理第三方实例、监听、DOM 和其他副作用。
 7. 仅创建真实需要的局部入口、`src/main.ts`、Preact 子入口、注册副作用和样式。不要公开私有 loader，也不要为理论消费方式创建空目录或导出。
-8. 批准范围包含调试页时，按 `zui-dev` 完成 `README.md` 与 `dev.ts`：先导入生产入口，再用相同注册名和 `check` 覆盖本地 `/lib/<name>/public/...` 路径，并在 HMR 重建前销毁旧实例。正式文档只在批准范围内按 `zui-doc` 实施。
+8. 任务范围包含调试页时，按 `zui-dev` 完成 `README.md` 与 `dev.ts`：先导入生产入口，再用相同注册名和 `check` 覆盖本地 `/lib/<name>/public/...` 路径，并在 HMR 重建前销毁旧实例。正式文档只在任务范围内按 `zui-doc` 实施。
 9. 若修改依赖，使用 pnpm 更新安装状态和锁文件；不要使用 npm、yarn 或 npx。
 
 ## 验证与交付
@@ -86,6 +86,6 @@ pnpm build -- --lib=<name> --noMinify
 
 根据本次涉及的类型、文档或交互补充必要检查，并按共享工作流完成范围内修复和复验。开发服务管理遵循共享工作流及 `AGENTS.md`，按归属和临时验证/持续预览用途处理。
 
-新增封装或改变相应运行时行为时，按变更选择以下验收项目：首次使用才加载、预载全局不重复加载、多实例、加载失败与批准的重试/降级策略、加载返回前销毁、更新、重复初始化和最终清理；同时核对构建后的 public 资源路径及第三方类型解析。
+新增封装或改变相应运行时行为时，按变更选择以下验收项目：首次使用才加载、预载全局不重复加载、多实例、加载失败与选定的重试/降级策略、加载返回前销毁、更新、重复初始化和最终清理；同时核对构建后的 public 资源路径及第三方类型解析。
 
 交付时报告新增/修改文件、公开 API、UMD 资源与全局名、已运行验证和未验证风险，并保留用户原有未提交改动。
