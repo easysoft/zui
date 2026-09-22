@@ -1,6 +1,6 @@
 ---
 name: zuix-wrap-lib
-description: "将已经可用的 UMD/IIFE 资源封装为独立 ZUI 扩展包，通过 LibLoader 按需加载。不转换资源格式，实施须批准集成计划。"
+description: "将已经可用的 UMD/IIFE 资源封装为独立 ZUI 扩展包，通过 LibLoader 按需加载。不转换资源格式，需求明确时完成集成计划后直接实施。"
 ---
 
 # ZUI 扩展项目 UMD 库封装
@@ -19,7 +19,7 @@ description: "将已经可用的 UMD/IIFE 资源封装为独立 ZUI 扩展包，
 
 按 [共享工作流](../zuix-standards/references/workflow.md) 解析本次所需上下文、读取适用规则并检查所有权；已有且未变化的发现直接复用。新库使用 `plannedTargetLibRoot` 记录安全候选位置，包标识从目标扩展项目的契约推导。
 
-按需读取 library、external-library 及宿主相关的 extension-library 规范；从 [references/wrapper-shapes.md](references/wrapper-shapes.md) 读取形态判断与所选形态约束。涉及组件/helper、调试页、正式文档或 i18n 时，再读对应 `zuix-*` 技能中影响本次决策的部分，由本技能统一确认门禁。
+按需读取 library、external-library 及宿主相关的 extension-library 规范；从 [references/wrapper-shapes.md](references/wrapper-shapes.md) 读取形态判断与所选形态约束。涉及组件/helper、调试页、正式文档或 i18n 时，再读对应 `zuix-*` 技能中影响本次决策的部分，由本技能统一规划和编排。
 
 检查用户指定版本的产物和许可证，核实资源位置、全局名、实际调用的 API 及相关 CSS/资源；文件后缀不能证明它是 UMD。核实本次涉及的当前宿主 `LibLoader`/`getLib` 契约，必要时参考相近的扩展或宿主实现。
 
@@ -45,7 +45,7 @@ description: "将已经可用的 UMD/IIFE 资源封装为独立 ZUI 扩展包，
 
 ## 一次集成计划
 
-尚无适用批准时，在修改任何文件前按共享工作流输出可直接实施的拟实施计划，并等待用户明确确认；以下仅展开本次相关决策：
+按共享工作流完成必要的集成计划后直接实施；计划仅展开本次相关决策：
 
 - 四层上下文、新建/已有库、真实命名字段、包角色、架构及必要参考依据；
 - UMD 来源、版本、许可证、目标 `public/` 路径、全局名、loader 注册和资源依赖；
@@ -53,20 +53,20 @@ description: "将已经可用的 UMD/IIFE 资源封装为独立 ZUI 扩展包，
 - 类型策略、公开 API、消费方式、数据流、error/retry、update/destroy；
 - `extensionRoot` 内精确文件集，以及 README/dev、正式文档、样式、i18n 的纳入/排除；
 - 扩展侧检查与 `zuiRoot + extsName` 宿主联合验收、剩余假设；
-- 明确标记的“拟实施范围”。
+- 任务范围。
 
-批准复用、修订回复、增量范围和等待期间的推进遵循共享工作流，始终服从当前协作模式。
+任务范围、已明确决定和必要澄清遵循共享工作流，始终服从当前协作模式。
 
 ## 实施
 
-1. 确认后检查 `gitRoot` 状态，按共享工作流复用或刷新受影响的上下文，仅修改批准范围。新库最小 package 建立后重新解析，把 `plannedTargetLibRoot` 升级为真实 `targetLibRoot` 并核对实际标识。
+1. 当前模式允许编辑时检查 `gitRoot` 状态，按共享工作流复用或刷新受影响的上下文，仅修改任务范围。新库最小 package 建立后重新解析，把 `plannedTargetLibRoot` 升级为真实 `targetLibRoot` 并核对实际标识。
 2. 新包的 scope、版本、description、入口、exports、依赖协议和 `zui` 元数据从 `extensionRoot` 当前配置及成熟兄弟包推导；不用 `@zui/*`、`workspace:*`、`link:` 或固定版本模板代替事实。`publicPath` 只在宿主实际要求或非默认路径时声明。
-3. 将用户提供的 UMD/CSS/license 原样放入批准的 `targetLibRoot/public/`，或使用已批准且版本固定的绝对 URL；不编辑、压缩、转译或生成第三方产物。
+3. 将用户提供的 UMD/CSS/license 原样放入任务所需的 `targetLibRoot/public/`，或使用任务确定且版本固定的绝对 URL；不编辑、压缩、转译或生成第三方产物。
 4. 在目标包私有 helper 中创建唯一 `LibLoader<T>`，显式配置 `src` 和 `check`。多个 facade 共享 loader，不在组件类维护第二份模块缓存。
 5. 优先使用与 UMD 全局形状一致的第三方类型声明；只使用 `import type`。没有可靠声明时手写 facade 实际需要的窄接口；公共类型引用第三方包时确保消费者可解析。
 6. 每次异步加载后检查模块结果和实例存活状态；定义加载前方法、失败和显式重试行为；`destroy()` 清理第三方实例、监听、DOM 及其他副作用。
 7. 只创建真实需要的入口、component/vanilla/helper/types/style 和注册副作用；沿用扩展项目合理局部目录风格，不公开私有 loader，不创建空目录。
-8. 批准范围包含调试页时，按扩展版 `zuix-dev` 完成调试源：生产入口先注册相对资源，再用相同注册名和 `check` 覆盖宿主实际 `/exts/<extsName>/<folderName>/public/...` 地址；`extsName` 未解析时不得写猜测值。HMR 重建前销毁旧实例。正式文档只在批准范围内实施。
+8. 任务范围包含调试页时，按扩展版 `zuix-dev` 完成调试源：生产入口先注册相对资源，再用相同注册名和 `check` 覆盖宿主实际 `/exts/<extsName>/<folderName>/public/...` 地址；`extsName` 未解析时不得写猜测值。HMR 重建前销毁旧实例。正式文档只在任务范围内实施。
 9. 依赖和 lockfile 在 `extensionRoot` 按实际 pnpm 策略更新；不修改宿主依赖、锁文件或注册；宿主生成物和缓存写入遵循共享工作流的验证隔离与批准规则。
 
 ## 验证与交付

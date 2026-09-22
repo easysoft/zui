@@ -60,18 +60,18 @@ node .agents/skills/zuix-standards/scripts/inspect-zui-lib.mjs \
 
 ## 技能一览
 
-| 技能 | 用途 | 默认门禁 |
+| 技能 | 用途 | 实施方式 |
 | --- | --- | --- |
 | `zuix-standards` | 解析上下文并查询扩展开发规范 | 始终只读 |
-| `zuix-component` | 开发 CSS、Preact、vanilla 或组合组件 | 先给出完整计划并确认 |
-| `zuix-helper` | 开发函数、类型、store、类和浏览器 helper | 先给出 API 计划并确认 |
-| `zuix-lib` | 新建完整扩展包或编排跨领域改动 | 汇总一份计划，只确认一次 |
+| `zuix-component` | 开发 CSS、Preact、vanilla 或组合组件 | 需求明确时完成必要设计后直接实施 |
+| `zuix-helper` | 开发函数、类型、store、类和浏览器 helper | 需求明确时完成必要 API 规划后直接实施 |
+| `zuix-lib` | 新建完整扩展包或编排跨领域改动 | 汇总集成计划后直接实施 |
 | `zuix-i18n` | 审计、接入和完善国际化 | 目标明确时直接实施 |
 | `zuix-doc` | 维护扩展包官网正式文档源 | 目标明确时直接实施 |
 | `zuix-dev` | 维护 README/dev 页面和 `dev.ts` | 目标明确时直接实施 |
 | `zuix-review` | 只读评审指定 diff，默认未提交改动或未推送提交 | 始终只读 |
-| `zuix-optimize` | 审计或优化一个、多个或全部扩展包 | 审计只读；修改前统一确认 |
-| `zuix-wrap-lib` | 将 ready-to-use UMD/IIFE 封装为扩展包 | 先给出集成计划并确认 |
+| `zuix-optimize` | 审计或优化一个、多个或全部扩展包 | 仅审计时只读；要求优化或修复时连续完成规划与实施 |
+| `zuix-wrap-lib` | 将 ready-to-use UMD/IIFE 封装为扩展包 | 完成集成计划后直接实施 |
 | `zuix-commit` | 审查并提交，或按请求只读分析和生成 message | 直接调用即授权提交；检查通过后不再确认 |
 
 ## 核心原则
