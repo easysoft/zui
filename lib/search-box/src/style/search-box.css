@@ -4,3 +4,6 @@
 .search-box.compact.has-suffix-icon {
   --input-control-suffix: 24px;
 }
+.search-box .form-control {
+  @apply -outline-offset-0;
+}
