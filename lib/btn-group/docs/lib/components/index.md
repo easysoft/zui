@@ -12,9 +12,9 @@
 
 <Example class="row gap-4">
   <div class="btn-group">
-    <button class="btn active" type="button">详情</button>
-    <button class="btn" type="button">编辑</button>
-    <button class="btn" type="button">删除</button>
+    <button class="btn active" type="button">概览</button>
+    <button class="btn" type="button">成员</button>
+    <button class="btn" type="button">动态</button>
   </div>
 </Example>
 
@@ -22,9 +22,9 @@
 
 ```html
 <div class="btn-group">
-  <button class="btn active" type="button">查看详情</button>
-  <button class="btn" type="button">编辑</button>
-  <button class="btn" type="button">删除</button>
+  <button class="btn active" type="button">概览</button>
+  <button class="btn" type="button">成员</button>
+  <button class="btn" type="button">动态</button>
 </div>
 ```
 
@@ -86,29 +86,29 @@
 
 <Example class="col gap-4">
   <div class="btn-group size-xs">
-    <button class="btn" type="button"><i class="icon icon-search"></i></button>
-    <button class="btn" type="button"><i class="icon icon-edit"></i></button>
-    <button class="btn" type="button"><i class="icon icon-trash"></i></button>
+    <button class="btn" type="button" aria-label="查找文件"><i class="icon icon-search"></i></button>
+    <button class="btn" type="button" aria-label="编辑文件"><i class="icon icon-edit"></i></button>
+    <button class="btn" type="button" aria-label="删除文件"><i class="icon icon-trash"></i></button>
   </div>
   <div class="btn-group size-sm">
-    <button class="btn" type="button"><i class="icon icon-search"></i></button>
-    <button class="btn" type="button"><i class="icon icon-edit"></i></button>
-    <button class="btn" type="button"><i class="icon icon-trash"></i></button>
+    <button class="btn" type="button" aria-label="查找文件"><i class="icon icon-search"></i></button>
+    <button class="btn" type="button" aria-label="编辑文件"><i class="icon icon-edit"></i></button>
+    <button class="btn" type="button" aria-label="删除文件"><i class="icon icon-trash"></i></button>
   </div>
   <div class="btn-group">
-    <button class="btn" type="button"><i class="icon icon-search"></i></button>
-    <button class="btn" type="button"><i class="icon icon-edit"></i></button>
-    <button class="btn" type="button"><i class="icon icon-trash"></i></button>
+    <button class="btn" type="button" aria-label="查找文件"><i class="icon icon-search"></i></button>
+    <button class="btn" type="button" aria-label="编辑文件"><i class="icon icon-edit"></i></button>
+    <button class="btn" type="button" aria-label="删除文件"><i class="icon icon-trash"></i></button>
   </div>
   <div class="btn-group size-lg">
-    <button class="btn" type="button"><i class="icon icon-search"></i></button>
-    <button class="btn" type="button"><i class="icon icon-edit"></i></button>
-    <button class="btn" type="button"><i class="icon icon-trash"></i></button>
+    <button class="btn" type="button" aria-label="查找文件"><i class="icon icon-search"></i></button>
+    <button class="btn" type="button" aria-label="编辑文件"><i class="icon icon-edit"></i></button>
+    <button class="btn" type="button" aria-label="删除文件"><i class="icon icon-trash"></i></button>
   </div>
   <div class="btn-group size-xl">
-    <button class="btn" type="button"><i class="icon icon-search"></i></button>
-    <button class="btn" type="button"><i class="icon icon-edit"></i></button>
-    <button class="btn" type="button"><i class="icon icon-trash"></i></button>
+    <button class="btn" type="button" aria-label="查找文件"><i class="icon icon-search"></i></button>
+    <button class="btn" type="button" aria-label="编辑文件"><i class="icon icon-edit"></i></button>
+    <button class="btn" type="button" aria-label="删除文件"><i class="icon icon-trash"></i></button>
   </div>
 </Example>
 
@@ -116,29 +116,29 @@
 
 ```html
 <div class="btn-group size-xs">
-  <button class="btn" type="button"><i class="icon icon-search"></i></button>
-  <button class="btn" type="button"><i class="icon icon-edit"></i></button>
-  <button class="btn" type="button"><i class="icon icon-trash"></i></button>
+  <button class="btn" type="button" aria-label="查找文件"><i class="icon icon-search"></i></button>
+  <button class="btn" type="button" aria-label="编辑文件"><i class="icon icon-edit"></i></button>
+  <button class="btn" type="button" aria-label="删除文件"><i class="icon icon-trash"></i></button>
 </div>
 <div class="btn-group size-sm">
-  <button class="btn" type="button"><i class="icon icon-search"></i></button>
-  <button class="btn" type="button"><i class="icon icon-edit"></i></button>
-  <button class="btn" type="button"><i class="icon icon-trash"></i></button>
+  <button class="btn" type="button" aria-label="查找文件"><i class="icon icon-search"></i></button>
+  <button class="btn" type="button" aria-label="编辑文件"><i class="icon icon-edit"></i></button>
+  <button class="btn" type="button" aria-label="删除文件"><i class="icon icon-trash"></i></button>
 </div>
 <div class="btn-group">
-  <button class="btn" type="button"><i class="icon icon-search"></i></button>
-  <button class="btn" type="button"><i class="icon icon-edit"></i></button>
-  <button class="btn" type="button"><i class="icon icon-trash"></i></button>
+  <button class="btn" type="button" aria-label="查找文件"><i class="icon icon-search"></i></button>
+  <button class="btn" type="button" aria-label="编辑文件"><i class="icon icon-edit"></i></button>
+  <button class="btn" type="button" aria-label="删除文件"><i class="icon icon-trash"></i></button>
 </div>
 <div class="btn-group size-lg">
-  <button class="btn" type="button"><i class="icon icon-search"></i></button>
-  <button class="btn" type="button"><i class="icon icon-edit"></i></button>
-  <button class="btn" type="button"><i class="icon icon-trash"></i></button>
+  <button class="btn" type="button" aria-label="查找文件"><i class="icon icon-search"></i></button>
+  <button class="btn" type="button" aria-label="编辑文件"><i class="icon icon-edit"></i></button>
+  <button class="btn" type="button" aria-label="删除文件"><i class="icon icon-trash"></i></button>
 </div>
 <div class="btn-group size-xl">
-  <button class="btn" type="button"><i class="icon icon-search"></i></button>
-  <button class="btn" type="button"><i class="icon icon-edit"></i></button>
-  <button class="btn" type="button"><i class="icon icon-trash"></i></button>
+  <button class="btn" type="button" aria-label="查找文件"><i class="icon icon-search"></i></button>
+  <button class="btn" type="button" aria-label="编辑文件"><i class="icon icon-edit"></i></button>
+  <button class="btn" type="button" aria-label="删除文件"><i class="icon icon-trash"></i></button>
 </div>
 ```
 
