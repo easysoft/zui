@@ -72,11 +72,11 @@ const largeList = new zui.List('#largeDocumentList', {
 
 :::
 
-`showMoreText` 支持包含 `{count}` 的字符串，或接收剩余条目数量并返回 `CustomContentType` 的回调。未设置时，使用当前语言的默认提示，支持简体中文、繁体中文和英文。例如，10000 项数据可以首次显示 100 项，之后每次追加 50 项：
+`showMoreText` 支持包含 `{count}` 的字符串，或接收剩余条目数量并返回 `CustomContentType` 的回调。未设置时，使用当前语言的默认提示，支持简体中文、繁体中文和英文。例如，以下按固定顺序生成的 10000 条工单用于演示分批显示，可以首次显示 100 项，之后每次追加 50 项：
 
 ```js
 largeList.render({
-    items: Array.from({length: 10000}, (_, index) => ({id: `item-${index}`, text: `条目 ${index + 1}`})),
+    items: Array.from({length: 10000}, (_, index) => ({id: `item-${index}`, text: `工单 #${10001 + index} · ${['登录问题', '附件预览', '导出报表', '消息通知'][index % 4]}`})),
     maxVisibleItems: 100,
     showMoreStep: 50,
     showMoreText: count => `剩余 ${count} 项，点击再显示 50 项`,
@@ -102,7 +102,7 @@ largeList.render({
 == 示例
 
 <Example>
-  <div class="h-64 overflow-auto" tabindex="0" role="region" aria-label="自动分批显示列表">
+  <div class="h-64 overflow-auto" tabindex="0" role="region" aria-label="自动分批显示的客户工单">
     <ZUI use="list" :options="{items: autoMoreItems, maxVisibleItems: 20, showMoreStep: 10, autoShowMore: true}" />
   </div>
 </Example>
@@ -110,7 +110,7 @@ largeList.render({
 == HTML
 
 ```html
-<div class="h-64 overflow-auto" tabindex="0" role="region" aria-label="自动分批显示列表">
+<div class="h-64 overflow-auto" tabindex="0" role="region" aria-label="自动分批显示的客户工单">
     <ul id="autoDocumentList"></ul>
 </div>
 ```
@@ -119,7 +119,7 @@ largeList.render({
 
 ```js
 const autoList = new zui.List('#autoDocumentList', {
-    items: Array.from({length: 1000}, (_, index) => ({id: `auto-${index}`, text: `条目 ${index + 1}`})),
+    items: Array.from({length: 1000}, (_, index) => ({id: `auto-${index}`, text: `工单 #${10001 + index} · ${['登录问题', '附件预览', '导出报表', '消息通知'][index % 4]}`})),
     maxVisibleItems: 20,
     showMoreStep: 10,
     autoShowMore: true,
@@ -266,8 +266,8 @@ beforeDestroy?: () =&gt; void; // 销毁前调用。
 原生实例使用 `render(options)` 更新选项，内部 Preact 实例通过 `$` 访问。以下方法在初始化完成后使用：
 
 ```js
-list.render({items: [{id: 'new', text: '新条目'}]});
-await list.$?.toggleChecked('new', true);
+list.render({items: [{id: 'release-notes', text: '客户门户 v1.2 发布说明'}]});
+await list.$?.toggleChecked('release-notes', true);
 const checks = list.$?.getChecks();
 await list.$?.toggleActive('new', true);
 const activeKeys = list.$?.getActiveKeys();
@@ -288,5 +288,5 @@ import type {ListProps, ListItem, NestedListProps} from '@zui/list';
 Preact 入口使用时还需加载包含列表样式的 ZUI CSS。列表不会自动成为键盘菜单；导航项应使用链接，操作项应提供可聚焦的按钮，勾选场景可使用复选框的原生键盘操作。
 
 <script setup>
-const autoMoreItems = Array.from({length: 1000}, (_, index) => ({id: `auto-${index}`, text: `条目 ${index + 1}`}));
+const autoMoreItems = Array.from({length: 1000}, (_, index) => ({id: `auto-${index}`, text: `工单 #${10001 + index} · ${['登录问题', '附件预览', '导出报表', '消息通知'][index % 4]}`}));
 </script>
