@@ -11,7 +11,7 @@
 == 示例
 
 <Example>
-  <div data-zui="colorPicker" data-heading="选择颜色" data-default-value="#0ea5e9"></div>
+  <div data-zui="colorPicker" data-heading="项目标签颜色" data-default-value="#0ea5e9"></div>
 </Example>
 
 == HTML
@@ -24,7 +24,7 @@
 
 ```js
 const colorPicker = new ColorPicker('#myColorPicker', {
-    heading: '选择颜色',
+    heading: '项目标签颜色',
     defaultValue: '#0ea5e9',
 });
 ```
@@ -40,7 +40,7 @@ const colorPicker = new ColorPicker('#myColorPicker', {
 == 示例
 
 <Example>
-  <div data-zui="colorPicker" data-heading="选择颜色" data-default-value="#374259" data-colors="#0079FF,#00DFA2,#F6FA70,#FF0060,#F2D8D8,#5C8984,#545B77,#374259"></div>
+  <div data-zui="colorPicker" data-heading="项目标签颜色" data-default-value="#3b82f6" data-colors="#3b82f6,#22c55e,#f59e0b,#ef4444,#8b5cf6,#64748b"></div>
 </Example>
 
 == HTML
@@ -53,9 +53,9 @@ const colorPicker = new ColorPicker('#myColorPicker', {
 
 ```JavaScript
 const colorPicker = new ColorPicker('#myColorPicker', {
-    heading: '选择颜色',
-    colors: ['#0079FF', '#00DFA2', '#F6FA70', '#FF0060', '#F2D8D8', '#5C8984', '#545B77', '#374259'],
-    defaultValue: '#374259',
+    heading: '项目标签颜色',
+    colors: ['#3b82f6', '#22c55e', '#f59e0b', '#ef4444', '#8b5cf6', '#64748b'],
+    defaultValue: '#3b82f6',
 });
 ```
 
@@ -99,9 +99,9 @@ const colorPicker = new ColorPicker('#myColorPicker', {
 == 示例
 
 <Example class="row gap-4 items-center">
-  <div data-zui="colorPicker" data-heading="选择颜色进行同步" data-sync-value="#syncText" data-sync-color="#syncColor" data-sync-background="#syncBackground" data-sync-border="#syncBorder"></div>
+  <div data-zui="colorPicker" data-heading="项目标签配色预览" data-sync-value="#syncText" data-sync-color="#syncColor" data-sync-background="#syncBackground" data-sync-border="#syncBorder"></div>
   <div class="flex h-8 items-center">颜色值：<span id="syncText" class="font-mono"></span></div>
-  <div id="syncText" class="center h-8 w-16">文字颜色</div>
+  <div id="syncColor" class="center h-8 w-16">文字颜色</div>
   <div id="syncBackground" class="center h-8 w-16">背景色</div>
   <div id="syncBorder" class="center h-8 w-16 border">边框色</div>
 </Example>
@@ -111,7 +111,7 @@ const colorPicker = new ColorPicker('#myColorPicker', {
 ```html
 <div id="myColorPicker"></div>
 <div class="flex h-8 items-center">颜色值：<span id="syncText" class="font-mono"></span></div>
-<div id="syncText" class="center h-8 w-16">文字颜色</div>
+<div id="syncColor" class="center h-8 w-16">文字颜色</div>
 <div id="syncBackground" class="center h-8 w-16">背景色</div>
 <div id="syncBorder" class="center h-8 w-16 border">边框色</div>
 ```
@@ -120,7 +120,7 @@ const colorPicker = new ColorPicker('#myColorPicker', {
 
 ```JS
 const colorPicker = new ColorPicker('#myColorPicker', {
-    heading: '选择颜色进行同步',
+    heading: '项目标签配色预览',
     syncValue: '#syncText',
     syncColor: '#syncColor',
     syncBackground: '#syncBackground',
