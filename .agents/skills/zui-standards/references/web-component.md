@@ -17,20 +17,24 @@
 
 ## 所有权、目录与公开入口
 
-公共基础设施由 `@zui/core` 导出，保留其 `src/web-components/` 目录。具体组件的适配放在所属库的单数目录中：
+具体组件的 Web Component 定义必须在所属库的单数目录 `lib/<lib-name>/src/web-component/` 内实现；独立工厂配置与元素子类均适用。`@zui/core` 的工厂、属性描述符和元素基类属于公共基础设施，保留在 `lib/core/src/web-components/`，不随具体组件的目录约定改名。
 
 ```text
-lib/<name>/src/
+lib/<lib-name>/src/
   component/                 # 已有 Preact 视图（若适用）
   vanilla/                   # 已有原生组件（若适用）
   web-component/
-    <name>.ts                # 元素定义、选项和事件类型
+    <name>.ts                # 元素定义、专用配置/类型和必要的注册函数
     index.ts                 # 汇总该库的元素导出
   main.ts                    # export * from './web-component';
 ```
 
-- 复用原组件的视图或原生类，优先将适配定义与原组件分离；原类无需声明 `static WebComponent`。
-- 元素类/构造器、公开选项、事件类型和必要的 `defineX()` 从目录 `index.ts` 接入 `src/main.ts`；声明对应的 `HTMLElementTagNameMap`。
+参考 Picker：[picker.ts](../../../../lib/picker/src/web-component/picker.ts) 实现元素类、专用类型、`definePicker()` 和标签类型映射，[index.ts](../../../../lib/picker/src/web-component/index.ts) 汇总导出，[main.ts](../../../../lib/picker/src/main.ts) 接入库入口。
+
+- 元素类或工厂调用、Web Component 专用配置、注册函数及类型在 `src/web-component/` 内实现；不能只在该目录转导其他位置的定义。复用的原组件、选项类型和公共 helper 仍留在原有位置，由适配层导入。
+- 不在 `src/vanilla/`、`src/component/` 或 `src/main.ts` 内联 Web Component 定义，也不以根级 `src/web-component.ts` 或具体组件库的复数目录 `src/web-components/` 替代。
+- 新增适配采用独立工厂配置或元素子类，与原组件定义分离；原类无需声明 `static WebComponent`。工厂对已有静态配置的兼容支持不改变新增定义的目录要求。
+- 元素类/构造器、公开选项、事件类型和必要的 `defineX()` 通过目录 `index.ts` 导出，`src/main.ts` 使用 `export * from './web-component';` 接入；在定义文件中声明对应的 `HTMLElementTagNameMap`。
 - 不恢复独立的 `lib/web-components` 包，也不在各库复制 core 运行时；跨库使用公开的 `@zui/<name>` 入口。
 - `./web-component`、`./vanilla` 等包子路径只在确有独立消费需求时提供，并同步 `package.json`、类型解析和构建消费验证。不要根据源码目录猜测包导出。
 - 已有 Pager 提供 `/vanilla`、`/react` 和 `/web-component`；前两者不注册自定义元素，后者及聚合入口会注册。Button、Picker 的主入口导出显式注册函数。按目标库选择和说明注册行为，不将一种方式推广为所有库的默认值。
@@ -122,7 +126,7 @@ declare global {
 
 开发页按目标入口调用 `defineX()` 或导入会注册的模块；每次 `onPageUpdate` 重新查询元素、设置复杂 property 并绑定局部事件，不对旧 DOM 保留闭包。官网预览在客户端挂载并等待 ZUI 可用后注册和赋值，核实文档渲染器能保留自定义标签；卸载时清理页面副作用，元素随断开自行清理。
 
-按变更风险复用现有检查，不为纯目录移动新增重复测试：
+先检查实际定义文件位于 `lib/<lib-name>/src/web-component/`，并追踪其经目录 `index.ts` 到 `src/main.ts` 的导出链；仅存在目录或转导文件不足以通过此项检查。再按变更风险复用现有检查，不为纯目录移动新增重复测试：
 
 - 类型与 DOM：配置推导、目标识别、注册幂等/冲突、注册前赋值、attribute 反射和非法值、程序赋值与用户事件、移动/断开/重连、异步初始化和资源清理。参考 `tests/dom/web-components-*.test.ts*`。
 - 公共入口或构建变化：增加 `pnpm test:build`，验证单库、已承诺独立入口、CSS 和缺少 Custom Elements API 时的导入；不能只验证开发服务器。

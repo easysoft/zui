@@ -38,13 +38,13 @@
 
 `registerReactComponent()` 把 Preact 渲染器登记到自动渲染体系；`Component.register()` 登记 vanilla 组件与 declarative/toggle 能力。两者作用不同，只在公开消费方式需要时接入。
 
-Web Component 是可选消费方式，由各库在单数目录 `src/web-component/` 中定义，通过目录 `index.ts` 和 `src/main.ts` 导出。它使用 Custom Elements 注册与连接生命周期，不依赖页面扫描来创建实例；具体遵循 [Web Component 规范](web-component.md)。
+Web Component 是可选消费方式；一旦提供，定义必须在 `lib/<lib-name>/src/web-component/` 内实现，通过目录 `index.ts` 和 `src/main.ts` 导出。工厂配置和元素子类均遵循此要求，具体参照 [Web Component 目录与入口规范](web-component.md#所有权目录与公开入口)。它使用 Custom Elements 注册与连接生命周期，不依赖页面扫描来创建实例。
 
 Vanilla 子类必须提供稳定的 `static NAME`。`ComponentFromReact` 子类还要提供正确的 `static Component`，并定义替换宿主、render/reset、ref 与 destroy 行为。
 
 ## 目录与入口
 
-- 新库按需使用 `component/`、`vanilla/`、`types/`、`style/`、`i18n/`。
+- 新库按需使用 `component/`、`vanilla/`、`web-component/`、`types/`、`style/`、`i18n/`。
 - 已有库沿用其 `components/` 等合理命名。
 - 局部 `index.ts` 与 `src/main.ts` 显式导出公开类型、组件和类。
 - 样式、注册、i18n 等副作用导入必须从真实消费入口可达。

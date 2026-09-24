@@ -73,12 +73,13 @@ src/
   main.ts
   component/
   vanilla/
+  web-component/             # 提供 Web Component 时使用
   types/
   style/
   i18n/
 ```
 
-不要创建空目录。已有库若使用 `components/`、根级 `vars.css` 或其他合理局部结构，继续沿用；不要为本次功能迁移全库。
+不要创建空目录。Web Component 定义统一在单数目录 `src/web-component/` 内实现，具体遵循[目录与入口规范](web-component.md#所有权目录与公开入口)。其余已有结构如 `components/`、根级 `vars.css` 等合理命名继续沿用；不要为本次功能迁移全库。
 
 入口采用显式导出和必要的副作用导入，例如样式、注册或语言接线。仅暴露承诺的公共 API；内部 helper 保持局部。
 

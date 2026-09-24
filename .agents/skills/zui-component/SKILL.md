@@ -9,7 +9,7 @@ description: "在 ZUI 主仓库的 lib/* 中设计、实现或修复组件及 We
 
 按 [共享工作流](../zui-standards/references/workflow.md) 定位目标、检查所有权并复用已有发现。组件实现读取 [组件规范](../zui-standards/references/component.md) 的相关部分；运行时加载外部资源再读 external-library 规范，涉及包元数据再读 library 规范，其他领域按需路由。
 
-涉及自定义元素时，读取 [Web Component 规范](../zui-standards/references/web-component.md)，按组件能力选择独立工厂配置或元素子类。
+涉及自定义元素时，读取 [Web Component 规范](../zui-standards/references/web-component.md)。无论采用独立工厂配置还是元素子类，定义必须在 `lib/<lib-name>/src/web-component/` 内实现，并经该目录 `index.ts` 和库 `src/main.ts` 导出。
 
 阅读本次判断所需的目标源码；架构或公开契约尚不清楚时再检查相似实现。仅修改目标库，除非任务范围明确包含跨库依赖。
 
