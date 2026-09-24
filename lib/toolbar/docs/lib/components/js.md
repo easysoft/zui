@@ -30,7 +30,7 @@ const toolbar = new zui.Toolbar('#documentToolbar', {
         {id: 'preview', text: '预览', icon: 'eye-open'},
         {type: 'divider'},
         {id: 'more', type: 'dropdown', text: '更多', items: [
-            {text: '导出', icon: 'download-alt', onClick() { console.log('导出'); }},
+            {text: '导出 PDF', icon: 'download-alt', onClick() { console.log('导出 PDF'); }},
             {text: '复制链接', icon: 'link', onClick() { console.log('复制链接'); }},
         ]},
         {id: 'delete', text: '删除', disabled: true},
@@ -56,7 +56,7 @@ const toolbarOptions = {
         {id: 'preview', text: '预览', icon: 'eye-open'},
         {type: 'divider'},
         {id: 'more', type: 'dropdown', text: '更多', items: [
-            {text: '导出', icon: 'download-alt', onClick() { toolbarAction.value = '已选择：导出'; }},
+            {text: '导出 PDF', icon: 'download-alt', onClick() { toolbarAction.value = '已选择：导出 PDF'; }},
             {text: '复制链接', icon: 'link', onClick() { toolbarAction.value = '已选择：复制链接'; }},
         ]},
         {id: 'delete', text: '删除', disabled: true},

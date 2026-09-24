@@ -2,6 +2,8 @@
 
 ## 使用方法
 
+下面分别展示项目状态筛选和会话操作；每组按钮围绕同一种工作场景组织。
+
 ::: tabs
 
 == 示例
@@ -68,17 +70,17 @@
     <button class="btn ghost square" title="粗体" type="button"><i class="icon icon-bold"></i></button>
     <button class="btn ghost square" title="斜体" type="button"><i class="icon icon-italic"></i></button>
     <button class="btn ghost square" title="下划线" type="button"><i class="icon icon-underline"></i></button>
-    <button class="btn ghost square" title="消除线" type="button"><i class="icon icon-strikethrough"></i></button>
-    <button class="btn ghost square" title="清楚格式" type="button"><i class="icon icon-eraser"></i></button>
-    <button class="btn ghost square" title="自动对齐" type="button"><i class="icon icon-align-justify"></i></button>
+    <button class="btn ghost square" title="删除线" type="button"><i class="icon icon-strikethrough"></i></button>
+    <button class="btn ghost square" title="清除格式" type="button"><i class="icon icon-eraser"></i></button>
+    <button class="btn ghost square" title="两端对齐" type="button"><i class="icon icon-align-justify"></i></button>
     <div class="divider"></div>
     <button class="btn ghost square" title="左对齐" type="button"><i class="icon icon-align-left"></i></button>
     <button class="btn ghost square" title="项目符号" type="button"><i class="icon icon-list"></i></button>
     <button class="btn ghost square" title="插入表情" type="button"><i class="icon icon-smile"></i></button>
     <button class="btn ghost square" title="图片" type="button"><i class="icon icon-picture"></i></button>
     <button class="btn ghost square" title="超级链接" type="button"><i class="icon icon-link"></i></button>
-    <button class="btn ghost square" title="后退" type="button"><i class="icon icon-reply"></i></button>
-    <button class="btn ghost square" title="前进" type="button"><i class="icon icon-share-alt"></i></button>
+    <button class="btn ghost square" title="撤销" type="button"><i class="icon icon-reply"></i></button>
+    <button class="btn ghost square" title="重做" type="button"><i class="icon icon-share-alt"></i></button>
     <div class="divider"></div>
     <button class="btn ghost square" title="全屏" type="button"><i class="icon icon-resize"></i></button>
   </nav>
@@ -108,17 +110,17 @@
   <button class="btn ghost square" title="粗体" type="button"><i class="icon icon-bold"></i></button>
   <button class="btn ghost square" title="斜体" type="button"><i class="icon icon-italic"></i></button>
   <button class="btn ghost square" title="下划线" type="button"><i class="icon icon-underline"></i></button>
-  <button class="btn ghost square" title="消除线" type="button"><i class="icon icon-strikethrough"></i></button>
-  <button class="btn ghost square" title="清楚格式" type="button"><i class="icon icon-eraser"></i></button>
-  <button class="btn ghost square" title="自动对齐" type="button"><i class="icon icon-align-justify"></i></button>
+  <button class="btn ghost square" title="删除线" type="button"><i class="icon icon-strikethrough"></i></button>
+  <button class="btn ghost square" title="清除格式" type="button"><i class="icon icon-eraser"></i></button>
+  <button class="btn ghost square" title="两端对齐" type="button"><i class="icon icon-align-justify"></i></button>
   <div class="divider"></div>
   <button class="btn ghost square" title="左对齐" type="button"><i class="icon icon-align-left"></i></button>
   <button class="btn ghost square" title="项目符号" type="button"><i class="icon icon-list"></i></button>
   <button class="btn ghost square" title="插入表情" type="button"><i class="icon icon-smile"></i></button>
   <button class="btn ghost square" title="图片" type="button"><i class="icon icon-picture"></i></button>
   <button class="btn ghost square" title="超级链接" type="button"><i class="icon icon-link"></i></button>
-  <button class="btn ghost square" title="后退" type="button"><i class="icon icon-reply"></i></button>
-  <button class="btn ghost square" title="前进" type="button"><i class="icon icon-share-alt"></i></button>
+  <button class="btn ghost square" title="撤销" type="button"><i class="icon icon-reply"></i></button>
+  <button class="btn ghost square" title="重做" type="button"><i class="icon icon-share-alt"></i></button>
   <div class="divider"></div>
   <button class="btn ghost square" title="全屏" type="button"><i class="icon icon-resize"></i></button>
 </nav>
