@@ -16,8 +16,8 @@
 
 ```js
 const upload = new UploadImgs('#example1', {
-    name: 'files1',
-    tip: '可点击添加或拖拽上传，图片格式支持jpg、jpeg、gif、png',
+    name: 'issueScreenshots',
+    tip: '添加问题截图，支持 JPG、JPEG、GIF 和 PNG',
 });
 ```
 
@@ -31,11 +31,11 @@ const upload = new UploadImgs('#example1', {
 
 ```js
 const upload = new UploadImgs('#example2', {
-    name: 'files2',
+    name: 'reviewScreenshots',
     multiple: true,
     limitCount: 5,
-    exceededCountHint: '超出上传文件数量限制',
-    tip: '可点击添加或拖拽上传，图片格式支持jpg、jpeg、gif、png',
+    exceededCountHint: '最多添加 5 张问题截图。',
+    tip: '添加问题截图，支持 JPG、JPEG、GIF 和 PNG',
 });
 ```
 
@@ -49,11 +49,11 @@ const upload = new UploadImgs('#example2', {
 
 ```js
 const upload = new UploadImgs('#example3', {
-    name: 'files3',
+    name: 'designPreviews',
     multiple: true,
-    limitSize: '50MB',
-    exceededSizeHint: '超出上传文件大小限制',
-    tip: '可点击添加或拖拽上传，图片格式支持jpg、jpeg、gif、png',
+    limitSize: '5MB',
+    exceededSizeHint: '单张预览图不能超过 5 MB，请压缩后重试。',
+    tip: '添加设计预览图，单张不超过 5 MB',
 });
 ```
 
@@ -67,9 +67,10 @@ const upload = new UploadImgs('#example3', {
 
 ```js
 const upload = new UploadImgs('#example4', {
-    name: 'files4',
-    tip: '可点击添加或拖拽上传，图片格式支持jpg、jpeg',
-    accept: 'image/jpg, image/jpeg'
+    name: 'coverImage',
+    multiple: false,
+    tip: '选择封面图片，仅支持 JPG 和 JPEG',
+    accept: 'image/jpeg,.jpg,.jpeg'
 });
 ```
 
@@ -299,10 +300,10 @@ const upload = new UploadImgs('#example4', {
 export default {
     mounted() {
         onZUIReady(() => {
-            new zui.UploadImgs('#example1', {name: 'files1', tip: '可点击添加或拖拽上传，图片格式支持jpg、jpeg、gif、png'});
-            new zui.UploadImgs('#example2', {name: 'files2', multiple: true, limitCount: 5, exceededCountHint: '超出上传文件数量限制', tip: '可点击添加或拖拽上传，图片格式支持jpg、jpeg、gif、png'});
-            new zui.UploadImgs('#example3', {name: 'files3', multiple: true, limitSize: '50MB', exceededSizeHint: '超出上传文件大小限制', tip: '可点击添加或拖拽上传，图片格式支持jpg、jpeg、gif、png'});
-            new zui.UploadImgs('#example4', {name: 'files4', tip: '可点击添加或拖拽上传，图片格式支持jpg、jpeg', accept: 'image/jpg,.png'});
+            new zui.UploadImgs('#example1', {name: 'issueScreenshots', tip: '添加问题截图，支持 JPG、JPEG、GIF 和 PNG'});
+            new zui.UploadImgs('#example2', {name: 'reviewScreenshots', multiple: true, limitCount: 5, exceededCountHint: '最多添加 5 张问题截图。', tip: '添加问题截图，支持 JPG、JPEG、GIF 和 PNG'});
+            new zui.UploadImgs('#example3', {name: 'designPreviews', multiple: true, limitSize: '5MB', exceededSizeHint: '单张预览图不能超过 5 MB，请压缩后重试。', tip: '添加设计预览图，单张不超过 5 MB'});
+            new zui.UploadImgs('#example4', {name: 'coverImage', multiple: false, tip: '选择封面图片，仅支持 JPG 和 JPEG', accept: 'image/jpeg,.jpg,.jpeg'});
         });
     }
 };
