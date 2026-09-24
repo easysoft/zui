@@ -141,7 +141,7 @@ new zui.Split('#splitToggle', {
 通过 `zui.Split.query('#el')` 或 `zui.Component.get` 获取实例后，可调用以下方法进行控制：
 
 ```js
-const split = new zui.Split('#splitBasic');
+const split = zui.Split.query('#splitBasic');
 
 // 读取/设置各分栏尺寸百分比
 const sizes = split.getSizes();
@@ -202,3 +202,32 @@ onDragEnd?: (sizes: number[]) => void;
 - `--split-gutter-size`：分隔条尺寸，由 `gutterSize` 选项决定。
 
 折叠按钮使用 `@zui/css-icons` 的 `chevron` 图标；分隔条与折叠状态样式由 `split.css` 提供（`.gutter`、`.gutter-toggle`、`.is-collapsed` 等）。
+
+<script>
+import {markRaw} from 'vue';
+
+export default {
+    data() {
+        return {splitInstances: [], splitDisposed: false};
+    },
+    mounted() {
+        this.splitDisposed = false;
+        onZUIReady(() => {
+            if (this.splitDisposed) {
+                return;
+            }
+            this.splitInstances = markRaw([
+                new zui.Split('#splitBasic'),
+                new zui.Split('#splitVertical', {vertical: true}),
+                new zui.Split('#splitSizes', {sizes: ['125px', null, null]}),
+                new zui.Split('#splitToggle', {toggleBtn: true, animation: true, minSize: 0}),
+            ]);
+        });
+    },
+    beforeUnmount() {
+        this.splitDisposed = true;
+        this.splitInstances.forEach(instance => instance.destroy(true, true));
+        this.splitInstances = [];
+    },
+};
+</script>
