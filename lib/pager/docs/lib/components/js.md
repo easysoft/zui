@@ -4,6 +4,8 @@
 
 ## 基本使用
 
+以 101 条客户工单为例，每页 10 条，共 11 页；最后一页只有 1 条。可切换每页条数，观察总页数和页码边界的变化。
+
 ::: tabs
 
 == 示例
@@ -28,11 +30,11 @@ const pager = new zui.Pager('#resultPager', {
     recPerPage: 10,
     useState: true,
     items: [
-        {type: 'info', text: '共 {recTotal} 项'},
+        {type: 'info', text: '共 {recTotal} 条工单'},
         {type: 'link', page: 'prev', text: '上一页'},
         {type: 'nav', count: 5},
         {type: 'link', page: 'next', text: '下一页'},
-        {type: 'size-menu', text: '每页 {recPerPage} 项', items: [10, 20, 50]},
+        {type: 'size-menu', text: '每页 {recPerPage} 条', items: [10, 20, 50]},
     ],
     onChangePageInfo(info, event) {
         console.log('加载分页数据', info.page, info.recPerPage);
@@ -44,21 +46,21 @@ const pager = new zui.Pager('#resultPager', {
 
 <script setup>
 import {ref} from 'vue';
-const pagerStatus = ref('第 1 页，每页 10 项');
+const pagerStatus = ref('第 1 页，每页 10 条工单');
 const pagerOptions = {
     page: 1,
     recTotal: 101,
     recPerPage: 10,
     useState: true,
     items: [
-        {type: 'info', text: '共 {recTotal} 项'},
+        {type: 'info', text: '共 {recTotal} 条工单'},
         {type: 'link', page: 'prev', text: '上一页'},
         {type: 'nav', count: 5},
         {type: 'link', page: 'next', text: '下一页'},
-        {type: 'size-menu', text: '每页 {recPerPage} 项', items: [10, 20, 50]},
+        {type: 'size-menu', text: '每页 {recPerPage} 条', items: [10, 20, 50]},
     ],
     onChangePageInfo(info) {
-        pagerStatus.value = `第 ${info.page} 页，每页 ${info.recPerPage} 项`;
+        pagerStatus.value = `第 ${info.page} 页，每页 ${info.recPerPage} 条工单`;
     },
 };
 </script>

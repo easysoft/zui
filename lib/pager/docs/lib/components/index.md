@@ -10,7 +10,7 @@
 
 <Example class="gap-2 col">
   <nav class="pager">
-    <div>共 42 项</div>
+    <div>共 38 条工单，每页 10 条</div>
     <a class="btn ghost">第一页</a>
     <a class="btn ghost square" title="上一页"><i class="icon icon-angle-left"></i></a>
     <a class="btn ghost active">1</a>
@@ -26,7 +26,7 @@
 
 ```html
 <nav class="pager">
-  <div>共 42 项</div>
+  <div>共 38 条工单，每页 10 条</div>
   <a class="btn ghost">第一页</a>
   <a class="btn ghost square" title="上一页"><i class="icon icon-angle-left"></i></a>
   <a class="btn ghost active">1</a>
@@ -42,7 +42,7 @@
 
 ## 简洁样式
 
-简单的翻页。
+以 101 条工单、每页 10 条为例，当前为第 2 页，共 11 页。
 
 ::: tabs
 
@@ -243,7 +243,7 @@
 
 <Example>
   <nav class="gap-1 pager">
-    <div>共 42 项</div>
+    <div>共 56 条工单</div>
     <button class="btn ghost dropdown pager-size-menu size-sm" type="button" data-toggle="dropdown" data-placement="top-start" data-target="#dropdownMenu">
       <span class="text">每页 10 项</span><span class="caret-up"></span>
     </button>
@@ -279,7 +279,7 @@
 
 ```html
 <nav class="gap-1 pager">
-  <div>共 42 项</div>
+  <div>共 56 条工单</div>
   <button class="btn ghost dropdown pager-size-menu size-sm" type="button" data-toggle="dropdown" data-placement="top-start" data-target="#dropdownMenu">
     <span class="text">每页 10 项</span><span class="caret-up"></span>
   </button>
