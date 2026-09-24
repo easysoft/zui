@@ -92,20 +92,22 @@ export class FileList<T extends FileListProps = FileListProps, S extends ListSta
         return (fileIconSetting as FileIconMap)[file.extension] || 'file';
     }
 
-    static getDefaultIconMap() {
-        const typedFileIcons: [string, string[]][] = [
-            ['file-image', ['png', 'jpg', 'jpeg', 'gif', 'bmp', 'webp', 'tiff', 'ico', 'svg']],
-            ['file-audio', ['mp3', 'wav', 'flac', 'ogg', 'm4a', 'wma', 'aac', 'aiff', 'alac']],
-            ['file-video', ['mp4', 'avi', 'mkv', 'mov', 'flv', 'wmv', 'webm']],
-            ['file-archive', ['zip', 'rar', '7z', 'tar', 'gz', 'bz2', 'xz']],
-            ['file-code', ['js', 'ts', 'jsx', 'tsx', 'html', 'css', 'scss', 'less', 'json', 'xml', 'yml', 'yaml', 'toml', 'ini', 'markdown', 'md']],
-            ['file-pdf', ['pdf']],
-            ['file-word', ['doc', 'docx']],
-            ['file-excel', ['xls', 'xlsx']],
-            ['file-powerpoint', ['ppt', 'pptx']],
-            ['file-text', ['txt', 'csv', 'log']],
-        ];
-        return typedFileIcons.reduce((map, [icon, extensions]) => {
+    static fileIconOfTypes: Record<string, string[]> = {
+        'file-image': ['png', 'jpg', 'jpeg', 'gif', 'bmp', 'webp', 'tiff', 'ico', 'svg'],
+        'file-audio': ['mp3', 'wav', 'flac', 'ogg', 'm4a', 'wma', 'aac', 'aiff', 'alac'],
+        'file-video': ['mp4', 'avi', 'mkv', 'mov', 'flv', 'wmv', 'webm'],
+        'file-archive': ['zip', 'rar', '7z', 'tar', 'gz', 'bz2', 'xz'],
+        'file-code': ['js', 'ts', 'jsx', 'tsx', 'html', 'css', 'scss', 'less', 'json', 'xml', 'yml', 'yaml', 'toml', 'ini', 'markdown', 'md'],
+        'file-pdf': ['pdf'],
+        'file-word': ['doc', 'docx'],
+        'file-excel': ['xls', 'xlsx'],
+        'file-powerpoint': ['ppt', 'pptx'],
+        'file-text': ['txt', 'csv', 'log'],
+    };
+
+    static getFileIconMap(fileIconOfTypes?: Record<string, string[]>) {
+        const iconOfTypes = fileIconOfTypes || this.fileIconOfTypes;
+        return Object.entries(iconOfTypes).reduce((map, [icon, extensions]) => {
             extensions.forEach((ext) => {
                 map[ext] = icon;
             });

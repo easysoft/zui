@@ -12,7 +12,7 @@
 
 ## 可选图标
 
-通过 `fileIcon` 指定图标；调用方负责引入相应图标资源。本例使用 `@zui/icons`，并通过 Preact 组件的 `FileList.getDefaultIconMap()` 取得对应映射。
+通过 `fileIcon` 指定图标；调用方负责引入相应图标资源。本例使用 `@zui/icons`，并通过 Preact 组件的 `FileList.getFileIconMap()` 取得对应映射。
 
 ```html:example
 <div id="fileListWithIcons"></div>

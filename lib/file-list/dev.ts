@@ -1,4 +1,5 @@
 import 'zui-dev';
+import '@zui/button';
 import '@zui/icons';
 import {FileList} from './src/main';
 import {FileList as FileListView} from './src/main-react';
@@ -55,6 +56,6 @@ onPageUpdate(() => {
     fileListWithIcons = new FileList('#fileListWithIcons', {
         items: fileList.options.items,
         fileUrl: '#file?id={id}',
-        fileIcon: FileListView.getDefaultIconMap(),
+        fileIcon: FileListView.getFileIconMap(),
     });
 });
