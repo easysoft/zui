@@ -56,14 +56,14 @@ const popover = new zui.Popover('#popoverTrigger', {
 == 示例
 
 <Example>
-  <button type="button" class="btn" zui-toggle="popover" data-trigger="hover" data-content="适合简短的补充说明。" data-placement="right">悬停查看说明</button>
+  <button type="button" class="btn" zui-toggle="popover" data-trigger="hover" data-content="仅项目管理员可以调整发布时间。" data-placement="right">悬停查看说明</button>
 </Example>
 
 == HTML
 
 ```html
 <button type="button" class="btn" zui-toggle="popover"
-  data-trigger="hover" data-content="适合简短的补充说明。"
+  data-trigger="hover" data-content="仅项目管理员可以调整发布时间。"
   data-placement="right">悬停查看说明</button>
 ```
 
@@ -82,13 +82,13 @@ const popover = new zui.Popover('#popoverTrigger', {
 == 示例
 
 <Example>
-  <button type="button" class="btn" zui-toggle="popover" data-target="#existingPopover" data-placement="bottom">打开已有面板</button>
+  <button type="button" class="btn" zui-toggle="popover" data-target="#existingPopover" data-placement="bottom">查看验收清单</button>
   <div class="popover popup" id="existingPopover">
     <div class="popover-heading">
-      <strong class="popover-title">已有内容</strong>
+      <strong class="popover-title">验收清单</strong>
       <button type="button" class="btn ghost square size-sm" data-dismiss="popover" aria-label="关闭"><span class="close" aria-hidden="true"></span></button>
     </div>
-    <div class="popover-content">面板内容由页面维护。</div>
+    <div class="popover-content">工单查询、附件预览和移动端上传均已通过验收。</div>
   </div>
 </Example>
 
@@ -96,14 +96,14 @@ const popover = new zui.Popover('#popoverTrigger', {
 
 ```html
 <button type="button" class="btn" zui-toggle="popover"
-  data-target="#existingPopover" data-placement="bottom">打开已有面板</button>
+  data-target="#existingPopover" data-placement="bottom">查看验收清单</button>
 <div class="popover popup" id="existingPopover">
   <div class="popover-heading">
-    <strong class="popover-title">已有内容</strong>
+    <strong class="popover-title">验收清单</strong>
     <button type="button" class="btn ghost square size-sm"
       data-dismiss="popover" aria-label="关闭"><span class="close" aria-hidden="true"></span></button>
   </div>
-  <div class="popover-content">面板内容由页面维护。</div>
+  <div class="popover-content">工单查询、附件预览和移动端上传均已通过验收。</div>
 </div>
 ```
 
@@ -147,7 +147,7 @@ hideOthers?: boolean; // 显示时关闭其他面板。
 popover.show();
 popover.hide();
 popover.toggle();
-popover.render({content: '更新后的内容'});
+popover.render({content: '验收已完成，等待项目负责人确认发布时间。'});
 popover.updateLayout();
 const shown = popover.shown;
 const target = popover.target;
