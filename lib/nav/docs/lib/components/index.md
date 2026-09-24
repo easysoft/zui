@@ -23,7 +23,7 @@
     <li class="nav-space"></li>
     <li>
       <div class="btn-group">
-        <button type="button" class="btn">预定</button>
+        <button type="button" class="btn">预约演示</button>
         <button type="button" class="btn">在线咨询</button>
       </div>
     </li>
@@ -57,7 +57,7 @@
   <li class="nav-space"></li>
   <li>
     <div class="btn-group">
-      <button type="button" class="btn">预定</button>
+      <button type="button" class="btn">预约演示</button>
       <button type="button" class="btn">在线咨询</button>
     </div>
   </li>
@@ -82,7 +82,7 @@
 
 <Example>
   <menu class="nav">
-    <li class="nav-heading">导航标题</li>
+    <li class="nav-heading">项目工作台</li>
     <li class="item nav-item"><a class="active"><i class="icon icon-home"></i><span class="text">首页</span></a></li>
     <li class="item nav-item"><a><span class="text">产品</span></a></li>
     <li class="item nav-item"><a><span class="text">价格</span></a></li>
@@ -98,7 +98,7 @@
 
 ```html
 <menu class="nav">
-  <li class="nav-heading">导航标题</li>
+  <li class="nav-heading">项目工作台</li>
   ...
 </menu>
 ```
@@ -271,13 +271,13 @@
 
 <Example background="light-circle" class="overflow-auto">
   <menu class="nav nav-steps canvas">
-    <li class="nav-item item"><a class="selected"><span class="text">已激活步骤1</span></a></li>
-    <li class="nav-item item"><a class="selected"><span class="text">已激活步骤2</span></a></li>
-    <li class="nav-item item"><a class="active"><span class="text">当前步骤</span></a></li>
-    <li class="nav-item item"><a class="selected"><span class="text">已激活步骤3</span></a></li>
-    <li class="nav-item item"><a><span class="text">可点击步骤1</span></a></li>
-    <li class="nav-item item"><a><span class="text">可点击步骤2</span></a></li>
-    <li class="nav-item item"><a class="disabled"><span class="text">不可点击步骤</span></a></li>
+    <li class="nav-item item"><a class="selected"><span class="text">填写项目信息</span></a></li>
+    <li class="nav-item item"><a class="selected"><span class="text">确定交付范围</span></a></li>
+    <li class="nav-item item"><a class="active"><span class="text">分配团队成员</span></a></li>
+    <li class="nav-item item"><a><span class="text">设置项目计划</span></a></li>
+    <li class="nav-item item"><a><span class="text">配置通知方式</span></a></li>
+    <li class="nav-item item"><a><span class="text">预览项目设置</span></a></li>
+    <li class="nav-item item"><a class="disabled"><span class="text">完成创建</span></a></li>
   </menu>
 </Example>
 
@@ -285,13 +285,13 @@
 
 ```html
 <menu class="nav nav-steps">
-  <li class="nav-item item"><a class="selected"><span class="text">已激活步骤1</span></a></li>
-  <li class="nav-item item"><a class="selected"><span class="text">已激活步骤2</span></a></li>
-  <li class="nav-item item"><a class="active"><span class="text">当前步骤</span></a></li>
-  <li class="nav-item item"><a class="selected"><span class="text">已激活步骤3</span></a></li>
-  <li class="nav-item item"><a><span class="text">可点击步骤1</span></a></li>
-  <li class="nav-item item"><a><span class="text">可点击步骤2</span></a></li>
-  <li class="nav-item item"><a class="disabled"><span class="text">不可点击步骤</span></a></li>
+  <li class="nav-item item"><a class="selected"><span class="text">填写项目信息</span></a></li>
+  <li class="nav-item item"><a class="selected"><span class="text">确定交付范围</span></a></li>
+  <li class="nav-item item"><a class="active"><span class="text">分配团队成员</span></a></li>
+  <li class="nav-item item"><a><span class="text">设置项目计划</span></a></li>
+  <li class="nav-item item"><a><span class="text">配置通知方式</span></a></li>
+  <li class="nav-item item"><a><span class="text">预览项目设置</span></a></li>
+  <li class="nav-item item"><a class="disabled"><span class="text">完成创建</span></a></li>
 </menu>
 ```
 
