@@ -22,7 +22,7 @@
 <div id="fileSelector"></div>
 
 <script>
-const fileSelector = new zui.FileSelector();
+const fileSelector = new zui.FileSelector('#fileSelector');
 </script>
 ```
 
@@ -46,7 +46,7 @@ const fileSelector = new zui.FileSelector();
 <div id="fileSelector"></div>
 
 <script>
-const fileSelector = new zui.FileSelector({
+const fileSelector = new zui.FileSelector('#fileSelector', {
     mode: 'box'
 });
 </script>
@@ -72,7 +72,7 @@ const fileSelector = new zui.FileSelector({
 <div id="fileSelector"></div>
 
 <script>
-const fileSelector = new zui.FileSelector({
+const fileSelector = new zui.FileSelector('#fileSelector', {
     mode: 'grid'
 });
 </script>
@@ -98,9 +98,9 @@ const fileSelector = new zui.FileSelector({
 <div id="imageSelector"></div>
 
 <script>
-const imageSelector = new zui.ImageSelector();
+const imageSelector = new zui.ImageSelector('#imageSelector');
 // 等价于：
-// const imageSelector = new zui.FileSelector({
+// const imageSelector = new zui.FileSelector('#imageSelector', {
 //     mode: 'grid',
 //     accept: 'image/*,.png,.jpg,.jpeg,.gif'
 // });
@@ -129,7 +129,7 @@ const imageSelector = new zui.ImageSelector();
 <div id="fileSelector"></div>
 
 <script>
-const fileSelector = new zui.FileSelector({
+const fileSelector = new zui.FileSelector('#fileSelector', {
     accept: 'image/*,.png,.jpg,.jpeg,.gif',
     tip: '只支持选择图片'
 });
@@ -156,7 +156,7 @@ const fileSelector = new zui.FileSelector({
 <div id="fileSelector"></div>
 
 <script>
-const fileSelector = new zui.FileSelector({
+const fileSelector = new zui.FileSelector('#fileSelector', {
     maxFileSize: '1MB',
     totalFileSize: '10MB',
     tip: '单个文件不超过 1MB，总文件大小不超过 10MB'
@@ -175,7 +175,7 @@ const fileSelector = new zui.FileSelector({
 == 示例
 
 <Example>
-  <div zui-create="fileSelector" data-max-file-count="3" data-tip="最多选择 3 个文件"></div>
+  <div zui-create="fileSelector" data-max-file-count="3" data-tip="最多添加 3 份验收附件"></div>
 </Example>
 
 == HTML
@@ -184,9 +184,9 @@ const fileSelector = new zui.FileSelector({
 <div id="fileSelector"></div>
 
 <script>
-const fileSelector = new zui.FileSelector({
+const fileSelector = new zui.FileSelector('#fileSelector', {
     maxFileCount: 3,
-    tip: '最多选择 3 个文件'
+    tip: '最多添加 3 份验收附件'
 });
 </script>
 ```
@@ -195,14 +195,14 @@ const fileSelector = new zui.FileSelector({
 
 ## 预设文件
 
-通过设置 `defaultFiles` 属性可以预设文件列表，预设文件不会触发 `onAdd` 回调函数和 `onSelect` 回调函数。
+通过设置 `defaultFiles` 属性可以预设文件列表，预设文件不会触发 `onAdd` 回调函数和 `onSelect` 回调函数。下面使用两份示例附件元数据和一张可预览的头像图片，展示不同文件类型与大小。
 
 ::: tabs
 
 == 示例
 
 <Example>
-  <div zui-create="fileSelector" data-default-files='[{"name": "file1.txt", "size": 1024}, {"name": "file2.txt", "size": 2048}, {"name": "avatar.png", "size": 4096, "url": "../../../../assets/avatar/avatar.png"}]'></div>
+  <div zui-create="fileSelector" :data-default-files="JSON.stringify(presetFiles)"></div>
 </Example>
 
 == HTML
@@ -211,11 +211,11 @@ const fileSelector = new zui.FileSelector({
 <div id="fileSelector"></div>
 
 <script>
-const fileSelector = new zui.FileSelector({
+const fileSelector = new zui.FileSelector('#fileSelector', {
     defaultFiles: [
-        {name: 'file1.txt', size: 1024},
-        {name: 'file2.txt', size: 2048},
-        {name: 'avatar.png', size: 4096, url: '../../../../assets/avatar/avatar.png'}
+        {name: '发布说明.txt', size: 1846},
+        {name: '验收报告.pdf', size: 286720},
+        {name: '成员头像.png', size: 12279, url: '/assets/avatar/avatar.png'}
     ]
 });
 </script>
@@ -232,7 +232,7 @@ const fileSelector = new zui.FileSelector({
 == 示例
 
 <Example>
-  <div zui-create="fileSelector" data-disabled="true" data-default-files='[{"name": "file1.txt", "size": 1024}, {"name": "file2.txt", "size": 2048}, {"name": "avatar.png", "size": 4096, "url": "../../../../assets/avatar/avatar.png"}]'></div>
+  <div zui-create="fileSelector" data-disabled="true" :data-default-files="JSON.stringify(presetFiles)"></div>
 </Example>
 
 == HTML
@@ -241,12 +241,12 @@ const fileSelector = new zui.FileSelector({
 <div id="fileSelector"></div>
 
 <script>
-const fileSelector = new zui.FileSelector({
+const fileSelector = new zui.FileSelector('#fileSelector', {
     disabled: true,
     defaultFiles: [
-        {name: 'file1.txt', size: 1024},
-        {name: 'file2.txt', size: 2048},
-        {name: 'avatar.png', size: 4096, url: '../../../../assets/avatar/avatar.png'}
+        {name: '发布说明.txt', size: 1846},
+        {name: '验收报告.pdf', size: 286720},
+        {name: '成员头像.png', size: 12279, url: '/assets/avatar/avatar.png'}
     ]
 });
 </script>
@@ -270,7 +270,7 @@ const fileSelector = new zui.FileSelector({
 == 示例
 
 <Example>
-  <div zui-create="fileSelector" data-tip="请选择文件，不超过 {maxFileSize}"></div>
+  <div zui-create="fileSelector" data-tip="添加项目附件，单个文件不超过 {maxFileSize}"></div>
 </Example>
 
 == HTML
@@ -279,8 +279,8 @@ const fileSelector = new zui.FileSelector({
 <div id="fileSelector"></div>
 
 <script>
-const fileSelector = new zui.FileSelector({
-    tip: '请选择文件，不超过 {maxFileSize}'
+const fileSelector = new zui.FileSelector('#fileSelector', {
+    tip: '添加项目附件，单个文件不超过 {maxFileSize}'
 });
 </script>
 ```
@@ -305,7 +305,7 @@ const fileSelector = new zui.FileSelector({
 <div id="fileSelector"></div>
 
 <script>
-const fileSelector = new zui.FileSelector({
+const fileSelector = new zui.FileSelector('#fileSelector', {
     fileIcons: {
         image: 'image',
         video: 'video',
@@ -342,7 +342,7 @@ const fileSelector = new zui.FileSelector({
 <div id="fileSelector"></div>
 
 <script>
-const fileSelector = new zui.FileSelector({
+const fileSelector = new zui.FileSelector('#fileSelector', {
     thumbnail: false,
     tip: '不显示缩略图'
 });
@@ -369,7 +369,7 @@ const fileSelector = new zui.FileSelector({
 <div id="fileSelector"></div>
 
 <script>
-const fileSelector = new zui.FileSelector({
+const fileSelector = new zui.FileSelector('#fileSelector', {
     draggable: false,
     mode: 'grid',
     tip: '禁用拖放'
@@ -397,7 +397,7 @@ const fileSelector = new zui.FileSelector({
 <div id="fileSelector"></div>
 
 <script>
-const fileSelector = new zui.FileSelector({
+const fileSelector = new zui.FileSelector('#fileSelector', {
     multiple: false,
     tip: '一次只能选择一个文件'
 });
@@ -424,7 +424,7 @@ const fileSelector = new zui.FileSelector({
 <div id="fileSelector"></div>
 
 <script>
-const fileSelector = new zui.FileSelector({
+const fileSelector = new zui.FileSelector('#fileSelector', {
     mode: 'grid',
     gridWidth: '200px',
     gridHeight: '200px',
@@ -454,7 +454,7 @@ const fileSelector = new zui.FileSelector({
 <div id="fileSelector"></div>
 
 <script>
-const fileSelector = new zui.FileSelector({
+const fileSelector = new zui.FileSelector('#fileSelector', {
     uploadBtn: {
         text: '上传文件',
         icon: 'upload',
@@ -478,7 +478,7 @@ const fileSelector = new zui.FileSelector({
 == 示例
 
 <Example>
-  <div zui-create="fileSelector" data-rename-btn='{"text": "重命名", "icon": "edit", "className": "rounded primary"}' data-default-files='[{"name": "file1.txt", "size": 1024}, {"name": "file2.txt", "size": 2048}, {"name": "avatar.png", "size": 4096, "url": "../../../../assets/avatar/avatar.png"}]'></div>
+  <div zui-create="fileSelector" data-rename-btn='{"text": "重命名", "icon": "edit", "className": "rounded primary"}' :data-default-files="JSON.stringify(presetFiles)"></div>
 </Example>
 
 == HTML
@@ -487,17 +487,17 @@ const fileSelector = new zui.FileSelector({
 <div id="fileSelector"></div>
 
 <script>
-const fileSelector = new zui.FileSelector({
+const fileSelector = new zui.FileSelector('#fileSelector', {
     renameBtn: {
         text: '重命名',
         icon: 'edit',
-        className: 'rounded primary',
-        defaultFiles: [
-            {name: 'file1.txt', size: 1024},
-            {name: 'file2.txt', size: 2048},
-            {name: 'avatar.png', size: 4096, url: '../../../../assets/avatar/avatar.png'}
-        ]
-    }
+        className: 'rounded primary'
+    },
+    defaultFiles: [
+        {name: '发布说明.txt', size: 1846},
+        {name: '验收报告.pdf', size: 286720},
+        {name: '成员头像.png', size: 12279, url: '/assets/avatar/avatar.png'}
+    ]
 });
 </script>
 ```
@@ -513,7 +513,7 @@ const fileSelector = new zui.FileSelector({
 == 示例
 
 <Example>
-  <div zui-create="fileSelector" data-remove-btn='{"text": "删除", "icon": "trash", "className": "rounded danger"}' data-default-files='[{"name": "file1.txt", "size": 1024}, {"name": "file2.txt", "size": 2048}, {"name": "avatar.png", "size": 4096, "url": "../../../../assets/avatar/avatar.png"}]'></div>
+  <div zui-create="fileSelector" data-remove-btn='{"text": "删除", "icon": "trash", "className": "rounded danger"}' :data-default-files="JSON.stringify(presetFiles)"></div>
 </Example>
 
 == HTML
@@ -522,17 +522,17 @@ const fileSelector = new zui.FileSelector({
 <div id="fileSelector"></div>
 
 <script>
-const fileSelector = new zui.FileSelector({
+const fileSelector = new zui.FileSelector('#fileSelector', {
     removeBtn: {
         text: '删除',
         icon: 'trash',
-        className: 'rounded danger',
-        defaultFiles: [
-            {name: 'file1.txt', size: 1024},
-            {name: 'file2.txt', size: 2048},
-            {name: 'avatar.png', size: 4096, url: '../../../../assets/avatar/avatar.png'}
-        ]
-    }
+        className: 'rounded danger'
+    },
+    defaultFiles: [
+        {name: '发布说明.txt', size: 1846},
+        {name: '验收报告.pdf', size: 286720},
+        {name: '成员头像.png', size: 12279, url: '/assets/avatar/avatar.png'}
+    ]
 });
 </script>
 ```
@@ -550,7 +550,7 @@ const fileSelector = new zui.FileSelector({
 - `{count}`：当前已选择文件数目；
 - `{maxFileSize}`：最大文件大小；
 - `{maxFileCount}`：最大文件数目；
-- `{totalFileSize}`：最大文件数目，仅适用于 `exceededTotalSizeTip` 提示；
+- `{totalFileSize}`：最大总文件大小，仅适用于 `exceededTotalSizeTip` 提示；
 - `{exceededCount}`：超出数量，仅适用于 `exceededCountTip` 提示。
 
 ::: tabs
@@ -558,7 +558,7 @@ const fileSelector = new zui.FileSelector({
 == 示例
 
 <Example>
-  <div zui-create="fileSelector" data-remove-confirm='{"title": "删除文件", "content": "确定要删除文件吗？"}' data-duplicated-tip='{"title": "重名文件", "content": "文件名已存在，是否保留重名文件？"}' data-exceeded-size-tip='{"title": "超出大小", "content": "文件大小超出限制，是否保留超出大小文件？"}' data-exceeded-total-size-tip='{"title": "超出总大小", "content": "总文件大小超出限制，是否保留超出总大小文件？"}' data-exceeded-count-tip='{"title": "超出数量", "content": "文件数量超出限制，是否保留超出数量文件？"}'></div>
+  <div zui-create="fileSelector" data-max-file-size="5MB" data-total-file-size="10MB" data-max-file-count="3" data-remove-confirm='{"title": "移除附件", "message": "从附件列表移除「{name}」？"}' data-duplicated-tip='{"title": "重名文件", "message": "已添加同名文件「{name}」，请重命名后再添加。"}' data-exceeded-size-tip='{"title": "超出大小", "message": "「{name}」大小为 {size}，请将文件压缩到 {maxFileSize} 以内。"}' data-exceeded-total-size-tip='{"title": "超出总大小", "message": "附件总大小超过 {totalFileSize}，请先移除不需要的附件。"}' data-exceeded-count-tip='{"title": "超出数量", "message": "最多可添加 {maxFileCount} 份附件，请先移除不需要的文件。"}'></div>
 </Example>
 
 == HTML
@@ -567,26 +567,29 @@ const fileSelector = new zui.FileSelector({
 <div id="fileSelector"></div>
 
 <script>
-const fileSelector = new zui.FileSelector({
+const fileSelector = new zui.FileSelector('#fileSelector', {
+    maxFileSize: '5MB',
+    totalFileSize: '10MB',
+    maxFileCount: 3,
     removeConfirm: {
-        title: '删除文件',
-        content: '确定要删除文件吗？'
+        title: '移除附件',
+        message: '从附件列表移除「{name}」？'
     },
     duplicatedTip: {
         title: '重名文件',
-        content: '文件名已存在，是否保留重名文件？'
+        message: '已添加同名文件「{name}」，请重命名后再添加。'
     },
     exceededSizeTip: {
         title: '超出大小',
-        content: '文件大小超出限制，是否保留超出大小文件？'
+        message: '「{name}」大小为 {size}，请将文件压缩到 {maxFileSize} 以内。'
     },
     exceededTotalSizeTip: {
         title: '超出总大小',
-        content: '总文件大小超出限制，是否保留超出总大小文件？'
+        message: '附件总大小超过 {totalFileSize}，请先移除不需要的附件。'
     },
     exceededCountTip: {
         title: '超出数量',
-        content: '文件数量超出限制，是否保留超出数量文件？'
+        message: '最多可添加 {maxFileCount} 份附件，请先移除不需要的文件。'
     }
 });
 </script>
@@ -612,7 +615,7 @@ const fileSelector = new zui.FileSelector({
 <div id="fileSelector"></div>
 
 <script>
-const fileSelector = new zui.FileSelector({
+const fileSelector = new zui.FileSelector('#fileSelector', {
     onRename: (newName, oldName, file) => {
         console.log('Rename file', file);
     },
@@ -649,7 +652,7 @@ const fileSelector = new zui.FileSelector({
 <div id="fileSelector"></div>
 
 <script>
-const fileSelector = new zui.FileSelector({
+const fileSelector = new zui.FileSelector('#fileSelector', {
     onDuplicated: (name, currentFile, existFile) => {
         console.log('Duplicated file', name, currentFile, existFile);
     },
@@ -810,3 +813,12 @@ type DuplicatedCallback = (name: string, currentFile: FileInfo, existFile: FileI
 ```ts
 type ExceededLimitCallback = (limit: number, file: FileInfo) => void | true;
 ```
+
+<script setup>
+import {withBase} from 'vitepress';
+const presetFiles = [
+    {name: '发布说明.txt', size: 1846},
+    {name: '验收报告.pdf', size: 286720},
+    {name: '成员头像.png', size: 12279, url: withBase('/assets/avatar/avatar.png')},
+];
+</script>
