@@ -1,7 +1,7 @@
 import {fireEvent, render} from '@testing-library/preact';
-import {describe, expect, it, vi} from 'vitest';
+import {describe, expect, expectTypeOf, it, vi} from 'vitest';
 import {Component, getReactComponent} from '@zui/core';
-import {FileList, type FileInfo, type FileInfoLike, type OriginFileInfo} from '@zui/file-list';
+import {FileList, type FileInfo, type FileInfoLike, type FileListProps, type OriginFileInfo} from '@zui/file-list';
 import {FileList as FileListView} from '@zui/file-list/react';
 import {flushAnimationFrame} from '../setup/dom';
 
@@ -16,6 +16,37 @@ const files: FileInfo[] = [{
 }];
 
 describe('FileList', () => {
+    it('types rendering callbacks with normalized metadata and preserves custom fields', () => {
+        const file = new File(['hello'], 'Hello.txt');
+        const fileUrl = (info: FileInfo) => `/files/${info.title.toLowerCase()}`;
+        const options: FileListProps = {
+            items: [{file}],
+            fileUrl,
+            fileActions: info => [{text: info.title.toUpperCase()}],
+            onClickItem: ({item}) => expectTypeOf(item.title).toEqualTypeOf<string>(),
+            onLoad: (items) => {
+                expectTypeOf(items[0].title).toEqualTypeOf<string | undefined>();
+                return items;
+            },
+        };
+        const customOptions: FileListProps<OriginFileInfo & {projectId: number}> = {
+            items: [{file, projectId: 42}],
+            fileUrl: info => `/projects/${info.projectId}/${info.title}`,
+            fileActions: info => [{text: `${info.projectId}: ${info.title.toUpperCase()}`}],
+            getThumbnail: (info) => {
+                expectTypeOf(info.title).toEqualTypeOf<string>();
+                expectTypeOf(info.projectId).toEqualTypeOf<number>();
+                return '';
+            },
+        };
+        const {getByRole, rerender} = render(<FileListView {...options} />);
+        expect(getByRole('link', {name: /Hello.txt/})).toHaveAttribute('href', '/files/hello.txt');
+        expect(getByRole('button', {name: 'HELLO.TXT'})).toBeInTheDocument();
+        rerender(<FileListView {...customOptions} />);
+        expect(getByRole('link', {name: /Hello.txt/})).toHaveAttribute('href', '/projects/42/Hello.txt');
+        expect(getByRole('button', {name: '42: HELLO.TXT'})).toBeInTheDocument();
+    });
+
     it('renders file links, sizes, headings and actions without requiring file icons', () => {
         const onDownload = vi.fn();
         const {container, getByText, getByRole} = render(
