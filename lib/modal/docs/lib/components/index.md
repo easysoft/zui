@@ -12,25 +12,25 @@
 
 <Example class="flex gap-4">
   <button type="button" class="btn primary" data-toggle="modal" data-target="#myModal">
-    点击按钮打开对话框
+    查看发布说明
   </button>
-  <a class="btn" data-toggle="modal" href="#myModal">点击 a 标签按钮打开</a>
+  <a class="btn" data-toggle="modal" href="#myModal">发布说明（链接）</a>
 
   <div class="modal" id="myModal">
     <div class="modal-dialog shadow">
       <div class="modal-content">
         <div class="modal-header">
-          <div class="modal-title">标题</div>
+          <div class="modal-title">客户门户 v1.2 发布说明</div>
         </div>
         <div class="modal-actions">
           <button type="button" class="btn square ghost" data-dismiss="modal"><span class="close"></span></button>
         </div>
         <div class="modal-body">
-          <p>这是内容</p>
+          <p>本次更新支持工单附件预览，并优化了移动端图片上传。现有工单和附件将继续保留。</p>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn" data-dismiss="modal">关闭</button>
-          <button type="button" class="btn primary">保存</button>
+          <button type="button" class="btn primary" data-dismiss="modal">我已阅读</button>
         </div>
       </div>
     </div>
@@ -41,25 +41,25 @@
 
 ```html
 <button type="button" class="btn primary" data-toggle="modal" data-target="#myModal">
-  点击按钮打开对话框
+  查看发布说明
 </button>
-<a class="btn" data-toggle="modal" href="#myModal">点击 a 标签按钮打开</a>
+<a class="btn" data-toggle="modal" href="#myModal">发布说明（链接）</a>
 
 <div class="modal" id="myModal">
   <div class="modal-dialog shadow">
     <div class="modal-content">
       <div class="modal-header">
-        <div class="modal-title">标题</div>
+        <div class="modal-title">客户门户 v1.2 发布说明</div>
       </div>
       <div class="modal-actions">
         <button type="button" class="btn square ghost" data-dismiss="modal"><span class="close"></span></button>
       </div>
       <div class="modal-body">
-        <p>这是内容</p>
+        <p>本次更新支持工单附件预览，并优化了移动端图片上传。现有工单和附件将继续保留。</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn" data-dismiss="modal">关闭</button>
-        <button type="button" class="btn primary">保存</button>
+        <button type="button" class="btn primary" data-dismiss="modal">我已阅读</button>
       </div>
     </div>
   </div>
@@ -90,17 +90,17 @@
     <div class="modal-dialog shadow">
       <div class="modal-content">
         <div class="modal-header">
-          <div class="modal-title">标题</div>
+          <div class="modal-title">客户门户 v1.2 发布说明</div>
         </div>
         <div class="modal-actions">
           <button type="button" class="btn square ghost" data-dismiss="modal"><span class="close"></span></button>
         </div>
         <div class="modal-body">
-          这是内容
+          本次更新支持工单附件预览，并优化了移动端图片上传。现有工单和附件将继续保留。
         </div>
         <div class="modal-footer">
           <button type="button" class="btn" data-dismiss="modal">关闭</button>
-          <button type="button" class="btn primary">保存</button>
+          <button type="button" class="btn primary" data-dismiss="modal">我已阅读</button>
         </div>
       </div>
     </div>
@@ -123,17 +123,17 @@ data-target="#positionModal">距离上方100px</button>
   <div class="modal-dialog shadow">
     <div class="modal-content">
       <div class="modal-header">
-        <div class="modal-title">标题</div>
+        <div class="modal-title">客户门户 v1.2 发布说明</div>
       </div>
       <div class="modal-actions">
         <button type="button" class="btn square ghost" data-dismiss="modal"><span class="close"></span></button>
       </div>
       <div class="modal-body">
-        这是内容
+        本次更新支持工单附件预览，并优化了移动端图片上传。现有工单和附件将继续保留。
       </div>
       <div class="modal-footer">
         <button type="button" class="btn" data-dismiss="modal">关闭</button>
-        <button type="button" class="btn primary">保存</button>
+        <button type="button" class="btn primary" data-dismiss="modal">我已阅读</button>
       </div>
     </div>
   </div>
@@ -167,22 +167,19 @@ data-target="#positionModal">距离上方100px</button>
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <div class="modal-title">标题</div>
+          <div class="modal-title">客户门户 v1.2 发布说明</div>
         </div>
         <div class="modal-actions">
           <button type="button" class="btn square ghost" data-dismiss="modal"><span class="close"></span></button>
         </div>
         <div class="modal-body">
-          <h4>虞美人·春花秋月何时了</h4><p><small>五代·李煜</small></p>
-          <p><br>春花秋月何时了？<br>往事知多少。<br>小楼昨夜又东风，<br>故国不堪回首月明中。<br><br>雕栏玉砌应犹在，<br>只是朱颜改。<br>问君能有几多愁？<br>恰似一江春水向东流</p><br>
-          <h4>虞美人·春花秋月何时了</h4><p><small>五代·李煜</small></p>
-          <p><br>春花秋月何时了？<br>往事知多少。<br>小楼昨夜又东风，<br>故国不堪回首月明中。<br><br>雕栏玉砌应犹在，<br>只是朱颜改。<br>问君能有几多愁？<br>恰似一江春水向东流</p><br>
-          <h4>虞美人·春花秋月何时了</h4><p><small>五代·李煜</small></p>
-          <p><br>春花秋月何时了？<br>往事知多少。<br>小楼昨夜又东风，<br>故国不堪回首月明中。<br><br>雕栏玉砌应犹在，<br>只是朱颜改。<br>问君能有几多愁？<br>恰似一江春水向东流</p><br>
+          <h4>交付范围</h4><p>客户门户 v1.2 新增工单附件预览，支持直接查看图片和 PDF。客户可以在工单详情中补充材料，处理人员可以按上传时间查看历史附件。</p>
+          <h4>验收要点</h4><p>请使用普通客户和处理人员账号分别验收。重点检查图片预览、文件下载、无权限提示和手机上传；网络中断后应保留已填写的工单内容。</p>
+          <h4>发布安排</h4><p>周五 15:00 进行发布评审，验收通过后于 18:00 更新客户门户。发布后由王宁检查登录、工单查询和附件上传，林悦汇总客户反馈并安排后续迭代。</p>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn" data-dismiss="modal">关闭</button>
-          <button type="button" class="btn primary">保存</button>
+          <button type="button" class="btn primary" data-dismiss="modal">我已阅读</button>
         </div>
       </div>
     </div>
@@ -208,22 +205,19 @@ data-target="#sizeModal">全屏对话框</button>
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <div class="modal-title">标题</div>
+        <div class="modal-title">客户门户 v1.2 发布说明</div>
       </div>
       <div class="modal-actions">
         <button type="button" class="btn square ghost" data-dismiss="modal"><span class="close"></span></button>
       </div>
       <div class="modal-body">
-        <h4>虞美人·春花秋月何时了</h4><p><small>五代·李煜</small></p>
-        <p><br>春花秋月何时了？<br>往事知多少。<br>小楼昨夜又东风，<br>故国不堪回首月明中。<br><br>雕栏玉砌应犹在，<br>只是朱颜改。<br>问君能有几多愁？<br>恰似一江春水向东流</p><br>
-        <h4>虞美人·春花秋月何时了</h4><p><small>五代·李煜</small></p>
-        <p><br>春花秋月何时了？<br>往事知多少。<br>小楼昨夜又东风，<br>故国不堪回首月明中。<br><br>雕栏玉砌应犹在，<br>只是朱颜改。<br>问君能有几多愁？<br>恰似一江春水向东流</p><br>
-        <h4>虞美人·春花秋月何时了</h4><p><small>五代·李煜</small></p>
-        <p><br>春花秋月何时了？<br>往事知多少。<br>小楼昨夜又东风，<br>故国不堪回首月明中。<br><br>雕栏玉砌应犹在，<br>只是朱颜改。<br>问君能有几多愁？<br>恰似一江春水向东流</p><br>
+        <h4>交付范围</h4><p>客户门户 v1.2 新增工单附件预览，支持直接查看图片和 PDF。客户可以在工单详情中补充材料，处理人员可以按上传时间查看历史附件。</p>
+        <h4>验收要点</h4><p>请使用普通客户和处理人员账号分别验收。重点检查图片预览、文件下载、无权限提示和手机上传；网络中断后应保留已填写的工单内容。</p>
+        <h4>发布安排</h4><p>周五 15:00 进行发布评审，验收通过后于 18:00 更新客户门户。发布后由王宁检查登录、工单查询和附件上传，林悦汇总客户反馈并安排后续迭代。</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn" data-dismiss="modal">关闭</button>
-        <button type="button" class="btn primary">保存</button>
+        <button type="button" class="btn primary" data-dismiss="modal">我已阅读</button>
       </div>
     </div>
   </div>
@@ -251,7 +245,7 @@ data-target="#sizeModal">全屏对话框</button>
           <button type="button" class="btn square ghost" data-dismiss="modal"><span class="close"></span></button>
         </div>
         <div class="modal-body">
-          <p>这是提示内容</p>
+          <p>验收报告已生成，可在项目文档库中查看。</p>
         </div>
       </div>
     </div>
@@ -271,7 +265,7 @@ data-target="#sizeModal">全屏对话框</button>
         <button type="button" class="btn square ghost" data-dismiss="modal"><span class="close"></span></button>
       </div>
       <div class="modal-body">
-        <p>这是提示内容</p>
+        <p>验收报告已生成，可在项目文档库中查看。</p>
       </div>
     </div>
   </div>
@@ -289,22 +283,22 @@ data-target="#sizeModal">全屏对话框</button>
 == 示例
 
 <Example>
-  <button type="button" class="btn primary" data-toggle="modal" data-backdrop="false" data-target="#myModal2">点击打开对话框</button>
+  <button type="button" class="btn primary" data-toggle="modal" data-backdrop="false" data-target="#myModal2">查看发布说明</button>
   <div class="modal" id="myModal2">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <div class="modal-title">标题</div>
+          <div class="modal-title">客户门户 v1.2 发布说明</div>
         </div>
         <div class="modal-actions">
           <button type="button" class="btn square ghost" data-dismiss="modal"><span class="close"></span></button>
         </div>
         <div class="modal-body">
-            <p>这是内容</p>
+            <p>本次更新支持工单附件预览，并优化了移动端图片上传。现有工单和附件将继续保留。</p>
         </div>
         <div class="modal-footer">
             <button type="button" class="btn" data-dismiss="modal">关闭</button>
-            <button type="button" class="btn primary">保存</button>
+            <button type="button" class="btn primary" data-dismiss="modal">我已阅读</button>
         </div>
       </div>
     </div>
@@ -314,22 +308,22 @@ data-target="#sizeModal">全屏对话框</button>
 == HTML
 
 ```html
-<button type="button" class="btn primary" data-toggle="modal" data-backdrop="false" data-target="#myModal2">点击打开对话框</button>
+<button type="button" class="btn primary" data-toggle="modal" data-backdrop="false" data-target="#myModal2">查看发布说明</button>
 <div class="modal" id="myModal2">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-          <div class="modal-title">标题</div>
+          <div class="modal-title">客户门户 v1.2 发布说明</div>
       </div>
       <div class="modal-actions">
         <button type="button" class="btn square ghost" data-dismiss="modal"><span class="close"></span></button>
       </div>
       <div class="modal-body">
-          <p>这是内容</p>
+          <p>本次更新支持工单附件预览，并优化了移动端图片上传。现有工单和附件将继续保留。</p>
       </div>
       <div class="modal-footer">
           <button type="button" class="btn" data-dismiss="modal">关闭</button>
-          <button type="button" class="btn primary">保存</button>
+          <button type="button" class="btn primary" data-dismiss="modal">我已阅读</button>
       </div>
     </div>
   </div>

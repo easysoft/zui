@@ -68,13 +68,13 @@ zui.Modal.open({
 == 示例
 
 <Example>
-  <button type="button" class="btn primary" data-toggle="modal" data-title="自定义对话框" data-content="这里是对话框内容">点击打开自定义对话框</button>
+  <button type="button" class="btn primary" data-toggle="modal" data-title="发布准备完成" data-content="客户门户 v1.2 已通过验收，计划于周五 18:00 发布。">查看发布计划</button>
 </Example>
 
 == HTML
 
 ```html
-<button type="button" class="btn primary" data-toggle="modal" data-title="自定义对话框" data-content="这里是对话框内容">点击打开自定义对话框</button>
+<button type="button" class="btn primary" data-toggle="modal" data-title="发布准备完成" data-content="客户门户 v1.2 已通过验收，计划于周五 18:00 发布。">查看发布计划</button>
 ```
 
 :::
@@ -83,8 +83,8 @@ iframe 对话框支持手动通过 `Modal.open` 方法按需打开：
 
 ```js
 zui.Modal.open({
-    title: '自定义对话框',
-    content: '这里是对话框内容',
+    title: '发布准备完成',
+    content: '客户门户 v1.2 已通过验收，计划于周五 18:00 发布。',
 });
 ```
 
@@ -135,8 +135,8 @@ interface ModalAlertOptions extends ModalCustomOptions {
 == 示例
 
 <Example class="row gap-4">
-  <button type="button" class="btn primary" onclick="zui.Modal.alert('提示消息')">Modal.alert(message)</button>
-  <button type="button" class="btn primary" onclick="zui.Modal.alert({title: '这是标题', message: '提示消息', icon: 'icon-flag'})">Modal.alert(options)</button>
+  <button type="button" class="btn primary" onclick="zui.Modal.alert('请先填写项目名称，再提交评审。')">Modal.alert(message)</button>
+  <button type="button" class="btn primary" onclick="zui.Modal.alert({title: '信息未填写完整', message: '请先填写项目名称，再提交评审。', icon: 'icon-flag'})">Modal.alert(options)</button>
 </Example>
 
 == HTML
@@ -145,14 +145,14 @@ interface ModalAlertOptions extends ModalCustomOptions {
 <button
   type="button"
   class="btn primary"
-  onclick="zui.Modal.alert('提示消息')"
+  onclick="zui.Modal.alert('请先填写项目名称，再提交评审。')"
 >
   Modal.alert(message)
 </button>
 <button
   type="button"
   class="btn primary"
-  onclick="zui.Modal.alert({title: '这是标题', message: '提示消息', icon: 'icon-flag'})"
+  onclick="zui.Modal.alert({title: '信息未填写完整', message: '请先填写项目名称，再提交评审。', icon: 'icon-flag'})"
 >
   Modal.alert(options)
 </button>
@@ -193,8 +193,8 @@ interface ModalConfirmOptions extends ModalAlertOptions {
 == 示例
 
 <Example class="row gap-4">
-  <button type="button" class="btn primary" onclick="zui.Modal.confirm('提示消息').then(console.log)">Modal.confirm(message)</button>
-  <button type="button" class="btn primary" onclick="zui.Modal.confirm({title: '这是标题', message: '提示消息', icon: 'icon-flag'}).then(console.log)">Modal.confirm(options)</button>
+  <button type="button" class="btn primary" onclick="zui.Modal.confirm('放弃本次修改？未保存的项目设置将丢失。').then(console.log)">Modal.confirm(message)</button>
+  <button type="button" class="btn primary" onclick="zui.Modal.confirm({title: '放弃修改', message: '未保存的项目设置将丢失，是否继续？', icon: 'icon-flag'}).then(console.log)">Modal.confirm(options)</button>
 </Example>
 
 == HTML
@@ -203,14 +203,14 @@ interface ModalConfirmOptions extends ModalAlertOptions {
 <button
   type="button"
   class="btn primary"
-  onclick="zui.Modal.confirm('提示消息').then(console.log)"
+  onclick="zui.Modal.confirm('放弃本次修改？未保存的项目设置将丢失。').then(console.log)"
 >
   Modal.confirm(message)
 </button>
 <button
   type="button"
   class="btn primary"
-  onclick="zui.Modal.confirm({title: '这是标题', message: '提示消息', icon: 'icon-flag'}).then(console.log)"
+  onclick="zui.Modal.confirm({title: '放弃修改', message: '未保存的项目设置将丢失，是否继续？', icon: 'icon-flag'}).then(console.log)"
 >
   Modal.confirm(options)
 </button>
