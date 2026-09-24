@@ -11,7 +11,7 @@
 == 示例
 
 <Example>
-  <button class="btn" data-on="click" data-do="zui.Messager.show('嘿！这是一条消息。')">显示浮动消息</button>
+  <button class="btn" data-on="click" data-do="zui.Messager.show('项目设置已保存。')">显示浮动消息</button>
 </Example>
 
 == HTML
@@ -21,7 +21,7 @@
 
 <script>
 $('#messagerTrigger').on('click', () => {
-    zui.Messager.show('嘿！这是一条消息。')
+    zui.Messager.show('项目设置已保存。')
 });
 </script>
 ```
@@ -37,20 +37,20 @@ $('#messagerTrigger').on('click', () => {
 == 示例
 
 <Example class="flex gap-2">
-  <button class="btn" data-on="click" data-do="zui.Messager.show({content: '嘿！这是一条消息。', placement: 'top-left'})">top-left</button>
-  <button class="btn" data-on="click" data-do="zui.Messager.show({content: '嘿！这是一条消息。', placement: 'top'})">top</button>
-  <button class="btn" data-on="click" data-do="zui.Messager.show({content: '嘿！这是一条消息。', placement: 'top-right'})">top-right</button>
-  <button class="btn" data-on="click" data-do="zui.Messager.show({content: '嘿！这是一条消息。', placement: 'bottom-left'})">bottom-left</button>
-  <button class="btn" data-on="click" data-do="zui.Messager.show({content: '嘿！这是一条消息。', placement: 'bottom'})">bottom</button>
-  <button class="btn" data-on="click" data-do="zui.Messager.show({content: '嘿！这是一条消息。', placement: 'bottom-right'})">bottom-right</button>
-  <button class="btn" data-on="click" data-do="zui.Messager.show({content: '嘿！这是一条消息。', placement: 'center'})">center</button>
+  <button class="btn" data-on="click" data-do="zui.Messager.show({content: '项目设置已保存。', placement: 'top-left'})">top-left</button>
+  <button class="btn" data-on="click" data-do="zui.Messager.show({content: '项目设置已保存。', placement: 'top'})">top</button>
+  <button class="btn" data-on="click" data-do="zui.Messager.show({content: '项目设置已保存。', placement: 'top-right'})">top-right</button>
+  <button class="btn" data-on="click" data-do="zui.Messager.show({content: '项目设置已保存。', placement: 'bottom-left'})">bottom-left</button>
+  <button class="btn" data-on="click" data-do="zui.Messager.show({content: '项目设置已保存。', placement: 'bottom'})">bottom</button>
+  <button class="btn" data-on="click" data-do="zui.Messager.show({content: '项目设置已保存。', placement: 'bottom-right'})">bottom-right</button>
+  <button class="btn" data-on="click" data-do="zui.Messager.show({content: '项目设置已保存。', placement: 'center'})">center</button>
 </Example>
 
 == JS
 
 ```js
 Messager.show({
-    content: '这是一条悬浮消息。',
+    content: '项目设置已保存。',
     placement: 'top-left',
 });
 ```
@@ -66,24 +66,24 @@ Messager.show({
 == 示例
 
 <example class="flex gap-2 flex-wrap">
-  <button type="button" class="btn primary" data-on="click" data-do="zui.Messager.show({content: '嘿！这是一条消息。', type: 'primary'});">primary</button>
-  <button type="button" class="btn secondary" data-on="click" data-do="zui.Messager.show({content: '嘿！这是一条消息。', type: 'secondary'});">secondary</button>
-  <button type="button" class="btn success" data-on="click" data-do="zui.Messager.show({content: '嘿！这是一条消息。', type: 'success'});">success</button>
-  <button type="button" class="btn danger" data-on="click" data-do="zui.Messager.show({content: '嘿！这是一条消息。', type: 'danger'});">danger</button>
-  <button type="button" class="btn special" data-on="click" data-do="zui.Messager.show({content: '嘿！这是一条消息。', type: 'special'});">special</button>
-  <button type="button" class="btn important" data-on="click" data-do="zui.Messager.show({content: '嘿！这是一条消息。', type: 'important'});">important</button>
-  <button type="button" class="btn gray" data-on="click" data-do="zui.Messager.show({content: '嘿！这是一条消息。', type: 'gray'});">gray</button>
-  <button type="button" class="btn black" data-on="click" data-do="zui.Messager.show({content: '嘿！这是一条消息。', type: 'black'});">black</button>
-  <button type="button" class="btn primary circle" data-on="click" data-do="zui.Messager.show({content: '嘿！这是一条消息。', type: 'primary circle'});">primary circle</button>
-  <button type="button" class="btn success-pale circle" data-on="click" data-do="zui.Messager.show({content: '嘿！这是一条消息。', type: 'success-pale circle'});">success-pale circle</button>
-  <button type="button" class="btn danger-outline circle" data-on="click" data-do="zui.Messager.show({content: '嘿！这是一条消息。', type: 'danger-outline circle'});">danger-outline circle</button>
+  <button type="button" class="btn primary" data-on="click" data-do="zui.Messager.show({content: '项目设置已保存。', type: 'primary'});">primary</button>
+  <button type="button" class="btn secondary" data-on="click" data-do="zui.Messager.show({content: '当前视图已切换为我的任务。', type: 'secondary'});">secondary</button>
+  <button type="button" class="btn success" data-on="click" data-do="zui.Messager.show({content: '验收报告已上传。', type: 'success'});">success</button>
+  <button type="button" class="btn danger" data-on="click" data-do="zui.Messager.show({content: '上传失败，请检查网络后重试。', type: 'danger'});">danger</button>
+  <button type="button" class="btn special" data-on="click" data-do="zui.Messager.show({content: '你已被邀请加入客户门户项目。', type: 'special'});">special</button>
+  <button type="button" class="btn important" data-on="click" data-do="zui.Messager.show({content: '有 3 项任务等待你确认。', type: 'important'});">important</button>
+  <button type="button" class="btn gray" data-on="click" data-do="zui.Messager.show({content: '筛选条件已重置。', type: 'gray'});">gray</button>
+  <button type="button" class="btn black" data-on="click" data-do="zui.Messager.show({content: '已退出全屏模式。', type: 'black'});">black</button>
+  <button type="button" class="btn primary circle" data-on="click" data-do="zui.Messager.show({content: '项目设置已保存。', type: 'primary circle'});">primary circle</button>
+  <button type="button" class="btn success-pale circle" data-on="click" data-do="zui.Messager.show({content: '验收报告已上传。', type: 'success-pale circle'});">success-pale circle</button>
+  <button type="button" class="btn danger-outline circle" data-on="click" data-do="zui.Messager.show({content: '上传失败，请检查网络后重试。', type: 'danger-outline circle'});">danger-outline circle</button>
 </example>
 
 == JS
 
 ```js
 zui.Messager.show({
-    content: '嘿！这是一条消息。',
+    content: '项目设置已保存。',
     type: 'primary',
 });
 ```
@@ -99,14 +99,14 @@ zui.Messager.show({
 == 示例
 
 <example>
-  <button class="btn" data-on="click" data-do="zui.Messager.show({content: '嘿！这是一条消息。', close: false});">禁用关闭按钮</button>
+  <button class="btn" data-on="click" data-do="zui.Messager.show({content: '项目设置已保存。', close: false});">禁用关闭按钮</button>
 </example>
 
 == JS
 
 ```js
 zui.Messager.show({
-    content: '嘿！这是一条消息。',
+    content: '项目设置已保存。',
     close: false
 });
 ```
@@ -122,20 +122,20 @@ zui.Messager.show({
 == 示例
 
 <example>
-  <button class="btn" data-on="click" data-do="zui.Messager.show({content: '你的邮件已成功发送。', type: 'success', actions: [{name: 'undo', 'icon': 'undo', text: '撤销', onClick: () => console.log('你点击了撤销按钮。')}]});">自定义操作按钮</button>
+  <button class="btn" data-on="click" data-do="zui.Messager.show({content: '项目周报.pdf 已移至回收站。', type: 'success', actions: [{name: 'undo', 'icon': 'undo', text: '撤销', onClick: () => console.log('已请求恢复项目周报.pdf。')}]});">自定义操作按钮</button>
 </example>
 
 == JS
 
 ```js
 zui.Messager.show({
-    content: '你的邮件已成功发送。',
+    content: '项目周报.pdf 已移至回收站。',
     type: 'success',
     actions: [{
         name: 'undo',
         icon: 'undo',
         text: '撤销',
-        action: () => console.log('你点击了撤销按钮。'),
+        onClick: () => console.log('已请求恢复项目周报.pdf。'),
     }],
 });
 ```
@@ -151,14 +151,14 @@ zui.Messager.show({
 == 示例
 
 <example>
-  <button class="btn" data-on="click" data-do="zui.Messager.show({content: '嘿！这是一条消息。', time: 0});">禁用自动隐藏</button>
+  <button class="btn" data-on="click" data-do="zui.Messager.show({content: '连接已断开，请检查网络后刷新页面。', time: 0});">禁用自动隐藏</button>
 </example>
 
 == JS
 
 ```js
 zui.Messager.show({
-    content: '嘿！这是一条消息。',
+    content: '连接已断开，请检查网络后刷新页面。',
     time: 0,
 });
 ```
@@ -174,14 +174,14 @@ zui.Messager.show({
 == 示例
 
 <example>
-  <button class="btn" data-on="click" data-do="zui.Messager.show({content: '嘿！这是一条消息。', animation: false});">禁用动画效果</button>
+  <button class="btn" data-on="click" data-do="zui.Messager.show({content: '项目设置已保存。', animation: false});">禁用动画效果</button>
 </example>
 
 == JS
 
 ```js
 zui.Messager.show({
-    content: '嘿！这是一条消息。',
+    content: '项目设置已保存。',
     animation: false,
 });
 ```
