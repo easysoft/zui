@@ -10,17 +10,17 @@
 
 <Example class="flex items-center gap-4">
   <span><i class="icon icon-check" aria-hidden="true"></i> 已完成</span>
-  <span><i class="icon icon-search" aria-hidden="true"></i> 搜索</span>
-  <button type="button" class="btn primary"><i class="icon icon-plus" aria-hidden="true"></i> 新建</button>
+  <span><i class="icon icon-search" aria-hidden="true"></i> 搜索任务</span>
+  <button type="button" class="btn primary"><i class="icon icon-plus" aria-hidden="true"></i> 新建任务</button>
 </Example>
 
 == HTML
 
 ```html
 <span><i class="icon icon-check" aria-hidden="true"></i> 已完成</span>
-<span><i class="icon icon-search" aria-hidden="true"></i> 搜索</span>
+<span><i class="icon icon-search" aria-hidden="true"></i> 搜索任务</span>
 <button type="button" class="btn primary">
-  <i class="icon icon-plus" aria-hidden="true"></i> 新建
+  <i class="icon icon-plus" aria-hidden="true"></i> 新建任务
 </button>
 ```
 
@@ -95,13 +95,13 @@
 == 示例
 
 <Example>
-  <button type="button" class="btn square" aria-label="搜索"><i class="icon icon-search" aria-hidden="true"></i></button>
+  <button type="button" class="btn square" aria-label="搜索任务"><i class="icon icon-search" aria-hidden="true"></i></button>
 </Example>
 
 == HTML
 
 ```html
-<button type="button" class="btn square" aria-label="搜索">
+<button type="button" class="btn square" aria-label="搜索任务">
   <i class="icon icon-search" aria-hidden="true"></i>
 </button>
 ```
