@@ -11,17 +11,17 @@
 == 示例
 
 <Example class="flex gap-4">
-  <div class="avatar"><img src="/assets/avatar/avatar.png"></div>
-  <div class="avatar"><i class="icon icon-user"></i></div>
-  <div class="avatar">Z</div>
+  <div class="avatar"><img src="/assets/avatar/avatar.png" alt="林悦的头像"></div>
+  <div class="avatar"><i class="icon icon-user" aria-label="尚未设置头像"></i></div>
+  <div class="avatar">林</div>
 </Example>
 
 == HTML
 
 ```html
-<div class="avatar"><img src="/assets/avatar/avatar.png"></div>
-<div class="avatar"><i class="icon icon-user"></i></div>
-<div class="avatar">Z</div>
+<div class="avatar"><img src="/assets/avatar/avatar.png" alt="林悦的头像"></div>
+<div class="avatar"><i class="icon icon-user" aria-label="尚未设置头像"></i></div>
+<div class="avatar">林</div>
 ```
 
 :::
@@ -39,25 +39,25 @@
 == 示例
 
 <Example class="flex flex-wrap gap-4">
-  <div class="rounded-none avatar"><img src="/assets/avatar/avatar-1.png"></div>
-  <div class="rounded-xs avatar"><img src="/assets/avatar/avatar-2.png"></div>
-  <div class="rounded-sm avatar"><img src="/assets/avatar/avatar-3.png"></div>
-  <div class="rounded avatar"><img src="/assets/avatar/avatar-4.png"></div>
-  <div class="rounded-lg avatar"><img src="/assets/avatar/avatar-5.png"></div>
-  <div class="rounded-xl avatar"><img src="/assets/avatar/avatar-6.png"></div>
-  <div class="rounded-full avatar"><img src="/assets/avatar/avatar-7.png"></div>
+  <div class="rounded-none avatar"><img src="/assets/avatar/avatar-1.png" alt="陈晨的头像"></div>
+  <div class="rounded-xs avatar"><img src="/assets/avatar/avatar-2.png" alt="王宁的头像"></div>
+  <div class="rounded-sm avatar"><img src="/assets/avatar/avatar-3.png" alt="周敏的头像"></div>
+  <div class="rounded avatar"><img src="/assets/avatar/avatar-4.png" alt="李航的头像"></div>
+  <div class="rounded-lg avatar"><img src="/assets/avatar/avatar-5.png" alt="何雨的头像"></div>
+  <div class="rounded-xl avatar"><img src="/assets/avatar/avatar-6.png" alt="宋佳的头像"></div>
+  <div class="rounded-full avatar"><img src="/assets/avatar/avatar-7.png" alt="许舟的头像"></div>
 </Example>
 
 == HTML
 
 ```html
-<div class="rounded-none avatar"><img src="/assets/avatar/avatar-1.png"></div>
-<div class="rounded-xs avatar"><img src="/assets/avatar/avatar-2.png"></div>
-<div class="rounded-sm avatar"><img src="/assets/avatar/avatar-3.png"></div>
-<div class="rounded avatar"><img src="/assets/avatar/avatar-4.png"></div>
-<div class="rounded-lg avatar"><img src="/assets/avatar/avatar-5.png"></div>
-<div class="rounded-xl avatar"><img src="/assets/avatar/avatar-6.png"></div>
-<div class="rounded-full avatar"><img src="/assets/avatar/avatar-7.png"></div>
+<div class="rounded-none avatar"><img src="/assets/avatar/avatar-1.png" alt="陈晨的头像"></div>
+<div class="rounded-xs avatar"><img src="/assets/avatar/avatar-2.png" alt="王宁的头像"></div>
+<div class="rounded-sm avatar"><img src="/assets/avatar/avatar-3.png" alt="周敏的头像"></div>
+<div class="rounded avatar"><img src="/assets/avatar/avatar-4.png" alt="李航的头像"></div>
+<div class="rounded-lg avatar"><img src="/assets/avatar/avatar-5.png" alt="何雨的头像"></div>
+<div class="rounded-xl avatar"><img src="/assets/avatar/avatar-6.png" alt="宋佳的头像"></div>
+<div class="rounded-full avatar"><img src="/assets/avatar/avatar-7.png" alt="许舟的头像"></div>
 ```
 
 :::
@@ -72,28 +72,28 @@
 == 常用
 
 <Example class="space-x-4">
-  <div class="avatar primary">Z</div>
-  <div class="avatar primary-pale rounded-xl">Z</div>
-  <div class="avatar primary-outline rounded-full">Z</div>
-  <div class="avatar inverse rounded-none">Z</div>
+  <div class="avatar primary">林</div>
+  <div class="avatar primary-pale rounded-xl">林</div>
+  <div class="avatar primary-outline rounded-full">林</div>
+  <div class="avatar inverse rounded-none">林</div>
 </Example>
 
 == 实心
 
 <Example class="space-x-4">
-  <div v-for="skin in skinList" class="avatar" :class="skin">Z</div>
+  <div v-for="skin in skinList" class="avatar" :class="skin">林</div>
 </Example>
 
 == 轮廓
 
 <Example class="space-x-4">
-  <div v-for="skin in skinList" class="avatar" :class="`${skin}-outline`">Z</div>
+  <div v-for="skin in skinList" class="avatar" :class="`${skin}-outline`">林</div>
 </Example>
 
 == 浅色
 
 <Example class="space-x-4">
-  <div v-for="skin in skinList" class="avatar" :class="`${skin}-pale`">Z</div>
+  <div v-for="skin in skinList" class="avatar" :class="`${skin}-pale`">林</div>
 </Example>
 
 == HTML
@@ -114,29 +114,29 @@
 
 <Example class="space-y-4">
   <div class="flex flex-wrap items-end gap-4">
-    <div class="avatar size-xs"><img src="/assets/avatar/avatar-1.png"></div>
-    <div class="avatar size-sm"><img src="/assets/avatar/avatar-2.png"></div>
-    <div class="avatar"><img src="/assets/avatar/avatar-3.png"></div>
-    <div class="avatar size-lg"><img src="/assets/avatar/avatar-4.png"></div>
-    <div class="avatar size-xl"><img src="/assets/avatar/avatar-5.png"></div>
+    <div class="avatar size-xs"><img src="/assets/avatar/avatar-1.png" alt="陈晨的头像"></div>
+    <div class="avatar size-sm"><img src="/assets/avatar/avatar-2.png" alt="王宁的头像"></div>
+    <div class="avatar"><img src="/assets/avatar/avatar-3.png" alt="周敏的头像"></div>
+    <div class="avatar size-lg"><img src="/assets/avatar/avatar-4.png" alt="李航的头像"></div>
+    <div class="avatar size-xl"><img src="/assets/avatar/avatar-5.png" alt="何雨的头像"></div>
   </div>
   <div class="flex flex-wrap items-end gap-4">
-    <div class="avatar size-xs">X</div>
-    <div class="avatar size-sm">S</div>
-    <div class="avatar">Z</div>
-    <div class="avatar size-lg">LG</div>
-    <div class="avatar size-xl">XL</div>
+    <div class="avatar size-xs">陈</div>
+    <div class="avatar size-sm">王</div>
+    <div class="avatar">林</div>
+    <div class="avatar size-lg">周敏</div>
+    <div class="avatar size-xl">李航</div>
   </div>
 </Example>
 
 == HTML
 
 ```html
-<div class="avatar size-xs"><img src="/assets/avatar/avatar-1.png"></div>
-<div class="avatar size-sm"><img src="/assets/avatar/avatar-2.png"></div>
-<div class="avatar"><img src="/assets/avatar/avatar-3.png"></div>
-<div class="avatar size-lg"><img src="/assets/avatar/avatar-4.png"></div>
-<div class="avatar size-xl"><img src="/assets/avatar/avatar-5.png"></div>
+<div class="avatar size-xs"><img src="/assets/avatar/avatar-1.png" alt="陈晨的头像"></div>
+<div class="avatar size-sm"><img src="/assets/avatar/avatar-2.png" alt="王宁的头像"></div>
+<div class="avatar"><img src="/assets/avatar/avatar-3.png" alt="周敏的头像"></div>
+<div class="avatar size-lg"><img src="/assets/avatar/avatar-4.png" alt="李航的头像"></div>
+<div class="avatar size-xl"><img src="/assets/avatar/avatar-5.png" alt="何雨的头像"></div>
 ```
 :::
 
