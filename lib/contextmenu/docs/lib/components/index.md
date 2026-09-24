@@ -10,23 +10,23 @@
 
 <Example class="flex gap-4">
   <div class="w-full h-32 primary-pale row items-center justify-center" data-toggle="contextmenu">
-    在此区域使用右键菜单
+    项目周报.pdf · 右键查看文件操作
   </div>
   <menu class="contextmenu menu">
-    <li class="menu-item"><a>操作</a></li>
-    <li class="menu-item"><a>另一个操作</a></li>
-    <li class="menu-item"><a>更多操作</a></li>
+    <li class="menu-item"><a>预览文件</a></li>
+    <li class="menu-item"><a>复制链接</a></li>
+    <li class="menu-item"><a>下载文件</a></li>
   </menu>
 </Example>
 
 ```html
 <div class="w-full h-32 primary-pale row items-center justify-center" data-toggle="contextmenu">
-  在此区域使用右键菜单
+  项目周报.pdf · 右键查看文件操作
 </div>
 <menu class="contextmenu menu">
-  <li class="menu-item"><a>操作</a></li>
-  <li class="menu-item"><a>另一个操作</a></li>
-  <li class="menu-item"><a>更多操作</a></li>
+  <li class="menu-item"><a>预览文件</a></li>
+  <li class="menu-item"><a>复制链接</a></li>
+  <li class="menu-item"><a>下载文件</a></li>
 </menu>
 ```
 
@@ -34,13 +34,13 @@
 
 <Example class="flex gap-4">
   <div class="h-32 w-full primary-pale row items-center justify-center" id="menuToggle1">
-    在此区域使用右键菜单
+    项目周报.pdf · 右键查看文件操作
   </div>
 </Example>
 
 ```html
 <div class="h-32 w-full primary-pale row items-center justify-center" id="menuToggle1">
-  在此区域使用右键菜单
+  项目周报.pdf · 右键查看文件操作
 </div>
 
 <script>
@@ -99,13 +99,13 @@ const contextMenu = $(element).data('zui.contextmenu');
 
 <Example class="flex gap-4">
   <div class="h-32 w-full primary-pale row items-center justify-center" id="menuToggle3">
-    在此区域使用右键菜单进行多级展示
+    项目周报.pdf · 右键查看文件操作
   </div>
 </Example>
 
 ```html
-<div class="h-32 w-full primary-pale row items-center justify-center" id="menuToggl3">
-  在此区域使用右键菜单
+<div class="h-32 w-full primary-pale row items-center justify-center" id="menuToggle3">
+  项目周报.pdf · 右键查看文件操作
 </div>
 
 <script>
@@ -133,12 +133,12 @@ const contextMenu = new zui.ContextMenu('#menuToggle3', {
 上下文菜单不仅可以响应鼠标右键点击事件，还可以通过监听元素点击事件主动展示更多操作。
 
 <Example class="flex gap-4">
-  <button type="button" class="btn primary rounded" id="menuToggle2">点击打开菜单</button>
+  <button type="button" class="btn primary rounded" id="menuToggle2">文件操作</button>
 </Example>
 
 ```html
 <div class="p-6 row items-center justify-center">
-  <button type="button" class="btn primary rounded" id="menuToggle2">点击打开菜单</button>
+  <button type="button" class="btn primary rounded" id="menuToggle2">文件操作</button>
 </div>
 
 <script>
@@ -196,7 +196,7 @@ export default {
                     {
                         text: '保存', icon: 'icon-save', onClick: (event) => console.log('> menuItem.clicked', event),
                         items: [
-                            {text: '保存到云端'},
+                            {text: '保存到团队文档库'},
                             {
                                 text: '下载到本地',
                                 items: [
@@ -317,7 +317,7 @@ new ContextMenu('#contextMenu', {
 展示菜单。
 
 ```html
-<button type="button" class="btn primary rounded" id="menuShowByBtn">点击打开菜单</button>
+<button type="button" class="btn primary rounded" id="menuShowByBtn">文件操作</button>
 
 <script>
 document.getElementById('menuShowByBtn')?.addEventListener('click', (event) => {
