@@ -11,12 +11,12 @@
 <Example>
   <div class="panel">
     <div class="panel-heading">
-      <div class="panel-title">面板标题</div>
+      <div class="panel-title">本周迭代</div>
     </div>
     <div class="panel-body">
-      <p>面板内容</p>
+      <p>计划交付 8 项任务，已完成 5 项，剩余 3 项待验收。</p>
     </div>
-    <div class="panel-footer">面板底部</div>
+    <div class="panel-footer">下次评审：周五 15:00</div>
   </div>
 </Example>
 
@@ -25,12 +25,12 @@
 ```html
 <div class="panel">
   <div class="panel-heading">
-    <div class="panel-title">面板标题</div>
+    <div class="panel-title">本周迭代</div>
   </div>
   <div class="panel-body">
-    <p>面板内容</p>
+    <p>计划交付 8 项任务，已完成 5 项，剩余 3 项待验收。</p>
   </div>
-  <div class="panel-footer">面板底部</div>
+  <div class="panel-footer">下次评审：周五 15:00</div>
 </div>
 ```
 
@@ -47,39 +47,39 @@
 <Example class="space-y-4">
   <div class="panel primary">
     <div class="panel-heading">
-      <div class="panel-title">面板标题</div>
+      <div class="panel-title">本周迭代</div>
     </div>
-    <div class="panel-body">面板内容</div>
+    <div class="panel-body">计划交付 8 项任务，已完成 5 项，剩余 3 项待验收。</div>
   </div>
   <div class="panel secondary-pale">
     <div class="panel-heading">
-      <div class="panel-title">面板标题</div>
+      <div class="panel-title">本周迭代</div>
     </div>
-    <div class="panel-body">面板内容</div>
+    <div class="panel-body">计划交付 8 项任务，已完成 5 项，剩余 3 项待验收。</div>
   </div>
   <div class="panel warning-outline">
     <div class="panel-heading">
-      <div class="panel-title">面板标题</div>
+      <div class="panel-title">本周迭代</div>
     </div>
-    <div class="panel-body">面板内容</div>
+    <div class="panel-body">计划交付 8 项任务，已完成 5 项，剩余 3 项待验收。</div>
   </div>
   <div class="panel ring-danger danger">
     <div class="panel-heading">
-      <div class="panel-title">面板标题</div>
+      <div class="panel-title">本周迭代</div>
     </div>
-    <div class="panel-body canvas">面板内容</div>
+    <div class="panel-body canvas">计划交付 8 项任务，已完成 5 项，剩余 3 项待验收。</div>
   </div>
   <div class="panel black">
     <div class="panel-heading">
-      <div class="panel-title">面板标题</div>
+      <div class="panel-title">本周迭代</div>
     </div>
-    <div class="panel-body">面板内容</div>
+    <div class="panel-body">计划交付 8 项任务，已完成 5 项，剩余 3 项待验收。</div>
   </div>
   <div class="panel gray">
     <div class="panel-heading">
-      <div class="panel-title">面板标题</div>
+      <div class="panel-title">本周迭代</div>
     </div>
-    <div class="panel-body">面板内容</div>
+    <div class="panel-body">计划交付 8 项任务，已完成 5 项，剩余 3 项待验收。</div>
   </div>
 </Example>
 
@@ -104,19 +104,19 @@
 <Example>
   <div class="space-y-2">
     <div class="panel">
-      <div class="panel-heading"><div class="panel-title">面板标题</div></div>
-      <div class="panel-body">面板内容</div>
-      <div class="panel-footer">面板底部</div>
+      <div class="panel-heading"><div class="panel-title">本周迭代</div></div>
+      <div class="panel-body">计划交付 8 项任务，已完成 5 项，剩余 3 项待验收。</div>
+      <div class="panel-footer">下次评审：周五 15:00</div>
     </div>
     <div class="panel">
-      <div class="panel-heading"><div class="panel-title">面板标题</div></div>
-      <div class="panel-body">面板内容</div>
-      <div class="panel-footer">面板底部</div>
+      <div class="panel-heading"><div class="panel-title">本周迭代</div></div>
+      <div class="panel-body">计划交付 8 项任务，已完成 5 项，剩余 3 项待验收。</div>
+      <div class="panel-footer">下次评审：周五 15:00</div>
     </div>
     <div class="panel">
-      <div class="panel-heading"><div class="panel-title">面板标题</div></div>
-      <div class="panel-body">面板内容</div>
-      <div class="panel-footer">面板底部</div>
+      <div class="panel-heading"><div class="panel-title">本周迭代</div></div>
+      <div class="panel-body">计划交付 8 项任务，已完成 5 项，剩余 3 项待验收。</div>
+      <div class="panel-footer">下次评审：周五 15:00</div>
     </div>
   </div>
 </Example>
@@ -126,19 +126,19 @@
 ```html
 <div class="space-y-2">
   <div class="panel">
-    <div class="panel-heading"><div class="panel-title">面板标题</div></div>
-    <div class="panel-body">面板内容</div>
-    <div class="panel-footer">面板底部</div>
+    <div class="panel-heading"><div class="panel-title">本周迭代</div></div>
+    <div class="panel-body">计划交付 8 项任务，已完成 5 项，剩余 3 项待验收。</div>
+    <div class="panel-footer">下次评审：周五 15:00</div>
   </div>
   <div class="panel">
-    <div class="panel-heading"><div class="panel-title">面板标题</div></div>
-    <div class="panel-body">面板内容</div>
-    <div class="panel-footer">面板底部</div>
+    <div class="panel-heading"><div class="panel-title">本周迭代</div></div>
+    <div class="panel-body">计划交付 8 项任务，已完成 5 项，剩余 3 项待验收。</div>
+    <div class="panel-footer">下次评审：周五 15:00</div>
   </div>
   <div class="panel">
-    <div class="panel-heading"><div class="panel-title">面板标题</div></div>
-    <div class="panel-body">面板内容</div>
-    <div class="panel-footer">面板底部</div>
+    <div class="panel-heading"><div class="panel-title">本周迭代</div></div>
+    <div class="panel-body">计划交付 8 项任务，已完成 5 项，剩余 3 项待验收。</div>
+    <div class="panel-footer">下次评审：周五 15:00</div>
   </div>
 </div>
 ```
@@ -153,7 +153,7 @@
 
 <Example>
   <div class="panel">
-    <div class="panel-heading gray-200"><div class="panel-title">包含表格</div></div>
+    <div class="panel-heading gray-200"><div class="panel-title">项目交付计划</div></div>
     <table class="table">
       <thead>
         <tr>
@@ -165,22 +165,22 @@
       </thead>
       <tbody>
         <tr>
-          <td>ZUI1</td>
-          <td>研发</td>
-          <td>今天</td>
-          <td>今天</td>
+          <td>客户门户升级</td>
+          <td>陈晨</td>
+          <td>2026-09-01</td>
+          <td>2026-09-18</td>
         </tr>
         <tr>
-          <td>ZUI2</td>
-          <td>研发</td>
-          <td>明天</td>
-          <td>明天</td>
+          <td>移动端工单</td>
+          <td>周敏</td>
+          <td>2026-09-14</td>
+          <td>2026-10-09</td>
         </tr>
         <tr>
-          <td>ZUI3</td>
-          <td>研发</td>
-          <td>后天</td>
-          <td>后天</td>
+          <td>团队知识库</td>
+          <td>林悦</td>
+          <td>2026-10-12</td>
+          <td>2026-10-30</td>
         </tr>
       </tbody>
     </table>
@@ -191,7 +191,7 @@
 
 ```html
 <div class="panel">
-  <div class="panel-heading"><div class="panel-title">包含表格</div></div>
+  <div class="panel-heading"><div class="panel-title">项目交付计划</div></div>
   <table class="table">
     ...
   </table>
