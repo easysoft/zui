@@ -14,10 +14,10 @@
   <div style="width: 320px; max-width: 100%; min-width: 180px; resize: horizontal; overflow: auto; padding-bottom: 12px;">
     <ul id="responsiveNavDemo" class="nav" zui-create="responsiveNavHelper" data-scrollbar-detect="false" data-show-selected="false" data-more='{"html":"<button type=\"button\" class=\"btn\">更多</button>"}'>
       <li class="nav-item is-rsh-fixed"><a href="#基本使用"><span class="text">概览</span></a></li>
-      <li class="nav-item"><a href="#条目规则"><span class="text">产品需求</span></a></li>
-      <li class="nav-item"><a href="#尺寸更新"><span class="text">开发任务</span></a></li>
-      <li class="nav-item"><a href="#选项"><span class="text">测试用例</span></a></li>
-      <li class="nav-item"><a href="#实例方法"><span class="text">发布记录</span></a></li>
+      <li class="nav-item"><a href="#条目规则"><span class="text">需求与迭代计划</span></a></li>
+      <li class="nav-item"><a href="#尺寸更新"><span class="text">开发任务与进度</span></a></li>
+      <li class="nav-item"><a href="#选项"><span class="text">测试用例与报告</span></a></li>
+      <li class="nav-item"><a href="#实例方法"><span class="text">版本发布记录</span></a></li>
     </ul>
   </div>
 </Example>
@@ -27,10 +27,10 @@
 ```html
 <ul id="projectNav" class="nav">
   <li class="nav-item is-rsh-fixed"><a href="#overview"><span class="text">概览</span></a></li>
-  <li class="nav-item"><a href="#stories"><span class="text">产品需求</span></a></li>
-  <li class="nav-item"><a href="#tasks"><span class="text">开发任务</span></a></li>
-  <li class="nav-item"><a href="#tests"><span class="text">测试用例</span></a></li>
-  <li class="nav-item"><a href="#releases"><span class="text">发布记录</span></a></li>
+  <li class="nav-item"><a href="#stories"><span class="text">需求与迭代计划</span></a></li>
+  <li class="nav-item"><a href="#tasks"><span class="text">开发任务与进度</span></a></li>
+  <li class="nav-item"><a href="#tests"><span class="text">测试用例与报告</span></a></li>
+  <li class="nav-item"><a href="#releases"><span class="text">版本发布记录</span></a></li>
 </ul>
 ```
 
