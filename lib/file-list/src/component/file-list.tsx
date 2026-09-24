@@ -2,7 +2,7 @@ import {formatBytes, formatString} from '@zui/helpers';
 import {List} from '@zui/list/react';
 
 import type {RenderableProps} from 'preact';
-import type {IconType} from '@zui/core';
+import {mergeProps, type ClassNameLike, type IconType} from '@zui/core';
 import type {Item} from '@zui/common-list';
 import type {ListState} from '@zui/list';
 import type {FileIconGetter, FileIconMap, FileInfo, FileListProps} from '../types';
@@ -12,7 +12,7 @@ export class FileList<T extends FileListProps = FileListProps, S extends ListSta
 
     static defaultProps = {
         ...List.defaultProps,
-        fileSizeFormat: '({size})',
+        fileSizeFormat: '{size}',
         fileIcon: false,
     };
 
@@ -24,6 +24,15 @@ export class FileList<T extends FileListProps = FileListProps, S extends ListSta
     static defaultItemProps: Partial<Item> = {
         component: 'div',
     };
+
+    protected _getClassName(props: RenderableProps<T>): ClassNameLike {
+        const className = super._getClassName(props);
+        const {mode} = props;
+        if (mode && mode !== 'list') {
+            return [className, `file-list-${mode}`];
+        }
+        return className;
+    }
 
     protected _getFileIcon(file: FileInfo, fileIconSetting?: FileListProps['fileIcon']): IconType | null {
         if (!fileIconSetting) {
@@ -42,7 +51,7 @@ export class FileList<T extends FileListProps = FileListProps, S extends ListSta
 
     protected _getItems(props: RenderableProps<T>): Item[] {
         const files = super._getItems(props) as FileInfo[];
-        const {fileIcon, fileSizeFormat, itemProps, heading, fileUrl, fileActions} = props;
+        const {fileIcon, fileSizeFormat, itemProps, heading, fileUrl, fileActions, mode} = props;
         const items: Item[] = files.map((file) => {
             let subtitle = null;
             if (typeof file.size === 'number') {
@@ -51,8 +60,9 @@ export class FileList<T extends FileListProps = FileListProps, S extends ListSta
                     subtitle = formatString(fileSizeFormat, {size: subtitle});
                 }
             }
-            return {
+            return mergeProps({
                 key: `${file.id}`,
+                className: mode === 'cards' ? 'file-list-card' : mode === 'cards-inline' ? 'file-list-card-inline' : mode === 'covers' ? 'file-list-cover' : undefined,
                 icon: (this.constructor as typeof FileList).getFileIcon(file, fileIcon),
                 iconClass: 'text-gray',
                 title: file.title,
@@ -60,8 +70,7 @@ export class FileList<T extends FileListProps = FileListProps, S extends ListSta
                 multiline: false,
                 url: typeof fileUrl === 'function' ? fileUrl.call(this, file) : (fileUrl ? formatString(fileUrl, file) : undefined),
                 actions: fileActions ? fileActions.call(this, file) : undefined,
-                ...itemProps,
-            };
+            }, itemProps);
         });
         if (heading) {
             items.unshift({

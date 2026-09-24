@@ -6,6 +6,8 @@ import {FileList as FileListView} from './src/main-react';
 
 let fileList: FileList | undefined;
 let fileListWithIcons: FileList | undefined;
+let fileListCards: FileList | undefined;
+let fileListCardsInline: FileList | undefined;
 
 onPageUpdate(() => {
     fileList?.destroy();
@@ -57,5 +59,17 @@ onPageUpdate(() => {
         items: fileList.options.items,
         fileUrl: '#file?id={id}',
         fileIcon: FileListView.getFileIconMap(),
+    });
+    fileListCards = new FileList('#fileListCards', {
+        items: fileList.options.items,
+        fileUrl: '#file?id={id}',
+        fileIcon: FileListView.getFileIconMap(),
+        mode: 'cards',
+    });
+    fileListCardsInline = new FileList('#fileListCardsInline', {
+        items: fileList.options.items,
+        fileUrl: '#file?id={id}',
+        fileIcon: FileListView.getFileIconMap(),
+        mode: 'cards-inline',
     });
 });
