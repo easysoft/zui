@@ -24,8 +24,8 @@ const helper = zui.formHelper('#myForm');
 // 获取 name="username" 的字段值
 const username = helper.getFieldVal('username');
 
-// 获取 name="fruit" 关联的 Picker 控件的值
-const fruit = helper.getFieldVal('fruit');
+// 获取 name="notification" 关联的 Picker 控件的值
+const notification = helper.getFieldVal('notification');
 ```
 
 ## 设置字段值
@@ -35,8 +35,8 @@ const fruit = helper.getFieldVal('fruit');
 ```js
 const helper = zui.formHelper('#myForm');
 
-helper.setFieldVal('username', '张三');
-helper.setFieldVal('fruit', 'apple');
+helper.setFieldVal('username', 'linyue');
+helper.setFieldVal('notification', 'email');
 ```
 
 ## 批量设置表单数据
@@ -47,9 +47,9 @@ helper.setFieldVal('fruit', 'apple');
 const helper = zui.formHelper('#myForm');
 
 helper.setFormData({
-    username: '张三',
-    email: 'zhangsan@example.com',
-    fruit: 'banana',
+    username: 'linyue',
+    email: 'linyue@example.com',
+    notification: 'desktop',
 });
 ```
 
