@@ -1,6 +1,6 @@
 # 头像组
 
-头像组用于将多个头像堆叠显示。
+头像组用于将多个头像堆叠显示，例如参与项目评审的协作成员。
 
 ## 基本使用
 
@@ -12,12 +12,12 @@
 
 <Example class="flex gap-4 flex-wrap items-end">
   <div class="avatar-group">
-    <div class="avatar circle"><img src="/assets/avatar/avatar.png"></div>
-    <div class="avatar circle"><img src="/assets/avatar/avatar-1.png"></div>
-    <div class="avatar circle"><img src="/assets/avatar/avatar-2.png"></div>
-    <div class="avatar circle"><img src="/assets/avatar/avatar-3.png"></div>
-    <div class="avatar circle"><img src="/assets/avatar/avatar-4.png"></div>
-    <div class="avatar circle gray-200">+10</div>
+    <div class="avatar circle"><img src="/assets/avatar/avatar.png" alt="林悦的头像"></div>
+    <div class="avatar circle"><img src="/assets/avatar/avatar-1.png" alt="陈晨的头像"></div>
+    <div class="avatar circle"><img src="/assets/avatar/avatar-2.png" alt="王宁的头像"></div>
+    <div class="avatar circle"><img src="/assets/avatar/avatar-3.png" alt="周敏的头像"></div>
+    <div class="avatar circle"><img src="/assets/avatar/avatar-4.png" alt="李航的头像"></div>
+    <div class="avatar circle gray-200" title="另有 10 位协作成员">+10</div>
   </div>
 </Example>
 
@@ -25,12 +25,12 @@
 
 ```html
 <div class="avatar-group">
-  <div class="avatar circle"><img src="/assets/avatar/avatar.png"></div>
-  <div class="avatar circle"><img src="/assets/avatar/avatar-1.png"></div>
-  <div class="avatar circle"><img src="/assets/avatar/avatar-2.png"></div>
-  <div class="avatar circle"><img src="/assets/avatar/avatar-3.png"></div>
-  <div class="avatar circle"><img src="/assets/avatar/avatar-4.png"></div>
-  <div class="avatar circle gray-200">+10</div>
+  <div class="avatar circle"><img src="/assets/avatar/avatar.png" alt="林悦的头像"></div>
+  <div class="avatar circle"><img src="/assets/avatar/avatar-1.png" alt="陈晨的头像"></div>
+  <div class="avatar circle"><img src="/assets/avatar/avatar-2.png" alt="王宁的头像"></div>
+  <div class="avatar circle"><img src="/assets/avatar/avatar-3.png" alt="周敏的头像"></div>
+  <div class="avatar circle"><img src="/assets/avatar/avatar-4.png" alt="李航的头像"></div>
+  <div class="avatar circle gray-200" title="另有 10 位协作成员">+10</div>
 </div>
 ```
 
@@ -47,29 +47,29 @@
 
 <Example class="flex gap-4 flex-wrap items-end">
   <div class="avatar-group size-xs">
-    <div class="avatar size-xs circle"><img src="/assets/avatar/avatar-1.png"></div>
-    <div class="avatar size-xs circle"><img src="/assets/avatar/avatar-2.png"></div>
-    <div class="avatar size-xs circle"><img src="/assets/avatar/avatar-3.png"></div>
+    <div class="avatar size-xs circle"><img src="/assets/avatar/avatar-1.png" alt="陈晨的头像"></div>
+    <div class="avatar size-xs circle"><img src="/assets/avatar/avatar-2.png" alt="王宁的头像"></div>
+    <div class="avatar size-xs circle"><img src="/assets/avatar/avatar-3.png" alt="周敏的头像"></div>
   </div>
   <div class="avatar-group size-sm">
-    <div class="avatar size-sm circle"><img src="/assets/avatar/avatar-4.png"></div>
-    <div class="avatar size-sm circle"><img src="/assets/avatar/avatar-5.png"></div>
-    <div class="avatar size-sm circle"><img src="/assets/avatar/avatar-6.png"></div>
+    <div class="avatar size-sm circle"><img src="/assets/avatar/avatar-4.png" alt="李航的头像"></div>
+    <div class="avatar size-sm circle"><img src="/assets/avatar/avatar-5.png" alt="何雨的头像"></div>
+    <div class="avatar size-sm circle"><img src="/assets/avatar/avatar-6.png" alt="宋佳的头像"></div>
   </div>
   <div class="avatar-group">
-    <div class="avatar circle"><img src="/assets/avatar/avatar-7.png"></div>
-    <div class="avatar circle"><img src="/assets/avatar/avatar-8.png"></div>
-    <div class="avatar circle"><img src="/assets/avatar/avatar-9.png"></div>
+    <div class="avatar circle"><img src="/assets/avatar/avatar-7.png" alt="许舟的头像"></div>
+    <div class="avatar circle"><img src="/assets/avatar/avatar-8.png" alt="赵岚的头像"></div>
+    <div class="avatar circle"><img src="/assets/avatar/avatar-9.png" alt="顾远的头像"></div>
   </div>
   <div class="avatar-group size-lg">
-    <div class="avatar size-lg circle"><img src="/assets/avatar/avatar-10.png"></div>
-    <div class="avatar size-lg circle"><img src="/assets/avatar/avatar-1.png"></div>
-    <div class="avatar size-lg circle"><img src="/assets/avatar/avatar-2.png"></div>
+    <div class="avatar size-lg circle"><img src="/assets/avatar/avatar-10.png" alt="陆川的头像"></div>
+    <div class="avatar size-lg circle"><img src="/assets/avatar/avatar-1.png" alt="陈晨的头像"></div>
+    <div class="avatar size-lg circle"><img src="/assets/avatar/avatar-2.png" alt="王宁的头像"></div>
   </div>
   <div class="avatar-group size-xl">
-    <div class="avatar size-xl circle"><img src="/assets/avatar/avatar-3.png"></div>
-    <div class="avatar size-xl circle"><img src="/assets/avatar/avatar-4.png"></div>
-    <div class="avatar size-xl circle"><img src="/assets/avatar/avatar-5.png"></div>
+    <div class="avatar size-xl circle"><img src="/assets/avatar/avatar-3.png" alt="周敏的头像"></div>
+    <div class="avatar size-xl circle"><img src="/assets/avatar/avatar-4.png" alt="李航的头像"></div>
+    <div class="avatar size-xl circle"><img src="/assets/avatar/avatar-5.png" alt="何雨的头像"></div>
   </div>
 </Example>
 
@@ -77,29 +77,29 @@
 
 ```html
 <div class="avatar-group size-xs">
-  <div class="avatar size-xs circle"><img src="/assets/avatar/avatar-1.png"></div>
-  <div class="avatar size-xs circle"><img src="/assets/avatar/avatar-2.png"></div>
-  <div class="avatar size-xs circle"><img src="/assets/avatar/avatar-3.png"></div>
+  <div class="avatar size-xs circle"><img src="/assets/avatar/avatar-1.png" alt="陈晨的头像"></div>
+  <div class="avatar size-xs circle"><img src="/assets/avatar/avatar-2.png" alt="王宁的头像"></div>
+  <div class="avatar size-xs circle"><img src="/assets/avatar/avatar-3.png" alt="周敏的头像"></div>
 </div>
 <div class="avatar-group size-sm">
-  <div class="avatar size-sm circle"><img src="/assets/avatar/avatar-4.png"></div>
-  <div class="avatar size-sm circle"><img src="/assets/avatar/avatar-5.png"></div>
-  <div class="avatar size-sm circle"><img src="/assets/avatar/avatar-6.png"></div>
+  <div class="avatar size-sm circle"><img src="/assets/avatar/avatar-4.png" alt="李航的头像"></div>
+  <div class="avatar size-sm circle"><img src="/assets/avatar/avatar-5.png" alt="何雨的头像"></div>
+  <div class="avatar size-sm circle"><img src="/assets/avatar/avatar-6.png" alt="宋佳的头像"></div>
 </div>
 <div class="avatar-group">
-  <div class="avatar circle"><img src="/assets/avatar/avatar-7.png"></div>
-  <div class="avatar circle"><img src="/assets/avatar/avatar-8.png"></div>
-  <div class="avatar circle"><img src="/assets/avatar/avatar-9.png"></div>
+  <div class="avatar circle"><img src="/assets/avatar/avatar-7.png" alt="许舟的头像"></div>
+  <div class="avatar circle"><img src="/assets/avatar/avatar-8.png" alt="赵岚的头像"></div>
+  <div class="avatar circle"><img src="/assets/avatar/avatar-9.png" alt="顾远的头像"></div>
 </div>
 <div class="avatar-group size-lg">
-  <div class="avatar size-lg circle"><img src="/assets/avatar/avatar-10.png"></div>
-  <div class="avatar size-lg circle"><img src="/assets/avatar/avatar-1.png"></div>
-  <div class="avatar size-lg circle"><img src="/assets/avatar/avatar-2.png"></div>
+  <div class="avatar size-lg circle"><img src="/assets/avatar/avatar-10.png" alt="陆川的头像"></div>
+  <div class="avatar size-lg circle"><img src="/assets/avatar/avatar-1.png" alt="陈晨的头像"></div>
+  <div class="avatar size-lg circle"><img src="/assets/avatar/avatar-2.png" alt="王宁的头像"></div>
 </div>
 <div class="avatar-group size-xl">
-  <div class="avatar size-xl circle"><img src="/assets/avatar/avatar-3.png"></div>
-  <div class="avatar size-xl circle"><img src="/assets/avatar/avatar-4.png"></div>
-  <div class="avatar size-xl circle"><img src="/assets/avatar/avatar-5.png"></div>
+  <div class="avatar size-xl circle"><img src="/assets/avatar/avatar-3.png" alt="周敏的头像"></div>
+  <div class="avatar size-xl circle"><img src="/assets/avatar/avatar-4.png" alt="李航的头像"></div>
+  <div class="avatar size-xl circle"><img src="/assets/avatar/avatar-5.png" alt="何雨的头像"></div>
 </div>
 ```
 
@@ -116,33 +116,33 @@
 
 <Example class="flex gap-4 flex-wrap items-end">
   <div class="avatar-group gap-0">
-    <div class="avatar circle"><img src="/assets/avatar/avatar-1.png"></div>
-    <div class="avatar circle"><img src="/assets/avatar/avatar-2.png"></div>
+    <div class="avatar circle"><img src="/assets/avatar/avatar-1.png" alt="陈晨的头像"></div>
+    <div class="avatar circle"><img src="/assets/avatar/avatar-2.png" alt="王宁的头像"></div>
     <div class="avatar circle gray-200">0</div>
   </div>
   <div class="avatar-group gap-1">
-    <div class="avatar circle"><img src="/assets/avatar/avatar-4.png"></div>
-    <div class="avatar circle"><img src="/assets/avatar/avatar-5.png"></div>
+    <div class="avatar circle"><img src="/assets/avatar/avatar-4.png" alt="李航的头像"></div>
+    <div class="avatar circle"><img src="/assets/avatar/avatar-5.png" alt="何雨的头像"></div>
     <div class="avatar circle gray-200">1</div>
   </div>
   <div class="avatar-group gap-2">
-    <div class="avatar circle"><img src="/assets/avatar/avatar-7.png"></div>
-    <div class="avatar circle"><img src="/assets/avatar/avatar-8.png"></div>
+    <div class="avatar circle"><img src="/assets/avatar/avatar-7.png" alt="许舟的头像"></div>
+    <div class="avatar circle"><img src="/assets/avatar/avatar-8.png" alt="赵岚的头像"></div>
     <div class="avatar circle gray-200">2</div>
   </div>
   <div class="avatar-group">
-    <div class="avatar circle"><img src="/assets/avatar/avatar-10.png"></div>
-    <div class="avatar circle"><img src="/assets/avatar/avatar-1.png"></div>
+    <div class="avatar circle"><img src="/assets/avatar/avatar-10.png" alt="陆川的头像"></div>
+    <div class="avatar circle"><img src="/assets/avatar/avatar-1.png" alt="陈晨的头像"></div>
     <div class="avatar circle gray-200">2.5</div>
   </div>
   <div class="avatar-group gap-3">
-    <div class="avatar circle"><img src="/assets/avatar/avatar-3.png"></div>
-    <div class="avatar circle"><img src="/assets/avatar/avatar-4.png"></div>
+    <div class="avatar circle"><img src="/assets/avatar/avatar-3.png" alt="周敏的头像"></div>
+    <div class="avatar circle"><img src="/assets/avatar/avatar-4.png" alt="李航的头像"></div>
     <div class="avatar circle gray-200">3</div>
   </div>
   <div class="avatar-group gap-3.5">
-    <div class="avatar circle"><img src="/assets/avatar/avatar-6.png"></div>
-    <div class="avatar circle"><img src="/assets/avatar/avatar-7.png"></div>
+    <div class="avatar circle"><img src="/assets/avatar/avatar-6.png" alt="宋佳的头像"></div>
+    <div class="avatar circle"><img src="/assets/avatar/avatar-7.png" alt="许舟的头像"></div>
     <div class="avatar circle gray-200">3.5</div>
   </div>
 </Example>
@@ -151,33 +151,33 @@
 
 ```html
 <div class="avatar-group gap-0">
-  <div class="avatar circle"><img src="/assets/avatar/avatar-1.png"></div>
-  <div class="avatar circle"><img src="/assets/avatar/avatar-2.png"></div>
+  <div class="avatar circle"><img src="/assets/avatar/avatar-1.png" alt="陈晨的头像"></div>
+  <div class="avatar circle"><img src="/assets/avatar/avatar-2.png" alt="王宁的头像"></div>
   <div class="avatar circle gray-200">0</div>
 </div>
 <div class="avatar-group gap-1">
-  <div class="avatar circle"><img src="/assets/avatar/avatar-4.png"></div>
-  <div class="avatar circle"><img src="/assets/avatar/avatar-5.png"></div>
+  <div class="avatar circle"><img src="/assets/avatar/avatar-4.png" alt="李航的头像"></div>
+  <div class="avatar circle"><img src="/assets/avatar/avatar-5.png" alt="何雨的头像"></div>
   <div class="avatar circle gray-200">1</div>
 </div>
 <div class="avatar-group gap-2">
-  <div class="avatar circle"><img src="/assets/avatar/avatar-7.png"></div>
-  <div class="avatar circle"><img src="/assets/avatar/avatar-8.png"></div>
+  <div class="avatar circle"><img src="/assets/avatar/avatar-7.png" alt="许舟的头像"></div>
+  <div class="avatar circle"><img src="/assets/avatar/avatar-8.png" alt="赵岚的头像"></div>
   <div class="avatar circle gray-200">2</div>
 </div>
 <div class="avatar-group">
-  <div class="avatar circle"><img src="/assets/avatar/avatar-10.png"></div>
-  <div class="avatar circle"><img src="/assets/avatar/avatar-1.png"></div>
+  <div class="avatar circle"><img src="/assets/avatar/avatar-10.png" alt="陆川的头像"></div>
+  <div class="avatar circle"><img src="/assets/avatar/avatar-1.png" alt="陈晨的头像"></div>
   <div class="avatar circle gray-200">2.5</div>
 </div>
 <div class="avatar-group gap-3">
-  <div class="avatar circle"><img src="/assets/avatar/avatar-3.png"></div>
-  <div class="avatar circle"><img src="/assets/avatar/avatar-4.png"></div>
+  <div class="avatar circle"><img src="/assets/avatar/avatar-3.png" alt="周敏的头像"></div>
+  <div class="avatar circle"><img src="/assets/avatar/avatar-4.png" alt="李航的头像"></div>
   <div class="avatar circle gray-200">3</div>
 </div>
 <div class="avatar-group gap-3.5">
-  <div class="avatar circle"><img src="/assets/avatar/avatar-6.png"></div>
-  <div class="avatar circle"><img src="/assets/avatar/avatar-7.png"></div>
+  <div class="avatar circle"><img src="/assets/avatar/avatar-6.png" alt="宋佳的头像"></div>
+  <div class="avatar circle"><img src="/assets/avatar/avatar-7.png" alt="许舟的头像"></div>
   <div class="avatar circle gray-200">3.5</div>
 </div>
 ```
@@ -213,14 +213,14 @@
 
 <Example class="flex gap-4 flex-wrap items-end bg-primary-500 p-3">
   <div class="avatar-group">
-    <div class="avatar circle"><img src="/assets/avatar/avatar-1.png"></div>
-    <div class="avatar circle"><img src="/assets/avatar/avatar-2.png"></div>
-    <div class="avatar circle gray-200">+10</div>
+    <div class="avatar circle"><img src="/assets/avatar/avatar-1.png" alt="陈晨的头像"></div>
+    <div class="avatar circle"><img src="/assets/avatar/avatar-2.png" alt="王宁的头像"></div>
+    <div class="avatar circle gray-200" title="另有 10 位协作成员">+10</div>
   </div>
   <div class="avatar-group" style="--avatar-group-ring-color: var(--color-primary-500);">
-    <div class="avatar circle"><img src="/assets/avatar/avatar-3.png"></div>
-    <div class="avatar circle"><img src="/assets/avatar/avatar-4.png"></div>
-    <div class="avatar circle gray-200">+10</div>
+    <div class="avatar circle"><img src="/assets/avatar/avatar-3.png" alt="周敏的头像"></div>
+    <div class="avatar circle"><img src="/assets/avatar/avatar-4.png" alt="李航的头像"></div>
+    <div class="avatar circle gray-200" title="另有 10 位协作成员">+10</div>
   </div>
 </Example>
 
@@ -228,9 +228,9 @@
 
 ```html
 <div class="avatar-group" style="--avatar-group-ring-color: var(--color-primary-500);">
-  <div class="avatar circle"><img src="/assets/avatar/avatar-3.png"></div>
-  <div class="avatar circle"><img src="/assets/avatar/avatar-4.png"></div>
-  <div class="avatar circle gray-200">+10</div>
+  <div class="avatar circle"><img src="/assets/avatar/avatar-3.png" alt="周敏的头像"></div>
+  <div class="avatar circle"><img src="/assets/avatar/avatar-4.png" alt="李航的头像"></div>
+  <div class="avatar circle gray-200" title="另有 10 位协作成员">+10</div>
 </div>
 ```
 
