@@ -1,3 +1,6 @@
+// eslint-disable-next-line @typescript-eslint/triple-slash-reference -- Include ambient declarations for standalone consumers of tinykeys' untyped ESM export.
+/// <reference path="../types/tinykeys.d.ts" />
+
 import {tinykeys, createKeybindingsHandler, type KeyBindingMap, type KeyBindingHandlerOptions} from 'tinykeys';
 import {$, type Selector, Cash} from '../cash';
 
