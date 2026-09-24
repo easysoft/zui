@@ -11,13 +11,13 @@
 == 示例
 
 <Example class="flex gap-4">
-  <button type="button" class="btn">按钮</button>
+  <button type="button" class="btn">保存草稿</button>
 </Example>
 
 == HTML
 
 ```html
-<button type="button" class="btn">按钮</button>
+<button type="button" class="btn">保存草稿</button>
 ```
 
 :::
@@ -29,47 +29,47 @@
 == 示例
 
 <Example class="flex gap-4 flex-wrap" background="light-circle">
-  <button type="button" class="btn primary">主要按钮</button>
-  <button type="button" class="btn black rounded-none">黑色按钮</button>
-  <button type="button" class="btn secondary-outline square">正</button>
-  <button type="button" class="btn dark-outline circle">描边</button>
-  <button type="button" class="btn danger-pale square circle">❤️</button>
-  <button type="button" class="btn text-primary ghost">链接按钮</button>
+  <button type="button" class="btn primary">发布文章</button>
+  <button type="button" class="btn black rounded-none">预览文章</button>
+  <button type="button" class="btn secondary-outline square" aria-label="新建">＋</button>
+  <button type="button" class="btn dark-outline circle" aria-label="帮助">？</button>
+  <button type="button" class="btn danger-pale square circle" aria-label="喜欢">❤️</button>
+  <button type="button" class="btn text-primary ghost">查看详情</button>
 </Example>
 
 == HTML
 
 ```html
-<button type="button" class="btn primary">主要按钮</button>
-<button type="button" class="btn black rounded-none">黑色按钮</button>
-<button type="button" class="btn secondary-outline square">正</button>
-<button type="button" class="btn dark-outline circle">描边</button>
-<button type="button" class="btn danger-pale square circle">❤️</button>
-<button type="button" class="btn text-primary ghost">链接按钮</button>
+<button type="button" class="btn primary">发布文章</button>
+<button type="button" class="btn black rounded-none">预览文章</button>
+<button type="button" class="btn secondary-outline square" aria-label="新建">＋</button>
+<button type="button" class="btn dark-outline circle" aria-label="帮助">？</button>
+<button type="button" class="btn danger-pale square circle" aria-label="喜欢">❤️</button>
+<button type="button" class="btn text-primary ghost">查看详情</button>
 ```
 
 :::
 
 ## 图标按钮
 
-按钮配合[图标组件](http://url.com/lib/icon)一起使用时，自动呈现为图标按钮。
+按钮配合[图标组件](/lib/icons/icons/)一起使用时，自动呈现为图标按钮。
 
 ::: tabs
 
 == 示例
 
 <Example class="flex gap-4 flex-wrap items-end">
-  <button type="button" class="btn"><i class="icon icon-star"></i> 左侧图标</button>
-  <button type="button" class="btn">右侧图标<i class="icon icon-angle-right"></i></button>
-  <button type="button" class="btn square"><i class="icon icon-thumbs-up"></i></button>
+  <button type="button" class="btn"><i class="icon icon-star"></i> 收藏文章</button>
+  <button type="button" class="btn">下一步<i class="icon icon-angle-right"></i></button>
+  <button type="button" class="btn square" aria-label="点赞"><i class="icon icon-thumbs-up"></i></button>
 </Example>
 
 == HTML
 
 ```html
-<button type="button" class="btn"><i class="icon icon-star"></i> 左侧图标</button>
-<button type="button" class="btn">右侧图标<i class="icon icon-angle-right"></i></button>
-<button type="button" class="btn square"><i class="icon icon-thumbs-up"></i></button>
+<button type="button" class="btn"><i class="icon icon-star"></i> 收藏文章</button>
+<button type="button" class="btn">下一步<i class="icon icon-angle-right"></i></button>
+<button type="button" class="btn square" aria-label="点赞"><i class="icon icon-thumbs-up"></i></button>
 ```
 
 :::
@@ -129,15 +129,15 @@
 == 示例
 
 <Example class="flex gap-4 flex-wrap items-end">
-  <button type="button" class="btn btn-link">链接按钮</button>
-  <button type="button" class="btn btn-link text-fore">普通颜色文字链接</button>
+  <button type="button" class="btn btn-link">查看详情</button>
+  <button type="button" class="btn btn-link text-fore">返回列表</button>
 </Example>
 
 == HTML
 
 ```html
-<button type="button" class="btn btn-link">链接按钮</button>
-<button type="button" class="btn btn-link text-fore">普通颜色文字链接</button>
+<button type="button" class="btn btn-link">查看详情</button>
+<button type="button" class="btn btn-link text-fore">返回列表</button>
 ```
 
 :::
@@ -249,7 +249,7 @@
 <Example class="flex gap-4 items-end">
   <button type="button" class="btn square size-xs">XS</button>
   <button type="button" class="btn square size-sm">S</button>
-  <button type="button" class="btn square">正</button>
+  <button type="button" class="btn square" aria-label="新建">＋</button>
   <button type="button" class="btn square size-lg">L</button>
   <button type="button" class="btn square size-xl">XL</button>
 </Example>
@@ -259,7 +259,7 @@
 ```html
 <button type="button" class="btn square size-xs">XS</button>
 <button type="button" class="btn square size-sm">S</button>
-<button type="button" class="btn square">正</button>
+<button type="button" class="btn square" aria-label="新建">＋</button>
 <button type="button" class="btn square size-lg">L</button>
 <button type="button" class="btn square size-xl">XL</button>
 ```
@@ -305,15 +305,15 @@
 == 示例
 
 <Example class="flex gap-4 items-end">
-  <button type="button" class="btn" disabled="disabled">被禁用的按钮</button>
-  <button type="button" class="btn disabled">被禁用的按钮</button>
+  <button type="button" class="btn" disabled="disabled" title="请先填写必填项">提交审核</button>
+  <button type="button" class="btn disabled" title="请先填写必填项">提交审核</button>
 </Example>
 
 == HTML
 
 ```html
-<button type="button" class="btn" disabled="disabled">被禁用的按钮</button>
-<button type="button" class="btn disabled">被禁用的按钮</button>
+<button type="button" class="btn" disabled="disabled" title="请先填写必填项">提交审核</button>
+<button type="button" class="btn disabled" title="请先填写必填项">提交审核</button>
 ```
 
 :::
@@ -327,14 +327,14 @@
 == 示例
 
 <Example class="flex gap-4 items-end">
-  <button type="button" class="btn active">激活</button>
-  <button type="button" class="btn">正常</button>
+  <button type="button" class="btn active">已关注</button>
+  <button type="button" class="btn">关注</button>
 </Example>
 
 == HTML
 
 ```html
-<button type="button" class="btn active">激活</button>
+<button type="button" class="btn active">已关注</button>
 ```
 
 :::
@@ -350,7 +350,7 @@
 <Example class="flex gap-4 items-end">
   <button type="button" class="btn">
     <i class="animate-spin icon icon-spinner-snake"></i>
-    加载中
+    正在保存
   </button>
 </Example>
 
@@ -359,7 +359,7 @@
 ```html
 <button type="button" class="btn">
   <i class="animate-spin icon icon-spinner-snake"></i>
-  加载中
+  正在保存
 </button>
 ```
 
