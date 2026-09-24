@@ -61,3 +61,18 @@ import '@zui/icons';
 
 <FileList items={files} fileIcon={{pdf: 'file-pdf', md: 'file-code'}} />;
 ```
+
+## 原生文件
+
+通过 `OriginFileInfo` 的 `{file}` 形式传入原生 `File`，可与已有 `FileInfo` 混合使用。组件自动读取文件名、扩展名（小写）、大小和目录选择时的相对路径，显式提供的元信息优先。
+
+```ts
+const file = new File(['Hello ZUI'], 'hello.txt', {type: 'text/plain'});
+fileList.render({
+    items: [{file}, {file: new File(['Notes'], 'notes.md'), title: '项目笔记'}],
+});
+```
+
+省略 `id` 或设为空字符串时会自动生成 ID；同一列表实例中，同一个原生 `File` 或普通文件信息对象在更新、排序后保持 ID 不变，数字 `0` 和非空字符串 ID 会保留。组件不会修改传入对象。
+
+图标、链接、操作及列表项回调均可取得补齐的元信息，原生文件引用保留在 `file` 字段中。原生文件没有的 `addedBy`、`addedDate` 以及未选择目录时的 `pathname` 默认为空字符串；链接仍通过 `fileUrl` 配置。

@@ -2,10 +2,10 @@ import {formatBytes, formatString} from '@zui/helpers';
 import {List} from '@zui/list/react';
 
 import type {RenderableProps} from 'preact';
-import {mergeProps, type ClassNameLike, type IconType} from '@zui/core';
+import {mergeProps, nextGid, type ClassNameLike, type IconType} from '@zui/core';
 import type {Item} from '@zui/common-list';
 import type {ListState} from '@zui/list';
-import type {FileIconGetter, FileIconMap, FileInfo, FileListProps} from '../types';
+import type {FileIconGetter, FileIconMap, FileInfo, FileInfoLike, FileListProps} from '../types';
 
 export class FileList<T extends FileListProps = FileListProps, S extends ListState = ListState> extends List<T, S> {
     static NAME = 'file-list';
@@ -24,6 +24,35 @@ export class FileList<T extends FileListProps = FileListProps, S extends ListSta
     static defaultItemProps: Partial<Item> = {
         component: 'div',
     };
+
+    protected _fileIds = new WeakMap<FileInfoLike | File, string>();
+
+    protected _getFileInfo(fileInfo: FileInfoLike): FileInfo {
+        const file = 'file' in fileInfo ? fileInfo.file : undefined;
+        let {id} = fileInfo;
+        if (id === undefined || id === '') {
+            const source = file || fileInfo;
+            id = this._fileIds.get(source);
+            if (id === undefined) {
+                id = `file-${nextGid()}`;
+                this._fileIds.set(source, id);
+            }
+        }
+        if (!file) {
+            return (fileInfo.id === id ? fileInfo : {...fileInfo, id}) as FileInfo;
+        }
+        const extensionIndex = file.name.lastIndexOf('.');
+        return {
+            ...fileInfo,
+            id,
+            title: fileInfo.title ?? file.name,
+            extension: fileInfo.extension ?? (extensionIndex > 0 ? file.name.slice(extensionIndex + 1).toLowerCase() : ''),
+            size: fileInfo.size ?? file.size,
+            pathname: fileInfo.pathname ?? file.webkitRelativePath ?? '',
+            addedBy: fileInfo.addedBy ?? '',
+            addedDate: fileInfo.addedDate ?? '',
+        };
+    }
 
     protected _getClassName(props: RenderableProps<T>): ClassNameLike {
         const className = super._getClassName(props);
@@ -50,9 +79,10 @@ export class FileList<T extends FileListProps = FileListProps, S extends ListSta
     }
 
     protected _getItems(props: RenderableProps<T>): Item[] {
-        const files = super._getItems(props) as FileInfo[];
+        const files = super._getItems(props) as FileInfoLike[];
         const {fileIcon, fileSizeFormat, itemProps, heading, fileUrl, fileActions, mode} = props;
-        const items: Item[] = files.map((file) => {
+        const items: Item[] = files.map((fileInfo) => {
+            const file = this._getFileInfo(fileInfo);
             let subtitle = null;
             if (typeof file.size === 'number') {
                 subtitle = formatBytes(file.size);
@@ -61,6 +91,7 @@ export class FileList<T extends FileListProps = FileListProps, S extends ListSta
                 }
             }
             return mergeProps({
+                ...file,
                 key: `${file.id}`,
                 className: mode === 'cards' ? 'file-list-card' : mode === 'cards-inline' ? 'file-list-card-inline' : mode === 'covers' ? 'file-list-cover' : undefined,
                 icon: (this.constructor as typeof FileList).getFileIcon(file, fileIcon),
