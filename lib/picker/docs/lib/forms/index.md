@@ -4,12 +4,14 @@
 
 ## 单选
 
+以项目成员为例：姓名用于识别人员，部门和英文关键词用于搜索；休假成员保留在列表中，但不可选。后续成员选择示例复用这组 `items`。
+
 ::: tabs
 
 == 示例
 
 <Example>
-  <ZUI use="picker" :options="{items, defaultValue: 'banana', name: 'picker', placeholder: '请选择你的最爱', searchHint: '搜索选项'}" />
+  <ZUI use="picker" :options="{items, defaultValue: 'chenchen', name: 'owner', placeholder: '请选择项目成员', searchHint: '搜索姓名或部门'}" />
 </Example>
 
 == HTML
@@ -19,25 +21,19 @@
 
 <script>
 const items = [
-    {text: 'Apple', value: 'apple', keys: 'fruit food'},
-    {text: 'Banana', value: 'banana', keys: 'fruit food'},
-    {text: 'Orange', value: 'orange', keys: 'fruit food'},
-    {text: 'Strawberries', value: 'strawberries', keys: 'fruit food'},
-    {text: 'Cat', value: 'cat', keys: 'animals pet'},
-    {text: 'Dog', value: 'dog', keys: 'animals pet'},
-    {text: 'Fish', value: 'fish', keys: 'animals food'},
-    {text: 'Pig', value: 'pig', keys: 'animals food'},
-    {text: '梨子', value: 'pear', keys: 'fruit food'},
-    {text: 'Anna', value: 'anna', keys: 'human animals'},
-    {text: 'Ben', value: 'ben', keys: 'human animals'},
-    {text: 'Cake', value: 'cake', keys: 'food'},
+    {text: '林悦 · 产品', value: 'linyue', keys: '产品 product linyue'},
+    {text: '陈晨 · 研发', value: 'chenchen', keys: '研发 developer chenchen'},
+    {text: '王宁 · 测试', value: 'wangning', keys: '测试 qa wangning'},
+    {text: '周敏 · 设计', value: 'zhoumin', keys: '设计 design zhoumin'},
+    {text: '李航 · 运维', value: 'lihang', keys: '运维 operations lihang'},
+    {text: '何雨 · 客户支持（休假中）', value: 'heyu', keys: '客户支持 support heyu', disabled: true},
 ];
 const picker = new zui.Picker('#singlePickerExample', {
     items,
-    defaultValue: 'banana',
-    name: 'picker',
-    placeholder: '请选择你的最爱',
-    searchHint: '搜索选项',
+    defaultValue: 'chenchen',
+    name: 'owner',
+    placeholder: '请选择项目成员',
+    searchHint: '搜索姓名或部门',
 });
 </script>
 ```
@@ -51,7 +47,7 @@ const picker = new zui.Picker('#singlePickerExample', {
 == 示例
 
 <Example>
-  <ZUI use="picker" :options="{multiple: true, items, defaultValue: 'banana,orange', placeholder: '请选择你的最爱', menuCheckbox: true}" />
+  <ZUI use="picker" :options="{multiple: true, items, defaultValue: 'linyue,chenchen', placeholder: '请选择项目成员', menuCheckbox: true}" />
 </Example>
 
 == HTML
@@ -61,24 +57,18 @@ const picker = new zui.Picker('#singlePickerExample', {
 
 <script>
 const items = [
-    {text: 'Apple', value: 'apple', keys: 'fruit food'},
-    {text: 'Banana', value: 'banana', keys: 'fruit food'},
-    {text: 'Orange', value: 'orange', keys: 'fruit food'},
-    {text: 'Strawberries', value: 'strawberries', keys: 'fruit food'},
-    {text: 'Cat', value: 'cat', keys: 'animals pet'},
-    {text: 'Dog', value: 'dog', keys: 'animals pet'},
-    {text: 'Fish', value: 'fish', keys: 'animals food'},
-    {text: 'Pig', value: 'pig', keys: 'animals food'},
-    {text: '梨子', value: 'pear', keys: 'fruit food'},
-    {text: 'Anna', value: 'anna', keys: 'human animals'},
-    {text: 'Ben', value: 'ben', keys: 'human animals'},
-    {text: 'Cake', value: 'cake', keys: 'food'},
+    {text: '林悦 · 产品', value: 'linyue', keys: '产品 product linyue'},
+    {text: '陈晨 · 研发', value: 'chenchen', keys: '研发 developer chenchen'},
+    {text: '王宁 · 测试', value: 'wangning', keys: '测试 qa wangning'},
+    {text: '周敏 · 设计', value: 'zhoumin', keys: '设计 design zhoumin'},
+    {text: '李航 · 运维', value: 'lihang', keys: '运维 operations lihang'},
+    {text: '何雨 · 客户支持（休假中）', value: 'heyu', keys: '客户支持 support heyu', disabled: true},
 ];
 const picker = new zui.Picker('#multiPickerExample', {
     multiple: true,
     items,
-    defaultValue: 'banana,orange',
-    placeholder: '请选择你的最爱',
+    defaultValue: 'linyue,chenchen',
+    placeholder: '请选择项目成员',
     menuCheckbox: true,
 });
 </script>
@@ -88,14 +78,14 @@ const picker = new zui.Picker('#multiPickerExample', {
 
 ## 创建选项
 
-在多选 Picker 中设置 `creatable: true` 后，当非空搜索词没有匹配项且数据已加载完成时，下拉列表会显示本地化的“创建”按钮。点击按钮或在搜索框按 <kbd>Enter</kbd>，会创建选项、选中新值并清空搜索；下拉面板保持打开。
+以任务标签为例，输入“文档完善”可创建一个新标签。在多选 Picker 中设置 `creatable: true` 后，当非空搜索词没有匹配项且数据已加载完成时，下拉列表会显示本地化的“创建”按钮。点击按钮或在搜索框按 <kbd>Enter</kbd>，会创建选项、选中新值并清空搜索；下拉面板保持打开。
 
 ::: tabs
 
 == 示例
 
 <Example>
-  <ZUI use="picker" :options="{multiple: true, items, creatable: true, placeholder: '搜索或创建选项'}" />
+  <ZUI use="picker" :options="{multiple: true, items: labelItems, creatable: true, placeholder: '搜索或创建任务标签'}" />
 </Example>
 
 == HTML
@@ -106,9 +96,13 @@ const picker = new zui.Picker('#multiPickerExample', {
 <script>
 const picker = new zui.Picker('#creatablePickerExample', {
     multiple: true,
-    items,
+    items: [
+        {text: '性能优化', value: 'performance'},
+        {text: '用户体验', value: 'experience'},
+        {text: '无障碍', value: 'accessibility'},
+    ],
     creatable: true,
-    placeholder: '搜索或创建选项',
+    placeholder: '搜索或创建任务标签',
 });
 </script>
 ```
@@ -120,10 +114,10 @@ const picker = new zui.Picker('#creatablePickerExample', {
 ```js
 const picker = new zui.Picker('#customCreatablePicker', {
     multiple: true,
-    items,
+    items: [{text: '性能优化', value: 'tag:performance'}],
     creatable(search) {
         const value = search.toLowerCase().replace(/\s+/g, '-');
-        return value ? {text: `自定义：${search}`, value: `tag:${value}`} : false;
+        return value ? {text: search, value: `tag:${value}`} : false;
     },
 });
 ```
@@ -138,9 +132,9 @@ const picker = new zui.Picker('#customCreatablePicker', {
 
 <Example>
   <div class="input-group">
-    <span class="input-group-addon">选择一种水果</span>
-    <ZUI use="picker" :options="{$class: 'input-group-control', items}" />
-    <button type="button" class="btn btn-default" tabindex="-1">刷新</button>
+    <span class="input-group-addon">项目负责人</span>
+    <ZUI use="picker" :options="{$class: 'input-group-control', items: items.slice(0, 3)}" />
+    <button type="button" class="btn btn-default" tabindex="-1">分配</button>
   </div>
 </Example>
 
@@ -148,9 +142,9 @@ const picker = new zui.Picker('#customCreatablePicker', {
 
 ```html
 <div class="input-group">
-  <span class="input-group-addon">选择一种水果</span>
-  <div class="input-group-control" data-zui="picker" data-items='[{"text": "Apple", "value": "apple"}, {"text": "Banana", "value": "banana"}]'></div>
-  <button type="button" class="btn btn-default" tabindex="-1">刷新</button>
+  <span class="input-group-addon">项目负责人</span>
+  <div class="input-group-control" zui-create="picker" data-items='[{"text": "林悦 · 产品", "value": "linyue"}, {"text": "陈晨 · 研发", "value": "chenchen"}, {"text": "王宁 · 测试", "value": "wangning"}]'></div>
+  <button type="button" class="btn btn-default" tabindex="-1">分配</button>
 </div>
 ```
 
@@ -165,32 +159,38 @@ const picker = new zui.Picker('#customCreatablePicker', {
 == 示例
 
 <Example class="row gap-4 justify-stretch">
-  <ZUI use="picker" :options="{$class: 'flex-1', items, shareSelections: 'sharedPicker', placeholder: '请选择一个水果，无法选择右侧已选择的水果'}" />
-  <ZUI use="picker" :options="{$class: 'flex-1', items, shareSelections: 'sharedPicker', placeholder: '请选择一个水果，无法选择左侧已选择的水果'}" />
+  <ZUI use="picker" :options="{$class: 'flex-1', items, shareSelections: 'sharedPicker', defaultValue: 'linyue', placeholder: '选择负责人，不可与协作人重复'}" />
+  <ZUI use="picker" :options="{$class: 'flex-1', items, shareSelections: 'sharedPicker', defaultValue: 'chenchen', placeholder: '选择协作人，不可与负责人重复'}" />
 </Example>
 
 == HTML
 
 ```html
 <div id="sharedPickerExample1"></div>
+<div id="sharedPickerExample2"></div>
 ```
 
 == JS
 
 ```js
 const items = [
-    {text: 'Apple', value: 'apple'},
-    {text: 'Banana', value: 'banana'},
-    {text: 'Orange', value: 'orange'},
+    {text: '林悦 · 产品', value: 'linyue', keys: '产品 product linyue'},
+    {text: '陈晨 · 研发', value: 'chenchen', keys: '研发 developer chenchen'},
+    {text: '王宁 · 测试', value: 'wangning', keys: '测试 qa wangning'},
+    {text: '周敏 · 设计', value: 'zhoumin', keys: '设计 design zhoumin'},
+    {text: '李航 · 运维', value: 'lihang', keys: '运维 operations lihang'},
+    {text: '何雨 · 客户支持（休假中）', value: 'heyu', keys: '客户支持 support heyu', disabled: true},
 ];
 const picker1 = new zui.Picker('#sharedPickerExample1', {
+    defaultValue: 'linyue',
     shareSelections: 'sharedPicker',
-    placeholder: '请选择一个水果',
+    placeholder: '请选择项目成员',
     items,
 });
 const picker2 = new zui.Picker('#sharedPickerExample2', {
+    defaultValue: 'chenchen',
     shareSelections: 'sharedPicker',
-    placeholder: '请选择一个水果',
+    placeholder: '请选择项目成员',
     items,
 });
 ```
@@ -343,19 +343,18 @@ style?: object;
 </Props>
 
 <script setup>
+const labelItems = [
+    {text: '性能优化', value: 'performance'},
+    {text: '用户体验', value: 'experience'},
+    {text: '无障碍', value: 'accessibility'},
+];
 const items = [
-      {text: 'Apple', value: 'apple', keys: 'fruit food'},
-      {text: 'Banana', value: 'banana', keys: 'fruit food'},
-      {text: 'Orange', value: 'orange', keys: 'fruit food'},
-      {text: 'Strawberries', value: 'strawberries', keys: 'fruit food'},
-      {text: 'Cat', value: 'cat', keys: 'animals pet'},
-      {text: 'Dog', value: 'dog', keys: 'animals pet'},
-      {text: 'Fish', value: 'fish', keys: 'animals food'},
-      {text: 'Pig', value: 'pig', keys: 'animals food'},
-      {text: '梨子', value: 'pear', keys: 'fruit food'},
-      {text: 'Anna', value: 'anna', keys: 'human animals'},
-      {text: 'Ben', value: 'ben', keys: 'human animals'},
-      {text: 'Cake', value: 'cake', keys: 'food'},
+    {text: '林悦 · 产品', value: 'linyue', keys: '产品 product linyue'},
+    {text: '陈晨 · 研发', value: 'chenchen', keys: '研发 developer chenchen'},
+    {text: '王宁 · 测试', value: 'wangning', keys: '测试 qa wangning'},
+    {text: '周敏 · 设计', value: 'zhoumin', keys: '设计 design zhoumin'},
+    {text: '李航 · 运维', value: 'lihang', keys: '运维 operations lihang'},
+    {text: '何雨 · 客户支持（休假中）', value: 'heyu', keys: '客户支持 support heyu', disabled: true},
 ];
 </script>
 
@@ -366,14 +365,14 @@ const items = [
 ```html
 <form>
   <label for="webcPickerExample">负责人</label>
-  <zui-picker id="webcPickerExample" name="owner" value="hao" required></zui-picker>
+  <zui-picker id="webcPickerExample" name="owner" value="linyue" required></zui-picker>
   <button type="submit">提交</button>
   <button type="reset">重置</button>
 </form>
 <script>
 zui.definePicker();
 const picker = document.querySelector('#webcPickerExample');
-picker.items = [{value: 'hao', text: 'Hao'}, {value: 'tom', text: 'Tom'}];
+picker.items = [{value: 'linyue', text: '林悦'}, {value: 'chenchen', text: '陈晨'}];
 </script>
 ```
 
@@ -385,7 +384,7 @@ import type {PickerElementOptions, PickerChangeDetail} from '@zui/picker';
 
 definePicker();
 const picker: ZuiPickerElement = document.createElement('zui-picker');
-const options: Partial<PickerElementOptions> = {items: [{value: 'hao', text: 'Hao'}]};
+const options: Partial<PickerElementOptions> = {items: [{value: 'linyue', text: '林悦'}]};
 picker.setOptions(options);
 picker.addEventListener('zui-change', event => {
     const detail = (event as CustomEvent<PickerChangeDetail>).detail;
@@ -396,7 +395,7 @@ picker.addEventListener('zui-change', event => {
 | 属性 / property | 默认值 | 说明 |
 | --- | --- | --- |
 | `items` | 空列表 | 通过 property 设置，沿用 Picker 的 items 类型 |
-| `value` property | `""` | 当前值；多选以逗号分隔，例如 `"hao,tom"` |
+| `value` property | `""` | 当前值；多选以逗号分隔，例如 `"linyue,chenchen"` |
 | `value` attribute、`defaultValue` | `""` | 表单重置时恢复的默认值 |
 | `name` | `""` | 表单字段名 |
 | `placeholder` | `""` | 空值提示 |
