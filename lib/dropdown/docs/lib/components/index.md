@@ -11,22 +11,22 @@
 == 示例
 
 <Example class="flex gap-4">
-  <button class="btn" type="button" data-toggle="dropdown">菜单按钮 <span class="caret"></span></button>
+  <button class="btn" type="button" data-toggle="dropdown">文件操作 <span class="caret"></span></button>
   <menu class="dropdown-menu menu">
-    <li class="menu-item"><a>操作</a></li>
-    <li class="menu-item"><a>另一个操作</a></li>
-    <li class="menu-item"><a>更多操作</a></li>
+    <li class="menu-item"><a>复制链接</a></li>
+    <li class="menu-item"><a>重命名</a></li>
+    <li class="menu-item"><a>导出文件</a></li>
   </menu>
 </Example>
 
 == HTML
 
 ```html
-<button class="btn" type="button" data-toggle="dropdown">菜单按钮 <span class="caret"></span></button>
+<button class="btn" type="button" data-toggle="dropdown">文件操作 <span class="caret"></span></button>
 <menu class="dropdown-menu menu">
-  <li class="menu-item"><a>操作</a></li>
-  <li class="menu-item"><a>另一个操作</a></li>
-  <li class="menu-item"><a>更多操作</a></li>
+  <li class="menu-item"><a>复制链接</a></li>
+  <li class="menu-item"><a>重命名</a></li>
+  <li class="menu-item"><a>导出文件</a></li>
 </menu>
 ```
 
@@ -42,13 +42,13 @@
 
 <Example class="flex gap-4">
   <div class="toolbar">
-    <button class="btn" type="button" data-toggle="dropdown" data-target="#myDropdownMenu">菜单按钮 <span class="caret"></span></button>
+    <button class="btn" type="button" data-toggle="dropdown" data-target="#myDropdownMenu">文件操作 <span class="caret"></span></button>
   </div>
   <!-- #myDropdownMenu 可以放置在页面任意位置。 -->
   <menu class="dropdown-menu menu" id="myDropdownMenu">
-    <li class="menu-item"><a>操作</a></li>
-    <li class="menu-item"><a>另一个操作</a></li>
-    <li class="menu-item"><a>更多操作</a></li>
+    <li class="menu-item"><a>复制链接</a></li>
+    <li class="menu-item"><a>重命名</a></li>
+    <li class="menu-item"><a>导出文件</a></li>
   </menu>
 </Example>
 
@@ -56,13 +56,13 @@
 
 ```html
 <div class="toolbar">
-  <button class="btn" type="button" data-toggle="dropdown" data-target="#myDropdownMenu">菜单按钮 <span class="caret"></span></button>
+  <button class="btn" type="button" data-toggle="dropdown" data-target="#myDropdownMenu">文件操作 <span class="caret"></span></button>
 </div>
 <!-- #myDropdownMenu 可以放置在页面任意位置。 -->
 <menu class="dropdown-menu menu" id="myDropdownMenu">
-  <li class="menu-item"><a>操作</a></li>
-  <li class="menu-item"><a>另一个操作</a></li>
-  <li class="menu-item"><a>更多操作</a></li>
+  <li class="menu-item"><a>复制链接</a></li>
+  <li class="menu-item"><a>重命名</a></li>
+  <li class="menu-item"><a>导出文件</a></li>
 </menu>
 ```
 
@@ -77,25 +77,25 @@
 == 示例
 
 <Example class="flex gap-4">
-  <button class="btn" type="button" data-toggle="dropdown">菜单按钮 <span class="caret"></span></button>
+  <button class="btn" type="button" data-toggle="dropdown">文件操作 <span class="caret"></span></button>
   <menu class="dropdown-menu menu">
-    <li class="menu-item"><a>操作</a></li>
-    <li class="menu-item"><a>另一个操作</a></li>
-    <li class="menu-item"><a>更多操作</a></li>
+    <li class="menu-item"><a>复制链接</a></li>
+    <li class="menu-item"><a>重命名</a></li>
+    <li class="menu-item"><a>导出文件</a></li>
   </menu>
 </Example>
 
 == HTML
 
 ```html
-<button class="btn" type="button" id="myDropdownBtn">菜单按钮 <span class="caret"></span></button>
+<button class="btn" type="button" id="myDropdownBtn">文件操作 <span class="caret"></span></button>
 
 <script>
 const dropdown = new zui.Dropdown('#myDropdownBtn', {
     items: [
-        {text: '操作'}
-        {text: '另一个操作'}
-        {text: '更多操作'}
+        {text: '复制链接'},
+        {text: '重命名'},
+        {text: '导出文件'},
     ],
 });
 </script>
@@ -112,11 +112,11 @@ const dropdown = new zui.Dropdown('#myDropdownBtn', {
 == 示例
 
 <Example>
-  <button class="btn" type="button" data-toggle="dropdown" data-arrow="true">菜单按钮 <span class="caret"></span></button>
+  <button class="btn" type="button" data-toggle="dropdown" data-arrow="true">文件操作 <span class="caret"></span></button>
   <menu class="dropdown-menu menu">
-    <li class="menu-item"><a>操作</a></li>
-    <li class="menu-item"><a>另一个操作</a></li>
-    <li class="menu-item"><a>更多操作</a></li>
+    <li class="menu-item"><a>复制链接</a></li>
+    <li class="menu-item"><a>重命名</a></li>
+    <li class="menu-item"><a>导出文件</a></li>
   </menu>
 </Example>
 
@@ -144,11 +144,11 @@ const dropdown = new zui.Dropdown('#myDropdownBtn', {
     <div class="font-bold pb-4">
       {{'data-arrow = ' + 4*item }}
     </div>
-    <button class="btn" type="button" data-toggle="dropdown" :data-arrow="4 * item">菜单按钮 <span class="caret"></span></button>
+    <button class="btn" type="button" data-toggle="dropdown" :data-arrow="4 * item">文件操作 <span class="caret"></span></button>
     <menu class="dropdown-menu menu">
-      <li class="menu-item"><a>操作</a></li>
-      <li class="menu-item"><a>另一个操作</a></li>
-      <li class="menu-item"><a>更多操作</a></li>
+      <li class="menu-item"><a>复制链接</a></li>
+      <li class="menu-item"><a>重命名</a></li>
+      <li class="menu-item"><a>导出文件</a></li>
     </menu>
   </div>
 </Example>
@@ -171,22 +171,22 @@ const dropdown = new zui.Dropdown('#myDropdownBtn', {
 == 示例
 
 <Example>
-  <button class="btn" type="button" data-toggle="dropdown" data-trigger="hover">菜单按钮 <span class="caret"></span></button>
+  <button class="btn" type="button" data-toggle="dropdown" data-trigger="hover">文件操作 <span class="caret"></span></button>
   <menu class="dropdown-menu menu">
-    <li class="menu-item"><a>操作</a></li>
-    <li class="menu-item"><a>另一个操作</a></li>
-    <li class="menu-item"><a>更多操作</a></li>
+    <li class="menu-item"><a>复制链接</a></li>
+    <li class="menu-item"><a>重命名</a></li>
+    <li class="menu-item"><a>导出文件</a></li>
   </menu>
 </Example>
 
 == HTML
 
 ```html
-<button class="btn" type="button" data-toggle="dropdown">鼠标悬停展开菜单按钮 <span class="caret"></span></button>
+<button class="btn" type="button" data-toggle="dropdown" data-trigger="hover">文件操作 <span class="caret"></span></button>
 <menu class="dropdown-menu">
-  <li><a>操作</a></li>
-  <li><a>另一个操作</a></li>
-  <li><a>更多操作</a></li>
+  <li><a>复制链接</a></li>
+  <li><a>重命名</a></li>
+  <li><a>导出文件</a></li>
 </menu>
 ```
 
@@ -204,9 +204,9 @@ const dropdown = new zui.Dropdown('#myDropdownBtn', {
   <div v-for = "item in arrayPlacement">
     <button class="btn" type="button" data-toggle="dropdown" :data-placement="item.placement" data-arrow="true">{{item.name}}<span class="caret"></span></button>
     <menu class="dropdown-menu menu">
-      <li class="menu-item"><a>操作</a></li>
-      <li class="menu-item"><a>另一个操作</a></li>
-      <li class="menu-item"><a>更多操作</a></li>
+      <li class="menu-item"><a>复制链接</a></li>
+      <li class="menu-item"><a>重命名</a></li>
+      <li class="menu-item"><a>导出文件</a></li>
     </menu>
     <div class="w-48 py-2 font-bold text-sm">
     {{ 'data-placement = ' + item.placement}}
@@ -251,7 +251,7 @@ const dropdown = new zui.Dropdown('#dropdownToggle', {
                 {text: '导入', icon: 'icon-upload-alt'},
                 {text: '导出', icon: 'icon-download-alt'},
                 {text: '保存', icon: 'icon-save', onClick: (event) => console.log('> menuItem.clicked', event)},
-                {text: '点击此项不关闭菜单', className: 'not-hide-menu'},
+                {text: '保持菜单展开', className: 'not-hide-menu'},
             ]},
         ],
     },
@@ -318,20 +318,20 @@ const dropdown = new zui.Dropdown('#dropdownToggle', {
 == 示例
 
 <Example class="flex gap-4">
-  <button class="btn" type="button" data-toggle="dropdown">菜单按钮 <span class="caret"></span></button>
+  <button class="btn" type="button" data-toggle="dropdown">文件操作 <span class="caret"></span></button>
   <menu class="dropdown-menu menu">
-      <li class="menu-item"><a>操作</a></li>
-      <li class="menu-item disabled"><a>被禁用的操作</a></li>
+      <li class="menu-item"><a>复制链接</a></li>
+      <li class="menu-item disabled"><a>删除（无权限）</a></li>
   </menu>
 </Example>
 
 == HTML
 
 ```html
-<button class="btn" type="button" data-toggle="dropdown">菜单按钮 <span class="caret"></span></button>
+<button class="btn" type="button" data-toggle="dropdown">文件操作 <span class="caret"></span></button>
 <menu class="dropdown-menu menu">
-  <li class="menu-item"><a>操作</a></li>
-  <li class="menu-item disabled"><a>被禁用的操作</a></li>
+  <li class="menu-item"><a>复制链接</a></li>
+  <li class="menu-item disabled"><a>删除（无权限）</a></li>
 </menu>
 ```
 
@@ -346,11 +346,11 @@ const dropdown = new zui.Dropdown('#dropdownToggle', {
 == 示例
 
 <Example class="flex gap-4">
-  <button class="btn" type="button" data-toggle="dropdown">菜单按钮 <span class="caret"></span></button>
+  <button class="btn" type="button" data-toggle="dropdown">文件操作 <span class="caret"></span></button>
   <menu class="dropdown-menu menu">
-      <li class="menu-heading">下拉菜单标题</li>
-      <li class="menu-item"><a>操作</a></li>
-      <li class="menu-item"><a>另一个操作</a></li>
+      <li class="menu-heading">文件操作</li>
+      <li class="menu-item"><a>复制链接</a></li>
+      <li class="menu-item"><a>重命名</a></li>
       <li class="divider"></li>
       <li class="menu-heading">更多操作</li>
       <li class="menu-item"><a>修改</a></li>
@@ -360,11 +360,11 @@ const dropdown = new zui.Dropdown('#dropdownToggle', {
 == HTML
 
 ```html
-<button class="btn" type="button" data-toggle="dropdown">菜单按钮 <span class="caret"></span></button>
+<button class="btn" type="button" data-toggle="dropdown">文件操作 <span class="caret"></span></button>
 <menu class="dropdown-menu menu">
-    <li class="menu-heading">下拉菜单标题</li>
-    <li class="menu-item"><a>操作</a></li>
-    <li class="menu-item"><a>另一个操作</a></li>
+    <li class="menu-heading">文件操作</li>
+    <li class="menu-item"><a>复制链接</a></li>
+    <li class="menu-item"><a>重命名</a></li>
     <li class="menu-divider"></li>
     <li class="menu-heading">更多操作</li>
     <li class="menu-item"><a>修改</a></li>
@@ -454,7 +454,7 @@ const nestedMenuItems = [
         {text: '导入', icon: 'icon-upload-alt'},
         {text: '导出', icon: 'icon-download-alt'},
         {text: '保存', icon: 'icon-save', onClick: (event) => console.log('> menuItem.clicked', event)},
-        {text: '点击此项不关闭菜单', className: 'not-hide-menu'},
+        {text: '保持菜单展开', className: 'not-hide-menu'},
     ]},
 ];
 </script>
