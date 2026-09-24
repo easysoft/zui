@@ -1646,6 +1646,9 @@ importers:
       '@zui/pick':
         specifier: workspace:*
         version: link:../pick
+      '@zui/toolbar':
+        specifier: workspace:*
+        version: link:../toolbar
       '@zui/tree':
         specifier: workspace:*
         version: link:../tree

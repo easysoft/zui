@@ -25,6 +25,7 @@
         "@zui/menu": "workspace:*",
         "@zui/tree": "workspace:*",
         "@zui/pick": "workspace:*",
+        "@zui/toolbar": "workspace:*",
         "@zui/helpers": "workspace:*",
         "preact": "^10.27.2"
     },
