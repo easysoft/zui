@@ -2,6 +2,8 @@
 
 ## 一般用法
 
+以团队组织结构为例：技术中心下设研发、测试与运维团队，客户端研发继续区分桌面端和移动端。展开节点可查看下级团队。
+
 <Example>
  <div id="treeExample"></div>
 </Example>
@@ -13,13 +15,13 @@
 const tree = new zui.Tree('#treeExample', {
     items: [
         {
-            text: '研发',
-            url: '#研发',
+            text: '技术中心',
+            url: '#技术中心',
             items: [
-                {text: '前端', url: '#前端'},
+                {text: '前端研发', url: '#前端研发'},
                 {
-                    text: '产品',
-                    url: '#产品',
+                    text: '客户端研发',
+                    url: '#客户端研发',
                     items: [
                         {text: '桌面端', url: '#桌面端'},
                         {text: '移动端', url: '#移动端'},
@@ -135,13 +137,13 @@ import {onMounted} from 'vue';
 
 const items = [
     {
-        text: '研发',
-        url: '#研发',
+        text: '技术中心',
+        url: '#技术中心',
         items: [
-            {text: '前端', url: '#前端'},
+            {text: '前端研发', url: '#前端研发'},
             {
-                text: '产品',
-                url: '#产品',
+                text: '客户端研发',
+                url: '#客户端研发',
                 items: [
                     {text: '桌面端', url: '#桌面端'},
                     {text: '移动端', url: '#移动端'},
