@@ -4,19 +4,19 @@
 
 ## 用法
 
-### 简单实用
+### 简单使用
 
 ::: tabs
 == 示例
 
 <Example class="relative">
-  <ZUI create="FormBuilder" :options="formBuilderOptions" />
+  <ZUI use="formBuilder" :options="formBuilderOptions" />
 </Example>
 
 == HTML
 
 ```html
-<div id="formBuilderExample"></div>
+<form id="formBuilderExample"></form>
 ```
 
 == JS
@@ -24,7 +24,7 @@
 ```js
 import schemaData from './form-schema.json';
 
-const formBuilder = new FormBuilder('#formBuilderExample', {
+const formBuilder = new zui.FormBuilder('#formBuilderExample', {
     schema: schemaData,
 });
 ```
@@ -137,7 +137,7 @@ setSchemaByPath(path: string, schema: Partial<JSONSchema>, deepMerge?: boolean):
 ```ts
 formBuilder.setSchemaByPath('object.property', {
     type: 'string',
-    title: '新标题',
+    title: '客户门户项目配置',
 });
 ```
 
@@ -535,7 +535,7 @@ const schema: FormSchema = {
         },
         isActive: {
             type: 'boolean',
-            title: '是否激活',
+            title: '启用账号',
             widget: 'checkbox',
             default: true
         }
@@ -575,7 +575,7 @@ const formBuilder = new FormBuilder('#form-container', options);
 // 使用 JavaScript 表达式的动态配置
 const dynamicSchema: FormSchema = {
     type: 'object',
-    title: '动态表单',
+    title: '团队成员权限',
     properties: {
         userType: {
             type: 'string',
@@ -590,13 +590,13 @@ const dynamicSchema: FormSchema = {
         },
         adminCode: {
             type: 'string',
-            title: '管理员代码',
+            title: '管理员授权说明',
             widget: 'input',
             // 只有当用户类型为管理员时才显示
             hidden: '{{formData.userType !== "admin"}}',
             // 当用户类型为管理员时才必填
             required: '{{formData.userType === "admin"}}',
-            description: '{{formData.userType === "admin" ? "请输入管理员代码" : ""}}'
+            description: '{{formData.userType === "admin" ? "请说明管理员权限的使用范围" : ""}}'
         }
     }
 };
@@ -756,11 +756,11 @@ const layoutSchema: FormSchema = {
 <script setup>
 const schemaData = {
     "type": "object",
-    "title": "表单标题",
+    "title": "构建并推送客户门户镜像",
     "properties": {
-        "z1": {
-            "title": "必填项",
-            "description": "这是必填项对象",
+        "repositorySettings": {
+            "title": "镜像仓库",
+            "description": "指定镜像名称、版本标签和推送目标。",
             "column": 1,
             "type": "object",
             "widget": "lineTitle",
@@ -780,14 +780,14 @@ const schemaData = {
                             "props": {
                                 "items": [
                                     {
-                                        "text": "默认",
+                                        "text": "团队镜像仓库",
                                         "value": ""
                                     }
                                 ],
                                 "emptyValue": false
                             },
                             "description": "",
-                            "tooltip": "默认当前gitfox服务",
+                            "tooltip": "使用团队配置的镜像仓库",
                             "widget": "select"
                         },
                         "name": {
@@ -798,7 +798,7 @@ const schemaData = {
                             },
                             "description": "",
                             "tooltip": {
-                                "title": "比如 demo/alpine"
+                                "title": "例如 team/customer-portal"
                             },
                             "widget": "input"
                         },
@@ -824,7 +824,7 @@ const schemaData = {
                                 "type": "string",
                                 "description": "",
                                 "tooltip": {
-                                    "title": "默认当前gitfox服务"
+                                    "title": "使用团队配置的镜像仓库"
                                 },
                                 "placeholder": "搜索",
                                 "widget": "picker",
@@ -832,7 +832,7 @@ const schemaData = {
                                     "emptyValue": false,
                                     "items": [
                                         {
-                                            "text": "默认",
+                                            "text": "团队镜像仓库",
                                             "value": ""
                                         }
                                     ]
@@ -846,7 +846,7 @@ const schemaData = {
                                 },
                                 "description": "",
                                 "tooltip": {
-                                    "title": "比如 demo/alpine"
+                                    "title": "例如 team/customer-portal"
                                 },
                                 "widget": "input"
                             }
@@ -855,8 +855,8 @@ const schemaData = {
                 }
             }
         },
-        "fr-jax5": {
-            "title": "选填项",
+        "buildSettings": {
+            "title": "构建选项",
             "description": "",
             "column": 1,
             "type": "object",
@@ -909,26 +909,26 @@ const schemaData = {
                     "maxWidth": "340px",
                     "widget": "input"
                 },
-                "checkboxProperty": {
-                    "title": "复选框",
+                "useCache": {
+                    "title": "复用构建缓存",
                     "type": "boolean",
                     "widget": "checkbox",
-                    "default": true
+                    "defaultValue": true
                 },
-                "radioProperty": {
-                    "title": "单选框",
+                "pullPolicy": {
+                    "title": "基础镜像拉取策略",
                     "type": "string",
-                    "default": "option1",
+                    "defaultValue": "always",
                     "widget": "radio",
                     "props": {
                         "items": [
                             {
-                                "text": "选项1",
-                                "value": "option1"
+                                "text": "每次拉取最新镜像",
+                                "value": "always"
                             },
                             {
-                                "text": "选项2",
-                                "value": "option2"
+                                "text": "本地不存在时拉取",
+                                "value": "ifMissing"
                             }
                         ]
                     }
