@@ -27,8 +27,8 @@ function formatString(str: string, map: Record<string, unknown>): string;
 **示例**
 
 ```js
-zui.formatString('{0} {1}!', 'Hello', 'world');           // 'Hello world!'
-zui.formatString('Say {what} to {who}', {what: 'hi', who: 'you'}); // 'Say hi to you'
+zui.formatString('已完成 {0} / {1} 项任务', 5, 8); // '已完成 5 / 8 项任务'
+zui.formatString('{owner}负责{task}', {owner: '林悦', task: '需求评审'}); // '林悦负责需求评审'
 ```
 
 ## `convertString`

@@ -31,11 +31,11 @@ function deepGet<T>(
 **示例**
 
 ```js
-const object = {a: [{b: {c: 1}, d: 2}]};
+const project = {tasks: [{owner: {name: '林悦'}, estimate: 8}]};
 
-zui.deepGet(object, 'a[0].b.c');   // 1
-zui.deepGet(object, 'a[0].d');     // 2
-zui.deepGet(object, 'a.x.y', 0);   // 0（路径不存在，返回默认值）
+zui.deepGet(project, 'tasks[0].owner.name');          // '林悦'
+zui.deepGet(project, 'tasks[0].estimate');            // 8
+zui.deepGet(project, 'tasks[1].owner.name', '待分派'); // '待分派'（路径不存在，返回默认值）
 ```
 
 `deepGet` 不会修改传入的路径数组，可安全地复用同一个数组多次调用。
@@ -62,10 +62,10 @@ function deepGetPath(object: object, pathName: string | string[]): unknown[];
 **示例**
 
 ```js
-const object = {a: [{b: {c: 1}}]};
+const project = {tasks: [{owner: {name: '林悦'}}]};
 
-zui.deepGetPath(object, 'a[0].b.c');
-// [object, [{b: {c: 1}}], {b: {c: 1}}, {c: 1}, 1]
+zui.deepGetPath(project, 'tasks[0].owner.name');
+// [project, [{owner: {name: '林悦'}}], {owner: {name: '林悦'}}, {name: '林悦'}, '林悦']
 ```
 
 ## `deepCall`

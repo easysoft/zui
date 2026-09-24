@@ -6,7 +6,7 @@
 
 ```js
 zui.formatDate(Date.now(), 'yyyy-MM-dd hh:mm:ss.SSS');
-zui.deepGet({a: [{b: 1}]}, 'a[0].b', 0);
+zui.deepGet({tasks: [{estimate: 8}]}, 'tasks[0].estimate', 0);
 ```
 
 ## 方法分组
@@ -22,7 +22,7 @@ zui.deepGet({a: [{b: 1}]}, 'a[0].b', 0);
 
 ```js
 // 日期：格式化与相对日期判断
-zui.formatDate(Date.now(), 'yyyy-MM-dd hh:mm:ss.SSS'); // 例如 '2026-08-01 09:30:00.005'
+zui.formatDate('2026-09-24T09:30:00.005', 'yyyy-MM-dd hh:mm:ss.SSS'); // '2026-09-24 09:30:00.005'
 zui.isSameWeek('2026-06-01', '2026-06-07');            // true（同一周，周一为周首）
 
 // 字符串：字节单位与脱敏
@@ -30,7 +30,7 @@ zui.convertBytes('1.5MB');                              // 1572864
 zui.convertString('12345678901', 'mask');              // '123****8901'
 
 // 对象：按路径安全取值
-zui.deepGet({a: [{b: 1}]}, 'a[0].b', 0);               // 1
+zui.deepGet({tasks: [{estimate: 8}]}, 'tasks[0].estimate', 0); // 8
 
 // 颜色：HSL 转 RGB（越界的 s/l 会夹取到 [0, 1]）
 zui.hslToRgb(120, 1, 0.5);                              // [0, 255, 0]
